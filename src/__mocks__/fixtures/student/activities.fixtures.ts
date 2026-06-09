@@ -8,6 +8,7 @@ import {
   EActivityThematic,
   EDeclaredActivityStatus,
   EFileType,
+  ETraceAuthorType,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseDeclaredActivityViewDTO,
   type TraceAssociationDTO
@@ -393,7 +394,7 @@ export function createMockedTraceAssociations (
         traceId: idsToAssociate?.[i - 1] ?? `trace-${i}`,
         title: `Trace #${i} associée à l\'activité`,
         programName: `Programme de la trace #${i} associée`,
-        isGroup: i % 2 === 0,
+        authorType: i % 2 === 0 ? ETraceAuthorType.COLLECTIVE : ETraceAuthorType.PERSONAL,
         createdAt: '2024-01-01T00:00:00Z',
         updatedAt: '2024-01-01T00:00:00Z'
       }

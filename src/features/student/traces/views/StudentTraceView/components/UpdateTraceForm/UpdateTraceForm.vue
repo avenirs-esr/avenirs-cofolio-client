@@ -4,12 +4,11 @@ import type { UpdateTraceForm as UpdateTraceFormType } from '@/features/student/
 import { useDateUtils } from '@/common/composables'
 import TraceAiJustificationTextareaFormField from '@/features/student/traces/components/interactions/formFields/TraceAiJustificationTextareaFormField/TraceAiJustificationTextareaFormField.vue'
 import TraceAiUsageToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceAiUsageToggleFormField/TraceAiUsageToggleFormField.vue'
-import TraceAuthenticDeclarationToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceAuthenticDeclarationToggleFormField/TraceAuthenticDeclarationToggleFormField.vue'
 import TraceFileUploadFormField from '@/features/student/traces/components/interactions/formFields/TraceFileUploadFormField/TraceFileUploadFormField.vue'
-import TraceGroupProductionToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceGroupProductionToggleFormField/TraceGroupProductionToggleFormField.vue'
 import TraceLinkInputFormField from '@/features/student/traces/components/interactions/formFields/TraceLinkInputFormField/TraceLinkInputFormField.vue'
 import TraceNameInputFormField from '@/features/student/traces/components/interactions/formFields/TraceNameInputFormField/TraceNameInputFormField.vue'
 import TracePersonalNoteTextareaFormField from '@/features/student/traces/components/interactions/formFields/TracePersonalNoteTextareaFormField/TracePersonalNoteTextareaFormField.vue'
+import TraceAuthorTypeRadioSetFormField from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSetFormField/TraceAuthorTypeRadioSetFormField.vue'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { TraceType } from '@/features/student/traces/types/traces.types'
 import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
@@ -107,9 +106,7 @@ function handleFileDeleted (fileName: string) {
           </span>
 
           <div class="av-col av-gap-xs">
-            <TraceAuthenticDeclarationToggleFormField :form="form" />
-
-            <TraceGroupProductionToggleFormField :form="form" />
+            <TraceAuthorTypeRadioSetFormField :form="form" />
           </div>
         </div>
       </div>

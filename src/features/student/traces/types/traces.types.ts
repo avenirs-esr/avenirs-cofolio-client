@@ -1,3 +1,4 @@
+import type { ETraceAuthorType } from '@/api/avenir-esr'
 import type { Association } from '@/features/student/global/types/associations.types'
 
 export enum TraceType {
@@ -20,8 +21,7 @@ interface TraceFormDataBase {
   traceType: TraceType
   traceName: string
   personalNote?: string
-  isAuthentic: boolean
-  isGroup: boolean
+  authorType: ETraceAuthorType | null
   useIA: boolean
   iaJustification?: string
   associationSelections?: Record<string, Association[]>

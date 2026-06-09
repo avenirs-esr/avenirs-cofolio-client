@@ -9,6 +9,7 @@ import {
   EDeclaredSkillLevel,
   EExternalSkillType,
   EFileType,
+  ETraceAuthorType,
   type FileDTO,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
@@ -39,7 +40,7 @@ export const mockedTraceOverview: TraceOverviewDTO[] = [
   {
     traceId: 'trace1',
     title: 'Prévenir la pollution à la source',
-    isGroup: false,
+    authorType: ETraceAuthorType.PERSONAL,
     programName: 'Master Chimie Verte et Éco-innovations',
     createdAt: '2024-05-13T08:42:17',
     updatedAt: '2024-05-13T08:42:17',
@@ -47,7 +48,7 @@ export const mockedTraceOverview: TraceOverviewDTO[] = [
   {
     traceId: 'trace2',
     title: 'Mettre en place des filières d\'économies circulaires',
-    isGroup: true,
+    authorType: ETraceAuthorType.COLLECTIVE,
     programName: 'Master Chimie Verte et Éco-innovations',
     createdAt: '2024-11-29T19:15:03',
     updatedAt: '2024-11-29T19:15:03'
@@ -55,7 +56,7 @@ export const mockedTraceOverview: TraceOverviewDTO[] = [
   {
     traceId: 'trace3',
     title: 'Évaluer l\'impact environnemental et économique',
-    isGroup: false,
+    authorType: ETraceAuthorType.PERSONAL,
     programName: 'Master Chimie Verte et Éco-innovations',
     createdAt: '2025-02-07T23:08:51',
     updatedAt: '2025-02-07T23:08:51',
@@ -244,7 +245,7 @@ export const mockedTraceDetailed = {
   updatedAt: '2025-06-17T15:18:00.000Z',
   programName: 'An awesome program',
   aiUseJustification: 'An awesome justification',
-  isGroup: false,
+  authorType: ETraceAuthorType.PERSONAL,
   personalNote: 'An awesome personal note',
   attachment: {
     id: 'mock-attachment',

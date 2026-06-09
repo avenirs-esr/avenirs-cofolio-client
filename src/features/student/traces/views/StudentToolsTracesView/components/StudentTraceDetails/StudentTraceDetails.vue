@@ -14,16 +14,20 @@ interface StudentDetailedTraceInformationProps {
   trace: TraceDetailDTO
 }
 
-const props = defineProps<StudentDetailedTraceInformationProps>()
+const { trace } = defineProps<StudentDetailedTraceInformationProps>()
 
 const { t } = useI18n()
-const attachment = computed(() => props.trace.attachment)
+const attachment = computed(() => trace.attachment)
 
 const { attachmentFile, uploadDate } = useTraceAttachmentFile(attachment)
 
 const traceFileUploadLabel = computed(() => {
   return `${t('student.traces.interactions.inputs.TraceFileUpload.documentLabel')} - ${t('student.traces.interactions.inputs.TraceFileUpload.addedOn', { date: uploadDate.value })}`
 })
+
+const authorTypeLabel = computed(() =>
+  t(`student.traces.views.StudentToolsTracesView.studentTraceDetails.authorType.${trace.authorType}`)
+)
 </script>
 
 <template>
@@ -81,17 +85,10 @@ const traceFileUploadLabel = computed(() => {
     <div class="av-col av-row--md av-justify-between av-gap-md">
       <div class="av-col av-flex-fill av-gap-xs indicators">
         <AvIconText
-          v-if="trace.isGroup"
-          typography-class="b2-light"
-          icon-color="var(--text2)"
-          :icon="MDI_ICONS.PEOPLE_GROUP_OUTLINE"
-          :text="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.groupProduction')"
-        />
-        <AvIconText
           typography-class="b2-light"
           icon-color="var(--text2)"
           :icon="MDI_ICONS.CHECK"
-          :text="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.authenticProduction')"
+          :text="authorTypeLabel"
         />
       </div>
 

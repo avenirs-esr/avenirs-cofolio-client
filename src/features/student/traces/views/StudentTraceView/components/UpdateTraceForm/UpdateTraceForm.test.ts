@@ -1,6 +1,6 @@
 import type { UpdateTraceForm as UpdateTraceFormType } from '@/features/student/traces/types/forms.types'
 import type { VueWrapper } from '@vue/test-utils'
-import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
+import { EFileType, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
 import { TraceType } from '@/features/student/traces/types/traces.types'
 import UpdateTraceForm from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/UpdateTraceForm.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -27,7 +27,7 @@ BddTest().given('an update trace form component', () => {
     id: 'trace-123',
     title: 'Existing Trace',
     programName: 'Test Program',
-    isGroup: false,
+    authorType: ETraceAuthorType.PERSONAL,
     aiUseJustification: '',
     personalNote: 'Existing note',
     createdAt: '2025-01-15T10:00:00Z',
@@ -73,15 +73,10 @@ BddTest().given('an update trace form component', () => {
       props: ['form'],
       template: '<textarea id="personalNote" />'
     },
-    TraceAuthenticDeclarationToggleFormField: {
-      name: 'TraceAuthenticDeclarationToggleFormField',
+    TraceAuthorTypeRadioSetFormField: {
+      name: 'TraceAuthorTypeRadioSetFormField',
       props: ['form'],
-      template: '<div class="av-toggle-stub" />'
-    },
-    TraceGroupProductionToggleFormField: {
-      name: 'TraceGroupProductionToggleFormField',
-      props: ['form'],
-      template: '<div class="av-toggle-stub" />'
+      template: '<div class="trace-author-type-radio-set-form-field-stub" />'
     },
     TraceAiUsageToggleFormField: {
       name: 'TraceAiUsageToggleFormField',
@@ -133,19 +128,9 @@ BddTest().given('an update trace form component', () => {
       expect(linkField.exists()).toBe(false)
     })
 
-    BddTest().then('it should render personal note field', () => {
-      const personalNoteField = wrapper.findComponent({ name: 'TracePersonalNoteTextareaFormField' })
-      expect(personalNoteField.exists()).toBe(true)
-    })
-
-    BddTest().then('it should render authentic declaration toggle', () => {
-      const authenticToggle = wrapper.findComponent({ name: 'TraceAuthenticDeclarationToggleFormField' })
-      expect(authenticToggle.exists()).toBe(true)
-    })
-
-    BddTest().then('it should render group production toggle', () => {
-      const groupToggle = wrapper.findComponent({ name: 'TraceGroupProductionToggleFormField' })
-      expect(groupToggle.exists()).toBe(true)
+    BddTest().then('it should render the author type radio set', () => {
+      const radioSet = wrapper.findComponent({ name: 'TraceAuthorTypeRadioSetFormField' })
+      expect(radioSet.exists()).toBe(true)
     })
 
     BddTest().then('it should render AI usage toggle', () => {

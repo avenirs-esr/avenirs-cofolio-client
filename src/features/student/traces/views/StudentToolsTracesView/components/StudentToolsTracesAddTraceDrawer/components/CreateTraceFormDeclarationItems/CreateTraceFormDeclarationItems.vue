@@ -2,8 +2,7 @@
 import type { CreateTraceForm } from '@/features/student/traces/types/forms.types'
 import TraceAiJustificationTextareaFormField from '@/features/student/traces/components/interactions/formFields/TraceAiJustificationTextareaFormField/TraceAiJustificationTextareaFormField.vue'
 import TraceAiUsageToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceAiUsageToggleFormField/TraceAiUsageToggleFormField.vue'
-import TraceAuthenticDeclarationToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceAuthenticDeclarationToggleFormField/TraceAuthenticDeclarationToggleFormField.vue'
-import TraceGroupProductionToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceGroupProductionToggleFormField/TraceGroupProductionToggleFormField.vue'
+import TraceAuthorTypeRadioSetFormField from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSetFormField/TraceAuthorTypeRadioSetFormField.vue'
 import { useI18n } from 'vue-i18n'
 
 interface CreateTraceFormDeclarationItemsProps {
@@ -40,15 +39,7 @@ function onChangeAiUsageToggle (value: boolean) {
           {{ t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.declaration.productionNature.title') }}
         </span>
 
-        <div class="av-row av-gap-md av-wrap av-align-start">
-          <TraceAuthenticDeclarationToggleFormField
-            :form="form"
-          />
-
-          <TraceGroupProductionToggleFormField
-            :form="form"
-          />
-        </div>
+        <TraceAuthorTypeRadioSetFormField :form="form" />
       </div>
 
       <div

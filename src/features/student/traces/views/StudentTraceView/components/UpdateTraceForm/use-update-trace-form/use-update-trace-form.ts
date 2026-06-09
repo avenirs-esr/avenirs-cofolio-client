@@ -52,8 +52,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
       traceType: attachmentFile.value ? TraceType.FILE : TraceType.LINK,
       traceName: trace.title,
       personalNote: trace.personalNote || '',
-      isAuthentic: true,
-      isGroup: trace.isGroup,
+      authorType: trace.authorType,
       useIA: !!trace.aiUseJustification,
       iaJustification: trace.aiUseJustification || ''
     } as TraceFormData,
@@ -91,7 +90,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
       updateTraceDTO: {
         title: traceFormData.traceName,
         personalNote: traceFormData.personalNote || undefined,
-        isGroup: traceFormData.isGroup,
+        authorType: traceFormData.authorType!,
         iaJustification: traceFormData.useIA ? traceFormData.iaJustification : undefined,
         link: isTraceLinkType(traceFormData) ? traceFormData.link : undefined,
         language: ELanguage.FRENCH
@@ -118,7 +117,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
     return state.value.isDirty && state.value.isValid && !state.value.isValidating
   })
 
-  const hasErrors = hasFieldErrors(form, ['file', 'link', 'traceName', 'personalNote', 'iaJustification', 'isAuthentic'])
+  const hasErrors = hasFieldErrors(form, ['file', 'link', 'traceName', 'personalNote', 'iaJustification', 'authorType'])
 
   watch(() => form, () => {
     setUpdateTraceForm(form)

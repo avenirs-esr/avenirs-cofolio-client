@@ -1,5 +1,5 @@
 import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { ELanguage, type TraceDetailDTO } from '@/api/avenir-esr'
+import { ELanguage, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
 import { type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
 import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
@@ -44,8 +44,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
 
       expect(state.value.values.traceName).toBe('Développement d\'un ePortfolio')
       expect(state.value.values.personalNote).toBe('An awesome personal note')
-      expect(state.value.values.isGroup).toBe(false)
-      expect(state.value.values.isAuthentic).toBe(true)
+      expect(state.value.values.authorType).toBe(ETraceAuthorType.PERSONAL)
       expect(state.value.values.useIA).toBe(false)
       expect(state.value.values.iaJustification).toBe('')
     })
@@ -77,8 +76,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: '',
         personalNote: '',
-        isAuthentic: false,
-        isGroup: false,
+        authorType: null,
         useIA: false,
         iaJustification: ''
       }
@@ -89,7 +87,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
       const validationResult = onSubmitValidator!({ value: invalidData })
 
       expect(validationResult?.fields?.traceName).toBe('Ce champ est requis.')
-      expect(validationResult?.fields?.isAuthentic).toBe('Vous devez accepter de soumettre une production authentique et personnelle')
+      expect(validationResult?.fields?.authorType).toBe('Ce champ est requis.')
     })
 
     BddTest().then('it should return validation error when useIA is true but justification is empty', () => {
@@ -99,8 +97,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'Valid Title',
         personalNote: 'Note',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: true,
         iaJustification: ''
       }
@@ -120,8 +117,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: 'Updated note',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
@@ -133,7 +129,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
 
       expect(validationResult?.fields?.traceName).toBeUndefined()
       expect(validationResult?.fields?.file).toBeUndefined()
-      expect(validationResult?.fields?.isAuthentic).toBeUndefined()
+      expect(validationResult?.fields?.authorType).toBeUndefined()
     })
   })
 
@@ -149,8 +145,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: 'Updated note',
-        isAuthentic: true,
-        isGroup: true,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
@@ -163,7 +158,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         expect(updateTraceSpy).toHaveBeenCalledWith('trace1', {
           title: 'Updated Title',
           personalNote: 'Updated note',
-          isGroup: true,
+          authorType: ETraceAuthorType.PERSONAL,
           iaJustification: undefined,
           language: ELanguage.FRENCH
         })
@@ -176,8 +171,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: '',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
@@ -188,7 +182,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         expect(updateTraceSpy).toHaveBeenCalledWith('trace1', {
           title: 'Updated Title',
           personalNote: undefined,
-          isGroup: false,
+          authorType: ETraceAuthorType.PERSONAL,
           iaJustification: undefined,
           language: ELanguage.FRENCH
         })
@@ -201,8 +195,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: 'Note',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: true,
         iaJustification: 'Used AI for research'
       }
@@ -213,7 +206,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         expect(updateTraceSpy).toHaveBeenCalledWith('trace1', {
           title: 'Updated Title',
           personalNote: 'Note',
-          isGroup: false,
+          authorType: ETraceAuthorType.PERSONAL,
           iaJustification: 'Used AI for research',
           language: ELanguage.FRENCH
         })
@@ -240,8 +233,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: 'Note',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
@@ -271,8 +263,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: 'Note',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
@@ -299,8 +290,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'Title',
         personalNote: 'Note',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
@@ -324,8 +314,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: 'Note',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
@@ -352,8 +341,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'Updated Title',
         personalNote: 'Note',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }

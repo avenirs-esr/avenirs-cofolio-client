@@ -1,3 +1,4 @@
+import { ETraceAuthorType } from '@/api/avenir-esr'
 import { type TraceFormDataFile, type TraceFormDataLink, TraceType } from '@/features/student/traces/types/traces.types'
 import { isTraceFileType, isTraceLinkType } from '@/features/student/traces/utils/trace.types-guard'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -8,8 +9,7 @@ BddTest().given('trace form data type guards', () => {
       traceType: TraceType.FILE,
       file: null,
       traceName: 'my-trace',
-      isAuthentic: true,
-      isGroup: false,
+      authorType: ETraceAuthorType.PERSONAL,
       useIA: false,
     }
 
@@ -27,8 +27,7 @@ BddTest().given('trace form data type guards', () => {
       traceType: TraceType.LINK,
       link: 'https://www.google.com',
       traceName: 'my-trace',
-      isAuthentic: true,
-      isGroup: false,
+      authorType: ETraceAuthorType.PERSONAL,
       useIA: false,
     }
 

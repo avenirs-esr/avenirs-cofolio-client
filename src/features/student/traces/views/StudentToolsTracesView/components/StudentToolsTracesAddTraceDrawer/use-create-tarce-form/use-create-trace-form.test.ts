@@ -8,6 +8,7 @@ import {
 
 } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
+import { ETraceAuthorType } from '@/api/avenir-esr'
 import { EAssociationTypeKey, type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
 import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -59,8 +60,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: '',
         personalNote: '',
-        isAuthentic: false,
-        isGroup: false,
+        authorType: null,
         useIA: false,
         iaJustification: ''
       }
@@ -72,7 +72,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
 
       expect(validationResult?.fields?.file).toEqual('Ce champ est requis.')
       expect(validationResult?.fields?.traceName).toContain('Ce champ est requis.')
-      expect(validationResult?.fields?.isAuthentic).toEqual('Vous devez accepter de soumettre une production authentique et personnelle')
+      expect(validationResult?.fields?.authorType).toEqual('Ce champ est requis.')
     })
   })
 
@@ -84,8 +84,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'My Trace Name',
         personalNote: 'Optional note',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
@@ -112,8 +111,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'My Trace Name',
         personalNote: 'Optional note',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.COLLECTIVE,
         useIA: false,
         iaJustification: ''
       }
@@ -130,8 +128,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: '',
         personalNote: 'Optional note',
-        isAuthentic: false,
-        isGroup: false,
+        authorType: null,
         useIA: false,
         iaJustification: ''
       }
@@ -142,7 +139,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
       const validationResult = onSubmitValidator!({ value: invalidFormData })
       expect(validationResult?.fields?.file).toEqual('Ce champ est requis.')
       expect(validationResult?.fields?.traceName).toEqual('Ce champ est requis.')
-      expect(validationResult?.fields?.isAuthentic).toEqual('Vous devez accepter de soumettre une production authentique et personnelle')
+      expect(validationResult?.fields?.authorType).toEqual('Ce champ est requis.')
     })
 
     BddTest().then('it should call both createTrace and uploadAttachment APIs when file is provided', async () => {
@@ -152,8 +149,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: 'Optional note',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
@@ -167,7 +163,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
           title: 'my-trace-name',
           language: ELanguage.FRENCH,
           personalNote: 'Optional note',
-          isGroup: false,
+          authorType: ETraceAuthorType.PERSONAL,
           iaJustification: undefined
         })
       })
@@ -184,8 +180,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
@@ -197,7 +192,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
           title: 'my-trace-name',
           language: ELanguage.FRENCH,
           personalNote: undefined,
-          isGroup: false,
+          authorType: ETraceAuthorType.PERSONAL,
           iaJustification: undefined
         })
       })
@@ -209,8 +204,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
-        isAuthentic: true,
-        isGroup: true,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: true,
         iaJustification: 'Used AI for research assistance'
       }
@@ -222,7 +216,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
           title: 'my-trace-name',
           language: ELanguage.FRENCH,
           personalNote: undefined,
-          isGroup: true,
+          authorType: ETraceAuthorType.PERSONAL,
           iaJustification: 'Used AI for research assistance'
         })
       })
@@ -234,8 +228,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: true,
         iaJustification: ''
       }
@@ -253,8 +246,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.LINK,
         traceName: 'my-trace-name',
         personalNote: '',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
@@ -271,8 +263,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
@@ -296,8 +287,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
@@ -318,8 +308,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: '',
         associationSelections: {
@@ -344,8 +333,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: '',
         associationSelections: {
@@ -370,8 +358,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: '',
         associationSelections: {
@@ -400,8 +387,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: '',
         associationSelections: {}
@@ -431,8 +417,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         traceType: TraceType.FILE,
         traceName: 'my-trace-name',
         personalNote: '',
-        isAuthentic: true,
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: '',
         associationSelections: {}

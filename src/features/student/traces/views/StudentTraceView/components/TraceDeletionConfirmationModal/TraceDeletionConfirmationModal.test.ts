@@ -1,4 +1,4 @@
-import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
+import { EFileType, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { useDeleteTraceMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import TraceDeletionConfirmationModal from '@/features/student/traces/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
@@ -41,7 +41,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
     updatedAt: '2025-06-17T15:18:00.000Z',
     programName: 'An awesome program',
     aiUseJustification: 'An awesome justification',
-    isGroup: false,
+    authorType: ETraceAuthorType.PERSONAL,
     personalNote: 'An awesome personal note',
     attachment: {
       id: 'mock-attachment',

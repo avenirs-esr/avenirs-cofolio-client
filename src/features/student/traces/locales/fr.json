@@ -10,8 +10,9 @@
         "StudentTraceCard": {
           "lifeProject": "Projet de vie",
           "tagLabel": {
-            "group": "Groupe",
-            "solo": "Individuel"
+            "COLLECTIVE": "Collectif",
+            "PERSONAL": "Individuel",
+            "THIRD_PARTY": "Témoignage / Recommandation"
           }
         },
         "StudentTracesWidget": {
@@ -54,16 +55,16 @@
             "ariaLabel": "Sélectionner la trace {title}"
           }
         },
+        "radios": {
+          "authorType": {
+            "COLLECTIVE": "collective (j'y ai contribué)",
+            "PERSONAL": "personnelle",
+            "THIRD_PARTY": "d'un tiers (témoignage, recommandation, etc.)"
+          }
+        },
         "toggles": {
           "TraceAiUsageToggle": {
             "description": "Je soumets une production réalisée avec IA"
-          },
-          "TraceAuthenticDeclarationToggle": {
-            "description": "Je soumets une production authentique et personnelle",
-            "requiredMessage": "Vous devez accepter de soumettre une production authentique et personnelle"
-          },
-          "TraceGroupProductionToggle": {
-            "description": "Je soumets une production de groupe"
           }
         }
       },
@@ -129,15 +130,9 @@
             },
             "createTraceForm": {
               "declaration": {
-                "groupProduction": {
-                  "label": "Je soumets une production de groupe"
-                },
                 "iaUsage": {
                   "label": "Je soumets une production réalisée avec IA",
                   "title": "Déclarer si c'est une production réalisée avec l'Intelligence Artificielle (IA)"
-                },
-                "productionAuthenticity": {
-                  "label": "Je soumets une production authentique et personnelle"
                 },
                 "productionNature": {
                   "title": "Déclarer la nature de ma production"
@@ -190,8 +185,11 @@
             }
           },
           "studentTraceDetails": {
-            "authenticProduction": "Production authentique et personnelle",
-            "groupProduction": "Cette trace est une production de groupe",
+            "authorType": {
+              "COLLECTIVE": "Production collective",
+              "PERSONAL": "Production personnelle",
+              "THIRD_PARTY": "Production d'un tiers"
+            },
             "iaToggleLabel": "Production avec IA",
             "linkLabel": "Lien de ma trace"
           },

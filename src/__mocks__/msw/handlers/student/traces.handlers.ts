@@ -296,7 +296,7 @@ export const tracesHandlers = [
       id: traceId,
       title: updateTraceDTO.title,
       personalNote: updateTraceDTO.personalNote || mockedTraceDetailed.personalNote,
-      isGroup: updateTraceDTO.isGroup,
+      authorType: updateTraceDTO.authorType,
       aiUseJustification: updateTraceDTO.iaJustification || mockedTraceDetailed.aiUseJustification,
       updatedAt: new Date().toISOString()
     }

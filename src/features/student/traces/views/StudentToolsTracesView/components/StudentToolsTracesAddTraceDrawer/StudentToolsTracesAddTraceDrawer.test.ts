@@ -1,4 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { ETraceAuthorType } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
 import { useTracesStore } from '@/features/student/traces'
@@ -102,11 +103,10 @@ BddTest().given('a student tools traces add trace drawer component', () => {
     await cancelButton?.trigger('click')
   }
 
-  const setAuthenticToggle = async (value: boolean) => {
-    const toggles = wrapper.findAllComponents({ name: 'Toggle' })
-    const authenticToggle = toggles.find(toggle => toggle.props('id') === 'is-authentic')
-    expect(authenticToggle).toBeDefined()
-    await authenticToggle!.vm.$emit('update:modelValue', value)
+  const setAuthorType = async (value: ETraceAuthorType) => {
+    const radioSet = wrapper.findComponent({ name: 'TraceAuthorTypeRadioSet' })
+    expect(radioSet.exists()).toBe(true)
+    await radioSet.vm.$emit('update:modelValue', value)
     await wrapper.vm.$nextTick()
   }
 
@@ -277,7 +277,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
   BddTest().when('save button is clicked', () => {
     BddTest().then('it should show success message when form is valid', async () => {
       await fillFormFields()
-      await setAuthenticToggle(true)
+      await setAuthorType(ETraceAuthorType.PERSONAL)
       await clickSaveButton()
 
       await vi.waitFor(() => {
@@ -290,7 +290,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
 
     BddTest().then('it should show error message when trace creation fails', async () => {
       await fillFormFields('ERROR_TRACE')
-      await setAuthenticToggle(true)
+      await setAuthorType(ETraceAuthorType.PERSONAL)
       await clickSaveButton()
 
       await vi.waitFor(() => {
@@ -311,7 +311,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
 
     BddTest().then('it should not submit when IA is enabled but justification is empty', async () => {
       await fillFormFields()
-      await setAuthenticToggle(true)
+      await setAuthorType(ETraceAuthorType.PERSONAL)
       await setIAToggle(true)
       await clickSaveButton()
 
