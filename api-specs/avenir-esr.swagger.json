@@ -1503,6 +1503,53 @@
         }
       }
     },
+    "/admin/seeding/{table}/run": {
+      "post": {
+        "tags": [
+          "seeding-admin-controller"
+        ],
+        "operationId": "runTable",
+        "parameters": [
+          {
+            "name": "table",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "overwrite",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin/seeding/run": {
       "post": {
         "tags": [
@@ -1513,7 +1560,7 @@
           {
             "name": "X-ADMIN-TOKEN",
             "in": "header",
-            "required": false,
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -3417,6 +3464,120 @@
         }
       }
     },
+    "/interoperability/external-users/eppn/{eppn}/activate": {
+      "patch": {
+        "tags": [
+          "external-user-controller"
+        ],
+        "operationId": "activateExternalUserByEppn",
+        "parameters": [
+          {
+            "name": "eppn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalUserDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/interoperability/external-users": {
+      "get": {
+        "tags": [
+          "external-user-controller"
+        ],
+        "operationId": "getExternalUsers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExternalUserDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/interoperability/external-users/{id}": {
+      "get": {
+        "tags": [
+          "external-user-controller"
+        ],
+        "operationId": "getExternalUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalUserDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/interoperability/external-users/eppn/{eppn}": {
+      "get": {
+        "tags": [
+          "external-user-controller"
+        ],
+        "operationId": "getExternalUserByEppn",
+        "parameters": [
+          {
+            "name": "eppn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalUserDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/interoperability/external-skills/{id}": {
       "get": {
         "tags": [
@@ -3562,8 +3723,14 @@
               "SPANISH"
             ]
           },
-          "isGroup": {
-            "type": "boolean"
+          "authorType": {
+            "type": "string",
+            "$ref": "#/components/schemas/ETraceAuthorType",
+            "enum": [
+              "PERSONAL",
+              "COLLECTIVE",
+              "THIRD_PARTY"
+            ]
           },
           "personalNote": {
             "type": "string"
@@ -3576,7 +3743,7 @@
           }
         },
         "required": [
-          "isGroup",
+          "authorType",
           "language",
           "title"
         ]
@@ -3690,8 +3857,14 @@
           "programName": {
             "type": "string"
           },
-          "isGroup": {
-            "type": "boolean"
+          "authorType": {
+            "type": "string",
+            "$ref": "#/components/schemas/ETraceAuthorType",
+            "enum": [
+              "PERSONAL",
+              "COLLECTIVE",
+              "THIRD_PARTY"
+            ]
           },
           "aiUseJustification": {
             "type": "string"
@@ -3716,12 +3889,11 @@
         },
         "required": [
           "aiUseJustification",
+          "authorType",
           "createdAt",
           "id",
-          "isGroup",
           "personalNote",
           "programName",
-          "status",
           "title",
           "updatedAt"
         ]
@@ -4248,8 +4420,14 @@
               "SPANISH"
             ]
           },
-          "isGroup": {
-            "type": "boolean"
+          "authorType": {
+            "type": "string",
+            "$ref": "#/components/schemas/ETraceAuthorType",
+            "enum": [
+              "PERSONAL",
+              "COLLECTIVE",
+              "THIRD_PARTY"
+            ]
           },
           "personalNote": {
             "type": "string"
@@ -4262,7 +4440,7 @@
           }
         },
         "required": [
-          "isGroup",
+          "authorType",
           "language",
           "title"
         ]
@@ -4682,8 +4860,14 @@
           "programName": {
             "type": "string"
           },
-          "isGroup": {
-            "type": "boolean"
+          "authorType": {
+            "type": "string",
+            "$ref": "#/components/schemas/ETraceAuthorType",
+            "enum": [
+              "PERSONAL",
+              "COLLECTIVE",
+              "THIRD_PARTY"
+            ]
           },
           "createdAt": {
             "type": "string",
@@ -4695,8 +4879,8 @@
           }
         },
         "required": [
+          "authorType",
           "createdAt",
-          "isGroup",
           "programName",
           "title",
           "traceId",
@@ -6123,6 +6307,8 @@
         "description": "Enum for error codes",
         "enum": [
           "USER_NOT_FOUND",
+          "EXTERNAL_USER_NOT_FOUND",
+          "EXTERNAL_USER_REMOVED",
           "USER_CATEGORY_NOT_FOUND",
           "PROGRAM_NOT_FOUND",
           "TRAINING_PATH_NOT_FOUND",
@@ -6147,6 +6333,7 @@
           "USER_NOT_AUTHORIZED",
           "USER_IS_NOT_STUDENT_EXCEPTION",
           "USER_IS_NOT_STAFF_EXCEPTION",
+          "EXTERNAL_USER_BLOCKED",
           "MAXIMUM_ALLOWED_ASSOCIATIONS_REACHED",
           "UNAUTHENTICATED_SESSION",
           "USER_ALREADY_EXISTS",
@@ -6267,6 +6454,15 @@
           "ASSOCIATED_WITH_DECLARED_SKILL"
         ]
       },
+      "ETraceAuthorType": {
+        "type": "string",
+        "description": "Enum for trace author type",
+        "enum": [
+          "PERSONAL",
+          "COLLECTIVE",
+          "THIRD_PARTY"
+        ]
+      },
       "EContextType": {
         "type": "string",
         "description": "Enum for context type",
@@ -6365,6 +6561,48 @@
             "type": "boolean"
           },
           "lifeProjectEnabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ExternalUserDTO": {
+        "type": "object",
+        "properties": {
+          "eppn": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "STAFF",
+              "STUDENT"
+            ]
+          },
+          "externalId": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "INACTIVE",
+              "REMOVED",
+              "BLOCKED"
+            ]
+          },
+          "active": {
             "type": "boolean"
           }
         }
@@ -6485,6 +6723,14 @@
         ]
       },
       "EUserCategory1": {
+        "type": "string",
+        "description": "Enum for external user category",
+        "enum": [
+          "STAFF",
+          "STUDENT"
+        ]
+      },
+      "EUserStatus": {
         "type": "string",
         "description": "Enum for external user status",
         "enum": [

@@ -1,6 +1,6 @@
 import type { UpdateTraceForm as UpdateTraceFormApi } from '@/features/student/traces/types/forms.types'
 import { mockedTraceAssociations } from '@/__mocks__/fixtures/student'
-import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
+import { EFileType, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
 import UpdateStep from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/UpdateStep.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -31,7 +31,7 @@ BddTest().given('an update step', () => {
     updatedAt: '2025-06-02T11:42:00.000Z',
     programName: 'An awesome program',
     aiUseJustification: 'An awesome justification',
-    isGroup: false,
+    authorType: ETraceAuthorType.PERSONAL,
     personalNote: 'An awesome personal note',
     attachment: {
       id: 'mock-attachment',

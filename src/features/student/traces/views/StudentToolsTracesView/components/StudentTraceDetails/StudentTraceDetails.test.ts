@@ -1,4 +1,4 @@
-import { EFileType, type TraceDetailDTO } from '@/api/avenir-esr'
+import { EFileType, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { TraceAiJustificationTextareaStub } from '@/features/student/traces/components/interactions/inputs/TraceAiJustificationTextarea/TraceAiJustificationTextarea.stub'
 import { TraceAiUsageToggleStub } from '@/features/student/traces/components/interactions/toggles/TraceAiUsageToggle/TraceAiUsageToggle.stub'
@@ -51,7 +51,7 @@ BddTest().given('a student detailed trace information component', () => {
     isAssociated: true,
     programName: 'Test Program',
     link: 'https://example.com/trace/1',
-    isGroup: false,
+    authorType: ETraceAuthorType.COLLECTIVE,
     aiUseJustification: '',
     personalNote: 'Test personal note content',
     createdAt: '2024-01-15T10:30:00',
@@ -135,7 +135,7 @@ BddTest().given('a student detailed trace information component', () => {
 
       expect(indicators.exists()).toBe(true)
       expect(iconTexts).toHaveLength(1)
-      expect(iconTexts[0].props('text')).toBe('Production authentique et personnelle')
+      expect(iconTexts[0].props('text')).toBe('Production collective')
     })
 
     BddTest().then('it should render the IA toggle with correct props', () => {

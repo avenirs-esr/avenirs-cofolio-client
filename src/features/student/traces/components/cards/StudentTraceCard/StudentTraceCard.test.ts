@@ -5,22 +5,6 @@ import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { expect, vi } from 'vitest'
 
-vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
-  return {
-    ...actual,
-    MDI_ICONS: {
-      ATTACH_FILE: 'mdi-attach-file',
-      STAR_SHOOTING_OUTLINE: 'mdi-star-shooting',
-      TEST_TUBE_EMPTY: 'mdi-test-tube-empty',
-      SWAP_VERTICAL_VARIANT: 'mdi-swap-vertical-variant',
-    },
-    RI_ICONS: {
-      DICE_4_LINE: 'ri-dice-4-line',
-    },
-  }
-})
-
 BddTest().given('a student trace card', () => {
   let wrapper: VueWrapper
 

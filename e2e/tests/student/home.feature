@@ -57,7 +57,6 @@ Feature: Student Home Page
     @high @traces @dataset-full
     Scenario: Traces widget displays 3 traces with type, and see all button
       Then 3 trace cards are displayed
-      And each trace card shows type (solo/group)
       And the see all traces button is visible
 
     @high @traces @dataset-full

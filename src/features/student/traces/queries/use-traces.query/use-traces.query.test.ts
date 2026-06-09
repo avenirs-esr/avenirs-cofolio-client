@@ -7,6 +7,7 @@ import { associateTraceWithDeclaredSkillsErrorHandler, searchSkillsForAssociatio
 import { server } from '@/__mocks__/msw/server'
 import {
   ELanguage,
+  ETraceAuthorType,
   type GetTraceAssociationsParams,
   type PagedResponseTraceViewDTO,
   type TraceAssociationsDTO,
@@ -552,7 +553,7 @@ BddTest().given('a useTraceDetailedQuery composable', async () => {
         expect(data.value).toHaveProperty('updatedAt')
         expect(data.value).toHaveProperty('programName')
         expect(data.value).toHaveProperty('aiUseJustification')
-        expect(data.value).toHaveProperty('isGroup')
+        expect(data.value).toHaveProperty('authorType')
         expect(data.value).toHaveProperty('personalNote')
         expect(data.value).toHaveProperty('attachment')
         expect(data.value).toHaveProperty('traceAssociations')
@@ -573,7 +574,7 @@ BddTest().given('a useTraceDetailedQuery composable', async () => {
           expect(typeof config.updatedAt).toBe('string')
           expect(typeof config.programName).toBe('string')
           expect(typeof config.aiUseJustification).toBe('string')
-          expect(typeof config.isGroup).toBe('boolean')
+          expect(typeof config.authorType).toBe('string')
           expect(typeof config.personalNote).toBe('string')
           expect(typeof config.attachment).toBe('object')
         }
@@ -666,7 +667,7 @@ BddTest().given('a useUpdateTraceMutation composable', async () => {
       updateTraceDTO: {
         title: 'Updated Title',
         personalNote: 'Updated note',
-        isGroup: true,
+        authorType: ETraceAuthorType.COLLECTIVE,
         iaJustification: 'AI justification',
         language: ELanguage.FRENCH
       }
@@ -759,7 +760,8 @@ BddTest().given('a useUpdateTraceMutation composable', async () => {
       updateTraceDTO: {
         title: 'Updated Title',
         personalNote: 'Updated note',
-        isGroup: false,
+        authorType: ETraceAuthorType.COLLECTIVE,
+        iaJustification: 'AI justification',
         language: ELanguage.FRENCH
       }
     }
@@ -808,7 +810,7 @@ BddTest().given('a useUpdateTraceMutation composable', async () => {
       updateTraceDTO: {
         title: 'Updated Title',
         personalNote: 'Updated note',
-        isGroup: false,
+        authorType: ETraceAuthorType.PERSONAL,
         language: ELanguage.FRENCH
       }
     }

@@ -106,7 +106,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
     createTraceMutation.mutate({
       title: traceFormData.traceName,
       personalNote: traceFormData.personalNote || undefined,
-      isGroup: traceFormData.isGroup,
+      authorType: traceFormData.authorType!,
       iaJustification: traceFormData.useIA ? traceFormData.iaJustification : undefined,
       language: ELanguage.FRENCH,
       link: isTraceLinkType(traceFormData) ? traceFormData.link : undefined,
@@ -123,8 +123,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
       traceType: TraceType.FILE,
       traceName: '',
       personalNote: '',
-      isAuthentic: false,
-      isGroup: false,
+      authorType: null,
       useIA: false,
       iaJustification: '',
       associationSelections: {}
@@ -148,7 +147,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
   })
 
   const hasDefinitionItemsError = hasFieldErrors(form, ['traceName', 'personalNote', 'traceType', 'file', 'link'])
-  const hasDeclarationItemsError = hasFieldErrors(form, ['isAuthentic', 'isGroup', 'useIA'])
+  const hasDeclarationItemsError = hasFieldErrors(form, ['authorType', 'useIA'])
 
   const isSubmitting: ComputedRef<boolean> = computed(() => {
     return createTraceMutation.isPending.value

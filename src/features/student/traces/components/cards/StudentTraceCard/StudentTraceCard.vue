@@ -2,7 +2,7 @@
 import { EPortfolioType, type TraceOverviewDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { FloatingIconCard } from '@/features/student/global'
-import { AvIconText, AvTag, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvIconText, AvTag, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentTraceCardProps {
@@ -10,14 +10,13 @@ export interface StudentTraceCardProps {
 }
 
 const { trace } = defineProps<StudentTraceCardProps>()
-const { title, isGroup, programName } = trace
+const { title, authorType, programName } = trace
 
 const { t } = useI18n()
 
 const category = computed(() => programName && programName !== EPortfolioType.LIFE_PROJECT ? programName : t('student.traces.cards.StudentTraceCard.lifeProject'))
-const typeInfo = computed(() => isGroup
-  ? { label: t('student.traces.cards.StudentTraceCard.tagLabel.group'), icon: RI_ICONS.DICE_4_LINE }
-  : { label: t('student.traces.cards.StudentTraceCard.tagLabel.solo'), icon: RI_ICONS.DICE_1_LINE })
+
+const typeInfo = computed(() => t(`student.traces.cards.StudentTraceCard.tagLabel.${authorType}`))
 
 const iconOptions = {
   name: MDI_ICONS.ATTACH_FILE,
@@ -60,8 +59,7 @@ const iconOptions = {
           <div class="av-row av-align-center student-trace-card__type">
             <AvTag
               data-testid="trace-card-type-tag"
-              :label="typeInfo.label"
-              :icon="typeInfo.icon"
+              :label="typeInfo"
             />
           </div>
         </div>

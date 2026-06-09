@@ -1,4 +1,5 @@
 import type { TraceFormData } from '@/features/student/traces/types/traces.types'
+import { ETraceAuthorType } from '@/api/avenir-esr'
 import { useTraceFormValidators } from '@/features/student/traces/composables/use-trace-form-validators/use-trace-form-validators'
 import { TRACE_IA_JUSTIFICATION_MAX_LENGTH, TRACE_LINK_MAX_LENGTH, TRACE_NAME_MAX_LENGTH, TRACE_PERSONAL_NOTE_MAX_LENGTH } from '@/features/student/traces/config'
 import { TraceType } from '@/features/student/traces/types/traces.types'
@@ -12,8 +13,7 @@ function buildLinkTraceFormData (overrides: Partial<TraceFormData> = {}): TraceF
     link: 'https://example.com',
     traceName: 'Trace title',
     personalNote: 'Personal note',
-    isAuthentic: true,
-    isGroup: false,
+    authorType: ETraceAuthorType.PERSONAL,
     useIA: false,
     iaJustification: '',
     ...overrides,
@@ -26,8 +26,7 @@ function buildFileTraceFormData (overrides: Partial<TraceFormData> = {}): TraceF
     file: new File(['content'], 'trace.txt', { type: 'text/plain' }),
     traceName: 'Trace title',
     personalNote: 'Personal note',
-    isAuthentic: true,
-    isGroup: false,
+    authorType: ETraceAuthorType.PERSONAL,
     useIA: false,
     iaJustification: '',
     ...overrides,
@@ -106,10 +105,17 @@ BddTest().given('a trace form validators composable', () => {
       })
     })
 
-    BddTest().and('isAuthentic is false', () => {
-      BddTest().then('it should return an authenticity error', () => {
-        const result = composableResult.buildValidators(buildLinkTraceFormData({ isAuthentic: false }))
-        expect(result.fields.isAuthentic).toBeDefined()
+    BddTest().and('authorType is null', () => {
+      BddTest().then('it should return required error for authorType', () => {
+        const result = composableResult.buildValidators(buildLinkTraceFormData({ authorType: null }))
+        expect(result.fields.authorType).toBe('Ce champ est requis.')
+      })
+    })
+
+    BddTest().and('authorType is valid', () => {
+      BddTest().then('it should not return error for authorType', () => {
+        const result = composableResult.buildValidators(buildLinkTraceFormData({ authorType: ETraceAuthorType.THIRD_PARTY }))
+        expect(result.fields.authorType).toBeUndefined()
       })
     })
 
