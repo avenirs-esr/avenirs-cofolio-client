@@ -22,7 +22,7 @@ const attachment = computed(() => trace.attachment)
 const { attachmentFile, uploadDate } = useTraceAttachmentFile(attachment)
 
 const traceFileUploadLabel = computed(() => {
-  return `${t('student.traces.interactions.inputs.TraceFileUpload.documentLabel')} - ${t('student.traces.interactions.inputs.TraceFileUpload.addedOn', { date: uploadDate.value })}`
+  return `${t('global.documentLabel')} - ${t('student.traces.interactions.inputs.TraceFileUpload.addedOn', { date: uploadDate.value })}`
 })
 
 const authorTypeLabel = computed(() =>

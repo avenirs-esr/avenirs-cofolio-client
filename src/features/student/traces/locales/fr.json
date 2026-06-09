@@ -30,8 +30,7 @@
       "interactions": {
         "inputs": {
           "TraceFileUpload": {
-            "addedOn": "Ajouté le {date}",
-            "documentLabel": "Mon document chargé"
+            "addedOn": "Ajouté le {date}"
           },
           "TraceAiJustificationTextarea": {
             "label": "Justification de l'usage de l'IA",
@@ -287,33 +286,28 @@
           }
         },
         "StudentUpdateTraceView": {
+          "associations": "Mes éléments associés ({count})",
           "buttons": {
             "validate": "Valider la sélection"
           },
           "errors": {
             "updateTrace": "Une erreur est survenue lors de la modification de la trace."
           },
-          "steps": {
-            "terms": {
-              "alertMessage": "Attention, message d'information",
-              "impactMessage": "Vos modifications affecteront la trace dans les associations suivantes :",
-              "title": "Modalités de modifications"
-            },
-            "update": {
-              "tabs": {
-                "associations": {
-                  "caption": "Emplacement(s) de ma trace en cours de modification",
-                  "title": "Mes associations"
-                },
-                "update": {
-                  "title": "Modifier ma trace"
-                }
-              },
-              "title": "Modifier ma trace"
-            }
-          },
           "success": "Votre trace a été modifiée avec succès.",
           "title": "Modifier ma trace",
+          "update": {
+            "tabs": {
+              "associations": {
+                "caption": "Emplacement(s) de ma trace en cours de modification",
+                "title": "Mes associations"
+              },
+              "details": "Ma trace",
+              "update": {
+                "title": "Modifier ma trace"
+              }
+            },
+            "title": "Modifier ma trace"
+          },
           "updateTraceForm": {
             "declaration": {
               "iaUsage": {

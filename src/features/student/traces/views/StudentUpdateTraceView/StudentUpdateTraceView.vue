@@ -6,10 +6,9 @@ import { ROUTES } from '@/common/constants'
 import { useTraceAssociationsQuery, useTraceDetailedQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
-import TermsStep from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/TermsStep.vue'
-import UpdateStep from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/UpdateStep.vue'
+import UpdateTabs from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.vue'
 import { useToasterStore } from '@/store'
-import { AvCancelConfirmButtons, AvStepper, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvCancelConfirmButtons, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface StudentUpdateTraceViewProps {
@@ -20,11 +19,6 @@ const { traceId } = defineProps<StudentUpdateTraceViewProps>()
 
 const { traceDetailed: trace } = useTraceDetailedQuery(toRef(() => traceId))
 const { traceAssociations: associations } = useTraceAssociationsQuery(toRef(() => traceId))
-
-enum UpdateTraceModalSteps {
-  Terms = 0,
-  Update = 1
-}
 
 const { t } = useI18n()
 const tracesStore = useTracesStore()
@@ -46,13 +40,6 @@ const {
   displayModal: displayConfirmationModal,
   hideModal: hideConfirmationModal
 } = useModal()
-
-const currentStep = ref(UpdateTraceModalSteps.Terms)
-
-const confirmDisabled = computed(() =>
-  currentStep.value === UpdateTraceModalSteps.Update
-  && hasErrors.value
-)
 
 const toolsBreadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
@@ -91,36 +78,10 @@ const breadcrumbLinks = computed(() =>
     : homeBreadcrumbLinks.value
 )
 
-const steps = computed(() => [
-  t('student.traces.views.StudentUpdateTraceView.steps.terms.title'),
-  t('student.traces.views.StudentUpdateTraceView.steps.update.title')
-])
-
-const confirmLabel = computed(() =>
-  currentStep.value === UpdateTraceModalSteps.Terms
-    ? t('student.traces.views.StudentUpdateTraceView.buttons.validate')
-    : t('global.buttons.save')
-)
-
-const confirmIcon = computed(() =>
-  currentStep.value === UpdateTraceModalSteps.Terms
-    ? MDI_ICONS.CHECK_CIRCLE_OUTLINE
-    : MDI_ICONS.CONTENT_SAVE_OUTLINE
-)
-
 const { navigateToStudentHome, navigateToStudentTraces } = useNavigation()
 
-function goToNextStep () {
-  currentStep.value++
-}
-
 async function handleConfirm () {
-  if (currentStep.value === UpdateTraceModalSteps.Terms) {
-    goToNextStep()
-  }
-  else {
-    await tracesStore.submitUpdateTraceForm()
-  }
+  await tracesStore.submitUpdateTraceForm()
 }
 
 function navigateBack () {
@@ -135,22 +96,13 @@ function closeModal () {
 }
 
 function handleClose () {
-  if (
-    currentStep.value === UpdateTraceModalSteps.Update
-    && updateTraceFormModified.value
-  ) {
+  if (updateTraceFormModified.value) {
     displayConfirmationModal()
   }
   else {
     navigateBack()
   }
 }
-
-const displayedStep = computed(() =>
-  currentStep.value === UpdateTraceModalSteps.Terms
-    ? TermsStep
-    : UpdateStep
-)
 </script>
 
 <template>
@@ -163,16 +115,7 @@ const displayedStep = computed(() =>
       :breadcrumb-links="breadcrumbLinks"
     />
 
-    <div class="av-row av-justify-center">
-      <AvStepper
-        :steps="steps"
-        :current-step="currentStep"
-        width="38.75rem"
-      />
-    </div>
-
-    <component
-      :is="displayedStep"
+    <UpdateTabs
       :trace="trace"
       :associations="associations"
       :form="form"
@@ -181,10 +124,10 @@ const displayedStep = computed(() =>
     <div class="av-row av-justify-end av-mt-lg">
       <AvCancelConfirmButtons
         :cancel-label="t('global.buttons.close')"
-        :confirm-label="confirmLabel"
+        :confirm-label="t('global.buttons.save')"
         :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-        :confirm-icon="confirmIcon"
-        :confirm-disabled="confirmDisabled"
+        :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
+        :confirm-disabled="hasErrors"
         @cancel="handleClose"
         @confirm="handleConfirm"
       />

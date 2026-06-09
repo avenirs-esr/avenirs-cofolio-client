@@ -3,6 +3,7 @@ import { createTraceDetailedHandler } from '@/__mocks__/msw/handlers/student/tra
 import { server } from '@/__mocks__/msw/server'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { UpdateTabsStub } from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.stub'
 import StudentUpdateTraceView from '@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'
 import { AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -69,6 +70,7 @@ BddTest().given('a student update trace view', () => {
     const stubs = {
       DetailedPageTitle: DetailedPageTitleStub,
       AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
+      UpdateTabs: UpdateTabsStub,
     }
 
     wrapper = mountComponent(StudentUpdateTraceView, {
@@ -91,12 +93,12 @@ BddTest().given('a student update trace view', () => {
       expect(pageTitle.props('title')).toBe(mockedTraceDetailed.title)
     })
 
-    BddTest().then('it should render the stepper', () => {
-      expect(wrapper.findComponent({ name: 'AvStepper' }).exists()).toBe(true)
+    BddTest().then('it should render UpdateTabs', () => {
+      expect(wrapper.findComponent(UpdateTabsStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should render TermsStep by default', () => {
-      expect(wrapper.findComponent({ name: 'TermsStep' }).exists()).toBe(true)
+    BddTest().then('it should render cancel confirm buttons', () => {
+      expect(wrapper.findComponent(AvCancelConfirmButtonsStub).exists()).toBe(true)
     })
   })
 

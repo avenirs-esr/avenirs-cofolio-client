@@ -1,12 +1,23 @@
 import type { UpdateTraceForm as UpdateTraceFormApi } from '@/features/student/traces/types/forms.types'
 import { mockedTraceAssociations } from '@/__mocks__/fixtures/student'
 import { EFileType, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
-import UpdateStep from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceModal/UpdateStep.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import UpdateTabs from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.vue'
+import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const mockHideUpdateTraceModal = vi.fn()
+
+const routeQueryValue = ref('details')
+
+vi.mock('@vueuse/router', () => ({
+  useRouteQuery: (_queryName: string, defaultValue: string) => {
+    if (routeQueryValue.value === undefined) {
+      routeQueryValue.value = defaultValue
+    }
+    return routeQueryValue
+  },
+}))
 
 vi.mock('@/store', async () => {
   const actual = await vi.importActual<typeof import('@/store')>('@/store')
@@ -18,8 +29,8 @@ vi.mock('@/store', async () => {
   }
 })
 
-BddTest().given('an update step', () => {
-  let wrapper: VueWrapper<InstanceType<typeof UpdateStep>>
+BddTest().given('an update tab', () => {
+  let wrapper: VueWrapper<InstanceType<typeof UpdateTabs>>
   const mockForm = {} as UpdateTraceFormApi
 
   const mockedTrace: TraceDetailDTO = {
@@ -45,17 +56,8 @@ BddTest().given('an update step', () => {
   }
 
   const stubs = {
-    AvTab: {
-      name: 'AvTab',
-      props: ['title', 'icon'],
-      template: '<div class="av-tab"><slot /></div>'
-    },
-    AvTabs: {
-      name: 'AvTabs',
-      props: ['compact', 'modelValue'],
-      emits: ['update:modelValue'],
-      template: '<div class="av-tabs"><slot /></div>'
-    },
+    AvTab: AvTabStub,
+    AvTabs: AvTabsStub,
     UpdateTraceForm: {
       name: 'UpdateTraceForm',
       props: ['trace', 'form'],
@@ -70,7 +72,7 @@ BddTest().given('an update step', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
-    wrapper = mount(UpdateStep, { props: { trace: mockedTrace, associations: mockedTraceAssociations, form: mockForm }, global: { stubs } })
+    wrapper = mount(UpdateTabs, { props: { trace: mockedTrace, associations: mockedTraceAssociations, form: mockForm }, global: { stubs } })
   })
 
   BddTest().when('the component is mounted', () => {
@@ -107,8 +109,8 @@ BddTest().given('an update step', () => {
     BddTest().then('it should use correct translation keys for tabs', () => {
       const tabs = wrapper.findAllComponents({ name: 'AvTab' })
 
-      expect(tabs[0].props('title')).toBe('Modifier ma trace')
-      expect(tabs[1].props('title')).toBe('Mes associations')
+      expect(tabs[0].props('title')).toBe('Ma trace')
+      expect(tabs[1].props('title')).toBe('Mes éléments associés (5)')
     })
   })
 
@@ -126,6 +128,11 @@ BddTest().given('an update step', () => {
     BddTest().then('it should pass traceId prop to TraceAssociations', () => {
       const traceAssociations = wrapper.findComponent({ name: 'TraceAssociations' })
       expect(traceAssociations.props('traceId')).toEqual(mockedTrace.id)
+    })
+
+    BddTest().then('it should disable lazy rendering on tabs', () => {
+      const avTabs = wrapper.findComponent({ name: 'AvTabs' })
+      expect(avTabs.props('lazyRender')).toBe(false)
     })
   })
 })

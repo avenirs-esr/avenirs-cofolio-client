@@ -127,6 +127,7 @@
       "updatedAt": "Modifié le {date}"
     },
     "detail": "Détail",
+    "documentLabel": "Mon document chargé",
     "disabled": "Désactivé | Désactivée",
     "emptyState": {
       "defaultTitle": "Aucun élément à afficher"
@@ -286,6 +287,7 @@
       "description": "Êtes-vous sûr de vouloir vous déconnecter ?",
       "title": "Déconnexion"
     },
+    "megabyteUnit": "Mo",
     "modals": {
       "confirmation": {
         "description": "Toutes les modifications non enregistrées seront perdues.",
