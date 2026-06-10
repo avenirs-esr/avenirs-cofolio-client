@@ -44,7 +44,7 @@
               - generic: Créer mon activité
         - heading "Créer mon activité" [level=1] [ref=e62]
       - generic [ref=e64]:
-        - navigation "40635110-b85a-444b-b8b7-5eaed665b3ae navigation" [ref=e65]:
+        - navigation "f1308e7f-ad33-454a-9db1-5636d9663e5a navigation" [ref=e65]:
           - button "Collapse button" [expanded] [ref=e67] [cursor=pointer]
           - menu [ref=e71]:
             - menuitem "Contenu de l'activité" [ref=e72]:
