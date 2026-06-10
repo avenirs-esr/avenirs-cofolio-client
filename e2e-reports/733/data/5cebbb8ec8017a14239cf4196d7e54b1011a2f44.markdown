@@ -1,0 +1,151 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - link "Accueil - Cofolio Staff" [ref=e10] [cursor=pointer]:
+          - /url: /cofolio/staff
+          - img [ref=e11]
+        - button "Changer d'univers" [ref=e13] [cursor=pointer]:
+          - generic [ref=e16]: Changer d'univers
+      - generic [ref=e18]:
+        - list [ref=e20]:
+          - listitem [ref=e21]:
+            - button "M. Dupont" [ref=e24] [cursor=pointer]:
+              - generic [ref=e27]: M. Dupont
+        - navigation [ref=e28]:
+          - generic "Sélectionner une langue" [ref=e29]:
+            - button "FR" [ref=e31] [cursor=pointer]:
+              - generic [ref=e34]: FR
+    - navigation "Menu principal" [ref=e38]:
+      - list [ref=e39]:
+        - listitem [ref=e40]:
+          - link "ACCUEIL" [ref=e41] [cursor=pointer]:
+            - /url: /cofolio/staff
+            - generic [ref=e44]: ACCUEIL
+        - listitem [ref=e45]:
+          - link "BIBLIOTHÈQUE DES ACTIVITÉS" [ref=e46] [cursor=pointer]:
+            - /url: /cofolio/staff/activities
+            - generic [ref=e49]: BIBLIOTHÈQUE DES ACTIVITÉS
+  - main [ref=e50]:
+    - generic [ref=e51]:
+      - generic [ref=e53]:
+        - navigation "Fil d'Ariane" [ref=e54]:
+          - list [ref=e56]:
+            - listitem [ref=e57]:
+              - link "Accueil" [ref=e58] [cursor=pointer]:
+                - /url: /cofolio/staff
+            - listitem [ref=e59]:
+              - link "Bibliothèque des activités" [ref=e60] [cursor=pointer]:
+                - /url: /cofolio/staff/activities
+            - listitem [ref=e61]:
+              - generic: Créer mon activité
+        - heading "Créer mon activité" [level=1] [ref=e62]
+      - generic [ref=e64]:
+        - navigation "9ed08b9f-0ca8-4e7f-a7a2-1c4998be1220 navigation" [ref=e65]:
+          - button "Collapse button" [expanded] [ref=e67] [cursor=pointer]
+          - menu [ref=e71]:
+            - menuitem "Publication de l'activité" [ref=e72]:
+              - button "Publication de l'activité" [ref=e73] [cursor=pointer]:
+                - generic [ref=e78]: Publication de l'activité
+            - menu [ref=e80]:
+              - menuitem "Titre de l'activité" [ref=e81]:
+                - button "Titre de l'activité" [ref=e82] [cursor=pointer]:
+                  - generic [ref=e84]: Titre de l'activité
+              - menuitem "Groupe(s) Cible(s)" [ref=e85]:
+                - button "Groupe(s) Cible(s)" [ref=e86] [cursor=pointer]:
+                  - generic [ref=e88]: Groupe(s) Cible(s)
+              - menuitem "Ajouter une image" [ref=e89]:
+                - button "Ajouter une image" [ref=e90] [cursor=pointer]:
+                  - generic [ref=e92]: Ajouter une image
+              - menuitem "Extrait et contexte(s) de réalisation conseillé(s)" [ref=e93]:
+                - button "Extrait et contexte(s) de réalisation conseillé(s)" [active] [ref=e94] [cursor=pointer]:
+                  - generic [ref=e96]: Extrait et contexte(s) de réalisation conseillé(s)
+        - generic [ref=e98]:
+          - tablist "Liste d’onglets" [ref=e99]:
+            - tab "Renseigner le contenu" [ref=e100] [cursor=pointer]:
+              - generic [ref=e103]: Renseigner le contenu
+            - tab "Préparer la publication" [selected] [ref=e104] [cursor=pointer]:
+              - generic [ref=e107]: Préparer la publication
+          - tabpanel "Préparer la publication" [ref=e108]:
+            - generic [ref=e109]:
+              - generic [ref=e111]:
+                - generic [ref=e117]: Titre de l'activité *
+                - generic [ref=e120]:
+                  - generic [ref=e121]:
+                    - generic [ref=e123]: Titre de l'activité *
+                    - textbox "Titre de l'activité" [ref=e124]: Activité nationale de test
+                  - generic [ref=e125]: 26 / 80 caractères (espaces compris)
+              - generic [ref=e126]:
+                - generic [ref=e128]:
+                  - generic [ref=e134]: Extrait *
+                  - generic [ref=e137]:
+                    - textbox [ref=e140]:
+                      - /placeholder: Rédiger ici un texte court qui permet d'avoir un aperçu de l'activité et donne envie de s'y inscrire.
+                      - text: Résumé de l'activité de test
+                    - generic [ref=e141]: 28 / 400 caractères (espaces compris)
+                - generic [ref=e143]:
+                  - generic [ref=e149]: Contexte(s) de réalisation conseillé(s)
+                  - generic [ref=e152]:
+                    - textbox [ref=e155]: Semestre 1
+                    - generic [ref=e156]: 10 / 200 caractères (espaces compris)
+              - generic [ref=e157]:
+                - generic [ref=e158]:
+                  - button "Annuler" [disabled] [ref=e159]:
+                    - generic [ref=e162]: Annuler
+                  - button "Enregistrer pour plus tard" [disabled] [ref=e163]:
+                    - generic [ref=e166]: Enregistrer pour plus tard
+                - button "Publier" [ref=e167] [cursor=pointer]:
+                  - generic [ref=e170]: Publier
+  - contentinfo [ref=e171]:
+    - generic [ref=e173]:
+      - generic [ref=e174]:
+        - link "Logo ANR" [ref=e175] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e176]
+        - link "Logo France 2030" [ref=e177] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e178]
+      - generic [ref=e179]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e180]:
+      - generic [ref=e181]:
+        - img "Logo Cofolio" [ref=e182]
+        - generic [ref=e193]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e194]:
+        - generic [ref=e195]:
+          - generic [ref=e196]: Informations légales
+          - list [ref=e197]:
+            - listitem [ref=e198]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e199] [cursor=pointer]':
+                - /url: /cofolio/staff/accessibility
+            - listitem [ref=e200]:
+              - link "Mentions légales" [ref=e201] [cursor=pointer]:
+                - /url: /cofolio/staff/legal
+            - listitem [ref=e202]:
+              - link "Données personnelles" [ref=e203] [cursor=pointer]:
+                - /url: /cofolio/staff/personal-data
+            - listitem [ref=e204]:
+              - link "Gestion des cookies" [ref=e205] [cursor=pointer]:
+                - /url: /cofolio/staff/cookies
+        - generic [ref=e206]:
+          - generic [ref=e207]: Autres sites
+          - list [ref=e208]:
+            - listitem [ref=e209]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e210] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e211]:
+          - generic [ref=e212]: Partenaires
+          - generic [ref=e213]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e214] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e215]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e216] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e218]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e222] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
