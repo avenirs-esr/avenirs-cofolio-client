@@ -2,6 +2,8 @@
 import type { EExternalSkillType } from '@/api/avenir-esr'
 import type { IdTitle } from '@/types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
+import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import { useModal } from '@/common/composables'
 import { ICONS } from '@/common/constants'
 import DeclaredSkillCompactCard
   from '@/features/student/declaredSkills/components/cards/DeclaredSkillCompactCard/DeclaredSkillCompactCard.vue'
@@ -44,6 +46,12 @@ const {
   onDeleteItem: onDeleteSkill,
 } = useAssociationModal<DeclaredSkillAvAutocompleteOption>()
 
+const {
+  showModal: showCancelConfirmationModal,
+  displayModal: displayCancelConfirmationModal,
+  hideModal: hideCancelConfirmationModal
+} = useModal()
+
 const skillAutocompleteOptions = computed<DeclaredSkillAvAutocompleteOption[]>(() =>
   skills.map(skill => ({
     label: skill.title,
@@ -81,6 +89,19 @@ function onCancel () {
 function onConfirm () {
   emit('associate', selectedAssociations.value.map(skill => skill.id))
 }
+
+function onAssociateModalClose () {
+  if (selectedSkillOptions.value.length > 0) {
+    displayCancelConfirmationModal()
+    return
+  }
+  onCancel()
+}
+
+function onConfirmCancelAssociateModal () {
+  hideCancelConfirmationModal()
+  onCancel()
+}
 </script>
 
 <template>
@@ -92,7 +113,7 @@ function onConfirm () {
     :confirm-button-disabled="selectedAssociations.length === 0"
     :confirm-button-icon="ICONS.ASSOCIATIONS"
     :is-loading="isLoading"
-    @close="onCancel"
+    @close="onAssociateModalClose"
     @confirm="displayConfirmModal"
   >
     <template #header>
@@ -130,5 +151,11 @@ function onConfirm () {
     :items="selectedAssociations"
     @cancel="hideConfirmModal"
     @confirm="onConfirm"
+  />
+
+  <ConfirmationModal
+    :show="showCancelConfirmationModal"
+    @close="hideCancelConfirmationModal"
+    @confirm="onConfirmCancelAssociateModal"
   />
 </template>

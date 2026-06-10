@@ -6,6 +6,8 @@ import {
   useAssociateActivityWithTraces,
   useSearchTracesForAssociation,
 } from '@/api/avenir-esr'
+import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import { useModal } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { TraceAssociationTypes } from '@/features/student/buildProject/types/trace-association.types'
@@ -42,6 +44,12 @@ const { isLoading, withTaskLoading } = useTaskLoading()
 const selectedTraceType = ref<{ itemId: TraceAssociationTypes }>({
   itemId: TraceAssociationTypes.UNASSOCIATED
 })
+
+const {
+  showModal: showCancelConfirmationModal,
+  displayModal: displayCancelConfirmationModal,
+  hideModal: hideCancelConfirmationModal
+} = useModal()
 
 const {
   searchQuery,
@@ -126,6 +134,25 @@ function getIsAssociatedParam () {
     return false
   }
 }
+
+function onCancel () {
+  selectedTraceOptions.value = []
+  emit('cancel')
+}
+
+function onAssociateModalClose () {
+  if (selectedTraceOptions.value.length > 0) {
+    displayCancelConfirmationModal()
+    return
+  }
+
+  onCancel()
+}
+
+function onConfirmCancelAssociateModal () {
+  hideCancelConfirmationModal()
+  onCancel()
+}
 </script>
 
 <template>
@@ -134,7 +161,7 @@ function getIsAssociatedParam () {
     data-testid="associate-traces-modal"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('global.buttons.confirm')"
-    @close="emit('cancel')"
+    @close="onAssociateModalClose"
     @confirm="displayConfirmModal"
   >
     <template #header>
@@ -183,5 +210,11 @@ function getIsAssociatedParam () {
     :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.AssociateTracesModal.confirmTitle')"
     @cancel="hideConfirmModal"
     @confirm="associateActivityWithTraces"
+  />
+
+  <ConfirmationModal
+    :show="showCancelConfirmationModal"
+    @close="hideCancelConfirmationModal"
+    @confirm="onConfirmCancelAssociateModal"
   />
 </template>
