@@ -1,6 +1,7 @@
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
 import { EExperienceType } from '@/api/avenir-esr'
+import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { SearchAssociationLayoutStub } from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.stub'
 import { ConfirmAssociateModalStub } from '@/features/student/global/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.stub'
 import { DeclaredExperienceCompactCardStub } from '@/features/student/personalCareer/components/cards/DeclaredExperienceCompactCard/DeclaredExperienceCompactCard.stub'
@@ -20,7 +21,8 @@ BddTest().given('an associate declared experiences modal', () => {
     AvModal: AvModalStub,
     SearchAssociationLayout: SearchAssociationLayoutStub,
     ConfirmAssociateModal: ConfirmAssociateModalStub,
-    DeclaredExperienceCompactCard: DeclaredExperienceCompactCardStub
+    DeclaredExperienceCompactCard: DeclaredExperienceCompactCardStub,
+    ConfirmationModal: ConfirmationModalStub
   }
 
   const experiences = [
@@ -108,6 +110,13 @@ BddTest().given('an associate declared experiences modal', () => {
       expect(confirmModal.exists()).toBe(true)
       expect(confirmModal.props('show')).toBe(false)
       expect(confirmModal.props('items')).toEqual([])
+    })
+
+    BddTest().then('it should render the cancel confirmation modal hidden by default', () => {
+      const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+
+      expect(confirmationModal.exists()).toBe(true)
+      expect(confirmationModal.props('show')).toBe(false)
     })
 
     BddTest().then('it should pass all declared experiences to the layout options with disabled fields', () => {
@@ -256,6 +265,60 @@ BddTest().given('an associate declared experiences modal', () => {
             expect(wrapper.emitted('associate')).toEqual([[
               ['experience-search-1', 'experience-search-2']
             ]])
+          })
+        })
+      })
+
+      BddTest().and('the modal emits close event', () => {
+        beforeEach(async () => {
+          const modal = wrapper.findComponent(AvModalStub)
+          modal.vm.$emit('close')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should show the cancel confirmation modal', () => {
+          const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+
+          expect(confirmationModal.props('show')).toBe(true)
+        })
+
+        BddTest().then('it should not emit cancel immediately', () => {
+          expect(wrapper.emitted('cancel')).toBeFalsy()
+        })
+
+        BddTest().and('the confirmation modal emits close event', () => {
+          beforeEach(async () => {
+            const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+            confirmationModal.vm.$emit('close')
+            await wrapper.vm.$nextTick()
+          })
+
+          BddTest().then('it should hide the cancel confirmation modal', () => {
+            const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+
+            expect(confirmationModal.props('show')).toBe(false)
+          })
+
+          BddTest().then('it should not emit cancel', () => {
+            expect(wrapper.emitted('cancel')).toBeFalsy()
+          })
+        })
+
+        BddTest().and('the confirmation modal emits confirm event', () => {
+          beforeEach(async () => {
+            const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+            confirmationModal.vm.$emit('confirm')
+            await wrapper.vm.$nextTick()
+          })
+
+          BddTest().then('it should hide the cancel confirmation modal', () => {
+            const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+
+            expect(confirmationModal.props('show')).toBe(false)
+          })
+
+          BddTest().then('it should emit cancel', () => {
+            expect(wrapper.emitted('cancel')).toBeTruthy()
           })
         })
       })

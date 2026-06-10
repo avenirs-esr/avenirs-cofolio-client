@@ -2,6 +2,8 @@
 import type { EExperienceType } from '@/api/avenir-esr'
 import type { Association } from '@/features/student/global/types/associations.types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
+import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import { useModal } from '@/common/composables'
 import { ICONS } from '@/common/constants'
 import { ConfirmAssociateModal, useAssociationModal } from '@/features/student/global'
 import SearchAssociationLayout from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.vue'
@@ -32,6 +34,12 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+
+const {
+  showModal: showCancelConfirmationModal,
+  displayModal: displayCancelConfirmationModal,
+  hideModal: hideCancelConfirmationModal
+} = useModal()
 
 const {
   selectedOptions: selectedExperienceOptions,
@@ -74,6 +82,20 @@ function onCancel () {
 function onConfirm () {
   emit('associate', selectedAssociations.value.map(experience => experience.id))
 }
+
+function onAssociateModalClose () {
+  if (selectedExperienceOptions.value.length > 0) {
+    displayCancelConfirmationModal()
+    return
+  }
+
+  onCancel()
+}
+
+function onConfirmCancelAssociateModal () {
+  hideCancelConfirmationModal()
+  onCancel()
+}
 </script>
 
 <template>
@@ -85,7 +107,7 @@ function onConfirm () {
     :confirm-button-disabled="selectedAssociations.length === 0"
     :confirm-button-icon="ICONS.ASSOCIATIONS"
     :is-loading="isLoading"
-    @close="onCancel"
+    @close="onAssociateModalClose"
     @confirm="displayConfirmModal"
   >
     <template #header>
@@ -127,5 +149,11 @@ function onConfirm () {
     :items="selectedAssociations"
     @cancel="hideConfirmModal"
     @confirm="onConfirm"
+  />
+
+  <ConfirmationModal
+    :show="showCancelConfirmationModal"
+    @close="hideCancelConfirmationModal"
+    @confirm="onConfirmCancelAssociateModal"
   />
 </template>
