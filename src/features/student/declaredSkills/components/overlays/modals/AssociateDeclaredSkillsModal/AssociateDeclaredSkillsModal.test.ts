@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedSkillSearchResults } from '@/__mocks__/fixtures/student/traces.fixtures'
+import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import AssociateDeclaredSkillsModal, {
   type AssociateDeclaredSkillsModalProps
 } from '@/features/student/declaredSkills/components/overlays/modals/AssociateDeclaredSkillsModal/AssociateDeclaredSkillsModal.vue'
@@ -19,6 +20,7 @@ BddTest().given('an associate declared skills modal', () => {
     SearchAssociationLayout: SearchAssociationLayoutStub,
     ConfirmAssociateModal: ConfirmAssociateModalStub,
     FloatingIconCard: FloatingIconCardStub,
+    ConfirmationModal: ConfirmationModalStub
   }
 
   const skills = mockedSkillSearchResults
@@ -86,6 +88,13 @@ BddTest().given('an associate declared skills modal', () => {
       expect(confirmModal.props('items')).toEqual([])
     })
 
+    BddTest().then('it should render the cancel confirmation modal hidden by default', () => {
+      const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+
+      expect(confirmationModal.exists()).toBe(true)
+      expect(confirmationModal.props('show')).toBe(false)
+    })
+
     BddTest().and('the user selects skills in the layout', () => {
       beforeEach(async () => {
         layout.vm.$emit('update:modelValue', selectedOptions)
@@ -149,6 +158,59 @@ BddTest().given('an associate declared skills modal', () => {
           BddTest().then('it should emit associate event with selected ids', () => {
             expect(wrapper.emitted('associate')).toBeTruthy()
             expect(wrapper.emitted('associate')?.[0]).toEqual([[skills[0].id, skills[1].id]])
+          })
+        })
+      })
+
+      BddTest().and('the modal emits close event', () => {
+        beforeEach(async () => {
+          modal.vm.$emit('close')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should show the cancel confirmation modal', () => {
+          const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+
+          expect(confirmationModal.props('show')).toBe(true)
+        })
+
+        BddTest().then('it should not emit cancel event immediately', () => {
+          expect(wrapper.emitted('cancel')).toBeFalsy()
+        })
+
+        BddTest().and('the cancel confirmation modal emits close event', () => {
+          beforeEach(async () => {
+            const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+            confirmationModal.vm.$emit('close')
+            await wrapper.vm.$nextTick()
+          })
+
+          BddTest().then('it should hide the cancel confirmation modal', () => {
+            const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+
+            expect(confirmationModal.props('show')).toBe(false)
+          })
+
+          BddTest().then('it should not emit cancel event', () => {
+            expect(wrapper.emitted('cancel')).toBeFalsy()
+          })
+        })
+
+        BddTest().and('the cancel confirmation modal emits confirm event', () => {
+          beforeEach(async () => {
+            const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+            confirmationModal.vm.$emit('confirm')
+            await wrapper.vm.$nextTick()
+          })
+
+          BddTest().then('it should hide the cancel confirmation modal', () => {
+            const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+
+            expect(confirmationModal.props('show')).toBe(false)
+          })
+
+          BddTest().then('it should emit cancel event', () => {
+            expect(wrapper.emitted('cancel')).toBeTruthy()
           })
         })
       })

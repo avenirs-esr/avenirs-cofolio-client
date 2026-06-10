@@ -4,6 +4,7 @@ import {
   searchTracesForAssociationErrorHandler
 } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { TraceAssociationTypes } from '@/features/student/buildProject/types/trace-association.types'
 import { TraceCompactCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceCompactCard/TraceCompactCard.stub'
 import AssociateTracesModal, {
@@ -41,7 +42,8 @@ BddTest().given('an associate traces modal', () => {
     SearchAssociationLayout: SearchAssociationLayoutStub,
     ConfirmAssociateModal: ConfirmAssociateModalStub,
     TracesTypeSelect: TracesTypeSelectStub,
-    TraceCompactCard: TraceCompactCardStub
+    TraceCompactCard: TraceCompactCardStub,
+    ConfirmationModal: ConfirmationModalStub
   }
 
   const props: AssociateTracesModalProps = {
@@ -112,6 +114,13 @@ BddTest().given('an associate traces modal', () => {
       expect(confirmModal.exists()).toBe(true)
       expect(confirmModal.props('show')).toBe(false)
       expect(confirmModal.props('items')).toEqual([])
+    })
+
+    BddTest().then('it should render the cancel confirmation modal hidden by default', () => {
+      const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+
+      expect(confirmationModal.exists()).toBe(true)
+      expect(confirmationModal.props('show')).toBe(false)
     })
 
     BddTest().then('it should load unassociated traces from the query and pass them to the layout', async () => {
@@ -344,6 +353,63 @@ BddTest().given('an associate traces modal', () => {
 
           BddTest().then('it should not show an error toaster', () => {
             expect(mockAddErrorMessage).not.toHaveBeenCalled()
+          })
+        })
+      })
+
+      BddTest().and('the modal emits close event', () => {
+        beforeEach(async () => {
+          const modal = wrapper.findComponent(AvModalStub)
+          modal.vm.$emit('close')
+
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should show the cancel confirmation modal', () => {
+          const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+
+          expect(confirmationModal.props('show')).toBe(true)
+        })
+
+        BddTest().then('it should not emit cancel event immediately', () => {
+          expect(wrapper.emitted('cancel')).toBeFalsy()
+        })
+
+        BddTest().and('the cancel confirmation modal emits close event', () => {
+          beforeEach(async () => {
+            const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+            confirmationModal.vm.$emit('close')
+
+            await wrapper.vm.$nextTick()
+          })
+
+          BddTest().then('it should hide the cancel confirmation modal', () => {
+            const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+
+            expect(confirmationModal.props('show')).toBe(false)
+          })
+
+          BddTest().then('it should not emit cancel event', () => {
+            expect(wrapper.emitted('cancel')).toBeFalsy()
+          })
+        })
+
+        BddTest().and('the cancel confirmation modal emits confirm event', () => {
+          beforeEach(async () => {
+            const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+            confirmationModal.vm.$emit('confirm')
+
+            await wrapper.vm.$nextTick()
+          })
+
+          BddTest().then('it should hide the cancel confirmation modal', () => {
+            const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+
+            expect(confirmationModal.props('show')).toBe(false)
+          })
+
+          BddTest().then('it should emit cancel event', () => {
+            expect(wrapper.emitted('cancel')).toBeTruthy()
           })
         })
       })
