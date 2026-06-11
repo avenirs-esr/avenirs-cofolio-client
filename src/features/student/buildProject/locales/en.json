@@ -154,6 +154,17 @@
             "ProjectActivityDetails": {
               "executionPeriodTitle": "Implementation period"
             },
+            "requestFeedbackActivity": {
+              "error": "An error occurred while requesting feedback. Please try again later.",
+              "feedbackPending": "Your request is being processed",
+              "maximumFeedbackReached": "You have reached the maximum number of requests allowed",
+              "requestFeedbackButton": "Ask for feedback",
+              "requestFeedbackConfirmModal": {
+                "description": "Are you sure you want to submit your activity? You have 1 feedback request available for this activity. | Are you sure you want to submit your activity? You have {count} feedback requests available for this activity.",
+                "title": "Ask for feedback"
+              },
+              "success": "Your activity has been successfully submitted. You will be notified when your referent advisor has responded."
+            },
             "TracesTypeSelect": {
               "label": "Search in:",
               "placeholder": "Select a type of trace",

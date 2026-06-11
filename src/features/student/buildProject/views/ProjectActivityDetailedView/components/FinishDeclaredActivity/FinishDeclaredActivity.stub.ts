@@ -1,6 +1,6 @@
 export const FinishDeclaredActivityStub = defineComponent({
   name: 'FinishDeclaredActivity',
-  props: ['finishedAt', 'status'],
+  props: ['status', 'isLoading'],
   emits: ['finished'],
   template: `<div class="finish-declared-activity-stub"></div>`
 })

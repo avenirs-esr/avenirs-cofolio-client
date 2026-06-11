@@ -368,6 +368,7 @@ export function createMockedDeclaredActivityDetails (id: string): DeclaredActivi
       enableReflection: true,
       executionPeriodInfo: activity.executionPeriodInfo ?? mockedDeclaredActivityDetails.activity.executionPeriodInfo,
       traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
+      feedbackAllowedIterations: ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT,
       createdAt: activity.createdAt ?? mockedDeclaredActivityDetails.activity.createdAt,
       updatedAt: activity.updatedAt ?? mockedDeclaredActivityDetails.activity.updatedAt,
     },

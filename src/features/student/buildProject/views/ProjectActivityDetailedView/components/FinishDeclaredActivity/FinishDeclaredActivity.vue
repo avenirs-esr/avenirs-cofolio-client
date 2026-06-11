@@ -7,12 +7,11 @@ import { AvBadge, AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface FinishDeclaredActivityProps {
-  finishedAt?: string
   status?: EDeclaredActivityStatus
   isLoading?: boolean
 }
 
-const { finishedAt, status } = defineProps<FinishDeclaredActivityProps>()
+const { status } = defineProps<FinishDeclaredActivityProps>()
 
 const emit = defineEmits<{
   (e: 'finished'): void
@@ -28,13 +27,6 @@ function handleConfirm () {
 
 const isCompleted = computed(() => status === EDeclaredActivityStatus.COMPLETED)
 const isInProgress = computed(() => status === EDeclaredActivityStatus.IN_PROGRESS)
-const finishedAtFormatted = computed(() => {
-  if (!finishedAt) {
-    return ''
-  }
-
-  return new Date(finishedAt).toLocaleDateString('fr-FR')
-})
 </script>
 
 <template>
@@ -61,13 +53,6 @@ const finishedAtFormatted = computed(() => {
         :icon="MDI_ICONS.CHECK_CIRCLE"
         data-testid="finish-declared-activity-finished-badge"
       />
-      <p
-        v-if="!!finishedAtFormatted"
-        class="av-text-text2"
-        data-testid="finish-declared-activity-date"
-      >
-        {{ t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivity.finishedAt', { date: finishedAtFormatted }) }}
-      </p>
     </div>
     <FinishDeclaredActivityConfirmModal
       :show="showModal"
