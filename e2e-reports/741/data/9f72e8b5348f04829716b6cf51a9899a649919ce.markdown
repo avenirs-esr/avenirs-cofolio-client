@@ -1,0 +1,172 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - link [ref=e12] [cursor=pointer]:
+          - /url: /cofolio/student
+          - img [ref=e13]
+        - button "Changer d'univers" [ref=e15] [cursor=pointer]:
+          - generic [ref=e18]: Changer d'univers
+      - generic [ref=e19]:
+        - generic [ref=e20]:
+          - list [ref=e22]:
+            - listitem [ref=e23]:
+              - button "Messagerie" [ref=e26] [cursor=pointer]:
+                - generic [ref=e29]: Messagerie
+            - listitem [ref=e30]:
+              - button "Notifications" [ref=e33] [cursor=pointer]:
+                - generic [ref=e36]: Notifications
+            - listitem [ref=e37]:
+              - button "J. Moulin" [ref=e40] [cursor=pointer]:
+                - generic [ref=e43]: J. Moulin
+          - navigation [ref=e46]:
+            - button "FR" [ref=e49] [cursor=pointer]:
+              - generic [ref=e52]: FR
+        - search [ref=e54]:
+          - generic [ref=e58]:
+            - generic [ref=e60]: Rechercher
+            - searchbox "Rechercher" [ref=e61]
+          - button "Rechercher" [ref=e64] [cursor=pointer]
+    - navigation "Menu principal" [ref=e70]:
+      - list [ref=e71]:
+        - listitem [ref=e72]:
+          - link "ACCUEIL" [ref=e73] [cursor=pointer]:
+            - /url: /cofolio/student
+            - generic [ref=e76]: ACCUEIL
+        - listitem [ref=e77]:
+          - button "RÉUSSIR MA FORMATION" [ref=e78] [cursor=pointer]:
+            - generic [ref=e79]: RÉUSSIR MA FORMATION
+        - listitem [ref=e80]:
+          - button "CONSTRUIRE MON PROJET DE VIE" [ref=e81] [cursor=pointer]:
+            - generic [ref=e82]: CONSTRUIRE MON PROJET DE VIE
+        - listitem [ref=e83]:
+          - button "MES OUTILS" [ref=e84] [cursor=pointer]:
+            - generic [ref=e85]: MES OUTILS
+  - main [ref=e86]:
+    - generic [ref=e87]:
+      - generic [ref=e89]:
+        - navigation "Fil d'Ariane" [ref=e90]:
+          - list [ref=e92]:
+            - listitem [ref=e93]:
+              - link "Accueil" [ref=e94] [cursor=pointer]:
+                - /url: /cofolio/student
+            - listitem [ref=e95]:
+              - generic: Construire mon projet de vie
+            - listitem [ref=e96]:
+              - link "Mes activités" [ref=e97] [cursor=pointer]:
+                - /url: /cofolio/student/project/activities
+            - listitem [ref=e98]:
+              - generic: "Activité “Connaissance de soi” : Définir ses valeurs"
+        - heading "Toutes les activités disponibles" [level=1] [ref=e99]
+      - generic [ref=e100]:
+        - navigation "ff89db7e-978a-43aa-a3e8-d34e2b918b3e navigation" [ref=e101]:
+          - button "Collapse button" [expanded] [ref=e105] [cursor=pointer]
+          - menu [ref=e109]:
+            - menuitem "Me connaître" [ref=e110]:
+              - button "Me connaître" [ref=e111] [cursor=pointer]:
+                - generic [ref=e116]: Me connaître
+            - menu [ref=e118]:
+              - menuitem "Définir ses valeurs" [ref=e119]:
+                - button "Définir ses valeurs" [ref=e120] [cursor=pointer]:
+                  - generic [ref=e125]: Définir ses valeurs
+              - menuitem "Identifier ses motivations profondes" [ref=e126]:
+                - button "Identifier ses motivations profondes" [ref=e127] [cursor=pointer]:
+                  - generic [ref=e132]: Identifier ses motivations profondes
+              - menuitem "Clarifier son identité personnelle" [ref=e133]:
+                - button "Clarifier son identité personnelle" [ref=e134] [cursor=pointer]:
+                  - generic [ref=e139]: Clarifier son identité personnelle
+              - menuitem "Identifier ses centres d'intérêt" [ref=e140]:
+                - button "Identifier ses centres d'intérêt" [ref=e141] [cursor=pointer]:
+                  - generic [ref=e146]: Identifier ses centres d'intérêt
+            - menuitem "Explorer mes futures" [ref=e147]:
+              - button "Explorer mes futures" [ref=e148] [cursor=pointer]:
+                - generic [ref=e153]: Explorer mes futures
+            - menuitem "Mes formations" [ref=e154]:
+              - button "Mes formations" [ref=e155] [cursor=pointer]:
+                - generic [ref=e160]: Mes formations
+            - menuitem "Mes expériences" [ref=e161]:
+              - button "Mes expériences" [ref=e162] [cursor=pointer]:
+                - generic [ref=e167]: Mes expériences
+            - menuitem "Mes trajectoires" [ref=e168]:
+              - button "Mes trajectoires" [ref=e169] [cursor=pointer]:
+                - generic [ref=e174]: Mes trajectoires
+            - menuitem "CV" [ref=e175]:
+              - button "CV" [ref=e176] [cursor=pointer]:
+                - generic [ref=e181]: CV
+            - menuitem "Transverse" [ref=e182]:
+              - button "Transverse" [ref=e183] [cursor=pointer]:
+                - generic [ref=e188]: Transverse
+        - generic [ref=e189]:
+          - generic [ref=e190]:
+            - button "Précédent" [ref=e191] [cursor=pointer]:
+              - generic [ref=e194]: Précédent
+            - button "Suivant" [ref=e195] [cursor=pointer]:
+              - generic [ref=e198]: Suivant
+          - generic [ref=e201]:
+            - img "Image de l'activité Connaissance de soi - Définir ses valeurs" [ref=e205]
+            - generic [ref=e209]: "Activité “Connaissance de soi” : Définir ses valeurs"
+            - status [ref=e211]:
+              - generic [ref=e212]: Me connaître
+            - generic [ref=e216]:
+              - generic [ref=e217]:
+                - generic [ref=e218]:
+                  - generic [ref=e219]: Extrait de l'activité
+                  - generic [ref=e220]: Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l'étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s'incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.
+                - generic [ref=e221]:
+                  - generic [ref=e222]: Période de réalisation
+                  - generic [ref=e223]: "- À réaliser en amont d'un entretien avec un.e conseiller/conseillère ou chargé.e d'orientation et/ou d'insertion professionnelle - avant une autre activité si parcours d'activités Cofolio"
+              - button "M'inscrire à l'activité" [ref=e225] [cursor=pointer]:
+                - generic [ref=e228]: M'inscrire à l'activité
+  - contentinfo [ref=e229]:
+    - generic [ref=e231]:
+      - generic [ref=e232]:
+        - link "Logo ANR" [ref=e233] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e234]
+        - link "Logo France 2030" [ref=e235] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e236]
+      - generic [ref=e237]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e238]:
+      - generic [ref=e239]:
+        - img "Logo Cofolio" [ref=e240]
+        - generic [ref=e251]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e252]:
+        - generic [ref=e253]:
+          - generic [ref=e254]: Informations légales
+          - list [ref=e255]:
+            - listitem [ref=e256]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e257] [cursor=pointer]':
+                - /url: /cofolio/student/accessibility
+            - listitem [ref=e258]:
+              - link "Mentions légales" [ref=e259] [cursor=pointer]:
+                - /url: /cofolio/student/legal
+            - listitem [ref=e260]:
+              - link "Données personnelles" [ref=e261] [cursor=pointer]:
+                - /url: /cofolio/student/personal-data
+            - listitem [ref=e262]:
+              - link "Gestion des cookies" [ref=e263] [cursor=pointer]:
+                - /url: /cofolio/student/cookies
+        - generic [ref=e264]:
+          - generic [ref=e265]: Autres sites
+          - list [ref=e266]:
+            - listitem [ref=e267]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e268] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e269]:
+          - generic [ref=e270]: Partenaires
+          - generic [ref=e271]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e272] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e273]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e274] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e276]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e280] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
