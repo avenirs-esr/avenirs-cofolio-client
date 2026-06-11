@@ -47,6 +47,9 @@ defineExpose({ searchQuery })
     :home-to="{ name: ROUTES.STUDENT.HOME.name }"
     :show-search="!isDemo"
     :language-selector="languageSelector"
+    :search-label="t('global.buttons.search')"
+    :placeholder="`${t('global.buttons.search')}...`"
+    :close-drawer-label="t('global.buttons.close')"
     @language-select="selectLanguage($event)"
   >
     <template #before-quick-links>

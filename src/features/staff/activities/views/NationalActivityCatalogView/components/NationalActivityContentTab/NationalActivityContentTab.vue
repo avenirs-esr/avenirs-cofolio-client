@@ -3,9 +3,10 @@ import type { ActivityContentDTO } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 import ActivityExecutionPeriodList from '@/common/activities/components/ActivityExecutionPeriodList/ActivityExecutionPeriodList.vue'
+import Card from '@/common/components/cards/Card/Card.vue'
 import { ICONS } from '@/common/constants'
 import NationalActivitySettingDetails from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySettingDetails/NationalActivitySettingDetails.vue'
-import { AvCard, AvIconText } from '@avenirs-esr/avenirs-dsav'
+import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface NationalActivityContentTabProps {
@@ -37,7 +38,7 @@ const { t } = useI18n()
       />
     </div>
 
-    <AvCard
+    <Card
       background-color="var(--card2)"
       border-color="transparent"
       data-testid="national-activity-content-tab-schedule-card"
@@ -56,7 +57,7 @@ const { t } = useI18n()
           <ActivityExecutionPeriodList :execution-period-info="activity.executionPeriodInfo" />
         </div>
       </div>
-    </AvCard>
+    </Card>
 
     <NationalActivitySettingDetails :activity="activity" />
   </div>

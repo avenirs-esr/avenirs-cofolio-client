@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { type GetSelfKnowledgeElementsParams, type SelfKnowledgeCategoryDTO, useGetSelfKnowledgeElements } from '@/api/avenir-esr'
+import Card from '@/common/components/cards/Card/Card.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal } from '@/common/composables'
 import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
@@ -8,7 +9,7 @@ import DeleteSelfKnowledgeCategoryModal from '@/features/student/selfKnowledge/c
 import DeleteSelfKnowledgeElementsModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeElementsModal/DeleteSelfKnowledgeElementsModal.vue'
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
-import { AvCard, AvIconText, AvPagination, getPaginationPages } from '@avenirs-esr/avenirs-dsav'
+import { AvIconText, AvPagination, getPaginationPages } from '@avenirs-esr/avenirs-dsav'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
@@ -67,7 +68,7 @@ function onElementDeleted () {
 </script>
 
 <template>
-  <AvCard
+  <Card
     background-color="var(--surface-background)"
     title-background="var(--surface-background)"
     border-color="var(--stroke)"
@@ -131,7 +132,7 @@ function onElementDeleted () {
         </div>
       </QuerySuspense>
     </div>
-  </AvCard>
+  </Card>
 
   <DeleteSelfKnowledgeCategoryModal
     :show="showDeleteCategoryModal"

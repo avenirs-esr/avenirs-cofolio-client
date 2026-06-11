@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { AvButton, AvCard, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
+import Card from '@/common/components/cards/Card/Card.vue'
+import { AvButton, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 defineEmits<{
@@ -10,7 +11,7 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <AvCard
+  <Card
     title-only
     title-background="var(--card2)"
     border-color="transparent"
@@ -35,5 +36,5 @@ const { t } = useI18n()
         </div>
       </div>
     </template>
-  </AvCard>
+  </Card>
 </template>

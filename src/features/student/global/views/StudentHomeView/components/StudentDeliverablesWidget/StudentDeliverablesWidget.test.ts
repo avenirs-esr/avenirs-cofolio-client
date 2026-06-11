@@ -27,10 +27,15 @@ vi.mock('@/common/composables', async (importOriginal) => {
   }
 })
 
+const AvRichButtonStub = defineComponent({
+  name: 'AvRichButton',
+  template: '<button class="av-rich-button"><slot /></button>',
+})
+
 BddTest().given('a student deliverables widget', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentDeliverablesWidget>>
 
-  const stubs = { HomeWidget: HomeWidgetStub }
+  const stubs = { HomeWidget: HomeWidgetStub, AvRichButton: AvRichButtonStub }
 
   beforeEach(async () => {
     wrapper = mount(StudentDeliverablesWidget, { global: { stubs } })

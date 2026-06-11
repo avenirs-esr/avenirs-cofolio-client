@@ -1,16 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { type DeclaredSkillCategoryDTO, EExternalSkillCategoryType, EExternalSkillType } from '@/api/avenir-esr'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-
-const AvCardStub = {
-  name: 'AvCard',
-  props: ['borderColor'],
-  template: `<div class="av-card"><slot /></div>`,
-}
 
 const AvIconTextStub = {
   name: 'AvIconText',
@@ -43,7 +38,7 @@ BddTest().given('a DeclaredSkillRefCard component', () => {
       props: { type, pathSegments },
       global: {
         stubs: {
-          AvCard: AvCardStub,
+          Card: CardStub,
           AvIcon: AvIconStub,
           AvBadge: AvBadgeStub,
           AvIconText: AvIconTextStub,
@@ -64,7 +59,7 @@ BddTest().given('a DeclaredSkillRefCard component', () => {
 
     BddTest().then('it should render the container and card blocks', () => {
       expect(wrapper.find('[data-testid="ref__container"]').exists()).toBe(true)
-      expect(wrapper.find('.av-card').exists()).toBe(true)
+      expect(wrapper.findComponent(CardStub).exists()).toBe(true)
       expect(wrapper.find('[data-testid="ref__content"]').exists()).toBe(true)
       expect(wrapper.find('[data-testid="ref__type"]').exists()).toBe(true)
     })

@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import type { DeclaredSkillProgressDetailsDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
+import Card from '@/common/components/cards/Card/Card.vue'
 import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.vue'
 import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
 import DeclaredSkillReflectionFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillReflectionFormField/DeclaredSkillReflectionFormField.vue'
 import { useUpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
-import { AvCard, AvInput, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvInput, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -47,7 +48,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
 </script>
 
 <template>
-  <AvCard data-testid="update-declared-skill-form">
+  <Card data-testid="update-declared-skill-form">
     <form @submit.prevent="handleSubmit">
       <div
         class="av-col av-row--md av-justify-between av-gap-xl"
@@ -108,7 +109,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
         />
       </div>
     </template>
-  </AvCard>
+  </Card>
 </template>
 
 <style scoped lang="scss">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AvCard } from '@avenirs-esr/avenirs-dsav'
+import Card from '@/common/components/cards/Card/Card.vue'
 import { useI18n } from 'vue-i18n'
 
 const { skillName } = defineProps<{ skillName: string }>()
@@ -9,7 +9,7 @@ const { t } = useI18n()
 
 <template>
   <div class="student-skill-detailed-section av-pb-md">
-    <AvCard
+    <Card
       border-color="var(--other-border-skill-card)"
       title-background="var(--surface-background)"
       title-height="4.375rem"
@@ -22,7 +22,7 @@ const { t } = useI18n()
           {{ skillName }}
         </h3>
       </template>
-    </AvCard>
+    </Card>
   </div>
 </template>
 

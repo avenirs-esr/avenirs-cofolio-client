@@ -48,10 +48,10 @@ BddTest().given('a student overview widget', () => {
     })
 
     BddTest().then('it should emit click on AvRichButtons', async () => {
-      const editProfileButton = wrapper.findComponent('.av-rich-button--edit-profile')
-      const shareResumeButton = wrapper.findComponent('.av-rich-button--share-resume')
-      const shareCofolio = wrapper.findComponent('.av-rich-button--share-cofolio')
-      const establishmentsButton = wrapper.findComponent('.av-rich-button--establishments')
+      const editProfileButton = wrapper.find('[data-testid="edit-profile-button"]')
+      const shareResumeButton = wrapper.find('[data-testid="share-resume-button"]')
+      const shareCofolio = wrapper.find('[data-testid="share-cofolio-button"]')
+      const establishmentsButton = wrapper.find('[data-testid="my-establishments-button"]')
 
       expect(editProfileButton.exists()).toBe(true)
       expect(shareResumeButton.exists()).toBe(true)
@@ -88,7 +88,7 @@ BddTest().given('a student overview widget', () => {
       expect(updateProfileDrawer.exists()).toBe(true)
       expect(updateProfileDrawer.props('show')).toBe(false)
 
-      const editProfileButton = wrapper.findComponent('.av-rich-button--edit-profile')
+      const editProfileButton = wrapper.find('[data-testid="edit-profile-button"]')
       expect(editProfileButton.exists()).toBe(true)
       await editProfileButton.trigger('click')
 

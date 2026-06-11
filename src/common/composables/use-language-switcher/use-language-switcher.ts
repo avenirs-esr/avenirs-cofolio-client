@@ -4,7 +4,10 @@ import { getBrowserLocale } from '@/plugins/vue-i18n'
 import { useI18n } from 'vue-i18n'
 
 export function useLanguageSwitcher () {
-  const { locale } = useI18n()
+  const { t, locale } = useI18n()
+
+  const languageSelectorLabel = computed(() => t('global.header.languageSwitcher'))
+
   const languageSelector = ref({
     id: 'language-selector',
     languages: [
@@ -12,7 +15,12 @@ export function useLanguageSwitcher () {
       { label: 'English', codeIso: 'en' },
     ],
     currentLanguage: getBrowserLocale(),
+    title: languageSelectorLabel.value
   })
+
+  watch(languageSelectorLabel, (label) => {
+    languageSelector.value.title = label
+  }, { immediate: true })
 
   function selectLanguage (language: AvLanguageSelectorElement) {
     languageSelector.value.currentLanguage = language.codeIso as AvLocale

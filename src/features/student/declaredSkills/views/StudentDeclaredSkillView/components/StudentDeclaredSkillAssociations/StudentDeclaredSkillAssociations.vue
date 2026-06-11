@@ -65,8 +65,10 @@ function onAssociated () {
         :empty-state-message="t('student.declaredSkills.views.StudentDeclaredSkillView.empty.associations')"
         :is-empty="countAssociations === 0"
       >
-        <AssociatedTracesCard :associated-traces="associatedTraces" />
-        <AssociatedDeclaredActivitiesCard :associated-activities="associatedDeclaredActivities" />
+        <div class="av-col av-gap-md">
+          <AssociatedTracesCard :associated-traces="associatedTraces" />
+          <AssociatedDeclaredActivitiesCard :associated-activities="associatedDeclaredActivities" />
+        </div>
       </QuerySuspense>
     </div>
   </div>

@@ -1,10 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { Component } from 'vue'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import SelectedAssociateItemsContainer, {
   type SelectedAssociateItemsContainerProps
 } from '@/features/student/global/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.vue'
 import { DeleteOverlayStub } from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.stub'
-import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -14,7 +15,7 @@ BddTest().given('a selected associate items container', () => {
   let wrapper: VueWrapper
 
   const stubs = {
-    AvCard: AvCardStub,
+    Card: CardStub,
     DeleteOverlay: DeleteOverlayStub
   }
 
@@ -41,7 +42,7 @@ BddTest().given('a selected associate items container', () => {
     })
 
     BddTest().then('it should render the card container', () => {
-      const card = wrapper.findComponent(AvCardStub)
+      const card = wrapper.findComponent(CardStub)
       expect(card.exists()).toBe(true)
     })
 

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { DeclaredSkillProgressDetailsDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails } from '@/common/components'
+import Card from '@/common/components/cards/Card/Card.vue'
 import DeclaredSkillLevelBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillLevelBadge/DeclaredSkillLevelBadge.vue'
 import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.vue'
 import DeclaredSkillReflectionInput
   from '@/features/student/declaredSkills/components/interactions/inputs/DeclaredSkillReflectionInput/DeclaredSkillReflectionInput.vue'
-import { AvCard, AvInput, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { AvInput, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -44,7 +45,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
         :type="type"
         :path-segments="pathSegments"
       />
-      <AvCard
+      <Card
         class="level-card"
         border-color="transparent"
       >
@@ -55,7 +56,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
           <span class="b2-regular">{{ t('student.declaredSkills.views.StudentDeclaredSkillView.declaredSkillDetails.levelTitle') }}</span>
           <DeclaredSkillLevelBadge :level="level" />
         </div>
-      </AvCard>
+      </Card>
       <CreationUpdateDateDetails
         :created-at="createdAt"
         :created-at-prefix="createdAtPrefix"

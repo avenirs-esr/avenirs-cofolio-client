@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import Card from '@/common/components/cards/Card/Card.vue'
+import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface StudentTraceAssociationCardProps {
   title: string
@@ -12,7 +13,7 @@ const {
 </script>
 
 <template>
-  <AvCard border-color="var(--other-border-skill-card)">
+  <Card border-color="var(--other-border-skill-card)">
     <template #title>
       <div class="av-row av-align-center av-justify-between av-flex-fill">
         <AvIconText
@@ -30,5 +31,5 @@ const {
         <slot name="body" />
       </div>
     </template>
-  </AvCard>
+  </Card>
 </template>

@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { EActivityStatus, invalidateGetActivityPresentation, useUpdateReflection } from '@/api/avenir-esr'
+import Card from '@/common/components/cards/Card/Card.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { AUTO_SAVE_DEBOUNCE_DELAY, ICONS } from '@/common/constants'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { useToasterStore } from '@/store'
-import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useQueryClient } from '@tanstack/vue-query'
 import DOMPurify from 'dompurify'
 import { debounce } from 'lodash-es'
@@ -87,7 +88,7 @@ watch(content, () => {
 </script>
 
 <template>
-  <AvCard
+  <Card
     background-color="var(--card2)"
     title-background="var(--card2)"
     border-color="var(--other-border-skill-card)"
@@ -163,5 +164,5 @@ watch(content, () => {
         </div>
       </div>
     </div>
-  </AvCard>
+  </Card>
 </template>

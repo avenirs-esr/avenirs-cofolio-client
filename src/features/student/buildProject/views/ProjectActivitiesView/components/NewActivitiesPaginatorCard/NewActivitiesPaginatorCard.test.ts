@@ -1,9 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { latestActivitiesErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { ActivityCardStub } from '@/features/student/buildProject/components/cards/ActivityCard/ActivityCard.stub'
 import NewActivitiesPaginatorCard from '@/features/student/buildProject/views/ProjectActivitiesView/components/NewActivitiesPaginatorCard/NewActivitiesPaginatorCard.vue'
-import { AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -18,7 +19,7 @@ BddTest().given('a new activities paginator card', () => {
   let wrapper: VueWrapper<InstanceType<typeof NewActivitiesPaginatorCard>>
 
   const stubs = {
-    AvCard: AvCardStub,
+    Card: CardStub,
     AvIconText: AvIconTextStub,
     AvPagination: AvPaginationStub,
     ActivityCard: ActivityCardStub,
@@ -37,8 +38,8 @@ BddTest().given('a new activities paginator card', () => {
       })
     })
 
-    BddTest().then('it should render an AvCard component', () => {
-      expect(wrapper.findComponent(AvCardStub).exists()).toBe(true)
+    BddTest().then('it should render an Card component', () => {
+      expect(wrapper.findComponent(CardStub).exists()).toBe(true)
     })
 
     BddTest().then('it should render the title', () => {

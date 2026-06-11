@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
-import { AvCard } from '@avenirs-esr/avenirs-dsav'
+import Card from '@/common/components/cards/Card/Card.vue'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -30,7 +30,7 @@ const fullName = computed(() => `${capitalize(firstName)} ${capitalize(lastName)
 </script>
 
 <template>
-  <AvCard
+  <Card
     background-color="var(--other-background-base)"
     title-background="var(--other-background-base)"
     data-testid="profile-card"
@@ -73,7 +73,7 @@ const fullName = computed(() => `${capitalize(firstName)} ${capitalize(lastName)
     >
       <slot />
     </template>
-  </AvCard>
+  </Card>
 </template>
 
 <style lang="scss" scoped>

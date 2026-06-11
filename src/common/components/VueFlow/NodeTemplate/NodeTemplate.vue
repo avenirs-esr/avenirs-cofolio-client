@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import type { NodeProps } from '@vue-flow/core'
-import type { AvCardProps } from 'node_modules/@avenirs-esr/avenirs-dsav/dist/components/cards/AvCard/AvCard.vue'
+import Card, { type CardProps } from '@/common/components/cards/Card/Card.vue'
 import Handles from '@/common/components/VueFlow/Handles/Handles.vue'
 import NodeDropdown from '@/common/components/VueFlow/NodeDropdown/NodeDropdown.vue'
 import UpdateHandlesModal from '@/common/components/VueFlow/UpdateHandlesModal/UpdateHandlesModal.vue'
 import { useModal } from '@/common/composables'
 import { useNodes } from '@/common/composables/VueFlow/use-nodes/use-nodes'
-import { AvCard } from '@avenirs-esr/avenirs-dsav'
 import { type Slot, useAttrs } from 'vue'
 
 /**
  * Props for the NodeTemplate component.
  */
-export interface NodeTemplateProps extends NodeProps, AvCardProps {
+export interface NodeTemplateProps extends NodeProps, CardProps {
   /**
    * The ID of the flow the node belongs to.
    */
@@ -85,7 +84,7 @@ defineSlots<{
 
 const attrs = useAttrs()
 
-const avCardProps = computed<AvCardProps>(() => ({
+const avCardProps = computed<CardProps>(() => ({
   backgroundColor,
   borderColor,
   titleBackground,
@@ -116,7 +115,7 @@ function removeNodeHandler (nodeId: string) {
     v-bind="nodeProps"
     class="node-container"
   >
-    <AvCard
+    <Card
       :class="{ 'av-card--title-only': titleOnly }"
       v-bind="avCardProps"
     >
@@ -127,7 +126,7 @@ function removeNodeHandler (nodeId: string) {
       </template>
 
       <slot v-if="!titleOnly" />
-    </AvCard>
+    </Card>
 
     <Handles :data="data" />
 

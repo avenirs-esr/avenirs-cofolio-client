@@ -1,7 +1,8 @@
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
-import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { type DOMWrapper, mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -9,7 +10,7 @@ BddTest().given('a profile card', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProfileCard>>
 
   const stubs = {
-    AvCard: AvCardStub
+    Card: CardStub
   }
 
   const props = {
@@ -82,19 +83,19 @@ BddTest().given('a profile card', () => {
       })
     })
 
-    BddTest().and('the AvCard component is configured', () => {
-      let avCard: VueWrapper<InstanceType<typeof AvCardStub>>
+    BddTest().and('the Card component is configured', () => {
+      let card: VueWrapper<InstanceType<typeof CardStub>>
 
       beforeEach(() => {
-        avCard = wrapper.findComponent({ name: 'AvCard' }) as VueWrapper<InstanceType<typeof AvCardStub>>
+        card = wrapper.findComponent(CardStub)
       })
 
       BddTest().then('it should have correct background color', () => {
-        expect(avCard.props('backgroundColor')).toBe('var(--other-background-base)')
+        expect(card.props('backgroundColor')).toBe('var(--other-background-base)')
       })
 
       BddTest().then('it should have correct title background', () => {
-        expect(avCard.props('titleBackground')).toBe('var(--other-background-base)')
+        expect(card.props('titleBackground')).toBe('var(--other-background-base)')
       })
     })
   })
@@ -128,8 +129,8 @@ BddTest().given('a profile card', () => {
     })
 
     BddTest().then('it should not render slot section', () => {
-      const avCard = wrapper.findComponent({ name: 'AvCard' }) as VueWrapper<InstanceType<typeof AvCardStub>>
-      const defaultSlot = avCard.vm.$slots.default
+      const card = wrapper.findComponent(CardStub)
+      const defaultSlot = card.vm.$slots.default
       expect(defaultSlot).toBeUndefined()
     })
   })

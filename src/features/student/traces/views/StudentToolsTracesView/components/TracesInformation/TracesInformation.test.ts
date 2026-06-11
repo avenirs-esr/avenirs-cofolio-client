@@ -1,5 +1,6 @@
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import TracesInformation from '@/features/student/traces/views/StudentToolsTracesView/components/TracesInformation/TracesInformation.vue'
-import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -7,7 +8,7 @@ BddTest().given('a traces information component', () => {
   let wrapper: VueWrapper<InstanceType<typeof TracesInformation>>
 
   const stubs = {
-    AvCard: AvCardStub
+    Card: CardStub
   }
 
   beforeEach(() => {
@@ -20,8 +21,8 @@ BddTest().given('a traces information component', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render an AvCard', () => {
-      const card = wrapper.findComponent({ name: 'AvCard' })
+    BddTest().then('it should render a Card', () => {
+      const card = wrapper.findComponent(CardStub)
       expect(card.exists()).toBe(true)
     })
 

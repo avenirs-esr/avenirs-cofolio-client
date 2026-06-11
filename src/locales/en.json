@@ -100,6 +100,7 @@
       "reset": "Reset",
       "restore": "Restore",
       "save": "Save",
+      "search": "Search",
       "share": "Share",
       "undo": "Undo",
       "update": "Update"
@@ -260,6 +261,7 @@
       }
     },
     "header": {
+      "languageSwitcher": "Change language",
       "switchUniverse": {
         "label": "Switch universe",
         "student": "Student",

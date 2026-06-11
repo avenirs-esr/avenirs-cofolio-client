@@ -2,9 +2,10 @@
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 import ActivityStatusBadge from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
+import Card from '@/common/components/cards/Card/Card.vue'
 import { useDateUtils } from '@/common/composables'
 import { ICONS, ROUTES } from '@/common/constants'
-import { AvCard, AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ActivityCardProps {
@@ -32,7 +33,7 @@ const to = computed(() => ({
     :title="activity.title"
     class="av-max-lines b1-regular av-text-text1"
   >
-    <AvCard
+    <Card
       background-color="var(--card)"
       title-background="var(--card)"
       class="activity-card"
@@ -84,7 +85,7 @@ const to = computed(() => ({
           typography-class="b2-regular"
         />
       </div>
-    </AvCard>
+    </Card>
   </RouterLink>
 </template>
 

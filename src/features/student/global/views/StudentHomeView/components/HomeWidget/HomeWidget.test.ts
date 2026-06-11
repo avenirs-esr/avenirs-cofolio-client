@@ -1,6 +1,7 @@
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import HomeWidget, { type HomeWidgetProps } from '@/features/student/global/views/StudentHomeView/components/HomeWidget/HomeWidget.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvButtonStub, AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -14,7 +15,7 @@ BddTest().given('a home widget', () => {
   let wrapper: VueWrapper<InstanceType<typeof HomeWidget>>
 
   const stubs = {
-    AvCard: AvCardStub,
+    Card: CardStub,
     AvIconText: AvIconTextStub,
     AvButton: AvButtonStub
   }
@@ -33,7 +34,7 @@ BddTest().given('a home widget', () => {
     })
 
     BddTest().then('it should render the component', () => {
-      expect(wrapper.findComponent(AvCardStub).exists()).toBe(true)
+      expect(wrapper.findComponent(CardStub).exists()).toBe(true)
       expect(wrapper.findComponent(AvIconTextStub).props('icon')).toBe(MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE)
       expect(wrapper.findComponent(AvIconTextStub).props('text')).toBe('Test Widget')
       expect(wrapper.findComponent(AvButtonStub).props('label')).toBe('See All')
@@ -64,7 +65,7 @@ BddTest().given('a home widget', () => {
     })
 
     BddTest().then('it should not render the component', () => {
-      expect(wrapper.findComponent(AvCardStub).exists()).toBe(false)
+      expect(wrapper.findComponent(CardStub).exists()).toBe(false)
     })
   })
 

@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import Card from '@/common/components/cards/Card/Card.vue'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import UpdateHandleSelector from '@/common/components/VueFlow/UpdateHandleSelector/UpdateHandleSelector.vue'
-import { AvCard, AvIcon, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { AvIcon, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { type NodeProps, Position, useVueFlow } from '@vue-flow/core'
 import { useI18n } from 'vue-i18n'
 
@@ -86,7 +87,7 @@ const handleIcons = [
             />
           </div>
 
-          <AvCard>
+          <Card>
             <template #title>
               <span class="b2-bold">{{ t('global.vueFlow.UpdateHandlesModal.preview') }}</span>
             </template>
@@ -94,7 +95,7 @@ const handleIcons = [
               class="demo-card-content"
               :class="{ 'demo-card-content--mobile': isMobile }"
             />
-          </AvCard>
+          </Card>
         </div>
 
         <UpdateHandleSelector
