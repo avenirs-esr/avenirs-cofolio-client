@@ -1,0 +1,304 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - link [ref=e12] [cursor=pointer]:
+          - /url: /cofolio/student
+          - img [ref=e13]
+        - button "Changer d'univers" [ref=e15] [cursor=pointer]:
+          - generic [ref=e18]: Changer d'univers
+      - generic [ref=e19]:
+        - generic [ref=e20]:
+          - list [ref=e22]:
+            - listitem [ref=e23]:
+              - button "Messagerie" [ref=e26] [cursor=pointer]:
+                - generic [ref=e29]: Messagerie
+            - listitem [ref=e30]:
+              - button "Notifications" [ref=e33] [cursor=pointer]:
+                - generic [ref=e36]: Notifications
+            - listitem [ref=e37]:
+              - button "J. Moulin" [ref=e40] [cursor=pointer]:
+                - generic [ref=e43]: J. Moulin
+          - navigation [ref=e46]:
+            - button "FR" [ref=e49] [cursor=pointer]:
+              - generic [ref=e52]: FR
+        - search [ref=e54]:
+          - generic [ref=e58]:
+            - generic [ref=e60]: Rechercher
+            - searchbox "Rechercher" [ref=e61]
+          - button "Rechercher" [ref=e64] [cursor=pointer]
+    - navigation "Menu principal" [ref=e70]:
+      - list [ref=e71]:
+        - listitem [ref=e72]:
+          - link "ACCUEIL" [ref=e73] [cursor=pointer]:
+            - /url: /cofolio/student
+            - generic [ref=e76]: ACCUEIL
+        - listitem [ref=e77]:
+          - button "RÉUSSIR MA FORMATION" [ref=e78] [cursor=pointer]:
+            - generic [ref=e79]: RÉUSSIR MA FORMATION
+        - listitem [ref=e80]:
+          - button "CONSTRUIRE MON PROJET DE VIE" [ref=e81] [cursor=pointer]:
+            - generic [ref=e82]: CONSTRUIRE MON PROJET DE VIE
+        - listitem [ref=e83]:
+          - button "MES OUTILS" [ref=e84] [cursor=pointer]:
+            - generic [ref=e85]: MES OUTILS
+  - main [ref=e86]:
+    - generic [ref=e87]:
+      - heading "Accueil Cofolio Étudiant" [level=1] [ref=e88]
+      - generic [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e92]:
+            - generic [ref=e94]:
+              - img "Bannière du profil" [ref=e95]
+              - img "Photo de profil" [ref=e97]
+            - generic [ref=e98]:
+              - generic [ref=e100]:
+                - generic [ref=e101]: Jeanne Moulin
+                - generic [ref=e102]: Je suis étudiante en chimie et écologie. Passionnée par l'innovation durable, je souhaite utiliser la science pour protéger l'environnement et bâtir un avenir plus respectueux de la planète.
+              - list [ref=e105]:
+                - listitem [ref=e106]:
+                  - button "Modifier mon profil" [ref=e107] [cursor=pointer]:
+                    - generic [ref=e110]: Modifier mon profil
+                - listitem [ref=e113]:
+                  - button "Partager mon CV" [ref=e114] [cursor=pointer]:
+                    - generic [ref=e117]: Partager mon CV
+                - listitem [ref=e120]:
+                  - button "Partager mon Cofolio" [ref=e121] [cursor=pointer]:
+                    - generic [ref=e124]: Partager mon Cofolio
+                - listitem [ref=e127]:
+                  - button "Mon/Mes établissement(s)" [ref=e128] [cursor=pointer]:
+                    - generic [ref=e131]: Mon/Mes établissement(s)
+          - generic [ref=e134]:
+            - generic [ref=e142]: Mes 3 prochains événements
+            - generic [ref=e143]:
+              - list [ref=e145]:
+                - listitem [ref=e146]:
+                  - button "(Placeholder) Forum de l'écologie et la chimie" [ref=e147] [cursor=pointer]:
+                    - generic [ref=e150]:
+                      - generic [ref=e151]:
+                        - generic [ref=e152]: "19"
+                        - generic [ref=e153]: MAI
+                      - generic [ref=e154]:
+                        - generic [ref=e155]: (Placeholder) Forum de l'écologie et la chimie
+                        - generic [ref=e156]: 08:00 - 18:00 • Paris
+                - listitem [ref=e159]:
+                  - button "(Placeholder) Super forum de la mécanique quantique" [ref=e160] [cursor=pointer]:
+                    - generic [ref=e163]:
+                      - generic [ref=e164]:
+                        - generic [ref=e165]: "25"
+                        - generic [ref=e166]: JUIN
+                      - generic [ref=e167]:
+                        - generic [ref=e168]: (Placeholder) Super forum de la mécanique quantique
+                        - generic [ref=e169]: 08:30 - 17:30 • Toulouse
+                - listitem [ref=e172]:
+                  - button "(Placeholder) Le café des associations" [ref=e173] [cursor=pointer]:
+                    - generic [ref=e176]:
+                      - generic [ref=e177]:
+                        - generic [ref=e178]: "3"
+                        - generic [ref=e179]: JUIL.
+                      - generic [ref=e180]:
+                        - generic [ref=e181]: (Placeholder) Le café des associations
+                        - generic [ref=e182]: 09:00 - 17:00 • Bordeaux
+              - button "Voir tous mes événements" [ref=e187] [cursor=pointer]:
+                - generic [ref=e190]: Voir tous mes événements
+          - generic [ref=e191]:
+            - generic [ref=e199]: Mes CV
+            - generic [ref=e200]:
+              - list [ref=e203]:
+                - listitem [ref=e204]:
+                  - button "placeholder-cv-version1-05-2024" [ref=e205] [cursor=pointer]:
+                    - generic [ref=e212]:
+                      - generic [ref=e213]: placeholder-cv-version1-05-2024
+                      - generic [ref=e214]: dernière modification le 19 mai 2025
+                - listitem [ref=e217]:
+                  - button "placeholder-cv-version1-04-2024" [ref=e218] [cursor=pointer]:
+                    - generic [ref=e225]:
+                      - generic [ref=e226]: placeholder-cv-version1-04-2024
+                      - generic [ref=e227]: dernière modification le 25 avril 2025
+                - listitem [ref=e230]:
+                  - button "placeholder-cv-version1-03-2024-with-a-very-long-name" [ref=e231] [cursor=pointer]:
+                    - generic [ref=e238]:
+                      - generic [ref=e239]: placeholder-cv-version1-03-2024-with-a-very-long-name
+                      - generic [ref=e240]: dernière modification le 3 mars 2025
+              - button "Voir tous mes cv" [ref=e245] [cursor=pointer]:
+                - generic [ref=e248]: Voir tous mes cv
+          - generic [ref=e249]:
+            - generic [ref=e257]: Mes pages libres
+            - generic [ref=e258]:
+              - list [ref=e260]:
+                - listitem [ref=e261]:
+                  - button "placeholder-analyse-ams-13-02-2024" [ref=e262] [cursor=pointer]:
+                    - generic [ref=e269]:
+                      - generic [ref=e270]: placeholder-analyse-ams-13-02-2024
+                      - generic [ref=e271]: dernière modification le 22 février 2025
+                - listitem [ref=e274]:
+                  - button "placeholder-projetdevie-trajectoires" [ref=e275] [cursor=pointer]:
+                    - generic [ref=e282]:
+                      - generic [ref=e283]: placeholder-projetdevie-trajectoires
+                      - generic [ref=e284]: dernière modification le 20 décembre 2024
+                - listitem [ref=e287]:
+                  - button "placeholder-Recherche-stage-SAP-3-avril202" [ref=e288] [cursor=pointer]:
+                    - generic [ref=e295]:
+                      - generic [ref=e296]: placeholder-Recherche-stage-SAP-3-avril202
+                      - generic [ref=e297]: dernière modification le 4 octobre 2024
+              - button "Voir toutes mes pages" [ref=e302] [cursor=pointer]:
+                - generic [ref=e305]: Voir toutes mes pages
+        - generic [ref=e306]:
+          - generic [ref=e307]:
+            - generic [ref=e315]: Mes compétences visées par ma formation
+            - generic [ref=e316]:
+              - generic [ref=e318]:
+                - generic [ref=e319]:
+                  - generic "Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel" [ref=e321]
+                  - generic [ref=e322]:
+                    - link "Comprendre les risques électriques liés au travail en hauteur, en milieu humide, en point chaud et appréhender la consignation" [ref=e323] [cursor=pointer]:
+                      - /url: /cofolio/student/skill/skill-2-2
+                      - generic [ref=e325]:
+                        - generic "Comprendre les risques électriques liés au travail en hauteur, en milieu humide, en point chaud et appréhender la consignation" [ref=e328]
+                        - status [ref=e338]:
+                          - generic [ref=e339]: Niveau 3 à évaluer
+                    - link "Réaliser un cahier des charges fonctionnels" [ref=e340] [cursor=pointer]:
+                      - /url: /cofolio/student/skill/skill-2-4
+                      - generic [ref=e342]:
+                        - generic "Réaliser un cahier des charges fonctionnels" [ref=e345]
+                        - status [ref=e355]:
+                          - generic [ref=e356]: Niveau 3 à évaluer
+                    - link "Réaliser un circuit électrique" [ref=e357] [cursor=pointer]:
+                      - /url: /cofolio/student/skill/skill-2-1
+                      - generic [ref=e359]:
+                        - generic "Réaliser un circuit électrique" [ref=e362]
+                        - status [ref=e372]:
+                          - generic [ref=e373]: Niveau 4 en cours d'évaluation
+                - generic [ref=e374]:
+                  - generic "Master Chimie Verte et Éco-innovations" [ref=e376]
+                  - generic [ref=e377]:
+                    - link "Concevoir des synthèses chimiques durables" [ref=e378] [cursor=pointer]:
+                      - /url: /cofolio/student/skill/skill-1-4
+                      - generic [ref=e380]:
+                        - generic "Concevoir des synthèses chimiques durables" [ref=e383]
+                        - status [ref=e393]:
+                          - generic [ref=e394]: Niveau 3 à évaluer
+                    - link "Évaluer l'impact environnemental et économique" [ref=e395] [cursor=pointer]:
+                      - /url: /cofolio/student/skill/skill-1-3
+                      - generic [ref=e397]:
+                        - generic "Évaluer l'impact environnemental et économique" [ref=e400]
+                        - status [ref=e410]:
+                          - generic [ref=e411]: Niveau 2 en cours d'évaluation
+                    - link "Mettre en place des filières d'économies circulaires" [ref=e412] [cursor=pointer]:
+                      - /url: /cofolio/student/skill/skill-1-2
+                      - generic [ref=e414]:
+                        - generic "Mettre en place des filières d'économies circulaires" [ref=e417]
+                        - status [ref=e427]:
+                          - generic [ref=e428]: Niveau 1 à évaluer
+              - button "Voir toutes mes compétences" [ref=e431] [cursor=pointer]:
+                - generic [ref=e434]: Voir toutes mes compétences
+          - generic [ref=e435]:
+            - generic [ref=e443]: Mes prochains rendus
+            - generic [ref=e444]:
+              - list [ref=e446]:
+                - listitem [ref=e447]:
+                  - button "deliverable1" [ref=e448] [cursor=pointer]:
+                    - generic [ref=e451]:
+                      - generic [ref=e452]:
+                        - generic [ref=e453]: "13"
+                        - generic [ref=e454]: JUIN
+                      - generic [ref=e456]: Compétence (Placeholder) Prévenir la pollution à la source
+                - listitem [ref=e459]:
+                  - button "deliverable2" [ref=e460] [cursor=pointer]:
+                    - generic [ref=e463]:
+                      - generic [ref=e464]:
+                        - generic [ref=e465]: "29"
+                        - generic [ref=e466]: JUIL.
+                      - generic [ref=e468]: Compétence (Placeholder) Mettre en place des filières d'économies circulaires
+                - listitem [ref=e471]:
+                  - button "deliverable3" [ref=e472] [cursor=pointer]:
+                    - generic [ref=e475]:
+                      - generic [ref=e476]:
+                        - generic [ref=e477]: "7"
+                        - generic [ref=e478]: AOÛT
+                      - generic [ref=e480]: Compétence (Placeholder) Évaluer l'impact environnemental et économique
+              - button "Voir tous mes rendus" [ref=e485] [cursor=pointer]:
+                - generic [ref=e488]: Voir tous mes rendus
+          - generic [ref=e489]:
+            - generic [ref=e497]: Mes dernières traces
+            - generic [ref=e498]:
+              - generic [ref=e500]:
+                - link "Prévenir la pollution à la source Master Chimie Verte et Éco-innovations Individuel" [ref=e501] [cursor=pointer]:
+                  - /url: /cofolio/student/trace/trace1
+                  - generic [ref=e503]:
+                    - generic "Prévenir la pollution à la source" [ref=e506]
+                    - generic [ref=e513]:
+                      - generic [ref=e520]: Master Chimie Verte et Éco-innovations
+                      - paragraph [ref=e522]:
+                        - generic [ref=e523]: Individuel
+                - link "Mettre en place des filières d'économies circulaires Master Chimie Verte et Éco-innovations Collectif" [ref=e524] [cursor=pointer]:
+                  - /url: /cofolio/student/trace/trace2
+                  - generic [ref=e526]:
+                    - generic "Mettre en place des filières d'économies circulaires" [ref=e529]
+                    - generic [ref=e536]:
+                      - generic [ref=e543]: Master Chimie Verte et Éco-innovations
+                      - paragraph [ref=e545]:
+                        - generic [ref=e546]: Collectif
+                - link "Évaluer l'impact environnemental et économique Master Chimie Verte et Éco-innovations Individuel" [ref=e547] [cursor=pointer]:
+                  - /url: /cofolio/student/trace/trace3
+                  - generic [ref=e549]:
+                    - generic "Évaluer l'impact environnemental et économique" [ref=e552]
+                    - generic [ref=e559]:
+                      - generic [ref=e566]: Master Chimie Verte et Éco-innovations
+                      - paragraph [ref=e568]:
+                        - generic [ref=e569]: Individuel
+              - button "Voir toutes mes traces" [ref=e572] [cursor=pointer]:
+                - generic [ref=e575]: Voir toutes mes traces
+  - contentinfo [ref=e576]:
+    - generic [ref=e578]:
+      - generic [ref=e579]:
+        - link "Logo ANR" [ref=e580] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e581]
+        - link "Logo France 2030" [ref=e582] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e583]
+      - generic [ref=e584]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e585]:
+      - generic [ref=e586]:
+        - img "Logo Cofolio" [ref=e587]
+        - generic [ref=e598]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e599]:
+        - generic [ref=e600]:
+          - generic [ref=e601]: Informations légales
+          - list [ref=e602]:
+            - listitem [ref=e603]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e604] [cursor=pointer]':
+                - /url: /cofolio/student/accessibility
+            - listitem [ref=e605]:
+              - link "Mentions légales" [ref=e606] [cursor=pointer]:
+                - /url: /cofolio/student/legal
+            - listitem [ref=e607]:
+              - link "Données personnelles" [ref=e608] [cursor=pointer]:
+                - /url: /cofolio/student/personal-data
+            - listitem [ref=e609]:
+              - link "Gestion des cookies" [ref=e610] [cursor=pointer]:
+                - /url: /cofolio/student/cookies
+        - generic [ref=e611]:
+          - generic [ref=e612]: Autres sites
+          - list [ref=e613]:
+            - listitem [ref=e614]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e615] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e616]:
+          - generic [ref=e617]: Partenaires
+          - generic [ref=e618]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e619] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e620]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e621] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e623]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e627] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
