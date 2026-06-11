@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
-import { AvCard, AvIcon } from '@avenirs-esr/avenirs-dsav'
+import Card from '@/common/components/cards/Card/Card.vue'
+import { AvIcon } from '@avenirs-esr/avenirs-dsav'
 
 export interface IconOptions {
   name: string
@@ -55,7 +56,7 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
 
 <template>
   <div class="floating-icon-card av-row">
-    <AvCard
+    <Card
       :border-color="borderColor"
       :title-background="color"
       :title-height="titleHeight"
@@ -95,7 +96,7 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
           <slot name="footer" />
         </div>
       </template>
-    </AvCard>
+    </Card>
   </div>
 </template>
 

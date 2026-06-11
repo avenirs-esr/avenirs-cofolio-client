@@ -46,7 +46,10 @@ export abstract class BasePage {
 
   @Then('the URL contains {string}')
   async verifyUrlContains (url: string) {
-    expect(this.page.url()).toContain(url)
+    await expect.poll(
+      () => this.page.url(),
+      { timeout: 5000 }
+    ).toContain(url)
   }
 
   @Then('the page title is {string}')

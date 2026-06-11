@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
 import { type TraceOverviewDTO, useUnassociateTraces } from '@/api/avenir-esr'
+import Card from '@/common/components/cards/Card/Card.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import TracesSelector from '@/features/student/traces/components/interactions/pickers/TracesSelector/TracesSelector.vue'
 import { useToasterStore } from '@/store'
-import { AvButton, AvCard, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface UpdateDeclaredSkillAssociationsProps {
@@ -65,7 +66,7 @@ async function handleRemoveAssociations () {
       <span class="b2-regular av-text-text2">
         {{ t('student.global.myAssociatedTracesWithCount', { count: traceAssociations.length }) }}</span>
     </div>
-    <AvCard
+    <Card
       class="demo-display-none av-col"
       data-testid="update-declared-skill-associations__container"
     >
@@ -92,7 +93,7 @@ async function handleRemoveAssociations () {
             v-model="selectedTraceIds"
             :traces="traceAssociations"
           />
-          <AvCard
+          <Card
             border-color="var(--surface-background)"
             class="update-declared-skill-associations__add-card av-row av-justify-center av-align-center av-my-md"
           >
@@ -104,10 +105,10 @@ async function handleRemoveAssociations () {
                 data-testid="add-trace-button"
               />
             </template>
-          </AvCard>
+          </Card>
         </div>
       </template>
-    </AvCard>
+    </Card>
   </div>
 </template>
 

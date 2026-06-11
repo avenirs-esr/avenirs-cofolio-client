@@ -1,4 +1,5 @@
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import UpdateDeclaredSkillAssociations
   from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillAssociations/UpdateDeclaredSkillAssociations.vue'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -12,15 +13,9 @@ const TracesSelectorStub = {
   template: '<div class="traces-selector-stub" />'
 }
 
-const AvCardStub = {
-  name: 'AvCard',
-  props: ['borderColor'],
-  template: '<div class="av-card-stub"><slot name="body" /></div>'
-}
-
 const stubs = {
   TracesSelector: TracesSelectorStub,
-  AvCard: AvCardStub,
+  Card: CardStub,
   AvButton: AvButtonStub
 }
 

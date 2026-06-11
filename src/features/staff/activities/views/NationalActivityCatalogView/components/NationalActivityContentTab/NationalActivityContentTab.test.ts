@@ -3,10 +3,11 @@ import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fi
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { ActivityDescriptionContentStub } from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.stub'
 import { ActivityExecutionPeriodListStub } from '@/common/activities/components/ActivityExecutionPeriodList/ActivityExecutionPeriodList.stub'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { ICONS } from '@/common/constants'
 import NationalActivityContentTab from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.vue'
 import { NationalActivitySettingDetailsStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySettingDetails/NationalActivitySettingDetails.stub'
-import { AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -15,7 +16,7 @@ BddTest().given('a national activity content tab', () => {
 
   const stubs = {
     AvIconText: AvIconTextStub,
-    AvCard: AvCardStub,
+    Card: CardStub,
     ActivityThematicBadge: ActivityThematicBadgeStub,
     ActivityDescriptionContent: ActivityDescriptionContentStub,
     ActivityExecutionPeriodList: ActivityExecutionPeriodListStub,

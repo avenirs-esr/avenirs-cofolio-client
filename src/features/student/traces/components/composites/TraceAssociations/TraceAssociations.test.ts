@@ -7,8 +7,8 @@ import {
 import { type DeclaredActivityAssociationDTO, EActivityThematic, EDeclaredActivityStatus, type TraceAssociationsDTO } from '@/api/avenir-esr'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { AssociatedDeclaredActivitiesCard } from '@/features/student/buildProject'
+import { AssociatedDeclaredActivitiesCardStub } from '@/features/student/buildProject/components/cards/AssociatedDeclaredActivitiesCard/AssociatedDeclaredActivitiesCard.stub'
 import { AssociatedDeclaredSkillsCardStub } from '@/features/student/declaredSkills/components/cards/AssociatedDeclaredSkillsCard/AssociatedDeclaredSkillsCard.stub'
-import { AssociatedActivityCardStub } from '@/features/student/global/components/cards/AssociatedActivityCard/AssociatedActivityCard.stub'
 import TraceAssociations
   from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import { DeleteTraceAssociatedElementsDropdownStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/DeleteTraceAssociatedElementsDropdown/DeleteTraceAssociatedElementsDropdown.stub'
@@ -25,6 +25,7 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 const stubs = {
+  AssociatedDeclaredActivitiesCard: AssociatedDeclaredActivitiesCardStub,
   DeleteTraceAssociatedElementsDropdown: DeleteTraceAssociatedElementsDropdownStub,
   TraceAssociateElementsDropdown: TraceAssociateElementsDropdownStub,
   DeleteTraceAssociatedSkillsModal: DeleteTraceAssociatedSkillsModalStub,
@@ -33,7 +34,6 @@ const stubs = {
   AssociateDeclaredExperiencesToTracesModal: AssociateDeclaredExperiencesToTracesModalStub,
   AssociateActivitiesToTracesModal: AssociateActivitiesToTracesModalStub,
   AssociatedDeclaredSkillsCard: AssociatedDeclaredSkillsCardStub,
-  AssociatedActivityCard: AssociatedActivityCardStub,
   QuerySuspense: QuerySuspenseStub,
 }
 
@@ -60,7 +60,7 @@ BddTest().given('a student trace associations component', () => {
     })
 
     BddTest().then('it should render no associated activity cards', () => {
-      const declaredActivityCards = wrapper.findAllComponents(AssociatedActivityCardStub)
+      const declaredActivityCards = wrapper.findAll('[data-testid="associated-declared-activity"]')
       expect(declaredActivityCards).toHaveLength(0)
     })
 
@@ -343,18 +343,13 @@ BddTest().given('a student trace associations component', () => {
     })
 
     BddTest().then('it should render 3 declared activity association cards', () => {
-      const declaredActivityCards = wrapper.findAllComponents(AssociatedActivityCardStub)
+      const declaredActivityCards = wrapper.findAll('[data-testid="associated-declared-activity"]')
       expect(declaredActivityCards).toHaveLength(3)
     })
 
     BddTest().then('it should render only the declared activity associations container', () => {
       const activityContainer = wrapper.findComponent(AssociatedDeclaredActivitiesCard)
       expect(activityContainer.exists()).toBe(true)
-    })
-
-    BddTest().then('it should pass correct props to declared activity card', () => {
-      const declaredActivityCards = wrapper.findAllComponents(AssociatedActivityCardStub)
-      expect(declaredActivityCards[0].props('declaredActivity')).toEqual(declaredActivityAssociations[0].declaredActivity)
     })
 
     BddTest().then('it should render the delete trace associated elements dropdown with correct disabled state', () => {

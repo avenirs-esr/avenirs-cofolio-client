@@ -1,12 +1,13 @@
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import AllActivitiesHeaderCard from '@/features/student/buildProject/views/ProjectActivitiesView/components/AllActivitiesHeaderCard/AllActivitiesHeaderCard.vue'
-import { AvButtonStub, AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an all activities header card', () => {
   let wrapper: VueWrapper<InstanceType<typeof AllActivitiesHeaderCard>>
 
-  const stubs = { AvCard: AvCardStub, AvButton: AvButtonStub }
+  const stubs = { Card: CardStub, AvButton: AvButtonStub }
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {

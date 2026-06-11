@@ -1,7 +1,8 @@
 <script lang="ts" setup generic="U extends IdTitle = IdTitle">
 import type { IdTitle } from '@/types'
+import type { AvButtonProps } from '@avenirs-esr/avenirs-dsav'
+import Card from '@/common/components/cards/Card/Card.vue'
 import DeleteOverlay from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.vue'
-import { type AvButtonProps, AvCard } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface SelectedAssociateItemsContainerProps<U extends IdTitle = IdTitle> {
@@ -30,7 +31,7 @@ const { t } = useI18n()
       }}
     </span>
 
-    <AvCard
+    <Card
       class="av-flex-fill"
       title-background="var(--card2)"
       background-color="var(--surface-background)"
@@ -50,7 +51,7 @@ const { t } = useI18n()
           />
         </DeleteOverlay>
       </div>
-    </AvCard>
+    </Card>
   </div>
 </template>
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AvButton, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import Card from '@/common/components/cards/Card/Card.vue'
+import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface HomeWidgetProps {
   title: string
@@ -17,7 +18,7 @@ defineEmits<{
 </script>
 
 <template>
-  <AvCard
+  <Card
     v-if="displayWidget"
     :class="`home-${type}-widget`"
     background-color="var(--other-background-base)"
@@ -31,7 +32,6 @@ defineEmits<{
         <AvIconText
           :icon="titleIcon"
           :text="title"
-          :title="title"
           icon-color="var(--icon)"
           :text-color="type === 'main' ? 'var(--title)' : 'var(--text1)'"
           :typography-class="type === 'main' ? 'n5' : 's1-bold'"
@@ -53,5 +53,5 @@ defineEmits<{
         />
       </div>
     </template>
-  </AvCard>
+  </Card>
 </template>

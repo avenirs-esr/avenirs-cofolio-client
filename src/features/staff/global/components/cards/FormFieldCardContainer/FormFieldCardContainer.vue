@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
-import { AvCard, type AvCardProps, AvIconText } from '@avenirs-esr/avenirs-dsav'
+import Card, { type CardProps } from '@/common/components/cards/Card/Card.vue'
+import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 
-export interface FormFieldCardContainerProps extends Pick<AvCardProps, 'collapsible' | 'collapsed' | 'titleOnly'> {
+export interface FormFieldCardContainerProps extends Pick<CardProps, 'collapsible' | 'collapsed' | 'titleOnly'> {
   title: string
   titleIcon: string
   backgroundColor?: 'var(--card2)' | 'var(--other-background-base)'
@@ -22,7 +23,7 @@ defineSlots<{
 </script>
 
 <template>
-  <AvCard
+  <Card
     :background-color="backgroundColor"
     :title-background="backgroundColor"
     border-color="var(--light-background-neutral)"
@@ -46,5 +47,5 @@ defineSlots<{
     </template>
 
     <slot />
-  </AvCard>
+  </Card>
 </template>

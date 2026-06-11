@@ -1,22 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 
-const AvCardStub = {
-  name: 'AvCard',
-  template: `
-    <div class="av-card">
-      <div class="av-card__title"><slot name="title" /></div>
-      <div class="av-card__body"><slot name="body" /></div>
-      <div class="av-card__footer"><slot name="footer" /></div>
-    </div>
-  `,
-  props: ['borderColor', 'titleBackground', 'titleHeight']
-}
-
 const stubs = {
-  AvCard: AvCardStub,
+  Card: CardStub,
   AvIcon: AvIconStub
 }
 
@@ -68,8 +57,8 @@ BddTest().given('a floating icon card', () => {
       expect(iconContainer.attributes('style')).toContain('background: var(--light-foreground-primary1)')
     })
 
-    BddTest().then('it should pass default props to AvCard', () => {
-      const card = wrapper.findComponent(AvCardStub)
+    BddTest().then('it should pass default props to Card', () => {
+      const card = wrapper.findComponent(CardStub)
       expect(card.props('borderColor')).toBe('var(--other-border-skill-card)')
       expect(card.props('titleBackground')).toBe('var(--light-foreground-primary1)')
       expect(card.props('titleHeight')).toBe('6.5625rem')
@@ -98,8 +87,8 @@ BddTest().given('a floating icon card', () => {
       expect(iconContainer.attributes('style')).toContain('background: var(--custom-color)')
     })
 
-    BddTest().then('it should pass custom props to AvCard', () => {
-      const card = wrapper.findComponent(AvCardStub)
+    BddTest().then('it should pass custom props to Card', () => {
+      const card = wrapper.findComponent(CardStub)
       expect(card.props('borderColor')).toBe('var(--custom-border)')
       expect(card.props('titleBackground')).toBe('var(--custom-color)')
       expect(card.props('titleHeight')).toBe('8rem')
@@ -228,7 +217,7 @@ BddTest().given('a floating icon card', () => {
     })
 
     BddTest().then('it should use default headerRows value of 3', () => {
-      const card = wrapper.findComponent(AvCardStub)
+      const card = wrapper.findComponent(CardStub)
       expect(card.props('titleHeight')).toBe('6.5625rem')
     })
   })
@@ -248,7 +237,7 @@ BddTest().given('a floating icon card', () => {
     })
 
     BddTest().then('it should set auto height for single line', () => {
-      const card = wrapper.findComponent(AvCardStub)
+      const card = wrapper.findComponent(CardStub)
       expect(card.props('titleHeight')).toBe('auto')
     })
   })
@@ -268,7 +257,7 @@ BddTest().given('a floating icon card', () => {
     })
 
     BddTest().then('it should set height for two lines', () => {
-      const card = wrapper.findComponent(AvCardStub)
+      const card = wrapper.findComponent(CardStub)
       expect(card.props('titleHeight')).toBe('4.6875rem')
     })
   })
@@ -288,7 +277,7 @@ BddTest().given('a floating icon card', () => {
     })
 
     BddTest().then('it should set height for three lines', () => {
-      const card = wrapper.findComponent(AvCardStub)
+      const card = wrapper.findComponent(CardStub)
       expect(card.props('titleHeight')).toBe('6.5625rem')
     })
   })

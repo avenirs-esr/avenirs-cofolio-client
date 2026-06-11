@@ -1,5 +1,6 @@
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import AssociationsCard from '@/features/student/global/components/cards/AssociationsCard/AssociationsCard.vue'
-import { AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -7,7 +8,7 @@ BddTest().given('an association cards', () => {
   let wrapper: VueWrapper
 
   const stubs = {
-    AvCard: AvCardStub,
+    Card: CardStub,
     AvIconText: AvIconTextStub,
   }
 
@@ -25,8 +26,8 @@ BddTest().given('an association cards', () => {
       avIconText = wrapper.findComponent(AvIconTextStub)
     })
 
-    BddTest().then('it should render the av card', () => {
-      expect(wrapper.findComponent(AvCardStub).exists()).toBe(true)
+    BddTest().then('it should render the card component', () => {
+      expect(wrapper.findComponent(CardStub).exists()).toBe(true)
     })
 
     BddTest().then('it should pass the title to av icon text', () => {

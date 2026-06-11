@@ -3,8 +3,9 @@ import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 import ActivityExecutionPeriodList from '@/common/activities/components/ActivityExecutionPeriodList/ActivityExecutionPeriodList.vue'
 import ActivityPeriodDisplay from '@/common/activities/components/ActivityPeriodDisplay/ActivityPeriodDisplay.vue'
+import Card from '@/common/components/cards/Card/Card.vue'
 import { ICONS } from '@/common/constants'
-import { AvCard, AvIconText } from '@avenirs-esr/avenirs-dsav'
+import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ProjectActivityDetailsProps {
@@ -25,7 +26,7 @@ const hasPeriodInfo = computed(() => !!declaredActivityDetails.startDate || !!de
       :start-date="declaredActivityDetails.startDate"
       :end-date="declaredActivityDetails.endDate"
     />
-    <AvCard
+    <Card
       background-color="var(--card2)"
       border-color="transparent"
     >
@@ -54,7 +55,7 @@ const hasPeriodInfo = computed(() => !!declaredActivityDetails.startDate || !!de
           />
         </div>
       </div>
-    </AvCard>
+    </Card>
   </div>
 </template>
 

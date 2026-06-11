@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import ProjectActivityDetails, {
   type ProjectActivityDetailsProps,
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.vue'
 import {
-  AvCardStub,
   AvIconTextStub,
   AvPeriodInputStub,
   BddTest,
@@ -16,7 +16,7 @@ BddTest().given('a project activity details component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProjectActivityDetails>>
 
   const stubs = {
-    AvCard: AvCardStub,
+    Card: CardStub,
     AvIconText: AvIconTextStub,
     AvPeriodInput: AvPeriodInputStub,
   }

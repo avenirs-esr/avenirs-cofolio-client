@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AvCard, AvIconText } from '@avenirs-esr/avenirs-dsav'
+import Card from '@/common/components/cards/Card/Card.vue'
+import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 
 export interface AssociatedDeclaredActivitiesCardProps {
   title: string
@@ -10,7 +11,7 @@ defineProps<AssociatedDeclaredActivitiesCardProps>()
 </script>
 
 <template>
-  <AvCard
+  <Card
     background-color="var(--card2)"
     title-background="var(--card2)"
     border-color="var(--other-border-skill-card)"
@@ -38,5 +39,5 @@ defineProps<AssociatedDeclaredActivitiesCardProps>()
     >
       <slot />
     </div>
-  </AvCard>
+  </Card>
 </template>

@@ -10,7 +10,7 @@ export const AssociatedDeclaredActivitiesCardStub = defineComponent({
   },
   template: `
     <div v-if="associatedActivities.length > 0" data-testid="associated-declared-activities-card-stub">
-      <span v-for="activity in associatedActivities" :key="activity.associationId">{{ activity.declaredActivity.title }}</span>
+      <span v-for="activity in associatedActivities" :key="activity.associationId" data-testid="associated-declared-activity">{{ activity.declaredActivity.title }}</span>
     </div>
   `
 })

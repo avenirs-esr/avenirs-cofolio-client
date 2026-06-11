@@ -3,7 +3,8 @@ import type {
   DeclaredSkillCategoryDTO,
   EExternalSkillType
 } from '@/api/avenir-esr'
-import { AvBadge, AvCard, AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import Card from '@/common/components/cards/Card/Card.vue'
+import { AvBadge, AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface DeclaredSkillRefCardProps {
@@ -22,7 +23,7 @@ const { t } = useI18n()
     data-testid="ref__container"
   >
     <span class="caption-regular">{{ t('student.declaredSkills.cards.DeclaredSkillRefCard.refTitle') }}</span>
-    <AvCard>
+    <Card>
       <div
         class="av-col av-gap-xs"
         data-testid="ref__content"
@@ -79,7 +80,7 @@ const { t } = useI18n()
           </div>
         </div>
       </div>
-    </AvCard>
+    </Card>
   </div>
 </template>
 

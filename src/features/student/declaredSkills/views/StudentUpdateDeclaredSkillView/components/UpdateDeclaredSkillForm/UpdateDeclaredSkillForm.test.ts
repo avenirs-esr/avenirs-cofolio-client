@@ -1,4 +1,5 @@
 import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { DeclaredSkillLevelRadioButtonSetFormFieldStub } from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.stub'
 import UpdateDeclaredSkillForm from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
 import { AvBadgeStub, AvCancelConfirmButtonsStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -8,12 +9,6 @@ import { beforeEach, expect, vi } from 'vitest'
 
 const mockIsFormValid = ref(true)
 const mockIsSubmitting = ref(false)
-
-const AvCardStub = {
-  name: 'AvCard',
-  props: ['borderColor'],
-  template: `<div class="av-card"><slot /><slot name="header" /><slot name="footer" /></div>`,
-}
 
 const AvInputStub = {
   name: 'AvInput',
@@ -56,7 +51,7 @@ BddTest().given('an UpdateDeclaredSkillForm component', () => {
       },
       global: {
         stubs: {
-          AvCard: AvCardStub,
+          Card: CardStub,
           AvInput: AvInputStub,
           AvBadge: AvBadgeStub,
           AvIcon: AvIconStub,

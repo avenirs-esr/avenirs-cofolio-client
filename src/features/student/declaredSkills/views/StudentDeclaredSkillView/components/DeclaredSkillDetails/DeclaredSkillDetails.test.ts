@@ -2,6 +2,7 @@ import type {
   DeclaredSkillProgressDetailsDTO
 } from '@/api/avenir-esr'
 import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import DeclaredSkillDetails, { type DeclaredSkillDetailsProps } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
 import { AvBadgeStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -57,16 +58,6 @@ const AvInputStub = {
   `
 }
 
-const AvCardStub = {
-  name: 'AvCard',
-  props: ['borderColor', 'titleBackground'],
-  template: `
-    <div class="av-card">
-      <slot />
-    </div>
-  `
-}
-
 const DeclaredSkillLevelBadgeStub = {
   name: 'DeclaredSkillLevelBadge',
   props: ['level'],
@@ -82,7 +73,7 @@ BddTest().given('the DeclaredSkillDetails component', () => {
 
   const stubs = {
     AvBadge: AvBadgeStub,
-    AvCard: AvCardStub,
+    Card: CardStub,
     AvIcon: AvIconStub,
     AvInput: AvInputStub,
     DeclaredSkillLevelBadge: DeclaredSkillLevelBadgeStub

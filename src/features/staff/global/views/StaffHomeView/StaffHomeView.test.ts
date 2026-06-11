@@ -28,7 +28,7 @@ BddTest().given('a staff home view', () => {
 
     BddTest().then('it should render the update profile button', async () => {
       await vi.waitFor(() => {
-        const updateProfileButton = wrapper.findComponent('[data-testid="edit-profile-button"]')
+        const updateProfileButton = wrapper.find('[data-testid="edit-profile-button"]')
         expect(updateProfileButton.exists()).toBe(true)
       })
     })

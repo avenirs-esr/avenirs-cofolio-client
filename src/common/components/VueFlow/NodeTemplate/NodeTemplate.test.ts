@@ -1,9 +1,10 @@
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { HandlesStub } from '@/common/components/VueFlow/Handles/Handles.stub'
 import { NodeDropdownStub } from '@/common/components/VueFlow/NodeDropdown/NodeDropdown.stub'
 import NodeTemplate, { type NodeTemplateProps } from '@/common/components/VueFlow/NodeTemplate/NodeTemplate.vue'
 import { UpdateHandlesModalStub } from '@/common/components/VueFlow/UpdateHandlesModal/UpdateHandlesModal.stub'
 import { mandatoryNodeButtonTemplateProps, mandatoryNodeTemplateProps } from '@/common/utils/vue-flow/vue-flow-test'
-import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -36,7 +37,7 @@ BddTest().given('a node template', () => {
   let wrapper: VueWrapper<InstanceType<typeof NodeTemplate>>
 
   const stubs = {
-    AvCard: AvCardStub,
+    Card: CardStub,
     Handles: HandlesStub,
     NodeDropdown: NodeDropdownStub,
     UpdateHandlesModal: UpdateHandlesModalStub
@@ -60,8 +61,8 @@ BddTest().given('a node template', () => {
       wrapper = mount(NodeTemplate, { props, slots, global: { stubs } })
     })
 
-    BddTest().then('it should render the AvCard', () => {
-      expect(wrapper.findComponent(AvCardStub).exists()).toBe(true)
+    BddTest().then('it should render the Card', () => {
+      expect(wrapper.findComponent(CardStub).exists()).toBe(true)
     })
 
     BddTest().then('it should render the slots contents', () => {

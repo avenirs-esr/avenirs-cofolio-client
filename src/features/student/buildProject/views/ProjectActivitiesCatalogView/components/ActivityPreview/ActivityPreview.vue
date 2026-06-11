@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { type ActivityPresentationDTO, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
+import Card from '@/common/components/cards/Card/Card.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { ICONS } from '@/common/constants'
 import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import SubscribeActivityModal from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/overlays/SubscribeActivityModal/SubscribeActivityModal.vue'
-import { AvButton, AvCard, AvIconText, MDI_ICONS, PH_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvIconText, MDI_ICONS, PH_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ActivityPreviewProps {
@@ -26,7 +27,7 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
     class="av-col av-gap-lg"
     data-testid="activity-preview"
   >
-    <AvCard
+    <Card
       v-if="activity.banner"
       background-color="var(--card2)"
       border-color="transparent"
@@ -38,7 +39,7 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
         class="activity-banner av-w-full av-h-full av-radius-2xl"
         data-testid="activity-banner"
       >
-    </AvCard>
+    </Card>
     <AvIconText
       :icon="ICONS.ACTIVITY"
       icon-color="var(--icon)"
@@ -60,7 +61,7 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
         :status="EDeclaredActivityStatus.SUBSCRIBED"
       />
     </div>
-    <AvCard
+    <Card
       background-color="var(--card2)"
       border-color="transparent"
     >
@@ -118,7 +119,7 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
           />
         </div>
       </div>
-    </AvCard>
+    </Card>
   </div>
 
   <UnsubscribeActivitiesConfirmModal

@@ -1,4 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import StudentTraceAssociationCard from '@/features/student/traces/components/cards/StudentTraceAssociationCard/StudentTraceAssociationCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -6,18 +7,7 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const stubs = {
-  AvCard: {
-    name: 'AvCard',
-    template: `
-      <div class="av-card">
-        <div class="av-card__title"><slot name="title" /></div>
-        <div class="av-card__body"><slot name="body" /></div>
-      </div>
-    `,
-    props: {
-      borderColor: String
-    }
-  },
+  Card: CardStub,
   AvIcon: AvIconStub
 }
 
@@ -41,7 +31,7 @@ BddTest().given('a student trace association card', () => {
     })
 
     BddTest().then('it should render the card', () => {
-      const card = wrapper.findComponent({ name: 'AvCard' })
+      const card = wrapper.findComponent(CardStub)
 
       expect(card.exists()).toBe(true)
       expect(card.props('borderColor')).toBe('var(--other-border-skill-card)')

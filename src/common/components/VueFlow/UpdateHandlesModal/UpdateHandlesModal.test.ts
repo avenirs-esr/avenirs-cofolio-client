@@ -1,7 +1,8 @@
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { UpdateHandleSelectorStub } from '@/common/components/VueFlow/UpdateHandleSelector/UpdateHandleSelector.stub'
 import UpdateHandlesModal, { type UpdateHandlesModalProps } from '@/common/components/VueFlow/UpdateHandlesModal/UpdateHandlesModal.vue'
-import { AvCardStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { Position } from '@vue-flow/core'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -33,7 +34,7 @@ BddTest().given('an update handles modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdateHandlesModal>>
 
   const stubs = {
-    AvCard: AvCardStub,
+    Card: CardStub,
     AvIcon: AvIconStub,
     ConfirmationModal: ConfirmationModalStub,
     UpdateHandleSelector: UpdateHandleSelectorStub,
@@ -85,7 +86,7 @@ BddTest().given('an update handles modal', () => {
     })
 
     BddTest().then('it should render the card with correct title', () => {
-      const card = wrapper.findComponent(AvCardStub)
+      const card = wrapper.findComponent(CardStub)
       expect(card.exists()).toBe(true)
       expect(card.text()).toBe('Aperçu du nœud')
     })

@@ -2,13 +2,14 @@ import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self
 import { selfKnowledgeCategoryElementsErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ESelfKnowledgeCategoryType, type SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'
 import { SelfKnowledgeElementCardStub } from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.stub'
 import { SelfKnowledgeElementsDropdownStub } from '@/features/student/selfKnowledge/components/dropdowns/SelfKnowledgeElementsDropdown/SelfKnowledgeElementsDropdown.stub'
 import { DeleteSelfKnowledgeCategoryModalStub } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoryModal/DeleteSelfKnowledgeCategoryModal.stub'
 import { DeleteSelfKnowledgeElementsModalStub } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeElementsModal/DeleteSelfKnowledgeElementsModal.stub'
-import { AvCardStub, AvPaginationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvPaginationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper, } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -37,7 +38,7 @@ const AvIconTextStub = defineComponent({
 const stubs = {
   SelfKnowledgeElementCard: SelfKnowledgeElementCardStub,
   SelfKnowledgeElementsDropdown: SelfKnowledgeElementsDropdownStub,
-  AvCard: AvCardStub,
+  Card: CardStub,
   AvIconText: AvIconTextStub,
   AvPagination: AvPaginationStub,
   DeleteSelfKnowledgeCategoryModal: DeleteSelfKnowledgeCategoryModalStub,
@@ -88,7 +89,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
 
         BddTest().then('it should render the card component', () => {
           expect(wrapper.exists()).toBe(true)
-          expect(wrapper.findComponent(AvCardStub).exists()).toBe(true)
+          expect(wrapper.findComponent(CardStub).exists()).toBe(true)
         })
 
         BddTest().then('it should display the category title with total elements count', async () => {

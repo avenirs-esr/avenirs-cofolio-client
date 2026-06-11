@@ -1,6 +1,7 @@
 import type { FormFieldCardContainerProps } from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import FormFieldCardContainer from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
-import { AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -8,7 +9,7 @@ BddTest().given('a form field card container', () => {
   let wrapper: VueWrapper<InstanceType<typeof FormFieldCardContainer>>
 
   const stubs = {
-    AvCard: AvCardStub,
+    Card: CardStub,
     AvIconText: AvIconTextStub
   }
 
@@ -23,7 +24,7 @@ BddTest().given('a form field card container', () => {
     })
 
     BddTest().then('it should render the card', () => {
-      const card = wrapper.findComponent(AvCardStub)
+      const card = wrapper.findComponent(CardStub)
       expect(card.exists()).toBe(true)
     })
 
@@ -39,17 +40,17 @@ BddTest().given('a form field card container', () => {
     })
 
     BddTest().then('it should render the card with collapsible false by default', () => {
-      const card = wrapper.findComponent(AvCardStub)
+      const card = wrapper.findComponent(CardStub)
       expect(card.props('collapsible')).toBe(false)
     })
 
     BddTest().then('it should render the card with collapsed false by default', () => {
-      const card = wrapper.findComponent(AvCardStub)
+      const card = wrapper.findComponent(CardStub)
       expect(card.props('collapsed')).toBe(false)
     })
 
     BddTest().then('it should render the card with titleOnly false by default', () => {
-      const card = wrapper.findComponent(AvCardStub)
+      const card = wrapper.findComponent(CardStub)
       expect(card.props('titleOnly')).toBe(false)
     })
 

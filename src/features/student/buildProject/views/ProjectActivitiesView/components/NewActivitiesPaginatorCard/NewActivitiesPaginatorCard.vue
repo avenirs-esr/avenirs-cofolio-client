@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { useGetLatestActivitiesView } from '@/api/avenir-esr'
+import Card from '@/common/components/cards/Card/Card.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import ActivityCard from '@/features/student/buildProject/components/cards/ActivityCard/ActivityCard.vue'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
-import { AvCard, AvIconText, AvPagination, getPaginationPages, IX_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvIconText, AvPagination, getPaginationPages, IX_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -24,7 +25,7 @@ const pages = computed(() => getPaginationPages(totalPages))
 </script>
 
 <template>
-  <AvCard
+  <Card
     border-color="var(--stroke)"
     background-color="var(--card)"
     title-background="var(--card)"
@@ -81,5 +82,5 @@ const pages = computed(() => getPaginationPages(totalPages))
         </div>
       </div>
     </QuerySuspense>
-  </AvCard>
+  </Card>
 </template>

@@ -1,8 +1,9 @@
 import type { MyPerspectiveCardProps } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { RichTextEditorStub } from '@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.stub'
 import MyPerspectiveCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
-import { AvButtonStub, AvCardStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
@@ -26,7 +27,7 @@ BddTest().given('a my perspective card', () => {
 
   const stubs = {
     AvButton: AvButtonStub,
-    AvCard: AvCardStub,
+    Card: CardStub,
     AvIconText: AvIconTextStub,
     RichTextEditor: RichTextEditorStub,
     UpdateInProgressBadge: UpdateInProgressBadgeStub,
@@ -49,7 +50,7 @@ BddTest().given('a my perspective card', () => {
     })
 
     BddTest().then('it should render the perspective card with collapsible', () => {
-      const card = wrapper.findComponent(AvCardStub)
+      const card = wrapper.findComponent(CardStub)
       expect(card.exists()).toBe(true)
       expect(card.props('collapsible')).toBe(true)
     })
