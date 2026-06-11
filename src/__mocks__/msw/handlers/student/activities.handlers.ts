@@ -20,6 +20,7 @@ import {
   type DeclaredActivityDetailsDTO,
   EActivityStatus,
   EErrorCode,
+  getAskForFeedbackUrl,
   getAssociateActivityWithDeclaredSkillsUrl,
   getAssociateActivityWithTracesUrl,
   getDeleteDeclaredActivityAssociationsUrl,
@@ -291,6 +292,37 @@ export const latestActivitiesErrorHandler = http.get(
     )
   }
 )
+
+export const askForFeedbackHandler = http.post(`*${getAskForFeedbackUrl(':declaredActivityId')}`, async ({ params }) => {
+  const declaredActivityId = Array.isArray(params.declaredActivityId)
+    ? params.declaredActivityId[0]
+    : params.declaredActivityId
+
+  if (!declaredActivityId || declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Declared activity not found' },
+      {
+        status: 404,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
+  }
+
+  return HttpResponse.json({}, {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  })
+})
+
+export const askForFeedbackErrorHandler = http.post(`*${getAskForFeedbackUrl(':declaredActivityId')}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+    {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    }
+  )
+})
 
 export const finishDeclaredActivityHandler = http.put(`*${getFinishUrl(':declaredActivityId')}`, async ({ params }) => {
   const declaredActivityId = Array.isArray(params.declaredActivityId)
@@ -638,4 +670,5 @@ export const activitiesHandlers = [
   associateActivityWithDeclaredSkillsHandler,
   deleteDeclaredActivityAssociationsSuccessHandler,
   searchTracesForAssociationHandler,
+  askForFeedbackHandler,
 ]
