@@ -2,6 +2,12 @@
   "global": {
     "activities": {
       "badges": {
+        "associatedElementType": {
+          "DECLARED_ACTIVITY": "Activité",
+          "DECLARED_EXPERIENCE": "Expérience",
+          "DECLARED_SKILL": "Compétence",
+          "TRACE": "Trace"
+        },
         "thematics": {
           "EXPERIENCES": "Mes expériences",
           "FUTURE_PLANS": "Explorer mes futures",
