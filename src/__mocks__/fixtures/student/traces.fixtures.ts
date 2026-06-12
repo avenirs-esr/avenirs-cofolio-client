@@ -83,6 +83,7 @@ export function createMockedTracesViewResponse (
     const dayNumber = rawDay < 10 ? `0${rawDay}` : `${rawDay}`
     const trace = {
       isAssociated,
+      isDeletable: true,
       id: `trace-${isAssociated ? 'associee' : 'non-associee'}${i}`,
       title: `Ma super trace ${isAssociated ? 'associée' : 'non associée'} numéro ${i}`,
       createdAt: `2025-${monthNumber}-${dayNumber}T10:42:00.000Z`,
@@ -240,6 +241,7 @@ export const mockedTraceDetailed = {
   id: 'trace1',
   title: 'Développement d\'un ePortfolio',
   isAssociated: false,
+  isDeletable: true,
   link: 'https://example.com/trace/trace1',
   createdAt: '2025-06-16T10:42:00.000Z',
   updatedAt: '2025-06-17T15:18:00.000Z',

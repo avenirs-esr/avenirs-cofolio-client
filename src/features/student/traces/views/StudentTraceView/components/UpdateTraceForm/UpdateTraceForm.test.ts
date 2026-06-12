@@ -26,6 +26,7 @@ BddTest().given('an update trace form component', () => {
   const mockTrace: TraceDetailDTO = {
     id: 'trace-123',
     title: 'Existing Trace',
+    isDeletable: true,
     programName: 'Test Program',
     authorType: ETraceAuthorType.PERSONAL,
     aiUseJustification: '',

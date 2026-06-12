@@ -49,6 +49,7 @@ BddTest().given('a student detailed trace information component', () => {
     id: '1',
     title: 'Test Trace Title',
     isAssociated: true,
+    isDeletable: true,
     programName: 'Test Program',
     link: 'https://example.com/trace/1',
     authorType: ETraceAuthorType.COLLECTIVE,

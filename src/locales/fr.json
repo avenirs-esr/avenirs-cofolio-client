@@ -149,6 +149,7 @@
         "DECLARED_ACTIVITY_ALREADY_FINISHED": "L'activité déclarée est déjà terminée",
         "DECLARED_ACTIVITY_DATES": "Les dates de début et de fin doivent être toutes deux nulles ou toutes deux fournies",
         "DECLARED_ACTIVITY_HAS_NOT_STARTED": "L'activité déclarée n'a pas commencé",
+        "DECLARED_ACTIVITY_LOCKED": "Une ou plusieurs activités déclarées sont soumises ou terminé, elles ne peuvent plus être modifiées",
         "DECLARED_ACTIVITY_NOT_FOUND": "Activité déclarée introuvable",
         "DECLARED_ACTIVITY_START_DATE_BEFORE_SUBSCRIPTION": "La date de début ne peut pas être antérieure à la date d'inscription",
         "DECLARED_EXPERIENCE_NOT_FOUND": "Expérience déclarée introuvable",

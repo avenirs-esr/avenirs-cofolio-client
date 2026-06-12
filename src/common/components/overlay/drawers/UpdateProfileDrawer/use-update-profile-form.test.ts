@@ -76,6 +76,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
     firstname: 'Jeanne',
     id: 'user-id',
     email: 'j.moulin@example.com',
+    hasUnseenNotification: false,
     bio: 'Bio',
     coverPicture: {
       id: 'random-id',

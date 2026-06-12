@@ -31,6 +31,7 @@ BddTest().given('a student detailed trace card', () => {
     id: 'trace1',
     title: 'Ma super trace',
     isAssociated: false,
+    isDeletable: true,
     createdAt: '2025-06-16T10:42:00.000Z',
     updatedAt: '2025-06-17T15:18:00.000Z',
     willBeDeletedAt: nextMonthDateIsoString

@@ -4,9 +4,10 @@ import { useI18n } from 'vue-i18n'
 
 export interface TraceSettingsDropdownProps {
   downloadDisabled?: boolean
+  isDeletable?: boolean
 }
 
-const { downloadDisabled = false } = defineProps<TraceSettingsDropdownProps>()
+const { downloadDisabled = false, isDeletable = true } = defineProps<TraceSettingsDropdownProps>()
 
 const emit = defineEmits<{
   (e: 'associateSelected'): void
@@ -28,7 +29,8 @@ const menuItems = computed(() => [
   {
     name: TraceSettingsPopoverEvents.DELETE,
     icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-    label: t('student.traces.views.StudentTraceView.settings.delete')
+    label: t('student.traces.views.StudentTraceView.settings.delete'),
+    disabled: !isDeletable
   },
   ...(
     __DEMO_MODE__

@@ -115,6 +115,7 @@ const breadcrumbLinks = computed(() => isToolsTraceRoute.value
       <div class="av-row av-justify-end av-pb-md">
         <TraceSettingsDropdown
           :download-disabled="!traceDetailed.attachment"
+          :is-deletable="traceDetailed.isDeletable"
           @delete-selected="displayDeleteModal"
           @associate-selected="displayAssociateModal"
           @update-selected="handleUpdateTrace"

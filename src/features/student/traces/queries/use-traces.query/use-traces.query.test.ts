@@ -228,7 +228,7 @@ BddTest().given('a useTracesSummaryQuery composable', () => {
 })
 
 BddTest().given('a useDeleteTraceMutation composable', async () => {
-  let deleteTraceSpy: MockInstance<(traceId: string, options?: (RequestInit | undefined)) => Promise<string>>
+  let deleteTracesSpy: MockInstance<(traceId: string[], options?: (RequestInit | undefined)) => Promise<string>>
   let mutationResult: ReturnType<typeof useDeleteTraceMutation>
 
   const mockUseInvalidateQuery = useInvalidateQuery as MockedFunction<typeof useInvalidateQuery>
@@ -244,9 +244,9 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
     vi.clearAllMocks()
     vi.restoreAllMocks()
 
-    deleteTraceSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'deleteTrace'>(
+    deleteTracesSpy = vi.spyOn<typeof import('@/api/avenir-esr'), 'deleteTraces'>(
       await import('@/api/avenir-esr'),
-    'deleteTrace'
+    'deleteTraces'
     )
 
     mockUseInvalidateQuery.mockReturnValue(mockInvalidateFunction)
@@ -258,7 +258,7 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
 
   BddTest().and('a valid trace ID and success callback', () => {
     const traceId = '123e4567-e89b-12d3-a456-426614174000'
-    const variables: DeleteTraceVariables = { traceId }
+    const variables: DeleteTraceVariables = { tracesIds: [traceId] }
 
     BddTest().when('the mutation is called with mutateAsync', () => {
       beforeEach(async () => {
@@ -268,8 +268,8 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
       })
 
       BddTest().then('it should call the deleteTrace API with correct parameters', () => {
-        expect(deleteTraceSpy).toHaveBeenCalledWith(traceId)
-        expect(deleteTraceSpy).toHaveBeenCalledTimes(1)
+        expect(deleteTracesSpy).toHaveBeenCalledWith([traceId])
+        expect(deleteTracesSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should return the expected success response', () => {
@@ -308,8 +308,8 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
       })
 
       BddTest().then('it should call the deleteTrace API with correct parameters', () => {
-        expect(deleteTraceSpy).toHaveBeenCalledWith(traceId)
-        expect(deleteTraceSpy).toHaveBeenCalledTimes(1)
+        expect(deleteTracesSpy).toHaveBeenCalledWith([traceId])
+        expect(deleteTracesSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should call the custom onSuccess callback', () => {
@@ -324,7 +324,7 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
 
   BddTest().and('no success or error callbacks', () => {
     const traceId = '123e4567-e89b-12d3-a456-426614174000'
-    const variables: DeleteTraceVariables = { traceId }
+    const variables: DeleteTraceVariables = { tracesIds: [traceId] }
     const mutationArgs: MutationArgs = {}
 
     BddTest().when('the mutation is called without callbacks', () => {
@@ -335,8 +335,8 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
       })
 
       BddTest().then('it should call the deleteTrace API with correct parameters', () => {
-        expect(deleteTraceSpy).toHaveBeenCalledWith(traceId)
-        expect(deleteTraceSpy).toHaveBeenCalledTimes(1)
+        expect(deleteTracesSpy).toHaveBeenCalledWith([traceId])
+        expect(deleteTracesSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should still call the invalidation function', () => {
@@ -355,7 +355,7 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
   })
 
   BddTest().and('an invalid trace ID with error callback', () => {
-    const variables: DeleteTraceVariables = { traceId: invalidTraceId }
+    const variables: DeleteTraceVariables = { tracesIds: [invalidTraceId] }
 
     BddTest().when('the mutation encounters an error', () => {
       beforeEach(async () => {
@@ -365,8 +365,8 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
       })
 
       BddTest().then('it should call the deleteTrace API with the invalid ID', () => {
-        expect(deleteTraceSpy).toHaveBeenCalledWith(invalidTraceId)
-        expect(deleteTraceSpy).toHaveBeenCalledTimes(1)
+        expect(deleteTracesSpy).toHaveBeenCalledWith([invalidTraceId])
+        expect(deleteTracesSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should mark the mutation as error', () => {
@@ -402,8 +402,8 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
       })
 
       BddTest().then('it should call the deleteTrace API with the invalid ID', () => {
-        expect(deleteTraceSpy).toHaveBeenCalledWith(invalidTraceId)
-        expect(deleteTraceSpy).toHaveBeenCalledTimes(1)
+        expect(deleteTracesSpy).toHaveBeenCalledWith([invalidTraceId])
+        expect(deleteTracesSpy).toHaveBeenCalledTimes(1)
       })
 
       BddTest().then('it should contain the error information', () => {

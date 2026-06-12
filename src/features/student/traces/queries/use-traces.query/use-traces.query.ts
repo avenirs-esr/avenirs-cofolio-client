@@ -8,8 +8,8 @@ import {
   type AssociationSearchResultDeclaredSkillIDTO,
   createTrace,
   type CreateTraceDTO,
-  deleteTrace,
   deleteTraceAssociations,
+  deleteTraces,
   EFileCategory,
   getTraceAssociations,
   getTraceConfig,
@@ -100,14 +100,14 @@ export function useTracesSummaryQuery (): UseQueryReturnType<TracesSummaryDTO, B
 }
 
 export interface DeleteTraceVariables {
-  traceId: string
+  tracesIds: string[]
 }
 
 export function useDeleteTraceMutation ({ onError, onSuccess }: MutationArgs = {}) {
   const invalidateTracesViewQuery = useInvalidateQuery(tracesViewQueryKey)
   return useMutation<string, BaseApiException, DeleteTraceVariables>({
-    mutationFn: async ({ traceId }: DeleteTraceVariables): Promise<string> => {
-      return await deleteTrace(traceId)
+    mutationFn: async ({ tracesIds }: DeleteTraceVariables): Promise<string> => {
+      return await deleteTraces(tracesIds)
     },
     onSuccess: async (data, variables) => {
       await invalidateTracesViewQuery()
