@@ -1,0 +1,149 @@
+import type { PagedResponseFeedbackStaffListItemDTO } from '@/api/avenir-esr'
+import { createMockedPagedResponseFeedbackStaffListItemDTO } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
+import { BaseApiException } from '@/common/exceptions'
+import { usePaginatedStaffFeedbacks } from '@/features/staff/activities/composables/use-paginated-staff-feedbacks/use-paginated-staff-feedbacks'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { keepPreviousData } from '@tanstack/vue-query'
+import { mountComposable } from 'tests/utils'
+import { nextTick, unref } from 'vue'
+
+const page = createMockedPagedResponseFeedbackStaffListItemDTO(PageSizes.TWELVE, 6, 0)
+
+const mockError = new BaseApiException('error')
+
+function makeMockFetchFn (overrides?: {
+  data?: ReturnType<typeof ref<PagedResponseFeedbackStaffListItemDTO | undefined>>
+  error?: ReturnType<typeof ref<BaseApiException | null>>
+  isFetching?: ReturnType<typeof ref<boolean>>
+}) {
+  return vi.fn().mockReturnValue({
+    data: overrides?.data ?? ref<PagedResponseFeedbackStaffListItemDTO>(page),
+    error: overrides?.error ?? ref(null),
+    isFetching: overrides?.isFetching ?? ref(false),
+  })
+}
+
+function mountUsePaginatedStaffFeedbacks ({ fetchFn = makeMockFetchFn(), currentPage = 0, pageSize = PageSizes.TWELVE }: {
+  fetchFn?: ReturnType<typeof makeMockFetchFn>
+  currentPage?: number
+  pageSize?: PageSizes
+} = {}) {
+  return mountComposable(() =>
+    usePaginatedStaffFeedbacks({
+      currentPageRef: ref(currentPage),
+      pageSizeRef: ref(pageSize),
+      fetchFn,
+    }), {}).result
+}
+
+BddTest().given('a usePaginatedStaffFeedbacks composable', () => {
+  BddTest().when('fetchFn returns valid data', () => {
+    let result: ReturnType<typeof mountUsePaginatedStaffFeedbacks>
+
+    beforeEach(() => {
+      result = mountUsePaginatedStaffFeedbacks()
+    })
+
+    BddTest().then('it should return feedbacks and pageInfo from data', () => {
+      expect(result.feedbacks.value).toEqual(page.data)
+      expect(result.pageInfo.value).toEqual(page.page)
+    })
+
+    BddTest().then('it should return isFetching as false', () => {
+      expect(result.isFetching.value).toBe(false)
+    })
+
+    BddTest().then('it should return no error', () => {
+      expect(result.error.value).toBeNull()
+    })
+
+    BddTest().then('it should expose pageSizeSelected, onUpdateCurrentPage and onUpdatePageSize', () => {
+      expect(result.pageSizeSelected.value).toBe(PageSizes.TWELVE)
+      expect(typeof result.onUpdateCurrentPage).toBe('function')
+      expect(typeof result.onUpdatePageSize).toBe('function')
+    })
+  })
+
+  BddTest().when('fetchFn is called', () => {
+    let fetchFn: ReturnType<typeof makeMockFetchFn>
+    let result: ReturnType<typeof mountUsePaginatedStaffFeedbacks>
+
+    beforeEach(() => {
+      fetchFn = makeMockFetchFn()
+      result = mountUsePaginatedStaffFeedbacks({ fetchFn, pageSize: PageSizes.FOUR })
+    })
+
+    BddTest().then('it should call with the correct params', () => {
+      const [params, options] = fetchFn.mock.calls[0]
+
+      expect(unref(params)).toEqual(
+        expect.objectContaining({
+          page: 0,
+          pageSize: PageSizes.FOUR,
+        })
+      )
+
+      expect(options).toEqual(
+        expect.objectContaining({
+          query: expect.objectContaining({
+            placeholderData: keepPreviousData,
+          })
+        })
+      )
+    })
+
+    BddTest().then('it should refetch with new page', async () => {
+      result.onUpdateCurrentPage(1)
+      await nextTick()
+
+      const [params, options] = fetchFn.mock.calls.at(-1)!
+
+      expect(unref(params)).toEqual(
+        expect.objectContaining({
+          page: 1,
+          pageSize: PageSizes.FOUR,
+        })
+      )
+
+      expect(options).toEqual(
+        expect.objectContaining({
+          query: expect.objectContaining({
+            placeholderData: keepPreviousData,
+          })
+        })
+      )
+    })
+  })
+
+  BddTest().when('fetchFn returns isFetching as true', () => {
+    let result: ReturnType<typeof mountUsePaginatedStaffFeedbacks>
+
+    beforeEach(() => {
+      result = mountUsePaginatedStaffFeedbacks({ fetchFn: makeMockFetchFn({ isFetching: ref(true) }) })
+    })
+
+    BddTest().then('it should return isFetching as true', () => {
+      expect(result.isFetching.value).toBe(true)
+    })
+  })
+
+  BddTest().when('fetchFn returns undefined data and an error', () => {
+    let result: ReturnType<typeof mountUsePaginatedStaffFeedbacks>
+
+    beforeEach(() => {
+      result = mountUsePaginatedStaffFeedbacks({
+        fetchFn: makeMockFetchFn({ data: ref(undefined), error: ref(mockError) })
+      })
+    })
+
+    BddTest().then('it should return empty feedbacks and undefined pageInfo', () => {
+      expect(result.feedbacks.value).toEqual([])
+      expect(result.pageInfo.value).toBeUndefined()
+    })
+
+    BddTest().then('it should return an error', () => {
+      expect(result.error.value).toBe(mockError)
+    })
+  })
+})

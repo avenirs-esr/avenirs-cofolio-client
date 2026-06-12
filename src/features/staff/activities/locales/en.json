@@ -15,6 +15,14 @@
         "cards": {
           "lastSaved": "Last saved on",
           "receivedAt": "Received on"
+        },
+        "columns": {
+          "formation": "Formation",
+          "iterations": "Number of iterations",
+          "lastSaved": "Last saved",
+          "receivedAt": "Request received date",
+          "status": "Request status",
+          "student": "First name Last name"
         }
       },
       "interactions": {
