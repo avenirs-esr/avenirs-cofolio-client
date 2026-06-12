@@ -11,6 +11,12 @@
           "SUBMITTED": "Sent"
         }
       },
+      "feedbacks": {
+        "cards": {
+          "lastSaved": "Last saved on",
+          "receivedAt": "Received on"
+        }
+      },
       "interactions": {
         "formFields": {
           "ActivityConsignFormField": {
