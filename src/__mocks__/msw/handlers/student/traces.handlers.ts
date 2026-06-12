@@ -23,7 +23,7 @@ import {
   getAssociateTraceWithDeclaredSkillUrl,
   getCreateTraceUrl,
   getDeleteTraceAssociationsUrl,
-  getDeleteTraceUrl,
+  getDeleteTracesUrl,
   getDownloadFileUrl,
   getGetTraceAssociationsUrl,
   getGetTraceConfigUrl,
@@ -131,23 +131,32 @@ export const tracesHandlers = [
     })
   }),
 
-  http.delete(`*${getDeleteTraceUrl(':traceId')}`, ({ params }) => {
-    const traceId: string | undefined = params.traceId as string | undefined
+  http.delete(`*${getDeleteTracesUrl()}`, async ({ request }) => {
+    const traceIds = await request.json() as string[]
 
-    if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
+    if (!traceIds?.length) {
+      return HttpResponse.json(
+        { error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK },
+        { status: 400 }
+      )
     }
 
-    if (traceId === invalidTraceId) {
-      return HttpResponse.json({ error: 'Trace not found', code: ErrorCodes.TRACE_NOT_FOUND }, { status: 404 })
+    if (traceIds.includes(invalidTraceId)) {
+      return HttpResponse.json(
+        { error: 'Trace not found', code: ErrorCodes.TRACE_NOT_FOUND },
+        { status: 404 }
+      )
     }
 
-    return HttpResponse.json<string>(createDeletedTraceIdMock(traceId), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
+    return HttpResponse.json<string>(
+      createDeletedTraceIdMock(traceIds[0]),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }
-    })
+    )
   }),
 
   http.post(`*${getTracesViewUrl()}`, async ({ request }) => {

@@ -34,7 +34,7 @@ function useDeleteTrace () {
   })
 
   function onConfirmDeleteTrace () {
-    deleteTraceMutation.mutate({ traceId: trace.id })
+    deleteTraceMutation.mutate({ tracesIds: [trace.id] })
   }
 
   return {

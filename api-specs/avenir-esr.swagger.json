@@ -90,35 +90,6 @@
             }
           }
         }
-      },
-      "delete": {
-        "tags": [
-          "trace-controller"
-        ],
-        "operationId": "deleteTrace",
-        "parameters": [
-          {
-            "name": "traceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/me/self-knowledge/element/{selfKnowledgeElementId}": {
@@ -559,6 +530,38 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/TracesCreationResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "deleteTraces",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -1604,6 +1607,30 @@
         }
       }
     },
+    "/me/notifications/{id}/seen": {
+      "patch": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "markAsSeen",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/me/activities/{activityStatus}/{activityId}": {
       "patch": {
         "tags": [
@@ -2314,6 +2341,54 @@
                   "items": {
                     "$ref": "#/components/schemas/SelfKnowledgeCategoryDTO"
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/notifications/{userCategory}": {
+      "get": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "getNotifications",
+        "parameters": [
+          {
+            "name": "userCategory",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EUserCategory"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseNotificationDTO"
                 }
               }
             }
@@ -3966,6 +4041,9 @@
           "isAssociated": {
             "type": "boolean"
           },
+          "isDeletable": {
+            "type": "boolean"
+          },
           "programName": {
             "type": "string"
           },
@@ -4004,6 +4082,7 @@
           "authorType",
           "createdAt",
           "id",
+          "isDeletable",
           "personalNote",
           "programName",
           "title",
@@ -4527,6 +4606,7 @@
             "enum": [
               "SUBSCRIBED",
               "IN_PROGRESS",
+              "SUBMITTED",
               "COMPLETED"
             ]
           },
@@ -4752,6 +4832,9 @@
           "isAssociated": {
             "type": "boolean"
           },
+          "isDeletable": {
+            "type": "boolean"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -4769,6 +4852,7 @@
           "createdAt",
           "id",
           "isAssociated",
+          "isDeletable",
           "title",
           "updatedAt"
         ]
@@ -5139,6 +5223,9 @@
           "email": {
             "type": "string"
           },
+          "hasUnseenNotification": {
+            "type": "boolean"
+          },
           "profilePicture": {
             "$ref": "#/components/schemas/FileDTO"
           },
@@ -5151,6 +5238,7 @@
           "coverPicture",
           "email",
           "firstname",
+          "hasUnseenNotification",
           "id",
           "lastname",
           "profilePicture"
@@ -5708,6 +5796,56 @@
           "type"
         ]
       },
+      "NotificationDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "ASK_FOR_FEEDBACK"
+            ]
+          },
+          "elementId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parameters": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "seen": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PagedResponseNotificationDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NotificationDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
       "AccessInfoAPC": {
         "type": "object",
         "properties": {
@@ -6003,6 +6141,7 @@
             "enum": [
               "SUBSCRIBED",
               "IN_PROGRESS",
+              "SUBMITTED",
               "COMPLETED"
             ]
           },
@@ -6203,6 +6342,7 @@
             "enum": [
               "SUBSCRIBED",
               "IN_PROGRESS",
+              "SUBMITTED",
               "COMPLETED"
             ]
           },
@@ -6565,6 +6705,13 @@
           "ACTIVITY_BANNER"
         ]
       },
+      "ENotificationType": {
+        "type": "string",
+        "description": "Enum for notification type",
+        "enum": [
+          "ASK_FOR_FEEDBACK"
+        ]
+      },
       "ESkillLevelStatus": {
         "type": "string",
         "description": "Enum for skill level status",
@@ -6621,6 +6768,7 @@
           "ACTIVITY_DRAFT_NOT_FOUND",
           "DECLARED_ACTIVITY_NOT_FOUND",
           "FEEDBACK_NOT_FOUND",
+          "NOTIFICATION_NOT_FOUND",
           "USER_NOT_AUTHORIZED",
           "USER_IS_NOT_STUDENT_EXCEPTION",
           "USER_IS_NOT_STAFF_EXCEPTION",
@@ -6634,6 +6782,7 @@
           "DECLARED_ACTIVITY_ALREADY_EXIST",
           "DECLARED_ACTIVITY_ALREADY_FINISHED",
           "DECLARED_ACTIVITY_HAS_NOT_STARTED",
+          "DECLARED_ACTIVITY_LOCKED",
           "ASSOCIATION_ALREADY_EXIST",
           "MAX_FILE_SIZE_EXCEEDED",
           "FILE_STORAGE_ERROR",
@@ -6717,6 +6866,7 @@
         "enum": [
           "SUBSCRIBED",
           "IN_PROGRESS",
+          "SUBMITTED",
           "COMPLETED"
         ]
       },

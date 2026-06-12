@@ -8,6 +8,7 @@ export const mockedProfileOverview: ProfileOverviewDTO = {
   lastname: 'Moulin',
   id: crypto.randomUUID(),
   email: 'j.moulin@example.com',
+  hasUnseenNotification: false,
   profilePicture: {
     id: crypto.randomUUID(),
     fileSize: 1000,

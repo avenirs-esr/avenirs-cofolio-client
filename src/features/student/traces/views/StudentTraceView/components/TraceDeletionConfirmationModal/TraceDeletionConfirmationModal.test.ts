@@ -24,6 +24,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
   let onConfirmDeleteMock: () => void
   let onCloseMock: () => void
   let onErrorCallback: (error: BaseApiException) => void
+  let onSuccessCallback: () => void
 
   const mockedUseDeleteTraceMutation: MockedFunction<typeof useDeleteTraceMutation> = vi.mocked(useDeleteTraceMutation)
   const mockedUseToasterStore: MockedFunction<typeof useToasterStore> = vi.mocked(useToasterStore)
@@ -37,6 +38,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
     title: 'Développement d\'un ePortfolio',
     link: 'https://example.com/trace1',
     isAssociated: false,
+    isDeletable: true,
     createdAt: '2025-06-16T10:42:00.000Z',
     updatedAt: '2025-06-17T15:18:00.000Z',
     programName: 'An awesome program',
@@ -57,7 +59,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
   const stubs = {
     AvModal: {
       name: 'AvModal',
-      props: ['opened', 'closeButtonLabel', 'confirmButtonLabel'],
+      props: ['opened', 'closeButtonLabel', 'confirmButtonLabel', 'isLoading'],
       emits: ['close', 'confirm'],
       template: `
         <div v-if="opened" data-testid="av-modal">
@@ -71,6 +73,18 @@ BddTest().given('a trace deletion confirmation modal', () => {
     }
   }
 
+  function mountComponent (show = true) {
+    wrapper = mount(TraceDeletionConfirmationModal, {
+      props: {
+        trace: mockedTrace,
+        show,
+        onConfirmDelete: onConfirmDeleteMock,
+        onClose: onCloseMock
+      },
+      global: { stubs }
+    })
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
     mockIsPending.value = false
@@ -82,10 +96,15 @@ BddTest().given('a trace deletion confirmation modal', () => {
       addErrorMessage: mockAddErrorMessage
     } as unknown as ReturnType<typeof useToasterStore>)
 
-    mockedUseDeleteTraceMutation.mockImplementation(({ onError } = {}) => {
+    mockedUseDeleteTraceMutation.mockImplementation(({ onError, onSuccess } = {}) => {
       if (onError) {
-        onErrorCallback = onError
+        onErrorCallback = onError as (error: BaseApiException) => void
       }
+
+      if (onSuccess) {
+        onSuccessCallback = onSuccess as () => void
+      }
+
       return {
         mutate: mockMutate,
         isPending: mockIsPending
@@ -95,15 +114,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
 
   BddTest().and('with show=true', () => {
     beforeEach(() => {
-      wrapper = mount(TraceDeletionConfirmationModal, {
-        props: {
-          trace: mockedTrace,
-          show: true,
-          onConfirmDelete: onConfirmDeleteMock,
-          onClose: onCloseMock
-        },
-        global: { stubs }
-      })
+      mountComponent(true)
     })
 
     BddTest().then('it should render the modal', () => {
@@ -112,26 +123,20 @@ BddTest().given('a trace deletion confirmation modal', () => {
 
     BddTest().then('the modal close event should call onClose callback', async () => {
       await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('close')
+
       expect(onCloseMock).toHaveBeenCalled()
     })
 
-    BddTest().then('clicking confirm button should call mutate with traceId', async () => {
+    BddTest().then('clicking confirm button should call mutate with trace ids', async () => {
       await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
-      expect(mockMutate).toHaveBeenCalledWith({ traceId: mockedTrace.id })
+
+      expect(mockMutate).toHaveBeenCalledWith({ tracesIds: [mockedTrace.id] })
     })
   })
 
   BddTest().and('with show=false', () => {
     beforeEach(() => {
-      wrapper = mount(TraceDeletionConfirmationModal, {
-        props: {
-          trace: mockedTrace,
-          show: false,
-          onConfirmDelete: onConfirmDeleteMock,
-          onClose: onCloseMock
-        },
-        global: { stubs }
-      })
+      mountComponent(false)
     })
 
     BddTest().then('it should not render modal content', () => {
@@ -148,15 +153,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
     }
 
     beforeEach(() => {
-      wrapper = mount(TraceDeletionConfirmationModal, {
-        props: {
-          trace: mockedTrace,
-          show: true,
-          onConfirmDelete: onConfirmDeleteMock,
-          onClose: onCloseMock
-        },
-        global: { stubs }
-      })
+      mountComponent(true)
       onErrorCallback(error)
     })
 
@@ -167,9 +164,9 @@ BddTest().given('a trace deletion confirmation modal', () => {
       })
     })
 
-    BddTest().then('no events should be emitted', () => {
-      expect(wrapper.emitted('onTraceDelete')).toBeFalsy()
-      expect(wrapper.emitted('close')).toBeFalsy()
+    BddTest().then('no callbacks should be called', () => {
+      expect(onConfirmDeleteMock).not.toHaveBeenCalled()
+      expect(onCloseMock).not.toHaveBeenCalled()
     })
   })
 
@@ -182,15 +179,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
     }
 
     beforeEach(() => {
-      wrapper = mount(TraceDeletionConfirmationModal, {
-        props: {
-          trace: mockedTrace,
-          show: true,
-          onConfirmDelete: onConfirmDeleteMock,
-          onClose: onCloseMock
-        },
-        global: { stubs }
-      })
+      mountComponent(true)
       onErrorCallback(error)
     })
 
@@ -202,21 +191,13 @@ BddTest().given('a trace deletion confirmation modal', () => {
     })
   })
 
-  BddTest().when('mutation onConfirmDelete callback is called', () => {
+  BddTest().when('the mutation succeeds', () => {
     beforeEach(() => {
-      wrapper = mount(TraceDeletionConfirmationModal, {
-        props: {
-          trace: mockedTrace,
-          show: true,
-          onConfirmDelete: onConfirmDeleteMock,
-          onClose: onCloseMock
-        },
-        global: { stubs }
-      })
+      mountComponent(true)
+      onSuccessCallback()
     })
 
     BddTest().then('it should call onConfirmDelete callback', () => {
-      onConfirmDeleteMock()
       expect(onConfirmDeleteMock).toHaveBeenCalled()
     })
   })
