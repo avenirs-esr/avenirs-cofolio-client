@@ -15,6 +15,14 @@
         "cards": {
           "lastSaved": "Dernier enregistrement le",
           "receivedAt": "Reçu le"
+        },
+        "columns": {
+          "formation": "Formation",
+          "iterations": "Nombre d'itérations",
+          "lastSaved": "Dernier enregistrement",
+          "receivedAt": "Date de réception de la demande",
+          "status": "Statut de la demande",
+          "student": "Prénom Nom"
         }
       },
       "interactions": {
