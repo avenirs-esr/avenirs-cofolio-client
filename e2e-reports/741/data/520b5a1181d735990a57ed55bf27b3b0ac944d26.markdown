@@ -1,0 +1,142 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - link "Accueil - Cofolio Étudiant" [ref=e12] [cursor=pointer]:
+          - /url: /cofolio/student
+          - img [ref=e13]
+        - generic [ref=e15]:
+          - button "Recherche" [ref=e18] [cursor=pointer]
+          - button "Menu" [ref=e23] [cursor=pointer]
+      - button "Changer d'univers" [ref=e26] [cursor=pointer]:
+        - generic [ref=e29]: Changer d'univers
+  - main [ref=e30]:
+    - generic [ref=e31]:
+      - generic [ref=e33]:
+        - navigation "Fil d'Ariane" [ref=e34]:
+          - button "Voir le fil d'Ariane" [ref=e35] [cursor=pointer]:
+            - generic [ref=e36]: Voir le fil d'Ariane
+        - heading "Mes activités" [level=1] [ref=e37]
+      - generic [ref=e38]:
+        - tablist "Liste d’onglets" [ref=e39]:
+          - tab "Toutes les activités disponibles (6)" [ref=e40] [cursor=pointer]:
+            - generic [ref=e43]: Toutes les activités disponibles (6)
+          - tab "Ma bibliothèque d'activités (6)" [active] [selected] [ref=e44] [cursor=pointer]:
+            - generic [ref=e47]: Ma bibliothèque d'activités (6)
+        - tabpanel "Ma bibliothèque d'activités (6)" [ref=e48]:
+          - generic [ref=e50]:
+            - button "Plus d'actions" [ref=e54] [cursor=pointer]:
+              - generic [ref=e57]: Plus d'actions
+            - generic [ref=e63]: Ma bibliothèque d'activités (6)
+            - generic [ref=e65]:
+              - navigation "Pagination haute" [ref=e67]:
+                - list [ref=e68]:
+                  - listitem [ref=e69]: Page 1 sur 2
+                  - listitem
+                  - listitem [ref=e70]:
+                    - link "Page précédente" [disabled]:
+                      - /url: "#page-1"
+                  - listitem [ref=e71]:
+                    - link "Page suivante" [ref=e74] [cursor=pointer]:
+                      - /url: "#page-2"
+                  - listitem
+              - generic [ref=e78]:
+                - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs" [ref=e79] [cursor=pointer]':
+                  - /url: /cofolio/student/project/activities/declared-activity-1/details
+                  - generic [ref=e81]:
+                    - 'generic "Activité \"Connaissance de soi\" : Définir ses valeurs" [ref=e84]'
+                    - status [ref=e93]:
+                      - generic [ref=e94]: Me connaître
+                - 'link "Activité \"CV\" : Construire son parcours" [ref=e95] [cursor=pointer]':
+                  - /url: /cofolio/student/project/activities/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS/details
+                  - generic [ref=e97]:
+                    - 'generic "Activité \"CV\" : Construire son parcours" [ref=e100]'
+                    - status [ref=e109]:
+                      - generic [ref=e110]: CV
+                - 'link "Activité \"CV\" : Construire son parcours" [ref=e111] [cursor=pointer]':
+                  - /url: /cofolio/student/project/activities/declared-activity-2/details
+                  - generic [ref=e113]:
+                    - 'generic "Activité \"CV\" : Construire son parcours" [ref=e116]'
+                    - status [ref=e125]:
+                      - generic [ref=e126]: CV
+                - 'link "Activité \"Trajectoires\" : Explorer ses voies" [ref=e127] [cursor=pointer]':
+                  - /url: /cofolio/student/project/activities/declared-activity-3/details
+                  - generic [ref=e129]:
+                    - 'generic "Activité \"Trajectoires\" : Explorer ses voies" [ref=e132]'
+                    - status [ref=e141]:
+                      - generic [ref=e142]: Mes trajectoires
+              - navigation "Pagination basse" [ref=e144]:
+                - list [ref=e145]:
+                  - listitem [ref=e146]:
+                    - link "Première page" [disabled]:
+                      - /url: "#page-1"
+                      - generic: Première page
+                  - listitem [ref=e147]:
+                    - link "Page précédente" [disabled]:
+                      - /url: "#page-1"
+                  - listitem [ref=e148]:
+                    - link "1" [ref=e149] [cursor=pointer]:
+                      - /url: "#page-1"
+                  - listitem [ref=e150]:
+                    - link "2" [ref=e151] [cursor=pointer]:
+                      - /url: "#page-2"
+                  - listitem [ref=e152]:
+                    - link "Page suivante" [ref=e155] [cursor=pointer]:
+                      - /url: "#page-2"
+                  - listitem [ref=e158]:
+                    - link "Dernière page" [ref=e161] [cursor=pointer]:
+                      - /url: "#page-2"
+                      - generic [ref=e162]: Dernière page
+  - contentinfo [ref=e165]:
+    - generic [ref=e167]:
+      - generic [ref=e168]:
+        - link "Logo ANR" [ref=e169] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e170]
+        - link "Logo France 2030" [ref=e171] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e172]
+      - generic [ref=e173]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e174]:
+      - generic [ref=e175]:
+        - img "Logo Cofolio" [ref=e176]
+        - generic [ref=e187]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e188]:
+        - generic [ref=e189]:
+          - generic [ref=e190]: Informations légales
+          - list [ref=e191]:
+            - listitem [ref=e192]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e193] [cursor=pointer]':
+                - /url: /cofolio/student/accessibility
+            - listitem [ref=e194]:
+              - link "Mentions légales" [ref=e195] [cursor=pointer]:
+                - /url: /cofolio/student/legal
+            - listitem [ref=e196]:
+              - link "Données personnelles" [ref=e197] [cursor=pointer]:
+                - /url: /cofolio/student/personal-data
+            - listitem [ref=e198]:
+              - link "Gestion des cookies" [ref=e199] [cursor=pointer]:
+                - /url: /cofolio/student/cookies
+        - generic [ref=e200]:
+          - generic [ref=e201]: Autres sites
+          - list [ref=e202]:
+            - listitem [ref=e203]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e204] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e205]:
+          - generic [ref=e206]: Partenaires
+          - generic [ref=e207]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e208] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e209]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e210] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e212]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e216] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```

@@ -1,0 +1,282 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - link "Accueil - Cofolio Étudiant" [ref=e12] [cursor=pointer]:
+          - /url: /cofolio/student
+          - img [ref=e13]
+        - button "Changer d'univers" [ref=e15] [cursor=pointer]:
+          - generic [ref=e18]: Changer d'univers
+      - generic [ref=e19]:
+        - generic [ref=e20]:
+          - list [ref=e22]:
+            - listitem [ref=e23]:
+              - button "Messagerie" [ref=e26] [cursor=pointer]:
+                - generic [ref=e29]: Messagerie
+            - listitem [ref=e30]:
+              - button "Notifications" [ref=e33] [cursor=pointer]:
+                - generic [ref=e36]: Notifications
+            - listitem [ref=e37]:
+              - button "J. Moulin" [ref=e40] [cursor=pointer]:
+                - generic [ref=e43]: J. Moulin
+          - navigation [ref=e46]:
+            - button "FR" [ref=e49] [cursor=pointer]:
+              - generic [ref=e52]: FR
+        - search [ref=e54]:
+          - generic [ref=e58]:
+            - generic [ref=e60]: Rechercher
+            - searchbox "Rechercher" [ref=e61]
+          - button "Rechercher" [ref=e64] [cursor=pointer]
+    - navigation "Menu principal" [ref=e70]:
+      - list [ref=e71]:
+        - listitem [ref=e72]:
+          - link "ACCUEIL" [ref=e73] [cursor=pointer]:
+            - /url: /cofolio/student
+            - generic [ref=e76]: ACCUEIL
+        - listitem [ref=e77]:
+          - button "RÉUSSIR MA FORMATION" [ref=e78] [cursor=pointer]:
+            - generic [ref=e79]: RÉUSSIR MA FORMATION
+        - listitem [ref=e80]:
+          - button "CONSTRUIRE MON PROJET DE VIE" [ref=e81] [cursor=pointer]:
+            - generic [ref=e82]: CONSTRUIRE MON PROJET DE VIE
+        - listitem [ref=e83]:
+          - button "MES OUTILS" [ref=e84] [cursor=pointer]:
+            - generic [ref=e85]: MES OUTILS
+  - main [ref=e86]:
+    - generic [ref=e87]:
+      - generic [ref=e89]:
+        - navigation "Fil d'Ariane" [ref=e90]:
+          - list [ref=e92]:
+            - listitem [ref=e93]:
+              - link "Accueil" [ref=e94] [cursor=pointer]:
+                - /url: /cofolio/student
+            - listitem [ref=e95]:
+              - generic: Construire mon projet de vie
+            - listitem [ref=e96]:
+              - generic: Mes activités
+        - heading "Mes activités" [level=1] [ref=e97]
+      - generic [ref=e98]:
+        - tablist "Liste d’onglets" [ref=e99]:
+          - tab "Toutes les activités disponibles (6)" [selected] [ref=e100] [cursor=pointer]:
+            - generic [ref=e103]: Toutes les activités disponibles (6)
+          - tab "Ma bibliothèque d'activités (6)" [ref=e104] [cursor=pointer]:
+            - generic [ref=e107]: Ma bibliothèque d'activités (6)
+        - tabpanel "Toutes les activités disponibles (6)" [ref=e108]:
+          - generic [ref=e109]:
+            - generic [ref=e112]:
+              - generic [ref=e113]: Activités proposées par votre SUIO et votre établissement. Pour toute demande d'activités complémentaires, veuillez-vous rapprocher de votre conseiller d'orientation.
+              - button "Voir toutes les activités" [ref=e115] [cursor=pointer]:
+                - generic [ref=e118]: Voir toutes les activités
+            - generic [ref=e119]:
+              - generic [ref=e120]:
+                - generic [ref=e121]:
+                  - generic [ref=e127]: Les nouveautés (6)
+                  - button "Réduire" [expanded] [ref=e130] [cursor=pointer]
+                - generic [ref=e135]:
+                  - navigation "Pagination des nouvelles activités" [ref=e137]:
+                    - list [ref=e138]:
+                      - listitem [ref=e139]: Page 1 sur 2
+                      - listitem
+                      - listitem [ref=e140]:
+                        - link "Page précédente" [disabled]:
+                          - /url: "#page-1"
+                      - listitem [ref=e141]:
+                        - link "Page suivante" [ref=e144] [cursor=pointer]:
+                          - /url: "#page-2"
+                      - listitem
+                  - generic [ref=e147]:
+                    - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l''étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s''incarnent dans ses comportements et ses pratiques quotidiennes." [ref=e148] [cursor=pointer]':
+                      - /url: /cofolio/student/project/activities/catalog/SELF_KNOWLEDGE/declared-activity-1
+                      - generic [ref=e150]:
+                        - 'generic "Activité \"Connaissance de soi\" : Définir ses valeurs" [ref=e153]'
+                        - generic [ref=e157]:
+                          - generic [ref=e161]:
+                            - status [ref=e162]:
+                              - generic [ref=e163]: Me connaître
+                            - status [ref=e164]:
+                              - generic [ref=e165]: En cours
+                          - generic [ref=e169]: Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l'étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s'incarnent dans ses comportements et ses pratiques quotidiennes.
+                    - 'link "Activité \"CV\" : Construire son parcours Activité permettant à l''étudiant.e de construire et de valoriser son parcours académique et professionnel." [ref=e170] [cursor=pointer]':
+                      - /url: /cofolio/student/project/activities/catalog/RESUMES/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+                      - generic [ref=e172]:
+                        - 'generic "Activité \"CV\" : Construire son parcours" [ref=e175]'
+                        - generic [ref=e179]:
+                          - generic [ref=e183]:
+                            - status [ref=e184]:
+                              - generic [ref=e185]: CV
+                            - status [ref=e186]:
+                              - generic [ref=e187]: Inscrit(e)
+                          - generic [ref=e191]: Activité permettant à l'étudiant.e de construire et de valoriser son parcours académique et professionnel.
+                    - 'link "Activité \"CV\" : Construire son parcours Activité permettant à l''étudiant.e de construire et de valoriser son parcours académique et professionnel." [ref=e192] [cursor=pointer]':
+                      - /url: /cofolio/student/project/activities/catalog/RESUMES/declared-activity-2
+                      - generic [ref=e194]:
+                        - 'generic "Activité \"CV\" : Construire son parcours" [ref=e197]'
+                        - generic [ref=e201]:
+                          - generic [ref=e205]:
+                            - status [ref=e206]:
+                              - generic [ref=e207]: CV
+                            - status [ref=e208]:
+                              - generic [ref=e209]: Inscrit(e)
+                          - generic [ref=e213]: Activité permettant à l'étudiant.e de construire et de valoriser son parcours académique et professionnel.
+              - generic [ref=e215]:
+                - generic [ref=e221]: Toutes les activités (6)
+                - generic [ref=e223]:
+                  - button "Me connaître" [ref=e225] [cursor=pointer]:
+                    - generic [ref=e226]: Me connaître
+                  - button "Explorer mes futures" [ref=e228] [cursor=pointer]:
+                    - generic [ref=e229]: Explorer mes futures
+                  - button "Mes formations" [ref=e231] [cursor=pointer]:
+                    - generic [ref=e232]: Mes formations
+                  - button "Mes expériences" [ref=e234] [cursor=pointer]:
+                    - generic [ref=e235]: Mes expériences
+                  - button "Mes trajectoires" [ref=e237] [cursor=pointer]:
+                    - generic [ref=e238]: Mes trajectoires
+                  - button "CV" [ref=e240] [cursor=pointer]:
+                    - generic [ref=e241]: CV
+                  - button "Transverse" [ref=e243] [cursor=pointer]:
+                    - generic [ref=e244]: Transverse
+                  - generic [ref=e245]:
+                    - button "Toutes les activités" [disabled] [pressed]:
+                      - generic: Toutes les activités
+                - generic [ref=e247]:
+                  - generic [ref=e248]:
+                    - generic [ref=e250]:
+                      - generic [ref=e251]: "Nombre de résultats par page :"
+                      - generic [ref=e252]:
+                        - button "4" [disabled] [pressed]:
+                          - generic: "4"
+                      - button "8" [ref=e254] [cursor=pointer]:
+                        - generic [ref=e255]: "8"
+                      - button "12" [ref=e257] [cursor=pointer]:
+                        - generic [ref=e258]: "12"
+                    - navigation "Pagination haute" [ref=e259]:
+                      - list [ref=e260]:
+                        - listitem [ref=e261]: Page 1 sur 2
+                        - listitem
+                        - listitem [ref=e262]:
+                          - link "Page précédente" [disabled]:
+                            - /url: "#page-1"
+                        - listitem [ref=e263]:
+                          - link "Page suivante" [ref=e266] [cursor=pointer]:
+                            - /url: "#page-2"
+                        - listitem
+                  - generic [ref=e270]:
+                    - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l''étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s''incarnent dans ses comportements et ses pratiques quotidiennes." [ref=e271] [cursor=pointer]':
+                      - /url: /cofolio/student/project/activities/catalog/SELF_KNOWLEDGE/declared-activity-1
+                      - generic [ref=e273]:
+                        - 'generic "Activité \"Connaissance de soi\" : Définir ses valeurs" [ref=e276]'
+                        - generic [ref=e280]:
+                          - generic [ref=e284]:
+                            - status [ref=e285]:
+                              - generic [ref=e286]: Me connaître
+                            - status [ref=e287]:
+                              - generic [ref=e288]: En cours
+                          - generic [ref=e292]: Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l'étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s'incarnent dans ses comportements et ses pratiques quotidiennes.
+                    - 'link "Activité \"CV\" : Construire son parcours Activité permettant à l''étudiant.e de construire et de valoriser son parcours académique et professionnel." [ref=e293] [cursor=pointer]':
+                      - /url: /cofolio/student/project/activities/catalog/RESUMES/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+                      - generic [ref=e295]:
+                        - 'generic "Activité \"CV\" : Construire son parcours" [ref=e298]'
+                        - generic [ref=e302]:
+                          - generic [ref=e306]:
+                            - status [ref=e307]:
+                              - generic [ref=e308]: CV
+                            - status [ref=e309]:
+                              - generic [ref=e310]: Inscrit(e)
+                          - generic [ref=e314]: Activité permettant à l'étudiant.e de construire et de valoriser son parcours académique et professionnel.
+                    - 'link "Activité \"CV\" : Construire son parcours Activité permettant à l''étudiant.e de construire et de valoriser son parcours académique et professionnel." [ref=e315] [cursor=pointer]':
+                      - /url: /cofolio/student/project/activities/catalog/RESUMES/declared-activity-2
+                      - generic [ref=e317]:
+                        - 'generic "Activité \"CV\" : Construire son parcours" [ref=e320]'
+                        - generic [ref=e324]:
+                          - generic [ref=e328]:
+                            - status [ref=e329]:
+                              - generic [ref=e330]: CV
+                            - status [ref=e331]:
+                              - generic [ref=e332]: Inscrit(e)
+                          - generic [ref=e336]: Activité permettant à l'étudiant.e de construire et de valoriser son parcours académique et professionnel.
+                    - 'link "Activité \"Trajectoires\" : Explorer ses voies Activité au cours de laquelle l''étudiant.e explore différentes voies professionnelles et académiques." [ref=e337] [cursor=pointer]':
+                      - /url: /cofolio/student/project/activities/catalog/TRAJECTORIES/declared-activity-3
+                      - generic [ref=e339]:
+                        - 'generic "Activité \"Trajectoires\" : Explorer ses voies" [ref=e342]'
+                        - generic [ref=e346]:
+                          - generic [ref=e350]:
+                            - status [ref=e351]:
+                              - generic [ref=e352]: Mes trajectoires
+                            - status [ref=e353]:
+                              - generic [ref=e354]: Terminée
+                          - generic [ref=e358]: Activité au cours de laquelle l'étudiant.e explore différentes voies professionnelles et académiques.
+                  - navigation "Pagination basse" [ref=e360]:
+                    - list [ref=e361]:
+                      - listitem [ref=e362]:
+                        - link "Première page" [disabled]:
+                          - /url: "#page-1"
+                          - generic: Première page
+                      - listitem [ref=e363]:
+                        - link "Page précédente" [disabled]:
+                          - /url: "#page-1"
+                      - listitem [ref=e364]:
+                        - link "1" [ref=e365] [cursor=pointer]:
+                          - /url: "#page-1"
+                      - listitem [ref=e366]:
+                        - link "2" [ref=e367] [cursor=pointer]:
+                          - /url: "#page-2"
+                      - listitem [ref=e368]:
+                        - link "Page suivante" [ref=e371] [cursor=pointer]:
+                          - /url: "#page-2"
+                      - listitem [ref=e374]:
+                        - link "Dernière page" [ref=e377] [cursor=pointer]:
+                          - /url: "#page-2"
+                          - generic [ref=e378]: Dernière page
+  - contentinfo [ref=e381]:
+    - generic [ref=e383]:
+      - generic [ref=e384]:
+        - link "Logo ANR" [ref=e385] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e386]
+        - link "Logo France 2030" [ref=e387] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e388]
+      - generic [ref=e389]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e390]:
+      - generic [ref=e391]:
+        - img "Logo Cofolio" [ref=e392]
+        - generic [ref=e403]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e404]:
+        - generic [ref=e405]:
+          - generic [ref=e406]: Informations légales
+          - list [ref=e407]:
+            - listitem [ref=e408]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e409] [cursor=pointer]':
+                - /url: /cofolio/student/accessibility
+            - listitem [ref=e410]:
+              - link "Mentions légales" [ref=e411] [cursor=pointer]:
+                - /url: /cofolio/student/legal
+            - listitem [ref=e412]:
+              - link "Données personnelles" [ref=e413] [cursor=pointer]:
+                - /url: /cofolio/student/personal-data
+            - listitem [ref=e414]:
+              - link "Gestion des cookies" [ref=e415] [cursor=pointer]:
+                - /url: /cofolio/student/cookies
+        - generic [ref=e416]:
+          - generic [ref=e417]: Autres sites
+          - list [ref=e418]:
+            - listitem [ref=e419]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e420] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e421]:
+          - generic [ref=e422]: Partenaires
+          - generic [ref=e423]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e424] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e425]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e426] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e428]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e432] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
