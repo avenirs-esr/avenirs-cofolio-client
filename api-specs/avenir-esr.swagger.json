@@ -6267,7 +6267,7 @@
             "$ref": "#/components/schemas/UserInfoDTO"
           },
           "activity": {
-            "$ref": "#/components/schemas/DeclaredActivityViewDTO"
+            "$ref": "#/components/schemas/DeclaredActivityDetailsDTO"
           },
           "status": {
             "type": "string",
