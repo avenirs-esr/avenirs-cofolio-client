@@ -38,7 +38,7 @@ export const mockedTracesSummary: TracesSummaryDTO = {
 
 export const mockedTraceOverview: TraceOverviewDTO[] = [
   {
-    traceId: 'trace1',
+    id: 'trace1',
     title: 'Prévenir la pollution à la source',
     authorType: ETraceAuthorType.PERSONAL,
     programName: 'Master Chimie Verte et Éco-innovations',
@@ -46,7 +46,7 @@ export const mockedTraceOverview: TraceOverviewDTO[] = [
     updatedAt: '2024-05-13T08:42:17',
   },
   {
-    traceId: 'trace2',
+    id: 'trace2',
     title: 'Mettre en place des filières d\'économies circulaires',
     authorType: ETraceAuthorType.COLLECTIVE,
     programName: 'Master Chimie Verte et Éco-innovations',
@@ -54,7 +54,7 @@ export const mockedTraceOverview: TraceOverviewDTO[] = [
     updatedAt: '2024-11-29T19:15:03'
   },
   {
-    traceId: 'trace3',
+    id: 'trace3',
     title: 'Évaluer l\'impact environnemental et économique',
     authorType: ETraceAuthorType.PERSONAL,
     programName: 'Master Chimie Verte et Éco-innovations',

@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { TracesSummaryDTO } from '@/api/avenir-esr'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
-import { useTracesSummaryQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import StudentToolsTracesViewAssociatedTab
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewAssociatedTab/StudentToolsTracesViewAssociatedTab.vue'
 import StudentToolsTracesViewUnassociatedTab
@@ -8,8 +8,12 @@ import StudentToolsTracesViewUnassociatedTab
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+export interface StudentToolsTracesViewTabsProps {
+  tracesSummary?: TracesSummaryDTO
+}
+
+defineProps<StudentToolsTracesViewTabsProps>()
 const { t } = useI18n()
-const { data: tracesSummary } = useTracesSummaryQuery()
 
 enum StudentToolsTracesViewTabs {
   UNASSOCIATED_TRACES = 0,

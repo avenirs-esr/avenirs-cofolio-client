@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { ConfirmationModal } from '@/common/components'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
@@ -8,8 +7,9 @@ import { useToasterStore } from '@/store'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-const { trace, show, onConfirmDelete, onClose } = defineProps<{
-  trace: TraceDetailDTO
+const { traceIds, title, show, onConfirmDelete, onClose } = defineProps<{
+  traceIds: string[]
+  title: string
   show: boolean
   onConfirmDelete: () => void
   onClose: () => void
@@ -34,7 +34,7 @@ function useDeleteTrace () {
   })
 
   function onConfirmDeleteTrace () {
-    deleteTraceMutation.mutate({ tracesIds: [trace.id] })
+    deleteTraceMutation.mutate({ tracesIds: traceIds })
   }
 
   return {
@@ -56,10 +56,11 @@ function useDeleteTrace () {
       <AvIconText
         :icon="MDI_ICONS.ATTACH_FILE"
         icon-color="var(--icon)"
-        :text="trace.title"
+        :text="title"
         typography-class="n6"
       />
     </template>
+
     <div class="av-col av-gap-sm">
       <span class="b2-bold av-text-text2">{{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.description') }}</span>
       <span class="b2-light av-text-text2">{{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.subdescription') }}</span>

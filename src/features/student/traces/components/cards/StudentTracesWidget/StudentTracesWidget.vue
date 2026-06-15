@@ -27,7 +27,7 @@ const traces = computed(() => apiTraces.value ?? [])
     <div class="av-row av-wrap av-gap-md">
       <StudentTraceCard
         v-for="trace in traces"
-        :key="trace.traceId"
+        :key="trace.id"
         :trace="trace"
       />
     </div>

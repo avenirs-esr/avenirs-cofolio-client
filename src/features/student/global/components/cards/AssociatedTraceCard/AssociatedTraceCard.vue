@@ -18,7 +18,7 @@ const { associatedTrace } = defineProps<AssociatedTraceCardProps>()
     background-color="var(--light-background-neutral)"
     hover-border-color="var(--dark-background-primary1)"
     icon-border-color="var(--other-border-skill-card)"
-    :to="{ name: ROUTES.STUDENT.TOOLS_TRACE.name, params: { id: associatedTrace.trace.traceId } }"
+    :to="{ name: ROUTES.STUDENT.TOOLS_TRACE.name, params: { id: associatedTrace.trace.id } }"
     data-testid="associated-trace-card"
   />
 </template>

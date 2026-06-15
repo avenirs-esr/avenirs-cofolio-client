@@ -3,7 +3,7 @@ import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface SelectorOverlayProps {
-  selectableElements: { label: string, value: string, showSlot?: boolean, baseElement?: unknown }[]
+  selectableElements: { label: string, value: string, showSlot?: boolean, baseElement?: unknown, disabled?: boolean }[]
   selectedAriaLabel?: string
   unselectedAriaLabel?: string
   checkboxColor?: string
@@ -56,6 +56,7 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
     v-for="element in selectableElements"
     :key="element.value"
     class="selector-overlay__element av-col"
+    :class="{ 'selector-overlay__element--disabled': element.disabled }"
   >
     <slot
       name="default"
@@ -71,12 +72,13 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
       :aria-label="getAriaLabel(element.value, element.label)"
       :title="getAriaLabel(element.value, element.label)"
       :aria-pressed="selectedElements.includes(element.value)"
+      :aria-disabled="element.disabled"
       class="selector-overlay__checkbox av-row av-px-xs av-justify-end"
       :class="{ 'selector-overlay__checkbox--selected': selectedElements.includes(element.value) }"
       data-testid="selector-overlay"
-      @click="() => onSelectElement(element.value)"
-      @keydown.enter="() => onSelectElement(element.value)"
-      @keydown.space="() => onSelectElement(element.value)"
+      @click="() => !element.disabled && onSelectElement(element.value)"
+      @keydown.enter="() => !element.disabled && onSelectElement(element.value)"
+      @keydown.space="() => !element.disabled && onSelectElement(element.value)"
     >
       <AvIcon
         :name="selectedElements.includes(element.value) ? MDI_ICONS.CHECKBOX_MARKED : MDI_ICONS.CHECKBOX_BLANK_OUTLINE"
@@ -92,6 +94,12 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
   &__element {
     position: relative;
     cursor: pointer;
+
+    &--disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+      filter: grayscale(1);
+    }
   }
 
   &__checkbox {

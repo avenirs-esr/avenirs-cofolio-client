@@ -1,10 +1,16 @@
 import type { PropType } from 'vue'
 
 export const SelectorOverlayStub = defineComponent({
-  name: 'SelectorOverlayStub',
+  name: 'SelectorOverlay',
   props: {
     selectableElements: {
-      type: Array as PropType<{ label: string, value: string, baseElement: unknown }[]>,
+      type: Array as PropType<{
+        label: string
+        value: string
+        showSlot?: boolean
+        baseElement?: unknown
+        disabled?: boolean
+      }[]>,
       required: true,
     },
     selectedElements: {
@@ -18,27 +24,36 @@ export const SelectorOverlayStub = defineComponent({
   },
   emits: ['update:selectedElements'],
   template: `
-      <div class="selector-overlay-stub">
-        <div 
-          v-for="element in selectableElements"
-          :key="element.value"
+    <div class="selector-overlay-stub">
+      <div
+        v-for="element in selectableElements"
+        :key="element.value"
+      >
+        <a
+          v-if="!readonly && !element.disabled"
+          role="button"
+          class="selector-overlay-stub__element"
+          :class="{ 'selector-overlay-stub__element--selected': selectedElements.includes(element.value) }"
+          data-testid="selector-overlay"
+          @click="$emit('update:selectedElements', toggleSelection(element.value))"
+          @keydown.enter="$emit('update:selectedElements', toggleSelection(element.value))"
+          @keydown.space="$emit('update:selectedElements', toggleSelection(element.value))"
         >
-          <a
-            v-if="!readonly"
-            role="button"
-            class="selector-overlay-stub__element"
-            :class="{ 'selector-overlay-stub__element--selected': selectedElements.includes(element.value) }"
-            data-testid="selector-overlay"
-            @click="$emit('update:selectedElements', toggleSelection(element.value))"
-            @keydown.enter="$emit('update:selectedElements', toggleSelection(element.value))"
-            @keydown.space="$emit('update:selectedElements', toggleSelection(element.value))"
-          >
-            {{ element.label }}
-          </a>
-          <slot name="default" :base-element="element.baseElement" :label="element.label" :value="element.value" :show-slot="element.showSlot">{{ element.label }}</slot>
-        </div>
+          {{ element.label }}
+        </a>
+
+        <slot
+          name="default"
+          :base-element="element.baseElement"
+          :label="element.label"
+          :value="element.value"
+          :show-slot="element.showSlot"
+        >
+          {{ element.label }}
+        </slot>
       </div>
-    `,
+    </div>
+  `,
   methods: {
     toggleSelection (value: string) {
       const isSelected = this.selectedElements.includes(value)

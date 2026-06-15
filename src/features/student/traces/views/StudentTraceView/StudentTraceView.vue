@@ -169,7 +169,8 @@ const breadcrumbLinks = computed(() => isToolsTraceRoute.value
       />
 
       <TraceDeletionConfirmationModal
-        :trace="traceDetailed"
+        :trace-ids="[traceDetailed.id]"
+        :title="traceDetailed.title"
         :show="showDeleteModal"
         :on-confirm-delete="() => onDeleteTraceSuccess()"
         :on-close="() => hideDeleteModal()"

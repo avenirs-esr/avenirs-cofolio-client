@@ -25,7 +25,7 @@ const title = computed(() => t('student.buildProject.activities.views.ProjectAct
   >
     <AssociatedTraceCard
       v-for="associatedTrace in associatedTraces"
-      :key="associatedTrace.trace.traceId"
+      :key="associatedTrace.trace.id"
       :associated-trace="associatedTrace"
     />
   </AssociationsCard>

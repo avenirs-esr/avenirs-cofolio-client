@@ -392,7 +392,7 @@ export function createMockedTraceAssociations (
     traceAssociations.push({
       associationId: `association-${i}`,
       trace: {
-        traceId: idsToAssociate?.[i - 1] ?? `trace-${i}`,
+        id: idsToAssociate?.[i - 1] ?? `trace-${i}`,
         title: `Trace #${i} associée à l\'activité`,
         programName: `Programme de la trace #${i} associée`,
         authorType: i % 2 === 0 ? ETraceAuthorType.COLLECTIVE : ETraceAuthorType.PERSONAL,

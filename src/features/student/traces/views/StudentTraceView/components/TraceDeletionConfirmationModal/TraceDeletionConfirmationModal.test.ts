@@ -76,7 +76,8 @@ BddTest().given('a trace deletion confirmation modal', () => {
   function mountComponent (show = true) {
     wrapper = mount(TraceDeletionConfirmationModal, {
       props: {
-        trace: mockedTrace,
+        traceIds: [mockedTrace.id],
+        title: mockedTrace.title,
         show,
         onConfirmDelete: onConfirmDeleteMock,
         onClose: onCloseMock
@@ -131,6 +132,25 @@ BddTest().given('a trace deletion confirmation modal', () => {
       await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
 
       expect(mockMutate).toHaveBeenCalledWith({ tracesIds: [mockedTrace.id] })
+    })
+
+    BddTest().then('clicking confirm button should call mutate with multiple trace ids', async () => {
+      wrapper = mount(TraceDeletionConfirmationModal, {
+        props: {
+          traceIds: ['trace1', 'trace2', 'trace3'],
+          title: 'Suppression de plusieurs traces',
+          show: true,
+          onConfirmDelete: onConfirmDeleteMock,
+          onClose: onCloseMock
+        },
+        global: { stubs }
+      })
+
+      await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
+
+      expect(mockMutate).toHaveBeenCalledWith({
+        tracesIds: ['trace1', 'trace2', 'trace3']
+      })
     })
   })
 

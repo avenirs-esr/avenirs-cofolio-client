@@ -8,9 +8,18 @@ import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/Det
 import { ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import { TraceAssociationsStub } from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.stub'
+import {
+  StudentTraceDetailsStub
+} from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.stub'
 import { AssociateDeclaredSkillsToTracesModalStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsToTracesModal/AssociateDeclaredSkillsToTracesModal.stub'
+import {
+  TraceDeletionConfirmationModalStub
+} from '@/features/student/traces/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.stub'
+import {
+  TraceSettingsDropdownStub
+} from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.stub'
 import StudentTraceView from '@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { useRoute } from 'vue-router'
@@ -45,6 +54,7 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
+const mockNavigateToStudentTraces = vi.fn()
 const mockNavigateToStudentUpdateTrace = vi.fn()
 const mockNavigateToStudentToolsUpdateTrace = vi.fn()
 
@@ -53,7 +63,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
   return {
     ...actual,
     useNavigation: () => ({
-      navigateToStudentTraces: vi.fn(),
+      navigateToStudentTraces: mockNavigateToStudentTraces,
       navigateToStudentUpdateTrace: mockNavigateToStudentUpdateTrace,
       navigateToStudentToolsUpdateTrace: mockNavigateToStudentToolsUpdateTrace,
     }),
@@ -66,36 +76,12 @@ BddTest().given('a student trace view', () => {
 
   const stubs = {
     DetailedPageTitle: DetailedPageTitleStub,
-    AvTabs: {
-      name: 'AvTabs',
-      props: ['modelValue'],
-      template: '<div class="av-tabs"><slot /></div>'
-    },
-    AvTab: {
-      name: 'AvTab',
-      props: ['title', 'icon'],
-      template: '<div class="av-tab"><slot /></div>'
-    },
-    TraceSettingsDropdown: {
-      name: 'TraceSettingsDropdown',
-      template: '<div class="trace-settings-popover" />'
-    },
-    TraceDeletionConfirmationModal: {
-      name: 'TraceDeletionConfirmationModal',
-      props: ['trace', 'show'],
-      template: '<div class="trace-deletion-confirmation-modal" />'
-    },
+    AvTabs: AvTabsStub,
+    AvTab: AvTabStub,
+    TraceSettingsDropdown: TraceSettingsDropdownStub,
+    TraceDeletionConfirmationModal: TraceDeletionConfirmationModalStub,
     AssociateDeclaredSkillsToTracesModal: AssociateDeclaredSkillsToTracesModalStub,
-    StudentTraceDetails: {
-      name: 'StudentTraceDetails',
-      props: ['trace'],
-      template: '<div class="student-trace-details" />'
-    },
-    StudentTraceAssociations: {
-      name: 'StudentTraceAssociations',
-      props: ['skillLevelAssociations', 'declaredSkillAssociations'],
-      template: '<div class="student-trace-associations" />'
-    },
+    StudentTraceDetails: StudentTraceDetailsStub,
     TraceAssociations: TraceAssociationsStub
   }
 
@@ -141,10 +127,13 @@ BddTest().given('a student trace view', () => {
       expect(popover.exists()).toBe(true)
     })
 
-    BddTest().then('it should render the TraceDeletionConfirmationModal initially hidden', async () => {
+    BddTest().then('it should render the TraceDeletionConfirmationModal initially hidden with correct props', async () => {
       const modal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
+
       expect(modal.exists()).toBe(true)
       expect(modal.props('show')).toBe(false)
+      expect(modal.props('traceIds')).toEqual([mockedTraceDetailed.id])
+      expect(modal.props('title')).toBe(mockedTraceDetailed.title)
     })
 
     BddTest().then('it should render AvTabs component', () => {
@@ -152,37 +141,24 @@ BddTest().given('a student trace view', () => {
       expect(tabs.exists()).toBe(true)
     })
 
-    BddTest().then('it should render two AvTab components', () => {
-      const tabs = wrapper.findAllComponents({ name: 'AvTab' })
-      expect(tabs).toHaveLength(2)
+    BddTest().then('it should render the active trace details tab by default', () => {
+      const tab = wrapper.findComponent({ name: 'AvTab' })
+
+      expect(tab.exists()).toBe(true)
+      expect(tab.props('title')).toBe('Ma trace')
     })
 
-    BddTest().then('it should render the trace details tab with correct title', () => {
-      const tabs = wrapper.findAllComponents({ name: 'AvTab' })
-      expect(tabs[0].props('title')).toBe('Ma trace')
-    })
+    BddTest().then('it should render StudentTraceDetails component in the active tab', () => {
+      const traceDetails = wrapper.findComponent({ name: 'StudentTraceDetails' })
 
-    BddTest().then('it should render the associations tab with correct title', () => {
-      const tabs = wrapper.findAllComponents({ name: 'AvTab' })
-      expect(tabs[1].props('title')).toBe('Mes éléments associés (5)')
-    })
-
-    BddTest().then('it should render TraceAssociations with correct props', async () => {
-      const traceAssociations = wrapper.findComponent(TraceAssociationsStub)
-      expect(traceAssociations.exists()).toBe(true)
-      expect(traceAssociations.props('countAssociations')).toBe(5)
-      expect(traceAssociations.props('associationsError')).toBeNull()
+      expect(traceDetails.exists()).toBe(true)
+      expect(traceDetails.props('trace')).toEqual(mockedTraceDetailed)
     })
 
     BddTest().then('it should render StudentTraceDetails component in the first tab', () => {
       const traceDetails = wrapper.findComponent({ name: 'StudentTraceDetails' })
       expect(traceDetails.exists()).toBe(true)
       expect(traceDetails.props('trace')).toEqual(mockedTraceDetailed)
-    })
-
-    BddTest().then('it should have TraceAssociations component available', () => {
-      const allTabs = wrapper.findAllComponents({ name: 'AvTab' })
-      expect(allTabs).toHaveLength(2)
     })
 
     BddTest().then('it should render the AssociateDeclaredSkillsToTracesModal initially hidden', async () => {
@@ -238,7 +214,10 @@ BddTest().given('a student trace view', () => {
 
     BddTest().then('it should show the deletion confirmation modal', () => {
       const modal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
+
       expect(modal.props('show')).toBe(true)
+      expect(modal.props('traceIds')).toEqual([mockedTraceDetailed.id])
+      expect(modal.props('title')).toBe(mockedTraceDetailed.title)
     })
   })
 
@@ -293,6 +272,45 @@ BddTest().given('a student trace view', () => {
       })
 
       expect(downloadBlob).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('the associations tab is selected', () => {
+    beforeEach(async () => {
+      const tabs = wrapper.findComponent({ name: 'AvTabs' })
+
+      await tabs.vm.$emit('update:modelValue', 1)
+      await flushPromises()
+    })
+
+    BddTest().then('it should render the associations tab with correct title', () => {
+      const tab = wrapper.findComponent({ name: 'AvTab' })
+
+      expect(tab.props('title')).toBe('Mes éléments associés (5)')
+    })
+
+    BddTest().then('it should render TraceAssociations with correct props', () => {
+      const traceAssociations = wrapper.findComponent(TraceAssociationsStub)
+
+      expect(traceAssociations.exists()).toBe(true)
+      expect(traceAssociations.props('countAssociations')).toBe(5)
+      expect(traceAssociations.props('associationsError')).toBeNull()
+    })
+  })
+
+  BddTest().when('trace deletion succeeds', () => {
+    beforeEach(async () => {
+      const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
+      await popover.vm.$emit('delete-selected')
+      await flushPromises()
+
+      const modal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
+      modal.props('onConfirmDelete')()
+      await flushPromises()
+    })
+
+    BddTest().then('it should navigate back to traces list', () => {
+      expect(mockNavigateToStudentTraces).toHaveBeenCalledWith({ replace: true })
     })
   })
 })
