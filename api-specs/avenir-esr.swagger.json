@@ -6806,6 +6806,7 @@
           "NOT_BLANK",
           "NOT_NULL",
           "TOO_LONG",
+          "ENRICHED_TEXT_TOO_LONG",
           "NOT_URL",
           "END_DATE_BEFORE_START_DATE",
           "INSTITUTION_ID_NULL",

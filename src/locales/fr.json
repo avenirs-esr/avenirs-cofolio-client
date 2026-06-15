@@ -172,6 +172,7 @@
         "DEPENDENCY_CHECK_TIMEOUT": "Délai de vérification des dépendances dépassé",
         "DESCRIPTION_TOO_LONG": "La longueur de la description est trop longue",
         "END_DATE_BEFORE_START_DATE": "La date de fin ne peut pas être antérieure à la date de début",
+        "ENRICHED_TEXT_TOO_LONG": "Le texte avec son contenu enrichi dépasse la longueur maximale autorisée",
         "FEEDBACK_IN_PROCESS": "Une demande de feedback est déjà en cours de traitement.",
         "FEEDBACK_MAXIMUM_ITERATION_REACHED": "Vous avez atteint le nombre maximal de demandes de feedback autorisé.",
         "FEEDBACK_NOT_FOUND": "Feedback introuvable.",
