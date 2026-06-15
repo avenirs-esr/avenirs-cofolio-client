@@ -26,6 +26,7 @@
     "application": "Application",
     "audio": "Audio",
     "AvAutoComplete": {
+      "clearLabel": "Effacer la sélection",
       "elementsSelectedLabel": "{count} élément sélectionné | {count} éléments sélectionnés"
     },
     "avPagination": {
@@ -76,6 +77,10 @@
       "underline": "Souligné (Ctrl+U)",
       "undo": "Annuler (Ctrl+Z)",
       "unsetLink": "Supprimer le lien"
+    },
+    "AvSideMenu": {
+      "collapseButtonAriaLabel": "Réduire le menu",
+      "expandButtonAriaLabel": "Déplier le menu"
     },
     "avToggle": {
       "activeText": "Oui",
