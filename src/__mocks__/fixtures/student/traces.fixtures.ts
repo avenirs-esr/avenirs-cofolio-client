@@ -249,6 +249,16 @@ export const mockedTraceDetailed = {
   traceAssociations: mockedTraceAssociations
 }
 
+export const mockedTraceDetailedWithFile = {
+  ...mockedTraceDetailed,
+  link: undefined,
+}
+
+export const mockedTraceDetailedWithLink = {
+  ...mockedTraceDetailed,
+  attachment: undefined,
+}
+
 export function createMockedSearchTracesForAssociationResponse (
   params?: SearchTracesForAssociationParams
 ): PagedResponseAssociationSearchResultTraceDTO {

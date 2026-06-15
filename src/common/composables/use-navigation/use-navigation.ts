@@ -196,6 +196,20 @@ export function useNavigation () {
     })
   }
 
+  const navigateToStudentToolsTrace = ({ id }: { id: string }) => {
+    return router.push({
+      name: ROUTES.STUDENT.TOOLS_TRACE.name,
+      params: { id },
+    })
+  }
+
+  const navigateToStudentProjectSkill = ({ id }: { id: string }) => {
+    return router.push({
+      name: ROUTES.STUDENT.PROJECT_SKILL.name,
+      params: { id },
+    })
+  }
+
   const navigateToStudentToolsUpdateTrace = ({ id }: { id: string }) => {
     return router.push({
       name: ROUTES.STUDENT.TOOLS_UPDATE_TRACE.name,
@@ -234,5 +248,7 @@ export function useNavigation () {
     navigateToStaffActivityCatalog,
     navigateToStudentUpdateTrace,
     navigateToStudentToolsUpdateTrace,
+    navigateToStudentToolsTrace,
+    navigateToStudentProjectSkill,
   }
 }
