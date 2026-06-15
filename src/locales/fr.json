@@ -94,6 +94,7 @@
       "expandButtonLabel": "Voir le fil d'Ariane"
     },
     "buttons": {
+      "access": "Accéder",
       "add": "Ajouter",
       "associate": "Associer",
       "cancel": "Annuler",
@@ -101,6 +102,7 @@
       "collapse": "Réduire",
       "confirm": "Confirmer",
       "delete": "Supprimer",
+      "download": "Télécharger",
       "exit": "Quitter",
       "expand": "Développer",
       "goBack": "Retour",

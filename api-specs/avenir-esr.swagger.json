@@ -507,6 +507,69 @@
         }
       }
     },
+    "/me/activity-progress/feedbacks/{feedbackId}": {
+      "get": {
+        "tags": [
+          "feedback-controller"
+        ],
+        "operationId": "getFeedbackDetails",
+        "parameters": [
+          {
+            "name": "feedbackId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackDetailsDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "feedback-controller"
+        ],
+        "operationId": "updateFeedback",
+        "parameters": [
+          {
+            "name": "feedbackId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFeedbackRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/me/traces": {
       "post": {
         "tags": [
@@ -1397,37 +1460,6 @@
         }
       }
     },
-    "/me/activity-progress/{declaredActivityId}/ask-for-feedback": {
-      "post": {
-        "tags": [
-          "declared-activity-controller"
-        ],
-        "operationId": "askForFeedback",
-        "parameters": [
-          {
-            "name": "declaredActivityId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/FeedbackDetailsDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/activity-progress/subscribe/{activityId}": {
       "post": {
         "tags": [
@@ -1462,6 +1494,37 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/CreationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activity-progress/feedbacks/{declaredActivityId}/ask-for-feedback": {
+      "post": {
+        "tags": [
+          "feedback-controller"
+        ],
+        "operationId": "askForFeedback",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackDetailsDTO"
                 }
               }
             }
@@ -1593,6 +1656,36 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/users/preferences/notification": {
+      "patch": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "updateNotificationPreferences",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationPreferencesRequest"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -2922,7 +3015,7 @@
     "/me/activity-progress/feedbacks": {
       "get": {
         "tags": [
-          "declared-activity-controller"
+          "feedback-controller"
         ],
         "operationId": "getStaffFeedbacks",
         "parameters": [
@@ -2969,37 +3062,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PagedResponseFeedbackStaffListItemDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/activity-progress/feedback/{feedbackId}": {
-      "get": {
-        "tags": [
-          "declared-activity-controller"
-        ],
-        "operationId": "getFeedbackDetails",
-        "parameters": [
-          {
-            "name": "feedbackId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/FeedbackDetailsDTO"
                 }
               }
             }
@@ -4479,6 +4541,19 @@
           "id"
         ]
       },
+      "UpdateFeedbackRequest": {
+        "type": "object",
+        "properties": {
+          "feedback": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 0
+          }
+        },
+        "required": [
+          "feedback"
+        ]
+      },
       "CreateTraceDTO": {
         "type": "object",
         "properties": {
@@ -5022,6 +5097,26 @@
           "traceAssociations"
         ]
       },
+      "SubscribeDeclaredActivityRequest": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "$ref": "#/components/schemas/DeclaredActivityPeriodDTO"
+          }
+        }
+      },
+      "CreationResponse": {
+        "type": "object",
+        "properties": {
+          "createdItemId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "createdItemId"
+        ]
+      },
       "FeedbackDetailsDTO": {
         "type": "object",
         "properties": {
@@ -5105,26 +5200,6 @@
           "lastName"
         ]
       },
-      "SubscribeDeclaredActivityRequest": {
-        "type": "object",
-        "properties": {
-          "period": {
-            "$ref": "#/components/schemas/DeclaredActivityPeriodDTO"
-          }
-        }
-      },
-      "CreationResponse": {
-        "type": "object",
-        "properties": {
-          "createdItemId": {
-            "type": "string",
-            "format": "uuid"
-          }
-        },
-        "required": [
-          "createdItemId"
-        ]
-      },
       "ActivityDraftCreationRequest": {
         "type": "object",
         "properties": {
@@ -5147,6 +5222,14 @@
         "required": [
           "draftId"
         ]
+      },
+      "NotificationPreferencesRequest": {
+        "type": "object",
+        "properties": {
+          "notificationEnabled": {
+            "type": "boolean"
+          }
+        }
       },
       "ActivityDraftUpdateRequest": {
         "type": "object",
