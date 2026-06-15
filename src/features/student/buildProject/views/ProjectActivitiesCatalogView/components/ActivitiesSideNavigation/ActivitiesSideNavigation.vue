@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
 import Loader from '@/common/components/Loader/Loader.vue'
+import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
 import { useNavigation } from '@/common/composables'
 import { ICONS } from '@/common/constants'
 import { isEnumMember } from '@/common/utils'
-import {
-  AvSideNavigation,
-  type AvSideNavigationMenuItem,
-  type AvSideNavigationSelectedItem,
-  MDI_ICONS,
-} from '@avenirs-esr/avenirs-dsav'
+import { type AvSideNavigationMenuItem, type AvSideNavigationSelectedItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -93,7 +89,7 @@ function navigateToSelectedItem (value: AvSideNavigationSelectedItem) {
     :is-loading="isLoading && !isError"
     size="2xl"
   >
-    <AvSideNavigation
+    <SideNavigation
       v-model:is-side-menu-collapsed="isSideMenuCollapsed"
       data-testid="activities-side-navigation"
       :selected-item="selectedSideNavItem"

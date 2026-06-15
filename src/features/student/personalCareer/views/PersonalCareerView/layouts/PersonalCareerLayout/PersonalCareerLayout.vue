@@ -1,6 +1,15 @@
 <script setup lang="ts">
+import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
 import { ROUTES } from '@/common/constants'
-import { AvSelect, type AvSelectOption, type AvSelectSelectedOption, AvSideNavigation, type AvSideNavigationItem, ICONS_DATA_URL, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import {
+  AvSelect,
+  type AvSelectOption,
+  type AvSelectSelectedOption,
+  type AvSideNavigationItem,
+  ICONS_DATA_URL,
+  MDI_ICONS,
+  useAvBreakpoints
+} from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
@@ -73,7 +82,7 @@ watch(() => route.name, (newRouteName) => {
       data-testid="section-navigation-select-navigation"
       @update:selected-item="onSelectChange"
     />
-    <AvSideNavigation
+    <SideNavigation
       v-else
       v-model:is-side-menu-collapsed="isSideMenuCollapsed"
       :selected-item="selectedItem"

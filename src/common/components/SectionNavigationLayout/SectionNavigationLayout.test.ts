@@ -1,8 +1,9 @@
 import type { SectionNavigationItem } from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.types'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
+import { SideNavigationStub } from '@/common/components/navigation/SideNavigation/SideNavigation.stub'
 import SectionNavigationLayout
   from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.vue'
-import { AvSelectStub, AvSideNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { type Component, markRaw } from 'vue'
@@ -81,7 +82,7 @@ BddTest().given('a section navigation layout component', () => {
 
   const stubs = {
     Loader: LoaderStub,
-    AvSideNavigation: AvSideNavigationStub,
+    SideNavigation: SideNavigationStub,
     AvSelect: AvSelectStub,
   }
 
@@ -134,7 +135,7 @@ BddTest().given('a section navigation layout component', () => {
     })
 
     BddTest().then('it should pass side navigation props', () => {
-      const sideNavigation = wrapper.findComponent(AvSideNavigationStub)
+      const sideNavigation = wrapper.findComponent(SideNavigationStub)
 
       expect(sideNavigation.exists()).toBe(true)
       expect(sideNavigation.props('selectedItem')).toEqual({
@@ -157,7 +158,7 @@ BddTest().given('a section navigation layout component', () => {
 
     BddTest().and('the side navigation selects the second section', () => {
       beforeEach(async () => {
-        const sideNavigation = wrapper.findComponent(AvSideNavigationStub)
+        const sideNavigation = wrapper.findComponent(SideNavigationStub)
         sideNavigation.vm.$emit('update:selectedItem', { itemId: 'second-section' })
         await wrapper.vm.$nextTick()
       })
@@ -180,7 +181,7 @@ BddTest().given('a section navigation layout component', () => {
 
     BddTest().and('the side navigation emits a selected item with parent id', () => {
       beforeEach(async () => {
-        const sideNavigation = wrapper.findComponent(AvSideNavigationStub)
+        const sideNavigation = wrapper.findComponent(SideNavigationStub)
         sideNavigation.vm.$emit('update:selectedItem', {
           itemId: 'second-section',
           parentId: 'parent-section',
@@ -189,7 +190,7 @@ BddTest().given('a section navigation layout component', () => {
       })
 
       BddTest().then('it should keep the selected parent id in the side navigation selected item', () => {
-        const sideNavigation = wrapper.findComponent(AvSideNavigationStub)
+        const sideNavigation = wrapper.findComponent(SideNavigationStub)
 
         expect(sideNavigation.props('selectedItem')).toEqual({
           itemId: 'second-section',
@@ -204,7 +205,7 @@ BddTest().given('a section navigation layout component', () => {
 
     BddTest().and('the side navigation emits an invalid selected item', () => {
       beforeEach(async () => {
-        const sideNavigation = wrapper.findComponent(AvSideNavigationStub)
+        const sideNavigation = wrapper.findComponent(SideNavigationStub)
         sideNavigation.vm.$emit('update:selectedItem', { itemId: 'invalid-section' })
         await wrapper.vm.$nextTick()
       })
@@ -221,7 +222,7 @@ BddTest().given('a section navigation layout component', () => {
       })
 
       BddTest().then('it should resync the selected item with the new default section', () => {
-        const sideNavigation = wrapper.findComponent(AvSideNavigationStub)
+        const sideNavigation = wrapper.findComponent(SideNavigationStub)
 
         expect(sideNavigation.props('selectedItem')).toEqual({
           itemId: 'second-section',
