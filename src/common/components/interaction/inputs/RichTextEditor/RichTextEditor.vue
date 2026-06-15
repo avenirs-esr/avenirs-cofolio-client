@@ -84,7 +84,11 @@ const avRichTextEditorProps: ComputedRef<AvRichTextEditorProps> = computed(() =>
       <template #maxLengthCaption="{ currentValue }">
         <span
           v-if="maxlength"
-          class="b2-regular av-text-text1"
+          class="b2-regular"
+          :class="{
+            'av-text-text1': (currentValue ?? 0) <= maxlength,
+            'av-text-error': (currentValue ?? 0) > maxlength,
+          }"
         >
           {{ t('global.AvRichTextEditor.maxLengthCaption', { count: currentValue, maxlength }) }}
         </span>

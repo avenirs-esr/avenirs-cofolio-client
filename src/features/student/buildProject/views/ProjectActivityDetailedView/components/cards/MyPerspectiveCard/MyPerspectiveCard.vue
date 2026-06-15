@@ -2,6 +2,7 @@
 import { EActivityStatus, invalidateGetActivityPresentation, useUpdateReflection } from '@/api/avenir-esr'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { AUTO_SAVE_DEBOUNCE_DELAY, ICONS } from '@/common/constants'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
@@ -28,10 +29,12 @@ const { getErrorMessage } = useApiErrors()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const queryClient = useQueryClient()
 const { isLoading, withTaskLoading } = useTaskLoading()
+const { validateMax } = useFormValidators()
 
 const readonly = ref(true)
 const content = ref(perspective ?? '<p></p>')
 const sanitizedContent = computed(() => DOMPurify.sanitize(content.value))
+const charCount = ref(0)
 
 const { mutate: mutateUpdateReflection, isPending: isPendingSave } = useUpdateReflection()
 
@@ -69,9 +72,14 @@ function updateActivityReflectionOnAutoSave (reflection: string) {
 }
 
 const isModified = computed(() => sanitizedContent.value !== perspective)
+const errors = computed(() => validateMax(charCount.value, PERSPECTIVE_MAX_LENGTH))
 
 const onAutoSave = debounce(() => {
-  if (!readonly.value && isModified.value && !isPendingAutoSave.value && !isPendingSave.value) {
+  if (!readonly.value
+    && isModified.value
+    && !isPendingAutoSave.value
+    && !isPendingSave.value
+    && !errors.value) {
     updateActivityReflectionOnAutoSave(sanitizedContent.value)
   }
 }, AUTO_SAVE_DEBOUNCE_DELAY)
@@ -129,7 +137,9 @@ watch(content, () => {
       <RichTextEditor
         v-if="!readonly"
         v-model="content"
+        v-model:char-count="charCount"
         :maxlength="PERSPECTIVE_MAX_LENGTH"
+        :error-message="errors"
       />
       <div
         v-else
@@ -145,7 +155,7 @@ watch(content, () => {
             :label="t('global.buttons.save')"
             :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
             variant="FLAT"
-            :disabled="!isModified"
+            :disabled="!isModified || !!errors"
             :is-loading="isPendingSave || isPendingAutoSave || isLoading"
             small
             data-testid="my-perspective-card-save-button"
