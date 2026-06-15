@@ -34,7 +34,7 @@ BddTest().given('an associatied trace card', () => {
         backgroundColor: 'var(--light-background-neutral)',
         hoverBorderColor: 'var(--dark-background-primary1)',
         iconBorderColor: 'var(--other-border-skill-card)',
-        to: { name: ROUTES.STUDENT.TOOLS_TRACE.name, params: { id: props.associatedTrace.trace.traceId } }
+        to: { name: ROUTES.STUDENT.TOOLS_TRACE.name, params: { id: props.associatedTrace.trace.id } }
       })
     })
   })

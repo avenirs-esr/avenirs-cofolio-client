@@ -42,7 +42,7 @@ import { useInvalidateQuery } from '@/common/composables'
 import { removeEmpty } from '@/common/utils'
 import { commonQueryKeys } from '@/features/student/global'
 import { keepPreviousData, useMutation, useQuery, type UseQueryReturnType } from '@tanstack/vue-query'
-import { type MaybeRef, type Ref, toValue } from 'vue'
+import { type ComputedRef, type MaybeRef, type Ref, toValue } from 'vue'
 
 const tracesCommonQueryKeys = [...commonQueryKeys, 'traces']
 const traceDetailQueryKey = [...tracesCommonQueryKeys, 'trace-detailed']
@@ -54,6 +54,7 @@ const tracesSearchAssociationSkillsQueryKey = [...tracesCommonQueryKeys, 'search
 export interface UseTracesViewQueryParams {
   params: Ref<TracesViewParams>
   traceFilter: Ref<TraceFilter>
+  enabled?: Ref<boolean> | ComputedRef<boolean>
 }
 
 type UseTracesViewQueryReturn = UseQueryReturnType<PagedResponseTraceViewDTO, BaseApiException> & {
@@ -61,7 +62,7 @@ type UseTracesViewQueryReturn = UseQueryReturnType<PagedResponseTraceViewDTO, Ba
   pageInfo: Ref<PagedResponseTraceViewDTO['page']>
 }
 
-export function useTracesViewQuery ({ params, traceFilter }: UseTracesViewQueryParams): UseTracesViewQueryReturn {
+export function useTracesViewQuery ({ params, traceFilter, enabled }: UseTracesViewQueryParams): UseTracesViewQueryReturn {
   const queryKey = computed(() => [
     ...tracesViewQueryKey,
     toValue(params),
@@ -75,6 +76,7 @@ export function useTracesViewQuery ({ params, traceFilter }: UseTracesViewQueryP
       const cleanParams = computed(() => removeEmpty(params.value))
       return await tracesView(cleanFilter.value, cleanParams.value)
     },
+    enabled,
     placeholderData: keepPreviousData
   })
 
@@ -105,12 +107,20 @@ export interface DeleteTraceVariables {
 
 export function useDeleteTraceMutation ({ onError, onSuccess }: MutationArgs = {}) {
   const invalidateTracesViewQuery = useInvalidateQuery(tracesViewQueryKey)
+  const invalidateTracesSummaryQuery = useInvalidateQuery([...tracesCommonQueryKeys, 'summary'])
+  const invalidateTracesOverviewQuery = useInvalidateQuery([...tracesCommonQueryKeys, 'overview'])
+
   return useMutation<string, BaseApiException, DeleteTraceVariables>({
     mutationFn: async ({ tracesIds }: DeleteTraceVariables): Promise<string> => {
       return await deleteTraces(tracesIds)
     },
     onSuccess: async (data, variables) => {
-      await invalidateTracesViewQuery()
+      await Promise.all([
+        invalidateTracesViewQuery(),
+        invalidateTracesSummaryQuery(),
+        invalidateTracesOverviewQuery()
+      ])
+
       onSuccess?.(data, variables)
     },
     onError
@@ -237,7 +247,7 @@ export function useUpdateTraceMutation ({ onError, onSuccess }: MutationArgs<Tra
 }
 
 export function useStudentTracesSummaryQuery (): UseQueryReturnType<TraceOverviewDTO[], BaseApiException> {
-  const queryKey = computed(() => [...tracesCommonQueryKeys, 'summary'])
+  const queryKey = computed(() => [...tracesCommonQueryKeys, 'overview'])
   return useQuery<TraceOverviewDTO[], BaseApiException, TraceOverviewDTO[], readonly unknown[]>({
     queryKey,
     queryFn: async (): Promise<TraceOverviewDTO[]> => {

@@ -74,6 +74,12 @@
               "title": "All my traces"
             }
           },
+          "deleteTracesModal": {
+            "confirm": "Delete the selected trace ({count}) | Delete the selected traces ({count})",
+            "confirmationTitle": "Delete selected trace | Delete selected traces ({count})",
+            "description": "Note: Traces included in an activity marked as \"submitted for feedback\" or \"completed\" are locked. You cannot select or delete them from the list below.",
+            "title": "No trace to delete | Which trace would you like to delete? | Which traces would you like to delete?"
+          },
           "studentDetailedTraceAssociateModal": {
             "buttons": {
               "associate": "Associate"
@@ -196,6 +202,9 @@
           "studentTraceFilters": {
             "resetButton": "Reset filters",
             "searchLabel": "Search for a trace"
+          },
+          "traceActionsDropdown": {
+            "delete": "Delete traces"
           },
           "title": "My collection of traces",
           "traceFilter": {

@@ -4530,7 +4530,7 @@
           }
         },
         "required": [
-          "traceId"
+          "id"
         ]
       },
       "AssociationsCreationRequest": {
@@ -4931,7 +4931,7 @@
       "TraceOverviewDTO": {
         "type": "object",
         "properties": {
-          "traceId": {
+          "id": {
             "type": "string",
             "format": "uuid"
           },
@@ -4962,9 +4962,9 @@
         "required": [
           "authorType",
           "createdAt",
+          "id",
           "programName",
           "title",
-          "traceId",
           "updatedAt"
         ]
       },

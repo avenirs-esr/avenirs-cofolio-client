@@ -1,34 +1,52 @@
+import type { TracesSummaryDTO } from '@/api/avenir-esr'
+import { useTracesSummaryQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
+import { StudentToolsTracesActionButtonsStub } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesActionButtons/StudentToolsTracesActionButtons.stub'
 import StudentToolsTracesViewContainer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
+import { StudentToolsTracesViewTabsStub } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewTabs/StudentToolsTracesViewTabs.stub'
 import { TracesInformationStub } from '@/features/student/traces/views/StudentToolsTracesView/components/TracesInformation/TracesInformation.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia } from 'pinia'
-import { beforeEach, expect, vi } from 'vitest'
+import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 
-const stubs = {
-  StudentToolsTracesViewTabs: {
-    name: 'StudentToolsTracesViewTabs',
-    props: ['trace'],
-    template: '<div class="student-tools-traces-view-tabs-stub" />'
-  },
-  StudentToolsTracesActionButtons: {
-    name: 'StudentToolsTracesActionButtons',
-    template: '<div class="student-tools-traces-action-buttons-stub">Action Buttons</div>'
-  },
-  StudentToolsTracesAddTraceDrawer: {
-    name: 'StudentToolsTracesAddTraceDrawer',
-    template: '<div class="student-tools-traces-add-trace-drawer-stub">Drawer Content</div>'
-  },
-  TracesInformation: TracesInformationStub
-}
+vi.mock('@/features/student/traces/queries/use-traces.query/use-traces.query', async (importActual) => {
+  const actual = await importActual<typeof import('@/features/student/traces/queries/use-traces.query/use-traces.query')>()
+  return {
+    ...actual,
+    useTracesSummaryQuery: vi.fn()
+  }
+})
 
 BddTest().given('a student tools traces view container', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesViewContainer>>
 
+  const tracesSummary: TracesSummaryDTO = {
+    associated: 3,
+    unassociated: 4,
+    totalWarnings: 1,
+    totalCriticals: 1
+  }
+
+  const mockedUseTracesSummaryQuery: MockedFunction<typeof useTracesSummaryQuery> = vi.mocked(useTracesSummaryQuery)
+
+  const stubs = {
+    StudentToolsTracesViewTabs: StudentToolsTracesViewTabsStub,
+    StudentToolsTracesActionButtons: StudentToolsTracesActionButtonsStub,
+    StudentToolsTracesAddTraceDrawer: {
+      name: 'StudentToolsTracesAddTraceDrawer',
+      template: '<div data-testid="student-tools-traces-add-trace-drawer" />'
+    },
+    TracesInformation: TracesInformationStub
+  }
+
   BddTest().and('trace container is available', () => {
     beforeEach(() => {
       vi.clearAllMocks()
+
+      mockedUseTracesSummaryQuery.mockReturnValue({
+        data: ref(tracesSummary)
+      } as ReturnType<typeof useTracesSummaryQuery>)
 
       wrapper = mount(StudentToolsTracesViewContainer, {
         global: {
@@ -39,16 +57,26 @@ BddTest().given('a student tools traces view container', () => {
     })
 
     BddTest().when('the component is mounted', () => {
+      BddTest().then('it should fetch traces summary', () => {
+        expect(mockedUseTracesSummaryQuery).toHaveBeenCalled()
+      })
+
       BddTest().then('it should render the traces information', () => {
         expect(wrapper.findComponent({ name: 'TracesInformation' }).exists()).toBe(true)
       })
 
-      BddTest().then('it should render the action buttons', () => {
-        expect(wrapper.findComponent({ name: 'StudentToolsTracesActionButtons' }).exists()).toBe(true)
+      BddTest().then('it should render the action buttons with traces summary', () => {
+        const actionButtons = wrapper.findComponent({ name: 'StudentToolsTracesActionButtons' })
+
+        expect(actionButtons.exists()).toBe(true)
+        expect(actionButtons.props('tracesSummary')).toEqual(tracesSummary)
       })
 
-      BddTest().then('it should render the traces tabs', () => {
-        expect(wrapper.findComponent({ name: 'StudentToolsTracesViewTabs' }).exists()).toBe(true)
+      BddTest().then('it should render the traces tabs with traces summary', () => {
+        const tabs = wrapper.findComponent({ name: 'StudentToolsTracesViewTabs' })
+
+        expect(tabs.exists()).toBe(true)
+        expect(tabs.props('tracesSummary')).toEqual(tracesSummary)
       })
 
       BddTest().then('it should render the add trace drawer', () => {

@@ -112,7 +112,17 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
       link: isTraceLinkType(traceFormData) ? traceFormData.link : undefined,
     }, {
       onSuccess: async (traceResult) => {
-        await finalizeTraceCreation(traceResult.traceId, traceFormData)
+        const traceId = traceResult.traceId
+
+        if (!traceId) {
+          addErrorMessage({
+            title: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.createTrace'),
+            description: t('global.errors.default')
+          })
+          return
+        }
+
+        await finalizeTraceCreation(traceId, traceFormData)
       }
     })
   }

@@ -30,7 +30,7 @@ const iconOptions = {
 <template>
   <RouterLink
     class="student-trace-card av-w-full"
-    :to="{ name: ROUTES.STUDENT.TRACE.name, params: { id: trace.traceId } }"
+    :to="{ name: ROUTES.STUDENT.TRACE.name, params: { id: trace.id } }"
     data-testid="trace-card"
   >
     <FloatingIconCard

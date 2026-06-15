@@ -283,8 +283,8 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
       })
 
       BddTest().then('it should call the invalidation function', () => {
-        expect(mockUseInvalidateQuery).toHaveBeenCalledTimes(1)
-        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+        expect(mockUseInvalidateQuery).toHaveBeenCalledTimes(3)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(3)
       })
 
       BddTest().then('it should call the custom onSuccess callback', () => {
@@ -317,7 +317,7 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
       })
 
       BddTest().then('it should call the invalidation function', () => {
-        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(3)
       })
     })
   })
@@ -340,7 +340,7 @@ BddTest().given('a useDeleteTraceMutation composable', async () => {
       })
 
       BddTest().then('it should still call the invalidation function', () => {
-        expect(mockInvalidateFunction).toHaveBeenCalledTimes(1)
+        expect(mockInvalidateFunction).toHaveBeenCalledTimes(3)
       })
 
       BddTest().then('it should mark the mutation as successful', () => {
