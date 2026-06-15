@@ -1,4 +1,5 @@
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import { SideMenuStub } from '@/common/components/navigation/SideMenu/SideMenu.stub'
 import { CompactCardStub } from '@/features/student/global/components/cards/CompactCard/CompactCard.stub'
 import DeclaredProgramSideMenu, {
   type DeclaredProgramSideMenuProps
@@ -6,13 +7,6 @@ import DeclaredProgramSideMenu, {
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-
-const AvSideMenuStub = defineComponent({
-  name: 'AvSideMenu',
-  props: ['collapsed', 'collapsedWidth'],
-  emits: ['update:collapsed'],
-  template: '<div class="av-side-menu-stub"><slot /></div>'
-})
 
 BddTest().given('a DeclaredProgramSideMenu component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramSideMenu>>
@@ -45,7 +39,7 @@ BddTest().given('a DeclaredProgramSideMenu component', () => {
   }
 
   const stubs = {
-    AvSideMenu: AvSideMenuStub,
+    SideMenu: SideMenuStub,
     AvIconText: AvIconTextStub,
     AvButton: AvButtonStub,
     CompactCard: CompactCardStub
@@ -57,7 +51,7 @@ BddTest().given('a DeclaredProgramSideMenu component', () => {
     })
 
     BddTest().then('it should render the side menu with the correct number of programs', () => {
-      const sideMenu = wrapper.findComponent(AvSideMenuStub)
+      const sideMenu = wrapper.findComponent(SideMenuStub)
       expect(sideMenu.exists()).toBe(true)
 
       const programItems = sideMenu.findAllComponents(CompactCardStub)
@@ -120,12 +114,12 @@ BddTest().given('a DeclaredProgramSideMenu component', () => {
 
     BddTest().and('the side menu is collapsed', () => {
       beforeEach(async () => {
-        wrapper.findComponent(AvSideMenuStub).vm.$emit('update:collapsed', true)
+        wrapper.findComponent(SideMenuStub).vm.$emit('update:collapsed', true)
         await wrapper.vm.$nextTick()
       })
 
       BddTest().then('it should update the collapsed state', () => {
-        const sideMenu = wrapper.findComponent(AvSideMenuStub)
+        const sideMenu = wrapper.findComponent(SideMenuStub)
         expect(sideMenu.props('collapsed')).toBe(true)
       })
     })
