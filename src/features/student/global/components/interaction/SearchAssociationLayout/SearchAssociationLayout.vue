@@ -1,11 +1,11 @@
 <script setup lang="ts" generic="T extends AvAutocompleteOption, U extends IdTitle = IdTitle">
 import type { IdTitle } from '@/types'
 import type { AvAutocompleteOption, AvButtonProps, AvInputProps } from '@avenirs-esr/avenirs-dsav'
+import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
 import SelectedAssociateItemsContainer
   from '@/features/student/global/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.vue'
-import { AvAutocomplete } from '@avenirs-esr/avenirs-dsav'
 
-interface SearchAssociationLayoutProps<T extends AvAutocompleteOption, U extends IdTitle = IdTitle> {
+export interface SearchAssociationLayoutProps<T extends AvAutocompleteOption, U extends IdTitle = IdTitle> {
   options: T[]
   items: U[]
   inputOptions?: Omit<AvInputProps, 'id' | 'modelValue'>
@@ -15,7 +15,7 @@ interface SearchAssociationLayoutProps<T extends AvAutocompleteOption, U extends
   buttonTheme?: AvButtonProps['theme']
 }
 
-const props = defineProps<SearchAssociationLayoutProps<T, U>>()
+defineProps<SearchAssociationLayoutProps<T, U>>()
 
 const emit = defineEmits<{
   (e: 'delete', itemId: string): void
@@ -43,17 +43,17 @@ const search = defineModel<string>('search', { default: '' })
     >
       <slot name="beforeSearch" />
 
-      <AvAutocomplete
+      <Autocomplete
         v-model="selectedOptions"
         v-model:search="search"
-        :options="props.options"
-        :input-options="props.inputOptions"
-        :get-option-key="props.getOptionKey"
-        :get-option-label="props.getOptionLabel"
+        :options="options"
+        :input-options="inputOptions"
+        :get-option-key="getOptionKey"
+        :get-option-label="getOptionLabel"
         :multi-select="true"
         :show-selected-section="false"
         :display-selection-in-input="false"
-        :loading="props.loading"
+        :loading="loading"
         @clear="emit('clear')"
         @load-more="emit('loadMore')"
       />
@@ -64,8 +64,8 @@ const search = defineModel<string>('search', { default: '' })
       data-testid="search-association-layout-selected"
     >
       <SelectedAssociateItemsContainer
-        :items="props.items"
-        :button-theme="props.buttonTheme"
+        :items="items"
+        :button-theme="buttonTheme"
         @delete="emit('delete', $event)"
       >
         <template #item="{ item }">
