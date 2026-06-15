@@ -1,17 +1,11 @@
 import { ESelfKnowledgeCategoryType, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { SideMenuStub } from '@/common/components/navigation/SideMenu/SideMenu.stub'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { SelfKnowledgeElementCompactCardStub } from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCompactCard/SelfKnowledgeElementCompactCard.stub'
 import SelfKnowledgeElementsSideMenu, { type SelfKnowledgeElementsSideMenuProps } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
 import { AvBadgeStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-
-const AvSideMenuStub = defineComponent({
-  name: 'AvSideMenu',
-  props: ['collapsed', 'collapsedWidth'],
-  emits: ['update:collapsed'],
-  template: '<div class="av-side-menu-stub"><slot /></div>'
-})
 
 BddTest().given(' a SelfKnowledgeElementsSideMenu component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeElementsSideMenu>>
@@ -46,7 +40,7 @@ BddTest().given(' a SelfKnowledgeElementsSideMenu component', () => {
   const stubs = {
     AvBadge: AvBadgeStub,
     AvIconText: AvIconTextStub,
-    AvSideMenu: AvSideMenuStub,
+    SideMenu: SideMenuStub,
     FloatingIconCard: FloatingIconCardStub,
     SelfKnowledgeElementCompactCard: SelfKnowledgeElementCompactCardStub
   }
@@ -57,7 +51,7 @@ BddTest().given(' a SelfKnowledgeElementsSideMenu component', () => {
     })
 
     BddTest().then('it should render the side menu with the correct number of elements', () => {
-      const sideMenu = wrapper.findComponent(AvSideMenuStub)
+      const sideMenu = wrapper.findComponent(SideMenuStub)
       expect(sideMenu.exists()).toBe(true)
 
       const elementItems = sideMenu.findAllComponents(SelfKnowledgeElementCompactCardStub)
@@ -114,12 +108,12 @@ BddTest().given(' a SelfKnowledgeElementsSideMenu component', () => {
 
     BddTest().and('the side menu is collapsed', () => {
       beforeEach(async () => {
-        wrapper.findComponent(AvSideMenuStub).vm.$emit('update:collapsed', true)
+        wrapper.findComponent(SideMenuStub).vm.$emit('update:collapsed', true)
         await wrapper.vm.$nextTick()
       })
 
       BddTest().then('it should update the collapsed state', () => {
-        const sideMenu = wrapper.findComponent(AvSideMenuStub)
+        const sideMenu = wrapper.findComponent(SideMenuStub)
         expect(sideMenu.props('collapsed')).toBe(true)
       })
     })

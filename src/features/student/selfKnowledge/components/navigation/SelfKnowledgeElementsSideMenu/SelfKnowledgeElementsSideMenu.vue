@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import SideMenu from '@/common/components/navigation/SideMenu/SideMenu.vue'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import SelfKnowledgeElementCompactCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCompactCard/SelfKnowledgeElementCompactCard.vue'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
-import { AvSideMenu } from '@avenirs-esr/avenirs-dsav'
 import { useInfiniteScroll } from '@vueuse/core'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
@@ -40,7 +40,7 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
 </script>
 
 <template>
-  <AvSideMenu
+  <SideMenu
     v-model:collapsed="isCollapsed"
     collapsed-width="fit-content"
   >
@@ -78,7 +78,7 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
         </div>
       </div>
     </div>
-  </AvSideMenu>
+  </SideMenu>
 </template>
 
 <style lang="scss" scoped>

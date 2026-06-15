@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import SideMenu from '@/common/components/navigation/SideMenu/SideMenu.vue'
 import ValorizedBadge from '@/common/components/ValorizedBadge/ValorizedBadge.vue'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import CompactCard from '@/features/student/global/components/cards/CompactCard/CompactCard.vue'
-import { AvSideMenu, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useInfiniteScroll } from '@vueuse/core'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
@@ -37,7 +38,7 @@ const isCollapsed = ref(false)
 </script>
 
 <template>
-  <AvSideMenu
+  <SideMenu
     v-model:collapsed="isCollapsed"
     collapsed-width="fit-content"
   >
@@ -81,7 +82,7 @@ const isCollapsed = ref(false)
         </div>
       </div>
     </div>
-  </AvSideMenu>
+  </SideMenu>
 </template>
 
 <style lang="scss" scoped>
