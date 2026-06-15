@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
 import { useScrollSpy } from '@/common/composables/use-scroll-spy/use-scroll-spy'
 import { scrollToElement } from '@/common/utils/scroll/scroll-to-element'
 import { ContentSectionId, EditActivityTabIndex, PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
-import { AvSideNavigation, type AvSideNavigationMenuItem, type AvSideNavigationSelectedItem, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { type AvSideNavigationMenuItem, type AvSideNavigationSelectedItem, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -96,7 +97,7 @@ watch(activeTab, (newValue) => {
 </script>
 
 <template>
-  <AvSideNavigation
+  <SideNavigation
     v-model:selected-item="selectedItem"
     v-model:is-side-menu-collapsed="isSideMenuCollapsed"
     hide-content-when-collapsed

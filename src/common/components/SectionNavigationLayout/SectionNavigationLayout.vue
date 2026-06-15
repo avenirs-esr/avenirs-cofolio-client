@@ -15,11 +15,8 @@ import type {
   AvSideNavigationSelectedItem,
 } from '@avenirs-esr/avenirs-dsav'
 import Loader from '@/common/components/Loader/Loader.vue'
-import {
-  AvSelect,
-  AvSideNavigation,
-  useAvBreakpoints,
-} from '@avenirs-esr/avenirs-dsav'
+import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
+import { AvSelect, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { type Component, markRaw } from 'vue'
 
 export interface SectionNavigationLayoutProps<TComponents extends Record<string, Component>> {
@@ -134,7 +131,7 @@ watch(selectedItem, (newItem) => {
       :is-loading="isLoading"
       size="2xl"
     >
-      <AvSideNavigation
+      <SideNavigation
         v-if="!isMobile"
         v-model:is-side-menu-collapsed="isSideMenuCollapsed"
         :selected-item="selectedItem"

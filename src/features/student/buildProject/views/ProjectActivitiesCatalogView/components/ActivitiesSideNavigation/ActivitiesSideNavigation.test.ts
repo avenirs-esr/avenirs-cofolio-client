@@ -1,7 +1,8 @@
 import { EActivityThematic } from '@/api/avenir-esr'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
+import { SideNavigationStub } from '@/common/components/navigation/SideNavigation/SideNavigation.stub'
 import ActivitiesSideNavigation from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivitiesSideNavigation/ActivitiesSideNavigation.vue'
-import { AvSideNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -36,7 +37,7 @@ BddTest().given('a build project activities side navigation component', () => {
   let queryClient: QueryClient
 
   const stubs = {
-    AvSideNavigation: AvSideNavigationStub,
+    SideNavigation: SideNavigationStub,
     Loader: LoaderStub
   }
 
@@ -52,19 +53,19 @@ BddTest().given('a build project activities side navigation component', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should render an AvSideNavigation component', () => {
-      const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+    BddTest().then('it should render an SideNavigation component', () => {
+      const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
       expect(sideNavigation.exists()).toBe(true)
     })
 
     BddTest().then('it should initialize with side menu expanded', () => {
-      const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+      const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
       expect(sideNavigation.props('isSideMenuCollapsed')).toBe(false)
     })
 
     BddTest().then('it should build menu items from activities array', async () => {
       await flushPromises()
-      const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+      const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
       const items = sideNavigation.props('items') as any[]
 
       expect(items).toHaveLength(7)
@@ -126,7 +127,7 @@ BddTest().given('a build project activities side navigation component', () => {
 
     BddTest().then('it should set selectedItem to the first child by default', async () => {
       await flushPromises()
-      const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+      const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
       expect(sideNavigation.props('selectedItem')).toEqual({
         itemId: '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
         parentId: EActivityThematic.SELF_KNOWLEDGE,
@@ -136,13 +137,13 @@ BddTest().given('a build project activities side navigation component', () => {
     BddTest().and('the side menu collapse state changes', () => {
       beforeEach(async () => {
         await flushPromises()
-        const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+        const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
         await sideNavigation.vm.$emit('update:isSideMenuCollapsed', true)
         await wrapper.vm.$nextTick()
       })
 
       BddTest().then('it should update the collapsed prop', () => {
-        const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+        const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
         expect(sideNavigation.props('isSideMenuCollapsed')).toBe(true)
       })
     })
@@ -155,13 +156,13 @@ BddTest().given('a build project activities side navigation component', () => {
 
       beforeEach(async () => {
         await flushPromises()
-        const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+        const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
         await sideNavigation.vm.$emit('update:selectedItem', selected)
         await flushPromises()
       })
 
       BddTest().then('it should update the selected item', () => {
-        const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+        const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
         expect(sideNavigation.props('selectedItem')).toEqual(selected)
       })
 
@@ -183,7 +184,7 @@ BddTest().given('a build project activities side navigation component', () => {
 
       beforeEach(async () => {
         await flushPromises()
-        const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+        const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
         await sideNavigation.vm.$emit('update:selectedItem', selected)
         await flushPromises()
       })
@@ -196,7 +197,7 @@ BddTest().given('a build project activities side navigation component', () => {
     BddTest().and('an invalid selected item format is emitted', () => {
       beforeEach(async () => {
         await flushPromises()
-        const sideNavigation = wrapper.findComponent({ name: 'AvSideNavigation' })
+        const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
         await sideNavigation.vm.$emit('update:selectedItem', { itemId: 'INVALID_FORMAT' })
         await flushPromises()
       })

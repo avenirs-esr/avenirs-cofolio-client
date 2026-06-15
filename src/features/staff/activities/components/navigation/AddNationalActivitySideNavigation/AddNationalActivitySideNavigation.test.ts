@@ -1,6 +1,7 @@
+import { SideNavigationStub } from '@/common/components/navigation/SideNavigation/SideNavigation.stub'
 import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
 import { ContentSectionId, EditActivityTabIndex, PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
-import { AvSideNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, vi } from 'vitest'
 
@@ -30,7 +31,7 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
         props: { activeTab: EditActivityTabIndex.CONTENT },
         global: {
           stubs: {
-            AvSideNavigation: AvSideNavigationStub,
+            SideNavigation: SideNavigationStub,
           }
         }
       })
@@ -40,12 +41,12 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
       expect(wrapper.exists()).toBe(true)
     })
 
-    BddTest().then('it should render AvSideNavigation', () => {
-      expect(wrapper.findComponent({ name: 'AvSideNavigation' }).exists()).toBe(true)
+    BddTest().then('it should render SideNavigation', () => {
+      expect(wrapper.findComponent({ name: 'SideNavigation' }).exists()).toBe(true)
     })
 
-    BddTest().then('it should pass content items to AvSideNavigation', () => {
-      const items = wrapper.findComponent({ name: 'AvSideNavigation' }).props('items')
+    BddTest().then('it should pass content items to SideNavigation', () => {
+      const items = wrapper.findComponent({ name: 'SideNavigation' }).props('items')
       expect(items[0].id).toBe('CONTENT')
       expect(items[0].children).toHaveLength(Object.values(ContentSectionId).length)
     })
@@ -57,14 +58,14 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
         props: { activeTab: EditActivityTabIndex.PUBLICATION },
         global: {
           stubs: {
-            AvSideNavigation: AvSideNavigationStub,
+            SideNavigation: SideNavigationStub,
           }
         }
       })
     })
 
-    BddTest().then('it should pass publication items to AvSideNavigation', () => {
-      const items = wrapper.findComponent({ name: 'AvSideNavigation' }).props('items')
+    BddTest().then('it should pass publication items to SideNavigation', () => {
+      const items = wrapper.findComponent({ name: 'SideNavigation' }).props('items')
       expect(items[0].id).toBe('PUBLICATION')
       expect(items[0].children).toHaveLength(Object.values(PublicationSectionId).length)
     })
@@ -79,7 +80,7 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
         attachTo: document.body,
         global: {
           stubs: {
-            AvSideNavigation: AvSideNavigationStub,
+            SideNavigation: SideNavigationStub,
           }
         }
       })
@@ -92,7 +93,7 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
       el.scrollIntoView = mockScrollIntoView
       document.body.appendChild(el)
 
-      wrapper.findComponent({ name: 'AvSideNavigation' }).vm.$emit('update:selectedItem', {
+      wrapper.findComponent({ name: 'SideNavigation' }).vm.$emit('update:selectedItem', {
         itemId: ContentSectionId.TITLE,
         parentId: 'CONTENT',
       })
@@ -113,7 +114,7 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
         props: { activeTab: EditActivityTabIndex.CONTENT },
         global: {
           stubs: {
-            AvSideNavigation: AvSideNavigationStub,
+            SideNavigation: SideNavigationStub,
           }
         }
       })
@@ -121,7 +122,7 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
     })
 
     BddTest().then('it should update items to publication', () => {
-      const items = wrapper.findComponent({ name: 'AvSideNavigation' }).props('items')
+      const items = wrapper.findComponent({ name: 'SideNavigation' }).props('items')
       expect(items[0].id).toBe('PUBLICATION')
     })
   })
@@ -133,14 +134,14 @@ BddTest().given('AddNationalActivitySideNavigation component', () => {
         props: { activeTab: EditActivityTabIndex.CONTENT },
         global: {
           stubs: {
-            AvSideNavigation: AvSideNavigationStub,
+            SideNavigation: SideNavigationStub,
           }
         }
       })
     })
 
     BddTest().then('it should initialize selectedItem as empty', () => {
-      const selectedItem = wrapper.findComponent({ name: 'AvSideNavigation' }).props('selectedItem')
+      const selectedItem = wrapper.findComponent({ name: 'SideNavigation' }).props('selectedItem')
       expect(selectedItem.itemId).toBe('')
     })
   })
