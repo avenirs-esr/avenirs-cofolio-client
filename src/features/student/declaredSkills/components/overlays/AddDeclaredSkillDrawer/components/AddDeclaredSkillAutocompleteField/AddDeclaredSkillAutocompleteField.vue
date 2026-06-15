@@ -5,9 +5,10 @@ import type {
   UpdateDeclaredSkillForm
 } from '@/features/student/declaredSkills/types/forms.types'
 import { type ExternalSkillDTO, type PagedResponseExternalSkillDTO, useSearchExternalSkillsInfinite } from '@/api/avenir-esr'
+import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
 import { highlightCaptionText, highlightTitleText } from '@/common/utils'
 import DeclaredSkillTypeBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillTypeBadge/DeclaredSkillTypeBadge.vue'
-import { AvAutocomplete, AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'
 import { markRaw, toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -103,7 +104,7 @@ const emptySlotTextContent = computed<string>(() => {
   >
     <FormField name="selectedSkills">
       <template #default="{ field }">
-        <AvAutocomplete
+        <Autocomplete
           :model-value="field.state.value"
           :options="skills"
           :loading="isLoading || isFetchingNextPage"
@@ -174,7 +175,7 @@ const emptySlotTextContent = computed<string>(() => {
               </div>
             </AvListItem>
           </template>
-        </AvAutocomplete>
+        </Autocomplete>
       </template>
     </FormField>
   </div>

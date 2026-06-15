@@ -1,7 +1,8 @@
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
+import { AutocompleteStub } from '@/common/components/interaction/selects/Autocomplete/Autocomplete.stub'
 import { SelectedAssociateItemsContainerStub } from '@/features/student/global/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.stub'
 import SearchAssociationLayout from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.vue'
-import { AvAutocompleteStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -19,7 +20,7 @@ BddTest().given('a search association layout', () => {
   ]
 
   const stubs = {
-    AvAutocomplete: AvAutocompleteStub,
+    Autocomplete: AutocompleteStub,
     SelectedAssociateItemsContainer: SelectedAssociateItemsContainerStub
   }
 
@@ -61,7 +62,7 @@ BddTest().given('a search association layout', () => {
     })
 
     BddTest().then('it should render the autocomplete', () => {
-      const autocomplete = wrapper.findComponent(AvAutocompleteStub)
+      const autocomplete = wrapper.findComponent(AutocompleteStub)
 
       expect(autocomplete.exists()).toBe(true)
       expect(autocomplete.props('modelValue')).toEqual([])
@@ -98,7 +99,7 @@ BddTest().given('a search association layout', () => {
     ]
 
     beforeEach(async () => {
-      const autocomplete = wrapper.findComponent(AvAutocompleteStub)
+      const autocomplete = wrapper.findComponent(AutocompleteStub)
       autocomplete.vm.$emit('update:modelValue', updatedSelection)
       await wrapper.vm.$nextTick()
     })
@@ -111,7 +112,7 @@ BddTest().given('a search association layout', () => {
 
   BddTest().when('the autocomplete emits update:search', () => {
     beforeEach(async () => {
-      const autocomplete = wrapper.findComponent(AvAutocompleteStub)
+      const autocomplete = wrapper.findComponent(AutocompleteStub)
       autocomplete.vm.$emit('update:search', 'item')
       await wrapper.vm.$nextTick()
     })
@@ -124,7 +125,7 @@ BddTest().given('a search association layout', () => {
 
   BddTest().when('the autocomplete emits clear', () => {
     beforeEach(async () => {
-      const autocomplete = wrapper.findComponent(AvAutocompleteStub)
+      const autocomplete = wrapper.findComponent(AutocompleteStub)
       autocomplete.vm.$emit('clear')
       await wrapper.vm.$nextTick()
     })
@@ -137,7 +138,7 @@ BddTest().given('a search association layout', () => {
 
   BddTest().when('the autocomplete emits loadMore', () => {
     beforeEach(async () => {
-      const autocomplete = wrapper.findComponent(AvAutocompleteStub)
+      const autocomplete = wrapper.findComponent(AutocompleteStub)
       autocomplete.vm.$emit('loadMore')
       await wrapper.vm.$nextTick()
     })
@@ -189,7 +190,7 @@ BddTest().given('a search association layout', () => {
     })
 
     BddTest().then('it should still render the autocomplete', () => {
-      expect(wrapper.findComponent(AvAutocompleteStub).exists()).toBe(true)
+      expect(wrapper.findComponent(AutocompleteStub).exists()).toBe(true)
     })
 
     BddTest().then('it should still render the selected items container', () => {

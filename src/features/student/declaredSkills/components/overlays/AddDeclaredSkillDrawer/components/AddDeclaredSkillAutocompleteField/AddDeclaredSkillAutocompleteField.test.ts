@@ -42,8 +42,8 @@ const TestWrapper = {
 }
 
 const stubs = {
-  AvAutocomplete: {
-    name: 'AvAutocomplete',
+  Autocomplete: {
+    name: 'Autocomplete',
     props: [
       'modelValue',
       'options',
@@ -98,8 +98,8 @@ BddTest().given('an autocomplete skill field component', () => {
       expect(container.exists()).toBe(true)
     })
 
-    BddTest().then('it should render AvAutocomplete with correct props', () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+    BddTest().then('it should render Autocomplete with correct props', () => {
+      const autocomplete = wrapper.findComponent({ name: 'Autocomplete' })
 
       expect(autocomplete.exists()).toBe(true)
       expect(autocomplete.props('multiSelect')).toBe(false)
@@ -110,7 +110,7 @@ BddTest().given('an autocomplete skill field component', () => {
     })
 
     BddTest().then('it should render input options with correct labels', () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+      const autocomplete = wrapper.findComponent({ name: 'Autocomplete' })
       const inputOptions = autocomplete.props('inputOptions')
 
       expect(inputOptions.placeholder).toBe('Commencer la recherche en tapant au moins 3 caractères')
@@ -143,7 +143,7 @@ BddTest().given('an autocomplete skill field component', () => {
 
   BddTest().when('a search query is entered', () => {
     BddTest().then('it should emit update:search event', async () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+      const autocomplete = wrapper.findComponent({ name: 'Autocomplete' })
 
       await autocomplete.vm.$emit('update:search', 'javascript')
 
@@ -158,7 +158,7 @@ BddTest().given('an autocomplete skill field component', () => {
 
   BddTest().when('the autocomplete value is updated', () => {
     BddTest().then('it should update the form field value', async () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+      const autocomplete = wrapper.findComponent({ name: 'Autocomplete' })
       const testSkill = {
         id: '1',
         label: 'JavaScript',
@@ -177,7 +177,7 @@ BddTest().given('an autocomplete skill field component', () => {
 
   BddTest().when('clear is triggered', () => {
     BddTest().then('it should emit clear event', async () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+      const autocomplete = wrapper.findComponent({ name: 'Autocomplete' })
 
       await autocomplete.vm.$emit('clear')
 
@@ -187,7 +187,7 @@ BddTest().given('an autocomplete skill field component', () => {
 
   BddTest().when('load more is triggered', () => {
     BddTest().then('it should emit load-more event', async () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+      const autocomplete = wrapper.findComponent({ name: 'Autocomplete' })
 
       await autocomplete.vm.$emit('loadMore')
 
@@ -200,7 +200,7 @@ BddTest().given('an autocomplete skill field component', () => {
       await wrapper.find('form').trigger('submit')
 
       await vi.waitFor(() => {
-        const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+        const autocomplete = wrapper.findComponent({ name: 'Autocomplete' })
         const inputOptions = autocomplete.props('inputOptions')
         expect(inputOptions.errorMessage).toBe('Une compétence doit être sélectionnée')
       })
@@ -209,7 +209,7 @@ BddTest().given('an autocomplete skill field component', () => {
 
   BddTest().when('skills are loading', () => {
     BddTest().then('it should handle loading state properly', () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+      const autocomplete = wrapper.findComponent({ name: 'Autocomplete' })
 
       expect(autocomplete.props()).toHaveProperty('loading')
     })
@@ -217,7 +217,7 @@ BddTest().given('an autocomplete skill field component', () => {
 
   BddTest().when('fetching the next page', () => {
     BddTest().then('it should handle pagination loading state', () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+      const autocomplete = wrapper.findComponent({ name: 'Autocomplete' })
 
       expect(autocomplete.props('enableLoadMore')).toBe(true)
     })
@@ -225,7 +225,7 @@ BddTest().given('an autocomplete skill field component', () => {
 
   BddTest().when('handling search query interactions', () => {
     BddTest().then('it should handle search query changes with proper debouncing', () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+      const autocomplete = wrapper.findComponent({ name: 'Autocomplete' })
       expect(autocomplete.props('debounceDelay')).toBe(500)
     })
 
@@ -249,13 +249,13 @@ BddTest().given('an autocomplete skill field component', () => {
 
   BddTest().when('option functions are configured', () => {
     BddTest().then('it should bind getOptionLabel function correctly', () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+      const autocomplete = wrapper.findComponent({ name: 'Autocomplete' })
       expect(autocomplete.props('getOptionLabel')).toBeDefined()
       expect(typeof autocomplete.props('getOptionLabel')).toBe('function')
     })
 
     BddTest().then('it should bind getOptionKey function correctly', () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+      const autocomplete = wrapper.findComponent({ name: 'Autocomplete' })
       expect(autocomplete.props('getOptionKey')).toBeDefined()
       expect(typeof autocomplete.props('getOptionKey')).toBe('function')
     })
@@ -276,7 +276,7 @@ BddTest().given('an autocomplete skill field component', () => {
     })
 
     BddTest().then('it should handle field state changes correctly', async () => {
-      const autocomplete = wrapper.findComponent({ name: 'AvAutocomplete' })
+      const autocomplete = wrapper.findComponent({ name: 'Autocomplete' })
       expect(autocomplete.props('modelValue')).toBeDefined()
     })
   })
