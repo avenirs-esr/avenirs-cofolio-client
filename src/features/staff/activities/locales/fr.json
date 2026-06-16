@@ -23,6 +23,12 @@
           "receivedAt": "Date de réception de la demande",
           "status": "Statut de la demande",
           "student": "Prénom Nom"
+        },
+        "feedbackStatusPicker": {
+          "all": "Toutes ({count})",
+          "new": "Nouvelles ({count})",
+          "unprocessed": "Non traitées ({count})",
+          "sent": "Envoyées ({count})"
         }
       },
       "interactions": {
