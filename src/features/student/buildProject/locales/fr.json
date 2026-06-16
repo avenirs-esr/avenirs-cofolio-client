@@ -22,11 +22,6 @@
             "title": "Mon activité déclarée associée ({count}) | Mes activités déclarées associées ({count})"
           }
         },
-        "declaredActivityStatus": {
-          "COMPLETED": "Terminée",
-          "IN_PROGRESS": "En cours",
-          "SUBSCRIBED": "Inscrit(e)"
-        },
         "errors": {
           "notFound": {
             "description": "L'activité que vous recherchez n'existe pas ou n'est pas accessible.",

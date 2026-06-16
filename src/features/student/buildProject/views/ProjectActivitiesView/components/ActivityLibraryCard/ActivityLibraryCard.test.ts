@@ -2,12 +2,10 @@ import { type DeclaredActivityViewDTO, EActivityThematic, EDeclaredActivityStatu
 import {
   ActivityThematicBadgeStub
 } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
+import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
 import {
   ActivityPeriodBadgeStub
 } from '@/features/student/buildProject/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.stub'
-import {
-  ActivityStatusBadgeStub
-} from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import ActivityLibraryCard from '@/features/student/buildProject/views/ProjectActivitiesView/components/ActivityLibraryCard/ActivityLibraryCard.vue'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -31,7 +29,7 @@ BddTest().given('an ActivityLibraryCard', () => {
 
   const stubs = {
     FloatingIconCard: FloatingIconCardStub,
-    ActivityStatusBadge: ActivityStatusBadgeStub,
+    DeclaredActivityStatusBadge: DeclaredActivityStatusBadgeStub,
     ActivityThematicBadge: ActivityThematicBadgeStub,
     ActivityPeriodBadge: ActivityPeriodBadgeStub,
     RouterLink: RouterLinkStub
@@ -63,7 +61,7 @@ BddTest().given('an ActivityLibraryCard', () => {
         props: { activity: baseActivity },
         global: { stubs }
       })
-      floatingCard = wrapper.findComponent({ name: 'FloatingIconCard' }) as VueWrapper<InstanceType<typeof FloatingIconCardStub>>
+      floatingCard = wrapper.findComponent(FloatingIconCardStub) as VueWrapper<InstanceType<typeof FloatingIconCardStub>>
     })
 
     BddTest().then('it should render FloatingIconCard', () => {
@@ -86,13 +84,13 @@ BddTest().given('an ActivityLibraryCard', () => {
       expect(floatingCard.props('customTitleHeight')).toBe('auto')
     })
 
-    BddTest().then('it should not render ActivityStatusBadge when status is SUBSCRIBED', () => {
-      const statusBadge = wrapper.findComponent({ name: 'ActivityStatusBadge' })
+    BddTest().then('it should not render DeclaredActivityStatusBadge when status is SUBSCRIBED', () => {
+      const statusBadge = wrapper.findComponent(DeclaredActivityStatusBadgeStub)
       expect(statusBadge.exists()).toBe(false)
     })
 
     BddTest().then('it should render ActivityThematicBadge with correct thematic', () => {
-      const thematicBadge = wrapper.findComponent({ name: 'ActivityThematicBadge' })
+      const thematicBadge = wrapper.findComponent(ActivityThematicBadgeStub)
       expect(thematicBadge.exists()).toBe(true)
       expect(thematicBadge.props('thematic')).toBe(EActivityThematic.SELF_KNOWLEDGE)
     })
@@ -115,13 +113,13 @@ BddTest().given('an ActivityLibraryCard', () => {
       })
     })
 
-    BddTest().then('it should render ActivityStatusBadge', () => {
-      const statusBadge = wrapper.findComponent({ name: 'ActivityStatusBadge' })
+    BddTest().then('it should render DeclaredActivityStatusBadge', () => {
+      const statusBadge = wrapper.findComponent(DeclaredActivityStatusBadgeStub)
       expect(statusBadge.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass the correct status to ActivityStatusBadge', () => {
-      const statusBadge = wrapper.findComponent({ name: 'ActivityStatusBadge' })
+    BddTest().then('it should pass the correct status to DeclaredActivityStatusBadge', () => {
+      const statusBadge = wrapper.findComponent(DeclaredActivityStatusBadgeStub)
       expect(statusBadge.props('status')).toBe(EDeclaredActivityStatus.IN_PROGRESS)
     })
   })
@@ -134,13 +132,13 @@ BddTest().given('an ActivityLibraryCard', () => {
       })
     })
 
-    BddTest().then('it should render ActivityStatusBadge', () => {
-      const statusBadge = wrapper.findComponent({ name: 'ActivityStatusBadge' })
+    BddTest().then('it should render DeclaredActivityStatusBadge', () => {
+      const statusBadge = wrapper.findComponent(DeclaredActivityStatusBadgeStub)
       expect(statusBadge.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass the correct status to ActivityStatusBadge', () => {
-      const statusBadge = wrapper.findComponent({ name: 'ActivityStatusBadge' })
+    BddTest().then('it should pass the correct status to DeclaredActivityStatusBadge', () => {
+      const statusBadge = wrapper.findComponent(DeclaredActivityStatusBadgeStub)
       expect(statusBadge.props('status')).toBe(EDeclaredActivityStatus.COMPLETED)
     })
   })
@@ -170,7 +168,7 @@ BddTest().given('an ActivityLibraryCard', () => {
         props: { activity: baseActivity },
         global: { stubs }
       })
-      floatingCard = wrapper.findComponent({ name: 'FloatingIconCard' }) as VueWrapper<InstanceType<typeof FloatingIconCardStub>>
+      floatingCard = wrapper.findComponent(FloatingIconCardStub) as VueWrapper<InstanceType<typeof FloatingIconCardStub>>
     })
 
     BddTest().then('it should use caption-regular typography class', () => {
@@ -187,7 +185,7 @@ BddTest().given('an ActivityLibraryCard', () => {
         props: { activity: baseActivity },
         global: { stubs }
       })
-      floatingCard = wrapper.findComponent({ name: 'FloatingIconCard' }) as VueWrapper<InstanceType<typeof FloatingIconCardStub>>
+      floatingCard = wrapper.findComponent(FloatingIconCardStub) as VueWrapper<InstanceType<typeof FloatingIconCardStub>>
     })
 
     BddTest().then('it should use n6 typography class', () => {

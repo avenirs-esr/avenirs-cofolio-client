@@ -38,7 +38,6 @@ BddTest().given('a trace deletion confirmation modal', () => {
     title: 'Développement d\'un ePortfolio',
     link: 'https://example.com/trace1',
     isAssociated: false,
-    isDeletable: true,
     createdAt: '2025-06-16T10:42:00.000Z',
     updatedAt: '2025-06-17T15:18:00.000Z',
     programName: 'An awesome program',

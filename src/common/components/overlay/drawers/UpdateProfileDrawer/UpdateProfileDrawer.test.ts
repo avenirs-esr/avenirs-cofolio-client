@@ -109,7 +109,6 @@ BddTest().given('given an update profile drawer', () => {
     lastname: 'Moulin',
     id: 'user-id',
     email: 'j.moulin@example.com',
-    hasUnseenNotification: false,
     profilePicture: {
       id: 'profile-picture-id',
       fileName: 'profile-picture.png',
@@ -236,7 +235,6 @@ BddTest().given('given an update profile drawer', () => {
     firstname: '',
     lastname: '',
     email: '',
-    hasUnseenNotification: false,
     bio: '',
     profilePicture: { id: '', fileName: '', url: '', fileSize: 1000, fileType: EFileType.PNG, version: 1, uploadedAt: '2025-06-13T08:42:17' },
     coverPicture: { id: '', fileName: '', url: '', fileSize: 1000, fileType: EFileType.PNG, version: 1, uploadedAt: '2025-06-13T08:42:17' }

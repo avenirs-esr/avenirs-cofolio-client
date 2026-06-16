@@ -2,10 +2,10 @@ import type { VueWrapper } from '@vue/test-utils'
 import { declaredActivityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { ROUTES } from '@/common/constants'
-import { ActivityStatusBadgeStub } from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import { ProjectActivitiesTab } from '@/features/student/buildProject/types/activities.types'
 import { ActivityDetailedDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.stub'
@@ -35,7 +35,7 @@ BddTest().given('a project activity detailed view', () => {
   const stubs = {
     DetailedPageTitle: DetailedPageTitleStub,
     Loader: LoaderStub,
-    ActivityStatusBadge: ActivityStatusBadgeStub,
+    DeclaredActivityStatusBadge: DeclaredActivityStatusBadgeStub,
     UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub,
     ActivityDetailedDropdown: ActivityDetailedDropdownStub,
     ProjectActivityDetailedLayout: ProjectActivityDetailedLayoutStub,
@@ -100,8 +100,8 @@ BddTest().given('a project activity detailed view', () => {
       expect(declaredActivityDetails.activity.summary).toContain('Activité faisant partie de la catégorie Connaissance de soi')
     })
 
-    BddTest().then('it should render the ActivityStatusBadge with the correct status', () => {
-      const badge = wrapper.findComponent(ActivityStatusBadgeStub)
+    BddTest().then('it should render the DeclaredActivityStatusBadge with the correct status', () => {
+      const badge = wrapper.findComponent(DeclaredActivityStatusBadgeStub)
       expect(badge.exists()).toBe(true)
       expect(badge.props('status')).toBe(EDeclaredActivityStatus.IN_PROGRESS)
     })

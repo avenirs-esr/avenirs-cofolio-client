@@ -31,7 +31,6 @@ BddTest().given('a usePaginatedTraces composable', () => {
       id: 'trace-1',
       title: 'Trace 1',
       isAssociated: false,
-      isDeletable: true,
       createdAt: '2026-06-15T10:00:00.000Z',
       updatedAt: '2026-06-15T10:00:00.000Z'
     }

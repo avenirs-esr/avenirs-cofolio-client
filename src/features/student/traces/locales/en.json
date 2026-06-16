@@ -300,6 +300,11 @@
           "buttons": {
             "validate": "Validate the selection"
           },
+          "ConfirmUpdateTraceModal": {
+            "confirmLabel": "Update my trace",
+            "subtitle": "Warning, the changes cannot be applied in these association contexts because they are part of work that is under review or completed:",
+            "title": "You are about to modify your trace."
+          },
           "errors": {
             "updateTrace": "An error occurred while updating the trace."
           },

@@ -14,7 +14,6 @@ BddTest().given('a student trace view compact card', () => {
     id: 'trace-id',
     title: 'Ma trace',
     isAssociated: true,
-    isDeletable: true,
     createdAt: '2026-06-15T10:00:00.000Z',
     updatedAt: '2026-06-15T10:00:00.000Z'
   }

@@ -5,9 +5,9 @@ import {
   EDeclaredActivityStatus
 } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
+import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
 import { ActivityExecutionPeriodSummaryBadgeStub } from '@/features/student/buildProject/components/badges/ActivityExecutionPeriodSummaryBadge/ActivityExecutionPeriodSummaryBadge.stub'
 import { ActivityNewBadgeStub } from '@/features/student/buildProject/components/badges/ActivityNewBadge/ActivityNewBadge.stub'
-import { ActivityStatusBadgeStub } from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import ActivityCard from '@/features/student/buildProject/components/cards/ActivityCard/ActivityCard.vue'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -23,7 +23,7 @@ BddTest().given('an activity card', () => {
     AvBadge: AvBadgeStub,
     ActivityThematicBadge: ActivityThematicBadgeStub,
     ActivityNewBadge: ActivityNewBadgeStub,
-    ActivityStatusBadge: ActivityStatusBadgeStub,
+    DeclaredActivityStatusBadge: DeclaredActivityStatusBadgeStub,
     ActivityExecutionPeriodSummaryBadge: ActivityExecutionPeriodSummaryBadgeStub,
     RouterLink: RouterLinkStub
   }
@@ -83,18 +83,37 @@ BddTest().given('an activity card', () => {
     })
 
     BddTest().then('the new badge is rendered', () => {
-      const newBadge = wrapper.findAllComponents(ActivityNewBadgeStub)
-      expect(newBadge).toBeDefined()
+      const newBadge = wrapper.findComponent(ActivityNewBadgeStub)
+      expect(newBadge.exists()).toBe(true)
     })
 
     BddTest().then('the in progress status badge is rendered', () => {
-      const statusBadge = wrapper.findAllComponents(ActivityStatusBadgeStub)
-      expect(statusBadge).toBeDefined()
+      const statusBadge = wrapper.findComponent(DeclaredActivityStatusBadgeStub)
+      expect(statusBadge.props('status')).toBe(EDeclaredActivityStatus.IN_PROGRESS)
     })
 
     BddTest().then('the execution period summary badge is rendered', () => {
-      const badges = wrapper.findAllComponents(ActivityExecutionPeriodSummaryBadgeStub)
-      expect(badges).toBeDefined()
+      const badges = wrapper.findComponent(ActivityExecutionPeriodSummaryBadgeStub)
+      expect(badges.exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is mounted with SUBMITTED status', () => {
+    beforeEach(() => {
+      wrapper = mount(ActivityCard, {
+        props: {
+          activity: {
+            ...baseActivity,
+            status: EDeclaredActivityStatus.SUBMITTED
+          }
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render submitted badge', () => {
+      const submittedBadge = wrapper.findComponent(DeclaredActivityStatusBadgeStub)
+      expect(submittedBadge.props('status')).toBe(EDeclaredActivityStatus.SUBMITTED)
     })
   })
 
@@ -112,9 +131,8 @@ BddTest().given('an activity card', () => {
     })
 
     BddTest().then('it should render subscribed badge', () => {
-      const subscribedBadge = wrapper.findAllComponents(ActivityStatusBadgeStub)
-
-      expect(subscribedBadge).toBeDefined()
+      const subscribedBadge = wrapper.findComponent(DeclaredActivityStatusBadgeStub)
+      expect(subscribedBadge.props('status')).toBe(EDeclaredActivityStatus.SUBSCRIBED)
     })
   })
 
@@ -132,9 +150,8 @@ BddTest().given('an activity card', () => {
     })
 
     BddTest().then('it should render completed badge', () => {
-      const completedBadge = wrapper.findAllComponents(ActivityStatusBadgeStub)
-
-      expect(completedBadge).toBeDefined()
+      const completedBadge = wrapper.findComponent(DeclaredActivityStatusBadgeStub)
+      expect(completedBadge.props('status')).toBe(EDeclaredActivityStatus.COMPLETED)
     })
   })
 
