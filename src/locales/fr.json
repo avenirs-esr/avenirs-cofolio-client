@@ -8,6 +8,16 @@
           "DECLARED_SKILL": "Compétence",
           "TRACE": "Trace"
         },
+        "declaredStatuses": {
+          "COMPLETED": "Terminée",
+          "IN_PROGRESS": "En cours",
+          "SUBMITTED": "Soumis",
+          "SUBSCRIBED": "Inscrit(e)"
+        },
+        "statuses": {
+          "DRAFT": "non publiée",
+          "PUBLISHED": "publiée"
+        },
         "thematics": {
           "EXPERIENCES": "Mes expériences",
           "FUTURE_PLANS": "Explorer mes futures",
@@ -16,10 +26,6 @@
           "SELF_KNOWLEDGE": "Me connaître",
           "TRAJECTORIES": "Mes trajectoires",
           "TRANSVERSAL": "Transverse"
-        },
-        "statuses": {
-          "DRAFT": "non publiée",
-          "PUBLISHED": "publiée"
         }
       }
     },

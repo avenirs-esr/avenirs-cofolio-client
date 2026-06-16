@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { type ActivityPresentationDTO, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
+import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { ICONS } from '@/common/constants'
-import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import SubscribeActivityModal from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/overlays/SubscribeActivityModal/SubscribeActivityModal.vue'
 import { AvButton, AvIconText, MDI_ICONS, PH_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -56,7 +56,7 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
         :thematic="activity.thematic"
         data-testid="activity-thematic-badge"
       />
-      <ActivityStatusBadge
+      <DeclaredActivityStatusBadge
         v-if="activity.subscribedDeclaredActivity"
         :status="EDeclaredActivityStatus.SUBSCRIBED"
       />

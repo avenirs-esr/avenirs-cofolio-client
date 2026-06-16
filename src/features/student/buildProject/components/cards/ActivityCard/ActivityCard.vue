@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { ActivityOverviewDTO } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
+import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import { ROUTES } from '@/common/constants'
 import ActivityExecutionPeriodSummaryBadge from '@/features/student/buildProject/components/badges/ActivityExecutionPeriodSummaryBadge/ActivityExecutionPeriodSummaryBadge.vue'
 import ActivityNewBadge from '@/features/student/buildProject/components/badges/ActivityNewBadge/ActivityNewBadge.vue'
-import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
@@ -45,7 +45,7 @@ const iconOptions = {
               :thematic="activity.thematic"
             />
             <ActivityNewBadge v-if="activity.isNew && !hideNewLabel" />
-            <ActivityStatusBadge
+            <DeclaredActivityStatusBadge
               v-if="activity.status"
               :status="activity.status"
             />

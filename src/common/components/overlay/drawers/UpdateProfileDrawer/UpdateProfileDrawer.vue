@@ -28,7 +28,6 @@ interface UpdateProfileDrawerProps {
   id: string
   bio?: string
   email: string
-  hasUnseenNotification?: boolean
   profilePicture: FileDTO
   coverPicture: FileDTO
   show: boolean
@@ -41,7 +40,6 @@ const {
   id,
   bio,
   email,
-  hasUnseenNotification = false,
   profilePicture,
   coverPicture,
   show,
@@ -71,7 +69,7 @@ const {
   profilePictureFile,
   onProfilePictureUpdate,
   resetForm
-} = useUpdateProfileForm({ firstname, lastname, id, bio, email, hasUnseenNotification, profilePicture, coverPicture }, userCategory.value, onUpdateProfileSuccess)
+} = useUpdateProfileForm({ firstname, lastname, id, bio, email, profilePicture, coverPicture }, userCategory.value, onUpdateProfileSuccess)
 const FormField = markRaw(form.Field)
 
 function onUpdateProfileSuccess () {

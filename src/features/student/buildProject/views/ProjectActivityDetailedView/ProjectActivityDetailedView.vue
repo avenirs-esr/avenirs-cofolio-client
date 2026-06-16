@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useGetDeclaredActivityDetails } from '@/api/avenir-esr'
+import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
 import { useDrawer, useModal, useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
-import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import UpdateActivityDrawer
@@ -70,7 +70,7 @@ function onUnsubscribed () {
         class="av-row av-justify-end"
       >
         <div class="av-col av-gap-xs av-align-end">
-          <ActivityStatusBadge
+          <DeclaredActivityStatusBadge
             data-testid="activity-status-badge"
             :status="declaredActivityDetail.status"
           />

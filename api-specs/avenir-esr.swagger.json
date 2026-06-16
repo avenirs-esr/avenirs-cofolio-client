@@ -508,35 +508,6 @@
       }
     },
     "/me/activity-progress/feedbacks/{feedbackId}": {
-      "get": {
-        "tags": [
-          "feedback-controller"
-        ],
-        "operationId": "getFeedbackDetails",
-        "parameters": [
-          {
-            "name": "feedbackId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/FeedbackDetailsDTO"
-                }
-              }
-            }
-          }
-        }
-      },
       "put": {
         "tags": [
           "feedback-controller"
@@ -824,6 +795,43 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PagedResponseTraceViewDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/traces/locked-declared-activities": {
+      "post": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "getLockedDeclaredActivities",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TraceLockedDeclaredActivitiesDTO"
+                  }
                 }
               }
             }
@@ -1501,6 +1509,30 @@
         }
       }
     },
+    "/me/activity-progress/feedbacks/{feedbackId}/submit": {
+      "post": {
+        "tags": [
+          "feedback-controller"
+        ],
+        "operationId": "submitFeedback",
+        "parameters": [
+          {
+            "name": "feedbackId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/me/activity-progress/feedbacks/{declaredActivityId}/ask-for-feedback": {
       "post": {
         "tags": [
@@ -1840,6 +1872,36 @@
                 "schema": {
                   "type": "string",
                   "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/users/{userCategory}/quick-links": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "getQuickLinks",
+        "parameters": [
+          {
+            "name": "userCategory",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EUserCategory"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuickLinksDTO"
                 }
               }
             }
@@ -3069,6 +3131,49 @@
         }
       }
     },
+    "/me/activity-progress/feedbacks/{userCategory}/{feedbackId}": {
+      "get": {
+        "tags": [
+          "feedback-controller"
+        ],
+        "operationId": "getFeedbackDetails",
+        "parameters": [
+          {
+            "name": "feedbackId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "userCategory",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "STAFF",
+                "STUDENT"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackDetailsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activities": {
       "get": {
         "tags": [
@@ -4103,9 +4208,6 @@
           "isAssociated": {
             "type": "boolean"
           },
-          "isDeletable": {
-            "type": "boolean"
-          },
           "programName": {
             "type": "string"
           },
@@ -4144,7 +4246,7 @@
           "authorType",
           "createdAt",
           "id",
-          "isDeletable",
+          "lockedDeclaredActivities",
           "personalNote",
           "programName",
           "title",
@@ -4907,9 +5009,6 @@
           "isAssociated": {
             "type": "boolean"
           },
-          "isDeletable": {
-            "type": "boolean"
-          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -4927,9 +5026,53 @@
           "createdAt",
           "id",
           "isAssociated",
-          "isDeletable",
           "title",
           "updatedAt"
+        ]
+      },
+      "TraceDeclaredActivityDTO": {
+        "type": "object",
+        "properties": {
+          "activityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "activityTitle": {
+            "type": "string"
+          },
+          "activityStatus": {
+            "type": "string",
+            "$ref": "#/components/schemas/EDeclaredActivityStatus",
+            "enum": [
+              "SUBSCRIBED",
+              "IN_PROGRESS",
+              "SUBMITTED",
+              "COMPLETED"
+            ]
+          }
+        }
+      },
+      "TraceLockedDeclaredActivitiesDTO": {
+        "type": "object",
+        "properties": {
+          "traceId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "traceTitle": {
+            "type": "string"
+          },
+          "lockedDeclaredActivities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceDeclaredActivityDTO"
+            }
+          }
+        },
+        "required": [
+          "lockedDeclaredActivities",
+          "traceId",
+          "traceTitle"
         ]
       },
       "AddDeclaredSkillDTO": {
@@ -5287,6 +5430,39 @@
           "draftId"
         ]
       },
+      "QuickLinksDTO": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "hasUnseenNotification": {
+            "type": "boolean"
+          },
+          "unreadNotifications": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "notificationEnabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "firstname",
+          "hasUnseenNotification",
+          "lastname",
+          "notificationEnabled",
+          "unreadNotifications",
+          "userId"
+        ]
+      },
       "ProfileOverviewDTO": {
         "type": "object",
         "properties": {
@@ -5306,9 +5482,6 @@
           "email": {
             "type": "string"
           },
-          "hasUnseenNotification": {
-            "type": "boolean"
-          },
           "profilePicture": {
             "$ref": "#/components/schemas/FileDTO"
           },
@@ -5321,7 +5494,6 @@
           "coverPicture",
           "email",
           "firstname",
-          "hasUnseenNotification",
           "id",
           "lastname",
           "profilePicture"
