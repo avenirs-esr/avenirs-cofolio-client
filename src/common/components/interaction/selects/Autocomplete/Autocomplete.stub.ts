@@ -13,7 +13,8 @@ export const AutocompleteStub = defineComponent({
     'enableLoadMore',
     'displaySelectionInInput',
     'maxDropdownHeight',
-    'search'
+    'search',
+    'showClearSelectionButton',
   ],
   emits: ['update:modelValue', 'clear', 'loadMore', 'update:search'],
   template: `

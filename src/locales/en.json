@@ -26,8 +26,10 @@
     "application": "Application",
     "audio": "Audio",
     "AvAutoComplete": {
-      "clearLabel": "Clear the selection",
-      "elementsSelectedLabel": "{count} element selected | {count} elements selected"
+      "clearLabel": "Clear the input",
+      "clearSelectionLabel": "Clear the selection",
+      "elementsSelectedLabel": "{count} element selected | {count} elements selected",
+      "noResultsLabel": "No results found"
     },
     "avPagination": {
       "ariaLabel": "Pagination",
@@ -36,7 +38,7 @@
       "firstPageTitle": "First page",
       "lastPageTitle": "Last page",
       "nextPageTitle": "Next page",
-      "prevPageTitle": "Last page",
+      "prevPageTitle": "Previous page",
       "topAriaLabel": "Top pagination"
     },
     "AvRichTextEditor": {

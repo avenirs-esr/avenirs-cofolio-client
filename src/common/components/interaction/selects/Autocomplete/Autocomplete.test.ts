@@ -1,14 +1,7 @@
 import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvAutocompleteStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { expect } from 'vitest'
-
-const AvAutocompleteStub = defineComponent({
-  name: 'AvAutocomplete',
-  props: ['modelValue', 'search', 'clearLabel'],
-  emits: ['update:modelValue', 'update:search'],
-  template: `<div class="av-autocomplete-stub" :data-clear-label="clearLabel" />`
-})
 
 BddTest().given('an Autocomplete component', () => {
   let wrapper: ReturnType<typeof mount<typeof Autocomplete>>
@@ -21,7 +14,11 @@ BddTest().given('an Autocomplete component', () => {
     })
 
     BddTest().then('it should render an AvAutocomplete with the translated clearLabel', () => {
-      expect(wrapper.findComponent(AvAutocompleteStub).props('clearLabel')).toBe('Effacer la sélection')
+      expect(wrapper.findComponent(AvAutocompleteStub).props('clearLabel')).toBe('Effacer la saisie')
+    })
+
+    BddTest().then('it should render an AvAutocomplete with the translated clearSelectionLabel', () => {
+      expect(wrapper.findComponent(AvAutocompleteStub).props('clearSelectionLabel')).toBe('Effacer la sélection')
     })
 
     BddTest().and('the user selects an option', () => {

@@ -26,8 +26,10 @@
     "application": "Application",
     "audio": "Audio",
     "AvAutoComplete": {
-      "clearLabel": "Effacer la sélection",
-      "elementsSelectedLabel": "{count} élément sélectionné | {count} éléments sélectionnés"
+      "clearLabel": "Effacer la saisie",
+      "clearSelectionLabel": "Effacer la sélection",
+      "elementsSelectedLabel": "{count} élément sélectionné | {count} éléments sélectionnés",
+      "noResultsLabel": "Aucun résultat trouvé"
     },
     "avPagination": {
       "ariaLabel": "Pagination",

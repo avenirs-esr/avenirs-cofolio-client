@@ -20,6 +20,7 @@ defineProps<SearchAssociationLayoutProps<T, U>>()
 const emit = defineEmits<{
   (e: 'delete', itemId: string): void
   (e: 'clear'): void
+  (e: 'clearSelection'): void
   (e: 'loadMore'): void
 }>()
 
@@ -55,6 +56,7 @@ const search = defineModel<string>('search', { default: '' })
         :display-selection-in-input="false"
         :loading="loading"
         @clear="emit('clear')"
+        @clear-selection="emit('clearSelection')"
         @load-more="emit('loadMore')"
       />
     </div>
