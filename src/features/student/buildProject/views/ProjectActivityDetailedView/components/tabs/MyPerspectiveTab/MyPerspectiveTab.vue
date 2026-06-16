@@ -20,6 +20,7 @@ const { declaredActivityDetails } = defineProps<MyPerspectiveTabProps>()
       <MyPerspectiveCard
         :activity-id="declaredActivityDetails.id"
         :perspective="declaredActivityDetails.reflection"
+        :activity-status="declaredActivityDetails.status"
       />
     </div>
 

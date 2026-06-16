@@ -1,4 +1,5 @@
 import type { MyPerspectiveCardProps } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
+import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { RichTextEditorStub } from '@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.stub'
 import MyPerspectiveCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
@@ -41,7 +42,8 @@ BddTest().given('a my perspective card', () => {
   BddTest().when('the component is mounted with a valid activityId and a perspective', () => {
     const props: MyPerspectiveCardProps = {
       activityId: 'activity-1',
-      perspective: '<p>This is my perspective</p>'
+      perspective: '<p>This is my perspective</p>',
+      activityStatus: EDeclaredActivityStatus.IN_PROGRESS
     }
 
     beforeEach(() => {
@@ -282,6 +284,7 @@ BddTest().given('a my perspective card', () => {
   BddTest().when('the component is mounted with a valid activityId and no perspective', () => {
     const props: MyPerspectiveCardProps = {
       activityId: 'activity-1',
+      activityStatus: EDeclaredActivityStatus.IN_PROGRESS
     }
 
     beforeEach(() => {
@@ -312,7 +315,8 @@ BddTest().given('a my perspective card', () => {
   BddTest().when('the component is mounted with an invalid activityId', () => {
     const props: MyPerspectiveCardProps = {
       activityId: 'INVALID_ACTIVITY_ID',
-      perspective: '<p>This is my perspective</p>'
+      perspective: '<p>This is my perspective</p>',
+      activityStatus: EDeclaredActivityStatus.IN_PROGRESS
     }
 
     beforeEach(() => {
@@ -378,6 +382,25 @@ BddTest().given('a my perspective card', () => {
           })
         })
       })
+    })
+  })
+
+  BddTest().when('the component is mounted with a not in progress activity status', () => {
+    const props: MyPerspectiveCardProps = {
+      activityId: 'activity-1',
+      perspective: '<p>This is my perspective</p>',
+      activityStatus: EDeclaredActivityStatus.SUBMITTED
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mountComponent(MyPerspectiveCard, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should render the edit button as disabled', () => {
+      const editButton = getEditButton()
+      expect(editButton.exists()).toBe(true)
+      expect(editButton.attributes('disabled')).toBeDefined()
     })
   })
 })

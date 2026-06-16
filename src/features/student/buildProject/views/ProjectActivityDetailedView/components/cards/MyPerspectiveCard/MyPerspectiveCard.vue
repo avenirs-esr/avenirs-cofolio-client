@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EActivityStatus, invalidateGetActivityPresentation, useUpdateReflection } from '@/api/avenir-esr'
+import { EActivityStatus, EDeclaredActivityStatus, invalidateGetActivityPresentation, useUpdateReflection } from '@/api/avenir-esr'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
@@ -18,6 +18,7 @@ import { useI18n } from 'vue-i18n'
 export interface MyPerspectiveCardProps {
   activityId: string
   perspective?: string
+  activityStatus?: EDeclaredActivityStatus
 }
 
 const { activityId, perspective } = defineProps<MyPerspectiveCardProps>()
@@ -122,6 +123,7 @@ watch(content, () => {
             :icon="MDI_ICONS.PENCIL_OUTLINE"
             variant="OUTLINED"
             small
+            :disabled="activityStatus !== EDeclaredActivityStatus.IN_PROGRESS"
             data-testid="my-perspective-card-edit-button"
             @click="readonly = false"
           />

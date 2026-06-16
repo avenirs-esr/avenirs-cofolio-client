@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
-import { type DeclaredActivityDetailsDTO, EActivityStatus, EDeclaredActivityStatus, EFeedbackStatus, invalidateGetActivityPresentation, useAskForFeedback, useFinish } from '@/api/avenir-esr'
+import { type DeclaredActivityDetailsDTO, EActivityStatus, EDeclaredActivityStatus, EFeedbackStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useAskForFeedback, useFinish } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import FinishDeclaredActivity
@@ -59,7 +59,10 @@ function finishDeclaredActivity () {
       })
     },
     onSuccess: async () => {
-      await withTaskLoading(() => invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, declaredActivityDetails.id))
+      await withTaskLoading(() => Promise.all([
+        invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, declaredActivityDetails.id),
+        invalidateGetDeclaredActivityDetails(queryClient, declaredActivityDetails.id),
+      ]))
       addSuccessMessage({
         timeout: 2000,
         description: t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivityConfirmModal.success'),
@@ -77,7 +80,10 @@ function requestFeedback () {
       })
     },
     onSuccess: async () => {
-      await withTaskLoading(() => invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, declaredActivityDetails.id))
+      await withTaskLoading(() => Promise.all([
+        invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, declaredActivityDetails.id),
+        invalidateGetDeclaredActivityDetails(queryClient, declaredActivityDetails.id),
+      ]))
       addSuccessMessage({
         timeout: 2000,
         description: t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.success'),
