@@ -21,7 +21,7 @@ const typeInfo = computed(() => t(`student.traces.cards.StudentTraceCard.tagLabe
 const iconOptions = {
   name: MDI_ICONS.ATTACH_FILE,
   color: 'var(--text1)',
-  bottom: 'calc(-1 * var(--spacing-xl))',
+  bottom: 'var(--spacing-xl-neg)',
   right: 'var(--spacing-xs)',
   borderColor: 'var(--other-border-skill-card)'
 }

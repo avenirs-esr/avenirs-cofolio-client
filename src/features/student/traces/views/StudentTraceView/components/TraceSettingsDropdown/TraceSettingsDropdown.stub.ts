@@ -14,11 +14,7 @@ export const TraceSettingsDropdownStub = {
     'associate-selected',
     'delete-selected',
     'update-selected',
-    'download-selected',
-    'associateSelected',
-    'deleteSelected',
-    'updateSelected',
-    'downloadSelected'
+    'download-selected'
   ],
   template: `
     <div data-testid="trace-settings-dropdown">

@@ -10,6 +10,7 @@ export interface CompactCardProps {
   backgroundColor?: string
   borderColor?: string
   iconBorderColor?: string
+  iconBottom?: string
 }
 const {
   element,
@@ -19,12 +20,13 @@ const {
   backgroundColor = 'var(--surface-background)',
   borderColor = 'var(--other-border-skill-card)',
   iconBorderColor = 'var(--other-border-skill-card)',
+  iconBottom = '-2rem',
 } = defineProps<CompactCardProps>()
 
 const iconOptions = computed(() => ({
   name: icon,
   color: iconColor,
-  bottom: '-2rem',
+  bottom: iconBottom,
   borderColor: iconBorderColor,
 }))
 </script>

@@ -1,22 +1,20 @@
 import type { TracesSummaryDTO } from '@/api/avenir-esr'
-import { useTracesSummaryQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
+import { createTracesSummaryHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
+import { server } from '@/__mocks__/msw/server'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { StudentToolsTracesActionButtonsStub } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesActionButtons/StudentToolsTracesActionButtons.stub'
-import StudentToolsTracesViewContainer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
+import {
+  StudentToolsTracesAddTraceDrawerStub
+} from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.stub'
+import StudentToolsTracesViewContainer
+  from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 import { StudentToolsTracesViewTabsStub } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewTabs/StudentToolsTracesViewTabs.stub'
 import { TracesInformationStub } from '@/features/student/traces/views/StudentToolsTracesView/components/TracesInformation/TracesInformation.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { createPinia } from 'pinia'
-import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
-
-vi.mock('@/features/student/traces/queries/use-traces.query/use-traces.query', async (importActual) => {
-  const actual = await importActual<typeof import('@/features/student/traces/queries/use-traces.query/use-traces.query')>()
-  return {
-    ...actual,
-    useTracesSummaryQuery: vi.fn()
-  }
-})
+import { flushPromises, type VueWrapper } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a student tools traces view container', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesViewContainer>>
@@ -28,39 +26,32 @@ BddTest().given('a student tools traces view container', () => {
     totalCriticals: 1
   }
 
-  const mockedUseTracesSummaryQuery: MockedFunction<typeof useTracesSummaryQuery> = vi.mocked(useTracesSummaryQuery)
-
   const stubs = {
     StudentToolsTracesViewTabs: StudentToolsTracesViewTabsStub,
     StudentToolsTracesActionButtons: StudentToolsTracesActionButtonsStub,
-    StudentToolsTracesAddTraceDrawer: {
-      name: 'StudentToolsTracesAddTraceDrawer',
-      template: '<div data-testid="student-tools-traces-add-trace-drawer" />'
-    },
+    StudentToolsTracesAddTraceDrawer: StudentToolsTracesAddTraceDrawerStub,
     TracesInformation: TracesInformationStub
   }
 
   BddTest().and('trace container is available', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
+      setActivePinia(createPinia())
 
-      mockedUseTracesSummaryQuery.mockReturnValue({
-        data: ref(tracesSummary)
-      } as ReturnType<typeof useTracesSummaryQuery>)
+      server.use(createTracesSummaryHandler(tracesSummary))
 
-      wrapper = mount(StudentToolsTracesViewContainer, {
+      wrapper = mountComponent(StudentToolsTracesViewContainer, {
         global: {
-          plugins: [createPinia()],
           stubs
-        }
+        },
+        useTanstack: true,
+        usePinia: true
       })
+
+      await flushPromises()
     })
 
     BddTest().when('the component is mounted', () => {
-      BddTest().then('it should fetch traces summary', () => {
-        expect(mockedUseTracesSummaryQuery).toHaveBeenCalled()
-      })
-
       BddTest().then('it should render the traces information', () => {
         expect(wrapper.findComponent({ name: 'TracesInformation' }).exists()).toBe(true)
       })

@@ -1,4 +1,5 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
+import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { TracesSelectorStub } from '@/features/student/traces/components/interactions/pickers/TracesSelector/TraceSelector.stub'
 import { usePaginatedTraces } from '@/features/student/traces/composables/use-paginated-traces/use-paginated-traces'
 import DeleteTracesModal
@@ -6,7 +7,7 @@ import DeleteTracesModal
 import {
   TraceDeletionConfirmationModalStub
 } from '@/features/student/traces/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.stub'
-import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 
@@ -23,7 +24,7 @@ vi.mock('@vueuse/core', async (importActual) => {
 })
 
 BddTest().given('a delete traces modal', () => {
-  let wrapper: VueWrapper
+  let wrapper: VueWrapper<InstanceType<typeof DeleteTracesModal>>
 
   const mockedUsePaginatedTraces: MockedFunction<typeof usePaginatedTraces> = vi.mocked(usePaginatedTraces)
 
@@ -51,7 +52,7 @@ BddTest().given('a delete traces modal', () => {
   const loadMoreTraces = vi.fn()
 
   const stubs = {
-    AvModal: AvModalStub,
+    ConfirmationModal: ConfirmationModalStub,
     TracesSelector: TracesSelectorStub,
     TraceDeletionConfirmationModal: TraceDeletionConfirmationModalStub
   }
@@ -66,12 +67,31 @@ BddTest().given('a delete traces modal', () => {
     })
   }
 
-  function modal () {
-    return wrapper.findComponent({ name: 'AvModal' })
+  function getModal () {
+    return wrapper.findComponent({ name: 'ConfirmationModal' })
   }
 
   beforeEach(() => {
     vi.clearAllMocks()
+
+    traces.value = [
+      {
+        id: 'trace-1',
+        title: 'Trace 1',
+        isAssociated: false,
+        isDeletable: true,
+        createdAt: '2026-06-15T10:00:00.000Z',
+        updatedAt: '2026-06-15T10:00:00.000Z'
+      },
+      {
+        id: 'trace-2',
+        title: 'Trace 2',
+        isAssociated: true,
+        isDeletable: true,
+        createdAt: '2026-06-15T10:00:00.000Z',
+        updatedAt: '2026-06-15T10:00:00.000Z'
+      }
+    ]
 
     mockedUsePaginatedTraces.mockReturnValue({
       traces,
@@ -87,12 +107,12 @@ BddTest().given('a delete traces modal', () => {
   })
 
   BddTest().then('it should render the modal', () => {
-    expect(modal().exists()).toBe(true)
+    expect(getModal().exists()).toBe(true)
   })
 
   BddTest().then('it should provide modal props', () => {
-    expect(modal().props('opened')).toBe(true)
-    expect(modal().props('confirmButtonDisabled')).toBe(true)
+    expect(getModal().props('show')).toBe(true)
+    expect(getModal().props('confirmButtonDisabled')).toBe(true)
   })
 
   BddTest().then('it should render traces selector when traces exist', () => {
@@ -113,23 +133,25 @@ BddTest().given('a delete traces modal', () => {
   BddTest().then('closing modal should emit cancel and reset selected traces', async () => {
     await wrapper.findComponent({ name: 'TracesSelector' }).vm.$emit('update:modelValue', ['trace-1'])
 
-    await modal().vm.$emit('close')
+    await getModal().vm.$emit('close')
 
     expect(wrapper.emitted('cancel')).toHaveLength(1)
   })
 
-  BddTest().then('confirming modal should display confirmation modal', async () => {
+  BddTest().then('confirming modal should display deletion confirmation modal', async () => {
     await wrapper.findComponent({ name: 'TracesSelector' }).vm.$emit('update:modelValue', ['trace-1'])
 
-    await modal().vm.$emit('confirm')
+    await getModal().vm.$emit('confirm')
 
-    expect(wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' }).props('show')).toBe(true)
-    expect(wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' }).props('traceIds')).toEqual(['trace-1'])
+    const confirmationModal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
+
+    expect(confirmationModal.props('show')).toBe(true)
+    expect(confirmationModal.props('traceIds')).toEqual(['trace-1'])
   })
 
   BddTest().then('delete success should emit deleted', async () => {
     await wrapper.findComponent({ name: 'TracesSelector' }).vm.$emit('update:modelValue', ['trace-1'])
-    await modal().vm.$emit('confirm')
+    await getModal().vm.$emit('confirm')
 
     await wrapper.find('[data-testid="confirm-delete-success"]').trigger('click')
 

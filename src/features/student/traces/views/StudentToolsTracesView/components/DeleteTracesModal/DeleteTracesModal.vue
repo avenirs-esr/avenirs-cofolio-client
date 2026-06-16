@@ -1,11 +1,12 @@
 <script lang="ts" setup>
+import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import { TracesSelector } from '@/features/student/traces'
 import { usePaginatedTraces } from '@/features/student/traces/composables/use-paginated-traces/use-paginated-traces'
 import TraceDeletionConfirmationModal
   from '@/features/student/traces/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
-import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
@@ -14,16 +15,16 @@ export interface DeleteTracesModalProps {
   totalCount: number
 }
 
-const props = defineProps<DeleteTracesModalProps>()
+const { show, totalCount } = defineProps<DeleteTracesModalProps>()
 
 const emit = defineEmits<{
-  (e: 'cancel'): void
-  (e: 'deleted'): void
+  cancel: []
+  deleted: []
 }>()
 
-const { show, totalCount } = toRefs(props)
-
 const { t } = useI18n()
+const selectedTraceIds = ref<string[]>([])
+const tracesContainer = ref<HTMLElement | null>(null)
 
 const {
   showModal: showConfirmModal,
@@ -37,11 +38,11 @@ const {
   hasMoreTraces,
   loadMoreTraces,
 } = usePaginatedTraces({
-  enabled: computed(() => show.value),
-  pageSize: totalCount
+  enabled: computed(() => show),
+  pageSize: computed(() => totalCount)
 })
 
-const selectedTraceIds = ref<string[]>([])
+const selectedCount = computed(() => selectedTraceIds.value.length)
 
 function resetSelectedTraces () {
   selectedTraceIds.value = []
@@ -58,26 +59,19 @@ function onDeleteSuccess () {
   emit('deleted')
 }
 
-const tracesContainer = ref<HTMLElement | null>(null)
-
-useInfiniteScroll(
-  tracesContainer,
-  loadMoreTraces,
-  {
-    distance: INFINITE_SCROLL_BOTTOM_DISTANCE,
-    canLoadMore: () => !isFetching.value && hasMoreTraces.value
-  }
-)
+useInfiniteScroll(tracesContainer, loadMoreTraces, {
+  distance: INFINITE_SCROLL_BOTTOM_DISTANCE,
+  canLoadMore: () => !isFetching.value && hasMoreTraces.value
+})
 </script>
 
 <template>
-  <AvModal
-    :opened="show"
+  <ConfirmationModal
+    :show="show"
     data-testid="delete-traces-modal"
-    :close-button-label="t('global.buttons.cancel')"
-    :confirm-button-label="t('student.traces.views.StudentToolsTracesView.deleteTracesModal.confirm', { count: selectedTraceIds.length })"
+    :confirm-button-label="t('student.traces.views.StudentToolsTracesView.deleteTracesModal.confirm', { count: selectedCount })"
     :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
-    :confirm-button-disabled="selectedTraceIds.length === 0"
+    :confirm-button-disabled="selectedCount === 0"
     @close="onCancel"
     @confirm="displayConfirmModal"
   >
@@ -86,39 +80,41 @@ useInfiniteScroll(
         class="av-col av-gap-sm av-w-full"
         data-testid="header"
       >
-        <div class="av-row av-justify-center">
-          <span class="b2-regular av-text-text1 av-text-center">
-            {{ t('student.traces.views.StudentToolsTracesView.deleteTracesModal.title', { count: traces.length }) }}
-          </span>
-        </div>
-        <div class="av-row av-justify-center">
-          <span class="b2-light av-text-text1 av-text-center">
-            {{ t('student.traces.views.StudentToolsTracesView.deleteTracesModal.description') }}
-          </span>
-        </div>
+        <span class="b2-regular av-text-text1 av-text-center">
+          {{ t('student.traces.views.StudentToolsTracesView.deleteTracesModal.title', { count: traces.length }) }}
+        </span>
+
+        <span class="b2-light av-text-text1 av-text-center">
+          {{ t('student.traces.views.StudentToolsTracesView.deleteTracesModal.description') }}
+        </span>
       </div>
     </template>
 
     <div
       ref="tracesContainer"
-      class="av-col av-gap-sm"
-      style="max-height: 400px; overflow-y: auto;"
+      class="delete-traces-modal__content av-col av-gap-sm"
     >
       <TracesSelector
-        v-if="traces.length > 0"
+        v-if="traces.length"
         v-model="selectedTraceIds"
-        class="traces-selector--compact"
         :traces="traces"
         compact
       />
     </div>
-  </AvModal>
+  </ConfirmationModal>
 
   <TraceDeletionConfirmationModal
     :trace-ids="selectedTraceIds"
-    :title="t('student.traces.views.StudentToolsTracesView.deleteTracesModal.confirmationTitle', { count: selectedTraceIds.length })"
+    :title="t('student.traces.views.StudentToolsTracesView.deleteTracesModal.confirmationTitle', { count: selectedCount })"
     :show="showConfirmModal"
     :on-confirm-delete="onDeleteSuccess"
     :on-close="hideConfirmModal"
   />
 </template>
+
+<style lang="scss" scoped>
+.delete-traces-modal__content {
+  max-height: var(--dimension-8xl);
+  overflow-y: auto;
+}
+</style>

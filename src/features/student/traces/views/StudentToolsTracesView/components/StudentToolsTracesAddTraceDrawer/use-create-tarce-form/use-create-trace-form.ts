@@ -117,7 +117,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
         if (!traceId) {
           addErrorMessage({
             title: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.createTrace'),
-            description: t('global.errors.default')
+            description: t('global.errors.generic')
           })
           return
         }

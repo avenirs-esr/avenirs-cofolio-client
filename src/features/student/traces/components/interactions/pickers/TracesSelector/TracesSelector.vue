@@ -34,13 +34,14 @@ const selectableTraces = computed(() =>
 <template>
   <div
     class="av-row av-wrap av-gap-md av-py-md av-px-md--md"
-    :class="{ 'traces-selector--compact': compact }"
   >
     <SelectorOverlay
       v-model:selected-elements="selectedTraceIds"
       class="traces-selector"
       :selectable-elements="selectableTraces"
       :readonly="readonly"
+      :compact="compact"
+      border-radius="var(--radius-lg)"
     >
       <template #default="{ baseElement }">
         <StudentTraceCard
@@ -56,11 +57,3 @@ const selectableTraces = computed(() =>
     </SelectorOverlay>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.traces-selector--compact {
-  :deep(.selector-overlay__checkbox > .av-icon) {
-    transform: translateY(0.75rem);
-  }
-}
-</style>

@@ -12,6 +12,7 @@ export interface SelectorOverlayProps {
   readonly?: boolean
   borderRadius?: string
   small?: boolean
+  compact?: boolean
 }
 
 const {
@@ -24,6 +25,7 @@ const {
   readonly = false,
   borderRadius = '1.5rem',
   small = false,
+  compact = false,
 } = defineProps<SelectorOverlayProps>()
 
 const { t } = useI18n()
@@ -74,7 +76,10 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
       :aria-pressed="selectedElements.includes(element.value)"
       :aria-disabled="element.disabled"
       class="selector-overlay__checkbox av-row av-px-xs av-justify-end"
-      :class="{ 'selector-overlay__checkbox--selected': selectedElements.includes(element.value) }"
+      :class="{
+        'selector-overlay__checkbox--selected': selectedElements.includes(element.value),
+        'selector-overlay__checkbox--compact': compact,
+      }"
       data-testid="selector-overlay"
       @click="() => !element.disabled && onSelectElement(element.value)"
       @keydown.enter="() => !element.disabled && onSelectElement(element.value)"
@@ -109,6 +114,12 @@ function getAriaLabel (elementValue: string, elementLabel: string) {
     right: calc(-1 * var(--spacing-xxs));;
     bottom: 0;
     border-radius: v-bind('borderRadius');
+
+    &--compact {
+      :deep(.av-icon) {
+        transform: translateY(0.75rem);
+      }
+    }
 
     &::before {
       content: '';
