@@ -1,13 +1,13 @@
-import ActivityPeriodSummaryBadge, { type ActivityPeriodSummaryBadgeProps } from '@/features/student/buildProject/components/badges/ActivityPeriodSummaryBadge/ActivityPeriodSummaryBadge.vue'
+import ActivityExecutionPeriodSummaryBadge, { type ActivityExecutionPeriodSummaryBadgeProps } from '@/features/student/buildProject/components/badges/ActivityExecutionPeriodSummaryBadge/ActivityExecutionPeriodSummaryBadge.vue'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 
 BddTest().given('an activity period summary badge', () => {
-  let wrapper: VueWrapper<InstanceType<typeof ActivityPeriodSummaryBadge>>
+  let wrapper: VueWrapper<InstanceType<typeof ActivityExecutionPeriodSummaryBadge>>
 
   const stubs = { AvBadge: AvBadgeStub }
 
-  const scenarios: Array<{ props: ActivityPeriodSummaryBadgeProps }> = [
+  const scenarios: Array<{ props: ActivityExecutionPeriodSummaryBadgeProps }> = [
     { props: { summary: 'À réaliser en amont' } },
     { props: { summary: 'Pendant le parcours' } },
     { props: { summary: 'À finaliser après projet', small: true } },
@@ -16,7 +16,7 @@ BddTest().given('an activity period summary badge', () => {
   scenarios.forEach(({ props }) => {
     BddTest().when(`the badge is rendered with summary "${props.summary}"`, () => {
       beforeEach(() => {
-        wrapper = mount(ActivityPeriodSummaryBadge, { props, global: { stubs } })
+        wrapper = mount(ActivityExecutionPeriodSummaryBadge, { props, global: { stubs } })
       })
 
       BddTest().then('it should render the badge component', () => {
