@@ -1,5 +1,5 @@
-export const ActivityPeriodSummaryBadgeStub = defineComponent({
-  name: 'ActivityPeriodSummaryBadge',
+export const ActivityExecutionPeriodSummaryBadgeStub = defineComponent({
+  name: 'ActivityExecutionPeriodSummaryBadge',
   props: {
     summary: {
       type: String,

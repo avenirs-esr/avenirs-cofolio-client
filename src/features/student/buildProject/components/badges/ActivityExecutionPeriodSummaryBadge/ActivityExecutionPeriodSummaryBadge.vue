@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { AvBadge, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
-export interface ActivityPeriodSummaryBadgeProps {
+export interface ActivityExecutionPeriodSummaryBadgeProps {
   summary: string
   small?: boolean
 }
 
-const { summary } = defineProps<ActivityPeriodSummaryBadgeProps>()
+const { summary } = defineProps<ActivityExecutionPeriodSummaryBadgeProps>()
 </script>
 
 <template>

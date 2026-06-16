@@ -2,8 +2,7 @@
 import { type DeclaredActivityViewDTO, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import { ICONS, ROUTES } from '@/common/constants'
-import ActivityPeriodSummaryBadge
-  from '@/features/student/buildProject/components/badges/ActivityPeriodSummaryBadge/ActivityPeriodSummaryBadge.vue'
+import ActivityPeriodBadge from '@/features/student/buildProject/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.vue'
 import ActivityStatusBadge from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import { FloatingIconCard } from '@/features/student/global'
 import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
@@ -53,10 +52,7 @@ const isNotSubscribed = computed(() => activity.status !== EDeclaredActivityStat
         <div class="av-col av-pr-4xl--md av-pl-none av-pl-md--md">
           <div class="av-col av-row--md av-gap-sm av-justify-start av-justify-between--md av-px-xs">
             <div class="av-row av-row-wrap av-align-center av-gap-sm av-hidden av-unhidden--md">
-              <ActivityPeriodSummaryBadge
-                v-if="activity.executionPeriodInfoSummary"
-                :summary="activity.executionPeriodInfoSummary"
-              />
+              <ActivityPeriodBadge v-if="activity.startDate && activity.endDate" />
               <ActivityStatusBadge
                 v-if="isNotSubscribed"
                 data-testid="activity-library-card-status-badge"

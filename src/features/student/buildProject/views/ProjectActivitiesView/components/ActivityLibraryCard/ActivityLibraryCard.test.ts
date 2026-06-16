@@ -3,8 +3,8 @@ import {
   ActivityThematicBadgeStub
 } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import {
-  ActivityPeriodSummaryBadgeStub
-} from '@/features/student/buildProject/components/badges/ActivityPeriodSummaryBadge/ActivityPeriodSummaryBadge.stub'
+  ActivityPeriodBadgeStub
+} from '@/features/student/buildProject/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.stub'
 import {
   ActivityStatusBadgeStub
 } from '@/features/student/buildProject/components/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
@@ -33,7 +33,7 @@ BddTest().given('an ActivityLibraryCard', () => {
     FloatingIconCard: FloatingIconCardStub,
     ActivityStatusBadge: ActivityStatusBadgeStub,
     ActivityThematicBadge: ActivityThematicBadgeStub,
-    ActivityPeriodSummaryBadge: ActivityPeriodSummaryBadgeStub,
+    ActivityPeriodBadge: ActivityPeriodBadgeStub,
     RouterLink: RouterLinkStub
   }
 
@@ -98,13 +98,8 @@ BddTest().given('an ActivityLibraryCard', () => {
     })
 
     BddTest().then('it should render the period badge', () => {
-      const periodBadge = wrapper.findComponent(ActivityPeriodSummaryBadgeStub)
+      const periodBadge = wrapper.findComponent(ActivityPeriodBadgeStub)
       expect(periodBadge.exists()).toBe(true)
-    })
-
-    BddTest().then('it should render the period badge with the correct label', () => {
-      const periodBadge = wrapper.findComponent(ActivityPeriodSummaryBadgeStub)
-      expect(periodBadge.props('summary')).toBe(baseActivity.executionPeriodInfoSummary)
     })
 
     BddTest().then('it should display the summary text', () => {
@@ -154,14 +149,14 @@ BddTest().given('an ActivityLibraryCard', () => {
     beforeEach(() => {
       wrapper = mount(ActivityLibraryCard, {
         props: {
-          activity: { ...baseActivity, executionPeriodInfoSummary: undefined }
+          activity: { ...baseActivity, executionPeriodInfoSummary: undefined, startDate: undefined }
         },
         global: { stubs }
       })
     })
 
     BddTest().then('it should not render the period badge', () => {
-      const periodBadge = wrapper.findComponent(ActivityPeriodSummaryBadgeStub)
+      const periodBadge = wrapper.findComponent(ActivityPeriodBadgeStub)
       expect(periodBadge.exists()).toBe(false)
     })
   })
