@@ -17,6 +17,8 @@ const avAutocompleteProps = computed(() => ({
   ...attrs,
   ...props,
   clearLabel: t('global.AvAutoComplete.clearLabel'),
+  clearSelectionLabel: t('global.AvAutoComplete.clearSelectionLabel'),
+  noResultsLabel: t('global.AvAutoComplete.noResultsLabel')
 }))
 </script>
 

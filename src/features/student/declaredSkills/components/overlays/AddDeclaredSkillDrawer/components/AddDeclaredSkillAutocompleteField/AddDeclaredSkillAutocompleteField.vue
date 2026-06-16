@@ -61,10 +61,6 @@ const skills = computed((): DeclaredSkillOption[] => {
   }))
 })
 
-function handleSearch (query: string) {
-  searchQuery.value = query
-}
-
 function handleClear () {
   searchQuery.value = ''
 }
@@ -105,6 +101,7 @@ const emptySlotTextContent = computed<string>(() => {
     <FormField name="selectedSkills">
       <template #default="{ field }">
         <Autocomplete
+          v-model:search="searchQuery"
           :model-value="field.state.value"
           :options="skills"
           :loading="isLoading || isFetchingNextPage"
@@ -121,7 +118,6 @@ const emptySlotTextContent = computed<string>(() => {
           max-dropdown-height="14.5rem"
           :debounce-delay="500"
           @update:model-value="field.handleChange"
-          @update:search="handleSearch"
           @clear="handleClear"
           @load-more="handleLoadMore"
         >
