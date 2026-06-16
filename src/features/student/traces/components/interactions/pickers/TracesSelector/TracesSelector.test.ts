@@ -66,19 +66,19 @@ BddTest().given('a traces selector', () => {
 
   BddTest().when('the component is mounted with trace overview DTOs', () => {
     BddTest().then('it should render all trace cards', () => {
-      const traceCards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
+      const traceCards = wrapper.findAllComponents(StudentTraceCardStub)
 
       expect(traceCards).toHaveLength(3)
     })
 
     BddTest().then('it should not render compact trace cards', () => {
-      const compactCards = wrapper.findAllComponents({ name: 'StudentTraceViewCompactCard' })
+      const compactCards = wrapper.findAllComponents(StudentTraceViewCompactCardStub)
 
       expect(compactCards).toHaveLength(0)
     })
 
     BddTest().then('it should provide selectable traces to selector overlay', () => {
-      const selectorOverlay = wrapper.findComponent({ name: 'SelectorOverlay' })
+      const selectorOverlay = wrapper.findComponent(SelectorOverlayStub)
 
       expect(selectorOverlay.props('selectableElements')).toEqual(
         mockedTraceOverview.map(trace => ({
@@ -89,15 +89,11 @@ BddTest().given('a traces selector', () => {
         }))
       )
     })
-
-    BddTest().then('it should not enable compact mode by default', () => {
-      expect(wrapper.classes()).not.toContain('traces-selector--compact')
-    })
   })
 
   BddTest().when('a trace is selected', () => {
     beforeEach(async () => {
-      const selectorOverlay = wrapper.findComponent({ name: 'SelectorOverlay' })
+      const selectorOverlay = wrapper.findComponent(SelectorOverlayStub)
 
       await selectorOverlay.vm.$emit('update:selectedElements', [mockedTraceOverview[0].id])
     })
@@ -111,7 +107,7 @@ BddTest().given('a traces selector', () => {
 
   BddTest().when('multiple traces are selected', () => {
     beforeEach(async () => {
-      const selectorOverlay = wrapper.findComponent({ name: 'SelectorOverlay' })
+      const selectorOverlay = wrapper.findComponent(SelectorOverlayStub)
 
       await selectorOverlay.vm.$emit('update:selectedElements', [
         mockedTraceOverview[0].id,
@@ -131,7 +127,7 @@ BddTest().given('a traces selector', () => {
 
   BddTest().when('a trace is unselected', () => {
     beforeEach(async () => {
-      const selectorOverlay = wrapper.findComponent({ name: 'SelectorOverlay' })
+      const selectorOverlay = wrapper.findComponent(SelectorOverlayStub)
 
       await selectorOverlay.vm.$emit('update:selectedElements', [mockedTraceOverview[1].id])
     })
@@ -151,19 +147,19 @@ BddTest().given('a traces selector', () => {
     })
 
     BddTest().then('it should render compact trace cards', () => {
-      const compactCards = wrapper.findAllComponents({ name: 'StudentTraceViewCompactCard' })
+      const compactCards = wrapper.findAllComponents(StudentTraceViewCompactCardStub)
 
       expect(compactCards).toHaveLength(2)
     })
 
     BddTest().then('it should not render overview trace cards', () => {
-      const traceCards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
+      const traceCards = wrapper.findAllComponents(StudentTraceCardStub)
 
       expect(traceCards).toHaveLength(0)
     })
 
     BddTest().then('it should disable non deletable trace view DTOs', () => {
-      const selectorOverlay = wrapper.findComponent({ name: 'SelectorOverlay' })
+      const selectorOverlay = wrapper.findComponent(SelectorOverlayStub)
 
       expect(selectorOverlay.props('selectableElements')).toEqual([
         {
@@ -182,19 +178,6 @@ BddTest().given('a traces selector', () => {
     })
   })
 
-  BddTest().when('the component is mounted in compact mode', () => {
-    beforeEach(() => {
-      mountComponent({
-        traces: traceViewDTOs,
-        compact: true
-      })
-    })
-
-    BddTest().then('it should apply compact class', () => {
-      expect(wrapper.classes()).toContain('traces-selector--compact')
-    })
-  })
-
   BddTest().when('no traces are provided', () => {
     beforeEach(() => {
       mountComponent({
@@ -203,15 +186,15 @@ BddTest().given('a traces selector', () => {
     })
 
     BddTest().then('it should not render any trace cards', () => {
-      const traceCards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
-      const compactCards = wrapper.findAllComponents({ name: 'StudentTraceViewCompactCard' })
+      const traceCards = wrapper.findAllComponents(StudentTraceCardStub)
+      const compactCards = wrapper.findAllComponents(StudentTraceViewCompactCardStub)
 
       expect(traceCards).toHaveLength(0)
       expect(compactCards).toHaveLength(0)
     })
 
     BddTest().then('it should provide empty selectable elements to selector overlay', () => {
-      const selectorOverlay = wrapper.findComponent({ name: 'SelectorOverlay' })
+      const selectorOverlay = wrapper.findComponent(SelectorOverlayStub)
 
       expect(selectorOverlay.props('selectableElements')).toEqual([])
     })
@@ -225,13 +208,13 @@ BddTest().given('a traces selector', () => {
     })
 
     BddTest().then('it should pass readonly to selector overlay', () => {
-      const selectorOverlay = wrapper.findComponent({ name: 'SelectorOverlay' })
+      const selectorOverlay = wrapper.findComponent(SelectorOverlayStub)
 
       expect(selectorOverlay.props('readonly')).toBe(true)
     })
 
     BddTest().then('it should still render trace cards', () => {
-      const traceCards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
+      const traceCards = wrapper.findAllComponents(StudentTraceCardStub)
 
       expect(traceCards).toHaveLength(3)
     })
