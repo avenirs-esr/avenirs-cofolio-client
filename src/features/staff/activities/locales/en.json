@@ -14,7 +14,10 @@
       "feedbacks": {
         "cards": {
           "lastSaved": "Last saved on",
-          "receivedAt": "Received on"
+          "receivedAt": "Received on",
+          "StudentPerspectiveCard": {
+            "title": "Their perspective"
+          }
         },
         "columns": {
           "formation": "Formation",
