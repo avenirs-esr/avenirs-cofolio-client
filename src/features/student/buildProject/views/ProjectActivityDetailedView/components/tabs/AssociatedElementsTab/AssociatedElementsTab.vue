@@ -13,10 +13,8 @@ import DeleteActivityAssociatedElementsDropdown
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/DeleteActivityAssociatedElementsDropdown/DeleteActivityAssociatedElementsDropdown.vue'
 import AssociateTracesModal
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesModal.vue'
-import DeleteActivityAssociatedSkillsModal
-  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedSkillsModal/DeleteActivityAssociatedSkillsModal.vue'
-import DeleteActivityAssociatedTracesModal
-  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedTracesModal/DeleteActivityAssociatedTracesModal.vue'
+import DeleteActivityAssociatedElementsModal
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedElementsModal/DeleteActivityAssociatedElementsModal.vue'
 import { AssociatedDeclaredSkillsCard } from '@/features/student/declaredSkills'
 
 export interface AssociatedElementsTabProps {
@@ -41,6 +39,13 @@ const tracesAssociations = computed(() => {
     title: traceAssociation.trace.title
   }))
 })
+
+const skillsAssociations = computed(() => {
+  return associations.declaredSkillAssociations.map(skillAssociation => ({
+    id: skillAssociation.associationId,
+    title: skillAssociation.declaredSkill.title
+  }))
+})
 </script>
 
 <template>
@@ -48,6 +53,7 @@ const tracesAssociations = computed(() => {
     <div class="av-row av-flex-fill av-justify-end av-gap-md">
       <DeleteActivityAssociatedElementsDropdown
         :traces-disabled="traceAssociationsDisabled || tracesAssociations.length === 0"
+        :skills-disabled="skillsAssociations.length === 0"
         @skills-selected="displaySkillsModal"
         @traces-selected="displayTracesModal"
       />
@@ -63,25 +69,31 @@ const tracesAssociations = computed(() => {
       :is-empty="countAssociations === 0"
       :is-loading="isLoading"
     >
-      <AssociatedDeclaredSkillsCard
-        :associated-declared-skills="associations.declaredSkillAssociations"
-      />
-      <AssociatedTracesCard
-        :associated-traces="associations.traceAssociations"
-      />
+      <div class="av-col av-gap-md">
+        <AssociatedDeclaredSkillsCard
+          :associated-declared-skills="associations.declaredSkillAssociations"
+        />
+        <AssociatedTracesCard
+          :associated-traces="associations.traceAssociations"
+        />
+      </div>
     </QuerySuspense>
   </div>
 
-  <DeleteActivityAssociatedSkillsModal
+  <DeleteActivityAssociatedElementsModal
     :show="showSkillsModal"
+    :declared-activity-id="declaredActivityId"
+    :associations="skillsAssociations"
+    data-testid="delete-activity-associated-skills-modal"
     @cancel="hideSkillsModal"
     @deleted="hideSkillsModal"
   />
 
-  <DeleteActivityAssociatedTracesModal
+  <DeleteActivityAssociatedElementsModal
     :show="showTracesModal"
     :declared-activity-id="declaredActivityId"
     :associations="tracesAssociations"
+    data-testid="delete-activity-associated-traces-modal"
     @cancel="hideTracesModal"
     @deleted="hideTracesModal"
   />

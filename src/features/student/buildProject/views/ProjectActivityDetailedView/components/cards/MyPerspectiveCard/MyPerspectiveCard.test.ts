@@ -385,7 +385,7 @@ BddTest().given('a my perspective card', () => {
     })
   })
 
-  BddTest().when('the component is mounted with a not in progress activity status', () => {
+  BddTest().when('the component is mounted with a submitted activity status', () => {
     const props: MyPerspectiveCardProps = {
       activityId: 'activity-1',
       perspective: '<p>This is my perspective</p>',

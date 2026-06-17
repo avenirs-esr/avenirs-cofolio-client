@@ -1,7 +1,7 @@
 import type { PropType } from 'vue'
 
-export const DeleteActivityAssociatedTracesModalStub = defineComponent({
-  name: 'DeleteActivityAssociatedTracesModal',
+export const DeleteActivityAssociatedElementsModalStub = defineComponent({
+  name: 'DeleteActivityAssociatedElementsModal',
   props: {
     show: {
       type: Boolean,
