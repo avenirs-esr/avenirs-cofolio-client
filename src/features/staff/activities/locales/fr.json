@@ -14,7 +14,10 @@
       "feedbacks": {
         "cards": {
           "lastSaved": "Dernier enregistrement le",
-          "receivedAt": "Reçu le"
+          "receivedAt": "Reçu le",
+          "StudentPerspectiveCard": {
+            "title": "Sa prise de recul"
+          }
         },
         "columns": {
           "formation": "Formation",
