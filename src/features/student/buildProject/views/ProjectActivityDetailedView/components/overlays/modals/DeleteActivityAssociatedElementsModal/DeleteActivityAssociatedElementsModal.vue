@@ -11,13 +11,13 @@ import { useToasterStore } from '@/store'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
-export interface DeleteActivityAssociatedTracesModalProps {
+export interface DeleteActivityAssociatedElementsModalProps {
   show: boolean
   declaredActivityId: string
   associations: IdTitleList
 }
 
-const { declaredActivityId, associations } = defineProps<DeleteActivityAssociatedTracesModalProps>()
+const { declaredActivityId, associations } = defineProps<DeleteActivityAssociatedElementsModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -51,7 +51,7 @@ function deleteDeclaredActivityAssociations () {
       await withTaskLoading(() => invalidateGetDeclaredActivityAssociations(queryClient, declaredActivityId))
       addSuccessMessage({
         timeout: 2000,
-        description: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteActivityAssociatedTracesModal.success'),
+        description: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteActivityAssociatedElementsModal.success'),
       })
       selectedIds.value = []
       emit('deleted')

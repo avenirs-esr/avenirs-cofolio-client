@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EActivityStatus, EDeclaredActivityStatus, invalidateGetActivityPresentation, useUpdateReflection } from '@/api/avenir-esr'
+import { EActivityStatus, EDeclaredActivityStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useUpdateReflection } from '@/api/avenir-esr'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
@@ -48,7 +48,10 @@ function updateActivityReflection (reflection: string) {
       })
     },
     onSuccess: async () => {
-      await withTaskLoading(() => invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, activityId))
+      await withTaskLoading(() => Promise.all([
+        invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, activityId),
+        invalidateGetDeclaredActivityDetails(queryClient, activityId)
+      ]))
       addSuccessMessage(t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveCard.save.success'))
       readonly.value = true
     }
@@ -123,7 +126,7 @@ watch(content, () => {
             :icon="MDI_ICONS.PENCIL_OUTLINE"
             variant="OUTLINED"
             small
-            :disabled="activityStatus !== EDeclaredActivityStatus.IN_PROGRESS"
+            :disabled="activityStatus === EDeclaredActivityStatus.SUBMITTED || activityStatus === EDeclaredActivityStatus.COMPLETED"
             data-testid="my-perspective-card-edit-button"
             @click="readonly = false"
           />

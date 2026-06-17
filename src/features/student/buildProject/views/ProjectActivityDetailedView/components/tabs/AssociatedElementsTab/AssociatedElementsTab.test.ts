@@ -8,8 +8,7 @@ import { DeleteActivityAssociatedElementsDropdownStub } from '@/features/student
 import {
   AssociateTracesModalStub
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesModal.stub'
-import { DeleteActivityAssociatedSkillsModalStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedSkillsModal/DeleteActivityAssociatedSkillsModal.stub'
-import { DeleteActivityAssociatedTracesModalStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedTracesModal/DeleteActivityAssociatedTracesModal.stub'
+import { DeleteActivityAssociatedElementsModalStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedElementsModal/DeleteActivityAssociatedElementsModal.stub'
 import AssociatedElementsTab, { type AssociatedElementsTabProps } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/tabs/AssociatedElementsTab/AssociatedElementsTab.vue'
 import {
   AssociatedDeclaredSkillsCardStub
@@ -21,11 +20,15 @@ import { beforeEach, expect } from 'vitest'
 BddTest().given('an associated elements tab', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedElementsTab>>
 
+  const getDeleteSkillsModal = () => wrapper.findAllComponents(DeleteActivityAssociatedElementsModalStub)
+    .find(modal => modal.attributes('data-testid') === 'delete-activity-associated-skills-modal')
+  const getDeleteTracesModal = () => wrapper.findAllComponents(DeleteActivityAssociatedElementsModalStub)
+    .find(modal => modal.attributes('data-testid') === 'delete-activity-associated-traces-modal')
+
   const stubs = {
     DeleteActivityAssociatedElementsDropdown: DeleteActivityAssociatedElementsDropdownStub,
     ActivityAssociateElementsDropdown: ActivityAssociateElementsDropdownStub,
-    DeleteActivityAssociatedSkillsModal: DeleteActivityAssociatedSkillsModalStub,
-    DeleteActivityAssociatedTracesModal: DeleteActivityAssociatedTracesModalStub,
+    DeleteActivityAssociatedElementsModal: DeleteActivityAssociatedElementsModalStub,
     AssociateTracesModal: AssociateTracesModalStub,
     AssociatedTracesCard: AssociatedTracesCardStub,
     AssociateDeclaredSkillToActivityModal: AssociateDeclaredSkillsToActivityModalStub,
@@ -73,21 +76,21 @@ BddTest().given('an associated elements tab', () => {
     })
 
     BddTest().then('it should render the delete associated skills modal in hidden state', () => {
-      const skillsModal = wrapper.findComponent(DeleteActivityAssociatedSkillsModalStub)
-      expect(skillsModal.exists()).toBe(true)
-      expect(skillsModal.props('show')).toBe(false)
+      const skillsModal = getDeleteSkillsModal()
+      expect(skillsModal!.exists()).toBe(true)
+      expect(skillsModal!.props('show')).toBe(false)
     })
 
     BddTest().then('it should render the delete activity associated traces modal in hidden state', () => {
-      const tracesModal = wrapper.findComponent(DeleteActivityAssociatedTracesModalStub)
-      expect(tracesModal.exists()).toBe(true)
-      expect(tracesModal.props('show')).toBe(false)
+      const tracesModal = getDeleteTracesModal()
+      expect(tracesModal!.exists()).toBe(true)
+      expect(tracesModal!.props('show')).toBe(false)
     })
 
     BddTest().then('it should pass an array of { id, title } to delete activity associated traces modal', () => {
-      const modal = wrapper.findComponent(DeleteActivityAssociatedTracesModalStub)
+      const modal = getDeleteTracesModal()
 
-      expect(modal.props('associations')).toEqual(
+      expect(modal!.props('associations')).toEqual(
         mockedDeclaredActivityAssociations.traceAssociations.map(association => ({
           id: association.associationId,
           title: association.trace.title
@@ -96,8 +99,8 @@ BddTest().given('an associated elements tab', () => {
     })
 
     BddTest().then('it should pass declaredActivityId to delete activity associated traces modal', () => {
-      const modal = wrapper.findComponent(DeleteActivityAssociatedTracesModalStub)
-      expect(modal.props('declaredActivityId')).toBe(props.declaredActivityId)
+      const modal = getDeleteTracesModal()
+      expect(modal!.props('declaredActivityId')).toBe(props.declaredActivityId)
     })
 
     BddTest().then('it should render the associate traces modal in hidden state', () => {
@@ -126,31 +129,31 @@ BddTest().given('an associated elements tab', () => {
       })
 
       BddTest().then('the delete associated skills modal should be shown', () => {
-        const skillsModal = wrapper.findComponent(DeleteActivityAssociatedSkillsModalStub)
-        expect(skillsModal.props('show')).toBe(true)
+        const skillsModal = getDeleteSkillsModal()
+        expect(skillsModal!.props('show')).toBe(true)
       })
 
       BddTest().and('the user selects cancel from the delete associated skills modal', () => {
         beforeEach(() => {
-          const skillsModal = wrapper.findComponent(DeleteActivityAssociatedSkillsModalStub)
-          skillsModal.vm.$emit('cancel')
+          const skillsModal = getDeleteSkillsModal()
+          skillsModal!.vm.$emit('cancel')
         })
 
         BddTest().then('the delete associated skills modal should be hidden', () => {
-          const skillsModal = wrapper.findComponent(DeleteActivityAssociatedSkillsModalStub)
-          expect(skillsModal.props('show')).toBe(false)
+          const skillsModal = getDeleteSkillsModal()
+          expect(skillsModal!.props('show')).toBe(false)
         })
       })
 
       BddTest().and('the user confirms delete from the delete associated skills modal', () => {
         beforeEach(() => {
-          const skillsModal = wrapper.findComponent(DeleteActivityAssociatedSkillsModalStub)
-          skillsModal.vm.$emit('deleted')
+          const skillsModal = getDeleteSkillsModal()
+          skillsModal!.vm.$emit('deleted')
         })
 
         BddTest().then('the delete associated skills modal should be hidden', () => {
-          const skillsModal = wrapper.findComponent(DeleteActivityAssociatedSkillsModalStub)
-          expect(skillsModal.props('show')).toBe(false)
+          const skillsModal = getDeleteSkillsModal()
+          expect(skillsModal!.props('show')).toBe(false)
         })
       })
     })
@@ -162,32 +165,32 @@ BddTest().given('an associated elements tab', () => {
       })
 
       BddTest().then('the delete activity associated traces modal should be shown', () => {
-        const tracesModal = wrapper.findComponent(DeleteActivityAssociatedTracesModalStub)
-        expect(tracesModal.props('show')).toBe(true)
-        expect(tracesModal.props('declaredActivityId')).toBe(props.declaredActivityId)
+        const tracesModal = getDeleteTracesModal()
+        expect(tracesModal!.props('show')).toBe(true)
+        expect(tracesModal!.props('declaredActivityId')).toBe(props.declaredActivityId)
       })
 
       BddTest().and('the user selects cancel from the delete activity associated traces modal', () => {
         beforeEach(() => {
-          const tracesModal = wrapper.findComponent(DeleteActivityAssociatedTracesModalStub)
-          tracesModal.vm.$emit('cancel')
+          const tracesModal = getDeleteTracesModal()
+          tracesModal!.vm.$emit('cancel')
         })
 
         BddTest().then('the delete activity associated traces modal should be hidden', () => {
-          const tracesModal = wrapper.findComponent(DeleteActivityAssociatedTracesModalStub)
-          expect(tracesModal.props('show')).toBe(false)
+          const tracesModal = getDeleteTracesModal()
+          expect(tracesModal!.props('show')).toBe(false)
         })
       })
 
       BddTest().and('the user confirms delete from the delete activity associated traces modal', () => {
         beforeEach(() => {
-          const tracesModal = wrapper.findComponent(DeleteActivityAssociatedTracesModalStub)
-          tracesModal.vm.$emit('deleted')
+          const tracesModal = getDeleteTracesModal()
+          tracesModal!.vm.$emit('deleted')
         })
 
         BddTest().then('the delete activity associated traces modal should be hidden', () => {
-          const tracesModal = wrapper.findComponent(DeleteActivityAssociatedTracesModalStub)
-          expect(tracesModal.props('show')).toBe(false)
+          const tracesModal = getDeleteTracesModal()
+          expect(tracesModal!.props('show')).toBe(false)
         })
       })
     })

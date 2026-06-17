@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { deleteDeclaredActivityAssociationsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
-import DeleteActivityAssociatedTracesModal, {
-  type DeleteActivityAssociatedTracesModalProps
-} from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedTracesModal/DeleteActivityAssociatedTracesModal.vue'
+import DeleteActivityAssociatedElementsModal, {
+  type DeleteActivityAssociatedElementsModalProps
+} from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedElementsModal/DeleteActivityAssociatedElementsModal.vue'
 import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
 import { DeleteAssociationsModalStub } from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -25,14 +25,14 @@ vi.mock('@/store', async (importOriginal) => {
 })
 
 BddTest().given('a delete activity associated traces modal', () => {
-  let wrapper: VueWrapper<InstanceType<typeof DeleteActivityAssociatedTracesModal>>
+  let wrapper: VueWrapper<InstanceType<typeof DeleteActivityAssociatedElementsModal>>
 
   const stubs = {
     CompactCardSelector: CompactCardSelectorStub,
     DeleteAssociationsModal: DeleteAssociationsModalStub,
   }
 
-  const props: DeleteActivityAssociatedTracesModalProps = {
+  const props: DeleteActivityAssociatedElementsModalProps = {
     show: true,
     declaredActivityId: 'declared-activity-1',
     associations: [
@@ -53,7 +53,7 @@ BddTest().given('a delete activity associated traces modal', () => {
 
   BddTest().when('the modal is shown', () => {
     beforeEach(() => {
-      wrapper = mountComponent(DeleteActivityAssociatedTracesModal, {
+      wrapper = mountComponent(DeleteActivityAssociatedElementsModal, {
         props,
         global: { stubs }
       })
@@ -119,7 +119,7 @@ BddTest().given('a delete activity associated traces modal', () => {
     beforeEach(() => {
       server.use(deleteDeclaredActivityAssociationsErrorHandler)
 
-      wrapper = mountComponent(DeleteActivityAssociatedTracesModal, {
+      wrapper = mountComponent(DeleteActivityAssociatedElementsModal, {
         props,
         global: { stubs }
       })

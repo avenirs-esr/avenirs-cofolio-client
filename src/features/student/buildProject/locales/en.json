@@ -116,9 +116,10 @@
               "title": "Which trace(s) would you like to associate?"
             },
             "DeleteActivityAssociatedElementsDropdown": {
+              "skills": "one/many associated skill(s)",
               "traces": "one/many associated trace(s)"
             },
-            "DeleteActivityAssociatedTracesModal": {
+            "DeleteActivityAssociatedElementsModal": {
               "success": "The selected associations have been successfully deleted.",
               "title": "Which association(s) do you want to delete?"
             },
