@@ -45,6 +45,7 @@ const { mutate: mutatePublishActivityDraft, isPending } = usePublishActivityDraf
 
 const isFormDirty = form.useStore(state => state.isDirty)
 const hasPublishFieldErrors = hasFieldErrors(form, ['title', 'summary', 'executionPeriodInfo'])
+const isFormValid = form.useStore(s => s.isValid && !s.isValidating && s.isDirty)
 
 async function openPublishConfirmation () {
   await form.validate('submit')
@@ -143,6 +144,7 @@ async function publishActivityDraft () {
         variant="FLAT"
         :icon="RI_ICONS.SEND_PLANE_LINE"
         :label="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishLabel')"
+        :disabled="!isFormValid || hasPublishFieldErrors"
         :is-loading="isFormDirty || isUpdating || isPending || isLoading"
         small
         @click="openPublishConfirmation"
