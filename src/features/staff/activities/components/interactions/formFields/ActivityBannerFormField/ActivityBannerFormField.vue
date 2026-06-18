@@ -53,7 +53,7 @@ function onUpdate (field: BannerField) {
         :default-image-name="field.state.value === EditActivityFormDataBannerAction.NONE ? remoteBanner.fileName : undefined"
         :image-alt="t('staff.activities.views.EditNationalActivityView.ActivityBannerFormField.bannerAlt')"
         :on-update="() => onUpdate(field)"
-        data-testid="activity-image-upload"
+        data-testid="activity-banner-form-field"
       />
     </template>
   </FormField>
