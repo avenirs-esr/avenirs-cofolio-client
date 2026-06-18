@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
-import { useDownloadFile } from '@/api/avenir-esr'
+import { useDownloadFile, useGetLockedDeclaredActivities } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
@@ -26,20 +26,36 @@ const props = defineProps<StudentTraceDetailedProps>()
 const { traceId } = toRefs(props)
 const { getErrorMessage } = useApiErrors()
 const { addErrorMessage } = useToasterStore()
-
-const { traceDetailed, error: traceDetailsError, isLoading } = useTraceDetailedQuery(traceId)
-const { traceAssociations, error: associationsError, isLoading: isAssociationsLoading } = useTraceAssociationsQuery(traceId)
-const { navigateToStudentTraces, navigateToStudentUpdateTrace, navigateToStudentToolsUpdateTrace } = useNavigation()
-const route = useRoute()
-
-const countAssociations = computed(() => !traceAssociations.value ? 0 : traceAssociations.value.declaredActivityAssociations.length + traceAssociations.value.declaredSkillAssociations.length)
-
 const { t } = useI18n()
+
 const {
   showModal: showDeleteModal,
   displayModal: displayDeleteModal,
   hideModal: hideDeleteModal
 } = useModal()
+
+const { traceDetailed, error: traceDetailsError, isLoading } = useTraceDetailedQuery(traceId)
+const { traceAssociations, error: associationsError, isLoading: isAssociationsLoading } = useTraceAssociationsQuery(traceId)
+const {
+  mutate: fetchLockedDeclaredActivities,
+  data: lockedDeclaredActivities
+} = useGetLockedDeclaredActivities({
+  mutation: {
+    onError: (error: BaseApiException) => {
+      addErrorMessage({
+        title: t('student.traces.views.StudentTraceView.errors.fetchAssociations'),
+        description: getErrorMessage(error)
+      })
+    },
+    onSuccess: () => {
+      displayDeleteModal()
+    }
+  }
+})
+const { navigateToStudentTraces, navigateToStudentUpdateTrace, navigateToStudentToolsUpdateTrace } = useNavigation()
+const route = useRoute()
+
+const countAssociations = computed(() => !traceAssociations.value ? 0 : traceAssociations.value.declaredActivityAssociations.length + traceAssociations.value.declaredSkillAssociations.length)
 
 const { mutate: mutateDownloadAttachment } = useDownloadFile()
 
@@ -95,6 +111,20 @@ const homeBreadcrumbLinks = computed(() => [
   { text: t('global.buttons.update') }
 ])
 
+const traceDeletionData = computed(() =>
+  lockedDeclaredActivities.value ?? []
+)
+
+function openDeleteModal () {
+  if (!traceDetailed.value) {
+    return
+  }
+
+  fetchLockedDeclaredActivities({
+    data: [traceDetailed.value.id]
+  })
+}
+
 const breadcrumbLinks = computed(() => isToolsTraceRoute.value
   ? toolsBreadcrumbLinks.value
   : homeBreadcrumbLinks.value)
@@ -115,8 +145,7 @@ const breadcrumbLinks = computed(() => isToolsTraceRoute.value
       <div class="av-row av-justify-end av-pb-md">
         <TraceSettingsDropdown
           :download-disabled="!traceDetailed.attachment"
-          :is-deletable="!traceDetailed.isAssociated"
-          @delete-selected="displayDeleteModal"
+          @delete-selected="openDeleteModal"
           @associate-selected="displayAssociateModal"
           @update-selected="handleUpdateTrace"
           @download-selected="downloadAttachment(traceDetailed.attachment?.id ?? '')"
@@ -169,11 +198,11 @@ const breadcrumbLinks = computed(() => isToolsTraceRoute.value
       />
 
       <TraceDeletionConfirmationModal
-        :trace-ids="[traceDetailed.id]"
+        :traces="traceDeletionData"
         :title="traceDetailed.title"
         :show="showDeleteModal"
-        :on-confirm-delete="() => onDeleteTraceSuccess()"
-        :on-close="() => hideDeleteModal()"
+        :on-confirm-delete="onDeleteTraceSuccess"
+        :on-close="hideDeleteModal"
       />
     </div>
   </Loader>

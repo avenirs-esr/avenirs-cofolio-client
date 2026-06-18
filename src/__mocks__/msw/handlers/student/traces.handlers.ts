@@ -6,6 +6,7 @@ import {
   createMockedTraceCreationResponse,
   createMockedTracesViewResponse,
   invalidTraceId,
+  mockedLockedDeclaredActivities,
   mockedTraceAssociations,
   mockedTraceDetailed,
   mockedTraceOverview,
@@ -25,6 +26,7 @@ import {
   getDeleteTraceAssociationsUrl,
   getDeleteTracesUrl,
   getDownloadFileUrl,
+  getGetLockedDeclaredActivitiesUrl,
   getGetTraceAssociationsUrl,
   getGetTraceConfigUrl,
   getGetTraceDetailUrl,
@@ -42,6 +44,7 @@ import {
   type TraceConfigurationDTO,
   type TraceDetailDTO,
   type TraceFilter,
+  type TraceLockedDeclaredActivitiesDTO,
   type TraceOverviewDTO,
   type TracesCreationResponse,
   type TracesSummaryDTO,
@@ -120,6 +123,31 @@ export const traceWithoutAssociations = http.get(
     })
   }
 )
+
+export function createLockedDeclaredActivitiesHandler (
+  payload: TraceLockedDeclaredActivitiesDTO[]
+) {
+  return http.post(`*${getGetLockedDeclaredActivitiesUrl()}`, () => {
+    return HttpResponse.json<TraceLockedDeclaredActivitiesDTO[]>(
+      payload,
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  })
+}
+
+export const lockedDeclaredActivitiesHandler
+  = createLockedDeclaredActivitiesHandler([
+    {
+      traceId: mockedTraceDetailed.id,
+      traceTitle: mockedTraceDetailed.title,
+      lockedDeclaredActivities: mockedLockedDeclaredActivities
+    }
+  ])
 
 export const tracesHandlers = [
   http.get(`*${getGetTracesSummaryUrl()}`, () => {
@@ -459,7 +487,8 @@ export const tracesHandlers = [
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     })
-  })
+  }),
+  lockedDeclaredActivitiesHandler
 ]
 
 export const deleteTraceAssociationsErrorHandler = http.delete(

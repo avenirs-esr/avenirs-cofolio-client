@@ -83,8 +83,7 @@ BddTest().given('a traces selector', () => {
         mockedTraceOverview.map(trace => ({
           label: trace.title,
           value: trace.id,
-          baseElement: trace,
-          disabled: false
+          baseElement: trace
         }))
       )
     })
@@ -164,14 +163,12 @@ BddTest().given('a traces selector', () => {
         {
           label: 'Trace view 1',
           value: 'trace-view-1',
-          baseElement: traceViewDTOs[0],
-          disabled: false
+          baseElement: traceViewDTOs[0]
         },
         {
           label: 'Trace view 2',
           value: 'trace-view-2',
-          baseElement: traceViewDTOs[1],
-          disabled: true
+          baseElement: traceViewDTOs[1]
         }
       ])
     })

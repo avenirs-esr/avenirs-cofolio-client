@@ -1,7 +1,7 @@
 export const TraceDeletionConfirmationModalStub = {
   name: 'TraceDeletionConfirmationModal',
   props: [
-    'traceIds',
+    'traces',
     'title',
     'show',
     'onConfirmDelete',
