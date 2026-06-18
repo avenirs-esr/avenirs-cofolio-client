@@ -104,7 +104,10 @@ function handleFileDeleted (fileName: string) {
 
     <div class="av-row av-gap-lg av-w-full">
       <div class="av-col av-gap-lg av-flex-fill">
-        <div class="av-col av-gap-xs">
+        <div
+          class="av-col av-gap-xs"
+          data-testid="author-type"
+        >
           <span class="caption-regular">
             {{ t('student.traces.views.StudentUpdateTraceView.updateTraceForm.declaration.productionNature.title') }}
           </span>

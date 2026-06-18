@@ -162,7 +162,10 @@ const associationSelectionsField = form.useField({ name: 'associationSelections'
     width="50rem"
     @escape-pressed="handleCancel"
   >
-    <div class="av-col av-h-full av-gap-md">
+    <div
+      class="av-col av-h-full av-gap-md"
+      data-testid="add-trace-drawer-content"
+    >
       <AvIconText
         :icon="MDI_ICONS.PENCIL_OUTLINE"
         icon-color="var(--icon)"
@@ -191,6 +194,7 @@ const associationSelectionsField = form.useField({ name: 'associationSelections'
               :title="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.declarations')"
               :icon="MDI_ICONS.FILE_DOCUMENT_BOX_MULTIPLE_OUTLINE"
               :trigger-border-color="hasDeclarationItemsError ? 'var(--dark-background-error)' : undefined"
+              data-testid="declaration-accordion"
             >
               <CreateTraceFormDeclarationItems :form="form" />
             </AvAccordion>

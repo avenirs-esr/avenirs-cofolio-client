@@ -78,6 +78,7 @@ function handleItemSelected (itemName: string) {
     :trigger-aria-label="t('global.buttons.moreActions')"
     :trigger-label="t('global.buttons.moreActions')"
     width="max-content"
+    data-testid="trace-settings-dropdown"
     @item-selected="handleItemSelected"
   />
 </template>

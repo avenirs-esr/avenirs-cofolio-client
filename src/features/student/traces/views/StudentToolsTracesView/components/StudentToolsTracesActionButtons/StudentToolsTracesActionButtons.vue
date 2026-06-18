@@ -25,6 +25,7 @@ const { showModal, displayModal, hideModal } = useModal()
       variant="OUTLINED"
       :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
       small
+      data-testid="add-trace-button"
       @click="tracesStore.displayCreateTraceDrawer"
     />
     <TracesActionsDropdown @delete-selected="displayModal" />

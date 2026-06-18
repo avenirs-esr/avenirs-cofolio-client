@@ -1,7 +1,7 @@
 import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { createTraceDetailedHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
+import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { UpdateTabsStub } from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.stub'
 import StudentUpdateTraceView from '@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'
@@ -68,7 +68,7 @@ BddTest().given('a student update trace view', () => {
     server.use(handler)
 
     const stubs = {
-      DetailedPageTitle: DetailedPageTitleStub,
+      UpdatePageTitle: UpdatePageTitleStub,
       AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
       UpdateTabs: UpdateTabsStub,
     }
@@ -87,7 +87,7 @@ BddTest().given('a student update trace view', () => {
 
   BddTest().when('the view is mounted', () => {
     BddTest().then('it should render the trace title', () => {
-      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
+      const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
 
       expect(pageTitle.exists()).toBe(true)
       expect(pageTitle.props('title')).toBe(mockedTraceDetailed.title)

@@ -16,6 +16,7 @@ import { StudentTrajectoriesSelfKnowledgePage } from '@e2e/framework/student/lif
 import { StudentGlobalSteps } from '@e2e/framework/student/shared/steps/StudentGlobalSteps'
 import { StudentTracePage } from '@e2e/framework/student/tools/traceDetails/StudentTracePage'
 import { StudentToolsTracesPage } from '@e2e/framework/student/tools/traces/StudentToolsTracesPage'
+import { StudentUpdateTracePage } from '@e2e/framework/student/tools/updateTrace/StudentUpdateTracePage'
 import { test as base, createBdd } from 'playwright-bdd'
 
 interface Fixtures {
@@ -36,6 +37,7 @@ interface Fixtures {
   studentProjectActivitiesCatalogPage: StudentProjectActivitiesCatalogPage
   studentToolsTracesPage: StudentToolsTracesPage
   studentTracePage: StudentTracePage
+  studentUpdateTracePage: StudentUpdateTracePage
 }
 
 export const test = base.extend<Fixtures>({
@@ -105,6 +107,10 @@ export const test = base.extend<Fixtures>({
   studentTracePage: async ({ page }, use) => {
     await setLocaleFromPage(page)
     await use(new StudentTracePage(page))
+  },
+  studentUpdateTracePage: async ({ page }, use) => {
+    await setLocaleFromPage(page)
+    await use(new StudentUpdateTracePage(page))
   }
 })
 
