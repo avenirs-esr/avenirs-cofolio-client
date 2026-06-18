@@ -32,6 +32,10 @@ export class EditActivityTabs {
     return this.page.getByTestId('activity-summary-input')
   }
 
+  private getActivityBannerFormField () {
+    return this.page.getByTestId('activity-banner-form-field')
+  }
+
   private getPublishButton () {
     return this.page.getByTestId('publish-button')
   }
@@ -104,6 +108,10 @@ export class EditActivityTabs {
 
   async verifySummarySectionVisible () {
     await expect(this.getSummarySection()).toBeVisible()
+  }
+
+  async verifyActivityBannerFormFieldVisible () {
+    await expect(this.getActivityBannerFormField()).toBeVisible()
   }
 
   private getFeedbackCard () {

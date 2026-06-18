@@ -161,6 +161,10 @@ Feature: Staff Edit National Activity Page
       Then the summary section is visible
 
     @high
+    Scenario: The activity banner form field is visible in the publication tab
+      Then the activity banner form field is visible
+
+    @high
     Scenario: The publish button is visible and enabled by default
       Then the publish button is visible and enabled
 

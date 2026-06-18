@@ -78,50 +78,52 @@ function onConfirmDeleteImage () {
 </script>
 
 <template>
-  <AvFileUpload
-    v-model:error="imageUpload.error.value"
-    v-model:valid-message="imageUpload.valid.value"
-    :title="t('global.information.imageUpload.title')"
-    :description="t('global.information.imageUpload.dragAndDrop')"
-    :delete-button-label="t('global.buttons.delete')"
-    :model-value="modelValue"
-    :file-name="defaultImageName"
-    :aria-describedby="describedBy"
-    :accept="ACCEPTED_FILE_TYPES"
-    :on-delete-file="displayModal"
-    @update:model-value="(value) => modelValue = value"
-    @change="onUpdateImage"
-    @accept-type-error="() => { imageUpload.error.value = t('global.error.file.acceptType') }"
-  >
-    <template
-      v-if="defaultImageName || imageUpload.previewUrl.value"
-      #left
+  <div v-bind="$attrs">
+    <AvFileUpload
+      v-model:error="imageUpload.error.value"
+      v-model:valid-message="imageUpload.valid.value"
+      :title="t('global.information.imageUpload.title')"
+      :description="t('global.information.imageUpload.dragAndDrop')"
+      :delete-button-label="t('global.buttons.delete')"
+      :model-value="modelValue"
+      :file-name="defaultImageName"
+      :aria-describedby="describedBy"
+      :accept="ACCEPTED_FILE_TYPES"
+      :on-delete-file="displayModal"
+      @update:model-value="(value) => modelValue = value"
+      @change="onUpdateImage"
+      @accept-type-error="() => { imageUpload.error.value = t('global.error.file.acceptType') }"
     >
-      <img
-        :src="defaultImageUrl ?? imageUpload.previewUrl.value!"
-        :alt="imageAlt"
-        class="av-w-full av-h-full"
+      <template
+        v-if="defaultImageName || imageUpload.previewUrl.value"
+        #left
       >
+        <img
+          :src="defaultImageUrl ?? imageUpload.previewUrl.value!"
+          :alt="imageAlt"
+          class="av-w-full av-h-full"
+        >
+      </template>
+    </AvFileUpload>
+    <span class="caption-light av-text-text2">
+      {{ t('global.information.imageUpload.filesIndication') }}
+      <span class="caption-bold av-text-text2">
+        {{ t('global.information.imageUpload.filesTypes') }}
+      </span>
+      {{ t('global.information.imageUpload.sizeIndication') }}
+      <span class="caption-bold av-text-text2">
+        {{ t('global.information.imageUpload.size') }}
+      </span>
+    </span>
+    <template v-if="imageUpload.error.value">
+      <span
+        :id="errorId"
+        class="av-sr-only"
+      >
+        {{ imageUpload.error.value }}
+      </span>
     </template>
-  </AvFileUpload>
-  <span class="caption-light av-text-text2">
-    {{ t('global.information.imageUpload.filesIndication') }}
-    <span class="caption-bold av-text-text2">
-      {{ t('global.information.imageUpload.filesTypes') }}
-    </span>
-    {{ t('global.information.imageUpload.sizeIndication') }}
-    <span class="caption-bold av-text-text2">
-      {{ t('global.information.imageUpload.size') }}
-    </span>
-  </span>
-  <template v-if="imageUpload.error.value">
-    <span
-      :id="errorId"
-      class="av-sr-only"
-    >
-      {{ imageUpload.error.value }}
-    </span>
-  </template>
+  </div>
 
   <ConfirmationModal
     :show="showModal"

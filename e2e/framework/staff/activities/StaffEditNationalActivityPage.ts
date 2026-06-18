@@ -158,6 +158,11 @@ class StaffEditNationalActivityPage extends BasePage {
     await this.tabs().verifySummarySectionVisible()
   }
 
+  @Then('the activity banner form field is visible')
+  async verifyActivityBannerFormFieldVisible () {
+    await this.tabs().verifyActivityBannerFormFieldVisible()
+  }
+
   @Then('the reflection parameter is visible')
   async verifyReflectionParameterVisible () {
     await this.tabs().verifyReflectionToggleVisible()
