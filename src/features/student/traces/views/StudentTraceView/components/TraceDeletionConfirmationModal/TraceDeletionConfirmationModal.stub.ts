@@ -1,7 +1,7 @@
 export const TraceDeletionConfirmationModalStub = {
   name: 'TraceDeletionConfirmationModal',
   props: [
-    'traces',
+    'traceIds',
     'title',
     'show',
     'onConfirmDelete',
@@ -14,6 +14,10 @@ export const TraceDeletionConfirmationModalStub = {
     >
       <div data-testid="trace-deletion-title">
         {{ title }}
+      </div>
+
+      <div data-testid="trace-deletion-ids">
+        {{ traceIds.join(',') }}
       </div>
 
       <button

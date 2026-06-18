@@ -1,21 +1,18 @@
 <script lang="ts" setup>
-import type { TraceLockedDeclaredActivitiesDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { getLockedDeclaredActivities, type TraceLockedDeclaredActivitiesDTO } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
+import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ICONS } from '@/common/constants'
 import { useDeleteTraceMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useToasterStore } from '@/store'
-import {
-  AvAccordion,
-  AvAccordionsGroup,
-  AvIconText,
-  MDI_ICONS
-} from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useQuery } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
-const { traces, title, show, onConfirmDelete, onClose } = defineProps<{
-  traces: TraceLockedDeclaredActivitiesDTO[]
+const { traceIds, title, show, onConfirmDelete, onClose } = defineProps<{
+  traceIds: string[]
   title: string
   show: boolean
   onConfirmDelete: () => void
@@ -26,15 +23,40 @@ const { t } = useI18n()
 const { getErrorMessage } = useApiErrors()
 const { addErrorMessage } = useToasterStore()
 
-const traceIds = computed(() => traces.map(trace => trace.traceId))
+const {
+  data: traces,
+  error,
+  isFetching
+} = useQuery<TraceLockedDeclaredActivitiesDTO[], BaseApiException>({
+  queryKey: computed(() => [
+    'locked-declared-activities',
+    traceIds
+  ]),
+  queryFn: () => getLockedDeclaredActivities(traceIds),
+  enabled: computed(() => show && traceIds.length > 0)
+})
+
+const traceDeletionData = computed(() => traces.value ?? [])
 
 const tracesWithLockedDeclaredActivities = computed(() =>
-  traces.filter(trace => trace.lockedDeclaredActivities.length > 0)
+  traceDeletionData.value.filter(trace => trace.lockedDeclaredActivities.length > 0)
 )
 
 const hasLockedDeclaredActivities = computed(() =>
   tracesWithLockedDeclaredActivities.value.length > 0
 )
+
+const lockedActivityIds = computed(() =>
+  new Set(
+    tracesWithLockedDeclaredActivities.value.flatMap(trace =>
+      trace.lockedDeclaredActivities
+        .map(activity => activity.activityId)
+        .filter(Boolean)
+    )
+  )
+)
+
+const lockedActivitiesCount = computed(() => lockedActivityIds.value.size)
 
 const activeAccordion = ref<number>()
 
@@ -46,86 +68,94 @@ watch(
   { immediate: true }
 )
 
-const { onConfirmDeleteTrace, isDeleteTracePending } = useDeleteTrace()
-
-function useDeleteTrace () {
-  function onDeleteTraceError (error: BaseApiException) {
-    addErrorMessage({
-      title: t('student.traces.views.StudentTraceView.errors.delete'),
-      description: getErrorMessage(error)
-    })
-  }
-
-  const deleteTraceMutation = useDeleteTraceMutation({
-    onError: onDeleteTraceError,
-    onSuccess: onConfirmDelete
+function onDeleteTraceError (error: BaseApiException) {
+  addErrorMessage({
+    title: t('student.traces.views.StudentTraceView.errors.delete'),
+    description: getErrorMessage(error)
   })
+}
 
-  function onConfirmDeleteTrace () {
-    deleteTraceMutation.mutate({ tracesIds: traceIds.value })
-  }
+const deleteTraceMutation = useDeleteTraceMutation({
+  onError: onDeleteTraceError,
+  onSuccess: onConfirmDelete
+})
 
-  return {
-    onConfirmDeleteTrace,
-    isDeleteTracePending: deleteTraceMutation.isPending,
-  }
+function onConfirmDeleteTrace () {
+  deleteTraceMutation.mutate({ tracesIds: traceIds })
 }
 </script>
 
 <template>
-  <ConfirmationModal
-    :show="show"
-    :confirm-button-icon="MDI_ICONS.ARROW_RIGHT"
-    :is-loading="isDeleteTracePending"
-    @close="onClose"
-    @confirm="onConfirmDeleteTrace"
+  <QuerySuspense
+    :is-loading="isFetching"
+    :error="error"
+    :error-title="t('student.traces.views.StudentTraceView.errors.fetchAssociations')"
   >
-    <template #header>
-      <AvIconText
-        :icon="MDI_ICONS.ATTACH_FILE"
-        icon-color="var(--icon)"
-        :text="title"
-        typography-class="n6"
-      />
-    </template>
+    <ConfirmationModal
+      :show="show"
+      :confirm-button-icon="MDI_ICONS.ARROW_RIGHT"
+      :is-loading="deleteTraceMutation.isPending.value"
+      @close="onClose"
+      @confirm="onConfirmDeleteTrace"
+    >
+      <template #header>
+        <AvIconText
+          :icon="MDI_ICONS.ATTACH_FILE"
+          icon-color="var(--icon)"
+          :text="title"
+          typography-class="n6"
+        />
+      </template>
 
-    <div class="av-col av-gap-sm">
-      <span class="b2-bold av-text-text2">
-        {{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.description') }}
-      </span>
-
-      <span class="b2-light av-text-text2">
-        {{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.subdescription') }}
-      </span>
-
-      <div
-        v-if="hasLockedDeclaredActivities"
-        class="av-col av-gap-xs"
-      >
+      <div class="av-col av-gap-sm">
         <span class="b2-bold av-text-text2">
-          {{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.lockedActivitiesTitle') }}
+          {{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.description') }}
         </span>
 
-        <AvAccordionsGroup v-model:active-accordion="activeAccordion">
-          <AvAccordion
-            v-for="trace in tracesWithLockedDeclaredActivities"
-            :id="trace.traceId"
-            :key="trace.traceId"
-            :title="trace.traceTitle"
-            :icon="ICONS.TRACES"
-          >
-            <ul class="locked-activities-list">
-              <li
-                v-for="activity in trace.lockedDeclaredActivities"
-                :key="activity.activityId"
-                class="b2-light av-text-text2"
-              >
-                {{ activity.activityTitle }}
-              </li>
-            </ul>
-          </AvAccordion>
-        </AvAccordionsGroup>
+        <span class="b2-light av-text-text2">
+          {{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.subdescription') }}
+        </span>
+
+        <div
+          v-if="hasLockedDeclaredActivities"
+          class="av-col av-gap-xs"
+        >
+          <span class="b2-bold av-text-text2">
+            {{
+              t(
+                'student.traces.views.StudentTraceView.traceDeletionConfirmationModal.lockedActivityTitleFirstPart',
+                tracesWithLockedDeclaredActivities.length,
+              )
+            }}
+            {{
+              t(
+                'student.traces.views.StudentTraceView.traceDeletionConfirmationModal.lockedActivityTitleSecondPart',
+                lockedActivitiesCount,
+              )
+            }}
+          </span>
+
+          <AvAccordionsGroup v-model:active-accordion="activeAccordion">
+            <AvAccordion
+              v-for="trace in tracesWithLockedDeclaredActivities"
+              :id="trace.traceId"
+              :key="trace.traceId"
+              :title="trace.traceTitle"
+              :icon="ICONS.TRACES"
+            >
+              <ul class="locked-activities-list">
+                <li
+                  v-for="activity in trace.lockedDeclaredActivities"
+                  :key="activity.activityId"
+                  class="b2-light av-text-text2"
+                >
+                  {{ activity.activityTitle }}
+                </li>
+              </ul>
+            </AvAccordion>
+          </AvAccordionsGroup>
+        </div>
       </div>
-    </div>
-  </ConfirmationModal>
+    </ConfirmationModal>
+  </QuerySuspense>
 </template>

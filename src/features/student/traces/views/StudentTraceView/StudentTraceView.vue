@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
-import { useDownloadFile, useGetLockedDeclaredActivities } from '@/api/avenir-esr'
+import { useDownloadFile } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
@@ -36,26 +36,20 @@ const {
 
 const { traceDetailed, error: traceDetailsError, isLoading } = useTraceDetailedQuery(traceId)
 const { traceAssociations, error: associationsError, isLoading: isAssociationsLoading } = useTraceAssociationsQuery(traceId)
-const {
-  mutate: fetchLockedDeclaredActivities,
-  data: lockedDeclaredActivities
-} = useGetLockedDeclaredActivities({
-  mutation: {
-    onError: (error: BaseApiException) => {
-      addErrorMessage({
-        title: t('student.traces.views.StudentTraceView.errors.fetchAssociations'),
-        description: getErrorMessage(error)
-      })
-    },
-    onSuccess: () => {
-      displayDeleteModal()
-    }
-  }
-})
+
+const selectedTraceIdsForDeletion = computed(() =>
+  traceDetailed.value ? [traceDetailed.value.id] : []
+)
+
 const { navigateToStudentTraces, navigateToStudentUpdateTrace, navigateToStudentToolsUpdateTrace } = useNavigation()
 const route = useRoute()
 
-const countAssociations = computed(() => !traceAssociations.value ? 0 : traceAssociations.value.declaredActivityAssociations.length + traceAssociations.value.declaredSkillAssociations.length)
+const countAssociations = computed(() =>
+  !traceAssociations.value
+    ? 0
+    : traceAssociations.value.declaredActivityAssociations.length
+      + traceAssociations.value.declaredSkillAssociations.length
+)
 
 const { mutate: mutateDownloadAttachment } = useDownloadFile()
 
@@ -111,23 +105,11 @@ const homeBreadcrumbLinks = computed(() => [
   { text: t('global.buttons.update') }
 ])
 
-const traceDeletionData = computed(() =>
-  lockedDeclaredActivities.value ?? []
+const breadcrumbLinks = computed(() =>
+  isToolsTraceRoute.value
+    ? toolsBreadcrumbLinks.value
+    : homeBreadcrumbLinks.value
 )
-
-function openDeleteModal () {
-  if (!traceDetailed.value) {
-    return
-  }
-
-  fetchLockedDeclaredActivities({
-    data: [traceDetailed.value.id]
-  })
-}
-
-const breadcrumbLinks = computed(() => isToolsTraceRoute.value
-  ? toolsBreadcrumbLinks.value
-  : homeBreadcrumbLinks.value)
 </script>
 
 <template>
@@ -145,7 +127,7 @@ const breadcrumbLinks = computed(() => isToolsTraceRoute.value
       <div class="av-row av-justify-end av-pb-md">
         <TraceSettingsDropdown
           :download-disabled="!traceDetailed.attachment"
-          @delete-selected="openDeleteModal"
+          @delete-selected="displayDeleteModal"
           @associate-selected="displayAssociateModal"
           @update-selected="handleUpdateTrace"
           @download-selected="downloadAttachment(traceDetailed.attachment?.id ?? '')"
@@ -174,6 +156,7 @@ const breadcrumbLinks = computed(() => isToolsTraceRoute.value
 
           <StudentTraceDetails :trace="traceDetailed" />
         </AvTab>
+
         <AvTab
           :title="t('student.traces.views.StudentTraceView.tabs.associations', { count: countAssociations })"
           :icon="ICONS.ASSOCIATIONS"
@@ -198,7 +181,7 @@ const breadcrumbLinks = computed(() => isToolsTraceRoute.value
       />
 
       <TraceDeletionConfirmationModal
-        :traces="traceDeletionData"
+        :trace-ids="selectedTraceIdsForDeletion"
         :title="traceDetailed.title"
         :show="showDeleteModal"
         :on-confirm-delete="onDeleteTraceSuccess"

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useGetLockedDeclaredActivities } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
@@ -43,21 +42,6 @@ const {
   pageSize: computed(() => totalCount)
 })
 
-const {
-  mutate: fetchLockedDeclaredActivities,
-  data: lockedDeclaredActivities
-} = useGetLockedDeclaredActivities({
-  mutation: {
-    onSuccess: () => {
-      displayConfirmModal()
-    }
-  }
-})
-
-const selectedTraces = computed(() =>
-  lockedDeclaredActivities.value ?? []
-)
-
 const selectedCount = computed(() => selectedTraceIds.value.length)
 
 function resetSelectedTraces () {
@@ -75,12 +59,6 @@ function onDeleteSuccess () {
   emit('deleted')
 }
 
-function openConfirmModal () {
-  fetchLockedDeclaredActivities({
-    data: selectedTraceIds.value
-  })
-}
-
 useInfiniteScroll(tracesContainer, loadMoreTraces, {
   distance: INFINITE_SCROLL_BOTTOM_DISTANCE,
   canLoadMore: () => !isFetching.value && hasMoreTraces.value
@@ -95,7 +73,7 @@ useInfiniteScroll(tracesContainer, loadMoreTraces, {
     :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
     :confirm-button-disabled="selectedCount === 0"
     @close="onCancel"
-    @confirm="openConfirmModal"
+    @confirm="displayConfirmModal"
   >
     <template #header>
       <div
@@ -114,7 +92,7 @@ useInfiniteScroll(tracesContainer, loadMoreTraces, {
 
     <div
       ref="tracesContainer"
-      class="delete-traces-modal__content av-col av-gap-sm"
+      class="delete-traces-modal__content av-col av-justify-center av-gap-sm"
     >
       <TracesSelector
         v-if="traces.length"
@@ -126,7 +104,7 @@ useInfiniteScroll(tracesContainer, loadMoreTraces, {
   </ConfirmationModal>
 
   <TraceDeletionConfirmationModal
-    :traces="selectedTraces ?? []"
+    :trace-ids="selectedTraceIds"
     :title="t('student.traces.views.StudentToolsTracesView.deleteTracesModal.confirmationTitle', { count: selectedCount })"
     :show="showConfirmModal"
     :on-confirm-delete="onDeleteSuccess"

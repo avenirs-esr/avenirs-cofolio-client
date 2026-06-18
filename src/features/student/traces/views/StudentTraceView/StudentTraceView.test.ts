@@ -132,7 +132,7 @@ BddTest().given('a student trace view', () => {
 
       expect(modal.exists()).toBe(true)
       expect(modal.props('show')).toBe(false)
-      expect(modal.props('traces')).toEqual([])
+      expect(modal.props('traceIds')).toEqual([mockedTraceDetailed.id])
       expect(modal.props('title')).toBe(mockedTraceDetailed.title)
     })
 
@@ -213,32 +213,12 @@ BddTest().given('a student trace view', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should fetch locked declared activities and show the deletion confirmation modal', async () => {
+    BddTest().then('it should show the deletion confirmation modal with trace ids', async () => {
       const modal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
 
-      await vi.waitFor(() => {
-        expect(modal.props('show')).toBe(true)
-      })
-
+      expect(modal.props('show')).toBe(true)
       expect(modal.props('title')).toBe(mockedTraceDetailed.title)
-      expect(modal.props('traces')).toEqual([
-        {
-          traceId: mockedTraceDetailed.id,
-          traceTitle: mockedTraceDetailed.title,
-          lockedDeclaredActivities: [
-            {
-              activityId: 'locked-activity-1',
-              activityTitle: 'Activité soumise',
-              activityStatus: 'SUBMITTED'
-            },
-            {
-              activityId: 'locked-activity-2',
-              activityTitle: 'Activité terminée',
-              activityStatus: 'COMPLETED'
-            }
-          ]
-        }
-      ])
+      expect(modal.props('traceIds')).toEqual([mockedTraceDetailed.id])
     })
   })
 
@@ -325,10 +305,6 @@ BddTest().given('a student trace view', () => {
 
       await popover.vm.$emit('delete-selected')
       await flushPromises()
-
-      await vi.waitFor(() => {
-        expect(wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' }).props('show')).toBe(true)
-      })
 
       const modal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
       modal.props('onConfirmDelete')()
