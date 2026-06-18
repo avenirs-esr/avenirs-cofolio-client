@@ -69,6 +69,7 @@ const { showModal, displayModal, hideModal } = useModal()
 
 function onConfirmDeleteImage () {
   hideModal()
+  imageUpload.clear()
 
   if (onDeleteImage) {
     onDeleteImage()

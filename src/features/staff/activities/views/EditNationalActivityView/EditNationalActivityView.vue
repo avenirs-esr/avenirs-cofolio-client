@@ -147,7 +147,7 @@ const bannerFile = ref<File | null>(null)
 async function saveBanner (action: EditActivityFormDataBannerAction) {
   switch (action) {
     case EditActivityFormDataBannerAction.DELETE:
-      await deleteBannerMutation({ fileId: presentation.value!.id })
+      await deleteBannerMutation({ fileId: presentation.value!.banner.id! })
       break
     case EditActivityFormDataBannerAction.UPDATE:
       await uploadBannerMutation({
