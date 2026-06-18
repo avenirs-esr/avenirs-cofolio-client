@@ -62,10 +62,20 @@
             "title": "Créer une activité"
           },
           "columns": {
+            "actions": "Actions",
             "activityName": "Nom de l'activité",
             "lastModification": "Dernière modification",
             "owner": "Propriétaire",
             "status": "Statut"
+          },
+          "MoreActionsDropdown": {
+            "ariaLabel": "Plus d'actions",
+            "delete": "Supprimer",
+            "deleteConfirmation": {
+              "title": "Êtes-vous certain(e) de vouloir supprimer cette activité ?"
+            },
+            "deleteError": "Une erreur est survenue lors de la suppression de l'activité",
+            "deleteSuccess": "L'activité a été supprimée avec succès"
           },
           "MyWorkspaceTab": {
             "createActivity": "Créer une activité",

@@ -2,7 +2,7 @@ import type { ActivityContentDTO, ActivityDraftCreationResponse, ActivityDraftUp
 import { createMockedBannerUploadResponse, createMockedPagedResponseActivityStaffOverviewDTO, mockedActivityContent, mockedActivityDraftCreationResponse, mockedActivityDraftUpdateResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
-import { EActivityStatus, EErrorCode, EFileCategory, getCreateActivityDraftUrl, getGetActivityContentUrl, getGetActivityPresentationUrl, getGetStaffActivityLibraryUrl, getGetStaffActivityWorkingSpaceUrl, getPublishActivityDraftUrl, getUpdateActivityUrl, getUploadFileUrl } from '@/api/avenir-esr'
+import { EActivityStatus, EErrorCode, EFileCategory, getCreateActivityDraftUrl, getDeleteActivityDraftUrl, getGetActivityContentUrl, getGetActivityPresentationUrl, getGetStaffActivityLibraryUrl, getGetStaffActivityWorkingSpaceUrl, getPublishActivityDraftUrl, getUpdateActivityUrl, getUploadFileUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
 import { http, HttpResponse } from 'msw'
@@ -33,6 +33,17 @@ export const getStaffActivityLibraryErrorHandler = http.get(`*${getGetStaffActiv
     { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
     { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
   )
+})
+
+export const deleteActivityDraftHandler = http.delete(`*${getDeleteActivityDraftUrl(':activityDraftId')}`, ({ params }) => {
+  if (params.activityDraftId === 'activity-id-error') {
+    return HttpResponse.json(
+      { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
+      { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  return new HttpResponse(null, { status: HttpStatusCode.NO_CONTENT })
 })
 
 export const publishActivityDraftErrorHandler = http.post(`*${getPublishActivityDraftUrl(':activityDraftId')}`, () => {
@@ -137,6 +148,7 @@ export const staffsActivitiesHandlers = [
       headers: { 'Content-Type': 'application/json' },
     })
   }),
+  deleteActivityDraftHandler,
   publishActivityDraftHandler,
   http.post(`*${getUploadFileUrl(EFileCategory.ACTIVITY_BANNER, ':activityId')}`, async ({ params, request }) => {
     const activityId: string | undefined = params.activityId as string | undefined

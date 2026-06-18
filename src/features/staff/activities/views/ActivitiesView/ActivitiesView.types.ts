@@ -7,4 +7,5 @@ export interface ActivityTableRow {
   thematic: EActivityThematic
   title: string
   updatedAt: string
+  actions?: string
 }

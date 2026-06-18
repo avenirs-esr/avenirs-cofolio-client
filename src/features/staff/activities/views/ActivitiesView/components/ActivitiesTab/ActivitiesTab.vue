@@ -3,13 +3,16 @@ import type { ActivityTableRow } from '@/features/staff/activities/views/Activit
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
 import ActivityStatusBadge from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
+import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useDateUtils } from '@/common/composables'
+import { useModal } from '@/common/composables/use-modal/use-modal'
 import { usePaginatedStaffActivites, type UsePaginatedStaffActivitesParams } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
 import { mapActivityToActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.utils'
 import ActivityCard from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
 import ActivityTableTitle from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.vue'
+import MoreActionsDropdown from '@/features/staff/activities/views/ActivitiesView/components/MoreActionsDropdown/MoreActionsDropdown.vue'
 import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -17,18 +20,21 @@ export interface ActivitiesTabProps {
   title: string
   emptyStateMessage?: string
   withStatus?: boolean
-  usePaginatedStaffActivitesParams: UsePaginatedStaffActivitesParams
+  withActionsColumn?: boolean
+  usePaginatedStaffActivitiesParams: UsePaginatedStaffActivitesParams
 }
 
 const {
   title,
   emptyStateMessage,
   withStatus = false,
-  usePaginatedStaffActivitesParams,
+  withActionsColumn = false,
+  usePaginatedStaffActivitiesParams,
 } = defineProps<ActivitiesTabProps>()
 
 const emit = defineEmits<{
   (e: 'updateActivitiesCount', value: number): void
+  (e: 'deleteDraftActivity', activityId: string): void
 }>()
 
 defineSlots<{
@@ -43,40 +49,64 @@ const {
   pageSizeSelected,
   onUpdateCurrentPage,
   onUpdatePageSize
-} = usePaginatedStaffActivites(usePaginatedStaffActivitesParams)
+} = usePaginatedStaffActivites(usePaginatedStaffActivitiesParams)
 
 const { t } = useI18n()
 const { formatLastModified } = useDateUtils()
 const { isMobile } = useAvBreakpoints()
 
+const { showModal: showDeleteModal, displayModal: displayDeleteModal, hideModal: hideDeleteModal } = useModal()
+const pendingDeleteId = ref<string | null>(null)
+
+function onDeleteSelected (activityId: string) {
+  pendingDeleteId.value = activityId
+  displayDeleteModal()
+}
+
+function confirmDelete () {
+  if (pendingDeleteId.value) {
+    emit('deleteDraftActivity', pendingDeleteId.value)
+  }
+  hideDeleteModal()
+  pendingDeleteId.value = null
+}
+
+function cancelDelete () {
+  hideDeleteModal()
+  pendingDeleteId.value = null
+}
+
 const rows = computed<ActivityTableRow[]>(() => activities.value.map(mapActivityToActivityTableRow))
 
-const columns = computed<AvTableColumn<ActivityTableRow>[]>(() => {
-  const cols: AvTableColumn<ActivityTableRow>[] = [
-    {
-      key: 'title',
-      label: t('staff.activities.views.ActivitiesView.columns.activityName'),
-      width: '40%',
-    },
-    {
-      key: 'updatedAt',
-      label: t('staff.activities.views.ActivitiesView.columns.lastModification'),
-    },
-    {
-      key: 'owner',
-      label: t('staff.activities.views.ActivitiesView.columns.owner'),
-    },
-  ]
-
-  if (withStatus) {
-    cols.push({
-      key: 'status',
-      label: t('staff.activities.views.ActivitiesView.columns.status'),
-    })
-  }
-
-  return cols
-})
+const columns = computed<AvTableColumn<ActivityTableRow>[]>(() => [
+  {
+    key: 'title',
+    label: t('staff.activities.views.ActivitiesView.columns.activityName'),
+    width: '40%',
+  },
+  {
+    key: 'updatedAt',
+    label: t('staff.activities.views.ActivitiesView.columns.lastModification'),
+  },
+  {
+    key: 'owner',
+    label: t('staff.activities.views.ActivitiesView.columns.owner'),
+  },
+  ...(withStatus
+    ? [{
+        key: 'status' as keyof ActivityTableRow,
+        label: t('staff.activities.views.ActivitiesView.columns.status'),
+      }]
+    : []
+  ),
+  ...(withActionsColumn
+    ? [{
+        key: 'actions' as keyof ActivityTableRow,
+        label: t('staff.activities.views.ActivitiesView.columns.actions'),
+      }]
+    : []
+  )
+])
 
 watch(
   () => pageInfo?.value?.totalElements,
@@ -144,8 +174,26 @@ watch(
           >
             <ActivityStatusBadge :status="row.status" />
           </template>
+
+          <template
+            v-if="withActionsColumn"
+            #cell(actions)="{ row }"
+          >
+            <MoreActionsDropdown
+              :activity-status="row.status"
+              @delete-selected="onDeleteSelected(row.id)"
+            />
+          </template>
         </AvTable>
       </Pagination>
     </QuerySuspense>
   </div>
+
+  <ConfirmationModal
+    :show="showDeleteModal"
+    :title="t('staff.activities.views.ActivitiesView.MoreActionsDropdown.deleteConfirmation.title')"
+    no-description
+    @close="cancelDelete"
+    @confirm="confirmDelete"
+  />
 </template>
