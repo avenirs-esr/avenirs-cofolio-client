@@ -10,13 +10,13 @@ type FetchFn = (
   options?: { query?: Partial<UseQueryOptions<PagedResponseActivityStaffOverviewDTO, BaseApiException>> }
 ) => UseQueryReturnType<PagedResponseActivityStaffOverviewDTO, BaseApiException>
 
-export interface UsePaginatedStaffActivitesParams {
+export interface UsePaginatedStaffActivitiesParams {
   currentPageRef: Ref<number>
   pageSizeRef: Ref<PageSizes>
   fetchFn: FetchFn
 }
 
-export interface UsePaginatedStaffActivitesResult {
+export interface UsePaginatedStaffActivitiesResult {
   activities: ComputedRef<ActivityStaffOverviewDTO[]>
   pageInfo: ComputedRef<PageInfoDTO | undefined>
   isFetching: Ref<boolean>
@@ -26,7 +26,7 @@ export interface UsePaginatedStaffActivitesResult {
   onUpdatePageSize: (size: number) => void
 }
 
-export function usePaginatedStaffActivites ({ currentPageRef, pageSizeRef, fetchFn }: UsePaginatedStaffActivitesParams): UsePaginatedStaffActivitesResult {
+export function usePaginatedStaffActivities ({ currentPageRef, pageSizeRef, fetchFn }: UsePaginatedStaffActivitiesParams): UsePaginatedStaffActivitiesResult {
   const { currentPage, pageSizeSelected, onUpdateCurrentPage, onUpdatePageSize } = usePagination(currentPageRef, pageSizeRef)
 
   const params = computed(() => ({ page: currentPage.value, pageSize: pageSizeSelected.value }))

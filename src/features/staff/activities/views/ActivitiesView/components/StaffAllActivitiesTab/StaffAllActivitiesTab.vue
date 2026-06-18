@@ -9,7 +9,7 @@ const staffActivitiesStore = useStaffActivitiesStore()
 
 const totalActivities = ref(0)
 
-const usePaginatedStaffActivitesParams = {
+const usePaginatedStaffActivitiesParams = {
   currentPageRef: toRef(staffActivitiesStore, 'allActivitiesCurrentPage'),
   pageSizeRef: toRef(staffActivitiesStore, 'allActivitiesPageSizeSelected'),
   fetchFn: useGetStaffActivityLibrary,
@@ -21,7 +21,7 @@ const usePaginatedStaffActivitesParams = {
     data-testid="all-published-activities-tab-content"
     :title="t('staff.activities.views.ActivitiesView.StaffAllActivitiesTab.title', { count: totalActivities })"
     :empty-state-message="t('staff.activities.views.ActivitiesView.StaffAllActivitiesTab.emptyState')"
-    :use-paginated-staff-activites-params="usePaginatedStaffActivitesParams"
+    :use-paginated-staff-activities-params="usePaginatedStaffActivitiesParams"
     @update-activities-count="totalActivities = $event"
   />
 </template>

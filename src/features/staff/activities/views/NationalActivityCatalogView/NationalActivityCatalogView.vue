@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import type { EActivityStatus } from '@/api/avenir-esr'
-import { useGetActivityContent } from '@/api/avenir-esr'
+import { EActivityStatus, useGetActivityContent } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import { useModal } from '@/common/composables/use-modal/use-modal'
+import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
 import { ROUTES } from '@/common/constants'
+import DeleteDraftActivityConfirmationModal from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
+import { useDeleteDraftActivity } from '@/features/staff/activities/queries/use-delete-draft-activity/use-delete-draft-activity'
 import NationalActivityContentTab from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.vue'
+import { AvButton } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface NationalActivityCatalogViewProps {
@@ -23,6 +27,21 @@ const breadcrumbLinks = computed(() => [
   { text: t('staff.global.navigation.tabs.activities.header'), to: ROUTES.STAFF.ACTIVITIES },
   { text: t('staff.activities.views.NationalActivityCatalogView.title') },
 ])
+
+const isDraft = computed(() => status === EActivityStatus.DRAFT)
+
+const { showModal: showDeleteConfirmation, displayModal: displayDeleteConfirmation, hideModal: hideDeleteConfirmation } = useModal()
+
+const { navigateToStaffActivities } = useNavigation()
+
+const { deleteDraftActivity } = useDeleteDraftActivity({
+  onSuccess: () => navigateToStaffActivities(),
+})
+
+function confirmDelete () {
+  hideDeleteConfirmation()
+  deleteDraftActivity(id)
+}
 </script>
 
 <template>
@@ -30,6 +49,19 @@ const breadcrumbLinks = computed(() => [
     :title="t('staff.activities.views.NationalActivityCatalogView.title')"
     :breadcrumb-links="breadcrumbLinks"
   />
+
+  <div
+    v-if="isDraft"
+    class="av-row av-justify-end av-py-md"
+  >
+    <AvButton
+      :label="t('staff.activities.views.NationalActivityCatalogView.deleteButton')"
+      variant="OUTLINED"
+      data-testid="delete-draft-button"
+      @click="displayDeleteConfirmation"
+    />
+  </div>
+
   <QuerySuspense
     :is-loading="isLoading"
     :error="error"
@@ -39,4 +71,10 @@ const breadcrumbLinks = computed(() => [
       <NationalActivityContentTab :activity="activity!" />
     </div>
   </QuerySuspense>
+
+  <DeleteDraftActivityConfirmationModal
+    :show="showDeleteConfirmation"
+    @close="hideDeleteConfirmation"
+    @confirm="confirmDelete"
+  />
 </template>
