@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ConfirmationModal } from '@/common/components'
-import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
+import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import { useTraceAssociationsQuery, useTraceDetailedQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
@@ -33,7 +33,7 @@ function onTraceUpdated () {
   closeModal()
 }
 
-const { form, hasErrors } = useUpdateTraceForm(trace.value!, onTraceUpdated)
+const { form, hasErrors } = useUpdateTraceForm(trace.value, onTraceUpdated)
 
 const {
   showModal: showConfirmationModal,
@@ -109,8 +109,9 @@ function handleClose () {
   <div
     v-if="trace"
     class="av-col av-justify-center"
+    data-testid="update-trace-main-container"
   >
-    <DetailedPageTitle
+    <UpdatePageTitle
       :title="trace.title ?? ''"
       :breadcrumb-links="breadcrumbLinks"
     />

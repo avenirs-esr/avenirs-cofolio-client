@@ -13,7 +13,7 @@ import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'
 
-export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () => void) {
+export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () => void) {
   const { t } = useI18n()
 
   const { getErrorMessage } = useApiErrors()
@@ -21,7 +21,7 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
   const { setUpdateTraceForm, setUpdateTraceFormModified } = useTracesStore()
   const { buildValidators } = useTraceFormValidators()
   const { hasFieldErrors } = useFormValidators()
-  const { attachmentFile } = useTraceAttachmentFile(trace.attachment)
+  const { attachmentFile } = useTraceAttachmentFile(trace?.attachment)
 
   const onUpdateTraceError = (error: BaseApiException) => {
     addErrorMessage({
@@ -48,13 +48,13 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
   const form = useForm({
     defaultValues: {
       file: attachmentFile.value,
-      link: trace.link || '',
+      link: trace?.link || '',
       traceType: attachmentFile.value ? TraceType.FILE : TraceType.LINK,
-      traceName: trace.title,
-      personalNote: trace.personalNote || '',
-      authorType: trace.authorType,
-      useIA: !!trace.aiUseJustification,
-      iaJustification: trace.aiUseJustification || ''
+      traceName: trace?.title,
+      personalNote: trace?.personalNote || '',
+      authorType: trace?.authorType,
+      useIA: !!trace?.aiUseJustification,
+      iaJustification: trace?.aiUseJustification || ''
     } as TraceFormData,
     validators: {
       onSubmit ({ value }: { value: TraceFormData }) {
@@ -85,6 +85,10 @@ export function useUpdateTraceForm (trace: TraceDetailDTO, onTraceUpdated?: () =
   }
 
   function updateTrace (traceFormData: TraceFormData) {
+    if (!trace) {
+      return
+    }
+
     updateTraceMutation.mutate({
       traceId: trace.id,
       updateTraceDTO: {

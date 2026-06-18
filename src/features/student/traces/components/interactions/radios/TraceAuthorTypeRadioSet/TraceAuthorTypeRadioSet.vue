@@ -40,7 +40,10 @@ function handleUpdateModelValue (value: string | number | boolean) {
         v-for="option in authorTypeOptions"
         :key="option.value"
       >
-        <AvRadioButton :value="option.value">
+        <AvRadioButton
+          :value="option.value"
+          data-testid="trace-author-type-radio-button"
+        >
           <div class="av-col av-gap-xs">
             <span class="b2-regular av-text-text2">
               {{ t(option.description) }}

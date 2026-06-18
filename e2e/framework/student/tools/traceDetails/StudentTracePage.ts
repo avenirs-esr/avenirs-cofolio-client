@@ -1,5 +1,6 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
+import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { TraceAssociationsObject } from '@e2e/framework/student/tools/traceDetails/componentObjects/TraceAssociationsObject'
 import { expect, type Page } from '@playwright/test'
 import { Fixture, Then, When } from 'playwright-bdd/decorators'
@@ -18,6 +19,33 @@ export class StudentTracePage extends BasePage {
     return this.page.getByTestId('associations-tab-item')
   }
 
+  getDropdown () {
+    return this.page.getByTestId('trace-settings-dropdown')
+  }
+
+  getDropdownTrigger () {
+    return this.getDropdown().getByRole('button')
+  }
+
+  getDropdownUpdateTraceItem () {
+    return this.page.getByTestId('update')
+  }
+
+  @When('the student clicks on the trace settings dropdown trigger')
+  async clickDropdownTrigger () {
+    await clickOnElement(this.getDropdownTrigger())
+  }
+
+  @Then('the update item in the trace settings dropdown is visible')
+  async verifyDropdownUpdateTraceItemVisible () {
+    await expect(this.getDropdownUpdateTraceItem()).toBeVisible()
+  }
+
+  @When('the student clicks on the update item in the trace settings dropdown')
+  async clickDropdownUpdateTraceItem () {
+    await clickOnElement(this.getDropdownUpdateTraceItem())
+  }
+
   private async shouldSkipSkillAssociationFlow () {
     return await this.getTraceAssociations().hasAssociatedSkillCards()
   }
@@ -25,6 +53,11 @@ export class StudentTracePage extends BasePage {
   @Then('the trace details page is loaded')
   async verifyTraceDetailsPageLoaded () {
     await expect(this.page.getByTestId('trace-detailed-main-container')).toBeVisible()
+  }
+
+  @Then('the author type is visible')
+  async verifyAuthorTypeVisible () {
+    await expect(this.page.getByTestId('author-type')).toBeVisible()
   }
 
   @When('the student open associations tab')

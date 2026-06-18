@@ -21,6 +21,7 @@ Feature: Student Tools Trace Detail Page
     @high @trace-details
     Scenario: Student can see the trace details
       Then the trace details page is loaded
+      Then the author type is visible
 
   Rule: Trace associations
 

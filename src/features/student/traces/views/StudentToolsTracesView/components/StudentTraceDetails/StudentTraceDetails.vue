@@ -83,7 +83,10 @@ const authorTypeLabel = computed(() =>
     </div>
 
     <div class="av-col av-row--md av-justify-between av-gap-md">
-      <div class="av-col av-flex-fill av-gap-xs indicators">
+      <div
+        class="av-col av-flex-fill av-gap-xs indicators"
+        data-testid="author-type"
+      >
         <AvIconText
           typography-class="b2-light"
           icon-color="var(--text2)"
