@@ -76,6 +76,18 @@ Feature: Student Project Activity Detail Page
       When the student cancels the perspective edition
       Then the my perspective card is in readonly mode
 
+    @high @activity-details @feedback-info-card
+    Scenario: Student can see the feedback info card in the my perspective tab
+      When the student opens the project activities page
+      And the student open activity library tab
+      And the student clicks a library activity card with in progress status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      Then the feedback info card is visible
+      And the feedback info card title is visible
+      And the feedback info card iterations badge is visible
+
   Rule: Finish declared activity
 
     Background:

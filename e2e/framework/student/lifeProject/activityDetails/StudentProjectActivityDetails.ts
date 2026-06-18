@@ -203,4 +203,19 @@ export class StudentProjectActivityDetails extends BasePage {
   async verifyAssociateTracesConfirmationModalHidden () {
     await this.getMyPerspectiveSection().verifyAssociateTracesConfirmationModalHidden()
   }
+
+  @Then('the feedback info card is visible')
+  async verifyFeedbackInfoCardVisible () {
+    await this.getMyPerspectiveSection().verifyFeedbackInfoCardVisible()
+  }
+
+  @Then('the feedback info card title is visible')
+  async verifyFeedbackInfoCardTitleVisible () {
+    await this.getMyPerspectiveSection().verifyFeedbackInfoCardTitleVisible()
+  }
+
+  @Then('the feedback info card iterations badge is visible')
+  async verifyFeedbackInfoCardBadgeVisible () {
+    await this.getMyPerspectiveSection().verifyFeedbackInfoCardBadgeVisible()
+  }
 }

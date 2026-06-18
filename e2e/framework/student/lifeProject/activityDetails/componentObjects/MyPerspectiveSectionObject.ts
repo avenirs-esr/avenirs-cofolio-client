@@ -210,4 +210,28 @@ export class MyPerspectiveSectionObject extends BaseObject {
     await expect(this.getEditPerspectiveButton()).toBeHidden({ timeout: 10000 })
     await expect(this.getRichTextEditor()).toBeVisible({ timeout: 10000 })
   }
+
+  getFeedbackInfoCard () {
+    return this.root.getByTestId('feedback-info-card')
+  }
+
+  getFeedbackInfoCardTitle () {
+    return this.root.getByTestId('feedback-info-card-title')
+  }
+
+  getFeedbackInfoCardBadge () {
+    return this.root.getByTestId('feedback-info-card-iterations-badge')
+  }
+
+  async verifyFeedbackInfoCardVisible () {
+    await expect(this.getFeedbackInfoCard()).toBeVisible()
+  }
+
+  async verifyFeedbackInfoCardTitleVisible () {
+    await expect(this.getFeedbackInfoCardTitle()).toBeVisible()
+  }
+
+  async verifyFeedbackInfoCardBadgeVisible () {
+    await expect(this.getFeedbackInfoCardBadge()).toBeVisible()
+  }
 }
