@@ -1,4 +1,8 @@
-import type { TraceViewDTO } from '@/api/avenir-esr'
+import type {
+  TraceViewDTO
+} from '@/api/avenir-esr'
+import { createLockedDeclaredActivitiesHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
+import { server } from '@/__mocks__/msw/server'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { TracesSelectorStub } from '@/features/student/traces/components/interactions/pickers/TracesSelector/TraceSelector.stub'
 import { usePaginatedTraces } from '@/features/student/traces/composables/use-paginated-traces/use-paginated-traces'
@@ -8,7 +12,8 @@ import {
   TraceDeletionConfirmationModalStub
 } from '@/features/student/traces/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { flushPromises, type VueWrapper } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 
 vi.mock('@/features/student/traces/composables/use-paginated-traces/use-paginated-traces', () => ({
@@ -48,6 +53,7 @@ BddTest().given('a delete traces modal', () => {
   const isFetching = ref(false)
   const hasMoreTraces = computed(() => false)
   const loadMoreTraces = vi.fn()
+  const resetPagination = vi.fn()
 
   const stubs = {
     ConfirmationModal: ConfirmationModalStub,
@@ -55,13 +61,14 @@ BddTest().given('a delete traces modal', () => {
     TraceDeletionConfirmationModal: TraceDeletionConfirmationModalStub
   }
 
-  function mountComponent (show = true, totalCount = 2) {
-    wrapper = mount(DeleteTracesModal, {
+  function mountDeleteTracesModal (show = true, totalCount = 2) {
+    wrapper = mountComponent(DeleteTracesModal, {
       props: {
         show,
         totalCount
       },
-      global: { stubs }
+      global: { stubs },
+      useTanstack: true
     })
   }
 
@@ -96,10 +103,25 @@ BddTest().given('a delete traces modal', () => {
       isFetching,
       hasMoreTraces,
       loadMoreTraces,
-      resetPagination: vi.fn()
+      resetPagination
     })
 
-    mountComponent()
+    server.use(
+      createLockedDeclaredActivitiesHandler([
+        {
+          traceId: 'trace-1',
+          traceTitle: 'Trace 1',
+          lockedDeclaredActivities: []
+        },
+        {
+          traceId: 'trace-2',
+          traceTitle: 'Trace 2',
+          lockedDeclaredActivities: []
+        }
+      ])
+    )
+
+    mountDeleteTracesModal()
   })
 
   BddTest().then('it should render the modal', () => {
@@ -134,20 +156,64 @@ BddTest().given('a delete traces modal', () => {
     expect(wrapper.emitted('cancel')).toHaveLength(1)
   })
 
-  BddTest().then('confirming modal should display deletion confirmation modal', async () => {
+  BddTest().then('confirming modal should fetch locked declared activities and display deletion confirmation modal', async () => {
     await wrapper.findComponent({ name: 'TracesSelector' }).vm.$emit('update:modelValue', ['trace-1'])
 
     await getModal().vm.$emit('confirm')
+    await flushPromises()
+
+    await vi.waitFor(() => {
+      expect(wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' }).props('show')).toBe(true)
+    })
 
     const confirmationModal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
 
-    expect(confirmationModal.props('show')).toBe(true)
-    expect(confirmationModal.props('traceIds')).toEqual(['trace-1'])
+    expect(confirmationModal.props('traces')).toEqual([
+      {
+        traceId: 'trace-1',
+        traceTitle: 'Trace 1',
+        lockedDeclaredActivities: []
+      },
+      {
+        traceId: 'trace-2',
+        traceTitle: 'Trace 2',
+        lockedDeclaredActivities: []
+      }
+    ])
+  })
+
+  BddTest().then('confirming modal should fetch locked declared activities for multiple traces', async () => {
+    await wrapper.findComponent({ name: 'TracesSelector' }).vm.$emit('update:modelValue', ['trace-1', 'trace-2'])
+
+    await getModal().vm.$emit('confirm')
+    await flushPromises()
+
+    await vi.waitFor(() => {
+      expect(wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' }).props('show')).toBe(true)
+    })
+
+    expect(wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' }).props('traces')).toEqual([
+      {
+        traceId: 'trace-1',
+        traceTitle: 'Trace 1',
+        lockedDeclaredActivities: []
+      },
+      {
+        traceId: 'trace-2',
+        traceTitle: 'Trace 2',
+        lockedDeclaredActivities: []
+      }
+    ])
   })
 
   BddTest().then('delete success should emit deleted', async () => {
     await wrapper.findComponent({ name: 'TracesSelector' }).vm.$emit('update:modelValue', ['trace-1'])
     await getModal().vm.$emit('confirm')
+    await flushPromises()
+
+    await vi.waitFor(() => {
+      expect(wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' }).props('show')).toBe(true)
+    })
 
     await wrapper.find('[data-testid="confirm-delete-success"]').trigger('click')
 
@@ -157,7 +223,7 @@ BddTest().given('a delete traces modal', () => {
   BddTest().and('without traces', () => {
     beforeEach(() => {
       traces.value = []
-      mountComponent()
+      mountDeleteTracesModal()
     })
 
     BddTest().then('it should not render traces selector', () => {

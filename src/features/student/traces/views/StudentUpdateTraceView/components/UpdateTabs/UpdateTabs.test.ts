@@ -52,7 +52,7 @@ BddTest().given('an update tab', () => {
       version: 1,
       url: 'exemple.com/image',
       uploadedAt: '2025-06-02T11:42:00.000Z',
-    },
+    }
   }
 
   const stubs = {

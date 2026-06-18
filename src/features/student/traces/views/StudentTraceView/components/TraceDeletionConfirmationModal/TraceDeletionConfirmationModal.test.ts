@@ -1,4 +1,7 @@
-import { EFileType, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
+import {
+  EDeclaredActivityStatus,
+  type TraceLockedDeclaredActivitiesDTO
+} from '@/api/avenir-esr'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { useDeleteTraceMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import TraceDeletionConfirmationModal from '@/features/student/traces/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
@@ -55,6 +58,23 @@ BddTest().given('a trace deletion confirmation modal', () => {
     }
   }
 
+  const mockedTraceWithLockedActivities: TraceLockedDeclaredActivitiesDTO = {
+    traceId: 'trace2',
+    traceTitle: 'Trace utilisée dans une activité',
+    lockedDeclaredActivities: [
+      {
+        activityId: 'activity-1',
+        activityTitle: 'Activité soumise',
+        activityStatus: EDeclaredActivityStatus.SUBMITTED
+      },
+      {
+        activityId: 'activity-2',
+        activityTitle: 'Activité terminée',
+        activityStatus: EDeclaredActivityStatus.COMPLETED
+      }
+    ]
+  }
+
   const stubs = {
     AvModal: {
       name: 'AvModal',
@@ -69,14 +89,38 @@ BddTest().given('a trace deletion confirmation modal', () => {
           <slot name="footer"></slot>
         </div>
       `
+    },
+    AvIconText: {
+      name: 'AvIconText',
+      props: ['icon', 'iconColor', 'text', 'typographyClass'],
+      template: '<div data-testid="av-icon-text">{{ text }}</div>'
+    },
+    AvAccordionsGroup: {
+      name: 'AvAccordionsGroup',
+      template: '<div data-testid="accordions-group"><slot /></div>'
+    },
+    AvAccordion: {
+      name: 'AvAccordion',
+      props: ['id', 'title', 'icon'],
+      template: `
+        <section data-testid="accordion">
+          <button data-testid="accordion-title">{{ title }}</button>
+          <div data-testid="accordion-content">
+            <slot />
+          </div>
+        </section>
+      `
     }
   }
 
-  function mountComponent (show = true) {
+  function mountComponent (
+    show = true,
+    traces: TraceLockedDeclaredActivitiesDTO[] = [mockedTrace]
+  ) {
     wrapper = mount(TraceDeletionConfirmationModal, {
       props: {
-        traceIds: [mockedTrace.id],
-        title: mockedTrace.title,
+        traces,
+        title: traces[0].traceTitle,
         show,
         onConfirmDelete: onConfirmDeleteMock,
         onClose: onCloseMock
@@ -130,25 +174,58 @@ BddTest().given('a trace deletion confirmation modal', () => {
     BddTest().then('clicking confirm button should call mutate with trace ids', async () => {
       await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
 
-      expect(mockMutate).toHaveBeenCalledWith({ tracesIds: [mockedTrace.id] })
+      expect(mockMutate).toHaveBeenCalledWith({ tracesIds: [mockedTrace.traceId] })
     })
 
     BddTest().then('clicking confirm button should call mutate with multiple trace ids', async () => {
-      wrapper = mount(TraceDeletionConfirmationModal, {
-        props: {
-          traceIds: ['trace1', 'trace2', 'trace3'],
-          title: 'Suppression de plusieurs traces',
-          show: true,
-          onConfirmDelete: onConfirmDeleteMock,
-          onClose: onCloseMock
+      mountComponent(true, [
+        mockedTrace,
+        {
+          traceId: 'trace2',
+          traceTitle: 'Trace 2',
+          lockedDeclaredActivities: []
         },
-        global: { stubs }
-      })
+        {
+          traceId: 'trace3',
+          traceTitle: 'Trace 3',
+          lockedDeclaredActivities: []
+        }
+      ])
 
       await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
 
       expect(mockMutate).toHaveBeenCalledWith({
         tracesIds: ['trace1', 'trace2', 'trace3']
+      })
+    })
+
+    BddTest().then('it should not render locked activities accordions when traces have no locked activities', () => {
+      expect(wrapper.find('[data-testid="accordions-group"]').exists()).toBe(false)
+      expect(wrapper.findAll('[data-testid="accordion"]')).toHaveLength(0)
+    })
+  })
+
+  BddTest().and('with locked declared activities', () => {
+    beforeEach(() => {
+      mountComponent(true, [mockedTraceWithLockedActivities])
+    })
+
+    BddTest().then('it should render an accordion for traces with locked activities', () => {
+      expect(wrapper.find('[data-testid="accordions-group"]').exists()).toBe(true)
+      expect(wrapper.findAll('[data-testid="accordion"]')).toHaveLength(1)
+      expect(wrapper.text()).toContain(mockedTraceWithLockedActivities.traceTitle)
+    })
+
+    BddTest().then('it should render locked activity titles inside the accordion', () => {
+      expect(wrapper.text()).toContain('Activité soumise')
+      expect(wrapper.text()).toContain('Activité terminée')
+    })
+
+    BddTest().then('clicking confirm button should call mutate with the locked trace id', async () => {
+      await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
+
+      expect(mockMutate).toHaveBeenCalledWith({
+        tracesIds: [mockedTraceWithLockedActivities.traceId]
       })
     })
   })

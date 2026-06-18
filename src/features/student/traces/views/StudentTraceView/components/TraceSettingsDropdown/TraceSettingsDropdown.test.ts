@@ -44,7 +44,6 @@ BddTest().given('a setting popover', () => {
       const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
       const items = dropdown.props('items') as AvDropdownItem[]
 
-      expect(items.find(item => item.name === 'delete')?.disabled).toBe(false)
       expect(items.find(item => item.name === 'download')?.disabled).toBe(false)
     })
   })
@@ -61,19 +60,6 @@ BddTest().given('a setting popover', () => {
 
       expect(items).toHaveLength(3)
       expect(items.some(item => item.name === 'associate')).toBe(false)
-    })
-  })
-
-  BddTest().when('the trace is not deletable', () => {
-    beforeEach(() => {
-      mountComponent({ isDeletable: false })
-    })
-
-    BddTest().then('it should disable the delete item', () => {
-      const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
-      const items = dropdown.props('items') as AvDropdownItem[]
-
-      expect(items.find(item => item.name === 'delete')?.disabled).toBe(true)
     })
   })
 

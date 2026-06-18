@@ -18,6 +18,7 @@ import {
   type SearchTracesForAssociationParams,
   type TraceAssociationsDTO,
   type TraceConfigurationDTO,
+  type TraceDeclaredActivityDTO,
   type TraceFilter,
   type TraceOverviewDTO,
   type TracesCreationResponse,
@@ -73,28 +74,34 @@ export function createMockedTracesViewResponse (
   tracesViewParams: TracesViewParams,
   totalElements: number,
 ): PagedResponseTraceViewDTO {
-  const { isAssociated = false } = traceFilter
+  const { isAssociated } = traceFilter
   const { keyword, page = 0, pageSize = PageSizes.FOUR, fromDate, toDate } = tracesViewParams
   const mockedTraces: TraceViewDTO[] = []
 
   for (let i = 1; i <= totalElements; i++) {
+    const traceIsAssociated = isAssociated ?? i % 2 === 0
     const rawMonth = (i % 12) + 1
     const monthNumber = rawMonth < 10 ? `0${rawMonth}` : `${rawMonth}`
     const rawDay = (i % 28) + 1
     const dayNumber = rawDay < 10 ? `0${rawDay}` : `${rawDay}`
-    const trace = {
-      isAssociated,
-      isDeletable: true,
-      id: `trace-${isAssociated ? 'associee' : 'non-associee'}${i}`,
-      title: `Ma super trace ${isAssociated ? 'associée' : 'non associée'} numéro ${i}`,
+
+    const trace: TraceViewDTO = {
+      isAssociated: traceIsAssociated,
+      id: `trace-${traceIsAssociated ? 'associee' : 'non-associee'}${i}`,
+      title: `Ma super trace ${traceIsAssociated ? 'associée' : 'non associée'} numéro ${i}`,
       createdAt: `2025-${monthNumber}-${dayNumber}T10:42:00.000Z`,
       updatedAt: `2025-${monthNumber}-${dayNumber}T11:42:00.000Z`,
       willBeDeletedAt: `2026-07-${dayNumber}T10:42:00.000Z`
     }
+
     mockedTraces.push(trace)
   }
 
-  let filteredTraces = mockedTraces.filter(trace => trace.isAssociated === isAssociated)
+  let filteredTraces = mockedTraces
+
+  if (isAssociated !== undefined) {
+    filteredTraces = filteredTraces.filter(trace => trace.isAssociated === isAssociated)
+  }
 
   if (keyword?.trim()) {
     filteredTraces = filteredTraces.filter(trace =>
@@ -128,6 +135,19 @@ export function createMockedTracesViewResponse (
     page: { pageSize, totalElements: filteredTraces.length, totalPages, page }
   }
 }
+
+export const mockedLockedDeclaredActivities: TraceDeclaredActivityDTO[] = [
+  {
+    activityId: 'locked-activity-1',
+    activityTitle: 'Activité soumise',
+    activityStatus: EDeclaredActivityStatus.SUBMITTED
+  },
+  {
+    activityId: 'locked-activity-2',
+    activityTitle: 'Activité terminée',
+    activityStatus: EDeclaredActivityStatus.COMPLETED
+  }
+]
 
 export const mockedTracesConfiguration: TraceConfigurationDTO = {
   maxRemainingDays: 30,
@@ -229,7 +249,6 @@ export const mockedTraceDetailed = {
   id: 'trace1',
   title: 'Développement d\'un ePortfolio',
   isAssociated: false,
-  isDeletable: true,
   link: 'https://example.com/trace/trace1',
   createdAt: '2025-06-16T10:42:00.000Z',
   updatedAt: '2025-06-17T15:18:00.000Z',
@@ -246,6 +265,7 @@ export const mockedTraceDetailed = {
     url: 'exemple.com/image',
     uploadedAt: '2025-06-02T11:42:00.000Z',
   },
+  lockedDeclaredActivities: mockedLockedDeclaredActivities,
   traceAssociations: mockedTraceAssociations
 }
 

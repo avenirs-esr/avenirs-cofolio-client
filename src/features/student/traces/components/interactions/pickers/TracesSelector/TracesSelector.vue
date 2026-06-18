@@ -26,7 +26,6 @@ const selectableTraces = computed(() =>
     label: trace.title,
     value: trace.id,
     baseElement: trace,
-    disabled: !isTraceOverviewDTO(trace) && trace.willBeDeletedAt !== undefined
   }))
 )
 </script>
