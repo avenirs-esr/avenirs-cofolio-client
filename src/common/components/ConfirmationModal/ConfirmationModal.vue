@@ -9,13 +9,15 @@ export interface ConfirmationModalProps extends Omit<AvModalProps, 'closeButtonL
   title?: string
   description?: string
   closeButtonLabel?: string
+  noDescription?: boolean
 }
 
 defineOptions({
   inheritAttrs: false
 })
 
-const props = defineProps<ConfirmationModalProps>()
+const { noDescription = false, ...props } = defineProps<ConfirmationModalProps>()
+
 defineSlots<{
   header?: Slot
   default?: Slot
@@ -65,7 +67,10 @@ const { t } = useI18n()
         data-testid="content-container"
       >
         <span class="n5">{{ props.title ?? t('global.modals.confirmation.title') }}</span>
-        <span class="b2-light">{{ props.description ?? t('global.modals.confirmation.description') }}</span>
+        <span
+          v-if="!noDescription"
+          class="b2-light"
+        >{{ props.description ?? t('global.modals.confirmation.description') }}</span>
       </div>
     </slot>
   </AvModal>

@@ -179,4 +179,53 @@ BddTest().given('a confirmation modal', () => {
       expect(descriptionText.text()).toBe('Custom Description')
     })
   })
+
+  BddTest().when('the noDescription prop is true', () => {
+    beforeEach(() => {
+      wrapper = mount(ConfirmationModal, {
+        props: {
+          show: true,
+          noDescription: true
+        } as ConfirmationModalProps,
+        global: {
+          stubs
+        }
+      })
+    })
+
+    BddTest().then('it should not render the description', () => {
+      const contentContainer = wrapper.find('[data-testid="content-container"]')
+
+      expect(contentContainer.exists()).toBe(true)
+      expect(contentContainer.find('.b2-light').exists()).toBe(false)
+    })
+
+    BddTest().then('it should still render the title', () => {
+      const titleText = wrapper.find('[data-testid="content-container"] .n5')
+
+      expect(titleText.exists()).toBe(true)
+      expect(titleText.text()).toBe('Êtes-vous sûr de vouloir quitter ?')
+    })
+  })
+
+  BddTest().when('the noDescription prop is false', () => {
+    beforeEach(() => {
+      wrapper = mount(ConfirmationModal, {
+        props: {
+          show: true,
+          noDescription: false
+        } as ConfirmationModalProps,
+        global: {
+          stubs
+        }
+      })
+    })
+
+    BddTest().then('it should render the description', () => {
+      const descriptionText = wrapper.find('[data-testid="content-container"] .b2-light')
+
+      expect(descriptionText.exists()).toBe(true)
+      expect(descriptionText.text()).toBe('Toutes les modifications non enregistrées seront perdues.')
+    })
+  })
 })

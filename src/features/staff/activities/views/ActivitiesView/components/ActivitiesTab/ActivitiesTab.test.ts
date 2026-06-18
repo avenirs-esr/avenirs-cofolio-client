@@ -1,13 +1,16 @@
 import type { UsePaginatedStaffActivitesParams, UsePaginatedStaffActivitesResult } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 import { createMockedPagedResponseActivityStaffOverviewDTO } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { EActivityStatus } from '@/api/avenir-esr'
 import { ActivityStatusBadgeStub } from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
+import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { BaseApiException } from '@/common/exceptions'
 import ActivitiesTab from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.vue'
 import { ActivityCardStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.stub'
 import { ActivityTableTitleStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.stub'
+import { MoreActionsDropdownStub } from '@/features/staff/activities/views/ActivitiesView/components/MoreActionsDropdown/MoreActionsDropdown.stub'
 import { type AvTableColumn, PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -70,6 +73,8 @@ BddTest().given('a ActivitiesTab component', () => {
     ActivityStatusBadge: ActivityStatusBadgeStub,
     ActivityTableTitle: ActivityTableTitleStub,
     AvTable: AvTableStub,
+    ConfirmationModal: ConfirmationModalStub,
+    MoreActionsDropdown: MoreActionsDropdownStub,
     Pagination: PaginationStub,
     QuerySuspense: QuerySuspenseStub,
   }
@@ -92,13 +97,21 @@ BddTest().given('a ActivitiesTab component', () => {
         title: 'Mes activités',
         emptyStateMessage: 'Aucune activité',
         withStatus: false,
-        usePaginatedStaffActivitesParams: mockUsePaginatedStaffActivitesParams,
+        usePaginatedStaffActivitiesParams: mockUsePaginatedStaffActivitesParams,
         ...props,
       },
       global: { stubs }
     })
 
     await flushPromises()
+  }
+
+  function confirmationModal () {
+    return wrapper.findComponent(ConfirmationModalStub)
+  }
+
+  function moreActionsDropdowns () {
+    return wrapper.findAllComponents(MoreActionsDropdownStub)
   }
 
   beforeEach(async () => {
@@ -165,6 +178,77 @@ BddTest().given('a ActivitiesTab component', () => {
 
     BddTest().then('it should render one status badge per activity', () => {
       expect(wrapper.findAll('[data-testid="activity-status-badge"]')).toHaveLength(6)
+    })
+  })
+
+  BddTest().when('the component is mounted with withActionsColumn enabled', () => {
+    beforeEach(async () => {
+      await mountDefault({ props: { withActionsColumn: true } })
+    })
+
+    BddTest().then('it should add the actions column', () => {
+      const table = wrapper.findComponent(AvTableStub)
+      const columns = table.props('columns') as AvTableColumn<ActivityTableRow>[]
+
+      expect(columns.map(column => column.key)).toContain('actions')
+    })
+
+    BddTest().then('it should render one MoreActionsDropdown per row', () => {
+      expect(moreActionsDropdowns()).toHaveLength(6)
+    })
+
+    BddTest().then('it should pass the correct activityStatus to each MoreActionsDropdown', () => {
+      const dropdowns = moreActionsDropdowns()
+
+      expect(dropdowns[0].props('activityStatus')).toBe(EActivityStatus.PUBLISHED)
+      expect(dropdowns[1].props('activityStatus')).toBe(EActivityStatus.DRAFT)
+    })
+
+    BddTest().then('the confirmation modal should not be visible initially', () => {
+      expect(confirmationModal().props('show')).toBe(false)
+    })
+
+    BddTest().and('deleteSelected is emitted from a MoreActionsDropdown', () => {
+      beforeEach(() => {
+        moreActionsDropdowns()[0].vm.$emit('deleteSelected')
+      })
+
+      BddTest().then('it should show the confirmation modal', () => {
+        expect(confirmationModal().props('show')).toBe(true)
+      })
+
+      BddTest().then('it should display the correct confirmation title', () => {
+        expect(confirmationModal().props('title')).toBe('Êtes-vous certain(e) de vouloir supprimer cette activité ?')
+      })
+
+      BddTest().and('the user confirms', () => {
+        beforeEach(async () => {
+          await confirmationModal().vm.$emit('confirm')
+        })
+
+        BddTest().then('it should emit deleteDraftActivity with the activity id', () => {
+          expect(wrapper.emitted('deleteDraftActivity')).toHaveLength(1)
+          expect(wrapper.emitted('deleteDraftActivity')![0]).toEqual(['staff-activity-1'])
+        })
+
+        BddTest().then('it should hide the confirmation modal', () => {
+          expect(confirmationModal().props('show')).toBe(false)
+        })
+      })
+
+      BddTest().and('the user cancels', () => {
+        beforeEach(async () => {
+          confirmationModal().vm.$emit('close')
+        })
+
+        BddTest().then('it should not emit deleteDraftActivity', () => {
+          expect(wrapper.emitted('deleteDraftActivity')).toBeUndefined()
+        })
+
+        BddTest().then('it should hide the confirmation modal', () => {
+          expect(confirmationModal().props('show')).toBe(false)
+        })
+      })
     })
   })
 

@@ -62,10 +62,20 @@
             "title": "Create an activity"
           },
           "columns": {
+            "actions": "Actions",
             "activityName": "Activity name",
             "lastModification": "Last modification",
             "owner": "Owner",
             "status": "Status"
+          },
+          "MoreActionsDropdown": {
+            "ariaLabel": "More actions",
+            "delete": "Delete",
+            "deleteConfirmation": {
+              "title": "Are you sure you want to delete this activity?"
+            },
+            "deleteError": "An error occurred while deleting the activity",
+            "deleteSuccess": "Activity deleted successfully"
           },
           "MyWorkspaceTab": {
             "createActivity": "Create an activity",

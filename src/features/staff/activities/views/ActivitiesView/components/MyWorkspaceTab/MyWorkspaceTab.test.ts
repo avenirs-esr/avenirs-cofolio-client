@@ -21,6 +21,20 @@ vi.mock('@/features/staff/activities/stores/activities.store', () => ({
   }),
 }))
 
+const mockAddSuccessMessage = vi.fn()
+const mockAddErrorMessage = vi.fn()
+
+vi.mock('@/store', async () => {
+  const actual = await vi.importActual<typeof import('@/store')>('@/store')
+  return {
+    ...actual,
+    useToasterStore: vi.fn(() => ({
+      addSuccessMessage: mockAddSuccessMessage,
+      addErrorMessage: mockAddErrorMessage,
+    })),
+  }
+})
+
 BddTest().given('a MyWorkspaceTab component', () => {
   let wrapper: VueWrapper<InstanceType<typeof MyWorkspaceTab>>
 
@@ -43,12 +57,13 @@ BddTest().given('a MyWorkspaceTab component', () => {
   BddTest().when('the component is mounted', () => {
     BddTest().then('it renders the activities tab with the correct props', () => {
       const activitiesTab = wrapper.findComponent(ActivitiesTabStub)
-      const params = activitiesTab.props('usePaginatedStaffActivitesParams')
+      const params = activitiesTab.props('usePaginatedStaffActivitiesParams')
 
       expect(activitiesTab.exists()).toBe(true)
       expect(activitiesTab.props('title')).toBe('Mon espace de travail (0)')
       expect(activitiesTab.props('emptyStateMessage')).toBe('Aucune activité pour le moment. Commencez par en créer une.')
       expect(activitiesTab.props('withStatus')).toBe(true)
+      expect(activitiesTab.props('withActionsColumn')).toBe(true)
 
       expect(params.currentPageRef.value).toBe(0)
       expect(params.pageSizeRef.value).toBe(PageSizes.TWELVE)
@@ -88,6 +103,34 @@ BddTest().given('a MyWorkspaceTab component', () => {
 
       BddTest().then('it should call hideAddActivityModal', () => {
         expect(hideAddActivityModal).toHaveBeenCalled()
+      })
+    })
+  })
+
+  BddTest().when('the activities tab emits delete-draft-activity and the API succeeds', () => {
+    beforeEach(async () => {
+      await wrapper.findComponent(ActivitiesTabStub).vm.$emit('deleteDraftActivity', 'activity-id-123')
+    })
+
+    BddTest().then('it should call addSuccessMessage with the success translation', async () => {
+      await vi.waitFor(() => {
+        expect(mockAddSuccessMessage).toHaveBeenCalledWith('L\'activité a été supprimée avec succès')
+      })
+    })
+  })
+
+  BddTest().when('the activities tab emits delete-draft-activity and the API returns an error', () => {
+    beforeEach(async () => {
+      wrapper.findComponent(ActivitiesTabStub).vm.$emit('deleteDraftActivity', 'activity-id-error')
+    })
+
+    BddTest().then('it should call addErrorMessage with the error title', async () => {
+      await vi.waitFor(() => {
+        expect(mockAddErrorMessage).toHaveBeenCalledWith(
+          expect.objectContaining({
+            title: 'Une erreur est survenue lors de la suppression de l\'activité',
+          })
+        )
       })
     })
   })
