@@ -32,7 +32,7 @@ const selectableTraces = computed(() =>
 
 <template>
   <div
-    class="av-row av-wrap av-gap-md av-py-md av-px-md--md"
+    class="av-row av-wrap av-gap-md traces-selector-wrapper"
   >
     <SelectorOverlay
       v-model:selected-elements="selectedTraceIds"
@@ -56,3 +56,10 @@ const selectableTraces = computed(() =>
     </SelectorOverlay>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.traces-selector-wrapper {
+  width: fit-content;
+  max-width: 100%;
+}
+</style>

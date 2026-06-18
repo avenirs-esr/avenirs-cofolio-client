@@ -2,13 +2,23 @@ import {
   EDeclaredActivityStatus,
   type TraceLockedDeclaredActivitiesDTO
 } from '@/api/avenir-esr'
+import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { useDeleteTraceMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import TraceDeletionConfirmationModal from '@/features/student/traces/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import { useToasterStore } from '@/store'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconTextStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { useQuery } from '@tanstack/vue-query'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
+
+vi.mock('@tanstack/vue-query', async (importActual) => {
+  const actual = await importActual<typeof import('@tanstack/vue-query')>()
+  return {
+    ...actual,
+    useQuery: vi.fn()
+  }
+})
 
 vi.mock('@/features/student/traces/queries/use-traces.query/use-traces.query', async (importActual) => {
   const actual = await importActual<typeof import('@/features/student/traces/queries/use-traces.query/use-traces.query')>()
@@ -29,6 +39,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
   let onErrorCallback: (error: BaseApiException) => void
   let onSuccessCallback: () => void
 
+  const mockedUseQuery: MockedFunction<typeof useQuery> = vi.mocked(useQuery)
   const mockedUseDeleteTraceMutation: MockedFunction<typeof useDeleteTraceMutation> = vi.mocked(useDeleteTraceMutation)
   const mockedUseToasterStore: MockedFunction<typeof useToasterStore> = vi.mocked(useToasterStore)
 
@@ -36,26 +47,14 @@ BddTest().given('a trace deletion confirmation modal', () => {
   const mockIsPending = ref(false)
   const mockAddErrorMessage = vi.fn()
 
-  const mockedTrace: TraceDetailDTO = {
-    id: 'trace1',
-    title: 'Développement d\'un ePortfolio',
-    link: 'https://example.com/trace1',
-    isAssociated: false,
-    createdAt: '2025-06-16T10:42:00.000Z',
-    updatedAt: '2025-06-17T15:18:00.000Z',
-    programName: 'An awesome program',
-    aiUseJustification: 'An awesome justification',
-    authorType: ETraceAuthorType.PERSONAL,
-    personalNote: 'An awesome personal note',
-    attachment: {
-      id: 'mock-attachment',
-      fileName: 'An awesome attachment',
-      fileType: EFileType.TXT,
-      fileSize: 1,
-      version: 1,
-      url: 'exemple.com/image',
-      uploadedAt: '2025-06-02T11:42:00.000Z',
-    }
+  const mockQueryData = ref<TraceLockedDeclaredActivitiesDTO[]>([])
+  const mockQueryError = ref<BaseApiException | null>(null)
+  const mockQueryIsFetching = ref(false)
+
+  const mockedTrace: TraceLockedDeclaredActivitiesDTO = {
+    traceId: 'trace1',
+    traceTitle: 'Développement d\'un ePortfolio',
+    lockedDeclaredActivities: []
   }
 
   const mockedTraceWithLockedActivities: TraceLockedDeclaredActivitiesDTO = {
@@ -76,25 +75,9 @@ BddTest().given('a trace deletion confirmation modal', () => {
   }
 
   const stubs = {
-    AvModal: {
-      name: 'AvModal',
-      props: ['opened', 'closeButtonLabel', 'confirmButtonLabel', 'isLoading'],
-      emits: ['close', 'confirm'],
-      template: `
-        <div v-if="opened" data-testid="av-modal">
-          <slot name="header"></slot>
-          <div class="content-container">
-            <slot></slot>
-          </div>
-          <slot name="footer"></slot>
-        </div>
-      `
-    },
-    AvIconText: {
-      name: 'AvIconText',
-      props: ['icon', 'iconColor', 'text', 'typographyClass'],
-      template: '<div data-testid="av-icon-text">{{ text }}</div>'
-    },
+    QuerySuspense: QuerySuspenseStub,
+    AvModal: AvModalStub,
+    AvIconText: AvIconTextStub,
     AvAccordionsGroup: {
       name: 'AvAccordionsGroup',
       template: '<div data-testid="accordions-group"><slot /></div>'
@@ -103,13 +86,13 @@ BddTest().given('a trace deletion confirmation modal', () => {
       name: 'AvAccordion',
       props: ['id', 'title', 'icon'],
       template: `
-        <section data-testid="accordion">
-          <button data-testid="accordion-title">{{ title }}</button>
-          <div data-testid="accordion-content">
-            <slot />
-          </div>
-        </section>
-      `
+      <section data-testid="accordion">
+        <button data-testid="accordion-title">{{ title }}</button>
+        <div data-testid="accordion-content">
+          <slot />
+        </div>
+      </section>
+    `
     }
   }
 
@@ -117,9 +100,11 @@ BddTest().given('a trace deletion confirmation modal', () => {
     show = true,
     traces: TraceLockedDeclaredActivitiesDTO[] = [mockedTrace]
   ) {
+    mockQueryData.value = traces
+
     wrapper = mount(TraceDeletionConfirmationModal, {
       props: {
-        traces,
+        traceIds: traces.map(trace => trace.traceId),
         title: traces[0].traceTitle,
         show,
         onConfirmDelete: onConfirmDeleteMock,
@@ -131,10 +116,20 @@ BddTest().given('a trace deletion confirmation modal', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+
     mockIsPending.value = false
+    mockQueryData.value = []
+    mockQueryError.value = null
+    mockQueryIsFetching.value = false
 
     onConfirmDeleteMock = vi.fn()
     onCloseMock = vi.fn()
+
+    mockedUseQuery.mockReturnValue({
+      data: mockQueryData,
+      error: mockQueryError,
+      isFetching: mockQueryIsFetching
+    } as unknown as ReturnType<typeof useQuery>)
 
     mockedUseToasterStore.mockReturnValue({
       addErrorMessage: mockAddErrorMessage
@@ -174,7 +169,9 @@ BddTest().given('a trace deletion confirmation modal', () => {
     BddTest().then('clicking confirm button should call mutate with trace ids', async () => {
       await wrapper.findComponent({ name: 'AvModal' }).vm.$emit('confirm')
 
-      expect(mockMutate).toHaveBeenCalledWith({ tracesIds: [mockedTrace.traceId] })
+      expect(mockMutate).toHaveBeenCalledWith({
+        tracesIds: [mockedTrace.traceId]
+      })
     })
 
     BddTest().then('clicking confirm button should call mutate with multiple trace ids', async () => {

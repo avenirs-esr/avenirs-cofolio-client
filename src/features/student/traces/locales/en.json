@@ -292,7 +292,8 @@
           "title": "Trace {trace}",
           "traceDeletionConfirmationModal": {
             "description": "Are you sure you want to delete your trace?",
-            "lockedActivitiesTitle": "The traces listed below are used in one or more submitted or completed activities. They will be deleted from your personal library but will remain available for viewing within those activities.",
+            "lockedActivityTitleFirstPart": "The trace below is used in a submitted or completed activity. It will be removed from your personal library but will remain accessible from | The traces below are used in a submitted or completed activity. They will be removed from your personal library but will remain accessible from",
+            "lockedActivityTitleSecondPart": "this activity. | these activities.",
             "subdescription": "Any deletion action is definitive. It results in the loss of the data entered for this trace, as well as the deletion of the association links it contains."
           }
         },
