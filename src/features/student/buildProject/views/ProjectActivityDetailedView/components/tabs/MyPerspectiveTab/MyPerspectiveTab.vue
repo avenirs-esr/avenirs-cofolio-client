@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import FeedbackInfoCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/FeedbackInfoCard/FeedbackInfoCard.vue'
 import MyPerspectiveCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
 import PerspectiveTabActions
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/interactions/PerspectiveTabActions/PerspectiveTabActions.vue'
@@ -23,6 +24,11 @@ const { declaredActivityDetails } = defineProps<MyPerspectiveTabProps>()
         :activity-status="declaredActivityDetails.status"
       />
     </div>
+
+    <FeedbackInfoCard
+      v-if="declaredActivityDetails.activity.feedbackAllowedIterations !== 0"
+      :activity="declaredActivityDetails"
+    />
 
     <PerspectiveTabActions
       :declared-activity-details="declaredActivityDetails"
