@@ -23,6 +23,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
     }),
     useImageUpload: () => ({
       update: vi.fn(),
+      clear: vi.fn(),
       error,
       valid,
       name: { value: 'test.jpg' },
