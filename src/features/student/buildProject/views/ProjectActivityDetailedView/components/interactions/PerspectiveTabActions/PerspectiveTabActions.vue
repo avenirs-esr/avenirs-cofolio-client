@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
-import { type DeclaredActivityDetailsDTO, EActivityStatus, EDeclaredActivityStatus, EFeedbackStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useAskForFeedback, useFinish } from '@/api/avenir-esr'
+import { type DeclaredActivityDetailsDTO, EActivityStatus, EDeclaredActivityStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useAskForFeedback, useFinish } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import FinishDeclaredActivity
@@ -26,11 +26,10 @@ const { isLoading, withTaskLoading } = useTaskLoading()
 const { mutate: mutateFinish, isPending: isFinishPending } = useFinish()
 const { mutate: mutateAskForFeedback, isPending: isFeedbackPending } = useAskForFeedback()
 
-const lastFeedback = computed(() => declaredActivityDetails.feedbacks?.at(-1) ?? null)
-const isLastFeedbackPending = computed(() => lastFeedback.value?.status === EFeedbackStatus.IN_PROCESS)
 const remainingFeedbacks = computed(() => declaredActivityDetails.activity.feedbackAllowedIterations - (declaredActivityDetails.feedbacks?.length ?? 0))
 
 const isDeclaredActivityInProgress = computed(() => declaredActivityDetails.status === EDeclaredActivityStatus.IN_PROGRESS)
+const isDeclaredActivitySubmitted = computed(() => declaredActivityDetails.status === EDeclaredActivityStatus.SUBMITTED)
 
 const actionsHint = computed(() => {
   if (declaredActivityDetails.status === EDeclaredActivityStatus.SUBSCRIBED) {
@@ -41,10 +40,10 @@ const actionsHint = computed(() => {
       date: new Date(declaredActivityDetails.finishedAt).toLocaleDateString('fr-FR'),
     })
   }
-  if (isLastFeedbackPending.value) {
+  if (isDeclaredActivitySubmitted.value) {
     return t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.feedbackPending')
   }
-  if (remainingFeedbacks.value <= 0) {
+  if (remainingFeedbacks.value === 0) {
     return t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.maximumFeedbackReached')
   }
   return undefined
@@ -99,8 +98,8 @@ function requestFeedback () {
     data-testid="perspective-tab-actions"
   >
     <RequestFeedback
-      v-if="isDeclaredActivityInProgress"
-      :disabled="isLastFeedbackPending || remainingFeedbacks <= 0"
+      v-if="isDeclaredActivityInProgress || isDeclaredActivitySubmitted"
+      :disabled="isDeclaredActivitySubmitted || remainingFeedbacks === 0"
       :is-loading="isFeedbackPending || isFinishPending || isLoading"
       :remaining-feedbacks="remainingFeedbacks"
       @request-feedback="requestFeedback"
