@@ -2,6 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { mockedDeclaredActivityDetails, mockedFinishedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { askForFeedbackErrorHandler, finishDeclaredActivityErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { type DeclaredActivityDetailsDTO, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { FinishDeclaredActivityStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/FinishDeclaredActivity/FinishDeclaredActivity.stub'
 import PerspectiveTabActions, {
   type MyPerspectiveTabActionsProps,
@@ -182,6 +183,28 @@ BddTest().given('a perspective tab actions', () => {
           })
         })
       })
+    })
+  })
+
+  BddTest().when('the component is mounted with a submitted activity', () => {
+    const mockedSubmittedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
+      ...mockedDeclaredActivityDetails,
+      status: EDeclaredActivityStatus.SUBMITTED,
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(PerspectiveTabActions, {
+        props: { declaredActivityDetails: mockedSubmittedDeclaredActivityDetails },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render RequestFeedback', () => {
+      expect(wrapper.findComponent(RequestFeedbackStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the actions hint', () => {
+      expect(wrapper.find('[data-testid="actions-hint"]').exists()).toBe(true)
     })
   })
 })
