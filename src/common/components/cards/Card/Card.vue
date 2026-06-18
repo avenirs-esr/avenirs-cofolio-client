@@ -7,7 +7,7 @@ export interface CardProps extends Omit<AvCardProps, 'collapseLabel' | 'expandLa
 
 const props = defineProps<CardProps>()
 
-defineSlots<{
+const slots = defineSlots<{
   title?: Slot<{ collapsed: boolean }>
   body?: Slot
   footer?: Slot
@@ -29,16 +29,25 @@ const avCardProps: ComputedRef<AvCardProps> = computed(() => ({
   <AvCard
     v-bind="avCardProps"
   >
-    <template #title="{ collapsed }">
+    <template
+      v-if="slots.title"
+      #title="{ collapsed }"
+    >
       <slot
         name="title"
         :collapsed="collapsed"
       />
     </template>
-    <template #body>
+    <template
+      v-if="slots.body"
+      #body
+    >
       <slot name="body" />
     </template>
-    <template #footer>
+    <template
+      v-if="slots.footer"
+      #footer
+    >
       <slot name="footer" />
     </template>
     <template #default>
