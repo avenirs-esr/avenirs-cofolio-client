@@ -7,7 +7,7 @@ BddTest().given('an useImageUpload composable', () => {
   let imageUpload: ReturnType<typeof useImageUpload>
 
   const testFile = new File(['hello'], 'test.png', { type: 'image/png' })
-  const largeFile = new File(['a'.repeat(11 * 1024 * 1024)], 'big.jpg', { type: 'image/jpeg' }) // 11MB
+  const largeFile = new File(['a'.repeat(6 * 1024 * 1024)], 'big.jpg', { type: 'image/jpeg' }) // 6MB
 
   if (!window.URL.createObjectURL) {
     window.URL.createObjectURL = vi.fn(() => 'blob:mock-url')

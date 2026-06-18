@@ -299,7 +299,7 @@
         "dragAndDrop": "ou glisser et déposer ici",
         "filesIndication": "Format : ",
         "filesTypes": "JPG, JPEG, PNG •",
-        "size": "10 Mo max",
+        "size": "5 Mo max",
         "sizeIndication": "Poids : ",
         "title": "Ajouter une image"
       }

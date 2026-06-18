@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 export function useImageUpload () {
   const { t } = useI18n()
 
-  const MAX_FILE_SIZE = 10 * 1024 * 1024
+  const MAX_FILE_SIZE = 5 * 1024 * 1024
 
   const error = ref<string | undefined>()
   const valid = ref<string | undefined>()
