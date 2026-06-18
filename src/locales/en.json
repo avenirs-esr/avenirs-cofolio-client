@@ -299,7 +299,7 @@
         "dragAndDrop": "or drag and drop here",
         "filesIndication": "Format: ",
         "filesTypes": "JPG, JPEG, PNG •",
-        "size": "10 Mo max",
+        "size": "5 MB max",
         "sizeIndication": "Size : ",
         "title": "Add an image"
       }
