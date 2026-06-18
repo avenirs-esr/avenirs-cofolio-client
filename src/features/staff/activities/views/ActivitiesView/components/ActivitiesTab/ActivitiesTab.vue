@@ -3,12 +3,12 @@ import type { ActivityTableRow } from '@/features/staff/activities/views/Activit
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
 import ActivityStatusBadge from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
-import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useDateUtils } from '@/common/composables'
 import { useModal } from '@/common/composables/use-modal/use-modal'
-import { usePaginatedStaffActivites, type UsePaginatedStaffActivitesParams } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
+import DeleteDraftActivityConfirmationModal from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
+import { usePaginatedStaffActivities, type UsePaginatedStaffActivitiesParams } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
 import { mapActivityToActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.utils'
 import ActivityCard from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
 import ActivityTableTitle from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.vue'
@@ -21,7 +21,7 @@ export interface ActivitiesTabProps {
   emptyStateMessage?: string
   withStatus?: boolean
   withActionsColumn?: boolean
-  usePaginatedStaffActivitiesParams: UsePaginatedStaffActivitesParams
+  usePaginatedStaffActivitiesParams: UsePaginatedStaffActivitiesParams
 }
 
 const {
@@ -49,7 +49,7 @@ const {
   pageSizeSelected,
   onUpdateCurrentPage,
   onUpdatePageSize
-} = usePaginatedStaffActivites(usePaginatedStaffActivitiesParams)
+} = usePaginatedStaffActivities(usePaginatedStaffActivitiesParams)
 
 const { t } = useI18n()
 const { formatLastModified } = useDateUtils()
@@ -116,10 +116,7 @@ watch(
 </script>
 
 <template>
-  <div
-    class="my-workspace-tab av-flex-col-xl"
-    data-testid="activities-tab"
-  >
+  <div class="av-flex-col-xl">
     <span
       class="n4"
       data-testid="activities-tab-title"
@@ -153,6 +150,7 @@ watch(
             :with-status="withStatus"
           />
         </div>
+
         <AvTable
           v-else
           :columns="columns"
@@ -187,13 +185,11 @@ watch(
         </AvTable>
       </Pagination>
     </QuerySuspense>
-  </div>
 
-  <ConfirmationModal
-    :show="showDeleteModal"
-    :title="t('staff.activities.views.ActivitiesView.MoreActionsDropdown.deleteConfirmation.title')"
-    no-description
-    @close="cancelDelete"
-    @confirm="confirmDelete"
-  />
+    <DeleteDraftActivityConfirmationModal
+      :show="showDeleteModal"
+      @close="cancelDelete"
+      @confirm="confirmDelete"
+    />
+  </div>
 </template>

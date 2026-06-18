@@ -56,7 +56,7 @@ export class StaffActivitiesPage extends BasePage {
   @Then('the my workspace table is visible and contains data')
   async verifyMyWorkspaceTableVisible () {
     await expect(this.getMyWorkspaceTable()).toBeVisible()
-    await expect(this.getMyWorkspaceTable().locator('th')).toHaveCount(4)
+    await expect(this.getMyWorkspaceTable().locator('th')).toHaveCount(5)
     const rowCount = await this.getMyWorkspaceTable().locator('tr').count()
     expect(rowCount).toBeGreaterThanOrEqual(2)
   }

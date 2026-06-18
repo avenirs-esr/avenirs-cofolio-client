@@ -1,7 +1,7 @@
 import type { PagedResponseActivityStaffOverviewDTO } from '@/api/avenir-esr'
 import { createMockedPagedResponseActivityStaffOverviewDTO } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { BaseApiException } from '@/common/exceptions'
-import { usePaginatedStaffActivites } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
+import { usePaginatedStaffActivities } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { keepPreviousData } from '@tanstack/vue-query'
@@ -33,7 +33,7 @@ function mountUsePaginatedStaffActivites ({
   currentPage?: number
   pageSize?: PageSizes
 } = {}) {
-  return mountComposable(() => usePaginatedStaffActivites({
+  return mountComposable(() => usePaginatedStaffActivities({
     currentPageRef: ref(currentPage),
     pageSizeRef: ref(pageSize),
     fetchFn,

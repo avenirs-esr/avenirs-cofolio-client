@@ -53,6 +53,13 @@
           "placeholder": "Choisir une thématique"
         }
       },
+      "modals": {
+        "DeleteDraftActivityConfirmationModal": {
+          "deleteError": "Une erreur est survenue lors de la suppression de l'activité",
+          "deleteSuccess": "L'activité a été supprimée avec succès",
+          "title": "Êtes-vous certain(e) de vouloir supprimer cette activité ?"
+        }
+      },
       "views": {
         "ActivitiesView": {
           "ActivityDraftCreationModal": {
@@ -70,12 +77,7 @@
           },
           "MoreActionsDropdown": {
             "ariaLabel": "Plus d'actions",
-            "delete": "Supprimer",
-            "deleteConfirmation": {
-              "title": "Êtes-vous certain(e) de vouloir supprimer cette activité ?"
-            },
-            "deleteError": "Une erreur est survenue lors de la suppression de l'activité",
-            "deleteSuccess": "L'activité a été supprimée avec succès"
+            "delete": "Supprimer"
           },
           "MyWorkspaceTab": {
             "createActivity": "Créer une activité",
@@ -113,6 +115,7 @@
           }
         },
         "NationalActivityCatalogView": {
+          "deleteButton": "Supprimer",
           "errors": {
             "fetchActivityContent": "Impossible de charger l'activité"
           },

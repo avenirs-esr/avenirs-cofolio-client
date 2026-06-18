@@ -1,20 +1,14 @@
 <script lang="ts" setup>
-import { invalidateGetStaffActivityWorkingSpace, useDeleteActivityDraft, useGetStaffActivityWorkingSpace } from '@/api/avenir-esr'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { useGetStaffActivityWorkingSpace } from '@/api/avenir-esr'
+import { useDeleteDraftActivity } from '@/features/staff/activities/queries/use-delete-draft-activity/use-delete-draft-activity'
 import { useStaffActivitiesStore } from '@/features/staff/activities/stores/activities.store'
 import ActivitiesTab from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.vue'
 import ActivityDraftCreationModal from '@/features/staff/activities/views/ActivitiesView/components/ActivityDraftCreationModal/ActivityDraftCreationModal.vue'
-import { useToasterStore } from '@/store'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const staffActivitiesStore = useStaffActivitiesStore()
-const queryClient = useQueryClient()
-const { mutate: deleteActivityDraft } = useDeleteActivityDraft()
-const { addSuccessMessage, addErrorMessage } = useToasterStore()
-const { getErrorMessage } = useApiErrors()
 
 const totalActivities = ref(0)
 
@@ -24,17 +18,7 @@ const usePaginatedStaffActivitiesParams = {
   fetchFn: useGetStaffActivityWorkingSpace,
 }
 
-function handleDeleteDraftActivity (activityId: string) {
-  deleteActivityDraft({ activityDraftId: activityId }, {
-    onSuccess: () => {
-      addSuccessMessage(t('staff.activities.views.ActivitiesView.MoreActionsDropdown.deleteSuccess'))
-      invalidateGetStaffActivityWorkingSpace(queryClient)
-    },
-    onError: (error) => {
-      addErrorMessage({ title: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.deleteError'), description: getErrorMessage(error) })
-    },
-  })
-}
+const { deleteDraftActivity } = useDeleteDraftActivity()
 </script>
 
 <template>
@@ -45,7 +29,7 @@ function handleDeleteDraftActivity (activityId: string) {
     with-status
     with-actions-column
     @update-activities-count="totalActivities = $event"
-    @delete-draft-activity="handleDeleteDraftActivity"
+    @delete-draft-activity="deleteDraftActivity"
   >
     <template #actions>
       <div class="av-row av-justify-end av-py-md">

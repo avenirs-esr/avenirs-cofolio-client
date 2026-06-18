@@ -1,12 +1,12 @@
-import type { UsePaginatedStaffActivitesParams, UsePaginatedStaffActivitesResult } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
+import type { UsePaginatedStaffActivitiesParams, UsePaginatedStaffActivitiesResult } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 import { createMockedPagedResponseActivityStaffOverviewDTO } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { EActivityStatus } from '@/api/avenir-esr'
 import { ActivityStatusBadgeStub } from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
-import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { BaseApiException } from '@/common/exceptions'
+import { DeleteDraftActivityConfirmationModalStub } from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.stub'
 import ActivitiesTab from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.vue'
 import { ActivityCardStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.stub'
 import { ActivityTableTitleStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.stub'
@@ -42,7 +42,7 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
 })
 
 const page = createMockedPagedResponseActivityStaffOverviewDTO(PageSizes.TWELVE, 6, 0)
-const defaultPaginatedResult: UsePaginatedStaffActivitesResult = {
+const defaultPaginatedResult: UsePaginatedStaffActivitiesResult = {
   activities: computed(() => page.data),
   pageInfo: computed(() => page.page),
   isFetching: ref(false),
@@ -52,17 +52,17 @@ const defaultPaginatedResult: UsePaginatedStaffActivitesResult = {
   onUpdatePageSize: vi.fn(),
 }
 
-const mockUsePaginatedStaffActivitesParams: UsePaginatedStaffActivitesParams = {
+const mockUsePaginatedStaffActivitesParams: UsePaginatedStaffActivitiesParams = {
   currentPageRef: ref(0),
   pageSizeRef: ref(PageSizes.TWELVE),
   fetchFn: vi.fn(),
 }
 
 vi.mock('@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites', () => ({
-  usePaginatedStaffActivites: vi.fn(),
+  usePaginatedStaffActivities: vi.fn(),
 }))
 
-const { usePaginatedStaffActivites: mockedUsePaginatedStaffActivites } = await import('@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites')
+const { usePaginatedStaffActivities: mockedUsePaginatedStaffActivites } = await import('@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites')
 const mockUsePaginatedStaffActivites = vi.mocked(mockedUsePaginatedStaffActivites)
 
 BddTest().given('a ActivitiesTab component', () => {
@@ -73,7 +73,7 @@ BddTest().given('a ActivitiesTab component', () => {
     ActivityStatusBadge: ActivityStatusBadgeStub,
     ActivityTableTitle: ActivityTableTitleStub,
     AvTable: AvTableStub,
-    ConfirmationModal: ConfirmationModalStub,
+    DeleteDraftActivityConfirmationModal: DeleteDraftActivityConfirmationModalStub,
     MoreActionsDropdown: MoreActionsDropdownStub,
     Pagination: PaginationStub,
     QuerySuspense: QuerySuspenseStub,
@@ -107,7 +107,7 @@ BddTest().given('a ActivitiesTab component', () => {
   }
 
   function confirmationModal () {
-    return wrapper.findComponent(ConfirmationModalStub)
+    return wrapper.findComponent(DeleteDraftActivityConfirmationModalStub)
   }
 
   function moreActionsDropdowns () {
@@ -217,13 +217,9 @@ BddTest().given('a ActivitiesTab component', () => {
         expect(confirmationModal().props('show')).toBe(true)
       })
 
-      BddTest().then('it should display the correct confirmation title', () => {
-        expect(confirmationModal().props('title')).toBe('Êtes-vous certain(e) de vouloir supprimer cette activité ?')
-      })
-
       BddTest().and('the user confirms', () => {
-        beforeEach(async () => {
-          await confirmationModal().vm.$emit('confirm')
+        beforeEach(() => {
+          confirmationModal().vm.$emit('confirm')
         })
 
         BddTest().then('it should emit deleteDraftActivity with the activity id', () => {

@@ -31,7 +31,7 @@ BddTest().given('a StaffAllActivitiesTab component', () => {
   BddTest().when('the component is mounted', () => {
     BddTest().then('it renders ActivitiesTab with the correct props', () => {
       const activitiesTab = wrapper.findComponent(ActivitiesTabStub)
-      const params = activitiesTab.props('usePaginatedStaffActivitesParams')
+      const params = activitiesTab.props('usePaginatedStaffActivitiesParams')
 
       expect(activitiesTab.exists()).toBe(true)
       expect(activitiesTab.props('title')).toBe('Toutes les activités publiées dans mon établissement (0)')
