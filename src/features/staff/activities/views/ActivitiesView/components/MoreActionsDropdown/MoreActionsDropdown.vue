@@ -39,6 +39,7 @@ function handleItemSelected (itemName: string) {
 
 <template>
   <AvDropdown
+    data-testid="more-actions-dropdown"
     :items="menuItems"
     :trigger-aria-label="t('staff.activities.views.ActivitiesView.MoreActionsDropdown.ariaLabel')"
     width="max-content"

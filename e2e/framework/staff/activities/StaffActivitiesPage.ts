@@ -3,13 +3,17 @@ import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+import { DeleteDraftActivityConfirmationModal } from '@e2e/framework/staff/activities/componentObjects/DeleteDraftActivityConfirmationModal'
 import { expect, type Page } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('staffActivitiesPage')
 export class StaffActivitiesPage extends BasePage {
+  private deleteConfirmationModal: DeleteDraftActivityConfirmationModal
+
   constructor (public page: Page) {
     super(page)
+    this.deleteConfirmationModal = new DeleteDraftActivityConfirmationModal(page)
   }
 
   getCreateActivityButton () {
@@ -116,5 +120,57 @@ export class StaffActivitiesPage extends BasePage {
     await expect(this.getAllPublishedActivitiesTable()).toBeVisible()
     const rowCount = await this.getAllPublishedActivitiesTable().locator('tr').count()
     expect(rowCount).toBeGreaterThanOrEqual(2)
+  }
+
+  private getMoreActionsDropdown () {
+    return this.page.getByTestId('more-actions-dropdown').first()
+  }
+
+  private getMoreActionsDropdownTrigger () {
+    return this.getMoreActionsDropdown().getByRole('button')
+  }
+
+  private getDeleteOption () {
+    return this.page.getByTestId('delete')
+  }
+
+  @When('the user clicks on the first activity more actions button')
+  async clickFirstActivityMoreActionsButton () {
+    await clickOnElement(this.getMoreActionsDropdownTrigger())
+  }
+
+  @Then('the delete option is visible')
+  async verifyDeleteOptionVisible () {
+    await expect(this.getDeleteOption()).toBeVisible()
+  }
+
+  @When('the user clicks on the delete option')
+  async clickDeleteOption () {
+    await clickOnElement(this.getDeleteOption())
+  }
+
+  @Then('the delete draft activity confirmation modal is visible')
+  async verifyDeleteConfirmationModalVisible () {
+    await this.deleteConfirmationModal.verifyVisible()
+  }
+
+  @Then('the delete confirmation modal cancel button is visible')
+  async verifyDeleteConfirmationModalCancelButtonVisible () {
+    await this.deleteConfirmationModal.verifyCancelButtonVisible()
+  }
+
+  @Then('the delete confirmation modal confirm button is visible')
+  async verifyDeleteConfirmationModalConfirmButtonVisible () {
+    await this.deleteConfirmationModal.verifyConfirmButtonVisible()
+  }
+
+  @When('the user clicks on the delete confirmation modal cancel button')
+  async clickDeleteConfirmationModalCancelButton () {
+    await this.deleteConfirmationModal.clickCancel()
+  }
+
+  @Then('the delete draft activity confirmation modal is hidden')
+  async verifyDeleteConfirmationModalHidden () {
+    await this.deleteConfirmationModal.verifyHidden()
   }
 }

@@ -37,7 +37,30 @@ Feature: Staff Activities Page
       When the user clicks on the create activity button
       Then the activity draft creation modal is visible
       And the title form field is visible
-  
+
+  Rule: My workspace tab - Delete activity
+
+    Background:
+      When the user clicks on the my workspace tab
+      And the user clicks on the first activity more actions button
+
+    @high @dataset-full @delete-draft-activity
+    Scenario: Staff can see the delete option from the more actions dropdown
+      Then the delete option is visible
+
+    @high @dataset-full @delete-draft-activity
+    Scenario: Staff can open the delete confirmation modal from activities list
+      When the user clicks on the delete option
+      Then the delete draft activity confirmation modal is visible
+      And the delete confirmation modal cancel button is visible
+      And the delete confirmation modal confirm button is visible
+
+    @high @dataset-full @delete-draft-activity
+    Scenario: Staff can close the delete confirmation modal from activities list
+      When the user clicks on the delete option
+      And the user clicks on the delete confirmation modal cancel button
+      Then the delete draft activity confirmation modal is hidden
+
   Rule: All published activities tab
 
     Background:
