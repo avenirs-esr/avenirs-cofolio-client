@@ -3,6 +3,7 @@ import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/acti
 import { FeedbackInfoCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/FeedbackInfoCard/FeedbackInfoCard.stub'
 import { MyPerspectiveCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/MyPerspectiveCard.stub'
 import { PerspectiveTabActionsStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/interactions/PerspectiveTabActions/PerspectiveTabActions.stub'
+import { ReceivedFeedbacksSectionStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/sections/ReceivedFeedbacksSection/ReceivedFeedbacksSection.stub'
 import MyPerspectiveTab, {
   type MyPerspectiveTabProps,
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/tabs/MyPerspectiveTab/MyPerspectiveTab.vue'
@@ -17,6 +18,7 @@ BddTest().given('a my perspective tab', () => {
     MyPerspectiveCard: MyPerspectiveCardStub,
     FeedbackInfoCard: FeedbackInfoCardStub,
     PerspectiveTabActions: PerspectiveTabActionsStub,
+    ReceivedFeedbacksSection: ReceivedFeedbacksSectionStub,
   }
 
   BddTest().when('the component is mounted', () => {
@@ -39,13 +41,19 @@ BddTest().given('a my perspective tab', () => {
       expect(wrapper.findComponent(MyPerspectiveCardStub).exists()).toBe(true)
     })
 
+    BddTest().then('it should pass the correct props to MyPerspectiveCard', () => {
+      const card = wrapper.findComponent(MyPerspectiveCardStub)
+      expect(card.props('activityId')).toBe(mockedDeclaredActivityDetails.id)
+      expect(card.props('perspective')).toBe(mockedDeclaredActivityDetails.reflection)
+      expect(card.props('activityStatus')).toBe(mockedDeclaredActivityDetails.status)
+    })
+
     BddTest().then('it should render the feedback info card', () => {
       expect(wrapper.findComponent(FeedbackInfoCardStub).exists()).toBe(true)
     })
 
     BddTest().then('it should pass the correct props to FeedbackInfoCard', () => {
-      const feedbackInfoCard = wrapper.findComponent(FeedbackInfoCardStub)
-      expect(feedbackInfoCard.props('activity')).toEqual(mockedDeclaredActivityDetails)
+      expect(wrapper.findComponent(FeedbackInfoCardStub).props('activity')).toEqual(mockedDeclaredActivityDetails)
     })
 
     BddTest().then('it should render PerspectiveTabActions', () => {
@@ -53,8 +61,15 @@ BddTest().given('a my perspective tab', () => {
     })
 
     BddTest().then('it should pass the correct props to PerspectiveTabActions', () => {
-      const perspectiveTabActions = wrapper.findComponent(PerspectiveTabActionsStub)
-      expect(perspectiveTabActions.props('declaredActivityDetails')).toEqual(mockedDeclaredActivityDetails)
+      expect(wrapper.findComponent(PerspectiveTabActionsStub).props('declaredActivityDetails')).toEqual(mockedDeclaredActivityDetails)
+    })
+
+    BddTest().then('it should render ReceivedFeedbacksSection', () => {
+      expect(wrapper.findComponent(ReceivedFeedbacksSectionStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass the correct props to ReceivedFeedbacksSection', () => {
+      expect(wrapper.findComponent(ReceivedFeedbacksSectionStub).props('declaredActivityDetails')).toEqual(mockedDeclaredActivityDetails)
     })
   })
 
@@ -75,6 +90,10 @@ BddTest().given('a my perspective tab', () => {
 
     BddTest().then('it should not render the feedback info card', () => {
       expect(wrapper.findComponent(FeedbackInfoCardStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render ReceivedFeedbacksSection', () => {
+      expect(wrapper.findComponent(ReceivedFeedbacksSectionStub).exists()).toBe(false)
     })
   })
 })

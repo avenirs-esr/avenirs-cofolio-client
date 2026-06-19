@@ -159,6 +159,12 @@
             "ProjectActivityDetails": {
               "executionPeriodTitle": "Période de réalisation"
             },
+            "ReceivedFeedbacksSection": {
+              "empty": "Vous n'avez reçu aucun feedback pour le moment",
+              "titleLimited": "Feedback reçu ({count}/{max}) | Feedbacks reçus ({count}/{max})",
+              "titleUnlimited": "Feedback reçu ({count}) | Feedbacks reçus ({count})"
+
+            },
             "requestFeedbackActivity": {
               "error": "Une erreur est survenue lors de la demande de feedback. Veuillez réessayer plus tard.",
               "feedbackPending": "Votre demande est en cours de traitement",
