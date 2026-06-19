@@ -9,12 +9,12 @@ import { ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import { TraceAssociationsStub } from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.stub'
 import {
+  TraceDeletionConfirmationModalStub
+} from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.stub'
+import {
   StudentTraceDetailsStub
 } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.stub'
 import { AssociateDeclaredSkillsToTracesModalStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsToTracesModal/AssociateDeclaredSkillsToTracesModal.stub'
-import {
-  TraceDeletionConfirmationModalStub
-} from '@/features/student/traces/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.stub'
 import {
   TraceSettingsDropdownStub
 } from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.stub'
