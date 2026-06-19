@@ -200,8 +200,8 @@ BddTest().given('a ActivitiesTab component', () => {
     BddTest().then('it should pass the correct activityStatus to each MoreActionsDropdown', () => {
       const dropdowns = getMoreActionsDropdowns()
 
-      expect(dropdowns[0].props('activityStatus')).toBe(EActivityStatus.PUBLISHED)
-      expect(dropdowns[1].props('activityStatus')).toBe(EActivityStatus.DRAFT)
+      expect(dropdowns[0].props('activityStatus')).toBe(EActivityStatus.DRAFT)
+      expect(dropdowns[1].props('activityStatus')).toBe(EActivityStatus.PUBLISHED)
     })
 
     BddTest().then('the confirmation modal should not be visible initially', () => {

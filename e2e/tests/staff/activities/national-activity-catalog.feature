@@ -22,3 +22,23 @@ Feature: Staff National Activity Catalog
 
   Scenario: The national activity context section is visible
     Then the national activity context section is visible
+
+  Scenario: The delete draft button is visible
+    Then the delete draft button is visible
+
+  Rule: Delete draft activity
+
+    
+    Background:
+      When the user clicks on the delete draft button
+
+    @high @dataset-full @delete-draft-activity
+    Scenario: Staff can open the delete confirmation modal from catalog page
+      Then the delete draft activity confirmation modal is visible
+      And the delete confirmation modal cancel button is visible
+      And the delete confirmation modal confirm button is visible
+
+    @high @dataset-full @delete-draft-activity
+    Scenario: Staff can close the delete confirmation modal from catalog page
+      And the user clicks on the delete confirmation modal cancel button
+      Then the delete draft activity confirmation modal is hidden

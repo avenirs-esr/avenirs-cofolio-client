@@ -1,9 +1,10 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
+import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { expect, type Page } from '@playwright/test'
-import { Fixture, Given, Then } from 'playwright-bdd/decorators'
+import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('staffNationalActivityCatalogPage')
 export class StaffNationalActivityCatalogPage extends BasePage {
@@ -86,5 +87,19 @@ export class StaffNationalActivityCatalogPage extends BasePage {
   @Then('the national activity context section is visible')
   async verifyContextSectionVisible () {
     await expect(this.getContextTitle()).toBeVisible()
+  }
+
+  private getDeleteDraftButton () {
+    return this.page.getByTestId('delete-draft-button')
+  }
+
+  @Then('the delete draft button is visible')
+  async verifyDeleteDraftButtonVisible () {
+    await expect(this.getDeleteDraftButton()).toBeVisible()
+  }
+
+  @When('the user clicks on the delete draft button')
+  async clickDeleteDraftButton () {
+    await clickOnElement(this.getDeleteDraftButton())
   }
 }

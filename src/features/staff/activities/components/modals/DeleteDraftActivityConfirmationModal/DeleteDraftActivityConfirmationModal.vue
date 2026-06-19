@@ -46,6 +46,7 @@ function confirmDelete () {
     :show="show"
     :title="t('staff.activities.modals.DeleteDraftActivityConfirmationModal.title')"
     :show-description="false"
+    data-testid="delete-draft-activity-confirmation-modal"
     @close="emit('close')"
     @confirm="confirmDelete"
   />
