@@ -13,6 +13,10 @@
       },
       "feedbacks": {
         "cards": {
+          "FeedbackAssociatedElementsCard": {
+            "emptyState": "Aucun élément associé à ce feedback trouvé",
+            "title": "Récapitulatif des éléments associés ({count})"
+          },
           "lastSaved": "Dernier enregistrement le",
           "receivedAt": "Reçu le",
           "StudentPerspectiveCard": {

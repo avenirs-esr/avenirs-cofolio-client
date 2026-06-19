@@ -1,5 +1,6 @@
-import type { FeedbackStaffListItemDTO, PagedResponseFeedbackStaffListItemDTO } from '@/api/avenir-esr'
-import { EFeedbackStatus } from '@/api/avenir-esr'
+import { createMockedDeclaredSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
+import { EFeedbackStatus, type FeedbackDetailsDTO, type FeedbackStaffListItemDTO, type PagedResponseFeedbackStaffListItemDTO } from '@/api/avenir-esr'
 
 const allFeedbacks: FeedbackStaffListItemDTO[] = [
   {
@@ -24,6 +25,31 @@ const allFeedbacks: FeedbackStaffListItemDTO[] = [
     updatedAt: '2024-03-06T14:00:00Z',
   },
 ]
+
+const mockedStudent = {
+  id: 'student-1',
+  firstName: 'Lucas',
+  lastName: 'Tessier',
+  email: 'lucas.tessier@university.com',
+}
+
+export const mockedFeedbackDetailsWithAssociations: FeedbackDetailsDTO = {
+  id: 'feedback-with-associations',
+  declaredActivityId: 'declared-activity-1',
+  status: EFeedbackStatus.NEW,
+  student: mockedStudent,
+  associatedTraces: [mockedTraceDetailedWithFile],
+  associatedDeclaredSkills: [createMockedDeclaredSkillProgressDTO()],
+  createdAt: '2024-01-15T10:00:00Z',
+  updatedAt: '2024-01-16T10:00:00Z',
+}
+
+export const mockedFeedbackDetailsWithoutAssociations: FeedbackDetailsDTO = {
+  ...mockedFeedbackDetailsWithAssociations,
+  id: 'feedback-without-associations',
+  associatedTraces: [],
+  associatedDeclaredSkills: [],
+}
 
 export function createMockedPagedResponseFeedbackStaffListItemDTO (
   pageSize: number,
