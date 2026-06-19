@@ -6,6 +6,17 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
+const studentTrackingMenu = computed(() => ({
+  title: t('staff.global.navigation.tabs.studentTracking').toUpperCase(),
+  links: [
+    {
+      to: ROUTES.STAFF.STUDENT_FEEDBACKS,
+      text: t('staff.global.navigation.tabs.studentFeedbacks'),
+      icon: MDI_ICONS.PEOPLE_GROUP_OUTLINE,
+    },
+  ],
+}))
+
 const homeItemId = useId()
 const navItems = computed(() => [
   {
@@ -19,6 +30,7 @@ const navItems = computed(() => [
     text: t('staff.global.navigation.tabs.activities.header').toUpperCase(),
     icon: ICONS.ACTIVITY,
   },
+  studentTrackingMenu.value,
 ])
 </script>
 

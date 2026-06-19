@@ -1,7 +1,8 @@
 import { ROUTES } from '@/common/constants'
-import { staffActivitiesEditNationalActivityRoute, staffActivitiesRoute, staffActivityCatalogRoute } from '@/features/staff/activities/routes'
+import { staffActivitiesEditNationalActivityRoute, staffActivitiesRoute, staffActivityCatalogRoute, staffStudentFeedbacksRoute, } from '@/features/staff/activities/routes'
 import ActivitiesView from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.vue'
 import EditNationalActivityView from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.vue'
+import FeedbacksView from '@/features/staff/activities/views/FeedbacksView/FeedbacksView.vue'
 import NationalActivityCatalogView from '@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.vue'
 import { testRoute } from 'tests/utils'
 
@@ -21,4 +22,10 @@ testRoute(
   staffActivityCatalogRoute,
   ROUTES.STAFF.ACTIVITY_CATALOG,
   NationalActivityCatalogView
+)
+
+testRoute(
+  staffStudentFeedbacksRoute,
+  ROUTES.STAFF.STUDENT_FEEDBACKS,
+  FeedbacksView
 )

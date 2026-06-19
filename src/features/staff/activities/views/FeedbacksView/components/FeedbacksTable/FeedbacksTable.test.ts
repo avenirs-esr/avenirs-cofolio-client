@@ -6,8 +6,8 @@ import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspen
 import { BaseApiException } from '@/common/exceptions'
 import { FeedbackIterationBadgeStub } from '@/features/staff/activities/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.stub'
 import { FeedbackStatusBadgeStub } from '@/features/staff/activities/components/badges/FeedbackStatusBadge/FeedbackStatusBadge.stub'
-import { FeedbackCardStub } from '@/features/staff/activities/views/FeedbackView/components/FeedbackCard/FeedbackCard.stub'
-import FeedbackTab from '@/features/staff/activities/views/FeedbackView/components/FeedbackTab/FeedbackTab.vue'
+import { FeedbackCardStub } from '@/features/staff/activities/views/FeedbacksView/components/FeedbackCard/FeedbackCard.stub'
+import FeedbacksTable from '@/features/staff/activities/views/FeedbacksView/components/FeedbacksTable/FeedbacksTable.vue'
 import { type AvTableColumn, PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -67,8 +67,8 @@ vi.mock('@/features/staff/activities/composables/use-paginated-staff-feedbacks/u
 const { usePaginatedStaffFeedbacks: mockedUsePaginatedStaffFeedbacks } = await import('@/features/staff/activities/composables/use-paginated-staff-feedbacks/use-paginated-staff-feedbacks')
 const mockUsePaginatedStaffFeedbacks = vi.mocked(mockedUsePaginatedStaffFeedbacks)
 
-BddTest().given('a FeedbackTab component', () => {
-  let wrapper: VueWrapper<InstanceType<typeof FeedbackTab>>
+BddTest().given('a FeedbacksTable component', () => {
+  let wrapper: VueWrapper<InstanceType<typeof FeedbacksTable>>
   const stubs = { FeedbackCard: FeedbackCardStub, FeedbackStatusBadge: FeedbackStatusBadgeStub, FeedbackIterationBadge: FeedbackIterationBadgeStub, AvTable: AvTableStub, Pagination: PaginationStub, QuerySuspense: QuerySuspenseStub }
 
   const mountDefault = async ({ props = {}, isMobile = false, paginatedResult = defaultPaginatedResult }: {
@@ -80,9 +80,8 @@ BddTest().given('a FeedbackTab component', () => {
     mockIsMobile.value = isMobile
     mockUsePaginatedStaffFeedbacks.mockReturnValue(paginatedResult)
 
-    wrapper = mountComponent(FeedbackTab, {
+    wrapper = mountComponent(FeedbacksTable, {
       props: {
-        title: 'Mes feedbacks',
         emptyStateMessage: 'Aucun feedback',
         usePaginatedStaffFeedbacksParams: mockUsePaginatedStaffFeedbacksParams,
         ...props,
@@ -119,8 +118,7 @@ BddTest().given('a FeedbackTab component', () => {
 
   BddTest().when('the component is mounted in desktop view', () => {
     BddTest().then('it should display the title', () => {
-      expect(wrapper.find('[data-testid="feedbacks-tab-title"]').text())
-        .toBe('Mes feedbacks')
+      expect(wrapper.find('[data-testid="feedbacks-tab-title"]').text()).toBe('Toutes mes demandes de feedback (3)')
     })
 
     BddTest().then('it should render the pagination', () => {

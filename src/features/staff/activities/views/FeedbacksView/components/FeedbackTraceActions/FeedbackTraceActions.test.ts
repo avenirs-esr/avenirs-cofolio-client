@@ -1,5 +1,5 @@
 import { mockedTraceDetailedWithFile, mockedTraceDetailedWithLink } from '@/__mocks__/fixtures/student/traces.fixtures'
-import FeedbackTraceActions from '@/features/staff/activities/views/FeedbackView/components/FeedbackTraceActions/FeedbackTraceActions.vue'
+import FeedbackTraceActions from '@/features/staff/activities/views/FeedbacksView/components/FeedbackTraceActions/FeedbackTraceActions.vue'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mockAddErrorMessage } from 'tests/mocks'

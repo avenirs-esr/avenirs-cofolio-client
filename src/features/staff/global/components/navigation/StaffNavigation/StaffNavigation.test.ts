@@ -42,5 +42,22 @@ BddTest().given('a staff navigation', () => {
         icon: ICONS.ACTIVITY,
       })
     })
+
+    BddTest().then('it should include student tracking menu with feedback sub item', () => {
+      const avNavigation = wrapper.findComponent(AvNavigationStub)
+      const navItems = avNavigation.props('navItems')
+
+      expect(navItems[2]).toMatchObject({
+        title: 'SUIVI DES APPRENANTS',
+      })
+
+      expect(navItems[2].links).toHaveLength(1)
+
+      expect(navItems[2].links[0]).toMatchObject({
+        text: 'Toutes mes demandes de feedback',
+        to: expect.objectContaining({ name: 'staff-student-feedbacks' }),
+        icon: MDI_ICONS.PEOPLE_GROUP_OUTLINE,
+      })
+    })
   })
 })

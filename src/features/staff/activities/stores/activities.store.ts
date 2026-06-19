@@ -14,6 +14,9 @@ export const useStaffActivitiesStore = defineStore('staffActivities', () => {
   const allActivitiesCurrentPage = ref<number>(0)
   const allActivitiesPageSizeSelected = ref<PageSizes>(PageSizes.TWELVE)
 
+  const feedbacksCurrentPage = ref<number>(0)
+  const feedbacksPageSizeSelected = ref<PageSizes>(PageSizes.TWELVE)
+
   return {
     showAddActivityModal,
     displayAddActivityModal,
@@ -22,6 +25,8 @@ export const useStaffActivitiesStore = defineStore('staffActivities', () => {
     workingSpacePageSizeSelected,
     allActivitiesCurrentPage,
     allActivitiesPageSizeSelected,
+    feedbacksCurrentPage,
+    feedbacksPageSizeSelected,
   }
 }, {
   persist: {
@@ -30,6 +35,8 @@ export const useStaffActivitiesStore = defineStore('staffActivities', () => {
       'workingSpacePageSizeSelected',
       'allActivitiesCurrentPage',
       'allActivitiesPageSizeSelected',
+      'feedbacksCurrentPage',
+      'feedbacksPageSizeSelected',
     ]
   }
 })

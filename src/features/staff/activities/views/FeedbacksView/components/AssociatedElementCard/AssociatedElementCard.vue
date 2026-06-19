@@ -4,7 +4,7 @@ import type { FeedbackAssociatedElement } from '@/features/staff/activities/type
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { useNavigation } from '@/common/composables'
 import AssociatedElementTypeBadge from '@/features/staff/activities/components/badges/AssociatedElementTypeBadge/AssociatedElementTypeBadge.vue'
-import FeedbackTraceActions from '@/features/staff/activities/views/FeedbackView/components/FeedbackTraceActions/FeedbackTraceActions.vue'
+import FeedbackTraceActions from '@/features/staff/activities/views/FeedbacksView/components/FeedbackTraceActions/FeedbackTraceActions.vue'
 import { AvButton, AvCard, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
