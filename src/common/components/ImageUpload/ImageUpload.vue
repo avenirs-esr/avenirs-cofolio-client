@@ -90,10 +90,10 @@ function onConfirmDeleteImage () {
       :aria-describedby="describedBy"
       :accept="ACCEPTED_FILE_TYPES"
       :max-file-size-mb="5"
-      :on-delete-file="displayModal"
       @update:model-value="(value) => modelValue = value"
       @change="onUpdateImage"
       @accept-type-error="() => { imageUpload.error.value = t('global.error.file.acceptType') }"
+      @delete-file="displayModal"
     >
       <template
         v-if="defaultImageName || imageUpload.previewUrl.value"
