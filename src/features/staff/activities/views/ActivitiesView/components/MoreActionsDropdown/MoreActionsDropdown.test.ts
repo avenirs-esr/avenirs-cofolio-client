@@ -5,18 +5,18 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a MoreActionsDropdown component', () => {
-  let wrapper: VueWrapper
+  let wrapper: VueWrapper<InstanceType<typeof MoreActionsDropdown>>
 
   const stubs = {
     AvDropdown: AvDropdownStub
   }
 
-  function dropdown () {
-    return wrapper.findComponent({ name: 'AvDropdown' })
+  function getDropdown () {
+    return wrapper.findComponent(AvDropdownStub)
   }
 
-  function deleteButton () {
-    return dropdown().find('[data-name="delete"]')
+  function getDeleteButton () {
+    return getDropdown().find('[data-name="delete"]')
   }
 
   beforeEach(() => {
@@ -32,15 +32,15 @@ BddTest().given('a MoreActionsDropdown component', () => {
     })
 
     BddTest().then('it should render the dropdown', () => {
-      expect(dropdown().exists()).toBe(true)
+      expect(getDropdown().exists()).toBe(true)
     })
 
     BddTest().then('it should set the correct trigger aria label', () => {
-      expect(dropdown().props('triggerAriaLabel')).toBe('Plus d\'actions')
+      expect(getDropdown().props('triggerAriaLabel')).toBe('Plus d\'actions')
     })
 
     BddTest().then('the delete item should not be disabled', () => {
-      expect(dropdown().props('items')).toEqual([
+      expect(getDropdown().props('items')).toEqual([
         expect.objectContaining({
           name: 'delete',
           label: 'Supprimer',
@@ -51,7 +51,7 @@ BddTest().given('a MoreActionsDropdown component', () => {
 
     BddTest().and('the delete item is selected', () => {
       beforeEach(async () => {
-        await deleteButton().trigger('click')
+        await getDeleteButton().trigger('click')
       })
 
       BddTest().then('it should emit deleteSelected', () => {
@@ -61,7 +61,7 @@ BddTest().given('a MoreActionsDropdown component', () => {
 
     BddTest().and('an unknown item is selected', () => {
       beforeEach(async () => {
-        await dropdown().vm.$emit('itemSelected', 'unknown')
+        await getDropdown().vm.$emit('itemSelected', 'unknown')
       })
 
       BddTest().then('it should not emit deleteSelected', () => {
@@ -79,7 +79,7 @@ BddTest().given('a MoreActionsDropdown component', () => {
     })
 
     BddTest().then('the delete item should be disabled', () => {
-      expect(dropdown().props('items')).toEqual([
+      expect(getDropdown().props('items')).toEqual([
         expect.objectContaining({
           name: 'delete',
           disabled: true

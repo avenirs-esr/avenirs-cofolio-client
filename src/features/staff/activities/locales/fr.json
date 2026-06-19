@@ -76,8 +76,7 @@
             "status": "Statut"
           },
           "MoreActionsDropdown": {
-            "ariaLabel": "Plus d'actions",
-            "delete": "Supprimer"
+            "ariaLabel": "Plus d'actions"
           },
           "MyWorkspaceTab": {
             "createActivity": "Créer une activité",
@@ -115,7 +114,6 @@
           }
         },
         "NationalActivityCatalogView": {
-          "deleteButton": "Supprimer",
           "errors": {
             "fetchActivityContent": "Impossible de charger l'activité"
           },

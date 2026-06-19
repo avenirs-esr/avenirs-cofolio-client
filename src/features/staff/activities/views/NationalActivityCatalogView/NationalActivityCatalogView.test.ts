@@ -21,20 +21,6 @@ vi.mock('@/common/composables/use-navigation/use-navigation', () => ({
   }),
 }))
 
-const mockAddSuccessMessage = vi.fn()
-const mockAddErrorMessage = vi.fn()
-
-vi.mock('@/store', async () => {
-  const actual = await vi.importActual<typeof import('@/store')>('@/store')
-  return {
-    ...actual,
-    useToasterStore: vi.fn(() => ({
-      addSuccessMessage: mockAddSuccessMessage,
-      addErrorMessage: mockAddErrorMessage,
-    })),
-  }
-})
-
 BddTest().given('a national activity catalog view', () => {
   let wrapper: VueWrapper<InstanceType<typeof NationalActivityCatalogView>>
 
@@ -122,6 +108,10 @@ BddTest().given('a national activity catalog view', () => {
       expect(wrapper.findComponent(DeleteDraftActivityConfirmationModalStub).props('show')).toBe(false)
     })
 
+    BddTest().then('it should pass the correct activityId to the modal', () => {
+      expect(wrapper.findComponent(DeleteDraftActivityConfirmationModalStub).props('activityId')).toBe(mockedActivityContent.id)
+    })
+
     BddTest().and('the delete button is clicked', () => {
       beforeEach(async () => {
         await wrapper.findComponent(AvButtonStub).trigger('click')
@@ -141,40 +131,13 @@ BddTest().given('a national activity catalog view', () => {
         })
       })
 
-      BddTest().and('the deletion is confirmed and the API succeeds', () => {
+      BddTest().and('the modal emits deleted', () => {
         beforeEach(() => {
-          wrapper.findComponent(DeleteDraftActivityConfirmationModalStub).vm.$emit('confirm')
+          wrapper.findComponent(DeleteDraftActivityConfirmationModalStub).vm.$emit('deleted')
         })
 
-        BddTest().then('it should call addSuccessMessage', async () => {
-          await vi.waitFor(() => {
-            expect(mockAddSuccessMessage).toHaveBeenCalledWith('L\'activité a été supprimée avec succès')
-          })
-        })
-
-        BddTest().then('it should navigate to the activities page', async () => {
-          await vi.waitFor(() => {
-            expect(mockNavigateToStaffActivities).toHaveBeenCalled()
-          })
-        })
-      })
-
-      BddTest().and('the deletion is confirmed and the API returns an error', () => {
-        beforeEach(async () => {
-          wrapper = mountView(EActivityStatus.DRAFT, 'activity-id-error')
-          await waitForLoaded()
-          await wrapper.findComponent(AvButtonStub).trigger('click')
-          wrapper.findComponent(DeleteDraftActivityConfirmationModalStub).vm.$emit('confirm')
-        })
-
-        BddTest().then('it should call addErrorMessage with the error title', async () => {
-          await vi.waitFor(() => {
-            expect(mockAddErrorMessage).toHaveBeenCalledWith(
-              expect.objectContaining({
-                title: 'Une erreur est survenue lors de la suppression de l\'activité',
-              })
-            )
-          })
+        BddTest().then('it should navigate to the activities page', () => {
+          expect(mockNavigateToStaffActivities).toHaveBeenCalled()
         })
       })
     })
