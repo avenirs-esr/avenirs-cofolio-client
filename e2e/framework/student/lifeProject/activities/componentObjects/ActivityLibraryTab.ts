@@ -1,5 +1,6 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { PaginationObject } from '@e2e/framework/shared/componentObjects/PaginationObject'
+import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { extractNumberFromText } from '@e2e/framework/shared/utils/text'
 import { ActivityLibraryCard } from '@e2e/framework/student/lifeProject/activities/componentObjects/ActivityLibraryCard'
@@ -83,19 +84,19 @@ export class ActivityLibraryTab extends BaseObject {
     await this.getCardByIndex(0).click()
   }
 
-  async clickCardWithInProgressStatus () {
+  async clickCardWithStatus (status: string) {
     const count = await this.getCards().count()
 
     for (let i = 0; i < count; i++) {
       const card = this.getCardByIndex(i)
 
-      if (await card.hasInProgressStatus()) {
-        await card.click()
+      if (await card.hasStatus(status)) {
+        await clickOnElement(card.getRoot())
         return
       }
     }
 
-    throw new Error('No activity card with IN_PROGRESS status found in activity library tab')
+    throw new Error(`No activity card with ${status} status found in activity library tab`)
   }
 
   async clickCardWithNotInProgressStatus () {
@@ -105,7 +106,7 @@ export class ActivityLibraryTab extends BaseObject {
       const card = this.getCardByIndex(i)
 
       if (await card.hasNotInProgressStatus()) {
-        await card.click()
+        await clickOnElement(card.getRoot())
         return
       }
     }

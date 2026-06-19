@@ -220,9 +220,9 @@ class StudentProjectActivitiesPage extends BasePage {
     await this.page.waitForURL(new RegExp(STUDENT_ROUTES.PROJECT.ACTIVITY_DETAIL.replace(':id', '.+')))
   }
 
-  @When('the student clicks a library activity card with in progress status')
-  async clickLibraryActivityCardWithInProgressStatus () {
-    await this.getActivityLibraryTab().clickCardWithInProgressStatus()
+  @When('the student clicks a library activity card with {string} status')
+  async clickLibraryActivityCardWithStatus (status: string) {
+    await this.getActivityLibraryTab().clickCardWithStatus(status)
     await this.page.waitForURL(new RegExp(STUDENT_ROUTES.PROJECT.ACTIVITY_DETAIL.replace(':id', '.+')))
   }
 }

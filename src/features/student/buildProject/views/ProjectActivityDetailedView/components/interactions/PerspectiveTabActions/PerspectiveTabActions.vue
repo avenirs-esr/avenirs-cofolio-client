@@ -31,20 +31,29 @@ const remainingFeedbacks = computed(() => declaredActivityDetails.activity.feedb
 const isDeclaredActivityInProgress = computed(() => declaredActivityDetails.status === EDeclaredActivityStatus.IN_PROGRESS)
 const isDeclaredActivitySubmitted = computed(() => declaredActivityDetails.status === EDeclaredActivityStatus.SUBMITTED)
 
-const actionsHint = computed(() => {
+const actionsHintInfo = computed(() => {
   if (declaredActivityDetails.status === EDeclaredActivityStatus.SUBSCRIBED) {
     return undefined
   }
   if (declaredActivityDetails.finishedAt) {
-    return t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivity.finishedAt', {
-      date: new Date(declaredActivityDetails.finishedAt).toLocaleDateString('fr-FR'),
-    })
+    return {
+      text: t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivity.finishedAt', {
+        date: new Date(declaredActivityDetails.finishedAt).toLocaleDateString('fr-FR'),
+      }),
+      type: 'finished',
+    }
   }
   if (isDeclaredActivitySubmitted.value) {
-    return t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.feedbackPending')
+    return {
+      text: t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.feedbackPending'),
+      type: 'feedback-pending',
+    }
   }
   if (remainingFeedbacks.value === 0) {
-    return t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.maximumFeedbackReached')
+    return {
+      text: t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.maximumFeedbackReached'),
+      type: 'max-feedback-reached',
+    }
   }
   return undefined
 })
@@ -112,11 +121,12 @@ function requestFeedback () {
   </div>
   <div class="av-row av-justify-end">
     <span
-      v-if="actionsHint"
+      v-if="actionsHintInfo"
       class="av-text-text2"
       data-testid="actions-hint"
+      :data-type="actionsHintInfo.type"
     >
-      {{ actionsHint }}
+      {{ actionsHintInfo.text }}
     </span>
   </div>
 </template>
