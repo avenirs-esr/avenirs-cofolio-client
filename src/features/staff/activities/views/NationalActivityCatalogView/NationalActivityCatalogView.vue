@@ -6,7 +6,6 @@ import { useModal } from '@/common/composables/use-modal/use-modal'
 import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
 import { ROUTES } from '@/common/constants'
 import DeleteDraftActivityConfirmationModal from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
-import { useDeleteDraftActivity } from '@/features/staff/activities/queries/use-delete-draft-activity/use-delete-draft-activity'
 import NationalActivityContentTab from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.vue'
 import { AvButton } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -33,15 +32,6 @@ const isDraft = computed(() => status === EActivityStatus.DRAFT)
 const { showModal: showDeleteConfirmation, displayModal: displayDeleteConfirmation, hideModal: hideDeleteConfirmation } = useModal()
 
 const { navigateToStaffActivities } = useNavigation()
-
-const { deleteDraftActivity } = useDeleteDraftActivity({
-  onSuccess: () => navigateToStaffActivities(),
-})
-
-function confirmDelete () {
-  hideDeleteConfirmation()
-  deleteDraftActivity(id)
-}
 </script>
 
 <template>
@@ -55,7 +45,7 @@ function confirmDelete () {
     class="av-row av-justify-end av-py-md"
   >
     <AvButton
-      :label="t('staff.activities.views.NationalActivityCatalogView.deleteButton')"
+      :label="t('global.buttons.delete')"
       variant="OUTLINED"
       data-testid="delete-draft-button"
       @click="displayDeleteConfirmation"
@@ -74,7 +64,8 @@ function confirmDelete () {
 
   <DeleteDraftActivityConfirmationModal
     :show="showDeleteConfirmation"
+    :activity-id="id"
     @close="hideDeleteConfirmation"
-    @confirm="confirmDelete"
+    @deleted="navigateToStaffActivities"
   />
 </template>

@@ -23,14 +23,16 @@ const menuItems = computed(() => [
   {
     name: MoreActionsEvents.DELETE,
     icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-    label: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.delete'),
+    label: t('global.buttons.delete'),
     disabled: activityStatus !== EActivityStatus.DRAFT
   }
 ])
 
 function handleItemSelected (itemName: string) {
-  if (itemName === MoreActionsEvents.DELETE) {
-    emit('deleteSelected')
+  switch (itemName) {
+    case MoreActionsEvents.DELETE:
+      emit('deleteSelected')
+      break
   }
 }
 </script>

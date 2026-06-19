@@ -106,11 +106,11 @@ BddTest().given('a ActivitiesTab component', () => {
     await flushPromises()
   }
 
-  function confirmationModal () {
+  function getConfirmationModal () {
     return wrapper.findComponent(DeleteDraftActivityConfirmationModalStub)
   }
 
-  function moreActionsDropdowns () {
+  function getMoreActionsDropdowns () {
     return wrapper.findAllComponents(MoreActionsDropdownStub)
   }
 
@@ -181,9 +181,9 @@ BddTest().given('a ActivitiesTab component', () => {
     })
   })
 
-  BddTest().when('the component is mounted with withActionsColumn enabled', () => {
+  BddTest().when('the component is mounted with withActions enabled', () => {
     beforeEach(async () => {
-      await mountDefault({ props: { withActionsColumn: true } })
+      await mountDefault({ props: { withActions: true } })
     })
 
     BddTest().then('it should add the actions column', () => {
@@ -194,55 +194,58 @@ BddTest().given('a ActivitiesTab component', () => {
     })
 
     BddTest().then('it should render one MoreActionsDropdown per row', () => {
-      expect(moreActionsDropdowns()).toHaveLength(6)
+      expect(getMoreActionsDropdowns()).toHaveLength(6)
     })
 
     BddTest().then('it should pass the correct activityStatus to each MoreActionsDropdown', () => {
-      const dropdowns = moreActionsDropdowns()
+      const dropdowns = getMoreActionsDropdowns()
 
       expect(dropdowns[0].props('activityStatus')).toBe(EActivityStatus.PUBLISHED)
       expect(dropdowns[1].props('activityStatus')).toBe(EActivityStatus.DRAFT)
     })
 
     BddTest().then('the confirmation modal should not be visible initially', () => {
-      expect(confirmationModal().props('show')).toBe(false)
+      expect(getConfirmationModal().props('show')).toBe(false)
     })
 
     BddTest().and('deleteSelected is emitted from a MoreActionsDropdown', () => {
       beforeEach(() => {
-        moreActionsDropdowns()[0].vm.$emit('deleteSelected')
+        getMoreActionsDropdowns()[0].vm.$emit('deleteSelected')
       })
 
       BddTest().then('it should show the confirmation modal', () => {
-        expect(confirmationModal().props('show')).toBe(true)
+        expect(getConfirmationModal().props('show')).toBe(true)
       })
 
-      BddTest().and('the user confirms', () => {
+      BddTest().then('it should pass the correct activityId to the modal', () => {
+        expect(getConfirmationModal().props('activityId')).toBe('staff-activity-1')
+      })
+
+      BddTest().and('the modal emits deleted', () => {
         beforeEach(() => {
-          confirmationModal().vm.$emit('confirm')
+          getConfirmationModal().vm.$emit('deleted')
         })
 
-        BddTest().then('it should emit deleteDraftActivity with the activity id', () => {
-          expect(wrapper.emitted('deleteDraftActivity')).toHaveLength(1)
-          expect(wrapper.emitted('deleteDraftActivity')![0]).toEqual(['staff-activity-1'])
+        BddTest().then('it should emit deleted', () => {
+          expect(wrapper.emitted('deleted')).toHaveLength(1)
         })
 
         BddTest().then('it should hide the confirmation modal', () => {
-          expect(confirmationModal().props('show')).toBe(false)
+          expect(getConfirmationModal().props('show')).toBe(false)
         })
       })
 
       BddTest().and('the user cancels', () => {
         beforeEach(async () => {
-          confirmationModal().vm.$emit('close')
+          getConfirmationModal().vm.$emit('close')
         })
 
-        BddTest().then('it should not emit deleteDraftActivity', () => {
-          expect(wrapper.emitted('deleteDraftActivity')).toBeUndefined()
+        BddTest().then('it should not emit deleted', () => {
+          expect(wrapper.emitted('deleted')).toBeUndefined()
         })
 
         BddTest().then('it should hide the confirmation modal', () => {
-          expect(confirmationModal().props('show')).toBe(false)
+          expect(getConfirmationModal().props('show')).toBe(false)
         })
       })
     })

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useGetStaffActivityWorkingSpace } from '@/api/avenir-esr'
-import { useDeleteDraftActivity } from '@/features/staff/activities/queries/use-delete-draft-activity/use-delete-draft-activity'
 import { useStaffActivitiesStore } from '@/features/staff/activities/stores/activities.store'
 import ActivitiesTab from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.vue'
 import ActivityDraftCreationModal from '@/features/staff/activities/views/ActivitiesView/components/ActivityDraftCreationModal/ActivityDraftCreationModal.vue'
@@ -17,8 +16,6 @@ const usePaginatedStaffActivitiesParams = {
   pageSizeRef: toRef(staffActivitiesStore, 'workingSpacePageSizeSelected'),
   fetchFn: useGetStaffActivityWorkingSpace,
 }
-
-const { deleteDraftActivity } = useDeleteDraftActivity()
 </script>
 
 <template>
@@ -27,9 +24,8 @@ const { deleteDraftActivity } = useDeleteDraftActivity()
     :empty-state-message="t('staff.activities.views.ActivitiesView.MyWorkspaceTab.emptyState')"
     :use-paginated-staff-activities-params="usePaginatedStaffActivitiesParams"
     with-status
-    with-actions-column
+    with-actions
     @update-activities-count="totalActivities = $event"
-    @delete-draft-activity="deleteDraftActivity"
   >
     <template #actions>
       <div class="av-row av-justify-end av-py-md">

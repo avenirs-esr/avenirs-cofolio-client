@@ -36,10 +36,10 @@ export const getStaffActivityLibraryErrorHandler = http.get(`*${getGetStaffActiv
 })
 
 export const deleteActivityDraftHandler = http.delete(`*${getDeleteActivityDraftUrl(':activityDraftId')}`, ({ params }) => {
-  if (params.activityDraftId === 'activity-id-error') {
+  if (params.activityDraftId === 'INVALID_ACTIVITY_ID') {
     return HttpResponse.json(
-      { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
-      { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+      { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Activity not found' },
+      { status: HttpStatusCode.NOT_FOUND, headers: { 'Content-Type': 'application/json' } }
     )
   }
 

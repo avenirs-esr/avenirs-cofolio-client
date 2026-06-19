@@ -20,7 +20,7 @@ export interface ActivitiesTabProps {
   title: string
   emptyStateMessage?: string
   withStatus?: boolean
-  withActionsColumn?: boolean
+  withActions?: boolean
   usePaginatedStaffActivitiesParams: UsePaginatedStaffActivitiesParams
 }
 
@@ -28,13 +28,13 @@ const {
   title,
   emptyStateMessage,
   withStatus = false,
-  withActionsColumn = false,
+  withActions = false,
   usePaginatedStaffActivitiesParams,
 } = defineProps<ActivitiesTabProps>()
 
 const emit = defineEmits<{
   (e: 'updateActivitiesCount', value: number): void
-  (e: 'deleteDraftActivity', activityId: string): void
+  (e: 'deleted'): void
 }>()
 
 defineSlots<{
@@ -63,10 +63,8 @@ function onDeleteSelected (activityId: string) {
   displayDeleteModal()
 }
 
-function confirmDelete () {
-  if (pendingDeleteId.value) {
-    emit('deleteDraftActivity', pendingDeleteId.value)
-  }
+function onDeleted () {
+  emit('deleted')
   hideDeleteModal()
   pendingDeleteId.value = null
 }
@@ -99,7 +97,7 @@ const columns = computed<AvTableColumn<ActivityTableRow>[]>(() => [
       }]
     : []
   ),
-  ...(withActionsColumn
+  ...(withActions
     ? [{
         key: 'actions' as keyof ActivityTableRow,
         label: t('staff.activities.views.ActivitiesView.columns.actions'),
@@ -174,7 +172,7 @@ watch(
           </template>
 
           <template
-            v-if="withActionsColumn"
+            v-if="withActions"
             #cell(actions)="{ row }"
           >
             <MoreActionsDropdown
@@ -188,8 +186,9 @@ watch(
 
     <DeleteDraftActivityConfirmationModal
       :show="showDeleteModal"
+      :activity-id="pendingDeleteId ?? ''"
       @close="cancelDelete"
-      @confirm="confirmDelete"
+      @deleted="onDeleted"
     />
   </div>
 </template>

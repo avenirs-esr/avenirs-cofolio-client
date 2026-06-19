@@ -11,11 +11,11 @@ export const ActivitiesTabStub = defineComponent({
     },
     emptyStateMessage: String,
     withStatus: Boolean,
-    withActionsColumn: Boolean,
+    withActions: Boolean,
     usePaginatedStaffActivitiesParams: {
       type: Object as PropType<UsePaginatedStaffActivitiesParams>,
       required: true,
     },
   },
-  emits: ['updateActivitiesCount', 'deleteDraftActivity'],
+  emits: ['updateActivitiesCount', 'deleted'],
 })

@@ -4,7 +4,7 @@ export const ConfirmationModalStub = defineComponent({
     show: Boolean,
     title: String,
     description: String,
-    noDescription: Boolean,
+    showDescription: Boolean,
     closeButtonLabel: String,
     confirmButtonLabel: String,
     confirmButtonIcon: String,

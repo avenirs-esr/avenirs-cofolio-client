@@ -5,6 +5,9 @@ export const DeleteDraftActivityConfirmationModalStub = defineComponent({
     show: {
       type: Boolean,
     },
+    activityId: {
+      type: String,
+    },
   },
-  emits: ['close', 'confirm'],
+  emits: ['close', 'deleted'],
 })
