@@ -33,7 +33,10 @@ const { showModal, displayModal, hideModal } = useModal()
 const activeTab = ref(StudentDeclaredSkillViewTabs.DETAILS)
 
 const skillProgressId = computed(() => declaredSkillDetailed.value?.id ?? '')
-const { data, error: associationsError } = useGetDeclaredSkillWithDeclaredActivities(skillProgressId)
+const { data, error: associationsError } = useGetDeclaredSkillWithDeclaredActivities(
+  skillProgressId,
+  { query: { enabled: computed(() => !!skillProgressId.value) } }
+)
 const traceAssociations = computed(() => data.value?.traceAssociations ?? [])
 const declaredActivityAssociations = computed(() => data.value?.declaredActivityAssociations ?? [])
 
