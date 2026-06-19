@@ -3,6 +3,7 @@ import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityVie
 import CookiesView from '@/common/views/CookiesView/CookiesView.vue'
 import LegalView from '@/common/views/LegalView/LegalView.vue'
 import PersonalDataView from '@/common/views/PersonalDataView/PersonalDataView.vue'
+import FeedbacksView from '@/features/staff/activities/views/FeedbacksView/FeedbacksView.vue'
 import routes from '@/features/staff/global/routes'
 import StaffHomeView from '@/features/staff/global/views/StaffHomeView/StaffHomeView.vue'
 import { testRoute } from 'tests/utils'
@@ -38,4 +39,10 @@ testRoute(
   children.find(r => r.name === ROUTES.STAFF.PERSONAL_DATA.name)!,
   ROUTES.STAFF.PERSONAL_DATA,
   PersonalDataView
+)
+
+testRoute(
+  children.find(r => r.name === ROUTES.STAFF.STUDENT_FEEDBACKS.name)!,
+  ROUTES.STAFF.STUDENT_FEEDBACKS,
+  FeedbacksView
 )

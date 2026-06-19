@@ -15,6 +15,7 @@ export const ROUTES = {
     HOME: { name: 'staff-home', path: '' },
     LEGAL: { name: 'staff-legal', path: 'legal' },
     PERSONAL_DATA: { name: 'staff-personal-data', path: 'personal-data' },
+    STUDENT_FEEDBACKS: { name: 'staff-student-feedbacks', path: 'student-feedbacks' }
   },
   STUDENT: {
     ABOUT: { name: 'student-about', path: 'about' },

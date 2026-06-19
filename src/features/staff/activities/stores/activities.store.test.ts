@@ -28,9 +28,19 @@ BddTest().given('a staff activities store', () => {
       expect(store.workingSpacePageSizeSelected).toBeDefined()
     })
 
+    BddTest().then('it should provide feedback pagination state', () => {
+      expect(store.feedbacksCurrentPage).toBeDefined()
+      expect(store.feedbacksPageSizeSelected).toBeDefined()
+    })
+
     BddTest().then('it should have default working space pagination values', () => {
       expect(store.workingSpaceCurrentPage).toBe(0)
       expect(store.workingSpacePageSizeSelected).toBe(PageSizes.TWELVE)
+    })
+
+    BddTest().then('it should have default feedback pagination values', () => {
+      expect(store.feedbacksCurrentPage).toBe(0)
+      expect(store.feedbacksPageSizeSelected).toBe(PageSizes.TWELVE)
     })
 
     BddTest().and('displaying the add activity modal', () => {
@@ -78,6 +88,18 @@ BddTest().given('a staff activities store', () => {
       BddTest().then('it should allow updating page size', () => {
         store.workingSpacePageSizeSelected = PageSizes.FOUR
         expect(store.workingSpacePageSizeSelected).toBe(PageSizes.FOUR)
+      })
+    })
+
+    BddTest().and('updating feedback pagination', () => {
+      BddTest().then('it should allow updating feedback current page', () => {
+        store.feedbacksCurrentPage = 2
+        expect(store.feedbacksCurrentPage).toBe(2)
+      })
+
+      BddTest().then('it should allow updating feedback page size', () => {
+        store.feedbacksPageSizeSelected = PageSizes.FOUR
+        expect(store.feedbacksPageSizeSelected).toBe(PageSizes.FOUR)
       })
     })
   })

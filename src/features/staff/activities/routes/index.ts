@@ -26,3 +26,9 @@ export const staffActivityCatalogRoute: AvRoute = {
   component: () =>
     import('@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.vue'),
 }
+
+export const staffStudentFeedbacksRoute: AvRoute = {
+  ...ROUTES.STAFF.STUDENT_FEEDBACKS,
+  component: () =>
+    import('@/features/staff/activities/views/FeedbacksView/FeedbacksView.vue'),
+}

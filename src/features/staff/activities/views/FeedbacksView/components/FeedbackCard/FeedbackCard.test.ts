@@ -3,7 +3,7 @@ import { EActivityThematic, EDeclaredActivityStatus, EFeedbackStatus } from '@/a
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { FeedbackIterationBadgeStub } from '@/features/staff/activities/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.stub'
 import { FeedbackStatusBadgeStub } from '@/features/staff/activities/components/badges/FeedbackStatusBadge/FeedbackStatusBadge.stub'
-import FeedbackCard from '@/features/staff/activities/views/FeedbackView/components/FeedbackCard/FeedbackCard.vue'
+import FeedbackCard from '@/features/staff/activities/views/FeedbacksView/components/FeedbackCard/FeedbackCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'

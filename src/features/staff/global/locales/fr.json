@@ -15,7 +15,9 @@
               "editNationalActivity": "Modifier l'activité"
             }
           },
-          "home": "Accueil"
+          "home": "Accueil",
+          "studentFeedbacks": "Toutes mes demandes de feedback",
+          "studentTracking": "Suivi des apprenants"
         }
       },
       "views": {
