@@ -67,6 +67,21 @@
           }
         }
       },
+      "modals": {
+        "TraceDeletionConfirmationModal": {
+          "description": "Are you sure you want to delete your trace?",
+          "lockedActivityTitleFirstPart": "The trace below is used in a submitted or completed activity. It will be removed from your personal library but will remain accessible from | The traces below are used in a submitted or completed activity. They will be removed from your personal library but will remain accessible from",
+          "lockedActivityTitleSecondPart": "this activity. | these activities.",
+          "onDelete": {
+            "error": "An error occurred while deleting your trace. | An error occurred while deleting your traces.",
+            "success": "Your trace has been deleted. | Your traces have been deleted."
+          },
+          "onFetchAssociations": {
+            "error": "An error occurred while retrieving the items associated with your trace. | An error occurred while retrieving the items associated with your traces."
+          },
+          "subdescription": "Any deletion action is definitive. It results in the loss of the data entered for this trace, as well as the deletion of the association links it contains."
+        }
+      },
       "views": {
         "StudentToolsTracesView": {
           "breadcrumb": {
@@ -288,13 +303,6 @@
             "activities": "one/many activity(ies)",
             "experiences": "one/many experience(s)",
             "skills": "one/many skill(s)"
-          },
-          "title": "Trace {trace}",
-          "traceDeletionConfirmationModal": {
-            "description": "Are you sure you want to delete your trace?",
-            "lockedActivityTitleFirstPart": "The trace below is used in a submitted or completed activity. It will be removed from your personal library but will remain accessible from | The traces below are used in a submitted or completed activity. They will be removed from your personal library but will remain accessible from",
-            "lockedActivityTitleSecondPart": "this activity. | these activities.",
-            "subdescription": "Any deletion action is definitive. It results in the loss of the data entered for this trace, as well as the deletion of the association links it contains."
           }
         },
         "StudentUpdateTraceView": {

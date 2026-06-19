@@ -4,8 +4,8 @@ import {
 } from '@/api/avenir-esr'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
+import TraceDeletionConfirmationModal from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import { useDeleteTraceMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
-import TraceDeletionConfirmationModal from '@/features/student/traces/views/StudentTraceView/components/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import { useToasterStore } from '@/store'
 import { AvIconTextStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useQuery } from '@tanstack/vue-query'
@@ -46,6 +46,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
   const mockMutate = vi.fn()
   const mockIsPending = ref(false)
   const mockAddErrorMessage = vi.fn()
+  const mockAddSuccessMessage = vi.fn()
 
   const mockQueryData = ref<TraceLockedDeclaredActivitiesDTO[]>([])
   const mockQueryError = ref<BaseApiException | null>(null)
@@ -132,7 +133,8 @@ BddTest().given('a trace deletion confirmation modal', () => {
     } as unknown as ReturnType<typeof useQuery>)
 
     mockedUseToasterStore.mockReturnValue({
-      addErrorMessage: mockAddErrorMessage
+      addErrorMessage: mockAddErrorMessage,
+      addSuccessMessage: mockAddSuccessMessage
     } as unknown as ReturnType<typeof useToasterStore>)
 
     mockedUseDeleteTraceMutation.mockImplementation(({ onError, onSuccess } = {}) => {
@@ -252,7 +254,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
 
     BddTest().then('an error message should be added with description', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith({
-        title: 'Une erreur est survenue lors de la suppression de la trace.',
+        title: 'Une erreur est survenue lors de la suppression de votre trace.',
         description: expect.any(String),
       })
     })
@@ -278,7 +280,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
 
     BddTest().then('an error message should be added with description', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith({
-        title: 'Une erreur est survenue lors de la suppression de la trace.',
+        title: 'Une erreur est survenue lors de la suppression de votre trace.',
         description: expect.any(String),
       })
     })
@@ -288,6 +290,12 @@ BddTest().given('a trace deletion confirmation modal', () => {
     beforeEach(() => {
       mountComponent(true)
       onSuccessCallback()
+    })
+
+    BddTest().then('it should add a success message', () => {
+      expect(mockAddSuccessMessage).toHaveBeenCalledWith(
+        'Votre trace a été supprimée.'
+      )
     })
 
     BddTest().then('it should call onConfirmDelete callback', () => {

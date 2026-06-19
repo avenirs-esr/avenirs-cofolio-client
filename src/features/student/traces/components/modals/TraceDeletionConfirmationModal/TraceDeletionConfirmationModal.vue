@@ -21,7 +21,9 @@ const { traceIds, title, show, onConfirmDelete, onClose } = defineProps<{
 
 const { t } = useI18n()
 const { getErrorMessage } = useApiErrors()
-const { addErrorMessage } = useToasterStore()
+const { addSuccessMessage, addErrorMessage } = useToasterStore()
+
+const tracesCount = computed(() => traceIds.length)
 
 const {
   data: traces,
@@ -33,7 +35,7 @@ const {
     traceIds
   ]),
   queryFn: () => getLockedDeclaredActivities(traceIds),
-  enabled: computed(() => show && traceIds.length > 0)
+  enabled: computed(() => show && tracesCount.value > 0)
 })
 
 const traceDeletionData = computed(() => traces.value ?? [])
@@ -70,14 +72,19 @@ watch(
 
 function onDeleteTraceError (error: BaseApiException) {
   addErrorMessage({
-    title: t('student.traces.views.StudentTraceView.errors.delete'),
+    title: t('student.traces.modals.TraceDeletionConfirmationModal.onDelete.error', tracesCount.value),
     description: getErrorMessage(error)
   })
 }
 
+function onDeleteTraceSuccess () {
+  addSuccessMessage(t('student.traces.modals.TraceDeletionConfirmationModal.onDelete.success', tracesCount.value))
+  onConfirmDelete()
+}
+
 const deleteTraceMutation = useDeleteTraceMutation({
   onError: onDeleteTraceError,
-  onSuccess: onConfirmDelete
+  onSuccess: onDeleteTraceSuccess
 })
 
 function onConfirmDeleteTrace () {
@@ -89,7 +96,7 @@ function onConfirmDeleteTrace () {
   <QuerySuspense
     :is-loading="isFetching"
     :error="error"
-    :error-title="t('student.traces.views.StudentTraceView.errors.fetchAssociations')"
+    :error-title="t('student.traces.modals.TraceDeletionConfirmationModal.onFetchAssociations.error', tracesCount)"
   >
     <ConfirmationModal
       :show="show"
@@ -109,11 +116,11 @@ function onConfirmDeleteTrace () {
 
       <div class="av-col av-gap-sm">
         <span class="b2-bold av-text-text2">
-          {{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.description') }}
+          {{ t('student.traces.modals.TraceDeletionConfirmationModal.description') }}
         </span>
 
         <span class="b2-light av-text-text2">
-          {{ t('student.traces.views.StudentTraceView.traceDeletionConfirmationModal.subdescription') }}
+          {{ t('student.traces.modals.TraceDeletionConfirmationModal.subdescription') }}
         </span>
 
         <div
@@ -121,18 +128,8 @@ function onConfirmDeleteTrace () {
           class="av-col av-gap-xs"
         >
           <span class="b2-bold av-text-text2">
-            {{
-              t(
-                'student.traces.views.StudentTraceView.traceDeletionConfirmationModal.lockedActivityTitleFirstPart',
-                tracesWithLockedDeclaredActivities.length,
-              )
-            }}
-            {{
-              t(
-                'student.traces.views.StudentTraceView.traceDeletionConfirmationModal.lockedActivityTitleSecondPart',
-                lockedActivitiesCount,
-              )
-            }}
+            {{ t('student.traces.modals.TraceDeletionConfirmationModal.lockedActivityTitleFirstPart', tracesWithLockedDeclaredActivities.length) }}
+            {{ t('student.traces.modals.TraceDeletionConfirmationModal.lockedActivityTitleSecondPart', lockedActivitiesCount) }}
           </span>
 
           <AvAccordionsGroup v-model:active-accordion="activeAccordion">

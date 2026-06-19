@@ -67,6 +67,21 @@
           }
         }
       },
+      "modals": {
+        "TraceDeletionConfirmationModal": {
+          "description": "Êtes-vous certain(e) de vouloir supprimer votre trace ?",
+          "lockedActivityTitleFirstPart": "La trace ci-dessous est utilisée dans une activité soumise ou terminée. Elle sera supprimée de votre bibliothèque personnelle, mais restera consultable depuis | Les traces ci-dessous sont utilisées dans une activité soumise ou terminée. Elles seront supprimées de votre bibliothèque personnelle, mais resteront consultables depuis",
+          "lockedActivityTitleSecondPart": "cette activité. | ces activités.",
+          "onDelete": {
+            "error": "Une erreur est survenue lors de la suppression de votre trace. | Une erreur est survenue lors de la suppression de vos traces.",
+            "success": "Votre trace a été supprimée. | Vos traces ont été supprimées."
+          },
+          "onFetchAssociations": {
+            "error": "Une erreur est survenue lors de la récupération des éléments associés à votre trace. | Une erreur est survenue lors de la récupération des éléments associés à vos traces."
+          },
+          "subdescription": "Toute action de suppression est définitive. Elle entraine la perte des données renseignées pour cette trace ainsi que la suppression des liens d'association qu'elle comporte."
+        }
+      },
       "views": {
         "StudentToolsTracesView": {
           "breadcrumb": {
@@ -288,12 +303,6 @@
             "activities": "une/des activité(s)",
             "experiences": "une/des expérience(s)",
             "skills": "une/des compétence(s)"
-          },
-          "traceDeletionConfirmationModal": {
-            "description": "Êtes-vous certain(e) de vouloir supprimer votre trace ?",
-            "lockedActivityTitleFirstPart": "La trace ci-dessous est utilisée dans une activité soumise ou terminée. Elle sera supprimée de votre bibliothèque personnelle, mais restera consultable depuis | Les traces ci-dessous sont utilisées dans une activité soumise ou terminée. Elles seront supprimées de votre bibliothèque personnelle, mais resteront consultables depuis",
-            "lockedActivityTitleSecondPart": "cette activité. | ces activités.",
-            "subdescription": "Toute action de suppression est définitive. Elle entraine la perte des données renseignées pour cette trace ainsi que la suppression des liens d'association qu'elle comporte."
           }
         },
         "StudentUpdateTraceView": {
