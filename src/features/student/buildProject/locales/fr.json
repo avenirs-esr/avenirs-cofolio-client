@@ -117,6 +117,10 @@
               "success": "Les associations sélectionnées ont été supprimées avec succès.",
               "title": "Quelle(s) association(s) souhaitez-vous supprimer ?"
             },
+            "FeedbackCard": {
+              "receivedAt": "Feedback reçu le",
+              "staffRole": "Enseignant"
+            },
             "FeedbackInfoCard": {
               "description": "Demander un feedback vous permettra de recevoir un retour de la part d'un conseiller référent. Cette demande lui permettra d'accéder à votre activité le temps de rédiger son commentaire.",
               "iterations": "{count} itération maximum | {count} itérations maximum",

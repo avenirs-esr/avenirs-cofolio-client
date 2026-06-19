@@ -118,6 +118,10 @@
               "success": "The selected associations have been successfully deleted.",
               "title": "Which association(s) do you want to delete?"
             },
+            "FeedbackCard": {
+              "receivedAt": "Feedback received on",
+              "staffRole": "Teacher"
+            },
             "FeedbackInfoCard": {
               "description": "Requesting feedback will allow you to receive a response from a referring advisor. This request will allow them to access your activity while writing their comment.",
               "iterations": "{count} iteration maximum | {count} iterations maximum",
