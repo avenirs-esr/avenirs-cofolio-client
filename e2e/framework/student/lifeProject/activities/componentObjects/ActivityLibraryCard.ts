@@ -34,6 +34,10 @@ export class ActivityLibraryCard extends BaseObject {
     return await this.root.getAttribute('data-activity-thematic') ?? ''
   }
 
+  async getActivityStatus (): Promise<string> {
+    return await this.root.getAttribute('data-activity-status') ?? ''
+  }
+
   async verifyTitleVisible () {
     await expect(this.getTitle()).toBeVisible()
   }
@@ -62,17 +66,11 @@ export class ActivityLibraryCard extends BaseObject {
     await expect(this.getPeriodBadge()).toBeHidden()
   }
 
-  async hasInProgressStatus () {
-    const badge = this.getStatusBadge()
-
-    if (await badge.count() === 0) {
-      return false
-    }
-
-    return (await badge.getAttribute('data-status')) === 'IN_PROGRESS'
+  async hasStatus (status: string): Promise<boolean> {
+    return (await this.getActivityStatus()) === status
   }
 
   async hasNotInProgressStatus () {
-    return !await this.hasInProgressStatus()
+    return !await this.hasStatus('IN_PROGRESS')
   }
 }

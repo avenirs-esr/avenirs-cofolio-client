@@ -223,9 +223,9 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
   {
     id: 'declared-activity-2',
     activityId: 'declared-activity-2',
-    title: 'Activité "CV" : Construire son parcours',
+    title: 'Activité : Construire son parcours (soumise)',
     thematic: EActivityThematic.RESUMES,
-    status: EDeclaredActivityStatus.SUBSCRIBED,
+    status: EDeclaredActivityStatus.SUBMITTED,
     summary: 'Activité permettant à l\'étudiant.e de construire et de valoriser son parcours académique et professionnel.',
     description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Permettre à l\'étudiant.e de construire un CV structuré et valorisant</p></li><li><p>Guider l\'étudiant.e dans la valorisation de son parcours académique et professionnel</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des expériences et compétences clés à valoriser</p></li><li><p>Structuration du CV en fonction du projet professionnel</p></li><li><p>Rédaction de descriptions impactantes pour chaque expérience</p></li><li><p>Conseils pour adapter le CV à différentes offres d\'emploi ou de stage</p></li></ol>',
   },

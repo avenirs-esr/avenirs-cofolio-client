@@ -43,6 +43,26 @@ export class MyPerspectiveSectionObject extends BaseObject {
     return this.root.page().getByTestId('finish-declared-activity-confirm-modal')
   }
 
+  getRequestFeedbackButton () {
+    return this.root.getByTestId('request-feedback-button')
+  }
+
+  getRequestFeedbackConfirmModal () {
+    return this.root.page().getByTestId('request-feedback-confirm-modal')
+  }
+
+  getRequestFeedbackCancelButton () {
+    return this.root.page().getByTestId('request-feedback-confirm-modal').getByTestId('cancel-button')
+  }
+
+  getFeedbackHint () {
+    return this.root.getByTestId('actions-hint').and(this.root.locator('[data-type="feedback-pending"], [data-type="max-feedback-reached"]'))
+  }
+
+  getFinishedHint () {
+    return this.root.getByTestId('actions-hint').and(this.root.locator('[data-type="finished"]'))
+  }
+
   getAssociatedElementsTab () {
     return this.root.page().getByTestId('associated-elements-tab-item')
   }
@@ -150,6 +170,58 @@ export class MyPerspectiveSectionObject extends BaseObject {
 
   async verifyFinishConfirmationModalVisible () {
     await expect(this.getFinishConfirmationModal()).toBeVisible()
+  }
+
+  async verifyRequestFeedbackButtonVisible () {
+    await expect(this.getRequestFeedbackButton()).toBeVisible()
+  }
+
+  async verifyRequestFeedbackButtonHidden () {
+    await expect(this.getRequestFeedbackButton()).toBeHidden()
+  }
+
+  async verifyRequestFeedbackButtonDisabled () {
+    await expect(this.getRequestFeedbackButton()).toBeDisabled()
+  }
+
+  async verifyRequestFeedbackButtonEnabled () {
+    await expect(this.getRequestFeedbackButton()).toBeEnabled()
+  }
+
+  async clickRequestFeedbackButton () {
+    await clickOnElement(this.getRequestFeedbackButton())
+  }
+
+  async waitForRequestFeedbackConfirmModalVisible () {
+    await expect(this.getRequestFeedbackConfirmModal()).toBeVisible({ timeout: 10000 })
+  }
+
+  async verifyRequestFeedbackConfirmModalVisible () {
+    await expect(this.getRequestFeedbackConfirmModal()).toBeVisible()
+  }
+
+  async verifyRequestFeedbackConfirmModalHidden () {
+    await expect(this.getRequestFeedbackConfirmModal()).toBeHidden()
+  }
+
+  async clickCancelRequestFeedbackConfirmModal () {
+    await clickOnElement(this.getRequestFeedbackCancelButton())
+  }
+
+  async verifyFeedbackHintVisible () {
+    await expect(this.getFeedbackHint()).toBeVisible()
+  }
+
+  async verifyFeedbackHintHidden () {
+    await expect(this.getFeedbackHint()).toBeHidden()
+  }
+
+  async verifyFinishedHintVisible () {
+    await expect(this.getFinishedHint()).toBeVisible()
+  }
+
+  async verifyFinishedHintHidden () {
+    await expect(this.getFinishedHint()).toBeHidden()
   }
 
   async clickAssociatedElementsTab () {

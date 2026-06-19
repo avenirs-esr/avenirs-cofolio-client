@@ -138,6 +138,67 @@ export class StudentProjectActivityDetails extends BasePage {
     await this.getMyPerspectiveSection().verifyFinishConfirmationModalVisible()
   }
 
+  @Then('the request feedback button is visible')
+  async verifyRequestFeedbackButtonVisible () {
+    await this.getMyPerspectiveSection().verifyRequestFeedbackButtonVisible()
+  }
+
+  @Then('the request feedback button is hidden')
+  async verifyRequestFeedbackButtonHidden () {
+    await this.getMyPerspectiveSection().verifyRequestFeedbackButtonHidden()
+  }
+
+  @Then('the request feedback button is disabled')
+  async verifyRequestFeedbackButtonDisabled () {
+    await this.getMyPerspectiveSection().verifyRequestFeedbackButtonDisabled()
+  }
+
+  @Then('the request feedback button is enabled')
+  async verifyRequestFeedbackButtonEnabled () {
+    await this.getMyPerspectiveSection().verifyRequestFeedbackButtonEnabled()
+  }
+
+  @When('the student clicks the request feedback button')
+  async clickRequestFeedbackButton () {
+    await this.getMyPerspectiveSection().clickRequestFeedbackButton()
+    await this.getMyPerspectiveSection().waitForRequestFeedbackConfirmModalVisible()
+  }
+
+  @Then('the request feedback confirmation modal is visible')
+  async verifyRequestFeedbackConfirmationModalVisible () {
+    await this.getMyPerspectiveSection().verifyRequestFeedbackConfirmModalVisible()
+  }
+
+  @Then('the request feedback confirmation modal is hidden')
+  async verifyRequestFeedbackConfirmationModalHidden () {
+    await this.getMyPerspectiveSection().verifyRequestFeedbackConfirmModalHidden()
+  }
+
+  @When('the student clicks the cancel button in the request feedback confirmation modal')
+  async clickCancelRequestFeedbackConfirmModal () {
+    await this.getMyPerspectiveSection().clickCancelRequestFeedbackConfirmModal()
+  }
+
+  @Then('the feedback hint is visible')
+  async verifyFeedbackHintVisible () {
+    await this.getMyPerspectiveSection().verifyFeedbackHintVisible()
+  }
+
+  @Then('the feedback hint is hidden')
+  async verifyFeedbackHintHidden () {
+    await this.getMyPerspectiveSection().verifyFeedbackHintHidden()
+  }
+
+  @Then('the finished hint is visible')
+  async verifyFinishedHintVisible () {
+    await this.getMyPerspectiveSection().verifyFinishedHintVisible()
+  }
+
+  @Then('the finished hint is hidden')
+  async verifyFinishedHintHidden () {
+    await this.getMyPerspectiveSection().verifyFinishedHintHidden()
+  }
+
   @When('the student opens associated elements tab')
   async clickAssociatedElementsTab () {
     await this.getMyPerspectiveSection().clickAssociatedElementsTab()

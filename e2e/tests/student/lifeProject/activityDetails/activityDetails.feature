@@ -52,7 +52,7 @@ Feature: Student Project Activity Detail Page
     Scenario: Student can edit an activity perspective
       When the student opens the project activities page
       And the student open activity library tab
-      And the student clicks a library activity card with in progress status
+      And the student clicks a library activity card with "IN_PROGRESS" status
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
@@ -65,7 +65,7 @@ Feature: Student Project Activity Detail Page
     Scenario: Student can cancel the edition of an activity perspective
       When the student opens the project activities page
       And the student open activity library tab
-      And the student clicks a library activity card with in progress status
+      And the student clicks a library activity card with "IN_PROGRESS" status
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
@@ -80,7 +80,7 @@ Feature: Student Project Activity Detail Page
     Scenario: Student can see the feedback info card in the my perspective tab
       When the student opens the project activities page
       And the student open activity library tab
-      And the student clicks a library activity card with in progress status
+      And the student clicks a library activity card with "IN_PROGRESS" status
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
@@ -107,7 +107,7 @@ Feature: Student Project Activity Detail Page
     Scenario: Student can finish an in progress activity
       When the student opens the project activities page
       And the student open activity library tab
-      And the student clicks a library activity card with in progress status
+      And the student clicks a library activity card with "IN_PROGRESS" status
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
@@ -115,6 +115,54 @@ Feature: Student Project Activity Detail Page
       When the student clicks the finish activity button
       Then the finish activity confirmation modal is visible
 
+    Rule: Request feedback
+
+    Background:
+      And the project activity details are loaded
+      When the student opens the project activities page
+      And the student open activity library tab
+
+    @high @activity-details @feedback-request
+    Scenario: Student with subscribed activity has no feedback button and no hint
+      And the student clicks a library activity card with "SUBSCRIBED" status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      Then the request feedback button is hidden
+      And the feedback hint is hidden
+
+    @high @activity-details @feedback-request
+    Scenario: Student with in progress activity can request feedback
+      And the student clicks a library activity card with "IN_PROGRESS" status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      Then the request feedback button is visible
+      And the request feedback button is enabled
+      And the feedback hint is hidden
+      When the student clicks the request feedback button
+      Then the request feedback confirmation modal is visible
+      When the student clicks the cancel button in the request feedback confirmation modal
+      Then the request feedback confirmation modal is hidden
+
+    @high @activity-details @feedback-request
+    Scenario: Student with submitted activity has disabled feedback button and pending hint
+      And the student clicks a library activity card with "SUBMITTED" status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      Then the request feedback button is disabled
+      And the feedback hint is visible
+
+    @high @activity-details @feedback-request
+    Scenario: Student with completed activity has no feedback button and finished hint is visible
+      And the student clicks a library activity card with "COMPLETED" status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      Then the request feedback button is hidden
+      And the finished hint is visible
+      
   Rule: Associated elements
 
     Background:
@@ -124,7 +172,7 @@ Feature: Student Project Activity Detail Page
 
     @high @activity-details @associated-elements @dataset-full
     Scenario: Student can see the activity associated elements
-      And the student clicks a library activity card with in progress status
+      And the student clicks a library activity card with "IN_PROGRESS" status
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
@@ -145,7 +193,7 @@ Feature: Student Project Activity Detail Page
 
     @high @activity-details @associated-elements @associate-traces-modal @dataset-full
     Scenario: Student can open associate traces modal from associated elements tab
-      And the student clicks a library activity card with in progress status
+      And the student clicks a library activity card with "IN_PROGRESS" status
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
