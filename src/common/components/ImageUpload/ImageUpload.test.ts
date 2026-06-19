@@ -1,11 +1,11 @@
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import ImageUpload from '@/common/components/ImageUpload/ImageUpload.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvFileUploadStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { expect, type Mock, vi } from 'vitest'
 
 const error = ref('')
-const valid = ref(true)
+const valid = ref('Le document a été chargé avec succès.')
 
 const mockShowModal = ref(false)
 const mockDisplayModal = vi.fn()
@@ -42,28 +42,7 @@ function createWrapper (props = {}) {
     },
     global: {
       stubs: {
-        AvFileUpload: {
-          name: 'AvFileUpload',
-          props: ['error', 'validMessage', 'accept', 'onDeleteFile'],
-          emits: ['change', 'accept-type-error'],
-          template: `
-            <div>
-              <slot name="left"></slot>
-              <input
-                class="file-input"
-                type="file"
-                @change="e => $emit('change', e.target.files)"
-              />
-              <button
-                class="error-trigger"
-                @click="$emit('accept-type-error')"
-              >
-                Trigger Error
-              </button>
-              <button data-testid="delete-file-button" @click="onDeleteFile && onDeleteFile()">Delete File</button>
-            </div>
-          `
-        },
+        AvFileUpload: AvFileUploadStub,
         ConfirmationModal: ConfirmationModalStub
       },
     },
@@ -114,7 +93,7 @@ BddTest().given('and image upload with valid props', () => {
 
   BddTest().when('an invalid file is dropped', () => {
     beforeEach(() => {
-      valid.value = false
+      valid.value = ''
       error.value = 'Le fichier ne respecte pas le format attendu.'
     })
 
