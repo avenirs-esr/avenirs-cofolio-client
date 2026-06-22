@@ -24,3 +24,29 @@ Feature: Student Tools Update Trace Page
     @high @trace-details
     Scenario: Student can see the author type radio buttons
       Then the author type is visible and contains 3 radio buttons
+
+  Rule: Update Trace Tabs
+
+    Background:
+      And the update trace page is loaded
+
+    @high @update-trace
+    Scenario: Student sees the "Ma trace" tab selected by default
+      Then the update trace details tab is visible and active
+      And the update trace associations tab is visible
+
+    @high @update-trace @dataset-full
+    Scenario: Student can navigate to the associations tab
+      When the student clicks on the update trace associations tab
+      Then the trace associations are visible in the update view
+
+  Rule: Save with locked associations
+
+    Background:
+      And the update trace page is loaded
+
+    @high @update-trace @dataset-full
+    Scenario: Student sees a confirmation modal when saving a trace with locked associations
+      When the student clicks the save trace button
+      Then the confirm update trace modal is visible
+      And the confirm update trace modal title and subtitle are visible
