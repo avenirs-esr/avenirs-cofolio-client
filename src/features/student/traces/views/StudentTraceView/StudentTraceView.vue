@@ -167,7 +167,6 @@ const breadcrumbLinks = computed(() =>
               :associations="traceAssociations"
               :trace-id="traceDetailed.id"
               :associations-error="associationsError"
-              :count-associations="countAssociations"
             />
           </Loader>
         </AvTab>

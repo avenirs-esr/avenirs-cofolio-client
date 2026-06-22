@@ -47,7 +47,6 @@ BddTest().given('a student trace associations component', () => {
         props: {
           associations: mockedEmptyTraceAssociations,
           traceId,
-          countAssociations: 0,
         },
         global: {
           stubs
@@ -255,7 +254,6 @@ BddTest().given('a student trace associations component', () => {
         props: {
           associations: associationsProps,
           traceId,
-          countAssociations: declaredSkillAssociations.length
         },
         global: {
           stubs
@@ -324,7 +322,6 @@ BddTest().given('a student trace associations component', () => {
         props: {
           associations: associationsProps,
           traceId,
-          countAssociations: declaredActivityAssociations.length
         },
         global: {
           stubs

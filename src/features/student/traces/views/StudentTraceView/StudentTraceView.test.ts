@@ -294,7 +294,6 @@ BddTest().given('a student trace view', () => {
       const traceAssociations = wrapper.findComponent(TraceAssociationsStub)
 
       expect(traceAssociations.exists()).toBe(true)
-      expect(traceAssociations.props('countAssociations')).toBe(5)
       expect(traceAssociations.props('associationsError')).toBeNull()
     })
   })

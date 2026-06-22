@@ -22,7 +22,7 @@ import DeleteTraceAssociatedSkillsModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedSkillsModal/DeleteTraceAssociatedSkillsModal.vue'
 import { useI18n } from 'vue-i18n'
 
-const { associations, traceId, associationsError, countAssociations = 0 } = defineProps<TraceAssociationsProps>()
+const { associations, traceId, associationsError } = defineProps<TraceAssociationsProps>()
 
 const { t } = useI18n()
 
@@ -30,7 +30,6 @@ export interface TraceAssociationsProps {
   associations: TraceAssociationsDTO | undefined
   traceId: string
   associationsError?: BaseApiException | null
-  countAssociations?: number
 }
 
 const { showModal: showSkillsModal, displayModal: displaySkillsModal, hideModal: hideSkillsModal } = useModal()
@@ -42,6 +41,9 @@ const { showModal: showAssociateExperiencesModal, displayModal: displayAssociate
 
 const declaredSkillAssociations = computed(() => associations?.declaredSkillAssociations ?? [])
 const declaredActivityAssociations = computed(() => associations?.declaredActivityAssociations ?? [])
+const declaredExperienceAssociations = computed(() => associations?.declaredExperienceAssociations ?? [])
+
+const countAssociations = computed(() => declaredSkillAssociations.value.length + declaredActivityAssociations.value.length + declaredExperienceAssociations.value.length)
 
 const deletableDeclaredActivityAssociations = computed(() =>
   declaredActivityAssociations.value.filter(({ declaredActivity }) => declaredActivity.status !== EDeclaredActivityStatus.COMPLETED)
