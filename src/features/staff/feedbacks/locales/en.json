@@ -29,6 +29,20 @@
         "sent": "Sent ({count})"
       },
       "views": {
+        "ActivityFeedbacksView": {
+          "title": "All my feedback requests ({count}) on the activity \"{activityTitle}\"",
+          "WriteFeedbackFloatingPanel": {
+            "tabs": {
+              "history": {
+                "title": "Feedback history ({count})"
+              },
+              "write": {
+                "title": "My feedback"
+              }
+            },
+            "title": "Write a feedback"
+          }
+        },
         "FeedbacksView": {
           "FeedbacksTable": {
             "columns": {
