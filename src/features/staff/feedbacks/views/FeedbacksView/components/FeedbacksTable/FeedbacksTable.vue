@@ -52,40 +52,30 @@ const { formatLastModified, formatTranslatedDateTime } = useDateUtils()
 
 const rows = computed<FeedbackStaffListItemDTO[]>(() => feedbacks.value)
 
-const filteredRows = computed<FeedbackStaffListItemDTO[]>(() => {
-  if (selectedStatus === 'ALL') {
-    return rows.value
-  }
-
-  return rows.value.filter(
-    feedback => feedback.status === selectedStatus,
-  )
-})
-
 const feedbacksTitle = computed(() => {
   switch (selectedStatus) {
     case EFeedbackStatus.NEW:
       return t(
         'staff.feedbacks.views.FeedbacksView.FeedbacksTable.title.new',
-        { count: filteredRows.value.length },
+        { count: rows.value.length },
       )
 
     case EFeedbackStatus.IN_PROCESS:
       return t(
         'staff.feedbacks.views.FeedbacksView.FeedbacksTable.title.unprocessed',
-        { count: filteredRows.value.length },
+        { count: rows.value.length },
       )
 
     case EFeedbackStatus.SUBMITTED:
       return t(
         'staff.feedbacks.views.FeedbacksView.FeedbacksTable.title.sent',
-        { count: filteredRows.value.length },
+        { count: rows.value.length },
       )
 
     default:
       return t(
         'staff.feedbacks.views.FeedbacksView.FeedbacksTable.title.default',
-        { count: filteredRows.value.length },
+        { count: rows.value.length },
       )
   }
 })
@@ -137,7 +127,7 @@ watch(
 
     <QuerySuspense
       :error="error"
-      :is-empty="filteredRows.length === 0"
+      :is-empty="rows.length === 0"
       :is-loading="isFetching"
       :empty-state-message="emptyStateMessage"
     >
@@ -161,7 +151,7 @@ watch(
             class="av-col av-gap-sm"
           >
             <RouterLink
-              v-for="feedback in filteredRows"
+              v-for="feedback in rows"
               :key="feedback.id"
               :to="{
                 name: ROUTES.STAFF.ACTIVITY_FEEDBACKS.name,
@@ -177,7 +167,7 @@ watch(
           <AvTable
             v-else
             :columns="columns"
-            :rows="filteredRows"
+            :rows="rows"
             row-key="id"
             data-testid="feedbacks-tab-table"
           >
