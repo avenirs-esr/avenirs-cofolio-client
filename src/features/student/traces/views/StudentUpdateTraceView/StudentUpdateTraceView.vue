@@ -6,6 +6,7 @@ import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ROUTES } from '@/common/constants'
 import { BaseApiException } from '@/common/exceptions'
+import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { useTraceAssociationsQuery, useTraceDetailedQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
@@ -148,23 +149,27 @@ function handleConfirmCloseModal () {
       :breadcrumb-links="breadcrumbLinks"
     />
 
-    <UpdateTabs
-      :trace="trace"
-      :associations="associations"
-      :form="form"
-    />
+    <div class="av-col av-gap-sm">
+      <UpdateInProgressBadge show />
 
-    <div class="av-row av-justify-end av-mt-lg">
-      <AvCancelConfirmButtons
-        :cancel-label="t('global.buttons.close')"
-        :confirm-label="t('global.buttons.save')"
-        :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-        :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-        :confirm-disabled="hasErrors"
-        :confirm-is-loading="isPending"
-        @cancel="handleClose"
-        @confirm="handleConfirm"
+      <UpdateTabs
+        :trace="trace"
+        :associations="associations"
+        :form="form"
       />
+
+      <div class="av-row av-justify-end av-mt-lg">
+        <AvCancelConfirmButtons
+          :cancel-label="t('global.buttons.close')"
+          :confirm-label="t('global.buttons.save')"
+          :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+          :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
+          :confirm-disabled="hasErrors"
+          :confirm-is-loading="isPending"
+          @cancel="handleClose"
+          @confirm="handleConfirm"
+        />
+      </div>
     </div>
   </div>
 

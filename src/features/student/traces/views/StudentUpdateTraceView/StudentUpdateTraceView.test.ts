@@ -3,6 +3,7 @@ import { createTraceDetailedHandler } from '@/__mocks__/msw/handlers/student/tra
 import { server } from '@/__mocks__/msw/server'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { UpdateTabsStub } from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.stub'
 import StudentUpdateTraceView from '@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'
 import { AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -71,6 +72,7 @@ BddTest().given('a student update trace view', () => {
       UpdatePageTitle: UpdatePageTitleStub,
       AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
       UpdateTabs: UpdateTabsStub,
+      UpdateInProgressBadge: UpdateInProgressBadgeStub,
     }
 
     wrapper = mountComponent(StudentUpdateTraceView, {
@@ -99,6 +101,13 @@ BddTest().given('a student update trace view', () => {
 
     BddTest().then('it should render cancel confirm buttons', () => {
       expect(wrapper.findComponent(AvCancelConfirmButtonsStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render UpdateInProgressBadge with show set to true', () => {
+      const badge = wrapper.findComponent(UpdateInProgressBadgeStub)
+
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('show')).toBe(true)
     })
   })
 
