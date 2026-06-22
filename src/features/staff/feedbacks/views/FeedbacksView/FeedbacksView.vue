@@ -10,8 +10,6 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const totalFeedbacks = ref(0)
-
 const breadcrumbLinks = computed(() => [
   { text: t('staff.global.navigation.tabs.home'), to: ROUTES.STAFF.HOME },
   { text: t('staff.global.navigation.tabs.studentTracking') },
@@ -20,11 +18,14 @@ const breadcrumbLinks = computed(() => [
 
 const staffFeedbacksStore = useStaffFeedbacksStore()
 
-const usePaginatedStaffFeedbacksParams = {
+const selectedStatus = ref<'ALL' | EFeedbackStatus>('ALL')
+
+const usePaginatedStaffFeedbacksParams = computed(() => ({
   currentPageRef: toRef(staffFeedbacksStore, 'feedbacksCurrentPage'),
   pageSizeRef: toRef(staffFeedbacksStore, 'feedbacksPageSizeSelected'),
+  selectedStatusRef: selectedStatus,
   fetchFn: useGetStaffFeedbacks,
-}
+}))
 
 const { data: feedbacksResponse } = useGetStaffFeedbacks({
   page: 0,
@@ -49,10 +50,13 @@ const sentFeedbacks = computed(
   ).length ?? 0,
 )
 
-const selectedStatus = ref<'ALL' | EFeedbackStatus>('ALL')
+const totalFeedbacks = computed(
+  () => newFeedbacks.value + unprocessedFeedbacks.value + sentFeedbacks.value,
+)
 
 function onStatusSelected (option: AvTagPickerOption): void {
   selectedStatus.value = option.value as 'ALL' | EFeedbackStatus
+  staffFeedbacksStore.feedbacksCurrentPage = 0
 }
 </script>
 
@@ -74,7 +78,6 @@ function onStatusSelected (option: AvTagPickerOption): void {
     <FeedbacksTable
       :selected-status="selectedStatus"
       :use-paginated-staff-feedbacks-params="usePaginatedStaffFeedbacksParams"
-      @update-feedbacks-count="totalFeedbacks = $event"
     />
   </div>
 </template>
