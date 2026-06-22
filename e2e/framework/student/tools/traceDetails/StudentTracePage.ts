@@ -1,6 +1,7 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
+import { t } from '@e2e/framework/shared/utils/i18n'
 import { TraceAssociationsObject } from '@e2e/framework/student/tools/traceDetails/componentObjects/TraceAssociationsObject'
 import { expect, type Page } from '@playwright/test'
 import { Fixture, Then, When } from 'playwright-bdd/decorators'
@@ -145,14 +146,14 @@ export class StudentTracePage extends BasePage {
   @Then('the trace deletion confirmation modal description is visible')
   async verifyTraceDeletionConfirmationModalDescriptionVisible () {
     await expect(this.getTraceDeletionConfirmationModalDescription()).toHaveText(
-      'Êtes-vous certain(e) de vouloir supprimer votre trace ?'
+      t('student.traces.modals.TraceDeletionConfirmationModal.description')
     )
   }
 
   @Then('the trace deletion confirmation modal subdescription is visible')
   async verifyTraceDeletionConfirmationModalSubdescriptionVisible () {
     await expect(this.getTraceDeletionConfirmationModalSubdescription()).toHaveText(
-      'Toute action de suppression est définitive. Elle entraine la perte des données renseignées pour cette trace ainsi que la suppression des liens d\'association qu\'elle comporte.'
+      t('student.traces.modals.TraceDeletionConfirmationModal.subdescription')
     )
   }
 }
