@@ -11,6 +11,7 @@ export const ROUTES = {
     ACTIVITIES: { name: 'staff-activities', path: 'activities' },
     ACTIVITIES_EDIT_NATIONAL_ACTIVITY: { name: 'staff-activities-edit-national-activity', path: 'activities/:id/edit' },
     ACTIVITY_CATALOG: { name: 'staff-activity-catalog', path: 'activities/:status/:id' },
+    ACTIVITY_FEEDBACKS: { name: 'staff-activity-feedbacks', path: 'activities/:id/feedbacks' },
     COOKIES: { name: 'staff-cookies', path: 'cookies' },
     HOME: { name: 'staff-home', path: '' },
     LEGAL: { name: 'staff-legal', path: 'legal' },
