@@ -17,7 +17,7 @@ const label = computed(() =>
 )
 
 const resolvedLabel = computed(() =>
-  maxIterations
+  maxIterations && maxIterations > 0
     ? `${label.value}/${maxIterations}`
     : label.value
 )
