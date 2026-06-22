@@ -174,7 +174,7 @@ const navItems = computed(() => [
     icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
   },
   ...(
-    isApcVisible.value
+    !__DEMO_MODE__ && isApcVisible.value
       ? [educationMenu.value]
       : []
   ),
