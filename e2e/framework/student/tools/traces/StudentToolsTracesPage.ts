@@ -1,6 +1,7 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
+import { t } from '@e2e/framework/shared/utils/i18n'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { TracesAssociatedTab } from '@e2e/framework/student/tools/traces/componentObjects/TracesAssociatedTab'
 import { expect, type Page } from '@playwright/test'
@@ -179,11 +180,11 @@ class StudentToolsTracesPage extends BasePage {
   @Then('the trace deletion confirmation modal texts are visible')
   async verifyTraceDeletionConfirmationModalTextsVisible () {
     await expect(this.getTraceDeletionConfirmationModalDescription()).toHaveText(
-      'Êtes-vous certain(e) de vouloir supprimer votre trace ?'
+      t('student.traces.modals.TraceDeletionConfirmationModal.description')
     )
 
     await expect(this.getTraceDeletionConfirmationModalSubdescription()).toHaveText(
-      'Toute action de suppression est définitive. Elle entraine la perte des données renseignées pour cette trace ainsi que la suppression des liens d\'association qu\'elle comporte.'
+      t('student.traces.modals.TraceDeletionConfirmationModal.subdescription')
     )
   }
 }
