@@ -1,4 +1,4 @@
-import type { FeedbackAssociatedElement } from '@/features/staff/activities/types/feedback.types'
+import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import { createMockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/declaredSkills.fixtures'
 import { mockedTraceDetailedWithFile, mockedTraceDetailedWithLink } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { EAssociationContextType } from '@/api/avenir-esr'
