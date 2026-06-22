@@ -43,6 +43,7 @@ const associationCount = computed(() =>
       <AvTab
         :title="t('student.traces.views.StudentUpdateTraceView.update.tabs.details')"
         :icon="MDI_ICONS.PENCIL_OUTLINE"
+        data-testid="update-trace-details-tab"
       >
         <UpdateTraceForm
           :trace="trace"
@@ -52,6 +53,7 @@ const associationCount = computed(() =>
       <AvTab
         :title="t('student.traces.views.StudentUpdateTraceView.associations', { count: associationCount })"
         :icon="MDI_ICONS.LINK"
+        data-testid="update-trace-associations-tab"
       >
         <TraceAssociations
           :associations="associations"

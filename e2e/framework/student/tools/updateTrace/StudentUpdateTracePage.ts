@@ -24,11 +24,11 @@ export class StudentUpdateTracePage extends BasePage {
   }
 
   getUpdateTraceDetailsTab () {
-    return this.page.getByRole('tab', { name: t('student.traces.views.StudentUpdateTraceView.update.tabs.details') })
+    return this.page.getByTestId('update-trace-details-tab')
   }
 
   getUpdateTraceAssociationsTab () {
-    return this.page.getByRole('tab', { name: /Mes éléments associés|My associated elements/ })
+    return this.page.getByTestId('update-trace-associations-tab')
   }
 
   getTraceAssociationsInUpdateView () {
