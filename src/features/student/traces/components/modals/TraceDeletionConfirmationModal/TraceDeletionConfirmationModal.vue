@@ -99,6 +99,7 @@ function onConfirmDeleteTrace () {
     :error-title="t('student.traces.modals.TraceDeletionConfirmationModal.onFetchAssociations.error', tracesCount)"
   >
     <ConfirmationModal
+      data-testid="trace-deletion-confirmation-modal"
       :show="show"
       :confirm-button-icon="MDI_ICONS.ARROW_RIGHT"
       :is-loading="deleteTraceMutation.isPending.value"
@@ -115,11 +116,17 @@ function onConfirmDeleteTrace () {
       </template>
 
       <div class="av-col av-gap-sm">
-        <span class="b2-bold av-text-text2">
+        <span
+          class="b2-bold av-text-text2"
+          data-testid="trace-deletion-confirmation-modal-description"
+        >
           {{ t('student.traces.modals.TraceDeletionConfirmationModal.description') }}
         </span>
 
-        <span class="b2-light av-text-text2">
+        <span
+          class="b2-light av-text-text2"
+          data-testid="trace-deletion-confirmation-modal-subdescription"
+        >
           {{ t('student.traces.modals.TraceDeletionConfirmationModal.subdescription') }}
         </span>
 

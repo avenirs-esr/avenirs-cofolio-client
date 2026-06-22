@@ -35,6 +35,7 @@ function handleItemSelected (itemName: string) {
     :trigger-aria-label="t('global.buttons.moreActions')"
     :trigger-label="t('global.buttons.moreActions')"
     width="max-content"
+    data-testid="traces-actions-dropdown"
     @item-selected="handleItemSelected"
   />
 </template>

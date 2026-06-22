@@ -27,3 +27,18 @@ Feature: Student Tools Traces Page
     Scenario: Student can see the author type radio buttons
       When the student clicks the declaration accordion
       Then the trace author type radio set is visible and contains 3 radio buttons
+
+  Rule: Delete traces
+
+    Background:
+      When the student clicks on the traces actions dropdown trigger
+      And the student clicks on the delete traces item
+      Then the delete traces modal is visible
+
+    @high @traces @dataset-full
+    Scenario: Student can select multiple traces and open deletion confirmation modal
+      When the student selects the first two traces
+      Then the delete traces modal confirm button displays selected count
+      When the student confirms selected traces deletion
+      Then the trace deletion confirmation modal is visible from traces list
+      And the trace deletion confirmation modal texts are visible

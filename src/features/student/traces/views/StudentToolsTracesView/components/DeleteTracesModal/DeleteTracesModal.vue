@@ -80,11 +80,17 @@ useInfiniteScroll(tracesContainer, loadMoreTraces, {
         class="av-col av-gap-sm av-w-full"
         data-testid="header"
       >
-        <span class="b2-regular av-text-text1 av-text-center">
+        <span
+          class="b2-regular av-text-text1 av-text-center"
+          data-testid="delete-traces-modal-title"
+        >
           {{ t('student.traces.views.StudentToolsTracesView.deleteTracesModal.title', { count: traces.length }) }}
         </span>
 
-        <span class="b2-light av-text-text1 av-text-center">
+        <span
+          class="b2-light av-text-text1 av-text-center"
+          data-testid="delete-traces-modal-description"
+        >
           {{ t('student.traces.views.StudentToolsTracesView.deleteTracesModal.description') }}
         </span>
       </div>
