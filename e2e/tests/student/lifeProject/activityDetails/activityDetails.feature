@@ -163,6 +163,31 @@ Feature: Student Project Activity Detail Page
       Then the request feedback button is hidden
       And the finished hint is visible
       
+  Rule: Received feedbacks
+
+    Background:
+      And the project activity details are loaded
+      When the student opens the project activities page
+      And the student open activity library tab
+
+    @high @activity-details @received-feedbacks
+    Scenario: Student can see the received feedbacks section in the my perspective tab for an in progress activity
+      And the student clicks a library activity card with "IN_PROGRESS" status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      Then the received feedbacks section is visible
+      And the received feedbacks section title is visible
+
+    @high @activity-details @received-feedbacks
+    Scenario: Student sees the empty state when no submitted feedbacks
+      And the student clicks a library activity card with "IN_PROGRESS" status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      Then the received feedbacks section is visible
+      And the received feedbacks empty state is visible
+
   Rule: Associated elements
 
     Background:

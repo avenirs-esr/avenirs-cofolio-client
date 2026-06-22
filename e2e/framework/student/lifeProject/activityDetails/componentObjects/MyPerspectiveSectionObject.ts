@@ -306,4 +306,45 @@ export class MyPerspectiveSectionObject extends BaseObject {
   async verifyFeedbackInfoCardBadgeVisible () {
     await expect(this.getFeedbackInfoCardBadge()).toBeVisible()
   }
+
+  getReceivedFeedbacksSection () {
+    return this.root.getByTestId('received-feedbacks-section')
+  }
+
+  getReceivedFeedbacksSectionTitle () {
+    return this.root.getByTestId('received-feedbacks-section-title')
+  }
+
+  getReceivedFeedbacksSectionEmpty () {
+    return this.root.getByTestId('received-feedbacks-section-empty')
+  }
+
+  getReceivedFeedbackCards () {
+    return this.root.getByTestId('feedback-card')
+  }
+
+  async verifyReceivedFeedbacksSectionVisible () {
+    await expect(this.getReceivedFeedbacksSection()).toBeVisible()
+  }
+
+  async verifyReceivedFeedbacksSectionHidden () {
+    await expect(this.getReceivedFeedbacksSection()).toBeHidden()
+  }
+
+  async verifyReceivedFeedbacksSectionTitleVisible () {
+    await expect(this.getReceivedFeedbacksSectionTitle()).toBeVisible()
+  }
+
+  async verifyReceivedFeedbacksSectionEmptyVisible () {
+    await expect(this.getReceivedFeedbacksSectionEmpty()).toBeVisible()
+  }
+
+  async verifyReceivedFeedbacksSectionEmptyHidden () {
+    await expect(this.getReceivedFeedbacksSectionEmpty()).toBeHidden()
+  }
+
+  async verifyReceivedFeedbackCardsVisible () {
+    const count = await this.getReceivedFeedbackCards().count()
+    expect(count).toBeGreaterThan(0)
+  }
 }

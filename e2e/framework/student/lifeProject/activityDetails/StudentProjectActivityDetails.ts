@@ -279,4 +279,34 @@ export class StudentProjectActivityDetails extends BasePage {
   async verifyFeedbackInfoCardBadgeVisible () {
     await this.getMyPerspectiveSection().verifyFeedbackInfoCardBadgeVisible()
   }
+
+  @Then('the received feedbacks section is visible')
+  async verifyReceivedFeedbacksSectionVisible () {
+    await this.getMyPerspectiveSection().verifyReceivedFeedbacksSectionVisible()
+  }
+
+  @Then('the received feedbacks section is hidden')
+  async verifyReceivedFeedbacksSectionHidden () {
+    await this.getMyPerspectiveSection().verifyReceivedFeedbacksSectionHidden()
+  }
+
+  @Then('the received feedbacks section title is visible')
+  async verifyReceivedFeedbacksSectionTitleVisible () {
+    await this.getMyPerspectiveSection().verifyReceivedFeedbacksSectionTitleVisible()
+  }
+
+  @Then('the received feedbacks empty state is visible')
+  async verifyReceivedFeedbacksSectionEmptyVisible () {
+    await this.getMyPerspectiveSection().verifyReceivedFeedbacksSectionEmptyVisible()
+  }
+
+  @Then('the received feedbacks empty state is hidden')
+  async verifyReceivedFeedbacksSectionEmptyHidden () {
+    await this.getMyPerspectiveSection().verifyReceivedFeedbacksSectionEmptyHidden()
+  }
+
+  @Then('the received feedback cards are visible')
+  async verifyReceivedFeedbackCardsVisible () {
+    await this.getMyPerspectiveSection().verifyReceivedFeedbackCardsVisible()
+  }
 }
