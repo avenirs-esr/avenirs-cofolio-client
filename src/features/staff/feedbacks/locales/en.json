@@ -22,12 +22,6 @@
           "title": "Their perspective"
         }
       },
-      "feedbackStatusPicker": {
-        "all": "All ({count})",
-        "new": "New ({count})",
-        "unprocessed": "Unprocessed ({count})",
-        "sent": "Sent ({count})"
-      },
       "views": {
         "ActivityFeedbacksView": {
           "title": "All my feedback requests ({count}) on the activity \"{activityTitle}\"",
@@ -44,6 +38,12 @@
           }
         },
         "FeedbacksView": {
+          "FeedbackStatusPicker": {
+            "all": "All ({count})",
+            "new": "New ({count})",
+            "unprocessed": "Unprocessed ({count})",
+            "sent": "Sent ({count})"
+          },
           "FeedbacksTable": {
             "columns": {
               "formation": "Formation",
