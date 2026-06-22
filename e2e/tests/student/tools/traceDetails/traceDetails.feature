@@ -23,6 +23,14 @@ Feature: Student Tools Trace Detail Page
       Then the trace details page is loaded
       Then the author type is visible
 
+    @high @trace-details @dataset-full
+    Scenario: Student can open delete confirmation modal
+      When the student clicks on the trace settings dropdown trigger
+      And the student clicks on the delete item in the trace settings dropdown
+      Then the trace deletion confirmation modal is visible
+      And the trace deletion confirmation modal description is visible
+      And the trace deletion confirmation modal subdescription is visible
+
   Rule: Trace associations
 
     Background:

@@ -31,6 +31,22 @@ export class StudentTracePage extends BasePage {
     return this.page.getByTestId('update')
   }
 
+  getDropdownDeleteTraceItem () {
+    return this.page.getByTestId('delete')
+  }
+
+  getTraceDeletionConfirmationModal () {
+    return this.page.getByTestId('trace-deletion-confirmation-modal')
+  }
+
+  getTraceDeletionConfirmationModalDescription () {
+    return this.page.getByTestId('trace-deletion-confirmation-modal-description')
+  }
+
+  getTraceDeletionConfirmationModalSubdescription () {
+    return this.page.getByTestId('trace-deletion-confirmation-modal-subdescription')
+  }
+
   @When('the student clicks on the trace settings dropdown trigger')
   async clickDropdownTrigger () {
     await clickOnElement(this.getDropdownTrigger())
@@ -114,5 +130,29 @@ export class StudentTracePage extends BasePage {
     }
     await this.page.getByTestId('confirm-button').click()
     await this.page.getByTestId('confirm-associate-modal').getByTestId('confirm-button').click()
+  }
+
+  @When('the student clicks on the delete item in the trace settings dropdown')
+  async clickDropdownDeleteTraceItem () {
+    await clickOnElement(this.getDropdownDeleteTraceItem())
+  }
+
+  @Then('the trace deletion confirmation modal is visible')
+  async verifyTraceDeletionConfirmationModalVisible () {
+    await expect(this.getTraceDeletionConfirmationModal()).toBeVisible()
+  }
+
+  @Then('the trace deletion confirmation modal description is visible')
+  async verifyTraceDeletionConfirmationModalDescriptionVisible () {
+    await expect(this.getTraceDeletionConfirmationModalDescription()).toHaveText(
+      'Êtes-vous certain(e) de vouloir supprimer votre trace ?'
+    )
+  }
+
+  @Then('the trace deletion confirmation modal subdescription is visible')
+  async verifyTraceDeletionConfirmationModalSubdescriptionVisible () {
+    await expect(this.getTraceDeletionConfirmationModalSubdescription()).toHaveText(
+      'Toute action de suppression est définitive. Elle entraine la perte des données renseignées pour cette trace ainsi que la suppression des liens d\'association qu\'elle comporte.'
+    )
   }
 }
