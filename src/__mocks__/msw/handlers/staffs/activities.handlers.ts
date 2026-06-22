@@ -21,6 +21,13 @@ export const getActivityContentErrorHandler = http.get(`*${getGetActivityContent
   )
 })
 
+export const getPublishedActivityContentErrorHandler = http.get(`*${getGetActivityContentUrl(EActivityStatus.PUBLISHED, ':activityId')}`, () => {
+  return HttpResponse.json(
+    { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
+    { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+  )
+})
+
 export const getStaffActivityWorkingSpaceErrorHandler = http.get(`*${getGetStaffActivityWorkingSpaceUrl()}`, () => {
   return HttpResponse.json(
     { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
@@ -69,6 +76,12 @@ export const publishActivityDraftHandler = http.post(`*${getPublishActivityDraft
 
 export const staffsActivitiesHandlers = [
   http.get(`*${getGetActivityContentUrl(EActivityStatus.DRAFT, ':activityId')}`, () => {
+    return HttpResponse.json<ActivityContentDTO>(mockedActivityContent, {
+      status: HttpStatusCode.OK,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }),
+  http.get(`*${getGetActivityContentUrl(EActivityStatus.PUBLISHED, ':activityId')}`, () => {
     return HttpResponse.json<ActivityContentDTO>(mockedActivityContent, {
       status: HttpStatusCode.OK,
       headers: { 'Content-Type': 'application/json' },

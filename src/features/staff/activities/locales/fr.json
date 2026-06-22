@@ -59,6 +59,12 @@
             "StaffAllActivitiesTab": "Toutes les activités publiées"
           }
         },
+        "ActivityFeedbacksView": {
+          "errors": {
+            "fetchActivity": "Impossible de charger l'activité"
+          },
+          "title": "Toutes mes demandes de feedback sur l'activité \"{name}\""
+        },
         "AddNationalActivityView": {
           "sideNavigation": {
             "content": {
