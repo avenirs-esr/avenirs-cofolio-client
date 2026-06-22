@@ -1,6 +1,35 @@
 import { createMockedDeclaredSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { EFeedbackStatus, type FeedbackDetailsDTO, type FeedbackStaffListItemDTO, type PagedResponseFeedbackStaffListItemDTO } from '@/api/avenir-esr'
+import { type ActivityContentDTO, type DeclaredActivityDetailsDTO, EActivityThematic, EDeclaredActivityStatus, EFeedbackStatus, type FeedbackDetailsDTO, type FeedbackStaffListItemDTO, type PagedResponseFeedbackStaffListItemDTO, type UserInfoDTO } from '@/api/avenir-esr'
+
+const mockedStudent: UserInfoDTO = {
+  id: 'student-1',
+  firstName: 'Lucas',
+  lastName: 'Tessier',
+  email: 'lucas.tessier@university.com',
+}
+
+const mockedActivity: ActivityContentDTO = {
+  id: 'activity-1',
+  title: 'Activité de test',
+  thematic: EActivityThematic.TRANSVERSAL,
+  summary: 'Résumé activité test',
+  description: 'Description activité test',
+  executionPeriodInfo: 'Semestre 1',
+  enableReflection: false,
+  traceAllowedAssociations: 3,
+  feedbackAllowedIterations: 5,
+  createdAt: '2024-01-15T10:00:00Z',
+  updatedAt: '2024-01-16T10:00:00Z',
+}
+
+const mockedDeclaredActivity: DeclaredActivityDetailsDTO = {
+  id: 'declared-activity-1',
+  status: EDeclaredActivityStatus.IN_PROGRESS,
+  createdAt: '2024-01-15T10:00:00Z',
+  updatedAt: '2024-01-16T10:00:00Z',
+  activity: mockedActivity,
+}
 
 const allFeedbacks: FeedbackStaffListItemDTO[] = [
   {
@@ -9,29 +38,28 @@ const allFeedbacks: FeedbackStaffListItemDTO[] = [
     iteration: 1,
     createdAt: '2024-01-15T10:00:00Z',
     updatedAt: '2024-01-16T10:00:00Z',
+    student: mockedStudent,
+    activity: mockedDeclaredActivity,
   },
   {
     id: 'feedback-2',
-    status: EFeedbackStatus.IN_PROCESS,
-    iteration: 2,
-    createdAt: '2024-02-10T09:00:00Z',
-    updatedAt: '2024-02-11T09:00:00Z',
+    status: EFeedbackStatus.NEW,
+    iteration: 1,
+    createdAt: '2024-01-15T10:00:00Z',
+    updatedAt: '2024-01-16T10:00:00Z',
+    student: mockedStudent,
+    activity: mockedDeclaredActivity,
   },
   {
     id: 'feedback-3',
-    status: EFeedbackStatus.SUBMITTED,
-    iteration: 3,
-    createdAt: '2024-03-05T14:00:00Z',
-    updatedAt: '2024-03-06T14:00:00Z',
+    status: EFeedbackStatus.IN_PROCESS,
+    iteration: 1,
+    createdAt: '2024-01-15T10:00:00Z',
+    updatedAt: '2024-01-16T10:00:00Z',
+    student: mockedStudent,
+    activity: mockedDeclaredActivity,
   },
 ]
-
-const mockedStudent = {
-  id: 'student-1',
-  firstName: 'Lucas',
-  lastName: 'Tessier',
-  email: 'lucas.tessier@university.com',
-}
 
 export const mockedFeedbackDetailsWithAssociations: FeedbackDetailsDTO = {
   id: 'feedback-with-associations',
