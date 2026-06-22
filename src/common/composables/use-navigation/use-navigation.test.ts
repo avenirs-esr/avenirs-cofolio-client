@@ -376,6 +376,18 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to activity feedbacks', () => {
+    BddTest().then('it should navigate to activity feedbacks with activityId and feedbackId', () => {
+      const { navigateToStaffActivityFeedbacks } = navigation
+      navigateToStaffActivityFeedbacks({ activityId: 'act-123', feedbackId: 'fb-456' })
+
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STAFF.ACTIVITY_FEEDBACKS.name,
+        params: { activityId: 'act-123', feedbackId: 'fb-456' },
+      })
+    })
+  })
+
   BddTest().when('trying to navigate to staff activities', () => {
     BddTest().then('it should navigate to staff activities', () => {
       const { navigateToStaffActivities } = navigation

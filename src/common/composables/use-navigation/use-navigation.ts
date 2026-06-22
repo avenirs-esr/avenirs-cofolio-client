@@ -162,6 +162,14 @@ export function useNavigation () {
     return router.push(ROUTES.STAFF.HOME)
   }
 
+  const navigateToStaffActivityFeedbacks = ({ activityId, feedbackId }: { activityId: string, feedbackId: string }
+  ): Promise<NavigationFailure | void | undefined> => {
+    return router.push({
+      name: ROUTES.STAFF.ACTIVITY_FEEDBACKS.name,
+      params: { activityId, feedbackId },
+    })
+  }
+
   const navigateToStaffActivities = (replace?: boolean) => {
     if (replace) {
       return router.replace(ROUTES.STAFF.ACTIVITIES)
@@ -243,6 +251,7 @@ export function useNavigation () {
     navigateToStudentUpdateDeclaredProgram,
     navigateToStaffHome,
     navigateToActivityDetailed,
+    navigateToStaffActivityFeedbacks,
     navigateToStaffActivities,
     navigateToStaffActivitiesEditNationalActivity,
     navigateToStaffActivityCatalog,

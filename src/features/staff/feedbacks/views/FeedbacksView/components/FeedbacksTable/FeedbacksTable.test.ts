@@ -10,7 +10,7 @@ import { FeedbackCardStub } from '@/features/staff/feedbacks/views/FeedbacksView
 import FeedbacksTable from '@/features/staff/feedbacks/views/FeedbacksView/components/FeedbacksTable/FeedbacksTable.vue'
 import { type AvTableColumn, PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
+import { flushPromises, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -18,6 +18,7 @@ const mockError = new BaseApiException('error')
 
 const mockFormatLastModified = vi.fn((value: string) => `formatted-${value}`)
 const mockFormatTranslatedDateTime = vi.fn((value: string) => `translated-${value}`)
+const navigateToStaffActivityFeedbacks = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
@@ -27,6 +28,9 @@ vi.mock('@/common/composables', async (importOriginal) => {
     useDateUtils: () => ({
       formatLastModified: mockFormatLastModified,
       formatTranslatedDateTime: mockFormatTranslatedDateTime,
+    }),
+    useNavigation: () => ({
+      navigateToStaffActivityFeedbacks
     }),
   }
 })
@@ -69,7 +73,15 @@ const mockUsePaginatedStaffFeedbacks = vi.mocked(mockedUsePaginatedStaffFeedback
 
 BddTest().given('a FeedbacksTable component', () => {
   let wrapper: VueWrapper<InstanceType<typeof FeedbacksTable>>
-  const stubs = { FeedbackCard: FeedbackCardStub, FeedbackStatusBadge: FeedbackStatusBadgeStub, FeedbackIterationBadge: FeedbackIterationBadgeStub, AvTable: AvTableStub, Pagination: PaginationStub, QuerySuspense: QuerySuspenseStub }
+  const stubs = {
+    RouterLink: RouterLinkStub,
+    FeedbackCard: FeedbackCardStub,
+    FeedbackStatusBadge: FeedbackStatusBadgeStub,
+    FeedbackIterationBadge: FeedbackIterationBadgeStub,
+    AvTable: AvTableStub,
+    Pagination: PaginationStub,
+    QuerySuspense: QuerySuspenseStub
+  }
 
   const mountDefault = async ({ props = {}, isMobile = false, paginatedResult = defaultPaginatedResult }: {
     props?: Record<string, unknown>
@@ -135,7 +147,7 @@ BddTest().given('a FeedbacksTable component', () => {
 
     BddTest().then('it should render the expected columns', () => {
       const table = wrapper.findComponent(AvTableStub)
-      const columns = table.props('columns') as AvTableColumn<FeedbackStaffListItemDTO>[]
+      const columns = table.props('columns') as AvTableColumn<FeedbackStaffListItemDTO & { access?: string }>[]
 
       expect(columns.map(column => column.key)).toEqual([
         'student',
@@ -144,6 +156,7 @@ BddTest().given('a FeedbacksTable component', () => {
         'status',
         'iteration',
         'updatedAt',
+        'access',
       ])
     })
   })

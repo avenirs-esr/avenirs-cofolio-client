@@ -23,6 +23,20 @@
         }
       },
       "views": {
+        "ActivityFeedbacksView": {
+          "title": "Toutes mes demandes de feedback ({count}) sur l'activité \"{activityTitle}\"",
+          "WriteFeedbackFloatingPanel": {
+            "tabs": {
+              "history": {
+                "title": "Historique des feedabacks ({count})"
+              },
+              "write": {
+                "title": "Mon feedback"
+              }
+            },
+            "title": "Rédiger un feedback"
+          }
+        },
         "FeedbacksView": {
           "FeedbackStatusPicker": {
             "all": "Toutes ({count})",

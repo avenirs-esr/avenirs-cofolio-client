@@ -5,12 +5,13 @@ import type { Slot } from 'vue'
 import { EFeedbackStatus } from '@/api/avenir-esr'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useDateUtils } from '@/common/composables'
+import { useDateUtils, useNavigation } from '@/common/composables'
+import { ROUTES } from '@/common/constants'
 import FeedbackIterationBadge from '@/features/staff/feedbacks/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.vue'
 import FeedbackStatusBadge from '@/features/staff/feedbacks/components/badges/FeedbackStatusBadge/FeedbackStatusBadge.vue'
 import { usePaginatedStaffFeedbacks, type UsePaginatedStaffFeedbacksParams } from '@/features/staff/feedbacks/composables/use-paginated-staff-feedbacks/use-paginated-staff-feedbacks'
 import FeedbackCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbackCard/FeedbackCard.vue'
-import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvTable, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface FeedbacksTabProps {
@@ -45,6 +46,7 @@ const {
 
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
+const { navigateToStaffActivityFeedbacks } = useNavigation()
 
 const { formatLastModified, formatTranslatedDateTime } = useDateUtils()
 
@@ -88,7 +90,7 @@ const feedbacksTitle = computed(() => {
   }
 })
 
-const columns = computed<AvTableColumn<FeedbackStaffListItemDTO>[]>(() => [
+const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: string }>[]>(() => [
   {
     key: 'student',
     label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.student'),
@@ -112,6 +114,10 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO>[]>(() => [
   {
     key: 'updatedAt',
     label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.lastSaved'),
+  },
+  {
+    key: 'access',
+    label: t('global.buttons.access'),
   },
 ])
 
@@ -154,11 +160,18 @@ watch(
             v-if="isMobile"
             class="av-col av-gap-sm"
           >
-            <FeedbackCard
+            <RouterLink
               v-for="feedback in filteredRows"
               :key="feedback.id"
-              :feedback="feedback"
-            />
+              :to="{
+                name: ROUTES.STAFF.ACTIVITY_FEEDBACKS.name,
+                params: { activityId: feedback.activity?.activity?.id,
+                          feedbackId: feedback?.id,
+                },
+              }"
+            >
+              <FeedbackCard :feedback="feedback" />
+            </RouterLink>
           </div>
 
           <AvTable
@@ -195,6 +208,16 @@ watch(
 
             <template #cell(updatedAt)="{ row }">
               {{ row.updatedAt ? formatTranslatedDateTime(row.updatedAt) : '' }}
+            </template>
+
+            <template #cell(access)="{ row }">
+              <AvButton
+                :label="t('global.buttons.access')"
+                :icon="MDI_ICONS.ARROW_RIGHT"
+                icon-only
+                data-testid="feedbacks-tab-access-button"
+                @click="navigateToStaffActivityFeedbacks({ activityId: row.activity?.activity?.id, feedbackId: row.id })"
+              />
             </template>
           </AvTable>
         </div>
