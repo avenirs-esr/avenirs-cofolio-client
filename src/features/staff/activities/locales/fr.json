@@ -1,52 +1,6 @@
 {
   "staff": {
     "activities": {
-      "badges": {
-        "feedbackIteration": {
-          "label": "Demande {iteration}"
-        },
-        "feedbackStatus": {
-          "IN_PROCESS": "non traité",
-          "NEW": "Nouveau",
-          "SUBMITTED": "Envoyé"
-        }
-      },
-      "feedbacks": {
-        "cards": {
-          "FeedbackAssociatedElementsCard": {
-            "emptyState": "Aucun élément associé à ce feedback trouvé",
-            "title": "Récapitulatif des éléments associés ({count})"
-          },
-          "lastSaved": "Dernier enregistrement le",
-          "receivedAt": "Reçu le",
-          "StudentPerspectiveCard": {
-            "title": "Sa prise de recul"
-          }
-        },
-        "columns": {
-          "formation": "Formation",
-          "iterations": "Nombre d'itérations",
-          "lastSaved": "Dernier enregistrement",
-          "receivedAt": "Date de réception de la demande",
-          "status": "Statut de la demande",
-          "student": "Prénom Nom"
-        },
-        "feedbackStatusPicker": {
-          "all": "Toutes ({count})",
-          "new": "Nouvelles ({count})",
-          "unprocessed": "Non traitées ({count})",
-          "sent": "Envoyées ({count})"
-        },
-        "title": "Toutes mes demandes de feedback"
-      },
-      "feedbacksTable": {
-        "title": {
-          "default": "Toutes mes demandes de feedback ({count})",
-          "new": "Toutes mes nouvelles demandes de feedback ({count})",
-          "sent": "Toutes mes demandes de feedback envoyées ({count})",
-          "unprocessed": "Toutes mes demandes de feedback non traitées ({count})"
-        }
-      },
       "interactions": {
         "formFields": {
           "ActivityConsignFormField": {

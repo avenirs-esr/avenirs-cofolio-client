@@ -1,0 +1,54 @@
+{
+  "staff": {
+    "feedbacks": {
+      "badges": {
+        "feedbackIteration": {
+          "label": "Request {iteration}"
+        },
+        "feedbackStatus": {
+          "IN_PROCESS": "unprocessed",
+          "NEW": "New",
+          "SUBMITTED": "Sent"
+        }
+      },
+      "cards": {
+        "AssociatedElementSummaryCard": {
+          "emptyState": "No elements associated with this feedback found",
+          "title": "Summary of associated elements ({count})"
+        },
+        "lastSaved": "Last saved on",
+        "receivedAt": "Received on",
+        "StudentPerspectiveCard": {
+          "title": "Their perspective"
+        }
+      },
+      "feedbackStatusPicker": {
+        "all": "All ({count})",
+        "new": "New ({count})",
+        "unprocessed": "Unprocessed ({count})",
+        "sent": "Sent ({count})"
+      },
+      "views": {
+        "FeedbacksView": {
+          "FeedbacksTable": {
+            "columns": {
+              "formation": "Formation",
+              "iterations": "Number of iterations",
+              "lastSaved": "Last saved",
+              "receivedAt": "Request received date",
+              "status": "Request status",
+              "student": "First name Last name"
+            },
+            "title": {
+              "default": "All my feedback requests ({count})",
+              "new": "All my new feedback requests ({count})",
+              "sent": "All my sent feedback requests ({count})",
+              "unprocessed": "All my unprocessed feedback requests ({count})"
+            }
+          },
+          "title": "All my feedback requests"
+        }
+      }
+    }
+  }
+}
