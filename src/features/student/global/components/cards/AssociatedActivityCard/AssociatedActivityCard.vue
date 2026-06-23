@@ -6,9 +6,10 @@ import AssociationCard from '@/features/student/global/components/cards/Associat
 
 export interface AssociatedActivityCardProps {
   declaredActivity: DeclaredActivityViewDTO
+  disabled?: boolean
 }
 
-const { declaredActivity } = defineProps<AssociatedActivityCardProps>()
+const { declaredActivity, disabled } = defineProps<AssociatedActivityCardProps>()
 </script>
 
 <template>
@@ -20,6 +21,7 @@ const { declaredActivity } = defineProps<AssociatedActivityCardProps>()
     icon-border-color="var(--other-border-skill-card)"
     background-color="var(--surface-background)"
     :to="{ name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name, params: { id: declaredActivity.id, thematic: declaredActivity.thematic } }"
+    :disabled="disabled"
     data-testid="associated-declared-activity-card"
   >
     <template #body>

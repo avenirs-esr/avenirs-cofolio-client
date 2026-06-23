@@ -6,6 +6,10 @@ export const AssociatedDeclaredActivitiesCardStub = defineComponent({
     associatedActivities: {
       type: Array as () => DeclaredActivityAssociationDTO[],
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      required: false
     }
   },
   template: `

@@ -6,6 +6,10 @@ export const AssociatedDeclaredSkillsCardStub = defineComponent({
     associatedDeclaredSkills: {
       type: Object as () => DeclaredSkillAssociationDTO[],
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      required: false
     }
   },
   template: `

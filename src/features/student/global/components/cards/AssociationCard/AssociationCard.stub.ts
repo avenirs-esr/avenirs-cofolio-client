@@ -28,6 +28,10 @@ export const AssociationCardStub = defineComponent({
     to: {
       type: [String, Object],
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      required: false
     }
   },
   template: '<div data-testid="association-card"></div>'

@@ -295,6 +295,29 @@ BddTest().given('a student trace associations component', () => {
     })
   })
 
+  BddTest().when('the component is mounted with disabled=true', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(TraceAssociations, {
+        props: {
+          associations: { declaredSkillAssociations: mockedTraceDeclaredSkillAssociations, declaredActivityAssociations: mockedTraceDeclaredActivityAssociations },
+          traceId,
+          disabled: true,
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should pass disabled=true to AssociatedDeclaredSkillsCard', () => {
+      const skillsCard = wrapper.findComponent(AssociatedDeclaredSkillsCardStub)
+      expect(skillsCard.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should pass disabled=true to AssociatedDeclaredActivitiesCard', () => {
+      const activitiesCard = wrapper.findComponent(AssociatedDeclaredActivitiesCardStub)
+      expect(activitiesCard.props('disabled')).toBe(true)
+    })
+  })
+
   BddTest().when('the component is mounted with only declared activity associations', () => {
     const declaredActivityAssociations: DeclaredActivityAssociationDTO[] = [
       ...mockedTraceDeclaredActivityAssociations,

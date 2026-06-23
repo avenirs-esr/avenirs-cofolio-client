@@ -63,4 +63,22 @@ BddTest().given('an associated declared activities card', () => {
       expect(wrapper.findComponent(AssociationsCardStub).exists()).toBe(false)
     })
   })
+
+  BddTest().when('the component is mounted with disabled=true', () => {
+    const props: AssociatedDeclaredActivitiesCardProps = {
+      associatedActivities: mockedTraceDeclaredActivityAssociations,
+      disabled: true
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mount(AssociatedDeclaredActivitiesCard, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should pass disabled=true to each AssociatedActivityCard', () => {
+      const activityCards = wrapper.findAllComponents(AssociatedActivityCardStub)
+      expect(activityCards.length).toBeGreaterThan(0)
+      activityCards.forEach(card => expect(card.props('disabled')).toBe(true))
+    })
+  })
 })

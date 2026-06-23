@@ -7,9 +7,10 @@ import { useI18n } from 'vue-i18n'
 
 export interface AssociatedDeclaredActivitiesCardProps {
   associatedActivities: DeclaredActivityAssociationDTO[]
+  disabled?: boolean
 }
 
-const { associatedActivities } = defineProps<AssociatedDeclaredActivitiesCardProps>()
+const { associatedActivities, disabled } = defineProps<AssociatedDeclaredActivitiesCardProps>()
 
 const { t } = useI18n()
 
@@ -27,6 +28,7 @@ const title = computed(() => t('student.buildProject.activities.cards.Associated
       v-for="associatedActivity in associatedActivities"
       :key="associatedActivity.associationId"
       :declared-activity="associatedActivity.declaredActivity"
+      :disabled="disabled"
     />
   </AssociationsCard>
 </template>

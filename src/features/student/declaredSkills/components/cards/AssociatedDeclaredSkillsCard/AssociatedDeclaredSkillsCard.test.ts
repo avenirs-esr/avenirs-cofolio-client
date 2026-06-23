@@ -51,4 +51,22 @@ BddTest().given('an associated declared skills card', () => {
       expect(wrapper.findComponent(AssociationsCardStub).exists()).toBe(false)
     })
   })
+
+  BddTest().when('the component is mounted with disabled=true', () => {
+    const props: AssociatedDeclaredSkillsCardProps = {
+      associatedDeclaredSkills: createMockedDeclaredActivityAssociations(3),
+      disabled: true
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mount(AssociatedDeclaredSkillsCard, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should pass disabled=true to each AssociatedSkillCard', () => {
+      const skillCards = wrapper.findAllComponents(AssociatedSkillCardStub)
+      expect(skillCards.length).toBeGreaterThan(0)
+      skillCards.forEach(card => expect(card.props('disabled')).toBe(true))
+    })
+  })
 })

@@ -22,7 +22,7 @@ import DeleteTraceAssociatedSkillsModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedSkillsModal/DeleteTraceAssociatedSkillsModal.vue'
 import { useI18n } from 'vue-i18n'
 
-const { associations, traceId, associationsError } = defineProps<TraceAssociationsProps>()
+const { associations, traceId, associationsError, disabled } = defineProps<TraceAssociationsProps>()
 
 const { t } = useI18n()
 
@@ -30,6 +30,7 @@ export interface TraceAssociationsProps {
   associations: TraceAssociationsDTO | undefined
   traceId: string
   associationsError?: BaseApiException | null
+  disabled?: boolean
 }
 
 const { showModal: showSkillsModal, displayModal: displaySkillsModal, hideModal: hideSkillsModal } = useModal()
@@ -77,8 +78,14 @@ const deletableDeclaredActivityAssociations = computed(() =>
       :empty-state-message="t('student.traces.views.StudentTraceView.empty.associations')"
       :is-empty="countAssociations === 0"
     >
-      <AssociatedDeclaredSkillsCard :associated-declared-skills="declaredSkillAssociations" />
-      <AssociatedDeclaredActivitiesCard :associated-activities="declaredActivityAssociations" />
+      <AssociatedDeclaredSkillsCard
+        :associated-declared-skills="declaredSkillAssociations"
+        :disabled="disabled"
+      />
+      <AssociatedDeclaredActivitiesCard
+        :associated-activities="declaredActivityAssociations"
+        :disabled="disabled"
+      />
     </QuerySuspense>
   </div>
 

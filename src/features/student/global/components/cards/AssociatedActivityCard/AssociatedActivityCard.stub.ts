@@ -7,6 +7,10 @@ export const AssociatedActivityCardStub = defineComponent({
     declaredActivity: {
       type: Object as PropType<DeclaredActivityViewDTO>,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      required: false
     }
   },
   template: '<div data-testid="associated-declared-activity-card"></div>'

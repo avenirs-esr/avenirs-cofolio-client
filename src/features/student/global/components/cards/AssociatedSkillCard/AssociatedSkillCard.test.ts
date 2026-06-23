@@ -36,5 +36,26 @@ BddTest().given('an associatied skill card', () => {
         backgroundColor: 'var(--dark-background-primary1)',
       })
     })
+
+    BddTest().then('it should pass disabled as false to the AssociationCard by default', () => {
+      const associationCard = wrapper.findComponent(AssociationCardStub)
+      expect(associationCard.props('disabled')).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with disabled=true', () => {
+    const props: AssociatedSkillCardProps = {
+      declaredSkill: createMockedDeclaredSkillProgressDTO(),
+      disabled: true
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AssociatedSkillCard, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should pass disabled=true to the AssociationCard', () => {
+      const associationCard = wrapper.findComponent(AssociationCardStub)
+      expect(associationCard.props('disabled')).toBe(true)
+    })
   })
 })

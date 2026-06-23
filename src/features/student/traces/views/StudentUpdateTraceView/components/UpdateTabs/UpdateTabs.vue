@@ -58,6 +58,7 @@ const associationCount = computed(() =>
         <TraceAssociations
           :associations="associations"
           :trace-id="trace.id"
+          :disabled="true"
         >
           <template #caption>
             <span class="caption-regular">

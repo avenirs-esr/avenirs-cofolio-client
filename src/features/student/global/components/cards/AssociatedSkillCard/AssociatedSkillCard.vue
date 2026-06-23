@@ -7,9 +7,10 @@ import { useI18n } from 'vue-i18n'
 
 export interface AssociatedSkillCardProps {
   declaredSkill: DeclaredSkillProgressDTO
+  disabled?: boolean
 }
 
-const { declaredSkill } = defineProps<AssociatedSkillCardProps>()
+const { declaredSkill, disabled } = defineProps<AssociatedSkillCardProps>()
 
 const { t } = useI18n()
 
@@ -36,6 +37,7 @@ const pathBadge = computed<AvBadgeProps>(() => ({
     color="var(--card)"
     background-color="var(--dark-background-primary1)"
     :to="{ name: ROUTES.STUDENT.PROJECT_DECLARED_SKILL.name, params: { id: declaredSkill.id } }"
+    :disabled="disabled"
     data-testid="associated-declared-skill-card"
   >
     <template #body>

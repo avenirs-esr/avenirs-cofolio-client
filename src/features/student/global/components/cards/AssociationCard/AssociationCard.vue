@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { IconOptions } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import type { Slot } from 'vue'
-import type { RouteLocationRaw } from 'vue-router'
 import { FloatingIconCard } from '@/features/student/global'
+import { type RouteLocationRaw, RouterLink } from 'vue-router'
 
 export interface AssociationCardProps {
   title: string
@@ -12,13 +12,14 @@ export interface AssociationCardProps {
   hoverBorderColor?: string
   iconBorderColor?: string
   to: RouteLocationRaw
+  disabled?: boolean
 }
 
 defineOptions({
   inheritAttrs: false
 })
 
-const { title, icon, color, backgroundColor, hoverBorderColor, iconBorderColor, to } = defineProps<AssociationCardProps>()
+const { title, icon, color, backgroundColor, hoverBorderColor, iconBorderColor, to, disabled } = defineProps<AssociationCardProps>()
 
 defineSlots<{
   body?: Slot
@@ -34,9 +35,11 @@ const iconOptions: IconOptions = {
 </script>
 
 <template>
-  <RouterLink
+  <component
+    :is="disabled ? 'div' : RouterLink"
     class="association-card av-w-full"
-    :to="to"
+    :class="{ 'association-card--disabled': disabled }"
+    v-bind="disabled ? {} : { to }"
     data-testid="association-card"
   >
     <FloatingIconCard
@@ -46,7 +49,7 @@ const iconOptions: IconOptions = {
       :color="backgroundColor"
       :title-color="color"
       border-color="var(--other-border-skill-card)"
-      :border-color-on-hover="hoverBorderColor ?? backgroundColor"
+      :border-color-on-hover="disabled ? 'transparent' : (hoverBorderColor ?? backgroundColor)"
       title-typography-classes="s2-regular"
       :header-rows="3"
       height="21.625rem"
@@ -58,7 +61,7 @@ const iconOptions: IconOptions = {
         <slot name="footer" />
       </template>
     </FloatingIconCard>
-  </RouterLink>
+  </component>
 </template>
 
 <style lang="scss" scoped>
@@ -67,6 +70,14 @@ const iconOptions: IconOptions = {
 .association-card {
   @include dsav.min-width(md) {
     width: 21.625rem;
+  }
+
+  &--disabled {
+    cursor: not-allowed;
+
+    :deep(.av-card__title:hover) {
+      cursor: not-allowed !important;
+    }
   }
 }
 </style>

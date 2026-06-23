@@ -7,9 +7,10 @@ import { useI18n } from 'vue-i18n'
 
 export interface AssociatedDeclaredSkillsCardProps {
   associatedDeclaredSkills: DeclaredSkillAssociationDTO[]
+  disabled?: boolean
 }
 
-const { associatedDeclaredSkills } = defineProps<AssociatedDeclaredSkillsCardProps>()
+const { associatedDeclaredSkills, disabled } = defineProps<AssociatedDeclaredSkillsCardProps>()
 
 const { t } = useI18n()
 
@@ -27,6 +28,7 @@ const title = computed(() => t('student.declaredSkills.cards.AssociatedDeclaredS
       v-for="associatedDeclaredSkill in associatedDeclaredSkills"
       :key="associatedDeclaredSkill.associationId"
       :declared-skill="associatedDeclaredSkill.declaredSkill"
+      :disabled="disabled"
     />
   </AssociationsCard>
 </template>

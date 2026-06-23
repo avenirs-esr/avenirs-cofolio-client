@@ -7,6 +7,10 @@ export const AssociatedSkillCardStub = defineComponent({
     declaredSkill: {
       type: Object as PropType<DeclaredSkillProgressDTO>,
       required: true
+    },
+    disabled: {
+      type: Boolean,
+      required: false
     }
   },
   template: '<div data-testid="associated-skill-card"></div>'
