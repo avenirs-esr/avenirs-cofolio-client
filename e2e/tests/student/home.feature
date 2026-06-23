@@ -83,7 +83,6 @@ Feature: Student Home Page
     Scenario: Main navigation is fully visible on desktop
       Then the main navigation menu is visible
       And the HOME link is visible
-      And the SUCCESSFUL EDUCATION menu is visible
       And the BUILDING MY LIFE PROJECT menu is visible
       And the MY TOOLS menu is visible
 

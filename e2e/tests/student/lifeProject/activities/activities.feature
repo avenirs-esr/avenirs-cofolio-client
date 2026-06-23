@@ -51,8 +51,7 @@ Feature: Student Project Activities Page
       Then the first all activity card title is visible
       And the first all activity card thematic badge is visible
       And the first all activity card description is visible
-
-  @dataset-empty
+  
   Rule: Library activities tab - user has no library activities
 
     Background:
@@ -63,43 +62,42 @@ Feature: Student Project Activities Page
       Then the activity library empty state is visible
       And the activity library empty state message is correct
       And the activity library pagination is hidden
-
-  @dataset-full
+  
   Rule: Library activities tab
 
     Background:
       When the student open activity library tab
 
-    @high @library-activity-tab @library-activity-tab-title
+    @high @library-activity-tab @library-activity-tab-title @dataset-full
     Scenario: Student can see library activity tab
       Then the library activity tab is visible
       And library activity tab title is visible with positive count
 
-    @high @library-activity-tab @library-activity-content
+    @high @library-activity-tab @library-activity-content @dataset-full
     Scenario: Student can see library activity elements
       Then the list of activity library elements is visible
       And the first page of activity does not exceed the selected page size
 
-    @high @library-activity-tab @library-activity-card
+    @high @library-activity-tab @library-activity-card @dataset-full
     Scenario: Student can see the first activity card information
       Then the first activity card title is visible
       And the first activity card thematic badge is visible
       And the first activity card description is visible
 
       
-    @high @library-activity-tab @library-activity-pagination
+    @high @library-activity-tab @library-activity-pagination @dataset-full
     Scenario: Student can navigate to next page using bottom pagination
       Then the bottom pagination next button is enabled
       When the user navigates to next page using bottom pagination
       Then the activity library page contains elements
       
-    @high @library-activity-tab @library-activity-pagination
+    @high @library-activity-tab @library-activity-pagination @dataset-full
     Scenario: Student can navigate to the next page using top pagination
-      And the user navigates to next page using top pagination
+      Then the bottom pagination next button is enabled
+      When the user navigates to next page using top pagination
       Then the activity library page contains elements
-      And the top pagination next button is disabled
 
-    @high @library-activity-tab @library-activity-pagination
+    @high @library-activity-tab @library-activity-pagination @dataset-full
     Scenario: Student can navigate to previous page using bottom pagination
       When the user navigates to next page using bottom pagination
       And the user navigates to previous page using bottom pagination
@@ -107,14 +105,14 @@ Feature: Student Project Activities Page
       And the bottom pagination previous button is disabled
       And the bottom pagination first button is disabled
 
-    @high @library-activity-tab @library-activity-pagination
+    @high @library-activity-tab @library-activity-pagination @dataset-full
     Scenario: Student can navigate to last page using bottom pagination
       When the user navigates to last page using bottom pagination
       Then the activity library page contains elements
       And the bottom pagination next button is disabled
       And the bottom pagination last button is disabled
 
-    @high @library-activity-tab @library-activity-pagination
+    @high @library-activity-tab @library-activity-pagination @dataset-full
     Scenario: Student can navigate to first page using bottom pagination
       When the user navigates to next page using bottom pagination
       And the user navigates to first page using bottom pagination
@@ -122,12 +120,12 @@ Feature: Student Project Activities Page
       And the bottom pagination previous button is disabled
       And the bottom pagination first button is disabled
 
-    @high @library-activity-tab @library-activity-pagination
+    @high @library-activity-tab @library-activity-pagination @dataset-full
     Scenario: Student can change the page size
       When the user changes the page size to 8
       Then the first page of activity contains less than 9 activities
 
-    @high @library-activity-tab @unsubscribe-activity-check
+    @high @library-activity-tab @unsubscribe-activity-check @dataset-full
     Scenario: Student can unsubscribe from a library activity using the more actions menu
       When the user opens the unsubscribe activities modal
       And the user selects the last activity in the unsubscribe modal

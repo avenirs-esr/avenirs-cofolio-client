@@ -13,6 +13,9 @@ class StudentProjectActivitiesPage extends BasePage {
   private unsubscribedActivityId?: string = undefined
   private unsubscribedActivityThematic?: string = undefined
 
+  private static readonly ACTIVITY_ID_WITHOUT_RECEIVED_FEEDBACKS = '2d6a9b4f-7c3e-4a11-8f5b-6e2c9d7a3b12'
+  private static readonly ACTIVITY_ID_WITH_ASSOCIATED_TRACES = '2d6a9b4f-7c3e-4a11-8f5b-6e2c9d7a3b12'
+
   constructor (public page: Page) {
     super(page)
   }
@@ -223,6 +226,33 @@ class StudentProjectActivitiesPage extends BasePage {
   @When('the student clicks a library activity card with {string} status')
   async clickLibraryActivityCardWithStatus (status: string) {
     await this.getActivityLibraryTab().clickCardWithStatus(status)
+    await this.page.waitForURL(new RegExp(STUDENT_ROUTES.PROJECT.ACTIVITY_DETAIL.replace(':id', '.+')))
+  }
+
+  @When('the student selects {int} results per page in activity library')
+  async selectActivityLibraryPageSize (pageSize: number) {
+    await this.getActivityLibraryTab().selectPageSize(pageSize)
+  }
+
+  @When('the student clicks an in progress activity without received feedbacks')
+  async clickInProgressActivityWithoutReceivedFeedbacks () {
+    await this.page.goto(STUDENT_ROUTES.PROJECT.ACTIVITIES)
+    await this.clickActivityLibraryTabItem()
+    await this.getActivityLibraryTab().selectPageSize(12)
+
+    await this.getActivityLibraryTab().clickCardByActivityId(
+      StudentProjectActivitiesPage.ACTIVITY_ID_WITHOUT_RECEIVED_FEEDBACKS
+    )
+
+    await this.page.waitForURL(new RegExp(STUDENT_ROUTES.PROJECT.ACTIVITY_DETAIL.replace(':id', '.+')))
+  }
+
+  @When('the student clicks an in progress activity with associated traces')
+  async clickInProgressActivityWithAssociatedTraces () {
+    await this.getActivityLibraryTab().clickCardByActivityId(
+      StudentProjectActivitiesPage.ACTIVITY_ID_WITH_ASSOCIATED_TRACES
+    )
+
     await this.page.waitForURL(new RegExp(STUDENT_ROUTES.PROJECT.ACTIVITY_DETAIL.replace(':id', '.+')))
   }
 }

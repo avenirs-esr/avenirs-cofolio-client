@@ -1,4 +1,5 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+import { verifyLocatorDisabled, verifyLocatorEnabled } from '@e2e/framework/shared/utils/enabled'
 import { expect, type Locator } from '@playwright/test'
 
 export class PaginationObject extends BaseObject {
@@ -56,22 +57,22 @@ export class PaginationObject extends BaseObject {
   }
 
   async verifyFirstDisabled () {
-    await expect(this.getFirstButton()).toHaveAttribute('aria-disabled', 'true')
+    await verifyLocatorDisabled(this.getFirstButton())
   }
 
   async verifyPreviousDisabled () {
-    await expect(this.getPreviousButton()).toHaveAttribute('aria-disabled', 'true')
+    await verifyLocatorDisabled(this.getPreviousButton())
   }
 
   async verifyNextEnabled () {
-    await expect(this.getNextButton()).not.toHaveAttribute('aria-disabled', 'true')
+    await verifyLocatorEnabled(this.getNextButton())
   }
 
   async verifyNextDisabled () {
-    await expect(this.getNextButton()).toHaveAttribute('aria-disabled', 'true')
+    await verifyLocatorDisabled(this.getNextButton())
   }
 
   async verifyLastDisabled () {
-    await expect(this.getLastButton()).toHaveAttribute('aria-disabled', 'true')
+    await verifyLocatorDisabled(this.getLastButton())
   }
 }
