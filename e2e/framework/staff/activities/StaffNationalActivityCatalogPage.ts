@@ -89,6 +89,28 @@ export class StaffNationalActivityCatalogPage extends BasePage {
     await expect(this.getContextTitle()).toBeVisible()
   }
 
+  getEditDraftButton () {
+    return this.page.getByTestId('edit-draft-button')
+  }
+
+  @Then('the edit draft button is visible')
+  async verifyEditDraftButtonVisible () {
+    await expect(this.getEditDraftButton()).toBeVisible()
+  }
+
+  @When('the user clicks on the edit draft button')
+  async clickEditDraftButton () {
+    await clickOnElement(this.getEditDraftButton())
+  }
+
+  @Then('the staff is redirected to the edit national activity page')
+  async verifyRedirectedToEditPage () {
+    const expectedPattern = STAFF_ROUTES.ACTIVITIES_EDIT_NATIONAL_ACTIVITY
+      .replace(':id', '[^/]+')
+
+    await expect(this.page).toHaveURL(new RegExp(expectedPattern))
+  }
+
   private getDeleteDraftButton () {
     return this.page.getByTestId('delete-draft-button')
   }
