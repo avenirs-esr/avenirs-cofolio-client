@@ -23,11 +23,20 @@ Feature: Staff National Activity Catalog
   Scenario: The national activity context section is visible
     Then the national activity context section is visible
 
+  Scenario: The edit draft button is visible
+    Then the edit draft button is visible
+
   Scenario: The delete draft button is visible
     Then the delete draft button is visible
 
-  Rule: Delete draft activity
 
+  Rule: Edit draft activity
+
+    Scenario: Staff can navigate to edit page from catalog page
+      When the user clicks on the edit draft button
+      Then the staff is redirected to the edit national activity page
+
+  Rule: Delete draft activity
     
     Background:
       When the user clicks on the delete draft button
