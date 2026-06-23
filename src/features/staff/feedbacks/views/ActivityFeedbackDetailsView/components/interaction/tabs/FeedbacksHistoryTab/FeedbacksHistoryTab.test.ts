@@ -1,4 +1,4 @@
-import FeedbacksHistoryTab from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/interaction/tabs/FeedbacksHistoryTab/FeedbacksHistoryTab.vue'
+import FeedbacksHistoryTab from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/tabs/FeedbacksHistoryTab/FeedbacksHistoryTab.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'

@@ -4,7 +4,7 @@ import { EUserCategory, type FeedbackDetailsDTO, invalidateGetFeedbackDetails, t
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { useWriteFeedbackFormValidators } from '@/features/staff/feedbacks/views/ActivityFeedbacksView/composables/use-write-feedback-form-validators/use-write-feedback-form-validators'
+import { useWriteFeedbackFormValidators } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form-validators/use-write-feedback-form-validators'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -22,7 +22,7 @@ export function useWriteFeedbackForm (feedback?: MaybeRef<FeedbackDetailsDTO | u
   const { isLoading, withTaskLoading } = useTaskLoading()
   const onSendFeedbackError = (error: BaseApiException) => {
     addErrorMessage({
-      title: t('staff.feedbacks.views.ActivityFeedbacksView.WriteFeedbackFloatingPanel.tabs.write.errors.saveFeedback'),
+      title: t('staff.feedbacks.views.ActivityFeedbackDetailsView.WriteFeedbackFloatingPanel.tabs.write.errors.saveFeedback'),
       description: getErrorMessage(error)
     })
   }

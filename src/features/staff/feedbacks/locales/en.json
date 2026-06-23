@@ -23,7 +23,7 @@
         }
       },
       "views": {
-        "ActivityFeedbacksView": {
+        "ActivityFeedbackDetailsView": {
           "title": "All my feedback requests ({count}) on the activity \"{activityTitle}\"",
           "WriteFeedbackFloatingPanel": {
             "tabs": {

@@ -1,13 +1,13 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import ActivityFeedbacksView from '@/features/staff/feedbacks/views/ActivityFeedbacksView/ActivityFeedbacksView.vue'
-import { WriteFeedbackFloatingPanelStub } from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/overlays/WriteFeedbackFloatingPanel/WriteFeedbackFloatingPanel.stub'
+import ActivityFeedbackDetailsView from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/ActivityFeedbackDetailsView.vue'
+import { WriteFeedbackFloatingPanelStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/WriteFeedbackFloatingPanel/WriteFeedbackFloatingPanel.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
-BddTest().given('an activity feedbacks view', () => {
-  let wrapper: VueWrapper<InstanceType<typeof ActivityFeedbacksView>>
+BddTest().given('an activity feedback details view', () => {
+  let wrapper: VueWrapper<InstanceType<typeof ActivityFeedbackDetailsView>>
 
   const stubs = {
     PageTitle: PageTitleStub,
@@ -16,8 +16,8 @@ BddTest().given('an activity feedbacks view', () => {
 
   BddTest().when('the component is mounted', () => {
     beforeEach(async () => {
-      wrapper = mountComponent(ActivityFeedbacksView, {
-        props: { activityId: 'activity-1', feedbackId: 'feedback-1' },
+      wrapper = mountComponent(ActivityFeedbackDetailsView, {
+        props: { feedbackId: 'feedback-1' },
         global: { stubs }
       })
 

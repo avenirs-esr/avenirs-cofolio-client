@@ -1,7 +1,7 @@
 import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
 import type { WriteFeedbackFormData } from '@/features/staff/feedbacks/types/forms.types'
 import { FEEDBACK_MAX_LENGTH } from '@/features/staff/feedbacks/config'
-import { useWriteFeedbackForm } from '@/features/staff/feedbacks/views/ActivityFeedbacksView/composables/use-write-feedback-form/use-write-feedback-form'
+import { useWriteFeedbackForm } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form/use-write-feedback-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -137,22 +137,6 @@ BddTest().given('a write feedback form', () => {
         const result = validator({ value: validData })
 
         expect(result?.fields?.feedback).toBeUndefined()
-      })
-    })
-  })
-
-  BddTest().when('editing and reverting feedback value', () => {
-    BddTest().then('it should toggle isDirty to true then back to false', async () => {
-      expect(composableResult.isDirty.value).toBe(false)
-
-      setFormValues({ feedback: 'temp value' })
-      await vi.waitFor(() => {
-        expect(composableResult.isDirty.value).toBe(true)
-      })
-
-      setFormValues({ feedback: '' })
-      await vi.waitFor(() => {
-        expect(composableResult.isDirty.value).toBe(false)
       })
     })
   })

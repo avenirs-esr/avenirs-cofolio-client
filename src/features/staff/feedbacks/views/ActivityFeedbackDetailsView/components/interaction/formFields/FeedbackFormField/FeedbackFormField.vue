@@ -2,7 +2,7 @@
 import type { UpdateFeedbackRequest } from '@/api/avenir-esr'
 import type { WriteFeedbackForm } from '@/features/staff/feedbacks/types/forms.types'
 import { AUTO_SAVE_DEBOUNCE_DELAY } from '@/common/constants'
-import FeedbackTextarea from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/interaction/inputs/FeedbackTextarea/FeedbackTextarea.vue'
+import FeedbackTextarea from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/inputs/FeedbackTextarea/FeedbackTextarea.vue'
 import { debounce } from 'lodash-es'
 import { markRaw } from 'vue'
 

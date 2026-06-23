@@ -15,7 +15,7 @@ export const ROUTES = {
     HOME: { name: 'staff-home', path: '' },
     LEGAL: { name: 'staff-legal', path: 'legal' },
     PERSONAL_DATA: { name: 'staff-personal-data', path: 'personal-data' },
-    ACTIVITY_FEEDBACKS: { name: 'staff-student-activity-feedbacks', path: 'student-activity-feedbacks/:activityId/:feedbackId' },
+    ACTIVITY_FEEDBACK_DETAILS: { name: 'staff-activity-feedback-details', path: 'activity-feedbacks/:feedbackId' },
     STUDENT_FEEDBACKS: { name: 'staff-student-feedbacks', path: 'student-feedbacks' }
   },
   STUDENT: {

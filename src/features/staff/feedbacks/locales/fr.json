@@ -23,7 +23,7 @@
         }
       },
       "views": {
-        "ActivityFeedbacksView": {
+        "ActivityFeedbackDetailsView": {
           "title": "Toutes mes demandes de feedback ({count}) sur l'activité \"{activityTitle}\"",
           "WriteFeedbackFloatingPanel": {
             "tabs": {

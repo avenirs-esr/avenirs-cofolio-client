@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
-import FeedbackFormField from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/interaction/formFields/FeedbackFormField/FeedbackFormField.vue'
-import { FeedbackTextareaStub } from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/interaction/inputs/FeedbackTextarea/FeedbackTextarea.stub'
+import FeedbackFormField from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackFormField/FeedbackFormField.vue'
+import { FeedbackTextareaStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/inputs/FeedbackTextarea/FeedbackTextarea.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mountComponent } from 'tests/utils'
