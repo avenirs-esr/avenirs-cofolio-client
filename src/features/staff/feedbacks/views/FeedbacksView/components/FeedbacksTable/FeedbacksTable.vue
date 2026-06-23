@@ -26,10 +26,6 @@ const {
   usePaginatedStaffFeedbacksParams,
 } = defineProps<FeedbacksTabProps>()
 
-const emit = defineEmits<{
-  (e: 'updateFeedbacksCount', value: number): void
-}>()
-
 defineSlots<{
   actions: Slot
 }>()
@@ -55,28 +51,16 @@ const rows = computed<FeedbackStaffListItemDTO[]>(() => feedbacks.value)
 const feedbacksTitle = computed(() => {
   switch (selectedStatus) {
     case EFeedbackStatus.NEW:
-      return t(
-        'staff.feedbacks.views.FeedbacksView.FeedbacksTable.title.new',
-        { count: rows.value.length },
-      )
+      return t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.title.new')
 
     case EFeedbackStatus.IN_PROCESS:
-      return t(
-        'staff.feedbacks.views.FeedbacksView.FeedbacksTable.title.unprocessed',
-        { count: rows.value.length },
-      )
+      return t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.title.unprocessed')
 
     case EFeedbackStatus.SUBMITTED:
-      return t(
-        'staff.feedbacks.views.FeedbacksView.FeedbacksTable.title.sent',
-        { count: rows.value.length },
-      )
+      return t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.title.sent')
 
     default:
-      return t(
-        'staff.feedbacks.views.FeedbacksView.FeedbacksTable.title.default',
-        { count: rows.value.length },
-      )
+      return t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.title.default')
   }
 })
 
@@ -110,12 +94,6 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
     label: t('global.buttons.access'),
   },
 ])
-
-watch(
-  () => pageInfo?.value?.totalElements,
-  (count) => { emit('updateFeedbacksCount', count ?? 0) },
-  { immediate: true },
-)
 </script>
 
 <template>
