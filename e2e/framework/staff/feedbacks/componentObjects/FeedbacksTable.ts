@@ -1,4 +1,5 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { expect, type Locator } from '@playwright/test'
 
 export class FeedbacksTable extends BaseObject {
@@ -12,5 +13,10 @@ export class FeedbacksTable extends BaseObject {
     const countrows = await this.root.locator('tr').count()
 
     expect(countrows).toBeGreaterThanOrEqual(2)
+  }
+
+  async clickFirstAccessFeedbackButton () {
+    const firstAccessButton = this.root.locator('[data-testid="access-button"]').first()
+    await clickOnElement(firstAccessButton)
   }
 }

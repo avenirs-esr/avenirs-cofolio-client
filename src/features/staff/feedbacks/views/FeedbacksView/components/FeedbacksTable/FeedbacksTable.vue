@@ -131,7 +131,7 @@ watch(
 <template>
   <div
     class="av-col av-gap-xl"
-    data-testid="feedbacks-tab"
+    data-testid="feedbacks-table"
   >
     <slot name="actions" />
 
@@ -151,7 +151,7 @@ watch(
         <div class="av-col av-gap-sm av-gap-lg--md">
           <span
             class="n5"
-            data-testid="feedbacks-tab-title"
+            data-testid="feedbacks-table-title"
           >
             {{ feedbacksTitle }}
           </span>
@@ -177,7 +177,7 @@ watch(
             :columns="columns"
             :rows="filteredRows"
             row-key="id"
-            data-testid="feedbacks-tab-table"
+            data-testid="feedbacks-table-table"
           >
             <template #cell(student)="{ row }">
               {{ row.student?.firstName }} {{ row.student?.lastName }}
@@ -213,7 +213,7 @@ watch(
                 :label="t('global.buttons.access')"
                 :icon="MDI_ICONS.ARROW_RIGHT"
                 icon-only
-                data-testid="feedbacks-tab-access-button"
+                data-testid="access-button"
                 @click="navigateToStaffActivityFeedbackDetails({ feedbackId: row.id })"
               />
             </template>

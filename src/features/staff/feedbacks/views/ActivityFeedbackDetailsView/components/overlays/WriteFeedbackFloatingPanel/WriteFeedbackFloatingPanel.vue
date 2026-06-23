@@ -35,6 +35,7 @@ function togglePanel () {
     :subtitle="activityTitle"
     :icon="ICONS.FEEDBACK"
     width="35rem"
+    data-testid="writing-feedback-floating-panel"
   >
     <div class="av-px-xs">
       <AvTabs
