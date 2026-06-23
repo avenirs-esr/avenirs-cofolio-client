@@ -31,7 +31,7 @@ const isDraft = computed(() => status === EActivityStatus.DRAFT)
 
 const { showModal: showDeleteConfirmation, displayModal: displayDeleteConfirmation, hideModal: hideDeleteConfirmation } = useModal()
 
-const { navigateToStaffActivities } = useNavigation()
+const { navigateToStaffActivities, navigateToStaffActivitiesEditNationalActivity } = useNavigation()
 </script>
 
 <template>
@@ -42,8 +42,14 @@ const { navigateToStaffActivities } = useNavigation()
 
   <div
     v-if="isDraft"
-    class="av-row av-justify-end av-py-md"
+    class="av-row av-justify-end av-py-md av-gap-sm"
   >
+    <AvButton
+      :label="t('global.buttons.update')"
+      variant="FLAT"
+      data-testid="edit-draft-button"
+      @click="() => navigateToStaffActivitiesEditNationalActivity({ id })"
+    />
     <AvButton
       :label="t('global.buttons.delete')"
       variant="OUTLINED"
