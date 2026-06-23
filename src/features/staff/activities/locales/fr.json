@@ -60,6 +60,12 @@
           }
         },
         "ActivityFeedbacksView": {
+          "ActivityFeedbacksDashboard": {
+            "feedbacksSection": {
+              "title": "Demande de feedback"
+            },
+            "title": "Récapitulatif de l'activité"
+          },
           "errors": {
             "fetchActivity": "Impossible de charger l'activité"
           },

@@ -18,12 +18,14 @@ export interface FeedbacksTabProps {
   emptyStateMessage?: string
   selectedStatus?: 'ALL' | EFeedbackStatus
   usePaginatedStaffFeedbacksParams: UsePaginatedStaffFeedbacksParams
+  withStatus?: boolean
 }
 
 const {
   emptyStateMessage,
   selectedStatus = 'ALL',
   usePaginatedStaffFeedbacksParams,
+  withStatus = true,
 } = defineProps<FeedbacksTabProps>()
 
 defineSlots<{
@@ -64,6 +66,8 @@ const feedbacksTitle = computed(() => {
   }
 })
 
+const statusColumn: AvTableColumn<FeedbackStaffListItemDTO> = { key: 'status', label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.status') }
+
 const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: string }>[]>(() => [
   {
     key: 'student',
@@ -77,10 +81,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
     key: 'createdAt',
     label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.receivedAt'),
   },
-  {
-    key: 'status',
-    label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.status'),
-  },
+  ...withStatus ? [statusColumn] : [],
   {
     key: 'iteration',
     label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.iterations'),

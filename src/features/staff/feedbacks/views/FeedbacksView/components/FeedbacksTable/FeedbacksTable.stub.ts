@@ -15,6 +15,10 @@ export const FeedbacksTableStub = defineComponent({
       type: Object as PropType<UsePaginatedStaffFeedbacksParams>,
       required: true,
     },
+    withStatus: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['updateFeedbacksCount'],
 })

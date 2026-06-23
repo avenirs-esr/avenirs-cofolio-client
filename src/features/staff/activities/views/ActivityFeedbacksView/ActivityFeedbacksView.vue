@@ -32,6 +32,6 @@ const breadcrumbLinks = computed(() => [
     :error="error"
     :error-title="t('staff.activities.views.ActivityFeedbacksView.errors.fetchActivity')"
   >
-    <ActivityFeedbacksDashboard />
+    <ActivityFeedbacksDashboard :activity="activity!" />
   </QuerySuspense>
 </template>
