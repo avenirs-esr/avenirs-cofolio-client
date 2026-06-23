@@ -4,7 +4,7 @@ import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { FeedbacksTable } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksTable'
 import { expect, type Page } from '@playwright/test'
-import { Fixture, Given, Then } from 'playwright-bdd/decorators'
+import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('staffFeedbacksPage')
 export class StaffFeedbacksPage extends BasePage {
@@ -14,7 +14,7 @@ export class StaffFeedbacksPage extends BasePage {
 
   private getFeedbacksTable () {
     return new FeedbacksTable(
-      this.page.getByTestId('feedbacks-tab'),
+      this.page.getByTestId('feedbacks-table'),
     )
   }
 
@@ -45,5 +45,10 @@ export class StaffFeedbacksPage extends BasePage {
   @Then('the feedbacks table is visible and contains at least 2 rows')
   async verifyFeedbacksTableVisibleAndContainsAtLeast2Rows () {
     await this.getFeedbacksTable().verifyTableVisibleAndContainsRows()
+  }
+
+  @When('the staff clicks the first access feedback button in the feedbacks table')
+  async clickFirstAccessFeedbackButtonInFeedbacksTable () {
+    await this.getFeedbacksTable().clickFirstAccessFeedbackButton()
   }
 }

@@ -66,7 +66,10 @@ watch(isDirty, (newValue) => {
 </script>
 
 <template>
-  <div class="av-col av-gap-sm">
+  <div
+    class="av-col av-gap-sm"
+    data-testid="write-feedback-tab"
+  >
     <div
       v-if="showSavedBadge"
       class="av-row av-pr-md av-justify-end"
@@ -78,9 +81,13 @@ watch(isDirty, (newValue) => {
         background-color="var(--dark-background-primary1)"
       />
     </div>
-    <form @submit.prevent="form.handleSubmit">
+    <form
+      data-testid="write-feedback-form"
+      @submit.prevent="form.handleSubmit"
+    >
       <FeedbackFormField
         :form="form"
+        data-testid="feedback-form-field"
         @autosave="saveFeedback"
       />
     </form>

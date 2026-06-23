@@ -130,7 +130,7 @@ BddTest().given('a FeedbacksTable component', () => {
 
   BddTest().when('the component is mounted in desktop view', () => {
     BddTest().then('it should display the title', () => {
-      expect(wrapper.find('[data-testid="feedbacks-tab-title"]').text()).toBe('Toutes mes demandes de feedback (3)')
+      expect(wrapper.find('[data-testid="feedbacks-table-title"]').text()).toBe('Toutes mes demandes de feedback (3)')
     })
 
     BddTest().then('it should render the pagination', () => {
