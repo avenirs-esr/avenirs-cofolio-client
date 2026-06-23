@@ -5,6 +5,7 @@ import {
   staffStudentFeedbacksRoute
 } from '@/features/staff/feedbacks/routes'
 import ActivityFeedbackDetailsView from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/ActivityFeedbackDetailsView.vue'
+import ActivityFeedbacksView from '@/features/staff/feedbacks/views/ActivityFeedbacksView/ActivityFeedbacksView.vue'
 import FeedbacksView from '@/features/staff/feedbacks/views/FeedbacksView/FeedbacksView.vue'
 import { testRoute } from 'tests/utils'
 
@@ -23,5 +24,5 @@ testRoute(
 testRoute(
   staffActivityFeedbacksRoute,
   ROUTES.STAFF.ACTIVITY_FEEDBACKS,
-  FeedbacksView
+  ActivityFeedbacksView
 )
