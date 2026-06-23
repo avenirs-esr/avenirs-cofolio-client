@@ -52,6 +52,18 @@
             "title": "Rédiger un feedback"
           }
         },
+        "ActivityFeedbacksView": {
+          "ActivityFeedbacksCard": {
+            "feedbacksSection": {
+              "title": "Demande de feedback"
+            },
+            "title": "Récapitulatif de l'activité"
+          },
+          "errors": {
+            "fetchActivity": "Impossible de charger l'activité"
+          },
+          "title": "Toutes mes demandes de feedback sur l'activité \"{activityTitle}\""
+        },
         "FeedbacksView": {
           "FeedbackStatusPicker": {
             "all": "Toutes ({count})",

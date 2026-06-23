@@ -61,6 +61,18 @@
             "title": "Write a feedback"
           }
         },
+        "ActivityFeedbacksView": {
+          "ActivityFeedbacksCard": {
+            "feedbacksSection": {
+              "title": "Feedback request"
+            },
+            "title": "Activity summary"
+          },
+          "errors": {
+            "fetchActivity": "Unable to load activity"
+          },
+          "title": "All my feedback requests on the activity \"{activityTitle}\""
+        },
         "FeedbacksView": {
           "FeedbackStatusPicker": {
             "all": "All ({count})",

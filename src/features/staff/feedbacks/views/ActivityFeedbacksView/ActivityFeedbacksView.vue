@@ -2,19 +2,13 @@
 import { EActivityStatus, useGetActivityContent } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
-import { ROUTES } from '@/common/constants'
-import ActivityFeedbacksDashboard from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/ActivityFeedbacksDashboard/ActivityFeedbacksDashboard.vue'
-import WriteFeedbackFloatingPanel from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/overlays/WriteFeedbackFloatingPanel/WriteFeedbackFloatingPanel.vue'
-import { useRouteQuery } from '@vueuse/router'
+import { ICONS, ROUTES } from '@/common/constants'
+import ActivityFeedbacksCard
+  from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/ActivityFeedbacksCard/ActivityFeedbacksCard.vue'
+import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { activityId } = defineProps<ActivityFeedbacksViewProps>()
-
-enum ActivityFeedbacksViewSection {
-  DASHBOARD = 'DASHBOARD',
-  ALL_FEEDBACKS = 'ALL_FEEDBACKS',
-}
 
 export interface ActivityFeedbacksViewProps {
   activityId: string
@@ -22,14 +16,9 @@ export interface ActivityFeedbacksViewProps {
 
 const { t } = useI18n()
 
-const activeSection = useEnumRouteQuery('section', ActivityFeedbacksViewSection, ActivityFeedbacksViewSection.DASHBOARD)
-
-const feedbackId = useRouteQuery<string | null>('feedbackId', null)
-
 const { data: activity, isLoading, error } = useGetActivityContent(EActivityStatus.PUBLISHED, activityId)
 
 const activityTitle = computed(() => activity.value?.title ?? '')
-const feedbacksCount = ref(0)
 
 const breadcrumbLinks = computed(() => [
   { text: t('staff.global.navigation.tabs.home'), to: ROUTES.STAFF.HOME },
@@ -42,22 +31,29 @@ const breadcrumbLinks = computed(() => [
 <template>
   <PageTitle
     :breadcrumb-links="breadcrumbLinks"
-    :title="t('staff.feedbacks.views.ActivityFeedbacksView.title', { count: feedbacksCount, activityTitle })"
+    :title="t('staff.feedbacks.views.ActivityFeedbacksView.title', { activityTitle })"
   />
-  <QuerySuspense
-    :is-loading="isLoading"
-    :error="error"
-    :error-title="t('staff.feedbacks.views.ActivityFeedbacksView.errors.fetchActivity')"
-  >
-    <ActivityFeedbacksDashboard
-      v-if="activeSection === ActivityFeedbacksViewSection.DASHBOARD"
-      :activity="activity!"
-      @update-feedbacks-count="feedbacksCount = $event"
-    />
-  </QuerySuspense>
-
-  <WriteFeedbackFloatingPanel
-    v-if="feedbackId"
-    :activity-title="activityTitle"
-  />
+  <div class="av-col av-gap-md">
+    <div class="av-col av-gap-xs">
+      <AvIconText
+        :icon="ICONS.ACTIVITY"
+        :text="t('staff.feedbacks.views.ActivityFeedbacksView.ActivityFeedbacksCard.title')"
+        typography-class="n4"
+        text-color="var(--dark-background-primary1)"
+        icon-color="var(--icon)"
+      />
+      <span
+        class="n5 av-pl-2xl av-text-primary1 av-text-regular"
+      >{{ activity?.title }}</span>
+    </div>
+    <QuerySuspense
+      :is-loading="isLoading"
+      :error="error"
+      :error-title="t('staff.feedbacks.views.ActivityFeedbacksView.errors.fetchActivity')"
+    >
+      <ActivityFeedbacksCard
+        :activity="activity!"
+      />
+    </QuerySuspense>
+  </div>
 </template>
