@@ -18,7 +18,7 @@ const mockError = new BaseApiException('error')
 
 const mockFormatLastModified = vi.fn((value: string) => `formatted-${value}`)
 const mockFormatTranslatedDateTime = vi.fn((value: string) => `translated-${value}`)
-const navigateToStaffActivityFeedbacks = vi.fn()
+const navigateToStaffActivityFeedbackDetails = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
@@ -30,7 +30,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
       formatTranslatedDateTime: mockFormatTranslatedDateTime,
     }),
     useNavigation: () => ({
-      navigateToStaffActivityFeedbacks
+      navigateToStaffActivityFeedbackDetails
     }),
   }
 })

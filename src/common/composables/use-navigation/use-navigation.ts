@@ -162,11 +162,11 @@ export function useNavigation () {
     return router.push(ROUTES.STAFF.HOME)
   }
 
-  const navigateToStaffActivityFeedbacks = ({ activityId, feedbackId }: { activityId: string, feedbackId: string }
+  const navigateToStaffActivityFeedbackDetails = ({ feedbackId }: { feedbackId: string }
   ): Promise<NavigationFailure | void | undefined> => {
     return router.push({
-      name: ROUTES.STAFF.ACTIVITY_FEEDBACKS.name,
-      params: { activityId, feedbackId },
+      name: ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name,
+      params: { feedbackId },
     })
   }
 
@@ -251,7 +251,7 @@ export function useNavigation () {
     navigateToStudentUpdateDeclaredProgram,
     navigateToStaffHome,
     navigateToActivityDetailed,
-    navigateToStaffActivityFeedbacks,
+    navigateToStaffActivityFeedbackDetails,
     navigateToStaffActivities,
     navigateToStaffActivitiesEditNationalActivity,
     navigateToStaffActivityCatalog,

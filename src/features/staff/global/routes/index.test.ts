@@ -3,7 +3,7 @@ import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityVie
 import CookiesView from '@/common/views/CookiesView/CookiesView.vue'
 import LegalView from '@/common/views/LegalView/LegalView.vue'
 import PersonalDataView from '@/common/views/PersonalDataView/PersonalDataView.vue'
-import ActivityFeedbacksView from '@/features/staff/feedbacks/views/ActivityFeedbacksView/ActivityFeedbacksView.vue'
+import ActivityFeedbackDetailsView from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/ActivityFeedbackDetailsView.vue'
 import FeedbacksView from '@/features/staff/feedbacks/views/FeedbacksView/FeedbacksView.vue'
 import routes from '@/features/staff/global/routes'
 import StaffHomeView from '@/features/staff/global/views/StaffHomeView/StaffHomeView.vue'
@@ -43,9 +43,9 @@ testRoute(
 )
 
 testRoute(
-  children.find(r => r.name === ROUTES.STAFF.ACTIVITY_FEEDBACKS.name)!,
-  ROUTES.STAFF.ACTIVITY_FEEDBACKS,
-  ActivityFeedbacksView
+  children.find(r => r.name === ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name)!,
+  ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS,
+  ActivityFeedbackDetailsView
 )
 
 testRoute(

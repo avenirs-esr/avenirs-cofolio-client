@@ -1,6 +1,6 @@
 import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import WriteFeedbackFloatingPanel from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/overlays/WriteFeedbackFloatingPanel/WriteFeedbackFloatingPanel.vue'
+import WriteFeedbackFloatingPanel from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/WriteFeedbackFloatingPanel/WriteFeedbackFloatingPanel.vue'
 import { AvFloatingPanelStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'

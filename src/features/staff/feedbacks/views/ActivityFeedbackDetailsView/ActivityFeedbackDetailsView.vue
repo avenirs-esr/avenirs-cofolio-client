@@ -2,15 +2,14 @@
 import { EUserCategory, useGetDeclaredActivityDetails, useGetFeedbackDetails } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { ROUTES } from '@/common/constants'
-import WriteFeedbackFloatingPanel from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/overlays/WriteFeedbackFloatingPanel/WriteFeedbackFloatingPanel.vue'
+import WriteFeedbackFloatingPanel from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/WriteFeedbackFloatingPanel/WriteFeedbackFloatingPanel.vue'
 import { useI18n } from 'vue-i18n'
 
-export interface ActivityFeedbacksViewProps {
-  activityId: string
+export interface ActivityFeedbackDetailsViewProps {
   feedbackId?: string
 }
 
-const { feedbackId, activityId } = defineProps<ActivityFeedbacksViewProps>()
+const { feedbackId } = defineProps<ActivityFeedbackDetailsViewProps>()
 
 const { t } = useI18n()
 
@@ -18,7 +17,7 @@ const { data: feedback } = useGetFeedbackDetails(EUserCategory.STAFF, feedbackId
   query: { enabled: !!feedbackId },
 })
 
-const activityDetailsId = computed(() => feedback.value?.declaredActivityId ?? activityId)
+const activityDetailsId = computed(() => feedback.value?.declaredActivityId ?? '')
 
 const { data: activity } = useGetDeclaredActivityDetails(activityDetailsId, {
   query: { enabled: computed(() => !!activityDetailsId.value) },
@@ -39,7 +38,7 @@ const breadcrumbLinks = computed(() => [
 <template>
   <PageTitle
     :breadcrumb-links="breadcrumbLinks"
-    :title="t('staff.feedbacks.views.ActivityFeedbacksView.title', { count: feedbacksCount, activityTitle: activity?.activity.title ?? '' })"
+    :title="t('staff.feedbacks.views.ActivityFeedbackDetailsView.title', { count: feedbacksCount, activityTitle: activity?.activity.title ?? '' })"
   />
 
   <WriteFeedbackFloatingPanel

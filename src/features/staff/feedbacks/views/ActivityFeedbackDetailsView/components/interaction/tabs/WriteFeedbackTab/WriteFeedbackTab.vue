@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { type FeedbackDetailsDTO, useSubmitFeedback } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
-import FeedbackFormField from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/interaction/formFields/FeedbackFormField/FeedbackFormField.vue'
-import { useWriteFeedbackForm } from '@/features/staff/feedbacks/views/ActivityFeedbacksView/composables/use-write-feedback-form/use-write-feedback-form'
+import FeedbackFormField from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackFormField/FeedbackFormField.vue'
+import { useWriteFeedbackForm } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form/use-write-feedback-form'
 import { useToasterStore } from '@/store'
 import { AvBadge, AvCancelConfirmButtons, MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -45,12 +45,12 @@ function submitFeedback () {
     { feedbackId: feedback.id },
     {
       onSuccess: () => {
-        addSuccessMessage(t('staff.feedbacks.views.ActivityFeedbacksView.WriteFeedbackFloatingPanel.tabs.write.success.sendFeedback'))
+        addSuccessMessage(t('staff.feedbacks.views.ActivityFeedbackDetailsView.WriteFeedbackFloatingPanel.tabs.write.success.sendFeedback'))
         emit('feedbackSent')
       },
       onError: (error) => {
         addErrorMessage({
-          title: t('staff.feedbacks.views.ActivityFeedbacksView.WriteFeedbackFloatingPanel.tabs.write.errors.saveFeedback'),
+          title: t('staff.feedbacks.views.ActivityFeedbackDetailsView.WriteFeedbackFloatingPanel.tabs.write.errors.saveFeedback'),
           description: getErrorMessage(error)
         })
       },

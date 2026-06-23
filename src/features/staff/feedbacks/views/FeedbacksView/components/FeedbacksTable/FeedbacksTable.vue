@@ -46,7 +46,7 @@ const {
 
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
-const { navigateToStaffActivityFeedbacks } = useNavigation()
+const { navigateToStaffActivityFeedbackDetails } = useNavigation()
 
 const { formatLastModified, formatTranslatedDateTime } = useDateUtils()
 
@@ -164,10 +164,8 @@ watch(
               v-for="feedback in filteredRows"
               :key="feedback.id"
               :to="{
-                name: ROUTES.STAFF.ACTIVITY_FEEDBACKS.name,
-                params: { activityId: feedback.activity?.activity?.id,
-                          feedbackId: feedback?.id,
-                },
+                name: ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name,
+                params: { feedbackId: feedback?.id },
               }"
             >
               <FeedbackCard :feedback="feedback" />
@@ -216,7 +214,7 @@ watch(
                 :icon="MDI_ICONS.ARROW_RIGHT"
                 icon-only
                 data-testid="feedbacks-tab-access-button"
-                @click="navigateToStaffActivityFeedbacks({ activityId: row.activity?.activity?.id, feedbackId: row.id })"
+                @click="navigateToStaffActivityFeedbackDetails({ feedbackId: row.id })"
               />
             </template>
           </AvTable>

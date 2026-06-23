@@ -2,13 +2,12 @@ import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 
 export const staffStudentActivityFeedbacksRoute: AvRoute = {
-  ...ROUTES.STAFF.ACTIVITY_FEEDBACKS,
+  ...ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS,
   props: route => ({
-    activityId: route.params.activityId,
     feedbackId: route.params.feedbackId,
   }),
   component: () =>
-    import('@/features/staff/feedbacks/views/ActivityFeedbacksView/ActivityFeedbacksView.vue'),
+    import('@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/ActivityFeedbackDetailsView.vue'),
 }
 
 export const staffStudentFeedbacksRoute: AvRoute = {

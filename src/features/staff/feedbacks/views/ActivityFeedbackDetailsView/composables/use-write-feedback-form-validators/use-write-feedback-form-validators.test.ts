@@ -1,5 +1,5 @@
 import { FEEDBACK_MAX_LENGTH } from '@/features/staff/feedbacks/config'
-import { useWriteFeedbackFormValidators } from '@/features/staff/feedbacks/views/ActivityFeedbacksView/composables/use-write-feedback-form-validators/use-write-feedback-form-validators'
+import { useWriteFeedbackFormValidators } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form-validators/use-write-feedback-form-validators'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
