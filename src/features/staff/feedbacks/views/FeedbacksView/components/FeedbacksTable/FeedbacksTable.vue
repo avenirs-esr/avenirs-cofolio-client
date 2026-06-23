@@ -18,14 +18,16 @@ export interface FeedbacksTabProps {
   emptyStateMessage?: string
   selectedStatus?: 'ALL' | EFeedbackStatus
   usePaginatedStaffFeedbacksParams: UsePaginatedStaffFeedbacksParams
-  withStatus?: boolean
+  withAccess?: boolean
+  withActivity?: boolean
 }
 
 const {
   emptyStateMessage,
   selectedStatus = 'ALL',
   usePaginatedStaffFeedbacksParams,
-  withStatus = true,
+  withAccess = true,
+  withActivity = true,
 } = defineProps<FeedbacksTabProps>()
 
 defineSlots<{
@@ -66,22 +68,23 @@ const feedbacksTitle = computed(() => {
   }
 })
 
-const statusColumn: AvTableColumn<FeedbackStaffListItemDTO> = { key: 'status', label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.status') }
+const activityColumn: AvTableColumn<FeedbackStaffListItemDTO> = { key: 'activity', label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.formation') }
+const accessColumn: AvTableColumn<FeedbackStaffListItemDTO & { access?: string }> = { key: 'access', label: t('global.buttons.access') }
 
 const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: string }>[]>(() => [
   {
     key: 'student',
     label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.student'),
   },
-  {
-    key: 'activity',
-    label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.formation'),
-  },
+  ...withActivity ? [activityColumn] : [],
   {
     key: 'createdAt',
     label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.receivedAt'),
   },
-  ...withStatus ? [statusColumn] : [],
+  {
+    key: 'status',
+    label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.status'),
+  },
   {
     key: 'iteration',
     label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.iterations'),
@@ -90,10 +93,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
     key: 'updatedAt',
     label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.lastSaved'),
   },
-  {
-    key: 'access',
-    label: t('global.buttons.access'),
-  },
+  ...withAccess ? [accessColumn] : [],
 ])
 </script>
 
@@ -152,7 +152,10 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
               {{ row.student?.firstName }} {{ row.student?.lastName }}
             </template>
 
-            <template #cell(activity)="{ row }">
+            <template
+              v-if="withActivity"
+              #cell(activity)="{ row }"
+            >
               {{ row.activity?.activity?.title }}
             </template>
 
@@ -177,7 +180,10 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
               {{ row.updatedAt ? formatTranslatedDateTime(row.updatedAt) : '' }}
             </template>
 
-            <template #cell(access)="{ row }">
+            <template
+              v-if="withAccess"
+              #cell(access)="{ row }"
+            >
               <AvButton
                 :label="t('global.buttons.access')"
                 :icon="MDI_ICONS.ARROW_RIGHT"

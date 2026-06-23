@@ -24,6 +24,15 @@
       },
       "views": {
         "ActivityFeedbackDetailsView": {
+          "ActivityFeedbacksDashboard": {
+            "feedbacksSection": {
+              "title": "Feedback request"
+            },
+            "title": "Activity summary"
+          },
+          "errors": {
+            "fetchActivity": "Unable to load activity"
+          },
           "ActivityFeedbackStudentSelect": {
             "placeholder": "Select a student"
           },
