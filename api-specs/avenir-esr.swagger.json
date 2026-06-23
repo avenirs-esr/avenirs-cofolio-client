@@ -3174,6 +3174,71 @@
         }
       }
     },
+    "/me/activity-progress/feedbacks/exhaustive-list/{activityId}": {
+      "get": {
+        "tags": [
+          "feedback-controller"
+        ],
+        "operationId": "getFeedbacksByActivity",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StudentFeedbackItemListDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activity-progress/feedbacks/dashboard": {
+      "get": {
+        "tags": [
+          "feedback-controller"
+        ],
+        "operationId": "getFeedbackDashboard",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackDashboardDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activities": {
       "get": {
         "tags": [
@@ -6571,6 +6636,49 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "StudentFeedbackItemListDTO": {
+        "type": "object",
+        "properties": {
+          "feedbackId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "student": {
+            "$ref": "#/components/schemas/UserInfoDTO"
+          }
+        },
+        "required": [
+          "id",
+          "student"
+        ]
+      },
+      "FeedbackDashboardDTO": {
+        "type": "object",
+        "properties": {
+          "newFeedbacks": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pendingFeedbacks": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "processedFeedbacks": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalFeedbacks": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "newFeedbacks",
+          "pendingFeedbacks",
+          "processedFeedbacks",
+          "totalFeedbacks"
         ]
       },
       "ActivityOverviewDTO": {

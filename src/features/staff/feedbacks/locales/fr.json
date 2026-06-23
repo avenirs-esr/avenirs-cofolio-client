@@ -24,6 +24,9 @@
       },
       "views": {
         "ActivityFeedbackDetailsView": {
+          "ActivityFeedbackStudentSelect": {
+            "placeholder": "Sélectionner un étudiant"
+          },
           "title": "Toutes mes demandes de feedback ({count}) sur l'activité \"{activityTitle}\"",
           "WriteFeedbackFloatingPanel": {
             "tabs": {
