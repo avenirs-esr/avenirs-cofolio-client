@@ -155,7 +155,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
       onSubmit!({ value: formData, formApi: composableResult.form, meta: {} })
 
       await vi.waitFor(() => {
-        expect(updateTraceSpy).toHaveBeenCalledWith('trace1', {
+        expect(updateTraceSpy).toHaveBeenCalledWith('4453f884-9081-43cb-95c6-d76c2bb59fd7', {
           title: 'Updated Title',
           personalNote: 'Updated note',
           authorType: ETraceAuthorType.PERSONAL,
@@ -179,7 +179,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
       composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
 
       await vi.waitFor(() => {
-        expect(updateTraceSpy).toHaveBeenCalledWith('trace1', {
+        expect(updateTraceSpy).toHaveBeenCalledWith('4453f884-9081-43cb-95c6-d76c2bb59fd7', {
           title: 'Updated Title',
           personalNote: undefined,
           authorType: ETraceAuthorType.PERSONAL,
@@ -203,7 +203,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
       composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
 
       await vi.waitFor(() => {
-        expect(updateTraceSpy).toHaveBeenCalledWith('trace1', {
+        expect(updateTraceSpy).toHaveBeenCalledWith('4453f884-9081-43cb-95c6-d76c2bb59fd7', {
           title: 'Updated Title',
           personalNote: 'Note',
           authorType: ETraceAuthorType.PERSONAL,

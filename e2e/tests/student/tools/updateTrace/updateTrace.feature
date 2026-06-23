@@ -4,7 +4,7 @@ Feature: Student Tools Update Trace Page
   Background:
     Given the student opens the tools traces page
     When the student open associated traces tab
-    And the student clicks the first associated trace card
+    And the student clicks the trace with locked associations
     And the trace details page is loaded
     When the student clicks on the trace settings dropdown trigger
     Then the update item in the trace settings dropdown is visible

@@ -10,6 +10,7 @@ import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 export
 @Fixture<typeof test>('studentToolsTracesPage')
 class StudentToolsTracesPage extends BasePage {
+  private static readonly TRACE_WITH_LOCKED_ASSOCIATIONS_ID = '4453f884-9081-43cb-95c6-d76c2bb59fd7'
   constructor (public page: Page) {
     super(page)
   }
@@ -186,5 +187,14 @@ class StudentToolsTracesPage extends BasePage {
     await expect(this.getTraceDeletionConfirmationModalSubdescription()).toHaveText(
       t('student.traces.modals.TraceDeletionConfirmationModal.subdescription')
     )
+  }
+
+  @When('the student clicks the trace with locked associations')
+  async clickTraceWithLockedAssociations () {
+    await this.getTracesAssociatedTab().clickCardByTraceId(
+      StudentToolsTracesPage.TRACE_WITH_LOCKED_ASSOCIATIONS_ID
+    )
+
+    await waitForPageLoad(this.page)
   }
 }

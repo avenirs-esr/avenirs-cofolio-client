@@ -52,17 +52,17 @@ BddTest().given('an associate traces modal', () => {
   }
 
   const selectedTraceOptions = [
-    { label: 'Ma super trace non associée numéro 1', value: 'trace-non-associee1', disabled: false },
+    { label: 'Ma super trace non associée numéro 1', value: '4453f884-9081-43cb-95c6-d76c2bb59fd7', disabled: false },
     { label: 'Ma super trace non associée numéro 2', value: 'trace-non-associee2', disabled: false }
   ]
 
   const expectedSelectedAssociations = [
-    { id: 'trace-non-associee1', title: 'Ma super trace non associée numéro 1' },
+    { id: '4453f884-9081-43cb-95c6-d76c2bb59fd7', title: 'Ma super trace non associée numéro 1' },
     { id: 'trace-non-associee2', title: 'Ma super trace non associée numéro 2' }
   ]
 
   const expectedSelectedAssociationsAfterDelete = [
-    { id: 'trace-non-associee1', title: 'Ma super trace non associée numéro 1' }
+    { id: '4453f884-9081-43cb-95c6-d76c2bb59fd7', title: 'Ma super trace non associée numéro 1' }
   ]
 
   beforeEach(() => {
@@ -130,7 +130,7 @@ BddTest().given('an associate traces modal', () => {
 
         expect(options).toHaveLength(5)
         expect(options).toEqual([
-          { label: 'Ma super trace non associée numéro 1', value: 'trace-non-associee1', disabled: false },
+          { label: 'Ma super trace non associée numéro 1', value: '4453f884-9081-43cb-95c6-d76c2bb59fd7', disabled: false },
           { label: 'Ma super trace non associée numéro 2', value: 'trace-non-associee2', disabled: false },
           { label: 'Ma super trace non associée numéro 3', value: 'trace-non-associee3', disabled: false },
           { label: 'Ma super trace non associée numéro 4', value: 'trace-non-associee4', disabled: false },
@@ -243,7 +243,7 @@ BddTest().given('an associate traces modal', () => {
           const layout = wrapper.findComponent(SearchAssociationLayoutStub)
 
           expect(layout.props('options')).toEqual([
-            { label: 'Ma super trace non associée numéro 1', value: 'trace-non-associee1', disabled: false }
+            { label: 'Ma super trace non associée numéro 1', value: '4453f884-9081-43cb-95c6-d76c2bb59fd7', disabled: false }
           ])
         })
       })
