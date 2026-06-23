@@ -22,9 +22,3 @@ testRoute(
   ROUTES.STAFF.ACTIVITY_CATALOG,
   NationalActivityCatalogView
 )
-
-testRoute(
-  staffStudentFeedbacksRoute,
-  ROUTES.STAFF.STUDENT_FEEDBACKS,
-  FeedbacksView
-)

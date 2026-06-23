@@ -59,18 +59,6 @@
             "StaffAllActivitiesTab": "All Published Activities"
           }
         },
-        "ActivityFeedbacksView": {
-          "ActivityFeedbacksDashboard": {
-            "feedbacksSection": {
-              "title": "Feedback request"
-            },
-            "title": "Activity summary"
-          },
-          "errors": {
-            "fetchActivity": "Unable to load activity"
-          },
-          "title": "All my feedback requests for the activity \"{name}\""
-        },
         "AddNationalActivityView": {
           "sideNavigation": {
             "content": {
