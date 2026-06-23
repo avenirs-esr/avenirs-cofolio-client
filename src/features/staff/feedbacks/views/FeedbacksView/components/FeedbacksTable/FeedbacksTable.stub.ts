@@ -15,10 +15,6 @@ export const FeedbacksTableStub = defineComponent({
       type: Object as PropType<UsePaginatedStaffFeedbacksParams>,
       required: true,
     },
-    withAccess: {
-      type: Boolean,
-      default: true,
-    },
     withActivity: {
       type: Boolean,
       default: true,

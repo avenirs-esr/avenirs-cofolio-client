@@ -18,7 +18,6 @@ export interface FeedbacksTabProps {
   emptyStateMessage?: string
   selectedStatus?: 'ALL' | EFeedbackStatus
   usePaginatedStaffFeedbacksParams: UsePaginatedStaffFeedbacksParams
-  withAccess?: boolean
   withActivity?: boolean
 }
 
@@ -26,7 +25,6 @@ const {
   emptyStateMessage,
   selectedStatus = 'ALL',
   usePaginatedStaffFeedbacksParams,
-  withAccess = true,
   withActivity = true,
 } = defineProps<FeedbacksTabProps>()
 
@@ -93,7 +91,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
     key: 'updatedAt',
     label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.lastSaved'),
   },
-  ...withAccess ? [accessColumn] : [],
+  accessColumn,
 ])
 </script>
 
@@ -181,7 +179,6 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
             </template>
 
             <template
-              v-if="withAccess"
               #cell(access)="{ row }"
             >
               <AvButton
