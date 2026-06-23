@@ -24,4 +24,5 @@ export const handlers = [
   ...skillsHandlers,
   ...staffsUserHandlers,
   ...staffsActivitiesHandlers,
+  ...feedbacksHandlers,
 ]

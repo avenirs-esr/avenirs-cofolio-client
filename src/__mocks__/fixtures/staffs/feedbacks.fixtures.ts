@@ -64,6 +64,7 @@ const allFeedbacks: FeedbackStaffListItemDTO[] = [
 export const mockedFeedbackDetailsWithAssociations: FeedbackDetailsDTO = {
   id: 'feedback-with-associations',
   declaredActivityId: 'declared-activity-1',
+  feedback: 'This is a detailed feedback with associations',
   status: EFeedbackStatus.NEW,
   student: mockedStudent,
   associatedTraces: [mockedTraceDetailedWithFile],

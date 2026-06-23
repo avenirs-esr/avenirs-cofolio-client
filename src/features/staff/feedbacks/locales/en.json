@@ -31,6 +31,18 @@
                 "title": "Feedback history ({count})"
               },
               "write": {
+                "errors": {
+                  "saveFeedback": "An error occurred while saving feedback",
+                  "sendFeedback": "An error occurred while sending feedback"
+                },
+                "inputs": {
+                  "FeedbackTextarea": {
+                    "label": "Feedback"
+                  }
+                },
+                "success": {
+                  "sendFeedback": "Feedback has been successfully sent"
+                },
                 "title": "My feedback"
               }
             },
