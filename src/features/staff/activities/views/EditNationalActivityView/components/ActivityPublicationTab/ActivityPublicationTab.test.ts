@@ -10,7 +10,7 @@ import {
   EditNationalActivityViewFormWrapper,
   EditNationalActivityViewFormWrapperDirty,
 } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
-import { FormFieldCardContainerStub } from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.stub'
+import { IconTitleCardContainerStub } from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
@@ -76,7 +76,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
     ActivityBannerFormField: ActivityBannerFormFieldStub,
     ActivitySummaryFormField: ActivitySummaryFormFieldStub,
     ActivityExecutionPeriodFormField: ActivityExecutionPeriodFormFieldStub,
-    FormFieldCardContainer: FormFieldCardContainerStub,
+    IconTitleCardContainer: IconTitleCardContainerStub,
   }
 
   function mountTab (
@@ -105,8 +105,8 @@ BddTest().given('an ActivityPublicationTab component', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render FormFieldCardContainer', () => {
-      expect(tab.findComponent(FormFieldCardContainerStub).exists()).toBe(true)
+    BddTest().then('it should render IconTitleCardContainer', () => {
+      expect(tab.findComponent(IconTitleCardContainerStub).exists()).toBe(true)
     })
 
     BddTest().then('it should render ActivityTitleFormField', () => {

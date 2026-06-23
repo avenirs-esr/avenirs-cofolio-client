@@ -12,7 +12,7 @@ import { ContentSectionId } from '@/features/staff/activities/editActivity.const
 import ThematicSelectFormField from '@/features/staff/activities/views/ActivitiesView/components/tabs/NationalActivityContentTab/interactions/formFields/ThematicSelectFormField/ThematicSelectFormField.vue'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
-import FormFieldCardContainer from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
+import IconTitleCardContainer from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -38,7 +38,7 @@ const isFormDirty = form.useStore(state => state.isDirty)
     data-testid="activity-content-tab"
   >
     <div :id="ContentSectionId.TITLE">
-      <FormFieldCardContainer
+      <IconTitleCardContainer
         :title="`${t('staff.activities.interactions.inputs.ActivityTitleInput.label')} *`"
         :title-icon="ICONS.ACTIVITY"
       >
@@ -46,11 +46,11 @@ const isFormDirty = form.useStore(state => state.isDirty)
           :form="form"
           @autosave="save"
         />
-      </FormFieldCardContainer>
+      </IconTitleCardContainer>
     </div>
 
     <div :id="ContentSectionId.THEMATIC">
-      <FormFieldCardContainer
+      <IconTitleCardContainer
         :title="`${t('staff.activities.interactions.ThematicSelect.label')} *`"
         :title-icon="MDI_ICONS.BOOK_OPEN_VARIANT"
       >
@@ -58,11 +58,11 @@ const isFormDirty = form.useStore(state => state.isDirty)
           :form="form"
           @autosave="save"
         />
-      </FormFieldCardContainer>
+      </IconTitleCardContainer>
     </div>
 
     <div :id="ContentSectionId.INSTRUCTIONS">
-      <FormFieldCardContainer
+      <IconTitleCardContainer
         :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.INSTRUCTIONS')"
         :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
         collapsible
@@ -72,10 +72,10 @@ const isFormDirty = form.useStore(state => state.isDirty)
           :form="form"
           @autosave="save"
         />
-      </FormFieldCardContainer>
+      </IconTitleCardContainer>
     </div>
     <div :id="ContentSectionId.CONTEXT">
-      <FormFieldCardContainer
+      <IconTitleCardContainer
         :title="t('staff.activities.interactions.formFields.ActivityExecutionPeriodFormField.label')"
         :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
         collapsible
@@ -86,10 +86,10 @@ const isFormDirty = form.useStore(state => state.isDirty)
           min-height="15rem"
           @autosave="save"
         />
-      </FormFieldCardContainer>
+      </IconTitleCardContainer>
     </div>
     <div :id="ContentSectionId.MODALITIES">
-      <FormFieldCardContainer
+      <IconTitleCardContainer
         :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.MODALITIES')"
         :title-icon="MDI_ICONS.SETTINGS"
         collapsible
@@ -106,7 +106,7 @@ const isFormDirty = form.useStore(state => state.isDirty)
           :form="form"
           @autosave="save"
         />
-      </FormFieldCardContainer>
+      </IconTitleCardContainer>
     </div>
     <div class="av-row av-wrap av-gap-sm av-justify-end">
       <EditNationalActivityViewTabActions />

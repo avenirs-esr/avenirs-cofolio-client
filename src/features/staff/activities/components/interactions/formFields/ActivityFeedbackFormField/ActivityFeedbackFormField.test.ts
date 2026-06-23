@@ -4,7 +4,7 @@ import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import ActivityFeedbackFormField from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.vue'
 import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'
-import { FormFieldCardContainerStub } from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.stub'
+import { IconTitleCardContainerStub } from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
@@ -29,7 +29,7 @@ BddTest().given('an ActivityFeedbackFormField component', () => {
 
   const stubs = {
     Input: InputStub,
-    FormFieldCardContainer: FormFieldCardContainerStub,
+    IconTitleCardContainer: IconTitleCardContainerStub,
     Toggle: ToggleStub,
   }
 

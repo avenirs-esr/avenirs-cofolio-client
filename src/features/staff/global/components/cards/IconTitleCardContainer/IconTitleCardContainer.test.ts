@@ -1,26 +1,27 @@
-import type { FormFieldCardContainerProps } from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
-import FormFieldCardContainer from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
+import IconTitleCardContainer, {
+  type IconTitleCardContainerProps
+} from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a form field card container', () => {
-  let wrapper: VueWrapper<InstanceType<typeof FormFieldCardContainer>>
+  let wrapper: VueWrapper<InstanceType<typeof IconTitleCardContainer>>
 
   const stubs = {
     Card: CardStub,
     AvIconText: AvIconTextStub
   }
 
-  const props: FormFieldCardContainerProps = {
+  const props: IconTitleCardContainerProps = {
     title: 'Mon titre',
     titleIcon: 'mdi:attach-file',
   }
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
-      wrapper = mount(FormFieldCardContainer, { props, global: { stubs } })
+      wrapper = mount(IconTitleCardContainer, { props, global: { stubs } })
     })
 
     BddTest().then('it should render the card', () => {
@@ -55,7 +56,7 @@ BddTest().given('a form field card container', () => {
     })
 
     BddTest().then('it should not append an asterisk when required is false', () => {
-      wrapper = mount(FormFieldCardContainer, {
+      wrapper = mount(IconTitleCardContainer, {
         props: { ...props, required: false },
         global: { stubs },
       })
@@ -65,7 +66,7 @@ BddTest().given('a form field card container', () => {
     })
 
     BddTest().then('it should append an asterisk when required is true', () => {
-      wrapper = mount(FormFieldCardContainer, {
+      wrapper = mount(IconTitleCardContainer, {
         props: { ...props, required: true },
         global: { stubs },
       })
@@ -75,7 +76,7 @@ BddTest().given('a form field card container', () => {
     })
 
     BddTest().then('it should render the slot content', () => {
-      wrapper = mount(FormFieldCardContainer, {
+      wrapper = mount(IconTitleCardContainer, {
         props,
         global: { stubs },
         slots: { default: '<p data-testid="slot-content">Contenu</p>' },
@@ -85,7 +86,7 @@ BddTest().given('a form field card container', () => {
     })
 
     BddTest().then('it should render the title slot content', () => {
-      wrapper = mount(FormFieldCardContainer, {
+      wrapper = mount(IconTitleCardContainer, {
         props,
         global: { stubs },
         slots: { title: '<button data-testid="title-slot-content">Action</button>' },

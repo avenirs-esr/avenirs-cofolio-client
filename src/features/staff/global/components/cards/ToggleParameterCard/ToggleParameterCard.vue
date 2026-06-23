@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import Toggle from '@/common/components/Toggle/Toggle.vue'
-import FormFieldCardContainer from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
+import IconTitleCardContainer from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 
 export interface ToggleParameterCardProps {
   title: string
@@ -19,7 +19,7 @@ const model = defineModel<boolean>({ default: true })
 </script>
 
 <template>
-  <FormFieldCardContainer
+  <IconTitleCardContainer
     :title="title"
     :title-icon="icon"
     background-color="var(--other-background-base)"
@@ -35,5 +35,5 @@ const model = defineModel<boolean>({ default: true })
     </template>
 
     <slot />
-  </FormFieldCardContainer>
+  </IconTitleCardContainer>
 </template>

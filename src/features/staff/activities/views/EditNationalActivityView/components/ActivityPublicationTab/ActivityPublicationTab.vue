@@ -14,7 +14,7 @@ import ActivityTitleFormField from '@/features/staff/activities/components/inter
 import { PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
-import FormFieldCardContainer from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
+import IconTitleCardContainer from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { useToasterStore } from '@/store'
 import { AvButton, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -81,7 +81,7 @@ async function publishActivityDraft () {
     data-testid="activity-publication-tab-content"
   >
     <div :id="PublicationSectionId.ACTIVITY_TITLE">
-      <FormFieldCardContainer
+      <IconTitleCardContainer
         :title="t('staff.activities.interactions.inputs.ActivityTitleInput.label')"
         :title-icon="ICONS.ACTIVITY"
         required
@@ -90,11 +90,11 @@ async function publishActivityDraft () {
           :form="form"
           @autosave="save"
         />
-      </FormFieldCardContainer>
+      </IconTitleCardContainer>
     </div>
 
     <div :id="PublicationSectionId.IMAGE">
-      <FormFieldCardContainer
+      <IconTitleCardContainer
         :title="t('global.information.imageUpload.title')"
         :title-icon="ICONS.ACTIVITY"
       >
@@ -104,7 +104,7 @@ async function publishActivityDraft () {
           :remote-banner="activity.banner"
           @autosave="save"
         />
-      </FormFieldCardContainer>
+      </IconTitleCardContainer>
     </div>
 
     <div
@@ -112,7 +112,7 @@ async function publishActivityDraft () {
       class="av-col av-row--md av-w-full--md av-gap-sm"
     >
       <div class="av-flex-fill--md">
-        <FormFieldCardContainer
+        <IconTitleCardContainer
           :title="t('staff.activities.views.EditNationalActivityView.ActivitySummaryFormField.label')"
           :title-icon="MDI_ICONS.FILE_DOCUMENT_EDIT_OUTLINE"
           required
@@ -121,10 +121,10 @@ async function publishActivityDraft () {
             :form="form"
             @autosave="save"
           />
-        </FormFieldCardContainer>
+        </IconTitleCardContainer>
       </div>
       <div class="av-flex-fill--md">
-        <FormFieldCardContainer
+        <IconTitleCardContainer
           :title="t('staff.activities.interactions.formFields.ActivityExecutionPeriodFormField.label')"
           :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
           required
@@ -133,7 +133,7 @@ async function publishActivityDraft () {
             :form="form"
             @autosave="save"
           />
-        </FormFieldCardContainer>
+        </IconTitleCardContainer>
       </div>
     </div>
     <div class="av-row av-wrap av-gap-sm av-justify-end">

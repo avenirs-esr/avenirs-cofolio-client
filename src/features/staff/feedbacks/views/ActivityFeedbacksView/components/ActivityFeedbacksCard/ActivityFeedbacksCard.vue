@@ -5,7 +5,7 @@ import type { MaybeRef } from 'vue'
 import { useGetStaffFeedbacks } from '@/api/avenir-esr'
 import { ICONS } from '@/common/constants'
 import FeedbacksTable from '@/features/staff/feedbacks/views/FeedbacksView/components/FeedbacksTable/FeedbacksTable.vue'
-import FormFieldCardContainer from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
+import IconTitleCardContainer from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { unref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -29,7 +29,7 @@ const usePaginatedStaffFeedbacksParams: UsePaginatedStaffFeedbacksParams = {
 </script>
 
 <template>
-  <FormFieldCardContainer
+  <IconTitleCardContainer
     :title="t('staff.feedbacks.views.ActivityFeedbacksView.ActivityFeedbacksCard.feedbacksSection.title')"
     :title-icon="ICONS.FEEDBACK"
     collapsible
@@ -38,5 +38,5 @@ const usePaginatedStaffFeedbacksParams: UsePaginatedStaffFeedbacksParams = {
       :use-paginated-staff-feedbacks-params="usePaginatedStaffFeedbacksParams"
       :with-activity="false"
     />
-  </FormFieldCardContainer>
+  </IconTitleCardContainer>
 </template>

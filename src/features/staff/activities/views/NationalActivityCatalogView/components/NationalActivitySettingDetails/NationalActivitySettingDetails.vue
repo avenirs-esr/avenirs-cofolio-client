@@ -7,7 +7,7 @@ import {
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY,
   ACTIVITY_TRACE_SETTING_DISABLED_VALUE
 } from '@/features/staff/activities/config'
-import FormFieldCardContainer from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.vue'
+import IconTitleCardContainer from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -32,28 +32,28 @@ const feedbackIterationsLabel = computed(() => activity.feedbackAllowedIteration
 </script>
 
 <template>
-  <FormFieldCardContainer
+  <IconTitleCardContainer
     :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.MODALITIES')"
     :title-icon="MDI_ICONS.SETTINGS"
     data-testid="national-activity-setting-details"
   >
-    <FormFieldCardContainer
+    <IconTitleCardContainer
       :title="t('staff.activities.views.EditNationalActivityView.ActivityReflectionFormField.title')"
       :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
       background-color="var(--other-background-base)"
       data-testid="national-activity-setting-details-reflection"
     >
       <EnabledDisabledStatusBadge :enabled="activity.enableReflection" />
-    </FormFieldCardContainer>
-    <FormFieldCardContainer
+    </IconTitleCardContainer>
+    <IconTitleCardContainer
       :title="t('staff.activities.views.EditNationalActivityView.ActivityTraceFormField.title')"
       :title-icon="MDI_ICONS.ATTACH_FILE"
       background-color="var(--other-background-base)"
       data-testid="national-activity-setting-details-trace"
     >
       <EnabledDisabledStatusBadge :enabled="isTraceEnabled" />
-    </FormFieldCardContainer>
-    <FormFieldCardContainer
+    </IconTitleCardContainer>
+    <IconTitleCardContainer
       :title="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.title')"
       :title-icon="ICONS.FEEDBACK"
       background-color="var(--other-background-base)"
@@ -69,6 +69,6 @@ const feedbackIterationsLabel = computed(() => activity.feedbackAllowedIteration
           background-color="var(--light-background-neutral)"
         />
       </div>
-    </FormFieldCardContainer>
-  </FormFieldCardContainer>
+    </IconTitleCardContainer>
+  </IconTitleCardContainer>
 </template>

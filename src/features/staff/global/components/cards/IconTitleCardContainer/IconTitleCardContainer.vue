@@ -3,7 +3,7 @@ import type { Slot } from 'vue'
 import Card, { type CardProps } from '@/common/components/cards/Card/Card.vue'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 
-export interface FormFieldCardContainerProps extends Pick<CardProps, 'collapsible' | 'collapsed' | 'titleOnly'> {
+export interface IconTitleCardContainerProps extends Pick<CardProps, 'collapsible' | 'collapsed' | 'titleOnly'> {
   title: string
   titleIcon: string
   required?: boolean
@@ -16,7 +16,7 @@ const {
   collapsible = false,
   collapsed = false,
   titleOnly = false
-} = defineProps<FormFieldCardContainerProps>()
+} = defineProps<IconTitleCardContainerProps>()
 
 defineSlots<{
   title?: Slot
