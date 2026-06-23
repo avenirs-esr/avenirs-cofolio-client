@@ -75,13 +75,7 @@ export const publishActivityDraftHandler = http.post(`*${getPublishActivityDraft
 })
 
 export const staffsActivitiesHandlers = [
-  http.get(`*${getGetActivityContentUrl(EActivityStatus.DRAFT, ':activityId')}`, () => {
-    return HttpResponse.json<ActivityContentDTO>(mockedActivityContent, {
-      status: HttpStatusCode.OK,
-      headers: { 'Content-Type': 'application/json' },
-    })
-  }),
-  http.get(`*${getGetActivityContentUrl(EActivityStatus.PUBLISHED, ':activityId')}`, () => {
+  http.get(`*${getGetActivityContentUrl(':status' as EActivityStatus, ':activityId')}`, () => {
     return HttpResponse.json<ActivityContentDTO>(mockedActivityContent, {
       status: HttpStatusCode.OK,
       headers: { 'Content-Type': 'application/json' },

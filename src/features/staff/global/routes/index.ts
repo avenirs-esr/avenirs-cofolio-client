@@ -1,7 +1,11 @@
 import type { RoutePageProps } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 import { staffActivitiesEditNationalActivityRoute, staffActivitiesRoute, staffActivityCatalogRoute } from '@/features/staff/activities/routes'
-import { staffStudentActivityFeedbacksRoute, staffStudentFeedbacksRoute } from '@/features/staff/feedbacks/routes'
+import {
+  staffActivityFeedbacksRoute,
+  staffStudentActivityFeedbacksRoute,
+  staffStudentFeedbacksRoute
+} from '@/features/staff/feedbacks/routes'
 
 const footerLegalProps: RoutePageProps = {
   breadcrumbLinksRaw: [
@@ -48,6 +52,7 @@ export default [
       staffActivityCatalogRoute,
       staffStudentActivityFeedbacksRoute,
       staffStudentFeedbacksRoute,
+      staffActivityFeedbacksRoute
     ]
   }
 ]
