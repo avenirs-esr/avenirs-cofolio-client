@@ -45,6 +45,19 @@ export class ActivityLibraryTab extends BaseObject {
     return new UnsubscribeActivitiesModal(this.page!.getByTestId('unsubscribe-activities-modal'), this.page!)
   }
 
+  getPageSizePickerOption (pageSize: number) {
+    return this.root
+      .page()
+      .getByTestId('av-tag-picker')
+      .and(this.root.page().locator(`[data-option="${pageSize}"]`))
+  }
+
+  getCardByActivityId (activityId: string) {
+    return this.root.locator(
+      `[data-testid="activity-library-card"][data-activity-id="${activityId}"]`
+    )
+  }
+
   async verifyTitleWithPositiveCount () {
     await expect(this.getTitle()).toBeVisible()
     const count = await extractNumberFromText(this.getTitle())
@@ -112,5 +125,21 @@ export class ActivityLibraryTab extends BaseObject {
     }
 
     throw new Error('No activity card with not in progress status found in activity library tab')
+  }
+
+  async selectPageSize (pageSize: number) {
+    const option = this.getPageSizePickerOption(pageSize)
+
+    await expect(option).toBeVisible()
+    await option.click()
+
+    await expect.poll(async () => this.getCards().count()).toBeGreaterThan(1)
+  }
+
+  async clickCardByActivityId (activityId: string) {
+    const card = this.getCardByActivityId(activityId)
+
+    await expect(card).toBeVisible()
+    await card.click()
   }
 }

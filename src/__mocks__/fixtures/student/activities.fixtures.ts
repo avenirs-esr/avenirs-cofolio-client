@@ -168,7 +168,7 @@ export const activitiesNavigationMock: ActivityNavigationDTO[] = [
 const commonMockedDeclaredActivityProps = {
   id: 'declared-activity-1',
   activity: {
-    id: 'activity-1',
+    id: '2d6a9b4f-7c3e-4a11-8f5b-6e2c9d7a3b12',
     title: 'Activité “Connaissance de soi” : Définir ses valeurs',
     summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l\'étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
     description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Permettre à l\'étudiant.e de déterminer des valeurs auxquelles il/elle est attaché.e</p></li><li><p>Encourager l\'étudiant.e à réfléchir à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des valeurs personnelles clés</p></li><li><p>Réflexion sur la manière dont ces valeurs s\'incarnent dans les comportements et les pratiques quotidiens</p></li><li><p>Mise en perspective de ces valeurs avec le projet de vie envisagé</p></li></ol>',
@@ -199,7 +199,7 @@ export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
 // TODO: changes this to activities returned by seeder in dev
 export const mockedDeclaredActivityViewDTO: DeclaredActivityViewDTO = {
   id: 'declared-activity-1',
-  activityId: 'declared-activity-1',
+  activityId: '2d6a9b4f-7c3e-4a11-8f5b-6e2c9d7a3b12',
   title: 'Activité "Connaissance de soi" : Définir ses valeurs',
   thematic: EActivityThematic.SELF_KNOWLEDGE,
   status: EDeclaredActivityStatus.IN_PROGRESS,

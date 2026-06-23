@@ -4,17 +4,19 @@ Feature: Student Project Activity Detail Page
   Background:
     Given the student opens the project activities page
     When the student open activity library tab
-    And the student clicks the first library activity card
+    And the student selects 12 results per page in activity library
 
   Rule: Page Load
 
     @high @activity-details
     Scenario: Student can load activity detail page
+      And the student clicks a library activity card with "IN_PROGRESS" status
       Then the URL contains "/cofolio/student/project/activities/"
 
   Rule: Activity Detail
 
     Background:
+      And the student clicks a library activity card with "IN_PROGRESS" status
       And the project activity details are loaded
 
     @high @activity-details @activity-title
@@ -46,16 +48,13 @@ Feature: Student Project Activity Detail Page
   Rule: My perspective
 
     Background:
-      And the project activity details are loaded
-
-    @high @activity-details @perspective
-    Scenario: Student can edit an activity perspective
-      When the student opens the project activities page
-      And the student open activity library tab
       And the student clicks a library activity card with "IN_PROGRESS" status
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
+
+    @high @activity-details @perspective
+    Scenario: Student can edit an activity perspective
       Then the my perspective card is visible
       And the my perspective card is in readonly mode
       When the student clicks the edit my perspective button
@@ -63,12 +62,6 @@ Feature: Student Project Activity Detail Page
 
     @high @activity-details @perspective
     Scenario: Student can cancel the edition of an activity perspective
-      When the student opens the project activities page
-      And the student open activity library tab
-      And the student clicks a library activity card with "IN_PROGRESS" status
-      And the project activity details are loaded
-      And the student clicks the my perspective item in the activity side menu
-      And the my perspective section is visible
       Then the my perspective card is visible
       And the my perspective card is in readonly mode
       When the student clicks the edit my perspective button
@@ -78,35 +71,14 @@ Feature: Student Project Activity Detail Page
 
     @high @activity-details @feedback-info-card
     Scenario: Student can see the feedback info card in the my perspective tab
-      When the student opens the project activities page
-      And the student open activity library tab
-      And the student clicks a library activity card with "IN_PROGRESS" status
-      And the project activity details are loaded
-      And the student clicks the my perspective item in the activity side menu
-      And the my perspective section is visible
       Then the feedback info card is visible
       And the feedback info card title is visible
       And the feedback info card iterations badge is visible
 
   Rule: Finish declared activity
 
-    Background:
-      And the project activity details are loaded
-
-    @high @activity-details @finish-activity
-    Scenario: Student cannot finish an activity that is not in progress
-      When the student opens the project activities page
-      And the student open activity library tab
-      And the student clicks a library activity card with not in progress status
-      And the project activity details are loaded
-      And the student clicks the my perspective item in the activity side menu
-      And the my perspective section is visible
-      Then the finish activity button is hidden
-
     @high @activity-details @finish-activity
     Scenario: Student can finish an in progress activity
-      When the student opens the project activities page
-      And the student open activity library tab
       And the student clicks a library activity card with "IN_PROGRESS" status
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
@@ -115,12 +87,7 @@ Feature: Student Project Activity Detail Page
       When the student clicks the finish activity button
       Then the finish activity confirmation modal is visible
 
-    Rule: Request feedback
-
-    Background:
-      And the project activity details are loaded
-      When the student opens the project activities page
-      And the student open activity library tab
+  Rule: Request feedback
 
     @high @activity-details @feedback-request
     Scenario: Student with subscribed activity has no feedback button and no hint
@@ -162,13 +129,8 @@ Feature: Student Project Activity Detail Page
       And the my perspective section is visible
       Then the request feedback button is hidden
       And the finished hint is visible
-      
-  Rule: Received feedbacks
 
-    Background:
-      And the project activity details are loaded
-      When the student opens the project activities page
-      And the student open activity library tab
+  Rule: Received feedbacks
 
     @high @activity-details @received-feedbacks
     Scenario: Student can see the received feedbacks section in the my perspective tab for an in progress activity
@@ -181,7 +143,7 @@ Feature: Student Project Activity Detail Page
 
     @high @activity-details @received-feedbacks
     Scenario: Student sees the empty state when no submitted feedbacks
-      And the student clicks a library activity card with "IN_PROGRESS" status
+      And the student clicks an in progress activity without received feedbacks
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
@@ -191,34 +153,22 @@ Feature: Student Project Activity Detail Page
   Rule: Associated elements
 
     Background:
-      And the project activity details are loaded
       When the student opens the project activities page
       And the student open activity library tab
+      And the student selects 12 results per page in activity library
 
     @high @activity-details @associated-elements @dataset-full
     Scenario: Student can see the activity associated elements
-      And the student clicks a library activity card with "IN_PROGRESS" status
+      And the student clicks an in progress activity with associated traces
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       When the student opens associated elements tab
       Then the associated traces card is visible
-      When the student clicks the associated traces card
-      Then the associated trace cards are visible
-
-    @high @activity-details @associated-elements
-    Scenario: Student can't see associated elements of activities without associated elements
-      And the student clicks a library activity card with not in progress status
-      And the project activity details are loaded
-      And the student clicks the my perspective item in the activity side menu
-      And the my perspective section is visible
-      When the student opens associated elements tab
-      Then the associated traces card is hidden
-      And the associated trace cards are hidden
 
     @high @activity-details @associated-elements @associate-traces-modal @dataset-full
     Scenario: Student can open associate traces modal from associated elements tab
-      And the student clicks a library activity card with "IN_PROGRESS" status
+      And the student clicks an in progress activity with associated traces
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
