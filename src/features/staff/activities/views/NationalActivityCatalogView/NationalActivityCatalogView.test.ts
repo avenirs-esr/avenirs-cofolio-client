@@ -14,10 +14,12 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const mockNavigateToStaffActivities = vi.fn()
+const mockNavigateToStaffActivitiesEditNationalActivity = vi.fn()
 
 vi.mock('@/common/composables/use-navigation/use-navigation', () => ({
   useNavigation: () => ({
     navigateToStaffActivities: mockNavigateToStaffActivities,
+    navigateToStaffActivitiesEditNationalActivity: mockNavigateToStaffActivitiesEditNationalActivity,
   }),
 }))
 
@@ -99,9 +101,9 @@ BddTest().given('a national activity catalog view', () => {
       await waitForLoaded()
     })
 
-    BddTest().then('it should render the delete button', () => {
-      expect(wrapper.findComponent(AvButtonStub).exists()).toBe(true)
-      expect(wrapper.findComponent(AvButtonStub).props('label')).toBe('Supprimer')
+    BddTest().then('it should render the edit and delete buttons', () => {
+      expect(wrapper.find('[data-testid="edit-draft-button"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="delete-draft-button"]').exists()).toBe(true)
     })
 
     BddTest().then('it should render the confirmation modal closed', () => {
@@ -112,9 +114,19 @@ BddTest().given('a national activity catalog view', () => {
       expect(wrapper.findComponent(DeleteDraftActivityConfirmationModalStub).props('activityId')).toBe(mockedActivityContent.id)
     })
 
+    BddTest().and('the edit button is clicked', () => {
+      beforeEach(async () => {
+        await wrapper.find('[data-testid="edit-draft-button"]').trigger('click')
+      })
+
+      BddTest().then('it should navigate to the edit view', () => {
+        expect(mockNavigateToStaffActivitiesEditNationalActivity).toHaveBeenCalledWith({ id: mockedActivityContent.id })
+      })
+    })
+
     BddTest().and('the delete button is clicked', () => {
       beforeEach(async () => {
-        await wrapper.findComponent(AvButtonStub).trigger('click')
+        await wrapper.find('[data-testid="delete-draft-button"]').trigger('click')
       })
 
       BddTest().then('it should open the confirmation modal', () => {
