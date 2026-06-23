@@ -8,7 +8,7 @@ import {
   ACTIVITY_TRACE_SETTING_DISABLED_VALUE
 } from '@/features/staff/activities/config'
 import NationalActivitySettingDetails from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySettingDetails/NationalActivitySettingDetails.vue'
-import { FormFieldCardContainerStub } from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.stub'
+import { IconTitleCardContainerStub } from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
@@ -18,7 +18,7 @@ BddTest().given('a national activity setting details component', () => {
   let wrapper: VueWrapper<InstanceType<typeof NationalActivitySettingDetails>>
 
   const stubs = {
-    FormFieldCardContainer: FormFieldCardContainerStub,
+    IconTitleCardContainer: IconTitleCardContainerStub,
     AvBadge: AvBadgeStub,
     EnabledDisabledStatusBadge: EnabledDisabledStatusBadgeStub,
   }
@@ -37,7 +37,7 @@ BddTest().given('a national activity setting details component', () => {
     wrapper.find(`[data-testid="${testid}"]`).findComponent(AvBadgeStub)
 
   const findCardIn = (testid: string) =>
-    wrapper.find(`[data-testid="${testid}"]`).findComponent(FormFieldCardContainerStub)
+    wrapper.find(`[data-testid="${testid}"]`).findComponent(IconTitleCardContainerStub)
 
   beforeEach(() => {
     vi.clearAllMocks()

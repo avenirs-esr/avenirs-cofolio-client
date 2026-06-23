@@ -3,7 +3,7 @@ import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fi
 import { ICONS } from '@/common/constants'
 import ActivityFeedbacksCard from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/ActivityFeedbacksCard/ActivityFeedbacksCard.vue'
 import { FeedbacksTableStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/FeedbacksTable/FeedbacksTable.stub'
-import { FormFieldCardContainerStub } from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.stub'
+import { IconTitleCardContainerStub } from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -12,7 +12,7 @@ BddTest().given('an ActivityFeedbacksCard component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityFeedbacksCard>>
 
   const stubs = {
-    FormFieldCardContainer: FormFieldCardContainerStub,
+    IconTitleCardContainer: IconTitleCardContainerStub,
     FeedbacksTable: FeedbacksTableStub,
   }
 
@@ -25,16 +25,16 @@ BddTest().given('an ActivityFeedbacksCard component', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render FormFieldCardContainer', () => {
-      expect(wrapper.findComponent(FormFieldCardContainerStub).exists()).toBe(true)
+    BddTest().then('it should render IconTitleCardContainer', () => {
+      expect(wrapper.findComponent(IconTitleCardContainerStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should pass the correct title to FormFieldCardContainer', () => {
-      expect(wrapper.findComponent(FormFieldCardContainerStub).props('title')).toBe('Demande de feedback')
+    BddTest().then('it should pass the correct title to IconTitleCardContainer', () => {
+      expect(wrapper.findComponent(IconTitleCardContainerStub).props('title')).toBe('Demande de feedback')
     })
 
-    BddTest().then('it should pass the feedback icon to FormFieldCardContainer', () => {
-      expect(wrapper.findComponent(FormFieldCardContainerStub).props('titleIcon')).toBe(ICONS.FEEDBACK)
+    BddTest().then('it should pass the feedback icon to IconTitleCardContainer', () => {
+      expect(wrapper.findComponent(IconTitleCardContainerStub).props('titleIcon')).toBe(ICONS.FEEDBACK)
     })
 
     BddTest().then('it should render FeedbacksTable', () => {

@@ -8,7 +8,7 @@ import { ContentSectionId } from '@/features/staff/activities/editActivity.const
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
 import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.stub'
 import { EditNationalActivityViewFormWrapper, EditNationalActivityViewFormWrapperDirty } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
-import { FormFieldCardContainerStub } from '@/features/staff/global/components/cards/FormFieldCardContainer/FormFieldCardContainer.stub'
+import { IconTitleCardContainerStub } from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -26,7 +26,7 @@ BddTest().given('an ActivityContentTab component', () => {
     ActivityTraceFormField: ActivityTraceFormFieldStub,
     EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     AvButton: AvButtonStub,
-    FormFieldCardContainer: FormFieldCardContainerStub,
+    IconTitleCardContainer: IconTitleCardContainerStub,
   }
 
   function mountTab (FormWrapper: typeof EditNationalActivityViewFormWrapper | typeof EditNationalActivityViewFormWrapperDirty) {
@@ -45,8 +45,8 @@ BddTest().given('an ActivityContentTab component', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render FormFieldCardContainer', () => {
-      expect(tab.findComponent({ name: 'FormFieldCardContainer' }).exists()).toBe(true)
+    BddTest().then('it should render IconTitleCardContainer', () => {
+      expect(tab.findComponent({ name: 'IconTitleCardContainer' }).exists()).toBe(true)
     })
 
     BddTest().then('it should render ActivityTitleFormField', () => {
@@ -61,17 +61,17 @@ BddTest().given('an ActivityContentTab component', () => {
       expect(tab.find(`#${ContentSectionId.INSTRUCTIONS}`).exists()).toBe(true)
     })
 
-    BddTest().then('it should render the INSTRUCTIONS FormFieldCardContainer as collapsible and collapsed', () => {
+    BddTest().then('it should render the INSTRUCTIONS IconTitleCardContainer as collapsible and collapsed', () => {
       const instructionsSection = tab.find(`#${ContentSectionId.INSTRUCTIONS}`)
-      const cardContainer = instructionsSection.findComponent({ name: 'FormFieldCardContainer' })
+      const cardContainer = instructionsSection.findComponent({ name: 'IconTitleCardContainer' })
       expect(cardContainer.props('collapsible')).toBeDefined()
       expect(cardContainer.props('collapsed')).toBeDefined()
     })
 
-    BddTest().then('it should render the CONTEXT section anchor with a collapsible and collapsed FormFieldCardContainer', () => {
+    BddTest().then('it should render the CONTEXT section anchor with a collapsible and collapsed IconTitleCardContainer', () => {
       const contextSection = tab.find(`#${ContentSectionId.CONTEXT}`)
       expect(contextSection.exists()).toBe(true)
-      const cardContainer = contextSection.findComponent({ name: 'FormFieldCardContainer' })
+      const cardContainer = contextSection.findComponent({ name: 'IconTitleCardContainer' })
       expect(cardContainer.props('collapsible')).toBeDefined()
       expect(cardContainer.props('collapsed')).toBeDefined()
     })
