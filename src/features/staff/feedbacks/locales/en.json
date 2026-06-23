@@ -24,6 +24,9 @@
       },
       "views": {
         "ActivityFeedbackDetailsView": {
+          "ActivityFeedbackStudentSelect": {
+            "placeholder": "Select a student"
+          },
           "title": "All my feedback requests ({count}) on the activity \"{activityTitle}\"",
           "WriteFeedbackFloatingPanel": {
             "tabs": {
