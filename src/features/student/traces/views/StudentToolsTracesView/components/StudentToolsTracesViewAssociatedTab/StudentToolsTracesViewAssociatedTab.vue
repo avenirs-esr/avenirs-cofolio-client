@@ -60,6 +60,7 @@ watch([
           :key="trace.id"
           :trace="trace"
           data-testid="associated-trace-card"
+          :data-trace-id="trace.id"
         />
       </div>
     </Pagination>

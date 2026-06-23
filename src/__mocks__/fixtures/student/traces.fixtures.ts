@@ -40,7 +40,7 @@ export const mockedTracesSummary: TracesSummaryDTO = {
 
 export const mockedTraceOverview: TraceOverviewDTO[] = [
   {
-    id: 'trace1',
+    id: '4453f884-9081-43cb-95c6-d76c2bb59fd7',
     title: 'Prévenir la pollution à la source',
     authorType: ETraceAuthorType.PERSONAL,
     programName: 'Master Chimie Verte et Éco-innovations',
@@ -87,7 +87,9 @@ export function createMockedTracesViewResponse (
 
     const trace: TraceViewDTO = {
       isAssociated: traceIsAssociated,
-      id: `trace-${traceIsAssociated ? 'associee' : 'non-associee'}${i}`,
+      id: i === 1
+        ? '4453f884-9081-43cb-95c6-d76c2bb59fd7'
+        : `trace-${traceIsAssociated ? 'associee' : 'non-associee'}${i}`,
       title: `Ma super trace ${traceIsAssociated ? 'associée' : 'non associée'} numéro ${i}`,
       createdAt: `2025-${monthNumber}-${dayNumber}T10:42:00.000Z`,
       updatedAt: `2025-${monthNumber}-${dayNumber}T11:42:00.000Z`,
@@ -246,10 +248,10 @@ export const mockedEmptyTraceAssociations: TraceAssociationsDTO = {
 }
 
 export const mockedTraceDetailed = {
-  id: 'trace1',
+  id: '4453f884-9081-43cb-95c6-d76c2bb59fd7',
   title: 'Développement d\'un ePortfolio',
   isAssociated: false,
-  link: 'https://example.com/trace/trace1',
+  link: 'https://example.com/trace/4453f884-9081-43cb-95c6-d76c2bb59fd7',
   createdAt: '2025-06-16T10:42:00.000Z',
   updatedAt: '2025-06-17T15:18:00.000Z',
   programName: 'An awesome program',
