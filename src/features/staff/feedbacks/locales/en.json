@@ -66,10 +66,10 @@
               "student": "First name Last name"
             },
             "title": {
-              "default": "All my feedback requests ({count})",
-              "new": "All my new feedback requests ({count})",
-              "sent": "All my sent feedback requests ({count})",
-              "unprocessed": "All my unprocessed feedback requests ({count})"
+              "default": "All my feedback requests",
+              "new": "All my new feedback requests",
+              "sent": "All my sent feedback requests",
+              "unprocessed": "All my unprocessed feedback requests"
             }
           },
           "title": "All my feedback requests"

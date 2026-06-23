@@ -108,29 +108,9 @@ BddTest().given('a FeedbacksTable component', () => {
     await mountDefault()
   })
 
-  BddTest().when('the component is mounted', () => {
-    BddTest().then('it should emit updateFeedbacksCount with the correct count', () => {
-      expect(wrapper.emitted('updateFeedbacksCount')).toBeTruthy()
-      expect(wrapper.emitted('updateFeedbacksCount')![0]).toEqual([3])
-    })
-
-    BddTest().then('it should emit updateFeedbacksCount with 0 when pageInfo is undefined', async () => {
-      await mountDefault({
-        paginatedResult: {
-          ...defaultPaginatedResult,
-          feedbacks: computed(() => []),
-          pageInfo: computed(() => undefined),
-        },
-      })
-
-      expect(wrapper.emitted('updateFeedbacksCount')).toBeTruthy()
-      expect(wrapper.emitted('updateFeedbacksCount')![0]).toEqual([0])
-    })
-  })
-
   BddTest().when('the component is mounted in desktop view', () => {
     BddTest().then('it should display the title', () => {
-      expect(wrapper.find('[data-testid="feedbacks-table-title"]').text()).toBe('Toutes mes demandes de feedback (3)')
+      expect(wrapper.find('[data-testid="feedbacks-table-title"]').text()).toBe('Toutes mes demandes de feedback')
     })
 
     BddTest().then('it should render the pagination', () => {
