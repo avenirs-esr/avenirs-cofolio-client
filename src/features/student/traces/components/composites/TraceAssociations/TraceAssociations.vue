@@ -58,12 +58,14 @@ const deletableDeclaredActivityAssociations = computed(() =>
   >
     <div class="av-row av-flex-fill av-justify-end av-gap-md">
       <DeleteTraceAssociatedElementsDropdown
+        :disabled="disabled"
         :activities-disabled="deletableDeclaredActivityAssociations.length === 0"
         :skills-disabled="declaredSkillAssociations.length === 0"
         @activities-selected="displayActivitiesModal"
         @skills-selected="displaySkillsModal"
       />
       <TraceAssociateElementsDropdown
+        :disabled="disabled"
         @skills-selected="displayAssociationModal"
         @activities-selected="displayAssociateActivitiesModal"
         @experiences-selected="displayAssociateExperiencesModal"

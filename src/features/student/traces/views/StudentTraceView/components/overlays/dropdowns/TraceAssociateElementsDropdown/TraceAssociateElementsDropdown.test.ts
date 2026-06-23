@@ -88,4 +88,25 @@ BddTest().given('a trace associate elements dropdown', () => {
       expect(wrapper.emitted('skillsSelected')).toHaveLength(1)
     })
   })
+
+  BddTest().when('the component is mounted with disabled=true', () => {
+    beforeEach(() => {
+      wrapper = mount(TraceAssociateElementsDropdown, {
+        props: { disabled: true },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('the activities menu item should be disabled', () => {
+      expect(wrapper.find('[data-name="activities"]').attributes('disabled')).toBeDefined()
+    })
+
+    BddTest().then('the experiences menu item should be disabled', () => {
+      expect(wrapper.find('[data-name="experiences"]').attributes('disabled')).toBeDefined()
+    })
+
+    BddTest().then('the skills menu item should be disabled', () => {
+      expect(wrapper.find('[data-name="skills"]').attributes('disabled')).toBeDefined()
+    })
+  })
 })

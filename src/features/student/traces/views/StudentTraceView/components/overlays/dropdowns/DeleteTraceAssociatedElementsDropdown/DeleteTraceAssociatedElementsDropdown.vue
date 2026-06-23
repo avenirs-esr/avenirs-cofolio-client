@@ -6,9 +6,10 @@ import { useI18n } from 'vue-i18n'
 export interface DeleteTraceAssociatedElementsDropdownProps {
   skillsDisabled?: boolean
   activitiesDisabled?: boolean
+  disabled?: boolean
 }
 
-const { skillsDisabled = false, activitiesDisabled = false } = defineProps<DeleteTraceAssociatedElementsDropdownProps>()
+const { skillsDisabled = false, activitiesDisabled = false, disabled = false } = defineProps<DeleteTraceAssociatedElementsDropdownProps>()
 
 const emit = defineEmits<{
   (e: 'skillsSelected'): void
@@ -27,13 +28,13 @@ const menuItems = computed(() => [
     name: DeleteTraceAssociatedElementsDropdownEvents.SKILLS,
     icon: ICONS.SKILLS,
     label: t('student.traces.views.StudentTraceView.DeleteTraceAssociatedElementsDropdown.skills'),
-    disabled: skillsDisabled,
+    disabled: disabled || skillsDisabled,
   },
   {
     name: DeleteTraceAssociatedElementsDropdownEvents.ACTIVITIES,
     icon: ICONS.ACTIVITY,
     label: t('student.traces.views.StudentTraceView.DeleteTraceAssociatedElementsDropdown.activities'),
-    disabled: activitiesDisabled,
+    disabled: disabled || activitiesDisabled,
   }
 ])
 

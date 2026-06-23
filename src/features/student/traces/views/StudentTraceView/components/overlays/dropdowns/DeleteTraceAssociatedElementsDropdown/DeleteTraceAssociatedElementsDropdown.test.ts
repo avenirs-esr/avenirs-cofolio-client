@@ -72,4 +72,34 @@ BddTest().given('a delete trace associated elements dropdown', () => {
       expect(activitiesButton.attributes('disabled')).toBeDefined()
     })
   })
+
+  BddTest().when('the component is mounted with disabled=true', () => {
+    beforeEach(() => {
+      wrapper = mount(DeleteTraceAssociatedElementsDropdown, {
+        props: { disabled: true },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('the skills menu item should be disabled', () => {
+      expect(wrapper.find('[data-name="skills"]').attributes('disabled')).toBeDefined()
+    })
+
+    BddTest().then('the activities menu item should be disabled', () => {
+      expect(wrapper.find('[data-name="activities"]').attributes('disabled')).toBeDefined()
+    })
+  })
+
+  BddTest().when('the component is mounted with disabled=true and skillsDisabled=false', () => {
+    beforeEach(() => {
+      wrapper = mount(DeleteTraceAssociatedElementsDropdown, {
+        props: { disabled: true, skillsDisabled: false },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('the skills menu item should still be disabled', () => {
+      expect(wrapper.find('[data-name="skills"]').attributes('disabled')).toBeDefined()
+    })
+  })
 })
