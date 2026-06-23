@@ -36,7 +36,6 @@ const usePaginatedStaffFeedbacksParams: UsePaginatedStaffFeedbacksParams = {
   >
     <FeedbacksTable
       :use-paginated-staff-feedbacks-params="usePaginatedStaffFeedbacksParams"
-      :with-access="false"
       :with-activity="false"
     />
   </FormFieldCardContainer>

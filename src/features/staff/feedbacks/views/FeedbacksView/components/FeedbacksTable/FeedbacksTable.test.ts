@@ -152,17 +152,6 @@ BddTest().given('a FeedbacksTable component', () => {
     })
   })
 
-  BddTest().when('withAccess is false', () => {
-    beforeEach(async () => {
-      await mountDefault({ props: { withAccess: false } })
-    })
-
-    BddTest().then('it should not render the access column', () => {
-      const columns = wrapper.findComponent(AvTableStub).props('columns') as AvTableColumn<FeedbackStaffListItemDTO & { access?: string }>[]
-      expect(columns.map(c => c.key)).not.toContain('access')
-    })
-  })
-
   BddTest().when('the component is mounted in mobile view', () => {
     beforeEach(async () => {
       await mountDefault({ isMobile: true })

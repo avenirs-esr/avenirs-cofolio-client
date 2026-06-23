@@ -41,10 +41,6 @@ BddTest().given('an ActivityFeedbacksCard component', () => {
       expect(wrapper.findComponent(FeedbacksTableStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should pass withAccess=false to FeedbacksTable', () => {
-      expect(wrapper.findComponent(FeedbacksTableStub).props('withAccess')).toBe(false)
-    })
-
     BddTest().then('it should pass withActivity=false to FeedbacksTable', () => {
       expect(wrapper.findComponent(FeedbacksTableStub).props('withActivity')).toBe(false)
     })
