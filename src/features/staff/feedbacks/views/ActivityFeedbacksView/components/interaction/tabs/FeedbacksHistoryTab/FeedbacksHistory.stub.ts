@@ -1,4 +1,4 @@
 export const FeedbacksHistoryTabStub = defineComponent({
-  name: 'FeedbacksHistoryTabStub',
+  name: 'FeedbacksHistoryTab',
   template: '<div data-testid="feedbacks-history-tab-stub" />',
 })

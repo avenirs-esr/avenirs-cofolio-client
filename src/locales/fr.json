@@ -120,6 +120,7 @@
       "restore": "Restaurer",
       "save": "Enregistrer",
       "search": "Rechercher",
+      "send": "Envoyer",
       "share": "Partager",
       "undo": "Annuler",
       "update": "Modifier"
@@ -367,6 +368,7 @@
     "pageSizePicker": {
       "label": "Nombre de résultats par page :"
     },
+    "saved": "Enregistré",
     "selects": {
       "FileTypeMultiselect": {
         "AUDIO": "Fichier audio (mp3, wav)",

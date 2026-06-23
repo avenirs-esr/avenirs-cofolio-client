@@ -122,6 +122,7 @@
       "restore": "Restore",
       "save": "Save",
       "search": "Search",
+      "send": "Send",
       "share": "Share",
       "undo": "Undo",
       "update": "Update"
@@ -363,6 +364,7 @@
     "pageSizePicker": {
       "label": "Number of results per page:"
     },
+    "saved": "Saved",
     "selects": {
       "FileTypeMultiselect": {
         "AUDIO": "Audio file (mp3, wav)",
