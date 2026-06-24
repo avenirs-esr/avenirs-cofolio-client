@@ -80,6 +80,12 @@ export const mockedFeedbackDetailsWithoutAssociations: FeedbackDetailsDTO = {
   associatedDeclaredSkills: [],
 }
 
+export const mockedFeedbackDetailsSubmitted: FeedbackDetailsDTO = {
+  ...mockedFeedbackDetailsWithAssociations,
+  status: EFeedbackStatus.SUBMITTED,
+  id: 'feedback-submitted',
+}
+
 export function createMockedPagedResponseFeedbackStaffListItemDTO (
   pageSize: number,
   totalElements: number,
