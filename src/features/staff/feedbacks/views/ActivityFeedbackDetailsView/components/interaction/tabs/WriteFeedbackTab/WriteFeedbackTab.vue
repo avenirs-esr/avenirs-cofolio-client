@@ -24,19 +24,14 @@ const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
 const showSavedBadge = ref(false)
 
-const { form, isFormValid, isSubmitting, isDirty, handleCancel } = useWriteFeedbackForm(
+const { form, isFormValid, isSubmitting, isDirty, handleCancel } = useWriteFeedbackForm({
   feedback,
-  () => showSavedBadge.value = true
+  onFeedbackSaved: () => {
+    showSavedBadge.value = true
+  },
+  onCancel: () => emit('cancel')
+}
 )
-
-function onCancel () {
-  handleCancel()
-  emit('cancel')
-}
-
-function saveFeedback () {
-  form.handleSubmit()
-}
 
 const { mutate: mutateSubmitFeedback, isPending } = useSubmitFeedback()
 
@@ -58,6 +53,10 @@ function submitFeedback () {
   )
 }
 
+function saveFeedback () {
+  form.handleSubmit()
+}
+
 watch(isDirty, (newValue) => {
   if (newValue) {
     showSavedBadge.value = false
@@ -66,6 +65,7 @@ watch(isDirty, (newValue) => {
 </script>
 
 <template>
+  {{ feedback.feedback }}
   <div
     class="av-col av-gap-sm"
     data-testid="write-feedback-tab"
@@ -101,10 +101,9 @@ watch(isDirty, (newValue) => {
         :confirm-label="t('global.buttons.send')"
         :confirm-icon="MS_ICONS.SEND_OUTLINE_ROUNDED"
         :cancel-is-loading="isPending"
-        :confirm-is-loading="isDirty || isPending"
-        :is-submitting="isSubmitting"
-        :is-form-valid="isFormValid"
-        @cancel="onCancel"
+        :confirm-is-loading="isDirty || isPending || isSubmitting"
+        :confirm-disabled="!isFormValid"
+        @cancel="handleCancel"
         @confirm="submitFeedback"
       />
     </div>
