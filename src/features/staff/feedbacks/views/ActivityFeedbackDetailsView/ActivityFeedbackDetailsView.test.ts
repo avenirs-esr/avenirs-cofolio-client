@@ -24,7 +24,7 @@ BddTest().given('an activity feedback details view', () => {
     AssociatedElementSummaryCard: AssociatedElementSummaryCardStub,
   }
 
-  BddTest().when('the component is mounted with a feedback id', () => {
+  BddTest().when('the component is mounted with a feedback id corresponding to non submitted feedback', () => {
     beforeEach(async () => {
       wrapper = mountComponent(ActivityFeedbackDetailsView, {
         props: { feedbackId: 'feedback-1' },
@@ -74,6 +74,21 @@ BddTest().given('an activity feedback details view', () => {
 
     BddTest().then('it should render the write feedback floating panel', () => {
       expect(wrapper.findComponent(WriteFeedbackFloatingPanelStub).exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is mounted with a feedback id corresponding to submitted feedback', () => {
+    beforeEach(async () => {
+      wrapper = mountComponent(ActivityFeedbackDetailsView, {
+        props: { feedbackId: 'feedback-submitted' },
+        global: { stubs },
+      })
+
+      await flushPromises()
+    })
+
+    BddTest().then('it should not render the write feedback floating panel', () => {
+      expect(wrapper.findComponent(WriteFeedbackFloatingPanelStub).exists()).toBe(false)
     })
   })
 

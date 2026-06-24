@@ -1,5 +1,6 @@
 import {
   createMockedPagedResponseFeedbackStaffListItemDTO,
+  mockedFeedbackDetailsSubmitted,
   mockedFeedbackDetailsWithAssociations,
   mockedFeedbackDetailsWithoutAssociations
 } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
@@ -26,6 +27,13 @@ export const getFeedbackDetailsWithAssociationsHandler = http.get(
 
     if (params.feedbackId === mockedFeedbackDetailsWithoutAssociations.id) {
       return HttpResponse.json<FeedbackDetailsDTO>(mockedFeedbackDetailsWithoutAssociations, {
+        status: HttpStatusCode.OK,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    if (params.feedbackId === mockedFeedbackDetailsSubmitted.id) {
+      return HttpResponse.json<FeedbackDetailsDTO>(mockedFeedbackDetailsSubmitted, {
         status: HttpStatusCode.OK,
         headers: { 'Content-Type': 'application/json' },
       })
