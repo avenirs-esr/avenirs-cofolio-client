@@ -1,5 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { ETraceAuthorType } from '@/api/avenir-esr'
+import {
+  ETraceAuthorType,
+  type FileDTO
+} from '@/api/avenir-esr'
+import * as avenirEsrApi from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
 import { useTracesStore } from '@/features/student/traces'
@@ -120,6 +124,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.spyOn(avenirEsrApi, 'uploadFile').mockResolvedValue({} as FileDTO)
     mockCanLeave.mockResolvedValue(true)
 
     wrapper = mountComponent<typeof StudentToolsTracesAddTraceDrawer>(StudentToolsTracesAddTraceDrawer, {

@@ -32,8 +32,6 @@ import DeclaredProgramDetailedView from '@/features/student/personalCareer/views
 import PersonalCareerView from '@/features/student/personalCareer/views/PersonalCareerView/PersonalCareerView.vue'
 import StudentMailboxView
   from '@/features/student/user/views/StudentMailboxView/StudentMailboxView.vue'
-import StudentNotificationsView
-  from '@/features/student/user/views/StudentNotificationsView/StudentNotificationsView.vue'
 import { testRoute } from 'tests/utils'
 
 const [root] = routes
@@ -117,12 +115,6 @@ testRoute(
   children.find(r => r.name === ROUTES.STUDENT.MAILBOX.name)!,
   ROUTES.STUDENT.MAILBOX,
   StudentMailboxView
-)
-
-testRoute(
-  children.find(r => r.name === ROUTES.STUDENT.NOTIFICATIONS.name)!,
-  ROUTES.STUDENT.NOTIFICATIONS,
-  StudentNotificationsView
 )
 
 testRoute(

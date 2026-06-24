@@ -1,6 +1,4 @@
-import type { Component } from 'vue'
-
-export const LoaderStub: Component = defineComponent({
+export const LoaderStub = defineComponent({
   name: 'Loader',
   props: ['color', 'size', 'isLoading'],
   template: `

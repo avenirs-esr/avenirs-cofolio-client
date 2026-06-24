@@ -37,7 +37,6 @@ const routesToCheck: Array<Route> = [
   ROUTES.STUDENT.TOOLS_RESUMES,
   ROUTES.STUDENT.ABOUT,
   ROUTES.STUDENT.MAILBOX,
-  ROUTES.STUDENT.NOTIFICATIONS,
 ]
 
 const pathsToTest = [

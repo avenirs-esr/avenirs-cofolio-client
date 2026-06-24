@@ -163,7 +163,8 @@
                   "description": "Votre trace a été créée, vous pouvez réessayer d'associer votre trace dans la page de détails de votre trace.",
                   "title": "Une erreur est survenue lors de l'association"
                 },
-                "createTrace": "Une erreur est survenue lors de la création de la trace."
+                "createTrace": "Une erreur est survenue lors de la création de la trace.",
+                "fileUpload": "Une erreur est survenue lors de l'envoi du fichier."
               },
               "fileUpload": {
                 "subtitle": "ou glisser et déposer ici",

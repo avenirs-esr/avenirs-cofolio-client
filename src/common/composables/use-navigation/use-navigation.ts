@@ -47,10 +47,6 @@ export function useNavigation () {
     return router.push(ROUTES.STUDENT.MAILBOX)
   }
 
-  const navigateToStudentNotifications = () => {
-    return router.push(ROUTES.STUDENT.NOTIFICATIONS)
-  }
-
   const navigateToStudentPages = () => {
     return router.push(ROUTES.STUDENT.TOOLS_PAGES)
   }
@@ -241,7 +237,6 @@ export function useNavigation () {
     navigateToStudentEvents,
     navigateToStudentHome,
     navigateToStudentMailbox,
-    navigateToStudentNotifications,
     navigateToStudentPages,
     navigateToStudentResumes,
     navigateToStudentTrajectories,

@@ -89,10 +89,6 @@ export default [
         component: () => import('@/features/student/user/views/StudentMailboxView/StudentMailboxView.vue'),
       },
       {
-        ...ROUTES.STUDENT.NOTIFICATIONS,
-        component: () => import('@/features/student/user/views/StudentNotificationsView/StudentNotificationsView.vue'),
-      },
-      {
         ...ROUTES.STUDENT.APC_UNAVAILABLE,
         component: () => import('@/features/student/global/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'),
       },

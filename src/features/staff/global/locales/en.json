@@ -1,6 +1,11 @@
 {
   "staff": {
     "global": {
+      "cards": {
+        "ActivityFeedbackNotificationCard": {
+          "content": "You have received a new feedback request from {studentName} on the {activityName} activity."
+        }
+      },
       "layout": {
         "header": {
           "home": "Home - Staff CoFolio"

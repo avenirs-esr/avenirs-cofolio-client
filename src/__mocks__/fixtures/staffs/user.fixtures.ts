@@ -1,4 +1,4 @@
-import { EFileType, type ProfileOverviewDTO } from '@/api/avenir-esr'
+import { EFileType, type ProfileOverviewDTO, type QuickLinksDTO } from '@/api/avenir-esr'
 import profile_banner_placeholder from '@/assets/staff_profile_banner_placeholder.jpg'
 import profile_picture_placeholder from '@/assets/staff_profile_picture_placeholder.jpg'
 
@@ -26,4 +26,13 @@ export const mockedStaffProfileOverview: ProfileOverviewDTO = {
     url: profile_banner_placeholder,
   },
   bio: 'Je suis enseignante en chimie et écologie.'
+}
+
+export const mockedStaffQuickLinks: QuickLinksDTO = {
+  userId: crypto.randomUUID(),
+  firstname: 'Marie',
+  lastname: 'Dupont',
+  hasUnseenNotification: true,
+  unreadNotifications: 10,
+  notificationEnabled: true
 }

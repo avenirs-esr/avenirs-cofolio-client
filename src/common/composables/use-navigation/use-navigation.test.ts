@@ -70,14 +70,6 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student notifications', () => {
-    BddTest().then('it should navigate to student notifications', () => {
-      const { navigateToStudentNotifications } = navigation
-      navigateToStudentNotifications()
-      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.NOTIFICATIONS)
-    })
-  })
-
   BddTest().when('trying to navigate to student pages', () => {
     BddTest().then('it should navigate to student pages', () => {
       const { navigateToStudentPages } = navigation

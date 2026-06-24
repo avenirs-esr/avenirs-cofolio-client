@@ -1,8 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { FooterStub } from '@/common/components/Footer/Footer.stub'
+import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { SwitchUniverseStub } from '@/common/components/SwitchUniverse/SwitchUniverse.stub'
 import { ROUTES } from '@/common/constants'
 import StudentLayout from '@/features/student/global/layouts/StudentLayout/StudentLayout.vue'
+import { StudentNotificationsPopoverStub } from '@/features/student/user/components/overlays/StudentNotificationsPopover/StudentNotificationsPopover.stub'
 import { StudentProfileDropdownStub } from '@/features/student/user/components/overlays/StudentProfileDropdown/StudentProfileDropdown.stub'
 import { AvHeaderStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -31,11 +33,7 @@ BddTest().given('a student layout', () => {
       props: ['messagesCount'],
       template: '<div data-testid="mailbox-popover" />'
     },
-    StudentNotificationsPopover: {
-      name: 'StudentNotificationsPopover',
-      props: ['notificationsCount'],
-      template: '<div data-testid="notifications-popover" />'
-    },
+    StudentNotificationsPopover: StudentNotificationsPopoverStub,
     StudentProfileDropdown: StudentProfileDropdownStub,
     StudentNavigation: {
       name: 'StudentNavigation',
@@ -46,6 +44,7 @@ BddTest().given('a student layout', () => {
       name: 'RouterView',
       template: '<div data-testid="router-view" />'
     },
+    QuerySuspense: QuerySuspenseStub
   }
 
   beforeEach(() => {
@@ -58,14 +57,18 @@ BddTest().given('a student layout', () => {
         wrapper = mountComponent<typeof StudentLayout>(StudentLayout, {
           global: { stubs }
         })
+        await vi.waitFor(() => {
+          const querySuspense = wrapper.findComponent(QuerySuspenseStub) as VueWrapper<InstanceType<typeof QuerySuspenseStub>>
+          expect(querySuspense.props('isLoading')).toBe(false)
+        })
       })
 
       BddTest().then('it should render header, navigation and quicklinks correctly', async () => {
         expect(wrapper.findComponent({ name: 'AvHeader' }).exists()).toBe(true)
         expect(wrapper.find('[data-testid="navigation"]').exists()).toBe(true)
         expect(wrapper.find('[data-testid="mailbox-popover"]').exists()).toBe(true)
-        expect(wrapper.find('[data-testid="notifications-popover"]').exists()).toBe(true)
-        expect(wrapper.find('[data-testid="student-profile-dropdown"]').exists()).toBe(true)
+        expect(wrapper.findComponent(StudentNotificationsPopoverStub).exists()).toBe(true)
+        expect(wrapper.findComponent(StudentProfileDropdownStub).exists()).toBe(true)
       })
 
       BddTest().then('it should render the Footer component with correct props', () => {

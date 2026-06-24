@@ -146,6 +146,14 @@
       }
     },
     "dates": {
+      "compact": {
+        "days": "{count} j",
+        "hours": "{count} h",
+        "minutes": "{count} min",
+        "months": "{count} mois",
+        "weeks": "{count} sem",
+        "years": "{count} an | {count} ans"
+      },
       "createdAt": "Créé le {date}",
       "createdAtWithPrefix": "{prefix} créé le {date}",
       "dateTimeAt": "{date} à {time}",
@@ -332,6 +340,22 @@
       "confirmation": {
         "description": "Toutes les modifications non enregistrées seront perdues.",
         "title": "Êtes-vous sûr de vouloir quitter ?"
+      }
+    },
+    "notifications": {
+      "NotificationsPopover": {
+        "header": "Aucune notification non lue | {count} notification non lue | {count} notifications non lues",
+        "markAsSeenError": "Une erreur est survenue pendant le marquage à lu de la notification",
+        "notifications": {
+          "disabled": "Pour recevoir des notifications, veuillez activer le paramètre ci-dessous.",
+          "none": "Vous n'avez pas de notification."
+        },
+        "preferences": {
+          "disabled": "Notifications désactivées",
+          "enabled": "Notifications activées",
+          "error": "Une erreur est survenue pendant la mise à jour de vos préférences de notification"
+        },
+        "trigger": "Notifications | Notifications ({count}) | Notifications ({count})"
       }
     },
     "overlay": {

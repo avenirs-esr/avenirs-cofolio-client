@@ -117,7 +117,7 @@ export const overviewsHandlers = [
     })
   }),
 
-  http.post(`*${getUploadFileUrl(':fileCatefory' as EFileCategory, ':elementId')}`, ({ params }) => {
+  http.post(`*${getUploadFileUrl(':fileCategory' as EFileCategory, ':elementId')}`, ({ params }) => {
     const profile: string | undefined = params.profile as string | undefined
     const fileCategory: string | undefined = params.fileCategory as string | undefined
 
