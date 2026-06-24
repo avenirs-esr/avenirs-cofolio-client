@@ -22,6 +22,14 @@
           "title": "Their perspective"
         }
       },
+      "pickers": {
+        "FeedbackStatusPicker": {
+          "all": "All ({count})",
+          "new": "New ({count})",
+          "sent": "Sent ({count})",
+          "unprocessed": "Unprocessed ({count})"
+        }
+      },
       "views": {
         "ActivityFeedbackDetailsView": {
           "ActivityFeedbackStudentSelect": {
@@ -65,12 +73,6 @@
           "title": "All my feedback requests on the activity \"{activityTitle}\""
         },
         "FeedbacksView": {
-          "FeedbackStatusPicker": {
-            "all": "All ({count})",
-            "new": "New ({count})",
-            "unprocessed": "Unprocessed ({count})",
-            "sent": "Sent ({count})"
-          },
           "FeedbacksTable": {
             "columns": {
               "activity": "Activity",

@@ -1,11 +1,14 @@
 import {
   createMockedPagedResponseFeedbackStaffListItemDTO,
+  mockedFeedbackDashboard,
   mockedFeedbackDetailsSubmitted,
   mockedFeedbackDetailsWithAssociations,
   mockedFeedbackDetailsWithoutAssociations
 } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import {
+  type FeedbackDashboardDTO,
   type FeedbackDetailsDTO,
+  getGetFeedbackDashboardUrl,
   getGetFeedbackDetailsUrl,
   getGetStaffFeedbacksUrl,
   getSubmitFeedbackUrl,
@@ -14,6 +17,22 @@ import {
 import { ErrorCodes } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
 import { http, HttpResponse } from 'msw'
+
+export const getFeedbackDashboardHandler = http.get(
+  `*${getGetFeedbackDashboardUrl()}`,
+  () => HttpResponse.json<FeedbackDashboardDTO>(mockedFeedbackDashboard, {
+    status: HttpStatusCode.OK,
+    headers: { 'Content-Type': 'application/json' },
+  })
+)
+
+export const getFeedbackDashboardErrorHandler = http.get(
+  `*${getGetFeedbackDashboardUrl()}`,
+  () => HttpResponse.json(
+    { message: 'Erreur lors de la récupération du tableau de bord' },
+    { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+  )
+)
 
 export const getFeedbackDetailsWithAssociationsHandler = http.get(
   `*${getGetFeedbackDetailsUrl(':userCategory' as 'STAFF', ':feedbackId')}`,
@@ -95,6 +114,7 @@ export const submitFeedbackHandler = http.put(`*${getSubmitFeedbackUrl(':feedbac
 })
 
 export const feedbacksHandlers = [
+  getFeedbackDashboardHandler,
   getFeedbackDetailsWithAssociationsHandler,
   getStaffFeedbacksHandler,
   updateFeedbackHandler,

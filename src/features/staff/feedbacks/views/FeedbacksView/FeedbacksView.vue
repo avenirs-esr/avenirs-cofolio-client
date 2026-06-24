@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { AvTagPickerOption } from '@avenirs-esr/avenirs-dsav'
-import { EFeedbackStatus, useGetStaffFeedbacks } from '@/api/avenir-esr'
+import { useGetStaffFeedbacks } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { ROUTES } from '@/common/constants'
+import { useFeedbackStatusPicker } from '@/features/staff/feedbacks/components/interaction/pickers/FeedbackStatusPicker/composables/use-feedback-status-picker/use-feedback-status-picker'
+import FeedbackStatusPicker from '@/features/staff/feedbacks/components/interaction/pickers/FeedbackStatusPicker/FeedbackStatusPicker.vue'
 import { useStaffFeedbacksStore } from '@/features/staff/feedbacks/stores/feedbacks.store'
 import FeedbacksTable from '@/features/staff/feedbacks/views/FeedbacksView/components/FeedbacksTable/FeedbacksTable.vue'
-import FeedbackStatusPicker from '@/features/staff/feedbacks/views/FeedbacksView/components/interaction/pickers/FeedbackStatusPicker/FeedbackStatusPicker.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -18,7 +18,9 @@ const breadcrumbLinks = computed(() => [
 
 const staffFeedbacksStore = useStaffFeedbacksStore()
 
-const selectedStatus = ref<'ALL' | EFeedbackStatus>('ALL')
+const { newFeedbacks, unprocessedFeedbacks, sentFeedbacks, totalFeedbacks, selectedStatus, onStatusSelected } = useFeedbackStatusPicker({
+  onReset: () => { staffFeedbacksStore.feedbacksCurrentPage = 0 },
+})
 
 const usePaginatedStaffFeedbacksParams = computed(() => ({
   currentPageRef: toRef(staffFeedbacksStore, 'feedbacksCurrentPage'),
@@ -26,38 +28,6 @@ const usePaginatedStaffFeedbacksParams = computed(() => ({
   selectedStatusRef: selectedStatus,
   fetchFn: useGetStaffFeedbacks,
 }))
-
-const { data: feedbacksResponse } = useGetStaffFeedbacks({
-  page: 0,
-  pageSize: 1000,
-})
-
-const newFeedbacks = computed(
-  () => feedbacksResponse.value?.data?.filter(
-    feedback => feedback.status === EFeedbackStatus.NEW,
-  ).length ?? 0,
-)
-
-const unprocessedFeedbacks = computed(
-  () => feedbacksResponse.value?.data?.filter(
-    feedback => feedback.status === EFeedbackStatus.IN_PROCESS,
-  ).length ?? 0,
-)
-
-const sentFeedbacks = computed(
-  () => feedbacksResponse.value?.data?.filter(
-    feedback => feedback.status === EFeedbackStatus.SUBMITTED,
-  ).length ?? 0,
-)
-
-const totalFeedbacks = computed(
-  () => newFeedbacks.value + unprocessedFeedbacks.value + sentFeedbacks.value,
-)
-
-function onStatusSelected (option: AvTagPickerOption): void {
-  selectedStatus.value = option.value as 'ALL' | EFeedbackStatus
-  staffFeedbacksStore.feedbacksCurrentPage = 0
-}
 </script>
 
 <template>

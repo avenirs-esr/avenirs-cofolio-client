@@ -22,6 +22,14 @@
           "title": "Sa prise de recul"
         }
       },
+      "pickers": {
+        "FeedbackStatusPicker": {
+          "all": "Toutes ({count})",
+          "new": "Nouvelles ({count})",
+          "sent": "Envoyées ({count})",
+          "unprocessed": "Non traitées ({count})"
+        }
+      },
       "views": {
         "ActivityFeedbackDetailsView": {
           "ActivityFeedbackStudentSelect": {
@@ -65,12 +73,6 @@
           "title": "Toutes mes demandes de feedback sur l'activité \"{activityTitle}\""
         },
         "FeedbacksView": {
-          "FeedbackStatusPicker": {
-            "all": "Toutes ({count})",
-            "new": "Nouvelles ({count})",
-            "unprocessed": "Non traitées ({count})",
-            "sent": "Envoyées ({count})"
-          },
           "FeedbacksTable": {
             "columns": {
               "activity": "Activité",
