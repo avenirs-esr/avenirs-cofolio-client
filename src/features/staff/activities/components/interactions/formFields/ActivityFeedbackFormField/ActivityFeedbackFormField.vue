@@ -25,20 +25,37 @@ const emit = defineEmits<{
 
 const FormField = markRaw(form.Field)
 
-const { validateMin } = useFormValidators()
+const { validateMin, validateRequired } = useFormValidators()
 
 const feedbackAllowedIterationsValidators = {
-  onChange: ({ value }: { value: number | null | undefined }) => validateMin(value, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN),
+  onChange: ({ value }: { value: number | null | undefined }) => {
+    const checkArray = [
+      ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED,
+      ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY
+    ]
+
+    if (!!value && checkArray.includes(value)) {
+      return undefined
+    }
+
+    const requiredError = validateRequired(value?.toString())
+    return requiredError || validateMin(value, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN)
+  },
 }
 
 const isFormDirty = form.useStore(state => state.isDirty)
 const feedbackAllowedIterations = form.useField({ name: 'feedbackAllowedIterations' })
 const { t } = useI18n()
 
+function parseFeedbackAllowedIterations (value: number | string | null | undefined): number | undefined {
+  const parsed = Number(value)
+  return (value !== null && value !== '' && Number.isFinite(parsed)) ? parsed : undefined
+}
+
 const debouncedAutosave = debounce((value: number | null | undefined) => {
   const hasErrors = feedbackAllowedIterations.state.value.meta.errors.length > 0
-  if (isFormDirty.value && !hasErrors) {
-    emit('autosave', { feedbackAllowedIterations: value ?? 0 })
+  if (isFormDirty.value && !hasErrors && value !== null && value !== undefined) {
+    emit('autosave', { feedbackAllowedIterations: value })
   }
 }, ACTIVITY_AUTO_SAVE_DEBOUNCE)
 
@@ -47,6 +64,7 @@ const infinityAllowed = computed({
   set: (newValue: boolean) => {
     const value = newValue ? ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY : ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT
     form.setFieldValue('feedbackAllowedIterations', value)
+    form.validateField('feedbackAllowedIterations', 'change')
     debouncedAutosave(value)
   },
 })
@@ -56,6 +74,7 @@ const inputEnabled = computed({
   set: (newValue: boolean) => {
     const value = newValue ? ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT : ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED
     form.setFieldValue('feedbackAllowedIterations', value)
+    form.validateField('feedbackAllowedIterations', 'change')
     debouncedAutosave(value)
   },
 })
@@ -93,7 +112,11 @@ const inputEnabled = computed({
             width="fit-content"
             :model-value="field.state.value"
             :error-message="field.state.meta.errors?.join(', ')"
-            @update:model-value="(value) => { field.handleChange(Number(value) ?? 0); debouncedAutosave(Number(value) ?? 0) }"
+            @update:model-value="(value) => {
+              const parsedValue = parseFeedbackAllowedIterations(value)
+              field.handleChange(parsedValue)
+              debouncedAutosave(parsedValue)
+            }"
           />
         </div>
       </ToggleParameterCard>
