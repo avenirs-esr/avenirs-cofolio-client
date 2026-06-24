@@ -26,11 +26,11 @@ vi.mock('@/common/composables/use-task-loading/use-task-loading', () => ({
 
 BddTest().given('a write feedback form', () => {
   let composableResult: ReturnType<typeof useWriteFeedbackForm>
-  let mockOnFeedbackSent: ReturnType<typeof vi.fn>
+  let mockOnFeedbackSaved: ReturnType<typeof vi.fn>
   const feedbackRef = ref({ id: 'feedback-123', feedback: '' } as FeedbackDetailsDTO)
 
-  const mountForm = (onFeedbackSent?: () => void) => {
-    const result = mountComposable(() => useWriteFeedbackForm(feedbackRef, onFeedbackSent), {
+  const mountForm = (onFeedbackSaved?: () => void) => {
+    const result = mountComposable(() => useWriteFeedbackForm({ feedback: feedbackRef, onFeedbackSaved }), {
       useI18n: true,
       useTanstack: true,
       usePinia: true
@@ -76,13 +76,13 @@ BddTest().given('a write feedback form', () => {
 
     BddTest().and('callback is provided', () => {
       beforeEach(() => {
-        mockOnFeedbackSent = vi.fn()
-        mountForm(mockOnFeedbackSent)
+        mockOnFeedbackSaved = vi.fn()
+        mountForm(mockOnFeedbackSaved)
       })
 
-      BddTest().then('it should accept onFeedbackSent callback', () => {
+      BddTest().then('it should accept onFeedbackSaved callback', () => {
         expect(composableResult).toBeDefined()
-        expect(mockOnFeedbackSent).toBeDefined()
+        expect(mockOnFeedbackSaved).toBeDefined()
       })
     })
   })
@@ -143,8 +143,8 @@ BddTest().given('a write feedback form', () => {
 
   BddTest().when('submitting the form', () => {
     beforeEach(() => {
-      mockOnFeedbackSent = vi.fn()
-      mountForm(mockOnFeedbackSent)
+      mockOnFeedbackSaved = vi.fn()
+      mountForm(mockOnFeedbackSaved)
     })
 
     BddTest().and('feedback is valid', () => {
@@ -157,7 +157,7 @@ BddTest().given('a write feedback form', () => {
       BddTest().then('it should accept submission with valid feedback', async () => {
         await composableResult.form.handleSubmit()
         await vi.waitFor(() => {
-          expect(mockOnFeedbackSent).toHaveBeenCalledTimes(1)
+          expect(mockOnFeedbackSaved).toHaveBeenCalledTimes(1)
         })
       })
     })

@@ -41,6 +41,7 @@ function togglePanel () {
       <AvTabs
         v-model="activeTab"
         compact
+        :lazy-render="false"
       >
         <AvTab
           :title="t('staff.feedbacks.views.ActivityFeedbackDetailsView.WriteFeedbackFloatingPanel.tabs.write.title')"

@@ -11,7 +11,13 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { type MaybeRef, toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-export function useWriteFeedbackForm (feedback?: MaybeRef<FeedbackDetailsDTO | undefined>, onFeedbackSaved?: () => void) {
+interface UseWriteFeedbackFormParams {
+  feedback?: MaybeRef<FeedbackDetailsDTO | undefined>
+  onFeedbackSaved?: () => void
+  onCancel?: () => void
+}
+
+export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: UseWriteFeedbackFormParams) {
   const { t } = useI18n()
 
   const { getErrorMessage } = useApiErrors()
@@ -58,7 +64,7 @@ export function useWriteFeedbackForm (feedback?: MaybeRef<FeedbackDetailsDTO | u
 
   const { mutate: mutateUpdateFeedback, isPending } = useUpdateFeedback()
 
-  function updateFeedback (value: UpdateFeedbackRequest) {
+  function updateFeedback (value: UpdateFeedbackRequest, onSuccess?: () => void) {
     const currentFeedback = toValue(feedback)
 
     if (!currentFeedback?.id) {
@@ -70,6 +76,7 @@ export function useWriteFeedbackForm (feedback?: MaybeRef<FeedbackDetailsDTO | u
         form.reset({ feedback: value.feedback } as WriteFeedbackFormData)
         await withTaskLoading(() => invalidateGetFeedbackDetails(queryClient, EUserCategory.STAFF, currentFeedback.id))
         onFeedbackSaved?.()
+        onSuccess?.()
       },
       onError: onSendFeedbackError
     })
@@ -95,7 +102,18 @@ export function useWriteFeedbackForm (feedback?: MaybeRef<FeedbackDetailsDTO | u
   })
 
   function handleCancel () {
-    form.reset()
+    const formState = form.useStore(state => state)
+    const formFeedback = formState.value.values.feedback ?? ''
+
+    if (formState.value.isDirty && formFeedback.trim() !== '') {
+      updateFeedback({ feedback: formFeedback ?? '' }, () => {
+        onCancel?.()
+        form.reset()
+      })
+    }
+    else {
+      onCancel?.()
+    }
   }
 
   return {
