@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
+import { EUserCategory, useGetQuickLinks } from '@/api/avenir-esr'
 import Footer from '@/common/components/Footer/Footer.vue'
+import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useBaseApiExceptionToast, useInvalidateAllQueriesAfterLocaleChange } from '@/common/composables'
-import { ROUTES } from '@/common/constants'
+import { QUICK_LINKS_REFRESH_INTERVAL, ROUTES } from '@/common/constants'
 import StudentNavigation from '@/features/student/global/components/navigation/StudentNavigation/StudentNavigation.vue'
 import {
   StudentMailboxPopover,
@@ -20,21 +21,20 @@ const { t } = useI18n()
 useInvalidateAllQueriesAfterLocaleChange()
 
 const { languageSelector, selectLanguage } = useStudentUserStore()
-const { data: studentSummary, error: studentSummaryError } = useGetProfile(EUserCategory.STUDENT)
-useBaseApiExceptionToast(studentSummaryError)
+
+const { data, isPending, error } = useGetQuickLinks(EUserCategory.STUDENT, {
+  query: { refetchInterval: QUICK_LINKS_REFRESH_INTERVAL }
+})
+useBaseApiExceptionToast(error)
 
 const name = computed(() => {
-  if (!studentSummary.value) {
-    return ''
-  }
-  const { firstname, lastname } = studentSummary.value
+  const { firstname, lastname } = data.value!
   return `${capitalize(firstname[0])}. ${capitalize(lastname)}`
 })
+
 const messagesCount = 0 // TODO: waiting for mailbox implementation
-const notificationsCount = 0 // TODO: waiting for notifications implementation
 
 const searchQuery = ref('')
-
 const isDemo = __DEMO_MODE__
 
 defineExpose({ searchQuery })
@@ -53,25 +53,27 @@ defineExpose({ searchQuery })
     @language-select="selectLanguage($event)"
   >
     <template #quickLinks>
-      <div class="av-px-sm av-pt-sm av-pb-sm">
-        <ul class="av-row av-wrap av-gap-sm av-align-stretch av-list-reset">
-          <li
-            class="demo-display-none"
-            data-testid="mailbox-button"
-          >
-            <StudentMailboxPopover :messages-count="messagesCount" />
-          </li>
-          <li
-            class="demo-display-none"
-            data-testid="notifications-button"
-          >
-            <StudentNotificationsPopover :notifications-count="notificationsCount" />
-          </li>
-          <li data-testid="profile-button">
-            <StudentProfileDropdown :username="name" />
-          </li>
-        </ul>
-      </div>
+      <QuerySuspense :is-loading="!data || isPending">
+        <div class="av-px-sm av-pt-sm av-pb-sm">
+          <ul class="av-row av-wrap av-gap-sm av-align-stretch av-list-reset">
+            <li
+              class="demo-display-none"
+              data-testid="mailbox-button"
+            >
+              <StudentMailboxPopover :messages-count="messagesCount" />
+            </li>
+            <li
+              class="demo-display-none"
+              data-testid="notifications-button"
+            >
+              <StudentNotificationsPopover />
+            </li>
+            <li data-testid="profile-button">
+              <StudentProfileDropdown :username="name" />
+            </li>
+          </ul>
+        </div>
+      </QuerySuspense>
     </template>
     <template #mainnav>
       <StudentNavigation />

@@ -25,7 +25,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
 
   beforeEach(() => {
     createTraceSpy = vi.spyOn(avenirEsrApi, 'createTrace')
-    uploadAttachmentSpy = vi.spyOn(avenirEsrApi, 'uploadFile')
+    uploadAttachmentSpy = vi.spyOn(avenirEsrApi, 'uploadFile').mockResolvedValue({} as FileDTO)
     associateTraceWithActivitiesSpy = vi.spyOn(avenirEsrApi, 'associateTraceWithActivities').mockResolvedValue({ declaredActivityAssociations: [], declaredSkillAssociations: [] })
     associateTraceWithDeclaredSkillSpy = vi.spyOn(avenirEsrApi, 'associateTraceWithDeclaredSkill').mockResolvedValue({ declaredActivityAssociations: [], declaredSkillAssociations: [] })
 

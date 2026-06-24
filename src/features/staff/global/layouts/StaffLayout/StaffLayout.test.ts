@@ -1,8 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { FooterStub } from '@/common/components/Footer/Footer.stub'
+import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { SwitchUniverseStub } from '@/common/components/SwitchUniverse/SwitchUniverse.stub'
 import { ROUTES } from '@/common/constants'
 import StaffLayout from '@/features/staff/global/layouts/StaffLayout/StaffLayout.vue'
+import { StaffNotificationsPopoverStub } from '@/features/staff/user/components/overlays/StaffNotificationsPopover/StaffNotificationsPopover.stub'
 import { StaffProfileDropdownStub } from '@/features/staff/user/components/overlays/StaffProfileDropdown/StaffProfileDropdown.stub'
 import { AvHeaderStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -28,6 +30,7 @@ BddTest().given('a staff layout', () => {
   const stubs = {
     AvHeader: AvHeaderStub,
     SwitchUniverse: SwitchUniverseStub,
+    StaffNotificationsPopover: StaffNotificationsPopoverStub,
     StaffProfileDropdown: StaffProfileDropdownStub,
     StaffNavigation: {
       name: 'StaffNavigation',
@@ -38,24 +41,30 @@ BddTest().given('a staff layout', () => {
       name: 'RouterView',
       template: '<div data-testid="router-view" />'
     },
+    QuerySuspense: QuerySuspenseStub
   }
 
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
-  BddTest().and('a valid summary', () => {
+  BddTest().and('a valid quicklinks', () => {
     BddTest().when('the layout is rendered', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         wrapper = mountComponent<typeof StaffLayout>(StaffLayout, {
           global: { stubs }
+        })
+        await vi.waitFor(() => {
+          const querySuspense = wrapper.findComponent(QuerySuspenseStub) as VueWrapper<InstanceType<typeof QuerySuspenseStub>>
+          expect(querySuspense.props('isLoading')).toBe(false)
         })
       })
 
       BddTest().then('it should render header, navigation and quicklinks correctly', () => {
         expect(wrapper.findComponent({ name: 'AvHeader' }).exists()).toBe(true)
         expect(wrapper.find('[data-testid="navigation"]').exists()).toBe(true)
-        expect(wrapper.find('[data-testid="staff-profile-dropdown"]').exists()).toBe(true)
+        expect(wrapper.findComponent(StaffNotificationsPopoverStub).exists()).toBe(true)
+        expect(wrapper.findComponent(StaffProfileDropdownStub).exists()).toBe(true)
       })
 
       BddTest().then('it should render the Footer component with correct props', () => {

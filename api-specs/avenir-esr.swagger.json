@@ -6248,7 +6248,13 @@
           "seen": {
             "type": "boolean"
           }
-        }
+        },
+        "required": [
+          "createdAt",
+          "id",
+          "seen",
+          "type"
+        ]
       },
       "PagedResponseNotificationDTO": {
         "type": "object",

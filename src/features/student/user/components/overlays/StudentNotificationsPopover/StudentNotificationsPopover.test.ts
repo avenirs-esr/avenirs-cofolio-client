@@ -1,80 +1,44 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { NotificationsPopoverStub } from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.stub'
 import StudentNotificationsPopover from '@/features/student/user/components/overlays/StudentNotificationsPopover/StudentNotificationsPopover.vue'
-import { AvButtonStub, AvCancelConfirmButtonsStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 
-vi.mock('@/common/composables', () => ({
-  useNavigation: () => ({
-    navigateToStudentNotifications: vi.fn()
-  })
-}))
-
-const AvPopoverStub = defineComponent({
-  name: 'AvPopOver',
-  template: `
-    <div>
-      <slot name="trigger" :toggle="() => {}"></slot>
-      <slot name="popover" :close="() => {}"></slot>
-    </div>
-  `
-})
-
-BddTest().given('a student notifications popover', () => {
+BddTest().given('a StudentNotificationsPopover', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentNotificationsPopover>>
 
   const stubs = {
-    AvButton: AvButtonStub,
-    AvIconText: AvIconTextStub,
-    AvPopover: AvPopoverStub,
-    AvCancelConfirmButtons: AvCancelConfirmButtonsStub
+    NotificationsPopover: NotificationsPopoverStub
   }
 
-  const getIconText = () => wrapper.findComponent(AvIconTextStub)
-  const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
+  const mountDefault = () => {
+    wrapper = mountComponent(StudentNotificationsPopover, {
+      global: { stubs }
+    })
+  }
 
-  BddTest().and('no notifications', () => {
-    beforeEach(() => {
-      wrapper = mount(StudentNotificationsPopover, {
-        props: { notificationsCount: 0 },
-        global: { stubs }
-      })
+  const getPopover = () => wrapper.findComponent(NotificationsPopoverStub)
+  const getHeader = () => wrapper.find('[data-testid="student-notifications-popover-contexts-header"]')
+  const getList = () => wrapper.find('[data-testid="student-notifications-popover-contexts"]')
+
+  BddTest().when('the component is rendered', () => {
+    beforeEach(() => mountDefault())
+
+    BddTest().then('it should render NotificationsPopover with correct props', () => {
+      expect(getPopover().exists()).toBe(true)
     })
 
-    BddTest().when('the popover is rendered', () => {
-      BddTest().then('it should render the no notifications message', () => {
-        const titleIconText = getIconText()
-        expect(titleIconText.exists()).toBe(true)
-        expect(titleIconText?.props('text')).toBe('Aucune notification')
-      })
-
-      BddTest().then('it should not show the "See All" button', () => {
-        const cancelConfirmButtons = getCancelConfirmButtons()
-        expect(cancelConfirmButtons.exists()).toBe(true)
-        expect(cancelConfirmButtons.props('confirmLabel')).toBeUndefined()
-      })
-    })
-  })
-
-  BddTest().and('notifications', () => {
-    beforeEach(() => {
-      wrapper = mount(StudentNotificationsPopover, {
-        props: { notificationsCount: 5 },
-        global: { stubs }
-      })
+    BddTest().then('it should render empty slot header', () => {
+      expect(getHeader().text()).toBe('Vous recevrez une notification dans les cas suivants :')
     })
 
-    BddTest().when('the popover is rendered', () => {
-      BddTest().then('it should render the notifications title with count', () => {
-        const titleIconText = getIconText()
-        expect(titleIconText.exists()).toBe(true)
-        expect(titleIconText?.props('text')).toBe('5 notifications non lues')
-      })
-
-      BddTest().then('it should display the "See All" button', () => {
-        const cancelConfirmButtons = getCancelConfirmButtons()
-        expect(cancelConfirmButtons.exists()).toBe(true)
-        expect(cancelConfirmButtons.props('confirmLabel')).toBe('Voir tout')
-      })
+    BddTest().then('it should render all context items', () => {
+      const text = getList().text()
+      expect(text).toContain('Un enseignant vous enverra un message')
+      expect(text).toContain('Un tiers vous aura évalué sur une compétence')
+      expect(text).toContain('Une trace a été validée')
+      expect(text).toContain('Un événement a lieu prochainement')
     })
   })
 })

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
-import { getDaysUntil, parseDateISO } from '@/common/utils'
+import { getDaysUntil, parseDate } from '@/common/utils'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -12,7 +12,7 @@ const { trace } = defineProps<{ trace: TraceViewDTO }>()
 const { id, title, isAssociated, willBeDeletedAt } = trace
 
 const getDaysUntilDeletion = computed(() => !isAssociated && willBeDeletedAt
-  ? getDaysUntil(parseDateISO(willBeDeletedAt))
+  ? getDaysUntil(parseDate(willBeDeletedAt))
   : -1)
 
 const { t } = useI18n()

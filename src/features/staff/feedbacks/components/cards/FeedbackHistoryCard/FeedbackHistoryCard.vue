@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
+import type { AvLocale } from '@/types'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { ROUTES } from '@/common/constants'
-import { formatDateToShortDate } from '@/common/utils'
+import { formatDateLocalized } from '@/common/utils'
 import FeedbackIterationBadge from '@/features/staff/feedbacks/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.vue'
 import { AvButton, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -16,10 +17,10 @@ export interface FeedbackHistoryCardProps {
 
 const { feedback, iteration, maxIterations, collapsed = true } = defineProps<FeedbackHistoryCardProps>()
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
-const createdAtFormatted = computed(() => formatDateToShortDate(feedback.createdAt))
-const updatedAtFormatted = computed(() => formatDateToShortDate(feedback.updatedAt))
+const createdAtFormatted = computed(() => formatDateLocalized(feedback.createdAt, locale.value as AvLocale, true))
+const updatedAtFormatted = computed(() => formatDateLocalized(feedback.updatedAt, locale.value as AvLocale, true))
 </script>
 
 <template>

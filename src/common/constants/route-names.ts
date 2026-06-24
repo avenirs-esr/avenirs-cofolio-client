@@ -32,7 +32,6 @@ export const ROUTES = {
     HOME: { name: 'student-home', path: '' },
     LEGAL: { name: 'student-legal', path: 'legal' },
     MAILBOX: { name: 'student-mailbox', path: 'mailbox' },
-    NOTIFICATIONS: { name: 'student-notifications', path: 'notifications' },
     PERSONAL_CAREER: { name: 'student-project-personal-career', path: 'project/personal-career', },
     PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED: { name: 'personal-career-declared-program-detailed', path: 'project/personal-career/declared-programs/:id' },
     PERSONAL_CAREER_DECLARED_PROGRAMS: { name: 'personal-career-declared-programs', path: 'declared-programs' },

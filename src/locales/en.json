@@ -148,6 +148,14 @@
       }
     },
     "dates": {
+      "compact": {
+        "days": "{count}d",
+        "hours": "{count}h",
+        "minutes": "{count}m",
+        "months": "{count}mo",
+        "weeks": "{count}w",
+        "years": "{count}y"
+      },
       "createdAt": "Created on {date}",
       "createdAtWithPrefix": "{prefix} created on {date}",
       "dateTimeAt": "{date} at {time}",
@@ -332,6 +340,22 @@
       "confirmation": {
         "description": "Any unsaved changes will be lost.",
         "title": "Are you sure you want to exit?"
+      }
+    },
+    "notifications": {
+      "NotificationsPopover": {
+        "header": "No unread notifications | {count} unread notification | {count} unread notifications",
+        "markAsSeenError": "An error occurred while marking the notification as read",
+        "notifications": {
+          "disabled": "To receive notifications, please enable the setting below.",
+          "none": "You have no notifications."
+        },
+        "preferences": {
+          "disabled": "Notifications disabled",
+          "enabled": "Notifications enabled",
+          "error": "An error occurred while updating your notification preferences"
+        },
+        "trigger": "Notifications | Notifications ({count}) | Notifications ({count})"
       }
     },
     "overlay": {

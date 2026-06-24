@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
+import { EUserCategory, useGetQuickLinks } from '@/api/avenir-esr'
 import Footer from '@/common/components/Footer/Footer.vue'
+import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useBaseApiExceptionToast, useLanguageSwitcher } from '@/common/composables'
-import { ROUTES } from '@/common/constants'
+import { QUICK_LINKS_REFRESH_INTERVAL, ROUTES } from '@/common/constants'
 import StaffNavigation from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.vue'
+import StaffNotificationsPopover from '@/features/staff/user/components/overlays/StaffNotificationsPopover/StaffNotificationsPopover.vue'
 import StaffProfileDropdown from '@/features/staff/user/components/overlays/StaffProfileDropdown/StaffProfileDropdown.vue'
 import { AvHeader } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
@@ -14,18 +16,15 @@ const { t } = useI18n()
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
 
 const searchQuery = ref('')
-
 defineExpose({ searchQuery })
 
-const { data: staffSummary, error: staffSummaryError } = useGetProfile(EUserCategory.STAFF)
-useBaseApiExceptionToast(staffSummaryError)
+const { data, isPending, error } = useGetQuickLinks(EUserCategory.STAFF, {
+  query: { refetchInterval: QUICK_LINKS_REFRESH_INTERVAL }
+})
+useBaseApiExceptionToast(error)
 
 const name = computed(() => {
-  if (!staffSummary.value) {
-    return ''
-  }
-
-  const { firstname, lastname } = staffSummary.value
+  const { firstname, lastname } = data.value!
   return `${capitalize(firstname[0])}. ${capitalize(lastname)}`
 })
 </script>
@@ -42,13 +41,18 @@ const name = computed(() => {
     @language-select="selectLanguage($event)"
   >
     <template #quickLinks>
-      <div class="av-px-sm av-pt-sm av-pb-sm">
-        <ul class="av-row av-wrap av-gap-sm av-align-stretch av-list-reset">
-          <li data-testid="profile-button">
-            <StaffProfileDropdown :username="name" />
-          </li>
-        </ul>
-      </div>
+      <QuerySuspense :is-loading="!data || isPending">
+        <div class="av-px-sm av-pt-sm av-pb-sm">
+          <ul class="av-row av-wrap av-gap-sm av-align-stretch av-list-reset">
+            <li data-testid="notifications-button">
+              <StaffNotificationsPopover />
+            </li>
+            <li data-testid="profile-button">
+              <StaffProfileDropdown :username="name" />
+            </li>
+          </ul>
+        </div>
+      </QuerySuspense>
     </template>
     <template #mainnav>
       <StaffNavigation />

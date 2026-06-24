@@ -50,7 +50,10 @@ const avCardProps: ComputedRef<AvCardProps> = computed(() => ({
     >
       <slot name="footer" />
     </template>
-    <template #default>
+    <template
+      v-if="slots.default"
+      #default
+    >
       <slot />
     </template>
   </AvCard>

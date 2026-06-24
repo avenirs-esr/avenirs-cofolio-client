@@ -3,7 +3,7 @@ import type { AvLocale } from '@/types/i18n.types'
 import { EFeedbackStatus } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
-import { formatDateToLocaleString } from '@/common/utils'
+import { formatDateLocalized } from '@/common/utils'
 import { AvBadge, AvButton, type AvButtonProps, MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -24,7 +24,7 @@ const { showModal, displayModal, hideModal } = useModal()
 
 const requestFeedbackConfig = computed(() => ({
   label: feedbackStatus === EFeedbackStatus.NEW
-    ? t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackButton.updateFeedbackLabel', { date: feedbackCreatedAt ? formatDateToLocaleString(feedbackCreatedAt, locale.value as AvLocale) : '' })
+    ? t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackButton.updateFeedbackLabel', { date: feedbackCreatedAt ? formatDateLocalized(feedbackCreatedAt, locale.value as AvLocale) : '' })
     : t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackButton.requestFeedbackLabel'),
 
   icon: feedbackStatus === EFeedbackStatus.NEW ? MS_ICONS.CYCLE_ROUNDED : MS_ICONS.SEND_OUTLINE_ROUNDED,
@@ -57,7 +57,7 @@ function handleConfirm () {
       class="av-row av-w-full av-justify-end"
     >
       <AvBadge
-        :label="t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackBadge', { date: feedbackCreatedAt ? formatDateToLocaleString(feedbackCreatedAt, locale as AvLocale) : '' })"
+        :label="t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackBadge', { date: feedbackCreatedAt ? formatDateLocalized(feedbackCreatedAt, locale as AvLocale) : '' })"
         color="var(--light-foreground-primary1)"
         background-color="var(--light-background-primary1)"
         :icon="MDI_ICONS.CHECK_CIRCLE"

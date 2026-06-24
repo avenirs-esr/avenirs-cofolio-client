@@ -19,18 +19,13 @@
           "title": "No new messages | 1 unread message | {count} unread messages"
         },
         "StudentNotificationsPopover": {
-          "bodyNoNew": {
+          "contexts": {
             "assessedSkill": "A third party will have assessed you on a skill",
             "comingUpEvent": "An event is coming up",
             "header": "You will receive a notification in the following cases:",
             "staffMessage": "A staff will send you a message",
             "validatedTrace": "A trace has been validated"
-          },
-          "buttons": {
-            "close": "Close",
-            "seeAll": "See all"
-          },
-          "title": "No notification | 1 unread notification | {count} unread notifications"
+          }
         },
         "UpdateProfileDrawer": {
           "identity": {
@@ -63,9 +58,6 @@
       "views": {
         "StudentMailboxView": {
           "title": "My mailbox"
-        },
-        "StudentNotificationsView": {
-          "title": "My notifications"
         }
       }
     }
