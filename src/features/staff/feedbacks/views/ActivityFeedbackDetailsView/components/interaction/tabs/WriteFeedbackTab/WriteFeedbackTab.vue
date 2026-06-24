@@ -65,7 +65,6 @@ watch(isDirty, (newValue) => {
 </script>
 
 <template>
-  {{ feedback.feedback }}
   <div
     class="av-col av-gap-sm"
     data-testid="write-feedback-tab"
