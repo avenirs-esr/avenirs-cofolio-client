@@ -53,9 +53,10 @@ const selectedStudentEmail = computed(() =>
       v-if="selectedFeedback"
       class="activity-feedback-student-select__details av-col av-align-center av-text-center"
     >
-      <p class="b3-regular av-ma-0 av-text-text2">
-        <span v-if="selectedStudentEmail">{{ selectedStudentEmail }}</span>
-      </p>
+      <span
+        v-if="selectedStudentEmail"
+        class="av-text-text2 caption-regular"
+      >{{ selectedStudentEmail }}</span>
     </div>
   </div>
 </template>

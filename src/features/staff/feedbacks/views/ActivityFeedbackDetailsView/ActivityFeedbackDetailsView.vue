@@ -7,11 +7,15 @@ import {
   useGetFeedbacksByActivity,
 } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { ROUTES } from '@/common/constants'
+import StudentPerspectiveCard from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.vue'
 import WriteFeedbackFloatingPanel
   from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/WriteFeedbackFloatingPanel/WriteFeedbackFloatingPanel.vue'
 import ActivityFeedbackStudentSelect
   from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/selects/ActivityFeedbackStudentSelect/ActivityFeedbackStudentSelect.vue'
+import AssociatedElementSummaryCard
+  from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementSummaryCard/AssociatedElementSummaryCard.vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ActivityFeedbackDetailsViewProps {
@@ -38,20 +42,20 @@ const { data: feedback } = useGetFeedbackDetails(
   },
 )
 
-const activityDetailsId = computed(() => feedback.value?.declaredActivityId ?? '')
+const declaredActivityId = computed(() => feedback.value?.declaredActivityId ?? '')
 
-const { data: activity } = useGetDeclaredActivityDetails(
-  activityDetailsId,
+const { data: declaredActivity, isLoading: isDeclaredActivityLoading, error: declaredActivityError, } = useGetDeclaredActivityDetails(
+  declaredActivityId,
   {
     query: {
-      enabled: computed(() => !!activityDetailsId.value),
+      enabled: computed(() => !!declaredActivityId.value),
     },
   },
 )
 
-const activityId = computed(() => activity.value?.activity.id ?? '')
+const activityId = computed(() => declaredActivity.value?.activity.id ?? '')
 
-const { data: feedbacksByActivity } = useGetFeedbacksByActivity(
+const { data: feedbacksByActivity, isLoading: isFeedbacksByActivityLoading, error: feedbacksByActivityError, } = useGetFeedbacksByActivity(
   activityId,
   {
     query: {
@@ -64,7 +68,10 @@ const feedbacks = computed(() => Array.isArray(feedbacksByActivity.value) ? feed
 
 const feedbacksCount = computed(() => feedbacks.value.length)
 
-const activityTitle = computed(() => activity.value?.activity.title ?? '')
+const activityTitle = computed(() => declaredActivity.value?.activity.title ?? '')
+const studentPerspective = computed(() =>
+  declaredActivity.value?.reflection ?? ''
+)
 
 const showWriteFeedbackPanel = computed(() => !!feedback.value) // TODO
 
@@ -89,10 +96,32 @@ const pageTitle = computed(() =>
     :title="pageTitle"
   />
 
-  <ActivityFeedbackStudentSelect
-    v-model:selected-student="selectedStudent"
-    :feedbacks="feedbacks"
-  />
+  <div class="av-col av-gap-lg">
+    <QuerySuspense
+      :is-loading="isFeedbacksByActivityLoading"
+      :error="feedbacksByActivityError"
+    >
+      <ActivityFeedbackStudentSelect
+        v-model:selected-student="selectedStudent"
+        :feedbacks="feedbacks"
+      />
+    </QuerySuspense>
+
+    <QuerySuspense
+      :is-loading="isDeclaredActivityLoading"
+      :error="declaredActivityError"
+    >
+      <StudentPerspectiveCard
+        v-if="feedback"
+        :perspective="studentPerspective"
+      />
+    </QuerySuspense>
+
+    <AssociatedElementSummaryCard
+      v-if="selectedFeedbackId"
+      :feedback-id="selectedFeedbackId"
+    />
+  </div>
 
   <WriteFeedbackFloatingPanel
     v-if="showWriteFeedbackPanel && feedback"
