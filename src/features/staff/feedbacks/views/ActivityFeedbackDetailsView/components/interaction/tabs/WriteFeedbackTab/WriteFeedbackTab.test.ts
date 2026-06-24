@@ -1,5 +1,6 @@
 import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { FormCancelConfirmButtonsStub } from '@/common/components/FormCancelConfirmButtons/FormCancelConfirmButtons.stub'
 import { FeedbackFormFieldStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackFormField/FeedbackFormField.stub'
 import WriteFeedbackTab from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/tabs/WriteFeedbackTab/WriteFeedbackTab.vue'
@@ -30,7 +31,7 @@ BddTest().given('a write feedback tab', () => {
   const mockFeedback: FeedbackDetailsDTO = {
     id: 'feedback-1',
     feedback: 'Initial feedback text',
-    declaredActivityId: 'activity-1',
+    activity: mockedActivityContent
   } as FeedbackDetailsDTO
 
   const stubs = {

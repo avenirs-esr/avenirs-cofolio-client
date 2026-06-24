@@ -3,7 +3,6 @@ import type { AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import {
   EFeedbackStatus,
   EUserCategory,
-  useGetDeclaredActivityDetails,
   useGetFeedbackDetails,
   useGetFeedbacksByActivity,
 } from '@/api/avenir-esr'
@@ -33,7 +32,7 @@ const selectedStudent = ref<AvSelectSelectedOption>({
 
 const selectedFeedbackId = computed(() => selectedStudent.value.itemId)
 
-const { data: feedback } = useGetFeedbackDetails(
+const { data: feedback, isLoading: isFeedbackDetailsLoading, error: feedbackDetailsError, } = useGetFeedbackDetails(
   EUserCategory.STAFF,
   selectedFeedbackId,
   {
@@ -43,18 +42,7 @@ const { data: feedback } = useGetFeedbackDetails(
   },
 )
 
-const declaredActivityId = computed(() => feedback.value?.declaredActivityId ?? '')
-
-const { data: declaredActivity, isLoading: isDeclaredActivityLoading, error: declaredActivityError, } = useGetDeclaredActivityDetails(
-  declaredActivityId,
-  {
-    query: {
-      enabled: computed(() => !!declaredActivityId.value),
-    },
-  },
-)
-
-const activityId = computed(() => declaredActivity.value?.activity.id ?? '')
+const activityId = computed(() => feedback.value?.activity.id ?? '')
 
 const { data: feedbacksByActivity, isLoading: isFeedbacksByActivityLoading, error: feedbacksByActivityError, } = useGetFeedbacksByActivity(
   activityId,
@@ -69,9 +57,9 @@ const feedbacks = computed(() => Array.isArray(feedbacksByActivity.value) ? feed
 
 const feedbacksCount = computed(() => feedbacks.value.length)
 
-const activityTitle = computed(() => declaredActivity.value?.activity.title ?? '')
+const activityTitle = computed(() => feedback.value?.activity.title ?? '')
 const studentPerspective = computed(() =>
-  declaredActivity.value?.reflection ?? ''
+  feedback.value?.reflexion ?? ''
 )
 
 const showWriteFeedbackPanel = computed(() => !!feedback.value
@@ -110,8 +98,8 @@ const pageTitle = computed(() =>
     </QuerySuspense>
 
     <QuerySuspense
-      :is-loading="isDeclaredActivityLoading"
-      :error="declaredActivityError"
+      :is-loading="isFeedbackDetailsLoading"
+      :error="feedbackDetailsError"
     >
       <StudentPerspectiveCard
         v-if="feedback"

@@ -34,7 +34,7 @@ const updatedAtLabel = computed(() => feedback.updatedAt ? `${t('staff.feedbacks
       </span>
 
       <span class="b2-regular av-text-text2">
-        {{ feedback.activity?.activity.title }}
+        {{ feedback.activity?.title }}
       </span>
     </div>
 
@@ -51,7 +51,7 @@ const updatedAtLabel = computed(() => feedback.updatedAt ? `${t('staff.feedbacks
 
         <FeedbackIterationBadge
           :iteration="feedback.iteration ?? 0"
-          :max-iterations="feedback.activity?.activity.feedbackAllowedIterations"
+          :max-iterations="feedback.activity?.feedbackAllowedIterations"
         />
       </div>
 
