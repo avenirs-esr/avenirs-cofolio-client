@@ -1,3 +1,4 @@
+import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
@@ -99,6 +100,37 @@ BddTest().given('an ActivityFeedbackFormField component', () => {
 
     BddTest().then('it should hide the numeric input', () => {
       expect(getInput().exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the numeric input is cleared', () => {
+    beforeEach(async () => {
+      await getInput().vm.$emit('update:modelValue', '')
+      await nextTick()
+    })
+
+    BddTest().then('it should keep the field enabled', () => {
+      expect(getMainToggle().props('modelValue')).toBe(true)
+      expect(getInput().exists()).toBe(true)
+    })
+
+    BddTest().then('it should show an input error', () => {
+      expect(getInput().props('errorMessage')).toBeTruthy()
+    })
+
+    BddTest().then('it should not autosave the disabled value', async () => {
+      await vi.advanceTimersByTimeAsync(ACTIVITY_AUTO_SAVE_DEBOUNCE)
+      const emitted = (getField().emitted('autosave') ?? []) as Array<[ActivityDraftUpdateRequest]>
+      expect(emitted.some(event => event?.[0]?.feedbackAllowedIterations === 0)).toBe(false)
+    })
+
+    BddTest().then('it should clear the error after disabling and re-enabling', async () => {
+      await getMainToggle().find('input').setValue(false)
+      await nextTick()
+      await getMainToggle().find('input').setValue(true)
+      await nextTick()
+
+      expect(getInput().props('errorMessage')).toBeFalsy()
     })
   })
 
