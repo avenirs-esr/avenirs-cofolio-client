@@ -11,6 +11,30 @@ export class StaffActivityFeedbackDetailsPage extends BasePage {
     super(page)
   }
 
+  private getStudentFeedbackSelect () {
+    return this.page.getByTestId('student-feedback-select')
+  }
+
+  private getStudentPerspectiveCard () {
+    return this.page.getByTestId('student-perspective-card')
+  }
+
+  private getStudentPerspectiveCardExpanded () {
+    return this.page.locator('[data-testid="student-perspective-card"][data-collapsed="false"]')
+  }
+
+  private getFeedbackAssociatedElementsCard () {
+    return this.page.getByTestId('feedback-associated-elements-card')
+  }
+
+  private getFeedbackAssociatedElementsCardExpanded () {
+    return this.page.locator('[data-testid="feedback-associated-elements-card"][data-collapsed="false"]')
+  }
+
+  private getAssociatedElementCard () {
+    return this.page.getByTestId('associated-element-card').first()
+  }
+
   private getWritingFeedbackFloatingPanel () {
     return new WritingFeedbackFloatingPanel(
       this.page.getByTestId('writing-feedback-floating-panel'),
@@ -23,6 +47,36 @@ export class StaffActivityFeedbackDetailsPage extends BasePage {
       .replace(':feedbackId', '[^/]+')
 
     await expect(this.page).toHaveURL(new RegExp(expectedPattern))
+  }
+
+  @Then('the student feedback select is visible')
+  async verifyStudentFeedbackSelectVisible () {
+    await expect(this.getStudentFeedbackSelect()).toBeVisible()
+  }
+
+  @Then('the student perspective card is visible')
+  async verifyStudentPerspectiveCardVisible () {
+    await expect(this.getStudentPerspectiveCard()).toBeVisible()
+  }
+
+  @Then('the student perspective card is expanded by default')
+  async verifyStudentPerspectiveCardExpandedByDefault () {
+    await expect(this.getStudentPerspectiveCardExpanded()).toBeVisible()
+  }
+
+  @Then('the feedback associated elements card is visible')
+  async verifyFeedbackAssociatedElementsCardVisible () {
+    await expect(this.getFeedbackAssociatedElementsCard()).toBeVisible()
+  }
+
+  @Then('the feedback associated elements card is expanded by default')
+  async verifyFeedbackAssociatedElementsCardExpandedByDefault () {
+    await expect(this.getFeedbackAssociatedElementsCardExpanded()).toBeVisible()
+  }
+
+  @Then('the feedback associated elements card contains at least one element')
+  async verifyAssociatedElementCardPresent () {
+    await expect(this.getAssociatedElementCard()).toBeVisible()
   }
 
   @Then('the writing feedback floating panel is visible')

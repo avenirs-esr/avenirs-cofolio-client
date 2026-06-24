@@ -15,7 +15,36 @@ Feature: Staff Activity Feedback Details Page
     @high
     Scenario: The page title is visible
       Then the page title is visible
-      
+
+  Rule: Student selector
+
+    @high
+    Scenario: The student feedback select is visible
+      Then the student feedback select is visible
+
+  Rule: Student perspective section
+
+    @high
+    Scenario: The student perspective card is visible
+      Then the student perspective card is visible
+
+    @high
+    Scenario: The student perspective card is expanded by default
+      Then the student perspective card is expanded by default
+
+  Rule: Associated elements section
+
+    @high
+    Scenario: The feedback associated elements card is visible
+      Then the feedback associated elements card is visible
+
+    @high
+    Scenario: The feedback associated elements card is expanded by default
+      Then the feedback associated elements card is expanded by default
+
+    @high
+    Scenario: The feedback associated elements card contains at least one element
+      Then the feedback associated elements card contains at least one element   
   
   Rule: Write feedback floating panel
 
