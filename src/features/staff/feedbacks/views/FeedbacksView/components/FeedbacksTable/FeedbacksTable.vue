@@ -66,33 +66,42 @@ const feedbacksTitle = computed(() => {
   }
 })
 
-const activityColumn: AvTableColumn<FeedbackStaffListItemDTO> = { key: 'activity', label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.formation') }
-const accessColumn: AvTableColumn<FeedbackStaffListItemDTO & { access?: string }> = { key: 'access', label: t('global.buttons.access') }
+const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: string }>[]>(() => {
+  const activityColumn: AvTableColumn<FeedbackStaffListItemDTO & { access?: string }> = {
+    key: 'activity',
+    label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.activity'),
+  }
 
-const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: string }>[]>(() => [
-  {
-    key: 'student',
-    label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.student'),
-  },
-  ...withActivity ? [activityColumn] : [],
-  {
-    key: 'createdAt',
-    label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.receivedAt'),
-  },
-  {
-    key: 'status',
-    label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.status'),
-  },
-  {
-    key: 'iteration',
-    label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.iterations'),
-  },
-  {
-    key: 'updatedAt',
-    label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.lastSaved'),
-  },
-  accessColumn,
-])
+  const accessColumn: AvTableColumn<FeedbackStaffListItemDTO & { access?: string }> = {
+    key: 'access',
+    label: t('global.buttons.access'),
+  }
+
+  return [
+    {
+      key: 'student',
+      label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.student'),
+    },
+    ...(withActivity ? [activityColumn] : []),
+    {
+      key: 'createdAt',
+      label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.receivedAt'),
+    },
+    {
+      key: 'status',
+      label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.status'),
+    },
+    {
+      key: 'iteration',
+      label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.iterations'),
+    },
+    {
+      key: 'updatedAt',
+      label: t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.columns.lastSaved'),
+    },
+    accessColumn,
+  ]
+})
 </script>
 
 <template>

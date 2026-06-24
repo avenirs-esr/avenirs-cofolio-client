@@ -73,7 +73,7 @@
           },
           "FeedbacksTable": {
             "columns": {
-              "formation": "Formation",
+              "activity": "Activity",
               "iterations": "Number of iterations",
               "lastSaved": "Last saved",
               "receivedAt": "Request received date",
