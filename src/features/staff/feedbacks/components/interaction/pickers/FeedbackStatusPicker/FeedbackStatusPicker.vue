@@ -28,22 +28,22 @@ function handleSelectChange (selected: AvTagPickerOption): void {
 const { t } = useI18n()
 
 const allStatusOption = computed<AvTagPickerOption>(() => ({
-  label: t('staff.feedbacks.views.FeedbacksView.FeedbackStatusPicker.all', { count: totalFeedbacks }),
+  label: t('staff.feedbacks.pickers.FeedbackStatusPicker.all', { count: totalFeedbacks }),
   value: 'ALL'
 }))
 
 const filterOptions = computed<AvTagPickerOption[]>(() => [
   allStatusOption.value,
   {
-    label: t('staff.feedbacks.views.FeedbacksView.FeedbackStatusPicker.new', { count: newFeedbacks }),
+    label: t('staff.feedbacks.pickers.FeedbackStatusPicker.new', { count: newFeedbacks }),
     value: EFeedbackStatus.NEW
   },
   {
-    label: t('staff.feedbacks.views.FeedbacksView.FeedbackStatusPicker.unprocessed', { count: unprocessedFeedbacks }),
+    label: t('staff.feedbacks.pickers.FeedbackStatusPicker.unprocessed', { count: unprocessedFeedbacks }),
     value: EFeedbackStatus.IN_PROCESS
   },
   {
-    label: t('staff.feedbacks.views.FeedbacksView.FeedbackStatusPicker.sent', { count: sentFeedbacks }),
+    label: t('staff.feedbacks.pickers.FeedbackStatusPicker.sent', { count: sentFeedbacks }),
     value: EFeedbackStatus.SUBMITTED
   }
 ])

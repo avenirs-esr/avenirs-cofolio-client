@@ -1,6 +1,6 @@
 import { createMockedDeclaredSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { type ActivityContentDTO, type DeclaredActivityDetailsDTO, EActivityThematic, EDeclaredActivityStatus, EFeedbackStatus, type FeedbackDetailsDTO, type FeedbackStaffListItemDTO, type PagedResponseFeedbackStaffListItemDTO, type UserInfoDTO } from '@/api/avenir-esr'
+import { type ActivityContentDTO, type DeclaredActivityDetailsDTO, EActivityThematic, EDeclaredActivityStatus, EFeedbackStatus, type FeedbackDashboardDTO, type FeedbackDetailsDTO, type FeedbackStaffListItemDTO, type PagedResponseFeedbackStaffListItemDTO, type UserInfoDTO } from '@/api/avenir-esr'
 
 const mockedStudent: UserInfoDTO = {
   id: 'student-1',
@@ -84,6 +84,13 @@ export const mockedFeedbackDetailsSubmitted: FeedbackDetailsDTO = {
   ...mockedFeedbackDetailsWithAssociations,
   status: EFeedbackStatus.SUBMITTED,
   id: 'feedback-submitted',
+}
+
+export const mockedFeedbackDashboard: FeedbackDashboardDTO = {
+  totalFeedbacks: 20,
+  newFeedbacks: 4,
+  pendingFeedbacks: 10,
+  processedFeedbacks: 10,
 }
 
 export function createMockedPagedResponseFeedbackStaffListItemDTO (
