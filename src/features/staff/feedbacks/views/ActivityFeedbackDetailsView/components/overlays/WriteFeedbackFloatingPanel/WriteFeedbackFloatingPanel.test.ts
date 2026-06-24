@@ -1,5 +1,6 @@
 import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import WriteFeedbackFloatingPanel from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/WriteFeedbackFloatingPanel/WriteFeedbackFloatingPanel.vue'
 import { AvFloatingPanelStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -11,7 +12,7 @@ BddTest().given('a write feedback floating panel', () => {
   const mockFeedback: FeedbackDetailsDTO = {
     id: 'feedback-1',
     feedback: 'Test feedback',
-    declaredActivityId: 'activity-1',
+    activity: mockedActivityContent
   } as FeedbackDetailsDTO
 
   const stubs = {

@@ -1,5 +1,6 @@
 import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
 import type { WriteFeedbackFormData } from '@/features/staff/feedbacks/types/forms.types'
+import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { FEEDBACK_MAX_LENGTH } from '@/features/staff/feedbacks/config'
 import { useWriteFeedbackForm } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form/use-write-feedback-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -27,7 +28,7 @@ vi.mock('@/common/composables/use-task-loading/use-task-loading', () => ({
 BddTest().given('a write feedback form', () => {
   let composableResult: ReturnType<typeof useWriteFeedbackForm>
   let mockOnFeedbackSaved: ReturnType<typeof vi.fn>
-  const feedbackRef = ref({ id: 'feedback-123', feedback: '' } as FeedbackDetailsDTO)
+  const feedbackRef = ref({ id: 'feedback-123', feedback: '', activity: mockedActivityContent } as FeedbackDetailsDTO)
 
   const mountForm = (onFeedbackSaved?: () => void) => {
     const result = mountComposable(() => useWriteFeedbackForm({ feedback: feedbackRef, onFeedbackSaved }), {

@@ -17,7 +17,7 @@ const { activity } = defineProps<Props>()
 
 const { t } = useI18n()
 const currentPage = ref(0)
-const pageSizeSelected = ref<PageSizes>(PageSizes.TWENTY)
+const pageSizeSelected = ref<PageSizes>(PageSizes.TWELVE)
 
 const { newFeedbacks, unprocessedFeedbacks, sentFeedbacks, totalFeedbacks, selectedStatus, onStatusSelected } = useFeedbackStatusPicker({
   activityId: computed(() => activity.id),

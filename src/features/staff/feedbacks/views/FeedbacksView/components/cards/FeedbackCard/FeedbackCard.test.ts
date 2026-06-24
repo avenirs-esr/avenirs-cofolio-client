@@ -1,5 +1,5 @@
 import type { FeedbackStaffListItemDTO } from '@/api/avenir-esr'
-import { EActivityThematic, EDeclaredActivityStatus, EFeedbackStatus } from '@/api/avenir-esr'
+import { EActivityThematic, EFeedbackStatus } from '@/api/avenir-esr'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { FeedbackIterationBadgeStub } from '@/features/staff/feedbacks/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.stub'
 import { FeedbackStatusBadgeStub } from '@/features/staff/feedbacks/components/badges/FeedbackStatusBadge/FeedbackStatusBadge.stub'
@@ -32,22 +32,16 @@ const feedback: FeedbackStaffListItemDTO = {
     lastName: 'Le',
   },
   activity: {
-    id: 'declared-activity-1',
-    status: EDeclaredActivityStatus.IN_PROGRESS,
+    id: 'activity-1',
+    title: 'Master Biologie Marine',
+    thematic: EActivityThematic.SELF_KNOWLEDGE,
+    summary: '',
+    description: '',
+    feedbackAllowedIterations: 3,
+    enableReflection: false,
+    traceAllowedAssociations: 0,
     createdAt: '2025-03-15T10:00:00.000Z',
     updatedAt: '2025-03-18T14:30:00.000Z',
-    activity: {
-      id: 'activity-1',
-      title: 'Master Biologie Marine',
-      thematic: EActivityThematic.SELF_KNOWLEDGE,
-      summary: '',
-      description: '',
-      feedbackAllowedIterations: 3,
-      enableReflection: false,
-      traceAllowedAssociations: 0,
-      createdAt: '2025-03-15T10:00:00.000Z',
-      updatedAt: '2025-03-18T14:30:00.000Z',
-    },
   },
   status: EFeedbackStatus.NEW,
   iteration: 1,

@@ -1,6 +1,6 @@
 import { createMockedDeclaredSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { type ActivityContentDTO, type DeclaredActivityDetailsDTO, EActivityThematic, EDeclaredActivityStatus, EFeedbackStatus, type FeedbackDashboardDTO, type FeedbackDetailsDTO, type FeedbackStaffListItemDTO, type PagedResponseFeedbackStaffListItemDTO, type UserInfoDTO } from '@/api/avenir-esr'
+import { type ActivityContentDTO, EActivityThematic, EFeedbackStatus, type FeedbackDashboardDTO, type FeedbackDetailsDTO, type FeedbackStaffListItemDTO, type PagedResponseFeedbackStaffListItemDTO, type UserInfoDTO } from '@/api/avenir-esr'
 
 const mockedStudent: UserInfoDTO = {
   id: 'student-1',
@@ -23,14 +23,6 @@ const mockedActivity: ActivityContentDTO = {
   updatedAt: '2024-01-16T10:00:00Z',
 }
 
-const mockedDeclaredActivity: DeclaredActivityDetailsDTO = {
-  id: 'declared-activity-1',
-  status: EDeclaredActivityStatus.IN_PROGRESS,
-  createdAt: '2024-01-15T10:00:00Z',
-  updatedAt: '2024-01-16T10:00:00Z',
-  activity: mockedActivity,
-}
-
 const allFeedbacks: FeedbackStaffListItemDTO[] = [
   {
     id: 'feedback-1',
@@ -39,7 +31,7 @@ const allFeedbacks: FeedbackStaffListItemDTO[] = [
     createdAt: '2024-01-15T10:00:00Z',
     updatedAt: '2024-01-16T10:00:00Z',
     student: mockedStudent,
-    activity: mockedDeclaredActivity,
+    activity: mockedActivity,
   },
   {
     id: 'feedback-2',
@@ -48,7 +40,7 @@ const allFeedbacks: FeedbackStaffListItemDTO[] = [
     createdAt: '2024-01-15T10:00:00Z',
     updatedAt: '2024-01-16T10:00:00Z',
     student: mockedStudent,
-    activity: mockedDeclaredActivity,
+    activity: mockedActivity,
   },
   {
     id: 'feedback-3',
@@ -57,13 +49,13 @@ const allFeedbacks: FeedbackStaffListItemDTO[] = [
     createdAt: '2024-01-15T10:00:00Z',
     updatedAt: '2024-01-16T10:00:00Z',
     student: mockedStudent,
-    activity: mockedDeclaredActivity,
+    activity: mockedActivity,
   },
 ]
 
 export const mockedFeedbackDetailsWithAssociations: FeedbackDetailsDTO = {
   id: 'feedback-with-associations',
-  declaredActivityId: 'declared-activity-1',
+  activity: mockedActivity,
   feedback: 'This is a detailed feedback with associations',
   status: EFeedbackStatus.NEW,
   student: mockedStudent,

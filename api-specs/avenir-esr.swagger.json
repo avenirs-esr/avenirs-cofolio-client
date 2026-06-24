@@ -5325,6 +5325,70 @@
           "createdItemId"
         ]
       },
+      "ActivityContentDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "thematic": {
+            "type": "string",
+            "$ref": "#/components/schemas/EActivityThematic",
+            "enum": [
+              "SELF_KNOWLEDGE",
+              "FUTURE_PLANS",
+              "PROGRAMS",
+              "EXPERIENCES",
+              "TRAJECTORIES",
+              "RESUMES",
+              "TRANSVERSAL"
+            ]
+          },
+          "summary": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "executionPeriodInfo": {
+            "type": "string"
+          },
+          "enableReflection": {
+            "type": "boolean"
+          },
+          "traceAllowedAssociations": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "feedbackAllowedIterations": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "createdAt",
+          "enableReflection",
+          "feedbackAllowedIterations",
+          "id",
+          "summary",
+          "thematic",
+          "title",
+          "traceAllowedAssociations",
+          "updatedAt"
+        ]
+      },
       "FeedbackDetailsDTO": {
         "type": "object",
         "properties": {
@@ -5332,9 +5396,8 @@
             "type": "string",
             "format": "uuid"
           },
-          "declaredActivityId": {
-            "type": "string",
-            "format": "uuid"
+          "activity": {
+            "$ref": "#/components/schemas/ActivityContentDTO"
           },
           "student": {
             "$ref": "#/components/schemas/UserInfoDTO"
@@ -5376,8 +5439,8 @@
           }
         },
         "required": [
+          "activity",
           "createdAt",
-          "declaredActivityId",
           "id",
           "status",
           "student",
@@ -6381,70 +6444,6 @@
           "page"
         ]
       },
-      "ActivityContentDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "thematic": {
-            "type": "string",
-            "$ref": "#/components/schemas/EActivityThematic",
-            "enum": [
-              "SELF_KNOWLEDGE",
-              "FUTURE_PLANS",
-              "PROGRAMS",
-              "EXPERIENCES",
-              "TRAJECTORIES",
-              "RESUMES",
-              "TRANSVERSAL"
-            ]
-          },
-          "summary": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "executionPeriodInfo": {
-            "type": "string"
-          },
-          "enableReflection": {
-            "type": "boolean"
-          },
-          "traceAllowedAssociations": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "feedbackAllowedIterations": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "createdAt",
-          "enableReflection",
-          "feedbackAllowedIterations",
-          "id",
-          "summary",
-          "thematic",
-          "title",
-          "traceAllowedAssociations",
-          "updatedAt"
-        ]
-      },
       "DeclaredActivityDetailsDTO": {
         "type": "object",
         "properties": {
@@ -6595,7 +6594,7 @@
             "$ref": "#/components/schemas/UserInfoDTO"
           },
           "activity": {
-            "$ref": "#/components/schemas/DeclaredActivityDetailsDTO"
+            "$ref": "#/components/schemas/ActivityContentDTO"
           },
           "status": {
             "type": "string",
