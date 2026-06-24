@@ -73,7 +73,7 @@
           },
           "FeedbacksTable": {
             "columns": {
-              "formation": "Formation",
+              "activity": "Activité",
               "iterations": "Nombre d'itérations",
               "lastSaved": "Dernier enregistrement",
               "receivedAt": "Date de réception de la demande",
