@@ -113,6 +113,7 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
     }
     else {
       onCancel?.()
+      form.reset()
     }
   }
 
