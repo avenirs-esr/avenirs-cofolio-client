@@ -8,6 +8,9 @@ import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('staffFeedbacksPage')
 export class StaffFeedbacksPage extends BasePage {
+  private static readonly ACTIVITY_WITH_ASSOCIATED_ELEMENTS_ID
+    = '2a9f6c4d-8b1e-4d33-9c7a-5e2b8f1c6d77'
+
   constructor (public page: Page) {
     super(page)
   }
@@ -47,10 +50,12 @@ export class StaffFeedbacksPage extends BasePage {
     await this.getFeedbacksTable().verifyTableVisibleAndContainsRows()
   }
 
-  @When('the staff clicks the access feedback button for activity {string}')
-  async clickAccessButtonForActivity (activityId: string) {
+  @When('the staff clicks the access feedback button for an activity with associated elements')
+  async clickAccessButtonForActivity () {
     await this.page
-      .locator(`[data-testid="access-button"][data-activity-id="${activityId}"]`)
+      .locator(
+        `[data-testid="access-button"][data-activity-id="${StaffFeedbacksPage.ACTIVITY_WITH_ASSOCIATED_ELEMENTS_ID}"]`,
+      )
       .first()
       .click()
   }
