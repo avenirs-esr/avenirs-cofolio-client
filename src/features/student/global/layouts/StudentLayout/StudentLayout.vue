@@ -8,7 +8,7 @@ import StudentNavigation from '@/features/student/global/components/navigation/S
 import {
   StudentMailboxPopover,
   StudentNotificationsPopover,
-  StudentProfilePopover,
+  StudentProfileDropdown,
   useStudentUserStore
 } from '@/features/student/user'
 import { AvHeader } from '@avenirs-esr/avenirs-dsav'
@@ -68,7 +68,7 @@ defineExpose({ searchQuery })
             <StudentNotificationsPopover :notifications-count="notificationsCount" />
           </li>
           <li data-testid="profile-button">
-            <StudentProfilePopover :username="name" />
+            <StudentProfileDropdown :username="name" />
           </li>
         </ul>
       </div>

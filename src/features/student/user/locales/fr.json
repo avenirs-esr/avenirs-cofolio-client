@@ -35,15 +35,6 @@
           },
           "title": "Aucune notification | 1 notification non lue | {count} notifications non lues"
         },
-        "StudentProfilePopover": {
-          "buttons": {
-            "goToDw": "Aller sur mon ENT",
-            "goToSkills": "Aller sur le passeport de compétences",
-            "logout": "Me déconnecter",
-            "manageProfile": "Gérer mon profil",
-            "seeCalendar": "Voir mon agenda"
-          }
-        },
         "UpdateProfileDrawer": {
           "confirmDeletePhotoModal": {
             "subtitle": "Cette action supprimera définitivement votre photo de profil. Confirmer la suppression ?",

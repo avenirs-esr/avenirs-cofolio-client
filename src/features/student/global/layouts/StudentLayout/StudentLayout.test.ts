@@ -3,6 +3,7 @@ import { FooterStub } from '@/common/components/Footer/Footer.stub'
 import { SwitchUniverseStub } from '@/common/components/SwitchUniverse/SwitchUniverse.stub'
 import { ROUTES } from '@/common/constants'
 import StudentLayout from '@/features/student/global/layouts/StudentLayout/StudentLayout.vue'
+import { StudentProfileDropdownStub } from '@/features/student/user/components/overlays/StudentProfileDropdown/StudentProfileDropdown.stub'
 import { AvHeaderStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -35,11 +36,7 @@ BddTest().given('a student layout', () => {
       props: ['notificationsCount'],
       template: '<div data-testid="notifications-popover" />'
     },
-    StudentProfilePopover: {
-      name: 'StudentProfilePopover',
-      props: ['username'],
-      template: '<div data-testid="profile-popover" />'
-    },
+    StudentProfileDropdown: StudentProfileDropdownStub,
     StudentNavigation: {
       name: 'StudentNavigation',
       template: '<nav data-testid="navigation">Navigation</nav>'
@@ -68,7 +65,7 @@ BddTest().given('a student layout', () => {
         expect(wrapper.find('[data-testid="navigation"]').exists()).toBe(true)
         expect(wrapper.find('[data-testid="mailbox-popover"]').exists()).toBe(true)
         expect(wrapper.find('[data-testid="notifications-popover"]').exists()).toBe(true)
-        expect(wrapper.find('[data-testid="profile-popover"]').exists()).toBe(true)
+        expect(wrapper.find('[data-testid="student-profile-dropdown"]').exists()).toBe(true)
       })
 
       BddTest().then('it should render the Footer component with correct props', () => {
@@ -81,9 +78,9 @@ BddTest().given('a student layout', () => {
         expect(footer.props('personalDataLink')).toBe(ROUTES.STUDENT.PERSONAL_DATA)
       })
 
-      BddTest().then('it should pass correct props to profile popover', async () => {
-        const profilePopover = wrapper.findComponent({ name: 'StudentProfilePopover' })
-        await vi.waitFor(() => expect(profilePopover.props('username')).toBe('J. Moulin'))
+      BddTest().then('it should pass correct props to profile dropdown', async () => {
+        const profileDropdown = wrapper.findComponent(StudentProfileDropdownStub)
+        await vi.waitFor(() => expect(profileDropdown.props('username')).toBe('J. Moulin'))
       })
     })
 
