@@ -72,6 +72,7 @@
           },
           "FeedbacksDashboardSection": {
             "new": "nouvelle demande de feedback | nouvelles demandes de feedback",
+            "pending": "demande non traitée | demandes non traitées",
             "sent": "réponse envoyée | réponses envoyées",
             "title": "Tableau de bord"
           },
