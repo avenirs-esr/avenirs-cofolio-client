@@ -34,7 +34,7 @@ const allStaffActivities: ActivityStaffOverviewDTO[] = [
     author: { userId: 'user-1', firstName: 'Jean', lastName: 'Dupont' },
   },
   {
-    activityId: 'staff-activity-2',
+    activityId: '8c5d1f77-2a9e-4b33-9f6c-1e4b7a2d9c11',
     title: 'Activité "CV" : Construire son parcours',
     thematic: EActivityThematic.RESUMES,
     activityStatus: EActivityStatus.PUBLISHED,

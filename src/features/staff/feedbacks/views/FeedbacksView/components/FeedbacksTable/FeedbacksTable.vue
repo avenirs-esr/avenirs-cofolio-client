@@ -156,7 +156,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
             data-testid="feedbacks-table-table"
           >
             <template #cell(student)="{ row }">
-              {{ row.student?.firstName }} {{ row.student?.lastName }}
+              <span data-testid="feedback-student-cell">{{ row.student?.firstName }} {{ row.student?.lastName }}</span>
             </template>
 
             <template
@@ -167,7 +167,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
             </template>
 
             <template #cell(createdAt)="{ row }">
-              {{ row.createdAt ? formatLastModified(row.createdAt) : '' }}
+              <span data-testid="feedback-received-at-cell">{{ row.createdAt ? formatLastModified(row.createdAt) : '' }}</span>
             </template>
 
             <template #cell(status)="{ row }">

@@ -1,5 +1,4 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
-import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { expect, type Locator } from '@playwright/test'
 
 export class FeedbacksTable extends BaseObject {
@@ -9,14 +8,34 @@ export class FeedbacksTable extends BaseObject {
 
   async verifyTableVisibleAndContainsRows () {
     await expect(this.root).toBeVisible()
+    await expect(this.root.locator('tr')).not.toHaveCount(0)
 
-    const countrows = await this.root.locator('tr').count()
+    const countRows = await this.root.locator('tr').count()
 
-    expect(countrows).toBeGreaterThanOrEqual(2)
+    expect(countRows).toBeGreaterThanOrEqual(2)
   }
 
-  async clickFirstAccessFeedbackButton () {
-    const firstAccessButton = this.root.locator('[data-testid="access-button"]').first()
-    await clickOnElement(firstAccessButton)
+  private getStudentCell () {
+    return this.root.locator('[data-testid="feedback-student-cell"]').first()
+  }
+
+  private getReceivedAtCell () {
+    return this.root.locator('[data-testid="feedback-received-at-cell"]').first()
+  }
+
+  private getIterationCell () {
+    return this.root.locator('[data-testid="feedback-iteration-badge"]').first()
+  }
+
+  async verifyStudentCellVisible () {
+    await expect(this.getStudentCell()).toBeVisible()
+  }
+
+  async verifyReceivedAtCellVisible () {
+    await expect(this.getReceivedAtCell()).toBeVisible()
+  }
+
+  async verifyIterationCellVisible () {
+    await expect(this.getIterationCell()).toBeVisible()
   }
 }
