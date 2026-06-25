@@ -10,7 +10,7 @@ const mockedStudent: UserInfoDTO = {
 }
 
 const mockedActivity: ActivityContentDTO = {
-  id: 'activity-1',
+  id: '2a9f6c4d-8b1e-4d33-9c7a-5e2b8f1c6d77',
   title: 'Activité de test',
   thematic: EActivityThematic.TRANSVERSAL,
   summary: 'Résumé activité test',

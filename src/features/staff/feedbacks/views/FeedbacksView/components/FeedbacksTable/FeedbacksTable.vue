@@ -163,7 +163,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
               v-if="withActivity"
               #cell(activity)="{ row }"
             >
-              {{ row.activity?.activity?.title }}
+              {{ row?.activity?.title }}
             </template>
 
             <template #cell(createdAt)="{ row }">
@@ -179,7 +179,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
             <template #cell(iteration)="{ row }">
               <FeedbackIterationBadge
                 :iteration="row.iteration ?? 0"
-                :max-iterations="row.activity?.activity?.feedbackAllowedIterations"
+                :max-iterations="row.activity?.feedbackAllowedIterations"
               />
             </template>
 
@@ -195,6 +195,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
                 :icon="MDI_ICONS.ARROW_RIGHT"
                 icon-only
                 data-testid="access-button"
+                :data-activity-id="row.activity?.id"
                 @click="navigateToStaffActivityFeedbackDetails({ feedbackId: row.id })"
               />
             </template>

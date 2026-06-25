@@ -47,8 +47,11 @@ export class StaffFeedbacksPage extends BasePage {
     await this.getFeedbacksTable().verifyTableVisibleAndContainsRows()
   }
 
-  @When('the staff clicks the first access feedback button in the feedbacks table')
-  async clickFirstAccessFeedbackButtonInFeedbacksTable () {
-    await this.getFeedbacksTable().clickFirstAccessFeedbackButton()
+  @When('the staff clicks the access feedback button for activity {string}')
+  async clickAccessButtonForActivity (activityId: string) {
+    await this.page
+      .locator(`[data-testid="access-button"][data-activity-id="${activityId}"]`)
+      .first()
+      .click()
   }
 }
