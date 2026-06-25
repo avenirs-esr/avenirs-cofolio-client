@@ -1,111 +1,40 @@
 <script setup lang="ts">
-import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
-import { useModal } from '@/common/composables/use-modal/use-modal'
-import { AvButton, AvPopover, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import UserProfilePopover from '@/common/components/overlay/UserProfilePopover/UserProfilePopover.vue'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-const { username } = defineProps<{ username: string }>()
+defineProps<{ username: string }>()
 
 const { t } = useI18n()
-const { showModal, displayModal, hideModal } = useModal()
-
 const isDemo = __DEMO_MODE__
 
-function askLogoutConfirmation () {
-  displayModal()
-}
-
-function logOut () {
-  window.location.assign(__AUTH_LOGOUT_URL__)
-}
+const actions = computed(() => [
+  {
+    label: t('student.user.overlays.StudentProfilePopover.buttons.manageProfile'),
+    icon: MDI_ICONS.PENCIL_OUTLINE,
+    hidden: isDemo,
+  },
+  {
+    label: t('student.user.overlays.StudentProfilePopover.buttons.seeCalendar'),
+    icon: MDI_ICONS.CALENDAR_MONTH_OUTLINE,
+    hidden: isDemo,
+  },
+  {
+    label: t('student.user.overlays.StudentProfilePopover.buttons.goToDw'),
+    icon: MDI_ICONS.ARROW_TOP_RIGHT_THICK,
+    hidden: isDemo,
+  },
+  {
+    label: t('student.user.overlays.StudentProfilePopover.buttons.goToSkills'),
+    icon: MDI_ICONS.ARROW_TOP_RIGHT_THICK,
+    hidden: isDemo,
+  },
+])
 </script>
 
 <template>
-  <AvPopover padding="var(--spacing-xs)">
-    <template #trigger="{ toggle }">
-      <AvButton
-        class="trigger-displayed-for-demo"
-        :label="username"
-        :icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
-        small
-        no-sentence-case
-        @click="toggle"
-      />
-    </template>
-    <template #popover>
-      <ul class="av-list-reset">
-        <li v-if="!isDemo">
-          <AvButton
-            :label="t('student.user.overlays.StudentProfilePopover.buttons.manageProfile')"
-            :icon="MDI_ICONS.PENCIL_OUTLINE"
-            variant="DEFAULT"
-            theme="SECONDARY"
-            small
-            no-radius
-          />
-        </li>
-        <li v-if="!isDemo">
-          <AvButton
-            :label="t('student.user.overlays.StudentProfilePopover.buttons.seeCalendar')"
-            :icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
-            variant="DEFAULT"
-            theme="SECONDARY"
-            small
-            no-radius
-          />
-        </li>
-        <li v-if="!isDemo">
-          <AvButton
-            :label="t('student.user.overlays.StudentProfilePopover.buttons.goToDw')"
-            :icon="MDI_ICONS.ARROW_TOP_RIGHT_THICK"
-            variant="DEFAULT"
-            theme="SECONDARY"
-            small
-            no-radius
-          />
-        </li>
-        <li v-if="!isDemo">
-          <AvButton
-            :label="t('student.user.overlays.StudentProfilePopover.buttons.goToSkills')"
-            :icon="MDI_ICONS.ARROW_TOP_RIGHT_THICK"
-            variant="DEFAULT"
-            theme="SECONDARY"
-            small
-            no-radius
-          />
-        </li>
-        <li>
-          <AvButton
-            :label="t('student.user.overlays.StudentProfilePopover.buttons.logout')"
-            :icon="MDI_ICONS.LOGOUT"
-            variant="DEFAULT"
-            theme="SECONDARY"
-            small
-            no-radius
-            @click="askLogoutConfirmation"
-          />
-        </li>
-      </ul>
-    </template>
-  </AvPopover>
-
-  <ConfirmationModal
-    :show="showModal"
-    :title="t('global.logoutModal.title')"
-    :description="t('global.logoutModal.description')"
-    :confirm-button-label="t('global.buttons.confirm')"
-    :close-button-label="t('global.buttons.cancel')"
-    @confirm="logOut"
-    @close="hideModal"
+  <UserProfilePopover
+    :username="username"
+    :actions="actions"
   />
 </template>
-
-<style lang="scss" scoped>
-li > .av-button {
-  width: 100% !important;
-}
-
-:deep(.trigger-displayed-for-demo) {
-  color: var(--dark-background-primary1) !important;
-}
-</style>
