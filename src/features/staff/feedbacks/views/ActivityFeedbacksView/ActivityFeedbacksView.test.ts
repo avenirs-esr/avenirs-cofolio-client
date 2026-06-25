@@ -5,6 +5,7 @@ import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants'
+import { FeedbacksDashboardSectionStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/FeedbacksDashboardSection/FeedbacksDashboardSection.stub'
 import ActivityFeedbacksView from '@/features/staff/feedbacks/views/ActivityFeedbacksView/ActivityFeedbacksView.vue'
 import { ActivityFeedbacksCardStub } from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/ActivityFeedbacksCard/ActivityFeedbacksCard.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -18,6 +19,7 @@ BddTest().given('an ActivityFeedbacksView component', () => {
     PageTitle: PageTitleStub,
     QuerySuspense: QuerySuspenseStub,
     ActivityFeedbacksCard: ActivityFeedbacksCardStub,
+    FeedbacksDashboardSection: FeedbacksDashboardSectionStub
   }
 
   const mountView = () => mountComponent(ActivityFeedbacksView, {
@@ -41,6 +43,10 @@ BddTest().given('an ActivityFeedbacksView component', () => {
       expect(wrapper.findComponent(PageTitleStub).exists()).toBe(true)
     })
 
+    BddTest().then('it should render FeedbacksDashboardSection', () => {
+      expect(wrapper.findComponent(FeedbacksDashboardSectionStub).exists()).toBe(true)
+    })
+
     BddTest().then('it should pass the correct errorTitle to QuerySuspense', () => {
       expect(wrapper.findComponent(QuerySuspenseStub).props('errorTitle')).toBe('Impossible de charger l\'activité')
     })
@@ -52,9 +58,9 @@ BddTest().given('an ActivityFeedbacksView component', () => {
     BddTest().then('it should render PageTitle with correct breadcrumbs', () => {
       expect(wrapper.findComponent(PageTitleStub).props('breadcrumbLinks')).toEqual([
         { text: 'Accueil', to: ROUTES.STAFF.HOME },
-        { text: 'Suivi des apprenants' },
-        { text: 'Toutes mes demandes de feedback', to: ROUTES.STAFF.STUDENT_FEEDBACKS },
+        { text: 'Bibliothèque des activités', to: ROUTES.STAFF.ACTIVITIES },
         { text: mockedActivityContent.title },
+        { text: 'Toutes mes demandes de feedback' }
       ])
     })
 

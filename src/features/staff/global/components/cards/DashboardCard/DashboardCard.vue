@@ -46,13 +46,9 @@ defineProps<DashboardCardProps>()
 </template>
 
 <style scoped lang="scss">
-@use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
-
 .dashboard-card {
-  @include dsav.min-width(md) {
-    width: 20rem;
-  }
-  min-height: 13rem;
+  width: 16.53125rem;
+  height: 16.0625rem;
 
   .icon-container {
     width: var(--dimension-sm);

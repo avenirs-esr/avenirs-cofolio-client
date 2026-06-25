@@ -70,6 +70,9 @@
           "errors": {
             "fetchActivity": "Unable to load activity"
           },
+          "FeedbacksDashboardSection": {
+            "title": "Dashboard"
+          },
           "title": "All my feedback requests on the activity \"{activityTitle}\""
         },
         "FeedbacksView": {

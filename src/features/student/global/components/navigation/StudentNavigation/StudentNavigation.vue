@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ICONS, ROUTES, studentPersonalCareerRoutes, studentProjectActivtiesRoutes, studentProjectTrajectoriesRoutes } from '@/common/constants'
+import { isRouteActive } from '@/common/utils/route/route'
 import { useStudentApcAccess } from '@/features/student/global/composables/use-student-apc-access/use-student-apc-access'
+import { studentToolsTracesRoutes } from '@/features/student/traces/routes'
 import { AvNavigation, ICONS_DATA_URL, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useId } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -14,21 +16,8 @@ const {
   showApcSubmenus,
 } = useStudentApcAccess()
 
-function isRouteActive (routes: Array<{ name: string }>): boolean {
-  const routeNames = new Set(routes.map(avRoute => avRoute.name))
-
-  if (typeof route.name === 'string' && routeNames.has(route.name)) {
-    return true
-  }
-
-  return route.matched
-    .map(matchedRoute => matchedRoute.name)
-    .filter((name): name is string => typeof name === 'string')
-    .some(name => routeNames.has(name))
-}
-
 const personalCareerNavigationTarget = computed(() => {
-  if (isRouteActive(studentPersonalCareerRoutes)) {
+  if (isRouteActive({ route, routes: studentPersonalCareerRoutes })) {
     return route.fullPath
   }
 
@@ -37,22 +26,27 @@ const personalCareerNavigationTarget = computed(() => {
 
 const projectActivitiesLink = computed(() => ({
   to: ROUTES.STUDENT.PROJECT_ACTIVITIES,
-  highlight: isRouteActive(studentProjectActivtiesRoutes),
+  highlight: isRouteActive({ route, routes: studentProjectActivtiesRoutes }),
 }))
 
 const projectTrajectoriesLink = computed(() => ({
   to: ROUTES.STUDENT.PROJECT_TRAJECTORIES,
-  highlight: isRouteActive(studentProjectTrajectoriesRoutes),
+  highlight: isRouteActive({ route, routes: studentProjectTrajectoriesRoutes }),
+}))
+
+const toolTracesLink = computed(() => ({
+  to: ROUTES.STUDENT.TOOLS_TRACES,
+  highlight: isRouteActive({ route, routes: studentToolsTracesRoutes }),
 }))
 
 const educationMenu = computed(() => {
   const menu: Record<string, any> = {
     get active () {
-      return isRouteActive([
+      return isRouteActive({ route, routes: [
         ROUTES.STUDENT.APC_UNAVAILABLE,
         ROUTES.STUDENT.EDUCATION_SKILLS,
         ROUTES.STUDENT.EDUCATION_SKILLS,
-      ])
+      ] })
     },
   }
 
@@ -93,15 +87,15 @@ const allToolsMenu
   = computed(() => ({
     title: t('student.global.navigation.tabs.tools.header').toUpperCase(),
     get active () {
-      return isRouteActive([
-        ROUTES.STUDENT.TOOLS_TRACES,
+      return isRouteActive({ route, routes: [
+        ...studentToolsTracesRoutes,
         ROUTES.STUDENT.TOOLS_PAGES,
         ROUTES.STUDENT.TOOLS_RESUMES
-      ])
+      ] })
     },
     links: [
       {
-        to: ROUTES.STUDENT.TOOLS_TRACES,
+        ...toolTracesLink.value,
         text: t('student.global.navigation.tabs.tools.items.traces'),
         icon: MDI_ICONS.ATTACH_FILE
       },
@@ -123,10 +117,14 @@ const demoModeToolsMenu
     {
       title: t('student.global.navigation.tabs.tools.header').toUpperCase(),
       get active () {
-        return isRouteActive([ROUTES.STUDENT.TOOLS_TRACES])
+        return isRouteActive({ route, routes: studentToolsTracesRoutes })
       },
       links: [
-        { to: ROUTES.STUDENT.TOOLS_TRACES, text: t('student.global.navigation.tabs.tools.items.traces'), icon: MDI_ICONS.ATTACH_FILE },
+        {
+          ...toolTracesLink.value,
+          text: t('student.global.navigation.tabs.tools.items.traces'),
+          icon: MDI_ICONS.ATTACH_FILE
+        },
       ],
     }
   ))
@@ -134,12 +132,12 @@ const demoModeToolsMenu
 const buildLifeProjectMenu = computed(() => ({
   title: t('student.global.navigation.tabs.project.header').toUpperCase(),
   get active () {
-    return isRouteActive([
+    return isRouteActive({ route, routes: [
       ROUTES.STUDENT.PROJECT_SKILLS,
       ...studentPersonalCareerRoutes,
       ...studentProjectActivtiesRoutes,
       ...studentProjectTrajectoriesRoutes
-    ])
+    ] })
   },
   links: [
     {
