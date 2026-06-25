@@ -3,7 +3,7 @@ Feature: Staff Activity Feedback Details Page
 
   Background:
     Given the staff opens the feedbacks page
-    When the staff clicks the first access feedback button in the feedbacks table
+    When the staff clicks the access feedback button for activity "2a9f6c4d-8b1e-4d33-9c7a-5e2b8f1c6d77"
 
   Rule: Page Load and Basic Display
 
