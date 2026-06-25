@@ -47,8 +47,8 @@ BddTest().given('a FeedbacksDashboardSection component', () => {
       expect(querySuspense.props('error')).toBeNull()
     })
 
-    BddTest().then('it should render two DashboardCard components', () => {
-      expect(wrapper.findAllComponents(DashboardCardStub)).toHaveLength(2)
+    BddTest().then('it should render three DashboardCard components', () => {
+      expect(wrapper.findAllComponents(DashboardCardStub)).toHaveLength(3)
     })
 
     BddTest().then('it should pass the new feedback value to the first card', () => {
@@ -56,9 +56,14 @@ BddTest().given('a FeedbacksDashboardSection component', () => {
       expect(cards[0].props('value')).toBe(`${mockedFeedbackDashboard.newFeedbacks}`)
     })
 
-    BddTest().then('it should pass processed over total value to the second card', () => {
+    BddTest().then('it should pass the pending feedback value to the second card', () => {
       const cards = wrapper.findAllComponents(DashboardCardStub)
-      expect(cards[1].props('value')).toBe(`${mockedFeedbackDashboard.processedFeedbacks}/${mockedFeedbackDashboard.totalFeedbacks}`)
+      expect(cards[1].props('value')).toBe(`${mockedFeedbackDashboard.pendingFeedbacks}`)
+    })
+
+    BddTest().then('it should pass processed over total value to the third card', () => {
+      const cards = wrapper.findAllComponents(DashboardCardStub)
+      expect(cards[2].props('value')).toBe(`${mockedFeedbackDashboard.processedFeedbacks}/${mockedFeedbackDashboard.totalFeedbacks}`)
     })
   })
 
@@ -73,9 +78,10 @@ BddTest().given('a FeedbacksDashboardSection component', () => {
 
     BddTest().then('it should fallback dashboard values to zero', () => {
       const cards = wrapper.findAllComponents(DashboardCardStub)
-      expect(cards).toHaveLength(2)
+      expect(cards).toHaveLength(3)
       expect(cards[0].props('value')).toBe('0')
-      expect(cards[1].props('value')).toBe('0/0')
+      expect(cards[1].props('value')).toBe('0')
+      expect(cards[2].props('value')).toBe('0/0')
     })
   })
 

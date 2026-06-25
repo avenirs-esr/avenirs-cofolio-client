@@ -71,6 +71,9 @@
             "fetchActivity": "Unable to load activity"
           },
           "FeedbacksDashboardSection": {
+            "new": "new feedback request | new feedback requests",
+            "pending": "unprocessed feedback request | unprocessed feedback requests",
+            "sent": "sent feedback | sent feedbacks",
             "title": "Dashboard"
           },
           "title": "All my feedback requests on the activity \"{activityTitle}\""

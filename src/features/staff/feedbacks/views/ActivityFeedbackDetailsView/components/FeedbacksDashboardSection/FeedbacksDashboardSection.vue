@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useGetFeedbackDashboard } from '@/api/avenir-esr'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import { ICONS } from '@/common/constants'
 import DashboardCard from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'
 import IconTitleCardContainer from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { MDI_ICONS, MS_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -37,6 +38,12 @@ const { data: feedbackDashboard, isLoading, error } = useGetFeedbackDashboard({ 
           :icon="MS_ICONS.FEEDBACK"
           :value="`${feedbackDashboard?.newFeedbacks ?? 0}`"
           data-testid="new-feedbacks-dashboard-card"
+        />
+        <DashboardCard
+          :label="t('staff.feedbacks.views.ActivityFeedbacksView.FeedbacksDashboardSection.pending', { count: feedbackDashboard?.pendingFeedbacks ?? 0 })"
+          :icon="ICONS.FEEDBACK"
+          :value="`${feedbackDashboard?.pendingFeedbacks ?? 0}`"
+          data-testid="pending-feedbacks-dashboard-card"
         />
         <DashboardCard
           :label="t('staff.feedbacks.views.ActivityFeedbacksView.FeedbacksDashboardSection.sent', { count: feedbackDashboard?.processedFeedbacks ?? 0 })"
