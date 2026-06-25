@@ -196,6 +196,23 @@ BddTest().given('a national activity view', () => {
     })
   })
 
+  BddTest().when('the form is saved successfully after local changes', () => {
+    beforeEach(async () => {
+      await mountView()
+
+      const context = getContext(wrapper)
+      await context.form.setFieldValue('title', 'Updated title')
+      await wrapper.vm.$nextTick()
+
+      await context.form.handleSubmit()
+      await flushPromises()
+    })
+
+    BddTest().then('it should reset the dirty state', () => {
+      expect(getContext(wrapper).form.state.isDirty).toBe(false)
+    })
+  })
+
   BddTest().when('save is triggered with no pending changes', () => {
     beforeEach(async () => {
       await mountView()

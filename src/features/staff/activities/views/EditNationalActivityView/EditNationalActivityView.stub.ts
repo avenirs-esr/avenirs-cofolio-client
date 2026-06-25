@@ -41,7 +41,6 @@ export const EditNationalActivityViewFormWrapper = defineComponent({
       form,
       isUpdating: mockIsUpdating,
       save: mockSave,
-      cancel: mockCancel
     })
   },
 })
@@ -72,7 +71,6 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
       form,
       isUpdating: mockIsUpdating,
       save: mockSave,
-      cancel: mockCancel
     })
 
     onMounted(() => {

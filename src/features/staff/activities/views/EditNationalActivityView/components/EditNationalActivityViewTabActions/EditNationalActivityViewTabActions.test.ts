@@ -1,15 +1,31 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { ROUTES } from '@/common/constants'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
-import { EditNationalActivityViewFormWrapper, EditNationalActivityViewFormWrapperDirty, mockCancel, mockHandleSubmit } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
+import { EditNationalActivityViewFormWrapper, EditNationalActivityViewFormWrapperDirty, mockHandleSubmit } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
+
+const mockRouterBack = vi.fn()
+const mockRouterPush = vi.fn()
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRouter: vi.fn(() => ({
+      back: mockRouterBack,
+      push: mockRouterPush,
+    })),
+  }
+})
 
 BddTest().given('an EditNationalActivityViewTabActions component', () => {
   const stubs = { AvButton: AvButtonStub }
 
-  const mountWith = (FormWrapper: typeof EditNationalActivityViewFormWrapper): VueWrapper<InstanceType<typeof EditNationalActivityViewTabActions>> => {
-    const wrapper = mount(FormWrapper, {
+  const mountWith = async (FormWrapper: typeof EditNationalActivityViewFormWrapper): Promise<VueWrapper<InstanceType<typeof EditNationalActivityViewTabActions>>> => {
+    const wrapper = await mountWithRouter(FormWrapper, {
       slots: { default: h(EditNationalActivityViewTabActions) },
       global: { stubs },
     })
@@ -18,25 +34,27 @@ BddTest().given('an EditNationalActivityViewTabActions component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    window.history.replaceState({}, '', '/')
   })
 
   BddTest().when('the form is pristine', () => {
     let actions: VueWrapper<InstanceType<typeof EditNationalActivityViewTabActions>>
 
-    beforeEach(() => {
-      actions = mountWith(EditNationalActivityViewFormWrapper)
+    beforeEach(async () => {
+      actions = await mountWith(EditNationalActivityViewFormWrapper)
     })
 
-    BddTest().then('it should render the cancel button', () => {
-      expect(actions.find('[data-testid="cancel-button"]').exists()).toBe(true)
+    BddTest().then('it should render the exit button', () => {
+      expect(actions.find('[data-testid="exit-button"]').exists()).toBe(true)
     })
 
     BddTest().then('it should render the save button', () => {
       expect(actions.find('[data-testid="save-button"]').exists()).toBe(true)
     })
 
-    BddTest().then('the cancel button should be disabled', () => {
-      expect(actions.find('[data-testid="cancel-button"]').attributes()).toHaveProperty('disabled')
+    BddTest().then('the exit button should not be loading', () => {
+      expect((actions.findComponent('[data-testid="exit-button"]') as VueWrapper<InstanceType<typeof AvButtonStub>>)
+        .props('isLoading')).toBe(false)
     })
 
     BddTest().then('the save button should be disabled', () => {
@@ -47,26 +65,38 @@ BddTest().given('an EditNationalActivityViewTabActions component', () => {
   BddTest().when('the form is dirty', () => {
     let actions: VueWrapper<InstanceType<typeof EditNationalActivityViewTabActions>>
 
-    beforeEach(() => {
-      actions = mountWith(EditNationalActivityViewFormWrapperDirty)
+    beforeEach(async () => {
+      actions = await mountWith(EditNationalActivityViewFormWrapperDirty)
     })
 
-    BddTest().then('the cancel button should be enabled', async () => {
+    BddTest().then('the exit button should be loading', async () => {
       await vi.waitFor(() => {
-        expect(actions.find('[data-testid="cancel-button"]').attributes()).not.toHaveProperty('disabled')
+        expect((actions.findComponent('[data-testid="exit-button"]') as VueWrapper<InstanceType<typeof AvButtonStub>>)
+          .props('isLoading')).toBe(true)
       })
     })
 
-    BddTest().and('the cancel button is clicked', () => {
+    BddTest().and('the exit button is clicked with a previous history entry', () => {
       beforeEach(async () => {
-        await vi.waitFor(() => {
-          expect(actions.find('[data-testid="cancel-button"]').attributes()).not.toHaveProperty('disabled')
-        })
-        await actions.find('[data-testid="cancel-button"]').trigger('click')
+        window.history.replaceState({ back: '/staff/activities' }, '', '/staff/activities/edit')
+        await actions.find('[data-testid="exit-button"]').trigger('click')
       })
 
-      BddTest().then('it should call cancel', () => {
-        expect(mockCancel).toHaveBeenCalledTimes(1)
+      BddTest().then('it should navigate back', () => {
+        expect(mockRouterBack).toHaveBeenCalledTimes(1)
+        expect(mockRouterPush).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().and('the exit button is clicked without previous history entry', () => {
+      beforeEach(async () => {
+        window.history.replaceState({}, '', '/staff/activities/edit')
+        await actions.find('[data-testid="exit-button"]').trigger('click')
+      })
+
+      BddTest().then('it should navigate to staff activities', () => {
+        expect(mockRouterBack).not.toHaveBeenCalled()
+        expect(mockRouterPush).toHaveBeenCalledWith(ROUTES.STAFF.ACTIVITIES)
       })
     })
 
@@ -88,7 +118,7 @@ BddTest().given('an EditNationalActivityViewTabActions component', () => {
     let actions: VueWrapper<InstanceType<typeof EditNationalActivityViewTabActions>>
 
     beforeEach(async () => {
-      actions = mountWith(EditNationalActivityViewFormWrapper)
+      actions = await mountWith(EditNationalActivityViewFormWrapper)
       await actions.find('[data-testid="save-button"]').trigger('click')
     })
 
