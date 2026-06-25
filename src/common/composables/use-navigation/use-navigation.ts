@@ -197,6 +197,13 @@ export function useNavigation () {
     })
   }
 
+  const navigateToStaffActivityFeedbacks = ({ id }: { id: string }) => {
+    return router.push({
+      name: ROUTES.STAFF.ACTIVITY_FEEDBACKS.name,
+      params: { id },
+    })
+  }
+
   const navigateToStudentUpdateTrace = ({ id }: { id: string }) => {
     return router.push({
       name: ROUTES.STUDENT.UPDATE_TRACE.name,
@@ -255,6 +262,7 @@ export function useNavigation () {
     navigateToStaffActivities,
     navigateToStaffActivitiesEditNationalActivity,
     navigateToStaffActivityCatalog,
+    navigateToStaffActivityFeedbacks,
     navigateToStudentUpdateTrace,
     navigateToStudentToolsUpdateTrace,
     navigateToStudentToolsTrace,

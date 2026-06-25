@@ -39,8 +39,13 @@ BddTest().given('a MoreActionsDropdown component', () => {
       expect(getDropdown().props('triggerAriaLabel')).toBe('Plus d\'actions')
     })
 
-    BddTest().then('the delete item should not be disabled', () => {
+    BddTest().then('the delete item should not be disabled and the navigate to feedback item should be disabled', () => {
       expect(getDropdown().props('items')).toEqual([
+        expect.objectContaining({
+          name: 'navigateToFeedbacks',
+          label: 'Accéder aux demandes de feedback',
+          disabled: true
+        }),
         expect.objectContaining({
           name: 'delete',
           label: 'Supprimer',
@@ -81,10 +86,37 @@ BddTest().given('a MoreActionsDropdown component', () => {
     BddTest().then('the delete item should be disabled', () => {
       expect(getDropdown().props('items')).toEqual([
         expect.objectContaining({
+          name: 'navigateToFeedbacks',
+          disabled: false
+        }),
+        expect.objectContaining({
           name: 'delete',
           disabled: true
         })
       ])
+    })
+
+    BddTest().then('the navigate to feedback item should not be disabled', () => {
+      expect(getDropdown().props('items')).toEqual([
+        expect.objectContaining({
+          name: 'navigateToFeedbacks',
+          disabled: false
+        }),
+        expect.objectContaining({
+          name: 'delete',
+          disabled: true
+        })
+      ])
+    })
+
+    BddTest().and('the navigate to feedback item is selected', () => {
+      beforeEach(async () => {
+        await getDropdown().vm.$emit('itemSelected', 'navigateToFeedbacks')
+      })
+
+      BddTest().then('it should emit navigateToFeedbacksSelected', () => {
+        expect(wrapper.emitted('navigateToFeedbacksSelected')).toHaveLength(1)
+      })
     })
   })
 })

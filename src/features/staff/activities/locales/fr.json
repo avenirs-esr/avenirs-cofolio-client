@@ -43,7 +43,8 @@
             "status": "Statut"
           },
           "MoreActionsDropdown": {
-            "ariaLabel": "Plus d'actions"
+            "ariaLabel": "Plus d'actions",
+            "navigateToFeedbacks": "Accéder aux demandes de feedback"
           },
           "MyWorkspaceTab": {
             "createActivity": "Créer une activité",

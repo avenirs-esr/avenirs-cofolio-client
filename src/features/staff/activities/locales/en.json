@@ -43,7 +43,8 @@
             "status": "Status"
           },
           "MoreActionsDropdown": {
-            "ariaLabel": "More actions"
+            "ariaLabel": "More actions",
+            "navigateToFeedbacks": "Navigate to feedback requests"
           },
           "MyWorkspaceTab": {
             "createActivity": "Create an activity",

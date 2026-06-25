@@ -11,15 +11,23 @@ const { activityStatus } = defineProps<MoreActionsDropdownProps>()
 
 const emit = defineEmits<{
   (e: 'deleteSelected'): void
+  (e: 'navigateToFeedbacksSelected'): void
 }>()
 
 enum MoreActionsEvents {
-  DELETE = 'delete'
+  DELETE = 'delete',
+  NAVIGATE_TO_FEEDBACKS = 'navigateToFeedbacks'
 }
 
 const { t } = useI18n()
 
 const menuItems = computed(() => [
+  {
+    name: MoreActionsEvents.NAVIGATE_TO_FEEDBACKS,
+    icon: MDI_ICONS.ARROW_RIGHT,
+    label: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.navigateToFeedbacks'),
+    disabled: activityStatus !== EActivityStatus.PUBLISHED
+  },
   {
     name: MoreActionsEvents.DELETE,
     icon: MDI_ICONS.TRASH_CAN_OUTLINE,
@@ -32,6 +40,9 @@ function handleItemSelected (itemName: string) {
   switch (itemName) {
     case MoreActionsEvents.DELETE:
       emit('deleteSelected')
+      break
+    case MoreActionsEvents.NAVIGATE_TO_FEEDBACKS:
+      emit('navigateToFeedbacksSelected')
       break
   }
 }

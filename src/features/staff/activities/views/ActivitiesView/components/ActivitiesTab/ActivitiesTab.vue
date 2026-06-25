@@ -5,7 +5,7 @@ import type { Slot } from 'vue'
 import ActivityStatusBadge from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useDateUtils } from '@/common/composables'
+import { useDateUtils, useNavigation } from '@/common/composables'
 import { useModal } from '@/common/composables/use-modal/use-modal'
 import DeleteDraftActivityConfirmationModal from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
 import { usePaginatedStaffActivities, type UsePaginatedStaffActivitiesParams } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
@@ -54,6 +54,7 @@ const {
 const { t } = useI18n()
 const { formatLastModified } = useDateUtils()
 const { isMobile } = useAvBreakpoints()
+const { navigateToStaffActivityFeedbacks } = useNavigation()
 
 const { showModal: showDeleteModal, displayModal: displayDeleteModal, hideModal: hideDeleteModal } = useModal()
 const pendingDeleteId = ref<string | null>(null)
@@ -178,6 +179,7 @@ watch(
             <MoreActionsDropdown
               :activity-status="row.status"
               @delete-selected="onDeleteSelected(row.id)"
+              @navigate-to-feedbacks-selected="() => navigateToStaffActivityFeedbacks({ id: row.id })"
             />
           </template>
         </AvTable>
