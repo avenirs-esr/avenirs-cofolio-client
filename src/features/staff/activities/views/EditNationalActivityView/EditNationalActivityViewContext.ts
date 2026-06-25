@@ -16,10 +16,6 @@ export interface EditNationalActivityViewContext {
    * A full update requires calling form.handleSubmit().
    */
   save: (data?: ActivityDraftUpdateRequest) => void
-  /**
-   * Cancels the editing of the activity draft, discarding any unsaved changes.
-   */
-  cancel: () => void
 }
 
 export const editNationalActivityViewContextKey: InjectionKey<EditNationalActivityViewContext> = Symbol('editNationalActivityViewContext')

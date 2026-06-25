@@ -194,6 +194,10 @@ async function save (data?: ActivityDraftUpdateRequest) {
   }
 
   if (results.every(r => r.status === 'fulfilled')) {
+    form.reset({
+      ...form.state.values,
+      bannerAction: EditActivityFormDataBannerAction.NONE,
+    })
     addSuccessMessage(t('staff.activities.views.EditNationalActivityView.success.saveActivityContent'))
   }
   else {
@@ -217,11 +221,6 @@ async function save (data?: ActivityDraftUpdateRequest) {
   }
 }
 
-function cancel () {
-  bannerFile.value = null
-  form.reset(defaultValues)
-}
-
 function onNextStep () {
   activeTab.value = EditActivityTabIndex.PUBLICATION
 }
@@ -230,9 +229,7 @@ function onPublished () {
   navigateToStaffActivities(true)
 }
 
-watch([content, presentation], () => cancel())
-
-provideEditNationalActivityViewContext({ form, isUpdating, save, cancel })
+provideEditNationalActivityViewContext({ form, isUpdating, save })
 </script>
 
 <template>

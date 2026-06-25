@@ -1,11 +1,22 @@
 <script setup lang="ts">
+import { ROUTES } from '@/common/constants'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+const router = useRouter()
 const { t } = useI18n()
 
-const { form, isUpdating, cancel } = useEditNationalActivityViewContext()
+function goBack () {
+  if (window.history.state?.back) {
+    router.back()
+  }
+  else {
+    router.push(ROUTES.STAFF.ACTIVITIES)
+  }
+}
+
+const { form, isUpdating } = useEditNationalActivityViewContext()
 const isFormDirty = form.useStore(s => s.isDirty)
 const isFormValid = form.useStore(s => s.isValid && !s.isValidating && s.isDirty)
 </script>
@@ -14,11 +25,11 @@ const isFormValid = form.useStore(s => s.isValid && !s.isValidating && s.isDirty
   <div class="av-row av-gap-sm">
     <AvButton
       small
-      data-testid="cancel-button"
+      data-testid="exit-button"
       :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-      :label="t('staff.activities.views.EditNationalActivityView.EditNationalActivityViewTabActions.cancelLabel')"
-      :disabled="isUpdating || !isFormDirty"
-      @click="cancel()"
+      :label="t('global.buttons.exit')"
+      :is-loading="isUpdating || isFormDirty"
+      @click="goBack"
     />
     <AvButton
       small
