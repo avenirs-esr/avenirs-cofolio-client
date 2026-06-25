@@ -178,6 +178,7 @@ watch(
           >
             <MoreActionsDropdown
               :activity-status="row.status"
+              :data-activity-id="row.id"
               @delete-selected="onDeleteSelected(row.id)"
               @navigate-to-feedbacks-selected="() => navigateToStaffActivityFeedbacks({ id: row.id })"
             />

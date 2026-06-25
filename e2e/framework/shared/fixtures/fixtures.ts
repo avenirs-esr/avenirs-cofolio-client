@@ -6,6 +6,7 @@ import { StaffActivitiesPage } from '@e2e/framework/staff/activities/StaffActivi
 import { StaffEditNationalActivityPage } from '@e2e/framework/staff/activities/StaffEditNationalActivityPage'
 import { StaffNationalActivityCatalogPage } from '@e2e/framework/staff/activities/StaffNationalActivityCatalogPage'
 import { StaffActivityFeedbackDetailsPage } from '@e2e/framework/staff/feedbacks/StaffActivityFeedbackDetailsPage'
+import { StaffActivityFeedbacksPage } from '@e2e/framework/staff/feedbacks/StaffActivityFeedbacksPage'
 import { StaffFeedbacksPage } from '@e2e/framework/staff/feedbacks/StaffFeedbacksPage'
 import { StaffHomePage } from '@e2e/framework/staff/home/StaffHomePage'
 import { StaffGlobalSteps } from '@e2e/framework/staff/shared/steps/StaffGlobalSteps'
@@ -29,6 +30,7 @@ interface Fixtures {
   staffHomePage: StaffHomePage
   staffActivitiesPage: StaffActivitiesPage
   staffActivityFeedbackDetailsPage: StaffActivityFeedbackDetailsPage
+  staffActivityFeedbacksPage: StaffActivityFeedbacksPage
   staffFeedbacksPage: StaffFeedbacksPage
   staffEditNationalActivityPage: StaffEditNationalActivityPage
   staffNationalActivityCatalogPage: StaffNationalActivityCatalogPage
@@ -71,6 +73,10 @@ export const test = base.extend<Fixtures>({
   staffActivityFeedbackDetailsPage: async ({ page }, use) => {
     await setLocaleFromPage(page)
     await use(new StaffActivityFeedbackDetailsPage(page))
+  },
+  staffActivityFeedbacksPage: async ({ page }, use) => {
+    await setLocaleFromPage(page)
+    await use(new StaffActivityFeedbacksPage(page))
   },
   staffFeedbacksPage: async ({ page }, use) => {
     await setLocaleFromPage(page)

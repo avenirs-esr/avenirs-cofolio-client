@@ -139,6 +139,21 @@ export class StaffActivitiesPage extends BasePage {
     await clickOnElement(this.getMoreActionsDropdownTrigger())
   }
 
+  @When('the user clicks on the more actions button for activity that has feedbacks')
+  async clickMoreActionsButtonForActivityWithFeedbacks () {
+    const activityId = '8c5d1f77-2a9e-4b33-9f6c-1e4b7a2d9c11'
+    const dropdown = this.page.locator(
+      `[data-testid="more-actions-dropdown"][data-activity-id="${activityId}"]`,
+    )
+    await clickOnElement(dropdown.getByRole('button'))
+  }
+
+  @When('the user clicks on the navigate to feedbacks option')
+  async clickNavigateToFeedbacksOption () {
+    await clickOnElement(this.page.getByTestId('navigateToFeedbacks'))
+    await waitForPageLoad(this.page)
+  }
+
   @Then('the delete option is visible')
   async verifyDeleteOptionVisible () {
     await expect(this.getDeleteOption()).toBeVisible()
