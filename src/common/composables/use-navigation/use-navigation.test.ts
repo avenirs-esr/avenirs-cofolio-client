@@ -440,6 +440,18 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to staff activity feedbacks', () => {
+    BddTest().then('it should navigate to staff activity feedbacks with activityId', () => {
+      const { navigateToStaffActivityFeedbacks } = navigation
+      navigateToStaffActivityFeedbacks({ id: 'act-123' })
+
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STAFF.ACTIVITY_FEEDBACKS.name,
+        params: { id: 'act-123' },
+      })
+    })
+  })
+
   BddTest().when('trying to navigate to student tools trace', () => {
     BddTest().then('it should navigate to student tools trace with id', () => {
       const { navigateToStudentToolsTrace } = navigation
