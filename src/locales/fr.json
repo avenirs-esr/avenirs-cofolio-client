@@ -242,7 +242,7 @@
       },
       "form": {
         "invalidEmail": "Veuillez renseigner une adresse email valide (ex. : nom{'@'}exemple.com)",
-        "invalidLink": "Veuillez renseigner une URL valide (ex. : http://www.exemple.com)",
+        "invalidLink": "Veuillez renseigner une URL valide (ex. : http://www.exemple.com). N'oubliez pas d'inclure le protocole (http:// ou https://).",
         "max": "Veuillez renseigner une valeur inférieure ou égale à {max}",
         "maxLength": "Veuillez limiter votre saisie à {maxLength} caractères",
         "min": "Veuillez renseigner une valeur supérieure ou égale à {min}",

@@ -195,7 +195,7 @@ BddTest().given('an update declared experience form', () => {
         const validator = getOnSubmitValidator()
         const result = validator({ value: invalidData })
 
-        expect(result?.fields?.externalLink).toBe('Veuillez renseigner une URL valide (ex. : http://www.exemple.com)')
+        expect(result?.fields?.externalLink).toBe('Veuillez renseigner une URL valide (ex. : http://www.exemple.com). N\'oubliez pas d\'inclure le protocole (http:// ou https://).')
       })
     })
   })
