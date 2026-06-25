@@ -1,19 +1,35 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ICONS } from '@/common/constants'
 import StaffNavigation from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import router from '@/router'
+import { MDI_ICONS, registerNavigationLinkKey } from '@avenirs-esr/avenirs-dsav'
 import { AvNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountWithRouter } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a staff navigation', () => {
   let wrapper: VueWrapper<InstanceType<typeof StaffNavigation>>
 
   const stubs = { AvNavigation: AvNavigationStub }
 
+  const mountDefault = async () => {
+    const wrapper = mountComponent(StaffNavigation, {
+      global: {
+        stubs,
+        plugins: [router],
+        provide: {
+          [registerNavigationLinkKey]: vi.fn()
+        }
+      },
+    })
+
+    await wrapper.vm.$nextTick()
+    return wrapper
+  }
+
   BddTest().when('the component is mounted', () => {
     beforeEach(async () => {
-      wrapper = await mountWithRouter<typeof StaffNavigation>(StaffNavigation, { global: { stubs } })
+      wrapper = await mountDefault()
     })
 
     BddTest().then('it should render AvNavigation component', () => {
@@ -21,7 +37,7 @@ BddTest().given('a staff navigation', () => {
       expect(avNavigation.exists()).toBe(true)
     })
 
-    BddTest().then('it should include home navigation item with correct propertie', () => {
+    BddTest().then('it should include home navigation item with correct properties', () => {
       const avNavigation = wrapper.findComponent(AvNavigationStub)
       const navItems = avNavigation.props('navItems')
 
@@ -32,7 +48,7 @@ BddTest().given('a staff navigation', () => {
       })
     })
 
-    BddTest().then('it should include activities navigation item with correct propertie', () => {
+    BddTest().then('it should include activities navigation item with correct properties', () => {
       const avNavigation = wrapper.findComponent(AvNavigationStub)
       const navItems = avNavigation.props('navItems')
 
@@ -43,13 +59,18 @@ BddTest().given('a staff navigation', () => {
       })
     })
 
-    BddTest().then('it should include student tracking menu with feedback sub item', () => {
+    BddTest().then('it should include student tracking menu with correct title', () => {
       const avNavigation = wrapper.findComponent(AvNavigationStub)
       const navItems = avNavigation.props('navItems')
 
       expect(navItems[2]).toMatchObject({
         title: 'SUIVI DES APPRENANTS',
       })
+    })
+
+    BddTest().then('it should include feedback link in student tracking menu', () => {
+      const avNavigation = wrapper.findComponent(AvNavigationStub)
+      const navItems = avNavigation.props('navItems')
 
       expect(navItems[2].links).toHaveLength(1)
 

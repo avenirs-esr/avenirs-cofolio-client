@@ -42,3 +42,14 @@ export const studentToolsUpdateTraceRoute: AvRoute = {
   component: () =>
     import('@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'),
 }
+
+export const studentToolsTracesRoutes: AvRoute[] = [
+  studentToolsTraceRoute,
+  studentToolsTracesRoute,
+  studentToolsUpdateTraceRoute,
+]
+
+export const studentTracesRoutes: AvRoute[] = [
+  studentTraceRoute,
+  studentUpdateTraceRoute,
+]

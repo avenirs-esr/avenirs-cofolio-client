@@ -70,6 +70,11 @@
           "errors": {
             "fetchActivity": "Impossible de charger l'activité"
           },
+          "FeedbacksDashboardSection": {
+            "new": "nouvelle demande de feedback | nouvelles demandes de feedback",
+            "sent": "réponse envoyée | réponses envoyées",
+            "title": "Tableau de bord"
+          },
           "title": "Toutes mes demandes de feedback sur l'activité \"{activityTitle}\""
         },
         "FeedbacksView": {

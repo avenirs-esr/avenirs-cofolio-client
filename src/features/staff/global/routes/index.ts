@@ -1,8 +1,7 @@
 import type { RoutePageProps } from '@/common/types'
 import { ROUTES } from '@/common/constants'
-import { staffActivitiesEditNationalActivityRoute, staffActivitiesRoute, staffActivityCatalogRoute } from '@/features/staff/activities/routes'
+import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
 import {
-  staffActivityFeedbacksRoute,
   staffStudentActivityFeedbacksRoute,
   staffStudentFeedbacksRoute
 } from '@/features/staff/feedbacks/routes'
@@ -47,12 +46,9 @@ export default [
         component: () =>
           import('@/common/views/PersonalDataView/PersonalDataView.vue'),
       },
-      staffActivitiesRoute,
-      staffActivitiesEditNationalActivityRoute,
-      staffActivityCatalogRoute,
+      ...staffActivitiesRoutes,
       staffStudentActivityFeedbacksRoute,
       staffStudentFeedbacksRoute,
-      staffActivityFeedbacksRoute
     ]
   }
 ]

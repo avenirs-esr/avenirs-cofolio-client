@@ -3,6 +3,7 @@ import { EActivityStatus, useGetActivityContent } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { ICONS, ROUTES } from '@/common/constants'
+import FeedbacksDashboardSection from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/FeedbacksDashboardSection/FeedbacksDashboardSection.vue'
 import ActivityFeedbacksCard
   from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/ActivityFeedbacksCard/ActivityFeedbacksCard.vue'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
@@ -22,9 +23,9 @@ const activityTitle = computed(() => activity.value?.title ?? '')
 
 const breadcrumbLinks = computed(() => [
   { text: t('staff.global.navigation.tabs.home'), to: ROUTES.STAFF.HOME },
-  { text: t('staff.global.navigation.tabs.studentTracking') },
-  { text: t('staff.global.navigation.tabs.studentFeedbacks'), to: ROUTES.STAFF.STUDENT_FEEDBACKS },
+  { text: t('staff.global.navigation.tabs.activities.header'), to: ROUTES.STAFF.ACTIVITIES },
   { text: activityTitle.value },
+  { text: t('staff.global.navigation.tabs.studentFeedbacks') },
 ])
 </script>
 
@@ -46,6 +47,7 @@ const breadcrumbLinks = computed(() => [
         class="n5 av-pl-2xl av-text-primary1 av-text-regular"
       >{{ activity?.title }}</span>
     </div>
+    <FeedbacksDashboardSection :activity-id="activityId" />
     <QuerySuspense
       :is-loading="isLoading"
       :error="error"
