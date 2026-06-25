@@ -77,7 +77,7 @@ BddTest().given('a trace form validators composable', () => {
     BddTest().and('link format is invalid', () => {
       BddTest().then('it should return invalid URL error', () => {
         const result = composableResult.buildValidators(buildLinkTraceFormData({ link: 'invalid-link' }))
-        expect(result.fields.link).toBe('Veuillez renseigner une URL valide (ex. : http://www.exemple.com)')
+        expect(result.fields.link).toBe('Veuillez renseigner une URL valide (ex. : http://www.exemple.com). N\'oubliez pas d\'inclure le protocole (http:// ou https://).')
       })
     })
 

@@ -243,7 +243,7 @@ BddTest().given('a form validators composable', () => {
     BddTest().and('the link is invalid', () => {
       BddTest().then('it should return invalid link error', () => {
         const error = composableResult.validateLink('invalid-link', true)
-        expect(error).toBe('Veuillez renseigner une URL valide (ex. : http://www.exemple.com)')
+        expect(error).toBe('Veuillez renseigner une URL valide (ex. : http://www.exemple.com). N\'oubliez pas d\'inclure le protocole (http:// ou https://).')
       })
     })
 
