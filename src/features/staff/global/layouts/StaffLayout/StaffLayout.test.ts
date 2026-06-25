@@ -3,6 +3,7 @@ import { FooterStub } from '@/common/components/Footer/Footer.stub'
 import { SwitchUniverseStub } from '@/common/components/SwitchUniverse/SwitchUniverse.stub'
 import { ROUTES } from '@/common/constants'
 import StaffLayout from '@/features/staff/global/layouts/StaffLayout/StaffLayout.vue'
+import { StaffProfileDropdownStub } from '@/features/staff/user/components/overlays/StaffProfileDropdown/StaffProfileDropdown.stub'
 import { AvHeaderStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -27,11 +28,7 @@ BddTest().given('a staff layout', () => {
   const stubs = {
     AvHeader: AvHeaderStub,
     SwitchUniverse: SwitchUniverseStub,
-    StaffProfilePopover: {
-      name: 'StaffProfilePopover',
-      props: ['username'],
-      template: '<div data-testid="profile-popover" />'
-    },
+    StaffProfileDropdown: StaffProfileDropdownStub,
     StaffNavigation: {
       name: 'StaffNavigation',
       template: '<nav data-testid="navigation">Navigation</nav>'
@@ -58,7 +55,7 @@ BddTest().given('a staff layout', () => {
       BddTest().then('it should render header, navigation and quicklinks correctly', () => {
         expect(wrapper.findComponent({ name: 'AvHeader' }).exists()).toBe(true)
         expect(wrapper.find('[data-testid="navigation"]').exists()).toBe(true)
-        expect(wrapper.find('[data-testid="profile-popover"]').exists()).toBe(true)
+        expect(wrapper.find('[data-testid="staff-profile-dropdown"]').exists()).toBe(true)
       })
 
       BddTest().then('it should render the Footer component with correct props', () => {
@@ -71,10 +68,10 @@ BddTest().given('a staff layout', () => {
         expect(footer.props('personalDataLink')).toBe(ROUTES.STAFF.PERSONAL_DATA)
       })
 
-      BddTest().then('it should pass correct props to profile popover', async () => {
-        const profilePopover = wrapper.findComponent({ name: 'StaffProfilePopover' })
+      BddTest().then('it should pass correct props to profile dropdown', async () => {
+        const profileDropdown = wrapper.findComponent(StaffProfileDropdownStub)
 
-        await vi.waitFor(() => expect(profilePopover.props('username')).toBe('M. Dupont'))
+        await vi.waitFor(() => expect(profileDropdown.props('username')).toBe('M. Dupont'))
       })
     })
 

@@ -5,7 +5,7 @@ import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vu
 import { useBaseApiExceptionToast, useLanguageSwitcher } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import StaffNavigation from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.vue'
-import StaffProfilePopover from '@/features/staff/user/components/overlays/StaffProfilePopover/StaffProfilePopover.vue'
+import StaffProfileDropdown from '@/features/staff/user/components/overlays/StaffProfileDropdown/StaffProfileDropdown.vue'
 import { AvHeader } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
@@ -45,7 +45,7 @@ const name = computed(() => {
       <div class="av-px-sm av-pt-sm av-pb-sm">
         <ul class="av-row av-wrap av-gap-sm av-align-stretch av-list-reset">
           <li data-testid="profile-button">
-            <StaffProfilePopover :username="name" />
+            <StaffProfileDropdown :username="name" />
           </li>
         </ul>
       </div>

@@ -35,15 +35,6 @@
           },
           "title": "No notification | 1 unread notification | {count} unread notifications"
         },
-        "StudentProfilePopover": {
-          "buttons": {
-            "goToDw": "Go to my DW",
-            "goToSkills": "Go to the skills passport",
-            "logout": "Logout",
-            "manageProfile": "Manage my profile",
-            "seeCalendar": "See my calendar"
-          }
-        },
         "UpdateProfileDrawer": {
           "identity": {
             "biography": {
