@@ -1,6 +1,7 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
+import { FeedbacksDashboardSection } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksDashboardSection'
 import { FeedbacksTable } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksTable'
 import { expect, type Page } from '@playwright/test'
 import { Fixture, Then } from 'playwright-bdd/decorators'
@@ -19,6 +20,12 @@ export class StaffActivityFeedbacksPage extends BasePage {
 
   private getStatusPicker () {
     return this.page.getByTestId('feedback-status-picker')
+  }
+
+  private getFeedbacksDashboardSection () {
+    return new FeedbacksDashboardSection(
+      this.page.getByTestId('feedbacks-dashboard-section'),
+    )
   }
 
   @Then('the staff activity feedbacks page is displayed')
@@ -51,5 +58,25 @@ export class StaffActivityFeedbacksPage extends BasePage {
   @Then('the activity feedbacks table shows the iteration column')
   async verifyIterationColumn () {
     await this.getFeedbacksTable().verifyIterationCellVisible()
+  }
+
+  @Then('the feedbacks dashboard section is visible')
+  async verifyFeedbacksDashboardSectionVisible () {
+    await this.getFeedbacksDashboardSection().verifyVisible()
+  }
+
+  @Then('the new feedbacks dashboard card is displayed')
+  async verifyNewFeedbacksDashboardCard () {
+    await this.getFeedbacksDashboardSection().verifyNewFeedbacksCard()
+  }
+
+  @Then('the pending feedbacks dashboard card is displayed')
+  async verifyPendingFeedbacksDashboardCard () {
+    await this.getFeedbacksDashboardSection().verifyPendingFeedbacksCard()
+  }
+
+  @Then('the processed feedbacks dashboard card is displayed')
+  async verifyProcessedFeedbacksDashboardCard () {
+    await this.getFeedbacksDashboardSection().verifyProcessedFeedbacksCard()
   }
 }
