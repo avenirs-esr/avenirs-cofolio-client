@@ -50,11 +50,13 @@ const associatedElements = computed<FeedbackAssociatedElement[]>(() => {
       :empty-state-message="t('staff.feedbacks.cards.AssociatedElementSummaryCard.emptyState')"
       :error="error"
     >
-      <AssociatedElementCard
-        v-for="element in associatedElements"
-        :key="element.data.id"
-        :feedback-associated-element="element"
-      />
+      <div class="av-col av-gap-sm">
+        <AssociatedElementCard
+          v-for="element in associatedElements"
+          :key="element.data.id"
+          :feedback-associated-element="element"
+        />
+      </div>
     </QuerySuspense>
   </AvCard>
 </template>

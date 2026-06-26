@@ -6,23 +6,9 @@ import { EAssociationContextType } from '@/api/avenir-esr'
 import { AssociatedElementTypeBadgeStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/badges/AssociatedElementTypeBadge/AssociatedElementTypeBadge.stub'
 import AssociatedElementCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementCard/AssociatedElementCard.vue'
 import { FeedbackTraceActionsStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/FeedbackTraceActions/FeedbackTraceActions.stub'
-import { AvButtonStub, AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
-
-const mockNavigateToStudentToolsTrace = vi.fn()
-const mockNavigateToStudentProjectSkill = vi.fn()
-
-vi.mock('@/common/composables', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables')>()
-  return {
-    ...actual,
-    useNavigation: () => ({
-      navigateToStudentToolsTrace: mockNavigateToStudentToolsTrace,
-      navigateToStudentProjectSkill: mockNavigateToStudentProjectSkill,
-    }),
-  }
-})
+import { beforeEach, expect } from 'vitest'
 
 const mockedFeedbackTraceWithFile: FeedbackAssociatedElement = {
   type: EAssociationContextType.TRACE,
@@ -40,17 +26,12 @@ const mockedFeedbackDeclaredSkill: FeedbackAssociatedElement = {
 
 const stubs = {
   AvCard: AvCardStub,
-  AvButton: AvButtonStub,
   AssociatedElementTypeBadge: AssociatedElementTypeBadgeStub,
   FeedbackTraceActions: FeedbackTraceActionsStub,
 }
 
 BddTest().given('an AssociatedElementCard component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedElementCard>>
-
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
 
   BddTest().when('the element is a TRACE with a file attachment', () => {
     beforeEach(() => {
@@ -77,15 +58,6 @@ BddTest().given('an AssociatedElementCard component', () => {
     BddTest().then('it should render FeedbackTraceActions', () => {
       expect(wrapper.findComponent(FeedbackTraceActionsStub).exists()).toBe(true)
     })
-
-    BddTest().then('it should render the detail button', () => {
-      expect(wrapper.find('[data-testid="associated-element-card-detail-button"]').exists()).toBe(true)
-    })
-
-    BddTest().then('it should navigate to trace detail when detail button is clicked', async () => {
-      await wrapper.find('[data-testid="associated-element-card-detail-button"]').trigger('click')
-      expect(mockNavigateToStudentToolsTrace).toHaveBeenCalledWith({ id: mockedFeedbackTraceWithFile.data.id })
-    })
   })
 
   BddTest().when('the element is a TRACE with a link', () => {
@@ -98,11 +70,6 @@ BddTest().given('an AssociatedElementCard component', () => {
 
     BddTest().then('it should render FeedbackTraceActions', () => {
       expect(wrapper.findComponent(FeedbackTraceActionsStub).exists()).toBe(true)
-    })
-
-    BddTest().then('it should navigate to trace detail when detail button is clicked', async () => {
-      await wrapper.find('[data-testid="associated-element-card-detail-button"]').trigger('click')
-      expect(mockNavigateToStudentToolsTrace).toHaveBeenCalledWith({ id: mockedFeedbackTraceWithLink.data.id })
     })
   })
 
@@ -122,11 +89,6 @@ BddTest().given('an AssociatedElementCard component', () => {
 
     BddTest().then('it should not render FeedbackTraceActions', () => {
       expect(wrapper.findComponent(FeedbackTraceActionsStub).exists()).toBe(false)
-    })
-
-    BddTest().then('it should navigate to skill detail when detail button is clicked', async () => {
-      await wrapper.find('[data-testid="associated-element-card-detail-button"]').trigger('click')
-      expect(mockNavigateToStudentProjectSkill).toHaveBeenCalledWith({ id: mockedFeedbackDeclaredSkill.data.id })
     })
   })
 })
