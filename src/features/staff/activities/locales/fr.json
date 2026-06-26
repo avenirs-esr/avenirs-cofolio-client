@@ -128,7 +128,7 @@
             "placeholder": "Rédiger ici un texte court qui permet d'avoir un aperçu de l'activité et donne envie de s'y inscrire."
           },
           "ActivityTraceFormField": {
-            "description": "Lorsque le paramètre est activé, les apprenants peuvent associer des traces dans le cadre de leur activité. En limitant le nombre de traces associées vous obligez les apprenants à sélectionner consciencieusement les traces pertinentes dans le contexte de leur activité.",
+            "description": "L'apprenant peut associer jusqu'à 10 traces maximum dans l'activité.",
             "title": "Association de traces"
           },
           "EditNationalActivityViewTabActions": {
