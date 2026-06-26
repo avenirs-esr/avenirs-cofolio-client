@@ -128,7 +128,7 @@
             "placeholder": "Write a short description here that gives a glimpse of the activity and makes people want to sign up."
           },
           "ActivityTraceFormField": {
-            "description": "When this setting is enabled, learners can associate traces within the context of their activity. By limiting the number of associated traces, you require learners to consciously select the relevant traces in the context of their activity.",
+            "description": "The student can associate up to a maximum of 10 traces in the activity.",
             "title": "Trace association"
           },
           "EditNationalActivityViewTabActions": {
