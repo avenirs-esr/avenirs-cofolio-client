@@ -97,3 +97,16 @@ Feature: Student Home Page
     Scenario: Header actions are visible on desktop
       Then the profile button is visible
       And the language switcher is visible
+
+  Rule: Logout
+
+    @high @logout
+    Scenario: Student can see logout action
+      When the student opens the profile dropdown
+      Then the student logout action have correct label
+
+    @high @logout
+    Scenario: Student sees logout confirmation modal
+      When the student opens the profile dropdown
+      And the student clicks on the logout action
+      Then the student logout confirmation modal is visible

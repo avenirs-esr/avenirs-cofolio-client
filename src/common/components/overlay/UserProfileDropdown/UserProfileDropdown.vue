@@ -59,6 +59,7 @@ function logOut () {
   />
 
   <ConfirmationModal
+    data-testid="logout-confirmation-modal"
     :show="showModal"
     :title="t('global.logoutModal.title')"
     :description="t('global.logoutModal.description')"
