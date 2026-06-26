@@ -1,0 +1,194 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - link "Accueil - Cofolio Étudiant" [ref=e12] [cursor=pointer]:
+          - /url: /cofolio/student
+          - img [ref=e13]
+        - button "Changer d'univers" [ref=e15] [cursor=pointer]:
+          - generic [ref=e18]: Changer d'univers
+      - generic [ref=e19]:
+        - generic [ref=e20]:
+          - list [ref=e22]:
+            - listitem [ref=e23]:
+              - button "Messagerie" [ref=e26] [cursor=pointer]:
+                - generic [ref=e29]: Messagerie
+            - listitem [ref=e30]:
+              - button "Notifications" [ref=e33] [cursor=pointer]:
+                - generic [ref=e36]: Notifications
+            - listitem [ref=e37]:
+              - button "J. moulin" [ref=e40] [cursor=pointer]:
+                - generic [ref=e43]: J. moulin
+          - navigation [ref=e46]:
+            - button "FR" [ref=e49] [cursor=pointer]:
+              - generic [ref=e52]: FR
+        - search [ref=e54]:
+          - generic [ref=e58]:
+            - generic [ref=e60]: Rechercher
+            - searchbox "Rechercher" [ref=e61]
+          - button "Rechercher" [ref=e64] [cursor=pointer]
+    - navigation "Menu principal" [ref=e70]:
+      - list [ref=e71]:
+        - listitem [ref=e72]:
+          - link "ACCUEIL" [ref=e73] [cursor=pointer]:
+            - /url: /cofolio/student
+            - generic [ref=e76]: ACCUEIL
+        - listitem [ref=e77]:
+          - button "RÉUSSIR MA FORMATION" [ref=e78] [cursor=pointer]:
+            - generic [ref=e79]: RÉUSSIR MA FORMATION
+        - listitem [ref=e80]:
+          - button "CONSTRUIRE MON PROJET DE VIE" [ref=e81] [cursor=pointer]:
+            - generic [ref=e82]: CONSTRUIRE MON PROJET DE VIE
+        - listitem [ref=e83]:
+          - button "MES OUTILS" [ref=e84] [cursor=pointer]:
+            - generic [ref=e85]: MES OUTILS
+  - main [ref=e86]:
+    - generic [ref=e87]:
+      - heading "Accueil Cofolio Étudiant" [level=1] [ref=e88]
+      - generic [ref=e89]:
+        - generic [ref=e92]:
+          - generic [ref=e94]:
+            - img "Bannière du profil" [ref=e95]
+            - img "Photo de profil" [ref=e97]
+          - generic [ref=e98]:
+            - generic [ref=e100]:
+              - generic [ref=e101]: Jeanne Moulin
+              - generic [ref=e102]: Je suis étudiante en chimie et écologie. Passionnée par l'innovation durable, je souhaite utiliser la science pour protéger l'environnement et bâtir un avenir plus respectueux de la planète.
+            - list [ref=e105]:
+              - listitem [ref=e106]:
+                - button "Modifier mon profil" [ref=e107] [cursor=pointer]:
+                  - generic [ref=e110]: Modifier mon profil
+        - generic [ref=e113]:
+          - generic [ref=e114]:
+            - generic [ref=e122]: Mes compétences visées par ma formation
+            - generic [ref=e123]:
+              - generic [ref=e125]:
+                - generic [ref=e126]:
+                  - generic "Master Électronique Énergie électrique et automatique - Spécialité Ingénierie des systèmes temps réel" [ref=e128]
+                  - generic [ref=e129]:
+                    - link "Comprendre les risques électriques liés au travail en hauteur, en milieu humide, en point chaud et appréhender la consignation" [ref=e130] [cursor=pointer]:
+                      - /url: /cofolio/student/skill/skill-2-2
+                      - generic [ref=e132]:
+                        - generic "Comprendre les risques électriques liés au travail en hauteur, en milieu humide, en point chaud et appréhender la consignation" [ref=e135]
+                        - status [ref=e145]:
+                          - generic [ref=e146]: Niveau 3 à évaluer
+                    - link "Réaliser un cahier des charges fonctionnels" [ref=e147] [cursor=pointer]:
+                      - /url: /cofolio/student/skill/skill-2-4
+                      - generic [ref=e149]:
+                        - generic "Réaliser un cahier des charges fonctionnels" [ref=e152]
+                        - status [ref=e162]:
+                          - generic [ref=e163]: Niveau 3 à évaluer
+                    - link "Réaliser un circuit électrique" [ref=e164] [cursor=pointer]:
+                      - /url: /cofolio/student/skill/skill-2-1
+                      - generic [ref=e166]:
+                        - generic "Réaliser un circuit électrique" [ref=e169]
+                        - status [ref=e179]:
+                          - generic [ref=e180]: Niveau 4 en cours d'évaluation
+                - generic [ref=e181]:
+                  - generic "Master Chimie Verte et Éco-innovations" [ref=e183]
+                  - generic [ref=e184]:
+                    - link "Concevoir des synthèses chimiques durables" [ref=e185] [cursor=pointer]:
+                      - /url: /cofolio/student/skill/skill-1-4
+                      - generic [ref=e187]:
+                        - generic "Concevoir des synthèses chimiques durables" [ref=e190]
+                        - status [ref=e200]:
+                          - generic [ref=e201]: Niveau 3 à évaluer
+                    - link "Évaluer l'impact environnemental et économique" [ref=e202] [cursor=pointer]:
+                      - /url: /cofolio/student/skill/skill-1-3
+                      - generic [ref=e204]:
+                        - generic "Évaluer l'impact environnemental et économique" [ref=e207]
+                        - status [ref=e217]:
+                          - generic [ref=e218]: Niveau 2 en cours d'évaluation
+                    - link "Mettre en place des filières d'économies circulaires" [ref=e219] [cursor=pointer]:
+                      - /url: /cofolio/student/skill/skill-1-2
+                      - generic [ref=e221]:
+                        - generic "Mettre en place des filières d'économies circulaires" [ref=e224]
+                        - status [ref=e234]:
+                          - generic [ref=e235]: Niveau 1 à évaluer
+              - link "Voir toutes mes compétences" [ref=e238] [cursor=pointer]:
+                - /url: /cofolio/student/education/skills
+                - generic [ref=e241]: Voir toutes mes compétences
+          - generic [ref=e242]:
+            - generic [ref=e250]: Mes dernières traces
+            - generic [ref=e251]:
+              - generic [ref=e253]:
+                - link "Prévenir la pollution à la source Master Chimie Verte et Éco-innovations Individuel" [ref=e254] [cursor=pointer]:
+                  - /url: /cofolio/student/trace/4453f884-9081-43cb-95c6-d76c2bb59fd7
+                  - generic [ref=e256]:
+                    - generic "Prévenir la pollution à la source" [ref=e259]
+                    - generic [ref=e266]:
+                      - generic [ref=e273]: Master Chimie Verte et Éco-innovations
+                      - paragraph [ref=e275]:
+                        - generic [ref=e276]: Individuel
+                - link "Mettre en place des filières d'économies circulaires Master Chimie Verte et Éco-innovations Collectif" [ref=e277] [cursor=pointer]:
+                  - /url: /cofolio/student/trace/trace2
+                  - generic [ref=e279]:
+                    - generic "Mettre en place des filières d'économies circulaires" [ref=e282]
+                    - generic [ref=e289]:
+                      - generic [ref=e296]: Master Chimie Verte et Éco-innovations
+                      - paragraph [ref=e298]:
+                        - generic [ref=e299]: Collectif
+                - link "Évaluer l'impact environnemental et économique Master Chimie Verte et Éco-innovations Individuel" [ref=e300] [cursor=pointer]:
+                  - /url: /cofolio/student/trace/trace3
+                  - generic [ref=e302]:
+                    - generic "Évaluer l'impact environnemental et économique" [ref=e305]
+                    - generic [ref=e312]:
+                      - generic [ref=e319]: Master Chimie Verte et Éco-innovations
+                      - paragraph [ref=e321]:
+                        - generic [ref=e322]: Individuel
+              - link "Voir toutes mes traces" [ref=e325] [cursor=pointer]:
+                - /url: /cofolio/student/tools/traces
+                - generic [ref=e328]: Voir toutes mes traces
+  - contentinfo [ref=e329]:
+    - generic [ref=e331]:
+      - generic [ref=e332]:
+        - link "Logo ANR" [ref=e333] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e334]
+        - link "Logo France 2030" [ref=e335] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e336]
+      - generic [ref=e337]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e338]:
+      - generic [ref=e339]:
+        - img "Logo Cofolio" [ref=e340]
+        - generic [ref=e351]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e352]:
+        - generic [ref=e353]:
+          - generic [ref=e354]: Informations légales
+          - list [ref=e355]:
+            - listitem [ref=e356]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e357] [cursor=pointer]':
+                - /url: /cofolio/student/accessibility
+            - listitem [ref=e358]:
+              - link "Mentions légales" [ref=e359] [cursor=pointer]:
+                - /url: /cofolio/student/legal
+            - listitem [ref=e360]:
+              - link "Données personnelles" [ref=e361] [cursor=pointer]:
+                - /url: /cofolio/student/personal-data
+            - listitem [ref=e362]:
+              - link "Gestion des cookies" [ref=e363] [cursor=pointer]:
+                - /url: /cofolio/student/cookies
+        - generic [ref=e364]:
+          - generic [ref=e365]: Autres sites
+          - list [ref=e366]:
+            - listitem [ref=e367]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e368] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e369]:
+          - generic [ref=e370]: Partenaires
+          - generic [ref=e371]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e372] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e373]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e374] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e376]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e380] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
