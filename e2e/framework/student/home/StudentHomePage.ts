@@ -1,5 +1,6 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
+import { UserProfileDropdown } from '@e2e/framework/shared/componentObjects/UserProfileDropdown'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { DeliverablesWidget } from '@e2e/framework/student/home/componentObjects/DeliverablesWidget'
@@ -8,7 +9,6 @@ import { PagesWidget } from '@e2e/framework/student/home/componentObjects/PagesW
 import { ResumesWidget } from '@e2e/framework/student/home/componentObjects/ResumesWidget'
 import { SkillsWidget } from '@e2e/framework/student/home/componentObjects/SkillsWidget'
 import { StudentOverviewWidget } from '@e2e/framework/student/home/componentObjects/StudentOverviewWidget'
-import { StudentProfileDropdown } from '@e2e/framework/student/home/componentObjects/StudentProfileDropdown'
 import { TracesWidget } from '@e2e/framework/student/home/componentObjects/TracesWidget'
 import { expect, type Page } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
@@ -57,7 +57,7 @@ class StudentHomePage extends BasePage {
   }
 
   getStudentProfileDropdown () {
-    return new StudentProfileDropdown(this.page)
+    return new UserProfileDropdown(this.page)
   }
 
   @Given('the profile overview widget is visible')

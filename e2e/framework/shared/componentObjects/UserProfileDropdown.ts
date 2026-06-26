@@ -1,7 +1,8 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { expect, type Page } from '@playwright/test'
 
-export class StaffProfileDropdown extends BaseObject {
+export class UserProfileDropdown extends BaseObject {
   constructor (protected page: Page) {
     super(page.getByTestId('profile-button'))
   }
@@ -19,7 +20,7 @@ export class StaffProfileDropdown extends BaseObject {
   }
 
   async open () {
-    await this.root.click()
+    await clickOnElement(this.root)
   }
 
   async verifyLogoutLabel (label: string) {
@@ -27,7 +28,7 @@ export class StaffProfileDropdown extends BaseObject {
   }
 
   async clickLogoutAction () {
-    await this.getLogoutAction().click()
+    await clickOnElement(this.getLogoutAction())
   }
 
   async verifyLogoutConfirmationModalVisible () {

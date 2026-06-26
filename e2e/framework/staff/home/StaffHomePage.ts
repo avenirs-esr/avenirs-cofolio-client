@@ -1,9 +1,9 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
+import { UserProfileDropdown } from '@e2e/framework/shared/componentObjects/UserProfileDropdown'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { StaffOverviewWidget } from '@e2e/framework/staff/home/componentObjects/StaffOverviewWidget'
-import { StaffProfileDropdown } from '@e2e/framework/staff/home/componentObjects/StaffProfileDropdown'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('staffHomePage')
@@ -17,7 +17,7 @@ export class StaffHomePage extends BasePage {
   }
 
   getStaffProfileDropdown () {
-    return new StaffProfileDropdown(this.page)
+    return new UserProfileDropdown(this.page)
   }
 
   @Given('the staff profile overview widget is visible')
