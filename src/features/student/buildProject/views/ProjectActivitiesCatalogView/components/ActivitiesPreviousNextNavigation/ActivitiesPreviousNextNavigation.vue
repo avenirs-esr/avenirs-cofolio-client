@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
 import Loader from '@/common/components/Loader/Loader.vue'
-import { useNavigation } from '@/common/composables'
+import { ROUTES } from '@/common/constants'
 import { isEnumMember } from '@/common/utils'
 import { AvButton, type AvSelectOption, type AvSelectSelectedOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const route = useRoute()
-const { navigateToStudentProjectActivitiesCatalog } = useNavigation()
 
 const { data: activitiesRef, isLoading, isError } = useGetActivityNavigation()
 
@@ -83,8 +82,11 @@ function getAdjacentActivity (direction: 1 | -1): AvSelectSelectedOption | null 
         :icon="MDI_ICONS.ARROW_LEFT_THIN"
         variant="DEFAULT"
         small
+        :to="{
+          name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
+          params: { thematic: previousActivity.parentId, id: previousActivity.itemId },
+        }"
         data-testid="previous-activity-button"
-        @click="navigateToStudentProjectActivitiesCatalog({ thematic: previousActivity.parentId as EActivityThematic, id: previousActivity.itemId })"
       />
 
       <AvButton
@@ -93,8 +95,11 @@ function getAdjacentActivity (direction: 1 | -1): AvSelectSelectedOption | null 
         :icon="MDI_ICONS.ARROW_RIGHT_THIN"
         variant="DEFAULT"
         small
+        :to="{
+          name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
+          params: { thematic: nextActivity.parentId, id: nextActivity.itemId },
+        }"
         data-testid="next-activity-button"
-        @click="navigateToStudentProjectActivitiesCatalog({ thematic: nextActivity.parentId as EActivityThematic, id: nextActivity.itemId })"
       />
     </div>
   </Loader>

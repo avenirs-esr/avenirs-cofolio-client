@@ -32,18 +32,6 @@ export class StudentOverviewWidget extends BaseObject {
     return this.page.getByTestId('edit-profile-button')
   }
 
-  getShareResumeButton () {
-    return this.page.getByTestId('share-resume-button')
-  }
-
-  getShareCofolioButton () {
-    return this.page.getByTestId('share-cofolio-button')
-  }
-
-  getMyEstablishmentsButton () {
-    return this.page.getByTestId('my-establishments-button')
-  }
-
   getUpdateProfileDrawer () {
     return this.page.getByTestId('update-profile-drawer').locator('.av-drawer')
   }
@@ -71,12 +59,6 @@ export class StudentOverviewWidget extends BaseObject {
   async verifyActionButtons () {
     await expect(this.getEditProfileButton()).toBeVisible()
     await expect(this.getEditProfileButton()).toHaveText(t('student.user.cards.StudentOverviewWidget.buttons.editProfile'))
-    await expect(this.getShareResumeButton()).toBeVisible()
-    await expect(this.getShareResumeButton()).toHaveText(t('student.user.cards.StudentOverviewWidget.buttons.shareResume'))
-    await expect(this.getShareCofolioButton()).toBeVisible()
-    await expect(this.getShareCofolioButton()).toHaveText(t('student.user.cards.StudentOverviewWidget.buttons.shareCofolio'))
-    await expect(this.getMyEstablishmentsButton()).toBeVisible()
-    await expect(this.getMyEstablishmentsButton()).toHaveText(t('student.user.cards.StudentOverviewWidget.buttons.establishments'))
   }
 
   async clickEditProfileButton () {

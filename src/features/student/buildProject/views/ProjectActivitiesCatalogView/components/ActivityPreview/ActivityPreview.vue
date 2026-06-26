@@ -3,8 +3,8 @@ import { type ActivityPresentationDTO, EDeclaredActivityStatus } from '@/api/ave
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
-import { useModal, useNavigation } from '@/common/composables'
-import { ICONS } from '@/common/constants'
+import { useModal } from '@/common/composables'
+import { ICONS, ROUTES } from '@/common/constants'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import SubscribeActivityModal from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/overlays/SubscribeActivityModal/SubscribeActivityModal.vue'
 import { AvButton, AvIconText, MDI_ICONS, PH_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -17,7 +17,6 @@ export interface ActivityPreviewProps {
 defineProps<ActivityPreviewProps>()
 
 const { t } = useI18n()
-const { navigateToActivityDetailed } = useNavigation()
 const { showModal: showUnsubscribeModal, displayModal: displayUnsubscribeModal, hideModal: hideUnsubscribeModal } = useModal()
 const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hideModal: hideSubscribeModal } = useModal()
 </script>
@@ -94,8 +93,11 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
             :label="t('student.buildProject.activities.views.ProjectActivitiesCatalogView.buttons.access')"
             :icon="ICONS.ACTIVITY"
             small
+            :to="{
+              name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
+              params: { id: activity.subscribedDeclaredActivity, thematic: activity.thematic },
+            }"
             data-testid="access-button"
-            @click="navigateToActivityDetailed({ id: activity.subscribedDeclaredActivity, thematic: activity.thematic })"
           />
           <AvButton
             v-if="activity.subscribedDeclaredActivity"

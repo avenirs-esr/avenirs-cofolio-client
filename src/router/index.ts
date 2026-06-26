@@ -21,8 +21,8 @@ const routes = [
     name: 'NotFound',
     component: () => import('@/common/views/NotFoundView/NotFoundView.vue'),
     props: {
-      title: 'global.views.notFoundView.pageNotFound.title',
-      description: 'global.views.notFoundView.pageNotFound.description'
+      titleKey: 'global.views.notFoundView.pageNotFound.title',
+      descriptionKey: 'global.views.notFoundView.pageNotFound.description'
     },
   },
 ]

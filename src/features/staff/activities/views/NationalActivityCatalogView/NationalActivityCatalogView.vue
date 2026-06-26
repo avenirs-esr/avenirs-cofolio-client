@@ -7,7 +7,7 @@ import { useNavigation } from '@/common/composables/use-navigation/use-navigatio
 import { ROUTES } from '@/common/constants'
 import DeleteDraftActivityConfirmationModal from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
 import NationalActivityContentTab from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.vue'
-import { AvButton } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface NationalActivityCatalogViewProps {
@@ -47,12 +47,16 @@ const { navigateToStaffActivities, navigateToStaffActivitiesEditNationalActivity
     <AvButton
       :label="t('global.buttons.update')"
       variant="FLAT"
+      :icon="MDI_ICONS.PENCIL_OUTLINE"
+      small
       data-testid="edit-draft-button"
       @click="() => navigateToStaffActivitiesEditNationalActivity({ id })"
     />
     <AvButton
       :label="t('global.buttons.delete')"
       variant="OUTLINED"
+      :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
+      small
       data-testid="delete-draft-button"
       @click="displayDeleteConfirmation"
     />

@@ -1,23 +1,13 @@
 <script setup lang="ts">
-import { useModal, useNavigation } from '@/common/composables'
+import { useModal } from '@/common/composables'
+import { ROUTES } from '@/common/constants'
 import { AvButton, AvIconText, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const { showModal, displayModal, hideModal } = useModal()
-const { navigateToStudentHome, navigateToStaffHome } = useNavigation()
 const route = useRoute()
 const isStudentRoute = route.path.startsWith('/student')
-
-function onStudentButtonClick () {
-  hideModal()
-  !isStudentRoute && navigateToStudentHome()
-}
-
-function onStaffButtonClick () {
-  hideModal()
-  isStudentRoute && navigateToStaffHome()
-}
 </script>
 
 <template>
@@ -46,13 +36,17 @@ function onStaffButtonClick () {
         :label="t('global.header.switchUniverse.staff')"
         theme="SECONDARY"
         small
-        @click="onStaffButtonClick"
+        :to="isStudentRoute ? ROUTES.STAFF.HOME : undefined"
+        data-testid="staff-button"
+        @click="hideModal"
       />
       <AvButton
         :label="t('global.header.switchUniverse.student')"
         theme="SECONDARY"
         small
-        @click="onStudentButtonClick"
+        :to="!isStudentRoute ? ROUTES.STUDENT.HOME : undefined"
+        data-testid="student-button"
+        @click="hideModal"
       />
     </div>
   </AvModal>

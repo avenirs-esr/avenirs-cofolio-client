@@ -4,17 +4,7 @@ import { useEditNationalActivityViewContext } from '@/features/staff/activities/
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-const router = useRouter()
 const { t } = useI18n()
-
-function goBack () {
-  if (window.history.state?.back) {
-    router.back()
-  }
-  else {
-    router.push(ROUTES.STAFF.ACTIVITIES)
-  }
-}
 
 const { form, isUpdating } = useEditNationalActivityViewContext()
 const isFormDirty = form.useStore(s => s.isDirty)
@@ -29,7 +19,7 @@ const isFormValid = form.useStore(s => s.isValid && !s.isValidating && s.isDirty
       :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
       :label="t('global.buttons.exit')"
       :is-loading="isUpdating || isFormDirty"
-      @click="goBack"
+      :to="ROUTES.STAFF.ACTIVITIES"
     />
     <AvButton
       small

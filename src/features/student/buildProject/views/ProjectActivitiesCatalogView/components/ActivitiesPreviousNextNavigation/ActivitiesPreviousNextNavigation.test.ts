@@ -2,21 +2,12 @@ import { activityNavigationQueryError } from '@/__mocks__/msw/handlers/student/a
 import { server } from '@/__mocks__/msw/server'
 import { EActivityThematic } from '@/api/avenir-esr'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
+import { ROUTES } from '@/common/constants/route-names'
 import ActivitiesPreviousNextNavigation from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivitiesPreviousNextNavigation/ActivitiesPreviousNextNavigation.vue'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-
-const navigateToStudentProjectActivitiesCatalogMock = vi.fn()
-
-vi.mock('@/common/composables', () => {
-  return {
-    useNavigation: () => ({
-      navigateToStudentProjectActivitiesCatalog: navigateToStudentProjectActivitiesCatalogMock,
-    }),
-  }
-})
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
@@ -71,29 +62,18 @@ BddTest().given('an activities previous/next navigation component', () => {
       expect(buttons.length).toBe(2)
     })
 
-    BddTest().and('the user clicks the previous button', () => {
-      beforeEach(async () => {
-        await flushPromises()
-        const previousButton = wrapper.find('[data-testid="previous-activity-button"]')
-        await previousButton.trigger('click')
-        await flushPromises()
-      })
+    BddTest().then('it should render the previous and next buttons as routerlinks to the catalog', async () => {
+      await flushPromises()
+      const previousButton = wrapper.findComponent('[data-testid="previous-activity-button"]') as VueWrapper<InstanceType<typeof AvButtonStub>>
+      const nextButton = wrapper.findComponent('[data-testid="next-activity-button"]') as VueWrapper<InstanceType<typeof AvButtonStub>>
 
-      BddTest().then('it should navigate to the catalog', () => {
-        expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledTimes(1)
+      expect(previousButton.props('to')).toEqual({
+        name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
+        params: { thematic: expect.any(String), id: expect.any(String) },
       })
-    })
-
-    BddTest().and('the user clicks the next button', () => {
-      beforeEach(async () => {
-        await flushPromises()
-        const nextButton = wrapper.find('[data-testid="next-activity-button"]')
-        await nextButton.trigger('click')
-        await flushPromises()
-      })
-
-      BddTest().then('it should navigate to the catalog', () => {
-        expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledTimes(1)
+      expect(nextButton.props('to')).toEqual({
+        name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
+        params: { thematic: expect.any(String), id: expect.any(String) },
       })
     })
   })

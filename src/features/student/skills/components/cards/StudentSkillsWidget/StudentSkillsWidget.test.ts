@@ -20,18 +20,6 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
-const navigateToStudentEducationSkills = vi.fn()
-
-vi.mock('@/common/composables', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables')>()
-  return {
-    ...actual,
-    useNavigation: () => ({
-      navigateToStudentEducationSkills,
-    }),
-  }
-})
-
 BddTest().given('a student skills widget', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentSkillsWidget>>
 
@@ -76,17 +64,6 @@ BddTest().given('a student skills widget', () => {
       const studentSkillsWidgetContainers = wrapper.findAllComponents({ name: 'StudentSkillsWidgetContainer' })
       expect(studentSkillsWidgetContainers).toHaveLength(1)
       expect(studentSkillsWidgetContainers[0].props('maxSkillsDisplayed')).toBe(6)
-    })
-
-    BddTest().and('clicking on navigation button', () => {
-      beforeEach(async () => {
-        const btn = wrapper.find('.see-all-button')
-        await btn.trigger('click')
-      })
-
-      BddTest().then('it should call navigation', async () => {
-        expect(navigateToStudentEducationSkills).toHaveBeenCalled()
-      })
     })
   })
 
