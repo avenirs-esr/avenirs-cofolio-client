@@ -168,12 +168,17 @@
               "error": "An error occurred while requesting feedback. Please try again later.",
               "feedbackPending": "Your request is being processed",
               "maximumFeedbackReached": "You have reached the maximum number of requests allowed",
-              "requestFeedbackButton": "Ask for feedback",
+              "requestFeedbackBadge": "Sent on {date}",
+              "requestFeedbackButton": {
+                "requestFeedbackLabel": "Ask for feedback",
+                "updateFeedbackLabel": "Update my feedback request"
+              },
               "requestFeedbackConfirmModal": {
                 "description": "Are you sure you want to submit your activity? You have 1 feedback request available for this activity. | Are you sure you want to submit your activity? You have {count} feedback requests available for this activity.",
                 "title": "Ask for feedback"
               },
-              "success": "Your activity has been successfully submitted. You will be notified when your referent advisor has responded."
+              "success": "Your activity has been successfully submitted. You will be notified when your referent advisor has responded.",
+              "updatableFeedback": "Feedback request sent on {date}. You can update your request, this does not constitute a new iteration."
             },
             "TracesTypeSelect": {
               "label": "Search in:",

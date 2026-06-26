@@ -23,6 +23,7 @@ const { declaredActivityDetails } = defineProps<MyPerspectiveTabProps>()
         :activity-id="declaredActivityDetails.id"
         :perspective="declaredActivityDetails.reflection"
         :activity-status="declaredActivityDetails.status"
+        :last-feedback-status="declaredActivityDetails.feedbacks?.at(-1)?.status"
       />
     </div>
 

@@ -1,7 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { EFeedbackStatus } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import RequestFeedback from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/interactions/RequestFeedback/RequestFeedback.vue'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvBadgeStub, AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -10,6 +11,7 @@ BddTest().given('a RequestFeedback component', () => {
 
   const stubs = {
     AvButton: AvButtonStub,
+    AvBadge: AvBadgeStub,
     ConfirmationModal: ConfirmationModalStub,
   }
 
@@ -25,12 +27,9 @@ BddTest().given('a RequestFeedback component', () => {
       expect(wrapper.find('[data-testid="request-feedback"]').exists()).toBe(true)
     })
 
-    BddTest().then('it should render the feedback button with correct props', () => {
-      const button = wrapper.findComponent(AvButtonStub)
-      expect(button.exists()).toBe(true)
-      expect(button.props('label')).toBe('Demander un feedback')
-      expect(button.props('variant')).toBe('OUTLINED')
-      expect(button.props('disabled')).toBe(false)
+    BddTest().then('it should render the feedback button', () => {
+      expect(wrapper.findComponent(AvButtonStub).exists()).toBe(true)
+      expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(false)
     })
 
     BddTest().then('it should render the confirmation modal closed by default', () => {
@@ -77,6 +76,34 @@ BddTest().given('a RequestFeedback component', () => {
     })
   })
 
+  BddTest().when('the component is mounted with feedbackStatus NEW', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(RequestFeedback, {
+        props: { remainingFeedbacks: 2, feedbackStatus: EFeedbackStatus.NEW, feedbackCreatedAt: '2024-01-01T00:00:00Z' },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the button and not the badge', () => {
+      expect(wrapper.findComponent(AvButtonStub).exists()).toBe(true)
+      expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with feedbackStatus IN_PROCESS', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(RequestFeedback, {
+        props: { remainingFeedbacks: 2, feedbackStatus: EFeedbackStatus.IN_PROCESS },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the badge and not the button', () => {
+      expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(true)
+      expect(wrapper.findComponent(AvButtonStub).exists()).toBe(false)
+    })
+  })
+
   BddTest().when('the component is mounted with remainingFeedbacks', () => {
     beforeEach(() => {
       wrapper = mountComponent(RequestFeedback, {
@@ -112,7 +139,7 @@ BddTest().given('a RequestFeedback component', () => {
       })
     })
 
-    BddTest().then('it should render the button as disabled', () => {
+    BddTest().then('it should render the button as loading', () => {
       expect(wrapper.findComponent(AvButtonStub).props('isLoading')).toBe(true)
     })
   })

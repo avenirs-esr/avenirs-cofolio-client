@@ -1,20 +1,36 @@
 <script setup lang="ts">
+import type { AvLocale } from '@/types/i18n.types'
+import { EFeedbackStatus } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
-import { AvButton, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { formatDateToLocaleString } from '@/common/utils'
+import { AvBadge, AvButton, type AvButtonProps, MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface RequestFeedbackProps {
   disabled?: boolean
   isLoading?: boolean
+  feedbackStatus?: EFeedbackStatus
+  feedbackCreatedAt?: string
   remainingFeedbacks: number
 }
 
-const { disabled, isLoading, remainingFeedbacks } = defineProps<RequestFeedbackProps>()
+const { disabled, isLoading, feedbackStatus, feedbackCreatedAt, remainingFeedbacks } = defineProps<RequestFeedbackProps>()
+
 const emit = defineEmits<{ (e: 'requestFeedback'): void }>()
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { showModal, displayModal, hideModal } = useModal()
+
+const requestFeedbackConfig = computed(() => ({
+  label: feedbackStatus === EFeedbackStatus.NEW
+    ? t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackButton.updateFeedbackLabel', { date: feedbackCreatedAt ? formatDateToLocaleString(feedbackCreatedAt, locale.value as AvLocale) : '' })
+    : t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackButton.requestFeedbackLabel'),
+
+  icon: feedbackStatus === EFeedbackStatus.NEW ? MS_ICONS.CYCLE_ROUNDED : MS_ICONS.SEND_OUTLINE_ROUNDED,
+
+  variant: (feedbackStatus === EFeedbackStatus.NEW ? 'FLAT' : 'OUTLINED') as AvButtonProps['variant'],
+}))
 
 function handleConfirm () {
   hideModal()
@@ -28,14 +44,26 @@ function handleConfirm () {
     data-testid="request-feedback"
   >
     <AvButton
+      v-if="feedbackStatus !== EFeedbackStatus.IN_PROCESS"
       data-testid="request-feedback-button"
-      :label="t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackButton')"
-      variant="OUTLINED"
-      :icon="MS_ICONS.SEND_OUTLINE_ROUNDED"
+      v-bind="requestFeedbackConfig"
       :disabled="disabled"
+
       :is-loading="isLoading"
       @click="displayModal"
     />
+    <div
+      v-else
+      class="av-row av-w-full av-justify-end"
+    >
+      <AvBadge
+        :label="t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackBadge', { date: feedbackCreatedAt ? formatDateToLocaleString(feedbackCreatedAt, locale as AvLocale) : '' })"
+        color="var(--light-foreground-primary1)"
+        background-color="var(--light-background-primary1)"
+        :icon="MDI_ICONS.CHECK_CIRCLE"
+        data-testid="finish-declared-activity-finished-badge"
+      />
+    </div>
   </div>
   <ConfirmationModal
     :show="showModal"

@@ -168,12 +168,17 @@
               "error": "Une erreur est survenue lors de la demande de feedback. Veuillez réessayer plus tard.",
               "feedbackPending": "Votre demande est en cours de traitement",
               "maximumFeedbackReached": "Vous avez atteint le nombre maximal de demande autorisé",
-              "requestFeedbackButton": "Demander un feedback",
+              "requestFeedbackBadge": "Envoyée le {date}",
+              "requestFeedbackButton": {
+                "requestFeedbackLabel": "Demander un feedback",
+                "updateFeedbackLabel": "Mettre à jour ma demande de feedback"
+              },
               "requestFeedbackConfirmModal": {
                 "description": "Êtes-vous certain(e) de vouloir soumettre votre activité ? Vous disposez encore de 1 demande de feedback pour cette activité. | Êtes-vous certain(e) de vouloir soumettre votre activité ? Vous disposez encore de {count} demandes de feedback pour cette activité.",
                 "title": "Demander un feedback"
               },
-              "success": "Votre activité a été soumise avec succès. Vous serez notifié lorsque que votre conseiller référent vous aura répondu."
+              "success": "Votre activité a été soumise avec succès. Vous serez notifié lorsque que votre conseiller référent vous aura répondu.",
+              "updatableFeedback": "Demande de feedback envoyée le {date}. Vous pouvez mettre à jour votre demande, ceci ne constitue pas une nouvelle itération."
             },
             "TracesTypeSelect": {
               "label": "Rechercher dans :",
