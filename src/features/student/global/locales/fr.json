@@ -120,35 +120,6 @@
         "studentToolsResumesView": {
           "title": "(placeholder) Tous mes CV"
         }
-      },
-      "widgets": {
-        "deliverables": {
-          "buttons": {
-            "seeAll": "Voir tous mes rendus"
-          },
-          "skill": "Compétence {skill}",
-          "title": "Mes prochains rendus"
-        },
-        "events": {
-          "buttons": {
-            "seeAll": "Voir tous mes événements"
-          },
-          "title": "Mes 3 prochains événements"
-        },
-        "pages": {
-          "buttons": {
-            "seeAll": "Voir toutes mes pages"
-          },
-          "title": "Mes pages libres",
-          "updatedAt": "dernière modification le {date}"
-        },
-        "resumes": {
-          "buttons": {
-            "seeAll": "Voir tous mes CV"
-          },
-          "title": "Mes CV",
-          "updatedAt": "dernière modification le {date}"
-        }
       }
     }
   }

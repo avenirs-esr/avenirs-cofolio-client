@@ -4,10 +4,7 @@
       "cards": {
         "StudentOverviewWidget": {
           "buttons": {
-            "editProfile": "Edit my profile",
-            "establishments": "My establishment(s)",
-            "shareCofolio": "Share my Cofolio",
-            "shareResume": "Share my resume"
+            "editProfile": "Edit my profile"
           }
         }
       },

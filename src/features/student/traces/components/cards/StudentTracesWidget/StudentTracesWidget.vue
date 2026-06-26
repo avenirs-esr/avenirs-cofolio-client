@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useBaseApiExceptionToast, useNavigation } from '@/common/composables'
+import { useBaseApiExceptionToast } from '@/common/composables'
+import { ROUTES } from '@/common/constants'
 import HomeWidget from '@/features/student/global/views/StudentHomeView/components/HomeWidget/HomeWidget.vue'
 import StudentTraceCard from '@/features/student/traces/components/cards/StudentTraceCard/StudentTraceCard.vue'
 import { useStudentTracesSummaryQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
@@ -8,7 +9,6 @@ import { useI18n } from 'vue-i18n'
 
 const { data: apiTraces, error } = useStudentTracesSummaryQuery()
 useBaseApiExceptionToast(error)
-const { navigateToStudentTraces } = useNavigation()
 const { t } = useI18n()
 
 const traces = computed(() => apiTraces.value ?? [])
@@ -21,8 +21,8 @@ const traces = computed(() => apiTraces.value ?? [])
     :see-all-label="t('student.traces.cards.StudentTracesWidget.buttons.seeAll')"
     :display-widget="traces.length > 0"
     type="main"
+    :to="ROUTES.STUDENT.TOOLS_TRACES"
     data-testid="student-traces-widget"
-    @see-all-click="navigateToStudentTraces"
   >
     <div class="av-row av-wrap av-gap-md">
       <StudentTraceCard

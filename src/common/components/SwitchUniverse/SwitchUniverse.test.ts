@@ -1,15 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvIconTextStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { useRoute } from 'vue-router'
+import { type RouteLocationNormalizedLoadedGeneric, useRoute } from 'vue-router'
 
 const mockShowModal = ref(false)
 const mockDisplayModal = vi.fn()
 const mockHideModal = vi.fn()
-const navigateToStudentHome = vi.fn()
-const navigateToStaffHome = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
@@ -19,10 +17,6 @@ vi.mock('@/common/composables', async (importOriginal) => {
       showModal: mockShowModal,
       displayModal: mockDisplayModal,
       hideModal: mockHideModal
-    }),
-    useNavigation: () => ({
-      navigateToStudentHome,
-      navigateToStaffHome
     }),
   }
 })
@@ -36,30 +30,16 @@ vi.mock('vue-router', async (importOriginal) => {
 })
 
 const stubs = {
-  AvButton: {
-    name: 'AvButton',
-    props: ['label', 'onClick'],
-    template: `<button class="av-button" @click="onClick" />`
-  },
-  AvModal: {
-    name: 'AvModal',
-    props: ['opened'],
-    emits: ['close'],
-    template: `
-      <div v-if="opened" class="av-modal">
-        <slot name="header"></slot>
-        <slot></slot>
-      </div>
-    `
-  },
-  AvIconText: {
-    name: 'AvIconText',
-    template: '<div class="av-icon-text" />'
-  }
+  AvButton: AvButtonStub,
+  AvModal: AvModalStub,
+  AvIconText: AvIconTextStub
 }
 
 BddTest().given('a universe switcher', () => {
   let wrapper: VueWrapper
+
+  const getStaffButton = () => wrapper.find('[data-testid="staff-button"]')
+  const getStudentButton = () => wrapper.find('[data-testid="student-button"]')
 
   BddTest().and('we are on student route', () => {
     beforeEach(async () => {
@@ -67,7 +47,7 @@ BddTest().given('a universe switcher', () => {
 
       vi.mocked(useRoute).mockReturnValue({
         path: '/student/home'
-      } as any)
+      } as RouteLocationNormalizedLoadedGeneric)
 
       wrapper = await mountWithRouter(SwitchUniverse, {
         global: {
@@ -90,13 +70,15 @@ BddTest().given('a universe switcher', () => {
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should hide the modal and navigate to staff', async () => {
-        const staffButton = wrapper.findAll('button')[1]
-        await staffButton.trigger('click')
+      BddTest().then('it should render staff action as a link to staff home', () => {
+        expect(getStaffButton().attributes('data-tag')).toBe('router-link')
+        expect(getStaffButton().attributes('href')).toBeDefined()
+      })
 
-        expect(mockHideModal).toHaveBeenCalled()
-        expect(navigateToStaffHome).toHaveBeenCalled()
-        expect(navigateToStudentHome).not.toHaveBeenCalled()
+      BddTest().then('it should not trigger hideModal on click because link mode does not emit click', async () => {
+        await getStaffButton().trigger('click')
+
+        expect(mockHideModal).not.toHaveBeenCalled()
       })
     })
 
@@ -106,13 +88,14 @@ BddTest().given('a universe switcher', () => {
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should hide the modal and do nothing (already student)', async () => {
-        const studentButton = wrapper.findAll('button')[2]
-        await studentButton.trigger('click')
+      BddTest().then('it should render student action as button (already on student universe)', () => {
+        expect(getStudentButton().attributes('data-tag')).toBe('button')
+      })
+
+      BddTest().then('it should hide the modal when clicking student button', async () => {
+        await getStudentButton().trigger('click')
 
         expect(mockHideModal).toHaveBeenCalled()
-        expect(navigateToStaffHome).not.toHaveBeenCalled()
-        expect(navigateToStudentHome).not.toHaveBeenCalled()
       })
     })
   })
@@ -123,7 +106,7 @@ BddTest().given('a universe switcher', () => {
 
       vi.mocked(useRoute).mockReturnValue({
         path: '/staff/home'
-      } as any)
+      } as RouteLocationNormalizedLoadedGeneric)
 
       wrapper = await mountWithRouter(SwitchUniverse, {
         global: {
@@ -138,13 +121,26 @@ BddTest().given('a universe switcher', () => {
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should hide the modal and navigate to student', async () => {
-        const studentButton = wrapper.findAll('button')[2]
-        await studentButton.trigger('click')
+      BddTest().then('it should render student action as a link to student home', () => {
+        expect(getStudentButton().attributes('data-tag')).toBe('router-link')
+        expect(getStudentButton().attributes('href')).toBeDefined()
+      })
 
-        expect(mockHideModal).toHaveBeenCalled()
-        expect(navigateToStudentHome).toHaveBeenCalled()
-        expect(navigateToStaffHome).not.toHaveBeenCalled()
+      BddTest().then('it should not trigger hideModal on click because link mode does not emit click', async () => {
+        await getStudentButton().trigger('click')
+
+        expect(mockHideModal).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('clicking the staff button in modal', () => {
+      beforeEach(async () => {
+        mockShowModal.value = true
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should render staff action as button (already on staff universe)', () => {
+        expect(getStaffButton().attributes('data-tag')).toBe('button')
       })
     })
   })

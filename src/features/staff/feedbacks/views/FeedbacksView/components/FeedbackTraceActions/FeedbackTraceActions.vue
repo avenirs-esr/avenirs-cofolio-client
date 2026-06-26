@@ -37,12 +37,6 @@ function downloadAttachment () {
     }
   )
 }
-
-function openLink () {
-  if (trace.link) {
-    window.open(trace.link, '_blank', 'noopener,noreferrer')
-  }
-}
 </script>
 
 <template>
@@ -55,9 +49,8 @@ function openLink () {
   />
   <AvButton
     v-else-if="trace.link"
-    :icon="MDI_ICONS.LINK"
     :label="t('global.buttons.access')"
+    :href="trace.link"
     data-testid="feedback-trace-actions-link-button"
-    @click.stop="openLink"
   />
 </template>

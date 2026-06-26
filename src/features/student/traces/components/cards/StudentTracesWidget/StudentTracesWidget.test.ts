@@ -23,18 +23,6 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
-const navigateToStudentTraces = vi.fn()
-
-vi.mock('@/common/composables', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables')>()
-  return {
-    ...actual,
-    useNavigation: () => ({
-      navigateToStudentTraces,
-    }),
-  }
-})
-
 BddTest().given('a student traces widget', async () => {
   let wrapper: VueWrapper
 
@@ -71,17 +59,6 @@ BddTest().given('a student traces widget', async () => {
     BddTest().then('it should display up to 3 traces', () => {
       const studentTraceCards = wrapper.findAllComponents({ name: 'StudentTraceCard' })
       expect(studentTraceCards).toHaveLength(3)
-    })
-  })
-
-  BddTest().when('clicking the navigation button', () => {
-    beforeEach(async () => {
-      const btn = wrapper.find('.see-all-button')
-      await btn.trigger('click')
-    })
-
-    BddTest().then('it should call navigation', () => {
-      expect(navigateToStudentTraces).toHaveBeenCalled()
     })
   })
 

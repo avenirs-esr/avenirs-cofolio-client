@@ -5,7 +5,7 @@ import type { Slot } from 'vue'
 import { EFeedbackStatus } from '@/api/avenir-esr'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useDateUtils, useNavigation } from '@/common/composables'
+import { useDateUtils } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import FeedbackIterationBadge from '@/features/staff/feedbacks/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.vue'
 import FeedbackStatusBadge from '@/features/staff/feedbacks/components/badges/FeedbackStatusBadge/FeedbackStatusBadge.vue'
@@ -44,7 +44,6 @@ const {
 
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
-const { navigateToStaffActivityFeedbackDetails } = useNavigation()
 
 const { formatLastModified, formatTranslatedDateTime } = useDateUtils()
 
@@ -194,9 +193,12 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
                 :label="t('global.buttons.access')"
                 :icon="MDI_ICONS.ARROW_RIGHT"
                 icon-only
+                :to="{
+                  name: ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name,
+                  params: { feedbackId: row.id },
+                }"
                 data-testid="access-button"
                 :data-activity-id="row.activity?.id"
-                @click="navigateToStaffActivityFeedbackDetails({ feedbackId: row.id })"
               />
             </template>
           </AvTable>

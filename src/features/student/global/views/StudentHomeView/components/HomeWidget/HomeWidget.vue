@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Card from '@/common/components/cards/Card/Card.vue'
-import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, type AvButtonProps, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface HomeWidgetProps {
   title: string
@@ -8,13 +8,10 @@ export interface HomeWidgetProps {
   seeAllLabel: string
   displayWidget?: boolean
   type: 'main' | 'side'
+  to?: AvButtonProps['to']
 }
 
 const { displayWidget = true } = defineProps<HomeWidgetProps>()
-
-defineEmits<{
-  (e: 'seeAllClick'): void
-}>()
 </script>
 
 <template>
@@ -48,8 +45,8 @@ defineEmits<{
           :label="seeAllLabel"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           small
+          :to="to"
           data-testid="see-all-button"
-          @click="$emit('seeAllClick')"
         />
       </div>
     </template>

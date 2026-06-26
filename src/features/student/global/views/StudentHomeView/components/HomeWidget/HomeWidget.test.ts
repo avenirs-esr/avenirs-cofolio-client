@@ -26,7 +26,8 @@ BddTest().given('a home widget', () => {
       titleIcon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
       seeAllLabel: 'See All',
       displayWidget: true,
-      type: 'main'
+      type: 'main',
+      to: '/test-route'
     }
 
     beforeEach(() => {
@@ -40,14 +41,9 @@ BddTest().given('a home widget', () => {
       expect(wrapper.findComponent(AvButtonStub).props('label')).toBe('See All')
     })
 
-    BddTest().and('the see all button is clicked', () => {
-      beforeEach(async () => {
-        await wrapper.findComponent(AvButtonStub).trigger('click')
-      })
-
-      BddTest().then('it should emit the seeAllClick event', () => {
-        expect(wrapper.emitted()).toHaveProperty('seeAllClick')
-      })
+    BddTest().then('it should render the seeAllButton with the correct to prop', () => {
+      const seeAllButton = wrapper.findComponent(AvButtonStub)
+      expect(seeAllButton.props('to')).toBe('/test-route')
     })
   })
 

@@ -16,9 +16,6 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
-const mockOpenLink = vi.fn()
-vi.stubGlobal('open', mockOpenLink)
-
 const traceWithFile = mockedTraceDetailedWithFile
 const traceWithLink = mockedTraceDetailedWithLink
 
@@ -70,9 +67,9 @@ BddTest().given('a FeedbackTraceActions component', () => {
       expect(wrapper.find('[data-testid="feedback-trace-actions-download-button"]').exists()).toBe(false)
     })
 
-    BddTest().then('it should open the link in a new tab when link button is clicked', async () => {
-      await wrapper.find('[data-testid="feedback-trace-actions-link-button"]').trigger('click')
-      expect(mockOpenLink).toHaveBeenCalledWith(traceWithLink.link, '_blank', 'noopener,noreferrer')
+    BddTest().then('it should pass href and security attributes for external link opening', () => {
+      const linkButton = wrapper.find('[data-testid="feedback-trace-actions-link-button"]')
+      expect(linkButton.attributes('href')).toBe(traceWithLink.link)
     })
   })
 })

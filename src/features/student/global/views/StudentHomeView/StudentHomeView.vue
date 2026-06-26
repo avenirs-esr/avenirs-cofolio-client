@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import StudentDeliverablesWidget from '@/features/student/global/views/StudentHomeView/components/StudentDeliverablesWidget/StudentDeliverablesWidget.vue'
-import StudentEventsWidget from '@/features/student/global/views/StudentHomeView/components/StudentEventsWidget/StudentEventsWidget.vue'
-import StudentPagesWidget from '@/features/student/global/views/StudentHomeView/components/StudentPagesWidget/StudentPagesWidget.vue'
-import StudentResumesWidget from '@/features/student/global/views/StudentHomeView/components/StudentResumesWidget/StudentResumesWidget.vue'
 import { StudentSkillsWidget } from '@/features/student/skills'
 import { StudentTracesWidget } from '@/features/student/traces'
 import { StudentOverviewWidget } from '@/features/student/user'
@@ -20,13 +16,9 @@ const { t } = useI18n()
   <div class="layout-home av-row av-wrap av-nowrap--md av-justify-center--md av-gap-xl av-align-start">
     <div class="layout-home__sidebar av-col av-gap-xl">
       <StudentOverviewWidget />
-      <StudentEventsWidget />
-      <StudentResumesWidget />
-      <StudentPagesWidget />
     </div>
     <div class="layout-home__main av-col av-gap-xl">
       <StudentSkillsWidget />
-      <StudentDeliverablesWidget />
       <StudentTracesWidget />
     </div>
   </div>

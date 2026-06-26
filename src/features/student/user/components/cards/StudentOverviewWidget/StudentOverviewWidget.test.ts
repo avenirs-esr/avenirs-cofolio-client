@@ -43,25 +43,16 @@ BddTest().given('a student overview widget', () => {
       expect(profileCard.props('bio')).toBe(mockedProfileOverview.bio)
     })
 
-    BddTest().then('it should render 4 rich buttons in footer', () => {
-      expect(wrapper.findAllComponents({ name: 'AvRichButton' })).toHaveLength(4)
+    BddTest().then('it should render 1 rich button in footer', () => {
+      expect(wrapper.findAllComponents({ name: 'AvRichButton' })).toHaveLength(1)
     })
 
     BddTest().then('it should emit click on AvRichButtons', async () => {
       const editProfileButton = wrapper.find('[data-testid="edit-profile-button"]')
-      const shareResumeButton = wrapper.find('[data-testid="share-resume-button"]')
-      const shareCofolio = wrapper.find('[data-testid="share-cofolio-button"]')
-      const establishmentsButton = wrapper.find('[data-testid="my-establishments-button"]')
 
       expect(editProfileButton.exists()).toBe(true)
-      expect(shareResumeButton.exists()).toBe(true)
-      expect(shareCofolio.exists()).toBe(true)
-      expect(establishmentsButton.exists()).toBe(true)
 
       await editProfileButton.trigger('click')
-      await shareResumeButton.trigger('click')
-      await shareCofolio.trigger('click')
-      await establishmentsButton.trigger('click')
     })
 
     BddTest().then('it should render UpdateProfileDrawer in hidden state', () => {

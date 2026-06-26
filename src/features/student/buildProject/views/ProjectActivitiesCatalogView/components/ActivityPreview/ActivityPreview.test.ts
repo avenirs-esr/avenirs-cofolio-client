@@ -3,24 +3,13 @@ import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
+import { ROUTES } from '@/common/constants/route-names'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import ActivityPreview, { type ActivityPreviewProps } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
 import { SubscribeActivityModalStub } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/overlays/SubscribeActivityModal/SubscribeActivityModal.stub'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { type DOMWrapper, mount, type VueWrapper } from '@vue/test-utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
-
-const navigateToActivityDetailed = vi.fn()
-
-vi.mock('@/common/composables', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/common/composables')>()
-  return {
-    ...actual,
-    useNavigation: () => ({
-      navigateToActivityDetailed,
-    }),
-  }
-})
+import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an activity preview', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityPreview>>
@@ -47,10 +36,6 @@ BddTest().given('an activity preview', () => {
   function getAccessButton () {
     return wrapper.findAllComponents(AvButtonStub).find(btn => btn.attributes('data-testid') === 'access-button')
   }
-
-  afterEach(() => {
-    navigateToActivityDetailed.mockClear()
-  })
 
   BddTest().when('the component is mounted with an unsubscribed activity', () => {
     const props: ActivityPreviewProps = {
@@ -203,19 +188,9 @@ BddTest().given('an activity preview', () => {
       expect(accessButton).toBeDefined()
       expect(accessButton!.exists()).toBe(true)
       expect(accessButton!.props('label')).toBe('Accéder à mon activité')
-    })
-
-    BddTest().and('the user clicks the access button', () => {
-      beforeEach(() => {
-        const accessButton = getAccessButton()
-        accessButton!.trigger('click')
-      })
-
-      BddTest().then('it should call navigateToActivityDetailed with activity id and thematic', () => {
-        expect(navigateToActivityDetailed).toHaveBeenCalledWith({
-          id: mockedSubscribedActivityDetail.subscribedDeclaredActivity,
-          thematic: mockedSubscribedActivityDetail.thematic,
-        })
+      expect(accessButton!.props('to')).toEqual({
+        name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
+        params: { id: mockedSubscribedActivityDetail.subscribedDeclaredActivity, thematic: mockedSubscribedActivityDetail.thematic }
       })
     })
 
