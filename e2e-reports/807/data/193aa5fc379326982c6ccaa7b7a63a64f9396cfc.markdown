@@ -1,0 +1,134 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - link "Accueil - Cofolio Staff" [ref=e12] [cursor=pointer]:
+          - /url: /cofolio/staff
+          - img [ref=e13]
+        - button "Changer d'univers" [ref=e15] [cursor=pointer]:
+          - generic [ref=e18]: Changer d'univers
+      - generic [ref=e20]:
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - button "Notifications (10)" [ref=e27] [cursor=pointer]:
+              - generic [ref=e30]: Notifications (10)
+          - listitem [ref=e31]:
+            - button "M. dupont" [ref=e34] [cursor=pointer]:
+              - generic [ref=e37]: M. dupont
+        - navigation [ref=e40]:
+          - button "FR" [ref=e43] [cursor=pointer]:
+            - generic [ref=e46]: FR
+    - navigation "Menu principal" [ref=e50]:
+      - list [ref=e51]:
+        - listitem [ref=e52]:
+          - link "ACCUEIL" [ref=e53] [cursor=pointer]:
+            - /url: /cofolio/staff
+            - generic [ref=e56]: ACCUEIL
+        - listitem [ref=e57]:
+          - link "BIBLIOTHÈQUE DES ACTIVITÉS" [ref=e58] [cursor=pointer]:
+            - /url: /cofolio/staff/activities
+            - generic [ref=e61]: BIBLIOTHÈQUE DES ACTIVITÉS
+        - listitem [ref=e62]:
+          - button "SUIVI DES APPRENANTS" [ref=e63] [cursor=pointer]:
+            - generic [ref=e64]: SUIVI DES APPRENANTS
+  - main [ref=e65]:
+    - generic [ref=e66]:
+      - generic [ref=e68]:
+        - navigation "Fil d'Ariane" [ref=e69]:
+          - list [ref=e71]:
+            - listitem [ref=e72]:
+              - link "Accueil" [ref=e73] [cursor=pointer]:
+                - /url: /cofolio/staff
+            - listitem [ref=e74]:
+              - link "Bibliothèque des activités" [ref=e75] [cursor=pointer]:
+                - /url: /cofolio/staff/activities
+            - listitem [ref=e76]:
+              - generic: Activité nationale de test
+            - listitem [ref=e77]:
+              - generic: Toutes mes demandes de feedback
+        - heading "Toutes mes demandes de feedback sur l'activité \"Activité nationale de test\"" [level=1] [ref=e78]
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - generic [ref=e86]: Récapitulatif de l'activité
+          - generic [ref=e87]: Activité nationale de test
+        - generic [ref=e88]:
+          - generic [ref=e94]: Tableau de bord
+          - generic [ref=e97]:
+            - generic [ref=e105]:
+              - generic [ref=e106]: "4"
+              - generic [ref=e107]: nouvelles demandes de feedback
+            - generic [ref=e115]:
+              - generic [ref=e116]: "10"
+              - generic [ref=e117]: demandes non traitées
+            - generic [ref=e125]:
+              - generic [ref=e126]: 10/20
+              - generic [ref=e127]: réponses envoyées
+        - generic [ref=e129]:
+          - generic [ref=e130]:
+            - generic [ref=e135]: Demande de feedback
+            - button "Réduire" [expanded] [ref=e138] [cursor=pointer]
+          - generic [ref=e141]:
+            - generic [ref=e142]:
+              - generic [ref=e143]:
+                - button "Toutes (20)" [disabled] [pressed]:
+                  - generic: Toutes (20)
+              - button "Nouvelles (4)" [ref=e145] [cursor=pointer]:
+                - generic [ref=e146]: Nouvelles (4)
+              - button "Non traitées (6)" [ref=e148] [cursor=pointer]:
+                - generic [ref=e149]: Non traitées (6)
+              - button "Envoyées (10)" [ref=e151] [cursor=pointer]:
+                - generic [ref=e152]: Envoyées (10)
+            - generic [ref=e161]: Aucune donnée à afficher
+  - contentinfo [ref=e162]:
+    - generic [ref=e164]:
+      - generic [ref=e165]:
+        - link "Logo ANR" [ref=e166] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e167]
+        - link "Logo France 2030" [ref=e168] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e169]
+      - generic [ref=e170]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e171]:
+      - generic [ref=e172]:
+        - img "Logo Cofolio" [ref=e173]
+        - generic [ref=e184]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e185]:
+        - generic [ref=e186]:
+          - generic [ref=e187]: Informations légales
+          - list [ref=e188]:
+            - listitem [ref=e189]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e190] [cursor=pointer]':
+                - /url: /cofolio/staff/accessibility
+            - listitem [ref=e191]:
+              - link "Mentions légales" [ref=e192] [cursor=pointer]:
+                - /url: /cofolio/staff/legal
+            - listitem [ref=e193]:
+              - link "Données personnelles" [ref=e194] [cursor=pointer]:
+                - /url: /cofolio/staff/personal-data
+            - listitem [ref=e195]:
+              - link "Gestion des cookies" [ref=e196] [cursor=pointer]:
+                - /url: /cofolio/staff/cookies
+        - generic [ref=e197]:
+          - generic [ref=e198]: Autres sites
+          - list [ref=e199]:
+            - listitem [ref=e200]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e201] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e202]:
+          - generic [ref=e203]: Partenaires
+          - generic [ref=e204]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e205] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e206]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e207] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e209]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e213] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
