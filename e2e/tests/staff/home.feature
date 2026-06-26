@@ -41,3 +41,16 @@ Feature: Staff Home Page
     Scenario: Staff can navigate to activities pages
       When the user click on the ACTIVITIES link
       Then the page navigates to activities page
+
+  Rule: Logout
+
+    @high @logout
+    Scenario: Staff can see logout action
+      When the staff opens the profile dropdown
+      Then the staff logout action have correct label
+
+    @high @logout
+    Scenario: Staff sees logout confirmation modal
+      When the staff opens the profile dropdown
+      And the staff clicks on the logout action
+      Then the staff logout confirmation modal is visible

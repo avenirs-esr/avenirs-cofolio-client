@@ -1,5 +1,6 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
+import { t } from '@e2e/framework/shared/utils/i18n'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { DeliverablesWidget } from '@e2e/framework/student/home/componentObjects/DeliverablesWidget'
 import { EventsWidget } from '@e2e/framework/student/home/componentObjects/EventsWidget'
@@ -7,6 +8,7 @@ import { PagesWidget } from '@e2e/framework/student/home/componentObjects/PagesW
 import { ResumesWidget } from '@e2e/framework/student/home/componentObjects/ResumesWidget'
 import { SkillsWidget } from '@e2e/framework/student/home/componentObjects/SkillsWidget'
 import { StudentOverviewWidget } from '@e2e/framework/student/home/componentObjects/StudentOverviewWidget'
+import { StudentProfileDropdown } from '@e2e/framework/student/home/componentObjects/StudentProfileDropdown'
 import { TracesWidget } from '@e2e/framework/student/home/componentObjects/TracesWidget'
 import { expect, type Page } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
@@ -52,6 +54,10 @@ class StudentHomePage extends BasePage {
 
   getMobileMenuButton () {
     return this.page.getByTestId('open-menu-btn')
+  }
+
+  getStudentProfileDropdown () {
+    return new StudentProfileDropdown(this.page)
   }
 
   @Given('the profile overview widget is visible')
@@ -312,5 +318,25 @@ class StudentHomePage extends BasePage {
   async verifyContentReadableDuringScroll () {
     await expect(this.getPageHeading()).toBeAttached()
     await expect(this.getStudentOverviewWidget().getProfileBanner()).toBeAttached()
+  }
+
+  @When('the student opens the profile dropdown')
+  async openStudentProfileDropdown () {
+    await this.getStudentProfileDropdown().open()
+  }
+
+  @When('the student clicks on the logout action')
+  async clickStudentLogoutAction () {
+    await this.getStudentProfileDropdown().clickLogoutAction()
+  }
+
+  @Then('the student logout action have correct label')
+  async verifyStudentLogoutActionLabel () {
+    await this.getStudentProfileDropdown().verifyLogoutLabel(t('global.buttons.logout'))
+  }
+
+  @Then('the student logout confirmation modal is visible')
+  async verifyStudentLogoutConfirmationModalVisible () {
+    await this.getStudentProfileDropdown().verifyLogoutConfirmationModalVisible()
   }
 }
