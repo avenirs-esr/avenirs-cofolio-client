@@ -35,6 +35,7 @@ function togglePanel () {
     :subtitle="activityTitle"
     :icon="ICONS.FEEDBACK"
     width="35rem"
+    class="writing-feedback-floating-panel"
     data-testid="writing-feedback-floating-panel"
   >
     <div class="av-px-xs">
@@ -65,10 +66,8 @@ function togglePanel () {
 </template>
 
 <style scoped lang="scss">
-:deep() {
-  .av-card[data-collapsed='false'] > .av-card__content-collapsible {
-    height: 60vh;
-    overflow-y: auto;
-  }
+.writing-feedback-floating-panel > :deep(.av-card[data-collapsed='false'] > .av-card__content-collapsible) {
+  height: 70vh;
+  overflow-y: auto;
 }
 </style>

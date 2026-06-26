@@ -106,6 +106,16 @@ export function formatTimeLocalized (date: string, localeCode: AvLocale): string
   })
 }
 /**
+ * Formats a date string to a short numeric date format `dd/MM/yyyy`.
+ * @param date yyyy-MM-dd'T'HH:mm:ss.SSSxxx | yyyy-MM-dd'T'HH:mm:ssXX | yyyy-MM-dd'T'HH:mm:ss | yyyy-MM-dd'T'HH:mm | yyyy-MM-dd
+ * @returns Formatted date string (e.g., "12/12/2025")
+ */
+export function formatDateToShortDate (date: string): string {
+  const parsedDate = parseDateISO(date)
+  return format(parsedDate, 'dd/MM/yyyy')
+}
+
+/**
  * Formats a year-month string to date format with day
  * @param date yyyy-MM (e.g., "2025-02")
  * @returns Formatted date string (e.g., "2025-02-01")

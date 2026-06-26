@@ -19,6 +19,10 @@
           "emptyState": "Aucun élément associé à ce feedback trouvé",
           "title": "Récapitulatif des éléments associés ({count})"
         },
+        "FeedbackHistoryCard": {
+          "seeDetail": "Voir le détail de la demande du {date}",
+          "writtenBy": "vous (Staff) - le {date}"
+        },
         "lastSaved": "Dernier enregistrement le",
         "receivedAt": "Reçu le",
         "StudentPerspectiveCard": {
