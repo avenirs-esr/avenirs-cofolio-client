@@ -12,6 +12,9 @@
         }
       },
       "cards": {
+        "ActivityConsignCard": {
+          "title": "Instructions"
+        },
         "AssociatedElementSummaryCard": {
           "emptyState": "No elements associated with this feedback found",
           "title": "Summary of associated elements ({count})"

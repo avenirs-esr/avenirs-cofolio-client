@@ -5,6 +5,7 @@ import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants'
+import { ActivityConsignCardStub } from '@/features/staff/feedbacks/components/cards/ActivityConsignCard/ActivityConsignCard.stub'
 import { FeedbacksDashboardSectionStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/FeedbacksDashboardSection/FeedbacksDashboardSection.stub'
 import ActivityFeedbacksView from '@/features/staff/feedbacks/views/ActivityFeedbacksView/ActivityFeedbacksView.vue'
 import { ActivityFeedbacksCardStub } from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/ActivityFeedbacksCard/ActivityFeedbacksCard.stub'
@@ -19,7 +20,8 @@ BddTest().given('an ActivityFeedbacksView component', () => {
     PageTitle: PageTitleStub,
     QuerySuspense: QuerySuspenseStub,
     ActivityFeedbacksCard: ActivityFeedbacksCardStub,
-    FeedbacksDashboardSection: FeedbacksDashboardSectionStub
+    FeedbacksDashboardSection: FeedbacksDashboardSectionStub,
+    ActivityConsignCard: ActivityConsignCardStub
   }
 
   const mountView = () => mountComponent(ActivityFeedbacksView, {
@@ -70,6 +72,14 @@ BddTest().given('an ActivityFeedbacksView component', () => {
 
     BddTest().then('it should render ActivityFeedbacksCard', () => {
       expect(wrapper.findComponent(ActivityFeedbacksCardStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render ActivityConsignCard', () => {
+      expect(wrapper.findComponent(ActivityConsignCardStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass the description to ActivityConsignCard', () => {
+      expect(wrapper.findComponent(ActivityConsignCardStub).props('description')).toBe(mockedActivityContent.description)
     })
 
     BddTest().then('it should pass the activity to ActivityFeedbacksCard', () => {
