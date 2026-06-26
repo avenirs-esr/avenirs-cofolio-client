@@ -1,6 +1,7 @@
 import {
   formatDateLocalized,
   formatDateToLocaleString,
+  formatDateToShortDate,
   formatDateToYearMonth,
   formatTimeLocalized,
   formatYearMonthToDate,
@@ -179,6 +180,22 @@ BddTest().given('a localized time formatter', () => {
 
       expect(morningTime).toMatch(/^\d{2}:05$/)
       expect(eveningTime).toMatch(/^\d{2}:55$/)
+    })
+  })
+})
+
+BddTest().given('a short date formatter', () => {
+  BddTest().when('providing a date string', () => {
+    BddTest().then('it should format the date to dd/MM/yyyy', () => {
+      expect(formatDateToShortDate('2025-12-12T10:00:00.000Z')).toBe('12/12/2025')
+      expect(formatDateToShortDate('2026-02-07')).toBe('07/02/2026')
+    })
+  })
+
+  BddTest().when('providing an invalid date string', () => {
+    BddTest().then('it should throw an error', () => {
+      const date = 'not a date'
+      expect(() => formatDateToShortDate(date)).toThrow(`Invalid ISO date: ${date}`)
     })
   })
 })

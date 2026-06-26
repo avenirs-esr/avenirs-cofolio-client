@@ -6,9 +6,16 @@ import { useI18n } from 'vue-i18n'
 export interface FeedbackIterationBadgeProps {
   iteration: number
   maxIterations?: number
+  color?: string
+  backgroundColor?: string
 }
 
-const { iteration, maxIterations } = defineProps<FeedbackIterationBadgeProps>()
+const {
+  iteration,
+  maxIterations,
+  color = 'var(--text1)',
+  backgroundColor = 'var(--light-background-neutral)',
+} = defineProps<FeedbackIterationBadgeProps>()
 
 const { t } = useI18n()
 
@@ -28,8 +35,8 @@ const resolvedLabel = computed(() =>
     data-testid="feedback-iteration-badge"
     :label="resolvedLabel"
     :icon="ICONS.FEEDBACK"
-    color="var(--text1)"
-    background-color="var(--light-background-neutral)"
+    :color="color"
+    :background-color="backgroundColor"
     border-color="transparent"
   />
 </template>
