@@ -2,7 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { mockedDeclaredActivityDetails, mockedFinishedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { askForFeedbackErrorHandler, finishDeclaredActivityErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { type DeclaredActivityDetailsDTO, EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { type DeclaredActivityDetailsDTO, EDeclaredActivityStatus, EFeedbackStatus } from '@/api/avenir-esr'
 import { FinishDeclaredActivityStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/FinishDeclaredActivity/FinishDeclaredActivity.stub'
 import PerspectiveTabActions, {
   type MyPerspectiveTabActionsProps,
@@ -205,6 +205,34 @@ BddTest().given('a perspective tab actions', () => {
 
     BddTest().then('it should render the actions hint', () => {
       expect(wrapper.find('[data-testid="actions-hint"]').exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is mounted with a submitted activity and a NEW feedback', () => {
+    const mockedSubmittedWithNewFeedback: DeclaredActivityDetailsDTO = {
+      ...mockedDeclaredActivityDetails,
+      status: EDeclaredActivityStatus.SUBMITTED,
+      feedbacks: [{
+        id: 'feedback-1',
+        status: EFeedbackStatus.NEW,
+        createdAt: '2024-01-15T10:00:00Z',
+        updatedAt: '2024-01-16T10:00:00Z',
+        staff: { id: 'staff-1', firstName: 'Staff', lastName: 'User', email: 'staff@test.com' },
+        student: { id: 'student-1', firstName: 'Lucas', lastName: 'Tessier', email: 'lucas@test.com' },
+      }],
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(PerspectiveTabActions, {
+        props: { declaredActivityDetails: mockedSubmittedWithNewFeedback },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the actions hint with updatable-feedback type', () => {
+      const hint = wrapper.find('[data-testid="actions-hint"]')
+      expect(hint.exists()).toBe(true)
+      expect(hint.attributes('data-type')).toBe('updatable-feedback')
     })
   })
 })

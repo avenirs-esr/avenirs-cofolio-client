@@ -46,6 +46,7 @@ BddTest().given('a my perspective tab', () => {
       expect(card.props('activityId')).toBe(mockedDeclaredActivityDetails.id)
       expect(card.props('perspective')).toBe(mockedDeclaredActivityDetails.reflection)
       expect(card.props('activityStatus')).toBe(mockedDeclaredActivityDetails.status)
+      expect(card.props('lastFeedbackStatus')).toBe(mockedDeclaredActivityDetails.feedbacks?.at(-1)?.status)
     })
 
     BddTest().then('it should render the feedback info card', () => {
