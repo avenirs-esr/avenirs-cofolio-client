@@ -31,3 +31,15 @@ Feature: Staff Activity Feedbacks Page
       Then the activity feedbacks table shows the student name column
       And the activity feedbacks table shows the received date column
       And the activity feedbacks table shows the iteration column
+
+  Rule: Feedbacks Dashboard
+
+    @high @feedbacks-dashboard
+    Scenario: The feedbacks dashboard is visible
+      Then the feedbacks dashboard section is visible
+
+    @high @feedbacks-dashboard
+    Scenario: The feedbacks dashboard displays new pending and processed cards
+      Then the new feedbacks dashboard card is displayed
+      And the pending feedbacks dashboard card is displayed
+      And the processed feedbacks dashboard card is displayed
