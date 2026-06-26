@@ -3,9 +3,9 @@ import { EActivityStatus, useGetActivityContent } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { ICONS, ROUTES } from '@/common/constants'
+import ActivityConsignCard from '@/features/staff/feedbacks/components/cards/ActivityConsignCard/ActivityConsignCard.vue'
 import FeedbacksDashboardSection from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/FeedbacksDashboardSection/FeedbacksDashboardSection.vue'
-import ActivityFeedbacksCard
-  from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/ActivityFeedbacksCard/ActivityFeedbacksCard.vue'
+import ActivityFeedbacksCard from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/ActivityFeedbacksCard/ActivityFeedbacksCard.vue'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -53,9 +53,15 @@ const breadcrumbLinks = computed(() => [
       :error="error"
       :error-title="t('staff.feedbacks.views.ActivityFeedbacksView.errors.fetchActivity')"
     >
-      <ActivityFeedbacksCard
-        :activity="activity!"
-      />
+      <div class="av-col av-gap-md">
+        <ActivityConsignCard
+          :description="activity?.description"
+        />
+
+        <ActivityFeedbacksCard
+          :activity="activity!"
+        />
+      </div>
     </QuerySuspense>
   </div>
 </template>
