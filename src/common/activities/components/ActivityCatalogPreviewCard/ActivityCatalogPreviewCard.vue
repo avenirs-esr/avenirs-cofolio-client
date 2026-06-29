@@ -28,7 +28,7 @@ const { t } = useI18n()
     <div class="av-col av-gap-sm">
       <div class="av-col av-row--md av-justify-between--md av-gap-xl">
         <div class="av-col av-flex-fill av-gap-md">
-          <span class="n4 av-text-primary1">{{ t('global.activities.components.ActivityCatalogPreviewCard.previewTitle') }}</span>
+          <span class="n4 av-text-primary1 av-text-regular">{{ t('global.activities.components.ActivityCatalogPreviewCard.previewTitle') }}</span>
           <span
             class="s2-regular av-text-text1"
             data-testid="activity-summary"
@@ -37,7 +37,7 @@ const { t } = useI18n()
           </span>
         </div>
         <div class="av-col av-flex-fill av-gap-md">
-          <span class="n4 av-text-primary1">{{ t('global.activities.components.ActivityCatalogPreviewCard.periodTitle') }}</span>
+          <span class="n4 av-text-primary1 av-text-regular">{{ t('global.activities.components.ActivityCatalogPreviewCard.periodTitle') }}</span>
           <span
             class="s2-bold av-text-primary1"
             data-testid="activity-execution-period-info"

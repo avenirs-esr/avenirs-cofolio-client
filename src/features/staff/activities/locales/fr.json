@@ -85,6 +85,11 @@
           "errors": {
             "fetchActivityContent": "Impossible de charger l'activité"
           },
+          "NationalActivityCatalogPreviewTab": {
+            "errors": {
+              "fetchActivityPresentation": "Impossible de charger l'aperçu de l'activité"
+            }
+          },
           "NationalActivityContentTab": {
             "scheduleTitle": "Déroulé de l'activité",
             "title": "Contenu de l'activité"
@@ -94,6 +99,10 @@
               "feedbackIterations": "{count} itération | {count} itérations",
               "unlimitedIterations": "Itérations illimitées"
             }
+          },
+          "tabs": {
+            "content": "Contenu",
+            "preview": "Extrait du catalogue"
           },
           "title": "Toutes les activités disponibles dans mon établissement"
         },

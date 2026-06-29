@@ -41,7 +41,7 @@ BddTest().given('a national activity content tab', () => {
       const titleComponent = title.getComponent(AvIconTextStub)
       expect(titleComponent.props('text')).toBe(mockedActivityContent.title)
       expect(titleComponent.props('icon')).toBe(ICONS.ACTIVITY)
-      expect(title.attributes('typography-class')).toBe('n4')
+      expect(title.attributes('typography-class')).toBe('n4 av-text-regular')
     })
 
     BddTest().then('it should render the thematic badge with the activity thematic', () => {

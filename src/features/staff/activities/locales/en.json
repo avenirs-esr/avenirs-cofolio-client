@@ -85,6 +85,11 @@
           "errors": {
             "fetchActivityContent": "Unable to load activity"
           },
+          "NationalActivityCatalogPreviewTab": {
+            "errors": {
+              "fetchActivityPresentation": "Unable to load activity preview"
+            }
+          },
           "NationalActivityContentTab": {
             "scheduleTitle": "Activity schedule",
             "title": "Activity content"
@@ -94,6 +99,10 @@
               "feedbackIterations": "0 iterations | {count} iteration | {count} iterations",
               "unlimitedIterations": "Unlimited iterations"
             }
+          },
+          "tabs": {
+            "content": "Content",
+            "preview": "Catalog Preview"
           },
           "title": "All activities available in my institution"
         },
