@@ -1,12 +1,19 @@
 import { createMockedDeclaredSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { type ActivityContentDTO, EActivityThematic, EFeedbackStatus, type FeedbackDashboardDTO, type FeedbackDetailsDTO, type FeedbackStaffListItemDTO, type PagedResponseFeedbackStaffListItemDTO, type UserInfoDTO } from '@/api/avenir-esr'
+import { type ActivityContentDTO, EActivityThematic, EFeedbackStatus, type FeedbackDashboardDTO, type FeedbackDetailsDTO, type FeedbackOverviewDTO, type FeedbackStaffListItemDTO, type PagedResponseFeedbackStaffListItemDTO, type UserInfoDTO } from '@/api/avenir-esr'
 
 const mockedStudent: UserInfoDTO = {
   id: 'student-1',
   firstName: 'Lucas',
   lastName: 'Tessier',
   email: 'lucas.tessier@university.com',
+}
+
+const mockedStaff: UserInfoDTO = {
+  id: 'staff-1',
+  firstName: 'Marc',
+  lastName: 'Dupont',
+  email: 'marc.dupont@university.com',
 }
 
 const mockedActivity: ActivityContentDTO = {
@@ -55,6 +62,7 @@ const allFeedbacks: FeedbackStaffListItemDTO[] = [
 
 export const mockedFeedbackDetailsWithAssociations: FeedbackDetailsDTO = {
   id: 'feedback-with-associations',
+  declaredActivityId: 'declared-activity-id',
   activity: mockedActivity,
   feedback: 'This is a detailed feedback with associations',
   status: EFeedbackStatus.NEW,
@@ -77,6 +85,36 @@ export const mockedFeedbackDetailsSubmitted: FeedbackDetailsDTO = {
   status: EFeedbackStatus.SUBMITTED,
   id: 'feedback-submitted',
 }
+
+export const mockedFeedbackHistory: FeedbackOverviewDTO[] = [
+  {
+    id: 'feedback-overview-3',
+    staff: mockedStaff,
+    student: mockedStudent,
+    feedback: 'Votre travail est bien structuré, continuez dans cette direction.',
+    status: EFeedbackStatus.SUBMITTED,
+    createdAt: '2026-03-05T10:00:00Z',
+    updatedAt: '2026-05-09T10:00:00Z',
+  },
+  {
+    id: 'feedback-overview-2',
+    staff: mockedStaff,
+    student: mockedStudent,
+    feedback: 'Les références bibliographiques manquent de précision.',
+    status: EFeedbackStatus.SUBMITTED,
+    createdAt: '2026-01-20T10:00:00Z',
+    updatedAt: '2026-02-02T10:00:00Z',
+  },
+  {
+    id: 'feedback-overview-1',
+    staff: mockedStaff,
+    student: mockedStudent,
+    feedback: 'Il faudrait que vous puissiez citer vos références méthodologiques.',
+    status: EFeedbackStatus.IN_PROCESS,
+    createdAt: '2025-12-12T10:00:00Z',
+    updatedAt: '2026-02-07T10:00:00Z',
+  },
+]
 
 export const mockedFeedbackDashboard: FeedbackDashboardDTO = {
   totalFeedbacks: 20,

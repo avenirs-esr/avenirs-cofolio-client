@@ -46,7 +46,8 @@
           "WriteFeedbackFloatingPanel": {
             "tabs": {
               "history": {
-                "title": "Historique des feedabacks ({count})"
+                "emptyState": "Vous n'avez aucun feedback précédent",
+                "title": "Historique des feedbacks ({count})"
               },
               "write": {
                 "errors": {

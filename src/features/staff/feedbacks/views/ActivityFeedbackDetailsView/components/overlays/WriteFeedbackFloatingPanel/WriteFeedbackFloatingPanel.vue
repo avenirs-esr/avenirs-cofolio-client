@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
+import { useGetFeedbackHistory } from '@/api/avenir-esr'
 import { ICONS } from '@/common/constants'
 import FeedbacksHistoryTab from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/tabs/FeedbacksHistoryTab/FeedbacksHistoryTab.vue'
 import WriteFeedbackTab from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/tabs/WriteFeedbackTab/WriteFeedbackTab.vue'
@@ -11,7 +12,7 @@ export interface WriteFeedbackFloatingPanelProps {
   activityTitle: string
 }
 
-defineProps<WriteFeedbackFloatingPanelProps>()
+const { feedback, activityTitle } = defineProps<WriteFeedbackFloatingPanelProps>()
 
 enum WriteFeedbackFloatingPanelTabs {
   MY_FEEDBACK = 0,
@@ -26,6 +27,28 @@ const panelRef = ref<InstanceType<typeof AvFloatingPanel> | null>(null)
 function togglePanel () {
   panelRef.value?.toggleCollapsed()
 }
+
+const activityId = computed(() => feedback.declaredActivityId)
+
+const {
+  data: feedbackHistory,
+  isLoading: isHistoryLoading,
+  error: historyError,
+} = useGetFeedbackHistory(activityId, {
+  query: {
+    enabled: computed(() => !!activityId.value),
+  },
+})
+
+const feedbacks = computed(() => feedbackHistory.value ?? [])
+const feedbacksCount = computed(() => feedbacks.value.length)
+const maxIterations = computed(() => feedback.activity.feedbackAllowedIterations)
+
+const historyTabTitle = computed(() =>
+  t('staff.feedbacks.views.ActivityFeedbackDetailsView.WriteFeedbackFloatingPanel.tabs.history.title', {
+    count: feedbacksCount.value,
+  })
+)
 </script>
 
 <template>
@@ -55,10 +78,15 @@ function togglePanel () {
           />
         </AvTab>
         <AvTab
-          :title="t('staff.feedbacks.views.ActivityFeedbackDetailsView.WriteFeedbackFloatingPanel.tabs.history.title')"
+          :title="historyTabTitle"
           :name="WriteFeedbackFloatingPanelTabs.HISTORY"
         >
-          <FeedbacksHistoryTab />
+          <FeedbacksHistoryTab
+            :feedbacks="feedbacks"
+            :max-iterations="maxIterations"
+            :is-loading="isHistoryLoading"
+            :error="historyError"
+          />
         </AvTab>
       </AvTabs>
     </div>

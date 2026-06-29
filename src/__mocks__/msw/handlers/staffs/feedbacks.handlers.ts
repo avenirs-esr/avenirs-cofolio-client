@@ -3,13 +3,16 @@ import {
   mockedFeedbackDashboard,
   mockedFeedbackDetailsSubmitted,
   mockedFeedbackDetailsWithAssociations,
-  mockedFeedbackDetailsWithoutAssociations
+  mockedFeedbackDetailsWithoutAssociations,
+  mockedFeedbackHistory
 } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import {
   type FeedbackDashboardDTO,
   type FeedbackDetailsDTO,
+  type FeedbackOverviewDTO,
   getGetFeedbackDashboardUrl,
   getGetFeedbackDetailsUrl,
+  getGetFeedbackHistoryUrl,
   getGetStaffFeedbacksUrl,
   getSubmitFeedbackUrl,
   getUpdateFeedbackUrl
@@ -65,6 +68,26 @@ export const getFeedbackDetailsWithAssociationsHandler = http.get(
   }
 )
 
+export function createGetFeedbackHistoryHandler (feedbacks: FeedbackOverviewDTO[] = mockedFeedbackHistory) {
+  return http.get(
+    `*${getGetFeedbackHistoryUrl(':declaredActivityId')}`,
+    () => HttpResponse.json<FeedbackOverviewDTO[]>(feedbacks, {
+      status: HttpStatusCode.OK,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  )
+}
+
+export const getFeedbackHistoryHandler = createGetFeedbackHistoryHandler()
+
+export const getFeedbackHistoryErrorHandler = http.get(
+  `*${getGetFeedbackHistoryUrl(':declaredActivityId')}`,
+  () => HttpResponse.json(
+    { message: 'Erreur lors de la récupération de l\'historique des feedbacks' },
+    { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+  )
+)
+
 export const getStaffFeedbacksHandler = http.get(
   `*${getGetStaffFeedbacksUrl()}`,
   ({ request }) => {
@@ -115,6 +138,7 @@ export const submitFeedbackHandler = http.put(`*${getSubmitFeedbackUrl(':feedbac
 
 export const feedbacksHandlers = [
   getFeedbackDashboardHandler,
+  getFeedbackHistoryHandler,
   getFeedbackDetailsWithAssociationsHandler,
   getStaffFeedbacksHandler,
   updateFeedbackHandler,
