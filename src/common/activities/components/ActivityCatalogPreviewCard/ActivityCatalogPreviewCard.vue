@@ -28,18 +28,18 @@ const { t } = useI18n()
     <div class="av-col av-gap-sm">
       <div class="av-col av-row--md av-justify-between--md av-gap-xl">
         <div class="av-col av-flex-fill av-gap-md">
-          <span class="n4">{{ t('global.activities.components.ActivityCatalogPreviewCard.previewTitle') }}</span>
+          <span class="n4 av-text-primary1">{{ t('global.activities.components.ActivityCatalogPreviewCard.previewTitle') }}</span>
           <span
-            class="s2-regular"
+            class="s2-regular av-text-text1"
             data-testid="activity-summary"
           >
             {{ summary }}
           </span>
         </div>
         <div class="av-col av-flex-fill av-gap-md">
-          <span class="n4">{{ t('global.activities.components.ActivityCatalogPreviewCard.periodTitle') }}</span>
+          <span class="n4 av-text-primary1">{{ t('global.activities.components.ActivityCatalogPreviewCard.periodTitle') }}</span>
           <span
-            class="s2-bold"
+            class="s2-bold av-text-primary1"
             data-testid="activity-execution-period-info"
           >
             {{ executionPeriodInfo }}
@@ -57,16 +57,7 @@ const { t } = useI18n()
 </template>
 
 <style lang="scss" scoped>
-.n4 {
-  color: var(--dark-background-primary1);
-}
-
-.s2-regular {
-  color: var(--text1);
-}
-
 .s2-bold {
-  color: var(--dark-background-primary1);
   white-space: pre-line;
 }
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ActivityPresentationDTO } from '@/api/avenir-esr'
-import ActivityCatalogBanner from '@/common/activities/components/ActivityCatalogBanner/ActivityCatalogBanner.vue'
+import ActivityCatalogHeader from '@/common/activities/components/ActivityCatalogHeader/ActivityCatalogHeader.vue'
 import ActivityCatalogPreviewCard from '@/common/activities/components/ActivityCatalogPreviewCard/ActivityCatalogPreviewCard.vue'
 import { useModal } from '@/common/composables'
 import { ICONS, ROUTES } from '@/common/constants'
@@ -25,7 +25,7 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
     class="av-col av-gap-lg"
     data-testid="activity-preview"
   >
-    <ActivityCatalogBanner
+    <ActivityCatalogHeader
       :banner="activity.banner"
       :title="activity.title"
       :thematic="activity.thematic"
