@@ -128,7 +128,9 @@
             "placeholder": "Rédiger ici un texte court qui permet d'avoir un aperçu de l'activité et donne envie de s'y inscrire."
           },
           "ActivityTraceFormField": {
-            "description": "L'apprenant peut associer jusqu'à 10 traces maximum dans l'activité.",
+            "description": "Lorsque le paramètre est désactivé, les apprenants ne peuvent pas associer de traces à leur activité.",
+            "infinityToggleLabel": "Autoriser un nombre illimité d'associations de traces",
+            "label": "Combien d'associations de traces maximum ?",
             "title": "Association de traces"
           },
           "EditNationalActivityViewTabActions": {
