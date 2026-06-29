@@ -31,6 +31,7 @@ const isInProgress = computed(() => status === EDeclaredActivityStatus.IN_PROGRE
 
 <template>
   <div
+    v-if="isInProgress || isCompleted"
     class="av-col av-align-end av-items-end av-pt-md"
     data-testid="finish-declared-activity"
   >
@@ -54,11 +55,11 @@ const isInProgress = computed(() => status === EDeclaredActivityStatus.IN_PROGRE
         data-testid="finish-declared-activity-finished-badge"
       />
     </div>
-    <FinishDeclaredActivityConfirmModal
-      :show="showModal"
-      :is-loading="isLoading"
-      @close="hideModal"
-      @confirm="handleConfirm"
-    />
   </div>
+  <FinishDeclaredActivityConfirmModal
+    :show="showModal"
+    :is-loading="isLoading"
+    @close="hideModal"
+    @confirm="handleConfirm"
+  />
 </template>
