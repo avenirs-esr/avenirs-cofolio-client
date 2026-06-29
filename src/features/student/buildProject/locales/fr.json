@@ -150,6 +150,7 @@
             },
             "MyPerspectiveSection": {
               "AssociatedElementsTab": {
+                "maxTraceAssociationsReached": "Vous avez atteint le nombre maximal de traces autorisées pour cette activité",
                 "title": "Mes éléments associés ({count})"
               },
               "MyPerspectiveTab": {

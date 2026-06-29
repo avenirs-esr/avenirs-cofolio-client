@@ -305,4 +305,28 @@ BddTest().given('an associated elements tab', () => {
       expect(dropdown.props('tracesDisabled')).toBe(true)
     })
   })
+
+  BddTest().when('the component is mounted with maxTraceAssociationsReached set to true', () => {
+    const props: AssociatedElementsTabProps = {
+      associations: mockedDeclaredActivityAssociations,
+      declaredActivityId: 'declared-activity-1',
+      countAssociations: 9,
+      traceAssociationsDisabled: false,
+      maxTraceAssociationsReached: true
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AssociatedElementsTab, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should pass tracesDisabled as true to the associate elements dropdown', () => {
+      const dropdown = wrapper.findComponent(ActivityAssociateElementsDropdownStub)
+      expect(dropdown.props('tracesDisabled')).toBe(true)
+    })
+
+    BddTest().then('it should render the max trace associations reached message', () => {
+      const message = wrapper.find('[data-testid="max-trace-associations-reached"]')
+      expect(message.exists()).toBe(true)
+    })
+  })
 })
