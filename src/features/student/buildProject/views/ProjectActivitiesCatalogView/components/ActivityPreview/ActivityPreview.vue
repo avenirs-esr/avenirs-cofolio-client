@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-import { type ActivityPresentationDTO, EDeclaredActivityStatus } from '@/api/avenir-esr'
-import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
-import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
-import Card from '@/common/components/cards/Card/Card.vue'
+import type { ActivityPresentationDTO } from '@/api/avenir-esr'
+import ActivityCatalogBanner from '@/common/activities/components/ActivityCatalogBanner/ActivityCatalogBanner.vue'
+import ActivityCatalogPreviewCard from '@/common/activities/components/ActivityCatalogPreviewCard/ActivityCatalogPreviewCard.vue'
 import { useModal } from '@/common/composables'
 import { ICONS, ROUTES } from '@/common/constants'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import SubscribeActivityModal from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/overlays/SubscribeActivityModal/SubscribeActivityModal.vue'
-import { AvButton, AvIconText, MDI_ICONS, PH_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, MDI_ICONS, PH_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ActivityPreviewProps {
@@ -26,102 +25,52 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
     class="av-col av-gap-lg"
     data-testid="activity-preview"
   >
-    <Card
-      v-if="activity.banner"
-      background-color="var(--card2)"
-      border-color="transparent"
-      class="activity-banner-container"
-    >
-      <img
-        :src="activity.banner.url"
-        :alt="activity.banner.fileName"
-        class="activity-banner av-w-full av-h-full av-radius-2xl"
-        data-testid="activity-banner"
-      >
-    </Card>
-    <AvIconText
-      :icon="ICONS.ACTIVITY"
-      icon-color="var(--icon)"
-      :text="activity.title"
-      text-color="var(--dark-background-primary1)"
-      typography-class="n2"
-      gap="var(--spacing-md)"
-      inline
-      wrap-anywhere
-      data-testid="activity-title"
+    <ActivityCatalogBanner
+      :banner="activity.banner"
+      :title="activity.title"
+      :thematic="activity.thematic"
+      :subscribed-declared-activity="activity.subscribedDeclaredActivity"
     />
-    <div class="av-row av-wrap av-gap-xs av-pl-5xl">
-      <ActivityThematicBadge
-        :thematic="activity.thematic"
-        data-testid="activity-thematic-badge"
-      />
-      <DeclaredActivityStatusBadge
-        v-if="activity.subscribedDeclaredActivity"
-        :status="EDeclaredActivityStatus.SUBSCRIBED"
-      />
-    </div>
-    <Card
-      background-color="var(--card2)"
-      border-color="transparent"
+    <ActivityCatalogPreviewCard
+      :summary="activity.summary"
+      :execution-period-info="activity.executionPeriodInfo"
     >
-      <div class="av-col av-gap-sm">
-        <div class="av-col av-row--md av-justify-between--md av-gap-xl">
-          <div class="av-col av-flex-fill av-gap-md">
-            <span class="n4">{{ t('student.buildProject.activities.views.ProjectActivitiesCatalogView.previewTitle') }}</span>
-            <span
-              class="s2-regular"
-              data-testid="activity-summary"
-            >
-              {{ activity.summary }}
-            </span>
-          </div>
-          <div class="av-col av-flex-fill av-gap-md">
-            <span class="n4">{{ t('student.buildProject.activities.views.ProjectActivitiesCatalogView.periodTitle') }}</span>
-            <span
-              class="s2-bold"
-              data-testid="activity-execution-period-info"
-            >
-              {{ activity.executionPeriodInfo }}
-            </span>
-          </div>
-        </div>
-        <div class="av-row av-justify-end av-gap-md">
-          <AvButton
-            v-if="activity.subscribedDeclaredActivity"
-            theme="PRIMARY"
-            variant="FLAT"
-            :label="t('student.buildProject.activities.views.ProjectActivitiesCatalogView.buttons.access')"
-            :icon="ICONS.ACTIVITY"
-            small
-            :to="{
-              name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
-              params: { id: activity.subscribedDeclaredActivity, thematic: activity.thematic },
-            }"
-            data-testid="access-button"
-          />
-          <AvButton
-            v-if="activity.subscribedDeclaredActivity"
-            variant="OUTLINED"
-            theme="PRIMARY"
-            :label="t('student.buildProject.activities.buttons.unsubscribe')"
-            :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
-            small
-            data-testid="unsubscribe-button"
-            @click="displayUnsubscribeModal"
-          />
-          <AvButton
-            v-else
-            variant="OUTLINED"
-            theme="PRIMARY"
-            :label="t('student.buildProject.activities.buttons.subscribe')"
-            :icon="PH_ICONS.NOTE_PENCIL"
-            small
-            data-testid="subscribe-button"
-            @click="displaySubscribeModal"
-          />
-        </div>
-      </div>
-    </Card>
+      <template #actions>
+        <AvButton
+          v-if="activity.subscribedDeclaredActivity"
+          theme="PRIMARY"
+          variant="FLAT"
+          :label="t('student.buildProject.activities.views.ProjectActivitiesCatalogView.buttons.access')"
+          :icon="ICONS.ACTIVITY"
+          small
+          :to="{
+            name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
+            params: { id: activity.subscribedDeclaredActivity, thematic: activity.thematic },
+          }"
+          data-testid="access-button"
+        />
+        <AvButton
+          v-if="activity.subscribedDeclaredActivity"
+          variant="OUTLINED"
+          theme="PRIMARY"
+          :label="t('student.buildProject.activities.buttons.unsubscribe')"
+          :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
+          small
+          data-testid="unsubscribe-button"
+          @click="displayUnsubscribeModal"
+        />
+        <AvButton
+          v-else
+          variant="OUTLINED"
+          theme="PRIMARY"
+          :label="t('student.buildProject.activities.buttons.subscribe')"
+          :icon="PH_ICONS.NOTE_PENCIL"
+          small
+          data-testid="subscribe-button"
+          @click="displaySubscribeModal"
+        />
+      </template>
+    </ActivityCatalogPreviewCard>
   </div>
 
   <UnsubscribeActivitiesConfirmModal
@@ -138,26 +87,3 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
     @subscribed="hideSubscribeModal"
   />
 </template>
-
-<style lang="scss" scoped>
-.activity-banner-container {
-  height: 18.75rem;
-}
-
-.activity-banner {
-  object-fit: cover;
-}
-
-.n4 {
-  color: var(--dark-background-primary1);
-}
-
-.s2-regular {
-  color: var(--text1);
-}
-
-.s2-bold {
-  color: var(--dark-background-primary1);
-  white-space: pre-line;
-}
-</style>
