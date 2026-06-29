@@ -128,7 +128,9 @@
             "placeholder": "Write a short description here that gives a glimpse of the activity and makes people want to sign up."
           },
           "ActivityTraceFormField": {
-            "description": "The student can associate up to a maximum of 10 traces in the activity.",
+            "description": "When this setting is disabled, learners cannot associate traces with their activity.",
+            "infinityToggleLabel": "Allow unlimited trace associations",
+            "label": "Maximum number of trace associations?",
             "title": "Trace association"
           },
           "EditNationalActivityViewTabActions": {

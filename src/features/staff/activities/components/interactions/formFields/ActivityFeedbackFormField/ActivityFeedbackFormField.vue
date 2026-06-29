@@ -38,8 +38,7 @@ const feedbackAllowedIterationsValidators = {
       return undefined
     }
 
-    const requiredError = validateRequired(value?.toString())
-    return requiredError || validateMin(value, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN)
+    return validateRequired(value?.toString()) || validateMin(value, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN)
   },
 }
 
