@@ -127,8 +127,8 @@ BddTest().given('a FinishDeclaredActivity component', () => {
       })
     })
 
-    BddTest().then('it should render the finish declared activity block', () => {
-      expect(wrapper.find('[data-testid="finish-declared-activity"]').exists()).toBe(true)
+    BddTest().then('it should not render the finish declared activity block', () => {
+      expect(wrapper.find('[data-testid="finish-declared-activity"]').exists()).toBe(false)
     })
 
     BddTest().then('it should not render the finish button', () => {

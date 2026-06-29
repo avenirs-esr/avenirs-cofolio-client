@@ -21,7 +21,7 @@ const { t } = useI18n()
 const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const queryClient = useQueryClient()
-const { isLoading, withTaskLoading } = useTaskLoading()
+const { isLoading: isTaskLoading, withTaskLoading } = useTaskLoading()
 
 const { mutate: mutateFinish, isPending: isFinishPending } = useFinish()
 const { mutate: mutateAskForFeedback, isPending: isFeedbackPending } = useAskForFeedback()
@@ -57,6 +57,8 @@ const actionsHintInfo = computed(() => {
   }
   return undefined
 })
+
+const isLoading = computed(() => isFeedbackPending.value || isFinishPending.value || isTaskLoading.value)
 
 function finishDeclaredActivity () {
   mutateFinish({ declaredActivityId: declaredActivityDetails.id }, {
@@ -102,31 +104,33 @@ function requestFeedback () {
 </script>
 
 <template>
-  <div
-    class="av-row av-justify-end av-gap-md"
-    data-testid="perspective-tab-actions"
-  >
-    <RequestFeedback
-      v-if="isDeclaredActivityInProgress || isDeclaredActivitySubmitted"
-      :disabled="isDeclaredActivitySubmitted || remainingFeedbacks === 0"
-      :is-loading="isFeedbackPending || isFinishPending || isLoading"
-      :remaining-feedbacks="remainingFeedbacks"
-      @request-feedback="requestFeedback"
-    />
-    <FinishDeclaredActivity
-      :status="declaredActivityDetails.status"
-      :is-loading="isFeedbackPending || isFinishPending || isLoading"
-      @finished="finishDeclaredActivity"
-    />
-  </div>
-  <div class="av-row av-justify-end">
-    <span
-      v-if="actionsHintInfo"
-      class="av-text-text2"
-      data-testid="actions-hint"
-      :data-type="actionsHintInfo.type"
+  <div class="av-col av-gap-sm">
+    <div
+      class="av-row av-justify-end av-gap-md"
+      data-testid="perspective-tab-actions"
     >
-      {{ actionsHintInfo.text }}
-    </span>
+      <RequestFeedback
+        v-if="isDeclaredActivityInProgress || isDeclaredActivitySubmitted"
+        :disabled="isDeclaredActivitySubmitted || remainingFeedbacks === 0"
+        :is-loading="isLoading"
+        :remaining-feedbacks="remainingFeedbacks"
+        @request-feedback="requestFeedback"
+      />
+      <FinishDeclaredActivity
+        :status="declaredActivityDetails.status"
+        :is-loading="isLoading"
+        @finished="finishDeclaredActivity"
+      />
+    </div>
+    <div class="av-row av-justify-end">
+      <span
+        v-if="actionsHintInfo"
+        class="caption-regular av-text-text2"
+        data-testid="actions-hint"
+        :data-type="actionsHintInfo.type"
+      >
+        {{ actionsHintInfo.text }}
+      </span>
+    </div>
   </div>
 </template>
