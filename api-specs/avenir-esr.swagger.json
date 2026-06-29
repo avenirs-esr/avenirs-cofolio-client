@@ -541,6 +541,40 @@
         }
       }
     },
+    "/me/activity-progress/feedbacks/{declaredActivityId}/history": {
+      "get": {
+        "tags": [
+          "feedback-controller"
+        ],
+        "operationId": "getFeedbackHistory",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FeedbackOverviewDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/traces": {
       "post": {
         "tags": [
@@ -5396,6 +5430,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "declaredActivityId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "activity": {
             "$ref": "#/components/schemas/ActivityContentDTO"
           },
@@ -5441,6 +5479,7 @@
         "required": [
           "activity",
           "createdAt",
+          "declaredActivityId",
           "id",
           "status",
           "student",
