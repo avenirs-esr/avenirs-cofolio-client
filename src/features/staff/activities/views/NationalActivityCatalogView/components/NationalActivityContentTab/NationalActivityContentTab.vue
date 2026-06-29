@@ -27,7 +27,7 @@ const { t } = useI18n()
       <AvIconText
         :icon="ICONS.ACTIVITY"
         :text="activity.title"
-        typography-class="n4"
+        typography-class="n4 av-text-regular"
         text-color="var(--dark-background-primary1)"
         icon-color="var(--icon)"
         data-testid="national-activity-content-tab-title"
@@ -45,13 +45,19 @@ const { t } = useI18n()
     >
       <div class="av-row--md av-justify-between--md av-gap-xl">
         <div class="av-col av-gap-sm">
-          <h4 data-testid="national-activity-content-tab-consign-title">
+          <h4
+            data-testid="national-activity-content-tab-consign-title"
+            class="av-text-primary1 av-text-regular"
+          >
             {{ t('staff.activities.interactions.formFields.ActivityConsignFormField.label') }}
           </h4>
           <ActivityDescriptionContent :description="activity.description" />
         </div>
         <div class="av-col av-gap-sm">
-          <h4 data-testid="national-activity-content-tab-context-title">
+          <h4
+            data-testid="national-activity-content-tab-context-title"
+            class="av-text-primary1 av-text-regular"
+          >
             {{ t('staff.activities.interactions.formFields.ActivityExecutionPeriodFormField.label') }}
           </h4>
           <ActivityExecutionPeriodList :execution-period-info="activity.executionPeriodInfo" />
@@ -62,10 +68,3 @@ const { t } = useI18n()
     <NationalActivitySettingDetails :activity="activity" />
   </div>
 </template>
-
-<style lang="scss" scoped>
-:deep(.n4) {
-  color: var(--dark-background-primary1);
-  font-weight: var(--font-weight-regular);
-}
-</style>

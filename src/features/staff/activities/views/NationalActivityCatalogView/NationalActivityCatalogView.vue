@@ -2,12 +2,14 @@
 import { EActivityStatus, useGetActivityContent } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useModal } from '@/common/composables/use-modal/use-modal'
 import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
 import { ROUTES } from '@/common/constants'
 import DeleteDraftActivityConfirmationModal from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
+import NationalActivityCatalogPreviewTab from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.vue'
 import NationalActivityContentTab from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.vue'
-import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface NationalActivityCatalogViewProps {
@@ -32,6 +34,13 @@ const isDraft = computed(() => status === EActivityStatus.DRAFT)
 const { showModal: showDeleteConfirmation, displayModal: displayDeleteConfirmation, hideModal: hideDeleteConfirmation } = useModal()
 
 const { navigateToStaffActivities, navigateToStaffActivitiesEditNationalActivity } = useNavigation()
+
+enum NationalActivityCatalogTabs {
+  CONTENT = 0,
+  PREVIEW = 1,
+}
+
+const activeTab = useEnumRouteQuery('tab', NationalActivityCatalogTabs, NationalActivityCatalogTabs.CONTENT)
 </script>
 
 <template>
@@ -67,9 +76,26 @@ const { navigateToStaffActivities, navigateToStaffActivitiesEditNationalActivity
     :error="error"
     :error-title="t('staff.activities.views.NationalActivityCatalogView.errors.fetchActivityContent')"
   >
-    <div class="av-col av-flex-fill">
-      <NationalActivityContentTab :activity="activity!" />
-    </div>
+    <AvTabs
+      v-if="activity"
+      v-model="activeTab"
+    >
+      <AvTab
+        :title="t('staff.activities.views.NationalActivityCatalogView.tabs.content')"
+        :icon="MDI_ICONS.FILE_DOCUMENT_BOX_MULTIPLE_OUTLINE"
+      >
+        <NationalActivityContentTab :activity="activity" />
+      </AvTab>
+      <AvTab
+        :title="t('staff.activities.views.NationalActivityCatalogView.tabs.preview')"
+        :icon="MDI_ICONS.BOOK_OPEN_VARIANT"
+      >
+        <NationalActivityCatalogPreviewTab
+          :activity-id="activity.id"
+          :status="status"
+        />
+      </AvTab>
+    </AvTabs>
   </QuerySuspense>
 
   <DeleteDraftActivityConfirmationModal

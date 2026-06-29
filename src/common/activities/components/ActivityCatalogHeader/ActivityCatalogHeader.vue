@@ -37,26 +37,28 @@ const {
         data-testid="activity-banner"
       >
     </Card>
-    <AvIconText
-      :icon="ICONS.ACTIVITY"
-      icon-color="var(--icon)"
-      :text="title"
-      text-color="var(--dark-background-primary1)"
-      typography-class="n2"
-      gap="var(--spacing-md)"
-      inline
-      wrap-anywhere
-      data-testid="activity-title"
-    />
-    <div class="av-row av-wrap av-gap-xs av-pl-5xl">
-      <ActivityThematicBadge
-        :thematic="thematic"
-        data-testid="activity-thematic-badge"
+    <div class="av-col av-gap-md">
+      <AvIconText
+        :icon="ICONS.ACTIVITY"
+        icon-color="var(--icon)"
+        :text="title"
+        text-color="var(--dark-background-primary1)"
+        typography-class="n2"
+        gap="var(--spacing-md)"
+        inline
+        wrap-anywhere
+        data-testid="activity-title"
       />
-      <DeclaredActivityStatusBadge
-        v-if="subscribedDeclaredActivity"
-        :status="EDeclaredActivityStatus.SUBSCRIBED"
-      />
+      <div class="av-row av-wrap av-gap-xs av-pl-5xl">
+        <ActivityThematicBadge
+          :thematic="thematic"
+          data-testid="activity-thematic-badge"
+        />
+        <DeclaredActivityStatusBadge
+          v-if="subscribedDeclaredActivity"
+          :status="EDeclaredActivityStatus.SUBSCRIBED"
+        />
+      </div>
     </div>
   </div>
 </template>

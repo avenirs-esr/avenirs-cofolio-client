@@ -7,14 +7,19 @@ import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants'
 import { DeleteDraftActivityConfirmationModalStub } from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.stub'
+import { NationalActivityCatalogPreviewTabStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.stub'
 import { NationalActivityContentTabStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.stub'
 import NationalActivityCatalogView from '@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.vue'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const mockNavigateToStaffActivities = vi.fn()
 const mockNavigateToStaffActivitiesEditNationalActivity = vi.fn()
+
+vi.mock('@/common/composables/use-enum-route-query/use-enum-route-query', () => ({
+  useEnumRouteQuery: vi.fn(() => ref(0)),
+}))
 
 vi.mock('@/common/composables/use-navigation/use-navigation', () => ({
   useNavigation: () => ({
@@ -29,9 +34,12 @@ BddTest().given('a national activity catalog view', () => {
   const stubs = {
     PageTitle: PageTitleStub,
     QuerySuspense: QuerySuspenseStub,
+    NationalActivityCatalogPreviewTab: NationalActivityCatalogPreviewTabStub,
     NationalActivityContentTab: NationalActivityContentTabStub,
     AvButton: AvButtonStub,
     DeleteDraftActivityConfirmationModal: DeleteDraftActivityConfirmationModalStub,
+    AvTabs: AvTabsStub,
+    AvTab: AvTabStub,
   }
 
   const mountView = (status = EActivityStatus.DRAFT, id = mockedActivityContent.id) => mountComponent(NationalActivityCatalogView, {
