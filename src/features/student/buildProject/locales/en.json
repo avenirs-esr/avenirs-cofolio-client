@@ -154,6 +154,7 @@
                 "title": "My associated elements ({count})"
               },
               "MyPerspectiveTab": {
+                "maxTraceAssociationsReached": "You have reached the maximum number of traces allowed for this activity",
                 "title": "My perspective"
               }
             },

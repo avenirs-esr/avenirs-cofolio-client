@@ -31,7 +31,7 @@ const hasPeriodInfo = computed(() => !!declaredActivityDetails.startDate || !!de
       border-color="transparent"
     >
       <div class="av-row--md av-justify-between--md av-gap-xl">
-        <div class="av-col av-gap-sm">
+        <div class="av-col av-gap-sm av-flex-fill">
           <AvIconText
             data-testid="activity-title"
             :icon="ICONS.ACTIVITY"
@@ -46,7 +46,7 @@ const hasPeriodInfo = computed(() => !!declaredActivityDetails.startDate || !!de
             :description="declaredActivityDetails.activity.description"
           />
         </div>
-        <div class="av-col av-gap-sm">
+        <div class="av-col av-gap-sm av-flex-fill">
           <span class="n4">
             {{ t('student.buildProject.activities.views.ProjectActivityDetailedView.ProjectActivityDetails.executionPeriodTitle') }}
           </span>
