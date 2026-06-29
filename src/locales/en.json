@@ -27,6 +27,12 @@
           "TRAJECTORIES": "My trajectories",
           "TRANSVERSAL": "Transversal"
         }
+      },
+      "components": {
+        "ActivityCatalogPreviewCard": {
+          "periodTitle": "Execution period",
+          "previewTitle": "Activity preview"
+        }
       }
     },
     "application": "Application",
