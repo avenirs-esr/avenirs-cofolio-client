@@ -27,6 +27,12 @@
           "TRAJECTORIES": "Mes trajectoires",
           "TRANSVERSAL": "Transverse"
         }
+      },
+      "components": {
+        "ActivityCatalogPreviewCard": {
+          "periodTitle": "Période de réalisation",
+          "previewTitle": "Extrait de l'activité"
+        }
       }
     },
     "application": "Application",
