@@ -1,5 +1,6 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
+import { FeedbacksHistoryTab } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksHistoryTab'
 import { expect, type Locator } from '@playwright/test'
 
 export class WritingFeedbackFloatingPanel extends BaseObject {
@@ -21,6 +22,16 @@ export class WritingFeedbackFloatingPanel extends BaseObject {
 
   private getExpandButton () {
     return this.getCollapsedPanelCard().locator('header').getByRole('button')
+  }
+
+  private getHistoryTabButton () {
+    return this.getExpandedPanelCard().getByTestId('history-tab-button')
+  }
+
+  private getFeedbacksHistoryTab () {
+    return new FeedbacksHistoryTab(
+      this.getExpandedPanelCard().getByTestId('feedbacks-history-tab'),
+    )
   }
 
   private async getWriteFeedbackTab () {
@@ -93,5 +104,37 @@ export class WritingFeedbackFloatingPanel extends BaseObject {
     await this.verifyFeedbackFormFieldVisible()
     await expect(await this.getWriteFeedbackCancelButton()).toBeVisible()
     await expect(await this.getWriteFeedbackSendButton()).toBeVisible()
+  }
+
+  async clickHistoryTab () {
+    await clickOnElement(this.getHistoryTabButton())
+  }
+
+  async verifyHistoryTabVisible () {
+    await this.getFeedbacksHistoryTab().verifyVisible()
+  }
+
+  async verifyHistoryTabContainsAtLeastOneCard () {
+    await this.getFeedbacksHistoryTab().verifyContainsAtLeastOneCard()
+  }
+
+  async verifyHistoryTabFirstCardCollapsed () {
+    await this.getFeedbacksHistoryTab().verifyFirstCardCollapsed()
+  }
+
+  async verifyHistoryTabFirstCardCollapsedStateVisible () {
+    await this.getFeedbacksHistoryTab().verifyFirstCardCollapsedStateVisible()
+  }
+
+  async verifyHistoryTabFirstCardExpandedStateVisible () {
+    await this.getFeedbacksHistoryTab().verifyFirstCardExpandedStateVisible()
+  }
+
+  async expandHistoryTabFirstCard () {
+    await this.getFeedbacksHistoryTab().expandFirstCard()
+  }
+
+  async verifyHistoryTabAntiChronologicalOrder () {
+    await this.getFeedbacksHistoryTab().verifyAntiChronologicalOrder()
   }
 }

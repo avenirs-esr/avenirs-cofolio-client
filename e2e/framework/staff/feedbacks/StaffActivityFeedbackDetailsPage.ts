@@ -108,4 +108,44 @@ export class StaffActivityFeedbackDetailsPage extends BasePage {
   async verifyWritingFeedbackFloatingPanelCollapsed () {
     await this.getWritingFeedbackFloatingPanel().verifyPanelCollapsed()
   }
+
+  @When('the staff clicks on the history tab')
+  async clickHistoryTab () {
+    await this.getWritingFeedbackFloatingPanel().clickHistoryTab()
+  }
+
+  @Then('the feedbacks history tab is visible')
+  async verifyFeedbacksHistoryTabVisible () {
+    await this.getWritingFeedbackFloatingPanel().verifyHistoryTabVisible()
+  }
+
+  @Then('the feedbacks history tab contains at least one feedback history card')
+  async verifyFeedbacksHistoryTabContainsCards () {
+    await this.getWritingFeedbackFloatingPanel().verifyHistoryTabContainsAtLeastOneCard()
+  }
+
+  @Then('the first feedback history card is collapsed')
+  async verifyFirstFeedbackHistoryCardCollapsed () {
+    await this.getWritingFeedbackFloatingPanel().verifyHistoryTabFirstCardCollapsed()
+  }
+
+  @When('the staff expands the first feedback history card')
+  async expandFirstFeedbackHistoryCard () {
+    await this.getWritingFeedbackFloatingPanel().expandHistoryTabFirstCard()
+  }
+
+  @Then('the first feedback history card collapsed state is visible')
+  async verifyFirstFeedbackHistoryCardCollapsedStateVisible () {
+    await this.getWritingFeedbackFloatingPanel().verifyHistoryTabFirstCardCollapsedStateVisible()
+  }
+
+  @Then('the first feedback history card expanded state is visible')
+  async verifyFirstFeedbackHistoryCardExpandedStateVisible () {
+    await this.getWritingFeedbackFloatingPanel().verifyHistoryTabFirstCardExpandedStateVisible()
+  }
+
+  @Then('the feedbacks history tab displays feedbacks in anti-chronological order')
+  async verifyFeedbacksHistoryAntiChronologicalOrder () {
+    await this.getWritingFeedbackFloatingPanel().verifyHistoryTabAntiChronologicalOrder()
+  }
 }

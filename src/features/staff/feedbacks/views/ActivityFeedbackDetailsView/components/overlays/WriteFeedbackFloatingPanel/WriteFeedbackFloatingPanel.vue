@@ -80,6 +80,7 @@ const historyTabTitle = computed(() =>
         <AvTab
           :title="historyTabTitle"
           :name="WriteFeedbackFloatingPanelTabs.HISTORY"
+          data-testid="history-tab-button"
         >
           <FeedbacksHistoryTab
             :feedbacks="feedbacks"
