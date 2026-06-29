@@ -43,3 +43,13 @@ Feature: Staff Activity Feedbacks Page
       Then the new feedbacks dashboard card is displayed
       And the pending feedbacks dashboard card is displayed
       And the processed feedbacks dashboard card is displayed
+  
+  Rule: Activity Consign
+    
+      @high
+      Scenario: The activity consign card is visible
+        Then the activity consign card is visible
+    
+      @high
+      Scenario: The activity consign card is collapsed by default
+        Then the activity consign card is collapsed by default

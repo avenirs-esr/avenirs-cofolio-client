@@ -1,6 +1,7 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
+import { ActivityConsignCard } from '@e2e/framework/staff/feedbacks/componentObjects/ActivityConsignCard'
 import { FeedbacksDashboardSection } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksDashboardSection'
 import { FeedbacksTable } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksTable'
 import { expect, type Page } from '@playwright/test'
@@ -25,6 +26,12 @@ export class StaffActivityFeedbacksPage extends BasePage {
   private getFeedbacksDashboardSection () {
     return new FeedbacksDashboardSection(
       this.page.getByTestId('feedbacks-dashboard-section'),
+    )
+  }
+
+  private getActivityConsignCard () {
+    return new ActivityConsignCard(
+      this.page.getByTestId('activity-consign-card'),
     )
   }
 
@@ -78,5 +85,15 @@ export class StaffActivityFeedbacksPage extends BasePage {
   @Then('the processed feedbacks dashboard card is displayed')
   async verifyProcessedFeedbacksDashboardCard () {
     await this.getFeedbacksDashboardSection().verifyProcessedFeedbacksCard()
+  }
+
+  @Then('the activity consign card is visible')
+  async verifyActivityConsignCardVisible () {
+    await this.getActivityConsignCard().verifyVisible()
+  }
+
+  @Then('the activity consign card is collapsed by default')
+  async verifyActivityConsignCardCollapsedByDefault () {
+    await this.getActivityConsignCard().verifyCollapsedByDefault()
   }
 }
