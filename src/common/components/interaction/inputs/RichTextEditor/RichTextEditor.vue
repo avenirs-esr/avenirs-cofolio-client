@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n'
 export interface RichTextEditorProps {
   maxlength?: number
   errorMessage?: string | string[]
+  allowedHeadersLevels?: AvRichTextEditorProps['allowedHeadersLevels']
 }
 
 defineOptions({
@@ -28,10 +29,11 @@ const errorMessages = computed(() => {
 })
 
 const avRichTextEditorProps: ComputedRef<AvRichTextEditorProps> = computed(() => {
-  const { errorMessage: _errorMessage, ...rest } = props
+  const { errorMessage: _errorMessage, allowedHeadersLevels, ...rest } = props
   return {
     ...attrs,
     ...rest,
+    allowedHeadersLevels: allowedHeadersLevels ?? [4, 5, 6],
     editorLabel: t('global.AvRichTextEditor.editor'),
     toolbarLabel: t('global.AvRichTextEditor.toolbar'),
     undoLabel: t('global.AvRichTextEditor.undo'),
