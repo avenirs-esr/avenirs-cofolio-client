@@ -1,5 +1,5 @@
 import { mockedActivityDetail, mockedSubscribedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { ActivityCatalogBannerStub } from '@/common/activities/components/ActivityCatalogBanner/ActivityCatalogBanner.stub'
+import { ActivityCatalogHeaderStub } from '@/common/activities/components/ActivityCatalogHeader/ActivityCatalogHeader.stub'
 import { ActivityCatalogPreviewCardStub } from '@/common/activities/components/ActivityCatalogPreviewCard/ActivityCatalogPreviewCard.stub'
 import { ROUTES } from '@/common/constants'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
@@ -14,7 +14,7 @@ BddTest().given('an activity preview', () => {
 
   const stubs = {
     AvButton: AvButtonStub,
-    ActivityCatalogBanner: ActivityCatalogBannerStub,
+    ActivityCatalogHeader: ActivityCatalogHeaderStub,
     ActivityCatalogPreviewCard: ActivityCatalogPreviewCardStub,
     UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub,
     SubscribeActivityModal: SubscribeActivityModalStub,
@@ -41,20 +41,20 @@ BddTest().given('an activity preview', () => {
       wrapper = mount(ActivityPreview, { props, global: { stubs } })
     })
 
-    BddTest().then('it should render ActivityCatalogBanner with correct title and thematic', () => {
-      const bannerStub = wrapper.findComponent(ActivityCatalogBannerStub)
+    BddTest().then('it should render ActivityCatalogHeader with correct title and thematic', () => {
+      const bannerStub = wrapper.findComponent(ActivityCatalogHeaderStub)
       expect(bannerStub.exists()).toBe(true)
       expect(bannerStub.props('title')).toBe(mockedActivityDetail.title)
       expect(bannerStub.props('thematic')).toBe(mockedActivityDetail.thematic)
     })
 
-    BddTest().then('it should pass banner to ActivityCatalogBanner', () => {
-      const bannerStub = wrapper.findComponent(ActivityCatalogBannerStub)
+    BddTest().then('it should pass banner to ActivityCatalogHeader', () => {
+      const bannerStub = wrapper.findComponent(ActivityCatalogHeaderStub)
       expect(bannerStub.props('banner')).toEqual(mockedActivityDetail.banner)
     })
 
-    BddTest().then('it should not pass subscribedDeclaredActivity to ActivityCatalogBanner', () => {
-      const bannerStub = wrapper.findComponent(ActivityCatalogBannerStub)
+    BddTest().then('it should not pass subscribedDeclaredActivity to ActivityCatalogHeader', () => {
+      const bannerStub = wrapper.findComponent(ActivityCatalogHeaderStub)
       expect(bannerStub.props('subscribedDeclaredActivity')).toBeUndefined()
     })
 
@@ -134,15 +134,15 @@ BddTest().given('an activity preview', () => {
       wrapper = mount(ActivityPreview, { props, global: { stubs } })
     })
 
-    BddTest().then('it should render ActivityCatalogBanner with correct title and thematic', () => {
-      const bannerStub = wrapper.findComponent(ActivityCatalogBannerStub)
+    BddTest().then('it should render ActivityCatalogHeader with correct title and thematic', () => {
+      const bannerStub = wrapper.findComponent(ActivityCatalogHeaderStub)
       expect(bannerStub.exists()).toBe(true)
       expect(bannerStub.props('title')).toBe(mockedSubscribedActivityDetail.title)
       expect(bannerStub.props('thematic')).toBe(mockedSubscribedActivityDetail.thematic)
     })
 
-    BddTest().then('it should pass subscribedDeclaredActivity to ActivityCatalogBanner', () => {
-      const bannerStub = wrapper.findComponent(ActivityCatalogBannerStub)
+    BddTest().then('it should pass subscribedDeclaredActivity to ActivityCatalogHeader', () => {
+      const bannerStub = wrapper.findComponent(ActivityCatalogHeaderStub)
       expect(bannerStub.props('subscribedDeclaredActivity')).toBe(mockedSubscribedActivityDetail.subscribedDeclaredActivity)
     })
 
