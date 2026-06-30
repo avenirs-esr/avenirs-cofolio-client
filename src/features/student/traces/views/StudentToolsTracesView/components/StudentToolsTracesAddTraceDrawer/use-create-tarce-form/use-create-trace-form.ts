@@ -1,20 +1,16 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { Association } from '@/features/student/global/types/associations.types'
 import type { ComputedRef } from 'vue'
-import { ELanguage, type TraceAssociationsDTO } from '@/api/avenir-esr'
+import { EFileCategory, ELanguage, invalidateGetTracesSummary, invalidateTracesView, type TraceAssociationsDTO, useAssociateTraceWithActivities, useAssociateTraceWithDeclaredSkill, useCreateTrace, useUploadFile } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useTraceFormValidators } from '@/features/student/traces/composables/use-trace-form-validators/use-trace-form-validators'
-import {
-  useAssociateTraceWithActivitiesMutation,
-  useAssociateTraceWithDeclaredSkillsMutation,
-  useCreateTraceMutation,
-  useUploadAttachmentMutation
-} from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { EAssociationTypeKey, type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
 import { isTraceFileType, isTraceLinkType } from '@/features/student/traces/utils/trace.types-guard'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 function getIdsForType (associationSelections: Record<string, Association[]>, typeKey: string): string[] {
@@ -22,6 +18,8 @@ function getIdsForType (associationSelections: Record<string, Association[]>, ty
 }
 export function useCreateTraceForm (onTraceCreated?: () => void) {
   const { t } = useI18n()
+  const { isLoading, withTaskLoading } = useTaskLoading()
+  const queryClient = useQueryClient()
 
   const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
@@ -35,7 +33,17 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
     })
   }
 
-  const createTraceMutation = useCreateTraceMutation({ onError: onCreateTraceError })
+  const { mutate: createTrace, isPending: isPendingCreateTrace } = useCreateTrace({
+    mutation: {
+      onError: onCreateTraceError,
+      onSuccess: async () => {
+        await withTaskLoading(() => Promise.all([
+          invalidateTracesView(queryClient, {}),
+          invalidateGetTracesSummary(queryClient),
+        ]))
+      }
+    }
+  })
 
   function onUploadAttachmentError (error: BaseApiException) {
     addErrorMessage({
@@ -44,7 +52,17 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
     })
   }
 
-  const uploadAttachmentMutation = useUploadAttachmentMutation({ onError: onUploadAttachmentError })
+  const { mutateAsync: uploadFile, isPending: isPendingUploadFile } = useUploadFile({
+    mutation: {
+      onError: onUploadAttachmentError,
+      onSuccess: async () => {
+        await withTaskLoading(() => Promise.all([
+          invalidateTracesView(queryClient, {}),
+          invalidateGetTracesSummary(queryClient),
+        ]))
+      }
+    }
+  })
 
   function onAssociationError () {
     addErrorMessage({
@@ -53,8 +71,34 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
     })
   }
 
-  const { mutateAsync: associateWithActivities, isPending: isPendingAssociateWithActivities } = useAssociateTraceWithActivitiesMutation()
-  const { mutateAsync: associateWithDeclaredSkills, isPending: isPendingAssociateWithDeclaredSkills } = useAssociateTraceWithDeclaredSkillsMutation()
+  const { mutateAsync: associateWithActivities, isPending: isPendingAssociateWithActivities } = useAssociateTraceWithActivities({
+    mutation: {
+      onError: (error: BaseApiException) => {
+        addErrorMessage({
+          title: t('global.error.generic'),
+          description: getErrorMessage(error),
+        })
+      },
+      onSuccess: async () => {
+        await withTaskLoading(() => Promise.all([
+          invalidateTracesView(queryClient, {}),
+          invalidateGetTracesSummary(queryClient),
+        ]))
+      }
+    }
+  })
+
+  const { mutateAsync: associateWithDeclaredSkills, isPending: isPendingAssociateWithDeclaredSkills } = useAssociateTraceWithDeclaredSkill({
+    mutation: {
+      onError: () => onAssociationError(),
+      onSuccess: async () => {
+        await withTaskLoading(() => Promise.all([
+          invalidateTracesView(queryClient, {}),
+          invalidateGetTracesSummary(queryClient),
+        ]))
+      }
+    }
+  })
 
   const isFileUploading = ref(false)
 
@@ -65,7 +109,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
     if (activityIds.length > 0) {
       pendingAssociations.push(associateWithActivities({
         traceId,
-        associationsCreationRequest: { idsToAssociate: activityIds }
+        data: { idsToAssociate: activityIds }
       }))
     }
 
@@ -73,7 +117,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
     if (skillIds.length > 0) {
       pendingAssociations.push(associateWithDeclaredSkills({
         traceId,
-        associationsCreationRequest: { idsToAssociate: skillIds }
+        data: { idsToAssociate: skillIds }
       }))
     }
 
@@ -82,9 +126,10 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
 
   async function finalizeTraceCreation (traceId: string, traceFormData: TraceFormData) {
     if (isTraceFileType(traceFormData) && traceFormData.file) {
-      await uploadAttachmentMutation.mutateAsync({
-        traceId,
-        file: traceFormData.file
+      await uploadFile({
+        fileCategory: EFileCategory.TRACE_ATTACHEMENT,
+        elementId: traceId,
+        data: { file: traceFormData.file }
       })
     }
 
@@ -98,31 +143,6 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
 
       if (rejected.length > 0) {
         onAssociationError()
-      }
-    })
-  }
-
-  function createTrace (traceFormData: TraceFormData) {
-    createTraceMutation.mutate({
-      title: traceFormData.traceName,
-      personalNote: traceFormData.personalNote || undefined,
-      authorType: traceFormData.authorType!,
-      iaJustification: traceFormData.useIA ? traceFormData.iaJustification : undefined,
-      language: ELanguage.FRENCH,
-      link: isTraceLinkType(traceFormData) ? traceFormData.link : undefined,
-    }, {
-      onSuccess: async (traceResult) => {
-        const traceId = traceResult.traceId
-
-        if (!traceId) {
-          addErrorMessage({
-            title: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.createTrace'),
-            description: t('global.errors.generic')
-          })
-          return
-        }
-
-        await finalizeTraceCreation(traceId, traceFormData)
       }
     })
   }
@@ -147,7 +167,30 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
       }
     },
     onSubmit: ({ value }: { value: TraceFormData }) => {
-      createTrace(value)
+      createTrace({
+        data: {
+          title: value.traceName,
+          personalNote: value.personalNote || undefined,
+          authorType: value.authorType!,
+          iaJustification: value.useIA ? value.iaJustification : undefined,
+          language: ELanguage.FRENCH, // TODO
+          link: isTraceLinkType(value) ? value.link : undefined,
+        }
+      }, {
+        onSuccess: async (traceResult) => {
+          const traceId = traceResult.traceId
+
+          if (!traceId) {
+            addErrorMessage({
+              title: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.createTraceForm.errors.createTrace'),
+              description: t('global.errors.generic')
+            })
+            return
+          }
+
+          await finalizeTraceCreation(traceId, value)
+        }
+      })
     }
   })
 
@@ -160,11 +203,12 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
   const hasDeclarationItemsError = hasFieldErrors(form, ['authorType', 'useIA'])
 
   const isSubmitting: ComputedRef<boolean> = computed(() => {
-    return createTraceMutation.isPending.value
-      || uploadAttachmentMutation.isPending.value
+    return isPendingCreateTrace.value
+      || isPendingUploadFile.value
       || isPendingAssociateWithActivities.value
       || isPendingAssociateWithDeclaredSkills.value
       || isFileUploading.value
+      || isLoading.value
   })
 
   return {

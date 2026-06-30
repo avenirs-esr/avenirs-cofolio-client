@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { TracesSummaryDTO } from '@/api/avenir-esr'
-import { useTracesConfigurationQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
+import { type TracesSummaryDTO, useGetTraceConfig } from '@/api/avenir-esr'
 import { AvNotice } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -10,7 +9,7 @@ defineProps<{
 
 const { t } = useI18n()
 
-const { data: tracesConfig } = useTracesConfigurationQuery()
+const { data: tracesConfig } = useGetTraceConfig()
 
 function createAlertMessage (unassociatedTracesCount: number, tracesToDeleteCount: number, criticalDays: number | undefined, maxDayBeforeDeletion: number | undefined): string {
   let message = t('student.traces.views.StudentToolsTracesView.warningMessage.unassociated', unassociatedTracesCount)

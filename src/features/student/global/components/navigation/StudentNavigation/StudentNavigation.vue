@@ -83,15 +83,13 @@ const educationMenu = computed(() => {
   return menu
 })
 
-const allToolsMenu
+const toolsMenu
   = computed(() => ({
     title: t('student.global.navigation.tabs.tools.header').toUpperCase(),
     get active () {
       return isRouteActive({ route, routes: [
         ROUTES.STUDENT.TOOLS_KIT,
         ...studentToolsTracesRoutes,
-        ROUTES.STUDENT.TOOLS_PAGES,
-        ROUTES.STUDENT.TOOLS_RESUMES
       ] })
     },
     links: [
@@ -105,35 +103,8 @@ const allToolsMenu
         text: t('student.global.navigation.tabs.tools.items.kit'),
         icon: MDI_ICONS.TOOLS
       },
-      {
-        to: ROUTES.STUDENT.TOOLS_PAGES,
-        text: t('student.global.navigation.tabs.tools.items.pages'),
-        icon: MDI_ICONS.POST_IT_NOTES_OUTLINE
-      },
-      {
-        to: ROUTES.STUDENT.TOOLS_RESUMES,
-        text: t('student.global.navigation.tabs.tools.items.resumes'),
-        icon: MDI_ICONS.FILE_ACCOUNT_OUTLINE
-      },
     ],
   }))
-
-const demoModeToolsMenu
-  = computed(() => (
-    {
-      title: t('student.global.navigation.tabs.tools.header').toUpperCase(),
-      get active () {
-        return isRouteActive({ route, routes: studentToolsTracesRoutes })
-      },
-      links: [
-        {
-          ...toolTracesLink.value,
-          text: t('student.global.navigation.tabs.tools.items.traces'),
-          icon: MDI_ICONS.ATTACH_FILE
-        },
-      ],
-    }
-  ))
 
 const buildLifeProjectMenu = computed(() => ({
   title: t('student.global.navigation.tabs.project.header').toUpperCase(),
@@ -183,11 +154,7 @@ const navItems = computed(() => [
       : []
   ),
   buildLifeProjectMenu.value,
-  ...(
-    __DEMO_MODE__
-      ? [demoModeToolsMenu.value]
-      : [allToolsMenu.value]
-  ),
+  toolsMenu.value,
 ])
 </script>
 

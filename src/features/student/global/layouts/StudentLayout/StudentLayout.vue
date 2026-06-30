@@ -35,7 +35,6 @@ const name = computed(() => {
 const messagesCount = 0 // TODO: waiting for mailbox implementation
 
 const searchQuery = ref('')
-const isDemo = __DEMO_MODE__
 
 defineExpose({ searchQuery })
 </script>
@@ -45,7 +44,6 @@ defineExpose({ searchQuery })
     v-model="searchQuery"
     :home-label="t('student.global.layout.header.home')"
     :home-to="{ name: ROUTES.STUDENT.HOME.name }"
-    :show-search="!isDemo"
     :language-selector="languageSelector"
     :search-label="t('global.buttons.search')"
     :placeholder="`${t('global.buttons.search')}...`"

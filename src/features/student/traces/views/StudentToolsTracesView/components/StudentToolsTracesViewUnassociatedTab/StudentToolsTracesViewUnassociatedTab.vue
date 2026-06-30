@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import type { TracesSummaryDTO } from '@/api/avenir-esr'
+import { type TracesSummaryDTO, useTracesView } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import { useTraceFilters } from '@/features/student/traces/composables/use-trace-filters/use-trace-filters'
-import { useTracesViewQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import StudentDetailedTraceCard
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
@@ -36,7 +35,11 @@ const params = computed(() => ({
   pageSize: pageSizeSelected.value
 }))
 
-const { traces, pageInfo, error } = useTracesViewQuery({ traceFilter, params })
+const { data, error } = useTracesView(traceFilter, params)
+
+const traces = computed(() => data.value?.data ?? [])
+const pageInfo = computed(() => data.value?.page)
+
 useBaseApiExceptionToast(error)
 
 watch([
@@ -53,7 +56,7 @@ watch([
     />
     <StudentToolsTracesViewNotice :traces-summary="tracesSummary" />
     <Pagination
-      v-if="traces.length > 0"
+      v-if="traces.length > 0 && pageInfo"
       :page-info="pageInfo"
       :page-size-selected="pageSizeSelected"
       :on-update-current-page="onUpdateCurrentPage"

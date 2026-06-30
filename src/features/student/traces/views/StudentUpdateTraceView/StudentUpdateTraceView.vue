@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type TraceDeclaredActivityDTO, useGetLockedDeclaredActivities } from '@/api/avenir-esr'
+import { type TraceDeclaredActivityDTO, useGetLockedDeclaredActivities, useGetTraceAssociations, useGetTraceDetail } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
@@ -7,7 +7,6 @@ import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors
 import { ROUTES } from '@/common/constants'
 import { BaseApiException } from '@/common/exceptions'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
-import { useTraceAssociationsQuery, useTraceDetailedQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
 import ConfirmUpdateTraceModal from '@/features/student/traces/views/StudentUpdateTraceView/components/ConfirmUpdateTraceModal/ConfirmUpdateTraceModal.vue'
@@ -22,8 +21,9 @@ interface StudentUpdateTraceViewProps {
 
 const { traceId } = defineProps<StudentUpdateTraceViewProps>()
 
-const { traceDetailed: trace } = useTraceDetailedQuery(toRef(() => traceId))
-const { traceAssociations: associations } = useTraceAssociationsQuery(toRef(() => traceId))
+const { data: trace } = useGetTraceDetail(toRef(() => traceId))
+const { data: associations } = useGetTraceAssociations(toRef(() => traceId))
+const { data: traceLockedDeclaredActivities, isFetching } = useGetLockedDeclaredActivities([traceId])
 
 const { t } = useI18n()
 const route = useRoute()
@@ -31,8 +31,7 @@ const tracesStore = useTracesStore()
 const { updateTraceFormModified } = toRefs(tracesStore)
 const { getErrorMessage } = useApiErrors()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
-const { navigateToStudentHome, navigateToStudentTraces } = useNavigation()
-const { mutateAsync: getLockedDeclaredActivities, isPending } = useGetLockedDeclaredActivities()
+const { navigateToStudentTrace, navigateToStudentToolsTrace } = useNavigation()
 
 function onTraceUpdated () {
   addSuccessMessage({
@@ -71,6 +70,7 @@ const toolsBreadcrumbLinks = computed(() => [
 
 const homeBreadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.tools.items.traces') },
   {
     text: trace.value?.title || '',
     to: {
@@ -78,7 +78,7 @@ const homeBreadcrumbLinks = computed(() => [
       params: { id: traceId },
     },
   },
-  { text: t('global.buttons.update'), },
+  { text: t('global.buttons.update') }
 ])
 
 const isToolsTraceRoute = computed(() =>
@@ -92,8 +92,8 @@ const breadcrumbLinks = computed(() =>
 
 function navigateBack () {
   isToolsTraceRoute.value
-    ? navigateToStudentTraces()
-    : navigateToStudentHome()
+    ? navigateToStudentToolsTrace({ id: traceId })
+    : navigateToStudentTrace({ id: traceId })
 }
 
 const lockedDeclaredActivities = ref<TraceDeclaredActivityDTO[]>([])
@@ -101,9 +101,8 @@ const hasLockedDeclaredActivities = computed(() => lockedDeclaredActivities.valu
 
 async function handleConfirm () {
   try {
-    const traceLockedDeclaredActivities = await getLockedDeclaredActivities({ data: [traceId] })
-    lockedDeclaredActivities.value = traceLockedDeclaredActivities.length > 0
-      ? traceLockedDeclaredActivities[0].lockedDeclaredActivities
+    lockedDeclaredActivities.value = !!traceLockedDeclaredActivities.value && traceLockedDeclaredActivities.value.length > 0
+      ? traceLockedDeclaredActivities.value[0].lockedDeclaredActivities
       : []
   }
   catch (error) {
@@ -165,7 +164,7 @@ function handleConfirmCloseModal () {
           :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
           :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
           :confirm-disabled="hasErrors"
-          :confirm-is-loading="isPending"
+          :confirm-is-loading="isFetching"
           @cancel="handleClose"
           @confirm="handleConfirm"
         />

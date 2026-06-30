@@ -8,8 +8,6 @@ export { default as StudentTracesWidget } from '@/features/student/traces/compon
 
 export { default as TracesSelector } from '@/features/student/traces/components/interactions/pickers/TracesSelector/TracesSelector.vue'
 
-export type { UseTracesViewQueryParams } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
-
 export { studentToolsTraceRoute, studentToolsTracesRoute } from '@/features/student/traces/routes'
 
 export { useTracesStore } from '@/features/student/traces/stores/traces.store'

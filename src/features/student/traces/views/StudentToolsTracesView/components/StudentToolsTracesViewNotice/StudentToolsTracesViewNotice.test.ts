@@ -1,32 +1,12 @@
-import type { TraceConfigurationDTO, TracesSummaryDTO } from '@/api/avenir-esr'
-import { useTracesConfigurationQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
+import type { TracesSummaryDTO } from '@/api/avenir-esr'
+import { getTraceConfigErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
+import { server } from '@/__mocks__/msw/server'
 import StudentToolsTracesViewNotice from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { flushPromises, type VueWrapper } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
-
-vi.mock('@/features/student/traces/queries/use-traces.query/use-traces.query', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/features/student/traces/queries/use-traces.query/use-traces.query')>()
-
-  return {
-    ...actual,
-    useTracesConfigurationQuery: vi.fn(),
-  }
-})
-
-const mockedUseTracesConfigurationQuery = vi.mocked(useTracesConfigurationQuery)
-
-function mockUseTracesConfigurationQuery (payload: TraceConfigurationDTO | null) {
-  const mockData = ref(payload)
-  const queryMockedData = {
-    data: mockData,
-    error: ref(null),
-    isLoading: ref(false),
-    isSuccess: ref(true)
-  } as ReturnType<typeof useTracesConfigurationQuery>
-  mockedUseTracesConfigurationQuery.mockReturnValue(queryMockedData)
-}
 
 BddTest().given('a student tools traces view notice component', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesViewNotice>>
@@ -39,12 +19,6 @@ BddTest().given('a student tools traces view notice component', () => {
     }
   }
 
-  const mockedTracesConfiguration: TraceConfigurationDTO = {
-    maxRemainingDays: 30,
-    maxRemainingDaysBeforeWarning: 15,
-    maxRemainingDaysBeforeCritical: 7
-  }
-
   const tracesSummaryDefault: TracesSummaryDTO = {
     associated: 7,
     unassociated: 15,
@@ -53,16 +27,17 @@ BddTest().given('a student tools traces view notice component', () => {
   }
 
   BddTest().and('with default configuration', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
-      mockUseTracesConfigurationQuery(mockedTracesConfiguration)
 
-      wrapper = mount(StudentToolsTracesViewNotice, {
+      wrapper = mountComponent(StudentToolsTracesViewNotice, {
         props: { tracesSummary: tracesSummaryDefault },
         global: {
           stubs: commonStubs
         }
       })
+
+      await flushPromises()
     })
 
     BddTest().when('the component is mounted with unassociated traces', () => {
@@ -90,16 +65,18 @@ BddTest().given('a student tools traces view notice component', () => {
   })
 
   BddTest().and('with no configuration', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
-      mockUseTracesConfigurationQuery(null)
+      server.use(getTraceConfigErrorHandler)
 
-      wrapper = mount(StudentToolsTracesViewNotice, {
+      wrapper = mountComponent(StudentToolsTracesViewNotice, {
         props: { tracesSummary: tracesSummaryDefault },
         global: {
           stubs: commonStubs
         }
       })
+
+      await flushPromises()
     })
 
     BddTest().when('the component is mounted without configuration', () => {
@@ -116,9 +93,8 @@ BddTest().given('a student tools traces view notice component', () => {
   })
 
   BddTest().and('with no unassociated traces', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
-      mockUseTracesConfigurationQuery(mockedTracesConfiguration)
       const tracesSummaryEmpty: TracesSummaryDTO = {
         associated: 0,
         unassociated: 0,
@@ -126,12 +102,14 @@ BddTest().given('a student tools traces view notice component', () => {
         totalCriticals: 0,
       }
 
-      wrapper = mount(StudentToolsTracesViewNotice, {
+      wrapper = mountComponent(StudentToolsTracesViewNotice, {
         props: { tracesSummary: tracesSummaryEmpty },
         global: {
           stubs: commonStubs
         }
       })
+
+      await flushPromises()
     })
 
     BddTest().when('the component is mounted with no unassociated traces', () => {
@@ -150,13 +128,8 @@ BddTest().given('a student tools traces view notice component', () => {
   })
 
   BddTest().given('with single critical trace', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
-      mockUseTracesConfigurationQuery({
-        maxRemainingDays: 30,
-        maxRemainingDaysBeforeWarning: 7,
-        maxRemainingDaysBeforeCritical: 1
-      })
       const tracesSummaryMock: TracesSummaryDTO = {
         associated: 0,
         unassociated: 1,
@@ -164,12 +137,14 @@ BddTest().given('a student tools traces view notice component', () => {
         totalCriticals: 1,
       }
 
-      wrapper = mount(StudentToolsTracesViewNotice, {
+      wrapper = mountComponent(StudentToolsTracesViewNotice, {
         props: { tracesSummary: tracesSummaryMock },
         global: {
           stubs: commonStubs
         }
       })
+
+      await flushPromises()
     })
 
     BddTest().when('the component is mounted with one critical trace', () => {
@@ -180,20 +155,15 @@ BddTest().given('a student tools traces view notice component', () => {
         expect(notice.exists()).toBe(true)
         expect(notice.props('type')).toBe('warning')
         expect(notice.props('text')).toContain('Vous avez une trace non associée')
-        expect(notice.props('text')).toContain('Attention, la trace sera supprimée demain')
+        expect(notice.props('text')).toContain('Attention, la trace sera supprimée')
         expect(notice.props('text')).toContain('Pour rappel')
       })
     })
   })
 
   BddTest().given('with multiple critical traces', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       vi.clearAllMocks()
-      mockUseTracesConfigurationQuery({
-        maxRemainingDays: 30,
-        maxRemainingDaysBeforeWarning: 15,
-        maxRemainingDaysBeforeCritical: 3
-      })
       const tracesSummaryMock: TracesSummaryDTO = {
         associated: 0,
         unassociated: 10,
@@ -201,12 +171,14 @@ BddTest().given('a student tools traces view notice component', () => {
         totalCriticals: 5,
       }
 
-      wrapper = mount(StudentToolsTracesViewNotice, {
+      wrapper = mountComponent(StudentToolsTracesViewNotice, {
         props: { tracesSummary: tracesSummaryMock },
         global: {
           stubs: commonStubs
         }
       })
+
+      await flushPromises()
     })
 
     BddTest().when('the component is mounted with multiple critical traces', () => {

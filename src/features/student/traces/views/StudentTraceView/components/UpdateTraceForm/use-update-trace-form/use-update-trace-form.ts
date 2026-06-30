@@ -1,20 +1,23 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { TraceFormData } from '@/features/student/traces/types/traces.types'
-import { ELanguage, type TraceDetailDTO } from '@/api/avenir-esr'
+import { EFileCategory, ELanguage, invalidateGetTraceDetail, invalidateTracesView, type TraceDetailDTO, useUpdateTrace, useUploadFile } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useTraceAttachmentFile } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
 import { useTraceFormValidators } from '@/features/student/traces/composables/use-trace-form-validators/use-trace-form-validators'
-import { useUpdateTraceMutation, useUploadAttachmentMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { TraceType } from '@/features/student/traces/types/traces.types'
 import { isTraceFileType, isTraceLinkType } from '@/features/student/traces/utils/trace.types-guard'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () => void) {
   const { t } = useI18n()
+  const { withTaskLoading } = useTaskLoading()
+  const queryClient = useQueryClient()
 
   const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
@@ -30,8 +33,10 @@ export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () 
     })
   }
 
-  const updateTraceMutation = useUpdateTraceMutation({
-    onError: onUpdateTraceError
+  const { mutate: updateTrace } = useUpdateTrace({
+    mutation: {
+      onError: onUpdateTraceError
+    }
   })
 
   const onUploadAttachmentError = (error: BaseApiException) => {
@@ -41,8 +46,10 @@ export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () 
     })
   }
 
-  const uploadAttachmentMutation = useUploadAttachmentMutation({
-    onError: onUploadAttachmentError
+  const { mutateAsync: uploadFile } = useUploadFile({
+    mutation: {
+      onError: onUploadAttachmentError,
+    }
   })
 
   const form = useForm({
@@ -65,7 +72,34 @@ export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () 
       }
     },
     onSubmit: async ({ value }: { value: TraceFormData }) => {
-      updateTrace(value)
+      if (!trace) {
+        return
+      }
+
+      updateTrace({
+        traceId: trace.id,
+        data: {
+          title: value.traceName,
+          personalNote: value.personalNote || undefined,
+          authorType: value.authorType!,
+          iaJustification: value.useIA ? value.iaJustification : undefined,
+          link: isTraceLinkType(value) ? value.link : undefined,
+          language: ELanguage.FRENCH // TODO
+        },
+      }, {
+        onSuccess: async () => {
+          await withTaskLoading(() => Promise.all([
+            invalidateTracesView(queryClient, {}),
+            invalidateGetTraceDetail(queryClient, trace.id),
+          ]))
+          if (isTraceFileType(value)) {
+            mutateFile(value.file, trace.id)
+          }
+          else {
+            onTraceUpdated?.()
+          }
+        }
+      })
     }
   })
 
@@ -79,34 +113,13 @@ export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () 
       return
     }
 
-    uploadAttachmentMutation.mutate({ traceId, file }, {
-      onSuccess: () => onTraceUpdated?.()
-    })
-  }
-
-  function updateTrace (traceFormData: TraceFormData) {
-    if (!trace) {
-      return
-    }
-
-    updateTraceMutation.mutate({
-      traceId: trace.id,
-      updateTraceDTO: {
-        title: traceFormData.traceName,
-        personalNote: traceFormData.personalNote || undefined,
-        authorType: traceFormData.authorType!,
-        iaJustification: traceFormData.useIA ? traceFormData.iaJustification : undefined,
-        link: isTraceLinkType(traceFormData) ? traceFormData.link : undefined,
-        language: ELanguage.FRENCH
-      }
+    uploadFile({
+      fileCategory: EFileCategory.TRACE_ATTACHEMENT,
+      elementId: traceId,
+      data: { file }
     }, {
-      onSuccess: () => {
-        if (isTraceFileType(traceFormData)) {
-          mutateFile(traceFormData.file, trace.id)
-        }
-        else {
-          onTraceUpdated?.()
-        }
+      onSuccess: async () => {
+        onTraceUpdated?.()
       }
     })
   }

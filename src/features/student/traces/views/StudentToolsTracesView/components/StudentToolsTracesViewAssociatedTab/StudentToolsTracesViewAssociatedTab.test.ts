@@ -119,11 +119,17 @@ BddTest().given('a student tools traces view container', () => {
 
     BddTest().when('clicking on the page update buttons', () => {
       BddTest().then('it should update current page and page size in the mock', async () => {
-        await wrapper.find('.emit-current-page').trigger('click')
+        const emitCurrentPageButton = wrapper.find('.emit-current-page')
+        expect(emitCurrentPageButton.exists()).toBe(true)
+        await emitCurrentPageButton.trigger('click')
         expect(paginationMock.onUpdateCurrentPage).toHaveBeenCalledWith(5)
         expect(paginationMock.currentPage.value).toBe(5)
 
-        await wrapper.find('.emit-page-size').trigger('click')
+        await flushPromises()
+
+        const emitPageSizeButton = wrapper.find('.emit-page-size')
+        expect(emitPageSizeButton.exists()).toBe(true)
+        await emitPageSizeButton.trigger('click')
         expect(paginationMock.onUpdatePageSize).toHaveBeenCalledWith(PageSizes.TWELVE)
         expect(paginationMock.pageSizeSelected.value).toBe(PageSizes.TWELVE)
         expect(paginationMock.currentPage.value).toBe(0)

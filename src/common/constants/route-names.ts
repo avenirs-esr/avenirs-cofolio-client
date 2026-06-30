@@ -50,8 +50,6 @@ export const ROUTES = {
     SELFKNOWLEDGE_ELEMENT_UPDATE: { name: 'student-self-knowledge-element-update', path: 'project/trajectories/self-knowledge/:categoryId/:elementId/update' },
     SKILL: { name: 'student-skill', path: 'skill/:id' },
     TOOLS_KIT: { name: 'student-tools-kit', path: 'tools/kit' },
-    TOOLS_PAGES: { name: 'student-tools-pages', path: 'tools/pages' },
-    TOOLS_RESUMES: { name: 'student-tools-resumes', path: 'tools/resumes' },
     TOOLS_TRACES: { name: 'student-tools-traces', path: 'tools/traces' },
     TOOLS_TRACE: { name: 'student-tools-trace', path: 'tools/trace/:id' },
     TOOLS_UPDATE_TRACE: { name: 'student-tools-update-trace', path: 'tools/update-trace/:id' },

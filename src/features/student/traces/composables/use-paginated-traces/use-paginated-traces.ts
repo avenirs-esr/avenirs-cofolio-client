@@ -1,11 +1,11 @@
-import type {
-  PageInfoDTO,
-  TraceFilter,
-  TracesViewParams,
-  TraceViewDTO
+import {
+  type PageInfoDTO,
+  type TraceFilter,
+  type TracesViewParams,
+  type TraceViewDTO,
+  useTracesView
 } from '@/api/avenir-esr'
 import { useInfiniteScrollPagination } from '@/common/composables'
-import { useTracesViewQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { type ComputedRef, type Ref, toValue } from 'vue'
 
 export interface UsePaginatedTracesResult {
@@ -38,15 +38,10 @@ export function usePaginatedTraces (
 
   const resolvedTraceFilter = computed<TraceFilter>(() => toValue(traceFilter) ?? {})
 
-  const {
-    traces: fetchedTraces,
-    pageInfo: fetchedPageInfo,
-    isFetching
-  } = useTracesViewQuery({
-    params,
-    traceFilter: resolvedTraceFilter,
-    enabled
-  })
+  const { data, isFetching } = useTracesView(resolvedTraceFilter, params, { query: { enabled: enabled ?? true } })
+
+  const fetchedTraces = computed(() => data.value?.data ?? [])
+  const fetchedPageInfo = computed(() => data.value?.page)
 
   const pageInfo = computed(() =>
     fetchedPageInfo.value ?? {

@@ -80,14 +80,16 @@ const deletableDeclaredActivityAssociations = computed(() =>
       :empty-state-message="t('student.traces.views.StudentTraceView.empty.associations')"
       :is-empty="countAssociations === 0"
     >
-      <AssociatedDeclaredSkillsCard
-        :associated-declared-skills="declaredSkillAssociations"
-        :disabled="disabled"
-      />
-      <AssociatedDeclaredActivitiesCard
-        :associated-activities="declaredActivityAssociations"
-        :disabled="disabled"
-      />
+      <div class="av-col av-gap-md">
+        <AssociatedDeclaredSkillsCard
+          :associated-declared-skills="declaredSkillAssociations"
+          :disabled="disabled"
+        />
+        <AssociatedDeclaredActivitiesCard
+          :associated-activities="declaredActivityAssociations"
+          :disabled="disabled"
+        />
+      </div>
     </QuerySuspense>
   </div>
 

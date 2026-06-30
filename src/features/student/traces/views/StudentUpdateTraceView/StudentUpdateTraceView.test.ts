@@ -24,9 +24,8 @@ const mockedUseRoute = vi.mocked(useRoute)
 
 let routeName: string
 
-const mockNavigateToStudentTraces = vi.fn()
+const mockNavigateToStudentTrace = vi.fn()
 const mockNavigateToStudentToolsTraces = vi.fn()
-const mockNavigateToStudentHome = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
@@ -34,8 +33,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
   return {
     ...actual,
     useNavigation: () => ({
-      navigateToStudentHome: mockNavigateToStudentHome,
-      navigateToStudentTraces: mockNavigateToStudentTraces,
+      navigateToStudentTrace: mockNavigateToStudentTrace,
       navigateToStudentToolsTraces: mockNavigateToStudentToolsTraces,
     }),
   }
@@ -119,8 +117,8 @@ BddTest().given('a student update trace view', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should navigate to home page', () => {
-      expect(mockNavigateToStudentHome).toHaveBeenCalled()
+    BddTest().then('it should navigate to student trace page', () => {
+      expect(mockNavigateToStudentTrace).toHaveBeenCalled()
     })
   })
 })

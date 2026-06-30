@@ -1,32 +1,63 @@
-import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { ELanguage, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
-import * as avenirEsrApi from '@/api/avenir-esr'
-import { type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
+import type { TraceDetailDTO } from '@/api/avenir-esr'
+import { invalidTraceId } from '@/__mocks__/fixtures/student/traces.fixtures'
+import { updateTraceErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { ETraceAuthorType } from '@/api/avenir-esr'
+import { type TraceFormData, type TraceFormDataLink, TraceType } from '@/features/student/traces/types/traces.types'
 import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
-import { type MockInstance, vi } from 'vitest'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 
-const mockTrace: TraceDetailDTO = {
-  ...mockedTraceDetailed,
-  aiUseJustification: ''
-}
+const mockAddErrorMessage = vi.fn()
+const mockSetUpdateTraceForm = vi.fn()
+const mockSetUpdateTraceFormModified = vi.fn()
+
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addErrorMessage: mockAddErrorMessage
+    })
+  }
+})
+
+vi.mock('@/features/student/traces/stores/traces.store', () => ({
+  useTracesStore: () => ({
+    setUpdateTraceForm: mockSetUpdateTraceForm,
+    setUpdateTraceFormModified: mockSetUpdateTraceFormModified
+  })
+}))
 
 BddTest().given('the useUpdateTraceForm composable', () => {
   let composableResult: ReturnType<typeof useUpdateTraceForm>
-  let updateTraceSpy: MockInstance<typeof avenirEsrApi.updateTrace>
-  let uploadAttachmentSpy: MockInstance<typeof avenirEsrApi.uploadFile>
+
+  const mockOnTraceUpdated = vi.fn()
+
+  const trace: TraceDetailDTO = {
+    id: 'trace-id',
+    title: 'My trace',
+    personalNote: 'My note',
+    authorType: ETraceAuthorType.PERSONAL,
+    aiUseJustification: '',
+    link: '',
+    attachment: undefined
+  } as TraceDetailDTO
 
   beforeEach(() => {
-    updateTraceSpy = vi.spyOn(avenirEsrApi, 'updateTrace')
-    uploadAttachmentSpy = vi.spyOn(avenirEsrApi, 'uploadFile')
+    const { result } = mountComposable(
+      () => useUpdateTraceForm(trace, mockOnTraceUpdated),
+      {
+        useTanstack: true,
+        useI18n: true,
+        usePinia: true
+      }
+    )
 
-    const result = mountComposable(() => useUpdateTraceForm(mockTrace), {
-      useI18n: true,
-      useTanstack: true,
-      usePinia: true
-    })
-    composableResult = result.result
+    composableResult = result
   })
 
   afterEach(() => {
@@ -39,38 +70,33 @@ BddTest().given('the useUpdateTraceForm composable', () => {
       expect(typeof composableResult.form.useStore).toBe('function')
     })
 
-    BddTest().then('it should initialize form with trace data', () => {
-      const state = composableResult.form.useStore(state => state)
-
-      expect(state.value.values.traceName).toBe('Développement d\'un ePortfolio')
-      expect(state.value.values.personalNote).toBe('An awesome personal note')
-      expect(state.value.values.authorType).toBe(ETraceAuthorType.PERSONAL)
-      expect(state.value.values.useIA).toBe(false)
-      expect(state.value.values.iaJustification).toBe('')
+    BddTest().then('it should expose isFormValid initialized to false', () => {
+      expect(composableResult.isFormValid.value).toBe(false)
     })
-  })
 
-  BddTest().when('form is initialized with trace having AI justification', () => {
-    BddTest().then('it should set useIA to true', () => {
-      const traceWithIA = {
-        ...mockTrace,
-        aiUseJustification: 'Used AI for assistance'
-      }
+    BddTest().then('it should initialize default values from trace', () => {
+      const values = composableResult.form.state.values
 
-      const result = mountComposable(() => useUpdateTraceForm(traceWithIA), {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
-      })
+      expect(values.traceName).toBe('My trace')
+      expect(values.personalNote).toBe('My note')
+      expect(values.authorType).toBe(ETraceAuthorType.PERSONAL)
+      expect(values.traceType).toBe(TraceType.LINK)
+      expect((values as TraceFormDataLink).link).toBe('')
+      expect(values.useIA).toBe(false)
+      expect(values.iaJustification).toBe('')
+    })
 
-      const state = result.result.form.useStore(state => state)
-      expect(state.value.values.useIA).toBe(true)
-      expect(state.value.values.iaJustification).toBe('Used AI for assistance')
+    BddTest().then('it should register the form inside the store', () => {
+      expect(mockSetUpdateTraceForm).toHaveBeenCalled()
+    })
+
+    BddTest().then('it should initialize modified flag to false', () => {
+      expect(mockSetUpdateTraceFormModified).toHaveBeenCalledWith(false)
     })
   })
 
   BddTest().when('form is validated with invalid data', () => {
-    BddTest().then('it should return validation errors for empty title', () => {
+    BddTest().then('it should return validation errors', () => {
       const invalidData: TraceFormData = {
         file: null,
         traceType: TraceType.FILE,
@@ -81,276 +107,301 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         iaJustification: ''
       }
 
-      const onSubmitValidator = composableResult.form.options.validators?.onSubmit
-      expect(onSubmitValidator).toBeDefined()
+      const validator = composableResult.form.options.validators?.onSubmit
 
-      const validationResult = onSubmitValidator!({ value: invalidData })
+      expect(validator).toBeDefined()
 
-      expect(validationResult?.fields?.traceName).toBe('Ce champ est requis.')
-      expect(validationResult?.fields?.authorType).toBe('Ce champ est requis.')
-    })
+      const result = validator!({ value: invalidData })
 
-    BddTest().then('it should return validation error when useIA is true but justification is empty', () => {
-      const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
-      const invalidData: TraceFormData = {
-        file: mockFile,
-        traceType: TraceType.FILE,
-        traceName: 'Valid Title',
-        personalNote: 'Note',
-        authorType: ETraceAuthorType.PERSONAL,
-        useIA: true,
-        iaJustification: ''
-      }
-
-      const onSubmitValidator = composableResult.form.options.validators?.onSubmit
-      const validationResult = onSubmitValidator!({ value: invalidData })
-
-      expect(validationResult?.fields?.iaJustification).toBe('Ce champ est requis.')
+      expect(result?.fields?.file).toEqual('Ce champ est requis.')
+      expect(result?.fields?.traceName).toEqual('Ce champ est requis.')
+      expect(result?.fields?.authorType).toEqual('Ce champ est requis.')
     })
   })
 
-  BddTest().when('form is validated with valid data', () => {
-    BddTest().then('it should return no validation errors', () => {
-      const mockFile = new File(['test content'], 'test.pdf', { type: 'application/pdf' })
+  BddTest().when('form is validated with valid file data', () => {
+    BddTest().then('it should not return validation errors', () => {
       const validData: TraceFormData = {
-        file: mockFile,
+        file: new File(['test content'], 'test.pdf', { type: 'application/pdf' }),
         traceType: TraceType.FILE,
-        traceName: 'Updated Title',
-        personalNote: 'Updated note',
+        traceName: 'Updated trace',
+        personalNote: 'note',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
 
-      const onSubmitValidator = composableResult.form.options.validators?.onSubmit
-      expect(onSubmitValidator).toBeDefined()
+      const validator = composableResult.form.options.validators?.onSubmit
 
-      const validationResult = onSubmitValidator!({ value: validData })
+      const result = validator!({ value: validData })
 
-      expect(validationResult?.fields?.traceName).toBeUndefined()
-      expect(validationResult?.fields?.file).toBeUndefined()
-      expect(validationResult?.fields?.authorType).toBeUndefined()
+      expect(result?.fields?.file).toBeUndefined()
+      expect(result?.fields?.traceName).toBeUndefined()
+      expect(result?.fields?.authorType).toBeUndefined()
     })
   })
 
-  BddTest().when('form is submitted', () => {
-    BddTest().then('it should have onSubmit function defined', () => {
-      expect(composableResult.form.options.onSubmit).toBeDefined()
-      expect(typeof composableResult.form.options.onSubmit).toBe('function')
-    })
-
-    BddTest().then('it should call updateTrace API with correct data', async () => {
-      const formData: TraceFormData = {
-        file: null,
-        traceType: TraceType.FILE,
-        traceName: 'Updated Title',
-        personalNote: 'Updated note',
-        authorType: ETraceAuthorType.PERSONAL,
-        useIA: false,
-        iaJustification: ''
-      }
-
-      const onSubmit = composableResult.form.options.onSubmit
-      expect(onSubmit).toBeDefined()
-      onSubmit!({ value: formData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(updateTraceSpy).toHaveBeenCalledWith('4453f884-9081-43cb-95c6-d76c2bb59fd7', {
-          title: 'Updated Title',
-          personalNote: 'Updated note',
-          authorType: ETraceAuthorType.PERSONAL,
-          iaJustification: undefined,
-          language: ELanguage.FRENCH
-        })
-      })
-    })
-
-    BddTest().then('it should call updateTrace without personalNote when empty', async () => {
-      const formData: TraceFormData = {
-        file: null,
-        traceType: TraceType.FILE,
-        traceName: 'Updated Title',
+  BddTest().when('form is validated with a link trace', () => {
+    BddTest().then('it should require a link', () => {
+      const data: TraceFormData = {
+        link: '',
+        traceType: TraceType.LINK,
+        traceName: 'Trace',
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
 
-      composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+      const validator = composableResult.form.options.validators?.onSubmit
 
-      await vi.waitFor(() => {
-        expect(updateTraceSpy).toHaveBeenCalledWith('4453f884-9081-43cb-95c6-d76c2bb59fd7', {
-          title: 'Updated Title',
-          personalNote: undefined,
-          authorType: ETraceAuthorType.PERSONAL,
-          iaJustification: undefined,
-          language: ELanguage.FRENCH
-        })
-      })
+      const result = validator!({ value: data })
+
+      expect(result?.fields?.link).toEqual('Ce champ est requis.')
     })
 
-    BddTest().then('it should handle form submission with AI usage and justification', async () => {
-      const formData: TraceFormData = {
-        file: null,
+    BddTest().then('it should validate a correct link', () => {
+      const data: TraceFormData = {
+        link: 'https://example.com',
+        traceType: TraceType.LINK,
+        traceName: 'Trace',
+        personalNote: '',
+        authorType: ETraceAuthorType.PERSONAL,
+        useIA: false,
+        iaJustification: ''
+      }
+
+      const validator = composableResult.form.options.validators?.onSubmit
+
+      const result = validator!({ value: data })
+
+      expect(result?.fields?.link).toBeUndefined()
+    })
+  })
+
+  BddTest().when('IA is enabled', () => {
+    BddTest().then('it should require a justification', () => {
+      const data: TraceFormData = {
+        file: new File(['a'], 'a.pdf'),
         traceType: TraceType.FILE,
-        traceName: 'Updated Title',
-        personalNote: 'Note',
+        traceName: 'Trace',
+        personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: true,
-        iaJustification: 'Used AI for research'
+        iaJustification: ''
       }
 
-      composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+      const validator = composableResult.form.options.validators?.onSubmit
 
-      await vi.waitFor(() => {
-        expect(updateTraceSpy).toHaveBeenCalledWith('4453f884-9081-43cb-95c6-d76c2bb59fd7', {
-          title: 'Updated Title',
-          personalNote: 'Note',
+      const result = validator!({ value: data })
+
+      expect(result?.fields?.iaJustification).toEqual('Ce champ est requis.')
+    })
+  })
+
+  BddTest().when('form is submitted', () => {
+    BddTest().then('it should expose an onSubmit handler', () => {
+      expect(composableResult.form.options.onSubmit).toBeDefined()
+      expect(typeof composableResult.form.options.onSubmit).toBe('function')
+    })
+
+    BddTest().then('it should submit a file trace', async () => {
+      const formData: TraceFormData = {
+        file: new File(['content'], 'trace.pdf', { type: 'application/pdf' }),
+        traceType: TraceType.FILE,
+        traceName: 'Updated trace',
+        personalNote: 'Updated note',
+        authorType: ETraceAuthorType.PERSONAL,
+        useIA: false,
+        iaJustification: ''
+      }
+
+      await composableResult.form.options.onSubmit?.({
+        value: formData,
+        formApi: composableResult.form,
+        meta: {}
+      })
+    })
+
+    BddTest().then('it should submit a link trace', async () => {
+      const formData: TraceFormData = {
+        link: 'https://example.com',
+        traceType: TraceType.LINK,
+        traceName: 'Updated trace',
+        personalNote: '',
+        authorType: ETraceAuthorType.COLLECTIVE,
+        useIA: false,
+        iaJustification: ''
+      }
+
+      await composableResult.form.options.onSubmit?.({
+        value: formData,
+        formApi: composableResult.form,
+        meta: {}
+      })
+    })
+
+    BddTest().then('it should submit with IA justification', async () => {
+      const formData: TraceFormData = {
+        file: new File(['content'], 'trace.pdf'),
+        traceType: TraceType.FILE,
+        traceName: 'Updated trace',
+        personalNote: '',
+        authorType: ETraceAuthorType.PERSONAL,
+        useIA: true,
+        iaJustification: 'Generated with AI'
+      }
+
+      await composableResult.form.options.onSubmit?.({
+        value: formData,
+        formApi: composableResult.form,
+        meta: {}
+      })
+    })
+
+    BddTest().then('it should submit without a personal note', async () => {
+      const formData: TraceFormData = {
+        file: new File(['content'], 'trace.pdf'),
+        traceType: TraceType.FILE,
+        traceName: 'Updated trace',
+        personalNote: '',
+        authorType: ETraceAuthorType.PERSONAL,
+        useIA: false,
+        iaJustification: ''
+      }
+
+      await composableResult.form.options.onSubmit?.({
+        value: formData,
+        formApi: composableResult.form,
+        meta: {}
+      })
+    })
+
+    BddTest().then('it should do nothing when no trace is provided', async () => {
+      const { result } = mountComposable(
+        () => useUpdateTraceForm(undefined, mockOnTraceUpdated),
+        {
+          useTanstack: true,
+          usePinia: true,
+          useI18n: true
+        }
+      )
+
+      const formData: TraceFormData = {
+        file: null,
+        traceType: TraceType.FILE,
+        traceName: 'Updated trace',
+        personalNote: '',
+        authorType: ETraceAuthorType.PERSONAL,
+        useIA: false,
+        iaJustification: ''
+      }
+
+      await result.form.options.onSubmit?.({
+        value: formData,
+        formApi: result.form,
+        meta: {}
+      })
+
+      expect(mockOnTraceUpdated).not.toHaveBeenCalled()
+      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+    })
+
+    BddTest().then('it should keep validating after submit', () => {
+      const validator = composableResult.form.options.validators?.onSubmit
+
+      const result = validator?.({
+        value: {
+          file: null,
+          traceType: TraceType.FILE,
+          traceName: '',
+          personalNote: '',
+          authorType: null,
+          useIA: false,
+          iaJustification: ''
+        }
+      })
+
+      expect(result?.fields?.traceName).toEqual('Ce champ est requis.')
+      expect(result?.fields?.authorType).toEqual('Ce champ est requis.')
+    })
+
+    BddTest().then('it should validate link traces correctly', () => {
+      const validator = composableResult.form.options.validators?.onSubmit
+
+      const result = validator?.({
+        value: {
+          link: '',
+          traceType: TraceType.LINK,
+          traceName: 'Trace',
+          personalNote: '',
           authorType: ETraceAuthorType.PERSONAL,
-          iaJustification: 'Used AI for research',
-          language: ELanguage.FRENCH
-        })
+          useIA: false,
+          iaJustification: ''
+        }
       })
+
+      expect(result?.fields?.link).toEqual('Ce champ est requis.')
     })
 
-    BddTest().then('it should handle file field dirty state check', () => {
-      const result = mountComposable(() => {
-        const { form } = useUpdateTraceForm(mockTrace)
-        const fileField = form.useField({ name: 'file' })
-        return { fileField }
-      }, {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
+    BddTest().then('it should validate IA justification', () => {
+      const validator = composableResult.form.options.validators?.onSubmit
+
+      const result = validator?.({
+        value: {
+          file: new File(['a'], 'a.pdf'),
+          traceType: TraceType.FILE,
+          traceName: 'Trace',
+          personalNote: '',
+          authorType: ETraceAuthorType.PERSONAL,
+          useIA: true,
+          iaJustification: ''
+        }
       })
 
-      expect(result.result.fileField.state.value.meta.isDirty).toBe(false)
-    })
-
-    BddTest().then('it should not upload file when file field is not dirty', async () => {
-      const formData: TraceFormData = {
-        file: new File(['original'], 'test.pdf', { type: 'application/pdf' }),
-        traceType: TraceType.FILE,
-        traceName: 'Updated Title',
-        personalNote: 'Note',
-        authorType: ETraceAuthorType.PERSONAL,
-        useIA: false,
-        iaJustification: ''
-      }
-
-      composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(updateTraceSpy).toHaveBeenCalled()
-      })
-
-      await vi.waitFor(() => {
-        expect(uploadAttachmentSpy).not.toHaveBeenCalled()
-      }, { timeout: 1000 })
-    })
-
-    BddTest().then('it should handle onTraceUpdated callback when provided', async () => {
-      const onTraceUpdated = vi.fn()
-
-      const result = mountComposable(() => useUpdateTraceForm(mockTrace, onTraceUpdated), {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
-      })
-
-      const formData: TraceFormData = {
-        file: null,
-        traceType: TraceType.FILE,
-        traceName: 'Updated Title',
-        personalNote: 'Note',
-        authorType: ETraceAuthorType.PERSONAL,
-        useIA: false,
-        iaJustification: ''
-      }
-
-      result.result.form.options.onSubmit?.({ value: formData, formApi: result.result.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(updateTraceSpy).toHaveBeenCalled()
-      })
-
-      await vi.waitFor(() => {
-        expect(onTraceUpdated).toHaveBeenCalled()
-      })
+      expect(result?.fields?.iaJustification).toEqual('Ce champ est requis.')
     })
   })
 
-  BddTest().when('validating file on change', () => {
-    BddTest().then('it should validate file field', () => {
-      const onChangeValidator = composableResult.form.options.validators?.onChange
-      expect(onChangeValidator).toBeDefined()
+  BddTest().when('the form is submitted with an invalid activity id', () => {
+    beforeEach(async () => {
+      server.use(updateTraceErrorHandler)
+      const invalidTrace: TraceDetailDTO = { ...trace, id: invalidTraceId }
 
-      const invalidData: TraceFormData = {
-        file: null,
-        traceType: TraceType.FILE,
-        traceName: 'Title',
-        personalNote: 'Note',
-        authorType: ETraceAuthorType.PERSONAL,
-        useIA: false,
-        iaJustification: ''
-      }
+      const { result } = mountComposable(
+        () => useUpdateTraceForm(invalidTrace, mockOnTraceUpdated),
+        {
+          useTanstack: true,
+          useI18n: true,
+          usePinia: true
+        }
+      )
 
-      const validationResult = onChangeValidator!({ value: invalidData })
-      expect(validationResult?.fields?.file).toBe('Ce champ est requis.')
+      composableResult = result
+
+      await flushPromises()
     })
-  })
 
-  BddTest().when('updateTrace mutation fails', () => {
-    BddTest().then('it should handle error and show error message', async () => {
-      const mockError = {
-        message: 'Failed to update trace',
-        status: 500
-      }
-
-      updateTraceSpy.mockRejectedValueOnce(mockError)
-
+    BddTest().then('it should show an error message', async () => {
       const formData: TraceFormData = {
-        file: null,
+        file: new File(['content'], 'trace.pdf', { type: 'application/pdf' }),
         traceType: TraceType.FILE,
-        traceName: 'Updated Title',
-        personalNote: 'Note',
+        traceName: 'Updated trace',
+        personalNote: 'Updated note',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
         iaJustification: ''
       }
 
-      composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(updateTraceSpy).toHaveBeenCalled()
+      await composableResult.form.options.onSubmit?.({
+        value: formData,
+        formApi: composableResult.form,
+        meta: {}
       })
-    })
-  })
 
-  BddTest().when('uploadAttachment mutation fails', () => {
-    BddTest().then('it should handle error and show error message', async () => {
-      const mockError = {
-        message: 'Failed to upload attachment',
-        status: 500
-      }
+      await flushPromises()
 
-      uploadAttachmentSpy.mockRejectedValueOnce(mockError)
-
-      const formData: TraceFormData = {
-        file: null,
-        traceType: TraceType.FILE,
-        traceName: 'Updated Title',
-        personalNote: 'Note',
-        authorType: ETraceAuthorType.PERSONAL,
-        useIA: false,
-        iaJustification: ''
-      }
-
-      composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(updateTraceSpy).toHaveBeenCalled()
-      })
+      expect(mockAddErrorMessage).toHaveBeenCalled()
     })
   })
 })
