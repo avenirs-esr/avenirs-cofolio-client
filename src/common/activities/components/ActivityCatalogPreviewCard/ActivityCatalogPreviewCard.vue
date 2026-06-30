@@ -36,7 +36,10 @@ const { t } = useI18n()
             {{ summary }}
           </span>
         </div>
-        <div class="av-col av-flex-fill av-gap-md">
+        <div
+          v-if="executionPeriodInfo"
+          class="av-col av-flex-fill av-gap-md"
+        >
           <span class="n4 av-text-primary1 av-text-regular">{{ t('global.activities.components.ActivityCatalogPreviewCard.periodTitle') }}</span>
           <span
             class="s2-bold av-text-primary1"

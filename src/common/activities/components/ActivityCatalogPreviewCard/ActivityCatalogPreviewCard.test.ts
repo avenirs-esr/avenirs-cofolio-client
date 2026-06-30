@@ -65,4 +65,27 @@ BddTest().given('an activity catalog preview card', () => {
       expect(wrapper.find('[data-testid="slot-action-button"]').exists()).toBe(true)
     })
   })
+
+  BddTest().when('the component is mounted without executionPeriodInfo', () => {
+    beforeEach(() => {
+      wrapper = mount(ActivityCatalogPreviewCard, {
+        props: {
+          summary: mockedActivityDetail.summary,
+        },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should not render the period title label', () => {
+      expect(wrapper.text()).not.toContain('Période de réalisation')
+    })
+
+    BddTest().then('it should not render the execution period info', () => {
+      expect(wrapper.find('[data-testid="activity-execution-period-info"]').exists()).toBe(false)
+    })
+
+    BddTest().then('it should still render the activity summary', () => {
+      expect(wrapper.find('[data-testid="activity-summary"]').exists()).toBe(true)
+    })
+  })
 })
