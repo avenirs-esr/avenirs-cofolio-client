@@ -189,7 +189,8 @@ BddTest().given('a student trace view', () => {
 
       expect(pageTitle.props('breadcrumbLinks')).toEqual([
         { text: 'Accueil', to: ROUTES.STUDENT.HOME },
-        { text: 'Modifier' },
+        { text: 'Mes traces' },
+        { text: mockedTraceDetailed.title }
       ])
     })
   })

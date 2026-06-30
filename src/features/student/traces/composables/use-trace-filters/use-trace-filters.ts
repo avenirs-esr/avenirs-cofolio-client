@@ -1,5 +1,4 @@
 import type { TraceFilter, TracesViewParams } from '@/api/avenir-esr'
-import type { UseTracesViewQueryParams } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import type { DateFilter, SearchFilter } from '@/types'
 import type { Ref } from 'vue'
 
@@ -8,7 +7,7 @@ interface UseTraceFiltersProps {
 }
 
 interface UseTraceFiltersReturn {
-  tracesViewQueryParams: UseTracesViewQueryParams
+  tracesViewQueryParams: { params: Ref<TracesViewParams>, traceFilter: Ref<TraceFilter> }
   onUpdateFilters: (newFilters: TraceFilter & DateFilter & SearchFilter) => void
 }
 

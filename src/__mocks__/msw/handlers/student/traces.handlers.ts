@@ -124,6 +124,13 @@ export const traceWithoutAssociations = http.get(
   }
 )
 
+export const updateTraceErrorHandler = http.put(`*${getUpdateTraceUrl(':traceId')}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+    { status: 500 }
+  )
+})
+
 export function createLockedDeclaredActivitiesHandler (
   payload: TraceLockedDeclaredActivitiesDTO[]
 ) {
@@ -148,6 +155,13 @@ export const lockedDeclaredActivitiesHandler
       lockedDeclaredActivities: mockedLockedDeclaredActivities
     }
   ])
+
+export const getTraceConfigErrorHandler = http.get(`*${getGetTraceConfigUrl()}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+    { status: 500 }
+  )
+})
 
 export const tracesHandlers = [
   http.get(`*${getGetTracesSummaryUrl()}`, () => {

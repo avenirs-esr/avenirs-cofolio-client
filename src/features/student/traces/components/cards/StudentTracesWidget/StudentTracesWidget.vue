@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import { useGetTraceOverview } from '@/api/avenir-esr'
 import { useBaseApiExceptionToast } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import HomeWidget from '@/features/student/global/views/StudentHomeView/components/HomeWidget/HomeWidget.vue'
 import StudentTraceCard from '@/features/student/traces/components/cards/StudentTraceCard/StudentTraceCard.vue'
-import { useStudentTracesSummaryQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-const { data: apiTraces, error } = useStudentTracesSummaryQuery()
+const { data: apiTraces, error } = useGetTraceOverview()
 useBaseApiExceptionToast(error)
 const { t } = useI18n()
 

@@ -19,9 +19,21 @@ export default defineConfig({
               useMutation: true,
             }
           },
+          getLockedDeclaredActivities: {
+            query: {
+              useQuery: true,
+              useMutation: false,
+            }
+          },
           searchExternalSkills: {
             query: {
               useInfinite: true,
+            }
+          },
+          tracesView: {
+            query: {
+              useQuery: true,
+              useMutation: false,
             }
           }
         },

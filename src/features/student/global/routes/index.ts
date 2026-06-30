@@ -67,19 +67,11 @@ export default [
       studentSelfKnowledgeCategoryRoute,
       studentSelfKnowledgeElementUpdateRoute,
       studentSkillRoute,
-      {
-        ...ROUTES.STUDENT.TOOLS_PAGES,
-        component: () => import('@/features/student/global/views/StudentToolsPagesView/StudentToolsPagesView.vue'),
-      },
       studentToolsKitRoute,
       studentToolsTracesRoute,
       studentToolsTraceRoute,
       studentToolsUpdateTraceRoute,
       studentTraceRoute,
-      {
-        ...ROUTES.STUDENT.TOOLS_RESUMES,
-        component: () => import('@/features/student/global/views/StudentToolsResumesView/StudentToolsResumesView.vue'),
-      },
       studentUpdateDeclaredSkillRoute,
       studentUpdateTraceRoute,
       {

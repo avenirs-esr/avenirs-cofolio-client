@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
-import { useDownloadFile } from '@/api/avenir-esr'
+import { useDownloadFile, useGetTraceAssociations, useGetTraceDetail } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
@@ -10,7 +10,6 @@ import { ICONS, ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import TraceDeletionConfirmationModal from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
-import { useTraceAssociationsQuery, useTraceDetailedQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import StudentTraceDetails from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
 import AssociateDeclaredSkillsToTracesModal from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsToTracesModal/AssociateDeclaredSkillsToTracesModal.vue'
 import TraceSettingsDropdown from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.vue'
@@ -34,8 +33,8 @@ const {
   hideModal: hideDeleteModal
 } = useModal()
 
-const { traceDetailed, error: traceDetailsError, isLoading } = useTraceDetailedQuery(traceId)
-const { traceAssociations, error: associationsError, isLoading: isAssociationsLoading } = useTraceAssociationsQuery(traceId)
+const { data: traceDetailed, error: traceDetailsError, isLoading } = useGetTraceDetail(traceId)
+const { data: traceAssociations, error: associationsError, isLoading: isAssociationsLoading } = useGetTraceAssociations(traceId)
 
 const selectedTraceIdsForDeletion = computed(() =>
   traceDetailed.value ? [traceDetailed.value.id] : []
@@ -102,7 +101,8 @@ const toolsBreadcrumbLinks = computed(() => [
 
 const homeBreadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('global.buttons.update') }
+  { text: t('student.global.navigation.tabs.tools.items.traces') },
+  { text: traceDetailed.value?.title || '' }
 ])
 
 const breadcrumbLinks = computed(() =>

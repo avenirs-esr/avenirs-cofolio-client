@@ -47,14 +47,6 @@ export function useNavigation () {
     return router.push(ROUTES.STUDENT.MAILBOX)
   }
 
-  const navigateToStudentPages = () => {
-    return router.push(ROUTES.STUDENT.TOOLS_PAGES)
-  }
-
-  const navigateToStudentResumes = () => {
-    return router.push(ROUTES.STUDENT.TOOLS_RESUMES)
-  }
-
   const navigateToStudentTrajectories = (replace?: boolean) => {
     if (replace) {
       return router.replace(ROUTES.STUDENT.PROJECT_TRAJECTORIES)
@@ -113,6 +105,13 @@ export function useNavigation () {
       return router.replace(to)
     }
     return router.push(to)
+  }
+
+  const navigateToStudentTrace = ({ id }: { id: string }) => {
+    return router.push({
+      name: ROUTES.STUDENT.TRACE.name,
+      params: { id },
+    })
   }
 
   const navigateToStudentTraces = ({ replace }: { replace?: boolean } = { replace: false }) => {
@@ -237,8 +236,6 @@ export function useNavigation () {
     navigateToStudentEvents,
     navigateToStudentHome,
     navigateToStudentMailbox,
-    navigateToStudentPages,
-    navigateToStudentResumes,
     navigateToStudentTrajectories,
     navigateToStudentSelfKnowledgeCategory,
     navigateToStudentSelfKnowledgeElementUpdate,
@@ -246,6 +243,7 @@ export function useNavigation () {
     navigateToStudentProjectSkills,
     navigateToStudentProjectActivitiesCatalog,
     navigateToStudentProjectActivities,
+    navigateToStudentTrace,
     navigateToStudentTraces,
     navigateToStudentDeclaredExperiences,
     navigateToStudentDeclaredPrograms,

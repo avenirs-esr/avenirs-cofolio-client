@@ -1,157 +1,114 @@
-import type { PageInfoDTO, TraceFilter, TraceViewDTO } from '@/api/avenir-esr'
-import { useInfiniteScrollPagination } from '@/common/composables'
+import type { TraceViewDTO } from '@/api/avenir-esr'
 import { usePaginatedTraces } from '@/features/student/traces/composables/use-paginated-traces/use-paginated-traces'
-import { useTracesViewQuery } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
-import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 
-vi.mock('@/features/student/traces/queries/use-traces.query/use-traces.query', async (importActual) => {
-  const actual = await importActual<typeof import('@/features/student/traces/queries/use-traces.query/use-traces.query')>()
-  return {
-    ...actual,
-    useTracesViewQuery: vi.fn()
-  }
-})
+BddTest().given('the usePaginatedTraces composable', () => {
+  let composableResult: ReturnType<typeof usePaginatedTraces>
 
-vi.mock('@/common/composables', async (importActual) => {
-  const actual = await importActual<typeof import('@/common/composables')>()
-  return {
-    ...actual,
-    useInfiniteScrollPagination: vi.fn()
-  }
-})
-
-BddTest().given('a usePaginatedTraces composable', () => {
-  const mockedUseTracesViewQuery: MockedFunction<typeof useTracesViewQuery> = vi.mocked(useTracesViewQuery)
-  const mockedUseInfiniteScrollPagination: MockedFunction<typeof useInfiniteScrollPagination> = vi.mocked(useInfiniteScrollPagination)
-
-  const fetchedTraces = ref<TraceViewDTO[]>([
-    {
-      id: 'trace-1',
-      title: 'Trace 1',
-      isAssociated: false,
-      createdAt: '2026-06-15T10:00:00.000Z',
-      updatedAt: '2026-06-15T10:00:00.000Z'
-    }
-  ])
-
-  const fetchedPageInfo = ref<PageInfoDTO | undefined>({
-    page: 0,
-    pageSize: 10,
-    totalElements: 1,
-    totalPages: 1
-  })
-
-  const paginatedTraces = ref<TraceViewDTO[]>(fetchedTraces.value)
-  const isFetching = ref(false)
-  const hasMoreTraces = computed(() => false)
-  const loadMoreTraces = vi.fn()
-  const resetPagination = vi.fn()
-
-  beforeEach(() => {
+  const mountDefault = () => {
     vi.clearAllMocks()
 
-    fetchedPageInfo.value = {
-      page: 0,
-      pageSize: 10,
-      totalElements: 1,
-      totalPages: 1
-    }
+    const { result } = mountComposable(
+      () => usePaginatedTraces(),
+      { useTanstack: true }
+    )
 
-    mockedUseTracesViewQuery.mockReturnValue({
-      traces: fetchedTraces,
-      pageInfo: fetchedPageInfo,
-      isFetching
-    } as ReturnType<typeof useTracesViewQuery>)
+    composableResult = result
+  }
 
-    mockedUseInfiniteScrollPagination.mockReturnValue({
-      items: paginatedTraces,
-      hasMoreItems: hasMoreTraces,
-      loadMore: loadMoreTraces,
-      resetPagination
-    } as ReturnType<typeof useInfiniteScrollPagination>)
-  })
+  BddTest().when('the first page is loaded', () => {
+    beforeEach(async () => {
+      mountDefault()
 
-  BddTest().when('the composable is used without options', () => {
-    BddTest().then('it should call useTracesViewQuery with default params and empty filter', () => {
-      mountComposable(() => usePaginatedTraces(), {})
-
-      const queryParams = mockedUseTracesViewQuery.mock.calls[0][0]
-
-      expect(queryParams.params.value).toEqual({
-        page: 0,
-        pageSize: 10
+      await vi.waitFor(() => {
+        expect(composableResult.traces.value.length).toBeGreaterThan(0)
       })
-      expect(queryParams.traceFilter.value).toEqual({})
-      expect(queryParams.enabled).toBeUndefined()
     })
 
-    BddTest().then('it should call useInfiniteScrollPagination with fetched traces and page info', () => {
-      mountComposable(() => usePaginatedTraces(), {})
+    BddTest().then('it should load the first page into traces', () => {
+      const traces = composableResult.traces.value
 
-      const paginationParams = mockedUseInfiniteScrollPagination.mock.calls[0][0]
-
-      expect(paginationParams.fetchedItems).toBe(fetchedTraces)
-      expect(paginationParams.pageInfo.value).toEqual(fetchedPageInfo.value)
-      expect(paginationParams.isFetching).toBe(isFetching)
-      expect(paginationParams.page.value).toBe(0)
+      expect(traces.length).toBe(10)
+      expect(traces[0]).toHaveProperty('id')
+      expect(composableResult.page.value).toBe(0)
     })
 
-    BddTest().then('it should return pagination values', () => {
-      const { result } = mountComposable(() => usePaginatedTraces(), {})
+    BddTest().then('pageInfo should match paginated response', () => {
+      const pageInfo = composableResult.pageInfo.value
 
-      expect(result.traces).toBe(paginatedTraces)
-      expect(result.pageInfo.value).toEqual(fetchedPageInfo.value)
-      expect(result.page.value).toBe(0)
-      expect(result.isFetching).toBe(isFetching)
-      expect(result.hasMoreTraces).toBe(hasMoreTraces)
-      expect(result.loadMoreTraces).toBe(loadMoreTraces)
-      expect(result.resetPagination).toBe(resetPagination)
+      expect(pageInfo).toBeDefined()
+      expect(pageInfo!.page).toBe(0)
+      expect(pageInfo!.pageSize).toBe(10)
+      expect(pageInfo!.totalElements).toBeGreaterThan(0)
+      expect(pageInfo!.totalPages).toBeGreaterThan(0)
+    })
+
+    BddTest().then('hasMoreTraces should be true', () => {
+      expect(composableResult.hasMoreTraces.value).toBe(true)
     })
   })
 
-  BddTest().when('the composable is used with options', () => {
-    BddTest().then('it should call useTracesViewQuery with provided page size, filter and enabled', () => {
-      const enabled = computed(() => true)
-      const pageSize = ref(25)
-      const traceFilter = ref<TraceFilter>({
-        isAssociated: true
+  BddTest().when('loadMoreTraces is called and more pages exist', () => {
+    let firstPage: TraceViewDTO[]
+
+    beforeEach(async () => {
+      mountDefault()
+
+      await vi.waitFor(() => {
+        expect(composableResult.traces.value.length).toBe(10)
       })
 
-      mountComposable(() => usePaginatedTraces({
-        enabled,
-        pageSize,
-        traceFilter
-      }), {})
+      firstPage = [...composableResult.traces.value]
 
-      const queryParams = mockedUseTracesViewQuery.mock.calls[0][0]
+      composableResult.loadMoreTraces()
 
-      expect(queryParams.params.value).toEqual({
-        page: 0,
-        pageSize: 25
+      await vi.waitFor(() => {
+        expect(composableResult.traces.value.length).toBeGreaterThan(firstPage.length)
       })
-      expect(queryParams.traceFilter.value).toEqual({
-        isAssociated: true
-      })
-      expect(queryParams.enabled).toBe(enabled)
+    })
+
+    BddTest().then('it should increment page index', () => {
+      expect(composableResult.page.value).toBe(1)
+    })
+
+    BddTest().then('it should accumulate traces across pages', () => {
+      const traces = composableResult.traces.value
+
+      expect(traces.length).toBe(20)
+
+      const uniqueIds = new Set(traces.map(trace => trace.id))
+      expect(uniqueIds.size).toBe(traces.length)
     })
   })
 
-  BddTest().when('fetched page info is undefined', () => {
-    BddTest().then('it should expose default page info', () => {
-      fetchedPageInfo.value = undefined
+  BddTest().when('resetPagination is called', () => {
+    let pageAfterReset: number
+    let lengthAfterReset: number
 
-      mountComposable(() => usePaginatedTraces(), {})
+    beforeEach(async () => {
+      mountDefault()
 
-      const paginationParams = mockedUseInfiniteScrollPagination.mock.calls[0][0]
-
-      expect(paginationParams.pageInfo.value).toEqual({
-        page: 0,
-        pageSize: 10,
-        totalElements: 0,
-        totalPages: 0
+      await vi.waitFor(() => {
+        expect(composableResult.traces.value.length).toBe(10)
       })
+
+      composableResult.loadMoreTraces()
+
+      await vi.waitFor(() => {
+        expect(composableResult.page.value).toBe(1)
+      })
+
+      composableResult.resetPagination()
+
+      pageAfterReset = composableResult.page.value
+      lengthAfterReset = composableResult.traces.value.length
+    })
+
+    BddTest().then('it should reset page and clear traces', () => {
+      expect(pageAfterReset).toBe(0)
+      expect(lengthAfterReset).toBe(0)
     })
   })
 })

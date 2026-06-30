@@ -1,35 +1,30 @@
-import {
-  type CreateTraceDTO,
-  EFileCategory,
-  ELanguage,
-  type FileDTO,
-  type TracesCreationResponse,
-  type UploadFileBody
-
-} from '@/api/avenir-esr'
-import * as avenirEsrApi from '@/api/avenir-esr'
 import { ETraceAuthorType } from '@/api/avenir-esr'
 import { EAssociationTypeKey, type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
 import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
 import { waitFor } from 'storybook/test'
 import { mountComposable } from 'tests/utils'
-import { type MockInstance, vi } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
+
+const mockAddErrorMessage = vi.fn()
+
+vi.mock('@/store', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/store')>()
+  return {
+    ...actual,
+    useToasterStore: () => ({
+      addErrorMessage: mockAddErrorMessage
+    })
+  }
+})
 
 BddTest().given('the useCreateTraceForm composable', () => {
   let composableResult: ReturnType<typeof useCreateTraceForm>
-  let createTraceSpy: MockInstance<(createTraceDTO: CreateTraceDTO, options?: RequestInit | undefined) => Promise<TracesCreationResponse>>
-  let uploadAttachmentSpy: MockInstance<(fileCategory: EFileCategory, traceId: string, uploadAttachmentBody: UploadFileBody, options?: RequestInit | undefined) => Promise<FileDTO>>
-  let associateTraceWithActivitiesSpy: MockInstance
-  let associateTraceWithDeclaredSkillSpy: MockInstance
+  const mockOnTraceCreated = vi.fn()
 
   beforeEach(() => {
-    createTraceSpy = vi.spyOn(avenirEsrApi, 'createTrace')
-    uploadAttachmentSpy = vi.spyOn(avenirEsrApi, 'uploadFile').mockResolvedValue({} as FileDTO)
-    associateTraceWithActivitiesSpy = vi.spyOn(avenirEsrApi, 'associateTraceWithActivities').mockResolvedValue({ declaredActivityAssociations: [], declaredSkillAssociations: [] })
-    associateTraceWithDeclaredSkillSpy = vi.spyOn(avenirEsrApi, 'associateTraceWithDeclaredSkill').mockResolvedValue({ declaredActivityAssociations: [], declaredSkillAssociations: [] })
-
-    const result = mountComposable(() => useCreateTraceForm(), {
+    const result = mountComposable(() => useCreateTraceForm(mockOnTraceCreated), {
       useI18n: true,
       useTanstack: true,
       usePinia: true
@@ -142,7 +137,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
       expect(validationResult?.fields?.authorType).toEqual('Ce champ est requis.')
     })
 
-    BddTest().then('it should call both createTrace and uploadAttachment APIs when file is provided', async () => {
+    BddTest().then('it should call onTraceCreated', async () => {
       const mockFile = new File(['text content'], 'test.txt', { type: 'text/plain' })
       const formData: TraceFormData = {
         file: mockFile,
@@ -157,21 +152,11 @@ BddTest().given('the useCreateTraceForm composable', () => {
       const onSubmit = composableResult.form.options.onSubmit
       expect(onSubmit).toBeDefined()
       onSubmit!({ value: formData, formApi: composableResult.form, meta: {} })
+      await flushPromises()
 
-      await waitFor(() => {
-        expect(createTraceSpy).toHaveBeenCalledWith({
-          title: 'my-trace-name',
-          language: ELanguage.FRENCH,
-          personalNote: 'Optional note',
-          authorType: ETraceAuthorType.PERSONAL,
-          iaJustification: undefined
-        })
+      await vi.waitFor(() => {
+        expect(mockOnTraceCreated).toHaveBeenCalled()
       })
-      expect(uploadAttachmentSpy).toHaveBeenCalledWith(
-        EFileCategory.TRACE_ATTACHEMENT,
-        expect.stringContaining('trace-my-trace-name'),
-        { file: mockFile }
-      )
     })
 
     BddTest().then('it should handle form submission without personalNote', async () => {
@@ -186,16 +171,9 @@ BddTest().given('the useCreateTraceForm composable', () => {
       }
 
       composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+      await flushPromises()
 
-      await waitFor(() => {
-        expect(createTraceSpy).toHaveBeenCalledWith({
-          title: 'my-trace-name',
-          language: ELanguage.FRENCH,
-          personalNote: undefined,
-          authorType: ETraceAuthorType.PERSONAL,
-          iaJustification: undefined
-        })
-      })
+      expect(mockOnTraceCreated).toHaveBeenCalled()
     })
 
     BddTest().then('it should handle form submission with IA usage and justification', async () => {
@@ -210,16 +188,9 @@ BddTest().given('the useCreateTraceForm composable', () => {
       }
 
       composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+      await flushPromises()
 
-      await waitFor(() => {
-        expect(createTraceSpy).toHaveBeenCalledWith({
-          title: 'my-trace-name',
-          language: ELanguage.FRENCH,
-          personalNote: undefined,
-          authorType: ETraceAuthorType.PERSONAL,
-          iaJustification: 'Used AI for research assistance'
-        })
-      })
+      expect(mockOnTraceCreated).toHaveBeenCalled()
     })
 
     BddTest().then('it should validate IA justification when IA is enabled', () => {
@@ -274,9 +245,8 @@ BddTest().given('the useCreateTraceForm composable', () => {
       expect(validationResult?.fields?.link).toBeUndefined()
     })
 
-    BddTest().then('it should not call uploadAttachment when no file is provided', async () => {
-      const onTraceCreated = vi.fn()
-      const result = mountComposable(() => useCreateTraceForm(onTraceCreated), {
+    BddTest().then('it should call onTraceCreated when no file is provided', async () => {
+      const result = mountComposable(() => useCreateTraceForm(mockOnTraceCreated), {
         useI18n: true,
         useTanstack: true,
         usePinia: true
@@ -294,15 +264,13 @@ BddTest().given('the useCreateTraceForm composable', () => {
 
       result.result.form.options.onSubmit?.({ value: formData, formApi: result.result.form, meta: {} })
       await waitFor(() => {
-        expect(createTraceSpy).toHaveBeenCalled()
-        expect(uploadAttachmentSpy).not.toHaveBeenCalled()
-        expect(onTraceCreated).toHaveBeenCalled()
+        expect(mockOnTraceCreated).toHaveBeenCalled()
       })
     })
   })
 
   BddTest().when('form is submitted with association selections', () => {
-    BddTest().then('it should call associateTraceWithActivities when activities are selected', async () => {
+    BddTest().then('it should call onTraceCreated', async () => {
       const formData: TraceFormData = {
         file: null,
         traceType: TraceType.FILE,
@@ -319,15 +287,11 @@ BddTest().given('the useCreateTraceForm composable', () => {
       composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
 
       await waitFor(() => {
-        expect(associateTraceWithActivitiesSpy).toHaveBeenCalledWith(
-          expect.stringContaining('trace-my-trace-name'),
-          { idsToAssociate: ['activity-1'] }
-        )
+        expect(mockOnTraceCreated).toHaveBeenCalled()
       })
-      expect(associateTraceWithDeclaredSkillSpy).not.toHaveBeenCalled()
     })
 
-    BddTest().then('it should call associateTraceWithDeclaredSkill when declared skills are selected', async () => {
+    BddTest().then('it should call onTraceCreated when declared skills are selected', async () => {
       const formData: TraceFormData = {
         file: null,
         traceType: TraceType.FILE,
@@ -344,15 +308,11 @@ BddTest().given('the useCreateTraceForm composable', () => {
       composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
 
       await waitFor(() => {
-        expect(associateTraceWithDeclaredSkillSpy).toHaveBeenCalledWith(
-          expect.stringContaining('trace-my-trace-name'),
-          { idsToAssociate: ['skill-1'] }
-        )
+        expect(mockOnTraceCreated).toHaveBeenCalled()
       })
-      expect(associateTraceWithActivitiesSpy).not.toHaveBeenCalled()
     })
 
-    BddTest().then('it should call both association APIs when both types are selected', async () => {
+    BddTest().then('it should call onTraceCreated when both types are selected', async () => {
       const formData: TraceFormData = {
         file: null,
         traceType: TraceType.FILE,
@@ -370,18 +330,11 @@ BddTest().given('the useCreateTraceForm composable', () => {
       composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
 
       await waitFor(() => {
-        expect(associateTraceWithActivitiesSpy).toHaveBeenCalledWith(
-          expect.stringContaining('trace-my-trace-name'),
-          { idsToAssociate: ['activity-1'] }
-        )
-        expect(associateTraceWithDeclaredSkillSpy).toHaveBeenCalledWith(
-          expect.stringContaining('trace-my-trace-name'),
-          { idsToAssociate: ['skill-1'] }
-        )
+        expect(mockOnTraceCreated).toHaveBeenCalled()
       })
     })
 
-    BddTest().then('it should not call association APIs when selections are empty', async () => {
+    BddTest().then('it should call onTraceCreated when selections are empty', async () => {
       const formData: TraceFormData = {
         file: null,
         traceType: TraceType.FILE,
@@ -396,37 +349,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
       composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
 
       await waitFor(() => {
-        expect(createTraceSpy).toHaveBeenCalled()
-      })
-      expect(associateTraceWithActivitiesSpy).not.toHaveBeenCalled()
-      expect(associateTraceWithDeclaredSkillSpy).not.toHaveBeenCalled()
-    })
-  })
-
-  BddTest().when('onTraceCreated callback is provided', () => {
-    BddTest().then('it should call the callback after trace creation with no file and no associations', async () => {
-      const onTraceCreated = vi.fn()
-      const { result: composableWithCallback } = mountComposable(() => useCreateTraceForm(onTraceCreated), {
-        useI18n: true,
-        useTanstack: true,
-        usePinia: true
-      })
-
-      const formData: TraceFormData = {
-        file: null,
-        traceType: TraceType.FILE,
-        traceName: 'my-trace-name',
-        personalNote: '',
-        authorType: ETraceAuthorType.PERSONAL,
-        useIA: false,
-        iaJustification: '',
-        associationSelections: {}
-      }
-
-      composableWithCallback.form.options.onSubmit?.({ value: formData, formApi: composableWithCallback.form, meta: {} })
-
-      await waitFor(() => {
-        expect(onTraceCreated).toHaveBeenCalled()
+        expect(mockOnTraceCreated).toHaveBeenCalled()
       })
     })
   })

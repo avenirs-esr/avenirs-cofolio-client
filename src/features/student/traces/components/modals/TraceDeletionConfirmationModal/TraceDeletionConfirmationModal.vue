@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions'
-import { getLockedDeclaredActivities, type TraceLockedDeclaredActivitiesDTO } from '@/api/avenir-esr'
+import { invalidateGetTraceOverview, invalidateGetTracesSummary, invalidateTracesView, useDeleteTraces, useGetLockedDeclaredActivities } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ICONS } from '@/common/constants'
-import { useDeleteTraceMutation } from '@/features/student/traces/queries/use-traces.query/use-traces.query'
 import { useToasterStore } from '@/store'
 import { AvAccordion, AvAccordionsGroup, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useQuery } from '@tanstack/vue-query'
+import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 const { traceIds, title, show, onConfirmDelete, onClose } = defineProps<{
@@ -22,20 +22,15 @@ const { traceIds, title, show, onConfirmDelete, onClose } = defineProps<{
 const { t } = useI18n()
 const { getErrorMessage } = useApiErrors()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
+const { isLoading, withTaskLoading } = useTaskLoading()
+const queryClient = useQueryClient()
 
 const tracesCount = computed(() => traceIds.length)
 
-const {
-  data: traces,
-  error,
-  isFetching
-} = useQuery<TraceLockedDeclaredActivitiesDTO[], BaseApiException>({
-  queryKey: computed(() => [
-    'locked-declared-activities',
-    traceIds
-  ]),
-  queryFn: () => getLockedDeclaredActivities(traceIds),
-  enabled: computed(() => show && tracesCount.value > 0)
+const { data: traces, error, isFetching } = useGetLockedDeclaredActivities(traceIds, {
+  query: {
+    enabled: computed(() => show && tracesCount.value > 0)
+  }
 })
 
 const traceDeletionData = computed(() => traces.value ?? [])
@@ -82,13 +77,22 @@ function onDeleteTraceSuccess () {
   onConfirmDelete()
 }
 
-const deleteTraceMutation = useDeleteTraceMutation({
-  onError: onDeleteTraceError,
-  onSuccess: onDeleteTraceSuccess
+const { mutate: deleteTraces, isPending } = useDeleteTraces({
+  mutation: {
+    onError: onDeleteTraceError,
+    onSuccess: async () => {
+      await withTaskLoading(() => Promise.all([
+        invalidateTracesView(queryClient, {}),
+        invalidateGetTracesSummary(queryClient),
+        invalidateGetTraceOverview(queryClient)
+      ]))
+      onDeleteTraceSuccess()
+    }
+  }
 })
 
 function onConfirmDeleteTrace () {
-  deleteTraceMutation.mutate({ tracesIds: traceIds })
+  deleteTraces({ data: traceIds })
 }
 </script>
 
@@ -102,7 +106,7 @@ function onConfirmDeleteTrace () {
       data-testid="trace-deletion-confirmation-modal"
       :show="show"
       :confirm-button-icon="MDI_ICONS.ARROW_RIGHT"
-      :is-loading="deleteTraceMutation.isPending.value"
+      :is-loading="isPending || isLoading"
       @close="onClose"
       @confirm="onConfirmDeleteTrace"
     >

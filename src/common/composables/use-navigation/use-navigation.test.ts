@@ -70,22 +70,6 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student pages', () => {
-    BddTest().then('it should navigate to student pages', () => {
-      const { navigateToStudentPages } = navigation
-      navigateToStudentPages()
-      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.TOOLS_PAGES)
-    })
-  })
-
-  BddTest().when('trying to navigate to student resumes', () => {
-    BddTest().then('it should navigate to student resumes', () => {
-      const { navigateToStudentResumes } = navigation
-      navigateToStudentResumes()
-      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.TOOLS_RESUMES)
-    })
-  })
-
   BddTest().when('trying to navigate to student trajectories', () => {
     BddTest().then('it should navigate to student trajectories', () => {
       const { navigateToStudentTrajectories } = navigation

@@ -1,6 +1,6 @@
 import type { TraceFilter, TracesViewParams } from '@/api/avenir-esr'
-import type { UseTracesViewQueryParams } from '@/features/student/traces'
 import type { DateFilter, SearchFilter } from '@/types'
+import type { Ref } from 'vue'
 import { vi } from 'vitest'
 
 export function createUseTraceFiltersMock (isAssociated = false) {
@@ -44,7 +44,7 @@ export function createUseTraceFiltersMock (isAssociated = false) {
     tracesViewQueryParams: {
       traceFilter,
       params
-    } as UseTracesViewQueryParams,
+    } as { params: Ref<TracesViewParams>, traceFilter: Ref<TraceFilter> },
     onUpdateFilters
   }
 }

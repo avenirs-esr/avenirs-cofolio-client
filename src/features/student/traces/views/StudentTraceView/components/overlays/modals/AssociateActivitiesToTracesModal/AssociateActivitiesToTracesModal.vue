@@ -1,18 +1,25 @@
 <script lang="ts" setup>
-import type { AssociationsCreationRequest } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import type {
   AssociationActivity
 } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
-import { useAssociationModal } from '@/features/student/global'
 import {
-  useAssociateTraceWithActivitiesMutation,
-  useSearchActivitiesForAssociationQuery
-} from '@/features/student/traces/queries/use-traces.query/use-traces.query'
+  type AssociationsCreationRequest,
+  invalidateGetTraceAssociations,
+  invalidateGetTraceDetail,
+  invalidateGetTracesSummary,
+  invalidateSearchDeclaredActivityForAssociation,
+  invalidateTracesView,
+  useAssociateTraceWithActivities,
+  useSearchDeclaredActivityForAssociation
+} from '@/api/avenir-esr'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
+import { useAssociationModal } from '@/features/student/global'
 import AssociateActivitiesModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
 import { useToasterStore } from '@/store'
+import { keepPreviousData, useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateActivitiesToTracesModalProps {
@@ -30,6 +37,8 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
+const { isLoading: isTaskLoading, withTaskLoading } = useTaskLoading()
+const queryClient = useQueryClient()
 
 const {
   searchQuery,
@@ -37,24 +46,31 @@ const {
   listenAndDisplayToastOnSearchError,
 } = useAssociationModal()
 
+const enabled = computed(() => !!traceId)
+const params = computed(() => ({
+  keyword: searchQuery.value.trim() || undefined,
+  page: 0,
+  pageSize: 100,
+}))
+
 const {
-  activities,
+  data,
   isError: isSearchError,
   error: searchError,
   isLoading
-} = useSearchActivitiesForAssociationQuery({
-  traceId: computed(() => traceId),
-  params: computed(() => ({
-    keyword: searchQuery.value.trim() || undefined,
-    page: 0,
-    pageSize: 100,
-  }))
+} = useSearchDeclaredActivityForAssociation(computed(() => traceId), params, {
+  query: {
+    enabled: enabled.value,
+    placeholderData: keepPreviousData,
+  }
 })
+
+const activities = computed(() => data.value?.data || [])
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
 const associationActivities = computed<AssociationActivity[]>(() =>
-  activities.value.map(activity => ({
+  (activities.value).map(activity => ({
     id: activity.id,
     title: activity.title,
     thematic: activity.thematic,
@@ -62,37 +78,38 @@ const associationActivities = computed<AssociationActivity[]>(() =>
   }))
 )
 
-const { mutate: associateTraceWithActivities, isPending } = useAssociateTraceWithActivitiesMutation({
-  onError: (error: BaseApiException) => {
-    addErrorMessage({
-      title: t('global.error.generic'),
-      description: getErrorMessage(error),
-    })
-  },
-  onSuccess: (_, variables) => {
-    const count = variables.associationsCreationRequest.idsToAssociate.length
-
-    addSuccessMessage({
-      timeout: 2000,
-      description: t(
-        'student.traces.views.StudentTraceView.AssociateActivitiesModal.success',
-        { count }
-      ),
-    })
-
-    emit('associated')
+const { mutate: associateTraceWithActivities, isPending } = useAssociateTraceWithActivities({
+  mutation: {
+    onError: (error: BaseApiException) => {
+      addErrorMessage({
+        title: t('global.error.generic'),
+        description: getErrorMessage(error),
+      })
+    },
+    onSuccess: async (_, variables) => {
+      await withTaskLoading(() => Promise.all([
+        invalidateTracesView(queryClient, {}),
+        invalidateGetTracesSummary(queryClient),
+        invalidateGetTraceDetail(queryClient, traceId),
+        invalidateGetTraceAssociations(queryClient, traceId),
+        invalidateSearchDeclaredActivityForAssociation(queryClient, traceId, params.value)
+      ]))
+      const count = variables.data.idsToAssociate.length
+      addSuccessMessage({
+        timeout: 2000,
+        description: t(
+          'student.traces.views.StudentTraceView.AssociateActivitiesModal.success',
+          { count }
+        ),
+      })
+      emit('associated')
+    }
   }
 })
 
 function onAssociate (ids: string[]) {
-  const associationsCreationRequest: AssociationsCreationRequest = {
-    idsToAssociate: ids,
-  }
-
-  associateTraceWithActivities({
-    traceId,
-    associationsCreationRequest
-  })
+  const data: AssociationsCreationRequest = { idsToAssociate: ids }
+  associateTraceWithActivities({ traceId, data })
 }
 </script>
 
@@ -100,7 +117,7 @@ function onAssociate (ids: string[]) {
   <AssociateActivitiesModal
     :show="show"
     :activities="associationActivities"
-    :is-loading="isLoading || isPending"
+    :is-loading="isLoading || isPending || isTaskLoading"
     @cancel="emit('cancel')"
     @search="onSearch"
     @associate="onAssociate"

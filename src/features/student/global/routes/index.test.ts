@@ -20,10 +20,6 @@ import StudentHomeView
   from '@/features/student/global/views/StudentHomeView/StudentHomeView.vue'
 import StudentProjectTrajectoriesView
   from '@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'
-import StudentToolsPagesView
-  from '@/features/student/global/views/StudentToolsPagesView/StudentToolsPagesView.vue'
-import StudentToolsResumesView
-  from '@/features/student/global/views/StudentToolsResumesView/StudentToolsResumesView.vue'
 import StudentToolsKitView from '@/features/student/kit/views/StudentToolsKitView/StudentToolsKitView.vue'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
 import { declaredExperienceRoute, declaredExperienceUpdateRoute } from '@/features/student/personalCareer/routes'
@@ -98,18 +94,6 @@ testRoute(
   children.find(r => r.name === ROUTES.STUDENT.TOOLS_KIT.name)!,
   ROUTES.STUDENT.TOOLS_KIT,
   StudentToolsKitView
-)
-
-testRoute(
-  children.find(r => r.name === ROUTES.STUDENT.TOOLS_PAGES.name)!,
-  ROUTES.STUDENT.TOOLS_PAGES,
-  StudentToolsPagesView
-)
-
-testRoute(
-  children.find(r => r.name === ROUTES.STUDENT.TOOLS_RESUMES.name)!,
-  ROUTES.STUDENT.TOOLS_RESUMES,
-  StudentToolsResumesView
 )
 
 testRoute(

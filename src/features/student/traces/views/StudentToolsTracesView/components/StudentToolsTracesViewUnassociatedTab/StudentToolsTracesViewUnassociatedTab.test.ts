@@ -141,6 +141,8 @@ BddTest().given('a student tools traces view container', () => {
         expect(paginationMock.onUpdateCurrentPage).toHaveBeenCalledWith(5)
         expect(paginationMock.currentPage.value).toBe(5)
 
+        await flushPromises()
+
         await wrapper.find('.emit-page-size').trigger('click')
         expect(paginationMock.onUpdatePageSize).toHaveBeenCalledWith(PageSizes.TWELVE)
         expect(paginationMock.pageSizeSelected.value).toBe(PageSizes.TWELVE)
