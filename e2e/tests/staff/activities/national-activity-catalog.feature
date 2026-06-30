@@ -29,6 +29,35 @@ Feature: Staff National Activity Catalog
   Scenario: The delete draft button is visible
     Then the delete draft button is visible
 
+  Scenario: The national activity catalog content tab selector is visible
+    Then the national activity catalog content tab selector is visible
+
+  Scenario: The national activity catalog preview tab selector is visible
+    Then the national activity catalog preview tab selector is visible
+
+  Rule: Catalog preview tab
+
+    Background:
+      When the user clicks on the national activity catalog preview tab
+
+    Scenario: The preview tab is displayed
+      Then the national activity catalog preview tab is displayed
+
+    Scenario: The activity title is visible in the preview tab
+      Then the activity title is visible in the preview tab
+
+    Scenario: The activity banner is visible in the preview tab
+      Then the activity banner is visible in the preview tab
+
+    Scenario: The activity thematic is visible in the preview tab
+      Then the activity thematic is visible in the preview tab
+
+    Scenario: The activity summary is visible in the preview tab
+      Then the activity summary is visible in the preview tab
+
+    Scenario: The execution context information is visible in the preview tab
+      Then the execution context information is visible in the preview tab
+
 
   Rule: Edit draft activity
 
