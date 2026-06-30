@@ -41,7 +41,7 @@ const name = computed(() => {
     :close-drawer-label="t('global.buttons.close')"
     @language-select="selectLanguage($event)"
   >
-    <template #before-quick-links>
+    <template #quickLinks>
       <div class="av-px-sm av-pt-sm av-pb-sm">
         <ul class="av-row av-wrap av-gap-sm av-align-stretch av-list-reset">
           <li data-testid="profile-button">
