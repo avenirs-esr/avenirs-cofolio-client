@@ -83,12 +83,14 @@ const activeTab = useEnumRouteQuery('tab', NationalActivityCatalogTabs, National
       <AvTab
         :title="t('staff.activities.views.NationalActivityCatalogView.tabs.content')"
         :icon="MDI_ICONS.FILE_DOCUMENT_BOX_MULTIPLE_OUTLINE"
+        data-testid="national-activity-catalog-content-tab-item"
       >
         <NationalActivityContentTab :activity="activity" />
       </AvTab>
       <AvTab
         :title="t('staff.activities.views.NationalActivityCatalogView.tabs.preview')"
         :icon="MDI_ICONS.BOOK_OPEN_VARIANT"
+        data-testid="national-activity-catalog-preview-tab-item"
       >
         <NationalActivityCatalogPreviewTab
           :activity-id="activity.id"

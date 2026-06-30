@@ -3,6 +3,7 @@ import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+import { NationalActivityCatalogPreviewTabObject } from '@e2e/framework/staff/activities/componentObjects/NationalActivityCatalogPreviewTabObject'
 import { expect, type Page } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
@@ -30,6 +31,18 @@ export class StaffNationalActivityCatalogPage extends BasePage {
 
   private getContextTitle () {
     return this.page.getByTestId('national-activity-content-tab-context-title')
+  }
+
+  private getContentTabSelector () {
+    return this.page.getByTestId('national-activity-catalog-content-tab-item')
+  }
+
+  private getPreviewTabSelector () {
+    return this.page.getByTestId('national-activity-catalog-preview-tab-item')
+  }
+
+  private getPreviewTabObject () {
+    return new NationalActivityCatalogPreviewTabObject(this.page)
   }
 
   @Given('the staff navigates to the first national activity catalog page')
@@ -87,6 +100,51 @@ export class StaffNationalActivityCatalogPage extends BasePage {
   @Then('the national activity context section is visible')
   async verifyContextSectionVisible () {
     await expect(this.getContextTitle()).toBeVisible()
+  }
+
+  @Then('the national activity catalog content tab selector is visible')
+  async verifyContentTabSelectorVisible () {
+    await expect(this.getContentTabSelector()).toBeVisible()
+  }
+
+  @Then('the national activity catalog preview tab selector is visible')
+  async verifyPreviewTabSelectorVisible () {
+    await expect(this.getPreviewTabSelector()).toBeVisible()
+  }
+
+  @When('the user clicks on the national activity catalog preview tab')
+  async clickPreviewTab () {
+    await clickOnElement(this.getPreviewTabSelector())
+  }
+
+  @Then('the national activity catalog preview tab is displayed')
+  async verifyPreviewTabDisplayed () {
+    await this.getPreviewTabObject().isVisible()
+  }
+
+  @Then('the activity title is visible in the preview tab')
+  async verifyActivityTitleInPreviewTab () {
+    await this.getPreviewTabObject().verifyTitleVisible()
+  }
+
+  @Then('the activity banner is visible in the preview tab')
+  async verifyActivityBannerInPreviewTab () {
+    await this.getPreviewTabObject().verifyBannerVisible()
+  }
+
+  @Then('the activity thematic is visible in the preview tab')
+  async verifyActivityThematicInPreviewTab () {
+    await this.getPreviewTabObject().verifyThematicVisible()
+  }
+
+  @Then('the activity summary is visible in the preview tab')
+  async verifyActivitySummaryInPreviewTab () {
+    await this.getPreviewTabObject().verifySummaryVisible()
+  }
+
+  @Then('the execution context information is visible in the preview tab')
+  async verifyExecutionContextInPreviewTab () {
+    await this.getPreviewTabObject().verifyExecutionPeriodInfoVisible()
   }
 
   getEditDraftButton () {
