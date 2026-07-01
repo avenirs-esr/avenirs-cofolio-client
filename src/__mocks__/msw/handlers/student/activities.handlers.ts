@@ -19,6 +19,7 @@ import {
   type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
   EActivityStatus,
+  EDeclaredActivityStatus,
   EErrorCode,
   getAskForFeedbackUrl,
   getAssociateActivityWithDeclaredSkillsUrl,
@@ -168,7 +169,10 @@ export const declaredActivityDetailsHandler = http.get(`*${getGetDeclaredActivit
     )
   }
 
-  const baseDetails = createMockedDeclaredActivityDetails(declaredActivityId)
+  const tempDetails = createMockedDeclaredActivityDetails(declaredActivityId)
+  const baseDetails = createMockedDeclaredActivityDetails(declaredActivityId, {
+    withFeedback: tempDetails.status === EDeclaredActivityStatus.SUBMITTED,
+  })
   const overrides = declaredActivityDetailsOverrides.get(declaredActivityId)
 
   return HttpResponse.json<DeclaredActivityDetailsDTO>(

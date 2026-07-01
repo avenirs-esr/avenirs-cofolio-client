@@ -44,7 +44,7 @@ function handleConfirm () {
     data-testid="request-feedback"
   >
     <AvButton
-      data-testid="request-feedback-button"
+      :data-testid="feedbackStatus === EFeedbackStatus.NEW ? 'update-feedback-button' : 'request-feedback-button'"
       v-bind="requestFeedbackConfig"
       :disabled="disabled"
       :is-loading="isLoading"

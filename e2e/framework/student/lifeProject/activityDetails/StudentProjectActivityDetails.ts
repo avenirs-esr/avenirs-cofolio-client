@@ -148,19 +148,35 @@ export class StudentProjectActivityDetails extends BasePage {
     await this.getMyPerspectiveSection().verifyRequestFeedbackButtonHidden()
   }
 
-  @Then('the request feedback button is disabled')
-  async verifyRequestFeedbackButtonDisabled () {
-    await this.getMyPerspectiveSection().verifyRequestFeedbackButtonDisabled()
-  }
-
   @Then('the request feedback button is enabled')
   async verifyRequestFeedbackButtonEnabled () {
     await this.getMyPerspectiveSection().verifyRequestFeedbackButtonEnabled()
   }
 
+  @Then('the update feedback button is visible')
+  async verifyUpdateFeedbackButtonVisible () {
+    await this.getMyPerspectiveSection().verifyUpdateFeedbackButtonVisible()
+  }
+
+  @Then('the update feedback button is hidden')
+  async verifyUpdateFeedbackButtonHidden () {
+    await this.getMyPerspectiveSection().verifyUpdateFeedbackButtonHidden()
+  }
+
+  @Then('the update feedback button is enabled')
+  async verifyUpdateFeedbackButtonEnabled () {
+    await this.getMyPerspectiveSection().verifyUpdateFeedbackButtonEnabled()
+  }
+
   @When('the student clicks the request feedback button')
   async clickRequestFeedbackButton () {
     await this.getMyPerspectiveSection().clickRequestFeedbackButton()
+    await this.getMyPerspectiveSection().waitForRequestFeedbackConfirmModalVisible()
+  }
+
+  @When('the student clicks the update feedback button')
+  async clickUpdateFeedbackButton () {
+    await this.getMyPerspectiveSection().clickUpdateFeedbackButton()
     await this.getMyPerspectiveSection().waitForRequestFeedbackConfirmModalVisible()
   }
 
@@ -187,6 +203,11 @@ export class StudentProjectActivityDetails extends BasePage {
   @Then('the feedback hint is hidden')
   async verifyFeedbackHintHidden () {
     await this.getMyPerspectiveSection().verifyFeedbackHintHidden()
+  }
+
+  @Then('the updatable feedback hint is visible')
+  async verifyUpdatableFeedbackHintVisible () {
+    await this.getMyPerspectiveSection().verifyUpdatableFeedbackHintVisible()
   }
 
   @Then('the finished hint is visible')
