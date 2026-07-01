@@ -7,6 +7,7 @@ import {
   type DeclaredActivityViewDTO,
   EActivityThematic,
   EDeclaredActivityStatus,
+  EFeedbackStatus,
   EFileType,
   ETraceAuthorType,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
@@ -342,7 +343,7 @@ export const mockedFinishedDeclaredActivityDetails: DeclaredActivityDetailsDTO =
   finishedAt: '2026-01-01T00:00:00Z',
 }
 
-export function createMockedDeclaredActivityDetails (id: string): DeclaredActivityDetailsDTO {
+export function createMockedDeclaredActivityDetails (id: string, options?: { withFeedback?: boolean }): DeclaredActivityDetailsDTO {
   const selectedActivity = allDeclaredActivities.find(activity => activity.id === id)
 
   const activity = selectedActivity
@@ -379,6 +380,16 @@ export function createMockedDeclaredActivityDetails (id: string): DeclaredActivi
       ? mockedFinishedDeclaredActivityDetails.finishedAt
       : '',
     reflection: mockedDeclaredActivityDetails.reflection,
+    feedbacks: options?.withFeedback
+      ? [{
+          id: 'feedback-new-1',
+          status: EFeedbackStatus.NEW,
+          createdAt: '2024-01-15T10:00:00Z',
+          updatedAt: '2024-01-16T10:00:00Z',
+          staff: { id: 'staff-1', firstName: 'Marc', lastName: 'Dupont', email: 'marc.dupont@university.com' },
+          student: { id: 'student-1', firstName: 'Lucas', lastName: 'Tessier', email: 'lucas.tessier@university.com' },
+        }]
+      : undefined,
   }
 }
 

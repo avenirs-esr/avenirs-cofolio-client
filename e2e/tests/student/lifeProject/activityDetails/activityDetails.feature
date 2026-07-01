@@ -96,6 +96,7 @@ Feature: Student Project Activity Detail Page
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       Then the request feedback button is hidden
+      And the update feedback button is hidden
       And the feedback hint is hidden
 
     @high @activity-details @feedback-request
@@ -113,13 +114,14 @@ Feature: Student Project Activity Detail Page
       Then the request feedback confirmation modal is hidden
 
     @high @activity-details @feedback-request
-    Scenario: Student with submitted activity has enabled feedback button and pending hint
+    Scenario: Student with submitted activity has enabled update feedback button and updatable feedback hint
       And the student clicks a library activity card with "SUBMITTED" status
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
-      Then the request feedback button is enabled
-      And the feedback hint is visible
+      Then the update feedback button is visible
+      And the update feedback button is enabled
+      And the updatable feedback hint is visible
 
     @high @activity-details @feedback-request
     Scenario: Student with completed activity has no feedback button and finished hint is visible
@@ -128,6 +130,7 @@ Feature: Student Project Activity Detail Page
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       Then the request feedback button is hidden
+      And the update feedback button is hidden
       And the finished hint is visible
 
   Rule: Received feedbacks

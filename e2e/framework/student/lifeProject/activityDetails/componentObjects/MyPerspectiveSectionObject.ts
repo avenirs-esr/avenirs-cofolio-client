@@ -47,6 +47,10 @@ export class MyPerspectiveSectionObject extends BaseObject {
     return this.root.getByTestId('request-feedback-button')
   }
 
+  getUpdateFeedbackButton () {
+    return this.root.getByTestId('update-feedback-button')
+  }
+
   getRequestFeedbackConfirmModal () {
     return this.root.page().getByTestId('request-feedback-confirm-modal')
   }
@@ -57,6 +61,10 @@ export class MyPerspectiveSectionObject extends BaseObject {
 
   getFeedbackHint () {
     return this.root.getByTestId('actions-hint').and(this.root.locator('[data-type="feedback-pending"], [data-type="max-feedback-reached"]'))
+  }
+
+  getUpdatableFeedbackHint () {
+    return this.root.getByTestId('actions-hint').and(this.root.locator('[data-type="updatable-feedback"]'))
   }
 
   getFinishedHint () {
@@ -180,16 +188,28 @@ export class MyPerspectiveSectionObject extends BaseObject {
     await expect(this.getRequestFeedbackButton()).toBeHidden()
   }
 
-  async verifyRequestFeedbackButtonDisabled () {
-    await expect(this.getRequestFeedbackButton()).toBeDisabled()
-  }
-
   async verifyRequestFeedbackButtonEnabled () {
     await expect(this.getRequestFeedbackButton()).toBeEnabled()
   }
 
+  async verifyUpdateFeedbackButtonVisible () {
+    await expect(this.getUpdateFeedbackButton()).toBeVisible()
+  }
+
+  async verifyUpdateFeedbackButtonHidden () {
+    await expect(this.getUpdateFeedbackButton()).toBeHidden()
+  }
+
+  async verifyUpdateFeedbackButtonEnabled () {
+    await expect(this.getUpdateFeedbackButton()).toBeEnabled()
+  }
+
   async clickRequestFeedbackButton () {
     await clickOnElement(this.getRequestFeedbackButton())
+  }
+
+  async clickUpdateFeedbackButton () {
+    await clickOnElement(this.getUpdateFeedbackButton())
   }
 
   async waitForRequestFeedbackConfirmModalVisible () {
@@ -214,6 +234,10 @@ export class MyPerspectiveSectionObject extends BaseObject {
 
   async verifyFeedbackHintHidden () {
     await expect(this.getFeedbackHint()).toBeHidden()
+  }
+
+  async verifyUpdatableFeedbackHintVisible () {
+    await expect(this.getUpdatableFeedbackHint()).toBeVisible()
   }
 
   async verifyFinishedHintVisible () {
