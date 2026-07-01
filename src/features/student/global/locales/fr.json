@@ -66,6 +66,7 @@
           "tools": {
             "header": "Mes outils",
             "items": {
+              "kit": "Mon kit prêt à l'emploi",
               "pages": "Mes pages libres",
               "resumes": "Mes CV",
               "traces": "Mes traces"

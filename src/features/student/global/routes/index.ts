@@ -2,6 +2,7 @@ import type { RoutePageProps } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 import { projectActivitiesRoutes, projectTrajectoriesRoutes } from '@/features/student/buildProject/routes'
 import { studentProjectDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
+import { studentToolsKitRoute } from '@/features/student/kit/routes'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
 import { declaredExperienceRoute, declaredExperienceUpdateRoute, declaredProgramUpdateRoute } from '@/features/student/personalCareer/routes'
 import { studentSelfKnowledgeCategoryRoute, studentSelfKnowledgeElementUpdateRoute } from '@/features/student/selfKnowledge'
@@ -70,6 +71,7 @@ export default [
         ...ROUTES.STUDENT.TOOLS_PAGES,
         component: () => import('@/features/student/global/views/StudentToolsPagesView/StudentToolsPagesView.vue'),
       },
+      studentToolsKitRoute,
       studentToolsTracesRoute,
       studentToolsTraceRoute,
       studentToolsUpdateTraceRoute,

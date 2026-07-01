@@ -24,6 +24,7 @@ import StudentToolsPagesView
   from '@/features/student/global/views/StudentToolsPagesView/StudentToolsPagesView.vue'
 import StudentToolsResumesView
   from '@/features/student/global/views/StudentToolsResumesView/StudentToolsResumesView.vue'
+import StudentToolsKitView from '@/features/student/kit/views/StudentToolsKitView/StudentToolsKitView.vue'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
 import { declaredExperienceRoute, declaredExperienceUpdateRoute } from '@/features/student/personalCareer/routes'
 import DeclaredExperienceUpdateView from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'
@@ -91,6 +92,12 @@ testRoute(
   children.find(r => r.name === ROUTES.STUDENT.PROJECT_TRAJECTORIES.name)!,
   ROUTES.STUDENT.PROJECT_TRAJECTORIES,
   StudentProjectTrajectoriesView
+)
+
+testRoute(
+  children.find(r => r.name === ROUTES.STUDENT.TOOLS_KIT.name)!,
+  ROUTES.STUDENT.TOOLS_KIT,
+  StudentToolsKitView
 )
 
 testRoute(

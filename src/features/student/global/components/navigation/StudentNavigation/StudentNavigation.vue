@@ -88,6 +88,7 @@ const allToolsMenu
     title: t('student.global.navigation.tabs.tools.header').toUpperCase(),
     get active () {
       return isRouteActive({ route, routes: [
+        ROUTES.STUDENT.TOOLS_KIT,
         ...studentToolsTracesRoutes,
         ROUTES.STUDENT.TOOLS_PAGES,
         ROUTES.STUDENT.TOOLS_RESUMES
@@ -98,6 +99,11 @@ const allToolsMenu
         ...toolTracesLink.value,
         text: t('student.global.navigation.tabs.tools.items.traces'),
         icon: MDI_ICONS.ATTACH_FILE
+      },
+      {
+        to: ROUTES.STUDENT.TOOLS_KIT,
+        text: t('student.global.navigation.tabs.tools.items.kit'),
+        icon: MDI_ICONS.TOOLS
       },
       {
         to: ROUTES.STUDENT.TOOLS_PAGES,
