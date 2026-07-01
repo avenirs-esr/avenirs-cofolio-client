@@ -3,7 +3,7 @@ import { AvToggle, type AvToggleProps } from '@avenirs-esr/avenirs-dsav'
 import { type ComputedRef, useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-export interface ToggleProps extends Omit<AvToggleProps, 'activeText' | 'inactiveText'> { }
+export interface ToggleProps extends AvToggleProps { }
 
 const props = defineProps<ToggleProps>()
 const { t } = useI18n()
@@ -12,8 +12,8 @@ const attrs = useAttrs()
 const avToggleProps: ComputedRef<AvToggleProps> = computed(() => ({
   ...attrs,
   ...props,
-  activeText: t('global.avToggle.activeText'),
-  inactiveText: t('global.avToggle.inactiveText')
+  activeText: props.activeText ?? t('global.avToggle.activeText'),
+  inactiveText: props.inactiveText ?? t('global.avToggle.inactiveText')
 }))
 </script>
 
