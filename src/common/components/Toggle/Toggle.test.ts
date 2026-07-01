@@ -1,32 +1,51 @@
-import Toggle from '@/common/components/Toggle/Toggle.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
+import Toggle, { type ToggleProps } from '@/common/components/Toggle/Toggle.vue'
+import { AvToggleStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
-import { expect } from 'vitest'
-
-const AvToggleStub = {
-  name: 'AvToggle',
-  props: ['activeText', 'inactiveText', 'modelValue'],
-  template: `<div class="av-toggle-stub">
-    <span data-test="active-text">{{ activeText }}</span>
-    <span data-test="inactive-text">{{ inactiveText }}</span>
-  </div>`
-}
 
 BddTest().given('a Toggle component', () => {
-  BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render an AvToggle with correct translated labels', () => {
-      const wrapper = mount(Toggle, {
-        props: {
-          modelValue: true,
-          description: 'test'
-        },
-        global: {
-          stubs: { AvToggle: AvToggleStub }
-        }
-      })
+  let wrapper: VueWrapper<InstanceType<typeof Toggle>>
 
-      expect(wrapper.find('[data-test="active-text"]').text()).toBe('Oui')
-      expect(wrapper.find('[data-test="inactive-text"]').text()).toBe('Non')
+  const stubs = {
+    AvToggle: AvToggleStub
+  }
+
+  function mountDefault (props: Partial<ToggleProps> = {}) {
+    wrapper = mount(Toggle, {
+      props: {
+        modelValue: true,
+        description: 'test',
+        ...props
+      },
+      global: { stubs }
+    })
+  }
+
+  const getToggle = () => wrapper.findComponent(AvToggleStub)
+
+  BddTest().when('the component is mounted', () => {
+    beforeEach(() => mountDefault())
+
+    BddTest().then('it should render with default props', () => {
+      const toggle = getToggle()
+      expect(toggle.props('description')).toBe('test')
+      expect(toggle.props('activeText')).toBe('Oui')
+      expect(toggle.props('inactiveText')).toBe('Non')
+    })
+  })
+
+  BddTest().when('the component is mounted with custom props', () => {
+    beforeEach(() => mountDefault({
+      description: 'Some description',
+      activeText: 'Activé',
+      inactiveText: 'Désactivé'
+    }))
+
+    BddTest().then('it should render with custom props', () => {
+      const toggle = getToggle()
+      expect(toggle.props('description')).toBe('Some description')
+      expect(toggle.props('activeText')).toBe('Activé')
+      expect(toggle.props('inactiveText')).toBe('Désactivé')
     })
   })
 })
