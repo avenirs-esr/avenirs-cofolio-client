@@ -1,0 +1,16 @@
+{
+  "student": {
+    "kit": {
+      "views": {
+        "StudentToolsKitView": {
+          "consign": "Find all the content you have valorized here. Pick, sort, add, delete, and export it to create your CV, portfolio, LinkedIn profile, or cover letter!",
+          "errors": {
+            "profile": "An error occurred while retrieving your profile. Please try again later."
+          },
+          "subtitle": "Ready-to-use CoFolio raw material",
+          "title": "My ready-to-use kit"
+        }
+      }
+    }
+  }
+}
