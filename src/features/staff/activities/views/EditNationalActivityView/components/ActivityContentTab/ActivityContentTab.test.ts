@@ -1,4 +1,5 @@
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { AddCardStub } from '@/common/components/cards/AddCard/AddCard.stub'
 import { ActivityConsignFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.stub'
 import { ActivityFeedbackFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.stub'
 import { ActivityReflectionFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityReflectionFormField/ActivityReflectionFormField.stub'
@@ -24,6 +25,7 @@ BddTest().given('an ActivityContentTab component', () => {
     ActivityReflectionFormField: ActivityReflectionFormFieldStub,
     ActivityTitleFormField: ActivityTitleFormFieldStub,
     ActivityTraceFormField: ActivityTraceFormFieldStub,
+    AddCard: AddCardStub,
     EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     AvButton: AvButtonStub,
     IconTitleCardContainer: IconTitleCardContainerStub,
@@ -66,6 +68,21 @@ BddTest().given('an ActivityContentTab component', () => {
       const cardContainer = instructionsSection.findComponent({ name: 'IconTitleCardContainer' })
       expect(cardContainer.props('collapsible')).toBeDefined()
       expect(cardContainer.props('collapsed')).toBeDefined()
+    })
+
+    BddTest().then('it should render the DOCUMENTS section anchor', () => {
+      expect(tab.find(`#${ContentSectionId.DOCUMENTS}`).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the DOCUMENTS IconTitleCardContainer as collapsible and collapsed', () => {
+      const documentsSection = tab.find(`#${ContentSectionId.DOCUMENTS}`)
+      const cardContainer = documentsSection.findComponent({ name: 'IconTitleCardContainer' })
+      expect(cardContainer.props('collapsible')).toBeDefined()
+      expect(cardContainer.props('collapsed')).toBeDefined()
+    })
+
+    BddTest().then('it should render the AddCard in the DOCUMENTS section', () => {
+      expect(tab.find('[data-testid="activity-documents-section-add-card"]').exists()).toBe(true)
     })
 
     BddTest().then('it should render the CONTEXT section anchor with a collapsible and collapsed IconTitleCardContainer', () => {

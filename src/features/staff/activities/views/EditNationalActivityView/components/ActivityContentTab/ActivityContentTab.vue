@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { ActivityContentDTO } from '@/api/avenir-esr'
+import AddCard from '@/common/components/cards/AddCard/AddCard.vue'
+import { useModal } from '@/common/composables/use-modal/use-modal'
 import { ICONS } from '@/common/constants'
 import ActivityConsignFormField from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.vue'
 import ActivityExecutionPeriodFormField
@@ -28,6 +30,8 @@ const emit = defineEmits<{
 
 const { form, save, isUpdating } = useEditNationalActivityViewContext()
 const { t } = useI18n()
+// TODO: 1979, integrate the modal
+const { displayModal: displayAddResourceModal } = useModal()
 
 const isFormDirty = form.useStore(state => state.isDirty)
 </script>
@@ -86,6 +90,21 @@ const isFormDirty = form.useStore(state => state.isDirty)
           min-height="15rem"
           @autosave="save"
         />
+      </IconTitleCardContainer>
+    </div>
+    <div :id="ContentSectionId.DOCUMENTS">
+      <IconTitleCardContainer
+        :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.DOCUMENTS')"
+        :title-icon="MDI_ICONS.FILE_DOCUMENT_MULTIPLE_OUTLINE"
+        collapsible
+        collapsed
+      >
+        <div class="av-row">
+          <AddCard
+            data-testid="activity-documents-section-add-card"
+            @click="displayAddResourceModal()"
+          />
+        </div>
       </IconTitleCardContainer>
     </div>
     <div :id="ContentSectionId.MODALITIES">
