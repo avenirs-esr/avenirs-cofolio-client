@@ -1,3 +1,4 @@
+import { filesHandlers } from '@/__mocks__/msw/handlers/shared/files.handlers'
 import { notificationsHandlers } from '@/__mocks__/msw/handlers/shared/notifications.handlers'
 import { staffsActivitiesHandlers } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { feedbacksHandlers } from '@/__mocks__/msw/handlers/staffs/feedbacks.handlers'
@@ -16,6 +17,7 @@ import { tracesHandlers } from '@/__mocks__/msw/handlers/student/traces.handlers
 import { studentUserHandlers } from '@/__mocks__/msw/handlers/student/user.handlers'
 
 export const handlers = [
+  ...filesHandlers,
   ...notificationsHandlers,
   ...staffNotificationsHandlers,
   ...staffUserHandlers,

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { ActivityContentDTO } from '@/api/avenir-esr'
+import type { AddActivityResourceFormData } from '@/features/staff/activities/types/forms.types'
 import AddCard from '@/common/components/cards/AddCard/AddCard.vue'
 import { useModal } from '@/common/composables/use-modal/use-modal'
 import { ICONS } from '@/common/constants'
+import ActivityResourceCard from '@/features/staff/activities/components/cards/ActivityResourceCard/ActivityResourceCard.vue'
 import ActivityConsignFormField from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.vue'
 import ActivityExecutionPeriodFormField
   from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
@@ -12,6 +14,8 @@ import ActivityTitleFormField from '@/features/staff/activities/components/inter
 import ActivityTraceFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.vue'
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import ThematicSelectFormField from '@/features/staff/activities/views/ActivitiesView/components/tabs/NationalActivityContentTab/interactions/formFields/ThematicSelectFormField/ThematicSelectFormField.vue'
+import AddActivityResourceModal from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/AddActivityResourceModal.vue'
+import { isActivityResourceFileType, isActivityResourceLinkType } from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/utils/resource-form.types-guard'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import IconTitleCardContainer from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
@@ -30,10 +34,25 @@ const emit = defineEmits<{
 
 const { form, save, isUpdating } = useEditNationalActivityViewContext()
 const { t } = useI18n()
-// TODO: 1979, integrate the modal
-const { displayModal: displayAddResourceModal } = useModal()
+const {
+  showModal: showAddResourceModal,
+  displayModal: displayAddResourceModal,
+  hideModal: hideAddResourceModal
+} = useModal()
+
+function onResourceAdded (payload: AddActivityResourceFormData) {
+  if (isActivityResourceFileType(payload) && payload.file) {
+    form.setFieldValue('files', [...form.getFieldValue('files'), payload.file])
+  }
+  else if (isActivityResourceLinkType(payload)) {
+    form.setFieldValue('links', [...form.getFieldValue('links'), payload.link])
+  }
+  hideAddResourceModal()
+}
 
 const isFormDirty = form.useStore(state => state.isDirty)
+const files = form.useStore(state => state.values.files)
+const links = form.useStore(state => state.values.links)
 </script>
 
 <template>
@@ -99,7 +118,17 @@ const isFormDirty = form.useStore(state => state.isDirty)
         collapsible
         collapsed
       >
-        <div class="av-row">
+        <div class="av-row av-wrap av-gap-md">
+          <ActivityResourceCard
+            v-for="(file, index) in files"
+            :key="`file-${index}`"
+            :resource="file"
+          />
+          <ActivityResourceCard
+            v-for="(link, index) in links"
+            :key="`link-${index}`"
+            :resource="link"
+          />
           <AddCard
             data-testid="activity-documents-section-add-card"
             @click="displayAddResourceModal()"
@@ -127,6 +156,11 @@ const isFormDirty = form.useStore(state => state.isDirty)
         />
       </IconTitleCardContainer>
     </div>
+    <AddActivityResourceModal
+      :opened="showAddResourceModal"
+      @close="hideAddResourceModal"
+      @added="onResourceAdded"
+    />
     <div class="av-row av-wrap av-gap-sm av-justify-end">
       <EditNationalActivityViewTabActions />
       <AvButton

@@ -27,7 +27,7 @@ import {
   type TraceViewDTO
 
 } from '@/api/avenir-esr'
-import { getFileTypeFromFileName } from '@/common/utils/filetype/filetype'
+import { getFileTypeFromFileName } from '@/common/utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { isAfter, isBefore, isSameDay, parseISO, startOfDay } from 'date-fns'
 

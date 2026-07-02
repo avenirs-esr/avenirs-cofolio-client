@@ -1,6 +1,6 @@
 import type { ActivityContentDTO, ActivityDraftCreationResponse, ActivityDraftUpdateResponse, ActivityStaffOverviewDTO, FileDTO, PagedResponseActivityStaffOverviewDTO } from '@/api/avenir-esr'
 import { EActivityStatus, EActivityThematic } from '@/api/avenir-esr'
-import { getFileTypeFromFileName } from '@/common/utils/filetype/filetype'
+import { getFileTypeFromFileName } from '@/common/utils'
 
 export const mockedActivityDraftCreationResponse: ActivityDraftCreationResponse = {
   draftId: '5046ec1c-c8f3-4d06-abf3-71ba4a73643c',

@@ -251,6 +251,7 @@
         "USER_NOT_FOUND": "Utilisateur introuvable",
         "WRONG_CLASS_TYPE": "Le type de classe doit être différent"
       },
+      "download": "Une erreur est survenue lors du téléchargement du fichier.",
       "file": {
         "acceptType": "Le fichier ne respecte pas le format attendu.",
         "size": "La taille du fichier dépasse la limite autorisée."

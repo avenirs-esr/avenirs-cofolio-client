@@ -30,6 +30,8 @@ export const EditNationalActivityViewFormWrapper = defineComponent({
       summary: '',
       traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
       bannerAction: EditActivityFormDataBannerAction.NONE,
+      files: [],
+      links: [],
     }
 
     const form = useForm({
@@ -60,6 +62,8 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
       summary: '',
       traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
       bannerAction: EditActivityFormDataBannerAction.NONE,
+      files: [],
+      links: [],
     }
 
     const form = useForm({
