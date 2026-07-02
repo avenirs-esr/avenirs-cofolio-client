@@ -14,12 +14,23 @@ BddTest().given('a FinishDeclaredActivity component', () => {
     FinishDeclaredActivityConfirmModal: FinishDeclaredActivityConfirmModalStub,
   }
 
-  BddTest().when('the component is mounted without completed status', () => {
+  BddTest().when('the component is mounted with subscribed status', () => {
     beforeEach(() => {
       wrapper = mountComponent(FinishDeclaredActivity, {
-        props: {
-          status: EDeclaredActivityStatus.IN_PROGRESS,
-        },
+        props: { status: EDeclaredActivityStatus.SUBSCRIBED },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should not render the finish declared activity block', () => {
+      expect(wrapper.find('[data-testid="finish-declared-activity"]').exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with in progress status', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(FinishDeclaredActivity, {
+        props: { status: EDeclaredActivityStatus.IN_PROGRESS },
         global: { stubs },
       })
     })
@@ -28,16 +39,17 @@ BddTest().given('a FinishDeclaredActivity component', () => {
       expect(wrapper.find('[data-testid="finish-declared-activity"]').exists()).toBe(true)
     })
 
-    BddTest().then('it should render the finish button with correct props', () => {
+    BddTest().then('it should render the finish button as enabled with correct props', () => {
       const button = wrapper.findComponent(AvButtonStub)
       expect(button.exists()).toBe(true)
       expect(button.props('label')).toBe('Terminer l\'activité')
       expect(button.props('variant')).toBe('FLAT')
       expect(button.props('icon')).toBeDefined()
+      expect(button.props('disabled')).toBe(false)
     })
 
     BddTest().then('it should not render the completed badge', () => {
-      expect(wrapper.find('[data-testid="av-badge-stub"]').exists()).toBe(false)
+      expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(false)
     })
 
     BddTest().then('it should render the confirmation modal closed by default', () => {
@@ -88,12 +100,33 @@ BddTest().given('a FinishDeclaredActivity component', () => {
     })
   })
 
+  BddTest().when('the component is mounted with submitted status', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(FinishDeclaredActivity, {
+        props: { status: EDeclaredActivityStatus.SUBMITTED },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the finish declared activity block', () => {
+      expect(wrapper.find('[data-testid="finish-declared-activity"]').exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the finish button as disabled', () => {
+      const button = wrapper.findComponent(AvButtonStub)
+      expect(button.exists()).toBe(true)
+      expect(button.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should not render the completed badge', () => {
+      expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(false)
+    })
+  })
+
   BddTest().when('the component is mounted with completed status', () => {
     beforeEach(() => {
       wrapper = mountComponent(FinishDeclaredActivity, {
-        props: {
-          status: EDeclaredActivityStatus.COMPLETED,
-        },
+        props: { status: EDeclaredActivityStatus.COMPLETED },
         global: { stubs },
       })
     })
@@ -111,32 +144,6 @@ BddTest().given('a FinishDeclaredActivity component', () => {
       expect(badge.exists()).toBe(true)
       expect(badge.props('label')).toBe('Terminée')
       expect(badge.props('icon')).toBeDefined()
-    })
-
-    BddTest().then('it should render the confirmation modal closed by default', () => {
-      const confirmModal = wrapper.findComponent(FinishDeclaredActivityConfirmModalStub)
-      expect(confirmModal.exists()).toBe(true)
-      expect(confirmModal.props('show')).toBe(false)
-    })
-  })
-
-  BddTest().when('the component is mounted without status', () => {
-    beforeEach(() => {
-      wrapper = mountComponent(FinishDeclaredActivity, {
-        global: { stubs },
-      })
-    })
-
-    BddTest().then('it should not render the finish declared activity block', () => {
-      expect(wrapper.find('[data-testid="finish-declared-activity"]').exists()).toBe(false)
-    })
-
-    BddTest().then('it should not render the finish button', () => {
-      expect(wrapper.findComponent(AvButtonStub).exists()).toBe(false)
-    })
-
-    BddTest().then('it should not render the completed badge', () => {
-      expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(false)
     })
 
     BddTest().then('it should render the confirmation modal closed by default', () => {

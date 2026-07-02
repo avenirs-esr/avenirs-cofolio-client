@@ -39,6 +39,10 @@ export class MyPerspectiveSectionObject extends BaseObject {
     return this.root.getByTestId('finish-declared-activity-button')
   }
 
+  getFinishBadge () {
+    return this.root.getByTestId('finish-declared-activity-finished-badge')
+  }
+
   getFinishConfirmationModal () {
     return this.root.page().getByTestId('finish-declared-activity-confirm-modal')
   }
@@ -158,6 +162,22 @@ export class MyPerspectiveSectionObject extends BaseObject {
 
   async verifyFinishButtonVisible () {
     await expect(this.getFinishButton()).toBeVisible()
+  }
+
+  async verifyFinishButtonEnabled () {
+    await expect(this.getFinishButton()).toBeEnabled()
+  }
+
+  async verifyFinishButtonDisabled () {
+    await expect(this.getFinishButton()).toBeDisabled()
+  }
+
+  async verifyFinishBadgeVisible () {
+    await expect(this.getFinishBadge()).toBeVisible()
+  }
+
+  async verifyFinishBadgeHidden () {
+    await expect(this.getFinishBadge()).toBeHidden()
   }
 
   async verifyFinishButtonHidden () {
