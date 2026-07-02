@@ -11,7 +11,7 @@ const emit = defineEmits<{
   (e: 'seen', id: string): void
 }>()
 
-const parameters = computed(() => n.parameters !== undefined && n.parameters.length >= 2 ? n.parameters : ['', ''])
+const parameters = computed(() => n.parameters !== undefined && n.parameters.length >= 3 ? n.parameters : ['', '', ''])
 const to = computed(() => n.elementId !== undefined
   ? ({
       name: ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name,
@@ -37,11 +37,11 @@ const to = computed(() => n.elementId !== undefined
         tag="span"
       >
         <template #studentName>
-          <span class="av-text-bold">{{ parameters[0] }}</span>
+          <span class="av-text-bold">{{ parameters[1] }} {{ parameters[0] }}</span>
         </template>
 
         <template #activityName>
-          <span class="av-text-bold">{{ parameters[1] }}</span>
+          <span class="av-text-bold">{{ parameters[2] }}</span>
         </template>
       </I18nT>
     </span>
