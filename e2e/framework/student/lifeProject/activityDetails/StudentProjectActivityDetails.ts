@@ -127,6 +127,26 @@ export class StudentProjectActivityDetails extends BasePage {
     await this.getMyPerspectiveSection().verifyFinishButtonVisible()
   }
 
+  @Then('the finish activity button is enabled')
+  async verifyFinishActivityButtonEnabled () {
+    await this.getMyPerspectiveSection().verifyFinishButtonEnabled()
+  }
+
+  @Then('the finish activity button is disabled')
+  async verifyFinishActivityButtonDisabled () {
+    await this.getMyPerspectiveSection().verifyFinishButtonDisabled()
+  }
+
+  @Then('the finish activity badge is visible')
+  async verifyFinishActivityBadgeVisible () {
+    await this.getMyPerspectiveSection().verifyFinishBadgeVisible()
+  }
+
+  @Then('the finish activity badge is hidden')
+  async verifyFinishActivityBadgeHidden () {
+    await this.getMyPerspectiveSection().verifyFinishBadgeHidden()
+  }
+
   @When('the student clicks the finish activity button')
   async clickFinishActivityButton () {
     await this.getMyPerspectiveSection().clickFinishButton()

@@ -27,24 +27,26 @@ function handleConfirm () {
 
 const isCompleted = computed(() => status === EDeclaredActivityStatus.COMPLETED)
 const isInProgress = computed(() => status === EDeclaredActivityStatus.IN_PROGRESS)
+const isSubscribed = computed(() => status === EDeclaredActivityStatus.SUBSCRIBED)
 </script>
 
 <template>
   <div
-    v-if="isInProgress || isCompleted"
+    v-if="!isSubscribed"
     class="av-col av-align-end av-items-end av-pt-md"
     data-testid="finish-declared-activity"
   >
     <AvButton
-      v-if="isInProgress"
+      v-if="!isCompleted"
       data-testid="finish-declared-activity-button"
       :label="t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivity.finishButton')"
       variant="FLAT"
       :icon="MDI_ICONS.CHECK_CIRCLE_OUTLINE"
+      :disabled="!isInProgress"
       @click="displayModal"
     />
     <div
-      v-if="isCompleted"
+      v-else
       class="av-col av-align-end"
     >
       <AvBadge

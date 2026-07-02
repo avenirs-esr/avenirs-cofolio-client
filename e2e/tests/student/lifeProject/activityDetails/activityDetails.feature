@@ -78,14 +78,44 @@ Feature: Student Project Activity Detail Page
   Rule: Finish declared activity
 
     @high @activity-details @finish-activity
-    Scenario: Student can finish an in progress activity
+    Scenario: Student with in progress activity can finish it
       And the student clicks a library activity card with "IN_PROGRESS" status
       And the project activity details are loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       Then the finish activity button is visible
+      And the finish activity button is enabled
+      And the finish activity badge is hidden
       When the student clicks the finish activity button
       Then the finish activity confirmation modal is visible
+
+    @high @activity-details @finish-activity
+    Scenario: Student with submitted activity has disabled finish button
+      And the student clicks a library activity card with "SUBMITTED" status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      Then the finish activity button is visible
+      And the finish activity button is disabled
+      And the finish activity badge is hidden
+
+    @high @activity-details @finish-activity
+    Scenario: Student with completed activity sees finished badge
+      And the student clicks a library activity card with "COMPLETED" status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      Then the finish activity button is hidden
+      And the finish activity badge is visible
+
+    @high @activity-details @finish-activity
+    Scenario: Student with subscribed activity has no finish button and no badge
+      And the student clicks a library activity card with "SUBSCRIBED" status
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      Then the finish activity button is hidden
+    And the finish activity badge is hidden
 
   Rule: Request feedback
 
