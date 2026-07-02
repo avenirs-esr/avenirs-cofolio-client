@@ -90,9 +90,12 @@ const defaultValues: EditActivityFormData = reactive({
   feedbackAllowedIterations: computed(() => content.value?.feedbackAllowedIterations ?? undefined),
   traceAllowedAssociations: computed(() => content.value?.traceAllowedAssociations ?? ACTIVITY_TRACE_SETTING_INFINITY_VALUE),
   bannerAction: EditActivityFormDataBannerAction.NONE,
+  files: computed(() => content.value?.files ?? []),
+  links: computed(() => content.value?.links ?? []),
 })
 
 const { mutateAsync: uploadBannerMutation } = useUploadFile()
+const { mutateAsync: uploadResourceFileMutation } = useUploadFile()
 const { mutateAsync: deleteBannerMutation } = useDeleteFile()
 const { mutateAsync: updateActivity } = useUpdateActivityDraft()
 
@@ -121,6 +124,7 @@ const form = useForm({
       enableReflection: value.enableReflection ?? true,
       feedbackAllowedIterations: value.feedbackAllowedIterations ?? 0,
       traceAllowedAssociations: value.traceAllowedAssociations,
+      links: value.links,
     })
   },
 })
@@ -160,6 +164,17 @@ async function saveBanner (action: EditActivityFormDataBannerAction) {
   }
 }
 
+async function saveResourceFiles (files: File[]) {
+  if (files.length === 0) {
+    return
+  }
+  await Promise.all(files.map(file => uploadResourceFileMutation({
+    fileCategory: EFileCategory.ACTIVITY_FILE,
+    elementId: id,
+    data: { file }
+  })))
+}
+
 async function saveActivity (data: ActivityDraftUpdateRequest) {
   await updateActivity({
     activityDraftId: id,
@@ -170,10 +185,16 @@ async function saveActivity (data: ActivityDraftUpdateRequest) {
 async function save (data?: ActivityDraftUpdateRequest) {
   const promises: Promise<void>[] = []
   const bannerAction = form.getFieldValue('bannerAction')
+  const pendingFiles = form.getFieldValue('files').filter((f): f is File => f instanceof File)
 
   if (bannerAction !== EditActivityFormDataBannerAction.NONE) {
     promises.push(saveBanner(bannerAction))
     form.setFieldValue('bannerAction', EditActivityFormDataBannerAction.NONE)
+  }
+
+  if (pendingFiles.length > 0) {
+    promises.push(saveResourceFiles(pendingFiles))
+    form.setFieldValue('files', form.getFieldValue('files').filter(f => !(f instanceof File)))
   }
 
   if (data) {

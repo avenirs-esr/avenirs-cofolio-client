@@ -262,6 +262,7 @@
         "USER_NOT_FOUND": "User not found",
         "WRONG_CLASS_TYPE": "The class type should be different"
       },
+      "download": "An error occurred while downloading the file.",
       "file": {
         "acceptType": "The file does not meet the expected format.",
         "size": "The file size exceeds the allowed limit."

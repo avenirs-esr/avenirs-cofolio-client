@@ -1,13 +1,20 @@
-import { type ActivityResource, type ActivityResourceFile, type ActivityResourceLink, ActivityResourceType } from '@/features/staff/activities/types/resource.types'
+import type { FileDTO } from '@/api/avenir-esr'
+import type { ActivityResource } from '@/features/staff/activities/types/resource.types'
 
 export function isActivityResourceFile (
   resource: ActivityResource,
-): resource is ActivityResourceFile {
-  return resource.type === ActivityResourceType.FILE
+): resource is FileDTO | File {
+  return typeof resource !== 'string' && (resource instanceof File || !!resource.id)
 }
 
 export function isActivityResourceLink (
   resource: ActivityResource,
-): resource is ActivityResourceLink {
-  return resource.type === ActivityResourceType.LINK
+): resource is string {
+  return typeof resource === 'string'
+}
+
+export function isActivityResourcePendingFile (
+  resource: ActivityResource,
+): resource is File {
+  return resource instanceof File
 }

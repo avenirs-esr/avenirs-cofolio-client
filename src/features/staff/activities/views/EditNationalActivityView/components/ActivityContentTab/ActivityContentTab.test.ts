@@ -1,12 +1,15 @@
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { AddCardStub } from '@/common/components/cards/AddCard/AddCard.stub'
+import { ActivityResourceCardStub } from '@/features/staff/activities/components/cards/ActivityResourceCard/ActivityResourceCard.stub'
 import { ActivityConsignFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.stub'
 import { ActivityFeedbackFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.stub'
 import { ActivityReflectionFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityReflectionFormField/ActivityReflectionFormField.stub'
 import { ActivityTitleFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.stub'
 import { ActivityTraceFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.stub'
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
+import { ActivityResourceType } from '@/features/staff/activities/types/resource.types'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
+import { AddActivityResourceModalStub } from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/AddActivityResourceModal.stub'
 import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.stub'
 import { EditNationalActivityViewFormWrapper, EditNationalActivityViewFormWrapperDirty } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
 import { IconTitleCardContainerStub } from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
@@ -26,6 +29,8 @@ BddTest().given('an ActivityContentTab component', () => {
     ActivityTitleFormField: ActivityTitleFormFieldStub,
     ActivityTraceFormField: ActivityTraceFormFieldStub,
     AddCard: AddCardStub,
+    ActivityResourceCard: ActivityResourceCardStub,
+    AddActivityResourceModal: AddActivityResourceModalStub,
     EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     AvButton: AvButtonStub,
     IconTitleCardContainer: IconTitleCardContainerStub,
@@ -40,6 +45,9 @@ BddTest().given('an ActivityContentTab component', () => {
   }
 
   const getNextStepButton = () => tab.findAllComponents(AvButtonStub).find(c => c.attributes('data-testid') === 'activity-content-tab-next-step-button') as VueWrapper<InstanceType<typeof AvButtonStub>>
+  const getModal = () => tab.findComponent(AddActivityResourceModalStub)
+  const getAddCard = () => tab.findComponent(AddCardStub)
+  const getResourceCards = () => tab.findAllComponents(ActivityResourceCardStub)
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -144,6 +152,72 @@ BddTest().given('an ActivityContentTab component', () => {
 
     BddTest().then('it should emit nextStep', () => {
       expect(tab.emitted('nextStep')).toBeTruthy()
+    })
+  })
+
+  BddTest().when('the add resource modal is rendered', () => {
+    BddTest().then('it should render the modal closed initially', () => {
+      expect(getModal().exists()).toBe(true)
+      expect(getModal().props('opened')).toBe(false)
+    })
+  })
+
+  BddTest().when('the AddCard is clicked', () => {
+    beforeEach(() => {
+      getAddCard().vm.$emit('click')
+    })
+
+    BddTest().then('it should open the modal', () => {
+      expect(getModal().props('opened')).toBe(true)
+    })
+  })
+
+  BddTest().when('the modal emits close', () => {
+    beforeEach(() => {
+      getAddCard().vm.$emit('click')
+      getModal().vm.$emit('close')
+    })
+
+    BddTest().then('it should close the modal', () => {
+      expect(getModal().props('opened')).toBe(false)
+    })
+  })
+
+  BddTest().when('the modal emits added with a file payload', () => {
+    beforeEach(() => {
+      getAddCard().vm.$emit('click')
+      getModal().vm.$emit('added', {
+        resourceType: ActivityResourceType.FILE,
+        file: new File(['content'], 'document.pdf', { type: 'application/pdf' }),
+        resourceName: 'document',
+      })
+    })
+
+    BddTest().then('it should render a resource card for the added file', () => {
+      expect(getResourceCards()).toHaveLength(1)
+    })
+
+    BddTest().then('it should close the modal', () => {
+      expect(getModal().props('opened')).toBe(false)
+    })
+  })
+
+  BddTest().when('the modal emits added with a link payload', () => {
+    beforeEach(() => {
+      getAddCard().vm.$emit('click')
+      getModal().vm.$emit('added', {
+        resourceType: ActivityResourceType.LINK,
+        link: 'https://avenir-esr.fr',
+      })
+    })
+
+    BddTest().then('it should render a resource card for the added link', () => {
+      expect(getResourceCards()).toHaveLength(1)
+      expect(getResourceCards()[0].props('resource')).toBe('https://avenir-esr.fr')
+    })
+
+    BddTest().then('it should close the modal', () => {
+      expect(getModal().props('opened')).toBe(false)
     })
   })
 })

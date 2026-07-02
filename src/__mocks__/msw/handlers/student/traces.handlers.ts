@@ -288,26 +288,6 @@ export const tracesHandlers = [
     })
   }),
 
-  http.get(`*${getDownloadFileUrl(':attachmentId')}`, ({ params }) => {
-    const attachmentId: string | undefined = params.attachmentId as string | undefined
-
-    if (!attachmentId) {
-      return HttpResponse.json({ error: 'Attachment ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
-    }
-
-    if (attachmentId === 'INVALID_ATTACHMENT_ID') {
-      return HttpResponse.json({ error: 'Attachment not found', code: ErrorCodes.ATTACHMENT_NOT_FOUND }, { status: 404 })
-    }
-
-    return new HttpResponse('trace attachment content', {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/octet-stream',
-        'Content-Disposition': 'attachment; filename="An awesome attachment"'
-      }
-    })
-  }),
-
   http.get<PathParams, TraceDetailDTO>(`*${getGetTraceDetailUrl(':traceId')}`, async () => {
     await delay(100)
     return HttpResponse.json(mockedTraceDetailed, {

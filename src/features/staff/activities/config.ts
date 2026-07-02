@@ -1,3 +1,5 @@
+import { LINK_MAX_LENGTH } from '@/common/constants'
+
 export const ACTIVITY_AUTO_SAVE_DEBOUNCE = 1000 * 5
 export const ACTIVITY_CONSIGN_MAX_LENGTH = 2000
 export const ACTIVITY_EXECUTION_PERIOD_MAX_LENGTH = 200
@@ -10,3 +12,12 @@ export const ACTIVITY_TITLE_MAX_LENGTH = 80
 export const ACTIVITY_TRACE_SETTING_INFINITY_VALUE = -1
 export const ACTIVITY_TRACE_SETTING_DISABLED_VALUE = 0
 export const ACTIVITY_TRACE_ALLOWED_ASSOCIATIONS_MIN = 1
+export const ACTIVITY_RESOURCE_NAME_MAX_LENGTH = 255
+export const ACTIVITY_RESOURCE_LINK_MAX_LENGTH = LINK_MAX_LENGTH
+export const ACTIVITY_RESOURCE_MAX_FILE_SIZE = 10 * 1024 * 1024
+export const ACTIVITY_RESOURCE_ACCEPTED_FILE_TYPES = [
+  'application/pdf',
+  'image/jpeg',
+  'image/pjpeg',
+  'image/png'
+] as const

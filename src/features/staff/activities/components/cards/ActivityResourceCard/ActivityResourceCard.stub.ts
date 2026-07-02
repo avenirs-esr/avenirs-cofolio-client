@@ -5,7 +5,7 @@ export const ActivityResourceCardStub = defineComponent({
   name: 'ActivityResourceCard',
   props: {
     resource: {
-      type: Object as PropType<ActivityResource>,
+      type: [String, Object] as PropType<ActivityResource>,
       required: false,
     },
   },

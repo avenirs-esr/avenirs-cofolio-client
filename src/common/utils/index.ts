@@ -1,4 +1,5 @@
 export * from './date/date'
+export * from './file/file'
 export * from './highlight/highlight'
 export * from './http/http-params'
 export * from './http/http-status'

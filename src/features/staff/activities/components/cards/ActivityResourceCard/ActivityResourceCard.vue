@@ -4,7 +4,7 @@ import type { ActivityResource } from '@/features/staff/activities/types/resourc
 import { useDownloadFile } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { downloadBlob } from '@/common/utils/download/download'
-import { isActivityResourceFile, isActivityResourceLink } from '@/features/staff/activities/utils/resource.types-guard'
+import { isActivityResourceFile, isActivityResourceLink, isActivityResourcePendingFile } from '@/features/staff/activities/utils/resource.types-guard'
 import { useToasterStore } from '@/store'
 import { AvCard, AvIcon, AvTag, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -19,17 +19,34 @@ const { t } = useI18n()
 const { getErrorMessage } = useApiErrors()
 const { addErrorMessage } = useToasterStore()
 
+const title = computed(() => {
+  switch (true) {
+    case isActivityResourceLink(resource):
+      return resource
+    case isActivityResourcePendingFile(resource):
+      return resource.name
+    default:
+      return resource.fileName
+  }
+})
+
 const { mutate: mutateDownloadFile } = useDownloadFile({
   mutation: {
     onError: (error: BaseApiException) => {
       addErrorMessage({
-        title: t('global.errors.download'),
+        title: t('global.error.download'),
         description: getErrorMessage(error),
       })
     },
-    onSuccess: data => downloadBlob(data, resource.title),
+    onSuccess: data => downloadBlob(data, title.value),
   },
 })
+
+const href = computed(() =>
+  isActivityResourceLink(resource)
+    ? resource
+    : undefined,
+)
 
 const icon = computed(() =>
   isActivityResourceFile(resource)
@@ -38,35 +55,38 @@ const icon = computed(() =>
 )
 
 const typeLabel = computed(() =>
-  t(`global.${resource.type}`))
+  isActivityResourceLink(resource)
+    ? t('global.link')
+    : t('global.file'))
 
 function downloadFile () {
   if (!isActivityResourceFile(resource)) {
     return
   }
 
-  mutateDownloadFile({ fileId: resource.fileId })
+  if (isActivityResourcePendingFile(resource)) {
+    downloadBlob(resource, resource.name)
+  }
+  else {
+    mutateDownloadFile({ fileId: resource.id })
+  }
 }
 </script>
 
 <template>
   <component
-    :is="isActivityResourceLink(resource) ? 'a' : 'div'"
+    :is="href ? 'a' : 'button'"
     class="activity-resource-card-link"
-    v-bind="isActivityResourceLink(resource)
-      ? {
-        href: resource.url,
-        target: '_blank',
-        rel: 'noopener noreferrer',
-      }
-      : {}"
+    :href="href"
+    :target="href ? '_blank' : undefined"
+    :rel="href ? 'noopener noreferrer' : undefined"
+    @click="downloadFile"
   >
     <AvCard
       class="activity-resource-card"
-      background-color="var(--card2)"
+      background-color="var(--surface-background)"
       border-color="transparent"
       data-testid="activity-resource-card"
-      @click="isActivityResourceFile(resource) ? downloadFile : undefined"
     >
       <template #body>
         <div class="icon-container av-col av-align-center av-justify-center av-top-none av-left-none">
@@ -83,7 +103,7 @@ function downloadFile () {
             :class="{ 'title-link': isActivityResourceLink(resource) }"
             data-testid="activity-resource-card-title"
           >
-            {{ resource.title }}
+            {{ title }}
           </span>
 
           <AvTag
@@ -125,5 +145,10 @@ function downloadFile () {
 .activity-resource-card-link {
   text-decoration: none;
   color: inherit;
+  background: none;
+
+  &:hover {
+    background: none;
+  }
 }
 </style>
