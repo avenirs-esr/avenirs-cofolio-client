@@ -60,10 +60,7 @@ defineExpose({ searchQuery })
             >
               <StudentMailboxPopover :messages-count="messagesCount" />
             </li>
-            <li
-              class="demo-display-none"
-              data-testid="notifications-button"
-            >
+            <li data-testid="notifications-button">
               <StudentNotificationsPopover />
             </li>
             <li data-testid="profile-button">

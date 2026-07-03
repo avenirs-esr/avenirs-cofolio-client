@@ -33,7 +33,7 @@ const feedbackIterationsLabel = computed(() => activity.feedbackAllowedIteration
 
 <template>
   <IconTitleCardContainer
-    :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.MODALITIES')"
+    :title="t('global.activities.contentSectionTypes.MODALITIES')"
     :title-icon="MDI_ICONS.SETTINGS"
     data-testid="national-activity-setting-details"
   >

@@ -5,6 +5,9 @@
         "UpdateInProgress": "Modification en cours"
       },
       "cards": {
+        "ActivityModifiedNotificationCard": {
+          "content": "L'activité \"{activityName}\" a été mise à jour. La section suivante a été modifiée : {sectionTypes}. | L'activité \"{activityName}\" a été mise à jour. Les sections suivantes ont été modifiées : {sectionTypes}."
+        },
         "SelectedAssociateItemContainer": {
           "label": "Mes éléments sélectionnés ({count})"
         }

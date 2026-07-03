@@ -62,15 +62,6 @@
         },
         "AddNationalActivityView": {
           "sideNavigation": {
-            "content": {
-              "CONTEXT": "Contexte(s) de réalisation conseillé(s)",
-              "DOCUMENTS": "Documents et liens utiles",
-              "INSTRUCTIONS": "Consigne",
-              "MODALITIES": "Modalités",
-              "SCHEDULE": "Déroulé",
-              "THEMATIC": "Thématique",
-              "TITLE": "Titre"
-            },
             "contentHeader": "Contenu de l'activité",
             "publication": {
               "ACTIVITY_TITLE": "Titre de l'activité",
