@@ -127,7 +127,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
   async function finalizeTraceCreation (traceId: string, traceFormData: TraceFormData) {
     if (isTraceFileType(traceFormData) && traceFormData.file) {
       await uploadFile({
-        fileCategory: EFileCategory.TRACE_ATTACHEMENT,
+        fileCategory: EFileCategory.TRACE_ATTACHMENT,
         elementId: traceId,
         data: { file: traceFormData.file }
       })

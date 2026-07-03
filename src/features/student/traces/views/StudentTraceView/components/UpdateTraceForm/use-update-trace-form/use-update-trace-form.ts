@@ -114,7 +114,7 @@ export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () 
     }
 
     uploadFile({
-      fileCategory: EFileCategory.TRACE_ATTACHEMENT,
+      fileCategory: EFileCategory.TRACE_ATTACHMENT,
       elementId: traceId,
       data: { file }
     }, {
