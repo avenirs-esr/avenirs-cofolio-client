@@ -33,6 +33,15 @@
           "periodTitle": "Execution period",
           "previewTitle": "Activity preview"
         }
+      },
+      "contentSectionTypes": {
+        "CONTEXT": "Recommended completion context(s)",
+        "DOCUMENTS": "Documents and useful links",
+        "INSTRUCTIONS": "Instructions",
+        "MODALITIES": "Modalities",
+        "SCHEDULE": "Schedule",
+        "THEMATIC": "Theme",
+        "TITLE": "Title"
       }
     },
     "application": "Application",

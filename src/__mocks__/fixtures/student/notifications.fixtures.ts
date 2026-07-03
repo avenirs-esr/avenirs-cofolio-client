@@ -3,7 +3,7 @@ import { type NotificationDTO, NotificationDTOType, type PagedResponseNotificati
 export const mockedStudentNotification: NotificationDTO = {
   id: crypto.randomUUID(),
   createdAt: '2024-01-01T00:00:00Z',
-  type: NotificationDTOType.ASK_FOR_FEEDBACK,
+  type: NotificationDTOType.ACTIVITY_MODIFIED,
   seen: true
 }
 

@@ -1,5 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { mockedStudentNotification } from '@/__mocks__/fixtures/student/notifications.fixtures'
+import { EUserCategory, type NotificationDTO } from '@/api/avenir-esr'
 import { NotificationsPopoverStub } from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.stub'
+import { ActivityModifiedNotificationCardStub } from '@/features/student/global/components/cards/ActivityModifiedNotificationCard/ActivityModifiedNotificationCard.stub'
 import StudentNotificationsPopover from '@/features/student/user/components/overlays/StudentNotificationsPopover/StudentNotificationsPopover.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -9,36 +12,57 @@ BddTest().given('a StudentNotificationsPopover', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentNotificationsPopover>>
 
   const stubs = {
-    NotificationsPopover: NotificationsPopoverStub
+    NotificationsPopover: NotificationsPopoverStub,
+    ActivityModifiedNotificationCard: ActivityModifiedNotificationCardStub
   }
 
-  const mountDefault = () => {
+  const mountDefault = (notification?: NotificationDTO) => {
     wrapper = mountComponent(StudentNotificationsPopover, {
+      attrs: { notifications: notification ? [notification] : undefined },
       global: { stubs }
     })
   }
 
   const getPopover = () => wrapper.findComponent(NotificationsPopoverStub)
-  const getHeader = () => wrapper.find('[data-testid="student-notifications-popover-contexts-header"]')
-  const getList = () => wrapper.find('[data-testid="student-notifications-popover-contexts"]')
+  const getContextsHeader = () => wrapper.find('[data-testid="student-notifications-popover-contexts-header"]')
+  const getContexts = () => wrapper.find('[data-testid="student-notifications-popover-contexts"]')
+  const getActivityModifiedNotificationCards = () => wrapper.findAllComponents(ActivityModifiedNotificationCardStub)
 
   BddTest().when('the component is rendered', () => {
     beforeEach(() => mountDefault())
 
     BddTest().then('it should render NotificationsPopover with correct props', () => {
-      expect(getPopover().exists()).toBe(true)
+      const popover = getPopover()
+      expect(popover.exists()).toBe(true)
+      expect(popover.props('userCategory')).toBe(EUserCategory.STUDENT)
     })
+  })
+
+  BddTest().when('no notification is provided', () => {
+    beforeEach(() => mountDefault())
 
     BddTest().then('it should render empty slot header', () => {
-      expect(getHeader().text()).toBe('Vous recevrez une notification dans les cas suivants :')
+      expect(getContextsHeader().text()).toBe('Vous recevrez une notification dans les cas suivants :')
     })
 
     BddTest().then('it should render all context items', () => {
-      const text = getList().text()
-      expect(text).toContain('Un enseignant vous enverra un message')
-      expect(text).toContain('Un tiers vous aura évalué sur une compétence')
-      expect(text).toContain('Une trace a été validée')
-      expect(text).toContain('Un événement a lieu prochainement')
+      const contexts = getContexts()
+      expect(contexts.exists()).toBe(true)
+      expect(contexts.element.children.length).toBe(4)
+      expect(contexts.element.children[0].textContent).toBe('Un enseignant vous enverra un message')
+      expect(contexts.element.children[1].textContent).toBe('Un tiers vous aura évalué sur une compétence')
+      expect(contexts.element.children[2].textContent).toBe('Une trace a été validée')
+      expect(contexts.element.children[3].textContent).toBe('Un événement a lieu prochainement')
+    })
+  })
+
+  BddTest().when('notification is ACTIVITY_MODIFIED', () => {
+    beforeEach(() => mountDefault(mockedStudentNotification))
+
+    BddTest().then('it should render ActivityModifiedNotificationCard with correct props', () => {
+      const activityModifiedNotificationCards = getActivityModifiedNotificationCards()
+      expect(activityModifiedNotificationCards.length).toBe(1)
+      expect(activityModifiedNotificationCards[0].props('notification')).toEqual(mockedStudentNotification)
     })
   })
 })

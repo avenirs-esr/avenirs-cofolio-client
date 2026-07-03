@@ -33,6 +33,15 @@
           "periodTitle": "Période de réalisation",
           "previewTitle": "Extrait de l'activité"
         }
+      },
+      "contentSectionTypes": {
+        "CONTEXT": "Contexte(s) de réalisation conseillé(s)",
+        "DOCUMENTS": "Documents et liens utiles",
+        "INSTRUCTIONS": "Consigne",
+        "MODALITIES": "Modalités",
+        "SCHEDULE": "Déroulé",
+        "THEMATIC": "Thématique",
+        "TITLE": "Titre"
       }
     },
     "application": "Application",

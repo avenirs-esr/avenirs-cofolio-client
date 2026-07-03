@@ -39,7 +39,7 @@ const contentItems = computed<AvSideNavigationMenuItem[]>(() => [
     expanded: true,
     children: Object.values(ContentSectionId).map(id => ({
       id,
-      label: t(`staff.activities.views.AddNationalActivityView.sideNavigation.content.${id}`),
+      label: t(`global.activities.contentSectionTypes.${id}`),
     })),
   },
 ])

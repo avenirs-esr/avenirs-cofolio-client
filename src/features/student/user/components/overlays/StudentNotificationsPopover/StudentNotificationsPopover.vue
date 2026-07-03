@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { EUserCategory } from '@/api/avenir-esr'
+import { EUserCategory, NotificationDTOType } from '@/api/avenir-esr'
 import NotificationsPopover from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.vue'
+import ActivityModifiedNotificationCard from '@/features/student/global/components/cards/ActivityModifiedNotificationCard/ActivityModifiedNotificationCard.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -24,6 +25,15 @@ const { t } = useI18n()
         <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.contexts.validatedTrace') }}</span></li>
         <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.contexts.comingUpEvent') }}</span></li>
       </ul>
+    </template>
+
+    <template #default="{ notification, onRedirect, onSeen }">
+      <ActivityModifiedNotificationCard
+        v-if="notification.type === NotificationDTOType.ACTIVITY_MODIFIED"
+        :notification="notification"
+        @redirect="onRedirect"
+        @seen="onSeen"
+      />
     </template>
   </NotificationsPopover>
 </template>

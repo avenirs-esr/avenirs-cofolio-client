@@ -67,7 +67,7 @@ const isFormDirty = form.useStore(state => state.isDirty)
 
     <div :id="ContentSectionId.INSTRUCTIONS">
       <IconTitleCardContainer
-        :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.INSTRUCTIONS')"
+        :title="t('global.activities.contentSectionTypes.INSTRUCTIONS')"
         :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
         collapsible
         collapsed
@@ -94,7 +94,7 @@ const isFormDirty = form.useStore(state => state.isDirty)
     </div>
     <div :id="ContentSectionId.DOCUMENTS">
       <IconTitleCardContainer
-        :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.DOCUMENTS')"
+        :title="t('global.activities.contentSectionTypes.DOCUMENTS')"
         :title-icon="MDI_ICONS.FILE_DOCUMENT_MULTIPLE_OUTLINE"
         collapsible
         collapsed
@@ -109,7 +109,7 @@ const isFormDirty = form.useStore(state => state.isDirty)
     </div>
     <div :id="ContentSectionId.MODALITIES">
       <IconTitleCardContainer
-        :title="t('staff.activities.views.AddNationalActivityView.sideNavigation.content.MODALITIES')"
+        :title="t('global.activities.contentSectionTypes.MODALITIES')"
         :title-icon="MDI_ICONS.SETTINGS"
         collapsible
       >
