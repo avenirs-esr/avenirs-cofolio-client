@@ -265,7 +265,7 @@ export const tracesHandlers = [
     })
   }),
 
-  http.post(`*${getUploadFileUrl(EFileCategory.TRACE_ATTACHEMENT, ':traceId')}`, async ({ params, request }) => {
+  http.post(`*${getUploadFileUrl(EFileCategory.TRACE_ATTACHMENT, ':traceId')}`, async ({ params, request }) => {
     const traceId: string | undefined = params.traceId as string | undefined
 
     if (!traceId) {

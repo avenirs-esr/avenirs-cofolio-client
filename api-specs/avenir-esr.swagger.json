@@ -541,40 +541,6 @@
         }
       }
     },
-    "/me/activity-progress/feedbacks/{declaredActivityId}/history": {
-      "get": {
-        "tags": [
-          "feedback-controller"
-        ],
-        "operationId": "getFeedbackHistory",
-        "parameters": [
-          {
-            "name": "declaredActivityId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/FeedbackOverviewDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/traces": {
       "post": {
         "tags": [
@@ -1598,6 +1564,30 @@
         }
       }
     },
+    "/me/activities/unpublish/{activityId}": {
+      "post": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "unpublishActivity",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/me/activities/publish/{activityDraftId}": {
       "post": {
         "tags": [
@@ -1645,6 +1635,37 @@
           },
           "required": true
         },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityDraftCreationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activities/create-draft/{activityId}": {
+      "post": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "createDraftFromActivity",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3201,6 +3222,40 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/FeedbackDetailsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activity-progress/feedbacks/{declaredActivityId}/history": {
+      "get": {
+        "tags": [
+          "feedback-controller"
+        ],
+        "operationId": "getFeedbackHistory",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FeedbackOverviewDTO"
+                  }
                 }
               }
             }
@@ -5402,6 +5457,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "hasEnrolledStudent": {
+            "type": "boolean"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -6232,6 +6290,7 @@
           "type": {
             "type": "string",
             "enum": [
+              "ACTIVITY_MODIFIED",
               "ASK_FOR_FEEDBACK"
             ]
           },
@@ -6905,7 +6964,8 @@
             "$ref": "#/components/schemas/EActivityStatus",
             "enum": [
               "PUBLISHED",
-              "DRAFT"
+              "DRAFT",
+              "UNPUBLISHED"
             ]
           },
           "updatedAt": {
@@ -7007,7 +7067,8 @@
         "description": "Enum for activity status",
         "enum": [
           "PUBLISHED",
-          "DRAFT"
+          "DRAFT",
+          "UNPUBLISHED"
         ]
       },
       "EAssociationContextType": {
@@ -7112,18 +7173,20 @@
         "type": "string",
         "description": "Enum for file category",
         "enum": [
-          "TRACE_ATTACHEMENT",
-          "STUDENT_COVER_PICTURE",
-          "STUDENT_PROFILE_PICTURE",
+          "ACTIVITY_BANNER",
+          "ACTIVITY_FILE",
           "STAFF_COVER_PICTURE",
           "STAFF_PROFILE_PICTURE",
-          "ACTIVITY_BANNER"
+          "STUDENT_COVER_PICTURE",
+          "STUDENT_PROFILE_PICTURE",
+          "TRACE_ATTACHMENT"
         ]
       },
       "ENotificationType": {
         "type": "string",
         "description": "Enum for notification type",
         "enum": [
+          "ACTIVITY_MODIFIED",
           "ASK_FOR_FEEDBACK"
         ]
       },
@@ -7181,6 +7244,7 @@
           "INSTITUTION_CONFIG_NOT_FOUND",
           "ACTIVITY_NOT_FOUND",
           "ACTIVITY_DRAFT_NOT_FOUND",
+          "ACTIVITY_UNPUBLISHED",
           "DECLARED_ACTIVITY_NOT_FOUND",
           "FEEDBACK_NOT_FOUND",
           "NOTIFICATION_NOT_FOUND",
