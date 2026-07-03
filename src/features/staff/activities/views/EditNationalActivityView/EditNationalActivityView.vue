@@ -10,7 +10,7 @@ import {
   useDeleteFile,
   useGetActivityContent,
   useGetActivityPresentation,
-  useUpdateActivity,
+  useUpdateActivityDraft,
   useUploadFile
 } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
@@ -94,7 +94,7 @@ const defaultValues: EditActivityFormData = reactive({
 
 const { mutateAsync: uploadBannerMutation } = useUploadFile()
 const { mutateAsync: deleteBannerMutation } = useDeleteFile()
-const { mutateAsync: updateActivity } = useUpdateActivity()
+const { mutateAsync: updateActivity } = useUpdateActivityDraft()
 
 const form = useForm({
   defaultValues,
@@ -162,8 +162,7 @@ async function saveBanner (action: EditActivityFormDataBannerAction) {
 
 async function saveActivity (data: ActivityDraftUpdateRequest) {
   await updateActivity({
-    activityStatus: EActivityStatus.DRAFT,
-    activityId: id,
+    activityDraftId: id,
     data,
   })
 }

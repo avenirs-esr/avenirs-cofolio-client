@@ -2,7 +2,7 @@ import type { ActivityContentDTO, ActivityDraftCreationResponse, ActivityDraftUp
 import { createMockedBannerUploadResponse, createMockedPagedResponseActivityStaffOverviewDTO, mockedActivityContent, mockedActivityDraftCreationResponse, mockedActivityDraftUpdateResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
-import { EActivityStatus, EErrorCode, EFileCategory, getCreateActivityDraftUrl, getDeleteActivityDraftUrl, getGetActivityContentUrl, getGetActivityPresentationUrl, getGetStaffActivityLibraryUrl, getGetStaffActivityWorkingSpaceUrl, getPublishActivityDraftUrl, getUpdateActivityUrl, getUploadFileUrl } from '@/api/avenir-esr'
+import { EActivityStatus, EErrorCode, EFileCategory, getCreateActivityDraftUrl, getDeleteActivityDraftUrl, getGetActivityContentUrl, getGetActivityPresentationUrl, getGetStaffActivityLibraryUrl, getGetStaffActivityWorkingSpaceUrl, getPublishActivityDraftUrl, getUpdateActivityDraftUrl, getUploadFileUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
 import { http, HttpResponse } from 'msw'
@@ -130,14 +130,14 @@ export const staffsActivitiesHandlers = [
       headers: { 'Content-Type': 'application/json' },
     })
   }),
-  http.patch(`*${getUpdateActivityUrl(EActivityStatus.DRAFT, ':activityId')}`, ({ params }) => {
-    const activityId: string | undefined = params.activityId as string | undefined
+  http.patch(`*${getUpdateActivityDraftUrl(':activityDraftId')}`, ({ params }) => {
+    const activityDraftId: string | undefined = params.activityDraftId as string | undefined
 
-    if (!activityId) {
+    if (!activityDraftId) {
       return HttpResponse.json({ error: 'Activity ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
     }
 
-    if (activityId === 'INVALID_ACTIVITY_ID') {
+    if (activityDraftId === 'INVALID_ACTIVITY_ID') {
       return HttpResponse.json(
         { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Activity not found' },
         { status: 404, headers: { 'Content-Type': 'application/json' } }

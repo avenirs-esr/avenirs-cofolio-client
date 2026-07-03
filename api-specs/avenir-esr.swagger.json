@@ -1811,23 +1811,15 @@
         }
       }
     },
-    "/me/activities/{activityStatus}/{activityId}": {
+    "/me/activities/{activityDraftId}": {
       "patch": {
         "tags": [
           "activity-controller"
         ],
-        "operationId": "updateActivity",
+        "operationId": "updateActivityDraft",
         "parameters": [
           {
-            "name": "activityStatus",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/EActivityStatus"
-            }
-          },
-          {
-            "name": "activityId",
+            "name": "activityDraftId",
             "in": "path",
             "required": true,
             "schema": {
