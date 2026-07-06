@@ -112,15 +112,12 @@
           },
           "AddActivityResourceModal": {
             "file": {
-              "description": "ou glisser et déposer ici",
               "formatsLabel": "Format :",
               "formatsValue": "PDF, JPG, JPEG, PNG",
-              "label": "Ajouter un Document",
               "sizeLabel": "Poids :",
               "sizeValue": "10 Mo max"
             },
             "link": {
-              "counterSuffix": "caractères espaces inclus",
               "label": "Ajouter un lien",
               "placeholder": "Ajouter un lien…"
             },

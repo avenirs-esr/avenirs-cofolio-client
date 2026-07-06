@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { AddActivityResourceForm } from '@/features/staff/activities/types/forms.types'
+import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import { ACTIVITY_RESOURCE_NAME_MAX_LENGTH } from '@/features/staff/activities/config'
-import { AvInput, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -18,7 +19,7 @@ const FormField = markRaw(form.Field)
 <template>
   <FormField name="resourceName">
     <template #default="{ field }">
-      <AvInput
+      <Input
         :model-value="field.state.value"
         :label="t('staff.activities.views.EditNationalActivityView.AddActivityResourceModal.name.label')"
         :maxlength="ACTIVITY_RESOURCE_NAME_MAX_LENGTH"

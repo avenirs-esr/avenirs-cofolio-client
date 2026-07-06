@@ -41,7 +41,7 @@ BddTest().given('an AddActivityResourceFileUploadFormField component', () => {
     })
 
     BddTest().then('it should pass the localized title', () => {
-      expect(getFileUpload().props('title')).toBe('Ajouter un Document')
+      expect(getFileUpload().props('title')).toBe('Ajouter un fichier')
     })
 
     BddTest().then('it should pass the localized description', () => {

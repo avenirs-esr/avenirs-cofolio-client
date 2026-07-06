@@ -2,7 +2,7 @@
 import type { AddActivityResourceFormData } from '@/features/staff/activities/types/forms.types'
 import { useFileValidation } from '@/common/composables/use-file-validation/use-file-validation'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
-import { getFileExtension, renameFile, stripExtension } from '@/common/utils'
+import { getFileExtension, renameFile, stripExtension } from '@/common/utils/file/file'
 import {
   ACTIVITY_RESOURCE_ACCEPTED_FILE_TYPES,
   ACTIVITY_RESOURCE_LINK_MAX_LENGTH,
