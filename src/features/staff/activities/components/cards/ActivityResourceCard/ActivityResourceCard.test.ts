@@ -130,11 +130,11 @@ BddTest().given('an activity resource card', () => {
       expect(wrapper.find('a').exists()).toBe(false)
     })
 
-    BddTest().then('it should not trigger a download when clicked', async () => {
+    BddTest().then('it should download the pending file directly when clicked', async () => {
       await wrapper.find('[data-testid="activity-resource-card"]').trigger('click')
       await flushPromises()
 
-      expect(downloadBlob).not.toHaveBeenCalled()
+      expect(downloadBlob).toHaveBeenCalledWith(resource, resource.name)
     })
   })
 

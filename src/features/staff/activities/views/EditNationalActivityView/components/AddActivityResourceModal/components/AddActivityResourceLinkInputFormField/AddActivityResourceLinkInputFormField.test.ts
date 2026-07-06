@@ -54,9 +54,9 @@ BddTest().given('an AddActivityResourceLinkInputFormField component', () => {
       expect(getInput().props('prefixIcon')).toBe(MDI_ICONS.LINK)
     })
 
-    BddTest().then('it should render the counter suffix with the current length in the maxLengthCaption slot', () => {
-      expect(wrapper.text()).toContain('0/')
-      expect(wrapper.text()).toContain('caractères espaces inclus')
+    BddTest().then('it should render the max length caption with the current length', () => {
+      expect(wrapper.text()).toContain('0 /')
+      expect(wrapper.text()).toContain('caractères (espaces compris)')
     })
   })
 
@@ -70,7 +70,7 @@ BddTest().given('an AddActivityResourceLinkInputFormField component', () => {
     })
 
     BddTest().then('it should update the counter to the typed length', async () => {
-      await vi.waitFor(() => expect(wrapper.text()).toContain('19/'))
+      await vi.waitFor(() => expect(wrapper.text()).toContain('19 /'))
     })
   })
 })

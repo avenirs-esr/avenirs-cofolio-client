@@ -46,9 +46,9 @@ function handleModelValueUpdate (file: File | null) {
         <AvFileUpload
           :model-value="field.state.value"
           :accept="accept"
-          :title="t('staff.activities.views.EditNationalActivityView.AddActivityResourceModal.file.label')"
-          :aria-label="t('staff.activities.views.EditNationalActivityView.AddActivityResourceModal.file.label')"
-          :description="t('staff.activities.views.EditNationalActivityView.AddActivityResourceModal.file.description')"
+          :title="t('global.information.fileUpload.title')"
+          :aria-label="t('global.information.fileUpload.title')"
+          :description="t('global.information.fileUpload.dragAndDrop')"
           :delete-button-label="t('global.buttons.delete')"
           :error="field.state.meta.errors.filter(Boolean).join(', ')"
           data-testid="add-activity-resource-file-upload"

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { AddActivityResourceForm } from '@/features/staff/activities/types/forms.types'
+import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import { ACTIVITY_RESOURCE_LINK_MAX_LENGTH } from '@/features/staff/activities/config'
-import { AvInput, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -18,7 +19,7 @@ const FormField = markRaw(form.Field)
 <template>
   <FormField name="link">
     <template #default="{ field }">
-      <AvInput
+      <Input
         :model-value="field.state.value ?? ''"
         type="url"
         :label="t('staff.activities.views.EditNationalActivityView.AddActivityResourceModal.link.label')"
@@ -29,13 +30,7 @@ const FormField = markRaw(form.Field)
         data-testid="add-activity-resource-link-input"
         @blur="field.handleBlur"
         @update:model-value="(value) => field.handleChange((value ?? '').toString())"
-      >
-        <template #maxLengthCaption="{ currentValue, maxlength }">
-          <span class="caption-light">
-            {{ (currentValue?.toString().length ?? 0) }}/{{ maxlength }} {{ t('staff.activities.views.EditNationalActivityView.AddActivityResourceModal.link.counterSuffix') }}
-          </span>
-        </template>
-      </AvInput>
+      />
     </template>
   </FormField>
 </template>

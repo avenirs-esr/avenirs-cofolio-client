@@ -103,15 +103,12 @@
           },
           "AddActivityResourceModal": {
             "file": {
-              "description": "or drag and drop here",
               "formatsLabel": "Format:",
               "formatsValue": "PDF, JPG, JPEG, PNG",
-              "label": "Add a Document",
               "sizeLabel": "Size:",
               "sizeValue": "10 MB max"
             },
             "link": {
-              "counterSuffix": "characters including spaces",
               "label": "Add a link",
               "placeholder": "Add a link…"
             },
