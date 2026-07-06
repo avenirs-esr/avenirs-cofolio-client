@@ -1,8 +1,36 @@
-import type { ActivityContentDTO, ActivityDraftCreationResponse, ActivityDraftUpdateResponse, ActivityPresentationDTO, CreationResponse, FileDTO, PagedResponseActivityStaffOverviewDTO } from '@/api/avenir-esr'
-import { createMockedBannerUploadResponse, createMockedPagedResponseActivityStaffOverviewDTO, mockedActivityContent, mockedActivityDraftCreationResponse, mockedActivityDraftUpdateResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import type {
+  ActivityContentDTO,
+  ActivityDraftCreationResponse,
+  ActivityDraftUpdateResponse,
+  ActivityPresentationDTO,
+  CreationResponse,
+  FileDTO,
+  PagedResponseActivityStaffOverviewDTO
+} from '@/api/avenir-esr'
+import {
+  createMockedBannerUploadResponse,
+  createMockedPagedResponseActivityStaffOverviewDTO,
+  mockedActivityContent,
+  mockedActivityDraftCreationResponse,
+  mockedActivityDraftUpdateResponse
+} from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
-import { EActivityStatus, EErrorCode, EFileCategory, getCreateActivityDraftUrl, getDeleteActivityDraftUrl, getGetActivityContentUrl, getGetActivityPresentationUrl, getGetStaffActivityLibraryUrl, getGetStaffActivityWorkingSpaceUrl, getPublishActivityDraftUrl, getUpdateActivityDraftUrl, getUploadFileUrl } from '@/api/avenir-esr'
+import {
+  EActivityStatus,
+  EErrorCode,
+  EFileCategory,
+  getCreateActivityDraftUrl,
+  getCreateDraftFromActivityUrl,
+  getDeleteActivityDraftUrl,
+  getGetActivityContentUrl,
+  getGetActivityPresentationUrl,
+  getGetStaffActivityLibraryUrl,
+  getGetStaffActivityWorkingSpaceUrl,
+  getPublishActivityDraftUrl,
+  getUpdateActivityDraftUrl,
+  getUploadFileUrl
+} from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
 import { http, HttpResponse } from 'msw'
@@ -69,6 +97,13 @@ export const publishActivityDraftHandler = http.post(`*${getPublishActivityDraft
   }
 
   return HttpResponse.json<CreationResponse>({ createdItemId: mockedActivityDraftUpdateResponse.draftId }, {
+    status: HttpStatusCode.CREATED,
+    headers: { 'Content-Type': 'application/json' },
+  })
+})
+
+export const staffCreateDraftFromActivityUrl = http.post(`*${getCreateDraftFromActivityUrl(':activityId')}`, () => {
+  return HttpResponse.json<ActivityDraftCreationResponse>(mockedActivityDraftCreationResponse, {
     status: HttpStatusCode.CREATED,
     headers: { 'Content-Type': 'application/json' },
   })
@@ -185,5 +220,6 @@ export const staffsActivitiesHandlers = [
         'Content-Type': 'application/json',
       }
     })
-  })
+  }),
+  staffCreateDraftFromActivityUrl
 ]

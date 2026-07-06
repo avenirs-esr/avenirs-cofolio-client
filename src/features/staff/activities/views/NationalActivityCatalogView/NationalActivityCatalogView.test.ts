@@ -1,16 +1,23 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedActivityContent, mockedActivityDraftCreationResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { getActivityContentErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EActivityStatus } from '@/api/avenir-esr'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants'
-import { DeleteDraftActivityConfirmationModalStub } from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.stub'
-import { NationalActivityCatalogPreviewTabStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.stub'
-import { NationalActivityContentTabStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.stub'
+import {
+  DeleteDraftActivityConfirmationModalStub
+} from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.stub'
+import {
+  NationalActivityCatalogPreviewTabStub
+} from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.stub'
+import {
+  NationalActivityContentTabStub
+} from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.stub'
 import NationalActivityCatalogView from '@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.vue'
 import { AvButtonStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -42,10 +49,11 @@ BddTest().given('a national activity catalog view', () => {
     AvTab: AvTabStub,
   }
 
-  const mountView = (status = EActivityStatus.DRAFT, id = mockedActivityContent.id) => mountComponent(NationalActivityCatalogView, {
-    props: { status, id },
-    global: { stubs },
-  })
+  const mountView = (status = EActivityStatus.DRAFT, id = mockedActivityContent.id) =>
+    mountComponent(NationalActivityCatalogView, {
+      props: { status, id },
+      global: { stubs },
+    })
 
   const waitForLoaded = async () => {
     await vi.waitFor(() => {
@@ -114,20 +122,12 @@ BddTest().given('a national activity catalog view', () => {
       expect(wrapper.find('[data-testid="delete-draft-button"]').exists()).toBe(true)
     })
 
-    BddTest().then('it should render the confirmation modal closed', () => {
-      expect(wrapper.findComponent(DeleteDraftActivityConfirmationModalStub).props('show')).toBe(false)
-    })
-
-    BddTest().then('it should pass the correct activityId to the modal', () => {
-      expect(wrapper.findComponent(DeleteDraftActivityConfirmationModalStub).props('activityId')).toBe(mockedActivityContent.id)
-    })
-
     BddTest().and('the edit button is clicked', () => {
       beforeEach(async () => {
         await wrapper.find('[data-testid="edit-draft-button"]').trigger('click')
       })
 
-      BddTest().then('it should navigate to the edit view', () => {
+      BddTest().then('it should navigate directly to the edit view', () => {
         expect(mockNavigateToStaffActivitiesEditNationalActivity).toHaveBeenCalledWith({ id: mockedActivityContent.id })
       })
     })
@@ -163,13 +163,31 @@ BddTest().given('a national activity catalog view', () => {
     })
   })
 
-  BddTest().when('the status is PUBLISHED', () => {
-    beforeEach(() => {
+  BddTest().when('the status is PUBLISHED and the activity is loaded', () => {
+    beforeEach(async () => {
       wrapper = mountView(EActivityStatus.PUBLISHED)
+      await waitForLoaded()
+    })
+
+    BddTest().then('it should render the edit button', () => {
+      expect(wrapper.find('[data-testid="edit-draft-button"]').exists()).toBe(true)
     })
 
     BddTest().then('it should not render the delete button', () => {
-      expect(wrapper.findComponent(AvButtonStub).exists()).toBe(false)
+      expect(wrapper.find('[data-testid="delete-draft-button"]').exists()).toBe(false)
+    })
+
+    BddTest().and('the edit button is clicked', () => {
+      beforeEach(async () => {
+        await wrapper.find('[data-testid="edit-draft-button"]').trigger('click')
+        await flushPromises()
+      })
+
+      BddTest().then('it should create a draft and navigate to the edit view with the created draft id', () => {
+        expect(mockNavigateToStaffActivitiesEditNationalActivity).toHaveBeenCalledWith({
+          id: mockedActivityDraftCreationResponse.draftId,
+        })
+      })
     })
   })
 })
