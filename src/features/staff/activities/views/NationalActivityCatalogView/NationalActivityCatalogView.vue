@@ -1,14 +1,17 @@
-<script setup lang="ts">
-import { EActivityStatus, useGetActivityContent } from '@/api/avenir-esr'
+<script lang="ts" setup>
+import { EActivityStatus, useCreateDraftFromActivity, useGetActivityContent } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useModal } from '@/common/composables/use-modal/use-modal'
 import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
 import { ROUTES } from '@/common/constants'
-import DeleteDraftActivityConfirmationModal from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
-import NationalActivityCatalogPreviewTab from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.vue'
-import NationalActivityContentTab from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.vue'
+import DeleteDraftActivityConfirmationModal
+  from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
+import NationalActivityCatalogPreviewTab
+  from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.vue'
+import NationalActivityContentTab
+  from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.vue'
 import { AvButton, AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -41,55 +44,70 @@ enum NationalActivityCatalogTabs {
 }
 
 const activeTab = useEnumRouteQuery('tab', NationalActivityCatalogTabs, NationalActivityCatalogTabs.CONTENT)
+
+const { mutate: createDraftFromActivity, isPending: isCreatingDraft } = useCreateDraftFromActivity({
+  mutation: {
+    onSuccess: draft => navigateToStaffActivitiesEditNationalActivity({ id: draft.draftId }),
+  },
+})
+
+function updateActivity (id: string) {
+  if (isDraft.value) {
+    return navigateToStaffActivitiesEditNationalActivity({ id })
+  }
+
+  createDraftFromActivity({ activityId: id })
+}
 </script>
 
 <template>
   <PageTitle
-    :title="t('staff.activities.views.NationalActivityCatalogView.title')"
     :breadcrumb-links="breadcrumbLinks"
+    :title="t('staff.activities.views.NationalActivityCatalogView.title')"
   />
 
   <div
-    v-if="isDraft"
     class="av-row av-justify-end av-py-md av-gap-sm"
   >
     <AvButton
-      :label="t('global.buttons.update')"
-      variant="FLAT"
       :icon="MDI_ICONS.PENCIL_OUTLINE"
-      small
+      :is-loading="isCreatingDraft"
+      :label="t('global.buttons.update')"
       data-testid="edit-draft-button"
-      @click="() => navigateToStaffActivitiesEditNationalActivity({ id })"
+      small
+      variant="FLAT"
+      @click="() => updateActivity(id)"
     />
     <AvButton
-      :label="t('global.buttons.delete')"
-      variant="OUTLINED"
+      v-if="isDraft"
       :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
-      small
+      :label="t('global.buttons.delete')"
       data-testid="delete-draft-button"
+      small
+      variant="OUTLINED"
       @click="displayDeleteConfirmation"
     />
   </div>
 
   <QuerySuspense
-    :is-loading="isLoading"
     :error="error"
     :error-title="t('staff.activities.views.NationalActivityCatalogView.errors.fetchActivityContent')"
+    :is-loading="isLoading"
   >
     <AvTabs
       v-if="activity"
       v-model="activeTab"
     >
       <AvTab
-        :title="t('staff.activities.views.NationalActivityCatalogView.tabs.content')"
         :icon="MDI_ICONS.FILE_DOCUMENT_BOX_MULTIPLE_OUTLINE"
+        :title="t('staff.activities.views.NationalActivityCatalogView.tabs.content')"
         data-testid="national-activity-catalog-content-tab-item"
       >
         <NationalActivityContentTab :activity="activity" />
       </AvTab>
       <AvTab
-        :title="t('staff.activities.views.NationalActivityCatalogView.tabs.preview')"
         :icon="MDI_ICONS.BOOK_OPEN_VARIANT"
+        :title="t('staff.activities.views.NationalActivityCatalogView.tabs.preview')"
         data-testid="national-activity-catalog-preview-tab-item"
       >
         <NationalActivityCatalogPreviewTab
@@ -101,8 +119,8 @@ const activeTab = useEnumRouteQuery('tab', NationalActivityCatalogTabs, National
   </QuerySuspense>
 
   <DeleteDraftActivityConfirmationModal
-    :show="showDeleteConfirmation"
     :activity-id="id"
+    :show="showDeleteConfirmation"
     @close="hideDeleteConfirmation"
     @deleted="navigateToStaffActivities"
   />

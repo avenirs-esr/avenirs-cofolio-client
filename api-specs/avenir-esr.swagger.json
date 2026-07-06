@@ -5452,6 +5452,18 @@
           "hasEnrolledStudent": {
             "type": "boolean"
           },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileDTO"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -5632,6 +5644,12 @@
           },
           "enableReflection": {
             "type": "boolean"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
