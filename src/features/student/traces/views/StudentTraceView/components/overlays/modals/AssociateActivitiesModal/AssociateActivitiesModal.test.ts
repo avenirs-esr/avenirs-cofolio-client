@@ -128,7 +128,7 @@ BddTest().given('an associate activities modal', () => {
         {
           label: 'Explorer ses pistes d\'orientation',
           value: 'activity-search-2',
-          description: 'Explorer mes futures',
+          description: 'Explorer mes futurs',
           disabled: false
         },
         {

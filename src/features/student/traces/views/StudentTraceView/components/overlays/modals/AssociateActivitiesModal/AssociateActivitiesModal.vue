@@ -81,6 +81,7 @@ function onCancel () {
 
 function onConfirm () {
   emit('associate', selectedAssociations.value.map(activity => activity.id))
+  selectedActivityOptions.value = []
 }
 
 function onAssociateModalClose () {

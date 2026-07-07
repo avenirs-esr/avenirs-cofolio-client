@@ -77,6 +77,8 @@ const breadcrumbLinks = computed(() => [
 </template>
 
 <style lang="scss" scoped>
+@use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
+
 .student-tools-kit {
   position: relative;
 
@@ -100,7 +102,19 @@ const breadcrumbLinks = computed(() => [
   }
 
   .text-container {
-    width: 50%;
+    width: 100%;
+
+    @include dsav.min-width(md) {
+      width: 50%;
+    }
+  }
+
+  @include dsav.max-width(md) {
+    .text-container {
+      h1, span {
+        font-weight: var(--font-weight-regular);
+      }
+    }
   }
 }
 </style>
