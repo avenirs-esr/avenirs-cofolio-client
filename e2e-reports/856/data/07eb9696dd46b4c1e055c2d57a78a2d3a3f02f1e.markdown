@@ -1,0 +1,167 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - link "Accueil - Cofolio Étudiant" [ref=e12] [cursor=pointer]:
+          - /url: /cofolio/student
+          - img [ref=e13]
+        - button "Changer d'univers" [ref=e15] [cursor=pointer]:
+          - generic [ref=e18]: Changer d'univers
+      - generic [ref=e20]:
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - button "Messagerie" [ref=e27] [cursor=pointer]:
+              - generic [ref=e30]: Messagerie
+          - listitem [ref=e31]:
+            - button "Notifications" [ref=e34] [cursor=pointer]:
+              - generic [ref=e37]: Notifications
+          - listitem [ref=e38]:
+            - button "J. moulin" [ref=e41] [cursor=pointer]:
+              - generic [ref=e44]: J. moulin
+        - navigation [ref=e47]:
+          - button "FR" [ref=e50] [cursor=pointer]:
+            - generic [ref=e53]: FR
+    - navigation "Menu principal" [ref=e57]:
+      - list [ref=e58]:
+        - listitem [ref=e59]:
+          - link "ACCUEIL" [ref=e60] [cursor=pointer]:
+            - /url: /cofolio/student
+            - generic [ref=e63]: ACCUEIL
+        - listitem [ref=e64]:
+          - button "RÉUSSIR MA FORMATION" [ref=e65] [cursor=pointer]:
+            - generic [ref=e66]: RÉUSSIR MA FORMATION
+        - listitem [ref=e67]:
+          - button "CONSTRUIRE MON PROJET DE VIE" [ref=e68] [cursor=pointer]:
+            - generic [ref=e69]: CONSTRUIRE MON PROJET DE VIE
+        - listitem [ref=e70]:
+          - button "MES OUTILS" [ref=e71] [cursor=pointer]:
+            - generic [ref=e72]: MES OUTILS
+  - main [ref=e73]:
+    - generic [ref=e75]:
+      - generic [ref=e77]:
+        - navigation "Fil d'Ariane" [ref=e78]:
+          - list [ref=e80]:
+            - listitem [ref=e81]:
+              - link "Accueil" [ref=e82] [cursor=pointer]:
+                - /url: /cofolio/student
+            - listitem [ref=e83]:
+              - generic: Construire mon projet de vie
+            - listitem [ref=e84]:
+              - link "Mes activités" [ref=e85] [cursor=pointer]:
+                - /url: /cofolio/student/project/activities?tab=ACTIVITY_LIBRARY
+            - listitem [ref=e86]:
+              - generic: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+            - listitem [ref=e87]:
+              - generic: Détail
+        - 'heading "Détail Activité \"Connaissance de soi\" : Définir ses valeurs" [level=1] [ref=e88]'
+      - generic [ref=e90]:
+        - status [ref=e91]:
+          - generic [ref=e92]: En cours
+        - button "Gérer mon activité" [ref=e95] [cursor=pointer]:
+          - generic [ref=e98]: Gérer mon activité
+      - generic [ref=e99]:
+        - navigation "3bc2bcea-e588-4315-8d21-f1755d565fe8 navigation" [ref=e100]:
+          - button "Réduire le menu" [expanded] [ref=e104] [cursor=pointer]
+          - menu [ref=e108]:
+            - menuitem "Détail" [ref=e109]:
+              - button "Détail" [ref=e110] [cursor=pointer]:
+                - generic [ref=e115]: Détail
+            - menuitem "Ma réflexion" [ref=e116]:
+              - button "Ma réflexion" [ref=e117] [cursor=pointer]:
+                - generic [ref=e122]: Ma réflexion
+        - generic [ref=e124]:
+          - generic [ref=e126]:
+            - generic [ref=e129]:
+              - generic [ref=e131]: Début
+              - generic [ref=e132]:
+                - textbox "Début" [disabled]:
+                  - /placeholder: ""
+                - textbox "Début" [disabled]:
+                  - /placeholder: ""
+                  - text: 01/01/2024
+            - generic [ref=e135]:
+              - generic [ref=e137]: Fin
+              - generic [ref=e138]:
+                - textbox "Fin" [disabled]:
+                  - /placeholder: ""
+                  - text: 2024-06-30
+                - textbox "Fin" [disabled]:
+                  - /placeholder: ""
+                  - text: 30/06/2024
+          - generic [ref=e141]:
+            - generic [ref=e142]:
+              - generic [ref=e146]: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+              - generic [ref=e147]:
+                - heading "Objectifs de l'activité" [level=3] [ref=e148]
+                - list [ref=e149]:
+                  - listitem [ref=e150]:
+                    - paragraph [ref=e151]: Permettre à l'étudiant.e de déterminer des valeurs auxquelles il/elle est attaché.e
+                  - listitem [ref=e152]:
+                    - paragraph [ref=e153]: Encourager l'étudiant.e à réfléchir à la façon dont ces valeurs s'incarnent dans ses comportements et ses pratiques quotidiennes
+                - heading "Contenu de l'activité" [level=3] [ref=e154]
+                - paragraph [ref=e155]: "L'activité se compose de plusieurs étapes :"
+                - list [ref=e156]:
+                  - listitem [ref=e157]:
+                    - paragraph [ref=e158]: Identification des valeurs personnelles clés
+                  - listitem [ref=e159]:
+                    - paragraph [ref=e160]: Réflexion sur la manière dont ces valeurs s'incarnent dans les comportements et les pratiques quotidiens
+                  - listitem [ref=e161]:
+                    - paragraph [ref=e162]: Mise en perspective de ces valeurs avec le projet de vie envisagé
+            - generic [ref=e163]:
+              - generic [ref=e164]: Période de réalisation
+              - list [ref=e165]:
+                - listitem [ref=e166]: À réaliser en amont d'un entretien avec un.e conseiller/conseillère ou chargé.e d'orientation et/ou d'insertion professionnelle
+                - listitem [ref=e167]: avant une autre activité si parcours d'activités Cofolio
+  - contentinfo [ref=e168]:
+    - generic [ref=e170]:
+      - generic [ref=e171]:
+        - link "Logo ANR" [ref=e172] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e173]
+        - link "Logo France 2030" [ref=e174] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e175]
+      - generic [ref=e176]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e177]:
+      - generic [ref=e178]:
+        - img "Logo Cofolio" [ref=e179]
+        - generic [ref=e190]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e191]:
+        - generic [ref=e192]:
+          - generic [ref=e193]: Informations légales
+          - list [ref=e194]:
+            - listitem [ref=e195]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e196] [cursor=pointer]':
+                - /url: /cofolio/student/accessibility
+            - listitem [ref=e197]:
+              - link "Mentions légales" [ref=e198] [cursor=pointer]:
+                - /url: /cofolio/student/legal
+            - listitem [ref=e199]:
+              - link "Données personnelles" [ref=e200] [cursor=pointer]:
+                - /url: /cofolio/student/personal-data
+            - listitem [ref=e201]:
+              - link "Gestion des cookies" [ref=e202] [cursor=pointer]:
+                - /url: /cofolio/student/cookies
+        - generic [ref=e203]:
+          - generic [ref=e204]: Autres sites
+          - list [ref=e205]:
+            - listitem [ref=e206]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e207] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e208]:
+          - generic [ref=e209]: Partenaires
+          - generic [ref=e210]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e211] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e212]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e213] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e215]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e219] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
