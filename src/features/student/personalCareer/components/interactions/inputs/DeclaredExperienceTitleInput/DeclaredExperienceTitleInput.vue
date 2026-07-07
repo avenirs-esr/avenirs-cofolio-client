@@ -4,11 +4,10 @@ import { DECLARED_EXPERIENCE_TITLE_MAX_LENGTH } from '@/features/student/persona
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-type DeclaredExperienceTitleInputProps = Omit<InputProps, 'maxlength'>
+type DeclaredExperienceTitleInputProps = Omit<InputProps, 'maxlength' | 'prefixIcon'>
 
 const {
   label,
-  prefixIcon,
   placeholder,
   ...restProps
 } = defineProps<DeclaredExperienceTitleInputProps>()
@@ -21,7 +20,7 @@ const inputProps = computed(() => ({
   labelVisible: true,
   maxlength: DECLARED_EXPERIENCE_TITLE_MAX_LENGTH,
   label: label ?? t('student.personalCareer.interactions.inputs.DeclaredExperienceTitleInput.label'),
-  prefixIcon: prefixIcon ?? MDI_ICONS.ATTACH_FILE,
+  prefixIcon: MDI_ICONS.BADGE_ACCOUNT_HORIZONTAL_OUTLINE,
   placeholder: placeholder ?? t('student.personalCareer.interactions.inputs.DeclaredExperienceTitleInput.placeholder')
 }))
 </script>

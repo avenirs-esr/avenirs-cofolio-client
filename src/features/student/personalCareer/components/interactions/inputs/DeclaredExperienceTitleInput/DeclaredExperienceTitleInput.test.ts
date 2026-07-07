@@ -50,7 +50,7 @@ BddTest().given('a declared experience title input component', () => {
 
     BddTest().then('it should display the correct prefix icon', () => {
       const input = wrapper.findComponent(InputStub)
-      expect(input.props('prefixIcon')).toBe(MDI_ICONS.ATTACH_FILE)
+      expect(input.props('prefixIcon')).toBe(MDI_ICONS.BADGE_ACCOUNT_HORIZONTAL_OUTLINE)
     })
 
     BddTest().then('it should display the correct placeholder', () => {
@@ -97,24 +97,6 @@ BddTest().given('a declared experience title input component', () => {
     BddTest().then('it should display the custom placeholder', () => {
       const input = wrapper.findComponent(InputStub)
       expect(input.props('placeholder')).toBe('Custom Placeholder')
-    })
-  })
-
-  BddTest().when('the component is mounted with custom prefix icon', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceTitleInput, {
-        props: {
-          prefixIcon: MDI_ICONS.LINK,
-          modelValue: ''
-        },
-        global: { stubs }
-      })
-    })
-
-    BddTest().then('it should display the custom prefix icon', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('prefixIcon')).toBe(MDI_ICONS.LINK)
     })
   })
 
