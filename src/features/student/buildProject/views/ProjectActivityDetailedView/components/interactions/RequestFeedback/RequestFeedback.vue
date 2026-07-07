@@ -4,7 +4,7 @@ import { EFeedbackStatus } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { formatDateLocalized } from '@/common/utils'
-import { AvBadge, AvButton, type AvButtonProps, MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, type AvButtonProps, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface RequestFeedbackProps {
@@ -44,26 +44,12 @@ function handleConfirm () {
     data-testid="request-feedback"
   >
     <AvButton
-      v-if="feedbackStatus !== EFeedbackStatus.IN_PROCESS"
       data-testid="request-feedback-button"
       v-bind="requestFeedbackConfig"
       :disabled="disabled"
-
       :is-loading="isLoading"
       @click="displayModal"
     />
-    <div
-      v-else
-      class="av-row av-w-full av-justify-end"
-    >
-      <AvBadge
-        :label="t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackBadge', { date: feedbackCreatedAt ? formatDateLocalized(feedbackCreatedAt, locale as AvLocale) : '' })"
-        color="var(--light-foreground-primary1)"
-        background-color="var(--light-background-primary1)"
-        :icon="MDI_ICONS.CHECK_CIRCLE"
-        data-testid="finish-declared-activity-finished-badge"
-      />
-    </div>
   </div>
   <ConfirmationModal
     :show="showModal"

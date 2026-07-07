@@ -1,5 +1,5 @@
 import type { MyPerspectiveCardProps } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
-import { EDeclaredActivityStatus, EFeedbackStatus } from '@/api/avenir-esr'
+import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { RichTextEditorStub } from '@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.stub'
 import MyPerspectiveCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
@@ -385,12 +385,11 @@ BddTest().given('a my perspective card', () => {
     })
   })
 
-  BddTest().when('the component is mounted with a submitted activity and an unread feedback', () => {
+  BddTest().when('the component is mounted with a submitted activity ', () => {
     const props: MyPerspectiveCardProps = {
       activityId: 'activity-1',
       perspective: '<p>This is my perspective</p>',
       activityStatus: EDeclaredActivityStatus.SUBMITTED,
-      lastFeedbackStatus: EFeedbackStatus.NEW,
     }
 
     beforeEach(() => {
@@ -402,26 +401,6 @@ BddTest().given('a my perspective card', () => {
       const editButton = getEditButton()
       expect(editButton.exists()).toBe(true)
       expect(editButton.attributes('disabled')).toBeUndefined()
-    })
-  })
-
-  BddTest().when('the component is mounted with a submitted activity and a read feedback', () => {
-    const props: MyPerspectiveCardProps = {
-      activityId: 'activity-1',
-      perspective: '<p>This is my perspective</p>',
-      activityStatus: EDeclaredActivityStatus.SUBMITTED,
-      lastFeedbackStatus: EFeedbackStatus.IN_PROCESS,
-    }
-
-    beforeEach(() => {
-      vi.clearAllMocks()
-      wrapper = mountComponent(MyPerspectiveCard, { props, global: { stubs } })
-    })
-
-    BddTest().then('it should render the edit button as disabled', () => {
-      const editButton = getEditButton()
-      expect(editButton.exists()).toBe(true)
-      expect(editButton.attributes('disabled')).toBeDefined()
     })
   })
 })

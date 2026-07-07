@@ -31,7 +31,7 @@ const remainingFeedbacks = computed(() => declaredActivityDetails.activity.feedb
 const isDeclaredActivityInProgress = computed(() => declaredActivityDetails.status === EDeclaredActivityStatus.IN_PROGRESS)
 const isDeclaredActivitySubmitted = computed(() => declaredActivityDetails.status === EDeclaredActivityStatus.SUBMITTED)
 
-const lastFeedback = computed(() => declaredActivityDetails.feedbacks?.at(-1))
+const lastFeedback = computed(() => declaredActivityDetails.feedbacks?.at(0))
 
 const actionsHintInfo = computed(() => {
   if (declaredActivityDetails.status === EDeclaredActivityStatus.SUBSCRIBED) {
@@ -126,7 +126,7 @@ function requestFeedback () {
         v-if="isDeclaredActivityInProgress || isDeclaredActivitySubmitted"
         :feedback-created-at="lastFeedback?.createdAt"
         :feedback-status="lastFeedback?.status "
-        :disabled="remainingFeedbacks === 0"
+        :disabled="remainingFeedbacks === 0 || lastFeedback?.status === EFeedbackStatus.IN_PROCESS"
         :is-loading="isFeedbackPending || isFinishPending || isLoading"
         :remaining-feedbacks="remainingFeedbacks"
         @request-feedback="requestFeedback"
@@ -140,7 +140,7 @@ function requestFeedback () {
     <div class="av-row av-justify-end">
       <span
         v-if="actionsHintInfo"
-        class="caption-regular av-text-text2"
+        class="caption-regular av-text-text2 av-text-right"
         data-testid="actions-hint"
         :data-type="actionsHintInfo.type"
       >
@@ -149,3 +149,13 @@ function requestFeedback () {
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+@use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
+
+@include dsav.min-width(md) {
+  span[data-type="updatable-feedback"] {
+    width: 38%;
+  }
+}
+</style>

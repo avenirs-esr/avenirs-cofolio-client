@@ -98,9 +98,9 @@ BddTest().given('a RequestFeedback component', () => {
       })
     })
 
-    BddTest().then('it should render the badge and not the button', () => {
-      expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(true)
-      expect(wrapper.findComponent(AvButtonStub).exists()).toBe(false)
+    BddTest().then('it should render the button as disabled', () => {
+      expect(wrapper.findComponent(AvButtonStub).exists()).toBe(true)
+      expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(false)
     })
   })
 
