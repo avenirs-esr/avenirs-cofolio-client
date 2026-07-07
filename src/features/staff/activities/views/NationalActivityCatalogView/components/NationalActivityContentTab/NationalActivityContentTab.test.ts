@@ -1,12 +1,16 @@
+import type { ActivityContentDTO, FileDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { EFileType } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { ActivityDescriptionContentStub } from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.stub'
 import { ActivityExecutionPeriodListStub } from '@/common/activities/components/ActivityExecutionPeriodList/ActivityExecutionPeriodList.stub'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { ICONS } from '@/common/constants'
+import { ActivityResourcesListStub } from '@/features/staff/activities/components/lists/ActivityResourcesList/ActivityResourcesList.stub'
 import NationalActivityContentTab from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.vue'
 import { NationalActivitySettingDetailsStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySettingDetails/NationalActivitySettingDetails.stub'
+import { IconTitleCardContainerStub } from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -21,6 +25,24 @@ BddTest().given('a national activity content tab', () => {
     ActivityDescriptionContent: ActivityDescriptionContentStub,
     ActivityExecutionPeriodList: ActivityExecutionPeriodListStub,
     NationalActivitySettingDetails: NationalActivitySettingDetailsStub,
+    IconTitleCardContainer: IconTitleCardContainerStub,
+    ActivityResourcesList: ActivityResourcesListStub,
+  }
+
+  const fileResource: FileDTO = {
+    id: 'file-1',
+    fileName: 'document.pdf',
+    fileType: EFileType.PDF,
+    fileSize: 1024,
+    version: 1,
+    url: 'https://example.com/document.pdf',
+    uploadedAt: '2026-07-07T00:00:00Z',
+  }
+  const links = ['https://example.com', 'https://avenirs.fr']
+  const activityWithResources: ActivityContentDTO = {
+    ...mockedActivityContent,
+    files: [fileResource],
+    links,
   }
 
   beforeEach(() => {
@@ -82,6 +104,36 @@ BddTest().given('a national activity content tab', () => {
       const settingDetails = wrapper.findComponent(NationalActivitySettingDetailsStub)
       expect(settingDetails.exists()).toBe(true)
       expect(settingDetails.props('activity')).toEqual(mockedActivityContent)
+    })
+
+    BddTest().then('it should not render the resources section when the activity has no resource', () => {
+      expect(wrapper.find('[data-testid="national-activity-content-tab-documents"]').exists()).toBe(false)
+      expect(wrapper.findComponent(ActivityResourcesListStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the activity has files and links', () => {
+    beforeEach(() => {
+      wrapper = mount(NationalActivityContentTab, {
+        props: { activity: activityWithResources },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the resources section', () => {
+      expect(wrapper.find('[data-testid="national-activity-content-tab-resources"]').exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the resources title with the total count', () => {
+      const container = wrapper.findComponent(IconTitleCardContainerStub)
+      expect(container.props('title')).toBe('Documents et liens utiles (3)')
+    })
+
+    BddTest().then('it should forward the files and links to the resources list without add card', () => {
+      const list = wrapper.findComponent(ActivityResourcesListStub)
+      expect(list.props('files')).toEqual([fileResource])
+      expect(list.props('links')).toEqual(links)
+      expect(list.props('showAddCard')).toBeFalsy()
     })
   })
 })

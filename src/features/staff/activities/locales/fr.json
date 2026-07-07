@@ -82,6 +82,7 @@
             }
           },
           "NationalActivityContentTab": {
+            "resourcesTitle": "Documents et liens utiles ({count})",
             "scheduleTitle": "Déroulé de l'activité",
             "title": "Contenu de l'activité"
           },

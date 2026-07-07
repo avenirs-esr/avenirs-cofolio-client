@@ -22,7 +22,7 @@ const emit = defineEmits<{
 
 <template>
   <div
-    class="activity-resources-list av-row av-wrap av-gap-md av-p-md av-radius-2xl av-border-width-sm av-border-style-solid av-justify-between"
+    class="activity-resources-list av-row av-wrap av-gap-md av-p-md av-radius-2xl av-border-width-sm av-border-style-solid av-justify-start"
     data-testid="activity-resources-list"
   >
     <ActivityResourceCard
