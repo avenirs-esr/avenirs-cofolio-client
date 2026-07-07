@@ -98,7 +98,7 @@
               "triggerLabel": "Manage my activity"
             },
             "ActivityDetailedSideNavigation": {
-              "myPerspective": "My perspective"
+              "myReflection": "My reflection"
             },
             "AssociatedTracesCard": {
               "title": "My associated trace ({count}) | My associated traces ({count})"
