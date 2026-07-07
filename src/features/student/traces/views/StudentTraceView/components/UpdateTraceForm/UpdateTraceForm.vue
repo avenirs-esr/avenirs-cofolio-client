@@ -95,14 +95,10 @@ function handleFileDeleted (fileName: string) {
           v-else
           :form="form"
         />
-      </div>
 
-      <div class="av-col av-gap-lg av-flex-fill">
         <TracePersonalNoteTextareaFormField :form="form" />
       </div>
-    </div>
 
-    <div class="av-row av-gap-lg av-w-full">
       <div class="av-col av-gap-lg av-flex-fill">
         <div
           class="av-col av-gap-xs"
@@ -116,9 +112,7 @@ function handleFileDeleted (fileName: string) {
             <TraceAuthorTypeRadioSetFormField :form="form" />
           </div>
         </div>
-      </div>
 
-      <div class="av-col av-gap-lg av-flex-fill">
         <div class="av-col av-gap-xs">
           <span class="caption-regular">
             {{ t('student.traces.views.StudentUpdateTraceView.updateTraceForm.declaration.iaUsage.title') }}
