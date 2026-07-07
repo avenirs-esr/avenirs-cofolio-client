@@ -121,6 +121,7 @@ function associateActivityWithTraces () {
       })
 
       emit('associated')
+      selectedTraceOptions.value = []
     }
   })
 }

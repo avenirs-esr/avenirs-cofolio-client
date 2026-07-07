@@ -88,6 +88,7 @@ function onCancel () {
 
 function onConfirm () {
   emit('associate', selectedAssociations.value.map(skill => skill.id))
+  selectedSkillOptions.value = []
 }
 
 function onAssociateModalClose () {
