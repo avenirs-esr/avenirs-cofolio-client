@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import { type DeclaredActivityDetailsDTO, EActivityStatus, EDeclaredActivityStatus, EFeedbackStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useAskForFeedback, useFinish } from '@/api/avenir-esr'
+import { canCreateFeedbackRequest, computeRemainingFeedbacks } from '@/common/activities/rules/activities.rules'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import FinishDeclaredActivity
@@ -26,12 +27,14 @@ const { isLoading: isTaskLoading, withTaskLoading } = useTaskLoading()
 const { mutate: mutateFinish, isPending: isFinishPending } = useFinish()
 const { mutate: mutateAskForFeedback, isPending: isFeedbackPending } = useAskForFeedback()
 
-const remainingFeedbacks = computed(() => declaredActivityDetails.activity.feedbackAllowedIterations - (declaredActivityDetails.feedbacks?.length ?? 0))
+const remainingFeedbacks = computed(() => computeRemainingFeedbacks(declaredActivityDetails))
 
 const isDeclaredActivityInProgress = computed(() => declaredActivityDetails.status === EDeclaredActivityStatus.IN_PROGRESS)
 const isDeclaredActivitySubmitted = computed(() => declaredActivityDetails.status === EDeclaredActivityStatus.SUBMITTED)
 
 const lastFeedback = computed(() => declaredActivityDetails.feedbacks?.at(0))
+
+const isRequestFeedbackDisabled = computed(() => !canCreateFeedbackRequest(declaredActivityDetails, remainingFeedbacks.value))
 
 const actionsHintInfo = computed(() => {
   if (declaredActivityDetails.status === EDeclaredActivityStatus.SUBSCRIBED) {
@@ -126,7 +129,7 @@ function requestFeedback () {
         v-if="isDeclaredActivityInProgress || isDeclaredActivitySubmitted"
         :feedback-created-at="lastFeedback?.createdAt"
         :feedback-status="lastFeedback?.status "
-        :disabled="remainingFeedbacks === 0 || lastFeedback?.status === EFeedbackStatus.IN_PROCESS"
+        :disabled="isRequestFeedbackDisabled"
         :is-loading="isFeedbackPending || isFinishPending || isLoading"
         :remaining-feedbacks="remainingFeedbacks"
         @request-feedback="requestFeedback"

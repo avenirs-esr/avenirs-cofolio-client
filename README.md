@@ -160,6 +160,54 @@ npm install @avenirs-esr/avenirs-dsav
 
 ## Contributing
 
+### Business Rules
+
+**IMPORTANT**: When a component relies on an important business rule (a non-trivial condition that decides whether an action is allowed, a value that must be derived from domain data, etc.), that rule **MUST** be extracted into a dedicated `rules` file rather than being inlined in the component.
+
+#### Why?
+
+- Business rules are the part of the code most likely to change and to be reused across components
+- Keeping them in the component buries domain logic inside presentation concerns
+- Extracted rules are pure functions that are trivial to unit test in isolation
+- A single source of truth prevents the same rule from being re-implemented (and drifting) in several places
+
+#### Where do they live?
+
+Activity-related rules live in `src/common/activities/rules/activities.rules.ts`. More generally, put rules in a `rules/` folder scoped to the domain they belong to (`src/common/{domain}/rules/{domain}.rules.ts`, or inside the relevant feature when the rule is feature-specific).
+
+#### Pattern
+
+Each rule is an exported, documented pure function that takes the domain DTO(s) and returns a primitive/derived value:
+
+```typescript
+// src/common/activities/rules/activities.rules.ts
+import { type DeclaredActivityDetailsDTO, EFeedbackStatus } from '@/api/avenir-esr'
+
+export function computeRemainingFeedbacks (declaredActivityDetails: DeclaredActivityDetailsDTO) {
+  return declaredActivityDetails.activity.feedbackAllowedIterations - (declaredActivityDetails.feedbacks?.length ?? 0)
+}
+
+export function canCreateFeedbackRequest (declaredActivityDetails: DeclaredActivityDetailsDTO, remainingFeedbacks: number) {
+  const lastFeedback = declaredActivityDetails.feedbacks?.at(0)
+  return remainingFeedbacks !== 0 && lastFeedback?.status !== EFeedbackStatus.IN_PROCESS
+}
+```
+
+The component just consumes the rule (typically wrapped in a `computed`):
+
+```typescript
+import { canCreateFeedbackRequest, computeRemainingFeedbacks } from '@/common/activities/rules/activities.rules'
+
+const remainingFeedbacks = computed(() => computeRemainingFeedbacks(declaredActivityDetails))
+const isRequestFeedbackDisabled = computed(() => !canCreateFeedbackRequest(declaredActivityDetails, remainingFeedbacks.value))
+```
+
+Rules must be:
+- **Pure** — no side effects, no API calls, no store access
+- **Unit tested** — co-located `*.rules.test.ts` following the project's BDD testing conventions
+
+Reference implementation: `src/common/activities/rules/activities.rules.ts` used by `PerspectiveTabActions.vue`.
+
 ### Stub Files and Barrel Exports
 
 **IMPORTANT**: Stub files (`.stub.ts`) should **NEVER** be exported from feature barrel files (`index.ts`).
