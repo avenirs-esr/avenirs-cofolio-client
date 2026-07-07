@@ -55,9 +55,7 @@ const inputEnabled = computed({
   >
     <AvMessage
       type="info"
-      :message="{
-        title: t('staff.activities.views.EditNationalActivityView.informations.disabled'),
-      }"
+      :message="t('staff.activities.views.EditNationalActivityView.informations.disabled')"
     />
     <span class="b2-regular av-text-text1">{{
       t('staff.activities.views.EditNationalActivityView.ActivityReflectionFormField.description')

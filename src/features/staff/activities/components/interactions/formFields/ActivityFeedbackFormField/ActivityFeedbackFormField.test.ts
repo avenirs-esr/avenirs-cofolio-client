@@ -102,9 +102,7 @@ BddTest().given('an ActivityFeedbackFormField component', () => {
     })
 
     BddTest().then('it should pass the disabled information message', () => {
-      expect(getMessage().props('message')).toEqual({
-        title: 'Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.',
-      })
+      expect(getMessage().props('message')).toEqual('Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.')
     })
   })
 
