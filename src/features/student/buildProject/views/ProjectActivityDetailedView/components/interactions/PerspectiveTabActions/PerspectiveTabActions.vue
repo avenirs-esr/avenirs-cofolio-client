@@ -158,7 +158,7 @@ function requestFeedback () {
 
 @include dsav.min-width(md) {
   span[data-type="updatable-feedback"] {
-    width: 38%;
+    width: 40%;
   }
 }
 </style>
