@@ -103,10 +103,7 @@
           },
           "AddActivityResourceModal": {
             "file": {
-              "formatsLabel": "Format :",
-              "formatsValue": "PDF, JPG, JPEG, PNG",
-              "sizeLabel": "Poids :",
-              "sizeValue": "10 Mo max"
+              "formatsValue": "PDF, JPG, JPEG, PNG"
             },
             "link": {
               "label": "Ajouter un lien",

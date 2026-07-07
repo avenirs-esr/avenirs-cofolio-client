@@ -38,12 +38,10 @@ const { validateFile } = useFileValidation({
   isRequired: true
 })
 
-function getDefaultValues (): AddActivityResourceFormData {
-  return {
-    resourceType: ActivityResourceType.FILE,
-    file: null,
-    resourceName: ''
-  }
+function getDefaultValues (resourceType: ActivityResourceType = ActivityResourceType.FILE): AddActivityResourceFormData {
+  return resourceType === ActivityResourceType.FILE
+    ? { resourceType: ActivityResourceType.FILE, file: null, resourceName: '' }
+    : { resourceType: ActivityResourceType.LINK, link: '' }
 }
 
 function buildValidators (value: AddActivityResourceFormData) {
@@ -91,14 +89,7 @@ const resourceTypeField = form.useField({ name: 'resourceType' })
 const selectedType = computed(() => resourceTypeField.state.value.value)
 
 function onTypeChange (nextType: ActivityResourceType) {
-  resourceTypeField.api.handleChange(nextType)
-  if (nextType === ActivityResourceType.FILE) {
-    form.setFieldValue('file', null)
-    form.setFieldValue('resourceName', '')
-  }
-  else {
-    form.setFieldValue('link', '')
-  }
+  form.reset(getDefaultValues(nextType))
 }
 
 function onFileSelected (file: File) {

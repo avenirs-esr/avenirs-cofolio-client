@@ -1,8 +1,9 @@
 import type { AddActivityResourceFileFormData } from '@/features/staff/activities/types/forms.types'
+import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import { ACTIVITY_RESOURCE_NAME_MAX_LENGTH } from '@/features/staff/activities/config'
 import AddActivityResourceNameInputFormField from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/components/AddActivityResourceNameInputFormField/AddActivityResourceNameInputFormField.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -16,9 +17,9 @@ const TestWrapper = createFormFieldTestWrapper<AddActivityResourceFileFormData, 
 BddTest().given('an AddActivityResourceNameInputFormField component', () => {
   let wrapper: VueWrapper<InstanceType<typeof TestWrapper>>
 
-  const stubs = { AvInput: AvInputStub }
+  const stubs = { Input: InputStub }
 
-  const getInput = () => wrapper.findComponent(AvInputStub) as VueWrapper<InstanceType<typeof AvInputStub>>
+  const getInput = () => wrapper.findComponent(InputStub) as VueWrapper<InstanceType<typeof InputStub>>
 
   beforeEach(() => {
     vi.clearAllMocks()

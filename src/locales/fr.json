@@ -325,6 +325,9 @@
     "information": {
       "fileUpload": {
         "dragAndDrop": "ou glisser et déposer ici",
+        "formatsLabel": "Format :",
+        "maxMbSize": "{size} Mo max",
+        "sizeLabel": "Poids :",
         "title": "Ajouter un fichier"
       },
       "imageUpload": {

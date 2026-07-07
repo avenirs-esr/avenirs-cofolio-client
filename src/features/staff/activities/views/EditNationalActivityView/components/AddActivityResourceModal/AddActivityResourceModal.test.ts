@@ -1,7 +1,8 @@
 import type { AddActivityResourceFileFormData } from '@/features/staff/activities/types/forms.types'
+import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import { ActivityResourceType } from '@/features/staff/activities/types/resource.types'
 import AddActivityResourceModal from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/AddActivityResourceModal.vue'
-import { AvFileUploadStub, AvInputStub, AvModalStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvFileUploadStub, AvModalStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -11,7 +12,7 @@ BddTest().given('an AddActivityResourceModal component', () => {
   const stubs = {
     AvModal: AvModalStub,
     AvSelect: AvSelectStub,
-    AvInput: AvInputStub,
+    Input: InputStub,
     AvFileUpload: AvFileUploadStub,
   }
 
@@ -19,8 +20,8 @@ BddTest().given('an AddActivityResourceModal component', () => {
   const getSelect = () => wrapper.findComponent(AvSelectStub) as VueWrapper<InstanceType<typeof AvSelectStub>>
   const getFileUpload = () => wrapper.findComponent(AvFileUploadStub) as VueWrapper<InstanceType<typeof AvFileUploadStub>>
   const getInputByTestId = (testid: string) => {
-    const inputs = wrapper.findAllComponents(AvInputStub) as VueWrapper<InstanceType<typeof AvInputStub>>[]
-    return inputs.find(input => input.props('dataTestid') === testid)
+    const inputs = wrapper.findAllComponents(InputStub) as VueWrapper<InstanceType<typeof InputStub>>[]
+    return inputs.find(input => input.attributes('data-testid') === testid)
   }
   const getNameInput = () => getInputByTestId('add-activity-resource-name-input')
   const getLinkInput = () => getInputByTestId('add-activity-resource-link-input')

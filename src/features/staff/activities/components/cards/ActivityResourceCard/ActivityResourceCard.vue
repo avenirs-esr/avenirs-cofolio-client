@@ -20,14 +20,15 @@ const { getErrorMessage } = useApiErrors()
 const { addErrorMessage } = useToasterStore()
 
 const title = computed(() => {
-  switch (true) {
-    case isActivityResourceLink(resource):
-      return resource
-    case isActivityResourcePendingFile(resource):
-      return resource.name
-    default:
-      return resource.fileName
+  if (isActivityResourceLink(resource)) {
+    return resource
   }
+
+  if (isActivityResourcePendingFile(resource)) {
+    return resource.name
+  }
+
+  return resource.fileName
 })
 
 const { mutate: mutateDownloadFile } = useDownloadFile({
@@ -84,7 +85,7 @@ function downloadFile () {
   >
     <AvCard
       class="activity-resource-card"
-      background-color="var(--surface-background)"
+      background-color="var(--card2)"
       border-color="transparent"
       data-testid="activity-resource-card"
     >
@@ -120,8 +121,8 @@ function downloadFile () {
 .activity-resource-card {
   position: relative;
 
-  width: 13.75rem;
-  height: 13rem;
+  width: 13.5rem;
+  height: 12.5rem;
 
   .icon-container {
     position: absolute;
