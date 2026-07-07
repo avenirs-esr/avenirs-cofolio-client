@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { EActivityStatus, EDeclaredActivityStatus, EFeedbackStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useUpdateReflection } from '@/api/avenir-esr'
+import type { EFeedbackStatus } from '@/api/avenir-esr'
+import { EActivityStatus, EDeclaredActivityStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useUpdateReflection } from '@/api/avenir-esr'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
@@ -22,7 +23,7 @@ export interface MyPerspectiveCardProps {
   lastFeedbackStatus?: EFeedbackStatus
 }
 
-const { activityId, perspective, activityStatus, lastFeedbackStatus } = defineProps<MyPerspectiveCardProps>()
+const { activityId, perspective, activityStatus } = defineProps<MyPerspectiveCardProps>()
 
 const RichTextEditor = defineAsyncComponent(() => import('@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.vue'))
 
@@ -127,7 +128,7 @@ watch(content, () => {
             :icon="MDI_ICONS.PENCIL_OUTLINE"
             variant="OUTLINED"
             small
-            :disabled="(activityStatus === EDeclaredActivityStatus.SUBMITTED && lastFeedbackStatus !== EFeedbackStatus.NEW) || activityStatus === EDeclaredActivityStatus.COMPLETED"
+            :disabled="activityStatus === EDeclaredActivityStatus.COMPLETED"
             data-testid="my-perspective-card-edit-button"
             @click="readonly = false"
           />
