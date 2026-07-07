@@ -7,6 +7,10 @@ export const ActivityFeedbackFormFieldStub = defineComponent({
     form: {
       type: Object as PropType<EditActivityForm>,
     },
+    disabled: {
+      type: Boolean,
+      required: false
+    }
   },
   template: '<div data-testid="activity-feedback-form-field-stub"></div>',
 })

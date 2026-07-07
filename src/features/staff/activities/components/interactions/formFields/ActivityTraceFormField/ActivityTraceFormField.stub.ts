@@ -7,6 +7,10 @@ export const ActivityTraceFormFieldStub = defineComponent({
     form: {
       type: Object as PropType<EditActivityForm>,
     },
+    disabled: {
+      type: Boolean,
+      required: false
+    }
   },
   template: '<div data-testid="activity-trace-form-field-stub"></div>',
 })

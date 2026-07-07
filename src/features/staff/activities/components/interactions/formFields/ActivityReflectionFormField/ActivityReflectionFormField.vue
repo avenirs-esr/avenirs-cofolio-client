@@ -3,12 +3,13 @@ import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_TRACE_SETTING_DISABLED_VALUE } from '@/features/staff/activities/config'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { debounce } from 'lodash-es'
 import { useI18n } from 'vue-i18n'
 
 interface ActivityReflectionFormFieldProps {
   form: EditActivityForm
+  disabled?: boolean
 }
 
 defineOptions({ inheritAttrs: false })
@@ -50,7 +51,16 @@ const inputEnabled = computed({
     data-testid="reflection-parameter-toggle"
     :title="t('staff.activities.views.EditNationalActivityView.ActivityReflectionFormField.title')"
     :icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
+    :disabled
   >
-    <span class="b2-regular av-text-text1">{{ t('staff.activities.views.EditNationalActivityView.ActivityReflectionFormField.description') }}</span>
+    <AvMessage
+      type="info"
+      :message="{
+        title: t('staff.activities.views.EditNationalActivityView.informations.disabled'),
+      }"
+    />
+    <span class="b2-regular av-text-text1">{{
+      t('staff.activities.views.EditNationalActivityView.ActivityReflectionFormField.description')
+    }}</span>
   </ToggleParameterCard>
 </template>

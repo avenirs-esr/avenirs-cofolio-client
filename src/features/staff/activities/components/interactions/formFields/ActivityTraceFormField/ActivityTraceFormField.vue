@@ -11,18 +11,19 @@ import {
   ACTIVITY_TRACE_SETTING_INFINITY_VALUE
 } from '@/features/staff/activities/config'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { debounce } from 'lodash-es'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface ActivityTraceFormFieldProps {
   form: EditActivityForm
+  disabled?: boolean
 }
 
 defineOptions({ inheritAttrs: false })
 
-const { form } = defineProps<ActivityTraceFormFieldProps>()
+const { form, disabled = false } = defineProps<ActivityTraceFormFieldProps>()
 
 const emit = defineEmits<{
   autosave: [value: ActivityDraftUpdateRequest]
@@ -54,7 +55,7 @@ const reflectionField = form.useField({ name: 'enableReflection' })
 
 const isFormDirty = form.useStore(state => state.isDirty)
 
-const isDisabled = computed(() => reflectionField.state.value.value === false)
+const isDisabled = computed(() => reflectionField.state.value.value === false || disabled)
 
 function parseTraceAllowedAssociations (value: number | string | null | undefined): number | undefined {
   const parsed = Number(value)
@@ -104,16 +105,26 @@ const inputEnabled = computed({
         :icon="MDI_ICONS.ATTACH_FILE"
       >
         <div class="av-col av-gap-sm">
-          <span class="b2-regular av-text-text1">{{ t('staff.activities.views.EditNationalActivityView.ActivityTraceFormField.description') }}</span>
+          <AvMessage
+            type="info"
+            :message="{
+              title: t('staff.activities.views.EditNationalActivityView.informations.disabled'),
+            }"
+          />
+          <span class="b2-regular av-text-text1">{{
+            t('staff.activities.views.EditNationalActivityView.ActivityTraceFormField.description')
+          }}</span>
           <Toggle
             v-if="inputEnabled"
             id="trace-infinity-toggle-input"
             v-model="infinityAllowed"
             :description="t('staff.activities.views.EditNationalActivityView.ActivityTraceFormField.infinityToggleLabel')"
+            :disabled
           />
           <Input
             v-if="!infinityAllowed && inputEnabled"
             v-bind="$attrs"
+            :disabled
             data-testid="trace-allowed-associations-input"
             type="number"
             :label="t('staff.activities.views.EditNationalActivityView.ActivityTraceFormField.label')"
