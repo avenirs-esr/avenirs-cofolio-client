@@ -36,7 +36,7 @@ const items = computed(() => [
     ? [
         {
           id: ProjectActivityDetailedSections.MY_PERSPECTIVE,
-          label: t('student.buildProject.activities.views.ProjectActivityDetailedView.ActivityDetailedSideNavigation.myPerspective'),
+          label: t('student.buildProject.activities.views.ProjectActivityDetailedView.ActivityDetailedSideNavigation.myReflection'),
           icon: MS_ICONS.FEATURED_PLAY_LIST_OUTLINE,
         }
       ]

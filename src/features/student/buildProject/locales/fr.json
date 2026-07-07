@@ -97,7 +97,7 @@
               "triggerLabel": "Gérer mon activité"
             },
             "ActivityDetailedSideNavigation": {
-              "myPerspective": "Ma prise de recul"
+              "myReflection": "Ma réflexion"
             },
             "AssociatedTracesCard": {
               "title": "Ma trace associée ({count}) | Mes traces associées ({count})"

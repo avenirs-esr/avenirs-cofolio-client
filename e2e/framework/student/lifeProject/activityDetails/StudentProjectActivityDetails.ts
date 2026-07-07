@@ -83,7 +83,7 @@ export class StudentProjectActivityDetails extends BasePage {
 
   @When('the student clicks the my perspective item in the activity side menu')
   async clickMyPerspectiveItemInSideMenu () {
-    await this.getActivityDetailedSideNavigation().getByText('Ma prise de recul').click()
+    await this.getActivityDetailedSideNavigation().getByText('Ma réflexion').click()
   }
 
   @Then('the my perspective section is visible')

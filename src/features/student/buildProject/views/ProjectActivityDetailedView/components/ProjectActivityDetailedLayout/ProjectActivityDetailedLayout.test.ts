@@ -134,7 +134,7 @@ BddTest().given('a project activity detailed layout component', () => {
         },
         {
           id: ProjectActivityDetailedSections.MY_PERSPECTIVE,
-          label: 'Ma prise de recul',
+          label: 'Ma réflexion',
           icon: MS_ICONS.FEATURED_PLAY_LIST_OUTLINE,
         },
       ])
