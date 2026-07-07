@@ -25,7 +25,7 @@ interface ActivityContentTabProps {
   activity: ActivityContentDTO
 }
 
-defineProps<ActivityContentTabProps>()
+const { activity } = defineProps<ActivityContentTabProps>()
 
 const emit = defineEmits<{
   (e: 'nextStep'): void
@@ -50,6 +50,7 @@ function onResourceAdded (payload: AddActivityResourceFormData) {
 }
 
 const isFormDirty = form.useStore(state => state.isDirty)
+const hasEnrolledStudent = computed(() => activity.hasEnrolledStudent)
 const files = form.useStore(state => state.values.files)
 const links = form.useStore(state => state.values.links)
 </script>
@@ -132,14 +133,17 @@ const links = form.useStore(state => state.values.links)
         collapsible
       >
         <ActivityReflectionFormField
+          :disabled="hasEnrolledStudent"
           :form="form"
           @autosave="save"
         />
         <ActivityTraceFormField
+          :disabled="hasEnrolledStudent"
           :form="form"
           @autosave="save"
         />
         <ActivityFeedbackFormField
+          :disabled="hasEnrolledStudent"
           :form="form"
           @autosave="save"
         />

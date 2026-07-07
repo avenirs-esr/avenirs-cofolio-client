@@ -7,12 +7,14 @@ import { useFormValidators } from '@/common/composables/use-form-validators/use-
 import { ICONS } from '@/common/constants'
 import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
+import { AvMessage } from '@avenirs-esr/avenirs-dsav'
 import { debounce } from 'lodash-es'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 interface ActivityFeedbackFormFieldProps {
   form: EditActivityForm
+  disabled?: boolean
 }
 
 defineOptions({ inheritAttrs: false })
@@ -88,22 +90,33 @@ const inputEnabled = computed({
       <ToggleParameterCard
         v-model="inputEnabled"
         data-testid="feedback-parameter-toggle"
+        :disabled
         toggle-id="feedback-main-toggle"
         :title="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.title')"
         :icon="ICONS.FEEDBACK"
       >
         <div class="av-col av-gap-sm">
-          <span class="b2-regular av-text-text1">{{ t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.description') }}</span>
+          <AvMessage
+            type="info"
+            :message="{
+              title: t('staff.activities.views.EditNationalActivityView.informations.disabled'),
+            }"
+          />
+          <span class="b2-regular av-text-text1">{{
+            t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.description')
+          }}</span>
           <Toggle
             v-if="inputEnabled"
             id="feedback-infinity-toggle-input"
             v-model="infinityAllowed"
             :description="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.infinityToggleLabel')"
+            :disabled
           />
           <Input
             v-if="!infinityAllowed && inputEnabled"
             v-bind="$attrs"
             data-testid="feedback-allowed-iterations-input"
+            :disabled
             type="number"
             :label="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.label')"
             label-visible
