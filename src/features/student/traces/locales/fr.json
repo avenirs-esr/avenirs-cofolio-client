@@ -208,9 +208,11 @@
           "studentTraceDetails": {
             "authorType": {
               "COLLECTIVE": "Production collective",
+              "label": "Cette trace est issue d'une production :",
               "PERSONAL": "Production personnelle",
               "THIRD_PARTY": "Production d'un tiers"
             },
+            "iaDescription": "Cette trace est issue d’une production réalisée avec l’Intelligence Artificielle (IA) :",
             "iaToggleLabel": "Production avec IA",
             "linkLabel": "Lien de ma trace"
           },

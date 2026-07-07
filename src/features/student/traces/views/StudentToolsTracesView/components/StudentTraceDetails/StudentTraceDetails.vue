@@ -66,47 +66,55 @@ const authorTypeLabel = computed(() =>
             {{ trace.link }}
           </a>
         </div>
+
+        <div class="av-col av-flex-fill personal-note">
+          <TracePersonalNoteTextarea
+            :model-value="trace.personalNote"
+            disabled
+          />
+        </div>
+      </div>
+
+      <div class="av-col av-flex-fill av-gap-md">
+        <div
+          class="av-col av-gap-xs indicators"
+          data-testid="author-type"
+        >
+          <span class="b2-regular">
+            {{ t('student.traces.views.StudentToolsTracesView.studentTraceDetails.authorType.label') }}
+          </span>
+          <AvIconText
+            typography-class="b2-light"
+            icon-color="var(--text2)"
+            :icon="MDI_ICONS.CHECK"
+            :text="authorTypeLabel"
+            inline
+          />
+        </div>
+
+        <div class="av-col av-gap-xs">
+          <span class="b2-regular">
+            {{ t('student.traces.views.StudentToolsTracesView.studentTraceDetails.iaDescription') }}
+          </span>
+          <TraceAiUsageToggle
+            :model-value="!!trace.aiUseJustification"
+            :description="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.iaToggleLabel')"
+            disabled
+          />
+          <TraceAiJustificationTextarea
+            v-if="trace.aiUseJustification"
+            :model-value="trace.aiUseJustification"
+            :label-visible="false"
+            disabled
+          />
+        </div>
+
         <div class="av-row av-justify-end">
           <CreationUpdateDateDetails
             :created-at="trace.createdAt"
             :updated-at="trace.updatedAt"
           />
         </div>
-      </div>
-
-      <div class="av-col av-flex-fill personal-note">
-        <TracePersonalNoteTextarea
-          :model-value="trace.personalNote"
-          disabled
-        />
-      </div>
-    </div>
-
-    <div class="av-col av-row--md av-justify-between av-gap-md">
-      <div
-        class="av-col av-flex-fill av-gap-xs indicators"
-        data-testid="author-type"
-      >
-        <AvIconText
-          typography-class="b2-light"
-          icon-color="var(--text2)"
-          :icon="MDI_ICONS.CHECK"
-          :text="authorTypeLabel"
-        />
-      </div>
-
-      <div class="av-col av-flex-fill">
-        <TraceAiUsageToggle
-          :model-value="!!trace.aiUseJustification"
-          :description="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.iaToggleLabel')"
-          disabled
-        />
-        <TraceAiJustificationTextarea
-          v-if="trace.aiUseJustification"
-          :model-value="trace.aiUseJustification"
-          :label-visible="false"
-          disabled
-        />
       </div>
     </div>
   </div>
