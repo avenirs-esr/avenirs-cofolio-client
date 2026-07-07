@@ -168,7 +168,6 @@
               "error": "Une erreur est survenue lors de la demande de feedback. Veuillez réessayer plus tard.",
               "feedbackPending": "Votre demande est en cours de traitement",
               "maximumFeedbackReached": "Vous avez atteint le nombre maximal de demande autorisé",
-              "requestFeedbackBadge": "Envoyée le {date}",
               "requestFeedbackButton": {
                 "requestFeedbackLabel": "Demander un feedback",
                 "updateFeedbackLabel": "Mettre à jour ma demande de feedback"

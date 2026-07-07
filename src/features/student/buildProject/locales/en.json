@@ -168,7 +168,6 @@
               "error": "An error occurred while requesting feedback. Please try again later.",
               "feedbackPending": "Your request is being processed",
               "maximumFeedbackReached": "You have reached the maximum number of requests allowed",
-              "requestFeedbackBadge": "Sent on {date}",
               "requestFeedbackButton": {
                 "requestFeedbackLabel": "Ask for feedback",
                 "updateFeedbackLabel": "Update my feedback request"
