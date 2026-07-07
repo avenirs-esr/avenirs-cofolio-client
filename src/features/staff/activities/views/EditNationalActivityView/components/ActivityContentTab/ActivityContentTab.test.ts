@@ -1,11 +1,10 @@
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
-import { AddCardStub } from '@/common/components/cards/AddCard/AddCard.stub'
-import { ActivityResourceCardStub } from '@/features/staff/activities/components/cards/ActivityResourceCard/ActivityResourceCard.stub'
 import { ActivityConsignFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.stub'
 import { ActivityFeedbackFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.stub'
 import { ActivityReflectionFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityReflectionFormField/ActivityReflectionFormField.stub'
 import { ActivityTitleFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.stub'
 import { ActivityTraceFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.stub'
+import { ActivityResourcesListStub } from '@/features/staff/activities/components/lists/ActivityResourcesList/ActivityResourcesList.stub'
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import { ActivityResourceType } from '@/features/staff/activities/types/resource.types'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
@@ -28,8 +27,7 @@ BddTest().given('an ActivityContentTab component', () => {
     ActivityReflectionFormField: ActivityReflectionFormFieldStub,
     ActivityTitleFormField: ActivityTitleFormFieldStub,
     ActivityTraceFormField: ActivityTraceFormFieldStub,
-    AddCard: AddCardStub,
-    ActivityResourceCard: ActivityResourceCardStub,
+    ActivityResourcesList: ActivityResourcesListStub,
     AddActivityResourceModal: AddActivityResourceModalStub,
     EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     AvButton: AvButtonStub,
@@ -46,8 +44,7 @@ BddTest().given('an ActivityContentTab component', () => {
 
   const getNextStepButton = () => tab.findAllComponents(AvButtonStub).find(c => c.attributes('data-testid') === 'activity-content-tab-next-step-button') as VueWrapper<InstanceType<typeof AvButtonStub>>
   const getModal = () => tab.findComponent(AddActivityResourceModalStub)
-  const getAddCard = () => tab.findComponent(AddCardStub)
-  const getResourceCards = () => tab.findAllComponents(ActivityResourceCardStub)
+  const getResourcesList = () => tab.findComponent(ActivityResourcesListStub)
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -89,8 +86,11 @@ BddTest().given('an ActivityContentTab component', () => {
       expect(cardContainer.props('collapsed')).toBeDefined()
     })
 
-    BddTest().then('it should render the AddCard in the DOCUMENTS section', () => {
-      expect(tab.find('[data-testid="activity-documents-section-add-card"]').exists()).toBe(true)
+    BddTest().then('it should render the ActivityResourcesList with the add card enabled in the DOCUMENTS section', () => {
+      const documentsSection = tab.find(`#${ContentSectionId.DOCUMENTS}`)
+      const resourcesList = documentsSection.findComponent(ActivityResourcesListStub)
+      expect(resourcesList.exists()).toBe(true)
+      expect(resourcesList.props('showAddCard')).toBe(true)
     })
 
     BddTest().then('it should render the CONTEXT section anchor with a collapsible and collapsed IconTitleCardContainer', () => {
@@ -162,9 +162,9 @@ BddTest().given('an ActivityContentTab component', () => {
     })
   })
 
-  BddTest().when('the AddCard is clicked', () => {
+  BddTest().when('the resources list emits add', () => {
     beforeEach(() => {
-      getAddCard().vm.$emit('click')
+      getResourcesList().vm.$emit('add')
     })
 
     BddTest().then('it should open the modal', () => {
@@ -174,7 +174,7 @@ BddTest().given('an ActivityContentTab component', () => {
 
   BddTest().when('the modal emits close', () => {
     beforeEach(() => {
-      getAddCard().vm.$emit('click')
+      getResourcesList().vm.$emit('add')
       getModal().vm.$emit('close')
     })
 
@@ -185,7 +185,7 @@ BddTest().given('an ActivityContentTab component', () => {
 
   BddTest().when('the modal emits added with a file payload', () => {
     beforeEach(() => {
-      getAddCard().vm.$emit('click')
+      getResourcesList().vm.$emit('add')
       getModal().vm.$emit('added', {
         resourceType: ActivityResourceType.FILE,
         file: new File(['content'], 'document.pdf', { type: 'application/pdf' }),
@@ -193,8 +193,8 @@ BddTest().given('an ActivityContentTab component', () => {
       })
     })
 
-    BddTest().then('it should render a resource card for the added file', () => {
-      expect(getResourceCards()).toHaveLength(1)
+    BddTest().then('it should pass the added file to the resources list', () => {
+      expect(getResourcesList().props('files')).toHaveLength(1)
     })
 
     BddTest().then('it should close the modal', () => {
@@ -204,16 +204,16 @@ BddTest().given('an ActivityContentTab component', () => {
 
   BddTest().when('the modal emits added with a link payload', () => {
     beforeEach(() => {
-      getAddCard().vm.$emit('click')
+      getResourcesList().vm.$emit('add')
       getModal().vm.$emit('added', {
         resourceType: ActivityResourceType.LINK,
         link: 'https://avenir-esr.fr',
       })
     })
 
-    BddTest().then('it should render a resource card for the added link', () => {
-      expect(getResourceCards()).toHaveLength(1)
-      expect(getResourceCards()[0].props('resource')).toBe('https://avenir-esr.fr')
+    BddTest().then('it should pass the added link to the resources list', () => {
+      expect(getResourcesList().props('links')).toHaveLength(1)
+      expect(getResourcesList().props('links')[0]).toBe('https://avenir-esr.fr')
     })
 
     BddTest().then('it should close the modal', () => {

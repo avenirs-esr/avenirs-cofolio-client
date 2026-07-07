@@ -36,7 +36,7 @@ const displayedLabel = computed(() => label ?? t('global.buttons.add'))
 .add-card {
   border-color: var(--light-background-neutral);
   min-height: 12.5rem;
-  min-width: 14.8rem;
+  min-width: 13.5rem;
   cursor: pointer;
 }
 </style>

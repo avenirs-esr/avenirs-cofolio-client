@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { AddActivityResourceForm } from '@/features/staff/activities/types/forms.types'
-import { ACTIVITY_RESOURCE_ACCEPTED_FILE_TYPES } from '@/features/staff/activities/config'
+import { bytesToMegabytes } from '@/common/utils/file/file'
+import { ACTIVITY_RESOURCE_ACCEPTED_FILE_TYPES, ACTIVITY_RESOURCE_MAX_FILE_SIZE } from '@/features/staff/activities/config'
 import { AvFileUpload } from '@avenirs-esr/avenirs-dsav'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -57,11 +58,11 @@ function handleModelValueUpdate (file: File | null) {
           @update:model-value="handleModelValueUpdate"
         />
         <div class="caption-light">
-          {{ t('staff.activities.views.EditNationalActivityView.AddActivityResourceModal.file.formatsLabel') }}
+          {{ t('global.information.fileUpload.formatsLabel') }}
           <span class="caption-bold">{{ t('staff.activities.views.EditNationalActivityView.AddActivityResourceModal.file.formatsValue') }}</span>
           •
-          {{ t('staff.activities.views.EditNationalActivityView.AddActivityResourceModal.file.sizeLabel') }}
-          <span class="caption-bold">{{ t('staff.activities.views.EditNationalActivityView.AddActivityResourceModal.file.sizeValue') }}</span>
+          {{ t('global.information.fileUpload.sizeLabel') }}
+          <span class="caption-bold">{{ t('global.information.fileUpload.maxMbSize', { size: bytesToMegabytes(ACTIVITY_RESOURCE_MAX_FILE_SIZE) }) }}</span>
         </div>
       </div>
     </template>

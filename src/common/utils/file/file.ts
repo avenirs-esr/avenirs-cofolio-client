@@ -21,21 +21,49 @@ export function renameFile (file: File, newName: string): File {
   })
 }
 
+const EXTENSION_TO_FILE_TYPE: Record<string, EFileType> = {
+  'png': EFileType.PNG,
+  'jpg': EFileType.JPEG,
+  'jpeg': EFileType.JPEG,
+  'gif': EFileType.GIF,
+  'webp': EFileType.WEBP,
+  'ogg': EFileType.OGG,
+  'oga': EFileType.OGG,
+  'ogx': EFileType.OGG_APP,
+  'weba': EFileType.WEBM_AUDIO,
+  'm4a': EFileType.MP4_AUDIO,
+  'mp3': EFileType.MP3,
+  'avi': EFileType.AVI,
+  'ogv': EFileType.OGG_VIDEO,
+  'mp4': EFileType.MP4,
+  'mpeg': EFileType.MPEG,
+  'mpg': EFileType.MPEG,
+  'webm': EFileType.WEBM_VIDEO,
+  '3gp': EFileType._3GPP_VIDEO,
+  '3g2': EFileType._3GPP2_VIDEO,
+  'txt': EFileType.TXT,
+  'csv': EFileType.CSV,
+  'ics': EFileType.ICS,
+  'rtx': EFileType.RICHTEXT,
+  'pdf': EFileType.PDF,
+  'ps': EFileType.POSTSCRIPT,
+  'eps': EFileType.POSTSCRIPT,
+  'ai': EFileType.POSTSCRIPT,
+  'doc': EFileType.DOC,
+  'docx': EFileType.DOCX,
+  'odt': EFileType.ODT,
+  'rtf': EFileType.RTF,
+  'vsd': EFileType.VSD,
+  'ppt': EFileType.PPT,
+  'pptx': EFileType.PPTX,
+  'ppsx': EFileType.PPTX_SLIDESHOW,
+  'odp': EFileType.ODP,
+  'xls': EFileType.XLS,
+  'xlsx': EFileType.XLSX,
+  'ods': EFileType.ODS
+}
+
 export function getFileTypeFromFileName (fileName: string): EFileType {
-  const extension = fileName.split('.').pop()?.toLowerCase()
-  switch (extension) {
-    case 'pdf':
-      return EFileType.PDF
-    case 'doc':
-      return EFileType.DOC
-    case 'docx':
-      return EFileType.DOCX
-    case 'jpg':
-    case 'jpeg':
-      return EFileType.JPEG
-    case 'png':
-      return EFileType.PNG
-    default:
-      return EFileType.PDF
-  }
+  const extension = fileName.split('.').pop()?.toLowerCase() ?? ''
+  return EXTENSION_TO_FILE_TYPE[extension] ?? EFileType.PDF
 }
