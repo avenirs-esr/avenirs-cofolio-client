@@ -1,4 +1,5 @@
 import type { CreateTraceForm } from '@/features/student/traces'
+import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import TraceLinkInputFormField from '@/features/student/traces/components/interactions/formFields/TraceLinkInputFormField/TraceLinkInputFormField.vue'
 import { TraceLinkInputStub } from '@/features/student/traces/components/interactions/inputs/TraceLinkInput/TraceLinkInput.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -11,15 +12,16 @@ const TestWrapper = {
     TraceLinkInputFormField
   },
   setup () {
+    const { validateLink } = useFormValidators()
     const form = useForm({
       defaultValues: {
         link: ''
       },
       validators: {
-        onSubmit () {
+        onSubmit ({ value }) {
           return {
             fields: {
-              link: undefined
+              link: validateLink(value.link)
             }
           }
         }
