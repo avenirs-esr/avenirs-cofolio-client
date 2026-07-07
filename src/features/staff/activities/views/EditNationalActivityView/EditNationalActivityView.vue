@@ -194,7 +194,6 @@ async function save (data?: ActivityDraftUpdateRequest) {
 
   if (pendingFiles.length > 0) {
     promises.push(saveResourceFiles(pendingFiles))
-    form.setFieldValue('files', form.getFieldValue('files').filter(f => !(f instanceof File)))
   }
 
   if (data) {
@@ -209,8 +208,8 @@ async function save (data?: ActivityDraftUpdateRequest) {
   const someFulfilled = results.some(r => r.status === 'fulfilled')
 
   if (someFulfilled) {
-    invalidateGetActivityContent(queryClient, EActivityStatus.DRAFT, id)
-    invalidateGetActivityPresentation(queryClient, EActivityStatus.DRAFT, id)
+    await invalidateGetActivityContent(queryClient, EActivityStatus.DRAFT, id)
+    await invalidateGetActivityPresentation(queryClient, EActivityStatus.DRAFT, id)
   }
 
   if (results.every(r => r.status === 'fulfilled')) {
