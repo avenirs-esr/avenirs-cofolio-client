@@ -15,7 +15,8 @@
           "SUBSCRIBED": "Inscrit(e)"
         },
         "statuses": {
-          "DRAFT": "non publiée",
+          "DRAFT": "brouillon",
+          "UNPUBLISHED": "dépubliée",
           "PUBLISHED": "publiée"
         },
         "thematics": {
@@ -440,9 +441,10 @@
         "loaded": "Document chargé."
       }
     },
+    "notValorized": "Non valorisée dans mon kit",
     "text": "Texte",
     "updated": "Modifié",
-    "valorized": "Valoriser dans mes CV",
+    "valorized": "Valorisée dans mon kit",
     "video": "Vidéo",
     "views": {
       "accessibilityView": {

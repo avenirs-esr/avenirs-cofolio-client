@@ -4240,12 +4240,16 @@
           },
           "link": {
             "type": "string"
+          },
+          "valorized": {
+            "type": "boolean"
           }
         },
         "required": [
           "authorType",
           "language",
-          "title"
+          "title",
+          "valorized"
         ]
       },
       "FileDTO": {
@@ -4378,6 +4382,9 @@
           "attachment": {
             "$ref": "#/components/schemas/FileDTO"
           },
+          "valorized": {
+            "type": "boolean"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -4396,7 +4403,8 @@
           "personalNote",
           "programName",
           "title",
-          "updatedAt"
+          "updatedAt",
+          "valorized"
         ]
       },
       "SelfKnowledgeElementRequest": {

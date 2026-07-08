@@ -64,6 +64,9 @@
         "toggles": {
           "TraceAiUsageToggle": {
             "description": "Je soumets une production réalisée avec IA"
+          },
+          "TraceValorizationToggle": {
+            "description": "Je valorise cette trace dans mon kit"
           }
         }
       },

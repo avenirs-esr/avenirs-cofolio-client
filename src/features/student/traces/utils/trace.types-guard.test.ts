@@ -11,6 +11,7 @@ BddTest().given('trace form data type guards', () => {
       traceName: 'my-trace',
       authorType: ETraceAuthorType.PERSONAL,
       useIA: false,
+      valorized: false,
     }
 
     BddTest().then('isTraceFileType should return true', () => {
@@ -29,6 +30,7 @@ BddTest().given('trace form data type guards', () => {
       traceName: 'my-trace',
       authorType: ETraceAuthorType.PERSONAL,
       useIA: false,
+      valorized: false,
     }
 
     BddTest().then('isTraceFileType should return false', () => {

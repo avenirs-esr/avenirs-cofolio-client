@@ -52,6 +52,7 @@ BddTest().given('a student detailed trace information component', () => {
     programName: 'Test Program',
     link: 'https://example.com/trace/1',
     authorType: ETraceAuthorType.COLLECTIVE,
+    valorized: false,
     aiUseJustification: '',
     personalNote: 'Test personal note content',
     createdAt: '2024-01-15T10:30:00',

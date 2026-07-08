@@ -7,15 +7,40 @@ BddTest().given('a valorized badge', () => {
   let wrapper: VueWrapper<InstanceType<typeof ValorizedBadge>>
 
   const stubs = { AvBadge: AvBadgeStub }
-  BddTest().when('the component is mounted', () => {
+
+  BddTest().when('the trace is valorized', () => {
     beforeEach(() => {
-      wrapper = mountComponent(ValorizedBadge, { global: { stubs } })
+      wrapper = mountComponent(ValorizedBadge, {
+        props: {
+          valorized: true
+        },
+        global: { stubs }
+      })
     })
 
     BddTest().then('it should render the valorized badge', () => {
       const badge = wrapper.findComponent(AvBadgeStub)
+
       expect(badge.exists()).toBe(true)
-      expect(badge.text()).toBe('Valoriser dans mes CV')
+      expect(badge.text()).toBe('Valorisée dans mon kit')
+    })
+  })
+
+  BddTest().when('the trace is not valorized', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(ValorizedBadge, {
+        props: {
+          valorized: false
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the non valorized badge', () => {
+      const badge = wrapper.findComponent(AvBadgeStub)
+
+      expect(badge.exists()).toBe(true)
+      expect(badge.text()).toBe('Non valorisée dans mon kit')
     })
   })
 })

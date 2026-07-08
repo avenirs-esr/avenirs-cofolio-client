@@ -57,6 +57,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: '',
         authorType: null,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -81,6 +82,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: 'Optional note',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -108,6 +110,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: 'Optional note',
         authorType: ETraceAuthorType.COLLECTIVE,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
       const onSubmitValidator = composableResult.form.options.validators?.onSubmit
@@ -125,6 +128,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: 'Optional note',
         authorType: null,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -146,6 +150,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: 'Optional note',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -167,6 +172,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -184,6 +190,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: true,
+        valorized: false,
         iaJustification: 'Used AI for research assistance'
       }
 
@@ -201,6 +208,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: true,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -219,6 +227,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -236,6 +245,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -259,6 +269,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -278,6 +289,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: '',
         associationSelections: {
           [EAssociationTypeKey.ACTIVITIES]: [{ id: 'activity-1', title: 'Activity 1' }]
@@ -299,6 +311,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: '',
         associationSelections: {
           [EAssociationTypeKey.DECLARED_SKILLS]: [{ id: 'skill-1', title: 'Skill 1' }]
@@ -320,6 +333,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: '',
         associationSelections: {
           [EAssociationTypeKey.ACTIVITIES]: [{ id: 'activity-1', title: 'Activity 1' }],
@@ -342,6 +356,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: '',
         associationSelections: {}
       }

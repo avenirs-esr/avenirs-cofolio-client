@@ -1,6 +1,14 @@
 import type { UpdateTraceForm as UpdateTraceFormType } from '@/features/student/traces/types/forms.types'
 import type { VueWrapper } from '@vue/test-utils'
 import { EFileType, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
+import { TraceAiJustificationTextareaFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceAiJustificationTextareaFormField/TraceAiJustificationTextareaFormField.stub'
+import { TraceAiUsageToggleFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceAiUsageToggleFormField/TraceAiUsageToggleFormField.stub'
+import { TraceFileUploadFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceFileUploadFormField/TraceFileUploadFormField.stub'
+import { TraceLinkInputFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceLinkInputFormField/TraceLinkInputFormField.stub'
+import { TraceNameInputFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceNameInputFormField/TraceNameInputFormField.stub'
+import { TracePersonalNoteTextareaFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TracePersonalNoteTextareaFormField/TracePersonalNoteTextareaFormField.stub'
+import { TraceValorizationToggleFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceValorizationToggleFormField/TraceValorizationToggleFormField.stub'
+import { TraceAuthorTypeRadioSetFormFieldStub } from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSetFormField/TraceAuthorTypeRadioSetFormField.stub'
 import { TraceType } from '@/features/student/traces/types/traces.types'
 import UpdateTraceForm from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/UpdateTraceForm.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -28,6 +36,7 @@ BddTest().given('an update trace form component', () => {
     title: 'Existing Trace',
     programName: 'Test Program',
     authorType: ETraceAuthorType.PERSONAL,
+    valorized: false,
     aiUseJustification: '',
     personalNote: 'Existing note',
     createdAt: '2025-01-15T10:00:00Z',
@@ -53,42 +62,14 @@ BddTest().given('an update trace form component', () => {
   }
 
   const stubs = {
-    TraceNameInputFormField: {
-      name: 'TraceNameInputFormField',
-      props: ['form'],
-      template: '<input id="traceName" />'
-    },
-    TraceFileUploadFormField: {
-      name: 'TraceFileUploadFormField',
-      props: ['form', 'label'],
-      template: '<input id="trace-file-upload" type="file" />'
-    },
-    TraceLinkInputFormField: {
-      name: 'TraceLinkInputFormField',
-      props: ['form'],
-      template: '<input id="traceLink" />'
-    },
-    TracePersonalNoteTextareaFormField: {
-      name: 'TracePersonalNoteTextareaFormField',
-      props: ['form'],
-      template: '<textarea id="personalNote" />'
-    },
-    TraceAuthorTypeRadioSetFormField: {
-      name: 'TraceAuthorTypeRadioSetFormField',
-      props: ['form'],
-      template: '<div class="trace-author-type-radio-set-form-field-stub" />'
-    },
-    TraceAiUsageToggleFormField: {
-      name: 'TraceAiUsageToggleFormField',
-      props: ['form'],
-      emits: ['change'],
-      template: '<div class="av-toggle-stub" />'
-    },
-    TraceAiJustificationTextareaFormField: {
-      name: 'TraceAiJustificationTextareaFormField',
-      props: ['form', 'showAiJustification', 'labelVisible'],
-      template: '<textarea id="iaJustification" v-if="showAiJustification" />'
-    }
+    TraceNameInputFormField: TraceNameInputFormFieldStub,
+    TraceFileUploadFormField: TraceFileUploadFormFieldStub,
+    TraceLinkInputFormField: TraceLinkInputFormFieldStub,
+    TracePersonalNoteTextareaFormField: TracePersonalNoteTextareaFormFieldStub,
+    TraceAuthorTypeRadioSetFormField: TraceAuthorTypeRadioSetFormFieldStub,
+    TraceAiUsageToggleFormField: TraceAiUsageToggleFormFieldStub,
+    TraceAiJustificationTextareaFormField: TraceAiJustificationTextareaFormFieldStub,
+    TraceValorizationToggleFormField: TraceValorizationToggleFormFieldStub,
   }
 
   beforeEach(() => {

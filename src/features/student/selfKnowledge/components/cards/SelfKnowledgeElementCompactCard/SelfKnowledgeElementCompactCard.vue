@@ -30,7 +30,9 @@ const iconOptions = computed(() => ({
     title-typography-classes="caption-regular"
   >
     <template #body>
-      <ValorizedBadge v-if="valorized" />
+      <ValorizedBadge
+        :valorized="valorized"
+      />
     </template>
   </FloatingIconCard>
 </template>

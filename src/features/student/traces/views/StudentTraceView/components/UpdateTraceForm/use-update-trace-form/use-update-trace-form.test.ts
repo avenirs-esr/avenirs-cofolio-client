@@ -44,6 +44,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
     authorType: ETraceAuthorType.PERSONAL,
     aiUseJustification: '',
     link: '',
+    valorized: false,
     attachment: undefined
   } as TraceDetailDTO
 
@@ -83,6 +84,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
       expect(values.traceType).toBe(TraceType.LINK)
       expect((values as TraceFormDataLink).link).toBe('')
       expect(values.useIA).toBe(false)
+      expect(values.valorized).toBe(false)
       expect(values.iaJustification).toBe('')
     })
 
@@ -104,6 +106,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         personalNote: '',
         authorType: null,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -128,6 +131,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         personalNote: 'note',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -150,6 +154,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -168,6 +173,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -188,6 +194,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: true,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -213,6 +220,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         personalNote: 'Updated note',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -231,6 +239,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.COLLECTIVE,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -249,6 +258,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: true,
+        valorized: false,
         iaJustification: 'Generated with AI'
       }
 
@@ -267,6 +277,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -294,6 +305,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         personalNote: '',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
@@ -318,6 +330,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
           personalNote: '',
           authorType: null,
           useIA: false,
+          valorized: false,
           iaJustification: ''
         }
       })
@@ -337,6 +350,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
           personalNote: '',
           authorType: ETraceAuthorType.PERSONAL,
           useIA: false,
+          valorized: false,
           iaJustification: ''
         }
       })
@@ -355,6 +369,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
           personalNote: '',
           authorType: ETraceAuthorType.PERSONAL,
           useIA: true,
+          valorized: false,
           iaJustification: ''
         }
       })
@@ -390,6 +405,7 @@ BddTest().given('the useUpdateTraceForm composable', () => {
         personalNote: 'Updated note',
         authorType: ETraceAuthorType.PERSONAL,
         useIA: false,
+        valorized: false,
         iaJustification: ''
       }
 
