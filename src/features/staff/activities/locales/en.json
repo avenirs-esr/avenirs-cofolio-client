@@ -165,7 +165,8 @@
             "saveActivityContentWithErrors": "Activity saved with an error | Activity saved with errors"
           },
           "informations": {
-            "disabled": "This setting can no longer be changed because students are already enrolled in this activity."
+            "disabled": "This setting can no longer be changed because students are already enrolled in this activity.",
+            "willBeDisabled": "After the activity is published and a learner has been enrolled, this field will no longer be editable."
           }
         }
       }

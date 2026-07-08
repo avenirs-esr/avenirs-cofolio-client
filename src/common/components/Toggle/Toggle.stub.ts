@@ -9,6 +9,7 @@ export const ToggleStub = defineComponent({
         :id="id"
         :name="name"
         :checked="modelValue"
+        :disabled="disabled"
         @change="$emit(\'update:modelValue\', $event.target.checked)"
       />
       <span class="description">

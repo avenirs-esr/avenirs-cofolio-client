@@ -1,6 +1,10 @@
 export const ToggleParameterCardStub = defineComponent({
   name: 'ToggleParameterCard',
   props: {
+    modelValue: {
+      type: Boolean,
+      required: true,
+    },
     title: {
       type: String,
       required: true,
@@ -14,5 +18,6 @@ export const ToggleParameterCardStub = defineComponent({
       default: false,
     },
   },
+  emits: ['update:modelValue'],
   template: '<div class="toggle-parameter-card"><slot /></div>',
 })
