@@ -26,6 +26,11 @@ BddTest().given('an ActivityConsignFormField component', () => {
 
   const getEditor = () => wrapper.findComponent(RichTextEditorStub) as VueWrapper<InstanceType<typeof RichTextEditorStub>>
 
+  const emitEditorValue = (value: string) => {
+    getEditor().vm.$emit('update:charCount', value.length)
+    getEditor().vm.$emit('update:modelValue', value)
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
     wrapper = mount(TestWrapper, { global: { stubs } })
@@ -51,7 +56,7 @@ BddTest().given('an ActivityConsignFormField component', () => {
 
   BddTest().when('the editor emits a valid value', () => {
     beforeEach(() => {
-      getEditor().vm.$emit('update:modelValue', 'Ma consigne')
+      emitEditorValue('Ma consigne')
     })
 
     BddTest().then('it should update the model value', async () => {
@@ -63,15 +68,24 @@ BddTest().given('an ActivityConsignFormField component', () => {
     })
   })
 
-  BddTest().when('the editor emits a value exceeding the max length', () => {
-    beforeEach(async () => {
-      getEditor().vm.$emit('update:modelValue', 'a'.repeat(ACTIVITY_CONSIGN_MAX_LENGTH + 1))
+  BddTest().when('the editor emits content while the char count is greater than zero', () => {
+    beforeEach(() => {
+      emitEditorValue('<p>Ma consigne</p>')
     })
 
-    BddTest().then('it should show a max length error message', async () => {
-      await vi.waitFor(() => {
-        expect(getEditor().props('errorMessage')).toBe(`Veuillez limiter votre saisie à ${ACTIVITY_CONSIGN_MAX_LENGTH} caractères`)
-      })
+    BddTest().then('it should keep the emitted content', async () => {
+      await vi.waitFor(() => expect(getEditor().props('modelValue')).toBe('<p>Ma consigne</p>'))
+    })
+  })
+
+  BddTest().when('the editor emits a value but the char count is zero', () => {
+    beforeEach(() => {
+      getEditor().vm.$emit('update:charCount', 0)
+      getEditor().vm.$emit('update:modelValue', '<p></p>')
+    })
+
+    BddTest().then('it should reset the model value to empty', async () => {
+      await vi.waitFor(() => expect(getEditor().props('modelValue')).toBe(''))
     })
   })
 })

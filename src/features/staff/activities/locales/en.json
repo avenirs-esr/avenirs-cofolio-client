@@ -136,6 +136,7 @@
             "confirmTitle": "Are you sure you want to publish your activity?",
             "publishError": "An error occurred while publishing the activity",
             "publishLabel": "Publish",
+            "publishRequiredFieldsError": "Please provide a title, a thematic, an instruction and a summary to publish the activity",
             "publishSuccess": "Activity published successfully",
             "title": "Prepare publication"
           },

@@ -136,6 +136,7 @@
             "confirmTitle": "Êtes-vous certain(e) de vouloir publier votre activité ? ",
             "publishError": "Une erreur est survenue lors de la publication de l'activité",
             "publishLabel": "Publier",
+            "publishRequiredFieldsError": "Veuillez renseigner un titre, une thématique, une consigne et un extrait pour publier l'activité",
             "publishSuccess": "L'activité a été publiée avec succès",
             "title": "Préparer la publication"
           },

@@ -82,3 +82,32 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
     })
   },
 })
+
+export const EditNationalActivityViewFormWrapperValid = defineComponent({
+  name: 'EditNationalActivityViewFormWrapper',
+  template: '<div><slot /></div>',
+  setup () {
+    const defaultValues: EditActivityFormData = {
+      title: 'Test activity',
+      thematic: EActivityThematic.TRANSVERSAL as EActivityThematic,
+      description: 'Test description',
+      enableReflection: true,
+      executionPeriodInfo: 'Test execution period',
+      feedbackAllowedIterations: undefined,
+      summary: 'Test summary',
+      traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
+      bannerAction: EditActivityFormDataBannerAction.NONE,
+      files: [],
+      links: [],
+    }
+
+    const form = useForm({ defaultValues })
+    form.handleSubmit = mockHandleSubmit
+
+    provideEditNationalActivityViewContext({
+      form,
+      isUpdating: mockIsUpdating,
+      save: mockSave,
+    })
+  },
+})
