@@ -9,9 +9,10 @@ import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activit
 import {
   EditNationalActivityViewFormWrapper,
   EditNationalActivityViewFormWrapperDirty,
+  EditNationalActivityViewFormWrapperValid,
 } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
 import { IconTitleCardContainerStub } from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
@@ -29,19 +30,6 @@ vi.mock('@/store', async (importOriginal) => {
     }),
   }
 })
-
-const { hasFieldErrorsMock, hasFieldErrorsRef } = vi.hoisted(() => {
-  return {
-    hasFieldErrorsMock: vi.fn(),
-    hasFieldErrorsRef: { value: false },
-  }
-})
-
-vi.mock('@/common/composables/use-form-validators/use-form-validators', () => ({
-  useFormValidators: () => ({
-    hasFieldErrors: hasFieldErrorsMock,
-  }),
-}))
 
 vi.mock('@/common/composables/use-task-loading/use-task-loading', () => ({
   useTaskLoading: () => ({
@@ -64,12 +52,18 @@ const ConfirmationModalStub = defineComponent({
   `,
 })
 
+type FormWrapperComponent
+  = | typeof EditNationalActivityViewFormWrapper
+    | typeof EditNationalActivityViewFormWrapperDirty
+    | typeof EditNationalActivityViewFormWrapperValid
+
 BddTest().given('an ActivityPublicationTab component', () => {
   let wrapper: ReturnType<typeof mountComponent>
   let tab: VueWrapper<InstanceType<typeof ActivityPublicationTab>>
 
   const stubs = {
     AvButton: AvButtonStub,
+    AvMessage: AvMessageStub,
     ConfirmationModal: ConfirmationModalStub,
     EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     ActivityTitleFormField: ActivityTitleFormFieldStub,
@@ -80,7 +74,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
   }
 
   function mountTab (
-    FormWrapper: typeof EditNationalActivityViewFormWrapper | typeof EditNationalActivityViewFormWrapperDirty,
+    FormWrapper: FormWrapperComponent,
     activity = mockedActivityDetail,
   ) {
     wrapper = mountComponent(FormWrapper, {
@@ -95,8 +89,6 @@ BddTest().given('an ActivityPublicationTab component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    hasFieldErrorsRef.value = false
-    hasFieldErrorsMock.mockImplementation(() => hasFieldErrorsRef)
     mountTab(EditNationalActivityViewFormWrapper)
   })
 
@@ -138,6 +130,30 @@ BddTest().given('an ActivityPublicationTab component', () => {
     })
   })
 
+  BddTest().when('a required publish field is missing', () => {
+    BddTest().then('it should disable the publish button', () => {
+      expect(getPublishButton().props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should display the required fields warning', () => {
+      expect(tab.findComponent(AvMessageStub).exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('all required publish fields are provided', () => {
+    beforeEach(() => {
+      mountTab(EditNationalActivityViewFormWrapperValid)
+    })
+
+    BddTest().then('it should enable the publish button', () => {
+      expect(getPublishButton().props('disabled')).toBe(false)
+    })
+
+    BddTest().then('it should not display the required fields warning', () => {
+      expect(tab.findComponent(AvMessageStub).exists()).toBe(false)
+    })
+  })
+
   BddTest().when('the form is dirty', () => {
     beforeEach(async () => {
       mountTab(EditNationalActivityViewFormWrapperDirty)
@@ -149,22 +165,9 @@ BddTest().given('an ActivityPublicationTab component', () => {
     })
   })
 
-  BddTest().when('publish is clicked with invalid fields', () => {
-    beforeEach(async () => {
-      hasFieldErrorsRef.value = true
-      await getPublishButton().trigger('click')
-    })
-
-    BddTest().then('it should keep confirmation modal closed', async () => {
-      await vi.waitFor(() => {
-        expect(tab.find('[data-testid="publish-confirmation-modal"]').attributes('data-show')).toBe('false')
-      })
-    })
-  })
-
   BddTest().when('publish is clicked with valid fields', () => {
     beforeEach(async () => {
-      hasFieldErrorsRef.value = false
+      mountTab(EditNationalActivityViewFormWrapperValid)
       await getPublishButton().trigger('click')
     })
 
@@ -178,7 +181,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
 
   BddTest().when('publication is confirmed successfully', () => {
     beforeEach(async () => {
-      hasFieldErrorsRef.value = false
+      mountTab(EditNationalActivityViewFormWrapperValid)
 
       await getPublishButton().trigger('click')
 
@@ -205,9 +208,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
 
   BddTest().when('publication fails', () => {
     beforeEach(async () => {
-      hasFieldErrorsRef.value = false
-
-      mountTab(EditNationalActivityViewFormWrapper, {
+      mountTab(EditNationalActivityViewFormWrapperValid, {
         ...mockedActivityDetail,
         id: 'INVALID_ACTIVITY_DRAFT_ID',
       })

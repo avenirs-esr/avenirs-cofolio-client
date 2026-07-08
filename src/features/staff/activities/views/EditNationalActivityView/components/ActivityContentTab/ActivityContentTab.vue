@@ -90,6 +90,7 @@ const links = form.useStore(state => state.values.links)
         :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
         collapsible
         collapsed
+        required
       >
         <ActivityConsignFormField
           :form="form"
@@ -103,6 +104,7 @@ const links = form.useStore(state => state.values.links)
         :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
         collapsible
         collapsed
+        required
       >
         <ActivityExecutionPeriodFormField
           :form="form"
