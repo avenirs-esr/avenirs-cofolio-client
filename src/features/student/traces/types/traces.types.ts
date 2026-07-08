@@ -23,6 +23,7 @@ interface TraceFormDataBase {
   personalNote?: string
   authorType: ETraceAuthorType | null
   useIA: boolean
+  valorized: boolean
   iaJustification?: string
   associationSelections?: Record<string, Association[]>
 }

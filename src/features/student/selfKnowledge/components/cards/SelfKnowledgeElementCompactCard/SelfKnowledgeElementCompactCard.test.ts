@@ -41,9 +41,11 @@ BddTest().given('a self knowledge element compact card', () => {
         wrapper = mountComponent(SelfKnowledgeElementCompactCard, { props, global: { stubs } })
       })
 
-      BddTest().then('it should not render the valorized badge', () => {
+      BddTest().then('it should render the non valorized badge', () => {
         const badge = wrapper.findComponent(ValorizedBadgeStub)
-        expect(badge.exists()).toBe(false)
+
+        expect(badge.exists()).toBe(true)
+        expect(badge.props('valorized')).toBe(false)
       })
     })
   })

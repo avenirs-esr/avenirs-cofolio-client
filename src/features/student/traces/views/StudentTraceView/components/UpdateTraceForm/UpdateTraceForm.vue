@@ -9,6 +9,7 @@ import TraceFileUploadFormField from '@/features/student/traces/components/inter
 import TraceLinkInputFormField from '@/features/student/traces/components/interactions/formFields/TraceLinkInputFormField/TraceLinkInputFormField.vue'
 import TraceNameInputFormField from '@/features/student/traces/components/interactions/formFields/TraceNameInputFormField/TraceNameInputFormField.vue'
 import TracePersonalNoteTextareaFormField from '@/features/student/traces/components/interactions/formFields/TracePersonalNoteTextareaFormField/TracePersonalNoteTextareaFormField.vue'
+import TraceValorizationToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceValorizationToggleFormField/TraceValorizationToggleFormField.vue'
 import TraceAuthorTypeRadioSetFormField from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSetFormField/TraceAuthorTypeRadioSetFormField.vue'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { TraceType } from '@/features/student/traces/types/traces.types'
@@ -76,10 +77,11 @@ function handleFileDeleted (fileName: string) {
 
 <template>
   <form
-    class="update-trace-form av-col av-gap-lg av-w-full"
+    class="update-trace-form av-col av-gap-md av-w-full"
     novalidate
     @submit.prevent.stop="form.handleSubmit"
   >
+    <TraceValorizationToggleFormField :form="form" />
     <div class="av-row av-gap-lg av-w-full">
       <div class="av-col av-gap-lg av-flex-fill">
         <TraceNameInputFormField :form="form" />

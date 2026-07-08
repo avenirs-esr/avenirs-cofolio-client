@@ -11,7 +11,7 @@ BddTest().given('an activity status badge', () => {
   const stubs = { AvBadge: AvBadgeStub }
 
   const scenario: Array<{ props: ActivityStatusBadgeProps, label: string, icon: string }> = [
-    { props: { status: EActivityStatus.DRAFT }, label: 'non publiée', icon: MDI_ICONS.TEXT_BOX_EDIT_OUTLINE },
+    { props: { status: EActivityStatus.DRAFT }, label: 'brouillon', icon: MDI_ICONS.TEXT_BOX_EDIT_OUTLINE },
     { props: { status: EActivityStatus.PUBLISHED }, label: 'publiée', icon: MDI_ICONS.TEXT_BOX_CHECK_OUTLINE },
   ]
 

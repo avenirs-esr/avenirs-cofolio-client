@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails } from '@/common/components'
+import TraceValorizedBadge from '@/common/components/ValorizedBadge/ValorizedBadge.vue'
 import TraceAiJustificationTextarea from '@/features/student/traces/components/interactions/inputs/TraceAiJustificationTextarea/TraceAiJustificationTextarea.vue'
 import TraceFileUpload from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/TraceFileUpload.vue'
 import TraceNameInput from '@/features/student/traces/components/interactions/inputs/TraceNameInput/TraceNameInput.vue'
@@ -32,6 +33,9 @@ const authorTypeLabel = computed(() =>
 
 <template>
   <div class="av-col av-gap-md av-px-xs">
+    <TraceValorizedBadge
+      :valorized="trace.valorized"
+    />
     <div class="av-col av-row--md av-justify-between av-gap-md">
       <div class="av-col av-flex-fill av-gap-md">
         <TraceNameInput

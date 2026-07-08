@@ -15,7 +15,8 @@
           "SUBSCRIBED": "Registered"
         },
         "statuses": {
-          "DRAFT": "unpublished",
+          "DRAFT": "draft",
+          "UNPUBLISHED": "unpublished",
           "PUBLISHED": "published"
         },
         "thematics": {
@@ -436,9 +437,10 @@
         "loaded": "File loaded."
       }
     },
+    "notValorized": "Not valorized in my kit",
     "text": "Text",
     "updated": "Updated",
-    "valorized": "Valorized in my resumes",
+    "valorized": "Valorized in my kit",
     "video": "Video",
     "views": {
       "accessibilityView": {

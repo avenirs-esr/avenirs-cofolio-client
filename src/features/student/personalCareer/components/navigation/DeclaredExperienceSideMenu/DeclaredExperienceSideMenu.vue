@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import SideMenu from '@/common/components/navigation/SideMenu/SideMenu.vue'
-import ValorizedBadge from '@/common/components/ValorizedBadge/ValorizedBadge.vue'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import CompactCard from '@/features/student/global/components/cards/CompactCard/CompactCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -75,9 +74,7 @@ const isCollapsed = ref(false)
               background-color="var(--surface-background)"
               border-color="var(--other-border-skill-card)"
               icon-border-color="var(--other-border-skill-card)"
-            >
-              <ValorizedBadge v-if="false" />
-            </CompactCard>
+            />
           </a>
         </div>
       </div>

@@ -61,7 +61,8 @@ export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () 
       personalNote: trace?.personalNote || '',
       authorType: trace?.authorType,
       useIA: !!trace?.aiUseJustification,
-      iaJustification: trace?.aiUseJustification || ''
+      iaJustification: trace?.aiUseJustification || '',
+      valorized: trace?.valorized ?? false
     } as TraceFormData,
     validators: {
       onSubmit ({ value }: { value: TraceFormData }) {
@@ -84,7 +85,8 @@ export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () 
           authorType: value.authorType!,
           iaJustification: value.useIA ? value.iaJustification : undefined,
           link: isTraceLinkType(value) ? value.link : undefined,
-          language: ELanguage.FRENCH // TODO
+          language: ELanguage.FRENCH, // TODO
+          valorized: value.valorized
         },
       }, {
         onSuccess: async () => {
