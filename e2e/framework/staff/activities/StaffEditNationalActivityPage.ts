@@ -1,10 +1,11 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
+import { t } from '@e2e/framework/shared/utils/i18n'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { EditActivitySideNavigation } from '@e2e/framework/staff/activities/componentObjects/EditActivitySideNavigation'
 import { EditActivityTabs } from '@e2e/framework/staff/activities/componentObjects/EditActivityTabs'
-import { expect, type Page } from '@playwright/test'
+import { expect, type Locator, type Page } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 export
@@ -16,6 +17,34 @@ class StaffEditNationalActivityPage extends BasePage {
 
   private tabs () { return new EditActivityTabs(this.page) }
   private sideNav () { return new EditActivitySideNavigation(this.page) }
+
+  private getActivityContentTab () {
+    return this.page.getByTestId('activity-content-tab')
+  }
+
+  private getTitleFormField () {
+    return this.page.getByTestId('activity-title-form-field')
+  }
+
+  private getThematicSelectFormField () {
+    return this.page.getByTestId('thematic-select-form-field')
+  }
+
+  private getReflectionParameterToggle () {
+    return this.page.getByTestId('reflection-parameter-toggle')
+  }
+
+  private getTraceAllowedAssociationsToggle () {
+    return this.page.getByTestId('trace-allowed-associations-toggle')
+  }
+
+  private getFeedbackParameterToggle () {
+    return this.page.getByTestId('feedback-parameter-toggle')
+  }
+
+  private getFirstInteractiveElement (locator: Locator) {
+    return locator.locator('input, textarea, button, [role="button"], [role="switch"]').first()
+  }
 
   @Given('the staff navigates to the first activity edit page')
   async navigateToEditNationalActivity () {
@@ -46,6 +75,41 @@ class StaffEditNationalActivityPage extends BasePage {
       .replace(':id', '[^/]+')
 
     await expect(this.page).toHaveURL(new RegExp(expectedPattern))
+  }
+
+  @Then('the staff edit published activity page is displayed')
+  async verifyEditPublishedActivityPageDisplayed () {
+    await this.verifyPageLoaded()
+    await expect(this.getActivityContentTab()).toBeVisible()
+  }
+
+  @Then('the editable activity content fields are enabled')
+  async verifyEditableActivityContentFieldsEnabled () {
+    await expect(this.getTitleFormField()).toBeVisible()
+
+    await expect(this.getThematicSelectFormField()).toBeVisible()
+  }
+
+  @Then('the activity modalities fields are disabled')
+  async verifyActivityModalitiesFieldsDisabled () {
+    await expect(this.getReflectionParameterToggle()).toBeVisible()
+    await expect(this.getFirstInteractiveElement(this.getReflectionParameterToggle())).toBeDisabled()
+
+    await expect(this.getTraceAllowedAssociationsToggle()).toBeVisible()
+    await expect(this.getFirstInteractiveElement(this.getTraceAllowedAssociationsToggle())).toBeDisabled()
+
+    await expect(this.getFeedbackParameterToggle()).toBeVisible()
+    await expect(this.getFirstInteractiveElement(this.getFeedbackParameterToggle())).toBeDisabled()
+  }
+
+  @Then('the activity modalities disabled information messages are visible')
+  async verifyActivityModalitiesDisabledInformationMessagesVisible () {
+    const disabledMessage = t(
+      'staff.activities.views.EditNationalActivityView.informations.disabled',
+    )
+    await expect(this.getReflectionParameterToggle()).toContainText(disabledMessage)
+    await expect(this.getTraceAllowedAssociationsToggle()).toContainText(disabledMessage)
+    await expect(this.getFeedbackParameterToggle()).toContainText(disabledMessage)
   }
 
   @Then('the content tab is active by default')

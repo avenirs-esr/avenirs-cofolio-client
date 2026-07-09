@@ -20,6 +20,21 @@ export const mockedActivityContent: ActivityContentDTO = {
   updatedAt: '2024-01-15T10:00:00Z',
 }
 
+export const mockedActivityContentWithEnrolledStudent: ActivityContentDTO = {
+  id: '8c5d1f77-2a9e-4b33-9f6c-1e4b7a2d9c11',
+  title: 'Activité "CV" : Construire son parcours',
+  thematic: EActivityThematic.RESUMES,
+  summary: 'Résumé de l\'activité de test',
+  description: 'Description détaillée de l\'activité de test',
+  executionPeriodInfo: 'Semestre 1',
+  enableReflection: false,
+  traceAllowedAssociations: 3,
+  feedbackAllowedIterations: 2,
+  hasEnrolledStudent: true,
+  createdAt: '2024-01-15T10:00:00Z',
+  updatedAt: '2024-01-15T10:00:00Z',
+}
+
 export const mockedActivityDraftUpdateResponse: ActivityDraftUpdateResponse = {
   draftId: '5046ec1c-c8f3-4d06-abf3-71ba4a73643c',
 }

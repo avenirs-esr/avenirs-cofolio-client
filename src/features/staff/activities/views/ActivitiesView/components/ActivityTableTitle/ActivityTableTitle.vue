@@ -26,6 +26,8 @@ const to = computed(() => ({
       :to
       :title="activity.title"
       class="name av-max-lines b1-bold av-text-text1"
+      data-testid="activity-table-title-link"
+      :data-activity-id="activity.id"
     >
       {{ activity.title }}
     </RouterLink>

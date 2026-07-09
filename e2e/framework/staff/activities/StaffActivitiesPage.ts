@@ -9,6 +9,9 @@ import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('staffActivitiesPage')
 export class StaffActivitiesPage extends BasePage {
+  private static readonly ACTIVITY_WITH_ENROLLED_STUDENTS
+    = '8c5d1f77-2a9e-4b33-9f6c-1e4b7a2d9c11'
+
   private deleteConfirmationModal: DeleteDraftActivityConfirmationModal
 
   constructor (public page: Page) {
@@ -39,6 +42,12 @@ export class StaffActivitiesPage extends BasePage {
   getAllPublishedActivitiesTable () {
     return this.page.getByTestId('all-published-activities-tab-content')
       .getByTestId('activities-tab-table')
+  }
+
+  private getPublishedActivityTitleLinkWithEnrolledStudents () {
+    return this.getAllPublishedActivitiesTable().locator(
+      `[data-testid="activity-table-title-link"][data-activity-id="${StaffActivitiesPage.ACTIVITY_WITH_ENROLLED_STUDENTS}"]`,
+    )
   }
 
   @Given('the staff opens the activities page')
@@ -187,5 +196,11 @@ export class StaffActivitiesPage extends BasePage {
   @Then('the delete draft activity confirmation modal is hidden')
   async verifyDeleteConfirmationModalHidden () {
     await this.deleteConfirmationModal.verifyHidden()
+  }
+
+  @When('the user clicks on the first published activity title with enrolled students')
+  async clickFirstPublishedActivityTitle () {
+    await clickOnElement(this.getPublishedActivityTitleLinkWithEnrolledStudents())
+    await waitForPageLoad(this.page)
   }
 }
