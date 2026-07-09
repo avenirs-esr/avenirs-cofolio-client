@@ -11,6 +11,7 @@ import {
   createMockedBannerUploadResponse,
   createMockedPagedResponseActivityStaffOverviewDTO,
   mockedActivityContent,
+  mockedActivityContentWithEnrolledStudent,
   mockedActivityDraftCreationResponse,
   mockedActivityDraftUpdateResponse
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
@@ -102,20 +103,41 @@ export const publishActivityDraftHandler = http.post(`*${getPublishActivityDraft
   })
 })
 
-export const staffCreateDraftFromActivityUrl = http.post(`*${getCreateDraftFromActivityUrl(':activityId')}`, () => {
-  return HttpResponse.json<ActivityDraftCreationResponse>(mockedActivityDraftCreationResponse, {
-    status: HttpStatusCode.CREATED,
-    headers: { 'Content-Type': 'application/json' },
-  })
-})
+export const staffCreateDraftFromActivityUrl = http.post(
+  `*${getCreateDraftFromActivityUrl(':activityId')}`,
+  ({ params }) => {
+    const activityId = params.activityId as string
 
-export const staffsActivitiesHandlers = [
-  http.get(`*${getGetActivityContentUrl(':status' as EActivityStatus, ':activityId')}`, () => {
-    return HttpResponse.json<ActivityContentDTO>(mockedActivityContent, {
-      status: HttpStatusCode.OK,
+    const response: ActivityDraftCreationResponse
+      = activityId === mockedActivityContentWithEnrolledStudent.id
+        ? { draftId: mockedActivityContentWithEnrolledStudent.id }
+        : mockedActivityDraftCreationResponse
+
+    return HttpResponse.json<ActivityDraftCreationResponse>(response, {
+      status: HttpStatusCode.CREATED,
       headers: { 'Content-Type': 'application/json' },
     })
-  }),
+  },
+)
+
+export const staffsActivitiesHandlers = [
+  http.get(
+    `*${getGetActivityContentUrl(':status' as EActivityStatus, ':activityId')}`,
+    ({ request }) => {
+      const pathnameParts = new URL(request.url).pathname.split('/')
+      const activityId = pathnameParts.at(-2)
+
+      const response
+        = activityId === mockedActivityContentWithEnrolledStudent.id
+          ? mockedActivityContentWithEnrolledStudent
+          : mockedActivityContent
+
+      return HttpResponse.json<ActivityContentDTO>(response, {
+        status: HttpStatusCode.OK,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    },
+  ),
   http.get(`*${getGetActivityPresentationUrl(EActivityStatus.DRAFT, ':activityId')}`, ({ params }) => {
     const { activityId } = params
 
