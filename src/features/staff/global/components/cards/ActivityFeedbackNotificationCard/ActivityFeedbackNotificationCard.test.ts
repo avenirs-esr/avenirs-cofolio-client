@@ -21,7 +21,11 @@ BddTest().given('an ActivityFeedbackNotificationCard', () => {
   const mockedNotification: NotificationDTO = {
     ...mockedStaffNotification,
     elementId: crypto.randomUUID(),
-    parameters: ['John', 'Doe', 'Math Exam'],
+    parameters: {
+      studentFirstName: 'John',
+      studentLastName: 'Doe',
+      activityTitle: 'Math Exam',
+    },
   }
 
   const getContent = () =>
@@ -61,10 +65,10 @@ BddTest().given('an ActivityFeedbackNotificationCard', () => {
 
     BddTest().then('it should render the translated sentence with interpolated parameters', () => {
       const content = getContent()
-      const [studentFirstName, studentLastName, activityName] = mockedNotification.parameters!
+      const { studentFirstName, studentLastName, activityTitle } = mockedNotification.parameters!
 
       expect(content.exists()).toBe(true)
-      expect(content.text()).toBe(`Vous avez reçus une nouvelle demande de feedback de ${studentLastName} ${studentFirstName} sur l'activité ${activityName}.`)
+      expect(content.text()).toBe(`Vous avez reçus une nouvelle demande de feedback de ${studentLastName} ${studentFirstName} sur l'activité ${activityTitle}.`)
     })
   })
 

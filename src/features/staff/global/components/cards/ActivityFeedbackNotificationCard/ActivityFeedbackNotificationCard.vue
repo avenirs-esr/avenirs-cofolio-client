@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { NotificationDTO } from '@/api/avenir-esr'
+import type { AskForFeedbackParameters, NotificationDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import NotificationCard from '@/common/notifications/components/NotificationCard/NotificationCard.vue'
 import { I18nT } from 'vue-i18n'
@@ -11,7 +11,7 @@ const emit = defineEmits<{
   (e: 'seen', id: string): void
 }>()
 
-const parameters = computed(() => n.parameters !== undefined && n.parameters.length >= 3 ? n.parameters : ['', '', ''])
+const parameters = computed(() => n.parameters as AskForFeedbackParameters | undefined)
 const to = computed(() => n.elementId !== undefined
   ? ({
       name: ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name,
@@ -37,11 +37,11 @@ const to = computed(() => n.elementId !== undefined
         tag="span"
       >
         <template #studentName>
-          <span class="av-text-bold">{{ parameters[1] }} {{ parameters[0] }}</span>
+          <span class="av-text-bold">{{ parameters?.studentLastName }} {{ parameters?.studentFirstName }}</span>
         </template>
 
         <template #activityName>
-          <span class="av-text-bold">{{ parameters[2] }}</span>
+          <span class="av-text-bold">{{ parameters?.activityTitle }}</span>
         </template>
       </I18nT>
     </span>

@@ -6294,6 +6294,57 @@
           "type"
         ]
       },
+      "ActivityModifiedParameters": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/NotificationParameters"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "activityTitle": {
+                "type": "string"
+              },
+              "updatedFields": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "ACTIVITY_TITLE",
+                    "THEMATIC",
+                    "FILES_AND_LINKS",
+                    "BANNER",
+                    "SUMMARY",
+                    "DESCRIPTION",
+                    "EXECUTION_PERIOD"
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      },
+      "AskForFeedbackParameters": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/NotificationParameters"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "studentFirstName": {
+                "type": "string"
+              },
+              "studentLastName": {
+                "type": "string"
+              },
+              "activityTitle": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
       "NotificationDTO": {
         "type": "object",
         "properties": {
@@ -6317,10 +6368,14 @@
             "format": "uuid"
           },
           "parameters": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ActivityModifiedParameters"
+              },
+              {
+                "$ref": "#/components/schemas/AskForFeedbackParameters"
+              }
+            ]
           },
           "seen": {
             "type": "boolean"
@@ -6332,6 +6387,9 @@
           "seen",
           "type"
         ]
+      },
+      "NotificationParameters": {
+        "type": "object"
       },
       "PagedResponseNotificationDTO": {
         "type": "object",
