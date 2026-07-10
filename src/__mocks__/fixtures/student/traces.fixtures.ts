@@ -250,7 +250,7 @@ export const mockedTraceDetailed = {
   id: '4453f884-9081-43cb-95c6-d76c2bb59fd7',
   title: 'Développement d\'un ePortfolio',
   isAssociated: false,
-  valorized: false,
+  valorized: true,
   link: 'https://example.com/trace/4453f884-9081-43cb-95c6-d76c2bb59fd7',
   createdAt: '2025-06-16T10:42:00.000Z',
   updatedAt: '2025-06-17T15:18:00.000Z',

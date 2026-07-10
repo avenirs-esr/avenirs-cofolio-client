@@ -48,6 +48,10 @@ export class StudentTracePage extends BasePage {
     return this.page.getByTestId('trace-deletion-confirmation-modal-subdescription')
   }
 
+  getValorizedBadge () {
+    return this.page.locator('[data-testid="valorized-badge"][data-valorized="true"]')
+  }
+
   @When('the student clicks on the trace settings dropdown trigger')
   async clickDropdownTrigger () {
     await clickOnElement(this.getDropdownTrigger())
@@ -155,5 +159,10 @@ export class StudentTracePage extends BasePage {
     await expect(this.getTraceDeletionConfirmationModalSubdescription()).toHaveText(
       t('student.traces.modals.TraceDeletionConfirmationModal.subdescription')
     )
+  }
+
+  @Then('the trace valorized badge is visible')
+  async verifyTraceValorizedBadgeVisible () {
+    await expect(this.getValorizedBadge()).toBeVisible()
   }
 }
