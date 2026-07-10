@@ -22,7 +22,10 @@ const breadcrumbLinks = computed(() => [
 
 <template>
   <div class="student-tools-kit av-col av-gap-lg">
-    <div class="background-img">
+    <div
+      class="background-img"
+      data-testid="kit-background"
+    >
       <img
         :src="backgroundImg"
         alt="background"
