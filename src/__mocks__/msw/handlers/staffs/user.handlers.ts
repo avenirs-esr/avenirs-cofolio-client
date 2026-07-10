@@ -1,4 +1,4 @@
-import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
+import { mockedStaffProfileOverview, mockedStaffQuickLinks } from '@/__mocks__/fixtures/staffs/user.fixtures'
 import { quickLinksState } from '@/__mocks__/msw/common/quickLinks.state'
 import {
   EUserCategory,
@@ -40,3 +40,16 @@ export const staffUserHandlers = [
     })
   }),
 ]
+
+export const getStaffQuickLinksEnabledHandler = http.get<PathParams, QuickLinksDTO>(
+  `*${getGetQuickLinksUrl(EUserCategory.STAFF)}`,
+  () => {
+    return HttpResponse.json<QuickLinksDTO>(
+      { ...mockedStaffQuickLinks, notificationEnabled: true },
+      {
+        status: HttpStatusCode.OK,
+        headers: { 'Content-Type': 'application/json' },
+      },
+    )
+  },
+)

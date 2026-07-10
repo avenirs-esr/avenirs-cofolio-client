@@ -42,6 +42,35 @@ Feature: Staff Home Page
       When the user click on the ACTIVITIES link
       Then the page navigates to activities page
 
+  Rule: Notifications preferences
+        Background:
+          Given the staff opens the notifications dropdown
+
+          @high @notifications @dataset-full
+          Scenario: Notifications dropdown displays title and disabled state by default
+            Then the staff notifications dropdown title is displayed
+            And the staff notifications toggle is disabled
+            And the staff notifications disabled message is displayed
+            And the staff exit button is displayed
+
+          @high @notifications @dataset-full
+          Scenario: Staff can disable notifications
+            Given the staff activates the notifications toggle
+            When the staff deactivates the notifications toggle
+            Then the staff notifications toggle is disabled
+            And the staff notifications disabled message is displayed
+
+          @medium @notifications @dataset-full
+          Scenario: Staff can enable notifications
+            Given the staff deactivates the notifications toggle
+            When the staff activates the notifications toggle
+            Then the staff notifications toggle is enabled
+
+          @medium @notifications @dataset-full
+          Scenario: Staff can close the notifications dropdown
+            When the staff clicks the exit button on the notifications dropdown
+            Then the staff notifications dropdown is closed
+
   Rule: Logout
 
     @high @logout

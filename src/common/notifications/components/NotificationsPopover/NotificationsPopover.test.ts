@@ -1,3 +1,5 @@
+import { getStaffQuickLinksEnabledHandler } from '@/__mocks__/msw/handlers/staffs/user.handlers'
+import { server } from '@/__mocks__/msw/server'
 import { EUserCategory } from '@/api/avenir-esr'
 import NotificationsPopover from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.vue'
 import { NotificationsPopoverBodyStub } from '@/common/notifications/components/NotificationsPopoverBody/NotificationsPopoverBody.stub'
@@ -35,7 +37,10 @@ BddTest().given('a notifications popover', () => {
   const getBody = () => wrapper.findComponent(NotificationsPopoverBodyStub)
 
   BddTest().when('notifications are enabled', () => {
-    beforeEach(() => mountDefault(EUserCategory.STAFF))
+    beforeEach(() => {
+      server.use(getStaffQuickLinksEnabledHandler)
+      return mountDefault(EUserCategory.STAFF)
+    })
 
     BddTest().then('it should render trigger with unread counter', () => {
       const trigger = getTrigger()

@@ -32,5 +32,5 @@ export const mockedStaffQuickLinks: QuickLinksDTO = {
   lastname: 'Dupont',
   hasUnseenNotification: true,
   unreadNotifications: 10,
-  notificationEnabled: true
+  notificationEnabled: false
 }

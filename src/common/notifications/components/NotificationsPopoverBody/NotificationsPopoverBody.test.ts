@@ -1,4 +1,6 @@
-import { EUserCategory } from '@/api/avenir-esr'
+import { getStaffQuickLinksEnabledHandler } from '@/__mocks__/msw/handlers/staffs/user.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { EUserCategory, getGetNotificationsUrl, type PagedResponseNotificationDTO } from '@/api/avenir-esr'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import NotificationsPopoverBody from '@/common/notifications/components/NotificationsPopoverBody/NotificationsPopoverBody.vue'
 import { NotificationsPopoverEmptyOrDisabledStub } from '@/common/notifications/components/NotificationsPopoverEmptyOrDisabled/NotificationsPopoverEmptyOrDisabled.stub'
@@ -7,6 +9,7 @@ import { NotificationsPopoverPreferenceToggleStub } from '@/common/notifications
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
+import { http, HttpResponse } from 'msw'
 import { mountComponent } from 'tests/utils'
 
 BddTest().given('a notifications popover body', () => {
@@ -35,8 +38,23 @@ BddTest().given('a notifications popover body', () => {
   const getPreferenceToggle = () => wrapper.findComponent(NotificationsPopoverPreferenceToggleStub)
   const getCloseButton = () => wrapper.findComponent('[data-testid="notifications-popover-body-close"]') as VueWrapper<InstanceType<typeof AvButtonStub>>
 
+  afterEach(() => {
+    server.resetHandlers()
+  })
+
   BddTest().when('notifications are enabled', () => {
-    beforeEach(() => mountDefault(EUserCategory.STAFF))
+    beforeEach(() => {
+      server.use(
+        getStaffQuickLinksEnabledHandler,
+        http.get<never, PagedResponseNotificationDTO>(`*${getGetNotificationsUrl(EUserCategory.STAFF)}`, () => {
+          return HttpResponse.json<PagedResponseNotificationDTO>({
+            data: [],
+            page: { page: 0, pageSize: 10, totalElements: 0, totalPages: 0 },
+          })
+        }),
+      )
+      return mountDefault(EUserCategory.STAFF)
+    })
 
     BddTest().then('it should render title with unseen notification counter', () => {
       const title = getTitle()

@@ -1,5 +1,6 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
+import { NotificationsDropdown } from '@e2e/framework/shared/componentObjects/NotificationsDropdown'
 import { UserProfileDropdown } from '@e2e/framework/shared/componentObjects/UserProfileDropdown'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
@@ -58,6 +59,10 @@ class StudentHomePage extends BasePage {
 
   getStudentProfileDropdown () {
     return new UserProfileDropdown(this.page)
+  }
+
+  getStudentNotificationsDropdown () {
+    return new NotificationsDropdown(this.page)
   }
 
   @Given('the profile overview widget is visible')
@@ -338,5 +343,55 @@ class StudentHomePage extends BasePage {
   @Then('the student logout confirmation modal is visible')
   async verifyStudentLogoutConfirmationModalVisible () {
     await this.getStudentProfileDropdown().verifyLogoutConfirmationModalVisible()
+  }
+
+  @Given('the student opens the notifications dropdown')
+  async openStudentNotificationsDropdown () {
+    await this.getStudentNotificationsDropdown().open()
+  }
+
+  @Then('the student notifications dropdown title is displayed')
+  async verifyStudentNotificationsDropdownTitle () {
+    await this.getStudentNotificationsDropdown().verifyTitleVisible()
+  }
+
+  @Then('the student notifications toggle is enabled')
+  async verifyStudentNotificationsToggleEnabled () {
+    await this.getStudentNotificationsDropdown().verifyToggleEnabled()
+  }
+
+  @Then('the student notifications toggle is disabled')
+  async verifyStudentNotificationsToggleDisabled () {
+    await this.getStudentNotificationsDropdown().verifyToggleDisabled()
+  }
+
+  @When('the student activates the notifications toggle')
+  async activateStudentNotificationsToggle () {
+    await this.getStudentNotificationsDropdown().activateToggle()
+  }
+
+  @When('the student deactivates the notifications toggle')
+  async deactivateStudentNotificationsToggle () {
+    await this.getStudentNotificationsDropdown().deactivateToggle()
+  }
+
+  @Then('the student notifications disabled message is displayed')
+  async verifyStudentNotificationsDisabledMessage () {
+    await this.getStudentNotificationsDropdown().verifyDisabledMessageVisible()
+  }
+
+  @Then('the student exit button is displayed')
+  async verifyStudentNotificationsExitButton () {
+    await this.getStudentNotificationsDropdown().verifyExitButtonVisible()
+  }
+
+  @When('the student clicks the exit button on the notifications dropdown')
+  async clickStudentNotificationsExitButton () {
+    await this.getStudentNotificationsDropdown().close()
+  }
+
+  @Then('the student notifications dropdown is closed')
+  async verifyStudentNotificationsDropdownClosed () {
+    await this.getStudentNotificationsDropdown().verifyClosed()
   }
 }
