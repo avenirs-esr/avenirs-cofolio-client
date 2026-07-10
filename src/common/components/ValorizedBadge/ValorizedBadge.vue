@@ -25,6 +25,8 @@ const avBadgeProps = computed(() => ({
 
 <template>
   <AvBadge
+    data-testid="valorized-badge"
+    :data-valorized="valorized"
     v-bind="avBadgeProps"
     border-color="transparent"
     ellipsis

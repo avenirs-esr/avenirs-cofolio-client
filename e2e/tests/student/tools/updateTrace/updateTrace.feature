@@ -34,6 +34,10 @@ Feature: Student Tools Update Trace Page
     Scenario: Student sees the "Ma trace" tab selected by default
       Then the update trace details tab is visible and active
       And the update trace associations tab is visible
+      
+    @high @update-trace
+    Scenario: Student can see the trace valorization toggle
+      Then the trace valorization toggle is visible
 
     @high @update-trace @dataset-full
     Scenario: Student can navigate to the associations tab

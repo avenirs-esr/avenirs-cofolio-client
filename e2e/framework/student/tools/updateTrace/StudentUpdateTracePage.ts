@@ -51,6 +51,14 @@ export class StudentUpdateTracePage extends BasePage {
     return this.page.getByTestId('confirm-update-trace-modal-subtitle')
   }
 
+  private getTraceValorizationToggleInput () {
+    return this.page.getByTestId('trace-valorization-input')
+  }
+
+  private getTraceValorizationToggleLabel () {
+    return this.page.getByTestId('trace-valorization-label')
+  }
+
   @Then('the update trace page is loaded')
   async verifyUpdateTracePageLoaded () {
     await expect(this.page.getByTestId('update-trace-main-container')).toBeVisible()
@@ -102,5 +110,29 @@ export class StudentUpdateTracePage extends BasePage {
     await expect(this.getConfirmUpdateTraceModalSubtitle()).toHaveText(
       t('student.traces.views.StudentUpdateTraceView.ConfirmUpdateTraceModal.subtitle')
     )
+  }
+
+  @Then('the trace valorization toggle is visible')
+  async verifyTraceValorizationToggleVisible () {
+    await expect(this.getTraceValorizationToggleInput()).toBeVisible()
+  }
+
+  @Then('the trace valorization toggle is enabled')
+  async verifyTraceValorizationToggleEnabled () {
+    await expect(this.getTraceValorizationToggleInput()).toBeChecked()
+  }
+
+  @Then('the trace valorization toggle is disabled')
+  async verifyTraceValorizationToggleDisabled () {
+    await expect(this.getTraceValorizationToggleInput()).not.toBeChecked()
+  }
+
+  @When('the student activates the trace valorization toggle')
+  async activateTraceValorizationToggle () {
+    const isChecked = await this.getTraceValorizationToggleInput().isChecked()
+
+    if (!isChecked) {
+      await clickOnElement(this.getTraceValorizationToggleLabel())
+    }
   }
 }

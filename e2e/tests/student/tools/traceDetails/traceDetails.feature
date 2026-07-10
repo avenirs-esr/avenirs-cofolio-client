@@ -22,6 +22,10 @@ Feature: Student Tools Trace Detail Page
     Scenario: Student can see the trace details
       Then the trace details page is loaded
       Then the author type is visible
+      
+    @high @trace-details
+    Scenario: Student can see the trace valorized badge
+      Then the trace valorized badge is visible
 
     @high @trace-details @dataset-full
     Scenario: Student can open delete confirmation modal
