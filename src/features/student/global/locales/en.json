@@ -6,7 +6,16 @@
       },
       "cards": {
         "ActivityModifiedNotificationCard": {
-          "content": "The activity \"{activityName}\" has been updated. The following section has been modified: {sectionTypes}. | The activity \"{activityName}\" has been updated. The following sections have been modified: {sectionTypes}."
+          "content": "The activity \"{activityName}\" has been updated. The following section has been modified: {sectionTypes}. | The activity \"{activityName}\" has been updated. The following sections have been modified: {sectionTypes}.",
+          "updatedFields": {
+            "ACTIVITY_TITLE": "Title",
+            "BANNER": "Banner",
+            "DESCRIPTION": "Description",
+            "EXECUTION_PERIOD": "Execution period",
+            "FILES_AND_LINKS": "Files and links",
+            "SUMMARY": "Summary",
+            "THEMATIC": "Theme"
+          }
         },
         "SelectedAssociateItemContainer": {
           "label": "My selected elements ({count})"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { NotificationDTO } from '@/api/avenir-esr'
+import type { ActivityModifiedParameters, NotificationDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import NotificationCard from '@/common/notifications/components/NotificationCard/NotificationCard.vue'
 import { I18nT, useI18n } from 'vue-i18n'
@@ -20,8 +20,9 @@ const to = computed(() => notification.elementId
     })
   : undefined)
 
-const activityName = computed(() => notification.parameters?.[0] ?? '')
-const sectionTypes = computed(() => notification.parameters?.slice(1) ?? [])
+const parameters = computed(() => notification.parameters as ActivityModifiedParameters | undefined)
+const activityName = computed(() => parameters.value?.activityTitle ?? '')
+const sectionTypes = computed(() => parameters.value?.updatedFields ?? [])
 const sectionCount = computed(() => Math.max(sectionTypes.value.length, 1))
 </script>
 
@@ -51,7 +52,7 @@ const sectionCount = computed(() => Math.max(sectionTypes.value.length, 1))
             v-for="(type, index) in sectionTypes"
             :key="index"
           >
-            <span class="av-text-bold">{{ t(`global.activities.contentSectionTypes.${type}`) }}</span>
+            <span class="av-text-bold">{{ t(`student.global.cards.ActivityModifiedNotificationCard.updatedFields.${type}`) }}</span>
             <template v-if="index < sectionCount - 1">, </template>
           </template>
         </template>

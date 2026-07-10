@@ -1,6 +1,7 @@
 import type { NotificationDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedStudentNotification } from '@/__mocks__/fixtures/student/notifications.fixtures'
+import { ActivityModifiedParametersUpdatedFieldsItem } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { NotificationCardStub } from '@/common/notifications/components/NotificationCard/NotificationCard.stub'
 import ActivityModifiedNotificationCard from '@/features/student/global/components/cards/ActivityModifiedNotificationCard/ActivityModifiedNotificationCard.vue'
@@ -21,7 +22,10 @@ BddTest().given('an ActivityModifiedNotificationCard', () => {
   const mockedNotification: NotificationDTO = {
     ...mockedStudentNotification,
     elementId: crypto.randomUUID(),
-    parameters: ['Math Exam', 'TITLE'],
+    parameters: {
+      activityTitle: 'Math Exam',
+      updatedFields: [ActivityModifiedParametersUpdatedFieldsItem.ACTIVITY_TITLE],
+    },
   }
 
   const getContent = () => wrapper.find('[data-testid="activity-modified-notification-card-content"]')
@@ -60,22 +64,29 @@ BddTest().given('an ActivityModifiedNotificationCard', () => {
       const content = getContent()
 
       expect(content.exists()).toBe(true)
-      expect(content.text()).toBe(`L'activité "${mockedNotification.parameters![0]}" a été mise à jour. La section suivante a été modifiée : Titre.`)
+      expect(content.text()).toBe(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour. La section suivante a été modifiée : Titre.`)
     })
   })
 
-  BddTest().when('notification parameters contains more than 2 elements', () => {
+  BddTest().when('notification parameters contains more than one updated field', () => {
     beforeEach(() => {
       mountDefault({
         ...mockedNotification,
-        parameters: [...mockedNotification.parameters!, 'THEMATIC', 'MODALITIES'],
+        parameters: {
+          ...mockedNotification.parameters,
+          updatedFields: [
+            ActivityModifiedParametersUpdatedFieldsItem.ACTIVITY_TITLE,
+            ActivityModifiedParametersUpdatedFieldsItem.THEMATIC,
+            ActivityModifiedParametersUpdatedFieldsItem.FILES_AND_LINKS,
+          ],
+        },
       })
     })
 
     BddTest().then('it should render the sentence with interpolated parameters', () => {
       const content = getContent()
       expect(content.exists()).toBe(true)
-      expect(content.text()).toBe(`L'activité "${mockedNotification.parameters![0]}" a été mise à jour. Les sections suivantes ont été modifiées : Titre, Thématique, Modalités.`)
+      expect(content.text()).toBe(`L'activité "${mockedNotification.parameters!.activityTitle}" a été mise à jour. Les sections suivantes ont été modifiées : Titre, Thématique, Fichiers et liens.`)
     })
   })
 
