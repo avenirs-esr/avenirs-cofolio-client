@@ -57,25 +57,19 @@ export class EditActivityTabs {
   }
 
   private getFeedbackMainToggle () {
-    return this.getFeedbackCard().locator('#feedback-main-toggle')
+    return this.page.getByTestId('feedback-main-toggle-input')
   }
 
   private getFeedbackMainToggleLabel () {
-    return this.getFeedbackCard().locator(
-      'label[for="feedback-main-toggle"]',
-    )
+    return this.page.getByTestId('feedback-main-toggle-label')
   }
 
   private getFeedbackInfinityToggle () {
-    return this.getFeedbackCard().locator(
-      '#feedback-infinity-toggle-input',
-    )
+    return this.page.getByTestId('feedback-infinity-toggle-input')
   }
 
   private getFeedbackInfinityToggleLabel () {
-    return this.getFeedbackCard().locator(
-      'label[for="feedback-infinity-toggle-input"]',
-    )
+    return this.page.getByTestId('feedback-infinity-toggle-label')
   }
 
   private getFeedbackMaxInput () {

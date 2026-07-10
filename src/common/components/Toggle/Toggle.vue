@@ -13,7 +13,7 @@ const avToggleProps: ComputedRef<AvToggleProps> = computed(() => ({
   ...attrs,
   ...props,
   activeText: props.activeText ?? t('global.avToggle.activeText'),
-  inactiveText: props.inactiveText ?? t('global.avToggle.inactiveText')
+  inactiveText: props.inactiveText ?? t('global.avToggle.inactiveText'),
 }))
 </script>
 

@@ -77,10 +77,11 @@ function downloadFile () {
 <template>
   <component
     :is="href ? 'a' : 'button'"
-    class="activity-resource-card-link"
+    :class="`activity-resource-card-${href ? 'link' : 'file'}`"
     :href="href"
     :target="href ? '_blank' : undefined"
     :rel="href ? 'noopener noreferrer' : undefined"
+    :data-testid="`activity-resource-card-${href ? 'link' : 'file'}`"
     @click="downloadFile"
   >
     <AvCard
