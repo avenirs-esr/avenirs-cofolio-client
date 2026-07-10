@@ -12,6 +12,7 @@ import {
   createMockedPagedResponseActivityStaffOverviewDTO,
   mockedActivityContent,
   mockedActivityContentWithEnrolledStudent,
+  mockedActivityContentWithFileAndLink,
   mockedActivityContentWithoutEnrolledStudent,
   mockedActivityDraftCreationResponse,
   mockedActivityDraftUpdateResponse
@@ -112,6 +113,7 @@ export const staffCreateDraftFromActivityUrl = http.post(
     const knownPublishedActivityIds = [
       mockedActivityContentWithEnrolledStudent.id,
       mockedActivityContentWithoutEnrolledStudent.id,
+      mockedActivityContentWithFileAndLink.id
     ]
 
     const draftId = knownPublishedActivityIds.includes(activityId)
@@ -143,6 +145,9 @@ export const staffsActivitiesHandlers = [
       else if (activityId === mockedActivityContentWithoutEnrolledStudent.id) {
         response = mockedActivityContentWithoutEnrolledStudent
       }
+      else if (activityId === mockedActivityContentWithFileAndLink.id) {
+        response = mockedActivityContentWithFileAndLink
+      }
 
       return HttpResponse.json<ActivityContentDTO>(response, {
         status: HttpStatusCode.OK,
@@ -173,7 +178,7 @@ export const staffsActivitiesHandlers = [
     const url = new URL(request.url)
     const page = Number.parseInt(url.searchParams.get('page') ?? '0')
     const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '12')
-    const totalElements = 6
+    const totalElements = 7
 
     const mockData = createMockedPagedResponseActivityStaffOverviewDTO(pageSize, totalElements, page)
 
@@ -190,7 +195,7 @@ export const staffsActivitiesHandlers = [
     const url = new URL(request.url)
     const page = Number.parseInt(url.searchParams.get('page') ?? '0')
     const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '12')
-    const totalElements = 6
+    const totalElements = 7
 
     const mockData = createMockedPagedResponseActivityStaffOverviewDTO(pageSize, totalElements, page)
 

@@ -111,7 +111,7 @@ const inputEnabled = computed({
           }}</span>
           <Toggle
             v-if="inputEnabled"
-            id="feedback-infinity-toggle-input"
+            id="feedback-infinity-toggle"
             v-model="infinityAllowed"
             :description="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.infinityToggleLabel')"
             :disabled

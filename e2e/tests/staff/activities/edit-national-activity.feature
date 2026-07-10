@@ -3,9 +3,11 @@ Feature: Staff Edit National Activity Page
 
   Background:
     Given the staff opens the activities page
-    And the staff navigates to the first activity edit page
 
   Rule: Page Load and Basic Display
+
+    Background:
+      Given the staff navigates to the first activity edit page
 
     @high
     Scenario: Staff can load edit national activity page successfully
@@ -39,7 +41,8 @@ Feature: Staff Edit National Activity Page
   Rule: Navigation to the publication tab
 
     Background:
-      Given the staff navigates to the publication tab
+      Given the staff navigates to the first activity edit page
+      And the staff navigates to the publication tab
 
     @high @tab-navigation
     Scenario: The staff can switch to the publication tab
@@ -54,6 +57,9 @@ Feature: Staff Edit National Activity Page
       And the side navigation menu has "SUMMARY_CONTEXT" publication section
 
   Rule: Side navigation sub-section interaction
+
+    Background:
+      Given the staff navigates to the first activity edit page
 
     @high @side-navigation
     Scenario: Clicking a content sub-section highlights it in the side navigation
@@ -94,12 +100,18 @@ Feature: Staff Edit National Activity Page
 
   Rule: Side navigation collapse
 
+    Background:
+      Given the staff navigates to the first activity edit page
+
     @high @side-navigation
     Scenario: The staff can collapse the side navigation
       When the staff collapses the side navigation menu
       Then the side navigation menu is collapsed
 
   Rule: Content tab elements
+
+    Background:
+      Given the staff navigates to the first activity edit page
 
     @high
     Scenario: The thematic select field is visible in the content tab
@@ -124,7 +136,8 @@ Feature: Staff Edit National Activity Page
   Rule: Content tab feedback interactions
 
     Background:
-      Given the staff ensures the feedback request is enabled
+      Given the staff navigates to the first activity edit page
+      And the staff ensures the feedback request is enabled
 
     @high
     Scenario: The feedback max iterations input is visible when feedback is enabled
@@ -150,7 +163,8 @@ Feature: Staff Edit National Activity Page
 
   Rule: Publication tab elements
     Background:
-      Given the staff navigates to the publication tab
+      Given the staff navigates to the first activity edit page
+      And the staff navigates to the publication tab
 
     @high
     Scenario: The context of realization section is visible in the publication tab
@@ -179,3 +193,35 @@ Feature: Staff Edit National Activity Page
       When the staff clicks on the publish button
       And the staff clicks on the cancel button in the confirmation modal
       Then the confirmation modal is closed
+
+  Rule: Activity with enrolled students
+
+    Background:
+      When the user clicks on the all published activities tab
+      And the user clicks on the first published activity title with enrolled students
+
+    @high @dataset-full @edit-published-activity
+    Scenario: Staff can edit a published activity with enrolled students but modalities are disabled
+      Then the staff published activity details page is displayed
+      And the edit published activity button is visible
+      When the user clicks on the edit published activity button
+      Then the staff edit published activity page is displayed
+      And the editable activity content fields are enabled
+      And the activity modalities fields are disabled
+      And the activity modalities disabled information messages are visible
+
+  Rule: Activity without enrolled students
+
+    Background:
+      When the user clicks on the all published activities tab
+      And the user clicks on the published activity title without enrolled students
+
+    @high @dataset-full @edit-published-activity
+    Scenario: Staff can edit all modalities of a published activity without enrolled students
+      Then the staff published activity details page is displayed
+      And the edit published activity button is visible
+      When the user clicks on the edit published activity button
+      Then the staff edit published activity page is displayed
+      And the editable activity content fields are enabled
+      And the activity modalities fields are enabled
+      And the activity modalities future disabled information messages are visible

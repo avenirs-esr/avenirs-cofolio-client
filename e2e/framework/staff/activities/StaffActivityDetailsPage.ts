@@ -30,4 +30,16 @@ export class StaffActivityDetailsPage extends BasePage {
     await clickOnElement(this.getEditPublishedActivityButton())
     await waitForPageLoad(this.page)
   }
+
+  @Then('the staff sees at least one resource card for a file')
+  async verifyAtLeastOneResourceCardWithFileVisible () {
+    const count = await this.page.getByTestId('activity-resource-card-file').count()
+    expect(count).toBeGreaterThan(0)
+  }
+
+  @Then('the staff sees at least one resource card for a link')
+  async verifyAtLeastOneResourceCardWithLinkVisible () {
+    const count = await this.page.getByTestId('activity-resource-card-link').count()
+    expect(count).toBeGreaterThan(0)
+  }
 }

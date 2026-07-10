@@ -15,6 +15,9 @@ export class StaffActivitiesPage extends BasePage {
   private static readonly ACTIVITY_WITHOUT_ENROLLED_STUDENTS
     = '2c9e4b77-6a1f-4d55-8b3c-7e2d1a9f4c22'
 
+  private static readonly ACTIVITY_WITH_FILE_AND_LINK
+    = '2c9e4b77-6a1f-4d55-8b3c-7e2d1a9f4c22'
+
   private deleteConfirmationModal: DeleteDraftActivityConfirmationModal
 
   constructor (public page: Page) {
@@ -210,6 +213,12 @@ export class StaffActivitiesPage extends BasePage {
   @When('the user clicks on the published activity title without enrolled students')
   async clickPublishedActivityTitleWithoutEnrolledStudents () {
     await clickOnElement(this.getPublishedActivityTitleLink(StaffActivitiesPage.ACTIVITY_WITHOUT_ENROLLED_STUDENTS))
+    await waitForPageLoad(this.page)
+  }
+
+  @When('the user clicks on the first published activity title with file and link')
+  async clickFirstPublishedActivityTitleWithFileAndLink () {
+    await clickOnElement(this.getPublishedActivityTitleLink(StaffActivitiesPage.ACTIVITY_WITH_FILE_AND_LINK))
     await waitForPageLoad(this.page)
   }
 }

@@ -60,7 +60,7 @@ BddTest().given('an ActivityFeedbackFormField component', () => {
   const getToggleParameterCard = () =>
     wrapper.findComponent(ToggleParameterCardStub) as VueWrapper<InstanceType<typeof ToggleParameterCardStub>>
 
-  const getInfinityToggleInput = () => wrapper.find('#feedback-infinity-toggle-input')
+  const getInfinityToggleInput = () => wrapper.find('#feedback-infinity-toggle')
 
   const getMessage = () =>
     wrapper.findComponent(AvMessageStub) as VueWrapper<InstanceType<typeof AvMessageStub>>

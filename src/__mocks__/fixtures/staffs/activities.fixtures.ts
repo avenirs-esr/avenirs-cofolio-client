@@ -7,13 +7,16 @@ import type {
   FileDTO,
   PagedResponseActivityStaffOverviewDTO
 } from '@/api/avenir-esr'
-import { EActivityStatus, EActivityThematic } from '@/api/avenir-esr'
+import { EActivityStatus, EActivityThematic, EFileType } from '@/api/avenir-esr'
 import { getFileTypeFromFileName } from '@/common/utils/file/file'
 
 export const ACTIVITY_WITH_ENROLLED_STUDENTS_ID
   = '8c5d1f77-2a9e-4b33-9f6c-1e4b7a2d9c11'
 
 export const ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID
+  = '2c9e4b77-6a1f-4d55-8b3c-7e2d1a9f4c22'
+
+export const ACTIVITY_WITH_FILE_AND_LINK_ID
   = '2c9e4b77-6a1f-4d55-8b3c-7e2d1a9f4c22'
 
 export const mockedAuthor1: AuthorDTO = {
@@ -45,6 +48,27 @@ export const mockedActivityContentWithoutEnrolledStudent: ActivityContentDTO = {
   hasEnrolledStudent: false,
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
+  files: [
+    {
+      id: 'file-1',
+      fileName: 'document.pdf',
+      url: 'https://example.com/document.pdf',
+      fileType: EFileType.PDF,
+      fileSize: 102400,
+      version: 1,
+      uploadedAt: '2024-01-15T10:30:00'
+    },
+    {
+      id: 'file-2',
+      fileName: 'image.png',
+      url: 'https://example.com/image.png',
+      fileType: EFileType.PNG,
+      fileSize: 204800,
+      version: 1,
+      uploadedAt: '2024-01-15T10:45:00'
+    }
+  ],
+  links: ['http://example.com/resource1', 'http://example.com/resource2']
 }
 
 export const mockedActivityContent: ActivityContentDTO = {
@@ -74,6 +98,42 @@ export const mockedActivityContentWithEnrolledStudent: ActivityContentDTO = {
   hasEnrolledStudent: true,
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
+}
+
+export const mockedActivityContentWithFileAndLink: ActivityContentDTO = {
+  id: ACTIVITY_WITH_FILE_AND_LINK_ID,
+  title: 'Activité "CV" : Construire son parcours',
+  thematic: EActivityThematic.TRANSVERSAL,
+  summary: 'Résumé de l\'activité de test',
+  description: 'Description détaillée de l\'activité de test',
+  executionPeriodInfo: 'Semestre 1',
+  enableReflection: false,
+  traceAllowedAssociations: 3,
+  feedbackAllowedIterations: 2,
+  hasEnrolledStudent: true,
+  createdAt: '2024-01-15T10:00:00Z',
+  updatedAt: '2024-01-15T10:00:00Z',
+  files: [
+    {
+      id: 'file-1',
+      fileName: 'document.pdf',
+      url: 'https://example.com/document.pdf',
+      fileType: EFileType.PDF,
+      fileSize: 102400,
+      version: 1,
+      uploadedAt: '2024-01-15T10:30:00'
+    },
+    {
+      id: 'file-2',
+      fileName: 'image.png',
+      url: 'https://example.com/image.png',
+      fileType: EFileType.PNG,
+      fileSize: 204800,
+      version: 1,
+      uploadedAt: '2024-01-15T10:45:00'
+    }
+  ],
+  links: ['http://example.com/resource1', 'http://example.com/resource2']
 }
 
 export const mockedActivityDraftUpdateResponse: ActivityDraftUpdateResponse = {
