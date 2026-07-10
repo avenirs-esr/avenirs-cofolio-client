@@ -32,6 +32,16 @@ const requestFeedbackConfig = computed(() => ({
   variant: (feedbackStatus === EFeedbackStatus.NEW ? 'FLAT' : 'OUTLINED') as AvButtonProps['variant'],
 }))
 
+const feedbackDescription = computed(() => {
+  if (remainingFeedbacks === -1) {
+    return t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackConfirmModal.descriptionUnlimited')
+  }
+  return t(
+    'student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackConfirmModal.description',
+    { count: remainingFeedbacks },
+  )
+})
+
 function handleConfirm () {
   hideModal()
   emit('requestFeedback')
@@ -55,7 +65,7 @@ function handleConfirm () {
     :show="showModal"
     data-testid="request-feedback-confirm-modal"
     :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackConfirmModal.title')"
-    :description="t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackConfirmModal.description', { count: remainingFeedbacks })"
+    :description="feedbackDescription"
     :is-loading="isLoading"
     @close="hideModal"
     @confirm="handleConfirm"
