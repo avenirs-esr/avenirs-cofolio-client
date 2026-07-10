@@ -1,3 +1,5 @@
+import { getStaffQuickLinksEnabledHandler } from '@/__mocks__/msw/handlers/staffs/user.handlers'
+import { server } from '@/__mocks__/msw/server'
 import { EUserCategory } from '@/api/avenir-esr'
 import NotificationsPopoverEmptyOrDisabled from '@/common/notifications/components/NotificationsPopoverEmptyOrDisabled/NotificationsPopoverEmptyOrDisabled.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -34,7 +36,10 @@ BddTest().given('a notifications popover empty or disabled', () => {
   })
 
   BddTest().when('notifications enabled', () => {
-    beforeEach(() => mountDefault(EUserCategory.STAFF))
+    beforeEach(() => {
+      server.use(getStaffQuickLinksEnabledHandler)
+      return mountDefault(EUserCategory.STAFF)
+    })
 
     BddTest().then('it should render default slot content', () => {
       const noNotifications = getNoNotifications()
@@ -48,9 +53,12 @@ BddTest().given('a notifications popover empty or disabled', () => {
   })
 
   BddTest().when('a slot is provided', () => {
-    beforeEach(() => mountDefault(EUserCategory.STAFF, {
-      default: '<div data-testid="custom-slot">Custom content</div>'
-    }))
+    beforeEach(() => {
+      server.use(getStaffQuickLinksEnabledHandler)
+      return mountDefault(EUserCategory.STAFF, {
+        default: '<div data-testid="custom-slot">Custom content</div>'
+      })
+    })
 
     BddTest().then('it should render the slot content', () => {
       const slot = getCustomSlot()

@@ -98,6 +98,35 @@ Feature: Student Home Page
       Then the profile button is visible
       And the language switcher is visible
 
+  Rule: Notifications preferences
+      Background:
+        Given the student opens the notifications dropdown
+
+        @high @notifications @dataset-full
+        Scenario: Notifications dropdown displays title and disabled state by default
+          Then the student notifications dropdown title is displayed
+          And the student notifications toggle is disabled
+          And the student notifications disabled message is displayed
+          And the student exit button is displayed
+
+        @high @notifications @dataset-full
+        Scenario: Student can enable notifications
+          Given the student deactivates the notifications toggle
+          When the student activates the notifications toggle
+          Then the student notifications toggle is enabled
+
+        @medium @notifications @dataset-full
+        Scenario: Student can disable notifications
+          Given the student activates the notifications toggle
+          When the student deactivates the notifications toggle
+          Then the student notifications toggle is disabled
+          And the student notifications disabled message is displayed
+
+        @medium @notifications @dataset-full
+        Scenario: Student can close the notifications dropdown
+          When the student clicks the exit button on the notifications dropdown
+          Then the student notifications dropdown is closed
+
   Rule: Logout
 
     @high @logout

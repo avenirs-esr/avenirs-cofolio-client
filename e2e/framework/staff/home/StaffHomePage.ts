@@ -1,6 +1,7 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
+import { NotificationsDropdown } from '@e2e/framework/shared/componentObjects/NotificationsDropdown'
 import { UserProfileDropdown } from '@e2e/framework/shared/componentObjects/UserProfileDropdown'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { StaffOverviewWidget } from '@e2e/framework/staff/home/componentObjects/StaffOverviewWidget'
@@ -18,6 +19,10 @@ export class StaffHomePage extends BasePage {
 
   getStaffProfileDropdown () {
     return new UserProfileDropdown(this.page)
+  }
+
+  getStaffNotificationsDropdown () {
+    return new NotificationsDropdown(this.page)
   }
 
   @Given('the staff profile overview widget is visible')
@@ -58,5 +63,55 @@ export class StaffHomePage extends BasePage {
   @Then('the staff logout confirmation modal is visible')
   async verifyStaffLogoutConfirmationModalVisible () {
     await this.getStaffProfileDropdown().verifyLogoutConfirmationModalVisible()
+  }
+
+  @Given('the staff opens the notifications dropdown')
+  async openStaffNotificationsDropdown () {
+    await this.getStaffNotificationsDropdown().open()
+  }
+
+  @Then('the staff notifications dropdown title is displayed')
+  async verifyStaffNotificationsDropdownTitle () {
+    await this.getStaffNotificationsDropdown().verifyTitleVisible()
+  }
+
+  @Then('the staff notifications toggle is enabled')
+  async verifyStaffNotificationsToggleEnabled () {
+    await this.getStaffNotificationsDropdown().verifyToggleEnabled()
+  }
+
+  @Then('the staff notifications toggle is disabled')
+  async verifyStaffNotificationsToggleDisabled () {
+    await this.getStaffNotificationsDropdown().verifyToggleDisabled()
+  }
+
+  @When('the staff activates the notifications toggle')
+  async activateStaffNotificationsToggle () {
+    await this.getStaffNotificationsDropdown().activateToggle()
+  }
+
+  @When('the staff deactivates the notifications toggle')
+  async deactivateStaffNotificationsToggle () {
+    await this.getStaffNotificationsDropdown().deactivateToggle()
+  }
+
+  @Then('the staff notifications disabled message is displayed')
+  async verifyStaffNotificationsDisabledMessage () {
+    await this.getStaffNotificationsDropdown().verifyDisabledMessageVisible()
+  }
+
+  @Then('the staff exit button is displayed')
+  async verifyStaffNotificationsExitButton () {
+    await this.getStaffNotificationsDropdown().verifyExitButtonVisible()
+  }
+
+  @When('the staff clicks the exit button on the notifications dropdown')
+  async clickStaffNotificationsExitButton () {
+    await this.getStaffNotificationsDropdown().close()
+  }
+
+  @Then('the staff notifications dropdown is closed')
+  async verifyStaffNotificationsDropdownClosed () {
+    await this.getStaffNotificationsDropdown().verifyClosed()
   }
 }
