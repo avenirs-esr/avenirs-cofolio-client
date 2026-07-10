@@ -1,7 +1,12 @@
 import { type DeclaredActivityDetailsDTO, EFeedbackStatus } from '@/api/avenir-esr'
 
 export function computeRemainingFeedbacks (declaredActivityDetails: DeclaredActivityDetailsDTO) {
-  return declaredActivityDetails.activity.feedbackAllowedIterations - (declaredActivityDetails.feedbacks?.length ?? 0)
+  const { feedbackAllowedIterations } = declaredActivityDetails.activity
+  const usedFeedbacks = declaredActivityDetails.feedbacks?.length ?? 0
+
+  return feedbackAllowedIterations === -1
+    ? -1
+    : feedbackAllowedIterations - usedFeedbacks
 }
 
 export function canCreateFeedbackRequest (declaredActivityDetails: DeclaredActivityDetailsDTO, remainingFeedbacks: number) {

@@ -171,6 +171,7 @@
               },
               "requestFeedbackConfirmModal": {
                 "description": "Êtes-vous certain(e) de vouloir soumettre votre activité ? Vous disposez encore de 1 demande de feedback pour cette activité. | Êtes-vous certain(e) de vouloir soumettre votre activité ? Vous disposez encore de {count} demandes de feedback pour cette activité.",
+                "descriptionUnlimited": "Êtes-vous certain(e) de vouloir soumettre votre activité ? Vous disposez d'un nombre illimité de demandes de feedback pour cette activité.",
                 "title": "Demander un feedback"
               },
               "success": "Votre activité a été soumise avec succès. Vous serez notifié lorsque que votre conseiller référent vous aura répondu.",
