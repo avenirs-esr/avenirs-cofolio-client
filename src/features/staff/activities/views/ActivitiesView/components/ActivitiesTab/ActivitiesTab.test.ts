@@ -45,7 +45,7 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   }
 })
 
-const page = createMockedPagedResponseActivityStaffOverviewDTO(PageSizes.TWELVE, 6, 0)
+const page = createMockedPagedResponseActivityStaffOverviewDTO(PageSizes.TWELVE, 7, 0)
 const defaultPaginatedResult: UsePaginatedStaffActivitiesResult = {
   activities: computed(() => page.data),
   pageInfo: computed(() => page.page),
@@ -125,7 +125,7 @@ BddTest().given('a ActivitiesTab component', () => {
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should emit updateActivitiesCount with the correct count', async () => {
       expect(wrapper.emitted('updateActivitiesCount')).toBeTruthy()
-      expect(wrapper.emitted('updateActivitiesCount')![0]).toEqual([6])
+      expect(wrapper.emitted('updateActivitiesCount')![0]).toEqual([7])
     })
 
     BddTest().then('it should emit updateActivitiesCount with 0 when pageInfo is undefined', async () => {
@@ -150,14 +150,14 @@ BddTest().given('a ActivitiesTab component', () => {
       const pagination = wrapper.findComponent(PaginationStub)
 
       expect(pagination.exists()).toBe(true)
-      expect(pagination.props('pageInfo')).toMatchObject({ totalElements: 6 })
+      expect(pagination.props('pageInfo')).toMatchObject({ totalElements: 7 })
       expect(pagination.props('pageSizeSelected')).toBe(PageSizes.TWELVE)
     })
 
     BddTest().then('it should render the table', () => {
       expect(wrapper.findComponent(AvTableStub).exists()).toBe(true)
-      expect(wrapper.findAllComponents(ActivityTableTitleStub)).toHaveLength(6)
-      expect(mockFormatLastModified).toHaveBeenCalledTimes(6)
+      expect(wrapper.findAllComponents(ActivityTableTitleStub)).toHaveLength(7)
+      expect(mockFormatLastModified).toHaveBeenCalledTimes(7)
     })
 
     BddTest().then('it should not render the status column when withStatus is false', () => {
@@ -181,7 +181,7 @@ BddTest().given('a ActivitiesTab component', () => {
     })
 
     BddTest().then('it should render one status badge per activity', () => {
-      expect(wrapper.findAll('[data-testid="activity-status-badge"]')).toHaveLength(6)
+      expect(wrapper.findAll('[data-testid="activity-status-badge"]')).toHaveLength(7)
     })
   })
 
@@ -198,7 +198,7 @@ BddTest().given('a ActivitiesTab component', () => {
     })
 
     BddTest().then('it should render one MoreActionsDropdown per row', () => {
-      expect(getMoreActionsDropdowns()).toHaveLength(6)
+      expect(getMoreActionsDropdowns()).toHaveLength(7)
     })
 
     BddTest().then('it should pass the correct activityStatus to each MoreActionsDropdown', () => {
@@ -271,7 +271,7 @@ BddTest().given('a ActivitiesTab component', () => {
     })
 
     BddTest().then('it should render one ActivityCard per row', () => {
-      expect(wrapper.findAllComponents(ActivityCardStub)).toHaveLength(6)
+      expect(wrapper.findAllComponents(ActivityCardStub)).toHaveLength(7)
     })
 
     BddTest().then('it should not render the table', () => {
@@ -292,7 +292,7 @@ BddTest().given('a ActivitiesTab component', () => {
     })
 
     BddTest().then('it should render one ActivityCard per row', () => {
-      expect(wrapper.findAllComponents(ActivityCardStub)).toHaveLength(6)
+      expect(wrapper.findAllComponents(ActivityCardStub)).toHaveLength(7)
     })
 
     BddTest().then('it should not render the table', () => {
