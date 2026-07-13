@@ -85,6 +85,9 @@
           "DeclaredSkillAssociateElementsDropdown": {
             "activities": "one/many activity(ies)"
           },
+          "DeleteDeclaredSkillAssociatedElementsDropdown": {
+            "activities": "one/many activity(ies)"
+          },
           "declaredSkillDetails": {
             "levelTitle": "Self-positioning",
             "skillTitle": "Title:"
