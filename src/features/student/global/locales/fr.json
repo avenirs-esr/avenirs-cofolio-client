@@ -39,12 +39,6 @@
           "period": {
             "label": "Période"
           }
-        },
-        "SelectorOverlay": {
-          "ariaLabel": {
-            "selected": "Désélectionner {item}",
-            "unselected": "Sélectionner {item}"
-          }
         }
       },
       "navigation": {

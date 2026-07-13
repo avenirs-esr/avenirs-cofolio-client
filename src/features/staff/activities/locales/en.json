@@ -21,6 +21,9 @@
         }
       },
       "modals": {
+        "DeleteActivityResourcesConfirmationModal": {
+          "title": "Are you sure you want to delete the selected resource? | Are you sure you want to delete the selected resources?"
+        },
         "DeleteDraftActivityConfirmationModal": {
           "deleteError": "An error occurred while deleting the activity",
           "deleteSuccess": "Activity deleted successfully",

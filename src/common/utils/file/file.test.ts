@@ -1,5 +1,5 @@
-import { EFileType } from '@/api/avenir-esr'
-import { bytesToMegabytes, getFileExtension, getFileTypeFromFileName, renameFile, stripExtension } from '@/common/utils/file/file'
+import { EFileType, type FileDTO } from '@/api/avenir-esr'
+import { bytesToMegabytes, getFileExtension, getFileTypeFromFileName, isDifferentFile, renameFile, stripExtension } from '@/common/utils/file/file'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 BddTest().given('the file  helper', () => {
@@ -126,6 +126,90 @@ BddTest().given('the file type helper', () => {
   BddTest().when('a file extension is \'png\'', () => {
     BddTest().then('it should return EFileType.PNG', () => {
       expect(getFileTypeFromFileName('test.png')).toBe(EFileType.PNG)
+    })
+  })
+})
+
+BddTest().given('the isDifferentFile helper', () => {
+  BddTest().when('both files are identical File instances', () => {
+    BddTest().then('it should return false', () => {
+      const first = new File(['content'], 'document.pdf', { type: 'application/pdf', lastModified: 1000 })
+      const second = new File(['content'], 'document.pdf', { type: 'application/pdf', lastModified: 1000 })
+      expect(isDifferentFile(first, second)).toBe(false)
+    })
+  })
+
+  BddTest().when('two File instances differ', () => {
+    BddTest().then('it should return true', () => {
+      const first = new File(['content'], 'document.pdf', { type: 'application/pdf', lastModified: 1000 })
+      const second = new File(['content'], 'report.pdf', { type: 'application/pdf', lastModified: 1000 })
+      expect(isDifferentFile(first, second)).toBe(true)
+    })
+  })
+
+  BddTest().when('both objects are FileDTO instances with the same id', () => {
+    BddTest().then('it should return false', () => {
+      const first = {
+        id: 'file-1',
+        fileName: 'image.png',
+        url: 'https://example.com/image.png',
+        fileType: EFileType.PNG,
+        fileSize: 204800,
+        version: 1,
+        uploadedAt: '2024-01-15T10:45:00'
+      } as FileDTO
+      const second = {
+        id: 'file-1',
+        fileName: 'image2.png',
+        url: 'https://example.com/image2.png',
+        fileType: EFileType.PNG,
+        fileSize: 409600,
+        version: 2,
+        uploadedAt: '2024-01-15T10:45:00'
+      } as FileDTO
+      expect(isDifferentFile(first, second)).toBe(false)
+    })
+  })
+
+  BddTest().when('both objects are FileDTO instances with different ids', () => {
+    BddTest().then('it should return true', () => {
+      const first = {
+        id: 'file-1',
+        fileName: 'image.png',
+        url: 'https://example.com/image.png',
+        fileType: EFileType.PNG,
+        fileSize: 204800,
+        version: 1,
+        uploadedAt: '2024-01-15T10:45:00'
+      } as FileDTO
+      const second = {
+        id: 'file-2',
+        fileName: 'image2.png',
+        url: 'https://example.com/image2.png',
+        fileType: EFileType.PNG,
+        fileSize: 409600,
+        version: 2,
+        uploadedAt: '2024-01-15T10:45:00'
+      } as FileDTO
+      expect(isDifferentFile(first, second)).toBe(true)
+    })
+  })
+
+  BddTest().when('one object is a File and the other is a FileDTO', () => {
+    BddTest().then('it should return true', () => {
+      const file = new File(['content'], 'document.pdf', { type: 'application/pdf', lastModified: 1000 })
+      const dto = {
+        id: 'file-1',
+        fileName: 'image2.png',
+        url: 'https://example.com/image2.png',
+        fileType: EFileType.PNG,
+        fileSize: 409600,
+        version: 2,
+        uploadedAt: '2024-01-15T10:45:00'
+      } as FileDTO
+
+      expect(isDifferentFile(file, dto)).toBe(true)
+      expect(isDifferentFile(dto, file)).toBe(true)
     })
   })
 })

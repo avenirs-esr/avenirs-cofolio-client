@@ -421,6 +421,12 @@
           },
           "title": "Modifier mon profil"
         }
+      },
+      "SelectorOverlay": {
+        "ariaLabel": {
+          "selected": "Désélectionner {item}",
+          "unselected": "Sélectionner {item}"
+        }
       }
     },
     "pageSizePicker": {

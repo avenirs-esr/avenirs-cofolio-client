@@ -19,7 +19,7 @@ const displayedLabel = computed(() => label ?? t('global.buttons.add'))
 
 <template>
   <button
-    class="add-card av-col av-align-center av-justify-center av-gap-xs av-p-md av-border-width-sm av-border-style-solid av-radius-xl"
+    class="add-card av-col av-w-full av-align-center av-justify-center av-gap-xs av-p-md av-border-width-sm av-border-style-solid av-radius-xl"
     type="button"
     data-testid="add-card"
     @click="emit('click')"
@@ -35,8 +35,8 @@ const displayedLabel = computed(() => label ?? t('global.buttons.add'))
 <style scoped lang="scss">
 .add-card {
   border-color: var(--light-background-neutral);
-  min-height: 12.5rem;
-  min-width: 13.5rem;
+  width: 13.5rem;
+  height: 12.5rem;
   cursor: pointer;
 }
 </style>

@@ -1,16 +1,11 @@
+import type { SelectorOverlayElement } from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.vue'
 import type { PropType } from 'vue'
 
 export const SelectorOverlayStub = defineComponent({
   name: 'SelectorOverlay',
   props: {
     selectableElements: {
-      type: Array as PropType<{
-        label: string
-        value: string
-        showSlot?: boolean
-        baseElement?: unknown
-        disabled?: boolean
-      }[]>,
+      type: Array as PropType<SelectorOverlayElement[]>,
       required: true,
     },
     selectedElements: {
@@ -33,7 +28,9 @@ export const SelectorOverlayStub = defineComponent({
           v-if="!readonly && !element.disabled"
           role="button"
           class="selector-overlay-stub__element"
-          :class="{ 'selector-overlay-stub__element--selected': selectedElements.includes(element.value) }"
+          :class="{
+            'selector-overlay-stub__element--selected': selectedElements.includes(element.value),
+          }"
           data-testid="selector-overlay"
           @click="$emit('update:selectedElements', toggleSelection(element.value))"
           @keydown.enter="$emit('update:selectedElements', toggleSelection(element.value))"

@@ -57,31 +57,21 @@ BddTest().given('an activity resources list', () => {
       expect(cards[1].props('resource')).toBe(links[0])
       expect(cards[2].props('resource')).toBe(links[1])
     })
-
-    BddTest().then('it should not render the add card by default', () => {
-      expect(wrapper.findComponent(AddCardStub).exists()).toBe(false)
-    })
   })
 
-  BddTest().when('the component is mounted with showAddCard enabled', () => {
+  BddTest().when('the component is mounted as read only', () => {
     beforeEach(() => {
       wrapper = mount(ActivityResourcesList, {
-        props: { activityId: 'activity-id', files, links, showAddCard: true },
+        props: { activityId: 'activity-id', files, links, readonly: true },
         global: { stubs }
       })
     })
 
-    BddTest().then('it should render the add card', () => {
-      expect(wrapper.findComponent(AddCardStub).exists()).toBe(true)
-    })
-
-    BddTest().and('the add card is clicked', () => {
-      beforeEach(() => {
-        wrapper.findComponent(AddCardStub).vm.$emit('click')
-      })
-
-      BddTest().then('it should emit the add event', () => {
-        expect(wrapper.emitted('add')).toHaveLength(1)
+    BddTest().then('it should render one disabled resource card per file and link', () => {
+      const cards = wrapper.findAllComponents(ActivityResourceCardStub)
+      expect(cards).toHaveLength(files.length + links.length)
+      cards.forEach((card) => {
+        expect(card.props('disabled')).toBe(true)
       })
     })
   })

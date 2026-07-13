@@ -4,14 +4,16 @@ import {
   type ActivityDraftUpdateRequest,
   EActivityStatus,
   EActivityThematic,
+  type FileDTO,
   invalidateGetActivityContent,
   invalidateGetActivityPresentation,
   useAddDraftFile,
   useDeleteDraftBanner,
+  useDeleteDraftFile,
   useGetActivityContent,
   useGetActivityPresentation,
   useUpdateActivityDraft,
-  useUploadDraftBanner
+  useUploadDraftBanner,
 } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
@@ -21,6 +23,7 @@ import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ROUTES } from '@/common/constants'
 import { BaseApiException } from '@/common/exceptions'
+import { isDifferentFile } from '@/common/utils/file/file'
 import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
 import { useEditNationalActivityFormValidators } from '@/features/staff/activities/composables/use-edit-national-activity-form-validators/use-edit-national-activity-form-validators'
 import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
@@ -80,6 +83,8 @@ const {
   error: presentationError
 } = useGetActivityPresentation(EActivityStatus.DRAFT, id)
 
+const remoteFiles = computed(() => content.value?.files ?? [])
+
 const defaultValues: EditActivityFormData = reactive({
   title: computed(() => content.value?.title ?? ''),
   thematic: computed(() => content.value?.thematic ?? EActivityThematic.TRANSVERSAL),
@@ -90,13 +95,14 @@ const defaultValues: EditActivityFormData = reactive({
   feedbackAllowedIterations: computed(() => content.value?.feedbackAllowedIterations ?? undefined),
   traceAllowedAssociations: computed(() => content.value?.traceAllowedAssociations ?? ACTIVITY_TRACE_SETTING_INFINITY_VALUE),
   bannerAction: EditActivityFormDataBannerAction.NONE,
-  files: computed(() => content.value?.files ?? []),
+  files: remoteFiles,
   links: computed(() => content.value?.links ?? []),
 })
 
 const { mutateAsync: uploadBannerMutation } = useUploadDraftBanner()
 const { mutateAsync: uploadResourceFileMutation } = useAddDraftFile()
 const { mutateAsync: deleteBannerMutation } = useDeleteDraftBanner()
+const { mutateAsync: deleteResourceFileMutation } = useDeleteDraftFile()
 const { mutateAsync: updateActivity } = useUpdateActivityDraft()
 
 const form = useForm({
@@ -163,14 +169,17 @@ async function saveBanner (action: EditActivityFormDataBannerAction) {
   }
 }
 
-async function saveResourceFiles (files: File[]) {
-  if (files.length === 0) {
-    return
-  }
-  await Promise.all(files.map(file => uploadResourceFileMutation({
-    activityDraftId: id,
-    data: { file }
-  })))
+async function saveResourceFiles (newFiles: File[], removedFiles: FileDTO[]) {
+  await Promise.all([
+    newFiles.forEach(file => uploadResourceFileMutation({
+      activityDraftId: id,
+      data: { file }
+    })),
+    removedFiles.forEach(file => deleteResourceFileMutation({
+      activityDraftId: id,
+      fileId: file.id
+    }))
+  ])
 }
 
 async function saveActivity (data: ActivityDraftUpdateRequest) {
@@ -183,15 +192,19 @@ async function saveActivity (data: ActivityDraftUpdateRequest) {
 async function save (data?: ActivityDraftUpdateRequest) {
   const promises: Promise<void>[] = []
   const bannerAction = form.getFieldValue('bannerAction')
-  const pendingFiles = form.getFieldValue('files').filter((f): f is File => f instanceof File)
+  const files = form.getFieldValue('files')
 
   if (bannerAction !== EditActivityFormDataBannerAction.NONE) {
     promises.push(saveBanner(bannerAction))
     form.setFieldValue('bannerAction', EditActivityFormDataBannerAction.NONE)
   }
 
-  if (pendingFiles.length > 0) {
-    promises.push(saveResourceFiles(pendingFiles))
+  const newFiles = files.filter(localFile => !defaultValues.files.some(remoteFile => !isDifferentFile(localFile, remoteFile))) as File[]
+  const removedFiles = defaultValues.files.filter(remoteFile => !defaultValues.files.some(localFile => !isDifferentFile(remoteFile, localFile))) as FileDTO[]
+
+  if (newFiles.length > 0 || removedFiles.length > 0) {
+    promises.push(saveResourceFiles(newFiles, removedFiles))
+    form.setFieldValue('files', defaultValues.files)
   }
 
   if (data) {

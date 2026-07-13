@@ -417,6 +417,12 @@
           },
           "title": "Edit my profile"
         }
+      },
+      "SelectorOverlay": {
+        "ariaLabel": {
+          "selected": "select {item}",
+          "unselected": "unselect {item}"
+        }
       }
     },
     "pageSizePicker": {

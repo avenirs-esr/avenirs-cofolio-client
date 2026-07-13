@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ActivityContentDTO } from '@/api/avenir-esr'
+import type { ActivityContentDTO, FileDTO } from '@/api/avenir-esr'
 import type { AddActivityResourceFormData } from '@/features/staff/activities/types/forms.types'
-import { useModal } from '@/common/composables/use-modal/use-modal'
 import { ICONS } from '@/common/constants'
+import { isDifferentFile } from '@/common/utils/file/file'
 import ActivityConsignFormField from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.vue'
 import ActivityExecutionPeriodFormField
   from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
@@ -10,15 +10,16 @@ import ActivityFeedbackFormField from '@/features/staff/activities/components/in
 import ActivityReflectionFormField from '@/features/staff/activities/components/interactions/formFields/ActivityReflectionFormField/ActivityReflectionFormField.vue'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import ActivityTraceFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.vue'
-import ActivityResourcesList from '@/features/staff/activities/components/lists/ActivityResourcesList/ActivityResourcesList.vue'
+import ActivityResourcesListEditable from '@/features/staff/activities/components/lists/ActivityResourcesListEditable/ActivityResourcesListEditable.vue'
+import { ACTIVITY_AUTO_SAVE_DEBOUNCE } from '@/features/staff/activities/config'
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import ThematicSelectFormField from '@/features/staff/activities/views/ActivitiesView/components/tabs/NationalActivityContentTab/interactions/formFields/ThematicSelectFormField/ThematicSelectFormField.vue'
-import AddActivityResourceModal from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/AddActivityResourceModal.vue'
 import { isActivityResourceFileType, isActivityResourceLinkType } from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/utils/resource-form.types-guard'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import IconTitleCardContainer from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { debounce } from 'lodash-es'
 import { useI18n } from 'vue-i18n'
 
 interface ActivityContentTabProps {
@@ -33,26 +34,46 @@ const emit = defineEmits<{
 
 const { form, save, isUpdating } = useEditNationalActivityViewContext()
 const { t } = useI18n()
-const {
-  showModal: showAddResourceModal,
-  displayModal: displayAddResourceModal,
-  hideModal: hideAddResourceModal
-} = useModal()
 
-function onResourceAdded (payload: AddActivityResourceFormData) {
+const hasEnrolledStudent = computed(() => activity.hasEnrolledStudent)
+const isFormDirty = form.useStore(state => state.isDirty)
+const files = form.useStore(state => state.values.files)
+const links = form.useStore(state => state.values.links)
+
+const debouncedAutosave = debounce((links?: string[]) => {
+  if (isFormDirty.value) {
+    save(links ? { links } : undefined)
+  }
+}, ACTIVITY_AUTO_SAVE_DEBOUNCE)
+
+function addResource (payload: AddActivityResourceFormData) {
+  let newLinks: string[] | undefined
+
   if (isActivityResourceFileType(payload) && payload.file) {
     form.setFieldValue('files', [...form.getFieldValue('files'), payload.file])
   }
   else if (isActivityResourceLinkType(payload)) {
-    form.setFieldValue('links', [...form.getFieldValue('links'), payload.link])
+    newLinks = [...form.getFieldValue('links'), payload.link]
+    form.setFieldValue('links', newLinks)
   }
-  hideAddResourceModal()
+
+  debouncedAutosave(newLinks)
 }
 
-const isFormDirty = form.useStore(state => state.isDirty)
-const hasEnrolledStudent = computed(() => activity.hasEnrolledStudent)
-const files = form.useStore(state => state.values.files)
-const links = form.useStore(state => state.values.links)
+function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
+  let newLinks: string[] | undefined
+
+  if (files.length > 0) {
+    form.setFieldValue('files', form.getFieldValue('files').filter(file => files.every(selectedFile => isDifferentFile(file, selectedFile))))
+  }
+
+  if (links.length > 0) {
+    newLinks = form.getFieldValue('links').filter(link => !links.includes(link))
+    form.setFieldValue('links', newLinks)
+  }
+
+  debouncedAutosave(newLinks)
+}
 </script>
 
 <template>
@@ -120,12 +141,14 @@ const links = form.useStore(state => state.values.links)
         collapsible
         collapsed
       >
-        <ActivityResourcesList
+        <ActivityResourcesListEditable
           :activity-id="activity.id"
           :files="files"
           :links="links"
-          show-add-card
-          @add="displayAddResourceModal()"
+          :is-form-dirty="isFormDirty"
+          :is-updating="isUpdating"
+          @add="addResource"
+          @delete="deleteSelectedResources"
         />
       </IconTitleCardContainer>
     </div>
@@ -152,11 +175,7 @@ const links = form.useStore(state => state.values.links)
         />
       </IconTitleCardContainer>
     </div>
-    <AddActivityResourceModal
-      :opened="showAddResourceModal"
-      @close="hideAddResourceModal"
-      @added="onResourceAdded"
-    />
+
     <div class="av-row av-wrap av-gap-sm av-justify-end">
       <EditNationalActivityViewTabActions />
       <AvButton

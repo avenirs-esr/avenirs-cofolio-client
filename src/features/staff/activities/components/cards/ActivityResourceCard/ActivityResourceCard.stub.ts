@@ -6,12 +6,14 @@ export const ActivityResourceCardStub = defineComponent({
   props: {
     activityId: {
       type: String,
-      required: false,
+      required: true,
     },
     resource: {
       type: [String, Object] as PropType<ActivityResource>,
       required: false,
     },
+    disabled: Boolean,
+    tooltipVisible: Boolean,
   },
   template: '<div data-testid="activity-resource-card" />',
 })

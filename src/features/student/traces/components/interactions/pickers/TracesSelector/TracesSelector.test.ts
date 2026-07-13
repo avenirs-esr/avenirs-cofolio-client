@@ -1,6 +1,6 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { SelectorOverlayStub } from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.stub'
+import { SelectorOverlayStub } from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.stub'
 import {
   StudentTraceCardStub
 } from '@/features/student/traces/components/cards/StudentTraceCard/StudentTraceCard.stub'
