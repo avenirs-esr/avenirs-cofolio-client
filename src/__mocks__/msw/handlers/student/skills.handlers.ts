@@ -20,6 +20,7 @@ import {
   EExternalSkillType,
   getAssociateDeclaredSkillWithDeclaredActivitiesUrl,
   getCreateDeclaredSkillProgressUrl,
+  getDeleteDeclaredSkillAssociationsUrl,
   getDeleteDeclaredSkillProgressUrl,
   getGetAdditionalSkillConfigUrl,
   getGetAllSkillsUrl,
@@ -387,4 +388,26 @@ export const skillsHandlers = [
       })
     }
   ),
+  http.delete(`*${getDeleteDeclaredSkillAssociationsUrl(':declaredSkillProgressId')}`, ({ params }) => {
+    const { declaredSkillProgressId } = params
+
+    if (declaredSkillProgressId === INVALID_DECLARED_SKILL_ID) {
+      return HttpResponse.json(
+        { code: ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND, message: 'Declared skill progress not found' },
+        { status: 404 }
+      )
+    }
+
+    return new HttpResponse(null, { status: 204 })
+  }),
 ]
+
+export const deleteDeclaredSkillAssociationsErrorHandler = http.delete(
+  `*${getDeleteDeclaredSkillAssociationsUrl(':declaredSkillProgressId')}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+      { status: 500 }
+    )
+  }
+)

@@ -2647,6 +2647,38 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "declared-skill-progress-controller"
+        ],
+        "operationId": "deleteDeclaredSkillAssociations",
+        "parameters": [
+          {
+            "name": "declaredSkillProgressId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociationsDeleteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/me/declared/skill-progress/search-for-association": {
