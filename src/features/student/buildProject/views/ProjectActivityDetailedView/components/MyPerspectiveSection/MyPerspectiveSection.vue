@@ -55,6 +55,7 @@ const traceAssociationsDisabled = computed(() =>
         :declared-activity-id="declaredActivityDetails.id"
         :associations="declaredActivityAssociations"
         :count-associations="associationsCount"
+        :trace-allowed-associations="declaredActivityDetails.activity.traceAllowedAssociations"
         :error="error"
         :is-loading="isPending"
         :trace-associations-disabled="traceAssociationsDisabled"
