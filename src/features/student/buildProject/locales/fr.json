@@ -99,6 +99,11 @@
             "ActivityDetailedSideNavigation": {
               "myReflection": "Ma réflexion"
             },
+            "AssociationLimitCard": {
+              "count": "1 trace | {count} traces",
+              "title": "Limite d'association",
+              "unlimited": "Traces illimitées"
+            },
             "AssociatedTracesCard": {
               "title": "Ma trace associée ({count}) | Mes traces associées ({count})"
             },

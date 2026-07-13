@@ -5,6 +5,8 @@ import { QuerySuspense } from '@/common/components'
 import { useModal } from '@/common/composables'
 import AssociatedTracesCard
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
+import TraceAssociationLimitCard
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'
 import AssociateDeclaredSkillToActivityModal
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/modals/AssociateDeclaredSkillToActivityModal/AssociateDeclaredSkillToActivityModal.vue'
 import ActivityAssociateElementsDropdown
@@ -22,6 +24,7 @@ export interface AssociatedElementsTabProps {
   associations: DeclaredActivityAssociationsDTO
   declaredActivityId: string
   countAssociations: number
+  traceAllowedAssociations: number
   error?: BaseApiException | null
   isLoading?: boolean
   traceAssociationsDisabled?: boolean
@@ -30,6 +33,7 @@ export interface AssociatedElementsTabProps {
 
 const {
   associations,
+  traceAllowedAssociations,
   traceAssociationsDisabled = false,
   maxTraceAssociationsReached = false
 } = defineProps<AssociatedElementsTabProps>()
@@ -78,6 +82,11 @@ const skillsAssociations = computed(() => {
       >
         {{ t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveSection.AssociatedElementsTab.maxTraceAssociationsReached') }}
       </span>
+    </div>
+    <div class="av-col av-gap-md">
+      <TraceAssociationLimitCard
+        :trace-allowed-associations="traceAllowedAssociations"
+      />
     </div>
 
     <QuerySuspense

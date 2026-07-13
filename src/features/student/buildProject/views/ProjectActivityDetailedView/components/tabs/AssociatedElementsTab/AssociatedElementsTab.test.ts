@@ -1,5 +1,7 @@
 import { mockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { AssociatedTracesCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
+import { TraceAssociationLimitCardStub }
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.stub'
 import {
   AssociateDeclaredSkillsToActivityModalStub
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/modals/AssociateDeclaredSkillToActivityModal/AssociateDeclaredSkillToActivityModal.stub'
@@ -32,14 +34,16 @@ BddTest().given('an associated elements tab', () => {
     AssociateTracesModal: AssociateTracesModalStub,
     AssociatedTracesCard: AssociatedTracesCardStub,
     AssociateDeclaredSkillToActivityModal: AssociateDeclaredSkillsToActivityModalStub,
-    AssociatedDeclaredSkillsCard: AssociatedDeclaredSkillsCardStub
+    AssociatedDeclaredSkillsCard: AssociatedDeclaredSkillsCardStub,
+    TraceAssociationLimitCard: TraceAssociationLimitCardStub
   }
 
   BddTest().when('the component is mounted with associations and traceAssociationsEnabled not set', () => {
     const props: AssociatedElementsTabProps = {
       associations: mockedDeclaredActivityAssociations,
       declaredActivityId: 'declared-activity-1',
-      countAssociations: 9
+      countAssociations: 9,
+      traceAllowedAssociations: 7
     }
 
     beforeEach(() => {
@@ -66,6 +70,13 @@ BddTest().given('an associated elements tab', () => {
       expect(associatedDeclaredSkillsCard.exists()).toBe(true)
       expect(associatedDeclaredSkillsCard.props('associatedDeclaredSkills'))
         .toEqual(props.associations.declaredSkillAssociations)
+    })
+
+    BddTest().then('it should render the trace association limit card', () => {
+      const card = wrapper.findComponent(TraceAssociationLimitCardStub)
+
+      expect(card.exists()).toBe(true)
+      expect(card.props('traceAllowedAssociations')).toBe(props.traceAllowedAssociations)
     })
 
     BddTest().then('it should render the associated traces card', () => {
@@ -275,6 +286,7 @@ BddTest().given('an associated elements tab', () => {
       associations: mockedDeclaredActivityAssociations,
       declaredActivityId: 'declared-activity-1',
       countAssociations: 9,
+      traceAllowedAssociations: 7,
       traceAssociationsDisabled: false
     }
 
@@ -293,6 +305,7 @@ BddTest().given('an associated elements tab', () => {
       associations: mockedDeclaredActivityAssociations,
       declaredActivityId: 'declared-activity-1',
       countAssociations: 9,
+      traceAllowedAssociations: 7,
       traceAssociationsDisabled: true
     }
 
@@ -311,6 +324,7 @@ BddTest().given('an associated elements tab', () => {
       associations: mockedDeclaredActivityAssociations,
       declaredActivityId: 'declared-activity-1',
       countAssociations: 9,
+      traceAllowedAssociations: 7,
       traceAssociationsDisabled: false,
       maxTraceAssociationsReached: true
     }
