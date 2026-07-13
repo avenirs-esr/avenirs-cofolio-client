@@ -4,12 +4,14 @@ import AddCard from '@/common/components/cards/AddCard/AddCard.vue'
 import ActivityResourceCard from '@/features/staff/activities/components/cards/ActivityResourceCard/ActivityResourceCard.vue'
 
 export interface ActivityResourcesListProps {
+  activityId: string
   files: (File | FileDTO)[]
   links: string[]
   showAddCard?: boolean
 }
 
 const {
+  activityId,
   files,
   links,
   showAddCard = false
@@ -28,11 +30,13 @@ const emit = defineEmits<{
     <ActivityResourceCard
       v-for="(file, index) in files"
       :key="`file-${index}`"
+      :activity-id="activityId"
       :resource="file"
     />
     <ActivityResourceCard
       v-for="(link, index) in links"
       :key="`link-${index}`"
+      :activity-id="activityId"
       :resource="link"
     />
     <AddCard

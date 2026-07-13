@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
-import { EUserCategory, type FileDTO, invalidateGetProfile, useDeleteFile } from '@/api/avenir-esr'
+import { EUserCategory, type FileDTO, invalidateGetProfile, useDeleteCoverPicture, useDeleteProfilePicture } from '@/api/avenir-esr'
 import { ConfirmationModal, ImageUpload } from '@/common/components'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
@@ -87,10 +87,10 @@ const {
   closeModal: hideModal
 })
 
-const { mutate: deleteCoverPictureMutation } = useDeleteFile()
+const { mutate: deleteCoverPictureMutation } = useDeleteCoverPicture()
 
-function deleteCoverPicture ({ fileId }: { fileId: string }) {
-  deleteCoverPictureMutation({ fileId }, {
+function deleteCoverPicture () {
+  deleteCoverPictureMutation({ userCategory: userCategory.value }, {
     onError: (error: BaseApiException) => addErrorMessage({
       title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'),
       description: getErrorMessage(error),
@@ -102,10 +102,10 @@ function deleteCoverPicture ({ fileId }: { fileId: string }) {
   })
 }
 
-const { mutate: deleteProfilePictureMutation } = useDeleteFile()
+const { mutate: deleteProfilePictureMutation } = useDeleteProfilePicture()
 
-function deleteProfilePicture ({ fileId }: { fileId: string }) {
-  deleteProfilePictureMutation({ fileId }, {
+function deleteProfilePicture () {
+  deleteProfilePictureMutation({ userCategory: userCategory.value }, {
     onError: (error: BaseApiException) => addErrorMessage({
       title: t('global.overlay.drawers.UpdateProfileDrawer.onDelete.error'),
       description: getErrorMessage(error),
@@ -118,11 +118,11 @@ function deleteProfilePicture ({ fileId }: { fileId: string }) {
 }
 
 function onDeleteCoverPicture () {
-  deleteCoverPicture({ fileId: coverPicture.id! })
+  deleteCoverPicture()
 }
 
 function onDeleteProfilePicture () {
-  deleteProfilePicture({ fileId: profilePicture.id! })
+  deleteProfilePicture()
 }
 
 function onSubmitForm (event: Event) {

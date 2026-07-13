@@ -14,7 +14,12 @@ export default defineConfig({
       clean: true,
       override: {
         operations: {
-          downloadFile: {
+          downloadAttachment: {
+            query: {
+              useMutation: true,
+            }
+          },
+          downloadActivityFile: {
             query: {
               useMutation: true,
             }

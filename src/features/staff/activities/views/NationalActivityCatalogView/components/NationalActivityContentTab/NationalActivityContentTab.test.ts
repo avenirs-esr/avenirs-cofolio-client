@@ -34,7 +34,6 @@ BddTest().given('a national activity content tab', () => {
     fileName: 'document.pdf',
     fileType: EFileType.PDF,
     fileSize: 1024,
-    version: 1,
     url: 'https://example.com/document.pdf',
     uploadedAt: '2026-07-07T00:00:00Z',
   }

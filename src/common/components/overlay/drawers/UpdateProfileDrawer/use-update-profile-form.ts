@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import { EFileCategory, EUserCategory, type ProfileOverviewDTO } from '@/api/avenir-esr'
+import { EUserCategory, type ProfileOverviewDTO } from '@/api/avenir-esr'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import {
   useUpdateProfile,
@@ -65,18 +65,10 @@ export function useUpdateProfileForm (initialData: UseUpdateProfileFormData, pro
 
         const [coverResult, photoResult] = await Promise.allSettled([
           coverPictureFile.value
-            ? onUpdateProfileCoverAsync(
-                profile === EUserCategory.STAFF ? EFileCategory.STAFF_COVER_PICTURE : EFileCategory.STUDENT_COVER_PICTURE,
-                initialData.id,
-                { file: coverPictureFile.value }
-              )
+            ? onUpdateProfileCoverAsync(profile, { file: coverPictureFile.value })
             : Promise.resolve(),
           profilePictureFile.value
-            ? onUpdateProfilePhotoAsync(
-                profile === EUserCategory.STAFF ? EFileCategory.STAFF_PROFILE_PICTURE : EFileCategory.STUDENT_PROFILE_PICTURE,
-                initialData.id,
-                { file: profilePictureFile.value }
-              )
+            ? onUpdateProfilePhotoAsync(profile, { file: profilePictureFile.value })
             : Promise.resolve()
         ])
 

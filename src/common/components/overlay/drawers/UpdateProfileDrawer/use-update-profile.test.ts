@@ -7,7 +7,7 @@ import {
   putUpdateProfilePhotoErrorHandler
 } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EFileCategory, EUserCategory } from '@/api/avenir-esr'
+import { EUserCategory } from '@/api/avenir-esr'
 import {
   useUpdateProfile,
   useUpdateProfileCover,
@@ -94,7 +94,7 @@ BddTest().given('an useUpdateProfileCover composable with a STAFF user', () => {
     })
 
     BddTest().then('it should call the onSuccess callback', async () => {
-      await result.onUpdateProfileCoverAsync(EFileCategory.STAFF_COVER_PICTURE, 'staff-id', { file: fakeFile })
+      await result.onUpdateProfileCoverAsync(EUserCategory.STAFF, { file: fakeFile })
       await flushPromises()
 
       expect(onSuccessSpy).toHaveBeenCalled()
@@ -107,7 +107,7 @@ BddTest().given('an useUpdateProfileCover composable with a STAFF user', () => {
     })
 
     BddTest().then('it should show an error message', async () => {
-      await result.onUpdateProfileCoverAsync(EFileCategory.STAFF_COVER_PICTURE, 'staff-id', { file: fakeFile }).catch(() => {})
+      await result.onUpdateProfileCoverAsync(EUserCategory.STAFF, { file: fakeFile }).catch(() => {})
       await flushPromises()
 
       expect(mockAddErrorMessage).toHaveBeenCalledWith({
@@ -139,7 +139,7 @@ BddTest().given('an useUpdateProfilePhoto composable with a STAFF user', () => {
     })
 
     BddTest().then('it should call the onSuccess callback', async () => {
-      await result.onUpdateProfilePhotoAsync(EFileCategory.STAFF_PROFILE_PICTURE, 'staff-id', { file: fakeFile })
+      await result.onUpdateProfilePhotoAsync(EUserCategory.STAFF, { file: fakeFile })
       await flushPromises()
 
       expect(onSuccessSpy).toHaveBeenCalled()
@@ -152,7 +152,7 @@ BddTest().given('an useUpdateProfilePhoto composable with a STAFF user', () => {
     })
 
     BddTest().then('it should show an error message', async () => {
-      await result.onUpdateProfilePhotoAsync(EFileCategory.STAFF_PROFILE_PICTURE, 'staff-id', { file: fakeFile }).catch(() => {})
+      await result.onUpdateProfilePhotoAsync(EUserCategory.STAFF, { file: fakeFile }).catch(() => {})
       await flushPromises()
 
       expect(mockAddErrorMessage).toHaveBeenCalledWith({

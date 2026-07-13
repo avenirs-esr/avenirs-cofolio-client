@@ -124,7 +124,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.spyOn(avenirEsrApi, 'uploadFile').mockResolvedValue({} as FileDTO)
+    vi.spyOn(avenirEsrApi, 'uploadAttachment').mockResolvedValue({} as FileDTO)
     mockCanLeave.mockResolvedValue(true)
 
     wrapper = mountComponent<typeof StudentToolsTracesAddTraceDrawer>(StudentToolsTracesAddTraceDrawer, {
