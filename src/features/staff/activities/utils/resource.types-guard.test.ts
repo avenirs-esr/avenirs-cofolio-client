@@ -10,7 +10,6 @@ BddTest().given('activity resource type guards', () => {
       fileName: 'guide.pdf',
       fileType: EFileType.PDF,
       fileSize: 1024,
-      version: 1,
       url: 'https://avenir-esr.fr/guide.pdf',
       uploadedAt: '2026-07-05T00:00:00Z',
     }

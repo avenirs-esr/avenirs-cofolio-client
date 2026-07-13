@@ -839,63 +839,6 @@
         }
       }
     },
-    "/me/storage/{fileCategory}/{elementId}": {
-      "post": {
-        "tags": [
-          "file-controller"
-        ],
-        "operationId": "uploadFile",
-        "parameters": [
-          {
-            "name": "elementId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "fileCategory",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/EFileCategory"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                },
-                "required": [
-                  "file"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/FileDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/self-knowledge/{selfKnowledgeCategoryId}/elements": {
       "get": {
         "tags": [
@@ -2393,38 +2336,6 @@
         }
       }
     },
-    "/me/storage/{fileId}/download": {
-      "get": {
-        "tags": [
-          "file-controller"
-        ],
-        "operationId": "downloadFile",
-        "parameters": [
-          {
-            "name": "fileId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "byte"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/skill-level-progress": {
       "get": {
         "tags": [
@@ -3629,37 +3540,6 @@
         }
       }
     },
-    "/me/storage/{fileId}": {
-      "delete": {
-        "tags": [
-          "file-controller"
-        ],
-        "operationId": "deleteFile",
-        "parameters": [
-          {
-            "name": "fileId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/self-knowledge/elements": {
       "delete": {
         "tags": [
@@ -4223,6 +4103,419 @@
           }
         }
       }
+    },
+    "/me/users/{userCategory}/profile-picture": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "uploadProfilePicture",
+        "parameters": [
+          {
+            "name": "userCategory",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EUserCategory"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "deleteProfilePicture",
+        "parameters": [
+          {
+            "name": "userCategory",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EUserCategory"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/me/users/{userCategory}/cover-picture": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "uploadCoverPicture",
+        "parameters": [
+          {
+            "name": "userCategory",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EUserCategory"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "deleteCoverPicture",
+        "parameters": [
+          {
+            "name": "userCategory",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EUserCategory"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/me/traces/{traceId}/attachment": {
+      "post": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "uploadAttachment",
+        "parameters": [
+          {
+            "name": "traceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/traces/{traceId}/attachment/download": {
+      "get": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "downloadAttachment",
+        "parameters": [
+          {
+            "name": "traceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "byte"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activities/{activityId}/files/{fileId}/download": {
+      "get": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "downloadActivityFile",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "fileId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "byte"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activities/draft/{activityDraftId}/files": {
+      "post": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "addDraftFile",
+        "parameters": [
+          {
+            "name": "activityDraftId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activities/draft/{activityDraftId}/banner": {
+      "post": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "uploadDraftBanner",
+        "parameters": [
+          {
+            "name": "activityDraftId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "deleteDraftBanner",
+        "parameters": [
+          {
+            "name": "activityDraftId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/me/activities/draft/{activityDraftId}/files/{fileId}": {
+      "delete": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "deleteDraftFile",
+        "parameters": [
+          {
+            "name": "activityDraftId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "fileId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -4296,68 +4589,11 @@
           },
           "fileType": {
             "type": "string",
-            "$ref": "#/components/schemas/EFileType",
-            "enum": [
-              "PNG",
-              "JPEG",
-              "PJPEG",
-              "GIF",
-              "WEBP",
-              "OGG_APP",
-              "OGG",
-              "WEBM_AUDIO",
-              "_3GPP_AUDIO",
-              "MP4_AUDIO",
-              "MP3",
-              "MPEG4_GENERIC",
-              "MPEG3",
-              "X_MPEG3",
-              "VORBIS",
-              "AVI",
-              "OGG_VIDEO",
-              "MSVIDEO",
-              "X_MSVIDEO",
-              "MP4",
-              "MPEG",
-              "MPEG3_VIDEO",
-              "X_MPEG_VIDEO",
-              "WEBM_VIDEO",
-              "_3GPP_VIDEO",
-              "_3GPP2_VIDEO",
-              "TXT",
-              "CSV",
-              "ICS",
-              "RICHTEXT",
-              "PDF",
-              "POSTSCRIPT",
-              "DOC",
-              "MSPPT",
-              "PPT",
-              "X_PPT",
-              "XLS",
-              "X_XLS",
-              "X_MSEXCEL",
-              "XLS_VND",
-              "PPT_VND",
-              "ODT",
-              "VSD",
-              "RTF",
-              "X_RTF",
-              "PPTX_SLIDESHOW",
-              "PPTX",
-              "ODP",
-              "XLSX",
-              "ODS",
-              "DOCX"
-            ]
+            "$ref": "#/components/schemas/EFileType"
           },
           "fileSize": {
             "type": "integer",
             "format": "int64"
-          },
-          "version": {
-            "type": "integer",
-            "format": "int32"
           },
           "url": {
             "type": "string"
@@ -4373,8 +4609,7 @@
           "fileType",
           "id",
           "uploadedAt",
-          "url",
-          "version"
+          "url"
         ]
       },
       "TraceDetailDTO": {
@@ -7275,19 +7510,6 @@
           "XLSX",
           "ODS",
           "DOCX"
-        ]
-      },
-      "EFileCategory": {
-        "type": "string",
-        "description": "Enum for file category",
-        "enum": [
-          "ACTIVITY_BANNER",
-          "ACTIVITY_FILE",
-          "STAFF_COVER_PICTURE",
-          "STAFF_PROFILE_PICTURE",
-          "STUDENT_COVER_PICTURE",
-          "STUDENT_PROFILE_PICTURE",
-          "TRACE_ATTACHMENT"
         ]
       },
       "ENotificationType": {

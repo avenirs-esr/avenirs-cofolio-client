@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import { useDownloadFile } from '@/api/avenir-esr'
+import { useDownloadAttachment } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { downloadBlob } from '@/common/utils/download/download'
 import { useToasterStore } from '@/store'
@@ -18,14 +18,14 @@ const { t } = useI18n()
 const { getErrorMessage } = useApiErrors()
 const { addErrorMessage } = useToasterStore()
 
-const { mutate: mutateDownloadAttachment } = useDownloadFile()
+const { mutate: mutateDownloadAttachment } = useDownloadAttachment()
 
 function downloadAttachment () {
   if (!trace.attachment) {
     return
   }
   mutateDownloadAttachment(
-    { fileId: trace.attachment.id },
+    { traceId: trace.id },
     {
       onError: (error: BaseApiException) => {
         addErrorMessage({

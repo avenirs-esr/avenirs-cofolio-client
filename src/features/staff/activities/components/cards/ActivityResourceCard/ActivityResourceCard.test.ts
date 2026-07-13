@@ -43,7 +43,6 @@ BddTest().given('an activity resource card', () => {
     fileName: 'resource.pdf',
     fileType: EFileType.PDF,
     fileSize: 1024,
-    version: 1,
     url: 'https://avenir-esr.fr/resource.pdf',
     uploadedAt: '2026-07-05T00:00:00Z',
   }
@@ -57,7 +56,7 @@ BddTest().given('an activity resource card', () => {
 
     beforeEach(() => {
       wrapper = mountComponent(ActivityResourceCard, {
-        props: { resource },
+        props: { activityId: 'activity-id', resource },
         global: { stubs },
       })
     })
@@ -99,7 +98,7 @@ BddTest().given('an activity resource card', () => {
 
     beforeEach(() => {
       wrapper = mountComponent(ActivityResourceCard, {
-        props: { resource },
+        props: { activityId: 'activity-id', resource },
         global: { stubs },
       })
     })
@@ -141,7 +140,7 @@ BddTest().given('an activity resource card', () => {
   BddTest().when('the component is mounted with a saved file resource', () => {
     beforeEach(() => {
       wrapper = mountComponent(ActivityResourceCard, {
-        props: { resource },
+        props: { activityId: 'activity-id', resource },
         global: { stubs },
       })
     })
@@ -191,7 +190,7 @@ BddTest().given('an activity resource card', () => {
         id: 'INVALID_FILE_ID'
       }
       wrapper = mountComponent(ActivityResourceCard, {
-        props: { resource: invalidResourceFile },
+        props: { activityId: 'activity-id', resource: invalidResourceFile },
         global: { stubs },
       })
     })

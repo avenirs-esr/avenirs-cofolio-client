@@ -20,7 +20,6 @@ BddTest().given('an activity resources list', () => {
     fileName: 'document.pdf',
     fileType: EFileType.PDF,
     fileSize: 1024,
-    version: 1,
     url: 'https://example.com/document.pdf',
     uploadedAt: '2026-07-07T00:00:00Z'
   }
@@ -34,7 +33,7 @@ BddTest().given('an activity resources list', () => {
   BddTest().when('the component is mounted with files and links', () => {
     beforeEach(() => {
       wrapper = mount(ActivityResourcesList, {
-        props: { files, links },
+        props: { activityId: 'activity-id', files, links },
         global: { stubs }
       })
     })
@@ -67,7 +66,7 @@ BddTest().given('an activity resources list', () => {
   BddTest().when('the component is mounted with showAddCard enabled', () => {
     beforeEach(() => {
       wrapper = mount(ActivityResourcesList, {
-        props: { files, links, showAddCard: true },
+        props: { activityId: 'activity-id', files, links, showAddCard: true },
         global: { stubs }
       })
     })
@@ -90,7 +89,7 @@ BddTest().given('an activity resources list', () => {
   BddTest().when('the component is mounted without resources', () => {
     beforeEach(() => {
       wrapper = mount(ActivityResourcesList, {
-        props: { files: [], links: [] },
+        props: { activityId: 'activity-id', files: [], links: [] },
         global: { stubs }
       })
     })

@@ -4,14 +4,14 @@ import {
   type ActivityDraftUpdateRequest,
   EActivityStatus,
   EActivityThematic,
-  EFileCategory,
   invalidateGetActivityContent,
   invalidateGetActivityPresentation,
-  useDeleteFile,
+  useAddDraftFile,
+  useDeleteDraftBanner,
   useGetActivityContent,
   useGetActivityPresentation,
   useUpdateActivityDraft,
-  useUploadFile
+  useUploadDraftBanner
 } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
@@ -94,9 +94,9 @@ const defaultValues: EditActivityFormData = reactive({
   links: computed(() => content.value?.links ?? []),
 })
 
-const { mutateAsync: uploadBannerMutation } = useUploadFile()
-const { mutateAsync: uploadResourceFileMutation } = useUploadFile()
-const { mutateAsync: deleteBannerMutation } = useDeleteFile()
+const { mutateAsync: uploadBannerMutation } = useUploadDraftBanner()
+const { mutateAsync: uploadResourceFileMutation } = useAddDraftFile()
+const { mutateAsync: deleteBannerMutation } = useDeleteDraftBanner()
 const { mutateAsync: updateActivity } = useUpdateActivityDraft()
 
 const form = useForm({
@@ -151,12 +151,11 @@ const bannerFile = ref<File | null>(null)
 async function saveBanner (action: EditActivityFormDataBannerAction) {
   switch (action) {
     case EditActivityFormDataBannerAction.DELETE:
-      await deleteBannerMutation({ fileId: presentation.value!.banner.id! })
+      await deleteBannerMutation({ activityDraftId: id })
       break
     case EditActivityFormDataBannerAction.UPDATE:
       await uploadBannerMutation({
-        fileCategory: EFileCategory.ACTIVITY_BANNER,
-        elementId: presentation.value!.id,
+        activityDraftId: id,
         data: { file: bannerFile.value! }
       })
       bannerFile.value = null
@@ -169,8 +168,7 @@ async function saveResourceFiles (files: File[]) {
     return
   }
   await Promise.all(files.map(file => uploadResourceFileMutation({
-    fileCategory: EFileCategory.ACTIVITY_FILE,
-    elementId: id,
+    activityDraftId: id,
     data: { file }
   })))
 }

@@ -169,7 +169,6 @@ export function createMockedAttachmentUploadResponse (traceId: string, file: Fil
     fileName: traceId,
     fileType: getFileTypeFromFileName(file.name),
     fileSize: file.size,
-    version: 1,
     url: 'exemple.com/image',
     uploadedAt: '2024-01-15T10:30:00'
   }
@@ -264,7 +263,6 @@ export const mockedTraceDetailed = {
     fileName: 'An awesome attachment',
     fileType: EFileType.TXT,
     fileSize: 1,
-    version: 1,
     url: 'exemple.com/image',
     uploadedAt: '2025-06-02T11:42:00.000Z',
   },

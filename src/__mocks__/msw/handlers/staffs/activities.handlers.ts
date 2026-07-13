@@ -22,7 +22,6 @@ import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__
 import {
   EActivityStatus,
   EErrorCode,
-  EFileCategory,
   getCreateActivityDraftUrl,
   getCreateDraftFromActivityUrl,
   getDeleteActivityDraftUrl,
@@ -32,7 +31,7 @@ import {
   getGetStaffActivityWorkingSpaceUrl,
   getPublishActivityDraftUrl,
   getUpdateActivityDraftUrl,
-  getUploadFileUrl
+  getUploadDraftBannerUrl
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
@@ -231,8 +230,8 @@ export const staffsActivitiesHandlers = [
   }),
   deleteActivityDraftHandler,
   publishActivityDraftHandler,
-  http.post(`*${getUploadFileUrl(EFileCategory.ACTIVITY_BANNER, ':activityId')}`, async ({ params, request }) => {
-    const activityId: string | undefined = params.activityId as string | undefined
+  http.post(`*${getUploadDraftBannerUrl(':activityDraftId')}`, async ({ params, request }) => {
+    const activityId: string | undefined = params.activityDraftId as string | undefined
 
     if (!activityId) {
       return HttpResponse.json({ error: 'Activity ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })

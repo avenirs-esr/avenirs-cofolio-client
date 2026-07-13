@@ -1,7 +1,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { Association } from '@/features/student/global/types/associations.types'
 import type { ComputedRef } from 'vue'
-import { EFileCategory, ELanguage, invalidateGetTracesSummary, invalidateTracesView, type TraceAssociationsDTO, useAssociateTraceWithActivities, useAssociateTraceWithDeclaredSkill, useCreateTrace, useUploadFile } from '@/api/avenir-esr'
+import { ELanguage, invalidateGetTracesSummary, invalidateTracesView, type TraceAssociationsDTO, useAssociateTraceWithActivities, useAssociateTraceWithDeclaredSkill, useCreateTrace, useUploadAttachment } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -52,7 +52,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
     })
   }
 
-  const { mutateAsync: uploadFile, isPending: isPendingUploadFile } = useUploadFile({
+  const { mutateAsync: uploadFile, isPending: isPendingUploadFile } = useUploadAttachment({
     mutation: {
       onError: onUploadAttachmentError,
       onSuccess: async () => {
@@ -127,8 +127,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
   async function finalizeTraceCreation (traceId: string, traceFormData: TraceFormData) {
     if (isTraceFileType(traceFormData) && traceFormData.file) {
       await uploadFile({
-        fileCategory: EFileCategory.TRACE_ATTACHMENT,
-        elementId: traceId,
+        traceId,
         data: { file: traceFormData.file }
       })
     }

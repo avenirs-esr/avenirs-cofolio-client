@@ -76,6 +76,7 @@ const resourceCount = computed(() => (activity.files?.length ?? 0) + (activity.l
       data-testid="national-activity-content-tab-resources"
     >
       <ActivityResourcesList
+        :activity-id="activity.id"
         :files="activity.files ?? []"
         :links="activity.links ?? []"
       />

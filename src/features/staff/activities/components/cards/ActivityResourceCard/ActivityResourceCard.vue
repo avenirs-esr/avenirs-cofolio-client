@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
 import type { ActivityResource } from '@/features/staff/activities/types/resource.types'
-import { useDownloadFile } from '@/api/avenir-esr'
+import { useDownloadActivityFile } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { downloadBlob } from '@/common/utils/download/download'
 import { isActivityResourceFile, isActivityResourceLink, isActivityResourcePendingFile } from '@/features/staff/activities/utils/resource.types-guard'
@@ -10,10 +10,11 @@ import { AvCard, AvIcon, AvTag, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface ActivityResourceCardComponentProps {
+  activityId: string
   resource: ActivityResource
 }
 
-const { resource } = defineProps<ActivityResourceCardComponentProps>()
+const { activityId, resource } = defineProps<ActivityResourceCardComponentProps>()
 
 const { t } = useI18n()
 const { getErrorMessage } = useApiErrors()
@@ -31,7 +32,7 @@ const title = computed(() => {
   return resource.fileName
 })
 
-const { mutate: mutateDownloadFile } = useDownloadFile({
+const { mutate: mutateDownloadFile } = useDownloadActivityFile({
   mutation: {
     onError: (error: BaseApiException) => {
       addErrorMessage({
@@ -69,7 +70,7 @@ function downloadFile () {
     downloadBlob(resource, resource.name)
   }
   else {
-    mutateDownloadFile({ fileId: resource.id })
+    mutateDownloadFile({ activityId, fileId: resource.id })
   }
 }
 </script>

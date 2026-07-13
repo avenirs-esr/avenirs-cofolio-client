@@ -1,6 +1,6 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { TraceFormData } from '@/features/student/traces/types/traces.types'
-import { EFileCategory, ELanguage, invalidateGetTraceDetail, invalidateTracesView, type TraceDetailDTO, useUpdateTrace, useUploadFile } from '@/api/avenir-esr'
+import { ELanguage, invalidateGetTraceDetail, invalidateTracesView, type TraceDetailDTO, useUpdateTrace, useUploadAttachment } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -46,7 +46,7 @@ export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () 
     })
   }
 
-  const { mutateAsync: uploadFile } = useUploadFile({
+  const { mutateAsync: uploadFile } = useUploadAttachment({
     mutation: {
       onError: onUploadAttachmentError,
     }
@@ -116,8 +116,7 @@ export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () 
     }
 
     uploadFile({
-      fileCategory: EFileCategory.TRACE_ATTACHMENT,
-      elementId: traceId,
+      traceId,
       data: { file }
     }, {
       onSuccess: async () => {

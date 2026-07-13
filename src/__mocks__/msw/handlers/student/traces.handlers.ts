@@ -17,7 +17,6 @@ import { isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
   type CreateTraceDTO,
   EErrorCode,
-  EFileCategory,
   type FileDTO,
   getAssociateTraceWithActivitiesUrl,
   getAssociateTraceWithDeclaredExperiencesUrl,
@@ -25,7 +24,7 @@ import {
   getCreateTraceUrl,
   getDeleteTraceAssociationsUrl,
   getDeleteTracesUrl,
-  getDownloadFileUrl,
+  getDownloadAttachmentUrl,
   getGetLockedDeclaredActivitiesUrl,
   getGetTraceAssociationsUrl,
   getGetTraceConfigUrl,
@@ -36,7 +35,7 @@ import {
   getSearchDeclaredSkillForAssociationUrl,
   getTracesViewUrl,
   getUpdateTraceUrl,
-  getUploadFileUrl,
+  getUploadAttachmentUrl,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
   type PagedResponseTraceViewDTO,
@@ -265,7 +264,7 @@ export const tracesHandlers = [
     })
   }),
 
-  http.post(`*${getUploadFileUrl(EFileCategory.TRACE_ATTACHMENT, ':traceId')}`, async ({ params, request }) => {
+  http.post(`*${getUploadAttachmentUrl(':traceId')}`, async ({ params, request }) => {
     const traceId: string | undefined = params.traceId as string | undefined
 
     if (!traceId) {
@@ -496,7 +495,7 @@ export const deleteTraceAssociationsErrorHandler = http.delete(
 )
 
 export const downloadTraceAttachmentErrorHandler = http.get(
-  `*${getDownloadFileUrl(':attachmentId')}`,
+  `*${getDownloadAttachmentUrl(':traceId')}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },

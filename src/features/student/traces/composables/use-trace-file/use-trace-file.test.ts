@@ -44,7 +44,6 @@ BddTest().given('a use-trace-attachment-file composable', () => {
     fileName: 'test-file.pdf',
     fileType: EFileType.PDF,
     fileSize: 1024,
-    version: 1,
     url: 'exemple.com/image',
     uploadedAt: '2024-01-15T14:30:00'
   }
@@ -85,7 +84,6 @@ BddTest().given('a use-trace-attachment-file composable', () => {
         fileName: 'image.jpg',
         fileType: EFileType.JPEG,
         fileSize: 2048,
-        version: 1,
         url: 'exemple.com/image',
         uploadedAt: '2023-06-10T10:00:00'
       }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
-import { useDownloadFile, useGetTraceAssociations, useGetTraceDetail } from '@/api/avenir-esr'
+import { useDownloadAttachment, useGetTraceAssociations, useGetTraceDetail } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
@@ -50,10 +50,10 @@ const countAssociations = computed(() =>
       + traceAssociations.value.declaredSkillAssociations.length
 )
 
-const { mutate: mutateDownloadAttachment } = useDownloadFile()
+const { mutate: mutateDownloadAttachment } = useDownloadAttachment()
 
-function downloadAttachment (fileId: string) {
-  mutateDownloadAttachment({ fileId }, {
+function downloadAttachment (traceId: string) {
+  mutateDownloadAttachment({ traceId }, {
     onError: (error: BaseApiException) => {
       addErrorMessage({
         title: t('student.traces.views.StudentTraceView.errors.download'),
@@ -130,7 +130,7 @@ const breadcrumbLinks = computed(() =>
           @delete-selected="displayDeleteModal"
           @associate-selected="displayAssociateModal"
           @update-selected="handleUpdateTrace"
-          @download-selected="downloadAttachment(traceDetailed.attachment?.id ?? '')"
+          @download-selected="downloadAttachment(traceDetailed.id)"
         />
       </div>
 

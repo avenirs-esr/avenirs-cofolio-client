@@ -121,6 +121,7 @@ const links = form.useStore(state => state.values.links)
         collapsed
       >
         <ActivityResourcesList
+          :activity-id="activity.id"
           :files="files"
           :links="links"
           show-add-card

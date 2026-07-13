@@ -55,7 +55,6 @@ export const mockedActivityContentWithoutEnrolledStudent: ActivityContentDTO = {
       url: 'https://example.com/document.pdf',
       fileType: EFileType.PDF,
       fileSize: 102400,
-      version: 1,
       uploadedAt: '2024-01-15T10:30:00'
     },
     {
@@ -64,7 +63,6 @@ export const mockedActivityContentWithoutEnrolledStudent: ActivityContentDTO = {
       url: 'https://example.com/image.png',
       fileType: EFileType.PNG,
       fileSize: 204800,
-      version: 1,
       uploadedAt: '2024-01-15T10:45:00'
     }
   ],
@@ -120,7 +118,6 @@ export const mockedActivityContentWithFileAndLink: ActivityContentDTO = {
       url: 'https://example.com/document.pdf',
       fileType: EFileType.PDF,
       fileSize: 102400,
-      version: 1,
       uploadedAt: '2024-01-15T10:30:00'
     },
     {
@@ -129,7 +126,6 @@ export const mockedActivityContentWithFileAndLink: ActivityContentDTO = {
       url: 'https://example.com/image.png',
       fileType: EFileType.PNG,
       fileSize: 204800,
-      version: 1,
       uploadedAt: '2024-01-15T10:45:00'
     }
   ],
@@ -222,7 +218,6 @@ export function createMockedBannerUploadResponse (activityId: string, file: File
     fileName: activityId,
     fileType: getFileTypeFromFileName(file.name),
     fileSize: file.size,
-    version: 1,
     url: 'exemple.com/image',
     uploadedAt: '2024-01-15T10:30:00'
   }

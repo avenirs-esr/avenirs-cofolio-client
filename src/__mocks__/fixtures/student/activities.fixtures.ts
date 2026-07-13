@@ -324,7 +324,6 @@ export const mockedActivityDetail: ActivityPresentationDTO = {
     fileName: 'Image de l\'activité Connaissance de soi - Définir ses valeurs',
     fileSize: 1000,
     fileType: EFileType.PNG,
-    version: 1,
     uploadedAt: '2025-06-13T08:42:17',
   },
   thematic: EActivityThematic.SELF_KNOWLEDGE,
