@@ -12,6 +12,7 @@ import {
   createMockedPagedResponseActivityStaffOverviewDTO,
   mockedActivityContent,
   mockedActivityContentWithEnrolledStudent,
+  mockedActivityContentWithoutEnrolledStudent,
   mockedActivityDraftCreationResponse,
   mockedActivityDraftUpdateResponse
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
@@ -108,15 +109,22 @@ export const staffCreateDraftFromActivityUrl = http.post(
   ({ params }) => {
     const activityId = params.activityId as string
 
-    const response: ActivityDraftCreationResponse
-      = activityId === mockedActivityContentWithEnrolledStudent.id
-        ? { draftId: mockedActivityContentWithEnrolledStudent.id }
-        : mockedActivityDraftCreationResponse
+    const knownPublishedActivityIds = [
+      mockedActivityContentWithEnrolledStudent.id,
+      mockedActivityContentWithoutEnrolledStudent.id,
+    ]
 
-    return HttpResponse.json<ActivityDraftCreationResponse>(response, {
-      status: HttpStatusCode.CREATED,
-      headers: { 'Content-Type': 'application/json' },
-    })
+    const draftId = knownPublishedActivityIds.includes(activityId)
+      ? activityId
+      : mockedActivityDraftCreationResponse.draftId
+
+    return HttpResponse.json<ActivityDraftCreationResponse>(
+      { draftId },
+      {
+        status: HttpStatusCode.CREATED,
+        headers: { 'Content-Type': 'application/json' },
+      },
+    )
   },
 )
 
@@ -127,10 +135,14 @@ export const staffsActivitiesHandlers = [
       const pathnameParts = new URL(request.url).pathname.split('/')
       const activityId = pathnameParts.at(-2)
 
-      const response
-        = activityId === mockedActivityContentWithEnrolledStudent.id
-          ? mockedActivityContentWithEnrolledStudent
-          : mockedActivityContent
+      let response = mockedActivityContent
+
+      if (activityId === mockedActivityContentWithEnrolledStudent.id) {
+        response = mockedActivityContentWithEnrolledStudent
+      }
+      else if (activityId === mockedActivityContentWithoutEnrolledStudent.id) {
+        response = mockedActivityContentWithoutEnrolledStudent
+      }
 
       return HttpResponse.json<ActivityContentDTO>(response, {
         status: HttpStatusCode.OK,

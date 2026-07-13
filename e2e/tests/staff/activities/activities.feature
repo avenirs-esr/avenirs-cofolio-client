@@ -89,8 +89,7 @@ Feature: Staff Activities Page
 
     @high @dataset-full @edit-published-activity
     Scenario: Staff can edit a published activity with enrolled students but modalities are disabled
-      When the user clicks on the all published activities tab
-      And the user clicks on the first published activity title with enrolled students
+      When the user clicks on the first published activity title with enrolled students
       Then the staff published activity details page is displayed
       And the edit published activity button is visible
       When the user clicks on the edit published activity button
@@ -98,3 +97,14 @@ Feature: Staff Activities Page
       And the editable activity content fields are enabled
       And the activity modalities fields are disabled
       And the activity modalities disabled information messages are visible
+
+    @high @dataset-full @edit-published-activity
+    Scenario: Staff can edit all modalities of a published activity without enrolled students
+      When the user clicks on the published activity title without enrolled students
+      Then the staff published activity details page is displayed
+      And the edit published activity button is visible
+      When the user clicks on the edit published activity button
+      Then the staff edit published activity page is displayed
+      And the editable activity content fields are enabled
+      And the activity modalities fields are enabled
+      And the activity modalities future disabled information messages are visible

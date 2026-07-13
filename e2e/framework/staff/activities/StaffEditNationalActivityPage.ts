@@ -313,4 +313,33 @@ class StaffEditNationalActivityPage extends BasePage {
   async verifyPublishConfirmationModalClosed () {
     await this.tabs().verifyPublishConfirmationModalNotVisible()
   }
+
+  @Then('the activity modalities fields are enabled')
+  async verifyActivityModalitiesFieldsEnabled () {
+    await expect(this.getReflectionParameterToggle()).toBeVisible()
+    await expect(
+      this.getFirstInteractiveElement(this.getReflectionParameterToggle()),
+    ).toBeEnabled()
+
+    await expect(this.getTraceAllowedAssociationsToggle()).toBeVisible()
+    await expect(
+      this.getFirstInteractiveElement(this.getTraceAllowedAssociationsToggle()),
+    ).toBeEnabled()
+
+    await expect(this.getFeedbackParameterToggle()).toBeVisible()
+    await expect(
+      this.getFirstInteractiveElement(this.getFeedbackParameterToggle()),
+    ).toBeEnabled()
+  }
+
+  @Then('the activity modalities future disabled information messages are visible')
+  async verifyFutureDisabledInformationMessagesVisible () {
+    const message = t(
+      'staff.activities.views.EditNationalActivityView.informations.willBeDisabled',
+    )
+
+    await expect(this.getReflectionParameterToggle()).toContainText(message)
+    await expect(this.getTraceAllowedAssociationsToggle()).toContainText(message)
+    await expect(this.getFeedbackParameterToggle()).toContainText(message)
+  }
 }

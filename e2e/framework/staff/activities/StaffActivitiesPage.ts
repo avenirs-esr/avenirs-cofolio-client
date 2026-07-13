@@ -12,6 +12,9 @@ export class StaffActivitiesPage extends BasePage {
   private static readonly ACTIVITY_WITH_ENROLLED_STUDENTS
     = '8c5d1f77-2a9e-4b33-9f6c-1e4b7a2d9c11'
 
+  private static readonly ACTIVITY_WITHOUT_ENROLLED_STUDENTS
+    = '2c9e4b77-6a1f-4d55-8b3c-7e2d1a9f4c22'
+
   private deleteConfirmationModal: DeleteDraftActivityConfirmationModal
 
   constructor (public page: Page) {
@@ -44,9 +47,9 @@ export class StaffActivitiesPage extends BasePage {
       .getByTestId('activities-tab-table')
   }
 
-  private getPublishedActivityTitleLinkWithEnrolledStudents () {
+  private getPublishedActivityTitleLink (activityId: string) {
     return this.getAllPublishedActivitiesTable().locator(
-      `[data-testid="activity-table-title-link"][data-activity-id="${StaffActivitiesPage.ACTIVITY_WITH_ENROLLED_STUDENTS}"]`,
+      `[data-testid="activity-table-title-link"][data-activity-id="${activityId}"]`,
     )
   }
 
@@ -200,7 +203,13 @@ export class StaffActivitiesPage extends BasePage {
 
   @When('the user clicks on the first published activity title with enrolled students')
   async clickFirstPublishedActivityTitle () {
-    await clickOnElement(this.getPublishedActivityTitleLinkWithEnrolledStudents())
+    await clickOnElement(this.getPublishedActivityTitleLink(StaffActivitiesPage.ACTIVITY_WITH_ENROLLED_STUDENTS))
+    await waitForPageLoad(this.page)
+  }
+
+  @When('the user clicks on the published activity title without enrolled students')
+  async clickPublishedActivityTitleWithoutEnrolledStudents () {
+    await clickOnElement(this.getPublishedActivityTitleLink(StaffActivitiesPage.ACTIVITY_WITHOUT_ENROLLED_STUDENTS))
     await waitForPageLoad(this.page)
   }
 }
