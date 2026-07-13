@@ -71,10 +71,6 @@ BddTest().given('a write feedback form', () => {
       expect(composableResult.form.state.values.feedback).toBe('')
     })
 
-    BddTest().then('it should not be valid initially', () => {
-      expect(composableResult.isFormValid.value).toBe(false)
-    })
-
     BddTest().and('callback is provided', () => {
       beforeEach(() => {
         mockOnFeedbackSaved = vi.fn()

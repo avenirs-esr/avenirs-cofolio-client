@@ -11,9 +11,10 @@ import { useI18n } from 'vue-i18n'
 
 export interface WriteFeedbackTabProps {
   feedback: FeedbackDetailsDTO
+  readonly?: boolean
 }
 
-const { feedback } = defineProps<WriteFeedbackTabProps>()
+const { feedback, readonly } = defineProps<WriteFeedbackTabProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -46,6 +47,7 @@ function submitFeedback () {
       onSuccess: async () => {
         await withTaskLoading(() => invalidateGetFeedbackDetails(queryClient, EUserCategory.STAFF, feedback.id))
         addSuccessMessage(t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.success.sendFeedback'))
+        form.reset()
         emit('feedbackSent')
       },
       onError: (error) => {
@@ -91,13 +93,14 @@ watch(isDirty, (newValue) => {
     >
       <FeedbackFormField
         :form="form"
+        :readonly="readonly"
         data-testid="feedback-form-field"
         @autosave="saveFeedback"
       />
     </form>
 
     <div
-      v-memo="[isFormValid, isSubmitting, isDirty, isPending]"
+      v-memo="[isFormValid, isSubmitting, isDirty, isPending, isLoading]"
       class="av-row av-justify-end av-p-md"
     >
       <AvCancelConfirmButtons
@@ -106,7 +109,7 @@ watch(isDirty, (newValue) => {
         :confirm-icon="MS_ICONS.SEND_OUTLINE_ROUNDED"
         :cancel-is-loading="isPending || isLoading"
         :confirm-is-loading="isDirty || isPending || isSubmitting || isLoading"
-        :confirm-disabled="isDirty && !isFormValid"
+        :confirm-disabled="readonly || !isFormValid"
         @cancel="handleCancel"
         @confirm="submitFeedback"
       />

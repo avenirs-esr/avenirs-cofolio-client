@@ -87,8 +87,8 @@ BddTest().given('an activity feedback details view', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should not render the write feedback floating panel', () => {
-      expect(wrapper.findComponent(FeedbackManagementFloatingPanelStub).exists()).toBe(false)
+    BddTest().then('it should render the write feedback floating panel', () => {
+      expect(wrapper.findComponent(FeedbackManagementFloatingPanelStub).exists()).toBe(true)
     })
   })
 

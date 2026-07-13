@@ -46,4 +46,19 @@ BddTest().given('a feedback form field', () => {
       expect(textarea.props('modelValue')).toBe('')
     })
   })
+
+  BddTest().when('the component is mounted with readonly true', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mountComponent(TestHost, {
+        props: { readonly: true },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should pass disabled true to the feedback textarea', () => {
+      const textarea = wrapper.findComponent(FeedbackTextareaStub)
+      expect(textarea.props('disabled')).toBe(true)
+    })
+  })
 })

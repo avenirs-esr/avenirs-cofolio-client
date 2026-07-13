@@ -93,7 +93,7 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
 
   const isFormValid = computed(() => {
     const state = form.useStore(state => state)
-    return state.value.isValid && !state.value.isValidating && state.value.isDirty
+    return state.value.isValid && !state.value.isValidating
   })
 
   const isDirty = computed(() => {

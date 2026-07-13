@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import {
-  EFeedbackStatus,
   EUserCategory,
   useGetFeedbackDetails,
   useGetFeedbacksByActivity,
@@ -62,9 +61,6 @@ const studentPerspective = computed(() =>
   feedback.value?.reflexion ?? ''
 )
 
-const showWriteFeedbackPanel = computed(() => !!feedback.value
-  && (feedback.value.status === EFeedbackStatus.NEW || feedback.value.status === EFeedbackStatus.IN_PROCESS))
-
 const breadcrumbLinks = computed(() => [
   { text: t('staff.global.navigation.tabs.home'), to: ROUTES.STAFF.HOME },
   { text: t('staff.global.navigation.tabs.studentTracking') },
@@ -114,7 +110,7 @@ const pageTitle = computed(() =>
   </div>
 
   <FeedbackManagementFloatingPanel
-    v-if="showWriteFeedbackPanel && feedback"
+    v-if="feedback"
     :feedback="feedback"
     :activity-title="activityTitle"
   />

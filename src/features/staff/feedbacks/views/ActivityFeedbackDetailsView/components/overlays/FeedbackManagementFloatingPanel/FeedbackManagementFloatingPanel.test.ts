@@ -71,6 +71,10 @@ BddTest().given('a write feedback floating panel', () => {
     BddTest().then('it should display the history count in the tab title', () => {
       expect(getHistoryTabTitle()).toContain(`(${mockedFeedbackHistory.length})`)
     })
+
+    BddTest().then('it should render the floating panel with the updated title', () => {
+      expect(wrapper.findComponent(AvFloatingPanelStub).props('title')).toBe('Gestion du feedback')
+    })
   })
 
   BddTest().when('the feedback history is empty', () => {
