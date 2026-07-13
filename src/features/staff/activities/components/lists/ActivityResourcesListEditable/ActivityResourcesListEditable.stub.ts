@@ -1,8 +1,8 @@
 import type { FileDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
 
-export const ActivityResourcesListStub = defineComponent({
-  name: 'ActivityResourcesList',
+export const ActivityResourcesListEditableStub = defineComponent({
+  name: 'ActivityResourcesListEditable',
   props: {
     activityId: {
       type: String,
@@ -16,7 +16,9 @@ export const ActivityResourcesListStub = defineComponent({
       type: Array as PropType<string[]>,
       required: true,
     },
-    readonly: Boolean,
+    isFormDirty: Boolean,
+    isUpdating: Boolean,
   },
-  template: '<div data-testid="activity-resources-list-stub"></div>',
+  emits: ['add', 'delete'],
+  template: '<div data-testid="activity-resources-list-editable-stub"></div>',
 })

@@ -21,6 +21,9 @@
         }
       },
       "modals": {
+        "DeleteActivityResourcesConfirmationModal": {
+          "title": "Êtes-vous certain(e) de vouloir supprimer la ressource selectionnée ? | Êtes-vous certain(e) de vouloir supprimer les ressources selectionnées ?"
+        },
         "DeleteDraftActivityConfirmationModal": {
           "deleteError": "Une erreur est survenue lors de la suppression de l'activité",
           "deleteSuccess": "L'activité a été supprimée avec succès",

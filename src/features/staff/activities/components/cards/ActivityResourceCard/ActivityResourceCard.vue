@@ -6,15 +6,22 @@ import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors
 import { downloadBlob } from '@/common/utils/download/download'
 import { isActivityResourceFile, isActivityResourceLink, isActivityResourcePendingFile } from '@/features/staff/activities/utils/resource.types-guard'
 import { useToasterStore } from '@/store'
-import { AvCard, AvIcon, AvTag, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvCard, AvIcon, AvTag, AvTooltip, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface ActivityResourceCardComponentProps {
   activityId: string
   resource: ActivityResource
+  disabled?: boolean
+  tooltipVisible?: boolean
 }
 
-const { activityId, resource } = defineProps<ActivityResourceCardComponentProps>()
+const {
+  activityId,
+  resource,
+  disabled = false,
+  tooltipVisible = undefined
+} = defineProps<ActivityResourceCardComponentProps>()
 
 const { t } = useI18n()
 const { getErrorMessage } = useApiErrors()
@@ -62,7 +69,7 @@ const typeLabel = computed(() =>
     : t('global.file'))
 
 function downloadFile () {
-  if (!isActivityResourceFile(resource)) {
+  if (disabled || !isActivityResourceFile(resource)) {
     return
   }
 
@@ -73,46 +80,82 @@ function downloadFile () {
     mutateDownloadFile({ activityId, fileId: resource.id })
   }
 }
+
+const rootTag = computed(() => {
+  if (disabled) {
+    return 'div'
+  }
+  return href.value ? 'a' : 'button'
+})
+
+const rootAttrs = computed(() => {
+  if (disabled) {
+    return {}
+  }
+
+  if (href.value) {
+    return {
+      href: href.value,
+      target: '_blank',
+      rel: 'noopener noreferrer',
+    }
+  }
+
+  return {
+    onClick: downloadFile
+  }
+})
+
+const rootClass = computed(() => [
+  href.value
+    ? 'activity-resource-card-link'
+    : 'activity-resource-card-file av-p-none',
+  { 'activity-resource-card--disabled': disabled },
+])
+
+const rootTestId = computed(() => `activity-resource-card-${href.value ? 'link' : 'file'}`)
 </script>
 
 <template>
   <component
-    :is="href ? 'a' : 'button'"
-    :class="`activity-resource-card-${href ? 'link' : 'file'}`"
-    :href="href"
-    :target="href ? '_blank' : undefined"
-    :rel="href ? 'noopener noreferrer' : undefined"
-    :data-testid="`activity-resource-card-${href ? 'link' : 'file'}`"
-    @click="downloadFile"
+    :is="rootTag"
+    :class="rootClass"
+    v-bind="rootAttrs"
+    :data-testid="rootTestId"
   >
     <AvCard
       class="activity-resource-card"
-      background-color="var(--card2)"
+      background-color="var(--surface-background)"
       border-color="transparent"
-      data-testid="activity-resource-card"
     >
+      <template #title>
+        <AvIcon
+          :name="icon"
+          color="var(--other-background-base)"
+          :size="2"
+        />
+      </template>
+
       <template #body>
-        <div class="icon-container av-col av-align-center av-justify-center av-top-none av-left-none">
-          <AvIcon
-            :name="icon"
-            color="var(--other-background-base)"
-            :size="2"
-          />
-        </div>
-
-        <div class="content av-col av-gap-md av-pt-2xl">
-          <span
-            class="title av-max-lines b1-regular"
-            :class="{ 'title-link': isActivityResourceLink(resource) }"
-            data-testid="activity-resource-card-title"
+        <div class="av-row">
+          <AvTooltip
+            :content="title"
+            :disabled="tooltipVisible === undefined ? disabled : !tooltipVisible"
           >
-            {{ title }}
-          </span>
+            <span
+              class="title av-max-lines b1-regular"
+              :class="{ 'title-link': isActivityResourceLink(resource) }"
+              data-testid="activity-resource-card-title"
+            >
+              {{ title }}
+            </span>
+          </AvTooltip>
+        </div>
+      </template>
 
-          <AvTag
-            :label="typeLabel"
-            data-testid="activity-resource-card-type"
-          />
+      <template #footer>
+        <div class="av-row">
+          <AvTag :label="typeLabel" />
         </div>
       </template>
     </AvCard>
@@ -120,28 +163,12 @@ function downloadFile () {
 </template>
 
 <style scoped lang="scss">
-.activity-resource-card {
-  position: relative;
+.activity-resource-card-link,
+.activity-resource-card-file {
+  cursor: pointer;
 
-  width: 13.5rem;
-  height: 12.5rem;
-
-  .icon-container {
-    position: absolute;
-
-    width: var(--dimension-2xl);
-    height: var(--dimension-2xl);
-
-    background-color: var(--dark-background-primary1);
-    border-radius: 0 0 var(--radius-md) 0;
-  }
-
-  .title {
-    --max-lines: 2;
-  }
-
-  .title-link {
-    text-decoration: underline;
+  &:hover {
+    background: none;
   }
 }
 
@@ -149,9 +176,33 @@ function downloadFile () {
   text-decoration: none;
   color: inherit;
   background: none;
+}
 
-  &:hover {
-    background: none;
+.activity-resource-card--disabled {
+  cursor: not-allowed;
+}
+
+.activity-resource-card {
+  position: relative;
+  width: 13.5rem;
+  height: 12.5rem;
+
+  :deep(.av-card__title) {
+    width: var(--dimension-2xl);
+    height: var(--dimension-2xl);
+
+    background-color: var(--dark-background-primary1) !important;
+    border-radius: 0 0 var(--radius-md) 0;
+
+    justify-content: center;
+  }
+
+  .title {
+    --max-lines: 2;
+
+    &-link {
+      text-decoration: underline;
+    }
   }
 }
 </style>

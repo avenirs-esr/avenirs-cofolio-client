@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import SelectorOverlay from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.vue'
 import CompactCard from '@/features/student/global/components/cards/CompactCard/CompactCard.vue'
 import { getUnknownElementProp } from '@/features/student/global/components/cards/CompactCardSelector/utils'
-import SelectorOverlay from '@/features/student/global/components/interaction/SelectorOverlay/SelectorOverlay.vue'
 
 /**
  * @example

@@ -132,7 +132,6 @@ BddTest().given('a national activity content tab', () => {
       const list = wrapper.findComponent(ActivityResourcesListStub)
       expect(list.props('files')).toEqual([fileResource])
       expect(list.props('links')).toEqual(links)
-      expect(list.props('showAddCard')).toBeFalsy()
     })
   })
 })

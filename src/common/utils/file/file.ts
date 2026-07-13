@@ -1,4 +1,4 @@
-import { EFileType } from '@/api/avenir-esr'
+import { EFileType, type FileDTO } from '@/api/avenir-esr'
 
 export function bytesToMegabytes (bytes: number): number {
   return Math.round((bytes / 1024 / 1024) * 100) / 100
@@ -66,4 +66,22 @@ const EXTENSION_TO_FILE_TYPE: Record<string, EFileType> = {
 export function getFileTypeFromFileName (fileName: string): EFileType {
   const extension = fileName.split('.').pop()?.toLowerCase() ?? ''
   return EXTENSION_TO_FILE_TYPE[extension] ?? EFileType.PDF
+}
+
+export function isDifferentFile (first: FileDTO | File, second: FileDTO | File): boolean {
+  const firstIsFile = first instanceof File
+  const secondIsFile = second instanceof File
+
+  if (firstIsFile && secondIsFile) {
+    return first.type !== second.type
+      || first.name !== second.name
+      || first.size !== second.size
+      || first.lastModified !== second.lastModified
+  }
+
+  if (!firstIsFile && !secondIsFile) {
+    return first.id !== second.id
+  }
+
+  return true
 }
