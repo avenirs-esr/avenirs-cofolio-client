@@ -1,12 +1,16 @@
 import type { TraceAssociationDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedTraceDeclaredActivityAssociations, mockedTraceOverview } from '@/__mocks__/fixtures/student'
+import { createMockedDeclaredActivitiesAssociations } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ErrorCodes } from '@/common/constants'
 import { AssociatedDeclaredActivitiesCardStub } from '@/features/student/buildProject/components/cards/AssociatedDeclaredActivitiesCard/AssociatedDeclaredActivitiesCard.stub'
 import { AssociatedTracesCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import { AssociateActivitiesToDeclaredSkillModalStub } from '@/features/student/declaredSkills/components/overlays/modals/AssociateActivitiesToDeclaredSkillModal/AssociateActivitiesToDeclaredSkillModal.stub'
+import { DeleteDeclaredSkillAssociatedActivitiesModalStub } from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedActivitiesModal/DeleteDeclaredSkillAssociatedActivitiesModal.stub'
 import { DeclaredSkillAssociateElementsDropdownStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/overlays/dropdowns/DeclaredSkillAssociateElementsDropdown/DeclaredSkillAssociateElementsDropdown.stub'
+import { DeleteDeclaredSkillAssociatedElementsDropdownStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/overlays/dropdowns/DeleteDeclaredSkillAssociatedElementsDropdown/DeleteDeclaredSkillAssociatedElementsDropdown.stub'
 import StudentDeclaredSkillAssociations
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -25,7 +29,9 @@ const stubs = {
   AssociatedTracesCard: AssociatedTracesCardStub,
   AssociatedDeclaredActivitiesCard: AssociatedDeclaredActivitiesCardStub,
   DeclaredSkillAssociateElementsDropdown: DeclaredSkillAssociateElementsDropdownStub,
-  AssociateActivitiesToDeclaredSkillModal: AssociateActivitiesToDeclaredSkillModalStub
+  DeleteDeclaredSkillAssociatedElementsDropdown: DeleteDeclaredSkillAssociatedElementsDropdownStub,
+  AssociateActivitiesToDeclaredSkillModal: AssociateActivitiesToDeclaredSkillModalStub,
+  DeleteDeclaredSkillAssociatedActivitiesModal: DeleteDeclaredSkillAssociatedActivitiesModalStub
 }
 
 BddTest().given('a student declared skill associations component', () => {
@@ -147,6 +153,107 @@ BddTest().given('a student declared skill associations component', () => {
         expect(wrapper.emitted('associated')).toBeTruthy()
         expect(wrapper.emitted('associated')).toHaveLength(1)
       })
+    })
+  })
+
+  BddTest().when('the component is rendered with deletable declared activities', () => {
+    const associatedDeclaredActivities = createMockedDeclaredActivitiesAssociations(3)
+    associatedDeclaredActivities[1].declaredActivity.status = EDeclaredActivityStatus.SUBMITTED
+    associatedDeclaredActivities[2].declaredActivity.status = EDeclaredActivityStatus.COMPLETED
+
+    beforeEach(() => {
+      wrapper = mountComponent(StudentDeclaredSkillAssociations, {
+        props: {
+          declaredSkillId,
+          associatedTraces: mockedAssociatedTraces,
+          associatedDeclaredActivities,
+          countAssociations: 3
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the delete declared skill associated elements dropdown', () => {
+      const dropdown = wrapper.findComponent(DeleteDeclaredSkillAssociatedElementsDropdownStub)
+      expect(dropdown.exists()).toBe(true)
+    })
+
+    BddTest().then('it should enable the delete dropdown activities when a deletable activity exists', () => {
+      const dropdown = wrapper.findComponent(DeleteDeclaredSkillAssociatedElementsDropdownStub)
+      expect(dropdown.props('activitiesDisabled')).toBe(false)
+    })
+
+    BddTest().then('it should render the delete activities modal hidden by default', () => {
+      const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedActivitiesModalStub)
+      expect(modal.exists()).toBe(true)
+      expect(modal.props('show')).toBe(false)
+      expect(modal.props('declaredSkillProgressId')).toBe(declaredSkillId)
+      expect(modal.props('associations')).toEqual(associatedDeclaredActivities)
+    })
+
+    BddTest().and('the delete dropdown emits activitiesSelected', () => {
+      beforeEach(() => {
+        const dropdown = wrapper.findComponent(DeleteDeclaredSkillAssociatedElementsDropdownStub)
+        dropdown.vm.$emit('activitiesSelected')
+      })
+
+      BddTest().then('the delete activities modal should be shown', () => {
+        const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedActivitiesModalStub)
+        expect(modal.props('show')).toBe(true)
+      })
+    })
+
+    BddTest().and('the delete activities modal emits cancel', () => {
+      beforeEach(() => {
+        const dropdown = wrapper.findComponent(DeleteDeclaredSkillAssociatedElementsDropdownStub)
+        dropdown.vm.$emit('activitiesSelected')
+
+        const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedActivitiesModalStub)
+        modal.vm.$emit('cancel')
+      })
+
+      BddTest().then('the delete activities modal should be hidden', () => {
+        const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedActivitiesModalStub)
+        expect(modal.props('show')).toBe(false)
+      })
+    })
+
+    BddTest().and('the delete activities modal emits deleted', () => {
+      beforeEach(() => {
+        const dropdown = wrapper.findComponent(DeleteDeclaredSkillAssociatedElementsDropdownStub)
+        dropdown.vm.$emit('activitiesSelected')
+
+        const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedActivitiesModalStub)
+        modal.vm.$emit('deleted')
+      })
+
+      BddTest().then('the delete activities modal should be hidden', () => {
+        const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedActivitiesModalStub)
+        expect(modal.props('show')).toBe(false)
+      })
+    })
+  })
+
+  BddTest().when('the component is rendered with only non-deletable declared activities', () => {
+    const associatedDeclaredActivities = createMockedDeclaredActivitiesAssociations(2)
+    associatedDeclaredActivities[0].declaredActivity.status = EDeclaredActivityStatus.SUBMITTED
+    associatedDeclaredActivities[1].declaredActivity.status = EDeclaredActivityStatus.COMPLETED
+
+    beforeEach(() => {
+      wrapper = mountComponent(StudentDeclaredSkillAssociations, {
+        props: {
+          declaredSkillId,
+          associatedTraces: [],
+          associatedDeclaredActivities,
+          countAssociations: 2
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should disable the delete dropdown activities', () => {
+      const dropdown = wrapper.findComponent(DeleteDeclaredSkillAssociatedElementsDropdownStub)
+      expect(dropdown.props('activitiesDisabled')).toBe(true)
     })
   })
 

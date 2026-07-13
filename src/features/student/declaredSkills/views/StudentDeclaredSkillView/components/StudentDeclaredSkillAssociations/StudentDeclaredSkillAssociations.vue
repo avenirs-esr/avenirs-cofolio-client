@@ -9,8 +9,13 @@ import AssociatedTracesCard
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
 import AssociateActivitiesToDeclaredSkillModal
   from '@/features/student/declaredSkills/components/overlays/modals/AssociateActivitiesToDeclaredSkillModal/AssociateActivitiesToDeclaredSkillModal.vue'
+import DeleteDeclaredSkillAssociatedActivitiesModal
+  from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedActivitiesModal/DeleteDeclaredSkillAssociatedActivitiesModal.vue'
+import { isDeletableDeclaredActivityAssociation } from '@/features/student/declaredSkills/rules/declared-activity-association.rules'
 import DeclaredSkillAssociateElementsDropdown
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/overlays/dropdowns/DeclaredSkillAssociateElementsDropdown/DeclaredSkillAssociateElementsDropdown.vue'
+import DeleteDeclaredSkillAssociatedElementsDropdown
+  from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/overlays/dropdowns/DeleteDeclaredSkillAssociatedElementsDropdown/DeleteDeclaredSkillAssociatedElementsDropdown.vue'
 import { useI18n } from 'vue-i18n'
 
 interface StudentDeclaredSkillAssociationsProps {
@@ -41,6 +46,15 @@ const {
   hideModal: hideAssociateActivitiesModal
 } = useModal()
 
+const {
+  showModal: showDeleteActivitiesModal,
+  displayModal: displayDeleteActivitiesModal,
+  hideModal: hideDeleteActivitiesModal
+} = useModal()
+
+const deletableDeclaredActivityAssociations = computed(() =>
+  associatedDeclaredActivities.filter(isDeletableDeclaredActivityAssociation))
+
 function onAssociated () {
   hideAssociateActivitiesModal()
   emit('associated')
@@ -54,6 +68,10 @@ function onAssociated () {
       data-testid="declared-skill-associations"
     >
       <div class="av-row av-flex-fill av-justify-end av-gap-md">
+        <DeleteDeclaredSkillAssociatedElementsDropdown
+          :activities-disabled="deletableDeclaredActivityAssociations.length === 0"
+          @activities-selected="displayDeleteActivitiesModal"
+        />
         <DeclaredSkillAssociateElementsDropdown
           @activities-selected="displayAssociateActivitiesModal"
         />
@@ -78,5 +96,13 @@ function onAssociated () {
     :declared-skill-id="declaredSkillId"
     @cancel="hideAssociateActivitiesModal"
     @associated="onAssociated"
+  />
+
+  <DeleteDeclaredSkillAssociatedActivitiesModal
+    :show="showDeleteActivitiesModal"
+    :declared-skill-progress-id="declaredSkillId"
+    :associations="associatedDeclaredActivities"
+    @cancel="hideDeleteActivitiesModal"
+    @deleted="hideDeleteActivitiesModal"
   />
 </template>

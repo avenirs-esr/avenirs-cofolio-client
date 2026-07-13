@@ -85,6 +85,9 @@
           "DeclaredSkillAssociateElementsDropdown": {
             "activities": "une/des activité(s)"
           },
+          "DeleteDeclaredSkillAssociatedElementsDropdown": {
+            "activities": "une/des activité(s)"
+          },
           "declaredSkillDetails": {
             "levelTitle": "Auto-positionnement",
             "skillTitle": "Intitulé :"
