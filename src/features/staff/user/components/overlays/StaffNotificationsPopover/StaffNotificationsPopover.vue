@@ -23,10 +23,10 @@ const { t } = useI18n()
         <li><span>{{ t('staff.user.overlays.StaffNotificationsPopover.contexts.feedback') }}</span></li>
       </ul>
     </template>
-    <template #default="{ notification: n, onRedirect, onSeen }">
+    <template #default="{ notification, onRedirect, onSeen }">
       <ActivityFeedbackNotificationCard
-        v-if="n.type === NotificationDTOType.ASK_FOR_FEEDBACK"
-        :notification="n"
+        v-if="notification.type === NotificationDTOType.ASK_FOR_FEEDBACK"
+        :notification="notification"
         @redirect="onRedirect"
         @seen="onSeen"
       />
