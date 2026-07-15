@@ -48,11 +48,8 @@ BddTest().given('a StudentNotificationsPopover', () => {
     BddTest().then('it should render all context items', () => {
       const contexts = getContexts()
       expect(contexts.exists()).toBe(true)
-      expect(contexts.element.children.length).toBe(4)
-      expect(contexts.element.children[0].textContent).toBe('Un enseignant vous enverra un message')
-      expect(contexts.element.children[1].textContent).toBe('Un tiers vous aura évalué sur une compétence')
-      expect(contexts.element.children[2].textContent).toBe('Une trace a été validée')
-      expect(contexts.element.children[3].textContent).toBe('Un événement a lieu prochainement')
+      expect(contexts.element.children.length).toBe(1)
+      expect(contexts.element.children[0].textContent).toBe('Une activité à laquelle vous êtes inscrit(e) a été modifiée')
     })
   })
 

@@ -20,10 +20,7 @@ const { t } = useI18n()
         class="b2-regular av-pl-lg"
         data-testid="student-notifications-popover-contexts"
       >
-        <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.contexts.staffMessage') }}</span></li>
-        <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.contexts.assessedSkill') }}</span></li>
-        <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.contexts.validatedTrace') }}</span></li>
-        <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.contexts.comingUpEvent') }}</span></li>
+        <li><span>{{ t('student.user.overlays.StudentNotificationsPopover.contexts.activityModified') }}</span></li>
       </ul>
     </template>
 

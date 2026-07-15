@@ -20,10 +20,7 @@
         },
         "StudentNotificationsPopover": {
           "contexts": {
-            "assessedSkill": "Un tiers vous aura évalué sur une compétence",
-            "comingUpEvent": "Un événement a lieu prochainement",
-            "staffMessage": "Un enseignant vous enverra un message",
-            "validatedTrace": "Une trace a été validée"
+            "activityModified": "Une activité à laquelle vous êtes inscrit(e) a été modifiée"
           }
         },
         "UpdateProfileDrawer": {
