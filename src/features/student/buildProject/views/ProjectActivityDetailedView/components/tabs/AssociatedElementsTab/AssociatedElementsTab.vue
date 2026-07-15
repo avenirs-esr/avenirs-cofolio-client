@@ -100,6 +100,7 @@ const skillsAssociations = computed(() => {
         />
         <AssociatedTracesCard
           :associated-traces="associations.traceAssociations"
+          :trace-allowed-associations="traceAllowedAssociations"
         />
       </div>
     </QuerySuspense>

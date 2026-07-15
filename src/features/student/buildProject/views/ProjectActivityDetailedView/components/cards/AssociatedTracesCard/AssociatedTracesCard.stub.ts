@@ -6,6 +6,10 @@ export const AssociatedTracesCardStub = defineComponent({
     associatedTraces: {
       type: Array as () => TraceAssociationDTO[],
       required: true
+    },
+    traceAllowedAssociations: {
+      type: Number,
+      required: false,
     }
   },
   template: `

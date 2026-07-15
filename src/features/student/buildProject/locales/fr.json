@@ -101,7 +101,8 @@
               "unlimited": "Traces illimitées"
             },
             "AssociatedTracesCard": {
-              "title": "Ma trace associée ({count}) | Mes traces associées ({count})"
+              "titleLimited": "Ma trace associée ({count}/{allowedtrace}) | Mes traces associées ({count}/{allowedtrace})",
+              "titleUnlimited": "Ma trace associée ({count}) | Mes traces associées ({count})"
             },
             "AssociateTracesModal": {
               "confirmTitle": "Êtes-vous certain(e) de vouloir associer ces éléments ?",

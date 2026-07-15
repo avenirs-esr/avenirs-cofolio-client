@@ -16,7 +16,8 @@ BddTest().given('an associated traces card', () => {
 
   BddTest().when('the component is mounted with associated traces', () => {
     const props: AssociatedTracesCardProps = {
-      associatedTraces: createMockedTraceAssociations(3)
+      associatedTraces: createMockedTraceAssociations(3),
+      traceAllowedAssociations: 7,
     }
 
     beforeEach(() => {
@@ -30,7 +31,7 @@ BddTest().given('an associated traces card', () => {
     })
 
     BddTest().then('it should pass the plural title with count', () => {
-      expect(wrapper.findComponent(AssociationsCardStub).props('title')).toBe(`Mes traces associées (${props.associatedTraces.length})`)
+      expect(wrapper.findComponent(AssociationsCardStub).props('title')).toBe(`Mes traces associées (${props.associatedTraces.length}/7)`)
     })
   })
 
