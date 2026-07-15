@@ -342,4 +342,20 @@ class StaffEditNationalActivityPage extends BasePage {
     await expect(this.getTraceAllowedAssociationsToggle()).toContainText(message)
     await expect(this.getFeedbackParameterToggle()).toContainText(message)
   }
+
+  @When('the staff republishes the activity')
+  async republishActivity () {
+    await this.tabs().clickPublicationTab()
+    await this.tabs().verifyPublicationTabActive()
+
+    await this.tabs().verifyPublishButtonVisible()
+    await this.tabs().verifyPublishButtonEnabled()
+    await this.tabs().clickPublishButton()
+
+    await this.tabs().verifyPublishConfirmationModalVisible()
+    await this.tabs().verifyPublishConfirmButtonVisible()
+    await this.tabs().clickPublishConfirmButton()
+
+    await waitForPageLoad(this.page)
+  }
 }
