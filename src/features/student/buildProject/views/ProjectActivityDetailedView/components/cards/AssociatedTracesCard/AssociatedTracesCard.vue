@@ -7,13 +7,25 @@ import { useI18n } from 'vue-i18n'
 
 export interface AssociatedTracesCardProps {
   associatedTraces: TraceAssociationDTO[]
+  traceAllowedAssociations?: number
 }
 
-const { associatedTraces } = defineProps<AssociatedTracesCardProps>()
+const { associatedTraces, traceAllowedAssociations } = defineProps<AssociatedTracesCardProps>()
 
 const { t } = useI18n()
 
-const title = computed(() => t('student.buildProject.activities.views.ProjectActivityDetailedView.AssociatedTracesCard.title', { count: associatedTraces.length }))
+const title = computed(() => {
+  const unlimited = traceAllowedAssociations == null || traceAllowedAssociations === -1
+
+  const key = `student.buildProject.activities.views.ProjectActivityDetailedView.AssociatedTracesCard.title${unlimited ? 'Unlimited' : 'Limited'}`
+
+  return t(key, {
+    count: associatedTraces.length,
+    ...(unlimited
+      ? {}
+      : { allowedtrace: traceAllowedAssociations }),
+  })
+})
 </script>
 
 <template>
