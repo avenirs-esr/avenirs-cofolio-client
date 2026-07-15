@@ -104,4 +104,74 @@ class StudentDeclaredSkillDetailPage extends BasePage {
   async verifyAllActivityItemsHaveTitles () {
     await this.getDeclaredSkillAssociations().verifyAllActivityItemsHaveTitles()
   }
+
+  @Then('the delete associations dropdown is visible')
+  async verifyDeleteAssociationsDropdownVisible () {
+    await this.getDeclaredSkillAssociations().verifyDeleteAssociationsDropdownVisible()
+  }
+
+  @When('the student opens the delete associations dropdown')
+  async openDeleteAssociationsDropdown () {
+    await this.getDeclaredSkillAssociations().openDeleteAssociationsDropdown()
+  }
+
+  @When('the student selects the activities delete option')
+  async selectDeleteActivitiesOption () {
+    await this.getDeclaredSkillAssociations().selectDeleteActivitiesOption()
+  }
+
+  @Then('the delete associations modal is visible')
+  async verifyDeleteAssociationsModalVisible () {
+    await this.getDeclaredSkillAssociations().verifyDeleteAssociationsModalVisible()
+  }
+
+  @Then('the delete associations modal contains items to delete')
+  async verifyDeleteAssociationsModalItemsNotEmpty () {
+    await this.getDeclaredSkillAssociations().verifyDeleteAssociationsModalItemsNotEmpty()
+  }
+
+  @Then('the delete associations modal confirm button is visible')
+  async verifyDeleteAssociationsModalConfirmButtonVisible () {
+    await this.getDeclaredSkillAssociations().verifyDeleteAssociationsModalConfirmButtonVisible()
+  }
+
+  @Then('the delete associations modal cancel button is visible')
+  async verifyDeleteAssociationsModalCancelButtonVisible () {
+    await this.getDeclaredSkillAssociations().verifyDeleteAssociationsModalCancelButtonVisible()
+  }
+
+  @When('the student cancels the delete associations modal')
+  async cancelDeleteAssociationsModal () {
+    await this.getDeclaredSkillAssociations().cancelDeleteAssociationsModal()
+  }
+
+  @Then('the delete associations modal is hidden')
+  async verifyDeleteAssociationsModalHidden () {
+    await this.getDeclaredSkillAssociations().verifyDeleteAssociationsModalHidden()
+  }
+
+  @When('the student selects the first activity to delete')
+  async selectFirstDeleteAssociationsModalItem () {
+    await this.getDeclaredSkillAssociations().selectFirstDeleteAssociationsModalItem()
+  }
+
+  @When('the student confirms the delete associations modal')
+  async confirmDeleteAssociationsModal () {
+    await this.getDeclaredSkillAssociations().confirmDeleteAssociationsModal()
+  }
+
+  @Then('the delete associations confirmation modal is visible')
+  async verifyDeleteAssociationsConfirmModalVisible () {
+    await this.getDeclaredSkillAssociations().verifyDeleteAssociationsConfirmModalVisible()
+  }
+
+  @When('the student cancels the delete associations confirmation modal')
+  async cancelDeleteAssociationsConfirmModal () {
+    await this.getDeclaredSkillAssociations().cancelDeleteAssociationsConfirmModal()
+  }
+
+  @Then('the delete associations confirmation modal is hidden')
+  async verifyDeleteAssociationsConfirmModalHidden () {
+    await this.getDeclaredSkillAssociations().verifyDeleteAssociationsConfirmModalHidden()
+  }
 }
