@@ -56,7 +56,7 @@ const notificationsEnabled = computed({
     description=""
     :active-text="t('global.notifications.NotificationsPopover.preferences.enabled')"
     :inactive-text="t('global.notifications.NotificationsPopover.preferences.disabled')"
-    active-inactive-text-width="100%"
+    status-text-width="100%"
     data-testid="notification-preference-toggle"
   />
 </template>
