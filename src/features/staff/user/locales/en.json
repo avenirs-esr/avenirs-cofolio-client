@@ -1,0 +1,13 @@
+{
+  "staff": {
+    "user": {
+      "overlays": {
+        "StaffNotificationsPopover": {
+          "contexts": {
+            "feedback": "A student will send you a feedback request"
+          }
+        }
+      }
+    }
+  }
+}

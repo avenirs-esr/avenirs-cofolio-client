@@ -360,6 +360,9 @@
     },
     "notifications": {
       "NotificationsPopover": {
+        "contexts": {
+          "header": "You will receive a notification in the following cases:"
+        },
         "header": "No unread notifications | {count} unread notification | {count} unread notifications",
         "markAsSeenError": "An error occurred while marking the notification as read",
         "notifications": {

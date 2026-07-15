@@ -14,7 +14,7 @@ const { t } = useI18n()
         class="b2-light"
         data-testid="student-notifications-popover-contexts-header"
       >
-        {{ t('student.user.overlays.StudentNotificationsPopover.contexts.header') }}
+        {{ t('global.notifications.NotificationsPopover.contexts.header') }}
       </span>
       <ul
         class="b2-regular av-pl-lg"

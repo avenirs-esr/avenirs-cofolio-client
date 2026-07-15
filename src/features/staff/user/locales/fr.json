@@ -1,0 +1,13 @@
+{
+  "staff": {
+    "user": {
+      "overlays": {
+        "StaffNotificationsPopover": {
+          "contexts": {
+            "feedback": "Un apprenant vous enverra une demande de feedback"
+          }
+        }
+      }
+    }
+  }
+}

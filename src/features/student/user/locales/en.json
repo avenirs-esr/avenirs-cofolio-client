@@ -22,7 +22,6 @@
           "contexts": {
             "assessedSkill": "A third party will have assessed you on a skill",
             "comingUpEvent": "An event is coming up",
-            "header": "You will receive a notification in the following cases:",
             "staffMessage": "A staff will send you a message",
             "validatedTrace": "A trace has been validated"
           }
