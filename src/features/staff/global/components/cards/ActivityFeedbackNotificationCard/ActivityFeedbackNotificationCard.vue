@@ -4,27 +4,27 @@ import { ROUTES } from '@/common/constants'
 import NotificationCard from '@/common/notifications/components/NotificationCard/NotificationCard.vue'
 import { I18nT } from 'vue-i18n'
 
-const { notification: n } = defineProps<{ notification: NotificationDTO }>()
+const { notification } = defineProps<{ notification: NotificationDTO }>()
 
 const emit = defineEmits<{
   (e: 'redirect'): void
   (e: 'seen', id: string): void
 }>()
 
-const parameters = computed(() => n.parameters as AskForFeedbackParameters | undefined)
-const to = computed(() => n.elementId !== undefined
+const parameters = computed(() => notification.parameters as AskForFeedbackParameters | undefined)
+const to = computed(() => notification.elementId !== undefined
   ? ({
       name: ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name,
-      params: { feedbackId: n.elementId },
+      params: { feedbackId: notification.elementId },
     })
   : undefined)
 </script>
 
 <template>
   <NotificationCard
-    :id="n.id"
-    :seen="n.seen"
-    :created-at="n.createdAt"
+    :id="notification.id"
+    :seen="notification.seen"
+    :created-at="notification.createdAt"
     :to="to"
     data-testid="activity-feedback-notification-card"
     @redirect="emit('redirect')"

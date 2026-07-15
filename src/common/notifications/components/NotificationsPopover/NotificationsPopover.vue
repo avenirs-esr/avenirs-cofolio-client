@@ -23,6 +23,9 @@ const { data } = useGetQuickLinks(userCategory)
 const hasUnseenNotifications = computed(() => data.value?.notificationEnabled && data.value?.unreadNotifications > 0)
 const unseenNotificationsCounter = computed(() => hasUnseenNotifications.value ? (data.value!.unreadNotifications <= 99 ? data.value!.unreadNotifications : '99+') : 0)
 const unseenNotificationsPlural = computed(() => hasUnseenNotifications.value ? data.value!.unreadNotifications : 0)
+
+const triggerLabel = computed(() => t('global.notifications.NotificationsPopover.trigger', { count: unseenNotificationsCounter.value }, unseenNotificationsPlural.value))
+const triggerIcon = computed(() => hasUnseenNotifications.value ? MDI_ICONS.BELL_NOTIFICATION : MDI_ICONS.NOTIFICATIONS_NONE)
 </script>
 
 <template>
@@ -32,8 +35,8 @@ const unseenNotificationsPlural = computed(() => hasUnseenNotifications.value ? 
   >
     <template #trigger="{ toggle }">
       <AvButton
-        :label="t('global.notifications.NotificationsPopover.trigger', { count: unseenNotificationsCounter }, unseenNotificationsPlural)"
-        :icon="hasUnseenNotifications ? MDI_ICONS.BELL_NOTIFICATION : MDI_ICONS.NOTIFICATIONS_NONE"
+        :label="triggerLabel"
+        :icon="triggerIcon"
         small
         data-testid="notifications-popover-trigger"
         @click="toggle"

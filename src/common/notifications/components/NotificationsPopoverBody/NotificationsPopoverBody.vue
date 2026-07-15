@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
-import { type EUserCategory, invalidateGetNotifications, type NotificationDTO, useGetQuickLinks, useMarkAsSeen } from '@/api/avenir-esr'
+import { type EUserCategory, invalidateGetNotifications, invalidateGetQuickLinks, type NotificationDTO, useGetQuickLinks, useMarkAsSeen } from '@/api/avenir-esr'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { BaseApiException } from '@/common/exceptions'
@@ -72,6 +72,7 @@ function syncNotifications () {
 
       resetPagination()
       await invalidateGetNotifications(queryClient, userCategory)
+      await invalidateGetQuickLinks(queryClient, userCategory)
     })().catch((err) => {
       if (err instanceof BaseApiException) {
         addErrorMessage(getErrorMessage(err))
