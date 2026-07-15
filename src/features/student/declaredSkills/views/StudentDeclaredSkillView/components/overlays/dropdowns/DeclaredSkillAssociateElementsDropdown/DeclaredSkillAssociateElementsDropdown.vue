@@ -17,7 +17,7 @@ const menuItems = computed(() => [
   {
     name: DeclaredSkillAssociateElementsDropdownEvents.ACTIVITIES,
     icon: ICONS.ACTIVITY,
-    label: t('student.declaredSkills.views.StudentDeclaredSkillView.DeclaredSkillAssociateElementsDropdown.activities')
+    label: t('global.associations.elementsToAssociate.activities')
   }
 ])
 

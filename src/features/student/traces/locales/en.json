@@ -281,10 +281,6 @@
           "ConfirmAssociateActivitiesModal": {
             "title": "Are you sure you want to associate this activity? | Are you sure you want to associate these activities?"
           },
-          "DeleteTraceAssociatedElementsDropdown": {
-            "activities": "one/many associated activity(ies)",
-            "skills": "one/many associated skill(s)"
-          },
           "errors": {
             "delete": "An error occurred while deleting the trace",
             "download": "An error occurred while downloading the trace",
@@ -303,11 +299,6 @@
           "tabs": {
             "associations": "My associated elements ({count})",
             "details": "My trace"
-          },
-          "TraceAssociateElementsDropdown": {
-            "activities": "one/many activity(ies)",
-            "experiences": "one/many experience(s)",
-            "skills": "one/many skill(s)"
           }
         },
         "StudentUpdateTraceView": {

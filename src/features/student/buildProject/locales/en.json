@@ -90,10 +90,6 @@
             "unsubscribe": "Unsubscribe"
           },
           "ProjectActivityDetailedView": {
-            "ActivityAssociateElementsDropdown": {
-              "skills": "one/many skill(s)",
-              "traces": "one/many trace(s)"
-            },
             "ActivityDetailedDropdown": {
               "triggerLabel": "Manage my activity"
             },
@@ -112,10 +108,6 @@
               "confirmTitle": "Are you sure you want to associate these items?",
               "success": "You have associated {count} trace. Find it in the category \"My associated traces\". | You have associated {count} traces. Find them in the category \"My associated traces\".",
               "title": "Which trace(s) would you like to associate?"
-            },
-            "DeleteActivityAssociatedElementsDropdown": {
-              "skills": "one/many associated skill(s)",
-              "traces": "one/many associated trace(s)"
             },
             "DeleteActivityAssociatedElementsModal": {
               "success": "The selected associations have been successfully deleted.",

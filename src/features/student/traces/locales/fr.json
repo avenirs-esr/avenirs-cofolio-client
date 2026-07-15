@@ -281,10 +281,6 @@
           "ConfirmAssociateActivitiesModal": {
             "title": "Êtes-vous certain(e) de vouloir associer cette activité ? | Êtes-vous certain(e) de vouloir associer ces activités ?"
           },
-          "DeleteTraceAssociatedElementsDropdown": {
-            "activities": "une/des activité(s) associée(s)",
-            "skills": "une/des compétence(s) associée(s)"
-          },
           "empty": {
             "associations": "Aucune association pour cette trace."
           },
@@ -304,12 +300,7 @@
             "associations": "Mes éléments associés ({count})",
             "details": "Ma trace"
           },
-          "title": "Trace {trace}",
-          "TraceAssociateElementsDropdown": {
-            "activities": "une/des activité(s)",
-            "experiences": "une/des expérience(s)",
-            "skills": "une/des compétence(s)"
-          }
+          "title": "Trace {trace}"
         },
         "StudentUpdateTraceView": {
           "associations": "Mes éléments associés ({count})",

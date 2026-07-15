@@ -27,7 +27,7 @@ const menuItems = computed(() => [
   {
     name: TraceAssociateElementsDropdownEvents.ACTIVITIES,
     icon: ICONS.ACTIVITY,
-    label: t('student.traces.views.StudentTraceView.TraceAssociateElementsDropdown.activities'),
+    label: t('global.associations.elementsToAssociate.activities'),
     disabled,
   },
   ...(
@@ -36,14 +36,14 @@ const menuItems = computed(() => [
       : [{
           name: TraceAssociateElementsDropdownEvents.EXPERIENCES,
           icon: ICONS.EXPERIENCES,
-          label: t('student.traces.views.StudentTraceView.TraceAssociateElementsDropdown.experiences'),
+          label: t('global.associations.elementsToAssociate.experiences'),
           disabled,
         }]
   ),
   {
     name: TraceAssociateElementsDropdownEvents.SKILLS,
     icon: ICONS.SKILLS,
-    label: t('student.traces.views.StudentTraceView.TraceAssociateElementsDropdown.skills'),
+    label: t('global.associations.elementsToAssociate.skills'),
     disabled,
   }
 ])

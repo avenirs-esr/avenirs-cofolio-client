@@ -25,12 +25,12 @@ const menuItems = computed(() => [
   {
     name: DeleteActivityAssociatedElementsDropdownEvents.SKILLS,
     icon: ICONS.SKILLS,
-    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteActivityAssociatedElementsDropdown.skills'),
+    label: t('global.associations.elementsToAssociate.skills'),
   },
   {
     name: DeleteActivityAssociatedElementsDropdownEvents.TRACES,
     icon: ICONS.TRACES,
-    label: t('student.buildProject.activities.views.ProjectActivityDetailedView.DeleteActivityAssociatedElementsDropdown.traces'),
+    label: t('global.associations.elementsToAssociate.traces'),
     disabled: tracesDisabled
   }
 ])
