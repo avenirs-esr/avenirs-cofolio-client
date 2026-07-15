@@ -245,4 +245,9 @@ export class EditActivityTabs {
   async clickPublishCancelButton () {
     await clickOnElement(this.getPublishCancelButton())
   }
+
+  async clickPublishConfirmButton () {
+    await clickOnElement(this.getPublishConfirmButton())
+    await expect(this.getPublishConfirmationModal()).not.toBeVisible()
+  }
 }

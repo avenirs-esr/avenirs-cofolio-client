@@ -209,6 +209,7 @@ Feature: Staff Edit National Activity Page
       And the editable activity content fields are enabled
       And the activity modalities fields are disabled
       And the activity modalities disabled information messages are visible
+      When the staff republishes the activity
 
   Rule: Activity without enrolled students
 
@@ -225,3 +226,4 @@ Feature: Staff Edit National Activity Page
       And the editable activity content fields are enabled
       And the activity modalities fields are enabled
       And the activity modalities future disabled information messages are visible
+      When the staff republishes the activity
