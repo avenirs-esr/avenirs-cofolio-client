@@ -18,6 +18,7 @@ import { StudentProjectActivityDetails } from '@e2e/framework/student/lifeProjec
 import { StudentDeclaredSkillDetailPage } from '@e2e/framework/student/lifeProject/declaredSkillDetails/StudentDeclaredSkillDetailPage'
 import { StudentTrajectoriesSelfKnowledgePage } from '@e2e/framework/student/lifeProject/selfKnowledge/StudentTrajectoriesSelfKnowledgePage'
 import { StudentGlobalSteps } from '@e2e/framework/student/shared/steps/StudentGlobalSteps'
+import { StudentNotificationsPopoverSteps } from '@e2e/framework/student/shared/steps/StudentNotificationsPopoverSteps'
 import { StudentToolsKitPage } from '@e2e/framework/student/tools/kit/StudentToolsKitPage'
 import { StudentTracePage } from '@e2e/framework/student/tools/traceDetails/StudentTracePage'
 import { StudentToolsTracesPage } from '@e2e/framework/student/tools/traces/StudentToolsTracesPage'
@@ -38,6 +39,7 @@ interface Fixtures {
   staffEditNationalActivityPage: StaffEditNationalActivityPage
   staffNationalActivityCatalogPage: StaffNationalActivityCatalogPage
   studentGlobalSteps: StudentGlobalSteps
+  studentNotificationsPopoverSteps: StudentNotificationsPopoverSteps
   studentHomePage: StudentHomePage
   studentDeclaredSkillDetailPage: StudentDeclaredSkillDetailPage
   studentProjectActivitiesPage: StudentProjectActivitiesPage
@@ -101,6 +103,10 @@ export const test = base.extend<Fixtures>({
   studentGlobalSteps: async ({ page }, use) => {
     await setLocaleFromPage(page)
     await use(new StudentGlobalSteps(page))
+  },
+  studentNotificationsPopoverSteps: async ({ page }, use) => {
+    await setLocaleFromPage(page)
+    await use(new StudentNotificationsPopoverSteps(page))
   },
   studentHomePage: async ({ page }, use) => {
     await setLocaleFromPage(page)
