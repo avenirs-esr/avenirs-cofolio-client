@@ -1,5 +1,7 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { verifyTextLocator } from '@e2e/framework/shared/utils/text'
+import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { expect, type Locator } from '@playwright/test'
 
 export class DeclaredSkillAssociationsObject extends BaseObject {
@@ -93,5 +95,103 @@ export class DeclaredSkillAssociationsObject extends BaseObject {
       const titleLocator = items.nth(i).getByTestId('floating-icon-card-title')
       await verifyTextLocator(titleLocator)
     }
+  }
+
+  getDeleteAssociationsDropdown () {
+    return this.root.getByTestId('delete-declared-skill-associated-elements-dropdown')
+  }
+
+  getDeleteActivitiesOption () {
+    return this.root.page().getByTestId('activities')
+  }
+
+  getDeleteAssociationsModal () {
+    return this.root.page().getByTestId('delete-associations-modal-header')
+  }
+
+  getDeleteAssociationsModalItems () {
+    return this.root.page().getByTestId('compact-card-selector-item')
+  }
+
+  getDeleteAssociationsModalItemSelectors () {
+    return this.root.page().getByTestId('selector-overlay')
+  }
+
+  getDeleteAssociationsModalConfirmButton () {
+    return this.root.page().getByTestId('confirm-button')
+  }
+
+  getDeleteAssociationsModalCancelButton () {
+    return this.root.page().getByTestId('cancel-button')
+  }
+
+  getDeleteAssociationsConfirmModal () {
+    return this.root.page().getByTestId('delete-associations-confirm-modal__header')
+  }
+
+  getDeleteAssociationsConfirmModalContainer () {
+    return this.root.page().locator('dialog').filter({ has: this.getDeleteAssociationsConfirmModal() })
+  }
+
+  getDeleteAssociationsConfirmModalCancelButton () {
+    return this.getDeleteAssociationsConfirmModalContainer().getByTestId('cancel-button')
+  }
+
+  async verifyDeleteAssociationsDropdownVisible () {
+    await expect(this.getDeleteAssociationsDropdown()).toBeVisible()
+  }
+
+  async openDeleteAssociationsDropdown () {
+    await clickOnElement(this.getDeleteAssociationsDropdown())
+    await waitForPageLoad(this.root.page())
+  }
+
+  async selectDeleteActivitiesOption () {
+    await clickOnElement(this.getDeleteActivitiesOption())
+  }
+
+  async verifyDeleteAssociationsModalVisible () {
+    await expect(this.getDeleteAssociationsModal()).toBeVisible()
+  }
+
+  async verifyDeleteAssociationsModalHidden () {
+    await expect(this.getDeleteAssociationsModal()).toBeHidden()
+  }
+
+  async verifyDeleteAssociationsModalItemsNotEmpty () {
+    const count = await this.getDeleteAssociationsModalItems().count()
+    expect(count).toBeGreaterThan(0)
+  }
+
+  async verifyDeleteAssociationsModalConfirmButtonVisible () {
+    await expect(this.getDeleteAssociationsModalConfirmButton()).toBeVisible()
+  }
+
+  async verifyDeleteAssociationsModalCancelButtonVisible () {
+    await expect(this.getDeleteAssociationsModalCancelButton()).toBeVisible()
+  }
+
+  async selectFirstDeleteAssociationsModalItem () {
+    await clickOnElement(this.getDeleteAssociationsModalItemSelectors().first())
+  }
+
+  async confirmDeleteAssociationsModal () {
+    await clickOnElement(this.getDeleteAssociationsModalConfirmButton())
+  }
+
+  async verifyDeleteAssociationsConfirmModalVisible () {
+    await expect(this.getDeleteAssociationsConfirmModal()).toBeVisible()
+  }
+
+  async verifyDeleteAssociationsConfirmModalHidden () {
+    await expect(this.getDeleteAssociationsConfirmModal()).toBeHidden()
+  }
+
+  async cancelDeleteAssociationsConfirmModal () {
+    await clickOnElement(this.getDeleteAssociationsConfirmModalCancelButton())
+  }
+
+  async cancelDeleteAssociationsModal () {
+    await clickOnElement(this.getDeleteAssociationsModalCancelButton())
   }
 }
