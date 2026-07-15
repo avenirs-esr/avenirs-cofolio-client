@@ -171,11 +171,8 @@ watch(() => quickLinks.value?.unreadNotifications, syncNotifications)
 <style lang="scss" scoped>
 .notifications-popover-body {
   width: min(30rem, 100vw);
+  height: fit-content;
   max-height: min(49.375rem, 100svh);
-
-  &--with-notifications {
-    height: min(49.375rem, 100svh);
-  }
 
   &__list-wrapper {
     min-height: 0;
