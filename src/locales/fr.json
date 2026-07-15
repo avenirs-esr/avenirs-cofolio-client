@@ -360,6 +360,9 @@
     },
     "notifications": {
       "NotificationsPopover": {
+        "contexts": {
+          "header": "Vous recevrez une notification dans les cas suivants :"
+        },
         "header": "Aucune notification non lue | {count} notification non lue | {count} notifications non lues",
         "markAsSeenError": "Une erreur est survenue pendant le marquage à lu de la notification",
         "notifications": {

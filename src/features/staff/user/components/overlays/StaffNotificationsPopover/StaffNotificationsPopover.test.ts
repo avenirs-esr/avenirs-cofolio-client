@@ -31,11 +31,35 @@ BddTest().given('a StaffNotificationsPopover', () => {
   const getPopover = () => wrapper.findComponent(NotificationsPopoverStub)
   const getCards = () => wrapper.findAllComponents(ActivityFeedbackNotificationCardStub)
 
-  BddTest().when('the component is rendered', () => {
+  BddTest().when('the component is mounted', () => {
     beforeEach(() => mountDefault())
 
     BddTest().then('it should render NotificationsPopover with correct props', () => {
       expect(getPopover().exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is mounted without notifications', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(StaffNotificationsPopover, {
+        props: {
+          notificationsEnabled: true,
+          unseenNotifications: 0
+        },
+        attrs: {
+          notifications: []
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render NotificationsPopover with correct props', () => {
+      expect(getPopover().exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the empty state message', () => {
+      expect(wrapper.text()).toContain('Vous recevrez une notification dans les cas suivants :')
+      expect(wrapper.text()).toContain('Un apprenant vous enverra une demande de feedback')
     })
   })
 
