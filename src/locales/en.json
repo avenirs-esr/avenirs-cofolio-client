@@ -46,6 +46,14 @@
       }
     },
     "application": "Application",
+    "associations": {
+      "elementsToAssociate": {
+        "activities": "one/many activity(ies)",
+        "experiences": "one/many experience(s)",
+        "skills": "one/many skill(s)",
+        "traces": "one/many trace(s)"
+      }
+    },
     "audio": "Audio",
     "AvAutoComplete": {
       "clearLabel": "Clear the input",

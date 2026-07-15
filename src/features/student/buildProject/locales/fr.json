@@ -89,10 +89,6 @@
             "title": "Toutes les activités disponibles"
           },
           "ProjectActivityDetailedView": {
-            "ActivityAssociateElementsDropdown": {
-              "skills": "une/des compétence(s)",
-              "traces": "une/des trace(s)"
-            },
             "ActivityDetailedDropdown": {
               "triggerLabel": "Gérer mon activité"
             },
@@ -111,10 +107,6 @@
               "confirmTitle": "Êtes-vous certain(e) de vouloir associer ces éléments ?",
               "success": "Vous avez associé {count} trace. Retrouvez-la dans la catégorie \"Mes traces associées\". | Vous avez associé {count} traces. Retrouvez-les dans la catégorie \"Mes traces associées\".",
               "title": "Quelle(s) trace(s) souhaitez-vous associer ?"
-            },
-            "DeleteActivityAssociatedElementsDropdown": {
-              "skills": "une/des compétence(s) associée(s)",
-              "traces": "une/des trace(s) associée(s)"
             },
             "DeleteActivityAssociatedElementsModal": {
               "success": "Les associations sélectionnées ont été supprimées avec succès.",
