@@ -47,10 +47,9 @@ Feature: Staff Home Page
           Given the staff opens the notifications dropdown
 
           @high @notifications @dataset-full
-          Scenario: Notifications dropdown displays title and disabled state by default
+          Scenario: Notifications dropdown displays title and enabled state by default
             Then the staff notifications dropdown title is displayed
-            And the staff notifications toggle is disabled
-            And the staff notifications disabled message is displayed
+            And the staff notifications toggle is enabled
             And the staff exit button is displayed
 
           @high @notifications @dataset-full

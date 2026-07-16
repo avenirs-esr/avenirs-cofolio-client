@@ -155,9 +155,21 @@ export class StaffActivitiesPage extends BasePage {
     )
   }
 
-  @When('the user clicks on the first activity more actions button')
-  async clickFirstActivityMoreActionsButton () {
-    await clickOnElement(this.getMoreActionsDropdownTrigger())
+  private getFirstDraftActivityMoreActionsDropdown () {
+    return this.page.locator(
+      '[data-testid="more-actions-dropdown"][data-activity-status="DRAFT"]',
+    ).first()
+  }
+
+  private getFirstDraftActivityMoreActionsDropdownTrigger () {
+    return this.getFirstDraftActivityMoreActionsDropdown().getByRole('button')
+  }
+
+  @When('the user clicks on the first activity draft more actions button')
+  async clickFirstDraftActivityMoreActionsButton () {
+    await clickOnElement(
+      this.getFirstDraftActivityMoreActionsDropdownTrigger(),
+    )
   }
 
   @When('the user clicks on the more actions button for activity that has feedbacks')

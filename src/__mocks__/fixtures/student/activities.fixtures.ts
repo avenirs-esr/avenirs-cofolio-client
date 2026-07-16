@@ -21,12 +21,12 @@ export const activitiesNavigationMock: ActivityNavigationDTO[] = [
     title: 'SELF_KNOWLEDGE',
     items: [
       {
-        id: '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
-        title: 'Définir ses valeurs'
-      },
-      {
         id: '9a12e6b4-8c3f-4d22-bf55-6d4c1f2a7e33',
         title: 'Identifier ses motivations profondes'
+      },
+      {
+        id: '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
+        title: 'Définir ses valeurs'
       },
       {
         id: 'c9d4e1f2-7a21-4f7d-9b44-1a3e8f6c2b10',

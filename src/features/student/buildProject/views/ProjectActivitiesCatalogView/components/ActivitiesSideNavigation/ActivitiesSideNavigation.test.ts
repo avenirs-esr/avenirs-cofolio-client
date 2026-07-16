@@ -77,6 +77,11 @@ BddTest().given('a build project activities side navigation component', () => {
       }))
       expect(items[0].children).toHaveLength(4)
       expect(items[0].children?.[0]).toEqual(expect.objectContaining({
+        id: '9a12e6b4-8c3f-4d22-bf55-6d4c1f2a7e33',
+        label: 'Identifier ses motivations profondes',
+        icon: expect.any(String),
+      }))
+      expect(items[0].children?.[1]).toEqual(expect.objectContaining({
         id: '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
         label: 'Définir ses valeurs',
         icon: expect.any(String),

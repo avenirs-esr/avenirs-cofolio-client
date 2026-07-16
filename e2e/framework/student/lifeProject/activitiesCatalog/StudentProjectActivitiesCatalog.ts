@@ -17,7 +17,7 @@ class StudentProjectActivitiesCatalogPage {
   private subscribedDeclaredActivity?: string
 
   private static readonly DEFAULT_THEMATIC = EActivityThematic.SELF_KNOWLEDGE
-  private static readonly DEFAULT_ACTIVITY_ID = '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1'
+  private static readonly DEFAULT_ACTIVITY_ID = '9a12e6b4-8c3f-4d22-bf55-6d4c1f2a7e33'
   private static readonly DEFAULT_DECLARED_ACTIVITY_ID = 'cf31aa91-1ac4-4e6d-9ce4-477410966fe7'
 
   constructor (public page: Page) {}

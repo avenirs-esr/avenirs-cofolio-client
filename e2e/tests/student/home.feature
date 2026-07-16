@@ -103,17 +103,10 @@ Feature: Student Home Page
         Given the student opens the notifications dropdown
 
         @high @notifications @dataset-full
-        Scenario: Notifications dropdown displays title and disabled state by default
+        Scenario: Notifications dropdown displays title and enabled state by default
           Then the student notifications dropdown title is displayed
-          And the student notifications toggle is disabled
-          And the student notifications disabled message is displayed
+          And the student notifications toggle is enabled
           And the student exit button is displayed
-
-        @high @notifications @dataset-full
-        Scenario: Student can enable notifications
-          Given the student deactivates the notifications toggle
-          When the student activates the notifications toggle
-          Then the student notifications toggle is enabled
 
         @medium @notifications @dataset-full
         Scenario: Student can disable notifications
@@ -121,6 +114,12 @@ Feature: Student Home Page
           When the student deactivates the notifications toggle
           Then the student notifications toggle is disabled
           And the student notifications disabled message is displayed
+
+        @high @notifications @dataset-full
+        Scenario: Student can enable notifications
+          Given the student deactivates the notifications toggle
+          When the student activates the notifications toggle
+          Then the student notifications toggle is enabled
 
         @medium @notifications @dataset-full
         Scenario: Student can close the notifications dropdown

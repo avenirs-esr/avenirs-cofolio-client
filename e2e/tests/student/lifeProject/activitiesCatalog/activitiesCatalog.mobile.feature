@@ -28,5 +28,5 @@ Feature: Student Project Activities Catalog Page
     Scenario: Student sees first thematic activities in select navigation
       Then the first thematic in select navigation is "SELF_KNOWLEDGE"
       And the first thematic in select navigation has at least 1 activity
-      And the first thematic in select navigation first activity is "Définir ses valeurs"
+      And the first thematic in select navigation first activity is "Identifier ses motivations profondes"
       And the first thematic in select navigation last activity is "Identifier ses centres d'intérêt"
