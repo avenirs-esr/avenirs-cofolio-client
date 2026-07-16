@@ -40,6 +40,15 @@
               "title": "Ajouter ma compétence",
               "reflectionLabel": "Bilan reflexif"
             },
+            "addAssociations": {
+              "title": "Associer ma compétence",
+              "types": {
+                "activities": {
+                  "label": "Mes activités",
+                  "placeholder": "Rechercher une activité..."
+                }
+              }
+            },
             "declarations": {
               "title": "Effectuer mes déclarations"
             }

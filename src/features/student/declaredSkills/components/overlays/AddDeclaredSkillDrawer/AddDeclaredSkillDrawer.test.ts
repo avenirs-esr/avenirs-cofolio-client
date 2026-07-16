@@ -5,6 +5,8 @@ import {
   DeclaredSkillLevelRadioButtonSetFormFieldStub,
 } from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.stub'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
+import { EAssociationTypeKey } from '@/features/student/traces/types/traces.types'
+import { AssociateElementsDrawerSectionStub } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/AssociateElementsDrawerSection/AssociateElementsDrawerSection.stub'
 import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -48,7 +50,8 @@ const stubs = {
     template: '<div data-testid="add-declared-skill-autocomplete-field"></div>',
     props: ['form']
   },
-  DeclaredSkillLevelRadioButtonSetFormField: DeclaredSkillLevelRadioButtonSetFormFieldStub
+  DeclaredSkillLevelRadioButtonSetFormField: DeclaredSkillLevelRadioButtonSetFormFieldStub,
+  AssociateElementsDrawerSection: AssociateElementsDrawerSectionStub,
 }
 
 BddTest().given('an add declared skill drawer component', () => {
@@ -265,6 +268,58 @@ BddTest().given('an add declared skill drawer component', () => {
     BddTest().then('it should render the footer section in drawer footer slot', () => {
       const footer = wrapper.find('[data-testid="add-declared-skill-drawer__footer"]')
       expect(footer.exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the associate elements section is rendered', () => {
+    BddTest().then('it should render the associate elements drawer section in the last accordion', () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+      expect(section.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass a single typeConfig for activities', () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+      const typeConfigs = section.props('typeConfigs') as { key: string }[]
+
+      expect(typeConfigs).toHaveLength(1)
+      expect(typeConfigs[0].key).toBe(EAssociationTypeKey.ACTIVITIES)
+    })
+
+    BddTest().then('it should default the active type key to activities', () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+      expect(section.props('activeTypeKey')).toBe(EAssociationTypeKey.ACTIVITIES)
+    })
+  })
+
+  BddTest().when('the associate elements section emits a search query update', () => {
+    BddTest().then('it should forward the search query back to the section', async () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+
+      await section.vm.$emit('update:searchQuery', 'react')
+      await wrapper.vm.$nextTick()
+
+      expect(section.props('searchQuery')).toBe('react')
+    })
+  })
+
+  BddTest().when('the associate elements section emits a selections update', () => {
+    BddTest().then('it should update the associationSelections form field', async () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+      const newSelections = { [EAssociationTypeKey.ACTIVITIES]: ['activity-1'] }
+
+      await section.vm.$emit('update:selectionsByType', newSelections)
+      await wrapper.vm.$nextTick()
+
+      expect(section.props('selectionsByType')).toStrictEqual(newSelections)
+    })
+  })
+
+  BddTest().when('component has accordion items', () => {
+    BddTest().then('it should render the associations accordion with correct title', () => {
+      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
+      const associationsAccordion = accordions[2]
+
+      expect(associationsAccordion.props('title')).toBe('Associer ma compétence')
     })
   })
 })

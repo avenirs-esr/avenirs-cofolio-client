@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import type { Association } from '@/features/student/global/types/associations.types'
+import { EAssociationContextType, useSearchDeclaredActivitiesForAssociation } from '@/api/avenir-esr'
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ICONS } from '@/common/constants'
+import { useDeclaredActivityAssociation } from '@/features/student/buildProject'
 import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
 import DeclaredSkillReflectionFormField
   from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillReflectionFormField/DeclaredSkillReflectionFormField.vue'
@@ -12,6 +15,8 @@ import {
   useDeclaredSkillForm
 } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
+import { type AssociateElementTypeConfig, EAssociationTypeKey } from '@/features/student/traces/types/traces.types'
+import AssociateElementsDrawerSection from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/AssociateElementsDrawerSection/AssociateElementsDrawerSection.vue'
 import { useToasterStore } from '@/store'
 import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -44,9 +49,42 @@ const { canLeave, confirm, cancel } = useUnsavedChangesGuard({
   closeModal: hideConfirmationModal
 })
 
+const associationSelectionsField = form.useField({ name: 'associationSelections' })
+
+const associationActiveType = ref<string>(EAssociationTypeKey.ACTIVITIES)
+const associationSearchQuery = ref<string>('')
+
+const associationTypesConfigs = computed<AssociateElementTypeConfig[]>(() => [
+  {
+    key: EAssociationTypeKey.ACTIVITIES,
+    label: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.activities.label'),
+    searchPlaceholder: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.activities.placeholder')
+  }
+])
+const associationSearchParams = computed(() => ({
+  contextType: EAssociationContextType.DECLARED_SKILL,
+  keyword: associationSearchQuery.value.trim(),
+  page: 0,
+  pageSize: 100,
+}))
+
+const { declaredActivityToAssociation } = useDeclaredActivityAssociation()
+const {
+  data: activitiesToAssociate,
+  isLoading: isActivitiesLoading
+} = useSearchDeclaredActivitiesForAssociation(associationSearchParams, {
+  query: {
+    select: response => response.data.map(declaredActivityToAssociation),
+  }
+})
+
+const associationOptions = computed<Association[]>(() => activitiesToAssociate.value ?? [])
+const isAssociationSearchLoading = computed(() => isActivitiesLoading.value)
+
 async function handleCancel () {
   if (await canLeave()) {
     form.reset()
+    associationSearchQuery.value = ''
     declaredSkillsStore.hideCreateDeclaredSkillDrawer()
   }
 }
@@ -91,14 +129,31 @@ async function handleCancel () {
             >
               <div class="av-col av-gap-md">
                 <AddDeclaredSkillAutocompleteField :form="form" />
+
                 <DeclaredSkillReflectionFormField :form="form" />
               </div>
             </AvAccordion>
+
             <AvAccordion
               :title="t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.declarations.title')"
               :icon="MDI_ICONS.FILE_DOCUMENT_BOX_MULTIPLE_OUTLINE"
             >
               <DeclaredSkillLevelRadioButtonSetFormField :form="form" />
+            </AvAccordion>
+
+            <AvAccordion
+              :title="t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.title')"
+              :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
+            >
+              <AssociateElementsDrawerSection
+                v-model:active-type-key="associationActiveType"
+                v-model:search-query="associationSearchQuery"
+                :selections-by-type="associationSelectionsField.state.value.value"
+                :type-configs="associationTypesConfigs"
+                :options="associationOptions"
+                :loading="isAssociationSearchLoading"
+                @update:selections-by-type="associationSelectionsField.api.handleChange"
+              />
             </AvAccordion>
           </AvAccordionsGroup>
         </form>
