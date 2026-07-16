@@ -1,8 +1,8 @@
 import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
 
-export const WriteFeedbackFloatingPanelStub = defineComponent({
-  name: 'WriteFeedbackFloatingPanel',
+export const FeedbackManagementFloatingPanelStub = defineComponent({
+  name: 'FeedbackManagementFloatingPanel',
   props: {
     feedback: {
       type: Object as PropType<FeedbackDetailsDTO>,

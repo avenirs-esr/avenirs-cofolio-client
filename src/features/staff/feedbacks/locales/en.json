@@ -43,7 +43,7 @@
             "placeholder": "Select a student"
           },
           "title": "All my feedback requests ({count}) on the activity \"{activityTitle}\"",
-          "WriteFeedbackFloatingPanel": {
+          "FeedbackManagementFloatingPanel": {
             "tabs": {
               "history": {
                 "emptyState": "You have no previous feedback",

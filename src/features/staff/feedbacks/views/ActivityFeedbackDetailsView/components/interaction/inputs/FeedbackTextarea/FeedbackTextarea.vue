@@ -19,7 +19,7 @@ const inputProps = computed(() => ({
   labelVisible: false,
   textareaMinHeight: 'var(--dimension-8xl)',
   maxlength: FEEDBACK_MAX_LENGTH,
-  label: label ?? t('staff.feedbacks.views.ActivityFeedbackDetailsView.WriteFeedbackFloatingPanel.tabs.write.inputs.FeedbackTextarea.label')
+  label: label ?? t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.inputs.FeedbackTextarea.label')
 }))
 </script>
 

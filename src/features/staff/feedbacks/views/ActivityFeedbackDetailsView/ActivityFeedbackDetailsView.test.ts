@@ -2,7 +2,7 @@ import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { StudentPerspectiveCardStub } from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.stub'
 import ActivityFeedbackDetailsView from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/ActivityFeedbackDetailsView.vue'
-import { WriteFeedbackFloatingPanelStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/WriteFeedbackFloatingPanel/WriteFeedbackFloatingPanel.stub'
+import { FeedbackManagementFloatingPanelStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/FeedbackManagementFloatingPanel/FeedbackManagementFloatingPanel.stub'
 import { ActivityFeedbackStudentSelectStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/selects/ActivityFeedbackStudentSelect/ActivityFeedbackStudentSelect.stub'
 import {
   AssociatedElementSummaryCardStub
@@ -19,7 +19,7 @@ BddTest().given('an activity feedback details view', () => {
     PageTitle: PageTitleStub,
     QuerySuspense: QuerySuspenseStub,
     ActivityFeedbackStudentSelect: ActivityFeedbackStudentSelectStub,
-    WriteFeedbackFloatingPanel: WriteFeedbackFloatingPanelStub,
+    FeedbackManagementFloatingPanel: FeedbackManagementFloatingPanelStub,
     StudentPerspectiveCard: StudentPerspectiveCardStub,
     AssociatedElementSummaryCard: AssociatedElementSummaryCardStub,
   }
@@ -73,7 +73,7 @@ BddTest().given('an activity feedback details view', () => {
     })
 
     BddTest().then('it should render the write feedback floating panel', () => {
-      expect(wrapper.findComponent(WriteFeedbackFloatingPanelStub).exists()).toBe(true)
+      expect(wrapper.findComponent(FeedbackManagementFloatingPanelStub).exists()).toBe(true)
     })
   })
 
@@ -88,7 +88,7 @@ BddTest().given('an activity feedback details view', () => {
     })
 
     BddTest().then('it should not render the write feedback floating panel', () => {
-      expect(wrapper.findComponent(WriteFeedbackFloatingPanelStub).exists()).toBe(false)
+      expect(wrapper.findComponent(FeedbackManagementFloatingPanelStub).exists()).toBe(false)
     })
   })
 
@@ -125,7 +125,7 @@ BddTest().given('an activity feedback details view', () => {
     })
 
     BddTest().then('it should not render the write feedback floating panel', () => {
-      expect(wrapper.findComponent(WriteFeedbackFloatingPanelStub).exists()).toBe(false)
+      expect(wrapper.findComponent(FeedbackManagementFloatingPanelStub).exists()).toBe(false)
     })
   })
 })

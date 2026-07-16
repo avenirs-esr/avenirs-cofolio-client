@@ -45,12 +45,12 @@ function submitFeedback () {
     {
       onSuccess: async () => {
         await withTaskLoading(() => invalidateGetFeedbackDetails(queryClient, EUserCategory.STAFF, feedback.id))
-        addSuccessMessage(t('staff.feedbacks.views.ActivityFeedbackDetailsView.WriteFeedbackFloatingPanel.tabs.write.success.sendFeedback'))
+        addSuccessMessage(t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.success.sendFeedback'))
         emit('feedbackSent')
       },
       onError: (error) => {
         addErrorMessage({
-          title: t('staff.feedbacks.views.ActivityFeedbackDetailsView.WriteFeedbackFloatingPanel.tabs.write.errors.saveFeedback'),
+          title: t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.errors.saveFeedback'),
           description: getErrorMessage(error)
         })
       },
