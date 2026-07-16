@@ -32,6 +32,11 @@ BddTest().given('a RequestFeedback component', () => {
       expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(false)
     })
 
+    BddTest().then('it should render the button with the request-feedback-button testid', () => {
+      expect(wrapper.find('[data-testid="request-feedback-button"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="update-feedback-button"]').exists()).toBe(false)
+    })
+
     BddTest().then('it should render the confirmation modal closed by default', () => {
       const modal = wrapper.findComponent(ConfirmationModalStub)
       expect(modal.exists()).toBe(true)
@@ -88,6 +93,15 @@ BddTest().given('a RequestFeedback component', () => {
       expect(wrapper.findComponent(AvButtonStub).exists()).toBe(true)
       expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(false)
     })
+
+    BddTest().then('it should render the button with the update-feedback-button testid', () => {
+      expect(wrapper.find('[data-testid="update-feedback-button"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="request-feedback-button"]').exists()).toBe(false)
+    })
+
+    BddTest().then('it should render the button as enabled', () => {
+      expect(wrapper.findComponent(AvButtonStub).props('disabled')).toBe(false)
+    })
   })
 
   BddTest().when('the component is mounted with feedbackStatus IN_PROCESS', () => {
@@ -101,6 +115,25 @@ BddTest().given('a RequestFeedback component', () => {
     BddTest().then('it should render the button as disabled', () => {
       expect(wrapper.findComponent(AvButtonStub).exists()).toBe(true)
       expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(false)
+      expect(wrapper.findComponent(AvButtonStub).props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should still render the update-feedback-button, not the request-feedback-button', () => {
+      expect(wrapper.find('[data-testid="update-feedback-button"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="request-feedback-button"]').exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with feedbackStatus IN_PROCESS and disabled explicitly set to false', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(RequestFeedback, {
+        props: { remainingFeedbacks: 2, feedbackStatus: EFeedbackStatus.IN_PROCESS, disabled: false },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should still render the button as disabled', () => {
+      expect(wrapper.findComponent(AvButtonStub).props('disabled')).toBe(true)
     })
   })
 

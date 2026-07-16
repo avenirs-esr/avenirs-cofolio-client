@@ -22,16 +22,27 @@ const emit = defineEmits<{ (e: 'requestFeedback'): void }>()
 const { t, locale } = useI18n()
 const { showModal, displayModal, hideModal } = useModal()
 
+const hasExistingFeedbackRequest = computed(() =>
+  feedbackStatus === EFeedbackStatus.NEW || feedbackStatus === EFeedbackStatus.IN_PROCESS,
+)
+
+const isRequestFeedbackButtonDisabled = computed(() =>
+  disabled || feedbackStatus === EFeedbackStatus.IN_PROCESS,
+)
+
 const requestFeedbackConfig = computed(() => ({
-  label: feedbackStatus === EFeedbackStatus.NEW
+  label: hasExistingFeedbackRequest.value
     ? t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackButton.updateFeedbackLabel', { date: feedbackCreatedAt ? formatDateLocalized(feedbackCreatedAt, locale.value as AvLocale) : '' })
     : t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackButton.requestFeedbackLabel'),
 
-  icon: feedbackStatus === EFeedbackStatus.NEW ? MS_ICONS.CYCLE_ROUNDED : MS_ICONS.SEND_OUTLINE_ROUNDED,
+  icon: hasExistingFeedbackRequest.value ? MS_ICONS.CYCLE_ROUNDED : MS_ICONS.SEND_OUTLINE_ROUNDED,
 
-  variant: (feedbackStatus === EFeedbackStatus.NEW ? 'FLAT' : 'OUTLINED') as AvButtonProps['variant'],
+  variant: (hasExistingFeedbackRequest.value ? 'FLAT' : 'OUTLINED') as AvButtonProps['variant'],
 }))
 
+const requestFeedbackButtonTestId = computed(() =>
+  hasExistingFeedbackRequest.value ? 'update-feedback-button' : 'request-feedback-button',
+)
 const feedbackDescription = computed(() => {
   if (remainingFeedbacks === -1) {
     return t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackConfirmModal.descriptionUnlimited')
@@ -54,9 +65,9 @@ function handleConfirm () {
     data-testid="request-feedback"
   >
     <AvButton
-      :data-testid="feedbackStatus === EFeedbackStatus.NEW ? 'update-feedback-button' : 'request-feedback-button'"
+      :data-testid="requestFeedbackButtonTestId"
       v-bind="requestFeedbackConfig"
-      :disabled="disabled"
+      :disabled="isRequestFeedbackButtonDisabled"
       :is-loading="isLoading"
       @click="displayModal"
     />
