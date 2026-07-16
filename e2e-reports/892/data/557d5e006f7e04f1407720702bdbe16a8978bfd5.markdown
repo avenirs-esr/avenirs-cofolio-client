@@ -1,0 +1,194 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - link "Accueil - Cofolio Étudiant" [ref=e12] [cursor=pointer]:
+          - /url: /cofolio/student
+          - img [ref=e13]
+        - button "Changer d'univers" [ref=e15] [cursor=pointer]:
+          - generic [ref=e18]: Changer d'univers
+      - generic [ref=e20]:
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - button "Messagerie" [ref=e27] [cursor=pointer]:
+              - generic [ref=e30]: Messagerie
+          - listitem [ref=e31]:
+            - button "Notifications" [ref=e34] [cursor=pointer]:
+              - generic [ref=e37]: Notifications
+          - listitem [ref=e38]:
+            - button "J. moulin" [ref=e41] [cursor=pointer]:
+              - generic [ref=e44]: J. moulin
+        - navigation [ref=e47]:
+          - button "FR" [ref=e50] [cursor=pointer]:
+            - generic [ref=e53]: FR
+    - navigation "Menu principal" [ref=e57]:
+      - list [ref=e58]:
+        - listitem [ref=e59]:
+          - link "ACCUEIL" [ref=e60] [cursor=pointer]:
+            - /url: /cofolio/student
+            - generic [ref=e63]: ACCUEIL
+        - listitem [ref=e64]:
+          - button "RÉUSSIR MA FORMATION" [ref=e65] [cursor=pointer]:
+            - generic [ref=e66]: RÉUSSIR MA FORMATION
+        - listitem [ref=e67]:
+          - button "CONSTRUIRE MON PROJET DE VIE" [ref=e68] [cursor=pointer]:
+            - generic [ref=e69]: CONSTRUIRE MON PROJET DE VIE
+        - listitem [ref=e70]:
+          - button "MES OUTILS" [ref=e71] [cursor=pointer]:
+            - generic [ref=e72]: MES OUTILS
+  - main [ref=e73]:
+    - generic [ref=e75]:
+      - generic [ref=e77]:
+        - navigation "Fil d'Ariane" [ref=e78]:
+          - list [ref=e80]:
+            - listitem [ref=e81]:
+              - link "Accueil" [ref=e82] [cursor=pointer]:
+                - /url: /cofolio/student
+            - listitem [ref=e83]:
+              - generic: Mes outils
+            - listitem [ref=e84]:
+              - link "Mes traces" [ref=e85] [cursor=pointer]:
+                - /url: /cofolio/student/tools/traces
+            - listitem [ref=e86]:
+              - link "Développement d'un ePortfolio" [ref=e87] [cursor=pointer]:
+                - /url: /cofolio/student/tools/trace/4453f884-9081-43cb-95c6-d76c2bb59fd7
+            - listitem [ref=e88]:
+              - generic: Modifier
+        - heading "Modifier Développement d'un ePortfolio" [level=1] [ref=e89]
+      - generic [ref=e90]:
+        - status [ref=e92]:
+          - generic [ref=e93]: Modification en cours
+        - generic [ref=e95]:
+          - tablist "Liste d’onglets" [ref=e96]:
+            - tab "Ma trace" [selected] [ref=e97] [cursor=pointer]:
+              - generic [ref=e100]: Ma trace
+            - tab "Mes éléments associés (5)" [ref=e101] [cursor=pointer]:
+              - generic [ref=e104]: Mes éléments associés (5)
+          - tabpanel "Ma trace" [ref=e105]:
+            - generic [ref=e106]:
+              - checkbox "Non Je valorise cette trace dans mon kit" [ref=e107] [cursor=pointer]
+              - generic [ref=e108] [cursor=pointer]:
+                - generic [ref=e109]:
+                  - img [ref=e110]
+                  - generic [ref=e112]: Non
+                - generic [ref=e113]: Je valorise cette trace dans mon kit
+              - generic [ref=e114]:
+                - generic [ref=e115]:
+                  - generic [ref=e117]:
+                    - generic [ref=e118]:
+                      - generic [ref=e120]: Nom de ma trace *
+                      - textbox "Nom de ma trace" [ref=e121]:
+                        - /placeholder: Nom-de-ma-trace-01
+                        - text: Développement d'un ePortfolio
+                    - generic [ref=e122]: 29 / 80 caractères (espaces compris)
+                  - generic [ref=e123]:
+                    - generic [ref=e124]: Mon document chargé - Ajouté le 2 juin 2025 à 13:42 - 0 Mo
+                    - generic [ref=e127]:
+                      - generic [ref=e131]:
+                        - generic [ref=e132]: An awesome attachment
+                        - status [ref=e133]:
+                          - generic [ref=e137]: Document chargé.
+                      - button "Supprimer" [ref=e139] [cursor=pointer]:
+                        - generic [ref=e140]: Supprimer
+                    - generic [ref=e141]:
+                      - generic [ref=e142]: "Images : 5Mo •"
+                      - generic [ref=e143]: "Texte : 5Mo •"
+                      - generic [ref=e144]: "Audio : 5Mo •"
+                      - generic [ref=e145]: "Vidéo : 10Mo •"
+                      - generic [ref=e146]: "Application : 10Mo"
+                  - generic [ref=e149]:
+                    - generic [ref=e150]:
+                      - generic [ref=e152]: Note personnelle
+                      - textbox "Note personnelle" [ref=e153]:
+                        - /placeholder: Ajoutez votre note personnelle ici...
+                        - text: An awesome personal note
+                    - generic [ref=e154]: 24 / 200 caractères (espaces compris)
+                - generic [ref=e155]:
+                  - generic [ref=e156]:
+                    - generic [ref=e157]: Déclarer la nature de ma production
+                    - group "personnelle collective (j'y ai contribué) d'un tiers (témoignage, recommandation, etc.)" [ref=e160]:
+                      - generic [ref=e161]:
+                        - generic [ref=e162]:
+                          - generic [ref=e164]:
+                            - radio "personnelle" [checked] [ref=e165] [cursor=pointer]
+                            - generic [ref=e168] [cursor=pointer]: personnelle
+                          - generic [ref=e170]:
+                            - radio "collective (j'y ai contribué)" [ref=e171] [cursor=pointer]
+                            - generic [ref=e174] [cursor=pointer]: collective (j'y ai contribué)
+                          - generic [ref=e176]:
+                            - radio "d'un tiers (témoignage, recommandation, etc.)" [ref=e177] [cursor=pointer]
+                            - generic [ref=e180] [cursor=pointer]: d'un tiers (témoignage, recommandation, etc.)
+                        - status
+                  - generic [ref=e181]:
+                    - generic [ref=e182]: Déclarer si c'est une production réalisée avec IA
+                    - checkbox "Oui Je soumets une production réalisée avec IA" [checked] [ref=e183] [cursor=pointer]
+                    - generic [ref=e184] [cursor=pointer]:
+                      - generic [ref=e185]:
+                        - img [ref=e186]
+                        - generic [ref=e188]: Oui
+                      - generic [ref=e189]: Je soumets une production réalisée avec IA
+                    - generic [ref=e192]:
+                      - generic [ref=e193]:
+                        - generic [ref=e195]: Justification de l'usage de l'IA *
+                        - textbox "Justification de l'usage de l'IA" [ref=e196]:
+                          - /placeholder: Décrivez comment et pourquoi vous avez utilisé l'IA...
+                          - text: An awesome justification
+                      - generic [ref=e197]: 24 / 200 caractères (espaces compris)
+        - generic [ref=e199]:
+          - button "Fermer" [ref=e200] [cursor=pointer]:
+            - generic [ref=e203]: Fermer
+          - button "Enregistrer" [ref=e204] [cursor=pointer]:
+            - generic [ref=e207]: Enregistrer
+  - contentinfo [ref=e208]:
+    - generic [ref=e210]:
+      - generic [ref=e211]:
+        - link "Logo ANR" [ref=e212] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e213]
+        - link "Logo France 2030" [ref=e214] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e215]
+      - generic [ref=e216]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e217]:
+      - generic [ref=e218]:
+        - img "Logo Cofolio" [ref=e219]
+        - generic [ref=e230]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e231]:
+        - generic [ref=e232]:
+          - generic [ref=e233]: Informations légales
+          - list [ref=e234]:
+            - listitem [ref=e235]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e236] [cursor=pointer]':
+                - /url: /cofolio/student/accessibility
+            - listitem [ref=e237]:
+              - link "Mentions légales" [ref=e238] [cursor=pointer]:
+                - /url: /cofolio/student/legal
+            - listitem [ref=e239]:
+              - link "Données personnelles" [ref=e240] [cursor=pointer]:
+                - /url: /cofolio/student/personal-data
+            - listitem [ref=e241]:
+              - link "Gestion des cookies" [ref=e242] [cursor=pointer]:
+                - /url: /cofolio/student/cookies
+        - generic [ref=e243]:
+          - generic [ref=e244]: Autres sites
+          - list [ref=e245]:
+            - listitem [ref=e246]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e247] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e248]:
+          - generic [ref=e249]: Partenaires
+          - generic [ref=e250]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e251] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e252]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e253] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e255]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e259] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
