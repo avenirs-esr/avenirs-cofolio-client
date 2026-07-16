@@ -40,6 +40,15 @@
               "title": "Add my skill",
               "reflectionLabel": "Reflective review"
             },
+            "addAssociations": {
+              "title": "Associate my skill",
+              "types": {
+                "activities": {
+                  "label": "My activities",
+                  "placeholder": "Search for an activity..."
+                }
+              }
+            },
             "declarations": {
               "title": "Submit my declarations"
             }
