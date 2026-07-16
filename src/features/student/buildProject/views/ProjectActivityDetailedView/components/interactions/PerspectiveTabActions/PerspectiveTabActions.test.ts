@@ -234,5 +234,46 @@ BddTest().given('a perspective tab actions', () => {
       expect(hint.exists()).toBe(true)
       expect(hint.attributes('data-type')).toBe('updatable-feedback')
     })
+
+    BddTest().then('it should pass disabled false to RequestFeedback', () => {
+      const requestFeedback = wrapper.findComponent(RequestFeedbackStub)
+      expect(requestFeedback.props('disabled')).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with a submitted activity and an IN_PROCESS feedback', () => {
+    const mockedSubmittedWithInProcessFeedback: DeclaredActivityDetailsDTO = {
+      ...mockedDeclaredActivityDetails,
+      status: EDeclaredActivityStatus.SUBMITTED,
+      feedbacks: [{
+        id: 'feedback-1',
+        status: EFeedbackStatus.IN_PROCESS,
+        createdAt: '2024-01-15T10:00:00Z',
+        updatedAt: '2024-01-16T10:00:00Z',
+        staff: { id: 'staff-1', firstName: 'Staff', lastName: 'User', email: 'staff@test.com' },
+        student: { id: 'student-1', firstName: 'Lucas', lastName: 'Tessier', email: 'lucas@test.com' },
+      }],
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(PerspectiveTabActions, {
+        props: { declaredActivityDetails: mockedSubmittedWithInProcessFeedback },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render RequestFeedback', () => {
+      expect(wrapper.findComponent(RequestFeedbackStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass disabled true to RequestFeedback', () => {
+      const requestFeedback = wrapper.findComponent(RequestFeedbackStub)
+      expect(requestFeedback.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should pass the IN_PROCESS feedback status to RequestFeedback', () => {
+      const requestFeedback = wrapper.findComponent(RequestFeedbackStub)
+      expect(requestFeedback.props('feedbackStatus')).toBe(EFeedbackStatus.IN_PROCESS)
+    })
   })
 })
