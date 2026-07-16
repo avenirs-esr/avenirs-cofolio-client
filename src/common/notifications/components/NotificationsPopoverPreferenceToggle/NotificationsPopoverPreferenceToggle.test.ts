@@ -37,8 +37,8 @@ BddTest().given('a notifications popover preference toggle', () => {
   })
 
   BddTest().when('component is mounted', () => {
-    BddTest().then('it reflects server value (unchecked)', async () => {
-      expect(getCheckbox().attributes('checked') === undefined).toBe(true)
+    BddTest().then('it reflects server value (checked)', async () => {
+      expect(getCheckbox().attributes('checked') === undefined).toBe(false)
     })
   })
 

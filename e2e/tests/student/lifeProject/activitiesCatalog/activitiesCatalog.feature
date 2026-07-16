@@ -37,7 +37,7 @@ Feature: Student Project Activities Catalog Page
     Scenario: Student sees first thematic activities in side navigation
       Then the first thematic in side navigation is "SELF_KNOWLEDGE"
       And the first thematic in side navigation has at least 1 activity
-      And the first thematic in side navigation first activity is "Définir ses valeurs"
+      And the first thematic in side navigation first activity is "Identifier ses motivations profondes"
       And the first thematic in side navigation last activity is "Identifier ses centres d'intérêt"
 
   Rule: Activity preview - Desktop

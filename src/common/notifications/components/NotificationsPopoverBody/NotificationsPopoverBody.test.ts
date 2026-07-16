@@ -1,4 +1,5 @@
 import { getStaffQuickLinksEnabledHandler } from '@/__mocks__/msw/handlers/staffs/user.handlers'
+import { getStudentQuickLinksDisabledHandler } from '@/__mocks__/msw/handlers/student/user.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EUserCategory, getGetNotificationsUrl, type PagedResponseNotificationDTO } from '@/api/avenir-esr'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
@@ -92,7 +93,10 @@ BddTest().given('a notifications popover body', () => {
   })
 
   BddTest().when('notifications are disabled', () => {
-    beforeEach(() => mountDefault(EUserCategory.STUDENT))
+    beforeEach(() => {
+      server.use(getStudentQuickLinksDisabledHandler)
+      return mountDefault(EUserCategory.STUDENT)
+    })
 
     BddTest().then('it should render title without unseen notification counter', () => {
       const title = getTitle()

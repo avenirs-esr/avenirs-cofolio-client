@@ -1,3 +1,4 @@
+import { mockedStudentQuickLinks } from '@/__mocks__/fixtures/student/user.fixtures'
 import { quickLinksState } from '@/__mocks__/msw/common/quickLinks.state'
 import {
   EUserCategory,
@@ -14,6 +15,19 @@ export const getStudentQuickLinksErrorHandler = http.get(`*${getGetQuickLinksUrl
     { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
   )
 })
+
+export const getStudentQuickLinksDisabledHandler = http.get<PathParams, QuickLinksDTO>(
+  `*${getGetQuickLinksUrl(EUserCategory.STUDENT)}`,
+  () => {
+    return HttpResponse.json<QuickLinksDTO>(
+      { ...mockedStudentQuickLinks, notificationEnabled: false },
+      {
+        status: HttpStatusCode.OK,
+        headers: { 'Content-Type': 'application/json' },
+      },
+    )
+  },
+)
 
 export const studentUserHandlers = [
   http.get<PathParams, QuickLinksDTO>(`*${getGetQuickLinksUrl(EUserCategory.STUDENT)}`, () => {

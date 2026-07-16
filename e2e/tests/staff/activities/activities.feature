@@ -42,7 +42,7 @@ Feature: Staff Activities Page
 
     Background:
       When the user clicks on the my workspace tab
-      And the user clicks on the first activity more actions button
+      And the user clicks on the first activity draft more actions button
 
     @high @dataset-full @delete-draft-activity
     Scenario: Staff can see the delete option from the more actions dropdown

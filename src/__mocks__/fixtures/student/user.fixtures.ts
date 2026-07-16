@@ -6,5 +6,5 @@ export const mockedStudentQuickLinks: QuickLinksDTO = {
   lastname: 'Moulin',
   hasUnseenNotification: false,
   unreadNotifications: 0,
-  notificationEnabled: false
+  notificationEnabled: true
 }

@@ -1,4 +1,5 @@
 import { getStaffQuickLinksEnabledHandler } from '@/__mocks__/msw/handlers/staffs/user.handlers'
+import { getStudentQuickLinksDisabledHandler } from '@/__mocks__/msw/handlers/student/user.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EUserCategory } from '@/api/avenir-esr'
 import NotificationsPopoverEmptyOrDisabled from '@/common/notifications/components/NotificationsPopoverEmptyOrDisabled/NotificationsPopoverEmptyOrDisabled.vue'
@@ -22,7 +23,10 @@ BddTest().given('a notifications popover empty or disabled', () => {
   const getCustomSlot = () => wrapper.find('[data-testid="custom-slot"]')
 
   BddTest().when('notifications disabled', () => {
-    beforeEach(() => mountDefault(EUserCategory.STUDENT))
+    beforeEach(() => {
+      server.use(getStudentQuickLinksDisabledHandler)
+      return mountDefault(EUserCategory.STUDENT)
+    })
 
     BddTest().then('it should render disabled content', () => {
       const disabled = getDisabled()
