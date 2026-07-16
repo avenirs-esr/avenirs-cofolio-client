@@ -27,7 +27,7 @@ const { t } = useI18n()
     :is-loading="isLoading"
     :error="error"
     :is-empty="feedbacks.length === 0"
-    :empty-state-message="t('staff.feedbacks.views.ActivityFeedbackDetailsView.WriteFeedbackFloatingPanel.tabs.history.emptyState')"
+    :empty-state-message="t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.history.emptyState')"
     data-testid="feedbacks-history-tab"
   >
     <div class="av-col av-gap-sm">

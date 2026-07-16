@@ -28,7 +28,7 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
   const { isLoading, withTaskLoading } = useTaskLoading()
   const onSendFeedbackError = (error: BaseApiException) => {
     addErrorMessage({
-      title: t('staff.feedbacks.views.ActivityFeedbackDetailsView.WriteFeedbackFloatingPanel.tabs.write.errors.saveFeedback'),
+      title: t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.errors.saveFeedback'),
       description: getErrorMessage(error)
     })
   }

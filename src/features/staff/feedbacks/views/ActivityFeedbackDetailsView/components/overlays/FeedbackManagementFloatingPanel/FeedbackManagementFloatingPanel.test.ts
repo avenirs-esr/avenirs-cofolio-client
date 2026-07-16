@@ -2,14 +2,14 @@ import { mockedFeedbackDetailsWithAssociations, mockedFeedbackHistory } from '@/
 import { createGetFeedbackHistoryHandler, getFeedbackHistoryErrorHandler } from '@/__mocks__/msw/handlers/staffs/feedbacks.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { FeedbacksHistoryTabStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/tabs/FeedbacksHistoryTab/FeedbacksHistory.stub'
-import WriteFeedbackFloatingPanel from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/WriteFeedbackFloatingPanel/WriteFeedbackFloatingPanel.vue'
+import FeedbackManagementFloatingPanel from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/FeedbackManagementFloatingPanel/FeedbackManagementFloatingPanel.vue'
 import { AvFloatingPanelStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a write feedback floating panel', () => {
-  let wrapper: VueWrapper<InstanceType<typeof WriteFeedbackFloatingPanel>>
+  let wrapper: VueWrapper<InstanceType<typeof FeedbackManagementFloatingPanel>>
 
   const mockFeedback = mockedFeedbackDetailsWithAssociations
 
@@ -22,12 +22,12 @@ BddTest().given('a write feedback floating panel', () => {
   }
 
   const mountPanel = async () => {
-    const mounted = mountComponent(WriteFeedbackFloatingPanel, {
+    const mounted = mountComponent(FeedbackManagementFloatingPanel, {
       props: {
         feedback: mockFeedback,
-        activityTitle: 'Test Activity'
+        activityTitle: 'Test Activity',
       },
-      global: { stubs }
+      global: { stubs },
     })
     await flushPromises()
     return mounted

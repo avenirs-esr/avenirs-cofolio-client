@@ -43,7 +43,7 @@
             "placeholder": "Sélectionner un étudiant"
           },
           "title": "Toutes mes demandes de feedback ({count}) sur l'activité \"{activityTitle}\"",
-          "WriteFeedbackFloatingPanel": {
+          "FeedbackManagementFloatingPanel": {
             "tabs": {
               "history": {
                 "emptyState": "Vous n'avez aucun feedback précédent",
