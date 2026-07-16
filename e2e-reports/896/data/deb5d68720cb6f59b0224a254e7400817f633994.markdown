@@ -23,8 +23,8 @@
           - generic [ref=e37]:
             - generic [ref=e38]: Accéder à
             - combobox "Accéder à" [ref=e41] [cursor=pointer]:
-              - option "Définir ses valeurs" [selected]
               - option "Identifier ses motivations profondes"
+              - option "Définir ses valeurs" [selected]
               - option "Clarifier son identité personnelle"
               - option "Identifier ses centres d'intérêt"
               - option "Explorer ses pistes d'orientation"
@@ -55,10 +55,10 @@
         - generic [ref=e42]:
           - generic [ref=e43]:
             - link "Précédent" [ref=e44] [cursor=pointer]:
-              - /url: /cofolio/student/project/activities/catalog/TRANSVERSAL/2c9e4b77-6a1f-4d55-8b3c-7e2d1a9f4c22
+              - /url: /cofolio/student/project/activities/catalog/SELF_KNOWLEDGE/9a12e6b4-8c3f-4d22-bf55-6d4c1f2a7e33
               - generic [ref=e47]: Précédent
             - link "Suivant" [ref=e48] [cursor=pointer]:
-              - /url: /cofolio/student/project/activities/catalog/SELF_KNOWLEDGE/9a12e6b4-8c3f-4d22-bf55-6d4c1f2a7e33
+              - /url: /cofolio/student/project/activities/catalog/SELF_KNOWLEDGE/c9d4e1f2-7a21-4f7d-9b44-1a3e8f6c2b10
               - generic [ref=e51]: Suivant
           - generic [ref=e54]:
             - generic [ref=e55]:
