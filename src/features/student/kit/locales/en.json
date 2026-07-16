@@ -8,7 +8,13 @@
             "profile": "An error occurred while retrieving your profile. Please try again later."
           },
           "subtitle": "Ready-to-use CoFolio raw material",
-          "title": "My ready-to-use kit"
+          "title": "My ready-to-use kit",
+          "valorizedAssociatedTracesContainer": {
+            "title": "My associated trace (1) | My associated traces ({count})"
+          },
+          "valorizedNonAssociatedTracesContainer": {
+            "title": "My non-associated trace (1) | My non-associated traces ({count})"
+          }
         }
       }
     }

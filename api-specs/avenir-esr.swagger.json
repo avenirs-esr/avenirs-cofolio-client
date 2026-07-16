@@ -5292,6 +5292,9 @@
           "isAssociated": {
             "type": "boolean"
           },
+          "isValorized": {
+            "type": "boolean"
+          },
           "fileTypes": {
             "type": "array",
             "items": {

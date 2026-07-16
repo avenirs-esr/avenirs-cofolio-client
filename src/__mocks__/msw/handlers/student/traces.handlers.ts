@@ -65,8 +65,23 @@ export function createTracesSummaryHandler (payload: TracesSummaryDTO) {
   })
 }
 
-export function createTracesViewHandler (payload: PagedResponseTraceViewDTO) {
-  return http.post(`*${getTracesViewUrl()}`, () => {
+export function createTracesViewHandler (
+  payload: PagedResponseTraceViewDTO,
+  onRequest?: (traceFilter: TraceFilter, params: TracesViewParams) => void
+) {
+  return http.post(`*${getTracesViewUrl()}`, async ({ request }) => {
+    if (onRequest) {
+      const traceFilter = await request.json() as TraceFilter
+      const searchParams = new URL(request.url).searchParams
+      onRequest(traceFilter, {
+        keyword: searchParams.get('keyword') ?? undefined,
+        page: searchParams.has('page') ? Number(searchParams.get('page')) : undefined,
+        pageSize: searchParams.has('pageSize') ? Number(searchParams.get('pageSize')) : undefined,
+        fromDate: searchParams.get('fromDate') ?? undefined,
+        toDate: searchParams.get('toDate') ?? undefined,
+      })
+    }
+
     return HttpResponse.json<PagedResponseTraceViewDTO>(payload, {
       status: 200,
       headers: {
@@ -483,6 +498,16 @@ export const tracesHandlers = [
   }),
   lockedDeclaredActivitiesHandler
 ]
+
+export const tracesViewErrorHandler = http.post(
+  `*${getTracesViewUrl()}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+      { status: 500 }
+    )
+  }
+)
 
 export const deleteTraceAssociationsErrorHandler = http.delete(
   `*${getDeleteTraceAssociationsUrl(':traceId')}`,
