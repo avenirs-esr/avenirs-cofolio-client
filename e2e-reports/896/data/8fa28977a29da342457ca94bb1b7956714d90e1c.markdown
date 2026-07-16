@@ -56,7 +56,7 @@
               - generic: "Activité “Connaissance de soi” : Définir ses valeurs"
         - heading "Toutes les activités disponibles" [level=1] [ref=e86]
       - generic [ref=e87]:
-        - navigation "7b988faf-3d50-49f6-be1c-144fecfd8022 navigation" [ref=e88]:
+        - navigation "0912ab24-6a37-4108-ac50-3e067412a09f navigation" [ref=e88]:
           - button "Réduire le menu" [expanded] [ref=e92] [cursor=pointer]
           - menu [ref=e96]:
             - menuitem "Me connaître" [ref=e97]:
