@@ -43,7 +43,10 @@ function handleModelValueUpdate (file: File | null) {
 <template>
   <FormField name="file">
     <template #default="{ field }">
-      <div class="av-col av-gap-xxs">
+      <div
+        class="av-col av-gap-xxs"
+        data-testid="add-activity-resource-file-upload-container"
+      >
         <AvFileUpload
           :model-value="field.state.value"
           :accept="accept"
