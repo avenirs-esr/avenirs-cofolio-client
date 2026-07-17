@@ -198,6 +198,16 @@ Feature: Student Project Activity Detail Page
       And the my perspective section is visible
       When the student opens associated elements tab
       Then the associated traces card is visible
+      
+    @high @activity-details @associated-elements @dataset-full
+    Scenario: Student can see the trace association limit card
+      And the student clicks an in progress activity with associated traces
+      And the project activity details are loaded
+      And the student clicks the my perspective item in the activity side menu
+      And the my perspective section is visible
+      When the student opens associated elements tab
+      Then the trace association limit card is visible
+      And the trace association limit badge is visible
 
     @high @activity-details @associated-elements @associate-traces-modal @dataset-full
     Scenario: Student can open associate traces modal from associated elements tab

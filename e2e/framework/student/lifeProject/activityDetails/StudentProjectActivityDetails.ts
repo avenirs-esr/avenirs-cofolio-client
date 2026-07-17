@@ -350,4 +350,14 @@ export class StudentProjectActivityDetails extends BasePage {
   async verifyReceivedFeedbackCardsVisible () {
     await this.getMyPerspectiveSection().verifyReceivedFeedbackCardsVisible()
   }
+
+  @Then('the trace association limit card is visible')
+  async verifyTraceAssociationLimitCardVisible () {
+    await this.getMyPerspectiveSection().verifyTraceAssociationLimitCardVisible()
+  }
+
+  @Then('the trace association limit badge is visible')
+  async verifyTraceAssociationLimitBadgeVisible () {
+    await this.getMyPerspectiveSection().verifyTraceAssociationLimitBadgeVisible()
+  }
 }
