@@ -87,6 +87,14 @@ export class MyPerspectiveSectionObject extends BaseObject {
     return this.root.page().getByTestId('associated-trace-card')
   }
 
+  getTraceAssociationLimitCard () {
+    return this.root.page().getByTestId('association-limit-card')
+  }
+
+  getTraceAssociationLimitBadge () {
+    return this.root.page().getByTestId('association-limit-card-badge')
+  }
+
   getAssociateElementsDropdownTrigger () {
     return this.root.page().getByTestId('activity-associate-elements-dropdown')
   }
@@ -113,6 +121,14 @@ export class MyPerspectiveSectionObject extends BaseObject {
 
   getAssociateTracesConfirmationModal () {
     return this.root.page().getByTestId('confirm-associate-modal')
+  }
+
+  async verifyTraceAssociationLimitCardVisible () {
+    await expect(this.getTraceAssociationLimitCard()).toBeVisible()
+  }
+
+  async verifyTraceAssociationLimitBadgeVisible () {
+    await expect(this.getTraceAssociationLimitBadge()).toBeVisible()
   }
 
   async verifyVisible () {
