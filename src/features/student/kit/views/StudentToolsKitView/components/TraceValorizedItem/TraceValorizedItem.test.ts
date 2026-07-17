@@ -13,7 +13,8 @@ const BASE_TRACE: TraceViewDTO = {
   title: 'Ma trace de test',
   isAssociated: true,
   createdAt: '2025-03-03T10:00:00.000Z',
-  updatedAt: '2025-03-03T10:00:00.000Z'
+  updatedAt: '2025-03-03T10:00:00.000Z',
+  authorType: ETraceAuthorType.PERSONAL
 }
 
 BddTest().given('a trace valorized item', () => {
@@ -24,14 +25,14 @@ BddTest().given('a trace valorized item', () => {
     AvTooltip: AvTooltipStub
   }
 
-  function mountTraceValorizedItem (trace: TraceViewDTO, type: ValorizedItemType = ValorizedItemType.ASSOCIATED_TRACE, isLastItem = false) {
+  function mountTraceValorizedItem (trace: TraceViewDTO, type: ValorizedItemType.ASSOCIATED_TRACE | ValorizedItemType.NON_ASSOCIATED_TRACE = ValorizedItemType.ASSOCIATED_TRACE) {
     wrapper = mountComponent(TraceValorizedItem, {
-      props: { trace, type, isLastItem },
+      props: { trace, type },
       global: { stubs }
     })
   }
 
-  BddTest().when('the trace has no attachment, author type, AI justification or personal note', () => {
+  BddTest().when('the trace has no attachment, AI justification or personal note', () => {
     beforeEach(async () => {
       mountTraceValorizedItem(BASE_TRACE)
       await flushPromises()
@@ -58,12 +59,10 @@ BddTest().given('a trace valorized item', () => {
       expect(wrapper.find('[data-testid="trace-file-type-badge"]').exists()).toBe(false)
     })
 
-    BddTest().then('it should not render the author type badge', () => {
-      expect(wrapper.find('[data-testid="trace-author-type-badge"]').exists()).toBe(false)
-    })
-
-    BddTest().then('it should not render the AI produced badge', () => {
-      expect(wrapper.find('[data-testid="trace-ai-produced-badge"]').exists()).toBe(false)
+    BddTest().then('it should render the AI produced badge in its "Sans IA" state', () => {
+      const badge = wrapper.find('[data-testid="trace-ai-produced-badge"]')
+      expect(badge.exists()).toBe(true)
+      expect(badge.text()).toBe('Sans IA')
     })
 
     BddTest().then('it should not render a personal note', () => {
@@ -103,8 +102,10 @@ BddTest().given('a trace valorized item', () => {
       expect(wrapper.find('[data-testid="trace-author-type-badge"]').exists()).toBe(true)
     })
 
-    BddTest().then('it should render the AI produced badge', () => {
-      expect(wrapper.find('[data-testid="trace-ai-produced-badge"]').exists()).toBe(true)
+    BddTest().then('it should render the AI produced badge in its "Avec IA" state', () => {
+      const badge = wrapper.find('[data-testid="trace-ai-produced-badge"]')
+      expect(badge.exists()).toBe(true)
+      expect(badge.text()).toBe('Avec IA')
     })
 
     BddTest().then('it should render the personal note prefixed with "Ma note personnelle"', () => {

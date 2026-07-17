@@ -33,12 +33,3 @@ const { title, error = null, isLoading = false } = defineProps<ValorizedElements
     </QuerySuspense>
   </Card>
 </template>
-
-<style lang="scss" scoped>
-.valorized-elements-card-container {
-  :deep(.valorized-item:not(:last-child)) {
-    padding-bottom: var(--spacing-sm);
-    border-bottom: 1px solid var(--stroke);
-  }
-}
-</style>

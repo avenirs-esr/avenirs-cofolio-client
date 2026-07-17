@@ -1,6 +1,7 @@
 import type { PagedResponseTraceViewDTO } from '@/api/avenir-esr'
 import { createTracesViewHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { ETraceAuthorType } from '@/api/avenir-esr'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import StudentToolsTracesViewAssociatedTab from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewAssociatedTab/StudentToolsTracesViewAssociatedTab.vue'
 import { TraceFilterContainerStub } from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.stub'
@@ -43,10 +44,10 @@ BddTest().given('a student tools traces view container', () => {
 
   const mockedTracesData: PagedResponseTraceViewDTO = {
     data: [
-      { id: '1', title: 'Trace 1', isAssociated: true, createdAt: '2024-01-01', updatedAt: '2024-01-01', willBeDeletedAt: '2024-02-01' },
-      { id: '2', title: 'Trace 2', isAssociated: true, createdAt: '2024-01-02', updatedAt: '2024-01-02', willBeDeletedAt: '2024-02-02' },
-      { id: '3', title: 'Trace 3', isAssociated: true, createdAt: '2024-01-03', updatedAt: '2024-01-03', willBeDeletedAt: '2024-02-03' },
-      { id: '4', title: 'Trace 4', isAssociated: true, createdAt: '2024-01-04', updatedAt: '2024-01-04', willBeDeletedAt: '2024-02-04' }
+      { id: '1', title: 'Trace 1', isAssociated: true, createdAt: '2024-01-01', updatedAt: '2024-01-01', willBeDeletedAt: '2024-02-01', authorType: ETraceAuthorType.PERSONAL },
+      { id: '2', title: 'Trace 2', isAssociated: true, createdAt: '2024-01-02', updatedAt: '2024-01-02', willBeDeletedAt: '2024-02-02', authorType: ETraceAuthorType.PERSONAL },
+      { id: '3', title: 'Trace 3', isAssociated: true, createdAt: '2024-01-03', updatedAt: '2024-01-03', willBeDeletedAt: '2024-02-03', authorType: ETraceAuthorType.PERSONAL },
+      { id: '4', title: 'Trace 4', isAssociated: true, createdAt: '2024-01-04', updatedAt: '2024-01-04', willBeDeletedAt: '2024-02-04', authorType: ETraceAuthorType.PERSONAL }
     ],
     page: {
       page: 0,

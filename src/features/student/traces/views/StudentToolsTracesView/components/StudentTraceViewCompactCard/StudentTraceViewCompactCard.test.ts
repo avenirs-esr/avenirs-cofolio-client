@@ -1,4 +1,5 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
+import { ETraceAuthorType } from '@/api/avenir-esr'
 import { CompactCardStub } from '@/features/student/global/components/cards/CompactCard/CompactCard.stub'
 import StudentTraceViewCompactCard
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceViewCompactCard/StudentTraceViewCompactCard.vue'
@@ -15,7 +16,8 @@ BddTest().given('a student trace view compact card', () => {
     title: 'Ma trace',
     isAssociated: true,
     createdAt: '2026-06-15T10:00:00.000Z',
-    updatedAt: '2026-06-15T10:00:00.000Z'
+    updatedAt: '2026-06-15T10:00:00.000Z',
+    authorType: ETraceAuthorType.PERSONAL
   }
 
   const stubs = {

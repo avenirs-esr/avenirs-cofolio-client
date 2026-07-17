@@ -8,12 +8,13 @@
       },
       "badges": {
         "TraceAiProducedBadge": {
-          "label": "With AI"
+          "withAi": "With AI",
+          "withoutAi": "Without AI"
         },
         "TraceAuthorTypeBadge": {
           "COLLECTIVE": "Collective",
           "PERSONAL": "Individual",
-          "THIRD_PARTY": "Third party"
+          "THIRD_PARTY": "Testimony / Recommendation"
         }
       },
       "cards": {

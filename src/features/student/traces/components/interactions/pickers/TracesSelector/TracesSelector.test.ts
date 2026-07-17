@@ -1,5 +1,6 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
+import { ETraceAuthorType } from '@/api/avenir-esr'
 import { SelectorOverlayStub } from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.stub'
 import {
   StudentTraceCardStub
@@ -27,7 +28,8 @@ BddTest().given('a traces selector', () => {
       title: 'Trace view 1',
       isAssociated: false,
       createdAt: '2026-06-15T10:00:00.000Z',
-      updatedAt: '2026-06-15T10:00:00.000Z'
+      updatedAt: '2026-06-15T10:00:00.000Z',
+      authorType: ETraceAuthorType.PERSONAL
     },
     {
       id: 'trace-view-2',
@@ -35,7 +37,8 @@ BddTest().given('a traces selector', () => {
       isAssociated: true,
       createdAt: '2026-06-15T10:00:00.000Z',
       updatedAt: '2026-06-15T10:00:00.000Z',
-      willBeDeletedAt: '2026-06-16T10:00:00.000Z'
+      willBeDeletedAt: '2026-06-16T10:00:00.000Z',
+      authorType: ETraceAuthorType.PERSONAL
     }
   ]
 

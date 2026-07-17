@@ -13,10 +13,9 @@ import { useI18n } from 'vue-i18n'
 export interface TraceValorizedItemProps {
   trace: TraceViewDTO
   type: ValorizedItemType.ASSOCIATED_TRACE | ValorizedItemType.NON_ASSOCIATED_TRACE
-  isLastItem?: boolean
 }
 
-const { trace, type, isLastItem = false } = defineProps<TraceValorizedItemProps>()
+const { trace, type } = defineProps<TraceValorizedItemProps>()
 
 const { t, locale } = useI18n()
 
@@ -29,7 +28,6 @@ const formattedFileSize = computed(() => trace.attachment ? formatFileSizeInMega
     :title="trace.title"
     :item-id="trace.id"
     :type="type"
-    :is-last-item="isLastItem"
   >
     <div class="av-row av-align-center av-wrap av-gap-xs">
       <span class="b2-regular">
@@ -43,11 +41,11 @@ const formattedFileSize = computed(() => trace.attachment ? formatFileSizeInMega
         v-if="trace.authorType"
         :author-type="trace.authorType"
       />
-      <TraceAiProducedBadge v-if="trace.aiUseJustification" />
+      <TraceAiProducedBadge :ai-produced="!!trace.aiUseJustification" />
     </div>
     <span
       v-if="trace.personalNote"
-      class="b1-regular av-max-lines"
+      class="caption-regular av-max-lines"
       data-testid="trace-valorized-item-personal-note"
     >
       {{ t('student.kit.views.StudentToolsKitView.traceValorizedItem.personalNote', { note: trace.personalNote }) }}

@@ -1,4 +1,5 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
+import { ETraceAuthorType } from '@/api/avenir-esr'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import StudentDetailedTraceCard from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -33,7 +34,8 @@ BddTest().given('a student detailed trace card', () => {
     isAssociated: false,
     createdAt: '2025-06-16T10:42:00.000Z',
     updatedAt: '2025-06-17T15:18:00.000Z',
-    willBeDeletedAt: nextMonthDateIsoString
+    willBeDeletedAt: nextMonthDateIsoString,
+    authorType: ETraceAuthorType.PERSONAL
   }
 
   const mockedAssociatedTrace: TraceViewDTO = {

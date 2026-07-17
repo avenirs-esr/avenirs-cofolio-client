@@ -1,7 +1,10 @@
-import type { PagedResponseTraceViewDTO, TraceFilter, TracesViewParams } from '@/api/avenir-esr'
+import type { TraceFilter, TracesViewParams } from '@/api/avenir-esr'
+import { createMockedTracesViewResponse } from '@/__mocks__/fixtures/student'
 import { createTracesViewHandler, tracesViewErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ValorizedElementsCardContainerStub } from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.stub'
+import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
+import { TraceValorizedItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/TraceValorizedItem/TraceValorizedItem.stub'
 import ValorizedNonAssociatedTracesContainer from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedNonAssociatedTracesContainer/ValorizedNonAssociatedTracesContainer.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -13,7 +16,8 @@ BddTest().given('a valorized non associated traces container', () => {
   let requestedParams: TracesViewParams
 
   const stubs = {
-    ValorizedElementsCardContainer: ValorizedElementsCardContainerStub
+    ValorizedElementsCardContainer: ValorizedElementsCardContainerStub,
+    TraceValorizedItem: TraceValorizedItemStub
   }
 
   const mountNonAssociatedTracesContainer = async () => {
@@ -22,12 +26,9 @@ BddTest().given('a valorized non associated traces container', () => {
   }
 
   BddTest().when('the traces view request succeeds with 0 traces', () => {
-    beforeEach(async () => {
-      const mockedTracesData: PagedResponseTraceViewDTO = {
-        data: [],
-        page: { page: 0, pageSize: 100, totalElements: 0, totalPages: 0 }
-      }
+    const mockedTracesData = createMockedTracesViewResponse({ isAssociated: false, isValorized: true }, { pageSize: 100 }, 0)
 
+    beforeEach(async () => {
       server.use(createTracesViewHandler(mockedTracesData, (traceFilter, params) => {
         requestedTraceFilter = traceFilter
         requestedParams = params
@@ -51,33 +52,40 @@ BddTest().given('a valorized non associated traces container', () => {
       expect(container.props('error')).toBe(null)
     })
 
-    BddTest().then('it should render the placeholder body', () => {
-      expect(wrapper.find('[data-testid="valorized-non-associated-traces-container-placeholder"]').exists()).toBe(true)
+    BddTest().then('it should render no TraceValorizedItem', () => {
+      expect(wrapper.findAllComponents(TraceValorizedItemStub)).toHaveLength(0)
     })
   })
 
-  BddTest().when('the traces view request succeeds with 5 traces', () => {
+  BddTest().when('the traces view request succeeds with 2 traces', () => {
+    const mockedTracesData = createMockedTracesViewResponse({ isAssociated: false, isValorized: true }, { pageSize: 100 }, 2)
+
     beforeEach(async () => {
-      const mockedTracesData: PagedResponseTraceViewDTO = {
-        data: [],
-        page: { page: 0, pageSize: 100, totalElements: 5, totalPages: 1 }
-      }
       server.use(createTracesViewHandler(mockedTracesData))
 
       await mountNonAssociatedTracesContainer()
     })
 
     BddTest().then('it should render the title in the plural form', () => {
-      expect(wrapper.findComponent(ValorizedElementsCardContainerStub).props('title')).toBe('Mes traces non associées (5)')
+      expect(wrapper.findComponent(ValorizedElementsCardContainerStub).props('title')).toBe('Mes traces non associées (2)')
+    })
+
+    BddTest().then('it should render one TraceValorizedItem per trace with NON_ASSOCIATED_TRACE type', () => {
+      const items = wrapper.findAllComponents(TraceValorizedItemStub)
+      expect(items).toHaveLength(2)
+      mockedTracesData.data.forEach((trace, index) => {
+        expect(items[index].props('trace')).toEqual(trace)
+      })
+      items.forEach((item) => {
+        expect(item.props('type')).toBe(ValorizedItemType.NON_ASSOCIATED_TRACE)
+      })
     })
   })
 
   BddTest().when('the traces view request succeeds with 1 trace', () => {
+    const mockedTracesData = createMockedTracesViewResponse({ isAssociated: false, isValorized: true }, { pageSize: 100 }, 1)
+
     beforeEach(async () => {
-      const mockedTracesData: PagedResponseTraceViewDTO = {
-        data: [],
-        page: { page: 0, pageSize: 100, totalElements: 1, totalPages: 1 }
-      }
       server.use(createTracesViewHandler(mockedTracesData))
 
       await mountNonAssociatedTracesContainer()

@@ -7,7 +7,6 @@ export const TraceValorizedItemStub = defineComponent({
   template: '<div data-testid="trace-valorized-item-stub" />',
   props: {
     trace: { type: Object as PropType<TraceViewDTO>, required: true },
-    type: { type: String as PropType<ValorizedItemType>, required: true },
-    isLastItem: { type: Boolean, default: false }
+    type: { type: String as PropType<ValorizedItemType.ASSOCIATED_TRACE | ValorizedItemType.NON_ASSOCIATED_TRACE>, required: true }
   }
 })
