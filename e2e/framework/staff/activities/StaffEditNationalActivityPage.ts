@@ -3,6 +3,7 @@ import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+import { EditActivityResources } from '@e2e/framework/staff/activities/componentObjects/EditActivityResources'
 import { EditActivitySideNavigation } from '@e2e/framework/staff/activities/componentObjects/EditActivitySideNavigation'
 import { EditActivityTabs } from '@e2e/framework/staff/activities/componentObjects/EditActivityTabs'
 import { expect, type Locator, type Page } from '@playwright/test'
@@ -17,6 +18,7 @@ class StaffEditNationalActivityPage extends BasePage {
 
   private tabs () { return new EditActivityTabs(this.page) }
   private sideNav () { return new EditActivitySideNavigation(this.page) }
+  private resources () { return new EditActivityResources(this.page) }
 
   private getActivityContentTab () {
     return this.page.getByTestId('activity-content-tab')
@@ -157,6 +159,21 @@ class StaffEditNationalActivityPage extends BasePage {
     await this.tabs().verifyPublicationTabActive()
   }
 
+  @When('the staff toggles the {string} section accordion')
+  async togglesSectionAccordion (sectionId: string) {
+    await this.tabs().toggleSectionAccordion(sectionId)
+  }
+
+  @Then('the section accordion {string} is collapsed')
+  async verifySectionAccordionCollapsed (sectionId: string) {
+    await this.tabs().verifySectionAccordionCollapsed(sectionId)
+  }
+
+  @Then('the section accordion {string} is visible')
+  async verifySectionAccordionVisible (sectionId: string) {
+    await this.tabs().verifySectionAccordionVisible(sectionId)
+  }
+
   @When('the staff clicks on the content {string} section in the side navigation menu')
   async clickContentSectionInSideNav (sectionId: string) {
     await this.sideNav().clickMenuSection('CONTENT', sectionId)
@@ -217,54 +234,34 @@ class StaffEditNationalActivityPage extends BasePage {
     await this.tabs().verifyContextSectionVisible()
   }
 
-  @Then('the resources section is collapsed')
-  async verifyResourcesSectionCollapsed () {
-    await this.tabs().verifyResourcesSectionCollapsed()
-  }
-
-  @When('the staff expands the resources section')
-  async expandResourcesSection () {
-    await this.tabs().expandResourcesSection()
-  }
-
-  @Then('the resources section is visible')
-  async verifyResourcesSectionVisible () {
-    await this.tabs().verifyResourcesSectionVisible()
-  }
-
   @When('the staff clicks on the add resource button')
   async clickAddResourceButton () {
-    await this.tabs().clickAddResourceButton()
-  }
-
-  @Then('the add resource modal is visible')
-  async verifyAddResourceModalVisible () {
-    await this.tabs().verifyAddResourceModalVisible()
+    await this.resources().clickAddResourceButton()
   }
 
   @Then('the add resource modal file form is visible')
   async verifyAddResourceModalFileFormVisible () {
-    await this.tabs().verifyAddResourceModalFileFormVisible()
+    await this.resources().verifyAddResourceModalFileFormVisible()
   }
 
   @Then('the add resource modal file form is hidden')
   async verifyAddResourceModalFileFormHidden () {
-    await this.tabs().verifyAddResourceModalFileFormHidden()
+    await this.resources().verifyAddResourceModalFileFormHidden()
   }
 
   @Then('the add resource modal link form is visible')
   async verifyAddResourceModalLinkFormVisible () {
-    await this.tabs().verifyAddResourceModalLinkFormVisible()
+    await this.resources().verifyAddResourceModalLinkFormVisible()
   }
 
   @Then('the add resource modal link form is hidden')
   async verifyAddResourceModalLinkFormHidden () {
-    await this.tabs().verifyAddResourceModalLinkFormHidden()
+    await this.resources().verifyAddResourceModalLinkFormHidden()
   }
 
   @When('the staff selects {string} as the resource type in the add resource modal')
   async selectResourceTypeInAddResourceModal (type: 'file' | 'link') {
-    await this.tabs().selectAddResourceModalType(type)
+    await this.resources().selectAddResourceModalType(type)
   }
 
   @Then('the summary section is visible')
@@ -391,6 +388,77 @@ class StaffEditNationalActivityPage extends BasePage {
     await expect(this.getReflectionParameterToggle()).toContainText(message)
     await expect(this.getTraceAllowedAssociationsToggle()).toContainText(message)
     await expect(this.getFeedbackParameterToggle()).toContainText(message)
+  }
+
+  @When('the staff selects the resource {string}')
+  async selectResource (resourceLabel: string) {
+    await this.resources().selectResource(resourceLabel)
+  }
+
+  @Then('the delete resources button is disabled')
+  async verifyDeleteResourcesButtonDisabled () {
+    await this.resources().verifyDeleteButtonDisabled()
+  }
+
+  @Then('the delete resources button is enabled')
+  async verifyDeleteResourcesButtonEnabled () {
+    await this.resources().verifyDeleteButtonEnabled()
+  }
+
+  @When('the staff clicks on the delete resources button')
+  async clickDeleteResourcesButton () {
+    await this.resources().clickDeleteButton()
+  }
+
+  @Then('the delete resources confirmation modal is visible')
+  async verifyDeleteResourcesConfirmationModalVisible () {
+    await this.resources().verifyConfirmationModalVisible()
+  }
+
+  @Then('the delete resources confirmation modal is hidden')
+  async verifyDeleteResourcesConfirmationModalHidden () {
+    await this.resources().verifyConfirmationModalHidden()
+  }
+
+  @Then('the delete resources confirmation modal shows the singular confirmation message')
+  async verifySingularConfirmationMessage () {
+    await this.resources().verifySingularConfirmationMessage()
+  }
+
+  @Then('the delete resources confirmation modal shows the plural confirmation message')
+  async verifyPluralConfirmationMessage () {
+    await this.resources().verifyPluralConfirmationMessage()
+  }
+
+  @Then('the delete resources confirmation modal lists the resource {string}')
+  async verifyModalListsResource (resourceLabel: string) {
+    await this.resources().verifyModalListsResource(resourceLabel)
+  }
+
+  @When('the staff clicks on the cancel button in the delete resources confirmation modal')
+  async clickCancelDeleteResources () {
+    await this.resources().clickCancelButton()
+  }
+
+  @When('the staff confirms the deletion in the delete resources confirmation modal')
+  async confirmDeleteResources () {
+    await this.resources().clickConfirmButton()
+  }
+
+  @Then('the resource {string} is still listed')
+  async verifyResourceStillListed (resourceLabel: string) {
+    await this.resources().verifyResourceListed(resourceLabel)
+  }
+
+  @Then('the resource {string} is no longer listed')
+  async verifyResourceNoLongerListed (resourceLabel: string) {
+    await this.resources().verifyResourceNotListed(resourceLabel)
+  }
+
+  @Then('the staff save the activity')
+  async saveActivity () {
+    await this.tabs().clickSaveButton()
+    await waitForPageLoad(this.page)
   }
 
   @When('the staff republishes the activity')

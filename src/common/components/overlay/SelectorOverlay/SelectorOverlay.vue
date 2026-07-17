@@ -98,6 +98,7 @@ function getAriaLabel (element: SelectorOverlayElement) {
           'selector-overlay__checkbox--compact': compact,
         }"
         data-testid="selector-overlay"
+        :data-resource-label="element.label"
         @click="() => onSelectElement(element)"
         @keydown.enter="() => onSelectElement(element)"
         @keydown.space="() => onSelectElement(element)"

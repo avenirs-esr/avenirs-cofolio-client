@@ -143,6 +143,7 @@ watch(() => isFormDirty, (dirty) => {
           :is-loading="isUpdating"
           variant="OUTLINED"
           small
+          data-testid="activity-resources-list-delete-button"
           @click="displayDeleteResourcesModal"
         />
       </div>
