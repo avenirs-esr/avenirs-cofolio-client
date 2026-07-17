@@ -7,6 +7,9 @@
         }
       },
       "badges": {
+        "TraceAiProducedBadge": {
+          "label": "Avec IA"
+        },
         "TraceAuthorTypeBadge": {
           "COLLECTIVE": "Collectif",
           "PERSONAL": "Individuel",
