@@ -5497,9 +5497,28 @@
           "willBeDeletedAt": {
             "type": "string",
             "format": "date"
+          },
+          "attachment": {
+            "$ref": "#/components/schemas/FileDTO"
+          },
+          "authorType": {
+            "type": "string",
+            "$ref": "#/components/schemas/ETraceAuthorType",
+            "enum": [
+              "PERSONAL",
+              "COLLECTIVE",
+              "THIRD_PARTY"
+            ]
+          },
+          "personalNote": {
+            "type": "string"
+          },
+          "aiUseJustification": {
+            "type": "string"
           }
         },
         "required": [
+          "authorType",
           "createdAt",
           "id",
           "isAssociated",
