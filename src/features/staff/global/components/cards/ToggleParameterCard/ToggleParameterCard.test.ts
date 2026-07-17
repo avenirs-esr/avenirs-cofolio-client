@@ -1,6 +1,6 @@
 import type { ToggleParameterCardProps } from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
+import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
-import { IconTitleCardContainerStub } from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'

@@ -107,7 +107,7 @@
           },
           "AddActivityResourceModal": {
             "file": {
-              "formatsValue": "PDF, JPG, JPEG, PNG"
+              "formatsValue": "PDF, DOC, DOCX, ODT, JPG, PNG"
             },
             "link": {
               "label": "Ajouter un lien",

@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { EFileType, type FileDTO } from '@/api/avenir-esr'
+import ActivityResourceCard from '@/common/components/cards/ActivityResourceCard/ActivityResourceCard.vue'
 import { downloadBlob } from '@/common/utils/download/download'
-import ActivityResourceCard from '@/features/staff/activities/components/cards/ActivityResourceCard/ActivityResourceCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvCardStub, AvIconStub, AvTagStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'

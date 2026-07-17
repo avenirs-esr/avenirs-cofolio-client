@@ -1,7 +1,7 @@
 import type { ActivityConsignCardProps } from '@/features/staff/feedbacks/components/cards/ActivityConsignCard/ActivityConsignCard.vue'
 import type { VueWrapper } from '@vue/test-utils'
+import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import ActivityConsignCard from '@/features/staff/feedbacks/components/cards/ActivityConsignCard/ActivityConsignCard.vue'
-import { IconTitleCardContainerStub } from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'

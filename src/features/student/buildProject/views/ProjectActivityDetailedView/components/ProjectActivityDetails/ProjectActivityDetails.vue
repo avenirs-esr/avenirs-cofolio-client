@@ -4,8 +4,10 @@ import ActivityDescriptionContent from '@/common/activities/components/ActivityD
 import ActivityExecutionPeriodList from '@/common/activities/components/ActivityExecutionPeriodList/ActivityExecutionPeriodList.vue'
 import ActivityPeriodDisplay from '@/common/activities/components/ActivityPeriodDisplay/ActivityPeriodDisplay.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
+import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
+import ActivityResourcesList from '@/common/components/lists/ActivityResourcesList/ActivityResourcesList.vue'
 import { ICONS } from '@/common/constants'
-import { AvIconText } from '@avenirs-esr/avenirs-dsav'
+import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ProjectActivityDetailsProps {
@@ -14,6 +16,8 @@ export interface ProjectActivityDetailsProps {
 const { declaredActivityDetails } = defineProps<ProjectActivityDetailsProps>()
 const { t } = useI18n()
 const hasPeriodInfo = computed(() => !!declaredActivityDetails.startDate || !!declaredActivityDetails.endDate)
+const activity = computed(() => declaredActivityDetails.activity)
+const resourceCount = computed(() => (activity.value.files?.length ?? 0) + (activity.value.links?.length ?? 0))
 </script>
 
 <template>
@@ -56,6 +60,19 @@ const hasPeriodInfo = computed(() => !!declaredActivityDetails.startDate || !!de
         </div>
       </div>
     </Card>
+
+    <IconTitleCardContainer
+      v-if="resourceCount > 0"
+      :title="t('staff.activities.views.NationalActivityCatalogView.NationalActivityContentTab.resourcesTitle', { count: resourceCount })"
+      :title-icon="MDI_ICONS.FILE_DOCUMENT_MULTIPLE_OUTLINE"
+      data-testid="national-activity-content-tab-resources"
+    >
+      <ActivityResourcesList
+        :activity-id="activity.id"
+        :files="activity.files ?? []"
+        :links="activity.links ?? []"
+      />
+    </IconTitleCardContainer>
   </div>
 </template>
 
