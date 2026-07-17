@@ -137,4 +137,26 @@ export class WritingFeedbackFloatingPanel extends BaseObject {
   async verifyHistoryTabAntiChronologicalOrder () {
     await this.getFeedbacksHistoryTab().verifyAntiChronologicalOrder()
   }
+
+  async verifyFeedbackFormFieldEnabled () {
+    const field = await this.getFeedbackFormField()
+    await expect(field).toBeEnabled()
+  }
+
+  async verifyFeedbackFormFieldDisabled () {
+    const field = await this.getFeedbackFormField()
+    await expect(field).toBeDisabled()
+  }
+
+  async verifySendButtonEnabled () {
+    await expect(await this.getWriteFeedbackSendButton()).toBeEnabled()
+  }
+
+  async verifySendButtonDisabled () {
+    await expect(await this.getWriteFeedbackSendButton()).toBeDisabled()
+  }
+
+  async verifyCancelButtonEnabled () {
+    await expect(await this.getWriteFeedbackCancelButton()).toBeEnabled()
+  }
 }

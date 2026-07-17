@@ -58,6 +58,15 @@ const allFeedbacks: FeedbackStaffListItemDTO[] = [
     student: mockedStudent,
     activity: mockedActivity,
   },
+  {
+    id: 'feedback-submitted',
+    status: EFeedbackStatus.SUBMITTED,
+    iteration: 1,
+    createdAt: '2024-01-15T10:00:00Z',
+    updatedAt: '2024-01-16T10:00:00Z',
+    student: mockedStudent,
+    activity: mockedActivity,
+  },
 ]
 
 export const mockedFeedbackDetailsWithAssociations: FeedbackDetailsDTO = {

@@ -148,4 +148,29 @@ export class StaffActivityFeedbackDetailsPage extends BasePage {
   async verifyFeedbacksHistoryAntiChronologicalOrder () {
     await this.getWritingFeedbackFloatingPanel().verifyHistoryTabAntiChronologicalOrder()
   }
+
+  @Then('the feedback form field is enabled')
+  async verifyFeedbackFormFieldEnabled () {
+    await this.getWritingFeedbackFloatingPanel().verifyFeedbackFormFieldEnabled()
+  }
+
+  @Then('the feedback form field is disabled')
+  async verifyFeedbackFormFieldDisabled () {
+    await this.getWritingFeedbackFloatingPanel().verifyFeedbackFormFieldDisabled()
+  }
+
+  @Then('the write feedback send button is enabled')
+  async verifyWriteFeedbackSendButtonEnabled () {
+    await this.getWritingFeedbackFloatingPanel().verifySendButtonEnabled()
+  }
+
+  @Then('the write feedback send button is disabled')
+  async verifyWriteFeedbackSendButtonDisabled () {
+    await this.getWritingFeedbackFloatingPanel().verifySendButtonDisabled()
+  }
+
+  @Then('the write feedback cancel button is enabled')
+  async verifyWriteFeedbackCancelButtonEnabled () {
+    await this.getWritingFeedbackFloatingPanel().verifyCancelButtonEnabled()
+  }
 }

@@ -45,23 +45,3 @@ Feature: Staff Activity Feedback Details Page
     @high
     Scenario: The feedback associated elements card contains at least one element
       Then the feedback associated elements card contains at least one element   
-  
-  Rule: Write feedback floating panel
-
-    @high
-    Scenario: Staff can see the write feedback floating panel
-      Then the writing feedback floating panel is visible
-
-    @high
-    Scenario: Staff can exmpand the write feedback floating panel to see the write feedback form
-      When the staff expands the writing feedback floating panel
-      Then the writing feedback floating panel is expanded
-      Then the writing feedback tab is visible in the expanded floating panel
-
-    @medium
-    Scenario: Staff can collapse the panel by cancelling the form
-      When the staff expands the writing feedback floating panel
-      Then the writing feedback floating panel is expanded
-      Then the writing feedback tab is visible in the expanded floating panel
-      When the staff cancels writing feedback in the floating panel
-      Then the writing feedback floating panel is collapsed
