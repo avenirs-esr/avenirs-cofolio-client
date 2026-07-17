@@ -5,14 +5,12 @@ import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import Toggle from '@/common/components/Toggle/Toggle.vue'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import {
-  ACTIVITY_AUTO_SAVE_DEBOUNCE,
   ACTIVITY_TRACE_ALLOWED_ASSOCIATIONS_MIN,
   ACTIVITY_TRACE_SETTING_DISABLED_VALUE,
   ACTIVITY_TRACE_SETTING_INFINITY_VALUE
 } from '@/features/staff/activities/config'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
 import { AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { debounce } from 'lodash-es'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -53,8 +51,6 @@ const traceAllowedAssociationsValidators = {
 const traceAllowedAssociations = form.useField({ name: 'traceAllowedAssociations' })
 const reflectionField = form.useField({ name: 'enableReflection' })
 
-const isFormDirty = form.useStore(state => state.isDirty)
-
 const isDisabled = computed(() => reflectionField.state.value.value === false || disabled)
 
 function parseTraceAllowedAssociations (value: number | string | null | undefined): number | undefined {
@@ -62,20 +58,13 @@ function parseTraceAllowedAssociations (value: number | string | null | undefine
   return (value !== null && value !== '' && Number.isFinite(parsed)) ? parsed : undefined
 }
 
-const debouncedAutosave = debounce((value: number | null | undefined) => {
-  const hasErrors = traceAllowedAssociations.state.value.meta.errors.length > 0
-  if (isFormDirty.value && !hasErrors && value !== null && value !== undefined) {
-    emit('autosave', { traceAllowedAssociations: value })
-  }
-}, ACTIVITY_AUTO_SAVE_DEBOUNCE)
-
 const infinityAllowed = computed({
   get: () => traceAllowedAssociations.state.value.value === ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
   set: (newValue: boolean) => {
     const value = newValue ? ACTIVITY_TRACE_SETTING_INFINITY_VALUE : ACTIVITY_TRACE_ALLOWED_ASSOCIATIONS_MIN
     form.setFieldValue('traceAllowedAssociations', value)
     form.validateField('traceAllowedAssociations', 'change')
-    debouncedAutosave(value)
+    emit('autosave', { traceAllowedAssociations: value })
   },
 })
 
@@ -85,7 +74,7 @@ const inputEnabled = computed({
     const value = newValue ? ACTIVITY_TRACE_SETTING_INFINITY_VALUE : ACTIVITY_TRACE_SETTING_DISABLED_VALUE
     form.setFieldValue('traceAllowedAssociations', value)
     form.validateField('traceAllowedAssociations', 'change')
-    debouncedAutosave(value)
+    emit('autosave', { traceAllowedAssociations: value })
   },
 })
 </script>
@@ -140,7 +129,9 @@ const inputEnabled = computed({
             @update:model-value="(value) => {
               const parsedValue = parseTraceAllowedAssociations(value)
               field.handleChange(parsedValue)
-              debouncedAutosave(parsedValue)
+              if (!field.state.meta.errors.length && parsedValue !== null && parsedValue !== undefined) {
+                emit('autosave', { traceAllowedAssociations: parsedValue })
+              }
             }"
           />
         </div>

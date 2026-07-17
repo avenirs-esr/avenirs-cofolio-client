@@ -2,12 +2,11 @@ import type { FileDTO } from '@/api/avenir-esr'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { ImageUploadStub } from '@/common/components/ImageUpload/ImageUploadStub'
 import ActivityBannerFormField from '@/features/staff/activities/components/interactions/formFields/ActivityBannerFormField/ActivityBannerFormField.vue'
-import { ACTIVITY_AUTO_SAVE_DEBOUNCE } from '@/features/staff/activities/config'
 import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 
 const props = {
   modelValue: null,
@@ -36,12 +35,7 @@ BddTest().given('an ActivityBannerFormField component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.useFakeTimers()
     wrapper = mount(TestWrapper, { global: { stubs } })
-  })
-
-  afterEach(() => {
-    vi.useRealTimers()
   })
 
   BddTest().when('the component is mounted', () => {
@@ -66,7 +60,6 @@ BddTest().given('an ActivityBannerFormField component', () => {
     beforeEach(async () => {
       const onUpdate = getImageUpload().props('onUpdate') as (file: File) => void
       onUpdate(file)
-      await vi.advanceTimersByTimeAsync(ACTIVITY_AUTO_SAVE_DEBOUNCE)
     })
 
     BddTest().then('it should update the field value to UPDATE and emit autosave', () => {
@@ -84,7 +77,6 @@ BddTest().given('an ActivityBannerFormField component', () => {
     beforeEach(async () => {
       const onDeleteImage = getImageUpload().props('onDeleteImage') as () => void
       onDeleteImage()
-      await vi.advanceTimersByTimeAsync(ACTIVITY_AUTO_SAVE_DEBOUNCE)
     })
 
     BddTest().then('it should update the field value to DELETE and emit autosave', () => {

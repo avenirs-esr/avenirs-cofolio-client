@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
-import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_TRACE_SETTING_DISABLED_VALUE } from '@/features/staff/activities/config'
+import { ACTIVITY_TRACE_SETTING_DISABLED_VALUE } from '@/features/staff/activities/config'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
 import { AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { debounce } from 'lodash-es'
 import { useI18n } from 'vue-i18n'
 
 interface ActivityReflectionFormFieldProps {
@@ -23,13 +22,6 @@ const emit = defineEmits<{
 const { t } = useI18n()
 
 const reflectionField = form.useField({ name: 'enableReflection' })
-const isFormDirty = form.useStore(state => state.isDirty)
-
-const debouncedAutosave = debounce((data: ActivityDraftUpdateRequest) => {
-  if (isFormDirty.value) {
-    emit('autosave', data)
-  }
-}, ACTIVITY_AUTO_SAVE_DEBOUNCE)
 
 const inputEnabled = computed({
   get: () => reflectionField.state.value.value !== false,
@@ -40,7 +32,7 @@ const inputEnabled = computed({
       form.setFieldValue('traceAllowedAssociations', ACTIVITY_TRACE_SETTING_DISABLED_VALUE)
       autosaveData.traceAllowedAssociations = ACTIVITY_TRACE_SETTING_DISABLED_VALUE
     }
-    debouncedAutosave(autosaveData)
+    emit('autosave', autosaveData)
   },
 })
 </script>

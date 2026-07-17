@@ -2,11 +2,11 @@ import type { EditActivityFormData } from '@/features/staff/activities/types/for
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import ActivitySummaryFormField from '@/features/staff/activities/components/interactions/formFields/ActivitySummaryFormField/ActivitySummaryFormField.vue'
-import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_SUMMARY_MAX_LENGTH } from '@/features/staff/activities/config'
+import { ACTIVITY_SUMMARY_MAX_LENGTH } from '@/features/staff/activities/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 
 const TestWrapper = createFormFieldTestWrapper<EditActivityFormData, 'summary'>({
   formFieldComponent: ActivitySummaryFormField,
@@ -29,12 +29,7 @@ BddTest().given('an ActivitySummaryFormField component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.useFakeTimers()
     wrapper = mount(TestWrapper, { global: { stubs } })
-  })
-
-  afterEach(() => {
-    vi.useRealTimers()
   })
 
   BddTest().when('the component is mounted', () => {
@@ -62,7 +57,6 @@ BddTest().given('an ActivitySummaryFormField component', () => {
   BddTest().when('the input emits a valid value', () => {
     beforeEach(async () => {
       getInput().vm.$emit('update:modelValue', 'Mon resume')
-      await vi.advanceTimersByTimeAsync(ACTIVITY_AUTO_SAVE_DEBOUNCE)
     })
 
     BddTest().then('it should update the model value', async () => {
@@ -81,7 +75,6 @@ BddTest().given('an ActivitySummaryFormField component', () => {
   BddTest().when('the input emits an empty value', () => {
     beforeEach(async () => {
       getInput().vm.$emit('update:modelValue', '')
-      await vi.advanceTimersByTimeAsync(ACTIVITY_AUTO_SAVE_DEBOUNCE)
     })
 
     BddTest().then('it should show a required error message', async () => {
@@ -96,7 +89,6 @@ BddTest().given('an ActivitySummaryFormField component', () => {
   BddTest().when('the input emits a value exceeding the max length', () => {
     beforeEach(async () => {
       getInput().vm.$emit('update:modelValue', 'a'.repeat(ACTIVITY_SUMMARY_MAX_LENGTH + 1))
-      await vi.advanceTimersByTimeAsync(ACTIVITY_AUTO_SAVE_DEBOUNCE)
     })
 
     BddTest().then('it should show a max length error message', async () => {

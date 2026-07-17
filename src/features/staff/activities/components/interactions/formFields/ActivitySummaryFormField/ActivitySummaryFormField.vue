@@ -3,8 +3,7 @@ import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
-import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_SUMMARY_MAX_LENGTH } from '@/features/staff/activities/config'
-import { debounce } from 'lodash-es'
+import { ACTIVITY_SUMMARY_MAX_LENGTH } from '@/features/staff/activities/config'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -28,14 +27,6 @@ const summaryValidators = {
   onChange: ({ value }: { value: string }) => validateSummary(value),
   onSubmit: ({ value }: { value: string }) => validateSummary(value),
 }
-
-const isFormDirty = form.useStore(state => state.isDirty)
-
-const debouncedAutosave = debounce((value: string, hasErrors: boolean) => {
-  if (!hasErrors && isFormDirty.value) {
-    emit('autosave', { summary: value })
-  }
-}, ACTIVITY_AUTO_SAVE_DEBOUNCE)
 </script>
 
 <template>
@@ -54,7 +45,7 @@ const debouncedAutosave = debounce((value: string, hasErrors: boolean) => {
         is-textarea
         @update:model-value="(value) => {
           field.handleChange(value?.toString() ?? '');
-          debouncedAutosave(value?.toString() ?? '', field.state.meta.errors.length > 0)
+          if (!field.state.meta.errors.length) { emit('autosave', { summary: value?.toString() ?? '' }) }
         }"
       />
     </template>

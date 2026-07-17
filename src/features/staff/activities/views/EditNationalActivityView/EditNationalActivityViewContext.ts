@@ -16,6 +16,10 @@ export interface EditNationalActivityViewContext {
    * A full update requires calling form.handleSubmit().
    */
   save: (data?: ActivityDraftUpdateRequest) => void
+  /**
+   * Queues a partial autosave. Multiple concurrent field updates are merged into a single API call.
+   */
+  queueAutosave: (data?: ActivityDraftUpdateRequest) => void
 }
 
 export const editNationalActivityViewContextKey: InjectionKey<EditNationalActivityViewContext> = Symbol('editNationalActivityViewContext')

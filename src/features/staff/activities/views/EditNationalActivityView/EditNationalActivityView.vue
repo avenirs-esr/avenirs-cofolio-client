@@ -26,7 +26,7 @@ import { BaseApiException } from '@/common/exceptions'
 import { isDifferentFile } from '@/common/utils/file/file'
 import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
 import { useEditNationalActivityFormValidators } from '@/features/staff/activities/composables/use-edit-national-activity-form-validators/use-edit-national-activity-form-validators'
-import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
+import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
 import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
 import { type EditActivityFormData, EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
@@ -37,6 +37,7 @@ import { AvTab, AvTabs, MDI_ICONS, RI_ICONS, useAvBreakpoints } from '@avenirs-e
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useRouteQuery } from '@vueuse/router'
+import { debounce } from 'lodash-es'
 import { useI18n } from 'vue-i18n'
 
 interface EditNationalActivityViewProps {
@@ -105,6 +106,15 @@ const { mutateAsync: deleteBannerMutation } = useDeleteDraftBanner()
 const { mutateAsync: deleteResourceFileMutation } = useDeleteDraftFile()
 const { mutateAsync: updateActivity } = useUpdateActivityDraft()
 
+const pendingAutoSaveData = ref<ActivityDraftUpdateRequest>({})
+const flushAutoSave = debounce(() => {
+  const data = { ...pendingAutoSaveData.value }
+  pendingAutoSaveData.value = {}
+  if (Object.keys(data).length > 0) {
+    save(data)
+  }
+}, ACTIVITY_AUTO_SAVE_DEBOUNCE)
+
 const form = useForm({
   defaultValues,
   validators: {
@@ -121,6 +131,8 @@ const form = useForm({
     }
   },
   onSubmit: async ({ value }: { value: EditActivityFormData }) => {
+    flushAutoSave.cancel()
+    pendingAutoSaveData.value = {}
     await save({
       title: value.title,
       thematic: value.thematic,
@@ -259,7 +271,16 @@ function onPublished () {
   navigateToStaffActivities(true)
 }
 
-provideEditNationalActivityViewContext({ form, isUpdating, save })
+function queueAutosave (data?: ActivityDraftUpdateRequest) {
+  if (!data) {
+    save()
+    return
+  }
+  pendingAutoSaveData.value = { ...pendingAutoSaveData.value, ...data }
+  flushAutoSave()
+}
+
+provideEditNationalActivityViewContext({ form, isUpdating, save, queueAutosave })
 </script>
 
 <template>
