@@ -113,7 +113,7 @@ BddTest().given('a FeedbacksTable component', () => {
       const pagination = wrapper.findComponent(PaginationStub)
 
       expect(pagination.exists()).toBe(true)
-      expect(pagination.props('pageInfo')).toMatchObject({ totalElements: 3 })
+      expect(pagination.props('pageInfo')).toMatchObject({ totalElements: 4 })
       expect(pagination.props('pageSizeSelected')).toBe(PageSizes.TWELVE)
     })
 
@@ -154,7 +154,7 @@ BddTest().given('a FeedbacksTable component', () => {
     })
 
     BddTest().then('it should render one FeedbackCard per row', () => {
-      expect(wrapper.findAllComponents(FeedbackCardStub)).toHaveLength(3)
+      expect(wrapper.findAllComponents(FeedbackCardStub)).toHaveLength(4)
     })
 
     BddTest().then('it should not render the table', () => {

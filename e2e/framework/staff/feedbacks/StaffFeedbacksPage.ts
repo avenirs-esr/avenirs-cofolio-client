@@ -1,6 +1,7 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
+import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { FeedbacksTable } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksTable'
 import { expect, type Page } from '@playwright/test'
@@ -58,5 +59,11 @@ export class StaffFeedbacksPage extends BasePage {
       )
       .first()
       .click()
+  }
+
+  @When('the staff clicks access button of the first feedback with {string} status')
+  async clickAccessButtonOfFirstFeedbackWithStatus (feedbackStatus: string) {
+    const button = this.page.locator(`[data-testid="access-button"][data-feedback-status="${feedbackStatus}"]`).first()
+    await clickOnElement(button)
   }
 }

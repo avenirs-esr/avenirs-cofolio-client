@@ -199,6 +199,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
                 }"
                 data-testid="access-button"
                 :data-activity-id="row.activity?.id"
+                :data-feedback-status="row.status"
               />
             </template>
           </AvTable>
