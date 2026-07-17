@@ -1,7 +1,13 @@
 import { EFileType, type FileDTO } from '@/api/avenir-esr'
+import { AvIsoLocaleMap, type AvLocale } from '@/types'
 
 export function bytesToMegabytes (bytes: number): number {
   return Math.round((bytes / 1024 / 1024) * 100) / 100
+}
+
+export function formatFileSizeInMegabytes (bytes: number, localeCode: AvLocale): string {
+  const megabytes = bytesToMegabytes(bytes)
+  return new Intl.NumberFormat(AvIsoLocaleMap[localeCode], { maximumFractionDigits: 1 }).format(megabytes)
 }
 
 export function getFileExtension (fileName: string): string {
