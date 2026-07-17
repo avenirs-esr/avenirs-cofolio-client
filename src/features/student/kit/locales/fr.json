@@ -9,6 +9,10 @@
           },
           "subtitle": "Matière brute CoFolio prête à l'emploi",
           "title": "Mon kit prêt à l'emploi",
+          "traceValorizedItem": {
+            "addedOn": "Ajoutée le {date}",
+            "personalNote": "Ma note personnelle : {note}"
+          },
           "valorizedAssociatedTracesContainer": {
             "title": "Ma trace associée (1) | Mes traces associées ({count})"
           },
