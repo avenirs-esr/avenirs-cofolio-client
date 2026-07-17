@@ -123,7 +123,7 @@ Feature: Staff Edit National Activity Page
 
     @high
     Scenario: The resources section is collapsed by default
-      Then the resources section is collapsed
+      Then the section accordion "DOCUMENTS" is collapsed
   
     @high
     Scenario: The reflection parameter is visible in the content tab
@@ -232,22 +232,67 @@ Feature: Staff Edit National Activity Page
       And the activity modalities future disabled information messages are visible
       When the staff republishes the activity
 
-  Rule: Resources management
+  Rule: Managing activity resources
 
     Background:
-      Given the staff navigates to the first activity edit page
-      When the staff expands the resources section
-      Then the resources section is visible
-      When the staff clicks on the add resource button
-      Then the add resource modal is visible
+      When the user clicks on the all published activities tab
+      And the user clicks on the first published activity title with file and link
+      Then the staff published activity details page is displayed
+      When the user clicks on the edit published activity button
+      Then the staff edit published activity page is displayed
+      And the staff toggles the "DOCUMENTS" section accordion
+      And the section accordion "DOCUMENTS" is visible
 
-    @high
-    Scenario: The staff can add a file resource to the activity by default
+    @high @dataset-full @activity-resources-managment @delete-activity-resources
+    Scenario: The delete resources button is disabled when no resource is selected
+      Then the delete resources button is disabled
+    
+    @high @dataset-full @activity-resources-managment @add-activity-resources
+    Scenario: Adding a file resource to the activity by default
+      When the staff clicks on the add resource button
       Then the add resource modal file form is visible
       And the add resource modal link form is hidden
-
-    @high
+    
+    @high @dataset-full @activity-resources-managment @add-activity-resources
     Scenario: The staff can select the link type for adding a link resource to the activity
+      When the staff clicks on the add resource button
+      Then the add resource modal file form is visible
       When the staff selects "link" as the resource type in the add resource modal
       Then the add resource modal link form is visible
       And the add resource modal file form is hidden
+
+    @high @dataset-full @activity-resources-managment @delete-activity-resources
+    Scenario: Selecting one resource enables the delete button and shows the singular confirmation message
+      When the staff selects the resource "document.pdf"
+      Then the delete resources button is enabled
+      When the staff clicks on the delete resources button
+      Then the delete resources confirmation modal is visible
+      And the delete resources confirmation modal shows the singular confirmation message
+      And the delete resources confirmation modal lists the resource "document.pdf"
+
+    @high @dataset-full @activity-resources-managment @delete-activity-resources
+    Scenario: Selecting several resources shows the plural confirmation message
+      When the staff selects the resource "document.pdf"
+      And the staff selects the resource "http://example.com/resource1"
+      And the staff clicks on the delete resources button
+      Then the delete resources confirmation modal is visible
+      And the delete resources confirmation modal shows the plural confirmation message
+      And the delete resources confirmation modal lists the resource "document.pdf"
+      And the delete resources confirmation modal lists the resource "http://example.com/resource1"
+
+    @high @dataset-full @activity-resources-managment @delete-activity-resources
+    Scenario: Cancelling the deletion keeps the resource
+      When the staff selects the resource "document.pdf"
+      And the staff clicks on the delete resources button
+      And the staff clicks on the cancel button in the delete resources confirmation modal
+      Then the delete resources confirmation modal is hidden
+      And the resource "document.pdf" is still listed
+
+    @high @dataset-full @activity-resources-managment @delete-activity-resources
+    Scenario: Confirming the deletion removes the resource
+      When the staff selects the resource "document.pdf"
+      And the staff clicks on the delete resources button
+      And the staff confirms the deletion in the delete resources confirmation modal
+      Then the delete resources confirmation modal is hidden
+      And the staff save the activity
+      And the resource "document.pdf" is no longer listed

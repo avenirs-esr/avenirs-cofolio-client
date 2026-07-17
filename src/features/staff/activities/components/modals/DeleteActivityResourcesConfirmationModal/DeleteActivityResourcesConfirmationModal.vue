@@ -32,6 +32,7 @@ const { t } = useI18n()
   <ConfirmationModal
     :show="show"
     :is-loading="isUpdating"
+    data-testid="delete-activity-resources-confirmation-modal"
     @confirm="emit('confirm')"
     @close="emit('cancel')"
   >

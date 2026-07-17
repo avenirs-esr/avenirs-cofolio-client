@@ -22,11 +22,11 @@
     "lint:tsc": "tsc --noEmit"
   },
   "devDependencies": {
-    "@playwright/test": "^1.48.0",
+    "@playwright/test": "^1.61.1",
     "@types/node": "^22.10.0",
     "cross-env": "^10.1.0",
     "dotenv": "^16.4.5",
-    "playwright-bdd": "^8.5.1",
+    "playwright-bdd": "^9.2.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
     "vue-i18n": "^9.14.0"
