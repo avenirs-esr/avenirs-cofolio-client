@@ -17,7 +17,16 @@ export const ACTIVITY_RESOURCE_LINK_MAX_LENGTH = LINK_MAX_LENGTH
 export const ACTIVITY_RESOURCE_MAX_FILE_SIZE = 10 * 1024 * 1024
 export const ACTIVITY_RESOURCE_ACCEPTED_FILE_TYPES = [
   'application/pdf',
+  'application/msword',
+  '.doc',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  '.docx',
+  'application/vnd.oasis.opendocument.text',
+  '.odt',
   'image/jpeg',
   'image/pjpeg',
-  'image/png'
+  '.jpg',
+  '.jpeg',
+  'image/png',
+  '.png'
 ] as const

@@ -120,6 +120,10 @@ Feature: Staff Edit National Activity Page
     @high
     Scenario: The context of realization section is collapsed by default in the content tab
       Then the context of realization section is collapsed by default
+
+    @high
+    Scenario: The resources section is collapsed by default
+      Then the resources section is collapsed
   
     @high
     Scenario: The reflection parameter is visible in the content tab
@@ -227,3 +231,23 @@ Feature: Staff Edit National Activity Page
       And the activity modalities fields are enabled
       And the activity modalities future disabled information messages are visible
       When the staff republishes the activity
+
+  Rule: Resources management
+
+    Background:
+      Given the staff navigates to the first activity edit page
+      When the staff expands the resources section
+      Then the resources section is visible
+      When the staff clicks on the add resource button
+      Then the add resource modal is visible
+
+    @high
+    Scenario: The staff can add a file resource to the activity by default
+      Then the add resource modal file form is visible
+      And the add resource modal link form is hidden
+
+    @high
+    Scenario: The staff can select the link type for adding a link resource to the activity
+      When the staff selects "link" as the resource type in the add resource modal
+      Then the add resource modal link form is visible
+      And the add resource modal file form is hidden

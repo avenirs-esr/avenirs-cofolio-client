@@ -44,6 +44,38 @@ export class EditActivityTabs {
     return this.page.getByTestId('activity-execution-period-input')
   }
 
+  private getResourcesSection () {
+    return this.page.locator('#DOCUMENTS').getByTestId('av-card')
+  }
+
+  private getResourcesList () {
+    return this.page.getByTestId('activity-resources-list-editable')
+  }
+
+  private getAddResourceButton () {
+    return this.page.getByTestId('activity-resources-list-add-card')
+  }
+
+  private getAddResourceModal () {
+    return this.page.getByTestId('add-activity-resource-modal')
+  }
+
+  private getAddResourceModalTypeSelect () {
+    return this.getAddResourceModal().getByTestId('add-activity-resource-type-select')
+  }
+
+  private getAddResourceModalFileUploadContainer () {
+    return this.getAddResourceModal().getByTestId('add-activity-resource-file-upload-container')
+  }
+
+  private getAddResourceModalFileNameInput () {
+    return this.getAddResourceModal().getByTestId('add-activity-resource-name-input')
+  }
+
+  private getAddResourceModalLinkInput () {
+    return this.getAddResourceModal().getByTestId('add-activity-resource-link-input')
+  }
+
   private getSummarySection () {
     return this.page.getByTestId('activity-summary-input')
   }
@@ -153,6 +185,56 @@ export class EditActivityTabs {
 
   async verifyContextSectionVisible () {
     await expect(this.getContextSection()).toBeVisible()
+  }
+
+  async verifyResourcesSectionCollapsed () {
+    await expect(this.getResourcesSection()).toBeVisible()
+    await expect(this.getResourcesList()).not.toBeVisible()
+    await expect(this.getResourcesSection().getByTestId('expand-button')).toBeVisible()
+    await expect(this.getResourcesSection().getByTestId('collapse-button')).not.toBeVisible()
+  }
+
+  async verifyResourcesSectionVisible () {
+    await expect(this.getResourcesSection()).toBeVisible()
+    await expect(this.getResourcesList()).toBeVisible()
+    await expect(this.getAddResourceButton()).toBeVisible()
+    await expect(this.getResourcesSection().getByTestId('expand-button')).not.toBeVisible()
+    await expect(this.getResourcesSection().getByTestId('collapse-button')).toBeVisible()
+  }
+
+  async expandResourcesSection () {
+    await clickOnElement(this.getResourcesSection().getByTestId('expand-button'))
+  }
+
+  async clickAddResourceButton () {
+    await clickOnElement(this.getAddResourceButton())
+  }
+
+  async verifyAddResourceModalVisible () {
+    await expect(this.getAddResourceModal()).toBeVisible()
+    await expect(this.getAddResourceModalTypeSelect()).toBeVisible()
+  }
+
+  async selectAddResourceModalType (type: 'file' | 'link') {
+    await this.getAddResourceModalTypeSelect().selectOption(type)
+  }
+
+  async verifyAddResourceModalFileFormVisible () {
+    await expect(this.getAddResourceModalFileUploadContainer()).toBeVisible()
+    await expect(this.getAddResourceModalFileNameInput()).toBeVisible()
+  }
+
+  async verifyAddResourceModalFileFormHidden () {
+    await expect(this.getAddResourceModalFileUploadContainer()).not.toBeVisible()
+    await expect(this.getAddResourceModalFileNameInput()).not.toBeVisible()
+  }
+
+  async verifyAddResourceModalLinkFormVisible () {
+    await expect(this.getAddResourceModalLinkInput()).toBeVisible()
+  }
+
+  async verifyAddResourceModalLinkFormHidden () {
+    await expect(this.getAddResourceModalLinkInput()).not.toBeVisible()
   }
 
   async verifySummarySectionVisible () {

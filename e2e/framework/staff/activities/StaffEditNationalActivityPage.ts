@@ -217,6 +217,56 @@ class StaffEditNationalActivityPage extends BasePage {
     await this.tabs().verifyContextSectionVisible()
   }
 
+  @Then('the resources section is collapsed')
+  async verifyResourcesSectionCollapsed () {
+    await this.tabs().verifyResourcesSectionCollapsed()
+  }
+
+  @When('the staff expands the resources section')
+  async expandResourcesSection () {
+    await this.tabs().expandResourcesSection()
+  }
+
+  @Then('the resources section is visible')
+  async verifyResourcesSectionVisible () {
+    await this.tabs().verifyResourcesSectionVisible()
+  }
+
+  @When('the staff clicks on the add resource button')
+  async clickAddResourceButton () {
+    await this.tabs().clickAddResourceButton()
+  }
+
+  @Then('the add resource modal is visible')
+  async verifyAddResourceModalVisible () {
+    await this.tabs().verifyAddResourceModalVisible()
+  }
+
+  @Then('the add resource modal file form is visible')
+  async verifyAddResourceModalFileFormVisible () {
+    await this.tabs().verifyAddResourceModalFileFormVisible()
+  }
+
+  @Then('the add resource modal file form is hidden')
+  async verifyAddResourceModalFileFormHidden () {
+    await this.tabs().verifyAddResourceModalFileFormHidden()
+  }
+
+  @Then('the add resource modal link form is visible')
+  async verifyAddResourceModalLinkFormVisible () {
+    await this.tabs().verifyAddResourceModalLinkFormVisible()
+  }
+
+  @Then('the add resource modal link form is hidden')
+  async verifyAddResourceModalLinkFormHidden () {
+    await this.tabs().verifyAddResourceModalLinkFormHidden()
+  }
+
+  @When('the staff selects {string} as the resource type in the add resource modal')
+  async selectResourceTypeInAddResourceModal (type: 'file' | 'link') {
+    await this.tabs().selectAddResourceModalType(type)
+  }
+
   @Then('the summary section is visible')
   async verifySummarySectionVisible () {
     await this.tabs().verifySummarySectionVisible()

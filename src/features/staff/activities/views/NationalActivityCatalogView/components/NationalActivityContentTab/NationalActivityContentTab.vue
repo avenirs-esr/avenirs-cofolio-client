@@ -48,7 +48,7 @@ const resourceCount = computed(() => (activity.files?.length ?? 0) + (activity.l
       data-testid="national-activity-content-tab-schedule-card"
     >
       <div class="av-row--md av-justify-between--md av-gap-xl">
-        <div class="av-col av-gap-sm">
+        <div class="av-col av-gap-sm av-flex-fill">
           <h4
             data-testid="national-activity-content-tab-consign-title"
             class="av-text-primary1 av-text-regular"
@@ -57,7 +57,7 @@ const resourceCount = computed(() => (activity.files?.length ?? 0) + (activity.l
           </h4>
           <ActivityDescriptionContent :description="activity.description" />
         </div>
-        <div class="av-col av-gap-sm">
+        <div class="av-col av-gap-sm av-flex-fill">
           <h4
             data-testid="national-activity-content-tab-context-title"
             class="av-text-primary1 av-text-regular"
