@@ -5,10 +5,9 @@ import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import Toggle from '@/common/components/Toggle/Toggle.vue'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { ICONS } from '@/common/constants'
-import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'
+import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
 import { AvMessage } from '@avenirs-esr/avenirs-dsav'
-import { debounce } from 'lodash-es'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -44,7 +43,6 @@ const feedbackAllowedIterationsValidators = {
   },
 }
 
-const isFormDirty = form.useStore(state => state.isDirty)
 const feedbackAllowedIterations = form.useField({ name: 'feedbackAllowedIterations' })
 const { t } = useI18n()
 
@@ -53,20 +51,13 @@ function parseFeedbackAllowedIterations (value: number | string | null | undefin
   return (value !== null && value !== '' && Number.isFinite(parsed)) ? parsed : undefined
 }
 
-const debouncedAutosave = debounce((value: number | null | undefined) => {
-  const hasErrors = feedbackAllowedIterations.state.value.meta.errors.length > 0
-  if (isFormDirty.value && !hasErrors && value !== null && value !== undefined) {
-    emit('autosave', { feedbackAllowedIterations: value })
-  }
-}, ACTIVITY_AUTO_SAVE_DEBOUNCE)
-
 const infinityAllowed = computed({
   get: () => feedbackAllowedIterations.state.value.value === ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY,
   set: (newValue: boolean) => {
     const value = newValue ? ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY : ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT
     form.setFieldValue('feedbackAllowedIterations', value)
     form.validateField('feedbackAllowedIterations', 'change')
-    debouncedAutosave(value)
+    emit('autosave', { feedbackAllowedIterations: value })
   },
 })
 
@@ -76,7 +67,7 @@ const inputEnabled = computed({
     const value = newValue ? ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT : ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED
     form.setFieldValue('feedbackAllowedIterations', value)
     form.validateField('feedbackAllowedIterations', 'change')
-    debouncedAutosave(value)
+    emit('autosave', { feedbackAllowedIterations: value })
   },
 })
 </script>
@@ -131,7 +122,9 @@ const inputEnabled = computed({
             @update:model-value="(value) => {
               const parsedValue = parseFeedbackAllowedIterations(value)
               field.handleChange(parsedValue)
-              debouncedAutosave(parsedValue)
+              if (!field.state.meta.errors.length && parsedValue !== null && parsedValue !== undefined) {
+                emit('autosave', { feedbackAllowedIterations: parsedValue })
+              }
             }"
           />
         </div>

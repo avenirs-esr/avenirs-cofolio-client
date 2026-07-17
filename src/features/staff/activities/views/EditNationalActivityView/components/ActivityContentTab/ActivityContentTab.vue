@@ -12,14 +12,12 @@ import ActivityReflectionFormField from '@/features/staff/activities/components/
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import ActivityTraceFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.vue'
 import ActivityResourcesListEditable from '@/features/staff/activities/components/lists/ActivityResourcesListEditable/ActivityResourcesListEditable.vue'
-import { ACTIVITY_AUTO_SAVE_DEBOUNCE } from '@/features/staff/activities/config'
 import { ContentSectionId } from '@/features/staff/activities/editActivity.constants'
 import ThematicSelectFormField from '@/features/staff/activities/views/ActivitiesView/components/tabs/NationalActivityContentTab/interactions/formFields/ThematicSelectFormField/ThematicSelectFormField.vue'
 import { isActivityResourceFileType, isActivityResourceLinkType } from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/utils/resource-form.types-guard'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { debounce } from 'lodash-es'
 import { useI18n } from 'vue-i18n'
 
 interface ActivityContentTabProps {
@@ -32,19 +30,13 @@ const emit = defineEmits<{
   (e: 'nextStep'): void
 }>()
 
-const { form, save, isUpdating } = useEditNationalActivityViewContext()
+const { form, queueAutosave, isUpdating } = useEditNationalActivityViewContext()
 const { t } = useI18n()
 
 const hasEnrolledStudent = computed(() => activity.hasEnrolledStudent)
 const isFormDirty = form.useStore(state => state.isDirty)
 const files = form.useStore(state => state.values.files)
 const links = form.useStore(state => state.values.links)
-
-const debouncedAutosave = debounce((links?: string[]) => {
-  if (isFormDirty.value) {
-    save(links ? { links } : undefined)
-  }
-}, ACTIVITY_AUTO_SAVE_DEBOUNCE)
 
 function addResource (payload: AddActivityResourceFormData) {
   let newLinks: string[] | undefined
@@ -57,7 +49,7 @@ function addResource (payload: AddActivityResourceFormData) {
     form.setFieldValue('links', newLinks)
   }
 
-  debouncedAutosave(newLinks)
+  queueAutosave(newLinks ? { links: newLinks } : undefined)
 }
 
 function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
@@ -72,7 +64,7 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
     form.setFieldValue('links', newLinks)
   }
 
-  debouncedAutosave(newLinks)
+  queueAutosave(newLinks ? { links: newLinks } : undefined)
 }
 </script>
 
@@ -88,7 +80,7 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
       >
         <ActivityTitleFormField
           :form="form"
-          @autosave="save"
+          @autosave="queueAutosave"
         />
       </IconTitleCardContainer>
     </div>
@@ -100,7 +92,7 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
       >
         <ThematicSelectFormField
           :form="form"
-          @autosave="save"
+          @autosave="queueAutosave"
         />
       </IconTitleCardContainer>
     </div>
@@ -115,7 +107,7 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
       >
         <ActivityConsignFormField
           :form="form"
-          @autosave="save"
+          @autosave="queueAutosave"
         />
       </IconTitleCardContainer>
     </div>
@@ -130,7 +122,7 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
         <ActivityExecutionPeriodFormField
           :form="form"
           min-height="15rem"
-          @autosave="save"
+          @autosave="queueAutosave"
         />
       </IconTitleCardContainer>
     </div>
@@ -161,17 +153,17 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
         <ActivityReflectionFormField
           :disabled="hasEnrolledStudent"
           :form="form"
-          @autosave="save"
+          @autosave="queueAutosave"
         />
         <ActivityTraceFormField
           :disabled="hasEnrolledStudent"
           :form="form"
-          @autosave="save"
+          @autosave="queueAutosave"
         />
         <ActivityFeedbackFormField
           :disabled="hasEnrolledStudent"
           :form="form"
-          @autosave="save"
+          @autosave="queueAutosave"
         />
       </IconTitleCardContainer>
     </div>

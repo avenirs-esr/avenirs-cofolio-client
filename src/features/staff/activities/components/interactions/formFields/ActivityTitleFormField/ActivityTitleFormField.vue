@@ -3,8 +3,7 @@ import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { ActivityDraftCreationForm, EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import ActivityTitleInput from '@/features/staff/activities/components/interactions/inputs/ActivityTitleInput/ActivityTitleInput.vue'
-import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_TITLE_MAX_LENGTH } from '@/features/staff/activities/config'
-import { debounce } from 'lodash-es'
+import { ACTIVITY_TITLE_MAX_LENGTH } from '@/features/staff/activities/config'
 import { markRaw } from 'vue'
 
 interface ActivityTitleFormFieldProps {
@@ -30,14 +29,6 @@ const titleValidators = {
   onChange: ({ value }: { value: string }) => validateTitle(value),
   onSubmit: ({ value }: { value: string }) => validateTitle(value),
 }
-
-const isFormDirty = form.useStore(state => state.isDirty)
-
-const debouncedAutosave = debounce((value: string, hasErrors: boolean) => {
-  if (!hasErrors && isFormDirty.value) {
-    emit('autosave', { title: value })
-  }
-}, ACTIVITY_AUTO_SAVE_DEBOUNCE)
 </script>
 
 <template>
@@ -54,7 +45,7 @@ const debouncedAutosave = debounce((value: string, hasErrors: boolean) => {
         @blur="field.handleBlur"
         @update:model-value="(value) => {
           field.handleChange(value ?? '');
-          debouncedAutosave(value ?? '', field.state.meta.errors.length > 0)
+          if (!field.state.meta.errors.length) { emit('autosave', { title: value ?? '' }) }
         }"
       />
     </template>
