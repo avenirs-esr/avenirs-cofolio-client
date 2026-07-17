@@ -1,5 +1,5 @@
 import { EFileType, type FileDTO } from '@/api/avenir-esr'
-import { bytesToMegabytes, getFileExtension, getFileTypeFromFileName, isDifferentFile, renameFile, stripExtension } from '@/common/utils/file/file'
+import { bytesToMegabytes, formatFileSizeInMegabytes, getFileExtension, getFileTypeFromFileName, isDifferentFile, renameFile, stripExtension } from '@/common/utils/file/file'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 BddTest().given('the file  helper', () => {
@@ -210,6 +210,26 @@ BddTest().given('the isDifferentFile helper', () => {
 
       expect(isDifferentFile(file, dto)).toBe(true)
       expect(isDifferentFile(dto, file)).toBe(true)
+    })
+  })
+})
+
+BddTest().given('the file size formatter', () => {
+  BddTest().when('the locale is French', () => {
+    BddTest().then('it should format the size with a comma decimal separator', () => {
+      expect(formatFileSizeInMegabytes(2516582, 'fr')).toBe('2,4')
+    })
+  })
+
+  BddTest().when('the locale is English', () => {
+    BddTest().then('it should format the size with a dot decimal separator', () => {
+      expect(formatFileSizeInMegabytes(2516582, 'en')).toBe('2.4')
+    })
+  })
+
+  BddTest().when('the size is a whole number of megabytes', () => {
+    BddTest().then('it should not display a decimal part', () => {
+      expect(formatFileSizeInMegabytes(1024 * 1024, 'fr')).toBe('1')
     })
   })
 })
