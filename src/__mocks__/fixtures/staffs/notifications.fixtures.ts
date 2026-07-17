@@ -4,6 +4,7 @@ export const mockedStaffNotification: NotificationDTO = {
   id: crypto.randomUUID(),
   createdAt: '2024-01-01T00:00:00Z',
   type: NotificationDTOType.ASK_FOR_FEEDBACK,
+  elementId: crypto.randomUUID(),
   seen: true
 }
 
@@ -19,7 +20,7 @@ export function createStaffMockedNotifications (totalElements: number): Notifica
     notifications.push({
       ...mockedStaffNotification,
       id: `notification-${i}`,
-      seen: i % 2 === 0
+      seen: i % 2 === 1
     })
   }
 
