@@ -93,6 +93,7 @@ export function createMockedTracesViewResponse (
       title: `Ma super trace ${traceIsAssociated ? 'associée' : 'non associée'} numéro ${i}`,
       createdAt: `2025-${monthNumber}-${dayNumber}T10:42:00.000Z`,
       updatedAt: `2025-${monthNumber}-${dayNumber}T11:42:00.000Z`,
+      authorType: ETraceAuthorType.PERSONAL,
       willBeDeletedAt: `2026-07-${dayNumber}T10:42:00.000Z`
     }
 

@@ -65,16 +65,21 @@ const to = computed(() => {
 </script>
 
 <template>
-  <div
-    class="valorized-item av-col av-gap-xs av-w-full"
-    data-testid="valorized-item"
-  >
-    <div class="av-row av-justify-between av-gap-sm">
-      <AvTooltip :content="title">
-        <span class="title s2-bold av-max-lines">
-          {{ title }}
-        </span>
-      </AvTooltip>
+  <div class="valorized-item av-row av-pt-sm">
+    <div
+      class=" av-col av-gap-xs av-w-full"
+      data-testid="valorized-item"
+    >
+      <div class="av-row av-justify-between av-gap-sm">
+        <AvTooltip :content="title">
+          <span class="title s2-bold av-max-lines">
+            {{ title }}
+          </span>
+        </AvTooltip>
+      </div>
+      <slot />
+    </div>
+    <div class="av-col av-justify-center">
       <AvButton
         v-if="to"
         :label="t('global.buttons.access')"
@@ -84,7 +89,6 @@ const to = computed(() => {
         data-testid="access-button"
       />
     </div>
-    <slot />
   </div>
 </template>
 
@@ -92,6 +96,11 @@ const to = computed(() => {
 .valorized-item {
   .title {
     --max-lines: 1;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--stroke);
+    padding-bottom: var(--spacing-sm);
   }
 }
 </style>

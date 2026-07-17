@@ -2,6 +2,7 @@ import type {
   TraceViewDTO
 } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import { ETraceAuthorType } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { TracesSelectorStub } from '@/features/student/traces/components/interactions/pickers/TracesSelector/TraceSelector.stub'
 import {
@@ -37,14 +38,16 @@ BddTest().given('a delete traces modal', () => {
       title: 'Trace 1',
       isAssociated: false,
       createdAt: '2026-06-15T10:00:00.000Z',
-      updatedAt: '2026-06-15T10:00:00.000Z'
+      updatedAt: '2026-06-15T10:00:00.000Z',
+      authorType: ETraceAuthorType.PERSONAL
     },
     {
       id: 'trace-2',
       title: 'Trace 2',
       isAssociated: true,
       createdAt: '2026-06-15T10:00:00.000Z',
-      updatedAt: '2026-06-15T10:00:00.000Z'
+      updatedAt: '2026-06-15T10:00:00.000Z',
+      authorType: ETraceAuthorType.PERSONAL
     }
   ])
 
@@ -83,14 +86,16 @@ BddTest().given('a delete traces modal', () => {
         title: 'Trace 1',
         isAssociated: false,
         createdAt: '2026-06-15T10:00:00.000Z',
-        updatedAt: '2026-06-15T10:00:00.000Z'
+        updatedAt: '2026-06-15T10:00:00.000Z',
+        authorType: ETraceAuthorType.PERSONAL
       },
       {
         id: 'trace-2',
         title: 'Trace 2',
         isAssociated: true,
         createdAt: '2026-06-15T10:00:00.000Z',
-        updatedAt: '2026-06-15T10:00:00.000Z'
+        updatedAt: '2026-06-15T10:00:00.000Z',
+        authorType: ETraceAuthorType.PERSONAL
       }
     ]
 
