@@ -11,7 +11,6 @@ export interface ValorizedItemProps {
   itemId: string
   parentId?: string
   type: ValorizedItemType
-  isLastItem?: boolean
 }
 
 const { itemId, parentId = '', type } = defineProps<ValorizedItemProps>()
@@ -68,9 +67,6 @@ const to = computed(() => {
 <template>
   <div
     class="valorized-item av-col av-gap-xs av-w-full"
-    :class="{ 'valorized-item-last': isLastItem,
-              'av-pb-sm': !isLastItem,
-    }"
     data-testid="valorized-item"
   >
     <div class="av-row av-justify-between av-gap-sm">
@@ -96,10 +92,6 @@ const to = computed(() => {
 .valorized-item {
   .title {
     --max-lines: 1;
-  }
-
-  &:not(.valorized-item-last) {
-    border-bottom: 1px solid var(--stroke);
   }
 }
 </style>
