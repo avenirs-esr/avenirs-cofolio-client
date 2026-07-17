@@ -6,6 +6,13 @@
           "text": "0 trace | 1 trace | {count} traces"
         }
       },
+      "badges": {
+        "TraceAuthorTypeBadge": {
+          "COLLECTIVE": "Collective",
+          "PERSONAL": "Individual",
+          "THIRD_PARTY": "Third party"
+        }
+      },
       "cards": {
         "StudentTraceCard": {
           "lifeProject": "Life project",
