@@ -50,7 +50,7 @@ BddTest().given('an AddActivityResourceFileUploadFormField component', () => {
 
     BddTest().then('it should render the format hint', () => {
       expect(wrapper.text()).toContain('Format :')
-      expect(wrapper.text()).toContain('PDF, JPG, JPEG, PNG')
+      expect(wrapper.text()).toContain('PDF, DOC, DOCX, ODT, JPG, PNG')
     })
 
     BddTest().then('it should render the size hint', () => {

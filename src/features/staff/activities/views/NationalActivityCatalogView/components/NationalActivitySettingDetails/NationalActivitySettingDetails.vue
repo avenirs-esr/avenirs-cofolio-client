@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { ActivityContentDTO } from '@/api/avenir-esr'
 import { EnabledDisabledStatusBadge } from '@/common/components'
+import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { ICONS } from '@/common/constants'
 import {
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED,
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY,
   ACTIVITY_TRACE_SETTING_DISABLED_VALUE
 } from '@/features/staff/activities/config'
-import IconTitleCardContainer from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

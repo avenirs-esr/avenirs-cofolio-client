@@ -1,7 +1,7 @@
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import IconTitleCardContainer, {
   type IconTitleCardContainerProps
-} from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
+} from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
+import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import Toggle from '@/common/components/Toggle/Toggle.vue'
-import IconTitleCardContainer from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 
 export interface ToggleParameterCardProps {
   title: string

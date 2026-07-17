@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FileDTO } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
-import ActivityResourcesList from '@/features/staff/activities/components/lists/ActivityResourcesList/ActivityResourcesList.vue'
+import ActivityResourcesList from '@/common/components/lists/ActivityResourcesList/ActivityResourcesList.vue'
 import { useI18n } from 'vue-i18n'
 
 interface DeleteActivityResourcesModalProps {

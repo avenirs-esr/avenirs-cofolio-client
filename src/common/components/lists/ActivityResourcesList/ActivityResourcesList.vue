@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { FileDTO } from '@/api/avenir-esr'
-import ActivityResourceCard from '@/features/staff/activities/components/cards/ActivityResourceCard/ActivityResourceCard.vue'
+import ActivityResourceCard from '@/common/components/cards/ActivityResourceCard/ActivityResourceCard.vue'
 
 export interface ActivityResourcesListProps {
   activityId: string

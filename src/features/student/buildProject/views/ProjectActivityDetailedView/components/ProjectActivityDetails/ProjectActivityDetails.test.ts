@@ -1,6 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
+import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
+import { ActivityResourcesListStub } from '@/common/components/lists/ActivityResourcesList/ActivityResourcesList.stub'
 import ProjectActivityDetails, {
   type ProjectActivityDetailsProps,
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.vue'
@@ -19,6 +21,8 @@ BddTest().given('a project activity details component', () => {
     Card: CardStub,
     AvIconText: AvIconTextStub,
     AvPeriodInput: AvPeriodInputStub,
+    IconTitleCardContainer: IconTitleCardContainerStub,
+    ActivityResourcesList: ActivityResourcesListStub,
   }
 
   BddTest().when('the component is mounted with executionPeriodInfo containing "-" lines and startDate and endDate', () => {

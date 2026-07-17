@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { useGetFeedbackDashboard } from '@/api/avenir-esr'
+import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { ICONS } from '@/common/constants'
 import DashboardCard from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'
-import IconTitleCardContainer from '@/features/staff/global/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { MDI_ICONS, MS_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
