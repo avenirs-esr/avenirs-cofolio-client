@@ -28,6 +28,11 @@
           "deleteError": "An error occurred while deleting the activity",
           "deleteSuccess": "Activity deleted successfully",
           "title": "Are you sure you want to delete this national activity?"
+        },
+        "UnpublishActivityConfirmationModal": {
+          "title": "Are you sure you want to unpublish this activity?",
+          "unpublishError": "An error occurred while unpublishing the activity",
+          "unpublishSuccess": "The activity was unpublished successfully"
         }
       },
       "views": {

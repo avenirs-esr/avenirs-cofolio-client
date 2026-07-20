@@ -7,6 +7,7 @@ import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { BaseApiException } from '@/common/exceptions'
 import { DeleteDraftActivityConfirmationModalStub } from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.stub'
+import { UnpublishActivityConfirmationModalStub } from '@/features/staff/activities/components/modals/UnpublishActivityConfirmationModal/UnpublishActivityConfirmationModal.stub'
 import ActivitiesTab from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.vue'
 import { ActivityCardStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.stub'
 import { ActivityTableTitleStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.stub'
@@ -77,6 +78,7 @@ BddTest().given('a ActivitiesTab component', () => {
     ActivityStatusBadge: ActivityStatusBadgeStub,
     ActivityTableTitle: ActivityTableTitleStub,
     AvTable: AvTableStub,
+    UnpublishActivityConfirmationModal: UnpublishActivityConfirmationModalStub,
     DeleteDraftActivityConfirmationModal: DeleteDraftActivityConfirmationModalStub,
     MoreActionsDropdown: MoreActionsDropdownStub,
     Pagination: PaginationStub,
@@ -110,7 +112,11 @@ BddTest().given('a ActivitiesTab component', () => {
     await flushPromises()
   }
 
-  function getConfirmationModal () {
+  function getUnpublishConfirmationModal () {
+    return wrapper.findComponent(UnpublishActivityConfirmationModalStub)
+  }
+
+  function getDeleteConfirmationModal () {
     return wrapper.findComponent(DeleteDraftActivityConfirmationModalStub)
   }
 
@@ -208,8 +214,54 @@ BddTest().given('a ActivitiesTab component', () => {
       expect(dropdowns[1].props('activityStatus')).toBe(EActivityStatus.PUBLISHED)
     })
 
-    BddTest().then('the confirmation modal should not be visible initially', () => {
-      expect(getConfirmationModal().props('show')).toBe(false)
+    BddTest().then('the unpublish confirmation modal should not be visible initially', () => {
+      expect(getUnpublishConfirmationModal().props('show')).toBe(false)
+    })
+
+    BddTest().then('the delete confirmation modal should not be visible initially', () => {
+      expect(getDeleteConfirmationModal().props('show')).toBe(false)
+    })
+
+    BddTest().and('unpublishSelected is emitted from a MoreActionsDropdown', () => {
+      beforeEach(() => {
+        getMoreActionsDropdowns()[0].vm.$emit('unpublishSelected')
+      })
+
+      BddTest().then('it should show the unpublish confirmation modal', () => {
+        expect(getUnpublishConfirmationModal().props('show')).toBe(true)
+      })
+
+      BddTest().then('it should pass the correct activityId to the modal', () => {
+        expect(getUnpublishConfirmationModal().props('activityId')).toBe('staff-activity-1')
+      })
+
+      BddTest().and('the unpublish confirmation modal emits unpublished', () => {
+        beforeEach(() => {
+          getUnpublishConfirmationModal().vm.$emit('unpublished')
+        })
+
+        BddTest().then('it should emit unpublished', () => {
+          expect(wrapper.emitted('unpublished')).toHaveLength(1)
+        })
+
+        BddTest().then('it should hide the unpublish confirmation modal', () => {
+          expect(getUnpublishConfirmationModal().props('show')).toBe(false)
+        })
+      })
+
+      BddTest().and('the user cancels', () => {
+        beforeEach(async () => {
+          getUnpublishConfirmationModal().vm.$emit('close')
+        })
+
+        BddTest().then('it should not emit unpublished', () => {
+          expect(wrapper.emitted('unpublished')).toBeUndefined()
+        })
+
+        BddTest().then('it should hide the unpublish confirmation modal', () => {
+          expect(getUnpublishConfirmationModal().props('show')).toBe(false)
+        })
+      })
     })
 
     BddTest().and('deleteSelected is emitted from a MoreActionsDropdown', () => {
@@ -217,39 +269,39 @@ BddTest().given('a ActivitiesTab component', () => {
         getMoreActionsDropdowns()[0].vm.$emit('deleteSelected')
       })
 
-      BddTest().then('it should show the confirmation modal', () => {
-        expect(getConfirmationModal().props('show')).toBe(true)
+      BddTest().then('it should show the delete confirmation modal', () => {
+        expect(getDeleteConfirmationModal().props('show')).toBe(true)
       })
 
       BddTest().then('it should pass the correct activityId to the modal', () => {
-        expect(getConfirmationModal().props('activityId')).toBe('staff-activity-1')
+        expect(getDeleteConfirmationModal().props('activityId')).toBe('staff-activity-1')
       })
 
       BddTest().and('the modal emits deleted', () => {
         beforeEach(() => {
-          getConfirmationModal().vm.$emit('deleted')
+          getDeleteConfirmationModal().vm.$emit('deleted')
         })
 
         BddTest().then('it should emit deleted', () => {
           expect(wrapper.emitted('deleted')).toHaveLength(1)
         })
 
-        BddTest().then('it should hide the confirmation modal', () => {
-          expect(getConfirmationModal().props('show')).toBe(false)
+        BddTest().then('it should hide the delete confirmation modal', () => {
+          expect(getDeleteConfirmationModal().props('show')).toBe(false)
         })
       })
 
       BddTest().and('the user cancels', () => {
         beforeEach(async () => {
-          getConfirmationModal().vm.$emit('close')
+          getDeleteConfirmationModal().vm.$emit('close')
         })
 
         BddTest().then('it should not emit deleted', () => {
           expect(wrapper.emitted('deleted')).toBeUndefined()
         })
 
-        BddTest().then('it should hide the confirmation modal', () => {
-          expect(getConfirmationModal().props('show')).toBe(false)
+        BddTest().then('it should hide the delete confirmation modal', () => {
+          expect(getDeleteConfirmationModal().props('show')).toBe(false)
         })
       })
     })

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { EActivityStatus } from '@/api/avenir-esr'
-import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvDropdown, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface MoreActionsDropdownProps {
@@ -11,11 +11,13 @@ const { activityStatus } = defineProps<MoreActionsDropdownProps>()
 
 const emit = defineEmits<{
   (e: 'deleteSelected'): void
+  (e: 'unpublishSelected'): void
   (e: 'navigateToFeedbacksSelected'): void
 }>()
 
 enum MoreActionsEvents {
   DELETE = 'delete',
+  UNPUBLISH = 'unpublish',
   NAVIGATE_TO_FEEDBACKS = 'navigateToFeedbacks'
 }
 
@@ -26,6 +28,12 @@ const menuItems = computed(() => [
     name: MoreActionsEvents.NAVIGATE_TO_FEEDBACKS,
     icon: MDI_ICONS.ARROW_RIGHT,
     label: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.navigateToFeedbacks'),
+    disabled: activityStatus !== EActivityStatus.PUBLISHED
+  },
+  {
+    name: MoreActionsEvents.UNPUBLISH,
+    icon: RI_ICONS.EYE_OFF_LINE,
+    label: t('global.buttons.unpublish'),
     disabled: activityStatus !== EActivityStatus.PUBLISHED
   },
   {
@@ -43,6 +51,9 @@ function handleItemSelected (itemName: string) {
       break
     case MoreActionsEvents.NAVIGATE_TO_FEEDBACKS:
       emit('navigateToFeedbacksSelected')
+      break
+    case MoreActionsEvents.UNPUBLISH:
+      emit('unpublishSelected')
       break
   }
 }

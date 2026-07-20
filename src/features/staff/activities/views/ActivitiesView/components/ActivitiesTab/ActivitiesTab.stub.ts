@@ -17,5 +17,5 @@ export const ActivitiesTabStub = defineComponent({
       required: true,
     },
   },
-  emits: ['updateActivitiesCount', 'deleted'],
+  emits: ['updateActivitiesCount', 'unpublished', 'deleted'],
 })

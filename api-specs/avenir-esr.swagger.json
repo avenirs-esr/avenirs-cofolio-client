@@ -5345,9 +5345,6 @@
           "isAssociated": {
             "type": "boolean"
           },
-          "isValorized": {
-            "type": "boolean"
-          },
           "fileTypes": {
             "type": "array",
             "items": {
@@ -5425,6 +5422,9 @@
                 "ASSOCIATED_WITH_DECLARED_SKILL"
               ]
             }
+          },
+          "isValorized": {
+            "type": "boolean"
           }
         }
       },

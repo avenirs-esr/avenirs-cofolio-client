@@ -28,6 +28,11 @@
           "deleteError": "Une erreur est survenue lors de la suppression de l'activité",
           "deleteSuccess": "L'activité a été supprimée avec succès",
           "title": "Êtes-vous certain(e) de vouloir supprimer cette activité nationale ?"
+        },
+        "UnpublishActivityConfirmationModal": {
+          "title": "Êtes-vous certain(e) de vouloir dépublier cette activité ?",
+          "unpublishError": "Une erreur est survenue lors de la dépublication de l'activité",
+          "unpublishSuccess": "L'activité a été dépubliée avec succès"
         }
       },
       "views": {

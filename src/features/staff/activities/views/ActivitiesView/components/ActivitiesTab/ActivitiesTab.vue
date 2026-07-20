@@ -8,6 +8,7 @@ import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useDateUtils, useNavigation } from '@/common/composables'
 import { useModal } from '@/common/composables/use-modal/use-modal'
 import DeleteDraftActivityConfirmationModal from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
+import UnpublishActivityConfirmationModal from '@/features/staff/activities/components/modals/UnpublishActivityConfirmationModal/UnpublishActivityConfirmationModal.vue'
 import { usePaginatedStaffActivities, type UsePaginatedStaffActivitiesParams } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
 import { mapActivityToActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.utils'
 import ActivityCard from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
@@ -34,6 +35,7 @@ const {
 
 const emit = defineEmits<{
   (e: 'updateActivitiesCount', value: number): void
+  (e: 'unpublished'): void
   (e: 'deleted'): void
 }>()
 
@@ -57,11 +59,25 @@ const { isMobile } = useAvBreakpoints()
 const { navigateToStaffActivityFeedbacks } = useNavigation()
 
 const { showModal: showDeleteModal, displayModal: displayDeleteModal, hideModal: hideDeleteModal } = useModal()
+const { showModal: showUnpublishModal, displayModal: displayUnpublishModal, hideModal: hideUnpublishModal } = useModal()
+
+const pendingUnpublishId = ref<string | null>(null)
 const pendingDeleteId = ref<string | null>(null)
+
+function onUnpublishSelected (activityId: string) {
+  pendingUnpublishId.value = activityId
+  displayUnpublishModal()
+}
 
 function onDeleteSelected (activityId: string) {
   pendingDeleteId.value = activityId
   displayDeleteModal()
+}
+
+function onUnpublished () {
+  emit('unpublished')
+  hideUnpublishModal()
+  pendingUnpublishId.value = null
 }
 
 function onDeleted () {
@@ -180,13 +196,21 @@ watch(
               :activity-status="row.status"
               :data-activity-id="row.id"
               :data-activity-status="row.status"
-              @delete-selected="onDeleteSelected(row.id)"
+              @delete-selected="() => onDeleteSelected(row.id)"
+              @unpublish-selected="() => onUnpublishSelected(row.id)"
               @navigate-to-feedbacks-selected="() => navigateToStaffActivityFeedbacks({ id: row.id })"
             />
           </template>
         </AvTable>
       </Pagination>
     </QuerySuspense>
+
+    <UnpublishActivityConfirmationModal
+      :show="showUnpublishModal"
+      :activity-id="pendingUnpublishId ?? ''"
+      @close="hideUnpublishModal"
+      @unpublished="onUnpublished"
+    />
 
     <DeleteDraftActivityConfirmationModal
       :show="showDeleteModal"
