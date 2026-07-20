@@ -39,11 +39,16 @@ BddTest().given('a MoreActionsDropdown component', () => {
       expect(getDropdown().props('triggerAriaLabel')).toBe('Plus d\'actions')
     })
 
-    BddTest().then('the delete item should not be disabled and the navigate to feedback item should be disabled', () => {
+    BddTest().then('the delete item should not be disabled and the navigate to feedback and unpublish items should be disabled', () => {
       expect(getDropdown().props('items')).toEqual([
         expect.objectContaining({
           name: 'navigateToFeedbacks',
           label: 'Accéder aux demandes de feedback',
+          disabled: true
+        }),
+        expect.objectContaining({
+          name: 'unpublish',
+          label: 'Dépublier',
           disabled: true
         }),
         expect.objectContaining({
@@ -83,23 +88,14 @@ BddTest().given('a MoreActionsDropdown component', () => {
       })
     })
 
-    BddTest().then('the delete item should be disabled', () => {
+    BddTest().then('the delete item should be disabled and the navigate to feedback and unpublish items should not be disabled', () => {
       expect(getDropdown().props('items')).toEqual([
         expect.objectContaining({
           name: 'navigateToFeedbacks',
           disabled: false
         }),
         expect.objectContaining({
-          name: 'delete',
-          disabled: true
-        })
-      ])
-    })
-
-    BddTest().then('the navigate to feedback item should not be disabled', () => {
-      expect(getDropdown().props('items')).toEqual([
-        expect.objectContaining({
-          name: 'navigateToFeedbacks',
+          name: 'unpublish',
           disabled: false
         }),
         expect.objectContaining({
@@ -116,6 +112,16 @@ BddTest().given('a MoreActionsDropdown component', () => {
 
       BddTest().then('it should emit navigateToFeedbacksSelected', () => {
         expect(wrapper.emitted('navigateToFeedbacksSelected')).toHaveLength(1)
+      })
+    })
+
+    BddTest().and('the unpublish item is selected', () => {
+      beforeEach(async () => {
+        await getDropdown().vm.$emit('itemSelected', 'unpublish')
+      })
+
+      BddTest().then('it should emit unpublishSelected', () => {
+        expect(wrapper.emitted('unpublishSelected')).toHaveLength(1)
       })
     })
   })

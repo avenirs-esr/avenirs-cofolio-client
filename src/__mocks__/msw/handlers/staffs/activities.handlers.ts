@@ -30,6 +30,7 @@ import {
   getGetStaffActivityLibraryUrl,
   getGetStaffActivityWorkingSpaceUrl,
   getPublishActivityDraftUrl,
+  getUnpublishActivityUrl,
   getUpdateActivityDraftUrl,
   getUploadDraftBannerUrl
 } from '@/api/avenir-esr'
@@ -100,6 +101,20 @@ export const publishActivityDraftHandler = http.post(`*${getPublishActivityDraft
 
   return HttpResponse.json<CreationResponse>({ createdItemId: mockedActivityDraftUpdateResponse.draftId }, {
     status: HttpStatusCode.CREATED,
+    headers: { 'Content-Type': 'application/json' },
+  })
+})
+
+export const unpublishActivityDraftHandler = http.post(`*${getUnpublishActivityUrl(':activityId')}`, ({ params }) => {
+  if (params.activityId === 'INVALID_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { message: 'Activité non trouvée', code: ErrorCodes.ACTIVITY_NOT_FOUND },
+      { status: HttpStatusCode.NOT_FOUND, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  return HttpResponse.json({
+    status: HttpStatusCode.NO_CONTENT,
     headers: { 'Content-Type': 'application/json' },
   })
 })
@@ -230,6 +245,7 @@ export const staffsActivitiesHandlers = [
   }),
   deleteActivityDraftHandler,
   publishActivityDraftHandler,
+  unpublishActivityDraftHandler,
   http.post(`*${getUploadDraftBannerUrl(':activityDraftId')}`, async ({ params, request }) => {
     const activityId: string | undefined = params.activityDraftId as string | undefined
 

@@ -10,5 +10,5 @@ export const MoreActionsDropdownStub = defineComponent({
       required: true,
     },
   },
-  emits: ['deleteSelected', 'navigateToFeedbacksSelected'],
+  emits: ['deleteSelected', 'unpublishSelected', 'navigateToFeedbacksSelected'],
 })
