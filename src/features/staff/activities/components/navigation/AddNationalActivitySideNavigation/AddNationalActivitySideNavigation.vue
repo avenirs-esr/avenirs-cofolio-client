@@ -23,7 +23,6 @@ const { activeElementId } = useScrollSpy([
   ContentSectionId.INSTRUCTIONS,
   ContentSectionId.CONTEXT,
   ContentSectionId.DOCUMENTS,
-  ContentSectionId.SCHEDULE,
   ContentSectionId.MODALITIES
 ])
 

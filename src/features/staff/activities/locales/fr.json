@@ -69,8 +69,7 @@
             "publication": {
               "ACTIVITY_TITLE": "Titre de l'activité",
               "IMAGE": "Ajouter une image",
-              "SUMMARY_CONTEXT": "Extrait et contexte(s) de réalisation conseillé(s)",
-              "TARGET_GROUPS": "Groupe(s) Cible(s)"
+              "SUMMARY_CONTEXT": "Extrait et contexte(s) de réalisation conseillé(s)"
             },
             "publicationHeader": "Publication de l'activité"
           }
