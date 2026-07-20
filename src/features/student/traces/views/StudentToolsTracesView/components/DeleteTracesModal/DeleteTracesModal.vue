@@ -86,19 +86,12 @@ useInfiniteScroll(tracesContainer, loadMoreTraces, {
         >
           {{ t('student.traces.views.StudentToolsTracesView.deleteTracesModal.title', { count: traces.length }) }}
         </span>
-
-        <span
-          class="b2-light av-text-text1 av-text-center"
-          data-testid="delete-traces-modal-description"
-        >
-          {{ t('student.traces.views.StudentToolsTracesView.deleteTracesModal.description') }}
-        </span>
       </div>
     </template>
 
     <div
       ref="tracesContainer"
-      class="delete-traces-modal__content av-col av-justify-center av-gap-sm"
+      class="delete-traces-modal__content av-col av-gap-sm"
     >
       <TracesSelector
         v-if="traces.length"
