@@ -3,8 +3,11 @@ import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { NotificationsDropdown } from '@e2e/framework/shared/componentObjects/NotificationsDropdown'
 import { UserProfileDropdown } from '@e2e/framework/shared/componentObjects/UserProfileDropdown'
+import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { t } from '@e2e/framework/shared/utils/i18n'
+import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { StaffOverviewWidget } from '@e2e/framework/staff/home/componentObjects/StaffOverviewWidget'
+import { expect } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('staffHomePage')
@@ -113,5 +116,29 @@ export class StaffHomePage extends BasePage {
   @Then('the staff notifications dropdown is closed')
   async verifyStaffNotificationsDropdownClosed () {
     await this.getStaffNotificationsDropdown().verifyClosed()
+  }
+
+  @Then('the feedback notification card is displayed')
+  async verifyStaffFeedbackNotificationCardVisible () {
+    await this.getStaffNotificationsDropdown().verifyAtLeastOneFeedbackCardVisible()
+  }
+
+  @When('the staff clicks on a feedback notification card')
+  async clickStaffFeedbackNotificationCard () {
+    await this.getStaffNotificationsDropdown().clickFirstFeedbackCard()
+  }
+
+  @Then('the page navigates to the feedback detail page')
+  async verifyNavigationToFeedbackDetailPage () {
+    const [basePath] = STAFF_ROUTES.ACTIVITY_FEEDBACK_DETAILS.split(':')
+    await expect(this.page).toHaveURL(new RegExp(`${basePath}.+`))
+  }
+
+  @Then('the notification is marked as read')
+  async verifyStaffNotificationMarkedAsRead () {
+    await this.page.goBack()
+    await waitForPageLoad(this.page)
+    await this.getStaffNotificationsDropdown().open()
+    await this.getStaffNotificationsDropdown().verifyFirstFeedbackCardMarkedAsRead()
   }
 }

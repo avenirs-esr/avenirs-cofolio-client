@@ -70,6 +70,18 @@ Feature: Staff Home Page
             When the staff clicks the exit button on the notifications dropdown
             Then the staff notifications dropdown is closed
 
+  Rule: Feedback request notifications
+    Background:
+      Given the staff opens the notifications dropdown
+      And the staff activates the notifications toggle
+
+    @medium @notifications @dataset-full
+    Scenario: Staff can open a feedback notification detail
+      Then the feedback notification card is displayed
+      When the staff clicks on a feedback notification card
+      Then the page navigates to the feedback detail page
+      And the notification is marked as read
+      
   Rule: Logout
 
     @high @logout

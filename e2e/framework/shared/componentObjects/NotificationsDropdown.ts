@@ -32,6 +32,14 @@ export class NotificationsDropdown {
     return this.page.getByTestId('notifications-popover-body-close')
   }
 
+  private getFeedbackCards () {
+    return this.page.getByTestId('activity-feedback-notification-card')
+  }
+
+  private getFirstFeedbackCard () {
+    return this.getFeedbackCards().first()
+  }
+
   async open () {
     await clickOnElement(this.getTriggerButton())
     await expect(this.getDropdownBody()).toBeVisible()
@@ -77,5 +85,17 @@ export class NotificationsDropdown {
 
   async verifyClosed () {
     await expect(this.getDropdownBody()).toBeHidden()
+  }
+
+  async verifyAtLeastOneFeedbackCardVisible () {
+    await expect(this.getFirstFeedbackCard()).toBeVisible()
+  }
+
+  async clickFirstFeedbackCard () {
+    await clickOnElement(this.getFirstFeedbackCard())
+  }
+
+  async verifyFirstFeedbackCardMarkedAsRead () {
+    await expect(this.getFirstFeedbackCard()).toHaveAttribute('data-seen', 'true')
   }
 }
