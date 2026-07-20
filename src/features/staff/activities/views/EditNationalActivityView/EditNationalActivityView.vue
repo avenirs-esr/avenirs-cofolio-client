@@ -20,6 +20,7 @@ import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
+import { useQueueAutoSave } from '@/common/composables/use-queue-auto-save/use-queue-auto-save'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ROUTES } from '@/common/constants'
 import { BaseApiException } from '@/common/exceptions'
@@ -37,7 +38,6 @@ import { AvTab, AvTabs, MDI_ICONS, RI_ICONS, useAvBreakpoints } from '@avenirs-e
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useRouteQuery } from '@vueuse/router'
-import { debounce } from 'lodash-es'
 import { useI18n } from 'vue-i18n'
 
 interface EditNationalActivityViewProps {
@@ -106,14 +106,11 @@ const { mutateAsync: deleteBannerMutation } = useDeleteDraftBanner()
 const { mutateAsync: deleteResourceFileMutation } = useDeleteDraftFile()
 const { mutateAsync: updateActivity } = useUpdateActivityDraft()
 
-const pendingAutoSaveData = ref<ActivityDraftUpdateRequest>({})
-const flushAutoSave = debounce(() => {
-  const data = { ...pendingAutoSaveData.value }
-  pendingAutoSaveData.value = {}
-  if (Object.keys(data).length > 0) {
-    save(data)
-  }
-}, ACTIVITY_AUTO_SAVE_DEBOUNCE)
+const {
+  queueAutoSave,
+  cancelAutoSave,
+  pendingAutoSaveData
+} = useQueueAutoSave<ActivityDraftUpdateRequest>(save, ACTIVITY_AUTO_SAVE_DEBOUNCE)
 
 const form = useForm({
   defaultValues,
@@ -131,7 +128,7 @@ const form = useForm({
     }
   },
   onSubmit: async ({ value }: { value: EditActivityFormData }) => {
-    flushAutoSave.cancel()
+    cancelAutoSave()
     pendingAutoSaveData.value = {}
     await save({
       title: value.title,
@@ -271,16 +268,7 @@ function onPublished () {
   navigateToStaffActivities(true)
 }
 
-function queueAutosave (data?: ActivityDraftUpdateRequest) {
-  if (!data) {
-    save()
-    return
-  }
-  pendingAutoSaveData.value = { ...pendingAutoSaveData.value, ...data }
-  flushAutoSave()
-}
-
-provideEditNationalActivityViewContext({ form, isUpdating, save, queueAutosave })
+provideEditNationalActivityViewContext({ form, isUpdating, save, queueAutoSave })
 </script>
 
 <template>
