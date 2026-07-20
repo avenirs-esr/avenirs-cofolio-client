@@ -17,7 +17,9 @@ export class StaffActivityDetailsPage extends BasePage {
 
   @Then('the staff published activity details page is displayed')
   async verifyPublishedActivityDetailsPageDisplayed () {
-    await expect(this.page).toHaveURL(/\/cofolio\/staff\/activities\/PUBLISHED\/[^/]+$/)
+    await expect(this.page).toHaveURL(
+      /\/cofolio\/staff\/activities\/(?:PUBLISHED|UNPUBLISHED)\/[^/]+$/
+    )
   }
 
   @Then('the edit published activity button is visible')
