@@ -13,9 +13,10 @@ export interface SearchAssociationLayoutProps<T extends AvAutocompleteOption, U 
   getOptionLabel?: (option: T) => string
   loading?: boolean
   buttonTheme?: AvButtonProps['theme']
+  layout?: 'vertical' | 'horizontal'
 }
 
-defineProps<SearchAssociationLayoutProps<T, U>>()
+const { layout = 'horizontal' } = defineProps<SearchAssociationLayoutProps<T, U>>()
 
 const emit = defineEmits<{
   (e: 'delete', itemId: string): void
@@ -35,11 +36,17 @@ const search = defineModel<string>('search', { default: '' })
 
 <template>
   <div
-    class="search-association-layout av-col av-row--md av-align-stretch--md av-gap-sm"
+    class="search-association-layout av-col av-gap-sm"
+    :class="{
+      'av-row--md av-align-stretch--md': layout === 'horizontal',
+    }"
     data-testid="search-association-layout"
   >
     <div
-      class="av-flex-fill av-col av-gap-sm"
+      class="av-col av-gap-sm"
+      :class="{
+        'av-flex-fill': layout === 'horizontal',
+      }"
       data-testid="search-association-layout-search"
     >
       <slot name="beforeSearch" />
