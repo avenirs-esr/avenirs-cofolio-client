@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { AvLocale } from '@/types'
 import { formatDateToYearMonthLocalized } from '@/common/utils'
-import { AvBadge } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface PeriodBadgeProps {
@@ -29,7 +29,8 @@ const endDateFormatted = computed(() => endDate
 const avBadgeProps = computed(() => ({
   label: `${startDateFormatted} - ${endDateFormatted.value}`,
   color: endDate ? 'var(--text1)' : 'var(--dark-background-primary1)',
-  backgroundColor: endDate ? 'var(--light-background-neutral)' : 'var(--light-background-primary2)'
+  backgroundColor: endDate ? 'var(--light-background-neutral)' : 'var(--light-background-primary2)',
+  icon: RI_ICONS.TIMER_LINE,
 }))
 </script>
 
