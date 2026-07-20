@@ -17,7 +17,7 @@ export const ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID
   = '2c9e4b77-6a1f-4d55-8b3c-7e2d1a9f4c22'
 
 export const ACTIVITY_WITH_FILE_AND_LINK_ID
-  = '2c9e4b77-6a1f-4d55-8b3c-7e2d1a9f4c22'
+  = '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1'
 
 export const mockedAuthor1: AuthorDTO = {
   userId: 'user-1',
@@ -100,8 +100,8 @@ export const mockedActivityContentWithEnrolledStudent: ActivityContentDTO = {
 
 export const mockedActivityContentWithFileAndLink: ActivityContentDTO = {
   id: ACTIVITY_WITH_FILE_AND_LINK_ID,
-  title: 'Activité "CV" : Construire son parcours',
-  thematic: EActivityThematic.TRANSVERSAL,
+  title: 'Activité "Connaissance de soi" : Définir ses valeurs',
+  thematic: EActivityThematic.SELF_KNOWLEDGE,
   summary: 'Résumé de l\'activité de test',
   description: 'Description détaillée de l\'activité de test',
   executionPeriodInfo: 'Semestre 1',
@@ -122,14 +122,14 @@ export const mockedActivityContentWithFileAndLink: ActivityContentDTO = {
     },
     {
       id: 'file-2',
-      fileName: 'image.png',
-      url: 'https://example.com/image.png',
-      fileType: EFileType.PNG,
+      fileName: 'definir-ses-valeurs-exercices.docx',
+      url: 'https://example.com/definir-ses-valeurs-exercices.docx',
+      fileType: EFileType.DOCX,
       fileSize: 204800,
       uploadedAt: '2024-01-15T10:45:00'
     }
   ],
-  links: ['http://example.com/resource1', 'http://example.com/resource2']
+  links: ['http://example.com/resource1', 'https://example.com/definir-ses-valeurs']
 }
 
 export const mockedActivityDraftUpdateResponse: ActivityDraftUpdateResponse = {
@@ -138,10 +138,10 @@ export const mockedActivityDraftUpdateResponse: ActivityDraftUpdateResponse = {
 
 const allStaffActivities: ActivityStaffOverviewDTO[] = [
   {
-    activityId: 'staff-activity-1',
+    activityId: ACTIVITY_WITH_FILE_AND_LINK_ID,
     title: 'Activité "Connaissance de soi" : Définir ses valeurs',
     thematic: EActivityThematic.SELF_KNOWLEDGE,
-    activityStatus: EActivityStatus.DRAFT,
+    activityStatus: EActivityStatus.PUBLISHED,
     updatedAt: '2024-01-15T10:00:00Z',
     author: mockedAuthor1,
   },

@@ -210,7 +210,7 @@ BddTest().given('a ActivitiesTab component', () => {
     BddTest().then('it should pass the correct activityStatus to each MoreActionsDropdown', () => {
       const dropdowns = getMoreActionsDropdowns()
 
-      expect(dropdowns[0].props('activityStatus')).toBe(EActivityStatus.DRAFT)
+      expect(dropdowns[0].props('activityStatus')).toBe(EActivityStatus.PUBLISHED)
       expect(dropdowns[1].props('activityStatus')).toBe(EActivityStatus.PUBLISHED)
     })
 
@@ -232,7 +232,7 @@ BddTest().given('a ActivitiesTab component', () => {
       })
 
       BddTest().then('it should pass the correct activityId to the modal', () => {
-        expect(getUnpublishConfirmationModal().props('activityId')).toBe('staff-activity-1')
+        expect(getUnpublishConfirmationModal().props('activityId')).toBe('3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1')
       })
 
       BddTest().and('the unpublish confirmation modal emits unpublished', () => {
@@ -274,7 +274,7 @@ BddTest().given('a ActivitiesTab component', () => {
       })
 
       BddTest().then('it should pass the correct activityId to the modal', () => {
-        expect(getDeleteConfirmationModal().props('activityId')).toBe('staff-activity-1')
+        expect(getDeleteConfirmationModal().props('activityId')).toBe('3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1')
       })
 
       BddTest().and('the modal emits deleted', () => {

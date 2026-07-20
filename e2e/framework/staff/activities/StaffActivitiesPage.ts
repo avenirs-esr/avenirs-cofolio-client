@@ -16,7 +16,7 @@ export class StaffActivitiesPage extends BasePage {
     = '2c9e4b77-6a1f-4d55-8b3c-7e2d1a9f4c22'
 
   private static readonly ACTIVITY_WITH_FILE_AND_LINK
-    = '2c9e4b77-6a1f-4d55-8b3c-7e2d1a9f4c22'
+    = '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1'
 
   private deleteConfirmationModal: DeleteDraftActivityConfirmationModal
 
