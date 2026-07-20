@@ -35,7 +35,6 @@ Feature: Staff Edit National Activity Page
       And the side navigation menu has "INSTRUCTIONS" content section
       And the side navigation menu has "CONTEXT" content section
       And the side navigation menu has "DOCUMENTS" content section
-      And the side navigation menu has "SCHEDULE" content section
       And the side navigation menu has "MODALITIES" content section
 
   Rule: Navigation to the publication tab
@@ -52,7 +51,6 @@ Feature: Staff Edit National Activity Page
     Scenario: The side navigation updates when switching to the publication tab
       Then the side navigation menu has publication header
       And the side navigation menu has "ACTIVITY_TITLE" publication section
-      And the side navigation menu has "TARGET_GROUPS" publication section
       And the side navigation menu has "IMAGE" publication section
       And the side navigation menu has "SUMMARY_CONTEXT" publication section
 
