@@ -6,7 +6,8 @@ import { ICONS } from '@/common/constants'
 import {
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED,
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY,
-  ACTIVITY_TRACE_SETTING_DISABLED_VALUE
+  ACTIVITY_TRACE_SETTING_DISABLED_VALUE,
+  ACTIVITY_TRACE_SETTING_INFINITY_VALUE
 } from '@/features/staff/activities/config'
 import NationalActivitySettingDetails from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySettingDetails/NationalActivitySettingDetails.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -111,6 +112,11 @@ BddTest().given('a national activity setting details component', () => {
       expect(badge.exists()).toBe(true)
       expect(badge.props('enabled')).toBe(false)
     })
+
+    BddTest().then('it should not display a trace association badge', () => {
+      const badge = findIterationsBadgeIn('national-activity-setting-details-trace')
+      expect(badge.exists()).toBe(false)
+    })
   })
 
   BddTest().when('the trace association is enabled', () => {
@@ -122,6 +128,35 @@ BddTest().given('a national activity setting details component', () => {
       const badge = findEnabledDisabledStatusBadgeIn('national-activity-setting-details-trace')
       expect(badge.exists()).toBe(true)
       expect(badge.props('enabled')).toBe(true)
+    })
+
+    BddTest().then('it should display the trace association count badge', () => {
+      const badge = findIterationsBadgeIn('national-activity-setting-details-trace')
+
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('label')).toBe('5 traces')
+      expect(badge.props('color')).toBe('var(--light-foreground-neutral)')
+      expect(badge.props('backgroundColor')).toBe('var(--light-background-neutral)')
+      expect(badge.props('icon')).toBe(MDI_ICONS.ATTACH_FILE)
+    })
+  })
+
+  BddTest().when('the trace association is enabled with unlimited traces', () => {
+    beforeEach(() => {
+      mountWith({
+        ...mockedActivityContent,
+        traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
+      })
+    })
+
+    BddTest().then('it should display the unlimited traces badge', () => {
+      const badge = findIterationsBadgeIn('national-activity-setting-details-trace')
+
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('label')).toBe('Traces illimitées')
+      expect(badge.props('color')).toBe('var(--light-foreground-neutral)')
+      expect(badge.props('backgroundColor')).toBe('var(--light-background-neutral)')
+      expect(badge.props('icon')).toBe(MDI_ICONS.ATTACH_FILE)
     })
   })
 

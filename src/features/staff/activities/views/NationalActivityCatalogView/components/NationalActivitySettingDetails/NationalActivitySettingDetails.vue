@@ -6,7 +6,8 @@ import { ICONS } from '@/common/constants'
 import {
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED,
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY,
-  ACTIVITY_TRACE_SETTING_DISABLED_VALUE
+  ACTIVITY_TRACE_SETTING_DISABLED_VALUE,
+  ACTIVITY_TRACE_SETTING_INFINITY_VALUE
 } from '@/features/staff/activities/config'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -28,6 +29,15 @@ const feedbackIterationsLabel = computed(() => activity.feedbackAllowedIteration
       'staff.activities.views.NationalActivityCatalogView.NationalActivitySettingDetails.badges.feedbackIterations',
       activity.feedbackAllowedIterations
     )
+)
+
+const traceAssociationsLabel = computed(() =>
+  activity.traceAllowedAssociations === ACTIVITY_TRACE_SETTING_INFINITY_VALUE
+    ? t('staff.activities.views.NationalActivityCatalogView.NationalActivitySettingDetails.badges.unlimitedTraces')
+    : t(
+        'staff.activities.views.NationalActivityCatalogView.NationalActivitySettingDetails.badges.traceAssociations',
+        activity.traceAllowedAssociations
+      )
 )
 </script>
 
@@ -51,7 +61,17 @@ const feedbackIterationsLabel = computed(() => activity.feedbackAllowedIteration
       background-color="var(--other-background-base)"
       data-testid="national-activity-setting-details-trace"
     >
-      <EnabledDisabledStatusBadge :enabled="isTraceEnabled" />
+      <div class="av-row av-gap-xs av-align-center av-wrap">
+        <EnabledDisabledStatusBadge :enabled="isTraceEnabled" />
+
+        <AvBadge
+          v-if="isTraceEnabled"
+          :label="traceAssociationsLabel"
+          :icon="MDI_ICONS.ATTACH_FILE"
+          color="var(--light-foreground-neutral)"
+          background-color="var(--light-background-neutral)"
+        />
+      </div>
     </IconTitleCardContainer>
     <IconTitleCardContainer
       :title="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.title')"

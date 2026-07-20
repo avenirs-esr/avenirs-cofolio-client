@@ -92,7 +92,9 @@
           "NationalActivitySettingDetails": {
             "badges": {
               "feedbackIterations": "0 iterations | {count} iteration | {count} iterations",
-              "unlimitedIterations": "Unlimited iterations"
+              "traceAssociations": "1 trace | {count} traces",
+              "unlimitedIterations": "Unlimited iterations",
+              "unlimitedTraces": "Unlimited traces"
             }
           },
           "tabs": {
