@@ -178,6 +178,7 @@
       "hoursAgo": "Il y a {count} heure | Il y a {count} heures",
       "justNow": "À l'instant",
       "minutesAgo": "Il y a {count} minute | Il y a {count} minutes",
+      "ongoing": "En cours",
       "secondsAgo": "Il y a {count} seconde | Il y a {count} secondes",
       "updatedAt": "Modifié le {date}"
     },

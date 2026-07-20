@@ -1,4 +1,5 @@
 import { type DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
+import { PeriodBadgeStub } from '@/common/activities/badges/PeriodBadge/PeriodBadge.stub'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import DeclaredExperienceCard from '@/features/student/personalCareer/components/cards/DeclaredExperienceCard/DeclaredExperienceCard.vue'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -12,7 +13,8 @@ BddTest().given('a declared experience card', () => {
   const stubs = {
     FloatingIconCard: FloatingIconCardStub,
     AvBadge: AvBadgeStub,
-    RouterLink: RouterLinkStub
+    RouterLink: RouterLinkStub,
+    PeriodBadge: PeriodBadgeStub
   }
 
   const baseDeclaredExperience: DeclaredExperienceViewDTO = {
@@ -224,9 +226,10 @@ BddTest().given('a declared experience card', () => {
       expect(floatingCard.exists()).toBe(true)
     })
 
-    BddTest().then('it should only render the organization badge', () => {
+    BddTest().then('it should only render the period and the organization badges', () => {
       const badges = wrapper.findAllComponents({ name: 'AvBadge' })
       expect(badges.length).toBe(1)
+      expect(wrapper.findComponent({ name: 'PeriodBadge' }).exists()).toBe(true)
     })
   })
 })
