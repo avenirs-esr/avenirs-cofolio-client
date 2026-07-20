@@ -13,7 +13,7 @@ const template = '<div><slot /></div>'
 export const mockHandleSubmit = vi.fn()
 export const mockIsUpdating = ref(false)
 export const mockSave = vi.fn()
-export const mockQueueAutosave = vi.fn()
+export const mockQueueAutoSave = vi.fn()
 export const mockCancel = vi.fn()
 
 export const EditNationalActivityViewFormWrapper = defineComponent({
@@ -44,7 +44,7 @@ export const EditNationalActivityViewFormWrapper = defineComponent({
       form,
       isUpdating: mockIsUpdating,
       save: mockSave,
-      queueAutosave: mockQueueAutosave,
+      queueAutoSave: mockQueueAutoSave,
     })
   },
 })
@@ -77,7 +77,7 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
       form,
       isUpdating: mockIsUpdating,
       save: mockSave,
-      queueAutosave: mockQueueAutosave,
+      queueAutoSave: mockQueueAutoSave,
     })
 
     onMounted(() => {
@@ -111,7 +111,7 @@ export const EditNationalActivityViewFormWrapperValid = defineComponent({
       form,
       isUpdating: mockIsUpdating,
       save: mockSave,
-      queueAutosave: mockQueueAutosave,
+      queueAutoSave: mockQueueAutoSave,
     })
   },
 })

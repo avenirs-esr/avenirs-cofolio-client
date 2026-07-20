@@ -36,7 +36,7 @@ const PUBLISH_REQUIRED_FIELDS: Array<keyof EditActivityFormData> = ['title', 'th
 const bannerFile = defineModel<File | null>()
 
 const { t } = useI18n()
-const { form, isUpdating, queueAutosave } = useEditNationalActivityViewContext()
+const { form, isUpdating, queueAutoSave } = useEditNationalActivityViewContext()
 const { showModal, displayModal, hideModal } = useModal()
 const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
@@ -87,7 +87,7 @@ async function publishActivityDraft () {
       >
         <ActivityTitleFormField
           :form="form"
-          @autosave="queueAutosave"
+          @autosave="queueAutoSave"
         />
       </IconTitleCardContainer>
     </div>
@@ -101,7 +101,7 @@ async function publishActivityDraft () {
           v-model="bannerFile"
           :form="form"
           :remote-banner="activity.banner"
-          @autosave="queueAutosave"
+          @autosave="queueAutoSave"
         />
       </IconTitleCardContainer>
     </div>
@@ -118,7 +118,7 @@ async function publishActivityDraft () {
         >
           <ActivitySummaryFormField
             :form="form"
-            @autosave="queueAutosave"
+            @autosave="queueAutoSave"
           />
         </IconTitleCardContainer>
       </div>
@@ -130,7 +130,7 @@ async function publishActivityDraft () {
         >
           <ActivityExecutionPeriodFormField
             :form="form"
-            @autosave="queueAutosave"
+            @autosave="queueAutoSave"
           />
         </IconTitleCardContainer>
       </div>

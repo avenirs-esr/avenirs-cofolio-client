@@ -30,7 +30,7 @@ const emit = defineEmits<{
   (e: 'nextStep'): void
 }>()
 
-const { form, queueAutosave, isUpdating } = useEditNationalActivityViewContext()
+const { form, queueAutoSave, isUpdating } = useEditNationalActivityViewContext()
 const { t } = useI18n()
 
 const hasEnrolledStudent = computed(() => activity.hasEnrolledStudent)
@@ -49,7 +49,7 @@ function addResource (payload: AddActivityResourceFormData) {
     form.setFieldValue('links', newLinks)
   }
 
-  queueAutosave(newLinks ? { links: newLinks } : undefined)
+  queueAutoSave(newLinks ? { links: newLinks } : undefined)
 }
 
 function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
@@ -64,7 +64,7 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
     form.setFieldValue('links', newLinks)
   }
 
-  queueAutosave(newLinks ? { links: newLinks } : undefined)
+  queueAutoSave(newLinks ? { links: newLinks } : undefined)
 }
 </script>
 
@@ -80,7 +80,7 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
       >
         <ActivityTitleFormField
           :form="form"
-          @autosave="queueAutosave"
+          @autosave="queueAutoSave"
         />
       </IconTitleCardContainer>
     </div>
@@ -92,7 +92,7 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
       >
         <ThematicSelectFormField
           :form="form"
-          @autosave="queueAutosave"
+          @autosave="queueAutoSave"
         />
       </IconTitleCardContainer>
     </div>
@@ -107,7 +107,7 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
       >
         <ActivityConsignFormField
           :form="form"
-          @autosave="queueAutosave"
+          @autosave="queueAutoSave"
         />
       </IconTitleCardContainer>
     </div>
@@ -122,7 +122,7 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
         <ActivityExecutionPeriodFormField
           :form="form"
           min-height="15rem"
-          @autosave="queueAutosave"
+          @autosave="queueAutoSave"
         />
       </IconTitleCardContainer>
     </div>
@@ -153,17 +153,17 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
         <ActivityReflectionFormField
           :disabled="hasEnrolledStudent"
           :form="form"
-          @autosave="queueAutosave"
+          @autosave="queueAutoSave"
         />
         <ActivityTraceFormField
           :disabled="hasEnrolledStudent"
           :form="form"
-          @autosave="queueAutosave"
+          @autosave="queueAutoSave"
         />
         <ActivityFeedbackFormField
           :disabled="hasEnrolledStudent"
           :form="form"
-          @autosave="queueAutosave"
+          @autosave="queueAutoSave"
         />
       </IconTitleCardContainer>
     </div>

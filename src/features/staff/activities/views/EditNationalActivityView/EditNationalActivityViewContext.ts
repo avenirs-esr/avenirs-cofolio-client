@@ -19,7 +19,7 @@ export interface EditNationalActivityViewContext {
   /**
    * Queues a partial autosave. Multiple concurrent field updates are merged into a single API call.
    */
-  queueAutosave: (data?: ActivityDraftUpdateRequest) => void
+  queueAutoSave: (data?: ActivityDraftUpdateRequest) => void
 }
 
 export const editNationalActivityViewContextKey: InjectionKey<EditNationalActivityViewContext> = Symbol('editNationalActivityViewContext')
