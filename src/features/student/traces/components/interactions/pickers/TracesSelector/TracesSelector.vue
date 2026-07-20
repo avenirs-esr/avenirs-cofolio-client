@@ -32,7 +32,7 @@ const selectableTraces = computed(() =>
 
 <template>
   <div
-    class="av-row av-wrap av-gap-md traces-selector-wrapper"
+    class="av-row av-wrap av-gap-md av-justify-center traces-selector-wrapper"
   >
     <SelectorOverlay
       v-model:selected-elements="selectedTraceIds"

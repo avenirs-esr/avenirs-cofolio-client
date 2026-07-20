@@ -95,7 +95,6 @@
           "deleteTracesModal": {
             "confirm": "Supprimer la trace sélectionnée ({count}) | Supprimer les traces sélectionnées ({count})",
             "confirmationTitle": "Suppression de la trace sélectionnée | Suppression des traces sélectionnées ({count})",
-            "description": "Attention : Les traces mobilisées dans une activité \"soumise pour feedback\" ou \"terminée\" sont verrouillées. Vous ne pouvez pas les sélectionner ni les supprimer de la liste ci-dessous.",
             "title": "Aucune trace à supprimer | Quelle trace souhaitez-vous supprimer ? | Quelles traces souhaitez-vous supprimer ?"
           },
           "studentDetailedTraceAssociateModal": {
