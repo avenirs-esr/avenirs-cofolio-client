@@ -152,6 +152,7 @@ async function handleCancel () {
                 :type-configs="associationTypesConfigs"
                 :options="associationOptions"
                 :loading="isAssociationSearchLoading"
+                layout="vertical"
                 @update:selections-by-type="associationSelectionsField.api.handleChange"
               />
             </AvAccordion>

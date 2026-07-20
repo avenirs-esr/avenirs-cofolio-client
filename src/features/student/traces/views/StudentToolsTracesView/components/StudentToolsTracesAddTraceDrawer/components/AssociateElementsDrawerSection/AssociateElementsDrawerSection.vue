@@ -10,9 +10,10 @@ export interface AssociateElementsDrawerSectionProps {
   options: Association[]
   loading?: boolean
   activeTypeKey: string
+  layout?: 'vertical' | 'horizontal'
 }
 
-const { typeConfigs, options, loading } = defineProps<AssociateElementsDrawerSectionProps>()
+const { typeConfigs, options, loading, layout = 'horizontal' } = defineProps<AssociateElementsDrawerSectionProps>()
 
 function autocompleteOptionToAssociateElementOption (option: AvAutocompleteOption): Association {
   return {
@@ -76,6 +77,7 @@ function onDeleteItem (itemId: string) {
       :items="activeTypeAssociations"
       :input-options="{ placeholder: activeConfig?.searchPlaceholder }"
       :loading="loading"
+      :layout="layout"
       @delete="onDeleteItem"
     >
       <template #beforeSearch>
