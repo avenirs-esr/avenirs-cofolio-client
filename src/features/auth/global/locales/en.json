@@ -7,10 +7,6 @@
             "login": {
               "label": "Sign in with my account",
               "text": "Sign In"
-            },
-            "signUp": {
-              "label": "I don't have an account",
-              "text": "Create My Account"
             }
           },
           "title": "Sign in to Cofolio"

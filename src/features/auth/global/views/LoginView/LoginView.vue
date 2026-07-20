@@ -53,25 +53,6 @@ function onLoginClick () {
             @click="onLoginClick"
           />
         </div>
-
-        <div class="av-col av-align-center av-gap-xs">
-          <label
-            class="av-label"
-            for="sign-up-btn"
-          >
-            <span>{{ t('auth.global.views.LoginView.actions.signUp.label') }}</span>
-          </label>
-
-          <AvButton
-            id="sign-up-btn"
-            data-testid="sign-up-btn"
-            class="action-btn av-justify-center"
-            :label="t('auth.global.views.LoginView.actions.signUp.text')"
-            :disabled="true"
-            no-sentence-case
-            variant="OUTLINED"
-          />
-        </div>
       </div>
     </div>
 
