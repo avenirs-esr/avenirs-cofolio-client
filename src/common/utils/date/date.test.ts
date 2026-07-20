@@ -1,6 +1,7 @@
 import {
   formatDateLocalized,
   formatDateToYearMonth,
+  formatDateToYearMonthLocalized,
   formatTimeLocalized,
   formatYearMonthToDate,
   getCalendarDate,
@@ -407,6 +408,49 @@ BddTest().given('a date to year-month formatter', () => {
       const yearMonth = '2025-02'
       const fullDate = formatYearMonthToDate(yearMonth)
       expect(formatDateToYearMonth(fullDate)).toBe(yearMonth)
+    })
+  })
+})
+
+BddTest().given('a date to year-month localized formatter', () => {
+  BddTest().when('providing a full ISO date with time', () => {
+    BddTest().then('it should extract the year-month part', () => {
+      const date = '2025-05-23T14:31:50.007Z'
+      expect(formatDateToYearMonthLocalized(date, 'fr')).toBe('05/2025')
+      expect(formatDateToYearMonthLocalized(date, 'en')).toBe('2025/05')
+    })
+  })
+
+  BddTest().when('providing a date-only ISO string', () => {
+    BddTest().then('it should extract the year-month part', () => {
+      const date = '2025-11-09'
+      expect(formatDateToYearMonthLocalized(date, 'fr')).toBe('11/2025')
+      expect(formatDateToYearMonthLocalized(date, 'en')).toBe('2025/11')
+    })
+  })
+
+  BddTest().when('providing a year-month string directly', () => {
+    BddTest().then('it should return the same year-month string', () => {
+      const date = '2025-08'
+      expect(formatDateToYearMonthLocalized(date, 'fr')).toBe('08/2025')
+      expect(formatDateToYearMonthLocalized(date, 'en')).toBe('2025/08')
+    })
+  })
+
+  BddTest().when('providing an invalid date string', () => {
+    BddTest().then('it should throw an error', () => {
+      const date = 'not-a-date'
+      expect(() => formatDateToYearMonthLocalized(date, 'fr')).toThrow(`Invalid ISO date: ${date}`)
+      expect(() => formatDateToYearMonthLocalized(date, 'en')).toThrow(`Invalid ISO date: ${date}`)
+    })
+  })
+
+  BddTest().when('round-tripping with formatYearMonthToDate', () => {
+    BddTest().then('it should return the original year-month value', () => {
+      const yearMonth = '2025-02'
+      const fullDate = formatYearMonthToDate(yearMonth)
+      expect(formatDateToYearMonthLocalized(fullDate, 'fr')).toBe('02/2025')
+      expect(formatDateToYearMonthLocalized(fullDate, 'en')).toBe('2025/02')
     })
   })
 })

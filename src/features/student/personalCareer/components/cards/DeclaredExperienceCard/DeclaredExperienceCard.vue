@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
+import PeriodBadge from '@/common/activities/badges/PeriodBadge/PeriodBadge.vue'
 import { ROUTES } from '@/common/constants'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import { AvBadge, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -42,6 +43,11 @@ const experienceTypeColorMap: Record<EExperienceType, string> = {
       <template #body>
         <div class="av-col av-pr-4xl--md av-pt-xl av-pt-none--md">
           <div class="av-col av-row--md av-align-end av-justify-end--md av-gap-sm">
+            <PeriodBadge
+              :start-date="declaredExperience.startDate"
+              :end-date="declaredExperience.endDate"
+            />
+
             <AvBadge
               v-if="declaredExperience.experienceType"
               :label="t(`student.personalCareer.declaredExperienceType.${declaredExperience.experienceType}`)"

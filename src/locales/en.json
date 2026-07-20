@@ -180,6 +180,7 @@
       "hoursAgo": "{count} hour ago | {count} hours ago",
       "justNow": "Just now",
       "minutesAgo": "{count} minute ago | {count} minutes ago",
+      "ongoing": "Ongoing",
       "secondsAgo": "{count} second ago | {count} seconds ago",
       "updatedAt": "Updated on {date}"
     },

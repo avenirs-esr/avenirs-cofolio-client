@@ -147,7 +147,17 @@ export function formatYearMonthToDate (date: string): string {
  * @param date yyyy-MM-dd'T'HH:mm:ss.SSSxxx | yyyy-MM-dd'T'HH:mm:ssXX | yyyy-MM-dd'T'HH:mm:ss | yyyy-MM-dd'T'HH:mm | yyyy-MM-dd | yyyy-MM
  * @returns Formatted year-month string (e.g., "2025-02")
  */
-export function formatDateToYearMonth (date: string): string {
-  const parsedDate = parseDateISO(date)
+export function formatDateToYearMonth (date: DateArg<Date>): string {
+  const parsedDate = parseDate(date)
   return format(parsedDate, 'yyyy-MM')
+}
+
+/**
+ * Formats a date string (any supported ISO-like format) to a year-month string `yyyy-MM`.
+ *
+ * @param date yyyy-MM-dd'T'HH:mm:ss.SSSxxx | yyyy-MM-dd'T'HH:mm:ssXX | yyyy-MM-dd'T'HH:mm:ss | yyyy-MM-dd'T'HH:mm | yyyy-MM-dd | yyyy-MM
+ * @returns Formatted year-month string (e.g., "2025-02")
+ */
+export function formatDateToYearMonthLocalized (date: DateArg<Date>, localeCode: AvLocale): string {
+  return formatLocalized(date, localeCode, { fr: 'MM/yyyy', en: 'yyyy/MM' })
 }
