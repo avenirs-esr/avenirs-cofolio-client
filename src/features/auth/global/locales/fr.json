@@ -7,10 +7,6 @@
             "login": {
               "label": "Me connecter avec mon compte",
               "text": "Me Connecter"
-            },
-            "signUp": {
-              "label": "Je n'ai pas de compte",
-              "text": "Créer Mon Compte"
             }
           },
           "title": "Connexion à Cofolio"

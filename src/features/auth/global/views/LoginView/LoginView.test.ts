@@ -48,11 +48,6 @@ BddTest().given('a login view', () => {
       const loginButton = wrapper.find('[data-testid="login-btn"]')
       expect(loginButton.exists()).toBe(true)
     })
-
-    BddTest().then('it should render the sign up button', () => {
-      const signUpButton = wrapper.find('[data-testid="sign-up-btn"]')
-      expect(signUpButton.exists()).toBe(true)
-    })
   })
 
   BddTest().when('clicking the login button without a redirect query param', () => {
