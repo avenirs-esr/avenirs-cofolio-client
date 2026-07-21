@@ -21,6 +21,9 @@ export const STUDENT_ROUTES = {
     ACTIVITIES_CATALOG: '/cofolio/student/project/activities/catalog/:thematic/:id',
     ACTIVITY_DETAIL: '/cofolio/student/project/activities/:id',
     DECLARED_SKILL: '/cofolio/student/project/declared-skill/',
+    PERSONAL_CAREER: {
+      EXPERIENCES: '/cofolio/student/project/personal-career/experiences',
+    },
     SKILL_DETAIL: '/cofolio/student/project/skill/',
     SKILLS: '/cofolio/student/project/skills',
     TRAJECTORIES: {
