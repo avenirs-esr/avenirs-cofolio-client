@@ -70,6 +70,7 @@ const traceAssociationsLabel = computed(() =>
           :icon="MDI_ICONS.ATTACH_FILE"
           color="var(--light-foreground-neutral)"
           background-color="var(--light-background-neutral)"
+          data-testid="trace-associations-limit-badge"
         />
       </div>
     </IconTitleCardContainer>
