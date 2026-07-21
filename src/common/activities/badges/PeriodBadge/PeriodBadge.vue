@@ -35,5 +35,9 @@ const avBadgeProps = computed(() => ({
 </script>
 
 <template>
-  <AvBadge v-bind="avBadgeProps" />
+  <AvBadge
+    v-bind="avBadgeProps"
+    data-testid="period-badge"
+    :data-ongoing="!endDate"
+  />
 </template>

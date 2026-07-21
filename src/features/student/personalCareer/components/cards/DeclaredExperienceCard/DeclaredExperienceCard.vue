@@ -28,6 +28,8 @@ const experienceTypeColorMap: Record<EExperienceType, string> = {
   <RouterLink
     :to="{ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: declaredExperience.id } }"
     class="declared-experience-card"
+    data-testid="declared-experience-card"
+    :data-experience-id="declaredExperience.id"
   >
     <FloatingIconCard
       :title="declaredExperience.title"

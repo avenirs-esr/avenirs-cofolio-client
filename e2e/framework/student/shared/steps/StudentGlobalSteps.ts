@@ -172,6 +172,17 @@ class StudentGlobalSteps extends BasePage {
     await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.ACTIVITIES)
   }
 
+  @Given('the student opens the project personal career experiences page')
+  async goToProjectPersonalCareerExperiencesPage () {
+    await this.page.goto(STUDENT_ROUTES.PROJECT.PERSONAL_CAREER.EXPERIENCES)
+    await waitForPageLoad(this.page)
+  }
+
+  @Then('the student project personal career experiences page is displayed')
+  async verifyNavigationToProjectPersonalCareerExperiencesPage () {
+    await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.PERSONAL_CAREER.EXPERIENCES)
+  }
+
   @Given('the student opens the tools kit page')
   async goToToolsKitPage () {
     await this.page.goto(STUDENT_ROUTES.TOOLS.KIT)
