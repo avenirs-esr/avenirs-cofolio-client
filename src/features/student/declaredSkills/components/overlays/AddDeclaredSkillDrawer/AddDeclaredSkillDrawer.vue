@@ -144,6 +144,7 @@ async function handleCancel () {
             <AvAccordion
               :title="t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.title')"
               :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
+              data-testid="associate-accordion"
             >
               <AssociateElementsDrawerSection
                 v-model:active-type-key="associationActiveType"

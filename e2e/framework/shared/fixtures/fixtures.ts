@@ -16,6 +16,7 @@ import { StudentProjectActivitiesPage } from '@e2e/framework/student/lifeProject
 import { StudentProjectActivitiesCatalogPage } from '@e2e/framework/student/lifeProject/activitiesCatalog/StudentProjectActivitiesCatalog'
 import { StudentProjectActivityDetails } from '@e2e/framework/student/lifeProject/activityDetails/StudentProjectActivityDetails'
 import { StudentDeclaredSkillDetailPage } from '@e2e/framework/student/lifeProject/declaredSkillDetails/StudentDeclaredSkillDetailPage'
+import { StudentProjectDeclaredSkillsTabsPage } from '@e2e/framework/student/lifeProject/declaredSkillsTabs/StudentProjectDeclaredSkillsTabsPage'
 import { StudentPersonalCareerExperiencesSectionPage } from '@e2e/framework/student/lifeProject/personalCareerExperiences/ExperiencesSectionPage'
 import { StudentTrajectoriesSelfKnowledgePage } from '@e2e/framework/student/lifeProject/selfKnowledge/StudentTrajectoriesSelfKnowledgePage'
 import { StudentGlobalSteps } from '@e2e/framework/student/shared/steps/StudentGlobalSteps'
@@ -48,6 +49,7 @@ interface Fixtures {
   studentProjectActivityDetails: StudentProjectActivityDetails
   studentTrajectoriesSelfKnowledgePage: StudentTrajectoriesSelfKnowledgePage
   studentProjectActivitiesCatalogPage: StudentProjectActivitiesCatalogPage
+  studentProjectDeclaredSkillsTabsPage: StudentProjectDeclaredSkillsTabsPage
   studentToolsKitPage: StudentToolsKitPage
   studentToolsTracesPage: StudentToolsTracesPage
   studentTracePage: StudentTracePage
@@ -137,6 +139,10 @@ export const test = base.extend<Fixtures>({
   studentProjectActivitiesCatalogPage: async ({ page }, use) => {
     await setLocaleFromPage(page)
     await use(new StudentProjectActivitiesCatalogPage(page))
+  },
+  studentProjectDeclaredSkillsTabsPage: async ({ page }, use) => {
+    await setLocaleFromPage(page)
+    await use(new StudentProjectDeclaredSkillsTabsPage(page))
   },
   studentToolsKitPage: async ({ page }, use) => {
     await setLocaleFromPage(page)

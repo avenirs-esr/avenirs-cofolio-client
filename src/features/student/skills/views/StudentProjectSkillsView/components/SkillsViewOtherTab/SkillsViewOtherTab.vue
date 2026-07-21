@@ -43,6 +43,7 @@ function handleAddSkill (): void {
         :label="t('student.skills.views.StudentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addSkillButton')"
         :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
         small
+        data-testid="add-declared-skill-button"
         @click="handleAddSkill"
       />
     </div>

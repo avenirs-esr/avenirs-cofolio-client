@@ -210,4 +210,9 @@ class StudentGlobalSteps extends BasePage {
     await this.page.goto(STUDENT_ROUTES.PROJECT.SKILLS)
     await waitForPageLoad(this.page)
   }
+
+  @Then('the student skills page is displayed')
+  async verifyNavigationToProjectSkillsPage () {
+    await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.SKILLS)
+  }
 }

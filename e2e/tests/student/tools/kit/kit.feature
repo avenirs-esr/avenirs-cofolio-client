@@ -19,5 +19,5 @@ Feature: Student Tools Kit View
       And the consign is displayed correctly on the kit page
 
     @high @dataset-full
-    Scenario: Student can see thei profile card
+    Scenario: Student can see their profile card
       Then the profile card is displayed correctly on the kit page
