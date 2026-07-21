@@ -28,7 +28,7 @@ BddTest().given('an activity catalog preview card', () => {
     })
 
     BddTest().then('it should render the period title label', () => {
-      expect(wrapper.text()).toContain('Période de réalisation')
+      expect(wrapper.text()).toContain('Contexte(s) de réalisation conseillé(s)')
     })
 
     BddTest().then('it should render the activity summary', () => {
@@ -77,7 +77,7 @@ BddTest().given('an activity catalog preview card', () => {
     })
 
     BddTest().then('it should not render the period title label', () => {
-      expect(wrapper.text()).not.toContain('Période de réalisation')
+      expect(wrapper.text()).not.toContain('Contexte(s) de réalisation conseillé(s)')
     })
 
     BddTest().then('it should not render the execution period info', () => {

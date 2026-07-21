@@ -155,7 +155,7 @@
               }
             },
             "ProjectActivityDetails": {
-              "executionPeriodTitle": "Implementation period"
+              "recommendedCompletionContexts": "Recommended completion context(s)"
             },
             "ReceivedFeedbacksSection": {
               "empty": "You have not received any feedback yet",

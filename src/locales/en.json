@@ -31,8 +31,8 @@
       },
       "components": {
         "ActivityCatalogPreviewCard": {
-          "periodTitle": "Execution period",
-          "previewTitle": "Activity preview"
+          "previewTitle": "Activity preview",
+          "recommendedCompletionContexts": "Recommended completion context(s)"
         }
       },
       "contentSectionTypes": {
