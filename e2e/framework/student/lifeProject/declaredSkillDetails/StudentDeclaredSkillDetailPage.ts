@@ -12,36 +12,12 @@ class StudentDeclaredSkillDetailPage extends BasePage {
     super(page)
   }
 
-  getDeclaredSkillsContainer () {
-    return this.page.getByTestId('skills-container')
-  }
-
-  getDeclaredSkillCards () {
-    return this.getDeclaredSkillsContainer().getByTestId('student-detailed-skill-card')
-  }
-
-  getDeclaredSkillsTabItem () {
-    return this.page.getByTestId('declared-skills-tab-item')
-  }
-
   getSkillAssociationsTabItem () {
     return this.page.getByTestId('skill-associations-tab-item')
   }
 
   getDeclaredSkillAssociations () {
     return new DeclaredSkillAssociationsObject(this.page.getByTestId('declared-skill-associations'))
-  }
-
-  @When('the student opens the declared skills tab')
-  async clickDeclaredSkillsTab () {
-    await this.getDeclaredSkillsTabItem().click()
-    await waitForPageLoad(this.page)
-  }
-
-  @When('the student clicks the first declared skill')
-  async clickFirstDeclaredSkill () {
-    await this.getDeclaredSkillCards().first().click()
-    await waitForPageLoad(this.page)
   }
 
   @When('the student opens the declared skill associations tab')
