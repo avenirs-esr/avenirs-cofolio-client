@@ -31,8 +31,8 @@
       },
       "components": {
         "ActivityCatalogPreviewCard": {
-          "periodTitle": "Période de réalisation",
-          "previewTitle": "Extrait de l'activité"
+          "previewTitle": "Extrait de l'activité",
+          "recommendedCompletionContexts": "Contexte(s) de réalisation conseillé(s)"
         }
       },
       "contentSectionTypes": {

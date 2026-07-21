@@ -52,7 +52,7 @@ const resourceCount = computed(() => (activity.value.files?.length ?? 0) + (acti
         </div>
         <div class="av-col av-gap-sm av-flex-fill">
           <span class="n4">
-            {{ t('student.buildProject.activities.views.ProjectActivityDetailedView.ProjectActivityDetails.executionPeriodTitle') }}
+            {{ t('student.buildProject.activities.views.ProjectActivityDetailedView.ProjectActivityDetails.recommendedCompletionContexts') }}
           </span>
           <ActivityExecutionPeriodList
             :execution-period-info=" declaredActivityDetails.activity.executionPeriodInfo"

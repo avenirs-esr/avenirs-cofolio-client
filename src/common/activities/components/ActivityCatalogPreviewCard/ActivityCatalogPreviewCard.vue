@@ -40,7 +40,7 @@ const { t } = useI18n()
           v-if="executionPeriodInfo"
           class="av-col av-flex-fill av-gap-md"
         >
-          <span class="n4 av-text-primary1 av-text-regular">{{ t('global.activities.components.ActivityCatalogPreviewCard.periodTitle') }}</span>
+          <span class="n4 av-text-primary1 av-text-regular">{{ t('global.activities.components.ActivityCatalogPreviewCard.recommendedCompletionContexts') }}</span>
           <span
             class="s2-bold av-text-primary1"
             data-testid="activity-execution-period-info"
