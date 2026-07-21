@@ -44,4 +44,14 @@ export class StaffActivityDetailsPage extends BasePage {
     const count = await this.page.getByTestId('activity-resource-card-link').count()
     expect(count).toBeGreaterThan(0)
   }
+
+  @Then('the staff sees the setting details trace')
+  async verifySettingDetailsTraceVisible () {
+    await expect(this.page.getByTestId('activity-setting-details-trace')).toBeVisible()
+  }
+
+  @Then('the staff sees the trace associations limit badge')
+  async verifyTraceAssociationsLimitBadgeVisible () {
+    await expect(this.page.getByTestId('trace-associations-limit-badge')).toBeVisible()
+  }
 }

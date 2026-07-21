@@ -4,19 +4,32 @@ Feature: Staff Activity Details Page
   Background:
     Given the staff opens the activities page
 
-  Rule: Published activity details
+  Rule: First activity
+    Background:
+      When the user clicks on the all published activities tab
+      And the user clicks on the first activity title
+
+    @high @dataset-full @activity-details
+    Scenario: Staff can open an activity details from the activities table
+      Then the staff published activity details page is displayed
+
+    @high @dataset-full @activity-details @trace-associations-limit
+    Scenario: Staff can see the trace associations limit badge on an activity details page
+      Then the staff published activity details page is displayed
+      And the staff sees the trace associations limit badge
+
+  Rule: Published activity with enrolled students details
 
     Background:
       When the user clicks on the all published activities tab
+      And the user clicks on the first published activity title with enrolled students
 
     @high @dataset-full @edit-published-activity
     Scenario: Staff can open a published activity details from the activities table
-      When the user clicks on the first published activity title with enrolled students
       Then the staff published activity details page is displayed
 
     @high @dataset-full @edit-published-activity
     Scenario: Staff can see the edit button on a published activity details page
-      When the user clicks on the first published activity title with enrolled students
       Then the staff published activity details page is displayed
       And the edit published activity button is visible
 

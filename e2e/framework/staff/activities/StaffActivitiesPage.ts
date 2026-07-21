@@ -50,6 +50,10 @@ export class StaffActivitiesPage extends BasePage {
       .getByTestId('activities-tab-table')
   }
 
+  private getFirstPublishedActivityTitleLink () {
+    return this.getAllPublishedActivitiesTable().getByTestId('activity-table-title-link').first()
+  }
+
   private getPublishedActivityTitleLink (activityId: string) {
     return this.getAllPublishedActivitiesTable().locator(
       `[data-testid="activity-table-title-link"][data-activity-id="${activityId}"]`,
@@ -218,6 +222,12 @@ export class StaffActivitiesPage extends BasePage {
   @Then('the delete draft activity confirmation modal is hidden')
   async verifyDeleteConfirmationModalHidden () {
     await this.deleteConfirmationModal.verifyHidden()
+  }
+
+  @When('the user clicks on the first activity title')
+  async clickFirstActivityTitle () {
+    await clickOnElement(this.getFirstPublishedActivityTitleLink())
+    await waitForPageLoad(this.page)
   }
 
   @When('the user clicks on the first published activity title with enrolled students')
