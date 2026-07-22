@@ -19,16 +19,31 @@ import ProjectActivitiesCatalogView, {
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { useRoute } from 'vue-router'
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: vi.fn(),
+  }
+})
+
+const navigateToStudentProjectActivitiesCatalog = vi.fn()
+const navigateToStudentActivitiesCatalog = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
   return {
     ...actual,
     useNavigation: () => ({
-      navigateToStudentProjectActivitiesCatalog: vi.fn(),
+      navigateToStudentProjectActivitiesCatalog,
+      navigateToStudentActivitiesCatalog,
     }),
   }
 })
+
+const mockedUseRoute = vi.mocked(useRoute)
 
 const isMobileRef = ref(false)
 
@@ -42,6 +57,7 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
 
 BddTest().given('a project activities catalog view', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProjectActivitiesCatalogView>>
+  let routeName: string
 
   const stubs = {
     PageTitle: PageTitleStub,
@@ -60,6 +76,12 @@ BddTest().given('a project activities catalog view', () => {
 
     beforeEach(() => {
       vi.clearAllMocks()
+      routeName = ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name
+      mockedUseRoute.mockReturnValue({
+        get name () {
+          return routeName
+        }
+      } as ReturnType<typeof useRoute>)
       isMobileRef.value = false
 
       wrapper = mountComponent(ProjectActivitiesCatalogView, {
@@ -128,6 +150,12 @@ BddTest().given('a project activities catalog view', () => {
 
     beforeEach(() => {
       vi.clearAllMocks()
+      routeName = ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name
+      mockedUseRoute.mockReturnValue({
+        get name () {
+          return routeName
+        }
+      } as ReturnType<typeof useRoute>)
       isMobileRef.value = true
 
       wrapper = mountComponent(ProjectActivitiesCatalogView, {
@@ -164,6 +192,12 @@ BddTest().given('a project activities catalog view', () => {
 
     beforeEach(() => {
       vi.clearAllMocks()
+      routeName = ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name
+      mockedUseRoute.mockReturnValue({
+        get name () {
+          return routeName
+        }
+      } as ReturnType<typeof useRoute>)
       isMobileRef.value = false
 
       wrapper = mountComponent(ProjectActivitiesCatalogView, {
@@ -195,6 +229,12 @@ BddTest().given('a project activities catalog view', () => {
 
     beforeEach(() => {
       vi.clearAllMocks()
+      routeName = ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name
+      mockedUseRoute.mockReturnValue({
+        get name () {
+          return routeName
+        }
+      } as ReturnType<typeof useRoute>)
       isMobileRef.value = false
       server.use(activityDetailsErrorHandler)
 
@@ -216,6 +256,99 @@ BddTest().given('a project activities catalog view', () => {
         expect(errorMessage.text()).toContain('Une erreur est survenue. Veuillez réessayer ultérieurement.')
         expect(errorMessage.text()).toContain('Erreur serveur interne')
       })
+    })
+  })
+
+  BddTest().when('the view is mounted without thematic and id on project route', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+
+      routeName = ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name
+
+      mockedUseRoute.mockReturnValue({
+        get name () {
+          return routeName
+        }
+      } as ReturnType<typeof useRoute>)
+
+      wrapper = mountComponent(ProjectActivitiesCatalogView, {
+        props: {},
+        global: { stubs }
+      })
+
+      await vi.waitFor(() => {
+        expect(navigateToStudentProjectActivitiesCatalog).toHaveBeenCalled()
+      })
+    })
+
+    BddTest().then('it should redirect to the first activity', () => {
+      expect(navigateToStudentProjectActivitiesCatalog).toHaveBeenCalledWith({
+        thematic: EActivityThematic.SELF_KNOWLEDGE,
+        id: expect.any(String),
+        replace: true,
+      })
+
+      expect(navigateToStudentActivitiesCatalog).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('the view is mounted on home activities route', () => {
+    beforeEach(async () => {
+      routeName = ROUTES.STUDENT.ACTIVITIES_CATALOG.name
+
+      wrapper = mountComponent(ProjectActivitiesCatalogView, {
+        props: { thematic: EActivityThematic.SELF_KNOWLEDGE, id: '0' },
+        global: { stubs },
+        useTanstack: true,
+        usePinia: true
+      })
+    })
+
+    BddTest().then('it should render home breadcrumb links', () => {
+      const pageTitle = wrapper.findComponent(PageTitleStub)
+      const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
+
+      expect(breadcrumbLinks).toHaveLength(3)
+      expect(breadcrumbLinks[0]).toEqual({
+        text: 'Accueil',
+        to: ROUTES.STUDENT.HOME
+      })
+      expect(breadcrumbLinks[1]).toEqual({
+        text: 'Mes activités',
+      })
+    })
+  })
+
+  BddTest().when('the view is mounted without thematic and id on home route', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+
+      routeName = ROUTES.STUDENT.ACTIVITIES_CATALOG.name
+
+      mockedUseRoute.mockReturnValue({
+        get name () {
+          return routeName
+        }
+      } as ReturnType<typeof useRoute>)
+
+      wrapper = mountComponent(ProjectActivitiesCatalogView, {
+        props: {},
+        global: { stubs }
+      })
+
+      await vi.waitFor(() => {
+        expect(navigateToStudentActivitiesCatalog).toHaveBeenCalled()
+      })
+    })
+
+    BddTest().then('it should redirect to the first activity', () => {
+      expect(navigateToStudentActivitiesCatalog).toHaveBeenCalledWith({
+        thematic: EActivityThematic.SELF_KNOWLEDGE,
+        id: expect.any(String),
+        replace: true,
+      })
+
+      expect(navigateToStudentProjectActivitiesCatalog).not.toHaveBeenCalled()
     })
   })
 })

@@ -9,6 +9,18 @@ export function useNavigation () {
     return router.push(ROUTES.AUTH.LOGIN)
   }
 
+  const navigateToStudentActivitiesCatalog = ({ thematic, id, replace }: { thematic?: EActivityThematic, id?: string, replace?: boolean } =
+  { thematic: undefined, id: undefined, replace: false }) => {
+    const to = {
+      name: ROUTES.STUDENT.ACTIVITIES_CATALOG.name,
+      params: { thematic, id },
+    }
+    if (replace) {
+      return router.replace(to)
+    }
+    return router.push(to)
+  }
+
   const navigateToStudentDeclaredExperience = ({ id, replace }: { id?: string, replace?: boolean }) => {
     const to = {
       name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
@@ -229,6 +241,7 @@ export function useNavigation () {
 
   return {
     navigateToAuthLogin,
+    navigateToStudentActivitiesCatalog,
     navigateToStudentDeclaredExperience,
     navigateToStudentEducationSkills,
     navigateToStudentUpdateDeclaredExperience,

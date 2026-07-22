@@ -9,11 +9,13 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStudentProjectActivitiesCatalogMock = vi.fn()
+const navigateToStudentActivitiesCatalogMock = vi.fn()
 
 vi.mock('@/common/composables', () => {
   return {
     useNavigation: () => ({
       navigateToStudentProjectActivitiesCatalog: navigateToStudentProjectActivitiesCatalogMock,
+      navigateToStudentActivitiesCatalog: navigateToStudentActivitiesCatalogMock,
     }),
   }
 })
@@ -178,6 +180,7 @@ BddTest().given('a build project activities side navigation component', () => {
           id: 'some-id',
           replace: true,
         })
+        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledTimes(0)
       })
     })
 
@@ -195,6 +198,7 @@ BddTest().given('a build project activities side navigation component', () => {
       })
 
       BddTest().then('it should not navigate again', () => {
+        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledTimes(0)
         expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledTimes(0)
       })
     })
@@ -208,6 +212,83 @@ BddTest().given('a build project activities side navigation component', () => {
       })
 
       BddTest().then('it should not navigate', () => {
+        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledTimes(0)
+        expect(navigateToStudentProjectActivitiesCatalogMock).not.toHaveBeenCalled()
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted on a route other than project route', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      queryClient = new QueryClient()
+
+      wrapper = mountComponent(ActivitiesSideNavigation, {
+        props: { isProjectRoute: false },
+        global: { stubs },
+        plugins: [createPinia(), [VueQueryPlugin, { queryClient }]],
+      })
+      await flushPromises()
+    })
+
+    BddTest().and('a navigation child item is selected', () => {
+      const selected = {
+        itemId: 'some-id',
+        parentId: EActivityThematic.SELF_KNOWLEDGE,
+      }
+
+      beforeEach(async () => {
+        await flushPromises()
+        const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
+        await sideNavigation.vm.$emit('update:selectedItem', selected)
+        await flushPromises()
+      })
+
+      BddTest().then('it should update the selected item', () => {
+        const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
+        expect(sideNavigation.props('selectedItem')).toEqual(selected)
+      })
+
+      BddTest().then('it should navigate to the catalog with thematic and id', () => {
+        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledTimes(1)
+        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledWith({
+          thematic: EActivityThematic.SELF_KNOWLEDGE,
+          id: 'some-id',
+          replace: true,
+        })
+        expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledTimes(0)
+      })
+    })
+
+    BddTest().and('the currently selected item is reselected', () => {
+      const selected = {
+        itemId: '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
+        parentId: EActivityThematic.SELF_KNOWLEDGE,
+      }
+
+      beforeEach(async () => {
+        await flushPromises()
+        const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
+        await sideNavigation.vm.$emit('update:selectedItem', selected)
+        await flushPromises()
+      })
+
+      BddTest().then('it should not navigate again', () => {
+        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledTimes(0)
+        expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledTimes(0)
+      })
+    })
+
+    BddTest().and('an invalid selected item format is emitted', () => {
+      beforeEach(async () => {
+        await flushPromises()
+        const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
+        await sideNavigation.vm.$emit('update:selectedItem', { itemId: 'INVALID_FORMAT' })
+        await flushPromises()
+      })
+
+      BddTest().then('it should not navigate', () => {
+        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledTimes(0)
         expect(navigateToStudentProjectActivitiesCatalogMock).not.toHaveBeenCalled()
       })
     })

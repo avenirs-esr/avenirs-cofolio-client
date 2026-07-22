@@ -1,9 +1,15 @@
 import { ROUTES } from '@/common/constants'
-import { projectActivitiesCatalogRoute, projectActivitiesDetailedRoute, projectActivitiesRoute } from '@/features/student/buildProject/routes'
+import { projectActivitiesCatalogRoute, projectActivitiesDetailedRoute, projectActivitiesRoute, studentActivitiesCatalogRoute } from '@/features/student/buildProject/routes'
 import ProjectActivitiesCatalogView from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/ProjectActivitiesCatalogView.vue'
 import ProjectActivitiesView from '@/features/student/buildProject/views/ProjectActivitiesView/ProjectActivitiesView.vue'
 import ProjectActivityDetailedView from '@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.vue'
 import { testRoute } from 'tests/utils'
+
+testRoute(
+  studentActivitiesCatalogRoute,
+  ROUTES.STUDENT.ACTIVITIES_CATALOG,
+  ProjectActivitiesCatalogView
+)
 
 testRoute(
   projectActivitiesRoute,

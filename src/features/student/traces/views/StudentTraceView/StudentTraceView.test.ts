@@ -168,7 +168,7 @@ BddTest().given('a student trace view', () => {
     })
   })
 
-  BddTest().when('the view is mounted on default trace route', () => {
+  BddTest().when('the view is mounted on home trace route', () => {
     beforeEach(async () => {
       routeName = ROUTES.STUDENT.TRACE.name
 

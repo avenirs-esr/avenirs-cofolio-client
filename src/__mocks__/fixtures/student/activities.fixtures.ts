@@ -1,6 +1,7 @@
 import { createMockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/declaredSkills.fixtures'
 import {
   type ActivityNavigationDTO,
+  type ActivityOverviewDTO,
   type ActivityPresentationDTO,
   type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
@@ -15,6 +16,22 @@ import {
   type TraceAssociationDTO
 } from '@/api/avenir-esr'
 import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
+
+export const mockedActivityOverview: ActivityOverviewDTO = {
+  id: 'activity-1',
+  author: { userId: 'author-1', firstName: 'John', lastName: 'Doe' },
+  title: 'Activity 1',
+  thematic: EActivityThematic.SELF_KNOWLEDGE,
+  status: EDeclaredActivityStatus.SUBSCRIBED,
+  summary: 'Summary of Activity 1',
+  executionPeriodInfoSummary: 'Execution period info summary of Activity 1',
+  isNew: false
+}
+
+export const mockedNewActivityOverview: ActivityOverviewDTO = {
+  ...mockedActivityOverview,
+  isNew: true
+}
 
 export const activitiesNavigationMock: ActivityNavigationDTO[] = [
   {

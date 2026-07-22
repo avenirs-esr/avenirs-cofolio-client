@@ -41,3 +41,13 @@ export const projectActivitiesRoutes = [
 export const projectTrajectoriesRoutes = [
   projectTrajectoriesRoute,
 ]
+
+export const studentActivitiesCatalogRoute: AvRoute = {
+  ...ROUTES.STUDENT.ACTIVITIES_CATALOG,
+  props: route => ({
+    thematic: route.params.thematic as string | undefined,
+    id: route.params.id as string | undefined,
+  }),
+  component: () =>
+    import('@/features/student/buildProject/views/ProjectActivitiesCatalogView/ProjectActivitiesCatalogView.vue'),
+}

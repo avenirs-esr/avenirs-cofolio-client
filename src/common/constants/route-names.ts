@@ -22,6 +22,8 @@ export const ROUTES = {
   STUDENT: {
     ABOUT: { name: 'student-about', path: 'about' },
     ACCESSIBILITY: { name: 'student-accessibility', path: 'accessibility' },
+    ACTIVITY: { name: 'student-activity', path: 'activity/:id' },
+    ACTIVITIES_CATALOG: { name: 'student-activities-catalog', path: 'activities/catalog/:thematic?/:id?' },
     APC_UNAVAILABLE: { name: 'student-apc-unavailable', path: 'apc-unavailable' },
     COOKIES: { name: 'student-cookies', path: 'cookies' },
     DECLARED_EXPERIENCE: { name: 'student-declared-experience', path: 'declared-experience/:id' },
