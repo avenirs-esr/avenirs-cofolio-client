@@ -30,6 +30,8 @@
           "buttons": {
             "seeAll": "See all my traces"
           },
+          "emptyState": "You haven't added any traces yet.",
+          "error": "An error occurred while fetching your traces.",
           "title": "My last traces"
         }
       },

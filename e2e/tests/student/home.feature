@@ -74,8 +74,8 @@ Feature: Student Home Page
   Rule: Traces Widget - Empty State
 
     @high @traces @dataset-empty
-    Scenario: Traces widget is hidden when student has no traces
-      Then the last traces widget is hidden
+    Scenario: Traces widget is visible when student has no traces
+      Then the last traces widget is visible
 
   Rule: Navigation
 
