@@ -1,6 +1,6 @@
 import type { RoutePageProps } from '@/common/types'
 import { ROUTES } from '@/common/constants'
-import { projectActivitiesRoutes, projectTrajectoriesRoutes, studentActivitiesCatalogRoute } from '@/features/student/buildProject/routes'
+import { projectActivitiesRoutes, projectTrajectoriesRoutes, studentActivitiesCatalogRoute, studentActivityRoute } from '@/features/student/buildProject/routes'
 import { studentProjectDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
 import { studentToolsKitRoute } from '@/features/student/kit/routes'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
@@ -65,6 +65,7 @@ export default [
       ...projectActivitiesRoutes,
       ...projectTrajectoriesRoutes,
       studentActivitiesCatalogRoute,
+      studentActivityRoute,
       studentSelfKnowledgeCategoryRoute,
       studentSelfKnowledgeElementUpdateRoute,
       studentSkillRoute,

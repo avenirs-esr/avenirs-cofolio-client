@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ActivitiesWidget from '@/features/student/global/views/StudentHomeView/components/ActivitiesWidget/ActivitiesWidget.vue'
 import { StudentSkillsWidget } from '@/features/student/skills'
 import { TracesWidget } from '@/features/student/traces'
 import { StudentOverviewWidget } from '@/features/student/user'
@@ -18,8 +19,10 @@ const { t } = useI18n()
       <StudentOverviewWidget />
     </div>
     <div class="layout-home__main av-col av-gap-xl">
-      <StudentSkillsWidget />
+      <ActivitiesWidget is-new />
+      <ActivitiesWidget />
       <TracesWidget />
+      <StudentSkillsWidget />
     </div>
   </div>
 </template>

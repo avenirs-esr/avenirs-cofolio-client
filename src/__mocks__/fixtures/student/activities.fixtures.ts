@@ -33,6 +33,88 @@ export const mockedNewActivityOverview: ActivityOverviewDTO = {
   isNew: true
 }
 
+export const mockedLatestActivitiesOverview: ActivityOverviewDTO[] = [
+  {
+    id: '9e2b6a41-3c7d-4f99-8a55-2d1c6b7e4f33',
+    author: {
+      userId: '0a8700ab-90b6-4a38-8338-acbdd4fbcd3d',
+      firstName: 'Lucas',
+      lastName: 'Tessier'
+    },
+    title: 'Identifier ses réussites marquantes',
+    thematic: EActivityThematic.EXPERIENCES,
+    summary: 'Activité visant à mettre en lumière des réussites académiques, professionnelles ou personnelles. L\'étudiant.e analyse les facteurs de succès et les compétences mobilisées afin de renforcer la confiance en ses capacités.',
+    executionPeriodInfoSummary: 'Avant candidature ou entretien',
+    isNew: true
+  },
+  {
+    id: '7c3d9a12-4e88-4f55-9a1d-5b6e2c7f3a44',
+    author: {
+      userId: '0a8700ab-90b6-4a38-8338-acbdd4fbcd3d',
+      firstName: 'Lucas',
+      lastName: 'Tessier'
+    },
+    title: 'Identifier les compétences académiques clés',
+    thematic: EActivityThematic.PROGRAMS,
+    status: EDeclaredActivityStatus.SUBSCRIBED,
+    summary: 'Activité permettant de repérer les savoirs et méthodes acquis au cours de la formation. L\'étudiant.e met en évidence les acquis transférables et leur pertinence dans différents contextes professionnels.',
+    isNew: true
+  },
+  {
+    id: '2f6a8b91-5d33-4c77-8e4a-1b9f3c7d2a11',
+    author: {
+      userId: '0a8700ab-90b6-4a38-8338-acbdd4fbcd3d',
+      firstName: 'Lucas',
+      lastName: 'Tessier'
+    },
+    title: 'Analyser la cohérence de sa formation',
+    thematic: EActivityThematic.PROGRAMS,
+    status: EDeclaredActivityStatus.IN_PROGRESS,
+    summary: 'Activité d\'analyse du parcours académique visant à comprendre la progression des enseignements suivis et leur articulation. L\'étudiant.e identifie les compétences développées et leur contribution au projet envisagé.',
+    executionPeriodInfoSummary: 'Avant bilan pédagogique',
+    isNew: true
+  }
+]
+
+export const mockedDeclaredActivitiesOverview: DeclaredActivityViewDTO[] = [
+  {
+    id: 'c3d8e4f4-6c2b-4a5e-9c4f-8e2a6b1d3f03',
+    activityId: '1a7f3b29-6c55-4d82-9a33-7e2d1c4f8b90',
+    title: 'Identifier ses centres d\'intérêt',
+    thematic: EActivityThematic.SELF_KNOWLEDGE,
+    summary: 'Activité visant à explorer les domaines, activités et sujets qui suscitent curiosité et engagement. L\'étudiant.e met en relation ses centres d\'intérêt avec des pistes d\'orientation potentielles afin d\'enrichir sa réflexion sur l\'avenir.',
+    description: '<h3>Objectifs de l\'activité</h3><ul><li>Explorer les domaines, activités et sujets qui suscitent curiosité et engagement.</li><li>Mettre en relation ses centres d\'intérêt avec des pistes d\'orientation potentielles.</li><li>Enrichir la réflexion sur l\'avenir et les choix professionnels.</li></ul><h3>Déroulement de l\'activité</h3><p>L\'étudiant.e est invité.e à identifier ses centres d\'intérêt, à analyser leur lien avec des pistes d\'orientation et à évaluer leur impact sur ses choix futurs.</p>',
+    status: EDeclaredActivityStatus.SUBMITTED,
+    updatedAt: '2026-07-22T10:04:05.695039Z'
+  },
+  {
+    id: 'a1f6c2d2-6c2b-4a5e-9c4f-8e2a6b1d3f01',
+    activityId: 'e4a2c7f8-1b9d-4a77-8c6f-9e3b2a5d1c66',
+    title: 'Analyser son parcours de formation',
+    thematic: EActivityThematic.PROGRAMS,
+    summary: 'Activité portant sur l\'analyse de son parcours académique. L\'étudiant.e examine les enseignements suivis, les compétences développées et les acquis méthodologiques afin de mieux comprendre la cohérence et la progression de sa formation.',
+    description: '<h3>Objectifs de l\'activité</h3><ul><li>Analyser les enseignements suivis, les compétences développées et les acquis méthodologiques.</li><li>Comprendre la cohérence et la progression de sa formation.</li><li>Utiliser cette analyse pour orienter la construction du projet de formation et d\'orientation.</li></ul><h3>Déroulement de l\'activité</h3><p>L\'étudiant.e est invité.e à réaliser une analyse détaillée de son parcours académique, en identifiant les enseignements clés, les compétences acquises et les méthodes développées. Cette réflexion permet de mieux comprendre la valeur de sa formation et d\'orienter les choix futurs.</p>',
+    executionPeriodInfoSummary: 'Avant bilan pédagogique',
+    status: EDeclaredActivityStatus.IN_PROGRESS,
+    startDate: '2027-04-01',
+    endDate: '2027-04-10',
+    updatedAt: '2026-07-22T10:04:05.685545Z'
+  },
+  {
+    id: '5b8e2f10-6a3c-4d99-8f1b-7c2e9a4d5b55',
+    activityId: '6a1f9c2e-4b7d-4d99-8c2f-3e7b5a1d8c21',
+    title: 'Cartographier son parcours',
+    thematic: EActivityThematic.TRAJECTORIES,
+    summary: 'Activité d\'analyse de trajectoire. L\'étudiant.e retrace les étapes clés de son parcours académique et personnel afin d\'identifier les continuités, les ruptures et les évolutions significatives.',
+    description: '<h3>Objectifs de l\'activité</h3><ul><li>Analyser les étapes clés de son parcours académique et personnel.</li><li>Identifier les continuités, les ruptures et les évolutions significatives.</li><li>Utiliser cette analyse pour orienter les choix futurs et valoriser les acquis.</li></ul><h3>Déroulement de l\'activité</h3><p>L\'étudiant.e est invité.e à retracer son parcours, en identifiant les moments clés, les décisions prises et leurs impacts. Cette réflexion permet de mieux comprendre et valoriser les expériences vécues.</p>',
+    executionPeriodInfoSummary: 'Avant entretien d\'accompagnement',
+    status: EDeclaredActivityStatus.SUBSCRIBED,
+    startDate: '2027-03-01',
+    endDate: '2027-03-12',
+    updatedAt: '2026-07-22T10:04:05.666068Z'
+  },
+]
+
 export const activitiesNavigationMock: ActivityNavigationDTO[] = [
   {
     title: 'SELF_KNOWLEDGE',
