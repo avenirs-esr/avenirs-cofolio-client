@@ -7,6 +7,14 @@
           "errors": {
             "profile": "An error occurred while retrieving your profile. Please try again later."
           },
+          "KitContentTabs": {
+            "KitTextContentTab": {
+              "title": "Text content"
+            },
+            "KitMultimediaContentTab": {
+              "title": "Multimédia content"
+            }
+          },
           "subtitle": "Ready-to-use CoFolio raw material",
           "title": "My ready-to-use kit",
           "traceValorizedItem": {

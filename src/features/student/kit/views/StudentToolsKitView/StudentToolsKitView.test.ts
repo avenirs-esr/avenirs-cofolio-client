@@ -3,8 +3,7 @@ import { server } from '@/__mocks__/msw/server'
 import { ProfileCardStub } from '@/common/components/ProfileCard/ProfileCard.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants/route-names'
-import { ValorizedAssociatedTracesContainerStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedAssociatedTracesContainer/ValorizedAssociatedTracesContainer.stub'
-import { ValorizedNonAssociatedTracesContainerStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedNonAssociatedTracesContainer/ValorizedNonAssociatedTracesContainer.stub'
+import { KitContentTabsStub } from '@/features/student/kit/views/StudentToolsKitView/components/KitContentTabs/KitContentTabs.stub'
 import StudentToolsKitView from '@/features/student/kit/views/StudentToolsKitView/StudentToolsKitView.vue'
 import { AvBreadcrumbStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -17,8 +16,7 @@ BddTest().given('a student tools kit view', () => {
     AvBreadcrumb: AvBreadcrumbStub,
     ProfileCard: ProfileCardStub,
     QuerySuspense: QuerySuspenseStub,
-    ValorizedAssociatedTracesContainer: ValorizedAssociatedTracesContainerStub,
-    ValorizedNonAssociatedTracesContainer: ValorizedNonAssociatedTracesContainerStub
+    KitContentTabs: KitContentTabsStub,
   }
 
   BddTest().when('the view is mounted with a server error', async () => {
@@ -52,9 +50,8 @@ BddTest().given('a student tools kit view', () => {
       expect(wrapper.findComponent(ProfileCardStub).exists()).toBe(false)
     })
 
-    BddTest().then('it should display the valorized associated and non associated traces containers', () => {
-      expect(wrapper.findComponent(ValorizedAssociatedTracesContainerStub).exists()).toBe(true)
-      expect(wrapper.findComponent(ValorizedNonAssociatedTracesContainerStub).exists()).toBe(true)
+    BddTest().then('it should display the kit content tabs', () => {
+      expect(wrapper.findComponent(KitContentTabsStub).exists()).toBe(true)
     })
   })
 
@@ -88,9 +85,8 @@ BddTest().given('a student tools kit view', () => {
       expect(wrapper.find('[data-testid="query-suspense-error"]').exists()).toBe(false)
     })
 
-    BddTest().then('it should display the valorized associated and non associated traces containers', () => {
-      expect(wrapper.findComponent(ValorizedAssociatedTracesContainerStub).exists()).toBe(true)
-      expect(wrapper.findComponent(ValorizedNonAssociatedTracesContainerStub).exists()).toBe(true)
+    BddTest().then('it should display the kit content tabs', () => {
+      expect(wrapper.findComponent(KitContentTabsStub).exists()).toBe(true)
     })
   })
 })
