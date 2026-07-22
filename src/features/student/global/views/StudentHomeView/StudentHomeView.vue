@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { StudentSkillsWidget } from '@/features/student/skills'
-import { StudentTracesWidget } from '@/features/student/traces'
+import { TracesWidget } from '@/features/student/traces'
 import { StudentOverviewWidget } from '@/features/student/user'
 import { useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -19,7 +19,7 @@ const { t } = useI18n()
     </div>
     <div class="layout-home__main av-col av-gap-xl">
       <StudentSkillsWidget />
-      <StudentTracesWidget />
+      <TracesWidget />
     </div>
   </div>
 </template>
