@@ -1,3 +1,4 @@
+import { ActivitiesWidgetStub } from '@/features/student/global/views/StudentHomeView/components/ActivitiesWidget/ActivitiesWidget.stub'
 import StudentHomeView from '@/features/student/global/views/StudentHomeView/StudentHomeView.vue'
 import { StudentSkillsWidgetStub } from '@/features/student/skills/components/cards/StudentSkillsWidget/StudentSkillsWidget.stub'
 import { TracesWidgetStub } from '@/features/student/traces/components/cards/TracesWidget/TracesWidget.stub'
@@ -11,6 +12,7 @@ BddTest().given('a student home view', () => {
   const stubs = {
     StudentOverviewWidget: StudentOverviewWidgetStub,
     StudentSkillsWidget: StudentSkillsWidgetStub,
+    ActivitiesWidget: ActivitiesWidgetStub,
     TracesWidget: TracesWidgetStub,
   }
 
@@ -30,6 +32,9 @@ BddTest().given('a student home view', () => {
 
       expect(main.exists()).toBe(true)
       expect(main.findComponent({ name: 'StudentSkillsWidget' }).exists()).toBe(true)
+
+      expect(main.findAllComponents(ActivitiesWidgetStub)).toHaveLength(2)
+      expect(main.findComponent(TracesWidgetStub).exists()).toBe(true)
     })
   })
 })

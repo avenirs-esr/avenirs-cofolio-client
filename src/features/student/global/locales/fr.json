@@ -99,7 +99,27 @@
           "title": "(placeholder) Tous mes événements"
         },
         "studentHomeView": {
-          "title": "Accueil Cofolio Étudiant"
+          "title": "Accueil Cofolio Étudiant",
+          "widgets": {
+            "ActivitiesWidget": {
+              "emptyState": {
+                "library": "Vous n’avez aucune activité dans votre bibliothèque pour le moment.",
+                "new": "Aucune nouvelle activité n’est disponible pour le moment."
+              },
+              "errorState": {
+                "library": "Une erreur est survenue lors du chargement de votre bibliothèque d'activités.",
+                "new": "Une erreur est survenue lors du chargement des nouvelles activités."
+              },
+              "seeAll": {
+                "library": "Voir toute ma bibliothèque d'activités",
+                "new": "Voir toutes les activités"
+              },
+              "title": {
+                "library": "Ma bibliothèque d'activités",
+                "new": "Nouvelles activités"
+              }
+            }
+          }
         },
         "studentProjectTrajectoriesView": {
           "buildProject": {

@@ -6,9 +6,11 @@ import {
   createMockedPagedResponseAssociationSearchResultDeclaredActivityDTO,
   createMockedPagedResponseDeclaredActivityViewDTO,
   mockedActivityDetail,
+  mockedDeclaredActivitiesOverview,
   mockedDeclaredActivityAssociations,
   mockedDeclaredActivityDetails,
-  mockedFinishedDeclaredActivityDetails
+  mockedFinishedDeclaredActivityDetails,
+  mockedLatestActivitiesOverview
 } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createMockedSearchTracesForAssociationResponse } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
@@ -39,6 +41,7 @@ import {
   getUnsubscribeActivitiesProgressesUrl,
   getUpdatePeriodUrl,
   getUpdateReflectionUrl,
+  type PagedResponseActivityOverviewDTO,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseAssociationSearchResultTraceDTO,
   type PagedResponseDeclaredActivityViewDTO,
@@ -257,6 +260,62 @@ export const activitiesViewErrorHandler = http.get(
         headers: { 'Content-Type': 'application/json' }
       }
     )
+  }
+)
+
+export const latestActivitiesOverviewHandler = http.get(
+  `*${getGetLatestActivitiesViewUrl()}`,
+  async ({ request }) => {
+    const url = new URL(request.url)
+    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '3')
+    const totalElements = 6
+    await delay('real')
+
+    const mockData = {
+      data: mockedLatestActivitiesOverview,
+      page: {
+        page,
+        pageSize,
+        totalElements,
+        totalPages: Math.ceil(totalElements / pageSize)
+      }
+    }
+
+    return HttpResponse.json<PagedResponseActivityOverviewDTO>(mockData, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+)
+
+export const declaredActivitiesOverviewHandler = http.get(
+  `*${getGetDeclaredActivitiesViewUrl()}`,
+  async ({ request }) => {
+    const url = new URL(request.url)
+    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '3')
+    const totalElements = 6
+    await delay('real')
+
+    const mockData = {
+      data: mockedDeclaredActivitiesOverview,
+      page: {
+        page,
+        pageSize,
+        totalElements,
+        totalPages: Math.ceil(totalElements / pageSize)
+      }
+    }
+
+    return HttpResponse.json<PagedResponseDeclaredActivityViewDTO>(mockData, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
 )
 

@@ -99,7 +99,27 @@
           "title": "(placeholder) All my events"
         },
         "studentHomeView": {
-          "title": "Cofolio Student Home"
+          "title": "Cofolio Student Home",
+          "widgets": {
+            "ActivitiesWidget": {
+              "emptyState": {
+                "library": "You have no activities in your library at the moment.",
+                "new": "No new activities are available at the moment."
+              },
+              "errorState": {
+                "library": "An error occurred while loading your activity library.",
+                "new": "An error occurred while loading new activities."
+              },
+              "seeAll": {
+                "library": "See all my activity library",
+                "new": "See all new activities"
+              },
+              "title": {
+                "library": "My activity library",
+                "new": "New activities"
+              }
+            }
+          }
         },
         "studentProjectTrajectoriesView": {
           "buildProject": {

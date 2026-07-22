@@ -5,7 +5,7 @@ export const HomeWidgetStub = defineComponent({
     titleIcon: { type: String, required: true },
     seeAllLabel: { type: String, required: true },
     type: { type: String, required: true },
-    displayWidget: { type: Boolean, required: false },
+    displayWidget: { type: Boolean, default: true },
   },
   template: `
     <div v-if="displayWidget" :class="\`home-\${type}-widget\`">
