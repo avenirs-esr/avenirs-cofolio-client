@@ -5,8 +5,7 @@ import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ROUTES } from '@/common/constants'
-import ValorizedAssociatedTracesContainer from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedAssociatedTracesContainer/ValorizedAssociatedTracesContainer.vue'
-import ValorizedNonAssociatedTracesContainer from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedNonAssociatedTracesContainer/ValorizedNonAssociatedTracesContainer.vue'
+import KitContentTabs from '@/features/student/kit/views/StudentToolsKitView/components/KitContentTabs/KitContentTabs.vue'
 import { AvBreadcrumb } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -78,8 +77,7 @@ const breadcrumbLinks = computed(() => [
         />
       </QuerySuspense>
 
-      <ValorizedAssociatedTracesContainer />
-      <ValorizedNonAssociatedTracesContainer />
+      <KitContentTabs />
     </div>
   </div>
 </template>
