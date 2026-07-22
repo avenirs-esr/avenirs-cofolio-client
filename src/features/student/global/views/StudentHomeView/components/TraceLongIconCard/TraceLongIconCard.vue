@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { TraceOverviewDTO } from '@/api/avenir-esr'
 import LongIconCard from '@/common/components/cards/LongIconCard/LongIconCard.vue'
-import { ICONS } from '@/common/constants'
+import { ICONS, ROUTES } from '@/common/constants'
 import TraceAiProducedBadge from '@/features/student/traces/components/badges/TraceAiProducedBadge/TraceAiProducedBadge.vue'
 import TraceAuthorTypeBadge from '@/features/student/traces/components/badges/TraceAuthorTypeBadge/TraceAuthorTypeBadge.vue'
 
@@ -17,6 +17,7 @@ defineProps<TraceLongIconCardProps>()
     :title="trace.title"
     :icon="{ name: ICONS.TRACES, color: 'var(--text1)' }"
     icon-background-color="var(--light-background-neutral)"
+    :to="{ name: ROUTES.STUDENT.TRACE.name, params: { id: trace.id } }"
   >
     <div class="av-row av-gap-sm">
       <TraceAuthorTypeBadge :author-type="trace.authorType" />
