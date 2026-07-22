@@ -2,10 +2,6 @@ export { default as StudentSkillLevelStatusBadge } from '@/features/student/skil
 
 export { default as StudentDetailedSkillCard } from '@/features/student/skills/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 
-export { default as StudentSkillCard } from '@/features/student/skills/components/cards/StudentSkillCard/StudentSkillCard.vue'
-
-export { default as StudentSkillsWidget } from '@/features/student/skills/components/cards/StudentSkillsWidget/StudentSkillsWidget.vue'
-
 export { studentEducationSkillRoute, studentEducationSkillsRoute, studentProjectSkillsRoute } from '@/features/student/skills/routes'
 
 export { StudentProgressViewSortableFields } from '@/features/student/skills/types/student-progress.types'

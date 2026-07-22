@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import ActivitiesWidget from '@/features/student/global/views/StudentHomeView/components/ActivitiesWidget/ActivitiesWidget.vue'
-import { StudentSkillsWidget } from '@/features/student/skills'
 import { TracesWidget } from '@/features/student/traces'
 import { StudentOverviewWidget } from '@/features/student/user'
 import { useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
@@ -15,14 +14,13 @@ const { t } = useI18n()
     {{ t('student.global.views.studentHomeView.title') }}
   </h1>
   <div class="layout-home av-row av-wrap av-nowrap--md av-justify-center--md av-gap-xl av-align-start">
-    <div class="layout-home__sidebar av-col av-gap-xl">
+    <div class="layout-home__sidebar av-col av-gap-xl av-sticky--md av-top-sm">
       <StudentOverviewWidget />
     </div>
     <div class="layout-home__main av-col av-gap-xl">
       <ActivitiesWidget is-new />
       <ActivitiesWidget />
       <TracesWidget />
-      <StudentSkillsWidget />
     </div>
   </div>
 </template>

@@ -18,9 +18,7 @@ const { data: staffSummary } = useGetProfile(EUserCategory.STAFF)
     {{ t('staff.global.layout.header.home') }}
   </h1>
   <div class="layout-home av-row av-wrap av-nowrap--md av-justify-center--md av-gap-xl av-align-start">
-    <div
-      class="layout-home__sidebar av-col av-gap-xl"
-    >
+    <div class="layout-home__sidebar av-col av-gap-xl av-sticky--md av-top-sm">
       <div data-testid="staff-overview-widget">
         <ProfileCard
           v-if="staffSummary"
