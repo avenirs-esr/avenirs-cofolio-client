@@ -4,7 +4,7 @@ export { default as StudentCountTracesIconText } from '@/features/student/traces
 
 export { default as StudentTraceAssociationCard } from '@/features/student/traces/components/cards/StudentTraceAssociationCard/StudentTraceAssociationCard.vue'
 
-export { default as StudentTracesWidget } from '@/features/student/traces/components/cards/StudentTracesWidget/StudentTracesWidget.vue'
+export { default as TracesWidget } from '@/features/student/traces/components/cards/TracesWidget/TracesWidget.vue'
 
 export { default as TracesSelector } from '@/features/student/traces/components/interactions/pickers/TracesSelector/TracesSelector.vue'
 

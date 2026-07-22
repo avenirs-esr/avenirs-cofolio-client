@@ -36,7 +36,7 @@ export class TracesWidget extends BaseObject {
   async verifyVisible () {
     await this.isVisible()
     await expect(this.getTitle()).toBeVisible()
-    await expect(this.getTitle()).toHaveText(t('student.traces.cards.StudentTracesWidget.title'))
+    await expect(this.getTitle()).toHaveText(t('student.traces.cards.TracesWidget.title'))
   }
 
   async verifyMaximum3Traces () {
@@ -60,7 +60,7 @@ export class TracesWidget extends BaseObject {
 
   async verifySeeAllButton () {
     await expect(this.getSeeAllButton()).toBeVisible()
-    await expect(this.getSeeAllButton()).toHaveText(t('student.traces.cards.StudentTracesWidget.buttons.seeAll'))
+    await expect(this.getSeeAllButton()).toHaveText(t('student.traces.cards.TracesWidget.buttons.seeAll'))
   }
 
   async clickFirstCard () {
