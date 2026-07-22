@@ -124,6 +124,7 @@
     },
     "buttons": {
       "access": "Accéder",
+      "accessTo": "Accéder à {name}",
       "add": "Ajouter",
       "associate": "Associer",
       "cancel": "Annuler",

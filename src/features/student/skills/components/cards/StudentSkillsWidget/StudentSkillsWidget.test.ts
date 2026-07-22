@@ -1,7 +1,7 @@
 import { mockedProgramsProgressOverview } from '@/__mocks__/fixtures/student'
 import { createStudentProgressOverviewHandler } from '@/__mocks__/msw/handlers/student/program-progress.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { HomeWidgetStub } from '@/features/student/global/views/StudentHomeView/components/HomeWidget/HomeWidget.stub'
+import { HomeWidgetStub } from '@/common/components/cards/HomeWidget/HomeWidget.stub'
 import StudentSkillsWidget from '@/features/student/skills/components/cards/StudentSkillsWidget/StudentSkillsWidget.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'

@@ -126,6 +126,7 @@
     },
     "buttons": {
       "access": "Access",
+      "accessTo": "Access to {name}",
       "add": "Add",
       "associate": "Associate",
       "cancel": "Cancel",

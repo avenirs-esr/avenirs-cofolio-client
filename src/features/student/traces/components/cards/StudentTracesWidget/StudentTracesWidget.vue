@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useGetTraceOverview } from '@/api/avenir-esr'
+import HomeWidget from '@/common/components/cards/HomeWidget/HomeWidget.vue'
 import { useBaseApiExceptionToast } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
-import HomeWidget from '@/features/student/global/views/StudentHomeView/components/HomeWidget/HomeWidget.vue'
 import StudentTraceCard from '@/features/student/traces/components/cards/StudentTraceCard/StudentTraceCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
