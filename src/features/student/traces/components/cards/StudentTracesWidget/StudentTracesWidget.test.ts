@@ -1,6 +1,6 @@
 import { createTraceOverviewHandler, traceOverviewErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { HomeWidgetStub } from '@/features/student/global/views/StudentHomeView/components/HomeWidget/HomeWidget.stub'
+import { HomeWidgetStub } from '@/common/components/cards/HomeWidget/HomeWidget.stub'
 import {
   StudentTraceCardStub
 } from '@/features/student/traces/components/cards/StudentTraceCard/StudentTraceCard.stub'

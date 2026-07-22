@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useGetStudentProgressOverview } from '@/api/avenir-esr'
+import HomeWidget from '@/common/components/cards/HomeWidget/HomeWidget.vue'
 import { useBaseApiExceptionToast } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
-import HomeWidget from '@/features/student/global/views/StudentHomeView/components/HomeWidget/HomeWidget.vue'
 import StudentSkillsWidgetContainer from '@/features/student/skills/components/cards/StudentSkillsWidget/components/StudentSkillsWidgetContainer/StudentSkillsWidgetContainer.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
