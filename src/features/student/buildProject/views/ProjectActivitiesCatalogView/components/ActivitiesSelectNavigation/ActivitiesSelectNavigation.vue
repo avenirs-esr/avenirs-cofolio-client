@@ -6,9 +6,11 @@ import { isEnumMember } from '@/common/utils'
 import { AvSelect, type AvSelectOption, type AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+const { isProjectRoute = true } = defineProps<{ isProjectRoute?: boolean }>()
+
 const { t } = useI18n()
 const route = useRoute()
-const { navigateToStudentProjectActivitiesCatalog } = useNavigation()
+const { navigateToStudentActivitiesCatalog, navigateToStudentProjectActivitiesCatalog } = useNavigation()
 
 const { data: activitiesRef, isLoading, isError } = useGetActivityNavigation()
 
@@ -59,11 +61,15 @@ function onSelectChange (value: AvSelectSelectedOption) {
     return
   }
 
-  navigateToStudentProjectActivitiesCatalog({
+  const navParams = {
     thematic: parentId,
     id: itemId,
-    replace: !routeThematic.value || !routeId.value,
-  })
+    replace: !routeThematic.value || !routeId.value
+  }
+
+  isProjectRoute
+    ? navigateToStudentProjectActivitiesCatalog(navParams)
+    : navigateToStudentActivitiesCatalog(navParams)
 }
 </script>
 

@@ -8,9 +8,11 @@ import { isEnumMember } from '@/common/utils'
 import { type AvSideNavigationMenuItem, type AvSideNavigationSelectedItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+const { isProjectRoute = true } = defineProps<{ isProjectRoute?: boolean }>()
+
 const { t } = useI18n()
 const route = useRoute()
-const { navigateToStudentProjectActivitiesCatalog } = useNavigation()
+const { navigateToStudentActivitiesCatalog, navigateToStudentProjectActivitiesCatalog } = useNavigation()
 
 const isSideMenuCollapsed = ref(false)
 const { data: activitiesRef, isLoading, isError } = useGetActivityNavigation()
@@ -76,11 +78,15 @@ function navigateToSelectedItem (value: AvSideNavigationSelectedItem) {
     return
   }
 
-  navigateToStudentProjectActivitiesCatalog({
+  const navParams = {
     thematic,
     id,
-    replace: true,
-  })
+    replace: true
+  }
+
+  isProjectRoute
+    ? navigateToStudentProjectActivitiesCatalog(navParams)
+    : navigateToStudentActivitiesCatalog(navParams)
 }
 </script>
 

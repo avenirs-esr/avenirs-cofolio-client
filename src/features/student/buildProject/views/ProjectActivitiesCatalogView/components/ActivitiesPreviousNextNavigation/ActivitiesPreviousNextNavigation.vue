@@ -6,6 +6,8 @@ import { isEnumMember } from '@/common/utils'
 import { AvButton, type AvSelectOption, type AvSelectSelectedOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+const { isProjectRoute = true } = defineProps<{ isProjectRoute?: boolean }>()
+
 const { t } = useI18n()
 const route = useRoute()
 
@@ -35,6 +37,10 @@ const routeThematic = computed(() => typeof route.params.thematic === 'string' ?
 
 const nextActivity = computed(() => getAdjacentActivity(1))
 const previousActivity = computed(() => getAdjacentActivity(-1))
+
+const baseRouteName = computed(() => isProjectRoute
+  ? ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name
+  : ROUTES.STUDENT.ACTIVITIES_CATALOG.name)
 
 function getAdjacentActivity (direction: 1 | -1): AvSelectSelectedOption | null {
   const thematics = allActivities.value
@@ -83,7 +89,7 @@ function getAdjacentActivity (direction: 1 | -1): AvSelectSelectedOption | null 
         variant="DEFAULT"
         small
         :to="{
-          name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
+          name: baseRouteName,
           params: { thematic: previousActivity.parentId, id: previousActivity.itemId },
         }"
         data-testid="previous-activity-button"
@@ -96,7 +102,7 @@ function getAdjacentActivity (direction: 1 | -1): AvSelectSelectedOption | null 
         variant="DEFAULT"
         small
         :to="{
-          name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
+          name: baseRouteName,
           params: { thematic: nextActivity.parentId, id: nextActivity.itemId },
         }"
         data-testid="next-activity-button"

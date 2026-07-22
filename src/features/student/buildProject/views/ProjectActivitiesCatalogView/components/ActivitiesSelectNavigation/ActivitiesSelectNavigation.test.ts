@@ -8,11 +8,13 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStudentProjectActivitiesCatalogMock = vi.fn()
+const navigateToStudentActivitiesCatalogMock = vi.fn()
 
 vi.mock('@/common/composables', () => {
   return {
     useNavigation: () => ({
       navigateToStudentProjectActivitiesCatalog: navigateToStudentProjectActivitiesCatalogMock,
+      navigateToStudentActivitiesCatalog: navigateToStudentActivitiesCatalogMock,
     }),
   }
 })
@@ -106,6 +108,7 @@ BddTest().given('a build project activities select navigation component', () => 
           id: '4b9e2c7d-1f6a-4d55-9c3b-2e8f7a1c5d44',
           replace: false,
         })
+        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledTimes(0)
       })
     })
 
@@ -121,6 +124,61 @@ BddTest().given('a build project activities select navigation component', () => 
       })
 
       BddTest().then('it should not navigate again', () => {
+        expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledTimes(0)
+        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledTimes(0)
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted on a route other than project route', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      queryClient = new QueryClient()
+
+      wrapper = mountComponent(ActivitiesSelectNavigation, {
+        props: { isProjectRoute: false },
+        global: { stubs },
+        plugins: [createPinia(), [VueQueryPlugin, { queryClient }]],
+      })
+    })
+
+    BddTest().and('a select option is chosen', () => {
+      const selected = {
+        itemId: '4b9e2c7d-1f6a-4d55-9c3b-2e8f7a1c5d44',
+        parentId: EActivityThematic.RESUMES,
+      }
+
+      beforeEach(async () => {
+        await flushPromises()
+        const select = wrapper.findComponent({ name: 'AvSelect' })
+        await select.vm.$emit('update:selectedItem', selected)
+        await flushPromises()
+      })
+
+      BddTest().then('it should navigate to the catalog with thematic and id', () => {
+        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledTimes(1)
+        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledWith({
+          thematic: EActivityThematic.RESUMES,
+          id: '4b9e2c7d-1f6a-4d55-9c3b-2e8f7a1c5d44',
+          replace: false,
+        })
+        expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledTimes(0)
+      })
+    })
+
+    BddTest().and('the user selects the already selected option', () => {
+      beforeEach(async () => {
+        await flushPromises()
+        const select = wrapper.findComponent({ name: 'AvSelect' })
+        await select.vm.$emit('update:selectedItem', {
+          itemId: '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
+          parentId: EActivityThematic.SELF_KNOWLEDGE,
+        })
+        await flushPromises()
+      })
+
+      BddTest().then('it should not navigate again', () => {
+        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledTimes(0)
         expect(navigateToStudentProjectActivitiesCatalogMock).toHaveBeenCalledTimes(0)
       })
     })

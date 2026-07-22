@@ -15,6 +15,7 @@ import ActivityPreview from '@/features/student/buildProject/views/ProjectActivi
 import { TanstackStaleTimeConfig } from '@/plugins/tanstack-query/config'
 import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 export interface ProjectActivitiesCatalogViewProps {
   thematic?: string
@@ -25,7 +26,8 @@ const { id = '', thematic } = defineProps<ProjectActivitiesCatalogViewProps>()
 
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
-const { navigateToStudentProjectActivitiesCatalog } = useNavigation()
+const { navigateToStudentActivitiesCatalog, navigateToStudentProjectActivitiesCatalog } = useNavigation()
+const route = useRoute()
 
 const { data: activityDetail, isLoading, error } = useGetActivityPresentation(EActivityStatus.PUBLISHED, computed(() => id), { query: {
   enabled: computed(() => !!id),
@@ -47,6 +49,25 @@ const firstCatalogEntry = computed(() => {
   }
 })
 
+const isProjectActivitiesRoute = computed(() => route.name === ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name)
+
+const projectBreadcrumbLinks = computed(() => [
+  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.project.header') },
+  { text: t('student.global.navigation.tabs.project.items.activities'), to: ROUTES.STUDENT.PROJECT_ACTIVITIES },
+  { text: activityDetail.value?.title ?? '' }
+])
+
+const homeBreadcrumbLinks = computed(() => [
+  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
+  { text: t('student.global.navigation.tabs.project.items.activities') },
+  { text: activityDetail.value?.title ?? '' }
+])
+
+const breadcrumbLinks = computed(() => isProjectActivitiesRoute.value
+  ? projectBreadcrumbLinks.value
+  : homeBreadcrumbLinks.value)
+
 watchEffect(() => {
   const newThematic = thematic
   const newId = id
@@ -58,19 +79,16 @@ watchEffect(() => {
     return
   }
 
-  void navigateToStudentProjectActivitiesCatalog({
+  const navParams = {
     thematic: firstEntry.thematic,
     id: firstEntry.id,
     replace: true,
-  })
-})
+  }
 
-const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.activities'), to: ROUTES.STUDENT.PROJECT_ACTIVITIES },
-  { text: activityDetail.value?.title ?? '' }
-])
+  isProjectActivitiesRoute.value
+    ? navigateToStudentProjectActivitiesCatalog(navParams)
+    : navigateToStudentActivitiesCatalog(navParams)
+})
 </script>
 
 <template>
@@ -87,12 +105,15 @@ const breadcrumbLinks = computed(() => [
       v-if="isMobile"
       class="av-row av-flex-fill av-justify-center"
     >
-      <ActivitiesSelectNavigation />
+      <ActivitiesSelectNavigation :is-project-route="isProjectActivitiesRoute" />
     </div>
-    <ActivitiesSideNavigation v-else />
+    <ActivitiesSideNavigation
+      v-else
+      :is-project-route="isProjectActivitiesRoute"
+    />
 
     <div class="av-col av-gap-sm av-w-full">
-      <ActivitiesPreviousNextNavigation />
+      <ActivitiesPreviousNextNavigation :is-project-route="isProjectActivitiesRoute" />
       <div class="av-row">
         <QuerySuspense
           :error="error"
