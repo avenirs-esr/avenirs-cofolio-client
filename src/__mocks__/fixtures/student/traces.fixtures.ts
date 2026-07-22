@@ -52,6 +52,7 @@ export const mockedTraceOverview: TraceOverviewDTO[] = [
     title: 'Mettre en place des filières d\'économies circulaires',
     authorType: ETraceAuthorType.COLLECTIVE,
     programName: 'Master Chimie Verte et Éco-innovations',
+    aiUseJustification: 'Justification de l\'utilisation de l\'IA pour cette trace',
     createdAt: '2024-11-29T19:15:03',
     updatedAt: '2024-11-29T19:15:03'
   },
