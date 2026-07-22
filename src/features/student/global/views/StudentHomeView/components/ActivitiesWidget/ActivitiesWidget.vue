@@ -41,10 +41,12 @@ const { t } = useI18n()
 
 const activities = computed(() => isNew ? newActivities.value : libraryActivities.value)
 
+const i18nExtension = computed(() => isNew ? 'new' : 'library')
+
 const homeWidgetPops = computed(() => ({
-  title: t(`student.global.views.studentHomeView.widgets.ActivitiesWidget.title.${isNew ? 'new' : 'library'}`),
+  title: t(`student.global.views.studentHomeView.widgets.ActivitiesWidget.title.${i18nExtension.value}`),
   titleIcon: ICONS.ACTIVITY,
-  seeAllLabel: t(`student.global.views.studentHomeView.widgets.ActivitiesWidget.seeAll.${isNew ? 'new' : 'library'}`),
+  seeAllLabel: t(`student.global.views.studentHomeView.widgets.ActivitiesWidget.seeAll.${i18nExtension.value}`),
   to: isNew
     ? ROUTES.STUDENT.PROJECT_ACTIVITIES
     : {
@@ -53,8 +55,8 @@ const homeWidgetPops = computed(() => ({
       },
 }))
 
-const emptyStateMessage = computed(() => t(`student.global.views.studentHomeView.widgets.ActivitiesWidget.emptyState.${isNew ? 'new' : 'library'}`))
-const errorStateTitle = computed(() => t(`student.global.views.studentHomeView.widgets.ActivitiesWidget.errorState.${isNew ? 'new' : 'library'}`))
+const emptyStateMessage = computed(() => t(`student.global.views.studentHomeView.widgets.ActivitiesWidget.emptyState.${i18nExtension.value}`))
+const errorStateTitle = computed(() => t(`student.global.views.studentHomeView.widgets.ActivitiesWidget.errorState.${i18nExtension.value}`))
 const errorStateDescription = computed(() => getErrorMessage(isNew ? newActivitiesError.value : activitiesError.value))
 </script>
 
@@ -62,7 +64,7 @@ const errorStateDescription = computed(() => getErrorMessage(isNew ? newActiviti
   <HomeWidget
     v-bind="homeWidgetPops"
     type="main"
-    :data-testid="`${isNew ? 'new' : 'library'}-activities-widget`"
+    :data-testid="`${i18nExtension}-activities-widget`"
   >
     <QuerySuspense
       :is-loading="isLoading"

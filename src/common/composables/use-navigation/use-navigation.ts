@@ -1,12 +1,16 @@
 import type { EActivityThematic } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
-import { type NavigationFailure, useRouter } from 'vue-router'
+import { type NavigationFailure, type RouteLocationRaw, useRouter } from 'vue-router'
 
 export function useNavigation () {
   const router = useRouter()
 
+  function navigate (to: string | RouteLocationRaw, replace?: boolean) {
+    return replace ? router.replace(to) : router.push(to)
+  }
+
   const navigateToAuthLogin = () => {
-    return router.push(ROUTES.AUTH.LOGIN)
+    return navigate(ROUTES.AUTH.LOGIN)
   }
 
   const navigateToStudentActivitiesCatalog = ({ thematic, id, replace }: { thematic?: EActivityThematic, id?: string, replace?: boolean } =
@@ -15,10 +19,7 @@ export function useNavigation () {
       name: ROUTES.STUDENT.ACTIVITIES_CATALOG.name,
       params: { thematic, id },
     }
-    if (replace) {
-      return router.replace(to)
-    }
-    return router.push(to)
+    return navigate(to, replace)
   }
 
   const navigateToStudentDeclaredExperience = ({ id, replace }: { id?: string, replace?: boolean }) => {
@@ -26,10 +27,7 @@ export function useNavigation () {
       name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
       params: { id }
     }
-    if (replace) {
-      return router.replace(to)
-    }
-    return router.push(to)
+    return navigate(to, replace)
   }
 
   const navigateToStudentEducationSkills = () => {
@@ -37,37 +35,31 @@ export function useNavigation () {
   }
 
   const navigateToStudentUpdateDeclaredExperience = ({ replace }: { replace?: boolean }) => {
-    if (replace) {
-      return router.replace(ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE)
-    }
-    return router.push(ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE)
+    return navigate(ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE, replace)
   }
 
   const navigateToStudentDeliverables = () => {
-    return router.push(ROUTES.STUDENT.DELIVERABLES)
+    return navigate(ROUTES.STUDENT.DELIVERABLES)
   }
 
   const navigateToStudentEvents = () => {
-    return router.push(ROUTES.STUDENT.EVENTS)
+    return navigate(ROUTES.STUDENT.EVENTS)
   }
 
   const navigateToStudentHome = () => {
-    return router.push(ROUTES.STUDENT.HOME)
+    return navigate(ROUTES.STUDENT.HOME)
   }
 
   const navigateToStudentMailbox = () => {
-    return router.push(ROUTES.STUDENT.MAILBOX)
+    return navigate(ROUTES.STUDENT.MAILBOX)
   }
 
   const navigateToStudentTrajectories = (replace?: boolean) => {
-    if (replace) {
-      return router.replace(ROUTES.STUDENT.PROJECT_TRAJECTORIES)
-    }
-    return router.push(ROUTES.STUDENT.PROJECT_TRAJECTORIES)
+    return navigate(ROUTES.STUDENT.PROJECT_TRAJECTORIES, replace)
   }
 
   const navigateToStudentSelfKnowledgeCategory = ({ categoryId, elementId }: { categoryId: string, elementId: string }) => {
-    return router.push({
+    return navigate({
       name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
       params: { id: categoryId },
       query: elementId ? { elementId } : undefined
@@ -79,21 +71,15 @@ export function useNavigation () {
       name: ROUTES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.name,
       params: { categoryId, elementId }
     }
-    if (replace) {
-      return router.replace(to)
-    }
-    return router.push(to)
+    return navigate(to, replace)
   }
 
   const navigateToStudentProjectDeclaredSkill = () => {
-    return router.push(ROUTES.STUDENT.PROJECT_DECLARED_SKILL)
+    return navigate(ROUTES.STUDENT.PROJECT_DECLARED_SKILL)
   }
 
   const navigateToStudentProjectSkills = ({ replace }: { replace?: boolean }) => {
-    if (replace) {
-      return router.replace(ROUTES.STUDENT.PROJECT_SKILLS)
-    }
-    return router.push(ROUTES.STUDENT.PROJECT_SKILLS)
+    return navigate(ROUTES.STUDENT.PROJECT_SKILLS, replace)
   }
 
   const navigateToStudentProjectActivitiesCatalog = ({ thematic, id, replace }: { thematic?: EActivityThematic, id?: string, replace?: boolean } =
@@ -102,10 +88,7 @@ export function useNavigation () {
       name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
       params: { thematic, id },
     }
-    if (replace) {
-      return router.replace(to)
-    }
-    return router.push(to)
+    return navigate(to, replace)
   }
 
   const navigateToStudentProjectActivities = ({ replace }: { replace?: boolean } =
@@ -113,47 +96,34 @@ export function useNavigation () {
     const to = {
       name: ROUTES.STUDENT.PROJECT_ACTIVITIES.name,
     }
-    if (replace) {
-      return router.replace(to)
-    }
-    return router.push(to)
+    return navigate(to, replace)
   }
 
   const navigateToStudentTrace = ({ id }: { id: string }) => {
-    return router.push({
+    return navigate({
       name: ROUTES.STUDENT.TRACE.name,
       params: { id },
     })
   }
 
   const navigateToStudentTraces = ({ replace }: { replace?: boolean } = { replace: false }) => {
-    if (replace) {
-      return router.replace(ROUTES.STUDENT.TOOLS_TRACES)
-    }
-
-    return router.push(ROUTES.STUDENT.TOOLS_TRACES)
+    return navigate(ROUTES.STUDENT.TOOLS_TRACES, replace)
   }
 
   const navigateToStudentDeclaredPrograms = ({ replace }: { replace?: boolean }) => {
-    if (replace) {
-      return router.replace(ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS)
-    }
-    return router.push(ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS)
+    return navigate(ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS, replace)
   }
 
   const navigateToStudentDeclaredExperiences = ({ replace }: { replace?: boolean }) => {
-    if (replace) {
-      return router.replace(ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES)
-    }
-    return router.push(ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES)
+    return navigate(ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES, replace)
   }
 
   const navigateToStudentUpdateDeclaredSkill = () => {
-    return router.push(ROUTES.STUDENT.UPDATE_DECLARED_SKILL)
+    return navigate(ROUTES.STUDENT.UPDATE_DECLARED_SKILL)
   }
 
   const navigateToStudentUpdateDeclaredProgram = () => {
-    return router.push(ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM)
+    return navigate(ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM)
   }
 
   const navigateToActivityDetailed = ({ id, thematic }: { id?: string, thematic?: string }) => {
@@ -161,28 +131,24 @@ export function useNavigation () {
       name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
       params: { id, thematic }
     }
-    return router.push(to)
+    return navigate(to)
   }
 
   const navigateToStaffHome = (
   ): Promise<NavigationFailure | void | undefined> => {
-    return router.push(ROUTES.STAFF.HOME)
+    return navigate(ROUTES.STAFF.HOME)
   }
 
   const navigateToStaffActivityFeedbackDetails = ({ feedbackId }: { feedbackId: string }
   ): Promise<NavigationFailure | void | undefined> => {
-    return router.push({
+    return navigate({
       name: ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name,
       params: { feedbackId },
     })
   }
 
   const navigateToStaffActivities = (replace?: boolean) => {
-    if (replace) {
-      return router.replace(ROUTES.STAFF.ACTIVITIES)
-    }
-
-    return router.push(ROUTES.STAFF.ACTIVITIES)
+    return navigate(ROUTES.STAFF.ACTIVITIES, replace)
   }
 
   const navigateToStaffActivitiesEditNationalActivity = ({ id, mode, replace }: { id: string, mode?: string, replace?: boolean }) => {
@@ -191,49 +157,46 @@ export function useNavigation () {
       params: { id },
       query: mode ? { mode } : undefined
     }
-    if (replace) {
-      return router.replace(to)
-    }
-    return router.push(to)
+    return navigate(to, replace)
   }
 
   const navigateToStaffActivityCatalog = ({ status, id }: { status: string, id: string }) => {
-    return router.push({
+    return navigate({
       name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
       params: { status, id },
     })
   }
 
   const navigateToStaffActivityFeedbacks = ({ id }: { id: string }) => {
-    return router.push({
+    return navigate({
       name: ROUTES.STAFF.ACTIVITY_FEEDBACKS.name,
       params: { id },
     })
   }
 
   const navigateToStudentUpdateTrace = ({ id }: { id: string }) => {
-    return router.push({
+    return navigate({
       name: ROUTES.STUDENT.UPDATE_TRACE.name,
       params: { id },
     })
   }
 
   const navigateToStudentToolsTrace = ({ id }: { id: string }) => {
-    return router.push({
+    return navigate({
       name: ROUTES.STUDENT.TOOLS_TRACE.name,
       params: { id },
     })
   }
 
   const navigateToStudentProjectSkill = ({ id }: { id: string }) => {
-    return router.push({
+    return navigate({
       name: ROUTES.STUDENT.PROJECT_SKILL.name,
       params: { id },
     })
   }
 
   const navigateToStudentToolsUpdateTrace = ({ id }: { id: string }) => {
-    return router.push({
+    return navigate({
       name: ROUTES.STUDENT.TOOLS_UPDATE_TRACE.name,
       params: { id },
     })
