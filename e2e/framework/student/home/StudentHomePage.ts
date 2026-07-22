@@ -111,11 +111,6 @@ class StudentHomePage extends BasePage {
     await this.getTracesWidget().verifyVisible()
   }
 
-  @Then('the last traces widget is hidden')
-  async verifyLastTracesWidgetHidden () {
-    await this.getTracesWidget().isHidden()
-  }
-
   @Then('the profile banner is visible')
   async verifyProfileBanner () {
     await this.getStudentOverviewWidget().verifyProfileBanner()

@@ -51,6 +51,7 @@ import {
   type UpdateTraceDTO
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
+import { HttpStatusCode } from '@/common/utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
 
@@ -116,7 +117,7 @@ export function createTraceOverviewHandler () {
 export const traceOverviewErrorHandler = http.get(`*${getGetTraceOverviewUrl()}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
-    { status: 500 }
+    { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
   )
 })
 
