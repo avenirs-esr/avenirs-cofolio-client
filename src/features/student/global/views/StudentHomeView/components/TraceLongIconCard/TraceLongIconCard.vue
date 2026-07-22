@@ -1,0 +1,26 @@
+<script lang="ts" setup>
+import type { TraceOverviewDTO } from '@/api/avenir-esr'
+import LongIconCard from '@/common/components/cards/LongIconCard/LongIconCard.vue'
+import { ICONS } from '@/common/constants'
+import TraceAiProducedBadge from '@/features/student/traces/components/badges/TraceAiProducedBadge/TraceAiProducedBadge.vue'
+import TraceAuthorTypeBadge from '@/features/student/traces/components/badges/TraceAuthorTypeBadge/TraceAuthorTypeBadge.vue'
+
+export interface TraceLongIconCardProps {
+  trace: TraceOverviewDTO
+}
+
+defineProps<TraceLongIconCardProps>()
+</script>
+
+<template>
+  <LongIconCard
+    :title="trace.title"
+    :icon="{ name: ICONS.TRACES, color: 'var(--text1)' }"
+    icon-background-color="var(--light-background-neutral)"
+  >
+    <div class="av-row av-gap-sm">
+      <TraceAuthorTypeBadge :author-type="trace.authorType" />
+      <TraceAiProducedBadge :ai-produced="!!trace.aiUseJustification" />
+    </div>
+  </LongIconCard>
+</template>
