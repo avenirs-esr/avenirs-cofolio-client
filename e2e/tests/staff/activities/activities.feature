@@ -60,6 +60,34 @@ Feature: Staff Activities Page
       When the user clicks on the delete option
       And the user clicks on the delete confirmation modal cancel button
       Then the delete draft activity confirmation modal is hidden
+      
+  Rule: My workspace tab - Unpublish activity
+  
+    Background:
+      When the user clicks on the my workspace tab
+      And the user clicks on the more actions button for a published activity
+  
+    @high @dataset-full @unpublish-activity
+    Scenario: Staff can see the unpublish option from the more actions dropdown
+      Then the unpublish option is visible
+  
+    @high @dataset-full @unpublish-activity
+    Scenario: Staff can open the unpublish confirmation modal from activities list
+      When the user clicks on the unpublish option
+      Then the unpublish activity confirmation modal is visible
+  
+    @high @dataset-full @unpublish-activity
+    Scenario: Staff can close the unpublish confirmation modal from activities list
+      When the user clicks on the unpublish option
+      And the user clicks on the unpublish confirmation modal cancel button
+      Then the unpublish activity confirmation modal is hidden
+  
+    @high @dataset-full @unpublish-activity
+    Scenario: Staff can unpublish a published activity
+      When the user clicks on the unpublish option
+      And the user clicks on the unpublish confirmation modal confirm button
+      Then the unpublish activity confirmation modal is hidden
+      And the activity is unpublished
 
   Rule: All published activities tab
 
