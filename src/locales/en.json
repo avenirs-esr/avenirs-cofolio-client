@@ -1,6 +1,7 @@
 {
   "global": {
     "activities": {
+      "activity": "Activity",
       "badges": {
         "associatedElementType": {
           "DECLARED_ACTIVITY": "Activity",

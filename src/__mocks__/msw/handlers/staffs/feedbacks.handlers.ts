@@ -101,6 +101,17 @@ export const getStaffFeedbacksHandler = http.get(
   },
 )
 
+export const getStaffFeedbacksErrorHandler = http.get(`*${getGetStaffFeedbacksUrl()}`, () =>
+  HttpResponse.json(
+    { message: 'Erreur lors de la récupération des feedbacks' },
+    { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+  ))
+
+export const getStaffFeedbacksOverviewHandler = http.get(`*${getGetStaffFeedbacksUrl()}`, () => {
+  const mockData = createMockedPagedResponseFeedbackStaffListItemDTO(3, 3, 0)
+  return HttpResponse.json(mockData)
+})
+
 export const updateFeedbackHandler = http.put(`*${getUpdateFeedbackUrl(':feedbackId')}`, ({ params }) => {
   if (params.feedbackId === 'INVALID_FEEDBACK_ID') {
     return HttpResponse.json(

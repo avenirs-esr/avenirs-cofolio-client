@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { SetupContext } from 'vue'
+import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import { EFileType, type EUserCategory, type FileDTO, type ProfileOverviewDTO } from '@/api/avenir-esr'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
@@ -268,7 +269,7 @@ BddTest().given('given an update profile drawer', () => {
 
     vi.mocked(useRoute).mockReturnValue({
       path: '/student/home'
-    } as any)
+    } as RouteLocationNormalizedLoadedGeneric)
 
     mockedUseUpdateProfileForm.mockImplementation(() => createUseUpdateProfileFormMock())
 

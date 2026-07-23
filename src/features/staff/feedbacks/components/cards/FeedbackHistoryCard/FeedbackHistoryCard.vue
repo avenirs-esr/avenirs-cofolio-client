@@ -75,7 +75,7 @@ const updatedAtFormatted = computed(() => formatDateLocalized(feedback.updatedAt
             :label="t('staff.feedbacks.cards.FeedbackHistoryCard.seeDetail', { date: createdAtFormatted })"
             data-testid="feedback-history-card-detail-link"
             :to="{
-              name: ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name,
+              name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
               params: { feedbackId: feedback.id },
             }"
           />

@@ -30,7 +30,7 @@ const mockedActivity: ActivityContentDTO = {
   updatedAt: '2024-01-16T10:00:00Z',
 }
 
-const allFeedbacks: FeedbackStaffListItemDTO[] = [
+export const allFeedbacks: FeedbackStaffListItemDTO[] = [
   {
     id: 'feedback-1',
     status: EFeedbackStatus.NEW,

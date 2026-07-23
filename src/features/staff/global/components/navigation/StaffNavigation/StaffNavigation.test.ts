@@ -76,7 +76,7 @@ BddTest().given('a staff navigation', () => {
 
       expect(navItems[2].links[0]).toMatchObject({
         text: 'Toutes mes demandes de feedback',
-        to: expect.objectContaining({ name: 'staff-student-feedbacks' }),
+        to: expect.objectContaining({ name: 'staff-student-tracking-feedbacks' }),
         icon: MDI_ICONS.PEOPLE_GROUP_OUTLINE,
       })
     })

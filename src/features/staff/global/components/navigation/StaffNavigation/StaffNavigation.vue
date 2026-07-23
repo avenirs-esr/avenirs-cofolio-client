@@ -2,7 +2,7 @@
 import { ICONS, ROUTES } from '@/common/constants'
 import { isRouteActive } from '@/common/utils/route/route'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
-import { staffFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
+import { staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
 import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useId } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -14,14 +14,14 @@ const route = useRoute()
 const studentTrackingMenu = computed(() => ({
   title: t('staff.global.navigation.tabs.studentTracking').toUpperCase(),
   get active () {
-    return isRouteActive({ route, routes: staffFeedbacksRoutes })
+    return isRouteActive({ route, routes: staffStudentTrackingFeedbacksRoutes })
   },
   links: [
     {
-      to: ROUTES.STAFF.STUDENT_FEEDBACKS,
+      to: ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS,
       text: t('staff.global.navigation.tabs.studentFeedbacks'),
       icon: MDI_ICONS.PEOPLE_GROUP_OUTLINE,
-      highlight: isRouteActive({ route, routes: staffFeedbacksRoutes }),
+      highlight: isRouteActive({ route, routes: staffStudentTrackingFeedbacksRoutes }),
     },
   ],
 }))

@@ -1,10 +1,7 @@
 import type { RoutePageProps } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
-import {
-  staffStudentActivityFeedbacksRoute,
-  staffStudentFeedbacksRoute
-} from '@/features/staff/feedbacks/routes'
+import { staffActivityFeedbacksRoute, staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
 
 const footerLegalProps: RoutePageProps = {
   breadcrumbLinksRaw: [
@@ -47,8 +44,8 @@ export default [
           import('@/common/views/PersonalDataView/PersonalDataView.vue'),
       },
       ...staffActivitiesRoutes,
-      staffStudentActivityFeedbacksRoute,
-      staffStudentFeedbacksRoute,
+      staffActivityFeedbacksRoute,
+      ...staffStudentTrackingFeedbacksRoutes,
     ]
   }
 ]

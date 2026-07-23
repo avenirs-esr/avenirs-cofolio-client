@@ -28,13 +28,13 @@ export class StaffFeedbacksPage extends BasePage {
 
   @Given('the staff opens the feedbacks page')
   async goToFeedbacksPage () {
-    await this.page.goto(STAFF_ROUTES.STUDENT_FEEDBACKS)
+    await this.page.goto(STAFF_ROUTES.STUDENT_TRACKING.FEEDBACKS)
     await waitForPageLoad(this.page)
   }
 
   @Then('the staff feedbacks page is displayed')
   async verifyPageLoaded () {
-    await expect(this.page).toHaveURL(STAFF_ROUTES.STUDENT_FEEDBACKS)
+    await expect(this.page).toHaveURL(STAFF_ROUTES.STUDENT_TRACKING.FEEDBACKS)
   }
 
   @Then('the feedback status picker is visible and contains 4 elements')

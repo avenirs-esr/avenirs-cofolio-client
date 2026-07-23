@@ -14,7 +14,7 @@ const emit = defineEmits<{
 const parameters = computed(() => notification.parameters as AskForFeedbackParameters | undefined)
 const to = computed(() => notification.elementId !== undefined
   ? ({
-      name: ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name,
+      name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
       params: { feedbackId: notification.elementId },
     })
   : undefined)
