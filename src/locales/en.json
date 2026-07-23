@@ -120,6 +120,14 @@
       "activeText": "On",
       "inactiveText": "Off"
     },
+    "badges": {
+      "AssociationBadge": {
+        "activity": "1 activity | {count} activities",
+        "experience": "1 experience | {count} experiences",
+        "skill": "1 skill | {count} skills",
+        "trace": "1 trace | {count} traces"
+      }
+    },
     "beginning": "Beginning",
     "breadcrumb": {
       "ariaLabel": "Breadcrumb",

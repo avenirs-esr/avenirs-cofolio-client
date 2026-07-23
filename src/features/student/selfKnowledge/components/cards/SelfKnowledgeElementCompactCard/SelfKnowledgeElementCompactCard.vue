@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ValorizedBadge from '@/common/components/ValorizedBadge/ValorizedBadge.vue'
+import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 
 export interface SelfKnowledgeElementCompactCardProps {

@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import EnabledDisabledStatusBadge from '@/common/components/EnabledDisabledStatusBadge/EnabledDisabledStatusBadge.vue'
+import EnabledDisabledStatusBadge from '@/common/components/badges/EnabledDisabledStatusBadge/EnabledDisabledStatusBadge.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'

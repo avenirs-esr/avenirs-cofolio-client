@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails } from '@/common/components'
-import TraceValorizedBadge from '@/common/components/ValorizedBadge/ValorizedBadge.vue'
+import TraceValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import TraceAiJustificationTextarea from '@/features/student/traces/components/interactions/inputs/TraceAiJustificationTextarea/TraceAiJustificationTextarea.vue'
 import TraceFileUpload from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/TraceFileUpload.vue'
 import TraceNameInput from '@/features/student/traces/components/interactions/inputs/TraceNameInput/TraceNameInput.vue'

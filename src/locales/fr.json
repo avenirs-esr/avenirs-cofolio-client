@@ -118,6 +118,14 @@
       "activeText": "Oui",
       "inactiveText": "Non"
     },
+    "badges": {
+      "AssociationBadge": {
+        "activity": "1 activité | {count} activités",
+        "experience": "1 expérience | {count} expériences",
+        "skill": "1 compétence | {count} compétences",
+        "trace": "1 trace | {count} traces"
+      }
+    },
     "beginning": "Début",
     "breadcrumb": {
       "ariaLabel": "Fil d'Ariane",

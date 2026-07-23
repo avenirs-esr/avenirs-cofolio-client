@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { ValorizedBadgeStub } from '@/common/components/ValorizedBadge/ValorizedBadge.stub'
+import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import SelfKnowledgeElementCompactCard, { type SelfKnowledgeElementCompactCardProps } from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCompactCard/SelfKnowledgeElementCompactCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
