@@ -4,6 +4,7 @@ import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { DeleteDraftActivityConfirmationModal } from '@e2e/framework/staff/activities/componentObjects/DeleteDraftActivityConfirmationModal'
+import { UnpublishActivityConfirmationModal } from '@e2e/framework/staff/activities/componentObjects/UnpublishActivityConfirmationModal'
 import { expect, type Page } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
@@ -19,10 +20,12 @@ export class StaffActivitiesPage extends BasePage {
     = '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1'
 
   private deleteConfirmationModal: DeleteDraftActivityConfirmationModal
+  private unpublishConfirmationModal: UnpublishActivityConfirmationModal
 
   constructor (public page: Page) {
     super(page)
     this.deleteConfirmationModal = new DeleteDraftActivityConfirmationModal(page)
+    this.unpublishConfirmationModal = new UnpublishActivityConfirmationModal(page)
   }
 
   getCreateActivityButton () {
@@ -153,6 +156,10 @@ export class StaffActivitiesPage extends BasePage {
     return this.page.getByTestId('delete')
   }
 
+  private getUnpublishOption () {
+    return this.page.getByTestId('unpublish')
+  }
+
   private getActivityMoreActionsDropdown (activityId: string, activityStatus: string) {
     return this.page.locator(
       `[data-testid="more-actions-dropdown"][data-activity-id="${activityId}"][data-activity-status="${activityStatus}"]`,
@@ -246,5 +253,50 @@ export class StaffActivitiesPage extends BasePage {
   async clickFirstPublishedActivityTitleWithFileAndLink () {
     await clickOnElement(this.getPublishedActivityTitleLink(StaffActivitiesPage.ACTIVITY_WITH_FILE_AND_LINK))
     await waitForPageLoad(this.page)
+  }
+
+  @When('the user clicks on the more actions button for a published activity')
+  async clickMoreActionsButtonForPublishedActivity () {
+    const dropdown = this.getActivityMoreActionsDropdown(
+      StaffActivitiesPage.ACTIVITY_WITH_ENROLLED_STUDENTS,
+      'PUBLISHED',
+    )
+
+    await clickOnElement(dropdown.getByRole('button'))
+  }
+
+  @Then('the unpublish option is visible')
+  async verifyUnpublishOptionVisible () {
+    await expect(this.getUnpublishOption()).toBeVisible()
+  }
+
+  @When('the user clicks on the unpublish option')
+  async clickUnpublishOption () {
+    await clickOnElement(this.getUnpublishOption())
+  }
+
+  @Then('the unpublish activity confirmation modal is visible')
+  async verifyUnpublishConfirmationModalVisible () {
+    await this.unpublishConfirmationModal.verifyVisible()
+  }
+
+  @When('the user clicks on the unpublish confirmation modal cancel button')
+  async clickUnpublishConfirmationModalCancelButton () {
+    await this.unpublishConfirmationModal.clickCancel()
+  }
+
+  @When('the user clicks on the unpublish confirmation modal confirm button')
+  async clickUnpublishConfirmationModalConfirmButton () {
+    await this.unpublishConfirmationModal.clickConfirm()
+  }
+
+  @Then('the unpublish activity confirmation modal is hidden')
+  async verifyUnpublishConfirmationModalHidden () {
+    await this.unpublishConfirmationModal.verifyHidden()
+  }
+
+  @Then('the activity is unpublished')
+  async verifyActivityIsUnpublished () {
+    await expect(this.page.getByText('Dépubliée')).toBeVisible()
   }
 }
