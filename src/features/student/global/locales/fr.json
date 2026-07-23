@@ -39,6 +39,12 @@
           "period": {
             "label": "Période"
           }
+        },
+        "toggles": {
+          "ValorizeToggle": {
+            "activeText": "Je valorise dans mon kit",
+            "inactiveText": "Je ne valorise pas dans mon kit"
+          }
         }
       },
       "navigation": {
