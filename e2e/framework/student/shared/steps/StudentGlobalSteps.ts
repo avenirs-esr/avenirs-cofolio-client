@@ -22,21 +22,6 @@ class StudentGlobalSteps extends BasePage {
     await expect(this.page).toHaveURL(STUDENT_ROUTES.HOME)
   }
 
-  @Then('the page navigates to events page')
-  async verifyNavigationToEventsPage () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.EVENTS)
-  }
-
-  @Then('the page navigates to resumes page')
-  async verifyNavigationToResumesPage () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.TOOLS.RESUMES)
-  }
-
-  @Then('the page navigates to pages page')
-  async verifyNavigationToPagesPage () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.TOOLS.PAGES)
-  }
-
   @Given('the student opens the home page')
   async goToHomePage () {
     await this.page.goto(STUDENT_ROUTES.HOME)
@@ -46,16 +31,6 @@ class StudentGlobalSteps extends BasePage {
   @Then('the page navigates to skill detail page')
   async verifyNavigationToSkillDetailPage () {
     await expect(this.page).toHaveURL(new RegExp(`${STUDENT_ROUTES.SKILL_DETAIL}.+`))
-  }
-
-  @Then('the page navigates to skills page')
-  async verifyNavigationToSkillsPage () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.EDUCATION.SKILLS)
-  }
-
-  @Then('the page navigates to deliverables page')
-  async verifyNavigationToDeliverablesPage () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.DELIVERABLES)
   }
 
   @Then('the page navigates to traces page')
@@ -170,6 +145,16 @@ class StudentGlobalSteps extends BasePage {
   @Then('the student project activities page is displayed')
   async verifyNavigationToActivitiesPage () {
     await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.ACTIVITIES)
+  }
+
+  @Then('the student project activities page is displayed on library tab')
+  async verifyNavigationToActivitiesPageOnLibraryTab () {
+    await expect(this.page).toHaveURL(new RegExp(`${STUDENT_ROUTES.PROJECT.ACTIVITIES}.+`))
+  }
+
+  @Then('the activity details page is displayed')
+  async verifyNavigationToHomeActivityDetailsPage () {
+    await expect(this.page).toHaveURL(new RegExp(`${STUDENT_ROUTES.ACTIVITY}.+`))
   }
 
   @Given('the student opens the project personal career experiences page')

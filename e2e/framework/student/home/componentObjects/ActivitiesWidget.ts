@@ -3,9 +3,12 @@ import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { expect, type Page } from '@playwright/test'
 
-export class TracesWidget extends BaseObject {
-  constructor (protected page: Page) {
-    super(page.getByTestId('student-traces-widget'), page)
+export class ActivitiesWidget extends BaseObject {
+  private isNew: boolean
+
+  constructor (protected page: Page, isNew = false) {
+    super(page.getByTestId(`${isNew ? 'new' : 'library'}-activities-widget`), page)
+    this.isNew = isNew
   }
 
   getTitle () {
@@ -13,7 +16,7 @@ export class TracesWidget extends BaseObject {
   }
 
   getCards () {
-    return this.page.getByTestId('trace-long-icon-card')
+    return this.page.getByTestId('activity-long-icon-card')
   }
 
   getSeeAllButton () {
@@ -27,22 +30,22 @@ export class TracesWidget extends BaseObject {
   async verifyVisible () {
     await this.isVisible()
     await expect(this.getTitle()).toBeVisible()
-    await expect(this.getTitle()).toHaveText(t('student.traces.cards.TracesWidget.title'))
+    await expect(this.getTitle()).toHaveText(t(`student.global.views.studentHomeView.widgets.ActivitiesWidget.title.${this.isNew ? 'new' : 'library'}`))
   }
 
-  async verfifyHasTraces () {
+  async verifyHasActivities () {
     const count = await this.countCards()
     expect(count).toBeGreaterThan(0)
   }
 
   async verifySeeAllButton () {
     await expect(this.getSeeAllButton()).toBeVisible()
-    await expect(this.getSeeAllButton()).toHaveText(t('student.traces.cards.TracesWidget.buttons.seeAll'))
+    await expect(this.getSeeAllButton()).toHaveText(t(`student.global.views.studentHomeView.widgets.ActivitiesWidget.seeAll.${this.isNew ? 'new' : 'library'}`))
   }
 
-  async verifyTracesWidget () {
+  async verifyActivitiesWidget () {
     await this.verifyVisible()
-    await this.verfifyHasTraces()
+    await this.verifyHasActivities()
     await this.verifySeeAllButton()
   }
 
