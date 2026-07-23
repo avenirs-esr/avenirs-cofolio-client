@@ -9,18 +9,6 @@ import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'
 
-const mockAddErrorMessage = vi.fn()
-
-vi.mock('@/store', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/store')>()
-  return {
-    ...actual,
-    useToasterStore: () => ({
-      addErrorMessage: mockAddErrorMessage
-    })
-  }
-})
-
 BddTest().given('an activities widget', async () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivitiesWidget>>
 

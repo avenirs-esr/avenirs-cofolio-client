@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { UpdateProfileDrawerStub } from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import { ProfileCardStub } from '@/common/components/ProfileCard/ProfileCard.stub'
+import { FeedbacksWidgetStub } from '@/features/staff/global/views/StaffHomeView/components/FeedbacksWidget/FeedbacksWidget.stub'
 import StaffHomeView from '@/features/staff/global/views/StaffHomeView/StaffHomeView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -11,7 +12,8 @@ BddTest().given('a staff home view', () => {
 
   const stubs = {
     ProfileCard: ProfileCardStub,
-    UpdateProfileDrawer: UpdateProfileDrawerStub
+    UpdateProfileDrawer: UpdateProfileDrawerStub,
+    FeedbacksWidget: FeedbacksWidgetStub
   }
 
   BddTest().when('the component is mounted', () => {
@@ -37,6 +39,13 @@ BddTest().given('a staff home view', () => {
       await vi.waitFor(() => {
         const updateProfileDrawer = wrapper.findComponent(UpdateProfileDrawerStub)
         expect(updateProfileDrawer.exists()).toBe(true)
+      })
+    })
+
+    BddTest().then('it should render the FeedbacksWidget component', async () => {
+      await vi.waitFor(() => {
+        const feedbacksWidget = wrapper.findComponent(FeedbacksWidgetStub)
+        expect(feedbacksWidget.exists()).toBe(true)
       })
     })
   })
