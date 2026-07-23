@@ -43,13 +43,13 @@ testRoute(
 )
 
 testRoute(
-  children.find(r => r.name === ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name)!,
-  ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS,
+  children.find(r => r.name === ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name)!,
+  ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK,
   ActivityFeedbackDetailsView
 )
 
 testRoute(
-  children.find(r => r.name === ROUTES.STAFF.STUDENT_FEEDBACKS.name)!,
-  ROUTES.STAFF.STUDENT_FEEDBACKS,
+  children.find(r => r.name === ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS.name)!,
+  ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS,
   FeedbacksView
 )

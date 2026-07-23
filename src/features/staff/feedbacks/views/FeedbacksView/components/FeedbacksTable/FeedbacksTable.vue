@@ -139,7 +139,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
               v-for="feedback in rows"
               :key="feedback.id"
               :to="{
-                name: ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name,
+                name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
                 params: { feedbackId: feedback?.id },
               }"
             >
@@ -194,7 +194,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
                 :icon="MDI_ICONS.ARROW_RIGHT"
                 icon-only
                 :to="{
-                  name: ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name,
+                  name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
                   params: { feedbackId: row.id },
                 }"
                 data-testid="access-button"

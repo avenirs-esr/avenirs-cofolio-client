@@ -9,7 +9,7 @@ Feature: Staff Feedbacks Page
     @high
     Scenario: Staff can load feedbacks page successfully
       Then the staff feedbacks page is displayed
-      And the URL contains "/student-feedbacks"
+      And the URL contains "/student-tracking/feedbacks"
 
     @high
     Scenario: The page title is visible

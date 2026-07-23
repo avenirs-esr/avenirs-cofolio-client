@@ -18,7 +18,14 @@ const breadcrumbLinks = computed(() => [
 
 const staffFeedbacksStore = useStaffFeedbacksStore()
 
-const { newFeedbacks, unprocessedFeedbacks, sentFeedbacks, totalFeedbacks, selectedStatus, onStatusSelected } = useFeedbackStatusPicker({
+const {
+  newFeedbacks,
+  unprocessedFeedbacks,
+  sentFeedbacks,
+  totalFeedbacks,
+  selectedStatus,
+  onStatusSelected
+} = useFeedbackStatusPicker({
   onReset: () => { staffFeedbacksStore.feedbacksCurrentPage = 0 },
 })
 

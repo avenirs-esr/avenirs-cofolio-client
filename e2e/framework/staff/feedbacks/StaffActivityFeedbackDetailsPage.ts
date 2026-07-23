@@ -43,7 +43,7 @@ export class StaffActivityFeedbackDetailsPage extends BasePage {
 
   @Then('the staff activity feedback details page is displayed')
   async verifyPageLoaded () {
-    const expectedPattern = STAFF_ROUTES.ACTIVITY_FEEDBACK_DETAILS
+    const expectedPattern = STAFF_ROUTES.STUDENT_TRACKING.ACTIVITY_FEEDBACK
       .replace(':feedbackId', '[^/]+')
 
     await expect(this.page).toHaveURL(new RegExp(expectedPattern))

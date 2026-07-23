@@ -400,7 +400,7 @@ BddTest().given('a useNavigation composable', () => {
       navigateToStaffActivityFeedbackDetails({ feedbackId: 'fb-456' })
 
       expect(pushMock).toHaveBeenCalledWith({
-        name: ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name,
+        name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
         params: { feedbackId: 'fb-456' },
       })
     })

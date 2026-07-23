@@ -142,7 +142,7 @@ export function useNavigation () {
   const navigateToStaffActivityFeedbackDetails = ({ feedbackId }: { feedbackId: string }
   ): Promise<NavigationFailure | void | undefined> => {
     return navigate({
-      name: ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name,
+      name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
       params: { feedbackId },
     })
   }

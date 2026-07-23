@@ -58,7 +58,7 @@ BddTest().given('an ActivityFeedbackNotificationCard', () => {
       expect(card.props('seen')).toBe(mockedNotification.seen)
       expect(card.props('createdAt')).toBe(mockedNotification.createdAt)
       expect(card.props('to')).toEqual({
-        name: ROUTES.STAFF.ACTIVITY_FEEDBACK_DETAILS.name,
+        name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
         params: { feedbackId: mockedNotification.elementId },
       })
     })

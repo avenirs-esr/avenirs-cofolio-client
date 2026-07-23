@@ -13,11 +13,14 @@ export const ROUTES = {
     ACTIVITY_CATALOG: { name: 'staff-activity-catalog', path: 'activities/:status/:id' },
     ACTIVITY_FEEDBACKS: { name: 'staff-activity-feedbacks', path: 'activities/:id/feedbacks' },
     COOKIES: { name: 'staff-cookies', path: 'cookies' },
+    ACTIVITY_FEEDBACK: { name: 'staff-activity-feedback', path: 'activity-feedback/:feedbackId' },
     HOME: { name: 'staff-home', path: '' },
     LEGAL: { name: 'staff-legal', path: 'legal' },
     PERSONAL_DATA: { name: 'staff-personal-data', path: 'personal-data' },
-    ACTIVITY_FEEDBACK_DETAILS: { name: 'staff-activity-feedback-details', path: 'activity-feedbacks/:feedbackId' },
-    STUDENT_FEEDBACKS: { name: 'staff-student-feedbacks', path: 'student-feedbacks' }
+    STUDENT_TRACKING: {
+      ACTIVITY_FEEDBACK: { name: 'staff-student-tracking-activity-feedback', path: 'student-tracking/activity-feedbacks/:feedbackId' },
+      FEEDBACKS: { name: 'staff-student-tracking-feedbacks', path: 'student-tracking/feedbacks' }
+    }
   },
   STUDENT: {
     ABOUT: { name: 'student-about', path: 'about' },

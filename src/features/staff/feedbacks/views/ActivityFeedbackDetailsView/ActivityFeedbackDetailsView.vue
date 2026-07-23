@@ -24,6 +24,7 @@ export interface ActivityFeedbackDetailsViewProps {
 const { feedbackId } = defineProps<ActivityFeedbackDetailsViewProps>()
 
 const { t } = useI18n()
+const route = useRoute()
 
 const selectedStudent = ref<AvSelectSelectedOption>({
   itemId: feedbackId ?? '',
@@ -61,12 +62,24 @@ const studentPerspective = computed(() =>
   feedback.value?.reflexion ?? ''
 )
 
-const breadcrumbLinks = computed(() => [
+const isStudentTrackingRoute = computed(() => route.name === ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name)
+
+const homeBreadcrumbLinks = computed(() => [
   { text: t('staff.global.navigation.tabs.home'), to: ROUTES.STAFF.HOME },
-  { text: t('staff.global.navigation.tabs.studentTracking') },
-  { text: t('staff.global.navigation.tabs.studentFeedbacks'), to: ROUTES.STAFF.STUDENT_FEEDBACKS },
+  { text: t('staff.global.navigation.tabs.studentFeedbacks') },
   { text: activityTitle.value },
 ])
+
+const studentTrackingBreadcrumbLinks = computed(() => [
+  { text: t('staff.global.navigation.tabs.home'), to: ROUTES.STAFF.HOME },
+  { text: t('staff.global.navigation.tabs.studentTracking') },
+  { text: t('staff.global.navigation.tabs.studentFeedbacks'), to: ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS },
+  { text: activityTitle.value },
+])
+
+const breadcrumbLinks = computed(() => isStudentTrackingRoute.value
+  ? studentTrackingBreadcrumbLinks.value
+  : homeBreadcrumbLinks.value)
 
 const pageTitle = computed(() =>
   t('staff.feedbacks.views.ActivityFeedbackDetailsView.title', {
