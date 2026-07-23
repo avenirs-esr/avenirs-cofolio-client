@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { UpdateProfileDrawerStub } from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import { ProfileCardStub } from '@/common/components/ProfileCard/ProfileCard.stub'
+import { ActivitiesWidgetStub } from '@/features/staff/global/views/StaffHomeView/components/ActivitiesWidget/ActivitiesWidget.stub'
 import { FeedbacksWidgetStub } from '@/features/staff/global/views/StaffHomeView/components/FeedbacksWidget/FeedbacksWidget.stub'
 import StaffHomeView from '@/features/staff/global/views/StaffHomeView/StaffHomeView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -13,7 +14,8 @@ BddTest().given('a staff home view', () => {
   const stubs = {
     ProfileCard: ProfileCardStub,
     UpdateProfileDrawer: UpdateProfileDrawerStub,
-    FeedbacksWidget: FeedbacksWidgetStub
+    FeedbacksWidget: FeedbacksWidgetStub,
+    ActivitiesWidget: ActivitiesWidgetStub,
   }
 
   BddTest().when('the component is mounted', () => {
@@ -46,6 +48,13 @@ BddTest().given('a staff home view', () => {
       await vi.waitFor(() => {
         const feedbacksWidget = wrapper.findComponent(FeedbacksWidgetStub)
         expect(feedbacksWidget.exists()).toBe(true)
+      })
+    })
+
+    BddTest().then('it should render two ActivitiesWidget components', async () => {
+      await vi.waitFor(() => {
+        const activitiesWidgets = wrapper.findAllComponents(ActivitiesWidgetStub)
+        expect(activitiesWidgets).toHaveLength(2)
       })
     })
   })

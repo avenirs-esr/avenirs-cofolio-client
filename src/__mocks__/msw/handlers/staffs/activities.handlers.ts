@@ -59,6 +59,18 @@ export const getPublishedActivityContentErrorHandler = http.get(`*${getGetActivi
   )
 })
 
+export const getStaffActivityWorkingSpaceOverviewHandler = http.get(`*${getGetStaffActivityWorkingSpaceUrl()}`, ({ request }) => {
+  const url = new URL(request.url)
+  const status = url.searchParams.get('status') as EActivityStatus | null
+
+  const mockData = createMockedPagedResponseActivityStaffOverviewDTO(3, 3, 0, status)
+
+  return HttpResponse.json<PagedResponseActivityStaffOverviewDTO>(mockData, {
+    status: HttpStatusCode.OK,
+    headers: { 'Content-Type': 'application/json' },
+  })
+})
+
 export const getStaffActivityWorkingSpaceErrorHandler = http.get(`*${getGetStaffActivityWorkingSpaceUrl()}`, () => {
   return HttpResponse.json(
     { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },

@@ -136,7 +136,7 @@ export const mockedActivityDraftUpdateResponse: ActivityDraftUpdateResponse = {
   draftId: '5046ec1c-c8f3-4d06-abf3-71ba4a73643c',
 }
 
-const allStaffActivities: ActivityStaffOverviewDTO[] = [
+export const allStaffActivities: ActivityStaffOverviewDTO[] = [
   {
     activityId: ACTIVITY_WITH_FILE_AND_LINK_ID,
     title: 'Activité "Connaissance de soi" : Définir ses valeurs',
@@ -198,12 +198,15 @@ const allStaffActivities: ActivityStaffOverviewDTO[] = [
 export function createMockedPagedResponseActivityStaffOverviewDTO (
   pageSize: number,
   totalElements: number,
-  page: number
+  page: number,
+  status?: EActivityStatus | null
 ): PagedResponseActivityStaffOverviewDTO {
   const actualTotalElements = Math.min(totalElements, allStaffActivities.length)
   const start = page * pageSize
   const end = start + pageSize
-  const paginatedActivities = allStaffActivities.slice(start, end)
+  const paginatedActivities = allStaffActivities.slice(start, end).map((activity) => {
+    return status ? { ...activity, activityStatus: status } : activity
+  })
   const totalPages = Math.ceil(actualTotalElements / pageSize)
 
   return {

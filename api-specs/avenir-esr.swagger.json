@@ -3793,6 +3793,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/EActivityStatus"
+            }
           }
         ],
         "responses": {
