@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import ValorizedBadge from '@/common/components/ValorizedBadge/ValorizedBadge.vue'
+import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 

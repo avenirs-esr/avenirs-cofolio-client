@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { EnabledDisabledStatusBadgeStub } from '@/common/components/badges/EnabledDisabledStatusBadge/EnabledDisabledStatusBadge.stub'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
-import { EnabledDisabledStatusBadgeStub } from '@/common/components/EnabledDisabledStatusBadge/EnabledDisabledStatusBadge.stub'
 import { ICONS } from '@/common/constants'
 import {
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED,
