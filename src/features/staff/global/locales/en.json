@@ -32,6 +32,14 @@
         "StaffHomeView": {
           "buttons": {
             "editProfile": "Edit profile"
+          },
+          "widgets": {
+            "FeedbacksWidget": {
+              "emptyState": "You have no feedback requests to process at the moment.",
+              "error": "An error occurred while retrieving your feedback requests.",
+              "seeAll": "See all my feedback requests",
+              "title": "My latest feedback requests"
+            }
           }
         }
       }
