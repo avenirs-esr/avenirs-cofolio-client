@@ -34,6 +34,24 @@
             "editProfile": "Edit profile"
           },
           "widgets": {
+            "ActivitiesWidget": {
+              "emptyState": {
+                "draft": "You have no modified activities at the moment.",
+                "published": "You have no published activities at the moment."
+              },
+              "errorState": {
+                "draft": "An error occurred while retrieving your modified activities.",
+                "published": "An error occurred while retrieving your published activities."
+              },
+              "seeAll": {
+                "draft": "See all my modified activities",
+                "published": "See all my published activities"
+              },
+              "title": {
+                "draft": "My latest modified activities",
+                "published": "My latest published activities"
+              }
+            },
             "FeedbacksWidget": {
               "emptyState": "You have no feedback requests to process at the moment.",
               "error": "An error occurred while retrieving your feedback requests.",

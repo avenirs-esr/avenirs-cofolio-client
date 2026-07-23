@@ -3,6 +3,7 @@ import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { useDrawer } from '@/common/composables/use-drawer/use-drawer'
+import ActivitiesWidget from '@/features/staff/global/views/StaffHomeView/components/ActivitiesWidget/ActivitiesWidget.vue'
 import FeedbacksWidget from '@/features/staff/global/views/StaffHomeView/components/FeedbacksWidget/FeedbacksWidget.vue'
 import { AvRichButton, MDI_ICONS, useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -50,6 +51,8 @@ const { data: staffSummary } = useGetProfile(EUserCategory.STAFF)
     </div>
     <div class="layout-home__main av-col av-gap-xl">
       <FeedbacksWidget />
+      <ActivitiesWidget is-draft />
+      <ActivitiesWidget />
     </div>
   </div>
 

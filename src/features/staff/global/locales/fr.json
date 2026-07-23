@@ -34,6 +34,24 @@
             "editProfile": "Modifier mon profil"
           },
           "widgets": {
+            "ActivitiesWidget": {
+              "emptyState": {
+                "draft": "Vous n’avez aucune activité modifiée pour le moment.",
+                "published": "Vous n’avez aucune activité publiée pour le moment."
+              },
+              "errorState": {
+                "draft": "Une erreur est survenue lors de la récupération de vos activités modifiées.",
+                "published": "Une erreur est survenue lors de la récupération de vos activités publiées."
+              },
+              "seeAll": {
+                "draft": "Voir toutes mes activités modifiées",
+                "published": "Voir toutes mes activités publiées"
+              },
+              "title": {
+                "draft": "Mes dernières activités modifiées",
+                "published": "Mes dernières activités publiées"
+              }
+            },
             "FeedbacksWidget": {
               "emptyState": "Vous n’avez aucune demande de feedback à traiter pour le moment.",
               "error": "Une erreur est survenue lors de la récupération de vos demandes de feedback.",
