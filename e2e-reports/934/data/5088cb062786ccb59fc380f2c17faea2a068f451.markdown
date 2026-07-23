@@ -131,7 +131,7 @@ Call Log:
                   - cell "16 janvier 2024 à 11:00" [ref=e144]
                   - cell "Accéder" [ref=e145]:
                     - link "Accéder" [ref=e148] [cursor=pointer]:
-                      - /url: /cofolio/staff/student-tracking/activity-feedback/feedback-1
+                      - /url: /cofolio/staff/student-tracking/activity-feedbacks/feedback-1
                 - row "Lucas Tessier Activité de test 15/01/2024 16 janvier 2024 à 11:00 Accéder" [ref=e151]:
                   - cell "Lucas Tessier" [ref=e152]
                   - cell "Activité de test" [ref=e153]
@@ -145,7 +145,7 @@ Call Log:
                   - cell "16 janvier 2024 à 11:00" [ref=e161]
                   - cell "Accéder" [ref=e162]:
                     - link "Accéder" [ref=e165] [cursor=pointer]:
-                      - /url: /cofolio/staff/student-tracking/activity-feedback/feedback-2
+                      - /url: /cofolio/staff/student-tracking/activity-feedbacks/feedback-2
                 - row "Lucas Tessier Activité de test 15/01/2024 16 janvier 2024 à 11:00 Accéder" [ref=e168]:
                   - cell "Lucas Tessier" [ref=e169]
                   - cell "Activité de test" [ref=e170]
@@ -159,7 +159,7 @@ Call Log:
                   - cell "16 janvier 2024 à 11:00" [ref=e178]
                   - cell "Accéder" [ref=e179]:
                     - link "Accéder" [ref=e182] [cursor=pointer]:
-                      - /url: /cofolio/staff/student-tracking/activity-feedback/feedback-3
+                      - /url: /cofolio/staff/student-tracking/activity-feedbacks/feedback-3
                 - row "Lucas Tessier Activité de test 15/01/2024 16 janvier 2024 à 11:00 Accéder" [ref=e185]:
                   - cell "Lucas Tessier" [ref=e186]
                   - cell "Activité de test" [ref=e187]
@@ -173,7 +173,7 @@ Call Log:
                   - cell "16 janvier 2024 à 11:00" [ref=e195]
                   - cell "Accéder" [ref=e196]:
                     - link "Accéder" [ref=e199] [cursor=pointer]:
-                      - /url: /cofolio/staff/student-tracking/activity-feedback/feedback-submitted
+                      - /url: /cofolio/staff/student-tracking/activity-feedbacks/feedback-submitted
           - navigation "Pagination basse" [ref=e203]:
             - list [ref=e204]:
               - listitem [ref=e205]:

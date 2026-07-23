@@ -1,0 +1,272 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/staff/feedbacks/feedbackDetails.feature.spec.js >> Staff Activity Feedback Details Page >> Page Load and Basic Display >> Staff can load activity feedback details page successfully
+- Location: .features-gen/tests/staff/feedbacks/feedbackDetails.feature.spec.js:13:5
+
+# Error details
+
+```
+Error: expect(page).toHaveURL(expected) failed
+
+Expected pattern: /\/cofolio\/staff\/student-tracking\/activity-feedback\/[^/]+/
+Received string:  "http://localhost:4173/cofolio/staff/student-tracking/activity-feedbacks/feedback-1"
+Timeout: 10000ms
+
+Call log:
+  - Expect "toHaveURL" with timeout 10000ms
+    23 × unexpected value "http://localhost:4173/cofolio/staff/student-tracking/activity-feedbacks/feedback-1"
+
+```
+
+```yaml
+- banner:
+  - link "Accueil - Cofolio Staff":
+    - /url: /cofolio/staff
+    - img
+  - button "Changer d'univers"
+  - list:
+    - listitem:
+      - button "Notifications (10)"
+    - listitem:
+      - button "M. dupont"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/staff
+      - listitem:
+        - link "BIBLIOTHÈQUE DES ACTIVITÉS":
+          - /url: /cofolio/staff/activities
+      - listitem:
+        - button "SUIVI DES APPRENANTS"
+- main:
+  - navigation "Fil d'Ariane":
+    - list:
+      - listitem:
+        - link "Accueil":
+          - /url: /cofolio/staff
+      - listitem: Suivi des apprenants
+      - listitem:
+        - link "Toutes mes demandes de feedback":
+          - /url: /cofolio/staff/student-tracking/feedbacks
+      - listitem: Activité de test
+  - heading "Toutes mes demandes de feedback (0) sur l'activité \"Activité de test\"" [level=1]
+  - combobox
+  - status
+  - text: Sa prise de recul
+  - button "Réduire" [expanded]
+  - text: Récapitulatif des éléments associés (2)
+  - button "Collapse card" [expanded]
+  - status: Trace
+  - text: Développement d'un ePortfolio
+  - button "Télécharger"
+  - button "Expand card"
+  - status: Compétence
+  - text: Ma super compétence complémentaire
+  - button "Expand card"
+  - region "Gestion du feedback":
+    - text: Gestion du feedback Activité de test
+    - button "Expand panel"
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/staff/accessibility
+    - listitem:
+      - link "Mentions légales":
+        - /url: /cofolio/staff/legal
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/staff/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/staff/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1   | import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+  2   | import { BasePage } from '@e2e/framework/shared/base/BasePage'
+  3   | import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
+  4   | import { WritingFeedbackFloatingPanel } from '@e2e/framework/staff/feedbacks/componentObjects/WritingFeedbackFloatingPanel'
+  5   | import { expect, type Page } from '@playwright/test'
+  6   | import { Fixture, Then, When } from 'playwright-bdd/decorators'
+  7   | 
+  8   | @Fixture<typeof test>('staffActivityFeedbackDetailsPage')
+  9   | export class StaffActivityFeedbackDetailsPage extends BasePage {
+  10  |   constructor (public page: Page) {
+  11  |     super(page)
+  12  |   }
+  13  | 
+  14  |   private getStudentFeedbackSelect () {
+  15  |     return this.page.getByTestId('student-feedback-select')
+  16  |   }
+  17  | 
+  18  |   private getStudentPerspectiveCard () {
+  19  |     return this.page.getByTestId('student-perspective-card')
+  20  |   }
+  21  | 
+  22  |   private getStudentPerspectiveCardExpanded () {
+  23  |     return this.page.locator('[data-testid="student-perspective-card"][data-collapsed="false"]')
+  24  |   }
+  25  | 
+  26  |   private getFeedbackAssociatedElementsCard () {
+  27  |     return this.page.getByTestId('feedback-associated-elements-card')
+  28  |   }
+  29  | 
+  30  |   private getFeedbackAssociatedElementsCardExpanded () {
+  31  |     return this.page.locator('[data-testid="feedback-associated-elements-card"][data-collapsed="false"]')
+  32  |   }
+  33  | 
+  34  |   private getAssociatedElementCard () {
+  35  |     return this.page.getByTestId('associated-element-card').first()
+  36  |   }
+  37  | 
+  38  |   private getWritingFeedbackFloatingPanel () {
+  39  |     return new WritingFeedbackFloatingPanel(
+  40  |       this.page.getByTestId('writing-feedback-floating-panel'),
+  41  |     )
+  42  |   }
+  43  | 
+  44  |   @Then('the staff activity feedback details page is displayed')
+  45  |   async verifyPageLoaded () {
+  46  |     const expectedPattern = STAFF_ROUTES.STUDENT_TRACKING.ACTIVITY_FEEDBACK
+  47  |       .replace(':feedbackId', '[^/]+')
+  48  | 
+> 49  |     await expect(this.page).toHaveURL(new RegExp(expectedPattern))
+      |                             ^ Error: expect(page).toHaveURL(expected) failed
+  50  |   }
+  51  | 
+  52  |   @Then('the student feedback select is visible')
+  53  |   async verifyStudentFeedbackSelectVisible () {
+  54  |     await expect(this.getStudentFeedbackSelect()).toBeVisible()
+  55  |   }
+  56  | 
+  57  |   @Then('the student perspective card is visible')
+  58  |   async verifyStudentPerspectiveCardVisible () {
+  59  |     await expect(this.getStudentPerspectiveCard()).toBeVisible()
+  60  |   }
+  61  | 
+  62  |   @Then('the student perspective card is expanded by default')
+  63  |   async verifyStudentPerspectiveCardExpandedByDefault () {
+  64  |     await expect(this.getStudentPerspectiveCardExpanded()).toBeVisible()
+  65  |   }
+  66  | 
+  67  |   @Then('the feedback associated elements card is visible')
+  68  |   async verifyFeedbackAssociatedElementsCardVisible () {
+  69  |     await expect(this.getFeedbackAssociatedElementsCard()).toBeVisible()
+  70  |   }
+  71  | 
+  72  |   @Then('the feedback associated elements card is expanded by default')
+  73  |   async verifyFeedbackAssociatedElementsCardExpandedByDefault () {
+  74  |     await expect(this.getFeedbackAssociatedElementsCardExpanded()).toBeVisible()
+  75  |   }
+  76  | 
+  77  |   @Then('the feedback associated elements card contains at least one element')
+  78  |   async verifyAssociatedElementCardPresent () {
+  79  |     await expect(this.getAssociatedElementCard()).toBeVisible()
+  80  |   }
+  81  | 
+  82  |   @Then('the writing feedback floating panel is visible')
+  83  |   async verifyWritingFeedbackFloatingPanelVisible () {
+  84  |     await this.getWritingFeedbackFloatingPanel().verifyPanelVisible()
+  85  |   }
+  86  | 
+  87  |   @When('the staff expands the writing feedback floating panel')
+  88  |   async expandWritingFeedbackFloatingPanel () {
+  89  |     await this.getWritingFeedbackFloatingPanel().clickExpandButton()
+  90  |   }
+  91  | 
+  92  |   @Then('the writing feedback floating panel is expanded')
+  93  |   async verifyWritingFeedbackFloatingPanelExpanded () {
+  94  |     await this.getWritingFeedbackFloatingPanel().verifyPanelExpanded()
+  95  |   }
+  96  | 
+  97  |   @Then('the writing feedback tab is visible in the expanded floating panel')
+  98  |   async verifyWritingFeedbackTabVisible () {
+  99  |     await this.getWritingFeedbackFloatingPanel().verifyWriteFeedbackTab()
+  100 |   }
+  101 | 
+  102 |   @When('the staff cancels writing feedback in the floating panel')
+  103 |   async cancelWritingFeedback () {
+  104 |     await this.getWritingFeedbackFloatingPanel().clickCollapseButton()
+  105 |   }
+  106 | 
+  107 |   @Then('the writing feedback floating panel is collapsed')
+  108 |   async verifyWritingFeedbackFloatingPanelCollapsed () {
+  109 |     await this.getWritingFeedbackFloatingPanel().verifyPanelCollapsed()
+  110 |   }
+  111 | 
+  112 |   @When('the staff clicks on the history tab')
+  113 |   async clickHistoryTab () {
+  114 |     await this.getWritingFeedbackFloatingPanel().clickHistoryTab()
+  115 |   }
+  116 | 
+  117 |   @Then('the feedbacks history tab is visible')
+  118 |   async verifyFeedbacksHistoryTabVisible () {
+  119 |     await this.getWritingFeedbackFloatingPanel().verifyHistoryTabVisible()
+  120 |   }
+  121 | 
+  122 |   @Then('the feedbacks history tab contains at least one feedback history card')
+  123 |   async verifyFeedbacksHistoryTabContainsCards () {
+  124 |     await this.getWritingFeedbackFloatingPanel().verifyHistoryTabContainsAtLeastOneCard()
+  125 |   }
+  126 | 
+  127 |   @Then('the first feedback history card is collapsed')
+  128 |   async verifyFirstFeedbackHistoryCardCollapsed () {
+  129 |     await this.getWritingFeedbackFloatingPanel().verifyHistoryTabFirstCardCollapsed()
+  130 |   }
+  131 | 
+  132 |   @When('the staff expands the first feedback history card')
+  133 |   async expandFirstFeedbackHistoryCard () {
+  134 |     await this.getWritingFeedbackFloatingPanel().expandHistoryTabFirstCard()
+  135 |   }
+  136 | 
+  137 |   @Then('the first feedback history card collapsed state is visible')
+  138 |   async verifyFirstFeedbackHistoryCardCollapsedStateVisible () {
+  139 |     await this.getWritingFeedbackFloatingPanel().verifyHistoryTabFirstCardCollapsedStateVisible()
+  140 |   }
+  141 | 
+  142 |   @Then('the first feedback history card expanded state is visible')
+  143 |   async verifyFirstFeedbackHistoryCardExpandedStateVisible () {
+  144 |     await this.getWritingFeedbackFloatingPanel().verifyHistoryTabFirstCardExpandedStateVisible()
+  145 |   }
+  146 | 
+  147 |   @Then('the feedbacks history tab displays feedbacks in anti-chronological order')
+  148 |   async verifyFeedbacksHistoryAntiChronologicalOrder () {
+  149 |     await this.getWritingFeedbackFloatingPanel().verifyHistoryTabAntiChronologicalOrder()
+```
