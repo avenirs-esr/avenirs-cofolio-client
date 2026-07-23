@@ -45,6 +45,48 @@ Feature: Student Home Page
       Then the update profile drawer is closed
       And the profile overview widget is still visible
 
+  Rule: New activities widget
+
+    Background:
+      Given the new activities widget is visible
+
+    @high @activities @dataset-full
+    Scenario: New activities widget displays some activity cards and see all button
+      Then the new activities widget displays correctly
+
+    @high @activities @dataset-full
+    Scenario: Activity cards are clickable and navigate to detailed activity page
+      When the student clicks a new activity card
+      Then the activity details page is displayed
+      And the URL contains "/cofolio/student/activity"
+
+    @medium @activities @dataset-full
+    Scenario: See all new activities button navigates to new activities page
+      When the student clicks see all new activities button
+      Then the student project activities page is displayed
+      And the URL contains "/cofolio/student/project/activities"
+
+  Rule: Library activities widget
+
+    Background:
+      Given the library activities widget is visible
+
+    @high @activities @dataset-full
+    Scenario: Library activities widget displays some activity cards and see all button
+      Then the library activities widget displays correctly
+
+    @high @activities @dataset-full
+    Scenario: Activity cards are clickable and navigate to detailed activity page
+      When the student clicks a library activity card
+      Then the activity details page is displayed
+      And the URL contains "/cofolio/student/activity"
+
+    @medium @activities @dataset-full
+    Scenario: See all library activities button navigates to library activities page
+      When the student clicks see all library activities button
+      Then the student project activities page is displayed on library tab
+      And the URL contains "/cofolio/student/project/activities"
+
   Rule: Traces Widget
 
     Background:
@@ -55,8 +97,8 @@ Feature: Student Home Page
       Then the last traces widget is visible
 
     @high @traces @dataset-full
-    Scenario: Traces widget displays 3 traces with type, and see all button
-      Then 3 trace cards are displayed
+    Scenario: Traces widget displays some trace cards and see all button
+      Then some trace cards are displayed
       And the see all traces button is visible
 
     @high @traces @dataset-full

@@ -11,6 +11,7 @@ export const STAFF_ROUTES = {
 }
 
 export const STUDENT_ROUTES = {
+  ACTIVITY: '/cofolio/student/activity/',
   DELIVERABLES: '/cofolio/student/deliverables',
   EDUCATION: {
     SKILL_DETAIL: '/cofolio/student/education/skill/',

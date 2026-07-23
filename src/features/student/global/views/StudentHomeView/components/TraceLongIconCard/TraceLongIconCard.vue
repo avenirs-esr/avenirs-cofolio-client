@@ -18,6 +18,7 @@ defineProps<TraceLongIconCardProps>()
     :icon="{ name: ICONS.TRACES, color: 'var(--text1)' }"
     icon-background-color="var(--light-background-neutral)"
     :to="{ name: ROUTES.STUDENT.TRACE.name, params: { id: trace.id } }"
+    data-testid="trace-long-icon-card"
   >
     <div class="av-row av-gap-sm">
       <TraceAuthorTypeBadge :author-type="trace.authorType" />
