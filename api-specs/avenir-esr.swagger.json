@@ -4802,6 +4802,9 @@
             "type": "string",
             "maxLength": 4000,
             "minLength": 0
+          },
+          "valorized": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -4848,6 +4851,9 @@
           },
           "reflection": {
             "type": "string"
+          },
+          "valorized": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -4855,7 +4861,8 @@
           "level",
           "pathSegments",
           "title",
-          "type"
+          "type",
+          "valorized"
         ]
       },
       "DeclaredProgramRequestDTO": {
@@ -6896,6 +6903,9 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "valorized": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -6906,7 +6916,8 @@
           "title",
           "traceAssociations",
           "type",
-          "updatedAt"
+          "updatedAt",
+          "valorized"
         ]
       },
       "PagedResponseDeclaredProgramViewDTO": {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DeclaredSkillProgressDetailsDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails } from '@/common/components'
+import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
 import DeclaredSkillLevelBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillLevelBadge/DeclaredSkillLevelBadge.vue'
 import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.vue'
@@ -15,7 +16,7 @@ export interface DeclaredSkillDetailsProps {
 }
 
 const { declaredSkillProgressDetails } = defineProps<DeclaredSkillDetailsProps>()
-const { title, reflection, type, pathSegments, level, createdAt, updatedAt } = declaredSkillProgressDetails
+const { title, reflection, type, pathSegments, level, createdAt, updatedAt, valorized } = declaredSkillProgressDetails
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
 
@@ -34,6 +35,9 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
       class="layout-declared-skill-details__main av-col av-gap-md"
       data-testid="layout-declared-skill-details__main"
     >
+      <ValorizedBadge
+        :valorized="valorized"
+      />
       <AvInput
         :label="t('student.declaredSkills.views.StudentDeclaredSkillView.declaredSkillDetails.skillTitle')"
         label-class="caption-regular"

@@ -79,7 +79,7 @@ export const mockedFeedbackDetailsWithAssociations: FeedbackDetailsDTO = {
   associatedTraces: [mockedTraceDetailedWithFile],
   associatedDeclaredSkills: [createMockedDeclaredSkillProgressDTO()],
   createdAt: '2024-01-15T10:00:00Z',
-  updatedAt: '2024-01-16T10:00:00Z',
+  updatedAt: '2024-01-16T10:00:00Z'
 }
 
 export const mockedFeedbackDetailsWithoutAssociations: FeedbackDetailsDTO = {
