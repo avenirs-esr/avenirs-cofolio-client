@@ -4,6 +4,9 @@ import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { NotificationsDropdown } from '@e2e/framework/shared/componentObjects/NotificationsDropdown'
 import { UserProfileDropdown } from '@e2e/framework/shared/componentObjects/UserProfileDropdown'
 import { t } from '@e2e/framework/shared/utils/i18n'
+import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+import { ActivitiesWidget } from '@e2e/framework/staff/home/componentObjects/ActivitiesWidget'
+import { FeedbacksWidget } from '@e2e/framework/staff/home/componentObjects/FeedbacksWidget'
 import { StaffOverviewWidget } from '@e2e/framework/staff/home/componentObjects/StaffOverviewWidget'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
@@ -17,10 +20,26 @@ export class StaffHomePage extends BasePage {
     return new StaffOverviewWidget(this.page)
   }
 
+  getFeedbacksWidget () {
+    return new FeedbacksWidget(this.page)
+  }
+
+  getDraftActivitiesWidget () {
+    return new ActivitiesWidget(this.page, true)
+  }
+
+  getPublishedActivitiesWidget () {
+    return new ActivitiesWidget(this.page, false)
+  }
+
+  // TODO: La gestion du dropdown ne doit pas être dans StaffHomePage.
+  // C'est un composant du layout global au staff, il devrait être dans StaffLayout
   getStaffProfileDropdown () {
     return new UserProfileDropdown(this.page)
   }
 
+  // TODO: La gestion des notifications ne doit pas être dans StaffHomePage.
+  // C'est un composant du layout global au staff, il devrait être dans StaffLayout
   getStaffNotificationsDropdown () {
     return new NotificationsDropdown(this.page)
   }
@@ -43,6 +62,72 @@ export class StaffHomePage extends BasePage {
   @Then('the staff name is visible')
   async verifyStaffName () {
     await this.getStaffOverviewWidget().verifyStaffName()
+  }
+
+  @Given('the staff feedbacks widget is visible')
+  async verifyStaffFeedbacksWidgetVisible () {
+    await this.getFeedbacksWidget().isVisible()
+  }
+
+  @Then('the feedbacks widget displays correctly')
+  async verifyFeedbacksWidgetDisplaysCorrectly () {
+    await this.getFeedbacksWidget().verifyFeedbacksWidget()
+  }
+
+  @When('the staff clicks a feedback card')
+  async clickFirstFeedbackCard () {
+    await this.getFeedbacksWidget().clickFirstCard()
+    await waitForPageLoad(this.page)
+  }
+
+  @When('the staff clicks see all feedbacks button')
+  async clickSeeAllFeedbacksButton () {
+    await this.getFeedbacksWidget().clickSeeAllButton()
+    await waitForPageLoad(this.page)
+  }
+
+  @Given('the staff draft activities widget is visible')
+  async verifyStaffDraftActivitiesWidgetVisible () {
+    await this.getDraftActivitiesWidget().isVisible()
+  }
+
+  @Then('the draft activities widget displays correctly')
+  async verifyDraftActivitiesWidgetDisplaysCorrectly () {
+    await this.getDraftActivitiesWidget().verifyActivitiesWidget()
+  }
+
+  @When('the staff clicks a draft activity card')
+  async clickFirstDraftActivityCard () {
+    await this.getDraftActivitiesWidget().clickFirstCard()
+    await waitForPageLoad(this.page)
+  }
+
+  @When('the staff clicks see all draft activities button')
+  async clickSeeAllDraftActivitiesButton () {
+    await this.getDraftActivitiesWidget().clickSeeAllButton()
+    await waitForPageLoad(this.page)
+  }
+
+  @Given('the staff published activities widget is visible')
+  async verifyStaffPublishedActivitiesWidgetVisible () {
+    await this.getPublishedActivitiesWidget().isVisible()
+  }
+
+  @Then('the published activities widget displays correctly')
+  async verifyPublishedActivitiesWidgetDisplaysCorrectly () {
+    await this.getPublishedActivitiesWidget().verifyActivitiesWidget()
+  }
+
+  @When('the staff clicks a published activity card')
+  async clickFirstPublishedActivityCard () {
+    await this.getPublishedActivitiesWidget().clickFirstCard()
+    await waitForPageLoad(this.page)
+  }
+
+  @When('the staff clicks see all published activities button')
+  async clickSeeAllPublishedActivitiesButton () {
+    await this.getPublishedActivitiesWidget().clickSeeAllButton()
+    await waitForPageLoad(this.page)
   }
 
   @When('the staff opens the profile dropdown')

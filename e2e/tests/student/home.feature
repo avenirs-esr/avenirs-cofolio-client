@@ -50,17 +50,17 @@ Feature: Student Home Page
     Background:
       Given the new activities widget is visible
 
-    @high @activities @dataset-full
+    @high @new-activities-widget @dataset-full
     Scenario: New activities widget displays some activity cards and see all button
       Then the new activities widget displays correctly
 
-    @high @activities @dataset-full
+    @high @new-activities-widget @dataset-full
     Scenario: Activity cards are clickable and navigate to detailed activity page
       When the student clicks a new activity card
       Then the activity details page is displayed
       And the URL contains "/cofolio/student/activity"
 
-    @medium @activities @dataset-full
+    @medium @new-activities-widget @dataset-full
     Scenario: See all new activities button navigates to new activities page
       When the student clicks see all new activities button
       Then the student project activities page is displayed
@@ -71,17 +71,17 @@ Feature: Student Home Page
     Background:
       Given the library activities widget is visible
 
-    @high @activities @dataset-full
+    @high @library-activities-widget @dataset-full
     Scenario: Library activities widget displays some activity cards and see all button
       Then the library activities widget displays correctly
 
-    @high @activities @dataset-full
+    @high @library-activities-widget @dataset-full
     Scenario: Activity cards are clickable and navigate to detailed activity page
       When the student clicks a library activity card
       Then the activity details page is displayed
       And the URL contains "/cofolio/student/activity"
 
-    @medium @activities @dataset-full
+    @medium @library-activities-widget @dataset-full
     Scenario: See all library activities button navigates to library activities page
       When the student clicks see all library activities button
       Then the student project activities page is displayed on library tab
@@ -92,22 +92,22 @@ Feature: Student Home Page
     Background:
       Given there are traces available
 
-    @high @traces @dataset-full
+    @high @traces-widget @dataset-full
     Scenario: Traces widget is visible
       Then the last traces widget is visible
 
-    @high @traces @dataset-full
+    @high @traces-widget @dataset-full
     Scenario: Traces widget displays some trace cards and see all button
       Then some trace cards are displayed
       And the see all traces button is visible
 
-    @high @traces @dataset-full
+    @high @traces-widget @dataset-full
     Scenario: Trace cards are clickable and navigate to detailed trace page
       When the student clicks a trace card
       Then the page navigates to trace detail page
       And the URL contains "/cofolio/student/trace"
 
-    @medium @traces @dataset-full
+    @medium @traces-widget @dataset-full
     Scenario: See all traces button navigates to traces page
       When the student clicks see all traces button
       Then the page navigates to traces page
@@ -115,7 +115,7 @@ Feature: Student Home Page
 
   Rule: Traces Widget - Empty State
 
-    @high @traces @dataset-empty
+    @high @traces-widget @dataset-empty
     Scenario: Traces widget is visible when student has no traces
       Then the last traces widget is visible
 

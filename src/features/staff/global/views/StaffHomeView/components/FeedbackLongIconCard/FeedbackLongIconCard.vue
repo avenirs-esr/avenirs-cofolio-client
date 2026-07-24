@@ -27,6 +27,7 @@ const description = computed(() => `${feedback.student?.firstName} ${feedback.st
     :icon="{ name: ICONS.FEEDBACK, color: 'var(--dark-background-primary3)' }"
     icon-background-color="var(--light-background-primary3)"
     :to="{ name: ROUTES.STAFF.ACTIVITY_FEEDBACK.name, params: { feedbackId: feedback.id } }"
+    data-testid="feedback-long-icon-card"
   >
     <span
       class="caption-light av-text-text2"

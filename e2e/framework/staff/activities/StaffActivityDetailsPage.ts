@@ -15,6 +15,13 @@ export class StaffActivityDetailsPage extends BasePage {
     return this.page.getByTestId('edit-draft-button')
   }
 
+  @Then('the staff draft activity details page is displayed')
+  async verifyDraftActivityDetailsPageDisplayed () {
+    await expect(this.page).toHaveURL(
+      /\/cofolio\/staff\/activities\/DRAFT\/[^/]+$/
+    )
+  }
+
   @Then('the staff published activity details page is displayed')
   async verifyPublishedActivityDetailsPageDisplayed () {
     await expect(this.page).toHaveURL(
