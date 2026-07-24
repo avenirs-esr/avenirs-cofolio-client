@@ -29,6 +29,68 @@ Feature: Staff Home Page
       And the staff profile picture is visible
       And the staff name is visible
 
+  Rule: Feedbacks widget
+
+    Background:
+      Given the staff feedbacks widget is visible
+
+    @high @feedbacks-widget @dataset-full
+    Scenario: Feedbacks widget displays some feedback cards and see all button
+      Then the feedbacks widget displays correctly
+
+    @high @feedbacks-widget @dataset-full
+    Scenario: Feedback cards are clickable and navigate to the feedback details page
+      When the staff clicks a feedback card
+      And the URL contains "/activity-feedback"
+
+    @medium @feedbacks-widget @dataset-full
+    Scenario: See all feedbacks button navigates to feedbacks page
+      When the staff clicks see all feedbacks button
+      Then the staff feedbacks page is displayed
+      And the URL contains "/student-tracking/feedbacks"
+
+  Rule: Draft activities widget
+
+    Background:
+      Given the staff draft activities widget is visible
+
+    @high @draft-activities-widget @dataset-full
+    Scenario: Draft activities widget displays some draft activity cards and see all button
+      Then the draft activities widget displays correctly
+
+    @high @draft-activities-widget @dataset-full
+    Scenario: Draft activity cards are clickable and navigate to the draft activity details page
+      When the staff clicks a draft activity card
+      Then the staff draft activity details page is displayed
+      And the URL contains "/cofolio/staff/activities/DRAFT"
+
+    @medium @draft-activities-widget @dataset-full
+    Scenario: See all draft activities button navigates to draft activities page
+      When the staff clicks see all draft activities button
+      Then the staff activities page is displayed
+      And the URL contains "/cofolio/staff/activities"
+
+  Rule: Published activities widget
+
+    Background:
+      Given the staff published activities widget is visible
+
+    @high @published-activities-widget @dataset-full
+    Scenario: Published activities widget displays some published activity cards and see all button
+      Then the published activities widget displays correctly
+
+    @high @published-activities-widget @dataset-full
+    Scenario: Published activity cards are clickable and navigate to the published activity details page
+      When the staff clicks a published activity card
+      Then the staff published activity details page is displayed
+      And the URL contains "/cofolio/staff/activities/PUBLISHED"
+
+    @medium @published-activities-widget @dataset-full
+    Scenario: See all published activities button navigates to published activities page
+      When the staff clicks see all published activities button
+      Then the staff activities page is displayed
+      And the URL contains "/cofolio/staff/activities"
+
   Rule: Navigation
 
     @high @navigation @desktop

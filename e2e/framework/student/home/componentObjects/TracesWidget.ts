@@ -13,7 +13,7 @@ export class TracesWidget extends BaseObject {
   }
 
   getCards () {
-    return this.page.getByTestId('trace-long-icon-card')
+    return this.root.getByTestId('trace-long-icon-card')
   }
 
   getSeeAllButton () {
