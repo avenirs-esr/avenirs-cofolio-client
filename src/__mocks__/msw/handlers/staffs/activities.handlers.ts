@@ -204,9 +204,10 @@ export const staffsActivitiesHandlers = [
     const url = new URL(request.url)
     const page = Number.parseInt(url.searchParams.get('page') ?? '0')
     const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '12')
+    const status = url.searchParams.get('status') as EActivityStatus | null
     const totalElements = 7
 
-    const mockData = createMockedPagedResponseActivityStaffOverviewDTO(pageSize, totalElements, page)
+    const mockData = createMockedPagedResponseActivityStaffOverviewDTO(pageSize, totalElements, page, status)
 
     return HttpResponse.json<PagedResponseActivityStaffOverviewDTO>(mockData, {
       status: HttpStatusCode.OK,

@@ -3,12 +3,9 @@ import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { expect, type Page } from '@playwright/test'
 
-export class ActivitiesWidget extends BaseObject {
-  private isNew: boolean
-
-  constructor (protected page: Page, isNew = false) {
-    super(page.getByTestId(`${isNew ? 'new' : 'library'}-activities-widget`), page)
-    this.isNew = isNew
+export class FeedbacksWidget extends BaseObject {
+  constructor (protected page: Page) {
+    super(page.getByTestId('feedbacks-widget'), page)
   }
 
   getTitle () {
@@ -16,7 +13,7 @@ export class ActivitiesWidget extends BaseObject {
   }
 
   getCards () {
-    return this.root.getByTestId('activity-long-icon-card')
+    return this.root.getByTestId('feedback-long-icon-card')
   }
 
   getSeeAllButton () {
@@ -30,22 +27,22 @@ export class ActivitiesWidget extends BaseObject {
   async verifyVisible () {
     await this.isVisible()
     await expect(this.getTitle()).toBeVisible()
-    await expect(this.getTitle()).toHaveText(t(`student.global.views.studentHomeView.widgets.ActivitiesWidget.title.${this.isNew ? 'new' : 'library'}`))
+    await expect(this.getTitle()).toHaveText(t(`staff.global.views.StaffHomeView.widgets.FeedbacksWidget.title`))
   }
 
-  async verifyHasActivities () {
+  async verifyHasFeedbacks () {
     const count = await this.countCards()
     expect(count).toBeGreaterThan(0)
   }
 
   async verifySeeAllButton () {
     await expect(this.getSeeAllButton()).toBeVisible()
-    await expect(this.getSeeAllButton()).toHaveText(t(`student.global.views.studentHomeView.widgets.ActivitiesWidget.seeAll.${this.isNew ? 'new' : 'library'}`))
+    await expect(this.getSeeAllButton()).toHaveText(t(`staff.global.views.StaffHomeView.widgets.FeedbacksWidget.seeAll`))
   }
 
-  async verifyActivitiesWidget () {
+  async verifyFeedbacksWidget () {
     await this.verifyVisible()
-    await this.verifyHasActivities()
+    await this.verifyHasFeedbacks()
     await this.verifySeeAllButton()
   }
 

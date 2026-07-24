@@ -174,11 +174,6 @@ class StudentHomePage extends BasePage {
     await this.getLibraryActivitiesWidget().verifyVisible()
   }
 
-  @Then('the see all library activities button is visible')
-  async verifySeeAllLibraryActivitiesButton () {
-    await this.getLibraryActivitiesWidget().verifySeeAllButton()
-  }
-
   @Then('the library activities widget displays correctly')
   async verifyLibraryActivitiesWidgetDisplaysCorrectly () {
     await this.getLibraryActivitiesWidget().verifyActivitiesWidget()
