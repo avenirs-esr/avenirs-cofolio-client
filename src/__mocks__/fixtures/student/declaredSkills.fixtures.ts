@@ -17,7 +17,8 @@ export function createMockedDeclaredActivityAssociations (count: number): Declar
       pathSegments: ['first', 'second', 'third'],
       type: EExternalSkillType.ROME4,
       level: EDeclaredSkillLevel.BEGINNER,
-      description: `Description for declared skill ${index + 1}`
+      description: `Description for declared skill ${index + 1}`,
+      valorized: false
     }
   })) as DeclaredSkillAssociationDTO[]
 }

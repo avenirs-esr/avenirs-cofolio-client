@@ -38,6 +38,7 @@ export function useUpdateDeclaredSkillForm (
     const data: DeclaredSkillProgressRequest = {
       level: declaredSkillProgressDetails.level,
       reflection: declaredSkillProgressDetails.reflection ?? '',
+      valorized: declaredSkillProgressDetails.valorized,
     }
 
     mutateUpdateDeclaredSkillProgress({ declaredSkillProgressId: declaredSkillProgressDetails.id, data }, {

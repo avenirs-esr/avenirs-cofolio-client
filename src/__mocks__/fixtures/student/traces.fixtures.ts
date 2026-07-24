@@ -184,7 +184,8 @@ export const mockedTraceDeclaredSkillAssociations: DeclaredSkillAssociationDTO[]
       title: 'Gestion de projet agile',
       level: EDeclaredSkillLevel.ADVANCED,
       pathSegments: ['Management', 'Gestion de projet'],
-      type: EExternalSkillType.ROME4
+      type: EExternalSkillType.ROME4,
+      valorized: false
     }
   },
   {
@@ -194,7 +195,8 @@ export const mockedTraceDeclaredSkillAssociations: DeclaredSkillAssociationDTO[]
       title: 'Communication interpersonnelle',
       level: EDeclaredSkillLevel.COMPETENT,
       pathSegments: ['Soft Skills', 'Communication'],
-      type: EExternalSkillType.ROME4
+      type: EExternalSkillType.ROME4,
+      valorized: false
     }
   },
   {
@@ -204,7 +206,8 @@ export const mockedTraceDeclaredSkillAssociations: DeclaredSkillAssociationDTO[]
       title: 'Analyse de données',
       level: EDeclaredSkillLevel.EXPERT,
       pathSegments: ['Technique', 'Data Science'],
-      type: EExternalSkillType.ROME4
+      type: EExternalSkillType.ROME4,
+      valorized: false
     }
   }
 ]

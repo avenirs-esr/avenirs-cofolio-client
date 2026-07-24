@@ -77,7 +77,8 @@ export function createMockedDeclaredSkillProgressDTO () {
     pathSegments: ['Catégorie', `Sous-catégorie`],
     type: EExternalSkillType.ROME4,
     level: EDeclaredSkillLevel.ADVANCED,
-    reflection: `Ecrit reflexif de la compétence déclarée`
+    reflection: `Ecrit reflexif de la compétence déclarée`,
+    valorized: false
   }
 }
 
@@ -99,7 +100,8 @@ export function createMockedPagedResponseDeclaredSkillProgressDTO (pageSize: num
       pathSegments: ['Catégorie', `Sous-catégorie ${i}`],
       type: EExternalSkillType.ROME4,
       level: levels[i % levels.length],
-      reflection: `Ecrit reflexif de la compétence déclarée ${i}`
+      reflection: `Ecrit reflexif de la compétence déclarée ${i}`,
+      valorized: false
     }
     mockedSkills.push(skill)
   }
@@ -283,6 +285,7 @@ Objectif : Développer une approche par compétences pour favoriser la mobilité
     level: EDeclaredSkillLevel.ADVANCED,
     traceAssociations: mockedTraceOverview,
     createdAt: '2023-10-10T10:00:00Z',
-    updatedAt: '2023-10-15T12:00:00Z'
+    updatedAt: '2023-10-15T12:00:00Z',
+    valorized: false
   }
 }

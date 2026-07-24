@@ -2,6 +2,7 @@ import type {
   DeclaredSkillProgressDetailsDTO
 } from '@/api/avenir-esr'
 import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import DeclaredSkillDetails, { type DeclaredSkillDetailsProps } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
@@ -76,7 +77,8 @@ BddTest().given('the DeclaredSkillDetails component', () => {
     Card: CardStub,
     AvIcon: AvIconStub,
     AvInput: AvInputStub,
-    DeclaredSkillLevelBadge: DeclaredSkillLevelBadgeStub
+    DeclaredSkillLevelBadge: DeclaredSkillLevelBadgeStub,
+    ValorizedBadge: ValorizedBadgeStub
   }
 
   BddTest().when('the component is mounted', () => {
@@ -141,6 +143,13 @@ BddTest().given('the DeclaredSkillDetails component', () => {
         const avInput = reflectionTextarea.findComponent({ name: 'AvInput' })
         expect(avInput.props('maxlength')).toBe(DECLARED_SKILL_REFLECTION_MAX_LENGTH)
       })
+    })
+
+    BddTest().then('it should render the valorized badge', () => {
+      const badge = wrapper.findComponent(ValorizedBadgeStub)
+
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('valorized')).toBe(mockedDeclaredSkillProgressDetails.valorized)
     })
   })
 })
