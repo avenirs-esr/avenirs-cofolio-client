@@ -10,7 +10,7 @@ import {
   parseDate
 } from '@/common/utils/date/date'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { parseISO } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 
 BddTest().given('a dateISO parser', () => {
   BddTest().when('receiving a valid formatted date', () => {
@@ -198,7 +198,7 @@ BddTest().given('a days until getter', () => {
 
       const futureDate = new Date(today)
       futureDate.setDate(futureDate.getDate() + 7)
-      const isoString = futureDate.toISOString().slice(0, 10)
+      const isoString = format(futureDate, 'yyyy-MM-dd')
 
       const daysUntil = getDaysUntil(isoString)
       expect(daysUntil).toBe(7)
@@ -222,7 +222,7 @@ BddTest().given('a days until getter', () => {
 BddTest().given('a localized date formatter', () => {
   BddTest().when('providing a date with time and a locale, without compact mode', () => {
     BddTest().then('it should format the date to the provided locale in full format', () => {
-      const date = '2025-01-15T14:30:00.000Z'
+      const date = '2025-01-15T14:30:00'
       const formattedFrDate = formatDateLocalized(date, 'fr')
       const formattedEnDate = formatDateLocalized(date, 'en')
 
@@ -279,7 +279,7 @@ BddTest().given('a localized date formatter', () => {
 BddTest().given('a localized time formatter', () => {
   BddTest().when('providing a date with time and a locale, without compact mode', () => {
     BddTest().then('it should format the time in localized format', () => {
-      const date = '2025-01-15T14:30:45.000Z'
+      const date = '2025-01-15T14:30:45'
       const formattedFrTime = formatTimeLocalized(date, 'fr')
       const formattedEnTime = formatTimeLocalized(date, 'en')
 
@@ -290,8 +290,8 @@ BddTest().given('a localized time formatter', () => {
 
   BddTest().when('providing different times, without compact mode', () => {
     BddTest().then('it should format morning and evening times correctly', () => {
-      const morningDate = '2025-01-15T09:05:00.000Z'
-      const eveningDate = '2025-01-15T23:55:00.000Z'
+      const morningDate = '2025-01-15T09:05:00'
+      const eveningDate = '2025-01-15T23:55:00'
 
       const morningTime = formatTimeLocalized(morningDate, 'fr')
       const eveningTime = formatTimeLocalized(eveningDate, 'fr')
@@ -303,7 +303,7 @@ BddTest().given('a localized time formatter', () => {
 
   BddTest().when('explicitly passing compact = false', () => {
     BddTest().then('it should behave the same as the default (locale-specific) format', () => {
-      const date = '2025-01-15T14:30:45.000Z'
+      const date = '2025-01-15T14:30:45'
       const formattedFrTime = formatTimeLocalized(date, 'fr', false)
       const formattedEnTime = formatTimeLocalized(date, 'en', false)
 
@@ -314,7 +314,7 @@ BddTest().given('a localized time formatter', () => {
 
   BddTest().when('passing compact = true', () => {
     BddTest().then('it should always format the time in 24-hour HH:mm, regardless of locale', () => {
-      const date = '2025-01-15T14:30:45.000Z'
+      const date = '2025-01-15T14:30:45'
       const formattedFrTime = formatTimeLocalized(date, 'fr', true)
       const formattedEnTime = formatTimeLocalized(date, 'en', true)
 
@@ -325,7 +325,7 @@ BddTest().given('a localized time formatter', () => {
 
   BddTest().when('passing compact = true for an afternoon time', () => {
     BddTest().then('it should not use the 12-hour AM/PM format even for the en locale', () => {
-      const date = '2025-01-15T23:55:00.000Z'
+      const date = '2025-01-15T23:55:00'
       const formattedEnTime = formatTimeLocalized(date, 'en', true)
 
       expect(formattedEnTime).toBe('23:55')
@@ -377,7 +377,7 @@ BddTest().given('a year-month to date formatter', () => {
 BddTest().given('a date to year-month formatter', () => {
   BddTest().when('providing a full ISO date with time', () => {
     BddTest().then('it should extract the year-month part', () => {
-      const date = '2025-05-23T14:31:50.007Z'
+      const date = '2025-05-23T14:31:50.007'
       expect(formatDateToYearMonth(date)).toBe('2025-05')
     })
   })
@@ -415,7 +415,7 @@ BddTest().given('a date to year-month formatter', () => {
 BddTest().given('a date to year-month localized formatter', () => {
   BddTest().when('providing a full ISO date with time', () => {
     BddTest().then('it should extract the year-month part', () => {
-      const date = '2025-05-23T14:31:50.007Z'
+      const date = '2025-05-23T14:31:50.007'
       expect(formatDateToYearMonthLocalized(date, 'fr')).toBe('05/2025')
       expect(formatDateToYearMonthLocalized(date, 'en')).toBe('2025/05')
     })
