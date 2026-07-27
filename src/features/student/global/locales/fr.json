@@ -11,7 +11,7 @@
             "ACTIVITY_TITLE": "Titre",
             "BANNER": "Image de présentation",
             "DESCRIPTION": "Consigne",
-            "EXECUTION_PERIOD": "Période de réalisation",
+            "RECOMMENDED_COMPLETION_CONTEXTS": "Contexte(s) de réalisation conseillé(s)",
             "FILES_AND_LINKS": "Fichiers et liens",
             "SUMMARY": "Extrait",
             "THEMATIC": "Thématique"

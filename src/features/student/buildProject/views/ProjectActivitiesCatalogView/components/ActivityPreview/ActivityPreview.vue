@@ -33,7 +33,7 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
     />
     <ActivityCatalogPreviewCard
       :summary="activity.summary"
-      :execution-period-info="activity.executionPeriodInfo"
+      :recommended-completion-contexts="activity.recommendedCompletionContexts"
     >
       <template #actions>
         <AvButton

@@ -55,8 +55,8 @@ Feature: Staff National Activity Catalog
     Scenario: The activity summary is visible in the preview tab
       Then the activity summary is visible in the preview tab
 
-    Scenario: The execution context information is visible in the preview tab
-      Then the execution context information is visible in the preview tab
+    Scenario: The recommended completion contexts are visible in the preview tab
+      Then the recommended completion contexts are visible in the preview tab
 
 
   Rule: Edit draft activity

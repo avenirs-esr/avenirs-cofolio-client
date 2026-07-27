@@ -37,9 +37,9 @@ Feature: Student Project Activity Detail Page
       Then the activity title is visible
       And the activity description is visible
 
-    @high @activity-details @activity-execution-period
-    Scenario: Student can see the activity execution period list
-      Then the activity execution period list is visible
+    @high @activity-details @activity-recommended-completion-contexts
+    Scenario: Student can see the activity recommended completion contexts list
+      Then the activity recommended completion contexts list is visible
 
     @high @activity-details @activity-status
     Scenario: Student can see the activity status

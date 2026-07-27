@@ -38,7 +38,7 @@ const {
         />
         <ActivityCatalogPreviewCard
           :summary="presentation.summary"
-          :execution-period-info="presentation.executionPeriodInfo"
+          :recommended-completion-contexts="presentation.recommendedCompletionContexts"
         />
       </div>
     </QuerySuspense>

@@ -11,7 +11,7 @@
             "ACTIVITY_TITLE": "Title",
             "BANNER": "Banner",
             "DESCRIPTION": "Description",
-            "EXECUTION_PERIOD": "Execution period",
+            "RECOMMENDED_COMPLETION_CONTEXTS": "Recommended completion context(s)",
             "FILES_AND_LINKS": "Files and links",
             "SUMMARY": "Summary",
             "THEMATIC": "Theme"

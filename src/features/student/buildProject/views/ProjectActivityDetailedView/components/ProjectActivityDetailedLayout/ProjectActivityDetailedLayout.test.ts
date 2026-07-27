@@ -66,7 +66,7 @@ BddTest().given('a project activity detailed layout component', () => {
       thematic: EActivityThematic.SELF_KNOWLEDGE,
       summary: 'Résumé activité',
       description: '<h3>Description activité</h3>',
-      executionPeriodInfo: '- Première période\n- Deuxième période',
+      recommendedCompletionContexts: '- Première période\n- Deuxième période',
       createdAt: '2025-01-01T10:00:00Z',
       updatedAt: '2025-01-02T10:00:00Z',
       enableReflection: true,

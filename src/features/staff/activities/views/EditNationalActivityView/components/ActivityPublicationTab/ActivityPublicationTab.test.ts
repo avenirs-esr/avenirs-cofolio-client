@@ -2,7 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ActivityBannerFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityBannerFormField/ActivityBannerFormField.stub'
-import { ActivityExecutionPeriodFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.stub'
+import { ActivityRecommendedCompletionContextsFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityRecommendedCompletionContextsFormField/ActivityRecommendedCompletionContextsFormField.stub'
 import { ActivitySummaryFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivitySummaryFormField/ActivitySummaryFormField.stub'
 import { ActivityTitleFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.stub'
 import ActivityPublicationTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.vue'
@@ -69,7 +69,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
     ActivityTitleFormField: ActivityTitleFormFieldStub,
     ActivityBannerFormField: ActivityBannerFormFieldStub,
     ActivitySummaryFormField: ActivitySummaryFormFieldStub,
-    ActivityExecutionPeriodFormField: ActivityExecutionPeriodFormFieldStub,
+    ActivityRecommendedCompletionContextsFormField: ActivityRecommendedCompletionContextsFormFieldStub,
     IconTitleCardContainer: IconTitleCardContainerStub,
   }
 
@@ -113,8 +113,8 @@ BddTest().given('an ActivityPublicationTab component', () => {
       expect(tab.findComponent(ActivitySummaryFormFieldStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should render ActivityExecutionPeriodFormField', () => {
-      expect(tab.findComponent(ActivityExecutionPeriodFormFieldStub).exists()).toBe(true)
+    BddTest().then('it should render ActivityRecommendedCompletionContextsFormField', () => {
+      expect(tab.findComponent(ActivityRecommendedCompletionContextsFormFieldStub).exists()).toBe(true)
     })
 
     BddTest().then('it should render EditNationalActivityViewTabActions', () => {

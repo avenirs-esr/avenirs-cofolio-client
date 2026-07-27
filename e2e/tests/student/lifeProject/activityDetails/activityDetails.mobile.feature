@@ -18,4 +18,4 @@ Feature: Student Project Activity Detail Page (Mobile)
       Then the activity detail title is visible
       And the activity title is visible
       And the activity description is visible
-      And the activity execution period list is visible
+      And the activity recommended completion contexts list is visible

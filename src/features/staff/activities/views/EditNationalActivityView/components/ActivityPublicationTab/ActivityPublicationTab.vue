@@ -9,7 +9,7 @@ import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ICONS } from '@/common/constants'
 import ActivityBannerFormField from '@/features/staff/activities/components/interactions/formFields/ActivityBannerFormField/ActivityBannerFormField.vue'
-import ActivityExecutionPeriodFormField from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
+import ActivityRecommendedCompletionContextsFormField from '@/features/staff/activities/components/interactions/formFields/ActivityRecommendedCompletionContextsFormField/ActivityRecommendedCompletionContextsFormField.vue'
 import ActivitySummaryFormField from '@/features/staff/activities/components/interactions/formFields/ActivitySummaryFormField/ActivitySummaryFormField.vue'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import { PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
@@ -31,7 +31,7 @@ const emit = defineEmits<{
   (e: 'published'): void
 }>()
 
-const PUBLISH_REQUIRED_FIELDS: Array<keyof EditActivityFormData> = ['title', 'thematic', 'description', 'executionPeriodInfo', 'summary']
+const PUBLISH_REQUIRED_FIELDS: Array<keyof EditActivityFormData> = ['title', 'thematic', 'description', 'recommendedCompletionContexts', 'summary']
 
 const bannerFile = defineModel<File | null>()
 
@@ -124,11 +124,11 @@ async function publishActivityDraft () {
       </div>
       <div class="av-flex-fill--md">
         <IconTitleCardContainer
-          :title="t('staff.activities.interactions.formFields.ActivityExecutionPeriodFormField.label')"
+          :title="t('staff.activities.interactions.formFields.ActivityRecommendedCompletionContextsFormField.label')"
           :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
           required
         >
-          <ActivityExecutionPeriodFormField
+          <ActivityRecommendedCompletionContextsFormField
             :form="form"
             @autosave="queueAutoSave"
           />

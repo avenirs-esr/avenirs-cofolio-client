@@ -52,8 +52,8 @@ BddTest().given('a national activity catalog preview tab', () => {
       expect(wrapper.findComponent(ActivityCatalogPreviewCardStub).props('summary')).toBe(mockedActivityDetail.summary)
     })
 
-    BddTest().then('it should render ActivityCatalogPreviewCard with the correct executionPeriodInfo', () => {
-      expect(wrapper.findComponent(ActivityCatalogPreviewCardStub).props('executionPeriodInfo')).toBe(mockedActivityDetail.executionPeriodInfo)
+    BddTest().then('it should render ActivityCatalogPreviewCard with the correct recommendedCompletionContexts', () => {
+      expect(wrapper.findComponent(ActivityCatalogPreviewCardStub).props('recommendedCompletionContexts')).toBe(mockedActivityDetail.recommendedCompletionContexts)
     })
   })
 

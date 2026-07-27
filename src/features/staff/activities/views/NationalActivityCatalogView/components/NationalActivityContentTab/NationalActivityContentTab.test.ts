@@ -4,7 +4,7 @@ import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fi
 import { EFileType } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { ActivityDescriptionContentStub } from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.stub'
-import { ActivityExecutionPeriodListStub } from '@/common/activities/components/ActivityExecutionPeriodList/ActivityExecutionPeriodList.stub'
+import { ActivityRecommendedCompletionContextsListStub } from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.stub'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ActivityResourcesListStub } from '@/common/components/lists/ActivityResourcesList/ActivityResourcesList.stub'
@@ -23,7 +23,7 @@ BddTest().given('a national activity content tab', () => {
     Card: CardStub,
     ActivityThematicBadge: ActivityThematicBadgeStub,
     ActivityDescriptionContent: ActivityDescriptionContentStub,
-    ActivityExecutionPeriodList: ActivityExecutionPeriodListStub,
+    ActivityRecommendedCompletionContextsList: ActivityRecommendedCompletionContextsListStub,
     NationalActivitySettingDetails: NationalActivitySettingDetailsStub,
     IconTitleCardContainer: IconTitleCardContainerStub,
     ActivityResourcesList: ActivityResourcesListStub,
@@ -93,10 +93,10 @@ BddTest().given('a national activity content tab', () => {
       expect(contextTitle.text()).toBe('Contexte(s) de réalisation conseillé(s)')
     })
 
-    BddTest().then('it should render the execution period list', () => {
-      const periodList = wrapper.findComponent(ActivityExecutionPeriodListStub)
+    BddTest().then('it should render the recommended completion contexts list', () => {
+      const periodList = wrapper.findComponent(ActivityRecommendedCompletionContextsListStub)
       expect(periodList.exists()).toBe(true)
-      expect(periodList.props('executionPeriodInfo')).toBe(mockedActivityContent.executionPeriodInfo)
+      expect(periodList.props('recommendedCompletionContexts')).toBe(mockedActivityContent.recommendedCompletionContexts)
     })
 
     BddTest().then('it should render the setting details component with the activity', () => {

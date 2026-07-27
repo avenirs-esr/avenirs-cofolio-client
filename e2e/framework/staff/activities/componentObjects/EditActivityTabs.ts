@@ -41,7 +41,7 @@ export class EditActivityTabs {
   }
 
   private getContextSection () {
-    return this.page.getByTestId('activity-execution-period-input')
+    return this.page.getByTestId('activity-recommended-completion-contexts-input')
   }
 
   private getSummarySection () {

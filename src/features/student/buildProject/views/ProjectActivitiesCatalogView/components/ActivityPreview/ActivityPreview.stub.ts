@@ -14,7 +14,7 @@ export const ActivityPreviewStub = defineComponent({
       <span data-testid="activity-title">{{ activity.title }}</span>
       <span data-testid="activity-thematic">{{ activity.thematic }}</span>
       <span data-testid="activity-summary">{{ activity.summary }}</span>
-      <span data-testid="activity-execution-period-info">{{ activity.executionPeriodInfo }}</span>
+      <span data-testid="activity-recommended-completion-contexts-info">{{ activity.recommendedCompletionContexts }}</span>
     </div>
   `
 })

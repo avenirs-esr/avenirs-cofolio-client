@@ -64,8 +64,8 @@ BddTest().given('an activity preview', () => {
       expect(cardStub.props('summary')).toBe(mockedActivityDetail.summary)
     })
 
-    BddTest().then('it should render ActivityCatalogPreviewCard with correct executionPeriodInfo', () => {
-      expect(wrapper.findComponent(ActivityCatalogPreviewCardStub).props('executionPeriodInfo')).toBe(mockedActivityDetail.executionPeriodInfo)
+    BddTest().then('it should render ActivityCatalogPreviewCard with correct recommendedCompletionContexts', () => {
+      expect(wrapper.findComponent(ActivityCatalogPreviewCardStub).props('recommendedCompletionContexts')).toBe(mockedActivityDetail.recommendedCompletionContexts)
     })
 
     BddTest().then('it should not render the access button', () => {
@@ -150,8 +150,8 @@ BddTest().given('an activity preview', () => {
       expect(wrapper.findComponent(ActivityCatalogPreviewCardStub).props('summary')).toBe(mockedSubscribedActivityDetail.summary)
     })
 
-    BddTest().then('it should render ActivityCatalogPreviewCard with correct executionPeriodInfo', () => {
-      expect(wrapper.findComponent(ActivityCatalogPreviewCardStub).props('executionPeriodInfo')).toBe(mockedSubscribedActivityDetail.executionPeriodInfo)
+    BddTest().then('it should render ActivityCatalogPreviewCard with correct recommendedCompletionContexts', () => {
+      expect(wrapper.findComponent(ActivityCatalogPreviewCardStub).props('recommendedCompletionContexts')).toBe(mockedSubscribedActivityDetail.recommendedCompletionContexts)
     })
 
     BddTest().then('it should render the access button', () => {

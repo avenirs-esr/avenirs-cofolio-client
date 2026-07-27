@@ -76,7 +76,7 @@ function makeSavePayload (): ActivityDraftUpdateRequest {
     title: (mockedActivityContent as any).title ?? '',
     thematic: (mockedActivityContent as any).thematic,
     description: (mockedActivityContent as any).description ?? '',
-    executionPeriodInfo: (mockedActivityContent as any).executionPeriodInfo ?? '',
+    recommendedCompletionContexts: (mockedActivityContent as any).recommendedCompletionContexts ?? '',
     summary: (mockedActivityContent as any).summary ?? '',
     enableReflection: (mockedActivityContent as any).enableReflection ?? true,
     feedbackAllowedIterations: (mockedActivityContent as any).feedbackAllowedIterations ?? 0,

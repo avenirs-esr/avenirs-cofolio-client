@@ -2,10 +2,10 @@ import type { EditActivityFormData } from '@/features/staff/activities/types/for
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import {
   ACTIVITY_CONSIGN_MAX_LENGTH,
-  ACTIVITY_EXECUTION_PERIOD_MAX_LENGTH,
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED,
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY,
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN,
+  ACTIVITY_RECOMMENDED_COMPLETION_CONTEXTS_MAX_LENGTH,
   ACTIVITY_SUMMARY_MAX_LENGTH,
   ACTIVITY_TITLE_MAX_LENGTH
 } from '@/features/staff/activities/config'
@@ -30,8 +30,8 @@ export function useEditNationalActivityFormValidators () {
     return validateMaxLength(description, ACTIVITY_CONSIGN_MAX_LENGTH)
   }
 
-  function validateExecutionPeriodInfo (executionPeriodInfo: EditActivityFormData['executionPeriodInfo']) {
-    return validateMaxLength(executionPeriodInfo, ACTIVITY_EXECUTION_PERIOD_MAX_LENGTH)
+  function validateRecommendedCompletionContexts (recommendedCompletionContexts: EditActivityFormData['recommendedCompletionContexts']) {
+    return validateMaxLength(recommendedCompletionContexts, ACTIVITY_RECOMMENDED_COMPLETION_CONTEXTS_MAX_LENGTH)
   }
 
   function validateFeedbackAllowedIterations (feedbackAllowedIterations: EditActivityFormData['feedbackAllowedIterations']) {
@@ -48,7 +48,7 @@ export function useEditNationalActivityFormValidators () {
 
   return {
     validateDescription,
-    validateExecutionPeriodInfo,
+    validateRecommendedCompletionContexts,
     validateFeedbackAllowedIterations,
     validateSummary,
     validateTitle,

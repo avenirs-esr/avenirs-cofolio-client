@@ -272,7 +272,7 @@ const commonMockedDeclaredActivityProps = {
     title: 'Activité “Connaissance de soi” : Définir ses valeurs',
     summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l\'étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
     description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Permettre à l\'étudiant.e de déterminer des valeurs auxquelles il/elle est attaché.e</p></li><li><p>Encourager l\'étudiant.e à réfléchir à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des valeurs personnelles clés</p></li><li><p>Réflexion sur la manière dont ces valeurs s\'incarnent dans les comportements et les pratiques quotidiens</p></li><li><p>Mise en perspective de ces valeurs avec le projet de vie envisagé</p></li></ol>',
-    executionPeriodInfo: '- À réaliser en amont d\'un entretien avec un.e conseiller/conseillère ou chargé.e d\'orientation et/ou d\'insertion professionnelle\n- avant une autre activité si parcours d\'activités Cofolio',
+    recommendedCompletionContexts: '- À réaliser en amont d\'un entretien avec un.e conseiller/conseillère ou chargé.e d\'orientation et/ou d\'insertion professionnelle\n- avant une autre activité si parcours d\'activités Cofolio',
   },
   reflection: `<h1>Mes valeurs</h1><p>Je me rends compte que mes valeurs sont :</p><ul><li><p><strong>autonomie</strong></p></li><li><p><strong>créativité</strong></p></li><li><p><strong>impact social</strong></p></li></ul><p>Je vois que je les incarne dans</p><ol><li><p><em>engagement associatif</em></p></li><li><p><em>projets personnels</em></p></li><li><p><em>choix de stage l'été dernier</em></p></li></ol><p></p>`,
   startDate: '2024-01-01',
@@ -428,7 +428,7 @@ export const mockedActivityDetail: ActivityPresentationDTO = {
   thematic: EActivityThematic.SELF_KNOWLEDGE,
   summary: 'Activité faisant partie de la catégorie Connaissance de soi. Activité au cours de laquelle l\'étudiant.e détermine des valeurs auxquelles il/elle est attaché.e et réfléchit à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes. Cette activité constitue un préalable aux activités axées sur le projet de vie.',
   description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Permettre à l\'étudiant.e de déterminer des valeurs auxquelles il/elle est attaché.e</p></li><li><p>Encourager l\'étudiant.e à réfléchir à la façon dont ces valeurs s\'incarnent dans ses comportements et ses pratiques quotidiennes</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des valeurs personnelles clés</p></li><li><p>Réflexion sur la manière dont ces valeurs s\'incarnent dans les comportements et les pratiques quotidiens</p></li><li><p>Mise en perspective de ces valeurs avec le projet de vie envisagé</p></li></ol>',
-  executionPeriodInfo: '- À réaliser en amont d\'un entretien avec un.e conseiller/conseillère ou chargé.e d\'orientation et/ou d\'insertion professionnelle\n- avant une autre activité si parcours d\'activités Cofolio',
+  recommendedCompletionContexts: '- À réaliser en amont d\'un entretien avec un.e conseiller/conseillère ou chargé.e d\'orientation et/ou d\'insertion professionnelle\n- avant une autre activité si parcours d\'activités Cofolio',
   createdAt: '2024-01-01T00:00:00Z',
   updatedAt: '2024-01-01T00:00:00Z'
 }
@@ -447,7 +447,7 @@ export function createMockedDeclaredActivityDetails (id: string, options?: { wit
   const activity = selectedActivity
     ? {
         ...selectedActivity,
-        executionPeriodInfo: mockedDeclaredActivityDetails.activity.executionPeriodInfo,
+        recommendedCompletionContexts: mockedDeclaredActivityDetails.activity.recommendedCompletionContexts,
         createdAt: mockedDeclaredActivityDetails.activity.createdAt,
 
       }
@@ -465,7 +465,7 @@ export function createMockedDeclaredActivityDetails (id: string, options?: { wit
       title: activity.title ?? mockedDeclaredActivityDetails.activity.title,
       summary: activity.summary ?? mockedDeclaredActivityDetails.activity.summary,
       enableReflection: true,
-      executionPeriodInfo: activity.executionPeriodInfo ?? mockedDeclaredActivityDetails.activity.executionPeriodInfo,
+      recommendedCompletionContexts: activity.recommendedCompletionContexts ?? mockedDeclaredActivityDetails.activity.recommendedCompletionContexts,
       traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
       feedbackAllowedIterations: ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT,
       createdAt: activity.createdAt ?? mockedDeclaredActivityDetails.activity.createdAt,

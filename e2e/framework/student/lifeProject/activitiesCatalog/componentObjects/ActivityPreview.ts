@@ -26,8 +26,8 @@ export class ActivityPreview extends BaseObject {
     return this.root.getByTestId('activity-summary')
   }
 
-  getExecutionPeriodInfo () {
-    return this.root.getByTestId('activity-execution-period-info')
+  getRecommendedCompletionContextsInfo () {
+    return this.root.getByTestId('activity-recommended-completion-contexts-info')
   }
 
   getUnsubscribeButton () {
@@ -55,7 +55,7 @@ export class ActivityPreview extends BaseObject {
     await expect(this.getBanner()).toBeVisible()
     await expect(this.getTitle()).toBeVisible()
     await expect(this.getSummary()).toBeVisible()
-    await expect(this.getExecutionPeriodInfo()).toBeVisible()
+    await expect(this.getRecommendedCompletionContextsInfo()).toBeVisible()
     await expect(this.getThematicBadge()).toBeVisible()
   }
 
@@ -79,9 +79,9 @@ export class ActivityPreview extends BaseObject {
     await expect(this.getSummary()).not.toBeEmpty()
   }
 
-  async verifyExecutionPeriodInfo () {
-    await expect(this.getExecutionPeriodInfo()).toBeVisible()
-    await expect(this.getExecutionPeriodInfo()).not.toBeEmpty()
+  async verifyRecommendedCompletionContextsInfo () {
+    await expect(this.getRecommendedCompletionContextsInfo()).toBeVisible()
+    await expect(this.getRecommendedCompletionContextsInfo()).not.toBeEmpty()
   }
 
   async verifySubscribeButton () {
@@ -126,7 +126,7 @@ export class ActivityPreview extends BaseObject {
     await this.verifyTitle()
     await this.verifyThematicBadge()
     await this.verifySummary()
-    await this.verifyExecutionPeriodInfo()
+    await this.verifyRecommendedCompletionContextsInfo()
     await this.verifySubscribeButton()
   }
 

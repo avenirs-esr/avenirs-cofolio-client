@@ -18,8 +18,8 @@ export class ProjectActivityDetailsObject extends BaseObject {
     return this.root.getByTestId('activity-description')
   }
 
-  getExecutionPeriodList () {
-    return this.root.getByTestId('activity-execution-period')
+  getRecommendedCompletionContextsList () {
+    return this.root.getByTestId('activity-recommended-completion-contexts-list')
   }
 
   async verifyVisible () {
@@ -38,7 +38,7 @@ export class ProjectActivityDetailsObject extends BaseObject {
     await expect(this.getDescription()).toBeVisible()
   }
 
-  async verifyExecutionPeriodListVisible () {
-    await expect(this.getExecutionPeriodList()).toBeVisible()
+  async verifyRecommendedCompletionContextsListVisible () {
+    await expect(this.getRecommendedCompletionContextsList()).toBeVisible()
   }
 }

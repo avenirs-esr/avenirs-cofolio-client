@@ -71,9 +71,9 @@ export class StudentProjectActivityDetails extends BasePage {
     await this.getProjectActivityDetails().verifyDescriptionVisible()
   }
 
-  @Then('the activity execution period list is visible')
-  async verifyExecutionPeriodListVisible () {
-    await this.getProjectActivityDetails().verifyExecutionPeriodListVisible()
+  @Then('the activity recommended completion contexts list is visible')
+  async verifyRecommendedCompletionContextsListVisible () {
+    await this.getProjectActivityDetails().verifyRecommendedCompletionContextsListVisible()
   }
 
   @Then('the activity status is visible')
