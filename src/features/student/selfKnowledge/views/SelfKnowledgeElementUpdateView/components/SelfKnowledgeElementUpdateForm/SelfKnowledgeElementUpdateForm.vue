@@ -2,7 +2,7 @@
 import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { ConfirmationModal, CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
-import DeclaredSkillValorizationToggleFormField from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/DeclaredSkillValorizationToggleFormField/DeclaredSkillValorizationToggleFormField.vue'
+import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 import CategoryElementDescriptionTextareaFormField
   from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.vue'
 import CategoryElementRatingRadioButtonSetFormField
@@ -58,7 +58,7 @@ function confirmCancel () {
     novalidate
     @submit.prevent.stop="onSubmit"
   >
-    <DeclaredSkillValorizationToggleFormField :form="form" />
+    <KitValorizationToggleFormField :form="form" />
 
     <div class="av-row av-gap-md">
       <div class="self-knowledge-element-update-form__left-column av-flex-fill av-col av-gap-md">

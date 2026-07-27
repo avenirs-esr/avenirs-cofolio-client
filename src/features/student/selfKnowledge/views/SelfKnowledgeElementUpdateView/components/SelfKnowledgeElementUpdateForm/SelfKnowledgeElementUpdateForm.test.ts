@@ -3,6 +3,7 @@ import type {
 } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
+import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
 import { CategoryElementDescriptionTextareaFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.stub'
 import { CategoryElementRatingRadioButtonSetFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementRatingRadioButtonSetFormField/CategoryElementRatingRadioButtonSetFormField.stub'
 import { CategoryElementTitleInputFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementTitleInputFormField/CategoryElementTitleInputFormField.stub'
@@ -65,6 +66,7 @@ BddTest().given('a self knowledge element update form component', () => {
     CategoryElementTitleInputFormField: CategoryElementTitleInputFormFieldStub,
     CategoryElementDescriptionTextareaFormField: CategoryElementDescriptionTextareaFormFieldStub,
     CategoryElementRatingRadioButtonSetFormField: CategoryElementRatingRadioButtonSetFormFieldStub,
+    KitValorizationToggleFormField: KitValorizationToggleFormFieldStub,
     ConfirmationModal: ConfirmationModalStub,
     CreationUpdateDateDetails: CreationUpdateDateDetailsStub
   }
@@ -108,10 +110,12 @@ BddTest().given('a self knowledge element update form component', () => {
       const titleField = wrapper.findComponent({ name: 'CategoryElementTitleInputFormField' })
       const descriptionField = wrapper.findComponent({ name: 'CategoryElementDescriptionTextareaFormField' })
       const ratingField = wrapper.findComponent({ name: 'CategoryElementRatingRadioButtonSetFormField' })
+      const valorizationField = wrapper.findComponent(KitValorizationToggleFormFieldStub)
 
       expect(titleField.exists()).toBe(true)
       expect(descriptionField.exists()).toBe(true)
       expect(ratingField.exists()).toBe(true)
+      expect(valorizationField.exists()).toBe(true)
     })
 
     BddTest().then('it should render CreationUpdateDateDetails with correct props', () => {
