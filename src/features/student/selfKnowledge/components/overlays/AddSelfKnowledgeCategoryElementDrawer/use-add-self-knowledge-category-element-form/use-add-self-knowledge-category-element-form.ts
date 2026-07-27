@@ -38,7 +38,8 @@ export function useAddSelfKnowledgeCategoryElementForm (
       data: {
         title: formData.title,
         description: formData.description,
-        rating: formData.rating && formData.rating > 0 ? formData.rating : undefined
+        rating: formData.rating && formData.rating > 0 ? formData.rating : undefined,
+        valorized: formData.valorized
       }
     }, {
       onSuccess: async () => {
@@ -49,12 +50,15 @@ export function useAddSelfKnowledgeCategoryElementForm (
     })
   }
 
+  const defaultValues: SelfKnowledgeCategoryElementFormData = {
+    title: '',
+    description: '',
+    rating: null,
+    valorized: false
+  }
+
   const form = useForm({
-    defaultValues: {
-      title: '',
-      description: '',
-      rating: null
-    } as SelfKnowledgeCategoryElementFormData,
+    defaultValues,
     validators: {
       onChange ({ value }: { value: SelfKnowledgeCategoryElementFormData }) {
         return {

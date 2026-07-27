@@ -1,8 +1,8 @@
 import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { DeclaredSkillLevelRadioButtonSetFormFieldStub } from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.stub'
-import { DeclaredSkillValorizationToggleFormFieldStub } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/DeclaredSkillValorizationToggleFormField/DeclaredSkillValorizationToggleFormField.stub'
 import UpdateDeclaredSkillForm from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
+import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
 import { AvBadgeStub, AvCancelConfirmButtonsStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -60,7 +60,7 @@ BddTest().given('an UpdateDeclaredSkillForm component', () => {
           AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
           DeclaredSkillLevelRadioButtonSetFormField: DeclaredSkillLevelRadioButtonSetFormFieldStub,
           DeclaredSkillReflectionFormField: DeclaredSkillReflectionFormFieldStub,
-          DeclaredSkillValorizationToggleFormField: DeclaredSkillValorizationToggleFormFieldStub,
+          KitValorizationToggleFormField: KitValorizationToggleFormFieldStub,
         },
       },
       useI18n: true,
@@ -85,7 +85,7 @@ BddTest().given('an UpdateDeclaredSkillForm component', () => {
     BddTest().then('it should render level and reflection fields', () => {
       expect(wrapper.find('[data-testid="declared-skill-level-form-field"]').exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredSkillReflectionFormFieldStub).exists()).toBe(true)
-      expect(wrapper.findComponent(DeclaredSkillValorizationToggleFormFieldStub).exists()).toBe(true)
+      expect(wrapper.findComponent(KitValorizationToggleFormFieldStub).exists()).toBe(true)
     })
   })
 

@@ -52,13 +52,15 @@ export function useUpdateSelfKnowledgeElementForm (
 
   const currentElement = toValue(element)
 
+  const defaultValues: SelfKnowledgeCategoryElementFormData = {
+    title: currentElement?.title ?? '',
+    description: currentElement?.description ?? '',
+    rating: currentElement?.rating ?? null,
+    valorized: currentElement?.valorized ?? false,
+  }
+
   const form = useForm({
-    defaultValues: {
-      title: currentElement?.title ?? '',
-      description: currentElement?.description ?? '',
-      rating: currentElement?.rating ?? null,
-      valorized: currentElement?.valorized ?? false,
-    },
+    defaultValues,
     validators: {
       onChange: ({ value }: { value: SelfKnowledgeCategoryElementFormData }) => {
         return {

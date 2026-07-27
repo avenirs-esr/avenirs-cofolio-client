@@ -1,5 +1,5 @@
 import type { UpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
-import DeclaredSkillValorizationToggleFormField from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/DeclaredSkillValorizationToggleFormField/DeclaredSkillValorizationToggleFormField.vue'
+import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 import { ValorizeToggleStub } from '@/features/student/global/components/interaction/toggles/ValorizeToggle/ValorizeToggle.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
@@ -8,7 +8,7 @@ import { beforeEach, expect, vi } from 'vitest'
 
 const TestWrapper = {
   components: {
-    DeclaredSkillValorizationToggleFormField
+    KitValorizationToggleFormField
   },
   setup () {
     const form = useForm({
@@ -21,12 +21,12 @@ const TestWrapper = {
   },
   template: `
     <form @submit.prevent="form.handleSubmit">
-      <DeclaredSkillValorizationToggleFormField :form="form" />
+      <KitValorizationToggleFormField :form="form" />
     </form>
   `
 }
 
-BddTest().given('a declared skill valorization toggle form field component', () => {
+BddTest().given('a kit valorization toggle form field component', () => {
   let wrapper: VueWrapper
 
   beforeEach(() => {
@@ -78,7 +78,7 @@ BddTest().given('a declared skill valorization toggle form field component', () 
     })
 
     BddTest().then('it should emit change event', async () => {
-      const formField = wrapper.findComponent({ name: 'DeclaredSkillValorizationToggleFormField' })
+      const formField = wrapper.findComponent({ name: 'KitValorizationToggleFormField' })
       const toggle = wrapper.findComponent({ name: 'ValorizeToggle' })
       const checkbox = toggle.find('input[type="checkbox"]')
 
@@ -95,7 +95,7 @@ BddTest().given('a declared skill valorization toggle form field component', () 
 
   BddTest().when('the toggle is changed to false', () => {
     BddTest().then('it should emit change event with false', async () => {
-      const formField = wrapper.findComponent({ name: 'DeclaredSkillValorizationToggleFormField' })
+      const formField = wrapper.findComponent({ name: 'KitValorizationToggleFormField' })
       const toggle = wrapper.findComponent({ name: 'ValorizeToggle' })
       const checkbox = toggle.find('input[type="checkbox"]')
 

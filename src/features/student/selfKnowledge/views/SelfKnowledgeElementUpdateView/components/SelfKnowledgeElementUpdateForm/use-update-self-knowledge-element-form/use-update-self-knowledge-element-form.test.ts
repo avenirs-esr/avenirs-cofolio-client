@@ -25,6 +25,7 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
   const createValidFormData = (overrides?: Partial<SelfKnowledgeCategoryElementFormData>): SelfKnowledgeCategoryElementFormData => ({
     title: 'My Updated Strength',
     description: 'Updated description',
+    valorized: false,
     rating: 4,
     ...overrides
   })
@@ -32,7 +33,8 @@ BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
   const createInvalidFormData = (): SelfKnowledgeCategoryElementFormData => ({
     title: '',
     description: '',
-    rating: null
+    rating: null,
+    valorized: false,
   })
 
   const getOnSubmitValidator = () => {

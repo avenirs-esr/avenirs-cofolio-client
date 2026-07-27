@@ -5,8 +5,8 @@ import Card from '@/common/components/cards/Card/Card.vue'
 import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.vue'
 import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
 import DeclaredSkillReflectionFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillReflectionFormField/DeclaredSkillReflectionFormField.vue'
-import DeclaredSkillValorizationToggleFormField from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/DeclaredSkillValorizationToggleFormField/DeclaredSkillValorizationToggleFormField.vue'
 import { useUpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
+import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 import { AvInput, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
@@ -59,7 +59,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
           class="av-col av-gap-md av-flex-fill"
           data-testid="update-declared-skill-form__main"
         >
-          <DeclaredSkillValorizationToggleFormField :form="form" />
+          <KitValorizationToggleFormField :form="form" />
           <AvInput
             :label="t('student.declaredSkills.views.StudentDeclaredSkillView.declaredSkillDetails.skillTitle')"
             label-class="caption-regular"

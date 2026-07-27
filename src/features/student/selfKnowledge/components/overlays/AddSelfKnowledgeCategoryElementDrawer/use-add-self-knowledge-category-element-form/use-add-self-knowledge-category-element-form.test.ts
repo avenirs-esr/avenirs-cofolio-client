@@ -14,13 +14,15 @@ BddTest().given('the useAddSelfKnowledgeCategoryElementForm composable', () => {
   const createValidFormData = (rating: number | null = 3): SelfKnowledgeCategoryElementFormData => ({
     title: 'My Strength',
     description: 'This is a detailed description',
-    rating
+    rating,
+    valorized: false
   })
 
   const createInvalidFormData = (): SelfKnowledgeCategoryElementFormData => ({
     title: '',
     description: '',
-    rating: null
+    rating: null,
+    valorized: false
   })
 
   const getOnSubmitValidator = () => {
