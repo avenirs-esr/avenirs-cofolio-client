@@ -9,6 +9,7 @@ export interface SelfKnowledgeCategoryElementFormData {
   title: string
   description: string
   rating: number | null
+  valorized: boolean
 }
 
 export type AddSelfKnowledgeCategoryElementForm = ReturnType<typeof useAddSelfKnowledgeCategoryElementForm>['form']

@@ -2,6 +2,7 @@
 import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { ConfirmationModal, CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
+import DeclaredSkillValorizationToggleFormField from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/DeclaredSkillValorizationToggleFormField/DeclaredSkillValorizationToggleFormField.vue'
 import CategoryElementDescriptionTextareaFormField
   from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.vue'
 import CategoryElementRatingRadioButtonSetFormField
@@ -53,30 +54,34 @@ function confirmCancel () {
 
 <template>
   <form
-    class="self-knowledge-element-update-form av-row av-gap-lg"
+    class="self-knowledge-element-update-form av-col av-gap-lg"
     novalidate
     @submit.prevent.stop="onSubmit"
   >
-    <div class="self-knowledge-element-update-form__left-column av-col av-gap-md">
-      <CategoryElementTitleInputFormField :form="form" />
+    <DeclaredSkillValorizationToggleFormField :form="form" />
 
-      <div class="av-col av-gap-sm">
-        <span class="b2-light">
-          {{ t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementDetails.ratingLabel') }}
-        </span>
-        <CategoryElementRatingRadioButtonSetFormField :form="form" />
+    <div class="av-row av-gap-md">
+      <div class="self-knowledge-element-update-form__left-column av-flex-fill av-col av-gap-md">
+        <CategoryElementTitleInputFormField :form="form" />
+
+        <div class="av-col av-gap-sm">
+          <span class="b2-light">
+            {{ t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementDetails.ratingLabel') }}
+          </span>
+          <CategoryElementRatingRadioButtonSetFormField :form="form" />
+        </div>
       </div>
-    </div>
 
-    <div class="self-knowledge-element-update-form__right-column av-col av-flex-fill av-gap-md">
-      <CategoryElementDescriptionTextareaFormField :form="form" />
+      <div class="self-knowledge-element-update-form__right-column av-col av-flex-fill av-gap-md">
+        <CategoryElementDescriptionTextareaFormField :form="form" />
 
-      <div class="self-knowledge-element-update-form__dates av-col av-flex-fill av-gap-xs">
-        <CreationUpdateDateDetails
-          :updated-at="element.updatedAt"
-          :created-at="element.createdAt"
-          :created-at-prefix="createdAtPrefix"
-        />
+        <div class="self-knowledge-element-update-form__dates av-col av-flex-fill av-gap-xs">
+          <CreationUpdateDateDetails
+            :updated-at="element.updatedAt"
+            :created-at="element.createdAt"
+            :created-at-prefix="createdAtPrefix"
+          />
+        </div>
       </div>
     </div>
   </form>

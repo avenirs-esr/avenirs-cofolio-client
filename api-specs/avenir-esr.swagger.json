@@ -4753,11 +4753,15 @@
             "format": "int32",
             "maximum": 5,
             "minimum": 1
+          },
+          "valorized": {
+            "type": "boolean"
           }
         },
         "required": [
           "description",
-          "title"
+          "title",
+          "valorized"
         ]
       },
       "SelfKnowledgeElementViewDTO": {
@@ -6600,6 +6604,9 @@
           "rating": {
             "type": "integer",
             "format": "int32"
+          },
+          "valorized": {
+            "type": "boolean"
           },
           "createdAt": {
             "type": "string",

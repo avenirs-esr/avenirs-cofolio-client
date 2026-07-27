@@ -28,6 +28,7 @@ function addSelfKnowledgeCategoryElement () {
       title: data.title,
       description: data.description,
       rating: data.rating > 0 ? data.rating : undefined,
+      valorized: data.valorized ?? false,
     },
   }, {
     onSuccess: async (newElement) => {
@@ -51,6 +52,7 @@ function updateSelfKnowledgeElement () {
       title: data.title,
       description: data.description,
       rating: data.rating > 0 ? data.rating : undefined,
+      valorized: data.valorized ?? false
     }
   }, {
     onSuccess: async () => {
