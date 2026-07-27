@@ -6,7 +6,7 @@
           "ActivityConsignFormField": {
             "label": "Consigne"
           },
-          "ActivityExecutionPeriodFormField": {
+          "ActivityRecommendedCompletionContextsFormField": {
             "label": "Contexte(s) de réalisation conseillé(s)"
           }
         },

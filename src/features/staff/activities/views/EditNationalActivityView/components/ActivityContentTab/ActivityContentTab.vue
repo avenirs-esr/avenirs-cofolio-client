@@ -5,9 +5,9 @@ import IconTitleCardContainer from '@/common/components/cards/IconTitleCardConta
 import { ICONS } from '@/common/constants'
 import { isDifferentFile } from '@/common/utils/file/file'
 import ActivityConsignFormField from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.vue'
-import ActivityExecutionPeriodFormField
-  from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
 import ActivityFeedbackFormField from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.vue'
+import ActivityRecommendedCompletionContextsFormField
+  from '@/features/staff/activities/components/interactions/formFields/ActivityRecommendedCompletionContextsFormField/ActivityRecommendedCompletionContextsFormField.vue'
 import ActivityReflectionFormField from '@/features/staff/activities/components/interactions/formFields/ActivityReflectionFormField/ActivityReflectionFormField.vue'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import ActivityTraceFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.vue'
@@ -113,13 +113,13 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
     </div>
     <div :id="ContentSectionId.CONTEXT">
       <IconTitleCardContainer
-        :title="t('staff.activities.interactions.formFields.ActivityExecutionPeriodFormField.label')"
+        :title="t('staff.activities.interactions.formFields.ActivityRecommendedCompletionContextsFormField.label')"
         :title-icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
         collapsible
         collapsed
         required
       >
-        <ActivityExecutionPeriodFormField
+        <ActivityRecommendedCompletionContextsFormField
           :form="form"
           min-height="15rem"
           @autosave="queueAutoSave"

@@ -1,10 +1,10 @@
 import { useEditNationalActivityFormValidators } from '@/features/staff/activities/composables/use-edit-national-activity-form-validators/use-edit-national-activity-form-validators'
 import {
   ACTIVITY_CONSIGN_MAX_LENGTH,
-  ACTIVITY_EXECUTION_PERIOD_MAX_LENGTH,
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED,
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY,
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN,
+  ACTIVITY_RECOMMENDED_COMPLETION_CONTEXTS_MAX_LENGTH,
   ACTIVITY_SUMMARY_MAX_LENGTH,
   ACTIVITY_TITLE_MAX_LENGTH,
 } from '@/features/staff/activities/config'
@@ -27,7 +27,7 @@ BddTest().given('an edit national activity form validators composable', () => {
       expect(composableResult.validateTitle).toBeDefined()
       expect(composableResult.validateSummary).toBeDefined()
       expect(composableResult.validateDescription).toBeDefined()
-      expect(composableResult.validateExecutionPeriodInfo).toBeDefined()
+      expect(composableResult.validateRecommendedCompletionContexts).toBeDefined()
       expect(composableResult.validateFeedbackAllowedIterations).toBeDefined()
     })
   })
@@ -61,10 +61,10 @@ BddTest().given('an edit national activity form validators composable', () => {
     })
   })
 
-  BddTest().when('validating execution period info', () => {
+  BddTest().when('validating recommended completion contexts', () => {
     BddTest().then('it should enforce max length', () => {
-      const longExecutionPeriodInfo = 'a'.repeat(ACTIVITY_EXECUTION_PERIOD_MAX_LENGTH + 1)
-      expect(composableResult.validateExecutionPeriodInfo(longExecutionPeriodInfo)).toBe(`Veuillez limiter votre saisie à ${ACTIVITY_EXECUTION_PERIOD_MAX_LENGTH} caractères`)
+      const longRecommendedCompletionContexts = 'a'.repeat(ACTIVITY_RECOMMENDED_COMPLETION_CONTEXTS_MAX_LENGTH + 1)
+      expect(composableResult.validateRecommendedCompletionContexts(longRecommendedCompletionContexts)).toBe(`Veuillez limiter votre saisie à ${ACTIVITY_RECOMMENDED_COMPLETION_CONTEXTS_MAX_LENGTH} caractères`)
     })
   })
 

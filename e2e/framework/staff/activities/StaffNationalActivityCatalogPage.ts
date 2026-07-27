@@ -142,9 +142,9 @@ export class StaffNationalActivityCatalogPage extends BasePage {
     await this.getPreviewTabObject().verifySummaryVisible()
   }
 
-  @Then('the execution context information is visible in the preview tab')
-  async verifyExecutionContextInPreviewTab () {
-    await this.getPreviewTabObject().verifyExecutionPeriodInfoVisible()
+  @Then('the recommended completion contexts are visible in the preview tab')
+  async verifyRecommendedCompletionContextsInPreviewTab () {
+    await this.getPreviewTabObject().verifyRecommendedCompletionContextsInfoVisible()
   }
 
   getEditDraftButton () {

@@ -12,12 +12,12 @@ BddTest().given('an activity catalog preview card', () => {
     Card: CardStub,
   }
 
-  BddTest().when('the component is mounted with summary and executionPeriodInfo', () => {
+  BddTest().when('the component is mounted with summary and recommendedCompletionContexts', () => {
     beforeEach(() => {
       wrapper = mount(ActivityCatalogPreviewCard, {
         props: {
           summary: mockedActivityDetail.summary,
-          executionPeriodInfo: mockedActivityDetail.executionPeriodInfo,
+          recommendedCompletionContexts: mockedActivityDetail.recommendedCompletionContexts,
         },
         global: { stubs },
       })
@@ -37,10 +37,10 @@ BddTest().given('an activity catalog preview card', () => {
       expect(summary.text()).toBe(mockedActivityDetail.summary)
     })
 
-    BddTest().then('it should render the execution period info', () => {
-      const periodInfo = wrapper.find('[data-testid="activity-execution-period-info"]')
+    BddTest().then('it should render the recommended completion contexts info', () => {
+      const periodInfo = wrapper.find('[data-testid="activity-recommended-completion-contexts-info"]')
       expect(periodInfo.exists()).toBe(true)
-      expect(periodInfo.text()).toBe(mockedActivityDetail.executionPeriodInfo)
+      expect(periodInfo.text()).toBe(mockedActivityDetail.recommendedCompletionContexts)
     })
 
     BddTest().then('it should not render the actions container when no actions slot is provided', () => {
@@ -66,7 +66,7 @@ BddTest().given('an activity catalog preview card', () => {
     })
   })
 
-  BddTest().when('the component is mounted without executionPeriodInfo', () => {
+  BddTest().when('the component is mounted without recommendedCompletionContexts', () => {
     beforeEach(() => {
       wrapper = mount(ActivityCatalogPreviewCard, {
         props: {
@@ -80,8 +80,8 @@ BddTest().given('an activity catalog preview card', () => {
       expect(wrapper.text()).not.toContain('Contexte(s) de réalisation conseillé(s)')
     })
 
-    BddTest().then('it should not render the execution period info', () => {
-      expect(wrapper.find('[data-testid="activity-execution-period-info"]').exists()).toBe(false)
+    BddTest().then('it should not render the recommended completion contexts info', () => {
+      expect(wrapper.find('[data-testid="activity-recommended-completion-contexts-info"]').exists()).toBe(false)
     })
 
     BddTest().then('it should still render the activity summary', () => {

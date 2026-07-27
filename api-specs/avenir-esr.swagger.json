@@ -5803,7 +5803,7 @@
           "description": {
             "type": "string"
           },
-          "executionPeriodInfo": {
+          "recommendedCompletionContexts": {
             "type": "string"
           },
           "enableReflection": {
@@ -5996,7 +5996,7 @@
           "description": {
             "type": "string"
           },
-          "executionPeriodInfo": {
+          "recommendedCompletionContexts": {
             "type": "string"
           },
           "executionPeriodInfoSummary": {
@@ -6676,7 +6676,7 @@
                     "BANNER",
                     "SUMMARY",
                     "DESCRIPTION",
-                    "EXECUTION_PERIOD"
+                    "RECOMMENDED_COMPLETION_CONTEXTS"
                   ]
                 }
               }
@@ -7353,7 +7353,7 @@
           "description": {
             "type": "string"
           },
-          "executionPeriodInfo": {
+          "recommendedCompletionContexts": {
             "type": "string"
           },
           "createdAt": {

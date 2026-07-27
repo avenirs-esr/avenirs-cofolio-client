@@ -22,7 +22,7 @@ const mockedActivity: ActivityContentDTO = {
   thematic: EActivityThematic.TRANSVERSAL,
   summary: 'Résumé activité test',
   description: 'Description activité test',
-  executionPeriodInfo: 'Semestre 1',
+  recommendedCompletionContexts: 'Semestre 1',
   enableReflection: false,
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 5,

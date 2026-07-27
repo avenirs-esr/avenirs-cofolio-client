@@ -53,7 +53,7 @@ const {
   validateTitle,
   validateSummary,
   validateDescription,
-  validateExecutionPeriodInfo,
+  validateRecommendedCompletionContexts,
   validateFeedbackAllowedIterations
 } = useEditNationalActivityFormValidators()
 const activeTab = useEnumRouteQuery('tab', EditActivityTabIndex, EditActivityTabIndex.CONTENT)
@@ -90,7 +90,7 @@ const defaultValues: EditActivityFormData = reactive({
   title: computed(() => content.value?.title ?? ''),
   thematic: computed(() => content.value?.thematic ?? EActivityThematic.TRANSVERSAL),
   description: computed(() => content.value?.description ?? ''),
-  executionPeriodInfo: computed(() => content.value?.executionPeriodInfo ?? ''),
+  recommendedCompletionContexts: computed(() => content.value?.recommendedCompletionContexts ?? ''),
   summary: computed(() => content.value?.summary ?? ''),
   enableReflection: computed(() => content.value?.enableReflection ?? true),
   feedbackAllowedIterations: computed(() => content.value?.feedbackAllowedIterations ?? undefined),
@@ -121,7 +121,7 @@ const form = useForm({
           title: validateTitle(value.title),
           summary: validateSummary(value.summary),
           description: validateDescription(value.description),
-          executionPeriodInfo: validateExecutionPeriodInfo(value.executionPeriodInfo),
+          recommendedCompletionContexts: validateRecommendedCompletionContexts(value.recommendedCompletionContexts),
           feedbackAllowedIterations: validateFeedbackAllowedIterations(value.feedbackAllowedIterations),
         }
       }
@@ -134,7 +134,7 @@ const form = useForm({
       title: value.title,
       thematic: value.thematic,
       description: value.description,
-      executionPeriodInfo: value.executionPeriodInfo,
+      recommendedCompletionContexts: value.recommendedCompletionContexts,
       summary: value.summary,
       enableReflection: value.enableReflection ?? true,
       feedbackAllowedIterations: value.feedbackAllowedIterations ?? 0,

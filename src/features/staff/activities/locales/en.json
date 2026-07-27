@@ -6,8 +6,8 @@
           "ActivityConsignFormField": {
             "label": "Consign"
           },
-          "ActivityExecutionPeriodFormField": {
-            "label": "Recommended execution context(s)"
+          "ActivityRecommendedCompletionContextsFormField": {
+            "label": "Recommended completion context(s)"
           }
         },
         "inputs": {

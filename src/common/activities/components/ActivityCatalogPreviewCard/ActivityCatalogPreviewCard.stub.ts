@@ -6,7 +6,7 @@ export const ActivityCatalogPreviewCardStub = defineComponent({
       type: String,
       required: true,
     },
-    executionPeriodInfo: {
+    recommendedCompletionContexts: {
       type: String,
     },
   },

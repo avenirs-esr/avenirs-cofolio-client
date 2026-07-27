@@ -16,7 +16,7 @@ export interface EditActivityFormData extends ActivityDraftCreationFormData {
   thematic: EActivityThematic
   description: string
   enableReflection?: boolean
-  executionPeriodInfo: string
+  recommendedCompletionContexts: string
   feedbackAllowedIterations?: number
   summary: string
   traceAllowedAssociations?: number

@@ -5,12 +5,12 @@ import { useI18n } from 'vue-i18n'
 
 export interface ActivityCatalogPreviewCardProps {
   summary: string
-  executionPeriodInfo?: string
+  recommendedCompletionContexts?: string
 }
 
 const {
   summary,
-  executionPeriodInfo,
+  recommendedCompletionContexts,
 } = defineProps<ActivityCatalogPreviewCardProps>()
 
 defineSlots<{
@@ -37,15 +37,15 @@ const { t } = useI18n()
           </span>
         </div>
         <div
-          v-if="executionPeriodInfo"
+          v-if="recommendedCompletionContexts"
           class="av-col av-flex-fill av-gap-md"
         >
           <span class="n4 av-text-primary1 av-text-regular">{{ t('global.activities.components.ActivityCatalogPreviewCard.recommendedCompletionContexts') }}</span>
           <span
             class="s2-bold av-text-primary1"
-            data-testid="activity-execution-period-info"
+            data-testid="activity-recommended-completion-contexts-info"
           >
-            {{ executionPeriodInfo }}
+            {{ recommendedCompletionContexts }}
           </span>
         </div>
       </div>

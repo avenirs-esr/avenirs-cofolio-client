@@ -25,7 +25,7 @@ BddTest().given('a project activity details component', () => {
     ActivityResourcesList: ActivityResourcesListStub,
   }
 
-  BddTest().when('the component is mounted with executionPeriodInfo containing "-" lines and startDate and endDate', () => {
+  BddTest().when('the component is mounted with recommendedCompletionContexts containing "-" lines and startDate and endDate', () => {
     const props: ProjectActivityDetailsProps = {
       declaredActivityDetails: mockedDeclaredActivityDetails,
     }
@@ -60,8 +60,8 @@ BddTest().given('a project activity details component', () => {
       expect(description.exists()).toBe(true)
     })
 
-    BddTest().then('it should render the execution period as a bullet list', () => {
-      const list = wrapper.find('[data-testid="activity-execution-period"]')
+    BddTest().then('it should render the recommended completion contexts as a bullet list', () => {
+      const list = wrapper.find('[data-testid="activity-recommended-completion-contexts-list"]')
       expect(list.exists()).toBe(true)
 
       const items = list.findAll('li')
@@ -74,13 +74,13 @@ BddTest().given('a project activity details component', () => {
     })
   })
 
-  BddTest().when('the component is mounted with empty executionPeriodInfo', () => {
+  BddTest().when('the component is mounted with empty recommendedCompletionContexts', () => {
     const props: ProjectActivityDetailsProps = {
       declaredActivityDetails: {
         ...mockedDeclaredActivityDetails,
         activity: {
           ...mockedDeclaredActivityDetails.activity,
-          executionPeriodInfo: '',
+          recommendedCompletionContexts: '',
         },
       },
     }
@@ -93,7 +93,7 @@ BddTest().given('a project activity details component', () => {
     })
 
     BddTest().then('it should render an empty list', () => {
-      const list = wrapper.find('[data-testid="activity-execution-period"]')
+      const list = wrapper.find('[data-testid="activity-recommended-completion-contexts-list"]')
       expect(list.exists()).toBe(true)
 
       const items = list.findAll('li')

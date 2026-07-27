@@ -23,8 +23,8 @@ export class NationalActivityCatalogPreviewTabObject extends BaseObject {
     return this.getRoot().getByTestId('activity-summary')
   }
 
-  private getExecutionPeriodInfo () {
-    return this.getRoot().getByTestId('activity-execution-period-info')
+  private getRecommendedCompletionContextsInfo () {
+    return this.getRoot().getByTestId('activity-recommended-completion-contexts-info')
   }
 
   async verifyTitleVisible () {
@@ -43,7 +43,7 @@ export class NationalActivityCatalogPreviewTabObject extends BaseObject {
     await verifyTextLocator(this.getSummary())
   }
 
-  async verifyExecutionPeriodInfoVisible () {
-    await expect(this.getExecutionPeriodInfo()).toBeVisible()
+  async verifyRecommendedCompletionContextsInfoVisible () {
+    await expect(this.getRecommendedCompletionContextsInfo()).toBeVisible()
   }
 }

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
-import ActivityExecutionPeriodList from '@/common/activities/components/ActivityExecutionPeriodList/ActivityExecutionPeriodList.vue'
 import ActivityPeriodDisplay from '@/common/activities/components/ActivityPeriodDisplay/ActivityPeriodDisplay.vue'
+import ActivityRecommendedCompletionContextsList from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import ActivityResourcesList from '@/common/components/lists/ActivityResourcesList/ActivityResourcesList.vue'
@@ -54,8 +54,8 @@ const resourceCount = computed(() => (activity.value.files?.length ?? 0) + (acti
           <span class="n4">
             {{ t('student.buildProject.activities.views.ProjectActivityDetailedView.ProjectActivityDetails.recommendedCompletionContexts') }}
           </span>
-          <ActivityExecutionPeriodList
-            :execution-period-info=" declaredActivityDetails.activity.executionPeriodInfo"
+          <ActivityRecommendedCompletionContextsList
+            :recommended-completion-contexts=" declaredActivityDetails.activity.recommendedCompletionContexts"
           />
         </div>
       </div>

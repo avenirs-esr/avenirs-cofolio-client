@@ -2,7 +2,7 @@
 import type { ActivityContentDTO } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
-import ActivityExecutionPeriodList from '@/common/activities/components/ActivityExecutionPeriodList/ActivityExecutionPeriodList.vue'
+import ActivityRecommendedCompletionContextsList from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import ActivityResourcesList from '@/common/components/lists/ActivityResourcesList/ActivityResourcesList.vue'
@@ -62,9 +62,9 @@ const resourceCount = computed(() => (activity.files?.length ?? 0) + (activity.l
             data-testid="national-activity-content-tab-context-title"
             class="av-text-primary1 av-text-regular"
           >
-            {{ t('staff.activities.interactions.formFields.ActivityExecutionPeriodFormField.label') }}
+            {{ t('staff.activities.interactions.formFields.ActivityRecommendedCompletionContextsFormField.label') }}
           </h4>
-          <ActivityExecutionPeriodList :execution-period-info="activity.executionPeriodInfo" />
+          <ActivityRecommendedCompletionContextsList :recommended-completion-contexts="activity.recommendedCompletionContexts" />
         </div>
       </div>
     </Card>
