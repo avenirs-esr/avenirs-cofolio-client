@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import type { UpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
+import type {
+  UpdateSelfKnowledgeCategoryElementForm
+} from '@/features/student/selfKnowledge/types/forms.types'
 import ValorizeToggle from '@/features/student/global/components/interaction/toggles/ValorizeToggle/ValorizeToggle.vue'
 import { markRaw, useAttrs } from 'vue'
 
 interface DeclaredSkillValorizationToggleFormFieldProps {
-  form: UpdateDeclaredSkillForm
+  form: UpdateDeclaredSkillForm | UpdateSelfKnowledgeCategoryElementForm
 }
 
 const { form } = defineProps<DeclaredSkillValorizationToggleFormFieldProps>()
