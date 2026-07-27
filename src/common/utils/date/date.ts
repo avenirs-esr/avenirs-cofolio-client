@@ -63,7 +63,7 @@ export function getCalendarDate (date: DateArg<Date>) {
  */
 export function getDaysUntil (date: DateArg<Date>): number {
   const today = startOfDay(new Date())
-  const target = startOfDay(date)
+  const target = startOfDay(parseDate(date))
 
   return differenceInDays(target, today)
 }
