@@ -2,7 +2,7 @@ import type { DeclaredActivityAssociationDTO } from '@/api/avenir-esr'
 import { deleteTraceAssociationsErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
-import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
+import { DeleteActivitiesSelectorStub } from '@/features/student/global/components/cards/DeleteActivitiesSelector/DeleteActivitiesSelector.stub'
 import { DeleteAssociationsModalStub } from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import DeleteTraceAssociatedActivitiesModal, {
   type DeleteTraceAssociatedActivitiesModalProps
@@ -30,7 +30,7 @@ BddTest().given('a delete trace associated activities modal', () => {
 
   const stubs = {
     DeleteAssociationsModal: DeleteAssociationsModalStub,
-    CompactCardSelector: CompactCardSelectorStub,
+    DeleteActivitiesSelector: DeleteActivitiesSelectorStub,
   }
 
   const associations: DeclaredActivityAssociationDTO[] = [
@@ -80,32 +80,29 @@ BddTest().given('a delete trace associated activities modal', () => {
       expect(confirmModal.exists()).toBe(true)
     })
 
-    BddTest().then('it should render the compact card selector', () => {
-      const selector = wrapper.findComponent(CompactCardSelectorStub)
+    BddTest().then('it should render the delete activities selector', () => {
+      const selector = wrapper.findComponent(DeleteActivitiesSelectorStub)
       expect(selector.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass selectable elements derived from associations to the compact card selector', () => {
-      const selector = wrapper.findComponent(CompactCardSelectorStub)
-      expect(selector.props('elements')).toEqual([
-        { id: 'assoc-1', title: 'Activité 1' },
-        { id: 'assoc-2', title: 'Activité 2' },
-      ])
+    BddTest().then('it should pass all associations through without filtering', () => {
+      const selector = wrapper.findComponent(DeleteActivitiesSelectorStub)
+      expect(selector.props('associations')).toEqual(associations)
     })
 
     BddTest().then('it should initialize selectedIds as empty', () => {
-      const selector = wrapper.findComponent(CompactCardSelectorStub)
+      const selector = wrapper.findComponent(DeleteActivitiesSelectorStub)
       expect(selector.props('modelValue')).toEqual([])
     })
 
-    BddTest().and('the user selects associations from the compact card selector', () => {
+    BddTest().and('the user selects associations from the selector', () => {
       beforeEach(() => {
-        const selector = wrapper.findComponent(CompactCardSelectorStub)
+        const selector = wrapper.findComponent(DeleteActivitiesSelectorStub)
         selector.vm.$emit('update:modelValue', ['assoc-1', 'assoc-2'])
       })
 
       BddTest().then('the selectedIds should be updated accordingly', () => {
-        const selector = wrapper.findComponent(CompactCardSelectorStub)
+        const selector = wrapper.findComponent(DeleteActivitiesSelectorStub)
         expect(selector.props('modelValue')).toEqual(['assoc-1', 'assoc-2'])
       })
     })
@@ -121,7 +118,7 @@ BddTest().given('a delete trace associated activities modal', () => {
       })
 
       BddTest().then('the selectedIds should be reset', () => {
-        const selector = wrapper.findComponent(CompactCardSelectorStub)
+        const selector = wrapper.findComponent(DeleteActivitiesSelectorStub)
         expect(selector.props('modelValue')).toEqual([])
       })
     })
@@ -155,7 +152,7 @@ BddTest().given('a delete trace associated activities modal', () => {
 
       BddTest().then('the selectedIds should be reset', async () => {
         await vi.waitFor(() => {
-          const selector = wrapper.findComponent(CompactCardSelectorStub)
+          const selector = wrapper.findComponent(DeleteActivitiesSelectorStub)
           expect(selector.props('modelValue')).toEqual([])
         })
       })

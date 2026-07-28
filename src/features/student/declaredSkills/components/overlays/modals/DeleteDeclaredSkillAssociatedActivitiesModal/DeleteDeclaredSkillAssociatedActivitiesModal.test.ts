@@ -5,7 +5,7 @@ import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import DeleteDeclaredSkillAssociatedActivitiesModal, {
   type DeleteDeclaredSkillAssociatedActivitiesModalProps
 } from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedActivitiesModal/DeleteDeclaredSkillAssociatedActivitiesModal.vue'
-import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
+import { DeleteActivitiesSelectorStub } from '@/features/student/global/components/cards/DeleteActivitiesSelector/DeleteActivitiesSelector.stub'
 import { DeleteAssociationsModalStub } from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -30,7 +30,7 @@ BddTest().given('a delete declared skill associated activities modal', () => {
 
   const stubs = {
     DeleteAssociationsModal: DeleteAssociationsModalStub,
-    CompactCardSelector: CompactCardSelectorStub,
+    DeleteActivitiesSelector: DeleteActivitiesSelectorStub,
   }
 
   const associations = createMockedDeclaredActivitiesAssociations(4)
@@ -58,32 +58,29 @@ BddTest().given('a delete declared skill associated activities modal', () => {
       expect(confirmModal.exists()).toBe(true)
     })
 
-    BddTest().then('it should render the compact card selector', () => {
-      const selector = wrapper.findComponent(CompactCardSelectorStub)
+    BddTest().then('it should render the delete activities selector', () => {
+      const selector = wrapper.findComponent(DeleteActivitiesSelectorStub)
       expect(selector.exists()).toBe(true)
     })
 
-    BddTest().then('it should only expose deletable associations excluding submitted and completed activities', () => {
-      const selector = wrapper.findComponent(CompactCardSelectorStub)
-      expect(selector.props('elements')).toEqual([
-        { id: 'declared-activity-association-1', title: 'Activité déclarée associée 1' },
-        { id: 'declared-activity-association-2', title: 'Activité déclarée associée 2' },
-      ])
+    BddTest().then('it should pass all associations through without filtering', () => {
+      const selector = wrapper.findComponent(DeleteActivitiesSelectorStub)
+      expect(selector.props('associations')).toEqual(associations)
     })
 
     BddTest().then('it should initialize selectedIds as empty', () => {
-      const selector = wrapper.findComponent(CompactCardSelectorStub)
+      const selector = wrapper.findComponent(DeleteActivitiesSelectorStub)
       expect(selector.props('modelValue')).toEqual([])
     })
 
-    BddTest().and('the user selects associations from the compact card selector', () => {
+    BddTest().and('the user selects deletable associations from the selector', () => {
       beforeEach(() => {
-        const selector = wrapper.findComponent(CompactCardSelectorStub)
+        const selector = wrapper.findComponent(DeleteActivitiesSelectorStub)
         selector.vm.$emit('update:modelValue', ['declared-activity-association-1', 'declared-activity-association-2'])
       })
 
       BddTest().then('the selectedIds should be updated accordingly', () => {
-        const selector = wrapper.findComponent(CompactCardSelectorStub)
+        const selector = wrapper.findComponent(DeleteActivitiesSelectorStub)
         expect(selector.props('modelValue')).toEqual(['declared-activity-association-1', 'declared-activity-association-2'])
       })
     })
@@ -99,7 +96,7 @@ BddTest().given('a delete declared skill associated activities modal', () => {
       })
 
       BddTest().then('the selectedIds should be reset', () => {
-        const selector = wrapper.findComponent(CompactCardSelectorStub)
+        const selector = wrapper.findComponent(DeleteActivitiesSelectorStub)
         expect(selector.props('modelValue')).toEqual([])
       })
     })
@@ -133,7 +130,7 @@ BddTest().given('a delete declared skill associated activities modal', () => {
 
       BddTest().then('the selectedIds should be reset', async () => {
         await vi.waitFor(() => {
-          const selector = wrapper.findComponent(CompactCardSelectorStub)
+          const selector = wrapper.findComponent(DeleteActivitiesSelectorStub)
           expect(selector.props('modelValue')).toEqual([])
         })
       })

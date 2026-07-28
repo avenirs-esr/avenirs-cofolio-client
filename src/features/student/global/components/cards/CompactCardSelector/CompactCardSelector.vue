@@ -32,7 +32,7 @@ import { getUnknownElementProp } from '@/features/student/global/components/card
  */
 
 export interface CompactCardSelectorProps {
-  elements: { id: string, title: string, showSlot?: boolean, baseElement?: unknown }[]
+  elements: { id: string, title: string, showSlot?: boolean, baseElement?: unknown, disabled?: boolean, isLoading?: boolean }[]
   readonly?: boolean
   icon: string
   color?: string
@@ -74,7 +74,9 @@ const selectableElements = computed(() => {
     value: element.id,
     label: element.title,
     showSlot: getUnknownElementProp<boolean>(element, 'showSlot') ?? false,
-    baseElement: element.baseElement
+    baseElement: element.baseElement,
+    disabled: getUnknownElementProp<boolean>(element, 'disabled') ?? false,
+    isLoading: getUnknownElementProp<boolean>(element, 'isLoading') ?? false
   }))
 })
 

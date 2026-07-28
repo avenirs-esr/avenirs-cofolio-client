@@ -383,13 +383,10 @@ BddTest().given('a student trace associations component', () => {
       expect(dropdown.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass only deletable declared activity associations to the delete activities modal', () => {
+    BddTest().then('it should pass all declared activity associations to the delete activities modal without filtering', () => {
       const activitiesModal = wrapper.findComponent(DeleteTraceAssociatedActivitiesModalStub)
-      const expectedAssociations = declaredActivityAssociations.filter(
-        association => association.declaredActivity.status !== EDeclaredActivityStatus.COMPLETED
-      )
 
-      expect(activitiesModal.props('associations')).toEqual(expectedAssociations)
+      expect(activitiesModal.props('associations')).toEqual(declaredActivityAssociations)
       expect(activitiesModal.props('traceId')).toBe(traceId)
     })
   })

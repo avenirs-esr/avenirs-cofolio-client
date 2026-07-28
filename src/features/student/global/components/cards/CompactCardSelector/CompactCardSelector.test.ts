@@ -95,4 +95,24 @@ BddTest().given('a compact card selector', () => {
       expect(wrapper.find('[data-testid="selector-overlay"]').exists()).toBe(false)
     })
   })
+
+  BddTest().when('the component is mounted with a disabled element', () => {
+    const props: CompactCardSelectorProps = {
+      elements: [
+        { id: '1', title: 'Element 1', disabled: true },
+        { id: '2', title: 'Element 2' }
+      ],
+      icon: MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE,
+    }
+
+    beforeEach(() => {
+      wrapper = mount(CompactCardSelector, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should propagate disabled to the selector overlay stub', () => {
+      const overlay = wrapper.findComponent(SelectorOverlayStub)
+      expect(overlay.props('selectableElements')[0]).toMatchObject({ value: '1', disabled: true })
+      expect(overlay.props('selectableElements')[1]).toMatchObject({ value: '2', disabled: false })
+    })
+  })
 })
