@@ -71,9 +71,9 @@ Call log:
     - tab "Ma trace" [selected]
     - tab "Mes éléments associés (5)"
   - tabpanel "Ma trace":
-    - checkbox "Je valorise dans mon kit Je valorise cette trace dans mon kit" [checked]
+    - checkbox "Je valorise dans mon kit" [checked]
     - img
-    - text: Je valorise dans mon kit Je valorise cette trace dans mon kit Nom de ma trace
+    - text: Je valorise dans mon kit Nom de ma trace
     - textbox "Nom de ma trace":
       - /placeholder: Nom-de-ma-trace-01
       - text: Développement d'un ePortfolio
