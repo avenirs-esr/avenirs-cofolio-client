@@ -77,9 +77,6 @@
         "toggles": {
           "TraceAiUsageToggle": {
             "description": "I submit a production made with AI"
-          },
-          "TraceValorizationToggle": {
-            "description": "I value this trace in my kit"
           }
         }
       },
