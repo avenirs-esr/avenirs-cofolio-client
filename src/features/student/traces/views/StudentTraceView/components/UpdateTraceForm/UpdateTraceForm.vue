@@ -3,13 +3,13 @@ import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { UpdateTraceForm as UpdateTraceFormType } from '@/features/student/traces/types/forms.types'
 import { useDateUtils } from '@/common/composables'
 import { bytesToMegabytes } from '@/common/utils/file/file'
+import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 import TraceAiJustificationTextareaFormField from '@/features/student/traces/components/interactions/formFields/TraceAiJustificationTextareaFormField/TraceAiJustificationTextareaFormField.vue'
 import TraceAiUsageToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceAiUsageToggleFormField/TraceAiUsageToggleFormField.vue'
 import TraceFileUploadFormField from '@/features/student/traces/components/interactions/formFields/TraceFileUploadFormField/TraceFileUploadFormField.vue'
 import TraceLinkInputFormField from '@/features/student/traces/components/interactions/formFields/TraceLinkInputFormField/TraceLinkInputFormField.vue'
 import TraceNameInputFormField from '@/features/student/traces/components/interactions/formFields/TraceNameInputFormField/TraceNameInputFormField.vue'
 import TracePersonalNoteTextareaFormField from '@/features/student/traces/components/interactions/formFields/TracePersonalNoteTextareaFormField/TracePersonalNoteTextareaFormField.vue'
-import TraceValorizationToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceValorizationToggleFormField/TraceValorizationToggleFormField.vue'
 import TraceAuthorTypeRadioSetFormField from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSetFormField/TraceAuthorTypeRadioSetFormField.vue'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { TraceType } from '@/features/student/traces/types/traces.types'
@@ -81,10 +81,15 @@ function handleFileDeleted (fileName: string) {
     novalidate
     @submit.prevent.stop="form.handleSubmit"
   >
-    <TraceValorizationToggleFormField :form="form" />
+    <KitValorizationToggleFormField
+      :form="form"
+      :description="t('student.traces.interactions.toggles.TraceValorizationToggle.description')"
+    />
     <div class="av-row av-gap-lg av-w-full">
       <div class="av-col av-gap-lg av-flex-fill">
-        <TraceNameInputFormField :form="form" />
+        <TraceNameInputFormField
+          :form="form"
+        />
 
         <TraceFileUploadFormField
           v-if="form.getFieldValue('traceType') === TraceType.FILE"

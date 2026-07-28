@@ -3,14 +3,16 @@ import type { UpdateDeclaredSkillForm } from '@/features/student/declaredSkills/
 import type {
   UpdateSelfKnowledgeCategoryElementForm
 } from '@/features/student/selfKnowledge/types/forms.types'
+import type { UpdateTraceForm } from '@/features/student/traces/types/forms.types'
 import ValorizeToggle from '@/features/student/global/components/interaction/toggles/ValorizeToggle/ValorizeToggle.vue'
 import { markRaw, useAttrs } from 'vue'
 
 interface DeclaredSkillValorizationToggleFormFieldProps {
-  form: UpdateDeclaredSkillForm | UpdateSelfKnowledgeCategoryElementForm
+  form: UpdateDeclaredSkillForm | UpdateSelfKnowledgeCategoryElementForm | UpdateTraceForm
+  description?: string
 }
 
-const { form } = defineProps<DeclaredSkillValorizationToggleFormFieldProps>()
+const { form, description } = defineProps<DeclaredSkillValorizationToggleFormFieldProps>()
 
 const emit = defineEmits<{
   (event: 'change', payload: boolean): void
@@ -32,9 +34,10 @@ function handleChange (value: boolean, fieldChange: (value: boolean) => void) {
       <ValorizeToggle
         v-bind="attrs"
         id="declared-skill-valorization"
+        :description
         name="valorized"
         :model-value="field.state.value"
-        @update:model-value="value => handleChange(value, field.handleChange)"
+        @update:model-value="(value: boolean) => handleChange(value, field.handleChange)"
       />
     </template>
   </FormField>
