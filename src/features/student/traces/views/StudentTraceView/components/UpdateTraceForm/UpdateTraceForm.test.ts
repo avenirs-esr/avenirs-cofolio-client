@@ -1,13 +1,13 @@
 import type { UpdateTraceForm as UpdateTraceFormType } from '@/features/student/traces/types/forms.types'
 import type { VueWrapper } from '@vue/test-utils'
 import { EFileType, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
+import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
 import { TraceAiJustificationTextareaFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceAiJustificationTextareaFormField/TraceAiJustificationTextareaFormField.stub'
 import { TraceAiUsageToggleFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceAiUsageToggleFormField/TraceAiUsageToggleFormField.stub'
 import { TraceFileUploadFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceFileUploadFormField/TraceFileUploadFormField.stub'
 import { TraceLinkInputFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceLinkInputFormField/TraceLinkInputFormField.stub'
 import { TraceNameInputFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceNameInputFormField/TraceNameInputFormField.stub'
 import { TracePersonalNoteTextareaFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TracePersonalNoteTextareaFormField/TracePersonalNoteTextareaFormField.stub'
-import { TraceValorizationToggleFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceValorizationToggleFormField/TraceValorizationToggleFormField.stub'
 import { TraceAuthorTypeRadioSetFormFieldStub } from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSetFormField/TraceAuthorTypeRadioSetFormField.stub'
 import { TraceType } from '@/features/student/traces/types/traces.types'
 import UpdateTraceForm from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/UpdateTraceForm.vue'
@@ -68,7 +68,7 @@ BddTest().given('an update trace form component', () => {
     TraceAuthorTypeRadioSetFormField: TraceAuthorTypeRadioSetFormFieldStub,
     TraceAiUsageToggleFormField: TraceAiUsageToggleFormFieldStub,
     TraceAiJustificationTextareaFormField: TraceAiJustificationTextareaFormFieldStub,
-    TraceValorizationToggleFormField: TraceValorizationToggleFormFieldStub,
+    KitValorizationToggleFormField: KitValorizationToggleFormFieldStub,
   }
 
   beforeEach(() => {

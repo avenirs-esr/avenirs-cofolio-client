@@ -6,38 +6,40 @@ import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const TestWrapper = {
-  components: {
-    KitValorizationToggleFormField
-  },
-  setup () {
-    const form = useForm({
-      defaultValues: {
-        valorized: false
-      }
-    }) as unknown as UpdateDeclaredSkillForm
+function createTestWrapper (description?: string) {
+  return {
+    components: {
+      KitValorizationToggleFormField
+    },
+    setup () {
+      const form = useForm({
+        defaultValues: {
+          valorized: false
+        }
+      }) as unknown as UpdateDeclaredSkillForm
 
-    return { form }
-  },
-  template: `
-    <form @submit.prevent="form.handleSubmit">
-      <KitValorizationToggleFormField :form="form" />
-    </form>
-  `
+      return { form, description }
+    },
+    template: `
+      <form @submit.prevent="form.handleSubmit">
+        <KitValorizationToggleFormField :form="form" :description="description" />
+      </form>
+    `
+  }
 }
 
 BddTest().given('a kit valorization toggle form field component', () => {
   let wrapper: VueWrapper
 
+  const stubs = {
+    ValorizeToggle: ValorizeToggleStub
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
 
-    wrapper = mount(TestWrapper, {
-      global: {
-        stubs: {
-          ValorizeToggle: ValorizeToggleStub
-        }
-      }
+    wrapper = mount(createTestWrapper(), {
+      global: { stubs }
     })
   })
 
@@ -110,6 +112,26 @@ BddTest().given('a kit valorization toggle form field component', () => {
         expect(emitted).toBeTruthy()
         expect(emitted?.[emitted.length - 1]).toEqual([false])
       })
+    })
+  })
+
+  BddTest().when('the component is mounted without a description', () => {
+    BddTest().then('it should pass undefined description to the valorize toggle', () => {
+      const toggle = wrapper.findComponent({ name: 'ValorizeToggle' })
+      expect(toggle.props('description')).toBeUndefined()
+    })
+  })
+
+  BddTest().when('the component is mounted with a description', () => {
+    beforeEach(() => {
+      wrapper = mount(createTestWrapper('My description'), {
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should pass the description to the valorize toggle', () => {
+      const toggle = wrapper.findComponent({ name: 'ValorizeToggle' })
+      expect(toggle.props('description')).toBe('My description')
     })
   })
 })

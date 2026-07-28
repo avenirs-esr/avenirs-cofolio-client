@@ -8,6 +8,7 @@ export const ValorizeToggleStub = defineComponent({
     'inactiveText',
     'statusTextWidth',
     'disabled',
+    'description',
   ],
   emits: ['update:modelValue'],
   template: `
