@@ -3,6 +3,7 @@ import {
   type ActivityNavigationDTO,
   type ActivityOverviewDTO,
   type ActivityPresentationDTO,
+  type DeclaredActivityAssociationDTO,
   type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
   type DeclaredActivityViewDTO,
@@ -559,6 +560,26 @@ export function createMockedPagedResponseAssociationSearchResultDeclaredActivity
       totalElements: filteredActivities.length,
       totalPages,
       page
+    }
+  }
+}
+
+export function buildAssociation (
+  overrides: Partial<DeclaredActivityAssociationDTO['declaredActivity']> & { associationId: string }
+): DeclaredActivityAssociationDTO {
+  const { associationId, ...declaredActivityOverrides } = overrides
+
+  return {
+    associationId,
+    declaredActivity: {
+      id: `activity-${associationId}`,
+      activityId: `activity-${associationId}`,
+      title: `Activity ${associationId}`,
+      thematic: EActivityThematic.SELF_KNOWLEDGE,
+      summary: 'summary',
+      description: 'description',
+      status: EDeclaredActivityStatus.SUBSCRIBED,
+      ...declaredActivityOverrides
     }
   }
 }

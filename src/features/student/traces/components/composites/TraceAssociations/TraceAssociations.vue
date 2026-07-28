@@ -111,7 +111,7 @@ const deletableDeclaredActivityAssociations = computed(() =>
   <DeleteTraceAssociatedActivitiesModal
     :show="showActivitiesModal"
     :trace-id="traceId"
-    :associations="deletableDeclaredActivityAssociations"
+    :associations="declaredActivityAssociations"
     @cancel="hideActivitiesModal"
     @deleted="hideActivitiesModal"
   />

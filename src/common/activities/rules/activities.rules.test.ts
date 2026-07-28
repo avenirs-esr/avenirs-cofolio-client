@@ -1,7 +1,7 @@
-import type { DeclaredActivityDetailsDTO, FeedbackOverviewDTO, UserInfoDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityAssociationDTO, DeclaredActivityDetailsDTO, FeedbackOverviewDTO, UserInfoDTO } from '@/api/avenir-esr'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { EFeedbackStatus } from '@/api/avenir-esr'
-import { canCreateFeedbackRequest, computeRemainingFeedbacks } from '@/common/activities/rules/activities.rules'
+import { EActivityThematic, EDeclaredActivityStatus, EFeedbackStatus } from '@/api/avenir-esr'
+import { canCreateFeedbackRequest, computeRemainingFeedbacks, isDeletableDeclaredActivityAssociation } from '@/common/activities/rules/activities.rules'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { expect } from 'vitest'
 
@@ -34,6 +34,21 @@ function buildDeclaredActivityDetails (
       feedbackAllowedIterations
     },
     feedbacks
+  }
+}
+
+function buildDeclaredActivityAssociation (status: EDeclaredActivityStatus, associationId = 'association-1'): DeclaredActivityAssociationDTO {
+  return {
+    associationId,
+    declaredActivity: {
+      id: `activity-${associationId}`,
+      activityId: `activity-${associationId}`,
+      title: `Activity ${associationId}`,
+      thematic: EActivityThematic.SELF_KNOWLEDGE,
+      summary: 'summary',
+      description: 'description',
+      status
+    }
   }
 }
 
@@ -143,6 +158,36 @@ BddTest().given('canCreateFeedbackRequest', () => {
         ])
         expect(canCreateFeedbackRequest(declaredActivityDetails, 1)).toBe(false)
       })
+    })
+  })
+})
+
+BddTest().given('isDeletableDeclaredActivityAssociation', () => {
+  BddTest().when('the declared activity is subscribed', () => {
+    BddTest().then('it should return true', () => {
+      const association = buildDeclaredActivityAssociation(EDeclaredActivityStatus.SUBSCRIBED)
+      expect(isDeletableDeclaredActivityAssociation(association)).toBe(true)
+    })
+  })
+
+  BddTest().when('the declared activity is in progress', () => {
+    BddTest().then('it should return true', () => {
+      const association = buildDeclaredActivityAssociation(EDeclaredActivityStatus.IN_PROGRESS)
+      expect(isDeletableDeclaredActivityAssociation(association)).toBe(true)
+    })
+  })
+
+  BddTest().when('the declared activity is submitted', () => {
+    BddTest().then('it should return false', () => {
+      const association = buildDeclaredActivityAssociation(EDeclaredActivityStatus.SUBMITTED)
+      expect(isDeletableDeclaredActivityAssociation(association)).toBe(false)
+    })
+  })
+
+  BddTest().when('the declared activity is completed', () => {
+    BddTest().then('it should return false', () => {
+      const association = buildDeclaredActivityAssociation(EDeclaredActivityStatus.COMPLETED)
+      expect(isDeletableDeclaredActivityAssociation(association)).toBe(false)
     })
   })
 })

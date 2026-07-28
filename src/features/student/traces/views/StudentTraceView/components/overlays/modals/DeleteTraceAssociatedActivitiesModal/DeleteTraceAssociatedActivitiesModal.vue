@@ -3,8 +3,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import { type DeclaredActivityAssociationDTO, invalidateGetTraceAssociations, invalidateGetTraceDetail, useDeleteTraceAssociations } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { ICONS } from '@/common/constants'
-import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
+import DeleteActivitiesSelector from '@/features/student/global/components/cards/DeleteActivitiesSelector/DeleteActivitiesSelector.vue'
 import DeleteAssociationsModal from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import { useToasterStore } from '@/store'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -30,11 +29,6 @@ const { isLoading, withTaskLoading } = useTaskLoading()
 const queryClient = useQueryClient()
 
 const selectedIds = ref<string[]>([])
-
-const selectableElements = computed(() => associations.map(({ associationId, declaredActivity }) => ({
-  id: associationId,
-  title: declaredActivity.title,
-})))
 
 const { mutate: deleteTraceAssociations } = useDeleteTraceAssociations({
   mutation: {
@@ -75,16 +69,15 @@ function onCancel () {
 <template>
   <DeleteAssociationsModal
     :show="show"
-    :associations="selectableElements"
+    :associations="associations.map(({ associationId, declaredActivity }) => ({ id: associationId, title: declaredActivity.title }))"
     :selected-association-ids="selectedIds"
     :is-loading="isLoading"
     @cancel="onCancel"
     @confirm-delete="onConfirmDelete"
   >
-    <CompactCardSelector
+    <DeleteActivitiesSelector
       v-model="selectedIds"
-      :elements="selectableElements"
-      :icon="ICONS.ACTIVITY"
+      :associations="associations"
     />
   </DeleteAssociationsModal>
 </template>
