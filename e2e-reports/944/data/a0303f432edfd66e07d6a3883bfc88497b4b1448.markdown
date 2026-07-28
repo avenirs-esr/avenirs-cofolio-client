@@ -14,14 +14,14 @@
 ```
 Error: expect(locator).toBeVisible() failed
 
-Locator: getByTestId('trace-valorization-input')
+Locator: getByTestId('kit-valorization-toggle')
 Expected: visible
 Timeout: 10000ms
 Error: element(s) not found
 
 Call log:
   - Expect "toBeVisible" with timeout 10000ms
-  - waiting for getByTestId('trace-valorization-input')
+  - waiting for getByTestId('kit-valorization-toggle')
 
 ```
 
@@ -185,11 +185,11 @@ Call log:
   52  |   }
   53  | 
   54  |   private getTraceValorizationToggleInput () {
-  55  |     return this.page.getByTestId('trace-valorization-input')
+  55  |     return this.page.getByTestId('kit-valorization-toggle')
   56  |   }
   57  | 
   58  |   private getTraceValorizationToggleLabel () {
-  59  |     return this.page.getByTestId('trace-valorization-label')
+  59  |     return this.page.getByTestId('kit-valorization-label')
   60  |   }
   61  | 
   62  |   @Then('the update trace page is loaded')
