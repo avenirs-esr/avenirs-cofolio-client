@@ -52,11 +52,11 @@ export class StudentUpdateTracePage extends BasePage {
   }
 
   private getTraceValorizationToggleInput () {
-    return this.page.getByTestId('trace-valorization-input')
+    return this.page.getByTestId('kit-valorization-input')
   }
 
   private getTraceValorizationToggleLabel () {
-    return this.page.getByTestId('trace-valorization-label')
+    return this.page.getByTestId('kit-valorization-label')
   }
 
   @Then('the update trace page is loaded')

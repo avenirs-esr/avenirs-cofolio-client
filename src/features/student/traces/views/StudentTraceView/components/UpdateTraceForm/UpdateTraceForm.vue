@@ -83,7 +83,6 @@ function handleFileDeleted (fileName: string) {
   >
     <KitValorizationToggleFormField
       :form="form"
-      :description="t('student.traces.interactions.toggles.TraceValorizationToggle.description')"
     />
     <div class="av-row av-gap-lg av-w-full">
       <div class="av-col av-gap-lg av-flex-fill">

@@ -1,5 +1,6 @@
 import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
+import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { RatingStub } from '@/common/components/Rating/Rating.stub'
 import { CategoryElementDescriptionTextareaStub } from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementDescriptionTextarea/CategoryElementDescriptionTextarea.stub'
@@ -17,6 +18,7 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
     CategoryElementDescriptionTextarea: CategoryElementDescriptionTextareaStub,
     Rating: RatingStub,
     CreationUpdateDateDetails: CreationUpdateDateDetailsStub,
+    ValorizedBadge: ValorizedBadgeStub,
   }
 
   const defaultElement: SelfKnowledgeElementDetailsDTO = {
@@ -72,6 +74,46 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
     BddTest().then('it should have left and right columns', () => {
       expect(wrapper.find('.self-knowledge-element-details__left-column').exists()).toBe(true)
       expect(wrapper.find('.self-knowledge-element-details__right-column').exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the valorized badge with false when element has no valorized field', () => {
+      const badge = wrapper.findComponent({ name: 'ValorizedBadge' })
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('valorized')).toBe(false)
+    })
+  })
+
+  BddTest().and('the element is valorized', () => {
+    beforeEach(() => {
+      wrapper = mount(SelfKnowledgeElementDetails, {
+        props: {
+          element: { ...defaultElement, valorized: true }
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the valorized badge with true', () => {
+      const badge = wrapper.findComponent({ name: 'ValorizedBadge' })
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('valorized')).toBe(true)
+    })
+  })
+
+  BddTest().and('the element is explicitly not valorized', () => {
+    beforeEach(() => {
+      wrapper = mount(SelfKnowledgeElementDetails, {
+        props: {
+          element: { ...defaultElement, valorized: false }
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the valorized badge with false', () => {
+      const badge = wrapper.findComponent({ name: 'ValorizedBadge' })
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('valorized')).toBe(false)
     })
   })
 

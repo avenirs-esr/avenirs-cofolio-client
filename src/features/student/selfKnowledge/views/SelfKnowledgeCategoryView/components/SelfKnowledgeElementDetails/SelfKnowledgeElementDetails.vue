@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails } from '@/common/components'
+import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import Rating from '@/common/components/Rating/Rating.vue'
 import CategoryElementDescriptionTextarea from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementDescriptionTextarea/CategoryElementDescriptionTextarea.vue'
 import CategoryElementTitleInput from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementTitleInput/CategoryElementTitleInput.vue'
@@ -18,32 +19,37 @@ const createdAtPrefix = computed(() => capitalize(t('student.selfKnowledge.eleme
 </script>
 
 <template>
-  <div class="self-knowledge-element-details av-col av-row--md av-gap-lg">
-    <div class="self-knowledge-element-details__left-column av-col av-flex-fill av-gap-md">
-      <CategoryElementTitleInput
-        :model-value="element.title"
-        disabled
-        :required="false"
-      />
-      <div class="av-col av-gap-sm">
-        <span class="b2-light">{{ t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementDetails.ratingLabel') }}</span>
-        <Rating
-          :rating="element.rating ?? 0"
-          :stars-first="false"
+  <div class="self-knowledge-element-details av-col av-gap-md">
+    <ValorizedBadge :valorized="element.valorized ?? false" />
+    <div class="av-col av-row--md av-gap-lg">
+      <div
+        class="self-knowledge-element-details__left-column av-col av-flex-fill av-gap-md"
+      >
+        <CategoryElementTitleInput
+          :model-value="element.title"
+          disabled
+          :required="false"
         />
+        <div class="av-col av-gap-sm">
+          <span class="b2-light">{{ t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementDetails.ratingLabel') }}</span>
+          <Rating
+            :rating="element.rating ?? 0"
+            :stars-first="false"
+          />
+        </div>
       </div>
-    </div>
-    <div class="self-knowledge-element-details__right-column av-col av-flex-fill av-gap-md">
-      <CategoryElementDescriptionTextarea
-        :model-value="element.description"
-        disabled
-      />
-      <div class="self-knowledge-element-details__dates av-col av-gap-xs">
-        <CreationUpdateDateDetails
-          :updated-at="element.updatedAt"
-          :created-at="element.createdAt"
-          :created-at-prefix="createdAtPrefix"
+      <div class="self-knowledge-element-details__right-column av-col av-flex-fill av-gap-md">
+        <CategoryElementDescriptionTextarea
+          :model-value="element.description"
+          disabled
         />
+        <div class="self-knowledge-element-details__dates av-col av-gap-xs">
+          <CreationUpdateDateDetails
+            :updated-at="element.updatedAt"
+            :created-at="element.createdAt"
+            :created-at-prefix="createdAtPrefix"
+          />
+        </div>
       </div>
     </div>
   </div>

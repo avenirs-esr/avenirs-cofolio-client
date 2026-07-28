@@ -9,10 +9,9 @@ import { markRaw, useAttrs } from 'vue'
 
 interface DeclaredSkillValorizationToggleFormFieldProps {
   form: UpdateDeclaredSkillForm | UpdateSelfKnowledgeCategoryElementForm | UpdateTraceForm
-  description?: string
 }
 
-const { form, description } = defineProps<DeclaredSkillValorizationToggleFormFieldProps>()
+const { form } = defineProps<DeclaredSkillValorizationToggleFormFieldProps>()
 
 const emit = defineEmits<{
   (event: 'change', payload: boolean): void
@@ -33,8 +32,7 @@ function handleChange (value: boolean, fieldChange: (value: boolean) => void) {
     <template #default="{ field }">
       <ValorizeToggle
         v-bind="attrs"
-        id="declared-skill-valorization"
-        :description
+        id="kit-valorization"
         name="valorized"
         :model-value="field.state.value"
         @update:model-value="(value: boolean) => handleChange(value, field.handleChange)"
