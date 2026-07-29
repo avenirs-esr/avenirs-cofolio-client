@@ -91,6 +91,8 @@ const defaultValues: EditActivityFormData = reactive({
   thematic: computed(() => content.value?.thematic ?? EActivityThematic.TRANSVERSAL),
   description: computed(() => content.value?.description ?? ''),
   recommendedCompletionContexts: computed(() => content.value?.recommendedCompletionContexts ?? ''),
+  startDate: computed(() => content.value?.startDate),
+  endDate: computed(() => content.value?.endDate),
   summary: computed(() => content.value?.summary ?? ''),
   enableReflection: computed(() => content.value?.enableReflection ?? true),
   feedbackAllowedIterations: computed(() => content.value?.feedbackAllowedIterations ?? undefined),
@@ -130,11 +132,18 @@ const form = useForm({
   onSubmit: async ({ value }: { value: EditActivityFormData }) => {
     cancelAutoSave()
     pendingAutoSaveData.value = {}
+
+    const hasBothDates = !!value.startDate && !!value.endDate
+    const periodDates = hasBothDates
+      ? { startDate: value.startDate, endDate: value.endDate }
+      : { startDate: undefined, endDate: undefined }
+
     await save({
       title: value.title,
       thematic: value.thematic,
       description: value.description,
       recommendedCompletionContexts: value.recommendedCompletionContexts,
+      ...periodDates,
       summary: value.summary,
       enableReflection: value.enableReflection ?? true,
       feedbackAllowedIterations: value.feedbackAllowedIterations ?? 0,

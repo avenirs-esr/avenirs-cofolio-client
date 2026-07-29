@@ -17,6 +17,8 @@ export interface EditActivityFormData extends ActivityDraftCreationFormData {
   description: string
   enableReflection?: boolean
   recommendedCompletionContexts: string
+  startDate?: string
+  endDate?: string
   feedbackAllowedIterations?: number
   summary: string
   traceAllowedAssociations?: number

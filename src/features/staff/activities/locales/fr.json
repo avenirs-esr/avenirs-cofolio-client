@@ -134,6 +134,10 @@
             "nextStepLabel": "Étape suivante",
             "title": "Renseigner le contenu"
           },
+          "ActivityExecutionPeriodFormField": {
+            "periodLabel": "Dates de la période de réalisation",
+            "title": "Définir une période de réalisation"
+          },
           "ActivityFeedbackFormField": {
             "description": "Lorsque le paramètre est désactivé, les apprenants ne peuvent pas demander de feedback sur leur activité en passant par COFOLIO.",
             "infinityToggleLabel": "Autoriser un nombre illimité d'itérations de feedback",
