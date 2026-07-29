@@ -134,6 +134,10 @@
             "nextStepLabel": "Next step",
             "title": "Fill in the content"
           },
+          "ActivityExecutionPeriodFormField": {
+            "periodLabel": "Execution period dates",
+            "title": "Set an execution period"
+          },
           "ActivityFeedbackFormField": {
             "description": "When this setting is disabled, students cannot request feedback on their activity through COFOLIO.",
             "infinityToggleLabel": "Allow unlimited feedback iterations",

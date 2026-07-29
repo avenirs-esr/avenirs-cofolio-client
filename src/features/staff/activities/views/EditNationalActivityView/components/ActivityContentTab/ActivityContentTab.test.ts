@@ -1,6 +1,7 @@
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ActivityConsignFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.stub'
+import { ActivityExecutionPeriodFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.stub'
 import { ActivityFeedbackFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.stub'
 import { ActivityReflectionFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityReflectionFormField/ActivityReflectionFormField.stub'
 import { ActivityTitleFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.stub'
@@ -22,6 +23,7 @@ BddTest().given('an ActivityContentTab component', () => {
 
   const stubs = {
     ActivityConsignFormField: ActivityConsignFormFieldStub,
+    ActivityExecutionPeriodFormField: ActivityExecutionPeriodFormFieldStub,
     ActivityFeedbackFormField: ActivityFeedbackFormFieldStub,
     ActivityReflectionFormField: ActivityReflectionFormFieldStub,
     ActivityTitleFormField: ActivityTitleFormFieldStub,
@@ -92,6 +94,7 @@ BddTest().given('an ActivityContentTab component', () => {
     BddTest().then('it should render form fields', () => {
       expect(tab.findComponent(ActivityTitleFormFieldStub).exists()).toBe(true)
       expect(tab.findComponent(ActivityConsignFormFieldStub).exists()).toBe(true)
+      expect(tab.findComponent(ActivityExecutionPeriodFormFieldStub).exists()).toBe(true)
       expect(tab.findComponent(ActivityFeedbackFormFieldStub).exists()).toBe(true)
       expect(tab.findComponent(ActivityReflectionFormFieldStub).exists()).toBe(true)
       expect(tab.findComponent(ActivityTraceFormFieldStub).exists()).toBe(true)

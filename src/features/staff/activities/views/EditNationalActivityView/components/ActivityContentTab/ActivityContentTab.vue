@@ -5,6 +5,8 @@ import IconTitleCardContainer from '@/common/components/cards/IconTitleCardConta
 import { ICONS } from '@/common/constants'
 import { isDifferentFile } from '@/common/utils/file/file'
 import ActivityConsignFormField from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.vue'
+import ActivityExecutionPeriodFormField
+  from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
 import ActivityFeedbackFormField from '@/features/staff/activities/components/interactions/formFields/ActivityFeedbackFormField/ActivityFeedbackFormField.vue'
 import ActivityRecommendedCompletionContextsFormField
   from '@/features/staff/activities/components/interactions/formFields/ActivityRecommendedCompletionContextsFormField/ActivityRecommendedCompletionContextsFormField.vue'
@@ -150,6 +152,11 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
         :title-icon="MDI_ICONS.SETTINGS"
         collapsible
       >
+        <ActivityExecutionPeriodFormField
+          :disabled="hasEnrolledStudent"
+          :form="form"
+          @autosave="queueAutoSave"
+        />
         <ActivityReflectionFormField
           :disabled="hasEnrolledStudent"
           :form="form"
