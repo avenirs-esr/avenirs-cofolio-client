@@ -3,6 +3,7 @@ import {
   ActivityThematicBadgeStub
 } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
+import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import {
   ActivityPeriodBadgeStub
 } from '@/features/student/buildProject/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.stub'
@@ -32,6 +33,7 @@ BddTest().given('an ActivityLibraryCard', () => {
     DeclaredActivityStatusBadge: DeclaredActivityStatusBadgeStub,
     ActivityThematicBadge: ActivityThematicBadgeStub,
     ActivityPeriodBadge: ActivityPeriodBadgeStub,
+    ValorizedBadge: ValorizedBadgeStub,
     RouterLink: RouterLinkStub
   }
 
@@ -101,6 +103,44 @@ BddTest().given('an ActivityLibraryCard', () => {
 
     BddTest().then('it should display the summary text', () => {
       expect(wrapper.text()).toContain(baseActivity.summary)
+    })
+
+    BddTest().then('it should not render ValorizedBadge when valorized is undefined', () => {
+      const valorizedBadge = wrapper.findComponent(ValorizedBadgeStub)
+      expect(valorizedBadge.exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with a valorized activity', () => {
+    beforeEach(() => {
+      wrapper = mount(ActivityLibraryCard, {
+        props: { activity: { ...baseActivity, valorized: true } },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render ValorizedBadge', () => {
+      const valorizedBadge = wrapper.findComponent(ValorizedBadgeStub)
+      expect(valorizedBadge.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass valorized true to ValorizedBadge', () => {
+      const valorizedBadge = wrapper.findComponent(ValorizedBadgeStub)
+      expect(valorizedBadge.props('valorized')).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is mounted with a non valorized activity', () => {
+    beforeEach(() => {
+      wrapper = mount(ActivityLibraryCard, {
+        props: { activity: { ...baseActivity, valorized: false } },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render ValorizedBadge', () => {
+      const valorizedBadge = wrapper.findComponent(ValorizedBadgeStub)
+      expect(valorizedBadge.exists()).toBe(false)
     })
   })
 

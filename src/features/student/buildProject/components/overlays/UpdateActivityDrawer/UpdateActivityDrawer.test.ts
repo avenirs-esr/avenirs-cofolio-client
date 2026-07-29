@@ -4,6 +4,7 @@ import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/Con
 import { FormCancelConfirmButtonsStub } from '@/common/components/FormCancelConfirmButtons/FormCancelConfirmButtons.stub'
 import { ActivityPeriodFormFieldStub } from '@/features/student/buildProject/components/interactions/formFields/ActivityPeriodFormField/ActivityPeriodFormField.stub'
 import UpdateActivityDrawer from '@/features/student/buildProject/components/overlays/UpdateActivityDrawer/UpdateActivityDrawer.vue'
+import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
 import { AvAccordionStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -34,6 +35,7 @@ BddTest().given('the UpdateActivityDrawer component', () => {
     AvIconText: AvIconTextStub,
     AvAccordion: AvAccordionStub,
     ActivityPeriodFormField: ActivityPeriodFormFieldStub,
+    KitValorizationToggleFormField: KitValorizationToggleFormFieldStub,
     ConfirmationModal: ConfirmationModalStub,
     FormCancelConfirmButtons: FormCancelConfirmButtonsStub,
   }
@@ -75,6 +77,16 @@ BddTest().given('the UpdateActivityDrawer component', () => {
     BddTest().then('it should render ActivityPeriodFormField', () => {
       const periodField = wrapper.findComponent({ name: 'ActivityPeriodFormField' })
       expect(periodField.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render KitValorizationToggleFormField', () => {
+      const valorizationField = wrapper.findComponent({ name: 'KitValorizationToggleFormField' })
+      expect(valorizationField.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the valorization accordion first', () => {
+      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
+      expect(accordions[0].props('title')).toBe('Valorisation dans mon kit')
     })
   })
 

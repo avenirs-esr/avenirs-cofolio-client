@@ -50,15 +50,16 @@
               "description": "Êtes-vous certain(e) de vouloir annuler les modifications ? Les changements non enregistrés seront perdus."
             },
             "errors": {
-              "updatePeriod": "Une erreur est survenue lors de la mise à jour de l'activité. Veuillez réessayer plus tard."
+              "updateActivity": "Une erreur est survenue lors de la mise à jour de l'activité. Veuillez réessayer plus tard."
             },
             "sections": {
               "notificationHint": "Vous recevrez une notification 1 jour avant le début de votre activité.",
               "period": "Période de réalisation",
               "periodLabel": "Modifier ma période de réalisation personnelle",
-              "reminder": "Rappels"
+              "reminder": "Rappels",
+              "valorization": "Valorisation dans mon kit"
             },
-            "success": "La période de réalisation a été mise à jour avec succès.",
+            "success": "L'activité a été mise à jour avec succès.",
             "title": "Modifier l'activité"
           }
         },

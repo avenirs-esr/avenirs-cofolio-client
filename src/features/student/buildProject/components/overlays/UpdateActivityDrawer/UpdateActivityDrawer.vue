@@ -7,6 +7,8 @@ import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes
 import ActivityPeriodFormField
   from '@/features/student/buildProject/components/interactions/formFields/ActivityPeriodFormField/ActivityPeriodFormField.vue'
 import { useUpdateActivityForm } from '@/features/student/buildProject/components/overlays/UpdateActivityDrawer/use-update-activity-form/use-update-activity-form'
+import KitValorizationToggleFormField
+  from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 import { useToasterStore } from '@/store'
 import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { startOfDay } from 'date-fns'
@@ -92,6 +94,15 @@ const isDemo = __DEMO_MODE__
         @submit.prevent.stop="form.handleSubmit"
       >
         <AvAccordionsGroup :active-accordion="0">
+          <AvAccordion
+            :title="t('student.buildProject.activities.overlays.UpdateActivityDrawer.sections.valorization')"
+            :icon="MDI_ICONS.STAR_OUTLINE"
+          >
+            <div class="av-flex-col-md">
+              <KitValorizationToggleFormField :form="form" />
+            </div>
+          </AvAccordion>
+
           <AvAccordion
             :title="t('student.buildProject.activities.overlays.UpdateActivityDrawer.sections.period')"
             :icon="MDI_ICONS.CALENDAR_OUTLINE"

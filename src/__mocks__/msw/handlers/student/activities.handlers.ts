@@ -452,17 +452,10 @@ export const updateActivityHandler = http.patch(`*${getUpdateDeclaredActivityUrl
     )
   }
 
-  return HttpResponse.json<string>('Period updated successfully', {
+  return HttpResponse.json<string>('Activity updated successfully', {
     status: 200,
     headers: { 'Content-Type': 'application/json' }
   })
-})
-
-export const updateActivityPeriodHandler = http.patch(`*${getUpdateDeclaredActivityUrl(':declaredActivityId')}`, () => {
-  return HttpResponse.json(
-    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
-    { status: 500, headers: { 'Content-Type': 'application/json' } }
-  )
 })
 
 export const updateActivityReflectionHandler = http.put(`*${getUpdateReflectionUrl(':activityId')}`, async ({ params, request }) => {
