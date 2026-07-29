@@ -17,10 +17,11 @@ export function createMockedDeclaredActivityAssociations (count: number): Declar
       pathSegments: ['first', 'second', 'third'],
       type: EExternalSkillType.ROME4,
       level: EDeclaredSkillLevel.BEGINNER,
-      description: `Description for declared skill ${index + 1}`,
-      valorized: false
+      reflection: `Description for declared skill ${index + 1}`,
+      valorized: false,
+      associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }
     }
-  })) as DeclaredSkillAssociationDTO[]
+  }))
 }
 
 export function createDeclaredSkillAssociationResponseFixture (associations: AssociationsCreationRequest): DeclaredSkillAssociationsDTO {
@@ -35,12 +36,12 @@ export function createDeclaredSkillAssociationResponseFixture (associations: Ass
         thematic: EActivityThematic.TRANSVERSAL,
         summary: `Mocked summary for ${activityId}`,
         description: `<h3>Description for ${activityId}</h3><p>This is a mocked description for the declared activity with id ${activityId}.</p>`,
-        executionPeriodInfoSummary: `Mocked execution period for ${activityId}`,
         status: EDeclaredActivityStatus.IN_PROGRESS,
         startDate: '2026-01-01',
         endDate: '2026-01-31',
         updatedAt: '2026-01-01T00:00:00Z'
       }
-    }))
+    })),
+    declaredExperienceAssociations: []
   }
 }

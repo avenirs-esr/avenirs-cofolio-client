@@ -43,7 +43,6 @@ BddTest().given('an ActivityLibraryCard', () => {
     status: EDeclaredActivityStatus.SUBSCRIBED,
     summary: 'Une activité de connaissance de soi.',
     description: '<h3>Description activité</h3>',
-    executionPeriodInfoSummary: 'À faire cette année',
     startDate: '2025-09-01T00:00:00.000Z',
     endDate: '2026-06-30T00:00:00.000Z'
   }
@@ -147,7 +146,7 @@ BddTest().given('an ActivityLibraryCard', () => {
     beforeEach(() => {
       wrapper = mount(ActivityLibraryCard, {
         props: {
-          activity: { ...baseActivity, executionPeriodInfoSummary: undefined, startDate: undefined }
+          activity: { ...baseActivity, startDate: undefined }
         },
         global: { stubs }
       })

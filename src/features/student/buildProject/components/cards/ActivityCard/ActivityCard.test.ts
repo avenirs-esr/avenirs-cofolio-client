@@ -6,8 +6,8 @@ import {
 } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
-import { ActivityExecutionPeriodSummaryBadgeStub } from '@/features/student/buildProject/components/badges/ActivityExecutionPeriodSummaryBadge/ActivityExecutionPeriodSummaryBadge.stub'
 import { ActivityNewBadgeStub } from '@/features/student/buildProject/components/badges/ActivityNewBadge/ActivityNewBadge.stub'
+import { ActivityPeriodBadgeStub } from '@/features/student/buildProject/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.stub'
 import ActivityCard from '@/features/student/buildProject/components/cards/ActivityCard/ActivityCard.vue'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -24,7 +24,7 @@ BddTest().given('an activity card', () => {
     ActivityThematicBadge: ActivityThematicBadgeStub,
     ActivityNewBadge: ActivityNewBadgeStub,
     DeclaredActivityStatusBadge: DeclaredActivityStatusBadgeStub,
-    ActivityExecutionPeriodSummaryBadge: ActivityExecutionPeriodSummaryBadgeStub,
+    ActivityPeriodBadge: ActivityPeriodBadgeStub,
     RouterLink: RouterLinkStub
   }
 
@@ -33,7 +33,8 @@ BddTest().given('an activity card', () => {
     author: { userId: 'user-1', firstName: 'Jean', lastName: 'Dupont' },
     title: 'Atelier CV',
     summary: 'Résumé de l\'activité',
-    executionPeriodInfoSummary: 'À faire cette année',
+    startDate: '2025-09-01',
+    endDate: '2026-06-30',
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     isNew: false
   }
@@ -92,8 +93,8 @@ BddTest().given('an activity card', () => {
       expect(statusBadge.props('status')).toBe(EDeclaredActivityStatus.IN_PROGRESS)
     })
 
-    BddTest().then('the execution period summary badge is rendered', () => {
-      const badges = wrapper.findComponent(ActivityExecutionPeriodSummaryBadgeStub)
+    BddTest().then('the period badge is rendered', () => {
+      const badges = wrapper.findComponent(ActivityPeriodBadgeStub)
       expect(badges.exists()).toBe(true)
     })
   })
@@ -155,21 +156,22 @@ BddTest().given('an activity card', () => {
     })
   })
 
-  BddTest().when('the component is mounted without execution period summary', () => {
+  BddTest().when('the component is mounted without a period', () => {
     beforeEach(() => {
       wrapper = mount(ActivityCard, {
         props: {
           activity: {
             ...baseActivity,
-            executionPeriodInfoSummary: undefined
+            startDate: undefined,
+            endDate: undefined
           }
         },
         global: { stubs }
       })
     })
 
-    BddTest().then('the execution period summary badge is not rendered', () => {
-      const badge = wrapper.findComponent(ActivityExecutionPeriodSummaryBadgeStub)
+    BddTest().then('the period badge is not rendered', () => {
+      const badge = wrapper.findComponent(ActivityPeriodBadgeStub)
       expect(badge.exists()).toBe(false)
     })
   })

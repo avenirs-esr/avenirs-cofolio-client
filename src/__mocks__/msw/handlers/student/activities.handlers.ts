@@ -39,7 +39,7 @@ import {
   getSearchTracesForAssociationUrl,
   getSubscribeActivityUrl,
   getUnsubscribeActivitiesProgressesUrl,
-  getUpdatePeriodUrl,
+  getUpdateDeclaredActivityUrl,
   getUpdateReflectionUrl,
   type PagedResponseActivityOverviewDTO,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
@@ -442,7 +442,7 @@ export const finishDeclaredActivityErrorHandler = http.put(`*${getFinishUrl(':de
   )
 })
 
-export const updateActivityHandler = http.put(`*${getUpdatePeriodUrl(':declaredActivityId')}`, ({ params }) => {
+export const updateActivityHandler = http.patch(`*${getUpdateDeclaredActivityUrl(':declaredActivityId')}`, ({ params }) => {
   const { declaredActivityId } = params
 
   if (declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
@@ -458,7 +458,7 @@ export const updateActivityHandler = http.put(`*${getUpdatePeriodUrl(':declaredA
   })
 })
 
-export const updateActivityPeriodHandler = http.put(`*${getUpdatePeriodUrl(':declaredActivityId')}`, () => {
+export const updateActivityPeriodHandler = http.patch(`*${getUpdateDeclaredActivityUrl(':declaredActivityId')}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500, headers: { 'Content-Type': 'application/json' } }

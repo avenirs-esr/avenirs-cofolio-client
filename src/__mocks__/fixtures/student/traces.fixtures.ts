@@ -185,7 +185,8 @@ export const mockedTraceDeclaredSkillAssociations: DeclaredSkillAssociationDTO[]
       level: EDeclaredSkillLevel.ADVANCED,
       pathSegments: ['Management', 'Gestion de projet'],
       type: EExternalSkillType.ROME4,
-      valorized: false
+      valorized: false,
+      associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }
     }
   },
   {
@@ -196,7 +197,8 @@ export const mockedTraceDeclaredSkillAssociations: DeclaredSkillAssociationDTO[]
       level: EDeclaredSkillLevel.COMPETENT,
       pathSegments: ['Soft Skills', 'Communication'],
       type: EExternalSkillType.ROME4,
-      valorized: false
+      valorized: false,
+      associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }
     }
   },
   {
@@ -207,7 +209,8 @@ export const mockedTraceDeclaredSkillAssociations: DeclaredSkillAssociationDTO[]
       level: EDeclaredSkillLevel.EXPERT,
       pathSegments: ['Technique', 'Data Science'],
       type: EExternalSkillType.ROME4,
-      valorized: false
+      valorized: false,
+      associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }
     }
   }
 ]

@@ -58,6 +58,7 @@ BddTest().given('a project activity detailed layout component', () => {
     startDate: '2025-01-01',
     endDate: '2025-01-31',
     finishedAt: undefined,
+    valorized: false,
     createdAt: '2025-01-01T10:00:00Z',
     updatedAt: '2025-01-02T10:00:00Z',
     activity: {

@@ -107,7 +107,8 @@ export function createMockedDeclaredExperienceAssociationsDTO (
     traceAssociations: traces.map((trace, index) => ({
       associationId: `declared-experience-trace-association-${index + 1}`,
       trace
-    }))
+    })),
+    declaredSkillAssociations: []
   }
 }
 

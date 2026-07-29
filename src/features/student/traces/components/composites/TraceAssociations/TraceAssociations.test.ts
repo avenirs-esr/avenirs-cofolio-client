@@ -330,7 +330,6 @@ BddTest().given('a student trace associations component', () => {
           thematic: EActivityThematic.RESUMES,
           summary: 'Activité visant à analyser sa capacité à s\'adapter à des contextes variés et à gérer les changements. L\'étudiant.e identifie des situations concrètes illustrant sa flexibilité et sa résilience.',
           description: '<h3>Objectifs</h3><ul><li>Analyser sa capacité à s\'adapter à des contextes variés et à gérer les changements</li><li>Identifier des situations concrètes illustrant sa flexibilité et sa résilience</li><li>Utiliser cette analyse pour renforcer sa capacité d\'adaptation dans son projet professionnel</li></ul>',
-          executionPeriodInfoSummary: 'Avant entretien professionnel',
           status: EDeclaredActivityStatus.COMPLETED,
           startDate: '2027-01-10',
           endDate: '2027-01-20',
