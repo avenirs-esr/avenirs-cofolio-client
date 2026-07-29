@@ -9,9 +9,10 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { type MaybeRef, toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-export interface UpdateActivityPeriodFormData {
+export interface UpdateActivityFormData {
   startDate: string | null
   endDate: string | null
+  valorized: boolean
 }
 
 export function useUpdateActivityForm (
@@ -25,16 +26,20 @@ export function useUpdateActivityForm (
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
 
-  const { mutate: mutateUpdatePeriod, isPending } = useUpdateDeclaredActivity()
+  const { mutate: mutateUpdateDeclaredActivity, isPending } = useUpdateDeclaredActivity()
 
-  function updateActivityPeriod (period: { startDate: string, endDate: string } | undefined) {
-    mutateUpdatePeriod({
+  function updateActivity (value: UpdateActivityFormData) {
+    const period = value.startDate && value.endDate
+      ? { startDate: value.startDate, endDate: value.endDate }
+      : undefined
+
+    mutateUpdateDeclaredActivity({
       declaredActivityId: toValue(declaredActivity).id,
-      data: { period }
+      data: { period, valorized: value.valorized }
     }, {
       onError: (error: BaseApiException) => {
         addErrorMessage({
-          title: t('student.buildProject.activities.overlays.UpdateActivityDrawer.errors.updatePeriod'),
+          title: t('student.buildProject.activities.overlays.UpdateActivityDrawer.errors.updateActivity'),
           description: getErrorMessage(error)
         })
       },
@@ -48,10 +53,11 @@ export function useUpdateActivityForm (
   const form = useForm({
     defaultValues: {
       startDate: toValue(declaredActivity).startDate ?? null,
-      endDate: toValue(declaredActivity).endDate ?? null
-    } as UpdateActivityPeriodFormData,
+      endDate: toValue(declaredActivity).endDate ?? null,
+      valorized: toValue(declaredActivity).valorized ?? false
+    } as UpdateActivityFormData,
     validators: {
-      onSubmit ({ value }: { value: UpdateActivityPeriodFormData }) {
+      onSubmit ({ value }: { value: UpdateActivityFormData }) {
         const { startDate, endDate } = value
         return {
           fields: {
@@ -61,10 +67,8 @@ export function useUpdateActivityForm (
         }
       }
     },
-    onSubmit: ({ value }: { value: UpdateActivityPeriodFormData }) => {
-      updateActivityPeriod(value.startDate && value.endDate
-        ? { startDate: value.startDate, endDate: value.endDate }
-        : undefined)
+    onSubmit: ({ value }: { value: UpdateActivityFormData }) => {
+      updateActivity(value)
     }
   })
 
@@ -73,8 +77,9 @@ export function useUpdateActivityForm (
     (activity) => {
       form.reset({
         startDate: activity.startDate ?? null,
-        endDate: activity.endDate ?? null
-      } as UpdateActivityPeriodFormData)
+        endDate: activity.endDate ?? null,
+        valorized: activity.valorized ?? false
+      } as UpdateActivityFormData)
     }
   )
 

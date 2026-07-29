@@ -50,15 +50,16 @@
               "description": "Are you sure you want to cancel your changes? Unsaved changes will be lost."
             },
             "errors": {
-              "updatePeriod": "An error occurred while updating the activity. Please try again later."
+              "updateActivity": "An error occurred while updating the activity. Please try again later."
             },
             "sections": {
               "notificationHint": "You will receive a notification 1 day before the start of your activity.",
               "period": "Achievement period",
               "periodLabel": "Update my personal achievement period",
-              "reminder": "Reminders"
+              "reminder": "Reminders",
+              "valorization": "Kit valorization"
             },
-            "success": "The achievement period has been successfully updated.",
+            "success": "The activity has been successfully updated.",
             "title": "Edit activity"
           }
         },

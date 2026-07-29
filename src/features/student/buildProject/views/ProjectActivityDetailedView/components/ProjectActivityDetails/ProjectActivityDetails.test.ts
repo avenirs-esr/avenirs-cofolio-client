@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ActivityResourcesListStub } from '@/common/components/lists/ActivityResourcesList/ActivityResourcesList.stub'
@@ -23,6 +24,7 @@ BddTest().given('a project activity details component', () => {
     AvPeriodInput: AvPeriodInputStub,
     IconTitleCardContainer: IconTitleCardContainerStub,
     ActivityResourcesList: ActivityResourcesListStub,
+    ValorizedBadge: ValorizedBadgeStub,
   }
 
   BddTest().when('the component is mounted with recommendedCompletionContexts containing "-" lines and startDate and endDate', () => {
@@ -98,6 +100,50 @@ BddTest().given('a project activity details component', () => {
 
       const items = list.findAll('li')
       expect(items.length).toBe(0)
+    })
+  })
+
+  BddTest().when('the activity is valorized', () => {
+    const props: ProjectActivityDetailsProps = {
+      declaredActivityDetails: {
+        ...mockedDeclaredActivityDetails,
+        valorized: true,
+      },
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(ProjectActivityDetails, {
+        props,
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render ValorizedBadge with valorized true', () => {
+      const badge = wrapper.findComponent(ValorizedBadgeStub)
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('valorized')).toBe(true)
+    })
+  })
+
+  BddTest().when('the activity is not valorized', () => {
+    const props: ProjectActivityDetailsProps = {
+      declaredActivityDetails: {
+        ...mockedDeclaredActivityDetails,
+        valorized: false,
+      },
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(ProjectActivityDetails, {
+        props,
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render ValorizedBadge with valorized false', () => {
+      const badge = wrapper.findComponent(ValorizedBadgeStub)
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('valorized')).toBe(false)
     })
   })
 

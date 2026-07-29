@@ -12,8 +12,9 @@ interface ActivityPeriodFormFieldProps {
 const { form, label } = defineProps<ActivityPeriodFormFieldProps>()
 const { t } = useI18n()
 
-const startDateField = form.useField({ name: 'startDate' })
-const endDateField = form.useField({ name: 'endDate' })
+const periodForm = form as SubscribeActivityForm
+const startDateField = periodForm.useField({ name: 'startDate' })
+const endDateField = periodForm.useField({ name: 'endDate' })
 
 function setStartDate (value: string) {
   startDateField.api.handleChange(value)

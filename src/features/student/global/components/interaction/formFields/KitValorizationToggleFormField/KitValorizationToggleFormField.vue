@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { UpdateActivityForm } from '@/features/student/buildProject/types/forms.types'
 import type { UpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
 import type {
   UpdateSelfKnowledgeCategoryElementForm
@@ -8,7 +9,7 @@ import ValorizeToggle from '@/features/student/global/components/interaction/tog
 import { markRaw, useAttrs } from 'vue'
 
 interface DeclaredSkillValorizationToggleFormFieldProps {
-  form: UpdateDeclaredSkillForm | UpdateSelfKnowledgeCategoryElementForm | UpdateTraceForm
+  form: UpdateActivityForm | UpdateDeclaredSkillForm | UpdateSelfKnowledgeCategoryElementForm | UpdateTraceForm
 }
 
 const { form } = defineProps<DeclaredSkillValorizationToggleFormFieldProps>()

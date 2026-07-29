@@ -58,6 +58,43 @@ BddTest().given('the useUpdateActivityForm composable', () => {
     })
   })
 
+  BddTest().when('the form is initialized from a valorized activity', () => {
+    let result: ReturnType<typeof useUpdateActivityForm>
+
+    beforeEach(() => {
+      const { result: composableResult } = mountComposable(
+        () => useUpdateActivityForm({ ...mockedDeclaredActivityDetails, valorized: true }),
+        { useTanstack: true, useI18n: true, usePinia: true }
+      )
+      result = composableResult
+    })
+
+    BddTest().then('it should pre-fill valorized from the activity', () => {
+      expect(result.form.getFieldValue('valorized')).toBe(true)
+    })
+  })
+
+  BddTest().when('the valorization is toggled from the initial value', () => {
+    let result: ReturnType<typeof useUpdateActivityForm>
+
+    beforeEach(async () => {
+      const { result: composableResult } = mountComposable(
+        () => useUpdateActivityForm(mockedDeclaredActivityDetails),
+        { useTanstack: true, useI18n: true, usePinia: true }
+      )
+      result = composableResult
+      result.form.setFieldValue('valorized', true)
+      await flushPromises()
+    })
+
+    BddTest().then('it should be dirty', async () => {
+      await vi.waitFor(() => {
+        const state = result.form.useStore(s => s)
+        expect(state.value.isDirty).toBe(true)
+      })
+    })
+  })
+
   BddTest().when('a date is changed from the initial value', () => {
     let result: ReturnType<typeof useUpdateActivityForm>
 

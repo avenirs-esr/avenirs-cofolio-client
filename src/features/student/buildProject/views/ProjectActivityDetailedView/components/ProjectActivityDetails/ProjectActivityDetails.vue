@@ -3,6 +3,7 @@ import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 import ActivityPeriodDisplay from '@/common/activities/components/ActivityPeriodDisplay/ActivityPeriodDisplay.vue'
 import ActivityRecommendedCompletionContextsList from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
+import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import ActivityResourcesList from '@/common/components/lists/ActivityResourcesList/ActivityResourcesList.vue'
@@ -25,6 +26,7 @@ const resourceCount = computed(() => (activity.value.files?.length ?? 0) + (acti
     class="av-col av-gap-md"
     data-testid="project-activity-details"
   >
+    <ValorizedBadge :valorized="declaredActivityDetails.valorized" />
     <ActivityPeriodDisplay
       v-if="hasPeriodInfo"
       :start-date="declaredActivityDetails.startDate"
