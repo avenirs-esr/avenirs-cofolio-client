@@ -93,7 +93,7 @@ export const declaredExperienceAssociationsQueryHandler = http.get(
 
     if (experienceId === 'EXP_WITHOUT_ASSOCIATIONS') {
       return HttpResponse.json<DeclaredExperienceAssociationsDTO>(
-        { traceAssociations: [] },
+        { traceAssociations: [], declaredSkillAssociations: [] },
         {
           status: 200,
           headers: { 'Content-Type': 'application/json' }

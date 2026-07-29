@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@/common/exceptions'
-import { type DeclaredActivityDetailsDTO, invalidateGetDeclaredActivityDetails, useUpdatePeriod } from '@/api/avenir-esr'
+import { type DeclaredActivityDetailsDTO, invalidateGetDeclaredActivityDetails, useUpdateDeclaredActivity } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -25,7 +25,7 @@ export function useUpdateActivityForm (
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
 
-  const { mutate: mutateUpdatePeriod, isPending } = useUpdatePeriod()
+  const { mutate: mutateUpdatePeriod, isPending } = useUpdateDeclaredActivity()
 
   function updateActivityPeriod (period: { startDate: string, endDate: string } | undefined) {
     mutateUpdatePeriod({

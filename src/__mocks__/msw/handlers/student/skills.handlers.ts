@@ -346,7 +346,8 @@ export const skillsHandlers = [
       type: body.type ?? EExternalSkillType.ROME4,
       level: body.level ?? EDeclaredSkillLevel.INTERMEDIATE,
       reflection: body.reflection ?? 'Mocked skill reflection',
-      valorized: false
+      valorized: false,
+      associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }
     }
 
     return HttpResponse.json(response, {
@@ -376,7 +377,7 @@ export const skillsHandlers = [
 
       if (params.declaredSkillProgressId === 'SKILL_WITHOUT_ASSOCIATIONS') {
         return HttpResponse.json<DeclaredSkillAssociationsDTO>(
-          { traceAssociations: [], declaredActivityAssociations: [] },
+          { traceAssociations: [], declaredActivityAssociations: [], declaredExperienceAssociations: [] },
           { status: 200, headers: { 'Content-Type': 'application/json' } }
         )
       }

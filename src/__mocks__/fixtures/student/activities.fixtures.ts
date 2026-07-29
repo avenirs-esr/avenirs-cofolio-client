@@ -24,7 +24,6 @@ export const mockedActivityOverview: ActivityOverviewDTO = {
   thematic: EActivityThematic.SELF_KNOWLEDGE,
   status: EDeclaredActivityStatus.SUBSCRIBED,
   summary: 'Summary of Activity 1',
-  executionPeriodInfoSummary: 'Execution period info summary of Activity 1',
   isNew: false
 }
 
@@ -44,7 +43,6 @@ export const mockedLatestActivitiesOverview: ActivityOverviewDTO[] = [
     title: 'Identifier ses réussites marquantes',
     thematic: EActivityThematic.EXPERIENCES,
     summary: 'Activité visant à mettre en lumière des réussites académiques, professionnelles ou personnelles. L\'étudiant.e analyse les facteurs de succès et les compétences mobilisées afin de renforcer la confiance en ses capacités.',
-    executionPeriodInfoSummary: 'Avant candidature ou entretien',
     isNew: true
   },
   {
@@ -71,7 +69,6 @@ export const mockedLatestActivitiesOverview: ActivityOverviewDTO[] = [
     thematic: EActivityThematic.PROGRAMS,
     status: EDeclaredActivityStatus.IN_PROGRESS,
     summary: 'Activité d\'analyse du parcours académique visant à comprendre la progression des enseignements suivis et leur articulation. L\'étudiant.e identifie les compétences développées et leur contribution au projet envisagé.',
-    executionPeriodInfoSummary: 'Avant bilan pédagogique',
     isNew: true
   }
 ]
@@ -94,7 +91,6 @@ export const mockedDeclaredActivitiesOverview: DeclaredActivityViewDTO[] = [
     thematic: EActivityThematic.PROGRAMS,
     summary: 'Activité portant sur l\'analyse de son parcours académique. L\'étudiant.e examine les enseignements suivis, les compétences développées et les acquis méthodologiques afin de mieux comprendre la cohérence et la progression de sa formation.',
     description: '<h3>Objectifs de l\'activité</h3><ul><li>Analyser les enseignements suivis, les compétences développées et les acquis méthodologiques.</li><li>Comprendre la cohérence et la progression de sa formation.</li><li>Utiliser cette analyse pour orienter la construction du projet de formation et d\'orientation.</li></ul><h3>Déroulement de l\'activité</h3><p>L\'étudiant.e est invité.e à réaliser une analyse détaillée de son parcours académique, en identifiant les enseignements clés, les compétences acquises et les méthodes développées. Cette réflexion permet de mieux comprendre la valeur de sa formation et d\'orienter les choix futurs.</p>',
-    executionPeriodInfoSummary: 'Avant bilan pédagogique',
     status: EDeclaredActivityStatus.IN_PROGRESS,
     startDate: '2027-04-01',
     endDate: '2027-04-10',
@@ -107,7 +103,6 @@ export const mockedDeclaredActivitiesOverview: DeclaredActivityViewDTO[] = [
     thematic: EActivityThematic.TRAJECTORIES,
     summary: 'Activité d\'analyse de trajectoire. L\'étudiant.e retrace les étapes clés de son parcours académique et personnel afin d\'identifier les continuités, les ruptures et les évolutions significatives.',
     description: '<h3>Objectifs de l\'activité</h3><ul><li>Analyser les étapes clés de son parcours académique et personnel.</li><li>Identifier les continuités, les ruptures et les évolutions significatives.</li><li>Utiliser cette analyse pour orienter les choix futurs et valoriser les acquis.</li></ul><h3>Déroulement de l\'activité</h3><p>L\'étudiant.e est invité.e à retracer son parcours, en identifiant les moments clés, les décisions prises et leurs impacts. Cette réflexion permet de mieux comprendre et valoriser les expériences vécues.</p>',
-    executionPeriodInfoSummary: 'Avant entretien d\'accompagnement',
     status: EDeclaredActivityStatus.SUBSCRIBED,
     startDate: '2027-03-01',
     endDate: '2027-03-12',
@@ -294,6 +289,7 @@ export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
   },
   status: EDeclaredActivityStatus.IN_PROGRESS,
   finishedAt: '',
+  valorized: false,
 }
 
 // TODO: changes this to activities returned by seeder in dev
@@ -472,6 +468,7 @@ export function createMockedDeclaredActivityDetails (id: string, options?: { wit
       updatedAt: activity.updatedAt ?? mockedDeclaredActivityDetails.activity.updatedAt,
     },
     endDate: mockedDeclaredActivityDetails.endDate?.slice(0, 10) ?? '',
+    valorized: selectedActivity?.valorized ?? mockedDeclaredActivityDetails.valorized,
     createdAt: mockedDeclaredActivityDetails.createdAt,
     updatedAt: mockedDeclaredActivityDetails.updatedAt,
     finishedAt: activity.status === EDeclaredActivityStatus.COMPLETED
@@ -552,7 +549,6 @@ export function createMockedPagedResponseAssociationSearchResultDeclaredActivity
       thematic: activity.thematic,
       disabled: false,
       summary: activity.summary,
-      executionPeriodInfoSummary: 'Execution period info',
       status: activity.status,
       startDate: activity.startDate,
       endDate: activity.endDate,

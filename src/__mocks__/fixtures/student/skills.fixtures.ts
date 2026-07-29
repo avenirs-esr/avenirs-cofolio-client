@@ -78,7 +78,8 @@ export function createMockedDeclaredSkillProgressDTO () {
     type: EExternalSkillType.ROME4,
     level: EDeclaredSkillLevel.ADVANCED,
     reflection: `Ecrit reflexif de la compétence déclarée`,
-    valorized: false
+    valorized: false,
+    associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }
   }
 }
 
@@ -101,7 +102,8 @@ export function createMockedPagedResponseDeclaredSkillProgressDTO (pageSize: num
       type: EExternalSkillType.ROME4,
       level: levels[i % levels.length],
       reflection: `Ecrit reflexif de la compétence déclarée ${i}`,
-      valorized: false
+      valorized: false,
+      associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }
     }
     mockedSkills.push(skill)
   }
@@ -204,7 +206,6 @@ export function createMockedDeclaredActivitiesAssociations (count: number): Decl
       thematic: EActivityThematic.TRANSVERSAL,
       summary: `Résumé de l'activité déclarée ${index + 1}`,
       description: `<h3>Description de l'activité déclarée ${index + 1}</h3><p>Voici une description détaillée de l'activité déclarée associée ${index + 1}.</p>`,
-      executionPeriodInfoSummary: '01/01/2026 - 30/06/2026',
       status: EDeclaredActivityStatus.IN_PROGRESS,
       startDate: '2026-01-01',
       endDate: '2026-06-30',
@@ -215,7 +216,8 @@ export function createMockedDeclaredActivitiesAssociations (count: number): Decl
 
 export const mockedDeclaredSkillAssociations: DeclaredSkillAssociationsDTO = {
   traceAssociations: createMockedTraceAssociations(2),
-  declaredActivityAssociations: createMockedDeclaredActivitiesAssociations(1)
+  declaredActivityAssociations: createMockedDeclaredActivitiesAssociations(1),
+  declaredExperienceAssociations: []
 }
 
 export function createMockedAllSkillListItemDTO (): SkillListItemDTO[] {

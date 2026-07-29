@@ -401,47 +401,6 @@
         }
       }
     },
-    "/me/activity-progress/{declaredActivityId}/period": {
-      "put": {
-        "tags": [
-          "declared-activity-controller"
-        ],
-        "operationId": "updatePeriod",
-        "parameters": [
-          {
-            "name": "declaredActivityId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeclaredActivityPeriodRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/activity-progress/{activityId}/reflection": {
       "put": {
         "tags": [
@@ -1059,6 +1018,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "isValorized",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
@@ -1192,6 +1159,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "isValorized",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
@@ -1313,6 +1288,47 @@
         }
       }
     },
+    "/me/declared/skill-progress/{declaredSkillProgressId}/associate/declared-experiences": {
+      "post": {
+        "tags": [
+          "declared-skill-progress-controller"
+        ],
+        "operationId": "associateDeclaredSkillWithDeclaredExperiences",
+        "parameters": [
+          {
+            "name": "declaredSkillProgressId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociationsCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredSkillAssociationsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/declared/skill-progress/{declaredSkillProgressId}/associate/declared-activities": {
       "post": {
         "tags": [
@@ -1377,6 +1393,14 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            }
+          },
+          {
+            "name": "isValorized",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
             }
           }
         ],
@@ -1447,6 +1471,88 @@
               "*/*": {
                 "schema": {
                   "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/declared/experiences/{experienceId}/associate/traces": {
+      "post": {
+        "tags": [
+          "declared-experience-controller"
+        ],
+        "operationId": "associateDeclaredExperienceWithTraces",
+        "parameters": [
+          {
+            "name": "experienceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociationsCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredExperienceAssociationsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/declared/experiences/{experienceId}/associate/declared-skills": {
+      "post": {
+        "tags": [
+          "declared-experience-controller"
+        ],
+        "operationId": "associateDeclaredExperienceWithDeclaredSkills",
+        "parameters": [
+          {
+            "name": "experienceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociationsCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredExperienceAssociationsDTO"
                 }
               }
             }
@@ -2057,6 +2163,76 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/me/activity-progress/{declaredActivityId}": {
+      "get": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "getDeclaredActivityDetails",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredActivityDetailsDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "updateDeclaredActivity",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeclaredActivityUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -3051,6 +3227,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "isValorized",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
@@ -3165,37 +3349,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PagedResponseDeclaredActivityViewDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/activity-progress/{declaredActivityId}": {
-      "get": {
-        "tags": [
-          "declared-activity-controller"
-        ],
-        "operationId": "getDeclaredActivityDetails",
-        "parameters": [
-          {
-            "name": "declaredActivityId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeclaredActivityDetailsDTO"
                 }
               }
             }
@@ -4091,6 +4244,124 @@
         }
       }
     },
+    "/back-office/admin/institutions": {
+      "get": {
+        "tags": [
+          "institution-controller"
+        ],
+        "operationId": "findAll",
+        "parameters": [
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InstitutionResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "institution-controller"
+        ],
+        "operationId": "updateAll",
+        "parameters": [
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/InstitutionData"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InstitutionResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "institution-controller"
+        ],
+        "operationId": "createAll",
+        "parameters": [
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/InstitutionData"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstitutionImportSummaryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/back-office/config/website-content/setup/build-life-project": {
       "get": {
         "tags": [
@@ -4293,6 +4564,75 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/back-office/admin/institutions/{id}": {
+      "get": {
+        "tags": [
+          "institution-controller"
+        ],
+        "operationId": "findById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstitutionResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "institution-controller"
+        ],
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -4780,6 +5120,9 @@
           "rating": {
             "type": "integer",
             "format": "int32"
+          },
+          "valorized": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -4814,6 +5157,23 @@
         "required": [
           "level",
           "reflection"
+        ]
+      },
+      "DeclaredSkillAssociationCountDTO": {
+        "type": "object",
+        "properties": {
+          "traceAssociationsCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "declaredActivityAssociationsCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "declaredActivityAssociationsCount",
+          "traceAssociationsCount"
         ]
       },
       "DeclaredSkillProgressDTO": {
@@ -4858,9 +5218,13 @@
           },
           "valorized": {
             "type": "boolean"
+          },
+          "associationsCount": {
+            "$ref": "#/components/schemas/DeclaredSkillAssociationCountDTO"
           }
         },
         "required": [
+          "associationsCount",
           "id",
           "level",
           "pathSegments",
@@ -4904,6 +5268,9 @@
           "endDate": {
             "type": "string",
             "format": "date"
+          },
+          "valorized": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -4950,6 +5317,9 @@
           "endDate": {
             "type": "string",
             "format": "date"
+          },
+          "valorized": {
+            "type": "boolean"
           },
           "createdAt": {
             "type": "string",
@@ -5025,6 +5395,9 @@
           "endDate": {
             "type": "string",
             "format": "date"
+          },
+          "valorized": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -5080,6 +5453,9 @@
             "type": "string",
             "format": "date"
           },
+          "valorized": {
+            "type": "boolean"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -5097,31 +5473,6 @@
           "title",
           "updatedAt"
         ]
-      },
-      "DeclaredActivityPeriodDTO": {
-        "type": "object",
-        "properties": {
-          "startDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date"
-          }
-        },
-        "required": [
-          "endDate",
-          "startDate"
-        ]
-      },
-      "DeclaredActivityPeriodRequest": {
-        "type": "object",
-        "properties": {
-          "period": {
-            "$ref": "#/components/schemas/DeclaredActivityPeriodDTO"
-          }
-        }
       },
       "UpdateReflectionRequest": {
         "type": "object",
@@ -5267,8 +5618,13 @@
           "description": {
             "type": "string"
           },
-          "executionPeriodInfoSummary": {
-            "type": "string"
+          "optionalStartDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "optionalEndDate": {
+            "type": "string",
+            "format": "date"
           },
           "status": {
             "type": "string",
@@ -5287,6 +5643,9 @@
           "endDate": {
             "type": "string",
             "format": "date"
+          },
+          "valorized": {
+            "type": "boolean"
           },
           "updatedAt": {
             "type": "string",
@@ -5638,10 +5997,17 @@
             "items": {
               "$ref": "#/components/schemas/DeclaredActivityAssociationDTO"
             }
+          },
+          "declaredExperienceAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredExperienceAssociationDTO"
+            }
           }
         },
         "required": [
           "declaredActivityAssociations",
+          "declaredExperienceAssociations",
           "traceAssociations"
         ]
       },
@@ -5737,6 +6103,27 @@
           "title"
         ]
       },
+      "DeclaredExperienceAssociationsDTO": {
+        "type": "object",
+        "properties": {
+          "traceAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceAssociationDTO"
+            }
+          },
+          "declaredSkillAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredSkillAssociationDTO"
+            }
+          }
+        },
+        "required": [
+          "declaredSkillAssociations",
+          "traceAssociations"
+        ]
+      },
       "DeclaredActivityAssociationsDTO": {
         "type": "object",
         "properties": {
@@ -5756,6 +6143,23 @@
         "required": [
           "declaredSkillAssociations",
           "traceAssociations"
+        ]
+      },
+      "DeclaredActivityPeriodDTO": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "required": [
+          "endDate",
+          "startDate"
         ]
       },
       "SubscribeDeclaredActivityRequest": {
@@ -5809,6 +6213,14 @@
           },
           "recommendedCompletionContexts": {
             "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
           },
           "enableReflection": {
             "type": "boolean"
@@ -5975,6 +6387,17 @@
           }
         }
       },
+      "DeclaredActivityUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "period": {
+            "$ref": "#/components/schemas/DeclaredActivityPeriodDTO"
+          },
+          "valorized": {
+            "type": "boolean"
+          }
+        }
+      },
       "ActivityDraftUpdateRequest": {
         "type": "object",
         "properties": {
@@ -6003,8 +6426,13 @@
           "recommendedCompletionContexts": {
             "type": "string"
           },
-          "executionPeriodInfoSummary": {
-            "type": "string"
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
           },
           "traceAllowedAssociations": {
             "type": "integer",
@@ -6945,20 +7373,6 @@
           "page"
         ]
       },
-      "DeclaredExperienceAssociationsDTO": {
-        "type": "object",
-        "properties": {
-          "traceAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TraceAssociationDTO"
-            }
-          }
-        },
-        "required": [
-          "traceAssociations"
-        ]
-      },
       "PagedResponseDeclaredExperienceViewDTO": {
         "type": "object",
         "properties": {
@@ -7030,6 +7444,9 @@
             "type": "string",
             "format": "date-time"
           },
+          "valorized": {
+            "type": "boolean"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -7050,7 +7467,8 @@
           "createdAt",
           "id",
           "status",
-          "updatedAt"
+          "updatedAt",
+          "valorized"
         ]
       },
       "FeedbackOverviewDTO": {
@@ -7270,8 +7688,13 @@
           "summary": {
             "type": "string"
           },
-          "executionPeriodInfoSummary": {
-            "type": "string"
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
           },
           "isNew": {
             "type": "boolean"
@@ -7676,6 +8099,7 @@
           "DECLARED_EXPERIENCE_NOT_FOUND",
           "DECLARED_PROGRAM_NOT_FOUND",
           "INSTITUTION_CONFIG_NOT_FOUND",
+          "INSTITUTION_NOT_FOUND",
           "ACTIVITY_NOT_FOUND",
           "ACTIVITY_DRAFT_NOT_FOUND",
           "ACTIVITY_UNPUBLISHED",
@@ -7697,6 +8121,7 @@
           "DECLARED_ACTIVITY_HAS_NOT_STARTED",
           "DECLARED_ACTIVITY_LOCKED",
           "ASSOCIATION_ALREADY_EXIST",
+          "INSTITUTION_HAI_ALREADY_EXISTS",
           "MAX_FILE_SIZE_EXCEEDED",
           "FILE_STORAGE_ERROR",
           "CONFIGURATION_ERROR",
@@ -7723,10 +8148,13 @@
           "NOT_URL",
           "END_DATE_BEFORE_START_DATE",
           "INSTITUTION_ID_NULL",
+          "INSTITUTION_PRIMARY_CANNOT_HAVE_PARENT",
+          "INSTITUTION_SECONDARY_REQUIRES_PARENT",
+          "INSTITUTION_PARENT_MUST_BE_PRIMARY",
           "FIRSTNAME_IS_NULL",
           "LASTNAME_IS_NULL",
           "INVALID_DATE_FORMAT",
-          "DECLARED_ACTIVITY_DATES",
+          "ACTIVITY_DATES",
           "DECLARED_ACTIVITY_START_DATE_BEFORE_SUBSCRIPTION"
         ]
       },
@@ -7845,6 +8273,72 @@
           "STUDENT"
         ]
       },
+      "InstitutionData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "hai": {
+            "type": "string"
+          },
+          "siret": {
+            "type": "string"
+          },
+          "siren": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "PRIMARY",
+              "SECONDARY"
+            ]
+          },
+          "parentHai": {
+            "type": "string"
+          }
+        }
+      },
+      "InstitutionResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "hai": {
+            "type": "string"
+          },
+          "siret": {
+            "type": "string"
+          },
+          "siren": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "PRIMARY",
+              "SECONDARY"
+            ]
+          },
+          "parentHai": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "BuildLifeProjectConfigDTO": {
         "type": "object",
         "properties": {
@@ -7919,6 +8413,52 @@
           "description",
           "label"
         ]
+      },
+      "InstitutionImportFailureResponse": {
+        "type": "object",
+        "properties": {
+          "hai": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "InstitutionImportSummaryResponse": {
+        "type": "object",
+        "properties": {
+          "createdCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updatedCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "failedCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstitutionResponse"
+            }
+          },
+          "updated": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstitutionResponse"
+            }
+          },
+          "failed": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstitutionImportFailureResponse"
+            }
+          }
+        }
       },
       "InstitutionConfigurationElements": {
         "type": "object",
