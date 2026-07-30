@@ -60,7 +60,6 @@ const { data: associations, error: associationsError } = useGetDeclaredExperienc
   query: { placeholderData: keepPreviousData }
 })
 
-// TODO: Add other associations length
 const countAssociations = computed(() => (associations.value?.traceAssociations.length ?? 0))
 const traceAssociations = computed(() => associations.value?.traceAssociations ?? [])
 

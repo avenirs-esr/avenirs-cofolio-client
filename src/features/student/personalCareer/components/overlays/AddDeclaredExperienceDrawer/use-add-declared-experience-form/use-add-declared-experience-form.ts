@@ -51,7 +51,8 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
       sourceOfInformation: '',
       description: '',
       summary: '',
-      externalLink: ''
+      externalLink: '',
+      valorized: false
     } as DeclaredExperienceFormData,
     validators: {
       onChange ({ value }: { value: DeclaredExperienceFormData }) {

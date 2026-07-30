@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails } from '@/common/components'
+import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import DeclaredExperienceActivitySectorInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceActivitySectorInput/DeclaredExperienceActivitySectorInput.vue'
 import DeclaredExperienceDescriptionTextarea
@@ -45,6 +46,7 @@ const {
   endDate,
   createdAt,
   updatedAt,
+  valorized,
 } = toRefs(declaredExperienceDetails)
 
 const { t } = useI18n()
@@ -57,90 +59,95 @@ const createdAtPrefixed = computed(() =>
 
 <template>
   <div
-    class="av-col av-row--md av-justify-between av-gap-xl"
+    class="av-col av-gap-md"
     data-testid="layout-declared-experience-detailed"
   >
+    <ValorizedBadge :valorized="valorized ?? false" />
     <div
-      class="layout-declared-experience-detailed__main av-col av-gap-md av-flex-fill av-justify-between"
-      data-testid="layout-declared-experience-detailed__main"
+      class="av-col av-row--md av-justify-between av-gap-xl"
     >
-      <div class="av-col av-row--md av-gap-md av-align-baseline--md">
-        <div class="av-flex-fill">
-          <DeclaredExperienceTitleInput
-            :model-value="title"
-            disabled
-          />
+      <div
+        class="layout-declared-experience-detailed__main av-col av-gap-md av-flex-fill av-justify-between"
+        data-testid="layout-declared-experience-detailed__main"
+      >
+        <div class="av-col av-row--md av-gap-md av-align-baseline--md">
+          <div class="av-flex-fill">
+            <DeclaredExperienceTitleInput
+              :model-value="title"
+              disabled
+            />
+          </div>
+          <div class="av-flex-fill">
+            <DeclaredExperienceTypeSelect
+              :model-value="{ itemId: experienceType as EExperienceType }"
+              disabled
+            />
+          </div>
         </div>
-        <div class="av-flex-fill">
-          <DeclaredExperienceTypeSelect
-            :model-value="{ itemId: experienceType as EExperienceType }"
-            disabled
-          />
-        </div>
-      </div>
 
-      <DeclaredExperienceOrganizationInput
-        :model-value="organization"
-        disabled
-      />
-
-      <div class="av-col av-row--md av-gap-md av-align-baseline--md">
-        <div class="av-flex-fill">
-          <DeclaredExperienceActivitySectorInput
-            :model-value="activitySector"
-            disabled
-          />
-        </div>
-        <div class="av-flex-fill">
-          <DeclaredExperienceLocationInput
-            :model-value="location"
-            disabled
-          />
-        </div>
-      </div>
-
-      <DeclaredExperiencePeriodInput
-        label-visible
-        :start-model-value="startDate ?? ''"
-        :end-model-value="endDate ?? ''"
-        :start-date-disabled="true"
-        :end-date-disabled="true"
-        :stacked="isMobile"
-      />
-
-      <DeclaredExperienceSourceOfInformationInput
-        :model-value="sourceOfInformation"
-        disabled
-      />
-
-      <DeclaredExperienceExternalLinkInput
-        :label="t('student.personalCareer.interactions.inputs.DeclaredExperienceExternalLinkInput.labelDetails')"
-        :model-value="externalLink"
-        disabled
-      />
-    </div>
-
-    <div
-      class="layout-declared-experience-detailed__side av-col av-gap-xl av-flex-fill"
-      data-testid="layout-declared-experience-detailed__side"
-    >
-      <div class="av-col av-gap-sm av-h-full">
-        <DeclaredExperienceDescriptionTextarea
-          :model-value="description ?? ''"
+        <DeclaredExperienceOrganizationInput
+          :model-value="organization"
           disabled
         />
 
-        <DeclaredExperienceSummaryTextarea
-          :model-value="summary ?? ''"
+        <div class="av-col av-row--md av-gap-md av-align-baseline--md">
+          <div class="av-flex-fill">
+            <DeclaredExperienceActivitySectorInput
+              :model-value="activitySector"
+              disabled
+            />
+          </div>
+          <div class="av-flex-fill">
+            <DeclaredExperienceLocationInput
+              :model-value="location"
+              disabled
+            />
+          </div>
+        </div>
+
+        <DeclaredExperiencePeriodInput
+          label-visible
+          :start-model-value="startDate ?? ''"
+          :end-model-value="endDate ?? ''"
+          :start-date-disabled="true"
+          :end-date-disabled="true"
+          :stacked="isMobile"
+        />
+
+        <DeclaredExperienceSourceOfInformationInput
+          :model-value="sourceOfInformation"
+          disabled
+        />
+
+        <DeclaredExperienceExternalLinkInput
+          :label="t('student.personalCareer.interactions.inputs.DeclaredExperienceExternalLinkInput.labelDetails')"
+          :model-value="externalLink"
           disabled
         />
       </div>
 
-      <CreationUpdateDateDetails
-        :created-at="createdAt"
-        :created-at-prefix="createdAtPrefixed"
-        :updated-at="updatedAt"
-      />
+      <div
+        class="layout-declared-experience-detailed__side av-col av-gap-xl av-flex-fill"
+        data-testid="layout-declared-experience-detailed__side"
+      >
+        <div class="av-col av-gap-sm av-h-full">
+          <DeclaredExperienceDescriptionTextarea
+            :model-value="description ?? ''"
+            disabled
+          />
+
+          <DeclaredExperienceSummaryTextarea
+            :model-value="summary ?? ''"
+            disabled
+          />
+        </div>
+
+        <CreationUpdateDateDetails
+          :created-at="createdAt"
+          :created-at-prefix="createdAtPrefixed"
+          :updated-at="updatedAt"
+        />
+      </div>
     </div>
   </div>
 </template>

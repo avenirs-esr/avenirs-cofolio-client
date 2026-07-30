@@ -1,4 +1,5 @@
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import DeclaredExperienceActivitySectorInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceActivitySectorInput/DeclaredExperienceActivitySectorInput.vue'
 import DeclaredExperienceDescriptionTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceDescriptionTextarea/DeclaredExperienceDescriptionTextarea.vue'
 import DeclaredExperienceExternalLinkInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceExternalLinkInput/DeclaredExperienceExternalLinkInput.vue'
@@ -64,6 +65,7 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceDetails>>
   const stubs = {
     CreationUpdateDateDetails: CreationUpdateDateDetailsStub,
+    ValorizedBadge: ValorizedBadgeStub,
   }
 
   BddTest().and('given a declared experience details dto', () => {
@@ -174,6 +176,52 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
         expect(details.props('createdAt')).toBe(mockedDeclaredExperienceDetails.createdAt)
         expect(details.props('updatedAt')).toBe(mockedDeclaredExperienceDetails.updatedAt)
         expect(details.props('createdAtPrefix')).toBe('Expérience')
+      })
+    })
+  })
+
+  BddTest().and('given a valorized experience', () => {
+    const props: DeclaredExperienceDetailedProps = {
+      declaredExperienceDetails: { ...mockedDeclaredExperienceDetails, valorized: true },
+    }
+
+    BddTest().when('the component is mounted', () => {
+      beforeEach(() => {
+        vi.clearAllMocks()
+        mockIsMobile.value = false
+        wrapper = mount(DeclaredExperienceDetails, {
+          props,
+          global: { stubs },
+        })
+      })
+
+      BddTest().then('it should render ValorizedBadge with valorized true', () => {
+        const badge = wrapper.findComponent(ValorizedBadgeStub)
+        expect(badge.exists()).toBe(true)
+        expect(badge.props('valorized')).toBe(true)
+      })
+    })
+  })
+
+  BddTest().and('given a non valorized experience', () => {
+    const props: DeclaredExperienceDetailedProps = {
+      declaredExperienceDetails: { ...mockedDeclaredExperienceDetails, valorized: false },
+    }
+
+    BddTest().when('the component is mounted', () => {
+      beforeEach(() => {
+        vi.clearAllMocks()
+        mockIsMobile.value = false
+        wrapper = mount(DeclaredExperienceDetails, {
+          props,
+          global: { stubs },
+        })
+      })
+
+      BddTest().then('it should render ValorizedBadge with valorized false', () => {
+        const badge = wrapper.findComponent(ValorizedBadgeStub)
+        expect(badge.exists()).toBe(true)
+        expect(badge.props('valorized')).toBe(false)
       })
     })
   })
