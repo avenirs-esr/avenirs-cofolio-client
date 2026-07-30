@@ -36,4 +36,5 @@ export interface DeclaredExperienceFormData {
   description: string
   summary: string
   externalLink: string
+  valorized: boolean
 }

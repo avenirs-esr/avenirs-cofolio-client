@@ -12,6 +12,7 @@ import {
 } from '@/features/student/personalCareer/config'
 import { useUpdateDeclaredExperienceForm } from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/use-update-declared-experience-form/use-update-declared-experience-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -92,7 +93,8 @@ BddTest().given('an update declared experience form', () => {
     sourceOfInformation: 'LinkedIn',
     description: 'Description of the experience',
     summary: 'A positive summary',
-    externalLink: 'https://example.com'
+    externalLink: 'https://example.com',
+    valorized: false
   }
 
   BddTest().when('the form is initialized', () => {
@@ -126,6 +128,36 @@ BddTest().given('an update declared experience form', () => {
     BddTest().then('it should not be valid initially because it is not dirty', () => {
       expect(composableResult.isFormValid.value).toBe(false)
     })
+
+    BddTest().then('it should default valorized to false when the DTO does not carry it', () => {
+      expect(composableResult.form.state.values.valorized).toBe(false)
+    })
+  })
+
+  BddTest().when('the form is initialized from a valorized experience', () => {
+    beforeEach(() => {
+      declaredExperience = createMockedDeclaredExperienceDetailedDTO({ valorized: true })
+      mountForm()
+    })
+
+    BddTest().then('it should pre-fill valorized from the DTO', () => {
+      expect(composableResult.form.state.values.valorized).toBe(true)
+    })
+  })
+
+  BddTest().when('the valorization is toggled from the initial value', () => {
+    beforeEach(async () => {
+      declaredExperience = createMockedDeclaredExperienceDetailedDTO({ valorized: false })
+      mountForm()
+      composableResult.form.setFieldValue('valorized', true)
+      await flushPromises()
+    })
+
+    BddTest().then('it should be dirty', async () => {
+      await vi.waitFor(() => {
+        expect(composableResult.form.state.isDirty).toBe(true)
+      })
+    })
   })
 
   BddTest().when('validating form fields', () => {
@@ -143,7 +175,8 @@ BddTest().given('an update declared experience form', () => {
           isOngoing: false,
           type: '',
           activitySector: '',
-          location: ''
+          location: '',
+          valorized: false
         }
 
         const validator = getOnSubmitValidator()

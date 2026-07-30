@@ -45,7 +45,8 @@ BddTest().given('an add declared experience form', () => {
     sourceOfInformation: 'LinkedIn',
     description: 'Description of the experience',
     summary: 'A positive summary',
-    externalLink: 'https://example.com'
+    externalLink: 'https://example.com',
+    valorized: false
   }
 
   const mountForm = (onExperienceAdded?: () => void) => {
@@ -96,7 +97,8 @@ BddTest().given('an add declared experience form', () => {
         sourceOfInformation: '',
         description: '',
         summary: '',
-        externalLink: ''
+        externalLink: '',
+        valorized: false
       }
 
       Object.entries(expectedDefaults).forEach(([key, expectedValue]) => {
@@ -140,7 +142,8 @@ BddTest().given('an add declared experience form', () => {
           sourceOfInformation: '',
           description: '',
           summary: '',
-          externalLink: ''
+          externalLink: '',
+          valorized: false
         }
 
         const requiredFields = ['title', 'organization', 'startDate', 'endDate'] as const

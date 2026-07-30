@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
+import KitValorizationToggleFormField
+  from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 import DeclaredExperienceActivitySectorFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceActivitySectorFormField/DeclaredExperienceActivitySectorFormField.vue'
 import DeclaredExperienceDescriptionFormField
@@ -65,54 +67,59 @@ const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.gl
 <template>
   <form @submit.prevent="handleSubmit">
     <div
-      class="av-col av-row--md av-justify-between av-gap-xl"
+      class="av-col av-gap-md"
       data-testid="update-declared-experience-form__content"
     >
+      <KitValorizationToggleFormField :form="form" />
       <div
-        class="av-col av-gap-md av-flex-fill"
-        data-testid="update-declared-experience-form__main"
+        class="av-col av-row--md av-justify-between av-gap-xl"
       >
-        <div class="av-col av-row--md av-gap-md av-align-baseline--md">
-          <div class="av-flex-fill">
-            <DeclaredExperienceTitleFormField :form="form" />
+        <div
+          class="av-col av-gap-md av-flex-fill"
+          data-testid="update-declared-experience-form__main"
+        >
+          <div class="av-col av-row--md av-gap-md av-align-baseline--md">
+            <div class="av-flex-fill">
+              <DeclaredExperienceTitleFormField :form="form" />
+            </div>
+            <div class="av-flex-fill">
+              <DeclaredExperienceTypeFormField :form="form" />
+            </div>
           </div>
-          <div class="av-flex-fill">
-            <DeclaredExperienceTypeFormField :form="form" />
+
+          <DeclaredExperienceOrganizationFormField :form="form" />
+
+          <div class="av-col av-row--md av-gap-md av-align-baseline--md">
+            <div class="av-flex-fill">
+              <DeclaredExperienceActivitySectorFormField :form="form" />
+            </div>
+            <div class="av-flex-fill">
+              <DeclaredExperienceLocationFormField :form="form" />
+            </div>
           </div>
+
+          <DeclaredExperiencePeriodFormField :form="form" />
+
+          <DeclaredExperienceSourceOfInformationFormField :form="form" />
+
+          <DeclaredExperienceExternalLinkFormField :form="form" />
         </div>
 
-        <DeclaredExperienceOrganizationFormField :form="form" />
+        <div
+          class="update-declared-experience-form__side av-col av-gap-xl av-flex-fill"
+          data-testid="update-declared-experience-form__side"
+        >
+          <div class="av-col av-gap-sm av-justify-between">
+            <DeclaredExperienceDescriptionFormField :form="form" />
 
-        <div class="av-col av-row--md av-gap-md av-align-baseline--md">
-          <div class="av-flex-fill">
-            <DeclaredExperienceActivitySectorFormField :form="form" />
+            <DeclaredExperienceSummaryFormField :form="form" />
+
+            <CreationUpdateDateDetails
+              :created-at="declaredExperience.createdAt"
+              :created-at-prefix="createdAtPrefixed"
+              :updated-at="declaredExperience.updatedAt"
+            />
           </div>
-          <div class="av-flex-fill">
-            <DeclaredExperienceLocationFormField :form="form" />
-          </div>
-        </div>
-
-        <DeclaredExperiencePeriodFormField :form="form" />
-
-        <DeclaredExperienceSourceOfInformationFormField :form="form" />
-
-        <DeclaredExperienceExternalLinkFormField :form="form" />
-      </div>
-
-      <div
-        class="update-declared-experience-form__side av-col av-gap-xl av-flex-fill"
-        data-testid="update-declared-experience-form__side"
-      >
-        <div class="av-col av-gap-sm av-justify-between">
-          <DeclaredExperienceDescriptionFormField :form="form" />
-
-          <DeclaredExperienceSummaryFormField :form="form" />
-
-          <CreationUpdateDateDetails
-            :created-at="declaredExperience.createdAt"
-            :created-at-prefix="createdAtPrefixed"
-            :updated-at="declaredExperience.updatedAt"
-          />
         </div>
       </div>
     </div>

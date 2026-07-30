@@ -23,7 +23,8 @@ function toFormData (dto: DeclaredExperienceViewDTO): DeclaredExperienceFormData
     sourceOfInformation: dto.sourceOfInformation ?? '',
     description: dto.description ?? '',
     summary: dto.summary ?? '',
-    externalLink: dto.externalLink ?? ''
+    externalLink: dto.externalLink ?? '',
+    valorized: dto.valorized ?? false
   }
 }
 
@@ -39,7 +40,8 @@ function toRequestDTO (value: DeclaredExperienceFormData): DeclaredExperienceReq
     summary: value.summary || undefined,
     externalLink: value.externalLink || undefined,
     startDate: formatYearMonthToDate(value.startDate),
-    endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate) || undefined
+    endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate) || undefined,
+    valorized: value.valorized
   }
 }
 

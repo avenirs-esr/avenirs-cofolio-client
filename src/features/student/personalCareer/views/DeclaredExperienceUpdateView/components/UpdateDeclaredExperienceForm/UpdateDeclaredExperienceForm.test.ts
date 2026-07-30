@@ -1,5 +1,6 @@
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import { declaredExperienceViewDTOFixture } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
+import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
 import { DeclaredExperienceActivitySectorFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceActivitySectorFormField/DeclaredExperienceActivitySectorFormField.stub'
 import { DeclaredExperienceDescriptionFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceDescriptionFormField/DeclaredExperienceDescriptionFormField.stub'
 import { DeclaredExperienceExternalLinkFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceExternalLinkFormField/DeclaredExperienceExternalLinkFormField.stub'
@@ -62,6 +63,7 @@ BddTest().given('a declared experience update form component', () => {
         stubs: {
           AvCard: AvCardStub,
           AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
+          KitValorizationToggleFormField: KitValorizationToggleFormFieldStub,
           DeclaredExperienceTitleFormField: DeclaredExperienceTitleFormFieldStub,
           DeclaredExperienceTypeFormField: DeclaredExperienceTypeFormFieldStub,
           DeclaredExperienceOrganizationFormField: DeclaredExperienceOrganizationFormFieldStub,
@@ -81,6 +83,7 @@ BddTest().given('a declared experience update form component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render all form field components', () => {
+      expect(wrapper.findComponent(KitValorizationToggleFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredExperienceTitleFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredExperienceTypeFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredExperienceOrganizationFormFieldStub).exists()).toBe(true)
