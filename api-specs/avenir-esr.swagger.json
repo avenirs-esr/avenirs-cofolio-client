@@ -6094,13 +6094,17 @@
           },
           "result": {
             "type": "string"
+          },
+          "valorized": {
+            "type": "boolean"
           }
         },
         "required": [
           "id",
           "organization",
           "status",
-          "title"
+          "title",
+          "valorized"
         ]
       },
       "DeclaredExperienceAssociationsDTO": {

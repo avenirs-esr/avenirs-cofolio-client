@@ -1,4 +1,5 @@
-import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import { type DeclaredProgramViewDTO, EProgramStatus } from '@/api/avenir-esr'
+import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { SideMenuStub } from '@/common/components/navigation/SideMenu/SideMenu.stub'
 import { CompactCardStub } from '@/features/student/global/components/cards/CompactCard/CompactCard.stub'
 import DeclaredProgramSideMenu, {
@@ -16,19 +17,22 @@ BddTest().given('a DeclaredProgramSideMenu component', () => {
       id: 'declared-program-1',
       title: 'Master en Informatique',
       organization: 'Université de Paris',
-      status: 'COMPLETED' as any
+      status: EProgramStatus.COMPLETED,
+      valorized: true
     },
     {
       id: 'declared-program-2',
       title: 'Licence Pro Développement Web',
       organization: 'IUT de Lyon',
-      status: 'IN_PROGRESS' as any
+      status: EProgramStatus.IN_PROGRESS,
+      valorized: false
     },
     {
       id: 'declared-program-3',
       title: 'BTS SIO',
       organization: 'Lycée Technique de Marseille',
-      status: 'COMPLETED' as any
+      status: EProgramStatus.COMPLETED,
+      valorized: false
     }
   ]
 
@@ -42,7 +46,8 @@ BddTest().given('a DeclaredProgramSideMenu component', () => {
     SideMenu: SideMenuStub,
     AvIconText: AvIconTextStub,
     AvButton: AvButtonStub,
-    CompactCard: CompactCardStub
+    CompactCard: CompactCardStub,
+    ValorizedBadge: ValorizedBadgeStub
   }
 
   BddTest().when('the component is mounted', () => {
@@ -68,6 +73,16 @@ BddTest().given('a DeclaredProgramSideMenu component', () => {
     BddTest().then('it should not render the AvIconText', () => {
       const iconText = wrapper.findComponent(AvIconTextStub)
       expect(iconText.exists()).toBe(false)
+    })
+
+    BddTest().then('it should render the ValorizedBadge only for valorized programs', () => {
+      const programItems = wrapper.findAllComponents(CompactCardStub)
+
+      expect(programItems[0].findComponent(ValorizedBadgeStub).exists()).toBe(true)
+      expect(programItems[0].findComponent(ValorizedBadgeStub).props('valorized')).toBe(true)
+
+      expect(programItems[1].findComponent(ValorizedBadgeStub).exists()).toBe(false)
+      expect(programItems[2].findComponent(ValorizedBadgeStub).exists()).toBe(false)
     })
 
     BddTest().then('it should highlight the selected program', () => {

@@ -72,6 +72,7 @@ BddTest().given('an add declared program form', () => {
       expect(composableResult.form.state.values.startDate).toBe('')
       expect(composableResult.form.state.values.endDate).toBe('')
       expect(composableResult.form.state.values.isOngoing).toBe(false)
+      expect(composableResult.form.state.values.valorized).toBe(false)
     })
 
     BddTest().then('it should not be submitting initially', () => {
@@ -106,7 +107,8 @@ BddTest().given('an add declared program form', () => {
           sourceOfInformation: '',
           startDate: '',
           endDate: '',
-          isOngoing: false
+          isOngoing: false,
+          valorized: false
         }
 
         const validator = getOnSubmitValidator()
@@ -129,7 +131,8 @@ BddTest().given('an add declared program form', () => {
           sourceOfInformation: 'a'.repeat(DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH + 1),
           startDate: '2024-01',
           endDate: '2024-12',
-          isOngoing: false
+          isOngoing: false,
+          valorized: false
         }
 
         const validator = getOnSubmitValidator()
@@ -153,7 +156,8 @@ BddTest().given('an add declared program form', () => {
           sourceOfInformation: '',
           startDate: '2024-01',
           endDate: '',
-          isOngoing: false
+          isOngoing: false,
+          valorized: false
         }
 
         const validator = getOnSubmitValidator()
@@ -173,7 +177,8 @@ BddTest().given('an add declared program form', () => {
           sourceOfInformation: '',
           startDate: '2024-01',
           endDate: '',
-          isOngoing: true
+          isOngoing: true,
+          valorized: false
         }
 
         const validator = getOnSubmitValidator()
@@ -196,7 +201,8 @@ BddTest().given('an add declared program form', () => {
           sourceOfInformation: 'University website',
           startDate: '2024-01',
           endDate: '2025-12',
-          isOngoing: false
+          isOngoing: false,
+          valorized: false
         }
 
         const validator = getOnSubmitValidator()

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
+import KitValorizationToggleFormField
+  from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 import DeclaredProgramDescriptionFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.vue'
 import DeclaredProgramOrganizationFormField
@@ -59,39 +61,43 @@ const createdAtPrefix = computed(() =>
 <template>
   <form @submit.prevent="handleSubmit">
     <div
-      class="av-col av-row--md av-justify-between av-gap-xl"
+      class="av-col av-gap-md"
       data-testid="update-declared-program-form__content"
     >
-      <div
-        class="av-col av-gap-md av-flex-fill"
-        data-testid="update-declared-program-form__main"
-      >
-        <DeclaredProgramTitleFormField :form="form" />
+      <KitValorizationToggleFormField :form="form" />
 
-        <DeclaredProgramOrganizationFormField :form="form" />
-
-        <DeclaredProgramPeriodFormField :form="form" />
-
-        <DeclaredProgramResultFormField :form="form" />
-
-        <DeclaredProgramSourceOfInformationFormField :form="form" />
-      </div>
-
-      <div
-        class="update-declared-program-form__side av-col av-gap-xl av-flex-fill"
-        data-testid="update-declared-program-form__side"
-      >
+      <div class="av-col av-row--md av-justify-between av-gap-xl">
         <div
-          class="av-col av-gap-sm av-justify-between"
-          data-testid="update-declared-program-form__field"
+          class="av-col av-gap-md av-flex-fill"
+          data-testid="update-declared-program-form__main"
         >
-          <DeclaredProgramDescriptionFormField :form="form" />
+          <DeclaredProgramTitleFormField :form="form" />
 
-          <CreationUpdateDateDetails
-            :created-at="declaredProgramDetailed.createdAt"
-            :updated-at="declaredProgramDetailed.updatedAt"
-            :created-at-prefix="createdAtPrefix"
-          />
+          <DeclaredProgramOrganizationFormField :form="form" />
+
+          <DeclaredProgramPeriodFormField :form="form" />
+
+          <DeclaredProgramResultFormField :form="form" />
+
+          <DeclaredProgramSourceOfInformationFormField :form="form" />
+        </div>
+
+        <div
+          class="update-declared-program-form__side av-col av-gap-xl av-flex-fill"
+          data-testid="update-declared-program-form__side"
+        >
+          <div
+            class="av-col av-gap-sm av-justify-between"
+            data-testid="update-declared-program-form__field"
+          >
+            <DeclaredProgramDescriptionFormField :form="form" />
+
+            <CreationUpdateDateDetails
+              :created-at="declaredProgramDetailed.createdAt"
+              :updated-at="declaredProgramDetailed.updatedAt"
+              :created-at-prefix="createdAtPrefix"
+            />
+          </div>
         </div>
       </div>
     </div>

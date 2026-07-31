@@ -1,5 +1,6 @@
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
 import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
+import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
 import { DeclaredProgramDescriptionFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.stub'
 import { DeclaredProgramOrganizationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramOrganizationFormField/DeclaredProgramOrganizationFormField.stub'
 import { DeclaredProgramPeriodFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramPeriodFormField/DeclaredProgramPeriodFormField.stub'
@@ -58,6 +59,7 @@ BddTest().given('a declared program update form component', () => {
         stubs: {
           AvCard: AvCardStub,
           AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
+          KitValorizationToggleFormField: KitValorizationToggleFormFieldStub,
           DeclaredProgramTitleFormField: DeclaredProgramTitleFormFieldStub,
           DeclaredProgramDescriptionFormField: DeclaredProgramDescriptionFormFieldStub,
           DeclaredProgramOrganizationFormField: DeclaredProgramOrganizationFormFieldStub,
@@ -73,6 +75,7 @@ BddTest().given('a declared program update form component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render all form field components', () => {
+      expect(wrapper.findComponent(KitValorizationToggleFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredProgramTitleFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredProgramOrganizationFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredProgramPeriodFormFieldStub).exists()).toBe(true)
