@@ -76,6 +76,34 @@ BddTest().given('a project activity details component', () => {
     })
   })
 
+  BddTest().when('the activity has a staff-defined period, taking priority over the student period', () => {
+    const props: ProjectActivityDetailsProps = {
+      declaredActivityDetails: {
+        ...mockedDeclaredActivityDetails,
+        startDate: '2024-05-01',
+        endDate: '2024-05-15',
+        activity: {
+          ...mockedDeclaredActivityDetails.activity,
+          startDate: '2024-01-01',
+          endDate: '2024-12-31',
+        },
+      },
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(ProjectActivityDetails, {
+        props,
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render AvPeriodInput with the staff-defined dates', () => {
+      const periodInput = wrapper.findComponent(AvPeriodInputStub)
+      expect(periodInput.props('startModelValue')).toBe('2024-01-01')
+      expect(periodInput.props('endModelValue')).toBe('2024-12-31')
+    })
+  })
+
   BddTest().when('the component is mounted with empty recommendedCompletionContexts', () => {
     const props: ProjectActivityDetailsProps = {
       declaredActivityDetails: {
@@ -153,6 +181,11 @@ BddTest().given('a project activity details component', () => {
         ...mockedDeclaredActivityDetails,
         startDate: undefined,
         endDate: undefined,
+        activity: {
+          ...mockedDeclaredActivityDetails.activity,
+          startDate: undefined,
+          endDate: undefined,
+        },
       },
     }
 

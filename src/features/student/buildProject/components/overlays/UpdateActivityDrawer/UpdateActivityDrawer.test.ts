@@ -90,6 +90,38 @@ BddTest().given('the UpdateActivityDrawer component', () => {
     })
   })
 
+  BddTest().when('the activity has a staff-defined period', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      mockCanLeave.mockResolvedValue(true)
+
+      wrapper = mountComponent(UpdateActivityDrawer, {
+        props: {
+          show: true,
+          declaredActivity: {
+            ...mockedDeclaredActivityDetails,
+            activity: {
+              ...mockedDeclaredActivityDetails.activity,
+              startDate: '2024-01-01',
+              endDate: '2024-12-31'
+            }
+          }
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render ActivityPeriodFormField', () => {
+      const periodField = wrapper.findComponent({ name: 'ActivityPeriodFormField' })
+      expect(periodField.exists()).toBe(false)
+    })
+
+    BddTest().then('it should still render KitValorizationToggleFormField', () => {
+      const valorizationField = wrapper.findComponent({ name: 'KitValorizationToggleFormField' })
+      expect(valorizationField.exists()).toBe(true)
+    })
+  })
+
   BddTest().when('the drawer is mounted with show=false', () => {
     beforeEach(() => {
       vi.clearAllMocks()
