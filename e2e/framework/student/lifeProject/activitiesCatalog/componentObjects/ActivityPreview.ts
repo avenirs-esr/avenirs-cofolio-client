@@ -1,7 +1,7 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
-import { SubscribeActivityModal } from '@e2e/framework/student/lifeProject/activitiesCatalog/componentObjects/SubscribeActivityModal'
+import { SubscribeActivityConfirmModal } from '@e2e/framework/student/lifeProject/activitiesCatalog/componentObjects/SubscribeActivityConfirmModal'
 import { UnsubscribeActivitiesConfirmModal } from '@e2e/framework/student/lifeProject/activitiesCatalog/componentObjects/UnsubscribeActivitiesConfirmModal'
 import { expect, type Page } from '@playwright/test'
 
@@ -46,8 +46,8 @@ export class ActivityPreview extends BaseObject {
     return new UnsubscribeActivitiesConfirmModal(this.page)
   }
 
-  getSubscribeActivityModal () {
-    return new SubscribeActivityModal(this.page)
+  getSubscribeActivityConfirmModal () {
+    return new SubscribeActivityConfirmModal(this.page)
   }
 
   async verifyVisible () {
@@ -136,48 +136,23 @@ export class ActivityPreview extends BaseObject {
   }
 
   async verifySubscribeActivityModal () {
-    const subscribeActivityModal = this.getSubscribeActivityModal()
-    await subscribeActivityModal.verify()
+    const subscribeActivityConfirmModal = this.getSubscribeActivityConfirmModal()
+    await subscribeActivityConfirmModal.verifyVisible()
   }
 
   async clickSubscribeModalConfirmButton () {
-    const subscribeActivityModal = this.getSubscribeActivityModal()
-    await subscribeActivityModal.clickConfirm()
-  }
-
-  async fillSubscribeModalPeriodStartDate (date: string) {
-    const subscribeActivityModal = this.getSubscribeActivityModal()
-    await subscribeActivityModal.fillStartDate(date)
+    const subscribeActivityConfirmModal = this.getSubscribeActivityConfirmModal()
+    await subscribeActivityConfirmModal.clickConfirm()
   }
 
   async clickSubscribeModalCancelButton () {
-    const subscribeActivityModal = this.getSubscribeActivityModal()
-    await subscribeActivityModal.clickCancel()
-  }
-
-  async clickSubscribeModalCancelButtonAndConfirm () {
-    const subscribeActivityModal = this.getSubscribeActivityModal()
-    await subscribeActivityModal.clickCancelAndConfirm()
-  }
-
-  async clickSubscribeModalCancelButtonAndCancel () {
-    const subscribeActivityModal = this.getSubscribeActivityModal()
-    await subscribeActivityModal.clickCancelAndCancel()
+    const subscribeActivityConfirmModal = this.getSubscribeActivityConfirmModal()
+    await subscribeActivityConfirmModal.clickCancel()
   }
 
   async verifySubscribeActivityModalHidden () {
-    const subscribeActivityModal = this.getSubscribeActivityModal()
-    await subscribeActivityModal.verifyHidden()
-  }
-
-  async verifyCancelSubscribeActivityConfirmModal () {
-    const subscribeActivityModal = this.getSubscribeActivityModal()
-    await subscribeActivityModal.verifyCancelSubscribeActivityConfirmModal()
-  }
-
-  async verifyCancelSubscribeActivityConfirmModalHidden () {
-    const subscribeActivityModal = this.getSubscribeActivityModal()
-    await subscribeActivityModal.verifyCancelSubscribeActivityConfirmModalHidden()
+    const subscribeActivityConfirmModal = this.getSubscribeActivityConfirmModal()
+    await subscribeActivityConfirmModal.verifyHidden()
   }
 
   async clickUnsubscribeButton () {

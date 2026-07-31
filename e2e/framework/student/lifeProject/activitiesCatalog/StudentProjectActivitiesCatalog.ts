@@ -302,34 +302,9 @@ class StudentProjectActivitiesCatalogPage {
     await this.activityPreview().clickSubscribeModalConfirmButton()
   }
 
-  @When('the user fills in the subscribe activity modal period start date')
-  async fillSubscribeModalPeriodStartDate () {
-    await this.activityPreview().fillSubscribeModalPeriodStartDate('2027-01-15')
-  }
-
   @When('the user clicks on the activity preview subscribe modal cancel button')
   async clickSubscribeModalCancelButton () {
     await this.activityPreview().clickSubscribeModalCancelButton()
-  }
-
-  @Then('the cancel subscribe activity confirm modal is displayed')
-  async verifyCancelSubscribeActivityConfirmModal () {
-    await this.activityPreview().verifyCancelSubscribeActivityConfirmModal()
-  }
-
-  @Then('the cancel subscribe activity confirm modal is hidden')
-  async verifyCancelSubscribeActivityConfirmModalHidden () {
-    await this.activityPreview().verifyCancelSubscribeActivityConfirmModalHidden()
-  }
-
-  @When('the user clicks on the activity preview subscribe modal cancel button and confirms')
-  async clickSubscribeModalCancelButtonAndConfirm () {
-    await this.activityPreview().clickSubscribeModalCancelButtonAndConfirm()
-  }
-
-  @When('the user clicks on the activity preview subscribe modal cancel button and cancels')
-  async clickSubscribeModalCancelButtonAndCancel () {
-    await this.activityPreview().clickSubscribeModalCancelButtonAndCancel()
   }
 
   @Then('the subscribe activity modal is hidden')

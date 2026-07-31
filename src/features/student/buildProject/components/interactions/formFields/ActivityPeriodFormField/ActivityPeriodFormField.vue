@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { SubscribeActivityForm, UpdateActivityForm } from '@/features/student/buildProject/types/forms.types'
+import type { UpdateActivityForm } from '@/features/student/buildProject/types/forms.types'
 import { AvPeriodInput } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface ActivityPeriodFormFieldProps {
-  form: UpdateActivityForm | SubscribeActivityForm
+  form: UpdateActivityForm
   label?: string
   startMinDate?: Date
 }
@@ -12,9 +12,8 @@ interface ActivityPeriodFormFieldProps {
 const { form, label } = defineProps<ActivityPeriodFormFieldProps>()
 const { t } = useI18n()
 
-const periodForm = form as SubscribeActivityForm
-const startDateField = periodForm.useField({ name: 'startDate' })
-const endDateField = periodForm.useField({ name: 'endDate' })
+const startDateField = form.useField({ name: 'startDate' })
+const endDateField = form.useField({ name: 'endDate' })
 
 function setStartDate (value: string) {
   startDateField.api.handleChange(value)

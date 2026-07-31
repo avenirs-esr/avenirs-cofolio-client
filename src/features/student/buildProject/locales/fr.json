@@ -39,6 +39,11 @@
           }
         },
         "overlays": {
+          "SubscribeActivityConfirmModal": {
+            "error": "Une erreur est survenue lors de l'inscription à l'activité. Veuillez réessayer plus tard.",
+            "success": "Vous êtes inscrit.e avec succès. Retrouvez cette activité dans votre bibliothèque d'activités.",
+            "title": "Êtes-vous certain de vouloir vous inscrire à l'activité : {title} ?"
+          },
           "UnsubscribeActivitiesConfirmModal": {
             "description": "Cette action entraînera la perte définitive de toutes les données et actions associées.",
             "error": "Une erreur est survenue lors de la désinscription de l'activité. Veuillez réessayer plus tard. | Une erreur est survenue lors de la désinscription des activités. Veuillez réessayer plus tard.",
@@ -76,16 +81,6 @@
           "ProjectActivitiesCatalogView": {
             "buttons": {
               "access": "Accéder à mon activité"
-            },
-            "overlays": {
-              "ActivitySubscribeModal": {
-                "error": "Une erreur est survenue lors de l'inscription à l'activité. Veuillez réessayer plus tard.",
-                "success": "Vous êtes inscrit.e avec succès. Retrouvez cette activité dans votre bibliothèque d'activités.",
-                "title": "Inscription à l'activité {title}"
-              },
-              "CancelSubscribeActivityModal": {
-                "title": "Êtes-vous certain(e) de vouloir abandonner l'inscription à l'activité ?"
-              }
             },
             "title": "Toutes les activités disponibles"
           },
