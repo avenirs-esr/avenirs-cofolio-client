@@ -16,8 +16,13 @@ export interface ProjectActivityDetailsProps {
 }
 const { declaredActivityDetails } = defineProps<ProjectActivityDetailsProps>()
 const { t } = useI18n()
-const hasPeriodInfo = computed(() => !!declaredActivityDetails.startDate || !!declaredActivityDetails.endDate)
+
 const activity = computed(() => declaredActivityDetails.activity)
+const isActivityPeriodDefined = computed(() => !!activity.value.startDate || !!activity.value.endDate)
+const hasPeriodInfo = computed(() => isActivityPeriodDefined.value || !!declaredActivityDetails.startDate || !!declaredActivityDetails.endDate)
+const periodStartDate = computed(() => isActivityPeriodDefined.value ? activity.value.startDate : declaredActivityDetails.startDate)
+const periodEndDate = computed(() => isActivityPeriodDefined.value ? activity.value.endDate : declaredActivityDetails.endDate)
+
 const resourceCount = computed(() => (activity.value.files?.length ?? 0) + (activity.value.links?.length ?? 0))
 </script>
 
@@ -29,8 +34,8 @@ const resourceCount = computed(() => (activity.value.files?.length ?? 0) + (acti
     <ValorizedBadge :valorized="declaredActivityDetails.valorized" />
     <ActivityPeriodDisplay
       v-if="hasPeriodInfo"
-      :start-date="declaredActivityDetails.startDate"
-      :end-date="declaredActivityDetails.endDate"
+      :start-date="periodStartDate"
+      :end-date="periodEndDate"
     />
     <Card
       background-color="var(--card2)"

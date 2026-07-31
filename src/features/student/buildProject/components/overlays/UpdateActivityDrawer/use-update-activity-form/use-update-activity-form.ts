@@ -28,8 +28,13 @@ export function useUpdateActivityForm (
 
   const { mutate: mutateUpdateDeclaredActivity, isPending } = useUpdateDeclaredActivity()
 
+  const isActivityPeriodDefined = computed(() => {
+    const activity = toValue(declaredActivity).activity
+    return !!activity.startDate || !!activity.endDate
+  })
+
   function updateActivity (value: UpdateActivityFormData) {
-    const period = value.startDate && value.endDate
+    const period = !isActivityPeriodDefined.value && value.startDate && value.endDate
       ? { startDate: value.startDate, endDate: value.endDate }
       : undefined
 

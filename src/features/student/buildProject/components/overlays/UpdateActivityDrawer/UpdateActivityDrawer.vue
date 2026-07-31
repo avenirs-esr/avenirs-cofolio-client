@@ -39,6 +39,8 @@ const { form, isFormValid, isSubmitting } = useUpdateActivityForm(
   }
 )
 
+const isActivityPeriodDefined = computed(() => !!declaredActivity.activity.startDate || !!declaredActivity.activity.endDate)
+
 const { showModal: showConfirmationModal, displayModal: displayConfirmationModal, hideModal: hideConfirmationModal } = useModal()
 
 const isDirty = computed(() => {
@@ -104,6 +106,7 @@ const isDemo = __DEMO_MODE__
           </AvAccordion>
 
           <AvAccordion
+            v-if="!isActivityPeriodDefined"
             :title="t('student.buildProject.activities.overlays.UpdateActivityDrawer.sections.period')"
             :icon="MDI_ICONS.CALENDAR_OUTLINE"
           >

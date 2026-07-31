@@ -142,6 +142,39 @@ BddTest().given('the useUpdateActivityForm composable', () => {
     })
   })
 
+  BddTest().when('the activity has a staff-defined period', () => {
+    const mockOnUpdated = vi.fn()
+    let result: ReturnType<typeof useUpdateActivityForm>
+
+    beforeEach(async () => {
+      const { result: composableResult } = mountComposable(
+        () => useUpdateActivityForm(
+          {
+            ...mockedDeclaredActivityDetails,
+            activity: {
+              ...mockedDeclaredActivityDetails.activity,
+              startDate: '2024-01-01',
+              endDate: '2024-12-31'
+            }
+          },
+          mockOnUpdated
+        ),
+        { useTanstack: true, useI18n: true, usePinia: true }
+      )
+      result = composableResult
+      result.form.setFieldValue('startDate', '2024-03-01')
+      result.form.setFieldValue('endDate', '2024-06-30')
+      await result.form.handleSubmit()
+      await flushPromises()
+    })
+
+    BddTest().then('it should still call the onUpdated callback', async () => {
+      await vi.waitFor(() => {
+        expect(mockOnUpdated).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
   BddTest().when('no callback is provided', () => {
     let result: ReturnType<typeof useUpdateActivityForm>
 
