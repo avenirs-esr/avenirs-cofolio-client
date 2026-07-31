@@ -50,7 +50,8 @@ export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
       sourceOfInformation: '',
       startDate: '',
       endDate: '',
-      isOngoing: false
+      isOngoing: false,
+      valorized: false
     } as DeclaredProgramFormData,
     validators: {
       onSubmit ({ value }: { value: DeclaredProgramFormData }) {

@@ -6,10 +6,12 @@ import type {
   useAddDeclaredProgramForm
 } from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/use-add-declared-program-form/use-add-declared-program-form'
 import type { useUpdateDeclaredExperienceForm } from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/use-update-declared-experience-form/use-update-declared-experience-form'
+import type { useUpdateDeclaredProgramForm } from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/use-update-declared-program-form/use-update-declared-program-form'
 
 export type AddDeclaredProgramForm = ReturnType<typeof useAddDeclaredProgramForm>['form']
 export type AddDeclaredExperienceForm = ReturnType<typeof useAddDeclaredExperienceForm>['form']
 export type UpdateDeclaredExperienceForm = ReturnType<typeof useUpdateDeclaredExperienceForm>['form']
+export type UpdateDeclaredProgramForm = ReturnType<typeof useUpdateDeclaredProgramForm>['form']
 
 export interface DeclaredProgramFormData {
   title: string
@@ -20,6 +22,7 @@ export interface DeclaredProgramFormData {
   startDate: string
   endDate: string
   isOngoing: boolean
+  valorized: boolean
 }
 export type DeclaredProgramFormApi = AnyFormApi<DeclaredProgramFormData>
 

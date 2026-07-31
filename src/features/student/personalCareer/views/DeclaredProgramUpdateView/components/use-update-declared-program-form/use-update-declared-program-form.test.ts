@@ -9,6 +9,7 @@ import {
 } from '@/features/student/personalCareer/config'
 import { useUpdateDeclaredProgramForm } from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/use-update-declared-program-form/use-update-declared-program-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -104,6 +105,36 @@ BddTest().given('an update declared program form', () => {
     BddTest().then('it should not be valid initially because it is not dirty', () => {
       expect(composableResult.isFormValid.value).toBe(false)
     })
+
+    BddTest().then('it should default valorized to false when the DTO does not carry it', () => {
+      expect(composableResult.form.state.values.valorized).toBe(false)
+    })
+  })
+
+  BddTest().when('the form is initialized from a valorized program', () => {
+    beforeEach(() => {
+      declaredProgramDetailed = createMockedDeclaredProgramDetailedDTO({ valorized: true })
+      mountForm()
+    })
+
+    BddTest().then('it should pre-fill valorized from the DTO', () => {
+      expect(composableResult.form.state.values.valorized).toBe(true)
+    })
+  })
+
+  BddTest().when('the valorization is toggled from the initial value', () => {
+    beforeEach(async () => {
+      declaredProgramDetailed = createMockedDeclaredProgramDetailedDTO({ valorized: false })
+      mountForm()
+      composableResult.form.setFieldValue('valorized', true)
+      await flushPromises()
+    })
+
+    BddTest().then('it should be dirty', async () => {
+      await vi.waitFor(() => {
+        expect(composableResult.form.state.isDirty).toBe(true)
+      })
+    })
   })
 
   BddTest().when('validating form fields', () => {
@@ -117,7 +148,8 @@ BddTest().given('an update declared program form', () => {
           sourceOfInformation: '',
           startDate: '',
           endDate: '',
-          isOngoing: false
+          isOngoing: false,
+          valorized: false
         }
 
         const validator = getOnSubmitValidator()
@@ -140,7 +172,8 @@ BddTest().given('an update declared program form', () => {
           sourceOfInformation: 'a'.repeat(DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH + 1),
           startDate: '2024-01',
           endDate: '2024-12',
-          isOngoing: false
+          isOngoing: false,
+          valorized: false
         }
 
         const validator = getOnSubmitValidator()

@@ -19,7 +19,8 @@ BddTest().given('a declared program card', () => {
     id: '1',
     title: 'Master en Informatique',
     organization: 'Université Paris-Saclay',
-    result: 'Mention Très Bien'
+    result: 'Mention Très Bien',
+    valorized: false
   }
 
   beforeEach(() => {

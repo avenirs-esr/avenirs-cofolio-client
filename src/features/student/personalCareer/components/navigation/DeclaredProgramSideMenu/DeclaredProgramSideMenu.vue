@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import SideMenu from '@/common/components/navigation/SideMenu/SideMenu.vue'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import CompactCard from '@/features/student/global/components/cards/CompactCard/CompactCard.vue'
@@ -71,7 +72,12 @@ const isCollapsed = ref(false)
               background-color="var(--surface-background)"
               border-color="var(--other-border-skill-card)"
               icon-border-color="var(--other-border-skill-card)"
-            />
+            >
+              <ValorizedBadge
+                v-if="program.valorized"
+                :valorized="program.valorized"
+              />
+            </CompactCard>
           </a>
         </div>
       </div>

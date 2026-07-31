@@ -1,4 +1,5 @@
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
+import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import DeclaredProgramDescriptionTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramDescriptionTextarea/DeclaredProgramDescriptionTextarea.vue'
 import DeclaredProgramOrganizationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramOrganizationInput/DeclaredProgramOrganizationInput.vue'
 import DeclaredProgramResultInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramResultInput/DeclaredProgramResultInput.vue'
@@ -55,6 +56,7 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
   const stubs = {
     AvPeriodInput: AvPeriodInputStub,
     CreationUpdateDateDetails: CreationUpdateDateDetailsStub,
+    ValorizedBadge: ValorizedBadgeStub,
   }
 
   function findPeriodInput () {
@@ -145,6 +147,46 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
         expect(details.props('createdAtPrefix')).toBe(
           'Formation'
         )
+      })
+    })
+  })
+
+  BddTest().and('given a valorized program', () => {
+    const props: DeclaredProgramDetailedProps = {
+      declaredProgramDetailed: { ...mockedDeclaredProgramDetailed, valorized: true },
+    }
+
+    BddTest().when('the component is mounted', () => {
+      beforeEach(() => {
+        vi.clearAllMocks()
+        mockIsMobile.value = false
+        wrapper = mount(DeclaredProgramDetailed, { props, global: { stubs } })
+      })
+
+      BddTest().then('it should render ValorizedBadge with valorized true', () => {
+        const badge = wrapper.findComponent(ValorizedBadgeStub)
+        expect(badge.exists()).toBe(true)
+        expect(badge.props('valorized')).toBe(true)
+      })
+    })
+  })
+
+  BddTest().and('given a non valorized program', () => {
+    const props: DeclaredProgramDetailedProps = {
+      declaredProgramDetailed: { ...mockedDeclaredProgramDetailed, valorized: false },
+    }
+
+    BddTest().when('the component is mounted', () => {
+      beforeEach(() => {
+        vi.clearAllMocks()
+        mockIsMobile.value = false
+        wrapper = mount(DeclaredProgramDetailed, { props, global: { stubs } })
+      })
+
+      BddTest().then('it should render ValorizedBadge with valorized false', () => {
+        const badge = wrapper.findComponent(ValorizedBadgeStub)
+        expect(badge.exists()).toBe(true)
+        expect(badge.props('valorized')).toBe(false)
       })
     })
   })

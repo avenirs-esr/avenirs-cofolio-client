@@ -15,6 +15,7 @@ export const declaredProgramViewDTOFixture: DeclaredProgramDetailedDTO = {
   sourceOfInformation: 'Site web de l\'université',
   startDate: '2023-09',
   endDate: '2025-06',
+  valorized: false,
   createdAt: '2024-01-15T10:30:00Z',
   updatedAt: '2024-01-15T10:30:00Z'
 }
@@ -28,6 +29,7 @@ function createMockedDeclaredPrograms (count: number): DeclaredProgramViewDTO[] 
       title: `Formation déclarée ${i}`,
       organization: `Établissement ${i}`,
       status: i % 3 === 0 ? EProgramStatus.COMPLETED : i % 3 === 1 ? EProgramStatus.IN_PROGRESS : EProgramStatus.NOT_STARTED,
+      valorized: false,
       result: i % 2 === 0 ? `Résultat ${i}` : undefined
     })
   }
