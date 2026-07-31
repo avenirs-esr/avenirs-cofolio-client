@@ -2,9 +2,9 @@ import { mockedActivityDetail, mockedSubscribedActivityDetail } from '@/__mocks_
 import { ActivityCatalogHeaderStub } from '@/common/activities/components/ActivityCatalogHeader/ActivityCatalogHeader.stub'
 import { ActivityCatalogPreviewCardStub } from '@/common/activities/components/ActivityCatalogPreviewCard/ActivityCatalogPreviewCard.stub'
 import { ROUTES } from '@/common/constants'
+import { SubscribeActivityConfirmModalStub } from '@/features/student/buildProject/components/modals/SubscribeActivityConfirmModal/SubscribeActivityConfirmModal.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import ActivityPreview, { type ActivityPreviewProps } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
-import { SubscribeActivityModalStub } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/overlays/SubscribeActivityModal/SubscribeActivityModal.stub'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
@@ -17,7 +17,7 @@ BddTest().given('an activity preview', () => {
     ActivityCatalogHeader: ActivityCatalogHeaderStub,
     ActivityCatalogPreviewCard: ActivityCatalogPreviewCardStub,
     UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub,
-    SubscribeActivityModal: SubscribeActivityModalStub,
+    SubscribeActivityConfirmModal: SubscribeActivityConfirmModalStub,
   }
 
   function getUnsubscribeButton () {
@@ -88,7 +88,7 @@ BddTest().given('an activity preview', () => {
     })
 
     BddTest().then('it should render the subscribe modal', () => {
-      const modal = wrapper.findComponent(SubscribeActivityModalStub)
+      const modal = wrapper.findComponent(SubscribeActivityConfirmModalStub)
       expect(modal.exists()).toBe(true)
       expect(modal.props('show')).toBe(false)
       expect(modal.props('activity')).toEqual({ id: mockedActivityDetail.id, title: mockedActivityDetail.title })
@@ -100,26 +100,26 @@ BddTest().given('an activity preview', () => {
       })
 
       BddTest().then('it should display the subscribe modal', () => {
-        expect(wrapper.findComponent(SubscribeActivityModalStub).props('show')).toBe(true)
+        expect(wrapper.findComponent(SubscribeActivityConfirmModalStub).props('show')).toBe(true)
       })
 
       BddTest().and('the user cancels the subscribe action', () => {
         beforeEach(() => {
-          wrapper.findComponent(SubscribeActivityModalStub).vm.$emit('cancel')
+          wrapper.findComponent(SubscribeActivityConfirmModalStub).vm.$emit('cancel')
         })
 
         BddTest().then('it should hide the subscribe modal', () => {
-          expect(wrapper.findComponent(SubscribeActivityModalStub).props('show')).toBe(false)
+          expect(wrapper.findComponent(SubscribeActivityConfirmModalStub).props('show')).toBe(false)
         })
       })
 
       BddTest().and('the user confirms the subscribe action', () => {
         beforeEach(() => {
-          wrapper.findComponent(SubscribeActivityModalStub).vm.$emit('subscribed')
+          wrapper.findComponent(SubscribeActivityConfirmModalStub).vm.$emit('subscribed')
         })
 
         BddTest().then('it should hide the subscribe modal', () => {
-          expect(wrapper.findComponent(SubscribeActivityModalStub).props('show')).toBe(false)
+          expect(wrapper.findComponent(SubscribeActivityConfirmModalStub).props('show')).toBe(false)
         })
       })
     })
@@ -184,7 +184,7 @@ BddTest().given('an activity preview', () => {
     })
 
     BddTest().then('it should render the subscribe modal', () => {
-      expect(wrapper.findComponent(SubscribeActivityModalStub).exists()).toBe(true)
+      expect(wrapper.findComponent(SubscribeActivityConfirmModalStub).exists()).toBe(true)
     })
 
     BddTest().and('the user clicks the unsubscribe button', () => {

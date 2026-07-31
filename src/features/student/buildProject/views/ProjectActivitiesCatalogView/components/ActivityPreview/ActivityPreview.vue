@@ -4,8 +4,8 @@ import ActivityCatalogHeader from '@/common/activities/components/ActivityCatalo
 import ActivityCatalogPreviewCard from '@/common/activities/components/ActivityCatalogPreviewCard/ActivityCatalogPreviewCard.vue'
 import { useModal } from '@/common/composables'
 import { ICONS, ROUTES } from '@/common/constants'
+import SubscribeActivityConfirmModal from '@/features/student/buildProject/components/modals/SubscribeActivityConfirmModal/SubscribeActivityConfirmModal.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
-import SubscribeActivityModal from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/overlays/SubscribeActivityModal/SubscribeActivityModal.vue'
 import { AvButton, MDI_ICONS, PH_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -80,7 +80,7 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
     @unsubscribed="hideUnsubscribeModal"
   />
 
-  <SubscribeActivityModal
+  <SubscribeActivityConfirmModal
     :show="showSubscribeModal"
     :activity="{ id: activity.id, title: activity.title }"
     @cancel="hideSubscribeModal"

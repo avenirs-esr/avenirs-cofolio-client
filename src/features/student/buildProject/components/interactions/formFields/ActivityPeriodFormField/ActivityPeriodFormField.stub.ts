@@ -1,4 +1,4 @@
-import type { SubscribeActivityForm, UpdateActivityForm } from '@/features/student/buildProject/types/forms.types'
+import type { UpdateActivityForm } from '@/features/student/buildProject/types/forms.types'
 import type { Component, PropType } from 'vue'
 
 export const ActivityPeriodFormFieldStub: Component = defineComponent({
@@ -6,7 +6,7 @@ export const ActivityPeriodFormFieldStub: Component = defineComponent({
   template: '<div data-testid="activity-period-form-field-stub"></div>',
   props: {
     form: {
-      type: Object as PropType<UpdateActivityForm | SubscribeActivityForm>,
+      type: Object as PropType<UpdateActivityForm>,
     },
     label: {
       type: String,

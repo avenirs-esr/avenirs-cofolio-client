@@ -1,4 +1,4 @@
-import type { SubscribeActivityForm } from '@/features/student/buildProject/types/forms.types'
+import type { UpdateActivityForm } from '@/features/student/buildProject/types/forms.types'
 import ActivityPeriodFormField from '@/features/student/buildProject/components/interactions/formFields/ActivityPeriodFormField/ActivityPeriodFormField.vue'
 import { AvPeriodInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
@@ -13,7 +13,7 @@ const commonsWrapperDefinitions = {
         startDate: null,
         endDate: null,
       }
-    }) as unknown as SubscribeActivityForm
+    }) as unknown as UpdateActivityForm
     return { form }
   },
 }

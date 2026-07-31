@@ -1,5 +1,5 @@
-export const SubscribeActivityModalStub = defineComponent({
-  name: 'SubscribeActivityModal',
+export const SubscribeActivityConfirmModalStub = defineComponent({
+  name: 'SubscribeActivityConfirmModal',
   props: {
     show: {
       type: Boolean,
@@ -12,6 +12,6 @@ export const SubscribeActivityModalStub = defineComponent({
   },
   emits: ['subscribed', 'cancel'],
   template: `<div v-if="show">
-    <p>SubscribeActivityModalStub for activity: {{ activity.title }}</p>
+    <p>SubscribeActivityConfirmModalStub for activity: {{ activity.title }}</p>
   </div>`
 })
