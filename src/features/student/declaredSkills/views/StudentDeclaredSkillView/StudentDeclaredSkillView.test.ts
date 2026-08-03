@@ -115,14 +115,15 @@ BddTest().given('a student declared skill view', () => {
       await vi.waitFor(() => {
         const activeTab = wrapper.findComponent(AvTabStub)
         expect(activeTab.exists()).toBe(true)
-        expect(String(activeTab.props('title'))).toContain('3')
+        expect(String(activeTab.props('title'))).toContain('5')
 
         const associationsComponent = wrapper.findComponent(StudentDeclaredSkillAssociationsStub)
         expect(associationsComponent.exists()).toBe(true)
         expect(associationsComponent.props('declaredSkillId')).toBe('declared-skill-progress-1')
         expect(associationsComponent.props('associatedTraces')).toHaveLength(2)
         expect(associationsComponent.props('associatedDeclaredActivities')).toHaveLength(1)
-        expect(associationsComponent.props('countAssociations')).toBe(3)
+        expect(associationsComponent.props('associatedDeclaredExperiences')).toHaveLength(2)
+        expect(associationsComponent.props('countAssociations')).toBe(5)
         expect(associationsComponent.props('associationsError')).toBeFalsy()
       })
     })
@@ -134,7 +135,7 @@ BddTest().given('a student declared skill view', () => {
       await vi.waitFor(() => {
         const activeTab = wrapper.findComponent(AvTabStub)
         expect(activeTab.exists()).toBe(true)
-        expect(String(activeTab.props('title'))).toContain('3')
+        expect(String(activeTab.props('title'))).toContain('5')
       })
     })
 

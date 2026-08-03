@@ -1,6 +1,7 @@
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
   type AssociationSearchResultDeclaredExperienceDTO,
+  type DeclaredExperienceAssociationDTO,
   type DeclaredExperienceAssociationsDTO,
   type DeclaredExperienceViewDTO,
   EExperienceType,
@@ -98,6 +99,13 @@ export function searchDeclaredExperienceById (
   id: string
 ): DeclaredExperienceViewDTO | undefined {
   return mockedDeclaredExperiences.find(p => p.id === id)
+}
+
+export function createMockedDeclaredExperiencesAssociations (count: number): DeclaredExperienceAssociationDTO[] {
+  return createMockedDeclaredExperiences(count).map((declaredExperience, index) => ({
+    associationId: `declared-experience-association-${index + 1}`,
+    declaredExperience
+  }))
 }
 
 export function createMockedDeclaredExperienceAssociationsDTO (

@@ -5672,7 +5672,11 @@
           "declaredExperience": {
             "$ref": "#/components/schemas/DeclaredExperienceViewDTO"
           }
-        }
+        },
+        "required": [
+          "associationId",
+          "declaredExperience"
+        ]
       },
       "DeclaredSkillAssociationDTO": {
         "type": "object",

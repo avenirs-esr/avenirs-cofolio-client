@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import type { DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
+import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import PeriodBadge from '@/common/activities/badges/PeriodBadge/PeriodBadge.vue'
 import { ROUTES } from '@/common/constants'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
-import { AvBadge, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
+import DeclaredExperienceTypeBadge
+  from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.vue'
+import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 defineProps<{ declaredExperience: DeclaredExperienceViewDTO }>()
-
-const { t } = useI18n()
 
 const iconOptions = {
   name: MDI_ICONS.HUB_OUTLINE,
@@ -16,11 +15,6 @@ const iconOptions = {
   right: '0.4rem',
   bottom: 'calc(-1 * 3.3rem)',
   borderColor: 'var(--other-border-skill-card)'
-}
-
-const experienceTypeColorMap: Record<EExperienceType, string> = {
-  PROFESSIONAL: 'var(--dark-background-primary3)',
-  PERSONAL: 'var(--dark-background-success)'
 }
 </script>
 
@@ -50,13 +44,9 @@ const experienceTypeColorMap: Record<EExperienceType, string> = {
               :end-date="declaredExperience.endDate"
             />
 
-            <AvBadge
+            <DeclaredExperienceTypeBadge
               v-if="declaredExperience.experienceType"
-              :label="t(`student.personalCareer.declaredExperienceType.${declaredExperience.experienceType}`)"
-              :background-color="experienceTypeColorMap[declaredExperience.experienceType]"
-              :icon="RI_ICONS.HONOUR_LINE"
-              color="var(--card2)"
-              ellipsis
+              :experience-type="declaredExperience.experienceType"
             />
             <AvBadge
               :label="declaredExperience.organization"

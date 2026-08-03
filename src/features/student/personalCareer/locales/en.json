@@ -1,6 +1,11 @@
 {
   "student": {
     "personalCareer": {
+      "cards": {
+        "AssociatedDeclaredExperiencesCard": {
+          "title": "My associated declared experience ({count}) | My associated declared experiences ({count})"
+        }
+      },
       "declaredExperienceType": {
         "PERSONAL": "Personal experience",
         "PROFESSIONAL": "Professional experience"

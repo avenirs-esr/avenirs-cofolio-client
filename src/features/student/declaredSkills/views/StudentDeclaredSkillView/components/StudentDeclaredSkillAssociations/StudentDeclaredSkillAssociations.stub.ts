@@ -1,4 +1,4 @@
-import type { DeclaredActivityAssociationDTO, TraceAssociationDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityAssociationDTO, DeclaredExperienceAssociationDTO, TraceAssociationDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 
 export const StudentDeclaredSkillAssociationsStub = defineComponent({
@@ -14,6 +14,10 @@ export const StudentDeclaredSkillAssociationsStub = defineComponent({
     },
     associatedDeclaredActivities: {
       type: Array as () => DeclaredActivityAssociationDTO[],
+      required: true
+    },
+    associatedDeclaredExperiences: {
+      type: Array as () => DeclaredExperienceAssociationDTO[],
       required: true
     },
     associationsError: {
