@@ -1,6 +1,7 @@
 import type { TraceAssociationDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedTraceDeclaredActivityAssociations, mockedTraceOverview } from '@/__mocks__/fixtures/student'
+import { createMockedDeclaredExperiencesAssociations } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import { createMockedDeclaredActivitiesAssociations } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
@@ -13,11 +14,15 @@ import { DeclaredSkillAssociateElementsDropdownStub } from '@/features/student/d
 import { DeleteDeclaredSkillAssociatedElementsDropdownStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/overlays/dropdowns/DeleteDeclaredSkillAssociatedElementsDropdown/DeleteDeclaredSkillAssociatedElementsDropdown.stub'
 import StudentDeclaredSkillAssociations
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.vue'
+import { AssociatedDeclaredExperiencesCardStub }
+  from '@/features/student/personalCareer/components/cards/AssociatedDeclaredExperiencesCard/AssociatedDeclaredExperiencesCard.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const declaredSkillId = 'declared-skill-progress-1'
+
+const mockedAssociatedDeclaredExperiences = createMockedDeclaredExperiencesAssociations(2)
 
 const mockedAssociatedTraces: TraceAssociationDTO[] = mockedTraceOverview.map((trace, i) => ({
   associationId: `skill-trace-assoc-${i + 1}`,
@@ -28,6 +33,7 @@ const stubs = {
   QuerySuspense: QuerySuspenseStub,
   AssociatedTracesCard: AssociatedTracesCardStub,
   AssociatedDeclaredActivitiesCard: AssociatedDeclaredActivitiesCardStub,
+  AssociatedDeclaredExperiencesCard: AssociatedDeclaredExperiencesCardStub,
   DeclaredSkillAssociateElementsDropdown: DeclaredSkillAssociateElementsDropdownStub,
   DeleteDeclaredSkillAssociatedElementsDropdown: DeleteDeclaredSkillAssociatedElementsDropdownStub,
   AssociateActivitiesToDeclaredSkillModal: AssociateActivitiesToDeclaredSkillModalStub,
@@ -48,7 +54,8 @@ BddTest().given('a student declared skill associations component', () => {
           declaredSkillId,
           associatedTraces: mockedAssociatedTraces,
           associatedDeclaredActivities: mockedTraceDeclaredActivityAssociations,
-          countAssociations: 3
+          associatedDeclaredExperiences: mockedAssociatedDeclaredExperiences,
+          countAssociations: 5
         },
         global: { stubs }
       })
@@ -94,6 +101,16 @@ BddTest().given('a student declared skill associations component', () => {
     BddTest().then('it should pass associatedDeclaredActivities prop to AssociatedDeclaredActivitiesCard', () => {
       const card = wrapper.findComponent(AssociatedDeclaredActivitiesCardStub)
       expect(card.props('associatedActivities')).toEqual(mockedTraceDeclaredActivityAssociations)
+    })
+
+    BddTest().then('it should render AssociatedDeclaredExperiencesCard', () => {
+      const card = wrapper.findComponent(AssociatedDeclaredExperiencesCardStub)
+      expect(card.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass associatedDeclaredExperiences prop to AssociatedDeclaredExperiencesCard', () => {
+      const card = wrapper.findComponent(AssociatedDeclaredExperiencesCardStub)
+      expect(card.props('associatedExperiences')).toEqual(mockedAssociatedDeclaredExperiences)
     })
 
     BddTest().then('it should render the declared skill associate elements dropdown', () => {
@@ -167,6 +184,7 @@ BddTest().given('a student declared skill associations component', () => {
           declaredSkillId,
           associatedTraces: mockedAssociatedTraces,
           associatedDeclaredActivities,
+          associatedDeclaredExperiences: [],
           countAssociations: 3
         },
         global: { stubs }
@@ -245,6 +263,7 @@ BddTest().given('a student declared skill associations component', () => {
           declaredSkillId,
           associatedTraces: [],
           associatedDeclaredActivities,
+          associatedDeclaredExperiences: [],
           countAssociations: 2
         },
         global: { stubs }
@@ -264,6 +283,7 @@ BddTest().given('a student declared skill associations component', () => {
           declaredSkillId,
           associatedTraces: [],
           associatedDeclaredActivities: [],
+          associatedDeclaredExperiences: [],
           countAssociations: 0
         },
         global: { stubs }
@@ -302,6 +322,11 @@ BddTest().given('a student declared skill associations component', () => {
       expect(card.exists()).toBe(false)
     })
 
+    BddTest().then('it should not render AssociatedDeclaredExperiencesCard', () => {
+      const card = wrapper.findComponent(AssociatedDeclaredExperiencesCardStub)
+      expect(card.exists()).toBe(false)
+    })
+
     BddTest().then('it should render the associate activities modal with the declared skill id', () => {
       const modal = wrapper.findComponent(AssociateActivitiesToDeclaredSkillModalStub)
       expect(modal.props('declaredSkillId')).toBe(declaredSkillId)
@@ -315,6 +340,7 @@ BddTest().given('a student declared skill associations component', () => {
           declaredSkillId,
           associatedTraces: [],
           associatedDeclaredActivities: [],
+          associatedDeclaredExperiences: [],
           associationsError: {
             status: 404,
             code: ErrorCodes.ASSOCIATION_NOT_FOUND,
@@ -355,6 +381,11 @@ BddTest().given('a student declared skill associations component', () => {
 
     BddTest().then('it should not render AssociatedDeclaredActivitiesCard', () => {
       const card = wrapper.findComponent(AssociatedDeclaredActivitiesCardStub)
+      expect(card.exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render AssociatedDeclaredExperiencesCard', () => {
+      const card = wrapper.findComponent(AssociatedDeclaredExperiencesCardStub)
       expect(card.exists()).toBe(false)
     })
   })

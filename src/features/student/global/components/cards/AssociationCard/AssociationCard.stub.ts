@@ -34,5 +34,5 @@ export const AssociationCardStub = defineComponent({
       required: false
     }
   },
-  template: '<div data-testid="association-card"></div>'
+  template: '<div data-testid="association-card"><slot name="body" /><slot name="footer" /></div>'
 })

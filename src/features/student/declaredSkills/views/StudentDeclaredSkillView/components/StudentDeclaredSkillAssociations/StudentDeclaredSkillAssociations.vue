@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DeclaredActivityAssociationDTO, TraceAssociationDTO } from '@/api/avenir-esr'
+import type { DeclaredActivityAssociationDTO, DeclaredExperienceAssociationDTO, TraceAssociationDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { QuerySuspense } from '@/common/components'
 import { useModal } from '@/common/composables'
@@ -16,11 +16,13 @@ import DeclaredSkillAssociateElementsDropdown
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/overlays/dropdowns/DeclaredSkillAssociateElementsDropdown/DeclaredSkillAssociateElementsDropdown.vue'
 import DeleteDeclaredSkillAssociatedElementsDropdown
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/overlays/dropdowns/DeleteDeclaredSkillAssociatedElementsDropdown/DeleteDeclaredSkillAssociatedElementsDropdown.vue'
+import { AssociatedDeclaredExperiencesCard } from '@/features/student/personalCareer'
 import { useI18n } from 'vue-i18n'
 
 interface StudentDeclaredSkillAssociationsProps {
   declaredSkillId: string
   associatedDeclaredActivities: DeclaredActivityAssociationDTO[]
+  associatedDeclaredExperiences: DeclaredExperienceAssociationDTO[]
   associatedTraces: TraceAssociationDTO[]
   associationsError?: BaseApiException | null
   countAssociations?: number
@@ -30,6 +32,7 @@ const {
   declaredSkillId,
   associatedTraces,
   associatedDeclaredActivities,
+  associatedDeclaredExperiences,
   associationsError,
   countAssociations
 } = defineProps<StudentDeclaredSkillAssociationsProps>()
@@ -86,6 +89,7 @@ function onAssociated () {
         <div class="av-col av-gap-md">
           <AssociatedTracesCard :associated-traces="associatedTraces" />
           <AssociatedDeclaredActivitiesCard :associated-activities="associatedDeclaredActivities" />
+          <AssociatedDeclaredExperiencesCard :associated-experiences="associatedDeclaredExperiences" />
         </div>
       </QuerySuspense>
     </div>

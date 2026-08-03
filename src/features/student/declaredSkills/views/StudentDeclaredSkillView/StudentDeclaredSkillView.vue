@@ -39,11 +39,13 @@ const { data, error: associationsError } = useGetDeclaredSkillWithDeclaredActivi
 )
 const traceAssociations = computed(() => data.value?.traceAssociations ?? [])
 const declaredActivityAssociations = computed(() => data.value?.declaredActivityAssociations ?? [])
+const declaredExperienceAssociations = computed(() => data.value?.declaredExperienceAssociations ?? [])
 
 const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 const isDeclaredSkillNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND || isNotFound.value)
 const skillTitle = computed(() => declaredSkillDetailed.value?.title ?? '')
-const countAssociations = computed(() => (traceAssociations.value?.length ?? 0) + (declaredActivityAssociations.value?.length ?? 0))
+const countAssociations = computed(() =>
+  traceAssociations.value.length + declaredActivityAssociations.value.length + declaredExperienceAssociations.value.length)
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
@@ -98,6 +100,7 @@ function handleSkillDeleted () {
         :declared-skill-id="declaredSkillDetailed.id"
         :associated-traces="traceAssociations"
         :associated-declared-activities="declaredActivityAssociations"
+        :associated-declared-experiences="declaredExperienceAssociations"
         :associations-error="associationsError"
         :count-associations="countAssociations"
       />

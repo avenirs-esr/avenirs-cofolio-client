@@ -1,4 +1,5 @@
 import { createMockedTraceAssociations } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { createMockedDeclaredExperiencesAssociations } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
   type AssociationSearchResultDeclaredSkillIDTO,
@@ -217,7 +218,7 @@ export function createMockedDeclaredActivitiesAssociations (count: number): Decl
 export const mockedDeclaredSkillAssociations: DeclaredSkillAssociationsDTO = {
   traceAssociations: createMockedTraceAssociations(2),
   declaredActivityAssociations: createMockedDeclaredActivitiesAssociations(1),
-  declaredExperienceAssociations: []
+  declaredExperienceAssociations: createMockedDeclaredExperiencesAssociations(2)
 }
 
 export function createMockedAllSkillListItemDTO (): SkillListItemDTO[] {

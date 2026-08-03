@@ -1,8 +1,10 @@
 import { type DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
 import { PeriodBadgeStub } from '@/common/activities/badges/PeriodBadge/PeriodBadge.stub'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
+import { DeclaredExperienceTypeBadgeStub }
+  from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.stub'
 import DeclaredExperienceCard from '@/features/student/personalCareer/components/cards/DeclaredExperienceCard/DeclaredExperienceCard.vue'
-import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -14,7 +16,8 @@ BddTest().given('a declared experience card', () => {
     FloatingIconCard: FloatingIconCardStub,
     AvBadge: AvBadgeStub,
     RouterLink: RouterLinkStub,
-    PeriodBadge: PeriodBadgeStub
+    PeriodBadge: PeriodBadgeStub,
+    DeclaredExperienceTypeBadge: DeclaredExperienceTypeBadgeStub
   }
 
   const baseDeclaredExperience: DeclaredExperienceViewDTO = {
@@ -84,27 +87,18 @@ BddTest().given('a declared experience card', () => {
     })
 
     BddTest().and('the experience type badge is rendered', () => {
-      let experienceTypeBadge: VueWrapper<InstanceType<typeof AvBadgeStub>> | undefined
+      let experienceTypeBadge: VueWrapper<InstanceType<typeof DeclaredExperienceTypeBadgeStub>>
 
       beforeEach(() => {
-        const badges = wrapper.findAllComponents({ name: 'AvBadge' })
-        experienceTypeBadge = badges.find(badge => badge.props('label') === 'Expérience professionnelle') as VueWrapper<InstanceType<typeof AvBadgeStub>>
+        experienceTypeBadge = wrapper.findComponent(DeclaredExperienceTypeBadgeStub) as VueWrapper<InstanceType<typeof DeclaredExperienceTypeBadgeStub>>
       })
 
       BddTest().then('it should exist', () => {
-        expect(experienceTypeBadge).toBeDefined()
+        expect(experienceTypeBadge.exists()).toBe(true)
       })
 
-      BddTest().then('it should have honour line icon', () => {
-        expect(experienceTypeBadge?.props('icon')).toBe(RI_ICONS.HONOUR_LINE)
-      })
-
-      BddTest().then('it should have dark primary3 background color for professional', () => {
-        expect(experienceTypeBadge?.props('backgroundColor')).toBe('var(--dark-background-primary3)')
-      })
-
-      BddTest().then('it should have card2 text color', () => {
-        expect(experienceTypeBadge?.props('color')).toBe('var(--card2)')
+      BddTest().then('it should receive the professional experience type', () => {
+        expect(experienceTypeBadge.props('experienceType')).toBe(EExperienceType.PROFESSIONAL)
       })
     })
 
@@ -139,8 +133,6 @@ BddTest().given('a declared experience card', () => {
   })
 
   BddTest().when('the component is mounted with PERSONAL experience type', () => {
-    let experienceTypeBadge: VueWrapper<InstanceType<typeof AvBadgeStub>> | undefined
-
     beforeEach(() => {
       wrapper = mount(DeclaredExperienceCard, {
         props: {
@@ -151,42 +143,11 @@ BddTest().given('a declared experience card', () => {
         },
         global: { stubs }
       })
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
-      experienceTypeBadge = badges.find(badge => badge.props('label') === 'Expérience personnelle') as VueWrapper<InstanceType<typeof AvBadgeStub>>
     })
 
-    BddTest().then('it should display personal experience label', () => {
-      expect(experienceTypeBadge).toBeDefined()
-    })
-
-    BddTest().then('it should apply dark success background color', () => {
-      expect(experienceTypeBadge?.props('backgroundColor')).toBe('var(--dark-background-success)')
-    })
-  })
-
-  BddTest().when('the component is mounted with PROFESSIONAL experience type', () => {
-    let experienceTypeBadge: VueWrapper<InstanceType<typeof AvBadgeStub>> | undefined
-
-    beforeEach(() => {
-      wrapper = mount(DeclaredExperienceCard, {
-        props: {
-          declaredExperience: {
-            ...baseDeclaredExperience,
-            experienceType: EExperienceType.PROFESSIONAL
-          }
-        },
-        global: { stubs }
-      })
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
-      experienceTypeBadge = badges.find(badge => badge.props('label') === 'Expérience professionnelle') as VueWrapper<InstanceType<typeof AvBadgeStub>>
-    })
-
-    BddTest().then('it should display professional experience label', () => {
-      expect(experienceTypeBadge).toBeDefined()
-    })
-
-    BddTest().then('it should apply dark primary3 background color', () => {
-      expect(experienceTypeBadge?.props('backgroundColor')).toBe('var(--dark-background-primary3)')
+    BddTest().then('it should pass the personal experience type to the badge', () => {
+      const experienceTypeBadge = wrapper.findComponent(DeclaredExperienceTypeBadgeStub)
+      expect(experienceTypeBadge.props('experienceType')).toBe(EExperienceType.PERSONAL)
     })
   })
 
@@ -204,10 +165,7 @@ BddTest().given('a declared experience card', () => {
     })
 
     BddTest().then('it should not render experience type badge', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
-      const experienceTypeLabels = ['Expérience personnelle', 'Expérience professionnelle']
-      const hasExperienceTypeBadge = badges.some(badge => experienceTypeLabels.includes(badge.props('label') as string))
-      expect(hasExperienceTypeBadge).toBe(false)
+      expect(wrapper.findComponent(DeclaredExperienceTypeBadgeStub).exists()).toBe(false)
     })
   })
 
