@@ -67,7 +67,10 @@ async function handleCancel () {
     :breadcrumb-links="breadcrumbLinks"
   />
 
-  <UpdateInProgressBadge :show="updateInProgress" />
+  <UpdateInProgressBadge
+    class="av-pb-sm"
+    :show="updateInProgress"
+  />
 
   <AvTabs v-model="activeTab">
     <AvTab

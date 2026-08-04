@@ -23,9 +23,14 @@ const emit = defineEmits<{
 }>()
 const { t } = useI18n()
 
+function handleSkillUpdated () {
+  emit('dirtyChange', false)
+  props.onSkillUpdated?.()
+}
+
 const { form, isFormValid, isSubmitting } = useUpdateDeclaredSkillForm(
   props.declaredSkillProgressDetails,
-  props.onSkillUpdated
+  handleSkillUpdated
 )
 
 function handleSubmit () {
