@@ -24,6 +24,9 @@
           "valorizedAssociatedTracesContainer": {
             "title": "My associated trace (1) | My associated traces ({count})"
           },
+          "valorizedDeclaredSkillsContainer": {
+            "title": "My valorized declared skill (1) | My valorized declared skills ({count})"
+          },
           "valorizedNonAssociatedTracesContainer": {
             "title": "My non-associated trace (1) | My non-associated traces ({count})"
           }

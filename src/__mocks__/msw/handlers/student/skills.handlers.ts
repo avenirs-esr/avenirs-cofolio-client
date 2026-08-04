@@ -20,6 +20,7 @@ import {
   EExternalSkillType,
   getAssociateDeclaredSkillWithDeclaredActivitiesUrl,
   getCreateDeclaredSkillProgressUrl,
+  type GetDeclaredSkillsProgressesParams,
   getDeleteDeclaredSkillAssociationsUrl,
   getDeleteDeclaredSkillProgressUrl,
   getGetAdditionalSkillConfigUrl,
@@ -45,8 +46,20 @@ import { delay, http, HttpResponse, type PathParams } from 'msw'
 
 const INVALID_DECLARED_SKILL_ID = 'INVALID_DECLARED_SKILL_ID'
 
-export function createDeclaredSkillsProgressViewHandler (payload: PagedResponseDeclaredSkillProgressDTO) {
-  return http.get(`*${getGetDeclaredSkillsProgressesUrl()}`, () => {
+export function createDeclaredSkillsProgressViewHandler (
+  payload: PagedResponseDeclaredSkillProgressDTO,
+  onRequest?: (params: GetDeclaredSkillsProgressesParams) => void
+) {
+  return http.get(`*${getGetDeclaredSkillsProgressesUrl()}`, ({ request }) => {
+    if (onRequest) {
+      const searchParams = new URL(request.url).searchParams
+      onRequest({
+        page: searchParams.has('page') ? Number(searchParams.get('page')) : undefined,
+        pageSize: searchParams.has('pageSize') ? Number(searchParams.get('pageSize')) : undefined,
+        isValorized: searchParams.has('isValorized') ? searchParams.get('isValorized') === 'true' : undefined
+      })
+    }
+
     return HttpResponse.json<PagedResponseDeclaredSkillProgressDTO>(payload, {
       status: 200,
       headers: {
@@ -55,6 +68,13 @@ export function createDeclaredSkillsProgressViewHandler (payload: PagedResponseD
     })
   })
 }
+
+export const declaredSkillsProgressViewErrorHandler = http.get(`*${getGetDeclaredSkillsProgressesUrl()}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+    { status: 500 }
+  )
+})
 
 export function createSkillsViewHandler (payload: PagedResponseSkillDTO) {
   return http.get(`*${getGetSkillLevelProgressesUrl()}`, () => {
