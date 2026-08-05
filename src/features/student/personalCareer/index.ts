@@ -1,3 +1,9 @@
+export { default as DeclaredExperienceOrganizationBadge }
+  from '@/features/student/personalCareer/components/badges/DeclaredExperienceOrganizationBadge/DeclaredExperienceOrganizationBadge.vue'
+
+export { default as DeclaredExperienceTypeBadge }
+  from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.vue'
+
 export { default as AssociatedDeclaredExperiencesCard }
   from '@/features/student/personalCareer/components/cards/AssociatedDeclaredExperiencesCard/AssociatedDeclaredExperiencesCard.vue'
 

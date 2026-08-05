@@ -8,6 +8,7 @@ import {
   type DeclaredExperienceAssociationsDTO,
   type DeclaredExperienceViewDTO,
   getCreateDeclaredExperienceUrl,
+  type GetDeclaredExperienceViewParams,
   getDeleteDeclaredExperiencesUrl,
   getGetDeclaredExperienceAssociationsUrl,
   getGetDeclaredExperienceUrl,
@@ -32,6 +33,27 @@ export const declaredExperiencesQueryHandler = http.get(`*${getGetDeclaredExperi
     headers: { 'Content-Type': 'application/json' }
   })
 })
+
+export function createDeclaredExperienceViewHandler (
+  payload: PagedResponseDeclaredExperienceViewDTO,
+  onRequest?: (params: GetDeclaredExperienceViewParams) => void
+) {
+  return http.get(`*${getGetDeclaredExperienceViewUrl()}`, ({ request }) => {
+    if (onRequest) {
+      const searchParams = new URL(request.url).searchParams
+      onRequest({
+        page: searchParams.has('page') ? Number(searchParams.get('page')) : undefined,
+        pageSize: searchParams.has('pageSize') ? Number(searchParams.get('pageSize')) : undefined,
+        isValorized: searchParams.has('isValorized') ? searchParams.get('isValorized') === 'true' : undefined
+      })
+    }
+
+    return HttpResponse.json<PagedResponseDeclaredExperienceViewDTO>(payload, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  })
+}
 
 export const declaredExperiencesQueryErrorHandler = http.get(`*${getGetDeclaredExperienceViewUrl()}`, () => {
   return HttpResponse.json(

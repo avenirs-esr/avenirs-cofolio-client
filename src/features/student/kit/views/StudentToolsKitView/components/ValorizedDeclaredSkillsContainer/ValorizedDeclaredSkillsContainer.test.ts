@@ -58,6 +58,14 @@ BddTest().given('a valorized declared skills container', () => {
         expect(items[index].props('declaredSkill')).toEqual(declaredSkill)
       })
     })
+
+    BddTest().then('it should not be empty and pass the empty state message and see all link to the exhaustive declared skills list', () => {
+      const container = wrapper.findComponent(ValorizedElementsCardContainerStub)
+      expect(container.props('isEmpty')).toBe(false)
+      expect(container.props('emptyStateMessage')).toBe('Vous n\'avez pas encore valorisé ce type de contenu, ajoutez et valorisez une compétence afin de constituer votre kit')
+      expect(container.props('seeAllLabel')).toBe('Voir toutes mes compétences déclarées')
+      expect(container.props('seeAllTo')).toEqual({ name: 'student-project-skills' })
+    })
   })
 
   BddTest().when('the declared skills progresses request succeeds with a single declared skill', () => {
@@ -89,6 +97,10 @@ BddTest().given('a valorized declared skills container', () => {
 
     BddTest().then('it should render no ValorizedDeclaredSkillItem', () => {
       expect(wrapper.findAllComponents(ValorizedDeclaredSkillItemStub)).toHaveLength(0)
+    })
+
+    BddTest().then('it should mark the container as empty', () => {
+      expect(wrapper.findComponent(ValorizedElementsCardContainerStub).props('isEmpty')).toBe(true)
     })
   })
 

@@ -1,11 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
 import KitTextContentTab from '@/features/student/kit/views/StudentToolsKitView/components/KitTextContentTab/KitTextContentTab.vue'
+import { ValorizedDeclaredExperiencesContainerStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperiencesContainer/ValorizedDeclaredExperiencesContainer.stub'
 import { ValorizedDeclaredSkillsContainerStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredSkillsContainer/ValorizedDeclaredSkillsContainer.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 
 const stubs = {
-  ValorizedDeclaredSkillsContainer: ValorizedDeclaredSkillsContainerStub
+  ValorizedDeclaredSkillsContainer: ValorizedDeclaredSkillsContainerStub,
+  ValorizedDeclaredExperiencesContainer: ValorizedDeclaredExperiencesContainerStub
 }
 
 BddTest().given('a kit text content tab', () => {
@@ -16,12 +18,12 @@ BddTest().given('a kit text content tab', () => {
       wrapper = mountComponent(KitTextContentTab, { global: { stubs } })
     })
 
-    BddTest().then('it should display the placeholder text', () => {
-      expect(wrapper.text()).toContain('Placeholder - TODO in one of them #1307 #1308 #1314 #1310 #1995 #1926')
-    })
-
     BddTest().then('it should render the valorized declared skills container', () => {
       expect(wrapper.findComponent(ValorizedDeclaredSkillsContainerStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the valorized declared experiences container', () => {
+      expect(wrapper.findComponent(ValorizedDeclaredExperiencesContainerStub).exists()).toBe(true)
     })
   })
 })

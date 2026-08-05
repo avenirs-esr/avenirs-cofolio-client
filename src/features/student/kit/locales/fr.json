@@ -1,6 +1,11 @@
 {
   "student": {
     "kit": {
+      "cards": {
+        "ValorizedElementsCardContainer": {
+          "emptyState": "Vous n'avez pas encore valorisé ce type de contenu, ajoutez et valorisez {item} afin de constituer votre kit"
+        }
+      },
       "views": {
         "StudentToolsKitView": {
           "consign": "Retrouvez ici tout le contenu que vous avez valorisé. Piochez, triez, ajoutez, supprimez et exportez-le pour créer votre CV, votre portfolio, votre profil linkedIn ou votre lettre de motivation !",
@@ -24,7 +29,14 @@
           "valorizedAssociatedTracesContainer": {
             "title": "Ma trace associée (1) | Mes traces associées ({count})"
           },
+          "valorizedDeclaredExperiencesContainer": {
+            "emptyStateItemLabel": "une expérience",
+            "seeAll": "Voir toutes mes autres expériences",
+            "title": "Autre expérience (1) | Autres expériences ({count})"
+          },
           "valorizedDeclaredSkillsContainer": {
+            "emptyStateItemLabel": "une compétence",
+            "seeAll": "Voir toutes mes compétences déclarées",
             "title": "Ma compétence déclarée valorisée (1) | Mes compétences déclarées valorisées ({count})"
           },
           "valorizedNonAssociatedTracesContainer": {
