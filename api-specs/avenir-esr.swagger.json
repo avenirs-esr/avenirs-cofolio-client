@@ -6093,11 +6093,22 @@
           "title": {
             "type": "string"
           },
+          "description": {
+            "type": "string"
+          },
           "organization": {
             "type": "string"
           },
           "result": {
             "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
           },
           "valorized": {
             "type": "boolean"

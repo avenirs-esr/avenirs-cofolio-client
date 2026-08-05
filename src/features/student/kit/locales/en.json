@@ -34,6 +34,11 @@
             "seeAll": "See all my other experiences",
             "title": "Other experience (1) | Other experiences ({count})"
           },
+          "valorizedDeclaredProgramsContainer": {
+            "emptyStateItemLabel": "a program",
+            "seeAll": "See all my programs",
+            "title": "Program (1) | Programs ({count})"
+          },
           "valorizedDeclaredSkillsContainer": {
             "emptyStateItemLabel": "a skill",
             "seeAll": "See all my declared skills",

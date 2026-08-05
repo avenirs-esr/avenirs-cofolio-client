@@ -28,6 +28,9 @@ function createMockedDeclaredPrograms (count: number): DeclaredProgramViewDTO[] 
       id: `declared-program-${i}`,
       title: `Formation déclarée ${i}`,
       organization: `Établissement ${i}`,
+      description: i % 2 === 0 ? `Description de la formation ${i}` : undefined,
+      startDate: '2023-01-01',
+      endDate: i % 3 === 0 ? undefined : '2025-06-01',
       status: i % 3 === 0 ? EProgramStatus.COMPLETED : i % 3 === 1 ? EProgramStatus.IN_PROGRESS : EProgramStatus.NOT_STARTED,
       valorized: false,
       result: i % 2 === 0 ? `Résultat ${i}` : undefined

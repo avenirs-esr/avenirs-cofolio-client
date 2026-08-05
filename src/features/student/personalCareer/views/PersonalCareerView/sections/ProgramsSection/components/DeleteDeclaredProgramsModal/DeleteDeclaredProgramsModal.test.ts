@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { declaredProgramsQueryEmptyHandler, declaredProgramsQueryErrorHandler, declaredProgramsQueryHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
+import { declaredProgramsQueryEmptyHandler, declaredProgramsQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { DeleteDeclaredProgramConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.stub'
@@ -93,7 +93,6 @@ BddTest().given('a delete declared programs modal', () => {
 
   BddTest().when('the component is mounted and the query returns declared programs', () => {
     beforeEach(() => {
-      server.use(declaredProgramsQueryHandler)
       wrapper = mountComponent(DeleteDeclaredProgramsModal, { props: { show: true, totalCount: 10 }, global: { stubs } })
     })
 

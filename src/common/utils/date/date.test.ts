@@ -1,5 +1,6 @@
 import {
   formatDateLocalized,
+  formatDateToYearLocalized,
   formatDateToYearMonth,
   formatDateToYearMonthLocalized,
   formatTimeLocalized,
@@ -451,6 +452,32 @@ BddTest().given('a date to year-month localized formatter', () => {
       const fullDate = formatYearMonthToDate(yearMonth)
       expect(formatDateToYearMonthLocalized(fullDate, 'fr')).toBe('02/2025')
       expect(formatDateToYearMonthLocalized(fullDate, 'en')).toBe('2025/02')
+    })
+  })
+})
+
+BddTest().given('a date to year localized formatter', () => {
+  BddTest().when('providing a full ISO date with time', () => {
+    BddTest().then('it should extract the year', () => {
+      const date = '2025-05-23T14:31:50.007'
+      expect(formatDateToYearLocalized(date, 'fr')).toBe('2025')
+      expect(formatDateToYearLocalized(date, 'en')).toBe('2025')
+    })
+  })
+
+  BddTest().when('providing a date-only ISO string', () => {
+    BddTest().then('it should extract the year', () => {
+      const date = '2027-02-01'
+      expect(formatDateToYearLocalized(date, 'fr')).toBe('2027')
+      expect(formatDateToYearLocalized(date, 'en')).toBe('2027')
+    })
+  })
+
+  BddTest().when('providing an invalid date string', () => {
+    BddTest().then('it should throw an error', () => {
+      const date = 'not-a-date'
+      expect(() => formatDateToYearLocalized(date, 'fr')).toThrow(`Invalid ISO date: ${date}`)
+      expect(() => formatDateToYearLocalized(date, 'en')).toThrow(`Invalid ISO date: ${date}`)
     })
   })
 })

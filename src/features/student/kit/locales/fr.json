@@ -34,6 +34,11 @@
             "seeAll": "Voir toutes mes autres expériences",
             "title": "Autre expérience (1) | Autres expériences ({count})"
           },
+          "valorizedDeclaredProgramsContainer": {
+            "emptyStateItemLabel": "une formation",
+            "seeAll": "Voir toutes mes formations",
+            "title": "Formation (1) | Formations ({count})"
+          },
           "valorizedDeclaredSkillsContainer": {
             "emptyStateItemLabel": "une compétence",
             "seeAll": "Voir toutes mes compétences déclarées",
