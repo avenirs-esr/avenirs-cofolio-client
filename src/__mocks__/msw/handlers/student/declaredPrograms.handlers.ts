@@ -6,6 +6,7 @@ import {
 import {
   type DeclaredProgramDetailedDTO,
   getCreateDeclaredProgramUrl,
+  type GetDeclaredProgramsParams,
   getDeleteDeclaredProgramUrl,
   getGetDeclaredProgramsUrl,
   getGetDeclaredProgramUrl,
@@ -53,19 +54,34 @@ export const declaredProgramsQueryEmptyHandler = http.get(`*${getGetDeclaredProg
   })
 })
 
-export const declaredProgramsQueryHandler = http.get(`*${getGetDeclaredProgramsUrl()}`, async ({ request }) => {
-  const url = new URL(request.url)
-  const page = Number.parseInt(url.searchParams.get('page') ?? '0')
-  const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10')
+export function createDeclaredProgramsViewHandler (
+  customPayload?: PagedResponseDeclaredProgramViewDTO,
+  onRequest?: (params: GetDeclaredProgramsParams) => void
+) {
+  return http.get(`*${getGetDeclaredProgramsUrl()}`, async ({ request }) => {
+    const url = new URL(request.url)
+    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10')
 
-  await delay('real')
-  const mockData = createMockedDeclaredProgramsPagedResponse(pageSize, 60, page)
+    if (onRequest) {
+      const searchParams = url.searchParams
+      onRequest({
+        page: searchParams.has('page') ? Number(searchParams.get('page')) : undefined,
+        pageSize: searchParams.has('pageSize') ? Number(searchParams.get('pageSize')) : undefined,
+        isValorized: searchParams.has('isValorized') ? searchParams.get('isValorized') === 'true' : undefined
+      })
+    }
 
-  return HttpResponse.json<PagedResponseDeclaredProgramViewDTO>(mockData, {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' }
+    await delay('real')
+
+    const payload = customPayload ?? createMockedDeclaredProgramsPagedResponse(pageSize, 60, page)
+
+    return HttpResponse.json<PagedResponseDeclaredProgramViewDTO>(payload, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    })
   })
-})
+}
 
 export const declaredProgramDetailedHandler = http.get(`*${getGetDeclaredProgramUrl(':id')}`, ({ params }) => {
   const { id } = params as { id: string }
@@ -105,7 +121,7 @@ export const declaredProgramDetailedNotFoundHandler = http.get(`*${getGetDeclare
 })
 
 export const declaredProgramsHandlers = [
-  declaredProgramsQueryHandler,
+  createDeclaredProgramsViewHandler(),
   http.post(
     `*${getCreateDeclaredProgramUrl()}`,
     () => {

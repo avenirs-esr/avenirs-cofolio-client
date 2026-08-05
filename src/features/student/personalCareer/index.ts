@@ -4,6 +4,15 @@ export { default as DeclaredExperienceOrganizationBadge }
 export { default as DeclaredExperienceTypeBadge }
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.vue'
 
+export { default as DeclaredProgramOrganizationBadge }
+  from '@/features/student/personalCareer/components/badges/DeclaredProgramOrganizationBadge/DeclaredProgramOrganizationBadge.vue'
+
+export { default as DeclaredProgramResultBadge }
+  from '@/features/student/personalCareer/components/badges/DeclaredProgramResultBadge/DeclaredProgramResultBadge.vue'
+
+export { default as DeclaredProgramStatusBadge }
+  from '@/features/student/personalCareer/components/badges/DeclaredProgramStatusBadge/DeclaredProgramStatusBadge.vue'
+
 export { default as AssociatedDeclaredExperiencesCard }
   from '@/features/student/personalCareer/components/cards/AssociatedDeclaredExperiencesCard/AssociatedDeclaredExperiencesCard.vue'
 

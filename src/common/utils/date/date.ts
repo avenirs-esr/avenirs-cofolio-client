@@ -161,3 +161,14 @@ export function formatDateToYearMonth (date: DateArg<Date>): string {
 export function formatDateToYearMonthLocalized (date: DateArg<Date>, localeCode: AvLocale): string {
   return formatLocalized(date, localeCode, { fr: 'MM/yyyy', en: 'yyyy/MM' })
 }
+
+/**
+ * Formats a date string (any supported ISO-like format) to a localized year string.
+ *
+ * @param date Date object, timestamp (number), or ISO string
+ * @param localeCode The locale to use
+ * @returns Formatted year string (e.g., "2025")
+ */
+export function formatDateToYearLocalized (date: DateArg<Date>, localeCode: AvLocale): string {
+  return formatLocalized(date, localeCode, 'yyyy')
+}

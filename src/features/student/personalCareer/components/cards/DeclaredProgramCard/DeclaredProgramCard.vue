@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import type { DeclaredProgramViewDTO, EProgramStatus } from '@/api/avenir-esr'
+import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
-import { AvBadge, ICONS_DATA_URL, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
+import DeclaredProgramOrganizationBadge
+  from '@/features/student/personalCareer/components/badges/DeclaredProgramOrganizationBadge/DeclaredProgramOrganizationBadge.vue'
+import DeclaredProgramResultBadge
+  from '@/features/student/personalCareer/components/badges/DeclaredProgramResultBadge/DeclaredProgramResultBadge.vue'
+import DeclaredProgramStatusBadge
+  from '@/features/student/personalCareer/components/badges/DeclaredProgramStatusBadge/DeclaredProgramStatusBadge.vue'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 const { declaredProgram } = defineProps<{ declaredProgram: DeclaredProgramViewDTO }>()
-
-const { t } = useI18n()
 
 const iconOptions = {
   name: MDI_ICONS.SCHOOL_OUTLINE,
@@ -16,35 +19,6 @@ const iconOptions = {
   bottom: 'calc(-1 * 3.3rem)',
   borderColor: 'var(--other-border-skill-card)'
 }
-
-const statusColorMap: Record<EProgramStatus, string> = {
-  NOT_STARTED: 'var(--light-background-neutral)',
-  IN_PROGRESS: 'var(--light-background-primary2)',
-  COMPLETED: 'var(--light-background-neutral)'
-}
-
-const statusIconMap: Record<EProgramStatus, string> = {
-  NOT_STARTED: ICONS_DATA_URL.MDI_HOURGLASS,
-  IN_PROGRESS: ICONS_DATA_URL.MDI_HOURGLASS,
-  COMPLETED: MDI_ICONS.CHECK_CIRCLE
-}
-
-const statusTextColorMap: Record<EProgramStatus, string> = {
-  NOT_STARTED: 'var(--text1)',
-  IN_PROGRESS: 'var(--light-foreground-primary1)',
-  COMPLETED: 'var(--text1)'
-}
-
-const statusBadgeProps = computed(() => {
-  const status = declaredProgram.status
-
-  return {
-    label: status ? t(`student.personalCareer.declaredProgramStatus.${status}`) : t(`student.personalCareer.declaredProgramStatus.NOT_STARTED`),
-    backgroundColor: status ? statusColorMap[status] : statusColorMap.NOT_STARTED,
-    icon: status ? statusIconMap[status] : statusIconMap.NOT_STARTED,
-    color: status ? statusTextColorMap[status] : statusTextColorMap.NOT_STARTED,
-  }
-})
 </script>
 
 <template>
@@ -66,27 +40,19 @@ const statusBadgeProps = computed(() => {
       <template #body>
         <div class="av-col av-pr-4xl--md av-pt-xl av-pt-none--md">
           <div class="av-col av-row--md av-align-end av-justify-end--md av-gap-sm">
-            <AvBadge
+            <DeclaredProgramStatusBadge
               v-if="declaredProgram.status"
-              v-bind="statusBadgeProps"
+              :status="declaredProgram.status"
             />
-            <AvBadge
+            <DeclaredProgramResultBadge
               v-if="declaredProgram.result"
               class="av-hidden av-unhidden--md"
-              :label="declaredProgram.result"
-              :icon="RI_ICONS.LAYOUT_6_LINE"
-              color="var(--card2)"
-              background-color="var(--dark-background-primary1)"
-              ellipsis
+              :result="declaredProgram.result"
             />
 
-            <AvBadge
+            <DeclaredProgramOrganizationBadge
               v-if="declaredProgram.organization"
-              :label="declaredProgram.organization"
-              :icon="MDI_ICONS.BUILDING"
-              color="var(--text1)"
-              background-color="transparent"
-              ellipsis
+              :organization="declaredProgram.organization"
             />
           </div>
         </div>
