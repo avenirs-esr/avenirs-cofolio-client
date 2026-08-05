@@ -3,9 +3,11 @@ import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import PeriodBadge from '@/common/activities/badges/PeriodBadge/PeriodBadge.vue'
 import { ROUTES } from '@/common/constants'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import DeclaredExperienceOrganizationBadge
+  from '@/features/student/personalCareer/components/badges/DeclaredExperienceOrganizationBadge/DeclaredExperienceOrganizationBadge.vue'
 import DeclaredExperienceTypeBadge
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.vue'
-import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 defineProps<{ declaredExperience: DeclaredExperienceViewDTO }>()
 
@@ -48,12 +50,8 @@ const iconOptions = {
               v-if="declaredExperience.experienceType"
               :experience-type="declaredExperience.experienceType"
             />
-            <AvBadge
-              :label="declaredExperience.organization"
-              :icon="MDI_ICONS.MAP_MARKER_OUTLINE"
-              color="var(--text2)"
-              background-color="transparent"
-              ellipsis
+            <DeclaredExperienceOrganizationBadge
+              :organization="declaredExperience.organization"
             />
           </div>
         </div>

@@ -29,11 +29,11 @@ export const declaredExperienceViewDTOFixture: DeclaredExperienceViewDTO = {
 
 function createMockedDeclaredExperiences (count: number): DeclaredExperienceViewDTO[] {
   const experiencesExample = [
-    { title: 'Développeur Junior', experienceType: EExperienceType.PROFESSIONAL, location: 'La Poste' },
-    { title: 'Assistant Marketing', experienceType: EExperienceType.PROFESSIONAL, location: 'Les Subsistances, Lyon' },
-    { title: 'Bénévole Associatif', experienceType: EExperienceType.PERSONAL, location: 'La Poste' },
-    { title: 'Contributeur Github', experienceType: EExperienceType.PERSONAL, location: 'Les Subsistances, Lyon' },
-    { title: 'Conseiller Vendeur', experienceType: EExperienceType.PROFESSIONAL, location: 'Marseille, France' }
+    { title: 'Développeur Junior', experienceType: EExperienceType.PROFESSIONAL, location: 'La Poste', description: 'Développement et maintenance d\'applications internes en équipe agile.' },
+    { title: 'Assistant Marketing', experienceType: EExperienceType.PROFESSIONAL, location: 'Les Subsistances, Lyon', description: 'Gestion des réseaux sociaux et création de supports de communication.' },
+    { title: 'Bénévole Associatif', experienceType: EExperienceType.PERSONAL, location: 'La Poste', description: 'Distribution alimentaire hebdomadaire auprès des personnes en difficulté.' },
+    { title: 'Contributeur Github', experienceType: EExperienceType.PERSONAL, location: 'Les Subsistances, Lyon', description: 'Contributions open source sur des projets Vue.js et TypeScript.' },
+    { title: 'Conseiller Vendeur', experienceType: EExperienceType.PROFESSIONAL, location: 'Marseille, France', description: 'Accueil et conseil client en magasin, gestion des stocks.' }
   ]
   const experiences: DeclaredExperienceViewDTO[] = []
 
@@ -45,6 +45,7 @@ function createMockedDeclaredExperiences (count: number): DeclaredExperienceView
       experienceType: experience.experienceType,
       organization: `Organization ${i}`,
       location: experience.location,
+      description: experience.description,
       startDate: '2023-01',
       createdAt: '2024-01-15T10:30:00Z',
       updatedAt: '2024-01-15T10:30:00Z'

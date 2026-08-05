@@ -1,11 +1,13 @@
 import { type DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
 import { PeriodBadgeStub } from '@/common/activities/badges/PeriodBadge/PeriodBadge.stub'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
+import { DeclaredExperienceOrganizationBadgeStub }
+  from '@/features/student/personalCareer/components/badges/DeclaredExperienceOrganizationBadge/DeclaredExperienceOrganizationBadge.stub'
 import { DeclaredExperienceTypeBadgeStub }
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.stub'
 import DeclaredExperienceCard from '@/features/student/personalCareer/components/cards/DeclaredExperienceCard/DeclaredExperienceCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -14,10 +16,10 @@ BddTest().given('a declared experience card', () => {
 
   const stubs = {
     FloatingIconCard: FloatingIconCardStub,
-    AvBadge: AvBadgeStub,
     RouterLink: RouterLinkStub,
     PeriodBadge: PeriodBadgeStub,
-    DeclaredExperienceTypeBadge: DeclaredExperienceTypeBadgeStub
+    DeclaredExperienceTypeBadge: DeclaredExperienceTypeBadgeStub,
+    DeclaredExperienceOrganizationBadge: DeclaredExperienceOrganizationBadgeStub
   }
 
   const baseDeclaredExperience: DeclaredExperienceViewDTO = {
@@ -103,31 +105,18 @@ BddTest().given('a declared experience card', () => {
     })
 
     BddTest().and('the organization badge is rendered', () => {
-      let organizationBadge: VueWrapper<InstanceType<typeof AvBadgeStub>> | undefined
+      let organizationBadge: VueWrapper<InstanceType<typeof DeclaredExperienceOrganizationBadgeStub>>
 
       beforeEach(() => {
-        const badges = wrapper.findAllComponents({ name: 'AvBadge' })
-        organizationBadge = badges.find(badge => badge.props('label') === 'AVENIR(S)') as VueWrapper<InstanceType<typeof AvBadgeStub>>
+        organizationBadge = wrapper.findComponent(DeclaredExperienceOrganizationBadgeStub) as VueWrapper<InstanceType<typeof DeclaredExperienceOrganizationBadgeStub>>
       })
 
       BddTest().then('it should exist', () => {
-        expect(organizationBadge).toBeDefined()
+        expect(organizationBadge.exists()).toBe(true)
       })
 
-      BddTest().then('it should have map marker outline icon', () => {
-        expect(organizationBadge?.props('icon')).toBe(MDI_ICONS.MAP_MARKER_OUTLINE)
-      })
-
-      BddTest().then('it should have text2 color', () => {
-        expect(organizationBadge?.props('color')).toBe('var(--text2)')
-      })
-
-      BddTest().then('it should have transparent background', () => {
-        expect(organizationBadge?.props('backgroundColor')).toBe('transparent')
-      })
-
-      BddTest().then('it should have ellipsis enabled', () => {
-        expect(organizationBadge?.props('ellipsis')).toBe(true)
+      BddTest().then('it should receive the organization', () => {
+        expect(organizationBadge.props('organization')).toBe('AVENIR(S)')
       })
     })
   })
@@ -185,8 +174,8 @@ BddTest().given('a declared experience card', () => {
     })
 
     BddTest().then('it should only render the period and the organization badges', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
-      expect(badges.length).toBe(1)
+      expect(wrapper.findComponent(DeclaredExperienceOrganizationBadgeStub).exists()).toBe(true)
+      expect(wrapper.findComponent(DeclaredExperienceTypeBadgeStub).exists()).toBe(false)
       expect(wrapper.findComponent({ name: 'PeriodBadge' }).exists()).toBe(true)
     })
   })
