@@ -1,3 +1,4 @@
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import ConfirmDeleteSelfKnowledgeElementsModal, { type ConfirmDeleteSelfKnowledgeElementsModalProps } from '@/features/student/selfKnowledge/components/modals/ConfirmDeleteSelfKnowledgeElementsModal/ConfirmDeleteSelfKnowledgeElementsModal.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -13,7 +14,7 @@ BddTest().given('a confirm delete self knowledge element modal', () => {
     const props: ConfirmDeleteSelfKnowledgeElementsModalProps = {
       show: true,
       elements: [
-        { id: '1', title: 'Element 1', description: 'Description 1' }
+        { id: '1', title: 'Element 1', description: 'Description 1', category: { type: ESelfKnowledgeCategory.STRENGTHS, mandatory: true } }
       ],
     }
 
@@ -59,8 +60,8 @@ BddTest().given('a confirm delete self knowledge element modal', () => {
     const props: ConfirmDeleteSelfKnowledgeElementsModalProps = {
       show: true,
       elements: [
-        { id: '1', title: 'Element 1', description: 'Description 1' },
-        { id: '2', title: 'Element 2', description: 'Description 2' },
+        { id: '1', title: 'Element 1', description: 'Description 1', category: { type: ESelfKnowledgeCategory.STRENGTHS, mandatory: true } },
+        { id: '2', title: 'Element 2', description: 'Description 2', category: { type: ESelfKnowledgeCategory.STRENGTHS, mandatory: true } },
       ],
     }
 

@@ -1,4 +1,4 @@
-import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
 import SelfKnowledgeElementsSelector, { type SelfKnowledgeElementsSelectorProps } from '@/features/student/selfKnowledge/components/pickers/SelfKnowledgeElementsSelector/SelfKnowledgeElementsSelector.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -16,7 +16,7 @@ BddTest().given('a self knowledge element selector', () => {
   BddTest().and('no elements are given', () => {
     const props: SelfKnowledgeElementsSelectorProps = {
       elements: [],
-      categoryType: ESelfKnowledgeCategoryType.STRENGTHS
+      categoryType: ESelfKnowledgeCategory.STRENGTHS
     }
 
     BddTest().when('the component is mounted', () => {
@@ -37,10 +37,11 @@ BddTest().given('a self knowledge element selector', () => {
         {
           id: '1',
           title: 'Element 1',
-          description: 'Description 1'
+          description: 'Description 1',
+          category: { type: ESelfKnowledgeCategory.STRENGTHS, mandatory: true }
         }
       ],
-      categoryType: ESelfKnowledgeCategoryType.STRENGTHS
+      categoryType: ESelfKnowledgeCategory.STRENGTHS
     }
 
     BddTest().when('the component is mounted', () => {
@@ -83,15 +84,17 @@ BddTest().given('a self knowledge element selector', () => {
         {
           id: '1',
           title: 'Element 1',
-          description: 'Description 1'
+          description: 'Description 1',
+          category: { type: ESelfKnowledgeCategory.STRENGTHS, mandatory: true }
         },
         {
           id: '2',
           title: 'Element 2',
-          description: 'Description 2'
+          description: 'Description 2',
+          category: { type: ESelfKnowledgeCategory.STRENGTHS, mandatory: true }
         }
       ],
-      categoryType: ESelfKnowledgeCategoryType.STRENGTHS
+      categoryType: ESelfKnowledgeCategory.STRENGTHS
     }
 
     BddTest().when('the component is mounted', () => {
@@ -114,10 +117,11 @@ BddTest().given('a self knowledge element selector', () => {
         {
           id: '1',
           title: 'Element 1',
-          description: 'Description 1'
+          description: 'Description 1',
+          category: { type: ESelfKnowledgeCategory.STRENGTHS, mandatory: true }
         }
       ],
-      categoryType: ESelfKnowledgeCategoryType.STRENGTHS,
+      categoryType: ESelfKnowledgeCategory.STRENGTHS,
       readonly: true
     }
 

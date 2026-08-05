@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import DeleteSelfKnowledgeElementsModal, { type DeleteSelfKnowledgeElementsModalProps } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeElementsModal/DeleteSelfKnowledgeElementsModal.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
@@ -53,10 +54,9 @@ BddTest().given('a delete self knowledge element modal', () => {
   }
 
   BddTest().and('no elements to delete are provided', () => {
-    const nonExistentCategoryId = 'non-existent-category-id'
     const props: DeleteSelfKnowledgeElementsModalProps = {
       show: true,
-      categoryId: nonExistentCategoryId,
+      categoryType: ESelfKnowledgeCategory.OBLIGATIONS,
       totalCount: 0
     }
 
@@ -78,10 +78,10 @@ BddTest().given('a delete self knowledge element modal', () => {
   })
 
   BddTest().and('a single element to delete is provided', () => {
-    const strengthsCategoryId = mockedSelfKnowledgeCategories[0].id
+    const strengthsCategoryType = mockedSelfKnowledgeCategories[0].type
     const props: DeleteSelfKnowledgeElementsModalProps = {
       show: true,
-      categoryId: strengthsCategoryId,
+      categoryType: strengthsCategoryType,
       totalCount: 1
     }
 
@@ -191,10 +191,10 @@ BddTest().given('a delete self knowledge element modal', () => {
   })
 
   BddTest().and('many elements to delete are provided', () => {
-    const strengthsCategoryId = mockedSelfKnowledgeCategories[0].id
+    const strengthsCategoryType = mockedSelfKnowledgeCategories[0].type
     const props: DeleteSelfKnowledgeElementsModalProps = {
       show: true,
-      categoryId: strengthsCategoryId,
+      categoryType: strengthsCategoryType,
       totalCount: 10
     }
 

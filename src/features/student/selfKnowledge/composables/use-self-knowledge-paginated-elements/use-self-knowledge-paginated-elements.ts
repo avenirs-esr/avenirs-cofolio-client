@@ -1,11 +1,11 @@
-import { type GetSelfKnowledgeElementsParams, type PageInfoDTO, type SelfKnowledgeElementViewDTO, useGetSelfKnowledgeElements } from '@/api/avenir-esr'
+import { type ESelfKnowledgeCategory, type GetSelfKnowledgeElementsParams, type PageInfoDTO, type SelfKnowledgeElementViewDTO, useGetSelfKnowledgeElements } from '@/api/avenir-esr'
 import { useInfiniteScrollPagination } from '@/common/composables'
-import { CATEGORY_ELEMENTS_PAGE_SIZE } from '@/features/student/selfKnowledge/utils/category.utils'
+import { CATEGORY_ELEMENTS_PAGE_SIZE, toSelfKnowledgeCategoriesParam } from '@/features/student/selfKnowledge/utils/category.utils'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { type ComputedRef, type MaybeRef, type Ref, toValue } from 'vue'
 
 export interface UseSelfKnowledgePaginatedElementsParams {
-  selfKnowledgeCategoryId: MaybeRef<string>
+  selfKnowledgeCategory: MaybeRef<ESelfKnowledgeCategory>
   pageSize?: MaybeRef<number>
 }
 
@@ -20,17 +20,21 @@ export interface UseSelfKnowledgePaginatedElementsResult {
 }
 
 export function useSelfKnowledgePaginatedElements ({
-  selfKnowledgeCategoryId,
+  selfKnowledgeCategory,
   pageSize
 }: UseSelfKnowledgePaginatedElementsParams): UseSelfKnowledgePaginatedElementsResult {
-  const categoryId = computed(() => toValue(selfKnowledgeCategoryId))
+  const categoryType = computed(() => toValue(selfKnowledgeCategory))
   const size = computed(() => toValue(pageSize) ?? CATEGORY_ELEMENTS_PAGE_SIZE)
   const page = ref(0)
 
-  const params = computed<GetSelfKnowledgeElementsParams>(() => ({ page: page.value, pageSize: size.value }))
+  const params = computed<GetSelfKnowledgeElementsParams>(() => ({
+    selfKnowledgeCategories: toSelfKnowledgeCategoriesParam(categoryType.value),
+    page: page.value,
+    pageSize: size.value
+  }))
 
-  const { data, isFetching } = useGetSelfKnowledgeElements(categoryId, params, {
-    query: { enabled: computed(() => !!categoryId.value), placeholderData: keepPreviousData }
+  const { data, isFetching } = useGetSelfKnowledgeElements(params, {
+    query: { enabled: computed(() => !!categoryType.value), placeholderData: keepPreviousData }
   })
 
   const fetchedElements = computed(() => data.value?.data ?? [])
@@ -48,7 +52,7 @@ export function useSelfKnowledgePaginatedElements ({
     page,
   })
 
-  watch(categoryId, () => {
+  watch(categoryType, () => {
     resetPagination()
   })
 

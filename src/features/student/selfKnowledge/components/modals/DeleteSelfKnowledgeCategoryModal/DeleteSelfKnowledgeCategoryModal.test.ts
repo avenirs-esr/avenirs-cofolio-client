@@ -1,4 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import DeleteSelfKnowledgeCategoryModal, { type DeleteSelfKnowledgeCategoryModalProps } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoryModal/DeleteSelfKnowledgeCategoryModal.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
@@ -37,7 +38,7 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
     const props: DeleteSelfKnowledgeCategoryModalProps = {
       show: true,
       categoryTitle: 'Category with 3 elements',
-      categoryId: 'category-1',
+      categoryType: ESelfKnowledgeCategory.STRENGTHS,
       elementsCount: 3,
     }
 
@@ -114,7 +115,7 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
     const props: DeleteSelfKnowledgeCategoryModalProps = {
       show: true,
       categoryTitle: 'Category with 1 element',
-      categoryId: 'category-2',
+      categoryType: ESelfKnowledgeCategory.VALUES,
       elementsCount: 1,
     }
 
@@ -144,7 +145,7 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
     const props: DeleteSelfKnowledgeCategoryModalProps = {
       show: true,
       categoryTitle: 'Category with 1 invalid element',
-      categoryId: 'INVALID_CATEGORY_ID',
+      categoryType: 'INVALID_CATEGORY_ID' as ESelfKnowledgeCategory,
       elementsCount: 1,
     }
 
@@ -183,7 +184,7 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
     const props: DeleteSelfKnowledgeCategoryModalProps = {
       show: true,
       categoryTitle: 'Empty Category',
-      categoryId: 'category-3',
+      categoryType: ESelfKnowledgeCategory.ASPIRATIONS,
       elementsCount: 0,
     }
 

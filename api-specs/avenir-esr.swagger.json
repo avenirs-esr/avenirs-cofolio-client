@@ -985,62 +985,7 @@
         }
       }
     },
-    "/me/self-knowledge/{selfKnowledgeCategoryId}/elements": {
-      "get": {
-        "tags": [
-          "self-knowledge-controller"
-        ],
-        "operationId": "getSelfKnowledgeElements",
-        "parameters": [
-          {
-            "name": "selfKnowledgeCategoryId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "isValorized",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseSelfKnowledgeElementViewDTO"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/me/self-knowledge/{selfKnowledgeCategory}/elements": {
       "post": {
         "tags": [
           "self-knowledge-controller"
@@ -1048,12 +993,22 @@
         "operationId": "createSelfKnowledgeElement",
         "parameters": [
           {
-            "name": "selfKnowledgeCategoryId",
+            "name": "selfKnowledgeCategory",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "format": "uuid"
+              "enum": [
+                "STRENGTHS",
+                "VALUES",
+                "ASPIRATIONS",
+                "MOTIVATION",
+                "IMPROVEMENT",
+                "INTERESTS",
+                "INSPIRATIONS",
+                "OBLIGATIONS",
+                "TESTIMONIALS"
+              ]
             }
           }
         ],
@@ -1114,7 +1069,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/ESelfKnowledgeCategory"
                 }
               }
             }
@@ -2953,6 +2908,97 @@
         }
       }
     },
+    "/me/self-knowledge/elements": {
+      "get": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "getSelfKnowledgeElements",
+        "parameters": [
+          {
+            "name": "selfKnowledgeCategories",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ESelfKnowledgeCategory"
+              }
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "isValorized",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseSelfKnowledgeElementViewDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "deleteSelfKnowledgeElements",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/self-knowledge/categories/available": {
       "get": {
         "tags": [
@@ -3201,6 +3247,38 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "declared-experience-controller"
+        ],
+        "operationId": "deleteDeclaredExperienceAssociations",
+        "parameters": [
+          {
+            "name": "experienceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociationsDeleteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
       }
     },
     "/me/declared/experiences/view": {
@@ -3234,6 +3312,14 @@
             "required": false,
             "schema": {
               "type": "boolean"
+            }
+          },
+          {
+            "name": "experienceType",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/EExperienceType"
             }
           }
         ],
@@ -4081,41 +4167,7 @@
         }
       }
     },
-    "/me/self-knowledge/elements": {
-      "delete": {
-        "tags": [
-          "self-knowledge-controller"
-        ],
-        "operationId": "deleteSelfKnowledgeElements",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "format": "uuid"
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/self-knowledge/categories/{categoryId}": {
+    "/me/self-knowledge/categories/{selfKnowledgeCategory}": {
       "delete": {
         "tags": [
           "self-knowledge-controller"
@@ -4123,12 +4175,11 @@
         "operationId": "removeSelfKnowledgeCategory",
         "parameters": [
           {
-            "name": "categoryId",
+            "name": "selfKnowledgeCategory",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "$ref": "#/components/schemas/ESelfKnowledgeCategory"
             }
           }
         ],
@@ -4240,124 +4291,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          }
-        }
-      }
-    },
-    "/back-office/admin/institutions": {
-      "get": {
-        "tags": [
-          "institution-controller"
-        ],
-        "operationId": "findAll",
-        "parameters": [
-          {
-            "name": "X-ADMIN-TOKEN",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/InstitutionResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "institution-controller"
-        ],
-        "operationId": "updateAll",
-        "parameters": [
-          {
-            "name": "X-ADMIN-TOKEN",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/InstitutionData"
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/InstitutionResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "institution-controller"
-        ],
-        "operationId": "createAll",
-        "parameters": [
-          {
-            "name": "X-ADMIN-TOKEN",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/InstitutionData"
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/InstitutionImportSummaryResponse"
-                }
-              }
-            }
           }
         }
       }
@@ -4561,189 +4494,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/AdditionalSkillConfigurationDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/back-office/admin/institutions/{id}": {
-      "get": {
-        "tags": [
-          "institution-controller"
-        ],
-        "operationId": "findById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "X-ADMIN-TOKEN",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/InstitutionResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "institution-controller"
-        ],
-        "operationId": "delete",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "X-ADMIN-TOKEN",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/interoperability/external-users/eppn/{eppn}/activate": {
-      "patch": {
-        "tags": [
-          "external-user-controller"
-        ],
-        "operationId": "activateExternalUserByEppn",
-        "parameters": [
-          {
-            "name": "eppn",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExternalUserDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/interoperability/external-users": {
-      "get": {
-        "tags": [
-          "external-user-controller"
-        ],
-        "operationId": "getExternalUsers",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExternalUserDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/interoperability/external-users/{id}": {
-      "get": {
-        "tags": [
-          "external-user-controller"
-        ],
-        "operationId": "getExternalUserById",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExternalUserDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/interoperability/external-users/eppn/{eppn}": {
-      "get": {
-        "tags": [
-          "external-user-controller"
-        ],
-        "operationId": "getExternalUserByEppn",
-        "parameters": [
-          {
-            "name": "eppn",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExternalUserDTO"
                 }
               }
             }
@@ -5104,6 +4854,33 @@
           "valorized"
         ]
       },
+      "SelfKnowledgeCategoryDTO": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/ESelfKnowledgeCategory",
+            "enum": [
+              "STRENGTHS",
+              "VALUES",
+              "ASPIRATIONS",
+              "MOTIVATION",
+              "IMPROVEMENT",
+              "INTERESTS",
+              "INSPIRATIONS",
+              "OBLIGATIONS",
+              "TESTIMONIALS"
+            ]
+          },
+          "mandatory": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "mandatory",
+          "type"
+        ]
+      },
       "SelfKnowledgeElementViewDTO": {
         "type": "object",
         "properties": {
@@ -5123,9 +4900,13 @@
           },
           "valorized": {
             "type": "boolean"
+          },
+          "category": {
+            "$ref": "#/components/schemas/SelfKnowledgeCategoryDTO"
           }
         },
         "required": [
+          "category",
           "description",
           "id",
           "title"
@@ -5406,6 +5187,23 @@
           "title"
         ]
       },
+      "DeclaredExperienceAssociationCountDTO": {
+        "type": "object",
+        "properties": {
+          "traceAssociationsCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "declaredSkillAssociationsCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "declaredSkillAssociationsCount",
+          "traceAssociationsCount"
+        ]
+      },
       "DeclaredExperienceViewDTO": {
         "type": "object",
         "properties": {
@@ -5463,10 +5261,14 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "declaredExperienceAssociationCountDTO": {
+            "$ref": "#/components/schemas/DeclaredExperienceAssociationCountDTO"
           }
         },
         "required": [
           "createdAt",
+          "declaredExperienceAssociationCountDTO",
           "id",
           "organization",
           "startDate",
@@ -7072,42 +6874,6 @@
           "updatedAt"
         ]
       },
-      "SelfKnowledgeCategoryDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "$ref": "#/components/schemas/ESelfKnowledgeCategoryType",
-            "enum": [
-              "STRENGTHS",
-              "VALUES",
-              "ASPIRATIONS",
-              "MOTIVATION",
-              "IMPROVEMENT",
-              "INTERESTS",
-              "INSPIRATIONS",
-              "OBLIGATIONS",
-              "TESTIMONIALS"
-            ]
-          }
-        },
-        "required": [
-          "description",
-          "id",
-          "title",
-          "type"
-        ]
-      },
       "ActivityModifiedParameters": {
         "allOf": [
           {
@@ -8078,7 +7844,7 @@
           "NOT_STARTED"
         ]
       },
-      "ESelfKnowledgeCategoryType": {
+      "ESelfKnowledgeCategory": {
         "type": "string",
         "description": "Enum for self knowledge category types",
         "enum": [
@@ -8119,6 +7885,7 @@
           "DECLARED_PROGRAM_NOT_FOUND",
           "INSTITUTION_CONFIG_NOT_FOUND",
           "INSTITUTION_NOT_FOUND",
+          "GROUP_NOT_FOUND",
           "ACTIVITY_NOT_FOUND",
           "ACTIVITY_DRAFT_NOT_FOUND",
           "ACTIVITY_UNPUBLISHED",
@@ -8141,6 +7908,7 @@
           "DECLARED_ACTIVITY_LOCKED",
           "ASSOCIATION_ALREADY_EXIST",
           "INSTITUTION_HAI_ALREADY_EXISTS",
+          "GROUP_ID_SI_SCO_ALREADY_EXISTS",
           "MAX_FILE_SIZE_EXCEEDED",
           "FILE_STORAGE_ERROR",
           "CONFIGURATION_ERROR",
@@ -8170,6 +7938,11 @@
           "INSTITUTION_PRIMARY_CANNOT_HAVE_PARENT",
           "INSTITUTION_SECONDARY_REQUIRES_PARENT",
           "INSTITUTION_PARENT_MUST_BE_PRIMARY",
+          "GROUP_PROGRAM_CANNOT_HAVE_PARENT",
+          "GROUP_PROGRAM_OPTION_REQUIRES_PARENT",
+          "GROUP_PROGRAM_OPTION_PARENT_MUST_BE_PROGRAM",
+          "GROUP_STUDENT_GROUP_REQUIRES_PARENT",
+          "GROUP_STUDENT_GROUP_PARENT_MUST_BE_PROGRAM_OR_OPTION",
           "FIRSTNAME_IS_NULL",
           "LASTNAME_IS_NULL",
           "INVALID_DATE_FORMAT",
@@ -8292,72 +8065,6 @@
           "STUDENT"
         ]
       },
-      "InstitutionData": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "hai": {
-            "type": "string"
-          },
-          "siret": {
-            "type": "string"
-          },
-          "siren": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "PRIMARY",
-              "SECONDARY"
-            ]
-          },
-          "parentHai": {
-            "type": "string"
-          }
-        }
-      },
-      "InstitutionResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "hai": {
-            "type": "string"
-          },
-          "siret": {
-            "type": "string"
-          },
-          "siren": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "PRIMARY",
-              "SECONDARY"
-            ]
-          },
-          "parentHai": {
-            "type": "string"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        }
-      },
       "BuildLifeProjectConfigDTO": {
         "type": "object",
         "properties": {
@@ -8433,52 +8140,6 @@
           "label"
         ]
       },
-      "InstitutionImportFailureResponse": {
-        "type": "object",
-        "properties": {
-          "hai": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "InstitutionImportSummaryResponse": {
-        "type": "object",
-        "properties": {
-          "createdCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "updatedCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "failedCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "created": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/InstitutionResponse"
-            }
-          },
-          "updated": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/InstitutionResponse"
-            }
-          },
-          "failed": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/InstitutionImportFailureResponse"
-            }
-          }
-        }
-      },
       "InstitutionConfigurationElements": {
         "type": "object",
         "properties": {
@@ -8490,47 +8151,31 @@
           }
         }
       },
-      "ExternalUserDTO": {
-        "type": "object",
-        "properties": {
-          "eppn": {
-            "type": "string"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "category": {
-            "type": "string",
-            "enum": [
-              "STAFF",
-              "STUDENT"
-            ]
-          },
-          "externalId": {
-            "type": "string"
-          },
-          "source": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "ACTIVE",
-              "INACTIVE",
-              "REMOVED",
-              "BLOCKED"
-            ]
-          },
-          "active": {
-            "type": "boolean"
-          }
-        }
+      "EExternalSource": {
+        "type": "string",
+        "description": "Enum for external source",
+        "enum": [
+          "PEGASE",
+          "BACK_OFFICE"
+        ]
+      },
+      "EUserCategory1": {
+        "type": "string",
+        "description": "Enum for external user category",
+        "enum": [
+          "STAFF",
+          "STUDENT"
+        ]
+      },
+      "EUserStatus": {
+        "type": "string",
+        "description": "Enum for external user status",
+        "enum": [
+          "ACTIVE",
+          "INACTIVE",
+          "REMOVED",
+          "BLOCKED"
+        ]
       },
       "ExternalSkillCategoryDTO": {
         "type": "object",
@@ -8638,31 +8283,6 @@
         "required": [
           "data",
           "page"
-        ]
-      },
-      "EExternalSource": {
-        "type": "string",
-        "description": "Enum for external source",
-        "enum": [
-          "PEGASE"
-        ]
-      },
-      "EUserCategory1": {
-        "type": "string",
-        "description": "Enum for external user category",
-        "enum": [
-          "STAFF",
-          "STUDENT"
-        ]
-      },
-      "EUserStatus": {
-        "type": "string",
-        "description": "Enum for external user status",
-        "enum": [
-          "ACTIVE",
-          "INACTIVE",
-          "REMOVED",
-          "BLOCKED"
         ]
       }
     }

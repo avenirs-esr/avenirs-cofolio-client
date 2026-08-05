@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import type { Slot } from 'vue'
 import { ICONS } from '@/common/constants'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface SelfKnowledgeProps {
-  categoryType: ESelfKnowledgeCategoryType
+  categoryType: ESelfKnowledgeCategory
 }
 
 const { categoryType } = defineProps<SelfKnowledgeProps>()

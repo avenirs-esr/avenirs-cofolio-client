@@ -1,4 +1,4 @@
-import type { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { ICONS } from '@/common/constants'
 import SelfKnowledgeElementTabs
@@ -34,7 +34,7 @@ BddTest().given('a self knowledge tabs component', () => {
     beforeEach(() => {
       wrapper = mountComponent(SelfKnowledgeElementTabs, {
         props: {
-          categoryType: 'STRENGTHS' as ESelfKnowledgeCategoryType
+          categoryType: 'STRENGTHS' as ESelfKnowledgeCategory
         },
         slots: {
           element: '<div class="element-slot-content">Element content</div>',

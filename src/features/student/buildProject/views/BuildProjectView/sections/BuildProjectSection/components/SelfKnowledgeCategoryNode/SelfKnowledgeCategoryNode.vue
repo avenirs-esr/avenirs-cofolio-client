@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import type { MindMapNodeTemplateProps } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/mind-map-nodes.types'
 import NodeTemplate from '@/common/components/VueFlow/NodeTemplate/NodeTemplate.vue'
 import { MIND_MAP_FLOW_ID } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/config'
@@ -7,7 +8,7 @@ import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 
 const { id } = defineProps<MindMapNodeTemplateProps>()
 
-const { category, categoryIcon } = useSelfKnowledgeCategory(id)
+const { categoryTitle, categoryIcon } = useSelfKnowledgeCategory(computed(() => id as ESelfKnowledgeCategory))
 </script>
 
 <template>
@@ -19,7 +20,7 @@ const { category, categoryIcon } = useSelfKnowledgeCategory(id)
   >
     <template #title>
       <AvBadge
-        :label="category?.title ?? data.label"
+        :label="categoryTitle ?? data.label"
         small
         color="var(--text1)"
         background-color="var(--surface-background)"

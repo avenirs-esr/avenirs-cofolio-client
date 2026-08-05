@@ -1,17 +1,21 @@
-import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export const CATEGORY_ELEMENTS_PAGE_SIZE = 3
 
-export function getSelfKnowledgeCategoryIcon (categoryType: ESelfKnowledgeCategoryType): string {
+export function getSelfKnowledgeCategoryIcon (categoryType: ESelfKnowledgeCategory): string {
   switch (categoryType) {
-    case ESelfKnowledgeCategoryType.VALUES:
+    case ESelfKnowledgeCategory.VALUES:
       return MDI_ICONS.DIAMOND_STONE
-    case ESelfKnowledgeCategoryType.STRENGTHS:
+    case ESelfKnowledgeCategory.STRENGTHS:
       return MDI_ICONS.WEIGHTS
-    case ESelfKnowledgeCategoryType.ASPIRATIONS:
+    case ESelfKnowledgeCategory.ASPIRATIONS:
       return RI_ICONS.HAND_HEART_LINE
     default:
       return MDI_ICONS.STAR_SHOOTING_OUTLINE
   }
+}
+
+export function toSelfKnowledgeCategoriesParam (categoryType: ESelfKnowledgeCategory): ESelfKnowledgeCategory[] {
+  return [categoryType]
 }

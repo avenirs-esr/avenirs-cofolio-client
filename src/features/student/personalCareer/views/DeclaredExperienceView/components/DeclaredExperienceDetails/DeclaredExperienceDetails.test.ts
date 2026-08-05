@@ -44,6 +44,10 @@ const mockedDeclaredExperienceDetails: DeclaredExperienceViewDTO = {
   endDate: '2026-01-20',
   createdAt: '2026-01-01T10:00:00Z',
   updatedAt: '2026-01-02T10:00:00Z',
+  declaredExperienceAssociationCountDTO: {
+    traceAssociationsCount: 0,
+    declaredSkillAssociationsCount: 0
+  },
 }
 
 const mockedDeclaredExperienceDetailsWithUndefinedOptionalFields: DeclaredExperienceViewDTO = {

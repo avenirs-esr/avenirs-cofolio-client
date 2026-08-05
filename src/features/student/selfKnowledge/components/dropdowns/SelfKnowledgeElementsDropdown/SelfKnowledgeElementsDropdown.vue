@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { AvDropdown, type AvDropdownItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementsDropdownProps {
-  categoryType: ESelfKnowledgeCategoryType
+  categoryType: ESelfKnowledgeCategory
 }
 
 const { categoryType } = defineProps<SelfKnowledgeElementsDropdownProps>()
@@ -21,9 +21,9 @@ const { t } = useI18n()
 const isDemo = __DEMO_MODE__
 
 const isCategoryDeletable = computed(() => ![
-  ESelfKnowledgeCategoryType.VALUES,
-  ESelfKnowledgeCategoryType.STRENGTHS,
-  ESelfKnowledgeCategoryType.ASPIRATIONS
+  ESelfKnowledgeCategory.VALUES,
+  ESelfKnowledgeCategory.STRENGTHS,
+  ESelfKnowledgeCategory.ASPIRATIONS
 ].includes(categoryType))
 
 enum SelfKnowledgeElementsDropdownEvents {

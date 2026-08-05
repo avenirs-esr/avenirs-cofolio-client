@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { type GetSelfKnowledgeElementsParams, type SelfKnowledgeCategoryDTO, useGetSelfKnowledgeElements } from '@/api/avenir-esr'
+import type { GetSelfKnowledgeElementsParams, SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
+import { useGetSelfKnowledgeElements } from '@/api/avenir-esr'
 import Card from '@/common/components/cards/Card/Card.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal } from '@/common/composables'
@@ -9,6 +10,7 @@ import DeleteSelfKnowledgeCategoryModal from '@/features/student/selfKnowledge/c
 import DeleteSelfKnowledgeElementsModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeElementsModal/DeleteSelfKnowledgeElementsModal.vue'
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
+import { toSelfKnowledgeCategoriesParam } from '@/features/student/selfKnowledge/utils/category.utils'
 import { AvIconText, AvPagination, getPaginationPages } from '@avenirs-esr/avenirs-dsav'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
@@ -24,10 +26,13 @@ const { openAddElementDrawer } = useSelfKnowledgeStore()
 
 const currentPage = ref(0)
 
-const params = computed<GetSelfKnowledgeElementsParams>(() => ({ page: currentPage.value }))
+const params = computed<GetSelfKnowledgeElementsParams>(() => ({
+  selfKnowledgeCategories: toSelfKnowledgeCategoriesParam(category.type),
+  page: currentPage.value
+}))
 
-const { data, isLoading, error } = useGetSelfKnowledgeElements(computed(() => category.id), params, {
-  query: { enabled: computed(() => !!category.id), placeholderData: keepPreviousData }
+const { data, isLoading, error } = useGetSelfKnowledgeElements(params, {
+  query: { placeholderData: keepPreviousData }
 })
 
 const elements = computed(() => data.value?.data ?? [])
@@ -35,8 +40,10 @@ const pageInfo = computed(() => data.value?.page)
 
 const {
   categoryType,
+  categoryTitle: categoryDisplayTitle,
+  categoryDescription,
   categoryIcon
-} = useSelfKnowledgeCategory(computed(() => category.id))
+} = useSelfKnowledgeCategory(computed(() => category.type))
 
 const {
   displayModal: displayDeleteCategoryModal,
@@ -51,7 +58,7 @@ const {
 } = useModal()
 
 const totalElements = computed(() => pageInfo.value?.totalElements ?? 0)
-const categoryTitle = computed(() => `${category.title} (${totalElements.value})`)
+const categoryTitle = computed(() => `${categoryDisplayTitle.value} (${totalElements.value})`)
 const totalPages = computed(() => pageInfo.value?.totalPages ?? 0)
 const pages = computed(() => getPaginationPages(totalPages))
 
@@ -97,7 +104,7 @@ function onElementDeleted () {
     </template>
 
     <div class="av-col av-gap-sm">
-      <span class="s2-regular av-text-text2">{{ category.description }}</span>
+      <span class="s2-regular av-text-text2">{{ categoryDescription }}</span>
 
       <QuerySuspense
         :error="error"
@@ -126,7 +133,7 @@ function onElementDeleted () {
               v-for="element in elements"
               :key="element.id"
               :element="element"
-              :category-id="category.id"
+              :category-type="category.type"
             />
           </div>
         </div>
@@ -136,8 +143,8 @@ function onElementDeleted () {
 
   <DeleteSelfKnowledgeCategoryModal
     :show="showDeleteCategoryModal"
-    :category-id="category.id"
-    :category-title="category.title"
+    :category-type="category.type"
+    :category-title="categoryDisplayTitle"
     :elements-count="elements.length"
     @cancel="hideDeleteCategoryModal"
     @confirm="hideDeleteCategoryModal"
@@ -146,7 +153,7 @@ function onElementDeleted () {
   <DeleteSelfKnowledgeElementsModal
     v-if="pageInfo"
     :show="showDeleteElementModal"
-    :category-id="category.id"
+    :category-type="category.type"
     :total-count="pageInfo.totalElements"
     @cancel="hideDeleteElementModal"
     @confirm="onElementDeleted"

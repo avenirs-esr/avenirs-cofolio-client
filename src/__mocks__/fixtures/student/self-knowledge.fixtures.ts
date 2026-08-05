@@ -1,23 +1,17 @@
-import { ESelfKnowledgeCategoryType, type PagedResponseSelfKnowledgeElementViewDTO, type SelfKnowledgeCategoryDTO, type SelfKnowledgeElementDetailsDTO, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategory, type PagedResponseSelfKnowledgeElementViewDTO, type SelfKnowledgeCategoryDTO, type SelfKnowledgeElementDetailsDTO, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 
 export const mockedSelfKnowledgeCategories: SelfKnowledgeCategoryDTO[] = [
   {
-    id: '4aec2faa-d986-4553-a14b-2ecabba415c8',
-    title: 'Mes points forts',
-    description: 'Identifier et valoriser mes qualités, talents et réussites marquantes.',
-    type: ESelfKnowledgeCategoryType.STRENGTHS
+    type: ESelfKnowledgeCategory.STRENGTHS,
+    mandatory: true
   },
   {
-    id: 'a0c79a9a-b5c0-411b-ba54-68d73de72225',
-    title: 'Mes valeurs',
-    description: 'Préciser ce qui est important pour moi et ce qui guide mes décisions au quotidien.',
-    type: ESelfKnowledgeCategoryType.VALUES
+    type: ESelfKnowledgeCategory.VALUES,
+    mandatory: true
   },
   {
-    id: '609965be-ebb1-44b3-bf8b-458a7ece6fb7',
-    title: 'Mes envies',
-    description: 'Clarifier ce que j\'ai envie d\'explorer, d\'apprendre ou de vivre à court et moyen terme.',
-    type: ESelfKnowledgeCategoryType.ASPIRATIONS
+    type: ESelfKnowledgeCategory.ASPIRATIONS,
+    mandatory: true
   }
 ]
 
@@ -69,19 +63,13 @@ const aspirationsElements = [
   { title: 'Partager mes connaissances', description: 'Transmettre mon savoir et former d\'autres personnes' }
 ]
 
-export function getCategoryElements (selfKnowledgeCategoryId: string): Array<{ title: string, description: string }> {
-  const category = mockedSelfKnowledgeCategories.find(cat => cat.id === selfKnowledgeCategoryId)
-
-  if (!category) {
-    return []
-  }
-
-  switch (category.type) {
-    case ESelfKnowledgeCategoryType.STRENGTHS:
+export function getCategoryElements (categoryType: ESelfKnowledgeCategory): Array<{ title: string, description: string }> {
+  switch (categoryType) {
+    case ESelfKnowledgeCategory.STRENGTHS:
       return strengthsElements
-    case ESelfKnowledgeCategoryType.VALUES:
+    case ESelfKnowledgeCategory.VALUES:
       return valuesElements
-    case ESelfKnowledgeCategoryType.ASPIRATIONS:
+    case ESelfKnowledgeCategory.ASPIRATIONS:
       return aspirationsElements
     default:
       return []
@@ -89,12 +77,12 @@ export function getCategoryElements (selfKnowledgeCategoryId: string): Array<{ t
 }
 
 export function createMockedPagedResponseSelfKnowledgeElementViewDTO (
-  selfKnowledgeCategoryId: string,
+  categoryType: ESelfKnowledgeCategory,
   pageSize: number,
   totalElements: number,
   page: number
 ): PagedResponseSelfKnowledgeElementViewDTO {
-  const categoryElements = getCategoryElements(selfKnowledgeCategoryId)
+  const categoryElements = getCategoryElements(categoryType)
   const mockedElements: SelfKnowledgeElementViewDTO[] = []
 
   const actualTotalElements = Math.min(totalElements, categoryElements.length)
@@ -104,7 +92,8 @@ export function createMockedPagedResponseSelfKnowledgeElementViewDTO (
       id: crypto.randomUUID(),
       title: categoryElements[i].title,
       description: categoryElements[i].description,
-      rating: Math.random() > 0.5 ? Math.floor(Math.random() * 5) + 1 : undefined
+      rating: Math.random() > 0.5 ? Math.floor(Math.random() * 5) + 1 : undefined,
+      category: { type: categoryType, mandatory: true }
     }
     mockedElements.push(element)
   }
@@ -120,4 +109,11 @@ export function createMockedPagedResponseSelfKnowledgeElementViewDTO (
   }
 }
 
-export const mockedSelfKnowledgeCategoriesAvailable: SelfKnowledgeCategoryDTO[] = mockedSelfKnowledgeCategories.slice(1)
+export const mockedSelfKnowledgeCategoriesAvailable: SelfKnowledgeCategoryDTO[] = [
+  ESelfKnowledgeCategory.MOTIVATION,
+  ESelfKnowledgeCategory.IMPROVEMENT,
+  ESelfKnowledgeCategory.INTERESTS,
+  ESelfKnowledgeCategory.INSPIRATIONS,
+  ESelfKnowledgeCategory.OBLIGATIONS,
+  ESelfKnowledgeCategory.TESTIMONIALS
+].map(type => ({ type, mandatory: false }))

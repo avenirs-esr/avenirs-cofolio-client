@@ -22,7 +22,6 @@ const showDrawer = toRef(selfKnowledgeStore, 'showAddElementDrawer')
 const selectedCategoryType = computed(() => selfKnowledgeStore.selectedCategory!.type)
 const selectedCategoryTypeTranslation = computed(() => t(`student.selfKnowledge.categoryType.${selectedCategoryType.value}`))
 
-const selectedCategoryId = computed(() => selfKnowledgeStore.selectedCategory!.id)
 const selectedCategoryIcon = computed(() => getSelfKnowledgeCategoryIcon(selectedCategoryType.value))
 
 function onElementCreated () {
@@ -33,7 +32,7 @@ function onElementCreated () {
   confirmCancel()
 }
 
-const { form, isFormValid, isSubmitting, hasElementDetailsErrors } = useAddSelfKnowledgeCategoryElementForm(selectedCategoryId, onElementCreated)
+const { form, isFormValid, isSubmitting, hasElementDetailsErrors } = useAddSelfKnowledgeCategoryElementForm(selectedCategoryType, onElementCreated)
 
 const isFormDirty = form.useStore(state => state.isDirty)
 

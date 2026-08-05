@@ -24,6 +24,10 @@ BddTest().given('a DeclaredExperienceSideMenu component', () => {
       startDate: '2022-01-01',
       createdAt: '2022-01-01T10:00:00Z',
       updatedAt: '2022-01-01T10:00:00Z',
+      declaredExperienceAssociationCountDTO: {
+        traceAssociationsCount: 0,
+        declaredSkillAssociationsCount: 0
+      },
     },
     {
       id: 'declared-experience-2',
@@ -32,6 +36,10 @@ BddTest().given('a DeclaredExperienceSideMenu component', () => {
       startDate: '2023-01-01',
       createdAt: '2023-01-01T10:00:00Z',
       updatedAt: '2023-01-01T10:00:00Z',
+      declaredExperienceAssociationCountDTO: {
+        traceAssociationsCount: 0,
+        declaredSkillAssociationsCount: 0
+      },
     },
     {
       id: 'declared-experience-3',
@@ -40,6 +48,10 @@ BddTest().given('a DeclaredExperienceSideMenu component', () => {
       startDate: '2024-01-01',
       createdAt: '2024-01-01T10:00:00Z',
       updatedAt: '2024-01-01T10:00:00Z',
+      declaredExperienceAssociationCountDTO: {
+        traceAssociationsCount: 0,
+        declaredSkillAssociationsCount: 0
+      },
     },
   ]
 

@@ -114,7 +114,7 @@ BddTest().given('an AddSelfKnowledgeCategoryButtonNode component', () => {
     })
 
     BddTest().and('the user selects categories and confirms', () => {
-      const selectedCategories = mockedSelfKnowledgeCategoriesAvailable.slice(0, 2).map(cat => cat.id)
+      const selectedCategories = mockedSelfKnowledgeCategoriesAvailable.slice(0, 2).map(cat => cat.type)
 
       beforeEach(async () => {
         const checkboxes = wrapper.findAllComponents(AvCheckboxStub)
@@ -156,7 +156,7 @@ BddTest().given('an AddSelfKnowledgeCategoryButtonNode component', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
       mockNodes.value = ([...mockedSelfKnowledgeCategoriesAvailable, ...mockedSelfKnowledgeCategories]).map(cat => ({
-        id: cat.id,
+        id: cat.type,
         type: SELF_KNOWLEDGE_NODE_TYPES.SELF_KNOWLEDGE_CATEGORY,
         position: { x: 0, y: 0 },
         data: {}

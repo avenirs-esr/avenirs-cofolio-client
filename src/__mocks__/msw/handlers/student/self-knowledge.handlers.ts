@@ -5,6 +5,7 @@ import {
   mockedSelfKnowledgeElementDetails
 } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import {
+  ESelfKnowledgeCategory,
   getAddSelfKnowledgeCategoriesUrl,
   getCreateSelfKnowledgeElementUrl,
   getDeleteSelfKnowledgeElementsUrl,
@@ -22,6 +23,8 @@ import {
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
 import { http, HttpResponse } from 'msw'
+
+const CATEGORY_URL_PARAM = ':selfKnowledgeCategory' as ESelfKnowledgeCategory
 
 export const selfKnowledgeCategoriesErrorHandler = http.get(`*${getGetSelfKnowledgeCategoriesUrl()}`, () => {
   return HttpResponse.json(
@@ -54,7 +57,7 @@ export const selfKnowledgeElementDetailsNotFoundHandler = http.get(`*${getGetSel
   )
 })
 
-export const selfKnowledgeCategoryElementsErrorHandler = http.get(`*${getGetSelfKnowledgeElementsUrl(':selfKnowledgeCategoryId')}`, () => {
+export const selfKnowledgeCategoryElementsErrorHandler = http.get(`*${getGetSelfKnowledgeElementsUrl()}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     {
@@ -78,7 +81,7 @@ export const selfKnowledgeCategoriesAvailableErrorHandler = http.get(`*${getGetS
   )
 })
 
-export const createSelfKnowledgeElementErrorHandler = http.post(`*${getCreateSelfKnowledgeElementUrl(':selfKnowledgeCategoryId')}`, () => {
+export const createSelfKnowledgeElementErrorHandler = http.post(`*${getCreateSelfKnowledgeElementUrl(CATEGORY_URL_PARAM)}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     {
@@ -104,7 +107,7 @@ export const putUpdateSelfKnowledgeElementErrorNotFoundHandler = http.put(`*${ge
   )
 })
 
-export const postCreateSelfKnowledgeElementErrorHandler = http.post(`*${getCreateSelfKnowledgeElementUrl(':selfKnowledgeCategoryId')}`, () => {
+export const postCreateSelfKnowledgeElementErrorHandler = http.post(`*${getCreateSelfKnowledgeElementUrl(CATEGORY_URL_PARAM)}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500 }
@@ -163,14 +166,14 @@ export const selfKnowledgeHandlers = [
     })
   }),
 
-  http.get(`*${getGetSelfKnowledgeElementsUrl(':selfKnowledgeCategoryId')}`, ({ request, params }) => {
+  http.get(`*${getGetSelfKnowledgeElementsUrl()}`, ({ request }) => {
     const url = new URL(request.url)
-    const selfKnowledgeCategoryId = params.selfKnowledgeCategoryId as string
+    const categoryType = (url.searchParams.get('selfKnowledgeCategories')?.split(',')[0] ?? ESelfKnowledgeCategory.STRENGTHS) as ESelfKnowledgeCategory
     const page = Number.parseInt(url.searchParams.get('page') ?? '0')
     const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '3')
     const totalElements = 10
 
-    const mockData = createMockedPagedResponseSelfKnowledgeElementViewDTO(selfKnowledgeCategoryId, pageSize, totalElements, page)
+    const mockData = createMockedPagedResponseSelfKnowledgeElementViewDTO(categoryType, pageSize, totalElements, page)
 
     return HttpResponse.json<PagedResponseSelfKnowledgeElementViewDTO>(mockData, {
       status: 200,
@@ -190,13 +193,13 @@ export const selfKnowledgeHandlers = [
   }),
 
   http.post(`*${getAddSelfKnowledgeCategoriesUrl()}`, async ({ request }) => {
-    const selfKnowledgeCategoryDTOs = await request.json() as SelfKnowledgeCategoryDTO[]
+    const selfKnowledgeCategories = await request.json() as ESelfKnowledgeCategory[]
 
-    if (selfKnowledgeCategoryDTOs.length === 0) {
+    if (selfKnowledgeCategories.length === 0) {
       return HttpResponse.json({ error: 'No categories provided', code: ErrorCodes.SELF_KNOWLEDGE_CATEGORY_IS_MANDATORY }, { status: 400 })
     }
 
-    if (selfKnowledgeCategoryDTOs[0].title === 'ERROR_CATEGORY') {
+    if ((selfKnowledgeCategories[0] as string) === 'ERROR_CATEGORY') {
       return HttpResponse.json(
         { error: 'Internal server error', code: ErrorCodes.SERVER },
         { status: 500 }
@@ -235,10 +238,10 @@ export const selfKnowledgeHandlers = [
     })
   }),
 
-  http.delete(`*${getRemoveSelfKnowledgeCategoryUrl(':categoryId')}`, async ({ params }) => {
-    const categoryId = params.categoryId as string
+  http.delete(`*${getRemoveSelfKnowledgeCategoryUrl(CATEGORY_URL_PARAM)}`, async ({ params }) => {
+    const selfKnowledgeCategory = params.selfKnowledgeCategory as string
 
-    if (categoryId === 'INVALID_CATEGORY_ID') {
+    if (selfKnowledgeCategory === 'INVALID_CATEGORY_ID') {
       return HttpResponse.json({ error: 'Invalid category ID', code: ErrorCodes.SELF_KNOWLEDGE_CATEGORY_NOT_FOUND }, { status: 404 })
     }
 
@@ -271,8 +274,9 @@ export const selfKnowledgeHandlers = [
     })
   }),
 
-  http.post(`*${getCreateSelfKnowledgeElementUrl(':selfKnowledgeCategoryId')}`, async ({ request }) => {
+  http.post(`*${getCreateSelfKnowledgeElementUrl(CATEGORY_URL_PARAM)}`, async ({ request, params }) => {
     const element = await request.json() as SelfKnowledgeElementRequest
+    const selfKnowledgeCategory = params.selfKnowledgeCategory as ESelfKnowledgeCategory
 
     if (element.title === 'ERROR_ELEMENT') {
       return HttpResponse.json(
@@ -292,7 +296,8 @@ export const selfKnowledgeHandlers = [
       id: crypto.randomUUID(),
       title: element.title,
       description: element.description,
-      rating: element.rating
+      rating: element.rating,
+      category: { type: selfKnowledgeCategory, mandatory: true }
     }
 
     return HttpResponse.json<SelfKnowledgeElementViewDTO>(response, {

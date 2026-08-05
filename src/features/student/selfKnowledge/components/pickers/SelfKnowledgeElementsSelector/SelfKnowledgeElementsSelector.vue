@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 
 export interface SelfKnowledgeElementsSelectorProps {
   elements: SelfKnowledgeElementViewDTO[]
-  categoryType: ESelfKnowledgeCategoryType
+  categoryType: ESelfKnowledgeCategory
   readonly?: boolean
 }
 

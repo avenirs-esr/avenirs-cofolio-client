@@ -72,7 +72,7 @@ BddTest().given('a self knowledge element update view', () => {
     UpdateInProgressBadge: UpdateInProgressBadgeStub
   }
 
-  const categoryId = '4aec2faa-d986-4553-a14b-2ecabba415c8'
+  const categoryId = 'STRENGTHS'
   const elementId = '1'
 
   BddTest().when('the view is rendered', () => {

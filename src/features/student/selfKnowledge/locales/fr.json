@@ -1,6 +1,44 @@
 {
   "student": {
     "selfKnowledge": {
+      "categories": {
+        "ASPIRATIONS": {
+          "description": "Clarifier ce que j'ai envie d'explorer, d'apprendre ou de vivre à court et moyen terme.",
+          "title": "Mes envies"
+        },
+        "IMPROVEMENT": {
+          "description": "Identifier les axes sur lesquels je souhaite progresser.",
+          "title": "Mes axes d'amélioration"
+        },
+        "INSPIRATIONS": {
+          "description": "Identifier les personnes, idées ou expériences qui m'inspirent.",
+          "title": "Mes inspirations"
+        },
+        "INTERESTS": {
+          "description": "Recenser les sujets et activités qui suscitent ma curiosité.",
+          "title": "Mes centres d'intérêt"
+        },
+        "MOTIVATION": {
+          "description": "Préciser ce qui m'anime et me pousse à agir dans ma vie professionnelle.",
+          "title": "Mes motivations professionnelles"
+        },
+        "OBLIGATIONS": {
+          "description": "Recenser les contraintes et engagements que je dois prendre en compte.",
+          "title": "Mes obligations"
+        },
+        "STRENGTHS": {
+          "description": "Identifier et valoriser mes qualités, talents et réussites marquantes.",
+          "title": "Mes points forts"
+        },
+        "TESTIMONIALS": {
+          "description": "Recueillir les retours et témoignages que l'on m'a donnés.",
+          "title": "Mes témoignages"
+        },
+        "VALUES": {
+          "description": "Préciser ce qui est important pour moi et ce qui guide mes décisions au quotidien.",
+          "title": "Mes valeurs"
+        }
+      },
       "categoryType": {
         "ASPIRATIONS": "envie | envies",
         "IMPROVEMENT": "axe d'amélioration | axes d'amélioration",

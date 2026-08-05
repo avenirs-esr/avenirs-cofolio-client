@@ -26,8 +26,11 @@ const categoriesAvailable = computed(() => fetchedCategoriesAvailable.value ?? [
 
 const categories = computed(() => fetchedCategories.value ?? [])
 
-const allCategories = computed(() => categories.value.concat(categoriesAvailable.value))
-const availableCategories = computed(() => allCategories.value.filter(category => categoryExists(category.id) === false))
+const allCategories = computed(() => categories.value.concat(categoriesAvailable.value).map(category => ({
+  type: category.type,
+  title: t(`student.selfKnowledge.categories.${category.type}.title`)
+})))
+const availableCategories = computed(() => allCategories.value.filter(category => categoryExists(category.type) === false))
 const usedCategoriesCount = computed(() => allCategories.value.length - availableCategories.value.length)
 
 const selectedCategoriesIds = ref<string[]>([])
@@ -45,7 +48,7 @@ function categoryExists (categoryId: string) {
 
 function onConfirmAddCategories () {
   selectedCategoriesIds.value.forEach((selectedId, index) => {
-    const category = allCategories.value.find(category => category.id === selectedId)
+    const category = allCategories.value.find(category => category.type === selectedId)
 
     if (!category) {
       addErrorMessage(t('student.buildProject.mindMap.selfKnowledge.addCategoryButton.errors.categoryNotFound', { id: selectedId }))
@@ -118,11 +121,11 @@ function onConfirmAddCategories () {
           <AvCheckboxesGroup id="add-self-knowledge-categories-modal-checkboxes-group">
             <AvCheckbox
               v-for="category in availableCategories"
-              :id="category.id"
-              :key="category.id"
+              :id="category.type"
+              :key="category.type"
               v-model="selectedCategoriesIds"
-              :value="category.id"
-              :name="category.id"
+              :value="category.type"
+              :name="category.type"
               :label="category.title"
             />
           </AvCheckboxesGroup>

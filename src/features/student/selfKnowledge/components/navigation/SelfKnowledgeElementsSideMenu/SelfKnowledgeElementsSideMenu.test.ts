@@ -1,4 +1,4 @@
-import { ESelfKnowledgeCategoryType, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategory, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { SideMenuStub } from '@/common/components/navigation/SideMenu/SideMenu.stub'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { SelfKnowledgeElementCompactCardStub } from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCompactCard/SelfKnowledgeElementCompactCard.stub'
@@ -15,24 +15,27 @@ BddTest().given(' a SelfKnowledgeElementsSideMenu component', () => {
       id: '1',
       title: 'Intitulé de l\'élément n°1 sur deux lignes maximum',
       description: 'Petit texte qui explique comment l\'étudiant a développé cet élément, dans quelles formation, exp...',
-      rating: 3
+      rating: 3,
+      category: { type: ESelfKnowledgeCategory.STRENGTHS, mandatory: true }
     },
     {
       id: '2',
       title: 'Force de communication',
       description: 'J\'ai développé cette compétence lors de mes projets de groupe et mes présentations en classe.',
-      rating: 4
+      rating: 4,
+      category: { type: ESelfKnowledgeCategory.STRENGTHS, mandatory: true }
     },
     {
       id: '3',
       title: 'Créativité',
       description: 'Ma créativité s\'exprime dans mes projets artistiques et mes solutions innovantes.',
-      rating: 5
+      rating: 5,
+      category: { type: ESelfKnowledgeCategory.STRENGTHS, mandatory: true }
     },
   ]
 
   const props: SelfKnowledgeElementsSideMenuProps = {
-    categoryType: ESelfKnowledgeCategoryType.STRENGTHS,
+    categoryType: ESelfKnowledgeCategory.STRENGTHS,
     elements: dummyElements,
     selectedElementId: '2'
   }

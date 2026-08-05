@@ -86,7 +86,7 @@ const stubs = {
 
 BddTest().given('a self knowledge category view component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeCategoryView>>
-  const categoryId = '4aec2faa-d986-4553-a14b-2ecabba415c8'
+  const categoryId = 'STRENGTHS'
 
   const mountComponentWithDefaults = async () => {
     wrapper = mountComponent(SelfKnowledgeCategoryView, {

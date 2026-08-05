@@ -16,7 +16,11 @@ const BASE_DECLARED_EXPERIENCE: DeclaredExperienceViewDTO = {
   startDate: '2023-01',
   endDate: '2023-06',
   createdAt: '2024-01-15T10:30:00Z',
-  updatedAt: '2024-01-15T10:30:00Z'
+  updatedAt: '2024-01-15T10:30:00Z',
+  declaredExperienceAssociationCountDTO: {
+    traceAssociationsCount: 0,
+    declaredSkillAssociationsCount: 0
+  }
 }
 
 const stubs = {
