@@ -1,4 +1,4 @@
-import { ESelfKnowledgeCategoryType, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr/generated/types'
+import { ESelfKnowledgeCategory, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr/generated/types'
 import { RatingStub } from '@/common/components/Rating/Rating.stub'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
@@ -19,7 +19,8 @@ BddTest().given('a self knowledge element card', () => {
   const baseElement: SelfKnowledgeElementViewDTO = {
     id: '1',
     title: 'Test Element',
-    description: 'This is a test description for the element'
+    description: 'This is a test description for the element',
+    category: { type: ESelfKnowledgeCategory.VALUES, mandatory: true }
   }
 
   BddTest().when('the component is mounted with VALUES category type', () => {
@@ -27,8 +28,7 @@ BddTest().given('a self knowledge element card', () => {
       wrapper = mountComponent(SelfKnowledgeElementCard, {
         props: {
           element: baseElement,
-          categoryType: ESelfKnowledgeCategoryType.VALUES,
-          categoryId: 'a0c79a9a-b5c0-411b-ba54-68d73de72225'
+          categoryType: ESelfKnowledgeCategory.VALUES
         },
         global: { stubs }
       })
@@ -67,8 +67,7 @@ BddTest().given('a self knowledge element card', () => {
       wrapper = mountComponent(SelfKnowledgeElementCard, {
         props: {
           element: baseElement,
-          categoryType: ESelfKnowledgeCategoryType.STRENGTHS,
-          categoryId: '4aec2faa-d986-4553-a14b-2ecabba415c8'
+          categoryType: ESelfKnowledgeCategory.STRENGTHS
         },
         global: { stubs }
       })
@@ -85,8 +84,7 @@ BddTest().given('a self knowledge element card', () => {
       wrapper = mountComponent(SelfKnowledgeElementCard, {
         props: {
           element: baseElement,
-          categoryType: ESelfKnowledgeCategoryType.ASPIRATIONS,
-          categoryId: '609965be-ebb1-44b3-bf8b-458a7ece6fb7'
+          categoryType: ESelfKnowledgeCategory.ASPIRATIONS
         },
         global: { stubs }
       })
@@ -104,8 +102,7 @@ BddTest().given('a self knowledge element card', () => {
       wrapper = mountComponent(SelfKnowledgeElementCard, {
         props: {
           element: baseElement,
-          categoryType: ESelfKnowledgeCategoryType.VALUES,
-          categoryId: 'a0c79a9a-b5c0-411b-ba54-68d73de72225',
+          categoryType: ESelfKnowledgeCategory.VALUES,
           categoryColor: 'var(--custom-color)'
         },
         global: { stubs }
@@ -128,8 +125,7 @@ BddTest().given('a self knowledge element card', () => {
       wrapper = mountComponent(SelfKnowledgeElementCard, {
         props: {
           element: elementWithRating,
-          categoryType: ESelfKnowledgeCategoryType.VALUES,
-          categoryId: 'a0c79a9a-b5c0-411b-ba54-68d73de72225'
+          categoryType: ESelfKnowledgeCategory.VALUES
         },
         global: { stubs }
       })
@@ -158,8 +154,7 @@ BddTest().given('a self knowledge element card', () => {
       wrapper = mountComponent(SelfKnowledgeElementCard, {
         props: {
           element: baseElement,
-          categoryType: ESelfKnowledgeCategoryType.VALUES,
-          categoryId: 'a0c79a9a-b5c0-411b-ba54-68d73de72225'
+          categoryType: ESelfKnowledgeCategory.VALUES
         },
         global: { stubs }
       })
@@ -181,8 +176,7 @@ BddTest().given('a self knowledge element card', () => {
       wrapper = mountComponent(SelfKnowledgeElementCard, {
         props: {
           element: elementWithLongDescription,
-          categoryType: ESelfKnowledgeCategoryType.VALUES,
-          categoryId: 'a0c79a9a-b5c0-411b-ba54-68d73de72225'
+          categoryType: ESelfKnowledgeCategory.VALUES
         },
         global: { stubs }
       })
@@ -201,14 +195,14 @@ BddTest().given('a self knowledge element card', () => {
         id: '123',
         title: 'Complete Element',
         description: 'A complete element with all properties',
-        rating: 5
+        rating: 5,
+        category: { type: ESelfKnowledgeCategory.STRENGTHS, mandatory: true }
       }
 
       wrapper = mountComponent(SelfKnowledgeElementCard, {
         props: {
           element: completeElement,
-          categoryType: ESelfKnowledgeCategoryType.STRENGTHS,
-          categoryId: '4aec2faa-d986-4553-a14b-2ecabba415c8',
+          categoryType: ESelfKnowledgeCategory.STRENGTHS,
           categoryColor: 'var(--strength-color)'
         },
         global: { stubs }

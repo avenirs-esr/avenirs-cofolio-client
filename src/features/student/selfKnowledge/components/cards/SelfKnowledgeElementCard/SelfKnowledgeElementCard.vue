@@ -1,35 +1,29 @@
 <script lang="ts" setup>
-import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { Rating } from '@/common/components'
 import { ROUTES } from '@/common/constants'
 import { FloatingIconCard } from '@/features/student/global'
-import {
-  useSelfKnowledgeCategory
-} from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
-import { toValue } from 'vue'
 
 export interface SelfKnowledgeElementCardProps {
   element: SelfKnowledgeElementViewDTO
-  categoryId: string
+  categoryType: ESelfKnowledgeCategory
   categoryColor?: string
 }
 
 const {
   categoryColor = 'var(--light-foreground-primary1)',
-  categoryId,
+  categoryType,
   element,
 } = defineProps<SelfKnowledgeElementCardProps>()
 
-const { categoryType } = useSelfKnowledgeCategory(computed(() => categoryId))
-
 const iconOptions = computed(() => ({
-  name: getSelfKnowledgeCategoryIcon(toValue(categoryType)),
+  name: getSelfKnowledgeCategoryIcon(categoryType),
 }))
 </script>
 
 <template>
-  <RouterLink :to="{ name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name, params: { id: categoryId }, query: { elementId: element.id } }">
+  <RouterLink :to="{ name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name, params: { id: categoryType }, query: { elementId: element.id } }">
     <FloatingIconCard
       :title="element.title"
       :header-rows="2"

@@ -24,7 +24,11 @@ export const declaredExperienceViewDTOFixture: DeclaredExperienceViewDTO = {
   startDate: '2023-01',
   endDate: '2024-06',
   createdAt: '2024-01-15T10:30:00Z',
-  updatedAt: '2024-01-15T10:30:00Z'
+  updatedAt: '2024-01-15T10:30:00Z',
+  declaredExperienceAssociationCountDTO: {
+    traceAssociationsCount: 0,
+    declaredSkillAssociationsCount: 0
+  }
 }
 
 function createMockedDeclaredExperiences (count: number): DeclaredExperienceViewDTO[] {
@@ -48,7 +52,11 @@ function createMockedDeclaredExperiences (count: number): DeclaredExperienceView
       description: experience.description,
       startDate: '2023-01',
       createdAt: '2024-01-15T10:30:00Z',
-      updatedAt: '2024-01-15T10:30:00Z'
+      updatedAt: '2024-01-15T10:30:00Z',
+      declaredExperienceAssociationCountDTO: {
+        traceAssociationsCount: 0,
+        declaredSkillAssociationsCount: 0
+      }
     })
   }
 
@@ -92,7 +100,11 @@ export function createMockedDeclaredExperienceViewDTO (experienceId: string): De
     startDate: '2023-01',
     endDate: '2024-06',
     createdAt: '2024-01-15T10:30:00Z',
-    updatedAt: '2024-01-15T10:30:00Z'
+    updatedAt: '2024-01-15T10:30:00Z',
+    declaredExperienceAssociationCountDTO: {
+      traceAssociationsCount: 0,
+      declaredSkillAssociationsCount: 0
+    }
   }
 }
 

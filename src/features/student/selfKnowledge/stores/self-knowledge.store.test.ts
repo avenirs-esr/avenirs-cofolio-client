@@ -1,4 +1,4 @@
-import { ESelfKnowledgeCategoryType, type SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategory, type SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
 import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
@@ -8,17 +8,13 @@ BddTest().given('a self knowledge store', () => {
   let store: ReturnType<typeof useSelfKnowledgeStore>
 
   const mockCategory: SelfKnowledgeCategoryDTO = {
-    id: 'category-123',
-    title: 'Mes points forts',
-    description: 'Category description',
-    type: ESelfKnowledgeCategoryType.STRENGTHS
+    type: ESelfKnowledgeCategory.STRENGTHS,
+    mandatory: true
   }
 
   const anotherMockCategory: SelfKnowledgeCategoryDTO = {
-    id: 'category-456',
-    title: 'Mes centres d\'intérêt',
-    description: 'Interest category',
-    type: ESelfKnowledgeCategoryType.INTERESTS
+    type: ESelfKnowledgeCategory.INTERESTS,
+    mandatory: false
   }
 
   beforeEach(() => {

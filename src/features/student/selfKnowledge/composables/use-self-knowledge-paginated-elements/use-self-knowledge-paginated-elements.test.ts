@@ -1,5 +1,6 @@
 import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import type { Ref } from 'vue'
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import {
   useSelfKnowledgePaginatedElements
 } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
@@ -8,14 +9,14 @@ import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('the useSelfKnowledgePaginatedElements composable', () => {
-  let categoryId: Ref<string>
+  let categoryType: Ref<ESelfKnowledgeCategory>
   let composableResult: ReturnType<typeof useSelfKnowledgePaginatedElements>
 
   const mountWithCurrentCategory = () => {
     const { result } = mountComposable(
       () =>
         useSelfKnowledgePaginatedElements({
-          selfKnowledgeCategoryId: categoryId,
+          selfKnowledgeCategory: categoryType,
           pageSize: 3
         }),
       {
@@ -28,10 +29,10 @@ BddTest().given('the useSelfKnowledgePaginatedElements composable', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    categoryId = ref('')
+    categoryType = ref('' as ESelfKnowledgeCategory)
   })
 
-  BddTest().when('the category id is initially empty', () => {
+  BddTest().when('the category type is initially empty', () => {
     beforeEach(() => {
       mountWithCurrentCategory()
     })
@@ -42,9 +43,9 @@ BddTest().given('the useSelfKnowledgePaginatedElements composable', () => {
     })
   })
 
-  BddTest().when('the category id has a value and the first page is loaded', () => {
+  BddTest().when('the category type has a value and the first page is loaded', () => {
     beforeEach(async () => {
-      categoryId.value = '4aec2faa-d986-4553-a14b-2ecabba415c8'
+      categoryType.value = ESelfKnowledgeCategory.STRENGTHS
       mountWithCurrentCategory()
 
       await vi.waitFor(() => {
@@ -75,7 +76,7 @@ BddTest().given('the useSelfKnowledgePaginatedElements composable', () => {
     let firstPageElements: SelfKnowledgeElementViewDTO[]
 
     beforeEach(async () => {
-      categoryId.value = '4aec2faa-d986-4553-a14b-2ecabba415c8'
+      categoryType.value = ESelfKnowledgeCategory.STRENGTHS
       mountWithCurrentCategory()
 
       await vi.waitFor(() => {
@@ -109,7 +110,7 @@ BddTest().given('the useSelfKnowledgePaginatedElements composable', () => {
 
   BddTest().when('loadMoreElements is called multiple times', () => {
     beforeEach(async () => {
-      categoryId.value = '4aec2faa-d986-4553-a14b-2ecabba415c8'
+      categoryType.value = ESelfKnowledgeCategory.STRENGTHS
       mountWithCurrentCategory()
 
       await vi.waitFor(() => {
@@ -139,16 +140,16 @@ BddTest().given('the useSelfKnowledgePaginatedElements composable', () => {
     })
   })
 
-  BddTest().when('the category id becomes empty after having a value', () => {
+  BddTest().when('the category type becomes empty after having a value', () => {
     beforeEach(async () => {
-      categoryId.value = '4aec2faa-d986-4553-a14b-2ecabba415c8'
+      categoryType.value = ESelfKnowledgeCategory.STRENGTHS
       mountWithCurrentCategory()
 
       await vi.waitFor(() => {
         expect(composableResult.elements.value.length).toBe(3)
       })
 
-      categoryId.value = ''
+      categoryType.value = '' as ESelfKnowledgeCategory
 
       await vi.waitFor(() => {
         expect(composableResult.elements.value).toEqual([])
@@ -164,7 +165,7 @@ BddTest().given('the useSelfKnowledgePaginatedElements composable', () => {
 
   BddTest().when('resetPagination is called', () => {
     beforeEach(async () => {
-      categoryId.value = '4aec2faa-d986-4553-a14b-2ecabba415c8'
+      categoryType.value = ESelfKnowledgeCategory.STRENGTHS
       mountWithCurrentCategory()
 
       await vi.waitFor(() => {

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import type { MindMapNodeTemplateProps } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/mind-map-nodes.types'
 import { EErrorCode, invalidateGetSelfKnowledgeElementDetails, invalidateGetSelfKnowledgeElements, useCreateSelfKnowledgeElement, useUpdateSelfKnowledgeElement } from '@/api/avenir-esr'
 import { Rating } from '@/common/components'
@@ -23,7 +24,7 @@ const { mutate: mutateCreateSelfKnowledgeElement } = useCreateSelfKnowledgeEleme
 
 function addSelfKnowledgeCategoryElement () {
   mutateCreateSelfKnowledgeElement({
-    selfKnowledgeCategoryId: data.categoryId as string,
+    selfKnowledgeCategory: data.categoryId as ESelfKnowledgeCategory,
     data: {
       title: data.title,
       description: data.description,
@@ -32,7 +33,7 @@ function addSelfKnowledgeCategoryElement () {
     },
   }, {
     onSuccess: async (newElement) => {
-      await invalidateGetSelfKnowledgeElements(queryClient, data.categoryId as string)
+      await invalidateGetSelfKnowledgeElements(queryClient)
       addSuccessMessage(t('student.buildProject.mindMap.selfKnowledge.element.success'))
       updateNodeId(id, newElement.id)
     },

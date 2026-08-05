@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { invalidateGetSelfKnowledgeElements, useDeleteSelfKnowledgeElements, useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
+import { type ESelfKnowledgeCategory, invalidateGetSelfKnowledgeElements, useDeleteSelfKnowledgeElements, useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
@@ -32,7 +32,9 @@ const { navigateToStudentSelfKnowledgeElementUpdate, navigateToStudentTrajectori
 const { showModal: showConfirmModal, displayModal: displayConfirmModal, hideModal: hideConfirmModal } = useModal()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
-const { categoryType } = useSelfKnowledgeCategory(computed(() => props.categoryId))
+const categoryId = computed(() => props.categoryId as ESelfKnowledgeCategory)
+
+const { categoryType } = useSelfKnowledgeCategory(categoryId)
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
@@ -49,7 +51,7 @@ const {
   pageInfo,
   loadMoreElements
 } = useSelfKnowledgePaginatedElements({
-  selfKnowledgeCategoryId: props.categoryId
+  selfKnowledgeCategory: categoryId
 })
 
 const { data: selectedElementDetails, error } = useGetSelfKnowledgeElementDetails(selectedElementId)
@@ -67,7 +69,7 @@ function deleteSelfKnowledgeElement () {
       description: getErrorMessage(error)
     }),
     onSuccess: async () => {
-      await withTaskLoading(() => invalidateGetSelfKnowledgeElements(queryClient, props.categoryId))
+      await withTaskLoading(() => invalidateGetSelfKnowledgeElements(queryClient))
       addSuccessMessage(
         t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.success', { count: 1 })
       )

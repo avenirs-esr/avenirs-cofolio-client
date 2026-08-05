@@ -73,7 +73,7 @@ const categories = computed(() => fetchedCategories.value ?? [])
     <div class="av-col av-gap-xl">
       <SelfKnowledgeCategoryElementsPaginatorCard
         v-for="category in categories"
-        :key="category.id"
+        :key="category.type"
         :category="category"
       />
     </div>

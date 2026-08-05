@@ -25,7 +25,11 @@ BddTest().given('an associated declared experience card', () => {
     organization: 'AVENIR(S)',
     startDate: '2026-01-01',
     createdAt: '2026-01-01T00:00:00Z',
-    updatedAt: '2026-01-01T00:00:00Z'
+    updatedAt: '2026-01-01T00:00:00Z',
+    declaredExperienceAssociationCountDTO: {
+      traceAssociationsCount: 0,
+      declaredSkillAssociationsCount: 0
+    }
   }
 
   beforeEach(() => {

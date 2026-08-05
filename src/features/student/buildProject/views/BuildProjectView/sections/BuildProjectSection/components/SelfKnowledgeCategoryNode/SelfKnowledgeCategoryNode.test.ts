@@ -17,7 +17,7 @@ BddTest().given('a SelfKnowledgeCategoryNode component', () => {
   }
 
   BddTest().when('the component is mounted', () => {
-    const props: NodeTemplateProps = { ...mandatoryNodeTemplateProps, id: mockedSelfKnowledgeCategories[0].id, data: {} }
+    const props: NodeTemplateProps = { ...mandatoryNodeTemplateProps, id: mockedSelfKnowledgeCategories[0].type, data: {} }
 
     beforeEach(() => {
       wrapper = mountComponent(SelfKnowledgeCategoryNode, { props, global: { stubs } })
@@ -32,7 +32,7 @@ BddTest().given('a SelfKnowledgeCategoryNode component', () => {
       await vi.waitFor(() => {
         const badge = wrapper.findComponent(AvBadgeStub)
         expect(badge.exists()).toBe(true)
-        expect(badge.props('label')).toBe(mockedSelfKnowledgeCategories[0].title)
+        expect(badge.props('label')).toBe('Mes points forts')
       })
     })
   })

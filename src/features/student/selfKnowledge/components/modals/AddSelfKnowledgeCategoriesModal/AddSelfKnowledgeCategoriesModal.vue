@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { invalidateGetSelfKnowledgeCategories, useAddSelfKnowledgeCategories, useGetSelfKnowledgeCategoriesAvailable } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -25,14 +26,18 @@ const { data: fetchedCategoriesAvailable } = useGetSelfKnowledgeCategoriesAvaila
 const queryClient = useQueryClient()
 const { isLoading, withTaskLoading } = useTaskLoading()
 
-const categoriesAvailable = computed(() => fetchedCategoriesAvailable.value ?? [])
+const categoriesAvailable = computed(() => (fetchedCategoriesAvailable.value ?? []).map(category => ({
+  type: category.type,
+  title: t(`student.selfKnowledge.categories.${category.type}.title`),
+  description: t(`student.selfKnowledge.categories.${category.type}.description`)
+})))
 
 const { mutate: mutateAddSelfKnowledgeCategories, isPending } = useAddSelfKnowledgeCategories()
 
 const selected = ref<string[]>([])
 
 function addSelfKnowledgeCategories () {
-  mutateAddSelfKnowledgeCategories({ data: selected.value }, {
+  mutateAddSelfKnowledgeCategories({ data: selected.value as ESelfKnowledgeCategory[] }, {
     onSuccess: async () => {
       await withTaskLoading(() => invalidateGetSelfKnowledgeCategories(queryClient))
       addSuccessMessage(t('student.selfKnowledge.SelfKnowledgeMainSection.modals.addSelfKnowledgeCategories.success', { count: selected.value.length }))
@@ -81,11 +86,11 @@ function resetSelected () {
       <AvCheckboxesGroup id="add-self-knowledge-categories-modal-checkboxes-group">
         <AvCheckbox
           v-for="category in categoriesAvailable"
-          :id="category.id"
-          :key="category.id"
+          :id="category.type"
+          :key="category.type"
           v-model="selected"
-          :value="category.id"
-          :name="category.id"
+          :value="category.type"
+          :name="category.type"
         >
           <template #label>
             <span class="b2-regular av-text-text1">

@@ -1,6 +1,44 @@
 {
   "student": {
     "selfKnowledge": {
+      "categories": {
+        "ASPIRATIONS": {
+          "description": "Clarify what I want to explore, learn or experience in the short and medium term.",
+          "title": "My aspirations"
+        },
+        "IMPROVEMENT": {
+          "description": "Identify the areas where I want to make progress.",
+          "title": "My areas for improvement"
+        },
+        "INSPIRATIONS": {
+          "description": "Identify the people, ideas or experiences that inspire me.",
+          "title": "My inspirations"
+        },
+        "INTERESTS": {
+          "description": "List the topics and activities that spark my curiosity.",
+          "title": "My interests"
+        },
+        "MOTIVATION": {
+          "description": "Clarify what drives me and motivates me in my professional life.",
+          "title": "My professional motivations"
+        },
+        "OBLIGATIONS": {
+          "description": "List the constraints and commitments I need to take into account.",
+          "title": "My obligations"
+        },
+        "STRENGTHS": {
+          "description": "Identify and highlight my qualities, talents and notable achievements.",
+          "title": "My strengths"
+        },
+        "TESTIMONIALS": {
+          "description": "Collect the feedback and testimonials I have received.",
+          "title": "My testimonials"
+        },
+        "VALUES": {
+          "description": "Clarify what matters to me and guides my daily decisions.",
+          "title": "My values"
+        }
+      },
       "categoryType": {
         "ASPIRATIONS": "aspiration | aspirations",
         "IMPROVEMENT": "area for improvement | areas for improvement",

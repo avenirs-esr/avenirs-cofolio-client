@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { GetSelfKnowledgeElementsParams } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory, GetSelfKnowledgeElementsParams } from '@/api/avenir-esr'
 import type { MindMapNodeTemplateProps } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/mind-map-nodes.types'
 import { useGetSelfKnowledgeElements } from '@/api/avenir-esr'
 import ButtonNodeTemplate from '@/common/components/VueFlow/ButtonNodeTemplate/ButtonNodeTemplate.vue'
@@ -11,6 +11,7 @@ import { MIND_MAP_FLOW_ID } from '@/features/student/buildProject/views/BuildPro
 import { type AddElementFormData, useAddElementForm } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/composables/use-add-element-form/use-add-element-form'
 import { SELF_KNOWLEDGE_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/self-knowledge-nodes.types'
 import CategoryElementRatingRadioButtonSet from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementRatingRadioButtonSet/CategoryElementRatingRadioButtonSet.vue'
+import { toSelfKnowledgeCategoriesParam } from '@/features/student/selfKnowledge/utils/category.utils'
 import { useToasterStore } from '@/store'
 import { AvCheckbox, AvCheckboxesGroup, AvInput, AvModal, AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { keepPreviousData } from '@tanstack/vue-query'
@@ -25,11 +26,12 @@ const { addErrorMessage } = useToasterStore()
 const { t } = useI18n()
 
 const params = computed<GetSelfKnowledgeElementsParams>(() => ({
+  selfKnowledgeCategories: toSelfKnowledgeCategoriesParam(data.categoryId as ESelfKnowledgeCategory),
   page: 0, // TODO: temporary value for POC purpose - need a real pagination later
   pageSize: 12 // TODO: temporary value for POC purpose - need a real pagination later
 }))
 
-const { data: fetchedElements } = useGetSelfKnowledgeElements(computed(() => data.categoryId as string), params, {
+const { data: fetchedElements } = useGetSelfKnowledgeElements(params, {
   query: { enabled: computed(() => !!data.categoryId), placeholderData: keepPreviousData }
 })
 const elements = computed(() => fetchedElements.value ? fetchedElements.value.data : [])

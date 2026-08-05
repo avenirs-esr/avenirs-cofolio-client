@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { invalidateGetSelfKnowledgeCategories, useRemoveSelfKnowledgeCategory } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -10,11 +11,11 @@ import { useI18n } from 'vue-i18n'
 export interface DeleteSelfKnowledgeCategoryModalProps {
   show: boolean
   categoryTitle: string
-  categoryId: string
+  categoryType: ESelfKnowledgeCategory
   elementsCount: number
 }
 
-const { categoryTitle, categoryId } = defineProps<DeleteSelfKnowledgeCategoryModalProps>()
+const { categoryTitle, categoryType } = defineProps<DeleteSelfKnowledgeCategoryModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -30,7 +31,7 @@ const { isLoading, withTaskLoading } = useTaskLoading()
 const { mutate: mutateRemoveSelfKnowledgeCategory, isPending } = useRemoveSelfKnowledgeCategory()
 
 function removeSelfKnowledgeCategory () {
-  mutateRemoveSelfKnowledgeCategory({ categoryId }, {
+  mutateRemoveSelfKnowledgeCategory({ selfKnowledgeCategory: categoryType }, {
     onSuccess: async () => {
       await withTaskLoading(() => invalidateGetSelfKnowledgeCategories(queryClient))
       addSuccessMessage(t('student.selfKnowledge.SelfKnowledgeMainSection.modals.deleteSelfKnowledgeCategory.success', { category: categoryTitle }))

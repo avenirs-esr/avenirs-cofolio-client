@@ -155,7 +155,7 @@ BddTest().given('an add self knowledge categories modal', () => {
 
       BddTest().then('it should call the mutation and show a success message', async () => {
         await vi.waitFor(() => {
-          expect(mockAddSuccessMessage).toHaveBeenCalledWith('2 catégories ajoutées avec succès')
+          expect(mockAddSuccessMessage).toHaveBeenCalledWith(`${mockedSelfKnowledgeCategoriesAvailable.length} catégories ajoutées avec succès`)
           expect(mockAddErrorMessage).not.toHaveBeenCalled()
         })
       })

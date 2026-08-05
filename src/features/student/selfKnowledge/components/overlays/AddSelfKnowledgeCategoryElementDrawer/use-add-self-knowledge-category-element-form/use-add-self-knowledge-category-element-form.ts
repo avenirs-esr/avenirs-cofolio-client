@@ -1,3 +1,4 @@
+import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
 import type { MaybeRef } from '@vueuse/core'
@@ -13,7 +14,7 @@ import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export function useAddSelfKnowledgeCategoryElementForm (
-  selfKnowledgeCategoryId: MaybeRef<string>,
+  selfKnowledgeCategory: MaybeRef<ESelfKnowledgeCategory>,
   onElementCreated?: () => void
 ) {
   const { t } = useI18n()
@@ -34,7 +35,7 @@ export function useAddSelfKnowledgeCategoryElementForm (
 
   function createSelfKnowledgeElement (formData: SelfKnowledgeCategoryElementFormData) {
     mutateCreateSelfKnowledgeElement({
-      selfKnowledgeCategoryId: toValue(selfKnowledgeCategoryId),
+      selfKnowledgeCategory: toValue(selfKnowledgeCategory),
       data: {
         title: formData.title,
         description: formData.description,
@@ -43,7 +44,7 @@ export function useAddSelfKnowledgeCategoryElementForm (
       }
     }, {
       onSuccess: async () => {
-        await withTaskLoading(() => invalidateGetSelfKnowledgeElements(queryClient, toValue(selfKnowledgeCategoryId)))
+        await withTaskLoading(() => invalidateGetSelfKnowledgeElements(queryClient))
         onElementCreated?.()
       },
       onError: onCreateElementError

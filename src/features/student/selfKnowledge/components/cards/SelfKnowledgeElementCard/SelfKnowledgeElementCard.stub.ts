@@ -8,7 +8,7 @@ export const SelfKnowledgeElementCardStub = defineComponent({
       type: Object as PropType<SelfKnowledgeElementViewDTO>,
       required: true
     },
-    categoryId: {
+    categoryType: {
       type: String,
       required: true
     },

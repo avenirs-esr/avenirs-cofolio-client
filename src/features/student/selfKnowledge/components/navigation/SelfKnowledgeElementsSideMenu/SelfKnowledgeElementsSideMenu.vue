@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ESelfKnowledgeCategoryType, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import SideMenu from '@/common/components/navigation/SideMenu/SideMenu.vue'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import SelfKnowledgeElementCompactCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCompactCard/SelfKnowledgeElementCompactCard.vue'
@@ -9,7 +9,7 @@ import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementsSideMenuProps {
-  categoryType: ESelfKnowledgeCategoryType
+  categoryType: ESelfKnowledgeCategory
   selectedElementId: string
   elements: SelfKnowledgeElementViewDTO[]
   countElements?: number

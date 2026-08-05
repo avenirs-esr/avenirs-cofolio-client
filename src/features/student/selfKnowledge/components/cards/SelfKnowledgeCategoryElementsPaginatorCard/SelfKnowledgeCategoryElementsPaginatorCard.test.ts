@@ -1,7 +1,7 @@
 import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { selfKnowledgeCategoryElementsErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { ESelfKnowledgeCategoryType, type SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategory, type SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'
@@ -62,21 +62,21 @@ BddTest().given('a self knowledge category elements paginator card', () => {
       category: mockedSelfKnowledgeCategories[0],
       expectedTitle: 'Mes points forts',
       expectedDescription: 'Identifier et valoriser mes qualités, talents et réussites marquantes.',
-      expectedType: ESelfKnowledgeCategoryType.STRENGTHS
+      expectedType: ESelfKnowledgeCategory.STRENGTHS
     },
     {
       name: 'values',
       category: mockedSelfKnowledgeCategories[1],
       expectedTitle: 'Mes valeurs',
       expectedDescription: 'Préciser ce qui est important pour moi et ce qui guide mes décisions au quotidien.',
-      expectedType: ESelfKnowledgeCategoryType.VALUES
+      expectedType: ESelfKnowledgeCategory.VALUES
     },
     {
       name: 'aspirations',
       category: mockedSelfKnowledgeCategories[2],
       expectedTitle: 'Mes envies',
       expectedDescription: 'Clarifier ce que j\'ai envie d\'explorer, d\'apprendre ou de vivre à court et moyen terme.',
-      expectedType: ESelfKnowledgeCategoryType.ASPIRATIONS
+      expectedType: ESelfKnowledgeCategory.ASPIRATIONS
     }
   ]
 
@@ -132,7 +132,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
             expect(firstCard.props('element')).toHaveProperty('id')
             expect(firstCard.props('element')).toHaveProperty('title')
             expect(firstCard.props('element')).toHaveProperty('description')
-            expect(firstCard.props('categoryId')).toBe(category.id)
+            expect(firstCard.props('categoryType')).toBe(category.type)
           })
         })
 
@@ -151,8 +151,8 @@ BddTest().given('a self knowledge category elements paginator card', () => {
             const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementsModalStub)
             expect(deleteModal.exists()).toBe(true)
             expect(deleteModal.props('show')).toBe(true)
-            expect(deleteModal.props('categoryId')).toBeDefined()
-            expect(deleteModal.props('categoryId')).toBe(category.id)
+            expect(deleteModal.props('categoryType')).toBeDefined()
+            expect(deleteModal.props('categoryType')).toBe(category.type)
           })
         })
       })
@@ -180,12 +180,9 @@ BddTest().given('a self knowledge category elements paginator card', () => {
   })
 
   BddTest().and('the category has no elements', () => {
-    const emptyCategoryId = 'non-existent-id'
     const emptyCategory: SelfKnowledgeCategoryDTO = {
-      id: emptyCategoryId,
-      title: 'Empty Category',
-      description: 'A category with no elements',
-      type: ESelfKnowledgeCategoryType.STRENGTHS
+      type: ESelfKnowledgeCategory.OBLIGATIONS,
+      mandatory: false
     }
 
     BddTest().when('the component is mounted', () => {
@@ -299,11 +296,9 @@ BddTest().given('a self knowledge category elements paginator card', () => {
   })
 
   BddTest().and('a deletable category', () => {
-    const obligationsCategory = {
-      id: 'deletable-category-id',
-      title: 'My obligations',
-      description: 'Some description.',
-      type: ESelfKnowledgeCategoryType.OBLIGATIONS
+    const obligationsCategory: SelfKnowledgeCategoryDTO = {
+      type: ESelfKnowledgeCategory.OBLIGATIONS,
+      mandatory: false
     }
 
     BddTest().when('the component is mounted', () => {
@@ -331,8 +326,8 @@ BddTest().given('a self knowledge category elements paginator card', () => {
             const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeCategoryModalStub)
             expect(deleteModal.exists()).toBe(true)
             expect(deleteModal.props('show')).toBe(true)
-            expect(deleteModal.props('categoryId')).toBe(obligationsCategory.id)
-            expect(deleteModal.props('categoryTitle')).toBe(obligationsCategory.title)
+            expect(deleteModal.props('categoryType')).toBe(obligationsCategory.type)
+            expect(deleteModal.props('categoryTitle')).toBe('Mes obligations')
             expect(deleteModal.props('elementsCount')).toBe(0)
           })
         })

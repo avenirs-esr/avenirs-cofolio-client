@@ -72,7 +72,7 @@ BddTest().given('an AddSelfKnowledgeElementButtonNode component', () => {
   BddTest().when('the component is mounted', () => {
     const props: ButtonNodeTemplateProps = {
       ...mandatoryNodeButtonTemplateProps,
-      data: { categoryId: mockedSelfKnowledgeCategories[0].id }
+      data: { categoryId: mockedSelfKnowledgeCategories[0].type }
     }
 
     beforeEach(async () => {
@@ -159,14 +159,14 @@ BddTest().given('an AddSelfKnowledgeElementButtonNode component', () => {
 
     BddTest().and('the user selects an existing element that is already added and confirms', () => {
       beforeEach(async () => {
-        mockNodes.value = ([...getCategoryElements(mockedSelfKnowledgeCategories[0].id)]).map(cat => ({
+        mockNodes.value = ([...getCategoryElements(mockedSelfKnowledgeCategories[0].type)]).map(cat => ({
           id: crypto.randomUUID(),
           type: SELF_KNOWLEDGE_NODE_TYPES.SELF_KNOWLEDGE_ELEMENT,
           position: { x: 0, y: 0 },
           data: {
             title: cat.title,
             description: cat.description,
-            categoryId: mockedSelfKnowledgeCategories[0].id
+            categoryId: mockedSelfKnowledgeCategories[0].type
           }
         }))
 
@@ -284,14 +284,14 @@ BddTest().given('an AddSelfKnowledgeElementButtonNode component', () => {
   BddTest().and('there are already some categories added in the nodes', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      mockNodes.value = ([...getCategoryElements(mockedSelfKnowledgeCategories[0].id)]).map(cat => ({
+      mockNodes.value = ([...getCategoryElements(mockedSelfKnowledgeCategories[0].type)]).map(cat => ({
         id: crypto.randomUUID(),
         type: SELF_KNOWLEDGE_NODE_TYPES.SELF_KNOWLEDGE_CATEGORY,
         position: { x: 0, y: 0 },
         data: {
           title: cat.title,
           description: cat.description,
-          categoryId: mockedSelfKnowledgeCategories[0].id
+          categoryId: mockedSelfKnowledgeCategories[0].type
         }
       }))
     })

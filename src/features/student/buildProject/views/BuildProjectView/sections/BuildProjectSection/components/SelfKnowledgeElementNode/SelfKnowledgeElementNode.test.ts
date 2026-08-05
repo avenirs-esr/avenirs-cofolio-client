@@ -44,9 +44,9 @@ BddTest().given('a SelfKnowledgeElementNode component', () => {
     const props: NodeTemplateProps = {
       ...mandatoryNodeProps,
       flowId: 'test-flow',
-      id: mockedSelfKnowledgeCategories[0].id,
+      id: mockedSelfKnowledgeCategories[0].type,
       data: {
-        categoryId: mockedSelfKnowledgeCategories[0].id,
+        categoryId: mockedSelfKnowledgeCategories[0].type,
         title: 'Maîtriser de nouvelles langues',
         description: 'Apprendre et pratiquer de nouvelles langues étrangères'
       }
@@ -74,7 +74,8 @@ BddTest().given('a SelfKnowledgeElementNode component', () => {
             title: props.data.title,
             description: props.data.description,
             rating: props.data.rating,
-            id: 'temp-id'
+            id: 'temp-id',
+            category: mockedSelfKnowledgeCategories[0]
           })
           server.use(handler)
           wrapper.findComponent(TitleDescriptionNodeTemplateStub).vm.$emit(('updateInProfile'))
@@ -137,9 +138,9 @@ BddTest().given('a SelfKnowledgeElementNode component', () => {
     const props: NodeTemplateProps = {
       ...mandatoryNodeProps,
       flowId: 'test-flow',
-      id: mockedSelfKnowledgeCategories[0].id,
+      id: mockedSelfKnowledgeCategories[0].type,
       data: {
-        categoryId: mockedSelfKnowledgeCategories[0].id,
+        categoryId: mockedSelfKnowledgeCategories[0].type,
         title: 'Maîtriser de nouvelles langues',
         description: 'Apprendre et pratiquer de nouvelles langues étrangères',
         rating: 4

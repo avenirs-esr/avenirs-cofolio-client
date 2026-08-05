@@ -1,4 +1,4 @@
-import { ESelfKnowledgeCategoryType, type SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategory, type SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { CategoryElementDescriptionTextareaFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.stub'
 import { CategoryElementRatingRadioButtonSetFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementRatingRadioButtonSetFormField/CategoryElementRatingRadioButtonSetFormField.stub'
@@ -46,10 +46,8 @@ BddTest().given('an add self knowledge category element drawer component', () =>
   let wrapper: ReturnType<typeof mountComponent<typeof AddSelfKnowledgeCategoryElementDrawer>>
 
   const mockCategory: SelfKnowledgeCategoryDTO = {
-    id: 'category-123',
-    title: 'Mes compétences',
-    description: 'Category description',
-    type: ESelfKnowledgeCategoryType.STRENGTHS
+    type: ESelfKnowledgeCategory.STRENGTHS,
+    mandatory: true
   }
 
   const stubs = {
@@ -263,10 +261,8 @@ BddTest().given('an add self knowledge category element drawer component', () =>
     BddTest().then('it should display correct category type in title', async () => {
       const store = useSelfKnowledgeStore()
       const interestCategory: SelfKnowledgeCategoryDTO = {
-        id: 'category-456',
-        title: 'Mes centres d\'intérêt',
-        description: 'Interest category',
-        type: ESelfKnowledgeCategoryType.INTERESTS
+        type: ESelfKnowledgeCategory.INTERESTS,
+        mandatory: false
       }
 
       store.openAddElementDrawer(interestCategory)

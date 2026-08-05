@@ -1,34 +1,34 @@
-import { ESelfKnowledgeCategoryType, useGetSelfKnowledgeCategories } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 import { type MaybeRef, toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-export function useSelfKnowledgeCategory (categoryId: MaybeRef<string>) {
-  const { data: fetchedCategories } = useGetSelfKnowledgeCategories()
+export function useSelfKnowledgeCategory (categoryType: MaybeRef<ESelfKnowledgeCategory>) {
   const { t } = useI18n()
 
-  const categories = computed(() => fetchedCategories.value ?? [])
-
-  const category = computed(() =>
-    categories.value.find(cat => cat.id === toValue(categoryId))
-  )
-
-  const categoryType = computed(
-    () => category.value?.type ?? ESelfKnowledgeCategoryType.STRENGTHS
-  )
+  const type = computed(() => toValue(categoryType))
 
   const categoryTypeLabel = computed(() =>
-    t(`student.selfKnowledge.categoryType.${categoryType.value}`, { count: 2 })
+    t(`student.selfKnowledge.categoryType.${type.value}`, { count: 2 })
+  )
+
+  const categoryTitle = computed(() =>
+    t(`student.selfKnowledge.categories.${type.value}.title`)
+  )
+
+  const categoryDescription = computed(() =>
+    t(`student.selfKnowledge.categories.${type.value}.description`)
   )
 
   const categoryIcon = computed(() =>
-    getSelfKnowledgeCategoryIcon(categoryType.value)
+    getSelfKnowledgeCategoryIcon(type.value)
   )
 
   return {
-    category,
-    categoryType,
+    categoryType: type,
     categoryTypeLabel,
+    categoryTitle,
+    categoryDescription,
     categoryIcon
   }
 }

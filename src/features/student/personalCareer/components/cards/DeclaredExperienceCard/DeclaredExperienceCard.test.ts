@@ -28,7 +28,11 @@ BddTest().given('a declared experience card', () => {
     organization: 'Tech Company',
     startDate: '2023-01',
     createdAt: '2023-01-01T00:00:00Z',
-    updatedAt: '2023-01-01T00:00:00Z'
+    updatedAt: '2023-01-01T00:00:00Z',
+    declaredExperienceAssociationCountDTO: {
+      traceAssociationsCount: 0,
+      declaredSkillAssociationsCount: 0
+    }
   }
 
   beforeEach(() => {

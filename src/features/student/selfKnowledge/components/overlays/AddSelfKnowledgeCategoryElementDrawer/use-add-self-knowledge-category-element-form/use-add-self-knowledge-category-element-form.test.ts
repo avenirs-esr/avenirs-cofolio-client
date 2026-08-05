@@ -1,6 +1,7 @@
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
 import { createSelfKnowledgeElementErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { useAddSelfKnowledgeCategoryElementForm } from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/use-add-self-knowledge-category-element-form/use-add-self-knowledge-category-element-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
@@ -9,7 +10,7 @@ import { beforeEach, expect, vi } from 'vitest'
 BddTest().given('the useAddSelfKnowledgeCategoryElementForm composable', () => {
   let composableResult: ReturnType<typeof useAddSelfKnowledgeCategoryElementForm>
   let mockOnElementCreated: ReturnType<typeof vi.fn>
-  const mockCategoryId = 'category-123'
+  const mockCategoryId = ESelfKnowledgeCategory.STRENGTHS
 
   const createValidFormData = (rating: number | null = 3): SelfKnowledgeCategoryElementFormData => ({
     title: 'My Strength',
@@ -153,7 +154,7 @@ BddTest().given('the useAddSelfKnowledgeCategoryElementForm composable', () => {
 
   BddTest().when('form is submitted with reactive category ID', () => {
     BddTest().then('it should use the current value of categoryId', async () => {
-      const reactiveCategoryId = ref('reactive-category-456')
+      const reactiveCategoryId = ref(ESelfKnowledgeCategory.VALUES)
 
       const result = mountComposable(() => useAddSelfKnowledgeCategoryElementForm(reactiveCategoryId, mockOnElementCreated), {
         useI18n: true,

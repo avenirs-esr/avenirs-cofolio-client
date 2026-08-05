@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { invalidateGetSelfKnowledgeElements, useDeleteSelfKnowledgeElements } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
@@ -6,9 +7,6 @@ import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-l
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import ConfirmDeleteSelfKnowledgeElementsModal from '@/features/student/selfKnowledge/components/modals/ConfirmDeleteSelfKnowledgeElementsModal/ConfirmDeleteSelfKnowledgeElementsModal.vue'
 import SelfKnowledgeElementsSelector from '@/features/student/selfKnowledge/components/pickers/SelfKnowledgeElementsSelector/SelfKnowledgeElementsSelector.vue'
-import {
-  useSelfKnowledgeCategory
-} from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import {
   useSelfKnowledgePaginatedElements
 } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
@@ -20,7 +18,7 @@ import { useI18n } from 'vue-i18n'
 
 export interface DeleteSelfKnowledgeElementsModalProps {
   show: boolean
-  categoryId: string
+  categoryType: ESelfKnowledgeCategory
   totalCount: number
 }
 
@@ -31,7 +29,7 @@ const emit = defineEmits<{
   (e: 'confirm'): void
 }>()
 
-const { totalCount, categoryId } = toRefs(props)
+const { totalCount, categoryType } = toRefs(props)
 
 const { t } = useI18n()
 const {
@@ -44,15 +42,13 @@ const { isLoading, withTaskLoading } = useTaskLoading()
 const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
-const { categoryType } = useSelfKnowledgeCategory(categoryId)
-
 const {
   elements,
   isFetching,
   hasMoreElements,
   loadMoreElements,
 } = useSelfKnowledgePaginatedElements({
-  selfKnowledgeCategoryId: computed(() => categoryId.value),
+  selfKnowledgeCategory: computed(() => categoryType.value),
   pageSize: totalCount
 })
 
@@ -72,7 +68,7 @@ const { mutate: mutateDeleteSelfKnowledgeElements, isPending } = useDeleteSelfKn
 function deleteSelfKnowledgeElements () {
   mutateDeleteSelfKnowledgeElements({ data: selectedElementIds.value }, {
     onSuccess: async (_data, variables) => {
-      await withTaskLoading(() => invalidateGetSelfKnowledgeElements(queryClient, categoryId))
+      await withTaskLoading(() => invalidateGetSelfKnowledgeElements(queryClient))
       onDeleteSuccess(variables.data.length)
     },
     onError: error => addErrorMessage({

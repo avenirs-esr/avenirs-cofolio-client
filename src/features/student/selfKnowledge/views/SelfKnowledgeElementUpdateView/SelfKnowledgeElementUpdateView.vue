@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useNavigation } from '@/common/composables'
@@ -28,17 +29,19 @@ const {
   navigateToStudentSelfKnowledgeCategory
 } = useNavigation()
 
+const categoryId = computed(() => props.categoryId as ESelfKnowledgeCategory)
+
 const {
   categoryType,
   categoryTypeLabel
-} = useSelfKnowledgeCategory(computed(() => props.categoryId))
+} = useSelfKnowledgeCategory(categoryId)
 
 const {
   elements,
   pageInfo,
   loadMoreElements
 } = useSelfKnowledgePaginatedElements({
-  selfKnowledgeCategoryId: computed(() => props.categoryId),
+  selfKnowledgeCategory: categoryId,
 })
 
 const breadcrumbLinks = computed(() => [

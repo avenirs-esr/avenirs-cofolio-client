@@ -1,4 +1,4 @@
-import { ESelfKnowledgeCategoryType } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import SelfKnowledgeElementsDropdown, { type SelfKnowledgeElementsDropdownProps } from '@/features/student/selfKnowledge/components/dropdowns/SelfKnowledgeElementsDropdown/SelfKnowledgeElementsDropdown.vue'
 import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -15,15 +15,15 @@ BddTest().given('a self knowledge elements dropdown', () => {
     return mount(SelfKnowledgeElementsDropdown, { props, global: { stubs } })
   }
 
-  function isCategoryDeletable (categoryType: ESelfKnowledgeCategoryType) {
+  function isCategoryDeletable (categoryType: ESelfKnowledgeCategory) {
     return (![
-      ESelfKnowledgeCategoryType.VALUES,
-      ESelfKnowledgeCategoryType.STRENGTHS,
-      ESelfKnowledgeCategoryType.ASPIRATIONS
+      ESelfKnowledgeCategory.VALUES,
+      ESelfKnowledgeCategory.STRENGTHS,
+      ESelfKnowledgeCategory.ASPIRATIONS
     ].includes(categoryType))
   }
 
-  for (const category of Object.values(ESelfKnowledgeCategoryType)) {
+  for (const category of Object.values(ESelfKnowledgeCategory)) {
     BddTest().and(`the category type is ${category}`, () => {
       BddTest().when('the component is mounted', () => {
         beforeEach(() => {

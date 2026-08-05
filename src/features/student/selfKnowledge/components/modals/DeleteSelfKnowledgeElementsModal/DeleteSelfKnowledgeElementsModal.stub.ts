@@ -2,7 +2,7 @@ export const DeleteSelfKnowledgeElementsModalStub = defineComponent({
   name: 'DeleteSelfKnowledgeElementsModal',
   props: {
     show: Boolean,
-    categoryId: String,
+    categoryType: String,
     totalCount: Number
   },
   emits: ['cancel', 'confirm'],
