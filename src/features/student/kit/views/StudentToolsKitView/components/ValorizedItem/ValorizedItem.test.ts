@@ -1,8 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { selfKnowledgeCategoriesErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
-import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
+import { type ValorizedElementType, ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import ValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.vue'
 import { AvButtonStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -21,7 +22,7 @@ BddTest().given('a ValorizedItem component', () => {
     AvTooltip: AvTooltipStub,
   }
 
-  function mountValorizedItem (type: ValorizedItemType, parentId?: string) {
+  function mountValorizedItem (type: ValorizedElementType, parentId?: string) {
     wrapper = mountComponent(ValorizedItem, {
       props: {
         title: TITLE,
@@ -142,7 +143,7 @@ BddTest().given('a ValorizedItem component', () => {
 
   BddTest().when('mounted with a self-knowledge type and categories are loaded', () => {
     beforeEach(async () => {
-      mountValorizedItem(ValorizedItemType.SELF_KNOWLEDGE_STRENGTH, PARENT_ID)
+      mountValorizedItem(ESelfKnowledgeCategory.STRENGTHS, PARENT_ID)
       await flushPromises()
     })
 
@@ -160,7 +161,7 @@ BddTest().given('a ValorizedItem component', () => {
   BddTest().when('mounted with a self-knowledge type and categories fail to load', () => {
     beforeEach(async () => {
       server.use(selfKnowledgeCategoriesErrorHandler)
-      mountValorizedItem(ValorizedItemType.SELF_KNOWLEDGE_STRENGTH, PARENT_ID)
+      mountValorizedItem(ESelfKnowledgeCategory.STRENGTHS, PARENT_ID)
       await flushPromises()
     })
 

@@ -31,6 +31,7 @@ const iconOptions = computed(() => ({
   >
     <template #body>
       <ValorizedBadge
+        v-if="valorized"
         :valorized="valorized"
       />
     </template>
