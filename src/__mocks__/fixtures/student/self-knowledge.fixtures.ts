@@ -63,6 +63,30 @@ const aspirationsElements = [
   { title: 'Partager mes connaissances', description: 'Transmettre mon savoir et former d\'autres personnes' }
 ]
 
+const interestsElements: SelfKnowledgeElementViewDTO[] = [
+  {
+    id: crypto.randomUUID(),
+    title: 'Sport',
+    description: 'Pratiquer des activités physiques et maintenir une bonne condition physique',
+    rating: 4,
+    category: { type: ESelfKnowledgeCategory.INTERESTS, mandatory: false }
+  },
+  {
+    id: crypto.randomUUID(),
+    title: 'Cinéma',
+    description: 'Regarder, analyser et apprécier des films',
+    rating: 5,
+    category: { type: ESelfKnowledgeCategory.INTERESTS, mandatory: false }
+  },
+  {
+    id: crypto.randomUUID(),
+    title: 'Voyages et découvertes culturelles',
+    description: 'Découvrir de nouvelles cultures et élargir mes horizons',
+    rating: 4,
+    category: { type: ESelfKnowledgeCategory.INTERESTS, mandatory: false }
+  }
+]
+
 export function getCategoryElements (categoryType: ESelfKnowledgeCategory): Array<{ title: string, description: string }> {
   switch (categoryType) {
     case ESelfKnowledgeCategory.STRENGTHS:
@@ -71,6 +95,8 @@ export function getCategoryElements (categoryType: ESelfKnowledgeCategory): Arra
       return valuesElements
     case ESelfKnowledgeCategory.ASPIRATIONS:
       return aspirationsElements
+    case ESelfKnowledgeCategory.INTERESTS:
+      return interestsElements
     default:
       return []
   }

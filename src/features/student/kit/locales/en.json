@@ -52,6 +52,13 @@
           },
           "valorizedNonAssociatedTracesContainer": {
             "title": "My non-associated trace (1) | My non-associated traces ({count})"
+          },
+          "valorizedSelfKnowledgeContainer": {
+            "INTERESTS": {
+              "emptyStateItemLabel": "an interest",
+              "seeAll": "See all my interests",
+              "title": "My interest (1) | My interests ({count})"
+            }
           }
         }
       }

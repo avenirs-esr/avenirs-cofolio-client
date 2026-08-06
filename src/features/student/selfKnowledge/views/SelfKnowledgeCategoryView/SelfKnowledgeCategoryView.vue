@@ -43,7 +43,6 @@ const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.project.items.selfKnowledge') }
 ])
 
-const selectedElementId: Ref<string> = useRouteQuery('elementId', '')
 const queryClient = useQueryClient()
 
 const {
@@ -54,7 +53,12 @@ const {
   selfKnowledgeCategory: categoryId
 })
 
-const { data: selectedElementDetails, error } = useGetSelfKnowledgeElementDetails(selectedElementId)
+const selectedElementId: Ref<string> = useRouteQuery('elementId', computed(() => elements.value?.[0]?.id))
+
+const { data: selectedElementDetails, error } = useGetSelfKnowledgeElementDetails(selectedElementId, {
+  query: { enabled: computed(() => !!selectedElementId.value) }
+})
+
 const { isLoading, withTaskLoading } = useTaskLoading()
 const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 
@@ -108,7 +112,7 @@ function onUpdateSelected () {
     </template>
 
     <div
-      v-if="selectedElementDetails"
+      v-if="elements.length > 0"
       class="self-knowledge-category-elements-view av-row av-gap-sm"
     >
       <div class="av-col">
@@ -121,7 +125,7 @@ function onUpdateSelected () {
           @load-more-elements="loadMoreElements"
         />
       </div>
-      <SelfKnowledgeElementDetailsContainer>
+      <SelfKnowledgeElementDetailsContainer v-if="selectedElementDetails">
         <template #title>
           <SelfKnowledgeElementDetailsDropdown
             @update-selected="onUpdateSelected"

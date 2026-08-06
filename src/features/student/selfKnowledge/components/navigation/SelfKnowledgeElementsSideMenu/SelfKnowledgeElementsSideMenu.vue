@@ -71,7 +71,7 @@ const iconName = computed(() => getSelfKnowledgeCategoryIcon(categoryType))
           >
             <SelfKnowledgeElementCompactCard
               :title="element.title"
-              :valorized="false"
+              :valorized="element.valorized ?? false"
               :icon-name="iconName"
             />
           </a>

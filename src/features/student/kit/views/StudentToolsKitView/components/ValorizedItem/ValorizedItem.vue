@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
-import { useGetSelfKnowledgeCategories } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategory, useGetSelfKnowledgeCategories } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
-import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
+import { type ValorizedElementType, ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import { AvButton, AvTooltip, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -10,7 +10,7 @@ export interface ValorizedItemProps {
   title: string
   itemId: string
   parentId?: string
-  type: ValorizedItemType
+  type: ValorizedElementType
 }
 
 const { itemId, parentId = '', type } = defineProps<ValorizedItemProps>()
@@ -21,7 +21,7 @@ defineSlots<{
 
 const { t } = useI18n()
 
-const isSelfKnowledgeItem = computed(() => type.startsWith('SELF_KNOWLEDGE_'))
+const isSelfKnowledgeItem = computed(() => Object.values(ESelfKnowledgeCategory).includes(type as ESelfKnowledgeCategory))
 
 const { data: selfKnowledgeCategories } = useGetSelfKnowledgeCategories({
   query: { enabled: isSelfKnowledgeItem }

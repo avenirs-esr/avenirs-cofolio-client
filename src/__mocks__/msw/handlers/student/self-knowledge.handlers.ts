@@ -14,6 +14,7 @@ import {
   getGetSelfKnowledgeElementDetailsUrl,
   getGetSelfKnowledgeElementsUrl,
   getRemoveSelfKnowledgeCategoryUrl,
+  type GetSelfKnowledgeElementsParams,
   getUpdateSelfKnowledgeElementUrl,
   type PagedResponseSelfKnowledgeElementViewDTO,
   type SelfKnowledgeCategoryDTO,
@@ -27,18 +28,6 @@ import { http, HttpResponse } from 'msw'
 const CATEGORY_URL_PARAM = ':selfKnowledgeCategory' as ESelfKnowledgeCategory
 
 export const selfKnowledgeCategoriesErrorHandler = http.get(`*${getGetSelfKnowledgeCategoriesUrl()}`, () => {
-  return HttpResponse.json(
-    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
-    {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-  )
-})
-
-export const selfKnowledgeElementDetailsErrorHandler = http.get(`*${getGetSelfKnowledgeElementDetailsUrl(':selfKnowledgeElementId')}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     {
@@ -69,17 +58,33 @@ export const selfKnowledgeCategoryElementsErrorHandler = http.get(`*${getGetSelf
   )
 })
 
-export const selfKnowledgeCategoriesAvailableErrorHandler = http.get(`*${getGetSelfKnowledgeCategoriesAvailableUrl()}`, () => {
-  return HttpResponse.json(
-    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
-    {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json'
-      }
+export function createSelfKnowledgeElementsHandler (
+  customPayload?: PagedResponseSelfKnowledgeElementViewDTO,
+  onRequest?: (params: GetSelfKnowledgeElementsParams) => void
+) {
+  return http.get(`*${getGetSelfKnowledgeElementsUrl()}`, ({ request }) => {
+    const url = new URL(request.url)
+    const categoryType = (url.searchParams.get('selfKnowledgeCategories')?.split(',')[0] ?? ESelfKnowledgeCategory.STRENGTHS) as ESelfKnowledgeCategory
+    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '3')
+
+    if (onRequest) {
+      onRequest({
+        selfKnowledgeCategories: url.searchParams.get('selfKnowledgeCategories')?.split(',') as ESelfKnowledgeCategory[] | undefined,
+        page: url.searchParams.has('page') ? Number(url.searchParams.get('page')) : undefined,
+        pageSize: url.searchParams.has('pageSize') ? Number(url.searchParams.get('pageSize')) : undefined,
+        isValorized: url.searchParams.has('isValorized') ? url.searchParams.get('isValorized') === 'true' : undefined
+      })
     }
-  )
-})
+
+    const payload = customPayload ?? createMockedPagedResponseSelfKnowledgeElementViewDTO(categoryType, pageSize, 10, page)
+
+    return HttpResponse.json<PagedResponseSelfKnowledgeElementViewDTO>(payload, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  })
+}
 
 export const createSelfKnowledgeElementErrorHandler = http.post(`*${getCreateSelfKnowledgeElementUrl(CATEGORY_URL_PARAM)}`, () => {
   return HttpResponse.json(
@@ -166,22 +171,7 @@ export const selfKnowledgeHandlers = [
     })
   }),
 
-  http.get(`*${getGetSelfKnowledgeElementsUrl()}`, ({ request }) => {
-    const url = new URL(request.url)
-    const categoryType = (url.searchParams.get('selfKnowledgeCategories')?.split(',')[0] ?? ESelfKnowledgeCategory.STRENGTHS) as ESelfKnowledgeCategory
-    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
-    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '3')
-    const totalElements = 10
-
-    const mockData = createMockedPagedResponseSelfKnowledgeElementViewDTO(categoryType, pageSize, totalElements, page)
-
-    return HttpResponse.json<PagedResponseSelfKnowledgeElementViewDTO>(mockData, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-  }),
+  createSelfKnowledgeElementsHandler(),
 
   http.get(`*${getGetSelfKnowledgeCategoriesAvailableUrl()}`, () => {
     return HttpResponse.json<SelfKnowledgeCategoryDTO[]>(mockedSelfKnowledgeCategoriesAvailable, {

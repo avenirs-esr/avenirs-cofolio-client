@@ -52,6 +52,13 @@
           },
           "valorizedNonAssociatedTracesContainer": {
             "title": "Ma trace non associée (1) | Mes traces non associées ({count})"
+          },
+          "valorizedSelfKnowledgeContainer": {
+            "INTERESTS": {
+              "emptyStateItemLabel": "un centre d'intérêt",
+              "seeAll": "Voir tous mes centres d'intérêt",
+              "title": "Centre d'intérêt (1) | Centres d'intérêt ({count})"
+            }
           }
         }
       }
