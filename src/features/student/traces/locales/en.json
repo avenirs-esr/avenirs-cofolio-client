@@ -95,6 +95,7 @@
           "subdescription": "Any deletion action is definitive. It results in the loss of the data entered for this trace, as well as the deletion of the association links it contains."
         }
       },
+      "trace": "trace | traces",
       "views": {
         "StudentToolsTracesView": {
           "breadcrumb": {

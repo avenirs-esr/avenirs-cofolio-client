@@ -1,9 +1,9 @@
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { EExperienceType } from '@/api/avenir-esr'
-import { ROUTES } from '@/common/constants'
+import { ICONS, ROUTES } from '@/common/constants'
 import ValorizedDeclaredExperienceItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperienceItem/ValorizedDeclaredExperienceItem.vue'
-import { AvBadgeStub, AvButtonStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvBadgeStub, AvButtonStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 
@@ -18,15 +18,16 @@ const BASE_DECLARED_EXPERIENCE: DeclaredExperienceViewDTO = {
   createdAt: '2024-01-15T10:30:00Z',
   updatedAt: '2024-01-15T10:30:00Z',
   declaredExperienceAssociationCountDTO: {
-    traceAssociationsCount: 0,
-    declaredSkillAssociationsCount: 0
+    traceAssociationsCount: 3,
+    declaredSkillAssociationsCount: 1
   }
 }
 
 const stubs = {
   AvButton: AvButtonStub,
   AvTooltip: AvTooltipStub,
-  AvBadge: AvBadgeStub
+  AvBadge: AvBadgeStub,
+  AvIconText: AvIconTextStub
 }
 
 function mountValorizedDeclaredExperienceItem (declaredExperience: DeclaredExperienceViewDTO) {
@@ -58,14 +59,15 @@ BddTest().given('a valorized declared experience item', () => {
       })
     })
 
-    BddTest().then('it should render the period badge', () => {
+    BddTest().then('it should render the organization badge with the period appended', () => {
       const labels = wrapper.findAllComponents(AvBadgeStub).map(badge => badge.props('label'))
-      expect(labels).toContain('01/2023 - 06/2023')
+      expect(labels).toContain(`${BASE_DECLARED_EXPERIENCE.organization} • 01/2023 - 06/2023`)
     })
 
-    BddTest().then('it should render the organization badge', () => {
-      const labels = wrapper.findAllComponents(AvBadgeStub).map(badge => badge.props('label'))
-      expect(labels).toContain(BASE_DECLARED_EXPERIENCE.organization)
+    BddTest().then('it should render the skill and trace association counts', () => {
+      const iconTexts = wrapper.findAllComponents(AvIconTextStub)
+      expect(iconTexts.map(iconText => iconText.props('text'))).toEqual(['1 compétence', '3 traces'])
+      expect(iconTexts.map(iconText => iconText.props('icon'))).toEqual([ICONS.SKILLS, ICONS.TRACES])
     })
 
     BddTest().then('it should render the experience type badge', () => {
@@ -107,6 +109,42 @@ BddTest().given('a valorized declared experience item', () => {
     })
   })
 
+  BddTest().when('the experience has no associated skill', () => {
+    beforeEach(async () => {
+      wrapper = mountValorizedDeclaredExperienceItem({
+        ...BASE_DECLARED_EXPERIENCE,
+        declaredExperienceAssociationCountDTO: {
+          traceAssociationsCount: 3,
+          declaredSkillAssociationsCount: 0
+        }
+      })
+      await flushPromises()
+    })
+
+    BddTest().then('it should only render the trace association count', () => {
+      const iconTexts = wrapper.findAllComponents(AvIconTextStub)
+      expect(iconTexts.map(iconText => iconText.props('text'))).toEqual(['3 traces'])
+    })
+  })
+
+  BddTest().when('the experience has no associated trace', () => {
+    beforeEach(async () => {
+      wrapper = mountValorizedDeclaredExperienceItem({
+        ...BASE_DECLARED_EXPERIENCE,
+        declaredExperienceAssociationCountDTO: {
+          traceAssociationsCount: 0,
+          declaredSkillAssociationsCount: 1
+        }
+      })
+      await flushPromises()
+    })
+
+    BddTest().then('it should only render the skill association count', () => {
+      const iconTexts = wrapper.findAllComponents(AvIconTextStub)
+      expect(iconTexts.map(iconText => iconText.props('text'))).toEqual(['1 compétence'])
+    })
+  })
+
   BddTest().when('the experience has no end date', () => {
     beforeEach(async () => {
       wrapper = mountValorizedDeclaredExperienceItem({
@@ -116,9 +154,9 @@ BddTest().given('a valorized declared experience item', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should render the period badge as ongoing', () => {
+    BddTest().then('it should render the organization badge with an ongoing period', () => {
       const labels = wrapper.findAllComponents(AvBadgeStub).map(badge => badge.props('label'))
-      expect(labels).toContain('01/2023 - En cours')
+      expect(labels).toContain(`${BASE_DECLARED_EXPERIENCE.organization} • 01/2023 - En cours`)
     })
   })
 })

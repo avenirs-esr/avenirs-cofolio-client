@@ -30,9 +30,15 @@
             "title": "Ma trace associée (1) | Mes traces associées ({count})"
           },
           "valorizedDeclaredExperiencesContainer": {
-            "emptyStateItemLabel": "une expérience",
-            "seeAll": "Voir toutes mes autres expériences",
-            "title": "Autre expérience (1) | Autres expériences ({count})"
+            "PERSONAL": {
+              "seeAll": "Voir toutes mes autres expériences",
+              "title": "Autre expérience (1) | Autres expériences ({count})"
+            },
+            "PROFESSIONAL": {
+              "seeAll": "Voir toutes mes expériences professionnelles",
+              "title": "Mon expérience professionnelle (1) | Mes expériences professionnelles ({count})"
+            },
+            "emptyStateItemLabel": "une expérience"
           },
           "valorizedDeclaredProgramsContainer": {
             "emptyStateItemLabel": "une formation",

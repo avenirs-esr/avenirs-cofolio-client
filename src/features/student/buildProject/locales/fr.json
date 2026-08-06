@@ -8,6 +8,7 @@
           },
           "noActivitiesFound": "Cette thématique ne contient pas encore d'activité"
         },
+        "activity": "activité | activités",
         "badges": {
           "activityNewBadge": {
             "label": "Nouveau"
