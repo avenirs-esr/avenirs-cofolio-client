@@ -95,6 +95,7 @@
           "subdescription": "Toute action de suppression est définitive. Elle entraine la perte des données renseignées pour cette trace ainsi que la suppression des liens d'association qu'elle comporte."
         }
       },
+      "trace": "trace | traces",
       "views": {
         "StudentToolsTracesView": {
           "breadcrumb": {
