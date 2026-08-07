@@ -35,8 +35,8 @@ BddTest().given('a student trace card', () => {
       expect(wrapper.text()).toContain('Prévenir la pollution à la source')
     })
 
-    BddTest().then('it should render the program name', () => {
-      expect(wrapper.text()).toContain('Master Chimie Verte et Éco-innovations')
+    BddTest().then('it should render the life project category as fallback', () => {
+      expect(wrapper.text()).toContain('Projet de vie')
     })
 
     BddTest().then('it should render the AvTag with label "Individuel"', () => {

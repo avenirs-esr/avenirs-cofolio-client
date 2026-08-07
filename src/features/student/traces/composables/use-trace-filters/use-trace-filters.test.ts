@@ -1,5 +1,5 @@
 import type { DateFilter, SearchFilter } from '@/types'
-import { type TraceFilter, TraceFilterFileTypesItem, TraceFilterStatusesItem } from '@/api/avenir-esr'
+import { type TraceFilter, TraceFilterFileTypesItem } from '@/api/avenir-esr'
 import { useTraceFilters } from '@/features/student/traces/composables/use-trace-filters/use-trace-filters'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
@@ -27,7 +27,6 @@ BddTest().given('a useTraceFilters composable', () => {
       isAssociated: true,
       fileTypes: [TraceFilterFileTypesItem.PDF],
       skillIds: ['skill-1', 'skill-2'],
-      statuses: [TraceFilterStatusesItem.ASSOCIATED_EVALUATED],
       fromDate: '2025-10-09',
       toDate: '2025-10-10',
       keyword: 'example'
@@ -44,7 +43,6 @@ BddTest().given('a useTraceFilters composable', () => {
         isAssociated: true,
         fileTypes: [TraceFilterFileTypesItem.PDF],
         skillIds: ['skill-1', 'skill-2'],
-        statuses: [TraceFilterStatusesItem.ASSOCIATED_EVALUATED],
       })
 
       expect(useTraceFiltersResult.tracesViewQueryParams.params.value).toEqual({

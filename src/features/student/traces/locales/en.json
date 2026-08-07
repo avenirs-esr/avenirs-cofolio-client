@@ -247,19 +247,7 @@
                 "unassociated": "Search an unassociated trace"
               },
               "selected": "{count} selected",
-              "skills": "Skill",
-              "statuses": "Status",
-              "statusesOptions": {
-                "associatedEvaluated": "Associated with an evaluated skill level",
-                "associatedInEvaluation": "Associated with a skill level submitted for evaluation",
-                "associatedNotEvaluated": "Associated with a non-evaluated skill level",
-                "associatedWithDeclaredSkill": "Associated with an additional skill level"
-              },
               "toDate": "End date"
-            },
-            "placeholders": {
-              "skills": "Sort by associated skill",
-              "statuses": "Sort by trace status"
             }
           },
           "TracesInformation": {

@@ -501,7 +501,6 @@ export function createMockedTraceAssociations (
       trace: {
         id: idsToAssociate?.[i - 1] ?? `trace-${i}`,
         title: `Trace #${i} associée à l\'activité`,
-        programName: `Programme de la trace #${i} associée`,
         authorType: i % 2 === 0 ? ETraceAuthorType.COLLECTIVE : ETraceAuthorType.PERSONAL,
         createdAt: '2024-01-01T00:00:00Z',
         updatedAt: '2024-01-01T00:00:00Z'

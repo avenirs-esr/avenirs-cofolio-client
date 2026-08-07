@@ -1,8 +1,5 @@
 import type { AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
-import { createMockedAllSkillListItemDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
-import { createAllSkillsHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
-import { server } from '@/__mocks__/msw/server'
-import { TraceFilterFileTypesItem, TraceFilterStatusesItem } from '@/api/avenir-esr'
+import { TraceFilterFileTypesItem } from '@/api/avenir-esr'
 import { FileTypeMultiselectStub } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.stub'
 import { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 import TraceFilterContainer from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.vue'
@@ -43,8 +40,6 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
 
 interface TraceFilterContainerRefs {
   typesSelected: TraceFilterFileTypesItem[]
-  statusesSelected: AvMultiselectOption[]
-  skillsSelected: AvMultiselectOption[]
   fromDateSelected: string
   toDateSelected: string
   keyword: string
@@ -79,60 +74,14 @@ BddTest().given('a trace filter container', () => {
         />
       `
     },
-    AvMultiselect: {
-      name: 'AvMultiselect',
-      props: {
-        modelValue: Array,
-        options: Array,
-        label: String,
-        placeholder: String,
-        selectedText: String,
-        dense: Boolean
-      },
-      emits: ['update:modelValue'],
-      template: `
-        <div :class="{ 'av-multiselect--dense': dense }">
-          <label>{{ label }}</label>
-          <select
-            multiple
-            :value="modelValue.map(o => o.value)"
-            @change="$emit(
-              'update:modelValue',
-              Array.from($event.target.selectedOptions).map(o => ({
-                label: o.text,
-                value: o.value
-              }))
-            )"
-          >
-            <option
-              v-for="option in options"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-          <p class="av-multiselect__caption">
-            {{ modelValue.length
-              ? (selectedText || modelValue.length + ' sélection(s)')
-              : placeholder
-            }}
-          </p>
-        </div>
-      `
-    },
     AvButton: AvButtonStub,
     FileTypeMultiselect: FileTypeMultiselectStub,
   }
-
-  const mockedAllSkills = createMockedAllSkillListItemDTO()
 
   BddTest().and('isAssociated is true', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
       setActivePinia(createPinia())
-      const handler = createAllSkillsHandler(mockedAllSkills)
-      server.use(handler)
       wrapper = mountComponent(TraceFilterContainer, {
         props: { isAssociated: true },
         global: { stubs },
@@ -151,18 +100,9 @@ BddTest().given('a trace filter container', () => {
         expect(avInput.props('label')).toBe('Rechercher une trace associée')
       })
 
-      BddTest().then('it should render the skills multiselect', () => {
+      BddTest().then('it should not render the skills multiselect', () => {
         const skillsMultiselect = wrapper.find('.skills-multiselect')
-        expect(skillsMultiselect.exists()).toBe(true)
-        const avMultiselect = skillsMultiselect.getComponent({ name: 'AvMultiselect' })
-        expect(avMultiselect.props('label')).toBe('Compétence')
-      })
-
-      BddTest().then('it should render the skills multiselect options', () => {
-        const skillsMultiselect = wrapper.find('.skills-multiselect')
-        const avMultiselect = skillsMultiselect.getComponent({ name: 'AvMultiselect' })
-        const select = avMultiselect.find('select')
-        expect(select.findAll('option').length).toBe(mockedAllSkills.length)
+        expect(skillsMultiselect.exists()).toBe(false)
       })
 
       BddTest().then('it should render the start date input', () => {
@@ -184,18 +124,9 @@ BddTest().given('a trace filter container', () => {
         expect(typesMultiselect.exists()).toBe(true)
       })
 
-      BddTest().then('it should render the statuses multiselect', () => {
+      BddTest().then('it should not render the statuses multiselect', () => {
         const statusesMultiselect = wrapper.find('.statuses-multiselect')
-        expect(statusesMultiselect.exists()).toBe(true)
-        const avMultiselect = statusesMultiselect.getComponent({ name: 'AvMultiselect' })
-        expect(avMultiselect.props('label')).toBe('Statut')
-      })
-
-      BddTest().then('it should render the types statuses options', () => {
-        const statusesMultiselect = wrapper.find('.statuses-multiselect')
-        const avMultiselect = statusesMultiselect.getComponent({ name: 'AvMultiselect' })
-        const select = avMultiselect.find('select')
-        expect(select.findAll('option').length).toBe(4)
+        expect(statusesMultiselect.exists()).toBe(false)
       })
 
       BddTest().then('it should render the reset filter button', () => {
@@ -223,43 +154,9 @@ BddTest().given('a trace filter container', () => {
       BddTest().then('the trace filter container should emit update:filters', () => {
         expect(wrapper.emitted('update:filters')?.[0][0]).toEqual({
           fileTypes: [],
-          statuses: [],
-          skillIds: [],
           fromDate: '',
           toDate: '',
           keyword: 'example'
-        })
-      })
-    })
-
-    BddTest().when('some skills are selected in the skills select', async () => {
-      let avMultiselect: Omit<VueWrapper, 'exists'>
-
-      beforeEach(async () => {
-        const skillsMultiselect = wrapper.find('.skills-multiselect')
-        avMultiselect = skillsMultiselect.getComponent({ name: 'AvMultiselect' })
-
-        const select = avMultiselect.find('select')
-        await select.setValue([mockedAllSkills[0].skillId, mockedAllSkills[1].skillId])
-      })
-
-      BddTest().then('it should emit update:modelValue', async () => {
-        expect(avMultiselect.emitted('update:modelValue')).toBeDefined()
-        const emittedValues = avMultiselect.emitted('update:modelValue')![0][0] as Array<[AvMultiselectOption[]]>
-        expect(emittedValues).toEqual([
-          { value: mockedAllSkills[0].skillId, label: mockedAllSkills[0].title },
-          { value: mockedAllSkills[1].skillId, label: mockedAllSkills[1].title },
-        ])
-      })
-
-      BddTest().then('the trace filter container should emit update:filters', () => {
-        expect(wrapper.emitted('update:filters')?.[0][0]).toEqual({
-          fileTypes: [],
-          statuses: [],
-          skillIds: [mockedAllSkills[0].skillId, mockedAllSkills[1].skillId],
-          fromDate: '',
-          toDate: '',
-          keyword: ''
         })
       })
     })
@@ -286,8 +183,6 @@ BddTest().given('a trace filter container', () => {
       BddTest().then('the trace filter container should emit update:filters', () => {
         expect(wrapper.emitted('update:filters')?.[0][0]).toEqual({
           fileTypes: [],
-          statuses: [],
-          skillIds: [],
           fromDate: '2025-10-10',
           toDate: '',
           keyword: ''
@@ -317,8 +212,6 @@ BddTest().given('a trace filter container', () => {
       BddTest().then('the trace filter container should emit update:filters', () => {
         expect(wrapper.emitted('update:filters')?.[0][0]).toEqual({
           fileTypes: [],
-          statuses: [],
-          skillIds: [],
           fromDate: '',
           toDate: '2026-10-10',
           keyword: ''
@@ -345,49 +238,6 @@ BddTest().given('a trace filter container', () => {
       BddTest().then('the trace filter container should emit update:filters', () => {
         expect(wrapper.emitted('update:filters')?.[0][0]).toEqual({
           fileTypes: [TraceFilterFileTypesItem.PDF],
-          statuses: [],
-          skillIds: [],
-          fromDate: '',
-          toDate: '',
-          keyword: ''
-        })
-      })
-    })
-
-    BddTest().when('some statuses are selected in the statuses select', async () => {
-      let avMultiselect: Omit<VueWrapper, 'exists'>
-
-      beforeEach(async () => {
-        const statusesMultiselect = wrapper.find('.statuses-multiselect')
-        avMultiselect = statusesMultiselect.getComponent({ name: 'AvMultiselect' })
-
-        const select = avMultiselect.find('select')
-        await select.setValue([
-          TraceFilterStatusesItem.ASSOCIATED_EVALUATED,
-          TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION
-        ])
-      })
-
-      BddTest().then('it should emit update:modelValue', async () => {
-        expect(avMultiselect.emitted('update:modelValue')).toBeDefined()
-        const emittedValues = avMultiselect.emitted('update:modelValue')![0][0] as Array<[AvMultiselectOption[]]>
-        expect(emittedValues).toEqual([
-          {
-            value: TraceFilterStatusesItem.ASSOCIATED_EVALUATED,
-            label: 'Associée à un niveau de compétence évalué'
-          },
-          {
-            value: TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION,
-            label: 'Associée à un niveau de compétence soumis pour évaluation'
-          },
-        ])
-      })
-
-      BddTest().then('the trace filter container should emit update:filters', () => {
-        expect(wrapper.emitted('update:filters')?.[0][0]).toEqual({
-          fileTypes: [],
-          statuses: [TraceFilterStatusesItem.ASSOCIATED_EVALUATED, TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION],
-          skillIds: [],
           fromDate: '',
           toDate: '',
           keyword: ''
@@ -405,11 +255,6 @@ BddTest().given('a trace filter container', () => {
         const searchAvInput = searchInput.getComponent({ name: 'AvInput' })
         await searchAvInput.find('input').setValue('example')
 
-        const skillsMultiselect = wrapper.find('.skills-multiselect')
-        const skillsAvMultiselect = skillsMultiselect.getComponent({ name: 'AvMultiselect' })
-        const skillsSelect = skillsAvMultiselect.find('select')
-        await skillsSelect.setValue([mockedAllSkills[0].skillId, mockedAllSkills[1].skillId])
-
         const startDateInput = wrapper.find('.start-date-input')
         const startDateAvInput = startDateInput.getComponent({ name: 'AvInput' })
         await startDateAvInput.find('input').setValue('2025-10-10')
@@ -420,30 +265,14 @@ BddTest().given('a trace filter container', () => {
 
         const typesSelect = wrapper.findComponent(FileTypeMultiselectStub).find('select')
         await typesSelect.setValue([FileGlobalType.PDF])
-
-        const statusesMultiselect = wrapper.find('.statuses-multiselect')
-        const statusesAvMultiselect = statusesMultiselect.getComponent({ name: 'AvMultiselect' })
-        const statusesSelect = statusesAvMultiselect.find('select')
-        await statusesSelect.setValue([
-          TraceFilterStatusesItem.ASSOCIATED_EVALUATED,
-          TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION
-        ])
       })
 
       BddTest().then('the values should be set in the component refs', () => {
         expect(vm.keyword).toBe('example')
-        expect(vm.skillsSelected.map(skill => skill.value)).toEqual([
-          mockedAllSkills[0].skillId,
-          mockedAllSkills[1].skillId
-        ])
         expect(vm.fromDateSelected).toBe('2025-10-10')
         expect(vm.toDateSelected).toBe('2026-10-10')
         expect(vm.typesSelected).toEqual([
           FileGlobalType.PDF
-        ])
-        expect(vm.statusesSelected.map(status => status.value)).toEqual([
-          TraceFilterStatusesItem.ASSOCIATED_EVALUATED,
-          TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION
         ])
       })
 
@@ -452,11 +281,6 @@ BddTest().given('a trace filter container', () => {
         const lastEmitted = emitted![emitted!.length - 1][0]
         expect(lastEmitted).toEqual({
           fileTypes: [FileGlobalType.PDF],
-          statuses: [
-            TraceFilterStatusesItem.ASSOCIATED_EVALUATED,
-            TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION
-          ],
-          skillIds: [mockedAllSkills[0].skillId, mockedAllSkills[1].skillId,],
           fromDate: '2025-10-10',
           toDate: '2026-10-10',
           keyword: 'example'
@@ -472,11 +296,9 @@ BddTest().given('a trace filter container', () => {
 
         BddTest().then('it should reset the refs', () => {
           expect(vm.keyword).toBe('')
-          expect(vm.skillsSelected.length).toBe(0)
           expect(vm.fromDateSelected).toBe('')
           expect(vm.toDateSelected).toBe('')
           expect(vm.typesSelected.length).toBe(0)
-          expect(vm.statusesSelected.length).toBe(0)
         })
 
         BddTest().then('the trace filter container should emit the reset filter', () => {
@@ -484,8 +306,6 @@ BddTest().given('a trace filter container', () => {
           const lastEmitted = emitted![emitted!.length - 1][0]
           expect(lastEmitted).toEqual({
             fileTypes: [],
-            statuses: [],
-            skillIds: [],
             fromDate: '',
             toDate: '',
             keyword: ''
@@ -499,8 +319,6 @@ BddTest().given('a trace filter container', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
       setActivePinia(createPinia())
-      const handler = createAllSkillsHandler(mockedAllSkills)
-      server.use(handler)
       wrapper = mountComponent(TraceFilterContainer, {
         props: { isAssociated: false },
         global: { stubs },
@@ -573,8 +391,6 @@ BddTest().given('a trace filter container', () => {
       BddTest().then('the trace filter container should emit update:filters', () => {
         expect(wrapper.emitted('update:filters')?.[0][0]).toEqual({
           fileTypes: [],
-          statuses: [],
-          skillIds: [],
           fromDate: '',
           toDate: '',
           keyword: 'example'
@@ -604,8 +420,6 @@ BddTest().given('a trace filter container', () => {
       BddTest().then('the trace filter container should emit update:filters', () => {
         expect(wrapper.emitted('update:filters')?.[0][0]).toEqual({
           fileTypes: [],
-          statuses: [],
-          skillIds: [],
           fromDate: '2025-10-10',
           toDate: '',
           keyword: ''
@@ -635,8 +449,6 @@ BddTest().given('a trace filter container', () => {
       BddTest().then('the trace filter container should emit update:filters', () => {
         expect(wrapper.emitted('update:filters')?.[0][0]).toEqual({
           fileTypes: [],
-          statuses: [],
-          skillIds: [],
           fromDate: '',
           toDate: '2026-10-10',
           keyword: ''
@@ -663,8 +475,6 @@ BddTest().given('a trace filter container', () => {
       BddTest().then('the trace filter container should emit update:filters', () => {
         expect(wrapper.emitted('update:filters')?.[0][0]).toEqual({
           fileTypes: [TraceFilterFileTypesItem.PDF],
-          statuses: [],
-          skillIds: [],
           fromDate: '',
           toDate: '',
           keyword: ''
@@ -708,8 +518,6 @@ BddTest().given('a trace filter container', () => {
         const lastEmitted = emitted![emitted!.length - 1][0]
         expect(lastEmitted).toEqual({
           fileTypes: [TraceFilterFileTypesItem.PDF],
-          statuses: [],
-          skillIds: [],
           fromDate: '2025-10-10',
           toDate: '2026-10-10',
           keyword: 'example'
@@ -735,8 +543,6 @@ BddTest().given('a trace filter container', () => {
           const lastEmitted = emitted![emitted!.length - 1][0]
           expect(lastEmitted).toEqual({
             fileTypes: [],
-            statuses: [],
-            skillIds: [],
             fromDate: '',
             toDate: '',
             keyword: ''
@@ -756,8 +562,6 @@ BddTest().given('a trace filter container', () => {
 
       beforeEach(async () => {
         setActivePinia(createPinia())
-        const handler = createAllSkillsHandler(mockedAllSkills)
-        server.use(handler)
         wrapper = mountComponent(TraceFilterContainer, {
           props: { isAssociated: true },
           global: { stubs },

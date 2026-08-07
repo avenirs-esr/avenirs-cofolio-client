@@ -23,7 +23,7 @@ export const StudentDetailedSkillCardStub = defineComponent({
     },
     to: {
       type: String,
-      required: false
+      required: true
     },
     compact: {
       type: Boolean,

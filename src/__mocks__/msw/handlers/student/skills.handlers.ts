@@ -1,13 +1,10 @@
 import { createDeclaredSkillAssociationResponseFixture } from '@/__mocks__/fixtures/student'
 import {
-  createMockedAllSkillListItemDTO,
   createMockedDeclaredSkillProgressDetailsDTO,
   createMockedPagedResponseAssociationSearchResultDeclaredSkillIDTO,
   createMockedPagedResponseDeclaredSkillProgressDTO,
-  createMockedPagedResponseSkillsDTO,
   createMockedSearchExternalSkillsDTO,
-  mockedDeclaredSkillAssociations,
-  mockedSkillDetailed
+  mockedDeclaredSkillAssociations
 } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
   type AddDeclaredSkillDTO,
@@ -24,21 +21,15 @@ import {
   getDeleteDeclaredSkillAssociationsUrl,
   getDeleteDeclaredSkillProgressUrl,
   getGetAdditionalSkillConfigUrl,
-  getGetAllSkillsUrl,
   getGetDeclaredSkillProgressDetailsUrl,
   getGetDeclaredSkillsProgressesUrl,
   getGetDeclaredSkillWithDeclaredActivitiesUrl,
-  getGetDetailedSkillUrl,
-  getGetSkillLevelProgressesUrl,
   getSearchDeclaredSkillsForAssociationUrl,
   getUnassociateTracesUrl,
   getUpdateDeclaredSkillProgressUrl,
   type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
   type PagedResponseDeclaredSkillProgressDTO,
-  type PagedResponseExternalSkillDTO,
-  type PagedResponseSkillDTO,
-  type SkillDetailedDTO,
-  type SkillListItemDTO
+  type PagedResponseExternalSkillDTO
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
@@ -73,46 +64,6 @@ export const declaredSkillsProgressViewErrorHandler = http.get(`*${getGetDeclare
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500 }
-  )
-})
-
-export function createSkillsViewHandler (payload: PagedResponseSkillDTO) {
-  return http.get(`*${getGetSkillLevelProgressesUrl()}`, () => {
-    return HttpResponse.json<PagedResponseSkillDTO>(payload, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  })
-}
-
-export function createAllSkillsHandler (payload: SkillListItemDTO[]) {
-  return http.get(`*${getGetAllSkillsUrl()}`, () => {
-    return HttpResponse.json<SkillListItemDTO[]>(payload, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  })
-}
-
-export function createDetailedSkillHandler (payload: SkillDetailedDTO) {
-  return http.get(`*${getGetDetailedSkillUrl(':id')}`, () => {
-    return HttpResponse.json<SkillDetailedDTO>(payload, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  })
-}
-
-export const detailedSkillNotFoundErrorHandler = http.get(`*${getGetDetailedSkillUrl(':id')}`, () => {
-  return HttpResponse.json(
-    { code: ErrorCodes.SKILL_NOT_FOUND, message: 'Internal server error' },
-    { status: 404 }
   )
 })
 
@@ -196,23 +147,6 @@ export const associateDeclaredSkillWithDeclaredActivityHandler = http.post<
 )
 
 export const skillsHandlers = [
-  http.get<PathParams, PagedResponseSkillDTO>(`*${getGetSkillLevelProgressesUrl()}`, ({ request }) => {
-    const url = new URL(request.url)
-    const searchParams = url.searchParams
-    const sort = searchParams.get('sort') ?? ''
-
-    const pageSize = Number(searchParams.get('pageSize') ?? PageSizes.FOUR)
-    const page = Number(searchParams.get('page') ?? 0)
-    const response = createMockedPagedResponseSkillsDTO(pageSize, 20, page, sort)
-
-    return HttpResponse.json<PagedResponseSkillDTO>(response, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  }),
-
   http.get<PathParams, PagedResponseDeclaredSkillProgressDTO>(`*${getGetDeclaredSkillsProgressesUrl()}`, ({ request }) => {
     const url = new URL(request.url)
     const searchParams = url.searchParams
@@ -278,25 +212,6 @@ export const skillsHandlers = [
     })
   }),
 
-  http.get<PathParams, SkillDetailedDTO>(`*/me/skill-level-progress/details/:skillId`, async () => {
-    await delay(100)
-    return HttpResponse.json(mockedSkillDetailed, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  }),
-
-  http.get<PathParams, SkillListItemDTO[]>(`*${getGetAllSkillsUrl()}`, async () => {
-    const response = createMockedAllSkillListItemDTO()
-    return HttpResponse.json(response, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  }),
   searchDeclaredSkillsForAssociationHandler,
   http.get<{ id: string }, DeclaredSkillProgressDetailsDTO>(`*${getGetDeclaredSkillProgressDetailsUrl(':id')}`, async ({ params }) => {
     const { id } = params

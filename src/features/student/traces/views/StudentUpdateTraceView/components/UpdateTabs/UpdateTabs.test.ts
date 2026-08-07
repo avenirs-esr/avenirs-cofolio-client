@@ -41,7 +41,6 @@ BddTest().given('an update tab', () => {
     valorized: false,
     createdAt: '2025-06-01T10:42:00.000Z',
     updatedAt: '2025-06-02T11:42:00.000Z',
-    programName: 'An awesome program',
     aiUseJustification: 'An awesome justification',
     authorType: ETraceAuthorType.PERSONAL,
     personalNote: 'An awesome personal note',

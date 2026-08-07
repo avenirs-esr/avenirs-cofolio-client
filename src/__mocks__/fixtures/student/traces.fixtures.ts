@@ -43,7 +43,6 @@ export const mockedTraceOverview: TraceOverviewDTO[] = [
     id: '4453f884-9081-43cb-95c6-d76c2bb59fd7',
     title: 'Prévenir la pollution à la source',
     authorType: ETraceAuthorType.PERSONAL,
-    programName: 'Master Chimie Verte et Éco-innovations',
     createdAt: '2024-05-13T08:42:17',
     updatedAt: '2024-05-13T08:42:17',
   },
@@ -51,7 +50,6 @@ export const mockedTraceOverview: TraceOverviewDTO[] = [
     id: 'trace2',
     title: 'Mettre en place des filières d\'économies circulaires',
     authorType: ETraceAuthorType.COLLECTIVE,
-    programName: 'Master Chimie Verte et Éco-innovations',
     aiUseJustification: 'Justification de l\'utilisation de l\'IA pour cette trace',
     createdAt: '2024-11-29T19:15:03',
     updatedAt: '2024-11-29T19:15:03'
@@ -60,7 +58,6 @@ export const mockedTraceOverview: TraceOverviewDTO[] = [
     id: 'trace3',
     title: 'Évaluer l\'impact environnemental et économique',
     authorType: ETraceAuthorType.PERSONAL,
-    programName: 'Master Chimie Verte et Éco-innovations',
     createdAt: '2025-02-07T23:08:51',
     updatedAt: '2025-02-07T23:08:51',
   }
@@ -262,7 +259,6 @@ export const mockedTraceDetailed = {
   link: 'https://example.com/trace/4453f884-9081-43cb-95c6-d76c2bb59fd7',
   createdAt: '2025-06-16T10:42:00.000Z',
   updatedAt: '2025-06-17T15:18:00.000Z',
-  programName: 'An awesome program',
   aiUseJustification: 'An awesome justification',
   authorType: ETraceAuthorType.PERSONAL,
   personalNote: 'An awesome personal note',

@@ -1,57 +1,8 @@
 {
   "student": {
     "skills": {
-      "badges": {
-        "StudentLevelBadge": {
-          "status": {
-            "failed": "Not validated",
-            "inProgress": "Under acquisition",
-            "underReview": "Submitted for evaluation",
-            "validated": "Validated"
-          }
-        }
-      },
-      "cards": {
-        "StudentDetailedPastSkillCard": {
-          "programFinished": "Program finished"
-        },
-        "StudentDetailedSkillCard": {
-          "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
-          "feedbackCount": "0 feedback to read | 1 feedback to read | {count} feedbacks to read",
-          "traceCount": "0 trace | 1 trace | {count} traces"
-        },
-        "StudentSkillCard": {
-          "activityCount": "0 role-play activity | 1 role-play activity | {count} role-play activities",
-          "badgeStatus": {
-            "failed": "not validated",
-            "toBeEvaluated": "to evaluate",
-            "underReview": "under review",
-            "validated": "validated"
-          },
-          "traceCount": "0 trace | 1 trace | {count} traces"
-        },
-        "StudentSkillsWidget": {
-          "buttons": {
-            "seeAll": "See all my skills"
-          },
-          "title": "My educational skills"
-        }
-      },
       "skill": "skill | skills",
       "views": {
-        "StudentEducationSkillsView": {
-          "breadcrumb": {
-            "current": {
-              "title": "Skills targeted by my training programs"
-            }
-          },
-          "skillsSortContainer": {
-            "sort": {
-              "selectAriaLabel": "Sort my educational skills"
-            }
-          },
-          "title": "My educational skills | My educational skills"
-        },
         "StudentProjectSkillsView": {
           "breadcrumb": {
             "current": {
@@ -59,40 +10,12 @@
             }
           },
           "skillsViewTabs": {
-            "education": "Skills targeted by my training programs (completed and in progress)",
             "other": "My other skills",
-            "skillsViewEducationTab": {
-              "subtitle": "(completed and in progress)",
-              "title": "Skills targeted by my training programs "
-            },
             "skillsViewOtherTab": {
               "addSkillButton": "Add a skill"
             }
           },
           "title": "All my skills"
-        },
-        "StudentSkillView": {
-          "breadcrumb": {
-            "current": {
-              "title": "Skill {skill}"
-            }
-          },
-          "detailed": {
-            "title": "Skill"
-          },
-          "errors": {
-            "notFound": {
-              "description": "The skill you are looking for does not exist or is not accessible.",
-              "title": "Skill not found"
-            }
-          },
-          "evaluation": {
-            "title": "My evaluation"
-          },
-          "progress": {
-            "title": "My progress"
-          },
-          "title": "Skill {skill}"
         }
       }
     }

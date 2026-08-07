@@ -10,8 +10,6 @@ import PersonalDataView
 import routes from '@/features/student/global/routes'
 import StudentAboutView
   from '@/features/student/global/views/StudentAboutView/StudentAboutView.vue'
-import StudentApcUnavailableView
-  from '@/features/student/global/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'
 import StudentDeliverablesView
   from '@/features/student/global/views/StudentDeliverablesView/StudentDeliverablesView.vue'
 import StudentEventsView
@@ -106,10 +104,4 @@ testRoute(
   children.find(r => r.name === ROUTES.STUDENT.MAILBOX.name)!,
   ROUTES.STUDENT.MAILBOX,
   StudentMailboxView
-)
-
-testRoute(
-  children.find(r => r.name === ROUTES.STUDENT.APC_UNAVAILABLE.name)!,
-  ROUTES.STUDENT.APC_UNAVAILABLE,
-  StudentApcUnavailableView
 )

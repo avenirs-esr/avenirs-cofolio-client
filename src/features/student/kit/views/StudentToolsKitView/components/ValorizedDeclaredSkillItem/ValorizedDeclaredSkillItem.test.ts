@@ -47,7 +47,7 @@ BddTest().given('a valorized declared skill item', () => {
     BddTest().then('it should render the access button pointing to the declared skill route', () => {
       const button = wrapper.findComponent(AvButtonStub)
       expect(button.props('to')).toEqual({
-        name: ROUTES.STUDENT.PROJECT_SKILL.name,
+        name: ROUTES.STUDENT.PROJECT_DECLARED_SKILL.name,
         params: { id: BASE_DECLARED_SKILL.id }
       })
     })

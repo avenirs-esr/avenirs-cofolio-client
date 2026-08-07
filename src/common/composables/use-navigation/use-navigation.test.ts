@@ -162,14 +162,6 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student education skills', () => {
-    BddTest().then('it should navigate to student education skills', () => {
-      const { navigateToStudentEducationSkills } = navigation
-      navigateToStudentEducationSkills()
-      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.EDUCATION_SKILLS)
-    })
-  })
-
   BddTest().when('trying to navigate to student project skills', () => {
     BddTest().then('it should navigate to student project skills', () => {
       const { navigateToStudentProjectSkills } = navigation
@@ -478,18 +470,6 @@ BddTest().given('a useNavigation composable', () => {
       expect(pushMock).toHaveBeenCalledWith({
         name: ROUTES.STUDENT.TOOLS_TRACE.name,
         params: { id: 'trace-123' }
-      })
-    })
-  })
-
-  BddTest().when('trying to navigate to student project skill', () => {
-    BddTest().then('it should navigate to student project skill with id', () => {
-      const { navigateToStudentProjectSkill } = navigation
-      navigateToStudentProjectSkill({ id: 'skill-123' })
-
-      expect(pushMock).toHaveBeenCalledWith({
-        name: ROUTES.STUDENT.PROJECT_SKILL.name,
-        params: { id: 'skill-123' }
       })
     })
   })
