@@ -58,6 +58,11 @@
               "emptyStateItemLabel": "un centre d'intérêt",
               "seeAll": "Voir tous mes centres d'intérêt",
               "title": "Centre d'intérêt (1) | Centres d'intérêt ({count})"
+            },
+            "OTHERS": {
+              "emptyStateItemLabel": "une information",
+              "seeAll": "Voir toutes mes autres informations",
+              "title": "Autre information (1) | Autres informations ({count})"
             }
           }
         }

@@ -12,7 +12,7 @@ const stubs = {
   ValorizedDeclaredSkillsContainer: ValorizedDeclaredSkillsContainerStub,
   ValorizedDeclaredExperiencesContainer: ValorizedDeclaredExperiencesContainerStub,
   ValorizedDeclaredProgramsContainer: ValorizedDeclaredProgramsContainerStub,
-  ValorizedSelfKnowledgeInterestsContainer: ValorizedSelfKnowledgeContainerStub
+  ValorizedSelfKnowledgeContainer: ValorizedSelfKnowledgeContainerStub
 }
 
 BddTest().given('a kit text content tab', () => {
@@ -39,8 +39,14 @@ BddTest().given('a kit text content tab', () => {
       expect(wrapper.findComponent(ValorizedDeclaredProgramsContainerStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should render the valorized self knowledge interests container', () => {
-      expect(wrapper.findComponent(ValorizedSelfKnowledgeContainerStub).exists()).toBe(true)
+    BddTest().then('it should render the interests self knowledge container then the other information one', () => {
+      const containers = wrapper.findAllComponents(ValorizedSelfKnowledgeContainerStub)
+      expect(containers.map(container => container.props('interestsOnly'))).toEqual([true, false])
+    })
+
+    BddTest().then('it should render both self knowledge containers with their own test id', () => {
+      expect(wrapper.find('[data-testid="valorized-self-knowledge-interests-container-stub"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="valorized-self-knowledge-others-container-stub"]').exists()).toBe(true)
     })
   })
 })
