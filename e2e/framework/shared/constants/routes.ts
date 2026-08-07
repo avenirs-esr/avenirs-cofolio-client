@@ -13,10 +13,6 @@ export const STAFF_ROUTES = {
 export const STUDENT_ROUTES = {
   ACTIVITY: '/cofolio/student/activity/',
   DELIVERABLES: '/cofolio/student/deliverables',
-  EDUCATION: {
-    SKILL_DETAIL: '/cofolio/student/education/skill/',
-    SKILLS: '/cofolio/student/education/skills',
-  },
   EVENTS: '/cofolio/student/events',
   HOME: '/cofolio/student',
   PROJECT: {
@@ -27,13 +23,11 @@ export const STUDENT_ROUTES = {
     PERSONAL_CAREER: {
       EXPERIENCES: '/cofolio/student/project/personal-career/experiences',
     },
-    SKILL_DETAIL: '/cofolio/student/project/skill/',
     SKILLS: '/cofolio/student/project/skills',
     TRAJECTORIES: {
       SELF_KNOWLEDGE: '/cofolio/student/project/trajectories?section=SELF_KNOWLEDGE',
     },
   },
-  SKILL_DETAIL: '/cofolio/student/skill/',
   TRACE_DETAIL: '/cofolio/student/trace/',
   TOOLS: {
     KIT: '/cofolio/student/tools/kit',

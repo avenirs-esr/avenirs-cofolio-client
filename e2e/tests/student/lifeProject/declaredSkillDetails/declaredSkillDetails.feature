@@ -3,8 +3,7 @@ Feature: Student Life Project Declared Skill Detail Page
 
   Background:
     Given the student opens the skills page
-    When the student opens the declared skills tab
-    And the student clicks the first declared skill
+    When the student clicks the first declared skill
 
   Rule: Declared skill associations
 

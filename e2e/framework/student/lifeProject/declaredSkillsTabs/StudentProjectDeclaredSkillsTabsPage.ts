@@ -53,22 +53,8 @@ class StudentProjectDeclaredSkillsTabsPage extends BasePage {
     return this.getDeclaredSkillCards().first()
   }
 
-  getDeclaredSkillsTabItem () {
-    return this.page.getByTestId('declared-skills-tab-item')
-  }
-
-  getSkillAssociationsTabItem () {
-    return this.page.getByTestId('skill-associations-tab-item')
-  }
-
   getDeclaredSkillAssociations () {
     return new DeclaredSkillAssociationsObject(this.page.getByTestId('declared-skill-associations'))
-  }
-
-  @When('the student opens the declared skills tab')
-  async clickDeclaredSkillsTab () {
-    await this.getDeclaredSkillsTabItem().click()
-    await waitForPageLoad(this.page)
   }
 
   @Then('the add declared skill button is visible')
