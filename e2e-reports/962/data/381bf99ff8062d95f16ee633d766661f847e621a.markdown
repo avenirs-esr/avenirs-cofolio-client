@@ -1,0 +1,350 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js >> Student Life Project Declared Skills Page >> Add a declared skill >> Student can see the associate elements section
+- Location: .features-gen/tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js:36:5
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded while running "beforeEach" hook.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByTestId('declared-skills-tab-item')
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - link "Accueil - Cofolio Étudiant" [ref=e12] [cursor=pointer]:
+          - /url: /cofolio/student
+          - img [ref=e13]
+        - button "Changer d'univers" [ref=e15] [cursor=pointer]:
+          - generic [ref=e18]: Changer d'univers
+      - generic [ref=e20]:
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - button "Messagerie" [ref=e27] [cursor=pointer]:
+              - generic [ref=e30]: Messagerie
+          - listitem [ref=e31]:
+            - button "Notifications" [ref=e34] [cursor=pointer]:
+              - generic [ref=e37]: Notifications
+          - listitem [ref=e38]:
+            - button "J. moulin" [ref=e41] [cursor=pointer]:
+              - generic [ref=e44]: J. moulin
+        - navigation [ref=e47]:
+          - button "FR" [ref=e50] [cursor=pointer]:
+            - generic [ref=e53]: FR
+    - navigation "Menu principal" [ref=e57]:
+      - list [ref=e58]:
+        - listitem [ref=e59]:
+          - link "ACCUEIL" [ref=e60] [cursor=pointer]:
+            - /url: /cofolio/student
+            - generic [ref=e63]: ACCUEIL
+        - listitem [ref=e64]:
+          - button "CONSTRUIRE MON PROJET DE VIE" [ref=e65] [cursor=pointer]:
+            - generic [ref=e66]: CONSTRUIRE MON PROJET DE VIE
+        - listitem [ref=e67]:
+          - button "MES OUTILS" [ref=e68] [cursor=pointer]:
+            - generic [ref=e69]: MES OUTILS
+  - main [ref=e70]:
+    - generic [ref=e71]:
+      - generic [ref=e73]:
+        - navigation "Fil d'Ariane" [ref=e74]:
+          - list [ref=e76]:
+            - listitem [ref=e77]:
+              - link "Accueil" [ref=e78] [cursor=pointer]:
+                - /url: /cofolio/student
+            - listitem [ref=e79]:
+              - generic: Construire mon projet de vie
+            - listitem [ref=e80]:
+              - generic: Toutes mes compétences
+        - heading "Toutes mes compétences" [level=1] [ref=e81]
+      - generic [ref=e82]:
+        - button "Ajouter une compétence" [ref=e84] [cursor=pointer]:
+          - generic [ref=e87]: Ajouter une compétence
+        - generic [ref=e89]:
+          - generic [ref=e90]:
+            - generic [ref=e92]:
+              - generic [ref=e93]: "Nombre de résultats par page :"
+              - generic [ref=e94]:
+                - button "4" [disabled] [pressed]:
+                  - generic: "4"
+              - button "8" [ref=e96] [cursor=pointer]:
+                - generic [ref=e97]: "8"
+              - button "12" [ref=e99] [cursor=pointer]:
+                - generic [ref=e100]: "12"
+              - button "20" [ref=e102] [cursor=pointer]:
+                - generic [ref=e103]: "20"
+            - navigation "Pagination haute" [ref=e104]:
+              - list [ref=e105]:
+                - listitem [ref=e106]: Page 1 sur 5
+                - listitem
+                - listitem [ref=e107]:
+                  - link "Page précédente" [disabled]:
+                    - /url: "#page-1"
+                - listitem [ref=e108]:
+                  - link "Page suivante" [ref=e111] [cursor=pointer]:
+                    - /url: "#page-2"
+                - listitem
+          - generic [ref=e115]:
+            - link "Ma super compétence complémentaire 1" [ref=e116] [cursor=pointer]:
+              - /url: /cofolio/student/project/declared-skill/69b72132-d37c-40e2-8c90-1205e75d9e39
+              - generic [ref=e118]:
+                - generic "Ma super compétence complémentaire 1" [ref=e121]
+                - generic [ref=e130]:
+                  - status [ref=e133]:
+                    - generic [ref=e134]: Rome 4.0
+                  - status [ref=e137]:
+                    - generic [ref=e138]: Catégorie > Sous-catégorie 1
+            - link "Ma super compétence complémentaire 2" [ref=e139] [cursor=pointer]:
+              - /url: /cofolio/student/project/declared-skill/0345db9f-caa5-439e-9ab1-b7d2211e9285
+              - generic [ref=e141]:
+                - generic "Ma super compétence complémentaire 2" [ref=e144]
+                - generic [ref=e153]:
+                  - status [ref=e156]:
+                    - generic [ref=e157]: Rome 4.0
+                  - status [ref=e160]:
+                    - generic [ref=e161]: Catégorie > Sous-catégorie 2
+            - link "Ma super compétence complémentaire 3" [ref=e162] [cursor=pointer]:
+              - /url: /cofolio/student/project/declared-skill/129494cd-cb60-418b-8c9e-d3c3b000a2e4
+              - generic [ref=e164]:
+                - generic "Ma super compétence complémentaire 3" [ref=e167]
+                - generic [ref=e176]:
+                  - status [ref=e179]:
+                    - generic [ref=e180]: Rome 4.0
+                  - status [ref=e183]:
+                    - generic [ref=e184]: Catégorie > Sous-catégorie 3
+            - link "Ma super compétence complémentaire 4" [ref=e185] [cursor=pointer]:
+              - /url: /cofolio/student/project/declared-skill/fccffb69-7748-4154-b294-1818e6108b23
+              - generic [ref=e187]:
+                - generic "Ma super compétence complémentaire 4" [ref=e190]
+                - generic [ref=e199]:
+                  - status [ref=e202]:
+                    - generic [ref=e203]: Rome 4.0
+                  - status [ref=e206]:
+                    - generic [ref=e207]: Catégorie > Sous-catégorie 4
+          - navigation "Pagination basse" [ref=e209]:
+            - list [ref=e210]:
+              - listitem [ref=e211]:
+                - link "Première page" [disabled]:
+                  - /url: "#page-1"
+                  - generic: Première page
+              - listitem [ref=e212]:
+                - link "Page précédente" [disabled]:
+                  - /url: "#page-1"
+              - listitem [ref=e213]:
+                - link "1" [ref=e214] [cursor=pointer]:
+                  - /url: "#page-1"
+              - listitem [ref=e215]:
+                - link "2" [ref=e216] [cursor=pointer]:
+                  - /url: "#page-2"
+              - listitem [ref=e217]:
+                - link "3" [ref=e218] [cursor=pointer]:
+                  - /url: "#page-3"
+                  - text: "3"
+                  - generic [ref=e219]: ...
+              - listitem [ref=e220]:
+                - link "Page suivante" [ref=e223] [cursor=pointer]:
+                  - /url: "#page-2"
+              - listitem [ref=e226]:
+                - link "Dernière page" [ref=e229] [cursor=pointer]:
+                  - /url: "#page-5"
+                  - generic [ref=e230]: Dernière page
+  - contentinfo [ref=e233]:
+    - generic [ref=e235]:
+      - generic [ref=e236]:
+        - link "Logo ANR" [ref=e237] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e238]
+        - link "Logo France 2030" [ref=e239] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e240]
+      - generic [ref=e241]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e242]:
+      - generic [ref=e243]:
+        - img "Logo Cofolio" [ref=e244]
+        - generic [ref=e255]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e256]:
+        - generic [ref=e257]:
+          - generic [ref=e258]: Informations légales
+          - list [ref=e259]:
+            - listitem [ref=e260]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e261] [cursor=pointer]':
+                - /url: /cofolio/student/accessibility
+            - listitem [ref=e262]:
+              - link "Mentions légales" [ref=e263] [cursor=pointer]:
+                - /url: /cofolio/student/legal
+            - listitem [ref=e264]:
+              - link "Données personnelles" [ref=e265] [cursor=pointer]:
+                - /url: /cofolio/student/personal-data
+            - listitem [ref=e266]:
+              - link "Gestion des cookies" [ref=e267] [cursor=pointer]:
+                - /url: /cofolio/student/cookies
+        - generic [ref=e268]:
+          - generic [ref=e269]: Autres sites
+          - list [ref=e270]:
+            - listitem [ref=e271]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e272] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e273]:
+          - generic [ref=e274]: Partenaires
+          - generic [ref=e275]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e276] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e277]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e278] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e280]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e284] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1   | import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+  2   | import { BasePage } from '@e2e/framework/shared/base/BasePage'
+  3   | import { clickOnElement } from '@e2e/framework/shared/utils/click'
+  4   | import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+  5   | import { DeclaredSkillAssociationsObject } from '@e2e/framework/student/lifeProject/declaredSkillDetails/componentObjects/DeclaredSkillAssociationsObject'
+  6   | import { expect, type Page } from '@playwright/test'
+  7   | import { Fixture, Then, When, } from 'playwright-bdd/decorators'
+  8   | 
+  9   | export
+  10  | @Fixture<typeof test>('studentProjectDeclaredSkillsTabsPage')
+  11  | class StudentProjectDeclaredSkillsTabsPage extends BasePage {
+  12  |   constructor (public page: Page) {
+  13  |     super(page)
+  14  |   }
+  15  | 
+  16  |   getAddDeclaredSkillButton () {
+  17  |     return this.page.getByTestId('add-declared-skill-button')
+  18  |   }
+  19  | 
+  20  |   getAddDeclaredSkillDrawer () {
+  21  |     return this.page.getByTestId('add-declared-skill-drawer')
+  22  |   }
+  23  | 
+  24  |   getAssociateAccordionTrigger () {
+  25  |     return this.getAddDeclaredSkillDrawer().getByTestId('associate-accordion').getByTestId('av-accordion-trigger')
+  26  |   }
+  27  | 
+  28  |   getAssociateElementsDrawerSection () {
+  29  |     return this.getAddDeclaredSkillDrawer().getByTestId('associate-elements-drawer-section')
+  30  |   }
+  31  | 
+  32  |   getAssociateElementsTypeSelect () {
+  33  |     return this.getAssociateElementsDrawerSection().getByTestId('associate-elements-type-select')
+  34  |   }
+  35  | 
+  36  |   getAssociateElementsTypeSelectOptions () {
+  37  |     return this.getAssociateElementsTypeSelect().getByRole('option')
+  38  |   }
+  39  | 
+  40  |   verifyAssociateElementsTypeSelectOptionsContains (expectedOption: string) {
+  41  |     return this.getAssociateElementsTypeSelectOptions().filter({ hasText: expectedOption }).first().isVisible()
+  42  |   }
+  43  | 
+  44  |   getDeclaredSkillsContainer () {
+  45  |     return this.page.getByTestId('skills-container')
+  46  |   }
+  47  | 
+  48  |   getDeclaredSkillCards () {
+  49  |     return this.getDeclaredSkillsContainer().getByTestId('student-detailed-skill-card')
+  50  |   }
+  51  | 
+  52  |   getFirstDeclaredSkillCard () {
+  53  |     return this.getDeclaredSkillCards().first()
+  54  |   }
+  55  | 
+  56  |   getDeclaredSkillsTabItem () {
+  57  |     return this.page.getByTestId('declared-skills-tab-item')
+  58  |   }
+  59  | 
+  60  |   getSkillAssociationsTabItem () {
+  61  |     return this.page.getByTestId('skill-associations-tab-item')
+  62  |   }
+  63  | 
+  64  |   getDeclaredSkillAssociations () {
+  65  |     return new DeclaredSkillAssociationsObject(this.page.getByTestId('declared-skill-associations'))
+  66  |   }
+  67  | 
+  68  |   @When('the student opens the declared skills tab')
+  69  |   async clickDeclaredSkillsTab () {
+> 70  |     await this.getDeclaredSkillsTabItem().click()
+      |                                           ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  71  |     await waitForPageLoad(this.page)
+  72  |   }
+  73  | 
+  74  |   @Then('the add declared skill button is visible')
+  75  |   async verifyAddDeclaredSkillButtonVisible () {
+  76  |     await this.getAddDeclaredSkillButton().isVisible()
+  77  |   }
+  78  | 
+  79  |   @When('the student clicks the add declared skill button')
+  80  |   async clickAddDeclaredSkillButton () {
+  81  |     await clickOnElement(this.getAddDeclaredSkillButton())
+  82  |     await waitForPageLoad(this.page)
+  83  |   }
+  84  | 
+  85  |   @Then('the add declared skill drawer is visible')
+  86  |   async verifyAddDeclaredSkillDrawerVisible () {
+  87  |     await this.getAddDeclaredSkillDrawer().isVisible()
+  88  |   }
+  89  | 
+  90  |   @When('the student clicks the associate accordion')
+  91  |   async clickAssociateAccordion () {
+  92  |     const associateAccordionTrigger = this.getAssociateAccordionTrigger()
+  93  |     const isExpanded = await associateAccordionTrigger.getAttribute('aria-expanded')
+  94  | 
+  95  |     if (isExpanded !== 'true') {
+  96  |       await clickOnElement(associateAccordionTrigger)
+  97  |     }
+  98  | 
+  99  |     await expect(associateAccordionTrigger).toHaveAttribute('aria-expanded', 'true')
+  100 |   }
+  101 | 
+  102 |   @Then('the associate elements drawer section is visible')
+  103 |   async verifyAssociateElementsDrawerSectionVisible () {
+  104 |     await expect(this.getAssociateElementsDrawerSection()).toBeVisible()
+  105 |   }
+  106 | 
+  107 |   @Then('the associate elements type select is visible')
+  108 |   async verifyAssociateElementsTypeSelectVisible () {
+  109 |     await expect(this.getAssociateElementsTypeSelect()).toBeVisible()
+  110 |   }
+  111 | 
+  112 |   @Then('the associate elements type select contains activities options')
+  113 |   async verifyAssociateElementsTypeSelectContainsActivitiesOptions () {
+  114 |     expect(this.verifyAssociateElementsTypeSelectOptionsContains('activities')).toBeTruthy()
+  115 |   }
+  116 | 
+  117 |   @Then('the declared skills are loaded')
+  118 |   async verifyDeclaredSkillsLoaded () {
+  119 |     await this.getFirstDeclaredSkillCard().isVisible()
+  120 |   }
+  121 | 
+  122 |   @When('the student clicks the first declared skill')
+  123 |   async clickFirstDeclaredSkill () {
+  124 |     await this.getDeclaredSkillCards().first().click()
+  125 |     await waitForPageLoad(this.page)
+  126 |   }
+  127 | }
+  128 | 
+```
