@@ -997,18 +997,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "enum": [
-                "STRENGTHS",
-                "VALUES",
-                "ASPIRATIONS",
-                "MOTIVATION",
-                "IMPROVEMENT",
-                "INTERESTS",
-                "INSPIRATIONS",
-                "OBLIGATIONS",
-                "TESTIMONIALS"
-              ]
+              "$ref": "#/components/schemas/ESelfKnowledgeCategory"
             }
           }
         ],
@@ -2727,187 +2716,6 @@
         }
       }
     },
-    "/me/student-progress": {
-      "get": {
-        "tags": [
-          "student-progress-controller"
-        ],
-        "operationId": "getAllStudentProgress",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/StudentProgressDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/student-progress/view": {
-      "get": {
-        "tags": [
-          "student-progress-controller"
-        ],
-        "operationId": "getStudentProgressView",
-        "parameters": [
-          {
-            "name": "sort",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/StudentProgressViewDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/student-progress/overview": {
-      "get": {
-        "tags": [
-          "student-progress-controller"
-        ],
-        "operationId": "getStudentProgressOverview",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/StudentProgressOverviewDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/skill-level-progress": {
-      "get": {
-        "tags": [
-          "skill-level-progress-controller"
-        ],
-        "operationId": "getSkillLevelProgresses",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseSkillDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/skill-level-progress/details/{skillId}": {
-      "get": {
-        "tags": [
-          "skill-level-progress-controller"
-        ],
-        "operationId": "getDetailedSkill",
-        "parameters": [
-          {
-            "name": "skillId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/SkillDetailedDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/skill-level-progress/all-skill": {
-      "get": {
-        "tags": [
-          "skill-level-progress-controller"
-        ],
-        "operationId": "getAllSkills",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SkillListItemDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/self-knowledge/elements": {
       "get": {
         "tags": [
@@ -3063,26 +2871,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PagedResponseNotificationDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/navigation-access": {
-      "get": {
-        "tags": [
-          "navigation-access-controller"
-        ],
-        "operationId": "getStudentNavigationAccess",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/NavigationAccessDTO"
                 }
               }
             }
@@ -4450,37 +4238,6 @@
         }
       }
     },
-    "/back-office/config/institution/{institutionId}": {
-      "get": {
-        "tags": [
-          "institution-config-controller"
-        ],
-        "operationId": "getInstitutionConfig",
-        "parameters": [
-          {
-            "name": "institutionId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/InstitutionConfigurationElements"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/back-office/config/additional-skills": {
       "get": {
         "tags": [
@@ -4776,9 +4533,6 @@
           "isAssociated": {
             "type": "boolean"
           },
-          "programName": {
-            "type": "string"
-          },
           "authorType": {
             "type": "string",
             "$ref": "#/components/schemas/ETraceAuthorType",
@@ -4819,7 +4573,6 @@
           "id",
           "lockedDeclaredActivities",
           "personalNote",
-          "programName",
           "title",
           "updatedAt",
           "valorized"
@@ -5595,18 +5348,6 @@
               "format": "uuid"
             }
           },
-          "statuses": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "ASSOCIATED_EVALUATED",
-                "ASSOCIATED_IN_EVALUATION",
-                "ASSOCIATED_NOT_EVALUATED",
-                "ASSOCIATED_WITH_DECLARED_SKILL"
-              ]
-            }
-          },
           "isValorized": {
             "type": "boolean"
           }
@@ -5843,9 +5584,6 @@
           "title": {
             "type": "string"
           },
-          "programName": {
-            "type": "string"
-          },
           "authorType": {
             "type": "string",
             "$ref": "#/components/schemas/ETraceAuthorType",
@@ -5871,7 +5609,6 @@
           "authorType",
           "createdAt",
           "id",
-          "programName",
           "title",
           "updatedAt"
         ]
@@ -6530,295 +6267,6 @@
           "unassociated"
         ]
       },
-      "StudentProgressDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "studentId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "trainingPath": {
-            "$ref": "#/components/schemas/TrainingPathDTO"
-          }
-        },
-        "required": [
-          "id",
-          "studentId",
-          "trainingPath"
-        ]
-      },
-      "TrainingPathDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "durationUnit": {
-            "type": "string",
-            "$ref": "#/components/schemas/EDurationUnit",
-            "enum": [
-              "YEAR",
-              "SEMESTER",
-              "TRIMESTER",
-              "MONTH",
-              "WEEK"
-            ]
-          },
-          "durationCount": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "required": [
-          "durationCount",
-          "durationUnit",
-          "id",
-          "name"
-        ]
-      },
-      "SkillDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "levelCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "currentSkillLevel": {
-            "$ref": "#/components/schemas/SkillLevelViewDTO"
-          },
-          "achievedSkillLevels": {
-            "$ref": "#/components/schemas/SkillLevelViewDTO"
-          },
-          "isProgramFinished": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "currentSkillLevel",
-          "id",
-          "isProgramFinished",
-          "levelCount",
-          "name"
-        ]
-      },
-      "SkillLevelViewDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "shortDescription": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "$ref": "#/components/schemas/ESkillLevelStatus",
-            "enum": [
-              "VALIDATED",
-              "FAILED",
-              "UNDER_ACQUISITION",
-              "UNDER_REVIEW",
-              "TO_BE_EVALUATED",
-              "NOT_STARTED"
-            ]
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "shortDescription",
-          "status"
-        ]
-      },
-      "StudentProgressViewDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "skills": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SkillDTO"
-            }
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "skills"
-        ]
-      },
-      "SkillLevelProgressOverviewDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "$ref": "#/components/schemas/ESkillLevelStatus",
-            "enum": [
-              "VALIDATED",
-              "FAILED",
-              "UNDER_ACQUISITION",
-              "UNDER_REVIEW",
-              "TO_BE_EVALUATED",
-              "NOT_STARTED"
-            ]
-          }
-        },
-        "required": [
-          "activityCount",
-          "id",
-          "name",
-          "status",
-          "traceCount"
-        ]
-      },
-      "SkillOverviewDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "currentSkillLevel": {
-            "$ref": "#/components/schemas/SkillLevelProgressOverviewDTO"
-          }
-        },
-        "required": [
-          "currentSkillLevel",
-          "id",
-          "name"
-        ]
-      },
-      "StudentProgressOverviewDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "programTitle": {
-            "type": "string"
-          },
-          "skills": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SkillOverviewDTO"
-            }
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "skills"
-        ]
-      },
-      "PagedResponseSkillDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SkillDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
-        ]
-      },
-      "SkillDetailedDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "skillLevels": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SkillLevelDetailedDTO"
-            }
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "skillLevels"
-        ]
-      },
-      "SkillLevelDetailedDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name"
-        ]
-      },
-      "SkillListItemDTO": {
-        "type": "object",
-        "properties": {
-          "skillId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "skillId",
-          "title"
-        ]
-      },
       "PagedResponseSelfKnowledgeElementViewDTO": {
         "type": "object",
         "properties": {
@@ -6987,47 +6435,6 @@
         "required": [
           "data",
           "page"
-        ]
-      },
-      "AccessInfoAPC": {
-        "type": "object",
-        "properties": {
-          "enabledByInstitution": {
-            "type": "boolean"
-          },
-          "hasProgram": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "enabledByInstitution",
-          "hasProgram"
-        ]
-      },
-      "AccessInfoLifeProject": {
-        "type": "object",
-        "properties": {
-          "enabledByInstitution": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "enabledByInstitution"
-        ]
-      },
-      "NavigationAccessDTO": {
-        "type": "object",
-        "properties": {
-          "APC": {
-            "$ref": "#/components/schemas/AccessInfoAPC"
-          },
-          "LIFE_PROJECT": {
-            "$ref": "#/components/schemas/AccessInfoLifeProject"
-          }
-        },
-        "required": [
-          "APC",
-          "LIFE_PROJECT"
         ]
       },
       "PagedResponseDeclaredSkillProgressDTO": {
@@ -7832,18 +7239,6 @@
           "ASK_FOR_FEEDBACK"
         ]
       },
-      "ESkillLevelStatus": {
-        "type": "string",
-        "description": "Enum for skill level status",
-        "enum": [
-          "VALIDATED",
-          "FAILED",
-          "UNDER_ACQUISITION",
-          "UNDER_REVIEW",
-          "TO_BE_EVALUATED",
-          "NOT_STARTED"
-        ]
-      },
       "ESelfKnowledgeCategory": {
         "type": "string",
         "description": "Enum for self knowledge category types",
@@ -7986,14 +7381,6 @@
           "WEEK"
         ]
       },
-      "EPortfolioType": {
-        "type": "string",
-        "description": "Enum for portfolio types",
-        "enum": [
-          "APC",
-          "LIFE_PROJECT"
-        ]
-      },
       "EDeclaredActivityStatus": {
         "type": "string",
         "description": "Enum for declared activity status",
@@ -8028,16 +7415,6 @@
           "NOT_STARTED",
           "IN_PROGRESS",
           "COMPLETED"
-        ]
-      },
-      "ETraceStatus": {
-        "type": "string",
-        "description": "Enum for trace status",
-        "enum": [
-          "ASSOCIATED_EVALUATED",
-          "ASSOCIATED_IN_EVALUATION",
-          "ASSOCIATED_NOT_EVALUATED",
-          "ASSOCIATED_WITH_DECLARED_SKILL"
         ]
       },
       "ETraceAuthorType": {
@@ -8139,17 +7516,6 @@
           "description",
           "label"
         ]
-      },
-      "InstitutionConfigurationElements": {
-        "type": "object",
-        "properties": {
-          "apcEnabled": {
-            "type": "boolean"
-          },
-          "lifeProjectEnabled": {
-            "type": "boolean"
-          }
-        }
       },
       "EExternalSource": {
         "type": "string",

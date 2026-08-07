@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ROUTES } from '@/common/constants'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 
 export interface StudentDetailedSkillCardProps {
@@ -8,7 +7,7 @@ export interface StudentDetailedSkillCardProps {
   skillColor: string
   icon: string
   color: string
-  to?: string
+  to: string
 }
 
 const { id, icon, color, name, skillColor, to } = defineProps<StudentDetailedSkillCardProps>()
@@ -25,7 +24,7 @@ const iconOptions = {
 <template>
   <RouterLink
     class="student-detailed-skill-card"
-    :to="{ name: to ?? ROUTES.STUDENT.EDUCATION_SKILL.name, params: { id } }"
+    :to="{ name: to, params: { id } }"
     data-testid="student-detailed-skill-card"
   >
     <FloatingIconCard

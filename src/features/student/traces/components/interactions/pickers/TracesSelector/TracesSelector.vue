@@ -18,7 +18,7 @@ const { traces, readonly = false, compact = false } = defineProps<TracesSelector
 const selectedTraceIds = defineModel<string[]>({ default: [] })
 
 function isTraceOverviewDTO (trace: SelectableTrace): trace is TraceOverviewDTO {
-  return 'programName' in trace && 'authorType' in trace
+  return !('isAssociated' in trace)
 }
 
 const selectableTraces = computed(() =>

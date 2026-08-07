@@ -28,9 +28,6 @@ export function useTraceFilters ({ isAssociated }: UseTraceFiltersProps): UseTra
     if (newFilters.skillIds) {
       traceFilterUpdates.skillIds = newFilters.skillIds
     }
-    if (newFilters.statuses) {
-      traceFilterUpdates.statuses = newFilters.statuses
-    }
 
     if (newFilters.fromDate || newFilters.fromDate === '') {
       paramsUpdates.fromDate = newFilters.fromDate

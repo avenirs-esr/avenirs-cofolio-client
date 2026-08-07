@@ -30,10 +30,6 @@ export function useNavigation () {
     return navigate(to, replace)
   }
 
-  const navigateToStudentEducationSkills = () => {
-    return router.push(ROUTES.STUDENT.EDUCATION_SKILLS)
-  }
-
   const navigateToStudentUpdateDeclaredExperience = ({ replace }: { replace?: boolean }) => {
     return navigate(ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE, replace)
   }
@@ -188,13 +184,6 @@ export function useNavigation () {
     })
   }
 
-  const navigateToStudentProjectSkill = ({ id }: { id: string }) => {
-    return navigate({
-      name: ROUTES.STUDENT.PROJECT_SKILL.name,
-      params: { id },
-    })
-  }
-
   const navigateToStudentToolsUpdateTrace = ({ id }: { id: string }) => {
     return navigate({
       name: ROUTES.STUDENT.TOOLS_UPDATE_TRACE.name,
@@ -206,7 +195,6 @@ export function useNavigation () {
     navigateToAuthLogin,
     navigateToStudentActivitiesCatalog,
     navigateToStudentDeclaredExperience,
-    navigateToStudentEducationSkills,
     navigateToStudentUpdateDeclaredExperience,
     navigateToStudentDeliverables,
     navigateToStudentEvents,
@@ -235,6 +223,5 @@ export function useNavigation () {
     navigateToStudentUpdateTrace,
     navigateToStudentToolsUpdateTrace,
     navigateToStudentToolsTrace,
-    navigateToStudentProjectSkill,
   }
 }

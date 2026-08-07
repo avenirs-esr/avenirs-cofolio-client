@@ -6,7 +6,7 @@ import { studentToolsKitRoute } from '@/features/student/kit/routes'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
 import { declaredExperienceRoute, declaredExperienceUpdateRoute, declaredProgramUpdateRoute } from '@/features/student/personalCareer/routes'
 import { studentSelfKnowledgeCategoryRoute, studentSelfKnowledgeElementUpdateRoute } from '@/features/student/selfKnowledge'
-import { studentEducationSkillRoute, studentEducationSkillsRoute, studentProjectSkillRoute, studentProjectSkillsRoute, studentSkillRoute } from '@/features/student/skills/routes'
+import { studentProjectSkillsRoute } from '@/features/student/skills/routes'
 import { studentToolsTraceRoute, studentToolsTracesRoute, studentToolsUpdateTraceRoute, studentTraceRoute, studentUpdateTraceRoute } from '@/features/student/traces/routes'
 
 const footerLegalProps: RoutePageProps = {
@@ -38,8 +38,6 @@ export default [
         ...ROUTES.STUDENT.DELIVERABLES,
         component: () => import('@/features/student/global/views/StudentDeliverablesView/StudentDeliverablesView.vue'),
       },
-      studentEducationSkillRoute,
-      studentEducationSkillsRoute,
       {
         ...ROUTES.STUDENT.EVENTS,
         component: () => import('@/features/student/global/views/StudentEventsView/StudentEventsView.vue'),
@@ -55,7 +53,6 @@ export default [
         component: () => import('@/common/views/PersonalDataView/PersonalDataView.vue'),
       },
       studentProjectDeclaredSkillRoute,
-      studentProjectSkillRoute,
       studentProjectSkillsRoute,
       declaredProgramRoute,
       declaredProgramUpdateRoute,
@@ -68,7 +65,6 @@ export default [
       studentActivityRoute,
       studentSelfKnowledgeCategoryRoute,
       studentSelfKnowledgeElementUpdateRoute,
-      studentSkillRoute,
       studentToolsKitRoute,
       studentToolsTracesRoute,
       studentToolsTraceRoute,
@@ -83,10 +79,6 @@ export default [
       {
         ...ROUTES.STUDENT.MAILBOX,
         component: () => import('@/features/student/user/views/StudentMailboxView/StudentMailboxView.vue'),
-      },
-      {
-        ...ROUTES.STUDENT.APC_UNAVAILABLE,
-        component: () => import('@/features/student/global/views/StudentApcUnavailableView/StudentApcUnavailableView.vue'),
       },
     ],
   },

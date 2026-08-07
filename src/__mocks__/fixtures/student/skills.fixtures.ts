@@ -12,64 +12,11 @@ import {
   EDeclaredSkillLevel,
   EExternalSkillCategoryType,
   EExternalSkillType,
-  ESkillLevelStatus,
   type ExternalSkillDTO,
   type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
   type PagedResponseDeclaredSkillProgressDTO,
-  type PagedResponseExternalSkillDTO,
-  type PagedResponseSkillDTO,
-  type SkillDTO,
-  type SkillListItemDTO
+  type PagedResponseExternalSkillDTO
 } from '@/api/avenir-esr'
-
-function getRandomSkillLevelStatus (): ESkillLevelStatus {
-  const statuses = Object.values(ESkillLevelStatus)
-  const randomIndex = Math.floor(Math.random() * statuses.length)
-  return statuses[randomIndex]
-}
-
-export function createMockedPagedResponseSkillsDTO (pageSize: number, totalElements: number, page: number, _sort: string): PagedResponseSkillDTO {
-  const mockedSkills: SkillDTO[] = []
-  for (let i = 1; i <= totalElements; i++) {
-    const levelCount = Math.floor(Math.random() * 4)
-
-    const skill = {
-      id: crypto.randomUUID(),
-      name: `Ma super compétence ${i}`,
-      levelCount,
-      currentSkillLevel: {
-        id: crypto.randomUUID(),
-        name: `Niveau ${Math.floor(Math.random() * levelCount)}`,
-        traceCount: Math.floor(Math.random() * 10),
-        activityCount: Math.floor(Math.random() * 10),
-        shortDescription: 'Une super description',
-        status: getRandomSkillLevelStatus()
-      },
-      achievedSkillLevels: Math.random() < 0.5
-        ? {
-            id: crypto.randomUUID(),
-            name: `Niveau ${Math.floor(Math.random() * levelCount)}`,
-            shortDescription: 'Une super description',
-            traceCount: Math.floor(Math.random() * 10),
-            activityCount: Math.floor(Math.random() * 10),
-            status: getRandomSkillLevelStatus()
-          }
-        : undefined,
-      isProgramFinished: Math.random() < 0.5
-    }
-    mockedSkills.push(skill)
-  }
-
-  const start = page * pageSize
-  const end = start + pageSize
-  const paginatedSkills = mockedSkills.slice(start, end)
-  const totalPages = Math.ceil(totalElements / pageSize)
-
-  return {
-    data: paginatedSkills,
-    page: { pageSize, totalElements, totalPages, page }
-  }
-}
 
 export function createMockedDeclaredSkillProgressDTO () {
   return {
@@ -182,21 +129,6 @@ export function createMockedSearchExternalSkillsDTO (pageSize: number, totalElem
   }
 }
 
-export const mockedSkillDetailed = {
-  id: '1',
-  name: 'Réaliser un cahier des charges fonctionnels',
-  skillLevels: [
-    {
-      id: '1',
-      name: 'Niveau 1',
-    },
-    {
-      id: '2',
-      name: 'Niveau 2',
-    }
-  ]
-}
-
 export function createMockedDeclaredActivitiesAssociations (count: number): DeclaredActivityAssociationDTO[] {
   return Array.from({ length: count }, (_, index) => ({
     associationId: `declared-activity-association-${index + 1}`,
@@ -219,19 +151,6 @@ export const mockedDeclaredSkillAssociations: DeclaredSkillAssociationsDTO = {
   traceAssociations: createMockedTraceAssociations(2),
   declaredActivityAssociations: createMockedDeclaredActivitiesAssociations(1),
   declaredExperienceAssociations: createMockedDeclaredExperiencesAssociations(2)
-}
-
-export function createMockedAllSkillListItemDTO (): SkillListItemDTO[] {
-  const mockedAllSkills: SkillListItemDTO[] = []
-  for (let i = 1; i <= 20; i++) {
-    const skill: SkillListItemDTO = {
-      skillId: crypto.randomUUID(),
-      title: `Ma super compétence ${i}`,
-    }
-    mockedAllSkills.push(skill)
-  }
-
-  return mockedAllSkills
 }
 
 export function createMockedPagedResponseAssociationSearchResultDeclaredSkillIDTO (

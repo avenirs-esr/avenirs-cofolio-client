@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { EPortfolioType, type TraceOverviewDTO } from '@/api/avenir-esr'
+import type { TraceOverviewDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { FloatingIconCard } from '@/features/student/global'
 import { AvIconText, AvTag, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -10,11 +10,11 @@ export interface StudentTraceCardProps {
 }
 
 const { trace } = defineProps<StudentTraceCardProps>()
-const { title, authorType, programName } = trace
+const { title, authorType } = trace
 
 const { t } = useI18n()
 
-const category = computed(() => programName && programName !== EPortfolioType.LIFE_PROJECT ? programName : t('student.traces.cards.StudentTraceCard.lifeProject'))
+const category = computed(() => t('student.traces.cards.StudentTraceCard.lifeProject'))
 
 const typeInfo = computed(() => t(`student.traces.cards.StudentTraceCard.tagLabel.${authorType}`))
 

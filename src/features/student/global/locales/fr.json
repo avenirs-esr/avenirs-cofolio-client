@@ -52,16 +52,6 @@
           "label": "Accéder à"
         },
         "tabs": {
-          "apcUnavailable": {
-            "title": "APC indisponible"
-          },
-          "education": {
-            "header": "Réussir ma formation",
-            "items": {
-              "activities": "Mes activités de mise en situation",
-              "skills": "Mes compétences"
-            }
-          },
           "home": "Accueil",
           "project": {
             "header": "Construire mon projet de vie",

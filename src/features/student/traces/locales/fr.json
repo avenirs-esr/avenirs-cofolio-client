@@ -247,19 +247,7 @@
                 "unassociated": "Rechercher une trace non associée"
               },
               "selected": "{count} choix",
-              "skills": "Compétence",
-              "statuses": "Statut",
-              "statusesOptions": {
-                "associatedEvaluated": "Associée à un niveau de compétence évalué",
-                "associatedInEvaluation": "Associée à un niveau de compétence soumis pour évaluation",
-                "associatedNotEvaluated": "Associée à un niveau de compétence non évalué",
-                "associatedWithDeclaredSkill": "Associée à un niveau de compétence supplémentaire"
-              },
               "toDate": "Date de fin"
-            },
-            "placeholders": {
-              "skills": "Trier par compétence associée",
-              "statuses": "Trier par statut de la trace"
             }
           },
           "TracesInformation": {

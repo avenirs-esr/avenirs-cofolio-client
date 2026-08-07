@@ -9,7 +9,8 @@ const props: StudentDetailedSkillCardProps = {
   name: 'An awesome skill',
   skillColor: 'var(--color-skill-primary)',
   icon: 'mdi:star-shooting',
-  color: 'var(--text1)'
+  color: 'var(--text1)',
+  to: 'student-project-declared-skill'
 }
 
 function createWrapper (slots = {}, customProps = {}) {
@@ -46,10 +47,10 @@ BddTest().given('a student detailed skill card with valid props', () => {
       expect(floatingIconCard.exists()).toBe(true)
     })
 
-    BddTest().then('it should use the default student-education-skill route when to prop is not provided', () => {
+    BddTest().then('it should use the provided to prop as the route name', () => {
       const routerLink = wrapper.findComponent(RouterLinkStub)
       expect(routerLink.props('to')).toEqual({
-        name: 'student-education-skill',
+        name: props.to,
         params: { id: props.id }
       })
     })

@@ -52,16 +52,6 @@
           "label": "Access to"
         },
         "tabs": {
-          "apcUnavailable": {
-            "title": "APC not available"
-          },
-          "education": {
-            "header": "Successful education",
-            "items": {
-              "activities": "My role-playing activities",
-              "skills": "My skills"
-            }
-          },
           "home": "Home",
           "project": {
             "header": "Building my life project",

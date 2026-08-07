@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import type { TraceFilter, TraceFilterFileTypesItem } from '@/api/avenir-esr'
 import type { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 import type { DateFilter, SearchFilter } from '@/types'
-import { type TraceFilter, type TraceFilterFileTypesItem, TraceFilterStatusesItem, useGetAllSkills } from '@/api/avenir-esr'
 import FileTypeMultiselect from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.vue'
 import { useModal } from '@/common/composables'
 import { computeTraceFilterFileTypesFromGlobals } from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/utils'
-import { AvButton, AvInput, AvModal, AvMultiselect, type AvMultiselectOption, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvInput, AvModal, type AvMultiselectOption, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { isValid } from 'date-fns'
 import { debounce } from 'lodash-es'
 import { useI18n } from 'vue-i18n'
@@ -16,7 +16,6 @@ const emit = defineEmits<{ (e: 'update:filters',
   payload: TraceFilter & DateFilter & SearchFilter): void }>()
 
 const { t } = useI18n()
-const { data: allSkills } = useGetAllSkills()
 const { showModal, displayModal, hideModal } = useModal()
 const { isMobile } = useAvBreakpoints()
 
@@ -27,42 +26,12 @@ const debouncedEmit = debounce((payload: TraceFilter & DateFilter & SearchFilter
 const typesSelected = ref<TraceFilterFileTypesItem[]>([])
 const fileGlobalTypesSelected = ref<AvMultiselectOption[]>([])
 
-const statusesOptions: AvMultiselectOption[] = [
-  {
-    value: TraceFilterStatusesItem.ASSOCIATED_EVALUATED,
-    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.statusesOptions.associatedEvaluated'),
-  },
-  {
-    value: TraceFilterStatusesItem.ASSOCIATED_IN_EVALUATION,
-    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.statusesOptions.associatedInEvaluation'),
-  },
-  {
-    value: TraceFilterStatusesItem.ASSOCIATED_NOT_EVALUATED,
-    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.statusesOptions.associatedNotEvaluated'),
-  },
-  {
-    value: TraceFilterStatusesItem.ASSOCIATED_WITH_DECLARED_SKILL,
-    label: t('student.traces.views.StudentToolsTracesView.traceFilter.labels.statusesOptions.associatedWithDeclaredSkill'),
-  },
-]
-const statusesSelected = ref<AvMultiselectOption[]>([])
-
-const skillsOptions = computed(() => (allSkills.value ?? []).map((skill) => {
-  return {
-    value: skill.skillId,
-    label: skill.title
-  } as AvMultiselectOption
-}))
-const skillsSelected = ref<AvMultiselectOption[]>([])
-
 const fromDateSelected = ref<string>('')
 const toDateSelected = ref<string>('')
 const keyword = ref<string>('')
 
 function resetAllFilters () {
   fileGlobalTypesSelected.value = []
-  statusesSelected.value = []
-  skillsSelected.value = []
   fromDateSelected.value = ''
   toDateSelected.value = ''
   keyword.value = ''
@@ -82,23 +51,17 @@ function getDateSelectedFromString (date: string | undefined) {
 
 watch([
   typesSelected,
-  statusesSelected,
-  skillsSelected,
   fromDateSelected,
   toDateSelected,
   keyword
 ], ([
   newTypes,
-  newStatuses,
-  newSkills,
   newFromDate,
   newToDate,
   keyword
 ]) => {
   debouncedEmit({
     fileTypes: newTypes,
-    statuses: newStatuses.map(s => s.value as TraceFilterStatusesItem),
-    skillIds: newSkills.map(s => s.value as string),
     fromDate: newFromDate,
     toDate: newToDate,
     keyword
@@ -137,19 +100,6 @@ watch(fileGlobalTypesSelected, (newFileGlobalTypes) => {
         width="14.875rem"
         @update:model-value="handleKeywordChange"
       />
-      <AvMultiselect
-        v-if="isAssociated"
-        v-model="skillsSelected"
-        class="skills-multiselect"
-        :options="skillsOptions"
-        :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.skills')"
-        :placeholder="t('student.traces.views.StudentToolsTracesView.traceFilter.placeholders.skills')"
-        :selected-text="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.selected', { count: skillsSelected.length })"
-        dense
-        width="14.875rem"
-        height="2.5rem"
-        collapse-max-height="var(--dimension-7xl)"
-      />
       <AvInput
         v-model="fromDateSelected"
         class="start-date-input"
@@ -171,19 +121,6 @@ watch(fileGlobalTypesSelected, (newFileGlobalTypes) => {
       <FileTypeMultiselect
         v-model="fileGlobalTypesSelected"
         max-height="var(--dimension-7xl)"
-      />
-      <AvMultiselect
-        v-if="isAssociated"
-        v-model="statusesSelected"
-        class="statuses-multiselect"
-        :options="statusesOptions"
-        :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.statuses')"
-        :placeholder="t('student.traces.views.StudentToolsTracesView.traceFilter.placeholders.statuses')"
-        :selected-text="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.selected', { count: statusesSelected.length })"
-        dense
-        width="14.875rem"
-        height="2.5rem"
-        collapse-max-height="var(--dimension-7xl)"
       />
       <AvButton
         :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.reset')"

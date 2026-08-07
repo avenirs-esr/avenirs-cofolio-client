@@ -130,11 +130,11 @@ BddTest().given('a ValorizedItem component', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should render the access button pointing to PROJECT_SKILL route', () => {
+    BddTest().then('it should render the access button pointing to PROJECT_DECLARED_SKILL route', () => {
       const button = wrapper.findComponent(AvButtonStub)
       expect(button.exists()).toBe(true)
       expect(button.props('to')).toEqual({
-        name: ROUTES.STUDENT.PROJECT_SKILL.name,
+        name: ROUTES.STUDENT.PROJECT_DECLARED_SKILL.name,
         params: { id: ITEM_ID },
       })
     })

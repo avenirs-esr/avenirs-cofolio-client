@@ -1,14 +1,18 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
-import { SkillsViewTabsStub } from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewTabs/SkillsViewTabs.stub'
 import StudentProjectSkillsView from '@/features/student/skills/views/StudentProjectSkillsView/StudentProjectSkillsView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const SkillsViewOtherTabStub = defineComponent({
+  name: 'SkillsViewOtherTab',
+  template: '<div />'
+})
+
 const stubs = {
   PageTitle: PageTitleStub,
-  SkillsViewTabs: SkillsViewTabsStub
+  SkillsViewOtherTab: SkillsViewOtherTabStub
 }
 
 BddTest().given('a student project skills view component', () => {
@@ -45,10 +49,10 @@ BddTest().given('a student project skills view component', () => {
       })
     })
 
-    BddTest().then('it should render SkillsViewTabs', () => {
-      const skillsViewTabs = wrapper.findComponent({ name: 'SkillsViewTabs' })
+    BddTest().then('it should render SkillsViewOtherTab', () => {
+      const skillsViewOtherTab = wrapper.findComponent({ name: 'SkillsViewOtherTab' })
 
-      expect(skillsViewTabs.exists()).toBe(true)
+      expect(skillsViewOtherTab.exists()).toBe(true)
     })
   })
 })
