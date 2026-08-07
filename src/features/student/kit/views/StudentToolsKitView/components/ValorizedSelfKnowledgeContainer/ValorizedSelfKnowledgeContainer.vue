@@ -1,22 +1,27 @@
 <script setup lang="ts">
-import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
-import { useGetSelfKnowledgeElements } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategory, useGetSelfKnowledgeElements } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { ProjectTrajectoryItems } from '@/features/student/global/views/StudentProjectTrajectoriesView/types'
 import ValorizedElementsCardContainer from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.vue'
-import ValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.vue'
+import ValorizedSelfKnowledgeItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedSelfKnowledgeItem/ValorizedSelfKnowledgeItem.vue'
 import { useI18n } from 'vue-i18n'
 
-export interface ValorizedSelfKnowledgeInterestsContainerProps {
-  category: ESelfKnowledgeCategory
+export interface ValorizedSelfKnowledgeContainerProps {
+  interestsOnly?: boolean
 }
 
-const { category } = defineProps<ValorizedSelfKnowledgeInterestsContainerProps>()
+const { interestsOnly = false } = defineProps<ValorizedSelfKnowledgeContainerProps>()
 
 const { t } = useI18n()
 
+const categories = computed(() => interestsOnly
+  ? [ESelfKnowledgeCategory.INTERESTS]
+  : Object.values(ESelfKnowledgeCategory).filter(category => category !== ESelfKnowledgeCategory.INTERESTS))
+
+const i18nKey = computed(() => interestsOnly ? ESelfKnowledgeCategory.INTERESTS : 'OTHERS')
+
 const { data, error, isFetching } = useGetSelfKnowledgeElements(
-  { selfKnowledgeCategories: [category], isValorized: true, pageSize: 100 }
+  computed(() => ({ selfKnowledgeCategories: categories.value, isValorized: true, pageSize: 100 }))
 )
 
 const elements = computed(() => data.value?.data ?? [])
@@ -24,11 +29,11 @@ const totalElements = computed(() => data.value?.page?.totalElements ?? 0)
 const isEmpty = computed(() => totalElements.value === 0)
 
 const seeAllTo = computed(() => {
-  if (totalElements.value > 0) {
+  if (interestsOnly && totalElements.value > 0) {
     return {
       name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
       params: {
-        id: category
+        id: ESelfKnowledgeCategory.INTERESTS
       }
     }
   }
@@ -43,29 +48,31 @@ const seeAllTo = computed(() => {
 
 const emptyStateMessage = computed(() => t(
   'student.kit.cards.ValorizedElementsCardContainer.emptyState',
-  { item: t(`student.kit.views.StudentToolsKitView.valorizedSelfKnowledgeContainer.${category}.emptyStateItemLabel`) }
+  { item: t(`student.kit.views.StudentToolsKitView.valorizedSelfKnowledgeContainer.${i18nKey.value}.emptyStateItemLabel`) }
 ))
+
+const dataTestId = computed(() => interestsOnly
+  ? 'valorized-self-knowledge-interests-container'
+  : 'valorized-self-knowledge-others-container')
 </script>
 
 <template>
   <ValorizedElementsCardContainer
-    :title="t(`student.kit.views.StudentToolsKitView.valorizedSelfKnowledgeContainer.${category}.title`, { count: totalElements })"
+    :title="t(`student.kit.views.StudentToolsKitView.valorizedSelfKnowledgeContainer.${i18nKey}.title`, { count: totalElements })"
     :error="error"
     :is-loading="isFetching"
     :is-empty="isEmpty"
     :empty-state-message="emptyStateMessage"
-    :see-all-label="t(`student.kit.views.StudentToolsKitView.valorizedSelfKnowledgeContainer.${category}.seeAll`)"
+    :see-all-label="t(`student.kit.views.StudentToolsKitView.valorizedSelfKnowledgeContainer.${i18nKey}.seeAll`)"
     :see-all-to="seeAllTo"
-    data-testid="valorized-self-knowledge-interests-container"
+    :data-testid="dataTestId"
     collapsed
   >
-    <ValorizedItem
-      v-for="interest in elements"
-      :key="interest.id"
-      :title="interest.title"
-      :item-id="interest.id"
-      :parent-id="category"
-      :type="category"
+    <ValorizedSelfKnowledgeItem
+      v-for="element in elements"
+      :key="element.id"
+      :element="element"
+      :show-category-badge="!interestsOnly"
     />
   </ValorizedElementsCardContainer>
 </template>
