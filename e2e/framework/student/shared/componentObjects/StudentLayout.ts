@@ -17,12 +17,6 @@ export class StudentLayout extends BaseObject {
     })
   }
 
-  getSuccessfulEducationButton () {
-    return this.getMainNavigation().getByRole('button', {
-      name: t('student.global.navigation.tabs.education.header').toUpperCase(),
-    })
-  }
-
   getBuildingLifeProjectButton () {
     return this.getMainNavigation().getByRole('button', {
       name: t('student.global.navigation.tabs.project.header').toUpperCase(),

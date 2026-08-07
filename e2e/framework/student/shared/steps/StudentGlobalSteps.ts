@@ -28,11 +28,6 @@ class StudentGlobalSteps extends BasePage {
     await waitForPageLoad(this.page)
   }
 
-  @Then('the page navigates to skill detail page')
-  async verifyNavigationToSkillDetailPage () {
-    await expect(this.page).toHaveURL(new RegExp(`${STUDENT_ROUTES.SKILL_DETAIL}.+`))
-  }
-
   @Then('the page navigates to traces page')
   async verifyNavigationToTracesPage () {
     await expect(this.page).toHaveURL(STUDENT_ROUTES.TOOLS.TRACES)
@@ -52,12 +47,6 @@ class StudentGlobalSteps extends BasePage {
   async verifyHomeLink () {
     await expect(this.layout.getHomeNavLink()).toBeVisible()
     await expect(this.layout.getHomeNavLink()).toHaveText(t('student.global.navigation.tabs.home').toUpperCase())
-  }
-
-  @Then('the SUCCESSFUL EDUCATION menu is visible')
-  async verifySuccessfulEducationMenu () {
-    await expect(this.layout.getSuccessfulEducationButton()).toBeVisible()
-    await expect(this.layout.getSuccessfulEducationButton()).toContainText(t('student.global.navigation.tabs.education.header').toUpperCase())
   }
 
   @Then('the BUILDING MY LIFE PROJECT menu is visible')

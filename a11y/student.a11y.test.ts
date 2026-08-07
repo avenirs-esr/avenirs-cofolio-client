@@ -17,7 +17,6 @@ interface Route {
 }
 
 const routesToCheck: Array<Route> = [
-  ROUTES.STUDENT.EDUCATION_SKILLS,
   {
     ...ROUTES.STUDENT.PERSONAL_CAREER,
     children: [

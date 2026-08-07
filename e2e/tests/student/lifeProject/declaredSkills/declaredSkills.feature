@@ -3,7 +3,6 @@ Feature: Student Life Project Declared Skills Page
 
   Background:
     Given the student opens the skills page
-    When the student opens the declared skills tab
 
   Rule: Page Load and Basic Display
 
