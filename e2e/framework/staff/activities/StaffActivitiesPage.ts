@@ -144,6 +144,14 @@ export class StaffActivitiesPage extends BasePage {
     expect(rowCount).toBeGreaterThanOrEqual(2)
   }
 
+  @Then('the all published activities table displays the more actions column')
+  async verifyAllPublishedActivitiesMoreActionsColumnVisible () {
+    await expect(this.getAllPublishedActivitiesTable().locator('th')).toHaveCount(4)
+    await expect(
+      this.getAllPublishedActivitiesTable().getByTestId('more-actions-dropdown').first(),
+    ).toBeVisible()
+  }
+
   private getMoreActionsDropdown () {
     return this.page.getByTestId('more-actions-dropdown').first()
   }
