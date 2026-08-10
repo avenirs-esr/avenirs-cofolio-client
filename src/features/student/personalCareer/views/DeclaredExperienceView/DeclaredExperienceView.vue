@@ -137,6 +137,7 @@ function handleConfirmDelete () {
             data-testid="declared-experience-associations-tab-item"
           >
             <DeclaredExperienceAssociations
+              :declared-experience-id="experienceId"
               :trace-associations="traceAssociations"
               :associations-error="associationsError"
             />

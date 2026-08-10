@@ -192,6 +192,7 @@ BddTest().given('a declared experience view component', () => {
         const associations = wrapper.findComponent(DeclaredExperienceAssociationsStub)
         expect(associations.exists()).toBe(true)
         expect(associations.props('traceAssociations')).toHaveLength(3)
+        expect(associations.props('declaredExperienceId')).toBe('exp-123')
         expect(associations.props('associationsError')).toBeFalsy()
       })
     })
