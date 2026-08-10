@@ -98,3 +98,7 @@ Feature: Staff Activities Page
     Scenario: Staff can see the all published activities tab content
       Then the all published activities title is visible
       And the all published activities table is visible and contains data
+
+    @high @dataset-full
+    Scenario: Staff can see the more actions column in the all published activities table
+      Then the all published activities table displays the more actions column
