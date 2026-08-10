@@ -16,7 +16,7 @@ export interface DeclaredSkillDetailsProps {
 }
 
 const { declaredSkillProgressDetails } = defineProps<DeclaredSkillDetailsProps>()
-const { title, reflection, type, pathSegments, level, createdAt, updatedAt, valorized } = declaredSkillProgressDetails
+
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
 
@@ -36,18 +36,18 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
       data-testid="layout-declared-skill-details__main"
     >
       <ValorizedBadge
-        :valorized="valorized"
+        :valorized="declaredSkillProgressDetails.valorized"
       />
       <AvInput
         :label="t('student.declaredSkills.views.StudentDeclaredSkillView.declaredSkillDetails.skillTitle')"
         label-class="caption-regular"
         :prefix-icon="RI_ICONS.LOADER_LINE"
-        :model-value="title"
+        :model-value="declaredSkillProgressDetails.title"
         disabled
       />
       <DeclaredSkillRefCard
-        :type="type"
-        :path-segments="pathSegments"
+        :type="declaredSkillProgressDetails.type"
+        :path-segments="declaredSkillProgressDetails.pathSegments"
       />
       <Card
         class="level-card"
@@ -58,13 +58,13 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
           data-testid="level-card__content"
         >
           <span class="b2-regular">{{ t('student.declaredSkills.views.StudentDeclaredSkillView.declaredSkillDetails.levelTitle') }}</span>
-          <DeclaredSkillLevelBadge :level="level" />
+          <DeclaredSkillLevelBadge :level="declaredSkillProgressDetails.level" />
         </div>
       </Card>
       <CreationUpdateDateDetails
-        :created-at="createdAt"
+        :created-at="declaredSkillProgressDetails.createdAt"
         :created-at-prefix="createdAtPrefix"
-        :updated-at="updatedAt"
+        :updated-at="declaredSkillProgressDetails.updatedAt"
       />
     </div>
     <div
@@ -72,7 +72,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
       data-testid="layout-declared-skill-details__side"
     >
       <DeclaredSkillReflectionInput
-        :model-value="reflection"
+        :model-value="declaredSkillProgressDetails.reflection"
         disabled
       />
     </div>
