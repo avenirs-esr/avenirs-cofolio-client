@@ -1,14 +1,15 @@
 import type { TraceAssociationDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student'
+import { EAssociationContextType } from '@/api/avenir-esr'
+import { AssociationElementsDropdownStub }
+  from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { BaseApiErrorCode } from '@/common/exceptions'
 import { AssociatedTracesCardStub }
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import DeclaredExperienceAssociations
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.vue'
-import { DeleteDeclaredExperienceAssociatedElementsDropdownStub }
-  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/dropdowns/DeleteDeclaredExperienceAssociatedElementsDropdown/DeleteDeclaredExperienceAssociatedElementsDropdown.stub'
 import { DeleteDeclaredExperienceAssociatedTracesModalStub }
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/DeleteDeclaredExperienceAssociatedTracesModal/DeleteDeclaredExperienceAssociatedTracesModal.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -25,7 +26,7 @@ const declaredExperienceId = 'experience-1'
 const stubs = {
   QuerySuspense: QuerySuspenseStub,
   AssociatedTracesCard: AssociatedTracesCardStub,
-  DeleteDeclaredExperienceAssociatedElementsDropdown: DeleteDeclaredExperienceAssociatedElementsDropdownStub,
+  AssociationElementsDropdown: AssociationElementsDropdownStub,
   DeleteDeclaredExperienceAssociatedTracesModal: DeleteDeclaredExperienceAssociatedTracesModalStub
 }
 
@@ -80,10 +81,13 @@ BddTest().given('a declared experience associations component', () => {
       expect(card.props('associatedTraces')).toEqual(mockedAssociatedTraces)
     })
 
-    BddTest().then('it should render the delete associated elements dropdown enabled', () => {
-      const dropdown = wrapper.findComponent(DeleteDeclaredExperienceAssociatedElementsDropdownStub)
+    BddTest().then('it should render the delete associated elements dropdown with the traces entry enabled', () => {
+      const dropdown = wrapper.findComponent(AssociationElementsDropdownStub)
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('tracesDisabled')).toBe(false)
+      expect(dropdown.props('variant')).toBe('delete')
+      expect(dropdown.props('items')).toEqual([
+        { type: EAssociationContextType.TRACE, disabled: false }
+      ])
     })
 
     BddTest().then('it should render the delete traces modal hidden with the right props', () => {
@@ -94,9 +98,9 @@ BddTest().given('a declared experience associations component', () => {
       expect(modal.props('associations')).toEqual(mockedAssociatedTraces)
     })
 
-    BddTest().and('the dropdown emits tracesSelected', () => {
+    BddTest().and('the dropdown selects the trace type', () => {
       beforeEach(async () => {
-        await wrapper.findComponent(DeleteDeclaredExperienceAssociatedElementsDropdownStub).vm.$emit('tracesSelected')
+        await wrapper.findComponent(AssociationElementsDropdownStub).vm.$emit('select', EAssociationContextType.TRACE)
       })
 
       BddTest().then('it should display the delete traces modal', () => {
@@ -164,9 +168,11 @@ BddTest().given('a declared experience associations component', () => {
     })
 
     BddTest().then('it should disable the traces entry of the delete dropdown', () => {
-      const dropdown = wrapper.findComponent(DeleteDeclaredExperienceAssociatedElementsDropdownStub)
+      const dropdown = wrapper.findComponent(AssociationElementsDropdownStub)
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('tracesDisabled')).toBe(true)
+      expect(dropdown.props('items')).toEqual([
+        { type: EAssociationContextType.TRACE, disabled: true }
+      ])
     })
   })
 

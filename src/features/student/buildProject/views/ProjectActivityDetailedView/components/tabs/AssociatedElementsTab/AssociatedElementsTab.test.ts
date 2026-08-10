@@ -1,12 +1,16 @@
+import type {
+  AssociationElementsDropdownVariant
+} from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import { mockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { EAssociationContextType } from '@/api/avenir-esr'
+import { AssociationElementsDropdownStub }
+  from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.stub'
 import { AssociatedTracesCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import { TraceAssociationLimitCardStub }
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.stub'
 import {
   AssociateDeclaredSkillsToActivityModalStub
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/modals/AssociateDeclaredSkillToActivityModal/AssociateDeclaredSkillToActivityModal.stub'
-import { ActivityAssociateElementsDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/ActivityAssociateElementsDropdown/ActivityAssociateElementsDropdown.stub'
-import { DeleteActivityAssociatedElementsDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/DeleteActivityAssociatedElementsDropdown/DeleteActivityAssociatedElementsDropdown.stub'
 import {
   AssociateTracesModalStub
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesModal.stub'
@@ -22,14 +26,17 @@ import { beforeEach, expect } from 'vitest'
 BddTest().given('an associated elements tab', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedElementsTab>>
 
+  const findDropdown = (variant: AssociationElementsDropdownVariant) =>
+    wrapper.findAllComponents(AssociationElementsDropdownStub)
+      .filter(dropdown => dropdown.props('variant') === variant)[0]
+
   const getDeleteSkillsModal = () => wrapper.findAllComponents(DeleteActivityAssociatedElementsModalStub)
     .find(modal => modal.attributes('data-testid') === 'delete-activity-associated-skills-modal')
   const getDeleteTracesModal = () => wrapper.findAllComponents(DeleteActivityAssociatedElementsModalStub)
     .find(modal => modal.attributes('data-testid') === 'delete-activity-associated-traces-modal')
 
   const stubs = {
-    DeleteActivityAssociatedElementsDropdown: DeleteActivityAssociatedElementsDropdownStub,
-    ActivityAssociateElementsDropdown: ActivityAssociateElementsDropdownStub,
+    AssociationElementsDropdown: AssociationElementsDropdownStub,
     DeleteActivityAssociatedElementsModal: DeleteActivityAssociatedElementsModalStub,
     AssociateTracesModal: AssociateTracesModalStub,
     AssociatedTracesCard: AssociatedTracesCardStub,
@@ -51,18 +58,29 @@ BddTest().given('an associated elements tab', () => {
     })
 
     BddTest().then('it should render the delete associated elements dropdown', () => {
-      const dropdown = wrapper.findComponent(DeleteActivityAssociatedElementsDropdownStub)
+      const dropdown = findDropdown('delete')
       expect(dropdown.exists()).toBe(true)
     })
 
     BddTest().then('it should render the associate elements dropdown', () => {
-      const dropdown = wrapper.findComponent(ActivityAssociateElementsDropdownStub)
+      const dropdown = findDropdown('associate')
       expect(dropdown.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass tracesDisabled as false to the associate elements dropdown when traceAssociationsDisabled is not set', () => {
-      const dropdown = wrapper.findComponent(ActivityAssociateElementsDropdownStub)
-      expect(dropdown.props('tracesDisabled')).toBe(false)
+    BddTest().then('it should enable the traces entry of the associate dropdown when traceAssociationsDisabled is not set', () => {
+      const dropdown = findDropdown('associate')
+      expect(dropdown.props('items')).toEqual([
+        { type: EAssociationContextType.TRACE, disabled: false },
+        { type: EAssociationContextType.DECLARED_SKILL },
+      ])
+    })
+
+    BddTest().then('it should enable both entries of the delete dropdown', () => {
+      const dropdown = findDropdown('delete')
+      expect(dropdown.props('items')).toEqual([
+        { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
+        { type: EAssociationContextType.TRACE, disabled: false },
+      ])
     })
 
     BddTest().then('it should render the associated declared skills card', () => {
@@ -135,8 +153,8 @@ BddTest().given('an associated elements tab', () => {
 
     BddTest().and('the user selects skills to delete from the dropdown', () => {
       beforeEach(() => {
-        const dropdown = wrapper.findComponent(DeleteActivityAssociatedElementsDropdownStub)
-        dropdown.vm.$emit('skillsSelected')
+        const dropdown = findDropdown('delete')
+        dropdown.vm.$emit('select', EAssociationContextType.DECLARED_SKILL)
       })
 
       BddTest().then('the delete associated skills modal should be shown', () => {
@@ -171,8 +189,8 @@ BddTest().given('an associated elements tab', () => {
 
     BddTest().and('the user selects traces to delete from the dropdown', () => {
       beforeEach(() => {
-        const dropdown = wrapper.findComponent(DeleteActivityAssociatedElementsDropdownStub)
-        dropdown.vm.$emit('tracesSelected')
+        const dropdown = findDropdown('delete')
+        dropdown.vm.$emit('select', EAssociationContextType.TRACE)
       })
 
       BddTest().then('the delete activity associated traces modal should be shown', () => {
@@ -208,8 +226,8 @@ BddTest().given('an associated elements tab', () => {
 
     BddTest().and('the user selects traces to associate from the associate dropdown', () => {
       beforeEach(() => {
-        const dropdown = wrapper.findComponent(ActivityAssociateElementsDropdownStub)
-        dropdown.vm.$emit('tracesSelected')
+        const dropdown = findDropdown('associate')
+        dropdown.vm.$emit('select', EAssociationContextType.TRACE)
       })
 
       BddTest().then('the associate traces modal should be shown', () => {
@@ -245,8 +263,8 @@ BddTest().given('an associated elements tab', () => {
 
     BddTest().and('the user selects skills to associate from the associate dropdown', () => {
       beforeEach(() => {
-        const dropdown = wrapper.findComponent(ActivityAssociateElementsDropdownStub)
-        dropdown.vm.$emit('skillsSelected')
+        const dropdown = findDropdown('associate')
+        dropdown.vm.$emit('select', EAssociationContextType.DECLARED_SKILL)
       })
 
       BddTest().then('the associate skills modal should be shown', () => {
@@ -294,9 +312,12 @@ BddTest().given('an associated elements tab', () => {
       wrapper = mount(AssociatedElementsTab, { props, global: { stubs } })
     })
 
-    BddTest().then('it should pass tracesDisabled as false to the associate elements dropdown', () => {
-      const dropdown = wrapper.findComponent(ActivityAssociateElementsDropdownStub)
-      expect(dropdown.props('tracesDisabled')).toBe(false)
+    BddTest().then('it should enable the traces entry of the associate dropdown', () => {
+      const dropdown = findDropdown('associate')
+      expect(dropdown.props('items')).toEqual([
+        { type: EAssociationContextType.TRACE, disabled: false },
+        { type: EAssociationContextType.DECLARED_SKILL },
+      ])
     })
   })
 
@@ -313,9 +334,12 @@ BddTest().given('an associated elements tab', () => {
       wrapper = mount(AssociatedElementsTab, { props, global: { stubs } })
     })
 
-    BddTest().then('it should pass tracesDisabled as true to the associate elements dropdown', () => {
-      const dropdown = wrapper.findComponent(ActivityAssociateElementsDropdownStub)
-      expect(dropdown.props('tracesDisabled')).toBe(true)
+    BddTest().then('it should disable the traces entry of the associate dropdown', () => {
+      const dropdown = findDropdown('associate')
+      expect(dropdown.props('items')).toEqual([
+        { type: EAssociationContextType.TRACE, disabled: true },
+        { type: EAssociationContextType.DECLARED_SKILL },
+      ])
     })
   })
 
@@ -333,14 +357,38 @@ BddTest().given('an associated elements tab', () => {
       wrapper = mount(AssociatedElementsTab, { props, global: { stubs } })
     })
 
-    BddTest().then('it should pass tracesDisabled as true to the associate elements dropdown', () => {
-      const dropdown = wrapper.findComponent(ActivityAssociateElementsDropdownStub)
-      expect(dropdown.props('tracesDisabled')).toBe(true)
+    BddTest().then('it should disable the traces entry of the associate dropdown', () => {
+      const dropdown = findDropdown('associate')
+      expect(dropdown.props('items')).toEqual([
+        { type: EAssociationContextType.TRACE, disabled: true },
+        { type: EAssociationContextType.DECLARED_SKILL },
+      ])
     })
 
     BddTest().then('it should render the max trace associations reached message', () => {
       const message = wrapper.find('[data-testid="max-trace-associations-reached"]')
       expect(message.exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is mounted without any association', () => {
+    const props: AssociatedElementsTabProps = {
+      associations: { traceAssociations: [], declaredSkillAssociations: [] },
+      declaredActivityId: 'declared-activity-1',
+      countAssociations: 0,
+      traceAllowedAssociations: 7
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AssociatedElementsTab, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should disable both entries of the delete dropdown', () => {
+      const dropdown = findDropdown('delete')
+      expect(dropdown.props('items')).toEqual([
+        { type: EAssociationContextType.DECLARED_SKILL, disabled: true },
+        { type: EAssociationContextType.TRACE, disabled: true },
+      ])
     })
   })
 })
