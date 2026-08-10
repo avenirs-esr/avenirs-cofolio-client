@@ -7,6 +7,10 @@ import { AssociatedTracesCardStub }
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import DeclaredExperienceAssociations
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.vue'
+import { DeleteDeclaredExperienceAssociatedElementsDropdownStub }
+  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/dropdowns/DeleteDeclaredExperienceAssociatedElementsDropdown/DeleteDeclaredExperienceAssociatedElementsDropdown.stub'
+import { DeleteDeclaredExperienceAssociatedTracesModalStub }
+  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/DeleteDeclaredExperienceAssociatedTracesModal/DeleteDeclaredExperienceAssociatedTracesModal.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -16,9 +20,13 @@ const mockedAssociatedTraces: TraceAssociationDTO[] = mockedTraceOverview.map((t
   trace
 }))
 
+const declaredExperienceId = 'experience-1'
+
 const stubs = {
   QuerySuspense: QuerySuspenseStub,
-  AssociatedTracesCard: AssociatedTracesCardStub
+  AssociatedTracesCard: AssociatedTracesCardStub,
+  DeleteDeclaredExperienceAssociatedElementsDropdown: DeleteDeclaredExperienceAssociatedElementsDropdownStub,
+  DeleteDeclaredExperienceAssociatedTracesModal: DeleteDeclaredExperienceAssociatedTracesModalStub
 }
 
 BddTest().given('a declared experience associations component', () => {
@@ -32,6 +40,7 @@ BddTest().given('a declared experience associations component', () => {
     beforeEach(() => {
       wrapper = mountComponent(DeclaredExperienceAssociations, {
         props: {
+          declaredExperienceId,
           traceAssociations: mockedAssociatedTraces
         },
         global: { stubs }
@@ -70,12 +79,57 @@ BddTest().given('a declared experience associations component', () => {
       expect(card.exists()).toBe(true)
       expect(card.props('associatedTraces')).toEqual(mockedAssociatedTraces)
     })
+
+    BddTest().then('it should render the delete associated elements dropdown enabled', () => {
+      const dropdown = wrapper.findComponent(DeleteDeclaredExperienceAssociatedElementsDropdownStub)
+      expect(dropdown.exists()).toBe(true)
+      expect(dropdown.props('tracesDisabled')).toBe(false)
+    })
+
+    BddTest().then('it should render the delete traces modal hidden with the right props', () => {
+      const modal = wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub)
+      expect(modal.exists()).toBe(true)
+      expect(modal.props('show')).toBe(false)
+      expect(modal.props('experienceId')).toBe(declaredExperienceId)
+      expect(modal.props('associations')).toEqual(mockedAssociatedTraces)
+    })
+
+    BddTest().and('the dropdown emits tracesSelected', () => {
+      beforeEach(async () => {
+        await wrapper.findComponent(DeleteDeclaredExperienceAssociatedElementsDropdownStub).vm.$emit('tracesSelected')
+      })
+
+      BddTest().then('it should display the delete traces modal', () => {
+        expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub).props('show')).toBe(true)
+      })
+
+      BddTest().and('the delete traces modal emits cancel', () => {
+        beforeEach(async () => {
+          await wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub).vm.$emit('cancel')
+        })
+
+        BddTest().then('it should hide the delete traces modal', () => {
+          expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub).props('show')).toBe(false)
+        })
+      })
+
+      BddTest().and('the delete traces modal emits deleted', () => {
+        beforeEach(async () => {
+          await wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub).vm.$emit('deleted')
+        })
+
+        BddTest().then('it should hide the delete traces modal', () => {
+          expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub).props('show')).toBe(false)
+        })
+      })
+    })
   })
 
   BddTest().when('the component is rendered with empty associations', () => {
     beforeEach(() => {
       wrapper = mountComponent(DeclaredExperienceAssociations, {
         props: {
+          declaredExperienceId,
           traceAssociations: []
         },
         global: { stubs }
@@ -108,12 +162,19 @@ BddTest().given('a declared experience associations component', () => {
       const card = wrapper.findComponent(AssociatedTracesCardStub)
       expect(card.exists()).toBe(false)
     })
+
+    BddTest().then('it should disable the traces entry of the delete dropdown', () => {
+      const dropdown = wrapper.findComponent(DeleteDeclaredExperienceAssociatedElementsDropdownStub)
+      expect(dropdown.exists()).toBe(true)
+      expect(dropdown.props('tracesDisabled')).toBe(true)
+    })
   })
 
   BddTest().when('the component is rendered with an associations error', () => {
     beforeEach(() => {
       wrapper = mountComponent(DeclaredExperienceAssociations, {
         props: {
+          declaredExperienceId,
           traceAssociations: [],
           associationsError: {
             status: 500,

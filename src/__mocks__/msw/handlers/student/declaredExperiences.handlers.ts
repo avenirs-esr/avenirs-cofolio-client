@@ -9,6 +9,7 @@ import {
   type DeclaredExperienceViewDTO,
   getCreateDeclaredExperienceUrl,
   type GetDeclaredExperienceViewParams,
+  getDeleteDeclaredExperienceAssociationsUrl,
   getDeleteDeclaredExperiencesUrl,
   getGetDeclaredExperienceAssociationsUrl,
   getGetDeclaredExperienceUrl,
@@ -152,6 +153,19 @@ export const declaredExperienceAssociationsQueryErrorHandler = http.get(
   }
 )
 
+export const deleteDeclaredExperienceAssociationsErrorHandler = http.delete(
+  `*${getDeleteDeclaredExperienceAssociationsUrl(':experienceId')}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
+  }
+)
+
 export const declaredExperiencesHandlers = [
   declaredExperiencesQueryHandler,
   http.get(`*${getSearchDeclaredExperiencesForAssociationUrl()}`, ({ request }) => {
@@ -215,7 +229,22 @@ export const declaredExperiencesHandlers = [
       }
     })
   }),
-  declaredExperienceAssociationsQueryHandler
+  declaredExperienceAssociationsQueryHandler,
+  http.delete(
+    `*${getDeleteDeclaredExperienceAssociationsUrl(':experienceId')}`,
+    async ({ params }) => {
+      const { experienceId } = params as { experienceId: string }
+
+      if (experienceId === 'INVALID_EXPERIENCE_ID') {
+        return HttpResponse.json(
+          { code: ErrorCodes.DECLARED_EXPERIENCE_NOT_FOUND, message: 'Internal server error' },
+          { status: 404 }
+        )
+      }
+
+      return new HttpResponse(null, { status: 204 })
+    }
+  )
 ]
 
 export const declaredExperienceDetailedLoadingHandler = http.get(`*${getGetDeclaredExperienceUrl(':id')}`, async ({ params }) => {

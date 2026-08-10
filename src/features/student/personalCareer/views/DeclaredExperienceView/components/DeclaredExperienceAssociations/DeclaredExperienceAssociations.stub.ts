@@ -4,6 +4,10 @@ import type { BaseApiException } from '@/common/exceptions'
 export const DeclaredExperienceAssociationsStub = defineComponent({
   name: 'DeclaredExperienceAssociations',
   props: {
+    declaredExperienceId: {
+      type: String,
+      required: true
+    },
     traceAssociations: {
       type: Array as () => TraceAssociationDTO[],
       required: true
