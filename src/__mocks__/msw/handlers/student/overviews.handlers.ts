@@ -18,7 +18,7 @@ import { ErrorCodes } from '@/common/constants'
 import { http, HttpResponse, type PathParams } from 'msw'
 
 export function createPutUpdateProfileHandler (payload: string) {
-  return http.put(`*/me/users/:profile/update`, () => {
+  return http.put(`*${getUpdateProfileUrl(':profile' as EUserCategory)}`, () => {
     return HttpResponse.json<string>(payload, {
       status: 200,
       headers: {
@@ -50,7 +50,7 @@ export function createPutUpdateProfilePhotoHandler (payload: string) {
   })
 }
 
-export const putUpdateProfileErrorHandler = http.put(`*/me/users/:profile/update`, () => {
+export const putUpdateProfileErrorHandler = http.put(`*${getUpdateProfileUrl(':profile' as EUserCategory)}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500 }

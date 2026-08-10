@@ -1,4 +1,5 @@
 import type { RoutePageProps } from '@/common/types'
+import { EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { projectActivitiesRoutes, projectTrajectoriesRoutes, studentActivitiesCatalogRoute, studentActivityRoute } from '@/features/student/buildProject/routes'
 import { studentProjectDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
@@ -19,6 +20,9 @@ export default [
   {
     path: '/student',
     component: () => import('@/features/student/global/layouts/StudentLayout/StudentLayout.vue'),
+    meta: {
+      roles: [EUserCategory.STUDENT]
+    },
     children: [
       {
         ...ROUTES.STUDENT.HOME,

@@ -1,7 +1,7 @@
 import type { FetchOptions } from '@/api/fetch'
 import type { BaseApiException } from '@/common/exceptions'
 import type { RouteLocationNormalized, RouteLocationRaw } from 'vue-router'
-import { EUserCategory, getProfile, type ProfileOverviewDTO } from '@/api/avenir-esr'
+import { ERole, EUserCategory, getMe, getProfile, type ProfileOverviewDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils'
 import router from '@/router'
@@ -10,10 +10,25 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { defineStore } from 'pinia'
 import { readonly } from 'vue'
 
+/**
+ * Maps backend roles to the front-end user categories they grant access to.
+ * ROLE_SUPER_ADMIN is treated as a staff-level access.
+ */
+const ROLE_CATEGORY_MAP: Record<ERole, EUserCategory> = {
+  [ERole.ROLE_STUDENT]: EUserCategory.STUDENT,
+  [ERole.ROLE_STAFF]: EUserCategory.STAFF,
+  [ERole.ROLE_SUPER_ADMIN]: EUserCategory.STAFF,
+}
+
+function getConnectedUserCategories (roles: ERole[]): EUserCategory[] {
+  return [...new Set(roles.map(role => ROLE_CATEGORY_MAP[role]))]
+}
+
 export const useAuthStore = defineStore('auth', () => {
   const authenticated = ref<boolean>(false)
   const sessionReady = ref<boolean>(false)
   const profile = ref<ProfileOverviewDTO | null>(null)
+  const categories = ref<EUserCategory[]>([])
 
   const redirecting = ref(false)
   const sessionPromise = ref<Promise<void> | null>(null)
@@ -23,13 +38,9 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isLoggedIn = computed(() => authenticated.value && sessionReady.value)
 
-  /**
-   * Loads the current user session by attempting to retrieve the user's profile.
-   *
-   * Acts as the single entry point for session initialization and prevents duplicate requests through the use of a shared promise. If a session has already been resolved, subsequent calls return immediately.
-   *
-   * Non-authentication errors are surfaced to the user through the toaster, while authentication failures are silently ignored and treated as an unauthenticated session.
-   */
+  const homeRoute = computed<RouteLocationRaw>(() =>
+    !categories.value.includes(EUserCategory.STUDENT) && categories.value.includes(EUserCategory.STAFF) ? ROUTES.STAFF.HOME : ROUTES.STUDENT.HOME)
+
   async function loadSession () {
     if (sessionReady.value) {
       return
@@ -39,21 +50,18 @@ export const useAuthStore = defineStore('auth', () => {
       sessionPromise.value = (async () => {
         const fetchOptions: FetchOptions = { skipUnauthorizedHandling: true }
 
-        // TODO: Add a dedicated endpoint to retrieve the user profile regardless of their "role"
         let isStatusNot401 = true
         try {
-          try {
-            profile.value = await getProfile(EUserCategory.STUDENT, fetchOptions)
-          }
-          catch (error) {
-            const err = error as BaseApiException
+          const me = await getMe(fetchOptions)
+          categories.value = getConnectedUserCategories(me.roles)
 
-            if (err.status === HttpStatusCode.UNAUTHORIZED) {
-              throw err
-            }
+          const selectedProfile = categories.value.includes(EUserCategory.STUDENT)
+            ? EUserCategory.STUDENT
+            : categories.value[0]
 
-            profile.value = await getProfile(EUserCategory.STAFF, fetchOptions)
-          }
+          profile.value = selectedProfile !== undefined
+            ? await getProfile(selectedProfile, fetchOptions)
+            : null
         }
         catch (error) {
           const err = error as BaseApiException
@@ -126,13 +134,16 @@ export const useAuthStore = defineStore('auth', () => {
     authenticated.value = false
     sessionReady.value = false
     profile.value = null
+    categories.value = []
   }
 
   return {
     ensureAuthenticated,
     invalidateSession,
     isLoggedIn,
-    profile: readonly(profile)
+    profile: readonly(profile),
+    categories: readonly(categories),
+    homeRoute
   }
 }, {
   persist: {
@@ -140,6 +151,7 @@ export const useAuthStore = defineStore('auth', () => {
       'authenticated',
       'sessionReady',
       'profile',
+      'categories',
     ]
   }
 })

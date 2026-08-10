@@ -1,4 +1,4 @@
-import { ROUTES } from '@/common/constants'
+import type { EUserCategory } from '@/api/avenir-esr'
 import authRoutes from '@/features/auth/global/routes'
 import staffRoutes from '@/features/staff/global/routes'
 import studentRoutes from '@/features/student/global/routes'
@@ -12,9 +12,8 @@ const routes = [
   ...staffRoutes,
   {
     path: '/',
-    redirect: {
-      name: ROUTES.STUDENT.HOME.name
-    },
+    name: 'home',
+    component: { render: () => null },
   },
   {
     path: '/:pathMatch(.*)*',
@@ -57,6 +56,15 @@ router.beforeEach(async (to) => { // Cf. https://github.com/vueuse/head pour des
     const toAuth = await authStore.ensureAuthenticated({ to, delegated: true })
     if (toAuth !== undefined) {
       return toAuth
+    }
+
+    if (to.name === 'home') {
+      return authStore.homeRoute
+    }
+
+    const allowedCategories = to.meta.roles as EUserCategory[] | undefined
+    if (!__ENABLE_MSW__ && allowedCategories !== undefined && !allowedCategories.some(allowedCategory => authStore.categories.includes(allowedCategory))) {
+      return authStore.homeRoute
     }
   }
 
