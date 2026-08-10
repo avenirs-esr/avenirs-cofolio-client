@@ -23,6 +23,7 @@ BddTest().given('a student navigation', () => {
       },
     })
 
+    await router.isReady()
     await wrapper.vm.$nextTick()
     return wrapper
   }

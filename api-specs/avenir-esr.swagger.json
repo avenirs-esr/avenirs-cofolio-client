@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.3",
+  "openapi": "3.1.0",
   "info": {
     "title": "OpenAPI definition",
     "version": "v0"
@@ -11,7 +11,7 @@
     }
   ],
   "paths": {
-    "/me/users/{userCategory}/update": {
+    "/me/{userCategory}/update": {
       "put": {
         "tags": [
           "user-controller"
@@ -500,7 +500,7 @@
         }
       }
     },
-    "/me/users/{userCategory}/profile-picture": {
+    "/me/{userCategory}/profile-picture": {
       "post": {
         "tags": [
           "user-controller"
@@ -569,7 +569,7 @@
         }
       }
     },
-    "/me/users/{userCategory}/cover-picture": {
+    "/me/{userCategory}/cover-picture": {
       "post": {
         "tags": [
           "user-controller"
@@ -1799,6 +1799,37 @@
         }
       }
     },
+    "/me/activities/duplicate/{activityId}": {
+      "post": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "duplicateActivity",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityDraftCreationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activities/draft": {
       "post": {
         "tags": [
@@ -2057,7 +2088,7 @@
         }
       }
     },
-    "/me/users/preferences/notification": {
+    "/me/preferences/notification": {
       "patch": {
         "tags": [
           "user-controller"
@@ -2296,7 +2327,27 @@
         }
       }
     },
-    "/me/users/{userCategory}/quick-links": {
+    "/me": {
+      "get": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "getMe",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoggedInUserDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/{userCategory}/quick-links": {
       "get": {
         "tags": [
           "user-controller"
@@ -2326,7 +2377,7 @@
         }
       }
     },
-    "/me/users/{userCategory}/overview": {
+    "/me/{userCategory}/overview": {
       "get": {
         "tags": [
           "user-controller"
@@ -3006,6 +3057,71 @@
         }
       }
     },
+    "/me/declared/experiences/{experienceId}/search-for-association/traces": {
+      "get": {
+        "tags": [
+          "declared-experience-controller"
+        ],
+        "operationId": "searchTracesForAssociationWithDeclaredExperience",
+        "parameters": [
+          {
+            "name": "experienceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "isAssociated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultTraceDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/declared/experiences/{experienceId}/associations": {
       "get": {
         "tags": [
@@ -3239,71 +3355,6 @@
         "parameters": [
           {
             "name": "declaredActivityId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "isAssociated",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultTraceDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/declared/experiences/{experienceId}/search-for-association/traces": {
-      "get": {
-        "tags": [
-          "declared-experience-controller"
-        ],
-        "operationId": "searchTracesForAssociationWithDeclaredExperience",
-        "parameters": [
-          {
-            "name": "experienceId",
             "in": "path",
             "required": true,
             "schema": {
@@ -4148,6 +4199,463 @@
         }
       }
     },
+    "/back-office/external-users": {
+      "get": {
+        "tags": [
+          "external-user-controller"
+        ],
+        "operationId": "getExternalUsers",
+        "parameters": [
+          {
+            "name": "institutionId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "groupId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExternalUserDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "external-user-controller"
+        ],
+        "operationId": "updateAll",
+        "parameters": [
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ExternalUserData"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExternalUserDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "external-user-controller"
+        ],
+        "operationId": "createAll",
+        "parameters": [
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ExternalUserData"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalUserImportSummaryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/admin/institutions": {
+      "get": {
+        "tags": [
+          "institution-controller"
+        ],
+        "operationId": "findAll",
+        "parameters": [
+          {
+            "name": "parentId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PRIMARY",
+                "SECONDARY"
+              ]
+            }
+          },
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InstitutionResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "institution-controller"
+        ],
+        "operationId": "updateAll_1",
+        "parameters": [
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/InstitutionData"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InstitutionResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "institution-controller"
+        ],
+        "operationId": "createAll_1",
+        "parameters": [
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/InstitutionData"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstitutionImportSummaryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/admin/groups": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "operationId": "findAll_1",
+        "parameters": [
+          {
+            "name": "institutionId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "parentId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PROGRAM",
+                "PROGRAM_OPTION",
+                "STUDENT_GROUP"
+              ]
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "group-controller"
+        ],
+        "operationId": "updateAll_2",
+        "parameters": [
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/GroupData"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "group-controller"
+        ],
+        "operationId": "createAll_2",
+        "parameters": [
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/GroupData"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupImportSummaryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/seeder/reset": {
+      "post": {
+        "tags": [
+          "seeder-controller"
+        ],
+        "operationId": "resetAndSeed",
+        "parameters": [
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/back-office/config/website-content/setup/build-life-project": {
       "get": {
         "tags": [
@@ -4283,6 +4791,127 @@
         }
       }
     },
+    "/back-office/external-users/eppn/{eppn}/activate": {
+      "patch": {
+        "tags": [
+          "external-user-controller"
+        ],
+        "operationId": "activateExternalUserByEppn",
+        "parameters": [
+          {
+            "name": "eppn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalUserDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/external-users/{id}": {
+      "get": {
+        "tags": [
+          "external-user-controller"
+        ],
+        "operationId": "getExternalUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalUserDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "external-user-controller"
+        ],
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/back-office/external-users/eppn/{eppn}": {
+      "get": {
+        "tags": [
+          "external-user-controller"
+        ],
+        "operationId": "getExternalUserByEppn",
+        "parameters": [
+          {
+            "name": "eppn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalUserDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/back-office/config/website-content/build-life-project": {
       "get": {
         "tags": [
@@ -4296,6 +4925,37 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/BuildLifeProjectConfigDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/config/institution/{institutionId}": {
+      "get": {
+        "tags": [
+          "institution-config-controller"
+        ],
+        "operationId": "getInstitutionConfig",
+        "parameters": [
+          {
+            "name": "institutionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstitutionConfigurationElements"
                 }
               }
             }
@@ -4319,6 +4979,144 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/back-office/admin/institutions/{id}": {
+      "get": {
+        "tags": [
+          "institution-controller"
+        ],
+        "operationId": "findById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstitutionResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "institution-controller"
+        ],
+        "operationId": "delete_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/back-office/admin/groups/{id}": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "operationId": "findById_1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "group-controller"
+        ],
+        "operationId": "delete_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -5979,17 +6777,6 @@
           "lastName"
         ]
       },
-      "ActivityDraftCreationRequest": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "title"
-        ]
-      },
       "ActivityDraftCreationResponse": {
         "type": "object",
         "properties": {
@@ -6000,6 +6787,17 @@
         },
         "required": [
           "draftId"
+        ]
+      },
+      "ActivityDraftCreationRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title"
         ]
       },
       "NotificationPreferencesRequest": {
@@ -6086,6 +6884,29 @@
         },
         "required": [
           "draftId"
+        ]
+      },
+      "LoggedInUserDTO": {
+        "type": "object",
+        "properties": {
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ERole"
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "firstname",
+          "lastname",
+          "roles"
         ]
       },
       "QuickLinksDTO": {
@@ -6630,6 +7451,44 @@
           "page"
         ]
       },
+      "AssociationSearchResultTraceDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "disabled",
+          "id",
+          "title"
+        ]
+      },
+      "PagedResponseAssociationSearchResultTraceDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssociationSearchResultTraceDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
       "PagedResponseDeclaredExperienceViewDTO": {
         "type": "object",
         "properties": {
@@ -6769,44 +7628,6 @@
           "status",
           "student",
           "updatedAt"
-        ]
-      },
-      "AssociationSearchResultTraceDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "disabled": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "disabled",
-          "id",
-          "title"
-        ]
-      },
-      "PagedResponseAssociationSearchResultTraceDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AssociationSearchResultTraceDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
         ]
       },
       "FeedbackStaffListItemDTO": {
@@ -7176,69 +7997,6 @@
           "idsToDelete"
         ]
       },
-      "EActivityThematic": {
-        "type": "string",
-        "description": "Enum for activity thematic",
-        "enum": [
-          "SELF_KNOWLEDGE",
-          "FUTURE_PLANS",
-          "PROGRAMS",
-          "EXPERIENCES",
-          "TRAJECTORIES",
-          "RESUMES",
-          "TRANSVERSAL"
-        ]
-      },
-      "EActivityStatus": {
-        "type": "string",
-        "description": "Enum for activity status",
-        "enum": [
-          "PUBLISHED",
-          "DRAFT",
-          "UNPUBLISHED"
-        ]
-      },
-      "EAssociationContextType": {
-        "type": "string",
-        "description": "Enum for association context type",
-        "enum": [
-          "TRACE",
-          "DECLARED_ACTIVITY",
-          "DECLARED_SKILL",
-          "DECLARED_EXPERIENCE"
-        ]
-      },
-      "EExternalSkillCategoryType": {
-        "type": "string",
-        "description": "Enum for external skill category type",
-        "enum": [
-          "MACRO_SKILL",
-          "TARGET",
-          "ISSUE",
-          "DOMAIN"
-        ]
-      },
-      "EDeclaredSkillLevel": {
-        "type": "string",
-        "description": "Enum for declared skill level",
-        "enum": [
-          "BEGINNER",
-          "INTERMEDIATE",
-          "COMPETENT",
-          "ADVANCED",
-          "EXPERT"
-        ]
-      },
-      "EExternalSkillType": {
-        "type": "string",
-        "description": "Enum for external skill type",
-        "enum": [
-          "ROME4",
-          "XXI",
-          "CASOC",
-          "CASOL"
-        ]
-      },
       "EFileType": {
         "type": "string",
         "description": "Enum for file type",
@@ -7304,19 +8062,13 @@
           "ASK_FOR_FEEDBACK"
         ]
       },
-      "ESelfKnowledgeCategory": {
+      "ELanguage": {
         "type": "string",
-        "description": "Enum for self knowledge category types",
+        "description": "Enum for languages",
         "enum": [
-          "STRENGTHS",
-          "VALUES",
-          "ASPIRATIONS",
-          "MOTIVATION",
-          "IMPROVEMENT",
-          "INTERESTS",
-          "INSPIRATIONS",
-          "OBLIGATIONS",
-          "TESTIMONIALS"
+          "FRENCH",
+          "ENGLISH",
+          "SPANISH"
         ]
       },
       "EErrorCode": {
@@ -7352,6 +8104,7 @@
           "DECLARED_ACTIVITY_NOT_FOUND",
           "FEEDBACK_NOT_FOUND",
           "NOTIFICATION_NOT_FOUND",
+          "ACCESS_DENIED",
           "USER_NOT_AUTHORIZED",
           "USER_IS_NOT_STUDENT_EXCEPTION",
           "USER_IS_NOT_STAFF_EXCEPTION",
@@ -7410,40 +8163,26 @@
           "DECLARED_ACTIVITY_START_DATE_BEFORE_SUBSCRIPTION"
         ]
       },
-      "ELanguage": {
+      "EActivityThematic": {
         "type": "string",
-        "description": "Enum for languages",
+        "description": "Enum for activity thematic",
         "enum": [
-          "FRENCH",
-          "ENGLISH",
-          "SPANISH"
+          "SELF_KNOWLEDGE",
+          "FUTURE_PLANS",
+          "PROGRAMS",
+          "EXPERIENCES",
+          "TRAJECTORIES",
+          "RESUMES",
+          "TRANSVERSAL"
         ]
       },
-      "ESortField": {
+      "EActivityStatus": {
         "type": "string",
-        "description": "Enum for sort fields",
+        "description": "Enum for activity status",
         "enum": [
-          "NAME",
-          "DATE"
-        ]
-      },
-      "ESortOrder": {
-        "type": "string",
-        "description": "Enum for sort orders",
-        "enum": [
-          "ASC",
-          "DESC"
-        ]
-      },
-      "EDurationUnit": {
-        "type": "string",
-        "description": "Enum for duration units",
-        "enum": [
-          "YEAR",
-          "SEMESTER",
-          "TRIMESTER",
-          "MONTH",
-          "WEEK"
+          "PUBLISHED",
+          "DRAFT",
+          "UNPUBLISHED"
         ]
       },
       "EDeclaredActivityStatus": {
@@ -7465,6 +8204,16 @@
           "SUBMITTED"
         ]
       },
+      "EAssociationContextType": {
+        "type": "string",
+        "description": "Enum for association context type",
+        "enum": [
+          "TRACE",
+          "DECLARED_ACTIVITY",
+          "DECLARED_SKILL",
+          "DECLARED_EXPERIENCE"
+        ]
+      },
       "EExperienceType": {
         "type": "string",
         "description": "Enum for trace status",
@@ -7480,6 +8229,52 @@
           "NOT_STARTED",
           "IN_PROGRESS",
           "COMPLETED"
+        ]
+      },
+      "ESelfKnowledgeCategory": {
+        "type": "string",
+        "description": "Enum for self knowledge category types",
+        "enum": [
+          "STRENGTHS",
+          "VALUES",
+          "ASPIRATIONS",
+          "MOTIVATION",
+          "IMPROVEMENT",
+          "INTERESTS",
+          "INSPIRATIONS",
+          "OBLIGATIONS",
+          "TESTIMONIALS"
+        ]
+      },
+      "EExternalSkillCategoryType": {
+        "type": "string",
+        "description": "Enum for external skill category type",
+        "enum": [
+          "MACRO_SKILL",
+          "TARGET",
+          "ISSUE",
+          "DOMAIN"
+        ]
+      },
+      "EDeclaredSkillLevel": {
+        "type": "string",
+        "description": "Enum for declared skill level",
+        "enum": [
+          "BEGINNER",
+          "INTERMEDIATE",
+          "COMPETENT",
+          "ADVANCED",
+          "EXPERT"
+        ]
+      },
+      "EExternalSkillType": {
+        "type": "string",
+        "description": "Enum for external skill type",
+        "enum": [
+          "ROME4",
+          "XXI",
+          "CASOC",
+          "CASOL"
         ]
       },
       "ETraceAuthorType": {
@@ -7506,6 +8301,314 @@
           "STAFF",
           "STUDENT"
         ]
+      },
+      "ERole": {
+        "type": "string",
+        "description": "Enum for user role",
+        "enum": [
+          "ROLE_STUDENT",
+          "ROLE_STAFF",
+          "ROLE_SUPER_ADMIN"
+        ]
+      },
+      "ExternalUserData": {
+        "type": "object",
+        "properties": {
+          "eppn": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "STAFF",
+              "STUDENT"
+            ]
+          },
+          "externalId": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "PEGASE",
+              "BACK_OFFICE"
+            ]
+          },
+          "institutionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "INACTIVE",
+              "REMOVED",
+              "BLOCKED"
+            ]
+          }
+        }
+      },
+      "ExternalUserDTO": {
+        "type": "object",
+        "properties": {
+          "eppn": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "STAFF",
+              "STUDENT"
+            ]
+          },
+          "externalId": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "institutionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ACTIVE",
+              "INACTIVE",
+              "REMOVED",
+              "BLOCKED"
+            ]
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "InstitutionData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "hai": {
+            "type": "string"
+          },
+          "siret": {
+            "type": "string"
+          },
+          "siren": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "PRIMARY",
+              "SECONDARY"
+            ]
+          },
+          "parentHai": {
+            "type": "string"
+          }
+        }
+      },
+      "InstitutionResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "hai": {
+            "type": "string"
+          },
+          "siret": {
+            "type": "string"
+          },
+          "siren": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "PRIMARY",
+              "SECONDARY"
+            ]
+          },
+          "parentHai": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "GroupData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "idSiSco": {
+            "type": "string"
+          },
+          "institutionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "codeSise": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "PROGRAM",
+              "PROGRAM_OPTION",
+              "STUDENT_GROUP"
+            ]
+          },
+          "parentIdSiSco": {
+            "type": "string"
+          }
+        }
+      },
+      "GroupResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "idSiSco": {
+            "type": "string"
+          },
+          "institutionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "codeSise": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "PROGRAM",
+              "PROGRAM_OPTION",
+              "STUDENT_GROUP"
+            ]
+          },
+          "parentIdSiSco": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ExternalUserImportFailureResponse": {
+        "type": "object",
+        "properties": {
+          "eppn": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ExternalUserImportSummaryResponse": {
+        "type": "object",
+        "properties": {
+          "createdCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updatedCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "failedCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExternalUserDTO"
+            }
+          },
+          "updated": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExternalUserDTO"
+            }
+          },
+          "failed": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExternalUserImportFailureResponse"
+            }
+          }
+        }
       },
       "BuildLifeProjectConfigDTO": {
         "type": "object",
@@ -7581,6 +8684,109 @@
           "description",
           "label"
         ]
+      },
+      "InstitutionImportFailureResponse": {
+        "type": "object",
+        "properties": {
+          "hai": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "InstitutionImportSummaryResponse": {
+        "type": "object",
+        "properties": {
+          "createdCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updatedCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "failedCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstitutionResponse"
+            }
+          },
+          "updated": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstitutionResponse"
+            }
+          },
+          "failed": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/InstitutionImportFailureResponse"
+            }
+          }
+        }
+      },
+      "GroupImportFailureResponse": {
+        "type": "object",
+        "properties": {
+          "idSiSco": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "GroupImportSummaryResponse": {
+        "type": "object",
+        "properties": {
+          "createdCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "updatedCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "failedCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupResponse"
+            }
+          },
+          "updated": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupResponse"
+            }
+          },
+          "failed": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupImportFailureResponse"
+            }
+          }
+        }
+      },
+      "InstitutionConfigurationElements": {
+        "type": "object",
+        "properties": {
+          "apcEnabled": {
+            "type": "boolean"
+          },
+          "lifeProjectEnabled": {
+            "type": "boolean"
+          }
+        }
       },
       "EExternalSource": {
         "type": "string",

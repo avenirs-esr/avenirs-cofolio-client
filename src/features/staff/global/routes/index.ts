@@ -1,4 +1,5 @@
 import type { RoutePageProps } from '@/common/types'
+import { EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
 import { staffActivityFeedbacksRoute, staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
@@ -13,6 +14,9 @@ export default [
   {
     path: '/staff',
     component: () => import('@/features/staff/global/layouts/StaffLayout/StaffLayout.vue'),
+    meta: {
+      roles: [EUserCategory.STAFF]
+    },
     children: [
       {
         ...ROUTES.STAFF.HOME,
