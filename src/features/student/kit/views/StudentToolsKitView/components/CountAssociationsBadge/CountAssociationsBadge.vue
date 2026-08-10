@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { EAssociationContextType } from '@/api/avenir-esr'
-import { ICONS } from '@/common/constants'
+import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -13,13 +13,6 @@ const { type, count } = defineProps<CountAssociationsBadgeProps>()
 
 const { t } = useI18n()
 
-const ASSOCIATION_ICONS: Record<EAssociationContextType, string> = {
-  [EAssociationContextType.TRACE]: ICONS.TRACES,
-  [EAssociationContextType.DECLARED_ACTIVITY]: ICONS.ACTIVITY,
-  [EAssociationContextType.DECLARED_SKILL]: ICONS.SKILLS,
-  [EAssociationContextType.DECLARED_EXPERIENCE]: ICONS.EXPERIENCES
-}
-
 const ASSOCIATION_LABEL_KEYS: Record<EAssociationContextType, string> = {
   [EAssociationContextType.TRACE]: 'student.traces.trace',
   [EAssociationContextType.DECLARED_ACTIVITY]: 'student.buildProject.activities.activity',
@@ -27,7 +20,7 @@ const ASSOCIATION_LABEL_KEYS: Record<EAssociationContextType, string> = {
   [EAssociationContextType.DECLARED_EXPERIENCE]: 'student.personalCareer.global.experience'
 }
 
-const icon = computed(() => ASSOCIATION_ICONS[type])
+const icon = computed(() => ASSOCIATION_TYPE_ICONS[type])
 const label = computed(() => `${count} ${t(ASSOCIATION_LABEL_KEYS[type], count)}`)
 </script>
 

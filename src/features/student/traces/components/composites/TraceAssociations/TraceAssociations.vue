@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
-import { EDeclaredActivityStatus, type TraceAssociationsDTO } from '@/api/avenir-esr'
+import { EAssociationContextType, EDeclaredActivityStatus, type TraceAssociationsDTO } from '@/api/avenir-esr'
+import AssociationElementsDropdown
+  from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import QuerySuspense
   from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal } from '@/common/composables'
 import { AssociatedDeclaredActivitiesCard } from '@/features/student/buildProject'
 import { AssociatedDeclaredSkillsCard } from '@/features/student/declaredSkills'
-import DeleteTraceAssociatedElementsDropdown
-  from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/DeleteTraceAssociatedElementsDropdown/DeleteTraceAssociatedElementsDropdown.vue'
-import TraceAssociateElementsDropdown
-  from '@/features/student/traces/views/StudentTraceView/components/overlays/dropdowns/TraceAssociateElementsDropdown/TraceAssociateElementsDropdown.vue'
 import AssociateActivitiesToTracesModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesToTracesModal/AssociateActivitiesToTracesModal.vue'
 import AssociateDeclaredExperiencesToTracesModal
@@ -49,6 +47,42 @@ const countAssociations = computed(() => declaredSkillAssociations.value.length 
 const deletableDeclaredActivityAssociations = computed(() =>
   declaredActivityAssociations.value.filter(({ declaredActivity }) => declaredActivity.status !== EDeclaredActivityStatus.COMPLETED)
 )
+
+const deleteItems = computed(() => [
+  { type: EAssociationContextType.DECLARED_SKILL, disabled: declaredSkillAssociations.value.length === 0 },
+  { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: deletableDeclaredActivityAssociations.value.length === 0 },
+])
+
+const associateItems = computed(() => [
+  { type: EAssociationContextType.DECLARED_ACTIVITY },
+  ...(__DEMO_MODE__ ? [] : [{ type: EAssociationContextType.DECLARED_EXPERIENCE }]),
+  { type: EAssociationContextType.DECLARED_SKILL },
+])
+
+function onDeleteSelect (type: EAssociationContextType) {
+  switch (type) {
+    case EAssociationContextType.DECLARED_ACTIVITY:
+      displayActivitiesModal()
+      break
+    case EAssociationContextType.DECLARED_SKILL:
+      displaySkillsModal()
+      break
+  }
+}
+
+function onAssociateSelect (type: EAssociationContextType) {
+  switch (type) {
+    case EAssociationContextType.DECLARED_ACTIVITY:
+      displayAssociateActivitiesModal()
+      break
+    case EAssociationContextType.DECLARED_SKILL:
+      displayAssociationModal()
+      break
+    case EAssociationContextType.DECLARED_EXPERIENCE:
+      displayAssociateExperiencesModal()
+      break
+  }
+}
 </script>
 
 <template>
@@ -57,18 +91,19 @@ const deletableDeclaredActivityAssociations = computed(() =>
     data-testid="trace-associations"
   >
     <div class="av-row av-flex-fill av-justify-end av-gap-md">
-      <DeleteTraceAssociatedElementsDropdown
+      <AssociationElementsDropdown
+        variant="delete"
+        data-testid="delete-trace-associated-elements-dropdown"
         :disabled="disabled"
-        :activities-disabled="deletableDeclaredActivityAssociations.length === 0"
-        :skills-disabled="declaredSkillAssociations.length === 0"
-        @activities-selected="displayActivitiesModal"
-        @skills-selected="displaySkillsModal"
+        :items="deleteItems"
+        @select="onDeleteSelect"
       />
-      <TraceAssociateElementsDropdown
+      <AssociationElementsDropdown
+        variant="associate"
+        data-testid="trace-associate-elements-dropdown"
         :disabled="disabled"
-        @skills-selected="displayAssociationModal"
-        @activities-selected="displayAssociateActivitiesModal"
-        @experiences-selected="displayAssociateExperiencesModal"
+        :items="associateItems"
+        @select="onAssociateSelect"
       />
     </div>
 

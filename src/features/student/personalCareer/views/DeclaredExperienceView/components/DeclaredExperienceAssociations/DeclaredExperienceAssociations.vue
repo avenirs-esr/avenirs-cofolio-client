@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import type { TraceAssociationDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { EAssociationContextType } from '@/api/avenir-esr'
+import AssociationElementsDropdown
+  from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import { QuerySuspense } from '@/common/components'
 import { useModal } from '@/common/composables'
 import AssociatedTracesCard
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
-import DeleteDeclaredExperienceAssociatedElementsDropdown
-  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/dropdowns/DeleteDeclaredExperienceAssociatedElementsDropdown/DeleteDeclaredExperienceAssociatedElementsDropdown.vue'
 import DeleteDeclaredExperienceAssociatedTracesModal
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/DeleteDeclaredExperienceAssociatedTracesModal/DeleteDeclaredExperienceAssociatedTracesModal.vue'
 import { useI18n } from 'vue-i18n'
@@ -28,6 +29,10 @@ const {
 } = useModal()
 
 const countAssociations = computed(() => traceAssociations.length)
+
+const deleteItems = computed(() => [
+  { type: EAssociationContextType.TRACE, disabled: traceAssociations.length === 0 },
+])
 </script>
 
 <template>
@@ -37,9 +42,11 @@ const countAssociations = computed(() => traceAssociations.length)
       data-testid="declared-experience-associations"
     >
       <div class="av-row av-flex-fill av-justify-end av-gap-md">
-        <DeleteDeclaredExperienceAssociatedElementsDropdown
-          :traces-disabled="traceAssociations.length === 0"
-          @traces-selected="displayDeleteTracesModal"
+        <AssociationElementsDropdown
+          variant="delete"
+          data-testid="delete-declared-experience-associated-elements-dropdown"
+          :items="deleteItems"
+          @select="displayDeleteTracesModal"
         />
       </div>
 

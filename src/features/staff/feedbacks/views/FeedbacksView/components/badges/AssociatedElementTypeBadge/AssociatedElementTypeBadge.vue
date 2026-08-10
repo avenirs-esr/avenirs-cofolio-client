@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { EAssociationContextType } from '@/api/avenir-esr'
-import { ICONS } from '@/common/constants/icons'
+import type { EAssociationContextType } from '@/api/avenir-esr'
+import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
 import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -12,14 +12,7 @@ const { associatedElementType } = defineProps<AssociatedElementTypeBadgeProps>()
 
 const { t } = useI18n()
 
-const ICON_MAP: Record<EAssociationContextType, string> = {
-  [EAssociationContextType.TRACE]: ICONS.TRACES,
-  [EAssociationContextType.DECLARED_SKILL]: ICONS.SKILLS,
-  [EAssociationContextType.DECLARED_EXPERIENCE]: ICONS.EXPERIENCES,
-  [EAssociationContextType.DECLARED_ACTIVITY]: ICONS.ACTIVITY,
-}
-
-const icon = computed(() => ICON_MAP[associatedElementType])
+const icon = computed(() => ASSOCIATION_TYPE_ICONS[associatedElementType])
 const label = computed(() => t(`global.activities.badges.associatedElementType.${associatedElementType}`))
 </script>
 

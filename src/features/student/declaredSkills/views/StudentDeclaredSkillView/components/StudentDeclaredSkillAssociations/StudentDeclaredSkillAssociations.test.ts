@@ -1,17 +1,20 @@
 import type { TraceAssociationDTO } from '@/api/avenir-esr'
+import type {
+  AssociationElementsDropdownVariant
+} from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedTraceDeclaredActivityAssociations, mockedTraceOverview } from '@/__mocks__/fixtures/student'
 import { createMockedDeclaredExperiencesAssociations } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import { createMockedDeclaredActivitiesAssociations } from '@/__mocks__/fixtures/student/skills.fixtures'
-import { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { EAssociationContextType, EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { AssociationElementsDropdownStub }
+  from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ErrorCodes } from '@/common/constants'
 import { AssociatedDeclaredActivitiesCardStub } from '@/features/student/buildProject/components/cards/AssociatedDeclaredActivitiesCard/AssociatedDeclaredActivitiesCard.stub'
 import { AssociatedTracesCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import { AssociateActivitiesToDeclaredSkillModalStub } from '@/features/student/declaredSkills/components/overlays/modals/AssociateActivitiesToDeclaredSkillModal/AssociateActivitiesToDeclaredSkillModal.stub'
 import { DeleteDeclaredSkillAssociatedActivitiesModalStub } from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedActivitiesModal/DeleteDeclaredSkillAssociatedActivitiesModal.stub'
-import { DeclaredSkillAssociateElementsDropdownStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/overlays/dropdowns/DeclaredSkillAssociateElementsDropdown/DeclaredSkillAssociateElementsDropdown.stub'
-import { DeleteDeclaredSkillAssociatedElementsDropdownStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/overlays/dropdowns/DeleteDeclaredSkillAssociatedElementsDropdown/DeleteDeclaredSkillAssociatedElementsDropdown.stub'
 import StudentDeclaredSkillAssociations
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.vue'
 import { AssociatedDeclaredExperiencesCardStub }
@@ -34,14 +37,17 @@ const stubs = {
   AssociatedTracesCard: AssociatedTracesCardStub,
   AssociatedDeclaredActivitiesCard: AssociatedDeclaredActivitiesCardStub,
   AssociatedDeclaredExperiencesCard: AssociatedDeclaredExperiencesCardStub,
-  DeclaredSkillAssociateElementsDropdown: DeclaredSkillAssociateElementsDropdownStub,
-  DeleteDeclaredSkillAssociatedElementsDropdown: DeleteDeclaredSkillAssociatedElementsDropdownStub,
+  AssociationElementsDropdown: AssociationElementsDropdownStub,
   AssociateActivitiesToDeclaredSkillModal: AssociateActivitiesToDeclaredSkillModalStub,
   DeleteDeclaredSkillAssociatedActivitiesModal: DeleteDeclaredSkillAssociatedActivitiesModalStub
 }
 
 BddTest().given('a student declared skill associations component', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentDeclaredSkillAssociations>>
+
+  const findDropdown = (variant: AssociationElementsDropdownVariant) =>
+    wrapper.findAllComponents(AssociationElementsDropdownStub)
+      .filter(dropdown => dropdown.props('variant') === variant)[0]
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -114,7 +120,7 @@ BddTest().given('a student declared skill associations component', () => {
     })
 
     BddTest().then('it should render the declared skill associate elements dropdown', () => {
-      const dropdown = wrapper.findComponent(DeclaredSkillAssociateElementsDropdownStub)
+      const dropdown = findDropdown('associate')
       expect(dropdown.exists()).toBe(true)
     })
 
@@ -125,10 +131,10 @@ BddTest().given('a student declared skill associations component', () => {
       expect(modal.props('declaredSkillId')).toBe(declaredSkillId)
     })
 
-    BddTest().and('the dropdown emits activitiesSelected', () => {
+    BddTest().and('the associate dropdown selects the activity type', () => {
       beforeEach(() => {
-        const dropdown = wrapper.findComponent(DeclaredSkillAssociateElementsDropdownStub)
-        dropdown.vm.$emit('activitiesSelected')
+        const dropdown = findDropdown('associate')
+        dropdown.vm.$emit('select', EAssociationContextType.DECLARED_ACTIVITY)
       })
 
       BddTest().then('the associate activities modal should be shown', () => {
@@ -139,8 +145,8 @@ BddTest().given('a student declared skill associations component', () => {
 
     BddTest().and('the associate activities modal emits cancel', () => {
       beforeEach(() => {
-        const dropdown = wrapper.findComponent(DeclaredSkillAssociateElementsDropdownStub)
-        dropdown.vm.$emit('activitiesSelected')
+        const dropdown = findDropdown('associate')
+        dropdown.vm.$emit('select', EAssociationContextType.DECLARED_ACTIVITY)
 
         const modal = wrapper.findComponent(AssociateActivitiesToDeclaredSkillModalStub)
         modal.vm.$emit('cancel')
@@ -154,8 +160,8 @@ BddTest().given('a student declared skill associations component', () => {
 
     BddTest().and('the associate activities modal emits associated', () => {
       beforeEach(() => {
-        const dropdown = wrapper.findComponent(DeclaredSkillAssociateElementsDropdownStub)
-        dropdown.vm.$emit('activitiesSelected')
+        const dropdown = findDropdown('associate')
+        dropdown.vm.$emit('select', EAssociationContextType.DECLARED_ACTIVITY)
 
         const modal = wrapper.findComponent(AssociateActivitiesToDeclaredSkillModalStub)
         modal.vm.$emit('associated')
@@ -192,13 +198,15 @@ BddTest().given('a student declared skill associations component', () => {
     })
 
     BddTest().then('it should render the delete declared skill associated elements dropdown', () => {
-      const dropdown = wrapper.findComponent(DeleteDeclaredSkillAssociatedElementsDropdownStub)
+      const dropdown = findDropdown('delete')
       expect(dropdown.exists()).toBe(true)
     })
 
     BddTest().then('it should enable the delete dropdown activities when a deletable activity exists', () => {
-      const dropdown = wrapper.findComponent(DeleteDeclaredSkillAssociatedElementsDropdownStub)
-      expect(dropdown.props('activitiesDisabled')).toBe(false)
+      const dropdown = findDropdown('delete')
+      expect(dropdown.props('items')).toEqual([
+        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false }
+      ])
     })
 
     BddTest().then('it should render the delete activities modal hidden by default', () => {
@@ -209,10 +217,10 @@ BddTest().given('a student declared skill associations component', () => {
       expect(modal.props('associations')).toEqual(associatedDeclaredActivities)
     })
 
-    BddTest().and('the delete dropdown emits activitiesSelected', () => {
+    BddTest().and('the delete dropdown selects the activity type', () => {
       beforeEach(() => {
-        const dropdown = wrapper.findComponent(DeleteDeclaredSkillAssociatedElementsDropdownStub)
-        dropdown.vm.$emit('activitiesSelected')
+        const dropdown = findDropdown('delete')
+        dropdown.vm.$emit('select', EAssociationContextType.DECLARED_ACTIVITY)
       })
 
       BddTest().then('the delete activities modal should be shown', () => {
@@ -223,8 +231,8 @@ BddTest().given('a student declared skill associations component', () => {
 
     BddTest().and('the delete activities modal emits cancel', () => {
       beforeEach(() => {
-        const dropdown = wrapper.findComponent(DeleteDeclaredSkillAssociatedElementsDropdownStub)
-        dropdown.vm.$emit('activitiesSelected')
+        const dropdown = findDropdown('delete')
+        dropdown.vm.$emit('select', EAssociationContextType.DECLARED_ACTIVITY)
 
         const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedActivitiesModalStub)
         modal.vm.$emit('cancel')
@@ -238,8 +246,8 @@ BddTest().given('a student declared skill associations component', () => {
 
     BddTest().and('the delete activities modal emits deleted', () => {
       beforeEach(() => {
-        const dropdown = wrapper.findComponent(DeleteDeclaredSkillAssociatedElementsDropdownStub)
-        dropdown.vm.$emit('activitiesSelected')
+        const dropdown = findDropdown('delete')
+        dropdown.vm.$emit('select', EAssociationContextType.DECLARED_ACTIVITY)
 
         const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedActivitiesModalStub)
         modal.vm.$emit('deleted')
@@ -271,8 +279,10 @@ BddTest().given('a student declared skill associations component', () => {
     })
 
     BddTest().then('it should disable the delete dropdown activities', () => {
-      const dropdown = wrapper.findComponent(DeleteDeclaredSkillAssociatedElementsDropdownStub)
-      expect(dropdown.props('activitiesDisabled')).toBe(true)
+      const dropdown = findDropdown('delete')
+      expect(dropdown.props('items')).toEqual([
+        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: true }
+      ])
     })
   })
 

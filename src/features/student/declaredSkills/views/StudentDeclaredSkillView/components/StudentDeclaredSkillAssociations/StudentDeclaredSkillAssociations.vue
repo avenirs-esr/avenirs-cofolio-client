@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { DeclaredActivityAssociationDTO, DeclaredExperienceAssociationDTO, TraceAssociationDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { EAssociationContextType } from '@/api/avenir-esr'
+import AssociationElementsDropdown
+  from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import { QuerySuspense } from '@/common/components'
 import { useModal } from '@/common/composables'
 import AssociatedDeclaredActivitiesCard
@@ -12,10 +15,6 @@ import AssociateActivitiesToDeclaredSkillModal
 import DeleteDeclaredSkillAssociatedActivitiesModal
   from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedActivitiesModal/DeleteDeclaredSkillAssociatedActivitiesModal.vue'
 import { isDeletableDeclaredActivityAssociation } from '@/features/student/declaredSkills/rules/declared-activity-association.rules'
-import DeclaredSkillAssociateElementsDropdown
-  from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/overlays/dropdowns/DeclaredSkillAssociateElementsDropdown/DeclaredSkillAssociateElementsDropdown.vue'
-import DeleteDeclaredSkillAssociatedElementsDropdown
-  from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/overlays/dropdowns/DeleteDeclaredSkillAssociatedElementsDropdown/DeleteDeclaredSkillAssociatedElementsDropdown.vue'
 import { AssociatedDeclaredExperiencesCard } from '@/features/student/personalCareer'
 import { useI18n } from 'vue-i18n'
 
@@ -58,6 +57,14 @@ const {
 const deletableDeclaredActivityAssociations = computed(() =>
   associatedDeclaredActivities.filter(isDeletableDeclaredActivityAssociation))
 
+const deleteItems = computed(() => [
+  { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: deletableDeclaredActivityAssociations.value.length === 0 },
+])
+
+const associateItems = computed(() => [
+  { type: EAssociationContextType.DECLARED_ACTIVITY },
+])
+
 function onAssociated () {
   hideAssociateActivitiesModal()
   emit('associated')
@@ -71,12 +78,17 @@ function onAssociated () {
       data-testid="declared-skill-associations"
     >
       <div class="av-row av-flex-fill av-justify-end av-gap-md">
-        <DeleteDeclaredSkillAssociatedElementsDropdown
-          :activities-disabled="deletableDeclaredActivityAssociations.length === 0"
-          @activities-selected="displayDeleteActivitiesModal"
+        <AssociationElementsDropdown
+          variant="delete"
+          data-testid="delete-declared-skill-associated-elements-dropdown"
+          :items="deleteItems"
+          @select="displayDeleteActivitiesModal"
         />
-        <DeclaredSkillAssociateElementsDropdown
-          @activities-selected="displayAssociateActivitiesModal"
+        <AssociationElementsDropdown
+          variant="associate"
+          data-testid="declared-skill-associate-elements-dropdown"
+          :items="associateItems"
+          @select="displayAssociateActivitiesModal"
         />
       </div>
 

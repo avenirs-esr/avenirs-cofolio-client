@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import type { DeclaredActivityAssociationsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { EAssociationContextType } from '@/api/avenir-esr'
+import AssociationElementsDropdown
+  from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import { QuerySuspense } from '@/common/components'
 import { useModal } from '@/common/composables'
 import AssociatedTracesCard
@@ -9,10 +12,6 @@ import TraceAssociationLimitCard
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'
 import AssociateDeclaredSkillToActivityModal
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/modals/AssociateDeclaredSkillToActivityModal/AssociateDeclaredSkillToActivityModal.vue'
-import ActivityAssociateElementsDropdown
-  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/ActivityAssociateElementsDropdown/ActivityAssociateElementsDropdown.vue'
-import DeleteActivityAssociatedElementsDropdown
-  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/dropdowns/DeleteActivityAssociatedElementsDropdown/DeleteActivityAssociatedElementsDropdown.vue'
 import AssociateTracesModal
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesModal.vue'
 import DeleteActivityAssociatedElementsModal
@@ -57,22 +56,55 @@ const skillsAssociations = computed(() => {
     title: skillAssociation.declaredSkill.title
   }))
 })
+
+const deleteItems = computed(() => [
+  { type: EAssociationContextType.DECLARED_SKILL, disabled: skillsAssociations.value.length === 0 },
+  { type: EAssociationContextType.TRACE, disabled: traceAssociationsDisabled || tracesAssociations.value.length === 0 },
+])
+
+const associateItems = computed(() => [
+  { type: EAssociationContextType.TRACE, disabled: traceAssociationsDisabled || maxTraceAssociationsReached },
+  { type: EAssociationContextType.DECLARED_SKILL },
+])
+
+function onDeleteSelect (type: EAssociationContextType) {
+  switch (type) {
+    case EAssociationContextType.DECLARED_SKILL:
+      displaySkillsModal()
+      break
+    case EAssociationContextType.TRACE:
+      displayTracesModal()
+      break
+  }
+}
+
+function onAssociateSelect (type: EAssociationContextType) {
+  switch (type) {
+    case EAssociationContextType.TRACE:
+      displayAssociateTracesModal()
+      break
+    case EAssociationContextType.DECLARED_SKILL:
+      displayAssociateSkillsModal()
+      break
+  }
+}
 </script>
 
 <template>
   <div class="av-col av-gap-xl av-pt-xl">
     <div class="av-col av-gap-sm">
       <div class="av-row av-flex-fill av-justify-end av-gap-md">
-        <DeleteActivityAssociatedElementsDropdown
-          :traces-disabled="traceAssociationsDisabled || tracesAssociations.length === 0"
-          :skills-disabled="skillsAssociations.length === 0"
-          @skills-selected="displaySkillsModal"
-          @traces-selected="displayTracesModal"
+        <AssociationElementsDropdown
+          variant="delete"
+          data-testid="delete-activity-associated-elements-dropdown"
+          :items="deleteItems"
+          @select="onDeleteSelect"
         />
-        <ActivityAssociateElementsDropdown
-          :traces-disabled="traceAssociationsDisabled || maxTraceAssociationsReached"
-          @traces-selected="displayAssociateTracesModal"
-          @skills-selected="displayAssociateSkillsModal"
+        <AssociationElementsDropdown
+          variant="associate"
+          data-testid="activity-associate-elements-dropdown"
+          :items="associateItems"
+          @select="onAssociateSelect"
         />
       </div>
       <span
