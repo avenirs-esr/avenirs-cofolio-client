@@ -1,0 +1,313 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/staff/activities/national-activity-catalog.feature.spec.js >> Staff National Activity Catalog >> Edit draft activity >> Staff can navigate to edit page from catalog page
+- Location: .features-gen/tests/staff/activities/national-activity-catalog.feature.spec.js:85:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: locator('[data-testid="activity-table-title"][data-activity-status="DRAFT"], [data-testid="activity-card-title"][data-activity-status="DRAFT"]').first()
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for locator('[data-testid="activity-table-title"][data-activity-status="DRAFT"], [data-testid="activity-card-title"][data-activity-status="DRAFT"]').first()
+
+```
+
+```yaml
+- banner:
+  - link "Accueil - Cofolio Étudiant":
+    - /url: /cofolio/student
+    - img
+  - button "Changer d'univers"
+  - list:
+    - listitem:
+      - button "Messagerie"
+    - listitem:
+      - button "Notifications"
+    - listitem:
+      - button "J. moulin"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/student
+      - listitem:
+        - button "CONSTRUIRE MON PROJET DE VIE"
+      - listitem:
+        - button "MES OUTILS"
+- main:
+  - heading "Accueil Cofolio Étudiant" [level=1]
+  - img "Bannière du profil"
+  - img "Photo de profil"
+  - text: Jeanne Moulin Je suis étudiante en chimie et écologie. Passionnée par l'innovation durable, je souhaite utiliser la science pour protéger l'environnement et bâtir un avenir plus respectueux de la planète.
+  - list:
+    - listitem:
+      - button "Modifier mon profil"
+  - text: Nouvelles activités
+  - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs"':
+    - /url: /cofolio/student/activity/declared-activity-1
+    - text: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+    - status: Me connaître
+    - status: En cours
+  - 'link "Activité \"CV\" : Construire son parcours"':
+    - /url: /cofolio/student/activity/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+    - text: "Activité \"CV\" : Construire son parcours"
+    - status: CV
+    - status: Inscrit(e)
+  - 'link "Activité : Construire son parcours (soumise)"':
+    - /url: /cofolio/student/activity/declared-activity-2
+    - text: "Activité : Construire son parcours (soumise)"
+    - status: CV
+    - status: Soumis
+  - link "Voir toutes les activités":
+    - /url: /cofolio/student/project/activities
+  - text: Ma bibliothèque d'activités
+  - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs"':
+    - /url: /cofolio/student/activity/declared-activity-1
+    - text: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+    - status: Me connaître
+    - status: En cours
+  - 'link "Activité \"CV\" : Construire son parcours"':
+    - /url: /cofolio/student/activity/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+    - text: "Activité \"CV\" : Construire son parcours"
+    - status: CV
+    - status: Inscrit(e)
+  - 'link "Activité : Construire son parcours (soumise)"':
+    - /url: /cofolio/student/activity/declared-activity-2
+    - text: "Activité : Construire son parcours (soumise)"
+    - status: CV
+    - status: Soumis
+  - link "Voir toute ma bibliothèque d'activités":
+    - /url: /cofolio/student/project/activities?tab=ACTIVITY_LIBRARY
+  - text: Mes dernières traces
+  - link "Prévenir la pollution à la source":
+    - /url: /cofolio/student/trace/4453f884-9081-43cb-95c6-d76c2bb59fd7
+    - text: Prévenir la pollution à la source
+    - status: Individuel
+    - status: Sans IA
+  - link "Mettre en place des filières d'économies circulaires":
+    - /url: /cofolio/student/trace/trace2
+    - text: Mettre en place des filières d'économies circulaires
+    - status: Collectif
+    - status: Avec IA
+  - link "Évaluer l'impact environnemental et économique":
+    - /url: /cofolio/student/trace/trace3
+    - text: Évaluer l'impact environnemental et économique
+    - status: Individuel
+    - status: Sans IA
+  - link "Voir toutes mes traces":
+    - /url: /cofolio/student/tools/traces
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/student/accessibility
+    - listitem:
+      - link "Mentions légales":
+        - /url: /cofolio/student/legal
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/student/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/student/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1   | import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+  2   | import { BasePage } from '@e2e/framework/shared/base/BasePage'
+  3   | import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
+  4   | import { clickOnElement } from '@e2e/framework/shared/utils/click'
+  5   | import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+  6   | import { NationalActivityCatalogPreviewTabObject } from '@e2e/framework/staff/activities/componentObjects/NationalActivityCatalogPreviewTabObject'
+  7   | import { expect, type Page } from '@playwright/test'
+  8   | import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
+  9   | 
+  10  | @Fixture<typeof test>('staffNationalActivityCatalogPage')
+  11  | export class StaffNationalActivityCatalogPage extends BasePage {
+  12  |   constructor (public page: Page) {
+  13  |     super(page)
+  14  |   }
+  15  | 
+  16  |   private getContentTab () {
+  17  |     return this.page.getByTestId('national-activity-catalog-content-tab')
+  18  |   }
+  19  | 
+  20  |   private getTitle () {
+  21  |     return this.page.getByTestId('national-activity-content-tab-title')
+  22  |   }
+  23  | 
+  24  |   private getThematicBadge () {
+  25  |     return this.page.getByTestId('national-activity-content-tab-thematic-badge')
+  26  |   }
+  27  | 
+  28  |   private getConsignTitle () {
+  29  |     return this.page.getByTestId('national-activity-content-tab-consign-title')
+  30  |   }
+  31  | 
+  32  |   private getContextTitle () {
+  33  |     return this.page.getByTestId('national-activity-content-tab-context-title')
+  34  |   }
+  35  | 
+  36  |   private getContentTabSelector () {
+  37  |     return this.page.getByTestId('national-activity-catalog-content-tab-item')
+  38  |   }
+  39  | 
+  40  |   private getPreviewTabSelector () {
+  41  |     return this.page.getByTestId('national-activity-catalog-preview-tab-item')
+  42  |   }
+  43  | 
+  44  |   private getPreviewTabObject () {
+  45  |     return new NationalActivityCatalogPreviewTabObject(this.page)
+  46  |   }
+  47  | 
+  48  |   @Given('the staff navigates to the first national activity catalog page')
+  49  |   async navigateToNationalActivityCatalog () {
+  50  |     const activityLocator = await this.page
+  51  |       .locator('[data-testid="activity-table-title"][data-activity-status="DRAFT"], [data-testid="activity-card-title"][data-activity-status="DRAFT"]')
+  52  |       .first()
+  53  | 
+> 54  |     await expect(activityLocator).toBeVisible()
+      |                                   ^ Error: expect(locator).toBeVisible() failed
+  55  | 
+  56  |     const activityId = await activityLocator.getAttribute('data-activity-id')
+  57  |     const activityStatus = await activityLocator.getAttribute('data-activity-status')
+  58  | 
+  59  |     if (!activityId || !activityStatus) {
+  60  |       throw new Error('No activity found')
+  61  |     }
+  62  | 
+  63  |     const url = STAFF_ROUTES.ACTIVITY_CATALOG
+  64  |       .replace(':status', activityStatus)
+  65  |       .replace(':id', activityId)
+  66  | 
+  67  |     await this.page.goto(url)
+  68  |     await waitForPageLoad(this.page)
+  69  |   }
+  70  | 
+  71  |   @Then('the national activity catalog page is displayed')
+  72  |   async verifyPageLoaded () {
+  73  |     const expectedPattern = STAFF_ROUTES.ACTIVITY_CATALOG
+  74  |       .replace(':status', '[^/]+')
+  75  |       .replace(':id', '[^/]+')
+  76  | 
+  77  |     await expect(this.page).toHaveURL(new RegExp(expectedPattern))
+  78  |   }
+  79  | 
+  80  |   @Then('the national activity content tab is visible')
+  81  |   async verifyContentTabVisible () {
+  82  |     await expect(this.getContentTab()).toBeVisible()
+  83  |   }
+  84  | 
+  85  |   @Then('the national activity title is visible')
+  86  |   async verifyTitleVisible () {
+  87  |     await expect(this.getTitle()).toBeVisible()
+  88  |   }
+  89  | 
+  90  |   @Then('the national activity thematic badge is visible')
+  91  |   async verifyThematicBadgeVisible () {
+  92  |     await expect(this.getThematicBadge()).toBeVisible()
+  93  |   }
+  94  | 
+  95  |   @Then('the national activity consign section is visible')
+  96  |   async verifyConsignSectionVisible () {
+  97  |     await expect(this.getConsignTitle()).toBeVisible()
+  98  |   }
+  99  | 
+  100 |   @Then('the national activity context section is visible')
+  101 |   async verifyContextSectionVisible () {
+  102 |     await expect(this.getContextTitle()).toBeVisible()
+  103 |   }
+  104 | 
+  105 |   @Then('the national activity catalog content tab selector is visible')
+  106 |   async verifyContentTabSelectorVisible () {
+  107 |     await expect(this.getContentTabSelector()).toBeVisible()
+  108 |   }
+  109 | 
+  110 |   @Then('the national activity catalog preview tab selector is visible')
+  111 |   async verifyPreviewTabSelectorVisible () {
+  112 |     await expect(this.getPreviewTabSelector()).toBeVisible()
+  113 |   }
+  114 | 
+  115 |   @When('the user clicks on the national activity catalog preview tab')
+  116 |   async clickPreviewTab () {
+  117 |     await clickOnElement(this.getPreviewTabSelector())
+  118 |   }
+  119 | 
+  120 |   @Then('the national activity catalog preview tab is displayed')
+  121 |   async verifyPreviewTabDisplayed () {
+  122 |     await this.getPreviewTabObject().isVisible()
+  123 |   }
+  124 | 
+  125 |   @Then('the activity title is visible in the preview tab')
+  126 |   async verifyActivityTitleInPreviewTab () {
+  127 |     await this.getPreviewTabObject().verifyTitleVisible()
+  128 |   }
+  129 | 
+  130 |   @Then('the activity banner is visible in the preview tab')
+  131 |   async verifyActivityBannerInPreviewTab () {
+  132 |     await this.getPreviewTabObject().verifyBannerVisible()
+  133 |   }
+  134 | 
+  135 |   @Then('the activity thematic is visible in the preview tab')
+  136 |   async verifyActivityThematicInPreviewTab () {
+  137 |     await this.getPreviewTabObject().verifyThematicVisible()
+  138 |   }
+  139 | 
+  140 |   @Then('the activity summary is visible in the preview tab')
+  141 |   async verifyActivitySummaryInPreviewTab () {
+  142 |     await this.getPreviewTabObject().verifySummaryVisible()
+  143 |   }
+  144 | 
+  145 |   @Then('the recommended completion contexts are visible in the preview tab')
+  146 |   async verifyRecommendedCompletionContextsInPreviewTab () {
+  147 |     await this.getPreviewTabObject().verifyRecommendedCompletionContextsInfoVisible()
+  148 |   }
+  149 | 
+  150 |   getEditDraftButton () {
+  151 |     return this.page.getByTestId('edit-draft-button')
+  152 |   }
+  153 | 
+  154 |   @Then('the edit draft button is visible')
+```

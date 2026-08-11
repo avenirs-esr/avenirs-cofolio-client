@@ -1,0 +1,316 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/staff/activities/edit-national-activity.feature.spec.js >> Staff Edit National Activity Page >> Page Load and Basic Display >> The content tab is active by default
+- Location: .features-gen/tests/staff/activities/edit-national-activity.feature.spec.js:28:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: locator('[data-testid="activity-table-title"][data-activity-status="DRAFT"], [data-testid="activity-card-title"][data-activity-status="DRAFT"]').first()
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for locator('[data-testid="activity-table-title"][data-activity-status="DRAFT"], [data-testid="activity-card-title"][data-activity-status="DRAFT"]').first()
+
+```
+
+```yaml
+- banner:
+  - link "Accueil - Cofolio Étudiant":
+    - /url: /cofolio/student
+    - img
+  - button "Changer d'univers"
+  - list:
+    - listitem:
+      - button "Messagerie"
+    - listitem:
+      - button "Notifications"
+    - listitem:
+      - button "J. moulin"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/student
+      - listitem:
+        - button "CONSTRUIRE MON PROJET DE VIE"
+      - listitem:
+        - button "MES OUTILS"
+- main:
+  - heading "Accueil Cofolio Étudiant" [level=1]
+  - img "Bannière du profil"
+  - img "Photo de profil"
+  - text: Jeanne Moulin Je suis étudiante en chimie et écologie. Passionnée par l'innovation durable, je souhaite utiliser la science pour protéger l'environnement et bâtir un avenir plus respectueux de la planète.
+  - list:
+    - listitem:
+      - button "Modifier mon profil"
+  - text: Nouvelles activités
+  - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs"':
+    - /url: /cofolio/student/activity/declared-activity-1
+    - text: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+    - status: Me connaître
+    - status: En cours
+  - 'link "Activité \"CV\" : Construire son parcours"':
+    - /url: /cofolio/student/activity/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+    - text: "Activité \"CV\" : Construire son parcours"
+    - status: CV
+    - status: Inscrit(e)
+  - 'link "Activité : Construire son parcours (soumise)"':
+    - /url: /cofolio/student/activity/declared-activity-2
+    - text: "Activité : Construire son parcours (soumise)"
+    - status: CV
+    - status: Soumis
+  - link "Voir toutes les activités":
+    - /url: /cofolio/student/project/activities
+  - text: Ma bibliothèque d'activités
+  - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs"':
+    - /url: /cofolio/student/activity/declared-activity-1
+    - text: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+    - status: Me connaître
+    - status: En cours
+  - 'link "Activité \"CV\" : Construire son parcours"':
+    - /url: /cofolio/student/activity/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+    - text: "Activité \"CV\" : Construire son parcours"
+    - status: CV
+    - status: Inscrit(e)
+  - 'link "Activité : Construire son parcours (soumise)"':
+    - /url: /cofolio/student/activity/declared-activity-2
+    - text: "Activité : Construire son parcours (soumise)"
+    - status: CV
+    - status: Soumis
+  - link "Voir toute ma bibliothèque d'activités":
+    - /url: /cofolio/student/project/activities?tab=ACTIVITY_LIBRARY
+  - text: Mes dernières traces
+  - link "Prévenir la pollution à la source":
+    - /url: /cofolio/student/trace/4453f884-9081-43cb-95c6-d76c2bb59fd7
+    - text: Prévenir la pollution à la source
+    - status: Individuel
+    - status: Sans IA
+  - link "Mettre en place des filières d'économies circulaires":
+    - /url: /cofolio/student/trace/trace2
+    - text: Mettre en place des filières d'économies circulaires
+    - status: Collectif
+    - status: Avec IA
+  - link "Évaluer l'impact environnemental et économique":
+    - /url: /cofolio/student/trace/trace3
+    - text: Évaluer l'impact environnemental et économique
+    - status: Individuel
+    - status: Sans IA
+  - link "Voir toutes mes traces":
+    - /url: /cofolio/student/tools/traces
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/student/accessibility
+    - listitem:
+      - link "Mentions légales":
+        - /url: /cofolio/student/legal
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/student/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/student/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1   | import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+  2   | import { BasePage } from '@e2e/framework/shared/base/BasePage'
+  3   | import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
+  4   | import { t } from '@e2e/framework/shared/utils/i18n'
+  5   | import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+  6   | import { EditActivityResources } from '@e2e/framework/staff/activities/componentObjects/EditActivityResources'
+  7   | import { EditActivitySideNavigation } from '@e2e/framework/staff/activities/componentObjects/EditActivitySideNavigation'
+  8   | import { EditActivityTabs } from '@e2e/framework/staff/activities/componentObjects/EditActivityTabs'
+  9   | import { expect, type Locator, type Page } from '@playwright/test'
+  10  | import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
+  11  | 
+  12  | export
+  13  | @Fixture<typeof test>('staffEditNationalActivityPage')
+  14  | class StaffEditNationalActivityPage extends BasePage {
+  15  |   constructor (public page: Page) {
+  16  |     super(page)
+  17  |   }
+  18  | 
+  19  |   private tabs () { return new EditActivityTabs(this.page) }
+  20  |   private sideNav () { return new EditActivitySideNavigation(this.page) }
+  21  |   private resources () { return new EditActivityResources(this.page) }
+  22  | 
+  23  |   private getActivityContentTab () {
+  24  |     return this.page.getByTestId('activity-content-tab')
+  25  |   }
+  26  | 
+  27  |   private getTitleFormField () {
+  28  |     return this.page.getByTestId('activity-title-form-field')
+  29  |   }
+  30  | 
+  31  |   private getThematicSelectFormField () {
+  32  |     return this.page.getByTestId('thematic-select-form-field')
+  33  |   }
+  34  | 
+  35  |   private getReflectionParameterToggle () {
+  36  |     return this.page.getByTestId('reflection-parameter-toggle')
+  37  |   }
+  38  | 
+  39  |   private getTraceAllowedAssociationsToggle () {
+  40  |     return this.page.getByTestId('trace-allowed-associations-toggle')
+  41  |   }
+  42  | 
+  43  |   private getFeedbackParameterToggle () {
+  44  |     return this.page.getByTestId('feedback-parameter-toggle')
+  45  |   }
+  46  | 
+  47  |   private getFirstInteractiveElement (locator: Locator) {
+  48  |     return locator.locator('input, textarea, button, [role="button"], [role="switch"]').first()
+  49  |   }
+  50  | 
+  51  |   @Given('the staff navigates to the first activity edit page')
+  52  |   async navigateToEditNationalActivity () {
+  53  |     const activityLocator = await this.page
+  54  |       .locator('[data-testid="activity-table-title"][data-activity-status="DRAFT"], [data-testid="activity-card-title"][data-activity-status="DRAFT"]')
+  55  |       .first()
+  56  | 
+> 57  |     await expect(activityLocator).toBeVisible()
+      |                                   ^ Error: expect(locator).toBeVisible() failed
+  58  | 
+  59  |     const activityId = await activityLocator.getAttribute('data-activity-id')
+  60  | 
+  61  |     if (!activityId) {
+  62  |       throw new Error('No draft activity found')
+  63  |     }
+  64  | 
+  65  |     const url = STAFF_ROUTES.ACTIVITIES_EDIT_NATIONAL_ACTIVITY
+  66  |       .replace(':id', activityId)
+  67  |       .concat('?mode=add')
+  68  | 
+  69  |     await this.page.goto(url)
+  70  |     await waitForPageLoad(this.page)
+  71  |     await expect(this.page.getByTestId('activity-title-form-field')).toBeVisible()
+  72  |   }
+  73  | 
+  74  |   @Then('the edit national activity page is displayed')
+  75  |   async verifyPageLoaded () {
+  76  |     const expectedPattern = STAFF_ROUTES.ACTIVITIES_EDIT_NATIONAL_ACTIVITY
+  77  |       .replace(':id', '[^/]+')
+  78  | 
+  79  |     await expect(this.page).toHaveURL(new RegExp(expectedPattern))
+  80  |   }
+  81  | 
+  82  |   @Then('the staff edit published activity page is displayed')
+  83  |   async verifyEditPublishedActivityPageDisplayed () {
+  84  |     await this.verifyPageLoaded()
+  85  |     await expect(this.getActivityContentTab()).toBeVisible()
+  86  |   }
+  87  | 
+  88  |   @Then('the editable activity content fields are enabled')
+  89  |   async verifyEditableActivityContentFieldsEnabled () {
+  90  |     await expect(this.getTitleFormField()).toBeVisible()
+  91  | 
+  92  |     await expect(this.getThematicSelectFormField()).toBeVisible()
+  93  |   }
+  94  | 
+  95  |   @Then('the activity modalities fields are disabled')
+  96  |   async verifyActivityModalitiesFieldsDisabled () {
+  97  |     await expect(this.getReflectionParameterToggle()).toBeVisible()
+  98  |     await expect(this.getFirstInteractiveElement(this.getReflectionParameterToggle())).toBeDisabled()
+  99  | 
+  100 |     await expect(this.getTraceAllowedAssociationsToggle()).toBeVisible()
+  101 |     await expect(this.getFirstInteractiveElement(this.getTraceAllowedAssociationsToggle())).toBeDisabled()
+  102 | 
+  103 |     await expect(this.getFeedbackParameterToggle()).toBeVisible()
+  104 |     await expect(this.getFirstInteractiveElement(this.getFeedbackParameterToggle())).toBeDisabled()
+  105 |   }
+  106 | 
+  107 |   @Then('the activity modalities disabled information messages are visible')
+  108 |   async verifyActivityModalitiesDisabledInformationMessagesVisible () {
+  109 |     const disabledMessage = t(
+  110 |       'staff.activities.views.EditNationalActivityView.informations.disabled',
+  111 |     )
+  112 |     await expect(this.getReflectionParameterToggle()).toContainText(disabledMessage)
+  113 |     await expect(this.getTraceAllowedAssociationsToggle()).toContainText(disabledMessage)
+  114 |     await expect(this.getFeedbackParameterToggle()).toContainText(disabledMessage)
+  115 |   }
+  116 | 
+  117 |   @Then('the content tab is active by default')
+  118 |   async verifyContentTabActiveByDefault () {
+  119 |     await this.tabs().verifyContentTabActiveByDefault()
+  120 |   }
+  121 | 
+  122 |   @Then('the side navigation menu is visible')
+  123 |   async verifySideNavigationVisible () {
+  124 |     await this.sideNav().verifyVisible()
+  125 |   }
+  126 | 
+  127 |   @Then('the side navigation menu is expanded by default')
+  128 |   async verifySideNavigationExpandedByDefault () {
+  129 |     await this.sideNav().verifyExpandedByDefault()
+  130 |   }
+  131 | 
+  132 |   @Then('the side navigation menu has content header')
+  133 |   async verifySideNavigationHasContentHeader () {
+  134 |     await this.sideNav().verifyHasHeader('CONTENT')
+  135 |   }
+  136 | 
+  137 |   @Then('the side navigation menu has {string} content section')
+  138 |   async verifySideNavigationHasContentSection (sectionId: string) {
+  139 |     await this.sideNav().verifyHasSection('CONTENT', sectionId)
+  140 |   }
+  141 | 
+  142 |   @Given('the staff navigates to the publication tab')
+  143 |   async navigateToPublicationTab () {
+  144 |     await this.tabs().clickPublicationTab()
+  145 |   }
+  146 | 
+  147 |   @Then('the side navigation menu has publication header')
+  148 |   async verifySideNavigationHasPublicationHeader () {
+  149 |     await this.sideNav().verifyHasHeader('PUBLICATION')
+  150 |   }
+  151 | 
+  152 |   @Then('the side navigation menu has {string} publication section')
+  153 |   async verifySideNavigationHasPublicationSection (sectionId: string) {
+  154 |     await this.sideNav().verifyHasSection('PUBLICATION', sectionId)
+  155 |   }
+  156 | 
+  157 |   @Then('the publication tab is active')
+```

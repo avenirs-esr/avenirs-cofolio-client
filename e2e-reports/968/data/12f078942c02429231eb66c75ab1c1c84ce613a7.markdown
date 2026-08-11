@@ -1,0 +1,307 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/staff/feedbacks/feedbackDetails.feature.spec.js >> Staff Activity Feedback Details Page >> Associated elements section >> The feedback associated elements card contains at least one element
+- Location: .features-gen/tests/staff/feedbacks/feedbackDetails.feature.spec.js:54:5
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded while running "beforeEach" hook.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for locator('[data-testid="access-button"][data-activity-id="2a9f6c4d-8b1e-4d33-9c7a-5e2b8f1c6d77"]').first()
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e6]:
+      - generic [ref=e7]:
+        - link "Accueil - Cofolio Étudiant" [ref=e12] [cursor=pointer]:
+          - /url: /cofolio/student
+          - img [ref=e13]
+        - button "Changer d'univers" [ref=e15] [cursor=pointer]:
+          - generic [ref=e18]: Changer d'univers
+      - generic [ref=e20]:
+        - list [ref=e23]:
+          - listitem [ref=e24]:
+            - button "Messagerie" [ref=e27] [cursor=pointer]:
+              - generic [ref=e30]: Messagerie
+          - listitem [ref=e31]:
+            - button "Notifications" [ref=e34] [cursor=pointer]:
+              - generic [ref=e37]: Notifications
+          - listitem [ref=e38]:
+            - button "J. moulin" [ref=e41] [cursor=pointer]:
+              - generic [ref=e44]: J. moulin
+        - navigation [ref=e47]:
+          - button "FR" [ref=e50] [cursor=pointer]:
+            - generic [ref=e53]: FR
+    - navigation "Menu principal" [ref=e57]:
+      - list [ref=e58]:
+        - listitem [ref=e59]:
+          - link "ACCUEIL" [ref=e60] [cursor=pointer]:
+            - /url: /cofolio/student
+            - generic [ref=e63]: ACCUEIL
+        - listitem [ref=e64]:
+          - button "CONSTRUIRE MON PROJET DE VIE" [ref=e65] [cursor=pointer]:
+            - generic [ref=e66]: CONSTRUIRE MON PROJET DE VIE
+        - listitem [ref=e67]:
+          - button "MES OUTILS" [ref=e68] [cursor=pointer]:
+            - generic [ref=e69]: MES OUTILS
+  - main [ref=e70]:
+    - generic [ref=e71]:
+      - heading "Accueil Cofolio Étudiant" [level=1] [ref=e72]
+      - generic [ref=e73]:
+        - generic [ref=e76]:
+          - generic [ref=e78]:
+            - img "Bannière du profil" [ref=e79]
+            - img "Photo de profil" [ref=e81]
+          - generic [ref=e82]:
+            - generic [ref=e84]:
+              - generic [ref=e85]: Jeanne Moulin
+              - generic [ref=e86]: Je suis étudiante en chimie et écologie. Passionnée par l'innovation durable, je souhaite utiliser la science pour protéger l'environnement et bâtir un avenir plus respectueux de la planète.
+            - list [ref=e89]:
+              - listitem [ref=e90]:
+                - button "Modifier mon profil" [ref=e91] [cursor=pointer]:
+                  - generic [ref=e94]: Modifier mon profil
+        - generic [ref=e97]:
+          - generic [ref=e98]:
+            - generic [ref=e106]: Nouvelles activités
+            - generic [ref=e107]:
+              - generic [ref=e110]:
+                - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs" [ref=e111] [cursor=pointer]':
+                  - /url: /cofolio/student/activity/declared-activity-1
+                  - generic [ref=e118]:
+                    - generic [ref=e119]: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+                    - generic [ref=e120]:
+                      - status [ref=e121]:
+                        - generic [ref=e122]: Me connaître
+                      - status [ref=e123]:
+                        - generic [ref=e124]: En cours
+                - 'link "Activité \"CV\" : Construire son parcours" [ref=e125] [cursor=pointer]':
+                  - /url: /cofolio/student/activity/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+                  - generic [ref=e132]:
+                    - generic [ref=e133]: "Activité \"CV\" : Construire son parcours"
+                    - generic [ref=e134]:
+                      - status [ref=e135]:
+                        - generic [ref=e136]: CV
+                      - status [ref=e137]:
+                        - generic [ref=e138]: Inscrit(e)
+                - 'link "Activité : Construire son parcours (soumise)" [ref=e139] [cursor=pointer]':
+                  - /url: /cofolio/student/activity/declared-activity-2
+                  - generic [ref=e146]:
+                    - generic [ref=e147]: "Activité : Construire son parcours (soumise)"
+                    - generic [ref=e148]:
+                      - status [ref=e149]:
+                        - generic [ref=e150]: CV
+                      - status [ref=e151]:
+                        - generic [ref=e152]: Soumis
+              - link "Voir toutes les activités" [ref=e155] [cursor=pointer]:
+                - /url: /cofolio/student/project/activities
+                - generic [ref=e158]: Voir toutes les activités
+          - generic [ref=e159]:
+            - generic [ref=e167]: Ma bibliothèque d'activités
+            - generic [ref=e168]:
+              - generic [ref=e171]:
+                - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs" [ref=e172] [cursor=pointer]':
+                  - /url: /cofolio/student/activity/declared-activity-1
+                  - generic [ref=e179]:
+                    - generic [ref=e180]: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+                    - generic [ref=e181]:
+                      - status [ref=e182]:
+                        - generic [ref=e183]: Me connaître
+                      - status [ref=e184]:
+                        - generic [ref=e185]: En cours
+                - 'link "Activité \"CV\" : Construire son parcours" [ref=e186] [cursor=pointer]':
+                  - /url: /cofolio/student/activity/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+                  - generic [ref=e193]:
+                    - generic [ref=e194]: "Activité \"CV\" : Construire son parcours"
+                    - generic [ref=e195]:
+                      - status [ref=e196]:
+                        - generic [ref=e197]: CV
+                      - status [ref=e198]:
+                        - generic [ref=e199]: Inscrit(e)
+                - 'link "Activité : Construire son parcours (soumise)" [ref=e200] [cursor=pointer]':
+                  - /url: /cofolio/student/activity/declared-activity-2
+                  - generic [ref=e207]:
+                    - generic [ref=e208]: "Activité : Construire son parcours (soumise)"
+                    - generic [ref=e209]:
+                      - status [ref=e210]:
+                        - generic [ref=e211]: CV
+                      - status [ref=e212]:
+                        - generic [ref=e213]: Soumis
+              - link "Voir toute ma bibliothèque d'activités" [ref=e216] [cursor=pointer]:
+                - /url: /cofolio/student/project/activities?tab=ACTIVITY_LIBRARY
+                - generic [ref=e219]: Voir toute ma bibliothèque d'activités
+          - generic [ref=e220]:
+            - generic [ref=e228]: Mes dernières traces
+            - generic [ref=e229]:
+              - generic [ref=e232]:
+                - link "Prévenir la pollution à la source" [ref=e233] [cursor=pointer]:
+                  - /url: /cofolio/student/trace/4453f884-9081-43cb-95c6-d76c2bb59fd7
+                  - generic [ref=e240]:
+                    - generic [ref=e241]: Prévenir la pollution à la source
+                    - generic [ref=e242]:
+                      - status [ref=e245]:
+                        - generic [ref=e246]: Individuel
+                      - status [ref=e249]:
+                        - generic [ref=e250]: Sans IA
+                - link "Mettre en place des filières d'économies circulaires" [ref=e251] [cursor=pointer]:
+                  - /url: /cofolio/student/trace/trace2
+                  - generic [ref=e258]:
+                    - generic [ref=e259]: Mettre en place des filières d'économies circulaires
+                    - generic [ref=e260]:
+                      - status [ref=e263]:
+                        - generic [ref=e264]: Collectif
+                      - status [ref=e267]:
+                        - generic [ref=e268]: Avec IA
+                - link "Évaluer l'impact environnemental et économique" [ref=e269] [cursor=pointer]:
+                  - /url: /cofolio/student/trace/trace3
+                  - generic [ref=e276]:
+                    - generic [ref=e277]: Évaluer l'impact environnemental et économique
+                    - generic [ref=e278]:
+                      - status [ref=e281]:
+                        - generic [ref=e282]: Individuel
+                      - status [ref=e285]:
+                        - generic [ref=e286]: Sans IA
+              - link "Voir toutes mes traces" [ref=e289] [cursor=pointer]:
+                - /url: /cofolio/student/tools/traces
+                - generic [ref=e292]: Voir toutes mes traces
+  - contentinfo [ref=e293]:
+    - generic [ref=e295]:
+      - generic [ref=e296]:
+        - link "Logo ANR" [ref=e297] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e298]
+        - link "Logo France 2030" [ref=e299] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e300]
+      - generic [ref=e301]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e302]:
+      - generic [ref=e303]:
+        - img "Logo Cofolio" [ref=e304]
+        - generic [ref=e315]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e316]:
+        - generic [ref=e317]:
+          - generic [ref=e318]: Informations légales
+          - list [ref=e319]:
+            - listitem [ref=e320]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e321] [cursor=pointer]':
+                - /url: /cofolio/student/accessibility
+            - listitem [ref=e322]:
+              - link "Mentions légales" [ref=e323] [cursor=pointer]:
+                - /url: /cofolio/student/legal
+            - listitem [ref=e324]:
+              - link "Données personnelles" [ref=e325] [cursor=pointer]:
+                - /url: /cofolio/student/personal-data
+            - listitem [ref=e326]:
+              - link "Gestion des cookies" [ref=e327] [cursor=pointer]:
+                - /url: /cofolio/student/cookies
+        - generic [ref=e328]:
+          - generic [ref=e329]: Autres sites
+          - list [ref=e330]:
+            - listitem [ref=e331]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e332] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e333]:
+          - generic [ref=e334]: Partenaires
+          - generic [ref=e335]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e336] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e337]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e338] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e340]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e344] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1  | import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+  2  | import { BasePage } from '@e2e/framework/shared/base/BasePage'
+  3  | import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
+  4  | import { clickOnElement } from '@e2e/framework/shared/utils/click'
+  5  | import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+  6  | import { FeedbacksTable } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksTable'
+  7  | import { expect, type Page } from '@playwright/test'
+  8  | import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
+  9  | 
+  10 | @Fixture<typeof test>('staffFeedbacksPage')
+  11 | export class StaffFeedbacksPage extends BasePage {
+  12 |   private static readonly ACTIVITY_WITH_ASSOCIATED_ELEMENTS_ID
+  13 |     = '2a9f6c4d-8b1e-4d33-9c7a-5e2b8f1c6d77'
+  14 | 
+  15 |   constructor (public page: Page) {
+  16 |     super(page)
+  17 |   }
+  18 | 
+  19 |   private getFeedbacksTable () {
+  20 |     return new FeedbacksTable(
+  21 |       this.page.getByTestId('feedbacks-table'),
+  22 |     )
+  23 |   }
+  24 | 
+  25 |   private getStatusPicker () {
+  26 |     return this.page.getByTestId('feedback-status-picker')
+  27 |   }
+  28 | 
+  29 |   @Given('the staff opens the feedbacks page')
+  30 |   async goToFeedbacksPage () {
+  31 |     await this.page.goto(STAFF_ROUTES.STUDENT_TRACKING.FEEDBACKS)
+  32 |     await waitForPageLoad(this.page)
+  33 |   }
+  34 | 
+  35 |   @Then('the staff feedbacks page is displayed')
+  36 |   async verifyPageLoaded () {
+  37 |     await expect(this.page).toHaveURL(STAFF_ROUTES.STUDENT_TRACKING.FEEDBACKS)
+  38 |   }
+  39 | 
+  40 |   @Then('the feedback status picker is visible and contains 4 elements')
+  41 |   async verifyStatusPickerVisibleAndContainsFourElements () {
+  42 |     await expect(this.getStatusPicker()).toBeVisible()
+  43 | 
+  44 |     await expect(
+  45 |       this.getStatusPicker().locator('button'),
+  46 |     ).toHaveCount(4)
+  47 |   }
+  48 | 
+  49 |   @Then('the feedbacks table is visible and contains at least 2 rows')
+  50 |   async verifyFeedbacksTableVisibleAndContainsAtLeast2Rows () {
+  51 |     await this.getFeedbacksTable().verifyTableVisibleAndContainsRows()
+  52 |   }
+  53 | 
+  54 |   @When('the staff clicks the access feedback button for an activity with associated elements')
+  55 |   async clickAccessButtonForActivity () {
+  56 |     await this.page
+  57 |       .locator(
+  58 |         `[data-testid="access-button"][data-activity-id="${StaffFeedbacksPage.ACTIVITY_WITH_ASSOCIATED_ELEMENTS_ID}"]`,
+  59 |       )
+  60 |       .first()
+> 61 |       .click()
+     |        ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  62 |   }
+  63 | 
+  64 |   @When('the staff clicks access button of the first feedback with {string} status')
+  65 |   async clickAccessButtonOfFirstFeedbackWithStatus (feedbackStatus: string) {
+  66 |     const button = this.page.locator(`[data-testid="access-button"][data-feedback-status="${feedbackStatus}"]`).first()
+  67 |     await clickOnElement(button)
+  68 |   }
+  69 | }
+  70 | 
+```

@@ -1,0 +1,164 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/staff/feedbacks/feedbacks.mobile.feature.spec.js >> Staff Feedbacks Page - Mobile >> Mobile Display >> Staff can see the feedbacks page on mobile
+- Location: .features-gen/tests/staff/feedbacks/feedbacks.mobile.feature.spec.js:13:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('page-title')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('page-title')
+
+```
+
+```yaml
+- banner:
+  - link "Accueil - Cofolio Étudiant":
+    - /url: /cofolio/student
+    - img
+  - button "Menu"
+  - button "Changer d'univers"
+- main:
+  - heading "Accueil Cofolio Étudiant" [level=1]
+  - img "Bannière du profil"
+  - img "Photo de profil"
+  - text: Jeanne Moulin Je suis étudiante en chimie et écologie. Passionnée par l'innovation durable, je souhaite utiliser la science pour protéger l'environnement et bâtir un avenir plus respectueux de la planète.
+  - list:
+    - listitem:
+      - button "Modifier mon profil"
+  - text: Nouvelles activités
+  - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs"':
+    - /url: /cofolio/student/activity/declared-activity-1
+    - text: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+    - status: Me connaître
+    - status: En cours
+  - 'link "Activité \"CV\" : Construire son parcours"':
+    - /url: /cofolio/student/activity/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+    - text: "Activité \"CV\" : Construire son parcours"
+    - status: CV
+    - status: Inscrit(e)
+  - 'link "Activité : Construire son parcours (soumise)"':
+    - /url: /cofolio/student/activity/declared-activity-2
+    - text: "Activité : Construire son parcours (soumise)"
+    - status: CV
+    - status: Soumis
+  - link "Voir toutes les activités":
+    - /url: /cofolio/student/project/activities
+  - text: Ma bibliothèque d'activités
+  - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs"':
+    - /url: /cofolio/student/activity/declared-activity-1
+    - text: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+    - status: Me connaître
+    - status: En cours
+  - 'link "Activité \"CV\" : Construire son parcours"':
+    - /url: /cofolio/student/activity/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+    - text: "Activité \"CV\" : Construire son parcours"
+    - status: CV
+    - status: Inscrit(e)
+  - 'link "Activité : Construire son parcours (soumise)"':
+    - /url: /cofolio/student/activity/declared-activity-2
+    - text: "Activité : Construire son parcours (soumise)"
+    - status: CV
+    - status: Soumis
+  - link "Voir toute ma bibliothèque d'activités":
+    - /url: /cofolio/student/project/activities?tab=ACTIVITY_LIBRARY
+  - text: Mes dernières traces
+  - link "Prévenir la pollution à la source":
+    - /url: /cofolio/student/trace/4453f884-9081-43cb-95c6-d76c2bb59fd7
+    - text: Prévenir la pollution à la source
+    - status: Individuel
+    - status: Sans IA
+  - link "Mettre en place des filières d'économies circulaires":
+    - /url: /cofolio/student/trace/trace2
+    - text: Mettre en place des filières d'économies circulaires
+    - status: Collectif
+    - status: Avec IA
+  - link "Évaluer l'impact environnemental et économique":
+    - /url: /cofolio/student/trace/trace3
+    - text: Évaluer l'impact environnemental et économique
+    - status: Individuel
+    - status: Sans IA
+  - link "Voir toutes mes traces":
+    - /url: /cofolio/student/tools/traces
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/student/accessibility
+    - listitem:
+      - link "Mentions légales":
+        - /url: /cofolio/student/legal
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/student/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/student/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1  | import { expect, type Locator, type Page } from '@playwright/test'
+  2  | 
+  3  | export abstract class BaseObject {
+  4  |   protected constructor (protected readonly root: Locator, protected page?: Page) { }
+  5  | 
+  6  |   getRoot () {
+  7  |     return this.root
+  8  |   }
+  9  | 
+  10 |   async click () {
+  11 |     await this.root.click()
+  12 |   }
+  13 | 
+  14 |   async isVisible () {
+> 15 |     await expect(this.root).toBeVisible()
+     |                             ^ Error: expect(locator).toBeVisible() failed
+  16 |   }
+  17 | 
+  18 |   async isHidden () {
+  19 |     await expect(this.root).toBeHidden()
+  20 |   }
+  21 | }
+  22 | 
+```
