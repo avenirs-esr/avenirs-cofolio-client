@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { TraceCompactCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceCompactCard/TraceCompactCard.stub'
 import DeleteTraceAssociationOverlay, {
   type DeleteTraceAssociationOverlayProps
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/DeleteTraceAssociationOverlay/DeleteTraceAssociationOverlay.vue'
 import { DeleteOverlayStub } from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.stub'
+import { TraceCompactCardStub } from '@/features/student/traces/components/cards/TraceCompactCard/TraceCompactCard.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 

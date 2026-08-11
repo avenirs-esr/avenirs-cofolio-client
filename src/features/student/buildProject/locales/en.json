@@ -175,26 +175,6 @@
               },
               "success": "Your activity has been successfully submitted. You will be notified when your referent advisor has responded.",
               "updatableFeedback": "Feedback request sent on {date}. You can update your request, this does not constitute a new iteration."
-            },
-            "TracesTypeSelect": {
-              "label": "Search in:",
-              "placeholder": "Select a type of trace",
-              "options": {
-                "TRACE": {
-                  "ALL": {
-                    "label": "My traces",
-                    "searchPlaceholder": "Search a trace"
-                  },
-                  "ASSOCIATED": {
-                    "label": "My associated traces",
-                    "searchPlaceholder": "Search a associated trace"
-                  },
-                  "UNASSOCIATED": {
-                    "label": "My unassociated traces",
-                    "searchPlaceholder": "Search a unassociated trace"
-                  }
-                }
-              }
             }
           }
         }

@@ -65,6 +65,26 @@
         "pickers": {
           "TracesSelector": {
             "ariaLabel": "Select trace {title}"
+          },
+          "TracesTypeSelect": {
+            "label": "Search in:",
+            "options": {
+              "TRACE": {
+                "ALL": {
+                  "label": "My traces",
+                  "searchPlaceholder": "Search a trace"
+                },
+                "ASSOCIATED": {
+                  "label": "My associated traces",
+                  "searchPlaceholder": "Search a associated trace"
+                },
+                "UNASSOCIATED": {
+                  "label": "My unassociated traces",
+                  "searchPlaceholder": "Search a unassociated trace"
+                }
+              }
+            },
+            "placeholder": "Select a type of trace"
           }
         },
         "radios": {

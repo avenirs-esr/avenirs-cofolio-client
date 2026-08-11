@@ -174,26 +174,6 @@
               },
               "success": "Votre activité a été soumise avec succès. Vous serez notifié lorsque que votre conseiller référent vous aura répondu.",
               "updatableFeedback": "Demande de feedback envoyée le {date}. Vous pouvez mettre à jour votre demande, ceci ne constitue pas une nouvelle itération."
-            },
-            "TracesTypeSelect": {
-              "label": "Rechercher dans :",
-              "placeholder": "Sélectionnez un type de trace",
-              "options": {
-                "TRACE": {
-                  "ALL": {
-                    "label": "Toutes mes traces",
-                    "searchPlaceholder": "Rechercher une trace"
-                  },
-                  "ASSOCIATED": {
-                    "label": "Mes traces associées",
-                    "searchPlaceholder": "Rechercher une trace associée"
-                  },
-                  "UNASSOCIATED": {
-                    "label": "Mes traces non associées",
-                    "searchPlaceholder": "Rechercher une trace non associée"
-                  }
-                }
-              }
             }
           }
         }
