@@ -65,6 +65,26 @@
         "pickers": {
           "TracesSelector": {
             "ariaLabel": "Sélectionner la trace {title}"
+          },
+          "TracesTypeSelect": {
+            "label": "Rechercher dans :",
+            "options": {
+              "TRACE": {
+                "ALL": {
+                  "label": "Toutes mes traces",
+                  "searchPlaceholder": "Rechercher une trace"
+                },
+                "ASSOCIATED": {
+                  "label": "Mes traces associées",
+                  "searchPlaceholder": "Rechercher une trace associée"
+                },
+                "UNASSOCIATED": {
+                  "label": "Mes traces non associées",
+                  "searchPlaceholder": "Rechercher une trace non associée"
+                }
+              }
+            },
+            "placeholder": "Sélectionnez un type de trace"
           }
         },
         "radios": {

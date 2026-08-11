@@ -1,5 +1,5 @@
-import { TraceAssociationTypes } from '@/features/student/buildProject/types/trace-association.types'
-import TracesTypeSelect from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/TracesTypeSelect/TracesTypeSelect.vue'
+import TracesTypeSelect from '@/features/student/traces/components/interactions/pickers/TracesTypeSelect/TracesTypeSelect.vue'
+import { TraceAssociationTypes } from '@/features/student/traces/types/trace-association.types'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'

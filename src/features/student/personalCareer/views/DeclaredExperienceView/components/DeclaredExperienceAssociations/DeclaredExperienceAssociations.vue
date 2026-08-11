@@ -8,6 +8,8 @@ import { QuerySuspense } from '@/common/components'
 import { useModal } from '@/common/composables'
 import AssociatedTracesCard
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
+import AssociateTracesToDeclaredExperienceModal
+  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/AssociateTracesToDeclaredExperienceModal/AssociateTracesToDeclaredExperienceModal.vue'
 import DeleteDeclaredExperienceAssociatedTracesModal
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/DeleteDeclaredExperienceAssociatedTracesModal/DeleteDeclaredExperienceAssociatedTracesModal.vue'
 import { useI18n } from 'vue-i18n'
@@ -28,11 +30,25 @@ const {
   hideModal: hideDeleteTracesModal
 } = useModal()
 
+const {
+  showModal: showAssociateTracesModal,
+  displayModal: displayAssociateTracesModal,
+  hideModal: hideAssociateTracesModal
+} = useModal()
+
 const countAssociations = computed(() => traceAssociations.length)
 
 const deleteItems = computed(() => [
   { type: EAssociationContextType.TRACE, disabled: traceAssociations.length === 0 },
 ])
+
+const associateItems = computed(() => [
+  { type: EAssociationContextType.TRACE },
+])
+
+function onAssociated () {
+  hideAssociateTracesModal()
+}
 </script>
 
 <template>
@@ -47,6 +63,12 @@ const deleteItems = computed(() => [
           data-testid="delete-declared-experience-associated-elements-dropdown"
           :items="deleteItems"
           @select="displayDeleteTracesModal"
+        />
+        <AssociationElementsDropdown
+          variant="associate"
+          data-testid="associate-declared-experience-elements-dropdown"
+          :items="associateItems"
+          @select="displayAssociateTracesModal"
         />
       </div>
 
@@ -67,5 +89,12 @@ const deleteItems = computed(() => [
     :associations="traceAssociations"
     @cancel="hideDeleteTracesModal"
     @deleted="hideDeleteTracesModal"
+  />
+
+  <AssociateTracesToDeclaredExperienceModal
+    :show="showAssociateTracesModal"
+    :declared-experience-id="declaredExperienceId"
+    @cancel="hideAssociateTracesModal"
+    @associated="onAssociated"
   />
 </template>

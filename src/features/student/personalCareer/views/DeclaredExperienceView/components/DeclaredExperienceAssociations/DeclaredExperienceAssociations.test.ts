@@ -10,6 +10,8 @@ import { AssociatedTracesCardStub }
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import DeclaredExperienceAssociations
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.vue'
+import { AssociateTracesToDeclaredExperienceModalStub }
+  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/AssociateTracesToDeclaredExperienceModal/AssociateTracesToDeclaredExperienceModal.stub'
 import { DeleteDeclaredExperienceAssociatedTracesModalStub }
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/DeleteDeclaredExperienceAssociatedTracesModal/DeleteDeclaredExperienceAssociatedTracesModal.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -27,7 +29,8 @@ const stubs = {
   QuerySuspense: QuerySuspenseStub,
   AssociatedTracesCard: AssociatedTracesCardStub,
   AssociationElementsDropdown: AssociationElementsDropdownStub,
-  DeleteDeclaredExperienceAssociatedTracesModal: DeleteDeclaredExperienceAssociatedTracesModalStub
+  DeleteDeclaredExperienceAssociatedTracesModal: DeleteDeclaredExperienceAssociatedTracesModalStub,
+  AssociateTracesToDeclaredExperienceModal: AssociateTracesToDeclaredExperienceModalStub
 }
 
 BddTest().given('a declared experience associations component', () => {
@@ -96,6 +99,56 @@ BddTest().given('a declared experience associations component', () => {
       expect(modal.props('show')).toBe(false)
       expect(modal.props('experienceId')).toBe(declaredExperienceId)
       expect(modal.props('associations')).toEqual(mockedAssociatedTraces)
+    })
+
+    BddTest().then('it should render the associate elements dropdown with the traces entry', () => {
+      const dropdowns = wrapper.findAllComponents(AssociationElementsDropdownStub)
+      const dropdown = dropdowns.find(candidate => candidate.props('variant') === 'associate')
+
+      expect(dropdown?.exists()).toBe(true)
+      expect(dropdown?.props('items')).toEqual([
+        { type: EAssociationContextType.TRACE }
+      ])
+    })
+
+    BddTest().then('it should render the associate traces modal hidden with the right props', () => {
+      const modal = wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub)
+      expect(modal.exists()).toBe(true)
+      expect(modal.props('show')).toBe(false)
+      expect(modal.props('declaredExperienceId')).toBe(declaredExperienceId)
+    })
+
+    BddTest().and('the associate dropdown emits select', () => {
+      beforeEach(async () => {
+        const dropdowns = wrapper.findAllComponents(AssociationElementsDropdownStub)
+        const associateDropdown = dropdowns.find(candidate => candidate.props('variant') === 'associate')
+
+        await associateDropdown?.vm.$emit('select', EAssociationContextType.TRACE)
+      })
+
+      BddTest().then('it should display the associate traces modal', () => {
+        expect(wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).props('show')).toBe(true)
+      })
+
+      BddTest().and('the associate traces modal emits cancel', () => {
+        beforeEach(async () => {
+          await wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).vm.$emit('cancel')
+        })
+
+        BddTest().then('it should hide the associate traces modal', () => {
+          expect(wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).props('show')).toBe(false)
+        })
+      })
+
+      BddTest().and('the associate traces modal emits associated', () => {
+        beforeEach(async () => {
+          await wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).vm.$emit('associated')
+        })
+
+        BddTest().then('it should hide the associate traces modal', () => {
+          expect(wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).props('show')).toBe(false)
+        })
+      })
     })
 
     BddTest().and('the dropdown selects the trace type', () => {

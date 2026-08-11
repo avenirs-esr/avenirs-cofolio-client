@@ -140,6 +140,14 @@
           "success": "Vous avez associé {count} expérience. Retrouvez-la dans la catégorie \"Mes expériences associées\". | Vous avez associé {count} expériences. Retrouvez-les dans la catégorie \"Mes expériences associées\".",
           "title": "Quelle(s) expérience(s) souhaitez-vous associer ?"
         },
+        "AssociateTracesToDeclaredExperienceModal": {
+          "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association de traces ?",
+          "confirm": "Associer la trace sélectionnée (1) | Associer les traces sélectionnées ({count})",
+          "confirmTitle": "Êtes-vous certain(e) de vouloir associer cette trace ? | Êtes-vous certain(e) de vouloir associer ces traces ?",
+          "searchPlaceholder": "Entrer le nom d'une trace",
+          "success": "Vous avez associé {count} trace. Retrouvez-la dans la catégorie « Mes traces associées ». | Vous avez associé {count} traces. Retrouvez-les dans la catégorie « Mes traces associées ».",
+          "title": "Quelle(s) trace(s) souhaitez-vous associer ?"
+        },
         "ConfirmAssociateDeclaredExperiencesModal": {
           "title": "Êtes-vous certain(e) de vouloir associer cette expérience ? | Êtes-vous certain(e) de vouloir associer ces expériences ?"
         },

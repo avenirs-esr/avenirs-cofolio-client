@@ -2,9 +2,10 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import {
-  invalidateGetDeclaredActivityAssociations,
-  useAssociateActivityWithTraces,
-  useSearchTracesForAssociation,
+  invalidateGetDeclaredExperience,
+  invalidateGetDeclaredExperienceAssociations,
+  useAssociateDeclaredExperienceWithTraces,
+  useSearchTracesForAssociationWithDeclaredExperience,
 } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useModal } from '@/common/composables'
@@ -19,12 +20,12 @@ import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
-export interface AssociateTracesModalProps {
+export interface AssociateTracesToDeclaredExperienceModalProps {
   show: boolean
-  declaredActivityId: string
+  declaredExperienceId: string
 }
 
-const { show, declaredActivityId } = defineProps<AssociateTracesModalProps>()
+const { show, declaredExperienceId } = defineProps<AssociateTracesToDeclaredExperienceModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -71,7 +72,7 @@ const {
   data,
   isError: isSearchError,
   error: searchError
-} = useSearchTracesForAssociation(computed(() => declaredActivityId), params, {
+} = useSearchTracesForAssociationWithDeclaredExperience(computed(() => declaredExperienceId), params, {
   query: { enabled: computed(() => show) }
 })
 
@@ -91,11 +92,11 @@ const traceOptions = computed<AvAutocompleteOption[]>(() =>
 
 const idsToAssociate = computed(() => selectedAssociations.value.map(trace => trace.id.toString()))
 
-const { mutate: mutateAssociateActivityWithTraces, isPending } = useAssociateActivityWithTraces()
+const { mutate: mutateAssociateDeclaredExperienceWithTraces, isPending } = useAssociateDeclaredExperienceWithTraces()
 
-function associateActivityWithTraces () {
-  mutateAssociateActivityWithTraces({
-    declaredActivityId,
+function associateExperienceWithTraces () {
+  mutateAssociateDeclaredExperienceWithTraces({
+    experienceId: declaredExperienceId,
     data: { idsToAssociate: idsToAssociate.value }
   }, {
     onError: (error: BaseApiException) => {
@@ -105,7 +106,10 @@ function associateActivityWithTraces () {
       })
     },
     onSuccess: async (_, variables) => {
-      await withTaskLoading(() => invalidateGetDeclaredActivityAssociations(queryClient, declaredActivityId))
+      await withTaskLoading(() => Promise.all([
+        invalidateGetDeclaredExperienceAssociations(queryClient, variables.experienceId),
+        invalidateGetDeclaredExperience(queryClient, variables.experienceId)
+      ]))
 
       const count = variables.data.idsToAssociate.length
 
@@ -113,7 +117,7 @@ function associateActivityWithTraces () {
 
       addSuccessMessage({
         timeout: 2000,
-        description: t('student.buildProject.activities.views.ProjectActivityDetailedView.AssociateTracesModal.success', { count }),
+        description: t('student.personalCareer.overlays.AssociateTracesToDeclaredExperienceModal.success', { count }),
       })
 
       emit('associated')
@@ -155,9 +159,11 @@ function onConfirmCancelAssociateModal () {
 <template>
   <AvModal
     :opened="show"
-    data-testid="associate-traces-modal"
+    data-testid="associate-traces-to-declared-experience-modal"
     :close-button-label="t('global.buttons.cancel')"
-    :confirm-button-label="t('global.buttons.confirm')"
+    :confirm-button-label="t('student.personalCareer.overlays.AssociateTracesToDeclaredExperienceModal.confirm', { count: selectedTraceOptions.length })"
+    :confirm-button-disabled="selectedTraceOptions.length === 0"
+    :is-loading="isPending || isLoading"
     @close="onAssociateModalClose"
     @confirm="displayConfirmModal"
   >
@@ -167,7 +173,7 @@ function onConfirmCancelAssociateModal () {
         data-testid="header"
       >
         <span class="b2-regular av-text-text1">
-          {{ t('student.buildProject.activities.views.ProjectActivityDetailedView.AssociateTracesModal.title') }}
+          {{ t('student.personalCareer.overlays.AssociateTracesToDeclaredExperienceModal.title') }}
         </span>
       </div>
     </template>
@@ -204,13 +210,14 @@ function onConfirmCancelAssociateModal () {
     :show="showConfirmModal"
     :items="selectedAssociations"
     :is-loading="isPending || isLoading"
-    :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.AssociateTracesModal.confirmTitle')"
+    :title="t('student.personalCareer.overlays.AssociateTracesToDeclaredExperienceModal.confirmTitle')"
     @cancel="hideConfirmModal"
-    @confirm="associateActivityWithTraces"
+    @confirm="associateExperienceWithTraces"
   />
 
   <ConfirmationModal
     :show="showCancelConfirmationModal"
+    :description="t('student.personalCareer.overlays.AssociateTracesToDeclaredExperienceModal.cancelConfirmation')"
     @close="hideCancelConfirmationModal"
     @confirm="onConfirmCancelAssociateModal"
   />

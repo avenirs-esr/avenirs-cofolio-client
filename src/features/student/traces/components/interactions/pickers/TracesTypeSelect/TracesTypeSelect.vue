@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TraceAssociationTypes } from '@/features/student/buildProject/types/trace-association.types'
+import { TraceAssociationTypes } from '@/features/student/traces/types/trace-association.types'
 import { AvSelect, type AvSelectProps } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -17,14 +17,14 @@ const { t } = useI18n()
 const options = computed(() =>
   Object.values(TraceAssociationTypes).map(type => ({
     id: type,
-    label: t(`student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.options.${type}.label`)
+    label: t(`student.traces.interactions.pickers.TracesTypeSelect.options.${type}.label`)
   }))
 )
 
 const avSelectProps = computed<AvSelectProps>(() => ({
   ...restProps,
-  label: label ?? t('student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.label'),
-  placeholder: t('student.buildProject.activities.views.ProjectActivityDetailedView.TracesTypeSelect.placeholder'),
+  label: label ?? t('student.traces.interactions.pickers.TracesTypeSelect.label'),
+  placeholder: t('student.traces.interactions.pickers.TracesTypeSelect.placeholder'),
   options: options.value
 }))
 </script>

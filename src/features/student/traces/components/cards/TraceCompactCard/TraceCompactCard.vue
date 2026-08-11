@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { IdTitle } from '@/types'
 import { ICONS } from '@/common/constants'
-import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import { FloatingIconCard } from '@/features/student/global'
 
 export interface TraceCompactCardProps {
   trace: IdTitle

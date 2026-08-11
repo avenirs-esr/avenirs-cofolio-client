@@ -4,9 +4,12 @@ import {
   createMockedDeclaredExperienceViewDTO,
   declaredExperienceViewDTOFixture
 } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
+import { createMockedSearchTracesForAssociationResponse } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
   type DeclaredExperienceAssociationsDTO,
   type DeclaredExperienceViewDTO,
+  EErrorCode,
+  getAssociateDeclaredExperienceWithTracesUrl,
   getCreateDeclaredExperienceUrl,
   type GetDeclaredExperienceViewParams,
   getDeleteDeclaredExperienceAssociationsUrl,
@@ -15,7 +18,9 @@ import {
   getGetDeclaredExperienceUrl,
   getGetDeclaredExperienceViewUrl,
   getSearchDeclaredExperiencesForAssociationUrl,
+  getSearchTracesForAssociationWithDeclaredExperienceUrl,
   type PagedResponseAssociationSearchResultDeclaredExperienceDTO,
+  type PagedResponseAssociationSearchResultTraceDTO,
   type PagedResponseDeclaredExperienceViewDTO
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
@@ -166,6 +171,109 @@ export const deleteDeclaredExperienceAssociationsErrorHandler = http.delete(
   }
 )
 
+export const searchTracesForAssociationWithDeclaredExperienceHandler = http.get(
+  `*${getSearchTracesForAssociationWithDeclaredExperienceUrl(':declaredExperienceId')}`,
+  async ({ params, request }) => {
+    const { declaredExperienceId } = params
+
+    if (!declaredExperienceId || declaredExperienceId === 'INVALID_DECLARED_EXPERIENCE_ID') {
+      return HttpResponse.json(
+        { code: EErrorCode.DECLARED_EXPERIENCE_NOT_FOUND, message: 'Declared experience not found' },
+        {
+          status: 404,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+    }
+
+    const url = new URL(request.url)
+
+    const keyword = url.searchParams.get('keyword') ?? undefined
+    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '20')
+
+    const rawIsAssociated = url.searchParams.get('isAssociated')
+    const isAssociated
+      = rawIsAssociated === null || rawIsAssociated === 'null'
+        ? undefined
+        : rawIsAssociated === 'true'
+
+    const response = createMockedSearchTracesForAssociationResponse({
+      keyword,
+      page,
+      pageSize,
+      isAssociated
+    })
+
+    return HttpResponse.json<PagedResponseAssociationSearchResultTraceDTO>(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+)
+
+export const searchTracesForAssociationWithDeclaredExperienceErrorHandler = http.get(
+  `*${getSearchTracesForAssociationWithDeclaredExperienceUrl(':declaredExperienceId')}`,
+  async () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  }
+)
+
+export const associateDeclaredExperienceWithTracesHandler = http.post(
+  `*${getAssociateDeclaredExperienceWithTracesUrl(':experienceId')}`,
+  async ({ params }) => {
+    const { experienceId } = params
+
+    if (!experienceId || experienceId === 'INVALID_EXPERIENCE_ID') {
+      return HttpResponse.json(
+        { code: EErrorCode.DECLARED_EXPERIENCE_NOT_FOUND, message: 'Declared experience not found' },
+        {
+          status: 404,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+    }
+
+    const response = createMockedDeclaredExperienceAssociationsDTO()
+
+    return HttpResponse.json<DeclaredExperienceAssociationsDTO>(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+)
+
+export const associateDeclaredExperienceWithTracesErrorHandler = http.post(
+  `*${getAssociateDeclaredExperienceWithTracesUrl(':experienceId')}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  }
+)
+
 export const declaredExperiencesHandlers = [
   declaredExperiencesQueryHandler,
   http.get(`*${getSearchDeclaredExperiencesForAssociationUrl()}`, ({ request }) => {
@@ -230,6 +338,8 @@ export const declaredExperiencesHandlers = [
     })
   }),
   declaredExperienceAssociationsQueryHandler,
+  searchTracesForAssociationWithDeclaredExperienceHandler,
+  associateDeclaredExperienceWithTracesHandler,
   http.delete(
     `*${getDeleteDeclaredExperienceAssociationsUrl(':experienceId')}`,
     async ({ params }) => {

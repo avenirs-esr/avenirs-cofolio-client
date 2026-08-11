@@ -3295,6 +3295,71 @@
         }
       }
     },
+    "/me/declared/experiences/{experienceId}/search-for-association/traces": {
+      "get": {
+        "tags": [
+          "declared-experience-controller"
+        ],
+        "operationId": "searchTracesForAssociationWithDeclaredExperience",
+        "parameters": [
+          {
+            "name": "experienceId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "isAssociated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultTraceDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progress/{declaredActivityId}/associations": {
       "get": {
         "tags": [
