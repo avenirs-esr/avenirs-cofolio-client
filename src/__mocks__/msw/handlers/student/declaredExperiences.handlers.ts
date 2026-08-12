@@ -9,6 +9,7 @@ import {
   type DeclaredExperienceAssociationsDTO,
   type DeclaredExperienceViewDTO,
   EErrorCode,
+  getAssociateDeclaredExperienceWithDeclaredSkillsUrl,
   getAssociateDeclaredExperienceWithTracesUrl,
   getCreateDeclaredExperienceUrl,
   type GetDeclaredExperienceViewParams,
@@ -274,6 +275,21 @@ export const associateDeclaredExperienceWithTracesErrorHandler = http.post(
   }
 )
 
+export const associateDeclaredExperienceWithDeclaredSkillsErrorHandler = http.post(
+  `*${getAssociateDeclaredExperienceWithDeclaredSkillsUrl(':experienceId')}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+  }
+)
+
 export const declaredExperiencesHandlers = [
   declaredExperiencesQueryHandler,
   http.get(`*${getSearchDeclaredExperiencesForAssociationUrl()}`, ({ request }) => {
@@ -340,6 +356,33 @@ export const declaredExperiencesHandlers = [
   declaredExperienceAssociationsQueryHandler,
   searchTracesForAssociationWithDeclaredExperienceHandler,
   associateDeclaredExperienceWithTracesHandler,
+  http.post(
+    `*${getAssociateDeclaredExperienceWithDeclaredSkillsUrl(':experienceId')}`,
+    async ({ params }) => {
+      const { experienceId } = params
+
+      if (!experienceId || experienceId === 'INVALID_EXPERIENCE_ID') {
+        return HttpResponse.json(
+          { code: EErrorCode.DECLARED_EXPERIENCE_NOT_FOUND, message: 'Declared experience not found' },
+          {
+            status: 404,
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+      }
+
+      const response = createMockedDeclaredExperienceAssociationsDTO()
+
+      return HttpResponse.json<DeclaredExperienceAssociationsDTO>(response, {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+    }
+  ),
   http.delete(
     `*${getDeleteDeclaredExperienceAssociationsUrl(':experienceId')}`,
     async ({ params }) => {

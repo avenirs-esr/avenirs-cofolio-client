@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TraceAssociationDTO } from '@/api/avenir-esr'
+import type { DeclaredSkillAssociationDTO, TraceAssociationDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import AssociationElementsDropdown
@@ -8,6 +8,9 @@ import { QuerySuspense } from '@/common/components'
 import { useModal } from '@/common/composables'
 import AssociatedTracesCard
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
+import { AssociatedDeclaredSkillsCard } from '@/features/student/declaredSkills'
+import AssociateDeclaredSkillsToDeclaredExperienceModal
+  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/AssociateDeclaredSkillsToDeclaredExperienceModal/AssociateDeclaredSkillsToDeclaredExperienceModal.vue'
 import AssociateTracesToDeclaredExperienceModal
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/AssociateTracesToDeclaredExperienceModal/AssociateTracesToDeclaredExperienceModal.vue'
 import DeleteDeclaredExperienceAssociatedTracesModal
@@ -17,10 +20,11 @@ import { useI18n } from 'vue-i18n'
 interface DeclaredExperienceAssociationsProps {
   declaredExperienceId: string
   traceAssociations: TraceAssociationDTO[]
+  declaredSkillAssociations: DeclaredSkillAssociationDTO[]
   associationsError?: BaseApiException | null | undefined
 }
 
-const { declaredExperienceId, traceAssociations } = defineProps<DeclaredExperienceAssociationsProps>()
+const { declaredExperienceId, traceAssociations, declaredSkillAssociations } = defineProps<DeclaredExperienceAssociationsProps>()
 
 const { t } = useI18n()
 
@@ -36,7 +40,13 @@ const {
   hideModal: hideAssociateTracesModal
 } = useModal()
 
-const countAssociations = computed(() => traceAssociations.length)
+const {
+  showModal: showAssociateDeclaredSkillsModal,
+  displayModal: displayAssociateDeclaredSkillsModal,
+  hideModal: hideAssociateDeclaredSkillsModal
+} = useModal()
+
+const countAssociations = computed(() => traceAssociations.length + declaredSkillAssociations.length)
 
 const deleteItems = computed(() => [
   { type: EAssociationContextType.TRACE, disabled: traceAssociations.length === 0 },
@@ -44,10 +54,24 @@ const deleteItems = computed(() => [
 
 const associateItems = computed(() => [
   { type: EAssociationContextType.TRACE },
+  { type: EAssociationContextType.DECLARED_SKILL },
 ])
+
+function handleAssociateSelect (type: EAssociationContextType) {
+  if (type === EAssociationContextType.DECLARED_SKILL) {
+    displayAssociateDeclaredSkillsModal()
+    return
+  }
+
+  displayAssociateTracesModal()
+}
 
 function onAssociated () {
   hideAssociateTracesModal()
+}
+
+function onDeclaredSkillsAssociated () {
+  hideAssociateDeclaredSkillsModal()
 }
 </script>
 
@@ -68,7 +92,7 @@ function onAssociated () {
           variant="associate"
           data-testid="associate-declared-experience-elements-dropdown"
           :items="associateItems"
-          @select="displayAssociateTracesModal"
+          @select="handleAssociateSelect"
         />
       </div>
 
@@ -78,7 +102,10 @@ function onAssociated () {
         :empty-state-message="t('student.personalCareer.views.DeclaredExperienceView.empty.associations')"
         :is-empty="countAssociations === 0"
       >
-        <AssociatedTracesCard :associated-traces="traceAssociations" />
+        <div class="av-col av-gap-md">
+          <AssociatedTracesCard :associated-traces="traceAssociations" />
+          <AssociatedDeclaredSkillsCard :associated-declared-skills="declaredSkillAssociations" />
+        </div>
       </QuerySuspense>
     </div>
   </div>
@@ -96,5 +123,12 @@ function onAssociated () {
     :declared-experience-id="declaredExperienceId"
     @cancel="hideAssociateTracesModal"
     @associated="onAssociated"
+  />
+
+  <AssociateDeclaredSkillsToDeclaredExperienceModal
+    :show="showAssociateDeclaredSkillsModal"
+    :declared-experience-id="declaredExperienceId"
+    @cancel="hideAssociateDeclaredSkillsModal"
+    @associated="onDeclaredSkillsAssociated"
   />
 </template>
