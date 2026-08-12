@@ -5,6 +5,7 @@ import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useBaseApiExceptionToast, useInvalidateAllQueriesAfterLocaleChange } from '@/common/composables'
 import { QUICK_LINKS_REFRESH_INTERVAL, ROUTES } from '@/common/constants'
+import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 import StudentNavigation from '@/features/student/global/components/navigation/StudentNavigation/StudentNavigation.vue'
 import {
   StudentMailboxPopover,
@@ -35,7 +36,7 @@ const name = computed(() => {
 const messagesCount = 0 // TODO: waiting for mailbox implementation
 
 const searchQuery = ref('')
-
+const { canSwitchProfile } = useAuthStore()
 defineExpose({ searchQuery })
 </script>
 
@@ -73,7 +74,10 @@ defineExpose({ searchQuery })
     <template #mainnav>
       <StudentNavigation />
     </template>
-    <template #roleContext>
+    <template
+      v-if="canSwitchProfile"
+      #roleContext
+    >
       <SwitchUniverse />
     </template>
   </AvHeader>

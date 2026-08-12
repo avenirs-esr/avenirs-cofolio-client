@@ -32,6 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const redirecting = ref(false)
   const sessionPromise = ref<Promise<void> | null>(null)
+  const canSwitchProfile = computed(() => categories.value.includes(EUserCategory.STUDENT) && categories.value.includes(EUserCategory.STAFF))
 
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
@@ -143,6 +144,7 @@ export const useAuthStore = defineStore('auth', () => {
     isLoggedIn,
     profile: readonly(profile),
     categories: readonly(categories),
+    canSwitchProfile: readonly(canSwitchProfile),
     homeRoute
   }
 }, {
@@ -150,6 +152,7 @@ export const useAuthStore = defineStore('auth', () => {
     pick: [
       'authenticated',
       'sessionReady',
+      'canSwitchProfile',
       'profile',
       'categories',
     ]

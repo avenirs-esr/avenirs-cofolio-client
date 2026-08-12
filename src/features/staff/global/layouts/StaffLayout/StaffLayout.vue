@@ -5,6 +5,7 @@ import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useBaseApiExceptionToast, useLanguageSwitcher } from '@/common/composables'
 import { QUICK_LINKS_REFRESH_INTERVAL, ROUTES } from '@/common/constants'
+import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 import StaffNavigation from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.vue'
 import StaffNotificationsPopover from '@/features/staff/user/components/overlays/StaffNotificationsPopover/StaffNotificationsPopover.vue'
 import StaffProfileDropdown from '@/features/staff/user/components/overlays/StaffProfileDropdown/StaffProfileDropdown.vue'
@@ -27,6 +28,7 @@ const name = computed(() => {
   const { firstname, lastname } = data.value!
   return `${capitalize(firstname[0])}. ${capitalize(lastname)}`
 })
+const { canSwitchProfile } = useAuthStore()
 </script>
 
 <template>
@@ -57,7 +59,10 @@ const name = computed(() => {
     <template #mainnav>
       <StaffNavigation />
     </template>
-    <template #roleContext>
+    <template
+      v-if="canSwitchProfile"
+      #roleContext
+    >
       <SwitchUniverse />
     </template>
   </AvHeader>
