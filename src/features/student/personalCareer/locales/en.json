@@ -140,14 +140,6 @@
           "success": "You have associated {count} experience. Find it in the \"My associated experiences\" category. | You have associated {count} experiences. Find them in the \"My associated experiences\" category.",
           "title": "Which declared experience(s) would you like to associate?"
         },
-        "AssociateTracesToDeclaredExperienceModal": {
-          "cancelConfirmation": "Are you sure you want to abandon the trace association?",
-          "confirm": "Associate selected trace (1) | Associate selected traces ({count})",
-          "confirmTitle": "Are you sure you want to associate this trace? | Are you sure you want to associate these traces?",
-          "searchPlaceholder": "Enter the name of a trace",
-          "success": "You have associated {count} trace. Find it in the \"My associated traces\" category. | You have associated {count} traces. Find them in the \"My associated traces\" category.",
-          "title": "Which trace(s) would you like to associate?"
-        },
         "ConfirmAssociateDeclaredExperiencesModal": {
           "title": "Are you sure you want to associate this experience? | Are you sure you want to associate these experiences?"
         },

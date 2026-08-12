@@ -12,8 +12,8 @@ import {
   AssociateDeclaredSkillsToActivityModalStub
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/modals/AssociateDeclaredSkillToActivityModal/AssociateDeclaredSkillToActivityModal.stub'
 import {
-  AssociateTracesModalStub
-} from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesModal.stub'
+  AssociateTracesToDeclaredActivityStub
+} from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesToDeclaredActivity.stub'
 import { DeleteActivityAssociatedElementsModalStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedElementsModal/DeleteActivityAssociatedElementsModal.stub'
 import AssociatedElementsTab, { type AssociatedElementsTabProps } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/tabs/AssociatedElementsTab/AssociatedElementsTab.vue'
 import {
@@ -38,7 +38,7 @@ BddTest().given('an associated elements tab', () => {
   const stubs = {
     AssociationElementsDropdown: AssociationElementsDropdownStub,
     DeleteActivityAssociatedElementsModal: DeleteActivityAssociatedElementsModalStub,
-    AssociateTracesModal: AssociateTracesModalStub,
+    AssociateTracesToDeclaredActivity: AssociateTracesToDeclaredActivityStub,
     AssociatedTracesCard: AssociatedTracesCardStub,
     AssociateDeclaredSkillToActivityModal: AssociateDeclaredSkillsToActivityModalStub,
     AssociatedDeclaredSkillsCard: AssociatedDeclaredSkillsCardStub,
@@ -133,7 +133,7 @@ BddTest().given('an associated elements tab', () => {
     })
 
     BddTest().then('it should render the associate traces modal in hidden state', () => {
-      const associateTracesModal = wrapper.findComponent(AssociateTracesModalStub)
+      const associateTracesModal = wrapper.findComponent(AssociateTracesToDeclaredActivityStub)
       expect(associateTracesModal.exists()).toBe(true)
       expect(associateTracesModal.props('show')).toBe(false)
     })
@@ -145,7 +145,7 @@ BddTest().given('an associated elements tab', () => {
     })
 
     BddTest().then('it should pass declaredActivityId to associate modals', () => {
-      const associateTracesModal = wrapper.findComponent(AssociateTracesModalStub)
+      const associateTracesModal = wrapper.findComponent(AssociateTracesToDeclaredActivityStub)
       const associateDeclaredSkillsModal = wrapper.findComponent(AssociateDeclaredSkillsToActivityModalStub)
       expect(associateTracesModal.props('declaredActivityId')).toBe(props.declaredActivityId)
       expect(associateDeclaredSkillsModal.props('activityId')).toBe(props.declaredActivityId)
@@ -231,31 +231,31 @@ BddTest().given('an associated elements tab', () => {
       })
 
       BddTest().then('the associate traces modal should be shown', () => {
-        const associateTracesModal = wrapper.findComponent(AssociateTracesModalStub)
+        const associateTracesModal = wrapper.findComponent(AssociateTracesToDeclaredActivityStub)
         expect(associateTracesModal.props('show')).toBe(true)
         expect(associateTracesModal.props('declaredActivityId')).toBe(props.declaredActivityId)
       })
 
       BddTest().and('the user selects cancel from the associate traces modal', () => {
         beforeEach(() => {
-          const associateTracesModal = wrapper.findComponent(AssociateTracesModalStub)
+          const associateTracesModal = wrapper.findComponent(AssociateTracesToDeclaredActivityStub)
           associateTracesModal.vm.$emit('cancel')
         })
 
         BddTest().then('the associate traces modal should be hidden', () => {
-          const associateTracesModal = wrapper.findComponent(AssociateTracesModalStub)
+          const associateTracesModal = wrapper.findComponent(AssociateTracesToDeclaredActivityStub)
           expect(associateTracesModal.props('show')).toBe(false)
         })
       })
 
       BddTest().and('the user confirms associate from the associate traces modal', () => {
         beforeEach(() => {
-          const associateTracesModal = wrapper.findComponent(AssociateTracesModalStub)
+          const associateTracesModal = wrapper.findComponent(AssociateTracesToDeclaredActivityStub)
           associateTracesModal.vm.$emit('associated')
         })
 
         BddTest().then('the associate traces modal should be hidden', () => {
-          const associateTracesModal = wrapper.findComponent(AssociateTracesModalStub)
+          const associateTracesModal = wrapper.findComponent(AssociateTracesToDeclaredActivityStub)
           expect(associateTracesModal.props('show')).toBe(false)
         })
       })

@@ -101,6 +101,13 @@
         }
       },
       "modals": {
+        "AssociateTracesModal": {
+          "cancelConfirmation": "Are you sure you want to abandon the trace association?",
+          "confirm": "Associate selected trace (1) | Associate selected traces ({count})",
+          "confirmTitle": "Are you sure you want to associate this trace? | Are you sure you want to associate these traces?",
+          "success": "You have associated {count} trace. Find it in the \"My associated traces\" category. | You have associated {count} traces. Find them in the \"My associated traces\" category.",
+          "title": "Which trace(s) would you like to associate?"
+        },
         "TraceDeletionConfirmationModal": {
           "description": "Are you sure you want to delete your trace?",
           "lockedActivityTitleFirstPart": "The trace below is used in a submitted or completed activity. It will be removed from your personal library but will remain accessible from | The traces below are used in a submitted or completed activity. They will be removed from your personal library but will remain accessible from",

@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions'
 import {
-  invalidateGetDeclaredExperience,
-  invalidateGetDeclaredExperienceAssociations,
-  useAssociateDeclaredExperienceWithTraces,
-  useSearchTracesForAssociationWithDeclaredExperience,
+  invalidateGetDeclaredActivityAssociations,
+  useAssociateActivityWithTraces,
+  useSearchTracesForAssociation,
 } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -15,12 +14,12 @@ import { useToasterStore } from '@/store'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
-export interface AssociateTracesToDeclaredExperienceModalProps {
+export interface AssociateTracesToDeclaredActivityProps {
   show: boolean
-  declaredExperienceId: string
+  declaredActivityId: string
 }
 
-const { show, declaredExperienceId } = defineProps<AssociateTracesToDeclaredExperienceModalProps>()
+const { show, declaredActivityId } = defineProps<AssociateTracesToDeclaredActivityProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -53,7 +52,7 @@ const {
   data,
   isError: isSearchError,
   error: searchError
-} = useSearchTracesForAssociationWithDeclaredExperience(computed(() => declaredExperienceId), params, {
+} = useSearchTracesForAssociation(computed(() => declaredActivityId), params, {
   query: { enabled: computed(() => show) }
 })
 
@@ -61,11 +60,11 @@ const traces = computed(() => data.value?.data ?? [])
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
-const { mutate: mutateAssociateDeclaredExperienceWithTraces, isPending } = useAssociateDeclaredExperienceWithTraces()
+const { mutate: mutateAssociateActivityWithTraces, isPending } = useAssociateActivityWithTraces()
 
-function associateExperienceWithTraces (idsToAssociate: string[]) {
-  mutateAssociateDeclaredExperienceWithTraces({
-    experienceId: declaredExperienceId,
+function associateActivityWithTraces (idsToAssociate: string[]) {
+  mutateAssociateActivityWithTraces({
+    declaredActivityId,
     data: { idsToAssociate }
   }, {
     onError: (error: BaseApiException) => {
@@ -75,10 +74,7 @@ function associateExperienceWithTraces (idsToAssociate: string[]) {
       })
     },
     onSuccess: async (_, variables) => {
-      await withTaskLoading(() => Promise.all([
-        invalidateGetDeclaredExperienceAssociations(queryClient, variables.experienceId),
-        invalidateGetDeclaredExperience(queryClient, variables.experienceId)
-      ]))
+      await withTaskLoading(() => invalidateGetDeclaredActivityAssociations(queryClient, declaredActivityId))
 
       const count = variables.data.idsToAssociate.length
 
@@ -101,6 +97,6 @@ function associateExperienceWithTraces (idsToAssociate: string[]) {
     :is-loading="isPending || isLoading"
     @cancel="emit('cancel')"
     @search="onSearch"
-    @associate="associateExperienceWithTraces"
+    @associate="associateActivityWithTraces"
   />
 </template>

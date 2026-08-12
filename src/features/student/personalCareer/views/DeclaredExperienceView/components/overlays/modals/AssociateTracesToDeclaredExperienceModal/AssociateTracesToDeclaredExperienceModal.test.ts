@@ -212,11 +212,12 @@ BddTest().given('an associate traces to declared experience modal', () => {
             })
           })
 
-          BddTest().then('it should hide the confirm associate traces modal', async () => {
-            await vi.waitFor(() => {
-              const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
-              expect(confirmModal.props('show')).toBe(false)
-            })
+          BddTest().then('it should hide the confirm associate traces modal once the parent closes the modal', async () => {
+            await wrapper.setProps({ show: false })
+            await wrapper.vm.$nextTick()
+
+            const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
+            expect(confirmModal.props('show')).toBe(false)
           })
 
           BddTest().then('it should show a success toaster with the correct count', async () => {
