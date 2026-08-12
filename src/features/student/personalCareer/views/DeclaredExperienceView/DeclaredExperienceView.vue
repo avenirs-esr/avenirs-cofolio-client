@@ -60,8 +60,9 @@ const { data: associations, error: associationsError } = useGetDeclaredExperienc
   query: { placeholderData: keepPreviousData }
 })
 
-const countAssociations = computed(() => (associations.value?.traceAssociations.length ?? 0))
 const traceAssociations = computed(() => associations.value?.traceAssociations ?? [])
+const declaredSkillAssociations = computed(() => associations.value?.declaredSkillAssociations ?? [])
+const countAssociations = computed(() => traceAssociations.value.length + declaredSkillAssociations.value.length)
 
 function onSelectExperience (experienceId: string) {
   router.replace({
@@ -139,6 +140,7 @@ function handleConfirmDelete () {
             <DeclaredExperienceAssociations
               :declared-experience-id="experienceId"
               :trace-associations="traceAssociations"
+              :declared-skill-associations="declaredSkillAssociations"
               :associations-error="associationsError"
             />
           </AvTab>
