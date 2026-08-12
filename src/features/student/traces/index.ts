@@ -12,6 +12,8 @@ export { default as TracesSelector } from '@/features/student/traces/components/
 
 export { default as TracesTypeSelect } from '@/features/student/traces/components/interactions/pickers/TracesTypeSelect/TracesTypeSelect.vue'
 
+export { default as AssociateTracesModal, type AssociateTracesModalProps } from '@/features/student/traces/components/modals/AssociateTracesModal/AssociateTracesModal.vue'
+
 export { studentToolsTraceRoute, studentToolsTracesRoute } from '@/features/student/traces/routes'
 
 export { useTracesStore } from '@/features/student/traces/stores/traces.store'

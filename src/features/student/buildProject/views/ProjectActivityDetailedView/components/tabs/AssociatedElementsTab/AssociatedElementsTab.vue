@@ -12,8 +12,8 @@ import TraceAssociationLimitCard
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'
 import AssociateDeclaredSkillToActivityModal
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/modals/AssociateDeclaredSkillToActivityModal/AssociateDeclaredSkillToActivityModal.vue'
-import AssociateTracesModal
-  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesModal.vue'
+import AssociateTracesToDeclaredActivity
+  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesToDeclaredActivity.vue'
 import DeleteActivityAssociatedElementsModal
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/DeleteActivityAssociatedElementsModal/DeleteActivityAssociatedElementsModal.vue'
 import { AssociatedDeclaredSkillsCard } from '@/features/student/declaredSkills'
@@ -156,7 +156,7 @@ function onAssociateSelect (type: EAssociationContextType) {
     @deleted="hideTracesModal"
   />
 
-  <AssociateTracesModal
+  <AssociateTracesToDeclaredActivity
     :show="showAssociateTracesModal"
     :declared-activity-id="declaredActivityId"
     @cancel="hideAssociateTracesModal"

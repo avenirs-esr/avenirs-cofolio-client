@@ -1,5 +1,5 @@
-export const AssociateTracesModalStub = defineComponent({
-  name: 'AssociateTracesModal',
+export const AssociateTracesToDeclaredActivityStub = defineComponent({
+  name: 'AssociateTracesToDeclaredActivity',
   props: {
     show: {
       type: Boolean,
@@ -12,8 +12,8 @@ export const AssociateTracesModalStub = defineComponent({
   },
   emits: ['cancel', 'associated'],
   template: `
-    <div v-if="show" class="associate-traces-modal-stub">
-      <p>AssociateTracesModalStub</p>
+    <div v-if="show" class="associate-traces-to-declared-activity-stub">
+      <p>AssociateTracesToDeclaredActivityStub</p>
       <button @click="$emit('cancel')">Cancel</button>
       <button @click="$emit('associated')">Associated</button>
     </div>

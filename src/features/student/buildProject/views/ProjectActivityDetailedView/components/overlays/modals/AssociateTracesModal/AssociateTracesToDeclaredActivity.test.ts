@@ -5,9 +5,9 @@ import {
 } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
-import AssociateTracesModal, {
-  type AssociateTracesModalProps
-} from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesModal.vue'
+import AssociateTracesToDeclaredActivity, {
+  type AssociateTracesToDeclaredActivityProps
+} from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/modals/AssociateTracesModal/AssociateTracesToDeclaredActivity.vue'
 import { SearchAssociationLayoutStub } from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.stub'
 import {
   ConfirmAssociateModalStub
@@ -34,8 +34,8 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
-BddTest().given('an associate traces modal', () => {
-  let wrapper: VueWrapper<InstanceType<typeof AssociateTracesModal>>
+BddTest().given('an associate traces to declared activity modal', () => {
+  let wrapper: VueWrapper<InstanceType<typeof AssociateTracesToDeclaredActivity>>
 
   const stubs = {
     AvModal: AvModalStub,
@@ -46,7 +46,7 @@ BddTest().given('an associate traces modal', () => {
     ConfirmationModal: ConfirmationModalStub
   }
 
-  const props: AssociateTracesModalProps = {
+  const props: AssociateTracesToDeclaredActivityProps = {
     show: true,
     declaredActivityId: 'declared-activity-1'
   }
@@ -71,7 +71,7 @@ BddTest().given('an associate traces modal', () => {
 
   BddTest().when('the modal is rendered', () => {
     beforeEach(async () => {
-      wrapper = mountComponent(AssociateTracesModal, {
+      wrapper = mountComponent(AssociateTracesToDeclaredActivity, {
         props,
         global: { stubs }
       })
@@ -335,18 +335,19 @@ BddTest().given('an associate traces modal', () => {
             })
           })
 
-          BddTest().then('it should hide the confirm associate traces modal', async () => {
-            await vi.waitFor(() => {
-              const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
-              expect(confirmModal.props('show')).toBe(false)
-            })
+          BddTest().then('it should hide the confirm associate traces modal once the parent closes the modal', async () => {
+            await wrapper.setProps({ show: false })
+            await wrapper.vm.$nextTick()
+
+            const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
+            expect(confirmModal.props('show')).toBe(false)
           })
 
           BddTest().then('it should show a success toaster with the correct count', async () => {
             await vi.waitFor(() => {
               expect(mockAddSuccessMessage).toHaveBeenCalledWith({
                 timeout: 2000,
-                description: 'Vous avez associé 2 traces. Retrouvez-les dans la catégorie "Mes traces associées".'
+                description: 'Vous avez associé 2 traces. Retrouvez-les dans la catégorie « Mes traces associées ».'
               })
             })
           })
@@ -431,7 +432,7 @@ BddTest().given('an associate traces modal', () => {
     beforeEach(async () => {
       server.use(searchTracesForAssociationErrorHandler)
 
-      wrapper = mountComponent(AssociateTracesModal, {
+      wrapper = mountComponent(AssociateTracesToDeclaredActivity, {
         props,
         global: { stubs }
       })
@@ -462,7 +463,7 @@ BddTest().given('an associate traces modal', () => {
     beforeEach(async () => {
       server.use(associateActivityWithTracesErrorHandler)
 
-      wrapper = mountComponent(AssociateTracesModal, {
+      wrapper = mountComponent(AssociateTracesToDeclaredActivity, {
         props,
         global: { stubs }
       })

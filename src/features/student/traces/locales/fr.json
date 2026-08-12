@@ -101,6 +101,13 @@
         }
       },
       "modals": {
+        "AssociateTracesModal": {
+          "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association de traces ?",
+          "confirm": "Associer la trace sélectionnée (1) | Associer les traces sélectionnées ({count})",
+          "confirmTitle": "Êtes-vous certain(e) de vouloir associer cette trace ? | Êtes-vous certain(e) de vouloir associer ces traces ?",
+          "success": "Vous avez associé {count} trace. Retrouvez-la dans la catégorie « Mes traces associées ». | Vous avez associé {count} traces. Retrouvez-les dans la catégorie « Mes traces associées ».",
+          "title": "Quelle(s) trace(s) souhaitez-vous associer ?"
+        },
         "TraceDeletionConfirmationModal": {
           "description": "Êtes-vous certain(e) de vouloir supprimer votre trace ?",
           "lockedActivityTitleFirstPart": "La trace ci-dessous est utilisée dans une activité soumise ou terminée. Elle sera supprimée de votre bibliothèque personnelle, mais restera consultable depuis | Les traces ci-dessous sont utilisées dans une activité soumise ou terminée. Elles seront supprimées de votre bibliothèque personnelle, mais resteront consultables depuis",
