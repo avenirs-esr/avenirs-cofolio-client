@@ -10,7 +10,14 @@ import { AvHeaderStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const mockUseAuthStore = vi.hoisted(() => vi.fn(() => ({
+  canSwitchProfile: false
+})))
 const selectLanguageMock = vi.fn()
+
+vi.mock('@/features/auth/global/stores/auth.store', () => ({
+  useAuthStore: mockUseAuthStore
+}))
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
@@ -46,6 +53,9 @@ BddTest().given('a staff layout', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockUseAuthStore.mockReturnValue({
+      canSwitchProfile: false
+    })
   })
 
   BddTest().and('a valid quicklinks', () => {
@@ -81,6 +91,29 @@ BddTest().given('a staff layout', () => {
         const profileDropdown = wrapper.findComponent(StaffProfileDropdownStub)
 
         await vi.waitFor(() => expect(profileDropdown.props('username')).toBe('M. Dupont'))
+      })
+
+      BddTest().then('it should not render switch universe', () => {
+        expect(wrapper.findComponent(SwitchUniverseStub).exists()).toBe(false)
+      })
+    })
+
+    BddTest().when('the layout is rendered with profile switch enabled', () => {
+      beforeEach(async () => {
+        mockUseAuthStore.mockReturnValue({
+          canSwitchProfile: true
+        })
+        wrapper = mountComponent<typeof StaffLayout>(StaffLayout, {
+          global: { stubs }
+        })
+        await vi.waitFor(() => {
+          const querySuspense = wrapper.findComponent(QuerySuspenseStub) as VueWrapper<InstanceType<typeof QuerySuspenseStub>>
+          expect(querySuspense.props('isLoading')).toBe(false)
+        })
+      })
+
+      BddTest().then('it should render switch universe', () => {
+        expect(wrapper.findComponent(SwitchUniverseStub).exists()).toBe(true)
       })
     })
 

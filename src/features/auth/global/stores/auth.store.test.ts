@@ -70,6 +70,7 @@ BddTest().given('an auth store with mocked dependencies', () => {
       expect(store.ensureAuthenticated).toBeTypeOf('function')
       expect(store.invalidateSession).toBeTypeOf('function')
       expect(store.profile).toBeNull()
+      expect(store.canSwitchProfile).toBe(false)
     })
   })
 
@@ -87,6 +88,7 @@ BddTest().given('an auth store with mocked dependencies', () => {
       expect(store.isLoggedIn).toBe(true)
       expect(store.profile).not.toBeNull()
       expect(store.categories).toEqual([EUserCategory.STUDENT])
+      expect(store.canSwitchProfile).toBe(false)
     })
 
     BddTest().then('it should return undefined and not navigate to the login route', () => {
@@ -110,6 +112,7 @@ BddTest().given('an auth store with mocked dependencies', () => {
       expect(store.isLoggedIn).toBe(true)
       expect(store.profile).not.toBeNull()
       expect(store.categories).toEqual([EUserCategory.STAFF])
+      expect(store.canSwitchProfile).toBe(false)
     })
 
     BddTest().then('it should return undefined and not navigate to the login route', () => {
@@ -128,6 +131,7 @@ BddTest().given('an auth store with mocked dependencies', () => {
 
     BddTest().then('it should expose every category granted by the roles', () => {
       expect(store.categories).toEqual([EUserCategory.STUDENT, EUserCategory.STAFF])
+      expect(store.canSwitchProfile).toBe(true)
     })
   })
 
@@ -293,6 +297,7 @@ BddTest().given('an auth store with mocked dependencies', () => {
       expect(store.isLoggedIn).toBe(false)
       expect(store.profile).toBeNull()
       expect(store.categories).toEqual([])
+      expect(store.canSwitchProfile).toBe(false)
     })
   })
 })
