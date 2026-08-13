@@ -39,7 +39,7 @@ BddTest().given('a MoreActionsDropdown component', () => {
       expect(getDropdown().props('triggerAriaLabel')).toBe('Plus d\'actions')
     })
 
-    BddTest().then('the delete item should not be disabled and the navigate to feedback and unpublish items should be disabled', () => {
+    BddTest().then('the delete item should not be disabled and the navigate to feedback, unpublish and clone items should be disabled', () => {
       expect(getDropdown().props('items')).toEqual([
         expect.objectContaining({
           name: 'navigateToFeedbacks',
@@ -55,6 +55,11 @@ BddTest().given('a MoreActionsDropdown component', () => {
           name: 'delete',
           label: 'Supprimer',
           disabled: false
+        }),
+        expect.objectContaining({
+          name: 'clone',
+          label: 'Dupliquer',
+          disabled: true
         })
       ])
     })
@@ -88,7 +93,7 @@ BddTest().given('a MoreActionsDropdown component', () => {
       })
     })
 
-    BddTest().then('the delete item should be disabled and the navigate to feedback and unpublish items should not be disabled', () => {
+    BddTest().then('the delete item should be disabled and the navigate to feedback, unpublish and clone items should not be disabled', () => {
       expect(getDropdown().props('items')).toEqual([
         expect.objectContaining({
           name: 'navigateToFeedbacks',
@@ -101,6 +106,10 @@ BddTest().given('a MoreActionsDropdown component', () => {
         expect.objectContaining({
           name: 'delete',
           disabled: true
+        }),
+        expect.objectContaining({
+          name: 'clone',
+          disabled: false
         })
       ])
     })
@@ -122,6 +131,16 @@ BddTest().given('a MoreActionsDropdown component', () => {
 
       BddTest().then('it should emit unpublishSelected', () => {
         expect(wrapper.emitted('unpublishSelected')).toHaveLength(1)
+      })
+    })
+
+    BddTest().and('the clone item is selected', () => {
+      beforeEach(async () => {
+        await getDropdown().vm.$emit('itemSelected', 'clone')
+      })
+
+      BddTest().then('it should emit cloneSelected', () => {
+        expect(wrapper.emitted('cloneSelected')).toHaveLength(1)
       })
     })
   })

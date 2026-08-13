@@ -60,6 +60,8 @@
             "title": "Mon espace de travail ({count})"
           },
           "StaffAllActivitiesTab": {
+            "cloneError": "Une erreur est survenue lors de la duplication de l'activité",
+            "cloneSuccess": "L'activité a été dupliquée avec succès",
             "emptyState": "Aucune activité pour le moment.",
             "title": "Toutes les activités publiées dans mon établissement ({count})"
           },

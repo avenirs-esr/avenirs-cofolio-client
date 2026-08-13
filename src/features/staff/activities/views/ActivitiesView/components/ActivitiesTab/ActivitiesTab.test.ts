@@ -1,6 +1,6 @@
 import type { UsePaginatedStaffActivitiesParams, UsePaginatedStaffActivitiesResult } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
-import { createMockedPagedResponseActivityStaffOverviewDTO } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { createMockedPagedResponseActivityStaffOverviewDTO, mockedActivityDraftCreationResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { EActivityStatus } from '@/api/avenir-esr'
 import { ActivityStatusBadgeStub } from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
@@ -22,6 +22,7 @@ const mockError = new BaseApiException('error')
 
 const mockFormatLastModified = vi.fn((value: string) => `formatted-${value}`)
 const navigateToStaffActivityFeedbacks = vi.fn()
+const navigateToStaffActivityCatalog = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
@@ -31,8 +32,23 @@ vi.mock('@/common/composables', async (importOriginal) => {
       formatLastModified: mockFormatLastModified,
     }),
     useNavigation: () => ({
-      navigateToStaffActivityFeedbacks
+      navigateToStaffActivityFeedbacks,
+      navigateToStaffActivityCatalog
     }),
+  }
+})
+
+const mockAddSuccessMessage = vi.fn()
+const mockAddErrorMessage = vi.fn()
+
+vi.mock('@/store', async () => {
+  const actual = await vi.importActual<typeof import('@/store')>('@/store')
+  return {
+    ...actual,
+    useToasterStore: vi.fn(() => ({
+      addSuccessMessage: mockAddSuccessMessage,
+      addErrorMessage: mockAddErrorMessage,
+    })),
   }
 })
 
@@ -313,6 +329,61 @@ BddTest().given('a ActivitiesTab component', () => {
 
       BddTest().then('it should call navigateToStaffActivityFeedbacks', () => {
         expect(navigateToStaffActivityFeedbacks).toHaveBeenCalled()
+      })
+    })
+
+    BddTest().and('cloneSelected is emitted from a MoreActionsDropdown and the API succeeds', () => {
+      beforeEach(async () => {
+        getMoreActionsDropdowns()[0].vm.$emit('cloneSelected')
+        await flushPromises()
+      })
+
+      BddTest().then('it should call addSuccessMessage', () => {
+        expect(mockAddSuccessMessage).toHaveBeenCalledWith('L\'activité a été dupliquée avec succès')
+      })
+
+      BddTest().then('it should navigate to the staff activity catalog with the created draft', () => {
+        expect(navigateToStaffActivityCatalog).toHaveBeenCalledWith({
+          id: mockedActivityDraftCreationResponse.draftId,
+          status: EActivityStatus.DRAFT,
+        })
+      })
+
+      BddTest().then('it should not call addErrorMessage', () => {
+        expect(mockAddErrorMessage).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().and('cloneSelected is emitted from a MoreActionsDropdown and the API returns an error', () => {
+      beforeEach(async () => {
+        await mountDefault({
+          props: { withActions: true },
+          paginatedResult: {
+            ...defaultPaginatedResult,
+            activities: computed(() => [
+              { ...page.data[0], activityId: 'INVALID_ACTIVITY_ID' },
+              ...page.data.slice(1)
+            ]),
+          }
+        })
+        getMoreActionsDropdowns()[0].vm.$emit('cloneSelected')
+        await flushPromises()
+      })
+
+      BddTest().then('it should call addErrorMessage with the correct title', () => {
+        expect(mockAddErrorMessage).toHaveBeenCalledWith(
+          expect.objectContaining({
+            title: 'Une erreur est survenue lors de la duplication de l\'activité',
+          })
+        )
+      })
+
+      BddTest().then('it should not navigate to the staff activity catalog', () => {
+        expect(navigateToStaffActivityCatalog).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should not call addSuccessMessage', () => {
+        expect(mockAddSuccessMessage).not.toHaveBeenCalled()
       })
     })
   })

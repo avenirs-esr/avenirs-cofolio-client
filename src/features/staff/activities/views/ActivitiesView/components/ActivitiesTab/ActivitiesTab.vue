@@ -1,11 +1,14 @@
 <script lang="ts" setup>
+import type { BaseApiException } from '@/common/exceptions'
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
+import { EActivityStatus, useDuplicateActivity } from '@/api/avenir-esr'
 import ActivityStatusBadge from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useDateUtils, useNavigation } from '@/common/composables'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useModal } from '@/common/composables/use-modal/use-modal'
 import DeleteDraftActivityConfirmationModal from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
 import UnpublishActivityConfirmationModal from '@/features/staff/activities/components/modals/UnpublishActivityConfirmationModal/UnpublishActivityConfirmationModal.vue'
@@ -14,6 +17,7 @@ import { mapActivityToActivityTableRow } from '@/features/staff/activities/views
 import ActivityCard from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
 import ActivityTableTitle from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.vue'
 import MoreActionsDropdown from '@/features/staff/activities/views/ActivitiesView/components/MoreActionsDropdown/MoreActionsDropdown.vue'
+import { useToasterStore } from '@/store'
 import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -43,6 +47,9 @@ defineSlots<{
   actions: Slot
 }>()
 
+const { addSuccessMessage, addErrorMessage } = useToasterStore()
+const { getErrorMessage } = useApiErrors()
+
 const {
   activities,
   pageInfo,
@@ -60,6 +67,9 @@ const { navigateToStaffActivityFeedbacks } = useNavigation()
 
 const { showModal: showDeleteModal, displayModal: displayDeleteModal, hideModal: hideDeleteModal } = useModal()
 const { showModal: showUnpublishModal, displayModal: displayUnpublishModal, hideModal: hideUnpublishModal } = useModal()
+
+const { mutate: duplicateActivity } = useDuplicateActivity()
+const { navigateToStaffActivityCatalog } = useNavigation()
 
 const pendingUnpublishId = ref<string | null>(null)
 const pendingDeleteId = ref<string | null>(null)
@@ -89,6 +99,24 @@ function onDeleted () {
 function cancelDelete () {
   hideDeleteModal()
   pendingDeleteId.value = null
+}
+
+function onCloneActivity (activityId: string) {
+  duplicateActivity({ activityId }, {
+    onSuccess: ({ draftId }) => {
+      addSuccessMessage(t('staff.activities.views.ActivitiesView.StaffAllActivitiesTab.cloneSuccess'))
+      navigateToStaffActivityCatalog({
+        id: draftId,
+        status: EActivityStatus.DRAFT
+      })
+    },
+    onError (error: BaseApiException) {
+      addErrorMessage({
+        title: t('staff.activities.views.ActivitiesView.StaffAllActivitiesTab.cloneError'),
+        description: getErrorMessage(error)
+      })
+    }
+  })
 }
 
 const rows = computed<ActivityTableRow[]>(() => activities.value.map(mapActivityToActivityTableRow))
@@ -199,6 +227,7 @@ watch(
               @delete-selected="() => onDeleteSelected(row.id)"
               @unpublish-selected="() => onUnpublishSelected(row.id)"
               @navigate-to-feedbacks-selected="() => navigateToStaffActivityFeedbacks({ id: row.id })"
+              @clone-selected="() => onCloneActivity(row.id)"
             />
           </template>
         </AvTable>
