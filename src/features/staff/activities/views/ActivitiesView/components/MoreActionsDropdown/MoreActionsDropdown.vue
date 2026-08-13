@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { EActivityStatus } from '@/api/avenir-esr'
-import { AvDropdown, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvDropdown, MDI_ICONS, MS_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface MoreActionsDropdownProps {
@@ -13,12 +13,14 @@ const emit = defineEmits<{
   (e: 'deleteSelected'): void
   (e: 'unpublishSelected'): void
   (e: 'navigateToFeedbacksSelected'): void
+  (e: 'cloneSelected'): void
 }>()
 
 enum MoreActionsEvents {
   DELETE = 'delete',
   UNPUBLISH = 'unpublish',
-  NAVIGATE_TO_FEEDBACKS = 'navigateToFeedbacks'
+  NAVIGATE_TO_FEEDBACKS = 'navigateToFeedbacks',
+  CLONE = 'clone'
 }
 
 const { t } = useI18n()
@@ -41,6 +43,12 @@ const menuItems = computed(() => [
     icon: MDI_ICONS.TRASH_CAN_OUTLINE,
     label: t('global.buttons.delete'),
     disabled: activityStatus !== EActivityStatus.DRAFT
+  },
+  {
+    name: MoreActionsEvents.CLONE,
+    icon: MS_ICONS.CONTENT_COPY_OUTLINE,
+    label: t('global.buttons.clone'),
+    disabled: activityStatus !== EActivityStatus.PUBLISHED
   }
 ])
 
@@ -54,6 +62,9 @@ function handleItemSelected (itemName: string) {
       break
     case MoreActionsEvents.UNPUBLISH:
       emit('unpublishSelected')
+      break
+    case MoreActionsEvents.CLONE:
+      emit('cloneSelected')
       break
   }
 }

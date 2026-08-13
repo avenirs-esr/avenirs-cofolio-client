@@ -60,6 +60,8 @@
             "title": "My workspace ({count})"
           },
           "StaffAllActivitiesTab": {
+            "cloneError": "An error occurred while cloning the activity",
+            "cloneSuccess": "Activity cloned successfully",
             "emptyState": "No activities available.",
             "title": "All published activities in my institution ({count})"
           },

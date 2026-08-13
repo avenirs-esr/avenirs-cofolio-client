@@ -25,6 +25,7 @@ import {
   getCreateActivityDraftUrl,
   getCreateDraftFromActivityUrl,
   getDeleteActivityDraftUrl,
+  getDuplicateActivityUrl,
   getGetActivityContentUrl,
   getGetActivityPresentationUrl,
   getGetStaffActivityLibraryUrl,
@@ -127,6 +128,20 @@ export const unpublishActivityDraftHandler = http.post(`*${getUnpublishActivityU
 
   return HttpResponse.json({
     status: HttpStatusCode.NO_CONTENT,
+    headers: { 'Content-Type': 'application/json' },
+  })
+})
+
+export const duplicateActivityHandler = http.post(`*${getDuplicateActivityUrl(':activityId')}`, ({ params }) => {
+  if (params.activityId === 'INVALID_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Activity not found' },
+      { status: HttpStatusCode.NOT_FOUND, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  return HttpResponse.json<ActivityDraftCreationResponse>(mockedActivityDraftCreationResponse, {
+    status: HttpStatusCode.CREATED,
     headers: { 'Content-Type': 'application/json' },
   })
 })
@@ -259,6 +274,7 @@ export const staffsActivitiesHandlers = [
   deleteActivityDraftHandler,
   publishActivityDraftHandler,
   unpublishActivityDraftHandler,
+  duplicateActivityHandler,
   http.post(`*${getUploadDraftBannerUrl(':activityDraftId')}`, async ({ params, request }) => {
     const activityId: string | undefined = params.activityDraftId as string | undefined
 
