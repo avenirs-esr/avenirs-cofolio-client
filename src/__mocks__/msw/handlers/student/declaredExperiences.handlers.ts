@@ -6,6 +6,7 @@ import {
 } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import { createMockedSearchTracesForAssociationResponse } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
+  type AssociationsCreationRequest,
   type DeclaredExperienceAssociationsDTO,
   type DeclaredExperienceViewDTO,
   EErrorCode,
@@ -81,6 +82,15 @@ export const createDeclaredExperienceErrorHandler = http.post(`*${getCreateDecla
     }
   )
 })
+
+export function createDeclaredExperienceHandler (payload: DeclaredExperienceViewDTO = declaredExperienceViewDTOFixture) {
+  return http.post(
+    `*${getCreateDeclaredExperienceUrl()}`,
+    () => {
+      return HttpResponse.json(payload, { status: 200 })
+    }
+  )
+}
 
 export const declaredExperiencesQueryEmptyHandler = http.get(`*${getGetDeclaredExperienceViewUrl()}`, async ({ request }) => {
   const url = new URL(request.url)
@@ -290,6 +300,43 @@ export const associateDeclaredExperienceWithDeclaredSkillsErrorHandler = http.po
   }
 )
 
+export function createAssociateDeclaredExperienceWithDeclaredSkillsHandler (
+  onRequest?: (request: AssociationsCreationRequest) => void
+) {
+  return http.post(
+    `*${getAssociateDeclaredExperienceWithDeclaredSkillsUrl(':experienceId')}`,
+    async ({ params, request }) => {
+      const { experienceId } = params
+
+      if (!experienceId || experienceId === 'INVALID_EXPERIENCE_ID') {
+        return HttpResponse.json(
+          { code: EErrorCode.DECLARED_EXPERIENCE_NOT_FOUND, message: 'Declared experience not found' },
+          {
+            status: 404,
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+      }
+
+      const body = await request.json() as AssociationsCreationRequest
+      onRequest?.(body)
+
+      const response = createMockedDeclaredExperienceAssociationsDTO()
+
+      return HttpResponse.json<DeclaredExperienceAssociationsDTO>(response, {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+    }
+  )
+}
+
+export const associateDeclaredExperienceWithDeclaredSkillsHandler = createAssociateDeclaredExperienceWithDeclaredSkillsHandler()
+
 export const declaredExperiencesHandlers = [
   declaredExperiencesQueryHandler,
   http.get(`*${getSearchDeclaredExperiencesForAssociationUrl()}`, ({ request }) => {
@@ -313,12 +360,7 @@ export const declaredExperiencesHandlers = [
       }
     })
   }),
-  http.post(
-    `*${getCreateDeclaredExperienceUrl()}`,
-    () => {
-      return HttpResponse.json(declaredExperienceViewDTOFixture, { status: 200 })
-    }
-  ),
+  createDeclaredExperienceHandler(),
   http.put(
     `*${getGetDeclaredExperienceUrl(':experienceId')}`,
     () => {
@@ -356,33 +398,7 @@ export const declaredExperiencesHandlers = [
   declaredExperienceAssociationsQueryHandler,
   searchTracesForAssociationWithDeclaredExperienceHandler,
   associateDeclaredExperienceWithTracesHandler,
-  http.post(
-    `*${getAssociateDeclaredExperienceWithDeclaredSkillsUrl(':experienceId')}`,
-    async ({ params }) => {
-      const { experienceId } = params
-
-      if (!experienceId || experienceId === 'INVALID_EXPERIENCE_ID') {
-        return HttpResponse.json(
-          { code: EErrorCode.DECLARED_EXPERIENCE_NOT_FOUND, message: 'Declared experience not found' },
-          {
-            status: 404,
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }
-        )
-      }
-
-      const response = createMockedDeclaredExperienceAssociationsDTO()
-
-      return HttpResponse.json<DeclaredExperienceAssociationsDTO>(response, {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-    }
-  ),
+  associateDeclaredExperienceWithDeclaredSkillsHandler,
   http.delete(
     `*${getDeleteDeclaredExperienceAssociationsUrl(':experienceId')}`,
     async ({ params }) => {

@@ -1,3 +1,4 @@
+import { EAssociationContextType } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { DeclaredExperienceActivitySectorFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceActivitySectorFormField/DeclaredExperienceActivitySectorFormField.stub'
 import { DeclaredExperienceDescriptionFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceDescriptionFormField/DeclaredExperienceDescriptionFormField.stub'
@@ -11,6 +12,7 @@ import { DeclaredExperienceTitleFormFieldStub } from '@/features/student/persona
 import { DeclaredExperienceTypeFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.stub'
 import AddDeclaredExperienceDrawer from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/AddDeclaredExperienceDrawer.vue'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
+import { AssociateElementsDrawerSectionStub } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/AssociateElementsDrawerSection/AssociateElementsDrawerSection.stub'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvAccordionStub, AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
@@ -66,7 +68,8 @@ BddTest().given('an add declared experience drawer avIconText', () => {
     DeclaredExperienceSourceOfInformationFormField: DeclaredExperienceSourceOfInformationFormFieldStub,
     DeclaredExperienceDescriptionFormField: DeclaredExperienceDescriptionFormFieldStub,
     DeclaredExperienceSummaryFormField: DeclaredExperienceSummaryFormFieldStub,
-    DeclaredExperienceExternalLinkFormField: DeclaredExperienceExternalLinkFormFieldStub
+    DeclaredExperienceExternalLinkFormField: DeclaredExperienceExternalLinkFormFieldStub,
+    AssociateElementsDrawerSection: AssociateElementsDrawerSectionStub
   }
 
   const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
@@ -104,12 +107,12 @@ BddTest().given('an add declared experience drawer avIconText', () => {
       expect(avIconText.props('icon')).toBe(MDI_ICONS.PLUS_CIRCLE_OUTLINE)
     })
 
-    BddTest().then('it should render accordion group with three accordions', () => {
+    BddTest().then('it should render accordion group with two accordions', () => {
       const accordionsGroup = wrapper.findComponent({ name: 'AvAccordionsGroup' })
       const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
 
       expect(accordionsGroup.exists()).toBe(true)
-      expect(accordions).toHaveLength(1)
+      expect(accordions).toHaveLength(2)
     })
 
     BddTest().then('it should render all form field components in first accordion', () => {
@@ -149,6 +152,68 @@ BddTest().given('an add declared experience drawer avIconText', () => {
 
       expect(addExperienceAccordion.props('title')).toBe('Ajouter mon expérience')
       expect(addExperienceAccordion.props('icon')).toBeDefined()
+    })
+
+    BddTest().then('it should render association accordion with correct title', () => {
+      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
+      const associationAccordion = accordions[1]
+
+      expect(associationAccordion.props('title')).toBe('Associer mon expérience')
+    })
+
+    BddTest().then('it should render the associate elements drawer section', () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+      expect(section.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass a single typeConfig for declared skills', () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+      const typeConfigs = section.props('typeConfigs') as { key: string }[]
+
+      expect(typeConfigs).toHaveLength(1)
+      expect(typeConfigs[0].key).toBe(EAssociationContextType.DECLARED_SKILL)
+    })
+
+    BddTest().then('it should default the active type key to declared skills', () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+      expect(section.props('activeTypeKey')).toBe(EAssociationContextType.DECLARED_SKILL)
+    })
+
+    BddTest().then('it should render the associate elements section in vertical layout', () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+      expect(section.props('layout')).toBe('vertical')
+    })
+
+    BddTest().and('the associate elements section emits a search query update', () => {
+      beforeEach(async () => {
+        const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+        await section.vm.$emit('update:searchQuery', 'skill')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should forward the search query back to the section', () => {
+        const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+
+        expect(section.props('searchQuery')).toBe('skill')
+      })
+    })
+
+    BddTest().and('the associate elements section emits a selections update', () => {
+      const newSelections = {
+        [EAssociationContextType.DECLARED_SKILL]: [{ id: 'skill-1', title: 'Skill 1' }]
+      }
+
+      beforeEach(async () => {
+        const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+        await section.vm.$emit('update:selectionsByType', newSelections)
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should update the associationSelections form field', () => {
+        const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+
+        expect(section.props('selectionsByType')).toStrictEqual(newSelections)
+      })
     })
 
     BddTest().then('it should have confirmation modal rendered', () => {
