@@ -1,7 +1,12 @@
 <script setup lang="ts">
+import type { Association } from '@/features/student/global/types/associations.types'
+import type { DeclaredExperienceAssociationContextType } from '@/features/student/personalCareer/types/declared-experience.types'
+import type { AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
+import { EAssociationContextType, useSearchDeclaredSkillsForAssociation } from '@/api/avenir-esr'
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
+import { useDeclaredSkillAssociation } from '@/features/student/declaredSkills'
 import DeclaredExperienceActivitySectorFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceActivitySectorFormField/DeclaredExperienceActivitySectorFormField.vue'
 import DeclaredExperienceDescriptionFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceDescriptionFormField/DeclaredExperienceDescriptionFormField.vue'
 import DeclaredExperienceExternalLinkFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceExternalLinkFormField/DeclaredExperienceExternalLinkFormField.vue'
@@ -14,6 +19,7 @@ import DeclaredExperienceTitleFormField from '@/features/student/personalCareer/
 import DeclaredExperienceTypeFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.vue'
 import { useAddDeclaredExperienceForm } from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/use-add-declared-experience-form/use-add-declared-experience-form'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
+import AssociateElementsDrawerSection from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/AssociateElementsDrawerSection/AssociateElementsDrawerSection.vue'
 import { useToasterStore } from '@/store'
 import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -32,6 +38,38 @@ const { form, isFormValid, isSubmitting } = useAddDeclaredExperienceForm(() => {
   personalCareerStore.hideAddDeclaredExperienceDrawer()
 })
 
+const associationSelectionsField = form.useField({ name: 'associationSelections' })
+const associationActiveType = ref<DeclaredExperienceAssociationContextType>(EAssociationContextType.DECLARED_SKILL)
+const associationSearchQuery = ref('')
+
+const associationTypesConfigs = computed<AssociateElementTypeConfig[]>(() => [
+  {
+    key: EAssociationContextType.DECLARED_SKILL,
+    label: t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.associations.types.declaredSkills.label'),
+    searchPlaceholder: t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.associations.types.declaredSkills.placeholder')
+  }
+])
+
+const associationSearchParams = computed(() => ({
+  contextType: EAssociationContextType.DECLARED_EXPERIENCE,
+  keyword: associationSearchQuery.value.trim(),
+  page: 0,
+  pageSize: 100,
+}))
+
+const { declaredSkillToAssociation } = useDeclaredSkillAssociation()
+const {
+  data: declaredSkillsToAssociate,
+  isLoading: isDeclaredSkillsLoading
+} = useSearchDeclaredSkillsForAssociation(associationSearchParams, {
+  query: {
+    select: response => response.data.map(declaredSkillToAssociation),
+  }
+})
+
+const associationOptions = computed<Association[]>(() => declaredSkillsToAssociate.value ?? [])
+const isAssociationSearchLoading = computed(() => isDeclaredSkillsLoading.value)
+
 const { showModal: showConfirmationModal, displayModal: displayConfirmationModal, hideModal: hideConfirmationModal } = useModal()
 
 const isDirty = computed(() => {
@@ -48,6 +86,8 @@ const { canLeave, confirm, cancel } = useUnsavedChangesGuard({
 async function handleCancel () {
   if (await canLeave()) {
     form.reset()
+    associationSearchQuery.value = ''
+    associationActiveType.value = EAssociationContextType.DECLARED_SKILL
     personalCareerStore.hideAddDeclaredExperienceDrawer()
   }
 }
@@ -99,6 +139,24 @@ const activeAccordion = ref(0)
                 <DeclaredExperienceSummaryFormField :form="form" />
                 <DeclaredExperienceExternalLinkFormField :form="form" />
               </div>
+            </AvAccordion>
+
+            <AvAccordion
+              :title="t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.associations.title')"
+              :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
+              data-testid="associate-accordion"
+            >
+              <AssociateElementsDrawerSection
+                v-model:active-type-key="associationActiveType"
+                v-model:search-query="associationSearchQuery"
+                :selections-by-type="associationSelectionsField.state.value.value"
+                :type-configs="associationTypesConfigs"
+                :options="associationOptions"
+                :loading="isAssociationSearchLoading"
+                layout="vertical"
+                data-testid="associate-elements-section"
+                @update:selections-by-type="associationSelectionsField.api.handleChange"
+              />
             </AvAccordion>
           </AvAccordionsGroup>
         </form>

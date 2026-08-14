@@ -1,7 +1,8 @@
+import type { AssociationsCreationRequest } from '@/api/avenir-esr'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
-import { createDeclaredExperienceErrorHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
+import { associateDeclaredExperienceWithDeclaredSkillsErrorHandler, createAssociateDeclaredExperienceWithDeclaredSkillsHandler, createDeclaredExperienceErrorHandler, createDeclaredExperienceHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EExperienceType } from '@/api/avenir-esr'
+import { EAssociationContextType, EExperienceType } from '@/api/avenir-esr'
 import {
   useAddDeclaredExperienceForm
 } from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/use-add-declared-experience-form/use-add-declared-experience-form'
@@ -16,15 +17,18 @@ import {
 } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+
+const mockAddErrorMessage = vi.fn()
+const mockAddSuccessMessage = vi.fn()
 
 vi.mock('@/store', async () => {
   const actual = await vi.importActual<typeof import('@/store')>('@/store')
   return {
     ...actual,
     useToasterStore: vi.fn(() => ({
-      addErrorMessage: vi.fn(),
-      addSuccessMessage: vi.fn()
+      addErrorMessage: mockAddErrorMessage,
+      addSuccessMessage: mockAddSuccessMessage
     }))
   }
 })
@@ -32,6 +36,7 @@ vi.mock('@/store', async () => {
 BddTest().given('an add declared experience form', () => {
   let composableResult: ReturnType<typeof useAddDeclaredExperienceForm>
   let mockOnExperienceAdded: ReturnType<typeof vi.fn>
+  const associationRequests: AssociationsCreationRequest[] = []
 
   const validData: DeclaredExperienceFormData = {
     title: 'Software Engineer',
@@ -46,7 +51,8 @@ BddTest().given('an add declared experience form', () => {
     description: 'Description of the experience',
     summary: 'A positive summary',
     externalLink: 'https://example.com',
-    valorized: false
+    valorized: false,
+    associationSelections: {}
   }
 
   const mountForm = (onExperienceAdded?: () => void) => {
@@ -72,8 +78,22 @@ BddTest().given('an add declared experience form', () => {
     })
   }
 
+  const submitForm = (value: DeclaredExperienceFormData) => {
+    composableResult.form.options.onSubmit?.({ value, formApi: composableResult.form, meta: {} })
+  }
+
   beforeEach(() => {
+    associationRequests.length = 0
+    server.use(
+      createDeclaredExperienceHandler(),
+      createAssociateDeclaredExperienceWithDeclaredSkillsHandler(request => associationRequests.push(request))
+    )
     mountForm()
+  })
+
+  afterEach(() => {
+    vi.clearAllMocks()
+    server.resetHandlers()
   })
 
   BddTest().when('the form is initialized', () => {
@@ -98,10 +118,16 @@ BddTest().given('an add declared experience form', () => {
         description: '',
         summary: '',
         externalLink: '',
-        valorized: false
+        valorized: false,
+        associationSelections: {}
       }
 
       Object.entries(expectedDefaults).forEach(([key, expectedValue]) => {
+        if (typeof expectedValue === 'object' && expectedValue !== null) {
+          expect(composableResult.form.state.values[key as keyof DeclaredExperienceFormData]).toStrictEqual(expectedValue)
+          return
+        }
+
         expect(composableResult.form.state.values[key as keyof DeclaredExperienceFormData]).toBe(expectedValue)
       })
     })
@@ -316,6 +342,96 @@ BddTest().given('an add declared experience form', () => {
         await vi.waitFor(() => {
           expect(composableResult.isSubmitting.value).toBe(false)
         })
+      })
+    })
+  })
+
+  BddTest().when('submitting the form with declared skill associations', () => {
+    beforeEach(() => {
+      mockOnExperienceAdded = vi.fn()
+      mountForm(mockOnExperienceAdded)
+      submitForm({
+        ...validData,
+        associationSelections: {
+          [EAssociationContextType.DECLARED_SKILL]: [
+            { id: 'skill-1', title: 'Skill 1' },
+            { id: 'skill-2', title: 'Skill 2' }
+          ]
+        }
+      })
+    })
+
+    BddTest().then('it should associate selected declared skills with the created experience', async () => {
+      await vi.waitFor(() => {
+        expect(associationRequests).toStrictEqual([{ idsToAssociate: ['skill-1', 'skill-2'] }])
+      })
+    })
+
+    BddTest().then('it should call onExperienceAdded callback after association', async () => {
+      await vi.waitFor(() => {
+        expect(mockOnExperienceAdded).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().when('submitting the form with empty association selections', () => {
+    beforeEach(() => {
+      mockOnExperienceAdded = vi.fn()
+      mountForm(mockOnExperienceAdded)
+      submitForm({
+        ...validData,
+        associationSelections: {}
+      })
+    })
+
+    BddTest().then('it should not call the association endpoint', async () => {
+      await vi.waitFor(() => {
+        expect(mockOnExperienceAdded).toHaveBeenCalledTimes(1)
+      })
+      expect(associationRequests).toStrictEqual([])
+    })
+  })
+
+  BddTest().when('submitting the form without association selections', () => {
+    beforeEach(() => {
+      mockOnExperienceAdded = vi.fn()
+      mountForm(mockOnExperienceAdded)
+      const { associationSelections, ...formData } = validData
+      submitForm(formData)
+    })
+
+    BddTest().then('it should not call the association endpoint', async () => {
+      await vi.waitFor(() => {
+        expect(mockOnExperienceAdded).toHaveBeenCalledTimes(1)
+      })
+      expect(associationRequests).toStrictEqual([])
+    })
+  })
+
+  BddTest().when('declared skill association fails', () => {
+    beforeEach(() => {
+      mockOnExperienceAdded = vi.fn()
+      mountForm(mockOnExperienceAdded)
+      server.use(
+        associateDeclaredExperienceWithDeclaredSkillsErrorHandler
+      )
+      submitForm({
+        ...validData,
+        associationSelections: {
+          [EAssociationContextType.DECLARED_SKILL]: [{ id: 'skill-1', title: 'Skill 1' }]
+        }
+      })
+    })
+
+    BddTest().then('it should display an error message', async () => {
+      await vi.waitFor(() => {
+        expect(mockAddErrorMessage).toHaveBeenCalled()
+      })
+    })
+
+    BddTest().then('it should call onExperienceAdded callback after settled associations', async () => {
+      await vi.waitFor(() => {
+        expect(mockOnExperienceAdded).toHaveBeenCalledTimes(1)
       })
     })
   })

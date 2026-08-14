@@ -114,7 +114,16 @@
             "createDeclaredExperience": "Erreur lors de la création de l'expérience déclarée"
           },
           "sections": {
-            "addExperience": "Ajouter mon expérience"
+            "addExperience": "Ajouter mon expérience",
+            "associations": {
+              "title": "Associer mon expérience",
+              "types": {
+                "declaredSkills": {
+                  "label": "Mes compétences",
+                  "placeholder": "Rechercher une compétence..."
+                }
+              }
+            }
           },
           "success": "Expérience déclarée ajoutée avec succès",
           "title": "Ajouter une expérience déclarée"

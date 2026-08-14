@@ -114,7 +114,16 @@
             "createDeclaredExperience": "Error creating declared experience"
           },
           "sections": {
-            "addExperience": "Add my experience"
+            "addExperience": "Add my experience",
+            "associations": {
+              "title": "Associate my experience",
+              "types": {
+                "declaredSkills": {
+                  "label": "My skills",
+                  "placeholder": "Search for a skill..."
+                }
+              }
+            }
           },
           "success": "Declared experience added successfully",
           "title": "Add a declared experience"

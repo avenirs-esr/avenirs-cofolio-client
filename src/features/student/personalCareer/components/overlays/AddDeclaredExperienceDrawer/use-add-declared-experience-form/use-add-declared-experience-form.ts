@@ -1,6 +1,11 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
-import { type DeclaredExperienceViewDTO, type EExperienceType, invalidateGetDeclaredExperienceView, useCreateDeclaredExperience } from '@/api/avenir-esr'
+import type { Association } from '@/features/student/global/types/associations.types'
+import type { DeclaredExperienceAssociationContextType } from '@/features/student/personalCareer/types/declared-experience.types'
+import type {
+  DeclaredExperienceFormData
+
+} from '@/features/student/personalCareer/types/forms.types'
+import { type DeclaredExperienceViewDTO, EAssociationContextType, type EExperienceType, invalidateGetDeclaredExperienceView, useAssociateDeclaredExperienceWithDeclaredSkills, useCreateDeclaredExperience } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { formatYearMonthToDate } from '@/common/utils'
@@ -9,6 +14,10 @@ import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
+
+function getIdsForType (associationSelections: Partial<Record<DeclaredExperienceAssociationContextType, Association[]>>, associationType: DeclaredExperienceAssociationContextType): string[] {
+  return (associationSelections[associationType] ?? []).map(item => item.id)
+}
 
 export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
   const { t } = useI18n()
@@ -28,10 +37,41 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
 
   const { mutate: mutateCreateDeclaredExperience, isPending } = useCreateDeclaredExperience()
 
-  function createDeclaredExperience (data: DeclaredExperienceViewDTO) {
+  const {
+    mutateAsync: associateDeclaredExperienceWithDeclaredSkills,
+    isPending: isPendingAssociateDeclaredSkills
+  } = useAssociateDeclaredExperienceWithDeclaredSkills({
+    mutation: {
+      onError: (error: BaseApiException) => {
+        addErrorMessage({
+          title: t('global.error.generic'),
+          description: getErrorMessage(error),
+        })
+      }
+    }
+  })
+
+  function associateDeclaredSkills (experienceId: string, associationSelections: Partial<Record<DeclaredExperienceAssociationContextType, Association[]>>): Promise<unknown>[] {
+    const skillIds = getIdsForType(associationSelections, EAssociationContextType.DECLARED_SKILL)
+
+    if (skillIds.length === 0) {
+      return []
+    }
+
+    return [associateDeclaredExperienceWithDeclaredSkills({
+      experienceId,
+      data: { idsToAssociate: skillIds }
+    })]
+  }
+
+  function createDeclaredExperience (data: DeclaredExperienceViewDTO, associationSelections: Partial<Record<DeclaredExperienceAssociationContextType, Association[]>>) {
     mutateCreateDeclaredExperience({ data }, {
-      onSuccess: async () => {
-        await withTaskLoading(() => invalidateGetDeclaredExperienceView(queryClient))
+      onSuccess: async (createdExperience) => {
+        const promises: Promise<unknown>[] = [invalidateGetDeclaredExperienceView(queryClient)]
+
+        promises.push(...associateDeclaredSkills(createdExperience.id, associationSelections))
+
+        await withTaskLoading(() => Promise.allSettled(promises))
         onExperienceAdded?.()
       },
       onError: onCreateDeclaredExperienceError
@@ -52,7 +92,8 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
       description: '',
       summary: '',
       externalLink: '',
-      valorized: false
+      valorized: false,
+      associationSelections: {}
     } as DeclaredExperienceFormData,
     validators: {
       onChange ({ value }: { value: DeclaredExperienceFormData }) {
@@ -99,7 +140,7 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
         externalLink: value.externalLink || undefined,
         startDate: formatYearMonthToDate(value.startDate),
         endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate) || undefined
-      } as DeclaredExperienceViewDTO)
+      } as DeclaredExperienceViewDTO, value.associationSelections ?? {})
     }
   })
 
@@ -111,6 +152,6 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
   return {
     form,
     isFormValid,
-    isSubmitting: isPending || isLoading.value
+    isSubmitting: isPending || isPendingAssociateDeclaredSkills || isLoading.value
   }
 }

@@ -1,31 +1,18 @@
+import type { Association } from '@/features/student/global/types/associations.types'
+import type { AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
+import type { PropType } from 'vue'
+
 export const AssociateElementsDrawerSectionStub = defineComponent({
   name: 'AssociateElementsDrawerSection',
   props: {
-    typeConfigs: {
-      type: Array,
-      required: true,
-    },
-    options: {
-      type: Array,
-      required: true,
-    },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-    selectionsByType: {
-      type: Object,
-      default: () => ({}),
-    },
-    activeTypeKey: {
-      type: String,
-      required: true,
-    },
-    searchQuery: {
-      type: String,
-      default: '',
-    },
+    activeTypeKey: { type: String, required: true },
+    searchQuery: { type: String, default: '' },
+    selectionsByType: { type: Object as PropType<Record<string, Association[]>>, default: () => ({}) },
+    typeConfigs: { type: Array as PropType<AssociateElementTypeConfig[]>, required: true },
+    options: { type: Array as PropType<Association[]>, required: true },
+    loading: { type: Boolean, default: false },
+    layout: { type: String as PropType<'vertical' | 'horizontal'>, default: 'horizontal' }
   },
-  emits: ['update:selectionsByType', 'update:activeTypeKey', 'update:searchQuery'],
-  template: '<div data-testid="associate-elements-drawer-section-stub"></div>',
+  emits: ['update:activeTypeKey', 'update:searchQuery', 'update:selectionsByType'],
+  template: '<div data-testid="associate-elements-drawer-section-stub"></div>'
 })
