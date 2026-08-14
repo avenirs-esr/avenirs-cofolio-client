@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useImageUpload, useModal } from '@/common/composables'
+import { useSingletonArray } from '@/common/composables/use-singleton-array/use-single-array'
 import { AvFileUpload } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -63,7 +64,12 @@ async function onUpdateImage (files: FileList | File[]) {
     onUpdate(files[0])
   }
 }
-const modelValue = defineModel<File | null>()
+const modelValue = defineModel<File | null>({
+  required: false,
+  default: null
+})
+
+const files = useSingletonArray(modelValue)
 
 const { showModal, displayModal, hideModal } = useModal()
 
@@ -82,15 +88,14 @@ function onConfirmDeleteImage () {
     <AvFileUpload
       v-model:error="imageUpload.error.value"
       v-model:valid-message="imageUpload.valid.value"
+      v-model="files"
       :title="t('global.information.imageUpload.title')"
       :description="t('global.information.imageUpload.dragAndDrop')"
       :delete-button-label="t('global.buttons.delete')"
-      :model-value="modelValue"
       :file-name="defaultImageName"
       :aria-describedby="describedBy"
       :accept="ACCEPTED_FILE_TYPES"
       :max-file-size-mb="5"
-      @update:model-value="(value) => modelValue = value"
       @change="onUpdateImage"
       @accept-type-error="() => { imageUpload.error.value = t('global.error.file.acceptType') }"
       @delete-file="displayModal"

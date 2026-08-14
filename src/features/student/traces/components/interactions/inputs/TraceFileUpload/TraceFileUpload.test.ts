@@ -170,9 +170,8 @@ BddTest().given('a trace file upload component', () => {
       const file = new File(['content'], 'test.pdf', { type: 'application/pdf' })
 
       const fileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
-      await fileUpload.vm.$emit('update:modelValue', file)
+      await fileUpload.vm.$emit('update:modelValue', [file])
       await wrapper.vm.$nextTick()
-
       expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([file])
     })
   })
@@ -192,7 +191,7 @@ BddTest().given('a trace file upload component', () => {
 
       const fileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
 
-      expect(fileUpload.props('modelValue')).toBe(file)
+      expect(fileUpload.props('modelValue')).toStrictEqual([file])
     })
   })
 

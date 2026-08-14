@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { useSingletonArray } from '@/common/composables/use-singleton-array/use-single-array'
 import { TRACE_ACCEPTED_FILE_TYPES } from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/types'
 import { AvFileUpload, type AvFileUploadProps } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-interface TraceFileUploadProps extends Omit<AvFileUploadProps, 'title' | 'description' | 'ariaLabel' | 'accept' | 'deleteButtonLabel'> {
+interface TraceFileUploadProps extends Omit<AvFileUploadProps, 'title' | 'description' | 'ariaLabel' | 'accept' | 'deleteButtonLabel' | 'modelValue'> {
   title?: string
   description?: string
   accept?: string[]
@@ -24,6 +25,8 @@ const {
 const modelValue = defineModel<File | null>({
   required: true
 })
+
+const files = useSingletonArray(modelValue)
 
 const { t } = useI18n()
 const attrs = useAttrs()
@@ -61,7 +64,7 @@ const avFileUploadProps = computed<AvFileUploadProps>(() => ({
     </div>
     <AvFileUpload
       v-bind="avFileUploadProps"
-      v-model="modelValue"
+      v-model="files"
     />
     <div>
       <span

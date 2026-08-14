@@ -65,7 +65,7 @@ BddTest().given('an AddActivityResourceFileUploadFormField component', () => {
     })
 
     BddTest().then('it should update the field value with the selected file', async () => {
-      await vi.waitFor(() => expect(getFileUpload().props('modelValue')).toBe(pdfFile))
+      await vi.waitFor(() => expect(getFileUpload().props('modelValue')).toStrictEqual([pdfFile]))
     })
 
     BddTest().then('it should emit fileSelected with the selected file', () => {
@@ -90,7 +90,7 @@ BddTest().given('an AddActivityResourceFileUploadFormField component', () => {
   BddTest().when('a file was selected and then removed via update:modelValue', () => {
     beforeEach(async () => {
       await getFileUpload().vm.$emit('change', [pdfFile])
-      await vi.waitFor(() => expect(getFileUpload().props('modelValue')).toBe(pdfFile))
+      await vi.waitFor(() => expect(getFileUpload().props('modelValue')).toStrictEqual([pdfFile]))
       await getFileUpload().vm.$emit('update:modelValue', null)
     })
 

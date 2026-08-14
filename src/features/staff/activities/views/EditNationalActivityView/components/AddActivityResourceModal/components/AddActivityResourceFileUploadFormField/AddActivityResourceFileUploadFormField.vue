@@ -31,13 +31,15 @@ function handleChange (files: FileList | File[]) {
   }
 }
 
-function handleModelValueUpdate (file: File | null) {
+function handleModelValueUpdate (file: File[] | null) {
   const previous = fileField.state.value.value
-  fileField.api.handleChange(file)
+  fileField.api.handleChange(file?.[0] ?? null)
   if (!file && previous) {
     emit('fileDeleted', previous.name)
   }
 }
+
+const formFile = computed(() => fileField.state.value.value ? [fileField.state.value.value] as File[] | null : null)
 </script>
 
 <template>
@@ -48,7 +50,7 @@ function handleModelValueUpdate (file: File | null) {
         data-testid="add-activity-resource-file-upload-container"
       >
         <AvFileUpload
-          :model-value="field.state.value"
+          :model-value="formFile"
           :accept="accept"
           :title="t('global.information.fileUpload.title')"
           :aria-label="t('global.information.fileUpload.title')"
