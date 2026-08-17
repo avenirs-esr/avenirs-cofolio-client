@@ -5,7 +5,7 @@ import type {
   DeclaredExperienceFormData
 
 } from '@/features/student/personalCareer/types/forms.types'
-import { type DeclaredExperienceViewDTO, EAssociationContextType, type EExperienceType, invalidateGetDeclaredExperienceView, useAssociateDeclaredExperienceWithDeclaredSkills, useCreateDeclaredExperience } from '@/api/avenir-esr'
+import { type DeclaredExperienceViewDTO, EAssociationContextType, type EExperienceType, invalidateGetDeclaredExperienceView, useAssociateDeclaredExperienceWithDeclaredSkills, useAssociateDeclaredExperienceWithTraces, useCreateDeclaredExperience } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { formatYearMonthToDate } from '@/common/utils'
@@ -51,6 +51,20 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
     }
   })
 
+  const {
+    mutateAsync: associateDeclaredExperienceWithTraces,
+    isPending: isPendingAssociateTraces
+  } = useAssociateDeclaredExperienceWithTraces({
+    mutation: {
+      onError: (error: BaseApiException) => {
+        addErrorMessage({
+          title: t('global.error.generic'),
+          description: getErrorMessage(error),
+        })
+      }
+    }
+  })
+
   function associateDeclaredSkills (experienceId: string, associationSelections: Partial<Record<DeclaredExperienceAssociationContextType, Association[]>>): Promise<unknown>[] {
     const skillIds = getIdsForType(associationSelections, EAssociationContextType.DECLARED_SKILL)
 
@@ -64,12 +78,26 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
     })]
   }
 
+  function associateTraces (experienceId: string, associationSelections: Partial<Record<DeclaredExperienceAssociationContextType, Association[]>>): Promise<unknown>[] {
+    const traceIds = getIdsForType(associationSelections, EAssociationContextType.TRACE)
+
+    if (traceIds.length === 0) {
+      return []
+    }
+
+    return [associateDeclaredExperienceWithTraces({
+      experienceId,
+      data: { idsToAssociate: traceIds }
+    })]
+  }
+
   function createDeclaredExperience (data: DeclaredExperienceViewDTO, associationSelections: Partial<Record<DeclaredExperienceAssociationContextType, Association[]>>) {
     mutateCreateDeclaredExperience({ data }, {
       onSuccess: async (createdExperience) => {
         const promises: Promise<unknown>[] = [invalidateGetDeclaredExperienceView(queryClient)]
 
         promises.push(...associateDeclaredSkills(createdExperience.id, associationSelections))
+        promises.push(...associateTraces(createdExperience.id, associationSelections))
 
         await withTaskLoading(() => Promise.allSettled(promises))
         onExperienceAdded?.()
@@ -152,6 +180,6 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
   return {
     form,
     isFormValid,
-    isSubmitting: isPending || isPendingAssociateDeclaredSkills || isLoading.value
+    isSubmitting: isPending || isPendingAssociateDeclaredSkills || isPendingAssociateTraces || isLoading.value
   }
 }

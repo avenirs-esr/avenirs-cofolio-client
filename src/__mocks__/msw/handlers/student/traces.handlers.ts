@@ -3,6 +3,7 @@ import {
   createMockedAttachmentUploadResponse,
   createMockedSearchActivitiesForAssociationResponse,
   createMockedSearchSkillsForAssociationResponse,
+  createMockedSearchTracesForAssociationWithDeclaredExperienceResponse,
   createMockedTraceCreationResponse,
   createMockedTracesViewResponse,
   invalidTraceId,
@@ -33,11 +34,13 @@ import {
   getGetTracesSummaryUrl,
   getSearchDeclaredActivityForAssociationUrl,
   getSearchDeclaredSkillForAssociationUrl,
+  getSearchTracesForAssociationUrl,
   getTracesViewUrl,
   getUpdateTraceUrl,
   getUploadAttachmentUrl,
   type PagedResponseAssociationSearchResultDeclaredActivityDTO,
   type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
+  type PagedResponseAssociationSearchResultTraceDTO,
   type PagedResponseTraceViewDTO,
   type TraceAssociationsDTO,
   type TraceConfigurationDTO,
@@ -177,6 +180,30 @@ export const getTraceConfigErrorHandler = http.get(`*${getGetTraceConfigUrl()}`,
     { status: 500 }
   )
 })
+
+export const searchTracesForAssociationHandler = http.get(
+  `*${getSearchTracesForAssociationUrl()}*`,
+  async ({ request }) => {
+    const url = new URL(request.url)
+
+    const keyword = url.searchParams.get('keyword') ?? undefined
+    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
+    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '20')
+
+    const response = createMockedSearchTracesForAssociationWithDeclaredExperienceResponse({
+      keyword,
+      page,
+      pageSize
+    })
+
+    return HttpResponse.json<PagedResponseAssociationSearchResultTraceDTO>(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  }
+)
 
 export const tracesHandlers = [
   http.get(`*${getGetTracesSummaryUrl()}`, () => {
@@ -497,7 +524,8 @@ export const tracesHandlers = [
       headers: { 'Content-Type': 'application/json' }
     })
   }),
-  lockedDeclaredActivitiesHandler
+  lockedDeclaredActivitiesHandler,
+  searchTracesForAssociationHandler
 ]
 
 export const tracesViewErrorHandler = http.post(

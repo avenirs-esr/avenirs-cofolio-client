@@ -2744,6 +2744,71 @@
         }
       }
     },
+    "/me/traces/search-for-association": {
+      "get": {
+        "tags": [
+          "trace-controller"
+        ],
+        "operationId": "searchTracesForAssociation",
+        "parameters": [
+          {
+            "name": "excludeAssociatedWithElementId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "contextType",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultTraceDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/traces/overview": {
       "get": {
         "tags": [
@@ -3351,7 +3416,7 @@
         "tags": [
           "declared-activity-controller"
         ],
-        "operationId": "searchTracesForAssociation",
+        "operationId": "searchTracesForAssociationWithDeclaredActivity",
         "parameters": [
           {
             "name": "declaredActivityId",

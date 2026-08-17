@@ -15,7 +15,9 @@ interceptorManager.addRequestInterceptor((url: string, options: RequestInit) => 
     ...options.headers,
     'x-signed-context': 'student',
     'Accept-Language': isoLocale,
-    'Authorization': __BEARER_TOKEN__
+    'Authorization': __BEARER_TOKEN__,
+    // header set only in development mode to be able to use local api, see @vite.config.ts
+    ...(__USER_EPPN__ != null ? { eppn: __USER_EPPN__ } : {})
   }
   return options
 })
