@@ -12,7 +12,7 @@ import {
   mockedFinishedDeclaredActivityDetails,
   mockedLatestActivitiesOverview
 } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { createMockedSearchTracesForAssociationResponse } from '@/__mocks__/fixtures/student/traces.fixtures'
+import { createMockedSearchTracesForAssociationWithDeclaredExperienceResponse } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
   type ActivityNavigationDTO,
@@ -36,7 +36,7 @@ import {
   getGetDeclaredActivityDetailsUrl,
   getGetLatestActivitiesViewUrl,
   getSearchDeclaredActivitiesForAssociationUrl,
-  getSearchTracesForAssociationUrl,
+  getSearchTracesForAssociationWithDeclaredActivityUrl,
   getSubscribeActivityUrl,
   getUnsubscribeActivitiesProgressesUrl,
   getUpdateDeclaredActivityUrl,
@@ -597,7 +597,7 @@ export const deleteDeclaredActivityAssociationsErrorHandler = http.delete(
 )
 
 export const searchTracesForAssociationHandler = http.get(
-  `*${getSearchTracesForAssociationUrl(':declaredActivityId')}`,
+  `*${getSearchTracesForAssociationWithDeclaredActivityUrl(':declaredActivityId')}`,
   async ({ params, request }) => {
     const { declaredActivityId } = params
 
@@ -625,7 +625,7 @@ export const searchTracesForAssociationHandler = http.get(
         ? undefined
         : rawIsAssociated === 'true'
 
-    const response = createMockedSearchTracesForAssociationResponse({
+    const response = createMockedSearchTracesForAssociationWithDeclaredExperienceResponse({
       keyword,
       page,
       pageSize,
@@ -642,7 +642,7 @@ export const searchTracesForAssociationHandler = http.get(
 )
 
 export const searchTracesForAssociationErrorHandler = http.get(
-  `*${getSearchTracesForAssociationUrl(':declaredActivityId')}`,
+  `*${getSearchTracesForAssociationWithDeclaredActivityUrl(':declaredActivityId')}`,
   async () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },

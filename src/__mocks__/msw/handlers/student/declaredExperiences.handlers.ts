@@ -1,10 +1,15 @@
-import { createMockedDeclaredExperienceAssociationsDTO, createMockedSearchExperiencesForAssociationResponse, searchDeclaredExperienceById } from '@/__mocks__/fixtures/student'
+import {
+  createMockedDeclaredExperienceAssociationsDTO,
+  createMockedSearchExperiencesForAssociationResponse,
+  searchDeclaredExperienceById
+} from '@/__mocks__/fixtures/student'
 import {
   createMockedDeclaredExperiencesPagedResponse,
   createMockedDeclaredExperienceViewDTO,
   declaredExperienceViewDTOFixture
 } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
-import { createMockedSearchTracesForAssociationResponse } from '@/__mocks__/fixtures/student/traces.fixtures'
+import { createMockedSearchTracesForAssociationWithDeclaredExperienceResponse } from '@/__mocks__/fixtures/student/traces.fixtures'
+import { searchTracesForAssociationHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import {
   type AssociationsCreationRequest,
   type DeclaredExperienceAssociationsDTO,
@@ -26,7 +31,7 @@ import {
   type PagedResponseDeclaredExperienceViewDTO
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
-import { delay, http, HttpResponse } from 'msw'
+import { delay, http, HttpResponse, type PathParams } from 'msw'
 
 export const declaredExperiencesQueryHandler = http.get(`*${getGetDeclaredExperienceViewUrl()}`, async ({ request }) => {
   const url = new URL(request.url)
@@ -211,7 +216,7 @@ export const searchTracesForAssociationWithDeclaredExperienceHandler = http.get(
         ? undefined
         : rawIsAssociated === 'true'
 
-    const response = createMockedSearchTracesForAssociationResponse({
+    const response = createMockedSearchTracesForAssociationWithDeclaredExperienceResponse({
       keyword,
       page,
       pageSize,
@@ -242,33 +247,42 @@ export const searchTracesForAssociationWithDeclaredExperienceErrorHandler = http
   }
 )
 
-export const associateDeclaredExperienceWithTracesHandler = http.post(
-  `*${getAssociateDeclaredExperienceWithTracesUrl(':experienceId')}`,
-  async ({ params }) => {
-    const { experienceId } = params
+export function createAssociateDeclaredExperienceWithTracesHandler (
+  onRequest?: (request: AssociationsCreationRequest) => void
+) {
+  return http.post<PathParams, AssociationsCreationRequest>(
+    `*${getAssociateDeclaredExperienceWithTracesUrl(':experienceId')}`,
+    async ({ params, request }) => {
+      const { experienceId } = params
 
-    if (!experienceId || experienceId === 'INVALID_EXPERIENCE_ID') {
-      return HttpResponse.json(
-        { code: EErrorCode.DECLARED_EXPERIENCE_NOT_FOUND, message: 'Declared experience not found' },
-        {
-          status: 404,
-          headers: {
-            'Content-Type': 'application/json'
+      if (!experienceId || experienceId === 'INVALID_EXPERIENCE_ID') {
+        return HttpResponse.json(
+          { code: EErrorCode.DECLARED_EXPERIENCE_NOT_FOUND, message: 'Declared experience not found' },
+          {
+            status: 404,
+            headers: {
+              'Content-Type': 'application/json'
+            }
           }
-        }
-      )
-    }
-
-    const response = createMockedDeclaredExperienceAssociationsDTO()
-
-    return HttpResponse.json<DeclaredExperienceAssociationsDTO>(response, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json'
+        )
       }
-    })
-  }
-)
+
+      const body = await request.json()
+      onRequest?.(body)
+
+      const response = createMockedDeclaredExperienceAssociationsDTO()
+
+      return HttpResponse.json<DeclaredExperienceAssociationsDTO>(response, {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+    }
+  )
+}
+
+export const associateDeclaredExperienceWithTracesHandler = createAssociateDeclaredExperienceWithTracesHandler()
 
 export const associateDeclaredExperienceWithTracesErrorHandler = http.post(
   `*${getAssociateDeclaredExperienceWithTracesUrl(':experienceId')}`,
@@ -397,6 +411,7 @@ export const declaredExperiencesHandlers = [
   }),
   declaredExperienceAssociationsQueryHandler,
   searchTracesForAssociationWithDeclaredExperienceHandler,
+  searchTracesForAssociationHandler,
   associateDeclaredExperienceWithTracesHandler,
   associateDeclaredExperienceWithDeclaredSkillsHandler,
   http.delete(

@@ -166,17 +166,41 @@ BddTest().given('an add declared experience drawer avIconText', () => {
       expect(section.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass a single typeConfig for declared skills', () => {
+    BddTest().then('it should pass typeConfigs for declared skills and traces', () => {
       const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
-      const typeConfigs = section.props('typeConfigs') as { key: string }[]
+      const typeConfigs = section.props('typeConfigs') as { key: string, label: string, searchPlaceholder: string }[]
 
-      expect(typeConfigs).toHaveLength(1)
-      expect(typeConfigs[0].key).toBe(EAssociationContextType.DECLARED_SKILL)
+      expect(typeConfigs).toHaveLength(2)
+      expect(typeConfigs).toStrictEqual([
+        {
+          key: EAssociationContextType.DECLARED_SKILL,
+          label: 'Mes compétences',
+          searchPlaceholder: 'Rechercher une compétence...'
+        },
+        {
+          key: EAssociationContextType.TRACE,
+          label: 'Mes traces',
+          searchPlaceholder: 'Rechercher une trace...'
+        }
+      ])
     })
 
     BddTest().then('it should default the active type key to declared skills', () => {
       const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
       expect(section.props('activeTypeKey')).toBe(EAssociationContextType.DECLARED_SKILL)
+    })
+
+    BddTest().and('the associate elements section emits an active type update', () => {
+      beforeEach(async () => {
+        const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+        await section.vm.$emit('update:activeTypeKey', EAssociationContextType.TRACE)
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should update the active type key to traces', () => {
+        const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+        expect(section.props('activeTypeKey')).toBe(EAssociationContextType.TRACE)
+      })
     })
 
     BddTest().then('it should render the associate elements section in vertical layout', () => {
@@ -200,7 +224,8 @@ BddTest().given('an add declared experience drawer avIconText', () => {
 
     BddTest().and('the associate elements section emits a selections update', () => {
       const newSelections = {
-        [EAssociationContextType.DECLARED_SKILL]: [{ id: 'skill-1', title: 'Skill 1' }]
+        [EAssociationContextType.DECLARED_SKILL]: [{ id: 'skill-1', title: 'Skill 1' }],
+        [EAssociationContextType.TRACE]: [{ id: 'trace-1', title: 'Trace 1' }]
       }
 
       beforeEach(async () => {

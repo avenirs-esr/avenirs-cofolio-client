@@ -1,6 +1,6 @@
 import type { AssociationsCreationRequest } from '@/api/avenir-esr'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
-import { associateDeclaredExperienceWithDeclaredSkillsErrorHandler, createAssociateDeclaredExperienceWithDeclaredSkillsHandler, createDeclaredExperienceErrorHandler, createDeclaredExperienceHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
+import { associateDeclaredExperienceWithDeclaredSkillsErrorHandler, associateDeclaredExperienceWithTracesErrorHandler, createAssociateDeclaredExperienceWithDeclaredSkillsHandler, createAssociateDeclaredExperienceWithTracesHandler, createDeclaredExperienceErrorHandler, createDeclaredExperienceHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EAssociationContextType, EExperienceType } from '@/api/avenir-esr'
 import {
@@ -36,7 +36,8 @@ vi.mock('@/store', async () => {
 BddTest().given('an add declared experience form', () => {
   let composableResult: ReturnType<typeof useAddDeclaredExperienceForm>
   let mockOnExperienceAdded: ReturnType<typeof vi.fn>
-  const associationRequests: AssociationsCreationRequest[] = []
+  const declaredSkillAssociationRequests: AssociationsCreationRequest[] = []
+  const traceAssociationRequests: AssociationsCreationRequest[] = []
 
   const validData: DeclaredExperienceFormData = {
     title: 'Software Engineer',
@@ -83,10 +84,12 @@ BddTest().given('an add declared experience form', () => {
   }
 
   beforeEach(() => {
-    associationRequests.length = 0
+    declaredSkillAssociationRequests.length = 0
+    traceAssociationRequests.length = 0
     server.use(
       createDeclaredExperienceHandler(),
-      createAssociateDeclaredExperienceWithDeclaredSkillsHandler(request => associationRequests.push(request))
+      createAssociateDeclaredExperienceWithDeclaredSkillsHandler(request => declaredSkillAssociationRequests.push(request)),
+      createAssociateDeclaredExperienceWithTracesHandler(request => traceAssociationRequests.push(request))
     )
     mountForm()
   })
@@ -363,13 +366,62 @@ BddTest().given('an add declared experience form', () => {
 
     BddTest().then('it should associate selected declared skills with the created experience', async () => {
       await vi.waitFor(() => {
-        expect(associationRequests).toStrictEqual([{ idsToAssociate: ['skill-1', 'skill-2'] }])
+        expect(declaredSkillAssociationRequests).toStrictEqual([{ idsToAssociate: ['skill-1', 'skill-2'] }])
       })
     })
 
     BddTest().then('it should call onExperienceAdded callback after association', async () => {
       await vi.waitFor(() => {
         expect(mockOnExperienceAdded).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().when('submitting the form with trace associations', () => {
+    beforeEach(() => {
+      mockOnExperienceAdded = vi.fn()
+      mountForm(mockOnExperienceAdded)
+      submitForm({
+        ...validData,
+        associationSelections: {
+          [EAssociationContextType.TRACE]: [
+            { id: 'trace-1', title: 'Trace 1' },
+            { id: 'trace-2', title: 'Trace 2' }
+          ]
+        }
+      })
+    })
+
+    BddTest().then('it should associate selected traces with the created experience', async () => {
+      await vi.waitFor(() => {
+        expect(traceAssociationRequests).toStrictEqual([{ idsToAssociate: ['trace-1', 'trace-2'] }])
+      })
+    })
+
+    BddTest().then('it should call onExperienceAdded callback after association', async () => {
+      await vi.waitFor(() => {
+        expect(mockOnExperienceAdded).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().when('submitting the form with declared skill and trace associations', () => {
+    beforeEach(() => {
+      mockOnExperienceAdded = vi.fn()
+      mountForm(mockOnExperienceAdded)
+      submitForm({
+        ...validData,
+        associationSelections: {
+          [EAssociationContextType.DECLARED_SKILL]: [{ id: 'skill-1', title: 'Skill 1' }],
+          [EAssociationContextType.TRACE]: [{ id: 'trace-1', title: 'Trace 1' }]
+        }
+      })
+    })
+
+    BddTest().then('it should associate each selected association type with the created experience', async () => {
+      await vi.waitFor(() => {
+        expect(declaredSkillAssociationRequests).toStrictEqual([{ idsToAssociate: ['skill-1'] }])
+        expect(traceAssociationRequests).toStrictEqual([{ idsToAssociate: ['trace-1'] }])
       })
     })
   })
@@ -388,7 +440,8 @@ BddTest().given('an add declared experience form', () => {
       await vi.waitFor(() => {
         expect(mockOnExperienceAdded).toHaveBeenCalledTimes(1)
       })
-      expect(associationRequests).toStrictEqual([])
+      expect(declaredSkillAssociationRequests).toStrictEqual([])
+      expect(traceAssociationRequests).toStrictEqual([])
     })
   })
 
@@ -404,7 +457,8 @@ BddTest().given('an add declared experience form', () => {
       await vi.waitFor(() => {
         expect(mockOnExperienceAdded).toHaveBeenCalledTimes(1)
       })
-      expect(associationRequests).toStrictEqual([])
+      expect(declaredSkillAssociationRequests).toStrictEqual([])
+      expect(traceAssociationRequests).toStrictEqual([])
     })
   })
 
@@ -419,6 +473,34 @@ BddTest().given('an add declared experience form', () => {
         ...validData,
         associationSelections: {
           [EAssociationContextType.DECLARED_SKILL]: [{ id: 'skill-1', title: 'Skill 1' }]
+        }
+      })
+    })
+
+    BddTest().then('it should display an error message', async () => {
+      await vi.waitFor(() => {
+        expect(mockAddErrorMessage).toHaveBeenCalled()
+      })
+    })
+
+    BddTest().then('it should call onExperienceAdded callback after settled associations', async () => {
+      await vi.waitFor(() => {
+        expect(mockOnExperienceAdded).toHaveBeenCalledTimes(1)
+      })
+    })
+  })
+
+  BddTest().when('trace association fails', () => {
+    beforeEach(() => {
+      mockOnExperienceAdded = vi.fn()
+      mountForm(mockOnExperienceAdded)
+      server.use(
+        associateDeclaredExperienceWithTracesErrorHandler
+      )
+      submitForm({
+        ...validData,
+        associationSelections: {
+          [EAssociationContextType.TRACE]: [{ id: 'trace-1', title: 'Trace 1' }]
         }
       })
     })

@@ -2,7 +2,11 @@
 import type { Association } from '@/features/student/global/types/associations.types'
 import type { DeclaredExperienceAssociationContextType } from '@/features/student/personalCareer/types/declared-experience.types'
 import type { AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
-import { EAssociationContextType, useSearchDeclaredSkillsForAssociation } from '@/api/avenir-esr'
+import {
+  EAssociationContextType,
+  useSearchDeclaredSkillsForAssociation,
+  useSearchTracesForAssociation
+} from '@/api/avenir-esr'
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
@@ -19,6 +23,7 @@ import DeclaredExperienceTitleFormField from '@/features/student/personalCareer/
 import DeclaredExperienceTypeFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.vue'
 import { useAddDeclaredExperienceForm } from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/use-add-declared-experience-form/use-add-declared-experience-form'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
+import { useTraceAssociationModal } from '@/features/student/traces/composables/use-trace-associations/use-trace-associations'
 import AssociateElementsDrawerSection from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/AssociateElementsDrawerSection/AssociateElementsDrawerSection.vue'
 import { useToasterStore } from '@/store'
 import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -28,6 +33,7 @@ const { t } = useI18n()
 const personalCareerStore = usePersonalCareerStore()
 const { addSuccessMessage } = useToasterStore()
 const showDrawer = toRef(personalCareerStore, 'showAddDeclaredExperienceDrawer')
+const activeAccordion = ref(0)
 
 const { form, isFormValid, isSubmitting } = useAddDeclaredExperienceForm(() => {
   addSuccessMessage({
@@ -47,6 +53,11 @@ const associationTypesConfigs = computed<AssociateElementTypeConfig[]>(() => [
     key: EAssociationContextType.DECLARED_SKILL,
     label: t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.associations.types.declaredSkills.label'),
     searchPlaceholder: t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.associations.types.declaredSkills.placeholder')
+  },
+  {
+    key: EAssociationContextType.TRACE,
+    label: t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.associations.types.traces.label'),
+    searchPlaceholder: t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.associations.types.traces.placeholder')
   }
 ])
 
@@ -58,17 +69,46 @@ const associationSearchParams = computed(() => ({
 }))
 
 const { declaredSkillToAssociation } = useDeclaredSkillAssociation()
+const { mapTraceAssociationSearchResultToAssociation } = useTraceAssociationModal()
 const {
   data: declaredSkillsToAssociate,
   isLoading: isDeclaredSkillsLoading
 } = useSearchDeclaredSkillsForAssociation(associationSearchParams, {
   query: {
     select: response => response.data.map(declaredSkillToAssociation),
+    enabled: computed(() => showDrawer.value)
   }
 })
 
-const associationOptions = computed<Association[]>(() => declaredSkillsToAssociate.value ?? [])
-const isAssociationSearchLoading = computed(() => isDeclaredSkillsLoading.value)
+const {
+  data: tracesToAssociate,
+  isLoading: isTracesLoading
+} = useSearchTracesForAssociation(associationSearchParams, {
+  query: {
+    select: response => response.data.map(mapTraceAssociationSearchResultToAssociation),
+    enabled: computed(() => showDrawer.value)
+  }
+})
+
+const declaredSkillAssociationOptions = computed<Association[]>(() => declaredSkillsToAssociate.value ?? [])
+
+const traceAssociationOptions = computed<Association[]>(() => tracesToAssociate.value ?? [])
+
+const associationOptions = computed<Association[]>(() => {
+  if (associationActiveType.value === EAssociationContextType.TRACE) {
+    return traceAssociationOptions.value
+  }
+
+  return declaredSkillAssociationOptions.value
+})
+
+const isAssociationSearchLoading = computed(() => {
+  if (associationActiveType.value === EAssociationContextType.TRACE) {
+    return isTracesLoading.value
+  }
+
+  return isDeclaredSkillsLoading.value
+})
 
 const { showModal: showConfirmationModal, displayModal: displayConfirmationModal, hideModal: hideConfirmationModal } = useModal()
 
@@ -92,7 +132,9 @@ async function handleCancel () {
   }
 }
 
-const activeAccordion = ref(0)
+watch(associationActiveType, () => {
+  associationSearchQuery.value = ''
+})
 </script>
 
 <template>

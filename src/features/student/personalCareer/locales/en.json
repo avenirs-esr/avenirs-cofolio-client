@@ -121,6 +121,10 @@
                 "declaredSkills": {
                   "label": "My skills",
                   "placeholder": "Search for a skill..."
+                },
+                "traces": {
+                  "label": "My traces",
+                  "placeholder": "Search for a trace..."
                 }
               }
             }

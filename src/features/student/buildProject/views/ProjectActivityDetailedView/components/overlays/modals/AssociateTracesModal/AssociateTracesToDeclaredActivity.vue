@@ -3,7 +3,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import {
   invalidateGetDeclaredActivityAssociations,
   useAssociateActivityWithTraces,
-  useSearchTracesForAssociation,
+  useSearchTracesForAssociationWithDeclaredActivity,
 } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -52,7 +52,7 @@ const {
   data,
   isError: isSearchError,
   error: searchError
-} = useSearchTracesForAssociation(computed(() => declaredActivityId), params, {
+} = useSearchTracesForAssociationWithDeclaredActivity(computed(() => declaredActivityId), params, {
   query: { enabled: computed(() => show) }
 })
 

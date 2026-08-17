@@ -1,8 +1,16 @@
+import type { AssociationSearchResultTraceDTO } from '@/api/avenir-esr'
+import type { Association } from '@/features/student/global/types/associations.types'
 import { TraceAssociationTypes } from '@/features/student/traces'
 
 export function useTraceAssociationModal () {
   const selectedTraceType = ref<{ itemId: TraceAssociationTypes }>({
     itemId: TraceAssociationTypes.UNASSOCIATED
+  })
+
+  const mapTraceAssociationSearchResultToAssociation = (trace: AssociationSearchResultTraceDTO): Association => ({
+    id: trace.id,
+    title: trace.title,
+    disabled: trace.disabled,
   })
 
   const isAssociated = computed(() => {
@@ -17,6 +25,7 @@ export function useTraceAssociationModal () {
   })
 
   return {
+    mapTraceAssociationSearchResultToAssociation,
     selectedTraceType,
     isAssociated
   }
