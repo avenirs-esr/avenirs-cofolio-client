@@ -1713,6 +1713,55 @@
         }
       }
     },
+    "/me/activity-progress/feedbacks/{feedbackId}/attachments": {
+      "post": {
+        "tags": [
+          "feedback-controller"
+        ],
+        "operationId": "uploadAttachment_1",
+        "parameters": [
+          {
+            "name": "feedbackId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progress/feedbacks/{declaredActivityId}/ask-for-feedback": {
       "post": {
         "tags": [
@@ -3711,6 +3760,47 @@
         }
       }
     },
+    "/me/activity-progress/feedbacks/{feedbackId}/attachments/{attachmentId}/download": {
+      "get": {
+        "tags": [
+          "feedback-controller"
+        ],
+        "operationId": "downloadAttachment_1",
+        "parameters": [
+          {
+            "name": "feedbackId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "attachmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "byte"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progress/feedbacks/{declaredActivityId}/history": {
       "get": {
         "tags": [
@@ -4196,6 +4286,39 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/me/activity-progress/feedbacks/{feedbackId}/attachments/{attachmentId}": {
+      "delete": {
+        "tags": [
+          "feedback-controller"
+        ],
+        "operationId": "deleteAttachment",
+        "parameters": [
+          {
+            "name": "feedbackId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "attachmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -6799,6 +6922,12 @@
               "$ref": "#/components/schemas/DeclaredSkillProgressDTO"
             }
           },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileDTO"
+            }
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -7218,6 +7347,44 @@
           "unassociated"
         ]
       },
+      "AssociationSearchResultTraceDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "disabled",
+          "id",
+          "title"
+        ]
+      },
+      "PagedResponseAssociationSearchResultTraceDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssociationSearchResultTraceDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
       "PagedResponseSelfKnowledgeElementViewDTO": {
         "type": "object",
         "properties": {
@@ -7505,44 +7672,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/DeclaredProgramViewDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
-        ]
-      },
-      "AssociationSearchResultTraceDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "disabled": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "disabled",
-          "id",
-          "title"
-        ]
-      },
-      "PagedResponseAssociationSearchResultTraceDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AssociationSearchResultTraceDTO"
             }
           },
           "page": {
@@ -8391,12 +8520,16 @@
           "email": {
             "type": "string"
           },
-          "category": {
-            "type": "string",
-            "enum": [
-              "STAFF",
-              "STUDENT"
-            ]
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "STAFF",
+                "STUDENT"
+              ]
+            },
+            "uniqueItems": true
           },
           "externalId": {
             "type": "string"
@@ -8442,12 +8575,16 @@
           "email": {
             "type": "string"
           },
-          "category": {
-            "type": "string",
-            "enum": [
-              "STAFF",
-              "STUDENT"
-            ]
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "STAFF",
+                "STUDENT"
+              ]
+            },
+            "uniqueItems": true
           },
           "externalId": {
             "type": "string"

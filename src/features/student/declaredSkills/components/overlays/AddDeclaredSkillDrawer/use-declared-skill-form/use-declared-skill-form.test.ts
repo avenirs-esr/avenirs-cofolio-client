@@ -298,5 +298,21 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
         expect(mockOnSkillAdded).toHaveBeenCalled()
       })
     })
+
+    BddTest().then('it should call mockOnSkillAdded when a declared experience is selected', async () => {
+      const formData: DeclaredSkillFormData = {
+        ...createValidFormData(),
+        associationSelections: {
+          [EAssociationTypeKey.DECLARED_EXPERIENCES]: [{ id: 'experience-1', title: 'Experience 1' }]
+        }
+      }
+
+      const handler = getOnSubmitHandler()
+      handler({ value: formData, formApi: composableResult.form, meta: {} })
+
+      await vi.waitFor(() => {
+        expect(mockOnSkillAdded).toHaveBeenCalled()
+      })
+    })
   })
 })

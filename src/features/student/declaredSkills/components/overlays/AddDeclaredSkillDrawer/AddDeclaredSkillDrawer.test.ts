@@ -277,12 +277,13 @@ BddTest().given('an add declared skill drawer component', () => {
       expect(section.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass a single typeConfig for activities', () => {
+    BddTest().then('it should pass typeConfigs for activities and declared experiences', () => {
       const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
       const typeConfigs = section.props('typeConfigs') as { key: string }[]
 
-      expect(typeConfigs).toHaveLength(1)
+      expect(typeConfigs).toHaveLength(2)
       expect(typeConfigs[0].key).toBe(EAssociationTypeKey.ACTIVITIES)
+      expect(typeConfigs[1].key).toBe(EAssociationTypeKey.DECLARED_EXPERIENCES)
     })
 
     BddTest().then('it should default the active type key to activities', () => {
@@ -320,6 +321,18 @@ BddTest().given('an add declared skill drawer component', () => {
       const associationsAccordion = accordions[2]
 
       expect(associationsAccordion.props('title')).toBe('Associer ma compétence')
+    })
+  })
+
+  BddTest().when('the associate elements section emits a selections update with declared experiences', () => {
+    BddTest().then('it should update the associationSelections form field', async () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+      const newSelections = { [EAssociationTypeKey.DECLARED_EXPERIENCES]: ['experience-1'] }
+
+      await section.vm.$emit('update:selectionsByType', newSelections)
+      await wrapper.vm.$nextTick()
+
+      expect(section.props('selectionsByType')).toStrictEqual(newSelections)
     })
   })
 })
