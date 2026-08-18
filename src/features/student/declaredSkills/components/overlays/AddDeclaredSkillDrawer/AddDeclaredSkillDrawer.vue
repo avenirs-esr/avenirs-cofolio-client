@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Association } from '@/features/student/global/types/associations.types'
-import { EAssociationContextType, useSearchDeclaredActivitiesForAssociation } from '@/api/avenir-esr'
+import { EAssociationContextType, useSearchDeclaredActivitiesForAssociation, useSearchDeclaredExperiencesForAssociation } from '@/api/avenir-esr'
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
@@ -15,6 +15,7 @@ import {
   useDeclaredSkillForm
 } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
+import { useDeclaredExperienceAssociation } from '@/features/student/personalCareer/composables/use-declared-experience-association/use-declared-experience-association'
 import { type AssociateElementTypeConfig, EAssociationTypeKey } from '@/features/student/traces/types/traces.types'
 import AssociateElementsDrawerSection from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/AssociateElementsDrawerSection/AssociateElementsDrawerSection.vue'
 import { useToasterStore } from '@/store'
@@ -59,6 +60,11 @@ const associationTypesConfigs = computed<AssociateElementTypeConfig[]>(() => [
     key: EAssociationTypeKey.ACTIVITIES,
     label: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.activities.label'),
     searchPlaceholder: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.activities.placeholder')
+  },
+  {
+    key: EAssociationTypeKey.DECLARED_EXPERIENCES,
+    label: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.experiences.label'),
+    searchPlaceholder: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.experiences.placeholder')
   }
 ])
 const associationSearchParams = computed(() => ({
@@ -78,8 +84,27 @@ const {
   }
 })
 
-const associationOptions = computed<Association[]>(() => activitiesToAssociate.value ?? [])
-const isAssociationSearchLoading = computed(() => isActivitiesLoading.value)
+const { declaredExperienceToAssociation } = useDeclaredExperienceAssociation()
+const {
+  data: experiencesToAssociate,
+  isLoading: isExperiencesLoading
+} = useSearchDeclaredExperiencesForAssociation(associationSearchParams, {
+  query: {
+    select: response => response.data.map(declaredExperienceToAssociation),
+  }
+})
+
+const associationOptions = computed<Association[]>(() => {
+  switch (associationActiveType.value) {
+    case EAssociationTypeKey.ACTIVITIES:
+      return activitiesToAssociate.value ?? []
+    case EAssociationTypeKey.DECLARED_EXPERIENCES:
+      return experiencesToAssociate.value ?? []
+    default:
+      return []
+  }
+})
+const isAssociationSearchLoading = computed(() => isActivitiesLoading.value || isExperiencesLoading.value)
 
 async function handleCancel () {
   if (await canLeave()) {

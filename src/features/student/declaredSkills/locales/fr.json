@@ -46,6 +46,10 @@
                 "activities": {
                   "label": "Mes activités",
                   "placeholder": "Rechercher une activité..."
+                },
+                "experiences": {
+                  "label": "Mes expériences",
+                  "placeholder": "Rechercher une expérience..."
                 }
               }
             },

@@ -1,7 +1,14 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
 import type { Association } from '@/features/student/global/types/associations.types'
-import { EDeclaredSkillLevel, EErrorCode, invalidateGetDeclaredSkillsProgresses, useAssociateActivityWithDeclaredSkills, useCreateDeclaredSkillProgress } from '@/api/avenir-esr'
+import {
+  EDeclaredSkillLevel,
+  EErrorCode,
+  invalidateGetDeclaredSkillsProgresses,
+  useAssociateActivityWithDeclaredSkills,
+  useAssociateDeclaredExperienceWithDeclaredSkills,
+  useCreateDeclaredSkillProgress
+} from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -42,11 +49,24 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
     }
   })
 
+  const { mutateAsync: associateWithExperiences, isPending: isPendingAssociateWithExperiences } = useAssociateDeclaredExperienceWithDeclaredSkills({
+    mutation: {
+      onError: (error: BaseApiException) => {
+        addErrorMessage({
+          title: t('global.error.generic'),
+          description: getErrorMessage(error),
+        })
+      }
+    }
+  })
+
   function createAssociateSkillPromises (skillId: string, associationsByType: Record<string, Association[]>): Promise<unknown>[] {
     return Object.entries(associationsByType).flatMap(([type, associations]) => {
       switch (type) {
         case EAssociationTypeKey.ACTIVITIES:
           return associations.map(association => associateWithActivities({ declaredActivityId: association.id, data: { idsToAssociate: [skillId] } }))
+        case EAssociationTypeKey.DECLARED_EXPERIENCES:
+          return associations.map(association => associateWithExperiences({ experienceId: association.id, data: { idsToAssociate: [skillId] } }))
         default:
           return []
       }
@@ -118,7 +138,7 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
   return {
     form,
     isFormValid,
-    isSubmitting: isPending || isLoading.value || isPendingAssociateWithActivities.value,
+    isSubmitting: isPending || isLoading.value || isPendingAssociateWithActivities.value || isPendingAssociateWithExperiences.value,
     hasSkillDetailsErrors
   }
 }

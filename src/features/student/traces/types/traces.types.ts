@@ -8,6 +8,7 @@ export enum TraceType {
 
 export enum EAssociationTypeKey {
   DECLARED_SKILLS = 'declaredSkills',
+  DECLARED_EXPERIENCES = 'declaredExperiences',
   ACTIVITIES = 'activities'
 }
 
