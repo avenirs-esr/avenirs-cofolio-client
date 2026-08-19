@@ -2,6 +2,7 @@ import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { FormCancelConfirmButtonsStub } from '@/common/components/FormCancelConfirmButtons/FormCancelConfirmButtons.stub'
+import { FeedbackAttachmentsFormFieldStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackAttachmentsFormField/FeedbackAttachmentsFormField.stub'
 import { FeedbackFormFieldStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackFormField/FeedbackFormField.stub'
 import WriteFeedbackTab from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/tabs/WriteFeedbackTab/WriteFeedbackTab.vue'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -36,6 +37,7 @@ BddTest().given('a write feedback tab', () => {
 
   const stubs = {
     AvBadge: AvBadgeStub,
+    FeedbackAttachmentsFormField: FeedbackAttachmentsFormFieldStub,
     FeedbackFormField: FeedbackFormFieldStub,
     FormCancelConfirmButtons: FormCancelConfirmButtonsStub
   }
@@ -55,6 +57,10 @@ BddTest().given('a write feedback tab', () => {
 
     BddTest().then('it should render the feedback form field', () => {
       expect(wrapper.findComponent(FeedbackFormFieldStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the feedback attachments form field', () => {
+      expect(wrapper.findComponent(FeedbackAttachmentsFormFieldStub).exists()).toBe(true)
     })
 
     BddTest().then('it should render form cancel confirm buttons', () => {

@@ -1,11 +1,14 @@
-import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
+import type { FeedbackDetailsDTO, FileDTO } from '@/api/avenir-esr'
 import type { WriteFeedbackFormData } from '@/features/staff/feedbacks/types/forms.types'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
-import { FEEDBACK_MAX_LENGTH } from '@/features/staff/feedbacks/config'
+import { mockedFeedbackAttachment } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
+import { server } from '@/__mocks__/msw/server'
+import { getDeleteFeedbackAttachmentUrl, getUploadFeedbackAttachmentUrl } from '@/api/avenir-esr'
+import { FEEDBACK_ATTACHMENT_MAX_FILE_SIZE, FEEDBACK_MAX_LENGTH } from '@/features/staff/feedbacks/config'
 import { useWriteFeedbackForm } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form/use-write-feedback-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { afterAll, beforeAll, beforeEach, expect, vi } from 'vitest'
 
 vi.mock('@/store', async () => {
   const actual = await vi.importActual<typeof import('@/store')>('@/store')
@@ -28,7 +31,21 @@ vi.mock('@/common/composables/use-task-loading/use-task-loading', () => ({
 BddTest().given('a write feedback form', () => {
   let composableResult: ReturnType<typeof useWriteFeedbackForm>
   let mockOnFeedbackSaved: ReturnType<typeof vi.fn>
-  const feedbackRef = ref({ id: 'feedback-123', feedback: '', activity: mockedActivityContent } as FeedbackDetailsDTO)
+  const remoteAttachment: FileDTO = mockedFeedbackAttachment
+  const feedbackId = 'feedback-123'
+  const attachmentsUrl = getUploadFeedbackAttachmentUrl(feedbackId)
+  const attachmentRequests: { method: string, path: string }[] = []
+
+  const recordAttachmentRequest = ({ request }: { request: Request }) => {
+    const path = new URL(request.url).pathname
+    if (path.endsWith(attachmentsUrl) || path.includes(`${attachmentsUrl}/`)) {
+      attachmentRequests.push({ method: request.method, path })
+    }
+  }
+  const buildFeedback = (attachments: FileDTO[] = []): FeedbackDetailsDTO =>
+    ({ id: feedbackId, feedback: '', activity: mockedActivityContent, attachments } as FeedbackDetailsDTO)
+
+  let feedbackRef = ref(buildFeedback())
 
   const mountForm = (onFeedbackSaved?: () => void) => {
     const result = mountComposable(() => useWriteFeedbackForm({ feedback: feedbackRef, onFeedbackSaved }), {
@@ -53,9 +70,19 @@ BddTest().given('a write feedback form', () => {
     })
   }
 
+  beforeAll(() => {
+    server.events.on('request:start', recordAttachmentRequest)
+  })
+
   beforeEach(() => {
     vi.clearAllMocks()
+    attachmentRequests.length = 0
+    feedbackRef = ref(buildFeedback())
     mountForm()
+  })
+
+  afterAll(() => {
+    server.events.removeListener('request:start', recordAttachmentRequest)
   })
 
   BddTest().when('the form is initialized', () => {
@@ -88,7 +115,8 @@ BddTest().given('a write feedback form', () => {
     BddTest().and('feedback is empty', () => {
       BddTest().then('it should return validation error', () => {
         const invalidData: WriteFeedbackFormData = {
-          feedback: ''
+          feedback: '',
+          attachments: []
         }
 
         const validator = getOnSubmitValidator()
@@ -101,7 +129,8 @@ BddTest().given('a write feedback form', () => {
     BddTest().and('feedback exceeds max length', () => {
       BddTest().then('it should return max length error', () => {
         const invalidData: WriteFeedbackFormData = {
-          feedback: 'a'.repeat(FEEDBACK_MAX_LENGTH + 1)
+          feedback: 'a'.repeat(FEEDBACK_MAX_LENGTH + 1),
+          attachments: []
         }
 
         const validator = getOnSubmitValidator()
@@ -114,7 +143,8 @@ BddTest().given('a write feedback form', () => {
     BddTest().and('feedback is at max length', () => {
       BddTest().then('it should not return validation errors', () => {
         const validData: WriteFeedbackFormData = {
-          feedback: 'a'.repeat(FEEDBACK_MAX_LENGTH)
+          feedback: 'a'.repeat(FEEDBACK_MAX_LENGTH),
+          attachments: []
         }
 
         const validator = getOnSubmitValidator()
@@ -127,13 +157,70 @@ BddTest().given('a write feedback form', () => {
     BddTest().and('feedback is valid', () => {
       BddTest().then('it should not return validation errors', () => {
         const validData: WriteFeedbackFormData = {
-          feedback: 'Feedback valide'
+          feedback: 'Feedback valide',
+          attachments: []
         }
 
         const validator = getOnSubmitValidator()
         const result = validator({ value: validData })
 
         expect(result?.fields?.feedback).toBeUndefined()
+      })
+    })
+  })
+
+  BddTest().when('validating attachments', () => {
+    const buildFile = (name: string, type: string, size: number) => {
+      const file = new File(['content'], name, { type })
+      Object.defineProperty(file, 'size', { value: size })
+      return file
+    }
+
+    BddTest().and('an attachment has an unsupported format', () => {
+      BddTest().then('it should return an accepted type error', () => {
+        const validator = getOnSubmitValidator()
+        const result = validator({
+          value: { feedback: 'Feedback valide', attachments: [buildFile('archive.zip', 'application/zip', 1024)] }
+        })
+
+        expect(result?.fields?.attachments).toBe('Le fichier ne respecte pas le format attendu.')
+      })
+    })
+
+    BddTest().and('an attachment exceeds the maximum size', () => {
+      BddTest().then('it should return a size error', () => {
+        const validator = getOnSubmitValidator()
+        const result = validator({
+          value: {
+            feedback: 'Feedback valide',
+            attachments: [buildFile('big.pdf', 'application/pdf', FEEDBACK_ATTACHMENT_MAX_FILE_SIZE + 1)]
+          }
+        })
+
+        expect(result?.fields?.attachments).toBe('La taille du fichier dépasse la limite autorisée.')
+      })
+    })
+
+    BddTest().and('attachments are valid files', () => {
+      BddTest().then('it should not return validation errors', () => {
+        const validator = getOnSubmitValidator()
+        const result = validator({
+          value: {
+            feedback: 'Feedback valide',
+            attachments: [buildFile('doc.pdf', 'application/pdf', 1024), buildFile('image.png', 'image/png', 2048)]
+          }
+        })
+
+        expect(result?.fields?.attachments).toBeUndefined()
+      })
+    })
+
+    BddTest().and('attachments are already uploaded files', () => {
+      BddTest().then('it should not validate them', () => {
+        const validator = getOnSubmitValidator()
+        const result = validator({ value: { feedback: 'Feedback valide', attachments: [remoteAttachment] } })
+
+        expect(result?.fields?.attachments).toBeUndefined()
       })
     })
   })
@@ -156,6 +243,51 @@ BddTest().given('a write feedback form', () => {
         await vi.waitFor(() => {
           expect(mockOnFeedbackSaved).toHaveBeenCalledTimes(1)
         })
+      })
+
+      BddTest().then('it should not sync attachments when none changed', async () => {
+        await composableResult.form.handleSubmit()
+        await vi.waitFor(() => {
+          expect(mockOnFeedbackSaved).toHaveBeenCalledTimes(1)
+        })
+
+        expect(attachmentRequests).toHaveLength(0)
+      })
+    })
+
+    BddTest().and('a new file is attached', () => {
+      const newFile = new File(['content'], 'report.pdf', { type: 'application/pdf' })
+
+      beforeEach(() => {
+        setFormValues({ feedback: 'Excellent feedback', attachments: [newFile] })
+      })
+
+      BddTest().then('it should upload the new file', async () => {
+        await composableResult.form.handleSubmit()
+
+        await vi.waitFor(() => {
+          expect(attachmentRequests).toHaveLength(1)
+        })
+        expect(attachmentRequests[0].method).toBe('POST')
+        expect(attachmentRequests[0].path.endsWith(attachmentsUrl)).toBe(true)
+      })
+    })
+
+    BddTest().and('an existing attachment is removed', () => {
+      beforeEach(() => {
+        feedbackRef = ref(buildFeedback([remoteAttachment]))
+        mountForm(mockOnFeedbackSaved)
+        setFormValues({ feedback: 'Excellent feedback', attachments: [] })
+      })
+
+      BddTest().then('it should delete the removed attachment', async () => {
+        await composableResult.form.handleSubmit()
+
+        await vi.waitFor(() => {
+          expect(attachmentRequests).toHaveLength(1)
+        })
+        expect(attachmentRequests[0].method).toBe('DELETE')
+        expect(attachmentRequests[0].path.endsWith(getDeleteFeedbackAttachmentUrl(feedbackId, remoteAttachment.id))).toBe(true)
       })
     })
   })

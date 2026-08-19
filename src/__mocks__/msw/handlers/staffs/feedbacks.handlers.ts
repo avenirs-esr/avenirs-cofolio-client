@@ -4,18 +4,22 @@ import {
   mockedFeedbackDetailsSubmitted,
   mockedFeedbackDetailsWithAssociations,
   mockedFeedbackDetailsWithoutAssociations,
-  mockedFeedbackHistory
+  mockedFeedbackHistory,
+  mockedUploadedFeedbackAttachment
 } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import {
   type FeedbackDashboardDTO,
   type FeedbackDetailsDTO,
   type FeedbackOverviewDTO,
+  type FileDTO,
+  getDeleteFeedbackAttachmentUrl,
   getGetFeedbackDashboardUrl,
   getGetFeedbackDetailsUrl,
   getGetFeedbackHistoryUrl,
   getGetStaffFeedbacksUrl,
   getSubmitFeedbackUrl,
-  getUpdateFeedbackUrl
+  getUpdateFeedbackUrl,
+  getUploadFeedbackAttachmentUrl
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
@@ -147,6 +151,19 @@ export const submitFeedbackHandler = http.put(`*${getSubmitFeedbackUrl(':feedbac
   )
 })
 
+export const uploadFeedbackAttachmentHandler = http.post(
+  `*${getUploadFeedbackAttachmentUrl(':feedbackId')}`,
+  () => HttpResponse.json<FileDTO>(mockedUploadedFeedbackAttachment, {
+    status: HttpStatusCode.OK,
+    headers: { 'Content-Type': 'application/json' },
+  })
+)
+
+export const deleteFeedbackAttachmentHandler = http.delete(
+  `*${getDeleteFeedbackAttachmentUrl(':feedbackId', ':attachmentId')}`,
+  () => new HttpResponse(null, { status: HttpStatusCode.NO_CONTENT })
+)
+
 export const feedbacksHandlers = [
   getFeedbackDashboardHandler,
   getFeedbackHistoryHandler,
@@ -154,4 +171,6 @@ export const feedbacksHandlers = [
   getStaffFeedbacksHandler,
   updateFeedbackHandler,
   submitFeedbackHandler,
+  uploadFeedbackAttachmentHandler,
+  deleteFeedbackAttachmentHandler,
 ]

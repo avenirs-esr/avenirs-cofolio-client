@@ -1,6 +1,15 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { WriteFeedbackFormApi, WriteFeedbackFormData } from '@/features/staff/feedbacks/types/forms.types'
-import { EUserCategory, type FeedbackDetailsDTO, invalidateGetFeedbackDetails, type UpdateFeedbackRequest, useUpdateFeedback } from '@/api/avenir-esr'
+import {
+  EUserCategory,
+  type FeedbackDetailsDTO,
+  type FileDTO,
+  invalidateGetFeedbackDetails,
+  type UpdateFeedbackRequest,
+  useDeleteFeedbackAttachment,
+  useUpdateFeedback,
+  useUploadFeedbackAttachment
+} from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -33,15 +42,19 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
     })
   }
 
-  const { validateFeedback } = useWriteFeedbackFormValidators()
+  const { validateFeedback, validateAttachments } = useWriteFeedbackFormValidators()
 
   const form = useForm({
-    defaultValues: { feedback: toValue(feedback)?.feedback ?? '' } as WriteFeedbackFormData,
+    defaultValues: {
+      feedback: toValue(feedback)?.feedback ?? '',
+      attachments: toValue(feedback)?.attachments ?? []
+    } as WriteFeedbackFormData,
     validators: {
       onSubmit ({ value }: { value: WriteFeedbackFormData }) {
         return {
           fields: {
             feedback: validateFeedback(value.feedback),
+            attachments: validateAttachments(value.attachments),
           }
         }
       },
@@ -50,6 +63,7 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
         return {
           fields: {
             feedback: isTouched('feedback') ? validateFeedback(value.feedback) : undefined,
+            attachments: isTouched('attachments') ? validateAttachments(value.attachments) : undefined,
           }
         }
       },
@@ -58,13 +72,51 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
       }
     },
     onSubmit: ({ value }: { value: WriteFeedbackFormData }) => {
-      updateFeedback({ feedback: value.feedback })
+      updateFeedback({ feedback: value.feedback }, value.attachments)
     }
   })
 
   const { mutate: mutateUpdateFeedback, isPending } = useUpdateFeedback()
+  const { mutateAsync: mutateUploadAttachment, isPending: isUploadingAttachment } = useUploadFeedbackAttachment()
+  const { mutateAsync: mutateDeleteAttachment, isPending: isDeletingAttachment } = useDeleteFeedbackAttachment()
 
-  function updateFeedback (value: UpdateFeedbackRequest, onSuccess?: () => void) {
+  function resetForm () {
+    form.reset({
+      feedback: toValue(feedback)?.feedback ?? '',
+      attachments: toValue(feedback)?.attachments ?? []
+    })
+  }
+
+  async function syncAttachments (feedbackId: string, attachments: WriteFeedbackFormData['attachments']) {
+    const remoteAttachments = toValue(feedback)?.attachments ?? []
+    const addedFiles = attachments.filter((attachment): attachment is File => attachment instanceof File)
+    const removedAttachments = remoteAttachments.filter(
+      remote => !attachments.some(attachment => !(attachment instanceof File) && attachment.id === remote.id)
+    )
+
+    if (!addedFiles.length && !removedAttachments.length) {
+      return
+    }
+
+    try {
+      await Promise.all(
+        addedFiles.map(file => mutateUploadAttachment({ feedbackId, data: { file } }))
+      )
+      await Promise.all(removedAttachments.map(remote => mutateDeleteAttachment({ feedbackId, attachmentId: remote.id })))
+    }
+    catch (error) {
+      addErrorMessage({
+        title: t('global.error.fileUpload'),
+        description: getErrorMessage(error as BaseApiException)
+      })
+    }
+  }
+
+  function updateFeedback (
+    value: UpdateFeedbackRequest,
+    attachments: WriteFeedbackFormData['attachments'] = [],
+    onSuccess?: () => void
+  ) {
     const currentFeedback = toValue(feedback)
 
     if (!currentFeedback?.id) {
@@ -73,8 +125,9 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
 
     mutateUpdateFeedback({ feedbackId: currentFeedback.id, data: value }, {
       onSuccess: async () => {
-        form.reset({ feedback: value.feedback } as WriteFeedbackFormData)
+        await syncAttachments(currentFeedback.id, attachments)
         await withTaskLoading(() => invalidateGetFeedbackDetails(queryClient, EUserCategory.STAFF, currentFeedback.id))
+        resetForm()
         onFeedbackSaved?.()
         onSuccess?.()
       },
@@ -82,14 +135,7 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
     })
   }
 
-  watch(
-    () => toValue(feedback),
-    (currentFeedback) => {
-      form.reset({ feedback: currentFeedback?.feedback ?? '' } as WriteFeedbackFormData)
-    }
-  )
-
-  const hasErrors = hasFieldErrors(form, ['feedback'])
+  const hasErrors = hasFieldErrors(form, ['feedback', 'attachments'])
 
   const isFormValid = computed(() => {
     const state = form.useStore(state => state)
@@ -101,12 +147,17 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
     return state.value.isDirty
   })
 
+  const isSubmitting = computed(
+    () => isPending.value || isUploadingAttachment.value || isDeletingAttachment.value || isLoading.value
+  )
+
   function handleCancel () {
     const formState = form.useStore(state => state)
     const formFeedback = formState.value.values.feedback ?? ''
+    const formAttachments: (File | FileDTO)[] = formState.value.values.attachments ?? []
 
     if (formState.value.isDirty && formFeedback.trim() !== '') {
-      updateFeedback({ feedback: formFeedback ?? '' }, () => {
+      updateFeedback({ feedback: formFeedback ?? '' }, formAttachments, () => {
         onCancel?.()
         form.reset()
       })
@@ -120,7 +171,7 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
   return {
     form,
     isFormValid,
-    isSubmitting: isPending || isLoading.value,
+    isSubmitting,
     hasErrors,
     isDirty,
     handleCancel

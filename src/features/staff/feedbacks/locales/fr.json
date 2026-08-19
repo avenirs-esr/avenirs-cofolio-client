@@ -50,6 +50,10 @@
                 "title": "Historique des feedbacks ({count})"
               },
               "write": {
+                "attachments": {
+                  "formatsValue": "PDF, DOC, DOCX, ODT, JPG, PNG",
+                  "title": "Joindre un/des document(s)"
+                },
                 "errors": {
                   "saveFeedback": "Une erreur est survenue lors de l'enregistrement du feedback",
                   "sendFeedback": "Une erreur est survenue lors de l'envoi du feedback"
