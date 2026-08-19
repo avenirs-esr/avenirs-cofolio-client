@@ -60,7 +60,7 @@
                 },
                 "inputs": {
                   "FeedbackTextarea": {
-                    "label": "Feedback"
+                    "label": "Texte de mon feedback"
                   }
                 },
                 "success": {
