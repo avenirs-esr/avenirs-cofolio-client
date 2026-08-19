@@ -44,7 +44,7 @@ BddTest().given('a feedback textarea component', () => {
 
     BddTest().then('it should add the correct French label', () => {
       const input = wrapper.findComponent(InputStub)
-      expect(input.props('label')).toBe('Feedback')
+      expect(input.props('label')).toBe('Texte de mon feedback')
     })
 
     BddTest().then('it should have empty initial value', () => {
