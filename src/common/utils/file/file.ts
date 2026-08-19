@@ -20,6 +20,14 @@ export function stripExtension (fileName: string): string {
   return dot > 0 ? fileName.slice(0, dot) : fileName
 }
 
+export function dtoToFile (dto: FileDTO): File {
+  const blob = new Blob([], { type: dto.fileType })
+  return new File([blob], dto.fileName, {
+    type: dto.fileType,
+    lastModified: new Date(dto.uploadedAt).getTime(),
+  })
+}
+
 export function renameFile (file: File, newName: string): File {
   return new File([file], newName, {
     type: file.type,

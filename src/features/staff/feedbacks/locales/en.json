@@ -50,6 +50,10 @@
                 "title": "Feedback history ({count})"
               },
               "write": {
+                "attachments": {
+                  "formatsValue": "PDF, DOC, DOCX, ODT, JPG, PNG",
+                  "title": "Attach one or more documents"
+                },
                 "errors": {
                   "saveFeedback": "An error occurred while saving feedback",
                   "sendFeedback": "An error occurred while sending feedback"

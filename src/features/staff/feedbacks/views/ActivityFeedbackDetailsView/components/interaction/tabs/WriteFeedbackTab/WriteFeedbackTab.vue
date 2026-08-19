@@ -2,6 +2,7 @@
 import { EUserCategory, type FeedbackDetailsDTO, invalidateGetFeedbackDetails, useSubmitFeedback } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
+import FeedbackAttachmentsFormField from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackAttachmentsFormField/FeedbackAttachmentsFormField.vue'
 import FeedbackFormField from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackFormField/FeedbackFormField.vue'
 import { useWriteFeedbackForm } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form/use-write-feedback-form'
 import { useToasterStore } from '@/store'
@@ -30,7 +31,7 @@ const { isLoading, withTaskLoading } = useTaskLoading()
 const showSavedBadge = ref(false)
 
 const { form, isFormValid, isSubmitting, isDirty, handleCancel } = useWriteFeedbackForm({
-  feedback,
+  feedback: computed(() => feedback),
   onFeedbackSaved: () => {
     showSavedBadge.value = true
   },
@@ -91,12 +92,19 @@ watch(isDirty, (newValue) => {
       data-testid="write-feedback-form"
       @submit.prevent="form.handleSubmit"
     >
-      <FeedbackFormField
-        :form="form"
-        :readonly="readonly"
-        data-testid="feedback-form-field"
-        @autosave="saveFeedback"
-      />
+      <div class="av-col av-gap-md">
+        <FeedbackFormField
+          :form="form"
+          :readonly="readonly"
+          data-testid="feedback-form-field"
+          @autosave="saveFeedback"
+        />
+        <FeedbackAttachmentsFormField
+          :form="form"
+          :readonly="readonly"
+          @autosave="saveFeedback"
+        />
+      </div>
     </form>
 
     <div

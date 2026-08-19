@@ -1718,7 +1718,7 @@
         "tags": [
           "feedback-controller"
         ],
-        "operationId": "uploadAttachment_1",
+        "operationId": "uploadFeedbackAttachment",
         "parameters": [
           {
             "name": "feedbackId",
@@ -4295,7 +4295,7 @@
         "tags": [
           "feedback-controller"
         ],
-        "operationId": "deleteAttachment",
+        "operationId": "deleteFeedbackAttachment",
         "parameters": [
           {
             "name": "feedbackId",

@@ -1,6 +1,6 @@
 import type { AssociationsCreationRequest } from '@/api/avenir-esr'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
-import { associateDeclaredExperienceWithDeclaredSkillsErrorHandler, createAssociateDeclaredExperienceWithDeclaredSkillsHandler, createDeclaredExperienceErrorHandler, createDeclaredExperienceHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
+import { associateDeclaredExperienceWithDeclaredSkillsErrorHandler, associateDeclaredExperienceWithTracesErrorHandler, createAssociateDeclaredExperienceWithDeclaredSkillsHandler, createAssociateDeclaredExperienceWithTracesHandler, createDeclaredExperienceErrorHandler, createDeclaredExperienceHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EAssociationContextType, EExperienceType } from '@/api/avenir-esr'
 import {

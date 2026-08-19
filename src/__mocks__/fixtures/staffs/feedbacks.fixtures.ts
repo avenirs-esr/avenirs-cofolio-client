@@ -1,6 +1,24 @@
 import { createMockedDeclaredSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { type ActivityContentDTO, EActivityThematic, EFeedbackStatus, type FeedbackDashboardDTO, type FeedbackDetailsDTO, type FeedbackOverviewDTO, type FeedbackStaffListItemDTO, type PagedResponseFeedbackStaffListItemDTO, type UserInfoDTO } from '@/api/avenir-esr'
+import { type ActivityContentDTO, EActivityThematic, EFeedbackStatus, EFileType, type FeedbackDashboardDTO, type FeedbackDetailsDTO, type FeedbackOverviewDTO, type FeedbackStaffListItemDTO, type FileDTO, type PagedResponseFeedbackStaffListItemDTO, type UserInfoDTO } from '@/api/avenir-esr'
+
+export const mockedFeedbackAttachment: FileDTO = {
+  id: 'feedback-attachment-1',
+  fileName: 'compte-rendu.pdf',
+  fileType: EFileType.PDF,
+  fileSize: 1024,
+  url: 'https://example.com/compte-rendu.pdf',
+  uploadedAt: '2026-01-01T10:00:00Z',
+}
+
+export const mockedUploadedFeedbackAttachment: FileDTO = {
+  id: 'feedback-attachment-2',
+  fileName: 'annexe.pdf',
+  fileType: EFileType.PDF,
+  fileSize: 2048,
+  url: 'https://example.com/annexe.pdf',
+  uploadedAt: '2026-01-02T10:00:00Z',
+}
 
 const mockedStudent: UserInfoDTO = {
   id: 'student-1',
