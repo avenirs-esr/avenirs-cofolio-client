@@ -48,7 +48,6 @@ const menuItems = computed(() => [
     name: MoreActionsEvents.CLONE,
     icon: MS_ICONS.CONTENT_COPY_OUTLINE,
     label: t('global.buttons.clone'),
-    disabled: activityStatus !== EActivityStatus.PUBLISHED
   }
 ])
 

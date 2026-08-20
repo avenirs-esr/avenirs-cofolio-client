@@ -58,8 +58,7 @@ BddTest().given('a MoreActionsDropdown component', () => {
         }),
         expect.objectContaining({
           name: 'clone',
-          label: 'Dupliquer',
-          disabled: true
+          label: 'Dupliquer'
         })
       ])
     })
@@ -108,8 +107,7 @@ BddTest().given('a MoreActionsDropdown component', () => {
           disabled: true
         }),
         expect.objectContaining({
-          name: 'clone',
-          disabled: false
+          name: 'clone'
         })
       ])
     })
