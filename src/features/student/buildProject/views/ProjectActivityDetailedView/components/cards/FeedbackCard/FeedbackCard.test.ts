@@ -3,6 +3,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { EFeedbackStatus } from '@/api/avenir-esr'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { ICONS } from '@/common/constants'
+import { FeedbackAttachmentsPillListStub } from '@/features/student/buildProject/components/lists/FeedbackAttachmentsPillList/FeedbackAttachmentsPillList.stub'
 import FeedbackCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/FeedbackCard/FeedbackCard.vue'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -31,6 +32,7 @@ const feedback: FeedbackOverviewDTO = {
 const stubs = {
   Card: CardStub,
   AvIconText: AvIconTextStub,
+  FeedbackAttachmentsPillList: FeedbackAttachmentsPillListStub,
 }
 
 BddTest().given('a FeedbackCard component', () => {
@@ -67,6 +69,13 @@ BddTest().given('a FeedbackCard component', () => {
 
     BddTest().then('it should render the feedback content in the body', () => {
       expect(wrapper.find('[data-testid="feedback-card-content"]').text()).toBe(feedback.feedback)
+    })
+
+    BddTest().then('it should render feedback attachments', () => {
+      const attachmentsPillList = wrapper.findComponent(FeedbackAttachmentsPillListStub)
+
+      expect(attachmentsPillList.exists()).toBe(true)
+      expect(attachmentsPillList.props('feedback')).toStrictEqual(feedback)
     })
   })
 
