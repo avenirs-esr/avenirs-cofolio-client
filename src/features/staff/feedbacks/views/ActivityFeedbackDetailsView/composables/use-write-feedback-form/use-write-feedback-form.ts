@@ -3,7 +3,6 @@ import type { WriteFeedbackFormApi, WriteFeedbackFormData } from '@/features/sta
 import {
   EUserCategory,
   type FeedbackDetailsDTO,
-  type FileDTO,
   invalidateGetFeedbackDetails,
   type UpdateFeedbackRequest,
   useDeleteFeedbackAttachment,
@@ -13,6 +12,7 @@ import {
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
+import { isFile } from '@/common/utils/file/file'
 import { useWriteFeedbackFormValidators } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form-validators/use-write-feedback-form-validators'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
@@ -71,50 +71,66 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
         formApi.validate('change')
       }
     },
-    onSubmit: ({ value }: { value: WriteFeedbackFormData }) => {
-      updateFeedback({ feedback: value.feedback }, value.attachments)
+    onSubmit: async ({ value }: { value: WriteFeedbackFormData }) => {
+      await updateFeedback({ feedback: value.feedback })
     }
   })
 
-  const { mutate: mutateUpdateFeedback, isPending } = useUpdateFeedback()
-  const { mutateAsync: mutateUploadAttachment, isPending: isUploadingAttachment } = useUploadFeedbackAttachment()
+  const initialAttachments = computed(() => toValue(feedback)?.attachments ?? [])
+  const formAttachments = form.useStore(state => state.values.attachments ?? [])
+  const formFeedback = form.useStore(state => state.values.feedback ?? '')
+
+  const { mutateAsync: mutateUpdateFeedback, isPending } = useUpdateFeedback({
+    mutation: {
+      onError: onSendFeedbackError
+    }
+  })
+  const { mutateAsync: mutateUploadAttachment, isPending: isUploadingAttachment } = useUploadFeedbackAttachment({
+    mutation: {
+      onError: (error: BaseApiException) => {
+        addErrorMessage({
+          title: t('global.error.fileUpload'),
+          description: getErrorMessage(error)
+        })
+      }
+    }
+  })
+
   const { mutateAsync: mutateDeleteAttachment, isPending: isDeletingAttachment } = useDeleteFeedbackAttachment()
 
   function resetForm () {
     form.reset({
       feedback: toValue(feedback)?.feedback ?? '',
-      attachments: toValue(feedback)?.attachments ?? []
+      attachments: initialAttachments.value
     })
   }
 
-  async function syncAttachments (feedbackId: string, attachments: WriteFeedbackFormData['attachments']) {
-    const remoteAttachments = toValue(feedback)?.attachments ?? []
-    const addedFiles = attachments.filter((attachment): attachment is File => attachment instanceof File)
-    const removedAttachments = remoteAttachments.filter(
-      remote => !attachments.some(attachment => !(attachment instanceof File) && attachment.id === remote.id)
+  async function syncAttachments (feedbackId: string) {
+    const addedFiles = formAttachments.value.filter(isFile)
+
+    const removedAttachments = initialAttachments.value.filter(
+      initial => !formAttachments.value.some(attachment =>
+        !isFile(attachment) && attachment.id === initial.id)
     )
 
     if (!addedFiles.length && !removedAttachments.length) {
       return
     }
 
-    try {
-      await Promise.all(
-        addedFiles.map(file => mutateUploadAttachment({ feedbackId, data: { file } }))
-      )
-      await Promise.all(removedAttachments.map(remote => mutateDeleteAttachment({ feedbackId, attachmentId: remote.id })))
-    }
-    catch (error) {
-      addErrorMessage({
-        title: t('global.error.fileUpload'),
-        description: getErrorMessage(error as BaseApiException)
-      })
-    }
+    const promises: Promise<unknown>[] = []
+
+    promises.push(
+      ...addedFiles.map(file => mutateUploadAttachment({ feedbackId, data: { file } }))
+    )
+    promises.push(
+      ...removedAttachments.map(initial => mutateDeleteAttachment({ feedbackId, attachmentId: initial.id }))
+    )
+
+    await Promise.allSettled(promises)
   }
 
-  function updateFeedback (
+  async function updateFeedback (
     value: UpdateFeedbackRequest,
-    attachments: WriteFeedbackFormData['attachments'] = [],
     onSuccess?: () => void
   ) {
     const currentFeedback = toValue(feedback)
@@ -123,16 +139,16 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
       return
     }
 
-    mutateUpdateFeedback({ feedbackId: currentFeedback.id, data: value }, {
-      onSuccess: async () => {
-        await syncAttachments(currentFeedback.id, attachments)
+    await Promise.allSettled([
+      mutateUpdateFeedback({ feedbackId: currentFeedback.id, data: value }),
+      syncAttachments(currentFeedback.id)
+    ])
+      .then(async () => {
         await withTaskLoading(() => invalidateGetFeedbackDetails(queryClient, EUserCategory.STAFF, currentFeedback.id))
         resetForm()
         onFeedbackSaved?.()
         onSuccess?.()
-      },
-      onError: onSendFeedbackError
-    })
+      })
   }
 
   const hasErrors = hasFieldErrors(form, ['feedback', 'attachments'])
@@ -151,13 +167,11 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
     () => isPending.value || isUploadingAttachment.value || isDeletingAttachment.value || isLoading.value
   )
 
-  function handleCancel () {
+  async function handleCancel () {
     const formState = form.useStore(state => state)
-    const formFeedback = formState.value.values.feedback ?? ''
-    const formAttachments: (File | FileDTO)[] = formState.value.values.attachments ?? []
 
-    if (formState.value.isDirty && formFeedback.trim() !== '') {
-      updateFeedback({ feedback: formFeedback ?? '' }, formAttachments, () => {
+    if (formState.value.isDirty && formFeedback.value.trim() !== '') {
+      await updateFeedback({ feedback: formFeedback.value ?? '' }, () => {
         onCancel?.()
         form.reset()
       })

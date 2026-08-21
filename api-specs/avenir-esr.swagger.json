@@ -2818,6 +2818,14 @@
             }
           },
           {
+            "name": "isAssociated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
             "name": "keyword",
             "in": "query",
             "required": false,
@@ -3765,7 +3773,7 @@
         "tags": [
           "feedback-controller"
         ],
-        "operationId": "downloadAttachment_1",
+        "operationId": "downloadFeedbackAttachment",
         "parameters": [
           {
             "name": "feedbackId",
@@ -7805,6 +7813,12 @@
               "IN_PROCESS",
               "SUBMITTED"
             ]
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileDTO"
+            }
           },
           "createdAt": {
             "type": "string",
