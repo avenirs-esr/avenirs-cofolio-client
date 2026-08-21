@@ -1,5 +1,5 @@
 import { EFileType, type FileDTO } from '@/api/avenir-esr'
-import { bytesToMegabytes, formatFileSizeInMegabytes, getFileExtension, getFileTypeFromFileName, isDifferentFile, renameFile, stripExtension } from '@/common/utils/file/file'
+import { bytesToMegabytes, formatFileSizeInMegabytes, getFileExtension, getFileTypeFromFileName, isDifferentFile, isFile, renameFile, stripExtension } from '@/common/utils/file/file'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 BddTest().given('the file  helper', () => {
@@ -210,6 +210,42 @@ BddTest().given('the isDifferentFile helper', () => {
 
       expect(isDifferentFile(file, dto)).toBe(true)
       expect(isDifferentFile(dto, file)).toBe(true)
+    })
+  })
+})
+
+BddTest().given('the isFile helper', () => {
+  BddTest().when('the value is a File instance', () => {
+    BddTest().then('it should return true', () => {
+      const file = new File(['content'], 'document.pdf', { type: 'application/pdf' })
+      expect(isFile(file)).toBe(true)
+    })
+  })
+
+  BddTest().when('the value is a FileDTO object', () => {
+    BddTest().then('it should return false', () => {
+      const dto = {
+        id: 'file-1',
+        fileName: 'image.png',
+        url: 'https://example.com/image.png',
+        fileType: EFileType.PNG,
+        fileSize: 204800,
+        version: 1,
+        uploadedAt: '2024-01-15T10:45:00'
+      } as FileDTO
+      expect(isFile(dto)).toBe(false)
+    })
+  })
+
+  BddTest().when('the value is undefined', () => {
+    BddTest().then('it should return false', () => {
+      expect(isFile(undefined)).toBe(false)
+    })
+  })
+
+  BddTest().when('the value is null', () => {
+    BddTest().then('it should return false', () => {
+      expect(isFile(null)).toBe(false)
     })
   })
 })

@@ -35,6 +35,10 @@ export function renameFile (file: File, newName: string): File {
   })
 }
 
+export function isFile (file: unknown): file is File {
+  return file instanceof File
+}
+
 const EXTENSION_TO_FILE_TYPE: Record<string, EFileType> = {
   'png': EFileType.PNG,
   'jpg': EFileType.JPEG,
