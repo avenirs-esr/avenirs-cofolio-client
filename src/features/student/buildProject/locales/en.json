@@ -107,6 +107,7 @@
               "title": "Which association(s) do you want to delete?"
             },
             "FeedbackCard": {
+              "downloadAllAttachments": "Download all documents",
               "receivedAt": "Feedback received on",
               "staffRole": "Teacher"
             },
