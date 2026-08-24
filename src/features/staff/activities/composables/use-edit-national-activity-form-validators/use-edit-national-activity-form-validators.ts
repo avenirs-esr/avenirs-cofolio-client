@@ -16,7 +16,7 @@ import {
  * @returns An object containing validation functions for each form field.
  */
 export function useEditNationalActivityFormValidators () {
-  const { validateRequired, validateMaxLength, validateMin } = useFormValidators()
+  const { validateRequired, validateMaxLength, validateMin, validateDateInterval } = useFormValidators()
 
   function validateTitle (title: EditActivityFormData['title']) {
     return validateRequired(title) ?? validateMaxLength(title, ACTIVITY_TITLE_MAX_LENGTH)
@@ -46,11 +46,25 @@ export function useEditNationalActivityFormValidators () {
     return validateMin(feedbackAllowedIterations, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN)
   }
 
+  function validateStartDate (startDate: EditActivityFormData['startDate']) {
+    return validateRequired(startDate)
+  }
+
+  function validateEndDate ({ startDate, endDate }: { startDate: EditActivityFormData['startDate'], endDate: EditActivityFormData['endDate'] }) {
+    if (!startDate && !endDate) {
+      return undefined
+    }
+
+    return validateRequired(endDate) ?? validateDateInterval({ startDate, endDate })
+  }
+
   return {
     validateDescription,
     validateRecommendedCompletionContexts,
     validateFeedbackAllowedIterations,
     validateSummary,
     validateTitle,
+    validateStartDate,
+    validateEndDate,
   }
 }

@@ -12,6 +12,10 @@ export interface EditNationalActivityViewContext {
    */
   isUpdating: Ref<boolean>
   /**
+   * Indicates whether the execution period (start and end dates) is enabled.
+   */
+  isExecutionPeriodEnabled: Ref<boolean>
+  /**
    * Updates the activity without submitting the form (supports partial updates).
    * A full update requires calling form.handleSubmit().
    */

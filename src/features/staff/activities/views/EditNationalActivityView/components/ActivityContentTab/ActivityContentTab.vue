@@ -32,7 +32,7 @@ const emit = defineEmits<{
   (e: 'nextStep'): void
 }>()
 
-const { form, queueAutoSave, isUpdating } = useEditNationalActivityViewContext()
+const { form, queueAutoSave, isExecutionPeriodEnabled, isUpdating } = useEditNationalActivityViewContext()
 const { t } = useI18n()
 
 const hasEnrolledStudent = computed(() => activity.hasEnrolledStudent)
@@ -155,6 +155,7 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
         <ActivityExecutionPeriodFormField
           :form="form"
           @autosave="queueAutoSave"
+          @update-execution-period-enabled="(isEnabled: boolean) => { isExecutionPeriodEnabled = isEnabled }"
         />
         <ActivityReflectionFormField
           :disabled="hasEnrolledStudent"

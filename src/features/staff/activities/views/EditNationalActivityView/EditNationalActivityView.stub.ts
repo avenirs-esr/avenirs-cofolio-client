@@ -11,6 +11,7 @@ const name = 'EditNationalActivityViewFormWrapper'
 const template = '<div><slot /></div>'
 
 export const mockHandleSubmit = vi.fn()
+export const mockIsExecutionPeriodEnabled = ref(false)
 export const mockIsUpdating = ref(false)
 export const mockSave = vi.fn()
 export const mockQueueAutoSave = vi.fn()
@@ -43,6 +44,7 @@ export const EditNationalActivityViewFormWrapper = defineComponent({
     provideEditNationalActivityViewContext({
       form,
       isUpdating: mockIsUpdating,
+      isExecutionPeriodEnabled: mockIsExecutionPeriodEnabled,
       save: mockSave,
       queueAutoSave: mockQueueAutoSave,
     })
@@ -76,6 +78,7 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
     provideEditNationalActivityViewContext({
       form,
       isUpdating: mockIsUpdating,
+      isExecutionPeriodEnabled: mockIsExecutionPeriodEnabled,
       save: mockSave,
       queueAutoSave: mockQueueAutoSave,
     })
@@ -110,6 +113,7 @@ export const EditNationalActivityViewFormWrapperValid = defineComponent({
     provideEditNationalActivityViewContext({
       form,
       isUpdating: mockIsUpdating,
+      isExecutionPeriodEnabled: mockIsExecutionPeriodEnabled,
       save: mockSave,
       queueAutoSave: mockQueueAutoSave,
     })
