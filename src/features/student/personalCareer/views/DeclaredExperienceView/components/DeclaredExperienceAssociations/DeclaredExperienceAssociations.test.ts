@@ -1,6 +1,6 @@
 import type { TraceAssociationDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import { createMockedDeclaredActivityAssociations, mockedTraceOverview } from '@/__mocks__/fixtures/student'
+import { createMockedDeclaredSkillAssociations, mockedTraceOverview } from '@/__mocks__/fixtures/student'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { AssociationElementsDropdownStub }
   from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.stub'
@@ -16,6 +16,8 @@ import { AssociateDeclaredSkillsToDeclaredExperienceModalStub }
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/AssociateDeclaredSkillsToDeclaredExperienceModal/AssociateDeclaredSkillsToDeclaredExperienceModal.stub'
 import { AssociateTracesToDeclaredExperienceModalStub }
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/AssociateTracesToDeclaredExperienceModal/AssociateTracesToDeclaredExperienceModal.stub'
+import { DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub }
+  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/DeleteDeclaredExperienceAssociatedDeclaredSkillsModal/DeleteDeclaredExperienceAssociatedDeclaredSkillsModal.stub'
 import { DeleteDeclaredExperienceAssociatedTracesModalStub }
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/DeleteDeclaredExperienceAssociatedTracesModal/DeleteDeclaredExperienceAssociatedTracesModal.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -27,7 +29,7 @@ const mockedAssociatedTraces: TraceAssociationDTO[] = mockedTraceOverview.map((t
   trace
 }))
 
-const mockedAssociatedDeclaredSkills = createMockedDeclaredActivityAssociations(2)
+const mockedAssociatedDeclaredSkills = createMockedDeclaredSkillAssociations(2)
 
 const declaredExperienceId = 'experience-1'
 
@@ -37,6 +39,7 @@ const stubs = {
   AssociatedDeclaredSkillsCard: AssociatedDeclaredSkillsCardStub,
   AssociationElementsDropdown: AssociationElementsDropdownStub,
   DeleteDeclaredExperienceAssociatedTracesModal: DeleteDeclaredExperienceAssociatedTracesModalStub,
+  DeleteDeclaredExperienceAssociatedDeclaredSkillsModal: DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub,
   AssociateTracesToDeclaredExperienceModal: AssociateTracesToDeclaredExperienceModalStub,
   AssociateDeclaredSkillsToDeclaredExperienceModal: AssociateDeclaredSkillsToDeclaredExperienceModalStub
 }
@@ -104,12 +107,14 @@ BddTest().given('a declared experience associations component', () => {
       expect(card.props('associatedDeclaredSkills')).toEqual(mockedAssociatedDeclaredSkills)
     })
 
-    BddTest().then('it should render the delete associated elements dropdown with the traces entry enabled', () => {
-      const dropdown = wrapper.findComponent(AssociationElementsDropdownStub)
-      expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('variant')).toBe('delete')
-      expect(dropdown.props('items')).toEqual([
-        { type: EAssociationContextType.TRACE, disabled: false }
+    BddTest().then('it should render the delete associated elements dropdown with the traces and declared skills entries enabled', () => {
+      const dropdowns = wrapper.findAllComponents(AssociationElementsDropdownStub)
+      const dropdown = dropdowns.find(candidate => candidate.props('variant') === 'delete')
+
+      expect(dropdown?.exists()).toBe(true)
+      expect(dropdown?.props('items')).toEqual([
+        { type: EAssociationContextType.TRACE, disabled: false },
+        { type: EAssociationContextType.DECLARED_SKILL, disabled: false }
       ])
     })
 
@@ -119,6 +124,14 @@ BddTest().given('a declared experience associations component', () => {
       expect(modal.props('show')).toBe(false)
       expect(modal.props('experienceId')).toBe(declaredExperienceId)
       expect(modal.props('associations')).toEqual(mockedAssociatedTraces)
+    })
+
+    BddTest().then('it should render the delete declared skills modal hidden with the right props', () => {
+      const modal = wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub)
+      expect(modal.exists()).toBe(true)
+      expect(modal.props('show')).toBe(false)
+      expect(modal.props('experienceId')).toBe(declaredExperienceId)
+      expect(modal.props('associations')).toEqual(mockedAssociatedDeclaredSkills)
     })
 
     BddTest().then('it should render the associate elements dropdown with the traces and declared skills entries', () => {
@@ -216,9 +229,12 @@ BddTest().given('a declared experience associations component', () => {
       })
     })
 
-    BddTest().and('the dropdown selects the trace type', () => {
+    BddTest().and('the delete dropdown emits select with trace type', () => {
       beforeEach(async () => {
-        await wrapper.findComponent(AssociationElementsDropdownStub).vm.$emit('select', EAssociationContextType.TRACE)
+        const dropdowns = wrapper.findAllComponents(AssociationElementsDropdownStub)
+        const deleteDropdown = dropdowns.find(candidate => candidate.props('variant') === 'delete')
+
+        await deleteDropdown?.vm.$emit('select', EAssociationContextType.TRACE)
       })
 
       BddTest().then('it should display the delete traces modal', () => {
@@ -242,6 +258,39 @@ BddTest().given('a declared experience associations component', () => {
 
         BddTest().then('it should hide the delete traces modal', () => {
           expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub).props('show')).toBe(false)
+        })
+      })
+    })
+
+    BddTest().and('the delete dropdown emits select with declared skill type', () => {
+      beforeEach(async () => {
+        const dropdowns = wrapper.findAllComponents(AssociationElementsDropdownStub)
+        const deleteDropdown = dropdowns.find(candidate => candidate.props('variant') === 'delete')
+
+        await deleteDropdown?.vm.$emit('select', EAssociationContextType.DECLARED_SKILL)
+      })
+
+      BddTest().then('it should display the delete declared skills modal', () => {
+        expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub).props('show')).toBe(true)
+      })
+
+      BddTest().and('the delete declared skills modal emits cancel', () => {
+        beforeEach(async () => {
+          await wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub).vm.$emit('cancel')
+        })
+
+        BddTest().then('it should hide the delete declared skills modal', () => {
+          expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub).props('show')).toBe(false)
+        })
+      })
+
+      BddTest().and('the delete declared skills modal emits deleted', () => {
+        beforeEach(async () => {
+          await wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub).vm.$emit('deleted')
+        })
+
+        BddTest().then('it should hide the delete declared skills modal', () => {
+          expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub).props('show')).toBe(false)
         })
       })
     })
@@ -291,11 +340,14 @@ BddTest().given('a declared experience associations component', () => {
       expect(card.exists()).toBe(false)
     })
 
-    BddTest().then('it should disable the traces entry of the delete dropdown', () => {
-      const dropdown = wrapper.findComponent(AssociationElementsDropdownStub)
-      expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('items')).toEqual([
-        { type: EAssociationContextType.TRACE, disabled: true }
+    BddTest().then('it should disable the traces and declared skills entries of the delete dropdown', () => {
+      const dropdowns = wrapper.findAllComponents(AssociationElementsDropdownStub)
+      const dropdown = dropdowns.find(candidate => candidate.props('variant') === 'delete')
+
+      expect(dropdown?.exists()).toBe(true)
+      expect(dropdown?.props('items')).toEqual([
+        { type: EAssociationContextType.TRACE, disabled: true },
+        { type: EAssociationContextType.DECLARED_SKILL, disabled: true }
       ])
     })
   })
