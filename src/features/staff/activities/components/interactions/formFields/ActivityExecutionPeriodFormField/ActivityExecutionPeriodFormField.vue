@@ -7,7 +7,6 @@ import { useI18n } from 'vue-i18n'
 
 interface ActivityExecutionPeriodFormFieldProps {
   form: EditActivityForm
-  disabled?: boolean
 }
 
 defineOptions({ inheritAttrs: false })
@@ -63,7 +62,6 @@ function setEndDate (value: string) {
     data-testid="execution-period-parameter-toggle"
     :title="t('staff.activities.views.EditNationalActivityView.ActivityExecutionPeriodFormField.title')"
     :icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
-    :disabled
   >
     <AvPeriodInput
       v-if="inputEnabled"
