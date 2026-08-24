@@ -62,6 +62,7 @@ const search = defineModel<string>('search', { default: '' })
         :show-selected-section="false"
         :display-selection-in-input="false"
         :loading="loading"
+        :items-title-max-lines="2"
         @clear="emit('clear')"
         @clear-selection="emit('clearSelection')"
         @load-more="emit('loadMore')"
