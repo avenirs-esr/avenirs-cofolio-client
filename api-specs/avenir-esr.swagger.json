@@ -6332,7 +6332,8 @@
         },
         "required": [
           "declaredActivityAssociations",
-          "declaredSkillAssociations"
+          "declaredSkillAssociations",
+          "declaredExperienceAssociations"
         ]
       },
       "TraceFilter": {

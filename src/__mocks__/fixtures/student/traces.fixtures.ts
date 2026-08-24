@@ -243,12 +243,14 @@ export const mockedTraceDeclaredActivityAssociations: DeclaredActivityAssociatio
 
 export const mockedTraceAssociations: TraceAssociationsDTO = {
   declaredActivityAssociations: mockedTraceDeclaredActivityAssociations,
-  declaredSkillAssociations: mockedTraceDeclaredSkillAssociations
+  declaredSkillAssociations: mockedTraceDeclaredSkillAssociations,
+  declaredExperienceAssociations: []
 }
 
 export const mockedEmptyTraceAssociations: TraceAssociationsDTO = {
   declaredActivityAssociations: [],
-  declaredSkillAssociations: []
+  declaredSkillAssociations: [],
+  declaredExperienceAssociations: []
 }
 
 export const mockedTraceDetailed = {
