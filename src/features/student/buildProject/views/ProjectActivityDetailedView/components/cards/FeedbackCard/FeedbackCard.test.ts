@@ -1,6 +1,6 @@
 import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import { EFeedbackStatus } from '@/api/avenir-esr'
+import { EFeedbackStatus, EFileType } from '@/api/avenir-esr'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { ICONS } from '@/common/constants'
 import { FeedbackAttachmentsPillListStub } from '@/features/student/buildProject/components/lists/FeedbackAttachmentsPillList/FeedbackAttachmentsPillList.stub'
@@ -27,6 +27,35 @@ const feedback: FeedbackOverviewDTO = {
   status: EFeedbackStatus.NEW,
   createdAt: '2025-05-05T10:00:00.000Z',
   updatedAt: '2025-05-05T10:00:00.000Z',
+}
+
+const feedbackWithOneAttachment: FeedbackOverviewDTO = {
+  ...feedback,
+  attachments: [
+    {
+      id: 'attachment-1',
+      fileName: 'document1.pdf',
+      fileType: EFileType.PDF,
+      fileSize: 1024,
+      uploadedAt: '2025-05-05T10:00:00.000Z',
+      url: 'https://example.com/document1.pdf',
+    },
+  ],
+}
+
+const feedbackWithMultipleAttachments: FeedbackOverviewDTO = {
+  ...feedback,
+  attachments: [
+    ...feedbackWithOneAttachment.attachments!,
+    {
+      id: 'attachment-2',
+      fileName: 'document2.pdf',
+      fileType: EFileType.PDF,
+      fileSize: 2048,
+      uploadedAt: '2025-05-05T10:00:00.000Z',
+      url: 'https://example.com/document2.pdf',
+    },
+  ],
 }
 
 const stubs = {
@@ -77,6 +106,12 @@ BddTest().given('a FeedbackCard component', () => {
       expect(attachmentsPillList.exists()).toBe(true)
       expect(attachmentsPillList.props('feedback')).toStrictEqual(feedback)
     })
+
+    BddTest().then('it should not render the download all attachments button', () => {
+      const downloadButton = wrapper.find('[data-testid="download-all-attachments"]')
+
+      expect(downloadButton.exists()).toBe(false)
+    })
   })
 
   BddTest().when('the component is mounted without feedback content', () => {
@@ -89,6 +124,42 @@ BddTest().given('a FeedbackCard component', () => {
 
     BddTest().then('it should not render the feedback content element', () => {
       expect(wrapper.find('[data-testid="feedback-card-content"]').exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the download all attachments button', () => {
+      const downloadButton = wrapper.find('[data-testid="download-all-attachments"]')
+
+      expect(downloadButton.exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with one attachment', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(FeedbackCard, {
+        props: { feedback: feedbackWithOneAttachment },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should not render the download all attachments button', () => {
+      const downloadButton = wrapper.find('[data-testid="download-all-attachments"]')
+
+      expect(downloadButton.exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with multiple attachments', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(FeedbackCard, {
+        props: { feedback: feedbackWithMultipleAttachments },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the download all attachments button', () => {
+      const downloadButton = wrapper.find('[data-testid="download-all-attachments"]')
+
+      expect(downloadButton.exists()).toBe(true)
     })
   })
 })

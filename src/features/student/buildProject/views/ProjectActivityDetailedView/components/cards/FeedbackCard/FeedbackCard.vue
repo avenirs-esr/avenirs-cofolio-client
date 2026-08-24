@@ -64,10 +64,14 @@ const { downloadAllFeedbackAttachments } = useDownloadFeedbackAttachments(feedba
           {{ feedback.feedback }}
         </span>
         <div class="av-col av-gap-sm">
-          <div class="av-row av-justify-end">
+          <div
+            v-if="(feedback.attachments?.length ?? 0) > 1"
+            class="av-row av-justify-end"
+          >
             <AvButton
               :label="t('student.buildProject.activities.views.ProjectActivityDetailedView.FeedbackCard.downloadAllAttachments')"
               :icon="MDI_ICONS.DOWNLOAD_OUTLINE"
+              data-testid="download-all-attachments"
               @click="downloadAllFeedbackAttachments"
             />
           </div>
