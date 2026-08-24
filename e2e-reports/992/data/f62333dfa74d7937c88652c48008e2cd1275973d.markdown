@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js >> Student Life Project Declared Skills Page >> Add a declared skill >> Student can see the associate elements section
-- Location: .features-gen/tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js:35:5
+- Name: tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js >> Student Life Project Declared Skills Page >> Add a declared skill >> Student can see the associate activities option in the associate elements type select
+- Location: .features-gen/tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js:40:5
 
 # Error details
 
@@ -75,22 +75,22 @@ Call log:
           - /url: "#page-2"
       - listitem
   - link "Ma super compétence complémentaire 1":
-    - /url: /cofolio/student/project/declared-skill/d4356bcc-3e24-44c2-bfab-477c7ef9bd40
+    - /url: /cofolio/student/project/declared-skill/30143c23-a85e-4e42-aafd-72945faa7d61
     - text: Ma super compétence complémentaire 1
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 1
   - link "Ma super compétence complémentaire 2":
-    - /url: /cofolio/student/project/declared-skill/cdcecf90-bbd2-4e6a-96ef-4c1fc0d4db60
+    - /url: /cofolio/student/project/declared-skill/5c82f492-7dfe-4e64-b34d-c05e9458cc5c
     - text: Ma super compétence complémentaire 2
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 2
   - link "Ma super compétence complémentaire 3":
-    - /url: /cofolio/student/project/declared-skill/55184378-e67e-4c99-89e5-74c3a60db079
+    - /url: /cofolio/student/project/declared-skill/3dde8944-0e9a-46c3-8f00-efdad09239f7
     - text: Ma super compétence complémentaire 3
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 3
   - link "Ma super compétence complémentaire 4":
-    - /url: /cofolio/student/project/declared-skill/b6cfde2f-2b77-44ba-b914-e4227f83b732
+    - /url: /cofolio/student/project/declared-skill/2ad932a5-2d4e-413b-8463-bd1ab2cee04b
     - text: Ma super compétence complémentaire 4
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 4

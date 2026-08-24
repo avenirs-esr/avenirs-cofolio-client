@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js >> Student Life Project Declared Skills Page >> Add a declared skill >> Student can see the associate activities option in the associate elements type select
-- Location: .features-gen/tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js:40:5
+- Name: tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js >> Student Life Project Declared Skills Page >> Add a declared skill >> Student can see the associate elements section
+- Location: .features-gen/tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js:35:5
 
 # Error details
 
@@ -75,22 +75,22 @@ Call log:
           - /url: "#page-2"
       - listitem
   - link "Ma super compétence complémentaire 1":
-    - /url: /cofolio/student/project/declared-skill/a11285fc-1498-4071-a4c5-82135f1206ea
+    - /url: /cofolio/student/project/declared-skill/6630918f-cd6d-4b00-b6f7-fb5d69913390
     - text: Ma super compétence complémentaire 1
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 1
   - link "Ma super compétence complémentaire 2":
-    - /url: /cofolio/student/project/declared-skill/3b98848e-9874-4434-9956-c7b0c6269a43
+    - /url: /cofolio/student/project/declared-skill/462565a3-4243-4574-ba3e-4514cac12207
     - text: Ma super compétence complémentaire 2
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 2
   - link "Ma super compétence complémentaire 3":
-    - /url: /cofolio/student/project/declared-skill/afa8a4cb-dfa1-46a4-941d-77db5b37d6b3
+    - /url: /cofolio/student/project/declared-skill/03cb8a05-3dc3-471f-bd3e-8ffdd1ddb751
     - text: Ma super compétence complémentaire 3
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 3
   - link "Ma super compétence complémentaire 4":
-    - /url: /cofolio/student/project/declared-skill/22890dad-c454-4532-951d-fdf577bdba21
+    - /url: /cofolio/student/project/declared-skill/327899d0-e026-457d-894c-aee770264bf5
     - text: Ma super compétence complémentaire 4
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 4

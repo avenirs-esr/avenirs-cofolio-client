@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js >> Student Life Project Declared Skills Page >> Add a declared skill >> Student can see the associate elements section
-- Location: .features-gen/tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js:35:5
+- Name: tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js >> Student Life Project Declared Skills Page >> Add a declared skill >> Student can see the associate activities option in the associate elements type select
+- Location: .features-gen/tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js:40:5
 
 # Error details
 
@@ -75,22 +75,22 @@ Call log:
           - /url: "#page-2"
       - listitem
   - link "Ma super compétence complémentaire 1":
-    - /url: /cofolio/student/project/declared-skill/d6953c59-faa9-4dba-8379-5155066c305c
+    - /url: /cofolio/student/project/declared-skill/5cbda177-b9c9-46cf-871b-3b1e4a7a95ab
     - text: Ma super compétence complémentaire 1
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 1
   - link "Ma super compétence complémentaire 2":
-    - /url: /cofolio/student/project/declared-skill/767013bf-80cc-4c35-921b-d975664fab08
+    - /url: /cofolio/student/project/declared-skill/9d58a850-3173-447b-8848-6011c41f2560
     - text: Ma super compétence complémentaire 2
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 2
   - link "Ma super compétence complémentaire 3":
-    - /url: /cofolio/student/project/declared-skill/095dc5a5-bac6-49ce-a4a7-4fdded15fcd9
+    - /url: /cofolio/student/project/declared-skill/fa931cd9-1449-419b-bec6-716abec895b6
     - text: Ma super compétence complémentaire 3
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 3
   - link "Ma super compétence complémentaire 4":
-    - /url: /cofolio/student/project/declared-skill/a259f8fb-54b4-4dd9-8cc4-55a2d9cf6980
+    - /url: /cofolio/student/project/declared-skill/707baed7-6a9a-4609-98b3-f63980587774
     - text: Ma super compétence complémentaire 4
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 4

@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js >> Student Life Project Declared Skills Page >> Add a declared skill >> Student can see the associate activities option in the associate elements type select
-- Location: .features-gen/tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js:40:5
+- Name: tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js >> Student Life Project Declared Skills Page >> Add a declared skill >> Student can see the associate elements section
+- Location: .features-gen/tests/student/lifeProject/declaredSkills/declaredSkills.feature.spec.js:35:5
 
 # Error details
 
@@ -75,22 +75,22 @@ Call log:
           - /url: "#page-2"
       - listitem
   - link "Ma super compétence complémentaire 1":
-    - /url: /cofolio/student/project/declared-skill/87f5fc1f-4111-4834-84c5-1f0060921ee4
+    - /url: /cofolio/student/project/declared-skill/8e9036ed-31dc-43a6-9644-2eb5ada969fd
     - text: Ma super compétence complémentaire 1
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 1
   - link "Ma super compétence complémentaire 2":
-    - /url: /cofolio/student/project/declared-skill/c46939ae-b6c1-47b1-954c-db8c996a1804
+    - /url: /cofolio/student/project/declared-skill/9610c799-554e-463a-ae16-63b938c2fa02
     - text: Ma super compétence complémentaire 2
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 2
   - link "Ma super compétence complémentaire 3":
-    - /url: /cofolio/student/project/declared-skill/fb0dbf0a-bff2-4875-9d24-94c96b0bcf1f
+    - /url: /cofolio/student/project/declared-skill/5060eeb8-f444-44d6-908b-056e7366647d
     - text: Ma super compétence complémentaire 3
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 3
   - link "Ma super compétence complémentaire 4":
-    - /url: /cofolio/student/project/declared-skill/d4f1e8c6-4504-419c-9b3a-475abca5a43a
+    - /url: /cofolio/student/project/declared-skill/da0af60c-fd0b-4afd-9e5a-b44806404080
     - text: Ma super compétence complémentaire 4
     - status: Rome 4.0
     - status: Catégorie > Sous-catégorie 4
