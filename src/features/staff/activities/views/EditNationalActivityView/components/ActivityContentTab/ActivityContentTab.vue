@@ -153,7 +153,6 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
         collapsible
       >
         <ActivityExecutionPeriodFormField
-          :disabled="hasEnrolledStudent"
           :form="form"
           @autosave="queueAutoSave"
         />

@@ -9,7 +9,7 @@ import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-function mountField (overrides: Partial<EditActivityFormData> = {}, disabled = false) {
+function mountField (overrides: Partial<EditActivityFormData> = {}) {
   const TestWrapper = defineComponent({
     setup () {
       const defaultValues: EditActivityFormData = {
@@ -32,7 +32,7 @@ function mountField (overrides: Partial<EditActivityFormData> = {}, disabled = f
       return { form }
     },
     components: { ActivityExecutionPeriodFormField },
-    template: `<ActivityExecutionPeriodFormField :form="form" :disabled="${disabled}" />`,
+    template: `<ActivityExecutionPeriodFormField :form="form" />`,
   })
 
   return mount(TestWrapper, {
@@ -96,16 +96,6 @@ BddTest().given('an ActivityExecutionPeriodFormField component', () => {
       const periodInput = getPeriodInput()
       expect(periodInput.props('startModelValue')).toBe('2025-02-01')
       expect(periodInput.props('endModelValue')).toBe('2025-10-29')
-    })
-  })
-
-  BddTest().when('the component is mounted with disabled prop', () => {
-    beforeEach(() => {
-      wrapper = mountField({}, true)
-    })
-
-    BddTest().then('it should disable the parameter card', () => {
-      expect(getToggleParameterCard().props('disabled')).toBe(true)
     })
   })
 
