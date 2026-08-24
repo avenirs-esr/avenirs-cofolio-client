@@ -3,6 +3,7 @@ import type {
 } from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import type { VueWrapper } from '@vue/test-utils'
 import {
+  createMockedDeclaredExperiencesAssociations,
   mockedEmptyTraceAssociations,
   mockedTraceDeclaredActivityAssociations,
   mockedTraceDeclaredSkillAssociations
@@ -20,6 +21,7 @@ import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspen
 import { AssociatedDeclaredActivitiesCard } from '@/features/student/buildProject'
 import { AssociatedDeclaredActivitiesCardStub } from '@/features/student/buildProject/components/cards/AssociatedDeclaredActivitiesCard/AssociatedDeclaredActivitiesCard.stub'
 import { AssociatedDeclaredSkillsCardStub } from '@/features/student/declaredSkills/components/cards/AssociatedDeclaredSkillsCard/AssociatedDeclaredSkillsCard.stub'
+import { AssociatedDeclaredExperiencesCardStub } from '@/features/student/personalCareer/components/cards/AssociatedDeclaredExperiencesCard/AssociatedDeclaredExperiencesCard.stub'
 import TraceAssociations
   from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import {
@@ -42,6 +44,7 @@ const stubs = {
   AssociateDeclaredExperiencesToTracesModal: AssociateDeclaredExperiencesToTracesModalStub,
   AssociateActivitiesToTracesModal: AssociateActivitiesToTracesModalStub,
   AssociatedDeclaredSkillsCard: AssociatedDeclaredSkillsCardStub,
+  AssociatedDeclaredExperiencesCard: AssociatedDeclaredExperiencesCardStub,
   QuerySuspense: QuerySuspenseStub,
 }
 
@@ -78,6 +81,11 @@ BddTest().given('a student trace associations component', () => {
     BddTest().then('it should not render the associated declared skills card', () => {
       const declaredSkillsCard = wrapper.findComponent(AssociatedDeclaredSkillsCardStub)
       expect(declaredSkillsCard.exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the associated declared experiences card', () => {
+      const declaredExperiencesCard = wrapper.findComponent(AssociatedDeclaredExperiencesCardStub)
+      expect(declaredExperiencesCard.exists()).toBe(false)
     })
 
     BddTest().then('it should not render the declared activity associations container', () => {
@@ -259,7 +267,7 @@ BddTest().given('a student trace associations component', () => {
 
   BddTest().when('the component is mounted with only declared skill associations', () => {
     const declaredSkillAssociations = mockedTraceDeclaredSkillAssociations
-    const associationsProps = { declaredActivityAssociations: [], declaredSkillAssociations }
+    const associationsProps = { declaredActivityAssociations: [], declaredSkillAssociations, declaredExperienceAssociations: [] }
 
     beforeEach(() => {
       wrapper = mountComponent(TraceAssociations, {
@@ -309,11 +317,48 @@ BddTest().given('a student trace associations component', () => {
     })
   })
 
+  BddTest().when('the component is mounted with only declared experience associations', () => {
+    const declaredExperienceAssociations = createMockedDeclaredExperiencesAssociations(2)
+    const associationsProps: TraceAssociationsDTO = { declaredActivityAssociations: [], declaredSkillAssociations: [], declaredExperienceAssociations }
+
+    beforeEach(() => {
+      wrapper = mountComponent(TraceAssociations, {
+        props: {
+          associations: associationsProps,
+          traceId,
+        },
+        global: {
+          stubs
+        }
+      })
+    })
+
+    BddTest().then('it should not render the empty state', () => {
+      expect(wrapper.find('[data-testid="query-suspense-empty"]').exists()).toBe(false)
+    })
+
+    BddTest().then('it should render the associated declared experiences card with the correct associations', () => {
+      const declaredExperiencesCard = wrapper.findComponent(AssociatedDeclaredExperiencesCardStub)
+      expect(declaredExperiencesCard.exists()).toBe(true)
+      expect(declaredExperiencesCard.props('associatedExperiences')).toEqual(declaredExperienceAssociations)
+    })
+
+    BddTest().then('it should render the associated declared skills card with empty associations', () => {
+      const declaredSkillsCard = wrapper.findComponent(AssociatedDeclaredSkillsCardStub)
+      expect(declaredSkillsCard.exists()).toBe(true)
+      expect(declaredSkillsCard.props('associatedDeclaredSkills')).toEqual([])
+    })
+  })
+
   BddTest().when('the component is mounted with disabled=true', () => {
     beforeEach(() => {
       wrapper = mountComponent(TraceAssociations, {
         props: {
-          associations: { declaredSkillAssociations: mockedTraceDeclaredSkillAssociations, declaredActivityAssociations: mockedTraceDeclaredActivityAssociations },
+          associations: {
+            declaredSkillAssociations: mockedTraceDeclaredSkillAssociations,
+            declaredActivityAssociations: mockedTraceDeclaredActivityAssociations,
+            declaredExperienceAssociations: createMockedDeclaredExperiencesAssociations(1)
+          },
           traceId,
           disabled: true,
         },
@@ -329,6 +374,11 @@ BddTest().given('a student trace associations component', () => {
     BddTest().then('it should pass disabled=true to AssociatedDeclaredActivitiesCard', () => {
       const activitiesCard = wrapper.findComponent(AssociatedDeclaredActivitiesCardStub)
       expect(activitiesCard.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should pass disabled=true to AssociatedDeclaredExperiencesCard', () => {
+      const experiencesCard = wrapper.findComponent(AssociatedDeclaredExperiencesCardStub)
+      expect(experiencesCard.props('disabled')).toBe(true)
     })
   })
 
@@ -351,7 +401,7 @@ BddTest().given('a student trace associations component', () => {
         }
       }
     ]
-    const associationsProps: TraceAssociationsDTO = { declaredActivityAssociations, declaredSkillAssociations: [] }
+    const associationsProps: TraceAssociationsDTO = { declaredActivityAssociations, declaredSkillAssociations: [], declaredExperienceAssociations: [] }
 
     beforeEach(() => {
       wrapper = mountComponent(TraceAssociations, {

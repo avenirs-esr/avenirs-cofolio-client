@@ -8,6 +8,7 @@ import QuerySuspense
 import { useModal } from '@/common/composables'
 import { AssociatedDeclaredActivitiesCard } from '@/features/student/buildProject'
 import { AssociatedDeclaredSkillsCard } from '@/features/student/declaredSkills'
+import { AssociatedDeclaredExperiencesCard } from '@/features/student/personalCareer'
 import AssociateActivitiesToTracesModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesToTracesModal/AssociateActivitiesToTracesModal.vue'
 import AssociateDeclaredExperiencesToTracesModal
@@ -122,6 +123,11 @@ function onAssociateSelect (type: EAssociationContextType) {
         />
         <AssociatedDeclaredActivitiesCard
           :associated-activities="declaredActivityAssociations"
+          :disabled="disabled"
+        />
+
+        <AssociatedDeclaredExperiencesCard
+          :associated-experiences="declaredExperienceAssociations"
           :disabled="disabled"
         />
       </div>
