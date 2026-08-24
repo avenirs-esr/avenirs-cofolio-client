@@ -15,6 +15,7 @@ const { form } = defineProps<ActivityExecutionPeriodFormFieldProps>()
 
 const emit = defineEmits<{
   autosave: [value: Partial<ActivityDraftUpdateRequest>]
+  updateExecutionPeriodEnabled: [value: boolean]
 }>()
 
 const { t } = useI18n()
@@ -31,10 +32,15 @@ const inputEnabled = computed({
   get: () => !!startDate.value || !!endDate.value || toggleOverride.value,
   set: (newValue: boolean) => {
     toggleOverride.value = newValue
+    emit('updateExecutionPeriodEnabled', newValue)
     if (!newValue) {
       startDateField.api.handleChange(undefined)
       endDateField.api.handleChange(undefined)
       emit('autosave', { startDate: undefined, endDate: undefined })
+    }
+    else {
+      form.validateField('startDate', 'submit')
+      form.validateField('endDate', 'submit')
     }
   },
 })

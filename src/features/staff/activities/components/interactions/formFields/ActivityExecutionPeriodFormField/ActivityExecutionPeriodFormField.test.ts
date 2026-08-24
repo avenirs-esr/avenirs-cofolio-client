@@ -113,6 +113,13 @@ BddTest().given('an ActivityExecutionPeriodFormField component', () => {
     BddTest().then('it should not emit autosave', () => {
       expect(getFormField().emitted('autosave')).toBeFalsy()
     })
+
+    BddTest().then('it should emit updateExecutionPeriodEnabled with true', () => {
+      const emitted = getFormField().emitted('updateExecutionPeriodEnabled')
+      expect(emitted).toBeTruthy()
+      const lastCall = emitted![emitted!.length - 1][0]
+      expect(lastCall).toBe(true)
+    })
   })
 
   BddTest().when('the toggle is disabled after having dates set', () => {
@@ -131,6 +138,13 @@ BddTest().given('an ActivityExecutionPeriodFormField component', () => {
       expect(emitted).toBeTruthy()
       const lastCall = emitted![emitted!.length - 1][0]
       expect(lastCall).toEqual({ startDate: undefined, endDate: undefined })
+    })
+
+    BddTest().then('it should emit updateExecutionPeriodEnabled with false', () => {
+      const emitted = getFormField().emitted('updateExecutionPeriodEnabled')
+      expect(emitted).toBeTruthy()
+      const lastCall = emitted![emitted!.length - 1][0]
+      expect(lastCall).toBe(false)
     })
   })
 

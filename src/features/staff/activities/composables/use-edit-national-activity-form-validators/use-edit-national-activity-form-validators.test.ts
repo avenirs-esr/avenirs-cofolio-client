@@ -29,6 +29,8 @@ BddTest().given('an edit national activity form validators composable', () => {
       expect(composableResult.validateDescription).toBeDefined()
       expect(composableResult.validateRecommendedCompletionContexts).toBeDefined()
       expect(composableResult.validateFeedbackAllowedIterations).toBeDefined()
+      expect(composableResult.validateStartDate).toBeDefined()
+      expect(composableResult.validateEndDate).toBeDefined()
     })
   })
 
@@ -79,6 +81,26 @@ BddTest().given('an edit national activity form validators composable', () => {
 
     BddTest().then('it should accept positive values greater than or equal to min', () => {
       expect(composableResult.validateFeedbackAllowedIterations(ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN)).toBeUndefined()
+    })
+  })
+
+  BddTest().when('validating start date', () => {
+    BddTest().then('it should require start date', () => {
+      expect(composableResult.validateStartDate(undefined)).toBe('Ce champ est requis.')
+    })
+  })
+
+  BddTest().when('validating end date', () => {
+    BddTest().then('it should not require end date if start date is not set', () => {
+      expect(composableResult.validateEndDate({ startDate: undefined, endDate: undefined })).toBeUndefined()
+    })
+
+    BddTest().then('it should require end date if start date is set', () => {
+      expect(composableResult.validateEndDate({ startDate: '2025-02-01', endDate: undefined })).toBe('Ce champ est requis.')
+    })
+
+    BddTest().then('it should validate date interval if both dates are set', () => {
+      expect(composableResult.validateEndDate({ startDate: '2025-02-01', endDate: '2025-01-01' })).toBe('La date de fin doit être postérieure à la date de début')
     })
   })
 })

@@ -12,5 +12,6 @@ export const ActivityExecutionPeriodFormFieldStub = defineComponent({
       required: false
     }
   },
+  emits: ['autosave', 'updateExecutionPeriodEnabled'],
   template: '<div data-testid="activity-execution-period-form-field-stub"></div>',
 })

@@ -54,7 +54,9 @@ const {
   validateSummary,
   validateDescription,
   validateRecommendedCompletionContexts,
-  validateFeedbackAllowedIterations
+  validateFeedbackAllowedIterations,
+  validateStartDate,
+  validateEndDate,
 } = useEditNationalActivityFormValidators()
 const activeTab = useEnumRouteQuery('tab', EditActivityTabIndex, EditActivityTabIndex.CONTENT)
 const { getErrorMessage } = useApiErrors()
@@ -108,6 +110,8 @@ const { mutateAsync: deleteBannerMutation } = useDeleteDraftBanner()
 const { mutateAsync: deleteResourceFileMutation } = useDeleteDraftFile()
 const { mutateAsync: updateActivity } = useUpdateActivityDraft()
 
+const isExecutionPeriodEnabled = ref(false)
+
 const {
   queueAutoSave,
   cancelAutoSave,
@@ -125,6 +129,8 @@ const form = useForm({
           description: validateDescription(value.description),
           recommendedCompletionContexts: validateRecommendedCompletionContexts(value.recommendedCompletionContexts),
           feedbackAllowedIterations: validateFeedbackAllowedIterations(value.feedbackAllowedIterations),
+          startDate: isExecutionPeriodEnabled.value ? validateStartDate(value.startDate) : undefined,
+          endDate: isExecutionPeriodEnabled.value ? validateEndDate({ startDate: value.startDate, endDate: value.endDate }) : undefined,
         }
       }
     }
@@ -149,7 +155,7 @@ const form = useForm({
       feedbackAllowedIterations: value.feedbackAllowedIterations ?? 0,
       traceAllowedAssociations: value.traceAllowedAssociations,
       links: value.links,
-    })
+    }, true)
   },
 })
 
@@ -207,7 +213,7 @@ async function saveActivity (data: ActivityDraftUpdateRequest) {
   })
 }
 
-async function save (data?: ActivityDraftUpdateRequest) {
+async function save (data?: ActivityDraftUpdateRequest, resetForm = false) {
   const promises: Promise<void>[] = []
   const bannerAction = form.getFieldValue('bannerAction')
   const files = form.getFieldValue('files')
@@ -242,10 +248,12 @@ async function save (data?: ActivityDraftUpdateRequest) {
   }
 
   if (results.every(r => r.status === 'fulfilled')) {
-    form.reset({
-      ...form.state.values,
-      bannerAction: EditActivityFormDataBannerAction.NONE,
-    })
+    if (resetForm) {
+      form.reset({
+        ...form.state.values,
+        bannerAction: EditActivityFormDataBannerAction.NONE,
+      })
+    }
     addSuccessMessage(t('staff.activities.views.EditNationalActivityView.success.saveActivityContent'))
   }
   else {
@@ -277,7 +285,7 @@ function onPublished () {
   navigateToStaffActivities(true)
 }
 
-provideEditNationalActivityViewContext({ form, isUpdating, save, queueAutoSave })
+provideEditNationalActivityViewContext({ form, isUpdating, isExecutionPeriodEnabled, save, queueAutoSave })
 </script>
 
 <template>
