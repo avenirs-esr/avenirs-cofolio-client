@@ -106,7 +106,7 @@
               "title": "Quelle(s) association(s) souhaitez-vous supprimer ?"
             },
             "FeedbackCard": {
-              "downloadAllAttachments": "Télécharger toutes les documents",
+              "downloadAllAttachments": "Télécharger tous les documents",
               "receivedAt": "Feedback reçu le",
               "staffRole": "Enseignant"
             },
