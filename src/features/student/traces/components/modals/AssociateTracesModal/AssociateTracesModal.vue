@@ -53,7 +53,6 @@ const localSelectedTraceType = computed({
 
 const traceOptions = computed<AvAutocompleteOption[]>(() =>
   traces
-    .filter(trace => !trace.disabled)
     .map(trace => ({
       label: trace.title,
       value: trace.id,

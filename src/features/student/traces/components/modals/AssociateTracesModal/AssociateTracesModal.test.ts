@@ -98,11 +98,12 @@ BddTest().given('an associate traces modal', () => {
       })
     })
 
-    BddTest().then('it should pass the non-disabled traces to the layout options', () => {
+    BddTest().then('it should pass all the traces to the layout options', () => {
       const layout = wrapper.findComponent(SearchAssociationLayoutStub)
       expect(layout.props('options')).toEqual([
         { label: 'Ma super trace numéro 1', value: 'trace-search-1', disabled: false },
         { label: 'Ma super trace numéro 2', value: 'trace-search-2', disabled: false },
+        { label: 'Ma super trace numéro 3', value: 'trace-search-3', disabled: true }
       ])
     })
 
