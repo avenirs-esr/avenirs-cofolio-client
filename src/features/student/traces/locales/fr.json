@@ -184,9 +184,7 @@
               "types": {
                 "activities": "Mes activités",
                 "declaredSkills": "Mes compétences déclarées"
-              },
-              "typeSelectLabel": "Rechercher dans :",
-              "typeSelectPlaceholder": "Sélectionnez un type"
+              }
             },
             "createTraceForm": {
               "declaration": {

@@ -3,7 +3,13 @@ import type { AssociateElementTypeConfig } from '@/features/student/traces/types
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-const { typeConfigs } = defineProps<{ typeConfigs: AssociateElementTypeConfig[] }>()
+const {
+  typeConfigs,
+  isSubType = false
+} = defineProps<{
+  typeConfigs: AssociateElementTypeConfig[]
+  isSubType?: boolean
+}>()
 
 const activeTypeKey = defineModel<string>('activeTypeKey', { required: true })
 
@@ -28,8 +34,8 @@ const typeSelectOptions = computed(() =>
   <AvSelect
     v-model:selected-item="selectedTypeItem"
     :options="typeSelectOptions"
-    :label="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.associateElements.typeSelectLabel')"
-    :placeholder="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.associateElements.typeSelectPlaceholder')"
-    data-testid="associate-elements-type-select"
+    :label="t(`student.global.interaction.inputs.AssociateElementTypeSelect.label.${isSubType ? 'subType' : 'default'}`)"
+    :label-visible="!isSubType"
+    :placeholder="t('student.global.interaction.inputs.AssociateElementTypeSelect.placeholder')"
   />
 </template>

@@ -15,6 +15,7 @@ import {
   type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
   type PagedResponseAssociationSearchResultTraceDTO,
   type PagedResponseTraceViewDTO,
+  type SearchTracesForAssociationParams,
   type SearchTracesForAssociationWithDeclaredExperienceParams,
   type TraceAssociationsDTO,
   type TraceConfigurationDTO,
@@ -284,6 +285,34 @@ export const mockedTraceDetailedWithFile = {
 export const mockedTraceDetailedWithLink = {
   ...mockedTraceDetailed,
   attachment: undefined,
+}
+
+export function createMockedSearchTracesForAssociationResponse (params: SearchTracesForAssociationParams = {}): PagedResponseAssociationSearchResultTraceDTO {
+  const {
+    isAssociated,
+    keyword,
+    page = 0,
+    pageSize = PageSizes.FOUR
+  } = params
+
+  const tracesView = createMockedTracesViewResponse(
+    { isAssociated },
+    {
+      keyword,
+      page,
+      pageSize
+    },
+    pageSize + 1
+  )
+
+  return {
+    data: tracesView.data.map(trace => ({
+      id: trace.id,
+      title: trace.title,
+      disabled: false
+    })),
+    page: tracesView.page
+  }
 }
 
 export function createMockedSearchTracesForAssociationWithDeclaredExperienceResponse (

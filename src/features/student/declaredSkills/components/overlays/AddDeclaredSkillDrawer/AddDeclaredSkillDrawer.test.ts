@@ -1,12 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { EAssociationContextType } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { AddDeclaredSkillDrawer } from '@/features/student/declaredSkills'
 import {
   DeclaredSkillLevelRadioButtonSetFormFieldStub,
 } from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.stub'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
-import { EAssociationTypeKey } from '@/features/student/traces/types/traces.types'
-import { AssociateElementsDrawerSectionStub } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/AssociateElementsDrawerSection/AssociateElementsDrawerSection.stub'
+import { AssociateElementsDrawerSectionStub } from '@/features/student/global/components/sections/AssociateElementsDrawerSection/AssociateElementsDrawerSection.stub'
+import { TraceAssociationTypes } from '@/features/student/traces'
 import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -60,6 +61,7 @@ BddTest().given('an add declared skill drawer component', () => {
   const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
   const getSaveButton = () => getCancelConfirmButtons()?.find('.confirm')
   const getCancelButton = () => getCancelConfirmButtons()?.find('.cancel')
+  const getAssociateElementsSection = () => wrapper.findComponent(AssociateElementsDrawerSectionStub)
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -80,6 +82,7 @@ BddTest().given('an add declared skill drawer component', () => {
       const drawer = wrapper.findComponent({ name: 'AvDrawer' })
 
       expect(drawer.exists()).toBe(true)
+      expect(drawer.props('show')).toBe(true)
       expect(drawer.props('position')).toBe('right')
       expect(drawer.props('width')).toBe('40rem')
     })
@@ -273,28 +276,58 @@ BddTest().given('an add declared skill drawer component', () => {
 
   BddTest().when('the associate elements section is rendered', () => {
     BddTest().then('it should render the associate elements drawer section in the last accordion', () => {
-      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+      const section = getAssociateElementsSection()
+
       expect(section.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass typeConfigs for activities and declared experiences', () => {
-      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
-      const typeConfigs = section.props('typeConfigs') as { key: string }[]
+    BddTest().then('it should pass association type configs for activities, experiences and traces with sub configs', () => {
+      const section = getAssociateElementsSection()
 
-      expect(typeConfigs).toHaveLength(2)
-      expect(typeConfigs[0].key).toBe(EAssociationTypeKey.ACTIVITIES)
-      expect(typeConfigs[1].key).toBe(EAssociationTypeKey.DECLARED_EXPERIENCES)
+      const typeConfigs = section.props('typeConfigs')
+      expect(typeConfigs).toHaveLength(3)
+      expect(typeConfigs[0].key).toBe(EAssociationContextType.DECLARED_ACTIVITY)
+      expect(typeConfigs[0].label).toBe('Mes activités')
+      expect(typeConfigs[0].searchPlaceholder).toBe('Rechercher une activité...')
+      expect(typeConfigs[1].key).toBe(EAssociationContextType.DECLARED_EXPERIENCE)
+      expect(typeConfigs[1].label).toBe('Mes expériences')
+      expect(typeConfigs[1].searchPlaceholder).toBe('Rechercher une expérience...')
+      expect(typeConfigs[2].key).toBe(EAssociationContextType.TRACE)
+      expect(typeConfigs[2].label).toBe('Mes traces')
+      expect(typeConfigs[2].searchPlaceholder).toBeUndefined()
+
+      const tracesSubConfigs = typeConfigs[2].subConfigs
+      expect(tracesSubConfigs).toHaveLength(2)
+      expect(tracesSubConfigs![0].key).toBe(TraceAssociationTypes.ASSOCIATED)
+      expect(tracesSubConfigs![0].label).toBe('associées')
+      expect(tracesSubConfigs![0].searchPlaceholder).toBe('Rechercher une trace associée...')
+      expect(tracesSubConfigs![1].key).toBe(TraceAssociationTypes.UNASSOCIATED)
+      expect(tracesSubConfigs![1].label).toBe('non associées')
+      expect(tracesSubConfigs![1].searchPlaceholder).toBe('Rechercher une trace non associée...')
     })
 
-    BddTest().then('it should default the active type key to activities', () => {
-      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
-      expect(section.props('activeTypeKey')).toBe(EAssociationTypeKey.ACTIVITIES)
+    BddTest().then('it should default the active type key to declared activities', () => {
+      const section = getAssociateElementsSection()
+
+      expect(section.props('activeTypeKey')).toBe(EAssociationContextType.DECLARED_ACTIVITY)
+    })
+
+    BddTest().then('it should not have an active subtype for declared activities', () => {
+      const section = getAssociateElementsSection()
+
+      expect(section.props('activeSubTypeKey')).toBeUndefined()
+    })
+
+    BddTest().then('it should pass the vertical layout', () => {
+      const section = getAssociateElementsSection()
+
+      expect(section.props('layout')).toBe('vertical')
     })
   })
 
   BddTest().when('the associate elements section emits a search query update', () => {
-    BddTest().then('it should forward the search query back to the section', async () => {
-      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+    BddTest().then('it should update the search query model', async () => {
+      const section = getAssociateElementsSection()
 
       await section.vm.$emit('update:searchQuery', 'react')
       await wrapper.vm.$nextTick()
@@ -303,15 +336,54 @@ BddTest().given('an add declared skill drawer component', () => {
     })
   })
 
-  BddTest().when('the associate elements section emits a selections update', () => {
-    BddTest().then('it should update the associationSelections form field', async () => {
-      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
-      const newSelections = { [EAssociationTypeKey.ACTIVITIES]: ['activity-1'] }
+  BddTest().when('the active association type is changed to traces', () => {
+    BddTest().then('it should use the associated traces subtype by default', async () => {
+      const section = getAssociateElementsSection()
 
-      await section.vm.$emit('update:selectionsByType', newSelections)
+      await section.vm.$emit('update:activeTypeKey', EAssociationContextType.TRACE)
       await wrapper.vm.$nextTick()
 
-      expect(section.props('selectionsByType')).toStrictEqual(newSelections)
+      expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.ASSOCIATED)
+    })
+  })
+
+  BddTest().when('the active trace subtype is changed', () => {
+    BddTest().then('it should pass the selected trace subtype', async () => {
+      const section = getAssociateElementsSection()
+
+      await section.vm.$emit('update:activeTypeKey', EAssociationContextType.TRACE)
+      await wrapper.vm.$nextTick()
+
+      await section.vm.$emit('update:activeSubTypeKey', TraceAssociationTypes.UNASSOCIATED)
+      await wrapper.vm.$nextTick()
+
+      expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.UNASSOCIATED)
+    })
+  })
+
+  BddTest().when('the active trace subtype is changed then another association type is selected', () => {
+    BddTest().then('it should restore the previously selected trace subtype', async () => {
+      const section = getAssociateElementsSection()
+
+      await section.vm.$emit('update:activeTypeKey', EAssociationContextType.TRACE)
+      await wrapper.vm.$nextTick()
+
+      await section.vm.$emit('update:activeSubTypeKey', TraceAssociationTypes.UNASSOCIATED)
+      await wrapper.vm.$nextTick()
+
+      expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.UNASSOCIATED)
+
+      await section.vm.$emit('update:activeTypeKey', EAssociationContextType.DECLARED_EXPERIENCE)
+      await wrapper.vm.$nextTick()
+
+      expect(section.props('activeTypeKey')).toBe(EAssociationContextType.DECLARED_EXPERIENCE)
+      expect(section.props('activeSubTypeKey')).toBeUndefined()
+
+      await section.vm.$emit('update:activeTypeKey', EAssociationContextType.TRACE)
+      await wrapper.vm.$nextTick()
+
+      expect(section.props('activeTypeKey')).toBe(EAssociationContextType.TRACE)
+      expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.UNASSOCIATED)
     })
   })
 
@@ -321,18 +393,6 @@ BddTest().given('an add declared skill drawer component', () => {
       const associationsAccordion = accordions[2]
 
       expect(associationsAccordion.props('title')).toBe('Associer ma compétence')
-    })
-  })
-
-  BddTest().when('the associate elements section emits a selections update with declared experiences', () => {
-    BddTest().then('it should update the associationSelections form field', async () => {
-      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
-      const newSelections = { [EAssociationTypeKey.DECLARED_EXPERIENCES]: ['experience-1'] }
-
-      await section.vm.$emit('update:selectionsByType', newSelections)
-      await wrapper.vm.$nextTick()
-
-      expect(section.props('selectionsByType')).toStrictEqual(newSelections)
     })
   })
 })

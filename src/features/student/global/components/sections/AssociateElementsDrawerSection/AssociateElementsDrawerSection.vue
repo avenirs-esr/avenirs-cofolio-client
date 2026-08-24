@@ -2,18 +2,20 @@
 import type { Association } from '@/features/student/global/types/associations.types'
 import type { AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
+import AssociateElementTypeSelect from '@/features/student/global/components/interaction/AssociationElementTypeSelect/AssociateElementTypeSelect.vue'
 import SearchAssociationLayout from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.vue'
-import AssociateElementTypeSelect from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/AssociationElementTypeSelect/AssociateElementTypeSelect.vue'
+import { useI18n } from 'vue-i18n'
 
 export interface AssociateElementsDrawerSectionProps {
   typeConfigs: AssociateElementTypeConfig[]
   options: Association[]
   loading?: boolean
-  activeTypeKey: string
   layout?: 'vertical' | 'horizontal'
 }
 
 const { typeConfigs, options, loading, layout = 'horizontal' } = defineProps<AssociateElementsDrawerSectionProps>()
+
+const { t } = useI18n()
 
 function autocompleteOptionToAssociateElementOption (option: AvAutocompleteOption): Association {
   return {
@@ -35,20 +37,23 @@ function associateElementOptionToAutocompleteOption (option: Association): AvAut
 
 const selectionsByType = defineModel<Record<string, Association[]>>('selectionsByType', { default: () => ({}) })
 const activeTypeKey = defineModel<string>('activeTypeKey', { required: true })
+const activeSubTypeKey = defineModel<string>('activeSubTypeKey')
 const searchQuery = defineModel<string>('searchQuery', { default: '' })
 
 const activeConfig = computed(() =>
   typeConfigs.find(config => config.key === activeTypeKey.value) ?? typeConfigs[0]
 )
 
-const autocompleteOptions = computed<AvAutocompleteOption[]>(() =>
-  options.map(associateElementOptionToAutocompleteOption)
+const activeSubConfig = computed(() =>
+  activeConfig.value.subConfigs?.find(subConfig => subConfig.key === activeSubTypeKey.value) ?? activeConfig.value.subConfigs?.[0]
 )
 
-const activeTypeAssociations = computed<Association[]>(() => selectionsByType.value[activeTypeKey.value] ?? [])
+const autocompleteOptions = computed<AvAutocompleteOption[]>(() => options.map(associateElementOptionToAutocompleteOption))
+
+const activeAssociations = computed<Association[]>(() => selectionsByType.value[activeTypeKey.value] ?? [])
 
 const autocompleteSelectedOptions = computed<AvAutocompleteOption[]>({
-  get: () => activeTypeAssociations.value.map(associateElementOptionToAutocompleteOption),
+  get: () => activeAssociations.value.map(associateElementOptionToAutocompleteOption),
   set: (newOptions) => {
     selectionsByType.value = {
       ...selectionsByType.value,
@@ -57,12 +62,22 @@ const autocompleteSelectedOptions = computed<AvAutocompleteOption[]>({
   }
 })
 
+const searchPlaceholder = computed(() =>
+  activeSubConfig.value?.searchPlaceholder
+  ?? activeConfig.value.searchPlaceholder
+  ?? t('student.global.sections.AssociateElementsDrawerSection.defaultPlaceholder')
+)
+
 function onDeleteItem (itemId: string) {
   selectionsByType.value = {
     ...selectionsByType.value,
-    [activeTypeKey.value]: activeTypeAssociations.value.filter(item => item.id !== itemId)
+    [activeTypeKey.value]: activeAssociations.value.filter(item => item.id !== itemId)
   }
 }
+
+watch(activeTypeKey, () => {
+  activeSubTypeKey.value = undefined
+})
 </script>
 
 <template>
@@ -74,17 +89,27 @@ function onDeleteItem (itemId: string) {
       v-model="autocompleteSelectedOptions"
       v-model:search="searchQuery"
       :options="autocompleteOptions"
-      :items="activeTypeAssociations"
-      :input-options="{ placeholder: activeConfig?.searchPlaceholder }"
+      :items="activeAssociations"
+      :input-options="{ placeholder: searchPlaceholder }"
       :loading="loading"
       :layout="layout"
       @delete="onDeleteItem"
     >
       <template #beforeSearch>
-        <AssociateElementTypeSelect
-          v-model:active-type-key="activeTypeKey"
-          :type-configs="typeConfigs"
-        />
+        <div class="av-row av-gap-xs av-align-end">
+          <AssociateElementTypeSelect
+            v-model:active-type-key="activeTypeKey"
+            :type-configs="typeConfigs"
+            data-testid="associate-elements-type-select"
+          />
+          <AssociateElementTypeSelect
+            v-if="activeSubConfig"
+            v-model:active-type-key="activeSubTypeKey!"
+            :type-configs="activeConfig.subConfigs!"
+            data-testid="associate-elements-sub-type-select"
+            is-sub-type
+          />
+        </div>
       </template>
 
       <template #selectedItem="{ item }">

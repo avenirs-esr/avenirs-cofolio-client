@@ -1,7 +1,6 @@
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
-import { EDeclaredSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
+import { EAssociationContextType, EDeclaredSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
 import { useDeclaredSkillForm } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
-import { EAssociationTypeKey } from '@/features/student/traces/types/traces.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -53,10 +52,24 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
     return validator!
   }
 
-  const getOnSubmitHandler = () => {
+  const submitForm = (formData: DeclaredSkillFormData) => {
     const handler = composableResult.form.options.onSubmit
     expect(handler).toBeDefined()
-    return handler!
+    handler!({ value: formData, formApi: composableResult.form, meta: {} })
+  }
+
+  const validateSubmission = async (formData: DeclaredSkillFormData) => {
+    submitForm(formData)
+    await vi.waitFor(() => {
+      expect(mockOnSkillAdded).toHaveBeenCalled()
+    })
+  }
+
+  const validateSubmissionFailed = async (formData: DeclaredSkillFormData) => {
+    submitForm(formData)
+    await vi.waitFor(() => {
+      expect(mockAddErrorMessage).toHaveBeenCalled()
+    })
   }
 
   beforeEach(() => {
@@ -166,24 +179,6 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
     })
   })
 
-  BddTest().when('form is submitted', () => {
-    BddTest().then('it should have onSubmit function defined', () => {
-      expect(composableResult.form.options.onSubmit).toBeDefined()
-      expect(typeof composableResult.form.options.onSubmit).toBe('function')
-    })
-
-    BddTest().then('it should call onSubmit callback after successful API call', async () => {
-      const validData = createValidFormData()
-      const handler = getOnSubmitHandler()
-
-      handler({ value: validData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(mockOnSkillAdded).toHaveBeenCalled()
-      })
-    })
-  })
-
   BddTest().when('form validity is determined', () => {
     BddTest().then('it should return true initially when form is valid', () => {
       expect(composableResult.isFormValid.value).toBe(true)
@@ -221,16 +216,8 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
   })
 
   BddTest().when('API errors occur', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
-      const existingSkillData = createExistingDeclaredSkillData()
-      const handler = getOnSubmitHandler()
-      handler({ value: existingSkillData, formApi: composableResult.form, meta: {} })
-    })
     BddTest().then('it should call addErrorMessage', async () => {
-      await vi.waitFor(() => {
-        expect(mockAddErrorMessage).toHaveBeenCalled()
-      })
+      await validateSubmissionFailed(createExistingDeclaredSkillData())
     })
 
     BddTest().then('it should not call mockOnSkillAddedls', async () => {
@@ -239,79 +226,77 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
   })
 
   BddTest().when('form is submitted with association selections', () => {
+    BddTest().then('it should call mockOnSkillAdded when no associationSelections are provided', async () => {
+      await validateSubmission(createValidFormData())
+    })
+
+    BddTest().then('it should call mockOnSkillAdded when selections are empty', async () => {
+      await validateSubmission({
+        ...createValidFormData(),
+        associationSelections: {}
+      })
+    })
+
     BddTest().then('it should call mockOnSkillAdded when an activity is selected', async () => {
-      const formData: DeclaredSkillFormData = {
+      await validateSubmission({
         ...createValidFormData(),
         associationSelections: {
-          [EAssociationTypeKey.ACTIVITIES]: [{ id: 'activity-1', title: 'Activity 1' }]
+          [EAssociationContextType.DECLARED_ACTIVITY]: [{ id: 'activity-1', title: 'Activity 1' }]
         }
-      }
-
-      const handler = getOnSubmitHandler()
-      handler({ value: formData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(mockOnSkillAdded).toHaveBeenCalled()
       })
     })
 
     BddTest().then('it should call mockOnSkillAdded when multiple activities are selected', async () => {
-      const formData: DeclaredSkillFormData = {
+      await validateSubmission({
         ...createValidFormData(),
         associationSelections: {
-          [EAssociationTypeKey.ACTIVITIES]: [
+          [EAssociationContextType.DECLARED_ACTIVITY]: [
             { id: 'activity-1', title: 'Activity 1' },
             { id: 'activity-2', title: 'Activity 2' }
           ]
         }
-      }
-
-      const handler = getOnSubmitHandler()
-      handler({ value: formData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(mockOnSkillAdded).toHaveBeenCalled()
-      })
-    })
-
-    BddTest().then('it should call mockOnSkillAdded when selections are empty', async () => {
-      const formData: DeclaredSkillFormData = {
-        ...createValidFormData(),
-        associationSelections: {}
-      }
-
-      const handler = getOnSubmitHandler()
-      handler({ value: formData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(mockOnSkillAdded).toHaveBeenCalled()
-      })
-    })
-
-    BddTest().then('it should call mockOnSkillAdded when no associationSelections are provided', async () => {
-      const formData = createValidFormData()
-
-      const handler = getOnSubmitHandler()
-      handler({ value: formData, formApi: composableResult.form, meta: {} })
-
-      await vi.waitFor(() => {
-        expect(mockOnSkillAdded).toHaveBeenCalled()
       })
     })
 
     BddTest().then('it should call mockOnSkillAdded when a declared experience is selected', async () => {
-      const formData: DeclaredSkillFormData = {
+      await validateSubmission({
         ...createValidFormData(),
         associationSelections: {
-          [EAssociationTypeKey.DECLARED_EXPERIENCES]: [{ id: 'experience-1', title: 'Experience 1' }]
+          [EAssociationContextType.DECLARED_EXPERIENCE]: [{ id: 'experience-1', title: 'Experience 1' }]
         }
-      }
+      })
+    })
 
-      const handler = getOnSubmitHandler()
-      handler({ value: formData, formApi: composableResult.form, meta: {} })
+    BddTest().then('it should call mockOnSkillAdded when multiple declared experiences are selected', async () => {
+      await validateSubmission({
+        ...createValidFormData(),
+        associationSelections: {
+          [EAssociationContextType.DECLARED_EXPERIENCE]: [
+            { id: 'experience-1', title: 'Experience 1' },
+            { id: 'experience-2', title: 'Experience 2' }
+          ]
+        }
+      })
+    })
 
-      await vi.waitFor(() => {
-        expect(mockOnSkillAdded).toHaveBeenCalled()
+    BddTest().then('it should call mockOnSkillAdded when a trace is selected', async () => {
+      await validateSubmission({
+        ...createValidFormData(),
+        associationSelections: {
+          [EAssociationContextType.TRACE]: [{ id: 'trace-1', title: 'Trace 1' }]
+        }
+      })
+    })
+
+    BddTest().then('it should call mockOnSkillAdded when multiple traces are selected', async () => {
+      await validateSubmission({
+        ...createValidFormData(),
+        associationSelections: {
+          [EAssociationContextType.TRACE]: [
+            { id: 'trace-1', title: 'Trace 1' },
+            { id: 'trace-2', title: 'Trace 2' }
+          ]
+        }
       })
     })
   })

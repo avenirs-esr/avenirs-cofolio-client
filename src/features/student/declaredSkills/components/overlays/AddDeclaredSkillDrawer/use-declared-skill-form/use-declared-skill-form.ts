@@ -2,18 +2,19 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
 import type { Association } from '@/features/student/global/types/associations.types'
 import {
+  EAssociationContextType,
   EDeclaredSkillLevel,
   EErrorCode,
   invalidateGetDeclaredSkillsProgresses,
   useAssociateActivityWithDeclaredSkills,
   useAssociateDeclaredExperienceWithDeclaredSkills,
+  useAssociateTraceWithDeclaredSkill,
   useCreateDeclaredSkillProgress
 } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
-import { EAssociationTypeKey } from '@/features/student/traces/types/traces.types'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -60,13 +61,26 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
     }
   })
 
+  const { mutateAsync: associateWithTraces, isPending: isPendingAssociateWithTraces } = useAssociateTraceWithDeclaredSkill({
+    mutation: {
+      onError: (error: BaseApiException) => {
+        addErrorMessage({
+          title: t('global.error.generic'),
+          description: getErrorMessage(error),
+        })
+      }
+    }
+  })
+
   function createAssociateSkillPromises (skillId: string, associationsByType: Record<string, Association[]>): Promise<unknown>[] {
-    return Object.entries(associationsByType).flatMap(([type, associations]) => {
+    return Object.entries(associationsByType).flatMap(([type, associations]): Promise<unknown>[] => {
       switch (type) {
-        case EAssociationTypeKey.ACTIVITIES:
+        case EAssociationContextType.DECLARED_ACTIVITY:
           return associations.map(association => associateWithActivities({ declaredActivityId: association.id, data: { idsToAssociate: [skillId] } }))
-        case EAssociationTypeKey.DECLARED_EXPERIENCES:
+        case EAssociationContextType.DECLARED_EXPERIENCE:
           return associations.map(association => associateWithExperiences({ experienceId: association.id, data: { idsToAssociate: [skillId] } }))
+        case EAssociationContextType.TRACE:
+          return associations.map(association => associateWithTraces({ traceId: association.id, data: { idsToAssociate: [skillId] } }))
         default:
           return []
       }
@@ -85,11 +99,8 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
     }, {
       onError: onCreateDeclaredSkillError,
       onSuccess: async (skill) => {
-        const promises: Promise<unknown>[] = value.associationSelections ? createAssociateSkillPromises(skill.id, value.associationSelections) : []
-
-        promises.push(invalidateGetDeclaredSkillsProgresses(queryClient))
-
-        await withTaskLoading(() => Promise.allSettled(promises))
+        await withTaskLoading(() => Promise.allSettled(value.associationSelections ? createAssociateSkillPromises(skill.id, value.associationSelections) : []))
+        await invalidateGetDeclaredSkillsProgresses(queryClient)
         onSkillAdded?.()
       }
     })
@@ -138,7 +149,7 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
   return {
     form,
     isFormValid,
-    isSubmitting: isPending || isLoading.value || isPendingAssociateWithActivities.value || isPendingAssociateWithExperiences.value,
+    isSubmitting: isPending || isLoading.value || isPendingAssociateWithActivities.value || isPendingAssociateWithExperiences.value || isPendingAssociateWithTraces.value,
     hasSkillDetailsErrors
   }
 }

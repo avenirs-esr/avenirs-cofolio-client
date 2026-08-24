@@ -50,6 +50,19 @@
                 "experiences": {
                   "label": "Mes expériences",
                   "placeholder": "Rechercher une expérience..."
+                },
+                "traces": {
+                  "label": "Mes traces",
+                  "subConfigs": {
+                    "ASSOCIATED": {
+                      "label": "associées",
+                      "placeholder": "Rechercher une trace associée..."
+                    },
+                    "UNASSOCIATED": {
+                      "label": "non associées",
+                      "placeholder": "Rechercher une trace non associée..."
+                    }
+                  }
                 }
               }
             },

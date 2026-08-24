@@ -184,9 +184,7 @@
               "types": {
                 "activities": "My activities",
                 "declaredSkills": "My declared skills"
-              },
-              "typeSelectLabel": "Search in :",
-              "typeSelectPlaceholder": "Select a type"
+              }
             },
             "createTraceForm": {
               "declaration": {

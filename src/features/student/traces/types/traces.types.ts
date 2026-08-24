@@ -15,7 +15,8 @@ export enum EAssociationTypeKey {
 export interface AssociateElementTypeConfig {
   key: string
   label: string
-  searchPlaceholder: string
+  searchPlaceholder?: string
+  subConfigs?: Omit<AssociateElementTypeConfig, 'subConfigs'>[]
 }
 
 interface TraceFormDataBase {
