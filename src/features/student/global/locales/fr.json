@@ -36,6 +36,13 @@
       "myDeclaredSkillCount": "Mes compétences déclarées (0) | Ma compétence déclarée (1) | Mes compétences déclarées ({count})",
       "interaction": {
         "inputs": {
+          "AssociateElementTypeSelect": {
+            "label": {
+              "default": "Rechercher dans :",
+              "subType": "De type :"
+            },
+            "placeholder": "Sélectionnez un type"
+          },
           "period": {
             "label": "Période"
           }
@@ -85,6 +92,11 @@
             "success": "L'association sélectionnée a été supprimée avec succès | Les associations sélectionnées ont été supprimées avec succès",
             "title": "Aucune association à supprimer | Quelle association souhaitez-vous supprimer ? | Quelles associations souhaitez-vous supprimer ?"
           }
+        }
+      },
+      "sections": {
+        "AssociateElementsDrawerSection": {
+          "defaultPlaceholder": "Rechercher..."
         }
       },
       "views": {

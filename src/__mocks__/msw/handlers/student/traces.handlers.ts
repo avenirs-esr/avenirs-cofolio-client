@@ -3,7 +3,7 @@ import {
   createMockedAttachmentUploadResponse,
   createMockedSearchActivitiesForAssociationResponse,
   createMockedSearchSkillsForAssociationResponse,
-  createMockedSearchTracesForAssociationWithDeclaredExperienceResponse,
+  createMockedSearchTracesForAssociationResponse,
   createMockedTraceCreationResponse,
   createMockedTracesViewResponse,
   invalidTraceId,
@@ -186,14 +186,16 @@ export const searchTracesForAssociationHandler = http.get(
   async ({ request }) => {
     const url = new URL(request.url)
 
+    const isAssociated = url.searchParams.has('isAssociated') ? (url.searchParams.get('isAssociated') === 'true') : undefined
     const keyword = url.searchParams.get('keyword') ?? undefined
     const page = Number.parseInt(url.searchParams.get('page') ?? '0')
     const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '20')
 
-    const response = createMockedSearchTracesForAssociationWithDeclaredExperienceResponse({
+    const response = createMockedSearchTracesForAssociationResponse({
+      isAssociated,
       keyword,
       page,
-      pageSize
+      pageSize,
     })
 
     return HttpResponse.json<PagedResponseAssociationSearchResultTraceDTO>(response, {

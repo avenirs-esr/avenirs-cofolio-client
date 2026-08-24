@@ -36,6 +36,13 @@
       "myDeclaredSkillCount": "My declared skills (0) | My declared skill (1) | My declared skills ({count})",
       "interaction": {
         "inputs": {
+          "AssociateElementTypeSelect": {
+            "label": {
+              "default": "Search in:",
+              "subType": "Of type:"
+            },
+            "placeholder": "Select a type"
+          },
           "period": {
             "label": "Period"
           }
@@ -85,6 +92,11 @@
             "success": "The selected association has been successfully deleted | The selected associations have been successfully deleted",
             "title": "No association to delete | Which association do you want to delete? | Which associations do you want to delete?"
           }
+        }
+      },
+      "sections": {
+        "AssociateElementsDrawerSection": {
+          "defaultPlaceholder": "Search..."
         }
       },
       "views": {

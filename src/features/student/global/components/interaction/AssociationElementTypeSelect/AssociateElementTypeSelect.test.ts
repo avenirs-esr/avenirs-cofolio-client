@@ -1,6 +1,6 @@
 import type { AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
 import type { VueWrapper } from '@vue/test-utils'
-import AssociateElementTypeSelect from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/AssociationElementTypeSelect/AssociateElementTypeSelect.vue'
+import AssociateElementTypeSelect from '@/features/student/global/components/interaction/AssociationElementTypeSelect/AssociateElementTypeSelect.vue'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
