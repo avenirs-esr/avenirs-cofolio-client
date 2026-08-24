@@ -13,6 +13,8 @@ import AssociateDeclaredSkillsToDeclaredExperienceModal
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/AssociateDeclaredSkillsToDeclaredExperienceModal/AssociateDeclaredSkillsToDeclaredExperienceModal.vue'
 import AssociateTracesToDeclaredExperienceModal
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/AssociateTracesToDeclaredExperienceModal/AssociateTracesToDeclaredExperienceModal.vue'
+import DeleteDeclaredExperienceAssociatedDeclaredSkillsModal
+  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/DeleteDeclaredExperienceAssociatedDeclaredSkillsModal/DeleteDeclaredExperienceAssociatedDeclaredSkillsModal.vue'
 import DeleteDeclaredExperienceAssociatedTracesModal
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/DeleteDeclaredExperienceAssociatedTracesModal/DeleteDeclaredExperienceAssociatedTracesModal.vue'
 import { useI18n } from 'vue-i18n'
@@ -35,6 +37,12 @@ const {
 } = useModal()
 
 const {
+  showModal: showDeleteDeclaredSkillsModal,
+  displayModal: displayDeleteDeclaredSkillsModal,
+  hideModal: hideDeleteDeclaredSkillsModal
+} = useModal()
+
+const {
   showModal: showAssociateTracesModal,
   displayModal: displayAssociateTracesModal,
   hideModal: hideAssociateTracesModal
@@ -50,12 +58,22 @@ const countAssociations = computed(() => traceAssociations.length + declaredSkil
 
 const deleteItems = computed(() => [
   { type: EAssociationContextType.TRACE, disabled: traceAssociations.length === 0 },
+  { type: EAssociationContextType.DECLARED_SKILL, disabled: declaredSkillAssociations.length === 0 },
 ])
 
 const associateItems = computed(() => [
   { type: EAssociationContextType.TRACE },
   { type: EAssociationContextType.DECLARED_SKILL },
 ])
+
+function handleDeleteSelect (type: EAssociationContextType) {
+  if (type === EAssociationContextType.DECLARED_SKILL) {
+    displayDeleteDeclaredSkillsModal()
+    return
+  }
+
+  displayDeleteTracesModal()
+}
 
 function handleAssociateSelect (type: EAssociationContextType) {
   if (type === EAssociationContextType.DECLARED_SKILL) {
@@ -86,7 +104,8 @@ function onDeclaredSkillsAssociated () {
           variant="delete"
           data-testid="delete-declared-experience-associated-elements-dropdown"
           :items="deleteItems"
-          @select="displayDeleteTracesModal"
+          :disabled="countAssociations === 0"
+          @select="handleDeleteSelect"
         />
         <AssociationElementsDropdown
           variant="associate"
@@ -116,6 +135,14 @@ function onDeclaredSkillsAssociated () {
     :associations="traceAssociations"
     @cancel="hideDeleteTracesModal"
     @deleted="hideDeleteTracesModal"
+  />
+
+  <DeleteDeclaredExperienceAssociatedDeclaredSkillsModal
+    :show="showDeleteDeclaredSkillsModal"
+    :experience-id="declaredExperienceId"
+    :associations="declaredSkillAssociations"
+    @cancel="hideDeleteDeclaredSkillsModal"
+    @deleted="hideDeleteDeclaredSkillsModal"
   />
 
   <AssociateTracesToDeclaredExperienceModal

@@ -1,6 +1,6 @@
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import type { VueWrapper } from '@vue/test-utils'
-import { createMockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/declaredSkills.fixtures'
+import { createMockedDeclaredSkillAssociations } from '@/__mocks__/fixtures/student/declaredSkills.fixtures'
 import { mockedTraceDetailedWithFile, mockedTraceDetailedWithLink } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { AssociatedElementTypeBadgeStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/badges/AssociatedElementTypeBadge/AssociatedElementTypeBadge.stub'
@@ -21,7 +21,7 @@ const mockedFeedbackTraceWithLink: FeedbackAssociatedElement = {
 
 const mockedFeedbackDeclaredSkill: FeedbackAssociatedElement = {
   type: EAssociationContextType.DECLARED_SKILL,
-  data: createMockedDeclaredActivityAssociations(1)[0].declaredSkill,
+  data: createMockedDeclaredSkillAssociations(1)[0].declaredSkill,
 }
 
 const stubs = {

@@ -1,7 +1,7 @@
 import type {
   AssociatedDeclaredSkillsCardProps
 } from '@/features/student/declaredSkills/components/cards/AssociatedDeclaredSkillsCard/AssociatedDeclaredSkillsCard.vue'
-import { createMockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student'
+import { createMockedDeclaredSkillAssociations } from '@/__mocks__/fixtures/student'
 import { AssociatedDeclaredSkillsCard } from '@/features/student/declaredSkills'
 import { AssociatedSkillCardStub } from '@/features/student/global/components/cards/AssociatedSkillCard/AssociatedSkillCard.stub'
 import { AssociationsCardStub } from '@/features/student/global/components/cards/AssociationsCard/AssociationsCard.stub'
@@ -19,7 +19,7 @@ BddTest().given('an associated declared skills card', () => {
 
   BddTest().when('the component is mounted with associated declared skills', () => {
     const props: AssociatedDeclaredSkillsCardProps = {
-      associatedDeclaredSkills: createMockedDeclaredActivityAssociations(3)
+      associatedDeclaredSkills: createMockedDeclaredSkillAssociations(3)
     }
 
     beforeEach(() => {
@@ -54,7 +54,7 @@ BddTest().given('an associated declared skills card', () => {
 
   BddTest().when('the component is mounted with disabled=true', () => {
     const props: AssociatedDeclaredSkillsCardProps = {
-      associatedDeclaredSkills: createMockedDeclaredActivityAssociations(3),
+      associatedDeclaredSkills: createMockedDeclaredSkillAssociations(3),
       disabled: true
     }
 

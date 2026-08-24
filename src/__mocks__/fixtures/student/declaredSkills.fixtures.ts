@@ -8,11 +8,11 @@ import {
   EExternalSkillType
 } from '@/api/avenir-esr'
 
-export function createMockedDeclaredActivityAssociations (count: number): DeclaredSkillAssociationDTO[] {
+export function createMockedDeclaredSkillAssociations (count: number): DeclaredSkillAssociationDTO[] {
   return Array.from({ length: count }, (_, index) => ({
     associationId: `association-id-${index}`,
     declaredSkill: {
-      id: `declared-activity-id-${index}`,
+      id: `declared-skill-id-${index}`,
       title: `Declared skill ${index + 1}`,
       pathSegments: ['first', 'second', 'third'],
       type: EExternalSkillType.ROME4,
