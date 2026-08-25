@@ -18,7 +18,7 @@ import {
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
 import AssociateElementsDrawerSection from '@/features/student/global/components/sections/AssociateElementsDrawerSection/AssociateElementsDrawerSection.vue'
 import { useDeclaredExperienceAssociation } from '@/features/student/personalCareer/composables/use-declared-experience-association/use-declared-experience-association'
-import { TraceAssociationTypes } from '@/features/student/traces'
+import { TraceAssociationTypes, useTraceAssociationTypeConfig } from '@/features/student/traces'
 import { useTraceAssociationModal } from '@/features/student/traces/composables/use-trace-associations/use-trace-associations'
 import { useToasterStore } from '@/store'
 import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
@@ -61,6 +61,7 @@ enum AddDeclaredSkillDrawerAccodions {
 const activeAccordion = ref<AddDeclaredSkillDrawerAccodions>(AddDeclaredSkillDrawerAccodions.ADD_MY_SKILL)
 
 const associationSelectionsField = form.useField({ name: 'associationSelections' })
+const { traceAssociationTypeConfig } = useTraceAssociationTypeConfig()
 const associationTypesConfigs = computed<AssociateElementTypeConfig[]>(() => [
   {
     key: EAssociationContextType.DECLARED_ACTIVITY,
@@ -72,22 +73,7 @@ const associationTypesConfigs = computed<AssociateElementTypeConfig[]>(() => [
     label: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.experiences.label'),
     searchPlaceholder: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.experiences.placeholder')
   },
-  {
-    key: EAssociationContextType.TRACE,
-    label: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.traces.label'),
-    subConfigs: [
-      {
-        key: TraceAssociationTypes.ASSOCIATED,
-        label: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.traces.subConfigs.ASSOCIATED.label'),
-        searchPlaceholder: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.traces.subConfigs.ASSOCIATED.placeholder')
-      },
-      {
-        key: TraceAssociationTypes.UNASSOCIATED,
-        label: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.traces.subConfigs.UNASSOCIATED.label'),
-        searchPlaceholder: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.traces.subConfigs.UNASSOCIATED.placeholder')
-      }
-    ]
-  }
+  traceAssociationTypeConfig.value
 ])
 
 const associationActiveType = ref<string>(EAssociationContextType.DECLARED_ACTIVITY)

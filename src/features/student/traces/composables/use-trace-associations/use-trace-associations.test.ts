@@ -1,6 +1,8 @@
-import { useTraceAssociationModal } from '@/features/student/traces/composables/use-trace-associations/use-trace-associations'
+import { EAssociationContextType } from '@/api/avenir-esr'
+import { useTraceAssociationModal, useTraceAssociationTypeConfig } from '@/features/student/traces/composables/use-trace-associations/use-trace-associations'
 import { TraceAssociationTypes } from '@/features/student/traces/types/trace-association.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComposable } from 'tests/utils'
 import { expect } from 'vitest'
 
 BddTest().given('a useTraceAssociationModal composable', () => {
@@ -40,6 +42,31 @@ BddTest().given('a useTraceAssociationModal composable', () => {
 
     BddTest().then('isAssociated should be undefined', () => {
       expect(isAssociated.value).toBeUndefined()
+    })
+  })
+})
+
+BddTest().given('a useTraceAssociationTypeConfig composable', () => {
+  BddTest().when('the composable is initialized', () => {
+    const { result: { traceAssociationTypeConfig } } = mountComposable(() => useTraceAssociationTypeConfig(), { useI18n: true })
+
+    BddTest().then('it should build the trace association type config', () => {
+      expect(traceAssociationTypeConfig.value).toStrictEqual({
+        key: EAssociationContextType.TRACE,
+        label: 'Mes traces',
+        subConfigs: [
+          {
+            key: TraceAssociationTypes.ASSOCIATED,
+            label: 'associées',
+            searchPlaceholder: 'Rechercher une trace associée...'
+          },
+          {
+            key: TraceAssociationTypes.UNASSOCIATED,
+            label: 'non associées',
+            searchPlaceholder: 'Rechercher une trace non associée...'
+          }
+        ]
+      })
     })
   })
 })

@@ -1,9 +1,17 @@
 {
   "student": {
     "traces": {
-      "base": {
-        "StudentCountTracesIconText": {
-          "text": "0 trace | 1 trace | {count} traces"
+      "associations": {
+        "label": "Mes traces",
+        "subConfigs": {
+          "ASSOCIATED": {
+            "label": "associées",
+            "placeholder": "Rechercher une trace associée..."
+          },
+          "UNASSOCIATED": {
+            "label": "non associées",
+            "placeholder": "Rechercher une trace non associée..."
+          }
         }
       },
       "badges": {
@@ -15,6 +23,11 @@
           "COLLECTIVE": "Collectif",
           "PERSONAL": "Individuel",
           "THIRD_PARTY": "Témoignage / Recommandation"
+        }
+      },
+      "base": {
+        "StudentCountTracesIconText": {
+          "text": "0 trace | 1 trace | {count} traces"
         }
       },
       "cards": {
