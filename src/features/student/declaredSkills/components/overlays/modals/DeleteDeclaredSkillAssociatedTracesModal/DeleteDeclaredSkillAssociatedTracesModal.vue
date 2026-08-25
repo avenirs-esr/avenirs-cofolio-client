@@ -1,21 +1,27 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions'
-import { type DeclaredActivityAssociationDTO, invalidateGetDeclaredSkillAssociations, invalidateGetDeclaredSkillProgressDetails, useDeleteDeclaredSkillAssociations } from '@/api/avenir-esr'
+import {
+  invalidateGetDeclaredSkillAssociations,
+  invalidateGetDeclaredSkillProgressDetails,
+  type TraceAssociationDTO,
+  useDeleteDeclaredSkillAssociations
+} from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import DeleteActivitiesSelector from '@/features/student/global/components/cards/DeleteActivitiesSelector/DeleteActivitiesSelector.vue'
+import { ICONS } from '@/common/constants'
+import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import DeleteAssociationsModal from '@/features/student/global/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import { useToasterStore } from '@/store'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
-export interface DeleteDeclaredSkillAssociatedActivitiesModalProps {
+export interface DeleteDeclaredSkillAssociatedTracesModalProps {
   show: boolean
   declaredSkillProgressId: string
-  associations: DeclaredActivityAssociationDTO[]
+  associations: TraceAssociationDTO[]
 }
 
-const { declaredSkillProgressId, associations } = defineProps<DeleteDeclaredSkillAssociatedActivitiesModalProps>()
+const { declaredSkillProgressId, associations } = defineProps<DeleteDeclaredSkillAssociatedTracesModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -29,6 +35,11 @@ const { isLoading, withTaskLoading } = useTaskLoading()
 const queryClient = useQueryClient()
 
 const selectedIds = ref<string[]>([])
+
+const selectableElements = computed(() => associations.map(({ associationId, trace }) => ({
+  id: associationId,
+  title: trace.title,
+})))
 
 const { mutate: mutateDeleteDeclaredSkillAssociations } = useDeleteDeclaredSkillAssociations({
   mutation: {
@@ -69,15 +80,16 @@ function onCancel () {
 <template>
   <DeleteAssociationsModal
     :show="show"
-    :associations="associations.map(({ associationId, declaredActivity }) => ({ id: associationId, title: declaredActivity.title }))"
+    :associations="selectableElements"
     :selected-association-ids="selectedIds"
     :is-loading="isLoading"
     @cancel="onCancel"
     @confirm-delete="onConfirmDelete"
   >
-    <DeleteActivitiesSelector
+    <CompactCardSelector
       v-model="selectedIds"
-      :associations="associations"
+      :elements="selectableElements"
+      :icon="ICONS.TRACES"
     />
   </DeleteAssociationsModal>
 </template>
