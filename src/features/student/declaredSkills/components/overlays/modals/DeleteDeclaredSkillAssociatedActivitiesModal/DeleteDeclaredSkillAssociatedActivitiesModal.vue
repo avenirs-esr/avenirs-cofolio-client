@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions'
-import { type DeclaredActivityAssociationDTO, invalidateGetDeclaredSkillProgressDetails, invalidateGetDeclaredSkillWithDeclaredActivities, useDeleteDeclaredSkillAssociations } from '@/api/avenir-esr'
+import { type DeclaredActivityAssociationDTO, invalidateGetDeclaredSkillAssociations, invalidateGetDeclaredSkillProgressDetails, useDeleteDeclaredSkillAssociations } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import DeleteActivitiesSelector from '@/features/student/global/components/cards/DeleteActivitiesSelector/DeleteActivitiesSelector.vue'
@@ -40,7 +40,7 @@ const { mutate: deleteDeclaredSkillAssociations } = useDeleteDeclaredSkillAssoci
     },
     onSuccess: async () => {
       await withTaskLoading(() => Promise.all([
-        invalidateGetDeclaredSkillWithDeclaredActivities(queryClient, declaredSkillProgressId),
+        invalidateGetDeclaredSkillAssociations(queryClient, declaredSkillProgressId),
         invalidateGetDeclaredSkillProgressDetails(queryClient, declaredSkillProgressId),
       ]))
       addSuccessMessage({

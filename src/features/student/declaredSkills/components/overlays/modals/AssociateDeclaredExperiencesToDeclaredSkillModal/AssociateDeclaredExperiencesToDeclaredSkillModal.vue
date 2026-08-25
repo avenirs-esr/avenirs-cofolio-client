@@ -1,30 +1,25 @@
 <script lang="ts" setup>
-import type {
-  AssociationActivity
-} from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
 import {
-  type AssociationsCreationRequest,
   EAssociationContextType,
   invalidateGetDeclaredSkillAssociations,
   invalidateGetDeclaredSkillProgressDetails,
-  invalidateSearchDeclaredActivitiesForAssociation,
-  useAssociateDeclaredSkillWithDeclaredActivities,
-  useSearchDeclaredActivitiesForAssociation
+  useAssociateDeclaredSkillWithDeclaredExperiences,
+  useSearchDeclaredExperiencesForAssociation,
 } from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useAssociationModal } from '@/features/student/global'
-import AssociateActivitiesModal
-  from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
+import AssociateDeclaredExperiencesModal
+  from '@/features/student/personalCareer/components/modals/AssociateDeclaredExperiencesModal/AssociateDeclaredExperiencesModal.vue'
 import { useToasterStore } from '@/store'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
-export interface AssociateActivitiesToDeclaredSkillModalProps {
+export interface AssociateDeclaredExperiencesToDeclaredSkillModalProps {
   show: boolean
   declaredSkillId: string
 }
 
-const { show, declaredSkillId } = defineProps<AssociateActivitiesToDeclaredSkillModalProps>()
+const { show, declaredSkillId } = defineProps<AssociateDeclaredExperiencesToDeclaredSkillModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -44,55 +39,44 @@ const {
 } = useAssociationModal()
 
 const params = computed(() => ({
-  excludeAssociatedWithElementId: declaredSkillId,
   contextType: EAssociationContextType.DECLARED_SKILL,
+  excludeAssociatedWithElementId: declaredSkillId,
   keyword: searchQuery.value.trim() || undefined,
   page: 0,
   pageSize: 100,
 }))
 
 const {
-  data: activities,
+  data: experiences,
   isError: isSearchError,
   error: searchError,
   isLoading: isSearchLoading
-} = useSearchDeclaredActivitiesForAssociation(params, {
+} = useSearchDeclaredExperiencesForAssociation(params, {
   query: {
+    enabled: computed(() => show),
     select: response => response.data,
   }
 })
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
-const associationActivities = computed<AssociationActivity[]>(() => activities.value
-  ? (activities.value).map(activity => ({
-      id: activity.id,
-      title: activity.title,
-      thematic: activity.thematic,
-      disabled: activity.disabled
-    }))
-  : []
-)
+const { mutate: mutateAssociateDeclaredSkillWithDeclaredExperiences, isPending } = useAssociateDeclaredSkillWithDeclaredExperiences()
 
-const { mutate: mutateAssociateDeclaredSkillWithDeclaredActivities, isPending } = useAssociateDeclaredSkillWithDeclaredActivities()
-
-function associateDeclaredSkillWithActivities (data: AssociationsCreationRequest) {
-  mutateAssociateDeclaredSkillWithDeclaredActivities({
+function onAssociate (ids: string[]) {
+  mutateAssociateDeclaredSkillWithDeclaredExperiences({
     declaredSkillProgressId: declaredSkillId,
-    data
+    data: { idsToAssociate: ids }
   }, {
     onError: error => onAssociateMutationError(error),
     onSuccess: async (_, variables) => {
       await withTaskLoading(() => Promise.all([
         invalidateGetDeclaredSkillProgressDetails(queryClient, variables.declaredSkillProgressId),
-        invalidateSearchDeclaredActivitiesForAssociation(queryClient),
         invalidateGetDeclaredSkillAssociations(queryClient, variables.declaredSkillProgressId)
       ]))
 
       addSuccessMessage({
-        timeout: 2000,
         description: t(
-          'student.traces.views.StudentTraceView.AssociateActivitiesModal.success',
+          'student.personalCareer.overlays.AssociateDeclaredExperiencesModal.success',
           { count: variables.data.idsToAssociate.length }
         ),
       })
@@ -101,20 +85,12 @@ function associateDeclaredSkillWithActivities (data: AssociationsCreationRequest
     }
   })
 }
-
-function onAssociate (ids: string[]) {
-  const associationsCreationRequest: AssociationsCreationRequest = {
-    idsToAssociate: ids,
-  }
-
-  associateDeclaredSkillWithActivities(associationsCreationRequest)
-}
 </script>
 
 <template>
-  <AssociateActivitiesModal
+  <AssociateDeclaredExperiencesModal
     :show="show"
-    :activities="associationActivities"
+    :experiences="experiences ?? []"
     :is-loading="isSearchLoading || isPending || isLoading"
     @cancel="emit('cancel')"
     @search="onSearch"

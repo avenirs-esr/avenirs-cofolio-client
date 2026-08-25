@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useGetDeclaredSkillProgressDetails, useGetDeclaredSkillWithDeclaredActivities } from '@/api/avenir-esr'
+import { useGetDeclaredSkillAssociations, useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import { useModal, useNavigation } from '@/common/composables'
@@ -33,7 +33,7 @@ const { showModal, displayModal, hideModal } = useModal()
 const activeTab = ref(StudentDeclaredSkillViewTabs.DETAILS)
 
 const skillProgressId = computed(() => declaredSkillDetailed.value?.id ?? '')
-const { data, error: associationsError } = useGetDeclaredSkillWithDeclaredActivities(
+const { data, error: associationsError } = useGetDeclaredSkillAssociations(
   skillProgressId,
   { query: { enabled: computed(() => !!skillProgressId.value) } }
 )
