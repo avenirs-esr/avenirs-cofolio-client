@@ -6,7 +6,7 @@ import { DeclaredExperienceTypeBadgeStub }
 import AssociatedDeclaredExperienceCard, {
   type AssociatedDeclaredExperienceCardProps
 } from '@/features/student/personalCareer/components/cards/AssociatedDeclaredExperienceCard/AssociatedDeclaredExperienceCard.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -15,7 +15,8 @@ BddTest().given('an associated declared experience card', () => {
 
   const stubs = {
     AssociationCard: AssociationCardStub,
-    DeclaredExperienceTypeBadge: DeclaredExperienceTypeBadgeStub
+    DeclaredExperienceTypeBadge: DeclaredExperienceTypeBadgeStub,
+    AvIconText: AvIconTextStub
   }
 
   const mockedDeclaredExperience: DeclaredExperienceViewDTO = {
@@ -76,10 +77,10 @@ BddTest().given('an associated declared experience card', () => {
     })
 
     BddTest().then('it should render the declared experience location', () => {
-      const location = wrapper.find('[data-testid="declared-experience-location"]')
+      const location = wrapper.findComponent(AvIconTextStub)
 
       expect(location.exists()).toBe(true)
-      expect(location.text()).toContain(mockedDeclaredExperience.location)
+      expect(location.props('text')).toBe(mockedDeclaredExperience.location)
     })
   })
 

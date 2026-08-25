@@ -4,7 +4,7 @@ import { ICONS, ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/global/components/cards/AssociationCard/AssociationCard.vue'
 import DeclaredExperienceTypeBadge
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.vue'
-import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface AssociatedDeclaredExperienceCardProps {
   declaredExperience: DeclaredExperienceViewDTO
@@ -32,18 +32,13 @@ const { declaredExperience, disabled } = defineProps<AssociatedDeclaredExperienc
         v-if="declaredExperience.experienceType"
         :experience-type="declaredExperience.experienceType"
       />
-      <div
+      <AvIconText
         v-if="declaredExperience.location"
-        class="av-row av-gap-sm av-align-center"
+        :icon="MDI_ICONS.MAP_MARKER_OUTLINE"
+        icon-color="var(--icon)"
+        :text="declaredExperience.location"
         data-testid="declared-experience-location"
-      >
-        <AvIcon
-          :name="MDI_ICONS.MAP_MARKER_OUTLINE"
-          :size="1.8"
-          color="var(--icon)"
-        />
-        <span>{{ declaredExperience.location }}</span>
-      </div>
+      />
     </template>
   </AssociationCard>
 </template>
