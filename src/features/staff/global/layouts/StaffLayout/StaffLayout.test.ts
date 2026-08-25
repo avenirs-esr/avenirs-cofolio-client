@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { FooterStub } from '@/common/components/Footer/Footer.stub'
+import { SkipLinksStub } from '@/common/components/navigation/SkipLinks/SkipLinks.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { SwitchUniverseStub } from '@/common/components/SwitchUniverse/SwitchUniverse.stub'
 import { ROUTES } from '@/common/constants'
@@ -48,7 +49,8 @@ BddTest().given('a staff layout', () => {
       name: 'RouterView',
       template: '<div data-testid="router-view" />'
     },
-    QuerySuspense: QuerySuspenseStub
+    QuerySuspense: QuerySuspenseStub,
+    SkipLinks: SkipLinksStub
   }
 
   beforeEach(() => {
@@ -95,6 +97,10 @@ BddTest().given('a staff layout', () => {
 
       BddTest().then('it should not render switch universe', () => {
         expect(wrapper.findComponent(SwitchUniverseStub).exists()).toBe(false)
+      })
+
+      BddTest().then('it should render the SkipLinks component', () => {
+        expect(wrapper.findComponent(SkipLinksStub).exists()).toBe(true)
       })
     })
 

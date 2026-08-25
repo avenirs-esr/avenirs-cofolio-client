@@ -378,6 +378,13 @@
         "title": "Êtes-vous sûr de vouloir quitter ?"
       }
     },
+    "navigation": {
+      "SkipLinks": {
+        "ariaLabel": "Accès rapide",
+        "footer": "Aller au pied de page",
+        "main": "Aller au contenu principal"
+      }
+    },
     "notifications": {
       "NotificationsPopover": {
         "contexts": {
