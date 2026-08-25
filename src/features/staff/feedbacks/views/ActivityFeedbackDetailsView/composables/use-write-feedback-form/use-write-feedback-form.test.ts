@@ -28,9 +28,18 @@ vi.mock('@/common/composables/use-task-loading/use-task-loading', () => ({
   }))
 }))
 
+vi.mock('@/common/utils/file/file', async () => {
+  const actual = await vi.importActual<typeof import('@/common/utils/file/file')>('@/common/utils/file/file')
+  return {
+    ...actual,
+    dtoToFile: vi.fn((dto: FileDTO) => new File(['restored-content'], dto.fileName ?? 'restored-file', { type: 'application/octet-stream' }))
+  }
+})
+
 BddTest().given('a write feedback form', () => {
   let composableResult: ReturnType<typeof useWriteFeedbackForm>
   let mockOnFeedbackSaved: ReturnType<typeof vi.fn>
+  let mockOnCancel: ReturnType<typeof vi.fn>
   const remoteAttachment: FileDTO = mockedFeedbackAttachment
   const feedbackId = 'feedback-123'
   const attachmentsUrl = getUploadFeedbackAttachmentUrl(feedbackId)
@@ -47,8 +56,8 @@ BddTest().given('a write feedback form', () => {
 
   let feedbackRef = ref(buildFeedback())
 
-  const mountForm = (onFeedbackSaved?: () => void) => {
-    const result = mountComposable(() => useWriteFeedbackForm({ feedback: feedbackRef, onFeedbackSaved }), {
+  const mountForm = (onFeedbackSaved?: () => void, onCancel?: () => void) => {
+    const result = mountComposable(() => useWriteFeedbackForm({ feedback: feedbackRef, onFeedbackSaved, onCancel }), {
       useI18n: true,
       useTanstack: true,
       usePinia: true
@@ -92,10 +101,17 @@ BddTest().given('a write feedback form', () => {
       expect(composableResult.isFormValid).toBeDefined()
       expect(composableResult.isSubmitting).toBeDefined()
       expect(composableResult.hasErrors).toBeDefined()
+      expect(composableResult.isDirty).toBeDefined()
+      expect(composableResult.handleCancel).toBeDefined()
+      expect(composableResult.queueAutoSave).toBeDefined()
     })
 
     BddTest().then('it should have default values', () => {
       expect(composableResult.form.state.values.feedback).toBe('')
+    })
+
+    BddTest().then('it should not be dirty', () => {
+      expect(composableResult.isDirty.value).toBe(false)
     })
 
     BddTest().and('callback is provided', () => {
@@ -253,6 +269,17 @@ BddTest().given('a write feedback form', () => {
 
         expect(attachmentRequests).toHaveLength(0)
       })
+
+      BddTest().then('it should mark the form as clean after a successful submit', async () => {
+        expect(composableResult.isDirty.value).toBe(true)
+
+        await composableResult.form.handleSubmit()
+        await vi.waitFor(() => {
+          expect(mockOnFeedbackSaved).toHaveBeenCalledTimes(1)
+        })
+
+        expect(composableResult.isDirty.value).toBe(false)
+      })
     })
 
     BddTest().and('a new file is attached', () => {
@@ -288,6 +315,130 @@ BddTest().given('a write feedback form', () => {
         })
         expect(attachmentRequests[0].method).toBe('DELETE')
         expect(attachmentRequests[0].path.endsWith(getDeleteFeedbackAttachmentUrl(feedbackId, remoteAttachment.id))).toBe(true)
+      })
+    })
+  })
+
+  BddTest().when('cancelling the form', () => {
+    beforeEach(() => {
+      mockOnCancel = vi.fn()
+    })
+
+    BddTest().and('nothing was changed', () => {
+      beforeEach(() => {
+        mountForm(undefined, mockOnCancel)
+      })
+
+      BddTest().then('it should call onCancel without any network call', async () => {
+        await composableResult.handleCancel()
+
+        expect(attachmentRequests).toHaveLength(0)
+        expect(mockOnCancel).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    BddTest().and('only the feedback text was changed locally', () => {
+      beforeEach(() => {
+        mountForm(undefined, mockOnCancel)
+        setFormValues({ feedback: 'Brouillon non sauvegardé' })
+      })
+
+      BddTest().then('it should revert the feedback field and clear isDirty', async () => {
+        await composableResult.handleCancel()
+
+        expect(composableResult.form.state.values.feedback).toBe('')
+        expect(composableResult.isDirty.value).toBe(false)
+        expect(mockOnCancel).toHaveBeenCalledTimes(1)
+      })
+
+      BddTest().then('it should not trigger any attachment request', async () => {
+        await composableResult.handleCancel()
+
+        expect(attachmentRequests).toHaveLength(0)
+      })
+    })
+
+    BddTest().and('an attachment was removed locally but not yet persisted', () => {
+      beforeEach(() => {
+        feedbackRef = ref(buildFeedback([remoteAttachment]))
+        mountForm(undefined, mockOnCancel)
+        setFormValues({ attachments: [] })
+      })
+
+      BddTest().then('it should restore the attachment locally without any network call', async () => {
+        await composableResult.handleCancel()
+
+        expect(composableResult.form.state.values.attachments).toEqual([remoteAttachment])
+        expect(attachmentRequests).toHaveLength(0)
+      })
+    })
+
+    BddTest().and('an attachment removal was already persisted by a previous auto-save', () => {
+      beforeEach(() => {
+        feedbackRef = ref(buildFeedback([remoteAttachment]))
+        mountForm(undefined, mockOnCancel)
+        setFormValues({ attachments: [] })
+        feedbackRef.value = buildFeedback([])
+      })
+
+      BddTest().then('it should re-upload the attachment removed by the previous auto-save', async () => {
+        await composableResult.handleCancel()
+
+        await vi.waitFor(() => {
+          expect(attachmentRequests.some(request => request.method === 'POST')).toBe(true)
+        })
+      })
+    })
+
+    BddTest().and('an attachment addition was already persisted by a previous auto-save', () => {
+      const newFile = new File(['content'], 'draft.pdf', { type: 'application/pdf' })
+      const autoSavedAttachment: FileDTO = { ...remoteAttachment, id: 'auto-saved-file' }
+
+      beforeEach(() => {
+        mountForm(undefined, mockOnCancel)
+        setFormValues({ attachments: [newFile] })
+        feedbackRef.value = buildFeedback([autoSavedAttachment])
+      })
+
+      BddTest().then('it should discard the attachment added by the previous auto-save', async () => {
+        await composableResult.handleCancel()
+
+        await vi.waitFor(() => {
+          expect(attachmentRequests.some(request => request.method === 'DELETE')).toBe(true)
+        })
+        expect(
+          attachmentRequests.some(request => request.path.endsWith(getDeleteFeedbackAttachmentUrl(feedbackId, autoSavedAttachment.id)))
+        ).toBe(true)
+      })
+    })
+  })
+
+  BddTest().when('the parent feedback data changes externally', () => {
+    BddTest().and('the form has no local changes', () => {
+      BddTest().then('it should resync the form to the new data', async () => {
+        feedbackRef.value = buildFeedback([remoteAttachment])
+        feedbackRef.value.feedback = 'Mis à jour par un autre utilisateur'
+
+        await vi.waitFor(() => {
+          expect(composableResult.form.state.values.feedback).toBe('Mis à jour par un autre utilisateur')
+        })
+        expect(composableResult.form.state.values.attachments).toEqual([remoteAttachment])
+        expect(composableResult.isDirty.value).toBe(false)
+      })
+    })
+
+    BddTest().and('the form has unsaved local changes', () => {
+      beforeEach(() => {
+        setFormValues({ feedback: 'Saisie en cours...' })
+      })
+
+      BddTest().then('it should not overwrite the local input', async () => {
+        feedbackRef.value = buildFeedback([])
+        feedbackRef.value.feedback = 'Mis à jour par un autre utilisateur'
+
+        await vi.waitFor(() => {
+          expect(composableResult.form.state.values.feedback).toBe('Saisie en cours...')
+        })
       })
     })
   })

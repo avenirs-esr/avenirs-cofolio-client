@@ -1,12 +1,11 @@
 import type { FileDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { EFileType } from '@/api/avenir-esr'
-import { AUTO_SAVE_DEBOUNCE_DELAY } from '@/common/constants'
 import FeedbackAttachmentsFormField from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackAttachmentsFormField/FeedbackAttachmentsFormField.vue'
 import { AvFileUploadStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mountComponent } from 'tests/utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 
 const remoteAttachment: FileDTO = {
   id: 'attachment-1',
@@ -19,18 +18,29 @@ const remoteAttachment: FileDTO = {
 
 const localFile = new File(['content'], 'new-report.pdf', { type: 'application/pdf' })
 
-function createForm (attachments: (File | FileDTO)[]) {
-  return useForm({ defaultValues: { feedback: '', attachments } })
+function createForm (attachments: (File | FileDTO)[], attachmentsError?: string) {
+  return useForm({
+    defaultValues: { feedback: '', attachments },
+    validators: attachmentsError
+      ? {
+          onChange: () => ({
+            fields: {
+              attachments: attachmentsError
+            }
+          })
+        }
+      : undefined
+  })
 }
 
 let hostForm: ReturnType<typeof createForm>
 
-function buildTestHost (attachments: (File | FileDTO)[], readonly = false) {
+function buildTestHost (attachments: (File | FileDTO)[], readonly = false, attachmentsError?: string) {
   return defineComponent({
     name: 'FeedbackAttachmentsFormFieldTestHost',
     components: { FeedbackAttachmentsFormField },
     setup () {
-      const form = createForm(attachments)
+      const form = createForm(attachments, attachmentsError)
       hostForm = form
 
       return { form, readonly }
@@ -44,19 +54,14 @@ BddTest().given('a feedback attachments form field', () => {
 
   const stubs = { AvFileUpload: AvFileUploadStub }
 
-  const mountField = (attachments: (File | FileDTO)[] = [], readonly = false) => {
-    wrapper = mountComponent(buildTestHost(attachments, readonly), { global: { stubs } })
+  const mountField = (attachments: (File | FileDTO)[] = [], readonly = false, attachmentsError?: string) => {
+    wrapper = mountComponent(buildTestHost(attachments, readonly, attachmentsError), { global: { stubs } })
   }
 
   const getFileUpload = () => wrapper.findComponent(AvFileUploadStub)
 
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.useFakeTimers()
-  })
-
-  afterEach(() => {
-    vi.useRealTimers()
   })
 
   BddTest().when('there is no attachment', () => {
@@ -78,6 +83,19 @@ BddTest().given('a feedback attachments form field', () => {
       expect(getFileUpload().props('accept')).toContain('application/pdf')
       expect(getFileUpload().props('accept')).toContain('image/png')
       expect(getFileUpload().props('maxFileSizeMb')).toBe(10)
+    })
+  })
+
+  BddTest().when('the attachments field has a validation error', () => {
+    beforeEach(() => {
+      mountField([], false, 'Too many files')
+    })
+
+    BddTest().then('it should not emit autosave even though the change makes the form dirty', async () => {
+      await getFileUpload().vm.$emit('update:modelValue', [localFile])
+
+      expect(hostForm.state.values.attachments).toEqual([localFile])
+      expect(wrapper.emitted('autosave')).toBeUndefined()
     })
   })
 
@@ -114,27 +132,18 @@ BddTest().given('a feedback attachments form field', () => {
         expect(hostForm.state.values.attachments).toEqual([remoteAttachment])
       })
 
-      BddTest().then('it should not emit autosave before the debounce delay', async () => {
+      BddTest().then('it should emit autosave once the form becomes dirty', async () => {
         await getFileUpload().vm.$emit('update:modelValue', null)
-
-        expect(wrapper.emitted('autosave')).toBeUndefined()
-      })
-
-      BddTest().then('it should emit autosave once the debounce delay elapsed', async () => {
-        await getFileUpload().vm.$emit('update:modelValue', null)
-        vi.advanceTimersByTime(AUTO_SAVE_DEBOUNCE_DELAY)
 
         expect(wrapper.emitted('autosave')).toHaveLength(1)
       })
 
-      BddTest().then('it should emit autosave once for consecutive changes', async () => {
+      BddTest().then('it should emit autosave again on a subsequent change', async () => {
         const displayedFiles = getFileUpload().props('modelValue') as File[]
         await getFileUpload().vm.$emit('update:modelValue', [displayedFiles[0]])
-        vi.advanceTimersByTime(AUTO_SAVE_DEBOUNCE_DELAY / 2)
         await getFileUpload().vm.$emit('update:modelValue', null)
-        vi.advanceTimersByTime(AUTO_SAVE_DEBOUNCE_DELAY)
 
-        expect(wrapper.emitted('autosave')).toHaveLength(1)
+        expect(wrapper.emitted('autosave')).toHaveLength(2)
       })
 
       BddTest().then('it should clear the attachments when the model value is null', async () => {

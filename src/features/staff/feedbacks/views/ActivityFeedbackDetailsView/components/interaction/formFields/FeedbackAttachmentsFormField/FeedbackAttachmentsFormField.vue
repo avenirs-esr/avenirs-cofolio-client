@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import type { WriteFeedbackForm } from '@/features/staff/feedbacks/types/forms.types'
-import { AUTO_SAVE_DEBOUNCE_DELAY } from '@/common/constants'
-import { bytesToMegabytes, dtoToFile } from '@/common/utils/file/file'
+import { bytesToMegabytes, dtoToFile, isFile } from '@/common/utils/file/file'
 import {
   FEEDBACK_ATTACHMENT_ACCEPTED_FILE_TYPES,
   FEEDBACK_ATTACHMENT_MAX_FILE_SIZE
 } from '@/features/staff/feedbacks/config'
 import { AvFileUpload } from '@avenirs-esr/avenirs-dsav'
-import { debounce } from 'lodash-es'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -33,16 +31,9 @@ const maxFileSizeMb = bytesToMegabytes(FEEDBACK_ATTACHMENT_MAX_FILE_SIZE)
 const rejectionError = ref('')
 const isFormDirty = form.useStore(state => state.isDirty)
 
-const debouncedAutosave = debounce(() => {
-  const hasErrors = attachmentsField.state.value.meta.errors.filter(Boolean).length > 0
-  if (!hasErrors && isFormDirty.value) {
-    emit('autosave')
-  }
-}, AUTO_SAVE_DEBOUNCE_DELAY)
-
 const files = computed<File[] | null>(() => {
   const attachments = attachmentsField.state.value.value ?? []
-  return attachments.length ? attachments.map(attachment => attachment instanceof File ? attachment : dtoToFile(attachment)) : null
+  return attachments.length ? attachments.map(attachment => isFile(attachment) ? attachment : dtoToFile(attachment)) : null
 })
 
 function handleModelValueUpdate (updatedFiles: File[] | null) {
@@ -53,7 +44,11 @@ function handleModelValueUpdate (updatedFiles: File[] | null) {
   attachmentsField.api.handleChange(
     (updatedFiles ?? []).map(file => attachments[displayedFiles.indexOf(file)] ?? file)
   )
-  debouncedAutosave()
+
+  const hasErrors = attachmentsField.state.value.meta.errors.filter(Boolean).length > 0
+  if (!hasErrors && isFormDirty.value) {
+    emit('autosave')
+  }
 }
 
 function getErrorMessage (fieldErrors: (string | undefined)[]): string {
