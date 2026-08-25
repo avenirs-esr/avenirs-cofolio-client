@@ -14,6 +14,8 @@ export { default as TracesTypeSelect } from '@/features/student/traces/component
 
 export { default as AssociateTracesModal, type AssociateTracesModalProps } from '@/features/student/traces/components/modals/AssociateTracesModal/AssociateTracesModal.vue'
 
+export { useTraceAssociationTypeConfig } from '@/features/student/traces/composables/use-trace-associations/use-trace-associations'
+
 export { studentToolsTraceRoute, studentToolsTracesRoute } from '@/features/student/traces/routes'
 
 export { useTracesStore } from '@/features/student/traces/stores/traces.store'

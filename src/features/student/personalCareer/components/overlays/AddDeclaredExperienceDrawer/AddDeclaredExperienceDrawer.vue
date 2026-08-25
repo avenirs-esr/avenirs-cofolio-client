@@ -24,6 +24,7 @@ import DeclaredExperienceTitleFormField from '@/features/student/personalCareer/
 import DeclaredExperienceTypeFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.vue'
 import { useAddDeclaredExperienceForm } from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/use-add-declared-experience-form/use-add-declared-experience-form'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
+import { TraceAssociationTypes, useTraceAssociationTypeConfig } from '@/features/student/traces'
 import { useTraceAssociationModal } from '@/features/student/traces/composables/use-trace-associations/use-trace-associations'
 import { useToasterStore } from '@/store'
 import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -33,7 +34,13 @@ const { t } = useI18n()
 const personalCareerStore = usePersonalCareerStore()
 const { addSuccessMessage } = useToasterStore()
 const showDrawer = toRef(personalCareerStore, 'showAddDeclaredExperienceDrawer')
-const activeAccordion = ref(0)
+
+enum AddDeclaredExperienceDrawerAccordions {
+  NONE = -1,
+  EXPERIENCE_DETAILS = 0,
+  ADD_ASSOCIATIONS = 1
+}
+const activeAccordion = ref<AddDeclaredExperienceDrawerAccordions>(AddDeclaredExperienceDrawerAccordions.EXPERIENCE_DETAILS)
 
 const { form, isFormValid, isSubmitting } = useAddDeclaredExperienceForm(() => {
   addSuccessMessage({
@@ -48,18 +55,17 @@ const associationSelectionsField = form.useField({ name: 'associationSelections'
 const associationActiveType = ref<DeclaredExperienceAssociationContextType>(EAssociationContextType.DECLARED_SKILL)
 const associationSearchQuery = ref('')
 
+const { traceAssociationTypeConfig } = useTraceAssociationTypeConfig()
 const associationTypesConfigs = computed<AssociateElementTypeConfig[]>(() => [
   {
     key: EAssociationContextType.DECLARED_SKILL,
     label: t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.associations.types.declaredSkills.label'),
     searchPlaceholder: t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.associations.types.declaredSkills.placeholder')
   },
-  {
-    key: EAssociationContextType.TRACE,
-    label: t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.associations.types.traces.label'),
-    searchPlaceholder: t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.associations.types.traces.placeholder')
-  }
+  traceAssociationTypeConfig.value
 ])
+
+const associationActiveSubType = ref<string>(TraceAssociationTypes.ASSOCIATED)
 
 const associationSearchParams = computed(() => ({
   contextType: EAssociationContextType.DECLARED_EXPERIENCE,
@@ -67,6 +73,14 @@ const associationSearchParams = computed(() => ({
   page: 0,
   pageSize: 100,
 }))
+
+function isAssociationQueryEnabled (type: DeclaredExperienceAssociationContextType) {
+  return computed(() =>
+    showDrawer.value
+    && activeAccordion.value === AddDeclaredExperienceDrawerAccordions.ADD_ASSOCIATIONS
+    && associationActiveType.value === type
+  )
+}
 
 const { declaredSkillToAssociation } = useDeclaredSkillAssociation()
 const { mapTraceAssociationSearchResultToAssociation } = useTraceAssociationModal()
@@ -76,17 +90,20 @@ const {
 } = useSearchDeclaredSkillsForAssociation(associationSearchParams, {
   query: {
     select: response => response.data.map(declaredSkillToAssociation),
-    enabled: computed(() => showDrawer.value)
+    enabled: isAssociationQueryEnabled(EAssociationContextType.DECLARED_SKILL)
   }
 })
 
 const {
   data: tracesToAssociate,
   isLoading: isTracesLoading
-} = useSearchTracesForAssociation(associationSearchParams, {
+} = useSearchTracesForAssociation(computed(() => ({
+  ...associationSearchParams.value,
+  isAssociated: associationActiveSubType.value === TraceAssociationTypes.ASSOCIATED,
+})), {
   query: {
     select: response => response.data.map(mapTraceAssociationSearchResultToAssociation),
-    enabled: computed(() => showDrawer.value)
+    enabled: isAssociationQueryEnabled(EAssociationContextType.TRACE)
   }
 })
 
@@ -157,7 +174,10 @@ watch(associationActiveType, () => {
           novalidate
           @submit.prevent.stop="form.handleSubmit"
         >
-          <AvAccordionsGroup v-model:active-accordion="activeAccordion">
+          <AvAccordionsGroup
+            :active-accordion="activeAccordion"
+            @update:active-accordion="(value) => activeAccordion = value ?? AddDeclaredExperienceDrawerAccordions.NONE"
+          >
             <AvAccordion
               :title="t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.addExperience')"
               :icon="MDI_ICONS.SCHOOL_OUTLINE"
@@ -191,12 +211,14 @@ watch(associationActiveType, () => {
               <AssociateElementsDrawerSection
                 v-model:active-type-key="associationActiveType"
                 v-model:search-query="associationSearchQuery"
+                :active-sub-type-key="associationActiveSubType"
                 :selections-by-type="associationSelectionsField.state.value.value"
                 :type-configs="associationTypesConfigs"
                 :options="associationOptions"
                 :loading="isAssociationSearchLoading"
                 layout="vertical"
                 data-testid="associate-elements-section"
+                @update:active-sub-type-key="(value) => value ? associationActiveSubType = value : associationActiveSubType = TraceAssociationTypes.ASSOCIATED"
                 @update:selections-by-type="associationSelectionsField.api.handleChange"
               />
             </AvAccordion>

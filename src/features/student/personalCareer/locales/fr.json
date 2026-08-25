@@ -121,10 +121,6 @@
                 "declaredSkills": {
                   "label": "Mes compétences",
                   "placeholder": "Rechercher une compétence..."
-                },
-                "traces": {
-                  "label": "Mes traces",
-                  "placeholder": "Rechercher une trace..."
                 }
               }
             }

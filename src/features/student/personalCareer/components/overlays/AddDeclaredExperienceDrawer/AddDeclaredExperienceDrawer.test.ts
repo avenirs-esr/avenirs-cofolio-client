@@ -1,3 +1,4 @@
+import type { AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { AssociateElementsDrawerSectionStub } from '@/features/student/global/components/sections/AssociateElementsDrawerSection/AssociateElementsDrawerSection.stub'
@@ -13,6 +14,7 @@ import { DeclaredExperienceTitleFormFieldStub } from '@/features/student/persona
 import { DeclaredExperienceTypeFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.stub'
 import AddDeclaredExperienceDrawer from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/AddDeclaredExperienceDrawer.vue'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
+import { TraceAssociationTypes } from '@/features/student/traces/types/trace-association.types'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvAccordionStub, AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
@@ -168,7 +170,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
 
     BddTest().then('it should pass typeConfigs for declared skills and traces', () => {
       const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
-      const typeConfigs = section.props('typeConfigs') as { key: string, label: string, searchPlaceholder: string }[]
+      const typeConfigs = section.props('typeConfigs') as AssociateElementTypeConfig[]
 
       expect(typeConfigs).toHaveLength(2)
       expect(typeConfigs).toStrictEqual([
@@ -180,9 +182,51 @@ BddTest().given('an add declared experience drawer avIconText', () => {
         {
           key: EAssociationContextType.TRACE,
           label: 'Mes traces',
-          searchPlaceholder: 'Rechercher une trace...'
+          subConfigs: [
+            {
+              key: TraceAssociationTypes.ASSOCIATED,
+              label: 'associées',
+              searchPlaceholder: 'Rechercher une trace associée...'
+            },
+            {
+              key: TraceAssociationTypes.UNASSOCIATED,
+              label: 'non associées',
+              searchPlaceholder: 'Rechercher une trace non associée...'
+            }
+          ]
         }
       ])
+    })
+
+    BddTest().then('it should default the active sub type key to associated traces', () => {
+      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+      expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.ASSOCIATED)
+    })
+
+    BddTest().and('the associate elements section emits an active sub type update', () => {
+      beforeEach(async () => {
+        const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+        section.vm.$emit('update:activeSubTypeKey', TraceAssociationTypes.UNASSOCIATED)
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should update the active sub type key to unassociated traces', () => {
+        const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+        expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.UNASSOCIATED)
+      })
+    })
+
+    BddTest().and('the associate elements section resets the active sub type key', () => {
+      beforeEach(async () => {
+        const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+        section.vm.$emit('update:activeSubTypeKey', undefined)
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should leave the active sub type key ASSOCIATED', () => {
+        const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+        expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.ASSOCIATED)
+      })
     })
 
     BddTest().then('it should default the active type key to declared skills', () => {
