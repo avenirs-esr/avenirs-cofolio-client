@@ -16,14 +16,15 @@ import {
   EDeclaredSkillLevel,
   EExternalSkillType,
   getAssociateDeclaredSkillWithDeclaredActivitiesUrl,
+  getAssociateDeclaredSkillWithDeclaredExperiencesUrl,
   getCreateDeclaredSkillProgressUrl,
   type GetDeclaredSkillsProgressesParams,
   getDeleteDeclaredSkillAssociationsUrl,
   getDeleteDeclaredSkillProgressUrl,
   getGetAdditionalSkillConfigUrl,
+  getGetDeclaredSkillAssociationsUrl,
   getGetDeclaredSkillProgressDetailsUrl,
   getGetDeclaredSkillsProgressesUrl,
-  getGetDeclaredSkillWithDeclaredActivitiesUrl,
   getSearchDeclaredSkillsForAssociationUrl,
   getUnassociateTracesUrl,
   getUpdateDeclaredSkillProgressUrl,
@@ -136,6 +137,44 @@ export const associateDeclaredSkillWithDeclaredActivityHandler = http.post<
     }
 
     const response: DeclaredSkillAssociationsDTO = createDeclaredSkillAssociationResponseFixture(body)
+
+    return HttpResponse.json(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }
+)
+
+export const associateDeclaredSkillWithDeclaredExperiencesErrorHandler = http.post(
+  `*${getAssociateDeclaredSkillWithDeclaredExperiencesUrl(':declaredSkillProgressId')}`,
+  () => {
+    return HttpResponse.json(
+      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+      { status: 500 }
+    )
+  }
+)
+
+export const associateDeclaredSkillWithDeclaredExperiencesHandler = http.post<
+  { declaredSkillProgressId: string },
+  AssociationsCreationRequest
+>(
+  `*${getAssociateDeclaredSkillWithDeclaredExperiencesUrl(':declaredSkillProgressId')}`,
+  async ({ request, params }) => {
+    const body = await request.json()
+    const { declaredSkillProgressId } = params
+    await delay(100)
+
+    if (declaredSkillProgressId === 'INVALID_SKILL_ID') {
+      return HttpResponse.json(
+        { code: ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND, message: 'Declared skill not found' },
+        { status: 404 }
+      )
+    }
+
+    const response = createDeclaredSkillAssociationResponseFixture(body)
 
     return HttpResponse.json(response, {
       status: 200,
@@ -302,9 +341,10 @@ export const skillsHandlers = [
     })
   }),
   associateDeclaredSkillWithDeclaredActivityHandler,
+  associateDeclaredSkillWithDeclaredExperiencesHandler,
 
   http.get<{ declaredSkillProgressId: string }, DeclaredSkillAssociationsDTO>(
-    `*${getGetDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
+    `*${getGetDeclaredSkillAssociationsUrl(':declaredSkillProgressId')}`,
     ({ params }) => {
       if (params.declaredSkillProgressId === INVALID_DECLARED_SKILL_ID) {
         return HttpResponse.json({ error: 'Invalid declared skill ID', code: ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND }, { status: 404 })

@@ -3056,7 +3056,7 @@
         "tags": [
           "declared-skill-progress-controller"
         ],
-        "operationId": "getDeclaredSkillWithDeclaredActivities",
+        "operationId": "getDeclaredSkillAssociations",
         "parameters": [
           {
             "name": "declaredSkillProgressId",
