@@ -30,7 +30,7 @@ const { isLoading, withTaskLoading } = useTaskLoading()
 
 const showSavedBadge = ref(false)
 
-const { form, isFormValid, isSubmitting, isDirty, handleCancel } = useWriteFeedbackForm({
+const { form, isFormValid, isSubmitting, isDirty, queueAutoSave, handleCancel } = useWriteFeedbackForm({
   feedback: computed(() => feedback),
   onFeedbackSaved: () => {
     showSavedBadge.value = true
@@ -59,10 +59,6 @@ function submitFeedback () {
       },
     }
   )
-}
-
-function saveFeedback () {
-  form.handleSubmit()
 }
 
 watch(isDirty, (newValue) => {
@@ -97,12 +93,12 @@ watch(isDirty, (newValue) => {
           :form="form"
           :readonly="readonly"
           data-testid="feedback-form-field"
-          @autosave="saveFeedback"
+          @autosave="queueAutoSave"
         />
         <FeedbackAttachmentsFormField
           :form="form"
           :readonly="readonly"
-          @autosave="saveFeedback"
+          @autosave="queueAutoSave"
         />
       </div>
     </form>
