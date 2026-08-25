@@ -23,6 +23,7 @@ BddTest().given('an associated declared experience card', () => {
     title: 'Développeur Web',
     experienceType: EExperienceType.PROFESSIONAL,
     organization: 'AVENIR(S)',
+    location: 'Lyon',
     startDate: '2026-01-01',
     createdAt: '2026-01-01T00:00:00Z',
     updatedAt: '2026-01-01T00:00:00Z',
@@ -72,6 +73,13 @@ BddTest().given('an associated declared experience card', () => {
       const badge = wrapper.findComponent(DeclaredExperienceTypeBadgeStub)
       expect(badge.exists()).toBe(true)
       expect(badge.props('experienceType')).toBe(EExperienceType.PROFESSIONAL)
+    })
+
+    BddTest().then('it should render the declared experience location', () => {
+      const location = wrapper.find('[data-testid="declared-experience-location"]')
+
+      expect(location.exists()).toBe(true)
+      expect(location.text()).toContain(mockedDeclaredExperience.location)
     })
   })
 
