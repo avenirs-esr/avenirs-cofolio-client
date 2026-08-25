@@ -16,6 +16,8 @@ import AssociateDeclaredExperiencesToDeclaredSkillModal
   from '@/features/student/declaredSkills/components/overlays/modals/AssociateDeclaredExperiencesToDeclaredSkillModal/AssociateDeclaredExperiencesToDeclaredSkillModal.vue'
 import DeleteDeclaredSkillAssociatedActivitiesModal
   from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedActivitiesModal/DeleteDeclaredSkillAssociatedActivitiesModal.vue'
+import DeleteDeclaredSkillAssociatedTracesModal
+  from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedTracesModal/DeleteDeclaredSkillAssociatedTracesModal.vue'
 import { isDeletableDeclaredActivityAssociation } from '@/features/student/declaredSkills/rules/declared-activity-association.rules'
 import { AssociatedDeclaredExperiencesCard } from '@/features/student/personalCareer'
 import { useI18n } from 'vue-i18n'
@@ -62,12 +64,21 @@ const {
   hideModal: hideAssociateDeclaredExperiencesModal
 } = useModal()
 
+const {
+  showModal: showDeleteTracesModal,
+  displayModal: displayDeleteTracesModal,
+  hideModal: hideDeleteTracesModal
+} = useModal()
+
 const deletableDeclaredActivityAssociations = computed(() =>
   associatedDeclaredActivities.filter(isDeletableDeclaredActivityAssociation))
 
 const deleteItems = computed(() => [
   { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: deletableDeclaredActivityAssociations.value.length === 0 },
+  { type: EAssociationContextType.TRACE, disabled: associatedTraces.length === 0 },
 ])
+
+const isDeleteDropdownDisabled = computed(() => deleteItems.value.every(item => item.disabled))
 
 const associateItems = computed(() => [
   { type: EAssociationContextType.DECLARED_ACTIVITY },
@@ -85,6 +96,15 @@ function onSelectAssociationType (type: EAssociationContextType) {
     default:
       break
   }
+}
+
+function handleDeleteSelect (type: EAssociationContextType) {
+  if (type === EAssociationContextType.TRACE) {
+    displayDeleteTracesModal()
+    return
+  }
+
+  displayDeleteActivitiesModal()
 }
 
 function onAssociated (type: EAssociationContextType) {
@@ -113,7 +133,8 @@ function onAssociated (type: EAssociationContextType) {
           variant="delete"
           data-testid="delete-declared-skill-associated-elements-dropdown"
           :items="deleteItems"
-          @select="displayDeleteActivitiesModal"
+          :disabled="isDeleteDropdownDisabled"
+          @select="handleDeleteSelect"
         />
         <AssociationElementsDropdown
           variant="associate"
@@ -158,5 +179,13 @@ function onAssociated (type: EAssociationContextType) {
     :associations="associatedDeclaredActivities"
     @cancel="hideDeleteActivitiesModal"
     @deleted="hideDeleteActivitiesModal"
+  />
+
+  <DeleteDeclaredSkillAssociatedTracesModal
+    :show="showDeleteTracesModal"
+    :declared-skill-progress-id="declaredSkillId"
+    :associations="associatedTraces"
+    @cancel="hideDeleteTracesModal"
+    @deleted="hideDeleteTracesModal"
   />
 </template>
