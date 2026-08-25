@@ -93,7 +93,7 @@
       "SelfKnowledgeMainSection": {
         "buttons": {
           "addCategory": "Ajouter une catégorie",
-          "updateBio": "Modifier ma bio"
+          "updateProfile": "Modifier mon profil"
         },
         "categoryElementsPaginator": {
           "buttons": {
