@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { EUserCategory, useGetQuickLinks } from '@/api/avenir-esr'
 import Footer from '@/common/components/Footer/Footer.vue'
+import MainContent from '@/common/components/MainContent/MainContent.vue'
+import SkipLinks from '@/common/components/navigation/SkipLinks/SkipLinks.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useBaseApiExceptionToast, useInvalidateAllQueriesAfterLocaleChange } from '@/common/composables'
@@ -41,6 +43,8 @@ defineExpose({ searchQuery })
 </script>
 
 <template>
+  <SkipLinks />
+
   <AvHeader
     v-model="searchQuery"
     :home-label="t('student.global.layout.header.home')"
@@ -82,11 +86,11 @@ defineExpose({ searchQuery })
     </template>
   </AvHeader>
 
-  <main>
+  <MainContent>
     <div class="av-container av-mt-md">
       <router-view />
     </div>
-  </main>
+  </MainContent>
 
   <Footer
     :accessibility-link="ROUTES.STUDENT.ACCESSIBILITY"

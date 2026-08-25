@@ -378,6 +378,13 @@
         "title": "Are you sure you want to exit?"
       }
     },
+    "navigation": {
+      "SkipLinks": {
+        "ariaLabel": "Quick access",
+        "footer": "Go to footer",
+        "main": "Go to main content"
+      }
+    },
     "notifications": {
       "NotificationsPopover": {
         "contexts": {
