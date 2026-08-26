@@ -198,9 +198,9 @@ BddTest().given('an add declared experience drawer avIconText', () => {
       ])
     })
 
-    BddTest().then('it should default the active sub type key to associated traces', () => {
+    BddTest().then('it should default the active sub type key to unassociated traces', () => {
       const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
-      expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.ASSOCIATED)
+      expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.UNASSOCIATED)
     })
 
     BddTest().and('the associate elements section emits an active sub type update', () => {
@@ -223,9 +223,9 @@ BddTest().given('an add declared experience drawer avIconText', () => {
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should leave the active sub type key ASSOCIATED', () => {
+      BddTest().then('it should reset the active sub type key to unassociated traces', () => {
         const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
-        expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.ASSOCIATED)
+        expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.UNASSOCIATED)
       })
     })
 
