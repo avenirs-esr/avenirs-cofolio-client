@@ -1,7 +1,7 @@
 import type { StudentFeedbackItemListDTO } from '@/api/avenir-esr'
 import ActivityFeedbackStudentSelect
   from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/selects/ActivityFeedbackStudentSelect/ActivityFeedbackStudentSelect.vue'
-import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -39,7 +39,7 @@ const feedbacksWithUndefinedFeedbackId = [
   },
 ] as StudentFeedbackItemListDTO[]
 
-const stubs = { AvSelect: AvSelectStub }
+const stubs = { AvSelect: AvSelectStub, AvButton: AvButtonStub }
 
 BddTest().given('an ActivityFeedbackStudentSelect component', () => {
   let wrapper: ReturnType<typeof mountComponent<typeof ActivityFeedbackStudentSelect>>
@@ -59,6 +59,11 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       expect(wrapper.find('[data-testid="student-feedback-select"]').exists()).toBe(true)
     })
 
+    BddTest().then('it should render the previous and next buttons', () => {
+      expect(wrapper.find('[data-testid="previous-student-button"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="next-student-button"]').exists()).toBe(true)
+    })
+
     BddTest().then('it should pass the student options to the select', () => {
       const select = wrapper.findComponent(AvSelectStub)
 
@@ -76,6 +81,28 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
 
     BddTest().then('it should display the selected student email', () => {
       expect(wrapper.text()).toContain('lucas.tessier@test.fr')
+    })
+
+    BddTest().and('the user selects the next student', () => {
+      beforeEach(() => {
+        wrapper.find('[data-testid="next-student-button"]').trigger('click')
+      })
+
+      BddTest().then('it should update the selected student', () => {
+        const select = wrapper.findComponent(AvSelectStub)
+        expect(select.props('selectedItem')).toEqual({ itemId: 'feedback-2' })
+      })
+
+      BddTest().and('the user selects the previous student', () => {
+        beforeEach(() => {
+          wrapper.find('[data-testid="previous-student-button"]').trigger('click')
+        })
+
+        BddTest().then('it should update the selected student', () => {
+          const select = wrapper.findComponent(AvSelectStub)
+          expect(select.props('selectedItem')).toEqual({ itemId: 'feedback-1' })
+        })
+      })
     })
   })
 
