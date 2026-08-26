@@ -65,7 +65,7 @@ const associationTypesConfigs = computed<AssociateElementTypeConfig[]>(() => [
   traceAssociationTypeConfig.value
 ])
 
-const associationActiveSubType = ref<string>(TraceAssociationTypes.ASSOCIATED)
+const associationActiveSubType = ref<string>(TraceAssociationTypes.UNASSOCIATED)
 
 const associationSearchParams = computed(() => ({
   contextType: EAssociationContextType.DECLARED_EXPERIENCE,
@@ -218,7 +218,7 @@ watch(associationActiveType, () => {
                 :loading="isAssociationSearchLoading"
                 layout="vertical"
                 data-testid="associate-elements-section"
-                @update:active-sub-type-key="(value) => value ? associationActiveSubType = value : associationActiveSubType = TraceAssociationTypes.ASSOCIATED"
+                @update:active-sub-type-key="(value) => value ? associationActiveSubType = value : associationActiveSubType = TraceAssociationTypes.UNASSOCIATED"
                 @update:selections-by-type="associationSelectionsField.api.handleChange"
               />
             </AvAccordion>
