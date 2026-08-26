@@ -9,7 +9,7 @@ import { ActivityFeedbackStudentSelectStub } from '@/features/staff/feedbacks/vi
 import {
   AssociatedElementSummaryCardStub
 } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementSummaryCard/AssociatedElementSummaryCard.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
@@ -26,6 +26,7 @@ BddTest().given('an activity feedback details view', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityFeedbackDetailsView>>
 
   const stubs = {
+    AvButton: AvButtonStub,
     PageTitle: PageTitleStub,
     QuerySuspense: QuerySuspenseStub,
     ActivityFeedbackStudentSelect: ActivityFeedbackStudentSelectStub,
@@ -56,8 +57,16 @@ BddTest().given('an activity feedback details view', () => {
       expect(wrapper.findComponent(PageTitleStub).exists()).toBe(true)
     })
 
+    BddTest().then('it should render the page sub title', () => {
+      expect(wrapper.find('[data-testid="page-sub-title"]').exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the see activity button', () => {
+      expect(wrapper.find('[data-testid="see-activity"]').exists()).toBe(true)
+    })
+
     BddTest().then('it should render query suspense wrappers', () => {
-      expect(wrapper.findAllComponents(QuerySuspenseStub)).toHaveLength(2)
+      expect(wrapper.findAllComponents(QuerySuspenseStub)).toHaveLength(3)
     })
 
     BddTest().then('it should render the student select', () => {
@@ -132,7 +141,7 @@ BddTest().given('an activity feedback details view', () => {
     })
 
     BddTest().then('it should render query suspense wrappers', () => {
-      expect(wrapper.findAllComponents(QuerySuspenseStub)).toHaveLength(2)
+      expect(wrapper.findAllComponents(QuerySuspenseStub)).toHaveLength(3)
     })
 
     BddTest().then('it should render the student select with empty feedbacks', () => {
