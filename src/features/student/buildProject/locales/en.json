@@ -94,7 +94,8 @@
               "myReflection": "My reflection"
             },
             "AssociationLimitCard": {
-              "count": "1 trace | {count} traces",
+              "count": "Limited to {count} trace | Limited to {count} traces",
+              "disabled": "Trace association disabled",
               "title": "Association limit",
               "unlimited": "Unlimited traces"
             },
@@ -113,7 +114,8 @@
             },
             "FeedbackInfoCard": {
               "description": "Requesting feedback will allow you to receive a response from a referring advisor. This request will allow them to access your activity while writing their comment.",
-              "iterations": "{count} iteration maximum | {count} iterations maximum",
+              "disabled": "Feedback disabled",
+              "iterations": "Limited to {count} iteration | Limited to {count} iterations",
               "iterationsUnlimited": "No limit",
               "title": "Feedback request"
             },
@@ -148,7 +150,11 @@
               }
             },
             "ProjectActivityDetails": {
-              "recommendedCompletionContexts": "Recommended completion context(s)"
+              "recommendedCompletionContexts": "Recommended completion context(s)",
+              "modalities": {
+                "title": "Activity settings",
+                "traceAssociationTitle": "Traces association"
+              }
             },
             "ReceivedFeedbacksSection": {
               "empty": "You have not received any feedback yet",

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import { type DeclaredActivityDetailsDTO, EActivityStatus, EDeclaredActivityStatus, EFeedbackStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useAskForFeedback, useFinish } from '@/api/avenir-esr'
-import { canCreateFeedbackRequest, computeRemainingFeedbacks } from '@/common/activities/rules/activities.rules'
+import { canCreateFeedbackRequest, computeRemainingFeedbacks } from '@/common/activities/rules/activity-feedbacks.rules'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import FinishDeclaredActivity

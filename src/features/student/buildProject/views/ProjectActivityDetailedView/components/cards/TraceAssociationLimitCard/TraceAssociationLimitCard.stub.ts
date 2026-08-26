@@ -5,6 +5,14 @@ export const TraceAssociationLimitCardStub = defineComponent({
       type: Number,
       required: true,
     },
+    icon: {
+      type: String,
+      required: false,
+    },
+    title: {
+      type: String,
+      required: false,
+    },
   },
   template: '<div data-testid="trace-association-limit-card" />',
 })

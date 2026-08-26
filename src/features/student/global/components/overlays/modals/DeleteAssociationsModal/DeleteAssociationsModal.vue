@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { IdTitleList } from '@/types'
-import type { Slot } from 'vue'
 import { useModal } from '@/common/composables'
 import DeleteAssociationsConfirmModal from '@/features/student/global/components/overlays/modals/DeleteAssociationsConfirmModal/DeleteAssociationsConfirmModal.vue'
 import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { type Slot, useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteAssociationsModalProps {
@@ -27,6 +27,8 @@ defineSlots<{
   default: Slot
 }>()
 
+const attrs = useAttrs()
+
 const { t } = useI18n()
 const {
   showModal: showConfirmModal,
@@ -45,6 +47,7 @@ function onConfirm () {
 
 <template>
   <AvModal
+    v-bind="attrs"
     :opened="show"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('student.global.overlays.modals.DeleteAssociationsModal.confirmButton',

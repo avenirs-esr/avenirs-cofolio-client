@@ -1,5 +1,6 @@
 import type { TraceAssociationLimitCardProps } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'
 import type { VueWrapper } from '@vue/test-utils'
+import { WarningBadgeStub } from '@/common/components/badges/WarningBadge/WarningBadge.stub'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import TraceAssociationLimitCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -14,6 +15,7 @@ BddTest().given('a TraceAssociationLimitCard component', () => {
     Card: CardStub,
     AvIconText: AvIconTextStub,
     AvBadge: AvBadgeStub,
+    WarningBadge: WarningBadgeStub,
   }
 
   const getCard = () => wrapper.findComponent(CardStub)
@@ -22,6 +24,9 @@ BddTest().given('a TraceAssociationLimitCard component', () => {
 
   const getBadge = () =>
     wrapper.findComponent(AvBadgeStub)
+
+  const getWarningBadge = () =>
+    wrapper.findComponent(WarningBadgeStub)
 
   BddTest().when('the trace association limit is 7', () => {
     const props: TraceAssociationLimitCardProps = {
@@ -37,8 +42,8 @@ BddTest().given('a TraceAssociationLimitCard component', () => {
 
     BddTest().then('it should render the card', () => {
       expect(getCard().exists()).toBe(true)
-      expect(getCard().props('backgroundColor')).toBe('var(--card2)')
-      expect(getCard().props('titleBackground')).toBe('var(--card2)')
+      expect(getCard().props('backgroundColor')).toBe('var(--card)')
+      expect(getCard().props('titleBackground')).toBe('var(--card)')
     })
 
     BddTest().then('it should render the title', () => {
@@ -47,8 +52,26 @@ BddTest().given('a TraceAssociationLimitCard component', () => {
     })
 
     BddTest().then('it should render the badge', () => {
-      expect(getBadge().props('label')).toBe('7 traces')
-      expect(getBadge().props('icon')).toBe(MDI_ICONS.ATTACH_FILE)
+      expect(getWarningBadge().props('label')).toBe('Limité à 7 traces')
+      expect(getWarningBadge().props('icon')).toBe(MDI_ICONS.ATTACH_FILE)
+    })
+  })
+
+  BddTest().when('a custom title is provided', () => {
+    const props: TraceAssociationLimitCardProps = {
+      traceAllowedAssociations: 7,
+      title: 'Association de traces'
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(TraceAssociationLimitCard, {
+        props,
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the provided title', () => {
+      expect(getTitle().props('text')).toBe('Association de traces')
     })
   })
 
@@ -81,8 +104,9 @@ BddTest().given('a TraceAssociationLimitCard component', () => {
       })
     })
 
-    BddTest().then('it should not render the card', () => {
-      expect(getCard().exists()).toBe(false)
+    BddTest().then('it should render the disabled badge', () => {
+      expect(getCard().exists()).toBe(true)
+      expect(getBadge().props('label')).toBe('Association de traces désactivée')
     })
   })
 })

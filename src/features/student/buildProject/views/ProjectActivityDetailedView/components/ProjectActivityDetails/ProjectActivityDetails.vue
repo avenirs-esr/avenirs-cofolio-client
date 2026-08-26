@@ -8,6 +8,8 @@ import Card from '@/common/components/cards/Card/Card.vue'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import ActivityResourcesList from '@/common/components/lists/ActivityResourcesList/ActivityResourcesList.vue'
 import { ICONS } from '@/common/constants'
+import FeedbackInfoCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/FeedbackInfoCard/FeedbackInfoCard.vue'
+import TraceAssociationLimitCard from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -16,7 +18,6 @@ export interface ProjectActivityDetailsProps {
 }
 const { declaredActivityDetails } = defineProps<ProjectActivityDetailsProps>()
 const { t } = useI18n()
-
 const activity = computed(() => declaredActivityDetails.activity)
 const isActivityPeriodDefined = computed(() => !!activity.value.startDate || !!activity.value.endDate)
 const hasPeriodInfo = computed(() => isActivityPeriodDefined.value || !!declaredActivityDetails.startDate || !!declaredActivityDetails.endDate)
@@ -80,6 +81,27 @@ const resourceCount = computed(() => (activity.value.files?.length ?? 0) + (acti
         :links="activity.links ?? []"
       />
     </IconTitleCardContainer>
+
+    <AvIconText
+      :text="t('student.buildProject.activities.views.ProjectActivityDetailedView.ProjectActivityDetails.modalities.title')"
+      typography-class="n5"
+      icon-color="var(--icon)"
+      :icon="MDI_ICONS.ALERT_CIRCLE_OUTLINE"
+      text-color="var(--text1)"
+    />
+
+    <div class="av-col av-gap-sm">
+      <FeedbackInfoCard
+        :activity="declaredActivityDetails"
+        :show-additional-info="false"
+      />
+
+      <TraceAssociationLimitCard
+        :trace-allowed-associations="activity.traceAllowedAssociations"
+        :icon="ICONS.TRACES"
+        :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.ProjectActivityDetails.modalities.traceAssociationTitle')"
+      />
+    </div>
   </div>
 </template>
 

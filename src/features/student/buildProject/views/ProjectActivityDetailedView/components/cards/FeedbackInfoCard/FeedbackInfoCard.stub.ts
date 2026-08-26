@@ -7,6 +7,10 @@ export const FeedbackInfoCardStub = defineComponent({
     activity: {
       type: Object as PropType<DeclaredActivityDetailsDTO>,
       required: true
+    },
+    showAdditionalInfo: {
+      type: Boolean,
+      default: true
     }
   },
   template: '<div data-testid="feedback-info-card" />'
