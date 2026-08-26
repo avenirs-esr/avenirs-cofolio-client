@@ -12,7 +12,7 @@ const { t } = useI18n()
     <template #title>
       <h1 class="av-text-title">
         {{ t('global.detail') }}
-        <span class="n4">{{ title }}</span>
+        <span class="n4 av-max-lines">{{ title }}</span>
       </h1>
     </template>
   </PageTitle>
