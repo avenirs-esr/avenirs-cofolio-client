@@ -42,7 +42,6 @@
           "ActivityFeedbackStudentSelect": {
             "placeholder": "Sélectionner un étudiant"
           },
-          "title": "Toutes mes demandes de feedback ({count}) sur l'activité \"{activityTitle}\"",
           "FeedbackManagementFloatingPanel": {
             "tabs": {
               "history": {
@@ -70,7 +69,9 @@
               }
             },
             "title": "Gestion du feedback"
-          }
+          },
+          "seeActivity": "Voir le détail de l'activité",
+          "title": "Détail du feedback"
         },
         "ActivityFeedbacksView": {
           "ActivityFeedbacksCard": {
