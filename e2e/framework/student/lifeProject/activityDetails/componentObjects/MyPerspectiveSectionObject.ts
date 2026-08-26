@@ -92,7 +92,7 @@ export class MyPerspectiveSectionObject extends BaseObject {
   }
 
   getTraceAssociationLimitBadge () {
-    return this.root.page().getByTestId('association-limit-card-badge')
+    return this.root.page().getByTestId('association-limit-card-unlimited-disabled-badge')
   }
 
   getAssociateElementsDropdownTrigger () {

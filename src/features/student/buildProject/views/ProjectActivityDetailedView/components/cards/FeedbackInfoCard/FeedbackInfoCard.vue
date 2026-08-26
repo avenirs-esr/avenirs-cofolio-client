@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import {
+  isActivityFeedbackRequestsDisabled,
+  isActivityFeedbackRequestsLimited,
+  isActivityFeedbackRequestsUnlimited
+} from '@/common/activities/rules/activity-feedbacks.rules'
+import WarningBadge from '@/common/components/badges/WarningBadge/WarningBadge.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { ICONS } from '@/common/constants'
 import { AvBadge, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -7,18 +13,28 @@ import { useI18n } from 'vue-i18n'
 
 export interface FeedbackInfoCardProps {
   activity: DeclaredActivityDetailsDTO
+  showAdditionalInfo?: boolean
 }
 
-const { activity } = defineProps<FeedbackInfoCardProps>()
+const { activity, showAdditionalInfo = true } = defineProps<FeedbackInfoCardProps>()
 const { t } = useI18n()
 
+const translationKey = 'student.buildProject.activities.views.ProjectActivityDetailedView.FeedbackInfoCard'
+
 const iterationsLabel = computed(() => {
-  const key = 'student.buildProject.activities.views.ProjectActivityDetailedView.FeedbackInfoCard'
-  if (activity.activity.feedbackAllowedIterations === -1) {
-    return t(`${key}.iterationsUnlimited`)
+  switch (true) {
+    case isActivityFeedbackRequestsUnlimited(activity.activity):
+      return t(`${translationKey}.iterationsUnlimited`)
+    case isActivityFeedbackRequestsDisabled(activity.activity):
+      return t(`${translationKey}.disabled`)
+    default:
+      return t(`${translationKey}.iterations`, {
+        count: activity.activity.feedbackAllowedIterations,
+      })
   }
-  return t(`${key}.iterations`, { count: activity.activity.feedbackAllowedIterations })
 })
+
+const feedbackRequestLimited = computed(() => isActivityFeedbackRequestsLimited(activity.activity))
 </script>
 
 <template>
@@ -39,7 +55,10 @@ const iterationsLabel = computed(() => {
       />
     </template>
 
-    <template #body>
+    <template
+      v-if="showAdditionalInfo"
+      #body
+    >
       <AvIconText
         :icon="MDI_ICONS.INFORMATION_OUTLINE"
         icon-color="var(--text2)"
@@ -51,7 +70,14 @@ const iterationsLabel = computed(() => {
       />
     </template>
     <template #footer>
+      <WarningBadge
+        v-if="feedbackRequestLimited"
+        data-testid="feedback-info-card-iterations-badge"
+        :label="iterationsLabel"
+        :icon="ICONS.FEEDBACK"
+      />
       <AvBadge
+        v-else
         data-testid="feedback-info-card-iterations-badge"
         :label="iterationsLabel"
         :icon="ICONS.FEEDBACK"

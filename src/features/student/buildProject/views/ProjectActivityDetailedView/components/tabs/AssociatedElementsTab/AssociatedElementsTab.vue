@@ -2,6 +2,7 @@
 import type { DeclaredActivityAssociationsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { EAssociationContextType } from '@/api/avenir-esr'
+import { isActivityAssociationToTraceDisabled } from '@/common/activities/rules/activities.rules'
 import AssociationElementsDropdown
   from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import { QuerySuspense } from '@/common/components'
@@ -88,6 +89,8 @@ function onAssociateSelect (type: EAssociationContextType) {
       break
   }
 }
+
+const traceAssociationEnabled = computed(() => !isActivityAssociationToTraceDisabled({ traceAllowedAssociations }))
 </script>
 
 <template>
@@ -117,6 +120,7 @@ function onAssociateSelect (type: EAssociationContextType) {
     </div>
     <div class="av-col av-gap-md">
       <TraceAssociationLimitCard
+        v-if="traceAssociationEnabled"
         :trace-allowed-associations="traceAllowedAssociations"
       />
     </div>

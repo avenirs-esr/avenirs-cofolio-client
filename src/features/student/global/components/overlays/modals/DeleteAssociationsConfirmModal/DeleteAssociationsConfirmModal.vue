@@ -21,7 +21,6 @@ const { t } = useI18n()
 <template>
   <ConfirmationModal
     :show="show"
-    data-testid="$attrs"
     @close="emit('cancel')"
     @confirm="emit('confirm')"
   >

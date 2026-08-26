@@ -93,7 +93,8 @@
               "myReflection": "Ma réflexion"
             },
             "AssociationLimitCard": {
-              "count": "1 trace | {count} traces",
+              "count": "Limité à {count} trace | Limité à {count} traces",
+              "disabled": "Association de traces désactivée",
               "title": "Limite d'association",
               "unlimited": "Traces illimitées"
             },
@@ -112,7 +113,8 @@
             },
             "FeedbackInfoCard": {
               "description": "Demander un feedback vous permettra de recevoir un retour de la part d'un conseiller référent. Cette demande lui permettra d'accéder à votre activité le temps de rédiger son commentaire.",
-              "iterations": "{count} itération maximum | {count} itérations maximum",
+              "disabled": "Feedback désactivé",
+              "iterations": "Limité à {count} itération | Limité à {count} itérations",
               "iterationsUnlimited": "Aucune limite",
               "title": "Demande de feedback"
             },
@@ -147,6 +149,10 @@
               }
             },
             "ProjectActivityDetails": {
+              "modalities": {
+                "title": "Modalités de l’activité",
+                "traceAssociationTitle": "Association de traces"
+              },
               "recommendedCompletionContexts": "Contexte(s) de réalisation conseillé(s)"
             },
             "ReceivedFeedbacksSection": {

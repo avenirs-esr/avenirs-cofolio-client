@@ -1,15 +1,20 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { ActivityDescriptionContentStub } from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.stub'
+import { ActivityPeriodDisplayStub } from '@/common/activities/components/ActivityPeriodDisplay/ActivityPeriodDisplay.stub'
+import { ActivityRecommendedCompletionContextsListStub } from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.stub'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ActivityResourcesListStub } from '@/common/components/lists/ActivityResourcesList/ActivityResourcesList.stub'
+import { ICONS } from '@/common/constants'
+import { FeedbackInfoCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/FeedbackInfoCard/FeedbackInfoCard.stub'
+import { TraceAssociationLimitCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.stub'
 import ProjectActivityDetails, {
   type ProjectActivityDetailsProps,
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.vue'
 import {
   AvIconTextStub,
-  AvPeriodInputStub,
   BddTest,
 } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -19,10 +24,14 @@ BddTest().given('a project activity details component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProjectActivityDetails>>
 
   const stubs = {
+    ActivityDescriptionContent: ActivityDescriptionContentStub,
+    ActivityPeriodDisplay: ActivityPeriodDisplayStub,
+    ActivityRecommendedCompletionContextsList: ActivityRecommendedCompletionContextsListStub,
     Card: CardStub,
     AvIconText: AvIconTextStub,
-    AvPeriodInput: AvPeriodInputStub,
+    FeedbackInfoCard: FeedbackInfoCardStub,
     IconTitleCardContainer: IconTitleCardContainerStub,
+    TraceAssociationLimitCard: TraceAssociationLimitCardStub,
     ActivityResourcesList: ActivityResourcesListStub,
     ValorizedBadge: ValorizedBadgeStub,
   }
@@ -44,11 +53,11 @@ BddTest().given('a project activity details component', () => {
       expect(container.exists()).toBe(true)
     })
 
-    BddTest().then('it should render AvPeriodInput with the correct dates', () => {
-      const periodInput = wrapper.findComponent(AvPeriodInputStub)
-      expect(periodInput.exists()).toBe(true)
-      expect(periodInput.props('startModelValue')).toBe(mockedDeclaredActivityDetails.startDate)
-      expect(periodInput.props('endModelValue')).toBe(mockedDeclaredActivityDetails.endDate)
+    BddTest().then('it should render ActivityPeriodDisplay with the correct dates', () => {
+      const periodDisplay = wrapper.findComponent(ActivityPeriodDisplayStub)
+      expect(periodDisplay.exists()).toBe(true)
+      expect(periodDisplay.props('startDate')).toBe(mockedDeclaredActivityDetails.startDate)
+      expect(periodDisplay.props('endDate')).toBe(mockedDeclaredActivityDetails.endDate)
     })
 
     BddTest().then('it should render the activity title in AvIconText', () => {
@@ -58,21 +67,30 @@ BddTest().given('a project activity details component', () => {
     })
 
     BddTest().then('it should render the activity description', () => {
-      const description = wrapper.find('[data-testid="activity-description"]')
+      const description = wrapper.findComponent(ActivityDescriptionContentStub)
       expect(description.exists()).toBe(true)
+      expect(description.props('description')).toBe(mockedDeclaredActivityDetails.activity.description)
     })
 
-    BddTest().then('it should render the recommended completion contexts as a bullet list', () => {
-      const list = wrapper.find('[data-testid="activity-recommended-completion-contexts-list"]')
+    BddTest().then('it should render the recommended completion contexts list', () => {
+      const list = wrapper.findComponent(ActivityRecommendedCompletionContextsListStub)
       expect(list.exists()).toBe(true)
+      expect(list.props('recommendedCompletionContexts')).toBe(mockedDeclaredActivityDetails.activity.recommendedCompletionContexts)
+    })
 
-      const items = list.findAll('li')
-      expect(items.length).toBe(2)
+    BddTest().then('it should render the feedback info card with additional info disabled', () => {
+      const feedbackInfoCard = wrapper.findComponent(FeedbackInfoCardStub)
+      expect(feedbackInfoCard.exists()).toBe(true)
+      expect(feedbackInfoCard.props('activity')).toEqual(mockedDeclaredActivityDetails)
+      expect(feedbackInfoCard.props('showAdditionalInfo')).toBe(false)
+    })
 
-      expect(items[0].text()).toBe(
-        'À réaliser en amont d\'un entretien avec un.e conseiller/conseillère ou chargé.e d\'orientation et/ou d\'insertion professionnelle',
-      )
-      expect(items[1].text()).toBe('avant une autre activité si parcours d\'activités Cofolio')
+    BddTest().then('it should render the trace association limit card with the expected props', () => {
+      const traceAssociationLimitCard = wrapper.findComponent(TraceAssociationLimitCardStub)
+      expect(traceAssociationLimitCard.exists()).toBe(true)
+      expect(traceAssociationLimitCard.props('traceAllowedAssociations')).toBe(mockedDeclaredActivityDetails.activity.traceAllowedAssociations)
+      expect(traceAssociationLimitCard.props('icon')).toBe(ICONS.TRACES)
+      expect(traceAssociationLimitCard.props('title')).toBe('Association de traces')
     })
   })
 
@@ -97,10 +115,10 @@ BddTest().given('a project activity details component', () => {
       })
     })
 
-    BddTest().then('it should render AvPeriodInput with the staff-defined dates', () => {
-      const periodInput = wrapper.findComponent(AvPeriodInputStub)
-      expect(periodInput.props('startModelValue')).toBe('2024-01-01')
-      expect(periodInput.props('endModelValue')).toBe('2024-12-31')
+    BddTest().then('it should render ActivityPeriodDisplay with the staff-defined dates', () => {
+      const periodDisplay = wrapper.findComponent(ActivityPeriodDisplayStub)
+      expect(periodDisplay.props('startDate')).toBe('2024-01-01')
+      expect(periodDisplay.props('endDate')).toBe('2024-12-31')
     })
   })
 
@@ -122,12 +140,10 @@ BddTest().given('a project activity details component', () => {
       })
     })
 
-    BddTest().then('it should render an empty list', () => {
-      const list = wrapper.find('[data-testid="activity-recommended-completion-contexts-list"]')
+    BddTest().then('it should render the recommended completion contexts list with an empty string', () => {
+      const list = wrapper.findComponent(ActivityRecommendedCompletionContextsListStub)
       expect(list.exists()).toBe(true)
-
-      const items = list.findAll('li')
-      expect(items.length).toBe(0)
+      expect(list.props('recommendedCompletionContexts')).toBe('')
     })
   })
 
@@ -196,9 +212,9 @@ BddTest().given('a project activity details component', () => {
       })
     })
 
-    BddTest().then('it should not render AvPeriodInput', () => {
-      const periodInput = wrapper.findComponent(AvPeriodInputStub)
-      expect(periodInput.exists()).toBe(false)
+    BddTest().then('it should not render ActivityPeriodDisplay', () => {
+      const periodDisplay = wrapper.findComponent(ActivityPeriodDisplayStub)
+      expect(periodDisplay.exists()).toBe(false)
     })
   })
 })
