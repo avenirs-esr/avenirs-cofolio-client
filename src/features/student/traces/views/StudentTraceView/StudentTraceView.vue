@@ -48,6 +48,8 @@ const countAssociations = computed(() =>
     ? 0
     : traceAssociations.value.declaredActivityAssociations.length
       + traceAssociations.value.declaredSkillAssociations.length
+      + traceAssociations.value.declaredExperienceAssociations.length
+
 )
 
 const { mutate: mutateDownloadAttachment } = useDownloadAttachment()
