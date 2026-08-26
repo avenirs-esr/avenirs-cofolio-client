@@ -1,0 +1,299 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/lifeProject/activityDetails/activityDetails.feature.spec.js >> Student Project Activity Detail Page >> My perspective >> Student can see the feedback info card in the my perspective tab
+- Location: .features-gen/tests/student/lifeProject/activityDetails/activityDetails.feature.spec.js:81:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('my-perspective-tab').getByTestId('feedback-info-card-iterations-badge')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('my-perspective-tab').getByTestId('feedback-info-card-iterations-badge')
+
+```
+
+```yaml
+- banner:
+  - link "Accueil - Cofolio Étudiant":
+    - /url: /cofolio/student
+    - img
+  - list:
+    - listitem:
+      - button "Messagerie"
+    - listitem:
+      - button "Notifications"
+    - listitem:
+      - button "J. moulin"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/student
+      - listitem:
+        - button "CONSTRUIRE MON PROJET DE VIE"
+      - listitem:
+        - button "MES OUTILS"
+- main:
+  - navigation "Fil d'Ariane":
+    - list:
+      - listitem:
+        - link "Accueil":
+          - /url: /cofolio/student
+      - listitem: Construire mon projet de vie
+      - listitem:
+        - link "Mes activités":
+          - /url: /cofolio/student/project/activities?tab=ACTIVITY_LIBRARY
+      - listitem: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+      - listitem: Ma réflexion
+  - 'heading "Détail Activité \"Connaissance de soi\" : Définir ses valeurs" [level=1]'
+  - status: En cours
+  - button "Gérer mon activité"
+  - navigation "12075d03-c74e-494a-a3d4-6ebc04c3f686 navigation":
+    - button "Réduire le menu" [expanded]
+    - menu:
+      - menuitem "Détail":
+        - button "Détail"
+      - menuitem "Ma réflexion":
+        - button "Ma réflexion"
+  - tablist "Liste d’onglets":
+    - tab "Ma prise de recul" [selected]
+    - tab "Mes éléments associés (9)"
+  - tabpanel "Ma prise de recul":
+    - text: Ma prise de recul
+    - button "Modifier"
+    - button "Réduire" [expanded]
+    - heading "Mes valeurs" [level=1]
+    - paragraph: "Je me rends compte que mes valeurs sont :"
+    - list:
+      - listitem:
+        - paragraph:
+          - strong: autonomie
+      - listitem:
+        - paragraph:
+          - strong: créativité
+      - listitem:
+        - paragraph:
+          - strong: impact social
+    - paragraph: Je vois que je les incarne dans
+    - list:
+      - listitem:
+        - paragraph:
+          - emphasis: engagement associatif
+      - listitem:
+        - paragraph:
+          - emphasis: projets personnels
+      - listitem:
+        - paragraph:
+          - emphasis: choix de stage l'été dernier
+    - paragraph
+    - text: Demande de feedback Demander un feedback vous permettra de recevoir un retour de la part d'un conseiller référent. Cette demande lui permettra d'accéder à votre activité le temps de rédiger son commentaire.
+    - status: 10 itérations maximum
+    - button "Demander un feedback"
+    - button "Terminer l'activité"
+    - text: Feedbacks reçus (0/10) Vous n'avez reçu aucun feedback pour le moment
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/student/accessibility
+    - listitem:
+      - link "Mentions légales":
+        - /url: /cofolio/student/legal
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/student/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/student/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  267 |   async verifyFeedbackHintVisible () {
+  268 |     await expect(this.getFeedbackHint()).toBeVisible()
+  269 |   }
+  270 | 
+  271 |   async verifyFeedbackHintHidden () {
+  272 |     await expect(this.getFeedbackHint()).toBeHidden()
+  273 |   }
+  274 | 
+  275 |   async verifyUpdatableFeedbackHintVisible () {
+  276 |     await expect(this.getUpdatableFeedbackHint()).toBeVisible()
+  277 |   }
+  278 | 
+  279 |   async verifyFinishedHintVisible () {
+  280 |     await expect(this.getFinishedHint()).toBeVisible()
+  281 |   }
+  282 | 
+  283 |   async verifyFinishedHintHidden () {
+  284 |     await expect(this.getFinishedHint()).toBeHidden()
+  285 |   }
+  286 | 
+  287 |   async clickAssociatedElementsTab () {
+  288 |     await clickOnElement(this.getAssociatedElementsTab())
+  289 |   }
+  290 | 
+  291 |   async verifyAssociatedTracesCardVisible () {
+  292 |     await expect(this.getAssociatedTracesCard()).toBeVisible()
+  293 |   }
+  294 | 
+  295 |   async verifyAssociatedTraceCardsHidden () {
+  296 |     const count = await this.getAssociatedTraceCards().count()
+  297 |     expect(count).toBe(0)
+  298 |   }
+  299 | 
+  300 |   async clickAssociatedTracesCard () {
+  301 |     await clickOnElement(this.getAssociatedTracesCard())
+  302 |   }
+  303 | 
+  304 |   async verifyAssociatedTraceCardsVisible () {
+  305 |     const count = await this.getAssociatedTraceCards().count()
+  306 |     expect(count).toBeGreaterThan(0)
+  307 |   }
+  308 | 
+  309 |   async verifyAssociatedTracesCardHidden () {
+  310 |     await expect(this.getAssociatedTracesCard()).toBeHidden()
+  311 |   }
+  312 | 
+  313 |   async openAssociateElementsDropdown () {
+  314 |     await clickOnElement(this.getAssociateElementsDropdownTrigger())
+  315 |   }
+  316 | 
+  317 |   async clickAssociateTracesDropdownItem () {
+  318 |     await clickOnElement(this.getAssociateTracesDropdownItem())
+  319 |   }
+  320 | 
+  321 |   async verifyAssociateTracesModalVisible () {
+  322 |     await expect(this.getAssociateTracesModal()).toBeVisible()
+  323 |   }
+  324 | 
+  325 |   async verifyAssociateTracesModalTitleVisible () {
+  326 |     await expect(this.getAssociateTracesModalTitle()).toBeVisible()
+  327 |   }
+  328 | 
+  329 |   async verifyTracesTypeSelectVisibleInAssociateTracesModal () {
+  330 |     await expect(this.getTracesTypeSelectInAssociateModal()).toBeVisible()
+  331 |   }
+  332 | 
+  333 |   async verifySearchAssociationLayoutVisibleInAssociateTracesModal () {
+  334 |     await expect(this.getSearchAssociationLayoutInAssociateModal()).toBeVisible()
+  335 |   }
+  336 | 
+  337 |   async verifyAssociateTracesConfirmationModalHidden () {
+  338 |     await expect(this.getAssociateTracesConfirmationModal()).toBeHidden()
+  339 |   }
+  340 | 
+  341 |   async waitForPerspectiveCardEditable () {
+  342 |     await expect(this.getEditPerspectiveButton()).toBeHidden({ timeout: 10000 })
+  343 |     await expect(this.getRichTextEditor()).toBeVisible({ timeout: 10000 })
+  344 |   }
+  345 | 
+  346 |   getFeedbackInfoCard () {
+  347 |     return this.root.getByTestId('feedback-info-card')
+  348 |   }
+  349 | 
+  350 |   getFeedbackInfoCardTitle () {
+  351 |     return this.root.getByTestId('feedback-info-card-title')
+  352 |   }
+  353 | 
+  354 |   getFeedbackInfoCardBadge () {
+  355 |     return this.root.getByTestId('feedback-info-card-iterations-badge')
+  356 |   }
+  357 | 
+  358 |   async verifyFeedbackInfoCardVisible () {
+  359 |     await expect(this.getFeedbackInfoCard()).toBeVisible()
+  360 |   }
+  361 | 
+  362 |   async verifyFeedbackInfoCardTitleVisible () {
+  363 |     await expect(this.getFeedbackInfoCardTitle()).toBeVisible()
+  364 |   }
+  365 | 
+  366 |   async verifyFeedbackInfoCardBadgeVisible () {
+> 367 |     await expect(this.getFeedbackInfoCardBadge()).toBeVisible()
+      |                                                   ^ Error: expect(locator).toBeVisible() failed
+  368 |   }
+  369 | 
+  370 |   getReceivedFeedbacksSection () {
+  371 |     return this.root.getByTestId('received-feedbacks-section')
+  372 |   }
+  373 | 
+  374 |   getReceivedFeedbacksSectionTitle () {
+  375 |     return this.root.getByTestId('received-feedbacks-section-title')
+  376 |   }
+  377 | 
+  378 |   getReceivedFeedbacksSectionEmpty () {
+  379 |     return this.root.getByTestId('received-feedbacks-section-empty')
+  380 |   }
+  381 | 
+  382 |   getReceivedFeedbackCards () {
+  383 |     return this.root.getByTestId('feedback-card')
+  384 |   }
+  385 | 
+  386 |   async verifyReceivedFeedbacksSectionVisible () {
+  387 |     await expect(this.getReceivedFeedbacksSection()).toBeVisible()
+  388 |   }
+  389 | 
+  390 |   async verifyReceivedFeedbacksSectionHidden () {
+  391 |     await expect(this.getReceivedFeedbacksSection()).toBeHidden()
+  392 |   }
+  393 | 
+  394 |   async verifyReceivedFeedbacksSectionTitleVisible () {
+  395 |     await expect(this.getReceivedFeedbacksSectionTitle()).toBeVisible()
+  396 |   }
+  397 | 
+  398 |   async verifyReceivedFeedbacksSectionEmptyVisible () {
+  399 |     await expect(this.getReceivedFeedbacksSectionEmpty()).toBeVisible()
+  400 |   }
+  401 | 
+  402 |   async verifyReceivedFeedbacksSectionEmptyHidden () {
+  403 |     await expect(this.getReceivedFeedbacksSectionEmpty()).toBeHidden()
+  404 |   }
+  405 | 
+  406 |   async verifyReceivedFeedbackCardsVisible () {
+  407 |     const count = await this.getReceivedFeedbackCards().count()
+  408 |     expect(count).toBeGreaterThan(0)
+  409 |   }
+  410 | }
+  411 | 
+```
