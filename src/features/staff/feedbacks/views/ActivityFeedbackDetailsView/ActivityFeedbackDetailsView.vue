@@ -9,6 +9,7 @@ import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { ICONS, ROUTES } from '@/common/constants'
 import StudentPerspectiveCard from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.vue'
+import { FEEDBACK_REFRESH_INTERVAL } from '@/features/staff/feedbacks/config'
 import FeedbackManagementFloatingPanel
   from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/FeedbackManagementFloatingPanel/FeedbackManagementFloatingPanel.vue'
 import ActivityFeedbackStudentSelect
@@ -38,6 +39,7 @@ const { data: feedback, isLoading: isFeedbackDetailsLoading, error: feedbackDeta
   selectedFeedbackId,
   {
     query: {
+      refetchInterval: FEEDBACK_REFRESH_INTERVAL,
       enabled: computed(() => !!selectedFeedbackId.value),
     },
   },

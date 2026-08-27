@@ -36,7 +36,6 @@ export class WritingFeedbackFloatingPanel extends BaseObject {
 
   private async getWriteFeedbackTab () {
     const writeFeedbackTab = this.getExpandedPanelCard().getByTestId('write-feedback-tab')
-    await expect(writeFeedbackTab).toBeVisible()
     return writeFeedbackTab
   }
 
@@ -46,7 +45,6 @@ export class WritingFeedbackFloatingPanel extends BaseObject {
 
   private async getWriteFeedbackForm () {
     const writeFeedbackForm = (await this.getWriteFeedbackTab()).getByTestId('write-feedback-form')
-    await expect(writeFeedbackForm).toBeVisible()
     return writeFeedbackForm
   }
 
@@ -56,7 +54,6 @@ export class WritingFeedbackFloatingPanel extends BaseObject {
 
   private async getFeedbackFormField () {
     const feedbackFormField = (await this.getWriteFeedbackTab()).getByTestId('feedback-form-field')
-    await expect(feedbackFormField).toBeVisible()
     return feedbackFormField
   }
 

@@ -61,7 +61,8 @@
                 "inputs": {
                   "FeedbackTextarea": {
                     "label": "My feedback text"
-                  }
+                  },
+                  "updateLabel": "Update the feedback"
                 },
                 "success": {
                   "sendFeedback": "Feedback has been successfully sent"

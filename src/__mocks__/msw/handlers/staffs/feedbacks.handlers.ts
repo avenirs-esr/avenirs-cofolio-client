@@ -1,6 +1,7 @@
 import {
   createMockedPagedResponseFeedbackStaffListItemDTO,
   mockedFeedbackDashboard,
+  mockedFeedbackDetailsSeen,
   mockedFeedbackDetailsSubmitted,
   mockedFeedbackDetailsWithAssociations,
   mockedFeedbackDetailsWithoutAssociations,
@@ -60,6 +61,13 @@ export const getFeedbackDetailsWithAssociationsHandler = http.get(
 
     if (params.feedbackId === mockedFeedbackDetailsSubmitted.id) {
       return HttpResponse.json<FeedbackDetailsDTO>(mockedFeedbackDetailsSubmitted, {
+        status: HttpStatusCode.OK,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    if (params.feedbackId === mockedFeedbackDetailsSeen.id) {
+      return HttpResponse.json<FeedbackDetailsDTO>(mockedFeedbackDetailsSeen, {
         status: HttpStatusCode.OK,
         headers: { 'Content-Type': 'application/json' },
       })
@@ -130,7 +138,7 @@ export const updateFeedbackHandler = http.put(`*${getUpdateFeedbackUrl(':feedbac
   })
 })
 
-export const submitFeedbackHandler = http.put(`*${getSubmitFeedbackUrl(':feedbackId')}`, ({ params }) => {
+export const submitFeedbackHandler = http.post(`*${getSubmitFeedbackUrl(':feedbackId')}`, ({ params }) => {
   if (params.feedbackId === 'INVALID_FEEDBACK_ID') {
     return HttpResponse.json(
       { message: 'Feedback non trouvé', code: ErrorCodes.FEEDBACK_NOT_FOUND },

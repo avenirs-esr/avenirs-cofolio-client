@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { EUserCategory, type FeedbackDetailsDTO, invalidateGetFeedbackDetails, useSubmitFeedback } from '@/api/avenir-esr'
+import { EFeedbackStatus, EUserCategory, type FeedbackDetailsDTO, invalidateGetFeedbackDetails, useSubmitFeedback } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import FeedbackAttachmentsFormField from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackAttachmentsFormField/FeedbackAttachmentsFormField.vue'
@@ -12,13 +12,13 @@ import { useI18n } from 'vue-i18n'
 
 export interface WriteFeedbackTabProps {
   feedback: FeedbackDetailsDTO
-  readonly?: boolean
 }
 
-const { feedback, readonly } = defineProps<WriteFeedbackTabProps>()
+const { feedback } = defineProps<WriteFeedbackTabProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
+  (e: 'feedbackSaved'): void
   (e: 'feedbackSent'): void
 }>()
 
@@ -28,38 +28,51 @@ const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const queryClient = useQueryClient()
 const { isLoading, withTaskLoading } = useTaskLoading()
 
-const showSavedBadge = ref(false)
+const isSubmitted = computed(() => feedback.status === EFeedbackStatus.SUBMITTED)
+const isSeen = computed(() => feedback.status === EFeedbackStatus.SEEN)
 
-const { form, isFormValid, isSubmitting, isDirty, queueAutoSave, handleCancel } = useWriteFeedbackForm({
+const showSavedBadge = ref<boolean>(false)
+
+const { form, isFormValid, isDirty, isSaving, queueAutoSave, handleCancel } = useWriteFeedbackForm({
   feedback: computed(() => feedback),
   onFeedbackSaved: () => {
     showSavedBadge.value = true
+    emit('feedbackSaved')
   },
   onCancel: () => emit('cancel')
-}
-)
+})
 
 const { mutate: mutateSubmitFeedback, isPending } = useSubmitFeedback()
 
-function submitFeedback () {
-  mutateSubmitFeedback(
-    { feedbackId: feedback.id },
-    {
-      onSuccess: async () => {
-        await withTaskLoading(() => invalidateGetFeedbackDetails(queryClient, EUserCategory.STAFF, feedback.id))
-        addSuccessMessage(t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.success.sendFeedback'))
-        form.reset()
-        emit('feedbackSent')
-      },
-      onError: (error) => {
-        addErrorMessage({
-          title: t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.errors.saveFeedback'),
-          description: getErrorMessage(error)
-        })
-      },
+const autosave = computed(() => isSubmitted.value || isSeen.value ? undefined : queueAutoSave)
+
+async function handleConfirm () {
+  if (isSubmitted.value) {
+    form.handleSubmit()
+    return
+  }
+
+  mutateSubmitFeedback({ feedbackId: feedback.id }, {
+    onSuccess: async () => {
+      await withTaskLoading(() => invalidateGetFeedbackDetails(queryClient, EUserCategory.STAFF, feedback.id))
+      addSuccessMessage(t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.success.sendFeedback'))
+      form.reset()
+      emit('feedbackSent')
+    },
+    onError: (error) => {
+      addErrorMessage({
+        title: t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.errors.sendFeedback'),
+        description: getErrorMessage(error)
+      })
     }
-  )
+  })
 }
+
+const confirmLabel = computed(() => t(
+  isSubmitted.value || isSeen.value
+    ? 'staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.inputs.updateLabel'
+    : 'global.buttons.send'
+))
 
 watch(isDirty, (newValue) => {
   if (newValue) {
@@ -91,31 +104,31 @@ watch(isDirty, (newValue) => {
       <div class="av-col av-gap-md">
         <FeedbackFormField
           :form="form"
-          :readonly="readonly"
+          :readonly="isSeen"
           data-testid="feedback-form-field"
-          @autosave="queueAutoSave"
+          @autosave="autosave"
         />
         <FeedbackAttachmentsFormField
           :form="form"
-          :readonly="readonly"
-          @autosave="queueAutoSave"
+          :readonly="isSeen"
+          @autosave="autosave"
         />
       </div>
     </form>
 
     <div
-      v-memo="[isFormValid, isSubmitting, isDirty, isPending, isLoading]"
+      v-memo="[isFormValid, isDirty, isSaving, isPending, isLoading]"
       class="av-row av-justify-end av-p-md"
     >
       <AvCancelConfirmButtons
         :cancel-label="t('global.buttons.exit')"
-        :confirm-label="t('global.buttons.send')"
+        :confirm-label="confirmLabel"
         :confirm-icon="MS_ICONS.SEND_OUTLINE_ROUNDED"
-        :cancel-is-loading="isPending || isLoading"
-        :confirm-is-loading="isDirty || isPending || isSubmitting || isLoading"
-        :confirm-disabled="readonly || !isFormValid"
+        :cancel-is-loading="isSaving || isPending || isLoading"
+        :confirm-is-loading="(!isSubmitted && isDirty) || isSaving || isPending || isLoading"
+        :confirm-disabled="isSeen || !isFormValid"
         @cancel="handleCancel"
-        @confirm="submitFeedback"
+        @confirm="handleConfirm"
       />
     </div>
   </div>
