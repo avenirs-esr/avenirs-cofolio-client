@@ -78,7 +78,7 @@ const associationTypesConfigs = computed<AssociateElementTypeConfig[]>(() => [
 
 const associationActiveType = ref<string>(EAssociationContextType.DECLARED_ACTIVITY)
 const associationActiveSubTypePerType = ref<Map<string, string>>(new Map([
-  [EAssociationContextType.TRACE, TraceAssociationTypes.ASSOCIATED]
+  [EAssociationContextType.TRACE, TraceAssociationTypes.UNASSOCIATED]
 ]))
 const associationActiveSubType = computed<string | undefined>({
   get: () => associationActiveSubTypePerType.value.get(associationActiveType.value),
