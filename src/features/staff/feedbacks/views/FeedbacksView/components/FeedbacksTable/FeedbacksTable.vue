@@ -58,6 +58,7 @@ const feedbacksTitle = computed(() => {
       return t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.title.unprocessed')
 
     case EFeedbackStatus.SUBMITTED:
+    case EFeedbackStatus.SEEN:
       return t('staff.feedbacks.views.FeedbacksView.FeedbacksTable.title.sent')
 
     default:
@@ -171,7 +172,7 @@ const columns = computed<AvTableColumn<FeedbackStaffListItemDTO & { access?: str
 
             <template #cell(status)="{ row }">
               <FeedbackStatusBadge
-                :feedback-status="row.status"
+                :feedback-status="row.status === EFeedbackStatus.SEEN ? EFeedbackStatus.SUBMITTED : row.status"
               />
             </template>
 

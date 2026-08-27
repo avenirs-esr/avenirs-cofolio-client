@@ -12,7 +12,7 @@ const { declaredActivityDetails } = defineProps<ReceivedFeedbacksSectionProps>()
 const { t } = useI18n()
 
 const submittedFeedbacks = computed(() =>
-  declaredActivityDetails.feedbacks?.filter(f => f.status === EFeedbackStatus.SUBMITTED) ?? []
+  declaredActivityDetails.feedbacks?.filter(f => f.status === EFeedbackStatus.SUBMITTED || f.status === EFeedbackStatus.SEEN) ?? []
 )
 
 const title = computed(() => {

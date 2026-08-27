@@ -8,22 +8,22 @@ import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
-const submittedFeedback1 = {
+const submittedFeedback = {
   id: 'feedback-1',
   staff: { id: 'staff-1', email: 'staff@test.fr', firstName: 'Marc', lastName: 'Perceval' },
   student: { id: 'student-1', email: 'student@test.fr', firstName: 'Alice', lastName: 'Martin' },
-  feedback: 'Premier feedback soumis',
+  feedback: 'Feedback soumis',
   status: EFeedbackStatus.SUBMITTED,
   createdAt: '2025-05-05T10:00:00.000Z',
   updatedAt: '2025-05-05T10:00:00.000Z',
 }
 
-const submittedFeedback2 = {
+const seenFeedback = {
   id: 'feedback-2',
   staff: { id: 'staff-1', email: 'staff@test.fr', firstName: 'Marc', lastName: 'Perceval' },
   student: { id: 'student-1', email: 'student@test.fr', firstName: 'Alice', lastName: 'Martin' },
-  feedback: 'Deuxième feedback soumis',
-  status: EFeedbackStatus.SUBMITTED,
+  feedback: 'Feedback vu',
+  status: EFeedbackStatus.SEEN,
   createdAt: '2025-06-01T10:00:00.000Z',
   updatedAt: '2025-06-01T10:00:00.000Z',
 }
@@ -97,10 +97,10 @@ BddTest().given('a ReceivedFeedbacksSection component', () => {
     })
   })
 
-  BddTest().when('feedbackAllowedIterations is limited and has submitted feedbacks', () => {
+  BddTest().when('feedbackAllowedIterations is limited and has submitted or seen feedbacks', () => {
     const declaredActivityDetails: DeclaredActivityDetailsDTO = {
       ...mockedDeclaredActivityDetails,
-      feedbacks: [submittedFeedback1, submittedFeedback2],
+      feedbacks: [submittedFeedback, seenFeedback],
     }
 
     beforeEach(() => {
@@ -120,8 +120,8 @@ BddTest().given('a ReceivedFeedbacksSection component', () => {
 
     BddTest().then('it should pass correct props to each FeedbackCard', () => {
       const cards = wrapper.findAllComponents(FeedbackCardStub)
-      expect(cards[0].props('feedback')).toEqual(submittedFeedback1)
-      expect(cards[1].props('feedback')).toEqual(submittedFeedback2)
+      expect(cards[0].props('feedback')).toEqual(submittedFeedback)
+      expect(cards[1].props('feedback')).toEqual(seenFeedback)
     })
 
     BddTest().then('it should not render the empty state', () => {
@@ -135,7 +135,7 @@ BddTest().given('a ReceivedFeedbacksSection component', () => {
         props: {
           declaredActivityDetails: {
             ...mockedDeclaredActivityDetails,
-            feedbacks: [submittedFeedback1, nonSubmittedFeedback],
+            feedbacks: [submittedFeedback, nonSubmittedFeedback],
           },
         },
         global: { stubs },
@@ -149,18 +149,18 @@ BddTest().given('a ReceivedFeedbacksSection component', () => {
     BddTest().then('it should render only submitted FeedbackCards', () => {
       const cards = wrapper.findAllComponents(FeedbackCardStub)
       expect(cards).toHaveLength(1)
-      expect(cards[0].props('feedback')).toEqual(submittedFeedback1)
+      expect(cards[0].props('feedback')).toEqual(submittedFeedback)
     })
   })
 
-  BddTest().when('feedbackAllowedIterations is unlimited (-1) and has submitted feedbacks', () => {
+  BddTest().when('feedbackAllowedIterations is unlimited (-1) and has submitted or seen feedbacks', () => {
     beforeEach(() => {
       wrapper = mountComponent(ReceivedFeedbacksSection, {
         props: {
           declaredActivityDetails: {
             ...mockedDeclaredActivityDetails,
             activity: { ...mockedDeclaredActivityDetails.activity, feedbackAllowedIterations: -1 },
-            feedbacks: [submittedFeedback1, submittedFeedback2],
+            feedbacks: [submittedFeedback, seenFeedback],
           },
         },
         global: { stubs },

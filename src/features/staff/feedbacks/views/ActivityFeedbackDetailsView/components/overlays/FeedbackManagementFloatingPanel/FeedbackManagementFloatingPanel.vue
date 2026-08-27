@@ -43,7 +43,7 @@ const {
 const feedbacks = computed(() => feedbackHistory.value ?? [])
 const feedbacksCount = computed(() => feedbacks.value.length)
 const maxIterations = computed(() => feedback.activity.feedbackAllowedIterations)
-const isFeedbackSubmitted = computed(() => feedback.status === EFeedbackStatus.SUBMITTED)
+const isFeedbackSubmitted = computed(() => feedback.status === EFeedbackStatus.SUBMITTED || feedback.status === EFeedbackStatus.SEEN)
 
 const historyTabTitle = computed(() =>
   t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.history.title', {

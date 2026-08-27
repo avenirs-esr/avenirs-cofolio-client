@@ -85,6 +85,15 @@ export const allFeedbacks: FeedbackStaffListItemDTO[] = [
     student: mockedStudent,
     activity: mockedActivity,
   },
+  {
+    id: 'feedback-seen',
+    status: EFeedbackStatus.SEEN,
+    iteration: 1,
+    createdAt: '2024-01-15T10:00:00Z',
+    updatedAt: '2024-01-16T10:00:00Z',
+    student: mockedStudent,
+    activity: mockedActivity,
+  },
 ]
 
 export const mockedFeedbackDetailsWithAssociations: FeedbackDetailsDTO = {
@@ -114,6 +123,15 @@ export const mockedFeedbackDetailsSubmitted: FeedbackDetailsDTO = {
 }
 
 export const mockedFeedbackHistory: FeedbackOverviewDTO[] = [
+  {
+    id: 'feedback-overview-4',
+    staff: mockedStaff,
+    student: mockedStudent,
+    feedback: 'Peut mieux faire.',
+    status: EFeedbackStatus.SEEN,
+    createdAt: '2026-06-05T10:00:00Z',
+    updatedAt: '2026-08-09T10:00:00Z',
+  },
   {
     id: 'feedback-overview-3',
     staff: mockedStaff,

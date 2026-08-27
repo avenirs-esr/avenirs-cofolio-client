@@ -1232,6 +1232,47 @@
         }
       }
     },
+    "/me/declared/skill-progress/{declaredSkillProgressId}/associate/traces": {
+      "post": {
+        "tags": [
+          "declared-skill-progress-controller"
+        ],
+        "operationId": "associateDeclaredSkillWithTraces",
+        "parameters": [
+          {
+            "name": "declaredSkillProgressId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociationsCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredSkillAssociationsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/declared/skill-progress/{declaredSkillProgressId}/associate/declared-experiences": {
       "post": {
         "tags": [
@@ -6332,8 +6373,8 @@
         },
         "required": [
           "declaredActivityAssociations",
-          "declaredSkillAssociations",
-          "declaredExperienceAssociations"
+          "declaredExperienceAssociations",
+          "declaredSkillAssociations"
         ]
       },
       "TraceFilter": {
@@ -6916,7 +6957,8 @@
             "enum": [
               "NEW",
               "IN_PROCESS",
-              "SUBMITTED"
+              "SUBMITTED",
+              "SEEN"
             ]
           },
           "associatedTraces": {
@@ -7812,7 +7854,8 @@
             "enum": [
               "NEW",
               "IN_PROCESS",
-              "SUBMITTED"
+              "SUBMITTED",
+              "SEEN"
             ]
           },
           "attachments": {
@@ -7858,7 +7901,8 @@
             "enum": [
               "NEW",
               "IN_PROCESS",
-              "SUBMITTED"
+              "SUBMITTED",
+              "SEEN"
             ]
           },
           "iteration": {
@@ -8322,6 +8366,8 @@
           "UNAUTHENTICATED_SESSION",
           "FEEDBACK_MAXIMUM_ITERATION_REACHED",
           "FEEDBACK_IN_PROCESS",
+          "FEEDBACK_SUBMITTED",
+          "FEEDBACK_SEEN",
           "USER_ALREADY_EXISTS",
           "STUDENT_DECLARED_ALREADY_EXIST",
           "DECLARED_ACTIVITY_ALREADY_EXIST",
@@ -8410,7 +8456,8 @@
         "enum": [
           "NEW",
           "IN_PROCESS",
-          "SUBMITTED"
+          "SUBMITTED",
+          "SEEN"
         ]
       },
       "EAssociationContextType": {
