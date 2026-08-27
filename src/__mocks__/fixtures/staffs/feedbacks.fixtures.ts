@@ -122,6 +122,12 @@ export const mockedFeedbackDetailsSubmitted: FeedbackDetailsDTO = {
   id: 'feedback-submitted',
 }
 
+export const mockedFeedbackDetailsSeen: FeedbackDetailsDTO = {
+  ...mockedFeedbackDetailsWithAssociations,
+  status: EFeedbackStatus.SEEN,
+  id: 'feedback-seen',
+}
+
 export const mockedFeedbackHistory: FeedbackOverviewDTO[] = [
   {
     id: 'feedback-overview-4',

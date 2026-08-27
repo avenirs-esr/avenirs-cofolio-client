@@ -20,13 +20,17 @@ enum FeedbackManagementFloatingPanelTabs {
 }
 
 const { t } = useI18n()
-const activeTab = ref(FeedbackManagementFloatingPanelTabs.MY_FEEDBACK)
 
-const panelRef = ref<InstanceType<typeof AvFloatingPanel> | null>(null)
+const isSeen = computed(() => feedback.status === EFeedbackStatus.SEEN)
 
-function togglePanel () {
-  panelRef.value?.toggleCollapsed()
+function getDefaultTab () {
+  return isSeen.value
+    ? FeedbackManagementFloatingPanelTabs.HISTORY
+    : FeedbackManagementFloatingPanelTabs.MY_FEEDBACK
 }
+
+const activeTab = ref(getDefaultTab())
+const panelRef = ref<InstanceType<typeof AvFloatingPanel> | null>(null)
 
 const activityId = computed(() => feedback.declaredActivityId)
 
@@ -43,13 +47,22 @@ const {
 const feedbacks = computed(() => feedbackHistory.value ?? [])
 const feedbacksCount = computed(() => feedbacks.value.length)
 const maxIterations = computed(() => feedback.activity.feedbackAllowedIterations)
-const isFeedbackSubmitted = computed(() => feedback.status === EFeedbackStatus.SUBMITTED || feedback.status === EFeedbackStatus.SEEN)
 
 const historyTabTitle = computed(() =>
   t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.history.title', {
     count: feedbacksCount.value,
   })
 )
+
+function togglePanel () {
+  panelRef.value?.toggleCollapsed()
+}
+
+watch(isSeen, (newValue) => {
+  if (newValue) {
+    activeTab.value = getDefaultTab()
+  }
+})
 </script>
 
 <template>
@@ -71,10 +84,11 @@ const historyTabTitle = computed(() =>
         <AvTab
           :title="t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.title')"
           :name="FeedbackManagementFloatingPanelTabs.MY_FEEDBACK"
+          :disabled="isSeen"
+          data-testid="write-feedback-tab-button"
         >
           <WriteFeedbackTab
             :feedback="feedback"
-            :readonly="isFeedbackSubmitted"
             @feedback-sent="togglePanel"
             @cancel="togglePanel"
           />

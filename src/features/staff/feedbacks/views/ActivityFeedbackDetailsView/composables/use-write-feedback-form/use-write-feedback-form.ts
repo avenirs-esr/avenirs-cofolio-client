@@ -75,7 +75,10 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
     queueAutoSave,
     cancelAutoSave,
     pendingAutoSaveData
-  } = useQueueAutoSave<UpdateFeedbackRequest>(save, FEEDBACK_AUTO_SAVE_DEBOUNCE)
+  } = useQueueAutoSave<UpdateFeedbackRequest>(
+    async (data) => { await save(data) },
+    FEEDBACK_AUTO_SAVE_DEBOUNCE
+  )
 
   const feedbackData = computed(() => toValue(feedback))
   const liveFormData = computed<WriteFeedbackFormData>(() => ({
@@ -112,10 +115,12 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
       cancelAutoSave()
       pendingAutoSaveData.value = {}
 
-      await save({ feedback: value.feedback })
+      const succeeded = await save({ feedback: value.feedback })
 
-      originalFormData.value = { ...liveFormData.value }
-      form.reset(originalFormData.value)
+      if (succeeded) {
+        originalFormData.value = { ...liveFormData.value }
+        form.reset(originalFormData.value)
+      }
     }
   })
 
@@ -158,10 +163,17 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
       promises.push(saveFeedback(data))
     }
 
-    await withTaskLoading(() => Promise.allSettled(promises))
-    await withTaskLoading(() => invalidateGetFeedbackDetails(queryClient, EUserCategory.STAFF, feedbackData.value.id))
+    if (promises.length > 0) {
+      const results = await withTaskLoading(() => Promise.allSettled(promises))
+      await withTaskLoading(() => invalidateGetFeedbackDetails(queryClient, EUserCategory.STAFF, feedbackData.value.id))
 
-    onFeedbackSaved?.()
+      if (results.some(r => r.status === 'fulfilled')) {
+        onFeedbackSaved?.()
+        return true
+      }
+    }
+
+    return false
   }
 
   async function handleCancel () {
@@ -180,7 +192,7 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
       const toDiscard = liveAttachments.filter(live => !originalAttachments.some(original => original.id === live.id))
 
       if (toReupload.length > 0 || toDiscard.length > 0) {
-        await withTaskLoading(() => saveAttachments(toReupload.map(dtoToFile), toDiscard))
+        promises.push(saveAttachments(toReupload.map(dtoToFile), toDiscard))
       }
 
       await withTaskLoading(() => Promise.allSettled(promises))
@@ -193,9 +205,7 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
 
   const hasErrors = hasFieldErrors(form, ['feedback', 'attachments'])
 
-  const isSubmitting = computed(
-    () => isPending.value || isUploadingAttachment.value || isDeletingAttachment.value || isLoading.value
-  )
+  const isSaving = computed(() => isPending.value || isUploadingAttachment.value || isDeletingAttachment.value || isLoading.value)
 
   watch(liveFormData, (data) => {
     if (!isDirty.value) {
@@ -207,9 +217,9 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
   return {
     form,
     isFormValid,
-    isSubmitting,
     hasErrors,
     isDirty,
+    isSaving,
     queueAutoSave,
     handleCancel
   }

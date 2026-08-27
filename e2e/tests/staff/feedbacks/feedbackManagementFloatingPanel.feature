@@ -82,10 +82,10 @@ Feature: Staff feedback management
       And the staff expands the writing feedback floating panel
 
     @high
-    Scenario: The feedback form field is disabled
-      Then the feedback form field is disabled
+    Scenario: The feedback form field is enabled
+      Then the feedback form field is enabled
 
     @high
-    Scenario: The send button is disabled
-      Then the write feedback send button is disabled
+    Scenario: The send and cancel buttons are enabled
+      Then the write feedback send button is enabled
       And the write feedback cancel button is enabled

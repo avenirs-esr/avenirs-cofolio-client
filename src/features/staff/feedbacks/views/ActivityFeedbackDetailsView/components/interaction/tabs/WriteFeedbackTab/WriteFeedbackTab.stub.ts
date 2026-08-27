@@ -4,9 +4,11 @@ import type { PropType } from 'vue'
 export const WriteFeedbackTabStub = defineComponent({
   name: 'WriteFeedbackTab',
   props: {
-    feedback: { type: Object as PropType<FeedbackDetailsDTO>, required: false },
-    readonly: { type: Boolean, required: false, default: false },
+    feedback: {
+      type: Object as PropType<FeedbackDetailsDTO>,
+      required: true
+    }
   },
-  emits: ['cancel', 'feedbackSent'],
+  emits: ['cancel', 'feedbackSaved', 'feedbackSent'],
   template: '<div data-testid="write-feedback-tab-stub" />',
 })

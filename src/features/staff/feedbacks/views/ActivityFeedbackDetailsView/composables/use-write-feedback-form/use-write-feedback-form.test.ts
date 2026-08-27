@@ -99,7 +99,7 @@ BddTest().given('a write feedback form', () => {
       expect(composableResult).toBeDefined()
       expect(composableResult.form).toBeDefined()
       expect(composableResult.isFormValid).toBeDefined()
-      expect(composableResult.isSubmitting).toBeDefined()
+      expect(composableResult.isSaving).toBeDefined()
       expect(composableResult.hasErrors).toBeDefined()
       expect(composableResult.isDirty).toBeDefined()
       expect(composableResult.handleCancel).toBeDefined()
