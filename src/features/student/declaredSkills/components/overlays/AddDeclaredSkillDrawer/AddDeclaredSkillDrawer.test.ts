@@ -337,13 +337,13 @@ BddTest().given('an add declared skill drawer component', () => {
   })
 
   BddTest().when('the active association type is changed to traces', () => {
-    BddTest().then('it should use the associated traces subtype by default', async () => {
+    BddTest().then('it should use the unassociated traces subtype by default', async () => {
       const section = getAssociateElementsSection()
 
       await section.vm.$emit('update:activeTypeKey', EAssociationContextType.TRACE)
       await wrapper.vm.$nextTick()
 
-      expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.ASSOCIATED)
+      expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.UNASSOCIATED)
     })
   })
 
