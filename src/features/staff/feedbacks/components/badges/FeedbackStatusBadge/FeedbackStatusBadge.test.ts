@@ -17,7 +17,8 @@ BddTest().given('a feedback status badge', () => {
   }> = [
     { props: { feedbackStatus: EFeedbackStatus.NEW }, label: 'Nouveau', icon: MDI_ICONS.BELL_NOTIFICATION },
     { props: { feedbackStatus: EFeedbackStatus.IN_PROCESS }, label: 'non traité', icon: MDI_ICONS.BELL_NOTIFICATION },
-    { props: { feedbackStatus: EFeedbackStatus.SUBMITTED }, label: 'Envoyé', icon: MDI_ICONS.CHECK_CIRCLE }
+    { props: { feedbackStatus: EFeedbackStatus.SUBMITTED }, label: 'Envoyé', icon: MDI_ICONS.CHECK_CIRCLE },
+    { props: { feedbackStatus: EFeedbackStatus.SEEN }, label: 'Vu', icon: MDI_ICONS.CHECK_CIRCLE }
   ]
 
   scenario.forEach(({ props, label, icon }) => {

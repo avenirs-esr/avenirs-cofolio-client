@@ -22,6 +22,7 @@ const icon = computed(() => {
       return MDI_ICONS.BELL_NOTIFICATION
 
     case EFeedbackStatus.SUBMITTED:
+    case EFeedbackStatus.SEEN:
     default:
       return MDI_ICONS.CHECK_CIRCLE
   }
@@ -36,6 +37,7 @@ const color = computed(() => {
       return 'var(--light-foreground-success)'
 
     case EFeedbackStatus.SUBMITTED:
+    case EFeedbackStatus.SEEN:
     default:
       return 'var(--text1)'
   }
@@ -50,6 +52,7 @@ const backgroundColor = computed(() => {
       return 'var(--light-background-success)'
 
     case EFeedbackStatus.SUBMITTED:
+    case EFeedbackStatus.SEEN:
     default:
       return 'var(--light-background-neutral)'
   }

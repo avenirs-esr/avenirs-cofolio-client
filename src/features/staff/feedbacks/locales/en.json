@@ -8,6 +8,7 @@
         "feedbackStatus": {
           "IN_PROCESS": "unprocessed",
           "NEW": "New",
+          "SEEN": "Seen",
           "SUBMITTED": "Sent"
         }
       },

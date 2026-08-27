@@ -21,7 +21,7 @@ BddTest().given('a feedback history tab', () => {
   BddTest().when('the component is mounted with feedbacks', () => {
     beforeEach(() => {
       wrapper = mountComponent(FeedbacksHistoryTab, {
-        props: { feedbacks, maxIterations: 3 },
+        props: { feedbacks, maxIterations: feedbacks.length },
         global: { stubs },
       })
     })
@@ -32,15 +32,15 @@ BddTest().given('a feedback history tab', () => {
 
     BddTest().then('it should pass the descending iteration to each card', () => {
       const cards = wrapper.findAllComponents(FeedbackHistoryCardStub)
-      expect(cards[0].props('iteration')).toBe(3)
-      expect(cards[1].props('iteration')).toBe(2)
-      expect(cards[2].props('iteration')).toBe(1)
+      feedbacks.forEach((_, index) => {
+        expect(cards[index].props('iteration')).toBe(feedbacks.length - index)
+      })
     })
 
     BddTest().then('it should forward feedback and maxIterations to each card', () => {
       const firstCard = wrapper.findAllComponents(FeedbackHistoryCardStub)[0]
       expect(firstCard.props('feedback')).toEqual(feedbacks[0])
-      expect(firstCard.props('maxIterations')).toBe(3)
+      expect(firstCard.props('maxIterations')).toBe(feedbacks.length)
     })
   })
 

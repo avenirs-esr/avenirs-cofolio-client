@@ -120,6 +120,20 @@ BddTest().given('useFeedbackStatusPicker composable', () => {
       })
     })
 
+    BddTest().and('the option value is SEEN', () => {
+      beforeEach(() => {
+        result.onStatusSelected({ value: EFeedbackStatus.SEEN, label: 'Seen' })
+      })
+
+      BddTest().then('it should update selectedStatus to SEEN', () => {
+        expect(result.selectedStatus.value).toBe(EFeedbackStatus.SEEN)
+      })
+
+      BddTest().then('it should call onReset', () => {
+        expect(mockOnReset).toHaveBeenCalledOnce()
+      })
+    })
+
     BddTest().and('the option value is ALL', () => {
       beforeEach(() => {
         result.onStatusSelected({ value: EFeedbackStatus.NEW, label: 'New' })
