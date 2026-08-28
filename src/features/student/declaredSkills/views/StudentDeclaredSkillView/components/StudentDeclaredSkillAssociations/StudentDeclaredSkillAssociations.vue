@@ -14,6 +14,8 @@ import AssociateActivitiesToDeclaredSkillModal
   from '@/features/student/declaredSkills/components/overlays/modals/AssociateActivitiesToDeclaredSkillModal/AssociateActivitiesToDeclaredSkillModal.vue'
 import AssociateDeclaredExperiencesToDeclaredSkillModal
   from '@/features/student/declaredSkills/components/overlays/modals/AssociateDeclaredExperiencesToDeclaredSkillModal/AssociateDeclaredExperiencesToDeclaredSkillModal.vue'
+import AssociateTracesToDeclaredSkillModal
+  from '@/features/student/declaredSkills/components/overlays/modals/AssociateTracesToDeclaredSkillModal/AssociateTracesToDeclaredSkillModal.vue'
 import DeleteDeclaredSkillAssociatedActivitiesModal
   from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedActivitiesModal/DeleteDeclaredSkillAssociatedActivitiesModal.vue'
 import DeleteDeclaredSkillAssociatedTracesModal
@@ -65,6 +67,12 @@ const {
 } = useModal()
 
 const {
+  showModal: showAssociateTracesModal,
+  displayModal: displayAssociateTracesModal,
+  hideModal: hideAssociateTracesModal
+} = useModal()
+
+const {
   showModal: showDeleteTracesModal,
   displayModal: displayDeleteTracesModal,
   hideModal: hideDeleteTracesModal
@@ -83,6 +91,7 @@ const isDeleteDropdownDisabled = computed(() => deleteItems.value.every(item => 
 const associateItems = computed(() => [
   { type: EAssociationContextType.DECLARED_ACTIVITY },
   { type: EAssociationContextType.DECLARED_EXPERIENCE },
+  { type: EAssociationContextType.TRACE },
 ])
 
 function onSelectAssociationType (type: EAssociationContextType) {
@@ -92,6 +101,9 @@ function onSelectAssociationType (type: EAssociationContextType) {
       break
     case EAssociationContextType.DECLARED_EXPERIENCE:
       displayAssociateDeclaredExperiencesModal()
+      break
+    case EAssociationContextType.TRACE:
+      displayAssociateTracesModal()
       break
     default:
       break
@@ -114,6 +126,9 @@ function onAssociated (type: EAssociationContextType) {
       break
     case EAssociationContextType.DECLARED_EXPERIENCE:
       hideAssociateDeclaredExperiencesModal()
+      break
+    case EAssociationContextType.TRACE:
+      hideAssociateTracesModal()
       break
     default:
       return
@@ -171,6 +186,13 @@ function onAssociated (type: EAssociationContextType) {
     :declared-skill-id="declaredSkillId"
     @cancel="hideAssociateDeclaredExperiencesModal"
     @associated="() => onAssociated(EAssociationContextType.DECLARED_EXPERIENCE)"
+  />
+
+  <AssociateTracesToDeclaredSkillModal
+    :show="showAssociateTracesModal"
+    :declared-skill-id="declaredSkillId"
+    @cancel="hideAssociateTracesModal"
+    @associated="() => onAssociated(EAssociationContextType.TRACE)"
   />
 
   <DeleteDeclaredSkillAssociatedActivitiesModal

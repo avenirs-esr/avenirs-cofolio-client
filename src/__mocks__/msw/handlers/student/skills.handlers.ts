@@ -17,6 +17,7 @@ import {
   EExternalSkillType,
   getAssociateDeclaredSkillWithDeclaredActivitiesUrl,
   getAssociateDeclaredSkillWithDeclaredExperiencesUrl,
+  getAssociateDeclaredSkillWithTracesUrl,
   getCreateDeclaredSkillProgressUrl,
   type GetDeclaredSkillsProgressesParams,
   getDeleteDeclaredSkillAssociationsUrl,
@@ -37,6 +38,8 @@ import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
 
 const INVALID_DECLARED_SKILL_ID = 'INVALID_DECLARED_SKILL_ID'
+
+export const SKILL_ID_WITH_TRACE_ASSOCIATION_ERROR = 'SKILL_ID_WITH_TRACE_ASSOCIATION_ERROR'
 
 export function createDeclaredSkillsProgressViewHandler (
   payload: PagedResponseDeclaredSkillProgressDTO,
@@ -171,6 +174,40 @@ export const associateDeclaredSkillWithDeclaredExperiencesHandler = http.post<
       return HttpResponse.json(
         { code: ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND, message: 'Declared skill not found' },
         { status: 404 }
+      )
+    }
+
+    const response = createDeclaredSkillAssociationResponseFixture(body)
+
+    return HttpResponse.json(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }
+)
+
+export const associateDeclaredSkillWithTracesHandler = http.post<
+  { declaredSkillProgressId: string },
+  AssociationsCreationRequest
+>(
+  `*${getAssociateDeclaredSkillWithTracesUrl(':declaredSkillProgressId')}`,
+  async ({ request, params }) => {
+    const body = await request.json()
+    const { declaredSkillProgressId } = params
+
+    if (declaredSkillProgressId === 'INVALID_SKILL_ID') {
+      return HttpResponse.json(
+        { code: ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND, message: 'Declared skill not found' },
+        { status: 404 }
+      )
+    }
+
+    if (declaredSkillProgressId === SKILL_ID_WITH_TRACE_ASSOCIATION_ERROR) {
+      return HttpResponse.json(
+        { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+        { status: 500 }
       )
     }
 
@@ -342,6 +379,7 @@ export const skillsHandlers = [
   }),
   associateDeclaredSkillWithDeclaredActivityHandler,
   associateDeclaredSkillWithDeclaredExperiencesHandler,
+  associateDeclaredSkillWithTracesHandler,
 
   http.get<{ declaredSkillProgressId: string }, DeclaredSkillAssociationsDTO>(
     `*${getGetDeclaredSkillAssociationsUrl(':declaredSkillProgressId')}`,
