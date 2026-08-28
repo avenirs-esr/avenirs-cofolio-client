@@ -83,18 +83,34 @@ BddTest().given('a useToasterStore composable', () => {
     })
   })
 
-  BddTest().when('calling addSuccessMessage', () => {
-    BddTest().then('it should add success message from string or object', () => {
-      toaster.addSuccessMessage('ok')
-      toaster.addSuccessMessage({ description: 'yes', type: 'error' })
-      expect(toaster.messages.slice(1).every(m => m.type === 'success')).toBe(true)
+  BddTest().when('calling addInfoMessage', () => {
+    BddTest().then('it should add info message from string or object', () => {
+      toaster.addInfoMessage('message')
+      toaster.addInfoMessage({ description: 's', type: 'success' })
+      expect(toaster.messages.slice(1).every(m => m.type === 'info')).toBe(true)
     })
   })
 
   BddTest().when('calling addSuccessMessage', () => {
+    BddTest().then('it should add success message from string or object', () => {
+      toaster.addSuccessMessage('ok')
+      toaster.addSuccessMessage({ description: 'w', type: 'warning' })
+      expect(toaster.messages.slice(1).every(m => m.type === 'success')).toBe(true)
+    })
+  })
+
+  BddTest().when('calling addWarningMessage', () => {
+    BddTest().then('it should add warning message from string or object', () => {
+      toaster.addInfoMessage('warn')
+      toaster.addInfoMessage({ description: 'e', type: 'error' })
+      expect(toaster.messages.slice(1).every(m => m.type === 'info')).toBe(true)
+    })
+  })
+
+  BddTest().when('calling addErrorMessage', () => {
     BddTest().then('it should add error message from string or object', () => {
       toaster.addErrorMessage('fail')
-      toaster.addErrorMessage({ description: 'warn', type: 'warning' })
+      toaster.addErrorMessage({ description: 'i', type: 'info' })
       expect(toaster.messages.slice(1).every(m => m.type === 'error')).toBe(true)
     })
   })

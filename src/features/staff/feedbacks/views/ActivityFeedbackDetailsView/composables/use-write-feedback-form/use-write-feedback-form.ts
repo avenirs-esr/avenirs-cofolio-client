@@ -1,9 +1,11 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { WriteFeedbackFormApi, WriteFeedbackFormData } from '@/features/staff/feedbacks/types/forms.types'
 import {
+  EFeedbackStatus,
   EUserCategory,
   type FeedbackDetailsDTO,
   type FileDTO,
+  getGetFeedbackDetailsQueryKey,
   invalidateGetFeedbackDetails,
   type UpdateFeedbackRequest,
   useDeleteFeedbackAttachment,
@@ -14,6 +16,7 @@ import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useQueueAutoSave } from '@/common/composables/use-queue-auto-save/use-queue-auto-save'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
+import { ErrorCodes } from '@/common/constants'
 import { dtoToFile, isFile } from '@/common/utils/file/file'
 import { FEEDBACK_AUTO_SAVE_DEBOUNCE } from '@/features/staff/feedbacks/config'
 import { useWriteFeedbackFormValidators } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form-validators/use-write-feedback-form-validators'
@@ -33,41 +36,46 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
   const { t } = useI18n()
 
   const { getErrorMessage } = useApiErrors()
-  const { addErrorMessage } = useToasterStore()
+  const { addWarningMessage, addErrorMessage } = useToasterStore()
   const { hasFieldErrors } = useFormValidators()
 
   const queryClient = useQueryClient()
   const { isLoading, withTaskLoading } = useTaskLoading()
   const { validateFeedback, validateAttachments } = useWriteFeedbackFormValidators()
 
+  const feedbackData = computed(() => toValue(feedback))
+
+  const hasNotifiedFeedbackSeen = ref(false)
+
+  function handleError (error: BaseApiException, title: string) {
+    if (error.code === ErrorCodes.FEEDBACK_SEEN) {
+      if (hasNotifiedFeedbackSeen.value) {
+        return
+      }
+      hasNotifiedFeedbackSeen.value = true
+
+      queryClient.setQueryData<FeedbackDetailsDTO>(getGetFeedbackDetailsQueryKey(EUserCategory.STAFF, feedbackData.value.id), oldData => oldData ? { ...oldData, status: EFeedbackStatus.SEEN } : oldData)
+      addWarningMessage(t('global.error.api.FEEDBACK_SEEN'))
+
+      return
+    }
+
+    addErrorMessage({ title, description: getErrorMessage(error) })
+  }
+
   const { mutateAsync: updateFeedback, isPending } = useUpdateFeedback({
     mutation: {
-      onError: (error: BaseApiException) => {
-        addErrorMessage({
-          title: t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.errors.saveFeedback'),
-          description: getErrorMessage(error)
-        })
-      }
+      onError: (error: BaseApiException) => handleError(error, t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.errors.saveFeedback'))
     }
   })
   const { mutateAsync: uploadAttachment, isPending: isUploadingAttachment } = useUploadFeedbackAttachment({
     mutation: {
-      onError: (error: BaseApiException) => {
-        addErrorMessage({
-          title: t('global.error.fileUpload'),
-          description: getErrorMessage(error)
-        })
-      }
+      onError: (error: BaseApiException) => handleError(error, t('global.error.fileUpload'))
     }
   })
   const { mutateAsync: deleteAttachment, isPending: isDeletingAttachment } = useDeleteFeedbackAttachment({
     mutation: {
-      onError: (error: BaseApiException) => {
-        addErrorMessage({
-          title: t('global.error.fileUpload'),
-          description: getErrorMessage(error)
-        })
-      }
+      onError: (error: BaseApiException) => handleError(error, t('global.error.fileUpload'))
     }
   })
 
@@ -80,7 +88,6 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
     FEEDBACK_AUTO_SAVE_DEBOUNCE
   )
 
-  const feedbackData = computed(() => toValue(feedback))
   const liveFormData = computed<WriteFeedbackFormData>(() => ({
     feedback: feedbackData.value.feedback ?? '',
     attachments: feedbackData.value.attachments ?? []
@@ -128,6 +135,15 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
   const isFormValid = computed(() => formState.value.isValid && !formState.value.isValidating)
   const isDirty = computed(() => formState.value.isDirty)
 
+  async function invalidateFeedback () {
+    if (hasNotifiedFeedbackSeen.value) {
+      hasNotifiedFeedbackSeen.value = false
+      return
+    }
+
+    await withTaskLoading(() => invalidateGetFeedbackDetails(queryClient, EUserCategory.STAFF, feedbackData.value.id))
+  }
+
   async function saveFeedback (data: UpdateFeedbackRequest) {
     await updateFeedback({
       feedbackId: feedbackData.value.id,
@@ -165,7 +181,7 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
 
     if (promises.length > 0) {
       const results = await withTaskLoading(() => Promise.allSettled(promises))
-      await withTaskLoading(() => invalidateGetFeedbackDetails(queryClient, EUserCategory.STAFF, feedbackData.value.id))
+      await invalidateFeedback()
 
       if (results.some(r => r.status === 'fulfilled')) {
         onFeedbackSaved?.()
@@ -196,7 +212,7 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
       }
 
       await withTaskLoading(() => Promise.allSettled(promises))
-      await withTaskLoading(() => invalidateGetFeedbackDetails(queryClient, EUserCategory.STAFF, feedbackData.value.id))
+      await invalidateFeedback()
     }
 
     form.reset(originalFormData.value)

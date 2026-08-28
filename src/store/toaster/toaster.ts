@@ -33,9 +33,19 @@ export const useToasterStore = defineStore('toaster', () => {
     }, message.timeout)
   }
 
+  function addInfoMessage (msg: Message | string) {
+    const message = typeof msg === 'string' ? { description: msg } : msg
+    addMessage({ ...message, type: 'info' })
+  }
+
   function addSuccessMessage (msg: Message | string) {
     const message = typeof msg === 'string' ? { description: msg } : msg
     addMessage({ ...message, type: 'success' })
+  }
+
+  function addWarningMessage (msg: Message | string) {
+    const message = typeof msg === 'string' ? { description: msg } : msg
+    addMessage({ ...message, type: 'warning' })
   }
 
   function addErrorMessage (msg: Message | string) {
@@ -48,7 +58,9 @@ export const useToasterStore = defineStore('toaster', () => {
     timeouts,
     addMessage,
     removeMessage,
+    addInfoMessage,
     addSuccessMessage,
+    addWarningMessage,
     addErrorMessage,
   }
 })
