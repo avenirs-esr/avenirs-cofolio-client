@@ -144,7 +144,7 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
     return state.value.isValid && !state.value.isValidating
   })
 
-  const hasSkillDetailsErrors = hasFieldErrors(form, ['reflection'])
+  const hasSkillDetailsErrors = hasFieldErrors(form, ['selectedSkills', 'reflection'])
 
   return {
     form,
