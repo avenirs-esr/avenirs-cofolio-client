@@ -15,6 +15,7 @@ import { AssociatedDeclaredActivitiesCardStub } from '@/features/student/buildPr
 import { AssociatedTracesCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import { AssociateActivitiesToDeclaredSkillModalStub } from '@/features/student/declaredSkills/components/overlays/modals/AssociateActivitiesToDeclaredSkillModal/AssociateActivitiesToDeclaredSkillModal.stub'
 import { AssociateDeclaredExperiencesToDeclaredSkillModalStub } from '@/features/student/declaredSkills/components/overlays/modals/AssociateDeclaredExperiencesToDeclaredSkillModal/AssociateDeclaredExperiencesToDeclaredSkillModal.stub'
+import { AssociateTracesToDeclaredSkillModalStub } from '@/features/student/declaredSkills/components/overlays/modals/AssociateTracesToDeclaredSkillModal/AssociateTracesToDeclaredSkillModal.stub'
 import { DeleteDeclaredSkillAssociatedActivitiesModalStub } from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedActivitiesModal/DeleteDeclaredSkillAssociatedActivitiesModal.stub'
 import { DeleteDeclaredSkillAssociatedTracesModalStub } from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedTracesModal/DeleteDeclaredSkillAssociatedTracesModal.stub'
 import StudentDeclaredSkillAssociations
@@ -42,6 +43,7 @@ const stubs = {
   AssociationElementsDropdown: AssociationElementsDropdownStub,
   AssociateActivitiesToDeclaredSkillModal: AssociateActivitiesToDeclaredSkillModalStub,
   AssociateDeclaredExperiencesToDeclaredSkillModal: AssociateDeclaredExperiencesToDeclaredSkillModalStub,
+  AssociateTracesToDeclaredSkillModal: AssociateTracesToDeclaredSkillModalStub,
   DeleteDeclaredSkillAssociatedActivitiesModal: DeleteDeclaredSkillAssociatedActivitiesModalStub,
   DeleteDeclaredSkillAssociatedTracesModal: DeleteDeclaredSkillAssociatedTracesModalStub
 }
@@ -128,11 +130,12 @@ BddTest().given('a student declared skill associations component', () => {
       expect(dropdown.exists()).toBe(true)
     })
 
-    BddTest().then('it should provide declared activity and declared experience associate items', () => {
+    BddTest().then('it should provide declared activity, declared experience and trace associate items', () => {
       const dropdown = findDropdown('associate')
       expect(dropdown.props('items')).toEqual([
         { type: EAssociationContextType.DECLARED_ACTIVITY },
-        { type: EAssociationContextType.DECLARED_EXPERIENCE }
+        { type: EAssociationContextType.DECLARED_EXPERIENCE },
+        { type: EAssociationContextType.TRACE }
       ])
     })
 
@@ -145,6 +148,13 @@ BddTest().given('a student declared skill associations component', () => {
 
     BddTest().then('it should render the associate declared experiences modal hidden by default', () => {
       const modal = wrapper.findComponent(AssociateDeclaredExperiencesToDeclaredSkillModalStub)
+      expect(modal.exists()).toBe(true)
+      expect(modal.props('show')).toBe(false)
+      expect(modal.props('declaredSkillId')).toBe(declaredSkillId)
+    })
+
+    BddTest().then('it should render the associate traces modal hidden by default', () => {
+      const modal = wrapper.findComponent(AssociateTracesToDeclaredSkillModalStub)
       expect(modal.exists()).toBe(true)
       expect(modal.props('show')).toBe(false)
       expect(modal.props('declaredSkillId')).toBe(declaredSkillId)
@@ -233,6 +243,57 @@ BddTest().given('a student declared skill associations component', () => {
 
         BddTest().then('the associate declared experiences modal should be hidden', () => {
           const modal = wrapper.findComponent(AssociateDeclaredExperiencesToDeclaredSkillModalStub)
+          expect(modal.props('show')).toBe(false)
+        })
+
+        BddTest().then('it should emit associated', () => {
+          expect(wrapper.emitted('associated')).toBeTruthy()
+          expect(wrapper.emitted('associated')).toHaveLength(1)
+        })
+      })
+    })
+
+    BddTest().and('the associate dropdown selects the trace type', () => {
+      beforeEach(() => {
+        const dropdown = findDropdown('associate')
+        dropdown.vm.$emit('select', EAssociationContextType.TRACE)
+      })
+
+      BddTest().then('the associate traces modal should be shown', () => {
+        const modal = wrapper.findComponent(AssociateTracesToDeclaredSkillModalStub)
+        expect(modal.props('show')).toBe(true)
+      })
+
+      BddTest().then('the associate activities modal should remain hidden', () => {
+        const modal = wrapper.findComponent(AssociateActivitiesToDeclaredSkillModalStub)
+        expect(modal.props('show')).toBe(false)
+      })
+
+      BddTest().then('the associate declared experiences modal should remain hidden', () => {
+        const modal = wrapper.findComponent(AssociateDeclaredExperiencesToDeclaredSkillModalStub)
+        expect(modal.props('show')).toBe(false)
+      })
+
+      BddTest().and('the associate traces modal emits cancel', () => {
+        beforeEach(() => {
+          const modal = wrapper.findComponent(AssociateTracesToDeclaredSkillModalStub)
+          modal.vm.$emit('cancel')
+        })
+
+        BddTest().then('the associate traces modal should be hidden', () => {
+          const modal = wrapper.findComponent(AssociateTracesToDeclaredSkillModalStub)
+          expect(modal.props('show')).toBe(false)
+        })
+      })
+
+      BddTest().and('the associate traces modal emits associated', () => {
+        beforeEach(() => {
+          const modal = wrapper.findComponent(AssociateTracesToDeclaredSkillModalStub)
+          modal.vm.$emit('associated')
+        })
+
+        BddTest().then('the associate traces modal should be hidden', () => {
+          const modal = wrapper.findComponent(AssociateTracesToDeclaredSkillModalStub)
           expect(modal.props('show')).toBe(false)
         })
 

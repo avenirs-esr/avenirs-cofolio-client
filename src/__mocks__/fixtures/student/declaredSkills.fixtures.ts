@@ -6,7 +6,8 @@ import {
   EDeclaredActivityStatus,
   EDeclaredSkillLevel,
   EExperienceType,
-  EExternalSkillType
+  EExternalSkillType,
+  ETraceAuthorType
 } from '@/api/avenir-esr'
 
 export function createMockedDeclaredSkillAssociations (count: number): DeclaredSkillAssociationDTO[] {
@@ -65,8 +66,21 @@ export function createDeclaredSkillAssociationResponseFixture (associations: Ass
       }
     }))
 
+  const traceAssociations = associations.idsToAssociate
+    .filter(id => id.startsWith('trace-'))
+    .map((traceId, index) => ({
+      associationId: `trace-association-${index + 1}`,
+      trace: {
+        id: traceId,
+        title: `Mocked trace ${traceId}`,
+        authorType: ETraceAuthorType.PERSONAL,
+        createdAt: '2026-01-01T00:00:00Z',
+        updatedAt: '2026-01-01T00:00:00Z'
+      }
+    }))
+
   return {
-    traceAssociations: [],
+    traceAssociations,
     declaredActivityAssociations,
     declaredExperienceAssociations
   }

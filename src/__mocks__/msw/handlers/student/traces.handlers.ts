@@ -191,6 +191,13 @@ export const searchTracesForAssociationHandler = http.get(
     const page = Number.parseInt(url.searchParams.get('page') ?? '0')
     const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '20')
 
+    if (keyword === 'INVALID_KEYWORD') {
+      return HttpResponse.json(
+        { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+        { status: 500 }
+      )
+    }
+
     const response = createMockedSearchTracesForAssociationResponse({
       isAssociated,
       keyword,
