@@ -109,6 +109,7 @@ const emptySlotTextContent = computed<string>(() => {
             label: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.autocompleteField.searchLabel'),
             placeholder: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.autocompleteField.searchPlaceholder'),
             errorMessage: field.state.meta.errors?.join(', '),
+            required: true,
           }"
           :get-option-label="getOptionLabel"
           :get-option-key="getOptionKey"
