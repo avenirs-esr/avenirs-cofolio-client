@@ -132,6 +132,13 @@ export const updateFeedbackHandler = http.put(`*${getUpdateFeedbackUrl(':feedbac
     )
   }
 
+  if (params.feedbackId === mockedFeedbackDetailsSeen.id) {
+    return HttpResponse.json(
+      { message: 'Feedback déjà consulté', code: ErrorCodes.FEEDBACK_SEEN },
+      { status: HttpStatusCode.CONFLICT, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
   return HttpResponse.json(undefined, {
     status: HttpStatusCode.NO_CONTENT,
     headers: { 'Content-Type': 'application/json' },
@@ -159,18 +166,30 @@ export const submitFeedbackHandler = http.post(`*${getSubmitFeedbackUrl(':feedba
   )
 })
 
-export const uploadFeedbackAttachmentHandler = http.post(
-  `*${getUploadFeedbackAttachmentUrl(':feedbackId')}`,
-  () => HttpResponse.json<FileDTO>(mockedUploadedFeedbackAttachment, {
+export const uploadFeedbackAttachmentHandler = http.post(`*${getUploadFeedbackAttachmentUrl(':feedbackId')}`, ({ params }) => {
+  if (params.feedbackId === mockedFeedbackDetailsSeen.id) {
+    return HttpResponse.json(
+      { message: 'Feedback déjà consulté', code: ErrorCodes.FEEDBACK_SEEN },
+      { status: HttpStatusCode.CONFLICT, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  return HttpResponse.json<FileDTO>(mockedUploadedFeedbackAttachment, {
     status: HttpStatusCode.OK,
     headers: { 'Content-Type': 'application/json' },
   })
-)
+})
 
-export const deleteFeedbackAttachmentHandler = http.delete(
-  `*${getDeleteFeedbackAttachmentUrl(':feedbackId', ':attachmentId')}`,
-  () => new HttpResponse(null, { status: HttpStatusCode.NO_CONTENT })
-)
+export const deleteFeedbackAttachmentHandler = http.delete(`*${getDeleteFeedbackAttachmentUrl(':feedbackId', ':attachmentId')}`, ({ params }) => {
+  if (params.feedbackId === mockedFeedbackDetailsSeen.id) {
+    return HttpResponse.json(
+      { message: 'Feedback déjà consulté', code: ErrorCodes.FEEDBACK_SEEN },
+      { status: HttpStatusCode.CONFLICT, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  return new HttpResponse(null, { status: HttpStatusCode.NO_CONTENT })
+})
 
 export const feedbacksHandlers = [
   getFeedbackDashboardHandler,

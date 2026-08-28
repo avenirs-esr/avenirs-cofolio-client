@@ -1,22 +1,36 @@
 import type { FeedbackDetailsDTO, FileDTO } from '@/api/avenir-esr'
 import type { WriteFeedbackFormData } from '@/features/staff/feedbacks/types/forms.types'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
-import { mockedFeedbackAttachment } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
+import { mockedFeedbackAttachment, mockedFeedbackDetailsSeen } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import { server } from '@/__mocks__/msw/server'
-import { getDeleteFeedbackAttachmentUrl, getUploadFeedbackAttachmentUrl } from '@/api/avenir-esr'
+import {
+  EFeedbackStatus,
+  EUserCategory,
+  getDeleteFeedbackAttachmentUrl,
+  getGetFeedbackDetailsQueryKey,
+  getUploadFeedbackAttachmentUrl
+} from '@/api/avenir-esr'
 import { FEEDBACK_ATTACHMENT_MAX_FILE_SIZE, FEEDBACK_MAX_LENGTH } from '@/features/staff/feedbacks/config'
 import { useWriteFeedbackForm } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form/use-write-feedback-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { QueryClient } from '@tanstack/vue-query'
 import { mountComposable } from 'tests/utils'
-import { afterAll, beforeAll, beforeEach, expect, vi } from 'vitest'
+import { afterAll, afterEach, beforeAll, beforeEach, expect, vi } from 'vitest'
+
+const { addErrorMessageMock, addWarningMessageMock, addSuccessMessageMock } = vi.hoisted(() => ({
+  addErrorMessageMock: vi.fn(),
+  addWarningMessageMock: vi.fn(),
+  addSuccessMessageMock: vi.fn()
+}))
 
 vi.mock('@/store', async () => {
   const actual = await vi.importActual<typeof import('@/store')>('@/store')
   return {
     ...actual,
     useToasterStore: vi.fn(() => ({
-      addErrorMessage: vi.fn(),
-      addSuccessMessage: vi.fn()
+      addErrorMessage: addErrorMessageMock,
+      addWarningMessage: addWarningMessageMock,
+      addSuccessMessage: addSuccessMessageMock
     }))
   }
 })
@@ -40,6 +54,7 @@ BddTest().given('a write feedback form', () => {
   let composableResult: ReturnType<typeof useWriteFeedbackForm>
   let mockOnFeedbackSaved: ReturnType<typeof vi.fn>
   let mockOnCancel: ReturnType<typeof vi.fn>
+  let setQueryDataSpy: ReturnType<typeof vi.spyOn>
   const remoteAttachment: FileDTO = mockedFeedbackAttachment
   const feedbackId = 'feedback-123'
   const attachmentsUrl = getUploadFeedbackAttachmentUrl(feedbackId)
@@ -51,8 +66,15 @@ BddTest().given('a write feedback form', () => {
       attachmentRequests.push({ method: request.method, path })
     }
   }
-  const buildFeedback = (attachments: FileDTO[] = []): FeedbackDetailsDTO =>
-    ({ id: feedbackId, feedback: '', activity: mockedActivityContent, attachments } as FeedbackDetailsDTO)
+  const buildFeedback = (attachments: FileDTO[] = [], id: string = feedbackId): FeedbackDetailsDTO =>
+    ({ id, feedback: '', activity: mockedActivityContent, attachments } as FeedbackDetailsDTO)
+
+  const expectCacheUpdatedToSeen = (key: unknown, updater: unknown) => {
+    expect(key).toEqual(getGetFeedbackDetailsQueryKey(EUserCategory.STAFF, mockedFeedbackDetailsSeen.id))
+    const staleCachedFeedback: FeedbackDetailsDTO = { ...mockedFeedbackDetailsSeen, status: EFeedbackStatus.NEW }
+    const updated = (updater as (old: FeedbackDetailsDTO) => FeedbackDetailsDTO)(staleCachedFeedback)
+    expect(updated.status).toBe(EFeedbackStatus.SEEN)
+  }
 
   let feedbackRef = ref(buildFeedback())
 
@@ -87,7 +109,12 @@ BddTest().given('a write feedback form', () => {
     vi.clearAllMocks()
     attachmentRequests.length = 0
     feedbackRef = ref(buildFeedback())
+    setQueryDataSpy = vi.spyOn(QueryClient.prototype, 'setQueryData')
     mountForm()
+  })
+
+  afterEach(() => {
+    setQueryDataSpy.mockRestore()
   })
 
   afterAll(() => {
@@ -317,6 +344,119 @@ BddTest().given('a write feedback form', () => {
         expect(attachmentRequests[0].path.endsWith(getDeleteFeedbackAttachmentUrl(feedbackId, remoteAttachment.id))).toBe(true)
       })
     })
+
+    BddTest().and('the feedback has already been seen by the beneficiary', () => {
+      const seenFeedbackId = mockedFeedbackDetailsSeen.id
+
+      BddTest().and('only the feedback text is edited', () => {
+        beforeEach(() => {
+          feedbackRef = ref(buildFeedback([], seenFeedbackId))
+          mountForm(mockOnFeedbackSaved)
+          setFormValues({ feedback: 'Nouvelle tentative de modification' })
+        })
+
+        BddTest().then('it should display a single info message instead of an error toast', async () => {
+          await composableResult.form.handleSubmit()
+
+          await vi.waitFor(() => {
+            expect(addWarningMessageMock).toHaveBeenCalledTimes(1)
+          })
+          expect(addWarningMessageMock).toHaveBeenCalledWith('Ce feedback a été consulté et ne peut plus être modifié')
+          expect(addErrorMessageMock).not.toHaveBeenCalled()
+        })
+
+        BddTest().then('it should update the cached feedback status to SEEN', async () => {
+          await composableResult.form.handleSubmit()
+
+          await vi.waitFor(() => {
+            expect(setQueryDataSpy).toHaveBeenCalledTimes(1)
+          })
+
+          const [key, updater] = setQueryDataSpy.mock.calls[0]
+          expectCacheUpdatedToSeen(key, updater)
+        })
+
+        BddTest().then('it should not call onFeedbackSaved', async () => {
+          await composableResult.form.handleSubmit()
+
+          await vi.waitFor(() => {
+            expect(addWarningMessageMock).toHaveBeenCalledTimes(1)
+          })
+          expect(mockOnFeedbackSaved).not.toHaveBeenCalled()
+        })
+      })
+
+      BddTest().and('a new attachment is also added', () => {
+        const newFile = new File(['content'], 'report.pdf', { type: 'application/pdf' })
+
+        beforeEach(() => {
+          feedbackRef = ref(buildFeedback([], seenFeedbackId))
+          mountForm(mockOnFeedbackSaved)
+          setFormValues({ feedback: 'Feedback existant', attachments: [newFile] })
+        })
+
+        BddTest().then('it should display an info message and never an error toast', async () => {
+          await composableResult.form.handleSubmit()
+
+          await vi.waitFor(() => {
+            expect(addWarningMessageMock).toHaveBeenCalledTimes(1)
+          })
+          addWarningMessageMock.mock.calls.forEach(([message]) => {
+            expect(message).toBe('Ce feedback a été consulté et ne peut plus être modifié')
+          })
+          expect(addErrorMessageMock).not.toHaveBeenCalled()
+        })
+
+        BddTest().then('it should update the cached feedback status to SEEN for each failed mutation', async () => {
+          await composableResult.form.handleSubmit()
+
+          await vi.waitFor(() => {
+            expect(setQueryDataSpy).toHaveBeenCalledTimes(1)
+          })
+          setQueryDataSpy.mock.calls.forEach(([key, updater]) => {
+            expectCacheUpdatedToSeen(key, updater)
+          })
+        })
+
+        BddTest().then('it should not call onFeedbackSaved', async () => {
+          await composableResult.form.handleSubmit()
+
+          await vi.waitFor(() => {
+            expect(addWarningMessageMock).toHaveBeenCalledTimes(1)
+          })
+          expect(mockOnFeedbackSaved).not.toHaveBeenCalled()
+        })
+      })
+
+      BddTest().and('an existing attachment is also removed', () => {
+        beforeEach(() => {
+          feedbackRef = ref(buildFeedback([remoteAttachment], seenFeedbackId))
+          mountForm(mockOnFeedbackSaved)
+          setFormValues({ feedback: 'Feedback existant', attachments: [] })
+        })
+
+        BddTest().then('it should display an info message and never an error toast', async () => {
+          await composableResult.form.handleSubmit()
+
+          await vi.waitFor(() => {
+            expect(addWarningMessageMock).toHaveBeenCalledTimes(1)
+          })
+          addWarningMessageMock.mock.calls.forEach(([message]) => {
+            expect(message).toBe('Ce feedback a été consulté et ne peut plus être modifié')
+          })
+          expect(addErrorMessageMock).not.toHaveBeenCalled()
+        })
+
+        BddTest().then('it should not call onFeedbackSaved', async () => {
+          await composableResult.form.handleSubmit()
+
+          await vi.waitFor(() => {
+            expect(addWarningMessageMock).toHaveBeenCalledTimes(1)
+          })
+          expect(mockOnFeedbackSaved).not.toHaveBeenCalled()
+        })
+      })
+    })
   })
 
   BddTest().when('cancelling the form', () => {
@@ -409,6 +549,38 @@ BddTest().given('a write feedback form', () => {
         expect(
           attachmentRequests.some(request => request.path.endsWith(getDeleteFeedbackAttachmentUrl(feedbackId, autoSavedAttachment.id)))
         ).toBe(true)
+      })
+    })
+
+    BddTest().and('the feedback has already been seen while a text edit was pending', () => {
+      const seenFeedbackId = mockedFeedbackDetailsSeen.id
+
+      beforeEach(() => {
+        feedbackRef = ref(buildFeedback([], seenFeedbackId))
+        mountForm(undefined, mockOnCancel)
+        setFormValues({ feedback: 'Brouillon non sauvegardé' })
+      })
+
+      BddTest().then('it should display an info message instead of an error toast', async () => {
+        await composableResult.handleCancel()
+
+        expect(addWarningMessageMock).toHaveBeenCalledWith('Ce feedback a été consulté et ne peut plus être modifié')
+        expect(addErrorMessageMock).not.toHaveBeenCalled()
+      })
+
+      BddTest().then('it should update the cached feedback status to SEEN', async () => {
+        await composableResult.handleCancel()
+
+        expect(setQueryDataSpy).toHaveBeenCalledTimes(1)
+        const [key, updater] = setQueryDataSpy.mock.calls[0]
+        expectCacheUpdatedToSeen(key, updater)
+      })
+
+      BddTest().then('it should still reset the form and call onCancel', async () => {
+        await composableResult.handleCancel()
+
+        expect(composableResult.form.state.values.feedback).toBe('')
+        expect(mockOnCancel).toHaveBeenCalledTimes(1)
       })
     })
   })
