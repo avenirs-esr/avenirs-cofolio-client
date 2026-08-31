@@ -14,6 +14,8 @@ import DeclaredExperienceOrganizationInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceOrganizationInput/DeclaredExperienceOrganizationInput.vue'
 import DeclaredExperiencePeriodInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperiencePeriodInput/DeclaredExperiencePeriodInput.vue'
+import DeclaredExperienceResultInput
+  from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceResultInput/DeclaredExperienceResultInput.vue'
 import DeclaredExperienceSourceOfInformationInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSourceOfInformationInput/DeclaredExperienceSourceOfInformationInput.vue'
 import DeclaredExperienceSummaryTextarea
@@ -38,6 +40,7 @@ const {
   organization,
   activitySector,
   location,
+  result,
   description,
   sourceOfInformation,
   summary,
@@ -112,6 +115,11 @@ const createdAtPrefixed = computed(() =>
           :start-date-disabled="true"
           :end-date-disabled="true"
           :stacked="isMobile"
+        />
+
+        <DeclaredExperienceResultInput
+          :model-value="result"
+          disabled
         />
 
         <DeclaredExperienceSourceOfInformationInput

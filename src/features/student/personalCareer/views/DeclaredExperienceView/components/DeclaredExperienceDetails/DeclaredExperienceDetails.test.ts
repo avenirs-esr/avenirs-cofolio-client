@@ -6,6 +6,7 @@ import DeclaredExperienceExternalLinkInput from '@/features/student/personalCare
 import DeclaredExperienceLocationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceLocationInput/DeclaredExperienceLocationInput.vue'
 import DeclaredExperienceOrganizationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceOrganizationInput/DeclaredExperienceOrganizationInput.vue'
 import DeclaredExperiencePeriodInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperiencePeriodInput/DeclaredExperiencePeriodInput.vue'
+import DeclaredExperienceResultInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceResultInput/DeclaredExperienceResultInput.vue'
 import DeclaredExperienceSourceOfInformationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSourceOfInformationInput/DeclaredExperienceSourceOfInformationInput.vue'
 import DeclaredExperienceSummaryTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSummaryTextarea/DeclaredExperienceSummaryTextarea.vue'
 import DeclaredExperienceTitleInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.vue'
@@ -36,6 +37,7 @@ const mockedDeclaredExperienceDetails: DeclaredExperienceViewDTO = {
   organization: 'My organization',
   activitySector: 'IT',
   location: 'Paris',
+  result: 'validation',
   description: 'My experience description',
   summary: 'My experience summary',
   sourceOfInformation: 'My source',
@@ -54,6 +56,7 @@ const mockedDeclaredExperienceDetailsWithUndefinedOptionalFields: DeclaredExperi
   ...mockedDeclaredExperienceDetails,
   description: undefined,
   summary: undefined,
+  result: undefined,
   sourceOfInformation: undefined,
   externalLink: undefined,
   endDate: undefined,
@@ -181,6 +184,13 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
         expect(details.props('updatedAt')).toBe(mockedDeclaredExperienceDetails.updatedAt)
         expect(details.props('createdAtPrefix')).toBe('Expérience')
       })
+
+      BddTest().then('it should render the result', () => {
+        const component = wrapper.findComponent(DeclaredExperienceResultInput)
+        expect(component.exists()).toBe(true)
+        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.result)
+        expect(component.props('disabled')).toBe(true)
+      })
     })
   })
 
@@ -248,6 +258,7 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
       BddTest().then('it should pass empty strings for undefined optional values', () => {
         expect(wrapper.findComponent(DeclaredExperienceSourceOfInformationInput).props('modelValue')).toBe(undefined)
         expect(wrapper.findComponent(DeclaredExperienceExternalLinkInput).props('modelValue')).toBe(undefined)
+        expect(wrapper.findComponent(DeclaredExperienceResultInput).props('modelValue')).toBe(undefined)
 
         expect(wrapper.findComponent(DeclaredExperienceDescriptionTextarea).props('modelValue')).toBe('')
         expect(wrapper.findComponent(DeclaredExperienceSummaryTextarea).props('modelValue')).toBe('')

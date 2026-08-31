@@ -38,6 +38,7 @@ export interface DeclaredExperienceFormData {
   organization: string
   activitySector: string
   location: string
+  result: string
   startDate: string
   endDate: string
   isOngoing: boolean

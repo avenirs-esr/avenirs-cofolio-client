@@ -60,9 +60,13 @@
             "label": "Period",
             "startLabel": "Start date"
           },
+          "DeclaredExperienceResultInput": {
+            "label": "Result obtained",
+            "placeholder": "Successful completion, validation, certification, distinction, ranking or other..."
+          },
           "DeclaredExperienceSourceOfInformationInput": {
             "label": "Source of information",
-            "placeholder": "Source"
+            "placeholder": "Training course page on the institution's website, etc..."
           },
           "DeclaredExperienceSummaryTextarea": {
             "label": "Review / Reflection"
