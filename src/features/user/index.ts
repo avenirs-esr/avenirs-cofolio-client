@@ -1,0 +1,5 @@
+export { default as StudentOverviewWidget } from '@/features/user/components/cards/StudentOverviewWidget/StudentOverviewWidget.vue'
+export { default as StudentMailboxPopover } from '@/features/user/components/overlays/StudentMailboxPopover/StudentMailboxPopover.vue'
+export { default as StudentNotificationsPopover } from '@/features/user/components/overlays/StudentNotificationsPopover/StudentNotificationsPopover.vue'
+export { default as StudentProfileDropdown } from '@/features/user/components/overlays/StudentProfileDropdown/StudentProfileDropdown.vue'
+export { useStudentUserStore } from '@/features/user/stores/user.store'

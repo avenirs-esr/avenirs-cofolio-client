@@ -1,0 +1,36 @@
+<script setup lang="ts">
+import type { EExperienceType } from '@/api/avenir-esr'
+import type { AddDeclaredExperienceForm, UpdateDeclaredExperienceForm } from '@/features/personalCareer/types/forms.types'
+import DeclaredExperienceTypeSelect from '@/features/personalCareer/components/interactions/inputs/DeclaredExperienceTypeSelect/DeclaredExperienceTypeSelect.vue'
+import { markRaw } from 'vue'
+
+interface DeclaredExperienceTypeFormFieldProps {
+  form: AddDeclaredExperienceForm | UpdateDeclaredExperienceForm
+}
+
+defineOptions({
+  inheritAttrs: false
+})
+
+const { form } = defineProps<DeclaredExperienceTypeFormFieldProps>()
+const FormField = markRaw(form.Field)
+const typeField = form.useField({ name: 'type' })
+
+function onUpdateType (value: { itemId: EExperienceType } | undefined) {
+  typeField.api.handleChange(value?.itemId ?? '')
+}
+</script>
+
+<template>
+  <FormField name="type">
+    <template #default="{ field }">
+      <DeclaredExperienceTypeSelect
+        v-bind="$attrs"
+        :model-value="{ itemId: field.state.value as EExperienceType }"
+        :error-message="field.state.meta.errors?.join(', ')"
+        @blur="field.handleBlur"
+        @update:model-value="onUpdateType"
+      />
+    </template>
+  </FormField>
+</template>

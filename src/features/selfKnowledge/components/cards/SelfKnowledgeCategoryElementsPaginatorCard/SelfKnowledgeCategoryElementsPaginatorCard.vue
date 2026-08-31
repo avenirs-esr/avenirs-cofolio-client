@@ -1,0 +1,179 @@
+<script setup lang="ts">
+import type { GetSelfKnowledgeElementsParams, SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
+import { useGetSelfKnowledgeElements } from '@/api/avenir-esr'
+import Card from '@/common/components/cards/Card/Card.vue'
+import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import { useModal } from '@/common/composables'
+import SelfKnowledgeElementCard from '@/features/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
+import SelfKnowledgeElementsDropdown from '@/features/selfKnowledge/components/dropdowns/SelfKnowledgeElementsDropdown/SelfKnowledgeElementsDropdown.vue'
+import DeleteSelfKnowledgeCategoryModal from '@/features/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoryModal/DeleteSelfKnowledgeCategoryModal.vue'
+import DeleteSelfKnowledgeElementsModal from '@/features/selfKnowledge/components/modals/DeleteSelfKnowledgeElementsModal/DeleteSelfKnowledgeElementsModal.vue'
+import { useSelfKnowledgeCategory } from '@/features/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
+import { useSelfKnowledgeStore } from '@/features/selfKnowledge/stores/self-knowledge.store'
+import { toSelfKnowledgeCategoriesParam } from '@/features/selfKnowledge/utils/category.utils'
+import { AvIconText, AvPagination, getPaginationPages } from '@avenirs-esr/avenirs-dsav'
+import { keepPreviousData } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
+
+export interface SelfKnowledgeCategoryElementsPaginatorCardProps {
+  category: SelfKnowledgeCategoryDTO
+}
+
+const { category } = defineProps<SelfKnowledgeCategoryElementsPaginatorCardProps>()
+
+const { t } = useI18n()
+const { openAddElementDrawer } = useSelfKnowledgeStore()
+
+const currentPage = ref(0)
+
+const params = computed<GetSelfKnowledgeElementsParams>(() => ({
+  selfKnowledgeCategories: toSelfKnowledgeCategoriesParam(category.type),
+  page: currentPage.value
+}))
+
+const { data, isLoading, error } = useGetSelfKnowledgeElements(params, {
+  query: { placeholderData: keepPreviousData }
+})
+
+const elements = computed(() => data.value?.data ?? [])
+const pageInfo = computed(() => data.value?.page)
+
+const {
+  categoryType,
+  categoryTitle: categoryDisplayTitle,
+  categoryDescription,
+  categoryIcon
+} = useSelfKnowledgeCategory(computed(() => category.type))
+
+const {
+  displayModal: displayDeleteCategoryModal,
+  hideModal: hideDeleteCategoryModal,
+  showModal: showDeleteCategoryModal
+} = useModal()
+
+const {
+  displayModal: displayDeleteElementModal,
+  hideModal: hideDeleteElementModal,
+  showModal: showDeleteElementModal
+} = useModal()
+
+const totalElements = computed(() => pageInfo.value?.totalElements ?? 0)
+const categoryTitle = computed(() => `${categoryDisplayTitle.value} (${totalElements.value})`)
+const totalPages = computed(() => pageInfo.value?.totalPages ?? 0)
+const pages = computed(() => getPaginationPages(totalPages))
+
+function openAddCategoryElementDrawer () {
+  openAddElementDrawer(category)
+}
+
+function onElementDeleted () {
+  if (elements.value.length === 0 && currentPage.value > 0) {
+    currentPage.value -= 1
+  }
+  hideDeleteElementModal()
+}
+</script>
+
+<template>
+  <Card
+    background-color="var(--surface-background)"
+    title-background="var(--surface-background)"
+    border-color="var(--stroke)"
+    collapsible
+  >
+    <template #title>
+      <div class="av-col av-row--md av-align-center--md av-justify-between av-w-full av-gap-md av-px-md">
+        <AvIconText
+          typography-class="n5"
+          :icon="categoryIcon"
+          icon-color="var(--icon)"
+          :text="categoryTitle"
+          text-color="var(--title)"
+          gap="var(--spacing-sm)"
+          inline
+        />
+        <div class="av-row av-align-center av-gap-sm">
+          <SelfKnowledgeElementsDropdown
+            :category-type="categoryType"
+            @delete-selected="displayDeleteElementModal"
+            @delete-category-selected="displayDeleteCategoryModal"
+            @add-selected="openAddCategoryElementDrawer"
+          />
+        </div>
+      </div>
+    </template>
+
+    <div class="av-col av-gap-sm">
+      <span class="s2-regular av-text-text2">{{ categoryDescription }}</span>
+
+      <QuerySuspense
+        :error="error"
+        :is-loading="isLoading"
+        :is-empty="elements.length === 0"
+        :empty-state-message="t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.emptyState')"
+      >
+        <div class="av-col av-justify-end av-gap-md">
+          <AvPagination
+            v-if="pageInfo"
+            class="category-elements-paginator__pagination"
+            :current-page="pageInfo.page"
+            :pages="pages"
+            compact
+            :prev-page-label="t('global.avPagination.prevPageTitle')"
+            :next-page-label="t('global.avPagination.nextPageTitle')"
+            :compact-current-page-label="t('global.avPagination.current', {
+              current: (pageInfo.page + 1),
+              total: (pageInfo.totalPages),
+            })"
+            @update:current-page="(page) => currentPage = page"
+          />
+
+          <div class="av-row av-justify-start av-gap-md av-wrap category-elements-paginator__cards">
+            <SelfKnowledgeElementCard
+              v-for="element in elements"
+              :key="element.id"
+              :element="element"
+              :category-type="category.type"
+            />
+          </div>
+        </div>
+      </QuerySuspense>
+    </div>
+  </Card>
+
+  <DeleteSelfKnowledgeCategoryModal
+    :show="showDeleteCategoryModal"
+    :category-type="category.type"
+    :category-title="categoryDisplayTitle"
+    :elements-count="elements.length"
+    @cancel="hideDeleteCategoryModal"
+    @confirm="hideDeleteCategoryModal"
+  />
+
+  <DeleteSelfKnowledgeElementsModal
+    v-if="pageInfo"
+    :show="showDeleteElementModal"
+    :category-type="category.type"
+    :total-count="pageInfo.totalElements"
+    @cancel="hideDeleteElementModal"
+    @confirm="onElementDeleted"
+  />
+</template>
+
+<style lang="scss" scoped>
+.category-elements-paginator {
+  &__pagination {
+    :deep(.av-pagination__list) {
+      justify-content: flex-end !important;
+    }
+  }
+
+  &__cards {
+    > * {
+      flex: 1 1 calc((100% - 2 * var(--spacing-md)) / 3);
+      min-width: 20rem;
+      max-width: calc((100% - 2 * var(--spacing-md)) / 3);
+    }
+  }
+}
+</style>

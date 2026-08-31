@@ -1,0 +1,72 @@
+{
+  "staff": {
+    "user": {
+      "overlays": {
+        "StaffNotificationsPopover": {
+          "contexts": {
+            "feedback": "A student will send you a feedback request"
+          }
+        }
+      }
+    }
+  },
+  "student": {
+    "user": {
+      "cards": {
+        "StudentOverviewWidget": {
+          "buttons": {
+            "editProfile": "Edit my profile"
+          }
+        }
+      },
+      "overlays": {
+        "StudentMailboxPopover": {
+          "bodyNoNew": "You have no new messages to consult.",
+          "buttons": {
+            "close": "Close",
+            "navigate": "Go to my mailbox",
+            "seeAll": "See all"
+          },
+          "title": "No new messages | 1 unread message | {count} unread messages"
+        },
+        "StudentNotificationsPopover": {
+          "contexts": {
+            "activityModified": "An activity you are enrolled in has been modified"
+          }
+        },
+        "UpdateProfileDrawer": {
+          "identity": {
+            "biography": {
+              "errors": {
+                "tooLong": "The biography must not exceed {maxLength} characters"
+              },
+              "label": "Biography"
+            },
+            "firstname": "First name",
+            "lastname": "Last name",
+            "mail": "Personal email address",
+            "title": "Identity"
+          },
+          "onDelete": {
+            "error": "An error occurred while deleting the photo.",
+            "success": "Your photo has been deleted."
+          },
+          "onUpdate": {
+            "error": "An error occurred while updating the profile.",
+            "success": "Your profile has been updated."
+          },
+          "pictures": {
+            "banner": "Banner",
+            "picture": "Profile picture"
+          },
+          "title": "Edit my profile"
+        }
+      },
+      "views": {
+        "StudentMailboxView": {
+          "title": "My mailbox"
+        }
+      }
+    }
+  }
+}

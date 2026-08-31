@@ -47,7 +47,7 @@ import {
   type PagedResponseDeclaredActivityViewDTO,
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
-import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
+import { PERSPECTIVE_MAX_LENGTH } from '@/features/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
 
 const subscribedActivities = new Set<string>()

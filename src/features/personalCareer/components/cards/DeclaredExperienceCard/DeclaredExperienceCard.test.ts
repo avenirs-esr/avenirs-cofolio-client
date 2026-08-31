@@ -1,0 +1,186 @@
+import { type DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
+import { PeriodBadgeStub } from '@/common/activities/badges/PeriodBadge/PeriodBadge.stub'
+import { FloatingIconCardStub } from '@/features/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
+import { DeclaredExperienceOrganizationBadgeStub }
+  from '@/features/personalCareer/components/badges/DeclaredExperienceOrganizationBadge/DeclaredExperienceOrganizationBadge.stub'
+import { DeclaredExperienceTypeBadgeStub }
+  from '@/features/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.stub'
+import DeclaredExperienceCard from '@/features/personalCareer/components/cards/DeclaredExperienceCard/DeclaredExperienceCard.vue'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
+
+BddTest().given('a declared experience card', () => {
+  let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceCard>>
+
+  const stubs = {
+    FloatingIconCard: FloatingIconCardStub,
+    RouterLink: RouterLinkStub,
+    PeriodBadge: PeriodBadgeStub,
+    DeclaredExperienceTypeBadge: DeclaredExperienceTypeBadgeStub,
+    DeclaredExperienceOrganizationBadge: DeclaredExperienceOrganizationBadgeStub
+  }
+
+  const baseDeclaredExperience: DeclaredExperienceViewDTO = {
+    id: '1',
+    title: 'Développeur Web',
+    organization: 'Tech Company',
+    startDate: '2023-01',
+    createdAt: '2023-01-01T00:00:00Z',
+    updatedAt: '2023-01-01T00:00:00Z',
+    declaredExperienceAssociationCountDTO: {
+      traceAssociationsCount: 3,
+      declaredSkillAssociationsCount: 1
+    }
+  }
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  BddTest().when('the component is mounted with complete data', () => {
+    let floatingCard: VueWrapper<InstanceType<typeof FloatingIconCardStub>>
+
+    beforeEach(() => {
+      wrapper = mount(DeclaredExperienceCard, {
+        props: {
+          declaredExperience: {
+            ...baseDeclaredExperience,
+            experienceType: EExperienceType.PROFESSIONAL,
+            organization: 'AVENIR(S)'
+          }
+        },
+        global: { stubs }
+      })
+      floatingCard = wrapper.findComponent({ name: 'FloatingIconCard' }) as VueWrapper<InstanceType<typeof FloatingIconCardStub>>
+    })
+
+    BddTest().then('it should render the floating icon card', () => {
+      expect(floatingCard.exists()).toBe(true)
+    })
+
+    BddTest().then('it should pass the title to floating icon card', () => {
+      expect(floatingCard.props('title')).toBe('Développeur Web')
+    })
+
+    BddTest().then('it should have surface background color', () => {
+      expect(floatingCard.props('color')).toBe('var(--surface-background)')
+    })
+
+    BddTest().then('it should have correct border color', () => {
+      expect(floatingCard.props('borderColor')).toBe('var(--other-border-skill-card)')
+    })
+
+    BddTest().then('it should have correct border color on hover', () => {
+      expect(floatingCard.props('borderColorOnHover')).toBe('var(--dark-background-primary1)')
+    })
+
+    BddTest().then('it should have correct height', () => {
+      expect(floatingCard.props('height')).toBe('12.8rem')
+    })
+
+    BddTest().then('it should have correct title typography classes', () => {
+      expect(floatingCard.props('titleTypographyClasses')).toBe('n6')
+    })
+
+    BddTest().then('it should have 1 header row', () => {
+      expect(floatingCard.props('headerRows')).toBe(1)
+    })
+
+    BddTest().then('it should pass hub outline icon in icon options', () => {
+      expect(floatingCard.props('iconOptions').name).toBe(MDI_ICONS.HUB_OUTLINE)
+    })
+
+    BddTest().and('the experience type badge is rendered', () => {
+      let experienceTypeBadge: VueWrapper<InstanceType<typeof DeclaredExperienceTypeBadgeStub>>
+
+      beforeEach(() => {
+        experienceTypeBadge = wrapper.findComponent(DeclaredExperienceTypeBadgeStub) as VueWrapper<InstanceType<typeof DeclaredExperienceTypeBadgeStub>>
+      })
+
+      BddTest().then('it should exist', () => {
+        expect(experienceTypeBadge.exists()).toBe(true)
+      })
+
+      BddTest().then('it should receive the professional experience type', () => {
+        expect(experienceTypeBadge.props('experienceType')).toBe(EExperienceType.PROFESSIONAL)
+      })
+    })
+
+    BddTest().and('the organization badge is rendered', () => {
+      let organizationBadge: VueWrapper<InstanceType<typeof DeclaredExperienceOrganizationBadgeStub>>
+
+      beforeEach(() => {
+        organizationBadge = wrapper.findComponent(DeclaredExperienceOrganizationBadgeStub) as VueWrapper<InstanceType<typeof DeclaredExperienceOrganizationBadgeStub>>
+      })
+
+      BddTest().then('it should exist', () => {
+        expect(organizationBadge.exists()).toBe(true)
+      })
+
+      BddTest().then('it should receive the organization', () => {
+        expect(organizationBadge.props('organization')).toBe('AVENIR(S)')
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted with PERSONAL experience type', () => {
+    beforeEach(() => {
+      wrapper = mount(DeclaredExperienceCard, {
+        props: {
+          declaredExperience: {
+            ...baseDeclaredExperience,
+            experienceType: EExperienceType.PERSONAL
+          }
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should pass the personal experience type to the badge', () => {
+      const experienceTypeBadge = wrapper.findComponent(DeclaredExperienceTypeBadgeStub)
+      expect(experienceTypeBadge.props('experienceType')).toBe(EExperienceType.PERSONAL)
+    })
+  })
+
+  BddTest().when('the component is mounted without experience type', () => {
+    beforeEach(() => {
+      wrapper = mount(DeclaredExperienceCard, {
+        props: {
+          declaredExperience: {
+            ...baseDeclaredExperience,
+            experienceType: undefined
+          }
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render experience type badge', () => {
+      expect(wrapper.findComponent(DeclaredExperienceTypeBadgeStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with only required fields', () => {
+    beforeEach(() => {
+      wrapper = mount(DeclaredExperienceCard, {
+        props: {
+          declaredExperience: baseDeclaredExperience
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the floating icon card', () => {
+      const floatingCard = wrapper.findComponent({ name: 'FloatingIconCard' })
+      expect(floatingCard.exists()).toBe(true)
+    })
+
+    BddTest().then('it should only render the period and the organization badges', () => {
+      expect(wrapper.findComponent(DeclaredExperienceOrganizationBadgeStub).exists()).toBe(true)
+      expect(wrapper.findComponent(DeclaredExperienceTypeBadgeStub).exists()).toBe(false)
+      expect(wrapper.findComponent({ name: 'PeriodBadge' }).exists()).toBe(true)
+    })
+  })
+})

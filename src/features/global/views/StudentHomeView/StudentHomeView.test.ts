@@ -1,0 +1,36 @@
+import { ActivitiesWidgetStub } from '@/features/global/views/StudentHomeView/components/ActivitiesWidget/ActivitiesWidget.stub'
+import StudentHomeView from '@/features/global/views/StudentHomeView/StudentHomeView.vue'
+import { TracesWidgetStub } from '@/features/traces/components/cards/TracesWidget/TracesWidget.stub'
+import { StudentOverviewWidgetStub } from '@/features/user/components/cards/StudentOverviewWidget/StudentOverviewWidget.stub'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount, type VueWrapper } from '@vue/test-utils'
+
+BddTest().given('a student home view', () => {
+  let wrapper: VueWrapper<InstanceType<typeof StudentHomeView>>
+
+  const stubs = {
+    StudentOverviewWidget: StudentOverviewWidgetStub,
+    ActivitiesWidget: ActivitiesWidgetStub,
+    TracesWidget: TracesWidgetStub,
+  }
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+
+    wrapper = mount(StudentHomeView, { global: { stubs } })
+  })
+
+  BddTest().when('the view is mounted', () => {
+    BddTest().then('it should render all expected widgets in the correct layout', () => {
+      const sidebar = wrapper.find('.layout-home__sidebar')
+      const main = wrapper.find('.layout-home__main')
+
+      expect(sidebar.exists()).toBe(true)
+      expect(sidebar.findComponent({ name: 'StudentOverviewWidget' }).exists()).toBe(true)
+
+      expect(main.exists()).toBe(true)
+      expect(main.findAllComponents(ActivitiesWidgetStub)).toHaveLength(2)
+      expect(main.findComponent(TracesWidgetStub).exists()).toBe(true)
+    })
+  })
+})

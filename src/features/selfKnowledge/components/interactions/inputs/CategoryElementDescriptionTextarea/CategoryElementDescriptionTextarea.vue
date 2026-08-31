@@ -1,0 +1,64 @@
+<script setup lang="ts">
+import { SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH } from '@/features/buildProject/config'
+import { AvInput, type AvInputProps } from '@avenirs-esr/avenirs-dsav'
+import { useAttrs } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const {
+  isValid = false,
+  isTextarea = true,
+  labelVisible = true,
+  disabled = false,
+  required = false,
+  maxlength = SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH,
+  label,
+  placeholder,
+  errorMessage,
+} = defineProps<AvInputProps>()
+
+const modelValue = defineModel<string>()
+const { t } = useI18n()
+const attr = useAttrs()
+
+const avInputProps = computed(() => ({
+  ...attr,
+  isValid,
+  isTextarea,
+  labelVisible,
+  disabled,
+  required,
+  maxlength,
+  errorMessage,
+  label: label ?? t('student.selfKnowledge.interactions.inputs.CategoryElementDescriptionTextarea.label'),
+  placeholder: placeholder ?? t('student.selfKnowledge.interactions.inputs.CategoryElementDescriptionTextarea.placeholder'),
+}))
+</script>
+
+<template>
+  <div class="self-knowledge-category-element-description-textarea">
+    <AvInput
+      v-bind="avInputProps"
+      v-model="modelValue"
+    >
+      <template
+        v-if="!$slots.maxLengthCaption"
+        #maxLengthCaption="{ currentValue }"
+      >
+        <span class="caption-light">
+          {{ t('global.inputs.textarea.limit', {
+            count: currentValue?.toString().length || 0,
+            maxlength,
+          }) }}
+        </span>
+      </template>
+    </AvInput>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.self-knowledge-category-element-description-textarea {
+  :deep(.av-input__wrapper textarea) {
+    min-height: 8rem;
+  }
+}
+</style>

@@ -1,0 +1,18 @@
+<script setup lang="ts">
+import { EExperienceType } from '@/api/avenir-esr'
+import ValorizedDeclaredExperiencesContainer from '@/features/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperiencesContainer/ValorizedDeclaredExperiencesContainer.vue'
+import ValorizedDeclaredProgramsContainer from '@/features/kit/views/StudentToolsKitView/components/ValorizedDeclaredProgramsContainer/ValorizedDeclaredProgramsContainer.vue'
+import ValorizedDeclaredSkillsContainer from '@/features/kit/views/StudentToolsKitView/components/ValorizedDeclaredSkillsContainer/ValorizedDeclaredSkillsContainer.vue'
+import ValorizedSelfKnowledgeContainer from '@/features/kit/views/StudentToolsKitView/components/ValorizedSelfKnowledgeContainer/ValorizedSelfKnowledgeContainer.vue'
+</script>
+
+<template>
+  <div class="av-col av-gap-md">
+    <ValorizedDeclaredSkillsContainer />
+    <ValorizedDeclaredExperiencesContainer :experience-type="EExperienceType.PROFESSIONAL" />
+    <ValorizedDeclaredExperiencesContainer :experience-type="EExperienceType.PERSONAL" />
+    <ValorizedDeclaredProgramsContainer />
+    <ValorizedSelfKnowledgeContainer interests-only />
+    <ValorizedSelfKnowledgeContainer />
+  </div>
+</template>

@@ -26,7 +26,7 @@ interceptorManager.addResponseInterceptor(async (response: Response, context: Re
   const skip = (context.options as FetchOptions).skipUnauthorizedHandling
 
   if (response.status === HttpStatusCode.UNAUTHORIZED && !skip) {
-    const { useAuthStore } = await import('@/features/auth/global/stores/auth.store')
+    const { useAuthStore } = await import('@/features/auth/stores/auth.store')
     const authStore = useAuthStore()
 
     await authStore.ensureAuthenticated({ force: true })

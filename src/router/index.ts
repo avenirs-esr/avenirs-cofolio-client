@@ -1,7 +1,7 @@
 import type { EUserCategory } from '@/api/avenir-esr'
-import authRoutes from '@/features/auth/global/routes'
-import staffRoutes from '@/features/staff/global/routes'
-import studentRoutes from '@/features/student/global/routes'
+import authRoutes from '@/features/auth/routes'
+import staffRoutes from '@/features/global/routes'
+import studentRoutes from '@/features/global/routes'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const MAIN_TITLE = 'Cofolio'
@@ -50,8 +50,24 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => { // Cf. https://github.com/vueuse/head pour des transformations avancées de Head
+  const restrictions = [
+    'public',
+    'requireRole',
+    'requireRoles',
+    'requireAnyRole',
+    'requirePermission',
+    'requirePermissions',
+    'requireAnyPermission'
+  ].filter(restriction => restriction in to.meta)
+
+  if (restrictions.length === 0) {
+    //throw Error
+  }
+  
+  
+
   if (to.meta.public !== true) {
-    const { useAuthStore } = await import('@/features/auth/global/stores/auth.store')
+    const { useAuthStore } = await import('@/features/auth/stores/auth.store')
     const authStore = useAuthStore()
     const toAuth = await authStore.ensureAuthenticated({ to, delegated: true })
     if (toAuth !== undefined) {

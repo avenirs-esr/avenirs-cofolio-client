@@ -16,7 +16,7 @@ import {
   type PagedResponseDeclaredActivityViewDTO,
   type TraceAssociationDTO
 } from '@/api/avenir-esr'
-import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
+import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/activities'
 
 export const mockedActivityOverview: ActivityOverviewDTO = {
   id: 'activity-1',

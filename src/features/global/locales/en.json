@@ -1,0 +1,223 @@
+{
+  "staff": {
+    "global": {
+      "cards": {
+        "ActivityFeedbackNotificationCard": {
+          "content": "You have received a new feedback request from {studentName} on the {activityName} activity."
+        }
+      },
+      "layout": {
+        "header": {
+          "home": "Home - Staff CoFolio"
+        }
+      },
+      "navigation": {
+        "tabs": {
+          "activities": {
+            "header": "Activity library",
+            "items": {
+              "addNationalActivity": "Create my activity",
+              "editNationalActivity": "Edit activity"
+            }
+          },
+          "home": "Home",
+          "studentFeedbacks": "All my feedback requests",
+          "studentTracking": "Student tracking"
+        }
+      },
+      "views": {
+        "ActivitiesView": {
+          "title": "My activity library"
+        },
+        "StaffHomeView": {
+          "buttons": {
+            "editProfile": "Edit profile"
+          },
+          "widgets": {
+            "ActivitiesWidget": {
+              "emptyState": {
+                "draft": "You have no modified activities at the moment.",
+                "published": "You have no published activities at the moment."
+              },
+              "errorState": {
+                "draft": "An error occurred while retrieving your modified activities.",
+                "published": "An error occurred while retrieving your published activities."
+              },
+              "seeAll": {
+                "draft": "See all my modified activities",
+                "published": "See all my published activities"
+              },
+              "title": {
+                "draft": "My latest modified activities",
+                "published": "My latest published activities"
+              }
+            },
+            "FeedbacksWidget": {
+              "emptyState": "You have no feedback requests to process at the moment.",
+              "error": "An error occurred while retrieving your feedback requests.",
+              "seeAll": "See all my feedback requests",
+              "title": "My latest feedback requests"
+            }
+          }
+        }
+      }
+    }
+  },
+  "student": {
+    "global": {
+      "badges": {
+        "UpdateInProgress": "Modification en cours"
+      },
+      "cards": {
+        "ActivityModifiedNotificationCard": {
+          "content": "The activity \"{activityName}\" has been updated. The following section has been modified: {sectionTypes}. | The activity \"{activityName}\" has been updated. The following sections have been modified: {sectionTypes}.",
+          "updatedFields": {
+            "ACTIVITY_TITLE": "Title",
+            "BANNER": "Banner",
+            "DESCRIPTION": "Description",
+            "RECOMMENDED_COMPLETION_CONTEXTS": "Recommended completion context(s)",
+            "FILES_AND_LINKS": "Files and links",
+            "SUMMARY": "Summary",
+            "THEMATIC": "Theme"
+          }
+        },
+        "SelectedAssociateItemContainer": {
+          "label": "My selected elements ({count})"
+        }
+      },
+      "layout": {
+        "header": {
+          "home": "Home - Student CoFolio",
+          "quicklinks": {
+            "mailbox": "Mailbox",
+            "notifications": "Notifications"
+          }
+        }
+      },
+      "myAssociatedTracesWithCount": "My associated trace ({count}) | My associated traces ({count})",
+      "myAssociationsWithCount": "My associations ({count})",
+      "myDeclaredActivityCount": "My declared activities (0) | My declared activity (1) | My declared activities ({count})",
+      "myDeclaredSkillCount": "My declared skills (0) | My declared skill (1) | My declared skills ({count})",
+      "interaction": {
+        "inputs": {
+          "AssociateElementTypeSelect": {
+            "label": {
+              "default": "Search in:",
+              "subType": "Of type:"
+            },
+            "placeholder": "Select a type"
+          },
+          "period": {
+            "label": "Period"
+          }
+        },
+        "toggles": {
+          "ValorizeToggle": {
+            "activeText": "I valorize in my kit",
+            "inactiveText": "I don't valorize in my kit"
+          }
+        }
+      },
+      "navigation": {
+        "selects": {
+          "label": "Access to"
+        },
+        "tabs": {
+          "home": "Home",
+          "project": {
+            "header": "Building my life project",
+            "items": {
+              "activities": "My activities",
+              "declaredExperience": "All my declared experiences",
+              "declaredSkills": "My other declared skills",
+              "experiences": "My career",
+              "selfKnowledge": "About me",
+              "skills": "All my skills",
+              "trajectories": "Building my project"
+            }
+          },
+          "tools": {
+            "header": "My tools",
+            "items": {
+              "kit": "My ready-to-use kit",
+              "traces": "My traces"
+            }
+          }
+        }
+      },
+      "overlays": {
+        "modals": {
+          "DeleteAssociationsConfirmModal": {
+            "title": "Are you sure you want to delete this association? | Are you sure you want to delete these associations?"
+          },
+          "DeleteAssociationsModal": {
+            "confirmButton": "Delete selected associations (0) | Delete selected association (1) | Delete selected associations ({count})",
+            "error": "An error occurred while deleting the association. | An error occurred while deleting the associations.",
+            "success": "The selected association has been successfully deleted | The selected associations have been successfully deleted",
+            "title": "No association to delete | Which association do you want to delete? | Which associations do you want to delete?"
+          }
+        }
+      },
+      "sections": {
+        "AssociateElementsDrawerSection": {
+          "defaultPlaceholder": "Search..."
+        }
+      },
+      "views": {
+        "studentDeliverablesView": {
+          "title": "(placeholder) All my deliverables"
+        },
+        "studentEventsView": {
+          "title": "(placeholder) All my events"
+        },
+        "studentHomeView": {
+          "title": "Cofolio Student Home",
+          "widgets": {
+            "ActivitiesWidget": {
+              "emptyState": {
+                "library": "You have no activities in your library at the moment.",
+                "new": "No new activities are available at the moment."
+              },
+              "errorState": {
+                "library": "An error occurred while loading your activity library.",
+                "new": "An error occurred while loading new activities."
+              },
+              "seeAll": {
+                "library": "See all my activity library",
+                "new": "See all new activities"
+              },
+              "title": {
+                "library": "My activity library",
+                "new": "New activities"
+              }
+            }
+          }
+        },
+        "studentProjectTrajectoriesView": {
+          "buildProject": {
+            "consultHelpButtonLabel": "How to build my project?",
+            "projectTrajectoriesHelperModal": {
+              "closeButtonLabel": "Close",
+              "content": "Following the work on your interests, motivations and values, and on the exploration of possible futures, one or several life project ideas may start to take shape.\n##The validation phase of your project(s) can then begin.##\nThe questions to ask yourself at this stage are:\n\n(-##What skills have I already acquired that are useful for this project?##)(-##What new skills do I need to acquire to carry out this project?##)(-##How can I acquire them?##)\nThe answers to these questions will help you ##build one or more coherent paths for your project by combining several possible future profiles## (training programs, mobility, careers, etc.) that you have added to your portfolio.\n##To support your reflection, you can associate evidences you have added to your skills portfolio.## These evidences will help demonstrate your learning and contribute to showing your commitment and progress in:\n\n(-the development of your skills)(-the construction of a life project consistent with your background, skills, and interests.)",
+              "title": "##Imagine your future by identifying possible paths##"
+            },
+            "title": "Building my project"
+          },
+          "exploreFutures": {
+            "title": "Explore my futures"
+          },
+          "title": "Building my project",
+          "trajectories": {
+            "title": "My Trajectories"
+          }
+        },
+        "studentToolsPagesView": {
+          "title": "(placeholder) All my free pages"
+        },
+        "studentToolsResumesView": {
+          "title": "(placeholder) All my resumes"
+        }
+      }
+    }
+  }
+}
