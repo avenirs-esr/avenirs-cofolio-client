@@ -344,7 +344,8 @@
             "validate": "Valider la sélection"
           },
           "ConfirmUpdateTraceModal": {
-            "confirmLabel": "Modifier Ma Trace",
+            "confirmLabel": "Modifier ma trace",
+            "emptyTitle": "Êtes-vous certain(e) de vouloir enregistrer les modifications ?",
             "subtitle": "Attention, les modifications ne pourront pas être appliqués dans ces contextes d'association car ils font partis d'un travail en cours d'examen ou terminé :",
             "title": "Vous êtes sur le point de modifier votre trace."
           },
