@@ -1,4 +1,5 @@
-import { EExternalSkillType, type ExternalSkillDTO } from '@/api/avenir-esr'
+import { type DeclaredSkillProgressDTO, EDeclaredSkillLevel, EExternalSkillType, type ExternalSkillDTO } from '@/api/avenir-esr'
+import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import StudentDetailedDeclaredSkillCard from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedDeclaredSkillCard/StudentDetailedDeclaredSkillCard.vue'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -11,16 +12,29 @@ const mockSkill: ExternalSkillDTO = {
   pathSegments: ['Relation client', 'Accueillir et orienter']
 }
 
+const mockDeclaredSkillProgress: DeclaredSkillProgressDTO = {
+  id: 'declared-skill-progress-1',
+  title: 'Accueillir des enfants',
+  type: EExternalSkillType.ROME4,
+  pathSegments: ['Relation client', 'Accueillir et orienter'],
+  level: EDeclaredSkillLevel.BEGINNER,
+  valorized: true,
+  associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }
+}
+
 const stubs = {
   StudentDetailedSkillCard: {
     name: 'StudentDetailedSkillCard',
     props: ['id', 'name', 'skillColor', 'icon', 'color', 'to'],
     template: `<div class="student-detailed-skill-card"><slot /></div>`
   },
-  AvBadge: AvBadgeStub
+  AvBadge: AvBadgeStub,
+  ValorizedBadge: ValorizedBadgeStub
 }
 
-function createWrapper (declaredSkill: ExternalSkillDTO = mockSkill) {
+function createWrapper (
+  declaredSkill: ExternalSkillDTO | DeclaredSkillProgressDTO = mockSkill
+) {
   return mount(StudentDetailedDeclaredSkillCard, {
     props: {
       declaredSkill
@@ -112,6 +126,38 @@ BddTest().given('a student detailed declared skill card', () => {
     BddTest().then('it should render the path badge with all segments joined', () => {
       const pathBadge = wrapper.findAllComponents({ name: 'AvBadge' })[1]
       expect(pathBadge.props('label')).toBe('Path 1 > Path 2 > Path 3')
+    })
+  })
+
+  BddTest().when('the component is mounted with a valorized declared skill', () => {
+    beforeEach(() => {
+      wrapper = createWrapper({
+        ...mockDeclaredSkillProgress,
+        valorized: true
+      })
+    })
+
+    BddTest().then('it should render ValorizedBadge with valorized true', () => {
+      const badge = wrapper.findComponent(ValorizedBadgeStub)
+
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('valorized')).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is mounted with a non valorized declared skill', () => {
+    beforeEach(() => {
+      wrapper = createWrapper({
+        ...mockDeclaredSkillProgress,
+        valorized: false
+      })
+    })
+
+    BddTest().then('it should render ValorizedBadge with valorized false', () => {
+      const badge = wrapper.findComponent(ValorizedBadgeStub)
+
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('valorized')).toBe(false)
     })
   })
 })

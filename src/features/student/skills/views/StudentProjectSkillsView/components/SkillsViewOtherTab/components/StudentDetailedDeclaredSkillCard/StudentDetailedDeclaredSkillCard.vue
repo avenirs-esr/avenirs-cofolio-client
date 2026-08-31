@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { DeclaredSkillProgressDTO, ExternalSkillDTO } from '@/api/avenir-esr'
+import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { ROUTES } from '@/common/constants'
 import { DeclaredSkillMacroSkillBadge } from '@/features/student/declaredSkills'
 import StudentDetailedSkillCard from '@/features/student/skills/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
@@ -20,6 +21,9 @@ const typeBadge = computed<AvBadgeProps>(() => ({
   backgroundColor: 'var(--surface-background)',
   icon: ICONS_DATA_URL.MDI_BOOKMARK_CHECK
 }))
+const valorized = computed(() =>
+  'valorized' in declaredSkill ? declaredSkill.valorized : false
+)
 </script>
 
 <template>
@@ -33,12 +37,17 @@ const typeBadge = computed<AvBadgeProps>(() => ({
   >
     <div class="av-col av-justify-between av--mt-xs av-gap-xxs">
       <div class="av-pr-5xl">
-        <div class="av-row av-w-full av-align-center av-justify-between av-gap-sm av-wrap">
-          <AvBadge
-            v-bind="typeBadge"
-            small
-            ellipsis
-          />
+        <div class="av-col av-gap-sm">
+          <div class="av-row av-w-full av-align-center av-justify-between av-gap-sm av-wrap">
+            <AvBadge
+              v-bind="typeBadge"
+              small
+              ellipsis
+            />
+
+            <ValorizedBadge :valorized="valorized" />
+          </div>
+
           <DeclaredSkillMacroSkillBadge
             v-if="declaredSkill.pathSegments.length > 0"
             :path-segments="declaredSkill.pathSegments"
