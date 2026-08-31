@@ -23,15 +23,6 @@ const breadcrumbLinks = computed(() => [
 
 <template>
   <div class="student-tools-kit av-col av-gap-lg">
-    <div
-      class="background-img"
-      data-testid="kit-background"
-    >
-      <img
-        :src="backgroundImg"
-        alt="background"
-      >
-    </div>
     <div class="content av-col av-gap-lg">
       <AvBreadcrumb
         :navigation-label="t('global.breadcrumb.ariaLabel')"
@@ -40,6 +31,15 @@ const breadcrumbLinks = computed(() => [
       />
 
       <div class="intro-container av-col av-align-center">
+        <div
+          class="background-img"
+          data-testid="kit-background"
+        >
+          <img
+            :src="backgroundImg"
+            alt="background"
+          >
+        </div>
         <div class="text-container av-col av-gap-sm">
           <h1
             class="av-text-center"
@@ -86,7 +86,9 @@ const breadcrumbLinks = computed(() => [
 @use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
 
 .student-tools-kit {
-  position: relative;
+  .intro-container {
+    position: relative;
+  }
 
   .background-img {
     position: absolute;
@@ -99,7 +101,7 @@ const breadcrumbLinks = computed(() => [
     img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
   }
 
