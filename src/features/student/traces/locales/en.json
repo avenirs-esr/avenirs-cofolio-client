@@ -344,6 +344,7 @@
           },
           "ConfirmUpdateTraceModal": {
             "confirmLabel": "Update my trace",
+            "emptyTitle": "Are you sure you want to save the changes?",
             "subtitle": "Warning, the changes cannot be applied in these association contexts because they are part of work that is under review or completed:",
             "title": "You are about to modify your trace."
           },

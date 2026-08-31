@@ -27,12 +27,19 @@ const { t } = useI18n()
   <ConfirmationModal
     :show="show"
     :confirm-button-label="t('student.traces.views.StudentUpdateTraceView.ConfirmUpdateTraceModal.confirmLabel')"
+    :title="t('student.traces.views.StudentUpdateTraceView.ConfirmUpdateTraceModal.emptyTitle')"
+    :show-description="false"
     data-testid="confirm-update-trace-modal"
     @close="$emit('cancel')"
     @confirm="$emit('confirm')"
   >
-    <template #default>
-      <div class="av-col av-gap-sm">
+    <template
+      v-if="lockedDeclaredActivities.length > 0"
+      #default
+    >
+      <div
+        class="av-col av-gap-sm"
+      >
         <div class="av-col av-gap-xxs av-text-center">
           <span
             class="n5"

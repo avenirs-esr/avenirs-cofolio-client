@@ -26,7 +26,7 @@ BddTest().given('a ConfirmUpdateTraceModal', () => {
     lockedDeclaredActivities: [mockedLockedDeclaredActivities]
   }
 
-  BddTest().when('the component is mounted', () => {
+  BddTest().when('the component is mounted with locked declared activities', () => {
     beforeEach(() => {
       wrapper = mount(ConfirmUpdateTraceModal, { props, global: { stubs } })
     })
@@ -36,7 +36,7 @@ BddTest().given('a ConfirmUpdateTraceModal', () => {
 
       expect(confirmationModal.exists()).toBe(true)
       expect(confirmationModal.props('show')).toBe(true)
-      expect(confirmationModal.props('confirmButtonLabel')).toBe('Modifier Ma Trace')
+      expect(confirmationModal.props('confirmButtonLabel')).toBe('Modifier ma trace')
     })
 
     BddTest().then('it should render the title and subtitle', () => {
@@ -78,6 +78,27 @@ BddTest().given('a ConfirmUpdateTraceModal', () => {
       BddTest().then('it should emit the confirm event', () => {
         expect(wrapper.emitted('confirm')).toBeTruthy()
       })
+    })
+  })
+
+  BddTest().when('the component is mounted without locked declared activities', () => {
+    beforeEach(() => {
+      wrapper = mount(ConfirmUpdateTraceModal, { props: { ...props, lockedDeclaredActivities: [] }, global: { stubs } })
+    })
+
+    BddTest().then('it should not render any non editable associations', () => {
+      const icons = wrapper.findAllComponents(AvIconStub)
+      const badges = wrapper.findAllComponents(DeclaredActivityStatusBadgeStub)
+      expect(icons.length).toBe(0)
+      expect(badges.length).toBe(0)
+    })
+
+    BddTest().then('it should not render the title and subtitle', () => {
+      const title = wrapper.find('[data-testid="confirm-update-trace-modal-title"]')
+      const subtitle = wrapper.find('[data-testid="confirm-update-trace-modal-subtitle"]')
+
+      expect(title.exists()).toBe(false)
+      expect(subtitle.exists()).toBe(false)
     })
   })
 })

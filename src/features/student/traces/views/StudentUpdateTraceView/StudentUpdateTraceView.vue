@@ -97,7 +97,6 @@ function navigateBack () {
 }
 
 const lockedDeclaredActivities = ref<TraceDeclaredActivityDTO[]>([])
-const hasLockedDeclaredActivities = computed(() => lockedDeclaredActivities.value.length > 0)
 
 async function handleConfirm () {
   try {
@@ -109,12 +108,7 @@ async function handleConfirm () {
     addErrorMessage(error instanceof BaseApiException ? getErrorMessage(error) : t('global.error.generic'))
   }
 
-  if (hasLockedDeclaredActivities.value) {
-    displayConfirmUpdateModal()
-  }
-  else {
-    await tracesStore.submitUpdateTraceForm()
-  }
+  displayConfirmUpdateModal()
 }
 
 async function handleConfirmSaveModal () {
@@ -179,7 +173,6 @@ function handleConfirmCloseModal () {
   />
 
   <ConfirmUpdateTraceModal
-    v-if="hasLockedDeclaredActivities"
     :show="showConfirmUpdateModal"
     :locked-declared-activities="lockedDeclaredActivities"
     @close="hideConfirmUpdateModal"
