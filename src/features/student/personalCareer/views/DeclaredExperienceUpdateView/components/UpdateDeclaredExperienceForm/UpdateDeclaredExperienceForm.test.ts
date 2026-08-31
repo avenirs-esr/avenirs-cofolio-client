@@ -7,6 +7,7 @@ import { DeclaredExperienceExternalLinkFormFieldStub } from '@/features/student/
 import { DeclaredExperienceLocationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceLocationFormField/DeclaredExperienceLocationFormField.stub'
 import { DeclaredExperienceOrganizationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceOrganizationFormField/DeclaredExperienceOrganizationFormField.stub'
 import { DeclaredExperiencePeriodFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperiencePeriodFormField/DeclaredExperiencePeriodFormField.stub'
+import { DeclaredExperienceResultFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceResultFormField/DeclaredExperienceResultFormField.stub'
 import { DeclaredExperienceSourceOfInformationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceSourceOfInformationFormField/DeclaredExperienceSourceOfInformationFormField.stub'
 import { DeclaredExperienceSummaryFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceSummaryFormField/DeclaredExperienceSummaryFormField.stub'
 import { DeclaredExperienceTitleFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTitleFormField/DeclaredExperienceTitleFormField.stub'
@@ -68,6 +69,7 @@ BddTest().given('a declared experience update form component', () => {
           DeclaredExperienceTypeFormField: DeclaredExperienceTypeFormFieldStub,
           DeclaredExperienceOrganizationFormField: DeclaredExperienceOrganizationFormFieldStub,
           DeclaredExperienceLocationFormField: DeclaredExperienceLocationFormFieldStub,
+          DeclaredExperienceResultFormField: DeclaredExperienceResultFormFieldStub,
           DeclaredExperienceActivitySectorFormField: DeclaredExperienceActivitySectorFormFieldStub,
           DeclaredExperiencePeriodFormField: DeclaredExperiencePeriodFormFieldStub,
           DeclaredExperienceSourceOfInformationFormField: DeclaredExperienceSourceOfInformationFormFieldStub,
@@ -88,6 +90,7 @@ BddTest().given('a declared experience update form component', () => {
       expect(wrapper.findComponent(DeclaredExperienceTypeFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredExperienceOrganizationFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredExperienceLocationFormFieldStub).exists()).toBe(true)
+      expect(wrapper.findComponent(DeclaredExperienceResultFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredExperienceActivitySectorFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredExperiencePeriodFormFieldStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredExperienceSourceOfInformationFormFieldStub).exists()).toBe(true)

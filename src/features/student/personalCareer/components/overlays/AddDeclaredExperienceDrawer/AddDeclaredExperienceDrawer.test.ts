@@ -8,6 +8,7 @@ import { DeclaredExperienceExternalLinkFormFieldStub } from '@/features/student/
 import { DeclaredExperienceLocationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceLocationFormField/DeclaredExperienceLocationFormField.stub'
 import { DeclaredExperienceOrganizationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceOrganizationFormField/DeclaredExperienceOrganizationFormField.stub'
 import { DeclaredExperiencePeriodFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperiencePeriodFormField/DeclaredExperiencePeriodFormField.stub'
+import { DeclaredExperienceResultFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceResultFormField/DeclaredExperienceResultFormField.stub'
 import { DeclaredExperienceSourceOfInformationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceSourceOfInformationFormField/DeclaredExperienceSourceOfInformationFormField.stub'
 import { DeclaredExperienceSummaryFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceSummaryFormField/DeclaredExperienceSummaryFormField.stub'
 import { DeclaredExperienceTitleFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTitleFormField/DeclaredExperienceTitleFormField.stub'
@@ -66,6 +67,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
     DeclaredExperienceOrganizationFormField: DeclaredExperienceOrganizationFormFieldStub,
     DeclaredExperienceActivitySectorFormField: DeclaredExperienceActivitySectorFormFieldStub,
     DeclaredExperienceLocationFormField: DeclaredExperienceLocationFormFieldStub,
+    DeclaredExperienceResultFormField: DeclaredExperienceResultFormFieldStub,
     DeclaredExperiencePeriodFormField: DeclaredExperiencePeriodFormFieldStub,
     DeclaredExperienceSourceOfInformationFormField: DeclaredExperienceSourceOfInformationFormFieldStub,
     DeclaredExperienceDescriptionFormField: DeclaredExperienceDescriptionFormFieldStub,

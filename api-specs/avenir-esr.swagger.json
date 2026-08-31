@@ -6022,6 +6022,11 @@
           "externalLink": {
             "type": "string"
           },
+          "result": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 0
+          },
           "startDate": {
             "type": "string",
             "format": "date"
@@ -6094,6 +6099,9 @@
             "type": "string"
           },
           "externalLink": {
+            "type": "string"
+          },
+          "result": {
             "type": "string"
           },
           "startDate": {

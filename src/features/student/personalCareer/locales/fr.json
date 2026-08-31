@@ -60,9 +60,13 @@
             "label": "Période",
             "startLabel": "Date de début"
           },
+          "DeclaredExperienceResultInput": {
+            "label": "Résultat obtenu",
+            "placeholder": "Réussite, validation, certification, mention, classement ou autres..."
+          },
           "DeclaredExperienceSourceOfInformationInput": {
-            "label": "Provenance de l'information",
-            "placeholder": "Provenance"
+            "label": "Source de l'information",
+            "placeholder": "Fiche ou page de la formation sur le site de l'établissement, etc..."
           },
           "DeclaredExperienceSummaryTextarea": {
             "label": "Bilan / Prise de recul"

@@ -18,6 +18,7 @@ import DeclaredExperienceExternalLinkFormField from '@/features/student/personal
 import DeclaredExperienceLocationFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceLocationFormField/DeclaredExperienceLocationFormField.vue'
 import DeclaredExperienceOrganizationFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceOrganizationFormField/DeclaredExperienceOrganizationFormField.vue'
 import DeclaredExperiencePeriodFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperiencePeriodFormField/DeclaredExperiencePeriodFormField.vue'
+import DeclaredExperienceResultFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceResultFormField/DeclaredExperienceResultFormField.vue'
 import DeclaredExperienceSourceOfInformationFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceSourceOfInformationFormField/DeclaredExperienceSourceOfInformationFormField.vue'
 import DeclaredExperienceSummaryFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceSummaryFormField/DeclaredExperienceSummaryFormField.vue'
 import DeclaredExperienceTitleFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTitleFormField/DeclaredExperienceTitleFormField.vue'
@@ -196,6 +197,7 @@ watch(associationActiveType, () => {
                   </div>
                 </div>
                 <DeclaredExperiencePeriodFormField :form="form" />
+                <DeclaredExperienceResultFormField :form="form" />
                 <DeclaredExperienceSourceOfInformationFormField :form="form" />
                 <DeclaredExperienceDescriptionFormField :form="form" />
                 <DeclaredExperienceSummaryFormField :form="form" />

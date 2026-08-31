@@ -45,7 +45,7 @@ BddTest().given('a declared experience source of information input component', (
 
     BddTest().then('it should display the correct French label', () => {
       const input = wrapper.findComponent(InputStub)
-      expect(input.props('label')).toBe('Provenance de l\'information')
+      expect(input.props('label')).toBe('Source de l\'information')
     })
 
     BddTest().then('it should display the correct prefix icon', () => {
@@ -55,7 +55,7 @@ BddTest().given('a declared experience source of information input component', (
 
     BddTest().then('it should display the correct placeholder', () => {
       const input = wrapper.findComponent(InputStub)
-      expect(input.props('placeholder')).toBe('Provenance')
+      expect(input.props('placeholder')).toBe('Fiche ou page de la formation sur le site de l\'établissement, etc...')
     })
 
     BddTest().then('it should have empty initial value', () => {

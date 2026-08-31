@@ -6,6 +6,7 @@ import {
   DECLARED_EXPERIENCE_EXTERNAL_LINK_MAX_LENGTH,
   DECLARED_EXPERIENCE_LOCATION_MAX_LENGTH,
   DECLARED_EXPERIENCE_ORGANIZATION_MAX_LENGTH,
+  DECLARED_EXPERIENCE_RESULT_MAX_LENGTH,
   DECLARED_EXPERIENCE_SOURCE_OF_INFORMATION_MAX_LENGTH,
   DECLARED_EXPERIENCE_SUMMARY_MAX_LENGTH,
   DECLARED_EXPERIENCE_TITLE_MAX_LENGTH
@@ -36,6 +37,10 @@ export function useDeclaredExperienceFormValidators () {
 
   function validateLocation (location: DeclaredExperienceFormData['location']) {
     return validateMaxLength(location, DECLARED_EXPERIENCE_LOCATION_MAX_LENGTH)
+  }
+
+  function validateResult (result: DeclaredExperienceFormData['result']) {
+    return validateMaxLength(result, DECLARED_EXPERIENCE_RESULT_MAX_LENGTH)
   }
 
   function validateSourceOfInformation (sourceOfInformation: DeclaredExperienceFormData['sourceOfInformation']) {
@@ -84,6 +89,7 @@ export function useDeclaredExperienceFormValidators () {
     validateLocation,
     validateOrganizationMaxLength,
     validateOrganization,
+    validateResult,
     validateSummary,
     validateSourceOfInformation,
     validateStartDate,

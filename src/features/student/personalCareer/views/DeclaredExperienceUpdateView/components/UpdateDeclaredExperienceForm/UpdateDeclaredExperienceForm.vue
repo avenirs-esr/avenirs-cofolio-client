@@ -15,6 +15,7 @@ import DeclaredExperienceOrganizationFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceOrganizationFormField/DeclaredExperienceOrganizationFormField.vue'
 import DeclaredExperiencePeriodFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperiencePeriodFormField/DeclaredExperiencePeriodFormField.vue'
+import DeclaredExperienceResultFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceResultFormField/DeclaredExperienceResultFormField.vue'
 import DeclaredExperienceSourceOfInformationFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceSourceOfInformationFormField/DeclaredExperienceSourceOfInformationFormField.vue'
 import DeclaredExperienceSummaryFormField
@@ -99,6 +100,8 @@ const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.gl
           </div>
 
           <DeclaredExperiencePeriodFormField :form="form" />
+
+          <DeclaredExperienceResultFormField :form="form" />
 
           <DeclaredExperienceSourceOfInformationFormField :form="form" />
 
