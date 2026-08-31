@@ -1,0 +1,349 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/home.feature.spec.js >> Student Home Page >> Profile Section >> Student can close edit profile drawer
+- Location: .features-gen/tests/student/home.feature.spec.js:47:5
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByTestId('update-profile-drawer').locator('.av-drawer').locator('.av-cancel-confirm-buttons-container button').first()
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - navigation "Accès rapide":
+      - list [ref=e3]:
+        - listitem [ref=e4]:
+          - link "Aller au contenu principal" [ref=e5] [cursor=pointer]:
+            - /url: "#main"
+            - generic [ref=e6]: Aller au contenu principal
+        - listitem [ref=e7]:
+          - link "Aller au pied de page" [ref=e8] [cursor=pointer]:
+            - /url: "#footer"
+            - generic [ref=e9]: Aller au pied de page
+    - banner [ref=e10]:
+      - generic [ref=e13]:
+        - link "Accueil - Cofolio Étudiant" [ref=e19] [cursor=pointer]:
+          - /url: /cofolio/student
+          - img [ref=e20]
+        - generic [ref=e23]:
+          - list [ref=e26]:
+            - listitem [ref=e27]:
+              - button "Messagerie" [ref=e30] [cursor=pointer]:
+                - generic [ref=e33]: Messagerie
+            - listitem [ref=e34]:
+              - button "Notifications" [ref=e37] [cursor=pointer]:
+                - generic [ref=e40]: Notifications
+            - listitem [ref=e41]:
+              - button "J. moulin" [ref=e44] [cursor=pointer]:
+                - generic [ref=e47]: J. moulin
+          - navigation [ref=e50]:
+            - button "FR" [ref=e53] [cursor=pointer]:
+              - generic [ref=e56]: FR
+      - navigation "Menu principal" [ref=e60]:
+        - list [ref=e61]:
+          - listitem [ref=e62]:
+            - link "ACCUEIL" [ref=e63] [cursor=pointer]:
+              - /url: /cofolio/student
+              - generic [ref=e66]: ACCUEIL
+          - listitem [ref=e67]:
+            - button "CONSTRUIRE MON PROJET DE VIE" [ref=e68] [cursor=pointer]:
+              - generic [ref=e69]: CONSTRUIRE MON PROJET DE VIE
+          - listitem [ref=e70]:
+            - button "MES OUTILS" [ref=e71] [cursor=pointer]:
+              - generic [ref=e72]: MES OUTILS
+    - main [ref=e73]:
+      - generic [ref=e74]:
+        - heading "Accueil Cofolio Étudiant" [level=1] [ref=e75]
+        - generic [ref=e76]:
+          - generic [ref=e79]:
+            - generic [ref=e81]:
+              - img "Bannière du profil" [ref=e82]
+              - img "Photo de profil" [ref=e84]
+            - generic [ref=e85]:
+              - generic [ref=e87]:
+                - generic [ref=e88]: Jeanne Moulin
+                - generic [ref=e89]: Je suis étudiante en chimie et écologie. Passionnée par l'innovation durable, je souhaite utiliser la science pour protéger l'environnement et bâtir un avenir plus respectueux de la planète.
+              - list [ref=e92]:
+                - listitem [ref=e93]:
+                  - button "Modifier mon profil" [active] [ref=e94] [cursor=pointer]:
+                    - generic [ref=e97]: Modifier mon profil
+          - generic [ref=e100]:
+            - generic [ref=e101]:
+              - generic [ref=e109]: Nouvelles activités
+              - generic [ref=e110]:
+                - generic [ref=e113]:
+                  - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs" [ref=e114] [cursor=pointer]':
+                    - /url: /cofolio/student/activity/declared-activity-1
+                    - generic [ref=e121]:
+                      - generic [ref=e122]: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+                      - generic [ref=e123]:
+                        - status [ref=e124]:
+                          - generic [ref=e125]: Me connaître
+                        - status [ref=e126]:
+                          - generic [ref=e127]: En cours
+                  - 'link "Activité \"CV\" : Construire son parcours" [ref=e128] [cursor=pointer]':
+                    - /url: /cofolio/student/activity/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+                    - generic [ref=e135]:
+                      - generic [ref=e136]: "Activité \"CV\" : Construire son parcours"
+                      - generic [ref=e137]:
+                        - status [ref=e138]:
+                          - generic [ref=e139]: CV
+                        - status [ref=e140]:
+                          - generic [ref=e141]: Inscrit(e)
+                  - 'link "Activité : Construire son parcours (soumise)" [ref=e142] [cursor=pointer]':
+                    - /url: /cofolio/student/activity/declared-activity-2
+                    - generic [ref=e149]:
+                      - generic [ref=e150]: "Activité : Construire son parcours (soumise)"
+                      - generic [ref=e151]:
+                        - status [ref=e152]:
+                          - generic [ref=e153]: CV
+                        - status [ref=e154]:
+                          - generic [ref=e155]: Soumis
+                - link "Voir toutes les activités" [ref=e158] [cursor=pointer]:
+                  - /url: /cofolio/student/project/activities
+                  - generic [ref=e161]: Voir toutes les activités
+            - generic [ref=e162]:
+              - generic [ref=e170]: Ma bibliothèque d'activités
+              - generic [ref=e171]:
+                - generic [ref=e174]:
+                  - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs" [ref=e175] [cursor=pointer]':
+                    - /url: /cofolio/student/activity/declared-activity-1
+                    - generic [ref=e182]:
+                      - generic [ref=e183]: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+                      - generic [ref=e184]:
+                        - status [ref=e185]:
+                          - generic [ref=e186]: Me connaître
+                        - status [ref=e187]:
+                          - generic [ref=e188]: En cours
+                  - 'link "Activité \"CV\" : Construire son parcours" [ref=e189] [cursor=pointer]':
+                    - /url: /cofolio/student/activity/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+                    - generic [ref=e196]:
+                      - generic [ref=e197]: "Activité \"CV\" : Construire son parcours"
+                      - generic [ref=e198]:
+                        - status [ref=e199]:
+                          - generic [ref=e200]: CV
+                        - status [ref=e201]:
+                          - generic [ref=e202]: Inscrit(e)
+                  - 'link "Activité : Construire son parcours (soumise)" [ref=e203] [cursor=pointer]':
+                    - /url: /cofolio/student/activity/declared-activity-2
+                    - generic [ref=e210]:
+                      - generic [ref=e211]: "Activité : Construire son parcours (soumise)"
+                      - generic [ref=e212]:
+                        - status [ref=e213]:
+                          - generic [ref=e214]: CV
+                        - status [ref=e215]:
+                          - generic [ref=e216]: Soumis
+                - link "Voir toute ma bibliothèque d'activités" [ref=e219] [cursor=pointer]:
+                  - /url: /cofolio/student/project/activities?tab=ACTIVITY_LIBRARY
+                  - generic [ref=e222]: Voir toute ma bibliothèque d'activités
+            - generic [ref=e223]:
+              - generic [ref=e231]: Mes dernières traces
+              - generic [ref=e232]:
+                - generic [ref=e235]:
+                  - link "Prévenir la pollution à la source" [ref=e236] [cursor=pointer]:
+                    - /url: /cofolio/student/trace/4453f884-9081-43cb-95c6-d76c2bb59fd7
+                    - generic [ref=e243]:
+                      - generic [ref=e244]: Prévenir la pollution à la source
+                      - generic [ref=e245]:
+                        - status [ref=e248]:
+                          - generic [ref=e249]: Individuel
+                        - status [ref=e252]:
+                          - generic [ref=e253]: Sans IA
+                  - link "Mettre en place des filières d'économies circulaires" [ref=e254] [cursor=pointer]:
+                    - /url: /cofolio/student/trace/trace2
+                    - generic [ref=e261]:
+                      - generic [ref=e262]: Mettre en place des filières d'économies circulaires
+                      - generic [ref=e263]:
+                        - status [ref=e266]:
+                          - generic [ref=e267]: Collectif
+                        - status [ref=e270]:
+                          - generic [ref=e271]: Avec IA
+                  - link "Évaluer l'impact environnemental et économique" [ref=e272] [cursor=pointer]:
+                    - /url: /cofolio/student/trace/trace3
+                    - generic [ref=e279]:
+                      - generic [ref=e280]: Évaluer l'impact environnemental et économique
+                      - generic [ref=e281]:
+                        - status [ref=e284]:
+                          - generic [ref=e285]: Individuel
+                        - status [ref=e288]:
+                          - generic [ref=e289]: Sans IA
+                - link "Voir toutes mes traces" [ref=e292] [cursor=pointer]:
+                  - /url: /cofolio/student/tools/traces
+                  - generic [ref=e295]: Voir toutes mes traces
+    - contentinfo [ref=e296]:
+      - generic [ref=e298]:
+        - generic [ref=e299]:
+          - link "Logo ANR" [ref=e300] [cursor=pointer]:
+            - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+            - img "Logo ANR" [ref=e301]
+          - link "Logo France 2030" [ref=e302] [cursor=pointer]:
+            - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+            - img "Logo France 2030" [ref=e303]
+        - generic [ref=e304]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+      - generic [ref=e305]:
+        - generic [ref=e306]:
+          - img "Logo Cofolio" [ref=e307]
+          - generic [ref=e318]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+        - generic [ref=e319]:
+          - generic [ref=e320]:
+            - generic [ref=e321]: Informations légales
+            - list [ref=e322]:
+              - listitem [ref=e323]:
+                - 'link "Accessibilité : partiellement conforme" [ref=e324] [cursor=pointer]':
+                  - /url: /cofolio/student/accessibility
+              - listitem [ref=e325]:
+                - link "Mentions légales" [ref=e326] [cursor=pointer]:
+                  - /url: /cofolio/student/legal
+              - listitem [ref=e327]:
+                - link "Données personnelles" [ref=e328] [cursor=pointer]:
+                  - /url: /cofolio/student/personal-data
+              - listitem [ref=e329]:
+                - link "Gestion des cookies" [ref=e330] [cursor=pointer]:
+                  - /url: /cofolio/student/cookies
+          - generic [ref=e331]:
+            - generic [ref=e332]: Autres sites
+            - list [ref=e333]:
+              - listitem [ref=e334]:
+                - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e335] [cursor=pointer]:
+                  - /url: https://avenirs-esr.fr/
+                  - text: avenirs-esr.fr
+          - generic [ref=e336]:
+            - generic [ref=e337]: Partenaires
+            - generic [ref=e338]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e339] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - img "Logo Avenir(s) ESR" [ref=e340]
+              - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e341] [cursor=pointer]:
+                - /url: https://www.esup-portail.org/
+                - img "Logo Esup Portail" [ref=e343]
+      - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e347] [cursor=pointer]:
+        - /url: https://www.esup-portail.org/
+        - text: "@ESUP-Portail. Tous droits réservés."
+  - dialog "Menu latéral" [ref=e349]:
+    - generic [ref=e350]:
+      - generic [ref=e352]:
+        - generic [ref=e358]: Modifier mon profil
+        - group "Accordion group" [ref=e360]:
+          - heading "Identité" [level=3] [ref=e362]:
+            - button "Identité" [ref=e363] [cursor=pointer]:
+              - generic [ref=e367]: Identité
+          - heading "Couverture" [level=3] [ref=e369]:
+            - button "Couverture" [ref=e370] [cursor=pointer]:
+              - generic [ref=e374]: Couverture
+          - heading "Photo de profil" [level=3] [ref=e376]:
+            - button "Photo de profil" [ref=e377] [cursor=pointer]:
+              - generic [ref=e381]: Photo de profil
+      - generic [ref=e384]:
+        - button "Quitter" [ref=e385] [cursor=pointer]:
+          - generic [ref=e388]: Quitter
+        - button "Enregistrer" [disabled] [ref=e389]:
+          - generic [ref=e392]: Enregistrer
+```
+
+# Test source
+
+```ts
+  1  | import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+  2  | import { ProfileCard } from '@e2e/framework/shared/componentObjects/ProfileCard'
+  3  | import { t } from '@e2e/framework/shared/utils/i18n'
+  4  | import { expect, type Page } from '@playwright/test'
+  5  | 
+  6  | export class StudentOverviewWidget extends BaseObject {
+  7  |   constructor (protected page: Page) {
+  8  |     super(page.getByTestId('student-overview-widget'))
+  9  |   }
+  10 | 
+  11 |   getProfileCard () {
+  12 |     return new ProfileCard(this.root.getByTestId('profile-card'))
+  13 |   }
+  14 | 
+  15 |   getProfileBanner () {
+  16 |     return this.getProfileCard().getProfileBanner()
+  17 |   }
+  18 | 
+  19 |   getProfilePicture () {
+  20 |     return this.getProfileCard().getProfilePicture()
+  21 |   }
+  22 | 
+  23 |   getStudentName () {
+  24 |     return this.getProfileCard().getFullName()
+  25 |   }
+  26 | 
+  27 |   getStudentBio () {
+  28 |     return this.getProfileCard().getBio()
+  29 |   }
+  30 | 
+  31 |   getEditProfileButton () {
+  32 |     return this.page.getByTestId('edit-profile-button')
+  33 |   }
+  34 | 
+  35 |   getUpdateProfileDrawer () {
+  36 |     return this.page.getByTestId('update-profile-drawer').locator('.av-drawer')
+  37 |   }
+  38 | 
+  39 |   async verifyProfileBanner () {
+  40 |     await this.getProfileCard().verifyProfileBanner()
+  41 |   }
+  42 | 
+  43 |   async verifyProfilePicture () {
+  44 |     await this.getProfileCard().verifyProfilePicture()
+  45 |   }
+  46 | 
+  47 |   async verifyStudentName () {
+  48 |     await this.getProfileCard().verifyFullName()
+  49 |   }
+  50 | 
+  51 |   async verifyStudentBio () {
+  52 |     await this.getProfileCard().verifyBio()
+  53 |   }
+  54 | 
+  55 |   async verifyStudentBioHidden () {
+  56 |     await this.getProfileCard().verifyBioHidden()
+  57 |   }
+  58 | 
+  59 |   async verifyActionButtons () {
+  60 |     await expect(this.getEditProfileButton()).toBeVisible()
+  61 |     await expect(this.getEditProfileButton()).toHaveText(t('student.user.cards.StudentOverviewWidget.buttons.editProfile'))
+  62 |   }
+  63 | 
+  64 |   async clickEditProfileButton () {
+  65 |     await this.getEditProfileButton().click()
+  66 |   }
+  67 | 
+  68 |   async verifyDrawerOpened () {
+  69 |     const drawer = this.getUpdateProfileDrawer()
+  70 |     await expect(drawer).toBeVisible()
+  71 |     const drawerTitle = drawer.getByTestId('drawer-title')
+  72 |     await expect(drawerTitle).toHaveText(t('student.user.overlays.UpdateProfileDrawer.title'))
+  73 |   }
+  74 | 
+  75 |   async verifyDrawerClosed () {
+  76 |     await expect(this.getUpdateProfileDrawer()).not.toBeVisible()
+  77 |   }
+  78 | 
+  79 |   async closeDrawer () {
+  80 |     const updateProfileDrawer = this.getUpdateProfileDrawer()
+  81 |     const exitButton = updateProfileDrawer.locator('.av-cancel-confirm-buttons-container button').first()
+> 82 |     await exitButton.click()
+     |                      ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  83 |   }
+  84 | }
+  85 | 
+```
