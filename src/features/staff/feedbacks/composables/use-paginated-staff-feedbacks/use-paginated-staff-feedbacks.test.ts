@@ -1,5 +1,5 @@
-import type { PagedResponseFeedbackStaffListItemDTO } from '@/api/avenir-esr'
 import { createMockedPagedResponseFeedbackStaffListItemDTO } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
+import { EFeedbackStatus, type PagedResponseFeedbackStaffListItemDTO } from '@/api/avenir-esr'
 import { BaseApiException } from '@/common/exceptions'
 import { usePaginatedStaffFeedbacks } from '@/features/staff/feedbacks/composables/use-paginated-staff-feedbacks/use-paginated-staff-feedbacks'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
@@ -89,6 +89,50 @@ BddTest().given('a usePaginatedStaffFeedbacks composable', () => {
           query: expect.objectContaining({
             placeholderData: keepPreviousData,
           })
+        })
+      )
+    })
+
+    BddTest().then('it should not filter by status when ALL is selected', () => {
+      const fetchFn = makeMockFetchFn()
+
+      mountComposable(() =>
+        usePaginatedStaffFeedbacks({
+          currentPageRef: ref(0),
+          pageSizeRef: ref(PageSizes.FOUR),
+          selectedStatusRef: ref('ALL'),
+          fetchFn,
+        }), {})
+
+      const [params] = fetchFn.mock.calls[0]
+
+      expect(unref(params)).toEqual(
+        expect.objectContaining({
+          page: 0,
+          pageSize: PageSizes.FOUR,
+          statuses: undefined,
+        })
+      )
+    })
+
+    BddTest().then('it should request SUBMITTED and SEEN statuses when SUBMITTED is selected', () => {
+      const fetchFn = makeMockFetchFn()
+
+      mountComposable(() =>
+        usePaginatedStaffFeedbacks({
+          currentPageRef: ref(0),
+          pageSizeRef: ref(PageSizes.FOUR),
+          selectedStatusRef: ref(EFeedbackStatus.SUBMITTED),
+          fetchFn,
+        }), {})
+
+      const [params] = fetchFn.mock.calls[0]
+
+      expect(unref(params)).toEqual(
+        expect.objectContaining({
+          page: 0,
+          pageSize: PageSizes.FOUR,
+          statuses: [EFeedbackStatus.SUBMITTED, EFeedbackStatus.SEEN],
         })
       )
     })

@@ -1,7 +1,7 @@
-import type { EFeedbackStatus, FeedbackStaffListItemDTO, PagedResponseFeedbackStaffListItemDTO, PageInfoDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import type { ComputedRef, MaybeRef, Ref } from 'vue'
+import { EFeedbackStatus, type FeedbackStaffListItemDTO, type PagedResponseFeedbackStaffListItemDTO, type PageInfoDTO } from '@/api/avenir-esr'
 import { usePagination } from '@/common/composables'
 import { keepPreviousData, type UseQueryOptions, type UseQueryReturnType } from '@tanstack/vue-query'
 
@@ -30,7 +30,18 @@ export interface UsePaginatedStaffFeedbacksResult {
 export function usePaginatedStaffFeedbacks ({ currentPageRef, pageSizeRef, selectedStatusRef, fetchFn }: UsePaginatedStaffFeedbacksParams): UsePaginatedStaffFeedbacksResult {
   const { currentPage, pageSizeSelected, onUpdateCurrentPage, onUpdatePageSize } = usePagination(currentPageRef, pageSizeRef)
 
-  const params = computed(() => ({ page: currentPage.value, pageSize: pageSizeSelected.value, status: selectedStatusRef?.value !== 'ALL' ? selectedStatusRef?.value : undefined }))
+  const statuses = computed(() => {
+    if (!selectedStatusRef || selectedStatusRef.value === 'ALL') {
+      return
+    }
+
+    if (selectedStatusRef.value === EFeedbackStatus.SUBMITTED) {
+      return [EFeedbackStatus.SUBMITTED, EFeedbackStatus.SEEN]
+    }
+
+    return [selectedStatusRef.value]
+  })
+  const params = computed(() => ({ page: currentPage.value, pageSize: pageSizeSelected.value, statuses: statuses.value }))
   const { data, error, isFetching } = fetchFn(params, { query: { placeholderData: keepPreviousData } })
 
   const feedbacks = computed(() => data.value?.data ?? [])
