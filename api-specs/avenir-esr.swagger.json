@@ -3717,11 +3717,14 @@
         "operationId": "getStaffFeedbacks",
         "parameters": [
           {
-            "name": "status",
+            "name": "statuses",
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/EFeedbackStatus"
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EFeedbackStatus"
+              }
             }
           },
           {
