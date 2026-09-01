@@ -122,12 +122,7 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
       cancelAutoSave()
       pendingAutoSaveData.value = {}
 
-      const succeeded = await save({ feedback: value.feedback })
-
-      if (succeeded) {
-        originalFormData.value = { ...liveFormData.value }
-        form.reset(originalFormData.value)
-      }
+      await save({ feedback: value.feedback })
     }
   })
 
@@ -169,7 +164,10 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
     const attachments = form.getFieldValue('attachments')
 
     const newAttachments = attachments.filter(isFile)
-    const removedAttachments = originalFormData.value.attachments.filter(original => !isFile(original) && !attachments.some(current => !isFile(current) && current.id === original.id)) as FileDTO[]
+    const removedAttachments = originalFormData.value.attachments
+      .filter(original => !isFile(original) && !attachments
+        .some(current => !isFile(current) && current.id === original.id)
+      ) as FileDTO[]
 
     if (newAttachments.length > 0 || removedAttachments.length > 0) {
       promises.push(saveAttachments(newAttachments, removedAttachments))
@@ -184,6 +182,8 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
       await invalidateFeedback()
 
       if (results.some(r => r.status === 'fulfilled')) {
+        originalFormData.value = { ...liveFormData.value }
+        form.reset(originalFormData.value)
         onFeedbackSaved?.()
         return true
       }
