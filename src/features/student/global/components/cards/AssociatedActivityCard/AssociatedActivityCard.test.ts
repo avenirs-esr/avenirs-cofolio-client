@@ -1,7 +1,8 @@
-import { type DeclaredActivityViewDTO, EActivityThematic } from '@/api/avenir-esr'
+import { type DeclaredActivityViewDTO, EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import {
   ActivityThematicBadgeStub
 } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
+import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
 import { ICONS, ROUTES } from '@/common/constants'
 import AssociatedActivityCard, {
   type AssociatedActivityCardProps
@@ -16,7 +17,8 @@ BddTest().given('an associated activity card', () => {
 
   const stubs = {
     AssociationCard: AssociationCardStub,
-    ActivityThematicBadge: ActivityThematicBadgeStub
+    ActivityThematicBadge: ActivityThematicBadgeStub,
+    DeclaredActivityStatusBadge: DeclaredActivityStatusBadgeStub
   }
 
   const mockedDeclaredActivity: DeclaredActivityViewDTO = {
@@ -24,7 +26,8 @@ BddTest().given('an associated activity card', () => {
     activityId: 'id-1',
     title: 'Activity title',
     summary: 'Activity summary',
-    thematic: EActivityThematic.RESUMES
+    thematic: EActivityThematic.RESUMES,
+    status: EDeclaredActivityStatus.IN_PROGRESS
   } as DeclaredActivityViewDTO
 
   beforeEach(() => {
@@ -64,6 +67,13 @@ BddTest().given('an associated activity card', () => {
     BddTest().then('it should pass disabled as false to the AssociationCard by default', () => {
       const associationCard = wrapper.findComponent(AssociationCardStub)
       expect(associationCard.props('disabled')).toBe(false)
+    })
+
+    BddTest().then('it should render the status badge with the correct status', () => {
+      const statusBadge = wrapper.findComponent(DeclaredActivityStatusBadgeStub)
+
+      expect(statusBadge.exists()).toBe(true)
+      expect(statusBadge.props('status')).toBe(EDeclaredActivityStatus.IN_PROGRESS)
     })
   })
 

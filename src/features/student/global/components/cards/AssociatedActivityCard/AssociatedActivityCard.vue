@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
+import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import { ICONS, ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/global/components/cards/AssociationCard/AssociationCard.vue'
 
@@ -29,6 +30,7 @@ const { declaredActivity, disabled } = defineProps<AssociatedActivityCardProps>(
         data-testid="activity-association-card-thematic-badge"
         :thematic="declaredActivity.thematic"
       />
+      <DeclaredActivityStatusBadge :status="declaredActivity.status" />
     </template>
     <template #footer>
       <div class="av-hidden av-unhidden--md av-px-xs w-full">
