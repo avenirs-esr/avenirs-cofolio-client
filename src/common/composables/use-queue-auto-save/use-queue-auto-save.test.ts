@@ -111,8 +111,15 @@ BddTest().given('a useQueueAutoSave composable', () => {
       autoSave.queueAutoSave()
     })
 
-    BddTest().then('it should save immediately', () => {
+    BddTest().then('it should not save immediately', () => {
+      expect(save).not.toHaveBeenCalled()
+    })
+
+    BddTest().then('it should save after debounce delay', async () => {
+      await vi.advanceTimersByTimeAsync(1000)
+
       expect(save).toHaveBeenCalledOnce()
+      expect(save).toHaveBeenCalledWith()
     })
   })
 

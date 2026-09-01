@@ -19,17 +19,17 @@ export function useQueueAutoSave<T> (
     if (Object.keys(data).length > 0) {
       void save(data as T)
     }
+    else {
+      void save()
+    }
   }, debounceDelay)
 
   function queueAutoSave (data?: Partial<T>) {
-    if (!data) {
-      void save()
-      return
-    }
-
-    pendingAutoSaveData.value = {
-      ...pendingAutoSaveData.value,
-      ...data
+    if (data) {
+      pendingAutoSaveData.value = {
+        ...pendingAutoSaveData.value,
+        ...data
+      }
     }
 
     flushAutoSave()
