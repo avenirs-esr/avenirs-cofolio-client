@@ -92,11 +92,11 @@
           },
           "DeclaredProgramResultInput": {
             "label": "Résultat obtenu",
-            "placeholder": "Résultat"
+            "placeholder": "Réussite, validation, certification, mention, classement ou autres..."
           },
           "DeclaredProgramSourceOfInformationInput": {
-            "label": "Provenance de l'information",
-            "placeholder": "Source de l'information"
+            "label": "Source de l'information",
+            "placeholder": "Fiche ou page de la formation sur le site de l'établissement, etc..."
           },
           "DeclaredProgramTitleInput": {
             "label": "Intitulé de ma formation",

@@ -55,7 +55,7 @@ BddTest().given('a declared program result input component', () => {
 
     BddTest().then('it should display the correct placeholder', () => {
       const input = wrapper.findComponent(InputStub)
-      expect(input.props('placeholder')).toBe('Résultat')
+      expect(input.props('placeholder')).toBe('Réussite, validation, certification, mention, classement ou autres...')
     })
 
     BddTest().then('it should have empty initial value', () => {

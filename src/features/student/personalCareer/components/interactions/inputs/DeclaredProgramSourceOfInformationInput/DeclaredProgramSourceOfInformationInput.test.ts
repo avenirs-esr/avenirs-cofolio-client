@@ -28,12 +28,12 @@ BddTest().given('a declared program source of information input', () => {
 
     BddTest().then('it should have default label from i18n', () => {
       const input = wrapper.findComponent(InputStub)
-      expect(input.props('label')).toBe('Provenance de l\'information')
+      expect(input.props('label')).toBe('Source de l\'information')
     })
 
     BddTest().then('it should have default placeholder from i18n', () => {
       const input = wrapper.findComponent(InputStub)
-      expect(input.props('placeholder')).toBe('Source de l\'information')
+      expect(input.props('placeholder')).toBe('Fiche ou page de la formation sur le site de l\'établissement, etc...')
     })
 
     BddTest().then('it should have default prefix icon', () => {
