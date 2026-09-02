@@ -12,7 +12,7 @@ import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export type AssociationDeclaredExperiences = Association & {
-  experienceType: EExperienceType
+  experienceType: EExperienceType | null
 }
 
 export interface AssociateDeclaredExperiencesModalProps {
@@ -54,7 +54,9 @@ const experienceAutocompleteOptions = computed<AvAutocompleteOption[]>(() =>
     .map(experience => ({
       label: experience.title,
       value: experience.id,
-      description: t(`student.personalCareer.declaredExperienceType.${experience.experienceType}`),
+      description: experience.experienceType
+        ? t(`student.personalCareer.declaredExperienceType.${experience.experienceType}`)
+        : undefined,
       disabled: experience.disabled
     }))
 )

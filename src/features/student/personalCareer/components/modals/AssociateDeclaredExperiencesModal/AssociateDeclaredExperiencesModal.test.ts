@@ -405,4 +405,38 @@ BddTest().given('an associate declared experiences modal', () => {
       expect(modal.props('isLoading')).toBe(true)
     })
   })
+
+  BddTest().when('an experience has no experienceType', () => {
+    const experiencesWithNullType: AssociationDeclaredExperiences[] = [
+      {
+        id: 'experience-search-4',
+        title: 'Expérience sans type',
+        experienceType: null,
+        disabled: false
+      }
+    ]
+
+    beforeEach(async () => {
+      wrapper = mountComponent(AssociateDeclaredExperiencesModal, {
+        props: {
+          ...props,
+          experiences: experiencesWithNullType
+        },
+        global: { stubs }
+      })
+      await flushPromises()
+    })
+
+    BddTest().then('it should not set a description for that option', () => {
+      const layout = wrapper.findComponent(SearchAssociationLayoutStub)
+      expect(layout.props('options')).toEqual([
+        {
+          label: 'Expérience sans type',
+          value: 'experience-search-4',
+          description: undefined,
+          disabled: false
+        }
+      ])
+    })
+  })
 })
