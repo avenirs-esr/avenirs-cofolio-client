@@ -92,11 +92,11 @@
           },
           "DeclaredProgramResultInput": {
             "label": "Result obtained",
-            "placeholder": "Result"
+            "placeholder": "Successful completion, validation, certification, distinction, ranking or other..."
           },
           "DeclaredProgramSourceOfInformationInput": {
             "label": "Source of information",
-            "placeholder": "Information source"
+            "placeholder": "Training course page on the institution's website, etc..."
           },
           "DeclaredProgramTitleInput": {
             "label": "Program title",
