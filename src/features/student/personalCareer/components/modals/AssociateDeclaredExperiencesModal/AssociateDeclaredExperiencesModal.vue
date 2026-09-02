@@ -131,6 +131,7 @@ function onConfirmCancelAssociateModal () {
       :get-option-key="option => option.value"
       :get-option-label="(option) => option.label"
       :loading="isLoading"
+      :items-title-max-lines="1"
       @update:search="onSearch"
       @delete="onDeleteExperience"
     >

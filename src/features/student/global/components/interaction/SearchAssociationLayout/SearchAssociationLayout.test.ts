@@ -75,6 +75,11 @@ BddTest().given('a search association layout', () => {
       })
     })
 
+    BddTest().then('it should default itemsTitleMaxLines to 2 on the autocomplete', () => {
+      const autocomplete = wrapper.findComponent(AutocompleteStub)
+      expect(autocomplete.props('itemsTitleMaxLines')).toBe(2)
+    })
+
     BddTest().then('it should render the selected items container', () => {
       const selectedContainer = wrapper.findComponent(SelectedAssociateItemsContainerStub)
 
@@ -195,6 +200,25 @@ BddTest().given('a search association layout', () => {
 
     BddTest().then('it should still render the selected items container', () => {
       expect(wrapper.findComponent(SelectedAssociateItemsContainerStub).exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('itemsTitleMaxLines is explicitly set to 1', () => {
+    beforeEach(() => {
+      wrapper = mount(SearchAssociationLayout, {
+        props: {
+          modelValue: [],
+          options,
+          items,
+          itemsTitleMaxLines: 1
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should forward 1 to the autocomplete', () => {
+      const autocomplete = wrapper.findComponent(AutocompleteStub)
+      expect(autocomplete.props('itemsTitleMaxLines')).toBe(1)
     })
   })
 })

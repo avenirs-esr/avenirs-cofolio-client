@@ -14,9 +14,10 @@ export interface SearchAssociationLayoutProps<T extends AvAutocompleteOption, U 
   loading?: boolean
   buttonTheme?: AvButtonProps['theme']
   layout?: 'vertical' | 'horizontal'
+  itemsTitleMaxLines?: number
 }
 
-const { layout = 'horizontal' } = defineProps<SearchAssociationLayoutProps<T, U>>()
+const { layout = 'horizontal', itemsTitleMaxLines = 2 } = defineProps<SearchAssociationLayoutProps<T, U>>()
 
 const emit = defineEmits<{
   (e: 'delete', itemId: string): void
@@ -62,7 +63,7 @@ const search = defineModel<string>('search', { default: '' })
         :show-selected-section="false"
         :display-selection-in-input="false"
         :loading="loading"
-        :items-title-max-lines="2"
+        :items-title-max-lines="itemsTitleMaxLines"
         @clear="emit('clear')"
         @clear-selection="emit('clearSelection')"
         @load-more="emit('loadMore')"

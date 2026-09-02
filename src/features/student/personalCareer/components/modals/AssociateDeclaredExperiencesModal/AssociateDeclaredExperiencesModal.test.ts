@@ -152,6 +152,7 @@ BddTest().given('an associate declared experiences modal', () => {
       })
       expect(layout.props('getOptionKey')).toBeTypeOf('function')
       expect(layout.props('getOptionLabel')).toBeTypeOf('function')
+      expect(layout.props('itemsTitleMaxLines')).toBe(1)
     })
 
     BddTest().then('it should pass isLoading to the modal', () => {

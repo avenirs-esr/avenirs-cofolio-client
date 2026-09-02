@@ -8,7 +8,8 @@ export const SearchAssociationLayoutStub = defineComponent({
     'inputOptions',
     'getOptionKey',
     'getOptionLabel',
-    'loading'
+    'loading',
+    'itemsTitleMaxLines',
   ],
   emits: ['update:modelValue', 'update:search', 'clear', 'clearSelection', 'loadMore', 'delete'],
   template: `
