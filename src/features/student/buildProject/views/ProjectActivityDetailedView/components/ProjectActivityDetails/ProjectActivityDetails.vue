@@ -52,6 +52,7 @@ const resourceCount = computed(() => (activity.value.files?.length ?? 0) + (acti
             text-color="var(--dark-background-primary1)"
             typography-class="n4"
             gap="var(--spacing-md)"
+            class="av-wrap-anywhere"
             inline
           />
           <ActivityDescriptionContent

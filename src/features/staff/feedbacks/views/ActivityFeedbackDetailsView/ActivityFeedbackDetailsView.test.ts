@@ -9,7 +9,7 @@ import { ActivityFeedbackStudentSelectStub } from '@/features/staff/feedbacks/vi
 import {
   AssociatedElementSummaryCardStub
 } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementSummaryCard/AssociatedElementSummaryCard.stub'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
@@ -27,6 +27,7 @@ BddTest().given('an activity feedback details view', () => {
 
   const stubs = {
     AvButton: AvButtonStub,
+    AvIconText: AvIconTextStub,
     PageTitle: PageTitleStub,
     QuerySuspense: QuerySuspenseStub,
     ActivityFeedbackStudentSelect: ActivityFeedbackStudentSelectStub,

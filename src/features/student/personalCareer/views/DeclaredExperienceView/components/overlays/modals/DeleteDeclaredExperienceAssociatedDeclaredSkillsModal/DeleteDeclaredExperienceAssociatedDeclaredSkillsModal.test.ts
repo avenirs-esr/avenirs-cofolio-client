@@ -7,7 +7,7 @@ import { DeleteAssociationsModalStub } from '@/features/student/global/component
 import DeleteDeclaredExperienceAssociatedDeclaredSkillsModal, {
   type DeleteDeclaredExperienceAssociatedDeclaredSkillsModalProps
 } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/DeleteDeclaredExperienceAssociatedDeclaredSkillsModal/DeleteDeclaredExperienceAssociatedDeclaredSkillsModal.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -31,6 +31,7 @@ BddTest().given('a delete declared experience associated declared skills modal',
   const stubs = {
     DeleteAssociationsModal: DeleteAssociationsModalStub,
     CompactCardSelector: CompactCardSelectorStub,
+    AvBadge: AvBadgeStub
   }
 
   const associations = createMockedDeclaredSkillAssociations(3)

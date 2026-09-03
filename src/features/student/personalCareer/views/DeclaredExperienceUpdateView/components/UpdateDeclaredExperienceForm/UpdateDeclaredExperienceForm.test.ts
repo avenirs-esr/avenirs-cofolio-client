@@ -1,5 +1,6 @@
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import { declaredExperienceViewDTOFixture } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
+import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
 import { DeclaredExperienceActivitySectorFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceActivitySectorFormField/DeclaredExperienceActivitySectorFormField.stub'
 import { DeclaredExperienceDescriptionFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceDescriptionFormField/DeclaredExperienceDescriptionFormField.stub'
@@ -76,6 +77,7 @@ BddTest().given('a declared experience update form component', () => {
           DeclaredExperienceExternalLinkFormField: DeclaredExperienceExternalLinkFormFieldStub,
           DeclaredExperienceDescriptionFormField: DeclaredExperienceDescriptionFormFieldStub,
           DeclaredExperienceSummaryFormField: DeclaredExperienceSummaryFormFieldStub,
+          CreationUpdateDateDetails: CreationUpdateDateDetailsStub,
         },
       },
       useI18n: true,

@@ -4,14 +4,14 @@ import {
 import { ICONS } from '@/common/constants'
 import AssociatedSkillCard, { type AssociatedSkillCardProps } from '@/features/student/global/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
 import { AssociationCardStub } from '@/features/student/global/components/cards/AssociationCard/AssociationCard.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { expect, vi } from 'vitest'
 
 BddTest().given('an associatied skill card', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedSkillCard>>
 
-  const stubs = { AssociationCard: AssociationCardStub }
+  const stubs = { AvBadge: AvBadgeStub, AssociationCard: AssociationCardStub }
 
   beforeEach(() => {
     vi.clearAllMocks()

@@ -8,7 +8,7 @@ import {
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
 import { AssociateElementsDrawerSectionStub } from '@/features/student/global/components/sections/AssociateElementsDrawerSection/AssociateElementsDrawerSection.stub'
 import { TraceAssociationTypes } from '@/features/student/traces'
-import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -44,7 +44,7 @@ const stubs = {
   AvDrawer: AvDrawerStub,
   AvButton: AvButtonStub,
   AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
-  AvIcon: AvIconStub,
+  AvIconText: AvIconTextStub,
   ConfirmationModal: ConfirmationModalStub,
   AddDeclaredSkillAutocompleteField: {
     name: 'AddDeclaredSkillAutocompleteField',
@@ -89,11 +89,11 @@ BddTest().given('an add declared skill drawer component', () => {
 
     BddTest().then('it should render the header with title and icon', () => {
       const header = wrapper.find('[data-testid="add-declared-skill-drawer__header"]')
-      const title = wrapper.findComponent({ name: 'AvIconText' })
+      const title = wrapper.findComponent(AvIconTextStub)
 
       expect(header.exists()).toBe(true)
       expect(title.exists()).toBe(true)
-      expect(title.text()).toBe('Ajouter une compétence déclarée')
+      expect(title.props('text')).toBe('Ajouter une compétence déclarée')
     })
 
     BddTest().then('it should render footer buttons', () => {

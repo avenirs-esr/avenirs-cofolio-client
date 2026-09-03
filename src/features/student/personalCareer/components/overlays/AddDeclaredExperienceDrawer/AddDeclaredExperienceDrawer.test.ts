@@ -17,7 +17,7 @@ import AddDeclaredExperienceDrawer from '@/features/student/personalCareer/compo
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 import { TraceAssociationTypes } from '@/features/student/traces/types/trace-association.types'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvAccordionStub, AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvAccordionStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -61,6 +61,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
     AvDrawer: AvDrawerStub,
     AvAccordion: AvAccordionStub,
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
+    AvIconText: AvIconTextStub,
     ConfirmationModal: ConfirmationModalStub,
     DeclaredExperienceTitleFormField: DeclaredExperienceTitleFormFieldStub,
     DeclaredExperienceTypeFormField: DeclaredExperienceTypeFormFieldStub,

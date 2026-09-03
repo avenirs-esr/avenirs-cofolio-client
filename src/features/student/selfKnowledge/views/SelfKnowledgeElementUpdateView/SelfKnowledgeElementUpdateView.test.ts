@@ -3,7 +3,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { createSelfKnowledgeElementDetailsHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { SelfKnowledgeElementDetailsContainerStub } from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.stub'
 import { SelfKnowledgeElementsSideMenuStub } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.stub'
@@ -64,7 +64,7 @@ BddTest().given('a self knowledge element update view', () => {
   let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeElementUpdateView>>
 
   const stubs = {
-    PageTitle: PageTitleStub,
+    UpdatePageTitle: UpdatePageTitleStub,
     SelfKnowledgeElementsSideMenu: SelfKnowledgeElementsSideMenuStub,
     SelfKnowledgeElementTabs: SelfKnowledgeElementTabsStub,
     SelfKnowledgeElementDetailsContainer: SelfKnowledgeElementDetailsContainerStub,
@@ -91,8 +91,8 @@ BddTest().given('a self knowledge element update view', () => {
       })
     })
 
-    BddTest().then('it should render the PageTitle component', () => {
-      const pageTitle = wrapper.findComponent(PageTitleStub)
+    BddTest().then('it should render the UpdatePageTitle component', () => {
+      const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
       expect(pageTitle.exists()).toBe(true)
     })
 

@@ -2,6 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants/route-names'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
+import { DeclaredExperienceSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.stub'
 import DeclaredExperienceUpdateView, { type DeclaredExperienceUpdateViewProps } from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -51,6 +52,7 @@ const stubs = {
   AvIconText: AvIconTextStub,
   UpdatePageTitle: UpdatePageTitleStub,
   UpdateInProgressBadge: UpdateInProgressBadgeStub,
+  DeclaredExperienceSideMenu: DeclaredExperienceSideMenuStub,
   UpdateDeclaredExperienceForm: UpdateDeclaredExperienceFormStub,
   AvTabs: { template: '<div><slot /></div>' },
   AvTab: { template: '<div><slot /></div>' }

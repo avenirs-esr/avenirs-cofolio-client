@@ -2,7 +2,7 @@ import type { TraceViewDTO } from '@/api/avenir-esr'
 import { ETraceAuthorType } from '@/api/avenir-esr'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import StudentDetailedTraceCard from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -10,11 +10,8 @@ BddTest().given('a student detailed trace card', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentDetailedTraceCard>>
 
   const stubs = {
-    FLoatingIconCard: FloatingIconCardStub,
-    StudentDetailedTraceModal: {
-      name: 'StudentDetailedTraceModal',
-      template: '<div />'
-    },
+    AvIconText: AvIconTextStub,
+    FloatingIconCard: FloatingIconCardStub,
     RouterLink: RouterLinkStub
   }
 
@@ -53,7 +50,7 @@ BddTest().given('a student detailed trace card', () => {
       })
 
       expect(wrapper.text()).toContain('Ma super trace')
-      expect(wrapper.text()).toContain('Suppression dans 30 jours')
+      expect(wrapper.findComponent(AvIconTextStub).props('text')).toContain('Suppression dans 30 jours')
     })
 
     BddTest().then('ot should not render the trace deletion time for associated trace', async () => {
@@ -65,7 +62,7 @@ BddTest().given('a student detailed trace card', () => {
       })
 
       expect(wrapper.text()).toContain('Ma super trace')
-      expect(wrapper.text()).not.toContain('Suppression')
+      expect(wrapper.findComponent(AvIconTextStub).exists()).toBe(false)
     })
   })
 })

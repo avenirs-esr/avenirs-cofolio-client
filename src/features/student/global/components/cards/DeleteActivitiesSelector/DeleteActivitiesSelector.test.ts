@@ -1,5 +1,6 @@
 import { buildAssociation } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
 import DeleteActivitiesSelector, { type DeleteActivitiesSelectorProps } from '@/features/student/global/components/cards/DeleteActivitiesSelector/DeleteActivitiesSelector.vue'
@@ -11,7 +12,8 @@ BddTest().given('a delete activities selector', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeleteActivitiesSelector>>
 
   const stubs = {
-    CompactCardSelector: CompactCardSelectorStub
+    CompactCardSelector: CompactCardSelectorStub,
+    DeclaredActivityStatusBadge: DeclaredActivityStatusBadgeStub
   }
 
   BddTest().when('the component is mounted with a deletable and a non-deletable association', () => {

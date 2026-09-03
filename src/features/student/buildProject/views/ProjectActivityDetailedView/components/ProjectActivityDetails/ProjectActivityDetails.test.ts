@@ -13,10 +13,7 @@ import { TraceAssociationLimitCardStub } from '@/features/student/buildProject/v
 import ProjectActivityDetails, {
   type ProjectActivityDetailsProps,
 } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/ProjectActivityDetails/ProjectActivityDetails.vue'
-import {
-  AvIconTextStub,
-  BddTest,
-} from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -33,7 +30,7 @@ BddTest().given('a project activity details component', () => {
     IconTitleCardContainer: IconTitleCardContainerStub,
     TraceAssociationLimitCard: TraceAssociationLimitCardStub,
     ActivityResourcesList: ActivityResourcesListStub,
-    ValorizedBadge: ValorizedBadgeStub,
+    ValorizedBadge: ValorizedBadgeStub
   }
 
   BddTest().when('the component is mounted with recommendedCompletionContexts containing "-" lines and startDate and endDate', () => {

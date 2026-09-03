@@ -1,6 +1,7 @@
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student'
+import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import StudentTraceCard from '@/features/student/traces/components/cards/StudentTraceCard/StudentTraceCard.vue'
-import { AvTagStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconTextStub, AvTagStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { expect, vi } from 'vitest'
@@ -14,7 +15,9 @@ BddTest().given('a student trace card', () => {
 
   const stubs = {
     AvTag: AvTagStub,
-    RouterLink: RouterLinkStub
+    AvIconText: AvIconTextStub,
+    RouterLink: RouterLinkStub,
+    FloatingIconCard: FloatingIconCardStub,
   }
 
   beforeEach(() => {
@@ -31,12 +34,12 @@ BddTest().given('a student trace card', () => {
       })
     })
 
-    BddTest().then('it should render the trace name, skill counts', () => {
+    BddTest().then('it should render the trace name', () => {
       expect(wrapper.text()).toContain('Prévenir la pollution à la source')
     })
 
-    BddTest().then('it should render the life project category as fallback', () => {
-      expect(wrapper.text()).toContain('Projet de vie')
+    BddTest().then('it should render the life project category', () => {
+      expect(wrapper.findComponent(AvIconTextStub).props('text')).toContain('Projet de vie')
     })
 
     BddTest().then('it should render the AvTag with label "Individuel"', () => {

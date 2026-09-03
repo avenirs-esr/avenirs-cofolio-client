@@ -2,13 +2,13 @@ import type { VueWrapper } from '@vue/test-utils'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import StudentTraceAssociationCard from '@/features/student/traces/components/cards/StudentTraceAssociationCard/StudentTraceAssociationCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const stubs = {
   Card: CardStub,
-  AvIcon: AvIconStub
+  AvIconText: AvIconTextStub
 }
 
 BddTest().given('a student trace association card', () => {
@@ -38,15 +38,15 @@ BddTest().given('a student trace association card', () => {
     })
 
     BddTest().then('it should render the title', () => {
-      expect(wrapper.text()).toContain('Test Association Title')
+      expect(wrapper.findComponent(AvIconTextStub).props('text')).toBe('Test Association Title')
     })
 
     BddTest().then('it should render the default icon', () => {
-      const icon = wrapper.findComponent({ name: 'AvIcon' })
+      const icon = wrapper.findComponent(AvIconTextStub)
 
       expect(icon.exists()).toBe(true)
-      expect(icon.props('name')).toBe(MDI_ICONS.STAR_SHOOTING_OUTLINE)
-      expect(icon.props('color')).toBe('var(--text2)')
+      expect(icon.props('icon')).toBe(MDI_ICONS.STAR_SHOOTING_OUTLINE)
+      expect(icon.props('iconColor')).toBe('var(--text2)')
     })
   })
 
@@ -64,10 +64,10 @@ BddTest().given('a student trace association card', () => {
     })
 
     BddTest().then('it should render the custom icon', () => {
-      const icon = wrapper.findComponent({ name: 'AvIcon' })
+      const icon = wrapper.findComponent(AvIconTextStub)
 
       expect(icon.exists()).toBe(true)
-      expect(icon.props('name')).toBe(MDI_ICONS.STARS)
+      expect(icon.props('icon')).toBe(MDI_ICONS.STARS)
     })
   })
 
@@ -137,7 +137,7 @@ BddTest().given('a student trace association card', () => {
     })
 
     BddTest().then('it should render the title', () => {
-      expect(wrapper.text()).toContain('Complete Card')
+      expect(wrapper.findComponent(AvIconTextStub).props('text')).toBe('Complete Card')
     })
   })
 })
