@@ -6,6 +6,34 @@
           "emptyState": "You have not valorized this type of content yet, add and valorize {item} to build your kit"
         }
       },
+      "composables": {
+        "useExportKit": {
+          "sections": {
+            "experiences": {
+              "PERSONAL": {
+                "title": "Other experiences"
+              },
+              "PROFESSIONAL": {
+                "title": "Professional experiences"
+              }
+            },
+            "profile": {
+              "bio": "Bio",
+              "email": "name{'@'}example.com",
+              "identity": "First Name Last Name",
+              "targetJob": "Job title"
+            },
+            "programs": {
+              "title": "Education"
+            },
+            "skills": {
+              "declaredRef": "Declared skill from the reference {ref}",
+              "level": "Level",
+              "title": "Skills"
+            }
+          }
+        }
+      },
       "views": {
         "StudentToolsKitView": {
           "consign": "Find all the content you have valorized here. Pick, sort, add, delete, and export it to create your CV, portfolio, LinkedIn profile, or cover letter!",
@@ -17,7 +45,7 @@
               "title": "Text content"
             },
             "KitMultimediaContentTab": {
-              "title": "Multimédia content"
+              "title": "Multimedia content"
             }
           },
           "subtitle": "Ready-to-use CoFolio raw material",

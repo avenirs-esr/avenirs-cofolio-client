@@ -5,6 +5,7 @@ import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ROUTES } from '@/common/constants'
+import ExportKitButton from '@/features/student/kit/views/StudentToolsKitView/components/interaction/ExportKitButton/ExportKitButton.vue'
 import KitContentTabs from '@/features/student/kit/views/StudentToolsKitView/components/KitContentTabs/KitContentTabs.vue'
 import { AvBreadcrumb } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -61,6 +62,8 @@ const breadcrumbLinks = computed(() => [
           </span>
         </div>
       </div>
+
+      <ExportKitButton />
 
       <QuerySuspense
         :error="error"

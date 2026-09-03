@@ -6,6 +6,34 @@
           "emptyState": "Vous n'avez pas encore valorisé ce type de contenu, ajoutez et valorisez {item} afin de constituer votre kit"
         }
       },
+      "composables": {
+        "useExportKit": {
+          "sections": {
+            "experiences": {
+              "PERSONAL": {
+                "title": "Autres expériences"
+              },
+              "PROFESSIONAL": {
+                "title": "Expériences professionnelles"
+              }
+            },
+            "profile": {
+              "bio": "Bio",
+              "email": "nom{'@'}exemple.com",
+              "identity": "Prénom Nom",
+              "targetJob": "Intitulé du poste"
+            },
+            "programs": {
+              "title": "Formation"
+            },
+            "skills": {
+              "declaredRef": "Compétence déclarée depuis le référentiel {ref}",
+              "level": "Niveau",
+              "title": "Compétences"
+            }
+          }
+        }
+      },
       "views": {
         "StudentToolsKitView": {
           "consign": "Retrouvez ici tout le contenu que vous avez valorisé. Piochez, triez, ajoutez, supprimez et exportez-le pour créer votre CV, votre portfolio, votre profil linkedIn ou votre lettre de motivation !",
