@@ -1,0 +1,89 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/home.mobile.feature.spec.js >> Student Home Page (Mobile) >> Responsive Behavior >> Layout adapts to mobile single-column format
+- Location: .features-gen/tests/student/home.mobile.feature.spec.js:31:5
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: locator.boundingBox: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByTestId('student-overview-widget')
+
+```
+
+# Test source
+
+```ts
+  1  | import { AV_BREAKPOINTS } from '@e2e/framework/shared/utils/dimension'
+  2  | import { expect, type Locator, type Page } from '@playwright/test'
+  3  | import { Given, Then, When } from 'playwright-bdd/decorators'
+  4  | 
+  5  | export abstract class BasePage {
+  6  |   protected constructor (public page: Page) {}
+  7  | 
+  8  |   @Then('no horizontal scrolling is required')
+  9  |   async verifyNoHorizontalScroll () {
+  10 |     const { scrollWidth, clientWidth } = await this.page.evaluate(() => {
+  11 |       const el = document.documentElement
+  12 |       return { scrollWidth: el.scrollWidth, clientWidth: el.clientWidth }
+  13 |     })
+  14 | 
+  15 |     expect(scrollWidth).toBeLessThanOrEqual(clientWidth)
+  16 |   }
+  17 | 
+  18 |   async verifyLocatorIsFullWidth (locator: Locator, tolerancePercent = 10) {
+  19 |     const viewport = this.page.viewportSize()
+  20 |     if (!viewport) {
+  21 |       throw new Error('Viewport not available')
+  22 |     }
+  23 | 
+> 24 |     const box = await locator.boundingBox()
+     |                               ^ Error: locator.boundingBox: Test timeout of 30000ms exceeded.
+  25 |     if (!box) {
+  26 |       throw new Error('Element not visible')
+  27 |     }
+  28 | 
+  29 |     const tolerancePx = (viewport.width * tolerancePercent) / 100
+  30 |     expect(box.width).toBeGreaterThan(viewport.width - tolerancePx)
+  31 |   }
+  32 | 
+  33 |   @Given('the page is displayed on mobile viewport')
+  34 |   async verifyMobileViewport () {
+  35 |     const viewport = this.page.viewportSize()
+  36 |     expect(viewport?.width).toBeLessThanOrEqual(AV_BREAKPOINTS.md)
+  37 |   }
+  38 | 
+  39 |   @When('the user scrolls down through the page')
+  40 |   async scrollDown () {
+  41 |     await this.page.evaluate(() => {
+  42 |       window.scrollTo(0, document.body.scrollHeight / 2)
+  43 |     })
+  44 |     await this.page.waitForTimeout(500)
+  45 |   }
+  46 | 
+  47 |   @Then('the URL contains {string}')
+  48 |   async verifyUrlContains (url: string) {
+  49 |     await expect.poll(
+  50 |       () => this.page.url(),
+  51 |       { timeout: 5000 }
+  52 |     ).toContain(url)
+  53 |   }
+  54 | 
+  55 |   @Then('the page title is {string}')
+  56 |   async verifyPageTitle (title: string) {
+  57 |     await expect(this.page).toHaveTitle(title)
+  58 |   }
+  59 | }
+  60 | 
+```

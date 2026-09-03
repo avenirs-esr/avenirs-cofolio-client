@@ -1,0 +1,186 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/lifeProject/activitiesCatalog/activitiesCatalog.feature.spec.js >> Student Project Activities Catalog Page >> Activities Navigation - Desktop >> Student can see the activities side navigation
+- Location: .features-gen/tests/student/lifeProject/activitiesCatalog/activitiesCatalog.feature.spec.js:12:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('activities-side-navigation')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('activities-side-navigation')
+
+```
+
+# Test source
+
+```ts
+  1   | import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+  2   | import { expect, type Locator, type Page } from '@playwright/test'
+  3   | 
+  4   | export class ActivitiesSideNavigation extends BaseObject {
+  5   |   private static readonly ROOT_TESTID = 'activities-side-navigation'
+  6   |   private static readonly COLLAPSED_PREFIX = 'collapsed-menu-'
+  7   |   private static readonly EXPANDED_PREFIX = 'expanded-menu-'
+  8   |   private static readonly MENU_ITEM_PREFIX = 'menu-'
+  9   | 
+  10  |   constructor (protected page: Page) {
+  11  |     super(page.getByTestId(ActivitiesSideNavigation.ROOT_TESTID), page)
+  12  |   }
+  13  | 
+  14  |   private parents (): Locator {
+  15  |     return this.root.locator(
+  16  |       `[data-testid^="${ActivitiesSideNavigation.COLLAPSED_PREFIX}"], [data-testid^="${ActivitiesSideNavigation.EXPANDED_PREFIX}"]`,
+  17  |     )
+  18  |   }
+  19  | 
+  20  |   private expandedParents (): Locator {
+  21  |     return this.root.locator(`[data-testid^="${ActivitiesSideNavigation.EXPANDED_PREFIX}"]`)
+  22  |   }
+  23  | 
+  24  |   private parent (thematic: string): Locator {
+  25  |     return this.root.locator(
+  26  |       `[data-testid="${ActivitiesSideNavigation.COLLAPSED_PREFIX}${thematic}"], `
+  27  |       + `[data-testid="${ActivitiesSideNavigation.EXPANDED_PREFIX}${thematic}"]`,
+  28  |     )
+  29  |   }
+  30  | 
+  31  |   private menuItems (parentId: string): Locator {
+  32  |     return this.root.locator(`[data-testid^="${ActivitiesSideNavigation.MENU_ITEM_PREFIX}${parentId}-"]`)
+  33  |   }
+  34  | 
+  35  |   private async getDataTestId (locator: Locator, errorMessage: string): Promise<string> {
+  36  |     const tid = await locator.getAttribute('data-testid')
+  37  |     if (!tid) {
+  38  |       throw new Error(errorMessage)
+  39  |     }
+  40  |     return tid
+  41  |   }
+  42  | 
+  43  |   private extractParentIdFromTestId (testId: string): string {
+  44  |     if (testId.startsWith(ActivitiesSideNavigation.EXPANDED_PREFIX)) {
+  45  |       return testId.slice(ActivitiesSideNavigation.EXPANDED_PREFIX.length)
+  46  |     }
+  47  |     if (testId.startsWith(ActivitiesSideNavigation.COLLAPSED_PREFIX)) {
+  48  |       return testId.slice(ActivitiesSideNavigation.COLLAPSED_PREFIX.length)
+  49  |     }
+  50  |     throw new Error(`Unexpected parent data-testid format: ${testId}`)
+  51  |   }
+  52  | 
+  53  |   async verifyVisible () {
+> 54  |     await expect(this.root).toBeVisible()
+      |                             ^ Error: expect(locator).toBeVisible() failed
+  55  |   }
+  56  | 
+  57  |   async verifyHidden () {
+  58  |     await expect(this.root).toBeHidden()
+  59  |   }
+  60  | 
+  61  |   async verifyHasThematics () {
+  62  |     await expect(this.parents().first()).toBeVisible()
+  63  |   }
+  64  | 
+  65  |   async verifyFirstThematicIs (expected: string) {
+  66  |     const first = this.parents().first()
+  67  |     await expect(first).toBeVisible()
+  68  | 
+  69  |     const tid = await this.getDataTestId(first, 'Could not read data-testid of first parent')
+  70  |     expect(tid).toContain(expected)
+  71  |   }
+  72  | 
+  73  |   private async ensureFirstParentExpanded (): Promise<string> {
+  74  |     const first = this.parents().first()
+  75  |     await expect(first).toBeVisible()
+  76  | 
+  77  |     const tid = await this.getDataTestId(first, 'Could not read data-testid of first parent')
+  78  |     if (tid.startsWith(ActivitiesSideNavigation.EXPANDED_PREFIX)) {
+  79  |       return this.extractParentIdFromTestId(tid)
+  80  |     }
+  81  | 
+  82  |     await first.click()
+  83  | 
+  84  |     const expanded = this.expandedParents().first()
+  85  |     await expect(expanded).toBeVisible()
+  86  | 
+  87  |     const expandedTid = await this.getDataTestId(expanded, 'Could not read data-testid of expanded parent')
+  88  |     return this.extractParentIdFromTestId(expandedTid)
+  89  |   }
+  90  | 
+  91  |   async verifyFirstThematicHasAtLeastOneActivity () {
+  92  |     const parentId = await this.ensureFirstParentExpanded()
+  93  |     await expect(this.menuItems(parentId).first()).toBeVisible()
+  94  |   }
+  95  | 
+  96  |   async verifyFirstActivityTitleOfFirstThematic (expectedTitle: string) {
+  97  |     const parentId = await this.ensureFirstParentExpanded()
+  98  |     await expect(this.menuItems(parentId).first()).toContainText(expectedTitle)
+  99  |   }
+  100 | 
+  101 |   async verifyLastActivityTitleOfFirstThematic (expectedTitle: string) {
+  102 |     const parentId = await this.ensureFirstParentExpanded()
+  103 |     await expect(this.menuItems(parentId).last()).toContainText(expectedTitle)
+  104 |   }
+  105 | 
+  106 |   private async ensureThematicExpanded (thematic: string): Promise<string> {
+  107 |     const target = this.parent(thematic)
+  108 |     await expect(target, `Missing thematic in side navigation: ${thematic}`).toHaveCount(1)
+  109 | 
+  110 |     const locator = target.first()
+  111 |     await expect(locator).toBeVisible()
+  112 | 
+  113 |     const tid = await this.getDataTestId(locator, `Could not read data-testid for thematic: ${thematic}`)
+  114 |     if (tid.startsWith(ActivitiesSideNavigation.EXPANDED_PREFIX)) {
+  115 |       return thematic
+  116 |     }
+  117 | 
+  118 |     await locator.click()
+  119 | 
+  120 |     const expandedTarget = this.root.locator(`[data-testid="${ActivitiesSideNavigation.EXPANDED_PREFIX}${thematic}"]`)
+  121 |     await expect(expandedTarget).toBeVisible()
+  122 | 
+  123 |     return thematic
+  124 |   }
+  125 | 
+  126 |   async selectFirstChildOfThematic (thematic: string) {
+  127 |     const parentId = await this.ensureThematicExpanded(thematic)
+  128 | 
+  129 |     const first = this.menuItems(parentId).first()
+  130 |     await expect(first).toBeVisible()
+  131 |     await first.click()
+  132 |   }
+  133 | 
+  134 |   async selectLastChildOfThematic (thematic: string) {
+  135 |     const parentId = await this.ensureThematicExpanded(thematic)
+  136 | 
+  137 |     const last = this.menuItems(parentId).last()
+  138 |     await expect(last).toBeVisible()
+  139 |     await last.click()
+  140 |   }
+  141 | 
+  142 |   async selectSecondChildOfThematic (thematic: string) {
+  143 |     const parentId = await this.ensureThematicExpanded(thematic)
+  144 | 
+  145 |     const second = this.menuItems(parentId).nth(1)
+  146 |     await expect(second).toBeVisible()
+  147 |     await second.click()
+  148 |   }
+  149 | 
+  150 |   async verifyAllExpectedThematics (expected: string[]) {
+  151 |     for (const thematic of expected) {
+  152 |       await expect(this.parent(thematic), `Missing thematic in side navigation: ${thematic}`).toHaveCount(1)
+  153 |     }
+  154 |     await expect(this.parents(), `Expected ${expected.length} thematics in side navigation`).toHaveCount(expected.length)
+```

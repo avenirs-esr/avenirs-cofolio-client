@@ -1,0 +1,54 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/lifeProject/activities/activities.feature.spec.js >> Student Project Activities Page >> Page Title >> Student can see the page title
+- Location: .features-gen/tests/student/lifeProject/activities/activities.feature.spec.js:25:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('page-title')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('page-title')
+
+```
+
+# Test source
+
+```ts
+  1  | import { expect, type Locator, type Page } from '@playwright/test'
+  2  | 
+  3  | export abstract class BaseObject {
+  4  |   protected constructor (protected readonly root: Locator, protected page?: Page) { }
+  5  | 
+  6  |   getRoot () {
+  7  |     return this.root
+  8  |   }
+  9  | 
+  10 |   async click () {
+  11 |     await this.root.click()
+  12 |   }
+  13 | 
+  14 |   async isVisible () {
+> 15 |     await expect(this.root).toBeVisible()
+     |                             ^ Error: expect(locator).toBeVisible() failed
+  16 |   }
+  17 | 
+  18 |   async isHidden () {
+  19 |     await expect(this.root).toBeHidden()
+  20 |   }
+  21 | }
+  22 | 
+```
