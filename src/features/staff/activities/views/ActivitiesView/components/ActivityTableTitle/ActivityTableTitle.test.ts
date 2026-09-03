@@ -3,9 +3,17 @@ import { EActivityStatus, EActivityThematic } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { ROUTES } from '@/common/constants'
 import ActivityTableTitle from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+const mockIsTruncated = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+
+  return { ...actual, useTextTruncation: () => ({ isTruncated: mockIsTruncated }) }
+})
 
 BddTest().given('an ActivityTableTitle component', () => {
   let wrapper: ReturnType<typeof mount<typeof ActivityTableTitle>>
@@ -13,6 +21,7 @@ BddTest().given('an ActivityTableTitle component', () => {
   const stubs = {
     ActivityThematicBadge: ActivityThematicBadgeStub,
     RouterLink: RouterLinkStub,
+    AvTooltip: AvTooltipStub
   }
 
   const baseActivity: ActivityTableRow = {

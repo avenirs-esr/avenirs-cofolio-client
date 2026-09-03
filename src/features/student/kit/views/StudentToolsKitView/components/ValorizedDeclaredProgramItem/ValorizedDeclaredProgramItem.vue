@@ -5,6 +5,7 @@ import { formatDateToYearLocalized } from '@/common/utils'
 import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import ValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.vue'
 import { DeclaredProgramOrganizationBadge, DeclaredProgramResultBadge, DeclaredProgramStatusBadge } from '@/features/student/personalCareer'
+import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ValorizedDeclaredProgramItemProps {
@@ -12,6 +13,9 @@ export interface ValorizedDeclaredProgramItemProps {
 }
 
 const { declaredProgram } = defineProps<ValorizedDeclaredProgramItemProps>()
+
+const descriptionRef = ref<HTMLElement | null>(null)
+const { isTruncated } = useTextTruncation(descriptionRef)
 
 const { t, locale } = useI18n()
 const currentLocale = computed(() => locale.value as AvLocale)
@@ -40,12 +44,19 @@ const period = computed(() => {
       :organization="declaredProgram.organization"
       :period="period"
     />
-    <span
+    <AvTooltip
       v-if="declaredProgram.description"
-      class="b2-regular av-max-lines"
+      :disabled="!isTruncated"
+      :content="declaredProgram.description"
+      force-focusable
     >
-      {{ declaredProgram.description }}
-    </span>
+      <span
+        ref="descriptionRef"
+        class="b2-regular av-max-lines"
+      >
+        {{ declaredProgram.description }}
+      </span>
+    </AvTooltip>
     <div class="av-row av-align-center av-wrap av-gap-xs">
       <DeclaredProgramStatusBadge
         v-if="declaredProgram.status"

@@ -5,7 +5,7 @@ import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBa
 import Card from '@/common/components/cards/Card/Card.vue'
 import { useDateUtils } from '@/common/composables'
 import { ICONS, ROUTES } from '@/common/constants'
-import { AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvIcon, AvIconText, AvTooltip, MDI_ICONS, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ActivityCardProps {
@@ -14,6 +14,9 @@ export interface ActivityCardProps {
 }
 
 const { activity } = defineProps<ActivityCardProps>()
+
+const titleRef = ref<HTMLElement | null>(null)
+const { isTruncated } = useTextTruncation(titleRef)
 
 const { t } = useI18n()
 
@@ -44,9 +47,18 @@ const to = computed(() => ({
       <template #title>
         <div class="av-row av-w-full av-gap-sm av-align-center">
           <div class="av-flex-fill">
-            <span class="av-max-lines b1-regular av-text-text1">
-              {{ activity.title }}
-            </span>
+            <AvTooltip
+              :disabled="!isTruncated"
+              :content="activity.title"
+              force-focusable
+            >
+              <span
+                ref="titleRef"
+                class="av-max-lines b1-regular av-text-text1"
+              >
+                {{ activity.title }}
+              </span>
+            </AvTooltip>
           </div>
           <div class="icon-container av-col av-align-center av-justify-center av-p-xs av-radius-lg">
             <AvIcon

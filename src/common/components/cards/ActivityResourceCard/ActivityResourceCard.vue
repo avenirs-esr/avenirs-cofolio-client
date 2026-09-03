@@ -6,7 +6,7 @@ import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors
 import { downloadBlob } from '@/common/utils/download/download'
 import { isActivityResourceFile, isActivityResourceLink, isActivityResourcePendingFile } from '@/features/staff/activities/utils/resource.types-guard'
 import { useToasterStore } from '@/store'
-import { AvCard, AvIcon, AvTag, AvTooltip, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvCard, AvIcon, AvTag, AvTooltip, MDI_ICONS, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface ActivityResourceCardComponentProps {
@@ -22,6 +22,9 @@ const {
   disabled = false,
   tooltipVisible = undefined
 } = defineProps<ActivityResourceCardComponentProps>()
+
+const titleRef = ref<HTMLElement | null>(null)
+const { isTruncated } = useTextTruncation(titleRef)
 
 const { t } = useI18n()
 const { getErrorMessage } = useApiErrors()
@@ -140,9 +143,11 @@ const rootTestId = computed(() => `activity-resource-card-${href.value ? 'link' 
         <div class="av-row">
           <AvTooltip
             :content="title"
-            :disabled="tooltipVisible === undefined ? disabled : !tooltipVisible"
+            :disabled="!isTruncated || tooltipVisible === undefined ? disabled : !tooltipVisible"
+            force-focusable
           >
             <span
+              ref="titleRef"
               class="title av-max-lines b1-regular"
               :class="{ 'title-link': isActivityResourceLink(resource) }"
               data-testid="activity-resource-card-title"

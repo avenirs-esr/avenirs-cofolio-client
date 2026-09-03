@@ -1,12 +1,21 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
-import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
+
+const mockIsTruncated = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+
+  return { ...actual, useTextTruncation: () => ({ isTruncated: mockIsTruncated }) }
+})
 
 const stubs = {
   Card: CardStub,
-  AvIcon: AvIconStub
+  AvIcon: AvIconStub,
+  AvTooltip: AvTooltipStub
 }
 
 BddTest().given('a floating icon card', () => {

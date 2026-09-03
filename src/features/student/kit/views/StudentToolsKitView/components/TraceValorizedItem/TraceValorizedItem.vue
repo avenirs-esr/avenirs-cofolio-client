@@ -8,6 +8,7 @@ import ValorizedItem from '@/features/student/kit/views/StudentToolsKitView/comp
 import TraceAiProducedBadge from '@/features/student/traces/components/badges/TraceAiProducedBadge/TraceAiProducedBadge.vue'
 import TraceAuthorTypeBadge from '@/features/student/traces/components/badges/TraceAuthorTypeBadge/TraceAuthorTypeBadge.vue'
 import TraceFileTypeBadge from '@/features/student/traces/components/badges/TraceFileTypeBadge/TraceFileTypeBadge.vue'
+import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface TraceValorizedItemProps {
@@ -17,10 +18,17 @@ export interface TraceValorizedItemProps {
 
 const { trace, type } = defineProps<TraceValorizedItemProps>()
 
+const personalNoteRef = ref<HTMLElement | null>(null)
+const { isTruncated } = useTextTruncation(personalNoteRef)
+
 const { t, locale } = useI18n()
 
 const formattedCreatedAt = computed(() => formatDateLocalized(trace.createdAt, locale.value as AvLocale, true))
 const formattedFileSize = computed(() => trace.attachment ? formatFileSizeInMegabytes(trace.attachment.fileSize, locale.value as AvLocale) : '')
+
+const personalNote = computed(() => trace.personalNote
+  ? `${t('student.kit.views.StudentToolsKitView.traceValorizedItem.personalNote', { note: trace.personalNote })}`
+  : undefined)
 </script>
 
 <template>
@@ -43,12 +51,19 @@ const formattedFileSize = computed(() => trace.attachment ? formatFileSizeInMega
       />
       <TraceAiProducedBadge :ai-produced="!!trace.aiUseJustification" />
     </div>
-    <span
-      v-if="trace.personalNote"
-      class="caption-regular av-max-lines"
-      data-testid="trace-valorized-item-personal-note"
+    <AvTooltip
+      v-if="!!personalNote"
+      :disabled="!isTruncated"
+      :content="personalNote"
+      force-focusable
     >
-      {{ t('student.kit.views.StudentToolsKitView.traceValorizedItem.personalNote', { note: trace.personalNote }) }}
-    </span>
+      <span
+        ref="personalNoteRef"
+        class="caption-regular av-max-lines"
+        data-testid="trace-valorized-item-personal-note"
+      >
+        {{ personalNote }}
+      </span>
+    </AvTooltip>
   </ValorizedItem>
 </template>
