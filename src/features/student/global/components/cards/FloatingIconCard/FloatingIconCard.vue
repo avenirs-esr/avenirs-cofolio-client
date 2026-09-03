@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
 import Card from '@/common/components/cards/Card/Card.vue'
-import { AvIcon } from '@avenirs-esr/avenirs-dsav'
+import { AvIcon, AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 
 export interface IconOptions {
   name: string
@@ -40,6 +40,10 @@ defineSlots<{
   footer?: Slot
 }>()
 
+const titleRef = ref<HTMLElement | null>(null)
+
+const { isTruncated } = useTextTruncation(titleRef)
+
 const iconColor = computed(() => iconOptions.color ?? 'var(--card2)')
 const iconBottom = computed(() => iconOptions.bottom ?? '-3rem')
 const iconRight = computed(() => iconOptions.right ?? '0')
@@ -63,14 +67,20 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
     >
       <template #title>
         <div class="floating-icon-card__title-container av-w-full av-h-full">
-          <span
-            class="title av-max-lines av-mr-4xl"
-            :class="titleTypographyClasses"
-            :title="title"
-            data-testid="floating-icon-card-title"
+          <AvTooltip
+            :disabled="!isTruncated"
+            :content="title"
+            force-focusable
           >
-            {{ title }}
-          </span>
+            <span
+              ref="titleRef"
+              class="title av-max-lines av-mr-4xl"
+              :class="titleTypographyClasses"
+              data-testid="floating-icon-card-title"
+            >
+              {{ title }}
+            </span>
+          </AvTooltip>
           <div
             class="floating-icon-card__icon av-row av-align-center av-justify-center av-radius-lg av-border-width-sm av-border-style-solid"
             :style="{ background: color }"

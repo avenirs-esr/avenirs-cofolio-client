@@ -1,13 +1,26 @@
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import LongIconCard from '@/common/components/cards/LongIconCard/LongIconCard.vue'
-import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { beforeEach } from 'vitest'
+
+const mockIsTruncated = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+
+  return { ...actual, useTextTruncation: () => ({ isTruncated: mockIsTruncated }) }
+})
 
 BddTest().given('a long icon card component', () => {
   let wrapper: VueWrapper<InstanceType<typeof LongIconCard>>
 
-  const stubs = { Card: CardStub, RouterLink: RouterLinkStub, AvIcon: AvIconStub }
+  const stubs = {
+    Card: CardStub,
+    RouterLink: RouterLinkStub,
+    AvIcon: AvIconStub,
+    AvTooltip: AvTooltipStub
+  }
 
   const baseProps = {
     title: 'Titre',

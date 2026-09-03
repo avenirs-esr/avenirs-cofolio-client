@@ -2,7 +2,7 @@
 import type { Slot } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 import Card from '@/common/components/cards/Card/Card.vue'
-import { AvIcon, type AvIconProps } from '@avenirs-esr/avenirs-dsav'
+import { AvIcon, type AvIconProps, AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 
 export interface LongIconCardProps {
   title: string
@@ -16,6 +16,9 @@ const { title, icon, iconBackgroundColor = 'var(--light-background-neutral)', to
 defineSlots<{
   default?: Slot
 }>()
+
+const titleRef = ref<HTMLElement | null>(null)
+const { isTruncated } = useTextTruncation(titleRef)
 
 const componentToRender = computed(() => to ? 'RouterLink' : 'div')
 </script>
@@ -37,12 +40,19 @@ const componentToRender = computed(() => to ? 'RouterLink' : 'div')
           />
         </div>
         <div class="av-col av-gap-xs">
-          <span
-            class="title b1-regular av-text-text1 av-max-lines"
-            data-testid="long-icon-card-title"
+          <AvTooltip
+            :disabled="!isTruncated"
+            :content="title"
+            force-focusable
           >
-            {{ title }}
-          </span>
+            <span
+              ref="titleRef"
+              class="title b1-regular av-text-text1 av-max-lines"
+              data-testid="long-icon-card-title"
+            >
+              {{ title }}
+            </span>
+          </AvTooltip>
           <slot />
         </div>
       </div>

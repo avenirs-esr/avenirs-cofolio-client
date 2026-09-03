@@ -6,10 +6,18 @@ import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { ROUTES } from '@/common/constants'
 import ActivityCard from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvIconStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+const mockIsTruncated = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+
+  return { ...actual, useTextTruncation: () => ({ isTruncated: mockIsTruncated }) }
+})
 
 const mockFormatLastModified = vi.fn((value: string) => `formatted-${value}`)
 
@@ -33,6 +41,7 @@ BddTest().given('an ActivityCard component', () => {
     ActivityThematicBadge: ActivityThematicBadgeStub,
     ActivityStatusBadge: ActivityStatusBadgeStub,
     RouterLink: RouterLinkStub,
+    AvTooltip: AvTooltipStub
   }
 
   const baseActivity: ActivityTableRow = {

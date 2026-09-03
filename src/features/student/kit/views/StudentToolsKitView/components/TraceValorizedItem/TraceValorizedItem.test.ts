@@ -1,12 +1,23 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { EFileType, ETraceAuthorType } from '@/api/avenir-esr'
-import { ROUTES } from '@/common/constants'
 import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import TraceValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/TraceValorizedItem/TraceValorizedItem.vue'
+import { ValorizedItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.stub'
+import { TraceAiProducedBadgeStub } from '@/features/student/traces/components/badges/TraceAiProducedBadge/TraceAiProducedBadge.stub'
+import { TraceAuthorTypeBadgeStub } from '@/features/student/traces/components/badges/TraceAuthorTypeBadge/TraceAuthorTypeBadge.stub'
+import { TraceFileTypeBadgeStub } from '@/features/student/traces/components/badges/TraceFileTypeBadge/TraceFileTypeBadge.stub'
 import { AvButtonStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
+
+const mockIsTruncated = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+
+  return { ...actual, useTextTruncation: () => ({ isTruncated: mockIsTruncated }) }
+})
 
 const BASE_TRACE: TraceViewDTO = {
   id: 'a985c67e-1ae0-4cc9-9ebd-b40fff4ee553',
@@ -19,10 +30,15 @@ const BASE_TRACE: TraceViewDTO = {
 
 BddTest().given('a trace valorized item', () => {
   let wrapper: VueWrapper<InstanceType<typeof TraceValorizedItem>>
+  let valorizedItem: VueWrapper<InstanceType<typeof ValorizedItemStub>>
 
   const stubs = {
     AvButton: AvButtonStub,
-    AvTooltip: AvTooltipStub
+    AvTooltip: AvTooltipStub,
+    ValorizedItem: ValorizedItemStub,
+    TraceFileTypeBadge: TraceFileTypeBadgeStub,
+    TraceAuthorTypeBadge: TraceAuthorTypeBadgeStub,
+    TraceAiProducedBadge: TraceAiProducedBadgeStub,
   }
 
   function mountTraceValorizedItem (trace: TraceViewDTO, type: ValorizedItemType.ASSOCIATED_TRACE | ValorizedItemType.NON_ASSOCIATED_TRACE = ValorizedItemType.ASSOCIATED_TRACE) {
@@ -36,19 +52,17 @@ BddTest().given('a trace valorized item', () => {
     beforeEach(async () => {
       mountTraceValorizedItem(BASE_TRACE)
       await flushPromises()
+      valorizedItem = wrapper.findComponent(ValorizedItemStub)
     })
 
     BddTest().then('it should render the wrapped ValorizedItem with the trace title', () => {
-      expect(wrapper.find('[data-testid="valorized-item"]').exists()).toBe(true)
-      expect(wrapper.find('.title').text()).toBe('Ma trace de test')
+      expect(valorizedItem.exists()).toBe(true)
+      expect(valorizedItem.props('title')).toBe('Ma trace de test')
     })
 
-    BddTest().then('it should render the access button pointing to the trace detail route', () => {
-      const button = wrapper.findComponent(AvButtonStub)
-      expect(button.props('to')).toEqual({
-        name: ROUTES.STUDENT.TOOLS_TRACE.name,
-        params: { id: BASE_TRACE.id }
-      })
+    BddTest().then('it should link the element to ValorizedItem', () => {
+      expect(valorizedItem.exists()).toBe(true)
+      expect(valorizedItem.props('itemId')).toEqual(BASE_TRACE.id)
     })
 
     BddTest().then('it should render the formatted creation date', () => {
@@ -56,13 +70,13 @@ BddTest().given('a trace valorized item', () => {
     })
 
     BddTest().then('it should not render the file type badge', () => {
-      expect(wrapper.find('[data-testid="trace-file-type-badge"]').exists()).toBe(false)
+      expect(wrapper.findComponent(TraceFileTypeBadgeStub).exists()).toBe(false)
     })
 
-    BddTest().then('it should render the AI produced badge in its "Sans IA" state', () => {
-      const badge = wrapper.find('[data-testid="trace-ai-produced-badge"]')
+    BddTest().then('it should render the AI produced badge with aiProduced set to false', () => {
+      const badge = wrapper.findComponent(TraceAiProducedBadgeStub)
       expect(badge.exists()).toBe(true)
-      expect(badge.text()).toBe('Sans IA')
+      expect(badge.props('aiProduced')).toBe(false)
     })
 
     BddTest().then('it should not render a personal note', () => {
@@ -87,6 +101,7 @@ BddTest().given('a trace valorized item', () => {
         personalNote: 'Une note personnelle détaillée sur cette trace.'
       })
       await flushPromises()
+      valorizedItem = wrapper.findComponent(ValorizedItemStub)
     })
 
     BddTest().then('it should render the formatted date and file size', () => {
@@ -95,17 +110,17 @@ BddTest().given('a trace valorized item', () => {
     })
 
     BddTest().then('it should render the file type badge', () => {
-      expect(wrapper.find('[data-testid="trace-file-type-badge"]').exists()).toBe(true)
+      expect(wrapper.findComponent(TraceFileTypeBadgeStub).exists()).toBe(true)
     })
 
     BddTest().then('it should render the author type badge', () => {
-      expect(wrapper.find('[data-testid="trace-author-type-badge"]').exists()).toBe(true)
+      expect(wrapper.findComponent(TraceAuthorTypeBadgeStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should render the AI produced badge in its "Avec IA" state', () => {
-      const badge = wrapper.find('[data-testid="trace-ai-produced-badge"]')
+    BddTest().then('it should render the AI produced badge with aiProduced set to true', () => {
+      const badge = wrapper.findComponent(TraceAiProducedBadgeStub)
       expect(badge.exists()).toBe(true)
-      expect(badge.text()).toBe('Avec IA')
+      expect(badge.props('aiProduced')).toBe(true)
     })
 
     BddTest().then('it should render the personal note prefixed with "Ma note personnelle"', () => {
@@ -119,13 +134,11 @@ BddTest().given('a trace valorized item', () => {
     beforeEach(async () => {
       mountTraceValorizedItem(BASE_TRACE, ValorizedItemType.NON_ASSOCIATED_TRACE)
       await flushPromises()
+      valorizedItem = wrapper.findComponent(ValorizedItemStub)
     })
 
-    BddTest().then('it should still render the access button pointing to the trace detail route', () => {
-      expect(wrapper.findComponent(AvButtonStub).props('to')).toEqual({
-        name: ROUTES.STUDENT.TOOLS_TRACE.name,
-        params: { id: BASE_TRACE.id }
-      })
+    BddTest().then('it should still link the trace to ValorizedItem', () => {
+      expect(valorizedItem.props('itemId')).toBe(BASE_TRACE.id)
     })
   })
 })

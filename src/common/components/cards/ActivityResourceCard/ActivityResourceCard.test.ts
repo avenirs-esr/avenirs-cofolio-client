@@ -9,6 +9,14 @@ import { mockAddErrorMessage } from 'tests/mocks'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const mockIsTruncated = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+
+  return { ...actual, useTextTruncation: () => ({ isTruncated: mockIsTruncated }) }
+})
+
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()
 
@@ -261,6 +269,7 @@ BddTest().given('an activity resource card', () => {
     const resource = 'https://avenir-esr.fr'
 
     beforeEach(() => {
+      mockIsTruncated.value = true
       wrapper = mountComponent(ActivityResourceCard, {
         props: { activityId: 'activity-id', resource, disabled: true, tooltipVisible: true },
         global: { stubs },

@@ -7,6 +7,7 @@ import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import CountAssociationsBadge from '@/features/student/kit/views/StudentToolsKitView/components/CountAssociationsBadge/CountAssociationsBadge.vue'
 import ValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.vue'
 import { DeclaredExperienceOrganizationBadge, DeclaredExperienceTypeBadge } from '@/features/student/personalCareer'
+import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ValorizedDeclaredExperienceItemProps {
@@ -14,6 +15,9 @@ export interface ValorizedDeclaredExperienceItemProps {
 }
 
 const { declaredExperience } = defineProps<ValorizedDeclaredExperienceItemProps>()
+
+const descriptionRef = ref<HTMLElement | null>(null)
+const { isTruncated } = useTextTruncation(descriptionRef)
 
 const { t, locale } = useI18n()
 const currentLocale = computed(() => locale.value as AvLocale)
@@ -44,12 +48,20 @@ const traceAssociationsCount = computed(
     :type="ValorizedItemType.DECLARED_EXPERIENCE"
   >
     <DeclaredExperienceOrganizationBadge :organization="organizationLabel" />
-    <span
+
+    <AvTooltip
       v-if="declaredExperience.description"
-      class="b2-regular av-max-lines"
+      :disabled="!isTruncated"
+      :content="declaredExperience.description"
+      force-focusable
     >
-      {{ declaredExperience.description }}
-    </span>
+      <span
+        ref="descriptionRef"
+        class="b2-regular av-max-lines"
+      >
+        {{ declaredExperience.description }}
+      </span>
+    </AvTooltip>
     <div class="av-row av-align-center av-wrap av-gap-xs">
       <DeclaredExperienceTypeBadge
         v-if="declaredExperience.experienceType"

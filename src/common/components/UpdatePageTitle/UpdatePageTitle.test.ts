@@ -1,12 +1,25 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const mockIsTruncated = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+
+  return { ...actual, useTextTruncation: () => ({ isTruncated: mockIsTruncated }) }
+})
+
 BddTest().given('an update page title', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdatePageTitle>>
+
+  const stubs = {
+    PageTitle: PageTitleStub,
+    AvTooltip: AvTooltipStub
+  }
 
   const breadcrumbLinks = [
     { text: 'Home', to: '/' },
@@ -27,9 +40,7 @@ BddTest().given('an update page title', () => {
       wrapper = await mountWithRouter<typeof UpdatePageTitle>(UpdatePageTitle, {
         props,
         global: {
-          stubs: {
-            PageTitle: PageTitleStub
-          }
+          stubs
         }
       })
     })

@@ -3,7 +3,7 @@ import type { Slot } from 'vue'
 import { ESelfKnowledgeCategory, useGetSelfKnowledgeCategories } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { type ValorizedElementType, ValorizedItemType } from '@/features/student/kit/types/valorized.types'
-import { AvButton, AvTooltip, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvTooltip, CUIDA_ICONS, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ValorizedItemProps {
@@ -18,6 +18,9 @@ const { itemId, parentId = '', type } = defineProps<ValorizedItemProps>()
 defineSlots<{
   default: Slot
 }>()
+
+const titleRef = ref<HTMLElement | null>(null)
+const { isTruncated } = useTextTruncation(titleRef)
 
 const { t } = useI18n()
 
@@ -71,8 +74,15 @@ const to = computed(() => {
       data-testid="valorized-item"
     >
       <div class="av-row av-justify-between av-gap-sm">
-        <AvTooltip :content="title">
-          <span class="title s2-bold av-max-lines">
+        <AvTooltip
+          :disabled="!isTruncated"
+          :content="title"
+          force-focusable
+        >
+          <span
+            ref="titleRef"
+            class="title s2-bold av-max-lines"
+          >
             {{ title }}
           </span>
         </AvTooltip>

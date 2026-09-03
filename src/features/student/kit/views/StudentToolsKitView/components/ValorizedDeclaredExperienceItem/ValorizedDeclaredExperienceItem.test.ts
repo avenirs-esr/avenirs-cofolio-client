@@ -7,6 +7,14 @@ import { AvBadgeStub, AvButtonStub, AvIconTextStub, AvTooltipStub, BddTest } fro
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 
+const mockIsTruncated = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+
+  return { ...actual, useTextTruncation: () => ({ isTruncated: mockIsTruncated }) }
+})
+
 const BASE_DECLARED_EXPERIENCE: DeclaredExperienceViewDTO = {
   id: 'c1e6a6f0-1c2d-4f3e-9a1b-3f2b1c0d4e5f',
   title: 'Bénévole Associatif',
