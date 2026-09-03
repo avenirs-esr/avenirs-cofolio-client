@@ -94,6 +94,21 @@
           "title": "Toutes mes demandes de feedback sur l'activité \"{activityTitle}\""
         },
         "FeedbacksView": {
+          "FeedbackActivityFilterSelect": {
+            "defaultOption": "Toutes",
+            "label": "Filtrer par activité",
+            "placeholder": "Sélectionner une activité"
+          },
+          "FeedbacksDashboardCards": {
+            "allActivities": "Toutes les demandes de feedback",
+            "new": "nouvelle demande de feedback | nouvelles demandes de feedback",
+            "processed": "réponse envoyée | réponses envoyées",
+            "title": "Tableau de bord : {activity}",
+            "unprocessed": "demande non traitée | demandes non traitées"
+          },
+          "FeedbacksFiltersCard": {
+            "title": "Filtrer mes demandes"
+          },
           "FeedbacksTable": {
             "columns": {
               "activity": "Activité",

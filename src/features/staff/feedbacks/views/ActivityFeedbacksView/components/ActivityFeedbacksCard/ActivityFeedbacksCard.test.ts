@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
-import { mockedFeedbackDashboard } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
+import { mockedActivityContentWithEnrolledStudent1 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { getMockedFeedbackDashboard } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import { EFeedbackStatus } from '@/api/avenir-esr'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ICONS } from '@/common/constants'
@@ -13,6 +13,7 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('an ActivityFeedbacksCard component', () => {
+  const dashboard = getMockedFeedbackDashboard({ activityId: mockedActivityContentWithEnrolledStudent1.id })
   let wrapper: VueWrapper<InstanceType<typeof ActivityFeedbacksCard>>
 
   const stubs = {
@@ -24,7 +25,7 @@ BddTest().given('an ActivityFeedbacksCard component', () => {
   beforeEach(async () => {
     vi.clearAllMocks()
     wrapper = mountComponent(ActivityFeedbacksCard, {
-      props: { activity: mockedActivityContent },
+      props: { activity: mockedActivityContentWithEnrolledStudent1 },
       global: { stubs },
     })
     await flushPromises()
@@ -48,20 +49,20 @@ BddTest().given('an ActivityFeedbacksCard component', () => {
     })
 
     BddTest().then('it should pass totalFeedbacks to FeedbackStatusPicker', () => {
-      expect(wrapper.findComponent(FeedbackStatusPickerStub).props('totalFeedbacks')).toBe(mockedFeedbackDashboard.totalFeedbacks)
+      expect(wrapper.findComponent(FeedbackStatusPickerStub).props('totalFeedbacks')).toBe(dashboard.totalFeedbacks)
     })
 
     BddTest().then('it should pass newFeedbacks to FeedbackStatusPicker', () => {
-      expect(wrapper.findComponent(FeedbackStatusPickerStub).props('newFeedbacks')).toBe(mockedFeedbackDashboard.newFeedbacks)
+      expect(wrapper.findComponent(FeedbackStatusPickerStub).props('newFeedbacks')).toBe(dashboard.newFeedbacks)
     })
 
     BddTest().then('it should pass sentFeedbacks to FeedbackStatusPicker', () => {
-      expect(wrapper.findComponent(FeedbackStatusPickerStub).props('sentFeedbacks')).toBe(mockedFeedbackDashboard.processedFeedbacks)
+      expect(wrapper.findComponent(FeedbackStatusPickerStub).props('sentFeedbacks')).toBe(dashboard.processedFeedbacks)
     })
 
     BddTest().then('it should pass unprocessedFeedbacks to FeedbackStatusPicker', () => {
       expect(wrapper.findComponent(FeedbackStatusPickerStub).props('unprocessedFeedbacks')).toBe(
-        mockedFeedbackDashboard.pendingFeedbacks - mockedFeedbackDashboard.newFeedbacks
+        dashboard.pendingFeedbacks - dashboard.newFeedbacks
       )
     })
 

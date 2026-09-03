@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { mockedFeedbackDashboard } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
+import { mockedActivityContentWithEnrolledStudent1 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { getMockedFeedbackDashboard } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import { getFeedbackDashboardErrorHandler } from '@/__mocks__/msw/handlers/staffs/feedbacks.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
@@ -26,9 +27,11 @@ BddTest().given('a FeedbacksDashboardSection component', () => {
   })
 
   BddTest().when('mounted with a valid activity id', () => {
+    const dashboard = getMockedFeedbackDashboard({ activityId: mockedActivityContentWithEnrolledStudent1.id })
+
     beforeEach(async () => {
       wrapper = mountComponent(FeedbacksDashboardSection, {
-        props: { activityId: 'activity-1' },
+        props: { activityId: mockedActivityContentWithEnrolledStudent1.id },
         global: { stubs },
       })
       await flushPromises()
@@ -53,17 +56,17 @@ BddTest().given('a FeedbacksDashboardSection component', () => {
 
     BddTest().then('it should pass the new feedback value to the first card', () => {
       const cards = wrapper.findAllComponents(DashboardCardStub)
-      expect(cards[0].props('value')).toBe(`${mockedFeedbackDashboard.newFeedbacks}`)
+      expect(cards[0].props('value')).toBe(`${dashboard.newFeedbacks}`)
     })
 
     BddTest().then('it should pass the pending feedback value to the second card', () => {
       const cards = wrapper.findAllComponents(DashboardCardStub)
-      expect(cards[1].props('value')).toBe(`${mockedFeedbackDashboard.pendingFeedbacks}`)
+      expect(cards[1].props('value')).toBe(`${dashboard.pendingFeedbacks}`)
     })
 
     BddTest().then('it should pass processed over total value to the third card', () => {
       const cards = wrapper.findAllComponents(DashboardCardStub)
-      expect(cards[2].props('value')).toBe(`${mockedFeedbackDashboard.processedFeedbacks}/${mockedFeedbackDashboard.totalFeedbacks}`)
+      expect(cards[2].props('value')).toBe(`${dashboard.processedFeedbacks}/${dashboard.totalFeedbacks}`)
     })
   })
 

@@ -4,14 +4,17 @@ import type {
   ActivityDraftUpdateResponse,
   ActivityPresentationDTO,
   CreationResponse,
+  EFeedbackStatus,
   FileDTO,
+  PagedResponseActivityItemNavigationDTO,
   PagedResponseActivityStaffOverviewDTO
 } from '@/api/avenir-esr'
+import { getMockedActivitiesWithFeedbacksPaginated } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
 import {
   createMockedBannerUploadResponse,
   createMockedPagedResponseActivityStaffOverviewDTO,
   mockedActivityContent,
-  mockedActivityContentWithEnrolledStudent,
+  mockedActivityContentWithEnrolledStudent1,
   mockedActivityContentWithFileAndLink,
   mockedActivityContentWithoutEnrolledStudent,
   mockedActivityDraftCreationResponse,
@@ -26,6 +29,7 @@ import {
   getCreateDraftFromActivityUrl,
   getDeleteActivityDraftUrl,
   getDuplicateActivityUrl,
+  getGetActivitiesWithFeedbacksUrl,
   getGetActivityContentUrl,
   getGetActivityPresentationUrl,
   getGetStaffActivityLibraryUrl,
@@ -152,7 +156,7 @@ export const staffCreateDraftFromActivityUrl = http.post(
     const activityId = params.activityId as string
 
     const knownPublishedActivityIds = [
-      mockedActivityContentWithEnrolledStudent.id,
+      mockedActivityContentWithEnrolledStudent1.id,
       mockedActivityContentWithoutEnrolledStudent.id,
       mockedActivityContentWithFileAndLink.id
     ]
@@ -180,8 +184,8 @@ export const staffsActivitiesHandlers = [
 
       let response = mockedActivityContent
 
-      if (activityId === mockedActivityContentWithEnrolledStudent.id) {
-        response = mockedActivityContentWithEnrolledStudent
+      if (activityId === mockedActivityContentWithEnrolledStudent1.id) {
+        response = mockedActivityContentWithEnrolledStudent1
       }
       else if (activityId === mockedActivityContentWithoutEnrolledStudent.id) {
         response = mockedActivityContentWithoutEnrolledStudent
@@ -304,5 +308,49 @@ export const staffsActivitiesHandlers = [
       }
     })
   }),
-  staffCreateDraftFromActivityUrl
+  staffCreateDraftFromActivityUrl,
+  http.get(`*${getGetActivitiesWithFeedbacksUrl()}`, ({ request }) => {
+    const url = new URL(request.url)
+
+    const statusesParam = url.searchParams.getAll('statuses')
+
+    if (statusesParam.includes('INVALID_FEEDBACK_STATUS')) {
+      return HttpResponse.json(
+        { message: 'Erreur lors de la récupération des activités avec feedbacks' },
+        { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
+    if (statusesParam.length === 1 && statusesParam[0] === 'UNDEFINED_FEEDBACK_STATUS') {
+      const mockEmptyData: PagedResponseActivityItemNavigationDTO = {
+        data: [],
+        page: {
+          page: 0,
+          pageSize: 0,
+          totalElements: 0,
+          totalPages: 1
+        }
+      }
+
+      return HttpResponse.json<PagedResponseActivityItemNavigationDTO>(mockEmptyData, {
+        status: HttpStatusCode.OK,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    const statuses = statusesParam.length > 0 ? (statusesParam as EFeedbackStatus[]) : undefined
+
+    const pageParam = url.searchParams.get('page')
+    const page = pageParam ? Number(pageParam) : undefined
+
+    const pageSizeParam = url.searchParams.get('pageSize')
+    const pageSize = pageSizeParam ? Number(pageSizeParam) : undefined
+
+    const mockData = getMockedActivitiesWithFeedbacksPaginated({ statuses, page, pageSize })
+
+    return HttpResponse.json<PagedResponseActivityItemNavigationDTO>(mockData, {
+      status: HttpStatusCode.OK,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  })
 ]

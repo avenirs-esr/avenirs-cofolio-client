@@ -83,7 +83,7 @@ export const mockedActivityContent: ActivityContentDTO = {
   updatedAt: '2024-01-15T10:00:00Z',
 }
 
-export const mockedActivityContentWithEnrolledStudent: ActivityContentDTO = {
+export const mockedActivityContentWithEnrolledStudent1: ActivityContentDTO = {
   id: ACTIVITY_WITH_ENROLLED_STUDENTS_ID,
   title: 'Activité "CV" : Construire son parcours',
   thematic: EActivityThematic.RESUMES,
@@ -96,6 +96,48 @@ export const mockedActivityContentWithEnrolledStudent: ActivityContentDTO = {
   hasEnrolledStudent: true,
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
+}
+
+export const mockedActivityContentWithEnrolledStudent2: ActivityContentDTO = {
+  id: '2a9f6c4d-8b1e-4d33-9c7a-5e2b8f1c6d77',
+  title: 'Activité de test',
+  thematic: EActivityThematic.TRANSVERSAL,
+  summary: 'Résumé activité test',
+  description: 'Description activité test',
+  recommendedCompletionContexts: 'Semestre 1',
+  enableReflection: false,
+  traceAllowedAssociations: 3,
+  feedbackAllowedIterations: 5,
+  createdAt: '2024-01-15T10:00:00Z',
+  updatedAt: '2024-01-16T10:00:00Z',
+}
+
+export const mockedActivityContentWithEnrolledStudent3: ActivityContentDTO = {
+  id: '7c1e4a2b-9d3f-4e5c-8a6b-1f2d3e4c5b6a',
+  title: 'Bilan de compétences',
+  thematic: EActivityThematic.SELF_KNOWLEDGE,
+  summary: 'Résumé bilan de compétences',
+  description: 'Description bilan de compétences',
+  recommendedCompletionContexts: 'Semestre 1',
+  enableReflection: true,
+  traceAllowedAssociations: 2,
+  feedbackAllowedIterations: 1,
+  createdAt: '2024-02-01T09:00:00Z',
+  updatedAt: '2024-02-02T09:00:00Z',
+}
+
+export const mockedActivityContentWithEnrolledStudent4: ActivityContentDTO = {
+  id: '4f5e6d7c-8b9a-4c1d-9e2f-3a4b5c6d7e8f',
+  title: 'Projet professionnel',
+  thematic: EActivityThematic.FUTURE_PLANS,
+  summary: 'Résumé projet professionnel',
+  description: 'Description projet professionnel',
+  recommendedCompletionContexts: 'Semestre 2',
+  enableReflection: true,
+  traceAllowedAssociations: 4,
+  feedbackAllowedIterations: 3,
+  createdAt: '2024-03-10T14:00:00Z',
+  updatedAt: '2024-03-11T14:00:00Z',
 }
 
 export const mockedActivityContentWithFileAndLink: ActivityContentDTO = {

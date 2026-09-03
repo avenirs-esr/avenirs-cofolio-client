@@ -1,6 +1,7 @@
 import {
   createMockedPagedResponseFeedbackStaffListItemDTO,
-  mockedFeedbackDashboard,
+  getMockedFeedbackDashboard,
+  getMockedStaffFeedbacksPaginated,
   mockedFeedbackDetailsSeen,
   mockedFeedbackDetailsSubmitted,
   mockedFeedbackDetailsWithAssociations,
@@ -9,6 +10,7 @@ import {
   mockedUploadedFeedbackAttachment
 } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import {
+  type EFeedbackStatus,
   type FeedbackDashboardDTO,
   type FeedbackDetailsDTO,
   type FeedbackOverviewDTO,
@@ -20,19 +22,26 @@ import {
   getGetStaffFeedbacksUrl,
   getSubmitFeedbackUrl,
   getUpdateFeedbackUrl,
-  getUploadFeedbackAttachmentUrl
+  getUploadFeedbackAttachmentUrl,
+  type PagedResponseFeedbackStaffListItemDTO
+
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
 import { http, HttpResponse } from 'msw'
 
-export const getFeedbackDashboardHandler = http.get(
-  `*${getGetFeedbackDashboardUrl()}`,
-  () => HttpResponse.json<FeedbackDashboardDTO>(mockedFeedbackDashboard, {
+export const getFeedbackDashboardHandler = http.get(`*${getGetFeedbackDashboardUrl()}`, ({ request }) => {
+  const url = new URL(request.url)
+
+  const activityId = url.searchParams.get('activityId')?.trim()
+
+  const mockData = getMockedFeedbackDashboard({ activityId })
+
+  return HttpResponse.json<FeedbackDashboardDTO>(mockData, {
     status: HttpStatusCode.OK,
     headers: { 'Content-Type': 'application/json' },
   })
-)
+})
 
 export const getFeedbackDashboardErrorHandler = http.get(
   `*${getGetFeedbackDashboardUrl()}`,
@@ -100,18 +109,34 @@ export const getFeedbackHistoryErrorHandler = http.get(
   )
 )
 
-export const getStaffFeedbacksHandler = http.get(
-  `*${getGetStaffFeedbacksUrl()}`,
-  ({ request }) => {
-    const url = new URL(request.url)
+export const getStaffFeedbacksHandler = http.get(`*${getGetStaffFeedbacksUrl()}`, ({ request }) => {
+  const url = new URL(request.url)
 
-    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
-    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '12')
+  const activityId = url.searchParams.get('activityId')?.trim()
 
-    const mockData = createMockedPagedResponseFeedbackStaffListItemDTO(pageSize, 3, page)
-    return HttpResponse.json(mockData)
-  },
-)
+  if (activityId === 'INVALID_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { message: 'Activité non trouvée', code: ErrorCodes.ACTIVITY_NOT_FOUND },
+      { status: HttpStatusCode.NOT_FOUND, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  const statusesParam = url.searchParams.getAll('statuses')
+  const statuses = statusesParam.length > 0 ? (statusesParam as EFeedbackStatus[]) : undefined
+
+  const pageParam = url.searchParams.get('page')
+  const page = pageParam ? Number(pageParam) : undefined
+
+  const pageSizeParam = url.searchParams.get('pageSize')
+  const pageSize = pageSizeParam ? Number(pageSizeParam) : undefined
+
+  const mockData = getMockedStaffFeedbacksPaginated({ statuses, activityId, page, pageSize })
+
+  return HttpResponse.json<PagedResponseFeedbackStaffListItemDTO>(mockData, {
+    status: HttpStatusCode.OK,
+    headers: { 'Content-Type': 'application/json' },
+  })
+})
 
 export const getStaffFeedbacksErrorHandler = http.get(`*${getGetStaffFeedbacksUrl()}`, () =>
   HttpResponse.json(

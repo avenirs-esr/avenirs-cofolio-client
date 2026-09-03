@@ -42,22 +42,22 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   }
 })
 
-const page = createMockedPagedResponseFeedbackStaffListItemDTO(PageSizes.TWELVE, 6, 0)
-
-const defaultPaginatedResult: UsePaginatedStaffFeedbacksResult = {
-  feedbacks: computed(() => page.data),
-  pageInfo: computed(() => page.page),
-  isFetching: ref(false),
-  error: ref(null),
-  pageSizeSelected: ref(PageSizes.TWELVE),
-  onUpdateCurrentPage: vi.fn(),
-  onUpdatePageSize: vi.fn(),
-}
-
 const mockUsePaginatedStaffFeedbacksParams: UsePaginatedStaffFeedbacksParams = {
   currentPageRef: ref(0),
   pageSizeRef: ref(PageSizes.TWELVE),
   fetchFn: vi.fn(),
+}
+
+const mockData = createMockedPagedResponseFeedbackStaffListItemDTO(PageSizes.TWELVE, 3, 0)
+
+const defaultPaginatedResult: UsePaginatedStaffFeedbacksResult = {
+  feedbacks: computed(() => mockData.data),
+  pageInfo: computed(() => mockData.page),
+  isFetching: ref(false),
+  error: ref(null),
+  pageSizeSelected: computed(() => mockData.page.pageSize),
+  onUpdateCurrentPage: vi.fn(),
+  onUpdatePageSize: vi.fn(),
 }
 
 vi.mock('@/features/staff/feedbacks/composables/use-paginated-staff-feedbacks/use-paginated-staff-feedbacks', () => ({
@@ -69,6 +69,7 @@ const mockUsePaginatedStaffFeedbacks = vi.mocked(mockedUsePaginatedStaffFeedback
 
 BddTest().given('a FeedbacksTable component', () => {
   let wrapper: VueWrapper<InstanceType<typeof FeedbacksTable>>
+
   const stubs = {
     RouterLink: RouterLinkStub,
     FeedbackCard: FeedbackCardStub,
@@ -113,8 +114,8 @@ BddTest().given('a FeedbacksTable component', () => {
       const pagination = wrapper.findComponent(PaginationStub)
 
       expect(pagination.exists()).toBe(true)
-      expect(pagination.props('pageInfo')).toMatchObject({ totalElements: 5 })
-      expect(pagination.props('pageSizeSelected')).toBe(PageSizes.TWELVE)
+      expect(pagination.props('pageInfo')).toBe(defaultPaginatedResult.pageInfo.value)
+      expect(pagination.props('pageSizeSelected')).toBe(defaultPaginatedResult.pageSizeSelected.value)
     })
 
     BddTest().then('it should render the table', () => {
@@ -154,7 +155,7 @@ BddTest().given('a FeedbacksTable component', () => {
     })
 
     BddTest().then('it should render one FeedbackCard per row', () => {
-      expect(wrapper.findAllComponents(FeedbackCardStub)).toHaveLength(5)
+      expect(wrapper.findAllComponents(FeedbackCardStub)).toHaveLength(mockData.data.length)
     })
 
     BddTest().then('it should not render the table', () => {

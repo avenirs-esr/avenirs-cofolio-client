@@ -6,7 +6,7 @@ import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { mountComposable } from 'tests/utils'
-import { nextTick, unref } from 'vue'
+import { nextTick, type Ref, unref } from 'vue'
 
 const page = createMockedPagedResponseFeedbackStaffListItemDTO(PageSizes.TWELVE, 6, 0)
 
@@ -24,15 +24,25 @@ function makeMockFetchFn (overrides?: {
   })
 }
 
-function mountUsePaginatedStaffFeedbacks ({ fetchFn = makeMockFetchFn(), currentPage = 0, pageSize = PageSizes.TWELVE }: {
+function mountUsePaginatedStaffFeedbacks ({
+  fetchFn = makeMockFetchFn(),
+  currentPage = 0,
+  pageSize = PageSizes.TWELVE,
+  selectedActivityIdRef,
+  selectedStatusRef,
+}: {
   fetchFn?: ReturnType<typeof makeMockFetchFn>
   currentPage?: number
   pageSize?: PageSizes
+  selectedActivityIdRef?: Ref<string | undefined>
+  selectedStatusRef?: Ref<'ALL' | EFeedbackStatus>
 } = {}) {
   return mountComposable(() =>
     usePaginatedStaffFeedbacks({
       currentPageRef: ref(currentPage),
       pageSizeRef: ref(pageSize),
+      selectedActivityIdRef,
+      selectedStatusRef,
       fetchFn,
     }), {}).result
 }
@@ -96,13 +106,7 @@ BddTest().given('a usePaginatedStaffFeedbacks composable', () => {
     BddTest().then('it should not filter by status when ALL is selected', () => {
       const fetchFn = makeMockFetchFn()
 
-      mountComposable(() =>
-        usePaginatedStaffFeedbacks({
-          currentPageRef: ref(0),
-          pageSizeRef: ref(PageSizes.FOUR),
-          selectedStatusRef: ref('ALL'),
-          fetchFn,
-        }), {})
+      mountUsePaginatedStaffFeedbacks({ fetchFn, pageSize: PageSizes.FOUR, selectedStatusRef: ref('ALL') })
 
       const [params] = fetchFn.mock.calls[0]
 
@@ -118,13 +122,7 @@ BddTest().given('a usePaginatedStaffFeedbacks composable', () => {
     BddTest().then('it should request SUBMITTED and SEEN statuses when SUBMITTED is selected', () => {
       const fetchFn = makeMockFetchFn()
 
-      mountComposable(() =>
-        usePaginatedStaffFeedbacks({
-          currentPageRef: ref(0),
-          pageSizeRef: ref(PageSizes.FOUR),
-          selectedStatusRef: ref(EFeedbackStatus.SUBMITTED),
-          fetchFn,
-        }), {})
+      mountUsePaginatedStaffFeedbacks({ fetchFn, pageSize: PageSizes.FOUR, selectedStatusRef: ref(EFeedbackStatus.SUBMITTED) })
 
       const [params] = fetchFn.mock.calls[0]
 
@@ -133,6 +131,58 @@ BddTest().given('a usePaginatedStaffFeedbacks composable', () => {
           page: 0,
           pageSize: PageSizes.FOUR,
           statuses: [EFeedbackStatus.SUBMITTED, EFeedbackStatus.SEEN],
+        })
+      )
+    })
+
+    BddTest().then('it should not filter by activityId when none is selected', () => {
+      const fetchFn = makeMockFetchFn()
+
+      mountUsePaginatedStaffFeedbacks({ fetchFn, pageSize: PageSizes.FOUR })
+
+      const [params] = fetchFn.mock.calls[0]
+
+      expect(unref(params)).toEqual(
+        expect.objectContaining({
+          page: 0,
+          pageSize: PageSizes.FOUR,
+          activityId: undefined,
+        })
+      )
+    })
+
+    BddTest().then('it should filter by the selected activityId', () => {
+      const fetchFn = makeMockFetchFn()
+
+      mountUsePaginatedStaffFeedbacks({ fetchFn, pageSize: PageSizes.FOUR, selectedActivityIdRef: ref('activity-1') })
+
+      const [params] = fetchFn.mock.calls[0]
+
+      expect(unref(params)).toEqual(
+        expect.objectContaining({
+          page: 0,
+          pageSize: PageSizes.FOUR,
+          activityId: 'activity-1',
+        })
+      )
+    })
+
+    BddTest().then('it should combine activityId and status filters', () => {
+      const fetchFn = makeMockFetchFn()
+
+      mountUsePaginatedStaffFeedbacks({
+        fetchFn,
+        pageSize: PageSizes.FOUR,
+        selectedActivityIdRef: ref('activity-1'),
+        selectedStatusRef: ref(EFeedbackStatus.NEW),
+      })
+
+      const [params] = fetchFn.mock.calls[0]
+
+      expect(unref(params)).toEqual(
+        expect.objectContaining({
+          activityId: 'activity-1',
+          statuses: [EFeedbackStatus.NEW],
         })
       )
     })
@@ -155,6 +205,24 @@ BddTest().given('a usePaginatedStaffFeedbacks composable', () => {
           query: expect.objectContaining({
             placeholderData: keepPreviousData,
           })
+        })
+      )
+    })
+
+    BddTest().then('it should refetch with the new activityId when the selection changes', async () => {
+      const fetchFn = makeMockFetchFn()
+      const selectedActivityIdRef = ref<string | undefined>('activity-1')
+
+      mountUsePaginatedStaffFeedbacks({ fetchFn, pageSize: PageSizes.FOUR, selectedActivityIdRef })
+
+      selectedActivityIdRef.value = 'activity-2'
+      await nextTick()
+
+      const [params] = fetchFn.mock.calls.at(-1)!
+
+      expect(unref(params)).toEqual(
+        expect.objectContaining({
+          activityId: 'activity-2',
         })
       )
     })

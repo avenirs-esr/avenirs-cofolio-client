@@ -411,7 +411,6 @@ BddTest().given('an associate declared experiences modal', () => {
       {
         id: 'experience-search-4',
         title: 'Expérience sans type',
-        experienceType: null,
         disabled: false
       }
     ]

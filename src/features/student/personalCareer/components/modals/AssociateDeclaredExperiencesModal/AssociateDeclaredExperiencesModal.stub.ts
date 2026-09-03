@@ -1,3 +1,6 @@
+import type { AssociationDeclaredExperiences } from '@/features/student/personalCareer/components/modals/AssociateDeclaredExperiencesModal/AssociateDeclaredExperiencesModal.vue'
+import type { PropType } from 'vue'
+
 export const AssociateDeclaredExperiencesModalStub = defineComponent({
   name: 'AssociateDeclaredExperiencesModal',
   props: {
@@ -6,7 +9,7 @@ export const AssociateDeclaredExperiencesModalStub = defineComponent({
       required: true
     },
     experiences: {
-      type: Array,
+      type: Array as PropType<AssociationDeclaredExperiences[]>,
       required: true
     },
     isLoading: {
