@@ -4119,6 +4119,57 @@
         }
       }
     },
+    "/me/activities/with-feedbacks": {
+      "get": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "getActivitiesWithFeedbacks",
+        "parameters": [
+          {
+            "name": "statuses",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EFeedbackStatus"
+              }
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseActivityItemNavigationDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activities/staff/working-space": {
       "get": {
         "tags": [
@@ -7307,7 +7358,6 @@
         },
         "required": [
           "disabled",
-          "experienceType",
           "id",
           "title"
         ]
@@ -7900,6 +7950,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "latestFeedbackId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "student": {
             "$ref": "#/components/schemas/UserInfoDTO"
           },
@@ -8145,6 +8199,40 @@
           "title"
         ]
       },
+      "ActivityItemNavigationDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title"
+        ]
+      },
+      "PagedResponseActivityItemNavigationDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActivityItemNavigationDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
       "ActivityStaffOverviewDTO": {
         "type": "object",
         "properties": {
@@ -8210,22 +8298,6 @@
         "required": [
           "data",
           "page"
-        ]
-      },
-      "ActivityItemNavigationDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "title"
         ]
       },
       "ActivityNavigationDTO": {

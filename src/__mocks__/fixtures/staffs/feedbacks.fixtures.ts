@@ -1,6 +1,7 @@
+import { mockedActivityContentWithEnrolledStudent1, mockedActivityContentWithEnrolledStudent2, mockedActivityContentWithEnrolledStudent3, mockedActivityContentWithEnrolledStudent4 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { createMockedDeclaredSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { type ActivityContentDTO, EActivityThematic, EFeedbackStatus, EFileType, type FeedbackDashboardDTO, type FeedbackDetailsDTO, type FeedbackOverviewDTO, type FeedbackStaffListItemDTO, type FileDTO, type PagedResponseFeedbackStaffListItemDTO, type UserInfoDTO } from '@/api/avenir-esr'
+import { EFeedbackStatus, EFileType, type FeedbackDashboardDTO, type FeedbackDetailsDTO, type FeedbackOverviewDTO, type FeedbackStaffListItemDTO, type FileDTO, type PagedResponseFeedbackStaffListItemDTO, type PageInfoDTO, type UserInfoDTO } from '@/api/avenir-esr'
 
 export const mockedFeedbackAttachment: FileDTO = {
   id: 'feedback-attachment-1',
@@ -34,20 +35,6 @@ const mockedStaff: UserInfoDTO = {
   email: 'marc.dupont@university.com',
 }
 
-const mockedActivity: ActivityContentDTO = {
-  id: '2a9f6c4d-8b1e-4d33-9c7a-5e2b8f1c6d77',
-  title: 'Activité de test',
-  thematic: EActivityThematic.TRANSVERSAL,
-  summary: 'Résumé activité test',
-  description: 'Description activité test',
-  recommendedCompletionContexts: 'Semestre 1',
-  enableReflection: false,
-  traceAllowedAssociations: 3,
-  feedbackAllowedIterations: 5,
-  createdAt: '2024-01-15T10:00:00Z',
-  updatedAt: '2024-01-16T10:00:00Z',
-}
-
 export const allFeedbacks: FeedbackStaffListItemDTO[] = [
   {
     id: 'feedback-1',
@@ -56,50 +43,77 @@ export const allFeedbacks: FeedbackStaffListItemDTO[] = [
     createdAt: '2024-01-15T10:00:00Z',
     updatedAt: '2024-01-16T10:00:00Z',
     student: mockedStudent,
-    activity: mockedActivity,
+    activity: mockedActivityContentWithEnrolledStudent1,
   },
   {
     id: 'feedback-2',
     status: EFeedbackStatus.NEW,
     iteration: 1,
-    createdAt: '2024-01-15T10:00:00Z',
-    updatedAt: '2024-01-16T10:00:00Z',
+    createdAt: '2024-02-03T10:00:00Z',
+    updatedAt: '2024-02-04T10:00:00Z',
     student: mockedStudent,
-    activity: mockedActivity,
+    activity: mockedActivityContentWithEnrolledStudent2,
   },
   {
     id: 'feedback-3',
     status: EFeedbackStatus.IN_PROCESS,
     iteration: 1,
-    createdAt: '2024-01-15T10:00:00Z',
-    updatedAt: '2024-01-16T10:00:00Z',
+    createdAt: '2024-03-12T10:00:00Z',
+    updatedAt: '2024-03-13T10:00:00Z',
     student: mockedStudent,
-    activity: mockedActivity,
+    activity: mockedActivityContentWithEnrolledStudent3,
   },
   {
     id: 'feedback-submitted',
     status: EFeedbackStatus.SUBMITTED,
-    iteration: 1,
-    createdAt: '2024-01-15T10:00:00Z',
-    updatedAt: '2024-01-16T10:00:00Z',
+    iteration: 2,
+    createdAt: '2024-03-14T10:00:00Z',
+    updatedAt: '2024-03-15T10:00:00Z',
     student: mockedStudent,
-    activity: mockedActivity,
+    activity: mockedActivityContentWithEnrolledStudent3,
   },
   {
     id: 'feedback-seen',
     status: EFeedbackStatus.SEEN,
     iteration: 1,
-    createdAt: '2024-01-15T10:00:00Z',
-    updatedAt: '2024-01-16T10:00:00Z',
+    createdAt: '2024-04-07T10:00:00Z',
+    updatedAt: '2024-04-08T10:00:00Z',
     student: mockedStudent,
-    activity: mockedActivity,
+    activity: mockedActivityContentWithEnrolledStudent4,
+  },
+  {
+    id: 'feedback-6',
+    status: EFeedbackStatus.SUBMITTED,
+    iteration: 2,
+    createdAt: '2024-04-09T10:00:00Z',
+    updatedAt: '2024-04-10T10:00:00Z',
+    student: mockedStudent,
+    activity: mockedActivityContentWithEnrolledStudent4,
+  },
+  {
+    id: 'feedback-7',
+    status: EFeedbackStatus.IN_PROCESS,
+    iteration: 3,
+    createdAt: '2024-01-20T10:00:00Z',
+    updatedAt: '2024-01-21T10:00:00Z',
+    student: mockedStudent,
+    activity: mockedActivityContentWithEnrolledStudent1,
+  },
+  {
+    id: 'feedback-8',
+    status: EFeedbackStatus.SEEN,
+    iteration: 3,
+    createdAt: '2024-03-16T10:00:00Z',
+    updatedAt: '2024-03-17T10:00:00Z',
+    student: mockedStudent,
+    activity: mockedActivityContentWithEnrolledStudent3,
   },
 ]
 
 export const mockedFeedbackDetailsWithAssociations: FeedbackDetailsDTO = {
   id: 'feedback-with-associations',
   declaredActivityId: 'declared-activity-id',
-  activity: mockedActivity,
+  activity: mockedActivityContentWithEnrolledStudent1,
   feedback: 'This is a detailed feedback with associations',
   status: EFeedbackStatus.NEW,
   student: mockedStudent,
@@ -167,13 +181,6 @@ export const mockedFeedbackHistory: FeedbackOverviewDTO[] = [
   },
 ]
 
-export const mockedFeedbackDashboard: FeedbackDashboardDTO = {
-  totalFeedbacks: 20,
-  newFeedbacks: 4,
-  pendingFeedbacks: 10,
-  processedFeedbacks: 10,
-}
-
 export function createMockedPagedResponseFeedbackStaffListItemDTO (
   pageSize: number,
   totalElements: number,
@@ -188,4 +195,77 @@ export function createMockedPagedResponseFeedbackStaffListItemDTO (
     data: paginatedFeedbacks,
     page: { pageSize, totalElements: actualTotalElements, totalPages, page },
   }
+}
+
+export function getMockedStaffFeedbacks ({ statuses, activityId }: { statuses?: EFeedbackStatus[], activityId?: string } = {}): FeedbackStaffListItemDTO[] {
+  let feedbacks = [...allFeedbacks]
+
+  if (statuses) {
+    feedbacks = feedbacks.filter(feedback => statuses.includes(feedback.status!))
+  }
+
+  if (activityId) {
+    feedbacks = feedbacks.filter(feedback => feedback.activity!.id === activityId)
+  }
+
+  // Keep the same ordering as the backend, which requires feedbacks to be
+  // sorted by status first, then by creation date (see: #1648).
+  return feedbacks.sort((a, b) => {
+    if (a.status! === b.status!) {
+      return new Date(a.createdAt!).getTime() - new Date(b.createdAt!).getTime()
+    }
+
+    return a.status! < b.status! ? -1 : 1
+  })
+}
+
+export function getMockedStaffFeedbacksPaginated ({ statuses, activityId, page, pageSize }: { statuses?: EFeedbackStatus[], activityId?: string, page?: number, pageSize?: number } = {}): PagedResponseFeedbackStaffListItemDTO {
+  const feedbacks = getMockedStaffFeedbacks({ statuses, activityId })
+
+  const pageInfo: PageInfoDTO = {
+    page: page ?? 0,
+    pageSize: pageSize ?? feedbacks.length,
+    totalElements: feedbacks.length,
+    totalPages: pageSize ? Math.ceil(feedbacks.length / pageSize) : 1
+  }
+
+  const start = pageInfo.page * pageInfo.pageSize
+  const pagedFeedbacks = feedbacks.slice(start, start + pageInfo.pageSize)
+
+  return {
+    data: pagedFeedbacks,
+    page: pageInfo
+  }
+}
+
+export function getMockedFeedbackDashboard ({ activityId }: { activityId?: string } = {}): FeedbackDashboardDTO {
+  const result: FeedbackDashboardDTO = {
+    newFeedbacks: 0,
+    pendingFeedbacks: 0,
+    processedFeedbacks: 0,
+    totalFeedbacks: 0
+  }
+
+  const feedbacks = activityId ? allFeedbacks.filter(feedback => feedback.activity!.id === activityId) : allFeedbacks
+
+  feedbacks.forEach((feedback) => {
+    switch (feedback.status!) {
+      case EFeedbackStatus.NEW:
+        ++result.newFeedbacks
+        ++result.pendingFeedbacks
+        break
+
+      case EFeedbackStatus.IN_PROCESS:
+        ++result.pendingFeedbacks
+        break
+
+      case EFeedbackStatus.SEEN:
+      case EFeedbackStatus.SUBMITTED:
+        ++result.processedFeedbacks
+        break
+    }
+    ++result.totalFeedbacks
+  })
+
+  return result
 }

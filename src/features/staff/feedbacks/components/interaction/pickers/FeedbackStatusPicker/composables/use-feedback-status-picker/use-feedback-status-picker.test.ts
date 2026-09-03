@@ -1,4 +1,5 @@
-import { mockedFeedbackDashboard } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
+import { mockedActivityContentWithEnrolledStudent1 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { getMockedFeedbackDashboard } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import { getFeedbackDashboardErrorHandler } from '@/__mocks__/msw/handlers/staffs/feedbacks.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EFeedbackStatus } from '@/api/avenir-esr'
@@ -13,6 +14,7 @@ BddTest().given('useFeedbackStatusPicker composable', () => {
   })
 
   BddTest().when('called without options and dashboard returns data', () => {
+    const dashboard = getMockedFeedbackDashboard()
     let result: ReturnType<typeof useFeedbackStatusPicker>
 
     beforeEach(async () => {
@@ -21,21 +23,19 @@ BddTest().given('useFeedbackStatusPicker composable', () => {
     })
 
     BddTest().then('it should return totalFeedbacks from dashboard', () => {
-      expect(result.totalFeedbacks.value).toBe(mockedFeedbackDashboard.totalFeedbacks)
+      expect(result.totalFeedbacks.value).toBe(dashboard.totalFeedbacks)
     })
 
     BddTest().then('it should return newFeedbacks from dashboard', () => {
-      expect(result.newFeedbacks.value).toBe(mockedFeedbackDashboard.newFeedbacks)
+      expect(result.newFeedbacks.value).toBe(dashboard.newFeedbacks)
     })
 
     BddTest().then('it should return sentFeedbacks from processedFeedbacks', () => {
-      expect(result.sentFeedbacks.value).toBe(mockedFeedbackDashboard.processedFeedbacks)
+      expect(result.sentFeedbacks.value).toBe(dashboard.processedFeedbacks)
     })
 
     BddTest().then('it should compute unprocessedFeedbacks as pendingFeedbacks minus newFeedbacks', () => {
-      expect(result.unprocessedFeedbacks.value).toBe(
-        mockedFeedbackDashboard.pendingFeedbacks - mockedFeedbackDashboard.newFeedbacks
-      )
+      expect(result.unprocessedFeedbacks.value).toBe(dashboard.pendingFeedbacks - dashboard.newFeedbacks)
     })
 
     BddTest().then('it should initialize selectedStatus as ALL', () => {
@@ -160,24 +160,31 @@ BddTest().given('useFeedbackStatusPicker composable', () => {
   })
 
   BddTest().when('called with an activityId and dashboard returns data', () => {
+    const dashboard = getMockedFeedbackDashboard({ activityId: mockedActivityContentWithEnrolledStudent1.id })
     let result: ReturnType<typeof useFeedbackStatusPicker>
 
     beforeEach(async () => {
       result = mountComposable(
-        () => useFeedbackStatusPicker({ activityId: 'activity-123' }),
+        () => useFeedbackStatusPicker({ activityId: mockedActivityContentWithEnrolledStudent1.id }),
         { useTanstack: true }
       ).result
       await flushPromises()
     })
 
     BddTest().then('it should return totalFeedbacks from dashboard', () => {
-      expect(result.totalFeedbacks.value).toBe(mockedFeedbackDashboard.totalFeedbacks)
+      expect(result.totalFeedbacks.value).toBe(dashboard.totalFeedbacks)
+    })
+
+    BddTest().then('it should return newFeedbacks from dashboard', () => {
+      expect(result.newFeedbacks.value).toBe(dashboard.newFeedbacks)
+    })
+
+    BddTest().then('it should return sentFeedbacks from processedFeedbacks', () => {
+      expect(result.sentFeedbacks.value).toBe(dashboard.processedFeedbacks)
     })
 
     BddTest().then('it should compute unprocessedFeedbacks correctly', () => {
-      expect(result.unprocessedFeedbacks.value).toBe(
-        mockedFeedbackDashboard.pendingFeedbacks - mockedFeedbackDashboard.newFeedbacks
-      )
+      expect(result.unprocessedFeedbacks.value).toBe(dashboard.pendingFeedbacks - dashboard.newFeedbacks)
     })
   })
 })

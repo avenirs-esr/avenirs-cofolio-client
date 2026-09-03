@@ -12,7 +12,7 @@ import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export type AssociationDeclaredExperiences = Association & {
-  experienceType: EExperienceType | null
+  experienceType?: EExperienceType
 }
 
 export interface AssociateDeclaredExperiencesModalProps {

@@ -27,13 +27,11 @@ function handleSelectChange (selected: AvTagPickerOption): void {
 
 const { t } = useI18n()
 
-const allStatusOption = computed<AvTagPickerOption>(() => ({
-  label: t('staff.feedbacks.pickers.FeedbackStatusPicker.all', { count: totalFeedbacks }),
-  value: 'ALL'
-}))
-
 const filterOptions = computed<AvTagPickerOption[]>(() => [
-  allStatusOption.value,
+  {
+    label: t('staff.feedbacks.pickers.FeedbackStatusPicker.all', { count: totalFeedbacks }),
+    value: 'ALL'
+  },
   {
     label: t('staff.feedbacks.pickers.FeedbackStatusPicker.new', { count: newFeedbacks }),
     value: EFeedbackStatus.NEW
@@ -54,7 +52,6 @@ const filterOptions = computed<AvTagPickerOption[]>(() => [
     data-testid="feedback-status-picker"
     class="av-w-full av-wrap"
     :options="filterOptions"
-    :selected="allStatusOption"
     :handle-select-change="handleSelectChange"
   />
 </template>

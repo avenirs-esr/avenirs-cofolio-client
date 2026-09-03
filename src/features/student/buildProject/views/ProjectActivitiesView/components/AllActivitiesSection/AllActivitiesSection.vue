@@ -40,12 +40,16 @@ const { data, error, isLoading, isFetching } = useGetActivitiesView(params, { qu
 const activities = computed(() => data.value?.data ?? [])
 const pageInfo = computed(() => data.value?.page)
 
-const filterOptions: AvTagPickerOption[] = Object.values(EActivityThematic).map(thematic => ({
-  label: t(`global.activities.badges.thematics.${thematic}`),
-  value: thematic
-}))
-const allThematicsOption = { label: t('student.buildProject.activities.AllActivitiesSection.buttons.all'), value: 'all' }
-filterOptions.push(allThematicsOption)
+const filterOptions: AvTagPickerOption[] = [
+  ...Object.values(EActivityThematic).map(thematic => ({
+    label: t(`global.activities.badges.thematics.${thematic}`),
+    value: thematic
+  })),
+  {
+    label: t('student.buildProject.activities.AllActivitiesSection.buttons.all'),
+    value: 'all'
+  }
+]
 </script>
 
 <template>
@@ -65,7 +69,6 @@ filterOptions.push(allThematicsOption)
         <AvTagPicker
           class="av-w-full av-wrap"
           :options="filterOptions"
-          :selected="allThematicsOption"
           :handle-select-change="onSelectThematic"
         />
       </div>

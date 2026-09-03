@@ -13,6 +13,7 @@ type FetchFn = (
 export interface UsePaginatedStaffFeedbacksParams {
   currentPageRef: Ref<number>
   pageSizeRef: Ref<PageSizes>
+  selectedActivityIdRef?: Ref<string | undefined>
   selectedStatusRef?: Ref<'ALL' | EFeedbackStatus>
   fetchFn: FetchFn
 }
@@ -27,7 +28,7 @@ export interface UsePaginatedStaffFeedbacksResult {
   onUpdatePageSize: (size: number) => void
 }
 
-export function usePaginatedStaffFeedbacks ({ currentPageRef, pageSizeRef, selectedStatusRef, fetchFn }: UsePaginatedStaffFeedbacksParams): UsePaginatedStaffFeedbacksResult {
+export function usePaginatedStaffFeedbacks ({ currentPageRef, pageSizeRef, selectedActivityIdRef, selectedStatusRef, fetchFn }: UsePaginatedStaffFeedbacksParams): UsePaginatedStaffFeedbacksResult {
   const { currentPage, pageSizeSelected, onUpdateCurrentPage, onUpdatePageSize } = usePagination(currentPageRef, pageSizeRef)
 
   const statuses = computed(() => {
@@ -41,7 +42,12 @@ export function usePaginatedStaffFeedbacks ({ currentPageRef, pageSizeRef, selec
 
     return [selectedStatusRef.value]
   })
-  const params = computed(() => ({ page: currentPage.value, pageSize: pageSizeSelected.value, statuses: statuses.value }))
+  const params = computed(() => ({
+    page: currentPage.value,
+    pageSize: pageSizeSelected.value,
+    activityId: selectedActivityIdRef?.value,
+    statuses: statuses.value
+  }))
   const { data, error, isFetching } = fetchFn(params, { query: { placeholderData: keepPreviousData } })
 
   const feedbacks = computed(() => data.value?.data ?? [])

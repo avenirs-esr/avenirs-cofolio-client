@@ -94,6 +94,21 @@
           "title": "All my feedback requests on the activity \"{activityTitle}\""
         },
         "FeedbacksView": {
+          "FeedbackActivityFilterSelect": {
+            "defaultOption": "All",
+            "label": "Filter by activity",
+            "placeholder": "Select an activity"
+          },
+          "FeedbacksDashboardCards": {
+            "allActivities": "All feedback requests",
+            "new": "new feedback request | new feedback requests",
+            "processed": "response sent | responses sent",
+            "title": "Dashboard: {activity}",
+            "unprocessed": "unprocessed request | unprocessed requests"
+          },
+          "FeedbacksFiltersCard": {
+            "title": "Filter my requests"
+          },
           "FeedbacksTable": {
             "columns": {
               "activity": "Activity",
