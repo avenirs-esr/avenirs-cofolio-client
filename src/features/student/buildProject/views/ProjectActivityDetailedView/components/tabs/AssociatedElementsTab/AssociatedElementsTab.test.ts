@@ -5,6 +5,7 @@ import { mockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { AssociationElementsDropdownStub }
   from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.stub'
+import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { AssociatedTracesCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import { TraceAssociationLimitCardStub }
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.stub'
@@ -36,6 +37,7 @@ BddTest().given('an associated elements tab', () => {
     .find(modal => modal.attributes('data-testid') === 'delete-activity-associated-traces-modal')
 
   const stubs = {
+    QuerySuspense: QuerySuspenseStub,
     AssociationElementsDropdown: AssociationElementsDropdownStub,
     DeleteActivityAssociatedElementsModal: DeleteActivityAssociatedElementsModalStub,
     AssociateTracesToDeclaredActivity: AssociateTracesToDeclaredActivityStub,

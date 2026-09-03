@@ -1,9 +1,12 @@
 import type { DeclaredSkillProgressDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { EDeclaredSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
-import { ROUTES } from '@/common/constants'
+import { DeclaredSkillLevelBadgeStub } from '@/features/student/declaredSkills/components/badges/DeclaredSkillLevelBadge/DeclaredSkillLevelBadge.stub'
+import { DeclaredSkillMacroSkillBadgeStub } from '@/features/student/declaredSkills/components/badges/DeclaredSkillMacroSkillBadge/DeclaredSkillMacroSkillBadge.stub'
+import { DeclaredSkillTypeBadgeStub } from '@/features/student/declaredSkills/components/badges/DeclaredSkillTypeBadge/DeclaredSkillTypeBadge.stub'
 import ValorizedDeclaredSkillItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredSkillItem/ValorizedDeclaredSkillItem.vue'
-import { AvBadgeStub, AvButtonStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ValorizedItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.stub'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 
@@ -18,9 +21,10 @@ const BASE_DECLARED_SKILL: DeclaredSkillProgressDTO = {
 }
 
 const stubs = {
-  AvButton: AvButtonStub,
-  AvTooltip: AvTooltipStub,
-  AvBadge: AvBadgeStub
+  ValorizedItem: ValorizedItemStub,
+  DeclaredSkillTypeBadge: DeclaredSkillTypeBadgeStub,
+  DeclaredSkillLevelBadge: DeclaredSkillLevelBadgeStub,
+  DeclaredSkillMacroSkillBadge: DeclaredSkillMacroSkillBadgeStub,
 }
 
 function mountValorizedDeclaredSkillItem (declaredSkill: DeclaredSkillProgressDTO) {
@@ -32,33 +36,33 @@ function mountValorizedDeclaredSkillItem (declaredSkill: DeclaredSkillProgressDT
 
 BddTest().given('a valorized declared skill item', () => {
   let wrapper: VueWrapper<InstanceType<typeof ValorizedDeclaredSkillItem>>
+  let valorizedItem: VueWrapper<InstanceType<typeof ValorizedItemStub>>
 
   BddTest().when('the declared skill is not from the ROME4 referential', () => {
     beforeEach(async () => {
       wrapper = mountValorizedDeclaredSkillItem(BASE_DECLARED_SKILL)
       await flushPromises()
+      valorizedItem = wrapper.findComponent(ValorizedItemStub)
     })
 
     BddTest().then('it should render the wrapped ValorizedItem with the skill title', () => {
-      expect(wrapper.find('[data-testid="valorized-item"]').exists()).toBe(true)
-      expect(wrapper.find('.title').text()).toBe(BASE_DECLARED_SKILL.title)
+      expect(valorizedItem.exists()).toBe(true)
+      expect(valorizedItem.props('title')).toBe(BASE_DECLARED_SKILL.title)
     })
 
-    BddTest().then('it should render the access button pointing to the declared skill route', () => {
-      const button = wrapper.findComponent(AvButtonStub)
-      expect(button.props('to')).toEqual({
-        name: ROUTES.STUDENT.PROJECT_DECLARED_SKILL.name,
-        params: { id: BASE_DECLARED_SKILL.id }
-      })
+    BddTest().then('it should link the declared skill to ValorizedItem', () => {
+      expect(valorizedItem.props('itemId')).toBe(BASE_DECLARED_SKILL.id)
     })
 
     BddTest().then('it should render the type and level badges', () => {
-      const labels = wrapper.findAllComponents(AvBadgeStub).map(badge => badge.props('label'))
-      expect(labels).toEqual(['XXIᵉ onisep', 'Intermédiaire'])
+      const typeLabel = wrapper.findComponent(DeclaredSkillTypeBadgeStub).props('label')
+      expect(typeLabel).toBe('XXIᵉ onisep')
+      const levelLabel = wrapper.findComponent(DeclaredSkillLevelBadgeStub).props('level')
+      expect(levelLabel).toBe(EDeclaredSkillLevel.INTERMEDIATE)
     })
 
     BddTest().then('it should not render the macro skill badge', () => {
-      expect(wrapper.findAllComponents(AvBadgeStub)).toHaveLength(2)
+      expect(wrapper.findComponent(DeclaredSkillMacroSkillBadgeStub).exists()).toBe(false)
     })
   })
 
@@ -73,12 +77,16 @@ BddTest().given('a valorized declared skill item', () => {
     })
 
     BddTest().then('it should render the macro skill badge with joined path segments', () => {
-      const labels = wrapper.findAllComponents(AvBadgeStub).map(badge => badge.props('label'))
-      expect(labels).toContain('Domaine > Enjeu')
+      const macroSkillBadge = wrapper.findComponent(DeclaredSkillMacroSkillBadgeStub)
+      expect(macroSkillBadge.exists()).toBe(true)
+      expect(macroSkillBadge.text()).toContain('Domaine > Enjeu')
     })
 
-    BddTest().then('it should render three badges', () => {
-      expect(wrapper.findAllComponents(AvBadgeStub)).toHaveLength(3)
+    BddTest().then('it should render the type and level badges', () => {
+      const typeLabel = wrapper.findComponent(DeclaredSkillTypeBadgeStub).props('label')
+      expect(typeLabel).toBe('Rome 4.0')
+      const levelLabel = wrapper.findComponent(DeclaredSkillLevelBadgeStub).props('level')
+      expect(levelLabel).toBe(EDeclaredSkillLevel.INTERMEDIATE)
     })
   })
 
@@ -93,7 +101,7 @@ BddTest().given('a valorized declared skill item', () => {
     })
 
     BddTest().then('it should not render the macro skill badge', () => {
-      expect(wrapper.findAllComponents(AvBadgeStub)).toHaveLength(2)
+      expect(wrapper.findComponent(DeclaredSkillMacroSkillBadgeStub).exists()).toBe(false)
     })
   })
 })

@@ -9,7 +9,7 @@ import { ActivityConsignCardStub } from '@/features/staff/feedbacks/components/c
 import { FeedbacksDashboardSectionStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/FeedbacksDashboardSection/FeedbacksDashboardSection.stub'
 import ActivityFeedbacksView from '@/features/staff/feedbacks/views/ActivityFeedbacksView/ActivityFeedbacksView.vue'
 import { ActivityFeedbacksCardStub } from '@/features/staff/feedbacks/views/ActivityFeedbacksView/components/ActivityFeedbacksCard/ActivityFeedbacksCard.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -21,7 +21,8 @@ BddTest().given('an ActivityFeedbacksView component', () => {
     QuerySuspense: QuerySuspenseStub,
     ActivityFeedbacksCard: ActivityFeedbacksCardStub,
     FeedbacksDashboardSection: FeedbacksDashboardSectionStub,
-    ActivityConsignCard: ActivityConsignCardStub
+    ActivityConsignCard: ActivityConsignCardStub,
+    AvIconText: AvIconTextStub
   }
 
   const mountView = () => mountComponent(ActivityFeedbacksView, {

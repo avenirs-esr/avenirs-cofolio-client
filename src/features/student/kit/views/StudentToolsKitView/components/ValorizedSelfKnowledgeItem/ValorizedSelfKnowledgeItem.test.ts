@@ -1,10 +1,11 @@
 import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
-import { ROUTES } from '@/common/constants'
+import { ValorizedItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.stub'
 import ValorizedSelfKnowledgeItem
   from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedSelfKnowledgeItem/ValorizedSelfKnowledgeItem.vue'
-import { AvBadgeStub, AvButtonStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { SelfKnowledgeCategoryBadgeStub } from '@/features/student/selfKnowledge/components/badges/SelfKnowledgeCategoryBadge/SelfKnowledgeCategoryBadge.stub'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 
@@ -18,12 +19,14 @@ const element: SelfKnowledgeElementViewDTO = {
 
 BddTest().given('a valorized self knowledge item', () => {
   let wrapper: VueWrapper<InstanceType<typeof ValorizedSelfKnowledgeItem>>
+  let valorizedItem: VueWrapper<InstanceType<typeof ValorizedItemStub>>
 
   const stubs = {
-    AvBadge: AvBadgeStub,
-    AvButton: AvButtonStub,
-    AvTooltip: AvTooltipStub
+    ValorizedItem: ValorizedItemStub,
+    SelfKnowledgeCategoryBadge: SelfKnowledgeCategoryBadgeStub
   }
+
+  const getValorizedItem = () => wrapper.findComponent(ValorizedItemStub)
 
   const mountItem = async (showCategoryBadge: boolean) => {
     wrapper = mountComponent(ValorizedSelfKnowledgeItem, {
@@ -31,6 +34,7 @@ BddTest().given('a valorized self knowledge item', () => {
       global: { stubs }
     })
     await flushPromises()
+    valorizedItem = getValorizedItem()
   }
 
   BddTest().when('the category badge is displayed', () => {
@@ -39,26 +43,17 @@ BddTest().given('a valorized self knowledge item', () => {
     })
 
     BddTest().then('it should render the element title', () => {
-      expect(wrapper.text()).toContain('Travail d\'équipe')
+      expect(valorizedItem.props('title')).toContain('Travail d\'équipe')
     })
 
     BddTest().then('it should render the category badge with the singular category label', () => {
-      const badge = wrapper.find('[data-testid="self-knowledge-category-badge"]')
+      const badge = wrapper.findComponent(SelfKnowledgeCategoryBadgeStub)
       expect(badge.exists()).toBe(true)
-      expect(badge.text()).toBe('# valeur')
+      expect(badge.text()).toBe('VALUES')
     })
 
-    BddTest().then('it should link to the element inside its own category', () => {
-      expect(wrapper.findComponent(AvButtonStub).props('to')).toEqual({
-        name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
-        params: { id: ESelfKnowledgeCategory.VALUES },
-        query: { elementId: 'element-1' }
-      })
-    })
-
-    BddTest().then('it should not render the element description nor its rating', () => {
-      expect(wrapper.text()).not.toContain('Je travaille efficacement avec les autres')
-      expect(wrapper.text()).not.toContain('4')
+    BddTest().then('it should link the element to ValorizedItem', () => {
+      expect(valorizedItem.props('itemId')).toBe('element-1')
     })
   })
 
@@ -68,11 +63,11 @@ BddTest().given('a valorized self knowledge item', () => {
     })
 
     BddTest().then('it should render the element title', () => {
-      expect(wrapper.text()).toContain('Travail d\'équipe')
+      expect(valorizedItem.props('title')).toContain('Travail d\'équipe')
     })
 
     BddTest().then('it should not render the category badge', () => {
-      expect(wrapper.find('[data-testid="self-knowledge-category-badge"]').exists()).toBe(false)
+      expect(wrapper.findComponent(SelfKnowledgeCategoryBadgeStub).exists()).toBe(false)
     })
   })
 })

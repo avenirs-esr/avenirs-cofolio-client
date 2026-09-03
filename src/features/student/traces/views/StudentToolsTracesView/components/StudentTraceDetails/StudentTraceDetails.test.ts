@@ -1,4 +1,5 @@
 import { EFileType, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
+import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { TraceAiJustificationTextareaStub } from '@/features/student/traces/components/interactions/inputs/TraceAiJustificationTextarea/TraceAiJustificationTextarea.stub'
 import { TraceAiUsageToggleStub } from '@/features/student/traces/components/interactions/toggles/TraceAiUsageToggle/TraceAiUsageToggle.stub'
@@ -39,7 +40,8 @@ const stubs = {
   TraceAiJustificationTextarea: TraceAiJustificationTextareaStub,
   AvIconText: AvIconTextStub,
   TraceAiUsageToggle: TraceAiUsageToggleStub,
-  CreationUpdateDateDetails: CreationUpdateDateDetailsStub
+  CreationUpdateDateDetails: CreationUpdateDateDetailsStub,
+  ValorizedBadge: ValorizedBadgeStub,
 }
 
 BddTest().given('a student detailed trace information component', () => {

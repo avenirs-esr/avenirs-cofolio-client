@@ -1,5 +1,6 @@
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
 import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
+import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
 import { DeclaredProgramDescriptionFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.stub'
 import { DeclaredProgramOrganizationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramOrganizationFormField/DeclaredProgramOrganizationFormField.stub'
@@ -66,6 +67,7 @@ BddTest().given('a declared program update form component', () => {
           DeclaredProgramPeriodFormField: DeclaredProgramPeriodFormFieldStub,
           DeclaredProgramResultFormField: DeclaredProgramResultFormFieldStub,
           DeclaredProgramSourceOfInformationFormField: DeclaredProgramSourceOfInformationFormFieldStub,
+          CreationUpdateDateDetails: CreationUpdateDateDetailsStub
         },
       },
       useI18n: true,

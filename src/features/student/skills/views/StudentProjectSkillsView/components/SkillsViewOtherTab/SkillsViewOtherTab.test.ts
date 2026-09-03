@@ -3,6 +3,7 @@ import { createDeclaredSkillsProgressViewHandler } from '@/__mocks__/msw/handler
 import { server } from '@/__mocks__/msw/server'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { StudentDetailedDeclaredSkillCardStub } from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedDeclaredSkillCard/StudentDetailedDeclaredSkillCard.stub'
 import SkillsViewOtherTab from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/SkillsViewOtherTab.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -27,11 +28,7 @@ BddTest().given('a skills view other tab component', () => {
       template: '<button v-bind="$attrs" @click="$emit(\'click\')"><slot /></button>',
       emits: ['click']
     },
-    DeclaredSkillTypeBadge: {
-      name: 'DeclaredSkillTypeBadge',
-      props: ['label'],
-      template: '<span>{{ label }}</span>'
-    },
+    StudentDetailedDeclaredSkillCard: StudentDetailedDeclaredSkillCardStub,
     AddDeclaredSkillDrawer: {
       name: 'AddDeclaredSkillDrawer',
       template: '<div class="add-declared-skill-drawer-stub"></div>'

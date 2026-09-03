@@ -1,9 +1,12 @@
-import type {
-  DeclaredSkillProgressDetailsDTO
-} from '@/api/avenir-esr'
 import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import {
+  type DeclaredSkillProgressDetailsDTO,
+  EExternalSkillType
+} from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
+import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
+import { DeclaredSkillRefCardStub } from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.stub'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import DeclaredSkillDetails, { type DeclaredSkillDetailsProps } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
 import { AvBadgeStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -78,7 +81,9 @@ BddTest().given('the DeclaredSkillDetails component', () => {
     AvIcon: AvIconStub,
     AvInput: AvInputStub,
     DeclaredSkillLevelBadge: DeclaredSkillLevelBadgeStub,
-    ValorizedBadge: ValorizedBadgeStub
+    ValorizedBadge: ValorizedBadgeStub,
+    DeclaredSkillRefCard: DeclaredSkillRefCardStub,
+    CreationUpdateDateDetails: CreationUpdateDateDetailsStub
   }
 
   BddTest().when('the component is mounted', () => {
@@ -94,26 +99,18 @@ BddTest().given('the DeclaredSkillDetails component', () => {
     })
 
     BddTest().then('it should render the declared skill path segments', () => {
-      const pathSegments = wrapper.findAll('.ref__item')
+      const pathSegments = wrapper.findAll('[data-testid="declared-skill-ref-card-path-segments"]')
       mockedDeclaredSkillProgressDetails.pathSegments.forEach((_segment, index) => {
-        const avIconText = pathSegments[index].findComponent({ name: 'AvIconText' })
-        const avBadge = pathSegments[index].findComponent({ name: 'AvBadge' })
-        expect(avIconText.exists()).toBe(index < mockedDeclaredSkillProgressDetails.pathSegments.length - 1)
-        expect(avBadge.exists()).toBe(index === mockedDeclaredSkillProgressDetails.pathSegments.length - 1)
+        const segment = pathSegments[index]
 
-        if (avIconText.exists()) {
-          expect(avIconText.props('text')).toContain(mockedDeclaredSkillProgressDetails.pathSegments[index].libelle)
-        }
-        else if (avBadge.exists()) {
-          expect(avBadge.props('label')).toContain(mockedDeclaredSkillProgressDetails.pathSegments[index].libelle)
-        }
+        expect(segment.text()).toContain(mockedDeclaredSkillProgressDetails.pathSegments[index].libelle)
       })
     })
 
     BddTest().then('it should render the declared skill type badge', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
-      const typeBadge = badges.find(badge => badge.props('label') === `Rome 4.0`)
-      expect(typeBadge).toBeDefined()
+      const badge = wrapper.find('[data-testid="declared-skill-ref-card-type"]')
+      expect(badge.exists()).toBe(true)
+      expect(badge.text()).toBe(EExternalSkillType.ROME4)
     })
 
     BddTest().then('it should render the declared skill reflection', () => {
