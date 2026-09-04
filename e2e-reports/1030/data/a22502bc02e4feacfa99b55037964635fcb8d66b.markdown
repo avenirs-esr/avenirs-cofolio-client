@@ -1,0 +1,347 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/staff/activities/edit-national-activity.feature.spec.js >> Staff Edit National Activity Page >> Publication tab elements >> The context of realization section is visible in the publication tab
+- Location: .features-gen/tests/staff/activities/edit-national-activity.feature.spec.js:194:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('activity-recommended-completion-contexts-input')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('activity-recommended-completion-contexts-input')
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - link "Accueil - Cofolio Staff":
+    - /url: /cofolio/staff
+    - img
+  - list:
+    - listitem:
+      - button "Notifications (10)"
+    - listitem:
+      - button "M. dupont"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/staff
+      - listitem:
+        - link "BIBLIOTHÈQUE DES ACTIVITÉS":
+          - /url: /cofolio/staff/activities
+      - listitem:
+        - button "SUIVI DES APPRENANTS"
+- main:
+  - navigation "Fil d'Ariane":
+    - list:
+      - listitem:
+        - link "Accueil":
+          - /url: /cofolio/staff
+      - listitem:
+        - link "Bibliothèque des activités":
+          - /url: /cofolio/staff/activities
+      - listitem: Créer mon activité
+  - heading "Créer mon activité" [level=1]
+  - navigation "2637a4fe-af74-4bbb-ba4c-2f0b7b80a803 navigation":
+    - button "Réduire le menu" [expanded]
+    - menu:
+      - menuitem "Publication de l'activité":
+        - button "Publication de l'activité"
+      - menu:
+        - menuitem "Titre de l'activité":
+          - button "Titre de l'activité"
+        - menuitem "Ajouter une image":
+          - button "Ajouter une image"
+        - menuitem "Extrait et contexte(s) de réalisation conseillé(s)":
+          - button "Extrait et contexte(s) de réalisation conseillé(s)"
+  - tablist "Liste d’onglets":
+    - tab "Renseigner le contenu"
+    - tab "Préparer la publication" [selected]
+  - tabpanel "Préparer la publication":
+    - text: Titre de l'activité * Titre de l'activité
+    - textbox "Titre de l'activité": Activité nationale de test
+    - text: 26 / 80 caractères (espaces compris) Ajouter une image
+    - img "Bannière"
+    - text: Image de l'activité Connaissance de soi - Définir ses valeurs
+    - status
+    - button "Supprimer"
+    - text: "Format : JPG, JPEG, PNG • Poids : 5 Mo max Extrait *"
+    - textbox:
+      - /placeholder: Rédiger ici un texte court qui permet d'avoir un aperçu de l'activité et donne envie de s'y inscrire.
+      - text: Résumé de l'activité de test
+    - text: 28 / 400 caractères (espaces compris) Contexte(s) de réalisation conseillé(s) *
+    - link "Quitter":
+      - /url: /cofolio/staff/activities
+    - button "Enregistrer pour plus tard" [disabled]
+    - button "Publier"
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/staff/accessibility
+    - listitem:
+      - link "Mentions légales":
+        - /url: /cofolio/staff/legal
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/staff/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/staff/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  63  |   private getFeedbackMainToggleLabel () {
+  64  |     return this.page.getByTestId('feedback-main-toggle-label')
+  65  |   }
+  66  | 
+  67  |   private getFeedbackInfinityToggle () {
+  68  |     return this.page.getByTestId('feedback-infinity-toggle-input')
+  69  |   }
+  70  | 
+  71  |   private getFeedbackInfinityToggleLabel () {
+  72  |     return this.page.getByTestId('feedback-infinity-toggle-label')
+  73  |   }
+  74  | 
+  75  |   private getFeedbackMaxInput () {
+  76  |     return this.getFeedbackCard().getByTestId(
+  77  |       'feedback-allowed-iterations-input',
+  78  |     )
+  79  |   }
+  80  | 
+  81  |   private getSaveButton () {
+  82  |     return this.page.getByTestId('save-button')
+  83  |   }
+  84  | 
+  85  |   private getPublishButton () {
+  86  |     return this.page.getByTestId('publish-button')
+  87  |   }
+  88  | 
+  89  |   private getPublishConfirmationModal () {
+  90  |     return this.page.getByTestId('publish-confirmation-modal')
+  91  |   }
+  92  | 
+  93  |   private getPublishCancelButton () {
+  94  |     return this.getPublishConfirmationModal().getByTestId('cancel-button')
+  95  |   }
+  96  | 
+  97  |   private getPublishConfirmButton () {
+  98  |     return this.getPublishConfirmationModal().getByTestId('confirm-button')
+  99  |   }
+  100 | 
+  101 |   private async setToggleState (
+  102 |     toggle: Locator,
+  103 |     label: Locator,
+  104 |     checked: boolean,
+  105 |   ) {
+  106 |     await expect(toggle).toBeAttached()
+  107 | 
+  108 |     const isChecked = await toggle.isChecked()
+  109 | 
+  110 |     if (isChecked === checked) {
+  111 |       return
+  112 |     }
+  113 | 
+  114 |     await clickOnElement(label)
+  115 | 
+  116 |     if (checked) {
+  117 |       await expect(toggle).toBeChecked()
+  118 |     }
+  119 |     else {
+  120 |       await expect(toggle).not.toBeChecked()
+  121 |     }
+  122 |   }
+  123 | 
+  124 |   private getSectionAccordion (sectionId: string) {
+  125 |     return this.page.locator(`#${sectionId} header`).first()
+  126 |   }
+  127 | 
+  128 |   async verifyContentTabActiveByDefault () {
+  129 |     await expect(this.getContentTab()).toHaveAttribute('aria-selected', 'true')
+  130 |     await expect(this.getContentTabPanel()).toBeVisible()
+  131 |   }
+  132 | 
+  133 |   async clickPublicationTab () {
+  134 |     await clickOnElement(this.getPublicationTab())
+  135 |   }
+  136 | 
+  137 |   async verifyPublicationTabActive () {
+  138 |     await expect(this.getPublicationTab()).toHaveAttribute('aria-selected', 'true')
+  139 |     await expect(this.getPublicationTabPanel()).toBeVisible()
+  140 |   }
+  141 | 
+  142 |   async verifyThematicSelectVisible () {
+  143 |     await expect(this.getThematicSelect()).toBeVisible()
+  144 |   }
+  145 | 
+  146 |   async verifyReflectionToggleVisible () {
+  147 |     await expect(this.getReflectionToggle()).toBeVisible()
+  148 |   }
+  149 | 
+  150 |   async verifyToggleVisible () {
+  151 |     await expect(this.getTraceAllowedAssociationsToggle()).toBeVisible()
+  152 |   }
+  153 | 
+  154 |   async verifyActivityConsignFormFieldCollapsed () {
+  155 |     await expect(this.getActivityConsignFormField()).not.toBeVisible()
+  156 |   }
+  157 | 
+  158 |   async verifyContextSectionCollapsed () {
+  159 |     await expect(this.getContextSection()).not.toBeVisible()
+  160 |   }
+  161 | 
+  162 |   async verifyContextSectionVisible () {
+> 163 |     await expect(this.getContextSection()).toBeVisible()
+      |                                            ^ Error: expect(locator).toBeVisible() failed
+  164 |   }
+  165 | 
+  166 |   async verifySummarySectionVisible () {
+  167 |     await expect(this.getSummarySection()).toBeVisible()
+  168 |   }
+  169 | 
+  170 |   async verifyActivityBannerFormFieldVisible () {
+  171 |     await expect(this.getActivityBannerFormField()).toBeVisible()
+  172 |   }
+  173 | 
+  174 |   async verifyFeedbackCardVisible () {
+  175 |     await expect(this.getFeedbackCard()).toBeVisible()
+  176 |   }
+  177 | 
+  178 |   async ensureFeedbackEnabled () {
+  179 |     await this.setToggleState(
+  180 |       this.getFeedbackMainToggle(),
+  181 |       this.getFeedbackMainToggleLabel(),
+  182 |       true,
+  183 |     )
+  184 |   }
+  185 | 
+  186 |   async disableFeedback () {
+  187 |     await this.setToggleState(
+  188 |       this.getFeedbackMainToggle(),
+  189 |       this.getFeedbackMainToggleLabel(),
+  190 |       false,
+  191 |     )
+  192 | 
+  193 |     await expect(this.getFeedbackInfinityToggle()).not.toBeAttached()
+  194 |     await expect(this.getFeedbackMaxInput()).not.toBeAttached()
+  195 |   }
+  196 | 
+  197 |   async enableInfinityFeedback () {
+  198 |     await this.setToggleState(
+  199 |       this.getFeedbackInfinityToggle(),
+  200 |       this.getFeedbackInfinityToggleLabel(),
+  201 |       true,
+  202 |     )
+  203 | 
+  204 |     await expect(this.getFeedbackMaxInput()).not.toBeAttached()
+  205 |   }
+  206 | 
+  207 |   async disableInfinityFeedback () {
+  208 |     await this.setToggleState(
+  209 |       this.getFeedbackInfinityToggle(),
+  210 |       this.getFeedbackInfinityToggleLabel(),
+  211 |       false,
+  212 |     )
+  213 | 
+  214 |     await expect(this.getFeedbackMaxInput()).toBeVisible()
+  215 |   }
+  216 | 
+  217 |   async verifyFeedbackMaxInputVisible () {
+  218 |     await expect(this.getFeedbackMaxInput()).toBeVisible()
+  219 |   }
+  220 | 
+  221 |   async verifyFeedbackMaxInputHidden () {
+  222 |     await expect(this.getFeedbackMaxInput()).not.toBeAttached()
+  223 |   }
+  224 | 
+  225 |   async clickSaveButton () {
+  226 |     await clickOnElement(this.getSaveButton())
+  227 |   }
+  228 | 
+  229 |   async verifyPublishButtonVisible () {
+  230 |     await expect(this.getPublishButton()).toBeVisible()
+  231 |   }
+  232 | 
+  233 |   async verifyPublishButtonEnabled () {
+  234 |     await expect(this.getPublishButton()).toBeEnabled()
+  235 |   }
+  236 | 
+  237 |   async clickPublishButton () {
+  238 |     await clickOnElement(this.getPublishButton())
+  239 |   }
+  240 | 
+  241 |   async verifyPublishConfirmationModalVisible () {
+  242 |     await expect(this.getPublishConfirmationModal()).toBeVisible()
+  243 |   }
+  244 | 
+  245 |   async verifyPublishConfirmationModalNotVisible () {
+  246 |     await expect(this.getPublishConfirmationModal()).not.toBeVisible()
+  247 |   }
+  248 | 
+  249 |   async verifyPublishConfirmButtonVisible () {
+  250 |     await expect(this.getPublishConfirmButton()).toBeVisible()
+  251 |   }
+  252 | 
+  253 |   async verifyPublishCancelButtonVisible () {
+  254 |     await expect(this.getPublishCancelButton()).toBeVisible()
+  255 |   }
+  256 | 
+  257 |   async clickPublishCancelButton () {
+  258 |     await clickOnElement(this.getPublishCancelButton())
+  259 |   }
+  260 | 
+  261 |   async clickPublishConfirmButton () {
+  262 |     await clickOnElement(this.getPublishConfirmButton())
+  263 |     await expect(this.getPublishConfirmationModal()).not.toBeVisible()
+```

@@ -1,0 +1,310 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/staff/activities/edit-national-activity.feature.spec.js >> Staff Edit National Activity Page >> Managing activity resources >> Adding a file resource to the activity by default
+- Location: .features-gen/tests/staff/activities/edit-national-activity.feature.spec.js:280:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('add-activity-resource-modal').getByTestId('add-activity-resource-file-upload-container')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('add-activity-resource-modal').getByTestId('add-activity-resource-file-upload-container')
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - link "Accueil - Cofolio Staff":
+    - /url: /cofolio/staff
+    - img
+  - list:
+    - listitem:
+      - button "Notifications (10)"
+    - listitem:
+      - button "M. dupont"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/staff
+      - listitem:
+        - link "BIBLIOTHÈQUE DES ACTIVITÉS":
+          - /url: /cofolio/staff/activities
+      - listitem:
+        - button "SUIVI DES APPRENANTS"
+- main:
+  - navigation "Fil d'Ariane":
+    - list:
+      - listitem:
+        - link "Accueil":
+          - /url: /cofolio/staff
+      - listitem:
+        - link "Bibliothèque des activités":
+          - /url: /cofolio/staff/activities
+      - listitem: Modifier l'activité
+  - heading "Modifier l'activité" [level=1]
+  - navigation "e28f75ec-c840-489e-8a89-9729b7e63bc3 navigation":
+    - button "Réduire le menu" [expanded]
+    - menu:
+      - menuitem "Contenu de l'activité":
+        - button "Contenu de l'activité"
+      - menu:
+        - menuitem "Titre":
+          - button "Titre"
+        - menuitem "Thématique":
+          - button "Thématique"
+        - menuitem "Consigne":
+          - button "Consigne"
+        - menuitem "Contexte(s) de réalisation conseillé(s)":
+          - button "Contexte(s) de réalisation conseillé(s)"
+        - menuitem "Documents et liens utiles":
+          - button "Documents et liens utiles"
+        - menuitem "Modalités":
+          - button "Modalités"
+  - tablist "Liste d’onglets":
+    - tab "Renseigner le contenu" [selected]
+    - tab "Préparer la publication"
+  - tabpanel "Renseigner le contenu":
+    - text: Titre de l'activité * Titre de l'activité
+    - textbox "Titre de l'activité": "Activité \"Connaissance de soi\" : Définir ses valeurs"
+    - text: 52 / 80 caractères (espaces compris) Thématique * Consigne *
+    - button "Développer"
+    - text: Contexte(s) de réalisation conseillé(s) *
+    - button "Développer"
+    - text: Documents et liens utiles
+    - button "Réduire" [expanded]
+    - text: document.pdf
+    - paragraph: fichier
+    - button "Sélectionner document.pdf"
+    - text: definir-ses-valeurs-exercices.docx
+    - paragraph: fichier
+    - button "Sélectionner definir-ses-valeurs-exercices.docx"
+    - text: http://example.com/resource1
+    - paragraph: lien
+    - button "Sélectionner http://example.com/resource1"
+    - text: https://example.com/definir-ses-valeurs
+    - paragraph: lien
+    - button "Sélectionner https://example.com/definir-ses-valeurs"
+    - button "Ajouter"
+    - button "Supprimer" [disabled]
+    - text: Modalités
+    - button "Réduire" [expanded]
+    - link "Quitter":
+      - /url: /cofolio/staff/activities
+    - button "Enregistrer pour plus tard" [disabled]
+    - button "Étape suivante"
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/staff/accessibility
+    - listitem:
+      - link "Mentions légales":
+        - /url: /cofolio/staff/legal
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/staff/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/staff/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1   | import type { Page } from '@playwright/test'
+  2   | import { clickOnElement } from '@e2e/framework/shared/utils/click'
+  3   | import { t } from '@e2e/framework/shared/utils/i18n'
+  4   | import { expect } from '@playwright/test'
+  5   | 
+  6   | export class EditActivityResources {
+  7   |   constructor (private page: Page) {}
+  8   | 
+  9   |   private getResourcesList () {
+  10  |     return this.page.getByTestId('activity-resources-list-editable')
+  11  |   }
+  12  | 
+  13  |   private getResourceCheckbox (resourceLabel: string) {
+  14  |     return this.getResourcesList()
+  15  |       .locator(`[data-testid="selector-overlay"][data-resource-label="${resourceLabel}"]`)
+  16  |   }
+  17  | 
+  18  |   private getDeleteButton () {
+  19  |     return this.getResourcesList().getByTestId('activity-resources-list-delete-button')
+  20  |   }
+  21  | 
+  22  |   private getAddResourceButton () {
+  23  |     return this.page.getByTestId('activity-resources-list-add-card')
+  24  |   }
+  25  | 
+  26  |   private getAddResourceModal () {
+  27  |     return this.page.getByTestId('add-activity-resource-modal')
+  28  |   }
+  29  | 
+  30  |   private getAddResourceModalTypeSelect () {
+  31  |     return this.getAddResourceModal().getByTestId('add-activity-resource-type-select')
+  32  |   }
+  33  | 
+  34  |   private getAddResourceModalFileUploadContainer () {
+  35  |     return this.getAddResourceModal().getByTestId('add-activity-resource-file-upload-container')
+  36  |   }
+  37  | 
+  38  |   private getAddResourceModalFileNameInput () {
+  39  |     return this.getAddResourceModal().getByTestId('add-activity-resource-name-input')
+  40  |   }
+  41  | 
+  42  |   private getAddResourceModalLinkInput () {
+  43  |     return this.getAddResourceModal().getByTestId('add-activity-resource-link-input')
+  44  |   }
+  45  | 
+  46  |   private getDeleteConfirmationModal () {
+  47  |     return this.page.getByTestId('delete-activity-resources-confirmation-modal')
+  48  |   }
+  49  | 
+  50  |   private getDeleteModalTitle () {
+  51  |     return this.getDeleteConfirmationModal().getByTestId('delete-activity-resources-confirmation-modal-title')
+  52  |   }
+  53  | 
+  54  |   private getModalResourceTitle (resourceLabel: string) {
+  55  |     return this.getDeleteConfirmationModal()
+  56  |       .getByTestId('activity-resource-card-title')
+  57  |       .filter({ hasText: resourceLabel })
+  58  |   }
+  59  | 
+  60  |   private getDeleteModalCancelButton () {
+  61  |     return this.getDeleteConfirmationModal().getByRole('button', { name: t('global.buttons.cancel') })
+  62  |   }
+  63  | 
+  64  |   private getDeleteModalConfirmButton () {
+  65  |     return this.getDeleteConfirmationModal().getByRole('button', { name: t('global.buttons.confirm') })
+  66  |   }
+  67  | 
+  68  |   async clickAddResourceButton () {
+  69  |     await clickOnElement(this.getAddResourceButton())
+  70  |   }
+  71  | 
+  72  |   async selectAddResourceModalType (type: 'file' | 'link') {
+  73  |     await this.getAddResourceModalTypeSelect().selectOption(type)
+  74  |   }
+  75  | 
+  76  |   async verifyAddResourceModalFileFormVisible () {
+> 77  |     await expect(this.getAddResourceModalFileUploadContainer()).toBeVisible()
+      |                                                                 ^ Error: expect(locator).toBeVisible() failed
+  78  |     await expect(this.getAddResourceModalFileNameInput()).toBeVisible()
+  79  |   }
+  80  | 
+  81  |   async verifyAddResourceModalFileFormHidden () {
+  82  |     await expect(this.getAddResourceModalFileUploadContainer()).not.toBeVisible()
+  83  |     await expect(this.getAddResourceModalFileNameInput()).not.toBeVisible()
+  84  |   }
+  85  | 
+  86  |   async verifyAddResourceModalLinkFormVisible () {
+  87  |     await expect(this.getAddResourceModalLinkInput()).toBeVisible()
+  88  |   }
+  89  | 
+  90  |   async verifyAddResourceModalLinkFormHidden () {
+  91  |     await expect(this.getAddResourceModalLinkInput()).not.toBeVisible()
+  92  |   }
+  93  | 
+  94  |   async selectResource (resourceLabel: string) {
+  95  |     await clickOnElement(this.getResourceCheckbox(resourceLabel))
+  96  |   }
+  97  | 
+  98  |   async verifyDeleteButtonDisabled () {
+  99  |     await expect(this.getDeleteButton()).toBeDisabled()
+  100 |   }
+  101 | 
+  102 |   async verifyDeleteButtonEnabled () {
+  103 |     await expect(this.getDeleteButton()).toBeEnabled()
+  104 |   }
+  105 | 
+  106 |   async clickDeleteButton () {
+  107 |     await clickOnElement(this.getDeleteButton())
+  108 |   }
+  109 | 
+  110 |   async verifyConfirmationModalVisible () {
+  111 |     await expect(this.getDeleteConfirmationModal()).toBeVisible()
+  112 |   }
+  113 | 
+  114 |   async verifyConfirmationModalHidden () {
+  115 |     await expect(this.getDeleteConfirmationModal()).toBeHidden()
+  116 |   }
+  117 | 
+  118 |   async verifySingularConfirmationMessage () {
+  119 |     await expect(this.getDeleteModalTitle()).toHaveText(t('staff.activities.modals.DeleteActivityResourcesConfirmationModal.title', { count: 1 }))
+  120 |   }
+  121 | 
+  122 |   async verifyPluralConfirmationMessage () {
+  123 |     await expect(this.getDeleteModalTitle()).toHaveText(t('staff.activities.modals.DeleteActivityResourcesConfirmationModal.title', { count: 2 }))
+  124 |   }
+  125 | 
+  126 |   async verifyModalListsResource (resourceLabel: string) {
+  127 |     await expect(this.getModalResourceTitle(resourceLabel)).toBeVisible()
+  128 |   }
+  129 | 
+  130 |   async clickCancelButton () {
+  131 |     await clickOnElement(this.getDeleteModalCancelButton())
+  132 |   }
+  133 | 
+  134 |   async clickConfirmButton () {
+  135 |     await clickOnElement(this.getDeleteModalConfirmButton())
+  136 |   }
+  137 | 
+  138 |   async verifyResourceListed (resourceLabel: string) {
+  139 |     await expect(this.getResourceCheckbox(resourceLabel)).toBeVisible()
+  140 |   }
+  141 | 
+  142 |   async verifyResourceNotListed (resourceLabel: string) {
+  143 |     await expect(this.getResourceCheckbox(resourceLabel)).toHaveCount(0)
+  144 |   }
+  145 | }
+  146 | 
+```
