@@ -27,6 +27,7 @@
     "commitlint": "commitlint --edit",
     "lint-staged": "lint-staged",
     "generate:api": "orval",
+    "generate:mocks": "tsx tools/msw-generator/index.ts",
     "check:api-diff": "node scripts/check-api-diff.mjs",
     "postgenerate:api": "eslint ./src/api --fix",
     "generate:feature": "node scripts/generate-feature.mjs",
@@ -54,6 +55,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.0.0",
+    "@apidevtools/swagger-parser": "^13.1.0",
     "@axe-core/playwright": "^4.10.1",
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
@@ -78,6 +80,7 @@
     "blob-polyfill": "^9.0.20240710",
     "eslint": "^9.39.4",
     "eslint-plugin-playwright": "^2.2.0",
+    "handlebars": "^4.7.9",
     "husky": "^9.1.7",
     "jsdom": "^25.0.0",
     "lint-staged": "^15.5.2",
