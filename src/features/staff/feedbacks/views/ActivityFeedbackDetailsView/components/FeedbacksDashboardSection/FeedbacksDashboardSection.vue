@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { useGetFeedbackDashboard } from '@/api/avenir-esr'
-import DashboardCard from '@/common/components/cards/DashboardCard/DashboardCard.vue'
-import DashboardSection from '@/common/components/DashboardSection/DashboardSection.vue'
 import { ICONS } from '@/common/constants'
+import DashboardCard from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'
+import DashboardSection from '@/features/staff/global/components/sections/DashboardSection/DashboardSection.vue'
 import { MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
