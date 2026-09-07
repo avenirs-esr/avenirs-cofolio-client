@@ -5,10 +5,14 @@ import { server } from '@/__mocks__/msw/server'
 import { EActivityStatus } from '@/api/avenir-esr'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ROUTES } from '@/common/constants'
 import {
   DeleteDraftActivityConfirmationModalStub
 } from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.stub'
+import {
+  ActivityDashboardSectionStub
+} from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/ActivityDashboardSection.stub'
 import {
   NationalActivityCatalogPreviewTabStub
 } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.stub'
@@ -35,6 +39,21 @@ vi.mock('@/common/composables/use-navigation/use-navigation', () => ({
   }),
 }))
 
+enum NationalActivityCatalogTabs {
+  CONTENT = 0,
+  PREVIEW = 1,
+  KEY_FIGURES = 2,
+}
+
+function mockActiveTab (tab: NationalActivityCatalogTabs) {
+  const activeTab = ref<string | number>(tab)
+
+  vi.mocked(useEnumRouteQuery).mockReturnValue(computed({
+    get: () => activeTab.value,
+    set: value => activeTab.value = value,
+  }))
+}
+
 BddTest().given('a national activity catalog view', () => {
   let wrapper: VueWrapper<InstanceType<typeof NationalActivityCatalogView>>
 
@@ -43,6 +62,7 @@ BddTest().given('a national activity catalog view', () => {
     QuerySuspense: QuerySuspenseStub,
     NationalActivityCatalogPreviewTab: NationalActivityCatalogPreviewTabStub,
     NationalActivityContentTab: NationalActivityContentTabStub,
+    ActivityDashboardSection: ActivityDashboardSectionStub,
     AvButton: AvButtonStub,
     DeleteDraftActivityConfirmationModal: DeleteDraftActivityConfirmationModalStub,
     AvTabs: AvTabsStub,
@@ -63,6 +83,7 @@ BddTest().given('a national activity catalog view', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockActiveTab(NationalActivityCatalogTabs.CONTENT)
     wrapper = mountView()
   })
 
@@ -188,6 +209,23 @@ BddTest().given('a national activity catalog view', () => {
           id: mockedActivityDraftCreationResponse.draftId,
         })
       })
+    })
+  })
+
+  BddTest().when('the key figures tab is active', () => {
+    beforeEach(async () => {
+      mockActiveTab(NationalActivityCatalogTabs.KEY_FIGURES)
+      wrapper = mountView()
+      await waitForLoaded()
+    })
+
+    BddTest().then('it should render ActivityDashboardSection with the loaded activity id', () => {
+      expect(wrapper.findComponent(ActivityDashboardSectionStub).props('activityId')).toBe(mockedActivityContent.id)
+    })
+
+    BddTest().then('it should not render the other tabs content', () => {
+      expect(wrapper.findComponent(NationalActivityContentTabStub).exists()).toBe(false)
+      expect(wrapper.findComponent(NationalActivityCatalogPreviewTabStub).exists()).toBe(false)
     })
   })
 })

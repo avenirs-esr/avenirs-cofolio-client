@@ -8,11 +8,13 @@ import { useNavigation } from '@/common/composables/use-navigation/use-navigatio
 import { ROUTES } from '@/common/constants'
 import DeleteDraftActivityConfirmationModal
   from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
+import ActivityDashboardSection
+  from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/ActivityDashboardSection.vue'
 import NationalActivityCatalogPreviewTab
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.vue'
 import NationalActivityContentTab
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.vue'
-import { AvButton, AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvTab, AvTabs, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface NationalActivityCatalogViewProps {
@@ -41,6 +43,7 @@ const { navigateToStaffActivities, navigateToStaffActivitiesEditNationalActivity
 enum NationalActivityCatalogTabs {
   CONTENT = 0,
   PREVIEW = 1,
+  KEY_FIGURES = 2,
 }
 
 const activeTab = useEnumRouteQuery('tab', NationalActivityCatalogTabs, NationalActivityCatalogTabs.CONTENT)
@@ -114,6 +117,13 @@ function updateActivity (id: string) {
           :activity-id="activity.id"
           :status="status"
         />
+      </AvTab>
+      <AvTab
+        :icon="RI_ICONS.DASHBOARD_2_LINE"
+        :title="t('staff.activities.views.NationalActivityCatalogView.tabs.keyFigures')"
+        data-testid="national-activity-catalog-key-figures-tab-item"
+      >
+        <ActivityDashboardSection :activity-id="activity.id" />
       </AvTab>
     </AvTabs>
   </QuerySuspense>

@@ -4119,6 +4119,37 @@
         }
       }
     },
+    "/me/activities/{activityId}/dashboard": {
+      "get": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "getActivityDashboard",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivityDashboardDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activities/with-feedbacks": {
       "get": {
         "tags": [
@@ -8197,6 +8228,28 @@
           "summary",
           "thematic",
           "title"
+        ]
+      },
+      "ActivityDashboardDTO": {
+        "type": "object",
+        "properties": {
+          "uniqueStudentViews": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "enrolledStudents": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unsubscriptionsLast30Days": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "enrolledStudents",
+          "uniqueStudentViews",
+          "unsubscriptionsLast30Days"
         ]
       },
       "ActivityItemNavigationDTO": {

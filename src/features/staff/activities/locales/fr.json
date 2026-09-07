@@ -82,6 +82,12 @@
           }
         },
         "NationalActivityCatalogView": {
+          "ActivityDashboardSection": {
+            "enrolledStudents": "étudiant inscrit | étudiants inscrits",
+            "title": "Tableau de bord",
+            "uniqueStudentViews": "étudiant ayant consulté l'activité | étudiants ayant consulté l'activité",
+            "unsubscriptionsLast30Days": "désinscription sur les 30 derniers jours | désinscriptions sur les 30 derniers jours"
+          },
           "errors": {
             "fetchActivityContent": "Impossible de charger l'activité"
           },
@@ -105,6 +111,7 @@
           },
           "tabs": {
             "content": "Contenu",
+            "keyFigures": "Chiffres clés",
             "preview": "Extrait du catalogue"
           },
           "title": "Toutes les activités disponibles dans mon établissement"

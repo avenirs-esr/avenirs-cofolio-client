@@ -1,5 +1,6 @@
 import type {
   ActivityContentDTO,
+  ActivityDashboardDTO,
   ActivityDraftCreationResponse,
   ActivityDraftUpdateResponse,
   ActivityPresentationDTO,
@@ -13,6 +14,7 @@ import { getMockedActivitiesWithFeedbacksPaginated } from '@/__mocks__/fixtures/
 import {
   createMockedBannerUploadResponse,
   createMockedPagedResponseActivityStaffOverviewDTO,
+  getMockedActivityDashboard,
   mockedActivityContent,
   mockedActivityContentWithEnrolledStudent1,
   mockedActivityContentWithFileAndLink,
@@ -31,6 +33,7 @@ import {
   getDuplicateActivityUrl,
   getGetActivitiesWithFeedbacksUrl,
   getGetActivityContentUrl,
+  getGetActivityDashboardUrl,
   getGetActivityPresentationUrl,
   getGetStaffActivityLibraryUrl,
   getGetStaffActivityWorkingSpaceUrl,
@@ -58,6 +61,22 @@ export const getActivityContentErrorHandler = http.get(`*${getGetActivityContent
 })
 
 export const getPublishedActivityContentErrorHandler = http.get(`*${getGetActivityContentUrl(EActivityStatus.PUBLISHED, ':activityId')}`, () => {
+  return HttpResponse.json(
+    { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
+    { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+  )
+})
+
+export const getActivityDashboardHandler = http.get(`*${getGetActivityDashboardUrl(':activityId')}`, ({ params }) => {
+  const mockData = getMockedActivityDashboard(params.activityId as string)
+
+  return HttpResponse.json<ActivityDashboardDTO>(mockData, {
+    status: HttpStatusCode.OK,
+    headers: { 'Content-Type': 'application/json' },
+  })
+})
+
+export const getActivityDashboardErrorHandler = http.get(`*${getGetActivityDashboardUrl(':activityId')}`, () => {
   return HttpResponse.json(
     { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
     { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
@@ -176,6 +195,7 @@ export const staffCreateDraftFromActivityUrl = http.post(
 )
 
 export const staffsActivitiesHandlers = [
+  getActivityDashboardHandler,
   http.get(
     `*${getGetActivityContentUrl(':status' as EActivityStatus, ':activityId')}`,
     ({ request }) => {

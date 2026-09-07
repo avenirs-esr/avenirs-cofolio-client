@@ -1,5 +1,6 @@
 import type {
   ActivityContentDTO,
+  ActivityDashboardDTO,
   ActivityDraftCreationResponse,
   ActivityDraftUpdateResponse,
   ActivityStaffOverviewDTO,
@@ -266,4 +267,22 @@ export function createMockedBannerUploadResponse (activityId: string, file: File
     url: 'exemple.com/image',
     uploadedAt: '2024-01-15T10:30:00'
   }
+}
+
+export const mockedActivityDashboard: ActivityDashboardDTO = {
+  uniqueStudentViews: 128,
+  enrolledStudents: 42,
+  unsubscriptionsLast30Days: 3,
+}
+
+export const mockedEmptyActivityDashboard: ActivityDashboardDTO = {
+  uniqueStudentViews: 0,
+  enrolledStudents: 0,
+  unsubscriptionsLast30Days: 0,
+}
+
+export function getMockedActivityDashboard (activityId?: string): ActivityDashboardDTO {
+  return activityId === ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID
+    ? mockedEmptyActivityDashboard
+    : mockedActivityDashboard
 }
