@@ -222,6 +222,13 @@ export const associateDeclaredSkillWithTracesHandler = http.post<
   }
 )
 
+export const skillConfigErrorHandler = http.get<PathParams, AdditionalSkillConfigurationDTO>(`*${getGetAdditionalSkillConfigUrl()}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+    { status: 500 }
+  )
+})
+
 export const skillsHandlers = [
   http.get<PathParams, PagedResponseDeclaredSkillProgressDTO>(`*${getGetDeclaredSkillsProgressesUrl()}`, ({ request }) => {
     const url = new URL(request.url)

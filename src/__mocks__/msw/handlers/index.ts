@@ -1,4 +1,5 @@
 import { filesHandlers } from '@/__mocks__/msw/handlers/shared/files.handlers'
+import { genericHandlers } from '@/__mocks__/msw/handlers/shared/generic.handlers'
 import { notificationsHandlers } from '@/__mocks__/msw/handlers/shared/notifications.handlers'
 import { staffsActivitiesHandlers } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { feedbacksHandlers } from '@/__mocks__/msw/handlers/staffs/feedbacks.handlers'
@@ -35,4 +36,5 @@ export const handlers = [
   ...tracesHandlers,
   ...activitiesHandlers,
   ...overviewsHandlers,
+  ...genericHandlers,
 ]
