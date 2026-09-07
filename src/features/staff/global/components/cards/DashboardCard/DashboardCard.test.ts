@@ -1,6 +1,6 @@
 import DashboardCard, {
   type DashboardCardProps
-} from '@/common/components/cards/DashboardCard/DashboardCard.vue'
+} from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'
 import { AvCardStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'

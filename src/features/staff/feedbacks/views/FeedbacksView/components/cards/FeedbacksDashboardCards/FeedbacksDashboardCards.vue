@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ActivityItemNavigationDTO } from '@/api/avenir-esr'
-import DashboardCard from '@/common/components/cards/DashboardCard/DashboardCard.vue'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
+import DashboardCard from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'
 import { MDI_ICONS, MS_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
