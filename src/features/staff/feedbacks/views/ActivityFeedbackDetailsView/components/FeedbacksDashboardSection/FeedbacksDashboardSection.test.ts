@@ -3,11 +3,9 @@ import { mockedActivityContentWithEnrolledStudent1 } from '@/__mocks__/fixtures/
 import { getMockedFeedbackDashboard } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import { getFeedbackDashboardErrorHandler } from '@/__mocks__/msw/handlers/staffs/feedbacks.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
-import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { DashboardCardStub } from '@/common/components/cards/DashboardCard/DashboardCard.stub'
+import { DashboardSectionStub } from '@/common/components/DashboardSection/DashboardSection.stub'
 import FeedbacksDashboardSection from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/FeedbacksDashboardSection/FeedbacksDashboardSection.vue'
-import { DashboardCardStub } from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.stub'
-import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -17,9 +15,8 @@ BddTest().given('a FeedbacksDashboardSection component', () => {
   let wrapper: VueWrapper<InstanceType<typeof FeedbacksDashboardSection>>
 
   const stubs = {
-    QuerySuspense: QuerySuspenseStub,
+    DashboardSection: DashboardSectionStub,
     DashboardCard: DashboardCardStub,
-    IconTitleCardContainer: IconTitleCardContainerStub,
   }
 
   beforeEach(() => {
@@ -37,17 +34,16 @@ BddTest().given('a FeedbacksDashboardSection component', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should render IconTitleCardContainer with the expected icon', () => {
-      const container = wrapper.findComponent(IconTitleCardContainerStub)
-      expect(container.exists()).toBe(true)
-      expect(container.props('titleIcon')).toBe(RI_ICONS.DASHBOARD_2_LINE)
+    BddTest().then('it should render DashboardSection with the expected title', () => {
+      const section = wrapper.findComponent(DashboardSectionStub)
+      expect(section.exists()).toBe(true)
+      expect(section.props('title')).toBe('Tableau de bord')
     })
 
-    BddTest().then('it should pass loading and error state to QuerySuspense', () => {
-      const querySuspense = wrapper.findComponent(QuerySuspenseStub)
-      expect(querySuspense.exists()).toBe(true)
-      expect(querySuspense.props('isLoading')).toBe(false)
-      expect(querySuspense.props('error')).toBeNull()
+    BddTest().then('it should pass loading and error state to DashboardSection', () => {
+      const section = wrapper.findComponent(DashboardSectionStub)
+      expect(section.props('isLoading')).toBe(false)
+      expect(section.props('error')).toBeNull()
     })
 
     BddTest().then('it should render three DashboardCard components', () => {
@@ -98,10 +94,10 @@ BddTest().given('a FeedbacksDashboardSection component', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should pass an error to QuerySuspense', () => {
-      const querySuspense = wrapper.findComponent(QuerySuspenseStub)
-      expect(querySuspense.props('isLoading')).toBe(false)
-      expect(querySuspense.props('error')).toBeTruthy()
+    BddTest().then('it should pass an error to DashboardSection', () => {
+      const section = wrapper.findComponent(DashboardSectionStub)
+      expect(section.props('isLoading')).toBe(false)
+      expect(section.props('error')).toBeTruthy()
     })
 
     BddTest().then('it should not render dashboard cards in error state', () => {

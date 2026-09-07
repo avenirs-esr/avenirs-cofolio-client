@@ -1,17 +1,16 @@
 <script lang="ts" setup>
 import { useGetFeedbackDashboard } from '@/api/avenir-esr'
-import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import DashboardCard from '@/common/components/cards/DashboardCard/DashboardCard.vue'
+import DashboardSection from '@/common/components/DashboardSection/DashboardSection.vue'
 import { ICONS } from '@/common/constants'
-import DashboardCard from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'
-import { MDI_ICONS, MS_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export interface DashboardSectionProps {
+export interface FeedbacksDashboardSectionProps {
   activityId: string
 }
 
-const { activityId } = defineProps<DashboardSectionProps>()
+const { activityId } = defineProps<FeedbacksDashboardSectionProps>()
 
 const { t } = useI18n()
 
@@ -23,35 +22,29 @@ const { data: feedbackDashboard, isLoading, error } = useGetFeedbackDashboard({ 
 </script>
 
 <template>
-  <IconTitleCardContainer
-    :title-icon="RI_ICONS.DASHBOARD_2_LINE"
+  <DashboardSection
     :title="t('staff.feedbacks.views.ActivityFeedbacksView.FeedbacksDashboardSection.title')"
+    :is-loading="isLoading"
+    :error="error"
     data-testid="feedbacks-dashboard-section"
   >
-    <QuerySuspense
-      :is-loading="isLoading"
-      :error="error"
-    >
-      <div class="av-row av-wrap av-w-full av-gap-sm">
-        <DashboardCard
-          :label="t('staff.feedbacks.views.ActivityFeedbacksView.FeedbacksDashboardSection.new', { count: feedbackDashboard?.newFeedbacks ?? 0 })"
-          :icon="MS_ICONS.FEEDBACK"
-          :value="`${feedbackDashboard?.newFeedbacks ?? 0}`"
-          data-testid="new-feedbacks-dashboard-card"
-        />
-        <DashboardCard
-          :label="t('staff.feedbacks.views.ActivityFeedbacksView.FeedbacksDashboardSection.pending', { count: feedbackDashboard?.pendingFeedbacks ?? 0 })"
-          :icon="ICONS.FEEDBACK"
-          :value="`${feedbackDashboard?.pendingFeedbacks ?? 0}`"
-          data-testid="pending-feedbacks-dashboard-card"
-        />
-        <DashboardCard
-          :label="t('staff.feedbacks.views.ActivityFeedbacksView.FeedbacksDashboardSection.sent', { count: feedbackDashboard?.processedFeedbacks ?? 0 })"
-          :icon="MDI_ICONS.CHECK_CIRCLE"
-          :value="`${feedbackDashboard?.processedFeedbacks ?? 0}/${feedbackDashboard?.totalFeedbacks ?? 0}`"
-          data-testid="processed-feedbacks-dashboard-card"
-        />
-      </div>
-    </QuerySuspense>
-  </IconTitleCardContainer>
+    <DashboardCard
+      :label="t('staff.feedbacks.views.ActivityFeedbacksView.FeedbacksDashboardSection.new', { count: feedbackDashboard?.newFeedbacks ?? 0 })"
+      :icon="MS_ICONS.FEEDBACK"
+      :value="`${feedbackDashboard?.newFeedbacks ?? 0}`"
+      data-testid="new-feedbacks-dashboard-card"
+    />
+    <DashboardCard
+      :label="t('staff.feedbacks.views.ActivityFeedbacksView.FeedbacksDashboardSection.pending', { count: feedbackDashboard?.pendingFeedbacks ?? 0 })"
+      :icon="ICONS.FEEDBACK"
+      :value="`${feedbackDashboard?.pendingFeedbacks ?? 0}`"
+      data-testid="pending-feedbacks-dashboard-card"
+    />
+    <DashboardCard
+      :label="t('staff.feedbacks.views.ActivityFeedbacksView.FeedbacksDashboardSection.sent', { count: feedbackDashboard?.processedFeedbacks ?? 0 })"
+      :icon="MDI_ICONS.CHECK_CIRCLE"
+      :value="`${feedbackDashboard?.processedFeedbacks ?? 0}/${feedbackDashboard?.totalFeedbacks ?? 0}`"
+      data-testid="processed-feedbacks-dashboard-card"
+    />
+  </DashboardSection>
 </template>
