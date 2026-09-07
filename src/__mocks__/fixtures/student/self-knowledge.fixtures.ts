@@ -143,3 +143,15 @@ export const mockedSelfKnowledgeCategoriesAvailable: SelfKnowledgeCategoryDTO[] 
   ESelfKnowledgeCategory.OBLIGATIONS,
   ESelfKnowledgeCategory.TESTIMONIALS
 ].map(type => ({ type, mandatory: false }))
+
+export function createMixedCategoriesResponse (categories: ESelfKnowledgeCategory[]): PagedResponseSelfKnowledgeElementViewDTO {
+  return {
+    data: categories.map((type, index) => ({
+      id: `element-${index}`,
+      title: `Élément ${index}`,
+      description: `Description ${index}`,
+      category: { type, mandatory: true }
+    })),
+    page: { page: 0, pageSize: 100, totalElements: categories.length, totalPages: 1 }
+  }
+}

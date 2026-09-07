@@ -20,7 +20,7 @@ export const declaredProgramViewDTOFixture: DeclaredProgramDetailedDTO = {
   updatedAt: '2024-01-15T10:30:00Z'
 }
 
-function createMockedDeclaredPrograms (count: number): DeclaredProgramViewDTO[] {
+function createMockedDeclaredPrograms (count: number, withoutStartDate = false): DeclaredProgramViewDTO[] {
   const programs: DeclaredProgramViewDTO[] = []
 
   for (let i = 1; i <= count; i++) {
@@ -29,7 +29,7 @@ function createMockedDeclaredPrograms (count: number): DeclaredProgramViewDTO[] 
       title: `Formation déclarée ${i}`,
       organization: `Établissement ${i}`,
       description: i % 2 === 0 ? `Description de la formation ${i}` : undefined,
-      startDate: '2023-01-01',
+      startDate: withoutStartDate ? undefined : '2023-01-01',
       endDate: i % 3 === 0 ? undefined : '2025-06-01',
       status: i % 3 === 0 ? EProgramStatus.COMPLETED : i % 3 === 1 ? EProgramStatus.IN_PROGRESS : EProgramStatus.NOT_STARTED,
       valorized: false,
@@ -40,7 +40,9 @@ function createMockedDeclaredPrograms (count: number): DeclaredProgramViewDTO[] 
   return programs
 }
 
-export const mockedDeclaredPrograms: DeclaredProgramViewDTO[] = createMockedDeclaredPrograms(60)
+export const mockedDeclaredPrograms: DeclaredProgramViewDTO[] = createMockedDeclaredPrograms(60, false)
+
+export const mockedDeclaredProgramsWithoutStartDate: DeclaredProgramViewDTO[] = createMockedDeclaredPrograms(60, true)
 
 export function searchDeclaredProgramsById (
   id: string

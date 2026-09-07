@@ -3,6 +3,7 @@ import {
   createUpdatedPhotoMock,
   createUpdatedProfileMock,
   invalidProfile,
+  mockedEmptyProfileOverview,
   mockedProfileOverview
 } from '@/__mocks__/fixtures/student'
 import { isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
@@ -69,6 +70,15 @@ export const putUpdateProfilePhotoErrorHandler = http.post(`*${getUploadProfileP
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500 }
   )
+})
+
+export const getEmptyProfileHandler = http.get(`*${getGetProfileUrl(EUserCategory.STUDENT)}`, () => {
+  return HttpResponse.json<ProfileOverviewDTO>(mockedEmptyProfileOverview, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
 })
 
 export const getProfileErrorHandler = http.get(`*${getGetProfileUrl(EUserCategory.STUDENT)}`, () => {

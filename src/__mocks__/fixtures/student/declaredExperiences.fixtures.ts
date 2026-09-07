@@ -31,7 +31,7 @@ export const declaredExperienceViewDTOFixture: DeclaredExperienceViewDTO = {
   }
 }
 
-function createMockedDeclaredExperiences (count: number): DeclaredExperienceViewDTO[] {
+export function createMockedDeclaredExperiences (count: number, withoutDescription = false): DeclaredExperienceViewDTO[] {
   const experiencesExample = [
     { title: 'Développeur Junior', experienceType: EExperienceType.PROFESSIONAL, location: 'La Poste', description: 'Développement et maintenance d\'applications internes en équipe agile.' },
     { title: 'Assistant Marketing', experienceType: EExperienceType.PROFESSIONAL, location: 'Les Subsistances, Lyon', description: 'Gestion des réseaux sociaux et création de supports de communication.' },
@@ -49,7 +49,7 @@ function createMockedDeclaredExperiences (count: number): DeclaredExperienceView
       experienceType: experience.experienceType,
       organization: `Organization ${i}`,
       location: experience.location,
-      description: experience.description,
+      description: withoutDescription ? undefined : experience.description,
       startDate: '2023-01',
       createdAt: '2024-01-15T10:30:00Z',
       updatedAt: '2024-01-15T10:30:00Z',

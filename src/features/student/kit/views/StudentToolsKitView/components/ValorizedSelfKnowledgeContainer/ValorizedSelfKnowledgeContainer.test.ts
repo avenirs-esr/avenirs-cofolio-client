@@ -1,5 +1,5 @@
-import type { GetSelfKnowledgeElementsParams, PagedResponseSelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
-import { createMockedPagedResponseSelfKnowledgeElementViewDTO } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
+import type { GetSelfKnowledgeElementsParams } from '@/api/avenir-esr'
+import { createMixedCategoriesResponse, createMockedPagedResponseSelfKnowledgeElementViewDTO } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { createSelfKnowledgeElementsHandler, selfKnowledgeCategoryElementsErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
@@ -22,18 +22,6 @@ const otherCategories = [
   ESelfKnowledgeCategory.OBLIGATIONS,
   ESelfKnowledgeCategory.TESTIMONIALS
 ]
-
-function createMixedCategoriesResponse (categories: ESelfKnowledgeCategory[]): PagedResponseSelfKnowledgeElementViewDTO {
-  return {
-    data: categories.map((type, index) => ({
-      id: `element-${index}`,
-      title: `Élément ${index}`,
-      description: `Description ${index}`,
-      category: { type, mandatory: true }
-    })),
-    page: { page: 0, pageSize: 100, totalElements: categories.length, totalPages: 1 }
-  }
-}
 
 BddTest().given('a valorized self knowledge container', () => {
   let wrapper: VueWrapper<InstanceType<typeof ValorizedSelfKnowledgeContainer>>
