@@ -19,6 +19,8 @@ import {
 import {
   NationalActivityContentTabStub
 } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.stub'
+import { NationalActivityCatalogTabs }
+  from '@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.types'
 import NationalActivityCatalogView from '@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.vue'
 import { AvButtonStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -38,12 +40,6 @@ vi.mock('@/common/composables/use-navigation/use-navigation', () => ({
     navigateToStaffActivitiesEditNationalActivity: mockNavigateToStaffActivitiesEditNationalActivity,
   }),
 }))
-
-enum NationalActivityCatalogTabs {
-  CONTENT = 0,
-  PREVIEW = 1,
-  KEY_FIGURES = 2,
-}
 
 function mockActiveTab (tab: NationalActivityCatalogTabs) {
   const activeTab = ref<string | number>(tab)

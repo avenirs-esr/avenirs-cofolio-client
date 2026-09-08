@@ -14,6 +14,8 @@ import NationalActivityCatalogPreviewTab
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.vue'
 import NationalActivityContentTab
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.vue'
+import { NationalActivityCatalogTabs }
+  from '@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.types'
 import { AvButton, AvTab, AvTabs, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -39,12 +41,6 @@ const isDraft = computed(() => status === EActivityStatus.DRAFT)
 const { showModal: showDeleteConfirmation, displayModal: displayDeleteConfirmation, hideModal: hideDeleteConfirmation } = useModal()
 
 const { navigateToStaffActivities, navigateToStaffActivitiesEditNationalActivity } = useNavigation()
-
-enum NationalActivityCatalogTabs {
-  CONTENT = 0,
-  PREVIEW = 1,
-  KEY_FIGURES = 2,
-}
 
 const activeTab = useEnumRouteQuery('tab', NationalActivityCatalogTabs, NationalActivityCatalogTabs.CONTENT)
 
