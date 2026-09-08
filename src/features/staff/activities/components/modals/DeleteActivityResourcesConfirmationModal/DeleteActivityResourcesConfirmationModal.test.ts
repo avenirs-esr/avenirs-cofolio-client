@@ -34,7 +34,7 @@ BddTest().given('a DeleteActivityResourcesConfirmationModal component', () => {
     })
 
     BddTest().then('it should pass isLoading=false to ConfirmationModal', () => {
-      expect(getModal().vm.$attrs['is-loading']).toBe(false)
+      expect(getModal().props('isLoading')).toBe(false)
     })
 
     BddTest().then('it should display the singular title', () => {
@@ -91,7 +91,7 @@ BddTest().given('a DeleteActivityResourcesConfirmationModal component', () => {
     })
 
     BddTest().then('it should pass isLoading=true to ConfirmationModal', () => {
-      expect(getModal().vm.$attrs['is-loading']).toBe(true)
+      expect(getModal().props('isLoading')).toBe(true)
     })
   })
 

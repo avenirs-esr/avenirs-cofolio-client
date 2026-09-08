@@ -8,7 +8,8 @@ export const ConfirmationModalStub = defineComponent({
     closeButtonLabel: String,
     confirmButtonLabel: String,
     confirmButtonIcon: String,
-    confirmButtonDisabled: Boolean
+    confirmButtonDisabled: Boolean,
+    isLoading: Boolean
   },
   emits: ['close', 'confirm'],
   template: `

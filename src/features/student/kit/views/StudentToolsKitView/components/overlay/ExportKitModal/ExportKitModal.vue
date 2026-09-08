@@ -1,0 +1,117 @@
+<script lang="ts" setup>
+import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import Input from '@/common/components/interaction/inputs/Input/Input.vue'
+import { useExportKit } from '@/features/student/kit/composables/use-export-kit/use-export-kit'
+import { KIT_NAME_MAX_LENGTH } from '@/features/student/kit/config'
+import { canExportKit } from '@/features/student/kit/rules/export-kit.rules'
+import {
+  ExportKitOptions,
+  useExportKitForm,
+  type UseExportKitFormData
+} from '@/features/student/kit/views/StudentToolsKitView/composables/use-export-kit-form/use-export-kit-form'
+import { useToasterStore } from '@/store'
+import { AvCheckbox, AvCheckboxesGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { markRaw } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+export interface ExportKitModalProps {
+  opened: boolean
+}
+
+defineProps<ExportKitModalProps>()
+
+const emit = defineEmits<{
+  (e: 'close'): void
+}>()
+
+const { t } = useI18n()
+const { addSuccessMessage } = useToasterStore()
+const { generateKitDocx, isLoading: isUseExportKitLoading } = useExportKit()
+
+async function exportKit ({ exportOptions, kitName }: UseExportKitFormData) {
+  if (exportOptions.includes(ExportKitOptions.TEXT_CONTENT)) {
+    await generateKitDocx(kitName)
+    addSuccessMessage(t('student.kit.views.StudentToolsKitView.overlay.ExportKitModal.success'))
+  }
+  closeModal()
+}
+
+const {
+  form,
+  isFormValid,
+  resetForm
+} = useExportKitForm(values => exportKit(values))
+const FormField = markRaw(form.Field)
+
+const isLoading = computed(() => isUseExportKitLoading.value)
+
+function closeModal () {
+  resetForm()
+  emit('close')
+}
+</script>
+
+<template>
+  <ConfirmationModal
+    :show="opened"
+    :confirm-button-label="t('global.buttons.export')"
+    :confirm-button-disabled="!isFormValid || !canExportKit(form.state.values)"
+    :confirm-button-icon="MDI_ICONS.DOWNLOAD_OUTLINE"
+    :is-loading="isLoading"
+    @close="closeModal"
+    @confirm="form.handleSubmit()"
+  >
+    <template #header>
+      <span class="b1-bold">
+        {{ t('student.kit.views.StudentToolsKitView.overlay.ExportKitModal.title') }}
+      </span>
+    </template>
+
+    <form
+      id="profile-form"
+      @submit.prevent.stop="form.handleSubmit"
+    >
+      <div class="av-col av-gap-xs">
+        <FormField name="exportOptions">
+          <template #default="{ field }">
+            <AvCheckboxesGroup
+              :legend="t('student.kit.views.StudentToolsKitView.overlay.ExportKitModal.exportOptions.label')"
+              :error-message="field.state.meta.errors.join(', ')"
+            >
+              <AvCheckbox
+                :model-value="field.state.value"
+                name="exportOptions"
+                :value="ExportKitOptions.TEXT_CONTENT"
+                :label="t('student.kit.views.StudentToolsKitView.overlay.ExportKitModal.exportOptions.textContent')"
+                data-testid="text-content-checkbox"
+                @update:model-value="(value) => field.handleChange(value as ExportKitOptions[])"
+              />
+              <AvCheckbox
+                :model-value="field.state.value"
+                name="exportOptions"
+                :value="ExportKitOptions.MEDIA_CONTENT"
+                :label="t('student.kit.views.StudentToolsKitView.overlay.ExportKitModal.exportOptions.mediaContent')"
+                data-testid="media-content-checkbox"
+                @update:model-value="(value) => field.handleChange(value as ExportKitOptions[])"
+              />
+            </AvCheckboxesGroup>
+          </template>
+        </FormField>
+        <FormField name="kitName">
+          <template #default="{ field }">
+            <Input
+              :model-value="field.state.value"
+              :error-message="field.state.meta.errors.join(', ')"
+              label-visible
+              :label="t('student.kit.views.StudentToolsKitView.overlay.ExportKitModal.kitName.label')"
+              :placeholder="t('student.kit.views.StudentToolsKitView.overlay.ExportKitModal.kitName.placeholder')"
+              :maxlength="KIT_NAME_MAX_LENGTH"
+              data-testid="kit-name-input"
+              @update:model-value="(value) => field.handleChange(String(value))"
+            />
+          </template>
+        </FormField>
+      </div>
+    </form>
+  </ConfirmationModal>
+</template>

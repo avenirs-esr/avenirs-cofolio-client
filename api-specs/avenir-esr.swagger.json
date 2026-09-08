@@ -3092,6 +3092,26 @@
         }
       }
     },
+    "/me/kit/download-media": {
+      "get": {
+        "tags": [
+          "kit-controller"
+        ],
+        "operationId": "downloadMedia",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/StreamingResponseBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/declared/skill-progress/{declaredSkillProgressId}/associations": {
       "get": {
         "tags": [
@@ -7698,6 +7718,9 @@
           "page"
         ]
       },
+      "StreamingResponseBody": {
+        "type": "object"
+      },
       "PagedResponseDeclaredSkillProgressDTO": {
         "type": "object",
         "properties": {
@@ -8510,12 +8533,14 @@
           "DECLARED_ACTIVITY_ALREADY_FINISHED",
           "DECLARED_ACTIVITY_HAS_NOT_STARTED",
           "DECLARED_ACTIVITY_LOCKED",
+          "DECLARED_ACTIVITY_UNSUBSCRIBED",
           "ASSOCIATION_ALREADY_EXIST",
           "INSTITUTION_HAI_ALREADY_EXISTS",
           "GROUP_ID_SI_SCO_ALREADY_EXISTS",
           "MAX_FILE_SIZE_EXCEEDED",
           "FILE_STORAGE_ERROR",
           "CONFIGURATION_ERROR",
+          "KIT_DOWNLOAD_MEDIA_FAILED",
           "DEPENDENCY_CHECK_TIMEOUT",
           "DEPENDENCY_CHECK_FAILED",
           "WRONG_CLASS_TYPE",

@@ -100,6 +100,13 @@ BddTest().given('a form validators composable', () => {
   })
 
   BddTest().when('validating required field', () => {
+    BddTest().and('the value is empty array', () => {
+      BddTest().then('it should return required error', () => {
+        const error = composableResult.validateRequired([])
+        expect(error).toBe('Ce champ est requis.')
+      })
+    })
+
     BddTest().and('the value is empty string', () => {
       BddTest().then('it should return required error', () => {
         const error = composableResult.validateRequired('')
@@ -124,6 +131,13 @@ BddTest().given('a form validators composable', () => {
     BddTest().and('the value is valid', () => {
       BddTest().then('it should return undefined', () => {
         const error = composableResult.validateRequired('Valid value')
+        expect(error).toBeUndefined()
+      })
+    })
+
+    BddTest().and('the value is a valid array', () => {
+      BddTest().then('it should return undefined', () => {
+        const error = composableResult.validateRequired(['Valid value'])
         expect(error).toBeUndefined()
       })
     })
