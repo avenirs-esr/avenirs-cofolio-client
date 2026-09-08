@@ -269,20 +269,12 @@ export function createMockedBannerUploadResponse (activityId: string, file: File
   }
 }
 
-export const mockedActivityDashboard: ActivityDashboardDTO = {
-  uniqueStudentViews: 128,
-  enrolledStudents: 42,
-  unsubscriptionsLast30Days: 3,
+export function getMockedActivityDashboard (
+  uniqueStudentViews: number,
+  enrolledStudents: number,
+  unsubscriptionsLast30Days: number
+): ActivityDashboardDTO {
+  return { uniqueStudentViews, enrolledStudents, unsubscriptionsLast30Days }
 }
 
-export const mockedEmptyActivityDashboard: ActivityDashboardDTO = {
-  uniqueStudentViews: 0,
-  enrolledStudents: 0,
-  unsubscriptionsLast30Days: 0,
-}
-
-export function getMockedActivityDashboard (activityId?: string): ActivityDashboardDTO {
-  return activityId === ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID
-    ? mockedEmptyActivityDashboard
-    : mockedActivityDashboard
-}
+export const mockedActivityDashboard = getMockedActivityDashboard(128, 42, 3)

@@ -1,7 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID, mockedActivityContent, mockedActivityDashboard } from '@/__mocks__/fixtures/staffs/activities.fixtures'
-import { getActivityDashboardErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
-import { server } from '@/__mocks__/msw/server'
 import ActivityDashboardSection
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/ActivityDashboardSection.vue'
 import { DashboardCardStub } from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.stub'
@@ -40,7 +38,7 @@ BddTest().given('an ActivityDashboardSection component', () => {
       expect(section.props('title')).toBe('Tableau de bord')
     })
 
-    BddTest().then('it should pass loading and error state to DashboardSection', () => {
+    BddTest().then('it should pass correct loading and error states to DashboardSection', () => {
       const section = wrapper.findComponent(DashboardSectionStub)
       expect(section.props('isLoading')).toBe(false)
       expect(section.props('error')).toBeNull()
@@ -53,13 +51,13 @@ BddTest().given('an ActivityDashboardSection component', () => {
     BddTest().then('it should pass the unique student views to the first card', () => {
       const card = wrapper.findAllComponents(DashboardCardStub)[0]
       expect(card.props('value')).toBe(`${mockedActivityDashboard.uniqueStudentViews}`)
-      expect(card.props('label')).toBe('étudiants ayant consulté l\'activité')
+      expect(card.props('label')).toBe('étudiant(e)s ayant consulté l\'activité')
     })
 
     BddTest().then('it should pass the enrolled students to the second card', () => {
       const card = wrapper.findAllComponents(DashboardCardStub)[1]
       expect(card.props('value')).toBe(`${mockedActivityDashboard.enrolledStudents}`)
-      expect(card.props('label')).toBe('étudiants inscrits')
+      expect(card.props('label')).toBe('étudiant(e)s inscrit(e)s')
     })
 
     BddTest().then('it should pass the unsubscriptions of the last 30 days to the third card', () => {
@@ -94,10 +92,9 @@ BddTest().given('an ActivityDashboardSection component', () => {
     })
   })
 
-  BddTest().when('the dashboard request fails', () => {
+  BddTest().when('mounted with an invalid activity id', () => {
     beforeEach(async () => {
-      server.use(getActivityDashboardErrorHandler)
-      wrapper = mountSection(mockedActivityContent.id)
+      wrapper = mountSection('INVALID_ACTIVITY_ID')
       await flushPromises()
     })
 

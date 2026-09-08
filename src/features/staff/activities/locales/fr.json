@@ -83,9 +83,9 @@
         },
         "NationalActivityCatalogView": {
           "ActivityDashboardSection": {
-            "enrolledStudents": "étudiant inscrit | étudiants inscrits",
+            "enrolledStudents": "étudiant(e) inscrit(e) | étudiant(e)s inscrit(e)s",
             "title": "Tableau de bord",
-            "uniqueStudentViews": "étudiant ayant consulté l'activité | étudiants ayant consulté l'activité",
+            "uniqueStudentViews": "étudiant(e) ayant consulté l'activité | étudiant(e)s ayant consulté l'activité",
             "unsubscriptionsLast30Days": "désinscription sur les 30 derniers jours | désinscriptions sur les 30 derniers jours"
           },
           "errors": {

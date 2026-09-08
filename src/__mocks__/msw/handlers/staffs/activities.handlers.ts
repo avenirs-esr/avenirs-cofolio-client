@@ -12,6 +12,7 @@ import type {
 } from '@/api/avenir-esr'
 import { getMockedActivitiesWithFeedbacksPaginated } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
 import {
+  ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID,
   createMockedBannerUploadResponse,
   createMockedPagedResponseActivityStaffOverviewDTO,
   getMockedActivityDashboard,
@@ -19,6 +20,7 @@ import {
   mockedActivityContentWithEnrolledStudent1,
   mockedActivityContentWithFileAndLink,
   mockedActivityContentWithoutEnrolledStudent,
+  mockedActivityDashboard,
   mockedActivityDraftCreationResponse,
   mockedActivityDraftUpdateResponse
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
@@ -68,19 +70,23 @@ export const getPublishedActivityContentErrorHandler = http.get(`*${getGetActivi
 })
 
 export const getActivityDashboardHandler = http.get(`*${getGetActivityDashboardUrl(':activityId')}`, ({ params }) => {
-  const mockData = getMockedActivityDashboard(params.activityId as string)
+  const { activityId } = params
+
+  if (activityId === 'INVALID_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
+      { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  const mockData = activityId === ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID
+    ? getMockedActivityDashboard(0, 0, 0)
+    : mockedActivityDashboard
 
   return HttpResponse.json<ActivityDashboardDTO>(mockData, {
     status: HttpStatusCode.OK,
     headers: { 'Content-Type': 'application/json' },
   })
-})
-
-export const getActivityDashboardErrorHandler = http.get(`*${getGetActivityDashboardUrl(':activityId')}`, () => {
-  return HttpResponse.json(
-    { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
-    { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
-  )
 })
 
 export const getStaffActivityWorkingSpaceOverviewHandler = http.get(`*${getGetStaffActivityWorkingSpaceUrl()}`, ({ request }) => {
