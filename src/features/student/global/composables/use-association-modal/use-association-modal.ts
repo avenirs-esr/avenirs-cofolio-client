@@ -11,9 +11,9 @@ export function useAssociationModal<T extends AvAutocompleteOption = AvAutocompl
   const { getErrorMessage } = useApiErrors()
   const { addErrorMessage } = useToasterStore()
   const {
-    showModal: showConfirmModal,
-    displayModal: displayConfirmModal,
-    hideModal: hideConfirmModal
+    modalOpened: confirmModalOpened,
+    openModal: openConfirmModal,
+    closeModal: closeConfirmModal
   } = useModal()
 
   const searchQuery = ref('')
@@ -59,9 +59,9 @@ export function useAssociationModal<T extends AvAutocompleteOption = AvAutocompl
     searchQuery,
     selectedOptions,
     selectedAssociations,
-    showConfirmModal,
-    displayConfirmModal,
-    hideConfirmModal,
+    confirmModalOpened,
+    openConfirmModal,
+    closeConfirmModal,
     onSearch,
     onDeleteItem,
     listenAndDisplayToastOnSearchError,

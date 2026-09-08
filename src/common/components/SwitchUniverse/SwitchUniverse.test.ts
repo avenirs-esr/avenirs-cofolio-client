@@ -5,18 +5,18 @@ import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { type RouteLocationNormalizedLoadedGeneric, useRoute } from 'vue-router'
 
-const mockShowModal = ref(false)
-const mockDisplayModal = vi.fn()
-const mockHideModal = vi.fn()
+const mockModalOpened = ref(false)
+const mockOpenModal = vi.fn()
+const mockCloseModal = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
   return {
     ...actual,
     useModal: () => ({
-      showModal: mockShowModal,
-      displayModal: mockDisplayModal,
-      hideModal: mockHideModal
+      modalOpened: mockModalOpened,
+      openModal: mockOpenModal,
+      closeModal: mockCloseModal
     }),
   }
 })
@@ -60,13 +60,13 @@ BddTest().given('a universe switcher', () => {
       BddTest().then('it should display the modal', async () => {
         const button = wrapper.find('button')
         await button.trigger('click')
-        expect(mockDisplayModal).toHaveBeenCalled()
+        expect(mockOpenModal).toHaveBeenCalled()
       })
     })
 
     BddTest().when('clicking the staff button in modal', () => {
       beforeEach(async () => {
-        mockShowModal.value = true
+        mockModalOpened.value = true
         await wrapper.vm.$nextTick()
       })
 
@@ -75,16 +75,16 @@ BddTest().given('a universe switcher', () => {
         expect(getStaffButton().attributes('href')).toBeDefined()
       })
 
-      BddTest().then('it should not trigger hideModal on click because link mode does not emit click', async () => {
+      BddTest().then('it should not trigger closeModal on click because link mode does not emit click', async () => {
         await getStaffButton().trigger('click')
 
-        expect(mockHideModal).not.toHaveBeenCalled()
+        expect(mockCloseModal).not.toHaveBeenCalled()
       })
     })
 
     BddTest().when('clicking the student button in modal', () => {
       beforeEach(async () => {
-        mockShowModal.value = true
+        mockModalOpened.value = true
         await wrapper.vm.$nextTick()
       })
 
@@ -95,7 +95,7 @@ BddTest().given('a universe switcher', () => {
       BddTest().then('it should hide the modal when clicking student button', async () => {
         await getStudentButton().trigger('click')
 
-        expect(mockHideModal).toHaveBeenCalled()
+        expect(mockCloseModal).toHaveBeenCalled()
       })
     })
   })
@@ -117,7 +117,7 @@ BddTest().given('a universe switcher', () => {
 
     BddTest().when('clicking the student button in modal', () => {
       beforeEach(async () => {
-        mockShowModal.value = true
+        mockModalOpened.value = true
         await wrapper.vm.$nextTick()
       })
 
@@ -126,16 +126,16 @@ BddTest().given('a universe switcher', () => {
         expect(getStudentButton().attributes('href')).toBeDefined()
       })
 
-      BddTest().then('it should not trigger hideModal on click because link mode does not emit click', async () => {
+      BddTest().then('it should not trigger closeModal on click because link mode does not emit click', async () => {
         await getStudentButton().trigger('click')
 
-        expect(mockHideModal).not.toHaveBeenCalled()
+        expect(mockCloseModal).not.toHaveBeenCalled()
       })
     })
 
     BddTest().when('clicking the staff button in modal', () => {
       beforeEach(async () => {
-        mockShowModal.value = true
+        mockModalOpened.value = true
         await wrapper.vm.$nextTick()
       })
 

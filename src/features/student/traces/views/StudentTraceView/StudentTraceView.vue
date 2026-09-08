@@ -28,9 +28,9 @@ const { addErrorMessage } = useToasterStore()
 const { t } = useI18n()
 
 const {
-  showModal: showDeleteModal,
-  displayModal: displayDeleteModal,
-  hideModal: hideDeleteModal
+  modalOpened: deleteModalOpened,
+  openModal: openDeleteModal,
+  closeModal: closeDeleteModal
 } = useModal()
 
 const { data: traceDetailed, error: traceDetailsError, isLoading } = useGetTraceDetail(traceId)
@@ -67,15 +67,15 @@ function downloadAttachment (traceId: string) {
 }
 
 const {
-  showModal: showAssociateModal,
-  displayModal: displayAssociateModal,
-  hideModal: hideAssociateModal
+  modalOpened: associateModalOpened,
+  openModal: openAssociateModal,
+  closeModal: closeAssociateModal
 } = useModal()
 
 const activeTab = ref(0)
 
 function onDeleteTraceSuccess () {
-  hideDeleteModal()
+  closeDeleteModal()
   navigateToStudentTraces({ replace: true })
 }
 
@@ -129,8 +129,8 @@ const breadcrumbLinks = computed(() =>
       <div class="av-row av-justify-end av-pb-md">
         <TraceSettingsDropdown
           :download-disabled="!traceDetailed.attachment"
-          @delete-selected="displayDeleteModal"
-          @associate-selected="displayAssociateModal"
+          @delete-selected="openDeleteModal"
+          @associate-selected="openAssociateModal"
           @update-selected="handleUpdateTrace"
           @download-selected="downloadAttachment(traceDetailed.id)"
         />
@@ -175,18 +175,18 @@ const breadcrumbLinks = computed(() =>
       </AvTabs>
 
       <AssociateDeclaredSkillsToTracesModal
-        :show="showAssociateModal"
+        :opened="associateModalOpened"
         :trace-id="traceDetailed.id"
-        @cancel="hideAssociateModal"
-        @associated="hideAssociateModal"
+        @cancel="closeAssociateModal"
+        @associated="closeAssociateModal"
       />
 
       <TraceDeletionConfirmationModal
         :trace-ids="selectedTraceIdsForDeletion"
         :title="traceDetailed.title"
-        :show="showDeleteModal"
+        :opened="deleteModalOpened"
         :on-confirm-delete="onDeleteTraceSuccess"
-        :on-close="hideDeleteModal"
+        :on-close="closeDeleteModal"
       />
     </div>
   </Loader>

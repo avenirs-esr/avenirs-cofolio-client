@@ -9,7 +9,7 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteSelfKnowledgeCategoryModalProps {
-  show: boolean
+  opened: boolean
   categoryTitle: string
   categoryType: ESelfKnowledgeCategory
   elementsCount: number
@@ -46,7 +46,7 @@ function removeSelfKnowledgeCategory () {
 
 <template>
   <AvModal
-    :opened="show"
+    :opened="opened"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('global.buttons.confirm')"
     :confirm-button-icon="MDI_ICONS.CHECK_CIRCLE"

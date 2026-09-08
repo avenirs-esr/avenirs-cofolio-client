@@ -12,9 +12,9 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const {
-  displayModal: displayAddCategoryModal,
-  hideModal: hideAddCategoryModal,
-  showModal: showAddCategoryModal
+  openModal: openAddCategoryModal,
+  closeModal: closeAddCategoryModal,
+  modalOpened: addCategoryModalOpened
 } = useModal()
 const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
 const { data: fetchedCategories } = useGetSelfKnowledgeCategories()
@@ -67,7 +67,7 @@ const categories = computed(() => fetchedCategories.value ?? [])
         :label="t('student.selfKnowledge.SelfKnowledgeMainSection.buttons.addCategory')"
         variant="OUTLINED"
         small
-        @click="displayAddCategoryModal"
+        @click="openAddCategoryModal"
       />
     </div>
     <div class="av-col av-gap-xl">
@@ -80,9 +80,9 @@ const categories = computed(() => fetchedCategories.value ?? [])
   </div>
 
   <AddSelfKnowledgeCategoriesModal
-    :show="showAddCategoryModal"
-    @cancel="hideAddCategoryModal"
-    @confirm="hideAddCategoryModal"
+    :opened="addCategoryModalOpened"
+    @cancel="closeAddCategoryModal"
+    @confirm="closeAddCategoryModal"
   />
   <AddSelfKnowledgeCategoryElementDrawer />
 

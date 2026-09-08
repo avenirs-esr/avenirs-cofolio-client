@@ -3,7 +3,7 @@ import type { IdTitleList } from '@/types'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 
 export interface ConfirmAssociateModalProps {
-  show: boolean
+  opened: boolean
   items: IdTitleList
   title: string
 }
@@ -22,7 +22,7 @@ function onConfirm () {
 
 <template>
   <ConfirmationModal
-    :show="show"
+    :opened="opened"
     data-testid="confirm-associate-modal"
     @close="emit('cancel')"
     @confirm="onConfirm"

@@ -29,7 +29,7 @@ const { data: declaredActivityDetail, isLoading, isError, error } = useGetDeclar
   staleTime: TanstackStaleTimeConfig.DETAILS
 } })
 const { navigateToStudentProjectActivities } = useNavigation()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 const { showDrawer: showUpdateDrawer, displayDrawer: displayUpdateDrawer, hideDrawer: hideUpdateDrawer } = useDrawer()
 
 const lastBreadcrumbLink = ref(t('global.detail'))
@@ -46,7 +46,7 @@ const breadcrumbLinks = computed(() => [
 ])
 
 function onUnsubscribed () {
-  hideModal()
+  closeModal()
   navigateToStudentProjectActivities({ replace: true })
 }
 </script>
@@ -76,7 +76,7 @@ function onUnsubscribed () {
           />
           <ActivityDetailedDropdown
             data-testid="activity-detailed-dropdown"
-            @unsubscribe-selected="displayModal"
+            @unsubscribe-selected="openModal"
             @update-selected="displayUpdateDrawer"
           />
         </div>
@@ -88,9 +88,9 @@ function onUnsubscribed () {
       />
 
       <UnsubscribeActivitiesConfirmModal
-        :show="showModal"
+        :opened="modalOpened"
         :activities="[{ id: declaredActivityDetail.activity.id, title: declaredActivityDetail.activity.title }]"
-        @cancel="hideModal"
+        @cancel="closeModal"
         @unsubscribed="onUnsubscribed"
       />
 

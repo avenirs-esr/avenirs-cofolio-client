@@ -9,7 +9,7 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 interface AddSelfKnowledgeCategoriesModalProps {
-  show: boolean
+  opened: boolean
 }
 
 defineProps<AddSelfKnowledgeCategoriesModalProps>()
@@ -62,7 +62,7 @@ function resetSelected () {
 
 <template>
   <AvModal
-    :opened="show"
+    :opened="opened"
     :close-button-label="categoriesAvailable.length > 0 ? t('global.buttons.cancel') : t('global.buttons.close')"
     :confirm-button-label="categoriesAvailable.length > 0 ? t('global.buttons.add') : undefined"
     :confirm-button-icon="MDI_ICONS.CHECK_CIRCLE"

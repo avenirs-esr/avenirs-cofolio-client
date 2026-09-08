@@ -44,14 +44,14 @@ function onTraceUpdated () {
 const { form, hasErrors } = useUpdateTraceForm(trace.value, onTraceUpdated)
 
 const {
-  showModal: showCloseConfirmationModal,
-  displayModal: displayCloseConfirmationModal,
-  hideModal: hideCloseConfirmationModal
+  modalOpened: closeConfirmationModalOpened,
+  openModal: openCloseConfirmationModal,
+  closeModal: closeCloseConfirmationModal
 } = useModal()
 const {
-  showModal: showConfirmUpdateModal,
-  displayModal: displayConfirmUpdateModal,
-  hideModal: hideConfirmUpdateModal
+  modalOpened: confirmUpdateModalOpened,
+  openModal: openConfirmUpdateModal,
+  closeModal: closeConfirmUpdateModal
 } = useModal()
 
 const toolsBreadcrumbLinks = computed(() => [
@@ -108,17 +108,17 @@ async function handleConfirm () {
     addErrorMessage(error instanceof BaseApiException ? getErrorMessage(error) : t('global.error.generic'))
   }
 
-  displayConfirmUpdateModal()
+  openConfirmUpdateModal()
 }
 
 async function handleConfirmSaveModal () {
-  hideConfirmUpdateModal()
+  closeConfirmUpdateModal()
   await tracesStore.submitUpdateTraceForm()
 }
 
 function handleClose () {
   if (updateTraceFormModified.value) {
-    displayCloseConfirmationModal()
+    openCloseConfirmationModal()
   }
   else {
     navigateBack()
@@ -126,7 +126,7 @@ function handleClose () {
 }
 
 function handleConfirmCloseModal () {
-  hideCloseConfirmationModal()
+  closeCloseConfirmationModal()
   navigateBack()
 }
 </script>
@@ -167,15 +167,15 @@ function handleConfirmCloseModal () {
   </div>
 
   <ConfirmationModal
-    :show="showCloseConfirmationModal"
-    @close="hideCloseConfirmationModal"
+    :opened="closeConfirmationModalOpened"
+    @close="closeCloseConfirmationModal"
     @confirm="handleConfirmCloseModal"
   />
 
   <ConfirmUpdateTraceModal
-    :show="showConfirmUpdateModal"
+    :opened="confirmUpdateModalOpened"
     :locked-declared-activities="lockedDeclaredActivities"
-    @close="hideConfirmUpdateModal"
+    @close="closeConfirmUpdateModal"
     @confirm="handleConfirmSaveModal"
   />
 </template>

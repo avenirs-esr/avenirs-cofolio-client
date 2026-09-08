@@ -4,7 +4,7 @@ import ConfirmationModal from '@/common/components/ConfirmationModal/Confirmatio
 import { useI18n } from 'vue-i18n'
 
 export interface ConfirmDeleteSelfKnowledgeElementsModalProps {
-  show: boolean
+  opened: boolean
   elements: SelfKnowledgeElementViewDTO[]
 }
 
@@ -20,7 +20,7 @@ const { t } = useI18n()
 
 <template>
   <ConfirmationModal
-    :show="show"
+    :opened="opened"
     @close="$emit('cancel')"
     @confirm="$emit('confirm')"
   >

@@ -18,7 +18,7 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteDeclaredExperienceAssociatedDeclaredSkillsModalProps {
-  show: boolean
+  opened: boolean
   experienceId: string
   associations: DeclaredSkillAssociationDTO[]
 }
@@ -83,7 +83,7 @@ function onCancel () {
 
 <template>
   <DeleteAssociationsModal
-    :show="show"
+    :opened="opened"
     :associations="selectableElements"
     :selected-association-ids="selectedIds"
     :is-loading="isLoading"

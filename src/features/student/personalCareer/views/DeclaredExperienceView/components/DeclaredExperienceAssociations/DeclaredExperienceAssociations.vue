@@ -31,27 +31,27 @@ const { declaredExperienceId, traceAssociations, declaredSkillAssociations } = d
 const { t } = useI18n()
 
 const {
-  showModal: showDeleteTracesModal,
-  displayModal: displayDeleteTracesModal,
-  hideModal: hideDeleteTracesModal
+  modalOpened: deleteTracesModalOpened,
+  openModal: openDeleteTracesModal,
+  closeModal: closeDeleteTracesModal
 } = useModal()
 
 const {
-  showModal: showDeleteDeclaredSkillsModal,
-  displayModal: displayDeleteDeclaredSkillsModal,
-  hideModal: hideDeleteDeclaredSkillsModal
+  modalOpened: deleteDeclaredSkillsModalOpened,
+  openModal: openDeleteDeclaredSkillsModal,
+  closeModal: closeDeleteDeclaredSkillsModal
 } = useModal()
 
 const {
-  showModal: showAssociateTracesModal,
-  displayModal: displayAssociateTracesModal,
-  hideModal: hideAssociateTracesModal
+  modalOpened: associateTracesModalOpened,
+  openModal: openAssociateTracesModal,
+  closeModal: closeAssociateTracesModal
 } = useModal()
 
 const {
-  showModal: showAssociateDeclaredSkillsModal,
-  displayModal: displayAssociateDeclaredSkillsModal,
-  hideModal: hideAssociateDeclaredSkillsModal
+  modalOpened: associateDeclaredSkillsModalOpened,
+  openModal: openAssociateDeclaredSkillsModal,
+  closeModal: closeAssociateDeclaredSkillsModal
 } = useModal()
 
 const countAssociations = computed(() => traceAssociations.length + declaredSkillAssociations.length)
@@ -68,28 +68,28 @@ const associateItems = computed(() => [
 
 function handleDeleteSelect (type: EAssociationContextType) {
   if (type === EAssociationContextType.DECLARED_SKILL) {
-    displayDeleteDeclaredSkillsModal()
+    openDeleteDeclaredSkillsModal()
     return
   }
 
-  displayDeleteTracesModal()
+  openDeleteTracesModal()
 }
 
 function handleAssociateSelect (type: EAssociationContextType) {
   if (type === EAssociationContextType.DECLARED_SKILL) {
-    displayAssociateDeclaredSkillsModal()
+    openAssociateDeclaredSkillsModal()
     return
   }
 
-  displayAssociateTracesModal()
+  openAssociateTracesModal()
 }
 
 function onAssociated () {
-  hideAssociateTracesModal()
+  closeAssociateTracesModal()
 }
 
 function onDeclaredSkillsAssociated () {
-  hideAssociateDeclaredSkillsModal()
+  closeAssociateDeclaredSkillsModal()
 }
 </script>
 
@@ -130,32 +130,32 @@ function onDeclaredSkillsAssociated () {
   </div>
 
   <DeleteDeclaredExperienceAssociatedTracesModal
-    :show="showDeleteTracesModal"
+    :opened="deleteTracesModalOpened"
     :experience-id="declaredExperienceId"
     :associations="traceAssociations"
-    @cancel="hideDeleteTracesModal"
-    @deleted="hideDeleteTracesModal"
+    @cancel="closeDeleteTracesModal"
+    @deleted="closeDeleteTracesModal"
   />
 
   <DeleteDeclaredExperienceAssociatedDeclaredSkillsModal
-    :show="showDeleteDeclaredSkillsModal"
+    :opened="deleteDeclaredSkillsModalOpened"
     :experience-id="declaredExperienceId"
     :associations="declaredSkillAssociations"
-    @cancel="hideDeleteDeclaredSkillsModal"
-    @deleted="hideDeleteDeclaredSkillsModal"
+    @cancel="closeDeleteDeclaredSkillsModal"
+    @deleted="closeDeleteDeclaredSkillsModal"
   />
 
   <AssociateTracesToDeclaredExperienceModal
-    :show="showAssociateTracesModal"
+    :opened="associateTracesModalOpened"
     :declared-experience-id="declaredExperienceId"
-    @cancel="hideAssociateTracesModal"
+    @cancel="closeAssociateTracesModal"
     @associated="onAssociated"
   />
 
   <AssociateDeclaredSkillsToDeclaredExperienceModal
-    :show="showAssociateDeclaredSkillsModal"
+    :opened="associateDeclaredSkillsModalOpened"
     :declared-experience-id="declaredExperienceId"
-    @cancel="hideAssociateDeclaredSkillsModal"
+    @cancel="closeAssociateDeclaredSkillsModal"
     @associated="onDeclaredSkillsAssociated"
   />
 </template>

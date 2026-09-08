@@ -7,9 +7,9 @@ import { expect, type Mock, vi } from 'vitest'
 const error = ref('')
 const valid = ref('Le document a été chargé avec succès.')
 
-const mockShowModal = ref(false)
-const mockDisplayModal = vi.fn()
-const mockHideModal = vi.fn()
+const mockModalOpened = ref(false)
+const mockOpenModal = vi.fn()
+const mockCloseModal = vi.fn()
 const mockOnDeleteImage = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
@@ -17,9 +17,9 @@ vi.mock('@/common/composables', async (importOriginal) => {
   return {
     ...actual,
     useModal: () => ({
-      showModal: mockShowModal,
-      displayModal: mockDisplayModal,
-      hideModal: mockHideModal
+      modalOpened: mockModalOpened,
+      openModal: mockOpenModal,
+      closeModal: mockCloseModal
     }),
     useImageUpload: () => ({
       update: vi.fn(),
@@ -176,7 +176,7 @@ BddTest().given('and image upload with valid props', () => {
     })
 
     BddTest().then('it should display the confirmation modal', () => {
-      expect(mockDisplayModal).toHaveBeenCalled()
+      expect(mockOpenModal).toHaveBeenCalled()
     })
   })
 
@@ -186,7 +186,7 @@ BddTest().given('and image upload with valid props', () => {
     })
 
     BddTest().then('it should hide the modal', () => {
-      expect(mockHideModal).toHaveBeenCalled()
+      expect(mockCloseModal).toHaveBeenCalled()
     })
 
     BddTest().then('it should call delete image function', () => {

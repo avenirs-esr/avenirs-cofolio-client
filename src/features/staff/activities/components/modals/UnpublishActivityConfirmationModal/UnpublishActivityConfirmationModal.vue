@@ -8,11 +8,11 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 interface UnpublishActivityConfirmationModalProps {
-  show: boolean
+  opened: boolean
   activityId: string
 }
 
-const { show, activityId } = defineProps<UnpublishActivityConfirmationModalProps>()
+const { opened, activityId } = defineProps<UnpublishActivityConfirmationModalProps>()
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -43,7 +43,7 @@ const { mutate: unpublishActivity } = useUnpublishActivity({
 
 <template>
   <ConfirmationModal
-    :show="show"
+    :opened="opened"
     :title="t('staff.activities.modals.UnpublishActivityConfirmationModal.title')"
     :show-description="false"
     :confirm-button-label="t('global.buttons.unpublish')"

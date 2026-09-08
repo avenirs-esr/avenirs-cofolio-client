@@ -40,7 +40,7 @@ const experienceTitle = computed(() => declaredExperienceDetailed.value?.title ?
 const selectedExperienceId = computed(() => String(route.params.id ?? ''))
 
 const { navigateToStudentDeclaredExperiences, navigateToStudentUpdateDeclaredExperience } = useNavigation()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 const breadcrumbLinks = computed(() => [
   { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
@@ -77,7 +77,7 @@ function handleUpdateSelected () {
 }
 
 function handleConfirmDelete () {
-  hideModal()
+  closeModal()
   navigateToStudentDeclaredExperiences({ replace: true })
 }
 </script>
@@ -117,7 +117,7 @@ function handleConfirmDelete () {
         class="av-col av-gap-md av-flex-fill"
       >
         <DeclaredExperienceDetailsDropdown
-          @delete-selected="displayModal"
+          @delete-selected="openModal"
           @update-selected="handleUpdateSelected"
         />
 
@@ -150,9 +150,9 @@ function handleConfirmDelete () {
   </div>
 
   <DeleteDeclaredExperienceConfirmModal
-    :show="showModal"
+    :opened="modalOpened"
     :declared-experience-ids="[selectedExperienceId]"
-    @close="hideModal"
+    @close="closeModal"
     @confirm="handleConfirmDelete"
   />
 </template>

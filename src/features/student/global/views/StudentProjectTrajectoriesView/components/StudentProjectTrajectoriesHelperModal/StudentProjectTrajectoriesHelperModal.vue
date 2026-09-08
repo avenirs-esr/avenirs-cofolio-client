@@ -4,9 +4,9 @@ import { AvModal, formatTextToHtml } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const {
-  showModal,
+  opened,
   onClose
-} = defineProps<{ showModal: boolean, onClose: () => void }>()
+} = defineProps<{ opened: boolean, onClose: () => void }>()
 
 const { t } = useI18n()
 
@@ -15,7 +15,7 @@ const { data: config } = useGetBuildLifeProjectConfig()
 
 <template>
   <AvModal
-    :opened="showModal"
+    :opened="opened"
     :close-button-label="t('student.global.views.studentProjectTrajectoriesView.buildProject.projectTrajectoriesHelperModal.closeButtonLabel')"
     @close="onClose"
     @click-outside="onClose"

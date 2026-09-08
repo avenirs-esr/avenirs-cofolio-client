@@ -21,7 +21,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 const logoutActionName = 'logout-button'
 
@@ -36,7 +36,7 @@ const dropdownItems = computed(() => [
 
 function onItemSelected (itemName: string) {
   if (itemName === logoutActionName) {
-    displayModal()
+    openModal()
     return
   }
 
@@ -60,12 +60,12 @@ function logOut () {
 
   <ConfirmationModal
     data-testid="logout-confirmation-modal"
-    :show="showModal"
+    :opened="modalOpened"
     :title="t('global.logoutModal.title')"
     :description="t('global.logoutModal.description')"
     :confirm-button-label="t('global.buttons.confirm')"
     :close-button-label="t('global.buttons.cancel')"
     @confirm="logOut"
-    @close="hideModal"
+    @close="closeModal"
   />
 </template>

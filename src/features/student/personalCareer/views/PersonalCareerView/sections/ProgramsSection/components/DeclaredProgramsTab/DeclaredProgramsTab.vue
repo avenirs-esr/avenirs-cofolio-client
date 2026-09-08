@@ -36,7 +36,7 @@ const { data, error, isFetching } = useGetDeclaredPrograms(params, { query: { pl
 const declaredPrograms = computed(() => data.value?.data ?? [])
 const pageInfo = computed(() => data.value?.page)
 
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 const titleWithCount = computed(() => t('student.personalCareer.views.PersonalCareerView.ProgramsSection.DeclaredProgramsTab.title').concat(` (${pageInfo.value?.totalElements ?? 0})`))
 
@@ -48,7 +48,7 @@ useBaseApiExceptionToast(error)
     <div class="av-row av-justify-end">
       <DeclaredProgramsMoreActionsDropdown
         @add-selected="displayAddDeclaredProgramDrawer"
-        @delete-selected="displayModal"
+        @delete-selected="openModal"
       />
     </div>
     <AvIconText
@@ -87,10 +87,10 @@ useBaseApiExceptionToast(error)
     <AddDeclaredProgramDrawer />
     <DeleteDeclaredProgramsModal
       v-if="pageInfo"
-      :show="showModal"
+      :opened="modalOpened"
       :total-count="pageInfo.totalElements"
-      @close="hideModal"
-      @confirm="hideModal"
+      @close="closeModal"
+      @confirm="closeModal"
     />
   </div>
 </template>

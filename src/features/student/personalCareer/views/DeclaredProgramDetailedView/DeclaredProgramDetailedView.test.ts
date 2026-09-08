@@ -21,12 +21,12 @@ import { nextTick } from 'vue'
 
 const routerReplace = vi.fn()
 const mockRouteId = ref<string>('')
-const mockShowModal = ref(false)
-const mockDisplayModal = vi.fn(() => {
-  mockShowModal.value = true
+const mockModalOpened = ref(false)
+const mockOpenModal = vi.fn(() => {
+  mockModalOpened.value = true
 })
-const mockHideModal = vi.fn(() => {
-  mockShowModal.value = false
+const mockCloseModal = vi.fn(() => {
+  mockModalOpened.value = false
 })
 const navigateToStudentUpdateDeclaredProgram = vi.fn()
 const navigateToStudentDeclaredPrograms = vi.fn()
@@ -65,9 +65,9 @@ vi.mock('@/common/composables', async (importOriginal) => {
   return {
     ...actual,
     useModal: () => ({
-      showModal: mockShowModal,
-      displayModal: mockDisplayModal,
-      hideModal: mockHideModal
+      modalOpened: mockModalOpened,
+      openModal: mockOpenModal,
+      closeModal: mockCloseModal
     }),
     useNavigation: () => ({
       navigateToStudentUpdateDeclaredProgram,
@@ -118,7 +118,7 @@ BddTest().given('a declared program detailed view component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockRouteId.value = 'declared-program-1'
-    mockShowModal.value = false
+    mockModalOpened.value = false
   })
 
   afterEach(() => {
@@ -219,7 +219,7 @@ BddTest().given('a declared program detailed view component', () => {
       })
 
       BddTest().then('it should display the delete declared program confirmation modal', () => {
-        expect(mockDisplayModal).toHaveBeenCalled()
+        expect(mockOpenModal).toHaveBeenCalled()
       })
 
       BddTest().and('the users closes the delete confirmation modal', () => {
@@ -229,7 +229,7 @@ BddTest().given('a declared program detailed view component', () => {
         })
 
         BddTest().then('it should hide the delete declared program confirmation modal', () => {
-          expect(mockHideModal).toHaveBeenCalled()
+          expect(mockCloseModal).toHaveBeenCalled()
         })
       })
 
@@ -244,7 +244,7 @@ BddTest().given('a declared program detailed view component', () => {
         })
 
         BddTest().then('it should hide the delete declared program confirmation modal', () => {
-          expect(mockHideModal).toHaveBeenCalled()
+          expect(mockCloseModal).toHaveBeenCalled()
         })
       })
     })

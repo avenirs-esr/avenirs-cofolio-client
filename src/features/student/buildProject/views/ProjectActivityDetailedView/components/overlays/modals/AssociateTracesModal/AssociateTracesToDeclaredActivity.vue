@@ -15,11 +15,11 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateTracesToDeclaredActivityProps {
-  show: boolean
+  opened: boolean
   declaredActivityId: string
 }
 
-const { show, declaredActivityId } = defineProps<AssociateTracesToDeclaredActivityProps>()
+const { opened, declaredActivityId } = defineProps<AssociateTracesToDeclaredActivityProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -53,7 +53,7 @@ const {
   isError: isSearchError,
   error: searchError
 } = useSearchTracesForAssociationWithDeclaredActivity(computed(() => declaredActivityId), params, {
-  query: { enabled: computed(() => show) }
+  query: { enabled: computed(() => opened) }
 })
 
 const traces = computed(() => data.value?.data ?? [])
@@ -92,7 +92,7 @@ function associateActivityWithTraces (idsToAssociate: string[]) {
 <template>
   <AssociateTracesModal
     v-model:selected-trace-type="selectedTraceType"
-    :show="show"
+    :opened="opened"
     :traces="traces"
     :is-loading="isPending || isLoading"
     @cancel="emit('cancel')"

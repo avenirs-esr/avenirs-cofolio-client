@@ -18,10 +18,10 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 function handleConfirm () {
-  hideModal()
+  closeModal()
   emit('finished')
 }
 
@@ -43,7 +43,7 @@ const isSubscribed = computed(() => status === EDeclaredActivityStatus.SUBSCRIBE
       variant="FLAT"
       :icon="MDI_ICONS.CHECK_CIRCLE_OUTLINE"
       :disabled="!isInProgress"
-      @click="displayModal"
+      @click="openModal"
     />
     <div
       v-else
@@ -59,9 +59,9 @@ const isSubscribed = computed(() => status === EDeclaredActivityStatus.SUBSCRIBE
     </div>
   </div>
   <FinishDeclaredActivityConfirmModal
-    :show="showModal"
+    :opened="modalOpened"
     :is-loading="isLoading"
-    @close="hideModal"
+    @close="closeModal"
     @confirm="handleConfirm"
   />
 </template>

@@ -15,11 +15,11 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateDeclaredExperiencesToDeclaredSkillModalProps {
-  show: boolean
+  opened: boolean
   declaredSkillId: string
 }
 
-const { show, declaredSkillId } = defineProps<AssociateDeclaredExperiencesToDeclaredSkillModalProps>()
+const { opened, declaredSkillId } = defineProps<AssociateDeclaredExperiencesToDeclaredSkillModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -53,7 +53,7 @@ const {
   isLoading: isSearchLoading
 } = useSearchDeclaredExperiencesForAssociation(params, {
   query: {
-    enabled: computed(() => show),
+    enabled: computed(() => opened),
     select: response => response.data,
   }
 })
@@ -89,7 +89,7 @@ function onAssociate (ids: string[]) {
 
 <template>
   <AssociateDeclaredExperiencesModal
-    :show="show"
+    :opened="opened"
     :experiences="experiences ?? []"
     :is-loading="isSearchLoading || isPending || isLoading"
     @cancel="emit('cancel')"

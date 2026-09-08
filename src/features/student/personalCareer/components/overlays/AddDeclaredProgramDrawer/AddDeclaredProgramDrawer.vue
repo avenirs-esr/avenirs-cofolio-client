@@ -28,7 +28,7 @@ const { form, isFormValid, isSubmitting, hasDefinitionItemsError } = useAddDecla
   declaredProgramsStore.hideAddDeclaredProgramDrawer()
 })
 
-const { showModal: showConfirmationModal, displayModal: displayConfirmationModal, hideModal: hideConfirmationModal } = useModal()
+const { modalOpened: confirmationModalOpened, openModal: openConfirmationModal, closeModal: closeConfirmationModal } = useModal()
 
 const isDirty = computed(() => {
   const state = form.useStore(state => state)
@@ -37,8 +37,8 @@ const isDirty = computed(() => {
 
 const { canLeave, confirm, cancel } = useUnsavedChangesGuard({
   isDirty,
-  openModal: displayConfirmationModal,
-  closeModal: hideConfirmationModal
+  openModal: openConfirmationModal,
+  closeModal: closeConfirmationModal
 })
 
 async function handleCancel () {
@@ -122,7 +122,7 @@ const isDemo = __DEMO_MODE__
   </AvDrawer>
 
   <ConfirmationModal
-    :show="showConfirmationModal"
+    :opened="confirmationModalOpened"
     :description="t('student.personalCareer.overlays.AddDeclaredProgramDrawer.confirmationModal.description')"
     @close="cancel"
     @confirm="confirm"

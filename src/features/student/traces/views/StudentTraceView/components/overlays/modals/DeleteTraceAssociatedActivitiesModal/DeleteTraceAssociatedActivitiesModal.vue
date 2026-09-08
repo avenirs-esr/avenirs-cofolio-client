@@ -10,7 +10,7 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteTraceAssociatedActivitiesModalProps {
-  show: boolean
+  opened: boolean
   traceId: string
   associations: DeclaredActivityAssociationDTO[]
 }
@@ -68,7 +68,7 @@ function onCancel () {
 
 <template>
   <DeleteAssociationsModal
-    :show="show"
+    :opened="opened"
     :associations="associations.map(({ associationId, declaredActivity }) => ({ id: associationId, title: declaredActivity.title }))"
     :selected-association-ids="selectedIds"
     :is-loading="isLoading"

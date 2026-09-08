@@ -41,7 +41,7 @@ const { form, isFormValid, isSubmitting } = useUpdateActivityForm(
 
 const isActivityPeriodDefined = computed(() => !!declaredActivity.activity.startDate || !!declaredActivity.activity.endDate)
 
-const { showModal: showConfirmationModal, displayModal: displayConfirmationModal, hideModal: hideConfirmationModal } = useModal()
+const { modalOpened: confirmationModalOpened, openModal: displayConfirmationModal, closeModal: hideConfirmationModal } = useModal()
 
 const isDirty = computed(() => {
   const state = form.useStore(state => state)
@@ -149,7 +149,7 @@ const isDemo = __DEMO_MODE__
   </AvDrawer>
 
   <ConfirmationModal
-    :show="showConfirmationModal"
+    :opened="confirmationModalOpened"
     :description="t('student.buildProject.activities.overlays.UpdateActivityDrawer.confirmationModal.description')"
     @close="cancel"
     @confirm="confirm"

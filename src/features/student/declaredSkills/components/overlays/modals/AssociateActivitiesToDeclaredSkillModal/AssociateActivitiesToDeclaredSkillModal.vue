@@ -20,11 +20,11 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateActivitiesToDeclaredSkillModalProps {
-  show: boolean
+  opened: boolean
   declaredSkillId: string
 }
 
-const { show, declaredSkillId } = defineProps<AssociateActivitiesToDeclaredSkillModalProps>()
+const { declaredSkillId } = defineProps<AssociateActivitiesToDeclaredSkillModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -113,7 +113,7 @@ function onAssociate (ids: string[]) {
 
 <template>
   <AssociateActivitiesModal
-    :show="show"
+    :opened="opened"
     :activities="associationActivities"
     :is-loading="isSearchLoading || isPending || isLoading"
     @cancel="emit('cancel')"

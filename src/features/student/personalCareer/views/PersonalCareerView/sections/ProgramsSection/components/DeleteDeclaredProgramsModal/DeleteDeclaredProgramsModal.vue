@@ -10,7 +10,7 @@ import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteDeclaredProgramsModalProps {
-  show: boolean
+  opened: boolean
   totalCount: number
 }
 
@@ -24,7 +24,7 @@ const emit = defineEmits<{
 const { totalCount } = toRefs(props)
 
 const { t } = useI18n()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 const declaredProgramsContainer = ref<HTMLElement | null>(null)
 
@@ -51,18 +51,18 @@ function onClose () {
 function onconfirm () {
   selectedProgramIds.value = []
   emit('confirm')
-  hideModal()
+  closeModal()
 }
 </script>
 
 <template>
   <AvModal
-    :opened="show"
+    :opened="opened"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-disabled="selectedProgramIds.length === 0"
     :confirm-button-label="t('student.personalCareer.views.PersonalCareerView.ProgramsSection.DeleteDeclaredProgramsModal.confirm', { count: selectedProgramIds.length })"
     @close="onClose"
-    @confirm="displayModal"
+    @confirm="openModal"
   >
     <template #header>
       <span class="n6">
@@ -92,9 +92,9 @@ function onconfirm () {
   </AvModal>
 
   <DeleteDeclaredProgramConfirmModal
-    :show="showModal"
+    :opened="modalOpened"
     :declared-program-ids="selectedProgramIds"
-    @close="hideModal"
+    @close="closeModal"
     @confirm="onconfirm"
   />
 </template>

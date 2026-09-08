@@ -9,7 +9,7 @@ import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
 export interface UnsubscribeActivitiesModalProps {
-  show: boolean
+  opened: boolean
   totalCount: number
 }
 
@@ -20,13 +20,13 @@ const emit = defineEmits<{
   (e: 'unsubscribed'): void
 }>()
 
-const { show, totalCount } = toRefs(props)
+const { opened, totalCount } = toRefs(props)
 
 const { t } = useI18n()
 const {
-  showModal: showConfirmModal,
-  displayModal: displayConfirmModal,
-  hideModal: hideConfirmModal
+  modalOpened: confirmModalOpened,
+  openModal: displayConfirmModal,
+  closeModal: hideConfirmModal
 } = useModal()
 
 const {
@@ -34,7 +34,7 @@ const {
   isFetching,
   hasMoreActivities,
   loadMoreActivities,
-} = usePaginatedLibraryActivities({ enabled: computed(() => show.value), pageSize: totalCount })
+} = usePaginatedLibraryActivities({ enabled: computed(() => opened.value), pageSize: totalCount })
 
 const activities = computed(() => activityLibrary.value.map(activity => ({ id: activity.activityId, title: activity.title, thematic: activity.thematic })))
 
@@ -69,7 +69,7 @@ useInfiniteScroll(
 
 <template>
   <AvModal
-    :opened="show"
+    :opened="opened"
     data-testid="unsubscribe-activities-modal"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('student.buildProject.views.projectActivitiesView.UnsubscribeActivitiesModal.confirm', { count: selectedActivityIds.length })"
@@ -110,7 +110,7 @@ useInfiniteScroll(
   </AvModal>
 
   <UnsubscribeActivitiesConfirmModal
-    :show="showConfirmModal"
+    :opened="confirmModalOpened"
     :activities="activities.filter(({ id }) => selectedActivityIds.includes(id))"
     @cancel="hideConfirmModal"
     @unsubscribed="onUnsubscribeSuccess"

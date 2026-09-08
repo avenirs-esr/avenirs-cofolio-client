@@ -20,7 +20,7 @@ const { disabled, isLoading, feedbackStatus, feedbackCreatedAt, remainingFeedbac
 const emit = defineEmits<{ (e: 'requestFeedback'): void }>()
 
 const { t, locale } = useI18n()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 const hasExistingFeedbackRequest = computed(() =>
   feedbackStatus === EFeedbackStatus.NEW || feedbackStatus === EFeedbackStatus.IN_PROCESS,
@@ -54,7 +54,7 @@ const feedbackDescription = computed(() => {
 })
 
 function handleConfirm () {
-  hideModal()
+  closeModal()
   emit('requestFeedback')
 }
 </script>
@@ -69,16 +69,16 @@ function handleConfirm () {
       v-bind="requestFeedbackConfig"
       :disabled="isRequestFeedbackButtonDisabled"
       :is-loading="isLoading"
-      @click="displayModal"
+      @click="openModal"
     />
   </div>
   <ConfirmationModal
-    :show="showModal"
+    :opened="modalOpened"
     data-testid="request-feedback-confirm-modal"
     :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.requestFeedbackActivity.requestFeedbackConfirmModal.title')"
     :description="feedbackDescription"
     :is-loading="isLoading"
-    @close="hideModal"
+    @close="closeModal"
     @confirm="handleConfirm"
   />
 </template>

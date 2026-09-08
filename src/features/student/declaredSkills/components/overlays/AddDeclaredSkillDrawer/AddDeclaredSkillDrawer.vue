@@ -38,7 +38,7 @@ const { form, isFormValid, isSubmitting, hasSkillDetailsErrors } = useDeclaredSk
   declaredSkillsStore.hideCreateDeclaredSkillDrawer()
 })
 
-const { showModal: showConfirmationModal, displayModal: displayConfirmationModal, hideModal: hideConfirmationModal } = useModal()
+const { modalOpened: confirmationModalOpened, openModal: openConfirmationModal, closeModal: closeConfirmationModal } = useModal()
 const { isMobile } = useAvBreakpoints()
 
 const isDirty = computed(() => {
@@ -48,8 +48,8 @@ const isDirty = computed(() => {
 
 const { canLeave, confirm, cancel } = useUnsavedChangesGuard({
   isDirty,
-  openModal: displayConfirmationModal,
-  closeModal: hideConfirmationModal
+  openModal: openConfirmationModal,
+  closeModal: closeConfirmationModal
 })
 
 enum AddDeclaredSkillDrawerAccodions {
@@ -256,7 +256,7 @@ async function handleCancel () {
   </AvDrawer>
 
   <ConfirmationModal
-    :show="showConfirmationModal"
+    :opened="confirmationModalOpened"
     :description="t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.confirmationModal.description')"
     @close="cancel"
     @confirm="confirm"

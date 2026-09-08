@@ -37,7 +37,7 @@ export interface UseUnsavedChangesGuardOptions {
  * Integration example (with ConfirmationModal):
  *
  * ```ts
- * const { showModal, displayModal, hideModal } = useModal()
+ * const { modalOpened, openModal, closeModal } = useModal()
  * const isDirty = computed(() => form.meta.value.dirty)
  *
  * const {
@@ -46,14 +46,14 @@ export interface UseUnsavedChangesGuardOptions {
  *   cancel
  * } = useUnsavedChangesGuard({
  *   isDirty,
- *   openModal: displayModal,
- *   closeModal: hideModal
+ *   openModal: openModal,
+ *   closeModal: closeModal
  * })
  * ```
  *
  * ```vue
  * <ConfirmationModal
- *   :show="showModal"
+ *   :opened="modalOpened"
  *   @close="cancel"
  *   @confirm="confirm"
  * />

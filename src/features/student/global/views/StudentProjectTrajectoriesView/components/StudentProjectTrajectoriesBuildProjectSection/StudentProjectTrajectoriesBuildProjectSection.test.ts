@@ -15,8 +15,8 @@ BddTest().given('a build project section component', () => {
     MindMap: MindMapStub,
     StudentProjectTrajectoriesHelperModal: {
       name: 'StudentProjectTrajectoriesHelperModal',
-      props: ['showModal', 'onClose', 'trace'],
-      template: '<div v-if="showModal" data-testid="student-project-trajectories-helper-modal">StudentProjectTrajectoriesHelperModal</div>',
+      props: ['modalOpened', 'onClose', 'trace'],
+      template: '<div v-if="modalOpened" data-testid="student-project-trajectories-helper-modal">StudentProjectTrajectoriesHelperModal</div>',
     },
   }
 

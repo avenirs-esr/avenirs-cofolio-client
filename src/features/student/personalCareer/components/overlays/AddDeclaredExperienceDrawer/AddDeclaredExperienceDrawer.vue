@@ -128,7 +128,7 @@ const isAssociationSearchLoading = computed(() => {
   return isDeclaredSkillsLoading.value
 })
 
-const { showModal: showConfirmationModal, displayModal: displayConfirmationModal, hideModal: hideConfirmationModal } = useModal()
+const { modalOpened: confirmationModalOpened, openModal: openConfirmationModal, closeModal: closeConfirmationModal } = useModal()
 
 const isDirty = computed(() => {
   const state = form.useStore(state => state)
@@ -137,8 +137,8 @@ const isDirty = computed(() => {
 
 const { canLeave, confirm, cancel } = useUnsavedChangesGuard({
   isDirty,
-  openModal: displayConfirmationModal,
-  closeModal: hideConfirmationModal
+  openModal: openConfirmationModal,
+  closeModal: closeConfirmationModal
 })
 
 async function handleCancel () {
@@ -245,7 +245,7 @@ watch(associationActiveType, () => {
   </AvDrawer>
 
   <ConfirmationModal
-    :show="showConfirmationModal"
+    :opened="confirmationModalOpened"
     :description="t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.confirmationModal.description')"
     @close="cancel"
     @confirm="confirm"

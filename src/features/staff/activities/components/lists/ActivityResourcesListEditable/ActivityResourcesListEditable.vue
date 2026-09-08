@@ -34,14 +34,14 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const {
-  showModal: showAddResourceModal,
-  displayModal: displayAddResourceModal,
-  hideModal: hideAddResourceModal
+  modalOpened: showAddResourceModal,
+  openModal: displayAddResourceModal,
+  closeModal: hideAddResourceModal
 } = useModal()
 const {
-  showModal: showDeleteResourcesModal,
-  displayModal: displayDeleteResourcesModal,
-  hideModal: hideDeleteResourcesModal
+  modalOpened: showDeleteResourcesModal,
+  openModal: displayDeleteResourcesModal,
+  closeModal: hideDeleteResourcesModal
 } = useModal()
 
 const localFiles = ref([...files])

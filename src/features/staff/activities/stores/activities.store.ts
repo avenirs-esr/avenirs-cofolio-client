@@ -3,9 +3,9 @@ import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 
 export const useStaffActivitiesStore = defineStore('staffActivities', () => {
   const {
-    showModal: showAddActivityModal,
-    displayModal: displayAddActivityModal,
-    hideModal: hideAddActivityModal,
+    modalOpened: showAddActivityModal,
+    openModal: displayAddActivityModal,
+    closeModal: hideAddActivityModal,
   } = useModal()
 
   const workingSpaceCurrentPage = ref<number>(0)

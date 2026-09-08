@@ -7,10 +7,10 @@ import { type NodeProps, Position, useVueFlow } from '@vue-flow/core'
 import { useI18n } from 'vue-i18n'
 
 export interface UpdateHandlesModalProps extends Pick<NodeProps, 'id' | 'data'> {
-  show: boolean
+  opened: boolean
 }
 
-const { id, data, show } = defineProps<UpdateHandlesModalProps>()
+const { id, data, opened } = defineProps<UpdateHandlesModalProps>()
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -52,7 +52,7 @@ const handleIcons = [
 
 <template>
   <ConfirmationModal
-    :show="show"
+    :opened="opened"
     @close="$emit('close')"
     @confirm="onConfirm"
   >

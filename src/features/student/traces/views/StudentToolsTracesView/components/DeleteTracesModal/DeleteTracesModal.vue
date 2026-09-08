@@ -11,11 +11,11 @@ import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteTracesModalProps {
-  show: boolean
+  opened: boolean
   totalCount: number
 }
 
-const { show, totalCount } = defineProps<DeleteTracesModalProps>()
+const { opened, totalCount } = defineProps<DeleteTracesModalProps>()
 
 const emit = defineEmits<{
   cancel: []
@@ -27,9 +27,9 @@ const selectedTraceIds = ref<string[]>([])
 const tracesContainer = ref<HTMLElement | null>(null)
 
 const {
-  showModal: showConfirmModal,
-  displayModal: displayConfirmModal,
-  hideModal: hideConfirmModal
+  modalOpened: confirmModalOpened,
+  openModal: openConfirmModal,
+  closeModal: closeConfirmModal
 } = useModal()
 
 const {
@@ -38,7 +38,7 @@ const {
   hasMoreTraces,
   loadMoreTraces,
 } = usePaginatedTraces({
-  enabled: computed(() => show),
+  enabled: computed(() => opened),
   pageSize: computed(() => totalCount)
 })
 
@@ -54,7 +54,7 @@ function onCancel () {
 }
 
 function onDeleteSuccess () {
-  hideConfirmModal()
+  closeConfirmModal()
   resetSelectedTraces()
   emit('deleted')
 }
@@ -67,13 +67,13 @@ useInfiniteScroll(tracesContainer, loadMoreTraces, {
 
 <template>
   <ConfirmationModal
-    :show="show"
+    :opened="opened"
     data-testid="delete-traces-modal"
     :confirm-button-label="t('student.traces.views.StudentToolsTracesView.deleteTracesModal.confirm', { count: selectedCount })"
     :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
     :confirm-button-disabled="selectedCount === 0"
     @close="onCancel"
-    @confirm="displayConfirmModal"
+    @confirm="openConfirmModal"
   >
     <template #header>
       <div
@@ -105,9 +105,9 @@ useInfiniteScroll(tracesContainer, loadMoreTraces, {
   <TraceDeletionConfirmationModal
     :trace-ids="selectedTraceIds"
     :title="t('student.traces.views.StudentToolsTracesView.deleteTracesModal.confirmationTitle', { count: selectedCount })"
-    :show="showConfirmModal"
+    :opened="confirmModalOpened"
     :on-confirm-delete="onDeleteSuccess"
-    :on-close="hideConfirmModal"
+    :on-close="closeConfirmModal"
   />
 </template>
 

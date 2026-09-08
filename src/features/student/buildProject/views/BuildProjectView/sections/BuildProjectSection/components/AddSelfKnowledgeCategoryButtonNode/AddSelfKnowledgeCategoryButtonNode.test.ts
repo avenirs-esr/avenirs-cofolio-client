@@ -11,9 +11,9 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'
 
 const mockAddNode = vi.fn()
-const mockShowModal = ref(false)
-const mockDisplayModal = vi.fn()
-const mockHideModal = vi.fn()
+const mockModalOpened = ref(false)
+const mockOpenModal = vi.fn()
+const mockCloseModal = vi.fn()
 const mockNodes = ref<Node[]>([])
 const mockAddErrorMessage = vi.fn()
 
@@ -42,9 +42,9 @@ vi.mock('@/common/composables', async (importOriginal) => {
   return {
     ...actual,
     useModal: () => ({
-      showModal: mockShowModal,
-      displayModal: mockDisplayModal,
-      hideModal: mockHideModal
+      modalOpened: mockModalOpened,
+      openModal: mockOpenModal,
+      closeModal: mockCloseModal
     }),
   }
 })
@@ -108,8 +108,8 @@ BddTest().given('an AddSelfKnowledgeCategoryButtonNode component', () => {
         buttonNodeTemplate.vm.$emit('click')
       })
 
-      BddTest().then('it should call the displayModal function', () => {
-        expect(mockDisplayModal).toHaveBeenCalled()
+      BddTest().then('it should call the openModal function', () => {
+        expect(mockOpenModal).toHaveBeenCalled()
       })
     })
 
@@ -146,8 +146,8 @@ BddTest().given('an AddSelfKnowledgeCategoryButtonNode component', () => {
         modal.vm.$emit('close')
       })
 
-      BddTest().then('it should call the hideModal function', () => {
-        expect(mockHideModal).toHaveBeenCalled()
+      BddTest().then('it should call the closeModal function', () => {
+        expect(mockCloseModal).toHaveBeenCalled()
       })
     })
   })

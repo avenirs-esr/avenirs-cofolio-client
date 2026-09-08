@@ -37,15 +37,15 @@ const { form, isFormValid, isSubmitting, hasElementDetailsErrors } = useAddSelfK
 const isFormDirty = form.useStore(state => state.isDirty)
 
 const {
-  showModal: showDiscardChangesModal,
-  displayModal: displayDiscardChangesModal,
-  hideModal: hideDiscardChangesModal
+  modalOpened: discardChangesModalOpened,
+  openModal: openDiscardChangesModal,
+  closeModal: closeDiscardChangesModal
 } = useModal()
 
 const { canLeave, confirm, cancel } = useUnsavedChangesGuard({
   isDirty: isFormDirty,
-  openModal: displayDiscardChangesModal,
-  closeModal: hideDiscardChangesModal
+  openModal: openDiscardChangesModal,
+  closeModal: closeDiscardChangesModal
 })
 
 const activeAccordion = ref(0)
@@ -54,7 +54,7 @@ function confirmCancel () {
   form.reset()
   activeAccordion.value = 0
   selfKnowledgeStore.closeAddElementDrawer()
-  hideDiscardChangesModal()
+  closeDiscardChangesModal()
 }
 
 async function handleCancel () {
@@ -76,7 +76,7 @@ const drawerTitle = computed(() => {
 
 <template>
   <ConfirmationModal
-    :show="showDiscardChangesModal"
+    :opened="discardChangesModalOpened"
     :title="t('student.selfKnowledge.overlays.AddSelfKnowledgeCategoryElementDrawer.confirmationModal.title')"
     @confirm="confirm"
     @close="cancel"

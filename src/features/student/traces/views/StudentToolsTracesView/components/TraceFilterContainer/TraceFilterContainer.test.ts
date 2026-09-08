@@ -10,9 +10,9 @@ import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const mockShowModal = ref(false)
-const mockDisplayModal = vi.fn()
-const mockHideModal = vi.fn()
+const mockModalOpened = ref(false)
+const mockOpenModal = vi.fn()
+const mockCloseModal = vi.fn()
 
 export const mockIsMobile = ref(false)
 
@@ -21,9 +21,9 @@ vi.mock('@/common/composables', async (importOriginal) => {
   return {
     ...actual,
     useModal: () => ({
-      showModal: mockShowModal,
-      displayModal: mockDisplayModal,
-      hideModal: mockHideModal
+      modalOpened: mockModalOpened,
+      openModal: mockOpenModal,
+      closeModal: mockCloseModal
     }),
   }
 })
@@ -586,7 +586,7 @@ BddTest().given('a trace filter container', () => {
         })
 
         BddTest().then('it should display the modal', () => {
-          expect(mockDisplayModal).toHaveBeenCalled()
+          expect(mockOpenModal).toHaveBeenCalled()
         })
       })
     })

@@ -16,13 +16,13 @@ export type AssociationDeclaredExperiences = Association & {
 }
 
 export interface AssociateDeclaredExperiencesModalProps {
-  show: boolean
+  opened: boolean
   experiences: AssociationDeclaredExperiences[]
   isLoading?: boolean
 }
 
 const {
-  show,
+  opened,
   experiences,
   isLoading = false,
 } = defineProps<AssociateDeclaredExperiencesModalProps>()
@@ -36,16 +36,16 @@ const emit = defineEmits<{
 const { t } = useI18n()
 
 const {
-  showModal: showCancelConfirmationModal,
-  displayModal: displayCancelConfirmationModal,
-  hideModal: hideCancelConfirmationModal
+  modalOpened: cancelConfirmationModalOpened,
+  openModal: openCancelConfirmationModal,
+  closeModal: closeCancelConfirmationModal
 } = useModal()
 
 const {
   selectedOptions: selectedExperienceOptions,
-  showConfirmModal,
-  displayConfirmModal,
-  hideConfirmModal,
+  confirmModalOpened,
+  openConfirmModal,
+  closeConfirmModal,
   onDeleteItem: onDeleteExperience,
 } = useAssociationModal<AvAutocompleteOption>()
 
@@ -65,9 +65,9 @@ const selectedAssociations = computed<AssociationDeclaredExperiences[]>(() =>
   experiences.filter(experience => selectedExperienceOptions.value.some(option => option.value === experience.id))
 )
 
-watch(() => show, (newVal) => {
+watch(() => opened, (newVal) => {
   if (!newVal) {
-    hideConfirmModal()
+    closeConfirmModal()
     selectedExperienceOptions.value = []
   }
 })
@@ -87,7 +87,7 @@ function onConfirm () {
 
 function onAssociateModalClose () {
   if (selectedExperienceOptions.value.length > 0) {
-    displayCancelConfirmationModal()
+    openCancelConfirmationModal()
     return
   }
 
@@ -95,14 +95,14 @@ function onAssociateModalClose () {
 }
 
 function onConfirmCancelAssociateModal () {
-  hideCancelConfirmationModal()
+  closeCancelConfirmationModal()
   onCancel()
 }
 </script>
 
 <template>
   <AvModal
-    :opened="show"
+    :opened="opened"
     data-testid="associate-declared-experiences-modal"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('student.personalCareer.overlays.AssociateDeclaredExperiencesModal.confirm', { count: selectedAssociations.length })"
@@ -110,7 +110,7 @@ function onConfirmCancelAssociateModal () {
     :confirm-button-icon="ICONS.ASSOCIATIONS"
     :is-loading="isLoading"
     @close="onAssociateModalClose"
-    @confirm="displayConfirmModal"
+    @confirm="openConfirmModal"
   >
     <template #header>
       <div
@@ -146,16 +146,16 @@ function onConfirmCancelAssociateModal () {
   </AvModal>
 
   <ConfirmAssociateModal
-    :show="showConfirmModal"
+    :opened="confirmModalOpened"
     :title="t('student.personalCareer.overlays.ConfirmAssociateDeclaredExperiencesModal.title')"
     :items="selectedAssociations"
-    @cancel="hideConfirmModal"
+    @cancel="closeConfirmModal"
     @confirm="onConfirm"
   />
 
   <ConfirmationModal
-    :show="showCancelConfirmationModal"
-    @close="hideCancelConfirmationModal"
+    :opened="cancelConfirmationModalOpened"
+    @close="closeCancelConfirmationModal"
     @confirm="onConfirmCancelAssociateModal"
   />
 </template>

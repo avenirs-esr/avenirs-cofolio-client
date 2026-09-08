@@ -16,8 +16,8 @@ export interface ActivityPreviewProps {
 defineProps<ActivityPreviewProps>()
 
 const { t } = useI18n()
-const { showModal: showUnsubscribeModal, displayModal: displayUnsubscribeModal, hideModal: hideUnsubscribeModal } = useModal()
-const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hideModal: hideSubscribeModal } = useModal()
+const { modalOpened: unsubscribeModalOpened, openModal: displayUnsubscribeModal, closeModal: hideUnsubscribeModal } = useModal()
+const { modalOpened: subscribeModalOpened, openModal: displaySubscribeModal, closeModal: hideSubscribeModal } = useModal()
 </script>
 
 <template>
@@ -74,14 +74,14 @@ const { showModal: showSubscribeModal, displayModal: displaySubscribeModal, hide
   </div>
 
   <UnsubscribeActivitiesConfirmModal
-    :show="showUnsubscribeModal"
+    :opened="unsubscribeModalOpened"
     :activities="[{ id: activity.id, title: activity.title }]"
     @cancel="hideUnsubscribeModal"
     @unsubscribed="hideUnsubscribeModal"
   />
 
   <SubscribeActivityConfirmModal
-    :show="showSubscribeModal"
+    :opened="subscribeModalOpened"
     :activity="{ id: activity.id, title: activity.title }"
     @cancel="hideSubscribeModal"
     @subscribed="hideSubscribeModal"

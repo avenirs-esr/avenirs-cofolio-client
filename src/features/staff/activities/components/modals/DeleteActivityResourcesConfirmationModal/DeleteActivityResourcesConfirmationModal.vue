@@ -5,7 +5,7 @@ import ActivityResourcesList from '@/common/components/lists/ActivityResourcesLi
 import { useI18n } from 'vue-i18n'
 
 interface DeleteActivityResourcesModalProps {
-  show: boolean
+  opened: boolean
   activityId: string
   files: (FileDTO | File)[]
   links: string[]
@@ -13,7 +13,7 @@ interface DeleteActivityResourcesModalProps {
 }
 
 const {
-  show,
+  opened,
   activityId,
   files,
   links,
@@ -30,7 +30,7 @@ const { t } = useI18n()
 
 <template>
   <ConfirmationModal
-    :show="show"
+    :opened="opened"
     :is-loading="isUpdating"
     data-testid="delete-activity-resources-confirmation-modal"
     @confirm="emit('confirm')"

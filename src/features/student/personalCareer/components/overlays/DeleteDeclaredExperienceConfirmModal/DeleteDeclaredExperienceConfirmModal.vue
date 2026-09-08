@@ -8,7 +8,7 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteDeclaredExperienceConfirmModalProps {
-  show: boolean
+  opened: boolean
   declaredExperienceIds: string[]
 }
 
@@ -46,7 +46,7 @@ function deleteExperiences () {
 
 <template>
   <ConfirmationModal
-    :show="show"
+    :opened="opened"
     :title="t('student.personalCareer.overlays.DeleteDeclaredExperienceConfirmModal.title', { count: declaredExperienceIds.length })"
     :description="t('student.personalCareer.overlays.DeleteDeclaredExperienceConfirmModal.description')"
     :is-loading="isLoading || isPending"

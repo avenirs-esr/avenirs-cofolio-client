@@ -16,11 +16,11 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateTracesToDeclaredExperienceModalProps {
-  show: boolean
+  opened: boolean
   declaredExperienceId: string
 }
 
-const { show, declaredExperienceId } = defineProps<AssociateTracesToDeclaredExperienceModalProps>()
+const { opened, declaredExperienceId } = defineProps<AssociateTracesToDeclaredExperienceModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -54,7 +54,7 @@ const {
   isError: isSearchError,
   error: searchError
 } = useSearchTracesForAssociationWithDeclaredExperience(computed(() => declaredExperienceId), params, {
-  query: { enabled: computed(() => show) }
+  query: { enabled: computed(() => opened) }
 })
 
 const traces = computed(() => data.value?.data ?? [])
@@ -96,7 +96,7 @@ function associateExperienceWithTraces (idsToAssociate: string[]) {
 <template>
   <AssociateTracesModal
     v-model:selected-trace-type="selectedTraceType"
-    :show="show"
+    :opened="opened"
     :traces="traces"
     :is-loading="isPending || isLoading"
     @cancel="emit('cancel')"

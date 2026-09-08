@@ -28,7 +28,7 @@ const params = computed(() => ({
 }))
 
 const { data, isLoading, error } = useGetDeclaredActivitiesView(params)
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 const libraryActivities = computed(() => data.value?.data || [])
 const pageInfo = computed(() => data.value?.page)
@@ -43,7 +43,7 @@ const pageInfo = computed(() => data.value?.page)
       <div class="av-row av-justify-end">
         <ActivityLibraryDropdown
           :unsubscribe-disabled="libraryActivities.length === 0"
-          @unsubscribe-selected="displayModal"
+          @unsubscribe-selected="openModal"
         />
       </div>
 
@@ -90,9 +90,9 @@ const pageInfo = computed(() => data.value?.page)
 
   <UnsubscribeActivitiesModal
     v-if="pageInfo"
-    :show="showModal"
+    :opened="modalOpened"
     :total-count="pageInfo.totalElements"
-    @cancel="hideModal"
-    @unsubscribed="hideModal"
+    @cancel="closeModal"
+    @unsubscribed="closeModal"
   />
 </template>

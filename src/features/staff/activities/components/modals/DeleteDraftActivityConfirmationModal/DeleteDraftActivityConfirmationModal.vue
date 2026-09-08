@@ -7,11 +7,11 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 interface DeleteDraftActivityConfirmationModalProps {
-  show: boolean
+  opened: boolean
   activityId: string
 }
 
-const { show, activityId } = defineProps<DeleteDraftActivityConfirmationModalProps>()
+const { opened, activityId } = defineProps<DeleteDraftActivityConfirmationModalProps>()
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -43,7 +43,7 @@ function confirmDelete () {
 
 <template>
   <ConfirmationModal
-    :show="show"
+    :opened="opened"
     :title="t('staff.activities.modals.DeleteDraftActivityConfirmationModal.title')"
     :show-description="false"
     data-testid="delete-draft-activity-confirmation-modal"

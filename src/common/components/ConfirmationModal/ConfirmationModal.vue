@@ -5,7 +5,7 @@ import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ConfirmationModalProps extends Omit<AvModalProps, 'closeButtonLabel'> {
-  show: boolean
+  opened: boolean
   title?: string
   description?: string
   closeButtonLabel?: string
@@ -27,12 +27,10 @@ const attrs = useAttrs()
 
 const avModalProps = computed(() => {
   const {
-    show,
     title,
     description,
     closeButtonLabel,
     confirmButtonLabel,
-    opened,
     id,
     ...rest
   } = props
@@ -50,7 +48,6 @@ const { t } = useI18n()
 <template>
   <AvModal
     id="confirmation-modal"
-    :opened="props.show"
     :close-button-label="props.closeButtonLabel ?? t('global.buttons.cancel')"
     :confirm-button-label="props.confirmButtonLabel ?? t('global.buttons.confirm')"
     v-bind="avModalBindings"

@@ -8,7 +8,7 @@ import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteDeclaredExperiencesModalProps {
-  show: boolean
+  opened: boolean
   totalCount: number
 }
 
@@ -22,7 +22,7 @@ const emit = defineEmits<{
 const { totalCount } = toRefs(props)
 
 const { t } = useI18n()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 const {
   declaredExperiences: apiDeclaredExperiences,
@@ -45,19 +45,19 @@ function onCancel () {
 
 function onConfirm () {
   emit('confirm')
-  hideModal()
+  closeModal()
   selectedExperienceIds.value = []
 }
 </script>
 
 <template>
   <AvModal
-    :opened="show"
+    :opened="opened"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-disabled="selectedExperienceIds.length === 0"
     :confirm-button-label="t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeleteDeclaredExperiencesModal.confirm', { count: selectedExperienceIds.length })"
     @close="onCancel"
-    @confirm="displayModal"
+    @confirm="openModal"
   >
     <template #header>
       <span class="n6">
@@ -86,9 +86,9 @@ function onConfirm () {
   </AvModal>
 
   <DeleteDeclaredExperienceConfirmModal
-    :show="showModal"
+    :opened="modalOpened"
     :declared-experience-ids="selectedExperienceIds"
-    @close="hideModal"
+    @close="closeModal"
     @confirm="onConfirm"
   />
 </template>

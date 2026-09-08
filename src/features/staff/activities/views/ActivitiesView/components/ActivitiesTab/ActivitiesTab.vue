@@ -65,8 +65,8 @@ const { formatLastModified } = useDateUtils()
 const { isMobile } = useAvBreakpoints()
 const { navigateToStaffActivityFeedbacks } = useNavigation()
 
-const { showModal: showDeleteModal, displayModal: displayDeleteModal, hideModal: hideDeleteModal } = useModal()
-const { showModal: showUnpublishModal, displayModal: displayUnpublishModal, hideModal: hideUnpublishModal } = useModal()
+const { modalOpened: deleteModalOpened, openModal: displayDeleteModal, closeModal: hideDeleteModal } = useModal()
+const { modalOpened: unpublishModalOpened, openModal: displayUnpublishModal, closeModal: hideUnpublishModal } = useModal()
 
 const { mutate: duplicateActivity } = useDuplicateActivity()
 const { navigateToStaffActivityCatalog } = useNavigation()
@@ -235,14 +235,14 @@ watch(
     </QuerySuspense>
 
     <UnpublishActivityConfirmationModal
-      :show="showUnpublishModal"
+      :opened="unpublishModalOpened"
       :activity-id="pendingUnpublishId ?? ''"
       @close="hideUnpublishModal"
       @unpublished="onUnpublished"
     />
 
     <DeleteDraftActivityConfirmationModal
-      :show="showDeleteModal"
+      :opened="deleteModalOpened"
       :activity-id="pendingDeleteId ?? ''"
       @close="cancelDelete"
       @deleted="onDeleted"
