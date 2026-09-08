@@ -36,7 +36,7 @@ const { data, error, isFetching } = useGetDeclaredExperienceView(params, { query
 const declaredExperiences = computed(() => data.value?.data || [])
 const pageInfo = computed(() => data.value?.page)
 
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 const titleWithCount = computed(() => t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesTab.title').concat(` (${pageInfo.value?.totalElements ?? 0})`))
 
@@ -46,7 +46,7 @@ useBaseApiExceptionToast(error)
 <template>
   <div class="av-col av-gap-md">
     <DeclaredExperiencesMoreActionsDropdown
-      @delete-selected="displayModal"
+      @delete-selected="openModal"
       @add-selected="personalCareerStore.displayAddDeclaredExperienceDrawer"
     />
     <AvIconText
@@ -82,10 +82,10 @@ useBaseApiExceptionToast(error)
     </QuerySuspense>
     <DeleteDeclaredExperiencesModal
       v-if="pageInfo"
-      :show="showModal"
+      :opened="modalOpened"
       :total-count="pageInfo.totalElements"
-      @close="hideModal"
-      @confirm="hideModal"
+      @close="closeModal"
+      @confirm="closeModal"
     />
     <AddDeclaredExperienceDrawer />
   </div>

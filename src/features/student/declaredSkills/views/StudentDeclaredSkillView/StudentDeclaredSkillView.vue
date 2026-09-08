@@ -28,7 +28,7 @@ enum StudentDeclaredSkillViewTabs {
 const { t } = useI18n()
 const { navigateToStudentUpdateDeclaredSkill, navigateToStudentProjectSkills } = useNavigation()
 const { data: declaredSkillDetailed, error } = useGetDeclaredSkillProgressDetails(skillId)
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 const activeTab = ref(StudentDeclaredSkillViewTabs.DETAILS)
 
@@ -59,7 +59,7 @@ function handleUpdateSelected () {
 }
 
 function handleSkillDeleted () {
-  hideModal()
+  closeModal()
   navigateToStudentProjectSkills({ replace: true })
 }
 </script>
@@ -75,7 +75,7 @@ function handleSkillDeleted () {
     data-testid="student-declared-skill-view__title"
   >
     <DeclaredSkillSettingDropdown
-      @delete-selected="displayModal"
+      @delete-selected="openModal"
       @update-selected="handleUpdateSelected"
     />
   </div>
@@ -114,10 +114,10 @@ function handleSkillDeleted () {
   />
 
   <DeleteDeclaredSkillConfirmModal
-    :show="showModal"
+    :opened="modalOpened"
     :skill-id="skillId"
     :skill-title="skillTitle"
     @skill-deleted="handleSkillDeleted"
-    @close="hideModal"
+    @close="closeModal"
   />
 </template>

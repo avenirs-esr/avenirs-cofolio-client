@@ -8,7 +8,7 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteDeclaredSkillConfirmModalProps {
-  show: boolean
+  opened: boolean
   skillId: string
   skillTitle: string
 }
@@ -46,7 +46,7 @@ function deleteDeclaredSkill () {
 
 <template>
   <ConfirmationModal
-    :show="show"
+    :opened="opened"
     :title="t('student.declaredSkills.views.StudentDeclaredSkillView.deleteModal.title', { skill: skillTitle })"
     :description="t('student.declaredSkills.views.StudentDeclaredSkillView.deleteModal.description')"
     :is-loading="isPending || isLoading"

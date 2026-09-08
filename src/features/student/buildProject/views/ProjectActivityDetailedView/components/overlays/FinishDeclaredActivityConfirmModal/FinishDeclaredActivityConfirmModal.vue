@@ -3,11 +3,11 @@ import { ConfirmationModal } from '@/common/components'
 import { useI18n } from 'vue-i18n'
 
 export interface FinishDeclaredActivityConfirmModalProps {
-  show: boolean
+  opened: boolean
   isLoading?: boolean
 }
 
-const { show } = defineProps<FinishDeclaredActivityConfirmModalProps>()
+defineProps<FinishDeclaredActivityConfirmModalProps>()
 
 const emit = defineEmits<{
   (e: 'confirm'): void
@@ -19,7 +19,7 @@ const { t } = useI18n()
 
 <template>
   <ConfirmationModal
-    :show="show"
+    :opened="opened"
     data-testid="finish-declared-activity-confirm-modal"
     :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivityConfirmModal.title')"
     :description="t('student.buildProject.activities.views.ProjectActivityDetailedView.FinishDeclaredActivityConfirmModal.description')"

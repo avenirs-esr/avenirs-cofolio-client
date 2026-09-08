@@ -39,10 +39,10 @@ const {
 } = defineProps<AssociatedElementsTabProps>()
 
 const { t } = useI18n()
-const { showModal: showSkillsModal, displayModal: displaySkillsModal, hideModal: hideSkillsModal } = useModal()
-const { showModal: showTracesModal, displayModal: displayTracesModal, hideModal: hideTracesModal } = useModal()
-const { showModal: showAssociateTracesModal, displayModal: displayAssociateTracesModal, hideModal: hideAssociateTracesModal } = useModal()
-const { showModal: showAssociateSkillsModal, displayModal: displayAssociateSkillsModal, hideModal: hideAssociateSkillsModal } = useModal()
+const { modalOpened: skillsModalOpened, openModal: openSkillsModal, closeModal: closeSkillsModal } = useModal()
+const { modalOpened: tracesModalOpened, openModal: openTracesModal, closeModal: closeTracesModal } = useModal()
+const { modalOpened: associateTracesModalOpened, openModal: openAssociateTracesModal, closeModal: closeAssociateTracesModal } = useModal()
+const { modalOpened: associateSkillsModalOpened, openModal: openAssociateSkillsModal, closeModal: closeAssociateSkillsModal } = useModal()
 
 const tracesAssociations = computed(() => {
   return associations.traceAssociations.map(traceAssociation => ({
@@ -71,10 +71,10 @@ const associateItems = computed(() => [
 function onDeleteSelect (type: EAssociationContextType) {
   switch (type) {
     case EAssociationContextType.DECLARED_SKILL:
-      displaySkillsModal()
+      openSkillsModal()
       break
     case EAssociationContextType.TRACE:
-      displayTracesModal()
+      openTracesModal()
       break
   }
 }
@@ -82,10 +82,10 @@ function onDeleteSelect (type: EAssociationContextType) {
 function onAssociateSelect (type: EAssociationContextType) {
   switch (type) {
     case EAssociationContextType.TRACE:
-      displayAssociateTracesModal()
+      openAssociateTracesModal()
       break
     case EAssociationContextType.DECLARED_SKILL:
-      displayAssociateSkillsModal()
+      openAssociateSkillsModal()
       break
   }
 }
@@ -143,34 +143,34 @@ const traceAssociationEnabled = computed(() => !isActivityAssociationToTraceDisa
   </div>
 
   <DeleteActivityAssociatedElementsModal
-    :show="showSkillsModal"
+    :opened="skillsModalOpened"
     :declared-activity-id="declaredActivityId"
     :associations="skillsAssociations"
     data-testid="delete-activity-associated-skills-modal"
-    @cancel="hideSkillsModal"
-    @deleted="hideSkillsModal"
+    @cancel="closeSkillsModal"
+    @deleted="closeSkillsModal"
   />
 
   <DeleteActivityAssociatedElementsModal
-    :show="showTracesModal"
+    :opened="tracesModalOpened"
     :declared-activity-id="declaredActivityId"
     :associations="tracesAssociations"
     data-testid="delete-activity-associated-traces-modal"
-    @cancel="hideTracesModal"
-    @deleted="hideTracesModal"
+    @cancel="closeTracesModal"
+    @deleted="closeTracesModal"
   />
 
   <AssociateTracesToDeclaredActivity
-    :show="showAssociateTracesModal"
+    :opened="associateTracesModalOpened"
     :declared-activity-id="declaredActivityId"
-    @cancel="hideAssociateTracesModal"
-    @associated="hideAssociateTracesModal"
+    @cancel="closeAssociateTracesModal"
+    @associated="closeAssociateTracesModal"
   />
 
   <AssociateDeclaredSkillToActivityModal
-    :show="showAssociateSkillsModal"
+    :opened="associateSkillsModalOpened"
     :activity-id="declaredActivityId"
-    @cancel="hideAssociateSkillsModal"
-    @associated="hideAssociateSkillsModal"
+    @cancel="closeAssociateSkillsModal"
+    @associated="closeAssociateSkillsModal"
   />
 </template>

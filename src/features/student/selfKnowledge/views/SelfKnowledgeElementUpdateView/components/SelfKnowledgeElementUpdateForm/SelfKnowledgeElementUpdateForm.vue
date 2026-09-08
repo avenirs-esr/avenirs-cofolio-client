@@ -23,7 +23,7 @@ export interface SelfKnowledgeElementUpdateFormProps {
 
 const props = defineProps<SelfKnowledgeElementUpdateFormProps>()
 const { t } = useI18n()
-const { showModal: showConfirmationModal, displayModal: displayConfirmationModal, hideModal: hideConfirmationModal } = useModal()
+const { modalOpened: confirmationModalOpened, openModal: openConfirmationModal, closeModal: closeConfirmationModal } = useModal()
 const { addSuccessMessage } = useToasterStore()
 
 const createdAtPrefix = computed(() => capitalize(t('student.selfKnowledge.element')))
@@ -47,7 +47,7 @@ function onUpdated () {
 
 function confirmCancel () {
   form.reset()
-  hideConfirmationModal()
+  closeConfirmationModal()
   props.onCancel()
 }
 </script>
@@ -92,14 +92,14 @@ function confirmCancel () {
       :confirm-label="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementUpdate.buttons.save')"
       :is-submitting="isSubmitting"
       :is-form-valid="isFormValid"
-      @cancel="displayConfirmationModal"
+      @cancel="openConfirmationModal"
       @submit="onSubmit"
     />
   </div>
   <ConfirmationModal
-    :show="showConfirmationModal"
+    :opened="confirmationModalOpened"
     :title="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementUpdate.confirmationModal.title')"
-    @close="hideConfirmationModal"
+    @close="closeConfirmationModal"
     @confirm="confirmCancel"
   />
 </template>

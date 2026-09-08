@@ -8,7 +8,7 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 </script>
 
 <template>
@@ -21,14 +21,14 @@ const { showModal, displayModal, hideModal } = useModal()
       :label="t('student.global.views.studentProjectTrajectoriesView.buildProject.consultHelpButtonLabel')"
       :icon="MDI_ICONS.FLAG_VARIANT"
       small
-      @click="displayModal"
+      @click="openModal"
     />
   </div>
 
   <MindMap />
 
   <StudentProjectTrajectoriesHelperModal
-    :show-modal="showModal"
-    :on-close="hideModal"
+    :opened="modalOpened"
+    :on-close="closeModal"
   />
 </template>

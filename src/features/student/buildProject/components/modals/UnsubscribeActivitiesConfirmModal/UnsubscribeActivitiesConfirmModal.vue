@@ -16,7 +16,7 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface UnsubscribeActivitiesConfirmModalProps {
-  show: boolean
+  opened: boolean
   activities: IdTitleList
 }
 
@@ -69,7 +69,7 @@ function unsubscribeActivities () {
 
 <template>
   <ConfirmationModal
-    :show="show"
+    :opened="opened"
     :is-loading="isLoading"
     data-testid="unsubscribe-activities-confirm-modal"
     @close="$emit('cancel')"

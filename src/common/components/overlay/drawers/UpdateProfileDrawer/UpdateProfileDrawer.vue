@@ -48,7 +48,7 @@ const {
 
 const { t } = useI18n()
 const route = useRoute()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const { getErrorMessage } = useApiErrors()
 const queryClient = useQueryClient()
@@ -83,8 +83,8 @@ const {
   cancel
 } = useUnsavedChangesGuard({
   isDirty: isModified,
-  openModal: displayModal,
-  closeModal: hideModal
+  openModal,
+  closeModal
 })
 
 const { mutate: deleteCoverPictureMutation } = useDeleteCoverPicture()
@@ -275,7 +275,7 @@ watch(() => show, (newVal) => {
     </template>
   </AvDrawer>
   <ConfirmationModal
-    :show="showModal"
+    :opened="modalOpened"
     :is-loading="isPending"
     @confirm="confirm"
     @close="cancel"

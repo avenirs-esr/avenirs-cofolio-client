@@ -32,7 +32,7 @@ const selectedExperienceId = computed(() => String(route.params.id ?? ''))
 const isDirty = ref(false)
 const { isMobile } = useAvBreakpoints()
 
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 const { declaredExperiences, pageInfo, loadMoreDeclaredExperiences } = usePaginatedDeclaredExperiences({})
 const { data: declaredExperience, isLoading, isError } = useGetDeclaredExperience(selectedExperienceId)
@@ -55,8 +55,8 @@ const {
   cancel
 } = useUnsavedChangesGuard({
   isDirty,
-  openModal: displayModal,
-  closeModal: hideModal
+  openModal,
+  closeModal
 })
 
 async function onSelectExperience (experienceId: string) {
@@ -130,7 +130,7 @@ function onExperienceUpdated () {
     </div>
   </div>
   <ConfirmationModal
-    :show="showModal"
+    :opened="modalOpened"
     :description="t('student.personalCareer.views.DeclaredExperienceUpdateView.confirmationModal.description')"
     @close="cancel"
     @confirm="confirm"

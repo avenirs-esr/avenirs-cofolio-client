@@ -17,7 +17,7 @@ import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteSelfKnowledgeElementsModalProps {
-  show: boolean
+  opened: boolean
   categoryType: ESelfKnowledgeCategory
   totalCount: number
 }
@@ -33,9 +33,9 @@ const { totalCount, categoryType } = toRefs(props)
 
 const { t } = useI18n()
 const {
-  showModal: showConfirmModal,
-  displayModal: displayConfirmModal,
-  hideModal: hideConfirmModal
+  modalOpened: confirmModalOpened,
+  openModal: openConfirmModal,
+  closeModal: closeConfirmModal
 } = useModal()
 const queryClient = useQueryClient()
 const { isLoading, withTaskLoading } = useTaskLoading()
@@ -56,7 +56,7 @@ function onDeleteSuccess (deletedCount: number) {
   addSuccessMessage(
     t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.success', { count: deletedCount })
   )
-  hideConfirmModal()
+  closeConfirmModal()
   emit('confirm')
   resetSelectedElements()
 }
@@ -101,7 +101,7 @@ useInfiniteScroll(
 
 <template>
   <AvModal
-    :opened="show"
+    :opened="opened"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.confirmButton',
                              { count: selectedElementIds.length })"
@@ -109,7 +109,7 @@ useInfiniteScroll(
     :confirm-button-disabled="selectedElementIds.length === 0"
     :is-loading="isPending || isLoading"
     @close="onCancel"
-    @confirm="displayConfirmModal"
+    @confirm="openConfirmModal"
   >
     <template #header>
       <div
@@ -137,9 +137,9 @@ useInfiniteScroll(
   </AvModal>
 
   <ConfirmDeleteSelfKnowledgeElementsModal
-    :show="showConfirmModal"
+    :opened="confirmModalOpened"
     :elements="elements.filter(element => selectedElementIds.includes(element.id))"
-    @cancel="hideConfirmModal"
+    @cancel="closeConfirmModal"
     @confirm="deleteSelfKnowledgeElements"
   />
 </template>

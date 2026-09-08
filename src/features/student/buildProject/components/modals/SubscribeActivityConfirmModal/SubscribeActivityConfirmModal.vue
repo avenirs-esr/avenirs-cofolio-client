@@ -14,7 +14,7 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface SubscribeActivityConfirmModalProps {
-  show: boolean
+  opened: boolean
   activity: IdTitle
 }
 
@@ -58,7 +58,7 @@ function subscribe () {
 
 <template>
   <ConfirmationModal
-    :show="show"
+    :opened="opened"
     :is-loading="isLoading"
     data-testid="subscribe-activity-confirm-modal"
     @close="$emit('cancel')"

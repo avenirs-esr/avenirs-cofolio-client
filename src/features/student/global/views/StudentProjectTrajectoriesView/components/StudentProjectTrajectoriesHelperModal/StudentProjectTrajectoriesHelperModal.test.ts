@@ -23,7 +23,7 @@ BddTest().given('the modal is shown with content', () => {
     onClose = vi.fn()
     const queryClient = new QueryClient()
     wrapper = mount(StudentProjectTrajectoriesHelperModal, {
-      props: { showModal: true, onClose },
+      props: { modalOpened: true, onClose },
       global: { stubs, plugins: [[VueQueryPlugin, { queryClient }]] }
     })
   })
@@ -51,13 +51,13 @@ BddTest().given('the modal is shown with content', () => {
     })
   })
 
-  BddTest().when('showModal prop changes', () => {
-    BddTest().then('the modal should be opened when showModal is true', () => {
+  BddTest().when('modalOpened prop changes', () => {
+    BddTest().then('the modal should be opened when modalOpened is true', () => {
       expect(wrapper.findComponent({ name: 'AvModal' }).props('opened')).toBe(true)
     })
 
-    BddTest().then('the modal should not be opened when showModal is false', async () => {
-      await wrapper.setProps({ showModal: false })
+    BddTest().then('the modal should not be opened when modalOpened is false', async () => {
+      await wrapper.setProps({ modalOpened: false })
       expect(wrapper.findComponent({ name: 'AvModal' }).props('opened')).toBe(false)
     })
   })

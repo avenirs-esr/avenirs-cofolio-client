@@ -37,7 +37,7 @@ const bannerFile = defineModel<File | null>()
 
 const { t } = useI18n()
 const { form, isUpdating, queueAutoSave } = useEditNationalActivityViewContext()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const { isLoading, withTaskLoading } = useTaskLoading()
@@ -61,7 +61,7 @@ async function publishActivityDraft () {
         invalidateGetStaffActivityLibrary(queryClient),
       ]))
       addSuccessMessage(t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishSuccess'))
-      hideModal()
+      closeModal()
       setTimeout(() => emit('published'), 10)
     },
     onError: (error) => {
@@ -146,7 +146,7 @@ async function publishActivityDraft () {
           :is-loading="isFormDirty || isUpdating || isPending || isLoading"
           :disabled="!canPublish"
           small
-          @click="displayModal"
+          @click="openModal"
         />
       </div>
       <div
@@ -163,12 +163,12 @@ async function publishActivityDraft () {
 
   <ConfirmationModal
     data-testid="publish-confirmation-modal"
-    :show="showModal"
+    :show="modalOpened"
     :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.confirmTitle')"
     :description="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.confirmDescription')"
     :is-loading="isUpdating || isPending || isLoading"
     @confirm="publishActivityDraft"
-    @close="hideModal"
+    @close="closeModal"
   />
 </template>
 

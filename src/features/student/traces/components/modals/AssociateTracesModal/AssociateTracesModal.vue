@@ -14,13 +14,13 @@ import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateTracesModalProps {
-  show: boolean
+  opened: boolean
   traces: AssociationSearchResultTraceDTO[]
   selectedTraceType: { itemId: TraceAssociationTypes }
   isLoading?: boolean
 }
 
-const { show, traces, selectedTraceType, isLoading = false } = defineProps<AssociateTracesModalProps>()
+const { opened, traces, selectedTraceType, isLoading = false } = defineProps<AssociateTracesModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -32,17 +32,17 @@ const emit = defineEmits<{
 const { t } = useI18n()
 
 const {
-  showModal: showCancelConfirmationModal,
-  displayModal: displayCancelConfirmationModal,
-  hideModal: hideCancelConfirmationModal
+  modalOpened: cancelConfirmationModalOpened,
+  openModal: openCancelConfirmationModal,
+  closeModal: closeCancelConfirmationModal
 } = useModal()
 
 const {
   selectedOptions: selectedTraceOptions,
   selectedAssociations,
-  showConfirmModal,
-  displayConfirmModal,
-  hideConfirmModal,
+  confirmModalOpened,
+  openConfirmModal,
+  closeConfirmModal,
   onDeleteItem: onDeleteTrace,
 } = useAssociationModal()
 
@@ -60,9 +60,9 @@ const traceOptions = computed<AvAutocompleteOption[]>(() =>
     }))
 )
 
-watch(() => show, (newVal) => {
+watch(() => opened, (newVal) => {
   if (!newVal) {
-    hideConfirmModal()
+    closeConfirmModal()
     selectedTraceOptions.value = []
   }
 })
@@ -82,7 +82,7 @@ function onConfirm () {
 
 function onAssociateModalClose () {
   if (selectedTraceOptions.value.length > 0) {
-    displayCancelConfirmationModal()
+    openCancelConfirmationModal()
     return
   }
 
@@ -90,14 +90,14 @@ function onAssociateModalClose () {
 }
 
 function onConfirmCancelAssociateModal () {
-  hideCancelConfirmationModal()
+  closeCancelConfirmationModal()
   onCancel()
 }
 </script>
 
 <template>
   <AvModal
-    :opened="show"
+    :opened="opened"
     data-testid="associate-traces-modal"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('student.traces.modals.AssociateTracesModal.confirm', { count: selectedTraceOptions.length })"
@@ -105,7 +105,7 @@ function onConfirmCancelAssociateModal () {
     :confirm-button-icon="ICONS.ASSOCIATIONS"
     :is-loading="isLoading"
     @close="onAssociateModalClose"
-    @confirm="displayConfirmModal"
+    @confirm="openConfirmModal"
   >
     <template #header>
       <div
@@ -148,18 +148,18 @@ function onConfirmCancelAssociateModal () {
   </AvModal>
 
   <ConfirmAssociateModal
-    :show="showConfirmModal"
+    :opened="confirmModalOpened"
     :items="selectedAssociations"
     :is-loading="isLoading"
     :title="t('student.traces.modals.AssociateTracesModal.confirmTitle', { count: selectedAssociations.length })"
-    @cancel="hideConfirmModal"
+    @cancel="closeConfirmModal"
     @confirm="onConfirm"
   />
 
   <ConfirmationModal
-    :show="showCancelConfirmationModal"
+    :opened="cancelConfirmationModalOpened"
     :description="t('student.traces.modals.AssociateTracesModal.cancelConfirmation')"
-    @close="hideCancelConfirmationModal"
+    @close="closeCancelConfirmationModal"
     @confirm="onConfirmCancelAssociateModal"
   />
 </template>

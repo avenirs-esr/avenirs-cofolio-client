@@ -49,33 +49,33 @@ const emit = defineEmits<{
 const { t } = useI18n()
 
 const {
-  showModal: showAssociateActivitiesModal,
-  displayModal: displayAssociateActivitiesModal,
-  hideModal: hideAssociateActivitiesModal
+  modalOpened: associateActivitiesModalOpened,
+  openModal: openAssociateActivitiesModal,
+  closeModal: closeAssociateActivitiesModal
 } = useModal()
 
 const {
-  showModal: showDeleteActivitiesModal,
-  displayModal: displayDeleteActivitiesModal,
-  hideModal: hideDeleteActivitiesModal
+  modalOpened: deleteActivitiesModalOpened,
+  openModal: openDeleteActivitiesModal,
+  closeModal: closeDeleteActivitiesModal
 } = useModal()
 
 const {
-  showModal: showAssociateDeclaredExperiencesModal,
-  displayModal: displayAssociateDeclaredExperiencesModal,
-  hideModal: hideAssociateDeclaredExperiencesModal
+  modalOpened: associateDeclaredExperiencesModalOpened,
+  openModal: openAssociateDeclaredExperiencesModal,
+  closeModal: closeAssociateDeclaredExperiencesModal
 } = useModal()
 
 const {
-  showModal: showAssociateTracesModal,
-  displayModal: displayAssociateTracesModal,
-  hideModal: hideAssociateTracesModal
+  modalOpened: associateTracesModalOpened,
+  openModal: openAssociateTracesModal,
+  closeModal: closeAssociateTracesModal
 } = useModal()
 
 const {
-  showModal: showDeleteTracesModal,
-  displayModal: displayDeleteTracesModal,
-  hideModal: hideDeleteTracesModal
+  modalOpened: deleteTracesModalOpened,
+  openModal: openDeleteTracesModal,
+  closeModal: closeDeleteTracesModal
 } = useModal()
 
 const deletableDeclaredActivityAssociations = computed(() =>
@@ -97,13 +97,13 @@ const associateItems = computed(() => [
 function onSelectAssociationType (type: EAssociationContextType) {
   switch (type) {
     case EAssociationContextType.DECLARED_ACTIVITY:
-      displayAssociateActivitiesModal()
+      openAssociateActivitiesModal()
       break
     case EAssociationContextType.DECLARED_EXPERIENCE:
-      displayAssociateDeclaredExperiencesModal()
+      openAssociateDeclaredExperiencesModal()
       break
     case EAssociationContextType.TRACE:
-      displayAssociateTracesModal()
+      openAssociateTracesModal()
       break
     default:
       break
@@ -112,23 +112,23 @@ function onSelectAssociationType (type: EAssociationContextType) {
 
 function handleDeleteSelect (type: EAssociationContextType) {
   if (type === EAssociationContextType.TRACE) {
-    displayDeleteTracesModal()
+    openDeleteTracesModal()
     return
   }
 
-  displayDeleteActivitiesModal()
+  openDeleteActivitiesModal()
 }
 
 function onAssociated (type: EAssociationContextType) {
   switch (type) {
     case EAssociationContextType.DECLARED_ACTIVITY:
-      hideAssociateActivitiesModal()
+      closeAssociateActivitiesModal()
       break
     case EAssociationContextType.DECLARED_EXPERIENCE:
-      hideAssociateDeclaredExperiencesModal()
+      closeAssociateDeclaredExperiencesModal()
       break
     case EAssociationContextType.TRACE:
-      hideAssociateTracesModal()
+      closeAssociateTracesModal()
       break
     default:
       return
@@ -175,39 +175,39 @@ function onAssociated (type: EAssociationContextType) {
   </div>
 
   <AssociateActivitiesToDeclaredSkillModal
-    :show="showAssociateActivitiesModal"
+    :opened="associateActivitiesModalOpened"
     :declared-skill-id="declaredSkillId"
-    @cancel="hideAssociateActivitiesModal"
+    @cancel="closeAssociateActivitiesModal"
     @associated="() => onAssociated(EAssociationContextType.DECLARED_ACTIVITY)"
   />
 
   <AssociateDeclaredExperiencesToDeclaredSkillModal
-    :show="showAssociateDeclaredExperiencesModal"
+    :opened="associateDeclaredExperiencesModalOpened"
     :declared-skill-id="declaredSkillId"
-    @cancel="hideAssociateDeclaredExperiencesModal"
+    @cancel="closeAssociateDeclaredExperiencesModal"
     @associated="() => onAssociated(EAssociationContextType.DECLARED_EXPERIENCE)"
   />
 
   <AssociateTracesToDeclaredSkillModal
-    :show="showAssociateTracesModal"
+    :opened="associateTracesModalOpened"
     :declared-skill-id="declaredSkillId"
-    @cancel="hideAssociateTracesModal"
+    @cancel="closeAssociateTracesModal"
     @associated="() => onAssociated(EAssociationContextType.TRACE)"
   />
 
   <DeleteDeclaredSkillAssociatedActivitiesModal
-    :show="showDeleteActivitiesModal"
+    :opened="deleteActivitiesModalOpened"
     :declared-skill-progress-id="declaredSkillId"
     :associations="associatedDeclaredActivities"
-    @cancel="hideDeleteActivitiesModal"
-    @deleted="hideDeleteActivitiesModal"
+    @cancel="closeDeleteActivitiesModal"
+    @deleted="closeDeleteActivitiesModal"
   />
 
   <DeleteDeclaredSkillAssociatedTracesModal
-    :show="showDeleteTracesModal"
+    :opened="deleteTracesModalOpened"
     :declared-skill-progress-id="declaredSkillId"
     :associations="associatedTraces"
-    @cancel="hideDeleteTracesModal"
-    @deleted="hideDeleteTracesModal"
+    @cancel="closeDeleteTracesModal"
+    @deleted="closeDeleteTracesModal"
   />
 </template>

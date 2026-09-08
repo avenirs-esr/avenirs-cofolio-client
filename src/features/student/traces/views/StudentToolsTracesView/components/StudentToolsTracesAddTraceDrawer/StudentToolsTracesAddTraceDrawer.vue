@@ -49,9 +49,9 @@ const { form, isFormValid, isSubmitting, hasDeclarationItemsError, hasDefinition
 const isFormDirty = form.useStore(state => state.isDirty)
 
 const {
-  showModal: showDiscardChangesModal,
-  displayModal: displayDiscardChangesModal,
-  hideModal: hideDiscardChangesModal
+  modalOpened: discardChangesModalOpened,
+  openModal: openDiscardChangesModal,
+  closeModal: closeDiscardChangesModal
 } = useModal()
 
 const {
@@ -60,8 +60,8 @@ const {
   cancel
 } = useUnsavedChangesGuard({
   isDirty: isFormDirty,
-  openModal: displayDiscardChangesModal,
-  closeModal: hideDiscardChangesModal
+  openModal: openDiscardChangesModal,
+  closeModal: closeDiscardChangesModal
 })
 
 const { declaredSkillToAssociation } = useDeclaredSkillAssociation()
@@ -152,7 +152,7 @@ const associationSelectionsField = form.useField({ name: 'associationSelections'
 
 <template>
   <ConfirmationModal
-    :show="showDiscardChangesModal"
+    :opened="discardChangesModalOpened"
     @confirm="confirm"
     @close="cancel"
   />

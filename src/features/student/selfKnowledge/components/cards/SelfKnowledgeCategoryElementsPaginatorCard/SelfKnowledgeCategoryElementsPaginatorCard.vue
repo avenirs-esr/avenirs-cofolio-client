@@ -46,15 +46,15 @@ const {
 } = useSelfKnowledgeCategory(computed(() => category.type))
 
 const {
-  displayModal: displayDeleteCategoryModal,
-  hideModal: hideDeleteCategoryModal,
-  showModal: showDeleteCategoryModal
+  openModal: openDeleteCategoryModal,
+  closeModal: closeDeleteCategoryModal,
+  modalOpened: deleteCategoryModalOpened
 } = useModal()
 
 const {
-  displayModal: displayDeleteElementModal,
-  hideModal: hideDeleteElementModal,
-  showModal: showDeleteElementModal
+  openModal: openDeleteElementModal,
+  closeModal: closeDeleteElementModal,
+  modalOpened: deleteElementModalOpened
 } = useModal()
 
 const totalElements = computed(() => pageInfo.value?.totalElements ?? 0)
@@ -70,7 +70,7 @@ function onElementDeleted () {
   if (elements.value.length === 0 && currentPage.value > 0) {
     currentPage.value -= 1
   }
-  hideDeleteElementModal()
+  closeDeleteElementModal()
 }
 </script>
 
@@ -95,8 +95,8 @@ function onElementDeleted () {
         <div class="av-row av-align-center av-gap-sm">
           <SelfKnowledgeElementsDropdown
             :category-type="categoryType"
-            @delete-selected="displayDeleteElementModal"
-            @delete-category-selected="displayDeleteCategoryModal"
+            @delete-selected="openDeleteElementModal"
+            @delete-category-selected="openDeleteCategoryModal"
             @add-selected="openAddCategoryElementDrawer"
           />
         </div>
@@ -142,20 +142,20 @@ function onElementDeleted () {
   </Card>
 
   <DeleteSelfKnowledgeCategoryModal
-    :show="showDeleteCategoryModal"
+    :opened="deleteCategoryModalOpened"
     :category-type="category.type"
     :category-title="categoryDisplayTitle"
     :elements-count="elements.length"
-    @cancel="hideDeleteCategoryModal"
-    @confirm="hideDeleteCategoryModal"
+    @cancel="closeDeleteCategoryModal"
+    @confirm="closeDeleteCategoryModal"
   />
 
   <DeleteSelfKnowledgeElementsModal
     v-if="pageInfo"
-    :show="showDeleteElementModal"
+    :opened="deleteElementModalOpened"
     :category-type="category.type"
     :total-count="pageInfo.totalElements"
-    @cancel="hideDeleteElementModal"
+    @cancel="closeDeleteElementModal"
     @confirm="onElementDeleted"
   />
 </template>

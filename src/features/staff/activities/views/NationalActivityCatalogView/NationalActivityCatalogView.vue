@@ -38,7 +38,7 @@ const breadcrumbLinks = computed(() => [
 
 const isDraft = computed(() => status === EActivityStatus.DRAFT)
 
-const { showModal: showDeleteConfirmation, displayModal: displayDeleteConfirmation, hideModal: hideDeleteConfirmation } = useModal()
+const { modalOpened: showDeleteConfirmation, openModal: displayDeleteConfirmation, closeModal: hideDeleteConfirmation } = useModal()
 
 const { navigateToStaffActivities, navigateToStaffActivitiesEditNationalActivity } = useNavigation()
 

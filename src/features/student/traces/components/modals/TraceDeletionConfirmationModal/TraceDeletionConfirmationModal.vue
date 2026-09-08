@@ -11,10 +11,10 @@ import { AvAccordion, AvAccordionsGroup, AvIconText, MDI_ICONS } from '@avenirs-
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
-const { traceIds, title, show, onConfirmDelete, onClose } = defineProps<{
+const { traceIds, title, opened, onConfirmDelete, onClose } = defineProps<{
   traceIds: string[]
   title: string
-  show: boolean
+  opened: boolean
   onConfirmDelete: () => void
   onClose: () => void
 }>()
@@ -29,7 +29,7 @@ const tracesCount = computed(() => traceIds.length)
 
 const { data: traces, error, isFetching } = useGetLockedDeclaredActivities(traceIds, {
   query: {
-    enabled: computed(() => show && tracesCount.value > 0)
+    enabled: computed(() => opened && tracesCount.value > 0)
   }
 })
 
@@ -104,7 +104,7 @@ function onConfirmDeleteTrace () {
   >
     <ConfirmationModal
       data-testid="trace-deletion-confirmation-modal"
-      :show="show"
+      :opened="opened"
       :confirm-button-icon="MDI_ICONS.ARROW_RIGHT"
       :is-loading="isPending || isLoading"
       @close="onClose"

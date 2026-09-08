@@ -12,11 +12,11 @@ import { useToasterStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateDeclaredExperiencesToTracesModalProps {
-  show: boolean
+  opened: boolean
   traceId: string
 }
 
-const { show, traceId } = defineProps<AssociateDeclaredExperiencesToTracesModalProps>()
+const { traceId } = defineProps<AssociateDeclaredExperiencesToTracesModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -82,7 +82,7 @@ function onAssociate (ids: string[]) {
 
 <template>
   <AssociateDeclaredExperiencesModal
-    :show="show"
+    :opened="opened"
     :experiences="associationExperiences ?? []"
     :is-loading="isLoading || isPending"
     @cancel="emit('cancel')"

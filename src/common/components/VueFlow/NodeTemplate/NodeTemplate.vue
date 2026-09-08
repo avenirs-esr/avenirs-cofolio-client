@@ -102,7 +102,7 @@ const nodeProps = computed<NodeProps>(() => ({
 }))
 
 const { removeNodeWithChildren, toggle } = useNodes(flowId)
-const { displayModal, hideModal, showModal } = useModal()
+const { openModal, closeModal, modalOpened } = useModal()
 
 function removeNodeHandler (nodeId: string) {
   emit('remove', nodeId)
@@ -134,7 +134,7 @@ function removeNodeHandler (nodeId: string) {
       v-if="!withoutDropdown"
       :collapsed="data.collapsed"
       :with-profile-update="withProfileUpdate"
-      @update="displayModal"
+      @update="openModal"
       @collapse="() => toggle(id)"
       @remove="() => removeNodeHandler(id)"
       @update-in-profile="$emit('updateInProfile')"
@@ -142,9 +142,9 @@ function removeNodeHandler (nodeId: string) {
 
     <UpdateHandlesModal
       :id="id"
-      :show="showModal"
+      :opened="modalOpened"
       :data="data"
-      @close="hideModal"
+      @close="closeModal"
     />
   </div>
 </template>

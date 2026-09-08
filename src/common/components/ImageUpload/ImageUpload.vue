@@ -71,10 +71,10 @@ const modelValue = defineModel<File | null>({
 
 const files = useSingletonArray(modelValue)
 
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 function onConfirmDeleteImage () {
-  hideModal()
+  closeModal()
   imageUpload.clear()
 
   if (onDeleteImage) {
@@ -98,7 +98,7 @@ function onConfirmDeleteImage () {
       :max-file-size-mb="5"
       @change="onUpdateImage"
       @accept-type-error="() => { imageUpload.error.value = t('global.error.file.acceptType') }"
-      @delete-file="displayModal"
+      @delete-file="openModal"
     >
       <template
         v-if="defaultImageName || imageUpload.previewUrl.value"
@@ -132,11 +132,11 @@ function onConfirmDeleteImage () {
   </div>
 
   <ConfirmationModal
-    :show="showModal"
+    :opened="modalOpened"
     :title="t('global.information.imageUpload.deleteConfirmation')"
     description=""
     @confirm="onConfirmDeleteImage"
-    @close="hideModal"
+    @close="closeModal"
   />
 </template>
 

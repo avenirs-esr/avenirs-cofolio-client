@@ -8,7 +8,7 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteDeclaredProgramConfirmModalProps {
-  show: boolean
+  opened: boolean
   declaredProgramIds: string[]
 }
 
@@ -46,7 +46,7 @@ function deletePrograms () {
 
 <template>
   <ConfirmationModal
-    :show="show"
+    :opened="opened"
     :title="t('student.personalCareer.overlays.DeleteDeclaredProgramConfirmModal.title', { count: declaredProgramIds.length })"
     :description="t('student.personalCareer.overlays.DeleteDeclaredProgramConfirmModal.description')"
     :is-loading="isLoading || isPending"

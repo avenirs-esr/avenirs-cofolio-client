@@ -5,7 +5,7 @@ import { AvButton, AvIconText, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-d
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 const route = useRoute()
 const isStudentRoute = route.path.startsWith('/student')
 </script>
@@ -14,12 +14,12 @@ const isStudentRoute = route.path.startsWith('/student')
   <AvButton
     :label="t('global.header.switchUniverse.label')"
     :icon="MDI_ICONS.SWAP_HORIZONTAL"
-    @click="displayModal"
+    @click="openModal"
   />
   <AvModal
-    :opened="showModal"
+    :opened="modalOpened"
     :close-button-label="t('global.buttons.exit')"
-    @close="hideModal"
+    @close="closeModal"
   >
     <template #header>
       <AvIconText
@@ -38,7 +38,7 @@ const isStudentRoute = route.path.startsWith('/student')
         small
         :to="isStudentRoute ? ROUTES.STAFF.HOME : undefined"
         data-testid="staff-button"
-        @click="hideModal"
+        @click="closeModal"
       />
       <AvButton
         :label="t('global.header.switchUniverse.student')"
@@ -46,7 +46,7 @@ const isStudentRoute = route.path.startsWith('/student')
         small
         :to="!isStudentRoute ? ROUTES.STUDENT.HOME : undefined"
         data-testid="student-button"
-        @click="hideModal"
+        @click="closeModal"
       />
     </div>
   </AvModal>

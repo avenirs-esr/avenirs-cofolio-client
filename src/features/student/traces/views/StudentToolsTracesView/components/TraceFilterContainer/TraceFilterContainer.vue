@@ -16,7 +16,7 @@ const emit = defineEmits<{ (e: 'update:filters',
   payload: TraceFilter & DateFilter & SearchFilter): void }>()
 
 const { t } = useI18n()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 const { isMobile } = useAvBreakpoints()
 
 const debouncedEmit = debounce((payload: TraceFilter & DateFilter & SearchFilter) => {
@@ -80,15 +80,15 @@ watch(fileGlobalTypesSelected, (newFileGlobalTypes) => {
     variant="OUTLINED"
     :icon="MDI_ICONS.FILTER_OUTLINE"
     small
-    @click="displayModal"
+    @click="openModal"
   />
   <component
     :is="isMobile ? AvModal : 'div'"
     v-bind="isMobile ? {
-      opened: showModal,
+      opened: modalOpened,
       closeButtonLabel: t('global.buttons.close'),
     } : {}"
-    @close="hideModal"
+    @close="closeModal"
   >
     <div class="av-row av-wrap av-gap-xs av-align-end av-px-xs">
       <AvInput

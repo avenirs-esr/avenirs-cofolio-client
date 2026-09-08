@@ -15,7 +15,7 @@ import { useI18n } from 'vue-i18n'
 const { id } = defineProps<MindMapNodeTemplateProps>()
 
 const { t } = useI18n()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 const { nodes } = useVueFlow()
 const { addNode } = useNodes(MIND_MAP_FLOW_ID)
 const { addErrorMessage } = useToasterStore()
@@ -35,9 +35,9 @@ const usedCategoriesCount = computed(() => allCategories.value.length - availabl
 
 const selectedCategoriesIds = ref<string[]>([])
 
-function closeModal () {
+function resetAndCloseModal () {
   selectedCategoriesIds.value = []
-  hideModal()
+  closeModal()
 }
 
 function categoryExists (categoryId: string) {
@@ -92,7 +92,7 @@ function onConfirmAddCategories () {
     })
   })
 
-  closeModal()
+  resetAndCloseModal()
 }
 </script>
 
@@ -102,16 +102,16 @@ function onConfirmAddCategories () {
     :label="t('student.buildProject.mindMap.selfKnowledge.addCategoryButton.label')"
     :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
     :flow-id="MIND_MAP_FLOW_ID"
-    @click="displayModal"
+    @click="openModal"
   >
     <template #modal>
       <AvModal
-        :opened="showModal"
+        :opened="modalOpened"
         :close-button-label="t('global.buttons.cancel')"
         :confirm-button-label="t('student.buildProject.mindMap.selfKnowledge.addCategoryButton.confirm', { count: selectedCategoriesIds.length })"
         :confirm-button-icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
         :confirm-button-disabled="selectedCategoriesIds.length === 0"
-        @close="closeModal"
+        @close="resetAndCloseModal"
         @confirm="onConfirmAddCategories"
       >
         <div

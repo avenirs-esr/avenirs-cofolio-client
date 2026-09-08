@@ -12,7 +12,7 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteActivityAssociatedElementsModalProps {
-  show: boolean
+  opened: boolean
   declaredActivityId: string
   associations: IdTitleList
 }
@@ -72,7 +72,7 @@ function onCancel () {
 
 <template>
   <DeleteAssociationsModal
-    :show="show"
+    :opened="opened"
     :associations="associations"
     :selected-association-ids="selectedIds"
     :is-loading="isPending || isLoading"

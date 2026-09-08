@@ -15,7 +15,7 @@ export interface StudentToolsTracesActionButtonsProps {
 const { tracesSummary } = defineProps<StudentToolsTracesActionButtonsProps>()
 const { t } = useI18n()
 const tracesStore = useTracesStore()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 </script>
 
 <template>
@@ -28,13 +28,13 @@ const { showModal, displayModal, hideModal } = useModal()
       data-testid="add-trace-button"
       @click="tracesStore.displayCreateTraceDrawer"
     />
-    <TracesActionsDropdown @delete-selected="displayModal" />
+    <TracesActionsDropdown @delete-selected="openModal" />
   </div>
 
   <DeleteTracesModal
-    :show="showModal"
+    :opened="modalOpened"
     :total-count="(tracesSummary?.associated ?? 0) + (tracesSummary?.unassociated ?? 0)"
-    @cancel="hideModal"
-    @deleted="hideModal"
+    @cancel="closeModal"
+    @deleted="closeModal"
   />
 </template>

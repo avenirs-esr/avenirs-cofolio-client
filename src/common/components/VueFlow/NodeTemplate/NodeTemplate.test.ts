@@ -8,9 +8,9 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const mockShowModal = ref(false)
-const mockDisplayModal = vi.fn()
-const mockHideModal = vi.fn()
+const mockModalOpened = ref(false)
+const mockOpenModal = vi.fn()
+const mockCloseModal = vi.fn()
 const mockRemoveNodeWithChildren = vi.fn()
 const mockToggle = vi.fn()
 
@@ -19,9 +19,9 @@ vi.mock('@/common/composables', async (importOriginal) => {
   return {
     ...actual,
     useModal: () => ({
-      showModal: mockShowModal,
-      displayModal: mockDisplayModal,
-      hideModal: mockHideModal
+      modalOpened: mockModalOpened,
+      openModal: mockOpenModal,
+      closeModal: mockCloseModal
     }),
   }
 })
@@ -96,7 +96,7 @@ BddTest().given('a node template', () => {
       })
 
       BddTest().then('it should display the update handles modal', () => {
-        expect(mockDisplayModal).toHaveBeenCalled()
+        expect(mockOpenModal).toHaveBeenCalled()
       })
     })
 

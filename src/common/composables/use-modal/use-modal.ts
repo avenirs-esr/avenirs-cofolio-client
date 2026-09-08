@@ -4,41 +4,41 @@ import type { Ref } from 'vue'
  * Résultat retourné par le composable useModal.
  */
 export interface UseModalReturn {
-  /** Indique si la modale est visible */
-  showModal: Ref<boolean>
-  /** Fonction pour afficher la modale */
-  displayModal: () => void
-  /** Fonction pour masquer la modale */
-  hideModal: () => void
+  /** Indique si la modale est ouverte */
+  modalOpened: Ref<boolean>
+  /** Fonction pour ouvrir la modale */
+  openModal: () => void
+  /** Fonction pour fermer la modale */
+  closeModal: () => void
 }
 
 /**
  * Composable Vue pour gérer l'état d'affichage d'une modale.
  *
  * Cette fonction fournit :
- * - un état réactif `showModal` indiquant si la modale est visible,
- * - une fonction `displayModal` pour ouvrir la modale,
- * - une fonction `hideModal` pour fermer la modale.
+ * - un état réactif `modalOpened` indiquant si la modale est ouverte,
+ * - une fonction `openModal` pour ouvrir la modale,
+ * - une fonction `closeModal` pour fermer la modale.
  *
  * @returns {UseModalReturn} Objet contenant :
- *  - `showModal` (Ref<boolean>) : état visible de la modale,
- *  - `displayModal` (function) : fonction pour afficher la modale,
- *  - `hideModal` (function) : fonction pour masquer la modale.
+ *  - `modalOpened` (Ref<boolean>) : état ouvert de la modale,
+ *  - `openModal` (function) : fonction pour ouvrir la modale,
+ *  - `closeModal` (function) : fonction pour fermer la modale.
  */
 export function useModal (): UseModalReturn {
-  const showModal = ref(false)
+  const modalOpened = ref(false)
 
-  function displayModal () {
-    showModal.value = true
+  function openModal () {
+    modalOpened.value = true
   }
 
-  function hideModal () {
-    showModal.value = false
+  function closeModal () {
+    modalOpened.value = false
   }
 
   return {
-    showModal,
-    displayModal,
-    hideModal
+    modalOpened,
+    openModal,
+    closeModal
   }
 }

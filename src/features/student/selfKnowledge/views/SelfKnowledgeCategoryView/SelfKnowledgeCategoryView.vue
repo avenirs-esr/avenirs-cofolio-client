@@ -29,7 +29,7 @@ const props = defineProps<SelfKnowledgeCategoryViewProps>()
 
 const { t } = useI18n()
 const { navigateToStudentSelfKnowledgeElementUpdate, navigateToStudentTrajectories } = useNavigation()
-const { showModal: showConfirmModal, displayModal: displayConfirmModal, hideModal: hideConfirmModal } = useModal()
+const { modalOpened: confirmModalOpened, openModal: openConfirmModal, closeModal: closeConfirmModal } = useModal()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
 const categoryId = computed(() => props.categoryId as ESelfKnowledgeCategory)
@@ -129,7 +129,7 @@ function onUpdateSelected () {
         <template #title>
           <SelfKnowledgeElementDetailsDropdown
             @update-selected="onUpdateSelected"
-            @delete-selected="displayConfirmModal"
+            @delete-selected="openConfirmModal"
           />
         </template>
 
@@ -146,11 +146,11 @@ function onUpdateSelected () {
   </QuerySuspense>
 
   <ConfirmationModal
-    :show="showConfirmModal"
+    :opened="confirmModalOpened"
     :title="t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.confirmDeleteElements.title', { count: 1 })"
     :description="selectedElementDetails?.title"
     :is-loading="isLoading"
-    @close="hideConfirmModal"
+    @close="closeConfirmModal"
     @confirm="deleteSelfKnowledgeElement"
   />
 </template>

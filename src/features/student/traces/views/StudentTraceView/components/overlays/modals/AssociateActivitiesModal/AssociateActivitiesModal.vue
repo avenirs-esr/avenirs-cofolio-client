@@ -16,13 +16,13 @@ export type AssociationActivity = Association & {
 }
 
 export interface AssociateActivitiesModalProps {
-  show: boolean
+  opened: boolean
   activities: AssociationActivity[]
   isLoading?: boolean
 }
 
 const {
-  show,
+  opened,
   activities,
   isLoading = false,
 } = defineProps<AssociateActivitiesModalProps>()
@@ -36,16 +36,16 @@ const emit = defineEmits<{
 const { t } = useI18n()
 
 const {
-  showModal: showCancelConfirmationModal,
-  displayModal: displayCancelConfirmationModal,
-  hideModal: hideCancelConfirmationModal
+  modalOpened: cancelConfirmationModalOpened,
+  openModal: openCancelConfirmationModal,
+  closeModal: closeCancelConfirmationModal
 } = useModal()
 
 const {
   selectedOptions: selectedActivityOptions,
-  showConfirmModal,
-  displayConfirmModal,
-  hideConfirmModal,
+  confirmModalOpened,
+  openConfirmModal,
+  closeConfirmModal,
   onDeleteItem: onDeleteActivity,
 } = useAssociationModal<AvAutocompleteOption>()
 
@@ -63,9 +63,9 @@ const selectedAssociations = computed<AssociationActivity[]>(() =>
   activities.filter(activity => selectedActivityOptions.value.some(option => option.value === activity.id))
 )
 
-watch(() => show, (newVal) => {
+watch(() => opened, (newVal) => {
   if (!newVal) {
-    hideConfirmModal()
+    closeConfirmModal()
     selectedActivityOptions.value = []
   }
 })
@@ -86,7 +86,7 @@ function onConfirm () {
 
 function onAssociateModalClose () {
   if (selectedActivityOptions.value.length > 0) {
-    displayCancelConfirmationModal()
+    openCancelConfirmationModal()
     return
   }
 
@@ -94,14 +94,14 @@ function onAssociateModalClose () {
 }
 
 function onConfirmCancelAssociateModal () {
-  hideCancelConfirmationModal()
+  closeCancelConfirmationModal()
   onCancel()
 }
 </script>
 
 <template>
   <AvModal
-    :opened="show"
+    :opened="opened"
     data-testid="associate-activities-modal"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('student.traces.views.StudentTraceView.AssociateActivitiesModal.confirm', { count: selectedAssociations.length })"
@@ -109,7 +109,7 @@ function onConfirmCancelAssociateModal () {
     :confirm-button-icon="ICONS.ASSOCIATIONS"
     :is-loading="isLoading"
     @close="onAssociateModalClose"
-    @confirm="displayConfirmModal"
+    @confirm="openConfirmModal"
   >
     <template #header>
       <div
@@ -145,16 +145,16 @@ function onConfirmCancelAssociateModal () {
   </AvModal>
 
   <ConfirmAssociateModal
-    :show="showConfirmModal"
+    :opened="confirmModalOpened"
     :title="t('student.traces.views.StudentTraceView.ConfirmAssociateActivitiesModal.title')"
     :items="selectedAssociations"
-    @cancel="hideConfirmModal"
+    @cancel="closeConfirmModal"
     @confirm="onConfirm"
   />
 
   <ConfirmationModal
-    :show="showCancelConfirmationModal"
-    @close="hideCancelConfirmationModal"
+    :opened="cancelConfirmationModalOpened"
+    @close="closeCancelConfirmationModal"
     @confirm="onConfirmCancelAssociateModal"
   />
 </template>

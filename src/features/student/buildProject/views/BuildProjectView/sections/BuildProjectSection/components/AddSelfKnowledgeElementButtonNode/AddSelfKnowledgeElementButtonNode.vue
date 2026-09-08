@@ -20,7 +20,7 @@ import { useI18n } from 'vue-i18n'
 
 const { id, data } = defineProps<MindMapNodeTemplateProps>()
 
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 const { addNode, findNodeByTitleAndDescription } = useNodes(MIND_MAP_FLOW_ID)
 const { addErrorMessage } = useToasterStore()
 const { t } = useI18n()
@@ -56,10 +56,10 @@ enum TabIndex {
 const selectedElementsIds = ref<string[]>([])
 const activeTab = ref(TabIndex.ELEMENTS)
 
-function closeModal () {
+function resetAndCloseModal () {
   selectedElementsIds.value = []
   resetForm()
-  hideModal()
+  closeModal()
 }
 
 function onConfirmAddElements (formData?: AddElementFormData) {
@@ -117,7 +117,7 @@ function onConfirmAddElements (formData?: AddElementFormData) {
     })
   })
 
-  closeModal()
+  resetAndCloseModal()
 }
 </script>
 
@@ -129,16 +129,16 @@ function onConfirmAddElements (formData?: AddElementFormData) {
     :flow-id="MIND_MAP_FLOW_ID"
     icon-only
     small
-    @click="displayModal"
+    @click="openModal"
   >
     <template #modal>
       <AvModal
-        :opened="showModal"
+        :opened="modalOpened"
         :close-button-label="t('global.buttons.cancel')"
         :confirm-button-label="t('student.buildProject.mindMap.selfKnowledge.addElementButton.confirm', { count: activeTab === TabIndex.ELEMENTS ? selectedElementsIds.length : 1 })"
         :confirm-button-icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
         :confirm-button-disabled="activeTab === TabIndex.ELEMENTS ? selectedElementsIds.length === 0 : !isModified || !isValid"
-        @close="closeModal"
+        @close="resetAndCloseModal"
         @confirm="activeTab === TabIndex.ELEMENTS ? onConfirmAddElements() : form.handleSubmit()"
       >
         <AvTabs

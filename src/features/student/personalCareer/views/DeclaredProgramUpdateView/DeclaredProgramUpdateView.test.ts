@@ -40,9 +40,9 @@ vi.mock('@/common/composables/use-modal/use-modal', async (importOriginal) => {
   return {
     ...actual,
     useModal: () => ({
-      showModal: showConfirmationModal,
-      displayModal: displayConfirmationModal,
-      hideModal: hideConfirmationModal
+      modalOpened: showConfirmationModal,
+      openModal: displayConfirmationModal,
+      closeModal: hideConfirmationModal
     })
   }
 })

@@ -46,12 +46,12 @@ function backToStudentDeclaredSkillViewTabs () {
 
 const isDirty = computed(() => updateInProgress.value)
 
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 const { canLeave, confirm, cancel } = useUnsavedChangesGuard({
   isDirty,
-  openModal: displayModal,
-  closeModal: hideModal
+  openModal,
+  closeModal
 })
 
 async function handleCancel () {
@@ -98,7 +98,7 @@ async function handleCancel () {
   </AvTabs>
 
   <ConfirmationModal
-    :show="showModal"
+    :opened="modalOpened"
     @confirm="confirm"
     @close="cancel"
   />

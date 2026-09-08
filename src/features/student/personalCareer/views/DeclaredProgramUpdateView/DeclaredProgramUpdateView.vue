@@ -23,7 +23,7 @@ const { isMobile } = useAvBreakpoints()
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
 const isDirty = ref(false)
 
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 const { declaredPrograms, pageInfo, loadMoreDeclaredPrograms } = usePaginatedDeclaredPrograms({ pageSize: 3 })
 const { data: declaredProgramDetailed } = useGetDeclaredProgram(selectedProgramId)
@@ -47,8 +47,8 @@ const {
   cancel
 } = useUnsavedChangesGuard({
   isDirty,
-  openModal: displayModal,
-  closeModal: hideModal
+  openModal,
+  closeModal
 })
 
 async function onSelectProgram (programId: string) {
@@ -98,7 +98,7 @@ function onProgramUpdated () {
     </div>
   </div>
   <ConfirmationModal
-    :show="showModal"
+    :opened="modalOpened"
     :description="t('student.personalCareer.views.DeclaredProgramUpdateView.confirmationModal.description')"
     @close="cancel"
     @confirm="confirm"

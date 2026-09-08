@@ -19,13 +19,13 @@ export type SelectedSkill = Omit<AssociationDeclaredSkill, 'disabled'>
 export type DeclaredSkillAvAutocompleteOption = AvAutocompleteOption & { type: EExternalSkillType }
 
 export interface AssociateDeclaredSkillsModalProps {
-  show: boolean
+  opened: boolean
   skills: AssociationDeclaredSkill[]
   isLoading?: boolean
 }
 
 const {
-  show,
+  opened,
   skills,
   isLoading = false,
 } = defineProps<AssociateDeclaredSkillsModalProps>()
@@ -40,16 +40,16 @@ const { t } = useI18n()
 
 const {
   selectedOptions: selectedSkillOptions,
-  showConfirmModal,
-  displayConfirmModal,
-  hideConfirmModal,
+  confirmModalOpened,
+  openConfirmModal,
+  closeConfirmModal,
   onDeleteItem: onDeleteSkill,
 } = useAssociationModal<DeclaredSkillAvAutocompleteOption>()
 
 const {
-  showModal: showCancelConfirmationModal,
-  displayModal: displayCancelConfirmationModal,
-  hideModal: hideCancelConfirmationModal
+  modalOpened: cancelConfirmationModalOpened,
+  openModal: openCancelConfirmationModal,
+  closeModal: closeCancelConfirmationModal
 } = useModal()
 
 const skillAutocompleteOptions = computed<DeclaredSkillAvAutocompleteOption[]>(() =>
@@ -70,9 +70,9 @@ const selectedAssociations = computed<SelectedSkill[]>(() =>
   }))
 )
 
-watch(() => show, (newVal) => {
+watch(() => opened, (newVal) => {
   if (!newVal) {
-    hideConfirmModal()
+    closeConfirmModal()
     selectedSkillOptions.value = []
   }
 })
@@ -93,21 +93,21 @@ function onConfirm () {
 
 function onAssociateModalClose () {
   if (selectedSkillOptions.value.length > 0) {
-    displayCancelConfirmationModal()
+    openCancelConfirmationModal()
     return
   }
   onCancel()
 }
 
 function onConfirmCancelAssociateModal () {
-  hideCancelConfirmationModal()
+  closeCancelConfirmationModal()
   onCancel()
 }
 </script>
 
 <template>
   <AvModal
-    :opened="show"
+    :opened="opened"
     data-testid="associate-declared-skills-modal"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('student.declaredSkills.overlays.modals.AssociateDeclaredSkillsModal.confirm', { count: selectedAssociations.length })"
@@ -115,7 +115,7 @@ function onConfirmCancelAssociateModal () {
     :confirm-button-icon="ICONS.ASSOCIATIONS"
     :is-loading="isLoading"
     @close="onAssociateModalClose"
-    @confirm="displayConfirmModal"
+    @confirm="openConfirmModal"
   >
     <template #header>
       <div
@@ -147,16 +147,16 @@ function onConfirmCancelAssociateModal () {
   </AvModal>
 
   <ConfirmAssociateModal
-    :show="showConfirmModal"
+    :opened="confirmModalOpened"
     :title="t('student.declaredSkills.overlays.modals.AssociateDeclaredSkillsModal.confirmTitle', selectedAssociations.length)"
     :items="selectedAssociations"
-    @cancel="hideConfirmModal"
+    @cancel="closeConfirmModal"
     @confirm="onConfirm"
   />
 
   <ConfirmationModal
-    :show="showCancelConfirmationModal"
-    @close="hideCancelConfirmationModal"
+    :opened="cancelConfirmationModalOpened"
+    @close="closeCancelConfirmationModal"
     @confirm="onConfirmCancelAssociateModal"
   />
 </template>

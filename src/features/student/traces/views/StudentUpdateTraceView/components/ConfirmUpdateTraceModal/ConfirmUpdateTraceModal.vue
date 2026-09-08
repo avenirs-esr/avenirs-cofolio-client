@@ -6,14 +6,11 @@ import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ConfirmUpdateTraceModalProps {
-  show: boolean
+  opened: boolean
   lockedDeclaredActivities: TraceDeclaredActivityDTO[]
 }
 
-const {
-  show,
-  lockedDeclaredActivities
-} = defineProps<ConfirmUpdateTraceModalProps>()
+const { lockedDeclaredActivities } = defineProps<ConfirmUpdateTraceModalProps>()
 
 defineEmits<{
   (e: 'cancel'): void
@@ -25,7 +22,7 @@ const { t } = useI18n()
 
 <template>
   <ConfirmationModal
-    :show="show"
+    :opened="opened"
     :confirm-button-label="t('student.traces.views.StudentUpdateTraceView.ConfirmUpdateTraceModal.confirmLabel')"
     :title="t('student.traces.views.StudentUpdateTraceView.ConfirmUpdateTraceModal.emptyTitle')"
     :show-description="false"

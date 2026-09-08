@@ -22,7 +22,7 @@ const selectedProgramId = computed(() => String(route.params.id ?? ''))
 const { declaredPrograms, pageInfo, loadMoreDeclaredPrograms } = usePaginatedDeclaredPrograms()
 const { data: declaredProgramDetailed, isLoading, isError, error } = useGetDeclaredProgram(selectedProgramId)
 const { navigateToStudentUpdateDeclaredProgram, navigateToStudentDeclaredPrograms } = useNavigation()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 
 const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 const isDeclaredProgramNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_PROGRAM_NOT_FOUND || isNotFound.value)
@@ -45,7 +45,7 @@ function onSelectProgram (programId: string) {
 }
 
 function handleConfirmDelete () {
-  hideModal()
+  closeModal()
   navigateToStudentDeclaredPrograms({ replace: true })
 }
 </script>
@@ -80,7 +80,7 @@ function handleConfirmDelete () {
       >
         <ManageDeclaredProgramDropdown
           @update-selected="navigateToStudentUpdateDeclaredProgram"
-          @delete-selected="displayModal"
+          @delete-selected="openModal"
         />
         <DeclaredProgramDetailed
           :key="declaredProgramDetailed.id"
@@ -91,9 +91,9 @@ function handleConfirmDelete () {
   </div>
 
   <DeleteDeclaredProgramConfirmModal
-    :show="showModal"
+    :opened="modalOpened"
     :declared-program-ids="[selectedProgramId]"
-    @close="hideModal"
+    @close="closeModal"
     @confirm="handleConfirmDelete"
   />
 </template>

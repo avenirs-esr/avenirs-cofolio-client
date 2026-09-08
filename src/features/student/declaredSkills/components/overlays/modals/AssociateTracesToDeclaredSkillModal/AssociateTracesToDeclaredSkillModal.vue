@@ -17,11 +17,11 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateTracesToDeclaredSkillModalProps {
-  show: boolean
+  opened: boolean
   declaredSkillId: string
 }
 
-const { show, declaredSkillId } = defineProps<AssociateTracesToDeclaredSkillModalProps>()
+const { opened, declaredSkillId } = defineProps<AssociateTracesToDeclaredSkillModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -56,7 +56,7 @@ const {
   isError: isSearchError,
   error: searchError
 } = useSearchTracesForAssociation(params, {
-  query: { enabled: computed(() => show) }
+  query: { enabled: computed(() => opened) }
 })
 
 const traces = computed(() => data.value?.data ?? [])
@@ -93,7 +93,7 @@ function associateDeclaredSkillWithTraces (idsToAssociate: string[]) {
 <template>
   <AssociateTracesModal
     v-model:selected-trace-type="selectedTraceType"
-    :show="show"
+    :opened="opened"
     :traces="traces"
     :is-loading="isPending || isLoading"
     @cancel="emit('cancel')"

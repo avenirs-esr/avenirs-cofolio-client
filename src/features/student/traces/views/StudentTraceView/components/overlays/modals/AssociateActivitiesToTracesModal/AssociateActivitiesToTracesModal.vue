@@ -23,11 +23,11 @@ import { keepPreviousData, useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociateActivitiesToTracesModalProps {
-  show: boolean
+  opened: boolean
   traceId: string
 }
 
-const { show, traceId } = defineProps<AssociateActivitiesToTracesModalProps>()
+const { traceId } = defineProps<AssociateActivitiesToTracesModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -115,7 +115,7 @@ function onAssociate (ids: string[]) {
 
 <template>
   <AssociateActivitiesModal
-    :show="show"
+    :opened="opened"
     :activities="associationActivities"
     :is-loading="isLoading || isPending || isTaskLoading"
     @cancel="emit('cancel')"

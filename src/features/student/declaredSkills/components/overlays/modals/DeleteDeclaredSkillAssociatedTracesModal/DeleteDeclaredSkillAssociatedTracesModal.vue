@@ -16,7 +16,7 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteDeclaredSkillAssociatedTracesModalProps {
-  show: boolean
+  opened: boolean
   declaredSkillProgressId: string
   associations: TraceAssociationDTO[]
 }
@@ -79,7 +79,7 @@ function onCancel () {
 
 <template>
   <DeleteAssociationsModal
-    :show="show"
+    :opened="opened"
     :associations="selectableElements"
     :selected-association-ids="selectedIds"
     :is-loading="isLoading"
