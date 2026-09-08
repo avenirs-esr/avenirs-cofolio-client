@@ -18,7 +18,7 @@ export interface validateDateIntervalArgs {
  */
 export interface UseFormValidatorsReturn {
   /** Validates that a value is not empty */
-  validateRequired: (value: string | undefined | null) => string | undefined
+  validateRequired: (value: string[] | string | undefined | null) => string | undefined
   /** Validates that a value is greater than or equal to a minimum */
   validateMin: (value: number | null | undefined, min: number) => string | undefined
   /** Validates that a value is less than or equal to a maximum */
@@ -55,7 +55,7 @@ export interface ValidationOptions {
 export function useFormValidators (): UseFormValidatorsReturn {
   const { t } = useI18n()
 
-  function validateRequired (value: string | undefined | null): string | undefined {
+  function validateRequired (value: string[] | string | undefined | null): string | undefined {
     if (isEmpty(value)) {
       return t('global.error.form.requiredField')
     }

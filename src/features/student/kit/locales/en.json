@@ -51,6 +51,22 @@
               "title": "Multimedia content"
             }
           },
+          "overlay": {
+            "ExportKitModal": {
+              "error": "An error occurred while exporting the kit.",
+              "exportOptions": {
+                "label": "What would you like to export?",
+                "mediaContent": "Multimedia content (zip folder)",
+                "textContent": "Text content (docx file)"
+              },
+              "kitName": {
+                "label": "Kit title",
+                "placeholder": "Enter the name of your kit"
+              },
+              "success": "Your kit has been successfully exported!",
+              "title": "Kit ready to be exported"
+            }
+          },
           "subtitle": "Ready-to-use CoFolio raw material",
           "title": "My ready-to-use kit",
           "traceValorizedItem": {

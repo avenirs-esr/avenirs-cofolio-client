@@ -1,21 +1,29 @@
 import ExportKitButton from '@/features/student/kit/views/StudentToolsKitView/components/interaction/ExportKitButton/ExportKitButton.vue'
+import { ExportKitModalStub } from '@/features/student/kit/views/StudentToolsKitView/components/overlay/ExportKitModal/ExportKitModal.stub'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 
-const mockGenerateKitDocx = vi.fn()
-const mockIsLoading = ref(false)
+const mockShowModal = ref(false)
+const mockDisplayModal = vi.fn()
+const mockHideModal = vi.fn()
 
-vi.mock('@/features/student/kit/composables/use-export-kit/use-export-kit', () => ({
-  useExportKit: () => ({
-    generateKitDocx: mockGenerateKitDocx,
-    isLoading: mockIsLoading,
-  }),
-}))
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useModal: () => ({
+      showModal: mockShowModal,
+      displayModal: mockDisplayModal,
+      hideModal: mockHideModal
+    })
+  }
+})
 
 BddTest().given('an ExportKitButton component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ExportKitButton>>
 
-  const stubs = { AvButton: AvButtonStub }
+  const stubs = { AvButton: AvButtonStub, ExportKitModal: ExportKitModalStub }
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
@@ -27,25 +35,29 @@ BddTest().given('an ExportKitButton component', () => {
       expect(wrapper.findComponent(AvButtonStub).props().label).toBe('Exporter mon kit')
     })
 
+    BddTest().then('it should render an hidden ExportKitModal', () => {
+      expect(wrapper.findComponent(ExportKitModalStub).exists()).toBe(true)
+      expect(wrapper.findComponent(ExportKitModalStub).props().opened).toBe(false)
+    })
+
     BddTest().and('the button is clicked', () => {
       beforeEach(() => {
         wrapper.findComponent(AvButtonStub).trigger('click')
       })
 
-      BddTest().then('it should call generateKitDocx', () => {
-        expect(mockGenerateKitDocx).toHaveBeenCalled()
+      BddTest().then('it should call displayModal', () => {
+        expect(mockDisplayModal).toHaveBeenCalled()
       })
     })
-  })
 
-  BddTest().when('the useExportKit returns a loading state', () => {
-    beforeEach(() => {
-      mockIsLoading.value = true
-      wrapper = mount(ExportKitButton, { global: { stubs } })
-    })
+    BddTest().and('the ExportKitModal emits close', () => {
+      beforeEach(() => {
+        wrapper.findComponent(ExportKitModalStub).vm.$emit('close')
+      })
 
-    BddTest().then('the AvButton should be in loading state', () => {
-      expect(wrapper.findComponent(AvButtonStub).props('isLoading')).toBe(true)
+      BddTest().then('it should call hideModal', () => {
+        expect(mockHideModal).toHaveBeenCalled()
+      })
     })
   })
 })

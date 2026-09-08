@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { useExportKit } from '@/features/student/kit/composables/use-export-kit/use-export-kit'
+import { useModal } from '@/common/composables'
+import ExportKitModal from '@/features/student/kit/views/StudentToolsKitView/components/overlay/ExportKitModal/ExportKitModal.vue'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-const { generateKitDocx, isLoading } = useExportKit()
-
 const { t } = useI18n()
+const { showModal, displayModal, hideModal } = useModal()
 </script>
 
 <template>
@@ -15,8 +15,12 @@ const { t } = useI18n()
       :icon="MDI_ICONS.DOWNLOAD_OUTLINE"
       variant="FLAT"
       small
-      :is-loading="isLoading"
-      @click="() => generateKitDocx('mon-document.docx')"
+      @click="displayModal"
     />
   </div>
+
+  <ExportKitModal
+    :opened="showModal"
+    @close="hideModal"
+  />
 </template>

@@ -34,7 +34,7 @@
       },
       "views": {
         "StudentToolsKitView": {
-          "consign": "Retrouvez ici tout le contenu que vous avez valorisé. Piochez, triez, ajoutez, supprimez et exportez-le pour créer votre CV, votre portfolio, votre profil linkedIn ou votre lettre de motivation !",
+          "consign": "Retrouvez ici tout le contenu que vous avez valorisé. Piochez, triez, ajoutez, supprimez et exportez-le pour créer votre CV, votre portfolio, votre profil linkedIn ou votre lettre de motivation\u00A0!",
           "errors": {
             "profile": "Une erreur est survenue lors de la récupération de votre profil. Veuillez réessayer plus tard."
           },
@@ -49,6 +49,22 @@
             },
             "KitMultimediaContentTab": {
               "title": "Contenu multimédia"
+            }
+          },
+          "overlay": {
+            "ExportKitModal": {
+              "error": "Une erreur est survenue lors de l'export du kit.",
+              "exportOptions": {
+                "label": "Que souhaitez-vous exporter ?",
+                "mediaContent": "Contenu multimédia (dossier .zip)",
+                "textContent": "Contenu textuel (fichier .docx)"
+              },
+              "kitName": {
+                "label": "Intitulé du kit",
+                "placeholder": "Entrez le nom de votre kit"
+              },
+              "success": "Votre kit a bien été exporté avec succès !",
+              "title": "Kit prêt à être exporté"
             }
           },
           "subtitle": "Matière brute CoFolio prête à l'emploi",
