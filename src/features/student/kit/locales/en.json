@@ -38,6 +38,11 @@
           "errors": {
             "profile": "An error occurred while retrieving your profile. Please try again later."
           },
+          "interaction": {
+            "ExportKitButton": {
+              "label": "Export my kit"
+            }
+          },
           "KitContentTabs": {
             "KitTextContentTab": {
               "title": "Text content"

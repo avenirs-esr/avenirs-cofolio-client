@@ -3,6 +3,7 @@ import { server } from '@/__mocks__/msw/server'
 import { ProfileCardStub } from '@/common/components/ProfileCard/ProfileCard.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants/route-names'
+import { ExportKitButtonStub } from '@/features/student/kit/views/StudentToolsKitView/components/interaction/ExportKitButton/ExportKitButton.stub'
 import { KitContentTabsStub } from '@/features/student/kit/views/StudentToolsKitView/components/KitContentTabs/KitContentTabs.stub'
 import StudentToolsKitView from '@/features/student/kit/views/StudentToolsKitView/StudentToolsKitView.vue'
 import { AvBreadcrumbStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -17,6 +18,7 @@ BddTest().given('a student tools kit view', () => {
     ProfileCard: ProfileCardStub,
     QuerySuspense: QuerySuspenseStub,
     KitContentTabs: KitContentTabsStub,
+    ExportKitButton: ExportKitButtonStub,
   }
 
   BddTest().when('the view is mounted with a server error', async () => {
@@ -24,6 +26,10 @@ BddTest().given('a student tools kit view', () => {
       server.use(getProfileErrorHandler)
       wrapper = mountComponent(StudentToolsKitView, { global: { stubs } })
       await flushPromises()
+    })
+
+    BddTest().then('it should display the export kit button', () => {
+      expect(wrapper.findComponent(ExportKitButtonStub).exists()).toBe(true)
     })
 
     BddTest().then('it should display the breadcrumbs', () => {
@@ -59,6 +65,10 @@ BddTest().given('a student tools kit view', () => {
     beforeEach(async () => {
       wrapper = mountComponent(StudentToolsKitView, { global: { stubs } })
       await flushPromises()
+    })
+
+    BddTest().then('it should display the export kit button', () => {
+      expect(wrapper.findComponent(ExportKitButtonStub).exists()).toBe(true)
     })
 
     BddTest().then('it should display the breadcrumbs', () => {
