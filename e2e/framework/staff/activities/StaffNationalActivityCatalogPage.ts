@@ -2,10 +2,14 @@ import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
+import { t } from '@e2e/framework/shared/utils/i18n'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+import { ActivityDashboardSection } from '@e2e/framework/staff/activities/componentObjects/ActivityDashboardSection'
 import { NationalActivityCatalogPreviewTabObject } from '@e2e/framework/staff/activities/componentObjects/NationalActivityCatalogPreviewTabObject'
 import { expect, type Page } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
+
+const KEY_FIGURES_TAB_QUERY_VALUE = 'KEY_FIGURES'
 
 @Fixture<typeof test>('staffNationalActivityCatalogPage')
 export class StaffNationalActivityCatalogPage extends BasePage {
@@ -43,6 +47,16 @@ export class StaffNationalActivityCatalogPage extends BasePage {
 
   private getPreviewTabObject () {
     return new NationalActivityCatalogPreviewTabObject(this.page)
+  }
+
+  private getKeyFiguresTabSelector () {
+    return this.page.getByTestId('national-activity-catalog-key-figures-tab-item')
+  }
+
+  private getActivityDashboardSection () {
+    return new ActivityDashboardSection(
+      this.page.getByTestId('activity-dashboard-section'),
+    )
   }
 
   @Given('the staff navigates to the first national activity catalog page')
@@ -145,6 +159,62 @@ export class StaffNationalActivityCatalogPage extends BasePage {
   @Then('the recommended completion contexts are visible in the preview tab')
   async verifyRecommendedCompletionContextsInPreviewTab () {
     await this.getPreviewTabObject().verifyRecommendedCompletionContextsInfoVisible()
+  }
+
+  @Then('the national activity catalog key figures tab selector is visible')
+  async verifyKeyFiguresTabSelectorVisible () {
+    await expect(this.getKeyFiguresTabSelector()).toBeVisible()
+  }
+
+  @Then('the national activity catalog key figures tab selector is labelled with the key figures title')
+  async verifyKeyFiguresTabSelectorLabel () {
+    await expect(this.getKeyFiguresTabSelector()).toContainText(
+      t('staff.activities.views.NationalActivityCatalogView.tabs.keyFigures'),
+    )
+  }
+
+  @When('the user clicks on the national activity catalog key figures tab')
+  async clickKeyFiguresTab () {
+    await clickOnElement(this.getKeyFiguresTabSelector())
+  }
+
+  @When('the staff reloads the national activity catalog page on the key figures tab')
+  async reloadOnKeyFiguresTab () {
+    const url = new URL(this.page.url())
+    url.searchParams.set('tab', KEY_FIGURES_TAB_QUERY_VALUE)
+
+    await this.page.goto(url.toString())
+    await waitForPageLoad(this.page)
+  }
+
+  @Then('the national activity catalog key figures tab is selected')
+  async verifyKeyFiguresTabSelected () {
+    await expect(this.getKeyFiguresTabSelector()).toHaveAttribute('aria-selected', 'true')
+  }
+
+  @Then('the activity dashboard section is visible')
+  async verifyActivityDashboardSectionVisible () {
+    await this.getActivityDashboardSection().verifyVisible()
+  }
+
+  @Then('the activity dashboard section is not visible')
+  async verifyActivityDashboardSectionHidden () {
+    await this.getActivityDashboardSection().isHidden()
+  }
+
+  @Then('the unique student views dashboard card is displayed')
+  async verifyUniqueStudentViewsDashboardCard () {
+    await this.getActivityDashboardSection().verifyUniqueStudentViewsCard()
+  }
+
+  @Then('the enrolled students dashboard card is displayed')
+  async verifyEnrolledStudentsDashboardCard () {
+    await this.getActivityDashboardSection().verifyEnrolledStudentsCard()
+  }
+
+  @Then('the unsubscriptions of the last 30 days dashboard card is displayed')
+  async verifyUnsubscriptionsLast30DaysDashboardCard () {
+    await this.getActivityDashboardSection().verifyUnsubscriptionsLast30DaysCard()
   }
 
   getEditDraftButton () {

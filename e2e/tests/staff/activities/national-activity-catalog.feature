@@ -35,6 +35,15 @@ Feature: Staff National Activity Catalog
   Scenario: The national activity catalog preview tab selector is visible
     Then the national activity catalog preview tab selector is visible
 
+  Scenario: The national activity catalog key figures tab selector is visible
+    Then the national activity catalog key figures tab selector is visible
+
+  Scenario: The national activity catalog key figures tab selector is labelled
+    Then the national activity catalog key figures tab selector is labelled with the key figures title
+
+  Scenario: The activity dashboard section is not rendered before the key figures tab is opened
+    Then the activity dashboard section is not visible
+
   Rule: Catalog preview tab
 
     Background:
@@ -57,6 +66,45 @@ Feature: Staff National Activity Catalog
 
     Scenario: The recommended completion contexts are visible in the preview tab
       Then the recommended completion contexts are visible in the preview tab
+
+  Rule: Key figures tab
+
+    Background:
+      When the user clicks on the national activity catalog key figures tab
+
+    @high @key-figures
+    Scenario: The key figures tab becomes the selected tab
+      Then the national activity catalog key figures tab is selected
+
+    @high @key-figures
+    Scenario: Opening the key figures tab reflects the tab in the URL
+      Then the URL contains "tab=KEY_FIGURES"
+
+    @high @key-figures
+    Scenario: The activity dashboard section is displayed in the key figures tab
+      Then the activity dashboard section is visible
+
+    @high @key-figures
+    Scenario: The activity dashboard displays the unique student views card
+      Then the unique student views dashboard card is displayed
+
+    @high @key-figures
+    Scenario: The activity dashboard displays the enrolled students card
+      Then the enrolled students dashboard card is displayed
+
+    @high @key-figures
+    Scenario: The activity dashboard displays the unsubscriptions of the last 30 days card
+      Then the unsubscriptions of the last 30 days dashboard card is displayed
+
+  Rule: Key figures tab deep link
+
+    Background:
+      When the staff reloads the national activity catalog page on the key figures tab
+
+    @medium @key-figures
+    Scenario: The key figures tab is restored from the URL
+      Then the national activity catalog key figures tab is selected
+      And the activity dashboard section is visible
 
 
   Rule: Edit draft activity
