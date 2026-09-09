@@ -3,6 +3,8 @@ import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types
 import { EAssociationContextType, EUserCategory, useGetFeedbackDetails } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import AssociatedElementCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementCard/AssociatedElementCard.vue'
+import AssociatedElementDetailsDrawer
+  from '@/features/staff/feedbacks/views/FeedbacksView/components/drawers/AssociatedElementDetailsDrawer/AssociatedElementDetailsDrawer.vue'
 import { AvCard } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -12,6 +14,7 @@ interface AssociatedElementSummaryCardProps {
 
 const { feedbackId } = defineProps<AssociatedElementSummaryCardProps>()
 const { t } = useI18n()
+const selectedElement = ref<FeedbackAssociatedElement>()
 
 const { data: feedbackDetails, isLoading, error } = useGetFeedbackDetails(EUserCategory.STAFF, feedbackId)
 
@@ -32,6 +35,16 @@ const associatedElements = computed<FeedbackAssociatedElement[]>(() => {
 
   return [...traces, ...skills]
 })
+
+function handleShowDetails (element: FeedbackAssociatedElement) {
+  if (element.type === EAssociationContextType.TRACE) {
+    selectedElement.value = element
+  }
+}
+
+function closeDetailsDrawer () {
+  selectedElement.value = undefined
+}
 </script>
 
 <template>
@@ -55,8 +68,15 @@ const associatedElements = computed<FeedbackAssociatedElement[]>(() => {
           v-for="element in associatedElements"
           :key="element.data.id"
           :feedback-associated-element="element"
+          @show-details="handleShowDetails"
         />
       </div>
     </QuerySuspense>
   </AvCard>
+
+  <AssociatedElementDetailsDrawer
+    v-if="selectedElement"
+    :feedback-associated-element="selectedElement"
+    @close="closeDetailsDrawer"
+  />
 </template>

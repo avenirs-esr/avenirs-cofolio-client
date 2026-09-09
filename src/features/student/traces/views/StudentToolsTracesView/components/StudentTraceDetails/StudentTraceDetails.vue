@@ -13,9 +13,15 @@ import { useI18n } from 'vue-i18n'
 
 interface StudentDetailedTraceInformationProps {
   trace: TraceDetailDTO
+  hideValorizedBadge?: boolean
+  disableRowLayout?: boolean
 }
 
-const { trace } = defineProps<StudentDetailedTraceInformationProps>()
+const {
+  trace,
+  hideValorizedBadge = false,
+  disableRowLayout = false
+} = defineProps<StudentDetailedTraceInformationProps>()
 
 const { t } = useI18n()
 const attachment = computed(() => trace.attachment)
@@ -33,8 +39,14 @@ const authorTypeLabel = computed(() =>
 
 <template>
   <div class="av-col av-gap-md av-px-xs">
-    <ValorizedBadge :valorized="trace.valorized" />
-    <div class="av-col av-row--md av-justify-between av-gap-md">
+    <ValorizedBadge
+      v-if="!hideValorizedBadge"
+      :valorized="trace.valorized"
+    />
+    <div
+      class="av-col av-justify-between av-gap-md"
+      :class="{ 'av-row--md': !disableRowLayout }"
+    >
       <div class="av-col av-flex-fill av-gap-md">
         <TraceNameInput
           :model-value="trace.title"
@@ -82,7 +94,7 @@ const authorTypeLabel = computed(() =>
           class="av-col av-gap-xs indicators"
           data-testid="author-type"
         >
-          <span class="b2-regular">
+          <span class="b2-regular av-py-xs">
             {{ t('student.traces.views.StudentToolsTracesView.studentTraceDetails.authorType.label') }}
           </span>
           <AvIconText
