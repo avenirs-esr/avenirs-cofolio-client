@@ -1,0 +1,211 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/staff/activities/edit-national-activity.feature.spec.js >> Staff Edit National Activity Page >> Managing activity resources >> Cancelling the deletion keeps the resource
+- Location: .features-gen/tests/staff/activities/edit-national-activity.feature.spec.js:313:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('delete-activity-resources-confirmation-modal').getByRole('button', { name: 'Annuler' })
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('delete-activity-resources-confirmation-modal').getByRole('button', { name: 'Annuler' })
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - link "Accueil - Cofolio Staff":
+    - /url: /cofolio/staff
+    - img
+  - list:
+    - listitem:
+      - button "Notifications (10)"
+    - listitem:
+      - button "M. dupont"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/staff
+      - listitem:
+        - link "BIBLIOTHÈQUE DES ACTIVITÉS":
+          - /url: /cofolio/staff/activities
+      - listitem:
+        - button "SUIVI DES APPRENANTS"
+- main:
+  - navigation "Fil d'Ariane":
+    - list:
+      - listitem:
+        - link "Accueil":
+          - /url: /cofolio/staff
+      - listitem:
+        - link "Bibliothèque des activités":
+          - /url: /cofolio/staff/activities
+      - listitem: Modifier l'activité
+  - heading "Modifier l'activité" [level=1]
+  - navigation "801d1d17-6e5d-4491-9000-2765b1719aac navigation":
+    - button "Réduire le menu" [expanded]
+    - menu:
+      - menuitem "Contenu de l'activité":
+        - button "Contenu de l'activité"
+      - menu:
+        - menuitem "Titre":
+          - button "Titre"
+        - menuitem "Thématique":
+          - button "Thématique"
+        - menuitem "Consigne":
+          - button "Consigne"
+        - menuitem "Contexte(s) de réalisation conseillé(s)":
+          - button "Contexte(s) de réalisation conseillé(s)"
+        - menuitem "Documents et liens utiles":
+          - button "Documents et liens utiles"
+        - menuitem "Modalités":
+          - button "Modalités"
+  - tablist "Liste d’onglets":
+    - tab "Renseigner le contenu" [selected]
+    - tab "Préparer la publication"
+  - tabpanel "Renseigner le contenu":
+    - text: Titre de l'activité * Titre de l'activité
+    - textbox "Titre de l'activité": "Activité \"Connaissance de soi\" : Définir ses valeurs"
+    - text: 52 / 80 caractères (espaces compris) Thématique * Thématique *
+    - combobox "Thématique *":
+      - option "Me connaître" [selected]
+      - option "Explorer mes futurs"
+      - option "Mes formations"
+      - option "Mes expériences"
+      - option "Mes trajectoires"
+      - option "CV"
+      - option "Transverse"
+    - status
+    - text: Consigne *
+    - button "Développer"
+    - text: Contexte(s) de réalisation conseillé(s) *
+    - button "Développer"
+    - text: Documents et liens utiles
+    - button "Réduire" [expanded]
+    - text: document.pdf
+    - paragraph: fichier
+    - button "Sélectionner document.pdf"
+    - text: definir-ses-valeurs-exercices.docx
+    - paragraph: fichier
+    - button "Désélectionner definir-ses-valeurs-exercices.docx" [pressed]
+    - text: http://example.com/resource1
+    - paragraph: lien
+    - button "Sélectionner http://example.com/resource1"
+    - text: https://example.com/definir-ses-valeurs
+    - paragraph: lien
+    - button "Sélectionner https://example.com/definir-ses-valeurs"
+    - button "Ajouter"
+    - button "Supprimer"
+    - text: Modalités
+    - button "Réduire" [expanded]
+    - text: Définir une période de réalisation
+    - checkbox "Non"
+    - img
+    - text: Non Prise de recul
+    - checkbox "Non" [disabled]
+    - img
+    - text: Non
+    - status: Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.
+    - text: Lorsque le paramètre est activé, les apprenants peuvent rédiger une prise de recul et associer des éléments dans le cadre de leur activité. En conservant le paramètre de demande de feedback, vous pourrez visualiser les prise de recul lorsqu'ils enverront leurs activités pour feedback. Association de traces
+    - checkbox "Oui" [checked] [disabled]
+    - img
+    - text: Oui
+    - status: Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.
+    - text: Lorsque le paramètre est désactivé, les apprenants ne peuvent pas associer de traces à leur activité.
+    - checkbox "Non Autoriser un nombre illimité d'associations de traces" [disabled]
+    - img
+    - text: Non Autoriser un nombre illimité d'associations de traces Combien d'associations de traces maximum ?
+    - spinbutton "Combien d'associations de traces maximum ?" [disabled]: "3"
+    - text: Demande de feedback
+    - checkbox "Oui" [checked] [disabled]
+    - img
+    - text: Oui
+    - status: Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.
+    - text: Lorsque le paramètre est désactivé, les apprenants ne peuvent pas demander de feedback sur leur activité en passant par COFOLIO.
+    - checkbox "Non Autoriser un nombre illimité d'itérations de feedback" [disabled]
+    - img
+    - text: Non Autoriser un nombre illimité d'itérations de feedback Combien d'itérations maximum ?
+    - spinbutton "Combien d'itérations maximum ?" [disabled]: "2"
+    - link "Quitter":
+      - /url: /cofolio/staff/activities
+    - button "Enregistrer pour plus tard" [disabled]
+    - button "Étape suivante"
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/staff/accessibility
+    - listitem:
+      - link "Mentions légales":
+        - /url: /cofolio/staff/legal
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/staff/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/staff/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1 | import type { Locator } from '@playwright/test'
+  2 | import { expect } from '@playwright/test'
+  3 | 
+  4 | export async function clickOnElement (element: Locator) {
+> 5 |   await expect(element).toBeVisible()
+    |                         ^ Error: expect(locator).toBeVisible() failed
+  6 |   await expect(element).toBeEnabled()
+  7 |   await element.click()
+  8 | }
+  9 | 
+```
