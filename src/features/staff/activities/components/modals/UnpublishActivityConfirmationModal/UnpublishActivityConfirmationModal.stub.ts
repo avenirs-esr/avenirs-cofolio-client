@@ -2,7 +2,7 @@ export const UnpublishActivityConfirmationModalStub = defineComponent({
   name: 'UnpublishActivityConfirmationModal',
   template: '<div data-testid="unpublish-activity-confirmation-modal-stub"></div>',
   props: {
-    show: {
+    opened: {
       type: Boolean,
     },
     activityId: {

@@ -6,7 +6,7 @@ export const UpdateHandlesModalStub = defineComponent({
   props: {
     id: { type: String, required: true },
     data: { type: Object as PropType<NodeProps['data']> },
-    show: { type: Boolean, required: true },
+    opened: { type: Boolean, required: true },
   },
   template: '<div class="update-handles-modal" />',
 })

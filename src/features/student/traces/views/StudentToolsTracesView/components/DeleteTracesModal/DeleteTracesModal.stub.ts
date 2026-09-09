@@ -1,10 +1,19 @@
-export const DeleteTracesModalStub = {
+export const DeleteTracesModalStub = defineComponent({
   name: 'DeleteTracesModal',
-  props: ['show', 'totalCount'],
+  props: {
+    opened: {
+      type: Boolean,
+      required: true,
+    },
+    totalCount: {
+      type: Number,
+      required: true,
+    },
+  },
   emits: ['cancel', 'deleted'],
   template: `
     <div
-      v-if="show"
+      v-if="opened"
       data-testid="delete-traces-modal"
     >
       <button
@@ -22,4 +31,4 @@ export const DeleteTracesModalStub = {
       </button>
     </div>
   `
-}
+})

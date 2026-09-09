@@ -1,7 +1,7 @@
 export const DeleteSelfKnowledgeCategoryModalStub = defineComponent({
   name: 'DeleteSelfKnowledgeCategoryModal',
   props: {
-    show: Boolean,
+    opened: Boolean,
     categoryType: String,
     categoryTitle: String,
     elementsCount: Number

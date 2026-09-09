@@ -1,7 +1,7 @@
 export const AssociateTracesToDeclaredExperienceModalStub = defineComponent({
   name: 'AssociateTracesToDeclaredExperienceModal',
   props: {
-    show: {
+    opened: {
       type: Boolean,
       required: true
     },
@@ -12,7 +12,7 @@ export const AssociateTracesToDeclaredExperienceModalStub = defineComponent({
   },
   emits: ['cancel', 'associated'],
   template: `
-    <div v-if="show" class="associate-traces-to-declared-experience-modal-stub">
+    <div v-if="opened" class="associate-traces-to-declared-experience-modal-stub">
       <p>AssociateTracesToDeclaredExperienceModalStub</p>
       <button @click="$emit('cancel')">Cancel</button>
       <button @click="$emit('associated')">Associated</button>

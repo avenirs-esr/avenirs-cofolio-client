@@ -4,7 +4,7 @@ import type { PropType } from 'vue'
 export const DeleteActivityResourcesConfirmationModalStub = defineComponent({
   name: 'DeleteActivityResourcesConfirmationModal',
   props: {
-    show: {
+    opened: {
       type: Boolean,
       required: true,
     },

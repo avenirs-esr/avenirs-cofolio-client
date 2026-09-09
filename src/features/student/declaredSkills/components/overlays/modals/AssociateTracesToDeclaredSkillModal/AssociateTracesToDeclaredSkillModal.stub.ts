@@ -2,7 +2,7 @@ export const AssociateTracesToDeclaredSkillModalStub = defineComponent({
   name: 'AssociateTracesToDeclaredSkillModal',
   template: '<div data-testid="associate-traces-to-declared-skill-modal-stub"></div>',
   props: {
-    show: {
+    opened: {
       type: Boolean,
       required: true
     },

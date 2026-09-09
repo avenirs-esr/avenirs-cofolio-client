@@ -1,9 +1,10 @@
 import type { DeclaredSkillAssociationDTO } from '@/api/avenir-esr'
+import type { PropType } from 'vue'
 
 export const DeleteTraceAssociatedSkillsModalStub = defineComponent({
   name: 'DeleteTraceAssociatedSkillsModal',
   props: {
-    show: {
+    opened: {
       type: Boolean,
       required: true,
     },
@@ -12,7 +13,7 @@ export const DeleteTraceAssociatedSkillsModalStub = defineComponent({
       required: true,
     },
     associations: {
-      type: Object as () => DeclaredSkillAssociationDTO[],
+      type: Array as PropType<DeclaredSkillAssociationDTO[]>,
       required: true,
     }
   },

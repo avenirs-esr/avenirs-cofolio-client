@@ -1,7 +1,7 @@
 export const DeleteDeclaredSkillConfirmModalStub = defineComponent({
   name: 'DeleteDeclaredSkillConfirmModal',
   props: {
-    show: {
+    opened: {
       type: Boolean,
       required: true
     },
@@ -15,7 +15,7 @@ export const DeleteDeclaredSkillConfirmModalStub = defineComponent({
     }
   },
   emits: ['close', 'skillDeleted'],
-  template: `<div v-if="show">
+  template: `<div v-if="opened">
     <p>DeleteDeclaredSkillConfirmModalStub for skill: {{ skillTitle }} (ID: {{ skillId }})</p>
     <button @click="$emit('close')">Close</button>
   </div>`

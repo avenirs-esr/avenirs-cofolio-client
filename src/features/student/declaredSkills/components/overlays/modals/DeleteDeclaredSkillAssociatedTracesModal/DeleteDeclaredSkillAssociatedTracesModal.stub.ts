@@ -4,7 +4,7 @@ import type { PropType } from 'vue'
 export const DeleteDeclaredSkillAssociatedTracesModalStub = defineComponent({
   name: 'DeleteDeclaredSkillAssociatedTracesModal',
   props: {
-    show: { type: Boolean, required: true },
+    opened: { type: Boolean, required: true },
     declaredSkillProgressId: { type: String, required: true },
     associations: { type: Array as PropType<TraceAssociationDTO[]>, required: true },
   },

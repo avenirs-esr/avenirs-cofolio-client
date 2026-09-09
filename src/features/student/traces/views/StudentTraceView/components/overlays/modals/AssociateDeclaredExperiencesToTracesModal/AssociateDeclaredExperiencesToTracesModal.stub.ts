@@ -1,7 +1,7 @@
 export const AssociateDeclaredExperiencesToTracesModalStub = defineComponent({
   name: 'AssociateDeclaredExperiencesToTracesModal',
   props: {
-    show: {
+    opened: {
       type: Boolean,
       required: true
     },
