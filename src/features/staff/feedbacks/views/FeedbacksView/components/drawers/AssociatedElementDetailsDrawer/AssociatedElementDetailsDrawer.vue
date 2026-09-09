@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { ICONS } from '@/common/constants'
-import StudentTraceDetails
-  from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.vue'
+import { StudentTraceDetails } from '@/features/student/traces'
 import { AvCancelConfirmButtons, AvDrawer, AvIconText, type AvIconTextProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -15,24 +13,35 @@ export interface AssociatedElementDetailsDrawerProps {
 const { feedbackAssociatedElement } = defineProps<AssociatedElementDetailsDrawerProps>()
 
 const emit = defineEmits<{
-  close: []
+  (event: 'close'): void
 }>()
 
 const { t } = useI18n()
 
-const trace = computed<TraceDetailDTO | undefined>(() =>
-  feedbackAssociatedElement.type === EAssociationContextType.TRACE
-    ? feedbackAssociatedElement.data
-    : undefined
-)
-
-const show = computed(() => !!trace.value)
+const currentComponentDefinition = computed(() => {
+  switch (feedbackAssociatedElement.type) {
+    case EAssociationContextType.TRACE:
+      return {
+        component: StudentTraceDetails,
+        props: {
+          trace: feedbackAssociatedElement.data,
+          hideValorizedBadge: true,
+          disableRowLayout: true,
+        },
+      }
+    default:
+      return {
+        component: 'div',
+        props: {},
+      }
+  }
+})
 
 const titleTextAndIcon = computed<Pick<AvIconTextProps, 'text' | 'icon'>>(() => {
-  switch (true) {
-    case !!trace.value:
+  switch (feedbackAssociatedElement.type) {
+    case EAssociationContextType.TRACE:
       return {
-        text: t('staff.feedbacks.views.FeedbacksView.AssociatedElementDetailsDrawer.traceTitle', { traceTitle: trace.value.title }),
+        text: t('staff.feedbacks.views.FeedbacksView.AssociatedElementDetailsDrawer.traceTitle', { traceTitle: feedbackAssociatedElement.data.title }),
         icon: ICONS.TRACES,
       }
     default:
@@ -40,34 +49,18 @@ const titleTextAndIcon = computed<Pick<AvIconTextProps, 'text' | 'icon'>>(() => 
   }
 })
 
+const show = computed(() => currentComponentDefinition.value.component !== 'div')
+
 function handleClose () {
   emit('close')
 }
-
-const currentComponent = computed(() => {
-  if (trace.value) {
-    return {
-      component: StudentTraceDetails,
-      props: {
-        trace: trace.value,
-        hideValorizedBadge: true,
-        disableRowLayout: true,
-      },
-    }
-  }
-
-  return {
-    component: 'div',
-    props: {},
-  }
-})
 </script>
 
 <template>
   <AvDrawer
     :show="show"
     position="right"
-    width="35rem"
+    width="40rem"
     :aria-label="t('staff.feedbacks.views.FeedbacksView.AssociatedElementDetailsDrawer.drawerLabel')"
     @escape-pressed="handleClose"
   >
@@ -80,8 +73,8 @@ const currentComponent = computed(() => {
       />
 
       <component
-        :is="currentComponent.component"
-        v-bind="currentComponent.props"
+        :is="currentComponentDefinition.component"
+        v-bind="currentComponentDefinition.props"
       />
     </div>
 

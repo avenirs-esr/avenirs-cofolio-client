@@ -48,6 +48,19 @@
           "title": "Mes dernières traces"
         }
       },
+      "components": {
+        "StudentTraceDetails": {
+          "authorType": {
+            "COLLECTIVE": "Production collective",
+            "label": "Cette trace est issue d'une production :",
+            "PERSONAL": "Production personnelle",
+            "THIRD_PARTY": "Production d'un tiers"
+          },
+          "iaDescription": "Cette trace est issue d'une production réalisée avec l'Intelligence Artificielle (IA) :",
+          "iaToggleLabel": "Production avec IA",
+          "linkLabel": "Lien de ma trace"
+        }
+      },
       "composites": {
         "TraceAssociations": {
           "caption": "Les associations de ma trace ({count})"
@@ -256,17 +269,7 @@
               "title": "Aucune trace non associée ({count}) | Ma trace non associée ({count}) | Mes traces non associées ({count})"
             }
           },
-          "studentTraceDetails": {
-            "authorType": {
-              "COLLECTIVE": "Production collective",
-              "label": "Cette trace est issue d'une production\u00A0:",
-              "PERSONAL": "Production personnelle",
-              "THIRD_PARTY": "Production d'un tiers"
-            },
-            "iaDescription": "Cette trace est issue d’une production réalisée avec l’Intelligence Artificielle (IA)\u00A0:",
-            "iaToggleLabel": "Production avec IA",
-            "linkLabel": "Lien de ma trace"
-          },
+
           "studentTraceFilters": {
             "resetButton": "Réinitialiser les filtres",
             "searchLabel": "Rechercher une trace"

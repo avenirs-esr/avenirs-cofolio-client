@@ -33,7 +33,7 @@ const traceFileUploadLabel = computed(() => {
 })
 
 const authorTypeLabel = computed(() =>
-  t(`student.traces.views.StudentToolsTracesView.studentTraceDetails.authorType.${trace.authorType}`)
+  t(`student.traces.components.StudentTraceDetails.authorType.${trace.authorType}`)
 )
 </script>
 
@@ -68,7 +68,7 @@ const authorTypeLabel = computed(() =>
             id="trace-link-label"
             class="av-label"
           >
-            <span class="b2-light">{{ t('student.traces.views.StudentToolsTracesView.studentTraceDetails.linkLabel') }}</span>
+            <span class="b2-light">{{ t('student.traces.components.StudentTraceDetails.linkLabel') }}</span>
           </label>
           <a
             target="_blank"
@@ -95,7 +95,7 @@ const authorTypeLabel = computed(() =>
           data-testid="author-type"
         >
           <span class="b2-regular av-py-xs">
-            {{ t('student.traces.views.StudentToolsTracesView.studentTraceDetails.authorType.label') }}
+            {{ t('student.traces.components.StudentTraceDetails.authorType.label') }}
           </span>
           <AvIconText
             typography-class="b2-light"
@@ -108,11 +108,11 @@ const authorTypeLabel = computed(() =>
 
         <div class="av-col av-gap-xs">
           <span class="b2-regular">
-            {{ t('student.traces.views.StudentToolsTracesView.studentTraceDetails.iaDescription') }}
+            {{ t('student.traces.components.StudentTraceDetails.iaDescription') }}
           </span>
           <TraceAiUsageToggle
             :model-value="!!trace.aiUseJustification"
-            :description="t('student.traces.views.StudentToolsTracesView.studentTraceDetails.iaToggleLabel')"
+            :description="t('student.traces.components.StudentTraceDetails.iaToggleLabel')"
             disabled
           />
           <TraceAiJustificationTextarea

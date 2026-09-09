@@ -13,7 +13,7 @@ import {
 } from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.stub'
 import {
   StudentTraceDetailsStub
-} from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceDetails/StudentTraceDetails.stub'
+} from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.stub'
 import { AssociateDeclaredSkillsToTracesModalStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsToTracesModal/AssociateDeclaredSkillsToTracesModal.stub'
 import {
   TraceSettingsDropdownStub

@@ -9,9 +9,10 @@ import { useI18n } from 'vue-i18n'
 
 export interface AssociatedElementCardProps {
   feedbackAssociatedElement: FeedbackAssociatedElement
+  showDetailsButton?: boolean
 }
 
-const { feedbackAssociatedElement } = defineProps<AssociatedElementCardProps>()
+const { feedbackAssociatedElement, showDetailsButton = true } = defineProps<AssociatedElementCardProps>()
 
 const emit = defineEmits<{
   (event: 'showDetails', element: FeedbackAssociatedElement): void
@@ -54,12 +55,13 @@ function handleShowDetails () {
       </div>
       <div class="av-row av-align-center av-gap-sm">
         <AvButton
+          v-if="showDetailsButton"
           :icon="CUIDA_ICONS.VISIBILITY_ON_OUTLINE"
           :label="t('global.buttons.showDetails')"
           :aria-label="t('global.buttons.showDetails')"
           icon-only
           data-testid="associated-element-show-details"
-          @click.stop="handleShowDetails"
+          @click="handleShowDetails"
         />
         <FeedbackTraceActions
           v-if="traceData"
