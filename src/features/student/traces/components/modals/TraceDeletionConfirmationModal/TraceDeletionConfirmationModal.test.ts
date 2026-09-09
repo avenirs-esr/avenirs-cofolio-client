@@ -78,14 +78,14 @@ BddTest().given('a trace deletion confirmation modal', () => {
   }
 
   async function mountModal (
-    show = true,
+    opened = true,
     traces: TraceLockedDeclaredActivitiesDTO[] = [mockedTrace]
   ) {
     wrapper = mountComponent(TraceDeletionConfirmationModal, {
       props: {
         traceIds: traces.map(trace => trace.traceId),
         title: traces[0].traceTitle,
-        show,
+        opened,
         onConfirmDelete: onConfirmDeleteMock,
         onClose: onCloseMock
       },
@@ -101,7 +101,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
     onCloseMock = vi.fn()
   })
 
-  BddTest().and('with show=true', () => {
+  BddTest().and('with opened=true', () => {
     beforeEach(async () => {
       server.use(createLockedDeclaredActivitiesHandler([]))
       await mountModal(true)
@@ -153,7 +153,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
     })
   })
 
-  BddTest().and('with show=false', () => {
+  BddTest().and('with opened=false', () => {
     beforeEach(async () => {
       await mountModal(false)
     })

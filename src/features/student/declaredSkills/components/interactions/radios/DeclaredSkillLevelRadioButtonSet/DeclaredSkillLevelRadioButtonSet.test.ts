@@ -1,42 +1,48 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { EDeclaredSkillLevel } from '@/api/avenir-esr'
 import DeclaredSkillLevelRadioButtonSet from '@/features/student/declaredSkills/components/interactions/radios/DeclaredSkillLevelRadioButtonSet/DeclaredSkillLevelRadioButtonSet.vue'
-import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvBadgeStub, AvRadioButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const stubs = {
-  AvRadioButtonSet: {
-    name: 'AvRadioButtonSet',
-    props: ['modelValue', 'legend', 'errorMessage', 'name'],
-    emits: ['update:modelValue', 'blur'],
-    setup (props: any, { emit }: any) {
-      return { emit }
-    },
-    template: `
-      <fieldset class="av-radio-button-set-stub">
-        <legend>{{ legend }}</legend>
-        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-        <div>
-          <slot />
-        </div>
-      </fieldset>
-    `
+const AvRadioButtonSetStub = defineComponent({
+  name: 'AvRadioButtonSet',
+  props: ['modelValue', 'legend', 'errorMessage', 'name'],
+  emits: ['update:modelValue', 'blur'],
+  setup (props: any, { emit }: any) {
+    return { emit }
   },
-  AvRadioButton: {
-    name: 'AvRadioButton',
-    props: ['value'],
-    template: `
-      <div class="av-radio-button-stub" :data-value="value">
+  template: `
+    <fieldset class="av-radio-button-set-stub">
+      <legend>{{ legend }}</legend>
+      <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+      <div>
         <slot />
       </div>
-    `
-  },
+    </fieldset>
+  `
+})
+
+const stubs = {
+  AvRadioButtonSet: AvRadioButtonSetStub,
+  AvRadioButton: AvRadioButtonStub,
   AvBadge: AvBadgeStub
 }
 
 BddTest().given('a skill level field component', () => {
-  let wrapper: VueWrapper
+  let wrapper: VueWrapper<InstanceType<typeof DeclaredSkillLevelRadioButtonSet>>
+
+  function getAvBadges () {
+    return wrapper.findAllComponents(AvBadgeStub)
+  }
+
+  function getAvRadioButtonSet () {
+    return wrapper.findComponent(AvRadioButtonSetStub)
+  }
+
+  function getAvRadioButtons () {
+    return wrapper.findAllComponents(AvRadioButtonStub)
+  }
 
   beforeEach(async () => {
     vi.clearAllMocks()
@@ -63,7 +69,7 @@ BddTest().given('a skill level field component', () => {
     })
 
     BddTest().then('it should render AvRadioButtonSet with correct props', () => {
-      const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
+      const radioButtonSet = getAvRadioButtonSet()
 
       expect(radioButtonSet.exists()).toBe(true)
       expect(radioButtonSet.props('legend')).toBe('Auto-positionnement')
@@ -81,7 +87,7 @@ BddTest().given('a skill level field component', () => {
       const levelOptions = wrapper.findAll('[data-testid="level-option"]')
       expect(levelOptions).toHaveLength(5)
 
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
+      const badges = getAvBadges()
       expect(badges).toHaveLength(5)
 
       const descriptions = wrapper.findAll('.b2-regular')
@@ -92,7 +98,7 @@ BddTest().given('a skill level field component', () => {
     })
 
     BddTest().then('it should render badges with correct colors', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
+      const badges = getAvBadges()
 
       expect(badges[0].props('backgroundColor')).toBe('var(--light-background-primary3)')
       expect(badges[0].props('color')).toBe('var(--dark-background-primary3)')
@@ -111,7 +117,7 @@ BddTest().given('a skill level field component', () => {
     })
 
     BddTest().then('it should render badges with correct icons', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
+      const badges = getAvBadges()
 
       expect(badges[0].props('icon')).toBeDefined()
       expect(badges[1].props('icon')).toBeDefined()
@@ -126,7 +132,7 @@ BddTest().given('a skill level field component', () => {
       await wrapper.setProps({ modelValue: EDeclaredSkillLevel.BEGINNER })
       await wrapper.vm.$nextTick()
 
-      const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
+      const radioButtonSet = getAvRadioButtonSet()
       expect(radioButtonSet.props('modelValue')).toBe(EDeclaredSkillLevel.BEGINNER)
     })
 
@@ -134,12 +140,12 @@ BddTest().given('a skill level field component', () => {
       await wrapper.setProps({ modelValue: EDeclaredSkillLevel.EXPERT })
       await wrapper.vm.$nextTick()
 
-      const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
+      const radioButtonSet = getAvRadioButtonSet()
       expect(radioButtonSet.props('modelValue')).toBe(EDeclaredSkillLevel.EXPERT)
     })
 
     BddTest().then('it should handle invalid value gracefully', async () => {
-      const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
+      const radioButtonSet = getAvRadioButtonSet()
 
       await radioButtonSet.vm.$emit('update:modelValue', 123)
       await wrapper.vm.$nextTick()
@@ -148,7 +154,7 @@ BddTest().given('a skill level field component', () => {
     })
 
     BddTest().then('it should handle non-enum string value gracefully', async () => {
-      const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
+      const radioButtonSet = getAvRadioButtonSet()
 
       await radioButtonSet.vm.$emit('update:modelValue', 'INVALID_LEVEL')
       await wrapper.vm.$nextTick()
@@ -162,14 +168,14 @@ BddTest().given('a skill level field component', () => {
       await wrapper.setProps({ errorMessage: 'Un niveau d\'auto-positionnement doit être sélectionné' })
       await wrapper.vm.$nextTick()
 
-      const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
+      const radioButtonSet = getAvRadioButtonSet()
       expect(radioButtonSet.props('errorMessage')).toBe('Un niveau d\'auto-positionnement doit être sélectionné')
     })
   })
 
   BddTest().when('no error message prop is provided', () => {
     BddTest().then('it should not show error message', () => {
-      const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
+      const radioButtonSet = getAvRadioButtonSet()
       const errorMessage = radioButtonSet.props('errorMessage')
       expect(errorMessage === undefined || errorMessage === '').toBe(true)
     })
@@ -177,7 +183,7 @@ BddTest().given('a skill level field component', () => {
 
   BddTest().when('skill config data is available', () => {
     BddTest().then('it should display skill config labels and descriptions', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
+      const badges = getAvBadges()
       const descriptions = wrapper.findAll('.b2-regular')
 
       badges.forEach((badge) => {
@@ -192,7 +198,7 @@ BddTest().given('a skill level field component', () => {
     })
 
     BddTest().then('it should handle different skill levels configuration', () => {
-      const radioButtons = wrapper.findAllComponents({ name: 'AvRadioButton' })
+      const radioButtons = getAvRadioButtons()
 
       const expectedLevels = [
         EDeclaredSkillLevel.BEGINNER,
@@ -210,7 +216,7 @@ BddTest().given('a skill level field component', () => {
 
   BddTest().when('badges are configured for skill levels', () => {
     BddTest().then('it should have unique background colors for each level', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
+      const badges = getAvBadges()
       const backgroundColors = badges.map(badge => badge.props('backgroundColor'))
 
       const uniqueColors = new Set(backgroundColors)
@@ -218,7 +224,7 @@ BddTest().given('a skill level field component', () => {
     })
 
     BddTest().then('it should have matching text colors for readability', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
+      const badges = getAvBadges()
 
       badges.forEach((badge) => {
         expect(badge.props('backgroundColor')).toMatch(/var\(--light-background-/)
@@ -227,7 +233,7 @@ BddTest().given('a skill level field component', () => {
     })
 
     BddTest().then('it should render with proper icon paths for each level', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
+      const badges = getAvBadges()
 
       badges.forEach((badge) => {
         const icon = badge.props('icon')
@@ -239,7 +245,7 @@ BddTest().given('a skill level field component', () => {
 
   BddTest().when('level options structure is rendered', () => {
     BddTest().then('it should render level option headers with badges', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
+      const badges = getAvBadges()
       expect(badges.length).toBeGreaterThan(0)
     })
 
@@ -258,26 +264,26 @@ BddTest().given('a skill level field component', () => {
       await wrapper.setProps({ modelValue: EDeclaredSkillLevel.ADVANCED })
       await wrapper.vm.$nextTick()
 
-      const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
+      const radioButtonSet = getAvRadioButtonSet()
       expect(radioButtonSet.props('modelValue')).toBe(EDeclaredSkillLevel.ADVANCED)
     })
 
     BddTest().then('it should pass blur listener to AvRadioButtonSet', () => {
-      const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
+      const radioButtonSet = getAvRadioButtonSet()
       expect(radioButtonSet.exists()).toBe(true)
     })
   })
 
   BddTest().when('handling edge cases', () => {
     BddTest().then('it should handle null/undefined skill config gracefully', () => {
-      const badges = wrapper.findAllComponents({ name: 'AvBadge' })
+      const badges = getAvBadges()
       badges.forEach((badge) => {
         expect(badge.props('label')).toBeTruthy()
       })
     })
 
     BddTest().then('it should handle empty string values gracefully', async () => {
-      const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
+      const radioButtonSet = getAvRadioButtonSet()
 
       await radioButtonSet.vm.$emit('update:modelValue', '')
       await wrapper.vm.$nextTick()
@@ -291,7 +297,7 @@ BddTest().given('a skill level field component', () => {
       await wrapper.setProps({ legend: 'Custom Level Legend' })
       await wrapper.vm.$nextTick()
 
-      const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
+      const radioButtonSet = getAvRadioButtonSet()
       expect(radioButtonSet.props('legend')).toBe('Custom Level Legend')
     })
   })
@@ -301,7 +307,7 @@ BddTest().given('a skill level field component', () => {
       await wrapper.setProps({ name: 'customName' })
       await wrapper.vm.$nextTick()
 
-      const radioButtonSet = wrapper.findComponent({ name: 'AvRadioButtonSet' })
+      const radioButtonSet = getAvRadioButtonSet()
       expect(radioButtonSet.props('name')).toBe('customName')
     })
   })

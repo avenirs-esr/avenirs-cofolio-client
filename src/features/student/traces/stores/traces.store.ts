@@ -28,18 +28,18 @@ function useTracesUI () {
   } = useDrawer()
 
   const {
-    modalOpened: showUpdateTraceModal,
-    openModal: displayUpdateTraceModal,
-    closeModal: hideUpdateTraceModal
+    modalOpened: updateTraceModalOpened,
+    openModal: openUpdateTraceModal,
+    closeModal: closeUpdateTraceModal
   } = useModal()
 
   return {
     showCreateTraceDrawer,
     displayCreateTraceDrawer,
     hideCreateTraceDrawer,
-    showUpdateTraceModal,
-    displayUpdateTraceModal,
-    hideUpdateTraceModal
+    updateTraceModalOpened,
+    openUpdateTraceModal,
+    closeUpdateTraceModal
   }
 }
 

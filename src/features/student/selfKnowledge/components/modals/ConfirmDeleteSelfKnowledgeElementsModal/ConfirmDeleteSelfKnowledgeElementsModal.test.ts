@@ -12,7 +12,7 @@ BddTest().given('a confirm delete self knowledge element modal', () => {
 
   BddTest().and('a single element to delete is provided', () => {
     const props: ConfirmDeleteSelfKnowledgeElementsModalProps = {
-      show: true,
+      opened: true,
       elements: [
         { id: '1', title: 'Element 1', description: 'Description 1', category: { type: ESelfKnowledgeCategory.STRENGTHS, mandatory: true } }
       ],
@@ -58,7 +58,7 @@ BddTest().given('a confirm delete self knowledge element modal', () => {
 
   BddTest().and('many elements to delete are provided', () => {
     const props: ConfirmDeleteSelfKnowledgeElementsModalProps = {
-      show: true,
+      opened: true,
       elements: [
         { id: '1', title: 'Element 1', description: 'Description 1', category: { type: ESelfKnowledgeCategory.STRENGTHS, mandatory: true } },
         { id: '2', title: 'Element 2', description: 'Description 2', category: { type: ESelfKnowledgeCategory.STRENGTHS, mandatory: true } },

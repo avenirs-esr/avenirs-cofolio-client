@@ -29,7 +29,7 @@ BddTest().given('a DeleteDeclaredProgramConfirmModal component', () => {
 
   BddTest().when('the component is mounted without declared program ids', async () => {
     const props: DeleteDeclaredProgramConfirmModalProps = {
-      show: true,
+      opened: true,
       declaredProgramIds: [],
     }
 
@@ -80,7 +80,7 @@ BddTest().given('a DeleteDeclaredProgramConfirmModal component', () => {
 
   BddTest().when('the component is mounted with one valid declared program id', () => {
     const props: DeleteDeclaredProgramConfirmModalProps = {
-      show: true,
+      opened: true,
       declaredProgramIds: ['valid-program-id'],
     }
 
@@ -117,7 +117,7 @@ BddTest().given('a DeleteDeclaredProgramConfirmModal component', () => {
 
   BddTest().when('the component is mounted with an invalid declared program id', () => {
     const props: DeleteDeclaredProgramConfirmModalProps = {
-      show: true,
+      opened: true,
       declaredProgramIds: ['INVALID_PROGRAM_ID'],
     }
 
@@ -161,7 +161,7 @@ BddTest().given('a DeleteDeclaredProgramConfirmModal component', () => {
 
   BddTest().when('the component is mounted with multiple valid declared program ids', () => {
     const props: DeleteDeclaredProgramConfirmModalProps = {
-      show: true,
+      opened: true,
       declaredProgramIds: ['valid-program-id-1', 'valid-program-id-2'],
     }
 
@@ -204,7 +204,7 @@ BddTest().given('a DeleteDeclaredProgramConfirmModal component', () => {
 
   BddTest().when('the component is mounted with multiple declared program ids including an invalid one', () => {
     const props: DeleteDeclaredProgramConfirmModalProps = {
-      show: true,
+      opened: true,
       declaredProgramIds: ['valid-program-id', 'INVALID_PROGRAM_ID'],
     }
 

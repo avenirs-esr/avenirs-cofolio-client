@@ -17,7 +17,7 @@ import AddDeclaredExperienceDrawer from '@/features/student/personalCareer/compo
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 import { TraceAssociationTypes } from '@/features/student/traces/types/trace-association.types'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvAccordionStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvAccordionsGroupStub, AvAccordionStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -60,6 +60,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
   const stubs = {
     AvDrawer: AvDrawerStub,
     AvAccordion: AvAccordionStub,
+    AvAccordionsGroup: AvAccordionsGroupStub,
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
     AvIconText: AvIconTextStub,
     ConfirmationModal: ConfirmationModalStub,
@@ -78,6 +79,9 @@ BddTest().given('an add declared experience drawer avIconText', () => {
   }
 
   const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
+  const getAvAccordions = () => wrapper.findAllComponents(AvAccordionStub)
+  const getAvDrawer = () => wrapper.findComponent(AvDrawerStub)
+  const getConfirmationModal = () => wrapper.findComponent(ConfirmationModalStub)
 
   beforeEach(async () => {
     vi.clearAllMocks()
@@ -98,7 +102,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
 
   BddTest().when('the avIconText is mounted', () => {
     BddTest().then('it should render the drawer with correct props', () => {
-      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+      const drawer = getAvDrawer()
 
       expect(drawer.exists()).toBe(true)
       expect(drawer.props('position')).toBe('right')
@@ -106,15 +110,15 @@ BddTest().given('an add declared experience drawer avIconText', () => {
     })
 
     BddTest().then('it should render the title', () => {
-      const avIconText = wrapper.findComponent({ name: 'AvIconText' })
+      const avIconText = wrapper.findComponent(AvIconTextStub)
 
       expect(avIconText.props('text')).toBe('Ajouter une expérience déclarée')
       expect(avIconText.props('icon')).toBe(MDI_ICONS.PLUS_CIRCLE_OUTLINE)
     })
 
     BddTest().then('it should render accordion group with two accordions', () => {
-      const accordionsGroup = wrapper.findComponent({ name: 'AvAccordionsGroup' })
-      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
+      const accordionsGroup = wrapper.findComponent(AvAccordionsGroupStub)
+      const accordions = getAvAccordions()
 
       expect(accordionsGroup.exists()).toBe(true)
       expect(accordions).toHaveLength(2)
@@ -152,7 +156,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
     })
 
     BddTest().then('it should render add experience accordion with correct title', () => {
-      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
+      const accordions = getAvAccordions()
       const addExperienceAccordion = accordions[0]
 
       expect(addExperienceAccordion.props('title')).toBe('Ajouter mon expérience')
@@ -160,7 +164,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
     })
 
     BddTest().then('it should render association accordion with correct title', () => {
-      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
+      const accordions = getAvAccordions()
       const associationAccordion = accordions[1]
 
       expect(associationAccordion.props('title')).toBe('Associer mon expérience')
@@ -289,7 +293,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
     })
 
     BddTest().then('it should have confirmation modal rendered', () => {
-      const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+      const confirmationModal = getConfirmationModal()
       expect(confirmationModal.exists()).toBe(true)
     })
 
@@ -301,7 +305,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
       })
 
       BddTest().then('it should pass false to drawer show prop', async () => {
-        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+        const drawer = getAvDrawer()
         expect(drawer.props('show')).toBe(false)
       })
     })
@@ -309,7 +313,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
     BddTest().and('escape is pressed on drawer', () => {
       BddTest().and('canLeave is true', () => {
         beforeEach(async () => {
-          const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+          const drawer = getAvDrawer()
           await drawer.vm.$emit('escape-pressed')
           await wrapper.vm.$nextTick()
         })
@@ -323,7 +327,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
       BddTest().and('canLeave is false', () => {
         beforeEach(async () => {
           mockCanLeave.mockResolvedValue(false)
-          const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+          const drawer = getAvDrawer()
           await drawer.vm.$emit('escape-pressed')
           await wrapper.vm.$nextTick()
         })
@@ -364,7 +368,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
 
         BddTest().and('confirming the modal', () => {
           beforeEach(async () => {
-            const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+            const confirmationModal = getConfirmationModal()
             await confirmationModal.vm.$emit('confirm')
             await wrapper.vm.$nextTick()
           })
@@ -376,7 +380,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
 
         BddTest().and('closing the modal', () => {
           beforeEach(async () => {
-            const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+            const confirmationModal = getConfirmationModal()
             await confirmationModal.vm.$emit('close')
             await wrapper.vm.$nextTick()
           })

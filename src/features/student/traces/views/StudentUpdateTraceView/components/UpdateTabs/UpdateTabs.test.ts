@@ -6,7 +6,7 @@ import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-u
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const mockHideUpdateTraceModal = vi.fn()
+const mockCloseUpdateTraceModal = vi.fn()
 
 const routeQueryValue = ref('details')
 
@@ -24,7 +24,7 @@ vi.mock('@/store', async () => {
   return {
     ...actual,
     useTracesStore: vi.fn(() => ({
-      hideUpdateTraceModal: mockHideUpdateTraceModal
+      closeUpdateTraceModal: mockCloseUpdateTraceModal
     }))
   }
 })

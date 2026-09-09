@@ -53,7 +53,7 @@ function closeModal () {
 
 <template>
   <ConfirmationModal
-    :show="opened"
+    :opened="opened"
     :confirm-button-label="t('global.buttons.export')"
     :confirm-button-disabled="!isFormValid || !canExportKit(form.state.values)"
     :confirm-button-icon="MDI_ICONS.DOWNLOAD_OUTLINE"

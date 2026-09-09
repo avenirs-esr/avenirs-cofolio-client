@@ -16,7 +16,7 @@ BddTest().given('a confirm associate modal', () => {
 
   BddTest().when('the component is mounted with a single item', () => {
     const props: ConfirmAssociateModalProps = {
-      show: true,
+      opened: true,
       title: 'Confirm association title',
       items: [{ id: 'item-1', title: 'Item 1' }]
     }
@@ -32,7 +32,7 @@ BddTest().given('a confirm associate modal', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('show')).toBe(true)
+      expect(confirmationModal.props('opened')).toBe(true)
     })
 
     BddTest().then('it should render the provided title', () => {
@@ -71,7 +71,7 @@ BddTest().given('a confirm associate modal', () => {
 
   BddTest().when('the component is mounted with multiple items', () => {
     const props: ConfirmAssociateModalProps = {
-      show: true,
+      opened: true,
       title: 'Confirm multiple association title',
       items: [
         { id: 'item-1', title: 'Item 1' },
@@ -90,7 +90,7 @@ BddTest().given('a confirm associate modal', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('show')).toBe(true)
+      expect(confirmationModal.props('opened')).toBe(true)
     })
 
     BddTest().then('it should render all items', () => {

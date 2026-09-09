@@ -55,7 +55,7 @@ BddTest().given('a FinishDeclaredActivity component', () => {
     BddTest().then('it should render the confirmation modal closed by default', () => {
       const confirmModal = wrapper.findComponent(FinishDeclaredActivityConfirmModalStub)
       expect(confirmModal.exists()).toBe(true)
-      expect(confirmModal.props('show')).toBe(false)
+      expect(confirmModal.props('opened')).toBe(false)
     })
 
     BddTest().and('the user clicks on the finish button', () => {
@@ -65,7 +65,7 @@ BddTest().given('a FinishDeclaredActivity component', () => {
       })
 
       BddTest().then('it should open the confirmation modal', () => {
-        expect(wrapper.findComponent(FinishDeclaredActivityConfirmModalStub).props('show')).toBe(true)
+        expect(wrapper.findComponent(FinishDeclaredActivityConfirmModalStub).props('opened')).toBe(true)
       })
     })
 
@@ -78,7 +78,7 @@ BddTest().given('a FinishDeclaredActivity component', () => {
       })
 
       BddTest().then('it should close the confirmation modal', () => {
-        expect(wrapper.findComponent(FinishDeclaredActivityConfirmModalStub).props('show')).toBe(false)
+        expect(wrapper.findComponent(FinishDeclaredActivityConfirmModalStub).props('opened')).toBe(false)
       })
     })
 
@@ -91,7 +91,7 @@ BddTest().given('a FinishDeclaredActivity component', () => {
       })
 
       BddTest().then('it should close the confirmation modal', () => {
-        expect(wrapper.findComponent(FinishDeclaredActivityConfirmModalStub).props('show')).toBe(false)
+        expect(wrapper.findComponent(FinishDeclaredActivityConfirmModalStub).props('opened')).toBe(false)
       })
 
       BddTest().then('it should emit the finished event', () => {
@@ -149,7 +149,7 @@ BddTest().given('a FinishDeclaredActivity component', () => {
     BddTest().then('it should render the confirmation modal closed by default', () => {
       const confirmModal = wrapper.findComponent(FinishDeclaredActivityConfirmModalStub)
       expect(confirmModal.exists()).toBe(true)
-      expect(confirmModal.props('show')).toBe(false)
+      expect(confirmModal.props('opened')).toBe(false)
     })
   })
 })

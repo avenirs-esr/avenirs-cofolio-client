@@ -21,16 +21,16 @@ BddTest().given('a DeleteActivityResourcesConfirmationModal component', () => {
   const getTitle = () => wrapper.find('[data-testid="delete-activity-resources-confirmation-modal-title"]')
   const getList = () => wrapper.findComponent(ActivityResourcesListStub)
 
-  BddTest().when('mounted with show=true, a single file and no link', () => {
+  BddTest().when('mounted with opened=true, a single file and no link', () => {
     beforeEach(() => {
       wrapper = mountComponent(DeleteActivityResourcesConfirmationModal, {
-        props: { show: true, activityId: 'activity-id', files: [mockFile], links: [], isUpdating: false },
+        props: { opened: true, activityId: 'activity-id', files: [mockFile], links: [], isUpdating: false },
         global: { stubs },
       })
     })
 
-    BddTest().then('it should pass show=true to ConfirmationModal', () => {
-      expect(getModal().props('show')).toBe(true)
+    BddTest().then('it should pass opened=true to ConfirmationModal', () => {
+      expect(getModal().props('opened')).toBe(true)
     })
 
     BddTest().then('it should pass isLoading=false to ConfirmationModal', () => {
@@ -54,7 +54,7 @@ BddTest().given('a DeleteActivityResourcesConfirmationModal component', () => {
   BddTest().when('mounted with several resources (a file and a link)', () => {
     beforeEach(() => {
       wrapper = mountComponent(DeleteActivityResourcesConfirmationModal, {
-        props: { show: true, activityId: 'activity-id', files: [mockFile], links: [mockLink], isUpdating: false },
+        props: { opened: true, activityId: 'activity-id', files: [mockFile], links: [mockLink], isUpdating: false },
         global: { stubs },
       })
     })
@@ -69,23 +69,23 @@ BddTest().given('a DeleteActivityResourcesConfirmationModal component', () => {
     })
   })
 
-  BddTest().when('mounted with show=false', () => {
+  BddTest().when('mounted with opened=false', () => {
     beforeEach(() => {
       wrapper = mountComponent(DeleteActivityResourcesConfirmationModal, {
-        props: { show: false, activityId: 'activity-id', files: [], links: [], isUpdating: false },
+        props: { opened: false, activityId: 'activity-id', files: [], links: [], isUpdating: false },
         global: { stubs },
       })
     })
 
-    BddTest().then('it should pass show=false to ConfirmationModal', () => {
-      expect(getModal().props('show')).toBe(false)
+    BddTest().then('it should pass opened=false to ConfirmationModal', () => {
+      expect(getModal().props('opened')).toBe(false)
     })
   })
 
   BddTest().when('mounted with isUpdating=true', () => {
     beforeEach(() => {
       wrapper = mountComponent(DeleteActivityResourcesConfirmationModal, {
-        props: { show: true, activityId: 'activity-id', files: [mockFile], links: [], isUpdating: true },
+        props: { opened: true, activityId: 'activity-id', files: [mockFile], links: [], isUpdating: true },
         global: { stubs },
       })
     })
@@ -98,7 +98,7 @@ BddTest().given('a DeleteActivityResourcesConfirmationModal component', () => {
   BddTest().when('the modal emits confirm', () => {
     beforeEach(() => {
       wrapper = mountComponent(DeleteActivityResourcesConfirmationModal, {
-        props: { show: true, activityId: 'activity-id', files: [mockFile], links: [], isUpdating: false },
+        props: { opened: true, activityId: 'activity-id', files: [mockFile], links: [], isUpdating: false },
         global: { stubs },
       })
       getModal().vm.$emit('confirm')
@@ -112,7 +112,7 @@ BddTest().given('a DeleteActivityResourcesConfirmationModal component', () => {
   BddTest().when('the modal emits close', () => {
     beforeEach(() => {
       wrapper = mountComponent(DeleteActivityResourcesConfirmationModal, {
-        props: { show: true, activityId: 'activity-id', files: [mockFile], links: [], isUpdating: false },
+        props: { opened: true, activityId: 'activity-id', files: [mockFile], links: [], isUpdating: false },
         global: { stubs },
       })
       getModal().vm.$emit('close')

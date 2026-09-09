@@ -16,12 +16,12 @@ import { nextTick } from 'vue'
 const routerReplace = vi.fn()
 const mockRouteId = ref<string>('')
 
-const showConfirmationModal = ref(false)
-const displayConfirmationModal = vi.fn(() => {
-  showConfirmationModal.value = true
+const confirmationModalOpened = ref(false)
+const openConfirmationModal = vi.fn(() => {
+  confirmationModalOpened.value = true
 })
-const hideConfirmationModal = vi.fn(() => {
-  showConfirmationModal.value = false
+const closeConfirmationModal = vi.fn(() => {
+  confirmationModalOpened.value = false
 })
 const mockIsMobile = ref(false)
 
@@ -40,9 +40,9 @@ vi.mock('@/common/composables/use-modal/use-modal', async (importOriginal) => {
   return {
     ...actual,
     useModal: () => ({
-      modalOpened: showConfirmationModal,
-      openModal: displayConfirmationModal,
-      closeModal: hideConfirmationModal
+      modalOpened: confirmationModalOpened,
+      openModal: openConfirmationModal,
+      closeModal: closeConfirmationModal
     })
   }
 })
@@ -116,21 +116,21 @@ BddTest().given('a declared program update view component', () => {
     })
   }
 
-  const getSideMenu = () => wrapper.findComponent({ name: 'DeclaredProgramSideMenu' })
+  const getSideMenu = () => wrapper.findComponent(DeclaredProgramSideMenuStub)
 
   const getSideMenuPrograms = () => {
     const sideMenu = getSideMenu()
     return sideMenu.props('programs') as DeclaredProgramViewDTO[]
   }
 
-  const getConfirmationModal = () => wrapper.findComponent({ name: 'ConfirmationModal' })
-  const getForm = () => wrapper.findComponent({ name: 'DeclaredProgramUpdateForm' })
+  const getConfirmationModal = () => wrapper.findComponent(ConfirmationModalStub)
+  const getForm = () => wrapper.findComponent(DeclaredProgramUpdateFormStub)
 
   beforeEach(() => {
     vi.clearAllMocks()
     mockRouteId.value = 'declared-program-1'
 
-    showConfirmationModal.value = false
+    confirmationModalOpened.value = false
 
     mockCanLeave.mockResolvedValue(true)
   })
@@ -211,7 +211,7 @@ BddTest().given('a declared program update view component', () => {
       const modal = getConfirmationModal()
 
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('description')).toBe('Les modifications non enregistrées seront perdues.')
     })
 
@@ -236,7 +236,7 @@ BddTest().given('a declared program update view component', () => {
           params: { id: secondProgramId },
           state: { preserveScroll: true }
         })
-        expect(displayConfirmationModal).not.toHaveBeenCalled()
+        expect(openConfirmationModal).not.toHaveBeenCalled()
       })
     })
 
@@ -245,7 +245,7 @@ BddTest().given('a declared program update view component', () => {
 
       beforeEach(async () => {
         mockCanLeave.mockImplementation(async () => {
-          displayConfirmationModal()
+          openConfirmationModal()
           return false
         })
 
@@ -261,8 +261,8 @@ BddTest().given('a declared program update view component', () => {
       BddTest().then('it should open the confirmation modal and not navigate', () => {
         const modal = getConfirmationModal()
 
-        expect(displayConfirmationModal).toHaveBeenCalledTimes(1)
-        expect(modal.props('show')).toBe(true)
+        expect(openConfirmationModal).toHaveBeenCalledTimes(1)
+        expect(modal.props('opened')).toBe(true)
         expect(routerReplace).not.toHaveBeenCalled()
       })
 
@@ -278,7 +278,7 @@ BddTest().given('a declared program update view component', () => {
           const modal = getConfirmationModal()
 
           expect(mockCancel).toHaveBeenCalledTimes(1)
-          expect(modal.props('show')).toBe(true)
+          expect(modal.props('opened')).toBe(true)
           expect(routerReplace).not.toHaveBeenCalled()
         })
       })
@@ -359,7 +359,7 @@ BddTest().given('a declared program update view component', () => {
     })
 
     BddTest().then('it should not render the side menu', () => {
-      const sideMenu = wrapper.findComponent({ name: 'DeclaredProgramSideMenu' })
+      const sideMenu = wrapper.findComponent(DeclaredProgramSideMenuStub)
       expect(sideMenu.exists()).toBe(false)
     })
   })

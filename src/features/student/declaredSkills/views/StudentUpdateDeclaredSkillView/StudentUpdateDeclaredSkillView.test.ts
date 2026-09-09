@@ -140,10 +140,10 @@ BddTest().given('a student update declared skill view component', () => {
       })
     })
 
-    BddTest().then('it should render the confirmation modal initially hidden', () => {
+    BddTest().then('it should render the confirmation modal initially closed', () => {
       const modal = wrapper.findComponent(ConfirmationModalStub)
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
     })
   })
 

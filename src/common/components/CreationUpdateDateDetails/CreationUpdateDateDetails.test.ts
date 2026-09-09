@@ -7,6 +7,10 @@ import { beforeEach, expect, vi } from 'vitest'
 BddTest().given('a CreationUpdateDateDetails component', () => {
   let wrapper: ReturnType<typeof mount<typeof CreationUpdateDateDetails>>
 
+  function getAvIconTextItems () {
+    return wrapper.findAllComponents(AvIconTextStub)
+  }
+
   const stubs = {
     AvIconText: AvIconTextStub
   }
@@ -27,12 +31,12 @@ BddTest().given('a CreationUpdateDateDetails component', () => {
     })
 
     BddTest().then('it should render two AvIconText components', () => {
-      const items = wrapper.findAllComponents({ name: 'AvIconText' })
+      const items = getAvIconTextItems()
       expect(items).toHaveLength(2)
     })
 
     BddTest().then('it should render createdAt with correct icon and text', () => {
-      const items = wrapper.findAllComponents({ name: 'AvIconText' })
+      const items = getAvIconTextItems()
       expect(items[0].props('icon')).toBe(RI_ICONS.LOADER_LINE)
       expect(items[0].props('text')).toContain('Créé le')
       expect(items[0].props('text')).toContain('10 janvier 2025')
@@ -41,7 +45,7 @@ BddTest().given('a CreationUpdateDateDetails component', () => {
     })
 
     BddTest().then('it should render updatedAt with correct icon and text', () => {
-      const items = wrapper.findAllComponents({ name: 'AvIconText' })
+      const items = getAvIconTextItems()
       expect(items[1].props('icon')).toBe(MDI_ICONS.PENCIL_OUTLINE)
       expect(items[1].props('text')).toContain('Modifié le')
       expect(items[1].props('text')).toContain('15 février 2025')
@@ -64,7 +68,7 @@ BddTest().given('a CreationUpdateDateDetails component', () => {
     })
 
     BddTest().then('it should render createdAt with prefix in text', () => {
-      const items = wrapper.findAllComponents({ name: 'AvIconText' })
+      const items = getAvIconTextItems()
       expect(items[0].props('text')).toContain('Compétence créé le')
       expect(items[0].props('text')).toContain('10 janvier 2025')
     })
@@ -82,12 +86,12 @@ BddTest().given('a CreationUpdateDateDetails component', () => {
     })
 
     BddTest().then('it should render only one AvIconText component', () => {
-      const items = wrapper.findAllComponents({ name: 'AvIconText' })
+      const items = getAvIconTextItems()
       expect(items).toHaveLength(1)
     })
 
     BddTest().then('it should render createdAt with formatted date', () => {
-      const items = wrapper.findAllComponents({ name: 'AvIconText' })
+      const items = getAvIconTextItems()
       expect(items[0].props('icon')).toBe(RI_ICONS.LOADER_LINE)
       expect(items[0].props('text')).toContain('Créé le')
       expect(items[0].props('text')).toContain('10 janvier 2025')
@@ -106,12 +110,12 @@ BddTest().given('a CreationUpdateDateDetails component', () => {
     })
 
     BddTest().then('it should render only one AvIconText component', () => {
-      const items = wrapper.findAllComponents({ name: 'AvIconText' })
+      const items = getAvIconTextItems()
       expect(items).toHaveLength(1)
     })
 
     BddTest().then('it should render updatedAt with formatted date', () => {
-      const items = wrapper.findAllComponents({ name: 'AvIconText' })
+      const items = getAvIconTextItems()
       expect(items[0].props('icon')).toBe(MDI_ICONS.PENCIL_OUTLINE)
       expect(items[0].props('text')).toContain('Modifié le')
       expect(items[0].props('text')).toContain('15 février 2025')
@@ -127,7 +131,7 @@ BddTest().given('a CreationUpdateDateDetails component', () => {
     })
 
     BddTest().then('it should not render any AvIconText components', () => {
-      const items = wrapper.findAllComponents({ name: 'AvIconText' })
+      const items = getAvIconTextItems()
       expect(items).toHaveLength(0)
     })
   })

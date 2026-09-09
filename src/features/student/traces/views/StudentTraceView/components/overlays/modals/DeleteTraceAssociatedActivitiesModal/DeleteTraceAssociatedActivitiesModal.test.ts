@@ -61,7 +61,7 @@ BddTest().given('a delete trace associated activities modal', () => {
   ]
 
   const props: DeleteTraceAssociatedActivitiesModalProps = {
-    show: true,
+    opened: true,
     traceId: 'trace-1',
     associations,
   }
@@ -70,7 +70,7 @@ BddTest().given('a delete trace associated activities modal', () => {
     vi.clearAllMocks()
   })
 
-  BddTest().when('the modal is shown', () => {
+  BddTest().when('the modal is opened', () => {
     beforeEach(() => {
       wrapper = mountComponent(DeleteTraceAssociatedActivitiesModal, { props, global: { stubs } })
     })

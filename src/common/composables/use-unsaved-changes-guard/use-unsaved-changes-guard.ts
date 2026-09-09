@@ -46,8 +46,8 @@ export interface UseUnsavedChangesGuardOptions {
  *   cancel
  * } = useUnsavedChangesGuard({
  *   isDirty,
- *   openModal: openModal,
- *   closeModal: closeModal
+ *   openModal,
+ *   closeModal
  * })
  * ```
  *

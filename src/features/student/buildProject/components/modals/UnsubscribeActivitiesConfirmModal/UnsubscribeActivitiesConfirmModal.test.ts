@@ -28,7 +28,7 @@ BddTest().given('an unsubscribe activities confirmation modal', () => {
 
   BddTest().when('the component is mounted with a valid activity id', () => {
     const props: UnsubscribeActivitiesConfirmModalProps = {
-      show: true,
+      opened: true,
       activities: [{ id: 'activity-1', title: 'Activité 1' }]
     }
 
@@ -39,7 +39,7 @@ BddTest().given('an unsubscribe activities confirmation modal', () => {
     BddTest().then('it should render the confirmation modal with correct props', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('show')).toBe(true)
+      expect(confirmationModal.props('opened')).toBe(true)
       expect(confirmationModal.text()).toContain(`Êtes-vous certain(e) de vouloir vous désinscrire de cette activité ?`)
       expect(confirmationModal.text()).toContain(`Cette action entraînera la perte définitive de toutes les données et actions associées.`)
     })
@@ -77,7 +77,7 @@ BddTest().given('an unsubscribe activities confirmation modal', () => {
 
   BddTest().when('the component is mounted with an invalid activity id', () => {
     const props: UnsubscribeActivitiesConfirmModalProps = {
-      show: true,
+      opened: true,
       activities: [{ id: 'INVALID_ACTIVITY_ID', title: 'Activité 1' }]
     }
 
@@ -110,7 +110,7 @@ BddTest().given('an unsubscribe activities confirmation modal', () => {
 
   BddTest().when('the component is mounted with multiple activities ids', () => {
     const props: UnsubscribeActivitiesConfirmModalProps = {
-      show: true,
+      opened: true,
       activities: [{ id: 'activity-1', title: 'Activité 1' }, { id: 'activity-2', title: 'Activité 2' }]
     }
 
@@ -121,7 +121,7 @@ BddTest().given('an unsubscribe activities confirmation modal', () => {
     BddTest().then('it should render the confirmation modal with correct props', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('show')).toBe(true)
+      expect(confirmationModal.props('opened')).toBe(true)
       expect(confirmationModal.text()).toContain(`Êtes-vous certain(e) de vouloir vous désinscrire de ces activités ?`)
       expect(confirmationModal.text()).toContain(`Cette action entraînera la perte définitive de toutes les données et actions associées.`)
     })
@@ -148,7 +148,7 @@ BddTest().given('an unsubscribe activities confirmation modal', () => {
 
   BddTest().when('the component is mounted with multiple activities ids including invalid ones', () => {
     const props: UnsubscribeActivitiesConfirmModalProps = {
-      show: true,
+      opened: true,
       activities: [{ id: 'INVALID_ACTIVITY_ID', title: 'Activité 1' }, { id: 'activity-2', title: 'Activité 2' }]
     }
 

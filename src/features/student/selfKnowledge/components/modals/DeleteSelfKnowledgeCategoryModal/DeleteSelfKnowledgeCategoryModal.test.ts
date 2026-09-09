@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import DeleteSelfKnowledgeCategoryModal, { type DeleteSelfKnowledgeCategoryModalProps } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoryModal/DeleteSelfKnowledgeCategoryModal.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -17,18 +17,6 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
-const AvModalStub = defineComponent({
-  name: 'AvModal',
-  template: `
-    <div class="av-modal-stub">
-      <slot name="header" />
-      <slot />
-    </div>
-  `,
-  props: ['opened', 'id', 'closeButtonLabel', 'confirmButtonLabel'],
-  emits: ['close', 'confirm']
-})
-
 BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeleteSelfKnowledgeCategoryModal>>
 
@@ -36,7 +24,7 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
 
   BddTest().when('the component is mounted with many elements', () => {
     const props: DeleteSelfKnowledgeCategoryModalProps = {
-      show: true,
+      opened: true,
       categoryTitle: 'Category with 3 elements',
       categoryType: ESelfKnowledgeCategory.STRENGTHS,
       elementsCount: 3,
@@ -113,7 +101,7 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
 
   BddTest().when('the component is mounted with one element', () => {
     const props: DeleteSelfKnowledgeCategoryModalProps = {
-      show: true,
+      opened: true,
       categoryTitle: 'Category with 1 element',
       categoryType: ESelfKnowledgeCategory.VALUES,
       elementsCount: 1,
@@ -143,7 +131,7 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
 
   BddTest().when('the component is mounted with one invalid element', () => {
     const props: DeleteSelfKnowledgeCategoryModalProps = {
-      show: true,
+      opened: true,
       categoryTitle: 'Category with 1 invalid element',
       categoryType: 'INVALID_CATEGORY_ID' as ESelfKnowledgeCategory,
       elementsCount: 1,
@@ -182,7 +170,7 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
 
   BddTest().when('the component is mounted without elements', () => {
     const props: DeleteSelfKnowledgeCategoryModalProps = {
-      show: true,
+      opened: true,
       categoryTitle: 'Empty Category',
       categoryType: ESelfKnowledgeCategory.ASPIRATIONS,
       elementsCount: 0,

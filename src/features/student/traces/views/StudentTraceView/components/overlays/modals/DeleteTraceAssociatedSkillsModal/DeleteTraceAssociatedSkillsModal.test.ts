@@ -35,7 +35,7 @@ BddTest().given('a delete trace associated skills modal', () => {
   const associations = mockedTraceAssociations.declaredSkillAssociations
 
   const props: DeleteTraceAssociatedSkillsModalProps = {
-    show: true,
+    opened: true,
     traceId: 'trace-1',
     associations,
   }
@@ -44,7 +44,7 @@ BddTest().given('a delete trace associated skills modal', () => {
     vi.clearAllMocks()
   })
 
-  BddTest().when('the modal is shown', () => {
+  BddTest().when('the modal is opened', () => {
     beforeEach(() => {
       wrapper = mountComponent(DeleteTraceAssociatedSkillsModal, { props, global: { stubs } })
     })

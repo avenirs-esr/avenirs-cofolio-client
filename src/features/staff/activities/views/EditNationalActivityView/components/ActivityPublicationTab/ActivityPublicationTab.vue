@@ -163,7 +163,7 @@ async function publishActivityDraft () {
 
   <ConfirmationModal
     data-testid="publish-confirmation-modal"
-    :show="modalOpened"
+    :opened="modalOpened"
     :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.confirmTitle')"
     :description="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.confirmDescription')"
     :is-loading="isUpdating || isPending || isLoading"

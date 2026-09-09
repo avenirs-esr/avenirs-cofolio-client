@@ -25,8 +25,8 @@ const { opened, totalCount } = toRefs(props)
 const { t } = useI18n()
 const {
   modalOpened: confirmModalOpened,
-  openModal: displayConfirmModal,
-  closeModal: hideConfirmModal
+  openModal: openConfirmModal,
+  closeModal: closeConfirmModal
 } = useModal()
 
 const {
@@ -39,7 +39,7 @@ const {
 const activities = computed(() => activityLibrary.value.map(activity => ({ id: activity.activityId, title: activity.title, thematic: activity.thematic })))
 
 function onUnsubscribeSuccess () {
-  hideConfirmModal()
+  closeConfirmModal()
   emit('unsubscribed')
   resetSelectedActivities()
 }
@@ -76,7 +76,7 @@ useInfiniteScroll(
     :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
     :confirm-button-disabled="selectedActivityIds.length === 0"
     @close="onCancel"
-    @confirm="displayConfirmModal"
+    @confirm="openConfirmModal"
   >
     <template #header>
       <div
@@ -112,7 +112,7 @@ useInfiniteScroll(
   <UnsubscribeActivitiesConfirmModal
     :opened="confirmModalOpened"
     :activities="activities.filter(({ id }) => selectedActivityIds.includes(id))"
-    @cancel="hideConfirmModal"
+    @cancel="closeConfirmModal"
     @unsubscribed="onUnsubscribeSuccess"
   />
 </template>

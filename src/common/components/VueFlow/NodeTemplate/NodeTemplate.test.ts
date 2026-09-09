@@ -85,7 +85,7 @@ BddTest().given('a node template', () => {
 
     BddTest().then('it should render the update handles modal initially closed', () => {
       expect(wrapper.findComponent(UpdateHandlesModalStub).exists()).toBe(true)
-      expect(wrapper.findComponent(UpdateHandlesModalStub).props('show')).toBe(false)
+      expect(wrapper.findComponent(UpdateHandlesModalStub).props('opened')).toBe(false)
     })
 
     BddTest().and('the node dropdown emits the update event', () => {

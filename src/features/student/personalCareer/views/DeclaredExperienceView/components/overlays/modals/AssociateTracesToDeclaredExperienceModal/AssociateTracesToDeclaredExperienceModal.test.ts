@@ -47,7 +47,7 @@ BddTest().given('an associate traces to declared experience modal', () => {
   }
 
   const props: AssociateTracesToDeclaredExperienceModalProps = {
-    show: true,
+    opened: true,
     declaredExperienceId: 'declared-experience-1'
   }
 
@@ -108,19 +108,19 @@ BddTest().given('an associate traces to declared experience modal', () => {
       })
     })
 
-    BddTest().then('it should render the confirm associate traces modal hidden by default', () => {
+    BddTest().then('it should render the confirm associate traces modal closed by default', () => {
       const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
 
       expect(confirmModal.exists()).toBe(true)
-      expect(confirmModal.props('show')).toBe(false)
+      expect(confirmModal.props('opened')).toBe(false)
       expect(confirmModal.props('items')).toEqual([])
     })
 
-    BddTest().then('it should render the cancel confirmation modal hidden by default', () => {
+    BddTest().then('it should render the cancel confirmation modal closed by default', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('show')).toBe(false)
+      expect(confirmationModal.props('opened')).toBe(false)
     })
 
     BddTest().then('it should load unassociated traces from the query and pass them to the layout', async () => {
@@ -175,9 +175,9 @@ BddTest().given('an associate traces to declared experience modal', () => {
           await wrapper.vm.$nextTick()
         })
 
-        BddTest().then('it should show the confirm associate traces modal', () => {
+        BddTest().then('it should open the confirm associate traces modal', () => {
           const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
-          expect(confirmModal.props('show')).toBe(true)
+          expect(confirmModal.props('opened')).toBe(true)
         })
 
         BddTest().and('the confirm associate traces modal emits cancel event', () => {
@@ -188,9 +188,9 @@ BddTest().given('an associate traces to declared experience modal', () => {
             await wrapper.vm.$nextTick()
           })
 
-          BddTest().then('it should hide the confirm associate traces modal', () => {
+          BddTest().then('it should close the confirm associate traces modal', () => {
             const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
-            expect(confirmModal.props('show')).toBe(false)
+            expect(confirmModal.props('opened')).toBe(false)
           })
 
           BddTest().then('it should not emit associated event', () => {
@@ -212,12 +212,12 @@ BddTest().given('an associate traces to declared experience modal', () => {
             })
           })
 
-          BddTest().then('it should hide the confirm associate traces modal once the parent closes the modal', async () => {
-            await wrapper.setProps({ show: false })
+          BddTest().then('it should close the confirm associate traces modal once the parent closes the modal', async () => {
+            await wrapper.setProps({ opened: false })
             await wrapper.vm.$nextTick()
 
             const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
-            expect(confirmModal.props('show')).toBe(false)
+            expect(confirmModal.props('opened')).toBe(false)
           })
 
           BddTest().then('it should show a success toaster with the correct count', async () => {
@@ -243,10 +243,10 @@ BddTest().given('an associate traces to declared experience modal', () => {
           await wrapper.vm.$nextTick()
         })
 
-        BddTest().then('it should show the cancel confirmation modal', () => {
+        BddTest().then('it should open the cancel confirmation modal', () => {
           const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
-          expect(confirmationModal.props('show')).toBe(true)
+          expect(confirmationModal.props('opened')).toBe(true)
         })
 
         BddTest().then('it should not emit cancel event immediately', () => {
@@ -261,10 +261,10 @@ BddTest().given('an associate traces to declared experience modal', () => {
             await wrapper.vm.$nextTick()
           })
 
-          BddTest().then('it should hide the cancel confirmation modal', () => {
+          BddTest().then('it should close the cancel confirmation modal', () => {
             const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
-            expect(confirmationModal.props('show')).toBe(false)
+            expect(confirmationModal.props('opened')).toBe(false)
           })
 
           BddTest().then('it should not emit cancel event', () => {
@@ -280,10 +280,10 @@ BddTest().given('an associate traces to declared experience modal', () => {
             await wrapper.vm.$nextTick()
           })
 
-          BddTest().then('it should hide the cancel confirmation modal', () => {
+          BddTest().then('it should close the cancel confirmation modal', () => {
             const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
-            expect(confirmationModal.props('show')).toBe(false)
+            expect(confirmationModal.props('opened')).toBe(false)
           })
 
           BddTest().then('it should emit cancel event', () => {
@@ -383,7 +383,7 @@ BddTest().given('an associate traces to declared experience modal', () => {
 
       BddTest().then('it should keep the confirm modal opened', () => {
         const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
-        expect(confirmModal.props('show')).toBe(true)
+        expect(confirmModal.props('opened')).toBe(true)
       })
     })
   })

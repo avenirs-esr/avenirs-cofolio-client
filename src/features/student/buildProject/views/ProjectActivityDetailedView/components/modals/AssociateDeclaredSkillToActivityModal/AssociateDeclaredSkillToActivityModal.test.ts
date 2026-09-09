@@ -32,7 +32,7 @@ BddTest().given('an associate declared skills to activity modal', () => {
   }
 
   const props: AssociateDeclaredSkillsToActivityModalProps = {
-    show: true,
+    opened: true,
     activityId: 'activity-1'
   }
 
@@ -56,8 +56,8 @@ BddTest().given('an associate declared skills to activity modal', () => {
       expect(modal.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass the show prop', () => {
-      expect(modal.props('show')).toBe(true)
+    BddTest().then('it should pass the opened prop', () => {
+      expect(modal.props('opened')).toBe(true)
     })
 
     BddTest().then('it should pass isLoading prop as false initially', () => {
@@ -117,18 +117,18 @@ BddTest().given('an associate declared skills to activity modal', () => {
       })
     })
 
-    BddTest().when('the show prop is false', () => {
+    BddTest().when('the opened prop is false', () => {
       beforeEach(async () => {
         wrapper = mountComponent(AssociateDeclaredSkillsToActivityModal, {
-          props: { ...props, show: false },
+          props: { ...props, opened: false },
           global: { stubs }
         })
         await flushPromises()
       })
 
-      BddTest().then('it should pass show as false to the inner modal', () => {
+      BddTest().then('it should pass opened as false to the inner modal', () => {
         const modal = wrapper.findComponent(AssociateDeclaredSkillsModalStub) as VueWrapper<InstanceType<typeof AssociateDeclaredSkillsModalStub>>
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
     })
 

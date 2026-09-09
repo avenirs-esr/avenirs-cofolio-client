@@ -142,7 +142,7 @@ BddTest().given('a self knowledge element update form component', () => {
     BddTest().then('it should render the confirmation modal', () => {
       const modal = getConfirmationModal()
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('title')).toBe('Êtes-vous certain(e) de vouloir abandonner les modifications de votre élément ?')
     })
   })
@@ -158,13 +158,13 @@ BddTest().given('a self knowledge element update form component', () => {
   })
 
   BddTest().when('the cancel button is clicked', () => {
-    BddTest().then('it should display the confirmation modal', async () => {
+    BddTest().then('it should open the confirmation modal', async () => {
       const buttons = getCancelConfirmButtons()
 
       await buttons.vm.$emit('cancel')
 
       const modal = getConfirmationModal()
-      expect(modal.props('show')).toBe(true)
+      expect(modal.props('opened')).toBe(true)
     })
   })
 
@@ -179,17 +179,17 @@ BddTest().given('a self knowledge element update form component', () => {
   })
 
   BddTest().when('the confirmation modal close event is emitted', () => {
-    BddTest().then('it should hide the confirmation modal', async () => {
+    BddTest().then('it should close the confirmation modal', async () => {
       const buttons = getCancelConfirmButtons()
       await buttons.vm.$emit('cancel')
 
       let modal = getConfirmationModal()
-      expect(modal.props('show')).toBe(true)
+      expect(modal.props('opened')).toBe(true)
 
       await modal.vm.$emit('close')
 
       modal = getConfirmationModal()
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
     })
   })
 })
