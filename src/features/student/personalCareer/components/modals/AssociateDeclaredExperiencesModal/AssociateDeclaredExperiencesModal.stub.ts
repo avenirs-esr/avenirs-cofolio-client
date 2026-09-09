@@ -4,7 +4,7 @@ import type { PropType } from 'vue'
 export const AssociateDeclaredExperiencesModalStub = defineComponent({
   name: 'AssociateDeclaredExperiencesModal',
   props: {
-    show: {
+    opened: {
       type: Boolean,
       required: true
     },

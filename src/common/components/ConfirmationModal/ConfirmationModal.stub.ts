@@ -1,7 +1,7 @@
 export const ConfirmationModalStub = defineComponent({
   name: 'ConfirmationModal',
   props: {
-    show: Boolean,
+    opened: Boolean,
     title: String,
     description: String,
     showDescription: Boolean,
@@ -13,7 +13,7 @@ export const ConfirmationModalStub = defineComponent({
   },
   emits: ['close', 'confirm'],
   template: `
-    <div v-if="show" data-testid="confirmation-modal">
+    <div v-if="opened" data-testid="confirmation-modal">
       <slot name="header" />
       <slot>
         <div>{{ title }}</div>

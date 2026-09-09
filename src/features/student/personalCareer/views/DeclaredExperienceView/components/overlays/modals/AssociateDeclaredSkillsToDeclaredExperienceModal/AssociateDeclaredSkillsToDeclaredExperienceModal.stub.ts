@@ -1,7 +1,7 @@
 export const AssociateDeclaredSkillsToDeclaredExperienceModalStub = defineComponent({
   name: 'AssociateDeclaredSkillsToDeclaredExperienceModal',
   props: {
-    show: {
+    opened: {
       type: Boolean,
       required: true
     },
@@ -12,7 +12,7 @@ export const AssociateDeclaredSkillsToDeclaredExperienceModalStub = defineCompon
   },
   emits: ['cancel', 'associated'],
   template: `
-    <div v-if="show" class="associate-declared-skills-to-declared-experience-modal-stub">
+    <div v-if="opened" class="associate-declared-skills-to-declared-experience-modal-stub">
       <p>AssociateDeclaredSkillsToDeclaredExperienceModalStub</p>
       <button @click="$emit('cancel')">Cancel</button>
       <button @click="$emit('associated')">Associated</button>

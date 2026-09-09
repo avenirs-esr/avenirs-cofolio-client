@@ -4,7 +4,7 @@ import type { PropType } from 'vue'
 export const DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub = defineComponent({
   name: 'DeleteDeclaredExperienceAssociatedDeclaredSkillsModal',
   props: {
-    show: { type: Boolean, required: true },
+    opened: { type: Boolean, required: true },
     experienceId: { type: String, required: true },
     associations: { type: Array as PropType<DeclaredSkillAssociationDTO[]>, required: true },
   },

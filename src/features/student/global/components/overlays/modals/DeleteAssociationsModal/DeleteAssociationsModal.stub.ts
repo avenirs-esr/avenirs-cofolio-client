@@ -3,7 +3,7 @@ import type { PropType } from 'vue'
 export const DeleteAssociationsModalStub = defineComponent({
   name: 'DeleteAssociationsModal',
   props: {
-    show: {
+    opened: {
       type: Boolean,
       required: true
     },

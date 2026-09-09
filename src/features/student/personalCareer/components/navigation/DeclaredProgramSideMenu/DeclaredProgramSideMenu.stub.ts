@@ -1,7 +1,12 @@
-import type { Component } from 'vue'
+import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import type { PropType } from 'vue'
 
-export const DeclaredProgramSideMenuStub: Component = defineComponent({
+export const DeclaredProgramSideMenuStub = defineComponent({
   name: 'DeclaredProgramSideMenu',
-  props: ['selectedProgramId', 'programs', 'countPrograms'],
+  props: {
+    selectedProgramId: String,
+    programs: Array as PropType<DeclaredProgramViewDTO[]>,
+    countPrograms: Number
+  },
   template: '<div data-testid="declared-program-side-menu-stub"></div>'
 })

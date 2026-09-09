@@ -1,7 +1,7 @@
 export const AssociateActivitiesModalStub = defineComponent({
   name: 'AssociateActivitiesModal',
   props: {
-    show: {
+    opened: {
       type: Boolean,
       required: true
     },

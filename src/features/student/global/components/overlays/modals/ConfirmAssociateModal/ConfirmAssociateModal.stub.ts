@@ -1,7 +1,7 @@
 export const ConfirmAssociateModalStub = defineComponent({
   name: 'ConfirmAssociateModal',
   props: {
-    show: {
+    opened: {
       type: Boolean,
       required: true
     },
@@ -15,7 +15,7 @@ export const ConfirmAssociateModalStub = defineComponent({
     }
   },
   emits: ['confirm', 'cancel'],
-  template: `<div v-if="show">
+  template: `<div v-if="opened">
     <p>{{ title }}</p>
     <p>ConfirmAssociateModalStub for items: {{ items.map(item => item.title).join(', ') }}</p>
     <button @click="$emit('cancel')">Cancel</button>

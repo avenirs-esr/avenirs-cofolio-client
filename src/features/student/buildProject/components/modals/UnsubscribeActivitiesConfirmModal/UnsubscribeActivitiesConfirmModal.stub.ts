@@ -1,7 +1,7 @@
 export const UnsubscribeActivitiesConfirmModalStub = defineComponent({
   name: 'UnsubscribeActivitiesConfirmModal',
   props: {
-    show: {
+    opened: {
       type: Boolean,
       required: true
     },
@@ -11,7 +11,7 @@ export const UnsubscribeActivitiesConfirmModalStub = defineComponent({
     }
   },
   emits: ['unsubscribed', 'cancel'],
-  template: `<div v-if="show">
+  template: `<div v-if="opened">
     <p>UnsubscribeActivitiesConfirmModalStub for activities: {{ activities.map(a => a.title).join(', ') }}</p>
     <button @click="$emit('cancel')">Cancel</button>
   </div>`

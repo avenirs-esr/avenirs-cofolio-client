@@ -4,7 +4,7 @@ import type { PropType } from 'vue'
 export const DeleteTraceAssociatedActivitiesModalStub = defineComponent({
   name: 'DeleteTraceAssociatedActivitiesModal',
   props: {
-    show: {
+    opened: {
       type: Boolean,
       required: true,
     },

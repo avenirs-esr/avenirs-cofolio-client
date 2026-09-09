@@ -1,15 +1,32 @@
-export const TraceDeletionConfirmationModalStub = {
+import type { PropType } from 'vue'
+
+export const TraceDeletionConfirmationModalStub = defineComponent({
   name: 'TraceDeletionConfirmationModal',
-  props: [
-    'traceIds',
-    'title',
-    'show',
-    'onConfirmDelete',
-    'onClose'
-  ],
+  props: {
+    traceIds: {
+      type: Array as PropType<string[]>,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    opened: {
+      type: Boolean,
+      required: true
+    },
+    onConfirmDelete: {
+      type: Function,
+      required: true
+    },
+    onClose: {
+      type: Function,
+      required: true
+    }
+  },
   template: `
     <div
-      v-if="show"
+      v-if="opened"
       data-testid="trace-deletion-confirmation-modal"
     >
       <div data-testid="trace-deletion-title">
@@ -35,4 +52,4 @@ export const TraceDeletionConfirmationModalStub = {
       </button>
     </div>
   `
-}
+})

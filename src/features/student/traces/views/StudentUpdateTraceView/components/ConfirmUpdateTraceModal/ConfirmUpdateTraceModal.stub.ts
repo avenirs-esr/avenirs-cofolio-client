@@ -4,7 +4,7 @@ import type { PropType } from 'vue'
 export const ConfirmUpdateTraceModalStub = defineComponent({
   name: 'ConfirmUpdateTraceModalStub',
   props: {
-    show: {
+    opened: {
       type: Boolean,
       required: true
     },
@@ -14,5 +14,5 @@ export const ConfirmUpdateTraceModalStub = defineComponent({
     }
   },
   emits: ['cancel', 'confirm'],
-  template: `<div v-if="show"><p>ConfirmUpdateTraceModalStub</p></div>`
+  template: `<div v-if="opened"><p>ConfirmUpdateTraceModalStub</p></div>`
 })
