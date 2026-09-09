@@ -27,7 +27,7 @@ BddTest().given('a delete declared skill confirmation modal', () => {
   }
 
   BddTest().when('the component is mounted with valid skill id', () => {
-    const props: DeleteDeclaredSkillConfirmModalProps = { show: true, skillTitle: 'Compétence Exemple', skillId: 'skill-id' }
+    const props: DeleteDeclaredSkillConfirmModalProps = { opened: true, skillTitle: 'Compétence Exemple', skillId: 'skill-id' }
 
     beforeEach(() => {
       wrapper = mountComponent(DeleteDeclaredSkillConfirmModal, { props, global: { stubs } })
@@ -36,7 +36,7 @@ BddTest().given('a delete declared skill confirmation modal', () => {
     BddTest().then('it should render the confirmation modal with correct props', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('show')).toBe(true)
+      expect(confirmationModal.props('opened')).toBe(true)
       expect(confirmationModal.props('title')).toBe(`Confirmez-vous la suppression de la compétence ${props.skillTitle} ?`)
       expect(confirmationModal.props('description')).toBe(`Cette action est définitive. Elle entraine la suppression des informations concernant la compétence ainsi que la suppression des liens d'association qu'elle comportait.`)
     })
@@ -73,7 +73,7 @@ BddTest().given('a delete declared skill confirmation modal', () => {
   })
 
   BddTest().when('the component is mounted with an invalid skill id', () => {
-    const props: DeleteDeclaredSkillConfirmModalProps = { show: true, skillTitle: 'Compétence Exemple', skillId: 'INVALID_SKILL_ID' }
+    const props: DeleteDeclaredSkillConfirmModalProps = { opened: true, skillTitle: 'Compétence Exemple', skillId: 'INVALID_SKILL_ID' }
 
     beforeEach(() => {
       wrapper = mountComponent(DeleteDeclaredSkillConfirmModal, { props, global: { stubs } })

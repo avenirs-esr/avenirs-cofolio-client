@@ -112,10 +112,10 @@ BddTest().given('a project activity detailed view', () => {
         unsubscribeButton.vm.$emit('unsubscribeSelected')
       })
 
-      BddTest().then('it should show the UnsubscribeActivitiesConfirmModal', () => {
+      BddTest().then('it should open the UnsubscribeActivitiesConfirmModal', () => {
         const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
         expect(modal.exists()).toBe(true)
-        expect(modal.props('show')).toBe(true)
+        expect(modal.props('opened')).toBe(true)
       })
     })
 
@@ -125,10 +125,10 @@ BddTest().given('a project activity detailed view', () => {
         modal.vm.$emit('unsubscribed')
       })
 
-      BddTest().then('it should hide the UnsubscribeActivitiesConfirmModal', () => {
+      BddTest().then('it should close the UnsubscribeActivitiesConfirmModal', () => {
         const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
         expect(modal.exists()).toBe(true)
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
 
       BddTest().then('it should navigate to the project activities page', () => {
@@ -143,10 +143,10 @@ BddTest().given('a project activity detailed view', () => {
         modal.vm.$emit('cancel')
       })
 
-      BddTest().then('it should hide the UnsubscribeActivitiesConfirmModal', () => {
+      BddTest().then('it should close the UnsubscribeActivitiesConfirmModal', () => {
         const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
         expect(modal.exists()).toBe(true)
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
     })
   })

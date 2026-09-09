@@ -79,7 +79,7 @@ BddTest().given('an editable activity resources list', () => {
     })
 
     BddTest().then('it should render the delete modal closed', () => {
-      expect(getDeleteModal().props('show')).toBe(false)
+      expect(getDeleteModal().props('opened')).toBe(false)
     })
 
     BddTest().then('it should disable the delete button when no resource is selected', () => {
@@ -157,7 +157,7 @@ BddTest().given('an editable activity resources list', () => {
     })
 
     BddTest().then('it should open the delete confirmation modal', () => {
-      expect(getDeleteModal().props('show')).toBe(true)
+      expect(getDeleteModal().props('opened')).toBe(true)
     })
 
     BddTest().then('it should pass selected resources to the delete modal', () => {
@@ -183,7 +183,7 @@ BddTest().given('an editable activity resources list', () => {
     })
 
     BddTest().then('it should close the delete modal', () => {
-      expect(getDeleteModal().props('show')).toBe(false)
+      expect(getDeleteModal().props('opened')).toBe(false)
     })
   })
 

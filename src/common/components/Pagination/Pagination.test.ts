@@ -1,6 +1,6 @@
 import Pagination from '@/common/components/Pagination/Pagination.vue'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvPageSizePickerStub, AvPaginationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -23,55 +23,54 @@ const defaultPageInfo = {
   pageSize: 10
 }
 
-function createWrapper (props = {}, slots = {}) {
-  return mount<typeof Pagination>(Pagination, {
-    props: {
-      pageInfo: defaultPageInfo,
-      pageSizeSelected: PageSizes.EIGHT,
-      onUpdateCurrentPage: vi.fn(),
-      onUpdatePageSize: vi.fn(),
-      ...props
-    },
-    global: {
-      stubs: {
-        AvPageSizePicker: {
-          name: 'AvPageSizePicker',
-          props: ['label', 'pageSizeSelected', 'handleSelectChange'],
-          template: `<button class="page-size-picker" @click="handleSelectChange({ value: 12 })">Set 12</button>`
-        },
-        AvPagination: {
-          name: 'AvPagination',
-          props: ['id', 'currentPage', 'pages', 'ariaLabel', 'compact', 'truncLimit'],
-          emits: ['update:current-page'],
-          template: `<button class="av-pagination" @click="$emit('update:current-page', 2)">Page 2</button>`
-        }
-      }
-    },
-    slots
-  })
-}
-
 BddTest().given('a pagination', () => {
-  BddTest().and('valid props', () => {
-    let wrapper: ReturnType<typeof mount<typeof Pagination>>
+  let wrapper: ReturnType<typeof mount<typeof Pagination>>
 
+  function createWrapper (props = {}, slots = {}) {
+    wrapper = mount<typeof Pagination>(Pagination, {
+      props: {
+        pageInfo: defaultPageInfo,
+        pageSizeSelected: PageSizes.EIGHT,
+        onUpdateCurrentPage: vi.fn(),
+        onUpdatePageSize: vi.fn(),
+        ...props
+      },
+      global: {
+        stubs: {
+          AvPageSizePicker: AvPageSizePickerStub,
+          AvPagination: AvPaginationStub
+        }
+      },
+      slots
+    })
+  }
+
+  function getAvPaginations () {
+    return wrapper.findAllComponents(AvPaginationStub)
+  }
+
+  function getAvPageSizePicker () {
+    return wrapper.findComponent(AvPageSizePickerStub)
+  }
+
+  BddTest().and('valid props', () => {
     beforeEach(() => {
-      wrapper = createWrapper()
+      createWrapper()
     })
 
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should render two AvPagination components', () => {
-        const paginations = wrapper.findAllComponents({ name: 'AvPagination' })
+        const paginations = getAvPaginations()
         expect(paginations).toHaveLength(2)
       })
 
       BddTest().then('it should render AvPageSizePicker', () => {
-        const pageSize = wrapper.findComponent({ name: 'AvPageSizePicker' })
+        const pageSize = getAvPageSizePicker()
         expect(pageSize.exists()).toBe(true)
       })
 
       BddTest().then('it should not add a truncLimit to AvPagination', () => {
-        const topPagination = wrapper.findAllComponents({ name: 'AvPagination' }).find(c => c.props('id') === 'top-pagination')
+        const topPagination = getAvPaginations().find(c => c.props('id') === 'top-pagination')
         expect(topPagination?.exists()).toBe(true)
         expect(topPagination!.props('truncLimit')).toBeUndefined()
       })
@@ -95,7 +94,7 @@ BddTest().given('a pagination', () => {
   BddTest().and('a provided default slot', () => {
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should render the slot content', () => {
-        const wrapper = createWrapper({}, {
+        createWrapper({}, {
           default: '<div class="slot-content">Hello slot</div>'
         })
 
@@ -109,16 +108,16 @@ BddTest().given('a pagination', () => {
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should add a truncLimit to AvPagination', () => {
         mockIsMobile.value = true
-        const wrapper = createWrapper()
+        createWrapper()
 
-        const bottomPagination = wrapper.findAllComponents({ name: 'AvPagination' }).find(c => c.props('id') === 'bottom-pagination')
+        const bottomPagination = getAvPaginations().find(c => c.props('id') === 'bottom-pagination')
         expect(bottomPagination?.exists()).toBe(true)
         expect(bottomPagination!.props('truncLimit')).toBe(1)
       })
 
       BddTest().then('it should not render AvPageSizePicker', () => {
-        const wrapper = createWrapper()
-        expect(wrapper.findComponent({ name: 'AvPageSizePicker' }).exists()).toBe(false)
+        createWrapper()
+        expect(getAvPageSizePicker().exists()).toBe(false)
       })
     })
   })

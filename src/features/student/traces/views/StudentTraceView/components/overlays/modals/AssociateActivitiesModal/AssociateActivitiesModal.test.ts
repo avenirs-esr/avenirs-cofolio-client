@@ -45,7 +45,7 @@ BddTest().given('an associate activities modal', () => {
   ]
 
   const props: AssociateActivitiesModalProps = {
-    show: true,
+    opened: true,
     activities,
     isLoading: false
   }
@@ -105,7 +105,7 @@ BddTest().given('an associate activities modal', () => {
     BddTest().then('it should render the confirm associate modal hidden by default', () => {
       const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
       expect(confirmModal.exists()).toBe(true)
-      expect(confirmModal.props('show')).toBe(false)
+      expect(confirmModal.props('opened')).toBe(false)
       expect(confirmModal.props('items')).toEqual([])
     })
 
@@ -113,7 +113,7 @@ BddTest().given('an associate activities modal', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('show')).toBe(false)
+      expect(confirmationModal.props('opened')).toBe(false)
     })
 
     BddTest().then('it should pass all activities to the layout options with description and disabled fields', () => {
@@ -229,9 +229,9 @@ BddTest().given('an associate activities modal', () => {
           await wrapper.vm.$nextTick()
         })
 
-        BddTest().then('it should show the confirm associate modal', () => {
+        BddTest().then('it should open the confirm associate modal', () => {
           const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
-          expect(confirmModal.props('show')).toBe(true)
+          expect(confirmModal.props('opened')).toBe(true)
         })
 
         BddTest().and('the confirm modal emits cancel event', () => {
@@ -241,9 +241,9 @@ BddTest().given('an associate activities modal', () => {
             await wrapper.vm.$nextTick()
           })
 
-          BddTest().then('it should hide the confirm modal', () => {
+          BddTest().then('it should close the confirm modal', () => {
             const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
-            expect(confirmModal.props('show')).toBe(false)
+            expect(confirmModal.props('opened')).toBe(false)
           })
 
           BddTest().then('it should not emit associate', () => {
@@ -273,10 +273,10 @@ BddTest().given('an associate activities modal', () => {
           await wrapper.vm.$nextTick()
         })
 
-        BddTest().then('it should show the cancel confirmation modal', () => {
+        BddTest().then('it should open the cancel confirmation modal', () => {
           const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
-          expect(confirmationModal.props('show')).toBe(true)
+          expect(confirmationModal.props('opened')).toBe(true)
         })
 
         BddTest().then('it should not emit cancel immediately', () => {
@@ -290,10 +290,10 @@ BddTest().given('an associate activities modal', () => {
             await wrapper.vm.$nextTick()
           })
 
-          BddTest().then('it should hide the cancel confirmation modal', () => {
+          BddTest().then('it should close the cancel confirmation modal', () => {
             const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
-            expect(confirmationModal.props('show')).toBe(false)
+            expect(confirmationModal.props('opened')).toBe(false)
           })
 
           BddTest().then('it should not emit cancel', () => {
@@ -308,10 +308,10 @@ BddTest().given('an associate activities modal', () => {
             await wrapper.vm.$nextTick()
           })
 
-          BddTest().then('it should hide the cancel confirmation modal', () => {
+          BddTest().then('it should close the cancel confirmation modal', () => {
             const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
-            expect(confirmationModal.props('show')).toBe(false)
+            expect(confirmationModal.props('opened')).toBe(false)
           })
 
           BddTest().then('it should emit cancel', () => {
@@ -353,7 +353,7 @@ BddTest().given('an associate activities modal', () => {
     })
   })
 
-  BddTest().when('the show prop becomes false', () => {
+  BddTest().when('the opened prop becomes false', () => {
     beforeEach(async () => {
       wrapper = mountComponent(AssociateActivitiesModal, {
         props,
@@ -369,7 +369,7 @@ BddTest().given('an associate activities modal', () => {
       modal.vm.$emit('confirm')
       await wrapper.vm.$nextTick()
 
-      await wrapper.setProps({ show: false })
+      await wrapper.setProps({ opened: false })
       await wrapper.vm.$nextTick()
     })
 
@@ -379,9 +379,9 @@ BddTest().given('an associate activities modal', () => {
       expect(layout.props('modelValue')).toEqual([])
     })
 
-    BddTest().then('it should hide the confirm modal', () => {
+    BddTest().then('it should close the confirm modal', () => {
       const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
-      expect(confirmModal.props('show')).toBe(false)
+      expect(confirmModal.props('opened')).toBe(false)
     })
   })
 

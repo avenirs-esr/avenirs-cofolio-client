@@ -105,7 +105,7 @@ BddTest().given('a declared experience view component', () => {
 
     BddTest().then('it should render DetailedPageTitle with correct title and breadcrumbs', async () => {
       await vi.waitFor(() => {
-        const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+        const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
         expect(pageTitle.exists()).toBe(true)
 
         expect(pageTitle.props('title')).toBe('Développeur Web Full Stack')
@@ -130,12 +130,12 @@ BddTest().given('a declared experience view component', () => {
     })
 
     BddTest().then('it should render the side menu', () => {
-      const sideMenu = wrapper.findComponent({ name: 'DeclaredExperienceSideMenu' })
+      const sideMenu = wrapper.findComponent(DeclaredExperienceSideMenuStub)
       expect(sideMenu.exists()).toBe(true)
     })
 
     BddTest().then('it should pass correct props to the side menu', () => {
-      const sideMenu = wrapper.findComponent({ name: 'DeclaredExperienceSideMenu' })
+      const sideMenu = wrapper.findComponent(DeclaredExperienceSideMenuStub)
 
       expect(sideMenu.props()).toHaveProperty('experiences')
       expect(sideMenu.props()).toHaveProperty('experienceCount')
@@ -220,7 +220,7 @@ BddTest().given('a declared experience view component', () => {
 
     BddTest().and('loading more experiences from the side menu', () => {
       beforeEach(() => {
-        const sideMenu = wrapper.findComponent({ name: 'DeclaredExperienceSideMenu' })
+        const sideMenu = wrapper.findComponent(DeclaredExperienceSideMenuStub)
         sideMenu.vm.$emit('loadMoreExperiences')
       })
 
@@ -233,7 +233,7 @@ BddTest().given('a declared experience view component', () => {
       const experienceId = 'declared-experience-1'
 
       beforeEach(() => {
-        const sideMenu = wrapper.findComponent({ name: 'DeclaredExperienceSideMenu' })
+        const sideMenu = wrapper.findComponent(DeclaredExperienceSideMenuStub)
         sideMenu.vm.$emit('selectExperience', experienceId)
       })
 
@@ -254,7 +254,7 @@ BddTest().given('a declared experience view component', () => {
     })
 
     BddTest().then('it should not render the side menu', () => {
-      const sideMenu = wrapper.findComponent({ name: 'DeclaredExperienceSideMenu' })
+      const sideMenu = wrapper.findComponent(DeclaredExperienceSideMenuStub)
       expect(sideMenu.exists()).toBe(false)
     })
   })
@@ -316,41 +316,41 @@ BddTest().given('a declared experience view component', () => {
         })
       })
 
-      BddTest().then('it should show the delete confirmation modal', async () => {
+      BddTest().then('it should open the delete confirmation modal', async () => {
         await vi.waitFor(() => {
-          const modal = wrapper.findComponent({ name: 'DeleteDeclaredExperienceConfirmModal' })
+          const modal = wrapper.findComponent(DeleteDeclaredExperienceConfirmModalStub)
           expect(modal.exists()).toBe(true)
-          expect(modal.props('show')).toBe(true)
+          expect(modal.props('opened')).toBe(true)
           expect(modal.props('declaredExperienceIds')).toEqual(['exp-123'])
         })
       })
 
       BddTest().and('the modal emits close', () => {
         beforeEach(async () => {
-          const modal = wrapper.findComponent({ name: 'DeleteDeclaredExperienceConfirmModal' })
+          const modal = wrapper.findComponent(DeleteDeclaredExperienceConfirmModalStub)
           await modal.vm.$emit('close')
         })
 
         BddTest().then('it should hide the delete confirmation modal', async () => {
           await vi.waitFor(() => {
-            const modal = wrapper.findComponent({ name: 'DeleteDeclaredExperienceConfirmModal' })
+            const modal = wrapper.findComponent(DeleteDeclaredExperienceConfirmModalStub)
             expect(modal.exists()).toBe(true)
-            expect(modal.props('show')).toBe(false)
+            expect(modal.props('opened')).toBe(false)
           })
         })
       })
 
       BddTest().and('the modal emits confirm', () => {
         beforeEach(async () => {
-          const modal = wrapper.findComponent({ name: 'DeleteDeclaredExperienceConfirmModal' })
+          const modal = wrapper.findComponent(DeleteDeclaredExperienceConfirmModalStub)
           await modal.vm.$emit('confirm')
         })
 
         BddTest().then('it should hide the delete confirmation modal', async () => {
           await vi.waitFor(() => {
-            const modal = wrapper.findComponent({ name: 'DeleteDeclaredExperienceConfirmModal' })
+            const modal = wrapper.findComponent(DeleteDeclaredExperienceConfirmModalStub)
             expect(modal.exists()).toBe(true)
-            expect(modal.props('show')).toBe(false)
+            expect(modal.props('opened')).toBe(false)
           })
         })
 
@@ -374,7 +374,7 @@ BddTest().given('a declared experience view component', () => {
       await vi.waitFor(() => {
         expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(true)
 
-        const errorMessage = wrapper.findComponent({ name: 'ErrorMessage' })
+        const errorMessage = wrapper.findComponent(ErrorMessageStub)
         expect(errorMessage.props('title')).toBe('Expérience déclarée introuvable')
         expect(errorMessage.props('description')).toBe('L\'expérience déclarée que vous recherchez n\'existe pas ou n\'est pas accessible.')
       })
@@ -395,7 +395,7 @@ BddTest().given('a declared experience view component', () => {
 
     BddTest().then('it should still render DetailedPageTitle', async () => {
       await vi.waitFor(() => {
-        const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+        const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
         expect(pageTitle.exists()).toBe(true)
       })
     })

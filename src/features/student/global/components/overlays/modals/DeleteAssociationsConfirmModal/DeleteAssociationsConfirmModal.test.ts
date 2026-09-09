@@ -13,7 +13,7 @@ BddTest().given('a DeleteAssociationsModal component', () => {
 
   BddTest().when('the component is mounted without associations', () => {
     const props: DeleteAssociationsConfirmModalProps = {
-      show: true,
+      opened: true,
       associations: []
     }
 
@@ -28,7 +28,7 @@ BddTest().given('a DeleteAssociationsModal component', () => {
 
   BddTest().when('the component is mounted with associations', () => {
     const props: DeleteAssociationsConfirmModalProps = {
-      show: true,
+      opened: true,
       associations: [
         { id: '1', title: 'Association 1' },
         { id: '2', title: 'Association 2' }

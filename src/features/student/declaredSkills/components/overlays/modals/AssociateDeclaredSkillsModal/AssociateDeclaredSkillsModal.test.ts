@@ -26,7 +26,7 @@ BddTest().given('an associate declared skills modal', () => {
   const skills = mockedSkillSearchResults
 
   const props: AssociateDeclaredSkillsModalProps = {
-    show: true,
+    opened: true,
     skills,
   }
 
@@ -84,7 +84,7 @@ BddTest().given('an associate declared skills modal', () => {
 
     BddTest().then('it should render the confirm modal hidden by default', () => {
       expect(confirmModal.exists()).toBe(true)
-      expect(confirmModal.props('show')).toBe(false)
+      expect(confirmModal.props('opened')).toBe(false)
       expect(confirmModal.props('items')).toEqual([])
     })
 
@@ -92,7 +92,7 @@ BddTest().given('an associate declared skills modal', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('show')).toBe(false)
+      expect(confirmationModal.props('opened')).toBe(false)
     })
 
     BddTest().and('the user selects skills in the layout', () => {
@@ -130,8 +130,8 @@ BddTest().given('an associate declared skills modal', () => {
           await wrapper.vm.$nextTick()
         })
 
-        BddTest().then('it should show the confirm modal', () => {
-          expect(confirmModal.props('show')).toBe(true)
+        BddTest().then('it should open the confirm modal', () => {
+          expect(confirmModal.props('opened')).toBe(true)
         })
 
         BddTest().and('the confirm modal emits cancel event', () => {
@@ -140,8 +140,8 @@ BddTest().given('an associate declared skills modal', () => {
             await wrapper.vm.$nextTick()
           })
 
-          BddTest().then('it should hide the confirm modal', () => {
-            expect(confirmModal.props('show')).toBe(false)
+          BddTest().then('it should close the confirm modal', () => {
+            expect(confirmModal.props('opened')).toBe(false)
           })
 
           BddTest().then('it should not emit associate event', () => {
@@ -168,10 +168,10 @@ BddTest().given('an associate declared skills modal', () => {
           await wrapper.vm.$nextTick()
         })
 
-        BddTest().then('it should show the cancel confirmation modal', () => {
+        BddTest().then('it should open the cancel confirmation modal', () => {
           const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
-          expect(confirmationModal.props('show')).toBe(true)
+          expect(confirmationModal.props('opened')).toBe(true)
         })
 
         BddTest().then('it should not emit cancel event immediately', () => {
@@ -185,10 +185,10 @@ BddTest().given('an associate declared skills modal', () => {
             await wrapper.vm.$nextTick()
           })
 
-          BddTest().then('it should hide the cancel confirmation modal', () => {
+          BddTest().then('it should close the cancel confirmation modal', () => {
             const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
-            expect(confirmationModal.props('show')).toBe(false)
+            expect(confirmationModal.props('opened')).toBe(false)
           })
 
           BddTest().then('it should not emit cancel event', () => {
@@ -203,10 +203,10 @@ BddTest().given('an associate declared skills modal', () => {
             await wrapper.vm.$nextTick()
           })
 
-          BddTest().then('it should hide the cancel confirmation modal', () => {
+          BddTest().then('it should close the cancel confirmation modal', () => {
             const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
-            expect(confirmationModal.props('show')).toBe(false)
+            expect(confirmationModal.props('opened')).toBe(false)
           })
 
           BddTest().then('it should emit cancel event', () => {
@@ -240,10 +240,10 @@ BddTest().given('an associate declared skills modal', () => {
     })
   })
 
-  BddTest().when('the show prop is false', () => {
+  BddTest().when('the opened prop is false', () => {
     beforeEach(() => {
       wrapper = mountComponent(AssociateDeclaredSkillsModal, {
-        props: { ...props, show: false },
+        props: { ...props, opened: false },
         global: { stubs },
       })
     })
@@ -254,7 +254,7 @@ BddTest().given('an associate declared skills modal', () => {
     })
   })
 
-  BddTest().when('the show prop changes from true to false', () => {
+  BddTest().when('the opened prop changes from true to false', () => {
     beforeEach(async () => {
       wrapper = mountComponent(AssociateDeclaredSkillsModal, {
         props,
@@ -269,13 +269,13 @@ BddTest().given('an associate declared skills modal', () => {
       modal.vm.$emit('confirm')
       await wrapper.vm.$nextTick()
 
-      await wrapper.setProps({ show: false })
+      await wrapper.setProps({ opened: false })
       await flushPromises()
     })
 
-    BddTest().then('it should hide the confirm modal', () => {
+    BddTest().then('it should close the confirm modal', () => {
       const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub) as VueWrapper<InstanceType<typeof ConfirmAssociateModalStub>>
-      expect(confirmModal.props('show')).toBe(false)
+      expect(confirmModal.props('opened')).toBe(false)
     })
 
     BddTest().then('it should clear the selected skills', () => {
@@ -318,7 +318,7 @@ BddTest().given('an associate declared skills modal', () => {
         modal.vm.$emit('confirm')
         await wrapper.vm.$nextTick()
         const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub) as VueWrapper<InstanceType<typeof ConfirmAssociateModalStub>>
-        expect(confirmModal.props('show')).toBe(true)
+        expect(confirmModal.props('opened')).toBe(true)
       })
     })
   })

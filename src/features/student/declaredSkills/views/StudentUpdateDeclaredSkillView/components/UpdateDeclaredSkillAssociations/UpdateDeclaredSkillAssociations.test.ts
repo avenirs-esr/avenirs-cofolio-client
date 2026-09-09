@@ -38,6 +38,14 @@ BddTest().given('an update declared skill associations component', () => {
   const traces = mockedTraceOverview
   const declaredSkillId = 'skill-1'
 
+  function getAvButtons () {
+    return wrapper.findAllComponents(AvButtonStub)
+  }
+
+  function getTracesSelector () {
+    return wrapper.findComponent(TracesSelectorStub)
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -62,24 +70,24 @@ BddTest().given('an update declared skill associations component', () => {
     })
 
     BddTest().then('it should render TracesSelector component', () => {
-      const tracesSelector = wrapper.findComponent({ name: 'TracesSelector' })
+      const tracesSelector = getTracesSelector()
       expect(tracesSelector.exists()).toBe(true)
     })
 
     BddTest().then('it should pass traces prop to TracesSelector', () => {
-      const tracesSelector = wrapper.findComponent({ name: 'TracesSelector' })
+      const tracesSelector = getTracesSelector()
       expect(tracesSelector.props('traces')).toEqual(traces)
     })
 
     BddTest().then('it should render the remove button', () => {
-      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+      const buttons = getAvButtons()
       const removeButton = buttons.find(btn => btn.attributes('data-testid') === 'delete-trace-button')
       expect(removeButton).toBeDefined()
       expect(removeButton?.props('variant')).toBe('OUTLINED')
     })
 
     BddTest().then('it should render the add trace button', () => {
-      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+      const buttons = getAvButtons()
       const addButton = buttons.find(btn => btn.attributes('data-testid') === 'add-trace-button')
       expect(addButton).toBeDefined()
     })
@@ -105,7 +113,7 @@ BddTest().given('an update declared skill associations component', () => {
     })
 
     BddTest().then('it should not render TracesSelector when no traces', () => {
-      const tracesSelector = wrapper.findComponent({ name: 'TracesSelector' })
+      const tracesSelector = getTracesSelector()
       expect(tracesSelector.exists()).toBe(false)
     })
   })
@@ -124,7 +132,7 @@ BddTest().given('an update declared skill associations component', () => {
     })
 
     BddTest().then('it should be disabled when no traces are selected', () => {
-      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+      const buttons = getAvButtons()
       const removeButton = buttons.find(btn => btn.attributes('data-testid') === 'delete-trace-button')
       expect(removeButton?.props('disabled')).toBe(true)
     })
@@ -142,11 +150,11 @@ BddTest().given('an update declared skill associations component', () => {
         }
       })
 
-      const tracesSelector = wrapper.findComponent({ name: 'TracesSelector' })
+      const tracesSelector = getTracesSelector()
       await tracesSelector.vm.$emit('update:modelValue', ['trace-1', 'trace-2'])
       await wrapper.vm.$nextTick()
 
-      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+      const buttons = getAvButtons()
       const removeButton = buttons.find(btn => btn.attributes('data-testid') === 'delete-trace-button')
       await removeButton?.trigger('click')
     })
@@ -158,7 +166,7 @@ BddTest().given('an update declared skill associations component', () => {
     })
 
     BddTest().then('it should enable the remove button when traces are selected', async () => {
-      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+      const buttons = getAvButtons()
       const removeButton = buttons.find(btn => btn.attributes('data-testid') === 'delete-trace-button')
 
       await vi.waitFor(() => {
@@ -179,7 +187,7 @@ BddTest().given('an update declared skill associations component', () => {
         }
       })
 
-      const buttons = wrapper.findAllComponents({ name: 'AvButton' })
+      const buttons = getAvButtons()
       const removeButton = buttons.find(btn => btn.attributes('data-testid') === 'delete-trace-button')
       await removeButton?.trigger('click')
     })

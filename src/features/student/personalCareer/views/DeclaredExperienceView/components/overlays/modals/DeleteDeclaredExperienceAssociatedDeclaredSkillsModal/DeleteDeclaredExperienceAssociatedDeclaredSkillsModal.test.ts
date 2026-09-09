@@ -37,7 +37,7 @@ BddTest().given('a delete declared experience associated declared skills modal',
   const associations = createMockedDeclaredSkillAssociations(3)
 
   const props: DeleteDeclaredExperienceAssociatedDeclaredSkillsModalProps = {
-    show: true,
+    opened: true,
     experienceId: 'experience-1',
     associations,
   }
@@ -46,7 +46,7 @@ BddTest().given('a delete declared experience associated declared skills modal',
     vi.clearAllMocks()
   })
 
-  BddTest().when('the modal is shown', () => {
+  BddTest().when('the modal is opened', () => {
     beforeEach(() => {
       wrapper = mountComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModal, { props, global: { stubs } })
     })

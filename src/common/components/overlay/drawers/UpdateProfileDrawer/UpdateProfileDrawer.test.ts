@@ -5,9 +5,10 @@ import { EFileType, type EUserCategory, type FileDTO, type ProfileOverviewDTO } 
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { ImageUploadStub } from '@/common/components/ImageUpload/ImageUploadStub'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
-import { AvButtonStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvAccordionsGroupStub, AvAccordionStub, AvButtonStub, AvDrawerStub, AvIconTextStub, AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
@@ -54,54 +55,16 @@ vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guar
 })
 
 BddTest().given('given an update profile drawer', () => {
-  let wrapper: VueWrapper
+  let wrapper: VueWrapper<InstanceType<typeof UpdateProfileDrawer>>
 
   const stubs = {
-    AvAccordion: {
-      name: 'AvAccordion',
-      props: ['title', 'icon'],
-      template: '<div class="av-accordion"><slot /></div>'
-    },
-    AvAccordionsGroup: {
-      name: 'AvAccordionsGroup',
-      props: ['activeAccordion'],
-      emits: ['update:activeAccordion'],
-      template: '<div class="av-accordion-group"><slot /></div>'
-    },
+    AvAccordion: AvAccordionStub,
+    AvAccordionsGroup: AvAccordionsGroupStub,
     AvButton: AvButtonStub,
     AvDrawer: AvDrawerStub,
-    AvInput: {
-      name: 'AvInput',
-      props: {
-        modelValue: String,
-        type: String,
-        isTextarea: {
-          type: Boolean,
-          default: false,
-        },
-      },
-      emits: ['update:modelValue'],
-      template: `
-        <input
-          class="av-input"
-          :value="modelValue"
-          :type="type"
-          :data-textarea="isTextarea"
-          @input="$emit('update:modelValue', $event.target.value)"
-        />
-      `
-    },
-    AvIconText: {
-      name: 'AvIconText',
-      props: ['icon', 'text', 'typographyClass'],
-      template: '<div class="av-icon-text">{{ text }}</div>'
-    },
-    ImageUpload: {
-      name: 'ImageUpload',
-      props: ['modelValue'],
-      emits: ['update:modelValue'],
-      template: '<div class="image-upload" />'
-    },
+    AvInput: AvInputStub,
+    AvIconText: AvIconTextStub,
+    ImageUpload: ImageUploadStub,
     ConfirmationModal: ConfirmationModalStub
   }
 
@@ -263,6 +226,26 @@ BddTest().given('given an update profile drawer', () => {
 
   const mockedUseUpdateProfileForm: MockedFunction<typeof useUpdateProfileForm> = vi.mocked(useUpdateProfileForm)
 
+  function getAvButtons () {
+    return wrapper.findAllComponents(AvButtonStub)
+  }
+
+  function getAvInputs () {
+    return wrapper.findAllComponents(AvInputStub)
+  }
+
+  function getAvDrawer () {
+    return wrapper.findComponent(AvDrawerStub)
+  }
+
+  function getConfirmationModal () {
+    return wrapper.findComponent(ConfirmationModalStub)
+  }
+
+  function getImageUploads () {
+    return wrapper.findAllComponents(ImageUploadStub)
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
     mockCanLeave.mockResolvedValue(true)
@@ -284,31 +267,31 @@ BddTest().given('given an update profile drawer', () => {
   BddTest().and('initially shown', () => {
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should render the accordion group', () => {
-        const accordionGroup = wrapper.findComponent({ name: 'AvAccordionsGroup' })
+        const accordionGroup = wrapper.findComponent(AvAccordionsGroupStub)
         expect(accordionGroup.exists()).toBe(true)
       })
 
       BddTest().then('it should render the different inputs', () => {
-        const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
+        const avInputs = getAvInputs()
         expect(avInputs).toHaveLength(4)
-        expect(avInputs[0].attributes('value')).toBe(userSummary.lastname)
-        expect(avInputs[0].attributes('data-textarea')).toBe('false')
-        expect(avInputs[1].attributes('value')).toBe(userSummary.firstname)
-        expect(avInputs[2].attributes('value')).toBe(userSummary.email)
-        expect(avInputs[2].attributes('type')).toBe('email')
-        expect(avInputs[2].attributes('data-textarea')).toBe('false')
-        expect(avInputs[3].attributes('value')).toBe(userSummary.bio)
-        expect(avInputs[3].attributes('data-textarea')).toBe('true')
+        expect(avInputs[0].find('input').attributes('value')).toBe(userSummary.lastname)
+        expect(avInputs[0].props('isTextarea')).toBe(false)
+        expect(avInputs[1].find('input').attributes('value')).toBe(userSummary.firstname)
+        expect(avInputs[2].find('input').attributes('value')).toBe(userSummary.email)
+        expect(avInputs[2].props('type')).toBe('email')
+        expect(avInputs[2].props('isTextarea')).toBe(false)
+        expect(avInputs[3].find('input').attributes('value')).toBe(userSummary.bio)
+        expect(avInputs[3].props('isTextarea')).toBe(true)
       })
 
       BddTest().then('it should render the exit button', () => {
-        const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
+        const avButtons = getAvButtons()
         const exitButton = avButtons.find(button => button.props('label') === 'Quitter')
         expect(exitButton?.exists()).toBe(true)
       })
 
       BddTest().then('it should render the save button in disabled state', () => {
-        const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
+        const avButtons = getAvButtons()
         const saveButton = avButtons.find(button => button.props('label') === 'Enregistrer')
         expect(saveButton?.exists()).toBe(true)
         expect(saveButton?.props('disabled')).toBe(true)
@@ -333,21 +316,21 @@ BddTest().given('given an update profile drawer', () => {
       })
 
       BddTest().then('it should render empty inputs', () => {
-        const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
-        expect(avInputs[0].attributes('value')).toBe('')
-        expect(avInputs[1].attributes('value')).toBe('')
-        expect(avInputs[2].attributes('value')).toBe('')
-        expect(avInputs[3].attributes('value')).toBe('')
-        expect(avInputs[0].element.value).toBe('')
-        expect(avInputs[1].element.value).toBe('')
-        expect(avInputs[2].element.value).toBe('')
-        expect(avInputs[3].element.value).toBe('')
+        const avInputs = getAvInputs()
+        expect(avInputs[0].find('input').attributes('value')).toBe('')
+        expect(avInputs[1].find('input').attributes('value')).toBe('')
+        expect(avInputs[2].find('input').attributes('value')).toBe('')
+        expect(avInputs[3].find('input').attributes('value')).toBe('')
+        expect(avInputs[0].find('input').element.value).toBe('')
+        expect(avInputs[1].find('input').element.value).toBe('')
+        expect(avInputs[2].find('input').element.value).toBe('')
+        expect(avInputs[3].find('input').element.value).toBe('')
       })
     })
 
     BddTest().when('the update profile form composable is not pending', () => {
       BddTest().then('the buttons should not be in loading state', () => {
-        const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
+        const avButtons = getAvButtons()
         expect(avButtons).toHaveLength(2)
         avButtons.forEach((avButton) => {
           expect(avButton.props('isLoading')).toBe(false)
@@ -370,7 +353,7 @@ BddTest().given('given an update profile drawer', () => {
       })
 
       BddTest().then('the buttons should be in loading state', () => {
-        const avButtons = wrapper.findAllComponents({ name: 'AvButton' })
+        const avButtons = getAvButtons()
         expect(avButtons).toHaveLength(2)
         avButtons.forEach((avButton) => {
           expect(avButton.props('isLoading')).toBe(true)
@@ -386,20 +369,20 @@ BddTest().given('given an update profile drawer', () => {
       })
 
       BddTest().then('they should have their new value set', async () => {
-        const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
+        const avInputs = getAvInputs()
         expect(avInputs).toHaveLength(4)
-        expect(avInputs[2].element.value).toBe(userSummary.email)
-        expect(avInputs[3].element.value).toBe(userSummary.bio)
+        expect(avInputs[2].find('input').element.value).toBe(userSummary.email)
+        expect(avInputs[3].find('input').element.value).toBe(userSummary.bio)
 
         await avInputs[2].setValue('supertest@example.com')
-        expect(avInputs[2].element.value).toBe('supertest@example.com')
+        expect(avInputs[2].find('input').element.value).toBe('supertest@example.com')
 
         await avInputs[3].setValue('This is a new bio')
-        expect(avInputs[3].element.value).toBe('This is a new bio')
+        expect(avInputs[3].find('input').element.value).toBe('This is a new bio')
       })
 
       BddTest().then('they should reset if the drawer is hidden then shown again', async () => {
-        const avInputs = wrapper.findAllComponents({ name: 'AvInput' })
+        const avInputs = getAvInputs()
         expect(avInputs).toHaveLength(4)
 
         await wrapper.setProps({ show: false })
@@ -414,7 +397,7 @@ BddTest().given('given an update profile drawer', () => {
     BddTest().when('escape is pressed on drawer', () => {
       BddTest().and('canLeave is true', () => {
         beforeEach(async () => {
-          const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+          const drawer = getAvDrawer()
           await drawer.vm.$emit('escape-pressed')
           await wrapper.vm.$nextTick()
         })
@@ -434,7 +417,7 @@ BddTest().given('given an update profile drawer', () => {
             props: defaultProps,
             global: { stubs }
           })
-          const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+          const drawer = getAvDrawer()
           await drawer.vm.$emit('escape-pressed')
           await wrapper.vm.$nextTick()
         })
@@ -448,8 +431,7 @@ BddTest().given('given an update profile drawer', () => {
     BddTest().when('cancel button is clicked', () => {
       BddTest().and('canLeave is true', () => {
         beforeEach(async () => {
-          const cancelButton = wrapper.findAllComponents({ name: 'AvButton' })
-            .find(b => b.props('label') === 'Quitter')
+          const cancelButton = getAvButtons().find(b => b.props('label') === 'Quitter')
           await cancelButton?.trigger('click')
           await wrapper.vm.$nextTick()
         })
@@ -469,8 +451,7 @@ BddTest().given('given an update profile drawer', () => {
             props: defaultProps,
             global: { stubs }
           })
-          const cancelButton = wrapper.findAllComponents({ name: 'AvButton' })
-            .find(b => b.props('label') === 'Quitter')
+          const cancelButton = getAvButtons().find(b => b.props('label') === 'Quitter')
           await cancelButton?.trigger('click')
           await wrapper.vm.$nextTick()
         })
@@ -481,7 +462,7 @@ BddTest().given('given an update profile drawer', () => {
 
         BddTest().and('confirming the modal', () => {
           beforeEach(async () => {
-            const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+            const confirmationModal = getConfirmationModal()
             await confirmationModal.vm.$emit('confirm')
             await wrapper.vm.$nextTick()
           })
@@ -493,7 +474,7 @@ BddTest().given('given an update profile drawer', () => {
 
         BddTest().and('closing the modal', () => {
           beforeEach(async () => {
-            const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+            const confirmationModal = getConfirmationModal()
             await confirmationModal.vm.$emit('close')
             await wrapper.vm.$nextTick()
           })
@@ -573,7 +554,7 @@ BddTest().given('given an update profile drawer', () => {
       })
 
       BddTest().then('it should render with cover photo', () => {
-        const imageUploadComponents = wrapper.findAllComponents({ name: 'ImageUpload' })
+        const imageUploadComponents = getImageUploads()
         expect(imageUploadComponents).toHaveLength(2)
       })
     })
@@ -605,7 +586,7 @@ BddTest().given('given an update profile drawer', () => {
       })
 
       BddTest().then('it should render with profile photo', () => {
-        const imageUploadComponents = wrapper.findAllComponents({ name: 'ImageUpload' })
+        const imageUploadComponents = getImageUploads()
         expect(imageUploadComponents).toHaveLength(2)
       })
     })

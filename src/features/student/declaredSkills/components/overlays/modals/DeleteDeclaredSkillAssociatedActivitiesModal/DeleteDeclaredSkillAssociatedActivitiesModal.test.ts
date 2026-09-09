@@ -39,7 +39,7 @@ BddTest().given('a delete declared skill associated activities modal', () => {
   associations[3].declaredActivity.status = EDeclaredActivityStatus.COMPLETED
 
   const props: DeleteDeclaredSkillAssociatedActivitiesModalProps = {
-    show: true,
+    opened: true,
     declaredSkillProgressId: 'skill-1',
     associations,
   }
@@ -48,7 +48,7 @@ BddTest().given('a delete declared skill associated activities modal', () => {
     vi.clearAllMocks()
   })
 
-  BddTest().when('the modal is shown', () => {
+  BddTest().when('the modal is opened', () => {
     beforeEach(() => {
       wrapper = mountComponent(DeleteDeclaredSkillAssociatedActivitiesModal, { props, global: { stubs } })
     })

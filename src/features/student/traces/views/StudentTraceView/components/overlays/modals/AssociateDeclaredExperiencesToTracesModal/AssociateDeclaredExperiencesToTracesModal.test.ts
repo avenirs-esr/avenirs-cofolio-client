@@ -37,7 +37,7 @@ BddTest().given('an associate declared experiences to traces modal', () => {
   }
 
   const props: AssociateDeclaredExperiencesToTracesModalProps = {
-    show: true,
+    opened: true,
     traceId: 'trace-1'
   }
 
@@ -61,8 +61,8 @@ BddTest().given('an associate declared experiences to traces modal', () => {
       expect(modal.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass the show prop', () => {
-      expect(modal.props('show')).toBe(true)
+    BddTest().then('it should pass the opened prop', () => {
+      expect(modal.props('opened')).toBe(true)
     })
 
     BddTest().then('it should pass isLoading prop as false initially', () => {
@@ -137,18 +137,18 @@ BddTest().given('an associate declared experiences to traces modal', () => {
     })
   })
 
-  BddTest().when('the show prop is false', () => {
+  BddTest().when('the opened prop is false', () => {
     beforeEach(async () => {
       wrapper = mountComponent(AssociateDeclaredExperiencesToTracesModal, {
-        props: { ...props, show: false },
+        props: { ...props, opened: false },
         global: { stubs }
       })
       await flushPromises()
     })
 
-    BddTest().then('it should pass show as false to the inner modal', () => {
+    BddTest().then('it should pass opened as false to the inner modal', () => {
       const modal = wrapper.findComponent(AssociateDeclaredExperiencesModalStub) as VueWrapper<InstanceType<typeof AssociateDeclaredExperiencesModalStub>>
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
     })
   })
 

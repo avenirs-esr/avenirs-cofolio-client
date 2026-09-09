@@ -57,7 +57,7 @@ BddTest().given('the UpdateActivityDrawer component', () => {
     let avDrawer: VueWrapper<InstanceType<typeof AvDrawerStub>>
 
     beforeEach(() => {
-      avDrawer = wrapper.findComponent({ name: 'AvDrawer' }) as VueWrapper<InstanceType<typeof AvDrawerStub>>
+      avDrawer = wrapper.findComponent(AvDrawerStub)
     })
 
     BddTest().then('it should render AvDrawer', () => {
@@ -69,23 +69,23 @@ BddTest().given('the UpdateActivityDrawer component', () => {
     })
 
     BddTest().then('it should render AvIconText with the drawer title', () => {
-      const iconText = wrapper.findComponent({ name: 'AvIconText' }) as VueWrapper<InstanceType<typeof AvIconTextStub>>
+      const iconText = wrapper.findComponent(AvIconTextStub)
       expect(iconText.exists()).toBe(true)
       expect(iconText.props('text')).toBe('Modifier l\'activité')
     })
 
     BddTest().then('it should render ActivityPeriodFormField', () => {
-      const periodField = wrapper.findComponent({ name: 'ActivityPeriodFormField' })
+      const periodField = wrapper.findComponent(ActivityPeriodFormFieldStub)
       expect(periodField.exists()).toBe(true)
     })
 
     BddTest().then('it should render KitValorizationToggleFormField', () => {
-      const valorizationField = wrapper.findComponent({ name: 'KitValorizationToggleFormField' })
+      const valorizationField = wrapper.findComponent(KitValorizationToggleFormFieldStub)
       expect(valorizationField.exists()).toBe(true)
     })
 
     BddTest().then('it should render the valorization accordion first', () => {
-      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
+      const accordions = wrapper.findAllComponents(AvAccordionStub)
       expect(accordions[0].props('title')).toBe('Valorisation dans mon kit')
     })
   })
@@ -112,12 +112,12 @@ BddTest().given('the UpdateActivityDrawer component', () => {
     })
 
     BddTest().then('it should not render ActivityPeriodFormField', () => {
-      const periodField = wrapper.findComponent({ name: 'ActivityPeriodFormField' })
+      const periodField = wrapper.findComponent(ActivityPeriodFormFieldStub)
       expect(periodField.exists()).toBe(false)
     })
 
     BddTest().then('it should still render KitValorizationToggleFormField', () => {
-      const valorizationField = wrapper.findComponent({ name: 'KitValorizationToggleFormField' })
+      const valorizationField = wrapper.findComponent(KitValorizationToggleFormFieldStub)
       expect(valorizationField.exists()).toBe(true)
     })
   })
@@ -137,7 +137,7 @@ BddTest().given('the UpdateActivityDrawer component', () => {
     })
 
     BddTest().then('it should pass show=false to AvDrawer', () => {
-      const avDrawer = wrapper.findComponent({ name: 'AvDrawer' }) as VueWrapper<InstanceType<typeof AvDrawerStub>>
+      const avDrawer = wrapper.findComponent(AvDrawerStub)
       expect(avDrawer.props('show')).toBe(false)
     })
   })
@@ -145,7 +145,7 @@ BddTest().given('the UpdateActivityDrawer component', () => {
   BddTest().when('cancel button is clicked', () => {
     BddTest().and('canLeave is true', () => {
       beforeEach(async () => {
-        const formCancelConfirmButtons = wrapper.findComponent({ name: 'FormCancelConfirmButtons' })
+        const formCancelConfirmButtons = wrapper.findComponent(FormCancelConfirmButtonsStub)
         await formCancelConfirmButtons.vm.$emit('cancel')
         await wrapper.vm.$nextTick()
       })
@@ -154,16 +154,16 @@ BddTest().given('the UpdateActivityDrawer component', () => {
         expect(wrapper.emitted('close')).toBeTruthy()
       })
 
-      BddTest().then('it should not show the confirmation modal', () => {
-        const modal = wrapper.findComponent({ name: 'ConfirmationModal' }) as VueWrapper<InstanceType<typeof ConfirmationModalStub>>
-        expect(modal.props('show')).toBe(false)
+      BddTest().then('it should not open the confirmation modal', () => {
+        const modal = wrapper.findComponent(ConfirmationModalStub)
+        expect(modal.props('opened')).toBe(false)
       })
     })
 
     BddTest().and('canLeave is false', () => {
       beforeEach(async () => {
         mockCanLeave.mockResolvedValue(false)
-        const formCancelConfirmButtons = wrapper.findComponent({ name: 'FormCancelConfirmButtons' })
+        const formCancelConfirmButtons = wrapper.findComponent(FormCancelConfirmButtonsStub)
         await formCancelConfirmButtons.vm.$emit('cancel')
         await wrapper.vm.$nextTick()
       })
@@ -174,7 +174,7 @@ BddTest().given('the UpdateActivityDrawer component', () => {
 
       BddTest().and('confirming the modal', () => {
         beforeEach(async () => {
-          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
           await confirmationModal.vm.$emit('confirm')
           await wrapper.vm.$nextTick()
         })
@@ -186,7 +186,7 @@ BddTest().given('the UpdateActivityDrawer component', () => {
 
       BddTest().and('closing the modal', () => {
         beforeEach(async () => {
-          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
           await confirmationModal.vm.$emit('close')
           await wrapper.vm.$nextTick()
         })
@@ -201,7 +201,7 @@ BddTest().given('the UpdateActivityDrawer component', () => {
   BddTest().when('escape is pressed on drawer', () => {
     BddTest().and('canLeave is true', () => {
       beforeEach(async () => {
-        const avDrawer = wrapper.findComponent({ name: 'AvDrawer' })
+        const avDrawer = wrapper.findComponent(AvDrawerStub)
         await avDrawer.vm.$emit('escape-pressed')
         await wrapper.vm.$nextTick()
       })
@@ -214,7 +214,7 @@ BddTest().given('the UpdateActivityDrawer component', () => {
     BddTest().and('canLeave is false', () => {
       beforeEach(async () => {
         mockCanLeave.mockResolvedValue(false)
-        const avDrawer = wrapper.findComponent({ name: 'AvDrawer' })
+        const avDrawer = wrapper.findComponent(AvDrawerStub)
         await avDrawer.vm.$emit('escape-pressed')
         await wrapper.vm.$nextTick()
       })
@@ -227,7 +227,7 @@ BddTest().given('the UpdateActivityDrawer component', () => {
 
   BddTest().when('the confirmation modal cancel is triggered', () => {
     beforeEach(async () => {
-      const modal = wrapper.findComponent({ name: 'ConfirmationModal' })
+      const modal = wrapper.findComponent(ConfirmationModalStub)
       await modal.vm.$emit('close')
       await wrapper.vm.$nextTick()
     })

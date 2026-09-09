@@ -1,8 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
+import { ConfirmDeleteSelfKnowledgeElementsModalStub } from '@/features/student/selfKnowledge/components/modals/ConfirmDeleteSelfKnowledgeElementsModal/ConfirmDeleteSelfKnowledgeElementsModal.stub'
 import DeleteSelfKnowledgeElementsModal, { type DeleteSelfKnowledgeElementsModalProps } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeElementsModal/DeleteSelfKnowledgeElementsModal.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { SelfKnowledgeElementsSelectorStub } from '@/features/student/selfKnowledge/components/pickers/SelfKnowledgeElementsSelector/SelfKnowledgeElementsSelector.stub'
+import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
@@ -18,32 +20,6 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
-const AvModalStub = defineComponent({
-  name: 'AvModal',
-  template: `
-      <div class="av-modal-stub">
-        <slot name="header" />
-        <slot />
-      </div>
-    `,
-  props: ['opened', 'id', 'closeButtonLabel', 'confirmButtonLabel', 'confirmButtonIcon', 'confirmButtonDisabled'],
-  emits: ['close', 'confirm']
-})
-
-const ConfirmDeleteSelfKnowledgeElementsModalStub = defineComponent({
-  name: 'ConfirmDeleteSelfKnowledgeElementsModal',
-  props: ['show', 'elements'],
-  emits: ['cancel', 'confirm'],
-  template: `<div class="confirm-delete-self-knowledge-elements-modal-stub"></div>`
-})
-
-const SelfKnowledgeElementsSelectorStub = defineComponent({
-  name: 'SelfKnowledgeElementsSelector',
-  props: ['elements', 'categoryType', 'modelValue'],
-  emits: ['update:modelValue'],
-  template: `<div class="self-knowledge-element-selector-stub"></div>`
-})
-
 BddTest().given('a delete self knowledge element modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeleteSelfKnowledgeElementsModal>>
 
@@ -55,7 +31,7 @@ BddTest().given('a delete self knowledge element modal', () => {
 
   BddTest().and('no elements to delete are provided', () => {
     const props: DeleteSelfKnowledgeElementsModalProps = {
-      show: true,
+      opened: true,
       categoryType: ESelfKnowledgeCategory.OBLIGATIONS,
       totalCount: 0
     }
@@ -80,7 +56,7 @@ BddTest().given('a delete self knowledge element modal', () => {
   BddTest().and('a single element to delete is provided', () => {
     const strengthsCategoryType = mockedSelfKnowledgeCategories[0].type
     const props: DeleteSelfKnowledgeElementsModalProps = {
-      show: true,
+      opened: true,
       categoryType: strengthsCategoryType,
       totalCount: 1
     }
@@ -128,7 +104,7 @@ BddTest().given('a delete self knowledge element modal', () => {
             const modal = wrapper.findComponent(AvModalStub)
             await modal.vm.$emit('close')
 
-            await wrapper.setProps({ show: true })
+            await wrapper.setProps({ opened: true })
           })
 
           BddTest().then('the selectedElementIds should be reset', () => {
@@ -143,9 +119,9 @@ BddTest().given('a delete self knowledge element modal', () => {
             modal.vm.$emit('confirm')
           })
 
-          BddTest().then('the confirm delete modal should be shown', () => {
+          BddTest().then('the confirm delete modal should be opened', () => {
             const confirmModal = wrapper.findComponent(ConfirmDeleteSelfKnowledgeElementsModalStub)
-            expect(confirmModal.props('show')).toBe(true)
+            expect(confirmModal.props('opened')).toBe(true)
           })
 
           BddTest().and('the confirm delete modal emits confirm event', () => {
@@ -166,10 +142,10 @@ BddTest().given('a delete self knowledge element modal', () => {
               await vi.waitFor(() => expect(wrapper.emitted()).toHaveProperty('confirm'))
             })
 
-            BddTest().then('the confirm delete modal should be hidden', async () => {
+            BddTest().then('the confirm delete modal should be closed', async () => {
               await vi.waitFor(() => {
                 const confirmModal = wrapper.findComponent(ConfirmDeleteSelfKnowledgeElementsModalStub)
-                expect(confirmModal.props('show')).toBe(false)
+                expect(confirmModal.props('opened')).toBe(false)
               })
             })
           })
@@ -180,9 +156,9 @@ BddTest().given('a delete self knowledge element modal', () => {
               confirmModal.vm.$emit('cancel')
             })
 
-            BddTest().then('the confirm delete modal should be hidden', () => {
+            BddTest().then('the confirm delete modal should be closed', () => {
               const confirmModal = wrapper.findComponent(ConfirmDeleteSelfKnowledgeElementsModalStub)
-              expect(confirmModal.props('show')).toBe(false)
+              expect(confirmModal.props('opened')).toBe(false)
             })
           })
         })
@@ -193,7 +169,7 @@ BddTest().given('a delete self knowledge element modal', () => {
   BddTest().and('many elements to delete are provided', () => {
     const strengthsCategoryType = mockedSelfKnowledgeCategories[0].type
     const props: DeleteSelfKnowledgeElementsModalProps = {
-      show: true,
+      opened: true,
       categoryType: strengthsCategoryType,
       totalCount: 10
     }
@@ -229,7 +205,7 @@ BddTest().given('a delete self knowledge element modal', () => {
             const modal = wrapper.findComponent(AvModalStub)
             await modal.vm.$emit('close')
 
-            await wrapper.setProps({ show: true })
+            await wrapper.setProps({ opened: true })
           })
 
           BddTest().then('the selectedElementIds should be reset', () => {
@@ -244,9 +220,9 @@ BddTest().given('a delete self knowledge element modal', () => {
             modal.vm.$emit('confirm')
           })
 
-          BddTest().then('the confirm delete modal should be shown', () => {
+          BddTest().then('the confirm delete modal should be opened', () => {
             const confirmModal = wrapper.findComponent(ConfirmDeleteSelfKnowledgeElementsModalStub)
-            expect(confirmModal.props('show')).toBe(true)
+            expect(confirmModal.props('opened')).toBe(true)
           })
 
           BddTest().and('the confirm delete modal emits confirm event', () => {
@@ -267,10 +243,10 @@ BddTest().given('a delete self knowledge element modal', () => {
               await vi.waitFor(() => expect(wrapper.emitted()).toHaveProperty('confirm'))
             })
 
-            BddTest().then('the confirm delete modal should be hidden', async () => {
+            BddTest().then('the confirm delete modal should be closed', async () => {
               await vi.waitFor(() => {
                 const confirmModal = wrapper.findComponent(ConfirmDeleteSelfKnowledgeElementsModalStub)
-                expect(confirmModal.props('show')).toBe(false)
+                expect(confirmModal.props('opened')).toBe(false)
               })
             })
           })
@@ -295,7 +271,7 @@ BddTest().given('a delete self knowledge element modal', () => {
             const modal = wrapper.findComponent(AvModalStub)
             await modal.vm.$emit('close')
 
-            await wrapper.setProps({ show: true })
+            await wrapper.setProps({ opened: true })
           })
 
           BddTest().then('the selectedElementIds should be reset', () => {
@@ -310,9 +286,9 @@ BddTest().given('a delete self knowledge element modal', () => {
             modal.vm.$emit('confirm')
           })
 
-          BddTest().then('the confirm delete modal should be shown', () => {
+          BddTest().then('the confirm delete modal should be opened', () => {
             const confirmModal = wrapper.findComponent(ConfirmDeleteSelfKnowledgeElementsModalStub)
-            expect(confirmModal.props('show')).toBe(true)
+            expect(confirmModal.props('opened')).toBe(true)
           })
 
           BddTest().and('the confirm delete modal emits confirm event', () => {
@@ -333,10 +309,10 @@ BddTest().given('a delete self knowledge element modal', () => {
               await vi.waitFor(() => expect(wrapper.emitted()).not.toHaveProperty('confirm'))
             })
 
-            BddTest().then('the confirm delete modal should not be hidden', async () => {
+            BddTest().then('the confirm delete modal should not be closed', async () => {
               await vi.waitFor(() => {
                 const confirmModal = wrapper.findComponent(ConfirmDeleteSelfKnowledgeElementsModalStub)
-                expect(confirmModal.props('show')).toBe(true)
+                expect(confirmModal.props('opened')).toBe(true)
               })
             })
           })

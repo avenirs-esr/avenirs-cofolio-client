@@ -2,7 +2,7 @@ import { mockedSelfKnowledgeCategoriesAvailable } from '@/__mocks__/fixtures/stu
 import { createSelfKnowledgeCategoriesAvailableHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import AddSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.vue'
-import { AvCheckboxStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvCheckboxStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
 import { mountComponent } from 'tests/utils'
@@ -17,18 +17,6 @@ vi.mock('@/store', async (importOriginal) => {
       addErrorMessage: mockAddErrorMessage
     })
   }
-})
-
-const AvModalStub = defineComponent({
-  name: 'AvModal',
-  template: `
-    <div class="av-modal-stub">
-      <slot name="header" />
-      <slot />
-    </div>
-  `,
-  props: ['opened', 'id', 'closeButtonLabel', 'confirmButtonLabel'],
-  emits: ['close', 'confirm']
 })
 
 const AvCheckboxesGroupStub = defineComponent({
@@ -59,7 +47,7 @@ BddTest().given('an add self knowledge categories modal', () => {
       server.use(handler)
 
       wrapper = mountComponent(AddSelfKnowledgeCategoriesModal, {
-        props: { show: true },
+        props: { opened: true },
         global: { stubs }
       })
 
@@ -106,7 +94,7 @@ BddTest().given('an add self knowledge categories modal', () => {
       server.use(handler)
 
       wrapper = mountComponent(AddSelfKnowledgeCategoriesModal, {
-        props: { show: true },
+        props: { opened: true },
         global: { stubs }
       })
 
@@ -116,7 +104,7 @@ BddTest().given('an add self knowledge categories modal', () => {
     })
 
     BddTest().then('it should render the modal with available categories', () => {
-      const modal = wrapper.findComponent({ name: 'AvModal' })
+      const modal = wrapper.findComponent(AvModalStub)
       expect(modal.exists()).toBe(true)
 
       const checkboxes = wrapper.findAllComponents(AvCheckboxStub)

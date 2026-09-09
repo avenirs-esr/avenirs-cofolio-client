@@ -79,9 +79,9 @@ BddTest().given('a useTracesStore composable', () => {
     BddTest().then('it should have modal controls', () => {
       const store = useTracesStore()
 
-      expect(store.showUpdateTraceModal).toBeDefined()
-      expect(store.displayUpdateTraceModal).toBeDefined()
-      expect(store.hideUpdateTraceModal).toBeDefined()
+      expect(store.updateTraceModalOpened).toBeDefined()
+      expect(store.openUpdateTraceModal).toBeDefined()
+      expect(store.closeUpdateTraceModal).toBeDefined()
     })
   })
 })

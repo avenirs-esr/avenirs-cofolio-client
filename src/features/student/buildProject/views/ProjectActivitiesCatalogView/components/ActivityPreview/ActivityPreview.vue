@@ -16,8 +16,8 @@ export interface ActivityPreviewProps {
 defineProps<ActivityPreviewProps>()
 
 const { t } = useI18n()
-const { modalOpened: unsubscribeModalOpened, openModal: displayUnsubscribeModal, closeModal: hideUnsubscribeModal } = useModal()
-const { modalOpened: subscribeModalOpened, openModal: displaySubscribeModal, closeModal: hideSubscribeModal } = useModal()
+const { modalOpened: unsubscribeModalOpened, openModal: openUnsubscribeModal, closeModal: closeUnsubscribeModal } = useModal()
+const { modalOpened: subscribeModalOpened, openModal: openSubscribeModal, closeModal: closeSubscribeModal } = useModal()
 </script>
 
 <template>
@@ -57,7 +57,7 @@ const { modalOpened: subscribeModalOpened, openModal: displaySubscribeModal, clo
           :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
           small
           data-testid="unsubscribe-button"
-          @click="displayUnsubscribeModal"
+          @click="openUnsubscribeModal"
         />
         <AvButton
           v-else
@@ -67,7 +67,7 @@ const { modalOpened: subscribeModalOpened, openModal: displaySubscribeModal, clo
           :icon="PH_ICONS.NOTE_PENCIL"
           small
           data-testid="subscribe-button"
-          @click="displaySubscribeModal"
+          @click="openSubscribeModal"
         />
       </template>
     </ActivityCatalogPreviewCard>
@@ -76,14 +76,14 @@ const { modalOpened: subscribeModalOpened, openModal: displaySubscribeModal, clo
   <UnsubscribeActivitiesConfirmModal
     :opened="unsubscribeModalOpened"
     :activities="[{ id: activity.id, title: activity.title }]"
-    @cancel="hideUnsubscribeModal"
-    @unsubscribed="hideUnsubscribeModal"
+    @cancel="closeUnsubscribeModal"
+    @unsubscribed="closeUnsubscribeModal"
   />
 
   <SubscribeActivityConfirmModal
     :opened="subscribeModalOpened"
     :activity="{ id: activity.id, title: activity.title }"
-    @cancel="hideSubscribeModal"
-    @subscribed="hideSubscribeModal"
+    @cancel="closeSubscribeModal"
+    @subscribed="closeSubscribeModal"
   />
 </template>

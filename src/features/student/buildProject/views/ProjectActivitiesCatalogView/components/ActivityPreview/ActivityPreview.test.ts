@@ -32,6 +32,22 @@ BddTest().given('an activity preview', () => {
     return wrapper.findAllComponents(AvButtonStub).find(btn => btn.attributes('data-testid') === 'access-button')
   }
 
+  function getActivityCatalogHeader () {
+    return wrapper.findComponent(ActivityCatalogHeaderStub)
+  }
+
+  function getActivityCatalogPreviewCard () {
+    return wrapper.findComponent(ActivityCatalogPreviewCardStub)
+  }
+
+  function getUnsubscribeActivitiesConfirmModal () {
+    return wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+  }
+
+  function getSubscribeActivityConfirmModal () {
+    return wrapper.findComponent(SubscribeActivityConfirmModalStub)
+  }
+
   BddTest().when('the component is mounted with an unsubscribed activity', () => {
     const props: ActivityPreviewProps = {
       activity: mockedActivityDetail
@@ -42,30 +58,30 @@ BddTest().given('an activity preview', () => {
     })
 
     BddTest().then('it should render ActivityCatalogHeader with correct title and thematic', () => {
-      const bannerStub = wrapper.findComponent(ActivityCatalogHeaderStub)
+      const bannerStub = getActivityCatalogHeader()
       expect(bannerStub.exists()).toBe(true)
       expect(bannerStub.props('title')).toBe(mockedActivityDetail.title)
       expect(bannerStub.props('thematic')).toBe(mockedActivityDetail.thematic)
     })
 
     BddTest().then('it should pass banner to ActivityCatalogHeader', () => {
-      const bannerStub = wrapper.findComponent(ActivityCatalogHeaderStub)
+      const bannerStub = getActivityCatalogHeader()
       expect(bannerStub.props('banner')).toEqual(mockedActivityDetail.banner)
     })
 
     BddTest().then('it should not pass subscribedDeclaredActivity to ActivityCatalogHeader', () => {
-      const bannerStub = wrapper.findComponent(ActivityCatalogHeaderStub)
+      const bannerStub = getActivityCatalogHeader()
       expect(bannerStub.props('subscribedDeclaredActivity')).toBeUndefined()
     })
 
     BddTest().then('it should render ActivityCatalogPreviewCard with correct summary', () => {
-      const cardStub = wrapper.findComponent(ActivityCatalogPreviewCardStub)
+      const cardStub = getActivityCatalogPreviewCard()
       expect(cardStub.exists()).toBe(true)
       expect(cardStub.props('summary')).toBe(mockedActivityDetail.summary)
     })
 
     BddTest().then('it should render ActivityCatalogPreviewCard with correct recommendedCompletionContexts', () => {
-      expect(wrapper.findComponent(ActivityCatalogPreviewCardStub).props('recommendedCompletionContexts')).toBe(mockedActivityDetail.recommendedCompletionContexts)
+      expect(getActivityCatalogPreviewCard().props('recommendedCompletionContexts')).toBe(mockedActivityDetail.recommendedCompletionContexts)
     })
 
     BddTest().then('it should not render the access button', () => {
@@ -84,13 +100,13 @@ BddTest().given('an activity preview', () => {
     })
 
     BddTest().then('it should render the unsubscribe confirmation modal', () => {
-      expect(wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub).exists()).toBe(true)
+      expect(getUnsubscribeActivitiesConfirmModal().exists()).toBe(true)
     })
 
     BddTest().then('it should render the subscribe modal', () => {
-      const modal = wrapper.findComponent(SubscribeActivityConfirmModalStub)
+      const modal = getSubscribeActivityConfirmModal()
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('activity')).toEqual({ id: mockedActivityDetail.id, title: mockedActivityDetail.title })
     })
 
@@ -100,26 +116,26 @@ BddTest().given('an activity preview', () => {
       })
 
       BddTest().then('it should display the subscribe modal', () => {
-        expect(wrapper.findComponent(SubscribeActivityConfirmModalStub).props('show')).toBe(true)
+        expect(getSubscribeActivityConfirmModal().props('opened')).toBe(true)
       })
 
       BddTest().and('the user cancels the subscribe action', () => {
         beforeEach(() => {
-          wrapper.findComponent(SubscribeActivityConfirmModalStub).vm.$emit('cancel')
+          getSubscribeActivityConfirmModal().vm.$emit('cancel')
         })
 
         BddTest().then('it should hide the subscribe modal', () => {
-          expect(wrapper.findComponent(SubscribeActivityConfirmModalStub).props('show')).toBe(false)
+          expect(getSubscribeActivityConfirmModal().props('opened')).toBe(false)
         })
       })
 
       BddTest().and('the user confirms the subscribe action', () => {
         beforeEach(() => {
-          wrapper.findComponent(SubscribeActivityConfirmModalStub).vm.$emit('subscribed')
+          getSubscribeActivityConfirmModal().vm.$emit('subscribed')
         })
 
         BddTest().then('it should hide the subscribe modal', () => {
-          expect(wrapper.findComponent(SubscribeActivityConfirmModalStub).props('show')).toBe(false)
+          expect(getSubscribeActivityConfirmModal().props('opened')).toBe(false)
         })
       })
     })
@@ -135,23 +151,23 @@ BddTest().given('an activity preview', () => {
     })
 
     BddTest().then('it should render ActivityCatalogHeader with correct title and thematic', () => {
-      const bannerStub = wrapper.findComponent(ActivityCatalogHeaderStub)
+      const bannerStub = getActivityCatalogHeader()
       expect(bannerStub.exists()).toBe(true)
       expect(bannerStub.props('title')).toBe(mockedSubscribedActivityDetail.title)
       expect(bannerStub.props('thematic')).toBe(mockedSubscribedActivityDetail.thematic)
     })
 
     BddTest().then('it should pass subscribedDeclaredActivity to ActivityCatalogHeader', () => {
-      const bannerStub = wrapper.findComponent(ActivityCatalogHeaderStub)
+      const bannerStub = getActivityCatalogHeader()
       expect(bannerStub.props('subscribedDeclaredActivity')).toBe(mockedSubscribedActivityDetail.subscribedDeclaredActivity)
     })
 
     BddTest().then('it should render ActivityCatalogPreviewCard with correct summary', () => {
-      expect(wrapper.findComponent(ActivityCatalogPreviewCardStub).props('summary')).toBe(mockedSubscribedActivityDetail.summary)
+      expect(getActivityCatalogPreviewCard().props('summary')).toBe(mockedSubscribedActivityDetail.summary)
     })
 
     BddTest().then('it should render ActivityCatalogPreviewCard with correct recommendedCompletionContexts', () => {
-      expect(wrapper.findComponent(ActivityCatalogPreviewCardStub).props('recommendedCompletionContexts')).toBe(mockedSubscribedActivityDetail.recommendedCompletionContexts)
+      expect(getActivityCatalogPreviewCard().props('recommendedCompletionContexts')).toBe(mockedSubscribedActivityDetail.recommendedCompletionContexts)
     })
 
     BddTest().then('it should render the access button', () => {
@@ -177,14 +193,14 @@ BddTest().given('an activity preview', () => {
     })
 
     BddTest().then('it should render the unsubscribe confirmation modal', () => {
-      const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+      const modal = getUnsubscribeActivitiesConfirmModal()
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('activities')).toEqual([{ id: mockedSubscribedActivityDetail.id, title: mockedSubscribedActivityDetail.title }])
     })
 
     BddTest().then('it should render the subscribe modal', () => {
-      expect(wrapper.findComponent(SubscribeActivityConfirmModalStub).exists()).toBe(true)
+      expect(getSubscribeActivityConfirmModal().exists()).toBe(true)
     })
 
     BddTest().and('the user clicks the unsubscribe button', () => {
@@ -193,26 +209,26 @@ BddTest().given('an activity preview', () => {
       })
 
       BddTest().then('it should display the confirmation modal', () => {
-        expect(wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub).props('show')).toBe(true)
+        expect(getUnsubscribeActivitiesConfirmModal().props('opened')).toBe(true)
       })
 
       BddTest().and('the user cancels the unsubscribe action', () => {
         beforeEach(() => {
-          wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub).vm.$emit('cancel')
+          getUnsubscribeActivitiesConfirmModal().vm.$emit('cancel')
         })
 
         BddTest().then('it should hide the confirmation modal', () => {
-          expect(wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub).props('show')).toBe(false)
+          expect(getUnsubscribeActivitiesConfirmModal().props('opened')).toBe(false)
         })
       })
 
       BddTest().and('the user confirms the unsubscribe action', () => {
         beforeEach(() => {
-          wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub).vm.$emit('unsubscribed')
+          getUnsubscribeActivitiesConfirmModal().vm.$emit('unsubscribed')
         })
 
         BddTest().then('it should hide the confirmation modal', () => {
-          expect(wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub).props('show')).toBe(false)
+          expect(getUnsubscribeActivitiesConfirmModal().props('opened')).toBe(false)
         })
       })
     })

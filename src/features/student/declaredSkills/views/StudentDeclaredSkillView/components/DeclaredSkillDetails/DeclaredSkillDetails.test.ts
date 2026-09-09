@@ -86,6 +86,10 @@ BddTest().given('the DeclaredSkillDetails component', () => {
     CreationUpdateDateDetails: CreationUpdateDateDetailsStub
   }
 
+  function getAvInputs () {
+    return wrapper.findAllComponents(AvInputStub)
+  }
+
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
       vi.clearAllMocks()
@@ -93,7 +97,7 @@ BddTest().given('the DeclaredSkillDetails component', () => {
     })
 
     BddTest().then('it should render the declared skill title', () => {
-      const titleInput = wrapper.findAllComponents({ name: 'AvInput' })[0]
+      const titleInput = getAvInputs()[0]
       expect(titleInput.exists()).toBe(true)
       expect(titleInput.props('modelValue')).toBe(mockedDeclaredSkillProgressDetails.title)
     })
@@ -114,7 +118,7 @@ BddTest().given('the DeclaredSkillDetails component', () => {
     })
 
     BddTest().then('it should render the declared skill reflection', () => {
-      const reflectionTextarea = wrapper.findAllComponents({ name: 'AvInput' })[1]
+      const reflectionTextarea = getAvInputs()[1]
       expect(reflectionTextarea.exists()).toBe(true)
       expect(reflectionTextarea.props('modelValue')).toBe(mockedDeclaredSkillProgressDetails.reflection)
     })
@@ -130,7 +134,7 @@ BddTest().given('the DeclaredSkillDetails component', () => {
       })
 
       BddTest().then('it should render an empty declared skill reflection', () => {
-        const reflectionTextarea = wrapper.findAllComponents({ name: 'AvInput' })[1]
+        const reflectionTextarea = getAvInputs()[1]
         expect(reflectionTextarea.exists()).toBe(true)
         expect(reflectionTextarea.props('modelValue')).toBeUndefined()
       })

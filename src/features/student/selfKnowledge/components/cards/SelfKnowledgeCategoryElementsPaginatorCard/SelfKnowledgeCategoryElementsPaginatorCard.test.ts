@@ -150,7 +150,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
           BddTest().then('it should display the delete elements confirmation modal', async () => {
             const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementsModalStub)
             expect(deleteModal.exists()).toBe(true)
-            expect(deleteModal.props('show')).toBe(true)
+            expect(deleteModal.props('opened')).toBe(true)
             expect(deleteModal.props('categoryType')).toBeDefined()
             expect(deleteModal.props('categoryType')).toBe(category.type)
           })
@@ -312,7 +312,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
       BddTest().then('it should not display the delete confirmation modal initially', () => {
         const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeCategoryModalStub)
         expect(deleteModal.exists()).toBe(true)
-        expect(deleteModal.props('show')).toBe(false)
+        expect(deleteModal.props('opened')).toBe(false)
       })
 
       BddTest().and('the delete option is selected from the dropdown', () => {
@@ -325,7 +325,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
           await vi.waitFor(() => {
             const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeCategoryModalStub)
             expect(deleteModal.exists()).toBe(true)
-            expect(deleteModal.props('show')).toBe(true)
+            expect(deleteModal.props('opened')).toBe(true)
             expect(deleteModal.props('categoryType')).toBe(obligationsCategory.type)
             expect(deleteModal.props('categoryTitle')).toBe('Mes obligations')
             expect(deleteModal.props('elementsCount')).toBe(0)
@@ -341,7 +341,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
           BddTest().then('it should hide the delete confirmation modal', async () => {
             const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeCategoryModalStub)
             await vi.waitFor(() => {
-              expect(deleteModal.props('show')).toBe(false)
+              expect(deleteModal.props('opened')).toBe(false)
             })
           })
         })
@@ -355,7 +355,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
           BddTest().then('it should hide the delete confirmation modal', async () => {
             const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeCategoryModalStub)
             await vi.waitFor(() => {
-              expect(deleteModal.props('show')).toBe(false)
+              expect(deleteModal.props('opened')).toBe(false)
             })
           })
         })
@@ -410,9 +410,9 @@ BddTest().given('a self knowledge category elements paginator card', () => {
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should hide the delete elements modal', () => {
+      BddTest().then('it should close the delete elements modal', () => {
         const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementsModalStub)
-        expect(deleteModal.props('show')).toBe(false)
+        expect(deleteModal.props('opened')).toBe(false)
       })
     })
   })
@@ -439,9 +439,9 @@ BddTest().given('a self knowledge category elements paginator card', () => {
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should hide the delete elements modal', () => {
+      BddTest().then('it should close the delete elements modal', () => {
         const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementsModalStub)
-        expect(deleteModal.props('show')).toBe(false)
+        expect(deleteModal.props('opened')).toBe(false)
       })
     })
   })

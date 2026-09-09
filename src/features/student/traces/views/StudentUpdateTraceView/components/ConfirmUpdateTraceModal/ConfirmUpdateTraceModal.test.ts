@@ -22,7 +22,7 @@ BddTest().given('a ConfirmUpdateTraceModal', () => {
   }
 
   const props: ConfirmUpdateTraceModalProps = {
-    show: true,
+    opened: true,
     lockedDeclaredActivities: [mockedLockedDeclaredActivities]
   }
 
@@ -35,7 +35,7 @@ BddTest().given('a ConfirmUpdateTraceModal', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
 
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('show')).toBe(true)
+      expect(confirmationModal.props('opened')).toBe(true)
       expect(confirmationModal.props('confirmButtonLabel')).toBe('Modifier ma trace')
     })
 

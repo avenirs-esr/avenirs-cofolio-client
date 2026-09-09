@@ -118,18 +118,18 @@ BddTest().given('a declared experience associations component', () => {
       ])
     })
 
-    BddTest().then('it should render the delete traces modal hidden with the right props', () => {
+    BddTest().then('it should render the delete traces modal closed with the right props', () => {
       const modal = wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub)
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('experienceId')).toBe(declaredExperienceId)
       expect(modal.props('associations')).toEqual(mockedAssociatedTraces)
     })
 
-    BddTest().then('it should render the delete declared skills modal hidden with the right props', () => {
+    BddTest().then('it should render the delete declared skills modal closed with the right props', () => {
       const modal = wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub)
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('experienceId')).toBe(declaredExperienceId)
       expect(modal.props('associations')).toEqual(mockedAssociatedDeclaredSkills)
     })
@@ -145,17 +145,17 @@ BddTest().given('a declared experience associations component', () => {
       ])
     })
 
-    BddTest().then('it should render the associate traces modal hidden with the right props', () => {
+    BddTest().then('it should render the associate traces modal closed with the right props', () => {
       const modal = wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub)
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('declaredExperienceId')).toBe(declaredExperienceId)
     })
 
-    BddTest().then('it should render the associate declared skills modal hidden with the right props', () => {
+    BddTest().then('it should render the associate declared skills modal closed with the right props', () => {
       const modal = wrapper.findComponent(AssociateDeclaredSkillsToDeclaredExperienceModalStub)
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('declaredExperienceId')).toBe(declaredExperienceId)
     })
 
@@ -167,8 +167,8 @@ BddTest().given('a declared experience associations component', () => {
         await associateDropdown?.vm.$emit('select', EAssociationContextType.TRACE)
       })
 
-      BddTest().then('it should display the associate traces modal', () => {
-        expect(wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).props('show')).toBe(true)
+      BddTest().then('it should open the associate traces modal', () => {
+        expect(wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).props('opened')).toBe(true)
       })
 
       BddTest().and('the associate traces modal emits cancel', () => {
@@ -176,8 +176,8 @@ BddTest().given('a declared experience associations component', () => {
           await wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).vm.$emit('cancel')
         })
 
-        BddTest().then('it should hide the associate traces modal', () => {
-          expect(wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).props('show')).toBe(false)
+        BddTest().then('it should close the associate traces modal', () => {
+          expect(wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).props('opened')).toBe(false)
         })
       })
 
@@ -186,8 +186,8 @@ BddTest().given('a declared experience associations component', () => {
           await wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).vm.$emit('associated')
         })
 
-        BddTest().then('it should hide the associate traces modal', () => {
-          expect(wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).props('show')).toBe(false)
+        BddTest().then('it should close the associate traces modal', () => {
+          expect(wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).props('opened')).toBe(false)
         })
       })
     })
@@ -200,12 +200,12 @@ BddTest().given('a declared experience associations component', () => {
         await associateDropdown?.vm.$emit('select', EAssociationContextType.DECLARED_SKILL)
       })
 
-      BddTest().then('it should display the associate declared skills modal', () => {
-        expect(wrapper.findComponent(AssociateDeclaredSkillsToDeclaredExperienceModalStub).props('show')).toBe(true)
+      BddTest().then('it should open the associate declared skills modal', () => {
+        expect(wrapper.findComponent(AssociateDeclaredSkillsToDeclaredExperienceModalStub).props('opened')).toBe(true)
       })
 
-      BddTest().then('it should not display the associate traces modal', () => {
-        expect(wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).props('show')).toBe(false)
+      BddTest().then('it should not open the associate traces modal', () => {
+        expect(wrapper.findComponent(AssociateTracesToDeclaredExperienceModalStub).props('opened')).toBe(false)
       })
 
       BddTest().and('the associate declared skills modal emits cancel', () => {
@@ -213,8 +213,8 @@ BddTest().given('a declared experience associations component', () => {
           await wrapper.findComponent(AssociateDeclaredSkillsToDeclaredExperienceModalStub).vm.$emit('cancel')
         })
 
-        BddTest().then('it should hide the associate declared skills modal', () => {
-          expect(wrapper.findComponent(AssociateDeclaredSkillsToDeclaredExperienceModalStub).props('show')).toBe(false)
+        BddTest().then('it should close the associate declared skills modal', () => {
+          expect(wrapper.findComponent(AssociateDeclaredSkillsToDeclaredExperienceModalStub).props('opened')).toBe(false)
         })
       })
 
@@ -223,8 +223,8 @@ BddTest().given('a declared experience associations component', () => {
           await wrapper.findComponent(AssociateDeclaredSkillsToDeclaredExperienceModalStub).vm.$emit('associated')
         })
 
-        BddTest().then('it should hide the associate declared skills modal', () => {
-          expect(wrapper.findComponent(AssociateDeclaredSkillsToDeclaredExperienceModalStub).props('show')).toBe(false)
+        BddTest().then('it should close the associate declared skills modal', () => {
+          expect(wrapper.findComponent(AssociateDeclaredSkillsToDeclaredExperienceModalStub).props('opened')).toBe(false)
         })
       })
     })
@@ -237,8 +237,8 @@ BddTest().given('a declared experience associations component', () => {
         await deleteDropdown?.vm.$emit('select', EAssociationContextType.TRACE)
       })
 
-      BddTest().then('it should display the delete traces modal', () => {
-        expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub).props('show')).toBe(true)
+      BddTest().then('it should open the delete traces modal', () => {
+        expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub).props('opened')).toBe(true)
       })
 
       BddTest().and('the delete traces modal emits cancel', () => {
@@ -246,8 +246,8 @@ BddTest().given('a declared experience associations component', () => {
           await wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub).vm.$emit('cancel')
         })
 
-        BddTest().then('it should hide the delete traces modal', () => {
-          expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub).props('show')).toBe(false)
+        BddTest().then('it should close the delete traces modal', () => {
+          expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub).props('opened')).toBe(false)
         })
       })
 
@@ -256,8 +256,8 @@ BddTest().given('a declared experience associations component', () => {
           await wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub).vm.$emit('deleted')
         })
 
-        BddTest().then('it should hide the delete traces modal', () => {
-          expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub).props('show')).toBe(false)
+        BddTest().then('it should close the delete traces modal', () => {
+          expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedTracesModalStub).props('opened')).toBe(false)
         })
       })
     })
@@ -270,8 +270,8 @@ BddTest().given('a declared experience associations component', () => {
         await deleteDropdown?.vm.$emit('select', EAssociationContextType.DECLARED_SKILL)
       })
 
-      BddTest().then('it should display the delete declared skills modal', () => {
-        expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub).props('show')).toBe(true)
+      BddTest().then('it should open the delete declared skills modal', () => {
+        expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub).props('opened')).toBe(true)
       })
 
       BddTest().and('the delete declared skills modal emits cancel', () => {
@@ -279,8 +279,8 @@ BddTest().given('a declared experience associations component', () => {
           await wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub).vm.$emit('cancel')
         })
 
-        BddTest().then('it should hide the delete declared skills modal', () => {
-          expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub).props('show')).toBe(false)
+        BddTest().then('it should close the delete declared skills modal', () => {
+          expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub).props('opened')).toBe(false)
         })
       })
 
@@ -289,8 +289,8 @@ BddTest().given('a declared experience associations component', () => {
           await wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub).vm.$emit('deleted')
         })
 
-        BddTest().then('it should hide the delete declared skills modal', () => {
-          expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub).props('show')).toBe(false)
+        BddTest().then('it should close the delete declared skills modal', () => {
+          expect(wrapper.findComponent(DeleteDeclaredExperienceAssociatedDeclaredSkillsModalStub).props('opened')).toBe(false)
         })
       })
     })

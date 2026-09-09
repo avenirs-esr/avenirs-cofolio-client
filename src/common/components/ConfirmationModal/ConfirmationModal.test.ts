@@ -20,15 +20,16 @@ const stubs = {
 BddTest().given('a confirmation modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof ConfirmationModal>>
 
-  beforeEach(() => {
+  function mountConfirmationModal (props: Partial<ConfirmationModalProps> = {}, slots: Record<string, string> = {}) {
     wrapper = mount(ConfirmationModal, {
-      props: {
-        show: true
-      } as ConfirmationModalProps,
-      global: {
-        stubs
-      }
+      props: { opened: true, ...props },
+      slots,
+      global: { stubs }
     })
+  }
+
+  beforeEach(() => {
+    mountConfirmationModal()
   })
 
   BddTest().when('the component is mounted', () => {
@@ -56,18 +57,13 @@ BddTest().given('a confirmation modal', () => {
   })
 
   BddTest().when('the close event is emitted from AvModal', () => {
-    BddTest().then('it should pass through the close event via attrs', async () => {
-      const closeHandler = vi.fn()
-      wrapper = mount(ConfirmationModal, {
-        props: {
-          show: true,
-          onClose: closeHandler
-        } as ConfirmationModalProps,
-        global: {
-          stubs
-        }
-      })
+    const closeHandler = vi.fn()
 
+    beforeEach(() => {
+      mountConfirmationModal({ onClose: closeHandler } as Partial<ConfirmationModalProps>)
+    })
+
+    BddTest().then('it should pass through the close event via attrs', async () => {
       const modal = wrapper.findComponent({ name: 'AvModal' })
       await modal.vm.$emit('close')
 
@@ -76,18 +72,13 @@ BddTest().given('a confirmation modal', () => {
   })
 
   BddTest().when('the confirm event is emitted from AvModal', () => {
-    BddTest().then('it should pass through the confirm event via attrs', async () => {
-      const confirmHandler = vi.fn()
-      wrapper = mount(ConfirmationModal, {
-        props: {
-          show: true,
-          onConfirm: confirmHandler
-        } as ConfirmationModalProps,
-        global: {
-          stubs
-        }
-      })
+    const confirmHandler = vi.fn()
 
+    beforeEach(() => {
+      mountConfirmationModal({ onConfirm: confirmHandler } as Partial<ConfirmationModalProps>)
+    })
+
+    BddTest().then('it should pass through the confirm event via attrs', async () => {
       const modal = wrapper.findComponent({ name: 'AvModal' })
       await modal.vm.$emit('confirm')
 
@@ -95,9 +86,9 @@ BddTest().given('a confirmation modal', () => {
     })
   })
 
-  BddTest().when('the show prop is false', () => {
+  BddTest().when('the opened prop is false', () => {
     beforeEach(async () => {
-      await wrapper.setProps({ show: false })
+      await wrapper.setProps({ opened: false })
     })
 
     BddTest().then('it should pass the opened prop as false to AvModal', () => {
@@ -109,17 +100,7 @@ BddTest().given('a confirmation modal', () => {
 
   BddTest().when('custom header slot is provided', () => {
     beforeEach(() => {
-      wrapper = mount(ConfirmationModal, {
-        props: {
-          show: true
-        } as ConfirmationModalProps,
-        slots: {
-          header: '<div class="custom-header">Custom Header</div>'
-        },
-        global: {
-          stubs
-        }
-      })
+      mountConfirmationModal({}, { header: '<div class="custom-header">Custom Header</div>' })
     })
 
     BddTest().then('it should render the custom header', () => {
@@ -132,17 +113,7 @@ BddTest().given('a confirmation modal', () => {
 
   BddTest().when('custom default slot is provided', () => {
     beforeEach(() => {
-      wrapper = mount(ConfirmationModal, {
-        props: {
-          show: true
-        } as ConfirmationModalProps,
-        slots: {
-          default: '<div class="custom-content">Custom Content</div>'
-        },
-        global: {
-          stubs
-        }
-      })
+      mountConfirmationModal({}, { default: '<div class="custom-content">Custom Content</div>' })
     })
 
     BddTest().then('it should render the custom content', () => {
@@ -155,16 +126,7 @@ BddTest().given('a confirmation modal', () => {
 
   BddTest().when('custom title and description props are provided', () => {
     beforeEach(() => {
-      wrapper = mount(ConfirmationModal, {
-        props: {
-          show: true,
-          title: 'Custom Title',
-          description: 'Custom Description'
-        } as ConfirmationModalProps,
-        global: {
-          stubs
-        }
-      })
+      mountConfirmationModal({ title: 'Custom Title', description: 'Custom Description' })
     })
 
     BddTest().then('it should render the custom title and description', () => {
@@ -182,15 +144,7 @@ BddTest().given('a confirmation modal', () => {
 
   BddTest().when('the showDescription prop is false', () => {
     beforeEach(() => {
-      wrapper = mount(ConfirmationModal, {
-        props: {
-          show: true,
-          showDescription: false
-        } as ConfirmationModalProps,
-        global: {
-          stubs
-        }
-      })
+      mountConfirmationModal({ showDescription: false })
     })
 
     BddTest().then('it should not render the description', () => {
@@ -210,15 +164,7 @@ BddTest().given('a confirmation modal', () => {
 
   BddTest().when('the showDescription prop is true', () => {
     beforeEach(() => {
-      wrapper = mount(ConfirmationModal, {
-        props: {
-          show: true,
-          showDescription: true
-        } as ConfirmationModalProps,
-        global: {
-          stubs
-        }
-      })
+      mountConfirmationModal({ showDescription: true })
     })
 
     BddTest().then('it should render the description', () => {

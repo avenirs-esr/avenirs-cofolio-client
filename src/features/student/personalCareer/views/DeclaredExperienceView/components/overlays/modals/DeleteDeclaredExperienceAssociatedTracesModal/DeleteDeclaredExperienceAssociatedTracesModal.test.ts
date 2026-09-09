@@ -39,7 +39,7 @@ BddTest().given('a delete declared experience associated traces modal', () => {
   }))
 
   const props: DeleteDeclaredExperienceAssociatedTracesModalProps = {
-    show: true,
+    opened: true,
     experienceId: 'experience-1',
     associations,
   }
@@ -48,7 +48,7 @@ BddTest().given('a delete declared experience associated traces modal', () => {
     vi.clearAllMocks()
   })
 
-  BddTest().when('the modal is shown', () => {
+  BddTest().when('the modal is opened', () => {
     beforeEach(() => {
       wrapper = mountComponent(DeleteDeclaredExperienceAssociatedTracesModal, { props, global: { stubs } })
     })

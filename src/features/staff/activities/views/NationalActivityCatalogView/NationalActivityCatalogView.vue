@@ -38,7 +38,7 @@ const breadcrumbLinks = computed(() => [
 
 const isDraft = computed(() => status === EActivityStatus.DRAFT)
 
-const { modalOpened: showDeleteConfirmation, openModal: displayDeleteConfirmation, closeModal: hideDeleteConfirmation } = useModal()
+const { modalOpened: deleteConfirmationOpened, openModal: openDeleteConfirmation, closeModal: closeDeleteConfirmation } = useModal()
 
 const { navigateToStaffActivities, navigateToStaffActivitiesEditNationalActivity } = useNavigation()
 
@@ -84,7 +84,7 @@ function updateActivity (id: string) {
       data-testid="delete-draft-button"
       small
       variant="OUTLINED"
-      @click="displayDeleteConfirmation"
+      @click="openDeleteConfirmation"
     />
   </div>
 
@@ -126,8 +126,8 @@ function updateActivity (id: string) {
 
   <DeleteDraftActivityConfirmationModal
     :activity-id="id"
-    :show="showDeleteConfirmation"
-    @close="hideDeleteConfirmation"
+    :opened="deleteConfirmationOpened"
+    @close="closeDeleteConfirmation"
     @deleted="navigateToStaffActivities"
   />
 </template>

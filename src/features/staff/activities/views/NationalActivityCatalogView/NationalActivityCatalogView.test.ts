@@ -53,6 +53,18 @@ function mockActiveTab (tab: NationalActivityCatalogTabs) {
 BddTest().given('a national activity catalog view', () => {
   let wrapper: VueWrapper<InstanceType<typeof NationalActivityCatalogView>>
 
+  function getDeleteDraftActivityConfirmationModal () {
+    return wrapper.findComponent(DeleteDraftActivityConfirmationModalStub)
+  }
+
+  function getQuerySuspense () {
+    return wrapper.findComponent(QuerySuspenseStub)
+  }
+
+  function getNationalActivityContentTab () {
+    return wrapper.findComponent(NationalActivityContentTabStub)
+  }
+
   const stubs = {
     PageTitle: PageTitleStub,
     QuerySuspense: QuerySuspenseStub,
@@ -103,7 +115,7 @@ BddTest().given('a national activity catalog view', () => {
     })
 
     BddTest().then('it should render QuerySuspense with the correct error title', () => {
-      expect(wrapper.findComponent(QuerySuspenseStub).props('errorTitle')).toBe('Impossible de charger l\'activité')
+      expect(getQuerySuspense().props('errorTitle')).toBe('Impossible de charger l\'activité')
     })
   })
 
@@ -111,7 +123,7 @@ BddTest().given('a national activity catalog view', () => {
     beforeEach(waitForLoaded)
 
     BddTest().then('it should render NationalActivityContentTab with the correct activity', () => {
-      expect(wrapper.findComponent(NationalActivityContentTabStub).props('activity')).toEqual(mockedActivityContent)
+      expect(getNationalActivityContentTab().props('activity')).toEqual(mockedActivityContent)
     })
   })
 
@@ -123,7 +135,7 @@ BddTest().given('a national activity catalog view', () => {
 
     BddTest().then('it should render QuerySuspense with an error', async () => {
       await vi.waitFor(() => {
-        expect(wrapper.findComponent(QuerySuspenseStub).props('error')).toBeTruthy()
+        expect(getQuerySuspense().props('error')).toBeTruthy()
       })
     })
   })
@@ -155,22 +167,22 @@ BddTest().given('a national activity catalog view', () => {
       })
 
       BddTest().then('it should open the confirmation modal', () => {
-        expect(wrapper.findComponent(DeleteDraftActivityConfirmationModalStub).props('show')).toBe(true)
+        expect(getDeleteDraftActivityConfirmationModal().props('opened')).toBe(true)
       })
 
       BddTest().and('the confirmation modal is cancelled', () => {
         beforeEach(() => {
-          wrapper.findComponent(DeleteDraftActivityConfirmationModalStub).vm.$emit('close')
+          getDeleteDraftActivityConfirmationModal().vm.$emit('close')
         })
 
         BddTest().then('it should close the confirmation modal', () => {
-          expect(wrapper.findComponent(DeleteDraftActivityConfirmationModalStub).props('show')).toBe(false)
+          expect(getDeleteDraftActivityConfirmationModal().props('opened')).toBe(false)
         })
       })
 
       BddTest().and('the modal emits deleted', () => {
         beforeEach(() => {
-          wrapper.findComponent(DeleteDraftActivityConfirmationModalStub).vm.$emit('deleted')
+          getDeleteDraftActivityConfirmationModal().vm.$emit('deleted')
         })
 
         BddTest().then('it should navigate to the activities page', () => {
@@ -220,7 +232,7 @@ BddTest().given('a national activity catalog view', () => {
     })
 
     BddTest().then('it should not render the other tabs content', () => {
-      expect(wrapper.findComponent(NationalActivityContentTabStub).exists()).toBe(false)
+      expect(getNationalActivityContentTab().exists()).toBe(false)
       expect(wrapper.findComponent(NationalActivityCatalogPreviewTabStub).exists()).toBe(false)
     })
   })

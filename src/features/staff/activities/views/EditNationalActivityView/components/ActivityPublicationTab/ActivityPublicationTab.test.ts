@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
+import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { ActivityBannerFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityBannerFormField/ActivityBannerFormField.stub'
 import { ActivityRecommendedCompletionContextsFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityRecommendedCompletionContextsFormField/ActivityRecommendedCompletionContextsFormField.stub'
 import { ActivitySummaryFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivitySummaryFormField/ActivitySummaryFormField.stub'
@@ -37,20 +38,6 @@ vi.mock('@/common/composables/use-task-loading/use-task-loading', () => ({
     withTaskLoading: async (task: () => Promise<unknown> | unknown) => await task(),
   }),
 }))
-
-const ConfirmationModalStub = defineComponent({
-  name: 'ConfirmationModal',
-  props: {
-    show: { type: Boolean, default: false },
-  },
-  emits: ['confirm', 'close'],
-  template: `
-    <div data-testid="publish-confirmation-modal" :data-show="show ? 'true' : 'false'">
-      <button data-testid="confirm-publication" @click="$emit('confirm')">confirm</button>
-      <button data-testid="close-publication" @click="$emit('close')">close</button>
-    </div>
-  `,
-})
 
 type FormWrapperComponent
   = | typeof EditNationalActivityViewFormWrapper
@@ -173,8 +160,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
 
     BddTest().then('it should open confirmation modal', async () => {
       await vi.waitFor(() => {
-        expect(tab.find('[data-testid="publish-confirmation-modal"]').attributes('data-show'))
-          .toBe('true')
+        expect(tab.findComponent(ConfirmationModalStub).props('opened')).toBe(true)
       })
     })
   })
@@ -186,11 +172,10 @@ BddTest().given('an ActivityPublicationTab component', () => {
       await getPublishButton().trigger('click')
 
       await vi.waitFor(() => {
-        expect(tab.find('[data-testid="publish-confirmation-modal"]').attributes('data-show'))
-          .toBe('true')
+        expect(tab.findComponent(ConfirmationModalStub).props('opened')).toBe(true)
       })
 
-      await tab.find('[data-testid="confirm-publication"]').trigger('click')
+      await tab.findComponent(ConfirmationModalStub).vm.$emit('confirm')
     })
 
     BddTest().then('it should emit published', async () => {
@@ -216,11 +201,10 @@ BddTest().given('an ActivityPublicationTab component', () => {
       await getPublishButton().trigger('click')
 
       await vi.waitFor(() => {
-        expect(tab.find('[data-testid="publish-confirmation-modal"]').attributes('data-show'))
-          .toBe('true')
+        expect(tab.findComponent(ConfirmationModalStub).props('opened')).toBe(true)
       })
 
-      await tab.find('[data-testid="confirm-publication"]').trigger('click')
+      await tab.findComponent(ConfirmationModalStub).vm.$emit('confirm')
     })
 
     BddTest().then('it should not emit published', async () => {

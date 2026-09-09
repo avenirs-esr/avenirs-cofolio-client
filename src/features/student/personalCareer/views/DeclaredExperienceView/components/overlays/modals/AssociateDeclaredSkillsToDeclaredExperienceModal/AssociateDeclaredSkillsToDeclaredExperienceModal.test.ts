@@ -35,7 +35,7 @@ BddTest().given('an associate declared skills to declared experience modal', () 
   }
 
   const props: AssociateDeclaredSkillsToDeclaredExperienceModalProps = {
-    show: true,
+    opened: true,
     declaredExperienceId: 'declared-experience-1'
   }
 
@@ -59,8 +59,8 @@ BddTest().given('an associate declared skills to declared experience modal', () 
       expect(modal.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass the show prop', () => {
-      expect(modal.props('show')).toBe(true)
+    BddTest().then('it should pass the opened prop', () => {
+      expect(modal.props('opened')).toBe(true)
     })
 
     BddTest().then('it should pass isLoading as false initially when no mutation is pending', () => {
@@ -120,18 +120,18 @@ BddTest().given('an associate declared skills to declared experience modal', () 
       })
     })
 
-    BddTest().when('the show prop is false', () => {
+    BddTest().when('the opened prop is false', () => {
       beforeEach(async () => {
         wrapper = mountComponent(AssociateDeclaredSkillsToDeclaredExperienceModal, {
-          props: { ...props, show: false },
+          props: { ...props, opened: false },
           global: { stubs }
         })
         await flushPromises()
       })
 
-      BddTest().then('it should pass show as false to the inner modal', () => {
+      BddTest().then('it should pass opened as false to the inner modal', () => {
         const modal = wrapper.findComponent(AssociateDeclaredSkillsModalStub)
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
     })
 

@@ -61,10 +61,10 @@ BddTest().given('a student tools traces action buttons component', () => {
     })
 
     BddTest().then('it should render the delete traces modal initially hidden with total count', () => {
-      const modal = wrapper.findComponent({ name: 'DeleteTracesModal' })
+      const modal = wrapper.findComponent(DeleteTracesModalStub)
 
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('totalCount')).toBe(7)
     })
   })
@@ -90,9 +90,9 @@ BddTest().given('a student tools traces action buttons component', () => {
     })
 
     BddTest().then('it should open the delete traces modal', () => {
-      const modal = wrapper.findComponent({ name: 'DeleteTracesModal' })
+      const modal = wrapper.findComponent(DeleteTracesModalStub)
 
-      expect(modal.props('show')).toBe(true)
+      expect(modal.props('opened')).toBe(true)
       expect(modal.props('totalCount')).toBe(7)
     })
   })
@@ -102,12 +102,12 @@ BddTest().given('a student tools traces action buttons component', () => {
       await wrapper.findComponent({ name: 'TracesActionsDropdown' }).vm.$emit('deleteSelected')
       await wrapper.vm.$nextTick()
 
-      await wrapper.findComponent({ name: 'DeleteTracesModal' }).vm.$emit('cancel')
+      await wrapper.findComponent(DeleteTracesModalStub).vm.$emit('cancel')
       await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should close the delete traces modal', () => {
-      expect(wrapper.findComponent({ name: 'DeleteTracesModal' }).props('show')).toBe(false)
+      expect(wrapper.findComponent(DeleteTracesModalStub).props('opened')).toBe(false)
     })
   })
 
@@ -116,12 +116,12 @@ BddTest().given('a student tools traces action buttons component', () => {
       await wrapper.findComponent({ name: 'TracesActionsDropdown' }).vm.$emit('deleteSelected')
       await wrapper.vm.$nextTick()
 
-      await wrapper.findComponent({ name: 'DeleteTracesModal' }).vm.$emit('deleted')
+      await wrapper.findComponent(DeleteTracesModalStub).vm.$emit('deleted')
       await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should close the delete traces modal', () => {
-      expect(wrapper.findComponent({ name: 'DeleteTracesModal' }).props('show')).toBe(false)
+      expect(wrapper.findComponent(DeleteTracesModalStub).props('opened')).toBe(false)
     })
   })
 
@@ -131,7 +131,7 @@ BddTest().given('a student tools traces action buttons component', () => {
     })
 
     BddTest().then('it should provide zero as total count to delete traces modal', () => {
-      const modal = wrapper.findComponent({ name: 'DeleteTracesModal' })
+      const modal = wrapper.findComponent(DeleteTracesModalStub)
 
       expect(modal.props('totalCount')).toBe(0)
     })

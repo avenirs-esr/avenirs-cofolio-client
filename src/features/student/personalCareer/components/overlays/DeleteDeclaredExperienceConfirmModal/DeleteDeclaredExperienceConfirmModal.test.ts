@@ -29,7 +29,7 @@ BddTest().given('a DeleteDeclaredExperienceConfirmModal component', () => {
 
   BddTest().when('the component is mounted without declared experience ids', async () => {
     const props: DeleteDeclaredExperienceConfirmModalProps = {
-      show: true,
+      opened: true,
       declaredExperienceIds: [],
     }
 
@@ -80,7 +80,7 @@ BddTest().given('a DeleteDeclaredExperienceConfirmModal component', () => {
 
   BddTest().when('the component is mounted with one valid declared experience id', () => {
     const props: DeleteDeclaredExperienceConfirmModalProps = {
-      show: true,
+      opened: true,
       declaredExperienceIds: ['valid-experience-id'],
     }
 
@@ -117,7 +117,7 @@ BddTest().given('a DeleteDeclaredExperienceConfirmModal component', () => {
 
   BddTest().when('the component is mounted with an invalid declared experience id', () => {
     const props: DeleteDeclaredExperienceConfirmModalProps = {
-      show: true,
+      opened: true,
       declaredExperienceIds: ['INVALID_PROGRAM_ID'],
     }
 
@@ -161,7 +161,7 @@ BddTest().given('a DeleteDeclaredExperienceConfirmModal component', () => {
 
   BddTest().when('the component is mounted with multiple valid declared experience ids', () => {
     const props: DeleteDeclaredExperienceConfirmModalProps = {
-      show: true,
+      opened: true,
       declaredExperienceIds: ['valid-experience-id-1', 'valid-experience-id-2'],
     }
 
@@ -204,7 +204,7 @@ BddTest().given('a DeleteDeclaredExperienceConfirmModal component', () => {
 
   BddTest().when('the component is mounted with multiple declared experience ids including an invalid one', () => {
     const props: DeleteDeclaredExperienceConfirmModalProps = {
-      show: true,
+      opened: true,
       declaredExperienceIds: ['valid-experience-id', 'INVALID_PROGRAM_ID'],
     }
 

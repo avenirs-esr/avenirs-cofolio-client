@@ -62,10 +62,10 @@ BddTest().given('a delete traces modal', () => {
     TraceDeletionConfirmationModal: TraceDeletionConfirmationModalStub
   }
 
-  function mountDeleteTracesModal (show = true, totalCount = 2) {
+  function mountDeleteTracesModal (opened = true, totalCount = 2) {
     wrapper = mountComponent(DeleteTracesModal, {
       props: {
-        show,
+        opened,
         totalCount
       },
       global: { stubs },
@@ -117,7 +117,7 @@ BddTest().given('a delete traces modal', () => {
   })
 
   BddTest().then('it should provide modal props', () => {
-    expect(getModal().props('show')).toBe(true)
+    expect(getModal().props('opened')).toBe(true)
     expect(getModal().props('confirmButtonDisabled')).toBe(true)
   })
 
@@ -151,7 +151,7 @@ BddTest().given('a delete traces modal', () => {
 
     const confirmationModal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
 
-    expect(confirmationModal.props('show')).toBe(true)
+    expect(confirmationModal.props('opened')).toBe(true)
     expect(confirmationModal.props('traceIds')).toEqual(['trace-1'])
   })
 
@@ -162,7 +162,7 @@ BddTest().given('a delete traces modal', () => {
 
     const confirmationModal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
 
-    expect(confirmationModal.props('show')).toBe(true)
+    expect(confirmationModal.props('opened')).toBe(true)
     expect(confirmationModal.props('traceIds')).toEqual(['trace-1', 'trace-2'])
   })
 

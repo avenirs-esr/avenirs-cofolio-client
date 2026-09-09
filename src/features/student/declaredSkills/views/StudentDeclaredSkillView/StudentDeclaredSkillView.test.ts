@@ -161,11 +161,11 @@ BddTest().given('a student declared skill view', () => {
       await settingDropdown.vm.$emit('deleteSelected')
     })
 
-    BddTest().then('it should show the delete confirmation modal', async () => {
+    BddTest().then('it should open the delete confirmation modal', async () => {
       await vi.waitFor(() => {
         const deleteModal = wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
         expect(deleteModal.exists()).toBe(true)
-        expect(deleteModal.props('show')).toBe(true)
+        expect(deleteModal.props('opened')).toBe(true)
       })
     })
 
@@ -175,11 +175,11 @@ BddTest().given('a student declared skill view', () => {
         await deleteModal.vm.$emit('close')
       })
 
-      BddTest().then('it should hide the delete confirmation modal', async () => {
+      BddTest().then('it should close the delete confirmation modal', async () => {
         await vi.waitFor(() => {
           const deleteModal = wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
           expect(deleteModal.exists()).toBe(true)
-          expect(deleteModal.props('show')).toBe(false)
+          expect(deleteModal.props('opened')).toBe(false)
         })
       })
     })
@@ -190,11 +190,11 @@ BddTest().given('a student declared skill view', () => {
         await deleteModal.vm.$emit('skillDeleted')
       })
 
-      BddTest().then('it should hide the delete confirmation modal', async () => {
+      BddTest().then('it should close the delete confirmation modal', async () => {
         await vi.waitFor(() => {
           const deleteModal = wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub)
           expect(deleteModal.exists()).toBe(true)
-          expect(deleteModal.props('show')).toBe(false)
+          expect(deleteModal.props('opened')).toBe(false)
         })
       })
 

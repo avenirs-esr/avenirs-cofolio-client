@@ -40,7 +40,7 @@ BddTest().given('a RequestFeedback component', () => {
     BddTest().then('it should render the confirmation modal closed by default', () => {
       const modal = wrapper.findComponent(ConfirmationModalStub)
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
     })
 
     BddTest().and('the user clicks on the feedback button', () => {
@@ -50,7 +50,7 @@ BddTest().given('a RequestFeedback component', () => {
       })
 
       BddTest().then('it should open the confirmation modal', () => {
-        expect(wrapper.findComponent(ConfirmationModalStub).props('show')).toBe(true)
+        expect(wrapper.findComponent(ConfirmationModalStub).props('opened')).toBe(true)
       })
 
       BddTest().and('the user confirms', () => {
@@ -64,7 +64,7 @@ BddTest().given('a RequestFeedback component', () => {
         })
 
         BddTest().then('it should close the modal', () => {
-          expect(wrapper.findComponent(ConfirmationModalStub).props('show')).toBe(false)
+          expect(wrapper.findComponent(ConfirmationModalStub).props('opened')).toBe(false)
         })
       })
 
@@ -75,7 +75,7 @@ BddTest().given('a RequestFeedback component', () => {
         })
 
         BddTest().then('it should close the modal', () => {
-          expect(wrapper.findComponent(ConfirmationModalStub).props('show')).toBe(false)
+          expect(wrapper.findComponent(ConfirmationModalStub).props('opened')).toBe(false)
         })
       })
     })

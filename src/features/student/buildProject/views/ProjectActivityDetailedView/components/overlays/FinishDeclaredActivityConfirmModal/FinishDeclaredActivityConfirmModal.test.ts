@@ -11,9 +11,9 @@ BddTest().given('a FinishDeclaredActivityConfirmModal component', () => {
   let wrapper: VueWrapper<InstanceType<typeof FinishDeclaredActivityConfirmModal>>
   const stubs = { ConfirmationModal: ConfirmationModalStub }
 
-  BddTest().when('the component is mounted with show set to true', () => {
+  BddTest().when('the component is mounted with opened set to true', () => {
     const props: FinishDeclaredActivityConfirmModalProps = {
-      show: true,
+      opened: true,
     }
 
     beforeEach(() => {
@@ -26,7 +26,7 @@ BddTest().given('a FinishDeclaredActivityConfirmModal component', () => {
     BddTest().then('it should render the confirmation modal with correct title and message', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('show')).toBe(true)
+      expect(confirmationModal.props('opened')).toBe(true)
       expect(confirmationModal.props('title')).toBe('Confirmer la finalisation de l\'activité')
       expect(confirmationModal.props('description')).toBe('Êtes-vous certain(e) de vouloir terminer cette activité ? Vous ne pourrez plus la modifier')
     })
@@ -54,9 +54,9 @@ BddTest().given('a FinishDeclaredActivityConfirmModal component', () => {
     })
   })
 
-  BddTest().when('the component is mounted with show set to false', () => {
+  BddTest().when('the component is mounted with opened set to false', () => {
     const props: FinishDeclaredActivityConfirmModalProps = {
-      show: false,
+      opened: false,
     }
 
     beforeEach(() => {
@@ -66,10 +66,10 @@ BddTest().given('a FinishDeclaredActivityConfirmModal component', () => {
       })
     })
 
-    BddTest().then('it should render the confirmation modal with show set to false', () => {
+    BddTest().then('it should render the confirmation modal with opened set to false', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('show')).toBe(false)
+      expect(confirmationModal.props('opened')).toBe(false)
     })
   })
 })

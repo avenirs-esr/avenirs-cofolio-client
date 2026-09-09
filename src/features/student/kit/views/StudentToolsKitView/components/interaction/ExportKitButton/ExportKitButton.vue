@@ -5,7 +5,7 @@ import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-const { showModal, displayModal, hideModal } = useModal()
+const { modalOpened, openModal, closeModal } = useModal()
 </script>
 
 <template>
@@ -15,12 +15,12 @@ const { showModal, displayModal, hideModal } = useModal()
       :icon="MDI_ICONS.DOWNLOAD_OUTLINE"
       variant="FLAT"
       small
-      @click="displayModal"
+      @click="openModal"
     />
   </div>
 
   <ExportKitModal
-    :opened="showModal"
-    @close="hideModal"
+    :opened="modalOpened"
+    @close="closeModal"
   />
 </template>

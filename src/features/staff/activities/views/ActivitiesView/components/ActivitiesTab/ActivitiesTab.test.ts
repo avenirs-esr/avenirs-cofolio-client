@@ -231,11 +231,11 @@ BddTest().given('a ActivitiesTab component', () => {
     })
 
     BddTest().then('the unpublish confirmation modal should not be visible initially', () => {
-      expect(getUnpublishConfirmationModal().props('show')).toBe(false)
+      expect(getUnpublishConfirmationModal().props('opened')).toBe(false)
     })
 
     BddTest().then('the delete confirmation modal should not be visible initially', () => {
-      expect(getDeleteConfirmationModal().props('show')).toBe(false)
+      expect(getDeleteConfirmationModal().props('opened')).toBe(false)
     })
 
     BddTest().and('unpublishSelected is emitted from a MoreActionsDropdown', () => {
@@ -243,8 +243,8 @@ BddTest().given('a ActivitiesTab component', () => {
         getMoreActionsDropdowns()[0].vm.$emit('unpublishSelected')
       })
 
-      BddTest().then('it should show the unpublish confirmation modal', () => {
-        expect(getUnpublishConfirmationModal().props('show')).toBe(true)
+      BddTest().then('it should open the unpublish confirmation modal', () => {
+        expect(getUnpublishConfirmationModal().props('opened')).toBe(true)
       })
 
       BddTest().then('it should pass the correct activityId to the modal', () => {
@@ -260,8 +260,8 @@ BddTest().given('a ActivitiesTab component', () => {
           expect(wrapper.emitted('unpublished')).toHaveLength(1)
         })
 
-        BddTest().then('it should hide the unpublish confirmation modal', () => {
-          expect(getUnpublishConfirmationModal().props('show')).toBe(false)
+        BddTest().then('it should close the unpublish confirmation modal', () => {
+          expect(getUnpublishConfirmationModal().props('opened')).toBe(false)
         })
       })
 
@@ -274,8 +274,8 @@ BddTest().given('a ActivitiesTab component', () => {
           expect(wrapper.emitted('unpublished')).toBeUndefined()
         })
 
-        BddTest().then('it should hide the unpublish confirmation modal', () => {
-          expect(getUnpublishConfirmationModal().props('show')).toBe(false)
+        BddTest().then('it should close the unpublish confirmation modal', () => {
+          expect(getUnpublishConfirmationModal().props('opened')).toBe(false)
         })
       })
     })
@@ -285,8 +285,8 @@ BddTest().given('a ActivitiesTab component', () => {
         getMoreActionsDropdowns()[0].vm.$emit('deleteSelected')
       })
 
-      BddTest().then('it should show the delete confirmation modal', () => {
-        expect(getDeleteConfirmationModal().props('show')).toBe(true)
+      BddTest().then('it should open the delete confirmation modal', () => {
+        expect(getDeleteConfirmationModal().props('opened')).toBe(true)
       })
 
       BddTest().then('it should pass the correct activityId to the modal', () => {
@@ -302,8 +302,8 @@ BddTest().given('a ActivitiesTab component', () => {
           expect(wrapper.emitted('deleted')).toHaveLength(1)
         })
 
-        BddTest().then('it should hide the delete confirmation modal', () => {
-          expect(getDeleteConfirmationModal().props('show')).toBe(false)
+        BddTest().then('it should close the delete confirmation modal', () => {
+          expect(getDeleteConfirmationModal().props('opened')).toBe(false)
         })
       })
 
@@ -316,8 +316,8 @@ BddTest().given('a ActivitiesTab component', () => {
           expect(wrapper.emitted('deleted')).toBeUndefined()
         })
 
-        BddTest().then('it should hide the delete confirmation modal', () => {
-          expect(getDeleteConfirmationModal().props('show')).toBe(false)
+        BddTest().then('it should close the delete confirmation modal', () => {
+          expect(getDeleteConfirmationModal().props('opened')).toBe(false)
         })
       })
     })

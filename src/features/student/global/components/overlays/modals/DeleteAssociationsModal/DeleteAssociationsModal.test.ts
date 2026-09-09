@@ -14,7 +14,7 @@ BddTest().given('a DeleteAssociationsModal component', () => {
 
   BddTest().when('the component is mounted with props and a slot', () => {
     const props: DeleteAssociationsModalProps = {
-      show: true,
+      opened: true,
       associations: [
         { id: '1', title: 'Association 1' },
         { id: '2', title: 'Association 2' }

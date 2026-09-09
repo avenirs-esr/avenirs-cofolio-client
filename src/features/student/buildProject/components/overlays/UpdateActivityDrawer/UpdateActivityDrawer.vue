@@ -41,7 +41,7 @@ const { form, isFormValid, isSubmitting } = useUpdateActivityForm(
 
 const isActivityPeriodDefined = computed(() => !!declaredActivity.activity.startDate || !!declaredActivity.activity.endDate)
 
-const { modalOpened: confirmationModalOpened, openModal: displayConfirmationModal, closeModal: hideConfirmationModal } = useModal()
+const { modalOpened: confirmationModalOpened, openModal: openConfirmationModal, closeModal: closeConfirmationModal } = useModal()
 
 const isDirty = computed(() => {
   const state = form.useStore(state => state)
@@ -54,8 +54,8 @@ const {
   cancel
 } = useUnsavedChangesGuard({
   isDirty,
-  openModal: displayConfirmationModal,
-  closeModal: hideConfirmationModal
+  openModal: openConfirmationModal,
+  closeModal: closeConfirmationModal
 })
 
 async function handleCancel () {

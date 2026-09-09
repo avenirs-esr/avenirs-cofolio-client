@@ -42,7 +42,7 @@ BddTest().given('an EmptyState component', () => {
     })
 
     BddTest().then('it should apply the b1-regular typography class', () => {
-      expect(wrapper.findComponent(AvIconTextStub).attributes('typography-class')).toBe('b1-regular')
+      expect(wrapper.findComponent(AvIconTextStub).props('typographyClass')).toBe('b1-regular')
     })
   })
 

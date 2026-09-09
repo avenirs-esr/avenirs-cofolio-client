@@ -31,7 +31,7 @@ BddTest().given('an unsubscribe activities modal', () => {
 
   BddTest().and('no activities to delete are provided', () => {
     const props: UnsubscribeActivitiesModalProps = {
-      show: true,
+      opened: true,
       totalCount: 0
     }
 
@@ -56,7 +56,7 @@ BddTest().given('an unsubscribe activities modal', () => {
 
   BddTest().and('many activities to delete are provided', () => {
     const props: UnsubscribeActivitiesModalProps = {
-      show: true,
+      opened: true,
       totalCount: 10
     }
 
@@ -91,7 +91,7 @@ BddTest().given('an unsubscribe activities modal', () => {
             const modal = wrapper.findComponent(AvModalStub)
             await modal.vm.$emit('close')
 
-            await wrapper.setProps({ show: true })
+            await wrapper.setProps({ opened: true })
           })
 
           BddTest().then('the selectedActivityIds should be reset', () => {
@@ -106,9 +106,9 @@ BddTest().given('an unsubscribe activities modal', () => {
             modal.vm.$emit('confirm')
           })
 
-          BddTest().then('the confirm unsubscribe modal should be shown', () => {
+          BddTest().then('the confirm unsubscribe modal should be opened', () => {
             const confirmModal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
-            expect(confirmModal.props('show')).toBe(true)
+            expect(confirmModal.props('opened')).toBe(true)
           })
 
           BddTest().and('the confirm unsubscribe modal emits unsubscribed event', () => {
@@ -121,10 +121,10 @@ BddTest().given('an unsubscribe activities modal', () => {
               await vi.waitFor(() => expect(wrapper.emitted()).toHaveProperty('unsubscribed'))
             })
 
-            BddTest().then('the confirm unsubscribe modal should be hidden', async () => {
+            BddTest().then('the confirm unsubscribe modal should be closed', async () => {
               await vi.waitFor(() => {
                 const confirmModal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
-                expect(confirmModal.props('show')).toBe(false)
+                expect(confirmModal.props('opened')).toBe(false)
               })
             })
           })

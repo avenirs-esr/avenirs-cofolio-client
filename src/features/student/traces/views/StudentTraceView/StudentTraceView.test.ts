@@ -128,10 +128,10 @@ BddTest().given('a student trace view', () => {
     })
 
     BddTest().then('it should render the TraceDeletionConfirmationModal initially hidden with correct props', async () => {
-      const modal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
+      const modal = wrapper.findComponent(TraceDeletionConfirmationModalStub)
 
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('traceIds')).toEqual([mockedTraceDetailed.id])
       expect(modal.props('title')).toBe(mockedTraceDetailed.title)
     })
@@ -164,7 +164,7 @@ BddTest().given('a student trace view', () => {
     BddTest().then('it should render the AssociateDeclaredSkillsToTracesModal initially hidden', async () => {
       const modal = wrapper.findComponent(AssociateDeclaredSkillsToTracesModalStub)
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
     })
   })
 
@@ -202,7 +202,7 @@ BddTest().given('a student trace view', () => {
       await flushPromises()
 
       const modal = wrapper.findComponent(AssociateDeclaredSkillsToTracesModalStub)
-      expect(modal.props('show')).toBe(true)
+      expect(modal.props('opened')).toBe(true)
     })
   })
 
@@ -214,10 +214,10 @@ BddTest().given('a student trace view', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should show the deletion confirmation modal with trace ids', async () => {
+    BddTest().then('it should open the deletion confirmation modal with trace ids', async () => {
       const modal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })
 
-      expect(modal.props('show')).toBe(true)
+      expect(modal.props('opened')).toBe(true)
       expect(modal.props('title')).toBe(mockedTraceDetailed.title)
       expect(modal.props('traceIds')).toEqual([mockedTraceDetailed.id])
     })

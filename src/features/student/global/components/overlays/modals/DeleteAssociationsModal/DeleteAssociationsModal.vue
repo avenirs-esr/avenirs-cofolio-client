@@ -22,7 +22,8 @@ const emit = defineEmits<{
 
 defineSlots<{
   /**
-   * You should pass a custom SelectorOverlay and use its `v-model:selected-elements` to bind the selectedAssociationIds.
+   * You should pass a custom SelectorOverlay and use its `v-model:selected-elements`
+   * to bind the selectedAssociationIds.
    */
   default: Slot
 }>()

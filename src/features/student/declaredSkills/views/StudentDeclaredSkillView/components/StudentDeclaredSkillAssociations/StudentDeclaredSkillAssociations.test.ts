@@ -139,24 +139,24 @@ BddTest().given('a student declared skill associations component', () => {
       ])
     })
 
-    BddTest().then('it should render the associate activities modal hidden by default', () => {
+    BddTest().then('it should render the associate activities modal closed by default', () => {
       const modal = wrapper.findComponent(AssociateActivitiesToDeclaredSkillModalStub)
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('declaredSkillId')).toBe(declaredSkillId)
     })
 
-    BddTest().then('it should render the associate declared experiences modal hidden by default', () => {
+    BddTest().then('it should render the associate declared experiences modal closed by default', () => {
       const modal = wrapper.findComponent(AssociateDeclaredExperiencesToDeclaredSkillModalStub)
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('declaredSkillId')).toBe(declaredSkillId)
     })
 
-    BddTest().then('it should render the associate traces modal hidden by default', () => {
+    BddTest().then('it should render the associate traces modal closed by default', () => {
       const modal = wrapper.findComponent(AssociateTracesToDeclaredSkillModalStub)
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('declaredSkillId')).toBe(declaredSkillId)
     })
 
@@ -166,9 +166,9 @@ BddTest().given('a student declared skill associations component', () => {
         dropdown.vm.$emit('select', EAssociationContextType.DECLARED_ACTIVITY)
       })
 
-      BddTest().then('the associate activities modal should be shown', () => {
+      BddTest().then('the associate activities modal should be opened', () => {
         const modal = wrapper.findComponent(AssociateActivitiesToDeclaredSkillModalStub)
-        expect(modal.props('show')).toBe(true)
+        expect(modal.props('opened')).toBe(true)
       })
     })
 
@@ -181,9 +181,9 @@ BddTest().given('a student declared skill associations component', () => {
         modal.vm.$emit('cancel')
       })
 
-      BddTest().then('the associate activities modal should be hidden', () => {
+      BddTest().then('the associate activities modal should be closed', () => {
         const modal = wrapper.findComponent(AssociateActivitiesToDeclaredSkillModalStub)
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
     })
 
@@ -196,9 +196,9 @@ BddTest().given('a student declared skill associations component', () => {
         modal.vm.$emit('associated')
       })
 
-      BddTest().then('the associate activities modal should be hidden', () => {
+      BddTest().then('the associate activities modal should be closed', () => {
         const modal = wrapper.findComponent(AssociateActivitiesToDeclaredSkillModalStub)
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
 
       BddTest().then('it should emit associated', () => {
@@ -213,14 +213,14 @@ BddTest().given('a student declared skill associations component', () => {
         dropdown.vm.$emit('select', EAssociationContextType.DECLARED_EXPERIENCE)
       })
 
-      BddTest().then('the associate declared experiences modal should be shown', () => {
+      BddTest().then('the associate declared experiences modal should be opened', () => {
         const modal = wrapper.findComponent(AssociateDeclaredExperiencesToDeclaredSkillModalStub)
-        expect(modal.props('show')).toBe(true)
+        expect(modal.props('opened')).toBe(true)
       })
 
-      BddTest().then('the associate activities modal should remain hidden', () => {
+      BddTest().then('the associate activities modal should remain closed', () => {
         const modal = wrapper.findComponent(AssociateActivitiesToDeclaredSkillModalStub)
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
 
       BddTest().and('the associate declared experiences modal emits cancel', () => {
@@ -229,9 +229,9 @@ BddTest().given('a student declared skill associations component', () => {
           modal.vm.$emit('cancel')
         })
 
-        BddTest().then('the associate declared experiences modal should be hidden', () => {
+        BddTest().then('the associate declared experiences modal should be closed', () => {
           const modal = wrapper.findComponent(AssociateDeclaredExperiencesToDeclaredSkillModalStub)
-          expect(modal.props('show')).toBe(false)
+          expect(modal.props('opened')).toBe(false)
         })
       })
 
@@ -241,9 +241,9 @@ BddTest().given('a student declared skill associations component', () => {
           modal.vm.$emit('associated')
         })
 
-        BddTest().then('the associate declared experiences modal should be hidden', () => {
+        BddTest().then('the associate declared experiences modal should be closed', () => {
           const modal = wrapper.findComponent(AssociateDeclaredExperiencesToDeclaredSkillModalStub)
-          expect(modal.props('show')).toBe(false)
+          expect(modal.props('opened')).toBe(false)
         })
 
         BddTest().then('it should emit associated', () => {
@@ -259,19 +259,19 @@ BddTest().given('a student declared skill associations component', () => {
         dropdown.vm.$emit('select', EAssociationContextType.TRACE)
       })
 
-      BddTest().then('the associate traces modal should be shown', () => {
+      BddTest().then('the associate traces modal should be opened', () => {
         const modal = wrapper.findComponent(AssociateTracesToDeclaredSkillModalStub)
-        expect(modal.props('show')).toBe(true)
+        expect(modal.props('opened')).toBe(true)
       })
 
-      BddTest().then('the associate activities modal should remain hidden', () => {
+      BddTest().then('the associate activities modal should remain closed', () => {
         const modal = wrapper.findComponent(AssociateActivitiesToDeclaredSkillModalStub)
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
 
-      BddTest().then('the associate declared experiences modal should remain hidden', () => {
+      BddTest().then('the associate declared experiences modal should remain closed', () => {
         const modal = wrapper.findComponent(AssociateDeclaredExperiencesToDeclaredSkillModalStub)
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
 
       BddTest().and('the associate traces modal emits cancel', () => {
@@ -280,9 +280,9 @@ BddTest().given('a student declared skill associations component', () => {
           modal.vm.$emit('cancel')
         })
 
-        BddTest().then('the associate traces modal should be hidden', () => {
+        BddTest().then('the associate traces modal should be closed', () => {
           const modal = wrapper.findComponent(AssociateTracesToDeclaredSkillModalStub)
-          expect(modal.props('show')).toBe(false)
+          expect(modal.props('opened')).toBe(false)
         })
       })
 
@@ -292,9 +292,9 @@ BddTest().given('a student declared skill associations component', () => {
           modal.vm.$emit('associated')
         })
 
-        BddTest().then('the associate traces modal should be hidden', () => {
+        BddTest().then('the associate traces modal should be closed', () => {
           const modal = wrapper.findComponent(AssociateTracesToDeclaredSkillModalStub)
-          expect(modal.props('show')).toBe(false)
+          expect(modal.props('opened')).toBe(false)
         })
 
         BddTest().then('it should emit associated', () => {
@@ -336,18 +336,18 @@ BddTest().given('a student declared skill associations component', () => {
       ])
     })
 
-    BddTest().then('it should render the delete activities modal hidden by default', () => {
+    BddTest().then('it should render the delete activities modal closed by default', () => {
       const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedActivitiesModalStub)
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('declaredSkillProgressId')).toBe(declaredSkillId)
       expect(modal.props('associations')).toEqual(associatedDeclaredActivities)
     })
 
-    BddTest().then('it should render the delete traces modal hidden by default', () => {
+    BddTest().then('it should render the delete traces modal closed by default', () => {
       const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedTracesModalStub)
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(false)
+      expect(modal.props('opened')).toBe(false)
       expect(modal.props('declaredSkillProgressId')).toBe(declaredSkillId)
       expect(modal.props('associations')).toEqual(mockedAssociatedTraces)
     })
@@ -358,14 +358,14 @@ BddTest().given('a student declared skill associations component', () => {
         dropdown.vm.$emit('select', EAssociationContextType.DECLARED_ACTIVITY)
       })
 
-      BddTest().then('the delete activities modal should be shown', () => {
+      BddTest().then('the delete activities modal should be opened', () => {
         const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedActivitiesModalStub)
-        expect(modal.props('show')).toBe(true)
+        expect(modal.props('opened')).toBe(true)
       })
 
-      BddTest().then('the delete traces modal should not be shown', () => {
+      BddTest().then('the delete traces modal should not be opened', () => {
         const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedTracesModalStub)
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
     })
 
@@ -378,9 +378,9 @@ BddTest().given('a student declared skill associations component', () => {
         modal.vm.$emit('cancel')
       })
 
-      BddTest().then('the delete activities modal should be hidden', () => {
+      BddTest().then('the delete activities modal should be closed', () => {
         const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedActivitiesModalStub)
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
     })
 
@@ -393,9 +393,9 @@ BddTest().given('a student declared skill associations component', () => {
         modal.vm.$emit('deleted')
       })
 
-      BddTest().then('the delete activities modal should be hidden', () => {
+      BddTest().then('the delete activities modal should be closed', () => {
         const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedActivitiesModalStub)
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
     })
 
@@ -405,14 +405,14 @@ BddTest().given('a student declared skill associations component', () => {
         dropdown.vm.$emit('select', EAssociationContextType.TRACE)
       })
 
-      BddTest().then('the delete traces modal should be shown', () => {
+      BddTest().then('the delete traces modal should be opened', () => {
         const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedTracesModalStub)
-        expect(modal.props('show')).toBe(true)
+        expect(modal.props('opened')).toBe(true)
       })
 
-      BddTest().then('the delete activities modal should not be shown', () => {
+      BddTest().then('the delete activities modal should not be opened', () => {
         const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedActivitiesModalStub)
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
     })
 
@@ -425,9 +425,9 @@ BddTest().given('a student declared skill associations component', () => {
         modal.vm.$emit('cancel')
       })
 
-      BddTest().then('the delete traces modal should be hidden', () => {
+      BddTest().then('the delete traces modal should be closed', () => {
         const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedTracesModalStub)
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
     })
 
@@ -440,9 +440,9 @@ BddTest().given('a student declared skill associations component', () => {
         modal.vm.$emit('deleted')
       })
 
-      BddTest().then('the delete traces modal should be hidden', () => {
+      BddTest().then('the delete traces modal should be closed', () => {
         const modal = wrapper.findComponent(DeleteDeclaredSkillAssociatedTracesModalStub)
-        expect(modal.props('show')).toBe(false)
+        expect(modal.props('opened')).toBe(false)
       })
     })
   })

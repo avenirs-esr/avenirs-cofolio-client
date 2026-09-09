@@ -12,6 +12,10 @@ BddTest().given('a user profile dropdown', () => {
     ConfirmationModal: ConfirmationModalStub,
   }
 
+  function getDropdown () {
+    return wrapper.findComponent(AvDropdownStub)
+  }
+
   beforeEach(() => {
     wrapper = mount(UserProfileDropdown, {
       props: {
@@ -27,11 +31,11 @@ BddTest().given('a user profile dropdown', () => {
 
   BddTest().when('the dropdown is rendered', () => {
     BddTest().then('it should pass the username as dropdown trigger label', () => {
-      expect(wrapper.findComponent({ name: 'AvDropdown' }).props('triggerLabel')).toBe('J. Moulin')
+      expect(getDropdown().props('triggerLabel')).toBe('J. Moulin')
     })
 
     BddTest().then('it should pass provided actions and logout action to the dropdown', () => {
-      const items = wrapper.findComponent({ name: 'AvDropdown' }).props('items') as Array<{ name: string, label: string }>
+      const items = getDropdown().props('items') as Array<{ name: string, label: string }>
 
       expect(items).toEqual([
         expect.objectContaining({ name: 'manage-profile', label: 'Gérer mon profil' }),
@@ -43,27 +47,17 @@ BddTest().given('a user profile dropdown', () => {
 
   BddTest().when('a profile action is selected', () => {
     BddTest().then('it should emit the selected action name', async () => {
-      await wrapper
-        .findComponent({ name: 'AvDropdown' })
-        .vm
-        .$emit('itemSelected', 'manage-profile')
+      await getDropdown().vm.$emit('itemSelected', 'manage-profile')
 
-      expect(wrapper.emitted('actionSelected')).toEqual([
-        ['manage-profile'],
-      ])
+      expect(wrapper.emitted('actionSelected')).toEqual([['manage-profile']])
     })
   })
 
   BddTest().when('the logout item is selected', () => {
     BddTest().then('it should display the confirmation modal', async () => {
-      await wrapper
-        .findComponent({ name: 'AvDropdown' })
-        .vm
-        .$emit('itemSelected', 'logout-button')
+      await getDropdown().vm.$emit('itemSelected', 'logout-button')
 
-      expect(
-        wrapper.findComponent({ name: 'ConfirmationModal' }).props('show'),
-      ).toBe(true)
+      expect(wrapper.findComponent(ConfirmationModalStub).props('opened')).toBe(true)
 
       expect(wrapper.emitted('actionSelected')).toBeUndefined()
     })

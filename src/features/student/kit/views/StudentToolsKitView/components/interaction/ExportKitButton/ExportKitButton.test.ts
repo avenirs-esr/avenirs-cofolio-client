@@ -4,18 +4,18 @@ import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const mockShowModal = ref(false)
-const mockDisplayModal = vi.fn()
-const mockHideModal = vi.fn()
+const mockModalOpened = ref(false)
+const mockOpenModal = vi.fn()
+const mockCloseModal = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
   return {
     ...actual,
     useModal: () => ({
-      showModal: mockShowModal,
-      displayModal: mockDisplayModal,
-      hideModal: mockHideModal
+      modalOpened: mockModalOpened,
+      openModal: mockOpenModal,
+      closeModal: mockCloseModal
     })
   }
 })
@@ -45,8 +45,8 @@ BddTest().given('an ExportKitButton component', () => {
         wrapper.findComponent(AvButtonStub).trigger('click')
       })
 
-      BddTest().then('it should call displayModal', () => {
-        expect(mockDisplayModal).toHaveBeenCalled()
+      BddTest().then('it should call openModal', () => {
+        expect(mockOpenModal).toHaveBeenCalled()
       })
     })
 
@@ -55,8 +55,8 @@ BddTest().given('an ExportKitButton component', () => {
         wrapper.findComponent(ExportKitModalStub).vm.$emit('close')
       })
 
-      BddTest().then('it should call hideModal', () => {
-        expect(mockHideModal).toHaveBeenCalled()
+      BddTest().then('it should call closeModal', () => {
+        expect(mockCloseModal).toHaveBeenCalled()
       })
     })
   })

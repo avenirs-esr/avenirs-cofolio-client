@@ -43,8 +43,8 @@ BddTest().given('the useAssociationModal composable', () => {
       expect(composable.selectedAssociations.value).toEqual([])
     })
 
-    BddTest().then('it should have hidden confirm modal', () => {
-      expect(composable.showConfirmModal.value).toBe(false)
+    BddTest().then('it should have closed confirm modal', () => {
+      expect(composable.confirmModalOpened.value).toBe(false)
     })
   })
 
@@ -121,22 +121,22 @@ BddTest().given('the useAssociationModal composable', () => {
     })
   })
 
-  BddTest().when('displayConfirmModal is called', () => {
+  BddTest().when('openConfirmModal is called', () => {
     beforeEach(() => {
-      composable.displayConfirmModal()
+      composable.openConfirmModal()
     })
 
-    BddTest().then('it should show the confirm modal', () => {
-      expect(composable.showConfirmModal.value).toBe(true)
+    BddTest().then('it should open the confirm modal', () => {
+      expect(composable.confirmModalOpened.value).toBe(true)
     })
 
-    BddTest().and('hideConfirmModal is called', () => {
+    BddTest().and('closeConfirmModal is called', () => {
       beforeEach(() => {
-        composable.hideConfirmModal()
+        composable.closeConfirmModal()
       })
 
-      BddTest().then('it should hide the confirm modal', () => {
-        expect(composable.showConfirmModal.value).toBe(false)
+      BddTest().then('it should close the confirm modal', () => {
+        expect(composable.confirmModalOpened.value).toBe(false)
       })
     })
   })

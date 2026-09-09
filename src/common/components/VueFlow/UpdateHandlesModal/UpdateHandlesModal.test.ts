@@ -42,7 +42,7 @@ BddTest().given('an update handles modal', () => {
 
   BddTest().when('the component is mounted with top position', () => {
     const props: UpdateHandlesModalProps = {
-      show: true,
+      opened: true,
       id: 'node-1',
       data: {
         top: true,
@@ -59,7 +59,7 @@ BddTest().given('an update handles modal', () => {
     BddTest().then('it should render the modal', () => {
       const modal = wrapper.findComponent(ConfirmationModalStub)
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(true)
+      expect(modal.props('opened')).toBe(true)
     })
 
     BddTest().then('it should render 4 handle selectors', () => {

@@ -25,7 +25,7 @@ interface UpdateTraceFormProps {
 const { trace, form: injectedForm } = defineProps<UpdateTraceFormProps>()
 
 const { addSuccessMessage } = useToasterStore()
-const { hideUpdateTraceModal } = useTracesStore()
+const { closeUpdateTraceModal } = useTracesStore()
 
 const { t } = useI18n()
 
@@ -34,7 +34,7 @@ function onTraceUpdated () {
     timeout: 2000,
     description: t('student.traces.views.StudentUpdateTraceView.success')
   })
-  hideUpdateTraceModal()
+  closeUpdateTraceModal()
 }
 
 const form = injectedForm ?? useUpdateTraceForm(trace, onTraceUpdated).form

@@ -2,5 +2,5 @@ export const AddSelfKnowledgeCategoriesModalStub = defineComponent({
   name: 'AddSelfKnowledgeCategoriesModal',
   props: { opened: Boolean },
   emits: ['cancel', 'confirm'],
-  template: '<div v-if="show" data-testid="add-self-knowledge-categories-modal" />'
+  template: '<div v-if="opened" data-testid="add-self-knowledge-categories-modal" />'
 })

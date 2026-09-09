@@ -62,6 +62,8 @@ BddTest().given('an add declared skill drawer component', () => {
   const getSaveButton = () => getCancelConfirmButtons()?.find('.confirm')
   const getCancelButton = () => getCancelConfirmButtons()?.find('.cancel')
   const getAssociateElementsSection = () => wrapper.findComponent(AssociateElementsDrawerSectionStub)
+  const getConfirmationModal = () => wrapper.findComponent(ConfirmationModalStub)
+  const getAvDrawer = () => wrapper.findComponent(AvDrawerStub)
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -79,7 +81,7 @@ BddTest().given('an add declared skill drawer component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the drawer with correct props', () => {
-      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+      const drawer = getAvDrawer()
 
       expect(drawer.exists()).toBe(true)
       expect(drawer.props('show')).toBe(true)
@@ -139,7 +141,7 @@ BddTest().given('an add declared skill drawer component', () => {
       store.hideCreateDeclaredSkillDrawer()
       await wrapper.vm.$nextTick()
 
-      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+      const drawer = getAvDrawer()
       expect(drawer.props('show')).toBe(false)
     })
   })
@@ -147,7 +149,7 @@ BddTest().given('an add declared skill drawer component', () => {
   BddTest().when('escape is pressed on drawer', () => {
     BddTest().and('canLeave is true', () => {
       beforeEach(async () => {
-        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+        const drawer = getAvDrawer()
         await drawer.vm.$emit('escape-pressed')
         await wrapper.vm.$nextTick()
       })
@@ -161,7 +163,7 @@ BddTest().given('an add declared skill drawer component', () => {
     BddTest().and('canLeave is false', () => {
       beforeEach(async () => {
         mockCanLeave.mockResolvedValue(false)
-        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+        const drawer = getAvDrawer()
         await drawer.vm.$emit('escape-pressed')
         await wrapper.vm.$nextTick()
       })
@@ -202,7 +204,7 @@ BddTest().given('an add declared skill drawer component', () => {
 
       BddTest().and('confirming the modal', () => {
         beforeEach(async () => {
-          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          const confirmationModal = getConfirmationModal()
           await confirmationModal.vm.$emit('confirm')
           await wrapper.vm.$nextTick()
         })
@@ -214,7 +216,7 @@ BddTest().given('an add declared skill drawer component', () => {
 
       BddTest().and('closing the modal', () => {
         beforeEach(async () => {
-          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+          const confirmationModal = getConfirmationModal()
           await confirmationModal.vm.$emit('close')
           await wrapper.vm.$nextTick()
         })
@@ -228,10 +230,10 @@ BddTest().given('an add declared skill drawer component', () => {
 
   BddTest().when('the confirmation modal is displayed', () => {
     BddTest().then('it should be initially hidden', () => {
-      const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+      const confirmationModal = getConfirmationModal()
 
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('show')).toBe(false)
+      expect(confirmationModal.props('opened')).toBe(false)
     })
   })
 

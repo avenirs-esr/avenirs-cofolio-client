@@ -6,22 +6,11 @@ import { selfKnowledgeCategoriesErrorHandler } from '@/__mocks__/msw/handlers/st
 import { server } from '@/__mocks__/msw/server'
 import { UpdateProfileDrawerStub } from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import { ProfileCardStub } from '@/common/components/ProfileCard/ProfileCard.stub'
+import { SelfKnowledgeCategoryElementsPaginatorCardStub } from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.stub'
+import { AddSelfKnowledgeCategoriesModalStub } from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.stub'
 import SelfKnowledgeMainSection from '@/features/student/selfKnowledge/components/SelfKnowledgeMainSection/SelfKnowledgeMainSection.vue'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
-
-const AddSelfKnowledgeCategoriesModalStub = defineComponent({
-  name: 'AddSelfKnowledgeCategoriesModal',
-  props: { show: Boolean },
-  emits: ['cancel', 'confirm'],
-  template: '<div v-if="show" data-testid="add-self-knowledge-categories-modal" />'
-})
-
-const SelfKnowledgeCategoryElementsPaginatorCardStub = defineComponent({
-  name: 'SelfKnowledgeCategoryElementsPaginatorCard',
-  props: { category: Object },
-  template: '<div data-testid="category-paginator-card" />'
-})
 
 BddTest().given('a self knowledge section component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeMainSection>>
@@ -137,10 +126,10 @@ BddTest().given('a self knowledge section component', () => {
       expect(addButton?.props('icon')).toBe('mdi:plus-circle-outline')
     })
 
-    BddTest().then('it should render the add self knowledge categories modal in hidden state', () => {
+    BddTest().then('it should render the add self knowledge categories modal in closed state', () => {
       const addModal = wrapper.findComponent(AddSelfKnowledgeCategoriesModalStub)
       expect(addModal.exists()).toBe(true)
-      expect(addModal.props('show')).toBe(false)
+      expect(addModal.props('opened')).toBe(false)
     })
 
     BddTest().and('the add button is clicked', () => {
@@ -149,9 +138,9 @@ BddTest().given('a self knowledge section component', () => {
         await addButton?.trigger('click')
       })
 
-      BddTest().then('it should show the add self knowledge categories modal', () => {
+      BddTest().then('it should open the add self knowledge categories modal', () => {
         const addModal = wrapper.findComponent(AddSelfKnowledgeCategoriesModalStub)
-        expect(addModal.props('show')).toBe(true)
+        expect(addModal.props('opened')).toBe(true)
       })
 
       BddTest().and('the add self knowledge categories modal emits a cancel event', () => {
@@ -160,9 +149,9 @@ BddTest().given('a self knowledge section component', () => {
           addModal.vm.$emit('cancel')
         })
 
-        BddTest().then('it should hide the add self knowledge categories modal', () => {
+        BddTest().then('it should close the add self knowledge categories modal', () => {
           const addModal = wrapper.findComponent(AddSelfKnowledgeCategoriesModalStub)
-          expect(addModal.props('show')).toBe(false)
+          expect(addModal.props('opened')).toBe(false)
         })
       })
 
@@ -172,9 +161,9 @@ BddTest().given('a self knowledge section component', () => {
           addModal.vm.$emit('confirm')
         })
 
-        BddTest().then('it should hide the add self knowledge categories modal', () => {
+        BddTest().then('it should close the add self knowledge categories modal', () => {
           const addModal = wrapper.findComponent(AddSelfKnowledgeCategoriesModalStub)
-          expect(addModal.props('show')).toBe(false)
+          expect(addModal.props('opened')).toBe(false)
         })
       })
     })

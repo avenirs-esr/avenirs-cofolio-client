@@ -32,7 +32,7 @@ BddTest().given('a subscribe activity confirm modal', () => {
 
   BddTest().when('the component is mounted with a valid activity', () => {
     const props: SubscribeActivityConfirmModalProps = {
-      show: true,
+      opened: true,
       activity: { id: 'activity-id', title: 'Activity Title' }
     }
 
@@ -43,7 +43,7 @@ BddTest().given('a subscribe activity confirm modal', () => {
     BddTest().then('it should render the confirmation modal', () => {
       const modal = wrapper.findComponent(ConfirmationModalStub)
       expect(modal.exists()).toBe(true)
-      expect(modal.props('show')).toBe(true)
+      expect(modal.props('opened')).toBe(true)
     })
 
     BddTest().then('it should render the confirmation title with the activity name', () => {
@@ -93,7 +93,7 @@ BddTest().given('a subscribe activity confirm modal', () => {
 
   BddTest().when('the component is mounted with an invalid activity', () => {
     const props: SubscribeActivityConfirmModalProps = {
-      show: true,
+      opened: true,
       activity: { id: 'INVALID_ACTIVITY_ID', title: 'Activity Title' }
     }
 

@@ -27,16 +27,16 @@ BddTest().given('an UnpublishActivityConfirmationModal component', () => {
     vi.clearAllMocks()
   })
 
-  BddTest().when('mounted with show=true and a valid activityId', () => {
+  BddTest().when('mounted with opened=true and a valid activityId', () => {
     beforeEach(() => {
       wrapper = mountComponent(UnpublishActivityConfirmationModal, {
-        props: { show: true, activityId: 'activity-id-123' },
+        props: { opened: true, activityId: 'activity-id-123' },
         global: { stubs: { ConfirmationModal: ConfirmationModalStub } },
       })
     })
 
-    BddTest().then('it should pass show=true to ConfirmationModal', () => {
-      expect(wrapper.findComponent(ConfirmationModalStub).props('show')).toBe(true)
+    BddTest().then('it should pass opened=true to ConfirmationModal', () => {
+      expect(wrapper.findComponent(ConfirmationModalStub).props('opened')).toBe(true)
     })
 
     BddTest().then('it should pass the correct title', () => {
@@ -58,23 +58,23 @@ BddTest().given('an UnpublishActivityConfirmationModal component', () => {
     })
   })
 
-  BddTest().when('mounted with show=false', () => {
+  BddTest().when('mounted with opened=false', () => {
     beforeEach(() => {
       wrapper = mountComponent(UnpublishActivityConfirmationModal, {
-        props: { show: false, activityId: 'activity-id-123' },
+        props: { opened: false, activityId: 'activity-id-123' },
         global: { stubs: { ConfirmationModal: ConfirmationModalStub } },
       })
     })
 
-    BddTest().then('it should pass show=false to ConfirmationModal', () => {
-      expect(wrapper.findComponent(ConfirmationModalStub).props('show')).toBe(false)
+    BddTest().then('it should pass opened=false to ConfirmationModal', () => {
+      expect(wrapper.findComponent(ConfirmationModalStub).props('opened')).toBe(false)
     })
   })
 
   BddTest().when('confirm is triggered with a valid activityId and the API succeeds', () => {
     beforeEach(async () => {
       wrapper = mountComponent(UnpublishActivityConfirmationModal, {
-        props: { show: true, activityId: 'activity-id-123' },
+        props: { opened: true, activityId: 'activity-id-123' },
         global: { stubs: { ConfirmationModal: ConfirmationModalStub } },
       })
       wrapper.findComponent(ConfirmationModalStub).vm.$emit('confirm')
@@ -97,7 +97,7 @@ BddTest().given('an UnpublishActivityConfirmationModal component', () => {
   BddTest().when('confirm is triggered with INVALID_ACTIVITY_ID and the API returns an error', () => {
     beforeEach(async () => {
       wrapper = mountComponent(UnpublishActivityConfirmationModal, {
-        props: { show: true, activityId: 'INVALID_ACTIVITY_ID' },
+        props: { opened: true, activityId: 'INVALID_ACTIVITY_ID' },
         global: { stubs: { ConfirmationModal: ConfirmationModalStub } },
       })
       wrapper.findComponent(ConfirmationModalStub).vm.$emit('confirm')

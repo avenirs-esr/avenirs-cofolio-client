@@ -36,7 +36,7 @@ const stubs = {
 }
 
 BddTest().given('a universe switcher', () => {
-  let wrapper: VueWrapper
+  let wrapper: VueWrapper<InstanceType<typeof SwitchUniverse>>
 
   const getStaffButton = () => wrapper.find('[data-testid="staff-button"]')
   const getStudentButton = () => wrapper.find('[data-testid="student-button"]')
@@ -49,7 +49,7 @@ BddTest().given('a universe switcher', () => {
         path: '/student/home'
       } as RouteLocationNormalizedLoadedGeneric)
 
-      wrapper = await mountWithRouter(SwitchUniverse, {
+      wrapper = await mountWithRouter<typeof SwitchUniverse>(SwitchUniverse, {
         global: {
           stubs
         }
@@ -108,7 +108,7 @@ BddTest().given('a universe switcher', () => {
         path: '/staff/home'
       } as RouteLocationNormalizedLoadedGeneric)
 
-      wrapper = await mountWithRouter(SwitchUniverse, {
+      wrapper = await mountWithRouter<typeof SwitchUniverse>(SwitchUniverse, {
         global: {
           stubs
         }

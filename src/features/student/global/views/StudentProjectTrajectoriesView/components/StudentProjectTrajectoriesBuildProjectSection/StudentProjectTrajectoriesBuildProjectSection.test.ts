@@ -1,4 +1,5 @@
 import StudentProjectTrajectoriesBuildProjectSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesBuildProjectSection/StudentProjectTrajectoriesBuildProjectSection.vue'
+import { StudentProjectTrajectoriesHelperModalStub } from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesHelperModal/StudentProjectTrajectoriesHelperModal.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -13,11 +14,7 @@ BddTest().given('a build project section component', () => {
 
   const stubs = {
     MindMap: MindMapStub,
-    StudentProjectTrajectoriesHelperModal: {
-      name: 'StudentProjectTrajectoriesHelperModal',
-      props: ['modalOpened', 'onClose', 'trace'],
-      template: '<div v-if="modalOpened" data-testid="student-project-trajectories-helper-modal">StudentProjectTrajectoriesHelperModal</div>',
-    },
+    StudentProjectTrajectoriesHelperModal: StudentProjectTrajectoriesHelperModalStub,
   }
 
   beforeEach(() => {
@@ -58,13 +55,13 @@ BddTest().given('a build project section component', () => {
     })
 
     BddTest().then('the helper modal should be visible', () => {
-      expect(wrapper.find('[data-testid="student-project-trajectories-helper-modal"]').exists()).toBe(true)
+      expect(wrapper.findComponent(StudentProjectTrajectoriesHelperModalStub).props('opened')).toBe(true)
     })
 
     BddTest().then('clicking on modal close button should hide the modal', async () => {
-      await wrapper.findComponent({ name: 'StudentProjectTrajectoriesHelperModal' }).vm.onClose()
+      await wrapper.findComponent(StudentProjectTrajectoriesHelperModalStub).vm.onClose()
       await wrapper.vm.$nextTick()
-      expect(wrapper.find('[data-testid="student-project-trajectories-helper-modal"]').exists()).toBe(false)
+      expect(wrapper.findComponent(StudentProjectTrajectoriesHelperModalStub).props('opened')).toBe(false)
     })
   })
 })

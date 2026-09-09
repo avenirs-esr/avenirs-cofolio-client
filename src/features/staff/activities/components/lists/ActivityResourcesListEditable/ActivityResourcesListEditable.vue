@@ -34,14 +34,14 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const {
-  modalOpened: showAddResourceModal,
-  openModal: displayAddResourceModal,
-  closeModal: hideAddResourceModal
+  modalOpened: addResourceModalOpened,
+  openModal: openAddResourceModal,
+  closeModal: closeAddResourceModal
 } = useModal()
 const {
-  modalOpened: showDeleteResourcesModal,
-  openModal: displayDeleteResourcesModal,
-  closeModal: hideDeleteResourcesModal
+  modalOpened: deleteResourcesModalOpened,
+  openModal: openDeleteResourcesModal,
+  closeModal: closeDeleteResourcesModal
 } = useModal()
 
 const localFiles = ref([...files])
@@ -87,13 +87,13 @@ function onResourceAdded (payload: AddActivityResourceFormData) {
     localLinks.value = [...localLinks.value, payload.link]
   }
   emit('add', payload)
-  hideAddResourceModal()
+  closeAddResourceModal()
 }
 
 function onResourcesDeleted () {
   emit('delete', filesToBeDeleted.value, linksToBeDeleted.value)
   resourceKeysDeleted.value = [...resourceKeysDeleted.value, ...resourceKeysToBeDeleted.value]
-  hideDeleteResourcesModal()
+  closeDeleteResourcesModal()
 }
 
 watch(() => isFormDirty, (dirty) => {
@@ -131,7 +131,7 @@ watch(() => isFormDirty, (dirty) => {
 
         <AddCard
           data-testid="activity-resources-list-add-card"
-          @click="displayAddResourceModal"
+          @click="openAddResourceModal"
         />
       </div>
 
@@ -144,24 +144,24 @@ watch(() => isFormDirty, (dirty) => {
           variant="OUTLINED"
           small
           data-testid="activity-resources-list-delete-button"
-          @click="displayDeleteResourcesModal"
+          @click="openDeleteResourcesModal"
         />
       </div>
     </div>
 
     <AddActivityResourceModal
-      :opened="showAddResourceModal"
-      @close="hideAddResourceModal"
+      :opened="addResourceModalOpened"
+      @close="closeAddResourceModal"
       @added="onResourceAdded"
     />
 
     <DeleteActivityResourcesConfirmationModal
-      :show="showDeleteResourcesModal"
+      :opened="deleteResourcesModalOpened"
       :activity-id="activityId"
       :files="filesToBeDeleted"
       :links="linksToBeDeleted"
       :is-updating="isUpdating"
-      @cancel="hideDeleteResourcesModal"
+      @cancel="closeDeleteResourcesModal"
       @confirm="onResourcesDeleted"
     />
   </div>
