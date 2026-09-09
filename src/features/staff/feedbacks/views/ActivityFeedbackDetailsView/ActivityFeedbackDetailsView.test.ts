@@ -1,4 +1,5 @@
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
+import { ActivityDetailsDrawerStub } from '@/common/activities/components/ActivityDetailsDrawer/ActivityDetailsDrawer.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants/route-names'
@@ -31,6 +32,7 @@ BddTest().given('an activity feedback details view', () => {
     PageTitle: PageTitleStub,
     QuerySuspense: QuerySuspenseStub,
     ActivityFeedbackStudentSelect: ActivityFeedbackStudentSelectStub,
+    ActivityDetailsDrawer: ActivityDetailsDrawerStub,
     FeedbackManagementFloatingPanel: FeedbackManagementFloatingPanelStub,
     StudentPerspectiveCard: StudentPerspectiveCardStub,
     AssociatedElementSummaryCard: AssociatedElementSummaryCardStub,
@@ -64,6 +66,36 @@ BddTest().given('an activity feedback details view', () => {
 
     BddTest().then('it should render the see activity button', () => {
       expect(wrapper.find('[data-testid="see-activity"]').exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the activity details drawer', () => {
+      expect(wrapper.findComponent(ActivityDetailsDrawerStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should not show the activity details drawer by default', () => {
+      expect(wrapper.findComponent(ActivityDetailsDrawerStub).props('show')).toBe(false)
+    })
+
+    BddTest().and('the see activity button is clicked', () => {
+      beforeEach(async () => {
+        await wrapper.find('[data-testid="see-activity"]').trigger('click')
+        await wrapper.vm.$nextTick()
+      })
+
+      BddTest().then('it should show the activity details drawer', () => {
+        expect(wrapper.findComponent(ActivityDetailsDrawerStub).props('show')).toBe(true)
+      })
+
+      BddTest().and('the drawer emits close', () => {
+        beforeEach(async () => {
+          await wrapper.findComponent(ActivityDetailsDrawerStub).vm.$emit('close')
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should hide the activity details drawer', () => {
+          expect(wrapper.findComponent(ActivityDetailsDrawerStub).props('show')).toBe(false)
+        })
+      })
     })
 
     BddTest().then('it should render query suspense wrappers', () => {
@@ -162,6 +194,10 @@ BddTest().given('an activity feedback details view', () => {
 
     BddTest().then('it should not render the write feedback floating panel', () => {
       expect(wrapper.findComponent(FeedbackManagementFloatingPanelStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the activity details drawer', () => {
+      expect(wrapper.findComponent(ActivityDetailsDrawerStub).exists()).toBe(false)
     })
   })
 })

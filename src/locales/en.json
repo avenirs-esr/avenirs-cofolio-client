@@ -34,6 +34,12 @@
         "ActivityCatalogPreviewCard": {
           "previewTitle": "Activity preview",
           "recommendedCompletionContexts": "Recommended completion context(s)"
+        },
+        "ActivityDetailsDrawer": {
+          "sections": {
+            "consign": "Consign",
+            "context": "Recommended completion context(s)"
+          }
         }
       },
       "contentSectionTypes": {
