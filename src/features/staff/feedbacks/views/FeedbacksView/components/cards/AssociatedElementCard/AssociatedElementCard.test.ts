@@ -60,10 +60,27 @@ BddTest().given('an AssociatedElementCard component', () => {
       expect(wrapper.findComponent(FeedbackTraceActionsStub).exists()).toBe(true)
     })
 
+    BddTest().then('it should render the show details button', () => {
+      expect(wrapper.find('[data-testid="associated-element-show-details"]').exists()).toBe(true)
+    })
+
     BddTest().then('it should emit showDetails with the associated trace', async () => {
       await wrapper.findComponent(AvButtonStub).trigger('click')
 
       expect(wrapper.emitted('showDetails')).toEqual([[mockedFeedbackTraceWithFile]])
+    })
+  })
+
+  BddTest().when('showDetailsButton prop is false', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(AssociatedElementCard, {
+        props: { feedbackAssociatedElement: mockedFeedbackTraceWithFile, showDetailsButton: false },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should not render the show details button', () => {
+      expect(wrapper.find('[data-testid="associated-element-show-details"]').exists()).toBe(false)
     })
   })
 

@@ -48,6 +48,19 @@
           "title": "My last traces"
         }
       },
+      "components": {
+        "StudentTraceDetails": {
+          "authorType": {
+            "COLLECTIVE": "Collective production",
+            "label": "This trace is from a production:",
+            "PERSONAL": "Personal production",
+            "THIRD_PARTY": "Third-party production"
+          },
+          "iaDescription": "This trace is from a production realized with Artificial Intelligence (AI):",
+          "iaToggleLabel": "AI production",
+          "linkLabel": "My trace link"
+        }
+      },
       "composites": {
         "TraceAssociations": {
           "caption": "The associations of my trace ({count})"
@@ -256,17 +269,7 @@
               "title": "No unassociated trace ({count})  | My unassociated trace ({count}) | My unassociated traces  ({count})"
             }
           },
-          "studentTraceDetails": {
-            "authorType": {
-              "COLLECTIVE": "Collective production",
-              "label": "This trace is from a production:",
-              "PERSONAL": "Personal production",
-              "THIRD_PARTY": "Third-party production"
-            },
-            "iaDescription": "This trace is from a production realized with Artificial Intelligence (AI):",
-            "iaToggleLabel": "AI production",
-            "linkLabel": "My trace link"
-          },
+
           "studentTraceFilters": {
             "resetButton": "Reset filters",
             "searchLabel": "Search for a trace"
