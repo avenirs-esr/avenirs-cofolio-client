@@ -6,7 +6,7 @@ import { EAssociationContextType } from '@/api/avenir-esr'
 import { AssociatedElementTypeBadgeStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/badges/AssociatedElementTypeBadge/AssociatedElementTypeBadge.stub'
 import AssociatedElementCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementCard/AssociatedElementCard.vue'
 import { FeedbackTraceActionsStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/FeedbackTraceActions/FeedbackTraceActions.stub'
-import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -25,6 +25,7 @@ const mockedFeedbackDeclaredSkill: FeedbackAssociatedElement = {
 }
 
 const stubs = {
+  AvButton: AvButtonStub,
   AvCard: AvCardStub,
   AssociatedElementTypeBadge: AssociatedElementTypeBadgeStub,
   FeedbackTraceActions: FeedbackTraceActionsStub,
@@ -57,6 +58,12 @@ BddTest().given('an AssociatedElementCard component', () => {
 
     BddTest().then('it should render FeedbackTraceActions', () => {
       expect(wrapper.findComponent(FeedbackTraceActionsStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should emit showDetails with the associated trace', async () => {
+      await wrapper.findComponent(AvButtonStub).trigger('click')
+
+      expect(wrapper.emitted('showDetails')).toEqual([[mockedFeedbackTraceWithFile]])
     })
   })
 

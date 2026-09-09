@@ -94,6 +94,10 @@
           "title": "All my feedback requests on the activity \"{activityTitle}\""
         },
         "FeedbacksView": {
+          "AssociatedElementDetailsDrawer": {
+            "drawerLabel": "Associated element details",
+            "traceTitle": "Trace details: {traceTitle}"
+          },
           "FeedbackActivityFilterSelect": {
             "defaultOption": "All",
             "label": "Filter by activity",

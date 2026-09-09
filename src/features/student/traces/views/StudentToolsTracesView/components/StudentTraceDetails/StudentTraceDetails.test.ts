@@ -80,6 +80,14 @@ BddTest().given('a student detailed trace information component', () => {
   })
 
   BddTest().when('the component is mounted with an attachment', () => {
+    BddTest().then('it should render the valorized badge by default', () => {
+      expect(wrapper.findComponent(ValorizedBadgeStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should use the responsive row layout by default', () => {
+      expect(wrapper.find('.av-row--md').exists()).toBe(true)
+    })
+
     BddTest().then('it should render the trace name input with correct props', () => {
       const traceNameInput = wrapper.findComponent({ name: 'TraceNameInput' })
 
@@ -217,6 +225,23 @@ BddTest().given('a student detailed trace information component', () => {
       const traceFileUpload = wrapper.findComponent({ name: 'TraceFileUpload' })
 
       expect(traceFileUpload.props('label')).toContain('15 janvier 2024 à 10:30')
+    })
+  })
+
+  BddTest().when('the valorized badge and row layout are disabled', () => {
+    beforeEach(async () => {
+      await wrapper.setProps({
+        hideValorizedBadge: true,
+        disableRowLayout: true,
+      })
+    })
+
+    BddTest().then('it should hide the valorized badge', () => {
+      expect(wrapper.findComponent(ValorizedBadgeStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should remove the responsive row layout', () => {
+      expect(wrapper.find('.av-row--md').exists()).toBe(false)
     })
   })
 

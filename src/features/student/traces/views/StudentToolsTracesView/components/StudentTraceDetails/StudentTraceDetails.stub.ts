@@ -1,6 +1,6 @@
 export const StudentTraceDetailsStub = {
   name: 'StudentTraceDetails',
-  props: ['trace'],
+  props: ['trace', 'hideValorizedBadge', 'disableRowLayout'],
   template: `
     <div data-testid="student-trace-details">
       {{ trace?.title }}
