@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import {
-  EActivityStatus,
   EUserCategory,
   useGetFeedbackDetails,
   useGetFeedbacksByActivity,
 } from '@/api/avenir-esr'
+import ActivityDetailsDrawer from '@/common/activities/components/ActivityDetailsDrawer/ActivityDetailsDrawer.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import { useModal } from '@/common/composables'
 import { ICONS, ROUTES } from '@/common/constants'
 import StudentPerspectiveCard from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.vue'
 import FeedbackManagementFloatingPanel
@@ -63,6 +64,8 @@ const studentPerspective = computed(() =>
 
 const isStudentTrackingRoute = computed(() => route.name === ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name)
 
+const { modalOpened: showActivityDetailsDrawer, openModal: displayActivityDetailsDrawer, closeModal: hideActivityDetailsDrawer } = useModal()
+
 const pageSubTitle = computed(() => `${t('global.activities.activity')} "${activityTitle.value}"`)
 
 const homeBreadcrumbLinks = computed(() => [
@@ -108,9 +111,9 @@ const breadcrumbLinks = computed(() => isStudentTrackingRoute.value
           <AvButton
             :label="t('staff.feedbacks.views.ActivityFeedbackDetailsView.seeActivity')"
             :icon="CUIDA_ICONS.VISIBILITY_ON_OUTLINE"
-            :to="{ name: ROUTES.STAFF.ACTIVITY_CATALOG.name, params: { status: EActivityStatus.PUBLISHED, id: activityId ?? '' } }"
             small
             data-testid="see-activity"
+            @click="displayActivityDetailsDrawer"
           />
         </div>
       </QuerySuspense>
@@ -145,6 +148,13 @@ const breadcrumbLinks = computed(() => isStudentTrackingRoute.value
     v-if="feedback"
     :feedback="feedback"
     :activity-title="activityTitle"
+  />
+
+  <ActivityDetailsDrawer
+    v-if="feedback"
+    :show="showActivityDetailsDrawer"
+    :activity="feedback.activity"
+    @close="hideActivityDetailsDrawer"
   />
 </template>
 

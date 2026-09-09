@@ -34,6 +34,12 @@
         "ActivityCatalogPreviewCard": {
           "previewTitle": "Extrait de l'activité",
           "recommendedCompletionContexts": "Contexte(s) de réalisation conseillé(s)"
+        },
+        "ActivityDetailsDrawer": {
+          "sections": {
+            "consign": "Consigne",
+            "context": "Contexte(s) de réalisation conseillé(s)"
+          }
         }
       },
       "contentSectionTypes": {
