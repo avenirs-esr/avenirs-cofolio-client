@@ -1,7 +1,7 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { expect, type Locator } from '@playwright/test'
 
-export class FeedbacksDashboardSection extends BaseObject {
+export class FeedbacksDashboardCards extends BaseObject {
   constructor (root: Locator) {
     super(root)
   }
@@ -10,8 +10,8 @@ export class FeedbacksDashboardSection extends BaseObject {
     return this.root.getByTestId('new-feedbacks-dashboard-card')
   }
 
-  getPendingFeedbacksCard () {
-    return this.root.getByTestId('pending-feedbacks-dashboard-card')
+  getUnprocessedFeedbacksCard () {
+    return this.root.getByTestId('unprocessed-feedbacks-dashboard-card')
   }
 
   getProcessedFeedbacksCard () {
@@ -26,8 +26,8 @@ export class FeedbacksDashboardSection extends BaseObject {
     await this.verifyDashboardCard(this.getNewFeedbacksCard())
   }
 
-  async verifyPendingFeedbacksCard () {
-    await this.verifyDashboardCard(this.getPendingFeedbacksCard())
+  async verifyUnprocessedFeedbacksCard () {
+    await this.verifyDashboardCard(this.getUnprocessedFeedbacksCard())
   }
 
   async verifyProcessedFeedbacksCard () {

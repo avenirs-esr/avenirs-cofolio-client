@@ -7,7 +7,7 @@ import type {
   CreationResponse,
   EFeedbackStatus,
   FileDTO,
-  PagedResponseActivityItemNavigationDTO,
+  PagedResponseActivityFeedbacksPreviewDTO,
   PagedResponseActivityStaffOverviewDTO
 } from '@/api/avenir-esr'
 import { getMockedActivitiesWithFeedbacksPaginated } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
@@ -348,7 +348,7 @@ export const staffsActivitiesHandlers = [
     }
 
     if (statusesParam.length === 1 && statusesParam[0] === 'UNDEFINED_FEEDBACK_STATUS') {
-      const mockEmptyData: PagedResponseActivityItemNavigationDTO = {
+      const mockEmptyData: PagedResponseActivityFeedbacksPreviewDTO = {
         data: [],
         page: {
           page: 0,
@@ -358,7 +358,7 @@ export const staffsActivitiesHandlers = [
         }
       }
 
-      return HttpResponse.json<PagedResponseActivityItemNavigationDTO>(mockEmptyData, {
+      return HttpResponse.json<PagedResponseActivityFeedbacksPreviewDTO>(mockEmptyData, {
         status: HttpStatusCode.OK,
         headers: { 'Content-Type': 'application/json' },
       })
@@ -374,7 +374,7 @@ export const staffsActivitiesHandlers = [
 
     const mockData = getMockedActivitiesWithFeedbacksPaginated({ statuses, page, pageSize })
 
-    return HttpResponse.json<PagedResponseActivityItemNavigationDTO>(mockData, {
+    return HttpResponse.json<PagedResponseActivityFeedbacksPreviewDTO>(mockData, {
       status: HttpStatusCode.OK,
       headers: { 'Content-Type': 'application/json' },
     })

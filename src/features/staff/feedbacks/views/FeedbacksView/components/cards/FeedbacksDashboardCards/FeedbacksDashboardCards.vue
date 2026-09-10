@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import type { ActivityItemNavigationDTO } from '@/api/avenir-esr'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import DashboardCard from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'
 import { MDI_ICONS, MS_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export interface FeedbacksFiltersCardsProps {
-  activity?: ActivityItemNavigationDTO
+export interface FeedbacksDashboardCardsProps {
+  title?: string
   totalFeedbacks: number
   newFeedbacks: number
   unprocessedFeedbacks: number
@@ -14,16 +13,16 @@ export interface FeedbacksFiltersCardsProps {
 }
 
 const {
-  activity,
+  title,
   totalFeedbacks,
   newFeedbacks,
   unprocessedFeedbacks,
   sentFeedbacks
-} = defineProps<FeedbacksFiltersCardsProps>()
+} = defineProps<FeedbacksDashboardCardsProps>()
 
 const { t } = useI18n()
 
-const activityTitle = computed(() => activity === undefined ? t('staff.feedbacks.views.FeedbacksView.FeedbacksDashboardCards.allActivities') : activity.title)
+const activityTitle = computed(() => title === undefined ? t('staff.feedbacks.views.FeedbacksView.FeedbacksDashboardCards.allActivities') : title)
 </script>
 
 <template>

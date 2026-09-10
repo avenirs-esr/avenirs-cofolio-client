@@ -27,10 +27,10 @@ BddTest().given('a useWatchQueryParam composable', () => {
   })
 
   BddTest().when('the composable is mounted and the param does not exist', () => {
-    BddTest().then('the handler should be called with null', () => {
+    BddTest().then('the handler should be called with undefined', () => {
       const handlerMock = vi.fn()
       mountComposable(() => useWatchQueryParam(paramName, handlerMock), {})
-      expect(handlerMock).toHaveBeenCalledWith(null)
+      expect(handlerMock).toHaveBeenCalledWith(undefined)
     })
   })
 
@@ -83,7 +83,7 @@ BddTest().given('a useWatchQueryParam composable', () => {
   })
 
   BddTest().when('the query parameter is removed', () => {
-    BddTest().then('the handler should be called with null', async () => {
+    BddTest().then('the handler should be called with undefined', async () => {
       const handlerMock = vi.fn()
       query.value[paramName] = 'some-value'
       mountComposable(() => useWatchQueryParam(paramName, handlerMock), {})
@@ -92,7 +92,7 @@ BddTest().given('a useWatchQueryParam composable', () => {
       query.value = {}
       await nextTick()
 
-      expect(handlerMock).toHaveBeenCalledWith(null)
+      expect(handlerMock).toHaveBeenCalledWith(undefined)
     })
   })
 
@@ -133,6 +133,26 @@ BddTest().given('a useQueryParam composable', () => {
       const paramValue = 'profile'
       result.setQueryParamValue(paramName, paramValue)
       expect(replaceMock).toHaveBeenCalledWith({ query: { ...existingParam, [paramName]: paramValue } })
+    })
+  })
+
+  BddTest().when('removing a query parameter', () => {
+    BddTest().then('it should call router.replace without the removed parameter', () => {
+      const existingParam = { section: 'profile', other: 'value' }
+      query.value = existingParam
+      const { result } = mountComposable(() => useQueryParam(), {})
+      result.setQueryParamValue('section', undefined)
+      expect(replaceMock).toHaveBeenCalledWith({ query: { other: 'value' } })
+    })
+  })
+
+  BddTest().when('setting a query parameter with an array value', () => {
+    BddTest().then('it should call router.replace with the array value', () => {
+      const { result } = mountComposable(() => useQueryParam(), {})
+      const paramName = 'section'
+      const paramValue = ['profile', 'skills']
+      result.setQueryParamValue(paramName, paramValue)
+      expect(replaceMock).toHaveBeenCalledWith({ query: { [paramName]: paramValue } })
     })
   })
 })

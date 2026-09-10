@@ -27,18 +27,8 @@ export const staffActivityCatalogRoute: AvRoute = {
     import('@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.vue'),
 }
 
-export const staffActivityFeedbacksRoute: AvRoute = {
-  ...ROUTES.STAFF.ACTIVITY_FEEDBACKS,
-  props: route => ({
-    activityId: route.params.id,
-  }),
-  component: () =>
-    import('@/features/staff/feedbacks/views/ActivityFeedbacksView/ActivityFeedbacksView.vue'),
-}
-
 export const staffActivitiesRoutes: AvRoute[] = [
   staffActivitiesRoute,
   staffActivitiesEditNationalActivityRoute,
-  staffActivityCatalogRoute,
-  staffActivityFeedbacksRoute
+  staffActivityCatalogRoute
 ]

@@ -13,9 +13,6 @@
         }
       },
       "cards": {
-        "ActivityConsignCard": {
-          "title": "Consigne"
-        },
         "AssociatedElementSummaryCard": {
           "emptyState": "Aucun élément associé à ce feedback trouvé",
           "title": "Récapitulatif des éléments associés ({count})"
@@ -75,28 +72,13 @@
           "seeActivity": "Voir le détail de l'activité",
           "title": "Détail du feedback"
         },
-        "ActivityFeedbacksView": {
-          "ActivityFeedbacksCard": {
-            "feedbacksSection": {
-              "title": "Demande de feedback"
-            },
-            "title": "Récapitulatif de l'activité"
-          },
-          "errors": {
-            "fetchActivity": "Impossible de charger l'activité"
-          },
-          "FeedbacksDashboardSection": {
-            "new": "nouvelle demande de feedback | nouvelles demandes de feedback",
-            "pending": "demande non traitée | demandes non traitées",
-            "sent": "réponse envoyée | réponses envoyées",
-            "title": "Tableau de bord"
-          },
-          "title": "Toutes mes demandes de feedback sur l'activité \"{activityTitle}\""
-        },
         "FeedbacksView": {
           "AssociatedElementDetailsDrawer": {
             "drawerLabel": "Détail de l'élément associé",
             "traceTitle": "Détails de la trace: {traceTitle}"
+          },
+          "FeedbackActivityConsignCard": {
+            "title": "Consigne"
           },
           "FeedbackActivityFilterSelect": {
             "defaultOption": "Toutes",

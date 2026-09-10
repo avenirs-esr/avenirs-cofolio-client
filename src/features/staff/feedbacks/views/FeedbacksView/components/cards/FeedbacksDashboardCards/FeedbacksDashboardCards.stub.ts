@@ -1,10 +1,7 @@
-import type { ActivityItemNavigationDTO } from '@/api/avenir-esr'
-import type { PropType } from 'vue'
-
 export const FeedbacksDashboardCardsStub = defineComponent({
   name: 'FeedbacksDashboardCards',
   props: {
-    activity: Object as PropType<ActivityItemNavigationDTO>,
+    title: String,
     totalFeedbacks: Number,
     newFeedbacks: Number,
     unprocessedFeedbacks: Number,

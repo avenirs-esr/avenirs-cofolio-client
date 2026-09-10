@@ -1,7 +1,6 @@
-import type { ActivityItemNavigationDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
-import FeedbacksDashboardCards, { type FeedbacksFiltersCardsProps } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbacksDashboardCards/FeedbacksDashboardCards.vue'
+import FeedbacksDashboardCards, { type FeedbacksDashboardCardsProps } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbacksDashboardCards/FeedbacksDashboardCards.vue'
 import { DashboardCardStub } from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.stub'
 import { MDI_ICONS, MS_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -15,7 +14,7 @@ BddTest().given('a feedbacks dashboard card', () => {
     DashboardCard: DashboardCardStub,
   }
 
-  const mountWith = (props: Partial<FeedbacksFiltersCardsProps> = {}) => {
+  const mountWith = (props: Partial<FeedbacksDashboardCardsProps> = {}) => {
     wrapper = mountComponent(FeedbacksDashboardCards, {
       props: {
         totalFeedbacks: 9,
@@ -28,7 +27,7 @@ BddTest().given('a feedbacks dashboard card', () => {
     })
   }
 
-  BddTest().when('no activity is selected', () => {
+  BddTest().when('no activity title is provided', () => {
     beforeEach(() => {
       mountWith()
     })
@@ -55,11 +54,9 @@ BddTest().given('a feedbacks dashboard card', () => {
     })
   })
 
-  BddTest().when('an activity is selected', () => {
-    const activity: ActivityItemNavigationDTO = { id: 'activity-1', title: 'Bilan de compétences' }
-
+  BddTest().when('an activity title is provided', () => {
     beforeEach(() => {
-      mountWith({ activity })
+      mountWith({ title: 'Bilan de compétences' })
     })
 
     BddTest().then('it should render the container title with the activity title', () => {

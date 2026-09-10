@@ -63,7 +63,7 @@ const {
 const { t } = useI18n()
 const { formatLastModified } = useDateUtils()
 const { isMobile } = useAvBreakpoints()
-const { navigateToStaffActivityFeedbacks } = useNavigation()
+const { navigateToFeedbacks } = useNavigation()
 
 const { modalOpened: deleteModalOpened, openModal: displayDeleteModal, closeModal: hideDeleteModal } = useModal()
 const { modalOpened: unpublishModalOpened, openModal: displayUnpublishModal, closeModal: hideUnpublishModal } = useModal()
@@ -226,7 +226,7 @@ watch(
               :data-activity-status="row.status"
               @delete-selected="() => onDeleteSelected(row.id)"
               @unpublish-selected="() => onUnpublishSelected(row.id)"
-              @navigate-to-feedbacks-selected="() => navigateToStaffActivityFeedbacks({ id: row.id })"
+              @navigate-to-feedbacks-selected="() => navigateToFeedbacks({ activityId: row.id })"
               @clone-selected="() => onCloneActivity(row.id)"
             />
           </template>

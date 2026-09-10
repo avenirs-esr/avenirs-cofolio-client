@@ -1,6 +1,6 @@
-import type { ActivityItemNavigationDTO } from '@/api/avenir-esr'
+import type { ActivityFeedbacksPreviewDTO } from '@/api/avenir-esr'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
-import FeedbacksFiltersCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbacksFilterdCard/FeedbacksFiltersCard.vue'
+import FeedbacksFiltersCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbacksFiltersCard/FeedbacksFiltersCard.vue'
 import { FeedbackActivityFilterSelectStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/interaction/inputs/FeedbackActivityFilterSelect/FeedbackActivityFilterSelect.stub'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -15,7 +15,7 @@ BddTest().given('a feedbacks filters card', () => {
     FeedbackActivityFilterSelect: FeedbackActivityFilterSelectStub,
   }
 
-  const setSelectedActivity = async (activity?: ActivityItemNavigationDTO) => {
+  const setSelectedActivity = async (activity?: ActivityFeedbacksPreviewDTO) => {
     wrapper.findComponent(FeedbackActivityFilterSelectStub).vm.$emit('change', activity)
     await flushPromises()
   }
@@ -44,8 +44,23 @@ BddTest().given('a feedbacks filters card', () => {
     })
   })
 
+  BddTest().when('a defaultActivityId is provided', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(FeedbacksFiltersCard, {
+        props: {
+          defaultActivityId: 'activity-1'
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should forward defaultActivityId to FeedbackActivityFilterSelect', () => {
+      expect(wrapper.findComponent(FeedbackActivityFilterSelectStub).props('defaultActivityId')).toBe('activity-1')
+    })
+  })
+
   BddTest().when('the FeedbackActivityFilterSelect emits a change event with an activity', () => {
-    const activity: ActivityItemNavigationDTO = { id: 'activity-1', title: 'Activité de test' }
+    const activity: ActivityFeedbacksPreviewDTO = { id: 'activity-1', title: 'Activité de test' }
 
     BddTest().then('it should emit selectedActivityChange with the activity', async () => {
       await setSelectedActivity(activity)

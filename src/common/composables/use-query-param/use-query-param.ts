@@ -5,7 +5,7 @@ import { type LocationQueryValue, useRoute, useRouter } from 'vue-router'
  * It executes a handler function whenever the specified query parameter's value changes.
  *
  * @param {string} queryParamName - The name of the query parameter to watch.
- * @param {(value: LocationQueryValue | LocationQueryValue[]) => void} handler - The function to execute when the query parameter changes. It receives the new value as an argument.
+ * @param {(value?: LocationQueryValue | LocationQueryValue[]) => void} handler - The function to execute when the query parameter changes. It receives the new value as an argument.
  * @param {boolean} [immediate] - If true, the handler is executed immediately upon initialization with the current value of the query parameter.
  *
  * @example
@@ -25,12 +25,10 @@ import { type LocationQueryValue, useRoute, useRouter } from 'vue-router'
  *   }
  * }
  */
-export function useWatchQueryParam (queryParamName: string, handler: (value: LocationQueryValue | LocationQueryValue[]) => void, immediate = true) {
+export function useWatchQueryParam (queryParamName: string, handler: (value?: LocationQueryValue | LocationQueryValue[]) => void, immediate = true) {
   const route = useRoute()
 
-  watch(() => route.query[queryParamName], (newValue) => {
-    handler(newValue === undefined ? null : newValue)
-  }, { immediate })
+  watch(() => route.query[queryParamName], newValue => handler(newValue), { immediate })
 }
 
 /**
@@ -39,7 +37,7 @@ export function useWatchQueryParam (queryParamName: string, handler: (value: Loc
  * It provides a `setQueryParamValue` function that updates the URL with a new
  * value for a specified query parameter, preserving existing query parameters.
  *
- * @returns {{setQueryParamValue: (queryParamName: string, value: LocationQueryValue | LocationQueryValue[]) => void}} An object containing the `setQueryParamValue` function.
+ * @returns {{setQueryParamValue: (queryParamName: string, value?: LocationQueryValue | LocationQueryValue[]) => void}} An object containing the `setQueryParamValue` function.
  *
  * @example
  * // In a Vue component
@@ -54,20 +52,33 @@ export function useWatchQueryParam (queryParamName: string, handler: (value: Loc
  *
  *     // Set an array value
  *     setQueryParamValue('filters', ['a', 'b'])
+ *
+ *     // Delete a value
+ *     setQueryParamValue('filters')
+ *     setQueryParamValue('filters', undefined)
  *   }
  * }
  */
 
 interface UseQueryParamReturn {
-  setQueryParamValue: (queryParamName: string, value: LocationQueryValue | LocationQueryValue[]) => void
+  setQueryParamValue: (queryParamName: string, value?: LocationQueryValue | LocationQueryValue[]) => void
 }
 
 export function useQueryParam (): UseQueryParamReturn {
   const router = useRouter()
   const route = useRoute()
 
-  function setQueryParamValue (queryParamName: string, value: LocationQueryValue | LocationQueryValue[]) {
-    router.replace({ query: { ...route.query, [queryParamName]: value } })
+  function setQueryParamValue (queryParamName: string, value?: LocationQueryValue | LocationQueryValue[]) {
+    const query = { ...route.query }
+
+    if (value === undefined) {
+      delete query[queryParamName]
+    }
+    else {
+      query[queryParamName] = value
+    }
+
+    router.replace({ query })
   }
 
   return {

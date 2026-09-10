@@ -1,12 +1,18 @@
 <script lang="ts" setup>
-import type { ActivityItemNavigationDTO } from '@/api/avenir-esr'
+import type { ActivityFeedbacksPreviewDTO } from '@/api/avenir-esr'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import FeedbackActivityFilterSelect from '@/features/staff/feedbacks/views/FeedbacksView/components/interaction/inputs/FeedbackActivityFilterSelect/FeedbackActivityFilterSelect.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
+export interface FeedbacksFiltersCardProps {
+  defaultActivityId?: string
+}
+
+const { defaultActivityId } = defineProps<FeedbacksFiltersCardProps>()
+
 const emit = defineEmits<{
-  (event: 'selectedActivityChange', activity?: ActivityItemNavigationDTO): void
+  (event: 'selectedActivityChange', activity?: ActivityFeedbacksPreviewDTO): void
 }>()
 
 const { t } = useI18n()
@@ -18,6 +24,9 @@ const { t } = useI18n()
     :title-icon="MDI_ICONS.FILTER_OUTLINE"
     data-testid="feedbacks-filters-card"
   >
-    <FeedbackActivityFilterSelect @change="emit('selectedActivityChange', $event)" />
+    <FeedbackActivityFilterSelect
+      :default-activity-id="defaultActivityId"
+      @change="emit('selectedActivityChange', $event)"
+    />
   </IconTitleCardContainer>
 </template>

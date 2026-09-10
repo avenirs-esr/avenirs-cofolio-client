@@ -1,16 +1,25 @@
 <script setup lang="ts">
-import { type ActivityItemNavigationDTO, useGetStaffFeedbacks } from '@/api/avenir-esr'
+import { type ActivityFeedbacksPreviewDTO, useGetStaffFeedbacks } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import { useQueryParam } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import { useFeedbackStatusPicker } from '@/features/staff/feedbacks/components/interaction/pickers/FeedbackStatusPicker/composables/use-feedback-status-picker/use-feedback-status-picker'
 import FeedbackStatusPicker from '@/features/staff/feedbacks/components/interaction/pickers/FeedbackStatusPicker/FeedbackStatusPicker.vue'
 import { useStaffFeedbacksStore } from '@/features/staff/feedbacks/stores/feedbacks.store'
+import FeedbackActivityConsignCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbackActivityConsignCard/FeedbackActivityConsignCard.vue'
 import FeedbacksDashboardCards from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbacksDashboardCards/FeedbacksDashboardCards.vue'
-import FeedbacksFiltersCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbacksFilterdCard/FeedbacksFiltersCard.vue'
+import FeedbacksFiltersCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbacksFiltersCard/FeedbacksFiltersCard.vue'
 import FeedbacksTable from '@/features/staff/feedbacks/views/FeedbacksView/components/FeedbacksTable/FeedbacksTable.vue'
 import { useI18n } from 'vue-i18n'
 
+export interface FeedbacksViewProps {
+  activityId?: string
+}
+
+const { activityId } = defineProps<FeedbacksViewProps>()
+
 const { t } = useI18n()
+const { setQueryParamValue } = useQueryParam()
 
 const breadcrumbLinks = computed(() => [
   { text: t('staff.global.navigation.tabs.home'), to: ROUTES.STAFF.HOME },
@@ -20,8 +29,8 @@ const breadcrumbLinks = computed(() => [
 
 const staffFeedbacksStore = useStaffFeedbacksStore()
 
-const selectedActivityRef = ref<ActivityItemNavigationDTO | undefined>()
-const selectedActivityId = computed(() => selectedActivityRef.value?.id)
+const selectedActivity = ref<ActivityFeedbacksPreviewDTO | undefined>()
+const selectedActivityId = computed(() => selectedActivity.value?.id)
 
 const {
   newFeedbacks,
@@ -42,6 +51,11 @@ const usePaginatedStaffFeedbacksParams = computed(() => ({
   selectedStatusRef: selectedStatus,
   fetchFn: useGetStaffFeedbacks,
 }))
+
+function handleSelectedActivity (activity?: ActivityFeedbacksPreviewDTO) {
+  selectedActivity.value = activity
+  setQueryParamValue('activityId', activity?.id)
+}
 </script>
 
 <template>
@@ -51,15 +65,20 @@ const usePaginatedStaffFeedbacksParams = computed(() => ({
   />
 
   <div class="av-col av-gap-xl">
-    <FeedbacksFiltersCard @selected-activity-change="selectedActivityRef = $event" />
+    <FeedbacksFiltersCard
+      :default-activity-id="activityId"
+      @selected-activity-change="handleSelectedActivity"
+    />
 
     <FeedbacksDashboardCards
-      :activity="selectedActivityRef"
+      :title="selectedActivity?.title"
       :total-feedbacks="totalFeedbacks"
       :new-feedbacks="newFeedbacks"
       :unprocessed-feedbacks="unprocessedFeedbacks"
       :sent-feedbacks="sentFeedbacks"
     />
+
+    <FeedbackActivityConsignCard :description="selectedActivity?.description" />
 
     <FeedbackStatusPicker
       :total-feedbacks="totalFeedbacks"

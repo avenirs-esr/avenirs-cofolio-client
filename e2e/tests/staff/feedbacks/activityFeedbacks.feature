@@ -36,20 +36,20 @@ Feature: Staff Activity Feedbacks Page
 
     @high @feedbacks-dashboard
     Scenario: The feedbacks dashboard is visible
-      Then the feedbacks dashboard section is visible
+      Then the feedbacks dashboard is visible
 
     @high @feedbacks-dashboard
     Scenario: The feedbacks dashboard displays new pending and processed cards
       Then the new feedbacks dashboard card is displayed
-      And the pending feedbacks dashboard card is displayed
+      And the unprocessed feedbacks dashboard card is displayed
       And the processed feedbacks dashboard card is displayed
   
   Rule: Activity Consign
     
       @high
-      Scenario: The activity consign card is visible
-        Then the activity consign card is visible
+      Scenario: the feedback activity consign card is visible
+        Then the feedback activity consign card is visible
     
       @high
-      Scenario: The activity consign card is collapsed by default
-        Then the activity consign card is collapsed by default
+      Scenario: the feedback activity consign card is collapsed by default
+        Then the feedback activity consign card is collapsed by default
