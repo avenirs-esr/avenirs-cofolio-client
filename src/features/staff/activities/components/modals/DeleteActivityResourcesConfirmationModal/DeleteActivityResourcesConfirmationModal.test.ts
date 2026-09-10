@@ -38,7 +38,7 @@ BddTest().given('a DeleteActivityResourcesConfirmationModal component', () => {
     })
 
     BddTest().then('it should display the singular title', () => {
-      expect(getTitle().text()).toBe('Êtes-vous certain(e) de vouloir supprimer la ressource selectionnée ?')
+      expect(getTitle().text()).toBe('Êtes-vous certain(e) de vouloir supprimer la ressource selectionnée\u00A0?')
     })
 
     BddTest().then('it should pass files and links to ActivityResourcesList', () => {
@@ -60,7 +60,7 @@ BddTest().given('a DeleteActivityResourcesConfirmationModal component', () => {
     })
 
     BddTest().then('it should display the plural title', () => {
-      expect(getTitle().text()).toBe('Êtes-vous certain(e) de vouloir supprimer les ressources selectionnées ?')
+      expect(getTitle().text()).toBe('Êtes-vous certain(e) de vouloir supprimer les ressources selectionnées\u00A0?')
     })
 
     BddTest().then('it should pass files and links to ActivityResourcesList', () => {

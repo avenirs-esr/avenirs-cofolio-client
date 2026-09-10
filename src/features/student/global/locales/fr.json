@@ -6,7 +6,7 @@
       },
       "cards": {
         "ActivityModifiedNotificationCard": {
-          "content": "L'activité \"{activityName}\" a été mise à jour. La section suivante a été modifiée : {sectionTypes}. | L'activité \"{activityName}\" a été mise à jour. Les sections suivantes ont été modifiées : {sectionTypes}.",
+          "content": "L'activité \"{activityName}\" a été mise à jour. La section suivante a été modifiée\u00A0: {sectionTypes}. | L'activité \"{activityName}\" a été mise à jour. Les sections suivantes ont été modifiées\u00A0: {sectionTypes}.",
           "updatedFields": {
             "ACTIVITY_TITLE": "Titre",
             "BANNER": "Image de présentation",
@@ -38,8 +38,8 @@
         "inputs": {
           "AssociateElementTypeSelect": {
             "label": {
-              "default": "Rechercher dans :",
-              "subType": "De type :"
+              "default": "Rechercher dans\u00A0:",
+              "subType": "De type\u00A0:"
             },
             "placeholder": "Sélectionnez un type"
           },
@@ -84,13 +84,13 @@
       "overlays": {
         "modals": {
           "DeleteAssociationsConfirmModal": {
-            "title": "Êtes-vous certain(e) de vouloir supprimer cette association ? | Êtes-vous certain(e) de vouloir supprimer ces associations ?"
+            "title": "Êtes-vous certain(e) de vouloir supprimer cette association\u00A0? | Êtes-vous certain(e) de vouloir supprimer ces associations\u00A0?"
           },
           "DeleteAssociationsModal": {
             "confirmButton": "Supprimer les associations sélectionnées (0) | Supprimer l'association sélectionnée (1) | Supprimer les associations sélectionnées ({count})",
             "error": "Une erreur est survenue lors de la suppression de l'association. | Une erreur est survenue lors de la suppression des associations.",
             "success": "L'association sélectionnée a été supprimée avec succès | Les associations sélectionnées ont été supprimées avec succès",
-            "title": "Aucune association à supprimer | Quelle association souhaitez-vous supprimer ? | Quelles associations souhaitez-vous supprimer ?"
+            "title": "Aucune association à supprimer | Quelle association souhaitez-vous supprimer\u00A0? | Quelles associations souhaitez-vous supprimer\u00A0?"
           }
         }
       },
@@ -131,10 +131,10 @@
         },
         "studentProjectTrajectoriesView": {
           "buildProject": {
-            "consultHelpButtonLabel": "Comment construire mon projet ?",
+            "consultHelpButtonLabel": "Comment construire mon projet\u00A0?",
             "projectTrajectoriesHelperModal": {
               "closeButtonLabel": "Quitter",
-              "content": "Suite au travail sur vos intérêts, motivations et valeurs, et sur l'exploration des futurs possibles, une ou plusieurs idées de projet de vie peuvent se dessiner.\n##La phase de validation de votre/vos projet(s) peut alors débuter.##\nLes questions à se poser à ce stade sont :\n\n(-##Quelles sont mes compétences acquises et utiles à ce projet ?##)(-##Quelles sont les nouvelles compétences à acquérir pour réaliser ce projet ?##)(-##Comment les acquérir ?##)\nLes réponses à ces questions vous aideront à ##construire une ou plusieurs trajectoires cohérentes avec votre projet en combinant plusieurs fiches de futurs possibles## (formations, mobilités, métiers etc.) que vous avez ajoutées dans votre portfolio.\n##Afin de vous guider dans votre réflexion, vous pourrez associer des traces que vous avez ajoutées à votre portfolio de compétences.## Ces traces vous serviront à prouver vos apprentissages et contribueront à démontrer votre engagement et votre progression dans :\n\n(-le développement de vos compétences)(-la construction d'un projet de vie cohérent avec votre parcours, vos compétences et appétences.)",
+              "content": "Suite au travail sur vos intérêts, motivations et valeurs, et sur l'exploration des futurs possibles, une ou plusieurs idées de projet de vie peuvent se dessiner.\n##La phase de validation de votre/vos projet(s) peut alors débuter.##\nLes questions à se poser à ce stade sont\u00A0:\n\n(-##Quelles sont mes compétences acquises et utiles à ce projet\u00A0?##)(-##Quelles sont les nouvelles compétences à acquérir pour réaliser ce projet\u00A0?##)(-##Comment les acquérir\u00A0?##)\nLes réponses à ces questions vous aideront à ##construire une ou plusieurs trajectoires cohérentes avec votre projet en combinant plusieurs fiches de futurs possibles## (formations, mobilités, métiers etc.) que vous avez ajoutées dans votre portfolio.\n##Afin de vous guider dans votre réflexion, vous pourrez associer des traces que vous avez ajoutées à votre portfolio de compétences.## Ces traces vous serviront à prouver vos apprentissages et contribueront à démontrer votre engagement et votre progression dans\u00A0:\n\n(-le développement de vos compétences)(-la construction d'un projet de vie cohérent avec votre parcours, vos compétences et appétences.)",
               "title": "##Imaginez votre futur en identifiant des trajectoires possibles##"
             },
             "title": "Bâtir mon projet"

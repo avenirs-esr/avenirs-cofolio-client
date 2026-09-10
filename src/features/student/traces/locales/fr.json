@@ -80,7 +80,7 @@
             "ariaLabel": "Sélectionner la trace {title}"
           },
           "TracesTypeSelect": {
-            "label": "Rechercher dans :",
+            "label": "Rechercher dans\u00A0:",
             "options": {
               "TRACE": {
                 "ALL": {
@@ -115,14 +115,14 @@
       },
       "modals": {
         "AssociateTracesModal": {
-          "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association de traces ?",
+          "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association de traces\u00A0?",
           "confirm": "Associer la trace sélectionnée (1) | Associer les traces sélectionnées ({count})",
-          "confirmTitle": "Êtes-vous certain(e) de vouloir associer cette trace ? | Êtes-vous certain(e) de vouloir associer ces traces ?",
+          "confirmTitle": "Êtes-vous certain(e) de vouloir associer cette trace\u00A0? | Êtes-vous certain(e) de vouloir associer ces traces\u00A0?",
           "success": "Vous avez associé {count} trace. Retrouvez-la dans la catégorie « Mes traces associées ». | Vous avez associé {count} traces. Retrouvez-les dans la catégorie « Mes traces associées ».",
-          "title": "Quelle(s) trace(s) souhaitez-vous associer ?"
+          "title": "Quelle(s) trace(s) souhaitez-vous associer\u00A0?"
         },
         "TraceDeletionConfirmationModal": {
-          "description": "Êtes-vous certain(e) de vouloir supprimer votre trace ?",
+          "description": "Êtes-vous certain(e) de vouloir supprimer votre trace\u00A0?",
           "lockedActivityTitleFirstPart": "La trace ci-dessous est utilisée dans une activité soumise ou terminée. Elle sera supprimée de votre bibliothèque personnelle, mais restera consultable depuis | Les traces ci-dessous sont utilisées dans une activité soumise ou terminée. Elles seront supprimées de votre bibliothèque personnelle, mais resteront consultables depuis",
           "lockedActivityTitleSecondPart": "cette activité. | ces activités.",
           "onDelete": {
@@ -146,7 +146,7 @@
           "deleteTracesModal": {
             "confirm": "Supprimer la trace sélectionnée ({count}) | Supprimer les traces sélectionnées ({count})",
             "confirmationTitle": "Suppression de la trace sélectionnée | Suppression des traces sélectionnées ({count})",
-            "title": "Aucune trace à supprimer | Quelle trace souhaitez-vous supprimer ? | Quelles traces souhaitez-vous supprimer ?"
+            "title": "Aucune trace à supprimer | Quelle trace souhaitez-vous supprimer\u00A0? | Quelles traces souhaitez-vous supprimer\u00A0?"
           },
           "studentDetailedTraceAssociateModal": {
             "buttons": {
@@ -259,11 +259,11 @@
           "studentTraceDetails": {
             "authorType": {
               "COLLECTIVE": "Production collective",
-              "label": "Cette trace est issue d'une production :",
+              "label": "Cette trace est issue d'une production\u00A0:",
               "PERSONAL": "Production personnelle",
               "THIRD_PARTY": "Production d'un tiers"
             },
-            "iaDescription": "Cette trace est issue d’une production réalisée avec l’Intelligence Artificielle (IA) :",
+            "iaDescription": "Cette trace est issue d’une production réalisée avec l’Intelligence Artificielle (IA)\u00A0:",
             "iaToggleLabel": "Production avec IA",
             "linkLabel": "Lien de ma trace"
           },
@@ -307,7 +307,7 @@
             "confirm": "Associer l'activité sélectionnée (1) | Associer les activités sélectionnées ({count})",
             "searchPlaceholder": "Entrer le nom d'une activité",
             "success": "Vous avez associé {count} activité. Retrouvez-la dans la catégorie \"Mes activités associées\". | Vous avez associé {count} activités. Retrouvez-les dans la catégorie \"Mes activités associées\".",
-            "title": "Quelle(s) activité(s) souhaitez-vous associer ?"
+            "title": "Quelle(s) activité(s) souhaitez-vous associer\u00A0?"
           },
           "breadcrumb": {
             "current": {
@@ -315,7 +315,7 @@
             }
           },
           "ConfirmAssociateActivitiesModal": {
-            "title": "Êtes-vous certain(e) de vouloir associer cette activité ? | Êtes-vous certain(e) de vouloir associer ces activités ?"
+            "title": "Êtes-vous certain(e) de vouloir associer cette activité\u00A0? | Êtes-vous certain(e) de vouloir associer ces activités\u00A0?"
           },
           "empty": {
             "associations": "Aucune association pour cette trace."
@@ -345,8 +345,8 @@
           },
           "ConfirmUpdateTraceModal": {
             "confirmLabel": "Modifier ma trace",
-            "emptyTitle": "Êtes-vous certain(e) de vouloir enregistrer les modifications ?",
-            "subtitle": "Attention, les modifications ne pourront pas être appliqués dans ces contextes d'association car ils font partis d'un travail en cours d'examen ou terminé :",
+            "emptyTitle": "Êtes-vous certain(e) de vouloir enregistrer les modifications\u00A0?",
+            "subtitle": "Attention, les modifications ne pourront pas être appliqués dans ces contextes d'association car ils font partis d'un travail en cours d'examen ou terminé\u00A0:",
             "title": "Vous êtes sur le point de modifier votre trace."
           },
           "errors": {

@@ -181,7 +181,7 @@ BddTest().given('a useUpdateProfileForm composable', () => {
 
       const errors = await result.form.validate('submit')
 
-      expect(errors.email!.onSubmit).toBe('Veuillez renseigner une adresse email valide (ex. : nom@exemple.com)')
+      expect(errors.email!.onSubmit).toBe('Veuillez renseigner une adresse email valide (ex.\u00A0: nom@exemple.com)')
       expect(errors.bio!.onSubmit).toBe('La biographie ne doit pas dépasser les 400 charactères')
     })
   })

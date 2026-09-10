@@ -94,7 +94,7 @@ BddTest().given('an associate activities modal', () => {
     BddTest().then('it should display the correct title', () => {
       const header = wrapper.find('[data-testid="header"]')
       expect(header.exists()).toBe(true)
-      expect(header.text()).toContain('Quelle(s) activité(s) souhaitez-vous associer ?')
+      expect(header.text()).toContain('Quelle(s) activité(s) souhaitez-vous associer\u00A0?')
     })
 
     BddTest().then('it should render the search association layout', () => {

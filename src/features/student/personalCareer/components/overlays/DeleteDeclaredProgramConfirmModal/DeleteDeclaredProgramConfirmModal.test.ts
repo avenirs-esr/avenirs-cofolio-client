@@ -40,7 +40,7 @@ BddTest().given('a DeleteDeclaredProgramConfirmModal component', () => {
     BddTest().then('it should render the confirmation modal with correct title and message', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('title')).toBe('Êtes-vous certain(e) de vouloir supprimer ces formations ?')
+      expect(confirmationModal.props('title')).toBe('Êtes-vous certain(e) de vouloir supprimer ces formations\u00A0?')
       expect(confirmationModal.props('description')).toBe('Cette action entrainera la suppression des éventuelles associations.')
     })
 
@@ -91,7 +91,7 @@ BddTest().given('a DeleteDeclaredProgramConfirmModal component', () => {
     BddTest().then('it should render the confirmation modal with correct title and message', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('title')).toBe('Êtes-vous certain(e) de vouloir supprimer cette formation ?')
+      expect(confirmationModal.props('title')).toBe('Êtes-vous certain(e) de vouloir supprimer cette formation\u00A0?')
       expect(confirmationModal.props('description')).toBe('Cette action entrainera la suppression des éventuelles associations.')
     })
 
@@ -128,7 +128,7 @@ BddTest().given('a DeleteDeclaredProgramConfirmModal component', () => {
     BddTest().then('it should render the confirmation modal with correct title and message', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('title')).toBe('Êtes-vous certain(e) de vouloir supprimer cette formation ?')
+      expect(confirmationModal.props('title')).toBe('Êtes-vous certain(e) de vouloir supprimer cette formation\u00A0?')
       expect(confirmationModal.props('description')).toBe('Cette action entrainera la suppression des éventuelles associations.')
     })
 
@@ -172,7 +172,7 @@ BddTest().given('a DeleteDeclaredProgramConfirmModal component', () => {
     BddTest().then('it should render the confirmation modal with correct title and message', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('title')).toBe('Êtes-vous certain(e) de vouloir supprimer ces formations ?')
+      expect(confirmationModal.props('title')).toBe('Êtes-vous certain(e) de vouloir supprimer ces formations\u00A0?')
       expect(confirmationModal.props('description')).toBe('Cette action entrainera la suppression des éventuelles associations.')
     })
 
@@ -215,7 +215,7 @@ BddTest().given('a DeleteDeclaredProgramConfirmModal component', () => {
     BddTest().then('it should render the confirmation modal with correct title and message', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
       expect(confirmationModal.exists()).toBe(true)
-      expect(confirmationModal.props('title')).toBe('Êtes-vous certain(e) de vouloir supprimer ces formations ?')
+      expect(confirmationModal.props('title')).toBe('Êtes-vous certain(e) de vouloir supprimer ces formations\u00A0?')
       expect(confirmationModal.props('description')).toBe('Cette action entrainera la suppression des éventuelles associations.')
     })
 

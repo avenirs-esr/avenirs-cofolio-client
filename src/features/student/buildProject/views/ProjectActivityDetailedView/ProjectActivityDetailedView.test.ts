@@ -63,7 +63,7 @@ BddTest().given('a project activity detailed view', () => {
 
     BddTest().then('it should pass the correct title', () => {
       const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
-      expect(pageTitle.props('title')).toBe('Activité "Connaissance de soi" : Définir ses valeurs')
+      expect(pageTitle.props('title')).toBe('Activité "Connaissance de soi"\u00A0: Définir ses valeurs')
     })
 
     BddTest().then('it should pass the correct breadcrumb links', () => {

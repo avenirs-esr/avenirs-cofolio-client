@@ -74,7 +74,7 @@ BddTest().given('a useGenerateSkillsSection composable', () => {
     BddTest().then('it should generate at least one skill with a level', () => {
       expect(result.skillsSection.value.some(section =>
         (section as unknown as MockParagraph).children.filter(child =>
-          (child as unknown as MockTextRun).text.includes('Niveau :')
+          (child as unknown as MockTextRun).text.includes('Niveau\u00A0:')
         ).length > 0
       )).toBe(true)
     })
@@ -101,7 +101,7 @@ BddTest().given('a useGenerateSkillsSection composable', () => {
     BddTest().then('it should not generate any skills with a level', () => {
       expect(result.skillsSection.value.some(section =>
         (section as unknown as MockParagraph).children.filter(child =>
-          (child as unknown as MockTextRun).text.includes('Niveau :')
+          (child as unknown as MockTextRun).text.includes('Niveau\u00A0:')
         ).length === 0
       )).toBe(true)
     })

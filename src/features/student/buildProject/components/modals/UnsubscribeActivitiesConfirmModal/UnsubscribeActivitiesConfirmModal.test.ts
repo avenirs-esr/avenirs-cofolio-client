@@ -40,7 +40,7 @@ BddTest().given('an unsubscribe activities confirmation modal', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
       expect(confirmationModal.exists()).toBe(true)
       expect(confirmationModal.props('opened')).toBe(true)
-      expect(confirmationModal.text()).toContain(`Êtes-vous certain(e) de vouloir vous désinscrire de cette activité ?`)
+      expect(confirmationModal.text()).toContain(`Êtes-vous certain(e) de vouloir vous désinscrire de cette activité\u00A0?`)
       expect(confirmationModal.text()).toContain(`Cette action entraînera la perte définitive de toutes les données et actions associées.`)
     })
 
@@ -122,7 +122,7 @@ BddTest().given('an unsubscribe activities confirmation modal', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
       expect(confirmationModal.exists()).toBe(true)
       expect(confirmationModal.props('opened')).toBe(true)
-      expect(confirmationModal.text()).toContain(`Êtes-vous certain(e) de vouloir vous désinscrire de ces activités ?`)
+      expect(confirmationModal.text()).toContain(`Êtes-vous certain(e) de vouloir vous désinscrire de ces activités\u00A0?`)
       expect(confirmationModal.text()).toContain(`Cette action entraînera la perte définitive de toutes les données et actions associées.`)
     })
 

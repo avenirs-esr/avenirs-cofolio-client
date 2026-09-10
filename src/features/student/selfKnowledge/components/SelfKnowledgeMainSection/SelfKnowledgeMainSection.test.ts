@@ -65,7 +65,7 @@ BddTest().given('a self knowledge section component', () => {
     BddTest().then('it should render the self knowledge title', () => {
       const avIconText = wrapper.findComponent(AvIconTextStub)
       expect(avIconText.exists()).toBe(true)
-      expect(avIconText.props('text')).toBe('Qui je suis ?')
+      expect(avIconText.props('text')).toBe('Qui je suis\u00A0?')
       expect(avIconText.props('icon')).toBe('mdi:account-circle-outline')
     })
 

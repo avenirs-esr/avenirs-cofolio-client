@@ -71,7 +71,7 @@ BddTest().given('an unsubscribe activities modal', () => {
 
       BddTest().then('it should display the correct title with element count', () => {
         const header = wrapper.find('[data-testid="header"]')
-        expect(header.text()).toContain('De quelles activités souhaitez-vous vous désinscrire ?')
+        expect(header.text()).toContain('De quelles activités souhaitez-vous vous désinscrire\u00A0?')
       })
 
       BddTest().and('many activities are selected', () => {

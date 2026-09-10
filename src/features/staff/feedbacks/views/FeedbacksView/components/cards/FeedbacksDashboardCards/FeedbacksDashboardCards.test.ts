@@ -39,7 +39,7 @@ BddTest().given('a feedbacks dashboard card', () => {
 
     BddTest().then('it should render the container title with "Toutes les demandes de feedback" and the dashboard icon', () => {
       const container = wrapper.findComponent(IconTitleCardContainerStub)
-      expect(container.props('title')).toBe('Tableau de bord : Toutes les demandes de feedback')
+      expect(container.props('title')).toBe('Tableau de bord\u00A0: Toutes les demandes de feedback')
       expect(container.props('titleIcon')).toBe(RI_ICONS.DASHBOARD_2_LINE)
     })
 
@@ -64,7 +64,7 @@ BddTest().given('a feedbacks dashboard card', () => {
 
     BddTest().then('it should render the container title with the activity title', () => {
       const container = wrapper.findComponent(IconTitleCardContainerStub)
-      expect(container.props('title')).toBe('Tableau de bord : Bilan de compétences')
+      expect(container.props('title')).toBe('Tableau de bord\u00A0: Bilan de compétences')
     })
   })
 

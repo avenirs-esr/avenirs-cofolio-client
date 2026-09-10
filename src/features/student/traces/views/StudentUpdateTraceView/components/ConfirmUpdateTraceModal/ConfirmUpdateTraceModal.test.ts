@@ -8,7 +8,7 @@ import { mount, type VueWrapper } from '@vue/test-utils'
 
 const mockedLockedDeclaredActivities: TraceDeclaredActivityDTO = {
   activityId: 'declared-activity-1',
-  activityTitle: 'Activité "Connaissance de soi" : Définir ses valeurs',
+  activityTitle: 'Activité "Connaissance de soi"\u00A0: Définir ses valeurs',
   activityStatus: EDeclaredActivityStatus.SUBMITTED,
 }
 
@@ -46,7 +46,7 @@ BddTest().given('a ConfirmUpdateTraceModal', () => {
       expect(title.exists()).toBe(true)
       expect(title.text()).toBe('Vous êtes sur le point de modifier votre trace.')
       expect(subtitle.exists()).toBe(true)
-      expect(subtitle.text()).toBe('Attention, les modifications ne pourront pas être appliqués dans ces contextes d\'association car ils font partis d\'un travail en cours d\'examen ou terminé :')
+      expect(subtitle.text()).toBe('Attention, les modifications ne pourront pas être appliqués dans ces contextes d\'association car ils font partis d\'un travail en cours d\'examen ou terminé\u00A0:')
     })
 
     BddTest().then('it should render non editable associations', () => {

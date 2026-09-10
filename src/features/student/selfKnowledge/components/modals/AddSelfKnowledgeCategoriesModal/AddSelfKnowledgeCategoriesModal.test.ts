@@ -111,7 +111,7 @@ BddTest().given('an add self knowledge categories modal', () => {
       expect(checkboxes.length).toBe(mockedSelfKnowledgeCategoriesAvailable.length)
 
       const modalText = wrapper.text()
-      expect(modalText).toContain('Quelles catégories souhaitez-vous ajouter ?')
+      expect(modalText).toContain('Quelles catégories souhaitez-vous ajouter\u00A0?')
     })
 
     BddTest().and('the user closes the modal', () => {

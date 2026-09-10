@@ -37,7 +37,7 @@ BddTest().given('a delete declared skill confirmation modal', () => {
       const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
       expect(confirmationModal.exists()).toBe(true)
       expect(confirmationModal.props('opened')).toBe(true)
-      expect(confirmationModal.props('title')).toBe(`Confirmez-vous la suppression de la compétence ${props.skillTitle} ?`)
+      expect(confirmationModal.props('title')).toBe(`Confirmez-vous la suppression de la compétence ${props.skillTitle}\u00A0?`)
       expect(confirmationModal.props('description')).toBe(`Cette action est définitive. Elle entraine la suppression des informations concernant la compétence ainsi que la suppression des liens d'association qu'elle comportait.`)
     })
 

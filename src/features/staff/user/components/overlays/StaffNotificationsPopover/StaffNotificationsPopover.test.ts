@@ -58,7 +58,7 @@ BddTest().given('a StaffNotificationsPopover', () => {
     })
 
     BddTest().then('it should render the empty state message', () => {
-      expect(wrapper.text()).toContain('Vous recevrez une notification dans les cas suivants :')
+      expect(wrapper.text()).toContain('Vous recevrez une notification dans les cas suivants\u00A0:')
       expect(wrapper.text()).toContain('Un apprenant vous enverra une demande de feedback')
     })
   })
