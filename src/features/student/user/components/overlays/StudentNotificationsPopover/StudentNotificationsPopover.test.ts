@@ -42,7 +42,7 @@ BddTest().given('a StudentNotificationsPopover', () => {
     beforeEach(() => mountDefault())
 
     BddTest().then('it should render empty slot header', () => {
-      expect(getContextsHeader().text()).toBe('Vous recevrez une notification dans les cas suivants :')
+      expect(getContextsHeader().text()).toBe('Vous recevrez une notification dans les cas suivants\u00A0:')
     })
 
     BddTest().then('it should render all context items', () => {

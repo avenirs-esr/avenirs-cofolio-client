@@ -90,7 +90,7 @@ BddTest().given('an associate traces to declared activity modal', () => {
       const header = wrapper.find('[data-testid="header"]')
 
       expect(header.exists()).toBe(true)
-      expect(header.text()).toContain('Quelle(s) trace(s) souhaitez-vous associer ?')
+      expect(header.text()).toContain('Quelle(s) trace(s) souhaitez-vous associer\u00A0?')
     })
 
     BddTest().then('it should render the search association layout', () => {

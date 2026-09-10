@@ -43,17 +43,17 @@
           "SubscribeActivityConfirmModal": {
             "error": "Une erreur est survenue lors de l'inscription à l'activité. Veuillez réessayer plus tard.",
             "success": "Vous êtes inscrit.e avec succès. Retrouvez cette activité dans votre bibliothèque d'activités.",
-            "title": "Êtes-vous certain de vouloir vous inscrire à l'activité : {title} ?"
+            "title": "Êtes-vous certain de vouloir vous inscrire à l'activité\u00A0: {title}\u00A0?"
           },
           "UnsubscribeActivitiesConfirmModal": {
             "description": "Cette action entraînera la perte définitive de toutes les données et actions associées.",
             "error": "Une erreur est survenue lors de la désinscription de l'activité. Veuillez réessayer plus tard. | Une erreur est survenue lors de la désinscription des activités. Veuillez réessayer plus tard.",
             "success": "Vous avez été désinscrit.e avec succès.",
-            "title": "Êtes-vous certain(e) de vouloir vous désinscrire de cette activité ? | Êtes-vous certain(e) de vouloir vous désinscrire de ces activités ?"
+            "title": "Êtes-vous certain(e) de vouloir vous désinscrire de cette activité\u00A0? | Êtes-vous certain(e) de vouloir vous désinscrire de ces activités\u00A0?"
           },
           "UpdateActivityDrawer": {
             "confirmationModal": {
-              "description": "Êtes-vous certain(e) de vouloir annuler les modifications ? Les changements non enregistrés seront perdus."
+              "description": "Êtes-vous certain(e) de vouloir annuler les modifications\u00A0? Les changements non enregistrés seront perdus."
             },
             "errors": {
               "updateActivity": "Une erreur est survenue lors de la mise à jour de l'activité. Veuillez réessayer plus tard."
@@ -104,7 +104,7 @@
             },
             "DeleteActivityAssociatedElementsModal": {
               "success": "Les associations sélectionnées ont été supprimées avec succès.",
-              "title": "Quelle(s) association(s) souhaitez-vous supprimer ?"
+              "title": "Quelle(s) association(s) souhaitez-vous supprimer\u00A0?"
             },
             "FeedbackCard": {
               "downloadAllAttachments": "Télécharger tous les documents",
@@ -124,7 +124,7 @@
               "finishLabel": "Terminée"
             },
             "FinishDeclaredActivityConfirmModal": {
-              "description": "Êtes-vous certain(e) de vouloir terminer cette activité ? Vous ne pourrez plus la modifier",
+              "description": "Êtes-vous certain(e) de vouloir terminer cette activité\u00A0? Vous ne pourrez plus la modifier",
               "error": "Une erreur est survenue lors de la finalisation de l'activité. Veuillez réessayer plus tard.",
               "success": "Votre activitée est terminée",
               "title": "Confirmer la finalisation de l'activité"
@@ -170,8 +170,8 @@
                 "updateFeedbackLabel": "Mettre à jour ma demande de feedback"
               },
               "requestFeedbackConfirmModal": {
-                "description": "Êtes-vous certain(e) de vouloir soumettre votre activité ? Vous disposez encore de 1 demande de feedback pour cette activité. | Êtes-vous certain(e) de vouloir soumettre votre activité ? Vous disposez encore de {count} demandes de feedback pour cette activité.",
-                "descriptionUnlimited": "Êtes-vous certain(e) de vouloir soumettre votre activité ? Vous disposez d'un nombre illimité de demandes de feedback pour cette activité.",
+                "description": "Êtes-vous certain(e) de vouloir soumettre votre activité\u00A0? Vous disposez encore de 1 demande de feedback pour cette activité. | Êtes-vous certain(e) de vouloir soumettre votre activité\u00A0? Vous disposez encore de {count} demandes de feedback pour cette activité.",
+                "descriptionUnlimited": "Êtes-vous certain(e) de vouloir soumettre votre activité\u00A0? Vous disposez d'un nombre illimité de demandes de feedback pour cette activité.",
                 "title": "Demander un feedback"
               },
               "success": "Votre activité a été soumise avec succès. Vous serez notifié lorsque que votre conseiller référent vous aura répondu.",
@@ -269,7 +269,7 @@
             "description": "Vous ne pouvez pas vous désinscrire des activités obligatoires.",
             "error": "Une erreur est survenue lors de la désinscription de l'activité. Veuillez réessayer plus tard. | Une erreur est survenue lors de la désinscription des {count} activités. Veuillez réessayer plus tard.",
             "success": "Désinscription de l'activité réussie. | Désinscription des {count} activités réussie.",
-            "title": "Aucune activité à laquelle se désinscrire | De quelle activité souhaitez-vous vous désinscrire ? | De quelles activités souhaitez-vous vous désinscrire ?"
+            "title": "Aucune activité à laquelle se désinscrire | De quelle activité souhaitez-vous vous désinscrire\u00A0? | De quelles activités souhaitez-vous vous désinscrire\u00A0?"
           }
         }
       }

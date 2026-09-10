@@ -29,7 +29,7 @@ BddTest().given('an ActivityTableTitle component', () => {
     owner: '',
     status: EActivityStatus.PUBLISHED,
     thematic: EActivityThematic.SELF_KNOWLEDGE,
-    title: 'Activité "Connaissance de soi" : Définir ses valeurs',
+    title: 'Activité "Connaissance de soi"\u00A0: Définir ses valeurs',
     updatedAt: '2025-03-10T14:00:00.000Z',
   }
 

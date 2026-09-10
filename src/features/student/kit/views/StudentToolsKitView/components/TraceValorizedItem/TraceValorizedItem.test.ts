@@ -126,7 +126,7 @@ BddTest().given('a trace valorized item', () => {
     BddTest().then('it should render the personal note prefixed with "Ma note personnelle"', () => {
       const note = wrapper.find('[data-testid="trace-valorized-item-personal-note"]')
       expect(note.exists()).toBe(true)
-      expect(note.text()).toBe('Ma note personnelle : Une note personnelle détaillée sur cette trace.')
+      expect(note.text()).toBe('Ma note personnelle\u00A0: Une note personnelle détaillée sur cette trace.')
     })
   })
 

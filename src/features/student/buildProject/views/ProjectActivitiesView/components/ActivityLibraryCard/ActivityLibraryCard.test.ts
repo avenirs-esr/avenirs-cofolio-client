@@ -40,7 +40,7 @@ BddTest().given('an ActivityLibraryCard', () => {
   const baseActivity: DeclaredActivityViewDTO = {
     id: '1',
     activityId: '1',
-    title: 'Activité "Connaissance de soi" : Définir ses valeurs',
+    title: 'Activité "Connaissance de soi"\u00A0: Définir ses valeurs',
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     status: EDeclaredActivityStatus.SUBSCRIBED,
     summary: 'Une activité de connaissance de soi.',

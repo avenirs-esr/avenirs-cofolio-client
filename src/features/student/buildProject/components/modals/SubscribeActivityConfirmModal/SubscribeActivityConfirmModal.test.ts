@@ -49,7 +49,7 @@ BddTest().given('a subscribe activity confirm modal', () => {
     BddTest().then('it should render the confirmation title with the activity name', () => {
       const title = wrapper.find('[data-testid="subscribe-activity-confirm-modal__header"]')
       expect(title.exists()).toBe(true)
-      expect(title.text()).toBe(`Êtes-vous certain de vouloir vous inscrire à l'activité : ${props.activity.title} ?`)
+      expect(title.text()).toBe(`Êtes-vous certain de vouloir vous inscrire à l'activité\u00A0: ${props.activity.title}\u00A0?`)
     })
 
     BddTest().then('it should not render a period input', () => {

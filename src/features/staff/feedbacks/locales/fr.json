@@ -103,7 +103,7 @@
             "allActivities": "Toutes les demandes de feedback",
             "new": "nouvelle demande de feedback | nouvelles demandes de feedback",
             "processed": "réponse envoyée | réponses envoyées",
-            "title": "Tableau de bord : {activity}",
+            "title": "Tableau de bord\u00A0: {activity}",
             "unprocessed": "demande non traitée | demandes non traitées"
           },
           "FeedbacksFiltersCard": {

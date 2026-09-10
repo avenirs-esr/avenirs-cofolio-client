@@ -55,7 +55,7 @@
             "ExportKitModal": {
               "error": "Une erreur est survenue lors de l'export du kit.",
               "exportOptions": {
-                "label": "Que souhaitez-vous exporter ?",
+                "label": "Que souhaitez-vous exporter\u00A0?",
                 "mediaContent": "Contenu multimédia (dossier .zip)",
                 "textContent": "Contenu textuel (fichier .docx)"
               },
@@ -63,7 +63,7 @@
                 "label": "Intitulé du kit",
                 "placeholder": "Entrez le nom de votre kit"
               },
-              "success": "Votre kit a bien été exporté avec succès !",
+              "success": "Votre kit a bien été exporté avec succès\u00A0!",
               "title": "Kit prêt à être exporté"
             }
           },
@@ -71,7 +71,7 @@
           "title": "Mon kit prêt à l'emploi",
           "traceValorizedItem": {
             "addedOn": "Ajoutée le {date}",
-            "personalNote": "Ma note personnelle : {note}"
+            "personalNote": "Ma note personnelle\u00A0: {note}"
           },
           "valorizedAssociatedTracesContainer": {
             "title": "Ma trace associée (1) | Mes traces associées ({count})"

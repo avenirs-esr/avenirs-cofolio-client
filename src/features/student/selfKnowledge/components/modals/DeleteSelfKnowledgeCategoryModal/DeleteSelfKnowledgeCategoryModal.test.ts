@@ -50,7 +50,7 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
     BddTest().then('it should render the correct title', () => {
       const title = wrapper.find('[data-testid="delete-self-knowledge-category-modal__header"]')
       expect(title.exists()).toBe(true)
-      expect(title.text()).toBe('Êtes-vous certain(e) de vouloir supprimer la catégorie Category with 3 elements ?')
+      expect(title.text()).toBe('Êtes-vous certain(e) de vouloir supprimer la catégorie Category with 3 elements\u00A0?')
     })
 
     BddTest().then('it should render the description with elements count in plural', () => {
@@ -119,7 +119,7 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
     BddTest().then('it should render the correct title', () => {
       const title = wrapper.find('[data-testid="delete-self-knowledge-category-modal__header"]')
       expect(title.exists()).toBe(true)
-      expect(title.text()).toBe('Êtes-vous certain(e) de vouloir supprimer la catégorie Category with 1 element ?')
+      expect(title.text()).toBe('Êtes-vous certain(e) de vouloir supprimer la catégorie Category with 1 element\u00A0?')
     })
 
     BddTest().then('it should render the description with element count in singular', () => {
@@ -188,7 +188,7 @@ BddTest().given('the DeleteSelfKnowledgeCategoryModal component', () => {
     BddTest().then('it should render the correct title', () => {
       const title = wrapper.find('[data-testid="delete-self-knowledge-category-modal__header"]')
       expect(title.exists()).toBe(true)
-      expect(title.text()).toBe('Êtes-vous certain(e) de vouloir supprimer la catégorie Empty Category ?')
+      expect(title.text()).toBe('Êtes-vous certain(e) de vouloir supprimer la catégorie Empty Category\u00A0?')
     })
 
     BddTest().then('it should not render a description', () => {

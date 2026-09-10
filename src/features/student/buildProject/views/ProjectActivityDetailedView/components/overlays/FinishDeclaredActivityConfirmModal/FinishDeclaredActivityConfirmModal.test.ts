@@ -28,7 +28,7 @@ BddTest().given('a FinishDeclaredActivityConfirmModal component', () => {
       expect(confirmationModal.exists()).toBe(true)
       expect(confirmationModal.props('opened')).toBe(true)
       expect(confirmationModal.props('title')).toBe('Confirmer la finalisation de l\'activité')
-      expect(confirmationModal.props('description')).toBe('Êtes-vous certain(e) de vouloir terminer cette activité ? Vous ne pourrez plus la modifier')
+      expect(confirmationModal.props('description')).toBe('Êtes-vous certain(e) de vouloir terminer cette activité\u00A0? Vous ne pourrez plus la modifier')
     })
 
     BddTest().and('the user closes the modal', () => {

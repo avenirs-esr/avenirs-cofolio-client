@@ -45,7 +45,7 @@ BddTest().given('a build project section component', () => {
     BddTest().then('it should render the help button with label and icon', () => {
       const button = wrapper.find('button')
       expect(button.exists()).toBe(true)
-      expect(button.text()).toBe('Comment construire mon projet ?')
+      expect(button.text()).toBe('Comment construire mon projet\u00A0?')
     })
   })
 

@@ -65,7 +65,7 @@
             "startTyping": "Start typing to search for a skill"
           },
           "confirmationModal": {
-            "description": "Do you want to abandon adding your additional skill ?"
+            "description": "Do you want to abandon adding your additional skill\u00A0?"
           },
           "errors": {
             "createDeclaredSkill": "Error while adding the skill",

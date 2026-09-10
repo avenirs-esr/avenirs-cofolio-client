@@ -6,7 +6,7 @@
           "title": "Mes compétences associées (0) | Ma compétence associée (1) | Mes compétences associées ({count})"
         },
         "DeclaredSkillRefCard": {
-          "refTitle": "Issu du référentiel :"
+          "refTitle": "Issu du référentiel\u00A0:"
         }
       },
       "declaredSkillCategoryTypes": {
@@ -65,7 +65,7 @@
             "startTyping": "Commencez à taper pour rechercher une compétence"
           },
           "confirmationModal": {
-            "description": "Souhaitez-vous abandonner l'ajout de votre compétence complémentaire ?"
+            "description": "Souhaitez-vous abandonner l'ajout de votre compétence complémentaire\u00A0?"
           },
           "errors": {
             "createDeclaredSkill": "Erreur lors de l'ajout de la compétence",
@@ -81,10 +81,10 @@
         "modals": {
           "AssociateDeclaredSkillsModal": {
             "confirm": "Associer la compétence sélectionnée (1) | Associer les compétences sélectionnées ({count})",
-            "confirmTitle": "Êtes-vous certain(e) de vouloir associer cette compétence ? | Êtes-vous certain(e) de vouloir associer ces compétences ?",
+            "confirmTitle": "Êtes-vous certain(e) de vouloir associer cette compétence\u00A0? | Êtes-vous certain(e) de vouloir associer ces compétences\u00A0?",
             "searchPlaceholder": "Entrer le nom d'une compétence déclarée",
             "success": "{count} compétence associée avec succès | {count} compétences associées avec succès",
-            "title": "Quelle(s) compétence(s) déclarée(s) souhaitez-vous associer ?"
+            "title": "Quelle(s) compétence(s) déclarée(s) souhaitez-vous associer\u00A0?"
           }
         }
       },
@@ -97,12 +97,12 @@
           },
           "declaredSkillDetails": {
             "levelTitle": "Auto-positionnement",
-            "skillTitle": "Intitulé :"
+            "skillTitle": "Intitulé\u00A0:"
           },
           "deleteModal": {
             "description": "Cette action est définitive. Elle entraine la suppression des informations concernant la compétence ainsi que la suppression des liens d'association qu'elle comportait.",
             "error": "Une erreur est survenue lors de la suppression de la compétence {skill}",
-            "title": "Confirmez-vous la suppression de la compétence {skill} ?",
+            "title": "Confirmez-vous la suppression de la compétence {skill}\u00A0?",
             "success": "Compétence {skill} supprimée avec succès"
           },
           "empty": {

@@ -143,7 +143,7 @@ export const mockedActivityContentWithEnrolledStudent4: ActivityContentDTO = {
 
 export const mockedActivityContentWithFileAndLink: ActivityContentDTO = {
   id: ACTIVITY_WITH_FILE_AND_LINK_ID,
-  title: 'Activité "Connaissance de soi" : Définir ses valeurs',
+  title: 'Activité "Connaissance de soi"\u00A0: Définir ses valeurs',
   thematic: EActivityThematic.SELF_KNOWLEDGE,
   summary: 'Résumé de l\'activité de test',
   description: 'Description détaillée de l\'activité de test',
@@ -182,7 +182,7 @@ export const mockedActivityDraftUpdateResponse: ActivityDraftUpdateResponse = {
 export const allStaffActivities: ActivityStaffOverviewDTO[] = [
   {
     activityId: ACTIVITY_WITH_FILE_AND_LINK_ID,
-    title: 'Activité "Connaissance de soi" : Définir ses valeurs',
+    title: 'Activité "Connaissance de soi"\u00A0: Définir ses valeurs',
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     activityStatus: EActivityStatus.PUBLISHED,
     updatedAt: '2024-01-15T10:00:00Z',

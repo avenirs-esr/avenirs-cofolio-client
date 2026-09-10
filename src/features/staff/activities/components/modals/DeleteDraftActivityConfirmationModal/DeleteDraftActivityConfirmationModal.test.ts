@@ -40,7 +40,7 @@ BddTest().given('a DeleteDraftActivityConfirmationModal component', () => {
     })
 
     BddTest().then('it should pass the correct title', () => {
-      expect(wrapper.findComponent(ConfirmationModalStub).props('title')).toBe('Êtes-vous certain(e) de vouloir supprimer cette activité nationale ?')
+      expect(wrapper.findComponent(ConfirmationModalStub).props('title')).toBe('Êtes-vous certain(e) de vouloir supprimer cette activité nationale\u00A0?')
     })
 
     BddTest().then('it should pass showDescription=false', () => {

@@ -38,7 +38,7 @@ BddTest().given('a footer', () => {
       const links = wrapper.findAll('[data-testid="legal-information-link"]')
 
       expect(links.length).toBe(4)
-      expect(links[0].text()).toContain('Accessibilité : partiellement conforme')
+      expect(links[0].text()).toContain('Accessibilité\u00A0: partiellement conforme')
       expect(links[1].text()).toBe('Mentions légales')
       expect(links[2].text()).toBe('Données personnelles')
       expect(links[3].text()).toBe('Gestion des cookies')

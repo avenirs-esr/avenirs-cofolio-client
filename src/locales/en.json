@@ -315,7 +315,7 @@
       "sections": {
         "legalInformation": {
           "links": {
-            "accessibility": "Accessibility : partially compliant",
+            "accessibility": "Accessibility\u00A0: partially compliant",
             "cookies": "Cookie management",
             "data": "Personal data",
             "legal": "Legal notice"
@@ -360,7 +360,7 @@
         "filesIndication": "Format: ",
         "filesTypes": "JPG, JPEG, PNG •",
         "size": "5 MB max",
-        "sizeIndication": "Size : ",
+        "sizeIndication": "Size\u00A0: ",
         "title": "Add an image"
       }
     },

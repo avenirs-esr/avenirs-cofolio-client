@@ -30,7 +30,7 @@ BddTest().given('a traces type select component', () => {
 
     BddTest().then('it should display the correct French label', () => {
       const select = wrapper.findComponent(AvSelectStub)
-      expect(select.props('label')).toBe('Rechercher dans :')
+      expect(select.props('label')).toBe('Rechercher dans\u00A0:')
     })
 
     BddTest().then('it should display the correct placeholder', () => {

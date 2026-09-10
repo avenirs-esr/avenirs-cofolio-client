@@ -25,7 +25,7 @@ BddTest().given('a confirm delete self knowledge element modal', () => {
 
       BddTest().then('it should display the correct title', () => {
         const header = wrapper.find('.b2-bold')
-        expect(header.text()).toBe('Êtes-vous certain(e) de vouloir supprimer cet élément ?')
+        expect(header.text()).toBe('Êtes-vous certain(e) de vouloir supprimer cet élément\u00A0?')
       })
 
       BddTest().then('it should list the element to delete', () => {
@@ -72,7 +72,7 @@ BddTest().given('a confirm delete self knowledge element modal', () => {
 
       BddTest().then('it should display the correct title with element count', () => {
         const header = wrapper.find('.b2-bold')
-        expect(header.text()).toBe('Êtes-vous certain(e) de vouloir supprimer ces éléments ?')
+        expect(header.text()).toBe('Êtes-vous certain(e) de vouloir supprimer ces éléments\u00A0?')
       })
 
       BddTest().then('it should list the element to delete', () => {

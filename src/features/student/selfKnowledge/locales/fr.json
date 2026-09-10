@@ -81,7 +81,7 @@
             "rating": "Préciser mon élément"
           },
           "confirmationModal": {
-            "title": "Souhaitez-vous abandonner l'ajout de votre élément ?"
+            "title": "Souhaitez-vous abandonner l'ajout de votre élément\u00A0?"
           },
           "errors": {
             "createElement": "Erreur lors de la création de l'élément"
@@ -105,33 +105,33 @@
           "emptyState": "Aucun élément dans cette catégorie",
           "modals": {
             "confirmDeleteElements": {
-              "title": "Êtes-vous certain(e) de vouloir supprimer cet élément ? | Êtes-vous certain(e) de vouloir supprimer ces éléments ?"
+              "title": "Êtes-vous certain(e) de vouloir supprimer cet élément\u00A0? | Êtes-vous certain(e) de vouloir supprimer ces éléments\u00A0?"
             },
             "deleteElements": {
               "ariaLabel": "Sélectionner l'élément {title}",
               "confirmButton": "Supprimer les éléments sélectionnés (0) | Supprimer l'élément sélectionné (1) | Supprimer les éléments sélectionnés ({count})",
               "error": "Une erreur est survenue lors de la suppression de l'élément. | Une erreur est survenue lors de la suppression des éléments.",
               "success": "{count} élément supprimé avec succès | {count} éléments supprimés avec succès",
-              "title": "Aucun élément à supprimer | Quel élément souhaitez-vous supprimer ? | Quels éléments souhaitez-vous supprimer ?"
+              "title": "Aucun élément à supprimer | Quel élément souhaitez-vous supprimer\u00A0? | Quels éléments souhaitez-vous supprimer\u00A0?"
             }
           }
         },
         "modals": {
           "addSelfKnowledgeCategories": {
             "success": "{count} catégorie ajoutée avec succès | {count} catégories ajoutées avec succès",
-            "title": "Vous avez ajouté toutes les catégories actuellement disponible sur COFOLIO. | Quelle catégorie souhaitez-vous ajouter ? | Quelles catégories souhaitez-vous ajouter ?"
+            "title": "Vous avez ajouté toutes les catégories actuellement disponible sur COFOLIO. | Quelle catégorie souhaitez-vous ajouter\u00A0? | Quelles catégories souhaitez-vous ajouter\u00A0?"
           },
           "deleteSelfKnowledgeCategory": {
             "description": "L'élément renseigné dans cette catégorie sera définitivement supprimé. | {count} éléments renseignés dans cette catégorie seront définitivement supprimés.",
             "success": "La catégorie {category} a été supprimée avec succès",
-            "title": "Êtes-vous certain(e) de vouloir supprimer la catégorie {category} ?"
+            "title": "Êtes-vous certain(e) de vouloir supprimer la catégorie {category}\u00A0?"
           }
         },
         "navigation": {
           "elementsSideMenu": "Tous mes éléments"
         },
         "title": {
-          "content": "Qui je suis ?",
+          "content": "Qui je suis\u00A0?",
           "menu": "Me connaître"
         }
       },
@@ -177,7 +177,7 @@
               "save": "Enregistrer les modifications"
             },
             "confirmationModal": {
-              "title": "Êtes-vous certain(e) de vouloir abandonner les modifications de votre élément ?"
+              "title": "Êtes-vous certain(e) de vouloir abandonner les modifications de votre élément\u00A0?"
             }
           },
           "title": "Détail de mes {type}"

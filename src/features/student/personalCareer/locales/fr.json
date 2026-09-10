@@ -112,7 +112,7 @@
       "overlays": {
         "AddDeclaredExperienceDrawer": {
           "confirmationModal": {
-            "description": "Souhaitez-vous abandonner l'ajout de votre expérience ?"
+            "description": "Souhaitez-vous abandonner l'ajout de votre expérience\u00A0?"
           },
           "errors": {
             "createDeclaredExperience": "Erreur lors de la création de l'expérience déclarée"
@@ -134,7 +134,7 @@
         },
         "AddDeclaredProgramDrawer": {
           "confirmationModal": {
-            "description": "Êtes-vous sûr de vouloir annuler ? Les modifications non enregistrées seront perdues."
+            "description": "Êtes-vous sûr de vouloir annuler\u00A0? Les modifications non enregistrées seront perdues."
           },
           "errors": {
             "createDeclaredProgram": "Erreur lors de la création de la formation déclarée"
@@ -151,22 +151,22 @@
           "confirm": "Associer l'expérience sélectionnée (1) | Associer les expériences sélectionnées ({count})",
           "searchPlaceholder": "Entrer le nom d'une expérience déclarée",
           "success": "Vous avez associé {count} expérience. Retrouvez-la dans la catégorie \"Mes expériences associées\". | Vous avez associé {count} expériences. Retrouvez-les dans la catégorie \"Mes expériences associées\".",
-          "title": "Quelle(s) expérience(s) souhaitez-vous associer ?"
+          "title": "Quelle(s) expérience(s) souhaitez-vous associer\u00A0?"
         },
         "ConfirmAssociateDeclaredExperiencesModal": {
-          "title": "Êtes-vous certain(e) de vouloir associer cette expérience ? | Êtes-vous certain(e) de vouloir associer ces expériences ?"
+          "title": "Êtes-vous certain(e) de vouloir associer cette expérience\u00A0? | Êtes-vous certain(e) de vouloir associer ces expériences\u00A0?"
         },
         "DeleteDeclaredExperienceConfirmModal": {
           "description": "Cette action entrainera la suppression des éventuelles associations.",
           "error": "Une erreur est survenue lors de la suppression de l'expérience. | Une erreur est survenue lors de la suppression des expériences.",
-          "title": "Êtes-vous certain(e) de vouloir supprimer cette expérience ? | Êtes-vous certain(e) de vouloir supprimer ces expériences ?",
+          "title": "Êtes-vous certain(e) de vouloir supprimer cette expérience\u00A0? | Êtes-vous certain(e) de vouloir supprimer ces expériences\u00A0?",
           "success": "Expérience supprimée avec succès. | Expériences supprimées avec succès."
         },
         "DeleteDeclaredProgramConfirmModal": {
           "description": "Cette action entrainera la suppression des éventuelles associations.",
           "error": "Une erreur est survenue lors de la suppression de la formation. | Une erreur est survenue lors de la suppression des formations.",
           "success": "Formation supprimée avec succès. | Formations supprimées avec succès.",
-          "title": "Êtes-vous certain(e) de vouloir supprimer cette formation ? | Êtes-vous certain(e) de vouloir supprimer ces formations ?"
+          "title": "Êtes-vous certain(e) de vouloir supprimer cette formation\u00A0? | Êtes-vous certain(e) de vouloir supprimer ces formations\u00A0?"
         }
       },
       "views": {
@@ -251,13 +251,13 @@
               "share": "Partager une expérience"
             },
             "DeclaredExperiencesTab": {
-              "emptyState": "Aucune expérience déclarée pour le moment. Cliquez sur le bouton \"Ajouter\" dans le menu Plus d'actions pour déclarer votre première expérience !",
+              "emptyState": "Aucune expérience déclarée pour le moment. Cliquez sur le bouton \"Ajouter\" dans le menu Plus d'actions pour déclarer votre première expérience\u00A0!",
               "title": "Mes expériences déclarées"
             },
             "DeleteDeclaredExperiencesModal": {
               "confirm": "Supprimer l'expérience sélectionnée | Supprimer les expériences sélectionnées ({count})",
               "noDeclaredExperiences": "Aucune expérience à supprimer.",
-              "title": "Quelle(s) expérience(s) souhaitez-vous supprimer ?"
+              "title": "Quelle(s) expérience(s) souhaitez-vous supprimer\u00A0?"
             },
             "title": "Mes expériences",
             "VerifiedExperiencesTab": {
@@ -275,13 +275,13 @@
               "share": "Partager une formation"
             },
             "DeclaredProgramsTab": {
-              "emptyState": "Aucune formation déclarée pour le moment. Cliquez sur le bouton \"Ajouter\" dans le menu Plus d'actions pour déclarer votre première formation !",
+              "emptyState": "Aucune formation déclarée pour le moment. Cliquez sur le bouton \"Ajouter\" dans le menu Plus d'actions pour déclarer votre première formation\u00A0!",
               "title": "Mes formations déclarées"
             },
             "DeleteDeclaredProgramsModal": {
               "confirm": "Supprimer la formation sélectionnée | Supprimer les formations sélectionnées ({count})",
               "noDeclaredPrograms": "Aucune formation à supprimer.",
-              "title": "Quelle(s) formation(s) souhaitez-vous supprimer ?"
+              "title": "Quelle(s) formation(s) souhaitez-vous supprimer\u00A0?"
             },
             "title": "Mes formations",
             "VerifiedProgramsTab": {

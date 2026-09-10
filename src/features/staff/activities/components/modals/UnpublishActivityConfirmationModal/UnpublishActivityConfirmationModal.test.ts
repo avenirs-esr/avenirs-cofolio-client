@@ -40,7 +40,7 @@ BddTest().given('an UnpublishActivityConfirmationModal component', () => {
     })
 
     BddTest().then('it should pass the correct title', () => {
-      expect(wrapper.findComponent(ConfirmationModalStub).props('title')).toBe('Êtes-vous certain(e) de vouloir dépublier cette activité ?')
+      expect(wrapper.findComponent(ConfirmationModalStub).props('title')).toBe('Êtes-vous certain(e) de vouloir dépublier cette activité\u00A0?')
     })
 
     BddTest().then('it should pass showDescription=false', () => {

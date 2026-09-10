@@ -143,7 +143,7 @@ BddTest().given('a self knowledge element update form component', () => {
       const modal = getConfirmationModal()
       expect(modal.exists()).toBe(true)
       expect(modal.props('opened')).toBe(false)
-      expect(modal.props('title')).toBe('Êtes-vous certain(e) de vouloir abandonner les modifications de votre élément ?')
+      expect(modal.props('title')).toBe('Êtes-vous certain(e) de vouloir abandonner les modifications de votre élément\u00A0?')
     })
   })
 

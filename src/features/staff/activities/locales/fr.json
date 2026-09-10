@@ -22,15 +22,15 @@
       },
       "modals": {
         "DeleteActivityResourcesConfirmationModal": {
-          "title": "Êtes-vous certain(e) de vouloir supprimer la ressource selectionnée ? | Êtes-vous certain(e) de vouloir supprimer les ressources selectionnées ?"
+          "title": "Êtes-vous certain(e) de vouloir supprimer la ressource selectionnée\u00A0? | Êtes-vous certain(e) de vouloir supprimer les ressources selectionnées\u00A0?"
         },
         "DeleteDraftActivityConfirmationModal": {
           "deleteError": "Une erreur est survenue lors de la suppression de l'activité",
           "deleteSuccess": "L'activité a été supprimée avec succès",
-          "title": "Êtes-vous certain(e) de vouloir supprimer cette activité nationale ?"
+          "title": "Êtes-vous certain(e) de vouloir supprimer cette activité nationale\u00A0?"
         },
         "UnpublishActivityConfirmationModal": {
-          "title": "Êtes-vous certain(e) de vouloir dépublier cette activité ?",
+          "title": "Êtes-vous certain(e) de vouloir dépublier cette activité\u00A0?",
           "unpublishError": "Une erreur est survenue lors de la dépublication de l'activité",
           "unpublishSuccess": "L'activité a été dépubliée avec succès"
         }
@@ -150,12 +150,12 @@
           "ActivityFeedbackFormField": {
             "description": "Lorsque le paramètre est désactivé, les apprenants ne peuvent pas demander de feedback sur leur activité en passant par COFOLIO.",
             "infinityToggleLabel": "Autoriser un nombre illimité d'itérations de feedback",
-            "label": "Combien d'itérations maximum ?",
+            "label": "Combien d'itérations maximum\u00A0?",
             "title": "Demande de feedback"
           },
           "ActivityPublicationTab": {
             "confirmDescription": "Cette action la rendra accessible à tous les étudiants de l'établissement et permettra leur inscription immédiate.",
-            "confirmTitle": "Êtes-vous certain(e) de vouloir publier votre activité ? ",
+            "confirmTitle": "Êtes-vous certain(e) de vouloir publier votre activité\u00A0? ",
             "publishError": "Une erreur est survenue lors de la publication de l'activité",
             "publishLabel": "Publier",
             "publishRequiredFieldsError": "Veuillez renseigner un titre, une thématique, une consigne, un extrait et un/des contexte(s) de réalisation conseillé(s) pour publier l'activité",
@@ -173,7 +173,7 @@
           "ActivityTraceFormField": {
             "description": "Lorsque le paramètre est désactivé, les apprenants ne peuvent pas associer de traces à leur activité.",
             "infinityToggleLabel": "Autoriser un nombre illimité d'associations de traces",
-            "label": "Combien d'associations de traces maximum ?",
+            "label": "Combien d'associations de traces maximum\u00A0?",
             "title": "Association de traces"
           },
           "EditNationalActivityViewTabActions": {

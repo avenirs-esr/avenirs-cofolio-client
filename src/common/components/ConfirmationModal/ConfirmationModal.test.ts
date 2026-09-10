@@ -51,7 +51,7 @@ BddTest().given('a confirmation modal', () => {
       const titleText = contentContainer.find('[data-testid="modal-title"]')
       const descriptionText = contentContainer.find('[data-testid="modal-description"]')
 
-      expect(titleText.text()).toBe('Êtes-vous sûr de vouloir quitter ?')
+      expect(titleText.text()).toBe('Êtes-vous sûr de vouloir quitter\u00A0?')
       expect(descriptionText.text()).toBe('Toutes les modifications non enregistrées seront perdues.')
     })
   })
@@ -158,7 +158,7 @@ BddTest().given('a confirmation modal', () => {
       const titleText = wrapper.find('[data-testid="modal-title"]')
 
       expect(titleText.exists()).toBe(true)
-      expect(titleText.text()).toBe('Êtes-vous sûr de vouloir quitter ?')
+      expect(titleText.text()).toBe('Êtes-vous sûr de vouloir quitter\u00A0?')
     })
   })
 
