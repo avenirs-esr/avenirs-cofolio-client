@@ -13,9 +13,15 @@ import { useI18n } from 'vue-i18n'
 
 export interface DeclaredSkillDetailsProps {
   declaredSkillProgressDetails: DeclaredSkillProgressDetailsDTO
+  hideValorizedBadge?: boolean
+  disableRowLayout?: boolean
 }
 
-const { declaredSkillProgressDetails } = defineProps<DeclaredSkillDetailsProps>()
+const {
+  declaredSkillProgressDetails,
+  hideValorizedBadge = false,
+  disableRowLayout = false,
+} = defineProps<DeclaredSkillDetailsProps>()
 
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
@@ -25,8 +31,9 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
 
 <template>
   <div
-    class="av-row av-wrap av-nowrap--md av-justify-center av-justify-between--md av-gap-xl"
+    class="av-col av-justify-center av-justify-between--md av-gap-xl"
     :class="{
+      'av-row--md': !disableRowLayout,
       'layout-declared-skill-details--mobile': isMobile,
     }"
     data-testid="layout-declared-skill-details"
@@ -36,6 +43,7 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
       data-testid="layout-declared-skill-details__main"
     >
       <ValorizedBadge
+        v-if="!hideValorizedBadge"
         :valorized="declaredSkillProgressDetails.valorized"
       />
       <AvInput

@@ -152,5 +152,30 @@ BddTest().given('the DeclaredSkillDetails component', () => {
       expect(badge.exists()).toBe(true)
       expect(badge.props('valorized')).toBe(mockedDeclaredSkillProgressDetails.valorized)
     })
+
+    BddTest().then('it should render the row layout by default', () => {
+      expect(wrapper.find('[data-testid="layout-declared-skill-details"]').classes()).toContain('av-row--md')
+    })
+
+    BddTest().and('the layout row and valorized badge are disabled', () => {
+      beforeEach(() => {
+        wrapper = mount(DeclaredSkillDetails, {
+          props: {
+            ...props,
+            hideValorizedBadge: true,
+            disableRowLayout: true
+          },
+          global: { stubs }
+        })
+      })
+
+      BddTest().then('it should hide the valorized badge', () => {
+        expect(wrapper.findComponent(ValorizedBadgeStub).exists()).toBe(false)
+      })
+
+      BddTest().then('it should disable the row layout', () => {
+        expect(wrapper.find('[data-testid="layout-declared-skill-details"]').classes()).not.toContain('av-row--md')
+      })
+    })
   })
 })

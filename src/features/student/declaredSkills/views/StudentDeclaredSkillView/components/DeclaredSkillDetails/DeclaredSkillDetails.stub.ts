@@ -1,5 +1,5 @@
 export const DeclaredSkillDetailsStub = defineComponent({
   name: 'DeclaredSkillDetails',
-  props: ['declaredSkillProgressDetails'],
+  props: ['declaredSkillProgressDetails', 'hideValorizedBadge', 'disableRowLayout'],
   template: '<div data-testid="declared-skill-details" />'
 })

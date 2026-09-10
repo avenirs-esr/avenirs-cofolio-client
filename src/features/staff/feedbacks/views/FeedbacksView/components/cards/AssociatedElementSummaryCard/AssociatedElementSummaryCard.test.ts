@@ -75,11 +75,14 @@ BddTest().given('a AssociatedElementSummaryCard component', () => {
       await vi.waitFor(() => expect(wrapper.findComponent(AssociatedElementDetailsDrawerStub).exists()).toBe(false))
     })
 
-    BddTest().then('it should not open the drawer for a declared skill', async () => {
+    BddTest().then('it should open the drawer for a declared skill', async () => {
       const skillCard = wrapper.findAllComponents(AssociatedElementCardStub)[1]
       skillCard.vm.$emit('show-details', skillCard.props('feedbackAssociatedElement'))
+      await vi.waitFor(() => wrapper.findComponent(AssociatedElementDetailsDrawerStub).exists())
 
-      expect(wrapper.findComponent(AssociatedElementDetailsDrawerStub).exists()).toBe(false)
+      const drawer = wrapper.findComponent(AssociatedElementDetailsDrawerStub)
+      expect(drawer.exists()).toBe(true)
+      expect(drawer.props('feedbackAssociatedElement')).toEqual(skillCard.props('feedbackAssociatedElement'))
     })
   })
 
