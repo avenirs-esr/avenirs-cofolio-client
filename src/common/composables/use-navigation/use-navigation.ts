@@ -130,16 +130,21 @@ export function useNavigation () {
     return navigate(to)
   }
 
-  const navigateToStaffHome = (
-  ): Promise<NavigationFailure | void | undefined> => {
+  const navigateToStaffHome = (): Promise<NavigationFailure | void | undefined> => {
     return navigate(ROUTES.STAFF.HOME)
   }
 
-  const navigateToStaffActivityFeedbackDetails = ({ feedbackId }: { feedbackId: string }
-  ): Promise<NavigationFailure | void | undefined> => {
+  const navigateToStaffActivityFeedbackDetails = ({ feedbackId }: { feedbackId: string }): Promise<NavigationFailure | void | undefined> => {
     return navigate({
       name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
       params: { feedbackId },
+    })
+  }
+
+  const navigateToFeedbacks = ({ activityId }: { activityId?: string } = {}): Promise<NavigationFailure | void | undefined> => {
+    return navigate({
+      name: ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS.name,
+      query: { activityId },
     })
   }
 
@@ -160,13 +165,6 @@ export function useNavigation () {
     return navigate({
       name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
       params: { status, id },
-    })
-  }
-
-  const navigateToStaffActivityFeedbacks = ({ id }: { id: string }) => {
-    return navigate({
-      name: ROUTES.STAFF.ACTIVITY_FEEDBACKS.name,
-      params: { id },
     })
   }
 
@@ -216,10 +214,10 @@ export function useNavigation () {
     navigateToStaffHome,
     navigateToActivityDetailed,
     navigateToStaffActivityFeedbackDetails,
+    navigateToFeedbacks,
     navigateToStaffActivities,
     navigateToStaffActivitiesEditNationalActivity,
     navigateToStaffActivityCatalog,
-    navigateToStaffActivityFeedbacks,
     navigateToStudentUpdateTrace,
     navigateToStudentToolsUpdateTrace,
     navigateToStudentToolsTrace,

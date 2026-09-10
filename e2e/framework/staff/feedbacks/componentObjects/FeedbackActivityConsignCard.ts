@@ -1,13 +1,13 @@
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { expect, type Locator } from '@playwright/test'
 
-export class ActivityConsignCard extends BaseObject {
+export class FeedbackActivityConsignCard extends BaseObject {
   constructor (root: Locator) {
     super(root)
   }
 
   private getContent () {
-    return this.root.getByTestId('activity-consign-card-content')
+    return this.root.getByTestId('feedback-activity-consign-card')
   }
 
   async verifyVisible () {

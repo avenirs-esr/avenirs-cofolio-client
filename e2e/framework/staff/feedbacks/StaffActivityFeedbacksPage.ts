@@ -1,8 +1,8 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
-import { ActivityConsignCard } from '@e2e/framework/staff/feedbacks/componentObjects/ActivityConsignCard'
-import { FeedbacksDashboardSection } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksDashboardSection'
+import { FeedbackActivityConsignCard } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbackActivityConsignCard'
+import { FeedbacksDashboardCards } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksDashboardCards'
 import { FeedbacksTable } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksTable'
 import { expect, type Page } from '@playwright/test'
 import { Fixture, Then } from 'playwright-bdd/decorators'
@@ -23,21 +23,21 @@ export class StaffActivityFeedbacksPage extends BasePage {
     return this.page.getByTestId('feedback-status-picker')
   }
 
-  private getFeedbacksDashboardSection () {
-    return new FeedbacksDashboardSection(
-      this.page.getByTestId('feedbacks-dashboard-section'),
+  private getFeedbacksDashboardCards () {
+    return new FeedbacksDashboardCards(
+      this.page.getByTestId('feedbacks-dashboard-cards'),
     )
   }
 
-  private getActivityConsignCard () {
-    return new ActivityConsignCard(
-      this.page.getByTestId('activity-consign-card'),
+  private getFeedbackActivityConsignCard () {
+    return new FeedbackActivityConsignCard(
+      this.page.getByTestId('feedback-activity-consign-card'),
     )
   }
 
   @Then('the staff activity feedbacks page is displayed')
   async verifyPageLoaded () {
-    const expectedPattern = STAFF_ROUTES.ACTIVITY_FEEDBACKS.replace(':id', '[^/]+')
+    const expectedPattern = new RegExp(`${STAFF_ROUTES.STUDENT_TRACKING.FEEDBACKS}(\\?.*)?$`)
     await expect(this.page).toHaveURL(new RegExp(expectedPattern))
   }
 
@@ -67,33 +67,33 @@ export class StaffActivityFeedbacksPage extends BasePage {
     await this.getFeedbacksTable().verifyIterationCellVisible()
   }
 
-  @Then('the feedbacks dashboard section is visible')
-  async verifyFeedbacksDashboardSectionVisible () {
-    await this.getFeedbacksDashboardSection().verifyVisible()
+  @Then('the feedbacks dashboard is visible')
+  async verifyFeedbacksDashboardCardsVisible () {
+    await this.getFeedbacksDashboardCards().verifyVisible()
   }
 
   @Then('the new feedbacks dashboard card is displayed')
   async verifyNewFeedbacksDashboardCard () {
-    await this.getFeedbacksDashboardSection().verifyNewFeedbacksCard()
+    await this.getFeedbacksDashboardCards().verifyNewFeedbacksCard()
   }
 
-  @Then('the pending feedbacks dashboard card is displayed')
+  @Then('the unprocessed feedbacks dashboard card is displayed')
   async verifyPendingFeedbacksDashboardCard () {
-    await this.getFeedbacksDashboardSection().verifyPendingFeedbacksCard()
+    await this.getFeedbacksDashboardCards().verifyUnprocessedFeedbacksCard()
   }
 
   @Then('the processed feedbacks dashboard card is displayed')
   async verifyProcessedFeedbacksDashboardCard () {
-    await this.getFeedbacksDashboardSection().verifyProcessedFeedbacksCard()
+    await this.getFeedbacksDashboardCards().verifyProcessedFeedbacksCard()
   }
 
-  @Then('the activity consign card is visible')
-  async verifyActivityConsignCardVisible () {
-    await this.getActivityConsignCard().verifyVisible()
+  @Then('the feedback activity consign card is visible')
+  async verifyFeedbackActivityConsignCardVisible () {
+    await this.getFeedbackActivityConsignCard().verifyVisible()
   }
 
-  @Then('the activity consign card is collapsed by default')
-  async verifyActivityConsignCardCollapsedByDefault () {
-    await this.getActivityConsignCard().verifyCollapsedByDefault()
+  @Then('the feedback activity consign card is collapsed by default')
+  async verifyFeedbackActivityConsignCardCollapsedByDefault () {
+    await this.getFeedbackActivityConsignCard().verifyCollapsedByDefault()
   }
 }

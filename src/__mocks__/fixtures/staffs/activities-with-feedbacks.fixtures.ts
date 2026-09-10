@@ -1,7 +1,7 @@
-import type { ActivityItemNavigationDTO, EFeedbackStatus, PagedResponseActivityItemNavigationDTO, PageInfoDTO } from '@/api/avenir-esr'
+import type { ActivityFeedbacksPreviewDTO, EFeedbackStatus, PagedResponseActivityFeedbacksPreviewDTO, PageInfoDTO } from '@/api/avenir-esr'
 import { allFeedbacks } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 
-export function getMockedActivitiesWithFeedbacks ({ statuses }: { statuses?: EFeedbackStatus[] } = {}): ActivityItemNavigationDTO[] {
+export function getMockedActivitiesWithFeedbacks ({ statuses }: { statuses?: EFeedbackStatus[] } = {}): ActivityFeedbacksPreviewDTO[] {
   let feedbacks = [...allFeedbacks]
 
   if (statuses) {
@@ -16,10 +16,10 @@ export function getMockedActivitiesWithFeedbacks ({ statuses }: { statuses?: EFe
     // inherit this ordering. This is an implicit consistency rule, not an
     // explicit business rule.
     .sort((activity1, activity2) => new Date(activity2.createdAt).getTime() - new Date(activity1.createdAt).getTime())
-    .map(({ id, title }) => ({ id, title }))
+    .map(({ id, title, description }) => ({ id, title, description }))
 }
 
-export function getMockedActivitiesWithFeedbacksPaginated ({ statuses, page, pageSize }: { statuses?: EFeedbackStatus[], page?: number, pageSize?: number } = {}): PagedResponseActivityItemNavigationDTO {
+export function getMockedActivitiesWithFeedbacksPaginated ({ statuses, page, pageSize }: { statuses?: EFeedbackStatus[], page?: number, pageSize?: number } = {}): PagedResponseActivityFeedbacksPreviewDTO {
   const activities = getMockedActivitiesWithFeedbacks({ statuses })
 
   const pageInfo: PageInfoDTO = {

@@ -4,31 +4,30 @@ import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import DOMPurify from 'dompurify'
 import { useI18n } from 'vue-i18n'
 
-export interface ActivityConsignCardProps {
+export interface FeedbackActivityConsignCardProps {
   description?: string
 }
 
-const { description } = defineProps<ActivityConsignCardProps>()
+const { description } = defineProps<FeedbackActivityConsignCardProps>()
 
 const { t } = useI18n()
 
-const sanitizedContent = computed(() =>
-  DOMPurify.sanitize(description ?? '')
-)
+const content = computed(() => description ? DOMPurify.sanitize(description) : '')
 </script>
 
 <template>
   <IconTitleCardContainer
+    v-if="!!content"
     :title-icon="MDI_ICONS.FILE_DOCUMENT_BOX_MULTIPLE_OUTLINE"
-    :title="t('staff.feedbacks.cards.ActivityConsignCard.title')"
+    :title="t('staff.feedbacks.views.FeedbacksView.FeedbackActivityConsignCard.title')"
     collapsible
     :collapsed="true"
-    data-testid="activity-consign-card"
+    data-testid="feedback-activity-consign-card"
   >
     <div
       data-user-content
       data-testid="activity-consign-card-content"
-      v-html="sanitizedContent"
+      v-html="content"
     />
   </IconTitleCardContainer>
 </template>

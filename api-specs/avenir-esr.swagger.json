@@ -4213,7 +4213,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/PagedResponseActivityItemNavigationDTO"
+                  "$ref": "#/components/schemas/PagedResponseActivityFeedbacksPreviewDTO"
                 }
               }
             }
@@ -8286,6 +8286,43 @@
           "unsubscriptionsLast30Days"
         ]
       },
+      "ActivityFeedbacksPreviewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title"
+        ]
+      },
+      "PagedResponseActivityFeedbacksPreviewDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActivityFeedbacksPreviewDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
       "ActivityItemNavigationDTO": {
         "type": "object",
         "properties": {
@@ -8300,24 +8337,6 @@
         "required": [
           "id",
           "title"
-        ]
-      },
-      "PagedResponseActivityItemNavigationDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ActivityItemNavigationDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
         ]
       },
       "ActivityStaffOverviewDTO": {

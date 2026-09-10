@@ -21,6 +21,9 @@ export const staffStudentTrackingActivityFeedbacksRoute: AvRoute = {
 
 export const staffStudentTrackingFeedbacksRoute: AvRoute = {
   ...ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS,
+  props: route => ({
+    activityId: route.query.activityId,
+  }),
   component: () =>
     import('@/features/staff/feedbacks/views/FeedbacksView/FeedbacksView.vue'),
 }

@@ -3,7 +3,6 @@ export const STAFF_ROUTES = {
   ACTIVITIES: '/cofolio/staff/activities',
   ACTIVITIES_EDIT_NATIONAL_ACTIVITY: '/cofolio/staff/activities/:id/edit',
   ACTIVITY_CATALOG: '/cofolio/staff/activities/:status/:id',
-  ACTIVITY_FEEDBACKS: '/cofolio/staff/activities/:id/feedbacks',
   STUDENT_TRACKING: {
     ACTIVITY_FEEDBACK: '/cofolio/staff/student-tracking/activity-feedbacks/:feedbackId',
     FEEDBACKS: '/cofolio/staff/student-tracking/feedbacks',

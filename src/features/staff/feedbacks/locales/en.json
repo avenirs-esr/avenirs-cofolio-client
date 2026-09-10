@@ -13,9 +13,6 @@
         }
       },
       "cards": {
-        "ActivityConsignCard": {
-          "title": "Instructions"
-        },
         "AssociatedElementSummaryCard": {
           "emptyState": "No elements associated with this feedback found",
           "title": "Summary of associated elements ({count})"
@@ -75,28 +72,13 @@
           "seeActivity": "View activity detail",
           "title": "Feedback details"
         },
-        "ActivityFeedbacksView": {
-          "ActivityFeedbacksCard": {
-            "feedbacksSection": {
-              "title": "Feedback request"
-            },
-            "title": "Activity summary"
-          },
-          "errors": {
-            "fetchActivity": "Unable to load activity"
-          },
-          "FeedbacksDashboardSection": {
-            "new": "new feedback request | new feedback requests",
-            "pending": "unprocessed feedback request | unprocessed feedback requests",
-            "sent": "sent feedback | sent feedbacks",
-            "title": "Dashboard"
-          },
-          "title": "All my feedback requests on the activity \"{activityTitle}\""
-        },
         "FeedbacksView": {
           "AssociatedElementDetailsDrawer": {
             "drawerLabel": "Associated element details",
             "traceTitle": "Trace details: {traceTitle}"
+          },
+          "FeedbackActivityConsignCard": {
+            "title": "Instructions"
           },
           "FeedbackActivityFilterSelect": {
             "defaultOption": "All",

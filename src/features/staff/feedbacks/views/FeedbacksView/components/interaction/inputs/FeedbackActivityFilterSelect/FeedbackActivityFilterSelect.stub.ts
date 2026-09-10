@@ -4,6 +4,7 @@ import type { PropType } from 'vue'
 export const FeedbackActivityFilterSelectStub = defineComponent({
   name: 'FeedbackActivityFilterSelect',
   props: {
+    defaultActivityId: String,
     feedbackStatuses: Array as PropType<EFeedbackStatus[]>,
     label: String,
     disabled: Boolean,

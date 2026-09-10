@@ -386,14 +386,36 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to activity feedbacks', () => {
-    BddTest().then('it should navigate to activity feedbacks with feedbackId', () => {
+  BddTest().when('trying to navigate to feedback with feedbackId', () => {
+    BddTest().then('it should navigate to feedback with feedbackId', () => {
       const { navigateToStaffActivityFeedbackDetails } = navigation
       navigateToStaffActivityFeedbackDetails({ feedbackId: 'fb-456' })
 
       expect(pushMock).toHaveBeenCalledWith({
         name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
         params: { feedbackId: 'fb-456' },
+      })
+    })
+  })
+
+  BddTest().when('trying to navigate to feedbacks without activity id', () => {
+    BddTest().then('it should navigate to feedbacks without activityId', () => {
+      const { navigateToFeedbacks } = navigation
+      navigateToFeedbacks()
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS.name,
+        query: { activityId: undefined },
+      })
+    })
+  })
+
+  BddTest().when('trying to navigate to feedbacks with activity id', () => {
+    BddTest().then('it should navigate to feedbacks with activityId', () => {
+      const { navigateToFeedbacks } = navigation
+      navigateToFeedbacks({ activityId: 'a-123' })
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS.name,
+        query: { activityId: 'a-123' },
       })
     })
   })
@@ -446,18 +468,6 @@ BddTest().given('a useNavigation composable', () => {
       expect(pushMock).toHaveBeenCalledWith({
         name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
         params: { status: 'DRAFT', id: 'act-123' },
-      })
-    })
-  })
-
-  BddTest().when('trying to navigate to staff activity feedbacks', () => {
-    BddTest().then('it should navigate to staff activity feedbacks with activityId', () => {
-      const { navigateToStaffActivityFeedbacks } = navigation
-      navigateToStaffActivityFeedbacks({ id: 'act-123' })
-
-      expect(pushMock).toHaveBeenCalledWith({
-        name: ROUTES.STAFF.ACTIVITY_FEEDBACKS.name,
-        params: { id: 'act-123' },
       })
     })
   })

@@ -21,7 +21,7 @@ import { beforeEach, expect, vi } from 'vitest'
 const mockError = new BaseApiException('error')
 
 const mockFormatLastModified = vi.fn((value: string) => `formatted-${value}`)
-const navigateToStaffActivityFeedbacks = vi.fn()
+const navigateToFeedbacks = vi.fn()
 const navigateToStaffActivityCatalog = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
@@ -32,7 +32,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
       formatLastModified: mockFormatLastModified,
     }),
     useNavigation: () => ({
-      navigateToStaffActivityFeedbacks,
+      navigateToFeedbacks,
       navigateToStaffActivityCatalog
     }),
   }
@@ -327,8 +327,8 @@ BddTest().given('a ActivitiesTab component', () => {
         getMoreActionsDropdowns()[0].vm.$emit('navigateToFeedbacksSelected')
       })
 
-      BddTest().then('it should call navigateToStaffActivityFeedbacks', () => {
-        expect(navigateToStaffActivityFeedbacks).toHaveBeenCalled()
+      BddTest().then('it should call navigateToFeedbacks', () => {
+        expect(navigateToFeedbacks).toHaveBeenCalled()
       })
     })
 

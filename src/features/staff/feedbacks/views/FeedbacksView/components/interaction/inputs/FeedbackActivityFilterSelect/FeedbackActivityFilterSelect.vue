@@ -1,43 +1,38 @@
 <script setup lang="ts">
-import { type ActivityItemNavigationDTO, type EFeedbackStatus, useGetActivitiesWithFeedbacks } from '@/api/avenir-esr'
+import { type ActivityFeedbacksPreviewDTO, type EFeedbackStatus, useGetActivitiesWithFeedbacks } from '@/api/avenir-esr'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { AvSelect, type AvSelectProps, type AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
+import { until, watchIgnorable } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
 export interface FeedbackActivityFilterSelectProps extends Omit<AvSelectProps, 'options' | 'placeholder'> {
+  defaultActivityId?: string
   feedbackStatuses?: EFeedbackStatus[]
 }
 
 const {
-  label,
+  defaultActivityId,
   feedbackStatuses,
+  label,
   disabled,
   ...restProps
 } = defineProps<FeedbackActivityFilterSelectProps>()
 
 const emit = defineEmits<{
-  (event: 'change', activity?: ActivityItemNavigationDTO): void
+  (event: 'change', activity?: ActivityFeedbacksPreviewDTO): void
 }>()
 
 const { t } = useI18n()
 
 const defaultOptionId = 'ALL'
-const selectedItem = ref<AvSelectSelectedOption>({ itemId: defaultOptionId })
+const defaultOption = ref<AvSelectSelectedOption>()
+const selectedItem = ref<AvSelectSelectedOption>()
 
-function reset () {
-  selectedItem.value = { itemId: defaultOptionId }
-}
-
-defineExpose({ reset })
-
-const { data, isPending, error } = useGetActivitiesWithFeedbacks({
-  statuses: feedbackStatuses
-}, {
+const { data, isPending, error } = useGetActivitiesWithFeedbacks({ statuses: feedbackStatuses }, {
   query: {
     select: response => response.data
   }
 })
-
 const options = computed(() => [
   {
     id: defaultOptionId,
@@ -48,8 +43,7 @@ const options = computed(() => [
     label: activity.title
   }))
 ])
-
-const selectedActivity = computed(() => selectedItem.value.itemId === defaultOptionId ? undefined : data.value?.find(activity => activity.id === selectedItem.value.itemId))
+const selectedActivity = computed(() => !selectedItem.value || selectedItem.value.itemId === defaultOptionId ? undefined : data.value?.find(activity => activity.id === selectedItem.value!.itemId))
 
 const avSelectProps = computed<AvSelectProps>(() => ({
   ...restProps,
@@ -59,7 +53,22 @@ const avSelectProps = computed<AvSelectProps>(() => ({
   disabled: !data.value?.length || disabled
 }))
 
-watch(selectedActivity, (activity) => {
+function reset () {
+  selectedItem.value = defaultOption.value
+}
+
+defineExpose({ reset })
+
+const { ignoreUpdates } = watchIgnorable(selectedActivity, (activity) => {
+  emit('change', activity)
+})
+
+until(isPending).toBe(false).then(() => {
+  const activity = defaultActivityId ? data.value?.find(({ id }) => id === defaultActivityId) : undefined
+  const option: AvSelectSelectedOption = { itemId: activity?.id ?? defaultOptionId }
+
+  defaultOption.value = option
+  ignoreUpdates(() => selectedItem.value = option)
   emit('change', activity)
 })
 </script>
