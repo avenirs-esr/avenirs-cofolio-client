@@ -276,4 +276,31 @@ BddTest().given('a project activity detailed layout component', () => {
       expect(items.some(item => item.id === ProjectActivityDetailedSections.MY_PERSPECTIVE)).toBe(false)
     })
   })
+
+  BddTest().when('the declared activity is unsubscribed', () => {
+    beforeEach(async () => {
+      wrapper = mountComponent(ProjectActivityDetailedLayout, {
+        props: {
+          declaredActivityDetails: {
+            ...declaredActivityDetails,
+            status: EDeclaredActivityStatus.UNSUBSCRIBED,
+          },
+        },
+        global: {
+          stubs,
+        },
+      })
+
+      await flushPromises()
+    })
+
+    BddTest().then('it should still include the my perspective section in navigation items', () => {
+      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
+      const items = sectionNavigationLayout.props('items')
+
+      expect(sectionNavigationLayout.exists()).toBe(true)
+      expect(items).toHaveLength(2)
+      expect(items.some(item => item.id === ProjectActivityDetailedSections.MY_PERSPECTIVE)).toBe(true)
+    })
+  })
 })

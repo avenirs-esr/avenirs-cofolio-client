@@ -37,6 +37,14 @@ const avBadgeProps = computed(() => {
         backgroundColor: 'var(--light-background-critical)',
       }
 
+    case EDeclaredActivityStatus.UNSUBSCRIBED:
+      return {
+        label: t('global.activities.badges.declaredStatuses.UNSUBSCRIBED'),
+        icon: MDI_ICONS.EXIT_TO_APP,
+        color: 'var(--card)',
+        backgroundColor: 'var(--dark-background-neutral)',
+      }
+
     case EDeclaredActivityStatus.SUBSCRIBED:
     default:
       return {

@@ -1,4 +1,4 @@
-import type { EActivityThematic, FileDTO } from '@/api/avenir-esr'
+import type { EActivityThematic, EDeclaredActivityStatus, FileDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
 
 export const ActivityCatalogHeaderStub = defineComponent({
@@ -16,8 +16,8 @@ export const ActivityCatalogHeaderStub = defineComponent({
     banner: {
       type: Object as PropType<FileDTO>,
     },
-    subscribedDeclaredActivity: {
-      type: String,
+    declaredActivityStatus: {
+      type: String as PropType<EDeclaredActivityStatus>,
     },
   },
 })

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { EFeedbackStatus } from '@/api/avenir-esr'
-import { EActivityStatus, EDeclaredActivityStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useUpdateReflection } from '@/api/avenir-esr'
+import type { EDeclaredActivityStatus, EFeedbackStatus } from '@/api/avenir-esr'
+import { EActivityStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useUpdateReflection } from '@/api/avenir-esr'
+import { isPerspectiveEditingDisabled } from '@/common/activities/rules/activities.rules'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
@@ -128,7 +129,7 @@ watch(content, () => {
             :icon="MDI_ICONS.PENCIL_OUTLINE"
             variant="OUTLINED"
             small
-            :disabled="activityStatus === EDeclaredActivityStatus.COMPLETED"
+            :disabled="isPerspectiveEditingDisabled(activityStatus)"
             data-testid="my-perspective-card-edit-button"
             @click="readonly = false"
           />

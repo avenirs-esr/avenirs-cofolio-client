@@ -25,7 +25,7 @@ BddTest().given('an activity catalog banner', () => {
           title: mockedSubscribedActivityDetail.title,
           thematic: mockedSubscribedActivityDetail.thematic,
           banner: mockedSubscribedActivityDetail.banner,
-          subscribedDeclaredActivity: mockedSubscribedActivityDetail.subscribedDeclaredActivity,
+          declaredActivityStatus: mockedSubscribedActivityDetail.subscribedDeclaredActivityStatus,
         },
         global: { stubs },
       })
@@ -61,6 +61,25 @@ BddTest().given('an activity catalog banner', () => {
     })
   })
 
+  BddTest().when('the component is mounted with an unsubscribed declared activity status', () => {
+    beforeEach(() => {
+      wrapper = mount(ActivityCatalogHeader, {
+        props: {
+          title: mockedActivityDetail.title,
+          thematic: mockedActivityDetail.thematic,
+          declaredActivityStatus: EDeclaredActivityStatus.UNSUBSCRIBED,
+        },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the declared activity status badge with UNSUBSCRIBED status', () => {
+      const badge = wrapper.findComponent(DeclaredActivityStatusBadgeStub)
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('status')).toBe(EDeclaredActivityStatus.UNSUBSCRIBED)
+    })
+  })
+
   BddTest().when('the component is mounted without a banner', () => {
     beforeEach(() => {
       wrapper = mount(ActivityCatalogHeader, {
@@ -93,7 +112,7 @@ BddTest().given('an activity catalog banner', () => {
     })
   })
 
-  BddTest().when('the component is mounted with a banner but without subscribedDeclaredActivity', () => {
+  BddTest().when('the component is mounted with a banner but without a declared activity status', () => {
     beforeEach(() => {
       wrapper = mount(ActivityCatalogHeader, {
         props: {
