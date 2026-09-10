@@ -29,13 +29,15 @@ export interface AssociatedElementsTabProps {
   isLoading?: boolean
   traceAssociationsDisabled?: boolean
   maxTraceAssociationsReached?: boolean
+  readOnly?: boolean
 }
 
 const {
   associations,
   traceAllowedAssociations,
   traceAssociationsDisabled = false,
-  maxTraceAssociationsReached = false
+  maxTraceAssociationsReached = false,
+  readOnly = false
 } = defineProps<AssociatedElementsTabProps>()
 
 const { t } = useI18n()
@@ -101,12 +103,14 @@ const traceAssociationEnabled = computed(() => !isActivityAssociationToTraceDisa
           variant="delete"
           data-testid="delete-activity-associated-elements-dropdown"
           :items="deleteItems"
+          :disabled="readOnly"
           @select="onDeleteSelect"
         />
         <AssociationElementsDropdown
           variant="associate"
           data-testid="activity-associate-elements-dropdown"
           :items="associateItems"
+          :disabled="readOnly"
           @select="onAssociateSelect"
         />
       </div>

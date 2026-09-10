@@ -13,7 +13,8 @@
           "COMPLETED": "Terminée",
           "IN_PROGRESS": "En cours",
           "SUBMITTED": "Soumis",
-          "SUBSCRIBED": "Inscrit(e)"
+          "SUBSCRIBED": "Inscrit(e)",
+          "UNSUBSCRIBED": "Désinscrit(e)"
         },
         "statuses": {
           "DRAFT": "brouillon",
@@ -227,6 +228,7 @@
         "DECLARED_ACTIVITY_LOCKED": "Une ou plusieurs activités déclarées sont soumises ou terminé, elles ne peuvent plus être modifiées",
         "DECLARED_ACTIVITY_NOT_FOUND": "Activité déclarée introuvable",
         "DECLARED_ACTIVITY_START_DATE_BEFORE_SUBSCRIPTION": "La date de début ne peut pas être antérieure à la date d'inscription",
+        "DECLARED_ACTIVITY_UNSUBSCRIBED": "Vous vous êtes désinscrit(e) de cette activité, vous ne pouvez plus la modifier",
         "DECLARED_EXPERIENCE_NOT_FOUND": "Expérience déclarée introuvable",
         "DECLARED_PROGRAM_NOT_FOUND": "Programme déclaré introuvable",
         "DECLARED_SKILL_NOT_AVAILABLE": "Compétence déclarée non disponible",

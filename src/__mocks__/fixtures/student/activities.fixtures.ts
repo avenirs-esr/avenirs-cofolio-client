@@ -430,7 +430,17 @@ export const mockedActivityDetail: ActivityPresentationDTO = {
   updatedAt: '2024-01-01T00:00:00Z'
 }
 
-export const mockedSubscribedActivityDetail: ActivityPresentationDTO = { ...mockedActivityDetail, subscribedDeclaredActivity: 'cf31aa91-1ac4-4e6d-9ce4-477410966fe7' }
+export const mockedSubscribedActivityDetail: ActivityPresentationDTO = {
+  ...mockedActivityDetail,
+  subscribedDeclaredActivity: 'cf31aa91-1ac4-4e6d-9ce4-477410966fe7',
+  subscribedDeclaredActivityStatus: EDeclaredActivityStatus.SUBSCRIBED,
+}
+
+export const mockedUnsubscribedActivityDetail: ActivityPresentationDTO = {
+  ...mockedActivityDetail,
+  subscribedDeclaredActivity: 'cf31aa91-1ac4-4e6d-9ce4-477410966fe7',
+  subscribedDeclaredActivityStatus: EDeclaredActivityStatus.UNSUBSCRIBED,
+}
 
 export const mockedFinishedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
   ...mockedDeclaredActivityDetails,

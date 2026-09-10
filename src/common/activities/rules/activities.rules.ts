@@ -1,7 +1,10 @@
 import {
   type ActivityContentDTO,
+  type ActivityPresentationDTO,
   type DeclaredActivityAssociationDTO,
-  EDeclaredActivityStatus
+  EDeclaredActivityStatus,
+  EFeedbackStatus,
+  type FeedbackOverviewDTO
 } from '@/api/avenir-esr'
 import {
   ACTIVITY_TRACE_SETTING_DISABLED_VALUE,
@@ -31,4 +34,23 @@ export function isActivityAssociationToTraceDisabled (activityContent: Partial<A
   const { traceAllowedAssociations } = activityContent
   return traceAllowedAssociations !== undefined
     && traceAllowedAssociations === ACTIVITY_TRACE_SETTING_DISABLED_VALUE
+}
+
+export function isActivitySubscribed (activity: Pick<ActivityPresentationDTO, 'subscribedDeclaredActivity' | 'subscribedDeclaredActivityStatus'>): boolean {
+  return !!activity.subscribedDeclaredActivity
+    && activity.subscribedDeclaredActivityStatus !== EDeclaredActivityStatus.UNSUBSCRIBED
+}
+
+export function isPerspectiveEditingDisabled (activityStatus?: EDeclaredActivityStatus): boolean {
+  return activityStatus === EDeclaredActivityStatus.COMPLETED || activityStatus === EDeclaredActivityStatus.UNSUBSCRIBED
+}
+
+export function isDeclaredActivityUnsubscribed (activityStatus?: EDeclaredActivityStatus): boolean {
+  return activityStatus === EDeclaredActivityStatus.UNSUBSCRIBED
+}
+
+export function hasPendingFeedback (feedbacks?: FeedbackOverviewDTO[]): boolean {
+  return feedbacks?.some(
+    feedback => feedback.status === EFeedbackStatus.NEW || feedback.status === EFeedbackStatus.IN_PROCESS
+  ) ?? false
 }

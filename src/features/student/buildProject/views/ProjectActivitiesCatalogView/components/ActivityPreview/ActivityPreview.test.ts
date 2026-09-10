@@ -1,4 +1,5 @@
-import { mockedActivityDetail, mockedSubscribedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
+import type { VueWrapper } from '@vue/test-utils'
+import { mockedActivityDetail, mockedSubscribedActivityDetail, mockedUnsubscribedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { ActivityCatalogHeaderStub } from '@/common/activities/components/ActivityCatalogHeader/ActivityCatalogHeader.stub'
 import { ActivityCatalogPreviewCardStub } from '@/common/activities/components/ActivityCatalogPreviewCard/ActivityCatalogPreviewCard.stub'
 import { ROUTES } from '@/common/constants'
@@ -6,7 +7,7 @@ import { SubscribeActivityConfirmModalStub } from '@/features/student/buildProje
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import ActivityPreview, { type ActivityPreviewProps } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an activity preview', () => {
@@ -54,7 +55,7 @@ BddTest().given('an activity preview', () => {
     }
 
     beforeEach(() => {
-      wrapper = mount(ActivityPreview, { props, global: { stubs } })
+      wrapper = mountComponent(ActivityPreview, { props, global: { stubs } })
     })
 
     BddTest().then('it should render ActivityCatalogHeader with correct title and thematic', () => {
@@ -69,9 +70,9 @@ BddTest().given('an activity preview', () => {
       expect(bannerStub.props('banner')).toEqual(mockedActivityDetail.banner)
     })
 
-    BddTest().then('it should not pass subscribedDeclaredActivity to ActivityCatalogHeader', () => {
-      const bannerStub = getActivityCatalogHeader()
-      expect(bannerStub.props('subscribedDeclaredActivity')).toBeUndefined()
+    BddTest().then('it should not pass a declared activity status to ActivityCatalogHeader', () => {
+      const bannerStub = wrapper.findComponent(ActivityCatalogHeaderStub)
+      expect(bannerStub.props('declaredActivityStatus')).toBeUndefined()
     })
 
     BddTest().then('it should render ActivityCatalogPreviewCard with correct summary', () => {
@@ -147,7 +148,7 @@ BddTest().given('an activity preview', () => {
     }
 
     beforeEach(() => {
-      wrapper = mount(ActivityPreview, { props, global: { stubs } })
+      wrapper = mountComponent(ActivityPreview, { props, global: { stubs } })
     })
 
     BddTest().then('it should render ActivityCatalogHeader with correct title and thematic', () => {
@@ -157,9 +158,9 @@ BddTest().given('an activity preview', () => {
       expect(bannerStub.props('thematic')).toBe(mockedSubscribedActivityDetail.thematic)
     })
 
-    BddTest().then('it should pass subscribedDeclaredActivity to ActivityCatalogHeader', () => {
-      const bannerStub = getActivityCatalogHeader()
-      expect(bannerStub.props('subscribedDeclaredActivity')).toBe(mockedSubscribedActivityDetail.subscribedDeclaredActivity)
+    BddTest().then('it should pass the declared activity status to ActivityCatalogHeader', () => {
+      const bannerStub = wrapper.findComponent(ActivityCatalogHeaderStub)
+      expect(bannerStub.props('declaredActivityStatus')).toBe(mockedSubscribedActivityDetail.subscribedDeclaredActivityStatus)
     })
 
     BddTest().then('it should render ActivityCatalogPreviewCard with correct summary', () => {
@@ -199,6 +200,11 @@ BddTest().given('an activity preview', () => {
       expect(modal.props('activities')).toEqual([{ id: mockedSubscribedActivityDetail.id, title: mockedSubscribedActivityDetail.title }])
     })
 
+    BddTest().then('it should pass the declared activity id to the unsubscribe confirmation modal', () => {
+      const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+      expect(modal.props('declaredActivityId')).toBe(mockedSubscribedActivityDetail.subscribedDeclaredActivity)
+    })
+
     BddTest().then('it should render the subscribe modal', () => {
       expect(getSubscribeActivityConfirmModal().exists()).toBe(true)
     })
@@ -231,6 +237,42 @@ BddTest().given('an activity preview', () => {
           expect(getUnsubscribeActivitiesConfirmModal().props('opened')).toBe(false)
         })
       })
+    })
+  })
+
+  BddTest().when('the component is mounted with an activity the student has unsubscribed from', () => {
+    const props: ActivityPreviewProps = {
+      activity: mockedUnsubscribedActivityDetail
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(ActivityPreview, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should pass the UNSUBSCRIBED declared activity status to ActivityCatalogHeader', () => {
+      const bannerStub = wrapper.findComponent(ActivityCatalogHeaderStub)
+      expect(bannerStub.props('declaredActivityStatus')).toBe(mockedUnsubscribedActivityDetail.subscribedDeclaredActivityStatus)
+    })
+
+    BddTest().then('it should render the access button', () => {
+      const accessButton = getAccessButton()
+      expect(accessButton).toBeDefined()
+      expect(accessButton!.exists()).toBe(true)
+      expect(accessButton!.props('to')).toEqual({
+        name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
+        params: { id: mockedUnsubscribedActivityDetail.subscribedDeclaredActivity, thematic: mockedUnsubscribedActivityDetail.thematic }
+      })
+    })
+
+    BddTest().then('it should not render the unsubscribe button', () => {
+      expect(getUnsubscribeButton()).toBeUndefined()
+    })
+
+    BddTest().then('it should render the subscribe button with the resubscribe label', () => {
+      const subscribeButton = getSubscribeButton()
+      expect(subscribeButton).toBeDefined()
+      expect(subscribeButton!.exists()).toBe(true)
+      expect(subscribeButton!.text()).toBe('Me réinscrire')
     })
   })
 })

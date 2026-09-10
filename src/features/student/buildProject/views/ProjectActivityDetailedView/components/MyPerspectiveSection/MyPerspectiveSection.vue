@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { type DeclaredActivityDetailsDTO, useGetDeclaredActivityAssociations } from '@/api/avenir-esr'
+import { isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
+import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ICONS } from '@/common/constants'
 import { ACTIVITY_TRACE_SETTING_DISABLED_VALUE, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 import AssociatedElementsTab from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/tabs/AssociatedElementsTab/AssociatedElementsTab.vue'
@@ -13,10 +15,15 @@ export interface MyPerspectiveSectionProps {
 
 const { declaredActivityDetails } = defineProps<MyPerspectiveSectionProps>()
 
+enum MyPerspectiveSectionTab {
+  MY_PERSPECTIVE = 0,
+  ASSOCIATED_ELEMENTS = 1,
+}
+
 const { t } = useI18n()
 const { data: declaredActivityAssociations, isPending, error } = useGetDeclaredActivityAssociations(declaredActivityDetails.id)
 
-const activeTab = ref(0)
+const activeTab = useEnumRouteQuery('tab', MyPerspectiveSectionTab, MyPerspectiveSectionTab.MY_PERSPECTIVE)
 const associationsCount = computed(() =>
   (declaredActivityAssociations.value?.traceAssociations.length ?? 0)
   + (declaredActivityAssociations.value?.declaredSkillAssociations.length ?? 0)
@@ -31,6 +38,8 @@ const maxTraceAssociationsReached = computed(() =>
 const traceAssociationsDisabled = computed(() =>
   declaredActivityDetails.activity.traceAllowedAssociations === ACTIVITY_TRACE_SETTING_DISABLED_VALUE
 )
+
+const readOnly = computed(() => isDeclaredActivityUnsubscribed(declaredActivityDetails.status))
 </script>
 
 <template>
@@ -60,6 +69,7 @@ const traceAssociationsDisabled = computed(() =>
         :is-loading="isPending"
         :trace-associations-disabled="traceAssociationsDisabled"
         :max-trace-associations-reached="maxTraceAssociationsReached"
+        :read-only="readOnly"
       />
     </AvTab>
   </AvTabs>

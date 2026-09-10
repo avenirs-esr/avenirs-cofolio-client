@@ -41,7 +41,7 @@ BddTest().given('an unsubscribe activities confirmation modal', () => {
       expect(confirmationModal.exists()).toBe(true)
       expect(confirmationModal.props('opened')).toBe(true)
       expect(confirmationModal.text()).toContain(`Êtes-vous certain(e) de vouloir vous désinscrire de cette activité\u00A0?`)
-      expect(confirmationModal.text()).toContain(`Cette action entraînera la perte définitive de toutes les données et actions associées.`)
+      expect(confirmationModal.text()).toContain(`Vos contenus déjà renseignés pour cette activité seront conservés.`)
     })
 
     BddTest().and('the user cancels the unsubscribe action', () => {
@@ -71,6 +71,46 @@ BddTest().given('an unsubscribe activities confirmation modal', () => {
         await vi.waitFor(() => {
           expect(wrapper.emitted('unsubscribed')).toBeTruthy()
         })
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted with a declared activity that has a feedback request without a response yet', () => {
+    const props: UnsubscribeActivitiesConfirmModalProps = {
+      opened: true,
+      activities: [{ id: 'activity-1', title: 'Activité 1' }],
+      declaredActivityId: 'declared-activity-2'
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(UnsubscribeActivitiesConfirmModal, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should render the feedback deletion warning message instead of the generic description', async () => {
+      await vi.waitFor(() => {
+        const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+        expect(confirmationModal.text()).toContain(`Attention, vos demandes de feedback n'ayant pas encore reçu de réponse seront définitivement supprimées et ne seront plus visibles par l'enseignant`)
+        expect(confirmationModal.text()).not.toContain(`Vos contenus déjà renseignés pour cette activité seront conservés.`)
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted with a declared activity that has no pending feedback', () => {
+    const props: UnsubscribeActivitiesConfirmModalProps = {
+      opened: true,
+      activities: [{ id: 'activity-1', title: 'Activité 1' }],
+      declaredActivityId: 'declared-activity-1'
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(UnsubscribeActivitiesConfirmModal, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should render the generic description', async () => {
+      await vi.waitFor(() => {
+        const confirmationModal = wrapper.findComponent(ConfirmationModalStub)
+        expect(confirmationModal.text()).toContain(`Vos contenus déjà renseignés pour cette activité seront conservés.`)
+        expect(confirmationModal.text()).not.toContain(`Attention, vos demandes de feedback n'ayant pas encore reçu de réponse seront définitivement supprimées et ne seront plus visibles par l'enseignant`)
       })
     })
   })
@@ -123,7 +163,7 @@ BddTest().given('an unsubscribe activities confirmation modal', () => {
       expect(confirmationModal.exists()).toBe(true)
       expect(confirmationModal.props('opened')).toBe(true)
       expect(confirmationModal.text()).toContain(`Êtes-vous certain(e) de vouloir vous désinscrire de ces activités\u00A0?`)
-      expect(confirmationModal.text()).toContain(`Cette action entraînera la perte définitive de toutes les données et actions associées.`)
+      expect(confirmationModal.text()).toContain(`Vos contenus déjà renseignés pour cette activité seront conservés.`)
     })
 
     BddTest().and('the user confirms the unsubscribe action', () => {
