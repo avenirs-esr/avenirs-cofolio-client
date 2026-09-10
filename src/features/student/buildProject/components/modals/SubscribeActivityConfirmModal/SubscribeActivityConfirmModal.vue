@@ -3,7 +3,10 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { IdTitle } from '@/types'
 import {
   EActivityStatus,
+  invalidateGetActivitiesView,
   invalidateGetActivityPresentation,
+  invalidateGetDeclaredActivitiesView,
+  invalidateGetDeclaredActivityDetails,
   useSubscribeActivity
 } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
@@ -16,9 +19,10 @@ import { useI18n } from 'vue-i18n'
 export interface SubscribeActivityConfirmModalProps {
   opened: boolean
   activity: IdTitle
+  declaredActivityId?: string
 }
 
-const { activity } = defineProps<SubscribeActivityConfirmModalProps>()
+const { activity, declaredActivityId } = defineProps<SubscribeActivityConfirmModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -41,7 +45,12 @@ function subscribe () {
     },
     {
       onSuccess: async () => {
-        await withTaskLoading(() => invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, activity.id))
+        await withTaskLoading(() => Promise.all([
+          invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, activity.id),
+          invalidateGetDeclaredActivitiesView(queryClient),
+          invalidateGetActivitiesView(queryClient),
+          ...(declaredActivityId ? [invalidateGetDeclaredActivityDetails(queryClient, declaredActivityId)] : [])
+        ]))
         addSuccessMessage(t('student.buildProject.activities.overlays.SubscribeActivityConfirmModal.success'))
         emit('subscribed')
       },

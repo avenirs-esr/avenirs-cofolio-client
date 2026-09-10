@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import MyPerspectiveSection, {
   type MyPerspectiveSectionProps,
@@ -9,7 +10,18 @@ import { MyPerspectiveTabStub } from '@/features/student/buildProject/views/Proj
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
+
+const routeQueryValue = ref<string>('MY_PERSPECTIVE')
+
+vi.mock('@vueuse/router', () => ({
+  useRouteQuery: (_queryName: string, defaultValue: string) => {
+    if (routeQueryValue.value === undefined) {
+      routeQueryValue.value = defaultValue
+    }
+    return routeQueryValue
+  },
+}))
 
 BddTest().given('a my perspective section', () => {
   let wrapper: VueWrapper<InstanceType<typeof MyPerspectiveSection>>
@@ -21,6 +33,12 @@ BddTest().given('a my perspective section', () => {
     MyPerspectiveTab: MyPerspectiveTabStub,
     AssociatedElementsTab: AssociatedElementsTabStub,
   }
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    routeQueryValue.value = 'MY_PERSPECTIVE'
+  })
+
   BddTest().when('the component is mounted', () => {
     const props: MyPerspectiveSectionProps = {
       declaredActivityDetails: mockedDeclaredActivityDetails,
@@ -163,6 +181,54 @@ BddTest().given('a my perspective section', () => {
         const associatedElementsTab = wrapper.findComponent(AssociatedElementsTabStub)
         expect(associatedElementsTab.exists()).toBe(true)
         expect(associatedElementsTab.props('traceAssociationsDisabled')).toBe(false)
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted with a subscribed declared activity', () => {
+    const props: MyPerspectiveSectionProps = {
+      declaredActivityDetails: { ...mockedDeclaredActivityDetails, status: EDeclaredActivityStatus.IN_PROGRESS },
+    }
+
+    beforeEach(async () => {
+      wrapper = mountComponent(MyPerspectiveSection, {
+        props,
+        global: { stubs },
+      })
+      const tabs = wrapper.findComponent(AvTabsStub)
+      await tabs.vm.$emit('update:modelValue', 1)
+      await flushPromises()
+    })
+
+    BddTest().then('it should pass readOnly as false to the associated elements tab', async () => {
+      await vi.waitFor(() => {
+        const associatedElementsTab = wrapper.findComponent(AssociatedElementsTabStub)
+        expect(associatedElementsTab.exists()).toBe(true)
+        expect(associatedElementsTab.props('readOnly')).toBe(false)
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted with an unsubscribed declared activity', () => {
+    const props: MyPerspectiveSectionProps = {
+      declaredActivityDetails: { ...mockedDeclaredActivityDetails, status: EDeclaredActivityStatus.UNSUBSCRIBED },
+    }
+
+    beforeEach(async () => {
+      wrapper = mountComponent(MyPerspectiveSection, {
+        props,
+        global: { stubs },
+      })
+      const tabs = wrapper.findComponent(AvTabsStub)
+      await tabs.vm.$emit('update:modelValue', 1)
+      await flushPromises()
+    })
+
+    BddTest().then('it should pass readOnly as true to the associated elements tab', async () => {
+      await vi.waitFor(() => {
+        const associatedElementsTab = wrapper.findComponent(AssociatedElementsTabStub)
+        expect(associatedElementsTab.exists()).toBe(true)
+        expect(associatedElementsTab.props('readOnly')).toBe(true)
       })
     })
   })

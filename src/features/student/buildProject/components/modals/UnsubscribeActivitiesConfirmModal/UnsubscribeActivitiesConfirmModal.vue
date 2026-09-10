@@ -6,11 +6,14 @@ import {
   invalidateGetActivityPresentation,
   invalidateGetDeclaredActivitiesView,
   invalidateGetDeclaredActivityDetails,
+  useGetDeclaredActivityDetails,
   useUnsubscribeActivitiesProgresses
 } from '@/api/avenir-esr'
+import { hasPendingFeedback as computeHasPendingFeedback } from '@/common/activities/rules/activities.rules'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
+import { TanstackStaleTimeConfig } from '@/plugins/tanstack-query/config'
 import { useToasterStore } from '@/store'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
@@ -18,9 +21,10 @@ import { useI18n } from 'vue-i18n'
 export interface UnsubscribeActivitiesConfirmModalProps {
   opened: boolean
   activities: IdTitleList
+  declaredActivityId?: string
 }
 
-const { activities } = defineProps<UnsubscribeActivitiesConfirmModalProps>()
+const { activities, declaredActivityId } = defineProps<UnsubscribeActivitiesConfirmModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void
@@ -37,15 +41,29 @@ const { mutate: mutateUnsubscribeActivitiesProgresses } = useUnsubscribeActiviti
 
 const activitiesIds = computed(() => activities.map(activity => activity.id))
 
+const { data: declaredActivityDetail } = useGetDeclaredActivityDetails(
+  computed(() => declaredActivityId ?? ''),
+  {
+    query: {
+      enabled: computed(() => !!declaredActivityId),
+      staleTime: TanstackStaleTimeConfig.DETAILS
+    }
+  }
+)
+
+const hasPendingFeedback = computed(() => computeHasPendingFeedback(declaredActivityDetail.value?.feedbacks))
+
 function unsubscribeActivities () {
   mutateUnsubscribeActivitiesProgresses(
     { data: activitiesIds.value },
     {
       onSuccess: async () => {
         await withTaskLoading(() => Promise.all([
-          ...activitiesIds.value.map(activityId =>
-            invalidateGetDeclaredActivityDetails(queryClient, activityId),
-          ),
+          ...(declaredActivityId
+            ? [invalidateGetDeclaredActivityDetails(queryClient, declaredActivityId)]
+            : activitiesIds.value.map(activityId =>
+                invalidateGetDeclaredActivityDetails(queryClient, activityId),
+              )),
           ...activitiesIds.value.map(activityId =>
             invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, activityId),
           ),
@@ -90,7 +108,9 @@ function unsubscribeActivities () {
       class="b2-regular av-text-text1"
       data-testid="unsubscribe-activities-confirm-modal__body"
     >
-      {{ t('student.buildProject.activities.overlays.UnsubscribeActivitiesConfirmModal.description') }}
+      {{ hasPendingFeedback
+        ? t('student.buildProject.activities.overlays.UnsubscribeActivitiesConfirmModal.feedbackWarning')
+        : t('student.buildProject.activities.overlays.UnsubscribeActivitiesConfirmModal.description') }}
     </span>
     <ul
       v-if="activities.length > 1"

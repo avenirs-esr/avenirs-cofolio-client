@@ -13,7 +13,8 @@
           "COMPLETED": "Completed",
           "IN_PROGRESS": "In progress",
           "SUBMITTED": "Submitted",
-          "SUBSCRIBED": "Registered"
+          "SUBSCRIBED": "Subscribed",
+          "UNSUBSCRIBED": "Unsubscribed"
         },
         "statuses": {
           "DRAFT": "draft",
@@ -229,6 +230,7 @@
         "DECLARED_ACTIVITY_LOCKED": "One or more activities have been submitted or completed, they can no longer be modified",
         "DECLARED_ACTIVITY_NOT_FOUND": "Declared activity not found",
         "DECLARED_ACTIVITY_START_DATE_BEFORE_SUBSCRIPTION": "Start date cannot be before the subscription date",
+        "DECLARED_ACTIVITY_UNSUBSCRIBED": "You have unsubscribed from this activity, you can no longer edit it.",
         "DECLARED_EXPERIENCE_NOT_FOUND": "Declared experience not found",
         "DECLARED_PROGRAM_NOT_FOUND": "Declared program not found",
         "DECLARED_SKILL_NOT_AVAILABLE": "Declared skill not available",

@@ -403,4 +403,23 @@ BddTest().given('a my perspective card', () => {
       expect(editButton.attributes('disabled')).toBeUndefined()
     })
   })
+
+  BddTest().when('the component is mounted with an unsubscribed activity', () => {
+    const props: MyPerspectiveCardProps = {
+      activityId: 'activity-1',
+      perspective: '<p>This is my perspective</p>',
+      activityStatus: EDeclaredActivityStatus.UNSUBSCRIBED,
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mountComponent(MyPerspectiveCard, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should render the edit button as disabled', () => {
+      const editButton = getEditButton()
+      expect(editButton.exists()).toBe(true)
+      expect(editButton.attributes('disabled')).toBeDefined()
+    })
+  })
 })

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import type { EActivityThematic, FileDTO } from '@/api/avenir-esr'
-import { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import type { EActivityThematic, EDeclaredActivityStatus, FileDTO } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
@@ -11,14 +10,14 @@ export interface ActivityCatalogHeaderProps {
   title: string
   thematic: EActivityThematic
   banner?: FileDTO
-  subscribedDeclaredActivity?: string
+  declaredActivityStatus?: EDeclaredActivityStatus
 }
 
 const {
   title,
   thematic,
   banner,
-  subscribedDeclaredActivity,
+  declaredActivityStatus,
 } = defineProps<ActivityCatalogHeaderProps>()
 </script>
 
@@ -55,8 +54,8 @@ const {
           data-testid="activity-thematic-badge"
         />
         <DeclaredActivityStatusBadge
-          v-if="subscribedDeclaredActivity"
-          :status="EDeclaredActivityStatus.SUBSCRIBED"
+          v-if="declaredActivityStatus"
+          :status="declaredActivityStatus"
         />
       </div>
     </div>
