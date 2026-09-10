@@ -1,8 +1,9 @@
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
-import { createMockedDeclaredSkillAssociations } from '@/__mocks__/fixtures/student/declaredSkills.fixtures'
+import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import AssociatedElementDetailsDrawer from '@/features/staff/feedbacks/views/FeedbacksView/components/drawers/AssociatedElementDetailsDrawer/AssociatedElementDetailsDrawer.vue'
+import { DeclaredSkillDetailsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.stub'
 import { StudentTraceDetailsStub } from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.stub'
 import { AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -15,13 +16,14 @@ const mockedFeedbackTrace: FeedbackAssociatedElement = {
 
 const mockedFeedbackDeclaredSkill: FeedbackAssociatedElement = {
   type: EAssociationContextType.DECLARED_SKILL,
-  data: createMockedDeclaredSkillAssociations(1)[0].declaredSkill,
+  data: createMockedDeclaredSkillProgressDetailsDTO('declared-skill-drawer'),
 }
 
 const stubs = {
   AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
   AvDrawer: AvDrawerStub,
   AvIconText: AvIconTextStub,
+  DeclaredSkillDetails: DeclaredSkillDetailsStub,
   StudentTraceDetails: StudentTraceDetailsStub,
 }
 
@@ -48,7 +50,7 @@ BddTest().given('an AssociatedElementDetailsDrawer component', () => {
     BddTest().then('it should display the trace title', () => {
       const title = wrapper.findComponent(AvIconTextStub)
 
-      expect(title.props('text')).toBe(`Détails de la trace: ${mockedFeedbackTrace.data.title}`)
+      expect(title.props('text')).toBe(`Détails de la trace\u00A0: ${mockedFeedbackTrace.data.title}`)
     })
 
     BddTest().then('it should render StudentTraceDetails with drawer-specific props', () => {
@@ -83,8 +85,26 @@ BddTest().given('an AssociatedElementDetailsDrawer component', () => {
       })
     })
 
-    BddTest().then('it should keep the drawer hidden', () => {
-      expect(wrapper.findComponent(AvDrawerStub).props('show')).toBe(false)
+    BddTest().then('it should display the drawer', () => {
+      const drawer = wrapper.findComponent(AvDrawerStub)
+
+      expect(drawer.exists()).toBe(true)
+      expect(drawer.props('show')).toBe(true)
+    })
+
+    BddTest().then('it should display the declared skill title', () => {
+      const title = wrapper.findComponent(AvIconTextStub)
+
+      expect(title.props('text')).toBe(`Détails de la compétence\u00A0: ${mockedFeedbackDeclaredSkill.data.title}`)
+    })
+
+    BddTest().then('it should render DeclaredSkillDetails with the declared skill details', () => {
+      const details = wrapper.findComponent(DeclaredSkillDetailsStub)
+
+      expect(details.exists()).toBe(true)
+      expect(details.props('declaredSkillProgressDetails')).toEqual(mockedFeedbackDeclaredSkill.data)
+      expect(details.props('hideValorizedBadge')).toBe(true)
+      expect(details.props('disableRowLayout')).toBe(true)
     })
 
     BddTest().then('it should not render StudentTraceDetails', () => {

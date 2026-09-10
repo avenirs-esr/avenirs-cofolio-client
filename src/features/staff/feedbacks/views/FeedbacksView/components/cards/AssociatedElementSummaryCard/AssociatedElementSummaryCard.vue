@@ -37,9 +37,7 @@ const associatedElements = computed<FeedbackAssociatedElement[]>(() => {
 })
 
 function handleShowDetails (element: FeedbackAssociatedElement) {
-  if (element.type === EAssociationContextType.TRACE) {
-    selectedElement.value = element
-  }
+  selectedElement.value = element
 }
 
 function closeDetailsDrawer () {

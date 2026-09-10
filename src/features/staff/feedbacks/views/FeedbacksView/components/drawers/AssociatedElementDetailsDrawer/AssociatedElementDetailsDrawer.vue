@@ -2,6 +2,7 @@
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { ICONS } from '@/common/constants'
+import { DeclaredSkillDetails } from '@/features/student/declaredSkills'
 import { StudentTraceDetails } from '@/features/student/traces'
 import { AvCancelConfirmButtons, AvDrawer, AvIconText, type AvIconTextProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -18,6 +19,11 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
+const detailsDisplayProps = {
+  hideValorizedBadge: true,
+  disableRowLayout: true,
+}
+
 const currentComponentDefinition = computed(() => {
   switch (feedbackAssociatedElement.type) {
     case EAssociationContextType.TRACE:
@@ -25,8 +31,15 @@ const currentComponentDefinition = computed(() => {
         component: StudentTraceDetails,
         props: {
           trace: feedbackAssociatedElement.data,
-          hideValorizedBadge: true,
-          disableRowLayout: true,
+          ...detailsDisplayProps,
+        },
+      }
+    case EAssociationContextType.DECLARED_SKILL:
+      return {
+        component: DeclaredSkillDetails,
+        props: {
+          declaredSkillProgressDetails: feedbackAssociatedElement.data,
+          ...detailsDisplayProps
         },
       }
     default:
@@ -43,6 +56,11 @@ const titleTextAndIcon = computed<Pick<AvIconTextProps, 'text' | 'icon'>>(() => 
       return {
         text: t('staff.feedbacks.views.FeedbacksView.AssociatedElementDetailsDrawer.traceTitle', { traceTitle: feedbackAssociatedElement.data.title }),
         icon: ICONS.TRACES,
+      }
+    case EAssociationContextType.DECLARED_SKILL:
+      return {
+        text: t('staff.feedbacks.views.FeedbacksView.AssociatedElementDetailsDrawer.declaredSkillTitle', { declaredSkillTitle: feedbackAssociatedElement.data.title }),
+        icon: ICONS.SKILLS,
       }
     default:
       return { text: '', icon: MDI_ICONS.INFORMATION_OUTLINE }
@@ -70,6 +88,7 @@ function handleClose () {
         text-color="var(--text1)"
         typography-class="n6"
         v-bind="titleTextAndIcon"
+        wrap-anywhere
       />
 
       <component

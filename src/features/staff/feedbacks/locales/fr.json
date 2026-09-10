@@ -74,8 +74,9 @@
         },
         "FeedbacksView": {
           "AssociatedElementDetailsDrawer": {
+            "declaredSkillTitle": "Détails de la compétence\u00A0: {declaredSkillTitle}",
             "drawerLabel": "Détail de l'élément associé",
-            "traceTitle": "Détails de la trace: {traceTitle}"
+            "traceTitle": "Détails de la trace\u00A0: {traceTitle}"
           },
           "FeedbackActivityConsignCard": {
             "title": "Consigne"
