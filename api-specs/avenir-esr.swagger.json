@@ -6401,7 +6401,8 @@
               "SUBSCRIBED",
               "IN_PROGRESS",
               "SUBMITTED",
-              "COMPLETED"
+              "COMPLETED",
+              "UNSUBSCRIBED"
             ]
           },
           "startDate": {
@@ -6682,7 +6683,8 @@
               "SUBSCRIBED",
               "IN_PROGRESS",
               "SUBMITTED",
-              "COMPLETED"
+              "COMPLETED",
+              "UNSUBSCRIBED"
             ]
           }
         }
@@ -7902,7 +7904,8 @@
               "SUBSCRIBED",
               "IN_PROGRESS",
               "SUBMITTED",
-              "COMPLETED"
+              "COMPLETED",
+              "UNSUBSCRIBED"
             ]
           },
           "reflection": {
@@ -8001,10 +8004,6 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "latestFeedbackId": {
             "type": "string",
             "format": "uuid"
           },
@@ -8132,7 +8131,8 @@
               "SUBSCRIBED",
               "IN_PROGRESS",
               "SUBMITTED",
-              "COMPLETED"
+              "COMPLETED",
+              "UNSUBSCRIBED"
             ]
           },
           "summary": {
@@ -8223,6 +8223,17 @@
           "subscribedDeclaredActivity": {
             "type": "string",
             "format": "uuid"
+          },
+          "subscribedDeclaredActivityStatus": {
+            "type": "string",
+            "$ref": "#/components/schemas/EDeclaredActivityStatus",
+            "enum": [
+              "SUBSCRIBED",
+              "IN_PROGRESS",
+              "SUBMITTED",
+              "COMPLETED",
+              "UNSUBSCRIBED"
+            ]
           },
           "banner": {
             "$ref": "#/components/schemas/FileDTO"
@@ -8538,6 +8549,7 @@
           "INSTITUTION_HAI_ALREADY_EXISTS",
           "GROUP_ID_SI_SCO_ALREADY_EXISTS",
           "MAX_FILE_SIZE_EXCEEDED",
+          "UNEXPECTED_ERROR",
           "FILE_STORAGE_ERROR",
           "CONFIGURATION_ERROR",
           "KIT_DOWNLOAD_MEDIA_FAILED",
@@ -8608,7 +8620,8 @@
           "SUBSCRIBED",
           "IN_PROGRESS",
           "SUBMITTED",
-          "COMPLETED"
+          "COMPLETED",
+          "UNSUBSCRIBED"
         ]
       },
       "EFeedbackStatus": {

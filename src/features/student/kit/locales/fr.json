@@ -63,7 +63,10 @@
                 "label": "Intitulé du kit",
                 "placeholder": "Entrez le nom de votre kit"
               },
-              "success": "Votre kit a bien été exporté avec succès\u00A0!",
+              "success": {
+                "mediaContent": "Le contenu multimédia de votre kit a bien été exporté avec succès\u00A0!",
+                "textContent": "Le contenu textuel de votre kit a bien été exporté avec succès\u00A0!"
+              },
               "title": "Kit prêt à être exporté"
             }
           },

@@ -10,6 +10,7 @@ import { activityFeedbacksHandlers as studentFeedbacksHandlers } from '@/__mocks
 import { backOfficeHandlers } from '@/__mocks__/msw/handlers/student/back-office.handlers'
 import { declaredExperiencesHandlers } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { declaredProgramsHandlers } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
+import { studentKitHandlers } from '@/__mocks__/msw/handlers/student/kit.handlers'
 import { studentNotificationsHandlers } from '@/__mocks__/msw/handlers/student/notifications.handlers'
 import { overviewsHandlers } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { selfKnowledgeHandlers } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
@@ -36,5 +37,6 @@ export const handlers = [
   ...tracesHandlers,
   ...activitiesHandlers,
   ...overviewsHandlers,
+  ...studentKitHandlers,
   ...genericHandlers,
 ]

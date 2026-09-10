@@ -63,7 +63,10 @@
                 "label": "Kit title",
                 "placeholder": "Enter the name of your kit"
               },
-              "success": "Your kit has been successfully exported!",
+              "success": {
+                "mediaContent": "The multimedia content of your kit has been successfully exported!",
+                "textContent": "The text content of your kit has been successfully exported!"
+              },
               "title": "Kit ready to be exported"
             }
           },
