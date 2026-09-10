@@ -1,6 +1,10 @@
 <script lang="ts" setup>
+import type { BaseApiException } from '@/common/exceptions'
+import { useDownloadMedia } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import Input from '@/common/components/interaction/inputs/Input/Input.vue'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { downloadBlob } from '@/common/utils/download/download'
 import { useExportKit } from '@/features/student/kit/composables/use-export-kit/use-export-kit'
 import { KIT_NAME_MAX_LENGTH } from '@/features/student/kit/config'
 import { canExportKit } from '@/features/student/kit/rules/export-kit.rules'
@@ -25,13 +29,37 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const { addSuccessMessage } = useToasterStore()
+const { addSuccessMessage, addErrorMessage } = useToasterStore()
+const { getErrorMessage } = useApiErrors()
+
 const { generateKitDocx, isLoading: isUseExportKitLoading } = useExportKit()
 
-async function exportKit ({ exportOptions, kitName }: UseExportKitFormData) {
+const kitName = ref('')
+
+const { mutate: mutateDownloadMedia } = useDownloadMedia({
+  mutation: {
+    onError: (error: BaseApiException) => {
+      addErrorMessage({
+        title: t('student.kit.views.StudentToolsKitView.overlay.ExportKitModal.error'),
+        description: getErrorMessage(error),
+      })
+    },
+    onSuccess: (data) => {
+      downloadBlob(data, `${kitName.value}.zip`)
+      addSuccessMessage(t('student.kit.views.StudentToolsKitView.overlay.ExportKitModal.success.mediaContent'))
+    },
+  },
+})
+
+async function exportKit ({ exportOptions, kitName: newKitName }: UseExportKitFormData) {
+  kitName.value = newKitName
+
   if (exportOptions.includes(ExportKitOptions.TEXT_CONTENT)) {
-    await generateKitDocx(kitName)
-    addSuccessMessage(t('student.kit.views.StudentToolsKitView.overlay.ExportKitModal.success'))
+    await generateKitDocx(kitName.value)
+    addSuccessMessage(t('student.kit.views.StudentToolsKitView.overlay.ExportKitModal.success.textContent'))
+  }
+  if (exportOptions.includes(ExportKitOptions.MEDIA_CONTENT)) {
+    mutateDownloadMedia()
   }
   closeModal()
 }
@@ -47,6 +75,7 @@ const isLoading = computed(() => isUseExportKitLoading.value)
 
 function closeModal () {
   resetForm()
+  kitName.value = ''
   emit('close')
 }
 </script>

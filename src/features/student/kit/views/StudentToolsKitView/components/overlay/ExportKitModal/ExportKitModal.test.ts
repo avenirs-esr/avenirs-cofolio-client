@@ -1,4 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { downloadMediaErrorHandler } from '@/__mocks__/msw/handlers/student/kit.handlers'
+import { server } from '@/__mocks__/msw/server'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import { KIT_NAME_MAX_LENGTH } from '@/features/student/kit/config'
@@ -8,8 +10,19 @@ import { AvCheckboxesGroupStub, AvCheckboxStub, BddTest } from '@avenirs-esr/ave
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const mockAddSuccessMessage = vi.fn()
-const mockAddErrorMessage = vi.fn()
+const {
+  mockAddSuccessMessage,
+  mockAddErrorMessage,
+  mockDownloadBlob,
+  mockGenerateKitDocx,
+  mockIsLoading,
+} = vi.hoisted(() => ({
+  mockAddSuccessMessage: vi.fn(),
+  mockAddErrorMessage: vi.fn(),
+  mockDownloadBlob: vi.fn(),
+  mockGenerateKitDocx: vi.fn(),
+  mockIsLoading: { value: false },
+}))
 
 vi.mock('@/store', async () => {
   const actual = await vi.importActual<typeof import('@/store')>('@/store')
@@ -22,8 +35,9 @@ vi.mock('@/store', async () => {
   }
 })
 
-const mockGenerateKitDocx = vi.fn()
-const mockIsLoading = ref(false)
+vi.mock('@/common/utils/download/download', () => ({
+  downloadBlob: mockDownloadBlob,
+}))
 
 vi.mock('@/features/student/kit/composables/use-export-kit/use-export-kit', () => ({
   useExportKit: () => ({
@@ -52,6 +66,26 @@ BddTest().given('an ExportKitModal component', () => {
       .find(checkbox => checkbox.attributes('data-testid') === 'media-content-checkbox')
   }
 
+  function checkEmitClose (shouldEmit = true) {
+    BddTest().then(`it should ${shouldEmit ? '' : ' not'} emit close`, async () => {
+      await vi.waitFor(() => {
+        shouldEmit
+          ? expect(wrapper.emitted('close')).toBeTruthy()
+          : expect(wrapper.emitted('close')).toBeFalsy()
+      })
+    })
+  }
+
+  function checkCallDownloadBlob (shouldCall = true) {
+    BddTest().then(`it should ${shouldCall ? '' : ' not'} call downloadBlob`, async () => {
+      await vi.waitFor(() => {
+        shouldCall
+          ? expect(mockDownloadBlob).toHaveBeenCalled()
+          : expect(mockDownloadBlob).not.toHaveBeenCalled()
+      })
+    })
+  }
+
   const optionSelectionScenarios = [
     {
       getters: [getTextContentCheckbox],
@@ -69,6 +103,10 @@ BddTest().given('an ExportKitModal component', () => {
       label: 'the user selects both export options'
     }
   ]
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
@@ -178,7 +216,7 @@ BddTest().given('an ExportKitModal component', () => {
 
     BddTest().and('the user selects the text content option and enters a valid kit name', () => {
       beforeEach(() => {
-        wrapper.findComponent(AvCheckboxStub).vm.$emit('update:modelValue', [ExportKitOptions.TEXT_CONTENT])
+        getTextContentCheckbox()!.vm.$emit('update:modelValue', [ExportKitOptions.TEXT_CONTENT])
         wrapper.findComponent(InputStub).vm.$emit('update:modelValue', 'My Kit Name')
       })
 
@@ -196,6 +234,8 @@ BddTest().given('an ExportKitModal component', () => {
             expect(mockGenerateKitDocx).toHaveBeenCalled()
           })
         })
+
+        checkEmitClose()
       })
 
       BddTest().and('the user triggers the form submit', () => {
@@ -208,6 +248,43 @@ BddTest().given('an ExportKitModal component', () => {
             expect(mockGenerateKitDocx).toHaveBeenCalled()
           })
         })
+
+        checkEmitClose()
+      })
+    })
+
+    BddTest().and('the user selects the media content option and enters a valid kit name', () => {
+      beforeEach(() => {
+        getMediaContentCheckbox()!.vm.$emit('update:modelValue', [ExportKitOptions.MEDIA_CONTENT])
+        wrapper.findComponent(InputStub).vm.$emit('update:modelValue', 'My Kit Name')
+      })
+
+      BddTest().then('the confirm button should be enabled', () => {
+        expect(wrapper.findComponent(ConfirmationModalStub).props().confirmButtonDisabled).toBe(false)
+      })
+
+      BddTest().and('the user clicks the confirm button', () => {
+        beforeEach(() => {
+          wrapper.findComponent(ConfirmationModalStub).vm.$emit('confirm')
+        })
+
+        checkCallDownloadBlob()
+        checkEmitClose()
+      })
+
+      BddTest().and('the user triggers the form submit', () => {
+        beforeEach(() => {
+          wrapper.find('form').trigger('submit')
+        })
+
+        BddTest().then('it should call downloadBlob', async () => {
+          await vi.waitFor(() => {
+            expect(mockDownloadBlob).toHaveBeenCalled()
+          })
+        })
+
+        checkCallDownloadBlob()
+        checkEmitClose()
       })
     })
 
@@ -226,6 +303,42 @@ BddTest().given('an ExportKitModal component', () => {
         BddTest().then('the confirm button should be in loading state', () => {
           expect(wrapper.findComponent(ConfirmationModalStub).props().isLoading).toBe(true)
         })
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted with downloadMedia returning an error', () => {
+    beforeEach(() => {
+      server.use(downloadMediaErrorHandler)
+      wrapper = mountComponent(ExportKitModal, { props: { opened: true }, global: { stubs } })
+    })
+
+    BddTest().and('the user selects the media content option and enters a valid kit name', () => {
+      beforeEach(() => {
+        getMediaContentCheckbox()!.vm.$emit('update:modelValue', [ExportKitOptions.MEDIA_CONTENT])
+        wrapper.findComponent(InputStub).vm.$emit('update:modelValue', 'My Kit Name')
+      })
+
+      BddTest().then('the confirm button should be enabled', () => {
+        expect(wrapper.findComponent(ConfirmationModalStub).props().confirmButtonDisabled).toBe(false)
+      })
+
+      BddTest().and('the user clicks the confirm button', () => {
+        beforeEach(() => {
+          wrapper.findComponent(ConfirmationModalStub).vm.$emit('confirm')
+        })
+
+        checkCallDownloadBlob(false)
+        checkEmitClose(false)
+      })
+
+      BddTest().and('the user triggers the form submit', () => {
+        beforeEach(() => {
+          wrapper.find('form').trigger('submit')
+        })
+
+        checkCallDownloadBlob(false)
+        checkEmitClose(false)
       })
     })
   })
