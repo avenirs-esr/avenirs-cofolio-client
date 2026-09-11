@@ -41,7 +41,7 @@ function onTraceUpdated () {
   handleConfirmCloseModal()
 }
 
-const { form, hasErrors } = useUpdateTraceForm(trace.value, onTraceUpdated)
+const { form, hasErrors, isOnlyValorizedModified } = useUpdateTraceForm(trace.value, onTraceUpdated)
 
 const {
   modalOpened: closeConfirmationModalOpened,
@@ -99,6 +99,11 @@ function navigateBack () {
 const lockedDeclaredActivities = ref<TraceDeclaredActivityDTO[]>([])
 
 async function handleConfirm () {
+  if (isOnlyValorizedModified.value) {
+    await tracesStore.submitUpdateTraceForm()
+    return
+  }
+
   try {
     lockedDeclaredActivities.value = !!traceLockedDeclaredActivities.value && traceLockedDeclaredActivities.value.length > 0
       ? traceLockedDeclaredActivities.value[0].lockedDeclaredActivities
