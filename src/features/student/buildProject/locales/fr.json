@@ -15,6 +15,7 @@
           }
         },
         "buttons": {
+          "resubscribe": "Me réinscrire",
           "subscribe": "M'inscrire à l'activité",
           "unsubscribe": "Me désinscrire"
         },
@@ -46,7 +47,8 @@
             "title": "Êtes-vous certain de vouloir vous inscrire à l'activité\u00A0: {title}\u00A0?"
           },
           "UnsubscribeActivitiesConfirmModal": {
-            "description": "Cette action entraînera la perte définitive de toutes les données et actions associées.",
+            "description": "Vos contenus déjà renseignés pour cette activité seront conservés.",
+            "feedbackWarning": "Attention, vos demandes de feedback n'ayant pas encore reçu de réponse seront définitivement supprimées et ne seront plus visibles par l'enseignant",
             "error": "Une erreur est survenue lors de la désinscription de l'activité. Veuillez réessayer plus tard. | Une erreur est survenue lors de la désinscription des activités. Veuillez réessayer plus tard.",
             "success": "Vous avez été désinscrit.e avec succès.",
             "title": "Êtes-vous certain(e) de vouloir vous désinscrire de cette activité\u00A0? | Êtes-vous certain(e) de vouloir vous désinscrire de ces activités\u00A0?"

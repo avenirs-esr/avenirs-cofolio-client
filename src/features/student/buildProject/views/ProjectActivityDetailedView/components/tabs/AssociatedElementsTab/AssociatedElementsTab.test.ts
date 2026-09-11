@@ -373,6 +373,30 @@ BddTest().given('an associated elements tab', () => {
     })
   })
 
+  BddTest().when('the component is mounted with readOnly set to true', () => {
+    const props: AssociatedElementsTabProps = {
+      associations: mockedDeclaredActivityAssociations,
+      declaredActivityId: 'declared-activity-1',
+      countAssociations: 9,
+      traceAllowedAssociations: 7,
+      readOnly: true
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AssociatedElementsTab, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should disable the delete associated elements dropdown', () => {
+      const dropdown = findDropdown('delete')
+      expect(dropdown.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should disable the associate elements dropdown', () => {
+      const dropdown = findDropdown('associate')
+      expect(dropdown.props('disabled')).toBe(true)
+    })
+  })
+
   BddTest().when('the component is mounted without any association', () => {
     const props: AssociatedElementsTabProps = {
       associations: { traceAssociations: [], declaredSkillAssociations: [] },

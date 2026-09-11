@@ -8,6 +8,10 @@ export const SubscribeActivityConfirmModalStub = defineComponent({
     activity: {
       type: Object as () => { id: string, title: string },
       required: true
+    },
+    declaredActivityId: {
+      type: String,
+      required: false
     }
   },
   emits: ['subscribed', 'cancel'],

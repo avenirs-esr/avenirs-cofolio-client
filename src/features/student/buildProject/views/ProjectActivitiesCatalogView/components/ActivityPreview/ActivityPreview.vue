@@ -2,6 +2,7 @@
 import type { ActivityPresentationDTO } from '@/api/avenir-esr'
 import ActivityCatalogHeader from '@/common/activities/components/ActivityCatalogHeader/ActivityCatalogHeader.vue'
 import ActivityCatalogPreviewCard from '@/common/activities/components/ActivityCatalogPreviewCard/ActivityCatalogPreviewCard.vue'
+import { isActivitySubscribed } from '@/common/activities/rules/activities.rules'
 import { useModal } from '@/common/composables'
 import { ICONS, ROUTES } from '@/common/constants'
 import SubscribeActivityConfirmModal from '@/features/student/buildProject/components/modals/SubscribeActivityConfirmModal/SubscribeActivityConfirmModal.vue'
@@ -13,11 +14,17 @@ export interface ActivityPreviewProps {
   activity: ActivityPresentationDTO
 }
 
-defineProps<ActivityPreviewProps>()
+const { activity } = defineProps<ActivityPreviewProps>()
 
 const { t } = useI18n()
 const { modalOpened: unsubscribeModalOpened, openModal: openUnsubscribeModal, closeModal: closeUnsubscribeModal } = useModal()
 const { modalOpened: subscribeModalOpened, openModal: openSubscribeModal, closeModal: closeSubscribeModal } = useModal()
+
+const hasDeclaredActivity = computed(() => !!activity.subscribedDeclaredActivity)
+const isSubscribed = computed(() => isActivitySubscribed(activity))
+const subscribeButtonLabel = computed(() => hasDeclaredActivity.value
+  ? t('student.buildProject.activities.buttons.resubscribe')
+  : t('student.buildProject.activities.buttons.subscribe'))
 </script>
 
 <template>
@@ -29,7 +36,7 @@ const { modalOpened: subscribeModalOpened, openModal: openSubscribeModal, closeM
       :banner="activity.banner"
       :title="activity.title"
       :thematic="activity.thematic"
-      :subscribed-declared-activity="activity.subscribedDeclaredActivity"
+      :declared-activity-status="activity.subscribedDeclaredActivityStatus"
     />
     <ActivityCatalogPreviewCard
       :summary="activity.summary"
@@ -37,7 +44,7 @@ const { modalOpened: subscribeModalOpened, openModal: openSubscribeModal, closeM
     >
       <template #actions>
         <AvButton
-          v-if="activity.subscribedDeclaredActivity"
+          v-if="hasDeclaredActivity"
           theme="PRIMARY"
           variant="FLAT"
           :label="t('student.buildProject.activities.views.ProjectActivitiesCatalogView.buttons.access')"
@@ -50,7 +57,7 @@ const { modalOpened: subscribeModalOpened, openModal: openSubscribeModal, closeM
           data-testid="access-button"
         />
         <AvButton
-          v-if="activity.subscribedDeclaredActivity"
+          v-if="isSubscribed"
           variant="OUTLINED"
           theme="PRIMARY"
           :label="t('student.buildProject.activities.buttons.unsubscribe')"
@@ -63,7 +70,7 @@ const { modalOpened: subscribeModalOpened, openModal: openSubscribeModal, closeM
           v-else
           variant="OUTLINED"
           theme="PRIMARY"
-          :label="t('student.buildProject.activities.buttons.subscribe')"
+          :label="subscribeButtonLabel"
           :icon="PH_ICONS.NOTE_PENCIL"
           small
           data-testid="subscribe-button"
@@ -76,6 +83,7 @@ const { modalOpened: subscribeModalOpened, openModal: openSubscribeModal, closeM
   <UnsubscribeActivitiesConfirmModal
     :opened="unsubscribeModalOpened"
     :activities="[{ id: activity.id, title: activity.title }]"
+    :declared-activity-id="activity.subscribedDeclaredActivity"
     @cancel="closeUnsubscribeModal"
     @unsubscribed="closeUnsubscribeModal"
   />

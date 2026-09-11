@@ -3,6 +3,7 @@ export const AssociatedElementsTabStub = defineComponent({
   props: [
     'traceAssociationsDisabled',
     'traceAllowedAssociations',
+    'readOnly',
   ],
   template: '<div data-testid="associated-elements-tab-stub" />',
 })

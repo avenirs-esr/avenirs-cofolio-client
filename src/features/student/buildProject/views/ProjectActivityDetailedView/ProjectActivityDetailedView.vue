@@ -6,6 +6,7 @@ import Loader from '@/common/components/Loader/Loader.vue'
 import { useDrawer, useModal, useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
+import SubscribeActivityConfirmModal from '@/features/student/buildProject/components/modals/SubscribeActivityConfirmModal/SubscribeActivityConfirmModal.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import UpdateActivityDrawer
   from '@/features/student/buildProject/components/overlays/UpdateActivityDrawer/UpdateActivityDrawer.vue'
@@ -29,7 +30,8 @@ const { data: declaredActivityDetail, isLoading, isError, error } = useGetDeclar
   staleTime: TanstackStaleTimeConfig.DETAILS
 } })
 const { navigateToStudentProjectActivities } = useNavigation()
-const { modalOpened, openModal, closeModal } = useModal()
+const { modalOpened: unsubscribeModalOpened, openModal: openUnsubscribeModal, closeModal: closeUnsubscribeModal } = useModal()
+const { modalOpened: subscribeModalOpened, openModal: openSubscribeModal, closeModal: closeSubscribeModal } = useModal()
 const { showDrawer: showUpdateDrawer, displayDrawer: displayUpdateDrawer, hideDrawer: hideUpdateDrawer } = useDrawer()
 
 const lastBreadcrumbLink = ref(t('global.detail'))
@@ -46,7 +48,7 @@ const breadcrumbLinks = computed(() => [
 ])
 
 function onUnsubscribed () {
-  closeModal()
+  closeUnsubscribeModal()
   navigateToStudentProjectActivities({ replace: true })
 }
 </script>
@@ -76,8 +78,10 @@ function onUnsubscribed () {
           />
           <ActivityDetailedDropdown
             data-testid="activity-detailed-dropdown"
-            @unsubscribe-selected="openModal"
+            :status="declaredActivityDetail.status"
+            @unsubscribe-selected="openUnsubscribeModal"
             @update-selected="displayUpdateDrawer"
+            @resubscribe-selected="openSubscribeModal"
           />
         </div>
       </div>
@@ -88,10 +92,19 @@ function onUnsubscribed () {
       />
 
       <UnsubscribeActivitiesConfirmModal
-        :opened="modalOpened"
+        :opened="unsubscribeModalOpened"
         :activities="[{ id: declaredActivityDetail.activity.id, title: declaredActivityDetail.activity.title }]"
-        @cancel="closeModal"
+        :declared-activity-id="declaredActivityDetail.id"
+        @cancel="closeUnsubscribeModal"
         @unsubscribed="onUnsubscribed"
+      />
+
+      <SubscribeActivityConfirmModal
+        :opened="subscribeModalOpened"
+        :activity="{ id: declaredActivityDetail.activity.id, title: declaredActivityDetail.activity.title }"
+        :declared-activity-id="declaredActivityDetail.id"
+        @cancel="closeSubscribeModal"
+        @subscribed="closeSubscribeModal"
       />
 
       <UpdateActivityDrawer

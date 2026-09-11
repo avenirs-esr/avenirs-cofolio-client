@@ -6,6 +6,7 @@ import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/Decl
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { ROUTES } from '@/common/constants'
+import { SubscribeActivityConfirmModalStub } from '@/features/student/buildProject/components/modals/SubscribeActivityConfirmModal/SubscribeActivityConfirmModal.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import { ProjectActivitiesTab } from '@/features/student/buildProject/types/activities.types'
 import { ActivityDetailedDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.stub'
@@ -37,6 +38,7 @@ BddTest().given('a project activity detailed view', () => {
     Loader: LoaderStub,
     DeclaredActivityStatusBadge: DeclaredActivityStatusBadgeStub,
     UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub,
+    SubscribeActivityConfirmModal: SubscribeActivityConfirmModalStub,
     ActivityDetailedDropdown: ActivityDetailedDropdownStub,
     ProjectActivityDetailedLayout: ProjectActivityDetailedLayoutStub,
   }
@@ -106,6 +108,16 @@ BddTest().given('a project activity detailed view', () => {
       expect(badge.props('status')).toBe(EDeclaredActivityStatus.IN_PROGRESS)
     })
 
+    BddTest().then('it should pass the declared activity status to the dropdown', () => {
+      const dropdown = wrapper.findComponent(ActivityDetailedDropdownStub)
+      expect(dropdown.props('status')).toBe(EDeclaredActivityStatus.IN_PROGRESS)
+    })
+
+    BddTest().then('it should pass the declared activity id to the UnsubscribeActivitiesConfirmModal', () => {
+      const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
+      expect(modal.props('declaredActivityId')).toBe('declared-activity-1')
+    })
+
     BddTest().and('the user clicks the unsubscribe button in the activity detailed dropdown', () => {
       beforeEach(async () => {
         const unsubscribeButton = wrapper.findComponent(ActivityDetailedDropdownStub)
@@ -147,6 +159,32 @@ BddTest().given('a project activity detailed view', () => {
         const modal = wrapper.findComponent(UnsubscribeActivitiesConfirmModalStub)
         expect(modal.exists()).toBe(true)
         expect(modal.props('opened')).toBe(false)
+      })
+    })
+
+    BddTest().and('the user clicks the resubscribe button in the activity detailed dropdown', () => {
+      beforeEach(async () => {
+        const dropdown = wrapper.findComponent(ActivityDetailedDropdownStub)
+        dropdown.vm.$emit('resubscribeSelected')
+      })
+
+      BddTest().then('it should show the SubscribeActivityConfirmModal', () => {
+        const modal = wrapper.findComponent(SubscribeActivityConfirmModalStub)
+        expect(modal.exists()).toBe(true)
+        expect(modal.props('opened')).toBe(true)
+        expect(modal.props('declaredActivityId')).toBe('declared-activity-1')
+      })
+
+      BddTest().and('the user confirms the subscription in the SubscribeActivityConfirmModal', () => {
+        beforeEach(async () => {
+          const modal = wrapper.findComponent(SubscribeActivityConfirmModalStub)
+          modal.vm.$emit('subscribed')
+        })
+
+        BddTest().then('it should hide the SubscribeActivityConfirmModal', () => {
+          const modal = wrapper.findComponent(SubscribeActivityConfirmModalStub)
+          expect(modal.props('opened')).toBe(false)
+        })
       })
     })
   })

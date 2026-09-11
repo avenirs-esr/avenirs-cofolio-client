@@ -4,7 +4,10 @@ import {
   isActivityAssociationToTraceDisabled,
   isActivityAssociationToTraceLimited,
   isActivityAssociationToTraceUnlimited,
-  isDeletableDeclaredActivityAssociation
+  isActivitySubscribed,
+  isDeclaredActivityUnsubscribed,
+  isDeletableDeclaredActivityAssociation,
+  isPerspectiveEditingDisabled
 } from '@/common/activities/rules/activities.rules'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { expect } from 'vitest'
@@ -79,6 +82,82 @@ BddTest().given('trace association rules', () => {
       expect(isActivityAssociationToTraceLimited(activityContent)).toBe(true)
       expect(isActivityAssociationToTraceDisabled(activityContent)).toBe(false)
       expect(isActivityAssociationToTraceUnlimited(activityContent)).toBe(false)
+    })
+  })
+})
+
+BddTest().given('isActivitySubscribed', () => {
+  BddTest().when('the activity has no declared activity', () => {
+    BddTest().then('it should return false', () => {
+      const activity = { subscribedDeclaredActivity: undefined, subscribedDeclaredActivityStatus: undefined }
+      expect(isActivitySubscribed(activity)).toBe(false)
+    })
+  })
+
+  BddTest().when('the declared activity is subscribed', () => {
+    BddTest().then('it should return true', () => {
+      const activity = { subscribedDeclaredActivity: 'declared-activity-1', subscribedDeclaredActivityStatus: EDeclaredActivityStatus.SUBSCRIBED }
+      expect(isActivitySubscribed(activity)).toBe(true)
+    })
+  })
+
+  BddTest().when('the declared activity is in progress', () => {
+    BddTest().then('it should return true', () => {
+      const activity = { subscribedDeclaredActivity: 'declared-activity-1', subscribedDeclaredActivityStatus: EDeclaredActivityStatus.IN_PROGRESS }
+      expect(isActivitySubscribed(activity)).toBe(true)
+    })
+  })
+
+  BddTest().when('the declared activity is unsubscribed', () => {
+    BddTest().then('it should return false', () => {
+      const activity = { subscribedDeclaredActivity: 'declared-activity-1', subscribedDeclaredActivityStatus: EDeclaredActivityStatus.UNSUBSCRIBED }
+      expect(isActivitySubscribed(activity)).toBe(false)
+    })
+  })
+})
+
+BddTest().given('isPerspectiveEditingDisabled', () => {
+  BddTest().when('the declared activity is completed', () => {
+    BddTest().then('it should return true', () => {
+      expect(isPerspectiveEditingDisabled(EDeclaredActivityStatus.COMPLETED)).toBe(true)
+    })
+  })
+
+  BddTest().when('the declared activity is unsubscribed', () => {
+    BddTest().then('it should return true', () => {
+      expect(isPerspectiveEditingDisabled(EDeclaredActivityStatus.UNSUBSCRIBED)).toBe(true)
+    })
+  })
+
+  BddTest().when('the declared activity is in progress', () => {
+    BddTest().then('it should return false', () => {
+      expect(isPerspectiveEditingDisabled(EDeclaredActivityStatus.IN_PROGRESS)).toBe(false)
+    })
+  })
+
+  BddTest().when('the declared activity status is undefined', () => {
+    BddTest().then('it should return false', () => {
+      expect(isPerspectiveEditingDisabled(undefined)).toBe(false)
+    })
+  })
+})
+
+BddTest().given('isDeclaredActivityUnsubscribed', () => {
+  BddTest().when('the declared activity is unsubscribed', () => {
+    BddTest().then('it should return true', () => {
+      expect(isDeclaredActivityUnsubscribed(EDeclaredActivityStatus.UNSUBSCRIBED)).toBe(true)
+    })
+  })
+
+  BddTest().when('the declared activity is in progress', () => {
+    BddTest().then('it should return false', () => {
+      expect(isDeclaredActivityUnsubscribed(EDeclaredActivityStatus.IN_PROGRESS)).toBe(false)
+    })
+  })
+
+  BddTest().when('the declared activity status is undefined', () => {
+    BddTest().then('it should return false', () => {
+      expect(isDeclaredActivityUnsubscribed(undefined)).toBe(false)
     })
   })
 })
