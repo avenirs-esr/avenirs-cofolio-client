@@ -16,9 +16,15 @@ import { AvTab, AvTabs, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
+const { experienceId } = defineProps<DeclaredExperienceViewProps>()
+
 enum DeclaredExperienceViewTabs {
   DETAILS = 0,
   ASSOCIATIONS = 1
+}
+
+interface DeclaredExperienceViewProps {
+  experienceId: string
 }
 
 const { t } = useI18n()
@@ -26,8 +32,6 @@ const route = useRoute()
 const router = useRouter()
 const { isMobile } = useAvBreakpoints()
 const activeTab = ref(DeclaredExperienceViewTabs.DETAILS)
-
-const experienceId = computed(() => String(route.params.id ?? ''))
 
 const { data: declaredExperienceDetailed, isLoading, error } = useGetDeclaredExperience(experienceId, { query: { placeholderData: keepPreviousData } })
 

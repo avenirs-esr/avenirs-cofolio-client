@@ -112,6 +112,7 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
         expect(period.props('startDateDisabled')).toBe(true)
         expect(period.props('endDateDisabled')).toBe(true)
         expect(period.props('stacked')).toBe(false)
+        expect(period.props('type')).toBe('month')
         expect(period.props('separatorSpacing')).toBe('var(--spacing-sm)')
       })
 
