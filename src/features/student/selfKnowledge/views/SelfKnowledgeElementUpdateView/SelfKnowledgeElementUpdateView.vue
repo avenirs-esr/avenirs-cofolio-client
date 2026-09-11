@@ -2,8 +2,7 @@
 import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
-import { useNavigation } from '@/common/composables'
-import { ROUTES } from '@/common/constants/route-names'
+import { useBreadcrumb, useNavigation } from '@/common/composables'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
@@ -44,11 +43,7 @@ const {
   selfKnowledgeCategory: categoryId,
 })
 
-const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.trajectories'), to: ROUTES.STUDENT.PROJECT_TRAJECTORIES },
-  { text: t('student.global.navigation.tabs.project.items.selfKnowledge') },
+const { breadcrumbLinks } = useBreadcrumb(() => [
   { text: t('student.selfKnowledge.views.SelfKnowledgeElementUpdateView.breadcrumb.current.title', { categoryType: categoryTypeLabel.value }) }
 ])
 

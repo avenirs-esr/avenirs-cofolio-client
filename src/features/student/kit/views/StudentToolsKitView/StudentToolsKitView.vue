@@ -3,8 +3,8 @@ import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
 import backgroundImg from '@/assets/student_tools_kit_intro_background.png'
 import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import { useBreadcrumb } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
-import { ROUTES } from '@/common/constants'
 import ExportKitButton from '@/features/student/kit/views/StudentToolsKitView/components/interaction/ExportKitButton/ExportKitButton.vue'
 import KitContentTabs from '@/features/student/kit/views/StudentToolsKitView/components/KitContentTabs/KitContentTabs.vue'
 import { AvBreadcrumb } from '@avenirs-esr/avenirs-dsav'
@@ -15,11 +15,7 @@ const { t } = useI18n()
 const { data: studentSummary, error, isLoading } = useGetProfile(EUserCategory.STUDENT)
 const { getErrorMessage } = useApiErrors()
 
-const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.tools.header') },
-  { text: t('student.global.navigation.tabs.tools.items.kit') },
-])
+const { breadcrumbLinks } = useBreadcrumb()
 </script>
 
 <template>

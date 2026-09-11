@@ -2,7 +2,7 @@
 import { useGetDeclaredProgram } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useModal, useNavigation } from '@/common/composables'
+import { useBreadcrumb, useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ROUTES } from '@/common/constants'
 import DeclaredProgramSideMenu from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.vue'
@@ -28,13 +28,7 @@ const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 const isDeclaredProgramNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_PROGRAM_NOT_FOUND || isNotFound.value)
 
 const programTitle = computed(() => declaredProgramDetailed.value?.title ?? '')
-const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.experiences') },
-  { text: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.breadcrumb'), to: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS },
-  { text: programTitle.value }
-])
+const { breadcrumbLinks } = useBreadcrumb(() => [{ text: programTitle.value }])
 
 function onSelectProgram (programId: string) {
   router.replace({

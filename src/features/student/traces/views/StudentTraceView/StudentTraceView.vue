@@ -4,7 +4,7 @@ import { useDownloadAttachment, useGetTraceAssociations, useGetTraceDetail } fro
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
-import { useModal, useNavigation } from '@/common/composables'
+import { useBreadcrumb, useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ICONS, ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
@@ -94,24 +94,9 @@ function handleUpdateTrace () {
   }
 }
 
-const toolsBreadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.tools.header') },
-  { text: t('student.global.navigation.tabs.tools.items.traces'), to: ROUTES.STUDENT.TOOLS_TRACES },
+const { breadcrumbLinks } = useBreadcrumb(() => [
   { text: traceDetailed.value?.title || '' }
 ])
-
-const homeBreadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.tools.items.traces') },
-  { text: traceDetailed.value?.title || '' }
-])
-
-const breadcrumbLinks = computed(() =>
-  isToolsTraceRoute.value
-    ? toolsBreadcrumbLinks.value
-    : homeBreadcrumbLinks.value
-)
 </script>
 
 <template>

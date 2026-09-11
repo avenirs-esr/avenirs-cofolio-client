@@ -2,9 +2,9 @@
 import { useGetDeclaredSkillAssociations, useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
-import { useModal, useNavigation } from '@/common/composables'
+import { useBreadcrumb, useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
-import { ErrorCodes, ICONS, ROUTES } from '@/common/constants'
+import { ErrorCodes, ICONS } from '@/common/constants'
 import DeclaredSkillDetails
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
 import DeclaredSkillSettingDropdown
@@ -47,10 +47,7 @@ const skillTitle = computed(() => declaredSkillDetailed.value?.title ?? '')
 const countAssociations = computed(() =>
   traceAssociations.value.length + declaredActivityAssociations.value.length + declaredExperienceAssociations.value.length)
 
-const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.skills'), to: ROUTES.STUDENT.PROJECT_SKILLS },
+const { breadcrumbLinks } = useBreadcrumb(() => [
   { text: t('student.declaredSkills.views.StudentDeclaredSkillView.breadcrumb.current.title', { skill: skillTitle.value }) }
 ])
 

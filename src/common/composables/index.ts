@@ -1,3 +1,4 @@
+export * from './use-breadcrumb/use-breadcrumb'
 export * from './use-date-utils/use-date-utils'
 export * from './use-drawer/use-drawer'
 export * from './use-file-validation/use-file-validation'

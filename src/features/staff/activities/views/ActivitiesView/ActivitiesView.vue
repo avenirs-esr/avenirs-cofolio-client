@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import { useBreadcrumb } from '@/common/composables'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
-import { ROUTES } from '@/common/constants'
 import MyWorkspaceTab from '@/features/staff/activities/views/ActivitiesView/components/MyWorkspaceTab/MyWorkspaceTab.vue'
 import StaffAllActivitiesTab from '@/features/staff/activities/views/ActivitiesView/components/StaffAllActivitiesTab/StaffAllActivitiesTab.vue'
 import { AvTab, AvTabs, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -9,10 +9,7 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const breadcrumbLinks = computed(() => [
-  { text: t('staff.global.navigation.tabs.home'), to: ROUTES.STAFF.HOME },
-  { text: t('staff.global.navigation.tabs.activities.header') }
-])
+const { breadcrumbLinks } = useBreadcrumb()
 
 enum ActivitiesViewTab {
   MY_WORKSPACE = 0,

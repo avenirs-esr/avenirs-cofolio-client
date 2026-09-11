@@ -2,7 +2,7 @@
 import { EActivityStatus, EActivityThematic, useGetActivityNavigation, useGetActivityPresentation } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useNavigation } from '@/common/composables'
+import { useBreadcrumb, useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import { isEnumMember } from '@/common/utils'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
@@ -51,22 +51,7 @@ const firstCatalogEntry = computed(() => {
 
 const isProjectActivitiesRoute = computed(() => route.name === ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name)
 
-const projectBreadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.activities'), to: ROUTES.STUDENT.PROJECT_ACTIVITIES },
-  { text: activityDetail.value?.title ?? '' }
-])
-
-const homeBreadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.project.items.activities') },
-  { text: activityDetail.value?.title ?? '' }
-])
-
-const breadcrumbLinks = computed(() => isProjectActivitiesRoute.value
-  ? projectBreadcrumbLinks.value
-  : homeBreadcrumbLinks.value)
+const { breadcrumbLinks } = useBreadcrumb(() => [{ text: activityDetail.value?.title ?? '' }])
 
 watchEffect(() => {
   const newThematic = thematic

@@ -1,6 +1,6 @@
-import type { RoutePageProps } from '@/common/types'
 import { EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { projectActivitiesRoutes, projectTrajectoriesRoutes, studentActivitiesCatalogRoute, studentActivityRoute } from '@/features/student/buildProject/routes'
 import { studentProjectDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
 import { studentToolsKitRoute } from '@/features/student/kit/routes'
@@ -10,11 +10,7 @@ import { studentSelfKnowledgeCategoryRoute, studentSelfKnowledgeElementUpdateRou
 import { studentProjectSkillsRoute } from '@/features/student/skills/routes'
 import { studentToolsTraceRoute, studentToolsTracesRoute, studentToolsUpdateTraceRoute, studentTraceRoute, studentUpdateTraceRoute } from '@/features/student/traces/routes'
 
-const footerLegalProps: RoutePageProps = {
-  breadcrumbLinksRaw: [
-    { textKey: 'student.global.navigation.tabs.home', to: ROUTES.STUDENT.HOME },
-  ]
-}
+const breadcrumb = [META_BREADCRUMBS.STUDENT.HOME]
 
 export default [
   {
@@ -30,31 +26,33 @@ export default [
       },
       {
         ...ROUTES.STUDENT.ACCESSIBILITY,
-        props: () => footerLegalProps,
         component: () => import('@/common/views/AccessibilityView/AccessibilityView.vue'),
+        meta: { breadcrumb },
       },
       {
         ...ROUTES.STUDENT.COOKIES,
-        props: () => footerLegalProps,
         component: () => import('@/common/views/CookiesView/CookiesView.vue'),
+        meta: { breadcrumb },
       },
       {
         ...ROUTES.STUDENT.DELIVERABLES,
         component: () => import('@/features/student/global/views/StudentDeliverablesView/StudentDeliverablesView.vue'),
+        meta: { breadcrumb },
       },
       {
         ...ROUTES.STUDENT.EVENTS,
         component: () => import('@/features/student/global/views/StudentEventsView/StudentEventsView.vue'),
+        meta: { breadcrumb },
       },
       {
         ...ROUTES.STUDENT.LEGAL,
-        props: () => footerLegalProps,
         component: () => import('@/common/views/LegalView/LegalView.vue'),
+        meta: { breadcrumb },
       },
       {
         ...ROUTES.STUDENT.PERSONAL_DATA,
-        props: () => footerLegalProps,
         component: () => import('@/common/views/PersonalDataView/PersonalDataView.vue'),
+        meta: { breadcrumb },
       },
       studentProjectDeclaredSkillRoute,
       studentProjectSkillsRoute,
@@ -79,10 +77,12 @@ export default [
       {
         ...ROUTES.STUDENT.ABOUT,
         component: () => import('@/features/student/global/views/StudentAboutView/StudentAboutView.vue'),
+        meta: { breadcrumb },
       },
       {
         ...ROUTES.STUDENT.MAILBOX,
         component: () => import('@/features/student/user/views/StudentMailboxView/StudentMailboxView.vue'),
+        meta: { breadcrumb },
       },
     ],
   },
