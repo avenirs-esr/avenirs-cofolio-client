@@ -1,3 +1,4 @@
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
   createTraceDetailedHandler,
@@ -6,6 +7,7 @@ import {
 import { server } from '@/__mocks__/msw/server'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { downloadBlob } from '@/common/utils/download/download'
 import { TraceAssociationsStub } from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.stub'
 import {
@@ -22,17 +24,25 @@ import StudentTraceView from '@/features/student/traces/views/StudentTraceView/S
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { useRoute } from 'vue-router'
+
+const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
+  name: ROUTES.STUDENT.TOOLS_TRACE.name,
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.TOOLS.DEFAULT,
+      META_BREADCRUMBS.STUDENT.TOOLS.TRACES,
+    ],
+  }
+})
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
   return {
     ...actual,
-    useRoute: vi.fn(),
+    useRoute: () => route,
   }
 })
-
-const mockedUseRoute = vi.mocked(useRoute)
 
 vi.mock('@/common/utils/download/download', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/utils/download/download')>()
@@ -72,7 +82,6 @@ vi.mock('@/common/composables', async (importOriginal) => {
 
 BddTest().given('a student trace view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentTraceView>>
-  let routeName: string
 
   const stubs = {
     DetailedPageTitle: DetailedPageTitleStub,
@@ -87,12 +96,6 @@ BddTest().given('a student trace view', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
-    routeName = ROUTES.STUDENT.TOOLS_TRACE.name
-    mockedUseRoute.mockReturnValue({
-      get name () {
-        return routeName
-      }
-    } as ReturnType<typeof useRoute>)
 
     const handler = createTraceDetailedHandler(mockedTraceDetailed)
     server.use(handler)
@@ -170,7 +173,13 @@ BddTest().given('a student trace view', () => {
 
   BddTest().when('the view is mounted on home trace route', () => {
     beforeEach(async () => {
-      routeName = ROUTES.STUDENT.TRACE.name
+      route.name = ROUTES.STUDENT.TRACE.name
+      route.meta = {
+        breadcrumb: [
+          META_BREADCRUMBS.STUDENT.HOME,
+          { textKey: META_BREADCRUMBS.STUDENT.TOOLS.TRACES.textKey },
+        ],
+      }
 
       const handler = createTraceDetailedHandler(mockedTraceDetailed)
       server.use(handler)
@@ -230,9 +239,11 @@ BddTest().given('a student trace view', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should navigate to update trace page', () => {
-      expect(mockNavigateToStudentToolsUpdateTrace).toHaveBeenCalledWith({
-        id: mockedTraceDetailed.id,
+    BddTest().then('it should navigate to update trace page', async () => {
+      await vi.waitFor(() => {
+        expect(mockNavigateToStudentUpdateTrace).toHaveBeenCalledWith({
+          id: mockedTraceDetailed.id,
+        })
       })
     })
   })

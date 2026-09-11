@@ -85,10 +85,7 @@ function backToElementDetails () {
         <UpdateInProgressBadge :show="true" />
       </template>
 
-      <SelfKnowledgeElementTabs
-        :self-knowledge-element="element"
-        :category-type="categoryType"
-      >
+      <SelfKnowledgeElementTabs :category-type="categoryType">
         <template #element>
           <SelfKnowledgeElementUpdateForm
             :element="element"

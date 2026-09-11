@@ -1,10 +1,31 @@
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import StudentToolsTracesView from '@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, expect, vi } from 'vitest'
+
+const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
+  name: ROUTES.STUDENT.TOOLS_TRACES.name,
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.TOOLS.DEFAULT,
+      META_BREADCRUMBS.STUDENT.TOOLS.TRACES,
+    ],
+  }
+})
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: () => route,
+  }
+})
 
 BddTest().given('a student tools traces view component', () => {
   const commonStubs = {
@@ -62,8 +83,6 @@ BddTest().given('a student tools traces view component', () => {
   })
 
   BddTest().and('no configuration', () => {
-    let wrapper: VueWrapper
-
     beforeEach(() => {
       vi.clearAllMocks()
       setActivePinia(createPinia())
@@ -85,8 +104,6 @@ BddTest().given('a student tools traces view component', () => {
   })
 
   BddTest().and('no traces summary', () => {
-    let wrapper: VueWrapper
-
     beforeEach(() => {
       vi.clearAllMocks()
       setActivePinia(createPinia())
