@@ -17,12 +17,11 @@ import {
 } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useNavigation } from '@/common/composables'
+import { useBreadcrumb, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useQueueAutoSave } from '@/common/composables/use-queue-auto-save/use-queue-auto-save'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { ROUTES } from '@/common/constants'
 import { BaseApiException } from '@/common/exceptions'
 import { isDifferentFile } from '@/common/utils/file/file'
 import AddNationalActivitySideNavigation from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.vue'
@@ -69,12 +68,6 @@ const queryClient = useQueryClient()
 
 const title = computed(() => t(`staff.global.navigation.tabs.activities.items.${mode.value === 'add' ? 'addNationalActivity' : 'editNationalActivity'}`))
 
-const breadcrumbLinks = computed(() => [
-  { text: t('staff.global.navigation.tabs.home'), to: ROUTES.STAFF.HOME },
-  { text: t('staff.global.navigation.tabs.activities.header'), to: ROUTES.STAFF.ACTIVITIES },
-  { text: title.value }
-])
-
 const {
   data: content,
   isLoading: contentIsLoading,
@@ -85,6 +78,11 @@ const {
   isLoading: presentationIsLoading,
   error: presentationError
 } = useGetActivityPresentation(EActivityStatus.DRAFT, id)
+
+const { breadcrumbLinks } = useBreadcrumb(() => [
+  { text: content.value?.title ?? '' },
+  { text: title.value }
+])
 
 const remoteFiles = computed(() => content.value?.files ?? [])
 

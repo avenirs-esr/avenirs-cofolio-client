@@ -2,7 +2,7 @@
 import { type TraceDeclaredActivityDTO, useGetLockedDeclaredActivities, useGetTraceAssociations, useGetTraceDetail } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
-import { useModal, useNavigation } from '@/common/composables'
+import { useBreadcrumb, useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ROUTES } from '@/common/constants'
 import { BaseApiException } from '@/common/exceptions'
@@ -54,41 +54,19 @@ const {
   closeModal: closeConfirmUpdateModal
 } = useModal()
 
-const toolsBreadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.tools.header') },
-  { text: t('student.global.navigation.tabs.tools.items.traces'), to: ROUTES.STUDENT.TOOLS_TRACES },
-  {
-    text: trace.value?.title || '',
-    to: {
-      name: ROUTES.STUDENT.TOOLS_TRACE.name,
-      params: { id: traceId },
-    },
-  },
-  { text: t('global.buttons.update'), },
-])
+const isToolsTraceRoute = computed(() =>
+  route.name === ROUTES.STUDENT.TOOLS_UPDATE_TRACE.name)
 
-const homeBreadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.tools.items.traces') },
+const { breadcrumbLinks } = useBreadcrumb(() => [
   {
     text: trace.value?.title || '',
     to: {
-      name: ROUTES.STUDENT.TRACE.name,
+      name: isToolsTraceRoute.value ? ROUTES.STUDENT.TOOLS_TRACE.name : ROUTES.STUDENT.TRACE.name,
       params: { id: traceId },
     },
   },
   { text: t('global.buttons.update') }
 ])
-
-const isToolsTraceRoute = computed(() =>
-  route.name === ROUTES.STUDENT.TOOLS_UPDATE_TRACE.name)
-
-const breadcrumbLinks = computed(() =>
-  isToolsTraceRoute.value
-    ? toolsBreadcrumbLinks.value
-    : homeBreadcrumbLinks.value
-)
 
 function navigateBack () {
   isToolsTraceRoute.value

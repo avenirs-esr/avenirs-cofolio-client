@@ -1,4 +1,5 @@
 import type { AvRoute } from '@/common/types'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { ROUTES } from '@/common/constants/route-names'
 
 export default []
@@ -6,6 +7,13 @@ export default []
 export const projectActivitiesRoute: AvRoute = {
   ...ROUTES.STUDENT.PROJECT_ACTIVITIES,
   component: () => import('@/features/student/buildProject/views/ProjectActivitiesView/ProjectActivitiesView.vue'),
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES,
+    ],
+  }
 }
 
 export const projectActivitiesDetailedRoute: AvRoute = {
@@ -15,6 +23,13 @@ export const projectActivitiesDetailedRoute: AvRoute = {
   }),
   component: () =>
     import('@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.vue'),
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES,
+    ],
+  }
 }
 
 export const projectActivitiesCatalogRoute: AvRoute = {
@@ -25,11 +40,25 @@ export const projectActivitiesCatalogRoute: AvRoute = {
   }),
   component: () =>
     import('@/features/student/buildProject/views/ProjectActivitiesCatalogView/ProjectActivitiesCatalogView.vue'),
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES,
+    ],
+  }
 }
 
 export const projectTrajectoriesRoute: AvRoute = {
   ...ROUTES.STUDENT.PROJECT_TRAJECTORIES,
   component: () => import('@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'),
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+      { textKey: META_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT.textKey },
+    ]
+  }
 }
 
 export const projectActivitiesRoutes = [
@@ -49,6 +78,12 @@ export const studentActivityRoute: AvRoute = {
   }),
   component: () =>
     import('@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.vue'),
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      { textKey: META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES.textKey },
+    ],
+  }
 }
 
 export const studentActivitiesCatalogRoute: AvRoute = {
@@ -59,4 +94,10 @@ export const studentActivitiesCatalogRoute: AvRoute = {
   }),
   component: () =>
     import('@/features/student/buildProject/views/ProjectActivitiesCatalogView/ProjectActivitiesCatalogView.vue'),
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      { textKey: META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES.textKey },
+    ],
+  }
 }
