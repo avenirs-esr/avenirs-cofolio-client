@@ -1,3 +1,4 @@
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import type { VueWrapper } from '@vue/test-utils'
 import {
   declaredExperienceDetailedLoadingHandler,
@@ -9,6 +10,7 @@ import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/Det
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { DeclaredExperienceSideMenuStub }
   from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.stub'
 import { DeleteDeclaredExperienceConfirmModalStub }
@@ -49,20 +51,32 @@ vi.mock('@/common/composables', async (importOriginal) => {
 })
 
 const routerReplace = vi.fn()
-const mockRouteId = ref<string>('exp-123')
+
+const route = reactive<{
+  name: string
+  params: { id: string }
+  meta: { breadcrumb: BreadcrumbLinkRaw[] }
+}>({
+  name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
+  params: {
+    id: 'exp-123'
+  },
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.EXPERIENCES,
+    ],
+  }
+})
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
 
   return {
     ...actual,
-    useRoute: () => ({
-      params: {
-        get id () {
-          return mockRouteId.value
-        }
-      }
-    }),
+    useRoute: () => route,
     useRouter: () => ({
       replace: routerReplace
     })
@@ -418,7 +432,7 @@ BddTest().given('a declared experience view component', () => {
   BddTest().when('the associations query returns empty data', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      mockRouteId.value = 'EXP_WITHOUT_ASSOCIATIONS'
+      route.params.id = 'EXP_WITHOUT_ASSOCIATIONS'
       await mountComponentWithDefaults()
     })
 
@@ -442,7 +456,7 @@ BddTest().given('a declared experience view component', () => {
   BddTest().when('the associations query fails', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
-      mockRouteId.value = 'INVALID_SKILL_ID'
+      route.params.id = 'INVALID_SKILL_ID'
       await mountComponentWithDefaults()
     })
 

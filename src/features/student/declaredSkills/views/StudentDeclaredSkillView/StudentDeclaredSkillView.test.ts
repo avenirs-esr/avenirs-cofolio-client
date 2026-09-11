@@ -1,3 +1,4 @@
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import type { VueWrapper } from '@vue/test-utils'
 import {
   detailedSkillProgressNotFoundErrorHandler
@@ -6,6 +7,7 @@ import { server } from '@/__mocks__/msw/server'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { DeclaredSkillDetailsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.stub'
 import { DeclaredSkillSettingDropdownStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillSettingDropdown/DeclaredSkillSettingDropdown.stub'
 import { DeleteDeclaredSkillConfirmModalStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.stub'
@@ -14,6 +16,25 @@ import StudentDeclaredSkillView from '@/features/student/declaredSkills/views/St
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
+  name: ROUTES.STUDENT.PROJECT_DECLARED_SKILL.name,
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.SKILLS,
+    ]
+  }
+})
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: () => route,
+  }
+})
 
 const navigateToStudentUpdateDeclaredSkill = vi.fn()
 const navigateToStudentProjectSkills = vi.fn()

@@ -1,6 +1,8 @@
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import { getMockedActivitiesWithFeedbacks } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { FeedbackStatusPickerStub } from '@/features/staff/feedbacks/components/interaction/pickers/FeedbackStatusPicker/FeedbackStatusPicker.stub'
 import { FeedbackActivityConsignCardStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbackActivityConsignCard/FeedbackActivityConsignCard.stub'
 import { FeedbacksDashboardCardsStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbacksDashboardCards/FeedbacksDashboardCards.stub'
@@ -11,20 +13,31 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 
-const routeMock = vi.hoisted(() => ({
+const route = reactive<{ name: string, fullPath: string, query: Record<string, unknown>, matched: unknown[], meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
   name: '',
   fullPath: '',
   query: {},
   matched: [],
-}))
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STAFF.HOME,
+      META_BREADCRUMBS.STAFF.STUDENT_TRACKING.DEFAULT,
+      { textKey: META_BREADCRUMBS.STAFF.STUDENT_TRACKING.FEEDBACKS.textKey },
+    ]
+  }
+})
 
-vi.mock('vue-router', () => ({
-  useRoute: () => routeMock,
-  useRouter: () => ({
-    push: vi.fn(),
-    replace: vi.fn(),
-  }),
-}))
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: () => route,
+    useRouter: () => ({
+      push: vi.fn(),
+      replace: vi.fn(),
+    }),
+  }
+})
 
 BddTest().given('a feedbacks view', () => {
   const activity = getMockedActivitiesWithFeedbacks()[0]
@@ -42,6 +55,8 @@ BddTest().given('a feedbacks view', () => {
 
   const mountWith = async (props: Partial<FeedbacksViewProps> = {}) => {
     vi.clearAllMocks()
+    vi.clearAllMocks()
+
     wrapper = mountComponent(FeedbacksView, {
       props,
       global: { stubs }

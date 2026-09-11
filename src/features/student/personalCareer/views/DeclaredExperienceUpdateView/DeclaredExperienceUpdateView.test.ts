@@ -1,5 +1,7 @@
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import type { VueWrapper } from '@vue/test-utils'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { ROUTES } from '@/common/constants/route-names'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { DeclaredExperienceSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.stub'
@@ -8,7 +10,6 @@ import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const mockRouteId = ref<string>('exp123')
 const routerPush = vi.fn()
 const mockIsMobile = ref(false)
 
@@ -22,16 +23,31 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   }
 })
 
+const route = reactive<{
+  name: string
+  params: { id: string }
+  meta: { breadcrumb: BreadcrumbLinkRaw[] }
+}>({
+  name: ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE.name,
+  params: {
+    id: 'exp-123'
+  },
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.EXPERIENCES,
+    ],
+  }
+})
+
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
   return {
     ...actual,
     onBeforeRouteLeave: vi.fn(),
-    useRoute: () => ({
-      params: {
-        get id () { return mockRouteId.value }
-      }
-    }),
+    useRoute: () => route,
     useRouter: () => ({
       push: routerPush
     })
@@ -95,7 +111,7 @@ BddTest().given('a declared experience update view', () => {
       BddTest().then('it should navigate to the declared experience detail view', () => {
         expect(routerPush).toHaveBeenCalledWith({
           name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
-          params: { id: mockRouteId.value }
+          params: { id: route.params.id }
         })
       })
     })

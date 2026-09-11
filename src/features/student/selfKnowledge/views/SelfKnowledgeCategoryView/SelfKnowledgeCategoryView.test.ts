@@ -1,14 +1,17 @@
 import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
-import {
-  selfKnowledgeElementDetailsNotFoundHandler
-} from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
+import type { BreadcrumbLinkRaw } from '@/common/types'
+import { selfKnowledgeElementDetailsNotFoundHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { SelfKnowledgeElementDetailsContainerStub } from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.stub'
 import { SelfKnowledgeElementsSideMenuStub } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.stub'
+import { SelfKnowledgeElementTabsStub } from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.stub'
+import { SelfKnowledgeElementDetailsStub } from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.stub'
+import { SelfKnowledgeElementDetailsDropdownStub } from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.stub'
 import SelfKnowledgeCategoryView
   from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/SelfKnowledgeCategoryView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -55,22 +58,24 @@ vi.mock('@/common/composables/use-navigation/use-navigation', async (importOrigi
   }
 })
 
-const SelfKnowledgeElementDetailsDropdownStub = defineComponent({
-  name: 'SelfKnowledgeElementDetailsDropdown',
-  emits: ['updateSelected', 'shareSelected', 'deleteSelected'],
-  template: '<div data-testid="self-knowledge-element-details-dropdown" />'
+const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
+  name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT,
+      META_BREADCRUMBS.STUDENT.PROJECT.SELF_KNOWLEDGE,
+    ]
+  }
 })
 
-const SelfKnowledgeElementDetailsStub = defineComponent({
-  name: 'SelfKnowledgeElementDetails',
-  props: ['element'],
-  template: '<div data-testid="self-knowledge-element-details" />'
-})
-
-const SelfKnowledgeElementTabsStub = defineComponent({
-  name: 'SelfKnowledgeElementTabs',
-  props: ['categoryType'],
-  template: '<div data-testid="self-knowledge-element-tabs"><slot name="element" /><slot name="associations" /></div>'
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: () => route,
+  }
 })
 
 const stubs = {

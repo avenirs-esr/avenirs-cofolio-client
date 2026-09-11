@@ -1,8 +1,10 @@
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { createTraceDetailedHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { ConfirmUpdateTraceModalStub } from '@/features/student/traces/views/StudentUpdateTraceView/components/ConfirmUpdateTraceModal/ConfirmUpdateTraceModal.stub'
 import { UpdateTabsStub } from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.stub'
@@ -10,20 +12,24 @@ import StudentUpdateTraceView from '@/features/student/traces/views/StudentUpdat
 import { AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { useRoute } from 'vue-router'
 
-vi.mock('vue-router', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('vue-router')>()
-
-  return {
-    ...actual,
-    useRoute: vi.fn(),
+const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
+  name: ROUTES.STUDENT.UPDATE_TRACE.name,
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.TOOLS.TRACES,
+    ],
   }
 })
 
-const mockedUseRoute = vi.mocked(useRoute)
-
-let routeName: string
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: () => route,
+  }
+})
 
 const mockNavigateToStudentTrace = vi.fn()
 const mockNavigateToStudentToolsTraces = vi.fn()
@@ -62,14 +68,6 @@ BddTest().given('a student update trace view', () => {
     vi.clearAllMocks()
 
     mockIsOnlyValorizedModified.value = false
-
-    routeName = ROUTES.STUDENT.UPDATE_TRACE.name
-
-    mockedUseRoute.mockReturnValue({
-      get name () {
-        return routeName
-      },
-    } as ReturnType<typeof useRoute>)
 
     const handler = createTraceDetailedHandler(mockedTraceDetailed)
     server.use(handler)

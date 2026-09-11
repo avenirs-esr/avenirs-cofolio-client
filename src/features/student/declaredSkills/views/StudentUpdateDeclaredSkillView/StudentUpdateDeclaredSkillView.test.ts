@@ -1,14 +1,35 @@
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import type { VueWrapper } from '@vue/test-utils'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { UpdateDeclaredSkillAssociationsStub } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillAssociations/UpdateDeclaredSkillAssociations.stub'
 import { UpdateDeclaredSkillFormStub } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.stub'
 import StudentUpdateDeclaredSkillView from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/StudentUpdateDeclaredSkillView.vue'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
+  name: ROUTES.STUDENT.UPDATE_DECLARED_SKILL.name,
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.SKILLS,
+    ]
+  }
+})
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: () => route,
+  }
+})
 
 const navigateToStudentProjectDeclaredSkill = vi.fn()
 
@@ -45,12 +66,6 @@ const AvTabsStub = {
   props: ['modelValue'],
   emits: ['update:modelValue'],
   template: '<div class="av-tabs-stub"><slot /></div>'
-}
-
-const AvTabStub = {
-  name: 'AvTab',
-  props: ['title', 'icon'],
-  template: '<div class="av-tab-stub"><slot /></div>'
 }
 
 const stubs = {
