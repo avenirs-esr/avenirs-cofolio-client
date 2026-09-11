@@ -3,13 +3,11 @@ import { useGetDeclaredActivityDetails } from '@/api/avenir-esr'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
-import { useDrawer, useModal, useNavigation } from '@/common/composables'
-import { ROUTES } from '@/common/constants'
+import { useBreadcrumb, useDrawer, useModal, useNavigation } from '@/common/composables'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import UpdateActivityDrawer
   from '@/features/student/buildProject/components/overlays/UpdateActivityDrawer/UpdateActivityDrawer.vue'
-import { ProjectActivitiesTab } from '@/features/student/buildProject/types/activities.types'
 import ActivityDetailedDropdown
   from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
 import ProjectActivityDetailedLayout
@@ -34,13 +32,7 @@ const { showDrawer: showUpdateDrawer, displayDrawer: displayUpdateDrawer, hideDr
 
 const lastBreadcrumbLink = ref(t('global.detail'))
 
-const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.project.header') },
-  {
-    text: t('student.global.navigation.tabs.project.items.activities'),
-    to: { name: ROUTES.STUDENT.PROJECT_ACTIVITIES.name, query: { tab: ProjectActivitiesTab[ProjectActivitiesTab.ACTIVITY_LIBRARY] } }
-  },
+const { breadcrumbLinks } = useBreadcrumb(() => [
   { text: declaredActivityDetail.value?.activity.title ?? '' },
   { text: lastBreadcrumbLink.value }
 ])

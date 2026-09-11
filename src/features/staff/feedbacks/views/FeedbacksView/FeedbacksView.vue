@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { type ActivityFeedbacksPreviewDTO, useGetStaffFeedbacks } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useQueryParam } from '@/common/composables'
-import { ROUTES } from '@/common/constants'
+import { useBreadcrumb, useQueryParam } from '@/common/composables'
 import { useFeedbackStatusPicker } from '@/features/staff/feedbacks/components/interaction/pickers/FeedbackStatusPicker/composables/use-feedback-status-picker/use-feedback-status-picker'
 import FeedbackStatusPicker from '@/features/staff/feedbacks/components/interaction/pickers/FeedbackStatusPicker/FeedbackStatusPicker.vue'
 import { useStaffFeedbacksStore } from '@/features/staff/feedbacks/stores/feedbacks.store'
@@ -21,11 +20,7 @@ const { activityId } = defineProps<FeedbacksViewProps>()
 const { t } = useI18n()
 const { setQueryParamValue } = useQueryParam()
 
-const breadcrumbLinks = computed(() => [
-  { text: t('staff.global.navigation.tabs.home'), to: ROUTES.STAFF.HOME },
-  { text: t('staff.global.navigation.tabs.studentTracking') },
-  { text: t('staff.global.navigation.tabs.studentFeedbacks') },
-])
+const { breadcrumbLinks } = useBreadcrumb()
 
 const staffFeedbacksStore = useStaffFeedbacksStore()
 

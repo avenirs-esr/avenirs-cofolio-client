@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { ROUTES } from '@/common/constants'
+import { useBreadcrumb } from '@/common/composables'
 import StudentToolsTracesViewContainer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.tools.header') },
-  { text: t('student.global.navigation.tabs.tools.items.traces') }
-])
+const { breadcrumbLinks } = useBreadcrumb()
 </script>
 
 <template>

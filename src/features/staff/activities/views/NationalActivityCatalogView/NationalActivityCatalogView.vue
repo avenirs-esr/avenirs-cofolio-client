@@ -2,10 +2,10 @@
 import { EActivityStatus, useCreateDraftFromActivity, useGetActivityContent } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import { useBreadcrumb } from '@/common/composables'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useModal } from '@/common/composables/use-modal/use-modal'
 import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
-import { ROUTES } from '@/common/constants'
 import DeleteDraftActivityConfirmationModal
   from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
 import ActivityDashboardSection
@@ -30,11 +30,7 @@ const { t } = useI18n()
 
 const { data: activity, isLoading, error } = useGetActivityContent(status, id)
 
-const breadcrumbLinks = computed(() => [
-  { text: t('staff.global.navigation.tabs.home'), to: ROUTES.STAFF.HOME },
-  { text: t('staff.global.navigation.tabs.activities.header'), to: ROUTES.STAFF.ACTIVITIES },
-  { text: t('staff.activities.views.NationalActivityCatalogView.title') },
-])
+const { breadcrumbLinks } = useBreadcrumb(() => [{ text: activity.value?.title ?? '' }])
 
 const isDraft = computed(() => status === EActivityStatus.DRAFT)
 

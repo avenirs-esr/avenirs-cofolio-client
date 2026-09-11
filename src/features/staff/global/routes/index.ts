@@ -1,14 +1,10 @@
-import type { RoutePageProps } from '@/common/types'
 import { EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
 import { staffActivityFeedbacksRoute, staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
 
-const footerLegalProps: RoutePageProps = {
-  breadcrumbLinksRaw: [
-    { textKey: 'staff.global.navigation.tabs.home', to: ROUTES.STAFF.HOME },
-  ]
-}
+const breadcrumb = [META_BREADCRUMBS.STAFF.HOME]
 
 export default [
   {
@@ -25,27 +21,27 @@ export default [
       },
       {
         ...ROUTES.STAFF.ACCESSIBILITY,
-        props: () => footerLegalProps,
         component: () =>
           import('@/common/views/AccessibilityView/AccessibilityView.vue'),
+        meta: { breadcrumb },
       },
       {
         ...ROUTES.STAFF.COOKIES,
-        props: () => footerLegalProps,
         component: () =>
           import('@/common/views/CookiesView/CookiesView.vue'),
+        meta: { breadcrumb },
       },
       {
         ...ROUTES.STAFF.LEGAL,
-        props: () => footerLegalProps,
         component: () =>
           import('@/common/views/LegalView/LegalView.vue'),
+        meta: { breadcrumb },
       },
       {
         ...ROUTES.STAFF.PERSONAL_DATA,
-        props: () => footerLegalProps,
         component: () =>
           import('@/common/views/PersonalDataView/PersonalDataView.vue'),
+        meta: { breadcrumb },
       },
       ...staffActivitiesRoutes,
       staffActivityFeedbacksRoute,

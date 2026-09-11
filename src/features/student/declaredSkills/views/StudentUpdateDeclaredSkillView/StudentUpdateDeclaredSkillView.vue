@@ -2,7 +2,7 @@
 import { useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
-import { useModal, useNavigation } from '@/common/composables'
+import { useBreadcrumb, useModal, useNavigation } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ICONS, ROUTES } from '@/common/constants'
 import UpdateDeclaredSkillAssociations from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillAssociations/UpdateDeclaredSkillAssociations.vue'
@@ -29,10 +29,7 @@ const { data: declaredSkillDetailed } = useGetDeclaredSkillProgressDetails(skill
 const activeTab = ref(StudentUpdateDeclaredSkillViewTabs.DETAILS)
 const updateInProgress = ref(false)
 
-const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.skills'), to: ROUTES.STUDENT.PROJECT_SKILLS },
+const { breadcrumbLinks } = useBreadcrumb(() => [
   {
     text: t('student.declaredSkills.views.StudentDeclaredSkillView.breadcrumb.current.title', { skill: declaredSkillDetailed?.value?.title ?? '' }),
     to: { name: ROUTES.STUDENT.PROJECT_DECLARED_SKILL.name, params: { id: skillId } }
