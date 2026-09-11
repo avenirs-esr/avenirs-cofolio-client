@@ -1,4 +1,5 @@
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import {
   declaredProgramDetailedHandler,
   declaredProgramDetailedLoadingHandler,
@@ -9,8 +10,10 @@ import { server } from '@/__mocks__/msw/server'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { DeclaredProgramSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.stub'
 import { DeleteDeclaredProgramConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.stub'
+import { DeclaredProgramDetailedStub } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.stub'
 import { ManageDeclaredProgramDropdownStub } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/ManageDeclaredProgramDropdown/ManageDeclaredProgramDropdown.stub'
 import DeclaredProgramDetailedView from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/DeclaredProgramDetailedView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -20,7 +23,6 @@ import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 const routerReplace = vi.fn()
-const mockRouteId = ref<string>('')
 const mockModalOpened = ref(false)
 const mockOpenModal = vi.fn(() => {
   mockModalOpened.value = true
@@ -42,18 +44,31 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   }
 })
 
+const route = reactive<{
+  name: string
+  params: { id: string }
+  meta: { breadcrumb: BreadcrumbLinkRaw[] }
+}>({
+  name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
+  params: {
+    id: ''
+  },
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DECLARED_PROGRAMS,
+    ],
+  }
+})
+
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
 
   return {
     ...actual,
-    useRoute: () => ({
-      params: {
-        get id () {
-          return mockRouteId.value
-        }
-      }
-    }),
+    useRoute: () => route,
     useRouter: () => ({
       replace: routerReplace
     })
@@ -74,12 +89,6 @@ vi.mock('@/common/composables', async (importOriginal) => {
       navigateToStudentDeclaredPrograms
     }),
   }
-})
-
-const DeclaredProgramDetailedStub = defineComponent({
-  name: 'DeclaredProgramDetailed',
-  props: ['declaredProgramDetailed'],
-  template: '<div data-testid="declared-program-detailed" />'
 })
 
 const stubs = {
@@ -117,7 +126,7 @@ BddTest().given('a declared program detailed view component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    mockRouteId.value = 'declared-program-1'
+    route.params.id = 'declared-program-1'
     mockModalOpened.value = false
   })
 
@@ -272,7 +281,7 @@ BddTest().given('a declared program detailed view component', () => {
 
       BddTest().and('the route param is updated (simulating navigation)', () => {
         beforeEach(async () => {
-          mockRouteId.value = secondProgramId
+          route.params.id = secondProgramId
           await nextTick()
           await flushPromises()
         })
@@ -333,7 +342,7 @@ BddTest().given('a declared program detailed view component', () => {
 
   BddTest().when('the component is mounted with an id param', () => {
     beforeEach(async () => {
-      mockRouteId.value = 'declared-program-2'
+      route.params.id = 'declared-program-2'
       await mountComponentWithDefaults()
     })
 

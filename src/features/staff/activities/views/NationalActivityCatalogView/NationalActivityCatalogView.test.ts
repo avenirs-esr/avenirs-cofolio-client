@@ -1,3 +1,4 @@
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedActivityContent, mockedActivityDraftCreationResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { getActivityContentErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
@@ -7,6 +8,7 @@ import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import {
   DeleteDraftActivityConfirmationModalStub
 } from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.stub'
@@ -26,6 +28,24 @@ import { AvButtonStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/aveni
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
+  name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STAFF.HOME,
+      META_BREADCRUMBS.STAFF.ACTIVITIES.DEFAULT
+    ]
+  }
+})
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: () => route,
+  }
+})
 
 const mockNavigateToStaffActivities = vi.fn()
 const mockNavigateToStaffActivitiesEditNationalActivity = vi.fn()
@@ -106,12 +126,14 @@ BddTest().given('a national activity catalog view', () => {
       expect(pageTitle.props('title')).toBe('Toutes les activités disponibles dans mon établissement')
     })
 
-    BddTest().then('it should render PageTitle with the correct breadcrumb links', () => {
-      expect(pageTitle.props('breadcrumbLinks')).toEqual([
-        { text: 'Accueil', to: ROUTES.STAFF.HOME },
-        { text: 'Bibliothèque des activités', to: ROUTES.STAFF.ACTIVITIES },
-        { text: 'Toutes les activités disponibles dans mon établissement' },
-      ])
+    BddTest().then('it should render PageTitle with the correct breadcrumb links', async () => {
+      await vi.waitFor(() => {
+        expect(pageTitle.props('breadcrumbLinks')).toEqual([
+          { text: 'Accueil', to: ROUTES.STAFF.HOME },
+          { text: 'Bibliothèque des activités', to: ROUTES.STAFF.ACTIVITIES },
+          { text: mockedActivityContent.title },
+        ])
+      })
     })
 
     BddTest().then('it should render QuerySuspense with the correct error title', () => {
