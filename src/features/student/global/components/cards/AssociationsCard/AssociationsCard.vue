@@ -21,7 +21,7 @@ defineProps<AssociatedDeclaredActivitiesCardProps>()
     <template #title>
       <div class="av-row av-flex-fill av-justify-start">
         <AvIconText
-          typography-class="n4"
+          typography-class="n5"
           :icon="icon"
           icon-color="var(--text2)"
           :text="title"
