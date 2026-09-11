@@ -10,7 +10,7 @@ import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { TraceType } from '@/features/student/traces/types/traces.types'
 import { isTraceFileType, isTraceLinkType } from '@/features/student/traces/utils/trace.types-guard'
 import { useToasterStore } from '@/store'
-import { useForm } from '@tanstack/vue-form'
+import { useForm, useStore } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
@@ -137,6 +137,14 @@ export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () 
 
   const hasErrors = hasFieldErrors(form, ['file', 'link', 'traceName', 'personalNote', 'iaJustification', 'authorType'])
 
+  const isOnlyValorizedModified = useStore(form.store, (state) => {
+    const dirtyFieldNames = Object.entries(state.fieldMeta)
+      .filter(([, meta]) => meta?.isDirty)
+      .map(([name]) => name)
+
+    return dirtyFieldNames.length === 1 && dirtyFieldNames[0] === 'valorized'
+  })
+
   watch(() => form, () => {
     setUpdateTraceForm(form)
   }, { immediate: true })
@@ -148,6 +156,7 @@ export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () 
   return {
     form,
     isFormValid,
-    hasErrors
+    hasErrors,
+    isOnlyValorizedModified
   }
 }

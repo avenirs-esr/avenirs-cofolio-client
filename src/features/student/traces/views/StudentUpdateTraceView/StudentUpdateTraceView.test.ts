@@ -4,6 +4,7 @@ import { server } from '@/__mocks__/msw/server'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
+import { ConfirmUpdateTraceModalStub } from '@/features/student/traces/views/StudentUpdateTraceView/components/ConfirmUpdateTraceModal/ConfirmUpdateTraceModal.stub'
 import { UpdateTabsStub } from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.stub'
 import StudentUpdateTraceView from '@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'
 import { AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -39,12 +40,17 @@ vi.mock('@/common/composables', async (importOriginal) => {
   }
 })
 
+const { mockIsOnlyValorizedModified } = vi.hoisted(() => ({
+  mockIsOnlyValorizedModified: { value: false },
+}))
+
 vi.mock(
   '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form',
   () => ({
     useUpdateTraceForm: () => ({
       form: {},
       hasErrors: ref(false),
+      isOnlyValorizedModified: mockIsOnlyValorizedModified,
     }),
   }),
 )
@@ -54,6 +60,8 @@ BddTest().given('a student update trace view', () => {
 
   beforeEach(async () => {
     vi.clearAllMocks()
+
+    mockIsOnlyValorizedModified.value = false
 
     routeName = ROUTES.STUDENT.UPDATE_TRACE.name
 
@@ -71,6 +79,7 @@ BddTest().given('a student update trace view', () => {
       AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
       UpdateTabs: UpdateTabsStub,
       UpdateInProgressBadge: UpdateInProgressBadgeStub,
+      ConfirmUpdateTraceModal: ConfirmUpdateTraceModalStub,
     }
 
     wrapper = mountComponent(StudentUpdateTraceView, {
@@ -119,6 +128,40 @@ BddTest().given('a student update trace view', () => {
 
     BddTest().then('it should navigate to student trace page', () => {
       expect(mockNavigateToStudentTrace).toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('only the kit valorization has been modified and the save button is clicked', () => {
+    beforeEach(async () => {
+      mockIsOnlyValorizedModified.value = true
+
+      const cancelConfirmButtons = wrapper.findComponent(AvCancelConfirmButtonsStub)
+
+      await cancelConfirmButtons.vm.$emit('confirm')
+      await flushPromises()
+    })
+
+    BddTest().then('it should not open the confirm update trace modal', () => {
+      const confirmUpdateTraceModal = wrapper.findComponent(ConfirmUpdateTraceModalStub)
+
+      expect(confirmUpdateTraceModal.props('opened')).toBe(false)
+    })
+  })
+
+  BddTest().when('other fields have been modified and the save button is clicked', () => {
+    beforeEach(async () => {
+      mockIsOnlyValorizedModified.value = false
+
+      const cancelConfirmButtons = wrapper.findComponent(AvCancelConfirmButtonsStub)
+
+      await cancelConfirmButtons.vm.$emit('confirm')
+      await flushPromises()
+    })
+
+    BddTest().then('it should open the confirm update trace modal', () => {
+      const confirmUpdateTraceModal = wrapper.findComponent(ConfirmUpdateTraceModalStub)
+
+      expect(confirmUpdateTraceModal.props('opened')).toBe(true)
     })
   })
 })
