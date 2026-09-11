@@ -1,3 +1,4 @@
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import type { VueWrapper } from '@vue/test-utils'
 import { activityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -5,6 +6,7 @@ import { EActivityThematic } from '@/api/avenir-esr'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { ActivitiesPreviousNextNavigationStub } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivitiesPreviousNextNavigation/ActivitiesPreviousNextNavigation.stub'
 import {
   ActivitiesSelectNavigationStub
@@ -19,13 +21,23 @@ import ProjectActivitiesCatalogView, {
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { useRoute } from 'vue-router'
+
+const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
+  name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES,
+    ],
+  }
+})
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
   return {
     ...actual,
-    useRoute: vi.fn(),
+    useRoute: () => route,
   }
 })
 
@@ -43,8 +55,6 @@ vi.mock('@/common/composables', async (importOriginal) => {
   }
 })
 
-const mockedUseRoute = vi.mocked(useRoute)
-
 const isMobileRef = ref(false)
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
@@ -57,7 +67,6 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
 
 BddTest().given('a project activities catalog view', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProjectActivitiesCatalogView>>
-  let routeName: string
 
   const stubs = {
     PageTitle: PageTitleStub,
@@ -76,12 +85,6 @@ BddTest().given('a project activities catalog view', () => {
 
     beforeEach(() => {
       vi.clearAllMocks()
-      routeName = ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name
-      mockedUseRoute.mockReturnValue({
-        get name () {
-          return routeName
-        }
-      } as ReturnType<typeof useRoute>)
       isMobileRef.value = false
 
       wrapper = mountComponent(ProjectActivitiesCatalogView, {
@@ -149,13 +152,6 @@ BddTest().given('a project activities catalog view', () => {
     }
 
     beforeEach(() => {
-      vi.clearAllMocks()
-      routeName = ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name
-      mockedUseRoute.mockReturnValue({
-        get name () {
-          return routeName
-        }
-      } as ReturnType<typeof useRoute>)
       isMobileRef.value = true
 
       wrapper = mountComponent(ProjectActivitiesCatalogView, {
@@ -191,13 +187,6 @@ BddTest().given('a project activities catalog view', () => {
     }
 
     beforeEach(() => {
-      vi.clearAllMocks()
-      routeName = ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name
-      mockedUseRoute.mockReturnValue({
-        get name () {
-          return routeName
-        }
-      } as ReturnType<typeof useRoute>)
       isMobileRef.value = false
 
       wrapper = mountComponent(ProjectActivitiesCatalogView, {
@@ -228,13 +217,6 @@ BddTest().given('a project activities catalog view', () => {
     }
 
     beforeEach(() => {
-      vi.clearAllMocks()
-      routeName = ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name
-      mockedUseRoute.mockReturnValue({
-        get name () {
-          return routeName
-        }
-      } as ReturnType<typeof useRoute>)
       isMobileRef.value = false
       server.use(activityDetailsErrorHandler)
 
@@ -261,16 +243,6 @@ BddTest().given('a project activities catalog view', () => {
 
   BddTest().when('the view is mounted without thematic and id on project route', () => {
     beforeEach(async () => {
-      vi.clearAllMocks()
-
-      routeName = ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name
-
-      mockedUseRoute.mockReturnValue({
-        get name () {
-          return routeName
-        }
-      } as ReturnType<typeof useRoute>)
-
       wrapper = mountComponent(ProjectActivitiesCatalogView, {
         props: {},
         global: { stubs }
@@ -294,7 +266,15 @@ BddTest().given('a project activities catalog view', () => {
 
   BddTest().when('the view is mounted on home activities route', () => {
     beforeEach(async () => {
-      routeName = ROUTES.STUDENT.ACTIVITIES_CATALOG.name
+      vi.clearAllMocks()
+
+      route.name = ROUTES.STUDENT.ACTIVITIES_CATALOG.name
+      route.meta = {
+        breadcrumb: [
+          META_BREADCRUMBS.STUDENT.HOME,
+          { textKey: META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES.textKey },
+        ],
+      }
 
       wrapper = mountComponent(ProjectActivitiesCatalogView, {
         props: { thematic: EActivityThematic.SELF_KNOWLEDGE, id: '0' },
@@ -323,13 +303,13 @@ BddTest().given('a project activities catalog view', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
 
-      routeName = ROUTES.STUDENT.ACTIVITIES_CATALOG.name
-
-      mockedUseRoute.mockReturnValue({
-        get name () {
-          return routeName
-        }
-      } as ReturnType<typeof useRoute>)
+      route.name = ROUTES.STUDENT.ACTIVITIES_CATALOG.name
+      route.meta = {
+        breadcrumb: [
+          META_BREADCRUMBS.STUDENT.HOME,
+          { textKey: META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES.textKey },
+        ],
+      }
 
       wrapper = mountComponent(ProjectActivitiesCatalogView, {
         props: {},

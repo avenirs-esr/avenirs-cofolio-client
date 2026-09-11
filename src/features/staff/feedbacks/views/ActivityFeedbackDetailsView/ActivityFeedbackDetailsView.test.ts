@@ -1,7 +1,8 @@
-import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import { ActivityDetailsDrawerStub } from '@/common/activities/components/ActivityDetailsDrawer/ActivityDetailsDrawer.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { ROUTES } from '@/common/constants/route-names'
 import { StudentPerspectiveCardStub } from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.stub'
 import ActivityFeedbackDetailsView from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/ActivityFeedbackDetailsView.vue'
@@ -15,11 +16,23 @@ import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
+const route = reactive<{ name: string, path: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
+  name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
+  path: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.path,
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STAFF.HOME,
+      META_BREADCRUMBS.STAFF.STUDENT_TRACKING.DEFAULT,
+      META_BREADCRUMBS.STAFF.STUDENT_TRACKING.FEEDBACKS,
+    ]
+  }
+})
+
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
   return {
     ...actual,
-    useRoute: vi.fn(),
+    useRoute: () => route,
   }
 })
 
@@ -44,9 +57,7 @@ BddTest().given('an activity feedback details view', () => {
 
   BddTest().when('the component is mounted with a feedback id corresponding to non submitted feedback', () => {
     beforeEach(async () => {
-      vi.mocked(useRoute).mockReturnValue({
-        path: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.path.replace(':feedbackId', 'feedback-1'),
-      } as RouteLocationNormalizedLoadedGeneric)
+      route.path = ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.path.replace(':feedbackId', 'feedback-1')
 
       wrapper = mountComponent(ActivityFeedbackDetailsView, {
         props: { feedbackId: 'feedback-1' },
@@ -139,9 +150,7 @@ BddTest().given('an activity feedback details view', () => {
 
   BddTest().when('the component is mounted with a feedback id corresponding to submitted feedback', () => {
     beforeEach(async () => {
-      vi.mocked(useRoute).mockReturnValue({
-        path: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.path.replace(':feedbackId', 'feedback-submitted'),
-      } as RouteLocationNormalizedLoadedGeneric)
+      route.path = ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.path.replace(':feedbackId', 'feedback-submitted')
 
       wrapper = mountComponent(ActivityFeedbackDetailsView, {
         props: { feedbackId: 'feedback-submitted' },
@@ -158,9 +167,7 @@ BddTest().given('an activity feedback details view', () => {
 
   BddTest().when('the component is mounted without a feedback id', () => {
     beforeEach(async () => {
-      vi.mocked(useRoute).mockReturnValue({
-        path: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.path.replace(':feedbackId', ''),
-      } as RouteLocationNormalizedLoadedGeneric)
+      route.path = ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.path.replace(':feedbackId', '')
 
       wrapper = mountComponent(ActivityFeedbackDetailsView, {
         global: { stubs },

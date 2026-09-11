@@ -1,5 +1,7 @@
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import ActivitiesView from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.vue'
 import { MyWorkspaceTabStub } from '@/features/staff/activities/views/ActivitiesView/components/MyWorkspaceTab/MyWorkspaceTab.stub'
 import { StaffAllActivitiesTabStub } from '@/features/staff/activities/views/ActivitiesView/components/StaffAllActivitiesTab/StaffAllActivitiesTab.stub'
@@ -7,6 +9,24 @@ import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { vi } from 'vitest'
+
+const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
+  name: ROUTES.STAFF.ACTIVITIES.name,
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STAFF.HOME,
+      META_BREADCRUMBS.STAFF.ACTIVITIES.DEFAULT
+    ]
+  }
+})
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: () => route,
+  }
+})
 
 const routeQueryValue = ref<string>('MY_WORKSPACE')
 

@@ -2,7 +2,7 @@
 import { useGetDeclaredProgram } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
-import { useModal } from '@/common/composables'
+import { useBreadcrumb, useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -29,11 +29,7 @@ const { declaredPrograms, pageInfo, loadMoreDeclaredPrograms } = usePaginatedDec
 const { data: declaredProgramDetailed } = useGetDeclaredProgram(selectedProgramId)
 
 const programTitle = computed(() => declaredProgramDetailed.value?.title ?? '')
-const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.experiences') },
-  { text: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.breadcrumb'), to: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS },
+const { breadcrumbLinks } = useBreadcrumb(() => [
   {
     text: programTitle.value,
     to: { name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: selectedProgramId.value } }

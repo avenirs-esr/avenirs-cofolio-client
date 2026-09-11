@@ -1,5 +1,6 @@
 import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 
 export const studentToolsTraceRoute: AvRoute = {
   ...ROUTES.STUDENT.TOOLS_TRACE,
@@ -8,12 +9,26 @@ export const studentToolsTraceRoute: AvRoute = {
   }),
   component: () =>
     import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'),
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.TOOLS.DEFAULT,
+      META_BREADCRUMBS.STUDENT.TOOLS.TRACES,
+    ],
+  },
 }
 
 export const studentToolsTracesRoute: AvRoute = {
   ...ROUTES.STUDENT.TOOLS_TRACES,
   component: () =>
     import('@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue'),
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.TOOLS.DEFAULT,
+      META_BREADCRUMBS.STUDENT.TOOLS.TRACES,
+    ],
+  },
 }
 
 export const studentTraceRoute: AvRoute = {
@@ -23,6 +38,12 @@ export const studentTraceRoute: AvRoute = {
   }),
   component: () =>
     import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'),
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      { textKey: META_BREADCRUMBS.STUDENT.TOOLS.TRACES.textKey },
+    ],
+  },
 }
 
 export const studentUpdateTraceRoute: AvRoute = {
@@ -32,6 +53,12 @@ export const studentUpdateTraceRoute: AvRoute = {
   }),
   component: () =>
     import('@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'),
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      { textKey: META_BREADCRUMBS.STUDENT.TOOLS.TRACES.textKey },
+    ],
+  },
 }
 
 export const studentToolsUpdateTraceRoute: AvRoute = {
@@ -41,6 +68,13 @@ export const studentToolsUpdateTraceRoute: AvRoute = {
   }),
   component: () =>
     import('@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'),
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.TOOLS.DEFAULT,
+      META_BREADCRUMBS.STUDENT.TOOLS.TRACES,
+    ],
+  },
 }
 
 export const studentToolsTracesRoutes: AvRoute[] = [

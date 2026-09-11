@@ -3,7 +3,7 @@ import { useGetDeclaredExperience } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import Loader from '@/common/components/Loader/Loader.vue'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
-import { useModal } from '@/common/composables'
+import { useBreadcrumb, useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants/route-names'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -40,11 +40,7 @@ const { data: declaredExperience, isLoading, isError } = useGetDeclaredExperienc
 const declaredExperienceTitle = computed(() => declaredExperience.value?.title ?? '')
 
 const activeTab = ref(DeclaredExperienceUpdateViewTabs.DETAILS)
-const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.personalCareer.views.PersonalCareerView.MyCareerSection.title') },
-  { text: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.breadcrumb'), to: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES },
+const { breadcrumbLinks } = useBreadcrumb(() => [
   { text: `${t('global.detail')} ${declaredExperienceTitle.value}`, to: { name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: selectedExperienceId.value } } },
   { text: `${t('global.buttons.update')} ${declaredExperienceTitle.value}` }
 ])

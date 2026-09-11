@@ -1,9 +1,11 @@
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import { declaredProgramDetailedHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { DeclaredProgramSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.stub'
 import DeclaredProgramUpdateView from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/DeclaredProgramUpdateView.vue'
@@ -14,7 +16,6 @@ import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 const routerReplace = vi.fn()
-const mockRouteId = ref<string>('')
 
 const confirmationModalOpened = ref(false)
 const openConfirmationModal = vi.fn(() => {
@@ -65,19 +66,32 @@ vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guar
   }
 })
 
+const route = reactive<{
+  name: string
+  params: { id: string }
+  meta: { breadcrumb: BreadcrumbLinkRaw[] }
+}>({
+  name: ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name,
+  params: {
+    id: ''
+  },
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DECLARED_PROGRAMS,
+    ],
+  }
+})
+
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
 
   return {
     ...actual,
     onBeforeRouteLeave: vi.fn(),
-    useRoute: () => ({
-      params: {
-        get id () {
-          return mockRouteId.value
-        }
-      }
-    }),
+    useRoute: () => route,
     useRouter: () => ({
       replace: routerReplace
     })
@@ -128,7 +142,7 @@ BddTest().given('a declared program update view component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    mockRouteId.value = 'declared-program-1'
+    route.params.id = 'declared-program-1'
 
     confirmationModalOpened.value = false
 
@@ -331,7 +345,7 @@ BddTest().given('a declared program update view component', () => {
 
   BddTest().when('the component is mounted with an id param', () => {
     beforeEach(async () => {
-      mockRouteId.value = 'declared-program-2'
+      route.params.id = 'declared-program-2'
       await mountComponentWithDefaults()
     })
 

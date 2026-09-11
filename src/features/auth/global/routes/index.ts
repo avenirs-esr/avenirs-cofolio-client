@@ -1,4 +1,7 @@
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
+
+const breadcrumb = [META_BREADCRUMBS.AUTH.LOGIN]
 
 export default [
   {
@@ -10,7 +13,8 @@ export default [
         component: () =>
           import('@/common/views/AccessibilityView/AccessibilityView.vue'),
         meta: {
-          public: true
+          public: true,
+          breadcrumb
         },
       },
       {
@@ -18,7 +22,8 @@ export default [
         component: () =>
           import('@/common/views/CookiesView/CookiesView.vue'),
         meta: {
-          public: true
+          public: true,
+          breadcrumb
         },
       },
       {
@@ -26,7 +31,8 @@ export default [
         component: () =>
           import('@/common/views/LegalView/LegalView.vue'),
         meta: {
-          public: true
+          public: true,
+          breadcrumb
         },
       },
       {
@@ -41,7 +47,8 @@ export default [
         component: () =>
           import('@/common/views/PersonalDataView/PersonalDataView.vue'),
         meta: {
-          public: true
+          public: true,
+          breadcrumb
         },
       },
     ]

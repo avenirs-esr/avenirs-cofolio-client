@@ -1,4 +1,5 @@
 import type {
+  RouteLocationNormalizedLoaded,
   RouteLocationRaw,
   RouteRecordMultipleViews,
   RouteRecordMultipleViewsWithChildren,
@@ -13,10 +14,13 @@ export type AvRoute =
   | (Omit<RouteRecordMultipleViewsWithChildren, 'name'> & { name: string })
 
 export interface BreadcrumbLinkRaw {
-  to?: RouteLocationRaw
+  to?: RouteLocationRaw | ((route: RouteLocationNormalizedLoaded) => RouteLocationRaw)
   textKey: string
 }
 
-export interface RoutePageProps {
-  breadcrumbLinksRaw?: BreadcrumbLinkRaw[]
+// Enables typed `meta.breadcrumb` on route records so breadcrumbs can be declared where routes are defined.
+declare module 'vue-router' {
+  interface RouteMeta {
+    breadcrumb?: BreadcrumbLinkRaw[]
+  }
 }

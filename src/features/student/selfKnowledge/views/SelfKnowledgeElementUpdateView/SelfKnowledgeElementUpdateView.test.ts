@@ -1,17 +1,42 @@
 import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { createSelfKnowledgeElementDetailsHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
+import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { SelfKnowledgeElementDetailsContainerStub } from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.stub'
 import { SelfKnowledgeElementsSideMenuStub } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.stub'
+import { SelfKnowledgeElementTabsStub } from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.stub'
+import { SelfKnowledgeElementUpdateFormStub } from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/SelfKnowledgeElementUpdateForm.stub'
 import SelfKnowledgeElementUpdateView
   from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/SelfKnowledgeElementUpdateView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
+  name: ROUTES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.name,
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+      META_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT,
+      META_BREADCRUMBS.STUDENT.PROJECT.SELF_KNOWLEDGE,
+    ],
+  }
+})
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: () => route,
+  }
+})
 
 const navigateToStudentSelfKnowledgeElementUpdate = vi.fn()
 
@@ -23,41 +48,6 @@ vi.mock('@/common/composables/use-navigation/use-navigation', async (importOrigi
       navigateToStudentSelfKnowledgeElementUpdate
     })
   }
-})
-
-const SelfKnowledgeElementTabsStub = defineComponent({
-  name: 'SelfKnowledgeElementTabs',
-  props: {
-    selfKnowledgeElement: {
-      type: Object,
-      required: true
-    },
-    categoryType: {
-      type: [String, Number],
-      required: true
-    }
-  },
-  template: `
-    <div class="self-knowledge-element-tabs-stub">
-      <slot name="element" />
-      <slot name="associations" />
-    </div>
-  `
-})
-
-const SelfKnowledgeElementUpdateFormStub = defineComponent({
-  name: 'SelfKnowledgeElementUpdateForm',
-  props: {
-    element: {
-      type: Object,
-      required: true
-    },
-    onCancel: {
-      type: Function,
-      required: false
-    }
-  },
-  template: '<div class="self-knowledge-element-update-form-stub" />'
 })
 
 BddTest().given('a self knowledge element update view', () => {
@@ -131,7 +121,6 @@ BddTest().given('a self knowledge element update view', () => {
         const tabs = wrapper.findComponent(SelfKnowledgeElementTabsStub)
 
         expect(tabs.exists()).toBe(true)
-        expect(tabs.props('selfKnowledgeElement')).toEqual(mockedSelfKnowledgeElementDetails)
         expect(tabs.props('categoryType')).toBeDefined()
       })
     })

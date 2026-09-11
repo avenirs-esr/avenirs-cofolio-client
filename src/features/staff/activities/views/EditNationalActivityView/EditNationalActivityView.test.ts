@@ -1,8 +1,10 @@
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
+import type { BreadcrumbLinkRaw } from '@/common/types'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants'
+import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { AddNationalActivitySideNavigationStub } from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.stub'
 import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
 import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
@@ -17,6 +19,24 @@ import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-u
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { type ExposedComponentInstance, mountComponent } from 'tests/utils'
 import { vi } from 'vitest'
+
+const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
+  name: ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY.name,
+  meta: {
+    breadcrumb: [
+      META_BREADCRUMBS.STAFF.HOME,
+      META_BREADCRUMBS.STAFF.ACTIVITIES.DEFAULT
+    ]
+  }
+})
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: () => route,
+  }
+})
 
 const mockMode = ref('edit')
 
@@ -159,6 +179,7 @@ BddTest().given('a national activity view', () => {
       expect(pageTitle.props('breadcrumbLinks')).toEqual([
         { text: 'Accueil', to: ROUTES.STAFF.HOME },
         { text: 'Bibliothèque des activités', to: ROUTES.STAFF.ACTIVITIES },
+        { text: mockedActivityContent.title },
         { text: 'Créer mon activité' },
       ])
     })
@@ -176,6 +197,7 @@ BddTest().given('a national activity view', () => {
       expect(pageTitle.props('breadcrumbLinks')).toEqual([
         { text: 'Accueil', to: ROUTES.STAFF.HOME },
         { text: 'Bibliothèque des activités', to: ROUTES.STAFF.ACTIVITIES },
+        { text: mockedActivityContent.title },
         { text: 'Modifier l\'activité' },
       ])
     })

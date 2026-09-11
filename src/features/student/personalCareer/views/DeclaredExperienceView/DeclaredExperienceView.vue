@@ -3,7 +3,7 @@ import { useGetDeclaredExperience, useGetDeclaredExperienceAssociations } from '
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useModal, useNavigation } from '@/common/composables'
+import { useBreadcrumb, useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ICONS, ROUTES } from '@/common/constants'
 import DeclaredExperienceSideMenu from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.vue'
@@ -42,13 +42,7 @@ const selectedExperienceId = computed(() => String(route.params.id ?? ''))
 const { navigateToStudentDeclaredExperiences, navigateToStudentUpdateDeclaredExperience } = useNavigation()
 const { modalOpened, openModal, closeModal } = useModal()
 
-const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.personalCareer.views.PersonalCareerView.MyCareerSection.title') },
-  { text: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.breadcrumb'), to: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES },
-  { text: `${t('global.detail')} ${declaredExperienceDetailed.value?.title ?? ''}` }
-])
+const { breadcrumbLinks } = useBreadcrumb(() => [{ text: `${t('global.detail')} ${declaredExperienceDetailed.value?.title ?? ''}` }])
 
 const {
   declaredExperiences,

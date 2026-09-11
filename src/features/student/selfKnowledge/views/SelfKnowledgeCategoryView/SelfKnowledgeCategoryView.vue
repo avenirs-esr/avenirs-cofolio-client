@@ -5,10 +5,10 @@ import ConfirmationModal from '@/common/components/ConfirmationModal/Confirmatio
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useModal, useNavigation } from '@/common/composables'
+import { useBreadcrumb, useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { ErrorCodes, ROUTES } from '@/common/constants'
+import { ErrorCodes } from '@/common/constants'
 import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
 import SelfKnowledgeElementTabs from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
@@ -36,12 +36,7 @@ const categoryId = computed(() => props.categoryId as ESelfKnowledgeCategory)
 
 const { categoryType } = useSelfKnowledgeCategory(categoryId)
 
-const breadcrumbLinks = computed(() => [
-  { text: t('student.global.navigation.tabs.home'), to: ROUTES.STUDENT.HOME },
-  { text: t('student.global.navigation.tabs.project.header') },
-  { text: t('student.global.navigation.tabs.project.items.trajectories'), to: ROUTES.STUDENT.PROJECT_TRAJECTORIES },
-  { text: t('student.global.navigation.tabs.project.items.selfKnowledge') }
-])
+const { breadcrumbLinks } = useBreadcrumb()
 
 const queryClient = useQueryClient()
 
