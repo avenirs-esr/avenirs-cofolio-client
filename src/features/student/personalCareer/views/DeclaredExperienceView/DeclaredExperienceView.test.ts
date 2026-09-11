@@ -93,6 +93,7 @@ BddTest().given('a declared experience view component', () => {
 
   const mountComponentWithDefaults = async () => {
     wrapper = mountComponent(DeclaredExperienceView, {
+      props: { experienceId: route.params.id },
       global: { stubs }
     })
   }

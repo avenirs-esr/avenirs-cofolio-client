@@ -80,6 +80,7 @@ const createdAtPrefix = computed(() =>
           :stacked="isMobile"
           separator-spacing="var(--spacing-sm)"
           width="10rem"
+          type="month"
         />
 
         <DeclaredProgramResultInput
