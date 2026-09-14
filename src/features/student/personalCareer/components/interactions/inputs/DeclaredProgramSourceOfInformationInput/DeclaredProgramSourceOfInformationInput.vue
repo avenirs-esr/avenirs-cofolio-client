@@ -21,7 +21,7 @@ const inputProps = computed(() => ({
   labelVisible: true,
   maxlength: DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH,
   label: label ?? t('student.personalCareer.interactions.inputs.DeclaredProgramSourceOfInformationInput.label'),
-  prefixIcon: prefixIcon ?? MDI_ICONS.NEWSPAPER_VARIANT,
+  prefixIcon: prefixIcon ?? MDI_ICONS.INFORMATION_OUTLINE,
   placeholder: placeholder ?? t('student.personalCareer.interactions.inputs.DeclaredProgramSourceOfInformationInput.placeholder')
 }))
 </script>

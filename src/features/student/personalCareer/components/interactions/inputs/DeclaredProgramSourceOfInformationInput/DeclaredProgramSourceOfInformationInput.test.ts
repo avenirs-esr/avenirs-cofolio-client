@@ -38,7 +38,7 @@ BddTest().given('a declared program source of information input', () => {
 
     BddTest().then('it should have default prefix icon', () => {
       const input = wrapper.findComponent(InputStub)
-      expect(input.props('prefixIcon')).toBe(MDI_ICONS.NEWSPAPER_VARIANT)
+      expect(input.props('prefixIcon')).toBe(MDI_ICONS.INFORMATION_OUTLINE)
     })
 
     BddTest().then('it should have max length from config', () => {
