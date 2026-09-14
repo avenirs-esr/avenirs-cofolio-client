@@ -148,7 +148,7 @@ BddTest().given('a declared program update view component', () => {
       const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
 
       expect(pageTitle.exists()).toBe(true)
-      expect(pageTitle.props('trailingLinks')).toHaveLength(1)
+      expect(pageTitle.props('trailingLinks')).toHaveLength(2)
     })
 
     BddTest().then('it should build the title using the selected program title', async () => {

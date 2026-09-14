@@ -8,8 +8,7 @@ export const UpdatePageTitleStub = defineComponent({
       type: String,
     },
     trailingLinks: {
-      type: Array as PropType<AvBreadcrumbProps['links']>,
-      required: true,
+      type: Array as PropType<AvBreadcrumbProps['links']>
     },
   },
   template: `
