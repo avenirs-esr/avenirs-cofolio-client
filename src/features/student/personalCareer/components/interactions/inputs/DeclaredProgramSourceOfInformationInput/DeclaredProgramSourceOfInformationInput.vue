@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Input, { type InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
+import { ICONS } from '@/common/constants/icons'
 import { DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 type DeclaredProgramSourceOfInformationInputProps = Omit<InputProps, 'maxlength'>
@@ -21,7 +21,7 @@ const inputProps = computed(() => ({
   labelVisible: true,
   maxlength: DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH,
   label: label ?? t('student.personalCareer.interactions.inputs.DeclaredProgramSourceOfInformationInput.label'),
-  prefixIcon: prefixIcon ?? MDI_ICONS.NEWSPAPER_VARIANT,
+  prefixIcon: prefixIcon ?? ICONS.SOURCE_OF_INFORMATIONS,
   placeholder: placeholder ?? t('student.personalCareer.interactions.inputs.DeclaredProgramSourceOfInformationInput.placeholder')
 }))
 </script>

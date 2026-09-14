@@ -1,4 +1,5 @@
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
+import { ICONS } from '@/common/constants'
 import DeclaredProgramSourceOfInformationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramSourceOfInformationInput/DeclaredProgramSourceOfInformationInput.vue'
 import { DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -38,7 +39,7 @@ BddTest().given('a declared program source of information input', () => {
 
     BddTest().then('it should have default prefix icon', () => {
       const input = wrapper.findComponent(InputStub)
-      expect(input.props('prefixIcon')).toBe(MDI_ICONS.NEWSPAPER_VARIANT)
+      expect(input.props('prefixIcon')).toBe(ICONS.SOURCE_OF_INFORMATIONS)
     })
 
     BddTest().then('it should have max length from config', () => {
