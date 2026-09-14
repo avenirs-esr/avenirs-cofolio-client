@@ -36,7 +36,7 @@ const { generateKitDocx, isLoading: isUseExportKitLoading } = useExportKit()
 
 const kitName = ref('')
 
-const { mutate: mutateDownloadMedia } = useDownloadMedia({
+const { mutateAsync: mutateDownloadMedia } = useDownloadMedia({
   mutation: {
     onError: (error: BaseApiException) => {
       addErrorMessage({
@@ -58,9 +58,16 @@ async function exportKit ({ exportOptions, kitName: newKitName }: UseExportKitFo
     await generateKitDocx(kitName.value)
     addSuccessMessage(t('student.kit.views.StudentToolsKitView.overlay.ExportKitModal.success.textContent'))
   }
+
   if (exportOptions.includes(ExportKitOptions.MEDIA_CONTENT)) {
-    mutateDownloadMedia()
+    try {
+      await mutateDownloadMedia()
+    }
+    catch {
+      return
+    }
   }
+
   closeModal()
 }
 
