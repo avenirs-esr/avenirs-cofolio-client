@@ -1,7 +1,5 @@
-import type { BreadcrumbLinkRaw } from '@/common/types'
 import type { VueWrapper } from '@vue/test-utils'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { ROUTES } from '@/common/constants/route-names'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { DeclaredExperienceSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.stub'
@@ -23,23 +21,11 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   }
 })
 
-const route = reactive<{
-  name: string
-  params: { id: string }
-  meta: { breadcrumb: BreadcrumbLinkRaw[] }
-}>({
+const route = reactive<{ name: string, params: { id: string } }>({
   name: ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE.name,
   params: {
     id: 'exp-123'
   },
-  meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.EXPERIENCES,
-    ],
-  }
 })
 
 vi.mock('vue-router', async (importOriginal) => {

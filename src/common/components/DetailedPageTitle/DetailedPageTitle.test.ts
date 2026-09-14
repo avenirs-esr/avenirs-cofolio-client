@@ -1,3 +1,4 @@
+import type { PageTitleProps } from '@/common/components/PageTitle/PageTitle.vue'
 import type { VueWrapper } from '@vue/test-utils'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
@@ -21,14 +22,14 @@ BddTest().given('a detailed page title', () => {
     AvTooltip: AvTooltipStub
   }
 
-  const breadcrumbLinks = [
+  const trailingLinks = [
     { text: 'Home', to: '/' },
     { text: 'Details' }
   ]
   const title = 'My page title'
-  const props = {
+  const props: PageTitleProps = {
     title,
-    breadcrumbLinks
+    trailingLinks
   }
 
   beforeEach(() => {
@@ -47,7 +48,7 @@ BddTest().given('a detailed page title', () => {
       const pageTitle = wrapper.getComponent(PageTitleStub)
 
       expect(pageTitle.props('title')).toBe(title)
-      expect(pageTitle.props('breadcrumbLinks')).toStrictEqual(breadcrumbLinks)
+      expect(pageTitle.props('trailingLinks')).toStrictEqual(trailingLinks)
     })
 
     BddTest().then('it should render the detailed title slot', () => {

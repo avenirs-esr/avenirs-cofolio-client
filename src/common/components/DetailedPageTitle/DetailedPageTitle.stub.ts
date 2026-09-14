@@ -7,7 +7,7 @@ export const DetailedPageTitleStub = defineComponent({
     title: {
       type: String,
     },
-    breadcrumbLinks: {
+    trailingLinks: {
       type: Array as PropType<AvBreadcrumbProps['links']>,
       required: true,
     },

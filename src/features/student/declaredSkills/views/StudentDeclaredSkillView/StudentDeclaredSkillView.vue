@@ -2,7 +2,7 @@
 import { useGetDeclaredSkillAssociations, useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
-import { useBreadcrumb, useModal, useNavigation } from '@/common/composables'
+import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ICONS } from '@/common/constants'
 import DeclaredSkillDetails
@@ -47,7 +47,7 @@ const skillTitle = computed(() => declaredSkillDetailed.value?.title ?? '')
 const countAssociations = computed(() =>
   traceAssociations.value.length + declaredActivityAssociations.value.length + declaredExperienceAssociations.value.length)
 
-const { breadcrumbLinks } = useBreadcrumb(() => [
+const trailingLinks = computed(() => [
   { text: t('student.declaredSkills.views.StudentDeclaredSkillView.breadcrumb.current.title', { skill: skillTitle.value }) }
 ])
 
@@ -64,7 +64,7 @@ function handleSkillDeleted () {
 <template>
   <DetailedPageTitle
     :title="skillTitle"
-    :breadcrumb-links="breadcrumbLinks"
+    :trailing-links="trailingLinks"
   />
 
   <div

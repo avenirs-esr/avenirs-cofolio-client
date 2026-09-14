@@ -1,4 +1,3 @@
-import type { BreadcrumbLinkRaw } from '@/common/types'
 import type { VueWrapper } from '@vue/test-utils'
 import { activityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -6,7 +5,6 @@ import { EActivityThematic } from '@/api/avenir-esr'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { ActivitiesPreviousNextNavigationStub } from '@/features/student/buildProject/views/ProjectActivitiesCatalogView/components/ActivitiesPreviousNextNavigation/ActivitiesPreviousNextNavigation.stub'
 import {
   ActivitiesSelectNavigationStub
@@ -22,15 +20,8 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
-  name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
-  meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES,
-    ],
-  }
+const route = reactive<{ name: string }>({
+  name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name
 })
 
 vi.mock('vue-router', async (importOriginal) => {
@@ -103,22 +94,9 @@ BddTest().given('a project activities catalog view', () => {
       expect(pageTitle.props('title')).toBe('Toutes les activités disponibles')
     })
 
-    BddTest().then('it should pass the correct breadcrumb links', async () => {
+    BddTest().then('it should pass the correct trailing links', async () => {
       const pageTitle = wrapper.findComponent(PageTitleStub)
-      const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
-
-      expect(breadcrumbLinks).toHaveLength(4)
-      expect(breadcrumbLinks[0]).toEqual({
-        text: 'Accueil',
-        to: ROUTES.STUDENT.HOME
-      })
-      expect(breadcrumbLinks[1]).toEqual({
-        text: 'Construire mon projet de vie'
-      })
-      expect(breadcrumbLinks[2]).toEqual({
-        text: 'Mes activités',
-        to: ROUTES.STUDENT.PROJECT_ACTIVITIES,
-      })
+      expect(pageTitle.props('trailingLinks')).toHaveLength(1)
     })
 
     BddTest().then('it should use row layout on desktop', () => {
@@ -269,12 +247,6 @@ BddTest().given('a project activities catalog view', () => {
       vi.clearAllMocks()
 
       route.name = ROUTES.STUDENT.ACTIVITIES_CATALOG.name
-      route.meta = {
-        breadcrumb: [
-          META_BREADCRUMBS.STUDENT.HOME,
-          { textKey: META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES.textKey },
-        ],
-      }
 
       wrapper = mountComponent(ProjectActivitiesCatalogView, {
         props: { thematic: EActivityThematic.SELF_KNOWLEDGE, id: '0' },
@@ -284,18 +256,9 @@ BddTest().given('a project activities catalog view', () => {
       })
     })
 
-    BddTest().then('it should render home breadcrumb links', () => {
+    BddTest().then('it should still render the trailing links', () => {
       const pageTitle = wrapper.findComponent(PageTitleStub)
-      const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
-
-      expect(breadcrumbLinks).toHaveLength(3)
-      expect(breadcrumbLinks[0]).toEqual({
-        text: 'Accueil',
-        to: ROUTES.STUDENT.HOME
-      })
-      expect(breadcrumbLinks[1]).toEqual({
-        text: 'Mes activités',
-      })
+      expect(pageTitle.props('trailingLinks')).toHaveLength(1)
     })
   })
 
@@ -304,12 +267,6 @@ BddTest().given('a project activities catalog view', () => {
       vi.clearAllMocks()
 
       route.name = ROUTES.STUDENT.ACTIVITIES_CATALOG.name
-      route.meta = {
-        breadcrumb: [
-          META_BREADCRUMBS.STUDENT.HOME,
-          { textKey: META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES.textKey },
-        ],
-      }
 
       wrapper = mountComponent(ProjectActivitiesCatalogView, {
         props: {},

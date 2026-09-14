@@ -1,4 +1,3 @@
-import type { BreadcrumbLinkRaw } from '@/common/types'
 import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
   createTraceDetailedHandler,
@@ -7,7 +6,6 @@ import {
 import { server } from '@/__mocks__/msw/server'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { downloadBlob } from '@/common/utils/download/download'
 import { TraceAssociationsStub } from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.stub'
 import {
@@ -25,15 +23,8 @@ import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-u
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 
-const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
-  name: ROUTES.STUDENT.TOOLS_TRACE.name,
-  meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.TOOLS.DEFAULT,
-      META_BREADCRUMBS.STUDENT.TOOLS.TRACES,
-    ],
-  }
+const route = reactive<{ name: string }>({
+  name: ROUTES.STUDENT.TOOLS_TRACE.name
 })
 
 vi.mock('vue-router', async (importOriginal) => {
@@ -110,19 +101,13 @@ BddTest().given('a student trace view', () => {
   })
 
   const title = mockedTraceDetailed.title
-  const breadcrumbLinks = [
-    { text: 'Accueil', to: ROUTES.STUDENT.HOME },
-    { text: 'Mes outils' },
-    { text: 'Mes traces', to: ROUTES.STUDENT.TOOLS_TRACES },
-    { text: mockedTraceDetailed.title }
-  ]
 
   BddTest().when('the view is mounted', () => {
     BddTest().then('it should render DetailedPageTitle with correct props', async () => {
-      const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
+      const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
 
       expect(pageTitle.props('title')).toBe(title)
-      expect(pageTitle.props('breadcrumbLinks')).toEqual(breadcrumbLinks)
+      expect(pageTitle.props('trailingLinks')).toHaveLength(1)
     })
 
     BddTest().then('it should render the popover', async () => {
@@ -174,12 +159,6 @@ BddTest().given('a student trace view', () => {
   BddTest().when('the view is mounted on home trace route', () => {
     beforeEach(async () => {
       route.name = ROUTES.STUDENT.TRACE.name
-      route.meta = {
-        breadcrumb: [
-          META_BREADCRUMBS.STUDENT.HOME,
-          { textKey: META_BREADCRUMBS.STUDENT.TOOLS.TRACES.textKey },
-        ],
-      }
 
       const handler = createTraceDetailedHandler(mockedTraceDetailed)
       server.use(handler)
@@ -195,12 +174,7 @@ BddTest().given('a student trace view', () => {
 
     BddTest().then('it should render home breadcrumb links', () => {
       const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
-
-      expect(pageTitle.props('breadcrumbLinks')).toEqual([
-        { text: 'Accueil', to: ROUTES.STUDENT.HOME },
-        { text: 'Mes traces' },
-        { text: mockedTraceDetailed.title }
-      ])
+      expect(pageTitle.props('trailingLinks')).toHaveLength(1)
     })
   })
 

@@ -3,7 +3,7 @@ import { useGetDeclaredExperience } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import Loader from '@/common/components/Loader/Loader.vue'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
-import { useBreadcrumb, useModal } from '@/common/composables'
+import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants/route-names'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -40,7 +40,7 @@ const { data: declaredExperience, isLoading, isError } = useGetDeclaredExperienc
 const declaredExperienceTitle = computed(() => declaredExperience.value?.title ?? '')
 
 const activeTab = ref(DeclaredExperienceUpdateViewTabs.DETAILS)
-const { breadcrumbLinks } = useBreadcrumb(() => [
+const trailingLinks = computed(() => [
   { text: `${t('global.detail')} ${declaredExperienceTitle.value}`, to: { name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: selectedExperienceId.value } } },
   { text: `${t('global.buttons.update')} ${declaredExperienceTitle.value}` }
 ])
@@ -78,7 +78,7 @@ function onExperienceUpdated () {
 <template>
   <UpdatePageTitle
     :title="declaredExperienceTitle"
-    :breadcrumb-links="breadcrumbLinks"
+    :trailing-links="trailingLinks"
   />
 
   <div class="av-row av-gap-sm">

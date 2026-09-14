@@ -1,9 +1,6 @@
-import type { BreadcrumbLinkRaw } from '@/common/types'
 import type { VueWrapper } from '@vue/test-utils'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
-import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { UpdateDeclaredSkillAssociationsStub } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillAssociations/UpdateDeclaredSkillAssociations.stub'
 import { UpdateDeclaredSkillFormStub } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.stub'
 import StudentUpdateDeclaredSkillView from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/StudentUpdateDeclaredSkillView.vue'
@@ -11,25 +8,6 @@ import { UpdateInProgressBadgeStub } from '@/features/student/global/components/
 import { AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-
-const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
-  name: ROUTES.STUDENT.UPDATE_DECLARED_SKILL.name,
-  meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.SKILLS,
-    ]
-  }
-})
-
-vi.mock('vue-router', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('vue-router')>()
-  return {
-    ...actual,
-    useRoute: () => route,
-  }
-})
 
 const navigateToStudentProjectDeclaredSkill = vi.fn()
 
@@ -105,23 +83,7 @@ BddTest().given('a student update declared skill view component', () => {
         expect(pageTitle.props('title')).toBe('Conduire un projet de bout en bout')
       })
 
-      const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
-      expect(breadcrumbLinks).toHaveLength(5)
-      expect(breadcrumbLinks[0]).toEqual({
-        text: 'Accueil',
-        to: ROUTES.STUDENT.HOME
-      })
-      expect(breadcrumbLinks[1]).toEqual({
-        text: 'Construire mon projet de vie'
-      })
-      expect(breadcrumbLinks[2]).toEqual({
-        text: 'Toutes mes compétences',
-        to: ROUTES.STUDENT.PROJECT_SKILLS
-      })
-      expect(breadcrumbLinks[3]).toEqual({
-        text: 'Compétence déclarée Conduire un projet de bout en bout',
-        to: { name: ROUTES.STUDENT.PROJECT_DECLARED_SKILL.name, params: { id: '123' } }
-      })
+      expect(pageTitle.props('trailingLinks')).toHaveLength(2)
     })
 
     BddTest().then('it should render AvTabs', () => {

@@ -2,7 +2,7 @@
 import { useGetDeclaredProgram } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
-import { useBreadcrumb, useModal } from '@/common/composables'
+import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -29,7 +29,7 @@ const { declaredPrograms, pageInfo, loadMoreDeclaredPrograms } = usePaginatedDec
 const { data: declaredProgramDetailed } = useGetDeclaredProgram(selectedProgramId)
 
 const programTitle = computed(() => declaredProgramDetailed.value?.title ?? '')
-const { breadcrumbLinks } = useBreadcrumb(() => [
+const trailingLinks = computed(() => [
   {
     text: programTitle.value,
     to: { name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: selectedProgramId.value } }
@@ -70,7 +70,7 @@ function onProgramUpdated () {
 <template>
   <UpdatePageTitle
     :title="programTitle"
-    :breadcrumb-links="breadcrumbLinks"
+    :trailing-links="trailingLinks"
   />
   <div class="av-row av-gap-sm">
     <DeclaredProgramSideMenu

@@ -7,7 +7,7 @@ import {
 import ActivityDetailsDrawer from '@/common/activities/components/ActivityDetailsDrawer/ActivityDetailsDrawer.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useBreadcrumb, useModal } from '@/common/composables'
+import { useModal } from '@/common/composables'
 import { ICONS } from '@/common/constants'
 import StudentPerspectiveCard from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.vue'
 import FeedbackManagementFloatingPanel
@@ -65,12 +65,12 @@ const { modalOpened: showActivityDetailsDrawer, openModal: displayActivityDetail
 
 const pageSubTitle = computed(() => `${t('global.activities.activity')} "${activityTitle.value}"`)
 
-const { breadcrumbLinks } = useBreadcrumb(() => [{ text: pageSubTitle.value }])
+const trailingLinks = computed(() => [{ text: pageSubTitle.value }])
 </script>
 
 <template>
   <PageTitle
-    :breadcrumb-links="breadcrumbLinks"
+    :trailing-links="trailingLinks"
     :title="t('staff.feedbacks.views.ActivityFeedbackDetailsView.title')"
   />
 

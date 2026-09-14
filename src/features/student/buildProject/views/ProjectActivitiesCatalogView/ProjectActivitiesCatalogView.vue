@@ -2,7 +2,7 @@
 import { EActivityStatus, EActivityThematic, useGetActivityNavigation, useGetActivityPresentation } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useBreadcrumb, useNavigation } from '@/common/composables'
+import { useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import { isEnumMember } from '@/common/utils'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
@@ -51,7 +51,7 @@ const firstCatalogEntry = computed(() => {
 
 const isProjectActivitiesRoute = computed(() => route.name === ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name)
 
-const { breadcrumbLinks } = useBreadcrumb(() => [{ text: activityDetail.value?.title ?? '' }])
+const trailingLinks = computed(() => [{ text: activityDetail.value?.title ?? '' }])
 
 watchEffect(() => {
   const newThematic = thematic
@@ -79,7 +79,7 @@ watchEffect(() => {
 <template>
   <PageTitle
     :title="t('student.buildProject.activities.views.ProjectActivitiesCatalogView.title')"
-    :breadcrumb-links="breadcrumbLinks"
+    :trailing-links="trailingLinks"
   />
   <div
     class="av-py-md av-gap-sm"

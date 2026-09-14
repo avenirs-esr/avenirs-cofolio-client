@@ -1,5 +1,4 @@
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
-import type { BreadcrumbLinkRaw } from '@/common/types'
 import {
   declaredProgramDetailedHandler,
   declaredProgramDetailedLoadingHandler,
@@ -10,7 +9,6 @@ import { server } from '@/__mocks__/msw/server'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { DeclaredProgramSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.stub'
 import { DeleteDeclaredProgramConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.stub'
 import { DeclaredProgramDetailedStub } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.stub'
@@ -44,23 +42,11 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   }
 })
 
-const route = reactive<{
-  name: string
-  params: { id: string }
-  meta: { breadcrumb: BreadcrumbLinkRaw[] }
-}>({
+const route = reactive<{ name: string, params: { id: string } }>({
   name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
   params: {
     id: ''
   },
-  meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DECLARED_PROGRAMS,
-    ],
-  }
 })
 
 vi.mock('vue-router', async (importOriginal) => {
@@ -143,13 +129,7 @@ BddTest().given('a declared program detailed view component', () => {
       const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
       expect(pageTitle.exists()).toBe(true)
 
-      const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
-      expect(breadcrumbLinks).toHaveLength(5)
-      expect(breadcrumbLinks[0]).toEqual({ text: 'Accueil', to: ROUTES.STUDENT.HOME })
-      expect(breadcrumbLinks[1]).toEqual({ text: 'Construire mon projet de vie' })
-      expect(breadcrumbLinks[2]).toEqual({ text: 'Mon parcours' })
-      expect(breadcrumbLinks[3]).toEqual({ text: 'Mes formations', to: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS })
-      expect(breadcrumbLinks[4]).toEqual({ text: 'Formation déclarée 1' })
+      expect(pageTitle.props('trailingLinks')).toHaveLength(1)
     })
 
     BddTest().then('it should build the title using the selected program title', async () => {

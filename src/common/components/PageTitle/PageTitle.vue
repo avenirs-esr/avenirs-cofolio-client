@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
+import { useBreadcrumb } from '@/common/composables'
 import { AvBreadcrumb, type AvBreadcrumbProps } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface PageTitleProps {
-  breadcrumbLinks: AvBreadcrumbProps['links']
+  trailingLinks?: AvBreadcrumbProps['links']
   title: string
 }
 
 const {
-  breadcrumbLinks,
+  trailingLinks = [],
   title,
 } = defineProps<PageTitleProps>()
 
@@ -18,6 +19,7 @@ defineSlots<{
 }>()
 
 const { t } = useI18n()
+const { breadcrumbLinks } = useBreadcrumb(() => trailingLinks)
 </script>
 
 <template>

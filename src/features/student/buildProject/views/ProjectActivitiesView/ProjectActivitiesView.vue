@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useGetActivitiesView, useGetDeclaredActivitiesView } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useBreadcrumb } from '@/common/composables'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useProjectActivitiesStore } from '@/features/student/buildProject/stores/activities.store'
 import { ProjectActivitiesTab } from '@/features/student/buildProject/types/activities.types'
@@ -30,15 +29,10 @@ const { data: dataDeclaredActivities } = useGetDeclaredActivitiesView(params)
 const { data } = useGetActivitiesView(countActivitiesParams)
 const activityTotalElements = computed(() => data.value?.page.totalElements ?? 0)
 const libraryTotalElements = computed(() => dataDeclaredActivities.value?.page.totalElements ?? 0)
-
-const { breadcrumbLinks } = useBreadcrumb()
 </script>
 
 <template>
-  <PageTitle
-    :title="t('student.buildProject.views.projectActivitiesView.title')"
-    :breadcrumb-links="breadcrumbLinks"
-  />
+  <PageTitle :title="t('student.buildProject.views.projectActivitiesView.title')" />
   <AvTabs
     v-model="activeTab"
     data-testid="project-activities-tabs"

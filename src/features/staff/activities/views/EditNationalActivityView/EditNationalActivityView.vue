@@ -17,7 +17,7 @@ import {
 } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useBreadcrumb, useNavigation } from '@/common/composables'
+import { useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useQueueAutoSave } from '@/common/composables/use-queue-auto-save/use-queue-auto-save'
@@ -79,7 +79,7 @@ const {
   error: presentationError
 } = useGetActivityPresentation(EActivityStatus.DRAFT, id)
 
-const { breadcrumbLinks } = useBreadcrumb(() => [
+const trailingLinks = computed(() => [
   { text: content.value?.title ?? '' },
   { text: title.value }
 ])
@@ -289,7 +289,7 @@ provideEditNationalActivityViewContext({ form, isUpdating, isExecutionPeriodEnab
 <template>
   <PageTitle
     :title="title"
-    :breadcrumb-links="breadcrumbLinks"
+    :trailing-links="trailingLinks"
   />
   <QuerySuspense
     :is-loading="contentIsLoading || presentationIsLoading"

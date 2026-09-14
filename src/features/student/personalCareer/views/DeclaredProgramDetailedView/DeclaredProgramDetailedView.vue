@@ -2,7 +2,7 @@
 import { useGetDeclaredProgram } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useBreadcrumb, useModal, useNavigation } from '@/common/composables'
+import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ROUTES } from '@/common/constants'
 import DeclaredProgramSideMenu from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.vue'
@@ -28,7 +28,7 @@ const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 const isDeclaredProgramNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_PROGRAM_NOT_FOUND || isNotFound.value)
 
 const programTitle = computed(() => declaredProgramDetailed.value?.title ?? '')
-const { breadcrumbLinks } = useBreadcrumb(() => [{ text: programTitle.value }])
+const trailingLinks = computed(() => [{ text: programTitle.value }])
 
 function onSelectProgram (programId: string) {
   router.replace({
@@ -47,7 +47,7 @@ function handleConfirmDelete () {
 <template>
   <DetailedPageTitle
     :title="programTitle"
-    :breadcrumb-links="breadcrumbLinks"
+    :trailing-links="trailingLinks"
   />
   <div class="av-row av-gap-2xl">
     <div

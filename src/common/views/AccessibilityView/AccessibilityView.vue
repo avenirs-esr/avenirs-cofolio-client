@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useBreadcrumb } from '@/common/composables'
 import { useI18n } from 'vue-i18n'
 
 const { t, locale } = useI18n()
@@ -9,12 +8,12 @@ const content = ref<string>('')
 
 const title = computed(() => t('global.views.accessibilityView.title'))
 
-const { breadcrumbLinks } = useBreadcrumb(() => [{ text: title.value }])
-
 async function loadDeclaration (locale: string) {
   const content = await import(`@/common/views/AccessibilityView/declaration.${locale}.md?raw`)
   return content.default
 }
+
+const trailingLinks = computed(() => [{ text: title.value }])
 
 watchEffect(() => {
   loadDeclaration(locale.value).then((declaration) => {
@@ -26,7 +25,7 @@ watchEffect(() => {
 <template>
   <PageTitle
     :title="title"
-    :breadcrumb-links="breadcrumbLinks"
+    :trailing-links="trailingLinks"
   />
 
   <div
