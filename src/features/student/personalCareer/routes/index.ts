@@ -1,28 +1,12 @@
 import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
-
-const PERSONAL_CAREER_BREADCRUMBS = [
-  META_BREADCRUMBS.STUDENT.HOME,
-  META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-  META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DEFAULT,
-]
-
-const DECLARED_PROGRAMS_BREADCRUMBS = [
-  ...PERSONAL_CAREER_BREADCRUMBS,
-  META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DECLARED_PROGRAMS,
-]
-
-const EXPERIENCES_BREADCRUMBS = [
-  ...PERSONAL_CAREER_BREADCRUMBS,
-  META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.EXPERIENCES,
-]
+import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 
 export const personalCareerRoute: AvRoute = {
   ...ROUTES.STUDENT.PERSONAL_CAREER,
   component: () => import('@/features/student/personalCareer/views/PersonalCareerView/PersonalCareerView.vue'),
   meta: {
-    breadcrumb: [...PERSONAL_CAREER_BREADCRUMBS],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.BASE],
   },
   redirect: { name: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name },
   children: [
@@ -46,7 +30,7 @@ export const declaredProgramRoute: AvRoute = {
   component: () =>
     import('@/features/student/personalCareer/views/DeclaredProgramDetailedView/DeclaredProgramDetailedView.vue'),
   meta: {
-    breadcrumb: [...DECLARED_PROGRAMS_BREADCRUMBS],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DECLARED_PROGRAMS],
   }
 }
 
@@ -55,7 +39,7 @@ export const declaredProgramUpdateRoute: AvRoute = {
   component: () =>
     import('@/features/student/personalCareer/views/DeclaredProgramUpdateView/DeclaredProgramUpdateView.vue'),
   meta: {
-    breadcrumb: [...DECLARED_PROGRAMS_BREADCRUMBS],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DECLARED_PROGRAMS],
   }
 }
 
@@ -67,7 +51,7 @@ export const declaredExperienceRoute: AvRoute = {
   component: () =>
     import('@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'),
   meta: {
-    breadcrumb: [...EXPERIENCES_BREADCRUMBS],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.EXPERIENCES],
   }
 }
 
@@ -79,6 +63,6 @@ export const declaredExperienceUpdateRoute: AvRoute = {
   component: () =>
     import('@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'),
   meta: {
-    breadcrumb: [...EXPERIENCES_BREADCRUMBS],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.EXPERIENCES],
   }
 }

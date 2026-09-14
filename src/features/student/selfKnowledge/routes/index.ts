@@ -1,13 +1,6 @@
 import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
-
-const SELF_KNOWLEDGE_BREADCRUMBS = [
-  META_BREADCRUMBS.STUDENT.HOME,
-  META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-  META_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT,
-  META_BREADCRUMBS.STUDENT.PROJECT.SELF_KNOWLEDGE,
-]
+import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 
 export const studentSelfKnowledgeCategoryRoute: AvRoute = {
   ...ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY,
@@ -17,7 +10,7 @@ export const studentSelfKnowledgeCategoryRoute: AvRoute = {
   component: () =>
     import('@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/SelfKnowledgeCategoryView.vue'),
   meta: {
-    breadcrumb: [...SELF_KNOWLEDGE_BREADCRUMBS]
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT.SELF_KNOWLEDGE]
   }
 }
 
@@ -30,6 +23,6 @@ export const studentSelfKnowledgeElementUpdateRoute: AvRoute = {
   component: () =>
     import('@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/SelfKnowledgeElementUpdateView.vue'),
   meta: {
-    breadcrumb: [...SELF_KNOWLEDGE_BREADCRUMBS]
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT.SELF_KNOWLEDGE]
   }
 }

@@ -1,6 +1,6 @@
 import { EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
+import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { projectActivitiesRoutes, projectTrajectoriesRoutes, studentActivitiesCatalogRoute, studentActivityRoute } from '@/features/student/buildProject/routes'
 import { studentProjectDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
 import { studentToolsKitRoute } from '@/features/student/kit/routes'
@@ -10,7 +10,7 @@ import { studentSelfKnowledgeCategoryRoute, studentSelfKnowledgeElementUpdateRou
 import { studentProjectSkillsRoute } from '@/features/student/skills/routes'
 import { studentToolsTraceRoute, studentToolsTracesRoute, studentToolsUpdateTraceRoute, studentTraceRoute, studentUpdateTraceRoute } from '@/features/student/traces/routes'
 
-const breadcrumb = [META_BREADCRUMBS.STUDENT.HOME]
+const breadcrumb = [...BASE_BREADCRUMBS.STUDENT.HOME.BASE]
 
 export default [
   {

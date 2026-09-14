@@ -1,24 +1,14 @@
 import type { AvRoute } from '@/common/types'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
+import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { ROUTES } from '@/common/constants/route-names'
 
 export default []
-
-const PROJECT_BREADCRUMBS = [
-  META_BREADCRUMBS.STUDENT.HOME,
-  META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-]
-
-const PROJECT_ACTIVITIES_BREADCRUMBS = [
-  ...PROJECT_BREADCRUMBS,
-  META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES,
-]
 
 export const projectActivitiesRoute: AvRoute = {
   ...ROUTES.STUDENT.PROJECT_ACTIVITIES,
   component: () => import('@/features/student/buildProject/views/ProjectActivitiesView/ProjectActivitiesView.vue'),
   meta: {
-    breadcrumb: [...PROJECT_ACTIVITIES_BREADCRUMBS],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES],
   }
 }
 
@@ -30,7 +20,7 @@ export const projectActivitiesDetailedRoute: AvRoute = {
   component: () =>
     import('@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.vue'),
   meta: {
-    breadcrumb: [...PROJECT_ACTIVITIES_BREADCRUMBS],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES],
   }
 }
 
@@ -43,7 +33,7 @@ export const projectActivitiesCatalogRoute: AvRoute = {
   component: () =>
     import('@/features/student/buildProject/views/ProjectActivitiesCatalogView/ProjectActivitiesCatalogView.vue'),
   meta: {
-    breadcrumb: [...PROJECT_ACTIVITIES_BREADCRUMBS],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES],
   }
 }
 
@@ -51,10 +41,7 @@ export const projectTrajectoriesRoute: AvRoute = {
   ...ROUTES.STUDENT.PROJECT_TRAJECTORIES,
   component: () => import('@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'),
   meta: {
-    breadcrumb: [
-      ...PROJECT_BREADCRUMBS,
-      { textKey: META_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT.textKey },
-    ]
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT.BUILD_PROJECT]
   }
 }
 
@@ -76,10 +63,7 @@ export const studentActivityRoute: AvRoute = {
   component: () =>
     import('@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.vue'),
   meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      { textKey: META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES.textKey },
-    ],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.HOME.ACTIVITIES],
   }
 }
 
@@ -92,9 +76,6 @@ export const studentActivitiesCatalogRoute: AvRoute = {
   component: () =>
     import('@/features/student/buildProject/views/ProjectActivitiesCatalogView/ProjectActivitiesCatalogView.vue'),
   meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      { textKey: META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES.textKey },
-    ],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.HOME.ACTIVITIES],
   }
 }
