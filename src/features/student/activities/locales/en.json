@@ -31,9 +31,7 @@
       },
       "interactions": {
         "buttons": {
-          "resubscribe": "Subscribe again",
-          "subscribe": "Subscribe to the activity",
-          "unsubscribe": "Unsubscribe"
+          "subscribe": "Subscribe to the activity"
         },
         "formFields": {
           "ActivityPeriodFormField": {
@@ -102,7 +100,7 @@
         },
         "ActivityView": {
           "ActivityDetailedDropdown": {
-            "triggerLabel": "Manage my activity"
+            "myActivity": "my activity"
           },
           "ActivityDetailedSideNavigation": {
             "myReflection": "My reflection"
@@ -118,6 +116,10 @@
           },
           "DeleteActivityAssociatedElementsModal": {
             "success": "The selected associations have been successfully deleted."
+          },
+          "DeleteMyActivityConfirmModal": {
+            "success": "The content of your activity has been deleted",
+            "title": "Are you sure you want to permanently delete your activity: {activityTitle}? Warning, the content of your activity cannot be recovered."
           },
           "FeedbackCard": {
             "downloadAllAttachments": "Download all documents",

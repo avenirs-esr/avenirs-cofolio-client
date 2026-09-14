@@ -6,7 +6,9 @@ export enum Action {
   DOWNLOAD = 'download',
   EXPAND = 'expand',
   PUBLISH = 'publish',
+  RESUBSCRIBE = 'resubscribe',
   UNPUBLISH = 'unpublish',
+  UNSUBSCRIBE = 'unsubscribe',
   UPDATE = 'update',
   UPDATE_IN_PROFILE = 'updateInProfile',
 }

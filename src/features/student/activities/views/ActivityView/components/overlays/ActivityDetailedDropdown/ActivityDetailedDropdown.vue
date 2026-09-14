@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import type { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
-import { AvDropdown, MDI_ICONS, PH_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ActivityDetailedDropdownProps {
@@ -14,60 +15,29 @@ const emit = defineEmits<{
   (e: 'updateSelected'): void
   (e: 'unsubscribeSelected'): void
   (e: 'resubscribeSelected'): void
+  (e: 'deleteSelected'): void
 }>()
-
-enum ActivityDetailedDropdownEvents {
-  UPDATE = 'update',
-  UNSUBSCRIBE = 'unsubscribe',
-  RESUBSCRIBE = 'resubscribe',
-}
 
 const { t } = useI18n()
 
 const isUnsubscribed = computed(() => isDeclaredActivityUnsubscribed(status))
 
-const menuItems = computed(() => isUnsubscribed.value
-  ? [
-      {
-        name: ActivityDetailedDropdownEvents.RESUBSCRIBE,
-        icon: PH_ICONS.NOTE_PENCIL,
-        label: t('student.activities.interactions.buttons.resubscribe')
-      }
-    ]
-  : [
-      {
-        name: ActivityDetailedDropdownEvents.UPDATE,
-        icon: MDI_ICONS.PENCIL_OUTLINE,
-        label: t('global.buttons.update')
-      },
-      {
-        name: ActivityDetailedDropdownEvents.UNSUBSCRIBE,
-        icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-        label: t('student.activities.interactions.buttons.unsubscribe')
-      }
-    ])
+const actions = computed(() => isUnsubscribed.value ? [Action.RESUBSCRIBE, Action.DELETE] : [Action.UPDATE, Action.UNSUBSCRIBE])
 
-function handleItemSelected (itemName: string) {
-  switch (itemName) {
-    case ActivityDetailedDropdownEvents.UPDATE:
-      emit('updateSelected')
-      break
-    case ActivityDetailedDropdownEvents.UNSUBSCRIBE:
-      emit('unsubscribeSelected')
-      break
-    case ActivityDetailedDropdownEvents.RESUBSCRIBE:
-      emit('resubscribeSelected')
-      break
+function handleActionSelected (action: Action) {
+  switch (action) {
+    case Action.UPDATE: return emit('updateSelected')
+    case Action.UNSUBSCRIBE: return emit('unsubscribeSelected')
+    case Action.RESUBSCRIBE: return emit('resubscribeSelected')
+    case Action.DELETE: return emit('deleteSelected')
   }
 }
 </script>
 
 <template>
-  <AvDropdown
-    :items="menuItems"
-    :trigger-aria-label="t('student.activities.views.ActivityView.ActivityDetailedDropdown.triggerLabel')"
-    :trigger-label="t('student.activities.views.ActivityView.ActivityDetailedDropdown.triggerLabel')"
-    width="max-content"
-    @item-selected="handleItemSelected"
+  <ManageEntityDropdown
+    :entity-name="t('student.activities.views.ActivityView.ActivityDetailedDropdown.myActivity')"
+    :actions
+    @action-selected="handleActionSelected"
   />
 </template>

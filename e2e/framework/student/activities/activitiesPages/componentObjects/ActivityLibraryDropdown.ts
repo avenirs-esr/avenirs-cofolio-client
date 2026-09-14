@@ -12,7 +12,7 @@ export class ActivityLibraryDropdown extends BaseObject {
   }
 
   getUnsubscribeItem () {
-    return this.page!.getByRole('button', { name: t('student.activities.interactions.buttons.unsubscribe'), exact: true })
+    return this.page!.getByRole('button', { name: t('global.buttons.unsubscribe'), exact: true })
   }
 
   async clickUnsubscribe () {

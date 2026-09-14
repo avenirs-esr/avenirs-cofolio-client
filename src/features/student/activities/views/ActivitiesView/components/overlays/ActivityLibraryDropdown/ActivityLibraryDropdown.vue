@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
+import { Action, type ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 
 export interface ActivityLibraryDropdownProps {
   unsubscribeDisabled?: boolean
@@ -12,37 +12,24 @@ const emit = defineEmits<{
   (e: 'unsubscribeSelected'): void
 }>()
 
-enum ActivityDetailedDropdownEvents {
-  UNSUBSCRIBE = 'unsubscribe',
-}
-
-const { t } = useI18n()
-
-const menuItems = computed(() => [
+const actions = computed<ActionItem[]>(() => [
   {
-    name: ActivityDetailedDropdownEvents.UNSUBSCRIBE,
-    icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-    label: t('student.activities.interactions.buttons.unsubscribe'),
-    disabled: unsubscribeDisabled,
+    type: Action.UNSUBSCRIBE,
+    disabled: unsubscribeDisabled
   }
 ])
 
-function handleItemSelected (itemName: string) {
-  switch (itemName) {
-    case ActivityDetailedDropdownEvents.UNSUBSCRIBE:
-      emit('unsubscribeSelected')
-      break
+function handleActionSelected (action: Action) {
+  switch (action) {
+    case Action.UNSUBSCRIBE: return emit('unsubscribeSelected')
   }
 }
 </script>
 
 <template>
-  <AvDropdown
+  <ManageEntityDropdown
+    :actions
     data-testid="activity-library-dropdown"
-    :items="menuItems"
-    :trigger-aria-label="t('global.buttons.moreActions')"
-    :trigger-label="t('global.buttons.moreActions')"
-    width="max-content"
-    @item-selected="handleItemSelected"
+    @action-selected="handleActionSelected"
   />
 </template>

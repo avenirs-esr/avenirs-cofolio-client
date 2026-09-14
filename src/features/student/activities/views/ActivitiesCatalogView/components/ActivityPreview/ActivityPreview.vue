@@ -23,7 +23,7 @@ const { modalOpened: subscribeModalOpened, openModal: openSubscribeModal, closeM
 const hasDeclaredActivity = computed(() => !!activity.subscribedDeclaredActivity)
 const isSubscribed = computed(() => isActivitySubscribed(activity))
 const subscribeButtonLabel = computed(() => hasDeclaredActivity.value
-  ? t('student.activities.interactions.buttons.resubscribe')
+  ? t('global.buttons.resubscribe')
   : t('student.activities.interactions.buttons.subscribe'))
 </script>
 
@@ -60,7 +60,7 @@ const subscribeButtonLabel = computed(() => hasDeclaredActivity.value
           v-if="isSubscribed"
           variant="OUTLINED"
           theme="PRIMARY"
-          :label="t('student.activities.interactions.buttons.unsubscribe')"
+          :label="t('global.buttons.unsubscribe')"
           :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
           small
           data-testid="unsubscribe-button"
