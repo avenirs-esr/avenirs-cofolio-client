@@ -1,31 +1,9 @@
-import type { BreadcrumbLinkRaw } from '@/common/types'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import StudentToolsTracesView from '@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, expect, vi } from 'vitest'
-
-const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
-  name: ROUTES.STUDENT.TOOLS_TRACES.name,
-  meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.TOOLS.DEFAULT,
-      META_BREADCRUMBS.STUDENT.TOOLS.TRACES,
-    ],
-  }
-})
-
-vi.mock('vue-router', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('vue-router')>()
-  return {
-    ...actual,
-    useRoute: () => route,
-  }
-})
 
 BddTest().given('a student tools traces view component', () => {
   const commonStubs = {
@@ -56,19 +34,7 @@ BddTest().given('a student tools traces view component', () => {
 
       expect(pageTitle.exists()).toBe(true)
       expect(pageTitle.props('title')).toBe('Ma bibliothèque de traces')
-
-      const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
-      expect(breadcrumbLinks).toHaveLength(3)
-      expect(breadcrumbLinks[0]).toEqual({
-        text: 'Accueil',
-        to: ROUTES.STUDENT.HOME
-      })
-      expect(breadcrumbLinks[1]).toEqual({
-        text: 'Mes outils'
-      })
-      expect(breadcrumbLinks[2]).toEqual({
-        text: 'Mes traces'
-      })
+      expect(pageTitle.props('trailingLinks')).toBeUndefined()
     })
 
     BddTest().then('it should render StudentToolsTracesViewContainer', () => {

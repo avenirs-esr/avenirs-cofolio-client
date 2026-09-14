@@ -5,7 +5,7 @@ import ConfirmationModal from '@/common/components/ConfirmationModal/Confirmatio
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useBreadcrumb, useModal, useNavigation } from '@/common/composables'
+import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ErrorCodes } from '@/common/constants'
@@ -35,8 +35,6 @@ const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const categoryId = computed(() => props.categoryId as ESelfKnowledgeCategory)
 
 const { categoryType } = useSelfKnowledgeCategory(categoryId)
-
-const { breadcrumbLinks } = useBreadcrumb()
 
 const queryClient = useQueryClient()
 
@@ -92,10 +90,7 @@ function onUpdateSelected () {
 </script>
 
 <template>
-  <DetailedPageTitle
-    :title="selectedElementDetails?.title ?? ''"
-    :breadcrumb-links="breadcrumbLinks"
-  />
+  <DetailedPageTitle :title="selectedElementDetails?.title ?? ''" />
 
   <QuerySuspense :error="error">
     <template #error>

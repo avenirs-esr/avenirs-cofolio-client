@@ -3,7 +3,7 @@ import { useGetDeclaredActivityDetails } from '@/api/avenir-esr'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
-import { useBreadcrumb, useDrawer, useModal, useNavigation } from '@/common/composables'
+import { useDrawer, useModal, useNavigation } from '@/common/composables'
 import ActivityErrorMessage from '@/features/student/buildProject/components/feedback/ActivityErrorMessage/ActivityErrorMessage.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import UpdateActivityDrawer
@@ -32,7 +32,7 @@ const { showDrawer: showUpdateDrawer, displayDrawer: displayUpdateDrawer, hideDr
 
 const lastBreadcrumbLink = ref(t('global.detail'))
 
-const { breadcrumbLinks } = useBreadcrumb(() => [
+const trailingLinks = computed(() => [
   { text: declaredActivityDetail.value?.activity.title ?? '' },
   { text: lastBreadcrumbLink.value }
 ])
@@ -54,7 +54,7 @@ function onUnsubscribed () {
     >
       <DetailedPageTitle
         :title="declaredActivityDetail!.activity.title"
-        :breadcrumb-links="breadcrumbLinks"
+        :trailing-links="trailingLinks"
         data-testid="activity-detail-title"
       />
 

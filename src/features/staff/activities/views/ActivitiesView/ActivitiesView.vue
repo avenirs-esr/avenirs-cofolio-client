@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useBreadcrumb } from '@/common/composables'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import MyWorkspaceTab from '@/features/staff/activities/views/ActivitiesView/components/MyWorkspaceTab/MyWorkspaceTab.vue'
 import StaffAllActivitiesTab from '@/features/staff/activities/views/ActivitiesView/components/StaffAllActivitiesTab/StaffAllActivitiesTab.vue'
@@ -8,8 +7,6 @@ import { AvTab, AvTabs, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
-
-const { breadcrumbLinks } = useBreadcrumb()
 
 enum ActivitiesViewTab {
   MY_WORKSPACE = 0,
@@ -20,10 +17,7 @@ const activeTab = useEnumRouteQuery('tab', ActivitiesViewTab, ActivitiesViewTab.
 </script>
 
 <template>
-  <PageTitle
-    :title="t('staff.global.views.ActivitiesView.title')"
-    :breadcrumb-links="breadcrumbLinks"
-  />
+  <PageTitle :title="t('staff.global.views.ActivitiesView.title')" />
   <AvTabs v-model="activeTab">
     <AvTab
       data-testid="my-workspace-tab"

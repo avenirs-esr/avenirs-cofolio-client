@@ -2,7 +2,7 @@
 import { useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
-import { useBreadcrumb, useModal, useNavigation } from '@/common/composables'
+import { useModal, useNavigation } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ICONS, ROUTES } from '@/common/constants'
 import UpdateDeclaredSkillAssociations from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillAssociations/UpdateDeclaredSkillAssociations.vue'
@@ -29,7 +29,7 @@ const { data: declaredSkillDetailed } = useGetDeclaredSkillProgressDetails(skill
 const activeTab = ref(StudentUpdateDeclaredSkillViewTabs.DETAILS)
 const updateInProgress = ref(false)
 
-const { breadcrumbLinks } = useBreadcrumb(() => [
+const trailingLinks = computed(() => [
   {
     text: t('student.declaredSkills.views.StudentDeclaredSkillView.breadcrumb.current.title', { skill: declaredSkillDetailed?.value?.title ?? '' }),
     to: { name: ROUTES.STUDENT.PROJECT_DECLARED_SKILL.name, params: { id: skillId } }
@@ -61,7 +61,7 @@ async function handleCancel () {
 <template>
   <UpdatePageTitle
     :title="declaredSkillDetailed?.title ?? ''"
-    :breadcrumb-links="breadcrumbLinks"
+    :trailing-links="trailingLinks"
   />
 
   <UpdateInProgressBadge

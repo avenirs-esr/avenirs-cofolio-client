@@ -1,8 +1,5 @@
-import type { BreadcrumbLinkRaw } from '@/common/types'
 import { getMockedActivitiesWithFeedbacks } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { FeedbackStatusPickerStub } from '@/features/staff/feedbacks/components/interaction/pickers/FeedbackStatusPicker/FeedbackStatusPicker.stub'
 import { FeedbackActivityConsignCardStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbackActivityConsignCard/FeedbackActivityConsignCard.stub'
 import { FeedbacksDashboardCardsStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbacksDashboardCards/FeedbacksDashboardCards.stub'
@@ -13,18 +10,11 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 
-const route = reactive<{ name: string, fullPath: string, query: Record<string, unknown>, matched: unknown[], meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
+const route = reactive<{ name: string, fullPath: string, query: Record<string, unknown>, matched: unknown[] }>({
   name: '',
   fullPath: '',
   query: {},
   matched: [],
-  meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STAFF.HOME,
-      META_BREADCRUMBS.STAFF.STUDENT_TRACKING.DEFAULT,
-      { textKey: META_BREADCRUMBS.STAFF.STUDENT_TRACKING.FEEDBACKS.textKey },
-    ]
-  }
 })
 
 vi.mock('vue-router', async (importOriginal) => {
@@ -73,11 +63,7 @@ BddTest().given('a feedbacks view', () => {
       const pageTitle = wrapper.findComponent(PageTitleStub)
       expect(pageTitle.exists()).toBe(true)
       expect(pageTitle.props('title')).toBe('Toutes mes demandes de feedback')
-      expect(pageTitle.props('breadcrumbLinks')).toEqual([
-        { text: 'Accueil', to: ROUTES.STAFF.HOME },
-        { text: 'Suivi des apprenants' },
-        { text: 'Toutes mes demandes de feedback' },
-      ])
+      expect(pageTitle.props('trailingLinks')).toBeUndefined()
     })
 
     BddTest().then('it should render FeedbacksFiltersCard', () => {

@@ -2,17 +2,6 @@ import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { useRoute } from 'vue-router'
-
-vi.mock('vue-router', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('vue-router')>()
-  return {
-    ...actual,
-    useRoute: vi.fn(),
-  }
-})
-
-const mockedUseRoute = vi.mocked(useRoute)
 
 BddTest().given('a accessibility view', () => {
   let wrapper: VueWrapper<InstanceType<typeof AccessibilityView>>
@@ -24,11 +13,10 @@ BddTest().given('a accessibility view', () => {
   }
 
   const title = 'Déclaration d\'accessibilité'
-  const defaultBreadcrumbLinks = [{ text: title }]
+  const defaultTrailingLinks = [{ text: title }]
 
-  BddTest().when('the route has no breadcrumb meta', () => {
+  BddTest().when('the component is mounted', () => {
     beforeEach(() => {
-      mockedUseRoute.mockReturnValue({ meta: {} } as ReturnType<typeof useRoute>)
       mountDefault()
     })
 
@@ -36,23 +24,7 @@ BddTest().given('a accessibility view', () => {
       const pageTitle = wrapper.findComponent(PageTitleStub)
 
       expect(pageTitle.props('title')).toBe(title)
-      expect(pageTitle.props('breadcrumbLinks')).toEqual(defaultBreadcrumbLinks)
-    })
-  })
-
-  BddTest().when('the route has breadcrumb meta', () => {
-    beforeEach(() => {
-      mockedUseRoute.mockReturnValue({
-        meta: { breadcrumb: [{ textKey: 'global.views.accessibilityView.title' }] }
-      } as ReturnType<typeof useRoute>)
-      mountDefault()
-    })
-
-    BddTest().then('it should render PageTitle with correct props', () => {
-      const pageTitle = wrapper.findComponent(PageTitleStub)
-
-      expect(pageTitle.props('title')).toBe(title)
-      expect(pageTitle.props('breadcrumbLinks')).toEqual([{ text: title }, ...defaultBreadcrumbLinks])
+      expect(pageTitle.props('trailingLinks')).toEqual(defaultTrailingLinks)
     })
   })
 })

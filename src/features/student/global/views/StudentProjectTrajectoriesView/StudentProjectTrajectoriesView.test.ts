@@ -1,30 +1,8 @@
-import type { BreadcrumbLinkRaw } from '@/common/types'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import StudentProjectTrajectoriesView from '@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-
-const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
-  name: ROUTES.STUDENT.PROJECT_TRAJECTORIES.name,
-  meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      { textKey: META_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT.textKey },
-    ],
-  }
-})
-
-vi.mock('vue-router', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('vue-router')>()
-  return {
-    ...actual,
-    useRoute: () => route,
-  }
-})
 
 BddTest().given('a student project trajectories view component', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentProjectTrajectoriesView>>
@@ -38,12 +16,6 @@ BddTest().given('a student project trajectories view component', () => {
   }
 
   const title = 'Bâtir mon projet'
-  const breadcrumbLinks = [
-    { text: 'Accueil', to: ROUTES.STUDENT.HOME },
-    { text: 'Construire mon projet de vie' },
-    { text: 'Bâtir mon projet' },
-    { text: expect.any(String) }
-  ]
 
   beforeEach(() => {
     wrapper = mount(StudentProjectTrajectoriesView, { global: { stubs } })
@@ -51,10 +23,10 @@ BddTest().given('a student project trajectories view component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render PageTitle with correct props', () => {
-      const pageTitle = wrapper.findComponent({ name: 'PageTitle' })
+      const pageTitle = wrapper.findComponent(PageTitleStub)
 
       expect(pageTitle.props('title')).toBe(title)
-      expect(pageTitle.props('breadcrumbLinks')).toEqual(breadcrumbLinks)
+      expect(pageTitle.props('trailingLinks')).toHaveLength(1)
     })
 
     BddTest().then('it should render StudentProjectTrajectoriesContainer', () => {

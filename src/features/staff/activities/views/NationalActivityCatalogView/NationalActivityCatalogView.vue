@@ -2,7 +2,6 @@
 import { EActivityStatus, useCreateDraftFromActivity, useGetActivityContent } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { useBreadcrumb } from '@/common/composables'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useModal } from '@/common/composables/use-modal/use-modal'
 import { useNavigation } from '@/common/composables/use-navigation/use-navigation'
@@ -30,7 +29,7 @@ const { t } = useI18n()
 
 const { data: activity, isLoading, error } = useGetActivityContent(status, id)
 
-const { breadcrumbLinks } = useBreadcrumb(() => [{ text: activity.value?.title ?? '' }])
+const trailingLinks = computed(() => [{ text: activity.value?.title ?? '' }])
 
 const isDraft = computed(() => status === EActivityStatus.DRAFT)
 
@@ -57,7 +56,7 @@ function updateActivity (id: string) {
 
 <template>
   <PageTitle
-    :breadcrumb-links="breadcrumbLinks"
+    :trailing-links="trailingLinks"
     :title="t('staff.activities.views.NationalActivityCatalogView.title')"
   />
 

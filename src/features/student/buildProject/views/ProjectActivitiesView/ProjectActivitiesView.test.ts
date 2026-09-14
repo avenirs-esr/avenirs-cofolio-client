@@ -1,33 +1,11 @@
-import type { BreadcrumbLinkRaw } from '@/common/types'
 import type { VueWrapper } from '@vue/test-utils'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { ActivityLibraryTabStub } from '@/features/student/buildProject/views/ProjectActivitiesView/components/ActivityLibraryTab/ActivityLibraryTab.stub'
 import { AllActivitiesTabStub } from '@/features/student/buildProject/views/ProjectActivitiesView/components/AllActivitiesTab/AllActivitiesTab.stub'
 import ProjectActivitiesView from '@/features/student/buildProject/views/ProjectActivitiesView/ProjectActivitiesView.vue'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-
-const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
-  name: ROUTES.STUDENT.PROJECT_ACTIVITIES.name,
-  meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES,
-    ],
-  }
-})
-
-vi.mock('vue-router', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('vue-router')>()
-  return {
-    ...actual,
-    useRoute: () => route,
-  }
-})
 
 const routeQueryValue = ref<string>('ALL_ACTIVITIES')
 
@@ -70,21 +48,9 @@ BddTest().given('a project activities view', () => {
       expect(pageTitle.props('title')).toBe('Mes activités')
     })
 
-    BddTest().then('it should pass the correct breadcrumb links', () => {
+    BddTest().then('it should not pass any trailing links', () => {
       const pageTitle = wrapper.findComponent(PageTitleStub)
-      const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
-
-      expect(breadcrumbLinks).toHaveLength(3)
-      expect(breadcrumbLinks[0]).toEqual({
-        text: 'Accueil',
-        to: ROUTES.STUDENT.HOME
-      })
-      expect(breadcrumbLinks[1]).toEqual({
-        text: 'Construire mon projet de vie'
-      })
-      expect(breadcrumbLinks[2]).toEqual({
-        text: 'Mes activités'
-      })
+      expect(pageTitle.props('trailingLinks')).toBeUndefined()
     })
 
     BddTest().then('it should render the all activities tab by default', () => {

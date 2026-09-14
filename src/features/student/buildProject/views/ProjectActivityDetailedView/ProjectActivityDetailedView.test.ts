@@ -1,4 +1,3 @@
-import type { BreadcrumbLinkRaw } from '@/common/types'
 import type { VueWrapper } from '@vue/test-utils'
 import { declaredActivityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -6,8 +5,6 @@ import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
-import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
 import { ActivityDetailedDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.stub'
 import {
@@ -17,25 +14,6 @@ import ProjectActivityDetailedView, { type ProjectActivityDetailedViewProps } fr
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-
-const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
-  name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
-  meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES,
-    ],
-  }
-})
-
-vi.mock('vue-router', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('vue-router')>()
-  return {
-    ...actual,
-    useRoute: () => route,
-  }
-})
 
 const navigateToStudentProjectActivities = vi.fn()
 
@@ -88,20 +66,7 @@ BddTest().given('a project activity detailed view', () => {
 
     BddTest().then('it should pass the correct breadcrumb links', () => {
       const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
-      const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
-
-      expect(breadcrumbLinks).toHaveLength(5)
-      expect(breadcrumbLinks[0]).toEqual({
-        text: 'Accueil',
-        to: ROUTES.STUDENT.HOME
-      })
-      expect(breadcrumbLinks[1]).toEqual({
-        text: 'Construire mon projet de vie'
-      })
-      expect(breadcrumbLinks[2]).toEqual({
-        text: 'Mes activités',
-        to: ROUTES.STUDENT.PROJECT_ACTIVITIES
-      })
+      expect(pageTitle.props('trailingLinks')).toHaveLength(2)
     })
 
     BddTest().then('it should render the project activity detailed layout component', () => {

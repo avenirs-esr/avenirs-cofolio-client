@@ -4,7 +4,7 @@ import { useDownloadAttachment, useGetTraceAssociations, useGetTraceDetail } fro
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
-import { useBreadcrumb, useModal, useNavigation } from '@/common/composables'
+import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ICONS, ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
@@ -94,7 +94,7 @@ function handleUpdateTrace () {
   }
 }
 
-const { breadcrumbLinks } = useBreadcrumb(() => [
+const trailingLinks = computed(() => [
   { text: traceDetailed.value?.title || '' }
 ])
 </script>
@@ -102,7 +102,7 @@ const { breadcrumbLinks } = useBreadcrumb(() => [
 <template>
   <DetailedPageTitle
     :title="traceDetailed?.title ?? ''"
-    :breadcrumb-links="breadcrumbLinks"
+    :trailing-links="trailingLinks"
   />
 
   <Loader :is-loading>

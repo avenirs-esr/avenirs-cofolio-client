@@ -3,7 +3,7 @@ import { useGetDeclaredExperience, useGetDeclaredExperienceAssociations } from '
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useBreadcrumb, useModal, useNavigation } from '@/common/composables'
+import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ICONS, ROUTES } from '@/common/constants'
 import DeclaredExperienceSideMenu from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.vue'
@@ -42,7 +42,9 @@ const selectedExperienceId = computed(() => String(route.params.id ?? ''))
 const { navigateToStudentDeclaredExperiences, navigateToStudentUpdateDeclaredExperience } = useNavigation()
 const { modalOpened, openModal, closeModal } = useModal()
 
-const { breadcrumbLinks } = useBreadcrumb(() => [{ text: `${t('global.detail')} ${declaredExperienceDetailed.value?.title ?? ''}` }])
+const trailingLinks = computed(() => [
+  { text: `${t('global.detail')} ${declaredExperienceDetailed.value?.title ?? ''}` }
+])
 
 const {
   declaredExperiences,
@@ -79,7 +81,7 @@ function handleConfirmDelete () {
 <template>
   <DetailedPageTitle
     :title="experienceTitle"
-    :breadcrumb-links="breadcrumbLinks"
+    :trailing-links="trailingLinks"
   />
   <div class="declared-experience-update-view av-row av-gap-sm">
     <div

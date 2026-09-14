@@ -2,7 +2,7 @@
 import { type TraceDeclaredActivityDTO, useGetLockedDeclaredActivities, useGetTraceAssociations, useGetTraceDetail } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
-import { useBreadcrumb, useModal, useNavigation } from '@/common/composables'
+import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ROUTES } from '@/common/constants'
 import { BaseApiException } from '@/common/exceptions'
@@ -57,7 +57,7 @@ const {
 const isToolsTraceRoute = computed(() =>
   route.name === ROUTES.STUDENT.TOOLS_UPDATE_TRACE.name)
 
-const { breadcrumbLinks } = useBreadcrumb(() => [
+const trailingLinks = computed(() => [
   {
     text: trace.value?.title || '',
     to: {
@@ -122,7 +122,7 @@ function handleConfirmCloseModal () {
   >
     <UpdatePageTitle
       :title="trace.title ?? ''"
-      :breadcrumb-links="breadcrumbLinks"
+      :trailing-links="trailingLinks"
     />
 
     <div class="av-col av-gap-sm">

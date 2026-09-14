@@ -2,7 +2,7 @@
 import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
-import { useBreadcrumb, useNavigation } from '@/common/composables'
+import { useNavigation } from '@/common/composables'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import SelfKnowledgeElementsSideMenu from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
@@ -43,7 +43,7 @@ const {
   selfKnowledgeCategory: categoryId,
 })
 
-const { breadcrumbLinks } = useBreadcrumb(() => [
+const trailingLinks = computed(() => [
   { text: t('student.selfKnowledge.views.SelfKnowledgeElementUpdateView.breadcrumb.current.title', { categoryType: categoryTypeLabel.value }) }
 ])
 
@@ -66,7 +66,7 @@ function backToElementDetails () {
 <template>
   <UpdatePageTitle
     :title="`${toSentenceCase(categoryTypeLabel)} - ${element?.title}`"
-    :breadcrumb-links="breadcrumbLinks"
+    :trailing-links="trailingLinks"
   />
   <div class="self-knowledge-element-update-view av-row av-gap-sm">
     <SelfKnowledgeElementsSideMenu

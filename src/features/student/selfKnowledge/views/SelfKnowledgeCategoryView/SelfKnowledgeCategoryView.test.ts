@@ -1,12 +1,9 @@
 import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
-import type { BreadcrumbLinkRaw } from '@/common/types'
 import { selfKnowledgeElementDetailsNotFoundHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
-import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { SelfKnowledgeElementDetailsContainerStub } from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.stub'
 import { SelfKnowledgeElementsSideMenuStub } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.stub'
 import { SelfKnowledgeElementTabsStub } from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.stub'
@@ -55,26 +52,6 @@ vi.mock('@/common/composables/use-navigation/use-navigation', async (importOrigi
       navigateToStudentSelfKnowledgeElementUpdate,
       navigateToStudentTrajectories
     }),
-  }
-})
-
-const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
-  name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
-  meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT,
-      META_BREADCRUMBS.STUDENT.PROJECT.SELF_KNOWLEDGE,
-    ]
-  }
-})
-
-vi.mock('vue-router', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('vue-router')>()
-  return {
-    ...actual,
-    useRoute: () => route,
   }
 })
 
@@ -131,24 +108,7 @@ BddTest().given('a self knowledge category view component', () => {
       const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
 
       expect(pageTitle.exists()).toBe(true)
-
-      const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
-
-      expect(breadcrumbLinks).toHaveLength(4)
-      expect(breadcrumbLinks[0]).toEqual({
-        text: 'Accueil',
-        to: ROUTES.STUDENT.HOME
-      })
-      expect(breadcrumbLinks[1]).toEqual({
-        text: 'Construire mon projet de vie'
-      })
-      expect(breadcrumbLinks[2]).toEqual({
-        text: 'Bâtir mon projet',
-        to: ROUTES.STUDENT.PROJECT_TRAJECTORIES
-      })
-      expect(breadcrumbLinks[3]).toEqual({
-        text: 'Me connaître'
-      })
+      expect(pageTitle.props('trailingLinks')).toBeUndefined()
     })
 
     BddTest().then('it should build the title using the selected element title', () => {

@@ -1,4 +1,3 @@
-import type { BreadcrumbLinkRaw } from '@/common/types'
 import type { VueWrapper } from '@vue/test-utils'
 import {
   declaredExperienceDetailedLoadingHandler,
@@ -10,7 +9,6 @@ import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/Det
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { DeclaredExperienceSideMenuStub }
   from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.stub'
 import { DeleteDeclaredExperienceConfirmModalStub }
@@ -52,23 +50,11 @@ vi.mock('@/common/composables', async (importOriginal) => {
 
 const routerReplace = vi.fn()
 
-const route = reactive<{
-  name: string
-  params: { id: string }
-  meta: { breadcrumb: BreadcrumbLinkRaw[] }
-}>({
+const route = reactive<{ name: string, params: { id: string } }>({
   name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
   params: {
     id: 'exp-123'
   },
-  meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.EXPERIENCES,
-    ],
-  }
 })
 
 vi.mock('vue-router', async (importOriginal) => {
@@ -117,29 +103,22 @@ BddTest().given('a declared experience view component', () => {
       vi.clearAllMocks()
     })
 
-    BddTest().then('it should render DetailedPageTitle with correct title and breadcrumbs', async () => {
+    BddTest().then('it should render DetailedPageTitle with correct title and trailing links', async () => {
       await vi.waitFor(() => {
         const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
         expect(pageTitle.exists()).toBe(true)
 
         expect(pageTitle.props('title')).toBe('Développeur Web Full Stack')
-        const breadcrumbs = pageTitle.props('breadcrumbLinks')
-        expect(breadcrumbs).toHaveLength(5)
+        expect(pageTitle.props('trailingLinks')).toHaveLength(1)
       })
     })
 
-    BddTest().then('it should render DetailedPageTitle with correct breadcrumb links', async () => {
+    BddTest().then('it should render DetailedPageTitle with correct trailing links', async () => {
       await vi.waitFor(() => {
         const pageTitle = wrapper.findComponent(DetailedPageTitleStub)
         expect(pageTitle.exists()).toBe(true)
 
-        const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
-        expect(breadcrumbLinks).toHaveLength(5)
-        expect(breadcrumbLinks[0]).toEqual({ text: 'Accueil', to: ROUTES.STUDENT.HOME })
-        expect(breadcrumbLinks[1]).toEqual({ text: 'Construire mon projet de vie' })
-        expect(breadcrumbLinks[2]).toEqual({ text: 'Mon parcours' })
-        expect(breadcrumbLinks[3]).toEqual({ text: 'Mes expériences', to: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES })
-        expect(breadcrumbLinks[4]).toEqual({ text: 'Détail Développeur Web Full Stack' })
+        expect(pageTitle.props('trailingLinks')).toHaveLength(1)
       })
     })
 

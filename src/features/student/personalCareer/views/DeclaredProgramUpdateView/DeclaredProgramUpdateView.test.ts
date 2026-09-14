@@ -1,11 +1,9 @@
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
-import type { BreadcrumbLinkRaw } from '@/common/types'
 import { declaredProgramDetailedHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { DeclaredProgramSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.stub'
 import DeclaredProgramUpdateView from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/DeclaredProgramUpdateView.vue'
@@ -66,23 +64,11 @@ vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guar
   }
 })
 
-const route = reactive<{
-  name: string
-  params: { id: string }
-  meta: { breadcrumb: BreadcrumbLinkRaw[] }
-}>({
+const route = reactive<{ name: string, params: { id: string } }>({
   name: ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name,
   params: {
     id: ''
   },
-  meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.DECLARED_PROGRAMS,
-    ],
-  }
 })
 
 vi.mock('vue-router', async (importOriginal) => {
@@ -162,18 +148,7 @@ BddTest().given('a declared program update view component', () => {
       const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
 
       expect(pageTitle.exists()).toBe(true)
-
-      const breadcrumbLinks = pageTitle.props('breadcrumbLinks')
-      expect(breadcrumbLinks).toHaveLength(6)
-      expect(breadcrumbLinks[0]).toEqual({ text: 'Accueil', to: ROUTES.STUDENT.HOME })
-      expect(breadcrumbLinks[1]).toEqual({ text: 'Construire mon projet de vie' })
-      expect(breadcrumbLinks[2]).toEqual({ text: 'Mon parcours' })
-      expect(breadcrumbLinks[3]).toEqual({ text: 'Mes formations', to: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS })
-      expect(breadcrumbLinks[4]).toEqual({
-        text: 'Formation déclarée 1',
-        to: { name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: 'declared-program-1' } }
-      })
-      expect(breadcrumbLinks[5]).toEqual({ text: 'Modifier Formation déclarée 1' })
+      expect(pageTitle.props('trailingLinks')).toHaveLength(1)
     })
 
     BddTest().then('it should build the title using the selected program title', async () => {

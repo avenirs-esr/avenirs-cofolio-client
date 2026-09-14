@@ -10,7 +10,7 @@ export const studentToolsTraceRoute: AvRoute = {
   component: () =>
     import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'),
   meta: {
-    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.HOME.TRACES],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.TOOLS.TRACES],
   },
 }
 
@@ -19,7 +19,7 @@ export const studentToolsTracesRoute: AvRoute = {
   component: () =>
     import('@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue'),
   meta: {
-    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.HOME.TRACES],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.TOOLS.TRACES],
   },
 }
 
