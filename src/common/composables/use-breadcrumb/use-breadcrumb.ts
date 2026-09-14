@@ -1,3 +1,4 @@
+import type { BreadcrumbLinkRaw } from '@/common/types/router.types'
 import type { AvBreadcrumbProps } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
@@ -18,12 +19,16 @@ export function useBreadcrumb (trailingLinks?: () => AvBreadcrumbProps['links'])
   const route = useRoute()
   const { t } = useI18n()
 
-  const metaBreadcrumbLinks = computed<AvBreadcrumbProps['links']>(() =>
-    (route.meta.breadcrumb ?? []).map(link => ({
+  const metaBreadcrumbLinks = computed<AvBreadcrumbProps['links']>(() => {
+    let breadcrumb = [] as BreadcrumbLinkRaw[]
+    if (route.meta.breadcrumb) {
+      breadcrumb = Array.isArray(route.meta.breadcrumb) ? route.meta.breadcrumb : [route.meta.breadcrumb]
+    }
+    return breadcrumb.map(link => ({
       text: t(link.textKey),
       to: typeof link.to === 'function' ? link.to(route) : link.to,
     }))
-  )
+  })
 
   const breadcrumbLinks = computed<AvBreadcrumbProps['links']>(() => [
     ...metaBreadcrumbLinks.value,

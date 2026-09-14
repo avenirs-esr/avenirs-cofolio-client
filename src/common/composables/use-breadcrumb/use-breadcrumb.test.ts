@@ -1,11 +1,11 @@
-import type { BreadcrumbLinkRaw } from '@/common/types/router.types'
+import type { MetaBreadcrumb } from '@/common/types/router.types'
 import { useBreadcrumb } from '@/common/composables'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const route = ref<{
-  meta: { breadcrumb?: BreadcrumbLinkRaw[] }
+  meta: { breadcrumb?: MetaBreadcrumb }
   params: Record<string, string>
 }>({ meta: {}, params: {} })
 
@@ -22,6 +22,27 @@ BddTest().given('a useBreadcrumb composable', () => {
     BddTest().then('it should return an empty list', () => {
       const { result } = mountComposable(() => useBreadcrumb(), { useI18n: true })
       expect(result.breadcrumbLinks.value).toEqual([])
+    })
+  })
+
+  BddTest().when('the route has a single breadcrumb meta', () => {
+    beforeEach(() => {
+      route.value = {
+        meta: {
+          breadcrumb: {
+            textKey: 'global.detail',
+            to: { name: 'student-detail' },
+          },
+        },
+        params: {},
+      }
+    })
+
+    BddTest().then('it should return the breadcrumb entry', () => {
+      const { result } = mountComposable(() => useBreadcrumb(), { useI18n: true })
+      expect(result.breadcrumbLinks.value).toEqual([
+        { text: expect.any(String) },
+      ])
     })
   })
 

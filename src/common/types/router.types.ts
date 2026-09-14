@@ -18,9 +18,11 @@ export interface BreadcrumbLinkRaw {
   textKey: string
 }
 
+export type MetaBreadcrumb = BreadcrumbLinkRaw | BreadcrumbLinkRaw[]
+
 // Enables typed `meta.breadcrumb` on route records so breadcrumbs can be declared where routes are defined.
 declare module 'vue-router' {
   interface RouteMeta {
-    breadcrumb?: BreadcrumbLinkRaw[]
+    breadcrumb?: MetaBreadcrumb
   }
 }
