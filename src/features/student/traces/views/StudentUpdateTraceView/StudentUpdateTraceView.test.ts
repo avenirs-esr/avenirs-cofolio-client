@@ -2,6 +2,7 @@ import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixture
 import { createTraceDetailedHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
+import { ROUTES } from '@/common/constants/route-names'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { ConfirmUpdateTraceModalStub } from '@/features/student/traces/views/StudentUpdateTraceView/components/ConfirmUpdateTraceModal/ConfirmUpdateTraceModal.stub'
 import { UpdateTabsStub } from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.stub'
@@ -9,6 +10,19 @@ import StudentUpdateTraceView from '@/features/student/traces/views/StudentUpdat
 import { AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
+
+const route = reactive<{ name: string, path: string }>({
+  name: ROUTES.STUDENT.UPDATE_TRACE.name,
+  path: ROUTES.STUDENT.UPDATE_TRACE.path,
+})
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return {
+    ...actual,
+    useRoute: () => route,
+  }
+})
 
 const mockNavigateToStudentTrace = vi.fn()
 const mockNavigateToStudentToolsTraces = vi.fn()
