@@ -7,6 +7,7 @@ import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/Det
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { SubscribeActivityConfirmModalStub } from '@/features/student/buildProject/components/modals/SubscribeActivityConfirmModal/SubscribeActivityConfirmModal.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/buildProject/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
+import { DeleteMyActivityConfirmModalStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/modals/DeleteMyActivityConfirmModal/DeleteMyActivityConfirmModal.stub'
 import { ActivityDetailedDropdownStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.stub'
 import {
   ProjectActivityDetailedLayoutStub
@@ -39,6 +40,7 @@ BddTest().given('a project activity detailed view', () => {
     SubscribeActivityConfirmModal: SubscribeActivityConfirmModalStub,
     ActivityDetailedDropdown: ActivityDetailedDropdownStub,
     ProjectActivityDetailedLayout: ProjectActivityDetailedLayoutStub,
+    DeleteMyActivityConfirmModal: DeleteMyActivityConfirmModalStub,
   }
 
   BddTest().when('the view is mounted with a valid activity', () => {
@@ -127,11 +129,6 @@ BddTest().given('a project activity detailed view', () => {
         expect(modal.exists()).toBe(true)
         expect(modal.props('opened')).toBe(false)
       })
-
-      BddTest().then('it should navigate to the project activities page', () => {
-        expect(navigateToStudentProjectActivities).toHaveBeenCalledTimes(1)
-        expect(navigateToStudentProjectActivities).toHaveBeenCalledWith({ replace: true })
-      })
     })
 
     BddTest().and('the user cancels the unsubscription in the UnsubscribeActivitiesConfirmModal', () => {
@@ -170,6 +167,60 @@ BddTest().given('a project activity detailed view', () => {
           const modal = wrapper.findComponent(SubscribeActivityConfirmModalStub)
           expect(modal.props('opened')).toBe(false)
         })
+      })
+    })
+
+    BddTest().and('the user clicks the delete button in the activity detailed dropdown', () => {
+      beforeEach(async () => {
+        const deleteButton = wrapper.findComponent(ActivityDetailedDropdownStub)
+        deleteButton.vm.$emit('deleteSelected')
+      })
+
+      BddTest().then('it should open the DeleteMyActivityConfirmModal', () => {
+        const modal = wrapper.findComponent(DeleteMyActivityConfirmModalStub)
+        expect(modal.exists()).toBe(true)
+        expect(modal.props('opened')).toBe(true)
+      })
+
+      BddTest().then('it should pass the correct activity id and title to the modal', () => {
+        const modal = wrapper.findComponent(DeleteMyActivityConfirmModalStub)
+        const layout = wrapper.findComponent(ProjectActivityDetailedLayoutStub)
+        const declaredActivityDetails = layout.props('declaredActivityDetails')
+
+        expect(modal.props('declaredActivityId')).toBe(declaredActivityDetails.id)
+        expect(modal.props('activityId')).toBe(declaredActivityDetails.activity.id)
+        expect(modal.props('activityTitle')).toBe(declaredActivityDetails.activity.title)
+      })
+    })
+
+    BddTest().and('the user confirms the deletion in the DeleteMyActivityConfirmModal', () => {
+      beforeEach(async () => {
+        const modal = wrapper.findComponent(DeleteMyActivityConfirmModalStub)
+        modal.vm.$emit('deleted')
+      })
+
+      BddTest().then('it should close the DeleteMyActivityConfirmModal', () => {
+        const modal = wrapper.findComponent(DeleteMyActivityConfirmModalStub)
+        expect(modal.exists()).toBe(true)
+        expect(modal.props('opened')).toBe(false)
+      })
+
+      BddTest().then('it should navigate to the project activities page', () => {
+        expect(navigateToStudentProjectActivities).toHaveBeenCalledTimes(1)
+        expect(navigateToStudentProjectActivities).toHaveBeenCalledWith({ replace: true })
+      })
+    })
+
+    BddTest().and('the user cancels the deletion in the DeleteMyActivityConfirmModal', () => {
+      beforeEach(async () => {
+        const modal = wrapper.findComponent(DeleteMyActivityConfirmModalStub)
+        modal.vm.$emit('cancel')
+      })
+
+      BddTest().then('it should close the DeleteMyActivityConfirmModal', () => {
+        const modal = wrapper.findComponent(DeleteMyActivityConfirmModalStub)
+        expect(modal.exists()).toBe(true)
+        expect(modal.props('opened')).toBe(false)
       })
     })
   })

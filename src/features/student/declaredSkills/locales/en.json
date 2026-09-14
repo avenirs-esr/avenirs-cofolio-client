@@ -85,6 +85,10 @@
             "searchPlaceholder": "Enter the name of a declared skill",
             "success": "You have associated {count} declared skill. | You have associated {count} declared skills.",
             "title": "Which declared skill(s) would you like to associate?"
+          },
+          "DeleteMyActivityConfirmModal": {
+            "success": "The content of your activity has been deleted",
+            "title": "Are you sure you want to permanently delete your activity: {activityTitle}? Warning, the content of your activity cannot be recovered."
           }
         }
       },

@@ -2262,6 +2262,28 @@
           }
         }
       },
+      "delete": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "deleteActivity",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
       "patch": {
         "tags": [
           "declared-activity-controller"
@@ -8564,6 +8586,7 @@
           "DECLARED_ACTIVITY_HAS_NOT_STARTED",
           "DECLARED_ACTIVITY_LOCKED",
           "DECLARED_ACTIVITY_UNSUBSCRIBED",
+          "DECLARED_ACTIVITY_NOT_UNSUBSCRIBED",
           "ASSOCIATION_ALREADY_EXIST",
           "INSTITUTION_HAI_ALREADY_EXISTS",
           "GROUP_ID_SI_SCO_ALREADY_EXISTS",
