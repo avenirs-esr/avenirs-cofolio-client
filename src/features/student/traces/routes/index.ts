@@ -1,17 +1,6 @@
 import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
-
-const TOOLS_TRACES_BREADCRUMBS = [
-  META_BREADCRUMBS.STUDENT.HOME,
-  META_BREADCRUMBS.STUDENT.TOOLS.DEFAULT,
-  META_BREADCRUMBS.STUDENT.TOOLS.TRACES,
-]
-
-const TRACES_BREADCRUMBS = [
-  META_BREADCRUMBS.STUDENT.HOME,
-  { textKey: META_BREADCRUMBS.STUDENT.TOOLS.TRACES.textKey },
-]
+import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 
 export const studentToolsTraceRoute: AvRoute = {
   ...ROUTES.STUDENT.TOOLS_TRACE,
@@ -21,7 +10,7 @@ export const studentToolsTraceRoute: AvRoute = {
   component: () =>
     import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'),
   meta: {
-    breadcrumb: [...TOOLS_TRACES_BREADCRUMBS],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.HOME.TRACES],
   },
 }
 
@@ -30,7 +19,7 @@ export const studentToolsTracesRoute: AvRoute = {
   component: () =>
     import('@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue'),
   meta: {
-    breadcrumb: [...TOOLS_TRACES_BREADCRUMBS],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.HOME.TRACES],
   },
 }
 
@@ -42,7 +31,7 @@ export const studentTraceRoute: AvRoute = {
   component: () =>
     import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'),
   meta: {
-    breadcrumb: [...TRACES_BREADCRUMBS],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.HOME.TRACES],
   },
 }
 
@@ -54,7 +43,7 @@ export const studentUpdateTraceRoute: AvRoute = {
   component: () =>
     import('@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'),
   meta: {
-    breadcrumb: [...TRACES_BREADCRUMBS],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.HOME.TRACES],
   },
 }
 
@@ -66,7 +55,7 @@ export const studentToolsUpdateTraceRoute: AvRoute = {
   component: () =>
     import('@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'),
   meta: {
-    breadcrumb: [...TOOLS_TRACES_BREADCRUMBS],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.TOOLS.TRACES],
   },
 }
 

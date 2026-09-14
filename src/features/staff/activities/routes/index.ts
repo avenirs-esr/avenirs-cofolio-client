@@ -1,19 +1,14 @@
 import type { EActivityStatus } from '@/api/avenir-esr'
 import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
-
-const ACTIVITIES_BREADCRUMBS = [
-  META_BREADCRUMBS.STAFF.HOME,
-  META_BREADCRUMBS.STAFF.ACTIVITIES.DEFAULT
-]
+import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 
 export const staffActivitiesRoute: AvRoute = {
   ...ROUTES.STAFF.ACTIVITIES,
   component: () =>
     import('@/features/staff/activities/views/ActivitiesView/ActivitiesView.vue'),
   meta: {
-    breadcrumb: [...ACTIVITIES_BREADCRUMBS]
+    breadcrumb: [...BASE_BREADCRUMBS.STAFF.HOME.ACTIVITIES]
   }
 }
 
@@ -25,7 +20,7 @@ export const staffActivitiesEditNationalActivityRoute: AvRoute = {
   component: () =>
     import('@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.vue'),
   meta: {
-    breadcrumb: [...ACTIVITIES_BREADCRUMBS]
+    breadcrumb: [...BASE_BREADCRUMBS.STAFF.HOME.ACTIVITIES]
   }
 }
 
@@ -38,7 +33,7 @@ export const staffActivityCatalogRoute: AvRoute = {
   component: () =>
     import('@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.vue'),
   meta: {
-    breadcrumb: [...ACTIVITIES_BREADCRUMBS]
+    breadcrumb: [...BASE_BREADCRUMBS.STAFF.HOME.ACTIVITIES]
   }
 }
 

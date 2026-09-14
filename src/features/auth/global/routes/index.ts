@@ -1,7 +1,7 @@
 import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
+import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 
-const breadcrumb = [META_BREADCRUMBS.AUTH.LOGIN]
+const breadcrumb = [...BASE_BREADCRUMBS.AUTH.LOGIN]
 
 export default [
   {

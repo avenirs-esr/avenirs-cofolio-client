@@ -1,10 +1,10 @@
 import { EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
+import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
 import { staffActivityFeedbacksRoute, staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
 
-const breadcrumb = [META_BREADCRUMBS.STAFF.HOME]
+const breadcrumb = [...BASE_BREADCRUMBS.STAFF.HOME.BASE]
 
 export default [
   {
