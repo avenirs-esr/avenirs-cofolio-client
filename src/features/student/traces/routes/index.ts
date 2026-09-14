@@ -2,6 +2,17 @@ import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 
+const TOOLS_TRACES_BREADCRUMBS = [
+  META_BREADCRUMBS.STUDENT.HOME,
+  META_BREADCRUMBS.STUDENT.TOOLS.DEFAULT,
+  META_BREADCRUMBS.STUDENT.TOOLS.TRACES,
+]
+
+const TRACES_BREADCRUMBS = [
+  META_BREADCRUMBS.STUDENT.HOME,
+  { textKey: META_BREADCRUMBS.STUDENT.TOOLS.TRACES.textKey },
+]
+
 export const studentToolsTraceRoute: AvRoute = {
   ...ROUTES.STUDENT.TOOLS_TRACE,
   props: route => ({
@@ -10,11 +21,7 @@ export const studentToolsTraceRoute: AvRoute = {
   component: () =>
     import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'),
   meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.TOOLS.DEFAULT,
-      META_BREADCRUMBS.STUDENT.TOOLS.TRACES,
-    ],
+    breadcrumb: [...TOOLS_TRACES_BREADCRUMBS],
   },
 }
 
@@ -23,11 +30,7 @@ export const studentToolsTracesRoute: AvRoute = {
   component: () =>
     import('@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue'),
   meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.TOOLS.DEFAULT,
-      META_BREADCRUMBS.STUDENT.TOOLS.TRACES,
-    ],
+    breadcrumb: [...TOOLS_TRACES_BREADCRUMBS],
   },
 }
 
@@ -39,10 +42,7 @@ export const studentTraceRoute: AvRoute = {
   component: () =>
     import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'),
   meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      { textKey: META_BREADCRUMBS.STUDENT.TOOLS.TRACES.textKey },
-    ],
+    breadcrumb: [...TRACES_BREADCRUMBS],
   },
 }
 
@@ -54,10 +54,7 @@ export const studentUpdateTraceRoute: AvRoute = {
   component: () =>
     import('@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'),
   meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      { textKey: META_BREADCRUMBS.STUDENT.TOOLS.TRACES.textKey },
-    ],
+    breadcrumb: [...TRACES_BREADCRUMBS],
   },
 }
 
@@ -69,11 +66,7 @@ export const studentToolsUpdateTraceRoute: AvRoute = {
   component: () =>
     import('@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'),
   meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.TOOLS.DEFAULT,
-      META_BREADCRUMBS.STUDENT.TOOLS.TRACES,
-    ],
+    breadcrumb: [...TOOLS_TRACES_BREADCRUMBS],
   },
 }
 
