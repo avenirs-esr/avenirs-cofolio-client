@@ -15,7 +15,7 @@ const { isTruncated } = useTextTruncation(titleRef)
 <template>
   <PageTitle v-bind="$props">
     <template #title>
-      <h1 class="av-text-title">
+      <h1 class="av-text-title av-row av-gap-sm av-align-baseline">
         {{ t('global.buttons.update') }}
         <AvTooltip
           :disabled="!isTruncated"
@@ -34,6 +34,7 @@ const { isTruncated } = useTextTruncation(titleRef)
 
 <style lang="scss" scoped>
 .n4 {
+  --max-lines: 1;
   color: var(--dark-background-neutral)
 }
 </style>
