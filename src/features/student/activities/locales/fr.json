@@ -31,9 +31,7 @@
       },
       "interactions": {
         "buttons": {
-          "resubscribe": "Me réinscrire",
-          "subscribe": "M'inscrire à l'activité",
-          "unsubscribe": "Me désinscrire"
+          "subscribe": "M'inscrire à l'activité"
         },
         "formFields": {
           "ActivityPeriodFormField": {
@@ -102,7 +100,7 @@
         },
         "ActivityView": {
           "ActivityDetailedDropdown": {
-            "triggerLabel": "Gérer mon activité"
+            "myActivity": "mon activité"
           },
           "ActivityDetailedSideNavigation": {
             "myReflection": "Ma réflexion"
@@ -118,6 +116,10 @@
           },
           "DeleteActivityAssociatedElementsModal": {
             "success": "Les associations sélectionnées ont été supprimées avec succès."
+          },
+          "DeleteMyActivityConfirmModal": {
+            "success": "Le contenu de votre activité a bien été supprimé",
+            "title": "Êtes-vous certain(e) de vouloir supprimer définitivement votre activité : {activityTitle} ? Attention, le contenu de votre activité ne pourra pas être récupéré."
           },
           "FeedbackCard": {
             "downloadAllAttachments": "Télécharger tous les documents",

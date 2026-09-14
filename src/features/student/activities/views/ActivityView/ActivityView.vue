@@ -11,6 +11,7 @@ import SubscribeActivityConfirmModal from '@/features/student/activities/compone
 import UnsubscribeActivitiesConfirmModal from '@/features/student/activities/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
 import ActivityLayout
   from '@/features/student/activities/views/ActivityView/components/ActivityLayout/ActivityLayout.vue'
+import DeleteMyActivityConfirmModal from '@/features/student/activities/views/ActivityView/components/modals/DeleteMyActivityConfirmModal/DeleteMyActivityConfirmModal.vue'
 import ActivityDetailedDropdown
   from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
 import { TanstackStaleTimeConfig } from '@/plugins/tanstack-query/config'
@@ -28,9 +29,23 @@ const { data: declaredActivityDetail, isLoading, isError, error } = useGetDeclar
   staleTime: TanstackStaleTimeConfig.DETAILS
 } })
 const { navigateToStudentProjectActivities } = useNavigation()
-const { modalOpened: unsubscribeModalOpened, openModal: openUnsubscribeModal, closeModal: closeUnsubscribeModal } = useModal()
-const { modalOpened: subscribeModalOpened, openModal: openSubscribeModal, closeModal: closeSubscribeModal } = useModal()
 const { showDrawer: showUpdateDrawer, displayDrawer: displayUpdateDrawer, hideDrawer: hideUpdateDrawer } = useDrawer()
+
+const {
+  modalOpened: subscribeModalOpened,
+  openModal: openSubscribeModal,
+  closeModal: closeSubscribeModal
+} = useModal()
+const {
+  modalOpened: unsubscribeModalOpened,
+  openModal: openUnsubscribeModal,
+  closeModal: closeUnsubscribeModal
+} = useModal()
+const {
+  modalOpened: deleteModalOpened,
+  openModal: openDeleteModal,
+  closeModal: closeDeleteModal
+} = useModal()
 
 const lastBreadcrumbLink = ref(t('global.detail'))
 
@@ -39,8 +54,8 @@ const trailingLinks = computed(() => [
   { text: lastBreadcrumbLink.value }
 ])
 
-function onUnsubscribed () {
-  closeUnsubscribeModal()
+function onDelete () {
+  closeDeleteModal()
   navigateToStudentProjectActivities({ replace: true })
 }
 </script>
@@ -69,11 +84,12 @@ function onUnsubscribed () {
             :status="declaredActivityDetail.status"
           />
           <ActivityDetailedDropdown
-            data-testid="activity-view-detailed-dropdown"
             :status="declaredActivityDetail.status"
-            @unsubscribe-selected="openUnsubscribeModal"
+            data-testid="activity-view-detailed-dropdown"
             @update-selected="displayUpdateDrawer"
             @resubscribe-selected="openSubscribeModal"
+            @unsubscribe-selected="openUnsubscribeModal"
+            @delete-selected="openDeleteModal"
           />
         </div>
       </div>
@@ -83,12 +99,18 @@ function onUnsubscribed () {
         @selected-section="lastBreadcrumbLink = $event"
       />
 
+      <UpdateActivityDrawer
+        :show="showUpdateDrawer"
+        :declared-activity="declaredActivityDetail"
+        @close="hideUpdateDrawer"
+      />
+
       <UnsubscribeActivitiesConfirmModal
         :opened="unsubscribeModalOpened"
         :activities="[{ id: declaredActivityDetail.activity.id, title: declaredActivityDetail.activity.title }]"
         :declared-activity-id="declaredActivityDetail.id"
         @cancel="closeUnsubscribeModal"
-        @unsubscribed="onUnsubscribed"
+        @unsubscribed="closeUnsubscribeModal"
       />
 
       <SubscribeActivityConfirmModal
@@ -99,10 +121,13 @@ function onUnsubscribed () {
         @subscribed="closeSubscribeModal"
       />
 
-      <UpdateActivityDrawer
-        :show="showUpdateDrawer"
-        :declared-activity="declaredActivityDetail"
-        @close="hideUpdateDrawer"
+      <DeleteMyActivityConfirmModal
+        :opened="deleteModalOpened"
+        :declared-activity-id="declaredActivityDetail.id"
+        :activity-id="declaredActivityDetail.activity.id"
+        :activity-title="declaredActivityDetail.activity.title "
+        @cancel="closeDeleteModal"
+        @deleted="onDelete"
       />
     </div>
   </Loader>

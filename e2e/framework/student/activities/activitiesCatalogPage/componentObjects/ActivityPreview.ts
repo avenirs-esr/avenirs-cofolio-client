@@ -95,7 +95,7 @@ export class ActivityPreview extends BaseObject {
   }
 
   async verifyUnsubscribeButton () {
-    const expectedText = t('student.activities.interactions.buttons.unsubscribe')
+    const expectedText = t('global.buttons.unsubscribe')
     await expect(this.getUnsubscribeButton()).toBeVisible()
     await expect(this.getUnsubscribeButton()).toHaveText(expectedText)
   }
