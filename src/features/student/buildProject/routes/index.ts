@@ -4,15 +4,21 @@ import { ROUTES } from '@/common/constants/route-names'
 
 export default []
 
+const PROJECT_BREADCRUMBS = [
+  META_BREADCRUMBS.STUDENT.HOME,
+  META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+]
+
+const PROJECT_ACTIVITIES_BREADCRUMBS = [
+  ...PROJECT_BREADCRUMBS,
+  META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES,
+]
+
 export const projectActivitiesRoute: AvRoute = {
   ...ROUTES.STUDENT.PROJECT_ACTIVITIES,
   component: () => import('@/features/student/buildProject/views/ProjectActivitiesView/ProjectActivitiesView.vue'),
   meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES,
-    ],
+    breadcrumb: [...PROJECT_ACTIVITIES_BREADCRUMBS],
   }
 }
 
@@ -24,11 +30,7 @@ export const projectActivitiesDetailedRoute: AvRoute = {
   component: () =>
     import('@/features/student/buildProject/views/ProjectActivityDetailedView/ProjectActivityDetailedView.vue'),
   meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES,
-    ],
+    breadcrumb: [...PROJECT_ACTIVITIES_BREADCRUMBS],
   }
 }
 
@@ -41,11 +43,7 @@ export const projectActivitiesCatalogRoute: AvRoute = {
   component: () =>
     import('@/features/student/buildProject/views/ProjectActivitiesCatalogView/ProjectActivitiesCatalogView.vue'),
   meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES,
-    ],
+    breadcrumb: [...PROJECT_ACTIVITIES_BREADCRUMBS],
   }
 }
 
@@ -54,8 +52,7 @@ export const projectTrajectoriesRoute: AvRoute = {
   component: () => import('@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'),
   meta: {
     breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+      ...PROJECT_BREADCRUMBS,
       { textKey: META_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT.textKey },
     ]
   }

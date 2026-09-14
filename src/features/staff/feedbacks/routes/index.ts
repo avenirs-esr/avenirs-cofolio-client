@@ -2,6 +2,21 @@ import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 
+const STUDENT_TRACKING_BREADCRUMBS = [
+  META_BREADCRUMBS.STAFF.HOME,
+  META_BREADCRUMBS.STAFF.STUDENT_TRACKING.DEFAULT
+]
+
+const FEEDBACK_BREADCRUMBS = [
+  ...STUDENT_TRACKING_BREADCRUMBS,
+  META_BREADCRUMBS.STAFF.STUDENT_TRACKING.FEEDBACKS
+]
+
+const FEEDBACK_BREADCRUMBS_WITHOUT_LINK = [
+  ...STUDENT_TRACKING_BREADCRUMBS,
+  { textKey: META_BREADCRUMBS.STAFF.STUDENT_TRACKING.FEEDBACKS.textKey }
+]
+
 export const staffActivityFeedbacksRoute: AvRoute = {
   ...ROUTES.STAFF.ACTIVITY_FEEDBACK,
   props: route => ({
@@ -25,11 +40,7 @@ export const staffStudentTrackingActivityFeedbacksRoute: AvRoute = {
   component: () =>
     import('@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/ActivityFeedbackDetailsView.vue'),
   meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STAFF.HOME,
-      META_BREADCRUMBS.STAFF.STUDENT_TRACKING.DEFAULT,
-      META_BREADCRUMBS.STAFF.STUDENT_TRACKING.FEEDBACKS,
-    ]
+    breadcrumb: [...FEEDBACK_BREADCRUMBS]
   }
 }
 
@@ -41,11 +52,7 @@ export const staffStudentTrackingFeedbacksRoute: AvRoute = {
   component: () =>
     import('@/features/staff/feedbacks/views/FeedbacksView/FeedbacksView.vue'),
   meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STAFF.HOME,
-      META_BREADCRUMBS.STAFF.STUDENT_TRACKING.DEFAULT,
-      { textKey: META_BREADCRUMBS.STAFF.STUDENT_TRACKING.FEEDBACKS.textKey },
-    ]
+    breadcrumb: [...FEEDBACK_BREADCRUMBS_WITHOUT_LINK]
   }
 }
 

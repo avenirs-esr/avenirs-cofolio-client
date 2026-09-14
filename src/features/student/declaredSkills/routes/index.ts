@@ -2,6 +2,12 @@ import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 
+const DECLARED_SKILLS_BREADCRUMBS = [
+  META_BREADCRUMBS.STUDENT.HOME,
+  META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
+  META_BREADCRUMBS.STUDENT.PROJECT.SKILLS,
+]
+
 export const studentProjectDeclaredSkillRoute: AvRoute = {
   ...ROUTES.STUDENT.PROJECT_DECLARED_SKILL,
   props: route => ({
@@ -10,11 +16,7 @@ export const studentProjectDeclaredSkillRoute: AvRoute = {
   component: () =>
     import('@/features/student/declaredSkills/views/StudentDeclaredSkillView/StudentDeclaredSkillView.vue'),
   meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.SKILLS,
-    ]
+    breadcrumb: [...DECLARED_SKILLS_BREADCRUMBS]
   }
 }
 
@@ -26,10 +28,6 @@ export const studentUpdateDeclaredSkillRoute: AvRoute = {
   component: () =>
     import('@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/StudentUpdateDeclaredSkillView.vue'),
   meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.PROJECT.DEFAULT,
-      META_BREADCRUMBS.STUDENT.PROJECT.SKILLS,
-    ],
+    breadcrumb: [...DECLARED_SKILLS_BREADCRUMBS],
   },
 }
