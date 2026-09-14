@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
-import { EAssociationContextType, EDeclaredActivityStatus, type TraceAssociationsDTO } from '@/api/avenir-esr'
+import { EAssociationContextType, type TraceAssociationsDTO } from '@/api/avenir-esr'
 import AssociationElementsDropdown
   from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import QuerySuspense
@@ -45,13 +45,9 @@ const declaredExperienceAssociations = computed(() => associations?.declaredExpe
 
 const countAssociations = computed(() => declaredSkillAssociations.value.length + declaredActivityAssociations.value.length + declaredExperienceAssociations.value.length)
 
-const deletableDeclaredActivityAssociations = computed(() =>
-  declaredActivityAssociations.value.filter(({ declaredActivity }) => declaredActivity.status !== EDeclaredActivityStatus.COMPLETED)
-)
-
 const deleteItems = computed(() => [
   { type: EAssociationContextType.DECLARED_SKILL, disabled: declaredSkillAssociations.value.length === 0 },
-  { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: deletableDeclaredActivityAssociations.value.length === 0 },
+  { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: declaredActivityAssociations.value.length === 0 },
 ])
 
 const associateItems = computed(() => [

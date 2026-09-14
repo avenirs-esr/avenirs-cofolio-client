@@ -447,7 +447,7 @@ BddTest().given('a student declared skill associations component', () => {
     })
   })
 
-  BddTest().when('the component is rendered with only non-deletable declared activities and no traces', () => {
+  BddTest().when('the component is rendered with only completed or submitted declared activities and no traces', () => {
     const associatedDeclaredActivities = createMockedDeclaredActivitiesAssociations(2)
     associatedDeclaredActivities[0].declaredActivity.status = EDeclaredActivityStatus.SUBMITTED
     associatedDeclaredActivities[1].declaredActivity.status = EDeclaredActivityStatus.COMPLETED
@@ -465,17 +465,17 @@ BddTest().given('a student declared skill associations component', () => {
       })
     })
 
-    BddTest().then('it should disable the delete dropdown activities and traces entries', () => {
+    BddTest().then('it should keep the delete dropdown activities entry enabled regardless of status and disable the traces entry', () => {
       const dropdown = findDropdown('delete')
       expect(dropdown.props('items')).toEqual([
-        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: true },
+        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
         { type: EAssociationContextType.TRACE, disabled: true }
       ])
     })
 
-    BddTest().then('it should disable the delete dropdown entirely', () => {
+    BddTest().then('it should enable the delete dropdown', () => {
       const dropdown = findDropdown('delete')
-      expect(dropdown.props('disabled')).toBe(true)
+      expect(dropdown.props('disabled')).toBe(false)
     })
   })
 
@@ -561,6 +561,19 @@ BddTest().given('a student declared skill associations component', () => {
     BddTest().then('it should render the associate activities modal with the declared skill id', () => {
       const modal = wrapper.findComponent(AssociateActivitiesToDeclaredSkillModalStub)
       expect(modal.props('declaredSkillId')).toBe(declaredSkillId)
+    })
+
+    BddTest().then('it should disable the delete dropdown activities and traces entries', () => {
+      const dropdown = findDropdown('delete')
+      expect(dropdown.props('items')).toEqual([
+        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: true },
+        { type: EAssociationContextType.TRACE, disabled: true }
+      ])
+    })
+
+    BddTest().then('it should disable the delete dropdown entirely', () => {
+      const dropdown = findDropdown('delete')
+      expect(dropdown.props('disabled')).toBe(true)
     })
   })
 

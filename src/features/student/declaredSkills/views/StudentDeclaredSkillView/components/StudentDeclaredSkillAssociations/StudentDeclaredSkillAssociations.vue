@@ -20,7 +20,6 @@ import DeleteDeclaredSkillAssociatedActivitiesModal
   from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedActivitiesModal/DeleteDeclaredSkillAssociatedActivitiesModal.vue'
 import DeleteDeclaredSkillAssociatedTracesModal
   from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedTracesModal/DeleteDeclaredSkillAssociatedTracesModal.vue'
-import { isDeletableDeclaredActivityAssociation } from '@/features/student/declaredSkills/rules/declared-activity-association.rules'
 import { AssociatedDeclaredExperiencesCard } from '@/features/student/personalCareer'
 import { useI18n } from 'vue-i18n'
 
@@ -78,11 +77,8 @@ const {
   closeModal: closeDeleteTracesModal
 } = useModal()
 
-const deletableDeclaredActivityAssociations = computed(() =>
-  associatedDeclaredActivities.filter(isDeletableDeclaredActivityAssociation))
-
 const deleteItems = computed(() => [
-  { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: deletableDeclaredActivityAssociations.value.length === 0 },
+  { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: associatedDeclaredActivities.length === 0 },
   { type: EAssociationContextType.TRACE, disabled: associatedTraces.length === 0 },
 ])
 
