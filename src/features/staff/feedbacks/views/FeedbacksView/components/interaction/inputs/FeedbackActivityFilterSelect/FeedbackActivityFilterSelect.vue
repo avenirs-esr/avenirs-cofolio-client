@@ -15,6 +15,7 @@ const {
   feedbackStatuses,
   label,
   disabled,
+  labelVisible = true,
   ...restProps
 } = defineProps<FeedbackActivityFilterSelectProps>()
 
@@ -50,7 +51,8 @@ const avSelectProps = computed<AvSelectProps>(() => ({
   label: label ?? t('staff.feedbacks.views.FeedbacksView.FeedbackActivityFilterSelect.label'),
   placeholder: t('staff.feedbacks.views.FeedbacksView.FeedbackActivityFilterSelect.placeholder'),
   options: options.value,
-  disabled: !data.value?.length || disabled
+  disabled: !data.value?.length || disabled,
+  labelVisible
 }))
 
 function reset () {
