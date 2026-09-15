@@ -100,8 +100,7 @@
           "buttons": {
             "add": "Add an element",
             "delete": "Delete an element",
-            "deleteCategory": "Delete category",
-            "share": "Share my elements"
+            "deleteCategory": "Delete category"
           },
           "emptyState": "No elements in this category",
           "modals": {

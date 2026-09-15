@@ -45,7 +45,7 @@ BddTest().given('a declared experiences more actions dropdown', () => {
       })
 
       BddTest().then('it should have menu items with correct length', () => {
-        expect(dropdown.props('items')).toHaveLength(3)
+        expect(dropdown.props('items')).toHaveLength(2)
       })
 
       BddTest().then('it should have add item with correct properties', () => {
@@ -54,14 +54,6 @@ BddTest().given('a declared experiences more actions dropdown', () => {
         expect(addItem).toBeDefined()
         expect(addItem?.icon).toBe(MDI_ICONS.PLUS_CIRCLE_OUTLINE)
         expect(addItem?.label).toBe('Ajouter une expérience')
-      })
-
-      BddTest().then('it should have share item with correct properties', () => {
-        const items = dropdown.props('items') as Array<{ name: string, icon: string, label: string }>
-        const shareItem = items.find(item => item.name === 'share')
-        expect(shareItem).toBeDefined()
-        expect(shareItem?.icon).toBe(MDI_ICONS.SHARE_VARIANT_OUTLINE)
-        expect(shareItem?.label).toBe('Partager une expérience')
       })
 
       BddTest().then('it should have delete item with correct properties', () => {
@@ -88,10 +80,6 @@ BddTest().given('a declared experiences more actions dropdown', () => {
     BddTest().then('it should not emit deleteSelected event', () => {
       expect(wrapper.emitted('deleteSelected')).toBeFalsy()
     })
-
-    BddTest().then('it should not emit shareSelected event', () => {
-      expect(wrapper.emitted('shareSelected')).toBeFalsy()
-    })
   })
 
   BddTest().when('the delete item is selected', () => {
@@ -107,30 +95,6 @@ BddTest().given('a declared experiences more actions dropdown', () => {
 
     BddTest().then('it should not emit addSelected event', () => {
       expect(wrapper.emitted('addSelected')).toBeFalsy()
-    })
-
-    BddTest().then('it should not emit shareSelected event', () => {
-      expect(wrapper.emitted('shareSelected')).toBeFalsy()
-    })
-  })
-
-  BddTest().when('the share item is selected', () => {
-    beforeEach(() => {
-      const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
-      dropdown.vm.$emit('itemSelected', 'share')
-    })
-
-    BddTest().then('it should emit shareSelected event', () => {
-      expect(wrapper.emitted('shareSelected')).toBeTruthy()
-      expect(wrapper.emitted('shareSelected')?.[0]).toEqual([])
-    })
-
-    BddTest().then('it should not emit addSelected event', () => {
-      expect(wrapper.emitted('addSelected')).toBeFalsy()
-    })
-
-    BddTest().then('it should not emit deleteSelected event', () => {
-      expect(wrapper.emitted('deleteSelected')).toBeFalsy()
     })
   })
 })

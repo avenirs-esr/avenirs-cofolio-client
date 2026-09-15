@@ -22,7 +22,7 @@ BddTest().given('a self knowledge elements dropdown', () => {
     BddTest().then('the dropdown should be rendered', () => {
       const dropdown = wrapper.findComponent(AvDropdownStub)
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.findAll('button')).toHaveLength(3)
+      expect(dropdown.findAll('button')).toHaveLength(2)
       expect(dropdown.props('triggerAriaLabel')).toBe('Gérer mon élément')
       expect(dropdown.props('triggerLabel')).toBe('Gérer mon élément')
     })
@@ -35,17 +35,6 @@ BddTest().given('a self knowledge elements dropdown', () => {
 
       BddTest().then('it should emit the updateSelected event', () => {
         expect(wrapper.emitted()).toHaveProperty('updateSelected')
-      })
-    })
-
-    BddTest().and('the share item is selected', () => {
-      beforeEach(async () => {
-        const dropdown = wrapper.findComponent(AvDropdownStub)
-        await dropdown.vm.$emit('itemSelected', 'share')
-      })
-
-      BddTest().then('it should emit the shareSelected event', () => {
-        expect(wrapper.emitted()).toHaveProperty('shareSelected')
       })
     })
 

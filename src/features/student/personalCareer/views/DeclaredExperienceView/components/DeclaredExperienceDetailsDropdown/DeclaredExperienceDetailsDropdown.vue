@@ -5,7 +5,6 @@ import { useI18n } from 'vue-i18n'
 const emit = defineEmits<{
   (e: 'updateSelected'): void
   (e: 'deleteSelected'): void
-  (e: 'shareSelected'): void
 }>()
 
 const { t } = useI18n()
@@ -14,7 +13,6 @@ const isDemoMode = __DEMO_MODE__
 enum DeclaredExperienceDetailsDropdownEvents {
   UPDATE = 'update',
   DELETE = 'delete',
-  SHARE = 'share',
 }
 
 const menuItems = computed<AvDropdownItem[]>(() => {
@@ -30,11 +28,6 @@ const menuItems = computed<AvDropdownItem[]>(() => {
       icon: MDI_ICONS.TRASH_CAN_OUTLINE,
       label: t('global.buttons.delete'),
       demo: true
-    },
-    {
-      name: DeclaredExperienceDetailsDropdownEvents.SHARE,
-      icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
-      label: t('global.buttons.share')
     }
   ]
   return isDemoMode ? allItems.filter(item => item.demo) : allItems
@@ -47,9 +40,6 @@ function handleItemSelected (itemName: string) {
       break
     case DeclaredExperienceDetailsDropdownEvents.DELETE:
       emit('deleteSelected')
-      break
-    case DeclaredExperienceDetailsDropdownEvents.SHARE:
-      emit('shareSelected')
       break
   }
 }

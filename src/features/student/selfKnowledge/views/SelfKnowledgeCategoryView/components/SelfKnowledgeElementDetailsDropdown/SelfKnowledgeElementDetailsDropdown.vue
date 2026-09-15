@@ -5,7 +5,6 @@ import { useI18n } from 'vue-i18n'
 const emit = defineEmits<{
   (e: 'updateSelected'): void
   (e: 'deleteSelected'): void
-  (e: 'shareSelected'): void
 }>()
 
 const { t } = useI18n()
@@ -13,10 +12,7 @@ const { t } = useI18n()
 enum SelfKnowledgeElementDetailsDropdownEvents {
   UPDATE = 'update',
   DELETE = 'delete',
-  SHARE = 'share',
 }
-
-const isDemo = false
 
 const menuItems = computed<AvDropdownItem[]>(() => [
   {
@@ -28,14 +24,7 @@ const menuItems = computed<AvDropdownItem[]>(() => [
     name: SelfKnowledgeElementDetailsDropdownEvents.DELETE,
     icon: MDI_ICONS.TRASH_CAN_OUTLINE,
     label: t('global.buttons.delete')
-  },
-  ...(!isDemo
-    ? [{
-        name: SelfKnowledgeElementDetailsDropdownEvents.SHARE,
-        icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
-        label: t('global.buttons.share')
-      }]
-    : [])
+  }
 ])
 
 function handleItemSelected (itemName: string) {
@@ -45,9 +34,6 @@ function handleItemSelected (itemName: string) {
       break
     case SelfKnowledgeElementDetailsDropdownEvents.DELETE:
       emit('deleteSelected')
-      break
-    case SelfKnowledgeElementDetailsDropdownEvents.SHARE:
-      emit('shareSelected')
       break
   }
 }

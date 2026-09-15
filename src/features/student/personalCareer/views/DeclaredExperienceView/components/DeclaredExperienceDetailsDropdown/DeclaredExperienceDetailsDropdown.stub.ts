@@ -1,6 +1,6 @@
 export const DeclaredExperienceDetailsDropdownStub = defineComponent({
   name: 'DeclaredExperienceDetailsDropdown',
-  emits: ['updateSelected', 'deleteSelected', 'shareSelected'],
+  emits: ['updateSelected', 'deleteSelected'],
   template: `
     <div class="declared-experience-details-dropdown-stub">
       <button
@@ -14,12 +14,6 @@ export const DeclaredExperienceDetailsDropdownStub = defineComponent({
         @click="$emit('deleteSelected')"
       >
         Supprimer
-      </button>
-      <button
-        data-testid="share"
-        @click="$emit('shareSelected')"
-      >
-        Partager
       </button>
     </div>
   `
