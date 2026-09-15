@@ -1,3 +1,4 @@
+import type { BaseApiException } from '@/common/exceptions'
 import {
   activitiesNavigationMock,
   createLargeMockedPagedResponseDeclaredActivityViewDTO,
@@ -26,6 +27,7 @@ import {
   getAskForFeedbackUrl,
   getAssociateActivityWithDeclaredSkillsUrl,
   getAssociateActivityWithTracesUrl,
+  getDeleteActivityUrl,
   getDeleteDeclaredActivityAssociationsUrl,
   getFinishUrl,
   getGetActivitiesViewUrl,
@@ -47,6 +49,7 @@ import {
   type PagedResponseDeclaredActivityViewDTO,
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
+import { HttpStatusCode } from '@/common/utils'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/MyPerspectiveCard/config'
 import { delay, http, HttpResponse, type PathParams } from 'msw'
 
@@ -690,6 +693,24 @@ export const searchDeclaredActivitiesForAssociationHandler = http.get(
   }
 )
 
+export function declaredActivityDetailsWithStatusHandler (status: EDeclaredActivityStatus) {
+  return http.get(`*${getGetDeclaredActivityDetailsUrl(':declaredActivityId')}`, ({ params }) => {
+    const declaredActivityId = params.declaredActivityId as string
+
+    return HttpResponse.json<DeclaredActivityDetailsDTO>(
+      {
+        ...mockedDeclaredActivityDetails,
+        id: declaredActivityId,
+        status,
+      },
+      {
+        status: HttpStatusCode.OK,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
+  })
+}
+
 export const activitiesHandlers = [
   http.get(`*${getGetDeclaredActivitiesViewUrl()}`, ({ request }) => {
     if (isEmptyDataSetRequest(request)) {
@@ -710,6 +731,29 @@ export const activitiesHandlers = [
       }
     })
   }),
+
+  unsubscribeActivityProgressHandler,
+
+  http.delete(`*${getDeleteActivityUrl(':declaredActivityId')}`, ({ params }) => {
+    const { declaredActivityId } = params
+
+    if (!declaredActivityId || declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
+      return HttpResponse.json<BaseApiException>(
+        { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Declared activity not found' } as BaseApiException,
+        { status: HttpStatusCode.NOT_FOUND, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
+    if (declaredActivityId === 'NOT_UNSUBSCRIBED_DECLARED_ACTIVITY_ID') {
+      return HttpResponse.json<BaseApiException>(
+        { code: EErrorCode.DECLARED_ACTIVITY_NOT_UNSUBSCRIBED, message: 'Declared activity is is still subscribed' } as BaseApiException,
+        { status: HttpStatusCode.CONFLICT, headers: { 'Content-Type': 'application/json' } }
+      )
+    }
+
+    return new HttpResponse(null, { status: HttpStatusCode.NO_CONTENT })
+  }),
+
   activityNavigationQuery,
   activitiesViewHandler,
   latestActivitiesHandler,
@@ -718,7 +762,6 @@ export const activitiesHandlers = [
   declaredActivityDetailsHandler,
   declaredActivityAssociationsHandler,
   subscribeActivityProgressHandler,
-  unsubscribeActivityProgressHandler,
   finishDeclaredActivityHandler,
   updateActivityHandler,
   updateActivityReflectionHandler,

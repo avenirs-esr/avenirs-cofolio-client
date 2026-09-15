@@ -15,6 +15,7 @@
           }
         },
         "buttons": {
+          "delete": "Delete my activity",
           "resubscribe": "Subscribe again",
           "subscribe": "Subscribe to the activity",
           "unsubscribe": "Unsubscribe"
