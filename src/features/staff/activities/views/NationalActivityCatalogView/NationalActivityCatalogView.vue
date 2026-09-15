@@ -114,7 +114,10 @@ function updateActivity (id: string) {
         :title="t('staff.activities.views.NationalActivityCatalogView.tabs.keyFigures')"
         data-testid="national-activity-catalog-key-figures-tab-item"
       >
-        <ActivityDashboardSection :activity-id="activity.id" />
+        <ActivityDashboardSection
+          :activity-id="activity.id"
+          :status="status"
+        />
       </AvTab>
     </AvTabs>
   </QuerySuspense>

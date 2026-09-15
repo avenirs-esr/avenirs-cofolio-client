@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID, mockedActivityContent, mockedActivityDashboard } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { EActivityStatus } from '@/api/avenir-esr'
 import ActivityDashboardSection
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/ActivityDashboardSection.vue'
 import { DashboardCardStub } from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.stub'
@@ -17,8 +18,8 @@ BddTest().given('an ActivityDashboardSection component', () => {
     DashboardCard: DashboardCardStub,
   }
 
-  const mountSection = (activityId: string) => mountComponent(ActivityDashboardSection, {
-    props: { activityId },
+  const mountSection = (activityId: string, status = EActivityStatus.PUBLISHED) => mountComponent(ActivityDashboardSection, {
+    props: { activityId, status },
     global: { stubs },
   })
 
@@ -42,6 +43,10 @@ BddTest().given('an ActivityDashboardSection component', () => {
       const section = wrapper.findComponent(DashboardSectionStub)
       expect(section.props('isLoading')).toBe(false)
       expect(section.props('error')).toBeNull()
+    })
+
+    BddTest().then('it should not flag the section as empty', () => {
+      expect(wrapper.findComponent(DashboardSectionStub).props('isEmpty')).toBe(false)
     })
 
     BddTest().then('it should render three DashboardCard components', () => {
@@ -76,6 +81,29 @@ BddTest().given('an ActivityDashboardSection component', () => {
     BddTest().then('it should render the dashboard values returned by the API', () => {
       const cards = wrapper.findAllComponents(DashboardCardStub)
       expect(cards.map(card => card.props('value'))).toEqual(['0', '0', '0'])
+    })
+  })
+
+  BddTest().when('mounted with a draft activity', () => {
+    beforeEach(async () => {
+      wrapper = mountSection(mockedActivityContent.id, EActivityStatus.DRAFT)
+      await flushPromises()
+    })
+
+    BddTest().then('it should flag the section as empty with the not published message', () => {
+      const section = wrapper.findComponent(DashboardSectionStub)
+      expect(section.props('isEmpty')).toBe(true)
+      expect(section.props('emptyStateMessage')).toBe('Cette activité est un brouillon. Les chiffres clés ne sont disponibles que depuis des activités publiées.')
+    })
+
+    BddTest().then('it should not render dashboard cards', () => {
+      expect(wrapper.findAllComponents(DashboardCardStub)).toHaveLength(0)
+    })
+
+    BddTest().then('it should not be loading nor in error', () => {
+      const section = wrapper.findComponent(DashboardSectionStub)
+      expect(section.props('isLoading')).toBe(false)
+      expect(section.props('error')).toBeNull()
     })
   })
 

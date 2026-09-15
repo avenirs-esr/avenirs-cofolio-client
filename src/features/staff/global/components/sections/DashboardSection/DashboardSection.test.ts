@@ -40,10 +40,11 @@ BddTest().given('a DashboardSection component', () => {
       expect(container.props('titleIcon')).toBe(RI_ICONS.DASHBOARD_2_LINE)
     })
 
-    BddTest().then('it should default the loading and error state of QuerySuspense', () => {
+    BddTest().then('it should default the loading, empty and error state of QuerySuspense', () => {
       const querySuspense = wrapper.findComponent(QuerySuspenseStub)
       expect(querySuspense.exists()).toBe(true)
       expect(querySuspense.props('isLoading')).toBe(false)
+      expect(querySuspense.props('isEmpty')).toBe(false)
       expect(querySuspense.props('error')).toBeNull()
     })
 
@@ -77,6 +78,26 @@ BddTest().given('a DashboardSection component', () => {
 
     BddTest().then('it should forward the loading state to QuerySuspense', () => {
       expect(wrapper.findComponent(QuerySuspenseStub).props('isLoading')).toBe(true)
+    })
+
+    BddTest().then('it should not render the default slot content', () => {
+      expect(wrapper.find('[data-testid="slot-content"]').exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('mounted in an empty state', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(DashboardSection, {
+        props: { title: 'Tableau de bord', isEmpty: true, emptyStateMessage: 'Activité pas encore publiée' },
+        slots,
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should forward the empty state to QuerySuspense', () => {
+      const querySuspense = wrapper.findComponent(QuerySuspenseStub)
+      expect(querySuspense.props('isEmpty')).toBe(true)
+      expect(querySuspense.props('emptyStateMessage')).toBe('Activité pas encore publiée')
     })
 
     BddTest().then('it should not render the default slot content', () => {

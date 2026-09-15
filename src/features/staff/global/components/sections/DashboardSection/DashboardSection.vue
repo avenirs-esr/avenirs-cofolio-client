@@ -9,12 +9,16 @@ export interface DashboardSectionProps {
   title: string
   titleIcon?: string
   isLoading?: boolean
+  isEmpty?: boolean
+  emptyStateMessage?: string
   error?: BaseApiException | null
 }
 
 const {
   titleIcon = RI_ICONS.DASHBOARD_2_LINE,
   isLoading = false,
+  isEmpty = false,
+  emptyStateMessage,
   error = null
 } = defineProps<DashboardSectionProps>()
 
@@ -31,6 +35,8 @@ defineSlots<{
   >
     <QuerySuspense
       :is-loading="isLoading"
+      :is-empty="isEmpty"
+      :empty-state-message="emptyStateMessage"
       :error="error"
     >
       <div class="av-row av-wrap av-w-full av-gap-sm">
