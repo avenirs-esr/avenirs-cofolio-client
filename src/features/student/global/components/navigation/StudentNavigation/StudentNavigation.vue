@@ -44,17 +44,11 @@ const buildLifeProjectMenu = computed(() => ({
   title: t('student.global.navigation.tabs.project.header').toUpperCase(),
   get active () {
     return isRouteActive({ route, routes: [
-      ROUTES.STUDENT.PROJECT_SKILLS,
       ...studentPersonalCareerRoutes,
       ...studentProjectTrajectoriesRoutes
     ] })
   },
   links: [
-    {
-      to: ROUTES.STUDENT.PROJECT_SKILLS,
-      text: t('student.global.navigation.tabs.project.items.skills'),
-      icon: MDI_ICONS.STARS,
-    },
     {
       to: __DEMO_MODE__ ? ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS : personalCareerNavigationTarget.value,
       text: t('student.global.navigation.tabs.project.items.experiences'),
@@ -81,6 +75,11 @@ const navItems = computed(() => [
     to: ROUTES.STUDENT.PROJECT_ACTIVITIES,
     text: t('student.global.navigation.tabs.project.items.activities').toUpperCase(),
     icon: ICONS.ACTIVITY,
+  },
+  {
+    to: ROUTES.STUDENT.PROJECT_SKILLS,
+    text: t('student.global.navigation.tabs.project.items.skills').toUpperCase(),
+    icon: MDI_ICONS.STARS,
   },
   buildLifeProjectMenu.value,
   toolsMenu.value,
