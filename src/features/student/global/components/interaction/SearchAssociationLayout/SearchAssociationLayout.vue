@@ -4,6 +4,7 @@ import type { AvAutocompleteOption, AvButtonProps, AvInputProps } from '@avenirs
 import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
 import SelectedAssociateItemsContainer
   from '@/features/student/global/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.vue'
+import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 
 export interface SearchAssociationLayoutProps<T extends AvAutocompleteOption, U extends IdTitle = IdTitle> {
   options: T[]
@@ -32,6 +33,8 @@ defineSlots<{
 
 const selectedOptions = defineModel<T[]>({ default: () => [] })
 const search = defineModel<string>('search', { default: '' })
+
+const { isMobile } = useAvBreakpoints()
 </script>
 
 <template>
@@ -39,6 +42,7 @@ const search = defineModel<string>('search', { default: '' })
     class="search-association-layout av-col av-gap-sm"
     :class="{
       'av-row--md av-align-stretch--md': layout === 'horizontal',
+      'search-association-layout--mobile': isMobile,
     }"
     data-testid="search-association-layout"
   >
@@ -63,6 +67,7 @@ const search = defineModel<string>('search', { default: '' })
         :display-selection-in-input="false"
         :loading="loading"
         :items-title-max-lines="2"
+        :dropdown-class="isMobile ? 'search-association-layout__mobile-dropdown' : undefined"
         @clear="emit('clear')"
         @clear-selection="emit('clearSelection')"
         @load-more="emit('loadMore')"
@@ -92,5 +97,13 @@ const search = defineModel<string>('search', { default: '' })
 <style scoped lang="scss">
 .search-association-layout {
   height: 32rem;
+
+  &--mobile {
+    height: auto;
+  }
+}
+
+:deep(.search-association-layout__mobile-dropdown) {
+  position: static !important;
 }
 </style>
