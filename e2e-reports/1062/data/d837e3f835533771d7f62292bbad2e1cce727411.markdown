@@ -1,0 +1,344 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/home.feature.spec.js >> Student Home Page >> Navigation >> User can navigate to project my activities page
+- Location: .features-gen/tests/student/home.feature.spec.js:150:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: locator('header').getByTestId('main-navigation').locator('nav').getByRole('link', { name: 'student.global.navigation.tabs.project.items.activities' })
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for locator('header').getByTestId('main-navigation').locator('nav').getByRole('link', { name: 'student.global.navigation.tabs.project.items.activities' })
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - link "Accueil - Cofolio Étudiant":
+    - /url: /cofolio/student
+    - img
+  - list:
+    - listitem:
+      - button "Messagerie"
+    - listitem:
+      - button "Notifications"
+    - listitem:
+      - button "J. moulin"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/student
+      - listitem:
+        - link "MES ACTIVITÉS":
+          - /url: /cofolio/student/project/activities
+      - listitem:
+        - button "CONSTRUIRE MON PROJET DE VIE" [expanded]
+        - list:
+          - listitem:
+            - link "Toutes mes compétences":
+              - /url: /cofolio/student/project/skills
+          - listitem:
+            - link "Mon parcours":
+              - /url: /cofolio/student/project/personal-career
+          - listitem:
+            - link "Bâtir mon projet":
+              - /url: /cofolio/student/project/trajectories
+      - listitem:
+        - button "MES OUTILS"
+- main:
+  - heading "Accueil Cofolio Étudiant" [level=1]
+  - img "Bannière du profil"
+  - img "Photo de profil"
+  - text: Jeanne Moulin Je suis étudiante en chimie et écologie. Passionnée par l'innovation durable, je souhaite utiliser la science pour protéger l'environnement et bâtir un avenir plus respectueux de la planète.
+  - list:
+    - listitem:
+      - button "Modifier mon profil"
+  - text: Nouvelles activités
+  - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs"':
+    - /url: /cofolio/student/activity/declared-activity-1
+    - text: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+    - status: Me connaître
+    - status: En cours
+  - 'link "Activité \"CV\" : Construire son parcours"':
+    - /url: /cofolio/student/activity/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+    - text: "Activité \"CV\" : Construire son parcours"
+    - status: CV
+    - status: Inscrit(e)
+  - 'link "Activité : Construire son parcours (soumise)"':
+    - /url: /cofolio/student/activity/declared-activity-2
+    - text: "Activité : Construire son parcours (soumise)"
+    - status: CV
+    - status: Soumis
+  - link "Voir toutes les activités":
+    - /url: /cofolio/student/project/activities
+  - text: Ma bibliothèque d'activités
+  - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs"':
+    - /url: /cofolio/student/activity/declared-activity-1
+    - text: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+    - status: Me connaître
+    - status: En cours
+  - 'link "Activité \"CV\" : Construire son parcours"':
+    - /url: /cofolio/student/activity/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+    - text: "Activité \"CV\" : Construire son parcours"
+    - status: CV
+    - status: Inscrit(e)
+  - 'link "Activité : Construire son parcours (soumise)"':
+    - /url: /cofolio/student/activity/declared-activity-2
+    - text: "Activité : Construire son parcours (soumise)"
+    - status: CV
+    - status: Soumis
+  - link "Voir toute ma bibliothèque d'activités":
+    - /url: /cofolio/student/project/activities?tab=ACTIVITY_LIBRARY
+  - text: Mes dernières traces
+  - link "Prévenir la pollution à la source":
+    - /url: /cofolio/student/trace/4453f884-9081-43cb-95c6-d76c2bb59fd7
+    - text: Prévenir la pollution à la source
+    - status: Individuel
+    - status: Sans IA
+  - link "Mettre en place des filières d'économies circulaires":
+    - /url: /cofolio/student/trace/trace2
+    - text: Mettre en place des filières d'économies circulaires
+    - status: Collectif
+    - status: Avec IA
+  - link "Évaluer l'impact environnemental et économique":
+    - /url: /cofolio/student/trace/trace3
+    - text: Évaluer l'impact environnemental et économique
+    - status: Individuel
+    - status: Sans IA
+  - link "Voir toutes mes traces":
+    - /url: /cofolio/student/tools/traces
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/student/accessibility
+    - listitem:
+      - link "Mentions légales":
+        - /url: /cofolio/student/legal
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/student/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/student/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1   | import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+  2   | import { BasePage } from '@e2e/framework/shared/base/BasePage'
+  3   | import { STUDENT_ROUTES } from '@e2e/framework/shared/constants/routes'
+  4   | import { t } from '@e2e/framework/shared/utils/i18n'
+  5   | import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+  6   | import { StudentLayout } from '@e2e/framework/student/shared/componentObjects/StudentLayout'
+  7   | import { expect, type Page } from '@playwright/test'
+  8   | import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
+  9   | 
+  10  | export
+  11  | @Fixture<typeof test>('studentGlobalSteps')
+  12  | class StudentGlobalSteps extends BasePage {
+  13  |   private layout: StudentLayout
+  14  | 
+  15  |   constructor (page: Page) {
+  16  |     super(page)
+  17  |     this.layout = new StudentLayout(page)
+  18  |   }
+  19  | 
+  20  |   @Then('the student home page is displayed')
+  21  |   async verifyPageLoaded () {
+  22  |     await expect(this.page).toHaveURL(STUDENT_ROUTES.HOME)
+  23  |   }
+  24  | 
+  25  |   @Given('the student opens the home page')
+  26  |   async goToHomePage () {
+  27  |     await this.page.goto(STUDENT_ROUTES.HOME)
+  28  |     await waitForPageLoad(this.page)
+  29  |   }
+  30  | 
+  31  |   @Then('the page navigates to traces page')
+  32  |   async verifyNavigationToTracesPage () {
+  33  |     await expect(this.page).toHaveURL(STUDENT_ROUTES.TOOLS.TRACES)
+  34  |   }
+  35  | 
+  36  |   @Then('the page navigates to trace detail page')
+  37  |   async verifyNavigationToTraceDetailPage () {
+  38  |     await expect(this.page).toHaveURL(new RegExp(`${STUDENT_ROUTES.TRACE_DETAIL}.+`))
+  39  |   }
+  40  | 
+  41  |   @Then('the main navigation menu is visible')
+  42  |   async verifyMainNavigationMenu () {
+  43  |     await expect(this.layout.getMainNavigation()).toBeVisible()
+  44  |   }
+  45  | 
+  46  |   @Then('the HOME link is visible')
+  47  |   async verifyHomeLink () {
+  48  |     await expect(this.layout.getHomeNavLink()).toBeVisible()
+  49  |     await expect(this.layout.getHomeNavLink()).toHaveText(t('student.global.navigation.tabs.home').toUpperCase())
+  50  |   }
+  51  | 
+  52  |   @Then('the BUILDING MY LIFE PROJECT menu is visible')
+  53  |   async verifyBuildingMyLifeProjectMenu () {
+  54  |     await expect(this.layout.getBuildingLifeProjectButton()).toBeVisible()
+  55  |     await expect(this.layout.getBuildingLifeProjectButton()).toContainText(t('student.global.navigation.tabs.project.header').toUpperCase())
+  56  |   }
+  57  | 
+  58  |   @When('the user clicks on the BUILDING MY LIFE PROJECT menu')
+  59  |   async openBuildingLifeProjectSubmenu () {
+  60  |     await this.layout.getBuildingLifeProjectButton().click()
+  61  |   }
+  62  | 
+  63  |   @Then('the PROJECT MY ACTIVITIES link is visible')
+  64  |   async verifyProjectActivitiesLinkVisible () {
+> 65  |     await expect(this.layout.getProjectActivitiesLink()).toBeVisible()
+      |                                                          ^ Error: expect(locator).toBeVisible() failed
+  66  |   }
+  67  | 
+  68  |   @When('the user click on the PROJECT MY ACTIVITIES link')
+  69  |   async clickMyActivitiesLink () {
+  70  |     await this.layout.getProjectActivitiesLink().click()
+  71  |   }
+  72  | 
+  73  |   @Then('the page navigates to project my activities page')
+  74  |   async verifyNavigationToProjectActivitiesPage () {
+  75  |     await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.ACTIVITIES)
+  76  |   }
+  77  | 
+  78  |   @Then('the MY TOOLS menu is visible')
+  79  |   async verifyMyToolsMenu () {
+  80  |     await expect(this.layout.getMyToolsButton()).toBeVisible()
+  81  |     await expect(this.layout.getMyToolsButton()).toContainText(t('student.global.navigation.tabs.tools.header').toUpperCase())
+  82  |   }
+  83  | 
+  84  |   @Then('the mailbox button is visible')
+  85  |   async verifyMailboxButton () {
+  86  |     await expect(this.layout.getMailboxButton()).toBeVisible()
+  87  |   }
+  88  | 
+  89  |   @Then('the notifications button is visible')
+  90  |   async verifyNotificationsButton () {
+  91  |     await expect(this.layout.getNotificationsButton()).toBeVisible()
+  92  |   }
+  93  | 
+  94  |   @Then('the profile button is visible')
+  95  |   async verifyProfileButton () {
+  96  |     await expect(this.layout.getProfileButton()).toBeVisible()
+  97  |   }
+  98  | 
+  99  |   @Then('the language switcher is visible')
+  100 |   async verifyLanguageSwitcher () {
+  101 |     await expect(this.layout.getLanguageSwitcher()).toBeVisible()
+  102 |   }
+  103 | 
+  104 |   @Given('the mobile menu button is visible')
+  105 |   async verifyMobileMenuButton () {
+  106 |     await expect(this.layout.getMobileMenuButton()).toBeVisible()
+  107 |   }
+  108 | 
+  109 |   @When('the student clicks mobile menu button')
+  110 |   async clickMobileMenuButton () {
+  111 |     await expect(this.layout.getMobileMenuButton()).toBeVisible()
+  112 |     await this.layout.getMobileMenuButton().click()
+  113 |     await this.page.waitForTimeout(500)
+  114 |   }
+  115 | 
+  116 |   @Then('the navigation drawer opens')
+  117 |   async verifyNavigationDrawer () {
+  118 |     const drawer = this.page.getByRole('dialog', { name: 'Menu' })
+  119 |     await expect(drawer).toBeVisible()
+  120 |   }
+  121 | 
+  122 |   @Then('all navigation items are visible in drawer')
+  123 |   async verifyAllNavigationItemsInDrawer () {
+  124 |     const drawer = this.page.locator('.av-drawer, [role="dialog"]')
+  125 |     await expect(drawer.getByRole('link').first()).toBeVisible()
+  126 |   }
+  127 | 
+  128 |   @Given('the student opens the project activities page')
+  129 |   async goToProjectActivitiesPage () {
+  130 |     await this.page.goto(STUDENT_ROUTES.PROJECT.ACTIVITIES)
+  131 |     await waitForPageLoad(this.page)
+  132 |   }
+  133 | 
+  134 |   @Then('the student project activities page is displayed')
+  135 |   async verifyNavigationToActivitiesPage () {
+  136 |     await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.ACTIVITIES)
+  137 |   }
+  138 | 
+  139 |   @Then('the student project activities page is displayed on library tab')
+  140 |   async verifyNavigationToActivitiesPageOnLibraryTab () {
+  141 |     await expect(this.page).toHaveURL(new RegExp(`${STUDENT_ROUTES.PROJECT.ACTIVITIES}.+`))
+  142 |   }
+  143 | 
+  144 |   @Then('the activity details page is displayed')
+  145 |   async verifyNavigationToHomeActivityDetailsPage () {
+  146 |     await expect(this.page).toHaveURL(new RegExp(`${STUDENT_ROUTES.ACTIVITY}.+`))
+  147 |   }
+  148 | 
+  149 |   @Given('the student opens the project personal career experiences page')
+  150 |   async goToProjectPersonalCareerExperiencesPage () {
+  151 |     await this.page.goto(STUDENT_ROUTES.PROJECT.PERSONAL_CAREER.EXPERIENCES)
+  152 |     await waitForPageLoad(this.page)
+  153 |   }
+  154 | 
+  155 |   @Then('the student project personal career experiences page is displayed')
+  156 |   async verifyNavigationToProjectPersonalCareerExperiencesPage () {
+  157 |     await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.PERSONAL_CAREER.EXPERIENCES)
+  158 |   }
+  159 | 
+  160 |   @Given('the student opens the tools kit page')
+  161 |   async goToToolsKitPage () {
+  162 |     await this.page.goto(STUDENT_ROUTES.TOOLS.KIT)
+  163 |     await waitForPageLoad(this.page)
+  164 |   }
+  165 | 
+```
