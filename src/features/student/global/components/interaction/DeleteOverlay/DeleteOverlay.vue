@@ -28,7 +28,7 @@ const resolvedButtonLabel = computed(() => buttonLabel ?? t('global.buttons.dele
         :label="resolvedButtonLabel"
         :theme="buttonTheme"
         icon-only
-        @click="$emit('delete')"
+        @click.stop="$emit('delete')"
       />
     </div>
   </div>
