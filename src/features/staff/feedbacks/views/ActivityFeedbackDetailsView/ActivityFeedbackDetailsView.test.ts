@@ -14,9 +14,10 @@ import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
-const route = reactive<{ name: string, path: string }>({
+const route = reactive<{ name: string, path: string, params: { feedbackId: string } }>({
   name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
   path: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.path,
+  params: { feedbackId: 'feedback-1' },
 })
 
 vi.mock('vue-router', async (importOriginal) => {
@@ -49,6 +50,7 @@ BddTest().given('an activity feedback details view', () => {
   BddTest().when('the component is mounted with a feedback id corresponding to non submitted feedback', () => {
     beforeEach(async () => {
       route.path = ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.path.replace(':feedbackId', 'feedback-1')
+      route.params = { feedbackId: 'feedback-1' }
 
       wrapper = mountComponent(ActivityFeedbackDetailsView, {
         props: { feedbackId: 'feedback-1' },
@@ -142,6 +144,7 @@ BddTest().given('an activity feedback details view', () => {
   BddTest().when('the component is mounted with a feedback id corresponding to submitted feedback', () => {
     beforeEach(async () => {
       route.path = ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.path.replace(':feedbackId', 'feedback-submitted')
+      route.params = { feedbackId: 'feedback-submitted' }
 
       wrapper = mountComponent(ActivityFeedbackDetailsView, {
         props: { feedbackId: 'feedback-submitted' },
@@ -159,6 +162,7 @@ BddTest().given('an activity feedback details view', () => {
   BddTest().when('the component is mounted without a feedback id', () => {
     beforeEach(async () => {
       route.path = ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.path.replace(':feedbackId', '')
+      route.params = { feedbackId: '' }
 
       wrapper = mountComponent(ActivityFeedbackDetailsView, {
         global: { stubs },

@@ -134,9 +134,16 @@ export function useNavigation () {
     return navigate(ROUTES.STAFF.HOME)
   }
 
-  const navigateToStaffActivityFeedbackDetails = ({ feedbackId }: { feedbackId: string }): Promise<NavigationFailure | void | undefined> => {
+  const navigateToStaffStudentTrackingActivityFeedbackDetails = ({ feedbackId }: { feedbackId: string }): Promise<NavigationFailure | void | undefined> => {
     return navigate({
       name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
+      params: { feedbackId },
+    })
+  }
+
+  const navigateToStaffActivityFeedbackDetails = ({ feedbackId }: { feedbackId: string }): Promise<NavigationFailure | void | undefined> => {
+    return navigate({
+      name: ROUTES.STAFF.ACTIVITY_FEEDBACK.name,
       params: { feedbackId },
     })
   }
@@ -213,6 +220,7 @@ export function useNavigation () {
     navigateToStudentUpdateDeclaredProgram,
     navigateToStaffHome,
     navigateToActivityDetailed,
+    navigateToStaffStudentTrackingActivityFeedbackDetails,
     navigateToStaffActivityFeedbackDetails,
     navigateToFeedbacks,
     navigateToStaffActivities,

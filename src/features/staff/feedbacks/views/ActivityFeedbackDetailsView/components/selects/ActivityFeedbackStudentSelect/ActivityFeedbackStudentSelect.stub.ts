@@ -9,5 +9,9 @@ export const ActivityFeedbackStudentSelectStub = defineComponent({
       type: Array as PropType<StudentFeedbackItemListDTO[]>,
       required: true,
     },
+    selectedStudentId: {
+      type: String,
+      default: undefined,
+    },
   },
 })

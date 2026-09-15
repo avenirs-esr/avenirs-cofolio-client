@@ -16,22 +16,22 @@ import ActivityFeedbackStudentSelect
   from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/selects/ActivityFeedbackStudentSelect/ActivityFeedbackStudentSelect.vue'
 import AssociatedElementSummaryCard
   from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementSummaryCard/AssociatedElementSummaryCard.vue'
-import { AvButton, AvIconText, type AvSelectSelectedOption, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvIconText, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ActivityFeedbackDetailsViewProps {
   feedbackId?: string
 }
 
-const { feedbackId } = defineProps<ActivityFeedbackDetailsViewProps>()
+defineProps<ActivityFeedbackDetailsViewProps>()
 
 const { t } = useI18n()
+const route = useRoute()
 
-const selectedStudent = ref<AvSelectSelectedOption>({
-  itemId: feedbackId ?? '',
+const selectedFeedbackId = computed(() => {
+  const { feedbackId } = route.params
+  return Array.isArray(feedbackId) ? (feedbackId[0] ?? '') : (feedbackId ?? '')
 })
-
-const selectedFeedbackId = computed(() => selectedStudent.value.itemId)
 
 const { data: feedback, isLoading: isFeedbackDetailsLoading, error: feedbackDetailsError, } = useGetFeedbackDetails(
   EUserCategory.STAFF,
@@ -104,8 +104,8 @@ const trailingLinks = computed(() => [{ text: pageSubTitle.value }])
         :error="feedbacksByActivityError"
       >
         <ActivityFeedbackStudentSelect
-          v-model:selected-student="selectedStudent"
           :feedbacks="feedbacks"
+          :selected-student-id="feedback?.student.id"
         />
       </QuerySuspense>
     </div>
