@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useGetActivityDashboard } from '@/api/avenir-esr'
+import { EActivityStatus, useGetActivityDashboard } from '@/api/avenir-esr'
 import DashboardCard from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'
 import DashboardSection from '@/features/staff/global/components/sections/DashboardSection/DashboardSection.vue'
 import { CUIDA_ICONS, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -7,15 +7,18 @@ import { useI18n } from 'vue-i18n'
 
 export interface ActivityDashboardSectionProps {
   activityId: string
+  status: EActivityStatus
 }
 
-const { activityId } = defineProps<ActivityDashboardSectionProps>()
+const { activityId, status } = defineProps<ActivityDashboardSectionProps>()
 
 const { t } = useI18n()
 
+const isDraft = computed(() => status === EActivityStatus.DRAFT)
+
 const { data: activityDashboard, isLoading, error } = useGetActivityDashboard(computed(() => activityId), {
   query: {
-    enabled: computed(() => !!activityId),
+    enabled: computed(() => !!activityId && !isDraft.value),
   },
 })
 </script>
@@ -24,6 +27,8 @@ const { data: activityDashboard, isLoading, error } = useGetActivityDashboard(co
   <DashboardSection
     :title="t('staff.activities.views.NationalActivityCatalogView.ActivityDashboardSection.title')"
     :is-loading="isLoading"
+    :is-empty="isDraft"
+    :empty-state-message="t('staff.activities.views.NationalActivityCatalogView.ActivityDashboardSection.notPublished')"
     :error="error"
     data-testid="activity-dashboard-section"
   >

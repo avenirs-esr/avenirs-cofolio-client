@@ -84,6 +84,7 @@
         "NationalActivityCatalogView": {
           "ActivityDashboardSection": {
             "enrolledStudents": "étudiant(e) inscrit(e) | étudiant(e)s inscrit(e)s",
+            "notPublished": "Cette activité est un brouillon. Les chiffres clés ne sont disponibles que depuis des activités publiées.",
             "title": "Tableau de bord",
             "uniqueStudentViews": "étudiant(e) ayant consulté l'activité | étudiant(e)s ayant consulté l'activité",
             "unsubscriptionsLast30Days": "désinscription sur les 30 derniers jours | désinscriptions sur les 30 derniers jours"

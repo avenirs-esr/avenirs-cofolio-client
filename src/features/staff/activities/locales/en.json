@@ -84,6 +84,7 @@
         "NationalActivityCatalogView": {
           "ActivityDashboardSection": {
             "enrolledStudents": "enrolled student | enrolled students",
+            "notPublished": "This activity is a draft. Key figures are only available from published activities.",
             "title": "Dashboard",
             "uniqueStudentViews": "student who viewed the activity | students who viewed the activity",
             "unsubscriptionsLast30Days": "unsubscription in the last 30 days | unsubscriptions in the last 30 days"

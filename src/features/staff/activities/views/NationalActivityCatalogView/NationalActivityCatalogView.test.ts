@@ -226,8 +226,10 @@ BddTest().given('a national activity catalog view', () => {
       await waitForLoaded()
     })
 
-    BddTest().then('it should render ActivityDashboardSection with the loaded activity id', () => {
-      expect(wrapper.findComponent(ActivityDashboardSectionStub).props('activityId')).toBe(mockedActivityContent.id)
+    BddTest().then('it should render ActivityDashboardSection with the loaded activity id and status', () => {
+      const dashboardSection = wrapper.findComponent(ActivityDashboardSectionStub)
+      expect(dashboardSection.props('activityId')).toBe(mockedActivityContent.id)
+      expect(dashboardSection.props('status')).toBe(EActivityStatus.DRAFT)
     })
 
     BddTest().then('it should not render the other tabs content', () => {
