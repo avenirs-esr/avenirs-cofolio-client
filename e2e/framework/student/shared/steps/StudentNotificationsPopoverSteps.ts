@@ -73,8 +73,8 @@ class StudentNotificationsPopoverSteps {
     await waitForPageLoad(this.page)
   }
 
-  @Then('the student is redirected to the modified activity details page')
-  async verifyRedirectedToActivityDetails () {
-    await expect(this.page).toHaveURL(new RegExp(`${STUDENT_ROUTES.PROJECT.ACTIVITIES}/.+/details`))
+  @Then('the student is redirected to the modified activity page')
+  async verifyRedirectedToActivity () {
+    await expect(this.page).toHaveURL(new RegExp(STUDENT_ROUTES.ACTIVITY.replace(':id', '.+')))
   }
 }

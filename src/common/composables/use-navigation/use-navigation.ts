@@ -22,6 +22,14 @@ export function useNavigation () {
     return navigate(to, replace)
   }
 
+  const navigateToStudentWidgetActivityCatalog = ({ thematic, id, replace }: { thematic: EActivityThematic, id: string, replace?: boolean }) => {
+    const to = {
+      name: ROUTES.STUDENT.WIDGET_ACTIVITY_CATALOG.name,
+      params: { thematic, id },
+    }
+    return navigate(to, replace)
+  }
+
   const navigateToStudentDeclaredExperience = ({ id, replace }: { id?: string, replace?: boolean }) => {
     const to = {
       name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
@@ -78,19 +86,10 @@ export function useNavigation () {
     return navigate(ROUTES.STUDENT.PROJECT_SKILLS, replace)
   }
 
-  const navigateToStudentProjectActivitiesCatalog = ({ thematic, id, replace }: { thematic?: EActivityThematic, id?: string, replace?: boolean } =
-  { thematic: undefined, id: undefined, replace: false }) => {
-    const to = {
-      name: ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG.name,
-      params: { thematic, id },
-    }
-    return navigate(to, replace)
-  }
-
   const navigateToStudentProjectActivities = ({ replace }: { replace?: boolean } =
   { replace: false }) => {
     const to = {
-      name: ROUTES.STUDENT.PROJECT_ACTIVITIES.name,
+      name: ROUTES.STUDENT.ACTIVITIES.name,
     }
     return navigate(to, replace)
   }
@@ -122,9 +121,9 @@ export function useNavigation () {
     return navigate(ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM)
   }
 
-  const navigateToActivityDetailed = ({ id, thematic }: { id?: string, thematic?: string }) => {
+  const navigateToActivity = ({ id, thematic }: { id?: string, thematic?: string }) => {
     const to = {
-      name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
+      name: ROUTES.STUDENT.ACTIVITY.name,
       params: { id, thematic }
     }
     return navigate(to)
@@ -199,6 +198,7 @@ export function useNavigation () {
   return {
     navigateToAuthLogin,
     navigateToStudentActivitiesCatalog,
+    navigateToStudentWidgetActivityCatalog,
     navigateToStudentDeclaredExperience,
     navigateToStudentUpdateDeclaredExperience,
     navigateToStudentDeliverables,
@@ -210,7 +210,6 @@ export function useNavigation () {
     navigateToStudentSelfKnowledgeElementUpdate,
     navigateToStudentProjectDeclaredSkill,
     navigateToStudentProjectSkills,
-    navigateToStudentProjectActivitiesCatalog,
     navigateToStudentProjectActivities,
     navigateToStudentTrace,
     navigateToStudentTraces,
@@ -219,8 +218,8 @@ export function useNavigation () {
     navigateToStudentUpdateDeclaredSkill,
     navigateToStudentUpdateDeclaredProgram,
     navigateToStaffHome,
-    navigateToActivityDetailed,
     navigateToStaffStudentTrackingActivityFeedbackDetails,
+    navigateToActivity,
     navigateToStaffActivityFeedbackDetails,
     navigateToFeedbacks,
     navigateToStaffActivities,

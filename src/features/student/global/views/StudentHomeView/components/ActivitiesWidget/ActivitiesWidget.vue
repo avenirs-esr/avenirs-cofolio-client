@@ -4,7 +4,7 @@ import HomeWidget from '@/common/components/cards/HomeWidget/HomeWidget.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ICONS, ROUTES } from '@/common/constants'
-import { ProjectActivitiesTab } from '@/features/student/buildProject/types/activities.types'
+import { ActivitiesTab } from '@/features/student/global/types/activities.types'
 import ActivityLongIconCard from '@/features/student/global/views/StudentHomeView/components/ActivityLongIconCard/ActivityLongIconCard.vue'
 import { useI18n } from 'vue-i18n'
 
@@ -48,10 +48,10 @@ const homeWidgetPops = computed(() => ({
   titleIcon: ICONS.ACTIVITY,
   seeAllLabel: t(`student.global.views.studentHomeView.widgets.ActivitiesWidget.seeAll.${i18nExtension.value}`),
   to: isNew
-    ? ROUTES.STUDENT.PROJECT_ACTIVITIES
+    ? ROUTES.STUDENT.ACTIVITIES
     : {
-        name: ROUTES.STUDENT.PROJECT_ACTIVITIES.name,
-        query: { tab: ProjectActivitiesTab[ProjectActivitiesTab.ACTIVITY_LIBRARY] }
+        name: ROUTES.STUDENT.ACTIVITIES.name,
+        query: { tab: ActivitiesTab[ActivitiesTab.ACTIVITY_LIBRARY] }
       },
 }))
 

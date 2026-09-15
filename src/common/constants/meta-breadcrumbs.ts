@@ -15,12 +15,12 @@ export const META_BREADCRUMBS = {
     }
   },
   STUDENT: {
+    ACTIVITIES: {
+      textKey: 'student.global.navigation.tabs.activities',
+      to: ROUTES.STUDENT.ACTIVITIES
+    },
     HOME: { textKey: 'student.global.navigation.tabs.home', to: ROUTES.STUDENT.HOME },
     PROJECT: {
-      ACTIVITIES: {
-        textKey: 'student.global.navigation.tabs.project.items.activities',
-        to: ROUTES.STUDENT.PROJECT_ACTIVITIES
-      },
       BUILD_PROJECT: { textKey: 'student.global.navigation.tabs.project.items.trajectories', to: ROUTES.STUDENT.PROJECT_TRAJECTORIES },
       DEFAULT: { textKey: 'student.global.navigation.tabs.project.header' },
       PERSONAL_CAREER: {
@@ -92,21 +92,17 @@ export const BASE_BREADCRUMBS = {
   },
   STUDENT: {
     HOME: {
-      ACTIVITIES: [
-        META_BREADCRUMBS.STUDENT.HOME,
-        { textKey: META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES.textKey },
-      ],
       BASE: [META_BREADCRUMBS.STUDENT.HOME],
       TRACES: [
         META_BREADCRUMBS.STUDENT.HOME,
         { textKey: META_BREADCRUMBS.STUDENT.TOOLS.TRACES.textKey },
       ]
     },
+    ACTIVITIES: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.ACTIVITIES,
+    ],
     PROJECT: {
-      ACTIVITIES: [
-        ...BASE_STUDENT_PROJECT_BREADCRUMBS,
-        META_BREADCRUMBS.STUDENT.PROJECT.ACTIVITIES,
-      ],
       BUILD_PROJECT: {
         BUILD_PROJECT: [
           ...BASE_STUDENT_PROJECT_BREADCRUMBS,
@@ -144,6 +140,12 @@ export const BASE_BREADCRUMBS = {
       TRACES: [
         ...BASE_STUDENT_TOOLS_BREADCRUMBS,
         META_BREADCRUMBS.STUDENT.TOOLS.TRACES,
+      ]
+    },
+    WIDGETS: {
+      ACTIVITIES: [
+        META_BREADCRUMBS.STUDENT.HOME,
+        { textKey: META_BREADCRUMBS.STUDENT.ACTIVITIES.textKey },
       ]
     }
   }

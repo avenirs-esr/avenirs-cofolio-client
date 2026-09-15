@@ -11,8 +11,6 @@ import { AssociationElementsDropdownStub }
   from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ErrorCodes } from '@/common/constants'
-import { AssociatedDeclaredActivitiesCardStub } from '@/features/student/buildProject/components/cards/AssociatedDeclaredActivitiesCard/AssociatedDeclaredActivitiesCard.stub'
-import { AssociatedTracesCardStub } from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import { AssociateActivitiesToDeclaredSkillModalStub } from '@/features/student/declaredSkills/components/overlays/modals/AssociateActivitiesToDeclaredSkillModal/AssociateActivitiesToDeclaredSkillModal.stub'
 import { AssociateDeclaredExperiencesToDeclaredSkillModalStub } from '@/features/student/declaredSkills/components/overlays/modals/AssociateDeclaredExperiencesToDeclaredSkillModal/AssociateDeclaredExperiencesToDeclaredSkillModal.stub'
 import { AssociateTracesToDeclaredSkillModalStub } from '@/features/student/declaredSkills/components/overlays/modals/AssociateTracesToDeclaredSkillModal/AssociateTracesToDeclaredSkillModal.stub'
@@ -20,6 +18,8 @@ import { DeleteDeclaredSkillAssociatedActivitiesModalStub } from '@/features/stu
 import { DeleteDeclaredSkillAssociatedTracesModalStub } from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedTracesModal/DeleteDeclaredSkillAssociatedTracesModal.stub'
 import StudentDeclaredSkillAssociations
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.vue'
+import { AssociatedDeclaredActivitiesCardStub } from '@/features/student/global/components/cards/AssociatedDeclaredActivitiesCard/AssociatedDeclaredActivitiesCard.stub'
+import { AssociatedTracesCardStub } from '@/features/student/global/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import { AssociatedDeclaredExperiencesCardStub }
   from '@/features/student/personalCareer/components/cards/AssociatedDeclaredExperiencesCard/AssociatedDeclaredExperiencesCard.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'

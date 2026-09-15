@@ -11,10 +11,10 @@ import { StaffActivityFeedbacksPage } from '@e2e/framework/staff/feedbacks/Staff
 import { StaffFeedbacksPage } from '@e2e/framework/staff/feedbacks/StaffFeedbacksPage'
 import { StaffHomePage } from '@e2e/framework/staff/home/StaffHomePage'
 import { StaffGlobalSteps } from '@e2e/framework/staff/shared/steps/StaffGlobalSteps'
+import { StudentActivitiesCatalogPage } from '@e2e/framework/student/activities/activitiesCatalogPage/StudentActivitiesCatalogPage'
+import { StudentActivitiesPage } from '@e2e/framework/student/activities/activitiesPages/StudentActivitiesPage'
+import { StudentActivityPage } from '@e2e/framework/student/activities/activityPage/StudentActivityPage'
 import { StudentHomePage } from '@e2e/framework/student/home/StudentHomePage'
-import { StudentProjectActivitiesPage } from '@e2e/framework/student/lifeProject/activities/StudentProjectActivitiesPage'
-import { StudentProjectActivitiesCatalogPage } from '@e2e/framework/student/lifeProject/activitiesCatalog/StudentProjectActivitiesCatalog'
-import { StudentProjectActivityDetails } from '@e2e/framework/student/lifeProject/activityDetails/StudentProjectActivityDetails'
 import { StudentDeclaredSkillDetailPage } from '@e2e/framework/student/lifeProject/declaredSkillDetails/StudentDeclaredSkillDetailPage'
 import { StudentProjectDeclaredSkillsTabsPage } from '@e2e/framework/student/lifeProject/declaredSkillsTabs/StudentProjectDeclaredSkillsTabsPage'
 import { StudentPersonalCareerExperiencesSectionPage } from '@e2e/framework/student/lifeProject/personalCareerExperiences/ExperiencesSectionPage'
@@ -45,10 +45,10 @@ interface Fixtures {
   studentHomePage: StudentHomePage
   studentDeclaredSkillDetailPage: StudentDeclaredSkillDetailPage
   studentPersonalCareerExperiencesSectionPage: StudentPersonalCareerExperiencesSectionPage
-  studentProjectActivitiesPage: StudentProjectActivitiesPage
-  studentProjectActivityDetails: StudentProjectActivityDetails
+  studentActivitiesPage: StudentActivitiesPage
+  studentActivityPage: StudentActivityPage
   studentTrajectoriesSelfKnowledgePage: StudentTrajectoriesSelfKnowledgePage
-  studentProjectActivitiesCatalogPage: StudentProjectActivitiesCatalogPage
+  studentActivitiesCatalogPage: StudentActivitiesCatalogPage
   studentProjectDeclaredSkillsTabsPage: StudentProjectDeclaredSkillsTabsPage
   studentToolsKitPage: StudentToolsKitPage
   studentToolsTracesPage: StudentToolsTracesPage
@@ -124,21 +124,21 @@ export const test = base.extend<Fixtures>({
     await setLocaleFromPage(page)
     await use(new StudentPersonalCareerExperiencesSectionPage(page))
   },
-  studentProjectActivitiesPage: async ({ page }, use) => {
+  studentActivitiesPage: async ({ page }, use) => {
     await setLocaleFromPage(page)
-    await use(new StudentProjectActivitiesPage(page))
+    await use(new StudentActivitiesPage(page))
   },
-  studentProjectActivityDetails: async ({ page }, use) => {
+  studentActivityPage: async ({ page }, use) => {
     await setLocaleFromPage(page)
-    await use(new StudentProjectActivityDetails(page))
+    await use(new StudentActivityPage(page))
   },
   studentTrajectoriesSelfKnowledgePage: async ({ page }, use) => {
     await setLocaleFromPage(page)
     await use(new StudentTrajectoriesSelfKnowledgePage(page))
   },
-  studentProjectActivitiesCatalogPage: async ({ page }, use) => {
+  studentActivitiesCatalogPage: async ({ page }, use) => {
     await setLocaleFromPage(page)
-    await use(new StudentProjectActivitiesCatalogPage(page))
+    await use(new StudentActivitiesCatalogPage(page))
   },
   studentProjectDeclaredSkillsTabsPage: async ({ page }, use) => {
     await setLocaleFromPage(page)

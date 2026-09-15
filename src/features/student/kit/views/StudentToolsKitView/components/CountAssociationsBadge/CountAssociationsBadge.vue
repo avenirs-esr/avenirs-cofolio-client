@@ -15,7 +15,7 @@ const { t } = useI18n()
 
 const ASSOCIATION_LABEL_KEYS: Record<EAssociationContextType, string> = {
   [EAssociationContextType.TRACE]: 'student.traces.trace',
-  [EAssociationContextType.DECLARED_ACTIVITY]: 'student.buildProject.activities.activity',
+  [EAssociationContextType.DECLARED_ACTIVITY]: 'student.activities.activity',
   [EAssociationContextType.DECLARED_SKILL]: 'student.skills.skill',
   [EAssociationContextType.DECLARED_EXPERIENCE]: 'student.personalCareer.global.experience'
 }

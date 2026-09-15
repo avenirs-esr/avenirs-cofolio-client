@@ -10,14 +10,13 @@ export const STAFF_ROUTES = {
 }
 
 export const STUDENT_ROUTES = {
-  ACTIVITY: '/cofolio/student/activity/',
+  ACTIVITY: '/cofolio/student/activity/:id',
+  ACTIVITIES: '/cofolio/student/activities',
+  ACTIVITIES_CATALOG: '/cofolio/student/activities/catalog/:thematic/:id',
   DELIVERABLES: '/cofolio/student/deliverables',
   EVENTS: '/cofolio/student/events',
   HOME: '/cofolio/student',
   PROJECT: {
-    ACTIVITIES: '/cofolio/student/project/activities',
-    ACTIVITIES_CATALOG: '/cofolio/student/project/activities/catalog/:thematic/:id',
-    ACTIVITY_DETAIL: '/cofolio/student/project/activities/:id',
     DECLARED_SKILL: '/cofolio/student/project/declared-skill/',
     PERSONAL_CAREER: {
       EXPERIENCES: '/cofolio/student/project/personal-career/experiences',
@@ -35,4 +34,8 @@ export const STUDENT_ROUTES = {
     TRACE_DETAIL: '/cofolio/student/tools/trace/',
     TRACES: '/cofolio/student/tools/traces',
   },
+  WIDGET: {
+    ACTIVITY: '/cofolio/student/activity-details/:id',
+    ACTIVITY_CATALOG: '/cofolio/student/activity-details/:thematic/:id',
+  }
 } as const

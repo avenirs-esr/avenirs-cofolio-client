@@ -19,8 +19,8 @@ const longIconCardProps = computed(() => ({
   icon: { name: isNew.value ? IX_ICONS.LIBRARY_NEW : RI_ICONS.BOOK_SHELF_LINE, color: isNew.value ? 'var(--dark-background-success)' : 'var(--icon)' },
   iconBackgroundColor: isNew.value ? 'var(--light-background-success)' : 'var(--light-background-neutral)',
   to: isNew.value
-    ? { name: ROUTES.STUDENT.ACTIVITIES_CATALOG.name, params: { id: activity.id, thematic: activity.thematic } }
-    : { name: ROUTES.STUDENT.ACTIVITY.name, params: { id: activity.id } }
+    ? { name: ROUTES.STUDENT.WIDGET_ACTIVITY_CATALOG.name, params: { id: activity.id, thematic: activity.thematic } }
+    : { name: ROUTES.STUDENT.WIDGET_ACTIVITY.name, params: { id: activity.id } }
 }))
 </script>
 

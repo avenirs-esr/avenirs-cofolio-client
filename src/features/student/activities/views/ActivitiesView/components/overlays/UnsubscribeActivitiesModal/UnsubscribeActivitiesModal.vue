@@ -1,0 +1,118 @@
+<script lang="ts" setup>
+import { useModal } from '@/common/composables'
+import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
+import UnsubscribeActivitiesConfirmModal from '@/features/student/activities/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
+import { usePaginatedLibraryActivities } from '@/features/student/activities/composables/use-paginated-library-activities/use-paginated-library-activities'
+import ActivitiesSelector from '@/features/student/activities/views/ActivitiesView/components/overlays/ActivitiesSelector/ActivitiesSelector.vue'
+import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useInfiniteScroll } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
+
+export interface UnsubscribeActivitiesModalProps {
+  opened: boolean
+  totalCount: number
+}
+
+const props = defineProps<UnsubscribeActivitiesModalProps>()
+
+const emit = defineEmits<{
+  (e: 'cancel'): void
+  (e: 'unsubscribed'): void
+}>()
+
+const { opened, totalCount } = toRefs(props)
+
+const { t } = useI18n()
+const {
+  modalOpened: confirmModalOpened,
+  openModal: openConfirmModal,
+  closeModal: closeConfirmModal
+} = useModal()
+
+const {
+  activities: activityLibrary,
+  isFetching,
+  hasMoreActivities,
+  loadMoreActivities,
+} = usePaginatedLibraryActivities({ enabled: computed(() => opened.value), pageSize: totalCount })
+
+const activities = computed(() => activityLibrary.value.map(activity => ({ id: activity.activityId, title: activity.title, thematic: activity.thematic })))
+
+function onUnsubscribeSuccess () {
+  closeConfirmModal()
+  emit('unsubscribed')
+  resetSelectedActivities()
+}
+
+const selectedActivityIds = ref<string[]>([])
+
+function resetSelectedActivities () {
+  selectedActivityIds.value = []
+}
+
+function onCancel () {
+  resetSelectedActivities()
+  emit('cancel')
+}
+
+const activitiesContainer = ref<HTMLElement | null>(null)
+
+useInfiniteScroll(
+  activitiesContainer,
+  loadMoreActivities,
+  {
+    distance: INFINITE_SCROLL_BOTTOM_DISTANCE,
+    canLoadMore: () => !isFetching.value && hasMoreActivities.value
+  }
+)
+</script>
+
+<template>
+  <AvModal
+    :opened="opened"
+    data-testid="unsubscribe-activities-modal"
+    :close-button-label="t('global.buttons.cancel')"
+    :confirm-button-label="t('student.activities.views.ActivitiesView.UnsubscribeActivitiesModal.confirm', { count: selectedActivityIds.length })"
+    :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
+    :confirm-button-disabled="selectedActivityIds.length === 0"
+    @close="onCancel"
+    @confirm="openConfirmModal"
+  >
+    <template #header>
+      <div
+        class="av-col av-gap-sm av-w-full"
+        data-testid="header"
+      >
+        <div class="av-row av-justify-center">
+          <span class="b2-regular av-text-text1">
+            {{ t('student.activities.views.ActivitiesView.UnsubscribeActivitiesModal.title', { count: activities.length }) }}
+          </span>
+        </div>
+        <div class="av-row av-justify-center">
+          <span class="b2-light av-text-text1">
+            {{ t('student.activities.views.ActivitiesView.UnsubscribeActivitiesModal.description') }}
+          </span>
+        </div>
+      </div>
+    </template>
+
+    <div
+      ref="activitiesContainer"
+      class="av-col av-gap-sm"
+      style="max-height: 400px; overflow-y: auto;"
+    >
+      <ActivitiesSelector
+        v-if="activities.length > 0"
+        v-model="selectedActivityIds"
+        :activities="activities"
+      />
+    </div>
+  </AvModal>
+
+  <UnsubscribeActivitiesConfirmModal
+    :opened="confirmModalOpened"
+    :activities="activities.filter(({ id }) => selectedActivityIds.includes(id))"
+    @cancel="closeConfirmModal"
+    @unsubscribed="onUnsubscribeSuccess"
+  />
+</template>

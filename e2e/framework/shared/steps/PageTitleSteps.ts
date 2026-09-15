@@ -7,12 +7,11 @@ import { expect, type Page } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 const configs: Record<string, { title: string, breadcrumbItems: Array<{ text: string, href?: string }> }> = {
-  [STUDENT_ROUTES.PROJECT.ACTIVITIES]: {
-    title: t('student.buildProject.views.projectActivitiesView.title'),
+  [STUDENT_ROUTES.ACTIVITIES]: {
+    title: t('student.activities.views.ActivitiesView.title'),
     breadcrumbItems: [
       { text: t('student.global.navigation.tabs.home'), href: STUDENT_ROUTES.HOME },
-      { text: t('student.global.navigation.tabs.project.header') },
-      { text: t('student.global.navigation.tabs.project.items.activities') }
+      { text: t('student.global.navigation.tabs.activities') }
     ]
   },
 }

@@ -1,7 +1,8 @@
 import { EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
-import { projectActivitiesRoutes, projectTrajectoriesRoutes, studentActivitiesCatalogRoute, studentActivityRoute } from '@/features/student/buildProject/routes'
+import { studentActivitiesRoutes } from '@/features/student/activities/routes'
+import { projectTrajectoriesRoutes } from '@/features/student/buildProject/routes'
 import { studentProjectDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
 import { studentToolsKitRoute } from '@/features/student/kit/routes'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
@@ -61,10 +62,8 @@ export default [
       personalCareerRoute,
       declaredExperienceRoute,
       declaredExperienceUpdateRoute,
-      ...projectActivitiesRoutes,
+      ...studentActivitiesRoutes,
       ...projectTrajectoriesRoutes,
-      studentActivitiesCatalogRoute,
-      studentActivityRoute,
       studentSelfKnowledgeCategoryRoute,
       studentSelfKnowledgeElementUpdateRoute,
       studentToolsKitRoute,

@@ -15,7 +15,7 @@ const { t } = useI18n()
 
 const to = computed(() => notification.elementId
   ? ({
-      name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
+      name: ROUTES.STUDENT.ACTIVITY.name,
       params: { id: notification.elementId },
     })
   : undefined)

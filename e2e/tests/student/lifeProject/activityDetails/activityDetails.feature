@@ -1,5 +1,5 @@
 @activity-details @dataset-full
-Feature: Student Project Activity Detail Page
+Feature: Student Project Activity Page
 
   Background:
     Given the student opens the project activities page
@@ -9,18 +9,18 @@ Feature: Student Project Activity Detail Page
   Rule: Page Load
 
     @high @activity-details
-    Scenario: Student can load activity detail page
+    Scenario: Student can load activity page
       And the student clicks a library activity card with "IN_PROGRESS" status
-      Then the URL contains "/cofolio/student/project/activities/"
+      Then the URL contains "/cofolio/student/activity/"
 
-  Rule: Activity Detail
+  Rule: Activity
 
     Background:
       And the student clicks a library activity card with "IN_PROGRESS" status
-      And the project activity details are loaded
+      And the activity details is loaded
 
     @high @activity-details @activity-title
-    Scenario: Student can see the activity detail title
+    Scenario: Student can see the activity title
       Then the activity detail title is visible
 
     @high @activity-details @activity-dropdown
@@ -29,17 +29,17 @@ Feature: Student Project Activity Detail Page
 
     @high @activity-details @activity-period
     Scenario: Student can see the activity start and end dates
-      Then the activity start date is visible
-      And the activity end date is visible
+      Then the activity details start date is visible
+      And the activity details end date is visible
 
     @high @activity-details @activity-content
     Scenario: Student can see the activity title and description
       Then the activity title is visible
-      And the activity description is visible
+      And the activity details description is visible
 
     @high @activity-details @activity-recommended-completion-contexts
     Scenario: Student can see the activity recommended completion contexts list
-      Then the activity recommended completion contexts list is visible
+      Then the activity details recommended completion contexts list is visible
 
     @high @activity-details @activity-status
     Scenario: Student can see the activity status
@@ -49,7 +49,7 @@ Feature: Student Project Activity Detail Page
 
     Background:
       And the student clicks a library activity card with "IN_PROGRESS" status
-      And the project activity details are loaded
+      And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
 
@@ -80,7 +80,7 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @finish-activity
     Scenario: Student with in progress activity can finish it
       And the student clicks a library activity card with "IN_PROGRESS" status
-      And the project activity details are loaded
+      And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       Then the finish activity button is visible
@@ -92,7 +92,7 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @finish-activity
     Scenario: Student with submitted activity has disabled finish button
       And the student clicks a library activity card with "SUBMITTED" status
-      And the project activity details are loaded
+      And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       Then the finish activity button is visible
@@ -102,7 +102,7 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @finish-activity
     Scenario: Student with completed activity sees finished badge
       And the student clicks a library activity card with "COMPLETED" status
-      And the project activity details are loaded
+      And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       Then the finish activity button is hidden
@@ -111,7 +111,7 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @finish-activity
     Scenario: Student with subscribed activity has no finish button and no badge
       And the student clicks a library activity card with "SUBSCRIBED" status
-      And the project activity details are loaded
+      And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       Then the finish activity button is hidden
@@ -122,7 +122,7 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @feedback-request
     Scenario: Student with subscribed activity has no feedback button and no hint
       And the student clicks a library activity card with "SUBSCRIBED" status
-      And the project activity details are loaded
+      And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       Then the request feedback button is hidden
@@ -132,7 +132,7 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @feedback-request
     Scenario: Student with in progress activity can request feedback
       And the student clicks a library activity card with "IN_PROGRESS" status
-      And the project activity details are loaded
+      And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       Then the request feedback button is visible
@@ -146,7 +146,7 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @feedback-request
     Scenario: Student with submitted activity has enabled update feedback button and updatable feedback hint
       And the student clicks a library activity card with "SUBMITTED" status
-      And the project activity details are loaded
+      And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       Then the update feedback button is visible
@@ -156,7 +156,7 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @feedback-request
     Scenario: Student with completed activity has no feedback button and finished hint is visible
       And the student clicks a library activity card with "COMPLETED" status
-      And the project activity details are loaded
+      And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       Then the request feedback button is hidden
@@ -168,7 +168,7 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @received-feedbacks
     Scenario: Student can see the received feedbacks section in the my perspective tab for an in progress activity
       And the student clicks a library activity card with "IN_PROGRESS" status
-      And the project activity details are loaded
+      And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       Then the received feedbacks section is visible
@@ -177,7 +177,7 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @received-feedbacks
     Scenario: Student sees the empty state when no submitted feedbacks
       And the student clicks an in progress activity without received feedbacks
-      And the project activity details are loaded
+      And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       Then the received feedbacks section is visible
@@ -193,7 +193,7 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @associated-elements @dataset-full
     Scenario: Student can see the activity associated elements
       And the student clicks an in progress activity with associated traces
-      And the project activity details are loaded
+      And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       When the student opens associated elements tab
@@ -202,7 +202,7 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @associated-elements @dataset-full
     Scenario: Student can see the trace association limit card
       And the student clicks an in progress activity with associated traces
-      And the project activity details are loaded
+      And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       When the student opens associated elements tab
@@ -212,7 +212,7 @@ Feature: Student Project Activity Detail Page
     @high @activity-details @associated-elements @associate-traces-modal @dataset-full
     Scenario: Student can open associate traces modal from associated elements tab
       And the student clicks an in progress activity with associated traces
-      And the project activity details are loaded
+      And the activity details is loaded
       And the student clicks the my perspective item in the activity side menu
       And the my perspective section is visible
       And the student opens associated elements tab

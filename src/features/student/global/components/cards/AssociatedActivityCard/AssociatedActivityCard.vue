@@ -21,7 +21,7 @@ const { declaredActivity, disabled } = defineProps<AssociatedActivityCardProps>(
     hover-border-color="var(--dark-background-neutral)"
     icon-border-color="var(--other-border-skill-card)"
     background-color="var(--surface-background)"
-    :to="{ name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name, params: { id: declaredActivity.id, thematic: declaredActivity.thematic } }"
+    :to="{ name: ROUTES.STUDENT.ACTIVITY.name, params: { id: declaredActivity.id, thematic: declaredActivity.thematic } }"
     :disabled="disabled"
     data-testid="associated-declared-activity-card"
   >

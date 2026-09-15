@@ -6,10 +6,6 @@ import AssociationElementsDropdown
   from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import { QuerySuspense } from '@/common/components'
 import { useModal } from '@/common/composables'
-import AssociatedDeclaredActivitiesCard
-  from '@/features/student/buildProject/components/cards/AssociatedDeclaredActivitiesCard/AssociatedDeclaredActivitiesCard.vue'
-import AssociatedTracesCard
-  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
 import AssociateActivitiesToDeclaredSkillModal
   from '@/features/student/declaredSkills/components/overlays/modals/AssociateActivitiesToDeclaredSkillModal/AssociateActivitiesToDeclaredSkillModal.vue'
 import AssociateDeclaredExperiencesToDeclaredSkillModal
@@ -20,6 +16,10 @@ import DeleteDeclaredSkillAssociatedActivitiesModal
   from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedActivitiesModal/DeleteDeclaredSkillAssociatedActivitiesModal.vue'
 import DeleteDeclaredSkillAssociatedTracesModal
   from '@/features/student/declaredSkills/components/overlays/modals/DeleteDeclaredSkillAssociatedTracesModal/DeleteDeclaredSkillAssociatedTracesModal.vue'
+import AssociatedDeclaredActivitiesCard
+  from '@/features/student/global/components/cards/AssociatedDeclaredActivitiesCard/AssociatedDeclaredActivitiesCard.vue'
+import AssociatedTracesCard
+  from '@/features/student/global/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
 import { AssociatedDeclaredExperiencesCard } from '@/features/student/personalCareer'
 import { useI18n } from 'vue-i18n'
 

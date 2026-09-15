@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { EActivityThematic } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
-import { DeclaredActivityCompactCardStub } from '@/features/student/buildProject/components/cards/DeclaredActivityCompactCard/DeclaredActivityCompactCard.stub'
+import { DeclaredActivityCompactCardStub } from '@/features/student/global/components/cards/DeclaredActivityCompactCard/DeclaredActivityCompactCard.stub'
 import { SearchAssociationLayoutStub } from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.stub'
 import { ConfirmAssociateModalStub } from '@/features/student/global/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.stub'
 import AssociateActivitiesModal, {

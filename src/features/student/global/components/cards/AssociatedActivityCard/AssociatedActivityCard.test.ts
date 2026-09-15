@@ -55,7 +55,7 @@ BddTest().given('an associated activity card', () => {
         iconBorderColor: 'var(--other-border-skill-card)',
         backgroundColor: 'var(--surface-background)',
         to: {
-          name: ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED.name,
+          name: ROUTES.STUDENT.ACTIVITY.name,
           params: {
             id: mockedDeclaredActivity.id,
             thematic: mockedDeclaredActivity.thematic
