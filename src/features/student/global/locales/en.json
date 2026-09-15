@@ -59,11 +59,11 @@
           "label": "Access to"
         },
         "tabs": {
+          "activities": "My activities",
           "home": "Home",
           "project": {
             "header": "Building my life project",
             "items": {
-              "activities": "My activities",
               "declaredExperience": "All my declared experiences",
               "declaredSkills": "My other declared skills",
               "experiences": "My career",
