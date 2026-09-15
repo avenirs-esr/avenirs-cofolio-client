@@ -20,10 +20,10 @@ BddTest().given('a declared experience details dropdown', () => {
       wrapper = mountDropdown()
     })
 
-    BddTest().then('the dropdown should be rendered with 3 buttons', () => {
+    BddTest().then('the dropdown should be rendered with 2 buttons', () => {
       const dropdown = wrapper.findComponent(AvDropdownStub)
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.findAll('button')).toHaveLength(3)
+      expect(dropdown.findAll('button')).toHaveLength(2)
     })
 
     BddTest().then('the trigger should have the correct aria label and visible label', () => {
@@ -40,17 +40,6 @@ BddTest().given('a declared experience details dropdown', () => {
 
       BddTest().then('it should emit updateSelected', () => {
         expect(wrapper.emitted()).toHaveProperty('updateSelected')
-      })
-    })
-
-    BddTest().and('the share item is selected', () => {
-      beforeEach(async () => {
-        const dropdown = wrapper.findComponent(AvDropdownStub)
-        await dropdown.vm.$emit('itemSelected', 'share')
-      })
-
-      BddTest().then('it should emit shareSelected', () => {
-        expect(wrapper.emitted()).toHaveProperty('shareSelected')
       })
     })
 

@@ -35,7 +35,7 @@ BddTest().given('a self knowledge elements dropdown', () => {
         BddTest().then(isCategoryDeletable(category) ? 'the category should be deletable' : 'the category should not be deletable', () => {
           const dropdown = wrapper.findComponent(AvDropdownStub)
           expect(dropdown.exists()).toBe(true)
-          expect(dropdown.findAll('button')).toHaveLength(isCategoryDeletable(category) ? 4 : 3)
+          expect(dropdown.findAll('button')).toHaveLength(isCategoryDeletable(category) ? 3 : 2)
         })
 
         BddTest().and('the add item is selected', () => {
@@ -57,17 +57,6 @@ BddTest().given('a self knowledge elements dropdown', () => {
 
           BddTest().then('it should emit the deleteSelected event', () => {
             expect(wrapper.emitted()).toHaveProperty('deleteSelected')
-          })
-        })
-
-        BddTest().and('the share item is selected', () => {
-          beforeEach(async () => {
-            const dropdown = wrapper.findComponent(AvDropdownStub)
-            await dropdown.vm.$emit('itemSelected', 'share')
-          })
-
-          BddTest().then('it should emit the shareSelected event', () => {
-            expect(wrapper.emitted()).toHaveProperty('shareSelected')
           })
         })
 

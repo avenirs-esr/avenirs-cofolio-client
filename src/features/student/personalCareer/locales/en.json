@@ -247,8 +247,7 @@
             "breadcrumb": "My experiences",
             "DeclaredExperiencesMoreActionsDropdown": {
               "add": "Add an experience",
-              "delete": "Delete an experience",
-              "share": "Share an experience"
+              "delete": "Delete an experience"
             },
             "DeclaredExperiencesTab": {
               "emptyState": "No declared experiences yet. Click on the \"Add\" button in the More Actions menu to declare your first experience!",
@@ -271,8 +270,7 @@
             "breadcrumb": "My programs",
             "DeclaredProgramsMoreActionsDropdown": {
               "add": "Add a program",
-              "delete": "Delete a program",
-              "share": "Share a program"
+              "delete": "Delete a program"
             },
             "DeclaredProgramsTab": {
               "emptyState": "No declared programs yet, Click on the \"Add\" button in the More Actions menu to declare your first program!",

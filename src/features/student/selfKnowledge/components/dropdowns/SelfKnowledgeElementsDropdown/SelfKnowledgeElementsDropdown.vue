@@ -12,13 +12,10 @@ const { categoryType } = defineProps<SelfKnowledgeElementsDropdownProps>()
 const emit = defineEmits<{
   (e: 'addSelected'): void
   (e: 'deleteSelected'): void
-  (e: 'shareSelected'): void
   (e: 'deleteCategorySelected'): void
 }>()
 
 const { t } = useI18n()
-
-const isDemo = __DEMO_MODE__
 
 const isCategoryDeletable = computed(() => ![
   ESelfKnowledgeCategory.VALUES,
@@ -29,7 +26,6 @@ const isCategoryDeletable = computed(() => ![
 enum SelfKnowledgeElementsDropdownEvents {
   ADD = 'add',
   DELETE = 'delete',
-  SHARE = 'share',
   DELETE_CATEGORY = 'deleteCategory'
 }
 
@@ -46,14 +42,6 @@ const menuItems = computed<AvDropdownItem[]>(() => {
       label: t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.buttons.delete')
     },
   ]
-
-  if (!isDemo) {
-    items.push({
-      name: SelfKnowledgeElementsDropdownEvents.SHARE,
-      icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
-      label: t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.buttons.share')
-    })
-  }
 
   if (isCategoryDeletable.value) {
     items.push({
@@ -73,9 +61,6 @@ function handleItemSelected (itemName: string) {
       break
     case SelfKnowledgeElementsDropdownEvents.DELETE:
       emit('deleteSelected')
-      break
-    case SelfKnowledgeElementsDropdownEvents.SHARE:
-      emit('shareSelected')
       break
     case SelfKnowledgeElementsDropdownEvents.DELETE_CATEGORY:
       emit('deleteCategorySelected')

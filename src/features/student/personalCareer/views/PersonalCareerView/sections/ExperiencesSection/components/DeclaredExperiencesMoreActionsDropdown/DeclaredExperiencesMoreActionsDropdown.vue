@@ -5,7 +5,6 @@ import { useI18n } from 'vue-i18n'
 const emit = defineEmits<{
   (e: 'addSelected'): void
   (e: 'deleteSelected'): void
-  (e: 'shareSelected'): void
 }>()
 const { t } = useI18n()
 
@@ -14,7 +13,6 @@ const isDemoMode = __DEMO_MODE__
 enum DeclaredExperiencesMoreActionsDropdownEvents {
   ADD = 'add',
   DELETE = 'delete',
-  SHARE = 'share',
 }
 
 const menuItems = computed<AvDropdownItem[]>(() => {
@@ -24,11 +22,6 @@ const menuItems = computed<AvDropdownItem[]>(() => {
       icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
       label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.add'),
       demo: true
-    },
-    {
-      name: DeclaredExperiencesMoreActionsDropdownEvents.SHARE,
-      icon: MDI_ICONS.SHARE_VARIANT_OUTLINE,
-      label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.share')
     },
     {
       name: DeclaredExperiencesMoreActionsDropdownEvents.DELETE,
@@ -47,9 +40,6 @@ function handleItemSelected (itemName: string) {
       break
     case DeclaredExperiencesMoreActionsDropdownEvents.DELETE:
       emit('deleteSelected')
-      break
-    case DeclaredExperiencesMoreActionsDropdownEvents.SHARE:
-      emit('shareSelected')
       break
   }
 }

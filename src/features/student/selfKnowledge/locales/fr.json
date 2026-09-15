@@ -99,8 +99,7 @@
           "buttons": {
             "add": "Ajouter un élément",
             "delete": "Supprimer un élément",
-            "deleteCategory": "Supprimer la catégorie",
-            "share": "Partager mes éléments"
+            "deleteCategory": "Supprimer la catégorie"
           },
           "emptyState": "Aucun élément dans cette catégorie",
           "modals": {
