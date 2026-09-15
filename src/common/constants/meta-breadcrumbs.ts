@@ -132,7 +132,7 @@ export const BASE_BREADCRUMBS = {
         ],
       },
       SKILLS: [
-        ...BASE_STUDENT_PROJECT_BREADCRUMBS,
+        META_BREADCRUMBS.STUDENT.HOME,
         META_BREADCRUMBS.STUDENT.PROJECT.SKILLS,
       ]
     },

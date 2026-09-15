@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ICONS, ROUTES, studentPersonalCareerRoutes, studentProjectActivtiesRoutes, studentProjectTrajectoriesRoutes } from '@/common/constants'
+import { ICONS, ROUTES, studentPersonalCareerRoutes, studentProjectTrajectoriesRoutes } from '@/common/constants'
 import { isRouteActive } from '@/common/utils/route/route'
 import { studentToolsTracesRoutes } from '@/features/student/traces/routes'
 import { AvNavigation, ICONS_DATA_URL, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -17,74 +17,48 @@ const personalCareerNavigationTarget = computed(() => {
   return ROUTES.STUDENT.PERSONAL_CAREER
 })
 
-const projectActivitiesLink = computed(() => ({
-  to: ROUTES.STUDENT.PROJECT_ACTIVITIES,
-  highlight: isRouteActive({ route, routes: studentProjectActivtiesRoutes }),
-}))
-
-const projectTrajectoriesLink = computed(() => ({
-  to: ROUTES.STUDENT.PROJECT_TRAJECTORIES,
-  highlight: isRouteActive({ route, routes: studentProjectTrajectoriesRoutes }),
-}))
-
-const toolTracesLink = computed(() => ({
-  to: ROUTES.STUDENT.TOOLS_TRACES,
-  highlight: isRouteActive({ route, routes: studentToolsTracesRoutes }),
-}))
-
-const toolsMenu
-  = computed(() => ({
-    title: t('student.global.navigation.tabs.tools.header').toUpperCase(),
-    get active () {
-      return isRouteActive({ route, routes: [
-        ROUTES.STUDENT.TOOLS_KIT,
-        ...studentToolsTracesRoutes,
-      ] })
+const toolsMenu = computed(() => ({
+  title: t('student.global.navigation.tabs.tools.header').toUpperCase(),
+  get active () {
+    return isRouteActive({ route, routes: [
+      ROUTES.STUDENT.TOOLS_KIT,
+      ...studentToolsTracesRoutes,
+    ] })
+  },
+  links: [
+    {
+      to: ROUTES.STUDENT.TOOLS_TRACES,
+      text: t('student.global.navigation.tabs.tools.items.traces'),
+      icon: MDI_ICONS.ATTACH_FILE,
+      highlight: isRouteActive({ route, routes: studentToolsTracesRoutes })
     },
-    links: [
-      {
-        ...toolTracesLink.value,
-        text: t('student.global.navigation.tabs.tools.items.traces'),
-        icon: MDI_ICONS.ATTACH_FILE
-      },
-      {
-        to: ROUTES.STUDENT.TOOLS_KIT,
-        text: t('student.global.navigation.tabs.tools.items.kit'),
-        icon: MDI_ICONS.TOOLS
-      },
-    ],
-  }))
+    {
+      to: ROUTES.STUDENT.TOOLS_KIT,
+      text: t('student.global.navigation.tabs.tools.items.kit'),
+      icon: MDI_ICONS.TOOLS
+    },
+  ],
+}))
 
 const buildLifeProjectMenu = computed(() => ({
   title: t('student.global.navigation.tabs.project.header').toUpperCase(),
   get active () {
     return isRouteActive({ route, routes: [
-      ROUTES.STUDENT.PROJECT_SKILLS,
       ...studentPersonalCareerRoutes,
-      ...studentProjectActivtiesRoutes,
       ...studentProjectTrajectoriesRoutes
     ] })
   },
   links: [
-    {
-      to: ROUTES.STUDENT.PROJECT_SKILLS,
-      text: t('student.global.navigation.tabs.project.items.skills'),
-      icon: MDI_ICONS.STARS,
-    },
     {
       to: __DEMO_MODE__ ? ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS : personalCareerNavigationTarget.value,
       text: t('student.global.navigation.tabs.project.items.experiences'),
       icon: ICONS_DATA_URL.TEXT_BULLET_LIST_SPARKLE,
     },
     {
-      ...projectTrajectoriesLink.value,
+      to: ROUTES.STUDENT.PROJECT_TRAJECTORIES,
       text: t('student.global.navigation.tabs.project.items.trajectories'),
       icon: RI_ICONS.DRAW_LINE,
-    },
-    {
-      ...projectActivitiesLink.value,
-      text: t('student.global.navigation.tabs.project.items.activities'),
-      icon: ICONS.ACTIVITY,
+      highlight: isRouteActive({ route, routes: studentProjectTrajectoriesRoutes })
     },
   ],
 }))
@@ -96,6 +70,16 @@ const navItems = computed(() => [
     to: ROUTES.STUDENT.HOME,
     text: t('student.global.navigation.tabs.home').toUpperCase(),
     icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
+  },
+  {
+    to: ROUTES.STUDENT.PROJECT_ACTIVITIES,
+    text: t('student.global.navigation.tabs.project.items.activities').toUpperCase(),
+    icon: ICONS.ACTIVITY,
+  },
+  {
+    to: ROUTES.STUDENT.PROJECT_SKILLS,
+    text: t('student.global.navigation.tabs.project.items.skills').toUpperCase(),
+    icon: MDI_ICONS.STARS,
   },
   buildLifeProjectMenu.value,
   toolsMenu.value,
