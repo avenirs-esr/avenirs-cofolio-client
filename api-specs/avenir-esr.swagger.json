@@ -4672,7 +4672,7 @@
     "/back-office/admin/institutions": {
       "get": {
         "tags": [
-          "institution-controller"
+          "institution-admin-controller"
         ],
         "operationId": "findAll",
         "parameters": [
@@ -4724,7 +4724,7 @@
       },
       "put": {
         "tags": [
-          "institution-controller"
+          "institution-admin-controller"
         ],
         "operationId": "updateAll_1",
         "parameters": [
@@ -4768,7 +4768,7 @@
       },
       "post": {
         "tags": [
-          "institution-controller"
+          "institution-admin-controller"
         ],
         "operationId": "createAll_1",
         "parameters": [
@@ -4811,7 +4811,7 @@
     "/back-office/admin/groups": {
       "get": {
         "tags": [
-          "group-controller"
+          "group-admin-controller"
         ],
         "operationId": "findAll_1",
         "parameters": [
@@ -4891,7 +4891,7 @@
       },
       "put": {
         "tags": [
-          "group-controller"
+          "group-admin-controller"
         ],
         "operationId": "updateAll_2",
         "parameters": [
@@ -4935,7 +4935,7 @@
       },
       "post": {
         "tags": [
-          "group-controller"
+          "group-admin-controller"
         ],
         "operationId": "createAll_2",
         "parameters": [
@@ -5163,6 +5163,99 @@
         }
       }
     },
+    "/back-office/institutions/{id}": {
+      "get": {
+        "tags": [
+          "institution-controller"
+        ],
+        "operationId": "getInstitutionById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstitutionDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/groups/{id}": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "operationId": "getGroupById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/groups/{id}/program": {
+      "get": {
+        "tags": [
+          "group-controller"
+        ],
+        "operationId": "getProgramOfGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/GroupDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/back-office/external-users/{id}": {
       "get": {
         "tags": [
@@ -5328,7 +5421,7 @@
     "/back-office/admin/institutions/{id}": {
       "get": {
         "tags": [
-          "institution-controller"
+          "institution-admin-controller"
         ],
         "operationId": "findById",
         "parameters": [
@@ -5365,7 +5458,7 @@
       },
       "delete": {
         "tags": [
-          "institution-controller"
+          "institution-admin-controller"
         ],
         "operationId": "delete_1",
         "parameters": [
@@ -5397,7 +5490,7 @@
     "/back-office/admin/groups/{id}": {
       "get": {
         "tags": [
-          "group-controller"
+          "group-admin-controller"
         ],
         "operationId": "findById_1",
         "parameters": [
@@ -5434,7 +5527,7 @@
       },
       "delete": {
         "tags": [
-          "group-controller"
+          "group-admin-controller"
         ],
         "operationId": "delete_2",
         "parameters": [
@@ -7043,6 +7136,98 @@
           "updatedAt"
         ]
       },
+      "DeclaredSkillCategoryDTO": {
+        "type": "object",
+        "properties": {
+          "libelle": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/EExternalSkillCategoryType",
+            "enum": [
+              "MACRO_SKILL",
+              "TARGET",
+              "ISSUE",
+              "DOMAIN"
+            ]
+          }
+        },
+        "required": [
+          "libelle",
+          "type"
+        ]
+      },
+      "DeclaredSkillProgressDetailsDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "pathSegments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredSkillCategoryDTO"
+            }
+          },
+          "reflection": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/EExternalSkillType",
+            "enum": [
+              "ROME4",
+              "XXI",
+              "CASOC",
+              "CASOL"
+            ]
+          },
+          "level": {
+            "type": "string",
+            "$ref": "#/components/schemas/EDeclaredSkillLevel",
+            "enum": [
+              "BEGINNER",
+              "INTERMEDIATE",
+              "COMPETENT",
+              "ADVANCED",
+              "EXPERT"
+            ]
+          },
+          "traceAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceOverviewDTO"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "valorized": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "createdAt",
+          "id",
+          "level",
+          "pathSegments",
+          "title",
+          "traceAssociations",
+          "type",
+          "updatedAt",
+          "valorized"
+        ]
+      },
       "FeedbackDetailsDTO": {
         "type": "object",
         "properties": {
@@ -7135,72 +7320,6 @@
           "firstName",
           "id",
           "lastName"
-        ]
-      },
-      "StudentInfoDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "program": {
-            "$ref": "#/components/schemas/GroupDTO"
-          }
-        },
-        "required": [
-          "email",
-          "firstName",
-          "id",
-          "lastName"
-        ]
-      },
-      "GroupDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "$ref": "#/components/schemas/EGroupType",
-            "enum": [
-              "PROGRAM",
-              "PROGRAM_OPTION",
-              "STUDENT_GROUP"
-            ]
-          },
-          "parentId": {
-            "type": "string",
-            "format": "uuid"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "type"
-        ]
-      },
-      "EGroupType": {
-        "type": "string",
-        "description": "Enum for group type",
-        "enum": [
-          "PROGRAM",
-          "PROGRAM_OPTION",
-          "STUDENT_GROUP"
         ]
       },
       "ActivityDraftCreationResponse": {
@@ -7807,98 +7926,6 @@
           "page"
         ]
       },
-      "DeclaredSkillCategoryDTO": {
-        "type": "object",
-        "properties": {
-          "libelle": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "$ref": "#/components/schemas/EExternalSkillCategoryType",
-            "enum": [
-              "MACRO_SKILL",
-              "TARGET",
-              "ISSUE",
-              "DOMAIN"
-            ]
-          }
-        },
-        "required": [
-          "libelle",
-          "type"
-        ]
-      },
-      "DeclaredSkillProgressDetailsDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "pathSegments": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeclaredSkillCategoryDTO"
-            }
-          },
-          "reflection": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "$ref": "#/components/schemas/EExternalSkillType",
-            "enum": [
-              "ROME4",
-              "XXI",
-              "CASOC",
-              "CASOL"
-            ]
-          },
-          "level": {
-            "type": "string",
-            "$ref": "#/components/schemas/EDeclaredSkillLevel",
-            "enum": [
-              "BEGINNER",
-              "INTERMEDIATE",
-              "COMPETENT",
-              "ADVANCED",
-              "EXPERT"
-            ]
-          },
-          "traceAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TraceOverviewDTO"
-            }
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "valorized": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "createdAt",
-          "id",
-          "level",
-          "pathSegments",
-          "title",
-          "traceAssociations",
-          "type",
-          "updatedAt",
-          "valorized"
-        ]
-      },
       "PagedResponseDeclaredProgramViewDTO": {
         "type": "object",
         "properties": {
@@ -8121,6 +8148,36 @@
           "page"
         ]
       },
+      "GroupDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/EGroupType",
+            "enum": [
+              "PROGRAM",
+              "PROGRAM_OPTION",
+              "STUDENT_GROUP"
+            ]
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type"
+        ]
+      },
       "StudentFeedbackItemListDTO": {
         "type": "object",
         "properties": {
@@ -8130,11 +8187,49 @@
           },
           "student": {
             "$ref": "#/components/schemas/StudentInfoDTO"
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/EFeedbackStatus",
+            "enum": [
+              "NEW",
+              "IN_PROCESS",
+              "SUBMITTED",
+              "SEEN"
+            ]
           }
         },
         "required": [
           "id",
+          "status",
           "student"
+        ]
+      },
+      "StudentInfoDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "program": {
+            "$ref": "#/components/schemas/GroupDTO"
+          }
+        },
+        "required": [
+          "email",
+          "firstName",
+          "id",
+          "lastName"
         ]
       },
       "FeedbackDashboardDTO": {
@@ -8389,22 +8484,6 @@
           "page"
         ]
       },
-      "ActivityItemNavigationDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "title"
-        ]
-      },
       "ActivityStaffOverviewDTO": {
         "type": "object",
         "properties": {
@@ -8470,6 +8549,22 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "ActivityItemNavigationDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title"
         ]
       },
       "ActivityNavigationDTO": {
@@ -8824,6 +8919,23 @@
           "ROLE_STUDENT",
           "ROLE_STAFF",
           "ROLE_SUPER_ADMIN"
+        ]
+      },
+      "EInstitutionType": {
+        "type": "string",
+        "description": "Enum for institution type",
+        "enum": [
+          "PRIMARY",
+          "SECONDARY"
+        ]
+      },
+      "EGroupType": {
+        "type": "string",
+        "description": "Enum for group type",
+        "enum": [
+          "PROGRAM",
+          "PROGRAM_OPTION",
+          "STUDENT_GROUP"
         ]
       },
       "ExternalUserData": {
@@ -9299,6 +9411,35 @@
             }
           }
         }
+      },
+      "InstitutionDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/EInstitutionType",
+            "enum": [
+              "PRIMARY",
+              "SECONDARY"
+            ]
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type"
+        ]
       },
       "InstitutionConfigurationElements": {
         "type": "object",
