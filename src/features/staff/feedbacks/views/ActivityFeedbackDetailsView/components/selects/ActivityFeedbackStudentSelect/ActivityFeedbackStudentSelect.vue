@@ -33,9 +33,10 @@ const selectedFeedback = computed(() =>
   feedbacks.find(feedback => feedback.feedbackId === selectedStudent.value.itemId),
 )
 
-const selectedStudentEmail = computed(() =>
-  selectedFeedback.value?.student.email ?? '',
-)
+const selectedStudentDetails = computed(() => {
+  const student = selectedFeedback.value?.student
+  return [student?.program?.name, student?.email].filter(Boolean).join(' • ')
+})
 
 const prevOption = computed(() => {
   const currentIndex = options.value.findIndex(option => option.id === selectedStudent.value.itemId)
@@ -75,15 +76,10 @@ const nextOption = computed(() => {
         />
       </div>
 
-      <div
-        v-if="selectedFeedback"
-        class="activity-feedback-student-select__details av-col av-align-center av-text-center"
-      >
-        <span
-          v-if="selectedStudentEmail"
-          class="av-text-text2 caption-regular"
-        >{{ selectedStudentEmail }}</span>
-      </div>
+      <span
+        v-if="selectedStudentDetails"
+        class="activity-feedback-student-select__details av-text-text2 av-text-center caption-regular"
+      >{{ selectedStudentDetails }}</span>
     </div>
     <AvButton
       :label="t('global.buttons.next')"

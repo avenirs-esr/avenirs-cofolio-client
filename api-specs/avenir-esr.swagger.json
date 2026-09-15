@@ -7137,6 +7137,72 @@
           "lastName"
         ]
       },
+      "StudentInfoDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "program": {
+            "$ref": "#/components/schemas/GroupDTO"
+          }
+        },
+        "required": [
+          "email",
+          "firstName",
+          "id",
+          "lastName"
+        ]
+      },
+      "GroupDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/EGroupType",
+            "enum": [
+              "PROGRAM",
+              "PROGRAM_OPTION",
+              "STUDENT_GROUP"
+            ]
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type"
+        ]
+      },
+      "EGroupType": {
+        "type": "string",
+        "description": "Enum for group type",
+        "enum": [
+          "PROGRAM",
+          "PROGRAM_OPTION",
+          "STUDENT_GROUP"
+        ]
+      },
       "ActivityDraftCreationResponse": {
         "type": "object",
         "properties": {
@@ -8063,7 +8129,7 @@
             "format": "uuid"
           },
           "student": {
-            "$ref": "#/components/schemas/UserInfoDTO"
+            "$ref": "#/components/schemas/StudentInfoDTO"
           }
         },
         "required": [

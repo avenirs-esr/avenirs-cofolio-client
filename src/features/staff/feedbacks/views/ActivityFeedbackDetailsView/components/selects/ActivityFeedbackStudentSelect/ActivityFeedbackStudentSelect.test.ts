@@ -1,4 +1,5 @@
 import type { StudentFeedbackItemListDTO } from '@/api/avenir-esr'
+import { EGroupType } from '@/api/avenir-esr'
 import ActivityFeedbackStudentSelect
   from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/selects/ActivityFeedbackStudentSelect/ActivityFeedbackStudentSelect.vue'
 import { AvButtonStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -13,6 +14,11 @@ const feedbacks = [
       firstName: 'Lucas',
       lastName: 'Tessier',
       email: 'lucas.tessier@test.fr',
+      program: {
+        id: 'program-1',
+        name: 'Licence Informatique',
+        type: EGroupType.PROGRAM,
+      },
     },
   },
   {
@@ -79,8 +85,8 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       ])
     })
 
-    BddTest().then('it should display the selected student email', () => {
-      expect(wrapper.text()).toContain('lucas.tessier@test.fr')
+    BddTest().then('it should display the selected student program and email', () => {
+      expect(wrapper.text()).toContain('Licence Informatique • lucas.tessier@test.fr')
     })
 
     BddTest().and('the user selects the next student', () => {
@@ -118,7 +124,25 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
 
     BddTest().then('it should not display the student details', () => {
       expect(wrapper.text()).not.toContain('lucas.tessier@test.fr')
+      expect(wrapper.text()).not.toContain('Licence Informatique')
       expect(wrapper.text()).not.toContain('Activité test')
+    })
+  })
+
+  BddTest().when('the selected student has no program', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(ActivityFeedbackStudentSelect, {
+        props: {
+          feedbacks,
+          selectedStudent: { itemId: 'feedback-2' },
+        },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should display the email without the separator', () => {
+      expect(wrapper.text()).toContain('john.doe@test.fr')
+      expect(wrapper.text()).not.toContain('•')
     })
   })
 
