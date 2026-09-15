@@ -4,7 +4,19 @@ import { SelectedAssociateItemsContainerStub } from '@/features/student/global/c
 import SearchAssociationLayout from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+
+export const mockIsMobile = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({
+      isMobile: mockIsMobile,
+    })
+  }
+})
 
 BddTest().given('a search association layout', () => {
   let wrapper: ReturnType<typeof mount<typeof SearchAssociationLayout>>
@@ -52,6 +64,10 @@ BddTest().given('a search association layout', () => {
     })
   })
 
+  afterEach(() => {
+    mockIsMobile.value = false
+  })
+
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the layout wrapper', () => {
       expect(wrapper.find('[data-testid="search-association-layout"]').exists()).toBe(true)
@@ -73,6 +89,7 @@ BddTest().given('a search association layout', () => {
       expect(autocomplete.props('inputOptions')).toEqual({
         placeholder: 'Search items'
       })
+      expect(autocomplete.props('dropdownClass')).toBeUndefined()
     })
 
     BddTest().then('it should render the selected items container', () => {
@@ -90,6 +107,46 @@ BddTest().given('a search association layout', () => {
       expect(layout.classes()).toContain('av-row--md')
       expect(layout.classes()).toContain('av-align-stretch--md')
       expect(layout.classes()).toContain('av-gap-sm')
+      expect(layout.classes()).not.toContain('search-association-layout--mobile')
+    })
+  })
+
+  BddTest().and('it is viewed in mobile', () => {
+    beforeEach(() => {
+      mockIsMobile.value = true
+      wrapper = mount(SearchAssociationLayout, {
+        props: {
+          modelValue: [],
+          options,
+          items,
+          getOptionKey: (option: AvAutocompleteOption) => option.value,
+          getOptionLabel: (option: AvAutocompleteOption) => option.label
+        },
+        slots: {
+          selectedItem: `
+            <template #selectedItem="{ item }">
+              <div :data-testid="'selected-item-' + item.id">
+                {{ item.title }}
+              </div>
+            </template>
+          `
+        },
+        global: {
+          stubs
+        }
+      })
+    })
+
+    BddTest().then('it should add the mobile modifier class to the layout', () => {
+      const layout = wrapper.find('[data-testid="search-association-layout"]')
+
+      expect(layout.classes()).toContain('search-association-layout--mobile')
+    })
+
+    BddTest().then('it should pass a dropdown class to the autocomplete to keep it in the document flow', () => {
+      const autocomplete = wrapper.findComponent(AutocompleteStub)
+
+      expect(autocomplete.props('dropdownClass')).toBe('search-association-layout__mobile-dropdown')
     })
   })
 

@@ -15,6 +15,7 @@ export const AutocompleteStub = defineComponent({
     'maxDropdownHeight',
     'search',
     'showClearSelectionButton',
+    'dropdownClass',
   ],
   emits: ['update:modelValue', 'clear', 'loadMore', 'update:search'],
   template: `
