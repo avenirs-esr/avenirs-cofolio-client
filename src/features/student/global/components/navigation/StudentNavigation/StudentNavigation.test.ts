@@ -43,10 +43,10 @@ BddTest().given('a student navigation', () => {
     })
 
     BddTest().then('it should generate navigation items', () => {
-      expect(wrapper.findAll('.av-nav__item')).toHaveLength(3)
+      expect(wrapper.findAll('.av-nav__item')).toHaveLength(4)
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       const navItems = avNavigation.props('navItems')
-      expect(navItems).toHaveLength(3)
+      expect(navItems).toHaveLength(4)
     })
 
     BddTest().then('it should include home navigation item with correct properties', () => {
@@ -57,6 +57,17 @@ BddTest().given('a student navigation', () => {
       expect(homeItem).toMatchObject({
         text: 'ACCUEIL',
         to: expect.objectContaining({ name: 'student-home' }),
+      })
+    })
+
+    BddTest().then('it should include activities navigation item with correct properties', () => {
+      const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
+      const navItems = avNavigation.props('navItems')
+
+      const homeItem = navItems[1]
+      expect(homeItem).toMatchObject({
+        text: 'MES ACTIVITÉS',
+        to: expect.objectContaining(ROUTES.STUDENT.ACTIVITIES),
       })
     })
   })

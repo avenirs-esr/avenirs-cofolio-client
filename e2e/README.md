@@ -181,8 +181,8 @@ class PageTitleSteps {
   private getCurrentPageConfig () {
     const url = this.page.url()
     const configs = {
-      [STUDENT_ROUTES.PROJECT.ACTIVITIES]: {
-        title: t('student.buildProject.views.projectActivitiesView.title'),
+      [STUDENT_ROUTES.ACTIVITIES]: {
+        title: t('student.activities.views.ActivitiesView.title'),
         breadcrumbItems: [ ... ]
       },
       [STUDENT_ROUTES.PROJECT.TRAJECTORIES]: {
@@ -366,7 +366,7 @@ Is this component visible across multiple pages with the same locators?
 │                   StudentLayoutSteps (StudentLayout header)
 │
 └─► NO  → PageObject (specific to one page)
-          Examples: StudentHomePage, StudentProjectActivitiesPage
+          Examples: StudentHomePage, StudentActivitiesPage
 ```
 
 ### Should this be a ComponentObject or inline in a Steps/PageObject?

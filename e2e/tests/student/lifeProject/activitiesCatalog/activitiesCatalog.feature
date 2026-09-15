@@ -77,8 +77,8 @@ Rule: Activity subscription - Desktop
         And the activity preview access button is hidden
 
       @high @subscribe @unsubscribe-activity-from-catalog @skip
-      Scenario: Student can access the activity detailed page when subscribed
+      Scenario: Student can access the activity page when subscribed
         When the user clicks on the activity preview subscribe modal confirm button
         Then the activity preview access button is visible
         When the user clicks on the activity preview access button
-        Then the student is redirected to the activity detailed page
+        Then the student is redirected to the activity page

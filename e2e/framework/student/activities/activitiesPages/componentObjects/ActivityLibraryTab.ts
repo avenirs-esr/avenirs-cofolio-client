@@ -1,0 +1,145 @@
+import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+import { PaginationObject } from '@e2e/framework/shared/componentObjects/PaginationObject'
+import { clickOnElement } from '@e2e/framework/shared/utils/click'
+import { t } from '@e2e/framework/shared/utils/i18n'
+import { extractNumberFromText } from '@e2e/framework/shared/utils/text'
+import { ActivityLibraryCard } from '@e2e/framework/student/activities/activitiesPages/componentObjects/ActivityLibraryCard'
+import { ActivityLibraryDropdown } from '@e2e/framework/student/activities/activitiesPages/componentObjects/ActivityLibraryDropdown'
+import { UnsubscribeActivitiesModal } from '@e2e/framework/student/activities/activitiesPages/componentObjects/UnsubscribeActivitiesModal'
+import { expect, type Page } from '@playwright/test'
+
+export class ActivityLibraryTab extends BaseObject {
+  constructor (protected page: Page) {
+    super(page.getByTestId('activity-library-tab'), page)
+  }
+
+  getTitle () {
+    return this.root.getByTestId('activity-library-tab-title')
+  }
+
+  getCardList () {
+    return this.root.getByTestId('activity-library-card-list')
+  }
+
+  getCards () {
+    return this.getCardList().getByTestId('activity-library-card')
+  }
+
+  getCardByIndex (index: number) {
+    return new ActivityLibraryCard(this.getCards().nth(index))
+  }
+
+  getEmptyState () {
+    return this.root.getByTestId('empty-state')
+  }
+
+  getPagination () {
+    return new PaginationObject(this.root.getByTestId('pagination'))
+  }
+
+  getDropdown () {
+    return new ActivityLibraryDropdown(this.root.getByTestId('activity-library-dropdown'), this.page!)
+  }
+
+  getUnsubscribeModal () {
+    return new UnsubscribeActivitiesModal(this.page!.getByTestId('unsubscribe-activities-modal'), this.page!)
+  }
+
+  getPageSizePickerOption (pageSize: number) {
+    return this.root
+      .page()
+      .getByTestId('av-tag-picker')
+      .and(this.root.page().locator(`[data-option="${pageSize}"]`))
+  }
+
+  getCardByActivityId (activityId: string) {
+    return this.root.locator(
+      `[data-testid="activity-library-card"][data-activity-id="${activityId}"]`
+    )
+  }
+
+  async verifyTitleWithPositiveCount () {
+    await expect(this.getTitle()).toBeVisible()
+    const count = await extractNumberFromText(this.getTitle())
+    expect(count).toBeGreaterThan(0)
+  }
+
+  async verifyEmptyStateVisible () {
+    await expect(this.getEmptyState()).toBeVisible()
+  }
+
+  async verifyEmptyStateMessage () {
+    await expect(this.getEmptyState()).toHaveText(
+      t('student.activities.views.ActivitiesView.ActivityLibraryTab.emptyState')
+    )
+  }
+
+  async verifyCardListVisible () {
+    await expect(this.getCardList()).toBeVisible()
+  }
+
+  async verifyCardsNotEmpty () {
+    await expect(this.getCards()).not.toHaveCount(0)
+  }
+
+  async verifyCardCountNotExceedsPageSize () {
+    const pageSize = await this.getPagination().getCurrentPageSize()
+    const count = await this.getCards().count()
+    expect(count).toBeLessThanOrEqual(pageSize)
+  }
+
+  async verifyCardCountLessThan (maxCount: number) {
+    const count = await this.getCards().count()
+    expect(count).toBeLessThan(maxCount)
+  }
+
+  async clickFirstCard () {
+    await this.getCardByIndex(0).click()
+  }
+
+  async clickCardWithStatus (status: string) {
+    const count = await this.getCards().count()
+
+    for (let i = 0; i < count; i++) {
+      const card = this.getCardByIndex(i)
+
+      if (await card.hasStatus(status)) {
+        await clickOnElement(card.getRoot())
+        return
+      }
+    }
+
+    throw new Error(`No activity card with ${status} status found in activity library tab`)
+  }
+
+  async clickCardWithNotInProgressStatus () {
+    const count = await this.getCards().count()
+
+    for (let i = 0; i < count; i++) {
+      const card = this.getCardByIndex(i)
+
+      if (await card.hasNotInProgressStatus()) {
+        await clickOnElement(card.getRoot())
+        return
+      }
+    }
+
+    throw new Error('No activity card with not in progress status found in activity library tab')
+  }
+
+  async selectPageSize (pageSize: number) {
+    const option = this.getPageSizePickerOption(pageSize)
+
+    await expect(option).toBeVisible()
+    await option.click()
+
+    await expect.poll(async () => this.getCards().count()).toBeGreaterThan(1)
+  }
+
+  async clickCardByActivityId (activityId: string) {
+    const card = this.getCardByActivityId(activityId)
+
+    await expect(card).toBeVisible()
+    await card.click()
+  }
+}

@@ -1,0 +1,196 @@
+{
+  "student": {
+    "activities": {
+      "activity": "activity | activities",
+      "badges": {
+        "ActivityNewBadge": {
+          "label": "New"
+        }
+      },
+      "drawers": {
+        "UpdateActivityDrawer": {
+          "confirmationModal": {
+            "description": "Are you sure you want to cancel your changes? Unsaved changes will be lost."
+          },
+          "sections": {
+            "notificationHint": "You will receive a notification 1 day before the start of your activity.",
+            "period": "Achievement period",
+            "periodLabel": "Update my personal achievement period",
+            "reminder": "Reminders",
+            "valorization": "Kit valorization"
+          },
+          "success": "The activity has been successfully updated.",
+          "title": "Edit activity"
+        }
+      },
+      "errors": {
+        "ActivityErrorMessage": {
+          "description": "The activity you are looking for does not exist or is not accessible.",
+          "title": "Activity not found"
+        }
+      },
+      "interactions": {
+        "buttons": {
+          "resubscribe": "Subscribe again",
+          "subscribe": "Subscribe to the activity",
+          "unsubscribe": "Unsubscribe"
+        },
+        "formFields": {
+          "ActivityPeriodFormField": {
+            "label": "Add a personal achievement period"
+          }
+        }
+      },
+      "modals": {
+        "SubscribeActivityConfirmModal": {
+          "error": "An error occurred while subscribing to the activity. Please try again later.",
+          "success": "You have successfully subscribed. Find this activity in your activity library.",
+          "title": "Are you sure you want to subscribe to the activity: {title}?"
+        },
+        "UnsubscribeActivitiesConfirmModal": {
+          "description": "The content you have already filled in for this activity will be kept.",
+          "error": "An error occurred while unsubscribing from the activity. Please try again later. | An error occurred while unsubscribing from the activities. Please try again later.",
+          "feedbackWarning": "Warning, your feedback requests that have not yet received a response will be permanently deleted and will no longer be visible to the teacher",
+          "success": "You have been successfully unsubscribed.",
+          "title": "Are you sure you want to unsubscribe from this activity? | Are you sure you want to unsubscribe from these activities?"
+        }
+      },
+      "views": {
+        "ActivitiesCatalogView": {
+          "ActivitiesSelectNavigation": {
+            "placeholder": "My activities"
+          },
+          "buttons": {
+            "access": "Access my activity"
+          },
+          "title": "All available activities"
+        },
+        "ActivitiesView": {
+          "ActivityLibraryCard": {
+            "period": "Personal achievement period"
+          },
+          "ActivityLibraryTab": {
+            "emptyState": "No ongoing or completed registration, go explore all available activities",
+            "tabTitle": "My activity library | My activity library ({count}) | My activity library ({count})"
+          },
+          "AllActivitiesHeaderCard": {
+            "description": "Activities offered by your SUIO and your institution. For any requests for additional activities, please contact your guidance counselor.",
+            "seeAll": "See all activities"
+          },
+          "AllActivitiesSection": {
+            "buttons": {
+              "all": "All activities"
+            },
+            "noActivitiesFound": "This thematic does not contain any activities yet.",
+            "title": "All activities | All activities ({count}) | All activities ({count})"
+          },
+          "AllActivitiesTab": {
+            "tabTitle": "All available activities ({count})"
+          },
+          "NewActivitiesPaginatorCard": {
+            "pagination": {
+              "ariaLabel": "Pagination of new activities"
+            },
+            "title": "New activities | New activities ({count}) | New activities ({count})"
+          },
+          "title": "My activities",
+          "UnsubscribeActivitiesModal": {
+            "confirm": "Unsubscribe from the selected activity ({count}) | Unsubscribe from the selected activities ({count})",
+            "description": "You cannot unsubscribe from mandatory activities.",
+            "title": "No activity to unsubscribe from | Which activity would you like to unsubscribe from? | Which activities would you like to unsubscribe from?"
+          }
+        },
+        "ActivityView": {
+          "ActivityDetailedDropdown": {
+            "triggerLabel": "Manage my activity"
+          },
+          "ActivityDetailedSideNavigation": {
+            "myReflection": "My reflection"
+          },
+          "AssociatedElementsTab": {
+            "maxTraceAssociationsReached": "You have reached the maximum number of traces allowed for this activity"
+          },
+          "AssociationLimitCard": {
+            "count": "Limited to {count} trace | Limited to {count} traces",
+            "disabled": "Trace association disabled",
+            "title": "Association limit",
+            "unlimited": "Unlimited traces"
+          },
+          "DeleteActivityAssociatedElementsModal": {
+            "success": "The selected associations have been successfully deleted."
+          },
+          "FeedbackCard": {
+            "downloadAllAttachments": "Download all documents",
+            "receivedAt": "Feedback received on",
+            "staffRole": "Teacher"
+          },
+          "FeedbackInfoCard": {
+            "description": "Requesting feedback will allow you to receive a response from a referring advisor. This request will allow them to access your activity while writing their comment.",
+            "disabled": "Feedback disabled",
+            "iterations": "Limited to {count} iteration | Limited to {count} iterations",
+            "iterationsUnlimited": "No limit",
+            "title": "Feedback request"
+          },
+          "FinishDeclaredActivity": {
+            "finishButton": "Finish the activity",
+            "finishedAt": "Finished at {date}",
+            "finishLabel": "Finished"
+          },
+          "FinishDeclaredActivityConfirmModal": {
+            "description": "Are you sure you want to finish this activity? You will no longer be able to modify it.",
+            "error": "An error occurred while finishing the activity. Please try again later.",
+            "success": "Your activity is finished.",
+            "title": "Confirm finition of the activity"
+          },
+          "MyPerspectiveCard": {
+            "autoSave": {
+              "error": "An error occurred while automatically saving your perspective. Please try again later.",
+              "success": "Your perspective has been automatically saved."
+            },
+            "perspective": "My perspective",
+            "save": {
+              "error": "An error occurred while saving your perspective. Please try again later.",
+              "success": "Your perspective has been successfully saved."
+            }
+          },
+          "MyPerspectiveSection": {
+            "tabs": {
+              "associatedElements": "My associated elements ({count})",
+              "myPerspective": "My perspective"
+            }
+          },
+          "PerspectiveTabActions": {
+            "error": "An error occurred while requesting feedback. Please try again later.",
+            "feedbackPending": "Your request is being processed",
+            "maximumFeedbackReached": "You have reached the maximum number of requests allowed",
+            "success": "Your activity has been successfully submitted. You will be notified when your referent advisor has responded.",
+            "updatableFeedback": "Feedback request sent on {date}. You can update your request, this does not constitute a new iteration."
+          },
+          "ActivityDetails": {
+            "modalities": {
+              "title": "Activity settings",
+              "traceAssociationTitle": "Traces association"
+            },
+            "recommendedCompletionContexts": "Recommended completion context(s)"
+          },
+          "ReceivedFeedbacksSection": {
+            "empty": "You have not received any feedback yet",
+            "titleLimited": "Feedback received ({count}/{max}) | Feedbacks received ({count}/{max})",
+            "titleUnlimited": "Feedback received ({count}) | Feedbacks received ({count})"
+          },
+          "RequestFeedback": {
+            "requestFeedbackButton": {
+              "requestFeedbackLabel": "Ask for feedback",
+              "updateFeedbackLabel": "Update my feedback request"
+            },
+            "requestFeedbackConfirmModal": {
+              "description": "Are you sure you want to submit your activity? You have 1 feedback request available for this activity. | Are you sure you want to submit your activity? You have {count} feedback requests available for this activity.",
+              "descriptionUnlimited": "Are you sure you want to submit your activity? You have an unlimited number of feedback requests available for this activity.",
+              "title": "Ask for feedback"
+            }
+          }
+        }
+      }
+    }
+  }
+}

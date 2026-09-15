@@ -25,7 +25,7 @@ export class StudentLayout extends BaseObject {
 
   getProjectActivitiesLink () {
     return this.getMainNavigation().getByRole('link', {
-      name: t('student.global.navigation.tabs.project.items.activities'),
+      name: t('student.global.navigation.tabs.activities'),
     })
   }
 

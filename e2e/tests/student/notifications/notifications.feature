@@ -23,4 +23,4 @@ Feature: Student Notifications
     @high @activity-modified-notification
     Scenario: Student can access the modified activity from the notification
       When the student clicks on the activity modified notification with a single updated section
-      Then the student is redirected to the modified activity details page
+      Then the student is redirected to the modified activity page

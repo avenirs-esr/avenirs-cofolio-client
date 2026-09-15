@@ -9,7 +9,7 @@ Feature: Student Project Activities Page
     @high
     Scenario: Student can load project activities page successfully
       Then the student project activities page is displayed
-      And the URL contains "/cofolio/student/project/activities"
+      And the URL contains "/cofolio/student/activities"
 
   Rule: Page Title
 

@@ -17,9 +17,19 @@
             "THEMATIC": "Thématique"
           }
         },
+        "AssociatedDeclaredActivitiesCard": {
+          "title": "Mon activité déclarée associée ({count}) | Mes activités déclarées associées ({count})"
+        },
+        "AssociatedTracesCard": {
+          "titleLimited": "Ma trace associée ({count}/{allowedtrace}) | Mes traces associées ({count}/{allowedtrace})",
+          "titleUnlimited": "Ma trace associée ({count}) | Mes traces associées ({count})"
+        },
         "SelectedAssociateItemContainer": {
           "label": "Mes éléments sélectionnés ({count})"
         }
+      },
+      "errors": {
+        "updateActivity": "Une erreur est survenue lors de la mise à jour de l'activité. Veuillez réessayer plus tard."
       },
       "layout": {
         "header": {
@@ -59,11 +69,11 @@
           "label": "Accéder à"
         },
         "tabs": {
+          "activities": "Mes activités",
           "home": "Accueil",
           "project": {
             "header": "Construire mon projet de vie",
             "items": {
-              "activities": "Mes activités",
               "declaredExperience": "Toutes mes expériences déclarées",
               "declaredSkills": "Mes autres compétences déclarées",
               "experiences": "Mon parcours",

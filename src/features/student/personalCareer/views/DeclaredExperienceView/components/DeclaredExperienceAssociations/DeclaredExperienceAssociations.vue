@@ -6,9 +6,9 @@ import AssociationElementsDropdown
   from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import { QuerySuspense } from '@/common/components'
 import { useModal } from '@/common/composables'
-import AssociatedTracesCard
-  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
 import { AssociatedDeclaredSkillsCard } from '@/features/student/declaredSkills'
+import AssociatedTracesCard
+  from '@/features/student/global/components/cards/AssociatedTracesCard/AssociatedTracesCard.vue'
 import AssociateDeclaredSkillsToDeclaredExperienceModal
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/AssociateDeclaredSkillsToDeclaredExperienceModal/AssociateDeclaredSkillsToDeclaredExperienceModal.vue'
 import AssociateTracesToDeclaredExperienceModal

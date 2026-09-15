@@ -6,10 +6,10 @@ import { AssociationElementsDropdownStub }
   from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { BaseApiErrorCode } from '@/common/exceptions'
-import { AssociatedTracesCardStub }
-  from '@/features/student/buildProject/views/ProjectActivityDetailedView/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import { AssociatedDeclaredSkillsCardStub }
   from '@/features/student/declaredSkills/components/cards/AssociatedDeclaredSkillsCard/AssociatedDeclaredSkillsCard.stub'
+import { AssociatedTracesCardStub }
+  from '@/features/student/global/components/cards/AssociatedTracesCard/AssociatedTracesCard.stub'
 import DeclaredExperienceAssociations
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.vue'
 import { AssociateDeclaredSkillsToDeclaredExperienceModalStub }

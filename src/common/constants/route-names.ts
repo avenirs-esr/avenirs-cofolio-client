@@ -25,6 +25,7 @@ export const ROUTES = {
     ABOUT: { name: 'student-about', path: 'about' },
     ACCESSIBILITY: { name: 'student-accessibility', path: 'accessibility' },
     ACTIVITY: { name: 'student-activity', path: 'activity/:id' },
+    ACTIVITIES: { name: 'student-activities', path: 'activities' },
     ACTIVITIES_CATALOG: { name: 'student-activities-catalog', path: 'activities/catalog/:thematic?/:id?' },
     COOKIES: { name: 'student-cookies', path: 'cookies' },
     DECLARED_EXPERIENCE: { name: 'student-declared-experience', path: 'declared-experience/:id' },
@@ -40,9 +41,6 @@ export const ROUTES = {
     PERSONAL_CAREER_MY_CAREER: { name: 'personal-career-my-career', path: 'my-career' },
     PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM: { name: 'personal-career-update-declared-program', path: 'project/personal-career/update-declared-programs/:id' },
     PERSONAL_DATA: { name: 'student-personal-data', path: 'personal-data' },
-    PROJECT_ACTIVITIES: { name: 'student-project-activities', path: 'project/activities' },
-    PROJECT_ACTIVITIES_CATALOG: { name: 'student-project-activities-catalog', path: 'project/activities/catalog/:thematic?/:id?' },
-    PROJECT_ACTIVITIES_DETAILED: { name: 'student-project-activities-detailed', path: 'project/activities/:id/details' },
     PROJECT_DECLARED_SKILL: { name: 'student-project-declared-skill', path: 'project/declared-skill/:id' },
     PROJECT_SKILLS: { name: 'student-project-skills', path: 'project/skills' },
     PROJECT_TRAJECTORIES: { name: 'student-project-trajectories', path: 'project/trajectories' },
@@ -56,6 +54,8 @@ export const ROUTES = {
     UPDATE_DECLARED_EXPERIENCE: { name: 'student-update-declared-experience', path: 'update-declared-experience/:id' },
     UPDATE_DECLARED_SKILL: { name: 'student-update-declared-skill', path: 'update-declared-skill/:id' },
     UPDATE_TRACE: { name: 'student-update-trace', path: 'update-trace/:id' },
+    WIDGET_ACTIVITY: { name: 'student-widget-activity', path: 'activity-details/:id' },
+    WIDGET_ACTIVITY_CATALOG: { name: 'student-widget-activity-catalog', path: 'activity-details/:thematic/:id' },
   },
 } as const
 
@@ -68,10 +68,10 @@ export const studentPersonalCareerRoutes = [
   ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM,
 ]
 
-export const studentProjectActivtiesRoutes = [
-  ROUTES.STUDENT.PROJECT_ACTIVITIES,
-  ROUTES.STUDENT.PROJECT_ACTIVITIES_CATALOG,
-  ROUTES.STUDENT.PROJECT_ACTIVITIES_DETAILED,
+export const studentActivtiesRoutes = [
+  ROUTES.STUDENT.ACTIVITY,
+  ROUTES.STUDENT.ACTIVITIES,
+  ROUTES.STUDENT.ACTIVITIES_CATALOG,
 ]
 
 export const studentProjectTrajectoriesRoutes = [

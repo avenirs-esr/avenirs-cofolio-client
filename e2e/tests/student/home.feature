@@ -57,14 +57,14 @@ Feature: Student Home Page
     @high @new-activities-widget @dataset-full
     Scenario: Activity cards are clickable and navigate to detailed activity page
       When the student clicks a new activity card
-      Then the activity details page is displayed
+      Then the widget activity page is displayed
       And the URL contains "/cofolio/student/activity"
 
     @medium @new-activities-widget @dataset-full
     Scenario: See all new activities button navigates to new activities page
       When the student clicks see all new activities button
       Then the student project activities page is displayed
-      And the URL contains "/cofolio/student/project/activities"
+      And the URL contains "/cofolio/student/activities"
 
   Rule: Library activities widget
 
@@ -78,14 +78,14 @@ Feature: Student Home Page
     @high @library-activities-widget @dataset-full
     Scenario: Activity cards are clickable and navigate to detailed activity page
       When the student clicks a library activity card
-      Then the activity details page is displayed
+      Then the widget activity page is displayed
       And the URL contains "/cofolio/student/activity"
 
     @medium @library-activities-widget @dataset-full
     Scenario: See all library activities button navigates to library activities page
       When the student clicks see all library activities button
       Then the student project activities page is displayed on library tab
-      And the URL contains "/cofolio/student/project/activities"
+      And the URL contains "/cofolio/student/activities"
 
   Rule: Traces Widget
 

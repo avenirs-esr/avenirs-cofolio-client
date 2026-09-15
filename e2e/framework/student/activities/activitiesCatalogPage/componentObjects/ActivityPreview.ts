@@ -1,0 +1,172 @@
+import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+import { t } from '@e2e/framework/shared/utils/i18n'
+import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+import { SubscribeActivityConfirmModal } from '@e2e/framework/student/activities/activitiesCatalogPage/componentObjects/SubscribeActivityConfirmModal'
+import { UnsubscribeActivitiesConfirmModal } from '@e2e/framework/student/activities/activitiesCatalogPage/componentObjects/UnsubscribeActivitiesConfirmModal'
+import { expect, type Page } from '@playwright/test'
+
+export class ActivityPreview extends BaseObject {
+  constructor (protected page: Page) {
+    super(page.getByTestId('activity-preview'), page)
+  }
+
+  getBanner () {
+    return this.root.getByTestId('activity-banner')
+  }
+
+  getTitle () {
+    return this.root.getByTestId('activity-title')
+  }
+
+  getThematicBadge () {
+    return this.root.getByTestId('activity-thematic-badge')
+  }
+
+  getSummary () {
+    return this.root.getByTestId('activity-summary')
+  }
+
+  getRecommendedCompletionContextsInfo () {
+    return this.root.getByTestId('activity-recommended-completion-contexts-info')
+  }
+
+  getUnsubscribeButton () {
+    return this.root.getByTestId('unsubscribe-button')
+  }
+
+  getSubscribeButton () {
+    return this.root.getByTestId('subscribe-button')
+  }
+
+  getAccessButton () {
+    return this.root.getByTestId('access-button')
+  }
+
+  getUnsubscribeActivitiesConfirmModal () {
+    return new UnsubscribeActivitiesConfirmModal(this.page)
+  }
+
+  getSubscribeActivityConfirmModal () {
+    return new SubscribeActivityConfirmModal(this.page)
+  }
+
+  async verifyVisible () {
+    await this.isVisible()
+    await expect(this.getBanner()).toBeVisible()
+    await expect(this.getTitle()).toBeVisible()
+    await expect(this.getSummary()).toBeVisible()
+    await expect(this.getRecommendedCompletionContextsInfo()).toBeVisible()
+    await expect(this.getThematicBadge()).toBeVisible()
+  }
+
+  async verifyBanner () {
+    await expect(this.getBanner()).toBeVisible()
+    await expect(this.getBanner()).toHaveAttribute('src', /./)
+  }
+
+  async verifyTitle () {
+    await expect(this.getTitle()).toBeVisible()
+    await expect(this.getTitle()).not.toBeEmpty()
+  }
+
+  async verifyThematicBadge () {
+    await expect(this.getThematicBadge()).toBeVisible()
+    await expect(this.getThematicBadge()).not.toBeEmpty()
+  }
+
+  async verifySummary () {
+    await expect(this.getSummary()).toBeVisible()
+    await expect(this.getSummary()).not.toBeEmpty()
+  }
+
+  async verifyRecommendedCompletionContextsInfo () {
+    await expect(this.getRecommendedCompletionContextsInfo()).toBeVisible()
+    await expect(this.getRecommendedCompletionContextsInfo()).not.toBeEmpty()
+  }
+
+  async verifySubscribeButton () {
+    const expectedText = t('student.activities.interactions.buttons.subscribe')
+    await expect(this.getSubscribeButton()).toBeVisible()
+    await expect(this.getSubscribeButton()).toHaveText(expectedText)
+  }
+
+  async verifySubscribeButtonHidden () {
+    await expect(this.getSubscribeButton()).toBeHidden()
+  }
+
+  async verifyUnsubscribeButton () {
+    const expectedText = t('student.activities.interactions.buttons.unsubscribe')
+    await expect(this.getUnsubscribeButton()).toBeVisible()
+    await expect(this.getUnsubscribeButton()).toHaveText(expectedText)
+  }
+
+  async verifyUnsubscribeButtonHidden () {
+    await expect(this.getUnsubscribeButton()).toBeHidden()
+  }
+
+  async verifyAccessButtonVisible () {
+    const expectedText = t('student.activities.views.ActivitiesCatalogView.buttons.access')
+    await expect(this.getAccessButton()).toBeVisible()
+    await expect(this.getAccessButton()).toHaveText(expectedText)
+  }
+
+  async verifyAccessButtonHidden () {
+    await expect(this.getAccessButton()).toBeHidden()
+  }
+
+  async clickAccessButton () {
+    await expect(this.getAccessButton()).toBeVisible()
+    await this.getAccessButton().click()
+    await waitForPageLoad(this.page)
+  }
+
+  async verify () {
+    await this.verifyVisible()
+    await this.verifyBanner()
+    await this.verifyTitle()
+    await this.verifyThematicBadge()
+    await this.verifySummary()
+    await this.verifyRecommendedCompletionContextsInfo()
+    await this.verifySubscribeButton()
+  }
+
+  async clickSubscribeButton () {
+    await this.getSubscribeButton().click()
+    await waitForPageLoad(this.page)
+  }
+
+  async verifySubscribeActivityModal () {
+    const subscribeActivityConfirmModal = this.getSubscribeActivityConfirmModal()
+    await subscribeActivityConfirmModal.verifyVisible()
+  }
+
+  async clickSubscribeModalConfirmButton () {
+    const subscribeActivityConfirmModal = this.getSubscribeActivityConfirmModal()
+    await subscribeActivityConfirmModal.clickConfirm()
+  }
+
+  async clickSubscribeModalCancelButton () {
+    const subscribeActivityConfirmModal = this.getSubscribeActivityConfirmModal()
+    await subscribeActivityConfirmModal.clickCancel()
+  }
+
+  async verifySubscribeActivityModalHidden () {
+    const subscribeActivityConfirmModal = this.getSubscribeActivityConfirmModal()
+    await subscribeActivityConfirmModal.verifyHidden()
+  }
+
+  async clickUnsubscribeButton () {
+    await this.getUnsubscribeButton().click()
+    await waitForPageLoad(this.page)
+  }
+
+  async verifyUnsubscribeActivitiesConfirmModal () {
+    const unsubscribeActivitiesConfirmModal = this.getUnsubscribeActivitiesConfirmModal()
+    await unsubscribeActivitiesConfirmModal.verify()
+  }
+
+  async clickUnsubscribeActivitiesConfirmModalConfirmButton () {
+    const unsubscribeActivitiesConfirmModal = this.getUnsubscribeActivitiesConfirmModal()
+    await unsubscribeActivitiesConfirmModal.clickConfirm()
+  }
+}

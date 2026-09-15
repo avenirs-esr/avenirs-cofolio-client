@@ -72,7 +72,7 @@ class StudentGlobalSteps extends BasePage {
 
   @Then('the page navigates to project my activities page')
   async verifyNavigationToProjectActivitiesPage () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.ACTIVITIES)
+    await expect(this.page).toHaveURL(STUDENT_ROUTES.ACTIVITIES)
   }
 
   @Then('the MY TOOLS menu is visible')
@@ -127,23 +127,23 @@ class StudentGlobalSteps extends BasePage {
 
   @Given('the student opens the project activities page')
   async goToProjectActivitiesPage () {
-    await this.page.goto(STUDENT_ROUTES.PROJECT.ACTIVITIES)
+    await this.page.goto(STUDENT_ROUTES.ACTIVITIES)
     await waitForPageLoad(this.page)
   }
 
   @Then('the student project activities page is displayed')
   async verifyNavigationToActivitiesPage () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.ACTIVITIES)
+    await expect(this.page).toHaveURL(STUDENT_ROUTES.ACTIVITIES)
   }
 
   @Then('the student project activities page is displayed on library tab')
   async verifyNavigationToActivitiesPageOnLibraryTab () {
-    await expect(this.page).toHaveURL(new RegExp(`${STUDENT_ROUTES.PROJECT.ACTIVITIES}.+`))
+    await expect(this.page).toHaveURL(new RegExp(`${STUDENT_ROUTES.ACTIVITIES}.+`))
   }
 
-  @Then('the activity details page is displayed')
-  async verifyNavigationToHomeActivityDetailsPage () {
-    await expect(this.page).toHaveURL(new RegExp(`${STUDENT_ROUTES.ACTIVITY}.+`))
+  @Then('the widget activity page is displayed')
+  async verifyNavigationToWidgetActivityPage () {
+    await expect(this.page).toHaveURL(new RegExp(STUDENT_ROUTES.WIDGET.ACTIVITY.replace(':id', '.+')))
   }
 
   @Given('the student opens the project personal career experiences page')

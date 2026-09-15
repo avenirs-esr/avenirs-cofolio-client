@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { UpdateActivityForm } from '@/features/student/buildProject/types/forms.types'
 import type { UpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
+import type { UpdateActivityForm } from '@/features/student/global/types/forms.types'
 import type { UpdateDeclaredExperienceForm, UpdateDeclaredProgramForm } from '@/features/student/personalCareer/types/forms.types'
 import type {
   UpdateSelfKnowledgeCategoryElementForm

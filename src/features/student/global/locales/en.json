@@ -17,9 +17,19 @@
             "THEMATIC": "Theme"
           }
         },
+        "AssociatedDeclaredActivitiesCard": {
+          "title": "My associated declared activity ({count}) | My associated declared activities ({count})"
+        },
+        "AssociatedTracesCard": {
+          "titleLimited": "My associated trace ({count}/{allowedtrace}) | My associated traces ({count}/{allowedtrace})",
+          "titleUnlimited": "My associated trace ({count}) | My associated traces ({count})"
+        },
         "SelectedAssociateItemContainer": {
           "label": "My selected elements ({count})"
         }
+      },
+      "errors": {
+        "updateActivity": "An error occurred while updating the activity. Please try again later."
       },
       "layout": {
         "header": {
@@ -59,11 +69,11 @@
           "label": "Access to"
         },
         "tabs": {
+          "activities": "My activities",
           "home": "Home",
           "project": {
             "header": "Building my life project",
             "items": {
-              "activities": "My activities",
               "declaredExperience": "All my declared experiences",
               "declaredSkills": "My other declared skills",
               "experiences": "My career",
