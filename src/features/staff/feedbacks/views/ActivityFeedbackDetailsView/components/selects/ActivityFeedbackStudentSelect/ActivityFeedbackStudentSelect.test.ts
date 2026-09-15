@@ -1,5 +1,5 @@
 import type { StudentFeedbackItemListDTO } from '@/api/avenir-esr'
-import { EGroupType } from '@/api/avenir-esr'
+import { EFeedbackStatus, EGroupType } from '@/api/avenir-esr'
 import ActivityFeedbackStudentSelect
   from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/selects/ActivityFeedbackStudentSelect/ActivityFeedbackStudentSelect.vue'
 import { AvButtonStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -9,6 +9,7 @@ import { beforeEach, expect } from 'vitest'
 const feedbacks = [
   {
     feedbackId: 'feedback-1',
+    status: EFeedbackStatus.NEW,
     student: {
       id: 'student-1',
       firstName: 'Lucas',
@@ -23,6 +24,7 @@ const feedbacks = [
   },
   {
     feedbackId: 'feedback-2',
+    status: EFeedbackStatus.SUBMITTED,
     student: {
       id: 'student-2',
       firstName: 'John',
@@ -36,6 +38,7 @@ const feedbacksWithUndefinedFeedbackId = [
   ...feedbacks,
   {
     feedbackId: undefined,
+    status: EFeedbackStatus.SEEN,
     student: {
       id: 'student-3',
       firstName: 'Jane',
@@ -76,11 +79,11 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       expect(select.props('options')).toEqual([
         {
           id: 'feedback-1',
-          label: 'Lucas Tessier',
+          label: 'Lucas Tessier • Nouveau',
         },
         {
           id: 'feedback-2',
-          label: 'John Doe',
+          label: 'John Doe • Envoyé',
         },
       ])
     })
@@ -141,8 +144,9 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
     })
 
     BddTest().then('it should display the email without the separator', () => {
-      expect(wrapper.text()).toContain('john.doe@test.fr')
-      expect(wrapper.text()).not.toContain('•')
+      const details = wrapper.find('.activity-feedback-student-select__details')
+
+      expect(details.text()).toBe('john.doe@test.fr')
     })
   })
 
@@ -162,11 +166,11 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       expect(select.props('options')).toEqual([
         {
           id: 'feedback-1',
-          label: 'Lucas Tessier',
+          label: 'Lucas Tessier • Nouveau',
         },
         {
           id: 'feedback-2',
-          label: 'John Doe',
+          label: 'John Doe • Envoyé',
         },
       ])
     })

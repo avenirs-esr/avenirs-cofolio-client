@@ -23,9 +23,9 @@ const options = computed<AvSelectOption[]>(() =>
     .filter((feedback): feedback is StudentFeedbackItemListDTO & { feedbackId: string } =>
       Boolean(feedback.feedbackId),
     )
-    .map(({ feedbackId, student }) => ({
+    .map(({ feedbackId, student, status }) => ({
       id: feedbackId,
-      label: `${student.firstName} ${student.lastName}`,
+      label: `${student.firstName} ${student.lastName} • ${t(`staff.feedbacks.badges.feedbackStatus.${status}`)}`,
     })),
 )
 
