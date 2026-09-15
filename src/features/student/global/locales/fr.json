@@ -59,11 +59,11 @@
           "label": "Accéder à"
         },
         "tabs": {
+          "activities": "Mes activités",
           "home": "Accueil",
           "project": {
             "header": "Construire mon projet de vie",
             "items": {
-              "activities": "Mes activités",
               "declaredExperience": "Toutes mes expériences déclarées",
               "declaredSkills": "Mes autres compétences déclarées",
               "experiences": "Mon parcours",
