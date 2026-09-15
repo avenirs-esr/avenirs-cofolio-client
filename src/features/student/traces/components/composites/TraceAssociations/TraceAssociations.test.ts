@@ -456,4 +456,42 @@ BddTest().given('a student trace associations component', () => {
       expect(activitiesModal.props('traceId')).toBe(traceId)
     })
   })
+
+  BddTest().when('the component is mounted with only completed declared activity associations', () => {
+    const declaredActivityAssociations: DeclaredActivityAssociationDTO[] = mockedTraceDeclaredActivityAssociations.map(association => ({
+      ...association,
+      declaredActivity: {
+        ...association.declaredActivity,
+        status: EDeclaredActivityStatus.COMPLETED
+      }
+    }))
+    const associationsProps: TraceAssociationsDTO = { declaredActivityAssociations, declaredSkillAssociations: [], declaredExperienceAssociations: [] }
+
+    beforeEach(() => {
+      wrapper = mountComponent(TraceAssociations, {
+        props: {
+          associations: associationsProps,
+          traceId,
+        },
+        global: {
+          stubs
+        }
+      })
+    })
+
+    BddTest().then('it should keep the delete dropdown activity entry enabled regardless of status', () => {
+      const dropdown = findDropdown('delete')
+      expect(dropdown.props('items')).toEqual([
+        { type: EAssociationContextType.DECLARED_SKILL, disabled: true },
+        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
+      ])
+    })
+
+    BddTest().then('it should pass all completed declared activity associations to the delete activities modal without filtering', () => {
+      const activitiesModal = wrapper.findComponent(DeleteTraceAssociatedActivitiesModalStub)
+
+      expect(activitiesModal.props('associations')).toEqual(declaredActivityAssociations)
+      expect(activitiesModal.props('traceId')).toBe(traceId)
+    })
+  })
 })
