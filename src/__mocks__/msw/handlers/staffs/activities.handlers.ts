@@ -2,6 +2,7 @@ import type {
   ActivityContentDTO,
   ActivityDashboardDTO,
   ActivityDraftCreationResponse,
+  ActivityDraftUpdateRequest,
   ActivityDraftUpdateResponse,
   ActivityPresentationDTO,
   CreationResponse,
@@ -68,6 +69,28 @@ export const getPublishedActivityContentErrorHandler = http.get(`*${getGetActivi
     { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
   )
 })
+
+export function createGetActivityContentDraftHandler (getActivityContent: () => ActivityContentDTO, onCalled?: () => void) {
+  return http.get(`*${getGetActivityContentUrl(EActivityStatus.DRAFT, ':activityId')}`, () => {
+    onCalled?.()
+
+    return HttpResponse.json<ActivityContentDTO>(getActivityContent(), {
+      status: HttpStatusCode.OK,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  })
+}
+
+export function createUpdateActivityDraftHandler (onPatch: (body: ActivityDraftUpdateRequest) => void) {
+  return http.patch(`*${getUpdateActivityDraftUrl(':activityDraftId')}`, async ({ request }) => {
+    onPatch(await request.json() as ActivityDraftUpdateRequest)
+
+    return HttpResponse.json<ActivityDraftUpdateResponse>(mockedActivityDraftUpdateResponse, {
+      status: HttpStatusCode.OK,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  })
+}
 
 export const getActivityDashboardHandler = http.get(`*${getGetActivityDashboardUrl(':activityId')}`, ({ params }) => {
   const { activityId } = params

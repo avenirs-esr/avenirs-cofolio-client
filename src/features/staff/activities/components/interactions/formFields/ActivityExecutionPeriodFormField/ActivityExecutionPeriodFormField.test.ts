@@ -133,11 +133,11 @@ BddTest().given('an ActivityExecutionPeriodFormField component', () => {
       expect(getPeriodInput().exists()).toBe(false)
     })
 
-    BddTest().then('it should emit autosave with both dates undefined', () => {
+    BddTest().then('it should emit autosave with enableCompletionPeriod set to false', () => {
       const emitted = getFormField().emitted('autosave')
       expect(emitted).toBeTruthy()
       const lastCall = emitted![emitted!.length - 1][0]
-      expect(lastCall).toEqual({ startDate: undefined, endDate: undefined })
+      expect(lastCall).toEqual({ enableCompletionPeriod: false })
     })
 
     BddTest().then('it should emit updateExecutionPeriodEnabled with false', () => {
@@ -177,7 +177,24 @@ BddTest().given('an ActivityExecutionPeriodFormField component', () => {
       const emitted = getFormField().emitted('autosave')
       expect(emitted).toBeTruthy()
       const lastCall = emitted![emitted!.length - 1][0]
-      expect(lastCall).toEqual({ startDate: '2025-02-01', endDate: '2025-10-29' })
+      expect(lastCall).toEqual({ startDate: '2025-02-01', endDate: '2025-10-29', enableCompletionPeriod: true })
+    })
+  })
+
+  BddTest().when('both dates are cleared back to empty while the period stays enabled', () => {
+    beforeEach(async () => {
+      wrapper = mountField({ startDate: '2025-02-01', endDate: '2025-10-29' })
+      getPeriodInput().vm.$emit('update:startModelValue', '')
+      await wrapper.vm.$nextTick()
+      getPeriodInput().vm.$emit('update:endModelValue', '')
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should emit autosave with enableCompletionPeriod set to false', () => {
+      const emitted = getFormField().emitted('autosave')
+      expect(emitted).toBeTruthy()
+      const lastCall = emitted![emitted!.length - 1][0]
+      expect(lastCall).toEqual({ enableCompletionPeriod: false })
     })
   })
 })

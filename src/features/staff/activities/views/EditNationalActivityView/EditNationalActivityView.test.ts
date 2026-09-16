@@ -1,5 +1,7 @@
-import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
+import type { ActivityContentDTO, ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { createGetActivityContentDraftHandler, createUpdateActivityDraftHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
+import { server } from '@/__mocks__/msw/server'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { AddNationalActivitySideNavigationStub } from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.stub'
@@ -223,6 +225,78 @@ BddTest().given('a national activity view', () => {
 
     BddTest().then('it should not call addErrorMessage', () => {
       expect(mockAddErrorMessage).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('an activity with a period is loaded and the execution period is disabled then saved', () => {
+    let capturedPatchBody: unknown
+    let getActivityContentCallCount: number
+    let currentActivity: ActivityContentDTO
+
+    beforeEach(async () => {
+      capturedPatchBody = undefined
+      getActivityContentCallCount = 0
+      currentActivity = {
+        ...mockedActivityContent,
+        startDate: '2025-02-01',
+        endDate: '2025-10-29',
+      }
+
+      server.use(
+        createGetActivityContentDraftHandler(() => currentActivity, () => {
+          getActivityContentCallCount += 1
+        }),
+        createUpdateActivityDraftHandler((body) => {
+          capturedPatchBody = body
+          currentActivity = { ...currentActivity, startDate: undefined, endDate: undefined }
+        }),
+      )
+
+      await mountView()
+    })
+
+    BddTest().then('the form should be initialized with the loaded period', () => {
+      expect(getContext(wrapper).form.getFieldValue('startDate')).toBe('2025-02-01')
+      expect(getContext(wrapper).form.getFieldValue('endDate')).toBe('2025-10-29')
+    })
+
+    BddTest().and('the period is disabled and the form is submitted', () => {
+      beforeEach(async () => {
+        const context = getContext(wrapper)
+
+        context.isExecutionPeriodEnabled.value = false
+        context.form.setFieldValue('startDate', undefined)
+        context.form.setFieldValue('endDate', undefined)
+
+        await vi.waitFor(() => {
+          expect(context.form.getFieldValue('startDate')).toBeFalsy()
+          expect(context.form.getFieldValue('endDate')).toBeFalsy()
+        })
+
+        await context.form.handleSubmit()
+        await flushPromises()
+      })
+
+      BddTest().then('the PATCH payload should contain enableCompletionPeriod set to false', () => {
+        expect(capturedPatchBody).toMatchObject({ enableCompletionPeriod: false })
+      })
+
+      BddTest().then('the activity content should be refetched after saving', async () => {
+        await vi.waitFor(() => {
+          expect(getActivityContentCallCount).toBeGreaterThan(1)
+        })
+      })
+
+      BddTest().then('the previous dates should not reappear after the refetch', async () => {
+        await vi.waitFor(() => {
+          expect(getActivityContentCallCount).toBeGreaterThan(1)
+        })
+
+        expect(currentActivity.startDate).toBeUndefined()
+        expect(currentActivity.endDate).toBeUndefined()
+        expect(getContext(wrapper).form.getFieldValue('startDate')).toBeFalsy()
+        expect(getContext(wrapper).form.getFieldValue('endDate')).toBeFalsy()
+      })
     })
   })
 

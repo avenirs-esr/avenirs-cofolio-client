@@ -36,7 +36,7 @@ const inputEnabled = computed({
     if (!newValue) {
       startDateField.api.handleChange(undefined)
       endDateField.api.handleChange(undefined)
-      emit('autosave', { startDate: undefined, endDate: undefined })
+      emit('autosave', { enableCompletionPeriod: false })
     }
     else {
       form.validateField('startDate', 'submit')
@@ -46,8 +46,11 @@ const inputEnabled = computed({
 })
 
 function autosaveIfConsistent (start: string | undefined, end: string | undefined) {
-  if ((start && end) || (!start && !end)) {
-    emit('autosave', { startDate: start, endDate: end })
+  if (start && end) {
+    emit('autosave', { startDate: start, endDate: end, enableCompletionPeriod: true })
+  }
+  else if (!start && !end) {
+    emit('autosave', { enableCompletionPeriod: false })
   }
 }
 
