@@ -1,0 +1,351 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/lifeProject/activityDetails/activityDetails.feature.spec.js >> Student Project Activity Page >> Request feedback >> Student with in progress activity can request feedback
+- Location: .features-gen/tests/student/lifeProject/activityDetails/activityDetails.feature.spec.js:145:5
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: page.waitForURL: Test timeout of 30000ms exceeded.
+=========================== logs ===========================
+waiting for navigation until "load"
+  navigated to "http://localhost:4173/cofolio/student/activities?tab=ACTIVITY_LIBRARY"
+  navigated to "http://localhost:4173/cofolio/student/activity/declared-activity-1"
+  navigated to "http://localhost:4173/cofolio/student/activity/declared-activity-1?section=DETAIL"
+============================================================
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - navigation "Accès rapide":
+    - list [ref=e3]:
+      - listitem [ref=e4]:
+        - link "Aller au contenu principal" [ref=e5] [cursor=pointer]:
+          - /url: "#main"
+          - generic [ref=e6]: Aller au contenu principal
+      - listitem [ref=e7]:
+        - link "Aller au pied de page" [ref=e8] [cursor=pointer]:
+          - /url: "#footer"
+          - generic [ref=e9]: Aller au pied de page
+  - banner [ref=e10]:
+    - generic [ref=e13]:
+      - link "Accueil - Cofolio Étudiant" [ref=e19] [cursor=pointer]:
+        - /url: /cofolio/student
+        - img [ref=e20]
+      - generic [ref=e23]:
+        - list [ref=e26]:
+          - listitem [ref=e27]:
+            - button "Messagerie" [ref=e30] [cursor=pointer]:
+              - generic [ref=e33]: Messagerie
+          - listitem [ref=e34]:
+            - button "Notifications" [ref=e37] [cursor=pointer]:
+              - generic [ref=e40]: Notifications
+          - listitem [ref=e41]:
+            - button "J. moulin" [ref=e44] [cursor=pointer]:
+              - generic [ref=e47]: J. moulin
+        - navigation [ref=e50]:
+          - button "FR" [ref=e53] [cursor=pointer]:
+            - generic [ref=e56]: FR
+    - navigation "Menu principal" [ref=e60]:
+      - list [ref=e61]:
+        - listitem [ref=e62]:
+          - link "ACCUEIL" [ref=e63] [cursor=pointer]:
+            - /url: /cofolio/student
+            - generic [ref=e66]: ACCUEIL
+        - listitem [ref=e67]:
+          - link "MES ACTIVITÉS" [ref=e68] [cursor=pointer]:
+            - /url: /cofolio/student/activities
+            - generic [ref=e71]: MES ACTIVITÉS
+        - listitem [ref=e72]:
+          - button "CONSTRUIRE MON PROJET DE VIE" [ref=e73] [cursor=pointer]:
+            - generic [ref=e74]: CONSTRUIRE MON PROJET DE VIE
+        - listitem [ref=e75]:
+          - button "MES OUTILS" [ref=e76] [cursor=pointer]:
+            - generic [ref=e77]: MES OUTILS
+  - main [ref=e78]:
+    - generic [ref=e80]:
+      - generic [ref=e82]:
+        - navigation "Fil d'Ariane" [ref=e83]:
+          - list [ref=e85]:
+            - listitem [ref=e86]:
+              - link "Accueil" [ref=e87] [cursor=pointer]:
+                - /url: /cofolio/student
+            - listitem [ref=e88]:
+              - link "Mes activités" [ref=e89] [cursor=pointer]:
+                - /url: /cofolio/student/activities
+            - listitem [ref=e90]:
+              - generic: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+            - listitem [ref=e91]:
+              - generic: Détail
+        - 'heading "Détail Activité \"Connaissance de soi\" : Définir ses valeurs" [level=1] [ref=e92]':
+          - text: Détail
+          - generic [ref=e93]: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+      - generic [ref=e95]:
+        - status [ref=e96]:
+          - generic [ref=e97]: En cours
+        - button "Gérer mon activité" [ref=e100] [cursor=pointer]:
+          - generic [ref=e103]: Gérer mon activité
+      - generic [ref=e104]:
+        - navigation "f69e5538-a8e0-493d-83b8-04942d9af7be navigation" [ref=e105]:
+          - button "Réduire le menu" [expanded] [ref=e109] [cursor=pointer]
+          - menu [ref=e113]:
+            - menuitem "Détail" [ref=e114]:
+              - button "Détail" [ref=e115] [cursor=pointer]:
+                - generic [ref=e120]: Détail
+            - menuitem "Ma réflexion" [ref=e121]:
+              - button "Ma réflexion" [ref=e122] [cursor=pointer]:
+                - generic [ref=e127]: Ma réflexion
+        - generic [ref=e129]:
+          - status [ref=e130]:
+            - generic [ref=e131]: Non valorisée dans mon kit
+          - generic [ref=e133]:
+            - generic [ref=e136]:
+              - generic [ref=e138]: Début
+              - generic [ref=e139]:
+                - textbox "Début" [disabled]:
+                  - /placeholder: ""
+                - textbox "Début" [disabled]:
+                  - /placeholder: ""
+                  - text: 01/01/2024
+            - generic [ref=e142]:
+              - generic [ref=e144]: Fin
+              - generic [ref=e145]:
+                - textbox "Fin" [disabled]:
+                  - /placeholder: ""
+                  - text: 2024-06-30
+                - textbox "Fin" [disabled]:
+                  - /placeholder: ""
+                  - text: 30/06/2024
+          - generic [ref=e148]:
+            - generic [ref=e149]:
+              - generic [ref=e153]: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+              - generic [ref=e154]:
+                - heading "Objectifs de l'activité" [level=3] [ref=e155]
+                - list [ref=e156]:
+                  - listitem [ref=e157]:
+                    - paragraph [ref=e158]: Permettre à l'étudiant.e de déterminer des valeurs auxquelles il/elle est attaché.e
+                  - listitem [ref=e159]:
+                    - paragraph [ref=e160]: Encourager l'étudiant.e à réfléchir à la façon dont ces valeurs s'incarnent dans ses comportements et ses pratiques quotidiennes
+                - heading "Contenu de l'activité" [level=3] [ref=e161]
+                - paragraph [ref=e162]: "L'activité se compose de plusieurs étapes :"
+                - list [ref=e163]:
+                  - listitem [ref=e164]:
+                    - paragraph [ref=e165]: Identification des valeurs personnelles clés
+                  - listitem [ref=e166]:
+                    - paragraph [ref=e167]: Réflexion sur la manière dont ces valeurs s'incarnent dans les comportements et les pratiques quotidiens
+                  - listitem [ref=e168]:
+                    - paragraph [ref=e169]: Mise en perspective de ces valeurs avec le projet de vie envisagé
+            - generic [ref=e170]:
+              - generic [ref=e171]: Contexte(s) de réalisation conseillé(s)
+              - list [ref=e172]:
+                - listitem [ref=e173]: À réaliser en amont d'un entretien avec un.e conseiller/conseillère ou chargé.e d'orientation et/ou d'insertion professionnelle
+                - listitem [ref=e174]: avant une autre activité si parcours d'activités Cofolio
+          - generic [ref=e178]: Modalités de l’activité
+          - generic [ref=e179]:
+            - generic [ref=e180]:
+              - generic [ref=e185]: Demande de feedback
+              - status [ref=e188]:
+                - generic [ref=e189]: Limité à 10 itérations
+            - generic [ref=e190]:
+              - generic [ref=e195]: Association de traces
+              - status [ref=e198]:
+                - generic [ref=e199]: Traces illimitées
+  - contentinfo [ref=e200]:
+    - generic [ref=e202]:
+      - generic [ref=e203]:
+        - link "Logo ANR" [ref=e204] [cursor=pointer]:
+          - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+          - img "Logo ANR" [ref=e205]
+        - link "Logo France 2030" [ref=e206] [cursor=pointer]:
+          - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+          - img "Logo France 2030" [ref=e207]
+      - generic [ref=e208]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+    - generic [ref=e209]:
+      - generic [ref=e210]:
+        - img "Logo Cofolio" [ref=e211]
+        - generic [ref=e222]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+      - generic [ref=e223]:
+        - generic [ref=e224]:
+          - generic [ref=e225]: Informations légales
+          - list [ref=e226]:
+            - listitem [ref=e227]:
+              - 'link "Accessibilité : partiellement conforme" [ref=e228] [cursor=pointer]':
+                - /url: /cofolio/student/accessibility
+            - listitem [ref=e229]:
+              - link "Mentions légales" [ref=e230] [cursor=pointer]:
+                - /url: /cofolio/student/legal
+            - listitem [ref=e231]:
+              - link "Données personnelles" [ref=e232] [cursor=pointer]:
+                - /url: /cofolio/student/personal-data
+            - listitem [ref=e233]:
+              - link "Gestion des cookies" [ref=e234] [cursor=pointer]:
+                - /url: /cofolio/student/cookies
+        - generic [ref=e235]:
+          - generic [ref=e236]: Autres sites
+          - list [ref=e237]:
+            - listitem [ref=e238]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e239] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - text: avenirs-esr.fr
+        - generic [ref=e240]:
+          - generic [ref=e241]: Partenaires
+          - generic [ref=e242]:
+            - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e243] [cursor=pointer]:
+              - /url: https://avenirs-esr.fr/
+              - img "Logo Avenir(s) ESR" [ref=e244]
+            - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e245] [cursor=pointer]:
+              - /url: https://www.esup-portail.org/
+              - img "Logo Esup Portail" [ref=e247]
+    - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e251] [cursor=pointer]:
+      - /url: https://www.esup-portail.org/
+      - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  129 |     await this.getActivityLibraryTab().getCardByIndex(0).verifySummaryVisible()
+  130 |   }
+  131 | 
+  132 |   @Then('the first activity card description is hidden')
+  133 |   async verifyFirstActivityCardDescriptionHidden () {
+  134 |     await this.getActivityLibraryTab().getCardByIndex(0).verifySummaryHidden()
+  135 |   }
+  136 | 
+  137 |   @Then('the first activity card status badge is hidden')
+  138 |   async verifyFirstActivityCardStatusBadgeHidden () {
+  139 |     await this.getActivityLibraryTab().getCardByIndex(0).verifyStatusBadgeHidden()
+  140 |   }
+  141 | 
+  142 |   @Then('the first activity card period badge is hidden')
+  143 |   async verifyFirstActivityCardPeriodBadgeHidden () {
+  144 |     await this.getActivityLibraryTab().getCardByIndex(0).verifyPeriodBadgeHidden()
+  145 |   }
+  146 | 
+  147 |   @Then('the first activity card spans full width')
+  148 |   async verifyFirstActivityCardFullWidth () {
+  149 |     await this.verifyLocatorIsFullWidth(this.getActivityLibraryTab().getCards().first())
+  150 |   }
+  151 | 
+  152 |   @Then('the activity library page contains elements')
+  153 |   async verifyActivityLibraryPageNotEmpty () {
+  154 |     await this.getActivityLibraryTab().verifyCardsNotEmpty()
+  155 |   }
+  156 | 
+  157 |   @When('the user opens the unsubscribe activities modal')
+  158 |   async openUnsubscribeActivitiesModal () {
+  159 |     this.unsubscribedActivityId = await this.getActivityLibraryTab().getCardByIndex(1).getActivityId()
+  160 |     this.unsubscribedActivityThematic = await this.getActivityLibraryTab().getCardByIndex(1).getActivityThematic()
+  161 |     await this.getActivityLibraryTab().getDropdown().clickUnsubscribe()
+  162 |   }
+  163 | 
+  164 |   @When('the user selects the last activity in the unsubscribe modal')
+  165 |   async selectFirstActivityInUnsubscribeModal () {
+  166 |     const modal = this.getActivityLibraryTab().getUnsubscribeModal()
+  167 | 
+  168 |     this.unsubscribedActivityId = await modal.getLastActivityId()
+  169 |     this.unsubscribedActivityThematic = await modal.getLastActivityThematic()
+  170 | 
+  171 |     await modal.selectLastActivityItem()
+  172 |   }
+  173 | 
+  174 |   @When('the user confirms the unsubscription')
+  175 |   async confirmUnsubscription () {
+  176 |     await this.getActivityLibraryTab().getUnsubscribeModal().clickConfirm()
+  177 |   }
+  178 | 
+  179 |   @Then('unsubscription confirmation modal is visible')
+  180 |   async verifyUnsubscribeSuccessMessageVisible () {
+  181 |     await this.getActivityLibraryTab().getUnsubscribeModal().getConfirmModal().verifyVisible()
+  182 |   }
+  183 | 
+  184 |   @When('the student clicks the first library activity card')
+  185 |   async clickFirstLibraryActivityCard () {
+  186 |     await this.getActivityLibraryTab().clickFirstCard()
+  187 |     await this.page.waitForURL(new RegExp(STUDENT_ROUTES.ACTIVITY_DETAIL.replace(':id', '.+')))
+  188 |   }
+  189 | 
+  190 |   @Then('the first new activity card title is visible')
+  191 |   async verifyFirstNewActivityCardTitleVisible () {
+  192 |     await this.getAllActivitiesTabs().getNewCardByIndex(0).verifyTitleVisible()
+  193 |   }
+  194 | 
+  195 |   @Then('the first new activity card thematic badge is visible')
+  196 |   async verifyFirstNewActivityCardThematicBadgeVisible () {
+  197 |     await this.getAllActivitiesTabs().getNewCardByIndex(0).verifyThematicBadgeVisible()
+  198 |   }
+  199 | 
+  200 |   @Then('the first new activity card description is visible')
+  201 |   async verifyFirstNewActivityCardDescriptionVisible () {
+  202 |     await this.getAllActivitiesTabs().getNewCardByIndex(0).verifySummaryVisible()
+  203 |   }
+  204 | 
+  205 |   @Then('the first all activity card title is visible')
+  206 |   async verifyFirstAllActivityCardTitleVisible () {
+  207 |     await this.getAllActivitiesTabs().getAllCardByIndex(0).verifyTitleVisible()
+  208 |   }
+  209 | 
+  210 |   @Then('the first all activity card thematic badge is visible')
+  211 |   async verifyFirstAllActivityCardThematicBadgeVisible () {
+  212 |     await this.getAllActivitiesTabs().getAllCardByIndex(0).verifyThematicBadgeVisible()
+  213 |   }
+  214 | 
+  215 |   @Then('the first all activity card description is visible')
+  216 |   async verifyFirstAllActivityCardDescriptionVisible () {
+  217 |     await this.getAllActivitiesTabs().getAllCardByIndex(0).verifySummaryVisible()
+  218 |   }
+  219 | 
+  220 |   @When('the student clicks a library activity card with not in progress status')
+  221 |   async clickLibraryActivityCardWithNotInProgressStatus () {
+  222 |     await this.getActivityLibraryTab().clickCardWithNotInProgressStatus()
+  223 |     await this.page.waitForURL(new RegExp(STUDENT_ROUTES.ACTIVITY_DETAIL.replace(':id', '.+')))
+  224 |   }
+  225 | 
+  226 |   @When('the student clicks a library activity card with {string} status')
+  227 |   async clickLibraryActivityCardWithStatus (status: string) {
+  228 |     await this.getActivityLibraryTab().clickCardWithStatus(status)
+> 229 |     await this.page.waitForURL(new RegExp(STUDENT_ROUTES.ACTIVITY_DETAIL.replace(':id', '.+')))
+      |                     ^ Error: page.waitForURL: Test timeout of 30000ms exceeded.
+  230 |   }
+  231 | 
+  232 |   @When('the student selects {int} results per page in activity library')
+  233 |   async selectActivityLibraryPageSize (pageSize: number) {
+  234 |     await this.getActivityLibraryTab().selectPageSize(pageSize)
+  235 |   }
+  236 | 
+  237 |   @When('the student clicks an in progress activity without received feedbacks')
+  238 |   async clickInProgressActivityWithoutReceivedFeedbacks () {
+  239 |     await this.page.goto(STUDENT_ROUTES.ACTIVITIES)
+  240 |     await this.clickActivityLibraryTabItem()
+  241 |     await this.getActivityLibraryTab().selectPageSize(12)
+  242 | 
+  243 |     await this.getActivityLibraryTab().clickCardByActivityId(
+  244 |       StudentActivitiesPage.ACTIVITY_ID_WITHOUT_RECEIVED_FEEDBACKS
+  245 |     )
+  246 | 
+  247 |     await this.page.waitForURL(new RegExp(STUDENT_ROUTES.ACTIVITY_DETAIL.replace(':id', '.+')))
+  248 |   }
+  249 | 
+  250 |   @When('the student clicks an in progress activity with associated traces')
+  251 |   async clickInProgressActivityWithAssociatedTraces () {
+  252 |     await this.getActivityLibraryTab().clickCardByActivityId(
+  253 |       StudentActivitiesPage.ACTIVITY_ID_WITH_ASSOCIATED_TRACES
+  254 |     )
+  255 | 
+  256 |     await this.page.waitForURL(new RegExp(STUDENT_ROUTES.ACTIVITY_DETAIL.replace(':id', '.+')))
+  257 |   }
+  258 | }
+  259 | 
+```
