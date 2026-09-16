@@ -88,7 +88,7 @@ BddTest().given('an association elements dropdown', () => {
       const dropdown = wrapper.findComponent(AvDropdownStub)
       expect(dropdown.props('triggerLabel')).toBe('Associer...')
       expect(dropdown.props('triggerAriaLabel')).toBe('Associer...')
-      expect(dropdown.props('triggerIcon')).toBe(ICONS.ASSOCIATED)
+      expect(dropdown.props('triggerIcon')).toBe(ICONS.ASSOCIATE)
       expect(dropdown.props('triggerVariant')).toBe('FLAT')
     })
   })

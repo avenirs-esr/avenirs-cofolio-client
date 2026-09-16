@@ -56,7 +56,7 @@ const readOnly = computed(() => isDeclaredActivityUnsubscribed(declaredActivityD
     </AvTab>
     <AvTab
       :title="t('student.buildProject.activities.views.ProjectActivityDetailedView.MyPerspectiveSection.AssociatedElementsTab.title', { count: associationsCount })"
-      :icon="ICONS.ASSOCIATED"
+      :icon="ICONS.ASSOCIATIONS"
       data-testid="associated-elements-tab-item"
     >
       <AssociatedElementsTab
