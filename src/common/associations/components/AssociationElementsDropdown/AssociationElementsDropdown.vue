@@ -36,7 +36,7 @@ const triggerLabel = computed(() =>
   `${t(isAssociate.value ? 'global.buttons.associate' : 'global.buttons.delete')}...`)
 
 const triggerIcon = computed(() =>
-  isAssociate.value ? ICONS.ASSOCIATED : MDI_ICONS.TRASH_CAN_OUTLINE)
+  isAssociate.value ? ICONS.ASSOCIATE : MDI_ICONS.TRASH_CAN_OUTLINE)
 
 const triggerVariant = computed(() => isAssociate.value ? 'FLAT' : undefined)
 
