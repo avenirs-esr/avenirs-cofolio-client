@@ -6,7 +6,7 @@
         "StudentProjectSkillsView": {
           "breadcrumb": {
             "current": {
-              "title": "All my skills"
+              "title": "My skills"
             }
           },
           "skillsViewTabs": {
@@ -15,7 +15,7 @@
               "addSkillButton": "Add a skill"
             }
           },
-          "title": "All my skills"
+          "title": "My skills"
         }
       }
     }

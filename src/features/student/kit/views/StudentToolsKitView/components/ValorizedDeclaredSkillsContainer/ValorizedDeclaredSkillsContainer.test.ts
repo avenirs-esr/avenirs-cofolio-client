@@ -64,7 +64,7 @@ BddTest().given('a valorized declared skills container', () => {
       expect(container.props('isEmpty')).toBe(false)
       expect(container.props('emptyStateMessage')).toBe('Vous n\'avez pas encore valorisé ce type de contenu, ajoutez et valorisez une compétence afin de constituer votre kit')
       expect(container.props('seeAllLabel')).toBe('Voir toutes mes compétences déclarées')
-      expect(container.props('seeAllTo')).toEqual({ name: 'student-project-skills' })
+      expect(container.props('seeAllTo')).toEqual({ name: 'student-skills' })
     })
   })
 

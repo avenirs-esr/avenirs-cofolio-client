@@ -43,10 +43,10 @@ BddTest().given('a student navigation', () => {
     })
 
     BddTest().then('it should generate navigation items', () => {
-      expect(wrapper.findAll('.av-nav__item')).toHaveLength(4)
+      expect(wrapper.findAll('.av-nav__item')).toHaveLength(5)
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       const navItems = avNavigation.props('navItems')
-      expect(navItems).toHaveLength(4)
+      expect(navItems).toHaveLength(5)
     })
 
     BddTest().then('it should include home navigation item with correct properties', () => {
@@ -70,25 +70,16 @@ BddTest().given('a student navigation', () => {
         to: expect.objectContaining(ROUTES.STUDENT.ACTIVITIES),
       })
     })
-  })
 
-  BddTest().when('current route is inside personal career', () => {
-    beforeEach(async () => {
-      await router.push({ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name })
-      wrapper = await mountDefault()
-    })
-
-    BddTest().then('it should keep the experiences link on the current route full path', () => {
+    BddTest().then('it should include skills navigation item with correct properties', () => {
       const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
       const navItems = avNavigation.props('navItems')
 
-      const projectMenu = navItems.find((item: any) =>
-        item.links?.some((link: any) => link.to?.name === ROUTES.STUDENT.PROJECT_SKILLS.name)
-      )
-
-      const experiencesLink = projectMenu.links[1]
-
-      expect(experiencesLink.to).toBe(router.currentRoute.value.fullPath)
+      const homeItem = navItems[2]
+      expect(homeItem).toMatchObject({
+        text: 'MES COMPÉTENCES',
+        to: expect.objectContaining(ROUTES.STUDENT.SKILLS),
+      })
     })
   })
 })

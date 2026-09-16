@@ -143,7 +143,7 @@ BddTest().given('a ValorizedItem component', () => {
       const button = wrapper.findComponent(AvButtonStub)
       expect(button.exists()).toBe(true)
       expect(button.props('to')).toEqual({
-        name: ROUTES.STUDENT.PROJECT_DECLARED_SKILL.name,
+        name: ROUTES.STUDENT.DECLARED_SKILL.name,
         params: { id: ITEM_ID },
       })
     })

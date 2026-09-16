@@ -3,14 +3,14 @@ import { ROUTES } from '@/common/constants'
 import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 
 export const studentProjectDeclaredSkillRoute: AvRoute = {
-  ...ROUTES.STUDENT.PROJECT_DECLARED_SKILL,
+  ...ROUTES.STUDENT.DECLARED_SKILL,
   props: route => ({
     skillId: route.params.id,
   }),
   component: () =>
     import('@/features/student/declaredSkills/views/StudentDeclaredSkillView/StudentDeclaredSkillView.vue'),
   meta: {
-    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.SKILLS]
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.SKILLS]
   }
 }
 
@@ -22,6 +22,6 @@ export const studentUpdateDeclaredSkillRoute: AvRoute = {
   component: () =>
     import('@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/StudentUpdateDeclaredSkillView.vue'),
   meta: {
-    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.SKILLS],
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.SKILLS],
   },
 }

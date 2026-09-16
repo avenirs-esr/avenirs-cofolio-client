@@ -36,7 +36,7 @@ const pathBadge = computed<AvBadgeProps>(() => ({
     :icon="ICONS.SKILLS"
     color="var(--card)"
     background-color="var(--dark-background-primary1)"
-    :to="{ name: ROUTES.STUDENT.PROJECT_DECLARED_SKILL.name, params: { id: declaredSkill.id } }"
+    :to="{ name: ROUTES.STUDENT.DECLARED_SKILL.name, params: { id: declaredSkill.id } }"
     :disabled="disabled"
     data-testid="associated-declared-skill-card"
   >

@@ -79,11 +79,11 @@ export function useNavigation () {
   }
 
   const navigateToStudentProjectDeclaredSkill = () => {
-    return navigate(ROUTES.STUDENT.PROJECT_DECLARED_SKILL)
+    return navigate(ROUTES.STUDENT.DECLARED_SKILL)
   }
 
-  const navigateToStudentProjectSkills = ({ replace }: { replace?: boolean }) => {
-    return navigate(ROUTES.STUDENT.PROJECT_SKILLS, replace)
+  const navigateToStudentSkills = ({ replace }: { replace?: boolean }) => {
+    return navigate(ROUTES.STUDENT.SKILLS, replace)
   }
 
   const navigateToStudentProjectActivities = ({ replace }: { replace?: boolean } =
@@ -209,7 +209,7 @@ export function useNavigation () {
     navigateToStudentSelfKnowledgeCategory,
     navigateToStudentSelfKnowledgeElementUpdate,
     navigateToStudentProjectDeclaredSkill,
-    navigateToStudentProjectSkills,
+    navigateToStudentSkills,
     navigateToStudentProjectActivities,
     navigateToStudentTrace,
     navigateToStudentTraces,
