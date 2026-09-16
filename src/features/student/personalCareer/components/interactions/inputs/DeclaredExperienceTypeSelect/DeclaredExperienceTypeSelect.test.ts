@@ -12,6 +12,8 @@ BddTest().given('a declared experience type select component', () => {
     AvSelect: AvSelectStub
   }
 
+  const getAvSelect = () => wrapper.findComponent(AvSelectStub)
+
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
       vi.clearAllMocks()
@@ -28,32 +30,32 @@ BddTest().given('a declared experience type select component', () => {
     })
 
     BddTest().then('it should render the AvSelect component', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       expect(select.exists()).toBe(true)
     })
 
     BddTest().then('it should display the correct French label', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       expect(select.props('label')).toBe('Type d\'expérience')
     })
 
     BddTest().then('it should display the correct placeholder', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       expect(select.props('placeholder')).toBe('Sélectionnez un type')
     })
 
     BddTest().then('it should display the correct prefix icon', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       expect(select.props('prefixIcon')).toBe(MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE)
     })
 
     BddTest().then('it should have two options', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
-      expect(select.props('options')).toHaveLength(2)
+      const select = getAvSelect()
+      expect(select.props('options')).toHaveLength(3)
     })
 
     BddTest().then('it should have professional experience option', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       const options = select.props('options')
       const professionalOption = options.find((opt: { id: EExperienceType }) => opt.id === EExperienceType.PROFESSIONAL)
       expect(professionalOption).toBeDefined()
@@ -62,7 +64,7 @@ BddTest().given('a declared experience type select component', () => {
     })
 
     BddTest().then('it should have personal experience option', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       const options = select.props('options')
       const personalOption = options.find((opt: { id: EExperienceType }) => opt.id === EExperienceType.PERSONAL)
       expect(personalOption).toBeDefined()
@@ -84,7 +86,7 @@ BddTest().given('a declared experience type select component', () => {
     })
 
     BddTest().then('it should display the custom label', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       expect(select.props('label')).toBe('Custom Label')
     })
   })
@@ -102,7 +104,7 @@ BddTest().given('a declared experience type select component', () => {
     })
 
     BddTest().then('it should pass the error message to AvSelect', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       expect(select.props('errorMessage')).toBe('Ce champ est requis')
     })
   })
@@ -116,14 +118,34 @@ BddTest().given('a declared experience type select component', () => {
         },
         global: { stubs }
       })
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       await select.vm.$emit('update:selectedItem', { itemId: EExperienceType.PROFESSIONAL })
       await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should update the model value', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       expect(select.props('selectedItem')).toEqual({ itemId: EExperienceType.PROFESSIONAL })
+    })
+  })
+
+  BddTest().when('the user selects volunteer experience', () => {
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mount(DeclaredExperienceTypeSelect, {
+        props: {
+          modelValue: undefined
+        },
+        global: { stubs }
+      })
+      const select = getAvSelect()
+      await select.vm.$emit('update:selectedItem', { itemId: EExperienceType.VOLUNTEER })
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should update the model value', () => {
+      const select = getAvSelect()
+      expect(select.props('selectedItem')).toEqual({ itemId: EExperienceType.VOLUNTEER })
     })
   })
 
@@ -136,13 +158,13 @@ BddTest().given('a declared experience type select component', () => {
         },
         global: { stubs }
       })
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       await select.vm.$emit('update:selectedItem', { itemId: EExperienceType.PERSONAL })
       await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should update the model value', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       expect(select.props('selectedItem')).toEqual({ itemId: EExperienceType.PERSONAL })
     })
   })
@@ -159,7 +181,7 @@ BddTest().given('a declared experience type select component', () => {
     })
 
     BddTest().then('it should display the initial value', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       expect(select.props('selectedItem')).toEqual({ itemId: EExperienceType.PROFESSIONAL })
     })
   })
@@ -178,7 +200,7 @@ BddTest().given('a declared experience type select component', () => {
     })
 
     BddTest().then('it should pass additional props to AvSelect', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       expect(select.props('disabled')).toBe(true)
       expect(select.props('required')).toBe(true)
     })
@@ -193,13 +215,13 @@ BddTest().given('a declared experience type select component', () => {
         },
         global: { stubs }
       })
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       await select.vm.$emit('update:selectedItem', undefined)
       await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should update to undefined value', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const select = getAvSelect()
       expect(select.props('selectedItem')).toBeUndefined()
     })
   })

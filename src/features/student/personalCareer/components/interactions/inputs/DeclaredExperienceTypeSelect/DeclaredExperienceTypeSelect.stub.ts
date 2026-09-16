@@ -11,7 +11,8 @@ export const DeclaredExperienceTypeSelectStub = defineComponent({
       >
         <option value="">Select</option>
         <option value="PROFESSIONAL">Professional</option>
-        <option value="ASSOCIATIVE">Associative</option>
+        <option value="PERSONAL">Personal</option>
+        <option value="VOLUNTEER">Volunteer</option>
       </select>
     </div>
   `

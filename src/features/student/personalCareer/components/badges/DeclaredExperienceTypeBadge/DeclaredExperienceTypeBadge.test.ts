@@ -22,7 +22,7 @@ BddTest().given('a declared experience type badge', () => {
         props: { experienceType: EExperienceType.PROFESSIONAL },
         global: { stubs }
       })
-      badge = wrapper.findComponent(AvBadgeStub) as VueWrapper<InstanceType<typeof AvBadgeStub>>
+      badge = wrapper.findComponent(AvBadgeStub)
     })
 
     BddTest().then('it should display the professional label', () => {
@@ -61,6 +61,24 @@ BddTest().given('a declared experience type badge', () => {
 
     BddTest().then('it should apply the dark success background color', () => {
       expect(badge.props('backgroundColor')).toBe('var(--dark-background-success)')
+    })
+  })
+
+  BddTest().when('the component is mounted with a volunteer experience type', () => {
+    beforeEach(() => {
+      wrapper = mount(DeclaredExperienceTypeBadge, {
+        props: { experienceType: EExperienceType.VOLUNTEER },
+        global: { stubs }
+      })
+      badge = wrapper.findComponent(AvBadgeStub) as VueWrapper<InstanceType<typeof AvBadgeStub>>
+    })
+
+    BddTest().then('it should display the volunteer label', () => {
+      expect(badge.props('label')).toBe('Engagement et/ou bénévolat')
+    })
+
+    BddTest().then('it should apply the dark primary2 background color', () => {
+      expect(badge.props('backgroundColor')).toBe('var(--dark-background-primary2)')
     })
   })
 })

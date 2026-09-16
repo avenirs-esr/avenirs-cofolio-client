@@ -8,7 +8,8 @@
       },
       "declaredExperienceType": {
         "PERSONAL": "Expérience personnelle",
-        "PROFESSIONAL": "Expérience professionnelle"
+        "PROFESSIONAL": "Expérience professionnelle",
+        "VOLUNTEER": "Engagement et/ou bénévolat"
       },
       "declaredProgramStatus": {
         "COMPLETED": "Terminée",

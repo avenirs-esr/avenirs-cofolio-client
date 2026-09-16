@@ -13,7 +13,8 @@ const { t } = useI18n()
 
 const experienceTypeColorMap: Record<EExperienceType, string> = {
   PROFESSIONAL: 'var(--dark-background-primary3)',
-  PERSONAL: 'var(--dark-background-success)'
+  PERSONAL: 'var(--dark-background-success)',
+  VOLUNTEER: 'var(--dark-background-primary2)'
 }
 </script>
 

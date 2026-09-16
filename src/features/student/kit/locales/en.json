@@ -80,7 +80,7 @@
             "title": "My associated trace (1) | My associated traces ({count})"
           },
           "valorizedDeclaredExperiencesContainer": {
-            "PERSONAL": {
+            "OTHER": {
               "seeAll": "See all my other experiences",
               "title": "Other experience (1) | Other experiences ({count})"
             },
