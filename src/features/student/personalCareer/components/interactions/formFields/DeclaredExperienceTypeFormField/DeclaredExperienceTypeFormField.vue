@@ -26,6 +26,7 @@ function onUpdateType (value: { itemId: EExperienceType } | undefined) {
     <template #default="{ field }">
       <DeclaredExperienceTypeSelect
         v-bind="$attrs"
+        required
         :model-value="{ itemId: field.state.value as EExperienceType }"
         :error-message="field.state.meta.errors?.join(', ')"
         @blur="field.handleBlur"

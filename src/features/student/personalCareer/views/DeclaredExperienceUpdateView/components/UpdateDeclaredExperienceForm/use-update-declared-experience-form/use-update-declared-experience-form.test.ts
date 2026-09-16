@@ -185,6 +185,7 @@ BddTest().given('an update declared experience form', () => {
         const result = validator({ value: invalidData })
 
         expect(result?.fields?.title).toBe('Ce champ est requis.')
+        expect(result?.fields?.type).toBe('Ce champ est requis.')
         expect(result?.fields?.organization).toBe('Ce champ est requis.')
         expect(result?.fields?.startDate).toBe('Ce champ est requis.')
         expect(result?.fields?.endDate).toBe('Ce champ est requis.')
@@ -245,6 +246,7 @@ BddTest().given('an update declared experience form', () => {
       beforeEach(() => {
         setFormValues({
           title: 'Master en Informatique (updated)',
+          type: EExperienceType.VOLUNTEER,
           organization: 'University Paris-Saclay',
           startDate: '2024-01',
           endDate: '2025-12',

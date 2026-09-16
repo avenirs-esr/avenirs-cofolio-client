@@ -129,6 +129,7 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
         return {
           fields: {
             title: validators.validateTitleMaxLength(value.title),
+            type: validators.validateTypeRequired(value.type),
             organization: validators.validateOrganizationMaxLength(value.organization),
             activitySector: validators.validateActivitySector(value.activitySector),
             location: validators.validateLocation(value.location),
@@ -144,6 +145,7 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
         return {
           fields: {
             title: validators.validateTitle(value.title),
+            type: validators.validateTypeRequired(value.type),
             organization: validators.validateOrganization(value.organization),
             activitySector: validators.validateActivitySector(value.activitySector),
             location: validators.validateLocation(value.location),
@@ -161,7 +163,7 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
     onSubmit: ({ value }: { value: DeclaredExperienceFormData }) => {
       createDeclaredExperience({
         title: value.title,
-        experienceType: value.type as EExperienceType || undefined,
+        experienceType: value.type as EExperienceType,
         organization: value.organization,
         activitySector: value.activitySector || undefined,
         location: value.location || undefined,
