@@ -15,7 +15,7 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStudentUpdateDeclaredSkill = vi.fn()
-const navigateToStudentProjectSkills = vi.fn()
+const navigateToStudentSkills = vi.fn()
 
 vi.mock('@/common/composables', async () => {
   const actual = await vi.importActual('@/common/composables')
@@ -23,7 +23,7 @@ vi.mock('@/common/composables', async () => {
     ...actual,
     useNavigation: () => ({
       navigateToStudentUpdateDeclaredSkill,
-      navigateToStudentProjectSkills
+      navigateToStudentSkills
     })
   }
 })
@@ -184,7 +184,7 @@ BddTest().given('a student declared skill view', () => {
 
       BddTest().then('it should navigate to skills page', async () => {
         await vi.waitFor(() => {
-          expect(navigateToStudentProjectSkills).toHaveBeenCalledWith({ replace: true })
+          expect(navigateToStudentSkills).toHaveBeenCalledWith({ replace: true })
         })
       })
     })

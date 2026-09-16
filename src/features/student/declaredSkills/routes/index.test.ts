@@ -6,7 +6,7 @@ import { testRoute } from 'tests/utils'
 
 testRoute(
   studentProjectDeclaredSkillRoute,
-  ROUTES.STUDENT.PROJECT_DECLARED_SKILL,
+  ROUTES.STUDENT.DECLARED_SKILL,
   StudentDeclaredSkillView
 )
 

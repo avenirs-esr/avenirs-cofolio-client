@@ -6,7 +6,7 @@
         "StudentProjectSkillsView": {
           "breadcrumb": {
             "current": {
-              "title": "Toutes mes compétences"
+              "title": "Mes compétences"
             }
           },
           "skillsViewTabs": {
@@ -15,7 +15,7 @@
               "addSkillButton": "Ajouter une compétence"
             }
           },
-          "title": "Toutes mes compétences"
+          "title": "Mes compétences"
         }
       }
     }

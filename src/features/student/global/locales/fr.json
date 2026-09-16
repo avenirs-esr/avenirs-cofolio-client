@@ -78,10 +78,10 @@
               "declaredSkills": "Mes autres compétences déclarées",
               "experiences": "Mon parcours",
               "selfKnowledge": "Me connaître",
-              "skills": "Toutes mes compétences",
               "trajectories": "Bâtir mon projet"
             }
           },
+          "skills": "Mes compétences",
           "tools": {
             "header": "Mes outils",
             "items": {

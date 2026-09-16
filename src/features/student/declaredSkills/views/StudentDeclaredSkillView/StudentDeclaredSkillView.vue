@@ -26,7 +26,7 @@ enum StudentDeclaredSkillViewTabs {
 }
 
 const { t } = useI18n()
-const { navigateToStudentUpdateDeclaredSkill, navigateToStudentProjectSkills } = useNavigation()
+const { navigateToStudentUpdateDeclaredSkill, navigateToStudentSkills } = useNavigation()
 const { data: declaredSkillDetailed, error } = useGetDeclaredSkillProgressDetails(skillId)
 const { modalOpened, openModal, closeModal } = useModal()
 
@@ -57,7 +57,7 @@ function handleUpdateSelected () {
 
 function handleSkillDeleted () {
   closeModal()
-  navigateToStudentProjectSkills({ replace: true })
+  navigateToStudentSkills({ replace: true })
 }
 </script>
 

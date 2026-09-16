@@ -8,7 +8,7 @@ import { studentToolsKitRoute } from '@/features/student/kit/routes'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
 import { declaredExperienceRoute, declaredExperienceUpdateRoute, declaredProgramUpdateRoute } from '@/features/student/personalCareer/routes'
 import { studentSelfKnowledgeCategoryRoute, studentSelfKnowledgeElementUpdateRoute } from '@/features/student/selfKnowledge'
-import { studentProjectSkillsRoute } from '@/features/student/skills/routes'
+import { studentSkillsRoute } from '@/features/student/skills/routes'
 import { studentToolsTraceRoute, studentToolsTracesRoute, studentToolsUpdateTraceRoute, studentTraceRoute, studentUpdateTraceRoute } from '@/features/student/traces/routes'
 
 const breadcrumb = [...BASE_BREADCRUMBS.STUDENT.HOME.BASE]
@@ -56,7 +56,7 @@ export default [
         meta: { breadcrumb },
       },
       studentProjectDeclaredSkillRoute,
-      studentProjectSkillsRoute,
+      studentSkillsRoute,
       declaredProgramRoute,
       declaredProgramUpdateRoute,
       personalCareerRoute,

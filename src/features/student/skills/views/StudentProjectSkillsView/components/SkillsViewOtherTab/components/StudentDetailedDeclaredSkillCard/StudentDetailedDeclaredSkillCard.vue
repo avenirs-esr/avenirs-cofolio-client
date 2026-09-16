@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { DeclaredSkillProgressDTO, ExternalSkillDTO } from '@/api/avenir-esr'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
-import { ROUTES } from '@/common/constants'
+import { ICONS, ROUTES } from '@/common/constants'
 import { DeclaredSkillMacroSkillBadge } from '@/features/student/declaredSkills'
 import StudentDetailedSkillCard from '@/features/student/skills/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
-import { AvBadge, type AvBadgeProps, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, type AvBadgeProps, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface StudentDetailedDeclaredSkillCardProps {
@@ -31,8 +31,8 @@ const valorized = computed(() =>
     :id="declaredSkill.id"
     :name="declaredSkill.title"
     :skill-color="declaredSkillColor"
-    :icon="MDI_ICONS.STARS"
-    :to="ROUTES.STUDENT.PROJECT_DECLARED_SKILL.name"
+    :icon="ICONS.SKILLS"
+    :to="ROUTES.STUDENT.DECLARED_SKILL.name"
     color="var(--card2)"
   >
     <div class="av-col av-justify-between av--mt-xs av-gap-xxs">

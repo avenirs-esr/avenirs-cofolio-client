@@ -58,7 +58,7 @@ const to = computed(() => {
       }
     case ValorizedItemType.DECLARED_SKILL:
       return {
-        name: ROUTES.STUDENT.PROJECT_DECLARED_SKILL.name,
+        name: ROUTES.STUDENT.DECLARED_SKILL.name,
         params: { id: itemId },
       }
     default:

@@ -29,8 +29,8 @@ export const META_BREADCRUMBS = {
         EXPERIENCES: { textKey: 'student.personalCareer.views.PersonalCareerView.ExperiencesSection.breadcrumb', to: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES }
       },
       SELF_KNOWLEDGE: { textKey: 'student.global.navigation.tabs.project.items.selfKnowledge' },
-      SKILLS: { textKey: 'student.global.navigation.tabs.project.items.skills', to: ROUTES.STUDENT.PROJECT_SKILLS },
     },
+    SKILLS: { textKey: 'student.global.navigation.tabs.skills', to: ROUTES.STUDENT.SKILLS },
     TOOLS: {
       DEFAULT: { textKey: 'student.global.navigation.tabs.tools.header' },
       KIT: { textKey: 'student.global.navigation.tabs.tools.items.kit', to: ROUTES.STUDENT.TOOLS_KIT },
@@ -126,12 +126,12 @@ export const BASE_BREADCRUMBS = {
           ...BASE_STUDENT_PROJECT_PERSONAL_CAREER_BREADCRUMBS,
           META_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.EXPERIENCES,
         ],
-      },
-      SKILLS: [
-        ...BASE_STUDENT_PROJECT_BREADCRUMBS,
-        META_BREADCRUMBS.STUDENT.PROJECT.SKILLS,
-      ]
+      }
     },
+    SKILLS: [
+      META_BREADCRUMBS.STUDENT.HOME,
+      META_BREADCRUMBS.STUDENT.SKILLS,
+    ],
     TOOLS: {
       KIT: [
         ...BASE_STUDENT_TOOLS_BREADCRUMBS,

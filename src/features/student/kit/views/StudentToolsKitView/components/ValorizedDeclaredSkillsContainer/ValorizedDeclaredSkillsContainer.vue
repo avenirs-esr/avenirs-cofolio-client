@@ -14,7 +14,7 @@ const { data, error, isFetching } = useGetDeclaredSkillsProgresses(
 const declaredSkills = computed(() => data.value?.data ?? [])
 const totalElements = computed(() => data.value?.page?.totalElements ?? 0)
 const isEmpty = computed(() => totalElements.value === 0)
-const declaredSkillsRoute = { name: ROUTES.STUDENT.PROJECT_SKILLS.name }
+const declaredSkillsRoute = { name: ROUTES.STUDENT.SKILLS.name }
 const emptyStateMessage = computed(() => t(
   'student.kit.cards.ValorizedElementsCardContainer.emptyState',
   { item: t('student.kit.views.StudentToolsKitView.valorizedDeclaredSkillsContainer.emptyStateItemLabel') }

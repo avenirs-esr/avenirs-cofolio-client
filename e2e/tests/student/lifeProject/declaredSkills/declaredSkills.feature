@@ -9,7 +9,7 @@ Feature: Student Life Project Declared Skills Page
     @high
     Scenario: Student can load the project skills page successfully
       Then the student skills page is displayed
-      And the URL contains "/cofolio/student/project/skills"
+      And the URL contains "/cofolio/student/skills"
 
     @high @dataset-full
     Scenario: Student can see the declared skills cards

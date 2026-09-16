@@ -6,9 +6,10 @@ import type {
 } from '@/features/student/declaredSkills/types/forms.types'
 import { type ExternalSkillDTO, type PagedResponseExternalSkillDTO, useSearchExternalSkillsInfinite } from '@/api/avenir-esr'
 import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
+import { ICONS } from '@/common/constants'
 import { highlightCaptionText, highlightTitleText } from '@/common/utils'
 import DeclaredSkillTypeBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillTypeBadge/DeclaredSkillTypeBadge.vue'
-import { AvListItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvListItem } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'
 import { markRaw, toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -136,7 +137,7 @@ const emptySlotTextContent = computed<string>(() => {
               v-memo="[option, isSelected, toggle, searchQuery]"
               hover-background-color="var(--light-background-neutral)"
               :selected="isSelected"
-              :icon="MDI_ICONS.STARS"
+              :icon="ICONS.SKILLS"
               :icon-size="2"
               icon-color="var(--icon)"
               color-on-hover="var(--text1)"

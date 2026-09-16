@@ -28,7 +28,7 @@ BddTest().given('a student project skills view component', () => {
       const pageTitle = wrapper.findComponent(PageTitleStub)
 
       expect(pageTitle.exists()).toBe(true)
-      expect(pageTitle.props('title')).toBe('Toutes mes compétences')
+      expect(pageTitle.props('title')).toBe('Mes compétences')
       expect(pageTitle.props('trailingLinks')).toBeUndefined()
     })
 
