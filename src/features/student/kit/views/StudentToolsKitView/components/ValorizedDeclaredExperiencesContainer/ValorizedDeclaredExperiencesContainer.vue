@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { EExperienceType, useGetDeclaredExperienceView } from '@/api/avenir-esr'
+import { useGetDeclaredExperienceView } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import ValorizedElementsCardContainer from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.vue'
 import ValorizedDeclaredExperienceItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperienceItem/ValorizedDeclaredExperienceItem.vue'
+import { isProfessional } from '@/features/student/personalCareer/utils/experiences-utils/experiences-utils'
 import { useI18n } from 'vue-i18n'
 
 export interface ValorizedDeclaredExperiencesContainerProps {
@@ -19,11 +20,8 @@ const { data, error, isFetching } = useGetDeclaredExperienceView(
 
 const experienceType = computed(() => professionalExperience ? 'PROFESSIONAL' : 'OTHER')
 
-const declaredExperiences = computed(() => (data.value?.data ?? []).filter(
-  declaredExperience => professionalExperience
-    ? declaredExperience.experienceType === EExperienceType.PROFESSIONAL
-    : declaredExperience.experienceType !== EExperienceType.PROFESSIONAL
-))
+const declaredExperiences = computed(() => (data.value?.data ?? []).filter(experience =>
+  isProfessional(experience, professionalExperience)))
 const totalElements = computed(() => declaredExperiences.value.length)
 const isEmpty = computed(() => totalElements.value === 0)
 const declaredExperiencesRoute = { name: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name }
