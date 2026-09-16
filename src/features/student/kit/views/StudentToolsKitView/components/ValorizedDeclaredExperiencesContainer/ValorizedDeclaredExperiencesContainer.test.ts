@@ -11,7 +11,7 @@ import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 
 interface ExperienceTypeScenario {
-  experienceType: EExperienceType
+  professionalExperience: boolean
   pluralTitle: (count: number) => string
   singularTitle: string
   singularTotalElements: number
@@ -20,14 +20,14 @@ interface ExperienceTypeScenario {
 
 const SCENARIOS: ExperienceTypeScenario[] = [
   {
-    experienceType: EExperienceType.PROFESSIONAL,
+    professionalExperience: true,
     pluralTitle: count => `Mes expériences professionnelles (${count})`,
     singularTitle: 'Mon expérience professionnelle (1)',
     singularTotalElements: 1,
     seeAllLabel: 'Voir toutes mes expériences professionnelles'
   },
   {
-    experienceType: EExperienceType.PERSONAL,
+    professionalExperience: false,
     pluralTitle: count => `Autres expériences (${count})`,
     singularTitle: 'Autre expérience (1)',
     singularTotalElements: 2,
@@ -35,12 +35,18 @@ const SCENARIOS: ExperienceTypeScenario[] = [
   }
 ]
 
-function countOf (mockedResponse: PagedResponseDeclaredExperienceViewDTO, experienceType: EExperienceType) {
-  return mockedResponse.data.filter(experience => experience.experienceType === experienceType).length
+function countOf (mockedResponse: PagedResponseDeclaredExperienceViewDTO, professionalExperience: boolean) {
+  return mockedResponse.data.filter(experience => professionalExperience
+    ? experience.experienceType === EExperienceType.PROFESSIONAL
+    : experience.experienceType !== EExperienceType.PROFESSIONAL
+  ).length
 }
 
-function pagedResponseWithoutType (experienceType: EExperienceType): PagedResponseDeclaredExperienceViewDTO {
-  const data = mockedDeclaredExperiences.filter(experience => experience.experienceType !== experienceType)
+function pagedResponseWithoutType (professionalExperience: boolean): PagedResponseDeclaredExperienceViewDTO {
+  const data = mockedDeclaredExperiences.filter(experience => professionalExperience
+    ? experience.experienceType !== EExperienceType.PROFESSIONAL
+    : experience.experienceType === EExperienceType.PROFESSIONAL
+  )
 
   return {
     data,
@@ -48,8 +54,8 @@ function pagedResponseWithoutType (experienceType: EExperienceType): PagedRespon
   }
 }
 
-SCENARIOS.forEach(({ experienceType, pluralTitle, singularTitle, singularTotalElements, seeAllLabel }) => {
-  BddTest().given(`a valorized declared experiences container for ${experienceType} experiences`, () => {
+SCENARIOS.forEach(({ professionalExperience, pluralTitle, singularTitle, singularTotalElements, seeAllLabel }) => {
+  BddTest().given(`a valorized declared experiences container for ${professionalExperience ? 'professional' : 'other'} experiences`, () => {
     let wrapper: VueWrapper<InstanceType<typeof ValorizedDeclaredExperiencesContainer>>
     let requestedParams: GetDeclaredExperienceViewParams
 
@@ -60,7 +66,7 @@ SCENARIOS.forEach(({ experienceType, pluralTitle, singularTitle, singularTotalEl
 
     const mountDeclaredExperiencesContainer = async () => {
       wrapper = mountComponent(ValorizedDeclaredExperiencesContainer, {
-        props: { experienceType },
+        props: { professionalExperience },
         global: { stubs }
       })
       await flushPromises()
@@ -68,7 +74,7 @@ SCENARIOS.forEach(({ experienceType, pluralTitle, singularTitle, singularTotalEl
 
     BddTest().when('the request succeeds with a mix of personal and professional experiences', () => {
       const mockedResponse = createMockedDeclaredExperiencesPagedResponse(100, 10, 0)
-      const expectedCount = countOf(mockedResponse, experienceType)
+      const expectedCount = countOf(mockedResponse, professionalExperience)
 
       beforeEach(async () => {
         server.use(createDeclaredExperienceViewHandler(mockedResponse, (params) => {
@@ -100,7 +106,9 @@ SCENARIOS.forEach(({ experienceType, pluralTitle, singularTitle, singularTotalEl
         const items = wrapper.findAllComponents(ValorizedDeclaredExperienceItemStub)
         expect(items).toHaveLength(expectedCount)
         items.forEach((item) => {
-          expect(item.props('declaredExperience').experienceType).toBe(experienceType)
+          professionalExperience
+            ? expect(item.props('declaredExperience').experienceType).toBe(EExperienceType.PROFESSIONAL)
+            : expect(item.props('declaredExperience').experienceType).not.toBe(EExperienceType.PROFESSIONAL)
         })
       })
 
@@ -116,7 +124,7 @@ SCENARIOS.forEach(({ experienceType, pluralTitle, singularTitle, singularTotalEl
       const mockedResponse = createMockedDeclaredExperiencesPagedResponse(100, singularTotalElements, 0)
 
       beforeEach(async () => {
-        expect(countOf(mockedResponse, experienceType)).toBe(1)
+        expect(countOf(mockedResponse, professionalExperience)).toBe(1)
         server.use(createDeclaredExperienceViewHandler(mockedResponse))
 
         await mountDeclaredExperiencesContainer()
@@ -133,7 +141,7 @@ SCENARIOS.forEach(({ experienceType, pluralTitle, singularTitle, singularTotalEl
 
     BddTest().when('the request succeeds with experiences of the other type only', () => {
       beforeEach(async () => {
-        server.use(createDeclaredExperienceViewHandler(pagedResponseWithoutType(experienceType)))
+        server.use(createDeclaredExperienceViewHandler(pagedResponseWithoutType(professionalExperience)))
 
         await mountDeclaredExperiencesContainer()
       })

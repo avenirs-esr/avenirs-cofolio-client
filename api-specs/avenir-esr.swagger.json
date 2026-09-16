@@ -6184,7 +6184,8 @@
             "$ref": "#/components/schemas/EExperienceType",
             "enum": [
               "PERSONAL",
-              "PROFESSIONAL"
+              "PROFESSIONAL",
+              "VOLUNTEER"
             ]
           },
           "organization": {
@@ -6275,7 +6276,8 @@
             "$ref": "#/components/schemas/EExperienceType",
             "enum": [
               "PERSONAL",
-              "PROFESSIONAL"
+              "PROFESSIONAL",
+              "VOLUNTEER"
             ]
           },
           "organization": {
@@ -7587,7 +7589,8 @@
             "$ref": "#/components/schemas/EExperienceType",
             "enum": [
               "PERSONAL",
-              "PROFESSIONAL"
+              "PROFESSIONAL",
+              "VOLUNTEER"
             ]
           },
           "disabled": {
@@ -8829,7 +8832,8 @@
         "description": "Enum for trace status",
         "enum": [
           "PERSONAL",
-          "PROFESSIONAL"
+          "PROFESSIONAL",
+          "VOLUNTEER"
         ]
       },
       "EProgramStatus": {

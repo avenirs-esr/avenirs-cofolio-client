@@ -78,7 +78,7 @@ BddTest().given('a declared experience type form field', () => {
     BddTest().and('the form is submitted with valid type', () => {
       BddTest().then('it should not show validation error', async () => {
         const select = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
-        await select.vm.$emit('update:modelValue', 'ASSOCIATIVE' as EExperienceType)
+        await select.vm.$emit('update:modelValue', 'PERSONAL' as EExperienceType)
         await wrapper.vm.$nextTick()
         await wrapper.find('form').trigger('submit')
         await wrapper.vm.$nextTick()

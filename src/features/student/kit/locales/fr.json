@@ -80,7 +80,7 @@
             "title": "Ma trace associée (1) | Mes traces associées ({count})"
           },
           "valorizedDeclaredExperiencesContainer": {
-            "PERSONAL": {
+            "OTHER": {
               "seeAll": "Voir toutes mes autres expériences",
               "title": "Autre expérience (1) | Autres expériences ({count})"
             },

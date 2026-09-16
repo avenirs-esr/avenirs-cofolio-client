@@ -21,6 +21,10 @@ const options = computed(() => [
   {
     id: EExperienceType.PERSONAL,
     label: t('student.personalCareer.declaredExperienceType.PERSONAL')
+  },
+  {
+    id: EExperienceType.VOLUNTEER,
+    label: t('student.personalCareer.declaredExperienceType.VOLUNTEER')
   }
 ])
 

@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import type { EExperienceType } from '@/api/avenir-esr'
-import { useGetDeclaredExperienceView } from '@/api/avenir-esr'
+import { EExperienceType, useGetDeclaredExperienceView } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import ValorizedElementsCardContainer from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.vue'
 import ValorizedDeclaredExperienceItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperienceItem/ValorizedDeclaredExperienceItem.vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ValorizedDeclaredExperiencesContainerProps {
-  experienceType: EExperienceType
+  professionalExperience: boolean
 }
 
-const { experienceType } = defineProps<ValorizedDeclaredExperiencesContainerProps>()
+const { professionalExperience } = defineProps<ValorizedDeclaredExperiencesContainerProps>()
 
 const { t } = useI18n()
 
@@ -18,8 +17,12 @@ const { data, error, isFetching } = useGetDeclaredExperienceView(
   { isValorized: true, pageSize: 100 }
 )
 
+const experienceType = computed(() => professionalExperience ? 'PROFESSIONAL' : 'OTHER')
+
 const declaredExperiences = computed(() => (data.value?.data ?? []).filter(
-  declaredExperience => declaredExperience.experienceType === experienceType
+  declaredExperience => professionalExperience
+    ? declaredExperience.experienceType === EExperienceType.PROFESSIONAL
+    : declaredExperience.experienceType !== EExperienceType.PROFESSIONAL
 ))
 const totalElements = computed(() => declaredExperiences.value.length)
 const isEmpty = computed(() => totalElements.value === 0)
@@ -29,13 +32,13 @@ const emptyStateMessage = computed(() => t(
   { item: t('student.kit.views.StudentToolsKitView.valorizedDeclaredExperiencesContainer.emptyStateItemLabel') }
 ))
 const title = computed(() => t(
-  `student.kit.views.StudentToolsKitView.valorizedDeclaredExperiencesContainer.${experienceType}.title`,
+  `student.kit.views.StudentToolsKitView.valorizedDeclaredExperiencesContainer.${experienceType.value}.title`,
   { count: totalElements.value }
 ))
 const seeAllLabel = computed(() => t(
-  `student.kit.views.StudentToolsKitView.valorizedDeclaredExperiencesContainer.${experienceType}.seeAll`
+  `student.kit.views.StudentToolsKitView.valorizedDeclaredExperiencesContainer.${experienceType.value}.seeAll`
 ))
-const dataTestid = computed(() => `valorized-${experienceType.toLowerCase()}-experiences-container`)
+const dataTestid = computed(() => `valorized-${experienceType.value.toLowerCase()}-experiences-container`)
 </script>
 
 <template>

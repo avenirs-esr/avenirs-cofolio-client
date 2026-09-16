@@ -35,7 +35,7 @@ export function createMockedDeclaredExperiences (count: number, withoutDescripti
   const experiencesExample = [
     { title: 'Développeur Junior', experienceType: EExperienceType.PROFESSIONAL, location: 'La Poste', description: 'Développement et maintenance d\'applications internes en équipe agile.' },
     { title: 'Assistant Marketing', experienceType: EExperienceType.PROFESSIONAL, location: 'Les Subsistances, Lyon', description: 'Gestion des réseaux sociaux et création de supports de communication.' },
-    { title: 'Bénévole Associatif', experienceType: EExperienceType.PERSONAL, location: 'La Poste', description: 'Distribution alimentaire hebdomadaire auprès des personnes en difficulté.' },
+    { title: 'Bénévole Associatif', experienceType: EExperienceType.VOLUNTEER, location: 'La Poste', description: 'Distribution alimentaire hebdomadaire auprès des personnes en difficulté.' },
     { title: 'Contributeur Github', experienceType: EExperienceType.PERSONAL, location: 'Les Subsistances, Lyon', description: 'Contributions open source sur des projets Vue.js et TypeScript.' },
     { title: 'Conseiller Vendeur', experienceType: EExperienceType.PROFESSIONAL, location: 'Marseille, France', description: 'Accueil et conseil client en magasin, gestion des stocks.' }
   ]

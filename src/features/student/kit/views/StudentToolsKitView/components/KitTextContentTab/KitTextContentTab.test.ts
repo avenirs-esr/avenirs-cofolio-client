@@ -1,5 +1,4 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { EExperienceType } from '@/api/avenir-esr'
 import KitTextContentTab from '@/features/student/kit/views/StudentToolsKitView/components/KitTextContentTab/KitTextContentTab.vue'
 import { ValorizedDeclaredExperiencesContainerStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperiencesContainer/ValorizedDeclaredExperiencesContainer.stub'
 import { ValorizedDeclaredProgramsContainerStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredProgramsContainer/ValorizedDeclaredProgramsContainer.stub'
@@ -29,9 +28,9 @@ BddTest().given('a kit text content tab', () => {
 
     BddTest().then('it should render a valorized declared experiences container per experience type, professional first', () => {
       const containers = wrapper.findAllComponents(ValorizedDeclaredExperiencesContainerStub)
-      expect(containers.map(container => container.props('experienceType'))).toEqual([
-        EExperienceType.PROFESSIONAL,
-        EExperienceType.PERSONAL
+      expect(containers.map(container => container.props('professionalExperience'))).toEqual([
+        true,
+        false
       ])
     })
 
