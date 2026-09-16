@@ -7424,6 +7424,9 @@
             "items": {
               "type": "string"
             }
+          },
+          "enableCompletionPeriod": {
+            "type": "boolean"
           }
         }
       },

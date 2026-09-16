@@ -140,8 +140,8 @@ const form = useForm({
 
     const hasBothDates = !!value.startDate && !!value.endDate
     const periodDates = hasBothDates
-      ? { startDate: value.startDate, endDate: value.endDate }
-      : { startDate: undefined, endDate: undefined }
+      ? { startDate: value.startDate, endDate: value.endDate, enableCompletionPeriod: true }
+      : { enableCompletionPeriod: false }
 
     await save({
       title: value.title,
