@@ -13,7 +13,7 @@ BddTest().given('the usePaginatedDeclaredExperiences composable', () => {
   let composableResult: ReturnType<typeof usePaginatedDeclaredExperiences>
 
   const mountComposableWithPageSize = () => {
-    vi.mocked(usePersonalCareerStore).mockReturnValue({ declaredExperiencesPageSizeSelected: 4 } as any)
+    vi.mocked(usePersonalCareerStore).mockReturnValue({ declaredExperiencesPageSizeSelected: 4 } as ReturnType<typeof usePersonalCareerStore>)
 
     const { result } = mountComposable(() => usePaginatedDeclaredExperiences({}), { useTanstack: true })
     composableResult = result

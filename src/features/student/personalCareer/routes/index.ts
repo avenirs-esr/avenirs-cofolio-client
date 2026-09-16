@@ -17,6 +17,9 @@ export const personalCareerRoute: AvRoute = {
     {
       ...ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES,
       component: () => import('@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/ExperiencesSection.vue'),
+      props: route => ({
+        type: route.query.type,
+      }),
     }
   ]
 }
