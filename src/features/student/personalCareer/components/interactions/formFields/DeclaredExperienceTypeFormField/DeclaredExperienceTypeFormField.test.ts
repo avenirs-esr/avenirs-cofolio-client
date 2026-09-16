@@ -18,6 +18,8 @@ const TestWrapper = createFormFieldTestWrapper<DeclaredExperienceFormData, 'type
 BddTest().given('a declared experience type form field', () => {
   let wrapper: VueWrapper<InstanceType<typeof TestWrapper>>
 
+  const getSelect = () => wrapper.findComponent(DeclaredExperienceTypeSelectStub)
+
   const stubs = {
     DeclaredExperienceTypeSelect: DeclaredExperienceTypeSelectStub
   }
@@ -31,23 +33,28 @@ BddTest().given('a declared experience type form field', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the type select component', () => {
-      const select = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
+      const select = getSelect()
       expect(select.exists()).toBe(true)
     })
 
+    BddTest().then('it should have the required attribute', () => {
+      const select = getSelect()
+      expect(select.attributes('required')).toBeDefined()
+    })
+
     BddTest().then('it should have empty initial value', () => {
-      const select = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
+      const select = getSelect()
       expect(select.props('modelValue')).toEqual({ itemId: '' })
     })
 
     BddTest().and('the user selects a type', () => {
       BddTest().then('it should update the form field value', async () => {
-        const select = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
+        const select = getSelect()
         await select.vm.$emit('update:modelValue', { itemId: 'PROFESSIONAL' as EExperienceType })
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const updated = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
+          const updated = getSelect()
           expect(updated.props('modelValue')).toEqual({ itemId: 'PROFESSIONAL' })
         })
       })
@@ -55,7 +62,7 @@ BddTest().given('a declared experience type form field', () => {
 
     BddTest().and('the input emits blur', () => {
       BddTest().then('it should trigger blur handler', async () => {
-        const select = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
+        const select = getSelect()
         await select.vm.$emit('blur')
         await wrapper.vm.$nextTick()
 
@@ -69,7 +76,7 @@ BddTest().given('a declared experience type form field', () => {
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const updated = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
+          const updated = getSelect()
           expect(updated.props('errorMessage')).toBeFalsy()
         })
       })
@@ -77,14 +84,14 @@ BddTest().given('a declared experience type form field', () => {
 
     BddTest().and('the form is submitted with valid type', () => {
       BddTest().then('it should not show validation error', async () => {
-        const select = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
+        const select = getSelect()
         await select.vm.$emit('update:modelValue', 'PERSONAL' as EExperienceType)
         await wrapper.vm.$nextTick()
         await wrapper.find('form').trigger('submit')
         await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const updated = wrapper.findComponent({ name: 'DeclaredExperienceTypeSelect' })
+          const updated = getSelect()
           expect(updated.props('errorMessage')).toBeFalsy()
         })
       })
