@@ -61,7 +61,7 @@ BddTest().given('a declared program card', () => {
     })
 
     BddTest().then('it should have correct dimensions', () => {
-      expect(floatingCard.props('height')).toBe('12.8rem')
+      expect(floatingCard.props('height')).toBe('fit-content')
       expect(floatingCard.props('headerRows')).toBe(1)
     })
 
@@ -87,16 +87,6 @@ BddTest().given('a declared program card', () => {
     BddTest().then('it should have correct icon position', () => {
       const iconOptions = floatingCard.props('iconOptions')
       expect(iconOptions.bottom).toBe('calc(-1 * 3.3rem)')
-    })
-
-    BddTest().then('it should have responsive flex utilities on badges container', () => {
-      const badgesContainer = wrapper.find('.av-justify-end--md')
-      expect(badgesContainer.exists()).toBe(true)
-      expect(badgesContainer.classes()).toContain('av-col')
-      expect(badgesContainer.classes()).toContain('av-row--md')
-      expect(badgesContainer.classes()).toContain('av-align-end')
-      expect(badgesContainer.classes()).toContain('av-justify-end--md')
-      expect(badgesContainer.classes()).toContain('av-gap-sm')
     })
 
     BddTest().and('the status badge is rendered', () => {

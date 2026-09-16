@@ -77,7 +77,7 @@ BddTest().given('a declared experience card', () => {
     })
 
     BddTest().then('it should have correct height', () => {
-      expect(floatingCard.props('height')).toBe('12.8rem')
+      expect(floatingCard.props('height')).toBe('fit-content')
     })
 
     BddTest().then('it should have correct title typography classes', () => {

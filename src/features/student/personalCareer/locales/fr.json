@@ -259,6 +259,11 @@
               "noDeclaredExperiences": "Aucune expérience à supprimer.",
               "title": "Quelle(s) expérience(s) souhaitez-vous supprimer\u00A0?"
             },
+            "ExperienceTypeMultiselect": {
+              "label": "Type d'expérience",
+              "placeholder": "Sélectionner un/des type(s) d'expérience",
+              "selected": "1 type sélectionné | {count} types sélectionnés"
+            },
             "title": "Mes expériences",
             "VerifiedExperiencesTab": {
               "title": "Mes expériences vérifiées"

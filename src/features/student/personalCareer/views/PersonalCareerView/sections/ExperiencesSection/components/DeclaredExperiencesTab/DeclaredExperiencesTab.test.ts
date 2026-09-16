@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { declaredExperiencesQueryEmptyHandler, declaredExperiencesQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { EExperienceType } from '@/api/avenir-esr'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
@@ -8,6 +9,7 @@ import { DeclaredExperienceCardStub } from '@/features/student/personalCareer/co
 import { AddDeclaredExperienceDrawerStub } from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/AddDeclaredExperienceDrawer.stub'
 import { DeclaredExperiencesMoreActionsDropdownStub } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesMoreActionsDropdown/DeclaredExperiencesMoreActionsDropdown.stub'
 import DeclaredExperiencesTab from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesTab/DeclaredExperiencesTab.vue'
+import { ExperienceTypeMultiselectStub } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/ExperienceTypeMultiselect/ExperienceTypeMultiselect.stub'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -49,8 +51,19 @@ BddTest().given('a declared experiences tab', () => {
     AddDeclaredExperienceDrawer: AddDeclaredExperienceDrawerStub,
     DeclaredExperiencesMoreActionsDropdown: DeclaredExperiencesMoreActionsDropdownStub,
     AvIconText: AvIconTextStub,
-    QuerySuspense: QuerySuspenseStub
+    QuerySuspense: QuerySuspenseStub,
+    ExperienceTypeMultiselect: ExperienceTypeMultiselectStub
   }
+
+  const getPagination = () => wrapper.findComponent(PaginationStub)
+  const getAvIconText = () => wrapper.findComponent(AvIconTextStub)
+  const getDeclaredExperiencesMoreActionsDropdown = () =>
+    wrapper.findComponent(DeclaredExperiencesMoreActionsDropdownStub)
+  const getExperienceTypeMultiselect = () => wrapper.findComponent(ExperienceTypeMultiselectStub)
+  const getDeclaredExperienceCards = () => wrapper.findAllComponents(DeclaredExperienceCardStub)
+  const getQuerySuspenseEmpty = () => wrapper.findComponent(QuerySuspenseStub)
+    .find('[data-testid="query-suspense-empty"]')
+  const getLoader = () => wrapper.findComponent(LoaderStub)
 
   beforeEach(async () => {
     vi.clearAllMocks()
@@ -58,7 +71,7 @@ BddTest().given('a declared experiences tab', () => {
       global: { stubs }
     })
     await vi.waitFor(() => {
-      expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true)
+      expect(getPagination().exists()).toBe(true)
     })
   })
 
@@ -73,32 +86,32 @@ BddTest().given('a declared experiences tab', () => {
     })
 
     BddTest().then('it should render the AvIconText component', () => {
-      const iconText = wrapper.findComponent({ name: 'AvIconText' })
-      expect(iconText.exists()).toBe(true)
+      expect(getAvIconText().exists()).toBe(true)
     })
 
     BddTest().then('it should render the pagination component', () => {
-      const pagination = wrapper.findComponent({ name: 'Pagination' })
-      expect(pagination.exists()).toBe(true)
+      expect(getPagination().exists()).toBe(true)
     })
 
     BddTest().then('it should render the more actions dropdown', () => {
-      const dropdown = wrapper.findComponent({ name: 'DeclaredExperiencesMoreActionsDropdown' })
-      expect(dropdown.exists()).toBe(true)
+      expect(getDeclaredExperiencesMoreActionsDropdown().exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the experience type multiselect component', () => {
+      expect(getExperienceTypeMultiselect().exists()).toBe(true)
     })
   })
 
   BddTest().when('declared experiences data is loaded', () => {
     beforeEach(async () => {
       await vi.waitFor(() => {
-        const cards = wrapper.findAllComponents({ name: 'DeclaredExperienceCard' })
+        const cards = getDeclaredExperienceCards()
         expect(cards.length).toBeGreaterThan(0)
       })
     })
 
     BddTest().then('it should render declared experience cards', () => {
-      const cards = wrapper.findAllComponents({ name: 'DeclaredExperienceCard' })
-      expect(cards.length).toBeGreaterThan(0)
+      expect(getDeclaredExperienceCards().length).toBeGreaterThan(0)
     })
 
     BddTest().then('it should render cards with layout and spacing classes', () => {
@@ -108,14 +121,41 @@ BddTest().given('a declared experiences tab', () => {
     })
 
     BddTest().then('it should not display the loader', () => {
-      const loaderSpinner = wrapper.find('[data-testid="loader-stub"]')
-      expect(loaderSpinner.exists()).toBe(false)
+      expect(getLoader().exists()).toBe(false)
+    })
+
+    const multiselectScenario = [
+      { value: EExperienceType.PROFESSIONAL, label: 'Expérience professionnelle' },
+      { value: EExperienceType.PERSONAL, label: 'Expérience personnelle' },
+      { value: EExperienceType.VOLUNTEER, label: 'Engagement et/ou bénévolat' }
+    ]
+
+    multiselectScenario.forEach(({ value, label }) => {
+      BddTest().and(`the user selects the ${label} experience type`, () => {
+        beforeEach(async () => {
+          const multiselect = getExperienceTypeMultiselect()
+          multiselect.vm.$emit('update:modelValue', [{ value, label }])
+
+          await vi.waitFor(() => {
+            const cards = getDeclaredExperienceCards()
+            expect(cards.length).toBeGreaterThan(0)
+            expect(cards.every(card =>
+              card.props('declaredExperience').experienceType === value)).toBe(true)
+          })
+        })
+
+        BddTest().then('it should filter declared experience cards based on the selected experience type', () => {
+          const cards = getDeclaredExperienceCards()
+          expect(cards.length).toBeGreaterThan(0)
+          expect(cards.every(card => card.props('declaredExperience').experienceType === value)).toBe(true)
+        })
+      })
     })
   })
 
   BddTest().when('the add action is triggered', () => {
     beforeEach(async () => {
-      const dropdown = wrapper.findComponent({ name: 'DeclaredExperiencesMoreActionsDropdown' })
+      const dropdown = getDeclaredExperiencesMoreActionsDropdown()
       await dropdown.find('[data-testid="add"]').trigger('click')
     })
 
@@ -131,30 +171,27 @@ BddTest().given('a declared experiences tab', () => {
         global: { stubs }
       })
       await vi.waitFor(() => {
-        const emptyState = wrapper.find('[data-testid="query-suspense-empty"]')
+        const emptyState = getQuerySuspenseEmpty()
         expect(emptyState.exists()).toBe(true)
       })
     })
 
     BddTest().then('it should display the empty state message', () => {
-      const emptyState = wrapper.find('[data-testid="query-suspense-empty"]')
+      const emptyState = getQuerySuspenseEmpty()
       expect(emptyState.exists()).toBe(true)
       expect(emptyState.text().length).toBeGreaterThan(0)
     })
 
     BddTest().then('it should not render declared experience cards', () => {
-      const cards = wrapper.findAllComponents({ name: 'DeclaredExperienceCard' })
-      expect(cards).toHaveLength(0)
+      expect(getDeclaredExperienceCards()).toHaveLength(0)
     })
 
     BddTest().then('it should not display the loader', () => {
-      const loaderSpinner = wrapper.find('[data-testid="loader-stub"]')
-      expect(loaderSpinner.exists()).toBe(false)
+      expect(getLoader().exists()).toBe(false)
     })
 
     BddTest().then('it should not render the pagination component', () => {
-      const pagination = wrapper.findComponent({ name: 'Pagination' })
-      expect(pagination.exists()).toBe(false)
+      expect(getPagination().exists()).toBe(false)
     })
   })
 
@@ -165,24 +202,20 @@ BddTest().given('a declared experiences tab', () => {
         global: { stubs }
       })
       await vi.waitFor(() => {
-        const loaderSpinner = wrapper.find('[data-testid="loader-stub"]')
-        expect(loaderSpinner.exists()).toBe(false)
+        expect(getLoader().exists()).toBe(false)
       })
     })
 
     BddTest().then('it should not render declared experience cards', () => {
-      const cards = wrapper.findAllComponents({ name: 'DeclaredExperienceCard' })
-      expect(cards).toHaveLength(0)
+      expect(getDeclaredExperienceCards()).toHaveLength(0)
     })
 
     BddTest().then('it should not display the loader after error', () => {
-      const loaderSpinner = wrapper.find('[data-testid="loader-stub"]')
-      expect(loaderSpinner.exists()).toBe(false)
+      expect(getLoader().exists()).toBe(false)
     })
 
     BddTest().then('it should not display the empty state', () => {
-      const emptyState = wrapper.find('[data-testid="query-suspense-empty"]')
-      expect(emptyState.exists()).toBe(false)
+      expect(getQuerySuspenseEmpty().exists()).toBe(false)
     })
   })
 })

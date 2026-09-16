@@ -3402,11 +3402,14 @@
             }
           },
           {
-            "name": "experienceType",
+            "name": "experienceTypes",
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/EExperienceType"
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EExperienceType"
+              }
             }
           }
         ],
