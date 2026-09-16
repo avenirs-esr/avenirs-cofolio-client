@@ -35,11 +35,11 @@ const iconOptions = {
       :header-rows="1"
       title-typography-classes="n6"
       title-color="var(--text1)"
-      height="12.8rem"
+      height="fit-content"
     >
       <template #body>
         <div class="av-col av-pr-4xl--md av-pt-xl av-pt-none--md">
-          <div class="av-col av-row--md av-align-end av-justify-end--md av-gap-sm">
+          <div class="av-row av-wrap av-align-end av-justify-end--md av-gap-sm">
             <DeclaredProgramStatusBadge
               v-if="declaredProgram.status"
               :status="declaredProgram.status"

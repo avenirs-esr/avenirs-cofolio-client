@@ -15,6 +15,7 @@ import {
   type DeclaredExperienceAssociationsDTO,
   type DeclaredExperienceViewDTO,
   EErrorCode,
+  type EExperienceType,
   getAssociateDeclaredExperienceWithDeclaredSkillsUrl,
   getAssociateDeclaredExperienceWithTracesUrl,
   getCreateDeclaredExperienceUrl,
@@ -37,9 +38,10 @@ export const declaredExperiencesQueryHandler = http.get(`*${getGetDeclaredExperi
   const url = new URL(request.url)
   const page = Number.parseInt(url.searchParams.get('page') ?? '0')
   const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10')
+  const experienceTypes = (url.searchParams.getAll('experienceTypes') ?? []) as EExperienceType[]
 
   await delay('real')
-  const mockData = createMockedDeclaredExperiencesPagedResponse(pageSize, 60, page)
+  const mockData = createMockedDeclaredExperiencesPagedResponse(pageSize, 60, page, experienceTypes)
 
   return HttpResponse.json<PagedResponseDeclaredExperienceViewDTO>(mockData, {
     status: 200,
@@ -57,7 +59,8 @@ export function createDeclaredExperienceViewHandler (
       onRequest({
         page: searchParams.has('page') ? Number(searchParams.get('page')) : undefined,
         pageSize: searchParams.has('pageSize') ? Number(searchParams.get('pageSize')) : undefined,
-        isValorized: searchParams.has('isValorized') ? searchParams.get('isValorized') === 'true' : undefined
+        isValorized: searchParams.has('isValorized') ? searchParams.get('isValorized') === 'true' : undefined,
+        experienceTypes: (searchParams.getAll('experienceTypes') ?? []) as EExperienceType[]
       })
     }
 

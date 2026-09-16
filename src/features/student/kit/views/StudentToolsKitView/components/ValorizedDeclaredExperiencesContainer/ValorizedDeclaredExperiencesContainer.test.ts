@@ -3,6 +3,7 @@ import { createMockedDeclaredExperiencesPagedResponse, mockedDeclaredExperiences
 import { createDeclaredExperienceViewHandler, declaredExperiencesQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EExperienceType } from '@/api/avenir-esr'
+import { ProBasedExperienceType } from '@/features/student/global/types/experiences.types'
 import { ValorizedElementsCardContainerStub } from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.stub'
 import { ValorizedDeclaredExperienceItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperienceItem/ValorizedDeclaredExperienceItem.stub'
 import ValorizedDeclaredExperiencesContainer from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperiencesContainer/ValorizedDeclaredExperiencesContainer.vue'
@@ -51,7 +52,9 @@ function pagedResponseWithoutType (professionalExperience: boolean): PagedRespon
 }
 
 SCENARIOS.forEach(({ professionalExperience, pluralTitle, singularTitle, singularTotalElements, seeAllLabel }) => {
-  BddTest().given(`a valorized declared experiences container for ${professionalExperience ? 'professional' : 'other'} experiences`, () => {
+  BddTest().given(`a valorized declared experiences container for ${professionalExperience
+    ? ProBasedExperienceType.PROFESSIONAL
+    : ProBasedExperienceType.OTHER} experiences`, () => {
     let wrapper: VueWrapper<InstanceType<typeof ValorizedDeclaredExperiencesContainer>>
     let requestedParams: GetDeclaredExperienceViewParams
 
@@ -112,7 +115,10 @@ SCENARIOS.forEach(({ professionalExperience, pluralTitle, singularTitle, singula
         const container = wrapper.findComponent(ValorizedElementsCardContainerStub)
         expect(container.props('emptyStateMessage')).toBe('Vous n\'avez pas encore valorisé ce type de contenu, ajoutez et valorisez une expérience afin de constituer votre kit')
         expect(container.props('seeAllLabel')).toBe(seeAllLabel)
-        expect(container.props('seeAllTo')).toEqual({ name: 'personal-career-experiences' })
+        expect(container.props('seeAllTo')).toEqual({
+          name: 'personal-career-experiences',
+          query: { type: professionalExperience ? ProBasedExperienceType.PROFESSIONAL : ProBasedExperienceType.OTHER }
+        })
       })
     })
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useGetDeclaredExperienceView } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
+import { ProBasedExperienceType } from '@/features/student/global/types/experiences.types'
 import ValorizedElementsCardContainer from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.vue'
 import ValorizedDeclaredExperienceItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperienceItem/ValorizedDeclaredExperienceItem.vue'
 import { isProfessional } from '@/features/student/personalCareer/utils/experiences-utils/experiences-utils'
@@ -18,13 +19,16 @@ const { data, error, isFetching } = useGetDeclaredExperienceView(
   { isValorized: true, pageSize: 100 }
 )
 
-const experienceType = computed(() => professionalExperience ? 'PROFESSIONAL' : 'OTHER')
+const experienceType = computed(() => professionalExperience ? ProBasedExperienceType.PROFESSIONAL : ProBasedExperienceType.OTHER)
 
 const declaredExperiences = computed(() => (data.value?.data ?? []).filter(experience =>
   isProfessional(experience, professionalExperience)))
 const totalElements = computed(() => declaredExperiences.value.length)
 const isEmpty = computed(() => totalElements.value === 0)
-const declaredExperiencesRoute = { name: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name }
+const declaredExperiencesRoute = computed(() => ({
+  name: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name,
+  query: { type: experienceType.value }
+}))
 const emptyStateMessage = computed(() => t(
   'student.kit.cards.ValorizedElementsCardContainer.emptyState',
   { item: t('student.kit.views.StudentToolsKitView.valorizedDeclaredExperiencesContainer.emptyStateItemLabel') }

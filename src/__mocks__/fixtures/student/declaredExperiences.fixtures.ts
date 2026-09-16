@@ -68,19 +68,27 @@ export const mockedDeclaredExperiences: DeclaredExperienceViewDTO[] = createMock
 export function createMockedDeclaredExperiencesPagedResponse (
   pageSize: number,
   totalElements: number,
-  page: number
+  page: number,
+  typeFilter?: EExperienceType[]
 ): PagedResponseDeclaredExperienceViewDTO {
+  const filteredExperiences = mockedDeclaredExperiences
+    .slice(0, totalElements)
+    .filter(experience =>
+      !typeFilter
+      || typeFilter.length === 0
+      || typeFilter.includes(experience.experienceType!))
+
   const start = page * pageSize
-  const end = Math.min(start + pageSize, totalElements)
-  const paginatedData = mockedDeclaredExperiences.slice(start, end)
+  const end = start + pageSize
+  const paginatedData = filteredExperiences.slice(start, end)
 
   return {
     data: paginatedData,
     page: {
       page,
       pageSize,
-      totalElements,
-      totalPages: Math.ceil(totalElements / pageSize)
+      totalElements: filteredExperiences.length,
+      totalPages: Math.ceil(filteredExperiences.length / pageSize)
     }
   }
 }
