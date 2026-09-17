@@ -3,13 +3,14 @@ import { useGetDeclaredPrograms } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useBaseApiExceptionToast, useModal, usePagination } from '@/common/composables'
+import { ICONS } from '@/common/constants'
 import { AddDeclaredProgramDrawer } from '@/features/student/personalCareer'
 import DeclaredProgramCard from '@/features/student/personalCareer/components/cards/DeclaredProgramCard/DeclaredProgramCard.vue'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 import DeclaredProgramsMoreActionsDropdown
   from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeclaredProgramsMoreActionsDropdown/DeclaredProgramsMoreActionsDropdown.vue'
 import DeleteDeclaredProgramsModal from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeleteDeclaredProgramsModal/DeleteDeclaredProgramsModal.vue'
-import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
@@ -54,7 +55,7 @@ useBaseApiExceptionToast(error)
     <AvIconText
       icon-color="var(--text2)"
       typography-class="n6"
-      :icon="MDI_ICONS.FLARE"
+      :icon="ICONS.PROGRAMS"
       :text="titleWithCount"
     />
     <QuerySuspense

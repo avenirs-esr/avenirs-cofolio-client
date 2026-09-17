@@ -14,8 +14,6 @@ import PersonalCareerView
   from '@/features/student/personalCareer/views/PersonalCareerView/PersonalCareerView.vue'
 import ExperiencesSection
   from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/ExperiencesSection.vue'
-import MyCareerSection
-  from '@/features/student/personalCareer/views/PersonalCareerView/sections/MyCareerSection/MyCareerSection.vue'
 import ProgramsSection
   from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/ProgramsSection.vue'
 import { testRoute } from 'tests/utils'
@@ -25,7 +23,7 @@ testRoute(
   {
     path: 'project/personal-career',
     name: 'student-project-personal-career',
-    redirect: { name: 'personal-career-my-career' },
+    redirect: { name: 'personal-career-declared-programs' },
   },
   PersonalCareerView
 )
@@ -35,15 +33,6 @@ const children = personalCareerRoute.children as AvRoute[]
 testRoute(
   children[0],
   {
-    path: 'my-career',
-    name: 'personal-career-my-career',
-  },
-  MyCareerSection
-)
-
-testRoute(
-  children[1],
-  {
     path: 'declared-programs',
     name: 'personal-career-declared-programs',
   },
@@ -51,7 +40,7 @@ testRoute(
 )
 
 testRoute(
-  children[2],
+  children[1],
   {
     path: 'experiences',
     name: 'personal-career-experiences',

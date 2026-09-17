@@ -37,7 +37,6 @@ export const ROUTES = {
     PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED: { name: 'personal-career-declared-program-detailed', path: 'project/personal-career/declared-programs/:id' },
     PERSONAL_CAREER_DECLARED_PROGRAMS: { name: 'personal-career-declared-programs', path: 'declared-programs' },
     PERSONAL_CAREER_EXPERIENCES: { name: 'personal-career-experiences', path: 'experiences' },
-    PERSONAL_CAREER_MY_CAREER: { name: 'personal-career-my-career', path: 'my-career' },
     PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM: { name: 'personal-career-update-declared-program', path: 'project/personal-career/update-declared-programs/:id' },
     PERSONAL_DATA: { name: 'student-personal-data', path: 'personal-data' },
     PROJECT_ACTIVITIES: { name: 'student-project-activities', path: 'project/activities' },
@@ -61,7 +60,6 @@ export const ROUTES = {
 
 export const studentPersonalCareerRoutes = [
   ROUTES.STUDENT.PERSONAL_CAREER,
-  ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER,
   ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS,
   ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES,
   ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED,
