@@ -1,0 +1,313 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/home.feature.spec.js >> Student Home Page >> Library activities widget >> Activity cards are clickable and navigate to detailed activity page
+- Location: .features-gen/tests/student/home.feature.spec.js:90:5
+
+# Error details
+
+```
+Error: expect(page).toHaveURL(expected) failed
+
+Expected pattern: /\/cofolio\/student\/activity\/.+/
+Received string:  "http://localhost:4173/cofolio/student/activity-details/declared-activity-1?section=DETAIL"
+Timeout: 10000ms
+
+Call log:
+  - Expect "toHaveURL" with timeout 10000ms
+    2 × unexpected value "http://localhost:4173/cofolio/student"
+    - unexpected value "http://localhost:4173/cofolio/student/activity-details/declared-activity-1"
+    20 × unexpected value "http://localhost:4173/cofolio/student/activity-details/declared-activity-1?section=DETAIL"
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - link "Accueil - Cofolio Étudiant":
+    - /url: /cofolio/student
+    - img
+  - list:
+    - listitem:
+      - button "Messagerie"
+    - listitem:
+      - button "Notifications"
+    - listitem:
+      - button "J. moulin"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/student
+      - listitem:
+        - link "MES ACTIVITÉS":
+          - /url: /cofolio/student/activities
+      - listitem:
+        - button "CONSTRUIRE MON PROJET DE VIE"
+      - listitem:
+        - button "MES OUTILS"
+- main:
+  - navigation "Fil d'Ariane":
+    - list:
+      - listitem:
+        - link "Accueil":
+          - /url: /cofolio/student
+      - listitem: Mes activités
+      - listitem: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+      - listitem: Détail
+  - 'heading "Détail Activité \"Connaissance de soi\" : Définir ses valeurs" [level=1]'
+  - status: En cours
+  - button "Gérer mon activité"
+  - navigation "23a162cc-cdd5-48b3-b11a-bc65e91b7f7f navigation":
+    - button "Réduire le menu" [expanded]
+    - menu:
+      - menuitem "Détail":
+        - button "Détail"
+      - menuitem "Ma réflexion":
+        - button "Ma réflexion"
+  - status: Non valorisée dans mon kit
+  - text: Début
+  - textbox "Début" [disabled]:
+    - /placeholder: ""
+  - textbox "Début" [disabled]:
+    - /placeholder: ""
+    - text: 01/01/2024
+  - text: Fin
+  - textbox "Fin" [disabled]:
+    - /placeholder: ""
+    - text: 2024-06-30
+  - textbox "Fin" [disabled]:
+    - /placeholder: ""
+    - text: 30/06/2024
+  - text: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+  - heading "Objectifs de l'activité" [level=3]
+  - list:
+    - listitem:
+      - paragraph: Permettre à l'étudiant.e de déterminer des valeurs auxquelles il/elle est attaché.e
+    - listitem:
+      - paragraph: Encourager l'étudiant.e à réfléchir à la façon dont ces valeurs s'incarnent dans ses comportements et ses pratiques quotidiennes
+  - heading "Contenu de l'activité" [level=3]
+  - paragraph: "L'activité se compose de plusieurs étapes :"
+  - list:
+    - listitem:
+      - paragraph: Identification des valeurs personnelles clés
+    - listitem:
+      - paragraph: Réflexion sur la manière dont ces valeurs s'incarnent dans les comportements et les pratiques quotidiens
+    - listitem:
+      - paragraph: Mise en perspective de ces valeurs avec le projet de vie envisagé
+  - text: Contexte(s) de réalisation conseillé(s)
+  - list:
+    - listitem: À réaliser en amont d'un entretien avec un.e conseiller/conseillère ou chargé.e d'orientation et/ou d'insertion professionnelle
+    - listitem: avant une autre activité si parcours d'activités Cofolio
+  - text: Modalités de l’activité Demande de feedback
+  - status: Limité à 10 itérations
+  - text: Association de traces
+  - status: Traces illimitées
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/student/accessibility
+    - listitem:
+      - link "Mentions légales":
+        - /url: /cofolio/student/legal
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/student/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/student/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  46  |   @Then('the HOME link is visible')
+  47  |   async verifyHomeLink () {
+  48  |     await expect(this.layout.getHomeNavLink()).toBeVisible()
+  49  |     await expect(this.layout.getHomeNavLink()).toHaveText(t('student.global.navigation.tabs.home').toUpperCase())
+  50  |   }
+  51  | 
+  52  |   @Then('the BUILDING MY LIFE PROJECT menu is visible')
+  53  |   async verifyBuildingMyLifeProjectMenu () {
+  54  |     await expect(this.layout.getBuildingLifeProjectButton()).toBeVisible()
+  55  |     await expect(this.layout.getBuildingLifeProjectButton()).toContainText(t('student.global.navigation.tabs.project.header').toUpperCase())
+  56  |   }
+  57  | 
+  58  |   @When('the user clicks on the BUILDING MY LIFE PROJECT menu')
+  59  |   async openBuildingLifeProjectSubmenu () {
+  60  |     await this.layout.getBuildingLifeProjectButton().click()
+  61  |   }
+  62  | 
+  63  |   @Then('the PROJECT MY ACTIVITIES link is visible')
+  64  |   async verifyProjectActivitiesLinkVisible () {
+  65  |     await expect(this.layout.getProjectActivitiesLink()).toBeVisible()
+  66  |   }
+  67  | 
+  68  |   @When('the user click on the PROJECT MY ACTIVITIES link')
+  69  |   async clickMyActivitiesLink () {
+  70  |     await this.layout.getProjectActivitiesLink().click()
+  71  |   }
+  72  | 
+  73  |   @Then('the page navigates to project my activities page')
+  74  |   async verifyNavigationToProjectActivitiesPage () {
+  75  |     await expect(this.page).toHaveURL(STUDENT_ROUTES.ACTIVITIES)
+  76  |   }
+  77  | 
+  78  |   @Then('the MY TOOLS menu is visible')
+  79  |   async verifyMyToolsMenu () {
+  80  |     await expect(this.layout.getMyToolsButton()).toBeVisible()
+  81  |     await expect(this.layout.getMyToolsButton()).toContainText(t('student.global.navigation.tabs.tools.header').toUpperCase())
+  82  |   }
+  83  | 
+  84  |   @Then('the mailbox button is visible')
+  85  |   async verifyMailboxButton () {
+  86  |     await expect(this.layout.getMailboxButton()).toBeVisible()
+  87  |   }
+  88  | 
+  89  |   @Then('the notifications button is visible')
+  90  |   async verifyNotificationsButton () {
+  91  |     await expect(this.layout.getNotificationsButton()).toBeVisible()
+  92  |   }
+  93  | 
+  94  |   @Then('the profile button is visible')
+  95  |   async verifyProfileButton () {
+  96  |     await expect(this.layout.getProfileButton()).toBeVisible()
+  97  |   }
+  98  | 
+  99  |   @Then('the language switcher is visible')
+  100 |   async verifyLanguageSwitcher () {
+  101 |     await expect(this.layout.getLanguageSwitcher()).toBeVisible()
+  102 |   }
+  103 | 
+  104 |   @Given('the mobile menu button is visible')
+  105 |   async verifyMobileMenuButton () {
+  106 |     await expect(this.layout.getMobileMenuButton()).toBeVisible()
+  107 |   }
+  108 | 
+  109 |   @When('the student clicks mobile menu button')
+  110 |   async clickMobileMenuButton () {
+  111 |     await expect(this.layout.getMobileMenuButton()).toBeVisible()
+  112 |     await this.layout.getMobileMenuButton().click()
+  113 |     await this.page.waitForTimeout(500)
+  114 |   }
+  115 | 
+  116 |   @Then('the navigation drawer opens')
+  117 |   async verifyNavigationDrawer () {
+  118 |     const drawer = this.page.getByRole('dialog', { name: 'Menu' })
+  119 |     await expect(drawer).toBeVisible()
+  120 |   }
+  121 | 
+  122 |   @Then('all navigation items are visible in drawer')
+  123 |   async verifyAllNavigationItemsInDrawer () {
+  124 |     const drawer = this.page.locator('.av-drawer, [role="dialog"]')
+  125 |     await expect(drawer.getByRole('link').first()).toBeVisible()
+  126 |   }
+  127 | 
+  128 |   @Given('the student opens the project activities page')
+  129 |   async goToProjectActivitiesPage () {
+  130 |     await this.page.goto(STUDENT_ROUTES.ACTIVITIES)
+  131 |     await waitForPageLoad(this.page)
+  132 |   }
+  133 | 
+  134 |   @Then('the student project activities page is displayed')
+  135 |   async verifyNavigationToActivitiesPage () {
+  136 |     await expect(this.page).toHaveURL(STUDENT_ROUTES.ACTIVITIES)
+  137 |   }
+  138 | 
+  139 |   @Then('the student project activities page is displayed on library tab')
+  140 |   async verifyNavigationToActivitiesPageOnLibraryTab () {
+  141 |     await expect(this.page).toHaveURL(new RegExp(`${STUDENT_ROUTES.ACTIVITIES}.+`))
+  142 |   }
+  143 | 
+  144 |   @Then('the activity page is displayed')
+  145 |   async verifyNavigationToHomeActivityDetailsPage () {
+> 146 |     await expect(this.page).toHaveURL(new RegExp(STUDENT_ROUTES.ACTIVITY.replace(':id', '.+')))
+      |                             ^ Error: expect(page).toHaveURL(expected) failed
+  147 |   }
+  148 | 
+  149 |   @Given('the student opens the project personal career experiences page')
+  150 |   async goToProjectPersonalCareerExperiencesPage () {
+  151 |     await this.page.goto(STUDENT_ROUTES.PROJECT.PERSONAL_CAREER.EXPERIENCES)
+  152 |     await waitForPageLoad(this.page)
+  153 |   }
+  154 | 
+  155 |   @Then('the student project personal career experiences page is displayed')
+  156 |   async verifyNavigationToProjectPersonalCareerExperiencesPage () {
+  157 |     await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.PERSONAL_CAREER.EXPERIENCES)
+  158 |   }
+  159 | 
+  160 |   @Given('the student opens the tools kit page')
+  161 |   async goToToolsKitPage () {
+  162 |     await this.page.goto(STUDENT_ROUTES.TOOLS.KIT)
+  163 |     await waitForPageLoad(this.page)
+  164 |   }
+  165 | 
+  166 |   @Then('the student tools kit page is displayed')
+  167 |   async verifyNavigationToToolsKitPage () {
+  168 |     await expect(this.page).toHaveURL(STUDENT_ROUTES.TOOLS.KIT)
+  169 |   }
+  170 | 
+  171 |   @Given('the student opens the tools traces page')
+  172 |   async goToToolsTracesPage () {
+  173 |     await this.page.goto(STUDENT_ROUTES.TOOLS.TRACES)
+  174 |     await waitForPageLoad(this.page)
+  175 |   }
+  176 | 
+  177 |   @Then('the student tools traces page is displayed')
+  178 |   async verifyNavigationToToolsTracesPage () {
+  179 |     await expect(this.page).toHaveURL(STUDENT_ROUTES.TOOLS.TRACES)
+  180 |   }
+  181 | 
+  182 |   @Given('the student opens the skills page')
+  183 |   async goToSkillsPage () {
+  184 |     await this.page.goto(STUDENT_ROUTES.PROJECT.SKILLS)
+  185 |     await waitForPageLoad(this.page)
+  186 |   }
+  187 | 
+  188 |   @Then('the student skills page is displayed')
+  189 |   async verifyNavigationToProjectSkillsPage () {
+  190 |     await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.SKILLS)
+  191 |   }
+  192 | }
+  193 | 
+```
