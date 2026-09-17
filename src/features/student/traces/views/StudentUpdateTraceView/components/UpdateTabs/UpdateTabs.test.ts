@@ -1,6 +1,7 @@
 import type { UpdateTraceForm as UpdateTraceFormApi } from '@/features/student/traces/types/forms.types'
-import { mockedTraceAssociations } from '@/__mocks__/fixtures/student'
-import { EFileType, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
+import { createMockedDeclaredExperiencesAssociations, mockedTraceAssociations } from '@/__mocks__/fixtures/student'
+import { EFileType, ETraceAuthorType, type TraceAssociationsDTO, type TraceDetailDTO } from '@/api/avenir-esr'
+import { TraceAssociationsStub } from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.stub'
 import UpdateTabs from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.vue'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -62,11 +63,7 @@ BddTest().given('an update tab', () => {
       props: ['trace', 'form'],
       template: '<div class="update-trace-form">Update Trace Form</div>'
     },
-    TraceAssociations: {
-      name: 'TraceAssociations',
-      props: ['associations', 'traceId'],
-      template: '<div class="trace-associations"><slot name="caption" /></div>'
-    }
+    TraceAssociations: TraceAssociationsStub
   }
 
   beforeEach(async () => {
@@ -113,6 +110,23 @@ BddTest().given('an update tab', () => {
     })
   })
 
+  BddTest().when('the associations include declared experience associations', () => {
+    const associationsWithExperiences: TraceAssociationsDTO = {
+      ...mockedTraceAssociations,
+      declaredExperienceAssociations: createMockedDeclaredExperiencesAssociations(2)
+    }
+
+    beforeEach(async () => {
+      vi.clearAllMocks()
+      wrapper = mount(UpdateTabs, { props: { trace: mockedTrace, associations: associationsWithExperiences, form: mockForm }, global: { stubs } })
+    })
+
+    BddTest().then('it should include declared experience associations in the associations tab count', () => {
+      const tabs = wrapper.findAllComponents({ name: 'AvTab' })
+      expect(tabs[1].props('title')).toBe('Mes éléments associés (7)')
+    })
+  })
+
   BddTest().when('rendering the associations tab', () => {
     BddTest().then('it should render TraceAssociations component', () => {
       const traceAssociations = wrapper.findComponent({ name: 'TraceAssociations' })
@@ -127,6 +141,16 @@ BddTest().given('an update tab', () => {
     BddTest().then('it should pass traceId prop to TraceAssociations', () => {
       const traceAssociations = wrapper.findComponent({ name: 'TraceAssociations' })
       expect(traceAssociations.props('traceId')).toEqual(mockedTrace.id)
+    })
+
+    BddTest().then('it should pass disabled=true to TraceAssociations', () => {
+      const traceAssociations = wrapper.findComponent({ name: 'TraceAssociations' })
+      expect(traceAssociations.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should pass showActions=false to TraceAssociations', () => {
+      const traceAssociations = wrapper.findComponent({ name: 'TraceAssociations' })
+      expect(traceAssociations.props('showActions')).toBe(false)
     })
 
     BddTest().then('it should disable lazy rendering on tabs', () => {

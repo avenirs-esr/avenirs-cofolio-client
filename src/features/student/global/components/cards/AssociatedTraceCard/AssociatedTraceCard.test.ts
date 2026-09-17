@@ -37,5 +37,26 @@ BddTest().given('an associatied trace card', () => {
         to: { name: ROUTES.STUDENT.TOOLS_TRACE.name, params: { id: props.associatedTrace.trace.id } }
       })
     })
+
+    BddTest().then('it should not disable the AssociationCard by default', () => {
+      const associationCard = wrapper.findComponent(AssociationCardStub)
+      expect(associationCard.props('disabled')).toBeFalsy()
+    })
+  })
+
+  BddTest().when('the component is mounted with disabled=true', () => {
+    const props: AssociatedTraceCardProps = {
+      associatedTrace: mockedDeclaredActivityAssociations.traceAssociations[0],
+      disabled: true
+    }
+
+    beforeEach(() => {
+      wrapper = mount(AssociatedTraceCard, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should pass disabled=true to the AssociationCard', () => {
+      const associationCard = wrapper.findComponent(AssociationCardStub)
+      expect(associationCard.props('disabled')).toBe(true)
+    })
   })
 })

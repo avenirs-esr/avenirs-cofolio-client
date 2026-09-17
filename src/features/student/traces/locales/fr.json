@@ -360,7 +360,6 @@
           "update": {
             "tabs": {
               "associations": {
-                "caption": "Emplacement(s) de ma trace en cours de modification",
                 "title": "Mes associations"
               },
               "details": "Ma trace",

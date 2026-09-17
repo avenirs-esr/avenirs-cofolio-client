@@ -19,6 +19,16 @@ export const DeclaredExperienceAssociationsStub = defineComponent({
     associationsError: {
       type: Object as () => BaseApiException | null,
       required: false
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    showActions: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   template: `

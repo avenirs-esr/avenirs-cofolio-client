@@ -7,6 +7,11 @@ export const AssociatedTraceCardStub = defineComponent({
       type: Object as () => TraceAssociationDTO,
       required: true
     },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
   },
   template: '<div data-testid="associated-trace-card"></div>'
 })

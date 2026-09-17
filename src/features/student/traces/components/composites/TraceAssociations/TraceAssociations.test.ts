@@ -382,6 +382,31 @@ BddTest().given('a student trace associations component', () => {
     })
   })
 
+  BddTest().when('the component is mounted with showActions=false', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(TraceAssociations, {
+        props: {
+          associations: mockedEmptyTraceAssociations,
+          traceId,
+          showActions: false,
+        },
+        global: {
+          stubs
+        }
+      })
+    })
+
+    BddTest().then('it should not render the delete trace associated elements dropdown', () => {
+      const dropdown = findDropdown('delete')
+      expect(dropdown).toBeUndefined()
+    })
+
+    BddTest().then('it should not render the trace associate elements dropdown', () => {
+      const dropdown = findDropdown('associate')
+      expect(dropdown).toBeUndefined()
+    })
+  })
+
   BddTest().when('the component is mounted with only declared activity associations', () => {
     const declaredActivityAssociations: DeclaredActivityAssociationDTO[] = [
       ...mockedTraceDeclaredActivityAssociations,

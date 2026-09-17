@@ -8,9 +8,10 @@ import { useI18n } from 'vue-i18n'
 export interface AssociatedTracesCardProps {
   associatedTraces: TraceAssociationDTO[]
   traceAllowedAssociations?: number
+  disabled?: boolean
 }
 
-const { associatedTraces, traceAllowedAssociations } = defineProps<AssociatedTracesCardProps>()
+const { associatedTraces, traceAllowedAssociations, disabled } = defineProps<AssociatedTracesCardProps>()
 
 const { t } = useI18n()
 
@@ -39,6 +40,7 @@ const title = computed(() => {
       v-for="associatedTrace in associatedTraces"
       :key="associatedTrace.trace.id"
       :associated-trace="associatedTrace"
+      :disabled="disabled"
     />
   </AssociationsCard>
 </template>

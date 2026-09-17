@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { useGetDeclaredExperience } from '@/api/avenir-esr'
+import { useGetDeclaredExperience, useGetDeclaredExperienceAssociations } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import Loader from '@/common/components/Loader/Loader.vue'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
+import { ICONS } from '@/common/constants'
 import { ROUTES } from '@/common/constants/route-names'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import DeclaredExperienceSideMenu
@@ -12,6 +13,8 @@ import DeclaredExperienceSideMenu
 import { usePaginatedDeclaredExperiences } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
 import UpdateDeclaredExperienceForm
   from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/UpdateDeclaredExperienceForm.vue'
+import DeclaredExperienceAssociations
+  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.vue'
 import { AvTab, AvTabs, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -36,6 +39,11 @@ const { modalOpened, openModal, closeModal } = useModal()
 
 const { declaredExperiences, pageInfo, loadMoreDeclaredExperiences } = usePaginatedDeclaredExperiences({})
 const { data: declaredExperience, isLoading, isError } = useGetDeclaredExperience(selectedExperienceId)
+const { data: declaredExperienceAssociations, error: associationsError } = useGetDeclaredExperienceAssociations(selectedExperienceId)
+
+const traceAssociations = computed(() => declaredExperienceAssociations.value?.traceAssociations ?? [])
+const declaredSkillAssociations = computed(() => declaredExperienceAssociations.value?.declaredSkillAssociations ?? [])
+const countAssociations = computed(() => traceAssociations.value.length + declaredSkillAssociations.value.length)
 
 const declaredExperienceTitle = computed(() => declaredExperience.value?.title ?? '')
 
@@ -113,14 +121,18 @@ function onExperienceUpdated () {
           </Loader>
         </AvTab>
         <AvTab
-          :title="t('student.global.myAssociationsWithCount', { count: 0 })"
-          :icon="MDI_ICONS.LINK"
+          :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
+          :icon="ICONS.ASSOCIATIONS"
+          data-testid="update-declared-experience-associations-tab"
         >
-          <div class="av-row av-flex-fill">
-            <span>declared experience update association right part placeholder with a very long text to see how it looks while waiting this part.
-              You can keep this layout for next devs, just remove this placeholder text
-            </span>
-          </div>
+          <DeclaredExperienceAssociations
+            :declared-experience-id="selectedExperienceId"
+            :trace-associations="traceAssociations"
+            :declared-skill-associations="declaredSkillAssociations"
+            :associations-error="associationsError"
+            disabled
+            :show-actions="false"
+          />
         </AvTab>
       </AvTabs>
     </div>

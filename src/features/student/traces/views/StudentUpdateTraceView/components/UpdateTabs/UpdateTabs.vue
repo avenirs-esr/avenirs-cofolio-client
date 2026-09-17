@@ -2,6 +2,7 @@
 import type { TraceAssociationsDTO, TraceDetailDTO } from '@/api/avenir-esr'
 import type { UpdateTraceForm as UpdateTraceFormApi } from '@/features/student/traces/types/forms.types'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
+import { ICONS } from '@/common/constants'
 import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
 import UpdateTraceForm from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/UpdateTraceForm.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -31,6 +32,7 @@ const activeTab = useEnumRouteQuery(
 const associationCount = computed(() =>
   (associations?.declaredSkillAssociations?.length ?? 0)
   + (associations?.declaredActivityAssociations?.length ?? 0)
+  + (associations?.declaredExperienceAssociations?.length ?? 0)
 )
 </script>
 
@@ -52,20 +54,15 @@ const associationCount = computed(() =>
       </AvTab>
       <AvTab
         :title="t('student.traces.views.StudentUpdateTraceView.associations', { count: associationCount })"
-        :icon="MDI_ICONS.LINK"
+        :icon="ICONS.ASSOCIATIONS"
         data-testid="update-trace-associations-tab"
       >
         <TraceAssociations
           :associations="associations"
           :trace-id="trace.id"
-          :disabled="true"
-        >
-          <template #caption>
-            <span class="caption-regular">
-              {{ t('student.traces.views.StudentUpdateTraceView.update.tabs.associations.caption') }}
-            </span>
-          </template>
-        </TraceAssociations>
+          disabled
+          :show-actions="false"
+        />
       </AvTab>
     </AvTabs>
   </div>

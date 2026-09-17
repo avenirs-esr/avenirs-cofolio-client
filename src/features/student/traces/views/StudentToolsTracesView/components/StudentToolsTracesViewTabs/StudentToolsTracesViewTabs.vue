@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { TracesSummaryDTO } from '@/api/avenir-esr'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
+import { ICONS } from '@/common/constants'
 import StudentToolsTracesViewAssociatedTab
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewAssociatedTab/StudentToolsTracesViewAssociatedTab.vue'
 import StudentToolsTracesViewUnassociatedTab
@@ -34,7 +35,7 @@ const activeTab = useEnumRouteQuery('tab', StudentToolsTracesViewTabs, StudentTo
     </AvTab>
     <AvTab
       :title="`${t('student.traces.views.StudentToolsTracesView.studentToolsTracesViewTabs.associatedTracesTab.title', { count: tracesSummary?.associated ?? 0 })}`"
-      :icon="MDI_ICONS.LINK"
+      :icon="ICONS.ASSOCIATIONS"
       data-testid="associated-traces-tab-item"
     >
       <StudentToolsTracesViewAssociatedTab />

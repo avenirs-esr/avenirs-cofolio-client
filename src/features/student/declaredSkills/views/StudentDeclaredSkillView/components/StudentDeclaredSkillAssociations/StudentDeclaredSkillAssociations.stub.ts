@@ -27,6 +27,16 @@ export const StudentDeclaredSkillAssociationsStub = defineComponent({
     countAssociations: {
       type: Number,
       required: false
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    showActions: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   template: '<div class="student-declared-skill-associations-stub" />'
