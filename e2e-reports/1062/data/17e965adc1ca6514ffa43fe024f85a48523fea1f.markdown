@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: tests/student/home.feature.spec.js >> Student Home Page >> New activities widget >> Activity cards are clickable and navigate to detailed activity page
-- Location: .features-gen/tests/student/home.feature.spec.js:66:5
+- Name: tests/student/home.feature.spec.js >> Student Home Page >> Library activities widget >> Activity cards are clickable and navigate to detailed activity page
+- Location: .features-gen/tests/student/home.feature.spec.js:90:5
 
 # Error details
 
@@ -20,8 +20,8 @@ Timeout: 10000ms
 
 Call log:
   - Expect "toHaveURL" with timeout 10000ms
-    - unexpected value "http://localhost:4173/cofolio/student"
-    2 × unexpected value "http://localhost:4173/cofolio/student/activity-details/declared-activity-1"
+    2 × unexpected value "http://localhost:4173/cofolio/student"
+    - unexpected value "http://localhost:4173/cofolio/student/activity-details/declared-activity-1"
     20 × unexpected value "http://localhost:4173/cofolio/student/activity-details/declared-activity-1?section=DETAIL"
 
 ```
@@ -72,7 +72,7 @@ Call log:
   - 'heading "Détail Activité \"Connaissance de soi\" : Définir ses valeurs" [level=1]'
   - status: En cours
   - button "Gérer mon activité"
-  - navigation "4d972b95-0715-4018-86e0-f3106e0317e4 navigation":
+  - navigation "d1ec06ff-927b-47ce-be99-aa44d790ad64 navigation":
     - button "Réduire le menu" [expanded]
     - menu:
       - menuitem "Détail":
