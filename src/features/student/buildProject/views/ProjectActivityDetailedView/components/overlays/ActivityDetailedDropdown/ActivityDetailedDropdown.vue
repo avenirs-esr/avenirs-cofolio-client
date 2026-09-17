@@ -14,12 +14,14 @@ const emit = defineEmits<{
   (e: 'updateSelected'): void
   (e: 'unsubscribeSelected'): void
   (e: 'resubscribeSelected'): void
+  (e: 'deleteSelected'): void
 }>()
 
 enum ActivityDetailedDropdownEvents {
   UPDATE = 'update',
   UNSUBSCRIBE = 'unsubscribe',
   RESUBSCRIBE = 'resubscribe',
+  DELETE = 'delete',
 }
 
 const { t } = useI18n()
@@ -32,6 +34,11 @@ const menuItems = computed(() => isUnsubscribed.value
         name: ActivityDetailedDropdownEvents.RESUBSCRIBE,
         icon: PH_ICONS.NOTE_PENCIL,
         label: t('student.buildProject.activities.buttons.resubscribe')
+      },
+      {
+        name: ActivityDetailedDropdownEvents.DELETE,
+        icon: MDI_ICONS.TRASH_CAN_OUTLINE,
+        label: t('student.buildProject.activities.buttons.delete'),
       }
     ]
   : [
@@ -57,6 +64,9 @@ function handleItemSelected (itemName: string) {
       break
     case ActivityDetailedDropdownEvents.RESUBSCRIBE:
       emit('resubscribeSelected')
+      break
+    case ActivityDetailedDropdownEvents.DELETE:
+      emit('deleteSelected')
       break
   }
 }

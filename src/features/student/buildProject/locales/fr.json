@@ -15,6 +15,7 @@
           }
         },
         "buttons": {
+          "delete": "Supprimer mon activité",
           "resubscribe": "Me réinscrire",
           "subscribe": "M'inscrire à l'activité",
           "unsubscribe": "Me désinscrire"
