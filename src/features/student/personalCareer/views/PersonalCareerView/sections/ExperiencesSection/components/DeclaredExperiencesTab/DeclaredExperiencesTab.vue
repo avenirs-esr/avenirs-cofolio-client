@@ -3,6 +3,7 @@ import { useGetDeclaredExperienceView } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useBaseApiExceptionToast, useModal, usePagination } from '@/common/composables'
+import { ICONS } from '@/common/constants'
 import DeclaredExperienceCard from '@/features/student/personalCareer/components/cards/DeclaredExperienceCard/DeclaredExperienceCard.vue'
 import AddDeclaredExperienceDrawer
   from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/AddDeclaredExperienceDrawer.vue'
@@ -10,7 +11,7 @@ import { usePersonalCareerStore } from '@/features/student/personalCareer/stores
 import DeclaredExperiencesMoreActionsDropdown
   from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesMoreActionsDropdown/DeclaredExperiencesMoreActionsDropdown.vue'
 import DeleteDeclaredExperiencesModal from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeleteDeclaredExperiencesModal/DeleteDeclaredExperiencesModal.vue'
-import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
@@ -52,7 +53,7 @@ useBaseApiExceptionToast(error)
     <AvIconText
       icon-color="var(--text2)"
       typography-class="n6"
-      :icon="MDI_ICONS.FLARE"
+      :icon="ICONS.EXPERIENCES"
       :text="titleWithCount"
     />
     <QuerySuspense

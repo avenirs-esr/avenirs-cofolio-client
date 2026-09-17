@@ -8,12 +8,8 @@ export const personalCareerRoute: AvRoute = {
   meta: {
     breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.PERSONAL_CAREER.BASE],
   },
-  redirect: { name: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name },
+  redirect: { name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name },
   children: [
-    {
-      ...ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER,
-      component: () => import('@/features/student/personalCareer/views/PersonalCareerView/sections/MyCareerSection/MyCareerSection.vue'),
-    },
     {
       ...ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS,
       component: () => import('@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/ProgramsSection.vue'),

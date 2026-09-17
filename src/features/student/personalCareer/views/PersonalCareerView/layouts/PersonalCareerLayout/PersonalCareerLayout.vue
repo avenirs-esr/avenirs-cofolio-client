@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
-import { ROUTES } from '@/common/constants'
+import { ICONS, ROUTES } from '@/common/constants'
 import {
   AvSelect,
   type AvSelectOption,
   type AvSelectSelectedOption,
   type AvSideNavigationItem,
-  ICONS_DATA_URL,
-  MDI_ICONS,
   useAvBreakpoints
 } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -22,30 +20,19 @@ const route = useRoute()
 const router = useRouter()
 const { isMobile } = useAvBreakpoints()
 
-const isDemoMode = __DEMO_MODE__
 const selectedItem = computed<{ itemId: string }>(() => ({ itemId: route.name as string }))
-const items = computed<AvSideNavigationItem[]>(() => {
-  const allItems = [
-    {
-      id: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name,
-      label: t('student.personalCareer.views.PersonalCareerView.MyCareerSection.title'),
-      icon: ICONS_DATA_URL.TEXT_BULLET_LIST_SPARKLE,
-    },
-    {
-      id: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name,
-      label: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.title'),
-      icon: MDI_ICONS.SCHOOL_OUTLINE,
-      demo: true
-    },
-    {
-      id: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name,
-      label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.title'),
-      icon: MDI_ICONS.HUB_OUTLINE,
-      demo: true
-    }
-  ]
-  return isDemoMode ? allItems.filter(item => item.demo) : allItems
-})
+const items = computed<AvSideNavigationItem[]>(() => [
+  {
+    id: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name,
+    label: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.title'),
+    icon: ICONS.PROGRAMS,
+  },
+  {
+    id: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name,
+    label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.title'),
+    icon: ICONS.EXPERIENCES,
+  }
+])
 
 const selectOptions = computed<AvSelectOption[]>(() =>
   items.value.map(item => ({

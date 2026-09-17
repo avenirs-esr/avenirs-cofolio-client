@@ -74,7 +74,7 @@ BddTest().given('a student navigation', () => {
 
   BddTest().when('current route is inside personal career', () => {
     beforeEach(async () => {
-      await router.push({ name: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name })
+      await router.push({ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name })
       wrapper = await mountDefault()
     })
 

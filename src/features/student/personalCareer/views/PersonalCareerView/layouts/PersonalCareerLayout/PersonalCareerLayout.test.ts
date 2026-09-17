@@ -28,7 +28,7 @@ vi.mock('vue-router', async () => {
       replace: mockReplace
     }),
     useRoute: () => ({
-      name: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name
+      name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name
     })
   }
 })
@@ -41,6 +41,9 @@ BddTest().given('a student academic career layout component', () => {
     AvSelect: AvSelectStub,
     RouterView: { template: '<div class="router-view-stub">RouterView Content</div>' }
   }
+
+  const getSideNavigation = () => wrapper.findComponent(SideNavigationStub)
+  const getAvSelect = () => wrapper.findComponent(AvSelectStub)
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
@@ -55,55 +58,41 @@ BddTest().given('a student academic career layout component', () => {
     })
 
     BddTest().then('it should render an SideNavigation component', () => {
-      const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
-      expect(sideNavigation.exists()).toBe(true)
+      expect(getSideNavigation().exists()).toBe(true)
     })
 
     BddTest().then('it should initialize with side menu expanded', () => {
-      const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
-      expect(sideNavigation.props('isSideMenuCollapsed')).toBe(false)
+      expect(getSideNavigation().props('isSideMenuCollapsed')).toBe(false)
     })
 
     BddTest().then('it should set selected item based on current route', () => {
-      const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
-      expect(sideNavigation.props('selectedItem')).toEqual({ itemId: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name })
+      expect(getSideNavigation().props('selectedItem')).toEqual({ itemId: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name })
     })
 
     BddTest().then('it should have 3 navigation items', () => {
-      const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
-      expect(sideNavigation.props('items')).toHaveLength(3)
+      expect(getSideNavigation().props('items')).toHaveLength(2)
     })
 
     BddTest().then('it should have navigation items with correct structure', () => {
-      const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
-      const items = sideNavigation.props('items')
+      const items = getSideNavigation().props('items')
       expect(items).toEqual([
-        {
-          id: ROUTES.STUDENT.PERSONAL_CAREER_MY_CAREER.name,
-          label: expect.any(String),
-          icon: expect.any(String)
-        },
         {
           id: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name,
           label: expect.any(String),
           icon: expect.any(String),
-          demo: true
         },
         {
           id: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name,
           label: expect.any(String),
           icon: expect.any(String),
-          demo: true
         }
       ])
     })
 
     BddTest().then('it should have navigation items with correct French labels', () => {
-      const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
-      const items = sideNavigation.props('items')
-      expect(items[0].label).toContain('Mon parcours')
-      expect(items[1].label).toContain('Mes formations')
-      expect(items[2].label).toContain('Mes expériences')
+      const items = getSideNavigation().props('items')
+      expect(items![0].label).toContain('Mes formations')
+      expect(items![1].label).toContain('Mes expériences')
     })
 
     BddTest().then('it should render the content area', () => {
@@ -118,21 +107,18 @@ BddTest().given('a student academic career layout component', () => {
 
     BddTest().and('the side menu collapse button is clicked', () => {
       beforeEach(async () => {
-        const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
-        await sideNavigation.vm.$emit('update:isSideMenuCollapsed', true)
+        await getSideNavigation().vm.$emit('update:isSideMenuCollapsed', true)
         await wrapper.vm.$nextTick()
       })
 
       BddTest().then('it should collapse the side navigation', () => {
-        const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
-        expect(sideNavigation.props('isSideMenuCollapsed')).toBe(true)
+        expect(getSideNavigation().props('isSideMenuCollapsed')).toBe(true)
       })
     })
 
     BddTest().and('a navigation item is selected', () => {
       beforeEach(async () => {
-        const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
-        await sideNavigation.vm.$emit('update:selectedItem', { itemId: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name })
+        await getSideNavigation().vm.$emit('update:selectedItem', { itemId: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name })
         await flushPromises()
       })
 
@@ -154,19 +140,16 @@ BddTest().given('a student academic career layout component', () => {
     })
 
     BddTest().then('it should render an AvSelect component for navigation', () => {
-      const selectNavigation = wrapper.findComponent({ name: 'AvSelect' })
-      expect(selectNavigation.exists()).toBe(true)
+      expect(getAvSelect().exists()).toBe(true)
     })
 
     BddTest().then('it should not render the SideNavigation component', () => {
-      const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
-      expect(sideNavigation.exists()).toBe(false)
+      expect(getSideNavigation().exists()).toBe(false)
     })
 
     BddTest().and('a navigation option is selected from the dropdown', () => {
       beforeEach(async () => {
-        const selectNavigation = wrapper.findComponent({ name: 'AvSelect' })
-        await selectNavigation.vm.$emit('update:selectedItem', { itemId: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name })
+        await getAvSelect().vm.$emit('update:selectedItem', { itemId: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name })
         await flushPromises()
       })
 
