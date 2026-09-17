@@ -6,7 +6,7 @@ import { isEnumMember } from '@/common/utils'
 import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 
 export interface ActivitiesSelectorProps {
-  activities: { id: string, title: string, thematic: EActivityThematic }[]
+  activities: { id: string, title: string, thematic: EActivityThematic, disabled?: boolean }[]
   readonly?: boolean
 }
 
@@ -23,6 +23,7 @@ const selectableActivities = computed(() => {
     id: activity.id,
     title: activity.title,
     baseElement: activity,
+    disabled: activity.disabled ?? false,
     showSlot: getActivityThematic(activity) !== 'unknown'
   }))
 })
