@@ -3,7 +3,6 @@ import type { Ref } from 'vue'
 import {
   type ActivityDraftUpdateRequest,
   EActivityStatus,
-  EActivityThematic,
   type FileDTO,
   invalidateGetActivityContent,
   invalidateGetActivityPresentation,
@@ -50,6 +49,7 @@ const { isMobile } = useAvBreakpoints()
 const { t } = useI18n()
 const {
   validateTitle,
+  validateThematic,
   validateSummary,
   validateDescription,
   validateRecommendedCompletionContexts,
@@ -88,7 +88,7 @@ const remoteFiles = computed(() => content.value?.files ?? [])
 
 const defaultValues: EditActivityFormData = reactive({
   title: computed(() => content.value?.title ?? ''),
-  thematic: computed(() => content.value?.thematic ?? EActivityThematic.TRANSVERSAL),
+  thematic: computed(() => content.value?.thematic),
   description: computed(() => content.value?.description ?? ''),
   recommendedCompletionContexts: computed(() => content.value?.recommendedCompletionContexts ?? ''),
   startDate: computed(() => content.value?.startDate),
@@ -123,6 +123,7 @@ const form = useForm({
       return {
         fields: {
           title: validateTitle(value.title),
+          thematic: validateThematic(value.thematic),
           summary: validateSummary(value.summary),
           description: validateDescription(value.description),
           recommendedCompletionContexts: validateRecommendedCompletionContexts(value.recommendedCompletionContexts),

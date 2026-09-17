@@ -22,6 +22,10 @@ export function useEditNationalActivityFormValidators () {
     return validateRequired(title) ?? validateMaxLength(title, ACTIVITY_TITLE_MAX_LENGTH)
   }
 
+  function validateThematic (thematic: EditActivityFormData['thematic']) {
+    return validateRequired(thematic)
+  }
+
   function validateSummary (summary: EditActivityFormData['summary']) {
     return validateRequired(summary) ?? validateMaxLength(summary, ACTIVITY_SUMMARY_MAX_LENGTH)
   }
@@ -63,6 +67,7 @@ export function useEditNationalActivityFormValidators () {
     validateRecommendedCompletionContexts,
     validateFeedbackAllowedIterations,
     validateSummary,
+    validateThematic,
     validateTitle,
     validateStartDate,
     validateEndDate,

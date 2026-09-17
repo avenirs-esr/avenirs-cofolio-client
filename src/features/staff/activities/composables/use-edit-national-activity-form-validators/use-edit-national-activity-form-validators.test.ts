@@ -25,6 +25,7 @@ BddTest().given('an edit national activity form validators composable', () => {
   BddTest().when('the composable is initialized', () => {
     BddTest().then('it should expose activity validators', () => {
       expect(composableResult.validateTitle).toBeDefined()
+      expect(composableResult.validateThematic).toBeDefined()
       expect(composableResult.validateSummary).toBeDefined()
       expect(composableResult.validateDescription).toBeDefined()
       expect(composableResult.validateRecommendedCompletionContexts).toBeDefined()
@@ -42,6 +43,12 @@ BddTest().given('an edit national activity form validators composable', () => {
     BddTest().then('it should enforce max length', () => {
       const longTitle = 'a'.repeat(ACTIVITY_TITLE_MAX_LENGTH + 1)
       expect(composableResult.validateTitle(longTitle)).toBe(`Veuillez limiter votre saisie à ${ACTIVITY_TITLE_MAX_LENGTH} caractères`)
+    })
+  })
+
+  BddTest().when('validating thematic', () => {
+    BddTest().then('it should require thematic', () => {
+      expect(composableResult.validateThematic(undefined)).toBe('Ce champ est requis.')
     })
   })
 
