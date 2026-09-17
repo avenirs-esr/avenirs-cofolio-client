@@ -33,6 +33,29 @@ BddTest().given('an associated traces card', () => {
     BddTest().then('it should pass the plural title with count', () => {
       expect(wrapper.findComponent(AssociationsCardStub).props('title')).toBe(`Mes traces associées (${props.associatedTraces.length}/7)`)
     })
+
+    BddTest().then('it should not disable the trace cards by default', () => {
+      const traceCards = wrapper.findAllComponents(AssociatedTraceCardStub)
+      traceCards.forEach(card => expect(card.props('disabled')).toBeFalsy())
+    })
+  })
+
+  BddTest().when('the component is mounted with disabled=true', () => {
+    const props: AssociatedTracesCardProps = {
+      associatedTraces: createMockedTraceAssociations(2),
+      disabled: true
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mount(AssociatedTracesCard, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should pass disabled=true to every AssociatedTraceCard', () => {
+      const traceCards = wrapper.findAllComponents(AssociatedTraceCardStub)
+      expect(traceCards).toHaveLength(2)
+      traceCards.forEach(card => expect(card.props('disabled')).toBe(true))
+    })
   })
 
   BddTest().when('the component is mounted with no associated traces', () => {

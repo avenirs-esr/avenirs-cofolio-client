@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
+import { useGetDeclaredSkillAssociations, useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ICONS, ROUTES } from '@/common/constants'
-import UpdateDeclaredSkillAssociations from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillAssociations/UpdateDeclaredSkillAssociations.vue'
+import StudentDeclaredSkillAssociations
+  from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.vue'
 import UpdateDeclaredSkillForm from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -25,6 +26,17 @@ enum StudentUpdateDeclaredSkillViewTabs {
 const { t } = useI18n()
 const { navigateToStudentProjectDeclaredSkill } = useNavigation()
 const { data: declaredSkillDetailed } = useGetDeclaredSkillProgressDetails(skillId)
+
+const skillProgressId = computed(() => declaredSkillDetailed.value?.id ?? '')
+const { data: declaredSkillAssociations, error: associationsError } = useGetDeclaredSkillAssociations(
+  skillProgressId,
+  { query: { enabled: computed(() => !!skillProgressId.value) } }
+)
+const traceAssociations = computed(() => declaredSkillAssociations.value?.traceAssociations ?? [])
+const declaredActivityAssociations = computed(() => declaredSkillAssociations.value?.declaredActivityAssociations ?? [])
+const declaredExperienceAssociations = computed(() => declaredSkillAssociations.value?.declaredExperienceAssociations ?? [])
+const countAssociations = computed(() =>
+  traceAssociations.value.length + declaredActivityAssociations.value.length + declaredExperienceAssociations.value.length)
 
 const activeTab = ref(StudentUpdateDeclaredSkillViewTabs.DETAILS)
 const updateInProgress = ref(false)
@@ -83,13 +95,20 @@ async function handleCancel () {
       />
     </AvTab>
     <AvTab
-      :title="t('student.global.myAssociationsWithCount', { count: declaredSkillDetailed?.traceAssociations?.length ?? 0 })"
+      :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
       :icon="ICONS.ASSOCIATIONS"
+      data-testid="update-declared-skill-associations-tab"
     >
-      <UpdateDeclaredSkillAssociations
+      <StudentDeclaredSkillAssociations
         v-if="declaredSkillDetailed"
-        :trace-associations="declaredSkillDetailed.traceAssociations"
         :declared-skill-id="declaredSkillDetailed.id"
+        :associated-traces="traceAssociations"
+        :associated-declared-activities="declaredActivityAssociations"
+        :associated-declared-experiences="declaredExperienceAssociations"
+        :associations-error="associationsError"
+        :count-associations="countAssociations"
+        disabled
+        :show-actions="false"
       />
     </AvTab>
   </AvTabs>

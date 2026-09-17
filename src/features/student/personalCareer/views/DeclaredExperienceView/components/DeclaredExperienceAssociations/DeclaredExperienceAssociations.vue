@@ -24,9 +24,17 @@ interface DeclaredExperienceAssociationsProps {
   traceAssociations: TraceAssociationDTO[]
   declaredSkillAssociations: DeclaredSkillAssociationDTO[]
   associationsError?: BaseApiException | null | undefined
+  disabled?: boolean
+  showActions?: boolean
 }
 
-const { declaredExperienceId, traceAssociations, declaredSkillAssociations } = defineProps<DeclaredExperienceAssociationsProps>()
+const {
+  declaredExperienceId,
+  traceAssociations,
+  declaredSkillAssociations,
+  disabled = false,
+  showActions = true
+} = defineProps<DeclaredExperienceAssociationsProps>()
 
 const { t } = useI18n()
 
@@ -99,18 +107,22 @@ function onDeclaredSkillsAssociated () {
       class="av-col av-gap-xl av-pt-xl"
       data-testid="declared-experience-associations"
     >
-      <div class="av-row av-flex-fill av-justify-end av-gap-md">
+      <div
+        v-if="showActions"
+        class="av-row av-flex-fill av-justify-end av-gap-md"
+      >
         <AssociationElementsDropdown
           variant="delete"
           data-testid="delete-declared-experience-associated-elements-dropdown"
           :items="deleteItems"
-          :disabled="countAssociations === 0"
+          :disabled="countAssociations === 0 || disabled"
           @select="handleDeleteSelect"
         />
         <AssociationElementsDropdown
           variant="associate"
           data-testid="associate-declared-experience-elements-dropdown"
           :items="associateItems"
+          :disabled="disabled"
           @select="handleAssociateSelect"
         />
       </div>
@@ -122,8 +134,14 @@ function onDeclaredSkillsAssociated () {
         :is-empty="countAssociations === 0"
       >
         <div class="av-col av-gap-md">
-          <AssociatedTracesCard :associated-traces="traceAssociations" />
-          <AssociatedDeclaredSkillsCard :associated-declared-skills="declaredSkillAssociations" />
+          <AssociatedTracesCard
+            :associated-traces="traceAssociations"
+            :disabled="disabled"
+          />
+          <AssociatedDeclaredSkillsCard
+            :associated-declared-skills="declaredSkillAssociations"
+            :disabled="disabled"
+          />
         </div>
       </QuerySuspense>
     </div>

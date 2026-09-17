@@ -125,6 +125,12 @@ BddTest().given('a student declared skill associations component', () => {
       expect(card.props('associatedExperiences')).toEqual(mockedAssociatedDeclaredExperiences)
     })
 
+    BddTest().then('it should not disable the association cards by default', () => {
+      expect(wrapper.findComponent(AssociatedTracesCardStub).props('disabled')).toBeFalsy()
+      expect(wrapper.findComponent(AssociatedDeclaredActivitiesCardStub).props('disabled')).toBeFalsy()
+      expect(wrapper.findComponent(AssociatedDeclaredExperiencesCardStub).props('disabled')).toBeFalsy()
+    })
+
     BddTest().then('it should render the declared skill associate elements dropdown', () => {
       const dropdown = findDropdown('associate')
       expect(dropdown.exists()).toBe(true)
@@ -573,6 +579,76 @@ BddTest().given('a student declared skill associations component', () => {
 
     BddTest().then('it should disable the delete dropdown entirely', () => {
       const dropdown = findDropdown('delete')
+      expect(dropdown.props('disabled')).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is rendered with showActions=false', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(StudentDeclaredSkillAssociations, {
+        props: {
+          declaredSkillId,
+          associatedTraces: mockedAssociatedTraces,
+          associatedDeclaredActivities: mockedTraceDeclaredActivityAssociations,
+          associatedDeclaredExperiences: mockedAssociatedDeclaredExperiences,
+          countAssociations: 5,
+          showActions: false
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render the delete declared skill associated elements dropdown', () => {
+      const dropdown = findDropdown('delete')
+      expect(dropdown).toBeUndefined()
+    })
+
+    BddTest().then('it should not render the declared skill associate elements dropdown', () => {
+      const dropdown = findDropdown('associate')
+      expect(dropdown).toBeUndefined()
+    })
+
+    BddTest().then('it should still render the associated traces, activities and experiences cards', () => {
+      expect(wrapper.findComponent(AssociatedTracesCardStub).exists()).toBe(true)
+      expect(wrapper.findComponent(AssociatedDeclaredActivitiesCardStub).exists()).toBe(true)
+      expect(wrapper.findComponent(AssociatedDeclaredExperiencesCardStub).exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is rendered with disabled=true', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(StudentDeclaredSkillAssociations, {
+        props: {
+          declaredSkillId,
+          associatedTraces: mockedAssociatedTraces,
+          associatedDeclaredActivities: mockedTraceDeclaredActivityAssociations,
+          associatedDeclaredExperiences: mockedAssociatedDeclaredExperiences,
+          countAssociations: 5,
+          disabled: true
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should pass disabled=true to AssociatedTracesCard', () => {
+      expect(wrapper.findComponent(AssociatedTracesCardStub).props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should pass disabled=true to AssociatedDeclaredActivitiesCard', () => {
+      expect(wrapper.findComponent(AssociatedDeclaredActivitiesCardStub).props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should pass disabled=true to AssociatedDeclaredExperiencesCard', () => {
+      expect(wrapper.findComponent(AssociatedDeclaredExperiencesCardStub).props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should disable the delete dropdown', () => {
+      const dropdown = findDropdown('delete')
+      expect(dropdown.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should disable the associate dropdown', () => {
+      const dropdown = findDropdown('associate')
       expect(dropdown.props('disabled')).toBe(true)
     })
   })

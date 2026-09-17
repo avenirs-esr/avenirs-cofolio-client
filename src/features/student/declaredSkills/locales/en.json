@@ -132,14 +132,6 @@
               "title": "My declared skill"
             }
           },
-          "updateAssociations": {
-            "addTraceButton": "Add a trace",
-            "errors": {
-              "unassociateTraces": "An error occurred while removing associations"
-            },
-            "removeButton": "Remove",
-            "success": "{count} association removed successfully | {count} associations removed successfully "
-          },
           "updateForm": {
             "errors": {
               "updateDeclaredSkill": "An error occurred while updating the additional skill."

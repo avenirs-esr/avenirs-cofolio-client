@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
-import { UpdateDeclaredSkillAssociationsStub } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillAssociations/UpdateDeclaredSkillAssociations.stub'
+import { StudentDeclaredSkillAssociationsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.stub'
 import { UpdateDeclaredSkillFormStub } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.stub'
 import StudentUpdateDeclaredSkillView from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/StudentUpdateDeclaredSkillView.vue'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
@@ -51,7 +51,7 @@ const stubs = {
   AvTabs: AvTabsStub,
   AvTab: AvTabStub,
   UpdateDeclaredSkillForm: UpdateDeclaredSkillFormStub,
-  UpdateDeclaredSkillAssociations: UpdateDeclaredSkillAssociationsStub,
+  StudentDeclaredSkillAssociations: StudentDeclaredSkillAssociationsStub,
   UpdateInProgressBadge: UpdateInProgressBadgeStub,
   ConfirmationModal: ConfirmationModalStub
 }
@@ -109,11 +109,24 @@ BddTest().given('a student update declared skill view component', () => {
       expect(badge.exists()).toBe(false)
     })
 
-    BddTest().then('it should render UpdateDeclaredSkillAssociations with correct props', async () => {
+    BddTest().then('it should render StudentDeclaredSkillAssociations with correct props', async () => {
       await vi.waitFor(() => {
-        const associations = wrapper.findComponent(UpdateDeclaredSkillAssociationsStub)
+        const associations = wrapper.findComponent(StudentDeclaredSkillAssociationsStub)
         expect(associations.exists()).toBe(true)
         expect(associations.props('declaredSkillId')).toBe('123')
+        expect(associations.props('associatedTraces')).toHaveLength(2)
+        expect(associations.props('associatedDeclaredActivities')).toHaveLength(1)
+        expect(associations.props('associatedDeclaredExperiences')).toHaveLength(2)
+        expect(associations.props('countAssociations')).toBe(5)
+        expect(associations.props('disabled')).toBe(true)
+        expect(associations.props('showActions')).toBe(false)
+      })
+    })
+
+    BddTest().then('it should include all association types in the associations tab count', async () => {
+      await vi.waitFor(() => {
+        const tabs = wrapper.findAllComponents(AvTabStub)
+        expect(String(tabs[1].props('title'))).toContain('5')
       })
     })
 

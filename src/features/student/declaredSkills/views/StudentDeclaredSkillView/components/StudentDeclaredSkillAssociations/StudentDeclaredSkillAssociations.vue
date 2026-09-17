@@ -30,6 +30,8 @@ interface StudentDeclaredSkillAssociationsProps {
   associatedTraces: TraceAssociationDTO[]
   associationsError?: BaseApiException | null
   countAssociations?: number
+  disabled?: boolean
+  showActions?: boolean
 }
 
 const {
@@ -38,7 +40,9 @@ const {
   associatedDeclaredActivities,
   associatedDeclaredExperiences,
   associationsError,
-  countAssociations
+  countAssociations,
+  disabled = false,
+  showActions = true
 } = defineProps<StudentDeclaredSkillAssociationsProps>()
 
 const emit = defineEmits<{
@@ -139,18 +143,22 @@ function onAssociated (type: EAssociationContextType) {
       class="av-col av-gap-xl av-pt-xl"
       data-testid="declared-skill-associations"
     >
-      <div class="av-row av-flex-fill av-justify-end av-gap-md">
+      <div
+        v-if="showActions"
+        class="av-row av-flex-fill av-justify-end av-gap-md"
+      >
         <AssociationElementsDropdown
           variant="delete"
           data-testid="delete-declared-skill-associated-elements-dropdown"
           :items="deleteItems"
-          :disabled="isDeleteDropdownDisabled"
+          :disabled="isDeleteDropdownDisabled || disabled"
           @select="handleDeleteSelect"
         />
         <AssociationElementsDropdown
           variant="associate"
           data-testid="declared-skill-associate-elements-dropdown"
           :items="associateItems"
+          :disabled="disabled"
           @select="onSelectAssociationType"
         />
       </div>
@@ -162,9 +170,18 @@ function onAssociated (type: EAssociationContextType) {
         :is-empty="countAssociations === 0"
       >
         <div class="av-col av-gap-md">
-          <AssociatedTracesCard :associated-traces="associatedTraces" />
-          <AssociatedDeclaredActivitiesCard :associated-activities="associatedDeclaredActivities" />
-          <AssociatedDeclaredExperiencesCard :associated-experiences="associatedDeclaredExperiences" />
+          <AssociatedTracesCard
+            :associated-traces="associatedTraces"
+            :disabled="disabled"
+          />
+          <AssociatedDeclaredActivitiesCard
+            :associated-activities="associatedDeclaredActivities"
+            :disabled="disabled"
+          />
+          <AssociatedDeclaredExperiencesCard
+            :associated-experiences="associatedDeclaredExperiences"
+            :disabled="disabled"
+          />
         </div>
       </QuerySuspense>
     </div>

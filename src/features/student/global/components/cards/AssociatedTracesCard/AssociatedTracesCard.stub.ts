@@ -10,6 +10,11 @@ export const AssociatedTracesCardStub = defineComponent({
     traceAllowedAssociations: {
       type: Number,
       required: false,
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   template: `

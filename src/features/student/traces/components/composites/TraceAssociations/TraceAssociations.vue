@@ -21,7 +21,7 @@ import DeleteTraceAssociatedSkillsModal
   from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/DeleteTraceAssociatedSkillsModal/DeleteTraceAssociatedSkillsModal.vue'
 import { useI18n } from 'vue-i18n'
 
-const { associations, traceId, associationsError, disabled } = defineProps<TraceAssociationsProps>()
+const { associations, traceId, associationsError, disabled, showActions = true } = defineProps<TraceAssociationsProps>()
 
 const { t } = useI18n()
 
@@ -30,6 +30,7 @@ export interface TraceAssociationsProps {
   traceId: string
   associationsError?: BaseApiException | null
   disabled?: boolean
+  showActions?: boolean
 }
 
 const { modalOpened: skillsModalOpened, openModal: openSkillsModal, closeModal: closeSkillsModal } = useModal()
@@ -87,7 +88,10 @@ function onAssociateSelect (type: EAssociationContextType) {
     class="av-col av-gap-xl av-pt-xl"
     data-testid="trace-associations"
   >
-    <div class="av-row av-flex-fill av-justify-end av-gap-md">
+    <div
+      v-if="showActions"
+      class="av-row av-flex-fill av-justify-end av-gap-md"
+    >
       <AssociationElementsDropdown
         variant="delete"
         data-testid="delete-trace-associated-elements-dropdown"
@@ -103,8 +107,6 @@ function onAssociateSelect (type: EAssociationContextType) {
         @select="onAssociateSelect"
       />
     </div>
-
-    <slot name="caption" />
 
     <QuerySuspense
       :error="associationsError"

@@ -5,9 +5,10 @@ import AssociationCard from '@/features/student/global/components/cards/Associat
 
 export interface AssociatedTraceCardProps {
   associatedTrace: TraceAssociationDTO
+  disabled?: boolean
 }
 
-const { associatedTrace } = defineProps<AssociatedTraceCardProps>()
+const { associatedTrace, disabled } = defineProps<AssociatedTraceCardProps>()
 </script>
 
 <template>
@@ -19,6 +20,7 @@ const { associatedTrace } = defineProps<AssociatedTraceCardProps>()
     hover-border-color="var(--dark-background-primary1)"
     icon-border-color="var(--other-border-skill-card)"
     :to="{ name: ROUTES.STUDENT.TOOLS_TRACE.name, params: { id: associatedTrace.trace.id } }"
+    :disabled="disabled"
     data-testid="associated-trace-card"
     :data-trace-id="associatedTrace.trace.id"
   />

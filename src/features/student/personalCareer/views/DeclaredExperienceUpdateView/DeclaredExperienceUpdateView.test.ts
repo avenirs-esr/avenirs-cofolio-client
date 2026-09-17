@@ -1,10 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { createMockedDeclaredExperienceAssociationsDTO } from '@/__mocks__/fixtures/student'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants/route-names'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { DeclaredExperienceSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.stub'
 import DeclaredExperienceUpdateView, { type DeclaredExperienceUpdateViewProps } from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'
-import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { DeclaredExperienceAssociationsStub } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.stub'
+import { AvIconTextStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -56,8 +58,9 @@ const stubs = {
   UpdateInProgressBadge: UpdateInProgressBadgeStub,
   DeclaredExperienceSideMenu: DeclaredExperienceSideMenuStub,
   UpdateDeclaredExperienceForm: UpdateDeclaredExperienceFormStub,
+  DeclaredExperienceAssociations: DeclaredExperienceAssociationsStub,
   AvTabs: { template: '<div><slot /></div>' },
-  AvTab: { template: '<div><slot /></div>' }
+  AvTab: AvTabStub
 }
 
 BddTest().given('a declared experience update view', () => {
@@ -82,6 +85,30 @@ BddTest().given('a declared experience update view', () => {
     BddTest().then('it should render UpdatePageTitle', () => {
       const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
       expect(pageTitle.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render DeclaredExperienceAssociations with correct props', async () => {
+      const mockedAssociations = createMockedDeclaredExperienceAssociationsDTO()
+
+      await vi.waitFor(() => {
+        const associations = wrapper.findComponent(DeclaredExperienceAssociationsStub)
+        expect(associations.exists()).toBe(true)
+        expect(associations.props('declaredExperienceId')).toBe(route.params.id)
+        expect(associations.props('traceAssociations')).toEqual(mockedAssociations.traceAssociations)
+        expect(associations.props('declaredSkillAssociations')).toEqual(mockedAssociations.declaredSkillAssociations)
+        expect(associations.props('disabled')).toBe(true)
+        expect(associations.props('showActions')).toBe(false)
+      })
+    })
+
+    BddTest().then('it should include the associations count in the associations tab title', async () => {
+      const mockedAssociations = createMockedDeclaredExperienceAssociationsDTO()
+      const expectedCount = mockedAssociations.traceAssociations.length + mockedAssociations.declaredSkillAssociations.length
+
+      await vi.waitFor(() => {
+        const tabs = wrapper.findAllComponents(AvTabStub)
+        expect(String(tabs[1].props('title'))).toContain(String(expectedCount))
+      })
     })
 
     BddTest().and('the cancel event is emitted from the form', () => {

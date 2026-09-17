@@ -107,6 +107,11 @@ BddTest().given('a declared experience associations component', () => {
       expect(card.props('associatedDeclaredSkills')).toEqual(mockedAssociatedDeclaredSkills)
     })
 
+    BddTest().then('it should not disable the association cards by default', () => {
+      expect(wrapper.findComponent(AssociatedTracesCardStub).props('disabled')).toBeFalsy()
+      expect(wrapper.findComponent(AssociatedDeclaredSkillsCardStub).props('disabled')).toBeFalsy()
+    })
+
     BddTest().then('it should render the delete associated elements dropdown with the traces and declared skills entries enabled', () => {
       const dropdowns = wrapper.findAllComponents(AssociationElementsDropdownStub)
       const dropdown = dropdowns.find(candidate => candidate.props('variant') === 'delete')
@@ -349,6 +354,71 @@ BddTest().given('a declared experience associations component', () => {
         { type: EAssociationContextType.TRACE, disabled: true },
         { type: EAssociationContextType.DECLARED_SKILL, disabled: true }
       ])
+    })
+  })
+
+  BddTest().when('the component is rendered with disabled=true', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(DeclaredExperienceAssociations, {
+        props: {
+          declaredExperienceId,
+          traceAssociations: mockedAssociatedTraces,
+          declaredSkillAssociations: mockedAssociatedDeclaredSkills,
+          disabled: true
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should pass disabled=true to AssociatedTracesCard', () => {
+      expect(wrapper.findComponent(AssociatedTracesCardStub).props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should pass disabled=true to AssociatedDeclaredSkillsCard', () => {
+      expect(wrapper.findComponent(AssociatedDeclaredSkillsCardStub).props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should disable the delete dropdown', () => {
+      const dropdowns = wrapper.findAllComponents(AssociationElementsDropdownStub)
+      const dropdown = dropdowns.find(candidate => candidate.props('variant') === 'delete')
+      expect(dropdown?.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should disable the associate dropdown', () => {
+      const dropdowns = wrapper.findAllComponents(AssociationElementsDropdownStub)
+      const dropdown = dropdowns.find(candidate => candidate.props('variant') === 'associate')
+      expect(dropdown?.props('disabled')).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is rendered with showActions=false', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(DeclaredExperienceAssociations, {
+        props: {
+          declaredExperienceId,
+          traceAssociations: mockedAssociatedTraces,
+          declaredSkillAssociations: mockedAssociatedDeclaredSkills,
+          showActions: false
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render the delete associated elements dropdown', () => {
+      const dropdowns = wrapper.findAllComponents(AssociationElementsDropdownStub)
+      const dropdown = dropdowns.find(candidate => candidate.props('variant') === 'delete')
+      expect(dropdown).toBeUndefined()
+    })
+
+    BddTest().then('it should not render the associate elements dropdown', () => {
+      const dropdowns = wrapper.findAllComponents(AssociationElementsDropdownStub)
+      const dropdown = dropdowns.find(candidate => candidate.props('variant') === 'associate')
+      expect(dropdown).toBeUndefined()
+    })
+
+    BddTest().then('it should still render the associated traces and declared skills cards', () => {
+      expect(wrapper.findComponent(AssociatedTracesCardStub).exists()).toBe(true)
+      expect(wrapper.findComponent(AssociatedDeclaredSkillsCardStub).exists()).toBe(true)
     })
   })
 

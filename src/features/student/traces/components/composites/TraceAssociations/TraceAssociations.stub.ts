@@ -7,7 +7,9 @@ export const TraceAssociationsStub = defineComponent({
   props: {
     associations: { type: Object as PropType<TraceAssociationsDTO>, required: true },
     traceId: { type: String, required: true },
-    associationsError: { type: Object as PropType<BaseApiException | null>, required: false }
+    associationsError: { type: Object as PropType<BaseApiException | null>, required: false },
+    disabled: { type: Boolean, required: false, default: false },
+    showActions: { type: Boolean, required: false, default: true }
   },
   template: `<div data-testid="trace-associations-stub"></div>`
 })
