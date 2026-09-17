@@ -70,8 +70,9 @@ BddTest().given('an ActivitiesSideNavigation', () => {
       await flushPromises()
       const sideNavigation = wrapper.findComponent({ name: 'SideNavigation' })
       const items = sideNavigation.props('items') as any[]
+      const itemsExpectedLength = Object.keys(EActivityThematic).length
 
-      expect(items).toHaveLength(7)
+      expect(items).toHaveLength(itemsExpectedLength)
 
       expect(items[0]).toEqual(expect.objectContaining({
         id: EActivityThematic.SELF_KNOWLEDGE,

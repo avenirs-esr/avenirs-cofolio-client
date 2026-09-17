@@ -63,11 +63,10 @@ BddTest().given('a thematic select component', () => {
       )
     })
 
-    BddTest().then('it should have seven options', () => {
-      const select = wrapper.findComponent({
-        name: 'AvSelect',
-      })
-      expect(select.props('options')).toHaveLength(7)
+    BddTest().then('it should have one option per key in EActivityThematic', () => {
+      const select = wrapper.findComponent({ name: 'AvSelect' })
+      const optionsLength = Object.keys(EActivityThematic).length
+      expect(select.props('options')).toHaveLength(optionsLength)
     })
 
     BddTest().then('it should have transverse option', () => {

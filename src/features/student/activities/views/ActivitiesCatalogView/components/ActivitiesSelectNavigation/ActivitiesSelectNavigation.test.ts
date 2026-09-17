@@ -66,8 +66,9 @@ BddTest().given('an ActivitiesSelectNavigation', () => {
 
       const select = wrapper.findComponent({ name: 'AvSelect' })
       const options = select.props('options') as any[]
+      const optionsExpectedLength = Object.keys(EActivityThematic).length
 
-      expect(options.length).toBe(7)
+      expect(options.length).toBe(optionsExpectedLength)
       expect(options[0]).toEqual(expect.objectContaining({
         id: expect.any(String),
         label: expect.any(String),

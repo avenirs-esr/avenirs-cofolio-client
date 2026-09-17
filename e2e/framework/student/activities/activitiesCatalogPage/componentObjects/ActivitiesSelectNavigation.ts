@@ -4,7 +4,7 @@ import { expect, type Locator, type Page } from '@playwright/test'
 export class ActivitiesSelectNavigation extends BaseObject {
   private static readonly SELECT_TESTID = 'activities-select-navigation'
   private static readonly OPTGROUP_PREFIX = 'select-optgroup-'
-  private static readonly EXPECTED_ENABLED_OPTIONS = 28
+  private static readonly EXPECTED_ENABLED_OPTIONS = 32
 
   constructor (protected page: Page) {
     super(page.locator(`select[data-testid="${ActivitiesSelectNavigation.SELECT_TESTID}"]`), page)

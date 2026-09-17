@@ -3402,11 +3402,14 @@
             }
           },
           {
-            "name": "experienceType",
+            "name": "experienceTypes",
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/EExperienceType"
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EExperienceType"
+              }
             }
           }
         ],
@@ -6472,7 +6475,8 @@
               "EXPERIENCES",
               "TRAJECTORIES",
               "RESUMES",
-              "TRANSVERSAL"
+              "TRANSVERSAL",
+              "OTHER"
             ]
           },
           "summary": {
@@ -7071,7 +7075,8 @@
               "EXPERIENCES",
               "TRAJECTORIES",
               "RESUMES",
-              "TRANSVERSAL"
+              "TRANSVERSAL",
+              "OTHER"
             ]
           },
           "summary": {
@@ -7382,7 +7387,8 @@
               "EXPERIENCES",
               "TRAJECTORIES",
               "RESUMES",
-              "TRANSVERSAL"
+              "TRANSVERSAL",
+              "OTHER"
             ]
           },
           "summary": {
@@ -7641,7 +7647,8 @@
               "EXPERIENCES",
               "TRAJECTORIES",
               "RESUMES",
-              "TRANSVERSAL"
+              "TRANSVERSAL",
+              "OTHER"
             ]
           },
           "disabled": {
@@ -8285,7 +8292,8 @@
               "EXPERIENCES",
               "TRAJECTORIES",
               "RESUMES",
-              "TRANSVERSAL"
+              "TRANSVERSAL",
+              "OTHER"
             ]
           },
           "status": {
@@ -8381,7 +8389,8 @@
               "EXPERIENCES",
               "TRAJECTORIES",
               "RESUMES",
-              "TRANSVERSAL"
+              "TRANSVERSAL",
+              "OTHER"
             ]
           },
           "subscribedDeclaredActivity": {
@@ -8510,7 +8519,8 @@
               "EXPERIENCES",
               "TRAJECTORIES",
               "RESUMES",
-              "TRANSVERSAL"
+              "TRANSVERSAL",
+              "OTHER"
             ]
           },
           "activityStatus": {
@@ -8784,7 +8794,8 @@
           "EXPERIENCES",
           "TRAJECTORIES",
           "RESUMES",
-          "TRANSVERSAL"
+          "TRANSVERSAL",
+          "OTHER"
         ]
       },
       "EActivityStatus": {

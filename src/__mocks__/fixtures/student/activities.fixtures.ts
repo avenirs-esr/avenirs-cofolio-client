@@ -258,7 +258,28 @@ export const activitiesNavigationMock: ActivityNavigationDTO[] = [
         title: 'Renforcer sa communication orale'
       }
     ]
-  }
+  },
+  {
+    title: 'OTHER',
+    items: [
+      {
+        id: 'a7c3e9f1-2b6d-4a88-9c5e-1f7d3b2a6e44',
+        title: 'Découvrir une activité complémentaire'
+      },
+      {
+        id: 'b4e8c2d7-6a1f-4f55-9b3c-7d2e8a1c5f99',
+        title: 'Explorer une autre thématique'
+      },
+      {
+        id: 'c9f2a7e4-3d8b-4c11-9a6f-5e1b7d2c8f33',
+        title: 'Identifier une nouvelle opportunité'
+      },
+      {
+        id: 'd6b1e9c5-8f2a-4a77-9c3e-1d7b5f2a6e88',
+        title: 'Développer un projet personnel'
+      }
+    ]
+  },
 ]
 
 const commonMockedDeclaredActivityProps = {

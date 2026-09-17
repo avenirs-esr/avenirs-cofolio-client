@@ -13,7 +13,7 @@ export enum EditActivityFormDataBannerAction {
 }
 
 export interface EditActivityFormData extends ActivityDraftCreationFormData {
-  thematic: EActivityThematic
+  thematic?: EActivityThematic
   description: string
   enableReflection?: boolean
   recommendedCompletionContexts: string
