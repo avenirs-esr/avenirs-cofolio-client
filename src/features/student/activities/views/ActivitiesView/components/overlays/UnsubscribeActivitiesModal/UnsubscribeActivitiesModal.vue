@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/activities/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
@@ -35,16 +36,16 @@ const {
   hasMoreActivities,
   loadMoreActivities,
 } = usePaginatedLibraryActivities({ enabled: computed(() => opened.value), pageSize: totalCount })
-
-const activities = computed(() => activityLibrary.value.map(activity => ({ id: activity.activityId, title: activity.title, thematic: activity.thematic })))
+const unsubscribedIds = ref<string[]>([])
+const activities = computed(() => activityLibrary.value.map(activity => ({ id: activity.activityId, title: activity.title, thematic: activity.thematic, disabled: unsubscribedIds.value.includes(activity.activityId) || activity.status === EDeclaredActivityStatus.UNSUBSCRIBED })))
+const selectedActivityIds = ref<string[]>([])
 
 function onUnsubscribeSuccess () {
-  closeConfirmModal()
+  unsubscribedIds.value.push(...selectedActivityIds.value)
   emit('unsubscribed')
   resetSelectedActivities()
+  closeConfirmModal()
 }
-
-const selectedActivityIds = ref<string[]>([])
 
 function resetSelectedActivities () {
   selectedActivityIds.value = []
