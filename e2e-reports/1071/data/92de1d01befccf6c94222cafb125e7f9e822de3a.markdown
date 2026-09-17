@@ -6,26 +6,24 @@
 
 # Test info
 
-- Name: tests/student/lifeProject/activitiesCatalog/activitiesCatalog.mobile.feature.spec.js >> Student Project Activities Catalog Page >> Activities Navigation - Mobile >> Student sees all expected thematics in select navigation
-- Location: .features-gen/tests/student/lifeProject/activitiesCatalog/activitiesCatalog.mobile.feature.spec.js:22:5
+- Name: tests/student/lifeProject/activitiesCatalog/activitiesCatalog.mobile.feature.spec.js >> Student Project Activities Catalog Page >> Activities Navigation - Mobile >> Student can see the activities select navigation
+- Location: .features-gen/tests/student/lifeProject/activitiesCatalog/activitiesCatalog.mobile.feature.spec.js:16:5
 
 # Error details
 
 ```
-Error: Missing optgroup for thematic: OTHER
+Error: expect(locator).toHaveCount(expected) failed
 
-expect(locator).toHaveCount(expected) failed
-
-Locator:  locator('select[data-testid="activities-select-navigation"]').locator('[data-testid="select-optgroup-OTHER"]')
-Expected: 1
-Received: 0
+Locator:  locator('select[data-testid="activities-select-navigation"]').locator('option:not([disabled])')
+Expected: 28
+Received: 32
 Timeout:  10000ms
 
 Call log:
-  - Missing optgroup for thematic: OTHER with timeout 10000ms
-  - waiting for locator('select[data-testid="activities-select-navigation"]').locator('[data-testid="select-optgroup-OTHER"]')
-    24 × locator resolved to 0 elements
-       - unexpected value "0"
+  - Expect "toHaveCount" with timeout 10000ms
+  - waiting for locator('select[data-testid="activities-select-navigation"]').locator('option:not([disabled])')
+    24 × locator resolved to 32 elements
+       - unexpected value "32"
 
 ```
 
@@ -89,11 +87,15 @@ Call log:
               - option "Renforcer sa capacité d'adaptation"
               - option "Développer son esprit d'équipe"
               - option "Renforcer sa communication orale"
+              - option "Découvrir une activité complémentaire"
+              - option "Explorer une autre thématique"
+              - option "Identifier une nouvelle opportunité"
+              - option "Développer un projet personnel"
           - status
         - generic [ref=e45]:
           - generic [ref=e46]:
             - link "Précédent" [ref=e47] [cursor=pointer]:
-              - /url: /cofolio/student/activities/catalog/TRANSVERSAL/2c9e4b77-6a1f-4d55-8b3c-7e2d1a9f4c22
+              - /url: /cofolio/student/activities/catalog/OTHER/d6b1e9c5-8f2a-4a77-9c3e-1d7b5f2a6e88
               - generic [ref=e50]: Précédent
             - link "Suivant" [ref=e51] [cursor=pointer]:
               - /url: /cofolio/student/activities/catalog/SELF_KNOWLEDGE/3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1
@@ -169,6 +171,32 @@ Call log:
 # Test source
 
 ```ts
+  1   | import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+  2   | import { expect, type Locator, type Page } from '@playwright/test'
+  3   | 
+  4   | export class ActivitiesSelectNavigation extends BaseObject {
+  5   |   private static readonly SELECT_TESTID = 'activities-select-navigation'
+  6   |   private static readonly OPTGROUP_PREFIX = 'select-optgroup-'
+  7   |   private static readonly EXPECTED_ENABLED_OPTIONS = 28
+  8   | 
+  9   |   constructor (protected page: Page) {
+  10  |     super(page.locator(`select[data-testid="${ActivitiesSelectNavigation.SELECT_TESTID}"]`), page)
+  11  |   }
+  12  | 
+  13  |   private select (): Locator {
+  14  |     return this.root
+  15  |   }
+  16  | 
+  17  |   private enabledOptions (): Locator {
+  18  |     return this.select().locator('option:not([disabled])')
+  19  |   }
+  20  | 
+  21  |   private optgroups (): Locator {
+  22  |     return this.select().locator(`[data-testid^="${ActivitiesSelectNavigation.OPTGROUP_PREFIX}"]`)
+  23  |   }
+  24  | 
+  25  |   private optgroup (thematic: string): Locator {
+  26  |     return this.select().locator(`[data-testid="${ActivitiesSelectNavigation.OPTGROUP_PREFIX}${thematic}"]`)
   27  |   }
   28  | 
   29  |   private enabledOptionsInThematic (thematic: string): Locator {
@@ -193,7 +221,8 @@ Call log:
   48  |   }
   49  | 
   50  |   async verifyHasThematics () {
-  51  |     await expect(this.enabledOptions()).toHaveCount(ActivitiesSelectNavigation.EXPECTED_ENABLED_OPTIONS)
+> 51  |     await expect(this.enabledOptions()).toHaveCount(ActivitiesSelectNavigation.EXPECTED_ENABLED_OPTIONS)
+      |                                         ^ Error: expect(locator).toHaveCount(expected) failed
   52  |   }
   53  | 
   54  |   async verifyFirstThematicIs (expected: string) {
@@ -269,8 +298,7 @@ Call log:
   124 | 
   125 |     for (const thematic of expected) {
   126 |       const group = this.optgroup(thematic)
-> 127 |       await expect(group, `Missing optgroup for thematic: ${thematic}`).toHaveCount(1)
-      |                                                                         ^ Error: Missing optgroup for thematic: OTHER
+  127 |       await expect(group, `Missing optgroup for thematic: ${thematic}`).toHaveCount(1)
   128 | 
   129 |       const enabledCount = await group.locator('option:not([disabled])').count()
   130 |       expect(enabledCount, `Thematic ${thematic} should have at least 1 enabled activity`).toBeGreaterThan(0)
