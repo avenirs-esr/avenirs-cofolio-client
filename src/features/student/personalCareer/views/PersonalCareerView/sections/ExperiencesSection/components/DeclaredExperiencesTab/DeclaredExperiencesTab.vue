@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { EExperienceType } from '@/api/avenir-esr'
 import { useGetDeclaredExperienceView } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
@@ -10,7 +11,8 @@ import { usePersonalCareerStore } from '@/features/student/personalCareer/stores
 import DeclaredExperiencesMoreActionsDropdown
   from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesMoreActionsDropdown/DeclaredExperiencesMoreActionsDropdown.vue'
 import DeleteDeclaredExperiencesModal from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeleteDeclaredExperiencesModal/DeleteDeclaredExperiencesModal.vue'
-import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import ExperienceTypeMultiselect from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/ExperienceTypeMultiselect/ExperienceTypeMultiselect.vue'
+import { AvIconText, type AvMultiselectOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
@@ -27,9 +29,15 @@ const {
   toRef(personalCareerStore, 'declaredExperiencesPageSizeSelected')
 )
 
+const selectedExperienceTypes = ref<AvMultiselectOption[]>([])
+const experienceTypes = computed<EExperienceType[]>(() =>
+  selectedExperienceTypes.value.map(option => option.value as EExperienceType)
+)
+
 const params = computed(() => ({
   page: currentPage.value,
-  pageSize: pageSizeSelected.value
+  pageSize: pageSizeSelected.value,
+  experienceTypes: experienceTypes.value.length ? experienceTypes.value : undefined
 }))
 
 const { data, error, isFetching } = useGetDeclaredExperienceView(params, { query: { placeholderData: keepPreviousData } })
@@ -55,6 +63,7 @@ useBaseApiExceptionToast(error)
       :icon="MDI_ICONS.FLARE"
       :text="titleWithCount"
     />
+    <ExperienceTypeMultiselect v-model="selectedExperienceTypes" />
     <QuerySuspense
       :error="error"
       :is-loading="isFetching"

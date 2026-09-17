@@ -1,6 +1,7 @@
 import type { AvLocale } from '@/types/i18n.types'
 import { type DeclaredExperienceViewDTO, EExperienceType, useGetDeclaredExperienceView } from '@/api/avenir-esr'
 import { formatDateLocalized } from '@/common/utils/date/date'
+import { ProBasedExperienceType } from '@/features/student/buildProject/types/experiences.types'
 import { HeadingLevel, Paragraph, TextRun } from 'docx'
 import { useI18n } from 'vue-i18n'
 
@@ -18,7 +19,10 @@ export function useGenerateExperiencesSections () {
   ))
 
   function getExperienceSectionHeading (experience: DeclaredExperienceViewDTO) {
-    const experienceType = experience.experienceType === EExperienceType.PROFESSIONAL ? 'PROFESSIONAL' : 'OTHER'
+    const experienceType = experience.experienceType === EExperienceType.PROFESSIONAL
+      ? ProBasedExperienceType.PROFESSIONAL
+      : ProBasedExperienceType.OTHER
+
     return new Paragraph({
       children: [
         new TextRun({

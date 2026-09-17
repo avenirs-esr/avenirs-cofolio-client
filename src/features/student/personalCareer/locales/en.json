@@ -259,6 +259,11 @@
               "noDeclaredExperiences": "No experiences to delete.",
               "title": "Which experience(s) do you want to delete?"
             },
+            "ExperienceTypeMultiselect": {
+              "label": "Experience type",
+              "placeholder": "Select one or more experience types",
+              "selected": "1 type selected | {count} types selected"
+            },
             "title": "My experiences",
             "VerifiedExperiencesTab": {
               "title": "My verified experiences"
