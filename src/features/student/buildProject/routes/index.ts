@@ -4,7 +4,7 @@ import { ROUTES } from '@/common/constants/route-names'
 
 export default []
 
-export const projectTrajectoriesRoute: AvRoute = {
+export const projectBuildProjectRoute: AvRoute = {
   ...ROUTES.STUDENT.BUILD_PROJECT,
   component: () => import('@/features/student/global/views/StudentBuildProjectView/StudentBuildProjectView.vue'),
   meta: {
@@ -12,6 +12,6 @@ export const projectTrajectoriesRoute: AvRoute = {
   }
 }
 
-export const projectTrajectoriesRoutes = [
-  projectTrajectoriesRoute,
+export const projectBuildProjectRoutes = [
+  projectBuildProjectRoute,
 ]

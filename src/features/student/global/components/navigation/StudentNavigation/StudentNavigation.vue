@@ -2,7 +2,7 @@
 import { ICONS, ROUTES, studentActivtiesRoutes, studentPersonalCareerRoutes, studentProjectBuildProjectRoutes, studentSkillsRoutes } from '@/common/constants'
 import { isRouteActive } from '@/common/utils/route/route'
 import { studentToolsTracesRoutes } from '@/features/student/traces/routes'
-import { AvNavigation, ICONS_DATA_URL, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvNavigation, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useId } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -29,7 +29,7 @@ const toolsMenu = computed(() => ({
     {
       to: ROUTES.STUDENT.TOOLS_TRACES,
       text: t('student.global.navigation.tabs.tools.items.traces'),
-      icon: MDI_ICONS.ATTACH_FILE,
+      icon: ICONS.TRACES,
       highlight: isRouteActive({ route, routes: studentToolsTracesRoutes })
     },
     {
@@ -57,7 +57,7 @@ const buildLifeProjectMenu = computed(() => ({
     {
       to: ROUTES.STUDENT.BUILD_PROJECT,
       text: t('student.global.navigation.tabs.project.items.buildProject'),
-      icon: RI_ICONS.DRAW_LINE,
+      icon: ICONS.BUILD_PROJECT,
       highlight: isRouteActive({ route, routes: studentProjectBuildProjectRoutes })
     },
   ],

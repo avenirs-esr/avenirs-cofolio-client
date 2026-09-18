@@ -227,7 +227,7 @@ BddTest().given('a self knowledge category view component', () => {
         })
       })
 
-      BddTest().then('it should navigate to the trajectories view', () => {
+      BddTest().then('it should navigate to the build project view', () => {
         return vi.waitFor(() => {
           expect(navigateToStudentBuildProject).toHaveBeenCalled()
         })

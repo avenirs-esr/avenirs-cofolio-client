@@ -1,5 +1,5 @@
-import StudentProjectTrajectoriesHelperModal
-  from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectTrajectoriesHelperModal/StudentProjectTrajectoriesHelperModal.vue'
+import StudentProjectMindMapHelperModal
+  from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectMindMapHelperModal/StudentProjectMindMapHelperModal.vue'
 import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -17,7 +17,7 @@ BddTest().given('the modal is shown with content', () => {
     vi.clearAllMocks()
     onClose = vi.fn()
     const queryClient = new QueryClient()
-    wrapper = mount(StudentProjectTrajectoriesHelperModal, {
+    wrapper = mount(StudentProjectMindMapHelperModal, {
       props: { opened: true, onClose },
       global: { stubs, plugins: [[VueQueryPlugin, { queryClient }]] }
     })
