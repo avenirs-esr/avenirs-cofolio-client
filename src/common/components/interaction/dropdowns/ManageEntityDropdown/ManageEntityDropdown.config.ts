@@ -1,4 +1,4 @@
-import { Action } from '@/common/components/interaction/dropdowns/MoreActionsDropdown/MoreActionsDropdown.types'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { MDI_ICONS, MS_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 interface ActionConfig {

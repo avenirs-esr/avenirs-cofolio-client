@@ -1,5 +1,5 @@
-import { MoreActionsDropdownStub } from '@/common/components/interaction/dropdowns/MoreActionsDropdown/MoreActionsDropdown.stub'
-import { Action } from '@/common/components/interaction/dropdowns/MoreActionsDropdown/MoreActionsDropdown.types'
+import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import NodeDropdown, { type NodeDropdownProps } from '@/common/components/VueFlow/NodeDropdown/NodeDropdown.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -9,12 +9,12 @@ BddTest().given('a node dropdown', () => {
   let wrapper: VueWrapper<InstanceType<typeof NodeDropdown>>
 
   const stubs = {
-    MoreActionsDropdown: MoreActionsDropdownStub
+    ManageEntityDropdown: ManageEntityDropdownStub
   }
 
-  const getMoreActionsDropdown = () => wrapper.findComponent(MoreActionsDropdownStub)
+  const getManageEntityDropdown = () => wrapper.findComponent(ManageEntityDropdownStub)
   const getActionByName = (name: Action) => {
-    return getMoreActionsDropdown().props('actions').find(action => (action as Action) === name)
+    return getManageEntityDropdown().props('actions').find(action => (action as Action) === name)
   }
 
   BddTest().when('the component is mounted', () => {
@@ -23,11 +23,11 @@ BddTest().given('a node dropdown', () => {
     })
 
     BddTest().then('it should render the dropdown', () => {
-      expect(getMoreActionsDropdown().exists()).toBe(true)
+      expect(getManageEntityDropdown().exists()).toBe(true)
     })
 
     BddTest().then('it should render the default actions', () => {
-      const dropdown = getMoreActionsDropdown()
+      const dropdown = getManageEntityDropdown()
       const actions = dropdown.props('actions')
       expect(actions).toHaveLength(3)
       expect(actions).toEqual([Action.UPDATE, Action.DELETE, Action.COLLAPSE])

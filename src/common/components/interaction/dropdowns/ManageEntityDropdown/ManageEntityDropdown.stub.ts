@@ -1,8 +1,8 @@
-import type { Action, ActionItem } from '@/common/components/interaction/dropdowns/MoreActionsDropdown/MoreActionsDropdown.types'
+import type { Action, ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import type { PropType } from 'vue'
 
-export const MoreActionsDropdownStub = defineComponent({
-  name: 'MoreActionsDropdown',
+export const ManageEntityDropdownStub = defineComponent({
+  name: 'ManageEntityDropdown',
   props: {
     entityName: String,
     actions: {
@@ -19,7 +19,7 @@ export const MoreActionsDropdownStub = defineComponent({
     }
   },
   template: `
-    <div data-testid="more-actions-dropdown-stub">
+    <div data-testid="manage-entity-dropdown-stub">
       <button
         v-for="action in resolvedActions"
         :key="action.type"

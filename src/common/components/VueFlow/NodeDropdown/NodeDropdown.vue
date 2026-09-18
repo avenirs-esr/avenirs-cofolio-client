@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Action } from '@/common/components/interaction/dropdowns/MoreActionsDropdown/MoreActionsDropdown.types'
-import MoreActionsDropdown, { type MoreActionsDropdownProps } from '@/common/components/interaction/dropdowns/MoreActionsDropdown/MoreActionsDropdown.vue'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import ManageEntityDropdown, { type ManageEntityDropdownProps } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -71,7 +71,7 @@ function handleItemSelected (itemName: Action) {
   }
 }
 
-const actions = computed<MoreActionsDropdownProps['actions']>(() => [
+const actions = computed<ManageEntityDropdownProps['actions']>(() => [
   Action.UPDATE,
   Action.DELETE,
   ...(collapsed ? [Action.EXPAND] : [Action.COLLAPSE]),
@@ -81,7 +81,7 @@ const actions = computed<MoreActionsDropdownProps['actions']>(() => [
 
 <template>
   <div class="node-dropdown-container">
-    <MoreActionsDropdown
+    <ManageEntityDropdown
       :actions="actions"
       :entity-name="t('global.vueFlow.NodeDropdown.entityName')"
       :icon="MDI_ICONS.SETTINGS"
