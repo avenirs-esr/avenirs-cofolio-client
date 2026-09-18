@@ -3240,6 +3240,30 @@
         }
       }
     },
+    "/me/declared/skill-progress/external-ids": {
+      "get": {
+        "tags": [
+          "declared-skill-progress-controller"
+        ],
+        "operationId": "getAssociatedExternalSkillIds",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/declared/experiences/{experienceId}/search-for-association/traces": {
       "get": {
         "tags": [

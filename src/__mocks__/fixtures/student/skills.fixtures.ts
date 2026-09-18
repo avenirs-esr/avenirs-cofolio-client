@@ -129,6 +129,10 @@ export function createMockedSearchExternalSkillsDTO (pageSize: number, totalElem
   }
 }
 
+export function createMockedAssociatedExternalSkillIds (count: number = 3): string[] {
+  return Array.from({ length: count }, () => crypto.randomUUID())
+}
+
 export function createMockedDeclaredActivitiesAssociations (count: number): DeclaredActivityAssociationDTO[] {
   return Array.from({ length: count }, (_, index) => ({
     associationId: `declared-activity-association-${index + 1}`,

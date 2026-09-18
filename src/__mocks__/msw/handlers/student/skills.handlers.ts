@@ -1,5 +1,6 @@
 import { createDeclaredSkillAssociationResponseFixture } from '@/__mocks__/fixtures/student'
 import {
+  createMockedAssociatedExternalSkillIds,
   createMockedDeclaredSkillProgressDetailsDTO,
   createMockedPagedResponseAssociationSearchResultDeclaredSkillIDTO,
   createMockedPagedResponseDeclaredSkillProgressDTO,
@@ -23,6 +24,7 @@ import {
   getDeleteDeclaredSkillAssociationsUrl,
   getDeleteDeclaredSkillProgressUrl,
   getGetAdditionalSkillConfigUrl,
+  getGetAssociatedExternalSkillIdsUrl,
   getGetDeclaredSkillAssociationsUrl,
   getGetDeclaredSkillProgressDetailsUrl,
   getGetDeclaredSkillsProgressesUrl,
@@ -256,6 +258,17 @@ export const skillsHandlers = [
     const response = createMockedSearchExternalSkillsDTO(pageSize, 20, page, keyword)
 
     return HttpResponse.json<PagedResponseExternalSkillDTO>(response, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+  }),
+
+  http.get<PathParams, string[]>(`*${getGetAssociatedExternalSkillIdsUrl()}`, () => {
+    const response = createMockedAssociatedExternalSkillIds()
+
+    return HttpResponse.json<string[]>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
