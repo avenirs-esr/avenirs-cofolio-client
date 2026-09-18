@@ -1,4 +1,3 @@
-import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import {
   declaredProgramDetailedHandler,
   declaredProgramDetailedLoadingHandler,
@@ -9,7 +8,6 @@ import { server } from '@/__mocks__/msw/server'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants'
-import { DeclaredProgramSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.stub'
 import { DeleteDeclaredProgramConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.stub'
 import { DeclaredProgramDetailedStub } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.stub'
 import { ManageDeclaredProgramDropdownStub } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/ManageDeclaredProgramDropdown/ManageDeclaredProgramDropdown.stub'
@@ -18,7 +16,6 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
-import { nextTick } from 'vue'
 
 const routerReplace = vi.fn()
 const mockModalOpened = ref(false)
@@ -79,7 +76,6 @@ vi.mock('@/common/composables', async (importOriginal) => {
 
 const stubs = {
   DetailedPageTitle: DetailedPageTitleStub,
-  DeclaredProgramSideMenu: DeclaredProgramSideMenuStub,
   DeclaredProgramDetailed: DeclaredProgramDetailedStub,
   ManageDeclaredProgramDropdown: ManageDeclaredProgramDropdownStub,
   DeleteDeclaredProgramConfirmModal: DeleteDeclaredProgramConfirmModalStub,
@@ -95,19 +91,6 @@ BddTest().given('a declared program detailed view component', () => {
     wrapper = mountComponent(DeclaredProgramDetailedView, {
       global: { stubs }
     })
-
-    await vi.waitFor(() => {
-      const sideMenu = wrapper.findComponent({ name: 'DeclaredProgramSideMenu' })
-      const programs = sideMenu.props('programs') as DeclaredProgramViewDTO[]
-      expect(programs.length).toBeGreaterThan(0)
-    })
-  }
-
-  const getSideMenu = () => wrapper.findComponent({ name: 'DeclaredProgramSideMenu' })
-
-  const getSideMenuPrograms = () => {
-    const sideMenu = getSideMenu()
-    return sideMenu.props('programs') as DeclaredProgramViewDTO[]
   }
 
   beforeEach(() => {
@@ -143,25 +126,6 @@ BddTest().given('a declared program detailed view component', () => {
       await vi.waitFor(() => {
         expect(wrapper.find('[data-testid="query-suspense-error"]').exists()).toBe(false)
       })
-    })
-
-    BddTest().then('it should render the side menu with correct props', () => {
-      const sideMenu = getSideMenu()
-      const programs = getSideMenuPrograms()
-
-      expect(sideMenu.exists()).toBe(true)
-      expect(sideMenu.props('selectedProgramId')).toBe('declared-program-1')
-      expect(sideMenu.props('countPrograms')).toBe(60)
-
-      expect(programs).toHaveLength(8)
-      expect(programs[0].title).toBe('Formation déclarée 1')
-      expect(programs[1].title).toBe('Formation déclarée 2')
-      expect(programs[2].title).toBe('Formation déclarée 3')
-      expect(programs[3].title).toBe('Formation déclarée 4')
-      expect(programs[4].title).toBe('Formation déclarée 5')
-      expect(programs[5].title).toBe('Formation déclarée 6')
-      expect(programs[6].title).toBe('Formation déclarée 7')
-      expect(programs[7].title).toBe('Formation déclarée 8')
     })
 
     BddTest().then('it should render program details when a program is selected', async () => {
@@ -237,98 +201,12 @@ BddTest().given('a declared program detailed view component', () => {
         })
       })
     })
-
-    BddTest().and('selecting a program from the side menu', () => {
-      let secondProgramId: string
-
-      beforeEach(async () => {
-        const sideMenu = getSideMenu()
-        const programs = getSideMenuPrograms()
-        secondProgramId = programs[1].id
-
-        sideMenu.vm.$emit('selectProgram', secondProgramId)
-        await nextTick()
-        await flushPromises()
-      })
-
-      BddTest().then('it should navigate to the route with the selected id', () => {
-        expect(routerReplace).toHaveBeenCalledWith({
-          name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
-          params: { id: secondProgramId },
-          state: { preserveScroll: true }
-        })
-      })
-
-      BddTest().and('the route param is updated (simulating navigation)', () => {
-        beforeEach(async () => {
-          route.params.id = secondProgramId
-          await nextTick()
-          await flushPromises()
-        })
-
-        BddTest().then('it should update selectedProgramId in the side menu', () => {
-          const sideMenu = getSideMenu()
-          expect(sideMenu.props('selectedProgramId')).toBe(secondProgramId)
-        })
-
-        BddTest().then('it should update the PageTitle title with the new program title', async () => {
-          await vi.waitFor(() => {
-            const pageTitle = wrapper.findComponent({ name: 'DetailedPageTitle' })
-            expect(String(pageTitle.props('title'))).toContain('Formation déclarée 2')
-          })
-        })
-
-        BddTest().then('it should update the program details', async () => {
-          await vi.waitFor(() => {
-            const details = wrapper.findComponent({ name: 'DeclaredProgramDetailed' })
-            expect(details.exists()).toBe(true)
-            expect(details.props('declaredProgramDetailed').title).toBe('Formation déclarée 2')
-          })
-        })
-      })
-    })
-
-    BddTest().and('loading more programs from the side menu', () => {
-      beforeEach(async () => {
-        const sideMenu = getSideMenu()
-        sideMenu.vm.$emit('loadMorePrograms')
-        await flushPromises()
-      })
-
-      BddTest().then('it should fetch the next page of programs', async () => {
-        await vi.waitFor(() => {
-          const programs = getSideMenuPrograms()
-          expect(programs.length).toBeGreaterThan(4)
-        })
-
-        const programs = getSideMenuPrograms()
-        expect(programs).toHaveLength(8)
-        expect(programs[4].title).toBe('Formation déclarée 5')
-        expect(programs[5].title).toBe('Formation déclarée 6')
-      })
-
-      BddTest().then('it should accumulate programs without duplicates', async () => {
-        await vi.waitFor(() => {
-          const programs = getSideMenuPrograms()
-          expect(programs.length).toBe(8)
-        })
-
-        const programs = getSideMenuPrograms()
-        const uniqueIds = new Set(programs.map(p => p.id))
-        expect(uniqueIds.size).toBe(programs.length)
-      })
-    })
   })
 
   BddTest().when('the component is mounted with an id param', () => {
     beforeEach(async () => {
       route.params.id = 'declared-program-2'
       await mountComponentWithDefaults()
-    })
-
-    BddTest().then('it should set selectedProgramId from route params', () => {
-      const sideMenu = getSideMenu()
-      expect(sideMenu.props('selectedProgramId')).toBe('declared-program-2')
     })
 
     BddTest().then('it should render title and details for that program', async () => {
@@ -422,22 +300,6 @@ BddTest().given('a declared program detailed view component', () => {
         const dropdown = wrapper.findComponent(ManageDeclaredProgramDropdownStub)
         expect(dropdown.exists()).toBe(false)
       })
-    })
-  })
-
-  BddTest().when('the comoonent is mounted on mobile', () => {
-    beforeEach(async () => {
-      mockIsMobile.value = true
-
-      server.use(declaredProgramDetailedHandler)
-
-      wrapper = mountComponent(DeclaredProgramDetailedView, {
-        global: { stubs }
-      })
-    })
-
-    BddTest().then('it should not render the side menu', () => {
-      expect(wrapper.findComponent({ name: 'DeclaredProgramSideMenu' }).exists()).toBe(false)
     })
   })
 })

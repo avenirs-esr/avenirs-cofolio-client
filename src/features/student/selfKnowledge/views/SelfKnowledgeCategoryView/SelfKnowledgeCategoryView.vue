@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
 import { type ESelfKnowledgeCategory, invalidateGetSelfKnowledgeElements, useDeleteSelfKnowledgeElements, useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
@@ -10,15 +9,12 @@ import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ErrorCodes } from '@/common/constants'
 import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
-import SelfKnowledgeElementsSideMenu from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
-import SelfKnowledgeElementTabs from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
-import { useSelfKnowledgePaginatedElements } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
 import SelfKnowledgeElementDetails from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
 import SelfKnowledgeElementDetailsDropdown from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.vue'
 import { useToasterStore } from '@/store'
+import { toSentenceCase } from '@avenirs-esr/avenirs-dsav'
 import { useQueryClient } from '@tanstack/vue-query'
-import { useRouteQuery } from '@vueuse/router'
 import { useI18n } from 'vue-i18n'
 
 interface SelfKnowledgeCategoryViewProps {
@@ -34,21 +30,14 @@ const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
 const categoryId = computed(() => props.categoryId as ESelfKnowledgeCategory)
 
-const { categoryType } = useSelfKnowledgeCategory(categoryId)
+const { categoryTypeLabel } = useSelfKnowledgeCategory(categoryId)
 
 const queryClient = useQueryClient()
 
-const {
-  elements,
-  pageInfo,
-  loadMoreElements
-} = useSelfKnowledgePaginatedElements({
-  selfKnowledgeCategory: categoryId
-})
+const route = useRoute()
+const selectedElementId = computed(() => route.query.elementId as string)
 
-const selectedElementId: Ref<string> = useRouteQuery('elementId', computed(() => elements.value?.[0]?.id))
-
-const { data: selectedElementDetails, error } = useGetSelfKnowledgeElementDetails(selectedElementId, {
+const { data: selectedElementDetails, error } = useGetSelfKnowledgeElementDetails(selectedElementId.value, {
   query: { enabled: computed(() => !!selectedElementId.value) }
 })
 
@@ -75,11 +64,15 @@ function deleteSelfKnowledgeElement () {
   })
 }
 
-const isSelfKnowledgeNotFound = computed(() => originalErrorCode.value === ErrorCodes.SELF_KNOWLEDGE_ELEMENT_NOT_FOUND || isNotFound.value)
+const pageTitle = computed(() =>
+  `${toSentenceCase(categoryTypeLabel.value)} - ${selectedElementDetails.value?.title ?? ''}`)
 
-function onSelectElement (elementId: string) {
-  selectedElementId.value = elementId
-}
+const trailingLinks = computed(() => [
+  { text: toSentenceCase(categoryTypeLabel.value) },
+  { text: selectedElementDetails.value?.title ?? '' }
+])
+
+const isSelfKnowledgeNotFound = computed(() => originalErrorCode.value === ErrorCodes.SELF_KNOWLEDGE_ELEMENT_NOT_FOUND || isNotFound.value)
 
 function onUpdateSelected () {
   navigateToStudentSelfKnowledgeElementUpdate({
@@ -90,7 +83,10 @@ function onUpdateSelected () {
 </script>
 
 <template>
-  <DetailedPageTitle :title="selectedElementDetails?.title ?? ''" />
+  <DetailedPageTitle
+    :title="pageTitle"
+    :trailing-links="trailingLinks"
+  />
 
   <QuerySuspense :error="error">
     <template #error>
@@ -101,38 +97,16 @@ function onUpdateSelected () {
       />
     </template>
 
-    <div
-      v-if="elements.length > 0"
-      class="self-knowledge-category-elements-view av-row av-gap-sm"
-    >
-      <div class="av-col">
-        <SelfKnowledgeElementsSideMenu
-          :elements="elements"
-          :category-type="categoryType"
-          :selected-element-id="selectedElementId"
-          :count-elements="pageInfo.totalElements"
-          @select-element="onSelectElement"
-          @load-more-elements="loadMoreElements"
+    <SelfKnowledgeElementDetailsContainer v-if="selectedElementDetails">
+      <template #title>
+        <SelfKnowledgeElementDetailsDropdown
+          @update-selected="onUpdateSelected"
+          @delete-selected="openConfirmModal"
         />
-      </div>
-      <SelfKnowledgeElementDetailsContainer v-if="selectedElementDetails">
-        <template #title>
-          <SelfKnowledgeElementDetailsDropdown
-            @update-selected="onUpdateSelected"
-            @delete-selected="openConfirmModal"
-          />
-        </template>
+      </template>
 
-        <SelfKnowledgeElementTabs :category-type="categoryType">
-          <template #element>
-            <SelfKnowledgeElementDetails :element="selectedElementDetails" />
-          </template>
-          <template #associations>
-            Element associations placeholder
-          </template>
-        </SelfKnowledgeElementTabs>
-      </SelfKnowledgeElementDetailsContainer>
-    </div>
+      <SelfKnowledgeElementDetails :element="selectedElementDetails" />
+    </SelfKnowledgeElementDetailsContainer>
   </QuerySuspense>
 
   <ConfirmationModal

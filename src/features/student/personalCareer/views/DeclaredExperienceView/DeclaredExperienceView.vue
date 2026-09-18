@@ -5,14 +5,12 @@ import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
-import { ErrorCodes, ICONS, ROUTES } from '@/common/constants'
-import DeclaredExperienceSideMenu from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.vue'
+import { ErrorCodes, ICONS } from '@/common/constants'
 import DeleteDeclaredExperienceConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
-import { usePaginatedDeclaredExperiences } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
 import DeclaredExperienceAssociations from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.vue'
 import DeclaredExperienceDetails from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
 import DeclaredExperienceDetailsDropdown from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.vue'
-import { AvTab, AvTabs, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
@@ -29,8 +27,6 @@ interface DeclaredExperienceViewProps {
 
 const { t } = useI18n()
 const route = useRoute()
-const router = useRouter()
-const { isMobile } = useAvBreakpoints()
 const activeTab = ref(DeclaredExperienceViewTabs.DETAILS)
 
 const { data: declaredExperienceDetailed, isLoading, error } = useGetDeclaredExperience(experienceId, { query: { placeholderData: keepPreviousData } })
@@ -50,12 +46,6 @@ const trailingLinks = computed(() => [
   { text: `${t('global.detail')} ${declaredExperienceDetailed.value?.title ?? ''}` }
 ])
 
-const {
-  declaredExperiences,
-  pageInfo,
-  loadMoreDeclaredExperiences
-} = usePaginatedDeclaredExperiences()
-
 const { data: associations, error: associationsError } = useGetDeclaredExperienceAssociations(experienceId, {
   query: { placeholderData: keepPreviousData }
 })
@@ -63,14 +53,6 @@ const { data: associations, error: associationsError } = useGetDeclaredExperienc
 const traceAssociations = computed(() => associations.value?.traceAssociations ?? [])
 const declaredSkillAssociations = computed(() => associations.value?.declaredSkillAssociations ?? [])
 const countAssociations = computed(() => traceAssociations.value.length + declaredSkillAssociations.value.length)
-
-function onSelectExperience (experienceId: string) {
-  router.replace({
-    name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
-    params: { id: experienceId },
-    state: { preserveScroll: true }
-  })
-}
 
 function handleUpdateSelected () {
   navigateToStudentUpdateDeclaredExperience({})
@@ -87,67 +69,53 @@ function handleConfirmDelete () {
     :title="experienceTitle"
     :trailing-links="trailingLinks"
   />
-  <div class="declared-experience-update-view av-row av-gap-sm">
-    <div
-      v-if="!isMobile"
-      class="av-col"
-    >
-      <DeclaredExperienceSideMenu
-        :experience-count="pageInfo.totalElements"
-        :experiences="declaredExperiences"
-        :selected-experience-id="selectedExperienceId"
-        @select-experience="onSelectExperience"
-        @load-more-experiences="loadMoreDeclaredExperiences"
+  <QuerySuspense
+    :error="error"
+    :is-loading="isLoading"
+  >
+    <template #error>
+      <ErrorMessage
+        v-if="error"
+        :title="isDeclaredExperienceNotFound ? t('student.personalCareer.views.DeclaredExperienceView.errors.notFound.title') : t('global.error.generic')"
+        :description="isDeclaredExperienceNotFound ? t('student.personalCareer.views.DeclaredExperienceView.errors.notFound.description') : getErrorMessage(error)"
       />
-    </div>
-    <QuerySuspense
-      :error="error"
-      :is-loading="isLoading"
+    </template>
+
+    <div
+      v-if="declaredExperienceDetailed"
+      class="av-col av-gap-md av-flex-fill"
     >
-      <template #error>
-        <ErrorMessage
-          v-if="error"
-          :title="isDeclaredExperienceNotFound ? t('student.personalCareer.views.DeclaredExperienceView.errors.notFound.title') : t('global.error.generic')"
-          :description="isDeclaredExperienceNotFound ? t('student.personalCareer.views.DeclaredExperienceView.errors.notFound.description') : getErrorMessage(error)"
-        />
-      </template>
+      <DeclaredExperienceDetailsDropdown
+        @delete-selected="openModal"
+        @update-selected="handleUpdateSelected"
+      />
 
-      <div
-        v-if="declaredExperienceDetailed"
-        class="av-col av-gap-md av-flex-fill"
-      >
-        <DeclaredExperienceDetailsDropdown
-          @delete-selected="openModal"
-          @update-selected="handleUpdateSelected"
-        />
+      <AvTabs v-model="activeTab">
+        <AvTab
+          :title="t('student.personalCareer.views.DeclaredExperienceView.tabs.details.title')"
+          :icon="MDI_ICONS.INFORMATION_OUTLINE"
+        >
+          <DeclaredExperienceDetails
+            :key="declaredExperienceDetailed.id"
+            :declared-experience-details="declaredExperienceDetailed"
+          />
+        </AvTab>
 
-        <AvTabs v-model="activeTab">
-          <AvTab
-            :title="t('student.personalCareer.views.DeclaredExperienceView.tabs.details.title')"
-            :icon="MDI_ICONS.INFORMATION_OUTLINE"
-          >
-            <DeclaredExperienceDetails
-              :key="declaredExperienceDetailed.id"
-              :declared-experience-details="declaredExperienceDetailed"
-            />
-          </AvTab>
-
-          <AvTab
-            :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
-            :icon="ICONS.ASSOCIATIONS"
-            data-testid="declared-experience-associations-tab-item"
-          >
-            <DeclaredExperienceAssociations
-              :declared-experience-id="experienceId"
-              :trace-associations="traceAssociations"
-              :declared-skill-associations="declaredSkillAssociations"
-              :associations-error="associationsError"
-            />
-          </AvTab>
-        </AvTabs>
-      </div>
-    </QuerySuspense>
-  </div>
+        <AvTab
+          :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
+          :icon="ICONS.ASSOCIATIONS"
+          data-testid="declared-experience-associations-tab-item"
+        >
+          <DeclaredExperienceAssociations
+            :declared-experience-id="experienceId"
+            :trace-associations="traceAssociations"
+            :declared-skill-associations="declaredSkillAssociations"
+            :associations-error="associationsError"
+          />
+        </AvTab>
+      </AvTabs>
+    </div>
+  </QuerySuspense>
 
   <DeleteDeclaredExperienceConfirmModal
     :opened="modalOpened"
