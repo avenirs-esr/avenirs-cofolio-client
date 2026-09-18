@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useGetDeclaredProgram } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
+import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants'
-import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import DeclaredProgramUpdateForm
   from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/DeclaredProgramUpdateForm/DeclaredProgramUpdateForm.vue'
 import { useI18n } from 'vue-i18n'
@@ -47,7 +47,7 @@ function onProgramUpdated () {
     :trailing-links="trailingLinks"
   />
   <div class="av-col av-gap-sm av-justify-start av-flex-fill">
-    <UpdateInProgressBadge :show="isDirty" />
+    <UpdateInProgressBadge show />
     <DeclaredProgramUpdateForm
       v-if="declaredProgramDetailed"
       :key="declaredProgramDetailed.id"

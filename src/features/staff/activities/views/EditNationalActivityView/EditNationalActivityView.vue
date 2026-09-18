@@ -15,6 +15,7 @@ import {
   useUploadDraftBanner,
 } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
+import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
@@ -66,6 +67,7 @@ const { isLoading, withTaskLoading } = useTaskLoading()
 const mode: Ref<string> = useRouteQuery('mode', 'edit')
 const queryClient = useQueryClient()
 
+const isEditMode = computed(() => mode.value !== 'add')
 const title = computed(() => t(`staff.global.navigation.tabs.activities.items.${mode.value === 'add' ? 'addNationalActivity' : 'editNationalActivity'}`))
 
 const {
@@ -292,48 +294,51 @@ provideEditNationalActivityViewContext({ form, isUpdating, isExecutionPeriodEnab
     :title="title"
     :trailing-links="trailingLinks"
   />
-  <QuerySuspense
-    :is-loading="contentIsLoading || presentationIsLoading"
-    :error="contentError ?? presentationError"
-    :error-title="t('staff.activities.views.EditNationalActivityView.errors.fetchActivityContent')"
-  >
-    <div class="av-row av-w-full av-gap-xl">
-      <AddNationalActivitySideNavigation
-        v-if="!isMobile"
-        :active-tab="activeTab"
-      />
-      <div class="av-col av-flex-fill">
-        <AvTabs
-          v-model="activeTab"
-          data-testid="add-national-activity-tabs"
-        >
-          <AvTab
-            :title="t('staff.activities.views.EditNationalActivityView.ActivityContentTab.title')"
-            :icon="MDI_ICONS.PENCIL_OUTLINE"
-            :disabled="activeTab !== EditActivityTabIndex.CONTENT && savePending"
-            :is-loading="activeTab === EditActivityTabIndex.CONTENT && savePending"
-            data-testid="activity-content-tab-item"
+  <div class="av-col av-gap-sm">
+    <UpdateInProgressBadge :show="isEditMode" />
+    <QuerySuspense
+      :is-loading="contentIsLoading || presentationIsLoading"
+      :error="contentError ?? presentationError"
+      :error-title="t('staff.activities.views.EditNationalActivityView.errors.fetchActivityContent')"
+    >
+      <div class="av-row av-w-full av-gap-xl">
+        <AddNationalActivitySideNavigation
+          v-if="!isMobile"
+          :active-tab="activeTab"
+        />
+        <div class="av-col av-flex-fill">
+          <AvTabs
+            v-model="activeTab"
+            data-testid="add-national-activity-tabs"
           >
-            <ActivityContentTab
-              :activity="content!"
-              @next-step="onNextStep"
-            />
-          </AvTab>
-          <AvTab
-            :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.title')"
-            :icon="RI_ICONS.SEND_PLANE_LINE"
-            :disabled="activeTab !== EditActivityTabIndex.PUBLICATION && savePending"
-            :is-loading="activeTab === EditActivityTabIndex.PUBLICATION && savePending"
-            data-testid="activity-publication-tab-item"
-          >
-            <ActivityPublicationTab
-              v-model="bannerFile"
-              :activity="presentation!"
-              @published="onPublished"
-            />
-          </AvTab>
-        </AvTabs>
+            <AvTab
+              :title="t('staff.activities.views.EditNationalActivityView.ActivityContentTab.title')"
+              :icon="MDI_ICONS.PENCIL_OUTLINE"
+              :disabled="activeTab !== EditActivityTabIndex.CONTENT && savePending"
+              :is-loading="activeTab === EditActivityTabIndex.CONTENT && savePending"
+              data-testid="activity-content-tab-item"
+            >
+              <ActivityContentTab
+                :activity="content!"
+                @next-step="onNextStep"
+              />
+            </AvTab>
+            <AvTab
+              :title="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.title')"
+              :icon="RI_ICONS.SEND_PLANE_LINE"
+              :disabled="activeTab !== EditActivityTabIndex.PUBLICATION && savePending"
+              :is-loading="activeTab === EditActivityTabIndex.PUBLICATION && savePending"
+              data-testid="activity-publication-tab-item"
+            >
+              <ActivityPublicationTab
+                v-model="bannerFile"
+                :activity="presentation!"
+                @published="onPublished"
+              />
+            </AvTab>
+          </AvTabs>
+        </div>
       </div>
-    </div>
-  </QuerySuspense>
+    </QuerySuspense>
+  </div>
 </template>

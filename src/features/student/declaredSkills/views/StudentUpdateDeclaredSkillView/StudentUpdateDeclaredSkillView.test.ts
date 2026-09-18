@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { StudentDeclaredSkillAssociationsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.stub'
 import { UpdateDeclaredSkillFormStub } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.stub'
 import StudentUpdateDeclaredSkillView from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/StudentUpdateDeclaredSkillView.vue'
-import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -104,9 +104,9 @@ BddTest().given('a student update declared skill view component', () => {
       })
     })
 
-    BddTest().then('it should not show the update in progress badge initially', () => {
+    BddTest().then('it should always render the update in progress badge', () => {
       const badge = wrapper.find('[data-testid="update-in-progress-badge"]')
-      expect(badge.exists()).toBe(false)
+      expect(badge.exists()).toBe(true)
     })
 
     BddTest().then('it should render StudentDeclaredSkillAssociations with correct props', async () => {
@@ -150,20 +150,7 @@ BddTest().given('a student update declared skill view component', () => {
   })
 
   BddTest().when('the form emits dirty-change event', () => {
-    BddTest().then('it should show the update in progress badge when dirty is true', async () => {
-      await vi.waitFor(() => {
-        const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
-        expect(form.exists()).toBe(true)
-      })
-      const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
-      await form.vm.$emit('dirty-change', true)
-      await wrapper.vm.$nextTick()
-
-      const badge = wrapper.find('[data-testid="update-in-progress-badge"]')
-      expect(badge.exists()).toBe(true)
-    })
-
-    BddTest().then('it should hide the update in progress badge when dirty is false', async () => {
+    BddTest().then('it should keep showing the update in progress badge regardless of dirty state', async () => {
       await vi.waitFor(() => {
         const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
         expect(form.exists()).toBe(true)
@@ -179,7 +166,7 @@ BddTest().given('a student update declared skill view component', () => {
       await wrapper.vm.$nextTick()
 
       badge = wrapper.find('[data-testid="update-in-progress-badge"]')
-      expect(badge.exists()).toBe(false)
+      expect(badge.exists()).toBe(true)
     })
   })
 

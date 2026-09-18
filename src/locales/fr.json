@@ -132,6 +132,9 @@
         "experience": "1 expérience | {count} expériences",
         "skill": "1 compétence | {count} compétences",
         "trace": "1 trace | {count} traces"
+      },
+      "UpdateInProgressBadge": {
+        "label": "Modification en cours"
       }
     },
     "beginning": "Début",

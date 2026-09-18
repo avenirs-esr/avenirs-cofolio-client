@@ -1,8 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { createMockedDeclaredExperienceAssociationsDTO } from '@/__mocks__/fixtures/student'
+import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants/route-names'
-import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import DeclaredExperienceUpdateView from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'
 import { DeclaredExperienceAssociationsStub } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.stub'
 import { AvIconTextStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -77,6 +77,12 @@ BddTest().given('a declared experience update view', () => {
     BddTest().then('it should render UpdatePageTitle', () => {
       const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
       expect(pageTitle.exists()).toBe(true)
+    })
+
+    BddTest().then('it should always render the update in progress badge', () => {
+      const badge = wrapper.findComponent(UpdateInProgressBadgeStub)
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('show')).toBe(true)
     })
 
     BddTest().then('it should render DeclaredExperienceAssociations with correct props', async () => {

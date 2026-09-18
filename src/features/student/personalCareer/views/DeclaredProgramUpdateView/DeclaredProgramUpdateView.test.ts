@@ -1,9 +1,9 @@
 import { declaredProgramDetailedHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants'
-import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import DeclaredProgramUpdateView from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/DeclaredProgramUpdateView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -144,10 +144,10 @@ BddTest().given('a declared program update view component', () => {
       })
     })
 
-    BddTest().then('it should not render the wip badge by default', () => {
+    BddTest().then('it should always render the wip badge', () => {
       const badge = wrapper.findComponent(UpdateInProgressBadgeStub)
       expect(badge.exists()).toBe(true)
-      expect(badge.props('show')).toBe(false)
+      expect(badge.props('show')).toBe(true)
     })
 
     BddTest().and('when the form becomes dirty', () => {
@@ -160,7 +160,7 @@ BddTest().given('a declared program update view component', () => {
         await flushPromises()
       })
 
-      BddTest().then('it should render the wip badge', () => {
+      BddTest().then('it should keep rendering the wip badge', () => {
         const badge = wrapper.findComponent(UpdateInProgressBadgeStub)
 
         expect(badge.exists()).toBe(true)

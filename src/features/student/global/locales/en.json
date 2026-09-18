@@ -1,9 +1,6 @@
 {
   "student": {
     "global": {
-      "badges": {
-        "UpdateInProgress": "Modification en cours"
-      },
       "cards": {
         "ActivityModifiedNotificationCard": {
           "content": "The activity \"{activityName}\" has been updated. The following section has been modified: {sectionTypes}. | The activity \"{activityName}\" has been updated. The following sections have been modified: {sectionTypes}.",
