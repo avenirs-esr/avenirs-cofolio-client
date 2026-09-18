@@ -21,8 +21,8 @@ export const STUDENT_ROUTES = {
     PERSONAL_CAREER: {
       EXPERIENCES: '/cofolio/student/project/personal-career/experiences',
     },
-    TRAJECTORIES: {
-      SELF_KNOWLEDGE: '/cofolio/student/project/trajectories?section=SELF_KNOWLEDGE',
+    BUILD_PROJECT: {
+      SELF_KNOWLEDGE: '/cofolio/student/project/build-project?section=SELF_KNOWLEDGE',
     },
   },
   SKILLS: '/cofolio/student/skills',

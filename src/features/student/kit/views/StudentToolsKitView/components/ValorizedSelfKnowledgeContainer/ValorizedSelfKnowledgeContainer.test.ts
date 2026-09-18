@@ -4,7 +4,7 @@ import { createSelfKnowledgeElementsHandler, selfKnowledgeCategoryElementsErrorH
 import { server } from '@/__mocks__/msw/server'
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
-import { ProjectTrajectoryItems } from '@/features/student/global/views/StudentProjectTrajectoriesView/types'
+import { BuildProjectItems } from '@/features/student/global/views/StudentBuildProjectView/types'
 import { ValorizedElementsCardContainerStub } from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.stub'
 import ValorizedSelfKnowledgeContainer from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedSelfKnowledgeContainer/ValorizedSelfKnowledgeContainer.vue'
 import { ValorizedSelfKnowledgeItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedSelfKnowledgeItem/ValorizedSelfKnowledgeItem.stub'
@@ -126,8 +126,8 @@ BddTest().given('a valorized self knowledge container', () => {
 
       BddTest().then('it should fall back to the self knowledge section link', () => {
         expect(wrapper.findComponent(ValorizedElementsCardContainerStub).props('seeAllTo')).toEqual({
-          name: ROUTES.STUDENT.PROJECT_TRAJECTORIES.name,
-          query: { section: ProjectTrajectoryItems.SELF_KNOWLEDGE }
+          name: ROUTES.STUDENT.BUILD_PROJECT.name,
+          query: { section: BuildProjectItems.SELF_KNOWLEDGE }
         })
       })
     })
@@ -189,8 +189,8 @@ BddTest().given('a valorized self knowledge container', () => {
         expect(container.props('emptyStateMessage')).toBe('Vous n\'avez pas encore valorisé ce type de contenu, ajoutez et valorisez une information afin de constituer votre kit')
         expect(container.props('seeAllLabel')).toBe('Voir toutes mes autres informations')
         expect(container.props('seeAllTo')).toEqual({
-          name: ROUTES.STUDENT.PROJECT_TRAJECTORIES.name,
-          query: { section: ProjectTrajectoryItems.SELF_KNOWLEDGE }
+          name: ROUTES.STUDENT.BUILD_PROJECT.name,
+          query: { section: BuildProjectItems.SELF_KNOWLEDGE }
         })
       })
 

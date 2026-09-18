@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ICONS, ROUTES, studentActivtiesRoutes, studentPersonalCareerRoutes, studentProjectTrajectoriesRoutes, studentSkillsRoutes } from '@/common/constants'
+import { ICONS, ROUTES, studentActivtiesRoutes, studentPersonalCareerRoutes, studentProjectBuildProjectRoutes, studentSkillsRoutes } from '@/common/constants'
 import { isRouteActive } from '@/common/utils/route/route'
 import { studentToolsTracesRoutes } from '@/features/student/traces/routes'
 import { AvNavigation, ICONS_DATA_URL, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -45,7 +45,7 @@ const buildLifeProjectMenu = computed(() => ({
   get active () {
     return isRouteActive({ route, routes: [
       ...studentPersonalCareerRoutes,
-      ...studentProjectTrajectoriesRoutes
+      ...studentProjectBuildProjectRoutes
     ] })
   },
   links: [
@@ -55,10 +55,10 @@ const buildLifeProjectMenu = computed(() => ({
       icon: ICONS_DATA_URL.TEXT_BULLET_LIST_SPARKLE,
     },
     {
-      to: ROUTES.STUDENT.PROJECT_TRAJECTORIES,
-      text: t('student.global.navigation.tabs.project.items.trajectories'),
+      to: ROUTES.STUDENT.BUILD_PROJECT,
+      text: t('student.global.navigation.tabs.project.items.buildProject'),
       icon: RI_ICONS.DRAW_LINE,
-      highlight: isRouteActive({ route, routes: studentProjectTrajectoriesRoutes })
+      highlight: isRouteActive({ route, routes: studentProjectBuildProjectRoutes })
     },
   ],
 }))

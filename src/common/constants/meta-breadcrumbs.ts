@@ -21,7 +21,7 @@ export const META_BREADCRUMBS = {
     },
     HOME: { textKey: 'student.global.navigation.tabs.home', to: ROUTES.STUDENT.HOME },
     PROJECT: {
-      BUILD_PROJECT: { textKey: 'student.global.navigation.tabs.project.items.trajectories', to: ROUTES.STUDENT.PROJECT_TRAJECTORIES },
+      BUILD_PROJECT: { textKey: 'student.global.navigation.tabs.project.items.buildProject', to: ROUTES.STUDENT.BUILD_PROJECT },
       DEFAULT: { textKey: 'student.global.navigation.tabs.project.header' },
       PERSONAL_CAREER: {
         DECLARED_PROGRAMS: { textKey: 'student.personalCareer.views.PersonalCareerView.ProgramsSection.breadcrumb', to: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS },
@@ -103,7 +103,7 @@ export const BASE_BREADCRUMBS = {
       META_BREADCRUMBS.STUDENT.ACTIVITIES,
     ],
     PROJECT: {
-      BUILD_PROJECT: {
+      LIFE_PROJECT: {
         BUILD_PROJECT: [
           ...BASE_STUDENT_PROJECT_BREADCRUMBS,
           { textKey: META_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT.textKey },

@@ -9,7 +9,7 @@ Feature: Student Project Self-Knowledge Main Section Page
     @high
     Scenario: Student can load project self knowledge main section page successfully
       Then the student project self knowledge main section page is displayed
-      And the URL contains "/cofolio/student/project/trajectories?section=SELF_KNOWLEDGE"
+      And the URL contains "/cofolio/student/project/build-project?section=SELF_KNOWLEDGE"
     
     @high @self-knowledge @title
     Scenario: Self-knowledge section title is displayed

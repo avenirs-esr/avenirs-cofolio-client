@@ -27,6 +27,7 @@ export const ROUTES = {
     ACTIVITIES_CATALOG: { name: 'student-activities-catalog', path: 'activities/catalog/:thematic?/:id?' },
     ACTIVITIES: { name: 'student-activities', path: 'activities' },
     ACTIVITY: { name: 'student-activity', path: 'activity/:id' },
+    BUILD_PROJECT: { name: 'student-build-project', path: 'project/build-project' },
     COOKIES: { name: 'student-cookies', path: 'cookies' },
     DECLARED_EXPERIENCE: { name: 'student-declared-experience', path: 'declared-experience/:id' },
     DECLARED_SKILL: { name: 'student-project-declared-skill', path: 'declared-skill/:id' },
@@ -41,7 +42,6 @@ export const ROUTES = {
     PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM: { name: 'personal-career-update-declared-program', path: 'project/personal-career/update-declared-programs/:id' },
     PERSONAL_CAREER: { name: 'student-project-personal-career', path: 'project/personal-career', },
     PERSONAL_DATA: { name: 'student-personal-data', path: 'personal-data' },
-    PROJECT_TRAJECTORIES: { name: 'student-project-trajectories', path: 'project/trajectories' },
     SELFKNOWLEDGE_CATEGORY: { name: 'student-self-knowledge-category', path: 'project/trajectories/self-knowledge/:id' },
     SELFKNOWLEDGE_ELEMENT_UPDATE: { name: 'student-self-knowledge-element-update', path: 'project/trajectories/self-knowledge/:categoryId/:elementId/update' },
     SKILLS: { name: 'student-skills', path: 'skills' },
@@ -78,6 +78,6 @@ export const studentSkillsRoutes = [
   ROUTES.STUDENT.UPDATE_DECLARED_SKILL,
 ]
 
-export const studentProjectTrajectoriesRoutes = [
-  ROUTES.STUDENT.PROJECT_TRAJECTORIES,
+export const studentProjectBuildProjectRoutes = [
+  ROUTES.STUDENT.BUILD_PROJECT,
 ]

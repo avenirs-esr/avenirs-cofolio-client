@@ -8,8 +8,8 @@ import { expect, type Page } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 export
-@Fixture<typeof test>('studentTrajectoriesSelfKnowledgePage')
-class StudentTrajectoriesSelfKnowledgePage extends BasePage {
+@Fixture<typeof test>('studentBuildProjectSelfKnowledgePage')
+class StudentBuildProjectSelfKnowledgePage extends BasePage {
   constructor (public page: Page) {
     super(page)
   }
@@ -58,7 +58,7 @@ class StudentTrajectoriesSelfKnowledgePage extends BasePage {
 
   @Given('the student opens the project self knowledge main section page')
   async goto () {
-    await this.page.goto(STUDENT_ROUTES.PROJECT.TRAJECTORIES.SELF_KNOWLEDGE)
+    await this.page.goto(STUDENT_ROUTES.PROJECT.BUILD_PROJECT.SELF_KNOWLEDGE)
     await waitForPageLoad(this.page)
 
     await this.navigateToSelfKnowledgeSection()
@@ -67,7 +67,7 @@ class StudentTrajectoriesSelfKnowledgePage extends BasePage {
 
   @Then('the student project self knowledge main section page is displayed')
   async verifyPageLoaded () {
-    await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.TRAJECTORIES.SELF_KNOWLEDGE)
+    await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.BUILD_PROJECT.SELF_KNOWLEDGE)
   }
 
   @Then('the self-knowledge section title is displayed')

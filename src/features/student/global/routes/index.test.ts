@@ -10,14 +10,14 @@ import PersonalDataView
 import routes from '@/features/student/global/routes'
 import StudentAboutView
   from '@/features/student/global/views/StudentAboutView/StudentAboutView.vue'
+import StudentBuildProjectView
+  from '@/features/student/global/views/StudentBuildProjectView/StudentBuildProjectView.vue'
 import StudentDeliverablesView
   from '@/features/student/global/views/StudentDeliverablesView/StudentDeliverablesView.vue'
 import StudentEventsView
   from '@/features/student/global/views/StudentEventsView/StudentEventsView.vue'
 import StudentHomeView
   from '@/features/student/global/views/StudentHomeView/StudentHomeView.vue'
-import StudentProjectTrajectoriesView
-  from '@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'
 import StudentToolsKitView from '@/features/student/kit/views/StudentToolsKitView/StudentToolsKitView.vue'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
 import { declaredExperienceRoute, declaredExperienceUpdateRoute } from '@/features/student/personalCareer/routes'
@@ -83,9 +83,9 @@ testRoute(declaredExperienceRoute, ROUTES.STUDENT.DECLARED_EXPERIENCE, DeclaredE
 testRoute(declaredExperienceUpdateRoute, ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE, DeclaredExperienceUpdateView)
 
 testRoute(
-  children.find(r => r.name === ROUTES.STUDENT.PROJECT_TRAJECTORIES.name)!,
-  ROUTES.STUDENT.PROJECT_TRAJECTORIES,
-  StudentProjectTrajectoriesView
+  children.find(r => r.name === ROUTES.STUDENT.BUILD_PROJECT.name)!,
+  ROUTES.STUDENT.BUILD_PROJECT,
+  StudentBuildProjectView
 )
 
 testRoute(

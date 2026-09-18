@@ -18,7 +18,7 @@ import { StudentHomePage } from '@e2e/framework/student/home/StudentHomePage'
 import { StudentDeclaredSkillDetailPage } from '@e2e/framework/student/lifeProject/declaredSkillDetails/StudentDeclaredSkillDetailPage'
 import { StudentProjectDeclaredSkillsTabsPage } from '@e2e/framework/student/lifeProject/declaredSkillsTabs/StudentProjectDeclaredSkillsTabsPage'
 import { StudentPersonalCareerExperiencesSectionPage } from '@e2e/framework/student/lifeProject/personalCareerExperiences/ExperiencesSectionPage'
-import { StudentTrajectoriesSelfKnowledgePage } from '@e2e/framework/student/lifeProject/selfKnowledge/StudentTrajectoriesSelfKnowledgePage'
+import { StudentBuildProjectSelfKnowledgePage } from '@e2e/framework/student/lifeProject/selfKnowledge/StudentBuildProjectSelfKnowledgePage'
 import { StudentGlobalSteps } from '@e2e/framework/student/shared/steps/StudentGlobalSteps'
 import { StudentNotificationsPopoverSteps } from '@e2e/framework/student/shared/steps/StudentNotificationsPopoverSteps'
 import { StudentToolsKitPage } from '@e2e/framework/student/tools/kit/StudentToolsKitPage'
@@ -47,7 +47,7 @@ interface Fixtures {
   studentPersonalCareerExperiencesSectionPage: StudentPersonalCareerExperiencesSectionPage
   studentActivitiesPage: StudentActivitiesPage
   studentActivityPage: StudentActivityPage
-  studentTrajectoriesSelfKnowledgePage: StudentTrajectoriesSelfKnowledgePage
+  studentBuildProjectSelfKnowledgePage: StudentBuildProjectSelfKnowledgePage
   studentActivitiesCatalogPage: StudentActivitiesCatalogPage
   studentProjectDeclaredSkillsTabsPage: StudentProjectDeclaredSkillsTabsPage
   studentToolsKitPage: StudentToolsKitPage
@@ -132,9 +132,9 @@ export const test = base.extend<Fixtures>({
     await setLocaleFromPage(page)
     await use(new StudentActivityPage(page))
   },
-  studentTrajectoriesSelfKnowledgePage: async ({ page }, use) => {
+  studentBuildProjectSelfKnowledgePage: async ({ page }, use) => {
     await setLocaleFromPage(page)
-    await use(new StudentTrajectoriesSelfKnowledgePage(page))
+    await use(new StudentBuildProjectSelfKnowledgePage(page))
   },
   studentActivitiesCatalogPage: async ({ page }, use) => {
     await setLocaleFromPage(page)
