@@ -3,8 +3,8 @@ import {
   type ActivityNavigationDTO,
   type ActivityOverviewDTO,
   type ActivityPresentationDTO,
+  type AssociationsDTO,
   type DeclaredActivityAssociationDTO,
-  type DeclaredActivityAssociationsDTO,
   type DeclaredActivityDetailsDTO,
   type DeclaredActivityViewDTO,
   EActivityThematic,
@@ -12,7 +12,7 @@ import {
   EFeedbackStatus,
   EFileType,
   ETraceAuthorType,
-  type PagedResponseAssociationSearchResultDeclaredActivityDTO,
+  type PagedResponseAssociationSearchResultDTO,
   type PagedResponseDeclaredActivityViewDTO,
   type TraceAssociationDTO
 } from '@/api/avenir-esr'
@@ -542,17 +542,21 @@ export function createMockedTraceAssociations (
   return traceAssociations
 }
 
-export const mockedDeclaredActivityAssociations: DeclaredActivityAssociationsDTO = {
+export const mockedDeclaredActivityAssociations: AssociationsDTO = {
   traceAssociations: createMockedTraceAssociations(6),
-  declaredSkillAssociations: createMockedDeclaredSkillAssociations(3)
+  declaredActivityAssociations: [],
+  declaredSkillAssociations: createMockedDeclaredSkillAssociations(3),
+  declaredExperienceAssociations: []
 }
 
 export function createMockedDeclaredActivityAssociationsDTO (
   idsToAssociate: string[]
-): DeclaredActivityAssociationsDTO {
+): AssociationsDTO {
   return {
     traceAssociations: createMockedTraceAssociations(idsToAssociate.length - 1, idsToAssociate),
-    declaredSkillAssociations: createMockedDeclaredSkillAssociations(1)
+    declaredActivityAssociations: [],
+    declaredSkillAssociations: createMockedDeclaredSkillAssociations(1),
+    declaredExperienceAssociations: []
   }
 }
 
@@ -560,7 +564,7 @@ export function createMockedPagedResponseAssociationSearchResultDeclaredActivity
   pageSize: number,
   page: number,
   keyword = ''
-): PagedResponseAssociationSearchResultDeclaredActivityDTO {
+): PagedResponseAssociationSearchResultDTO {
   const normalizedKeyword = keyword.toLowerCase()
 
   const filteredActivities = allDeclaredActivities.filter(activity =>

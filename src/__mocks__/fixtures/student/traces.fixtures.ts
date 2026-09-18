@@ -1,7 +1,6 @@
 import {
-  type AssociationSearchResultDeclaredActivityDTO,
-  type AssociationSearchResultDeclaredSkillIDTO,
-  type AssociationSearchResultTraceDTO,
+  type AssociationsDTO,
+  type AssociationSearchResultDTO,
   type DeclaredActivityAssociationDTO,
   type DeclaredSkillAssociationDTO,
   EActivityThematic,
@@ -11,13 +10,9 @@ import {
   EFileType,
   ETraceAuthorType,
   type FileDTO,
-  type PagedResponseAssociationSearchResultDeclaredActivityDTO,
-  type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
-  type PagedResponseAssociationSearchResultTraceDTO,
+  type PagedResponseAssociationSearchResultDTO,
   type PagedResponseTraceViewDTO,
-  type SearchTracesForAssociationParams,
-  type SearchTracesForAssociationWithDeclaredExperienceParams,
-  type TraceAssociationsDTO,
+  type SearchForAssociationParams,
   type TraceConfigurationDTO,
   type TraceDeclaredActivityDTO,
   type TraceFilter,
@@ -26,7 +21,6 @@ import {
   type TracesSummaryDTO,
   type TracesViewParams,
   type TraceViewDTO
-
 } from '@/api/avenir-esr'
 import { getFileTypeFromFileName } from '@/common/utils/file/file'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
@@ -242,13 +236,15 @@ export const mockedTraceDeclaredActivityAssociations: DeclaredActivityAssociatio
   }
 ]
 
-export const mockedTraceAssociations: TraceAssociationsDTO = {
+export const mockedTraceAssociations: AssociationsDTO = {
+  traceAssociations: [],
   declaredActivityAssociations: mockedTraceDeclaredActivityAssociations,
   declaredSkillAssociations: mockedTraceDeclaredSkillAssociations,
   declaredExperienceAssociations: []
 }
 
-export const mockedEmptyTraceAssociations: TraceAssociationsDTO = {
+export const mockedEmptyTraceAssociations: AssociationsDTO = {
+  traceAssociations: [],
   declaredActivityAssociations: [],
   declaredSkillAssociations: [],
   declaredExperienceAssociations: []
@@ -287,7 +283,7 @@ export const mockedTraceDetailedWithLink = {
   attachment: undefined,
 }
 
-export function createMockedSearchTracesForAssociationResponse (params: SearchTracesForAssociationParams = {}): PagedResponseAssociationSearchResultTraceDTO {
+export function createMockedSearchTracesForAssociationResponse (params: SearchForAssociationParams = {}): PagedResponseAssociationSearchResultDTO {
   const {
     isAssociated,
     keyword,
@@ -316,8 +312,8 @@ export function createMockedSearchTracesForAssociationResponse (params: SearchTr
 }
 
 export function createMockedSearchTracesForAssociationWithDeclaredExperienceResponse (
-  params?: SearchTracesForAssociationWithDeclaredExperienceParams
-): PagedResponseAssociationSearchResultTraceDTO {
+  params?: SearchForAssociationParams
+): PagedResponseAssociationSearchResultDTO {
   const {
     isAssociated,
     keyword,
@@ -362,7 +358,7 @@ export function createMockedSearchTracesForAssociationWithDeclaredExperienceResp
   const end = start + pageSize
   const paginatedTraces = filteredTraces.slice(start, end)
 
-  const data: AssociationSearchResultTraceDTO[] = paginatedTraces.map(trace => ({
+  const data: AssociationSearchResultDTO[] = paginatedTraces.map(trace => ({
     id: trace.id,
     title: trace.title,
     disabled: false
@@ -379,51 +375,51 @@ export function createMockedSearchTracesForAssociationWithDeclaredExperienceResp
   }
 }
 
-export const mockedTraceActivitySearchResults: AssociationSearchResultDeclaredActivityDTO[] = [
+export const mockedTraceActivitySearchResults: AssociationSearchResultDTO[] = [
   {
     id: 'activity-search-1',
     title: 'Définir ses valeurs',
-    thematic: EActivityThematic.SELF_KNOWLEDGE,
+    category: EActivityThematic.SELF_KNOWLEDGE,
     disabled: false
   },
   {
     id: 'activity-search-2',
     title: 'Explorer ses pistes d\'orientation',
-    thematic: EActivityThematic.FUTURE_PLANS,
+    category: EActivityThematic.FUTURE_PLANS,
     disabled: false
   },
   {
     id: 'activity-search-3',
     title: 'Construire son projet professionnel',
-    thematic: EActivityThematic.FUTURE_PLANS,
+    category: EActivityThematic.FUTURE_PLANS,
     disabled: true
   }
 ]
 
-export const mockedSkillSearchResults: AssociationSearchResultDeclaredSkillIDTO[] = [
+export const mockedSkillSearchResults: AssociationSearchResultDTO[] = [
   {
     id: 'skill-search-1',
     title: 'Gestion de projet agile',
-    type: EExternalSkillType.ROME4,
+    category: EExternalSkillType.ROME4,
     disabled: false
   },
   {
     id: 'skill-search-2',
     title: 'Communication interpersonnelle',
-    type: EExternalSkillType.XXI,
+    category: EExternalSkillType.XXI,
     disabled: false
   },
   {
     id: 'skill-search-3',
     title: 'Analyse de données',
-    type: EExternalSkillType.ROME4,
+    category: EExternalSkillType.ROME4,
     disabled: true
   }
 ]
 
 export function createMockedSearchSkillsForAssociationResponse (
   params?: { keyword?: string, page?: number, pageSize?: number }
-): PagedResponseAssociationSearchResultDeclaredSkillIDTO {
+): PagedResponseAssociationSearchResultDTO {
   const { keyword, page = 0, pageSize = 100 } = params ?? {}
 
   let filtered = mockedSkillSearchResults
@@ -451,7 +447,7 @@ export function createMockedSearchSkillsForAssociationResponse (
 
 export function createMockedSearchActivitiesForAssociationResponse (
   params?: { keyword?: string, page?: number, pageSize?: number }
-): PagedResponseAssociationSearchResultDeclaredActivityDTO {
+): PagedResponseAssociationSearchResultDTO {
   const { keyword, page = 0, pageSize = 100 } = params ?? {}
 
   let filtered = mockedTraceActivitySearchResults

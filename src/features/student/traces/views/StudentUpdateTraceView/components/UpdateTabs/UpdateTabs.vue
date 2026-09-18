@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TraceAssociationsDTO, TraceDetailDTO } from '@/api/avenir-esr'
+import type { AssociationsDTO, TraceDetailDTO } from '@/api/avenir-esr'
 import type { UpdateTraceForm as UpdateTraceFormApi } from '@/features/student/traces/types/forms.types'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ICONS } from '@/common/constants'
@@ -10,7 +10,7 @@ import { useI18n } from 'vue-i18n'
 
 interface UpdateTabsProps {
   trace: TraceDetailDTO
-  associations?: TraceAssociationsDTO
+  associations?: AssociationsDTO
   form: UpdateTraceFormApi
 }
 

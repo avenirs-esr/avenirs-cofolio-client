@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import type { IdTitleList } from '@/types'
-import { invalidateGetDeclaredActivityAssociations, useDeleteDeclaredActivityAssociations } from '@/api/avenir-esr'
+import { EAssociationContextType, invalidateGetAssociations, useUnassociate } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ICONS } from '@/common/constants'
@@ -32,11 +32,12 @@ const { isLoading, withTaskLoading } = useTaskLoading()
 
 const selectedIds = ref<string[]>([])
 
-const { mutate: mutateDeleteDeclaredActivityAssociations, isPending } = useDeleteDeclaredActivityAssociations()
+const { mutate: mutateDeleteDeclaredActivityAssociations, isPending } = useUnassociate()
 
 function deleteDeclaredActivityAssociations () {
   mutateDeleteDeclaredActivityAssociations({
-    declaredActivityId,
+    contextType: EAssociationContextType.DECLARED_ACTIVITY,
+    elementId: declaredActivityId,
     data: {
       idsToDelete: selectedIds.value
     }
@@ -48,7 +49,7 @@ function deleteDeclaredActivityAssociations () {
       })
     },
     onSuccess: async () => {
-      await withTaskLoading(() => invalidateGetDeclaredActivityAssociations(queryClient, declaredActivityId))
+      await withTaskLoading(() => invalidateGetAssociations(queryClient, EAssociationContextType.DECLARED_ACTIVITY, declaredActivityId))
       addSuccessMessage({
         timeout: 2000,
         description: t('student.activities.views.ActivityView.DeleteActivityAssociatedElementsModal.success'),

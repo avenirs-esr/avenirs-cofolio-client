@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type TraceDeclaredActivityDTO, useGetLockedDeclaredActivities, useGetTraceAssociations, useGetTraceDetail } from '@/api/avenir-esr'
+import { EAssociationContextType, type TraceDeclaredActivityDTO, useGetAssociations, useGetLockedDeclaredActivities, useGetTraceDetail } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
@@ -22,7 +22,7 @@ interface StudentUpdateTraceViewProps {
 const { traceId } = defineProps<StudentUpdateTraceViewProps>()
 
 const { data: trace } = useGetTraceDetail(toRef(() => traceId))
-const { data: associations } = useGetTraceAssociations(toRef(() => traceId))
+const { data: associations } = useGetAssociations(EAssociationContextType.TRACE, toRef(() => traceId))
 const { data: traceLockedDeclaredActivities, isFetching } = useGetLockedDeclaredActivities([traceId])
 
 const { t } = useI18n()

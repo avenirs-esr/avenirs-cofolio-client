@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useGetDeclaredExperience, useGetDeclaredExperienceAssociations } from '@/api/avenir-esr'
+import { EAssociationContextType, useGetAssociations, useGetDeclaredExperience } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
@@ -46,7 +46,7 @@ const trailingLinks = computed(() => [
   { text: `${t('global.detail')} ${declaredExperienceDetailed.value?.title ?? ''}` }
 ])
 
-const { data: associations, error: associationsError } = useGetDeclaredExperienceAssociations(experienceId, {
+const { data: associations, error: associationsError } = useGetAssociations(EAssociationContextType.DECLARED_EXPERIENCE, experienceId, undefined, {
   query: { placeholderData: keepPreviousData }
 })
 

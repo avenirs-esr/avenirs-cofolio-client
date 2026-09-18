@@ -9,11 +9,11 @@ import {
   mockedTraceDeclaredSkillAssociations
 } from '@/__mocks__/fixtures/student'
 import {
+  type AssociationsDTO,
   type DeclaredActivityAssociationDTO,
   EActivityThematic,
   EAssociationContextType,
-  EDeclaredActivityStatus,
-  type TraceAssociationsDTO
+  EDeclaredActivityStatus
 } from '@/api/avenir-esr'
 import { AssociationElementsDropdownStub }
   from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.stub'
@@ -267,7 +267,7 @@ BddTest().given('a student trace associations component', () => {
 
   BddTest().when('the component is mounted with only declared skill associations', () => {
     const declaredSkillAssociations = mockedTraceDeclaredSkillAssociations
-    const associationsProps = { declaredActivityAssociations: [], declaredSkillAssociations, declaredExperienceAssociations: [] }
+    const associationsProps = { traceAssociations: [], declaredActivityAssociations: [], declaredSkillAssociations, declaredExperienceAssociations: [] }
 
     beforeEach(() => {
       wrapper = mountComponent(TraceAssociations, {
@@ -327,7 +327,7 @@ BddTest().given('a student trace associations component', () => {
 
   BddTest().when('the component is mounted with only declared experience associations', () => {
     const declaredExperienceAssociations = createMockedDeclaredExperiencesAssociations(2)
-    const associationsProps: TraceAssociationsDTO = { declaredActivityAssociations: [], declaredSkillAssociations: [], declaredExperienceAssociations }
+    const associationsProps: AssociationsDTO = { traceAssociations: [], declaredActivityAssociations: [], declaredSkillAssociations: [], declaredExperienceAssociations }
 
     beforeEach(() => {
       wrapper = mountComponent(TraceAssociations, {
@@ -363,6 +363,7 @@ BddTest().given('a student trace associations component', () => {
       wrapper = mountComponent(TraceAssociations, {
         props: {
           associations: {
+            traceAssociations: [],
             declaredSkillAssociations: mockedTraceDeclaredSkillAssociations,
             declaredActivityAssociations: mockedTraceDeclaredActivityAssociations,
             declaredExperienceAssociations: createMockedDeclaredExperiencesAssociations(1)
@@ -434,7 +435,7 @@ BddTest().given('a student trace associations component', () => {
         }
       }
     ]
-    const associationsProps: TraceAssociationsDTO = { declaredActivityAssociations, declaredSkillAssociations: [], declaredExperienceAssociations: [] }
+    const associationsProps: AssociationsDTO = { traceAssociations: [], declaredActivityAssociations, declaredSkillAssociations: [], declaredExperienceAssociations: [] }
 
     beforeEach(() => {
       wrapper = mountComponent(TraceAssociations, {
@@ -506,7 +507,7 @@ BddTest().given('a student trace associations component', () => {
         status: EDeclaredActivityStatus.COMPLETED
       }
     }))
-    const associationsProps: TraceAssociationsDTO = { declaredActivityAssociations, declaredSkillAssociations: [], declaredExperienceAssociations: [] }
+    const associationsProps: AssociationsDTO = { traceAssociations: [], declaredActivityAssociations, declaredSkillAssociations: [], declaredExperienceAssociations: [] }
 
     beforeEach(() => {
       wrapper = mountComponent(TraceAssociations, {

@@ -1,15 +1,12 @@
 <script lang="ts" setup>
-import type {
-  AssociationActivity
-} from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
 import {
   type AssociationsCreationRequest,
   EAssociationContextType,
-  invalidateGetDeclaredSkillAssociations,
+  invalidateGetAssociations,
   invalidateGetDeclaredSkillProgressDetails,
-  invalidateSearchDeclaredActivitiesForAssociation,
-  useAssociateDeclaredSkillWithDeclaredActivities,
-  useSearchDeclaredActivitiesForAssociation
+  invalidateSearchForAssociation,
+  useAssociate,
+  useSearchForAssociation
 } from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useAssociationModal } from '@/features/student/global'
@@ -44,8 +41,6 @@ const {
 } = useAssociationModal()
 
 const params = computed(() => ({
-  excludeAssociatedWithElementId: declaredSkillId,
-  contextType: EAssociationContextType.DECLARED_SKILL,
   keyword: searchQuery.value.trim() || undefined,
   page: 0,
   pageSize: 100,
@@ -56,37 +51,35 @@ const {
   isError: isSearchError,
   error: searchError,
   isLoading: isSearchLoading
-} = useSearchDeclaredActivitiesForAssociation(params, {
-  query: {
-    select: response => response.data,
+} = useSearchForAssociation(
+  EAssociationContextType.DECLARED_SKILL,
+  computed(() => declaredSkillId),
+  EAssociationContextType.DECLARED_ACTIVITY,
+  params,
+  {
+    query: {
+      select: response => response.data,
+    }
   }
-})
+)
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
-const associationActivities = computed<AssociationActivity[]>(() => activities.value
-  ? (activities.value).map(activity => ({
-      id: activity.id,
-      title: activity.title,
-      thematic: activity.thematic,
-      disabled: activity.disabled
-    }))
-  : []
-)
-
-const { mutate: mutateAssociateDeclaredSkillWithDeclaredActivities, isPending } = useAssociateDeclaredSkillWithDeclaredActivities()
+const { mutate: mutateAssociateDeclaredSkillWithDeclaredActivities, isPending } = useAssociate()
 
 function associateDeclaredSkillWithActivities (data: AssociationsCreationRequest) {
   mutateAssociateDeclaredSkillWithDeclaredActivities({
-    declaredSkillProgressId: declaredSkillId,
+    contextType: EAssociationContextType.DECLARED_SKILL,
+    elementId: declaredSkillId,
+    associatedContextType: EAssociationContextType.DECLARED_ACTIVITY,
     data
   }, {
     onError: error => onAssociateMutationError(error),
     onSuccess: async (_, variables) => {
       await withTaskLoading(() => Promise.all([
-        invalidateGetDeclaredSkillProgressDetails(queryClient, variables.declaredSkillProgressId),
-        invalidateSearchDeclaredActivitiesForAssociation(queryClient),
-        invalidateGetDeclaredSkillAssociations(queryClient, variables.declaredSkillProgressId)
+        invalidateGetDeclaredSkillProgressDetails(queryClient, variables.elementId),
+        invalidateSearchForAssociation(queryClient, variables.contextType, variables.elementId, variables.associatedContextType),
+        invalidateGetAssociations(queryClient, variables.contextType, variables.elementId)
       ]))
 
       addSuccessMessage({
@@ -114,7 +107,7 @@ function onAssociate (ids: string[]) {
 <template>
   <AssociateActivitiesModal
     :opened="opened"
-    :activities="associationActivities"
+    :activities="activities ?? []"
     :is-loading="isSearchLoading || isPending || isLoading"
     @cancel="emit('cancel')"
     @search="onSearch"

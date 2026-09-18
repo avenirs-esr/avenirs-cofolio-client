@@ -1,7 +1,7 @@
 import {
   type AssociationsCreationRequest,
+  type AssociationsDTO,
   type DeclaredSkillAssociationDTO,
-  type DeclaredSkillAssociationsDTO,
   EActivityThematic,
   EDeclaredActivityStatus,
   EDeclaredSkillLevel,
@@ -26,7 +26,7 @@ export function createMockedDeclaredSkillAssociations (count: number): DeclaredS
   }))
 }
 
-export function createDeclaredSkillAssociationResponseFixture (associations: AssociationsCreationRequest): DeclaredSkillAssociationsDTO {
+export function createDeclaredSkillAssociationResponseFixture (associations: AssociationsCreationRequest): AssociationsDTO {
   const declaredExperienceAssociations = associations.idsToAssociate
     .filter(id => id.startsWith('experience-'))
     .map((experienceId, index) => ({
@@ -82,6 +82,7 @@ export function createDeclaredSkillAssociationResponseFixture (associations: Ass
   return {
     traceAssociations,
     declaredActivityAssociations,
+    declaredSkillAssociations: [],
     declaredExperienceAssociations
   }
 }

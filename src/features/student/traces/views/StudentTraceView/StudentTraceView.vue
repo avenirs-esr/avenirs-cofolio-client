@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
-import { useDownloadAttachment, useGetTraceAssociations, useGetTraceDetail } from '@/api/avenir-esr'
+import { EAssociationContextType, useDownloadAttachment, useGetAssociations, useGetTraceDetail } from '@/api/avenir-esr'
 import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
@@ -34,7 +34,7 @@ const {
 } = useModal()
 
 const { data: traceDetailed, error: traceDetailsError, isLoading } = useGetTraceDetail(traceId)
-const { data: traceAssociations, error: associationsError, isLoading: isAssociationsLoading } = useGetTraceAssociations(traceId)
+const { data: traceAssociations, error: associationsError, isLoading: isAssociationsLoading } = useGetAssociations(EAssociationContextType.TRACE, traceId)
 
 const selectedTraceIdsForDeletion = computed(() =>
   traceDetailed.value ? [traceDetailed.value.id] : []
