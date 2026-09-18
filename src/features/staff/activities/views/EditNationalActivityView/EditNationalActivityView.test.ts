@@ -2,6 +2,7 @@ import type { ActivityContentDTO, ActivityDraftUpdateRequest } from '@/api/aveni
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { createGetActivityContentDraftHandler, createUpdateActivityDraftHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { AddNationalActivitySideNavigationStub } from '@/features/staff/activities/components/navigation/AddNationalActivitySideNavigation/AddNationalActivitySideNavigation.stub'
@@ -90,6 +91,7 @@ BddTest().given('a national activity view', () => {
 
   const stubs = {
     PageTitle: PageTitleStub,
+    UpdateInProgressBadge: UpdateInProgressBadgeStub,
     QuerySuspense: QuerySuspenseStub,
     ActivityContentTab: ActivityContentTabStub,
     ActivityPublicationTab: ActivityPublicationTabStub,
@@ -162,6 +164,12 @@ BddTest().given('a national activity view', () => {
         { text: 'Créer mon activité' },
       ])
     })
+
+    BddTest().then('it should not render the update in progress badge', () => {
+      const badge = wrapper.findComponent(UpdateInProgressBadgeStub)
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('show')).toBe(false)
+    })
   })
 
   BddTest().when('the view is mounted in edit mode', () => {
@@ -177,6 +185,12 @@ BddTest().given('a national activity view', () => {
         { text: mockedActivityContent.title },
         { text: 'Modifier l\'activité' },
       ])
+    })
+
+    BddTest().then('it should always render the update in progress badge', () => {
+      const badge = wrapper.findComponent(UpdateInProgressBadgeStub)
+      expect(badge.exists()).toBe(true)
+      expect(badge.props('show')).toBe(true)
     })
   })
 

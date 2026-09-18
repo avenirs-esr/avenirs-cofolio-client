@@ -15,6 +15,7 @@ import {
   useUploadDraftBanner,
 } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
+import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
@@ -66,6 +67,7 @@ const { isLoading, withTaskLoading } = useTaskLoading()
 const mode: Ref<string> = useRouteQuery('mode', 'edit')
 const queryClient = useQueryClient()
 
+const isEditMode = computed(() => mode.value !== 'add')
 const title = computed(() => t(`staff.global.navigation.tabs.activities.items.${mode.value === 'add' ? 'addNationalActivity' : 'editNationalActivity'}`))
 
 const {
@@ -291,6 +293,10 @@ provideEditNationalActivityViewContext({ form, isUpdating, isExecutionPeriodEnab
   <PageTitle
     :title="title"
     :trailing-links="trailingLinks"
+  />
+  <UpdateInProgressBadge
+    class="av-pb-sm"
+    :show="isEditMode"
   />
   <QuerySuspense
     :is-loading="contentIsLoading || presentationIsLoading"

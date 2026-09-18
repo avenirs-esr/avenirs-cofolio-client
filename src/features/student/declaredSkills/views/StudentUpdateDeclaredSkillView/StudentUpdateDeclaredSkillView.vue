@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useGetDeclaredSkillAssociations, useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
+import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
@@ -8,7 +9,6 @@ import { ICONS, ROUTES } from '@/common/constants'
 import StudentDeclaredSkillAssociations
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.vue'
 import UpdateDeclaredSkillForm from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
-import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -78,7 +78,7 @@ async function handleCancel () {
 
   <UpdateInProgressBadge
     class="av-pb-sm"
-    :show="updateInProgress"
+    :show="true"
   />
 
   <AvTabs v-model="activeTab">
