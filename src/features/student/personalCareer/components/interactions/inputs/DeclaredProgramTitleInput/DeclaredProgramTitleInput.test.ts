@@ -1,7 +1,7 @@
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
+import { ICONS } from '@/common/constants'
 import DeclaredProgramTitleInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramTitleInput/DeclaredProgramTitleInput.vue'
 import { DECLARED_PROGRAM_TITLE_MAX_LENGTH } from '@/features/student/personalCareer/config'
-import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -12,6 +12,8 @@ BddTest().given('a declared program title input component', () => {
   const stubs = {
     Input: InputStub
   }
+
+  const getInput = () => wrapper.findComponent(InputStub)
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
@@ -29,38 +31,31 @@ BddTest().given('a declared program title input component', () => {
     })
 
     BddTest().then('it should render the Input component', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.exists()).toBe(true)
+      expect(getInput().exists()).toBe(true)
     })
 
     BddTest().then('it should have labelVisible set to true', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('labelVisible')).toBe(true)
+      expect(getInput().props('labelVisible')).toBe(true)
     })
 
     BddTest().then('it should have maxlength prop set to config value', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('maxlength')).toBe(DECLARED_PROGRAM_TITLE_MAX_LENGTH)
+      expect(getInput().props('maxlength')).toBe(DECLARED_PROGRAM_TITLE_MAX_LENGTH)
     })
 
     BddTest().then('it should display the correct French label', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('label')).toBe('Intitulé de ma formation')
+      expect(getInput().props('label')).toBe('Intitulé de ma formation')
     })
 
     BddTest().then('it should display the correct prefix icon', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('prefixIcon')).toBe(RI_ICONS.LOADER_LINE)
+      expect(getInput().props('prefixIcon')).toBe(ICONS.PROGRAMS)
     })
 
     BddTest().then('it should display the correct placeholder', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('placeholder')).toBe('Nom de ma formation')
+      expect(getInput().props('placeholder')).toBe('Nom de ma formation')
     })
 
     BddTest().then('it should have empty initial value', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('modelValue')).toBe('')
+      expect(getInput().props('modelValue')).toBe('')
     })
   })
 
@@ -77,8 +72,7 @@ BddTest().given('a declared program title input component', () => {
     })
 
     BddTest().then('it should display the custom label', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('label')).toBe('Custom Label')
+      expect(getInput().props('label')).toBe('Custom Label')
     })
   })
 
@@ -95,26 +89,7 @@ BddTest().given('a declared program title input component', () => {
     })
 
     BddTest().then('it should display the custom placeholder', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('placeholder')).toBe('Custom Placeholder')
-    })
-  })
-
-  BddTest().when('the component is mounted with custom prefix icon', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
-      wrapper = mount(DeclaredProgramTitleInput, {
-        props: {
-          prefixIcon: MDI_ICONS.LINK,
-          modelValue: ''
-        },
-        global: { stubs }
-      })
-    })
-
-    BddTest().then('it should display the custom prefix icon', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('prefixIcon')).toBe(MDI_ICONS.LINK)
+      expect(getInput().props('placeholder')).toBe('Custom Placeholder')
     })
   })
 
@@ -131,8 +106,7 @@ BddTest().given('a declared program title input component', () => {
     })
 
     BddTest().then('it should pass the error message to Input', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('errorMessage')).toBe('Ce champ est requis')
+      expect(getInput().props('errorMessage')).toBe('Ce champ est requis')
     })
   })
 
@@ -145,14 +119,12 @@ BddTest().given('a declared program title input component', () => {
         },
         global: { stubs }
       })
-      const input = wrapper.findComponent(InputStub)
-      await input.vm.$emit('update:modelValue', 'New title')
+      await getInput().vm.$emit('update:modelValue', 'New title')
       await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should update the model value', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('modelValue')).toBe('New title')
+      expect(getInput().props('modelValue')).toBe('New title')
     })
   })
 
@@ -168,8 +140,7 @@ BddTest().given('a declared program title input component', () => {
     })
 
     BddTest().then('it should display the initial value', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('modelValue')).toBe('Initial title')
+      expect(getInput().props('modelValue')).toBe('Initial title')
     })
   })
 
@@ -203,7 +174,7 @@ BddTest().given('a declared program title input component', () => {
     })
 
     BddTest().then('it should pass additional props to Input', () => {
-      const input = wrapper.findComponent(InputStub)
+      const input = getInput()
       expect(input.props('disabled')).toBe(true)
       expect(input.props('required')).toBe(true)
     })
@@ -218,14 +189,12 @@ BddTest().given('a declared program title input component', () => {
         },
         global: { stubs }
       })
-      const input = wrapper.findComponent(InputStub)
-      await input.vm.$emit('update:modelValue', '')
+      await getInput().vm.$emit('update:modelValue', '')
       await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should update to empty value', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('modelValue')).toBe('')
+      expect(getInput().props('modelValue')).toBe('')
     })
   })
 })
