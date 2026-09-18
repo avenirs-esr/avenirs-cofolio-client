@@ -18,8 +18,8 @@ const { t } = useI18n()
       <StudentOverviewWidget />
     </div>
     <div class="layout-home__main av-col av-gap-xl">
-      <ActivitiesWidget is-new />
       <ActivitiesWidget />
+      <ActivitiesWidget is-new />
       <TracesWidget />
     </div>
   </div>
