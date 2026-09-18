@@ -4,16 +4,12 @@ import TextInputNode from '@/common/components/VueFlow/TextInputNode/TextInputNo
 import { useEdges } from '@/common/composables/VueFlow/use-edges/use-edges'
 import { useFlowScreenshot } from '@/common/composables/VueFlow/use-flow-screenshot/use-flow-screenshot'
 import { useFlowHistoryStore } from '@/common/stores/flow-history.store'
-import AddResearchButtonNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/AddResearchButtonNode/AddResearchButtonNode.vue'
 import AddSelfKnowledgeCategoryButtonNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/AddSelfKnowledgeCategoryButtonNode/AddSelfKnowledgeCategoryButtonNode.vue'
 import AddSelfKnowledgeElementButtonNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/AddSelfKnowledgeElementButtonNode/AddSelfKnowledgeElementButtonNode.vue'
-import AddTrajectoryButtonNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/AddTrajectoryButtonNode/AddTrajectoryButtonNode.vue'
 import MainSectionNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MainSectionNode/MainSectionNode.vue'
 import { MIND_MAP_FLOW_ID } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/config'
-import ResearchNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/ResearchNode/ResearchNode.vue'
 import SelfKnowledgeCategoryNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/SelfKnowledgeCategoryNode/SelfKnowledgeCategoryNode.vue'
 import SelfKnowledgeElementNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/SelfKnowledgeElementNode/SelfKnowledgeElementNode.vue'
-import TrajectoryNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/TrajectoryNode/TrajectoryNode.vue'
 import UserNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/UserNode/UserNode.vue'
 import { useMindMapFlow } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/composables/use-mind-map-flow/use-mind-map-flow'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -106,18 +102,6 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
         </template>
         <template #node-self-knowledge-element="selfKnowledgeElementNodeProps">
           <SelfKnowledgeElementNode v-bind="selfKnowledgeElementNodeProps" />
-        </template>
-        <template #node-trajectory="trajectoryNodeProps">
-          <TrajectoryNode v-bind="trajectoryNodeProps" />
-        </template>
-        <template #node-add-trajectory-button="addTrajectoryButtonNodeProps">
-          <AddTrajectoryButtonNode v-bind="addTrajectoryButtonNodeProps" />
-        </template>
-        <template #node-research="researchNodeProps">
-          <ResearchNode v-bind="researchNodeProps" />
-        </template>
-        <template #node-add-research-button="addResearchButtonNodeProps">
-          <AddResearchButtonNode v-bind="addResearchButtonNodeProps" />
         </template>
         <template #node-text-input="textInputNodeProps">
           <TextInputNode

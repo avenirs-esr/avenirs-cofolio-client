@@ -7,9 +7,11 @@ import { useI18n } from 'vue-i18n'
 export interface MoreActionsDropdownProps {
   entityName?: string
   actions: (Action | ActionItem)[]
+  icon?: string
+  iconOnly?: boolean
 }
 
-const { entityName, actions } = defineProps<MoreActionsDropdownProps>()
+const { entityName, actions, icon, iconOnly = false } = defineProps<MoreActionsDropdownProps>()
 
 const emit = defineEmits<{
   (e: 'actionSelected', action: Action): void
@@ -45,13 +47,16 @@ const actionItems = computed(() =>
       }
     })
 )
+
+const triggerLabel = computed(() => iconOnly ? undefined : label.value)
 </script>
 
 <template>
   <AvDropdown
     :items="actionItems"
     :trigger-aria-label="label"
-    :trigger-label="label"
+    :trigger-label="triggerLabel"
+    :trigger-icon="icon"
     width="max-content"
     data-testid="more-actions-dropdown"
     @item-selected="(itemName) => emit('actionSelected', itemName as Action)"

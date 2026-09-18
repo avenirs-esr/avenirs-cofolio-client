@@ -8,7 +8,9 @@ export const MoreActionsDropdownStub = defineComponent({
     actions: {
       type: Array as PropType<(Action | ActionItem)[]>,
       required: true,
-    }
+    },
+    icon: String,
+    iconOnly: Boolean
   },
   emits: ['actionSelected'],
   computed: {

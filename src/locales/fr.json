@@ -519,6 +519,7 @@
     },
     "vueFlow": {
       "NodeDropdown": {
+        "entityName": "le noeud",
         "updateInProfile": "Mettre à jour dans mon profil"
       },
       "state": {

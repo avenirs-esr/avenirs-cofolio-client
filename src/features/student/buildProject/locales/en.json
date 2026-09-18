@@ -5,11 +5,6 @@
         "actions": {
           "screenshot": "Screenshot"
         },
-        "researchs": {
-          "addResearchButton": {
-            "label": "Add a research"
-          }
-        },
         "selfKnowledge": {
           "addCategoryButton": {
             "confirm": "Add this category | Add these categories",
@@ -45,11 +40,6 @@
           }
         },
         "title": "My Mind Map",
-        "trajectories": {
-          "addTrajectoryButton": {
-            "label": "Add a trajectory"
-          }
-        },
         "user": {
           "profilePictureAlt": "Profile picture"
         }
