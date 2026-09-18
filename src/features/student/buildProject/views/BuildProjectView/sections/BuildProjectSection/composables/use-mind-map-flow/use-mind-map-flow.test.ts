@@ -27,7 +27,7 @@ BddTest().given('the useMindMapFlow composable', () => {
   BddTest().when('the composable is initialized', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      composableResult = mountComposable(() => useMindMapFlow(), { }).result
+      composableResult = mountComposable(() => useMindMapFlow(), { useI18n: true }).result
     })
 
     BddTest().then('it should expose the save, restore and reset methods', () => {

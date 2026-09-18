@@ -129,10 +129,7 @@
         "navigation": {
           "elementsSideMenu": "Tous mes éléments"
         },
-        "title": {
-          "content": "Qui je suis\u00A0?",
-          "menu": "Me connaître"
-        }
+        "title": "Me connaître"
       },
       "tabs": {
         "SelfKnowledgeElementTabs": {

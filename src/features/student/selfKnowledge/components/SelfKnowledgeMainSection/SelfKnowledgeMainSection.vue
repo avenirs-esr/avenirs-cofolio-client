@@ -3,6 +3,7 @@ import { EUserCategory, useGetProfile, useGetSelfKnowledgeCategories } from '@/a
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { useDrawer, useModal } from '@/common/composables'
+import { ICONS } from '@/common/constants'
 import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'
 import AddSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.vue'
 import AddSelfKnowledgeCategoryElementDrawer
@@ -32,9 +33,9 @@ const categories = computed(() => fetchedCategories.value ?? [])
       <AvIconText
         data-testid="self-knowledge-section-title"
         typography-class="n4"
-        :icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
+        :icon="ICONS.SELF_KNOWLEDGE"
         icon-color="var(--icon)"
-        :text="t('student.selfKnowledge.SelfKnowledgeMainSection.title.content')"
+        :text="t('student.selfKnowledge.SelfKnowledgeMainSection.title')"
         text-color="var(--title)"
         gap="var(--spacing-sm)"
       />

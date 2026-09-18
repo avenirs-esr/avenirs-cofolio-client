@@ -7,6 +7,7 @@ import { RESEARCHS_NODE_TYPES } from '@/features/student/buildProject/views/Buil
 import { SELF_KNOWLEDGE_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/self-knowledge-nodes.types'
 import { TRAJECTORIES_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/trajectories-nodes.types'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 
 export interface UseMindMapFlowReturn {
   saveCurrentState: (prefix: string, index: string) => void
@@ -15,6 +16,8 @@ export interface UseMindMapFlowReturn {
 }
 
 export function useMindMapFlow (): UseMindMapFlowReturn {
+  const { t } = useI18n()
+
   // === User initial nodes definitions ===
   const userNode: Node = {
     id: 'user',
@@ -33,7 +36,7 @@ export function useMindMapFlow (): UseMindMapFlowReturn {
     type: MIND_MAP_NODE_TYPES.MAIN_SECTION,
     parentNode: userNode.id,
     position: { x: -230, y: 10 },
-    data: { label: 'Qui je suis ?', right: true, left: true },
+    data: { label: t('student.selfKnowledge.SelfKnowledgeMainSection.title'), right: true, left: true },
   }
 
   const addSelfKnowledgeButtonNode: Node = {
