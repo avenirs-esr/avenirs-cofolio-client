@@ -48,7 +48,8 @@ const menuItems = computed(() => [
     name: TraceSettingsPopoverEvents.DOWNLOAD,
     icon: MDI_ICONS.DOWNLOAD_OUTLINE,
     label: t('student.traces.views.StudentTraceView.settings.download'),
-    disabled: downloadDisabled
+    disabled: downloadDisabled,
+    disabledTooltip: t('student.traces.views.StudentTraceView.settings.downloadDisabledTooltip')
   }
 ])
 

@@ -333,6 +333,7 @@
             "associate": "Associer ma trace",
             "delete": "Supprimer ma trace",
             "download": "Télécharger ma trace",
+            "downloadDisabledTooltip": "Le téléchargement n'est pas disponible pour une trace de type lien.",
             "update": "Modifier ma trace"
           },
           "tabs": {
