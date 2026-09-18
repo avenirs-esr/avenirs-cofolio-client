@@ -1,7 +1,7 @@
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
+import { ICONS } from '@/common/constants'
 import DeclaredExperienceTitleInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.vue'
 import { DECLARED_EXPERIENCE_TITLE_MAX_LENGTH } from '@/features/student/personalCareer/config'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -12,6 +12,8 @@ BddTest().given('a declared experience title input component', () => {
   const stubs = {
     Input: InputStub
   }
+
+  const getInput = () => wrapper.findComponent(InputStub)
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
@@ -29,38 +31,31 @@ BddTest().given('a declared experience title input component', () => {
     })
 
     BddTest().then('it should render the Input component', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.exists()).toBe(true)
+      expect(getInput().exists()).toBe(true)
     })
 
     BddTest().then('it should have labelVisible set to true', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('labelVisible')).toBe(true)
+      expect(getInput().props('labelVisible')).toBe(true)
     })
 
     BddTest().then('it should have maxlength prop set to config value', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('maxlength')).toBe(DECLARED_EXPERIENCE_TITLE_MAX_LENGTH)
+      expect(getInput().props('maxlength')).toBe(DECLARED_EXPERIENCE_TITLE_MAX_LENGTH)
     })
 
     BddTest().then('it should display the correct French label', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('label')).toBe('Intitulé du poste')
+      expect(getInput().props('label')).toBe('Intitulé du poste')
     })
 
     BddTest().then('it should display the correct prefix icon', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('prefixIcon')).toBe(MDI_ICONS.BADGE_ACCOUNT_HORIZONTAL_OUTLINE)
+      expect(getInput().props('prefixIcon')).toBe(ICONS.EXPERIENCES)
     })
 
     BddTest().then('it should display the correct placeholder', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('placeholder')).toBe('Titre de mon expérience')
+      expect(getInput().props('placeholder')).toBe('Titre de mon expérience')
     })
 
     BddTest().then('it should have empty initial value', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('modelValue')).toBe('')
+      expect(getInput().props('modelValue')).toBe('')
     })
   })
 
@@ -77,8 +72,7 @@ BddTest().given('a declared experience title input component', () => {
     })
 
     BddTest().then('it should display the custom label', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('label')).toBe('Custom Label')
+      expect(getInput().props('label')).toBe('Custom Label')
     })
   })
 
@@ -95,8 +89,7 @@ BddTest().given('a declared experience title input component', () => {
     })
 
     BddTest().then('it should display the custom placeholder', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('placeholder')).toBe('Custom Placeholder')
+      expect(getInput().props('placeholder')).toBe('Custom Placeholder')
     })
   })
 
@@ -113,8 +106,7 @@ BddTest().given('a declared experience title input component', () => {
     })
 
     BddTest().then('it should pass the error message to Input', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('errorMessage')).toBe('Ce champ est requis')
+      expect(getInput().props('errorMessage')).toBe('Ce champ est requis')
     })
   })
 
@@ -127,14 +119,12 @@ BddTest().given('a declared experience title input component', () => {
         },
         global: { stubs }
       })
-      const input = wrapper.findComponent(InputStub)
-      await input.vm.$emit('update:modelValue', 'Software Engineer')
+      await getInput().vm.$emit('update:modelValue', 'Software Engineer')
       await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should update the model value', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('modelValue')).toBe('Software Engineer')
+      expect(getInput().props('modelValue')).toBe('Software Engineer')
     })
   })
 
@@ -150,8 +140,7 @@ BddTest().given('a declared experience title input component', () => {
     })
 
     BddTest().then('it should display the initial value', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('modelValue')).toBe('Initial title')
+      expect(getInput().props('modelValue')).toBe('Initial title')
     })
   })
 
@@ -169,7 +158,7 @@ BddTest().given('a declared experience title input component', () => {
     })
 
     BddTest().then('it should pass additional props to Input', () => {
-      const input = wrapper.findComponent(InputStub)
+      const input = getInput()
       expect(input.props('disabled')).toBe(true)
       expect(input.props('required')).toBe(true)
     })
@@ -184,14 +173,12 @@ BddTest().given('a declared experience title input component', () => {
         },
         global: { stubs }
       })
-      const input = wrapper.findComponent(InputStub)
-      await input.vm.$emit('update:modelValue', '')
+      await getInput().vm.$emit('update:modelValue', '')
       await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should update to empty value', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('modelValue')).toBe('')
+      expect(getInput().props('modelValue')).toBe('')
     })
   })
 })
