@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import type { Action, ActionItem } from '@/common/components/interaction/dropdowns/MoreActionsDropdown/MoreActionsDropdown.types'
-import { moreActionConfig } from '@/common/components/interaction/dropdowns/MoreActionsDropdown/MoreActionsDropdown.config'
+import type { Action, ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import { moreActionConfig } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.config'
 import { AvDropdown, type AvDropdownItem } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export interface MoreActionsDropdownProps {
+export interface ManageEntityDropdownProps {
   entityName?: string
   actions: (Action | ActionItem)[]
   icon?: string
   iconOnly?: boolean
 }
 
-const { entityName, actions, icon, iconOnly = false } = defineProps<MoreActionsDropdownProps>()
+const { entityName, actions, icon, iconOnly = false } = defineProps<ManageEntityDropdownProps>()
 
 const emit = defineEmits<{
   (e: 'actionSelected', action: Action): void
@@ -58,7 +58,7 @@ const triggerLabel = computed(() => iconOnly ? undefined : label.value)
     :trigger-label="triggerLabel"
     :trigger-icon="icon"
     width="max-content"
-    data-testid="more-actions-dropdown"
+    data-testid="manage-entity-dropdown"
     @item-selected="(itemName) => emit('actionSelected', itemName as Action)"
   />
 </template>
