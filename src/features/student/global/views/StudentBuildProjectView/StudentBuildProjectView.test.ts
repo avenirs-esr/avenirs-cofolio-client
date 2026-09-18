@@ -1,18 +1,16 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { StudentProjectBuildProjectContainerStub } from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectBuildProjectContainer/StudentProjectBuildProjectContainer.stub'
 import StudentBuildProjectView from '@/features/student/global/views/StudentBuildProjectView/StudentBuildProjectView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
-BddTest().given('a student project trajectories view component', () => {
+BddTest().given('a student project build project view component', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentBuildProjectView>>
 
   const stubs = {
     PageTitle: PageTitleStub,
-    StudentProjectBuildProjectContainer: {
-      name: 'StudentProjectBuildProjectContainer',
-      template: '<div class="student-project-trajectories-container-stub">Trajectories Container</div>'
-    }
+    StudentProjectBuildProjectContainer: StudentProjectBuildProjectContainerStub,
   }
 
   const title = 'Bâtir mon projet'

@@ -1,4 +1,4 @@
 export enum BuildProjectItems {
-  BUILD_PROJECT = 'BUILD_PROJECT',
+  MIND_MAP = 'MIND_MAP',
   SELF_KNOWLEDGE = 'SELF_KNOWLEDGE',
 }

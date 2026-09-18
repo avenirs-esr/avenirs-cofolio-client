@@ -14,7 +14,7 @@ import { SelfKnowledgeElementNodeStub } from '@/features/student/buildProject/vi
 import { TrajectoryNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/TrajectoryNode/TrajectoryNode.stub'
 import { UserNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/UserNode/UserNode.stub'
 import { VueFlowStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/utils/build-project-section-tests'
-import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -94,7 +94,6 @@ BddTest().given('a MindMap', () => {
   let wrapper: VueWrapper<InstanceType<typeof MindMap>>
 
   const stubs = {
-    AvIconText: AvIconTextStub,
     AvButton: AvButtonStub,
     VueFlow: VueFlowStub,
     UserNode: UserNodeStub,
@@ -115,12 +114,6 @@ BddTest().given('a MindMap', () => {
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mountComponent(MindMap, { global: { stubs } }, { usePinia: true })
-    })
-
-    BddTest().then('it should render the title', () => {
-      const avIconText = wrapper.findComponent(AvIconTextStub)
-      expect(avIconText.exists()).toBe(true)
-      expect(avIconText.props('text')).toBe('Ma carte mentale')
     })
 
     BddTest().then('it should render the undo button', () => {

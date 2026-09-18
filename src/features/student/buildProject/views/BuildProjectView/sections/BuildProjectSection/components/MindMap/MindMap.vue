@@ -16,7 +16,7 @@ import SelfKnowledgeElementNode from '@/features/student/buildProject/views/Buil
 import TrajectoryNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/TrajectoryNode/TrajectoryNode.vue'
 import UserNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/UserNode/UserNode.vue'
 import { useMindMapFlow } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/composables/use-mind-map-flow/use-mind-map-flow'
-import { AvButton, AvIconText, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useVueFlow, VueFlow } from '@vue-flow/core'
 import { useI18n } from 'vue-i18n'
 
@@ -36,14 +36,6 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
 
 <template>
   <div class="av-col av-gap-sm">
-    <AvIconText
-      :icon="RI_ICONS.LOADER_LINE"
-      icon-color="var(--icon)"
-      :text="t('student.buildProject.mindMap.title')"
-      text-color="var(--title)"
-      typography-class="n5"
-      gap="var(--spacing-xs)"
-    />
     <div class="av-row av-align-center av-gap-sm">
       <AvButton
         :label="t('global.buttons.undo')"

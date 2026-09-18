@@ -28,28 +28,30 @@ const categories = computed(() => fetchedCategories.value ?? [])
     class="av-col av-gap-xl"
     data-testid="self-knowledge-section"
   >
-    <AvIconText
-      data-testid="self-knowledge-section-title"
-      typography-class="n4"
-      :icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
-      icon-color="var(--icon)"
-      :text="t('student.selfKnowledge.SelfKnowledgeMainSection.title.content')"
-      text-color="var(--title)"
-      gap="0.75rem"
-    />
-
-    <div
-      v-if="studentSummary"
-      class="av-row av-justify-end"
-    >
-      <AvButton
-        :icon="MDI_ICONS.PENCIL_OUTLINE"
-        :label="t('student.selfKnowledge.SelfKnowledgeMainSection.buttons.updateProfile')"
-        variant="OUTLINED"
-        small
-        data-testid="display-update-profile-drawer-button"
-        @click="displayDrawer"
+    <div class="av-row av-wrap av-gap-sm av-justify-between av-align-center av-mb-sm">
+      <AvIconText
+        data-testid="self-knowledge-section-title"
+        typography-class="n4"
+        :icon="MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE"
+        icon-color="var(--icon)"
+        :text="t('student.selfKnowledge.SelfKnowledgeMainSection.title.content')"
+        text-color="var(--title)"
+        gap="var(--spacing-sm)"
       />
+
+      <div
+        v-if="studentSummary"
+        class="av-row av-justify-end"
+      >
+        <AvButton
+          :icon="MDI_ICONS.PENCIL_OUTLINE"
+          :label="t('student.selfKnowledge.SelfKnowledgeMainSection.buttons.updateProfile')"
+          variant="OUTLINED"
+          small
+          data-testid="display-update-profile-drawer-button"
+          @click="displayDrawer"
+        />
+      </div>
     </div>
 
     <ProfileCard

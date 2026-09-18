@@ -4,11 +4,11 @@ import type { Component } from 'vue'
 import SectionNavigationLayout
   from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.vue'
 import { useSectionNavigationLayout } from '@/common/composables'
-import StudentProjectTrajectoriesBuildProjectSection
-  from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectTrajectoriesBuildProjectSection/StudentProjectTrajectoriesBuildProjectSection.vue'
+import { ICONS } from '@/common/constants'
+import StudentProjectMindMapSection
+  from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectMindMapSection/StudentProjectMindMapSection.vue'
 import { BuildProjectItems } from '@/features/student/global/views/StudentBuildProjectView/types'
 import { SelfKnowledgeMainSection } from '@/features/student/selfKnowledge'
-import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
@@ -19,19 +19,19 @@ const { t } = useI18n()
 
 const items = computed<SectionNavigationItem[]>(() => [
   {
-    id: BuildProjectItems.BUILD_PROJECT,
-    label: t('student.global.views.StudentBuildProjectView.buildProject.title'),
-    icon: RI_ICONS.DRAW_LINE,
+    id: BuildProjectItems.MIND_MAP,
+    label: t('student.global.views.StudentBuildProjectView.StudentProjectMindMapSection.title'),
+    icon: ICONS.MIND_MAP,
   },
   {
     id: BuildProjectItems.SELF_KNOWLEDGE,
     label: t('student.selfKnowledge.SelfKnowledgeMainSection.title.menu'),
-    icon: MDI_ICONS.FAMILY
+    icon: ICONS.SELF_KNOWLEDGE
   },
 ])
 
 const componentBySection = {
-  [BuildProjectItems.BUILD_PROJECT]: StudentProjectTrajectoriesBuildProjectSection,
+  [BuildProjectItems.MIND_MAP]: StudentProjectMindMapSection,
   [BuildProjectItems.SELF_KNOWLEDGE]: SelfKnowledgeMainSection,
 } satisfies Record<BuildProjectItems, Component>
 
@@ -40,12 +40,12 @@ const {
   navigateToSelectedSection,
 } = useSectionNavigationLayout<BuildProjectItems>({
   items,
-  fallbackSection: BuildProjectItems.BUILD_PROJECT,
+  fallbackSection: BuildProjectItems.MIND_MAP,
 })
 </script>
 
 <template>
-  <div class="student-project-trajectories-container av-w-full">
+  <div class="student-project-build-project-container av-w-full">
     <SectionNavigationLayout
       :items="items"
       :default-section="defaultSection"
@@ -53,7 +53,7 @@ const {
       :select-placeholder="t('student.global.navigation.selects.label')"
       :select-label="t('student.global.navigation.selects.label')"
       side-navigation-width="11rem"
-      data-testid="project-trajectories-layout"
+      data-testid="project-build-project-layout"
       @selected-item-label="(label) => emit('selectedSection', label)"
       @selected-item="(item) => navigateToSelectedSection(item.itemId)"
     />
@@ -61,7 +61,7 @@ const {
 </template>
 
 <style lang="scss" scoped>
-.student-project-trajectories-container {
+.student-project-build-project-container {
   min-height: calc(100vh - 28.15rem);
 }
 </style>
