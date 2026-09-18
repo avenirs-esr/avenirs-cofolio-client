@@ -18,7 +18,7 @@ const { t } = useI18n()
     data-testid="update-in-progress-badge"
   >
     <AvBadge
-      :label="t('student.global.badges.UpdateInProgress')"
+      :label="t('global.badges.UpdateInProgressBadge.label')"
       background-color="var(--dark-background-primary1)"
       color="var(--dark-foreground)"
       :icon="MDI_ICONS.PENCIL_OUTLINE"
