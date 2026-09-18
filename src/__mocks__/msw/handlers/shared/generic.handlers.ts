@@ -1,8 +1,23 @@
+import type { LoggedInUserDTO } from '@/api/avenir-esr'
+import { ERole, getGetMeUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
-import { http, HttpResponse } from 'msw'
+import { http, HttpResponse, type PathParams } from 'msw'
 
 export const genericHandlers = [
+  http.get<PathParams, LoggedInUserDTO>(`*${getGetMeUrl()}`, () => {
+    return HttpResponse.json<LoggedInUserDTO>(
+      {
+        firstname: 'Lucas',
+        lastname: 'Tessier',
+        roles: [ERole.ROLE_STUDENT, ERole.ROLE_STAFF, ERole.ROLE_SUPER_ADMIN]
+      },
+      {
+        status: HttpStatusCode.OK,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
+  }),
   http.get('https://example.com/:filename.:fileType', ({ params }) => {
     const { filename, fileType } = params as { filename: string, fileType: string }
 

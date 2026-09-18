@@ -333,6 +333,7 @@
             "associate": "Associate my trace",
             "delete": "Delete my trace",
             "download": "Download my trace",
+            "downloadDisabledTooltip": "Downloading is not available for trace of type link",
             "update": "Update my trace"
           },
           "tabs": {
