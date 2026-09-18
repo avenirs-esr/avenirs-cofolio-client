@@ -166,4 +166,14 @@ BddTest().given('a MoreActionsDropdown', () => {
       expectDefaultLabel()
     })
   })
+
+  BddTest().when('the dropdown is rendered with an icon only', () => {
+    beforeEach(() => {
+      mountWith({ icon: 'edit', iconOnly: true })
+    })
+
+    BddTest().then('it should render the dropdown with the icon only', () => {
+      expect(getDropdown().props('triggerLabel')).toBeUndefined()
+    })
+  })
 })

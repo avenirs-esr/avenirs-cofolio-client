@@ -2,16 +2,12 @@ import type { Edge, Node } from '@vue-flow/core'
 import type { VueWrapper } from '@vue/test-utils'
 import { LinkInputNodeStub } from '@/common/components/VueFlow/LinkInputNode/LinkInputNode.stub'
 import { TextInputNodeStub } from '@/common/components/VueFlow/TextInputNode/TextInputNode.stub'
-import { AddResearchButtonNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/AddResearchButtonNode/AddResearchButtonNode.stub'
-import { AddSelfKnowledgeCategoryButtonNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/AddSelfKnowledgeCategoryButtonNode/AddResearchButtonNode.stub'
+import { AddSelfKnowledgeCategoryButtonNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/AddSelfKnowledgeCategoryButtonNode/AddSelfKnowledgeCategoryButtonNodeStub.stub'
 import { AddSelfKnowledgeElementButtonNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/AddSelfKnowledgeElementButtonNode/AddSelfKnowledgeElementButtonNode.stub'
-import { AddTrajectoryButtonNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/AddTrajectoryButtonNode/AddTrajectoryButtonNode.stub'
 import { MainSectionNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MainSectionNode/MainSectionNode.stub'
 import MindMap from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/MindMap.vue'
-import { ResearchNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/ResearchNode/ResearchNode.stub'
 import { SelfKnowledgeCategoryNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/SelfKnowledgeCategoryNode/SelfKnowledgeCategoryNode.stub'
 import { SelfKnowledgeElementNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/SelfKnowledgeElementNode/SelfKnowledgeElementNode.stub'
-import { TrajectoryNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/TrajectoryNode/TrajectoryNode.stub'
 import { UserNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/UserNode/UserNode.stub'
 import { VueFlowStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/utils/build-project-section-tests'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -102,10 +98,6 @@ BddTest().given('a MindMap', () => {
     AddSelfKnowledgeCategoryButtonNode: AddSelfKnowledgeCategoryButtonNodeStub,
     AddSelfKnowledgeElementButtonNode: AddSelfKnowledgeElementButtonNodeStub,
     SelfKnowledgeElementNode: SelfKnowledgeElementNodeStub,
-    TrajectoryNode: TrajectoryNodeStub,
-    AddTrajectoryButtonNode: AddTrajectoryButtonNodeStub,
-    ResearchNode: ResearchNodeStub,
-    AddResearchButtonNode: AddResearchButtonNodeStub,
     TextInputNode: TextInputNodeStub,
     LinkInputNode: LinkInputNodeStub,
   }
@@ -172,10 +164,6 @@ BddTest().given('a MindMap', () => {
       expect(wrapper.findComponent(AddSelfKnowledgeCategoryButtonNodeStub).exists()).toBe(true)
       expect(wrapper.findComponent(AddSelfKnowledgeElementButtonNodeStub).exists()).toBe(true)
       expect(wrapper.findComponent(SelfKnowledgeElementNodeStub).exists()).toBe(true)
-      expect(wrapper.findComponent(TrajectoryNodeStub).exists()).toBe(true)
-      expect(wrapper.findComponent(AddTrajectoryButtonNodeStub).exists()).toBe(true)
-      expect(wrapper.findComponent(ResearchNodeStub).exists()).toBe(true)
-      expect(wrapper.findComponent(AddResearchButtonNodeStub).exists()).toBe(true)
       expect(wrapper.findComponent(TextInputNodeStub).exists()).toBe(true)
       expect(wrapper.findComponent(LinkInputNodeStub).exists()).toBe(true)
     })

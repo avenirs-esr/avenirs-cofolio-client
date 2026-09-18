@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Action } from '@/common/components/interaction/dropdowns/MoreActionsDropdown/MoreActionsDropdown.types'
+import MoreActionsDropdown, { type MoreActionsDropdownProps } from '@/common/components/interaction/dropdowns/MoreActionsDropdown/MoreActionsDropdown.vue'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 /**
@@ -52,65 +54,39 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
-enum NodeDropdownEvents {
-  UPDATE = 'update',
-  REMOVE = 'remove',
-  COLLAPSE = 'collapse',
-  UPDATE_IN_PROFILE = 'updateInProfile',
-}
-
-const menuItems = computed(() => [
-  {
-    name: NodeDropdownEvents.UPDATE,
-    icon: MDI_ICONS.PENCIL_OUTLINE,
-    label: t('global.buttons.update')
-  },
-  {
-    name: NodeDropdownEvents.REMOVE,
-    icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-    label: t('global.buttons.delete')
-  },
-  {
-    name: NodeDropdownEvents.COLLAPSE,
-    icon: collapsed ? MDI_ICONS.PLUS : MDI_ICONS.MINUS,
-    label: collapsed ? t('global.buttons.expand') : t('global.buttons.collapse'),
-  },
-  ...(withProfileUpdate
-    ? [{
-        name: NodeDropdownEvents.UPDATE_IN_PROFILE,
-        icon: MDI_ICONS.TRAY_UPLOAD,
-        label: t('global.vueFlow.NodeDropdown.updateInProfile')
-      }]
-    : []),
-])
-
-function handleItemSelected (itemName: string) {
+function handleItemSelected (itemName: Action) {
   switch (itemName) {
-    case NodeDropdownEvents.UPDATE:
+    case Action.UPDATE:
       emit('update')
       break
-    case NodeDropdownEvents.REMOVE:
+    case Action.DELETE:
       emit('remove')
       break
-    case NodeDropdownEvents.COLLAPSE:
+    case collapsed ? Action.EXPAND : Action.COLLAPSE:
       emit('collapse')
       break
-    case NodeDropdownEvents.UPDATE_IN_PROFILE:
+    case Action.UPDATE_IN_PROFILE:
       withProfileUpdate && emit('updateInProfile')
       break
   }
 }
+
+const actions = computed<MoreActionsDropdownProps['actions']>(() => [
+  Action.UPDATE,
+  Action.DELETE,
+  ...(collapsed ? [Action.EXPAND] : [Action.COLLAPSE]),
+  ...(withProfileUpdate ? [Action.UPDATE_IN_PROFILE] : []),
+])
 </script>
 
 <template>
   <div class="node-dropdown-container">
-    <AvDropdown
-      :items="menuItems"
-      trigger-aria-label="Paramètres du noeud lien"
-      :trigger-icon="MDI_ICONS.SETTINGS"
-      trigger-small
-      width="max-content"
-      @item-selected="handleItemSelected"
+    <MoreActionsDropdown
+      :actions="actions"
+      :entity-name="t('global.vueFlow.NodeDropdown.entityName')"
+      :icon="MDI_ICONS.SETTINGS"
+      icon-only
+      @action-selected="handleItemSelected"
     />
   </div>
 </template>

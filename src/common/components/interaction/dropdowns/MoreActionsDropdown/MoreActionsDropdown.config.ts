@@ -8,10 +8,13 @@ interface ActionConfig {
 
 export const moreActionConfig: Record<Action, ActionConfig> = {
   [Action.ADD]: { icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE, labelKey: 'global.buttons.add' },
-  [Action.UPDATE]: { icon: MDI_ICONS.PENCIL_OUTLINE, labelKey: 'global.buttons.update' },
   [Action.CLONE]: { icon: MS_ICONS.CONTENT_COPY_OUTLINE, labelKey: 'global.buttons.clone' },
-  [Action.PUBLISH]: { icon: MS_ICONS.SEND_OUTLINE_ROUNDED, labelKey: 'global.buttons.publish' },
-  [Action.UNPUBLISH]: { icon: RI_ICONS.EYE_OFF_LINE, labelKey: 'global.buttons.unpublish' },
+  [Action.COLLAPSE]: { icon: MDI_ICONS.MINUS, labelKey: 'global.buttons.collapse' },
   [Action.DOWNLOAD]: { icon: MDI_ICONS.DOWNLOAD_OUTLINE, labelKey: 'global.buttons.download' },
-  [Action.DELETE]: { icon: MDI_ICONS.TRASH_CAN_OUTLINE, labelKey: 'global.buttons.remove' }
+  [Action.EXPAND]: { icon: MDI_ICONS.PLUS, labelKey: 'global.buttons.expand' },
+  [Action.PUBLISH]: { icon: MS_ICONS.SEND_OUTLINE_ROUNDED, labelKey: 'global.buttons.publish' },
+  [Action.DELETE]: { icon: MDI_ICONS.TRASH_CAN_OUTLINE, labelKey: 'global.buttons.remove' },
+  [Action.UNPUBLISH]: { icon: RI_ICONS.EYE_OFF_LINE, labelKey: 'global.buttons.unpublish' },
+  [Action.UPDATE]: { icon: MDI_ICONS.PENCIL_OUTLINE, labelKey: 'global.buttons.update' },
+  [Action.UPDATE_IN_PROFILE]: { icon: MDI_ICONS.TRAY_UPLOAD, labelKey: 'global.vueFlow.NodeDropdown.updateInProfile' },
 }

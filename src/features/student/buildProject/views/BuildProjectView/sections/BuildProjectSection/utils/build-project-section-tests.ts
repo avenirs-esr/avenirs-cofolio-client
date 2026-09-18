@@ -1,8 +1,6 @@
 import { GLOBAL_NODE_TYPES } from '@/common/components/VueFlow/global-nodes.types'
 import { MIND_MAP_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/mind-map-nodes.types'
-import { RESEARCHS_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/researchs-nodes.types'
 import { SELF_KNOWLEDGE_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/self-knowledge-nodes.types'
-import { TRAJECTORIES_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/trajectories-nodes.types'
 import { h } from 'vue'
 
 const nodePrefix = 'node-'
@@ -13,10 +11,6 @@ const nodeNames = [
   SELF_KNOWLEDGE_NODE_TYPES.ADD_SELF_KNOWLEDGE_CATEGORY_BUTTON,
   SELF_KNOWLEDGE_NODE_TYPES.ADD_SELF_KNOWLEDGE_ELEMENT_BUTTON,
   SELF_KNOWLEDGE_NODE_TYPES.SELF_KNOWLEDGE_ELEMENT,
-  TRAJECTORIES_NODE_TYPES.TRAJECTORY,
-  TRAJECTORIES_NODE_TYPES.ADD_TRAJECTORY_BUTTON,
-  RESEARCHS_NODE_TYPES.RESEARCH,
-  RESEARCHS_NODE_TYPES.ADD_RESEARCH_BUTTON,
   GLOBAL_NODE_TYPES.TEXT_INPUT,
   GLOBAL_NODE_TYPES.LINK_INPUT,
 ]
