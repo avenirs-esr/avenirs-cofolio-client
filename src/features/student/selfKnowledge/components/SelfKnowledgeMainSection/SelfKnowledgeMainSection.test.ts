@@ -6,6 +6,7 @@ import { selfKnowledgeCategoriesErrorHandler } from '@/__mocks__/msw/handlers/st
 import { server } from '@/__mocks__/msw/server'
 import { UpdateProfileDrawerStub } from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import { ProfileCardStub } from '@/common/components/ProfileCard/ProfileCard.stub'
+import { ICONS } from '@/common/constants'
 import { SelfKnowledgeCategoryElementsPaginatorCardStub } from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.stub'
 import { AddSelfKnowledgeCategoriesModalStub } from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.stub'
 import SelfKnowledgeMainSection from '@/features/student/selfKnowledge/components/SelfKnowledgeMainSection/SelfKnowledgeMainSection.vue'
@@ -65,8 +66,8 @@ BddTest().given('a self knowledge section component', () => {
     BddTest().then('it should render the self knowledge title', () => {
       const avIconText = wrapper.findComponent(AvIconTextStub)
       expect(avIconText.exists()).toBe(true)
-      expect(avIconText.props('text')).toBe('Qui je suis\u00A0?')
-      expect(avIconText.props('icon')).toBe('mdi:account-circle-outline')
+      expect(avIconText.props('text')).toBe('Me connaître')
+      expect(avIconText.props('icon')).toBe(ICONS.SELF_KNOWLEDGE)
     })
 
     BddTest().then('it should not render the profile card initially', () => {

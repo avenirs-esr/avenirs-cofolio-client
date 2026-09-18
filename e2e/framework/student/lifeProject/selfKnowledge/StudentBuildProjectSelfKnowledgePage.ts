@@ -74,7 +74,7 @@ class StudentBuildProjectSelfKnowledgePage extends BasePage {
   async verifySectionTitle () {
     await expect(this.getSectionTitle()).toBeVisible()
     await expect(this.getSectionTitle()).toHaveText(
-      t('student.selfKnowledge.SelfKnowledgeMainSection.title.content'),
+      t('student.selfKnowledge.SelfKnowledgeMainSection.title'),
     )
   }
 

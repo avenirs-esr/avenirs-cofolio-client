@@ -25,7 +25,7 @@ const items = computed<SectionNavigationItem[]>(() => [
   },
   {
     id: BuildProjectItems.SELF_KNOWLEDGE,
-    label: t('student.selfKnowledge.SelfKnowledgeMainSection.title.menu'),
+    label: t('student.selfKnowledge.SelfKnowledgeMainSection.title'),
     icon: ICONS.SELF_KNOWLEDGE
   },
 ])

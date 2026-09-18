@@ -130,10 +130,7 @@
         "navigation": {
           "elementsSideMenu": "All my elements"
         },
-        "title": {
-          "content": "Who am I?",
-          "menu": "Self-knowledge"
-        }
+        "title": "Self-knowledge"
       },
       "tabs": {
         "SelfKnowledgeElementTabs": {
