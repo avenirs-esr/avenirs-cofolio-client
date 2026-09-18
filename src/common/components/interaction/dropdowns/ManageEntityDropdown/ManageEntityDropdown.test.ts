@@ -1,13 +1,13 @@
 import type { AvDropdownItem } from '@avenirs-esr/avenirs-dsav'
-import { moreActionConfig } from '@/common/components/interaction/dropdowns/MoreActionsDropdown/MoreActionsDropdown.config'
-import { Action } from '@/common/components/interaction/dropdowns/MoreActionsDropdown/MoreActionsDropdown.types'
-import MoreActionsDropdown, { type MoreActionsDropdownProps } from '@/common/components/interaction/dropdowns/MoreActionsDropdown/MoreActionsDropdown.vue'
+import { moreActionConfig } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.config'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import ManageEntityDropdown, { type ManageEntityDropdownProps } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
-BddTest().given('a MoreActionsDropdown', () => {
-  let wrapper: VueWrapper<InstanceType<typeof MoreActionsDropdown>>
+BddTest().given('a ManageEntityDropdown', () => {
+  let wrapper: VueWrapper<InstanceType<typeof ManageEntityDropdown>>
 
   const allActions = Object.values(Action) as Action[]
 
@@ -15,8 +15,8 @@ BddTest().given('a MoreActionsDropdown', () => {
     AvDropdown: AvDropdownStub,
   }
 
-  const mountWith = (props: Partial<MoreActionsDropdownProps> = {}) => {
-    wrapper = mount(MoreActionsDropdown, {
+  const mountWith = (props: Partial<ManageEntityDropdownProps> = {}) => {
+    wrapper = mount(ManageEntityDropdown, {
       props: { actions: [], ...props },
       global: { stubs },
     })
@@ -164,6 +164,16 @@ BddTest().given('a MoreActionsDropdown', () => {
 
     BddTest().then('it should use the generic manage label', () => {
       expectDefaultLabel()
+    })
+  })
+
+  BddTest().when('the dropdown is rendered with an icon only', () => {
+    beforeEach(() => {
+      mountWith({ icon: 'edit', iconOnly: true })
+    })
+
+    BddTest().then('it should render the dropdown with the icon only', () => {
+      expect(getDropdown().props('triggerLabel')).toBeUndefined()
     })
   })
 })

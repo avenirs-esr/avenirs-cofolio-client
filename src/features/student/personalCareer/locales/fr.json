@@ -105,11 +105,6 @@
           }
         }
       },
-      "navigation": {
-        "DeclaredProgramSideMenu": {
-          "title": "Toutes mes formations déclarées"
-        }
-      },
       "overlays": {
         "AddDeclaredExperienceDrawer": {
           "confirmationModal": {
@@ -175,9 +170,6 @@
           "DeclaredExperienceDetailsDropdown": {
             "dropdown": "Gérer mon expérience",
             "title": "Détail de mon expérience déclarée"
-          },
-          "DeclaredExperienceDetailsSideMenu": {
-            "title": "Toutes mes expériences déclarées"
           },
           "empty": {
             "associations": "Aucune association pour cette expérience déclarée"

@@ -1,4 +1,3 @@
-import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { createSelfKnowledgeElementDetailsHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
@@ -6,8 +5,6 @@ import { server } from '@/__mocks__/msw/server'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { SelfKnowledgeElementDetailsContainerStub } from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.stub'
-import { SelfKnowledgeElementsSideMenuStub } from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.stub'
-import { SelfKnowledgeElementTabsStub } from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.stub'
 import { SelfKnowledgeElementUpdateFormStub } from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/SelfKnowledgeElementUpdateForm.stub'
 import SelfKnowledgeElementUpdateView
   from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/SelfKnowledgeElementUpdateView.vue'
@@ -32,8 +29,6 @@ BddTest().given('a self knowledge element update view', () => {
 
   const stubs = {
     UpdatePageTitle: UpdatePageTitleStub,
-    SelfKnowledgeElementsSideMenu: SelfKnowledgeElementsSideMenuStub,
-    SelfKnowledgeElementTabs: SelfKnowledgeElementTabsStub,
     SelfKnowledgeElementDetailsContainer: SelfKnowledgeElementDetailsContainerStub,
     SelfKnowledgeElementUpdateForm: SelfKnowledgeElementUpdateFormStub,
     UpdateInProgressBadge: UpdateInProgressBadgeStub
@@ -63,42 +58,11 @@ BddTest().given('a self knowledge element update view', () => {
       expect(pageTitle.exists()).toBe(true)
     })
 
-    BddTest().then('it should render the SelfKnowledgeElementsSideMenu component', async () => {
-      await vi.waitFor(() => {
-        const sideMenu = wrapper.findComponent(SelfKnowledgeElementsSideMenuStub)
-        expect(sideMenu.exists()).toBe(true)
-      })
-    })
-
-    BddTest().then('it should pass elements and count to the side menu', async () => {
-      await vi.waitFor(() => {
-        const sideMenu = wrapper.findComponent(SelfKnowledgeElementsSideMenuStub)
-        expect(sideMenu.exists()).toBe(true)
-
-        const elements = sideMenu.props('elements') as SelfKnowledgeElementViewDTO[]
-        const countElements = sideMenu.props('countElements') as number
-
-        expect(Array.isArray(elements)).toBe(true)
-        expect(elements.length).toBeGreaterThan(0)
-        expect(typeof countElements).toBe('number')
-        expect(countElements).toBeGreaterThan(0)
-      })
-    })
-
     BddTest().then('it should render the element title in the details container', async () => {
       await vi.waitFor(() => {
         const container = wrapper.findComponent(SelfKnowledgeElementDetailsContainerStub)
         expect(container.exists()).toBe(true)
         expect(container.props('elementTitle')).toBe(mockedSelfKnowledgeElementDetails.title)
-      })
-    })
-
-    BddTest().then('it should render SelfKnowledgeElementTabs with correct props', async () => {
-      await vi.waitFor(() => {
-        const tabs = wrapper.findComponent(SelfKnowledgeElementTabsStub)
-
-        expect(tabs.exists()).toBe(true)
-        expect(tabs.props('categoryType')).toBeDefined()
       })
     })
 
@@ -115,42 +79,6 @@ BddTest().given('a self knowledge element update view', () => {
       await vi.waitFor(() => {
         const badge = wrapper.findComponent(UpdateInProgressBadgeStub)
         expect(badge.exists()).toBe(true)
-      })
-    })
-
-    BddTest().and('an element is selected', () => {
-      beforeEach(async () => {
-        await vi.waitFor(() => {
-          const sideMenu = wrapper.findComponent(SelfKnowledgeElementsSideMenuStub)
-          expect(sideMenu.exists()).toBe(true)
-          sideMenu.vm.$emit('selectElement', '2')
-        })
-      })
-
-      BddTest().then('it should navigate to the element update view of the selected element', () => {
-        expect(navigateToStudentSelfKnowledgeElementUpdate).toHaveBeenCalledWith({
-          categoryId,
-          elementId: '2',
-          replace: true
-        })
-      })
-    })
-
-    BddTest().and('the side menu emits loadMoreElements', () => {
-      let sideMenu: any
-
-      beforeEach(async () => {
-        await vi.waitFor(() => {
-          sideMenu = wrapper.findComponent(SelfKnowledgeElementsSideMenuStub)
-          expect(sideMenu.exists()).toBe(true)
-        })
-
-        sideMenu.vm.$emit('loadMoreElements')
-      })
-
-      BddTest().then('it should emit loadMoreElements from the side menu', () => {
-        expect(sideMenu.emitted('loadMoreElements')).toBeTruthy()
-        expect(sideMenu.emitted('loadMoreElements')!.length).toBe(1)
       })
     })
   })

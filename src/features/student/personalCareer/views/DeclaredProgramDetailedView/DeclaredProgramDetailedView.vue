@@ -4,22 +4,16 @@ import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPag
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
-import { ErrorCodes, ROUTES } from '@/common/constants'
-import DeclaredProgramSideMenu from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.vue'
+import { ErrorCodes } from '@/common/constants'
 import DeleteDeclaredProgramConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.vue'
-import { usePaginatedDeclaredPrograms } from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
 import DeclaredProgramDetailed from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
 import ManageDeclaredProgramDropdown from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/ManageDeclaredProgramDropdown/ManageDeclaredProgramDropdown.vue'
-import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const route = useRoute()
-const router = useRouter()
-const { isMobile } = useAvBreakpoints()
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
 
-const { declaredPrograms, pageInfo, loadMoreDeclaredPrograms } = usePaginatedDeclaredPrograms()
 const { data: declaredProgramDetailed, isLoading, isError, error } = useGetDeclaredProgram(selectedProgramId)
 const { navigateToStudentUpdateDeclaredProgram, navigateToStudentDeclaredPrograms } = useNavigation()
 const { modalOpened, openModal, closeModal } = useModal()
@@ -29,14 +23,6 @@ const isDeclaredProgramNotFound = computed(() => originalErrorCode.value === Err
 
 const programTitle = computed(() => declaredProgramDetailed.value?.title ?? '')
 const trailingLinks = computed(() => [{ text: programTitle.value }])
-
-function onSelectProgram (programId: string) {
-  router.replace({
-    name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
-    params: { id: programId },
-    state: { preserveScroll: true }
-  })
-}
 
 function handleConfirmDelete () {
   closeModal()
@@ -49,40 +35,26 @@ function handleConfirmDelete () {
     :title="programTitle"
     :trailing-links="trailingLinks"
   />
-  <div class="av-row av-gap-2xl">
+  <QuerySuspense
+    :error="error"
+    :is-loading="isLoading && !isError"
+    :error-title="isDeclaredProgramNotFound ? t('student.personalCareer.views.DeclaredProgramDetailedView.errors.notFound.title') : t('global.error.generic')"
+    :error-description="isDeclaredProgramNotFound ? t('student.personalCareer.views.DeclaredProgramDetailedView.errors.notFound.description') : getErrorMessage(error)"
+  >
     <div
-      v-if="!isMobile"
-      class="av-col"
+      v-if="declaredProgramDetailed"
+      class="av-col av-gap-md av-flex-fill"
     >
-      <DeclaredProgramSideMenu
-        :selected-program-id="selectedProgramId"
-        :programs="declaredPrograms"
-        :count-programs="pageInfo.totalElements"
-        @select-program="onSelectProgram"
-        @load-more-programs="loadMoreDeclaredPrograms"
+      <ManageDeclaredProgramDropdown
+        @update-selected="navigateToStudentUpdateDeclaredProgram"
+        @delete-selected="openModal"
+      />
+      <DeclaredProgramDetailed
+        :key="declaredProgramDetailed.id"
+        :declared-program-detailed="declaredProgramDetailed"
       />
     </div>
-    <QuerySuspense
-      :error="error"
-      :is-loading="isLoading && !isError"
-      :error-title="isDeclaredProgramNotFound ? t('student.personalCareer.views.DeclaredProgramDetailedView.errors.notFound.title') : t('global.error.generic')"
-      :error-description="isDeclaredProgramNotFound ? t('student.personalCareer.views.DeclaredProgramDetailedView.errors.notFound.description') : getErrorMessage(error)"
-    >
-      <div
-        v-if="declaredProgramDetailed"
-        class="av-col av-gap-md av-flex-fill"
-      >
-        <ManageDeclaredProgramDropdown
-          @update-selected="navigateToStudentUpdateDeclaredProgram"
-          @delete-selected="openModal"
-        />
-        <DeclaredProgramDetailed
-          :key="declaredProgramDetailed.id"
-          :declared-program-detailed="declaredProgramDetailed"
-        />
-      </div>
-    </QuerySuspense>
-  </div>
+  </QuerySuspense>
 
   <DeleteDeclaredProgramConfirmModal
     :opened="modalOpened"

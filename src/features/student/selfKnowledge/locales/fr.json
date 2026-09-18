@@ -131,26 +131,6 @@
         },
         "title": "Me connaître"
       },
-      "tabs": {
-        "SelfKnowledgeElementTabs": {
-          "associations": {
-            "title": "Mes associations ({count})"
-          },
-          "category": {
-            "titles": {
-              "ASPIRATIONS": "Mon envie",
-              "IMPROVEMENT": "Mon axe d'amélioration",
-              "INSPIRATIONS": "Mon inspiration",
-              "INTERESTS": "Mon centre d'intérêt",
-              "MOTIVATION": "Ma motivation professionnelle",
-              "OBLIGATIONS": "Mon obligation",
-              "STRENGTHS": "Mon point fort",
-              "TESTIMONIALS": "Mon témoignage",
-              "VALUES": "Ma valeur"
-            }
-          }
-        }
-      },
       "views": {
         "SelfKnowledgeCategoryView": {
           "breadcrumb": {
@@ -179,11 +159,6 @@
           "title": "Détail de mes {type}"
         },
         "SelfKnowledgeElementUpdateView": {
-          "breadcrumb": {
-            "current": {
-              "title": "Modifier mes {categoryType}"
-            }
-          },
           "updateForm": {
             "errors": {
               "updateElement": "Erreur lors de la mise à jour de l'élément"

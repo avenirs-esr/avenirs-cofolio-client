@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import { isActivityPeriodEditingDisabled } from '@/common/activities/rules/activities.rules'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import FormCancelConfirmButtons from '@/common/components/FormCancelConfirmButtons/FormCancelConfirmButtons.vue'
 import { useModal } from '@/common/composables'
@@ -40,6 +41,7 @@ const { form, isFormValid, isSubmitting } = useUpdateActivityForm(
 )
 
 const isActivityPeriodDefined = computed(() => !!declaredActivity.activity.startDate || !!declaredActivity.activity.endDate)
+const isPeriodSectionVisible = computed(() => !isActivityPeriodDefined.value && !isActivityPeriodEditingDisabled(declaredActivity.status))
 
 const { modalOpened: confirmationModalOpened, openModal: openConfirmationModal, closeModal: closeConfirmationModal } = useModal()
 
@@ -106,7 +108,7 @@ const isDemo = __DEMO_MODE__
           </AvAccordion>
 
           <AvAccordion
-            v-if="!isActivityPeriodDefined"
+            v-if="isPeriodSectionVisible"
             :title="t('student.activities.drawers.UpdateActivityDrawer.sections.period')"
             :icon="MDI_ICONS.CALENDAR_OUTLINE"
           >

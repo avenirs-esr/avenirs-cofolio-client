@@ -1,6 +1,7 @@
+import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import NodeDropdown, { type NodeDropdownProps } from '@/common/components/VueFlow/NodeDropdown/NodeDropdown.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -8,7 +9,12 @@ BddTest().given('a node dropdown', () => {
   let wrapper: VueWrapper<InstanceType<typeof NodeDropdown>>
 
   const stubs = {
-    AvDropdown: AvDropdownStub
+    ManageEntityDropdown: ManageEntityDropdownStub
+  }
+
+  const getManageEntityDropdown = () => wrapper.findComponent(ManageEntityDropdownStub)
+  const getActionByName = (name: Action) => {
+    return getManageEntityDropdown().props('actions').find(action => (action as Action) === name)
   }
 
   BddTest().when('the component is mounted', () => {
@@ -17,25 +23,18 @@ BddTest().given('a node dropdown', () => {
     })
 
     BddTest().then('it should render the dropdown', () => {
-      const dropdown = wrapper.findComponent(AvDropdownStub)
-      expect(dropdown.exists()).toBe(true)
+      expect(getManageEntityDropdown().exists()).toBe(true)
     })
 
-    BddTest().then('it should render the default items', () => {
-      const dropdown = wrapper.findComponent(AvDropdownStub)
-      const items = dropdown.props('items')
-      expect(items).toHaveLength(3)
-      expect(items).toEqual([
-        { name: 'update', icon: MDI_ICONS.PENCIL_OUTLINE, label: 'Modifier' },
-        { name: 'remove', icon: MDI_ICONS.TRASH_CAN_OUTLINE, label: 'Supprimer' },
-        { name: 'collapse', icon: MDI_ICONS.MINUS, label: 'Réduire' }
-      ])
+    BddTest().then('it should render the default actions', () => {
+      const dropdown = getManageEntityDropdown()
+      const actions = dropdown.props('actions')
+      expect(actions).toHaveLength(3)
+      expect(actions).toEqual([Action.UPDATE, Action.DELETE, Action.COLLAPSE])
     })
 
     BddTest().then('it should not render the custom items', () => {
-      const dropdown = wrapper.findComponent(AvDropdownStub)
-      const items = dropdown.props('items')
-      expect(items.find((item: { name: string }) => item.name === 'updateInProfile')).toBeUndefined()
+      expect(getActionByName(Action.UPDATE_IN_PROFILE)).toBeUndefined()
     })
   })
 
@@ -49,13 +48,8 @@ BddTest().given('a node dropdown', () => {
       })
     })
 
-    BddTest().then('it should render the collapse item as expand', () => {
-      const dropdown = wrapper.findComponent(AvDropdownStub)
-      const items = dropdown.props('items')
-      const collapseItem = items.find((item: { name: string }) => item.name === 'collapse')
-      expect(collapseItem).toBeDefined()
-      expect(collapseItem.label).toBe('Développer')
-      expect(collapseItem.icon).toBe(MDI_ICONS.PLUS)
+    BddTest().then('it should render the expand item', () => {
+      expect(getActionByName(Action.EXPAND)).toBeDefined()
     })
   })
 
@@ -70,19 +64,12 @@ BddTest().given('a node dropdown', () => {
     })
 
     BddTest().then('it should render the custom updateInProfile item', () => {
-      const dropdown = wrapper.findComponent(AvDropdownStub)
-      const items = dropdown.props('items')
-      expect(items).toHaveLength(4)
-
-      const updateInProfileItem = items.find((item: { name: string }) => item.name === 'updateInProfile')
-      expect(updateInProfileItem).toBeDefined()
-      expect(updateInProfileItem.label).toBe('Mettre à jour dans mon profil')
-      expect(updateInProfileItem.icon).toBe(MDI_ICONS.TRAY_UPLOAD)
+      expect(getActionByName(Action.UPDATE_IN_PROFILE)).toBeDefined()
     })
 
     BddTest().and('the update item is clicked', () => {
       beforeEach(() => {
-        const updateButton = wrapper.find('[data-name="update"]')
+        const updateButton = wrapper.find('[data-testid="update"]')
         updateButton.trigger('click')
       })
 
@@ -93,7 +80,7 @@ BddTest().given('a node dropdown', () => {
 
     BddTest().and('the remove item is clicked', () => {
       beforeEach(() => {
-        const removeButton = wrapper.find('[data-name="remove"]')
+        const removeButton = wrapper.find('[data-testid="delete"]')
         removeButton.trigger('click')
       })
 
@@ -104,7 +91,7 @@ BddTest().given('a node dropdown', () => {
 
     BddTest().and('the collapse item is clicked', () => {
       beforeEach(() => {
-        const collapseButton = wrapper.find('[data-name="collapse"]')
+        const collapseButton = wrapper.find('[data-testid="collapse"]')
         collapseButton.trigger('click')
       })
 
@@ -115,7 +102,7 @@ BddTest().given('a node dropdown', () => {
 
     BddTest().and('the updateInProfile item is clicked', () => {
       beforeEach(() => {
-        const updateInProfileButton = wrapper.find('[data-name="updateInProfile"]')
+        const updateInProfileButton = wrapper.find('[data-testid="updateInProfile"]')
         updateInProfileButton.trigger('click')
       })
 

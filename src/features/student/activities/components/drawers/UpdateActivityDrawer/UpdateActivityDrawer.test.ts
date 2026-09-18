@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { FormCancelConfirmButtonsStub } from '@/common/components/FormCancelConfirmButtons/FormCancelConfirmButtons.stub'
 import UpdateActivityDrawer from '@/features/student/activities/components/drawers/UpdateActivityDrawer/UpdateActivityDrawer.vue'
@@ -105,6 +106,34 @@ BddTest().given('the UpdateActivityDrawer component', () => {
               startDate: '2024-01-01',
               endDate: '2024-12-31'
             }
+          }
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render ActivityPeriodFormField', () => {
+      const periodField = wrapper.findComponent(ActivityPeriodFormFieldStub)
+      expect(periodField.exists()).toBe(false)
+    })
+
+    BddTest().then('it should still render KitValorizationToggleFormField', () => {
+      const valorizationField = wrapper.findComponent(KitValorizationToggleFormFieldStub)
+      expect(valorizationField.exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the activity is completed and the period is not defined', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      mockCanLeave.mockResolvedValue(true)
+
+      wrapper = mountComponent(UpdateActivityDrawer, {
+        props: {
+          show: true,
+          declaredActivity: {
+            ...mockedDeclaredActivityDetails,
+            status: EDeclaredActivityStatus.COMPLETED
           }
         },
         global: { stubs }

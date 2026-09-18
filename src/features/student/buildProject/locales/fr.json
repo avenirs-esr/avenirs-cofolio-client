@@ -5,11 +5,6 @@
         "actions": {
           "screenshot": "Capture d'écran"
         },
-        "researchs": {
-          "addResearchButton": {
-            "label": "Ajouter une recherche"
-          }
-        },
         "selfKnowledge": {
           "addCategoryButton": {
             "confirm": "Ajouter cette catégorie | Ajouter ces catégories",
@@ -45,11 +40,6 @@
           }
         },
         "title": "Ma carte mentale",
-        "trajectories": {
-          "addTrajectoryButton": {
-            "label": "Ajouter une trajectoire"
-          }
-        },
         "user": {
           "profilePictureAlt": "Photo de profil"
         }

@@ -8,21 +8,13 @@ import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes
 import { ICONS } from '@/common/constants'
 import { ROUTES } from '@/common/constants/route-names'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
-import DeclaredExperienceSideMenu
-  from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.vue'
-import { usePaginatedDeclaredExperiences } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
 import UpdateDeclaredExperienceForm
   from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/UpdateDeclaredExperienceForm.vue'
 import DeclaredExperienceAssociations
   from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.vue'
-import { AvTab, AvTabs, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export interface DeclaredExperienceUpdateViewProps {
-  experienceId: string
-}
-
-const { experienceId } = defineProps<DeclaredExperienceUpdateViewProps>()
 enum DeclaredExperienceUpdateViewTabs {
   DETAILS = 0,
   ASSOCIATIONS = 1
@@ -33,11 +25,9 @@ const route = useRoute()
 const router = useRouter()
 const selectedExperienceId = computed(() => String(route.params.id ?? ''))
 const isDirty = ref(false)
-const { isMobile } = useAvBreakpoints()
 
 const { modalOpened, openModal, closeModal } = useModal()
 
-const { declaredExperiences, pageInfo, loadMoreDeclaredExperiences } = usePaginatedDeclaredExperiences({})
 const { data: declaredExperience, isLoading, isError } = useGetDeclaredExperience(selectedExperienceId)
 const { data: declaredExperienceAssociations, error: associationsError } = useGetAssociations(EAssociationContextType.DECLARED_EXPERIENCE, selectedExperienceId)
 
@@ -53,25 +43,7 @@ const trailingLinks = computed(() => [
   { text: `${t('global.buttons.update')} ${declaredExperienceTitle.value}` }
 ])
 
-const {
-  canLeave,
-  confirm,
-  cancel
-} = useUnsavedChangesGuard({
-  isDirty,
-  openModal,
-  closeModal
-})
-
-async function onSelectExperience (experienceId: string) {
-  if (await canLeave()) {
-    router.replace({
-      name: ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE.name,
-      params: { id: experienceId },
-      state: { preserveScroll: true }
-    })
-  }
-}
+const { confirm, cancel } = useUnsavedChangesGuard({ isDirty, openModal, closeModal })
 
 function onDirtyChange (value: boolean) {
   isDirty.value = value
@@ -89,53 +61,42 @@ function onExperienceUpdated () {
     :trailing-links="trailingLinks"
   />
 
-  <div class="av-row av-gap-sm">
-    <DeclaredExperienceSideMenu
-      v-if="!isMobile"
-      :selected-experience-id="experienceId"
-      :experiences="declaredExperiences"
-      :experience-count="pageInfo.totalElements"
-      @select-experience="onSelectExperience"
-      @load-more-experiences="loadMoreDeclaredExperiences"
-    />
-
-    <div class="av-col av-gap-sm av-justify-start av-flex-fill">
-      <UpdateInProgressBadge :show="isDirty" />
-      <AvTabs v-model="activeTab">
-        <AvTab
-          :title="t('student.personalCareer.views.DeclaredExperienceUpdateView.tabs.experience.title')"
-          :icon="MDI_ICONS.INFORMATION_OUTLINE"
+  <div class="av-col av-gap-sm av-justify-start av-flex-fill">
+    <UpdateInProgressBadge :show="isDirty" />
+    <AvTabs v-model="activeTab">
+      <AvTab
+        :title="t('student.personalCareer.views.DeclaredExperienceUpdateView.tabs.experience.title')"
+        :icon="MDI_ICONS.INFORMATION_OUTLINE"
+      >
+        <Loader
+          :is-loading="isLoading && !isError"
+          size="2xl"
         >
-          <Loader
-            :is-loading="isLoading && !isError"
-            size="2xl"
-          >
-            <UpdateDeclaredExperienceForm
-              v-if="declaredExperience"
-              :key="declaredExperience.id"
-              :declared-experience="declaredExperience"
-              @dirty-change="onDirtyChange"
-              @experience-updated="onExperienceUpdated"
-              @cancel="router.push({ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: selectedExperienceId } })"
-            />
-          </Loader>
-        </AvTab>
-        <AvTab
-          :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
-          :icon="ICONS.ASSOCIATIONS"
-          data-testid="update-declared-experience-associations-tab"
-        >
-          <DeclaredExperienceAssociations
-            :declared-experience-id="selectedExperienceId"
-            :trace-associations="traceAssociations"
-            :declared-skill-associations="declaredSkillAssociations"
-            :associations-error="associationsError"
-            disabled
-            :show-actions="false"
+          <UpdateDeclaredExperienceForm
+            v-if="declaredExperience"
+            :key="declaredExperience.id"
+            :declared-experience="declaredExperience"
+            @dirty-change="onDirtyChange"
+            @experience-updated="onExperienceUpdated"
+            @cancel="router.push({ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: selectedExperienceId } })"
           />
-        </AvTab>
-      </AvTabs>
-    </div>
+        </Loader>
+      </AvTab>
+      <AvTab
+        :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
+        :icon="ICONS.ASSOCIATIONS"
+        data-testid="update-declared-experience-associations-tab"
+      >
+        <DeclaredExperienceAssociations
+          :declared-experience-id="selectedExperienceId"
+          :trace-associations="traceAssociations"
+          :declared-skill-associations="declaredSkillAssociations"
+          :associations-error="associationsError"
+          disabled
+          :show-actions="false"
+        />
+      </AvTab>
+    </AvTabs>
   </div>
   <ConfirmationModal
     :opened="modalOpened"
