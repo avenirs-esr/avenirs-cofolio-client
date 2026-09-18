@@ -190,7 +190,7 @@
           },
           "informations": {
             "disabled": "Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.",
-            "willBeDisabled": "Après la publication de l'activité et suite à l'inscription d'un apprenant ce champ ne sera plus modifiable"
+            "willBeDisabled": "Après l'inscription d'un premier apprenant, ce paramètre ne pourra plus être modifié."
           }
         }
       }

@@ -68,7 +68,7 @@ BddTest().given('an ActivityReflectionFormField component', () => {
       expect(getMessage().exists()).toBe(true)
       expect(getMessage().props('type')).toBe('info')
       expect(getMessage().props('message')).toEqual(
-        'Après la publication de l\'activité et suite à l\'inscription d\'un apprenant ce champ ne sera plus modifiable',
+        'Après l\'inscription d\'un premier apprenant, ce paramètre ne pourra plus être modifié.',
       )
     })
   })
@@ -112,7 +112,7 @@ BddTest().given('an ActivityReflectionFormField component', () => {
       expect(getMessage().exists()).toBe(true)
       expect(getMessage().props('type')).toBe('info')
       expect(getMessage().props('message')).toEqual(
-        'Après la publication de l\'activité et suite à l\'inscription d\'un apprenant ce champ ne sera plus modifiable',
+        'Après l\'inscription d\'un premier apprenant, ce paramètre ne pourra plus être modifié.',
       )
     })
   })
