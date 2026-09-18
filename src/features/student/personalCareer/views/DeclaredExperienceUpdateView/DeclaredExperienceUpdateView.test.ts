@@ -3,8 +3,7 @@ import { createMockedDeclaredExperienceAssociationsDTO } from '@/__mocks__/fixtu
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants/route-names'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
-import { DeclaredExperienceSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.stub'
-import DeclaredExperienceUpdateView, { type DeclaredExperienceUpdateViewProps } from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'
+import DeclaredExperienceUpdateView from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'
 import { DeclaredExperienceAssociationsStub } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.stub'
 import { AvIconTextStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -56,7 +55,6 @@ const stubs = {
   AvIconText: AvIconTextStub,
   UpdatePageTitle: UpdatePageTitleStub,
   UpdateInProgressBadge: UpdateInProgressBadgeStub,
-  DeclaredExperienceSideMenu: DeclaredExperienceSideMenuStub,
   UpdateDeclaredExperienceForm: UpdateDeclaredExperienceFormStub,
   DeclaredExperienceAssociations: DeclaredExperienceAssociationsStub,
   AvTabs: { template: '<div><slot /></div>' },
@@ -65,15 +63,9 @@ const stubs = {
 
 BddTest().given('a declared experience update view', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceUpdateView>>
-  const props: DeclaredExperienceUpdateViewProps = {
-    experienceId: 'exp-123'
-  }
 
   const mountComponentWithDefaults = async () => {
-    wrapper = mountComponent(DeclaredExperienceUpdateView, {
-      props,
-      global: { stubs }
-    })
+    wrapper = mountComponent(DeclaredExperienceUpdateView, { global: { stubs } })
   }
 
   BddTest().when('the component is mounted', () => {
@@ -127,18 +119,6 @@ BddTest().given('a declared experience update view', () => {
           params: { id: route.params.id }
         })
       })
-    })
-  })
-
-  BddTest().when('the component is mounted on mobile', () => {
-    beforeEach(async () => {
-      mockIsMobile.value = true
-      await mountComponentWithDefaults()
-    })
-
-    BddTest().then('it should not render the side menu', () => {
-      const sideMenu = wrapper.findComponent({ name: 'DeclaredExperienceSideMenu' })
-      expect(sideMenu.exists()).toBe(false)
     })
   })
 })

@@ -1,11 +1,9 @@
-import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import { declaredProgramDetailedHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { UpdateInProgressBadgeStub } from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
-import { DeclaredProgramSideMenuStub } from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.stub'
 import DeclaredProgramUpdateView from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/DeclaredProgramUpdateView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -93,7 +91,6 @@ const DeclaredProgramUpdateFormStub = {
 
 const stubs = {
   UpdatePageTitle: UpdatePageTitleStub,
-  DeclaredProgramSideMenu: DeclaredProgramSideMenuStub,
   DeclaredProgramUpdateForm: DeclaredProgramUpdateFormStub,
   ConfirmationModal: ConfirmationModalStub,
   UpdateInProgressBadge: UpdateInProgressBadgeStub
@@ -109,18 +106,7 @@ BddTest().given('a declared program update view component', () => {
       global: { stubs }
     })
 
-    await vi.waitFor(() => {
-      const sideMenu = wrapper.findComponent({ name: 'DeclaredProgramSideMenu' })
-      const programs = sideMenu.props('programs') as DeclaredProgramViewDTO[]
-      expect(programs.length).toBeGreaterThan(0)
-    })
-  }
-
-  const getSideMenu = () => wrapper.findComponent(DeclaredProgramSideMenuStub)
-
-  const getSideMenuPrograms = () => {
-    const sideMenu = getSideMenu()
-    return sideMenu.props('programs') as DeclaredProgramViewDTO[]
+    await flushPromises()
   }
 
   const getConfirmationModal = () => wrapper.findComponent(ConfirmationModalStub)
@@ -182,139 +168,12 @@ BddTest().given('a declared program update view component', () => {
       })
     })
 
-    BddTest().then('it should render the side menu with correct props', () => {
-      const sideMenu = getSideMenu()
-      const programs = getSideMenuPrograms()
-
-      expect(sideMenu.exists()).toBe(true)
-      expect(sideMenu.props('selectedProgramId')).toBe('declared-program-1')
-      expect(sideMenu.props('countPrograms')).toBe(60)
-
-      expect(programs).toHaveLength(3)
-      expect(programs[0].title).toBe('Formation déclarée 1')
-      expect(programs[1].title).toBe('Formation déclarée 2')
-      expect(programs[2].title).toBe('Formation déclarée 3')
-    })
-
     BddTest().then('it should render the confirmation modal closed by default', () => {
       const modal = getConfirmationModal()
 
       expect(modal.exists()).toBe(true)
       expect(modal.props('opened')).toBe(false)
       expect(modal.props('description')).toBe('Les modifications non enregistrées seront perdues.')
-    })
-
-    BddTest().and('selecting a program from the side menu when canLeave is true', () => {
-      let secondProgramId: string
-
-      beforeEach(async () => {
-        mockCanLeave.mockResolvedValue(true)
-
-        const sideMenu = getSideMenu()
-        const programs = getSideMenuPrograms()
-        secondProgramId = programs[1].id
-
-        sideMenu.vm.$emit('selectProgram', secondProgramId)
-        await nextTick()
-        await flushPromises()
-      })
-
-      BddTest().then('it should navigate immediately and not open the modal', () => {
-        expect(routerReplace).toHaveBeenCalledWith({
-          name: ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name,
-          params: { id: secondProgramId },
-          state: { preserveScroll: true }
-        })
-        expect(openConfirmationModal).not.toHaveBeenCalled()
-      })
-    })
-
-    BddTest().and('selecting a program from the side menu when canLeave is false', () => {
-      let secondProgramId: string
-
-      beforeEach(async () => {
-        mockCanLeave.mockImplementation(async () => {
-          openConfirmationModal()
-          return false
-        })
-
-        const sideMenu = getSideMenu()
-        const programs = getSideMenuPrograms()
-        secondProgramId = programs[1].id
-
-        sideMenu.vm.$emit('selectProgram', secondProgramId)
-        await nextTick()
-        await flushPromises()
-      })
-
-      BddTest().then('it should open the confirmation modal and not navigate', () => {
-        const modal = getConfirmationModal()
-
-        expect(openConfirmationModal).toHaveBeenCalledTimes(1)
-        expect(modal.props('opened')).toBe(true)
-        expect(routerReplace).not.toHaveBeenCalled()
-      })
-
-      BddTest().and('closing the modal', () => {
-        beforeEach(async () => {
-          const modal = getConfirmationModal()
-          modal.vm.$emit('close')
-          await nextTick()
-          await flushPromises()
-        })
-
-        BddTest().then('it should call guard cancel and not navigate', () => {
-          const modal = getConfirmationModal()
-
-          expect(mockCancel).toHaveBeenCalledTimes(1)
-          expect(modal.props('opened')).toBe(true)
-          expect(routerReplace).not.toHaveBeenCalled()
-        })
-      })
-
-      BddTest().and('confirming the modal', () => {
-        beforeEach(async () => {
-          const modal = getConfirmationModal()
-          modal.vm.$emit('confirm')
-          await nextTick()
-          await flushPromises()
-        })
-
-        BddTest().then('it should call guard confirm', () => {
-          expect(mockConfirm).toHaveBeenCalledTimes(1)
-        })
-      })
-    })
-
-    BddTest().and('loading more programs from the side menu', () => {
-      beforeEach(async () => {
-        const sideMenu = getSideMenu()
-        sideMenu.vm.$emit('loadMorePrograms')
-        await flushPromises()
-      })
-
-      BddTest().then('it should fetch the next page of programs', async () => {
-        await vi.waitFor(() => {
-          const programs = getSideMenuPrograms()
-          expect(programs.length).toBeGreaterThan(3)
-        })
-
-        const programs = getSideMenuPrograms()
-        expect(programs).toHaveLength(6)
-        expect(programs[3].title).toBe('Formation déclarée 4')
-        expect(programs[4].title).toBe('Formation déclarée 5')
-      })
-
-      BddTest().then('it should accumulate programs without duplicates', async () => {
-        await vi.waitFor(() => {
-          const programs = getSideMenuPrograms()
-          expect(programs.length).toBe(6)
-        })
-
-        const programs = getSideMenuPrograms()
-        const uniqueIds = new Set(programs.map(p => p.id))
-        expect(uniqueIds.size).toBe(programs.length)
-      })
     })
   })
 
@@ -324,32 +183,11 @@ BddTest().given('a declared program update view component', () => {
       await mountComponentWithDefaults()
     })
 
-    BddTest().then('it should set selectedProgramId from route params', () => {
-      const sideMenu = getSideMenu()
-      expect(sideMenu.props('selectedProgramId')).toBe('declared-program-2')
-    })
-
     BddTest().then('it should render title for that program', async () => {
       await vi.waitFor(() => {
         const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
         expect(String(pageTitle.props('title'))).toContain('Formation déclarée 2')
       })
-    })
-  })
-
-  BddTest().when('the component is mounted on mobile', () => {
-    beforeEach(async () => {
-      mockIsMobile.value = true
-      server.use(declaredProgramDetailedHandler)
-
-      wrapper = mountComponent(DeclaredProgramUpdateView, {
-        global: { stubs }
-      })
-    })
-
-    BddTest().then('it should not render the side menu', () => {
-      const sideMenu = wrapper.findComponent(DeclaredProgramSideMenuStub)
-      expect(sideMenu.exists()).toBe(false)
     })
   })
 })

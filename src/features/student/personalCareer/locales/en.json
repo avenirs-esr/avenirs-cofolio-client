@@ -105,11 +105,6 @@
           }
         }
       },
-      "navigation": {
-        "DeclaredProgramSideMenu": {
-          "title": "All of my declared programs"
-        }
-      },
       "overlays": {
         "AddDeclaredExperienceDrawer": {
           "confirmationModal": {
@@ -175,9 +170,6 @@
           "DeclaredExperienceDetailsDropdown": {
             "dropdown": "Manage my experience",
             "title": "Details of my declared experience"
-          },
-          "DeclaredExperienceDetailsSideMenu": {
-            "title": "All my declared experiences"
           },
           "empty": {
             "associations": "No associations reported for this declared experience."

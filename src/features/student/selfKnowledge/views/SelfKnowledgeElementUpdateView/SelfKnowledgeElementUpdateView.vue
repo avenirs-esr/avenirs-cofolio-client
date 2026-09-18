@@ -3,12 +3,10 @@ import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useNavigation } from '@/common/composables'
+import { ROUTES } from '@/common/constants'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
-import SelfKnowledgeElementsSideMenu from '@/features/student/selfKnowledge/components/navigation/SelfKnowledgeElementsSideMenu/SelfKnowledgeElementsSideMenu.vue'
-import SelfKnowledgeElementTabs from '@/features/student/selfKnowledge/components/tabs/SelfKnowledgeElementTabs/SelfKnowledgeElementTabs.vue'
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
-import { useSelfKnowledgePaginatedElements } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
 import SelfKnowledgeElementUpdateForm from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/SelfKnowledgeElementUpdateForm.vue'
 import { toSentenceCase } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -23,37 +21,24 @@ const props = defineProps<SelfKnowledgeElementUpdateViewProps>()
 const { data: element } = useGetSelfKnowledgeElementDetails(toRef(props, 'elementId'))
 
 const { t } = useI18n()
-const {
-  navigateToStudentSelfKnowledgeElementUpdate,
-  navigateToStudentSelfKnowledgeCategory
-} = useNavigation()
+const { navigateToStudentSelfKnowledgeCategory } = useNavigation()
 
 const categoryId = computed(() => props.categoryId as ESelfKnowledgeCategory)
 
-const {
-  categoryType,
-  categoryTypeLabel
-} = useSelfKnowledgeCategory(categoryId)
-
-const {
-  elements,
-  pageInfo,
-  loadMoreElements
-} = useSelfKnowledgePaginatedElements({
-  selfKnowledgeCategory: categoryId,
-})
+const { categoryTypeLabel } = useSelfKnowledgeCategory(categoryId)
 
 const trailingLinks = computed(() => [
-  { text: t('student.selfKnowledge.views.SelfKnowledgeElementUpdateView.breadcrumb.current.title', { categoryType: categoryTypeLabel.value }) }
+  { text: toSentenceCase(categoryTypeLabel.value) },
+  {
+    text: element.value?.title ?? '',
+    to: {
+      name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
+      params: { id: props.categoryId },
+      query: { elementId: props.elementId }
+    }
+  },
+  { text: t('global.buttons.update') }
 ])
-
-function onSelectElement (selectedElementId: string) {
-  navigateToStudentSelfKnowledgeElementUpdate({
-    categoryId: props.categoryId,
-    elementId: selectedElementId,
-    replace: true
-  })
-}
 
 function backToElementDetails () {
   navigateToStudentSelfKnowledgeCategory({
@@ -69,14 +54,6 @@ function backToElementDetails () {
     :trailing-links="trailingLinks"
   />
   <div class="self-knowledge-element-update-view av-row av-gap-sm">
-    <SelfKnowledgeElementsSideMenu
-      :elements="elements"
-      :category-type="categoryType"
-      :selected-element-id="props.elementId"
-      :count-elements="pageInfo.totalElements"
-      @select-element="onSelectElement"
-      @load-more-elements="loadMoreElements"
-    />
     <SelfKnowledgeElementDetailsContainer
       v-if="element"
       :element-title="element.title"
@@ -85,17 +62,10 @@ function backToElementDetails () {
         <UpdateInProgressBadge :show="true" />
       </template>
 
-      <SelfKnowledgeElementTabs :category-type="categoryType">
-        <template #element>
-          <SelfKnowledgeElementUpdateForm
-            :element="element"
-            :on-cancel="() => backToElementDetails()"
-          />
-        </template>
-        <template #associations>
-          Element associations placeholder
-        </template>
-      </SelfKnowledgeElementTabs>
+      <SelfKnowledgeElementUpdateForm
+        :element="element"
+        :on-cancel="() => backToElementDetails()"
+      />
     </SelfKnowledgeElementDetailsContainer>
   </div>
 </template>

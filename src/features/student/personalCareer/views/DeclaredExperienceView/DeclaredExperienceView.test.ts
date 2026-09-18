@@ -9,8 +9,6 @@ import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/Det
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { ROUTES } from '@/common/constants'
-import { DeclaredExperienceSideMenuStub }
-  from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.stub'
 import { DeleteDeclaredExperienceConfirmModalStub }
   from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.stub'
 import { DeclaredExperienceAssociationsStub }
@@ -78,7 +76,6 @@ const DeclaredExperienceDetailedStub = defineComponent({
 const stubs = {
   DetailedPageTitle: DetailedPageTitleStub,
   ErrorMessage: ErrorMessageStub,
-  DeclaredExperienceSideMenu: DeclaredExperienceSideMenuStub,
   DeclaredExperienceDetails: DeclaredExperienceDetailedStub,
   DeclaredExperienceAssociations: DeclaredExperienceAssociationsStub,
   Loader: LoaderStub,
@@ -121,23 +118,6 @@ BddTest().given('a declared experience view component', () => {
 
         expect(pageTitle.props('trailingLinks')).toHaveLength(1)
       })
-    })
-
-    BddTest().then('it should render the side menu', () => {
-      const sideMenu = wrapper.findComponent(DeclaredExperienceSideMenuStub)
-      expect(sideMenu.exists()).toBe(true)
-    })
-
-    BddTest().then('it should pass correct props to the side menu', () => {
-      const sideMenu = wrapper.findComponent(DeclaredExperienceSideMenuStub)
-
-      expect(sideMenu.props()).toHaveProperty('experiences')
-      expect(sideMenu.props()).toHaveProperty('experienceCount')
-      expect(sideMenu.props()).toHaveProperty('selectedExperienceId')
-
-      expect(Array.isArray(sideMenu.props('experiences'))).toBe(true)
-      expect(typeof sideMenu.props('experienceCount')).toBe('number')
-      expect(sideMenu.props('selectedExperienceId')).toBe('exp-123')
     })
 
     BddTest().then('it should render the dropdown', async () => {
@@ -210,46 +190,6 @@ BddTest().given('a declared experience view component', () => {
       await vi.waitFor(() => {
         expect(wrapper.find('[data-testid="error-message"]').exists()).toBe(false)
       })
-    })
-
-    BddTest().and('loading more experiences from the side menu', () => {
-      beforeEach(() => {
-        const sideMenu = wrapper.findComponent(DeclaredExperienceSideMenuStub)
-        sideMenu.vm.$emit('loadMoreExperiences')
-      })
-
-      BddTest().then('it should trigger the pagination composable', () => {
-        expect(wrapper.exists()).toBe(true)
-      })
-    })
-
-    BddTest().and('selecting an experience from the side menu', () => {
-      const experienceId = 'declared-experience-1'
-
-      beforeEach(() => {
-        const sideMenu = wrapper.findComponent(DeclaredExperienceSideMenuStub)
-        sideMenu.vm.$emit('selectExperience', experienceId)
-      })
-
-      BddTest().then('it should navigate to the declared experience route', () => {
-        expect(routerReplace).toHaveBeenCalledWith({
-          name: 'student-declared-experience',
-          params: { id: experienceId },
-          state: { preserveScroll: true }
-        })
-      })
-    })
-  })
-
-  BddTest().when('the component is mounted on mobile', () => {
-    beforeEach(async () => {
-      mockIsMobile.value = true
-      await mountComponentWithDefaults()
-    })
-
-    BddTest().then('it should not render the side menu', () => {
-      const sideMenu = wrapper.findComponent(DeclaredExperienceSideMenuStub)
-      expect(sideMenu.exists()).toBe(false)
     })
   })
 

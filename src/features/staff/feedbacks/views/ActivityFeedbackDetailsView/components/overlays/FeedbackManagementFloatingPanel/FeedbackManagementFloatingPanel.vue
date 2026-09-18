@@ -115,4 +115,10 @@ watch(isSeen, (newValue) => {
   height: 70vh;
   overflow-y: auto;
 }
+
+:deep() {
+  .av-card__title {
+    background-color: var(--light-background-primary2) !important;
+  }
+}
 </style>

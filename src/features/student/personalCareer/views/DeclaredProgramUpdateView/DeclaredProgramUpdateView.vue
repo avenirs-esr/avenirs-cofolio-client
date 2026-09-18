@@ -6,26 +6,18 @@ import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ROUTES } from '@/common/constants'
 import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
-import DeclaredProgramSideMenu
-  from '@/features/student/personalCareer/components/navigation/DeclaredProgramSideMenu/DeclaredProgramSideMenu.vue'
-import {
-  usePaginatedDeclaredPrograms
-} from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
 import DeclaredProgramUpdateForm
   from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/DeclaredProgramUpdateForm/DeclaredProgramUpdateForm.vue'
-import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
-const { isMobile } = useAvBreakpoints()
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
 const isDirty = ref(false)
 
 const { modalOpened, openModal, closeModal } = useModal()
 
-const { declaredPrograms, pageInfo, loadMoreDeclaredPrograms } = usePaginatedDeclaredPrograms({ pageSize: 3 })
 const { data: declaredProgramDetailed } = useGetDeclaredProgram(selectedProgramId)
 
 const programTitle = computed(() => declaredProgramDetailed.value?.title ?? '')
@@ -37,25 +29,7 @@ const trailingLinks = computed(() => [
   { text: `${t('global.buttons.update')} ${programTitle.value}` }
 ])
 
-const {
-  canLeave,
-  confirm,
-  cancel
-} = useUnsavedChangesGuard({
-  isDirty,
-  openModal,
-  closeModal
-})
-
-async function onSelectProgram (programId: string) {
-  if (await canLeave()) {
-    router.replace({
-      name: ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name,
-      params: { id: programId },
-      state: { preserveScroll: true }
-    })
-  }
-}
+const { confirm, cancel } = useUnsavedChangesGuard({ isDirty, openModal, closeModal })
 
 function onDirtyChange (value: boolean) {
   isDirty.value = value
@@ -72,26 +46,16 @@ function onProgramUpdated () {
     :title="programTitle"
     :trailing-links="trailingLinks"
   />
-  <div class="av-row av-gap-sm">
-    <DeclaredProgramSideMenu
-      v-if="!isMobile"
-      :selected-program-id="selectedProgramId"
-      :programs="declaredPrograms"
-      :count-programs="pageInfo.totalElements"
-      @select-program="onSelectProgram"
-      @load-more-programs="loadMoreDeclaredPrograms"
+  <div class="av-col av-gap-sm av-justify-start av-flex-fill">
+    <UpdateInProgressBadge :show="isDirty" />
+    <DeclaredProgramUpdateForm
+      v-if="declaredProgramDetailed"
+      :key="declaredProgramDetailed.id"
+      :declared-program-detailed="declaredProgramDetailed"
+      @dirty-change="onDirtyChange"
+      @program-updated="onProgramUpdated"
+      @cancel="router.push({ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: selectedProgramId } })"
     />
-    <div class="av-col av-gap-sm av-justify-start av-flex-fill">
-      <UpdateInProgressBadge :show="isDirty" />
-      <DeclaredProgramUpdateForm
-        v-if="declaredProgramDetailed"
-        :key="declaredProgramDetailed.id"
-        :declared-program-detailed="declaredProgramDetailed"
-        @dirty-change="onDirtyChange"
-        @program-updated="onProgramUpdated"
-        @cancel="router.push({ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: selectedProgramId } })"
-      />
-    </div>
   </div>
   <ConfirmationModal
     :opened="modalOpened"
