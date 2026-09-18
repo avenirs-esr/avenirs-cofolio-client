@@ -12,9 +12,7 @@ import { SearchAssociationLayoutStub } from '@/features/student/global/component
 import {
   ConfirmAssociateModalStub
 } from '@/features/student/global/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.stub'
-import { TraceAssociationTypes } from '@/features/student/traces'
 import { TraceCompactCardStub } from '@/features/student/traces/components/cards/TraceCompactCard/TraceCompactCard.stub'
-import { TracesTypeSelectStub } from '@/features/student/traces/components/interactions/pickers/TracesTypeSelect/TracesTypeSelect.stub'
 import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -41,7 +39,6 @@ BddTest().given('an associate traces to declared activity modal', () => {
     AvModal: AvModalStub,
     SearchAssociationLayout: SearchAssociationLayoutStub,
     ConfirmAssociateModal: ConfirmAssociateModalStub,
-    TracesTypeSelect: TracesTypeSelectStub,
     TraceCompactCard: TraceCompactCardStub,
     ConfirmationModal: ConfirmationModalStub
   }
@@ -99,15 +96,6 @@ BddTest().given('an associate traces to declared activity modal', () => {
       expect(layout.exists()).toBe(true)
     })
 
-    BddTest().then('it should initialize the traces type select with UNASSOCIATED', () => {
-      const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
-
-      expect(tracesTypeSelect.exists()).toBe(true)
-      expect(tracesTypeSelect.props('modelValue')).toEqual({
-        itemId: TraceAssociationTypes.UNASSOCIATED
-      })
-    })
-
     BddTest().then('it should render the confirm associate traces modal hidden by default', () => {
       const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
 
@@ -123,13 +111,18 @@ BddTest().given('an associate traces to declared activity modal', () => {
       expect(confirmationModal.props('opened')).toBe(false)
     })
 
-    BddTest().then('it should load unassociated traces from the query and pass them to the layout', async () => {
+    BddTest().then('it should load the traces from the query and pass them to the layout', async () => {
       await vi.waitFor(() => {
         const layout = wrapper.findComponent(SearchAssociationLayoutStub)
         const options = layout.props('options')
 
-        expect(options).toHaveLength(5)
+        expect(options).toHaveLength(10)
         expect(options).toEqual([
+          { label: 'Ma super trace associée numéro 1', value: '4453f884-9081-43cb-95c6-d76c2bb59fd7', disabled: false },
+          { label: 'Ma super trace associée numéro 2', value: 'trace-associee2', disabled: false },
+          { label: 'Ma super trace associée numéro 3', value: 'trace-associee3', disabled: false },
+          { label: 'Ma super trace associée numéro 4', value: 'trace-associee4', disabled: false },
+          { label: 'Ma super trace associée numéro 5', value: 'trace-associee5', disabled: false },
           { label: 'Ma super trace non associée numéro 1', value: '4453f884-9081-43cb-95c6-d76c2bb59fd7', disabled: false },
           { label: 'Ma super trace non associée numéro 2', value: 'trace-non-associee2', disabled: false },
           { label: 'Ma super trace non associée numéro 3', value: 'trace-non-associee3', disabled: false },
@@ -146,87 +139,10 @@ BddTest().given('an associate traces to declared activity modal', () => {
         expect(layout.props('modelValue')).toEqual([])
         expect(layout.props('items')).toEqual([])
         expect(layout.props('inputOptions')).toEqual({
-          placeholder: 'Rechercher une trace non associée'
+          placeholder: 'Rechercher une trace'
         })
         expect(layout.props('getOptionKey')).toBeTypeOf('function')
         expect(layout.props('getOptionLabel')).toBeTypeOf('function')
-      })
-    })
-
-    BddTest().and('the user changes the selected trace type to ALL', () => {
-      beforeEach(async () => {
-        const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
-        tracesTypeSelect.vm.$emit('update:modelValue', {
-          itemId: TraceAssociationTypes.ALL
-        })
-
-        await flushPromises()
-      })
-
-      BddTest().then('it should update the traces type select model value', () => {
-        const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
-
-        expect(tracesTypeSelect.props('modelValue')).toEqual({
-          itemId: TraceAssociationTypes.ALL
-        })
-      })
-
-      BddTest().then('it should load both associated and unassociated traces', async () => {
-        await vi.waitFor(() => {
-          const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-          const options = layout.props('options')
-
-          expect(options).toHaveLength(10)
-        })
-      })
-
-      BddTest().then('it should update the search placeholder', async () => {
-        await vi.waitFor(() => {
-          const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-
-          expect(layout.props('inputOptions')).toEqual({
-            placeholder: 'Rechercher une trace'
-          })
-        })
-      })
-    })
-
-    BddTest().and('the user changes the selected trace type to ASSOCIATED', () => {
-      beforeEach(async () => {
-        const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
-        tracesTypeSelect.vm.$emit('update:modelValue', {
-          itemId: TraceAssociationTypes.ASSOCIATED
-        })
-
-        await flushPromises()
-      })
-
-      BddTest().then('it should update the traces type select model value', () => {
-        const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
-
-        expect(tracesTypeSelect.props('modelValue')).toEqual({
-          itemId: TraceAssociationTypes.ASSOCIATED
-        })
-      })
-
-      BddTest().then('it should load only associated traces', async () => {
-        await vi.waitFor(() => {
-          const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-          const options = layout.props('options')
-
-          expect(options).toHaveLength(5)
-          expect(options.every((option: { disabled: boolean }) => !option.disabled)).toBe(true)
-        })
-      })
-
-      BddTest().then('it should update the search placeholder', async () => {
-        await vi.waitFor(() => {
-          const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-
-          expect(layout.props('inputOptions')).toEqual({
-            placeholder: 'Rechercher une trace associée'
-          })
-        })
       })
     })
 
@@ -243,6 +159,7 @@ BddTest().given('an associate traces to declared activity modal', () => {
           const layout = wrapper.findComponent(SearchAssociationLayoutStub)
 
           expect(layout.props('options')).toEqual([
+            { label: 'Ma super trace associée numéro 1', value: '4453f884-9081-43cb-95c6-d76c2bb59fd7', disabled: false },
             { label: 'Ma super trace non associée numéro 1', value: '4453f884-9081-43cb-95c6-d76c2bb59fd7', disabled: false }
           ])
         })
@@ -470,7 +387,7 @@ BddTest().given('an associate traces to declared activity modal', () => {
 
       await vi.waitFor(() => {
         const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-        expect(layout.props('options')).toHaveLength(5)
+        expect(layout.props('options')).toHaveLength(10)
       })
 
       const layout = wrapper.findComponent(SearchAssociationLayoutStub)

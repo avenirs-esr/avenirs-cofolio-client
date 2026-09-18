@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { type DeclaredActivityDetailsDTO, useGetDeclaredActivityAssociations } from '@/api/avenir-esr'
+import { type DeclaredActivityDetailsDTO, EAssociationContextType, useGetAssociations } from '@/api/avenir-esr'
 import { isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ICONS } from '@/common/constants'
@@ -21,7 +21,7 @@ enum MyPerspectiveSectionTab {
 }
 
 const { t } = useI18n()
-const { data: declaredActivityAssociations, isPending, error } = useGetDeclaredActivityAssociations(declaredActivityDetails.id)
+const { data: declaredActivityAssociations, isPending, error } = useGetAssociations(EAssociationContextType.DECLARED_ACTIVITY, declaredActivityDetails.id)
 
 const activeTab = useEnumRouteQuery('tab', MyPerspectiveSectionTab, MyPerspectiveSectionTab.MY_PERSPECTIVE)
 const associationsCount = computed(() =>

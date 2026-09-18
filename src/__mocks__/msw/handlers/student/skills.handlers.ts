@@ -7,37 +7,37 @@ import {
   createMockedSearchExternalSkillsDTO,
   mockedDeclaredSkillAssociations
 } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { anyAssociationContextType } from '@/__mocks__/msw/utils'
 import {
   type AddDeclaredSkillDTO,
   type AdditionalSkillConfigurationDTO,
   type AssociationsCreationRequest,
-  type DeclaredSkillAssociationsDTO,
+  type AssociationsDTO,
   type DeclaredSkillProgressDetailsDTO,
   type DeclaredSkillProgressDTO,
+  EAssociationContextType,
   EDeclaredSkillLevel,
   EExternalSkillType,
-  getAssociateDeclaredSkillWithDeclaredActivitiesUrl,
-  getAssociateDeclaredSkillWithDeclaredExperiencesUrl,
-  getAssociateDeclaredSkillWithTracesUrl,
+  getAssociateUrl,
   getCreateDeclaredSkillProgressUrl,
   type GetDeclaredSkillsProgressesParams,
-  getDeleteDeclaredSkillAssociationsUrl,
   getDeleteDeclaredSkillProgressUrl,
   getGetAdditionalSkillConfigUrl,
   getGetAssociatedExternalSkillIdsUrl,
-  getGetDeclaredSkillAssociationsUrl,
+  getGetAssociationsUrl,
   getGetDeclaredSkillProgressDetailsUrl,
   getGetDeclaredSkillsProgressesUrl,
-  getSearchDeclaredSkillsForAssociationUrl,
-  getUnassociateTracesUrl,
+  getSearchForAssociationUrl,
+  getSearchForAssociationWithNewElementUrl,
+  getUnassociateUrl,
   getUpdateDeclaredSkillProgressUrl,
-  type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
+  type PagedResponseAssociationSearchResultDTO,
   type PagedResponseDeclaredSkillProgressDTO,
   type PagedResponseExternalSkillDTO
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { delay, http, HttpResponse, type PathParams } from 'msw'
+import { delay, http, HttpResponse, type HttpResponseResolver, type PathParams } from 'msw'
 
 const INVALID_DECLARED_SKILL_ID = 'INVALID_DECLARED_SKILL_ID'
 
@@ -81,7 +81,7 @@ export const detailedSkillProgressNotFoundErrorHandler = http.get(`*${getGetDecl
 })
 
 export const searchDeclaredSkillsForAssociationErrorHandler = http.get(
-  `*${getSearchDeclaredSkillsForAssociationUrl()}`,
+  `*${getSearchForAssociationUrl(anyAssociationContextType, ':elementId', EAssociationContextType.DECLARED_SKILL)}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -90,32 +90,39 @@ export const searchDeclaredSkillsForAssociationErrorHandler = http.get(
   }
 )
 
+const resolveSearchDeclaredSkillsForAssociation: HttpResponseResolver = ({ request }) => {
+  const url = new URL(request.url)
+  const searchParams = url.searchParams
+  const keyword = searchParams.get('keyword') ?? ''
+  const pageSize = Number(searchParams.get('pageSize') ?? 100)
+  const page = Number(searchParams.get('page') ?? 0)
+
+  const response = createMockedPagedResponseAssociationSearchResultDeclaredSkillIDTO(
+    pageSize,
+    page,
+    keyword
+  )
+
+  return HttpResponse.json<PagedResponseAssociationSearchResultDTO>(response, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+}
+
 export const searchDeclaredSkillsForAssociationHandler = http.get(
-  `*${getSearchDeclaredSkillsForAssociationUrl()}*`,
-  ({ request }) => {
-    const url = new URL(request.url)
-    const searchParams = url.searchParams
-    const keyword = searchParams.get('keyword') ?? ''
-    const pageSize = Number(searchParams.get('pageSize') ?? 100)
-    const page = Number(searchParams.get('page') ?? 0)
+  `*${getSearchForAssociationUrl(anyAssociationContextType, ':elementId', EAssociationContextType.DECLARED_SKILL)}*`,
+  resolveSearchDeclaredSkillsForAssociation
+)
 
-    const response = createMockedPagedResponseAssociationSearchResultDeclaredSkillIDTO(
-      pageSize,
-      page,
-      keyword
-    )
-
-    return HttpResponse.json<PagedResponseAssociationSearchResultDeclaredSkillIDTO>(response, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  }
+export const searchDeclaredSkillsForAssociationWithNewElementHandler = http.get(
+  `*${getSearchForAssociationWithNewElementUrl(anyAssociationContextType, EAssociationContextType.DECLARED_SKILL)}*`,
+  resolveSearchDeclaredSkillsForAssociation
 )
 
 export const associateDeclaredSkillWithDeclaredActivityErrorHandler = http.post(
-  `*${getAssociateDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
+  `*${getAssociateUrl(EAssociationContextType.DECLARED_SKILL, ':declaredSkillProgressId', EAssociationContextType.DECLARED_ACTIVITY)}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -128,7 +135,7 @@ export const associateDeclaredSkillWithDeclaredActivityHandler = http.post<
   { declaredSkillProgressId: string },
   AssociationsCreationRequest
 >(
-  `*${getAssociateDeclaredSkillWithDeclaredActivitiesUrl(':declaredSkillProgressId')}`,
+  `*${getAssociateUrl(EAssociationContextType.DECLARED_SKILL, ':declaredSkillProgressId', EAssociationContextType.DECLARED_ACTIVITY)}`,
   async ({ request, params }) => {
     const body = await request.json()
     const { declaredSkillProgressId } = params
@@ -141,7 +148,7 @@ export const associateDeclaredSkillWithDeclaredActivityHandler = http.post<
       )
     }
 
-    const response: DeclaredSkillAssociationsDTO = createDeclaredSkillAssociationResponseFixture(body)
+    const response: AssociationsDTO = createDeclaredSkillAssociationResponseFixture(body)
 
     return HttpResponse.json(response, {
       status: 200,
@@ -153,7 +160,7 @@ export const associateDeclaredSkillWithDeclaredActivityHandler = http.post<
 )
 
 export const associateDeclaredSkillWithDeclaredExperiencesErrorHandler = http.post(
-  `*${getAssociateDeclaredSkillWithDeclaredExperiencesUrl(':declaredSkillProgressId')}`,
+  `*${getAssociateUrl(EAssociationContextType.DECLARED_SKILL, ':declaredSkillProgressId', EAssociationContextType.DECLARED_EXPERIENCE)}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -166,7 +173,7 @@ export const associateDeclaredSkillWithDeclaredExperiencesHandler = http.post<
   { declaredSkillProgressId: string },
   AssociationsCreationRequest
 >(
-  `*${getAssociateDeclaredSkillWithDeclaredExperiencesUrl(':declaredSkillProgressId')}`,
+  `*${getAssociateUrl(EAssociationContextType.DECLARED_SKILL, ':declaredSkillProgressId', EAssociationContextType.DECLARED_EXPERIENCE)}`,
   async ({ request, params }) => {
     const body = await request.json()
     const { declaredSkillProgressId } = params
@@ -194,7 +201,7 @@ export const associateDeclaredSkillWithTracesHandler = http.post<
   { declaredSkillProgressId: string },
   AssociationsCreationRequest
 >(
-  `*${getAssociateDeclaredSkillWithTracesUrl(':declaredSkillProgressId')}`,
+  `*${getAssociateUrl(EAssociationContextType.DECLARED_SKILL, ':declaredSkillProgressId', EAssociationContextType.TRACE)}`,
   async ({ request, params }) => {
     const body = await request.json()
     const { declaredSkillProgressId } = params
@@ -309,6 +316,7 @@ export const skillsHandlers = [
   }),
 
   searchDeclaredSkillsForAssociationHandler,
+  searchDeclaredSkillsForAssociationWithNewElementHandler,
   http.get<{ id: string }, DeclaredSkillProgressDetailsDTO>(`*${getGetDeclaredSkillProgressDetailsUrl(':id')}`, async ({ params }) => {
     const { id } = params
     const response = createMockedDeclaredSkillProgressDetailsDTO(id)
@@ -389,7 +397,7 @@ export const skillsHandlers = [
     })
   }),
 
-  http.post(`*${getUnassociateTracesUrl(':declaredSkillProgressId')}`, () => {
+  http.post(`*${getUnassociateUrl(EAssociationContextType.DECLARED_SKILL, ':declaredSkillProgressId')}`, () => {
     return HttpResponse.json<string>('success', {
       status: 200,
       headers: {
@@ -401,21 +409,21 @@ export const skillsHandlers = [
   associateDeclaredSkillWithDeclaredExperiencesHandler,
   associateDeclaredSkillWithTracesHandler,
 
-  http.get<{ declaredSkillProgressId: string }, DeclaredSkillAssociationsDTO>(
-    `*${getGetDeclaredSkillAssociationsUrl(':declaredSkillProgressId')}`,
+  http.get<{ declaredSkillProgressId: string }, AssociationsDTO>(
+    `*${getGetAssociationsUrl(EAssociationContextType.DECLARED_SKILL, ':declaredSkillProgressId')}`,
     ({ params }) => {
       if (params.declaredSkillProgressId === INVALID_DECLARED_SKILL_ID) {
         return HttpResponse.json({ error: 'Invalid declared skill ID', code: ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND }, { status: 404 })
       }
 
       if (params.declaredSkillProgressId === 'SKILL_WITHOUT_ASSOCIATIONS') {
-        return HttpResponse.json<DeclaredSkillAssociationsDTO>(
-          { traceAssociations: [], declaredActivityAssociations: [], declaredExperienceAssociations: [] },
+        return HttpResponse.json<AssociationsDTO>(
+          { traceAssociations: [], declaredActivityAssociations: [], declaredSkillAssociations: [], declaredExperienceAssociations: [] },
           { status: 200, headers: { 'Content-Type': 'application/json' } }
         )
       }
 
-      return HttpResponse.json<DeclaredSkillAssociationsDTO>(mockedDeclaredSkillAssociations, {
+      return HttpResponse.json<AssociationsDTO>(mockedDeclaredSkillAssociations, {
         status: 200,
         headers: {
           'Content-Type': 'application/json',
@@ -423,7 +431,7 @@ export const skillsHandlers = [
       })
     }
   ),
-  http.delete(`*${getDeleteDeclaredSkillAssociationsUrl(':declaredSkillProgressId')}`, ({ params }) => {
+  http.delete(`*${getUnassociateUrl(EAssociationContextType.DECLARED_SKILL, ':declaredSkillProgressId')}`, ({ params }) => {
     const { declaredSkillProgressId } = params
 
     if (declaredSkillProgressId === INVALID_DECLARED_SKILL_ID) {
@@ -438,7 +446,7 @@ export const skillsHandlers = [
 ]
 
 export const deleteDeclaredSkillAssociationsErrorHandler = http.delete(
-  `*${getDeleteDeclaredSkillAssociationsUrl(':declaredSkillProgressId')}`,
+  `*${getUnassociateUrl(EAssociationContextType.DECLARED_SKILL, ':declaredSkillProgressId')}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },

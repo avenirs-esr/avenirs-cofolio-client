@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { type AssociationsCreationRequest, invalidateGetTraceAssociations, invalidateGetTraceDetail, invalidateGetTracesSummary, invalidateSearchDeclaredSkillForAssociation, invalidateTracesView, useAssociateTraceWithDeclaredSkill, useSearchDeclaredSkillForAssociation } from '@/api/avenir-esr'
+import { type AssociationsCreationRequest, EAssociationContextType, invalidateGetAssociations, invalidateGetTraceDetail, invalidateGetTracesSummary, invalidateSearchForAssociation, invalidateTracesView, useAssociate, useSearchForAssociation } from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { AssociateDeclaredSkillsModal } from '@/features/student/declaredSkills'
 import { useAssociationModal } from '@/features/student/global'
@@ -43,18 +43,24 @@ const {
   isError: isSearchError,
   error: searchError,
   isLoading
-} = useSearchDeclaredSkillForAssociation(computed(() => traceId), params, {
-  query: {
-    enabled: enabled.value,
-    placeholderData: keepPreviousData,
+} = useSearchForAssociation(
+  EAssociationContextType.TRACE,
+  computed(() => traceId),
+  EAssociationContextType.DECLARED_SKILL,
+  params,
+  {
+    query: {
+      enabled: enabled.value,
+      placeholderData: keepPreviousData,
+    }
   }
-})
+)
 
 const skills = computed(() => data.value?.data || [])
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
-const { mutate: associateTraceWithDeclaredSkills, isPending } = useAssociateTraceWithDeclaredSkill({
+const { mutate: associateTraceWithDeclaredSkills, isPending } = useAssociate({
   mutation: {
     onError: error => onAssociateMutationError(error),
     onSuccess: async (_, variables) => {
@@ -62,8 +68,8 @@ const { mutate: associateTraceWithDeclaredSkills, isPending } = useAssociateTrac
         invalidateTracesView(queryClient, {}),
         invalidateGetTracesSummary(queryClient),
         invalidateGetTraceDetail(queryClient, traceId),
-        invalidateGetTraceAssociations(queryClient, traceId),
-        invalidateSearchDeclaredSkillForAssociation(queryClient, traceId, params.value)
+        invalidateGetAssociations(queryClient, EAssociationContextType.TRACE, traceId),
+        invalidateSearchForAssociation(queryClient, EAssociationContextType.TRACE, traceId, EAssociationContextType.DECLARED_SKILL, params.value)
       ]))
       const count = variables.data.idsToAssociate.length
       addSuccessMessage({
@@ -80,7 +86,12 @@ const { mutate: associateTraceWithDeclaredSkills, isPending } = useAssociateTrac
 
 function onAssociate (ids: string[]) {
   const data: AssociationsCreationRequest = { idsToAssociate: ids }
-  associateTraceWithDeclaredSkills({ traceId, data })
+  associateTraceWithDeclaredSkills({
+    contextType: EAssociationContextType.TRACE,
+    elementId: traceId,
+    associatedContextType: EAssociationContextType.DECLARED_SKILL,
+    data
+  })
 }
 </script>
 

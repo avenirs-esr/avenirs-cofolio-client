@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import {
   EAssociationContextType,
-  invalidateGetDeclaredSkillAssociations,
+  invalidateGetAssociations,
   invalidateGetDeclaredSkillProgressDetails,
-  useAssociateDeclaredSkillWithDeclaredExperiences,
-  useSearchDeclaredExperiencesForAssociation,
+  useAssociate,
+  useSearchForAssociation
 } from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useAssociationModal } from '@/features/student/global'
@@ -39,8 +39,6 @@ const {
 } = useAssociationModal()
 
 const params = computed(() => ({
-  contextType: EAssociationContextType.DECLARED_SKILL,
-  excludeAssociatedWithElementId: declaredSkillId,
   keyword: searchQuery.value.trim() || undefined,
   page: 0,
   pageSize: 100,
@@ -51,27 +49,35 @@ const {
   isError: isSearchError,
   error: searchError,
   isLoading: isSearchLoading
-} = useSearchDeclaredExperiencesForAssociation(params, {
-  query: {
-    enabled: computed(() => opened),
-    select: response => response.data,
+} = useSearchForAssociation(
+  EAssociationContextType.DECLARED_SKILL,
+  computed(() => declaredSkillId),
+  EAssociationContextType.DECLARED_EXPERIENCE,
+  params,
+  {
+    query: {
+      enabled: computed(() => opened),
+      select: response => response.data,
+    }
   }
-})
+)
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
-const { mutate: mutateAssociateDeclaredSkillWithDeclaredExperiences, isPending } = useAssociateDeclaredSkillWithDeclaredExperiences()
+const { mutate: mutateAssociateDeclaredSkillWithDeclaredExperiences, isPending } = useAssociate()
 
 function onAssociate (ids: string[]) {
   mutateAssociateDeclaredSkillWithDeclaredExperiences({
-    declaredSkillProgressId: declaredSkillId,
+    contextType: EAssociationContextType.DECLARED_SKILL,
+    elementId: declaredSkillId,
+    associatedContextType: EAssociationContextType.DECLARED_EXPERIENCE,
     data: { idsToAssociate: ids }
   }, {
     onError: error => onAssociateMutationError(error),
     onSuccess: async (_, variables) => {
       await withTaskLoading(() => Promise.all([
-        invalidateGetDeclaredSkillProgressDetails(queryClient, variables.declaredSkillProgressId),
-        invalidateGetDeclaredSkillAssociations(queryClient, variables.declaredSkillProgressId)
+        invalidateGetDeclaredSkillProgressDetails(queryClient, variables.elementId),
+        invalidateGetAssociations(queryClient, variables.contextType, variables.elementId)
       ]))
 
       addSuccessMessage({

@@ -1,11 +1,11 @@
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
-  type AssociationSearchResultDeclaredExperienceDTO,
+  type AssociationsDTO,
+  type AssociationSearchResultDTO,
   type DeclaredExperienceAssociationDTO,
-  type DeclaredExperienceAssociationsDTO,
   type DeclaredExperienceViewDTO,
   EExperienceType,
-  type PagedResponseAssociationSearchResultDeclaredExperienceDTO,
+  type PagedResponseAssociationSearchResultDTO,
   type PagedResponseDeclaredExperienceViewDTO,
   type TraceOverviewDTO,
 } from '@/api/avenir-esr'
@@ -123,40 +123,42 @@ export function createMockedDeclaredExperiencesAssociations (count: number): Dec
 
 export function createMockedDeclaredExperienceAssociationsDTO (
   traces: TraceOverviewDTO[] = mockedTraceOverview
-): DeclaredExperienceAssociationsDTO {
+): AssociationsDTO {
   return {
     traceAssociations: traces.map((trace, index) => ({
       associationId: `declared-experience-trace-association-${index + 1}`,
       trace
     })),
-    declaredSkillAssociations: []
+    declaredActivityAssociations: [],
+    declaredSkillAssociations: [],
+    declaredExperienceAssociations: []
   }
 }
 
-export const mockedExperienceSearchResults: AssociationSearchResultDeclaredExperienceDTO[] = [
+export const mockedExperienceSearchResults: AssociationSearchResultDTO[] = [
   {
     id: 'experience-search-1',
     title: 'Définir ses valeurs',
-    experienceType: EExperienceType.PERSONAL,
+    category: EExperienceType.PERSONAL,
     disabled: false
   },
   {
     id: 'experience-search-2',
     title: 'Explorer ses pistes d\'orientation',
-    experienceType: EExperienceType.PROFESSIONAL,
+    category: EExperienceType.PROFESSIONAL,
     disabled: false
   },
   {
     id: 'experience-search-3',
     title: 'Développeur Web Full Stack',
-    experienceType: EExperienceType.PROFESSIONAL,
+    category: EExperienceType.PROFESSIONAL,
     disabled: true
   }
 ]
 
 export function createMockedSearchExperiencesForAssociationResponse (
   params?: { keyword?: string, page?: number, pageSize?: number }
-): PagedResponseAssociationSearchResultDeclaredExperienceDTO {
+): PagedResponseAssociationSearchResultDTO {
   const { keyword, page = 0, pageSize = 100 } = params ?? {}
 
   let filtered = mockedExperienceSearchResults

@@ -10,28 +10,28 @@ import {
 } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import { createMockedSearchTracesForAssociationWithDeclaredExperienceResponse } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { searchTracesForAssociationHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
+import { anyAssociationContextType } from '@/__mocks__/msw/utils'
 import {
   type AssociationsCreationRequest,
-  type DeclaredExperienceAssociationsDTO,
+  type AssociationsDTO,
   type DeclaredExperienceViewDTO,
+  EAssociationContextType,
   EErrorCode,
-  getAssociateDeclaredExperienceWithDeclaredSkillsUrl,
-  getAssociateDeclaredExperienceWithTracesUrl,
+  getAssociateUrl,
   getCreateDeclaredExperienceUrl,
   type GetDeclaredExperienceViewParams,
-  getDeleteDeclaredExperienceAssociationsUrl,
   getDeleteDeclaredExperiencesUrl,
-  getGetDeclaredExperienceAssociationsUrl,
+  getGetAssociationsUrl,
   getGetDeclaredExperienceUrl,
   getGetDeclaredExperienceViewUrl,
-  getSearchDeclaredExperiencesForAssociationUrl,
-  getSearchTracesForAssociationWithDeclaredExperienceUrl,
-  type PagedResponseAssociationSearchResultDeclaredExperienceDTO,
-  type PagedResponseAssociationSearchResultTraceDTO,
+  getSearchForAssociationUrl,
+  getSearchForAssociationWithNewElementUrl,
+  getUnassociateUrl,
+  type PagedResponseAssociationSearchResultDTO,
   type PagedResponseDeclaredExperienceViewDTO
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
-import { delay, http, HttpResponse, type PathParams } from 'msw'
+import { delay, http, HttpResponse, type HttpResponseResolver, type PathParams } from 'msw'
 
 export const declaredExperiencesQueryHandler = http.get(`*${getGetDeclaredExperienceViewUrl()}`, async ({ request }) => {
   const url = new URL(request.url)
@@ -129,15 +129,15 @@ export const declaredExperienceDetailedNotFoundHandler = http.get(`*${getGetDecl
 })
 
 export const declaredExperienceAssociationsQueryHandler = http.get(
-  `*${getGetDeclaredExperienceAssociationsUrl(':experienceId')}`,
+  `*${getGetAssociationsUrl(EAssociationContextType.DECLARED_EXPERIENCE, ':experienceId')}`,
   async ({ params }) => {
     await delay('real')
 
     const { experienceId } = params as { experienceId: string }
 
     if (experienceId === 'EXP_WITHOUT_ASSOCIATIONS') {
-      return HttpResponse.json<DeclaredExperienceAssociationsDTO>(
-        { traceAssociations: [], declaredSkillAssociations: [] },
+      return HttpResponse.json<AssociationsDTO>(
+        { traceAssociations: [], declaredActivityAssociations: [], declaredSkillAssociations: [], declaredExperienceAssociations: [] },
         {
           status: 200,
           headers: { 'Content-Type': 'application/json' }
@@ -154,7 +154,7 @@ export const declaredExperienceAssociationsQueryHandler = http.get(
 
     const mockData = createMockedDeclaredExperienceAssociationsDTO()
 
-    return HttpResponse.json<DeclaredExperienceAssociationsDTO>(mockData, {
+    return HttpResponse.json<AssociationsDTO>(mockData, {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     })
@@ -162,7 +162,7 @@ export const declaredExperienceAssociationsQueryHandler = http.get(
 )
 
 export const declaredExperienceAssociationsQueryErrorHandler = http.get(
-  `*${getGetDeclaredExperienceAssociationsUrl(':experienceId')}`,
+  `*${getGetAssociationsUrl(EAssociationContextType.DECLARED_EXPERIENCE, ':experienceId')}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -175,7 +175,7 @@ export const declaredExperienceAssociationsQueryErrorHandler = http.get(
 )
 
 export const deleteDeclaredExperienceAssociationsErrorHandler = http.delete(
-  `*${getDeleteDeclaredExperienceAssociationsUrl(':experienceId')}`,
+  `*${getUnassociateUrl(EAssociationContextType.DECLARED_EXPERIENCE, ':experienceId')}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -188,7 +188,7 @@ export const deleteDeclaredExperienceAssociationsErrorHandler = http.delete(
 )
 
 export const searchTracesForAssociationWithDeclaredExperienceHandler = http.get(
-  `*${getSearchTracesForAssociationWithDeclaredExperienceUrl(':declaredExperienceId')}`,
+  `*${getSearchForAssociationUrl(EAssociationContextType.DECLARED_EXPERIENCE, ':declaredExperienceId', EAssociationContextType.TRACE)}`,
   async ({ params, request }) => {
     const { declaredExperienceId } = params
 
@@ -210,20 +210,13 @@ export const searchTracesForAssociationWithDeclaredExperienceHandler = http.get(
     const page = Number.parseInt(url.searchParams.get('page') ?? '0')
     const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '20')
 
-    const rawIsAssociated = url.searchParams.get('isAssociated')
-    const isAssociated
-      = rawIsAssociated === null || rawIsAssociated === 'null'
-        ? undefined
-        : rawIsAssociated === 'true'
-
     const response = createMockedSearchTracesForAssociationWithDeclaredExperienceResponse({
       keyword,
       page,
-      pageSize,
-      isAssociated
+      pageSize
     })
 
-    return HttpResponse.json<PagedResponseAssociationSearchResultTraceDTO>(response, {
+    return HttpResponse.json<PagedResponseAssociationSearchResultDTO>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json'
@@ -233,7 +226,7 @@ export const searchTracesForAssociationWithDeclaredExperienceHandler = http.get(
 )
 
 export const searchTracesForAssociationWithDeclaredExperienceErrorHandler = http.get(
-  `*${getSearchTracesForAssociationWithDeclaredExperienceUrl(':declaredExperienceId')}`,
+  `*${getSearchForAssociationUrl(EAssociationContextType.DECLARED_EXPERIENCE, ':declaredExperienceId', EAssociationContextType.TRACE)}`,
   async () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -251,7 +244,7 @@ export function createAssociateDeclaredExperienceWithTracesHandler (
   onRequest?: (request: AssociationsCreationRequest) => void
 ) {
   return http.post<PathParams, AssociationsCreationRequest>(
-    `*${getAssociateDeclaredExperienceWithTracesUrl(':experienceId')}`,
+    `*${getAssociateUrl(EAssociationContextType.DECLARED_EXPERIENCE, ':experienceId', EAssociationContextType.TRACE)}`,
     async ({ params, request }) => {
       const { experienceId } = params
 
@@ -272,7 +265,7 @@ export function createAssociateDeclaredExperienceWithTracesHandler (
 
       const response = createMockedDeclaredExperienceAssociationsDTO()
 
-      return HttpResponse.json<DeclaredExperienceAssociationsDTO>(response, {
+      return HttpResponse.json<AssociationsDTO>(response, {
         status: 200,
         headers: {
           'Content-Type': 'application/json'
@@ -285,7 +278,7 @@ export function createAssociateDeclaredExperienceWithTracesHandler (
 export const associateDeclaredExperienceWithTracesHandler = createAssociateDeclaredExperienceWithTracesHandler()
 
 export const associateDeclaredExperienceWithTracesErrorHandler = http.post(
-  `*${getAssociateDeclaredExperienceWithTracesUrl(':experienceId')}`,
+  `*${getAssociateUrl(EAssociationContextType.DECLARED_EXPERIENCE, ':experienceId', EAssociationContextType.TRACE)}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -300,7 +293,7 @@ export const associateDeclaredExperienceWithTracesErrorHandler = http.post(
 )
 
 export const associateDeclaredExperienceWithDeclaredSkillsErrorHandler = http.post(
-  `*${getAssociateDeclaredExperienceWithDeclaredSkillsUrl(':experienceId')}`,
+  `*${getAssociateUrl(EAssociationContextType.DECLARED_EXPERIENCE, ':experienceId', EAssociationContextType.DECLARED_SKILL)}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -318,7 +311,7 @@ export function createAssociateDeclaredExperienceWithDeclaredSkillsHandler (
   onRequest?: (request: AssociationsCreationRequest) => void
 ) {
   return http.post(
-    `*${getAssociateDeclaredExperienceWithDeclaredSkillsUrl(':experienceId')}`,
+    `*${getAssociateUrl(EAssociationContextType.DECLARED_EXPERIENCE, ':experienceId', EAssociationContextType.DECLARED_SKILL)}`,
     async ({ params, request }) => {
       const { experienceId } = params
 
@@ -339,7 +332,7 @@ export function createAssociateDeclaredExperienceWithDeclaredSkillsHandler (
 
       const response = createMockedDeclaredExperienceAssociationsDTO()
 
-      return HttpResponse.json<DeclaredExperienceAssociationsDTO>(response, {
+      return HttpResponse.json<AssociationsDTO>(response, {
         status: 200,
         headers: {
           'Content-Type': 'application/json'
@@ -351,19 +344,29 @@ export function createAssociateDeclaredExperienceWithDeclaredSkillsHandler (
 
 export const associateDeclaredExperienceWithDeclaredSkillsHandler = createAssociateDeclaredExperienceWithDeclaredSkillsHandler()
 
+const resolveSearchDeclaredExperiencesForAssociation: HttpResponseResolver = ({ request }) => {
+  const url = new URL(request.url)
+  const keyword = url.searchParams.get('keyword') ?? undefined
+  const page = Number(url.searchParams.get('page') ?? 0)
+  const pageSize = Number(url.searchParams.get('pageSize') ?? 100)
+  const response = createMockedSearchExperiencesForAssociationResponse({ keyword, page, pageSize })
+
+  return HttpResponse.json<PagedResponseAssociationSearchResultDTO>(response, {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  })
+}
+
 export const declaredExperiencesHandlers = [
   declaredExperiencesQueryHandler,
-  http.get(`*${getSearchDeclaredExperiencesForAssociationUrl()}`, ({ request }) => {
-    const url = new URL(request.url)
-    const keyword = url.searchParams.get('keyword') ?? undefined
-    const page = Number(url.searchParams.get('page') ?? 0)
-    const pageSize = Number(url.searchParams.get('pageSize') ?? 100)
-    const response = createMockedSearchExperiencesForAssociationResponse({ keyword, page, pageSize })
-    return HttpResponse.json<PagedResponseAssociationSearchResultDeclaredExperienceDTO>(response, {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    })
-  }),
+  http.get(
+    `*${getSearchForAssociationUrl(anyAssociationContextType, ':elementId', EAssociationContextType.DECLARED_EXPERIENCE)}`,
+    resolveSearchDeclaredExperiencesForAssociation
+  ),
+  http.get(
+    `*${getSearchForAssociationWithNewElementUrl(anyAssociationContextType, EAssociationContextType.DECLARED_EXPERIENCE)}*`,
+    resolveSearchDeclaredExperiencesForAssociation
+  ),
   http.get<{ id: string }, DeclaredExperienceViewDTO>(`*${getGetDeclaredExperienceUrl(':id')}`, async ({ params }) => {
     const { id } = params
     const response = createMockedDeclaredExperienceViewDTO(id)
@@ -415,7 +418,7 @@ export const declaredExperiencesHandlers = [
   associateDeclaredExperienceWithTracesHandler,
   associateDeclaredExperienceWithDeclaredSkillsHandler,
   http.delete(
-    `*${getDeleteDeclaredExperienceAssociationsUrl(':experienceId')}`,
+    `*${getUnassociateUrl(EAssociationContextType.DECLARED_EXPERIENCE, ':experienceId')}`,
     async ({ params }) => {
       const { experienceId } = params as { experienceId: string }
 
@@ -442,7 +445,7 @@ export const declaredExperienceDetailedLoadingHandler = http.get(`*${getGetDecla
 })
 
 export const searchDeclaredExperiencesForAssociationErrorHandler = http.get(
-  `*${getSearchDeclaredExperiencesForAssociationUrl()}`,
+  `*${getSearchForAssociationUrl(anyAssociationContextType, ':elementId', EAssociationContextType.DECLARED_EXPERIENCE)}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },

@@ -1,3 +1,4 @@
+import type { AssociationSearchResultDTO } from '@/api/avenir-esr'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
 import { EExperienceType } from '@/api/avenir-esr'
@@ -29,19 +30,19 @@ BddTest().given('an associate declared experiences modal', () => {
     {
       id: 'experience-search-1',
       title: 'Définir ses valeurs',
-      experienceType: EExperienceType.PERSONAL,
+      category: EExperienceType.PERSONAL,
       disabled: false
     },
     {
       id: 'experience-search-2',
       title: 'Explorer ses pistes d\'orientation',
-      experienceType: EExperienceType.PROFESSIONAL,
+      category: EExperienceType.PROFESSIONAL,
       disabled: false
     },
     {
       id: 'experience-search-3',
       title: 'Développeur Web Full Stack',
-      experienceType: EExperienceType.PROFESSIONAL,
+      category: EExperienceType.PROFESSIONAL,
       disabled: true
     }
 
@@ -406,8 +407,8 @@ BddTest().given('an associate declared experiences modal', () => {
     })
   })
 
-  BddTest().when('an experience has no experienceType', () => {
-    const experiencesWithNullType: AssociationDeclaredExperiences[] = [
+  BddTest().when('an experience has no category', () => {
+    const experiencesWithNullType: AssociationSearchResultDTO[] = [
       {
         id: 'experience-search-4',
         title: 'Expérience sans type',

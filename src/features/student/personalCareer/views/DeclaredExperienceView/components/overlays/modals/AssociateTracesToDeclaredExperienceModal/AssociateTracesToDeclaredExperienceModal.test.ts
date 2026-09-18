@@ -12,9 +12,7 @@ import {
 import AssociateTracesToDeclaredExperienceModal, {
   type AssociateTracesToDeclaredExperienceModalProps
 } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/overlays/modals/AssociateTracesToDeclaredExperienceModal/AssociateTracesToDeclaredExperienceModal.vue'
-import { TraceAssociationTypes } from '@/features/student/traces'
 import { TraceCompactCardStub } from '@/features/student/traces/components/cards/TraceCompactCard/TraceCompactCard.stub'
-import { TracesTypeSelectStub } from '@/features/student/traces/components/interactions/pickers/TracesTypeSelect/TracesTypeSelect.stub'
 import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -41,7 +39,6 @@ BddTest().given('an associate traces to declared experience modal', () => {
     AvModal: AvModalStub,
     SearchAssociationLayout: SearchAssociationLayoutStub,
     ConfirmAssociateModal: ConfirmAssociateModalStub,
-    TracesTypeSelect: TracesTypeSelectStub,
     TraceCompactCard: TraceCompactCardStub,
     ConfirmationModal: ConfirmationModalStub
   }
@@ -99,15 +96,6 @@ BddTest().given('an associate traces to declared experience modal', () => {
       expect(layout.exists()).toBe(true)
     })
 
-    BddTest().then('it should initialize the traces type select with UNASSOCIATED', () => {
-      const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
-
-      expect(tracesTypeSelect.exists()).toBe(true)
-      expect(tracesTypeSelect.props('modelValue')).toEqual({
-        itemId: TraceAssociationTypes.UNASSOCIATED
-      })
-    })
-
     BddTest().then('it should render the confirm associate traces modal closed by default', () => {
       const confirmModal = wrapper.findComponent(ConfirmAssociateModalStub)
 
@@ -123,12 +111,12 @@ BddTest().given('an associate traces to declared experience modal', () => {
       expect(confirmationModal.props('opened')).toBe(false)
     })
 
-    BddTest().then('it should load unassociated traces from the query and pass them to the layout', async () => {
+    BddTest().then('it should load the traces from the query and pass them to the layout', async () => {
       await vi.waitFor(() => {
         const layout = wrapper.findComponent(SearchAssociationLayoutStub)
         const options = layout.props('options')
 
-        expect(options).toHaveLength(5)
+        expect(options).toHaveLength(10)
       })
     })
 
@@ -347,7 +335,7 @@ BddTest().given('an associate traces to declared experience modal', () => {
 
       await vi.waitFor(() => {
         const layout = wrapper.findComponent(SearchAssociationLayoutStub)
-        expect(layout.props('options')).toHaveLength(5)
+        expect(layout.props('options')).toHaveLength(10)
       })
 
       const layout = wrapper.findComponent(SearchAssociationLayoutStub)

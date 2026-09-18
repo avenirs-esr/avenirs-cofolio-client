@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useGetDeclaredExperience, useGetDeclaredExperienceAssociations } from '@/api/avenir-esr'
+import { EAssociationContextType, useGetAssociations, useGetDeclaredExperience } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import Loader from '@/common/components/Loader/Loader.vue'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
@@ -29,7 +29,7 @@ const isDirty = ref(false)
 const { modalOpened, openModal, closeModal } = useModal()
 
 const { data: declaredExperience, isLoading, isError } = useGetDeclaredExperience(selectedExperienceId)
-const { data: declaredExperienceAssociations, error: associationsError } = useGetDeclaredExperienceAssociations(selectedExperienceId)
+const { data: declaredExperienceAssociations, error: associationsError } = useGetAssociations(EAssociationContextType.DECLARED_EXPERIENCE, selectedExperienceId)
 
 const traceAssociations = computed(() => declaredExperienceAssociations.value?.traceAssociations ?? [])
 const declaredSkillAssociations = computed(() => declaredExperienceAssociations.value?.declaredSkillAssociations ?? [])

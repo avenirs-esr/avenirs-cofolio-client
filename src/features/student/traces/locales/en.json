@@ -3,16 +3,7 @@
     "traces": {
       "associations": {
         "label": "My traces",
-        "subConfigs": {
-          "ASSOCIATED": {
-            "label": "associated",
-            "placeholder": "Search an associated trace..."
-          },
-          "UNASSOCIATED": {
-            "label": "unassociated",
-            "placeholder": "Search an unassociated trace..."
-          }
-        }
+        "placeholder": "Search for a trace..."
       },
       "badges": {
         "TraceAiProducedBadge": {
@@ -91,26 +82,6 @@
         "pickers": {
           "TracesSelector": {
             "ariaLabel": "Select trace {title}"
-          },
-          "TracesTypeSelect": {
-            "label": "Search in:",
-            "options": {
-              "TRACE": {
-                "ALL": {
-                  "label": "My traces",
-                  "searchPlaceholder": "Search a trace"
-                },
-                "ASSOCIATED": {
-                  "label": "My associated traces",
-                  "searchPlaceholder": "Search a associated trace"
-                },
-                "UNASSOCIATED": {
-                  "label": "My unassociated traces",
-                  "searchPlaceholder": "Search a unassociated trace"
-                }
-              }
-            },
-            "placeholder": "Select a type of trace"
           }
         },
         "radios": {
@@ -131,6 +102,7 @@
           "cancelConfirmation": "Are you sure you want to abandon the trace association?",
           "confirm": "Associate selected trace (1) | Associate selected traces ({count})",
           "confirmTitle": "Are you sure you want to associate this trace? | Are you sure you want to associate these traces?",
+          "searchPlaceholder": "Search for a trace",
           "success": "You have associated {count} trace. Find it in the \"My associated traces\" category. | You have associated {count} traces. Find them in the \"My associated traces\" category.",
           "title": "Which trace(s) would you like to associate?"
         },

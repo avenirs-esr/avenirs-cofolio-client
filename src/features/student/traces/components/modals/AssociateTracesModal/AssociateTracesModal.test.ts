@@ -1,4 +1,4 @@
-import type { AssociationSearchResultTraceDTO } from '@/api/avenir-esr'
+import type { AssociationSearchResultDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { SearchAssociationLayoutStub } from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.stub'
@@ -6,11 +6,9 @@ import {
   ConfirmAssociateModalStub
 } from '@/features/student/global/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.stub'
 import { TraceCompactCardStub } from '@/features/student/traces/components/cards/TraceCompactCard/TraceCompactCard.stub'
-import { TracesTypeSelectStub } from '@/features/student/traces/components/interactions/pickers/TracesTypeSelect/TracesTypeSelect.stub'
 import AssociateTracesModal, {
   type AssociateTracesModalProps
 } from '@/features/student/traces/components/modals/AssociateTracesModal/AssociateTracesModal.vue'
-import { TraceAssociationTypes } from '@/features/student/traces/types/trace-association.types'
 import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -23,12 +21,11 @@ BddTest().given('an associate traces modal', () => {
     AvModal: AvModalStub,
     SearchAssociationLayout: SearchAssociationLayoutStub,
     ConfirmAssociateModal: ConfirmAssociateModalStub,
-    TracesTypeSelect: TracesTypeSelectStub,
     TraceCompactCard: TraceCompactCardStub,
     ConfirmationModal: ConfirmationModalStub
   }
 
-  const traces: AssociationSearchResultTraceDTO[] = [
+  const traces: AssociationSearchResultDTO[] = [
     { id: 'trace-search-1', title: 'Ma super trace numéro 1', disabled: false },
     { id: 'trace-search-2', title: 'Ma super trace numéro 2', disabled: false },
     { id: 'trace-search-3', title: 'Ma super trace numéro 3', disabled: true }
@@ -37,7 +34,6 @@ BddTest().given('an associate traces modal', () => {
   const props: AssociateTracesModalProps = {
     opened: true,
     traces,
-    selectedTraceType: { itemId: TraceAssociationTypes.UNASSOCIATED },
     isLoading: false
   }
 
@@ -90,14 +86,6 @@ BddTest().given('an associate traces modal', () => {
       expect(confirmationModal.props('opened')).toBe(false)
     })
 
-    BddTest().then('it should pass the traces type select the current selected trace type', () => {
-      const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
-      expect(tracesTypeSelect.exists()).toBe(true)
-      expect(tracesTypeSelect.props('modelValue')).toEqual({
-        itemId: TraceAssociationTypes.UNASSOCIATED
-      })
-    })
-
     BddTest().then('it should pass all the traces to the layout options', () => {
       const layout = wrapper.findComponent(SearchAssociationLayoutStub)
       expect(layout.props('options')).toEqual([
@@ -112,7 +100,7 @@ BddTest().given('an associate traces modal', () => {
       expect(layout.props('modelValue')).toEqual([])
       expect(layout.props('items')).toEqual([])
       expect(layout.props('inputOptions')).toEqual({
-        placeholder: 'Rechercher une trace non associée',
+        placeholder: 'Rechercher une trace',
       })
       expect(layout.props('getOptionKey')).toBeTypeOf('function')
       expect(layout.props('getOptionLabel')).toBeTypeOf('function')
@@ -126,20 +114,6 @@ BddTest().given('an associate traces modal', () => {
     BddTest().then('it should pass isLoading to the modal', () => {
       const modal = wrapper.findComponent(AvModalStub)
       expect(modal.props('isLoading')).toBe(false)
-    })
-
-    BddTest().and('the traces type select emits an update', () => {
-      beforeEach(async () => {
-        const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
-        tracesTypeSelect.vm.$emit('update:modelValue', { itemId: TraceAssociationTypes.ALL })
-        await wrapper.vm.$nextTick()
-      })
-
-      BddTest().then('it should emit update:selectedTraceType', () => {
-        expect(wrapper.emitted('update:selectedTraceType')).toEqual([[
-          { itemId: TraceAssociationTypes.ALL }
-        ]])
-      })
     })
 
     BddTest().and('the user searches in the search association layout', () => {

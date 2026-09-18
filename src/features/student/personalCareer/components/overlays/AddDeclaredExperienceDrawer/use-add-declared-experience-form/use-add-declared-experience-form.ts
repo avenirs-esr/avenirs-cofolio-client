@@ -5,7 +5,7 @@ import type {
   DeclaredExperienceFormData
 
 } from '@/features/student/personalCareer/types/forms.types'
-import { type DeclaredExperienceViewDTO, EAssociationContextType, type EExperienceType, invalidateGetDeclaredExperienceView, useAssociateDeclaredExperienceWithDeclaredSkills, useAssociateDeclaredExperienceWithTraces, useCreateDeclaredExperience } from '@/api/avenir-esr'
+import { type DeclaredExperienceViewDTO, EAssociationContextType, type EExperienceType, invalidateGetDeclaredExperienceView, useAssociate, useCreateDeclaredExperience } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { formatYearMonthToDate } from '@/common/utils'
@@ -38,9 +38,9 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
   const { mutate: mutateCreateDeclaredExperience, isPending } = useCreateDeclaredExperience()
 
   const {
-    mutateAsync: associateDeclaredExperienceWithDeclaredSkills,
-    isPending: isPendingAssociateDeclaredSkills
-  } = useAssociateDeclaredExperienceWithDeclaredSkills({
+    mutateAsync: associateDeclaredExperience,
+    isPending: isPendingAssociate
+  } = useAssociate({
     mutation: {
       onError: (error: BaseApiException) => {
         addErrorMessage({
@@ -51,43 +51,22 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
     }
   })
 
-  const {
-    mutateAsync: associateDeclaredExperienceWithTraces,
-    isPending: isPendingAssociateTraces
-  } = useAssociateDeclaredExperienceWithTraces({
-    mutation: {
-      onError: (error: BaseApiException) => {
-        addErrorMessage({
-          title: t('global.error.generic'),
-          description: getErrorMessage(error),
-        })
-      }
-    }
-  })
+  function associateWithContextType (
+    experienceId: string,
+    associationSelections: Partial<Record<DeclaredExperienceAssociationContextType, Association[]>>,
+    associatedContextType: DeclaredExperienceAssociationContextType
+  ): Promise<unknown>[] {
+    const idsToAssociate = getIdsForType(associationSelections, associatedContextType)
 
-  function associateDeclaredSkills (experienceId: string, associationSelections: Partial<Record<DeclaredExperienceAssociationContextType, Association[]>>): Promise<unknown>[] {
-    const skillIds = getIdsForType(associationSelections, EAssociationContextType.DECLARED_SKILL)
-
-    if (skillIds.length === 0) {
+    if (idsToAssociate.length === 0) {
       return []
     }
 
-    return [associateDeclaredExperienceWithDeclaredSkills({
-      experienceId,
-      data: { idsToAssociate: skillIds }
-    })]
-  }
-
-  function associateTraces (experienceId: string, associationSelections: Partial<Record<DeclaredExperienceAssociationContextType, Association[]>>): Promise<unknown>[] {
-    const traceIds = getIdsForType(associationSelections, EAssociationContextType.TRACE)
-
-    if (traceIds.length === 0) {
-      return []
-    }
-
-    return [associateDeclaredExperienceWithTraces({
-      experienceId,
-      data: { idsToAssociate: traceIds }
+    return [associateDeclaredExperience({
+      contextType: EAssociationContextType.DECLARED_EXPERIENCE,
+      elementId: experienceId,
+      associatedContextType,
+      data: { idsToAssociate }
     })]
   }
 
@@ -96,8 +75,8 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
       onSuccess: async (createdExperience) => {
         const promises: Promise<unknown>[] = [invalidateGetDeclaredExperienceView(queryClient)]
 
-        promises.push(...associateDeclaredSkills(createdExperience.id, associationSelections))
-        promises.push(...associateTraces(createdExperience.id, associationSelections))
+        promises.push(...associateWithContextType(createdExperience.id, associationSelections, EAssociationContextType.DECLARED_SKILL))
+        promises.push(...associateWithContextType(createdExperience.id, associationSelections, EAssociationContextType.TRACE))
 
         await withTaskLoading(() => Promise.allSettled(promises))
         onExperienceAdded?.()
@@ -186,6 +165,6 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
   return {
     form,
     isFormValid,
-    isSubmitting: isPending || isPendingAssociateDeclaredSkills || isPendingAssociateTraces || isLoading.value
+    isSubmitting: isPending || isPendingAssociate || isLoading.value
   }
 }

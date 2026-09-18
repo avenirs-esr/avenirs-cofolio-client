@@ -10,9 +10,7 @@ import { SearchAssociationLayoutStub } from '@/features/student/global/component
 import {
   ConfirmAssociateModalStub
 } from '@/features/student/global/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.stub'
-import { TraceAssociationTypes } from '@/features/student/traces'
 import { TraceCompactCardStub } from '@/features/student/traces/components/cards/TraceCompactCard/TraceCompactCard.stub'
-import { TracesTypeSelectStub } from '@/features/student/traces/components/interactions/pickers/TracesTypeSelect/TracesTypeSelect.stub'
 import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -39,7 +37,6 @@ BddTest().given('an associate traces to declared skill modal', () => {
     AvModal: AvModalStub,
     SearchAssociationLayout: SearchAssociationLayoutStub,
     ConfirmAssociateModal: ConfirmAssociateModalStub,
-    TracesTypeSelect: TracesTypeSelectStub,
     TraceCompactCard: TraceCompactCardStub,
     ConfirmationModal: ConfirmationModalStub
   }
@@ -95,15 +92,6 @@ BddTest().given('an associate traces to declared skill modal', () => {
       const layout = wrapper.findComponent(SearchAssociationLayoutStub)
 
       expect(layout.exists()).toBe(true)
-    })
-
-    BddTest().then('it should initialize the traces type select with UNASSOCIATED', () => {
-      const tracesTypeSelect = wrapper.findComponent(TracesTypeSelectStub)
-
-      expect(tracesTypeSelect.exists()).toBe(true)
-      expect(tracesTypeSelect.props('modelValue')).toEqual({
-        itemId: TraceAssociationTypes.UNASSOCIATED
-      })
     })
 
     BddTest().then('it should render the confirm associate traces modal closed by default', () => {

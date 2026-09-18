@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import {
   EAssociationContextType,
-  invalidateGetDeclaredActivityAssociations,
-  type SearchDeclaredSkillsForAssociationParams,
-  useAssociateActivityWithDeclaredSkills,
-  useSearchDeclaredSkillsForAssociation
+  invalidateGetAssociations,
+  type SearchForAssociationParams,
+  useAssociate,
+  useSearchForAssociation
 } from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { AssociateDeclaredSkillsModal } from '@/features/student/declaredSkills'
@@ -37,9 +37,7 @@ const {
   onAssociateMutationError
 } = useAssociationModal()
 
-const params = computed<SearchDeclaredSkillsForAssociationParams>(() => ({
-  excludeAssociatedWithElementId: activityId,
-  contextType: EAssociationContextType.DECLARED_ACTIVITY,
+const params = computed<SearchForAssociationParams>(() => ({
   keyword: searchQuery.value.trim() || undefined,
   page: 0,
   pageSize: 100,
@@ -50,17 +48,28 @@ const {
   isError: isSearchError,
   error: searchError,
   isLoading: isSearchLoading
-} = useSearchDeclaredSkillsForAssociation(params, { query: { select: response => response.data } })
+} = useSearchForAssociation(
+  EAssociationContextType.DECLARED_ACTIVITY,
+  computed(() => activityId),
+  EAssociationContextType.DECLARED_SKILL,
+  params,
+  { query: { select: response => response.data } }
+)
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
-const { mutate: mutateAssociateActivityWithDeclaredSkills, isPending } = useAssociateActivityWithDeclaredSkills()
+const { mutate: mutateAssociateActivityWithDeclaredSkills, isPending } = useAssociate()
 
 function associateActivityWithDeclaredSkills (idsToAssociate: string[]) {
-  mutateAssociateActivityWithDeclaredSkills({ declaredActivityId: activityId, data: { idsToAssociate } }, {
+  mutateAssociateActivityWithDeclaredSkills({
+    contextType: EAssociationContextType.DECLARED_ACTIVITY,
+    elementId: activityId,
+    associatedContextType: EAssociationContextType.DECLARED_SKILL,
+    data: { idsToAssociate }
+  }, {
     onError: error => onAssociateMutationError(error),
     onSuccess: async (_, variables) => {
-      await withTaskLoading(() => invalidateGetDeclaredActivityAssociations(queryClient, activityId))
+      await withTaskLoading(() => invalidateGetAssociations(queryClient, EAssociationContextType.DECLARED_ACTIVITY, activityId))
       const count = variables.data.idsToAssociate.length
       addSuccessMessage({
         timeout: 2000,

@@ -220,6 +220,5 @@ Feature: Student Project Activity Page
       And the student clicks the associate traces dropdown item
       Then the associate traces modal is visible
       And the associate traces modal title is visible
-      And the traces type select is visible in associate traces modal
       And the search association layout is visible in associate traces modal
       And the associate traces confirmation modal is hidden

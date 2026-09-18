@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions'
 import {
+  EAssociationContextType,
+  invalidateGetAssociations,
   invalidateGetDeclaredExperience,
-  invalidateGetDeclaredExperienceAssociations,
-  useAssociateDeclaredExperienceWithTraces,
-  useSearchTracesForAssociationWithDeclaredExperience,
+  useAssociate,
+  useSearchForAssociation
 } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useAssociationModal } from '@/features/student/global'
 import { AssociateTracesModal } from '@/features/student/traces'
-import { useTraceAssociationModal } from '@/features/student/traces/composables/use-trace-associations/use-trace-associations'
 import { useToasterStore } from '@/store'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
@@ -33,8 +33,6 @@ const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const queryClient = useQueryClient()
 const { isLoading, withTaskLoading } = useTaskLoading()
 
-const { selectedTraceType, isAssociated } = useTraceAssociationModal()
-
 const {
   searchQuery,
   onSearch,
@@ -42,30 +40,36 @@ const {
 } = useAssociationModal()
 
 const params = computed(() => ({
-  isAssociated: isAssociated.value,
   keyword: searchQuery.value.trim() || undefined,
   page: 0,
-  pageSize: 20,
-  type: selectedTraceType.value.itemId
+  pageSize: 20
 }))
 
 const {
   data,
   isError: isSearchError,
   error: searchError
-} = useSearchTracesForAssociationWithDeclaredExperience(computed(() => declaredExperienceId), params, {
-  query: { enabled: computed(() => opened) }
-})
+} = useSearchForAssociation(
+  EAssociationContextType.DECLARED_EXPERIENCE,
+  computed(() => declaredExperienceId),
+  EAssociationContextType.TRACE,
+  params,
+  {
+    query: { enabled: computed(() => opened) }
+  }
+)
 
 const traces = computed(() => data.value?.data ?? [])
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
-const { mutate: mutateAssociateDeclaredExperienceWithTraces, isPending } = useAssociateDeclaredExperienceWithTraces()
+const { mutate: mutateAssociateDeclaredExperienceWithTraces, isPending } = useAssociate()
 
 function associateExperienceWithTraces (idsToAssociate: string[]) {
   mutateAssociateDeclaredExperienceWithTraces({
-    experienceId: declaredExperienceId,
+    contextType: EAssociationContextType.DECLARED_EXPERIENCE,
+    elementId: declaredExperienceId,
+    associatedContextType: EAssociationContextType.TRACE,
     data: { idsToAssociate }
   }, {
     onError: (error: BaseApiException) => {
@@ -76,8 +80,8 @@ function associateExperienceWithTraces (idsToAssociate: string[]) {
     },
     onSuccess: async (_, variables) => {
       await withTaskLoading(() => Promise.all([
-        invalidateGetDeclaredExperienceAssociations(queryClient, variables.experienceId),
-        invalidateGetDeclaredExperience(queryClient, variables.experienceId)
+        invalidateGetAssociations(queryClient, variables.contextType, variables.elementId),
+        invalidateGetDeclaredExperience(queryClient, variables.elementId)
       ]))
 
       const count = variables.data.idsToAssociate.length
@@ -95,7 +99,6 @@ function associateExperienceWithTraces (idsToAssociate: string[]) {
 
 <template>
   <AssociateTracesModal
-    v-model:selected-trace-type="selectedTraceType"
     :opened="opened"
     :traces="traces"
     :is-loading="isPending || isLoading"

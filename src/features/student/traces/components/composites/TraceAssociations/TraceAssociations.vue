@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
-import { EAssociationContextType, type TraceAssociationsDTO } from '@/api/avenir-esr'
+import { type AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
 import AssociationElementsDropdown
   from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import QuerySuspense
@@ -26,7 +26,7 @@ const { associations, traceId, associationsError, disabled, showActions = true }
 const { t } = useI18n()
 
 export interface TraceAssociationsProps {
-  associations: TraceAssociationsDTO | undefined
+  associations: AssociationsDTO | undefined
   traceId: string
   associationsError?: BaseApiException | null
   disabled?: boolean
