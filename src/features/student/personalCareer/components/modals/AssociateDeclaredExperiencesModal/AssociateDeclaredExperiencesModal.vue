@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { EExperienceType } from '@/api/avenir-esr'
+import type { AssociationSearchResultDTO, EExperienceType } from '@/api/avenir-esr'
 import type { Association } from '@/features/student/global/types/associations.types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
@@ -17,7 +17,7 @@ export type AssociationDeclaredExperiences = Association & {
 
 export interface AssociateDeclaredExperiencesModalProps {
   opened: boolean
-  experiences: AssociationDeclaredExperiences[]
+  experiences: AssociationSearchResultDTO[]
   isLoading?: boolean
 }
 
@@ -49,8 +49,17 @@ const {
   onDeleteItem: onDeleteExperience,
 } = useAssociationModal<AvAutocompleteOption>()
 
+const associationExperiences = computed<AssociationDeclaredExperiences[]>(() =>
+  experiences.map(experience => ({
+    id: experience.id,
+    title: experience.title,
+    disabled: experience.disabled,
+    experienceType: experience.category as EExperienceType | undefined
+  }))
+)
+
 const experienceAutocompleteOptions = computed<AvAutocompleteOption[]>(() =>
-  experiences
+  associationExperiences.value
     .map(experience => ({
       label: experience.title,
       value: experience.id,
@@ -62,7 +71,7 @@ const experienceAutocompleteOptions = computed<AvAutocompleteOption[]>(() =>
 )
 
 const selectedAssociations = computed<AssociationDeclaredExperiences[]>(() =>
-  experiences.filter(experience => selectedExperienceOptions.value.some(option => option.value === experience.id))
+  associationExperiences.value.filter(experience => selectedExperienceOptions.value.some(option => option.value === experience.id))
 )
 
 watch(() => opened, (newVal) => {

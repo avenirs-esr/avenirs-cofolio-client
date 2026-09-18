@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions'
 import {
-  invalidateGetDeclaredSkillAssociations,
+  EAssociationContextType,
+  invalidateGetAssociations,
   invalidateGetDeclaredSkillProgressDetails,
   type TraceAssociationDTO,
-  useDeleteDeclaredSkillAssociations
+  useUnassociate
 } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -41,7 +42,7 @@ const selectableElements = computed(() => associations.map(({ associationId, tra
   title: trace.title,
 })))
 
-const { mutate: mutateDeleteDeclaredSkillAssociations } = useDeleteDeclaredSkillAssociations({
+const { mutate: mutateDeleteDeclaredSkillAssociations } = useUnassociate({
   mutation: {
     onError: (error: BaseApiException) => {
       addErrorMessage({
@@ -51,7 +52,7 @@ const { mutate: mutateDeleteDeclaredSkillAssociations } = useDeleteDeclaredSkill
     },
     onSuccess: async () => {
       await withTaskLoading(() => Promise.all([
-        invalidateGetDeclaredSkillAssociations(queryClient, declaredSkillProgressId),
+        invalidateGetAssociations(queryClient, EAssociationContextType.DECLARED_SKILL, declaredSkillProgressId),
         invalidateGetDeclaredSkillProgressDetails(queryClient, declaredSkillProgressId),
       ]))
       addSuccessMessage({
@@ -66,7 +67,8 @@ const { mutate: mutateDeleteDeclaredSkillAssociations } = useDeleteDeclaredSkill
 
 function onConfirmDelete () {
   mutateDeleteDeclaredSkillAssociations({
-    declaredSkillProgressId,
+    contextType: EAssociationContextType.DECLARED_SKILL,
+    elementId: declaredSkillProgressId,
     data: { idsToDelete: selectedIds.value }
   })
 }

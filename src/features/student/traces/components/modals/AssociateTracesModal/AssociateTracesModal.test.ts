@@ -1,4 +1,4 @@
-import type { AssociationSearchResultTraceDTO } from '@/api/avenir-esr'
+import type { AssociationSearchResultDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { SearchAssociationLayoutStub } from '@/features/student/global/components/interaction/SearchAssociationLayout/SearchAssociationLayout.stub'
@@ -28,7 +28,7 @@ BddTest().given('an associate traces modal', () => {
     ConfirmationModal: ConfirmationModalStub
   }
 
-  const traces: AssociationSearchResultTraceDTO[] = [
+  const traces: AssociationSearchResultDTO[] = [
     { id: 'trace-search-1', title: 'Ma super trace numéro 1', disabled: false },
     { id: 'trace-search-2', title: 'Ma super trace numéro 2', disabled: false },
     { id: 'trace-search-3', title: 'Ma super trace numéro 3', disabled: true }

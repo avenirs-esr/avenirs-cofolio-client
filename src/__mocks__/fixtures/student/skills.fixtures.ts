@@ -2,9 +2,9 @@ import { createMockedTraceAssociations } from '@/__mocks__/fixtures/student/acti
 import { createMockedDeclaredExperiencesAssociations } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
-  type AssociationSearchResultDeclaredSkillIDTO,
+  type AssociationsDTO,
+  type AssociationSearchResultDTO,
   type DeclaredActivityAssociationDTO,
-  type DeclaredSkillAssociationsDTO,
   type DeclaredSkillProgressDetailsDTO,
   type DeclaredSkillProgressDTO,
   EActivityThematic,
@@ -13,7 +13,7 @@ import {
   EExternalSkillCategoryType,
   EExternalSkillType,
   type ExternalSkillDTO,
-  type PagedResponseAssociationSearchResultDeclaredSkillIDTO,
+  type PagedResponseAssociationSearchResultDTO,
   type PagedResponseDeclaredSkillProgressDTO,
   type PagedResponseExternalSkillDTO
 } from '@/api/avenir-esr'
@@ -151,9 +151,10 @@ export function createMockedDeclaredActivitiesAssociations (count: number): Decl
   }))
 }
 
-export const mockedDeclaredSkillAssociations: DeclaredSkillAssociationsDTO = {
+export const mockedDeclaredSkillAssociations: AssociationsDTO = {
   traceAssociations: createMockedTraceAssociations(2),
   declaredActivityAssociations: createMockedDeclaredActivitiesAssociations(1),
+  declaredSkillAssociations: [],
   declaredExperienceAssociations: createMockedDeclaredExperiencesAssociations(2)
 }
 
@@ -161,13 +162,13 @@ export function createMockedPagedResponseAssociationSearchResultDeclaredSkillIDT
   pageSize: number,
   page: number,
   keyword: string
-): PagedResponseAssociationSearchResultDeclaredSkillIDTO {
-  const allSkills: AssociationSearchResultDeclaredSkillIDTO[] = [
-    { id: 'skill-search-1', title: 'Conduire un projet de bout en bout', type: EExternalSkillType.ROME4, disabled: false },
-    { id: 'skill-search-2', title: 'Analyser et synthétiser des informations', type: EExternalSkillType.ROME4, disabled: false },
-    { id: 'skill-search-3', title: 'Développement web et compétence numérique', type: EExternalSkillType.ROME4, disabled: false },
-    { id: 'skill-search-4', title: 'Gestion de projet et compétences managériales', type: EExternalSkillType.ROME4, disabled: false },
-    { id: 'skill-search-5', title: 'Communication interpersonnelle', type: EExternalSkillType.ROME4, disabled: false },
+): PagedResponseAssociationSearchResultDTO {
+  const allSkills: AssociationSearchResultDTO[] = [
+    { id: 'skill-search-1', title: 'Conduire un projet de bout en bout', category: EExternalSkillType.ROME4, disabled: false },
+    { id: 'skill-search-2', title: 'Analyser et synthétiser des informations', category: EExternalSkillType.ROME4, disabled: false },
+    { id: 'skill-search-3', title: 'Développement web et compétence numérique', category: EExternalSkillType.ROME4, disabled: false },
+    { id: 'skill-search-4', title: 'Gestion de projet et compétences managériales', category: EExternalSkillType.ROME4, disabled: false },
+    { id: 'skill-search-5', title: 'Communication interpersonnelle', category: EExternalSkillType.ROME4, disabled: false },
   ]
 
   const filtered = keyword

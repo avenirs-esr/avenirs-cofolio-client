@@ -1,3 +1,4 @@
+import type { AssociationSearchResultDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { EActivityThematic } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
@@ -23,23 +24,23 @@ BddTest().given('an associate activities modal', () => {
     ConfirmationModal: ConfirmationModalStub
   }
 
-  const activities = [
+  const activities: AssociationSearchResultDTO[] = [
     {
       id: 'activity-search-1',
       title: 'Définir ses valeurs',
-      thematic: EActivityThematic.SELF_KNOWLEDGE,
+      category: EActivityThematic.SELF_KNOWLEDGE,
       disabled: false
     },
     {
       id: 'activity-search-2',
       title: 'Explorer ses pistes d\'orientation',
-      thematic: EActivityThematic.FUTURE_PLANS,
+      category: EActivityThematic.FUTURE_PLANS,
       disabled: false
     },
     {
       id: 'activity-search-3',
       title: 'Activité désactivée',
-      thematic: EActivityThematic.RESUMES,
+      category: EActivityThematic.RESUMES,
       disabled: true
     }
   ]

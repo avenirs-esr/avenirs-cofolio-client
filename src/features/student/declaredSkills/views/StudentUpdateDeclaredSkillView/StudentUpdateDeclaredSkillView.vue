@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useGetDeclaredSkillAssociations, useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
+import { EAssociationContextType, useGetAssociations, useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
@@ -28,10 +28,7 @@ const { navigateToStudentProjectDeclaredSkill } = useNavigation()
 const { data: declaredSkillDetailed } = useGetDeclaredSkillProgressDetails(skillId)
 
 const skillProgressId = computed(() => declaredSkillDetailed.value?.id ?? '')
-const { data: declaredSkillAssociations, error: associationsError } = useGetDeclaredSkillAssociations(
-  skillProgressId,
-  { query: { enabled: computed(() => !!skillProgressId.value) } }
-)
+const { data: declaredSkillAssociations, error: associationsError } = useGetAssociations(EAssociationContextType.DECLARED_SKILL, skillProgressId, undefined, { query: { enabled: computed(() => !!skillProgressId.value) } })
 const traceAssociations = computed(() => declaredSkillAssociations.value?.traceAssociations ?? [])
 const declaredActivityAssociations = computed(() => declaredSkillAssociations.value?.declaredActivityAssociations ?? [])
 const declaredExperienceAssociations = computed(() => declaredSkillAssociations.value?.declaredExperienceAssociations ?? [])

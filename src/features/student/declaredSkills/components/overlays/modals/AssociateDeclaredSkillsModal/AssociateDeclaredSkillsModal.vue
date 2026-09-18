@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { EExternalSkillType } from '@/api/avenir-esr'
+import type { AssociationSearchResultDTO, EExternalSkillType } from '@/api/avenir-esr'
 import type { IdTitle } from '@/types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
@@ -12,15 +12,15 @@ import SearchAssociationLayout from '@/features/student/global/components/intera
 import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export type AssociationDeclaredSkill = IdTitle & { disabled: boolean, type: EExternalSkillType }
+export type AssociationDeclaredSkill = IdTitle & { disabled: boolean, type?: EExternalSkillType }
 
 export type SelectedSkill = Omit<AssociationDeclaredSkill, 'disabled'>
 
-export type DeclaredSkillAvAutocompleteOption = AvAutocompleteOption & { type: EExternalSkillType }
+export type DeclaredSkillAvAutocompleteOption = AvAutocompleteOption & { type?: EExternalSkillType }
 
 export interface AssociateDeclaredSkillsModalProps {
   opened: boolean
-  skills: AssociationDeclaredSkill[]
+  skills: AssociationSearchResultDTO[]
   isLoading?: boolean
 }
 
@@ -56,8 +56,8 @@ const skillAutocompleteOptions = computed<DeclaredSkillAvAutocompleteOption[]>((
   skills.map(skill => ({
     label: skill.title,
     value: skill.id,
-    type: skill.type,
-    description: skill.type,
+    type: skill.category as EExternalSkillType | undefined,
+    description: skill.category,
     disabled: skill.disabled
   }))
 )

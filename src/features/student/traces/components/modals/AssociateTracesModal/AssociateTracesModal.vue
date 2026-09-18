@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { AssociationSearchResultTraceDTO } from '@/api/avenir-esr'
+import type { AssociationSearchResultDTO } from '@/api/avenir-esr'
 import type { TraceAssociationTypes } from '@/features/student/traces/types/trace-association.types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
@@ -15,7 +15,7 @@ import { useI18n } from 'vue-i18n'
 
 export interface AssociateTracesModalProps {
   opened: boolean
-  traces: AssociationSearchResultTraceDTO[]
+  traces: AssociationSearchResultDTO[]
   selectedTraceType: { itemId: TraceAssociationTypes }
   isLoading?: boolean
 }

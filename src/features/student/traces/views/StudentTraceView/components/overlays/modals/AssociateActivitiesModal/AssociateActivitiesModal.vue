@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { EActivityThematic } from '@/api/avenir-esr'
+import type { AssociationSearchResultDTO, EActivityThematic } from '@/api/avenir-esr'
 import type { Association } from '@/features/student/global/types/associations.types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
@@ -12,12 +12,12 @@ import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export type AssociationActivity = Association & {
-  thematic: EActivityThematic
+  thematic?: EActivityThematic
 }
 
 export interface AssociateActivitiesModalProps {
   opened: boolean
-  activities: AssociationActivity[]
+  activities: AssociationSearchResultDTO[]
   isLoading?: boolean
 }
 
@@ -49,18 +49,29 @@ const {
   onDeleteItem: onDeleteActivity,
 } = useAssociationModal<AvAutocompleteOption>()
 
+const associationActivities = computed<AssociationActivity[]>(() =>
+  activities.map(activity => ({
+    id: activity.id,
+    title: activity.title,
+    disabled: activity.disabled,
+    thematic: activity.category as EActivityThematic | undefined
+  }))
+)
+
 const activityAutocompleteOptions = computed<AvAutocompleteOption[]>(() =>
-  activities
+  associationActivities.value
     .map(activity => ({
       label: activity.title,
       value: activity.id,
-      description: t(`global.activities.badges.thematics.${activity.thematic}`),
+      description: activity.thematic
+        ? t(`global.activities.badges.thematics.${activity.thematic}`)
+        : undefined,
       disabled: activity.disabled
     }))
 )
 
 const selectedAssociations = computed<AssociationActivity[]>(() =>
-  activities.filter(activity => selectedActivityOptions.value.some(option => option.value === activity.id))
+  associationActivities.value.filter(activity => selectedActivityOptions.value.some(option => option.value === activity.id))
 )
 
 watch(() => opened, (newVal) => {

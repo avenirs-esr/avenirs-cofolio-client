@@ -5,7 +5,6 @@ export { default as AssociatedDeclaredSkillsCard } from '@/features/student/decl
 export { default as DeclaredSkillCompactCard } from '@/features/student/declaredSkills/components/cards/DeclaredSkillCompactCard/DeclaredSkillCompactCard.vue'
 export { default as AddDeclaredSkillDrawer } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/AddDeclaredSkillDrawer.vue'
 export { default as AssociateDeclaredSkillsModal } from '@/features/student/declaredSkills/components/overlays/modals/AssociateDeclaredSkillsModal/AssociateDeclaredSkillsModal.vue'
-export { useDeclaredSkillAssociation } from '@/features/student/declaredSkills/composables/use-declared-skill-association/use-declared-skill-association'
 export { studentProjectDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
 export { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
 export { default as DeclaredSkillDetails } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
