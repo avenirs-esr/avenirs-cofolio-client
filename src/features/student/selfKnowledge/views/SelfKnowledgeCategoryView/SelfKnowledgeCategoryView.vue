@@ -28,7 +28,7 @@ interface SelfKnowledgeCategoryViewProps {
 const props = defineProps<SelfKnowledgeCategoryViewProps>()
 
 const { t } = useI18n()
-const { navigateToStudentSelfKnowledgeElementUpdate, navigateToStudentTrajectories } = useNavigation()
+const { navigateToStudentSelfKnowledgeElementUpdate, navigateToStudentBuildProject } = useNavigation()
 const { modalOpened: confirmModalOpened, openModal: openConfirmModal, closeModal: closeConfirmModal } = useModal()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
@@ -70,7 +70,7 @@ function deleteSelfKnowledgeElement () {
       addSuccessMessage(
         t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.success', { count: 1 })
       )
-      navigateToStudentTrajectories(true)
+      navigateToStudentBuildProject(true)
     }
   })
 }

@@ -1,16 +1,16 @@
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import StudentProjectTrajectoriesView from '@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'
+import StudentBuildProjectView from '@/features/student/global/views/StudentBuildProjectView/StudentBuildProjectView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a student project trajectories view component', () => {
-  let wrapper: VueWrapper<InstanceType<typeof StudentProjectTrajectoriesView>>
+  let wrapper: VueWrapper<InstanceType<typeof StudentBuildProjectView>>
 
   const stubs = {
     PageTitle: PageTitleStub,
-    StudentProjectTrajectoriesContainer: {
-      name: 'StudentProjectTrajectoriesContainer',
+    StudentProjectBuildProjectContainer: {
+      name: 'StudentProjectBuildProjectContainer',
       template: '<div class="student-project-trajectories-container-stub">Trajectories Container</div>'
     }
   }
@@ -18,7 +18,7 @@ BddTest().given('a student project trajectories view component', () => {
   const title = 'Bâtir mon projet'
 
   beforeEach(() => {
-    wrapper = mount(StudentProjectTrajectoriesView, { global: { stubs } })
+    wrapper = mount(StudentBuildProjectView, { global: { stubs } })
   })
 
   BddTest().when('the component is mounted', () => {
@@ -29,8 +29,8 @@ BddTest().given('a student project trajectories view component', () => {
       expect(pageTitle.props('trailingLinks')).toHaveLength(1)
     })
 
-    BddTest().then('it should render StudentProjectTrajectoriesContainer', () => {
-      const container = wrapper.findComponent({ name: 'StudentProjectTrajectoriesContainer' })
+    BddTest().then('it should render StudentProjectBuildProjectContainer', () => {
+      const container = wrapper.findComponent({ name: 'StudentProjectBuildProjectContainer' })
       expect(container.exists()).toBe(true)
     })
   })

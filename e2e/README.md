@@ -186,7 +186,7 @@ class PageTitleSteps {
         breadcrumbItems: [ ... ]
       },
       [STUDENT_ROUTES.PROJECT.TRAJECTORIES]: {
-        title: t('student.global.views.studentProjectTrajectoriesView.title'),
+        title: t('student.global.views.StudentBuildProjectView.title'),
         breadcrumbItems: [ ... ]
       }
     }

@@ -1,14 +1,10 @@
 import type { SectionNavigationItem } from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.types'
 import { SectionNavigationLayoutStub } from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.stub'
+import StudentProjectBuildProjectContainer
+  from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectBuildProjectContainer/StudentProjectBuildProjectContainer.vue'
 import StudentProjectTrajectoriesBuildProjectSection
-  from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesBuildProjectSection/StudentProjectTrajectoriesBuildProjectSection.vue'
-import StudentProjectTrajectoriesContainer
-  from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesContainer/StudentProjectTrajectoriesContainer.vue'
-import StudentProjectTrajectoriesExploreFuturesSection
-  from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesExploreFuturesSection/StudentProjectTrajectoriesExploreFuturesSection.vue'
-import StudentProjectTrajectoriesTrajectoriesSection
-  from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesTrajectoriesSection/StudentProjectTrajectoriesTrajectoriesSection.vue'
-import { ProjectTrajectoryItems } from '@/features/student/global/views/StudentProjectTrajectoriesView/types'
+  from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectTrajectoriesBuildProjectSection/StudentProjectTrajectoriesBuildProjectSection.vue'
+import { BuildProjectItems } from '@/features/student/global/views/StudentBuildProjectView/types'
 import { SelfKnowledgeMainSection } from '@/features/student/selfKnowledge'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -42,28 +38,20 @@ BddTest().given('a project trajectories container component', () => {
       name: 'StudentProjectTrajectoriesBuildProjectSection',
       template: '<div class="build-project-section-stub">Build Project Section</div>',
     },
-    StudentProjectTrajectoriesTrajectoriesSection: {
-      name: 'StudentProjectTrajectoriesTrajectoriesSection',
-      template: '<div class="trajectories-section-stub">Trajectories Section</div>',
-    },
     SelfKnowledgeMainSection: {
       name: 'SelfKnowledgeMainSection',
       template: '<div class="self-knowledge-section-stub">Self Knowledge Section</div>',
-    },
-    StudentProjectTrajectoriesExploreFuturesSection: {
-      name: 'StudentProjectTrajectoriesExploreFuturesSection',
-      template: '<div class="explore-futures-section-stub">Explore Futures Section</div>',
     },
   }
 
   beforeEach(() => {
     vi.unstubAllGlobals()
-    routeMock.name = 'student-project-trajectories'
-    routeMock.fullPath = '/student/project/trajectories'
+    routeMock.name = 'student-build-project'
+    routeMock.fullPath = '/student/project/build-project'
     routeMock.query = {}
     replaceMock.mockReset()
 
-    wrapper = mount(StudentProjectTrajectoriesContainer, {
+    wrapper = mount(StudentProjectBuildProjectContainer, {
       global: { stubs },
     })
   })
@@ -100,7 +88,7 @@ BddTest().given('a project trajectories container component', () => {
     BddTest().then('it should pass build project as default section', () => {
       const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
 
-      expect(sectionNavigationLayout.props('defaultSection')).toBe(ProjectTrajectoryItems.BUILD_PROJECT)
+      expect(sectionNavigationLayout.props('defaultSection')).toBe(BuildProjectItems.BUILD_PROJECT)
     })
 
     BddTest().then('it should pass the expected navigation items', () => {
@@ -109,24 +97,14 @@ BddTest().given('a project trajectories container component', () => {
 
       expect(items).toEqual([
         {
-          id: ProjectTrajectoryItems.BUILD_PROJECT,
+          id: BuildProjectItems.BUILD_PROJECT,
           label: 'Bâtir mon projet',
           icon: RI_ICONS.DRAW_LINE,
         },
         {
-          id: ProjectTrajectoryItems.SELF_KNOWLEDGE,
+          id: BuildProjectItems.SELF_KNOWLEDGE,
           label: 'Me connaître',
           icon: MDI_ICONS.FAMILY,
-        },
-        {
-          id: ProjectTrajectoryItems.EXPLORE_FUTURES,
-          label: 'Explorer mes futurs',
-          icon: MDI_ICONS.IMAGE_FILTER_CENTER_FOCUS_WEAK,
-        },
-        {
-          id: ProjectTrajectoryItems.TRAJECTORIES,
-          label: 'Mes Trajectoires',
-          icon: MDI_ICONS.ARROW_DECISION,
         },
       ])
     })
@@ -135,10 +113,8 @@ BddTest().given('a project trajectories container component', () => {
       const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
       const componentBySection = sectionNavigationLayout.props('componentBySection') as Record<string, unknown>
 
-      expect(componentBySection[ProjectTrajectoryItems.BUILD_PROJECT]).toBe(StudentProjectTrajectoriesBuildProjectSection)
-      expect(componentBySection[ProjectTrajectoryItems.SELF_KNOWLEDGE]).toBe(SelfKnowledgeMainSection)
-      expect(componentBySection[ProjectTrajectoryItems.EXPLORE_FUTURES]).toBe(StudentProjectTrajectoriesExploreFuturesSection)
-      expect(componentBySection[ProjectTrajectoryItems.TRAJECTORIES]).toBe(StudentProjectTrajectoriesTrajectoriesSection)
+      expect(componentBySection[BuildProjectItems.BUILD_PROJECT]).toBe(StudentProjectTrajectoriesBuildProjectSection)
+      expect(componentBySection[BuildProjectItems.SELF_KNOWLEDGE]).toBe(SelfKnowledgeMainSection)
     })
 
     BddTest().then('it should not pass propsBySection', () => {
@@ -148,45 +124,11 @@ BddTest().given('a project trajectories container component', () => {
     })
   })
 
-  BddTest().when('demo mode is enabled', () => {
-    beforeEach(() => {
-      vi.stubGlobal('__DEMO_MODE__', true)
-
-      wrapper = mount(StudentProjectTrajectoriesContainer, {
-        global: { stubs },
-      })
-    })
-
-    BddTest().then('it should only pass the first two items', () => {
-      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
-      const items = sectionNavigationLayout.props('items') as SectionNavigationItem[]
-
-      expect(items).toEqual([
-        {
-          id: ProjectTrajectoryItems.BUILD_PROJECT,
-          label: 'Bâtir mon projet',
-          icon: RI_ICONS.DRAW_LINE,
-        },
-        {
-          id: ProjectTrajectoryItems.SELF_KNOWLEDGE,
-          label: 'Me connaître',
-          icon: MDI_ICONS.FAMILY,
-        },
-      ])
-    })
-
-    BddTest().then('it should keep build project as default section', () => {
-      const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
-
-      expect(sectionNavigationLayout.props('defaultSection')).toBe(ProjectTrajectoryItems.BUILD_PROJECT)
-    })
-  })
-
   BddTest().when('current route is self knowledge', () => {
     beforeEach(() => {
-      routeMock.query = { section: ProjectTrajectoryItems.SELF_KNOWLEDGE }
+      routeMock.query = { section: BuildProjectItems.SELF_KNOWLEDGE }
 
-      wrapper = mount(StudentProjectTrajectoriesContainer, {
+      wrapper = mount(StudentProjectBuildProjectContainer, {
         global: { stubs },
       })
     })
@@ -194,18 +136,18 @@ BddTest().given('a project trajectories container component', () => {
     BddTest().then('it should use self knowledge as default section', () => {
       const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
 
-      expect(sectionNavigationLayout.props('defaultSection')).toBe(ProjectTrajectoryItems.SELF_KNOWLEDGE)
+      expect(sectionNavigationLayout.props('defaultSection')).toBe(BuildProjectItems.SELF_KNOWLEDGE)
     })
   })
 
   BddTest().when('a section is selected from navigation', () => {
     beforeEach(() => {
       const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
-      sectionNavigationLayout.vm.$emit('selectedItem', { itemId: ProjectTrajectoryItems.EXPLORE_FUTURES })
+      sectionNavigationLayout.vm.$emit('selectedItem', { itemId: BuildProjectItems.BUILD_PROJECT })
     })
 
     BddTest().then('it should navigate using the section query param', () => {
-      expect(replaceMock).toHaveBeenCalledWith({ query: { section: ProjectTrajectoryItems.EXPLORE_FUTURES } })
+      expect(replaceMock).toHaveBeenCalledWith({ query: { section: BuildProjectItems.BUILD_PROJECT } })
     })
   })
 

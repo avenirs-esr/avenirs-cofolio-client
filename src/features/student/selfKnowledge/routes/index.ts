@@ -10,7 +10,7 @@ export const studentSelfKnowledgeCategoryRoute: AvRoute = {
   component: () =>
     import('@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/SelfKnowledgeCategoryView.vue'),
   meta: {
-    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT.SELF_KNOWLEDGE]
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.LIFE_PROJECT.SELF_KNOWLEDGE]
   }
 }
 
@@ -23,6 +23,6 @@ export const studentSelfKnowledgeElementUpdateRoute: AvRoute = {
   component: () =>
     import('@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/SelfKnowledgeElementUpdateView.vue'),
   meta: {
-    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT.SELF_KNOWLEDGE]
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.LIFE_PROJECT.SELF_KNOWLEDGE]
   }
 }

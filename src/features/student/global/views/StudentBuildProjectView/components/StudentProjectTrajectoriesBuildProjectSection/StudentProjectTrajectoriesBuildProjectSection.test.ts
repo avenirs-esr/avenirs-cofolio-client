@@ -1,5 +1,5 @@
-import StudentProjectTrajectoriesBuildProjectSection from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesBuildProjectSection/StudentProjectTrajectoriesBuildProjectSection.vue'
-import { StudentProjectTrajectoriesHelperModalStub } from '@/features/student/global/views/StudentProjectTrajectoriesView/components/StudentProjectTrajectoriesHelperModal/StudentProjectTrajectoriesHelperModal.stub'
+import StudentProjectTrajectoriesBuildProjectSection from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectTrajectoriesBuildProjectSection/StudentProjectTrajectoriesBuildProjectSection.vue'
+import { StudentProjectTrajectoriesHelperModalStub } from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectTrajectoriesHelperModal/StudentProjectTrajectoriesHelperModal.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'

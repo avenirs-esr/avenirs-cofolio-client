@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ESelfKnowledgeCategory, useGetSelfKnowledgeElements } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
-import { ProjectTrajectoryItems } from '@/features/student/global/views/StudentProjectTrajectoriesView/types'
+import { BuildProjectItems } from '@/features/student/global/views/StudentBuildProjectView/types'
 import ValorizedElementsCardContainer from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.vue'
 import ValorizedSelfKnowledgeItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedSelfKnowledgeItem/ValorizedSelfKnowledgeItem.vue'
 import { useI18n } from 'vue-i18n'
@@ -39,9 +39,9 @@ const seeAllTo = computed(() => {
   }
 
   return {
-    name: ROUTES.STUDENT.PROJECT_TRAJECTORIES.name,
+    name: ROUTES.STUDENT.BUILD_PROJECT.name,
     query: {
-      section: ProjectTrajectoryItems.SELF_KNOWLEDGE
+      section: BuildProjectItems.SELF_KNOWLEDGE
     }
   }
 })

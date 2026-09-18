@@ -16,7 +16,7 @@ const { data: config } = useGetBuildLifeProjectConfig()
 <template>
   <AvModal
     :opened="opened"
-    :close-button-label="t('student.global.views.studentProjectTrajectoriesView.buildProject.projectTrajectoriesHelperModal.closeButtonLabel')"
+    :close-button-label="t('student.global.views.StudentBuildProjectView.buildProject.projectTrajectoriesHelperModal.closeButtonLabel')"
     @close="onClose"
     @click-outside="onClose"
   >

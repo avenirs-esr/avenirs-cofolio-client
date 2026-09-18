@@ -58,8 +58,8 @@ export function useNavigation () {
     return navigate(ROUTES.STUDENT.MAILBOX)
   }
 
-  const navigateToStudentTrajectories = (replace?: boolean) => {
-    return navigate(ROUTES.STUDENT.PROJECT_TRAJECTORIES, replace)
+  const navigateToStudentBuildProject = (replace?: boolean) => {
+    return navigate(ROUTES.STUDENT.BUILD_PROJECT, replace)
   }
 
   const navigateToStudentSelfKnowledgeCategory = ({ categoryId, elementId }: { categoryId: string, elementId: string }) => {
@@ -205,7 +205,7 @@ export function useNavigation () {
     navigateToStudentEvents,
     navigateToStudentHome,
     navigateToStudentMailbox,
-    navigateToStudentTrajectories,
+    navigateToStudentBuildProject,
     navigateToStudentSelfKnowledgeCategory,
     navigateToStudentSelfKnowledgeElementUpdate,
     navigateToStudentProjectDeclaredSkill,

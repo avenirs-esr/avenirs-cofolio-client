@@ -18,7 +18,7 @@ import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
 const navigateToStudentSelfKnowledgeElementUpdate = vi.fn()
-const navigateToStudentTrajectories = vi.fn()
+const navigateToStudentBuildProject = vi.fn()
 const mockSelectedElementId = ref('')
 
 const mockAddSuccessMessage = vi.fn()
@@ -50,7 +50,7 @@ vi.mock('@/common/composables/use-navigation/use-navigation', async (importOrigi
     ...actual,
     useNavigation: () => ({
       navigateToStudentSelfKnowledgeElementUpdate,
-      navigateToStudentTrajectories
+      navigateToStudentBuildProject
     }),
   }
 })
@@ -229,7 +229,7 @@ BddTest().given('a self knowledge category view component', () => {
 
       BddTest().then('it should navigate to the trajectories view', () => {
         return vi.waitFor(() => {
-          expect(navigateToStudentTrajectories).toHaveBeenCalled()
+          expect(navigateToStudentBuildProject).toHaveBeenCalled()
         })
       })
     })

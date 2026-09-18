@@ -5,10 +5,10 @@ import { ROUTES } from '@/common/constants/route-names'
 export default []
 
 export const projectTrajectoriesRoute: AvRoute = {
-  ...ROUTES.STUDENT.PROJECT_TRAJECTORIES,
-  component: () => import('@/features/student/global/views/StudentProjectTrajectoriesView/StudentProjectTrajectoriesView.vue'),
+  ...ROUTES.STUDENT.BUILD_PROJECT,
+  component: () => import('@/features/student/global/views/StudentBuildProjectView/StudentBuildProjectView.vue'),
   meta: {
-    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.BUILD_PROJECT.BUILD_PROJECT]
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.PROJECT.LIFE_PROJECT.BUILD_PROJECT]
   }
 }
 
