@@ -190,7 +190,7 @@
           },
           "informations": {
             "disabled": "This setting can no longer be changed because students are already enrolled in this activity.",
-            "willBeDisabled": "After the activity is published and a learner has been enrolled, this field will no longer be editable."
+            "willBeDisabled": "After the first learner enrolls, this setting will no longer be editable."
           }
         }
       }
