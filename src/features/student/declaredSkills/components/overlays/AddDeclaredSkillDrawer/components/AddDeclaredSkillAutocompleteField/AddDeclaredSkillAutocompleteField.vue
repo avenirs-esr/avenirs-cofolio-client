@@ -4,11 +4,12 @@ import type {
   DeclaredSkillForm,
   UpdateDeclaredSkillForm
 } from '@/features/student/declaredSkills/types/forms.types'
-import { type ExternalSkillDTO, type PagedResponseExternalSkillDTO, useSearchExternalSkillsInfinite } from '@/api/avenir-esr'
+import { type ExternalSkillDTO, type PagedResponseExternalSkillDTO, useGetAssociatedExternalSkillIds, useSearchExternalSkillsInfinite } from '@/api/avenir-esr'
 import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
 import { ICONS } from '@/common/constants'
 import { highlightCaptionText, highlightTitleText } from '@/common/utils'
 import DeclaredSkillTypeBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillTypeBadge/DeclaredSkillTypeBadge.vue'
+import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
 import { AvListItem } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'
 import { markRaw, toValue } from 'vue'
@@ -22,9 +23,22 @@ const { form } = defineProps<SearchSkillFieldProps>()
 const FormField = markRaw(form.Field)
 
 const { t } = useI18n()
+const declaredSkillsStore = useDeclaredSkillsStore()
 
 const SEARCH_SKILLS_MIN_LENGTH = 3
 const PAGE_SIZE = 10
+
+const { data: associatedExternalSkillIds } = useGetAssociatedExternalSkillIds({
+  query: {
+    enabled: computed(() => declaredSkillsStore.showCreateDeclaredSkillDrawer),
+  }
+})
+
+const associatedExternalSkillIdsSet = computed(() => new Set(associatedExternalSkillIds.value ?? []))
+
+function isSkillAlreadyDeclared (option: DeclaredSkillOption): boolean {
+  return associatedExternalSkillIdsSet.value.has(option.id)
+}
 
 const searchQuery = ref('')
 const pageSize = ref(PAGE_SIZE)
@@ -134,18 +148,20 @@ const emptySlotTextContent = computed<string>(() => {
           </template>
           <template #item="{ option, isSelected, toggle }">
             <AvListItem
-              v-memo="[option, isSelected, toggle, searchQuery]"
+              v-memo="[option, isSelected, toggle, searchQuery, isSkillAlreadyDeclared(option)]"
               hover-background-color="var(--light-background-neutral)"
               :selected="isSelected"
               :icon="ICONS.SKILLS"
               :icon-size="2"
               icon-color="var(--icon)"
               color-on-hover="var(--text1)"
-              @click="toggle"
+              @click="() => { if (!isSkillAlreadyDeclared(option)) toggle() }"
             >
               <div
-                v-memo="[option, isSelected]"
+                v-memo="[option, isSelected, isSkillAlreadyDeclared(option)]"
                 class="skill-item av-row av-align-center av-justify-between av-gap-md"
+                :class="{ 'av-disabled': isSkillAlreadyDeclared(option) }"
+                :aria-disabled="isSkillAlreadyDeclared(option)"
                 data-testid="skill-item"
               >
                 <div
