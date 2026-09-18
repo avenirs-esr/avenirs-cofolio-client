@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { type TraceDeclaredActivityDTO, useGetLockedDeclaredActivities, useGetTraceAssociations, useGetTraceDetail } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
+import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ROUTES } from '@/common/constants'
 import { BaseApiException } from '@/common/exceptions'
-import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
 import ConfirmUpdateTraceModal from '@/features/student/traces/views/StudentUpdateTraceView/components/ConfirmUpdateTraceModal/ConfirmUpdateTraceModal.vue'

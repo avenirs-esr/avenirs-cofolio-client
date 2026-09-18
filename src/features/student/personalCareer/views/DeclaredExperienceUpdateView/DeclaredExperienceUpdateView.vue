@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { useGetDeclaredExperience, useGetDeclaredExperienceAssociations } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
+import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import Loader from '@/common/components/Loader/Loader.vue'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ICONS } from '@/common/constants'
 import { ROUTES } from '@/common/constants/route-names'
-import UpdateInProgressBadge from '@/features/student/global/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import DeclaredExperienceSideMenu
   from '@/features/student/personalCareer/components/navigation/DeclaredExperienceSideMenu/DeclaredExperienceSideMenu.vue'
 import { usePaginatedDeclaredExperiences } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
@@ -100,7 +100,7 @@ function onExperienceUpdated () {
     />
 
     <div class="av-col av-gap-sm av-justify-start av-flex-fill">
-      <UpdateInProgressBadge :show="isDirty" />
+      <UpdateInProgressBadge :show="true" />
       <AvTabs v-model="activeTab">
         <AvTab
           :title="t('student.personalCareer.views.DeclaredExperienceUpdateView.tabs.experience.title')"
