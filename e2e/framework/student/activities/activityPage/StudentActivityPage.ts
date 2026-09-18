@@ -291,11 +291,6 @@ export class StudentActivityPage extends BasePage {
     await this.getMyPerspectiveSection().verifyAssociateTracesModalTitleVisible()
   }
 
-  @Then('the traces type select is visible in associate traces modal')
-  async verifyTracesTypeSelectVisibleInAssociateTracesModal () {
-    await this.getMyPerspectiveSection().verifyTracesTypeSelectVisibleInAssociateTracesModal()
-  }
-
   @Then('the search association layout is visible in associate traces modal')
   async verifySearchAssociationLayoutVisibleInAssociateTracesModal () {
     await this.getMyPerspectiveSection().verifySearchAssociationLayoutVisibleInAssociateTracesModal()

@@ -1,6 +1,6 @@
 import type { UpdateTraceForm as UpdateTraceFormApi } from '@/features/student/traces/types/forms.types'
 import { createMockedDeclaredExperiencesAssociations, mockedTraceAssociations } from '@/__mocks__/fixtures/student'
-import { EFileType, ETraceAuthorType, type TraceAssociationsDTO, type TraceDetailDTO } from '@/api/avenir-esr'
+import { type AssociationsDTO, EFileType, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
 import { TraceAssociationsStub } from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.stub'
 import UpdateTabs from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.vue'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -111,7 +111,7 @@ BddTest().given('an update tab', () => {
   })
 
   BddTest().when('the associations include declared experience associations', () => {
-    const associationsWithExperiences: TraceAssociationsDTO = {
+    const associationsWithExperiences: AssociationsDTO = {
       ...mockedTraceAssociations,
       declaredExperienceAssociations: createMockedDeclaredExperiencesAssociations(2)
     }

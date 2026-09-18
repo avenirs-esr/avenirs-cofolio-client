@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import {
   EAssociationContextType,
+  invalidateGetAssociations,
   invalidateGetDeclaredExperience,
-  invalidateGetDeclaredExperienceAssociations,
-  useAssociateDeclaredExperienceWithDeclaredSkills,
-  useSearchDeclaredSkillsForAssociation,
+  useAssociate,
+  useSearchForAssociation
 } from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { AssociateDeclaredSkillsModal } from '@/features/student/declaredSkills'
@@ -38,8 +38,6 @@ const {
 } = useAssociationModal()
 
 const params = computed(() => ({
-  contextType: EAssociationContextType.DECLARED_EXPERIENCE,
-  excludeAssociatedWithElementId: declaredExperienceId,
   keyword: searchQuery.value.trim() || undefined,
   page: 0,
   pageSize: 20
@@ -49,20 +47,26 @@ const {
   data,
   isError: isSearchError,
   error: searchError
-} = useSearchDeclaredSkillsForAssociation(params, {
-  query: { enabled: computed(() => opened) }
-})
+} = useSearchForAssociation(
+  EAssociationContextType.DECLARED_EXPERIENCE,
+  computed(() => declaredExperienceId),
+  EAssociationContextType.DECLARED_SKILL,
+  params,
+  {
+    query: { enabled: computed(() => opened) }
+  }
+)
 
 const skills = computed(() => data.value?.data ?? [])
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
-const { mutate: mutateAssociateDeclaredExperienceWithDeclaredSkills, isPending } = useAssociateDeclaredExperienceWithDeclaredSkills({
+const { mutate: mutateAssociateDeclaredExperienceWithDeclaredSkills, isPending } = useAssociate({
   mutation: {
     onError: error => onAssociateMutationError(error),
     onSuccess: async (_, variables) => {
       await withTaskLoading(() => Promise.all([
-        invalidateGetDeclaredExperienceAssociations(queryClient, declaredExperienceId),
+        invalidateGetAssociations(queryClient, EAssociationContextType.DECLARED_EXPERIENCE, declaredExperienceId),
         invalidateGetDeclaredExperience(queryClient, declaredExperienceId)
       ]))
 
@@ -79,7 +83,12 @@ const { mutate: mutateAssociateDeclaredExperienceWithDeclaredSkills, isPending }
 })
 
 function onAssociate (idsToAssociate: string[]) {
-  mutateAssociateDeclaredExperienceWithDeclaredSkills({ experienceId: declaredExperienceId, data: { idsToAssociate } })
+  mutateAssociateDeclaredExperienceWithDeclaredSkills({
+    contextType: EAssociationContextType.DECLARED_EXPERIENCE,
+    elementId: declaredExperienceId,
+    associatedContextType: EAssociationContextType.DECLARED_SKILL,
+    data: { idsToAssociate }
+  })
 }
 </script>
 

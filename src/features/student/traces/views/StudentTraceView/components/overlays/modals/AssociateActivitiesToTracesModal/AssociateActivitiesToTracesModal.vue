@@ -1,17 +1,15 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
-import type {
-  AssociationActivity
-} from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateActivitiesModal/AssociateActivitiesModal.vue'
 import {
   type AssociationsCreationRequest,
-  invalidateGetTraceAssociations,
+  EAssociationContextType,
+  invalidateGetAssociations,
   invalidateGetTraceDetail,
   invalidateGetTracesSummary,
-  invalidateSearchDeclaredActivityForAssociation,
+  invalidateSearchForAssociation,
   invalidateTracesView,
-  useAssociateTraceWithActivities,
-  useSearchDeclaredActivityForAssociation
+  useAssociate,
+  useSearchForAssociation
 } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -58,27 +56,24 @@ const {
   isError: isSearchError,
   error: searchError,
   isLoading
-} = useSearchDeclaredActivityForAssociation(computed(() => traceId), params, {
-  query: {
-    enabled: enabled.value,
-    placeholderData: keepPreviousData,
+} = useSearchForAssociation(
+  EAssociationContextType.TRACE,
+  computed(() => traceId),
+  EAssociationContextType.DECLARED_ACTIVITY,
+  params,
+  {
+    query: {
+      enabled: enabled.value,
+      placeholderData: keepPreviousData,
+    }
   }
-})
+)
 
 const activities = computed(() => data.value?.data || [])
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
-const associationActivities = computed<AssociationActivity[]>(() =>
-  (activities.value).map(activity => ({
-    id: activity.id,
-    title: activity.title,
-    thematic: activity.thematic,
-    disabled: activity.disabled
-  }))
-)
-
-const { mutate: associateTraceWithActivities, isPending } = useAssociateTraceWithActivities({
+const { mutate: associateTraceWithActivities, isPending } = useAssociate({
   mutation: {
     onError: (error: BaseApiException) => {
       addErrorMessage({
@@ -91,8 +86,8 @@ const { mutate: associateTraceWithActivities, isPending } = useAssociateTraceWit
         invalidateTracesView(queryClient, {}),
         invalidateGetTracesSummary(queryClient),
         invalidateGetTraceDetail(queryClient, traceId),
-        invalidateGetTraceAssociations(queryClient, traceId),
-        invalidateSearchDeclaredActivityForAssociation(queryClient, traceId, params.value)
+        invalidateGetAssociations(queryClient, EAssociationContextType.TRACE, traceId),
+        invalidateSearchForAssociation(queryClient, EAssociationContextType.TRACE, traceId, EAssociationContextType.DECLARED_ACTIVITY, params.value)
       ]))
       const count = variables.data.idsToAssociate.length
       addSuccessMessage({
@@ -109,14 +104,19 @@ const { mutate: associateTraceWithActivities, isPending } = useAssociateTraceWit
 
 function onAssociate (ids: string[]) {
   const data: AssociationsCreationRequest = { idsToAssociate: ids }
-  associateTraceWithActivities({ traceId, data })
+  associateTraceWithActivities({
+    contextType: EAssociationContextType.TRACE,
+    elementId: traceId,
+    associatedContextType: EAssociationContextType.DECLARED_ACTIVITY,
+    data
+  })
 }
 </script>
 
 <template>
   <AssociateActivitiesModal
     :opened="opened"
-    :activities="associationActivities"
+    :activities="activities"
     :is-loading="isLoading || isPending || isTaskLoading"
     @cancel="emit('cancel')"
     @search="onSearch"

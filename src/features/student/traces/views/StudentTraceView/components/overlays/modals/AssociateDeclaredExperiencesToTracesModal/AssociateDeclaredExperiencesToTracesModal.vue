@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { AssociationDeclaredExperiences } from '@/features/student/personalCareer/components/modals/AssociateDeclaredExperiencesModal/AssociateDeclaredExperiencesModal.vue'
 import {
-  useAssociateTraceWithDeclaredExperiences,
-  useSearchDeclaredExperiencesForAssociation,
+  EAssociationContextType,
+  useAssociate,
+  useSearchForAssociation
 } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useAssociationModal } from '@/features/student/global'
@@ -39,24 +39,27 @@ const params = computed(() => ({
   pageSize: 100,
 }))
 
-const { data: associationExperiences, isError: isSearchError, error: searchError, isPending: isLoading } = useSearchDeclaredExperiencesForAssociation(params, {
-  query: {
-    select: (response): AssociationDeclaredExperiences[] => response.data.map(experience => ({
-      id: experience.id,
-      title: experience.title,
-      experienceType: experience.experienceType,
-      disabled: experience.disabled
-    }))
+const { data: associationExperiences, isError: isSearchError, error: searchError, isPending: isLoading } = useSearchForAssociation(
+  EAssociationContextType.TRACE,
+  computed(() => traceId),
+  EAssociationContextType.DECLARED_EXPERIENCE,
+  params,
+  {
+    query: {
+      select: response => response.data
+    }
   }
-})
+)
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
-const { mutate: associateTraceWithDeclaredExperiences, isPending } = useAssociateTraceWithDeclaredExperiences()
+const { mutate: associateTraceWithDeclaredExperiences, isPending } = useAssociate()
 
 function onAssociate (ids: string[]) {
   associateTraceWithDeclaredExperiences({
-    traceId,
+    contextType: EAssociationContextType.TRACE,
+    elementId: traceId,
+    associatedContextType: EAssociationContextType.DECLARED_EXPERIENCE,
     data: { idsToAssociate: ids }
   }, {
     onError: (error) => {

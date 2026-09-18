@@ -7,7 +7,6 @@ import {
 } from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.stub'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
 import { AssociateElementsDrawerSectionStub } from '@/features/student/global/components/sections/AssociateElementsDrawerSection/AssociateElementsDrawerSection.stub'
-import { TraceAssociationTypes } from '@/features/student/traces'
 import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -296,16 +295,8 @@ BddTest().given('an add declared skill drawer component', () => {
       expect(typeConfigs[1].searchPlaceholder).toBe('Rechercher une expérience...')
       expect(typeConfigs[2].key).toBe(EAssociationContextType.TRACE)
       expect(typeConfigs[2].label).toBe('Mes traces')
-      expect(typeConfigs[2].searchPlaceholder).toBeUndefined()
-
-      const tracesSubConfigs = typeConfigs[2].subConfigs
-      expect(tracesSubConfigs).toHaveLength(2)
-      expect(tracesSubConfigs![0].key).toBe(TraceAssociationTypes.ASSOCIATED)
-      expect(tracesSubConfigs![0].label).toBe('associées')
-      expect(tracesSubConfigs![0].searchPlaceholder).toBe('Rechercher une trace associée...')
-      expect(tracesSubConfigs![1].key).toBe(TraceAssociationTypes.UNASSOCIATED)
-      expect(tracesSubConfigs![1].label).toBe('non associées')
-      expect(tracesSubConfigs![1].searchPlaceholder).toBe('Rechercher une trace non associée...')
+      expect(typeConfigs[2].searchPlaceholder).toBe('Rechercher une trace...')
+      expect(typeConfigs[2].subConfigs).toBeUndefined()
     })
 
     BddTest().then('it should default the active type key to declared activities', () => {
@@ -335,57 +326,6 @@ BddTest().given('an add declared skill drawer component', () => {
       await wrapper.vm.$nextTick()
 
       expect(section.props('searchQuery')).toBe('react')
-    })
-  })
-
-  BddTest().when('the active association type is changed to traces', () => {
-    BddTest().then('it should use the unassociated traces subtype by default', async () => {
-      const section = getAssociateElementsSection()
-
-      await section.vm.$emit('update:activeTypeKey', EAssociationContextType.TRACE)
-      await wrapper.vm.$nextTick()
-
-      expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.UNASSOCIATED)
-    })
-  })
-
-  BddTest().when('the active trace subtype is changed', () => {
-    BddTest().then('it should pass the selected trace subtype', async () => {
-      const section = getAssociateElementsSection()
-
-      await section.vm.$emit('update:activeTypeKey', EAssociationContextType.TRACE)
-      await wrapper.vm.$nextTick()
-
-      await section.vm.$emit('update:activeSubTypeKey', TraceAssociationTypes.UNASSOCIATED)
-      await wrapper.vm.$nextTick()
-
-      expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.UNASSOCIATED)
-    })
-  })
-
-  BddTest().when('the active trace subtype is changed then another association type is selected', () => {
-    BddTest().then('it should restore the previously selected trace subtype', async () => {
-      const section = getAssociateElementsSection()
-
-      await section.vm.$emit('update:activeTypeKey', EAssociationContextType.TRACE)
-      await wrapper.vm.$nextTick()
-
-      await section.vm.$emit('update:activeSubTypeKey', TraceAssociationTypes.UNASSOCIATED)
-      await wrapper.vm.$nextTick()
-
-      expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.UNASSOCIATED)
-
-      await section.vm.$emit('update:activeTypeKey', EAssociationContextType.DECLARED_EXPERIENCE)
-      await wrapper.vm.$nextTick()
-
-      expect(section.props('activeTypeKey')).toBe(EAssociationContextType.DECLARED_EXPERIENCE)
-      expect(section.props('activeSubTypeKey')).toBeUndefined()
-
-      await section.vm.$emit('update:activeTypeKey', EAssociationContextType.TRACE)
-      await wrapper.vm.$nextTick()
-
-      expect(section.props('activeTypeKey')).toBe(EAssociationContextType.TRACE)
-      expect(section.props('activeSubTypeKey')).toBe(TraceAssociationTypes.UNASSOCIATED)
     })
   })
 

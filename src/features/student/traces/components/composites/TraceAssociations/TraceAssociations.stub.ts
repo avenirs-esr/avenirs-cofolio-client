@@ -1,11 +1,11 @@
-import type { TraceAssociationsDTO } from '@/api/avenir-esr'
+import type { AssociationsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import type { PropType } from 'vue'
 
 export const TraceAssociationsStub = defineComponent({
   name: 'TraceAssociations',
   props: {
-    associations: { type: Object as PropType<TraceAssociationsDTO>, required: true },
+    associations: { type: Object as PropType<AssociationsDTO>, required: true },
     traceId: { type: String, required: true },
     associationsError: { type: Object as PropType<BaseApiException | null>, required: false },
     disabled: { type: Boolean, required: false, default: false },

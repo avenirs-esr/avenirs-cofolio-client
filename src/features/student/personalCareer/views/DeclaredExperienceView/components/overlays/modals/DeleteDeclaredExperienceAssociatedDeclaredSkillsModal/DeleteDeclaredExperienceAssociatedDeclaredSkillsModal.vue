@@ -3,9 +3,10 @@ import type { BaseApiException } from '@/common/exceptions'
 import {
   type DeclaredSkillAssociationDTO,
   type DeclaredSkillProgressDTO,
+  EAssociationContextType,
+  invalidateGetAssociations,
   invalidateGetDeclaredExperience,
-  invalidateGetDeclaredExperienceAssociations,
-  useDeleteDeclaredExperienceAssociations
+  useUnassociate
 } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -45,7 +46,7 @@ const selectableElements = computed(() => associations.map(({ associationId, dec
   baseElement: declaredSkill
 })))
 
-const { mutate: deleteDeclaredExperienceAssociations } = useDeleteDeclaredExperienceAssociations({
+const { mutate: deleteDeclaredExperienceAssociations } = useUnassociate({
   mutation: {
     onError: (error: BaseApiException) => {
       addErrorMessage({
@@ -55,7 +56,7 @@ const { mutate: deleteDeclaredExperienceAssociations } = useDeleteDeclaredExperi
     },
     onSuccess: async () => {
       await withTaskLoading(() => Promise.all([
-        invalidateGetDeclaredExperienceAssociations(queryClient, experienceId),
+        invalidateGetAssociations(queryClient, EAssociationContextType.DECLARED_EXPERIENCE, experienceId),
         invalidateGetDeclaredExperience(queryClient, experienceId),
       ]))
       addSuccessMessage({
@@ -70,7 +71,8 @@ const { mutate: deleteDeclaredExperienceAssociations } = useDeleteDeclaredExperi
 
 function onConfirmDelete () {
   deleteDeclaredExperienceAssociations({
-    experienceId,
+    contextType: EAssociationContextType.DECLARED_EXPERIENCE,
+    elementId: experienceId,
     data: { idsToDelete: selectedIds.value }
   })
 }

@@ -111,10 +111,6 @@ export class MyPerspectiveSectionObject extends BaseObject {
     return this.root.page().getByTestId('header')
   }
 
-  getTracesTypeSelectInAssociateModal () {
-    return this.root.page().getByTestId('traces-type-select').first()
-  }
-
   getSearchAssociationLayoutInAssociateModal () {
     return this.root.page().getByTestId('search-association-layout')
   }
@@ -324,10 +320,6 @@ export class MyPerspectiveSectionObject extends BaseObject {
 
   async verifyAssociateTracesModalTitleVisible () {
     await expect(this.getAssociateTracesModalTitle()).toBeVisible()
-  }
-
-  async verifyTracesTypeSelectVisibleInAssociateTracesModal () {
-    await expect(this.getTracesTypeSelectInAssociateModal()).toBeVisible()
   }
 
   async verifySearchAssociationLayoutVisibleInAssociateTracesModal () {

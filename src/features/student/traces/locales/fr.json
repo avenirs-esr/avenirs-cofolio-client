@@ -3,16 +3,7 @@
     "traces": {
       "associations": {
         "label": "Mes traces",
-        "subConfigs": {
-          "ASSOCIATED": {
-            "label": "associées",
-            "placeholder": "Rechercher une trace associée..."
-          },
-          "UNASSOCIATED": {
-            "label": "non associées",
-            "placeholder": "Rechercher une trace non associée..."
-          }
-        }
+        "placeholder": "Rechercher une trace..."
       },
       "badges": {
         "TraceAiProducedBadge": {
@@ -91,26 +82,6 @@
         "pickers": {
           "TracesSelector": {
             "ariaLabel": "Sélectionner la trace {title}"
-          },
-          "TracesTypeSelect": {
-            "label": "Rechercher dans\u00A0:",
-            "options": {
-              "TRACE": {
-                "ALL": {
-                  "label": "Toutes mes traces",
-                  "searchPlaceholder": "Rechercher une trace"
-                },
-                "ASSOCIATED": {
-                  "label": "Mes traces associées",
-                  "searchPlaceholder": "Rechercher une trace associée"
-                },
-                "UNASSOCIATED": {
-                  "label": "Mes traces non associées",
-                  "searchPlaceholder": "Rechercher une trace non associée"
-                }
-              }
-            },
-            "placeholder": "Sélectionnez un type de trace"
           }
         },
         "radios": {
@@ -131,6 +102,7 @@
           "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association de traces\u00A0?",
           "confirm": "Associer la trace sélectionnée (1) | Associer les traces sélectionnées ({count})",
           "confirmTitle": "Êtes-vous certain(e) de vouloir associer cette trace\u00A0? | Êtes-vous certain(e) de vouloir associer ces traces\u00A0?",
+          "searchPlaceholder": "Rechercher une trace",
           "success": "Vous avez associé {count} trace. Retrouvez-la dans la catégorie « Mes traces associées ». | Vous avez associé {count} traces. Retrouvez-les dans la catégorie « Mes traces associées ».",
           "title": "Quelle(s) trace(s) souhaitez-vous associer\u00A0?"
         },

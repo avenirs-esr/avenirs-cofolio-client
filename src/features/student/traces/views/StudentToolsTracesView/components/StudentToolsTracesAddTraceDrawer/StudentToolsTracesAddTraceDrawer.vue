@@ -3,14 +3,12 @@ import type { Association } from '@/features/student/global/types/associations.t
 import type { AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
 import {
   EAssociationContextType,
-  useSearchDeclaredActivitiesForAssociation,
-  useSearchDeclaredSkillsForAssociation,
+  useSearchForAssociationWithNewElement
 } from '@/api/avenir-esr'
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
-import { useDeclaredActivityAssociation } from '@/features/student/buildProject'
-import { useDeclaredSkillAssociation } from '@/features/student/declaredSkills'
+import { useAssociationSearchResults } from '@/features/student/global'
 import AssociateElementsDrawerSection from '@/features/student/global/components/sections/AssociateElementsDrawerSection/AssociateElementsDrawerSection.vue'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { EAssociationTypeKey } from '@/features/student/traces/types/traces.types'
@@ -64,8 +62,7 @@ const {
   closeModal: closeDiscardChangesModal
 })
 
-const { declaredSkillToAssociation } = useDeclaredSkillAssociation()
-const { declaredActivityToAssociation } = useDeclaredActivityAssociation()
+const { toAssociations } = useAssociationSearchResults()
 
 const activeAccordion = ref(AddTraceAccordionGroupItems.TRACE)
 
@@ -96,8 +93,10 @@ const searchParams = computed(() => ({
 const {
   data: skills,
   isLoading: isSkillsLoading
-} = useSearchDeclaredSkillsForAssociation(
-  computed(() => ({ contextType: EAssociationContextType.TRACE, ...searchParams.value })),
+} = useSearchForAssociationWithNewElement(
+  EAssociationContextType.TRACE,
+  EAssociationContextType.DECLARED_SKILL,
+  searchParams,
   {
     query: {
       enabled: computed(() => activeAccordion.value === AddTraceAccordionGroupItems.ASSOCIATION && activeTypeKey.value === EAssociationTypeKey.DECLARED_SKILLS),
@@ -109,8 +108,10 @@ const {
 const {
   data: activities,
   isLoading: isActivitiesLoading
-} = useSearchDeclaredActivitiesForAssociation(
-  computed(() => ({ contextType: EAssociationContextType.TRACE, ...searchParams.value })),
+} = useSearchForAssociationWithNewElement(
+  EAssociationContextType.TRACE,
+  EAssociationContextType.DECLARED_ACTIVITY,
+  searchParams,
   {
     query: {
       enabled: computed(() => activeAccordion.value === AddTraceAccordionGroupItems.ASSOCIATION && activeTypeKey.value === EAssociationTypeKey.ACTIVITIES),
@@ -134,9 +135,10 @@ const typeConfigs = computed<AssociateElementTypeConfig[]>(() => [
 
 const currentOptions = computed<Association[]>(() => {
   if (activeTypeKey.value === EAssociationTypeKey.DECLARED_SKILLS) {
-    return skills.value?.map(declaredSkillToAssociation) ?? []
+    return toAssociations(skills.value ?? [], EAssociationContextType.DECLARED_SKILL)
   }
-  return activities.value?.map(declaredActivityToAssociation) ?? []
+
+  return toAssociations(activities.value ?? [], EAssociationContextType.DECLARED_ACTIVITY)
 })
 
 const isSearchLoading = computed(() => {

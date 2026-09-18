@@ -749,40 +749,63 @@
         }
       }
     },
-    "/me/traces/{traceId}/associate/declared-skill": {
-      "post": {
+    "/me/associations/{contextType}/{associatedContextType}/search": {
+      "get": {
         "tags": [
-          "trace-controller"
+          "association-controller"
         ],
-        "operationId": "associateTraceWithDeclaredSkill",
+        "operationId": "searchForAssociationWithNewElement",
         "parameters": [
           {
-            "name": "traceId",
+            "name": "contextType",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "associatedContextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociationsCreationRequest"
-              }
-            }
-          },
-          "required": true
-        },
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/TraceAssociationsDTO"
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDTO"
                 }
               }
             }
@@ -790,20 +813,124 @@
         }
       }
     },
-    "/me/traces/{traceId}/associate/declared-experiences": {
-      "post": {
+    "/me/associations/{contextType}/{elementId}": {
+      "get": {
         "tags": [
-          "trace-controller"
+          "association-controller"
         ],
-        "operationId": "associateTraceWithDeclaredExperiences",
+        "operationId": "getAssociations",
         "parameters": [
           {
-            "name": "traceId",
+            "name": "contextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "elementId",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          },
+          {
+            "name": "onlyNotCompleted",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssociationsDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "association-controller"
+        ],
+        "operationId": "unassociate",
+        "parameters": [
+          {
+            "name": "contextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "elementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociationsDeleteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/me/associations/{contextType}/{elementId}/{associatedContextType}": {
+      "post": {
+        "tags": [
+          "association-controller"
+        ],
+        "operationId": "associate",
+        "parameters": [
+          {
+            "name": "contextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "elementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "associatedContextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
             }
           }
         ],
@@ -823,7 +950,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/TraceAssociationsDTO"
+                  "$ref": "#/components/schemas/AssociationsDTO"
                 }
               }
             }
@@ -831,40 +958,72 @@
         }
       }
     },
-    "/me/traces/{traceId}/associate/activities": {
-      "post": {
+    "/me/associations/{contextType}/{elementId}/{associatedContextType}/search": {
+      "get": {
         "tags": [
-          "trace-controller"
+          "association-controller"
         ],
-        "operationId": "associateTraceWithActivities",
+        "operationId": "searchForAssociation",
         "parameters": [
           {
-            "name": "traceId",
+            "name": "contextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "elementId",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"
             }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociationsCreationRequest"
-              }
+          },
+          {
+            "name": "associatedContextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
             }
           },
-          "required": true
-        },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/TraceAssociationsDTO"
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDTO"
                 }
               }
             }
@@ -1187,174 +1346,6 @@
         }
       }
     },
-    "/me/declared/skill-progress/{declaredSkillProgressId}/unassociate/traces": {
-      "post": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "unassociateTraces",
-        "parameters": [
-          {
-            "name": "declaredSkillProgressId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "format": "uuid"
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/declared/skill-progress/{declaredSkillProgressId}/associate/traces": {
-      "post": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "associateDeclaredSkillWithTraces",
-        "parameters": [
-          {
-            "name": "declaredSkillProgressId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociationsCreationRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeclaredSkillAssociationsDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/declared/skill-progress/{declaredSkillProgressId}/associate/declared-experiences": {
-      "post": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "associateDeclaredSkillWithDeclaredExperiences",
-        "parameters": [
-          {
-            "name": "declaredSkillProgressId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociationsCreationRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeclaredSkillAssociationsDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/declared/skill-progress/{declaredSkillProgressId}/associate/declared-activities": {
-      "post": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "associateDeclaredSkillWithDeclaredActivities",
-        "parameters": [
-          {
-            "name": "declaredSkillProgressId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociationsCreationRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeclaredSkillAssociationsDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/declared/programs": {
       "get": {
         "tags": [
@@ -1463,88 +1454,6 @@
         }
       }
     },
-    "/me/declared/experiences/{experienceId}/associate/traces": {
-      "post": {
-        "tags": [
-          "declared-experience-controller"
-        ],
-        "operationId": "associateDeclaredExperienceWithTraces",
-        "parameters": [
-          {
-            "name": "experienceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociationsCreationRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeclaredExperienceAssociationsDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/declared/experiences/{experienceId}/associate/declared-skills": {
-      "post": {
-        "tags": [
-          "declared-experience-controller"
-        ],
-        "operationId": "associateDeclaredExperienceWithDeclaredSkills",
-        "parameters": [
-          {
-            "name": "experienceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociationsCreationRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeclaredExperienceAssociationsDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/declared/experiences/": {
       "post": {
         "tags": [
@@ -1600,88 +1509,6 @@
               "*/*": {
                 "schema": {
                   "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/activity-progress/{declaredActivityId}/associate/traces": {
-      "post": {
-        "tags": [
-          "declared-activity-controller"
-        ],
-        "operationId": "associateActivityWithTraces",
-        "parameters": [
-          {
-            "name": "declaredActivityId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociationsCreationRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeclaredActivityAssociationsDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/activity-progress/{declaredActivityId}/associate/declared-skills": {
-      "post": {
-        "tags": [
-          "declared-activity-controller"
-        ],
-        "operationId": "associateActivityWithDeclaredSkills",
-        "parameters": [
-          {
-            "name": "declaredActivityId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociationsCreationRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeclaredActivityAssociationsDTO"
                 }
               }
             }
@@ -2497,177 +2324,6 @@
         }
       }
     },
-    "/me/traces/{traceId}/search-for-association/declared-skills": {
-      "get": {
-        "tags": [
-          "trace-controller"
-        ],
-        "operationId": "searchDeclaredSkillForAssociation",
-        "parameters": [
-          {
-            "name": "traceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredSkillIDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/traces/{traceId}/search-for-association/declared-experiences": {
-      "get": {
-        "tags": [
-          "trace-controller"
-        ],
-        "operationId": "searchDeclaredExperienceForAssociation",
-        "parameters": [
-          {
-            "name": "traceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredExperienceDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/traces/{traceId}/search-for-association/declared-activities": {
-      "get": {
-        "tags": [
-          "trace-controller"
-        ],
-        "operationId": "searchDeclaredActivityForAssociation",
-        "parameters": [
-          {
-            "name": "traceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredActivityDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/traces/{traceId}/detail": {
       "get": {
         "tags": [
@@ -2731,89 +2387,6 @@
         }
       }
     },
-    "/me/traces/{traceId}/associations": {
-      "get": {
-        "tags": [
-          "trace-controller"
-        ],
-        "operationId": "getTraceAssociations",
-        "parameters": [
-          {
-            "name": "traceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "onlyNotCompleted",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "default": false
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/TraceAssociationsDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "trace-controller"
-        ],
-        "operationId": "deleteTraceAssociations",
-        "parameters": [
-          {
-            "name": "traceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "format": "uuid"
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/traces/summary": {
       "get": {
         "tags": [
@@ -2827,79 +2400,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/TracesSummaryDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/traces/search-for-association": {
-      "get": {
-        "tags": [
-          "trace-controller"
-        ],
-        "operationId": "searchTracesForAssociation",
-        "parameters": [
-          {
-            "name": "excludeAssociatedWithElementId",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "contextType",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "$ref": "#/components/schemas/EAssociationContextType"
-            }
-          },
-          {
-            "name": "isAssociated",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultTraceDTO"
                 }
               }
             }
@@ -3112,134 +2612,6 @@
         }
       }
     },
-    "/me/declared/skill-progress/{declaredSkillProgressId}/associations": {
-      "get": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "getDeclaredSkillAssociations",
-        "parameters": [
-          {
-            "name": "declaredSkillProgressId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeclaredSkillAssociationsDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "deleteDeclaredSkillAssociations",
-        "parameters": [
-          {
-            "name": "declaredSkillProgressId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociationsDeleteRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/me/declared/skill-progress/search-for-association": {
-      "get": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "searchDeclaredSkillsForAssociation",
-        "parameters": [
-          {
-            "name": "excludeAssociatedWithElementId",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "contextType",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "$ref": "#/components/schemas/EAssociationContextType"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredSkillIDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/declared/skill-progress/external-ids": {
       "get": {
         "tags": [
@@ -3260,134 +2632,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/me/declared/experiences/{experienceId}/search-for-association/traces": {
-      "get": {
-        "tags": [
-          "declared-experience-controller"
-        ],
-        "operationId": "searchTracesForAssociationWithDeclaredExperience",
-        "parameters": [
-          {
-            "name": "experienceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "isAssociated",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultTraceDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/declared/experiences/{experienceId}/associations": {
-      "get": {
-        "tags": [
-          "declared-experience-controller"
-        ],
-        "operationId": "getDeclaredExperienceAssociations",
-        "parameters": [
-          {
-            "name": "experienceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeclaredExperienceAssociationsDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "declared-experience-controller"
-        ],
-        "operationId": "deleteDeclaredExperienceAssociations",
-        "parameters": [
-          {
-            "name": "experienceId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociationsDeleteRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -3451,71 +2695,6 @@
         }
       }
     },
-    "/me/declared/experiences/search-for-association": {
-      "get": {
-        "tags": [
-          "declared-experience-controller"
-        ],
-        "operationId": "searchDeclaredExperiencesForAssociation",
-        "parameters": [
-          {
-            "name": "excludeAssociatedWithElementId",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "contextType",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "$ref": "#/components/schemas/EAssociationContextType"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredExperienceDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/activity-progress": {
       "get": {
         "tags": [
@@ -3549,206 +2728,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PagedResponseDeclaredActivityViewDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/activity-progress/{declaredActivityId}/search-for-association/traces": {
-      "get": {
-        "tags": [
-          "declared-activity-controller"
-        ],
-        "operationId": "searchTracesForAssociationWithDeclaredActivity",
-        "parameters": [
-          {
-            "name": "declaredActivityId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "isAssociated",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultTraceDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/activity-progress/{declaredActivityId}/associations": {
-      "get": {
-        "tags": [
-          "declared-activity-controller"
-        ],
-        "operationId": "getDeclaredActivityAssociations",
-        "parameters": [
-          {
-            "name": "declaredActivityId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeclaredActivityAssociationsDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "declared-activity-controller"
-        ],
-        "operationId": "deleteDeclaredActivityAssociations",
-        "parameters": [
-          {
-            "name": "declaredActivityId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociationsDeleteRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/activity-progress/search-for-association": {
-      "get": {
-        "tags": [
-          "declared-activity-controller"
-        ],
-        "operationId": "searchDeclaredActivitiesForAssociation",
-        "parameters": [
-          {
-            "name": "excludeAssociatedWithElementId",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "contextType",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "$ref": "#/components/schemas/EAssociationContextType"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDeclaredActivityDTO"
                 }
               }
             }
@@ -6586,9 +5565,38 @@
           "declaredSkill"
         ]
       },
-      "TraceAssociationsDTO": {
+      "AssociationSearchResultDTO": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "disabled",
+          "id",
+          "title"
+        ]
+      },
+      "AssociationsDTO": {
+        "type": "object",
+        "properties": {
+          "traceAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceAssociationDTO"
+            }
+          },
           "declaredActivityAssociations": {
             "type": "array",
             "items": {
@@ -6611,7 +5619,26 @@
         "required": [
           "declaredActivityAssociations",
           "declaredExperienceAssociations",
-          "declaredSkillAssociations"
+          "declaredSkillAssociations",
+          "traceAssociations"
+        ]
+      },
+      "PagedResponseAssociationSearchResultDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssociationSearchResultDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
         ]
       },
       "TraceFilter": {
@@ -6869,34 +5896,6 @@
           }
         }
       },
-      "DeclaredSkillAssociationsDTO": {
-        "type": "object",
-        "properties": {
-          "traceAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TraceAssociationDTO"
-            }
-          },
-          "declaredActivityAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeclaredActivityAssociationDTO"
-            }
-          },
-          "declaredExperienceAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeclaredExperienceAssociationDTO"
-            }
-          }
-        },
-        "required": [
-          "declaredActivityAssociations",
-          "declaredExperienceAssociations",
-          "traceAssociations"
-        ]
-      },
       "TraceAssociationDTO": {
         "type": "object",
         "properties": {
@@ -6998,48 +5997,6 @@
           "status",
           "title",
           "valorized"
-        ]
-      },
-      "DeclaredExperienceAssociationsDTO": {
-        "type": "object",
-        "properties": {
-          "traceAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TraceAssociationDTO"
-            }
-          },
-          "declaredSkillAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeclaredSkillAssociationDTO"
-            }
-          }
-        },
-        "required": [
-          "declaredSkillAssociations",
-          "traceAssociations"
-        ]
-      },
-      "DeclaredActivityAssociationsDTO": {
-        "type": "object",
-        "properties": {
-          "traceAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TraceAssociationDTO"
-            }
-          },
-          "declaredSkillAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeclaredSkillAssociationDTO"
-            }
-          }
-        },
-        "required": [
-          "declaredSkillAssociations",
-          "traceAssociations"
         ]
       },
       "DeclaredActivityPeriodDTO": {
@@ -7558,155 +6515,6 @@
           "profilePicture"
         ]
       },
-      "AssociationSearchResultDeclaredSkillIDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "$ref": "#/components/schemas/EExternalSkillType",
-            "enum": [
-              "ROME4",
-              "XXI",
-              "CASOC",
-              "CASOL"
-            ]
-          },
-          "disabled": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "disabled",
-          "id",
-          "title",
-          "type"
-        ]
-      },
-      "PagedResponseAssociationSearchResultDeclaredSkillIDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AssociationSearchResultDeclaredSkillIDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
-        ]
-      },
-      "AssociationSearchResultDeclaredExperienceDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "experienceType": {
-            "type": "string",
-            "$ref": "#/components/schemas/EExperienceType",
-            "enum": [
-              "PERSONAL",
-              "PROFESSIONAL",
-              "VOLUNTEER"
-            ]
-          },
-          "disabled": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "disabled",
-          "id",
-          "title"
-        ]
-      },
-      "PagedResponseAssociationSearchResultDeclaredExperienceDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AssociationSearchResultDeclaredExperienceDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
-        ]
-      },
-      "AssociationSearchResultDeclaredActivityDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "thematic": {
-            "type": "string",
-            "$ref": "#/components/schemas/EActivityThematic",
-            "enum": [
-              "SELF_KNOWLEDGE",
-              "FUTURE_PLANS",
-              "PROGRAMS",
-              "EXPERIENCES",
-              "TRAJECTORIES",
-              "RESUMES",
-              "TRANSVERSAL",
-              "OTHER"
-            ]
-          },
-          "disabled": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "disabled",
-          "id",
-          "thematic",
-          "title"
-        ]
-      },
-      "PagedResponseAssociationSearchResultDeclaredActivityDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AssociationSearchResultDeclaredActivityDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
-        ]
-      },
       "TracesSummaryDTO": {
         "type": "object",
         "properties": {
@@ -7732,44 +6540,6 @@
           "totalCriticals",
           "totalWarnings",
           "unassociated"
-        ]
-      },
-      "AssociationSearchResultTraceDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "disabled": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "disabled",
-          "id",
-          "title"
-        ]
-      },
-      "PagedResponseAssociationSearchResultTraceDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AssociationSearchResultTraceDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
         ]
       },
       "PagedResponseSelfKnowledgeElementViewDTO": {

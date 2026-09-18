@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions'
-import { type DeclaredSkillAssociationDTO, invalidateGetTraceAssociations, invalidateGetTraceDetail, useDeleteTraceAssociations } from '@/api/avenir-esr'
+import { type DeclaredSkillAssociationDTO, EAssociationContextType, invalidateGetAssociations, invalidateGetTraceDetail, useUnassociate } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ICONS } from '@/common/constants'
@@ -36,7 +36,7 @@ const selectableElements = computed(() => associations.map(({ associationId, dec
   title: declaredSkill.title,
 })))
 
-const { mutate: deleteTraceAssociations } = useDeleteTraceAssociations({
+const { mutate: deleteTraceAssociations } = useUnassociate({
   mutation: {
     onError: (error: BaseApiException) => {
       addErrorMessage({
@@ -47,7 +47,7 @@ const { mutate: deleteTraceAssociations } = useDeleteTraceAssociations({
     onSuccess: async () => {
       await withTaskLoading(() => Promise.all([
         invalidateGetTraceDetail(queryClient, traceId),
-        invalidateGetTraceAssociations(queryClient, traceId),
+        invalidateGetAssociations(queryClient, EAssociationContextType.TRACE, traceId),
       ]))
       addSuccessMessage({
         timeout: 2000,
@@ -61,8 +61,9 @@ const { mutate: deleteTraceAssociations } = useDeleteTraceAssociations({
 
 function onConfirmDelete () {
   deleteTraceAssociations({
-    traceId,
-    data: selectedIds.value
+    contextType: EAssociationContextType.TRACE,
+    elementId: traceId,
+    data: { idsToDelete: selectedIds.value }
   })
 }
 

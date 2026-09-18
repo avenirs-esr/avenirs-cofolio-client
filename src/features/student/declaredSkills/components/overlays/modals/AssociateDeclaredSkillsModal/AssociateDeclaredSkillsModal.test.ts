@@ -1,3 +1,4 @@
+import type { EExternalSkillType } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedSkillSearchResults } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
@@ -30,7 +31,7 @@ BddTest().given('an associate declared skills modal', () => {
     skills,
   }
 
-  const selectedOptions = skills.slice(0, 2).map(s => ({ label: s.title, value: s.id, type: s.type }))
+  const selectedOptions = skills.slice(0, 2).map(s => ({ label: s.title, value: s.id, type: s.category as EExternalSkillType }))
 
   const expectedSelectedAssociations = selectedOptions.map(o => ({ id: String(o.value), title: o.label, type: o.type }))
 

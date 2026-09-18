@@ -10,8 +10,6 @@ export { default as TracesWidget } from '@/features/student/traces/components/ca
 
 export { default as TracesSelector } from '@/features/student/traces/components/interactions/pickers/TracesSelector/TracesSelector.vue'
 
-export { default as TracesTypeSelect } from '@/features/student/traces/components/interactions/pickers/TracesTypeSelect/TracesTypeSelect.vue'
-
 export { default as AssociateTracesModal, type AssociateTracesModalProps } from '@/features/student/traces/components/modals/AssociateTracesModal/AssociateTracesModal.vue'
 
 export { default as StudentTraceDetails } from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.vue'
@@ -23,7 +21,5 @@ export { studentToolsTraceRoute, studentToolsTracesRoute } from '@/features/stud
 export { useTracesStore } from '@/features/student/traces/stores/traces.store'
 
 export type { CreateTraceForm, UpdateTraceForm } from '@/features/student/traces/types/forms.types'
-
-export { TraceAssociationTypes } from '@/features/student/traces/types/trace-association.types'
 
 export type { TraceFormData } from '@/features/student/traces/types/traces.types'

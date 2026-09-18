@@ -13,42 +13,41 @@ import {
   mockedLatestActivitiesOverview
 } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createMockedSearchTracesForAssociationWithDeclaredExperienceResponse } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
+import { anyAssociationContextType, createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
   type ActivityNavigationDTO,
   type ActivityPresentationDTO,
   type AssociationsCreationRequest,
-  type DeclaredActivityAssociationsDTO,
+  type AssociationsDTO,
   type DeclaredActivityDetailsDTO,
   EActivityStatus,
+  EAssociationContextType,
   EDeclaredActivityStatus,
   EErrorCode,
   getAskForFeedbackUrl,
-  getAssociateActivityWithDeclaredSkillsUrl,
-  getAssociateActivityWithTracesUrl,
-  getDeleteDeclaredActivityAssociationsUrl,
+  getAssociateUrl,
   getFinishUrl,
   getGetActivitiesViewUrl,
   getGetActivityNavigationUrl,
   getGetActivityPresentationUrl,
+  getGetAssociationsUrl,
   getGetDeclaredActivitiesViewUrl,
-  getGetDeclaredActivityAssociationsUrl,
   getGetDeclaredActivityDetailsUrl,
   getGetLatestActivitiesViewUrl,
-  getSearchDeclaredActivitiesForAssociationUrl,
-  getSearchTracesForAssociationWithDeclaredActivityUrl,
+  getSearchForAssociationUrl,
+  getSearchForAssociationWithNewElementUrl,
   getSubscribeActivityUrl,
+  getUnassociateUrl,
   getUnsubscribeActivitiesProgressesUrl,
   getUpdateDeclaredActivityUrl,
   getUpdateReflectionUrl,
   type PagedResponseActivityOverviewDTO,
-  type PagedResponseAssociationSearchResultDeclaredActivityDTO,
-  type PagedResponseAssociationSearchResultTraceDTO,
-  type PagedResponseDeclaredActivityViewDTO,
+  type PagedResponseAssociationSearchResultDTO,
+  type PagedResponseDeclaredActivityViewDTO
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/config'
-import { delay, http, HttpResponse, type PathParams } from 'msw'
+import { delay, http, HttpResponse, type HttpResponseResolver, type PathParams } from 'msw'
 
 const subscribedActivities = new Set<string>()
 const declaredActivityDetailsOverrides = new Map<string, Partial<DeclaredActivityDetailsDTO>>()
@@ -192,7 +191,7 @@ export const declaredActivityDetailsHandler = http.get(`*${getGetDeclaredActivit
   )
 })
 
-export const declaredActivityAssociationsHandler = http.get(`*${getGetDeclaredActivityAssociationsUrl(':declaredActivityId')}`, async ({ params }) => {
+export const declaredActivityAssociationsHandler = http.get(`*${getGetAssociationsUrl(EAssociationContextType.DECLARED_ACTIVITY, ':declaredActivityId')}`, async ({ params }) => {
   const { declaredActivityId } = params
   if (declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
     return HttpResponse.json(
@@ -202,13 +201,13 @@ export const declaredActivityAssociationsHandler = http.get(`*${getGetDeclaredAc
   }
 
   if (declaredActivityId === 'DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS') {
-    return HttpResponse.json<DeclaredActivityAssociationsDTO>({ traceAssociations: [], declaredSkillAssociations: [] }, {
+    return HttpResponse.json<AssociationsDTO>({ traceAssociations: [], declaredActivityAssociations: [], declaredSkillAssociations: [], declaredExperienceAssociations: [] }, {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     })
   }
 
-  return HttpResponse.json<DeclaredActivityAssociationsDTO>(mockedDeclaredActivityAssociations, {
+  return HttpResponse.json<AssociationsDTO>(mockedDeclaredActivityAssociations, {
     status: 200,
     headers: { 'Content-Type': 'application/json' }
   })
@@ -490,7 +489,7 @@ export const updateActivityReflectionHandler = http.put(`*${getUpdateReflectionU
 })
 
 export const associateActivityWithTracesHandler = http.post(
-  `*${getAssociateActivityWithTracesUrl(':declaredActivityId')}`,
+  `*${getAssociateUrl(EAssociationContextType.DECLARED_ACTIVITY, ':declaredActivityId', EAssociationContextType.TRACE)}`,
   async ({ params, request }) => {
     const { declaredActivityId } = params
 
@@ -510,7 +509,7 @@ export const associateActivityWithTracesHandler = http.post(
 
     const response = createMockedDeclaredActivityAssociationsDTO(idsToAssociate)
 
-    return HttpResponse.json<DeclaredActivityAssociationsDTO>(response, {
+    return HttpResponse.json<AssociationsDTO>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json'
@@ -520,7 +519,7 @@ export const associateActivityWithTracesHandler = http.post(
 )
 
 export const associateActivityWithTracesErrorHandler = http.post(
-  `*${getAssociateActivityWithTracesUrl(':declaredActivityId')}`,
+  `*${getAssociateUrl(EAssociationContextType.DECLARED_ACTIVITY, ':declaredActivityId', EAssociationContextType.TRACE)}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -535,7 +534,7 @@ export const associateActivityWithTracesErrorHandler = http.post(
 )
 
 export const associateActivityWithDeclaredSkillsHandler = http.post<PathParams, AssociationsCreationRequest>(
-  `*${getAssociateActivityWithDeclaredSkillsUrl(':declaredActivityId')}`,
+  `*${getAssociateUrl(EAssociationContextType.DECLARED_ACTIVITY, ':declaredActivityId', EAssociationContextType.DECLARED_SKILL)}`,
   async ({ params, request }) => {
     const { declaredActivityId } = params
 
@@ -555,7 +554,7 @@ export const associateActivityWithDeclaredSkillsHandler = http.post<PathParams, 
 
     const response = createMockedDeclaredActivityAssociationsDTO(idsToAssociate)
 
-    return HttpResponse.json<DeclaredActivityAssociationsDTO>(response, {
+    return HttpResponse.json<AssociationsDTO>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json'
@@ -565,7 +564,7 @@ export const associateActivityWithDeclaredSkillsHandler = http.post<PathParams, 
 )
 
 export const associateActivityWithDeclaredSkillsErrorHandler = http.post(
-  `*${getAssociateActivityWithDeclaredSkillsUrl(':declaredActivityId')}`,
+  `*${getAssociateUrl(EAssociationContextType.DECLARED_ACTIVITY, ':declaredActivityId', EAssociationContextType.DECLARED_SKILL)}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -580,14 +579,14 @@ export const associateActivityWithDeclaredSkillsErrorHandler = http.post(
 )
 
 export const deleteDeclaredActivityAssociationsSuccessHandler = http.delete(
-  `*${getDeleteDeclaredActivityAssociationsUrl(':declaredActivityId')}`,
+  `*${getUnassociateUrl(EAssociationContextType.DECLARED_ACTIVITY, ':declaredActivityId')}`,
   async () => {
     return HttpResponse.json('Associations deleted successfully', { status: 200 })
   }
 )
 
 export const deleteDeclaredActivityAssociationsErrorHandler = http.delete(
-  `*${getDeleteDeclaredActivityAssociationsUrl(':declaredActivityId')}`,
+  `*${getUnassociateUrl(EAssociationContextType.DECLARED_ACTIVITY, ':declaredActivityId')}`,
   async () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -597,7 +596,7 @@ export const deleteDeclaredActivityAssociationsErrorHandler = http.delete(
 )
 
 export const searchTracesForAssociationHandler = http.get(
-  `*${getSearchTracesForAssociationWithDeclaredActivityUrl(':declaredActivityId')}`,
+  `*${getSearchForAssociationUrl(EAssociationContextType.DECLARED_ACTIVITY, ':declaredActivityId', EAssociationContextType.TRACE)}`,
   async ({ params, request }) => {
     const { declaredActivityId } = params
 
@@ -619,20 +618,13 @@ export const searchTracesForAssociationHandler = http.get(
     const page = Number.parseInt(url.searchParams.get('page') ?? '0')
     const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '20')
 
-    const rawIsAssociated = url.searchParams.get('isAssociated')
-    const isAssociated
-      = rawIsAssociated === null || rawIsAssociated === 'null'
-        ? undefined
-        : rawIsAssociated === 'true'
-
     const response = createMockedSearchTracesForAssociationWithDeclaredExperienceResponse({
       keyword,
       page,
-      pageSize,
-      isAssociated
+      pageSize
     })
 
-    return HttpResponse.json<PagedResponseAssociationSearchResultTraceDTO>(response, {
+    return HttpResponse.json<PagedResponseAssociationSearchResultDTO>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json'
@@ -642,7 +634,7 @@ export const searchTracesForAssociationHandler = http.get(
 )
 
 export const searchTracesForAssociationErrorHandler = http.get(
-  `*${getSearchTracesForAssociationWithDeclaredActivityUrl(':declaredActivityId')}`,
+  `*${getSearchForAssociationUrl(EAssociationContextType.DECLARED_ACTIVITY, ':declaredActivityId', EAssociationContextType.TRACE)}`,
   async () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -657,7 +649,7 @@ export const searchTracesForAssociationErrorHandler = http.get(
 )
 
 export const searchDeclaredActivitiesForAssociationErrorHandler = http.get(
-  `*${getSearchDeclaredActivitiesForAssociationUrl()}`,
+  `*${getSearchForAssociationUrl(anyAssociationContextType, ':elementId', EAssociationContextType.DECLARED_ACTIVITY)}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -666,28 +658,35 @@ export const searchDeclaredActivitiesForAssociationErrorHandler = http.get(
   }
 )
 
+const resolveSearchDeclaredActivitiesForAssociation: HttpResponseResolver = ({ request }) => {
+  const url = new URL(request.url)
+  const searchParams = url.searchParams
+  const keyword = searchParams.get('keyword') ?? ''
+  const pageSize = Number(searchParams.get('pageSize') ?? 100)
+  const page = Number(searchParams.get('page') ?? 0)
+
+  const response = createMockedPagedResponseAssociationSearchResultDeclaredActivityDTO(
+    pageSize,
+    page,
+    keyword
+  )
+
+  return HttpResponse.json<PagedResponseAssociationSearchResultDTO>(response, {
+    status: 200,
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+}
+
 export const searchDeclaredActivitiesForAssociationHandler = http.get(
-  `*${getSearchDeclaredActivitiesForAssociationUrl()}*`,
-  ({ request }) => {
-    const url = new URL(request.url)
-    const searchParams = url.searchParams
-    const keyword = searchParams.get('keyword') ?? ''
-    const pageSize = Number(searchParams.get('pageSize') ?? 100)
-    const page = Number(searchParams.get('page') ?? 0)
+  `*${getSearchForAssociationUrl(anyAssociationContextType, ':elementId', EAssociationContextType.DECLARED_ACTIVITY)}*`,
+  resolveSearchDeclaredActivitiesForAssociation
+)
 
-    const response = createMockedPagedResponseAssociationSearchResultDeclaredActivityDTO(
-      pageSize,
-      page,
-      keyword
-    )
-
-    return HttpResponse.json<PagedResponseAssociationSearchResultDeclaredActivityDTO>(response, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-  }
+export const searchDeclaredActivitiesForAssociationWithNewElementHandler = http.get(
+  `*${getSearchForAssociationWithNewElementUrl(anyAssociationContextType, EAssociationContextType.DECLARED_ACTIVITY)}*`,
+  resolveSearchDeclaredActivitiesForAssociation
 )
 
 export const activitiesHandlers = [
@@ -714,6 +713,7 @@ export const activitiesHandlers = [
   activitiesViewHandler,
   latestActivitiesHandler,
   searchDeclaredActivitiesForAssociationHandler,
+  searchDeclaredActivitiesForAssociationWithNewElementHandler,
   activityDetailHandler,
   declaredActivityDetailsHandler,
   declaredActivityAssociationsHandler,

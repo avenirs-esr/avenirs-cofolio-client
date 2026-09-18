@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import type { Association } from '@/features/student/global/types/associations.types'
 import type { AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
-import { EAssociationContextType, useSearchDeclaredActivitiesForAssociation, useSearchDeclaredExperiencesForAssociation, useSearchTracesForAssociation } from '@/api/avenir-esr'
+import { EAssociationContextType, useSearchForAssociationWithNewElement } from '@/api/avenir-esr'
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ICONS } from '@/common/constants'
-import { useDeclaredActivityAssociation } from '@/features/student/buildProject'
 import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
 import DeclaredSkillReflectionFormField
   from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillReflectionFormField/DeclaredSkillReflectionFormField.vue'
@@ -16,10 +15,9 @@ import {
   useDeclaredSkillForm
 } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
+import { useAssociationSearchResults } from '@/features/student/global'
 import AssociateElementsDrawerSection from '@/features/student/global/components/sections/AssociateElementsDrawerSection/AssociateElementsDrawerSection.vue'
-import { useDeclaredExperienceAssociation } from '@/features/student/personalCareer/composables/use-declared-experience-association/use-declared-experience-association'
-import { TraceAssociationTypes, useTraceAssociationTypeConfig } from '@/features/student/traces'
-import { useTraceAssociationModal } from '@/features/student/traces/composables/use-trace-associations/use-trace-associations'
+import { useTraceAssociationTypeConfig } from '@/features/student/traces'
 import { useToasterStore } from '@/store'
 import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -77,21 +75,9 @@ const associationTypesConfigs = computed<AssociateElementTypeConfig[]>(() => [
 ])
 
 const associationActiveType = ref<string>(EAssociationContextType.DECLARED_ACTIVITY)
-const associationActiveSubTypePerType = ref<Map<string, string>>(new Map([
-  [EAssociationContextType.TRACE, TraceAssociationTypes.UNASSOCIATED]
-]))
-const associationActiveSubType = computed<string | undefined>({
-  get: () => associationActiveSubTypePerType.value.get(associationActiveType.value),
-  set: (value) => {
-    if (value !== undefined) {
-      associationActiveSubTypePerType.value.set(associationActiveType.value, value)
-    }
-  }
-})
 
 const associationSearchQuery = ref<string>('')
 const associationSearchParams = computed(() => ({
-  contextType: EAssociationContextType.DECLARED_SKILL,
   keyword: associationSearchQuery.value.trim(),
   page: 0,
   pageSize: 100,
@@ -105,41 +91,51 @@ function isAssociationQueryEnabled (type: EAssociationContextType) {
   )
 }
 
-const { declaredActivityToAssociation } = useDeclaredActivityAssociation()
+const { toAssociations } = useAssociationSearchResults()
 const {
   data: activitiesToAssociate,
   isLoading: isActivitiesLoading
-} = useSearchDeclaredActivitiesForAssociation(associationSearchParams, {
-  query: {
-    enabled: isAssociationQueryEnabled(EAssociationContextType.DECLARED_ACTIVITY),
-    select: response => response.data.map(declaredActivityToAssociation),
+} = useSearchForAssociationWithNewElement(
+  EAssociationContextType.DECLARED_SKILL,
+  EAssociationContextType.DECLARED_ACTIVITY,
+  associationSearchParams,
+  {
+    query: {
+      enabled: isAssociationQueryEnabled(EAssociationContextType.DECLARED_ACTIVITY),
+      select: response => toAssociations(response.data, EAssociationContextType.DECLARED_ACTIVITY),
+    }
   }
-})
+)
 
-const { declaredExperienceToAssociation } = useDeclaredExperienceAssociation()
 const {
   data: experiencesToAssociate,
   isLoading: isExperiencesLoading
-} = useSearchDeclaredExperiencesForAssociation(associationSearchParams, {
-  query: {
-    enabled: isAssociationQueryEnabled(EAssociationContextType.DECLARED_EXPERIENCE),
-    select: response => response.data.map(declaredExperienceToAssociation),
+} = useSearchForAssociationWithNewElement(
+  EAssociationContextType.DECLARED_SKILL,
+  EAssociationContextType.DECLARED_EXPERIENCE,
+  associationSearchParams,
+  {
+    query: {
+      enabled: isAssociationQueryEnabled(EAssociationContextType.DECLARED_EXPERIENCE),
+      select: response => toAssociations(response.data, EAssociationContextType.DECLARED_EXPERIENCE),
+    }
   }
-})
+)
 
-const { mapTraceAssociationSearchResultToAssociation } = useTraceAssociationModal()
 const {
   data: tracesToAssociate,
   isLoading: isTracesLoading,
-} = useSearchTracesForAssociation(computed(() => ({
-  ...associationSearchParams.value,
-  isAssociated: associationActiveSubType.value === TraceAssociationTypes.ASSOCIATED,
-})), {
-  query: {
-    enabled: isAssociationQueryEnabled(EAssociationContextType.TRACE),
-    select: response => response.data.map(mapTraceAssociationSearchResultToAssociation),
+} = useSearchForAssociationWithNewElement(
+  EAssociationContextType.DECLARED_SKILL,
+  EAssociationContextType.TRACE,
+  associationSearchParams,
+  {
+    query: {
+      enabled: isAssociationQueryEnabled(EAssociationContextType.TRACE),
+      select: response => toAssociations(response.data, EAssociationContextType.TRACE),
+    }
   }
-})
+)
 
 const isAssociationSearchLoading = computed(() => isActivitiesLoading.value || isExperiencesLoading.value || isTracesLoading.value)
 const associationOptions = computed<Association[]>(() => {
@@ -225,7 +221,6 @@ async function handleCancel () {
             >
               <AssociateElementsDrawerSection
                 v-model:active-type-key="associationActiveType"
-                v-model:active-sub-type-key="associationActiveSubType"
                 v-model:search-query="associationSearchQuery"
                 :type-configs="associationTypesConfigs"
                 :loading="isAssociationSearchLoading"

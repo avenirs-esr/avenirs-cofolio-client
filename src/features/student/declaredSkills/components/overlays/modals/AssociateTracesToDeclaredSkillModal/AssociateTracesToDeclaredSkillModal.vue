@@ -1,16 +1,15 @@
 <script lang="ts" setup>
 import {
   EAssociationContextType,
-  invalidateGetDeclaredSkillAssociations,
+  invalidateGetAssociations,
   invalidateGetDeclaredSkillProgressDetails,
-  invalidateSearchTracesForAssociation,
-  useAssociateDeclaredSkillWithTraces,
-  useSearchTracesForAssociation
+  invalidateSearchForAssociation,
+  useAssociate,
+  useSearchForAssociation
 } from '@/api/avenir-esr'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useAssociationModal } from '@/features/student/global'
 import { AssociateTracesModal } from '@/features/student/traces'
-import { useTraceAssociationModal } from '@/features/student/traces/composables/use-trace-associations/use-trace-associations'
 import { useToasterStore } from '@/store'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -33,8 +32,6 @@ const { addSuccessMessage } = useToasterStore()
 const queryClient = useQueryClient()
 const { isLoading, withTaskLoading } = useTaskLoading()
 
-const { selectedTraceType, isAssociated } = useTraceAssociationModal()
-
 const {
   searchQuery,
   onSearch,
@@ -43,9 +40,6 @@ const {
 } = useAssociationModal()
 
 const params = computed(() => ({
-  contextType: EAssociationContextType.DECLARED_SKILL,
-  excludeAssociatedWithElementId: declaredSkillId,
-  isAssociated: isAssociated.value,
   keyword: searchQuery.value.trim() || undefined,
   page: 0,
   pageSize: PageSizes.TWENTY,
@@ -55,22 +49,28 @@ const {
   data,
   isError: isSearchError,
   error: searchError
-} = useSearchTracesForAssociation(params, {
-  query: { enabled: computed(() => opened) }
-})
+} = useSearchForAssociation(
+  EAssociationContextType.DECLARED_SKILL,
+  computed(() => declaredSkillId),
+  EAssociationContextType.TRACE,
+  params,
+  {
+    query: { enabled: computed(() => opened) }
+  }
+)
 
 const traces = computed(() => data.value?.data ?? [])
 
 listenAndDisplayToastOnSearchError(isSearchError, searchError)
 
-const { mutate: mutateAssociateDeclaredSkillWithTraces, isPending } = useAssociateDeclaredSkillWithTraces({
+const { mutate: mutateAssociateDeclaredSkillWithTraces, isPending } = useAssociate({
   mutation: {
     onError: error => onAssociateMutationError(error),
     onSuccess: async (_, variables) => {
       await withTaskLoading(() => Promise.all([
-        invalidateGetDeclaredSkillAssociations(queryClient, variables.declaredSkillProgressId),
-        invalidateGetDeclaredSkillProgressDetails(queryClient, variables.declaredSkillProgressId),
-        invalidateSearchTracesForAssociation(queryClient)
+        invalidateGetAssociations(queryClient, variables.contextType, variables.elementId),
+        invalidateGetDeclaredSkillProgressDetails(queryClient, variables.elementId),
+        invalidateSearchForAssociation(queryClient, variables.contextType, variables.elementId, variables.associatedContextType)
       ]))
 
       const count = variables.data.idsToAssociate.length
@@ -84,7 +84,9 @@ const { mutate: mutateAssociateDeclaredSkillWithTraces, isPending } = useAssocia
 
 function associateDeclaredSkillWithTraces (idsToAssociate: string[]) {
   mutateAssociateDeclaredSkillWithTraces({
-    declaredSkillProgressId: declaredSkillId,
+    contextType: EAssociationContextType.DECLARED_SKILL,
+    elementId: declaredSkillId,
+    associatedContextType: EAssociationContextType.TRACE,
     data: { idsToAssociate }
   })
 }
@@ -92,7 +94,6 @@ function associateDeclaredSkillWithTraces (idsToAssociate: string[]) {
 
 <template>
   <AssociateTracesModal
-    v-model:selected-trace-type="selectedTraceType"
     :opened="opened"
     :traces="traces"
     :is-loading="isPending || isLoading"

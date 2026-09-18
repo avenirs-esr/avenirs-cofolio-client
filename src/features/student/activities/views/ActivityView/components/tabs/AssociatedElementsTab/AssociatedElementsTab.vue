@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { DeclaredActivityAssociationsDTO } from '@/api/avenir-esr'
+import type { AssociationsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { isActivityAssociationToTraceDisabled } from '@/common/activities/rules/activities.rules'
@@ -21,7 +21,7 @@ import AssociatedTracesCard
 import { useI18n } from 'vue-i18n'
 
 export interface AssociatedElementsTabProps {
-  associations: DeclaredActivityAssociationsDTO
+  associations: AssociationsDTO
   declaredActivityId: string
   countAssociations: number
   traceAllowedAssociations: number

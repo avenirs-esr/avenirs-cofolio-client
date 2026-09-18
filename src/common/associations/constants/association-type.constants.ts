@@ -21,3 +21,10 @@ export const ASSOCIATION_TYPE_ITEM_NAMES: Record<EAssociationContextType, string
   [EAssociationContextType.DECLARED_SKILL]: 'skills',
   [EAssociationContextType.DECLARED_EXPERIENCE]: 'experiences',
 }
+
+export const ASSOCIATION_CATEGORY_LABEL_KEY_PREFIXES: Record<EAssociationContextType, string | undefined> = {
+  [EAssociationContextType.TRACE]: undefined,
+  [EAssociationContextType.DECLARED_ACTIVITY]: 'global.activities.badges.thematics',
+  [EAssociationContextType.DECLARED_SKILL]: 'student.declaredSkills.declaredSkillTypes',
+  [EAssociationContextType.DECLARED_EXPERIENCE]: 'student.personalCareer.declaredExperienceType',
+}

@@ -399,7 +399,7 @@ BddTest().given('an associated elements tab', () => {
 
   BddTest().when('the component is mounted without any association', () => {
     const props: AssociatedElementsTabProps = {
-      associations: { traceAssociations: [], declaredSkillAssociations: [] },
+      associations: { traceAssociations: [], declaredActivityAssociations: [], declaredSkillAssociations: [], declaredExperienceAssociations: [] },
       declaredActivityId: 'declared-activity-1',
       countAssociations: 0,
       traceAllowedAssociations: 7
