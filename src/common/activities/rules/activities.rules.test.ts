@@ -5,6 +5,7 @@ import {
   isActivityAssociationToTraceDisabled,
   isActivityAssociationToTraceLimited,
   isActivityAssociationToTraceUnlimited,
+  isActivityPeriodEditingDisabled,
   isActivitySubscribed,
   isDeclaredActivityUnsubscribed,
   isDeletableDeclaredActivityAssociation,
@@ -139,6 +140,32 @@ BddTest().given('isPerspectiveEditingDisabled', () => {
   BddTest().when('the declared activity status is undefined', () => {
     BddTest().then('it should return false', () => {
       expect(isPerspectiveEditingDisabled(undefined)).toBe(false)
+    })
+  })
+})
+
+BddTest().given('isActivityPeriodEditingDisabled', () => {
+  BddTest().when('the declared activity is completed', () => {
+    BddTest().then('it should return true', () => {
+      expect(isActivityPeriodEditingDisabled(EDeclaredActivityStatus.COMPLETED)).toBe(true)
+    })
+  })
+
+  BddTest().when('the declared activity is unsubscribed', () => {
+    BddTest().then('it should return true', () => {
+      expect(isActivityPeriodEditingDisabled(EDeclaredActivityStatus.UNSUBSCRIBED)).toBe(true)
+    })
+  })
+
+  BddTest().when('the declared activity is in progress', () => {
+    BddTest().then('it should return false', () => {
+      expect(isActivityPeriodEditingDisabled(EDeclaredActivityStatus.IN_PROGRESS)).toBe(false)
+    })
+  })
+
+  BddTest().when('the declared activity status is undefined', () => {
+    BddTest().then('it should return false', () => {
+      expect(isActivityPeriodEditingDisabled(undefined)).toBe(false)
     })
   })
 })

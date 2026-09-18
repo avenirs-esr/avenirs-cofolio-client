@@ -45,6 +45,10 @@ export function isPerspectiveEditingDisabled (activityStatus?: EDeclaredActivity
   return activityStatus === EDeclaredActivityStatus.COMPLETED || activityStatus === EDeclaredActivityStatus.UNSUBSCRIBED
 }
 
+export function isActivityPeriodEditingDisabled (activityStatus?: EDeclaredActivityStatus): boolean {
+  return activityStatus === EDeclaredActivityStatus.COMPLETED || activityStatus === EDeclaredActivityStatus.UNSUBSCRIBED
+}
+
 export function isDeclaredActivityUnsubscribed (activityStatus?: EDeclaredActivityStatus): boolean {
   return activityStatus === EDeclaredActivityStatus.UNSUBSCRIBED
 }
