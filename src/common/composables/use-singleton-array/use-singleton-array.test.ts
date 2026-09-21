@@ -1,4 +1,4 @@
-import { useSingletonArray } from '@/common/composables/use-singleton-array/use-single-array'
+import { useSingletonArray } from '@/common/composables/use-singleton-array/use-singleton-array'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'

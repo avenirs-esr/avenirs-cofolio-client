@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useSingletonArray } from '@/common/composables/use-singleton-array/use-single-array'
+import { useSingletonArray } from '@/common/composables/use-singleton-array/use-singleton-array'
 import { TRACE_ACCEPTED_FILE_TYPES } from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/types'
 import { AvFileUpload, type AvFileUploadProps } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
