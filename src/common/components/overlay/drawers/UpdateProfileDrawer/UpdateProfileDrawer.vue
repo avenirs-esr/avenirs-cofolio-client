@@ -2,6 +2,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import { EUserCategory, type FileDTO, invalidateGetProfile, useDeleteCoverPicture, useDeleteProfilePicture } from '@/api/avenir-esr'
 import { ConfirmationModal, ImageUpload } from '@/common/components'
+import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/ImageUpload/config'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
 import { useModal } from '@/common/composables'
@@ -235,6 +236,7 @@ watch(() => show, (newVal) => {
                 :default-image-name="coverPicture.fileName ?? undefined"
                 :image-alt="t('global.overlay.drawers.UpdateProfileDrawer.pictures.banner')"
                 :on-update="onCoverPictureUpdate"
+                :aspect-ratio="PROFILE_BANNER_RATIO"
               />
             </div>
           </AvAccordion>
@@ -251,6 +253,7 @@ watch(() => show, (newVal) => {
                 :default-image-name="profilePicture.fileName ?? undefined"
                 :image-alt="t('global.overlay.drawers.UpdateProfileDrawer.pictures.picture')"
                 :on-update="onProfilePictureUpdate"
+                :aspect-ratio="PROFILE_PICTURE_RATIO"
               />
             </div>
           </AvAccordion>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import Card from '@/common/components/cards/Card/Card.vue'
+import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/ImageUpload/config'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -27,6 +28,8 @@ defineSlots<{
 const { t } = useI18n()
 
 const fullName = computed(() => `${capitalize(firstName)} ${capitalize(lastName)}`)
+const profileBannerRatio = `${PROFILE_BANNER_RATIO}`
+const profilePictureRatio = `${PROFILE_PICTURE_RATIO}`
 </script>
 
 <template>
@@ -92,11 +95,14 @@ const fullName = computed(() => `${capitalize(firstName)} ${capitalize(lastName)
 }
 
 .profile-card__banner {
+  width: 100%;
   height: auto;
-  max-height: 4.2rem;
+  aspect-ratio: v-bind('profileBannerRatio');
+  object-fit: cover;
 }
 
 .profile-card__picture {
+  aspect-ratio: v-bind('profilePictureRatio');
   object-fit: cover;
 }
 

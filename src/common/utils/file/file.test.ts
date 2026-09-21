@@ -1,5 +1,5 @@
 import { EFileType, type FileDTO } from '@/api/avenir-esr'
-import { bytesToMegabytes, formatFileSizeInMegabytes, getFileExtension, getFileTypeFromFileName, isDifferentFile, isFile, renameFile, stripExtension } from '@/common/utils/file/file'
+import { bytesToMegabytes, canvasToFile, formatFileSizeInMegabytes, getFileExtension, getFileTypeFromFileName, isDifferentFile, isFile, renameFile, stripExtension } from '@/common/utils/file/file'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 BddTest().given('the file  helper', () => {
@@ -266,6 +266,44 @@ BddTest().given('the file size formatter', () => {
   BddTest().when('the size is a whole number of megabytes', () => {
     BddTest().then('it should not display a decimal part', () => {
       expect(formatFileSizeInMegabytes(1024 * 1024, 'fr')).toBe('1')
+    })
+  })
+})
+
+BddTest().given('the canvas to file utility', () => {
+  BddTest().when('the canvas is valid', () => {
+    BddTest().then('it should return a File object', async () => {
+      const canvas = document.createElement('canvas')
+      canvas.width = 100
+      canvas.height = 100
+
+      const blob = new Blob(['test'], { type: 'image/png' })
+      vi.spyOn(canvas, 'toBlob').mockImplementation((callback) => {
+        callback(blob)
+      })
+
+      const file = await canvasToFile(canvas, 'image.png')
+      expect(file).toBeInstanceOf(File)
+      expect(file?.name).toBe('image.png')
+    })
+  })
+
+  BddTest().when('the canvas is invalid', () => {
+    BddTest().then('it should return null', async () => {
+      const canvas = document.createElement('canvas')
+      vi.spyOn(canvas, 'toBlob').mockImplementation((callback) => {
+        callback(null)
+      })
+
+      const file = await canvasToFile(canvas, 'image.png')
+      expect(file).toBeNull()
+    })
+  })
+
+  BddTest().when('the canvas is null', () => {
+    BddTest().then('it should return null', async () => {
+      const file = await canvasToFile(null, 'image.png')
+      expect(file).toBeNull()
     })
   })
 })

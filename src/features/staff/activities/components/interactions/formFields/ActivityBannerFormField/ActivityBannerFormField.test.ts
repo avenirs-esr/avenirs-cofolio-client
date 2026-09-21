@@ -1,6 +1,6 @@
 import type { FileDTO } from '@/api/avenir-esr'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
-import { ImageUploadStub } from '@/common/components/ImageUpload/ImageUploadStub'
+import { ImageUploadStub } from '@/common/components/ImageUpload/ImageUpload.stub'
 import ActivityBannerFormField from '@/features/staff/activities/components/interactions/formFields/ActivityBannerFormField/ActivityBannerFormField.vue'
 import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
