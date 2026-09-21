@@ -6,14 +6,29 @@ import { expect, type Mock, vi } from 'vitest'
 
 const error = ref('')
 const valid = ref('Le document a été chargé avec succès.')
-
 const mockModalOpened = ref(false)
-const mockOpenModal = vi.fn()
-const mockCloseModal = vi.fn()
-const mockOnDeleteImage = vi.fn()
+
+const {
+  mockCanvasFile,
+  mockOpenModal,
+  mockCloseModal,
+  mockOnDeleteImage,
+  mockUpdateImage,
+} = vi.hoisted(() => ({
+  mockCanvasFile: new File(['cropped'], 'test.jpg', { type: 'image/jpeg' }),
+  mockOpenModal: vi.fn(() => {
+    mockModalOpened.value = true
+  }),
+  mockCloseModal: vi.fn(() => {
+    mockModalOpened.value = false
+  }),
+  mockOnDeleteImage: vi.fn(),
+  mockUpdateImage: vi.fn(),
+}))
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
+
   return {
     ...actual,
     useModal: () => ({
@@ -22,7 +37,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
       closeModal: mockCloseModal
     }),
     useImageUpload: () => ({
-      update: vi.fn(),
+      update: mockUpdateImage,
       clear: vi.fn(),
       error,
       valid,
@@ -30,6 +45,16 @@ vi.mock('@/common/composables', async (importOriginal) => {
       previewUrl: { value: 'exemple.com/image.png' }
     })
   }
+})
+
+vi.mock('@/common/utils/file/file', () => ({
+  canvasToFile: vi.fn().mockResolvedValue(mockCanvasFile)
+}))
+
+const CropperStub = defineComponent({
+  name: 'Cropper',
+  emits: ['change'],
+  template: '<div data-testid="cropper-stub" />'
 })
 
 function createWrapper (props = {}) {
@@ -43,36 +68,51 @@ function createWrapper (props = {}) {
     global: {
       stubs: {
         AvFileUpload: AvFileUploadStub,
-        ConfirmationModal: ConfirmationModalStub
-      },
-    },
+        ConfirmationModal: ConfirmationModalStub,
+        Cropper: CropperStub
+      }
+    }
   })
 }
 
-BddTest().given('and image upload with valid props', () => {
+BddTest().given('an image upload with valid props', () => {
   let wrapper: VueWrapper<InstanceType<typeof ImageUpload>>
-
   let onUpdateMock: Mock
 
-  if (!window.URL.createObjectURL) {
-    window.URL.createObjectURL = vi.fn(() => 'blob:mock-url')
-  }
-  if (!window.URL.revokeObjectURL) {
-    window.URL.revokeObjectURL = vi.fn()
-  }
+  const getAvFileUpload = () => wrapper.findComponent(AvFileUploadStub)
+  const getCropperModal = () => wrapper.findAllComponents(ConfirmationModalStub)[0]
+  const getDeleteModal = () => wrapper.findAllComponents(ConfirmationModalStub)[1]
+  const getCropper = () => wrapper.findComponent(CropperStub)
 
-  beforeEach(() => {
-    onUpdateMock = vi.fn()
-    wrapper = createWrapper({ onUpdate: onUpdateMock, onDeleteImage: mockOnDeleteImage })
+  const createCanvas = () => document.createElement('canvas')
+
+  const existingFile = new File(['existing'], 'existing.jpg', {
+    type: 'image/jpeg'
   })
 
-  afterEach(() => {
-    vi.restoreAllMocks()
+  beforeEach(() => {
+    error.value = ''
+    valid.value = 'Le document a été chargé avec succès.'
+    mockModalOpened.value = false
+
+    vi.clearAllMocks()
+
+    URL.createObjectURL = vi.fn().mockReturnValue('blob:mock-url')
+    URL.revokeObjectURL = vi.fn()
+
+    onUpdateMock = vi.fn()
+
+    wrapper = createWrapper({
+      modelValue: existingFile,
+      onUpdate: onUpdateMock,
+      onDeleteImage: mockOnDeleteImage
+    })
   })
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the default image with correct alt', () => {
       const img = wrapper.find('img')
+
       expect(img.exists()).toBe(true)
       expect(img.attributes('src')).toBe('exemple.com/image.png')
       expect(img.attributes('alt')).toBe('alt text')
@@ -80,14 +120,131 @@ BddTest().given('and image upload with valid props', () => {
   })
 
   BddTest().when('a valid file is selected', () => {
-    BddTest().then('it should call onUpdate', async () => {
-      const file = new File(['example'], 'test.jpg', { type: 'image/jpeg' })
-      const avFileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
+    let file: File
 
-      avFileUpload.vm.$emit('change', [file])
+    beforeEach(async () => {
+      file = new File(['example'], 'test.jpg', {
+        type: 'image/jpeg'
+      })
+
+      getAvFileUpload().vm.$emit('change', [file])
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should open the cropper modal', () => {
+      expect(mockOpenModal).toHaveBeenCalled()
+    })
+
+    BddTest().then('it should not update the model value', () => {
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
+    BddTest().then('it should not call onUpdate', () => {
+      expect(onUpdateMock).not.toHaveBeenCalled()
+    })
+
+    BddTest().then('it should create an object URL for the selected file', () => {
+      expect(URL.createObjectURL).toHaveBeenCalledWith(file)
+    })
+  })
+
+  BddTest().when('a valid file is selected and the crop is confirmed', () => {
+    beforeEach(async () => {
+      const file = new File(['example'], 'test.jpg', {
+        type: 'image/jpeg'
+      })
+
+      getAvFileUpload().vm.$emit('change', [file])
       await wrapper.vm.$nextTick()
 
-      expect(onUpdateMock).toHaveBeenCalledWith(file)
+      const cropperModal = getCropperModal()
+
+      getCropper().vm.$emit('change', { canvas: createCanvas() })
+      await wrapper.vm.$nextTick()
+
+      cropperModal.vm.$emit('confirm')
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should convert the crop canvas to a file', async () => {
+      const { canvasToFile } = await import('@/common/utils/file/file')
+
+      expect(canvasToFile).toHaveBeenCalled()
+    })
+
+    BddTest().then('it should validate the cropped file', () => {
+      expect(mockUpdateImage).toHaveBeenCalledWith([mockCanvasFile])
+    })
+
+    BddTest().then('it should call onUpdate with the cropped file', () => {
+      expect(onUpdateMock).toHaveBeenCalledWith(mockCanvasFile)
+    })
+
+    BddTest().then('it should update the model value with the cropped file', () => {
+      expect(wrapper.emitted('update:modelValue')).toEqual([
+        [mockCanvasFile]
+      ])
+    })
+
+    BddTest().then('it should close the cropper modal', () => {
+      expect(mockCloseModal).toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('a valid file is selected and the crop is cancelled', () => {
+    beforeEach(async () => {
+      const file = new File(['example'], 'new.jpg', {
+        type: 'image/jpeg'
+      })
+
+      getAvFileUpload().vm.$emit('change', [file])
+      await wrapper.vm.$nextTick()
+
+      getCropperModal().vm.$emit('close')
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should not update the model value', () => {
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
+    BddTest().then('it should not call onUpdate', () => {
+      expect(onUpdateMock).not.toHaveBeenCalled()
+    })
+
+    BddTest().then('it should revoke the temporary object URL', () => {
+      expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:mock-url')
+    })
+
+    BddTest().then('it should close the cropper modal', () => {
+      expect(mockCloseModal).toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('a valid file is selected but the crop validation fails', () => {
+    beforeEach(async () => {
+      valid.value = ''
+
+      const file = new File(['example'], 'test.jpg', {
+        type: 'image/jpeg'
+      })
+
+      getAvFileUpload().vm.$emit('change', [file])
+      await wrapper.vm.$nextTick()
+
+      getCropper().vm.$emit('change', { canvas: createCanvas() })
+      await wrapper.vm.$nextTick()
+
+      getCropperModal().vm.$emit('confirm')
+      await wrapper.vm.$nextTick()
+    })
+
+    BddTest().then('it should not update the model value', () => {
+      expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+    })
+
+    BddTest().then('it should not call onUpdate', () => {
+      expect(onUpdateMock).not.toHaveBeenCalled()
     })
   })
 
@@ -103,15 +260,15 @@ BddTest().given('and image upload with valid props', () => {
       await errorBtn.trigger('click')
       await wrapper.vm.$nextTick()
 
-      const avFileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
-      expect(avFileUpload.props('error')).toBe(error.value)
+      expect(getAvFileUpload().props('error')).toBe(error.value)
     })
 
     BddTest().then('it should not call onUpdate when file is invalid', async () => {
-      const file = new File(['example'], 'test.jpg', { type: 'image/jpeg' })
-      const avFileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
+      const file = new File(['example'], 'test.jpg', {
+        type: 'image/jpeg'
+      })
 
-      avFileUpload.vm.$emit('change', [file])
+      getAvFileUpload().vm.$emit('change', [file])
       await wrapper.vm.$nextTick()
 
       expect(onUpdateMock).not.toHaveBeenCalled()
@@ -120,9 +277,12 @@ BddTest().given('and image upload with valid props', () => {
 
   BddTest().when('defaultImageUrl is provided', () => {
     BddTest().then('it should use defaultImageUrl for image src', () => {
-      const wrapperWithUrl = createWrapper({ defaultImageUrl: 'https://example.com/custom.jpg' })
+      const wrapperWithUrl = createWrapper({
+        defaultImageUrl: 'https://example.com/custom.jpg'
+      })
 
       const img = wrapperWithUrl.find('img')
+
       expect(img.attributes('src')).toBe('https://example.com/custom.jpg')
     })
   })
@@ -136,16 +296,18 @@ BddTest().given('and image upload with valid props', () => {
       await wrapper.vm.$nextTick()
 
       const errorSpan = wrapper.find('#image-upload-error')
+
       expect(errorSpan.exists()).toBe(true)
-      expect(errorSpan.text()).toBe('Le fichier ne respecte pas le format attendu.')
+      expect(errorSpan.text()).toBe(
+        'Le fichier ne respecte pas le format attendu.'
+      )
       expect(errorSpan.classes()).toContain('av-sr-only')
     })
 
     BddTest().then('it should update describedBy to include error id', async () => {
       await wrapper.vm.$nextTick()
 
-      const avFileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
-      expect(avFileUpload.attributes('aria-describedby')).toBe('image-upload-hint image-upload-error')
+      expect(getAvFileUpload().attributes('aria-describedby')).toBe('image-upload-hint image-upload-error')
     })
   })
 
@@ -157,21 +319,24 @@ BddTest().given('and image upload with valid props', () => {
     BddTest().then('it should use only hint id for describedBy', async () => {
       await wrapper.vm.$nextTick()
 
-      const avFileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
-      expect(avFileUpload.attributes('aria-describedby')).toBe('image-upload-hint')
+      expect(getAvFileUpload().attributes('aria-describedby')).toBe('image-upload-hint')
     })
 
     BddTest().then('it should not render error span', async () => {
       await wrapper.vm.$nextTick()
 
       const errorSpan = wrapper.find('#image-upload-error')
+
       expect(errorSpan.exists()).toBe(false)
     })
   })
 
   BddTest().when('delete file button is clicked', () => {
     beforeEach(async () => {
-      const deleteButton = wrapper.find('[data-testid="delete-file-button"]')
+      const deleteButton = wrapper.find(
+        '[data-testid="delete-file-button"]'
+      )
+
       await deleteButton.trigger('click')
     })
 
@@ -181,12 +346,19 @@ BddTest().given('and image upload with valid props', () => {
   })
 
   BddTest().when('confirming file deletion in modal', () => {
-    beforeEach(() => {
-      wrapper.findComponent(ConfirmationModalStub).vm.$emit('confirm')
+    beforeEach(async () => {
+      getDeleteModal().vm.$emit('confirm')
+      await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should hide the modal', () => {
       expect(mockCloseModal).toHaveBeenCalled()
+    })
+
+    BddTest().then('it should clear the image upload', () => {
+      expect(wrapper.emitted('update:modelValue')).toEqual([
+        [null]
+      ])
     })
 
     BddTest().then('it should call delete image function', () => {

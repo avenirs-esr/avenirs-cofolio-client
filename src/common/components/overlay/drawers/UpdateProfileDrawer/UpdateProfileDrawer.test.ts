@@ -5,7 +5,7 @@ import { EFileType, type EUserCategory, type FileDTO, type ProfileOverviewDTO } 
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
-import { ImageUploadStub } from '@/common/components/ImageUpload/ImageUploadStub'
+import { ImageUploadStub } from '@/common/components/ImageUpload/ImageUpload.stub'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
 import { AvAccordionsGroupStub, AvAccordionStub, AvButtonStub, AvDrawerStub, AvIconTextStub, AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
