@@ -1,6 +1,7 @@
 import type { BreadcrumbLinkRaw } from '@/common/types'
 import { getProfileErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
 import { ProfileCardStub } from '@/common/components/ProfileCard/ProfileCard.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
@@ -8,7 +9,7 @@ import { ROUTES } from '@/common/constants/route-names'
 import { ExportKitButtonStub } from '@/features/student/kit/views/StudentToolsKitView/components/interaction/ExportKitButton/ExportKitButton.stub'
 import { KitContentTabsStub } from '@/features/student/kit/views/StudentToolsKitView/components/KitContentTabs/KitContentTabs.stub'
 import StudentToolsKitView from '@/features/student/kit/views/StudentToolsKitView/StudentToolsKitView.vue'
-import { AvBreadcrumbStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 
@@ -35,12 +36,18 @@ BddTest().given('a student tools kit view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentToolsKitView>>
 
   const stubs = {
-    AvBreadcrumb: AvBreadcrumbStub,
+    PageTitle: PageTitleStub,
     ProfileCard: ProfileCardStub,
     QuerySuspense: QuerySuspenseStub,
     KitContentTabs: KitContentTabsStub,
     ExportKitButton: ExportKitButtonStub,
   }
+
+  const getPageTitle = () => wrapper.findComponent(PageTitleStub)
+  const getProfileCard = () => wrapper.findComponent(ProfileCardStub)
+  const getKitContentTabs = () => wrapper.findComponent(KitContentTabsStub)
+  const getExportKitButton = () => wrapper.findComponent(ExportKitButtonStub)
+  const getQuerySuspenseError = () => wrapper.find('[data-testid="query-suspense-error"]')
 
   BddTest().when('the view is mounted with a server error', async () => {
     beforeEach(async () => {
@@ -49,36 +56,24 @@ BddTest().given('a student tools kit view', () => {
       await flushPromises()
     })
 
+    BddTest().then('it should display the page title', () => {
+      expect(getPageTitle().exists()).toBe(true)
+    })
+
     BddTest().then('it should display the export kit button', () => {
-      expect(wrapper.findComponent(ExportKitButtonStub).exists()).toBe(true)
-    })
-
-    BddTest().then('it should display the breadcrumbs', () => {
-      const breadcrumb = wrapper.findComponent(AvBreadcrumbStub)
-      expect(breadcrumb.exists()).toBe(true)
-      expect(breadcrumb.props('links')).toEqual([
-        { text: 'Accueil', to: ROUTES.STUDENT.HOME },
-        { text: 'Mes outils' },
-        { text: 'Mon kit prêt à l\'emploi' },
-      ])
-    })
-
-    BddTest().then('it should display the title, subtitle and consign', () => {
-      expect(wrapper.find('[data-testid="kit-title"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="kit-subtitle"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="kit-consign"]').exists()).toBe(true)
+      expect(getExportKitButton().exists()).toBe(true)
     })
 
     BddTest().then('it should display the error message', () => {
-      expect(wrapper.find('[data-testid="query-suspense-error"]').exists()).toBe(true)
+      expect(getQuerySuspenseError().exists()).toBe(true)
     })
 
     BddTest().then('it should not display the profile card', () => {
-      expect(wrapper.findComponent(ProfileCardStub).exists()).toBe(false)
+      expect(getProfileCard().exists()).toBe(false)
     })
 
     BddTest().then('it should display the kit content tabs', () => {
-      expect(wrapper.findComponent(KitContentTabsStub).exists()).toBe(true)
+      expect(getKitContentTabs().exists()).toBe(true)
     })
   })
 
@@ -89,35 +84,23 @@ BddTest().given('a student tools kit view', () => {
     })
 
     BddTest().then('it should display the export kit button', () => {
-      expect(wrapper.findComponent(ExportKitButtonStub).exists()).toBe(true)
+      expect(getExportKitButton().exists()).toBe(true)
     })
 
-    BddTest().then('it should display the breadcrumbs', () => {
-      const breadcrumb = wrapper.findComponent(AvBreadcrumbStub)
-      expect(breadcrumb.exists()).toBe(true)
-      expect(breadcrumb.props('links')).toEqual([
-        { text: 'Accueil', to: ROUTES.STUDENT.HOME },
-        { text: 'Mes outils' },
-        { text: 'Mon kit prêt à l\'emploi' },
-      ])
-    })
-
-    BddTest().then('it should display the title, subtitle and consign', () => {
-      expect(wrapper.find('[data-testid="kit-title"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="kit-subtitle"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="kit-consign"]').exists()).toBe(true)
+    BddTest().then('it should display the page title', () => {
+      expect(getPageTitle().exists()).toBe(true)
     })
 
     BddTest().then('it should display the profile card', () => {
-      expect(wrapper.findComponent(ProfileCardStub).exists()).toBe(true)
+      expect(getProfileCard().exists()).toBe(true)
     })
 
     BddTest().then('it should not display the error message', () => {
-      expect(wrapper.find('[data-testid="query-suspense-error"]').exists()).toBe(false)
+      expect(getQuerySuspenseError().exists()).toBe(false)
     })
 
     BddTest().then('it should display the kit content tabs', () => {
-      expect(wrapper.findComponent(KitContentTabsStub).exists()).toBe(true)
+      expect(getKitContentTabs().exists()).toBe(true)
     })
   })
 })
