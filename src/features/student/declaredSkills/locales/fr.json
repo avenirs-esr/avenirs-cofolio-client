@@ -116,9 +116,7 @@
             }
           },
           "settingDropdown": {
-            "ariaLabel": "Paramètres de la compétence déclarée",
-            "delete": "Supprimer ma compétence",
-            "update": "Modifier ma compétence"
+            "entityName": "ma compétence"
           },
           "tabs": {
             "details": {

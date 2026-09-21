@@ -116,9 +116,7 @@
             }
           },
           "settingDropdown": {
-            "ariaLabel": "Declared skill settings",
-            "delete": "Delete my skill",
-            "update": "Edit my skill"
+            "entityName": "my skill"
           },
           "tabs": {
             "details": {

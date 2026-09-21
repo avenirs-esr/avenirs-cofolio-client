@@ -24,8 +24,8 @@ BddTest().given('a declared skill setting popover', () => {
     BddTest().then('it should pass correct props to dropdown', () => {
       const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
       expect(dropdown.props('items')).toHaveLength(2)
-      expect(dropdown.props('triggerAriaLabel')).toBe('Paramètres de la compétence déclarée')
-      expect(dropdown.props('triggerLabel')).toBe('Paramètres de la compétence déclarée')
+      expect(dropdown.props('triggerAriaLabel')).toBe('Gérer ma compétence')
+      expect(dropdown.props('triggerLabel')).toBe('Gérer ma compétence')
     })
   })
 
