@@ -1,127 +1,43 @@
 <script lang="ts" setup>
 import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
-import backgroundImg from '@/assets/student_tools_kit_intro_background.png'
+import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
 import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import { useBreadcrumb } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import ExportKitButton from '@/features/student/kit/views/StudentToolsKitView/components/interaction/ExportKitButton/ExportKitButton.vue'
 import KitContentTabs from '@/features/student/kit/views/StudentToolsKitView/components/KitContentTabs/KitContentTabs.vue'
-import { AvBreadcrumb } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
 const { data: studentSummary, error, isLoading } = useGetProfile(EUserCategory.STUDENT)
 const { getErrorMessage } = useApiErrors()
-
-const { breadcrumbLinks } = useBreadcrumb()
 </script>
 
 <template>
-  <div class="student-tools-kit av-col av-gap-lg">
-    <div class="content av-col av-gap-lg">
-      <AvBreadcrumb
-        :navigation-label="t('global.breadcrumb.ariaLabel')"
-        :show-breadcrumb-label="t('global.breadcrumb.expandButtonLabel')"
-        :links="breadcrumbLinks"
+  <PageTitle
+    :title="t('student.kit.views.StudentToolsKitView.title')"
+    :information-tooltip="t('student.kit.views.StudentToolsKitView.informationTooltip')"
+  />
+
+  <div class="content av-col av-gap-lg">
+    <ExportKitButton />
+
+    <QuerySuspense
+      :error="error"
+      :is-loading="isLoading"
+      :error-title="t('student.kit.views.StudentToolsKitView.errors.profile')"
+      :error-message="getErrorMessage(error)"
+    >
+      <ProfileCard
+        :first-name="studentSummary!.firstname"
+        :last-name="studentSummary!.lastname"
+        :profile-picture-url="studentSummary!.profilePicture.url"
+        :cover-picture-url="studentSummary!.coverPicture.url"
+        :bio="studentSummary!.bio"
       />
+    </QuerySuspense>
 
-      <div class="intro-container av-col av-align-center">
-        <div
-          class="background-img"
-          data-testid="kit-background"
-        >
-          <img
-            :src="backgroundImg"
-            alt="background"
-          >
-        </div>
-        <div class="text-container av-col av-gap-sm">
-          <h1
-            class="av-text-center"
-            data-testid="kit-title"
-          >
-            {{ t('student.kit.views.StudentToolsKitView.title') }}
-          </h1>
-          <span
-            class="s1-bold av-text-center"
-            data-testid="kit-subtitle"
-          >
-            {{ t('student.kit.views.StudentToolsKitView.subtitle') }}
-          </span>
-          <span
-            class="s1-bold av-text-center"
-            data-testid="kit-consign"
-          >
-            {{ t('student.kit.views.StudentToolsKitView.consign') }}
-          </span>
-        </div>
-      </div>
-
-      <ExportKitButton />
-
-      <QuerySuspense
-        :error="error"
-        :is-loading="isLoading"
-        :error-title="t('student.kit.views.StudentToolsKitView.errors.profile')"
-        :error-message="getErrorMessage(error)"
-      >
-        <ProfileCard
-          :first-name="studentSummary!.firstname"
-          :last-name="studentSummary!.lastname"
-          :profile-picture-url="studentSummary!.profilePicture.url"
-          :cover-picture-url="studentSummary!.coverPicture.url"
-          :bio="studentSummary!.bio"
-        />
-      </QuerySuspense>
-
-      <KitContentTabs />
-    </div>
+    <KitContentTabs />
   </div>
 </template>
-
-<style lang="scss" scoped>
-@use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
-
-.student-tools-kit {
-  .intro-container {
-    position: relative;
-  }
-
-  .background-img {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-  }
-
-  .content {
-    z-index: 1;
-  }
-
-  .text-container {
-    width: 100%;
-
-    @include dsav.min-width(md) {
-      width: 50%;
-    }
-  }
-
-  @include dsav.max-width(md) {
-    .text-container {
-      h1, span {
-        font-weight: var(--font-weight-regular);
-      }
-    }
-  }
-}
-</style>
