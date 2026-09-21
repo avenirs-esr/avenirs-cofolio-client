@@ -4,7 +4,7 @@ import type {
 import type { VueWrapper } from '@vue/test-utils'
 import { EExternalSkillType } from '@/api/avenir-esr'
 import AddDeclaredSkillAutocompleteField from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/components/AddDeclaredSkillAutocompleteField/AddDeclaredSkillAutocompleteField.vue'
-import { AvListItemStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvListItemStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -72,6 +72,7 @@ const stubs = {
     `
   },
   AvListItem: AvListItemStub,
+  AvTooltip: AvTooltipStub,
   DeclaredSkillTypeBadge: {
     name: 'DeclaredSkillTypeBadge',
     props: ['label', 'backgroundColor'],

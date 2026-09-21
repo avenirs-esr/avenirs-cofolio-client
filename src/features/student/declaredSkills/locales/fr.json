@@ -58,6 +58,7 @@
             }
           },
           "autocompleteField": {
+            "alreadyDeclaredSkillsInfo": "Les compétences grisées sont déjà présentes dans votre liste",
             "minimumCharacters": "Tapez au moins 3 caractères pour rechercher",
             "noResultsFound": "Aucune compétence trouvée",
             "searchLabel": "Rechercher une compétence",

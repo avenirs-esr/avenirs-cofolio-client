@@ -58,6 +58,7 @@
             }
           },
           "autocompleteField": {
+            "alreadyDeclaredSkillsInfo": "Greyed-out skills are already in your list",
             "minimumCharacters": "Type at least 3 characters to search",
             "noResultsFound": "No skill found",
             "searchLabel": "Search for a skill",
