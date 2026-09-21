@@ -1,4 +1,5 @@
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import { ICONS } from '@/common/constants'
 import { MDI_ICONS, MS_ICONS, PH_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 interface ActionConfig {
@@ -9,6 +10,7 @@ interface ActionConfig {
 export const moreActionConfig: Record<Action, ActionConfig> = {
   [Action.ADD]: { icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE, labelKey: 'global.buttons.add' },
   [Action.CLONE]: { icon: MS_ICONS.CONTENT_COPY_OUTLINE, labelKey: 'global.buttons.clone' },
+  [Action.ASSOCIATE]: { icon: ICONS.ASSOCIATE, labelKey: 'global.buttons.associate' },
   [Action.COLLAPSE]: { icon: MDI_ICONS.MINUS, labelKey: 'global.buttons.collapse' },
   [Action.DOWNLOAD]: { icon: MDI_ICONS.DOWNLOAD_OUTLINE, labelKey: 'global.buttons.download' },
   [Action.EXPAND]: { icon: MDI_ICONS.PLUS, labelKey: 'global.buttons.expand' },

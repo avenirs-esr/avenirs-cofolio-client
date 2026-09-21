@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Action, type ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 import { useI18n } from 'vue-i18n'
 
 export interface TraceSettingsDropdownProps {
@@ -15,69 +16,41 @@ const emit = defineEmits<{
   (e: 'downloadSelected'): void
 }>()
 
-enum TraceSettingsPopoverEvents {
-  ASSOCIATE = 'associate',
-  DELETE = 'delete',
-  UPDATE = 'update',
-  DOWNLOAD = 'download'
-}
-
 const { t } = useI18n()
 
-const menuItems = computed(() => [
-  {
-    name: TraceSettingsPopoverEvents.DELETE,
-    icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-    label: t('student.traces.views.StudentTraceView.settings.delete')
-  },
-  ...(
-    __DEMO_MODE__
-      ? []
-      : [{
-          name: TraceSettingsPopoverEvents.ASSOCIATE,
-          icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
-          label: t('student.traces.views.StudentTraceView.settings.associate')
-        }]
-  ),
-  {
-    name: TraceSettingsPopoverEvents.UPDATE,
-    icon: MDI_ICONS.PENCIL_OUTLINE,
-    label: t('student.traces.views.StudentTraceView.settings.update')
-  },
-  {
-    name: TraceSettingsPopoverEvents.DOWNLOAD,
-    icon: MDI_ICONS.DOWNLOAD_OUTLINE,
-    label: t('student.traces.views.StudentTraceView.settings.download'),
-    disabled: downloadDisabled,
-    disabledTooltip: t('student.traces.views.StudentTraceView.settings.downloadDisabledTooltip')
-  }
-])
+const actions = computed(() => {
+  const items: (Action | ActionItem)[] = [
+    Action.UPDATE,
+    {
+      type: Action.DOWNLOAD,
+      disabled: downloadDisabled,
+      disabledTooltip: t('student.traces.views.StudentTraceView.settings.downloadDisabledTooltip')
+    },
+    Action.DELETE,
+  ]
 
-function handleItemSelected (itemName: string) {
-  switch (itemName) {
-    case TraceSettingsPopoverEvents.DELETE:
-      emit('deleteSelected')
-      break
-    case TraceSettingsPopoverEvents.ASSOCIATE:
-      emit('associateSelected')
-      break
-    case TraceSettingsPopoverEvents.UPDATE:
-      emit('updateSelected')
-      break
-    case TraceSettingsPopoverEvents.DOWNLOAD:
-      emit('downloadSelected')
-      break
+  if (!__DEMO_MODE__) {
+    items.push(Action.ASSOCIATE)
+  }
+
+  return items
+})
+
+function handleActionSelected (action: Action) {
+  switch (action) {
+    case Action.ASSOCIATE: return emit('associateSelected')
+    case Action.UPDATE: return emit('updateSelected')
+    case Action.DOWNLOAD: return emit('downloadSelected')
+    case Action.DELETE: return emit('deleteSelected')
   }
 }
 </script>
 
 <template>
-  <AvDropdown
-    :items="menuItems"
-    :trigger-aria-label="t('global.buttons.moreActions')"
-    :trigger-label="t('global.buttons.moreActions')"
-    width="max-content"
+  <ManageEntityDropdown
+    :entity-name="t('student.traces.myTrace')"
+    :actions
     data-testid="trace-settings-dropdown"
-    @item-selected="handleItemSelected"
+    @action-selected="handleActionSelected"
   />
 </template>

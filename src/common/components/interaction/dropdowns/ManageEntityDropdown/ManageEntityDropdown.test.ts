@@ -44,6 +44,11 @@ BddTest().given('a ManageEntityDropdown', () => {
     expect(Boolean(item?.disabled)).toBe(disabled)
   }
 
+  const expectActionDisabledTooltip = (type: Action, disabledTooltip: string) => {
+    const item = getDropdownItems().find(item => item.name === type)
+    expect(String(item?.disabledTooltip)).toBe(disabledTooltip)
+  }
+
   const expectDefaultLabel = () => {
     const dropdown = getDropdown()
     const label = 'Gérer'
@@ -106,6 +111,16 @@ BddTest().given('a ManageEntityDropdown', () => {
 
     BddTest().then('it should leave the other requested actions enabled', () => {
       expectActionDisabled(Action.DELETE, false)
+    })
+  })
+
+  BddTest().when('an action is configured with a disabledTooltip', () => {
+    beforeEach(() => {
+      mountWith({ actions: [{ type: Action.UPDATE, disabledTooltip: 'test' }] })
+    })
+
+    BddTest().then('it should pass the disabledTooltip to the action', () => {
+      expectActionDisabledTooltip(Action.UPDATE, 'test')
     })
   })
 
