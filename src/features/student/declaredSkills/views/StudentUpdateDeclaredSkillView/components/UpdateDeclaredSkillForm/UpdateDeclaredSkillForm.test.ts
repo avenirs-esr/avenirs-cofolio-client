@@ -1,5 +1,4 @@
 import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { DeclaredSkillLevelRadioButtonSetFormFieldStub } from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.stub'
 import UpdateDeclaredSkillForm from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
 import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
@@ -52,7 +51,6 @@ BddTest().given('an UpdateDeclaredSkillForm component', () => {
       },
       global: {
         stubs: {
-          Card: CardStub,
           AvInput: AvInputStub,
           AvBadge: AvBadgeStub,
           AvIcon: AvIconStub,
