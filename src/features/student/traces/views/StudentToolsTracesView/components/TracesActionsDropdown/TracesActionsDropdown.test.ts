@@ -1,58 +1,46 @@
+import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import TracesActionsDropdown
   from '@/features/student/traces/views/StudentToolsTracesView/components/TracesActionsDropdown/TracesActionsDropdown.vue'
-import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-BddTest().given('a traces actions dropdown', () => {
+BddTest().given('a TracesActionsDropdown', () => {
   let wrapper: VueWrapper
 
   const stubs = {
-    AvDropdown: AvDropdownStub
+    ManageEntityDropdown: ManageEntityDropdownStub
   }
 
-  function mountComponent () {
+  const mountWith = () => {
+    vi.clearAllMocks()
     wrapper = mount(TracesActionsDropdown, {
       global: { stubs }
     })
   }
 
-  function dropdown () {
-    return wrapper.findComponent({ name: 'AvDropdown' })
-  }
+  const getDropdown = () => wrapper.findComponent(ManageEntityDropdownStub)
+  const getDeleteButton = () => wrapper.find(`[data-testid="${Action.DELETE}"]`)
 
   beforeEach(() => {
-    vi.clearAllMocks()
-    mountComponent()
+    mountWith()
   })
 
   BddTest().then('it should render the dropdown', () => {
-    expect(dropdown().exists()).toBe(true)
+    expect(getDropdown().exists()).toBe(true)
   })
 
-  BddTest().then('it should provide delete item to dropdown', () => {
-    expect(dropdown().props('items')).toEqual([
-      expect.objectContaining({
-        name: 'delete',
-        label: 'Supprimer des traces'
-      })
-    ])
+  BddTest().then('it should provide delete action to dropdown', () => {
+    expect(getDropdown().props('actions')).toEqual([Action.DELETE])
   })
 
-  BddTest().then('it should configure trigger labels', () => {
-    expect(dropdown().props('triggerAriaLabel')).toBe('Plus d\'actions')
-    expect(dropdown().props('triggerLabel')).toBe('Plus d\'actions')
+  BddTest().then('it should configure entity name', () => {
+    expect(getDropdown().props('entityName')).toBe('ma trace')
   })
 
-  BddTest().then('selecting delete item should emit deleteSelected', async () => {
-    await dropdown().vm.$emit('itemSelected', 'delete')
-
+  BddTest().then('clicking the delete button should emit deleteSelected', async () => {
+    await getDeleteButton().trigger('click')
     expect(wrapper.emitted('deleteSelected')).toHaveLength(1)
-  })
-
-  BddTest().then('selecting unknown item should not emit deleteSelected', async () => {
-    await dropdown().vm.$emit('itemSelected', 'unknown')
-
-    expect(wrapper.emitted('deleteSelected')).toBeUndefined()
   })
 })

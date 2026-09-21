@@ -148,6 +148,7 @@
           "subdescription": "Any deletion action is definitive. It results in the loss of the data entered for this trace, as well as the deletion of the association links it contains."
         }
       },
+      "myTrace": "ma trace",
       "trace": "trace | traces",
       "views": {
         "StudentToolsTracesView": {
@@ -274,9 +275,6 @@
             "resetButton": "Reset filters",
             "searchLabel": "Search for a trace"
           },
-          "traceActionsDropdown": {
-            "delete": "Delete traces"
-          },
           "title": "My collection of traces",
           "traceFilter": {
             "labels": {
@@ -330,11 +328,7 @@
             "associations": "No association for this trace."
           },
           "settings": {
-            "associate": "Associate my trace",
-            "delete": "Delete my trace",
-            "download": "Download my trace",
-            "downloadDisabledTooltip": "Downloading is not available for trace of type link",
-            "update": "Update my trace"
+            "downloadDisabledTooltip": "Downloading is not available for trace of type link"
           },
           "tabs": {
             "associations": "My associated elements ({count})",

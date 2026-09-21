@@ -36,14 +36,14 @@ const actionItems = computed(() =>
   (Object.keys(moreActionConfig) as Action[])
     .filter(type => actionItemsMap.value.has(type))
     .map<AvDropdownItem>((type) => {
-      const config = moreActionConfig[type]
-      const actionOptions = actionItemsMap.value.get(type)!
+      const { labelKey, ...configs } = moreActionConfig[type]
+      const { type: _type, ...options } = actionItemsMap.value.get(type)!
 
       return {
+        ...options,
+        ...configs,
         name: type,
-        icon: config.icon,
-        label: t(config.labelKey),
-        disabled: actionOptions.disabled
+        label: t(labelKey),
       }
     })
 )

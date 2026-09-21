@@ -1,5 +1,6 @@
 export enum Action {
   ADD = 'add',
+  ASSOCIATE = 'associate',
   CLONE = 'clone',
   COLLAPSE = 'collapse',
   DELETE = 'delete',
@@ -16,4 +17,5 @@ export enum Action {
 export interface ActionItem {
   type: Action
   disabled?: boolean
+  disabledTooltip?: string
 }

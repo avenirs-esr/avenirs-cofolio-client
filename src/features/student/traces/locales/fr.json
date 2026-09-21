@@ -148,6 +148,7 @@
           "subdescription": "Toute action de suppression est définitive. Elle entraine la perte des données renseignées pour cette trace ainsi que la suppression des liens d'association qu'elle comporte."
         }
       },
+      "myTrace": "ma trace",
       "trace": "trace | traces",
       "views": {
         "StudentToolsTracesView": {
@@ -269,15 +270,11 @@
               "title": "Aucune trace non associée ({count}) | Ma trace non associée ({count}) | Mes traces non associées ({count})"
             }
           },
-
           "studentTraceFilters": {
             "resetButton": "Réinitialiser les filtres",
             "searchLabel": "Rechercher une trace"
           },
           "title": "Ma bibliothèque de traces",
-          "traceActionsDropdown": {
-            "delete": "Supprimer des traces"
-          },
           "traceFilter": {
             "labels": {
               "filter": "Filtrer les traces",
@@ -330,11 +327,7 @@
             "fetchTrace": "Une erreur est survenue lors de la récupération de la trace."
           },
           "settings": {
-            "associate": "Associer ma trace",
-            "delete": "Supprimer ma trace",
-            "download": "Télécharger ma trace",
-            "downloadDisabledTooltip": "Le téléchargement n'est pas disponible pour une trace de type lien.",
-            "update": "Modifier ma trace"
+            "downloadDisabledTooltip": "Le téléchargement n'est pas disponible pour une trace de type lien."
           },
           "tabs": {
             "associations": "Mes éléments associés ({count})",
