@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useImageUpload, useModal } from '@/common/composables'
-import { useSingletonArray } from '@/common/composables/use-singleton-array/use-single-array'
+import { useSingletonArray } from '@/common/composables/use-singleton-array/use-singleton-array'
 import { AvFileUpload } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
