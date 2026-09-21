@@ -1,8 +1,9 @@
 import type { PageTitleProps } from '@/common/components/PageTitle/PageTitle.vue'
 import type { AvBreadcrumbProps } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
+import { InformationTooltipStub } from '@/common/components/overlay/tooltips/InformationTooltip/InformationTooltip.stub'
 import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import { AvBreadcrumbStub, AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvBreadcrumbStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -24,13 +25,16 @@ BddTest().given('a page title', () => {
     { text: 'Home', to: '/' },
     { text: 'Page name' }
   ]
-  const title = 'Page title'
   const props: PageTitleProps = {
     trailingLinks,
-    title
+    title: 'Page title',
+    informationTooltip: 'This is an information tooltip'
   }
 
-  const stubs = { AvBreadcrumb: AvBreadcrumbStub, AvButton: AvButtonStub }
+  const stubs = { AvBreadcrumb: AvBreadcrumbStub, InformationTooltip: InformationTooltipStub }
+
+  const getInformationTooltip = () => wrapper.findComponent(InformationTooltipStub)
+  const getAvBreadCrumb = () => wrapper.findComponent(AvBreadcrumbStub)
 
   beforeEach(async () => {
     vi.clearAllMocks()
@@ -45,12 +49,29 @@ BddTest().given('a page title', () => {
     })
 
     BddTest().then('it should render properly', () => {
-      const breadcrumb = wrapper.getComponent(AvBreadcrumbStub)
-      expect(breadcrumb.props('links')).toStrictEqual(trailingLinks)
+      expect(getAvBreadCrumb().props('links')).toStrictEqual(trailingLinks)
 
       const pageTitle = wrapper.find('.page-title')
       const titleElement = pageTitle.find('h1')
-      expect(titleElement.text()).toBe(title)
+      expect(titleElement.text()).toBe(props.title)
+
+      const informationTooltip = getInformationTooltip()
+      expect(informationTooltip.exists()).toBe(true)
+      expect(informationTooltip.props('content')).toBe(props.informationTooltip)
+    })
+  })
+
+  BddTest().when('the component is mounted without informationTooltip', () => {
+    beforeEach(async () => {
+      const { informationTooltip, ...propsWithoutTooltip } = props
+      wrapper = await mountWithRouter<typeof PageTitle>(PageTitle, {
+        props: propsWithoutTooltip,
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render the information tooltip', () => {
+      expect(getInformationTooltip().exists()).toBe(false)
     })
   })
 
@@ -64,8 +85,7 @@ BddTest().given('a page title', () => {
     })
 
     BddTest().then('it should render the breadcrumb with the links from useBreadcrumb', () => {
-      const breadcrumb = wrapper.getComponent(AvBreadcrumbStub)
-      expect(breadcrumb.props('links')).toStrictEqual([...breadcrumbLinks.value, ...trailingLinks])
+      expect(getAvBreadCrumb().props('links')).toStrictEqual([...breadcrumbLinks.value, ...trailingLinks])
     })
   })
 

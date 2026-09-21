@@ -7,7 +7,10 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <PageTitle :title="t('student.traces.views.StudentToolsTracesView.title')" />
+  <PageTitle
+    :title="t('student.traces.views.StudentToolsTracesView.title')"
+    :information-tooltip="t('student.traces.views.StudentToolsTracesView.informationTooltip')"
+  />
 
   <StudentToolsTracesViewContainer />
 </template>

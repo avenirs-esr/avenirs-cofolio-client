@@ -161,6 +161,7 @@
             "confirmationTitle": "Suppression de la trace sélectionnée | Suppression des traces sélectionnées ({count})",
             "title": "Aucune trace à supprimer | Quelle trace souhaitez-vous supprimer\u00A0? | Quelles traces souhaitez-vous supprimer\u00A0?"
           },
+          "informationTooltip": "Vous pouvez associer vos traces à des compétences et activités de mise en situations mais également à votre projet de vie. Les traces non associées sont automatiquement supprimées sous trois mois si aucune action n'est faite dessus.",
           "studentDetailedTraceAssociateModal": {
             "buttons": {
               "associate": "Associer"
@@ -269,7 +270,6 @@
               "title": "Aucune trace non associée ({count}) | Ma trace non associée ({count}) | Mes traces non associées ({count})"
             }
           },
-
           "studentTraceFilters": {
             "resetButton": "Réinitialiser les filtres",
             "searchLabel": "Rechercher une trace"
@@ -290,10 +290,6 @@
               "selected": "{count} choix",
               "toDate": "Date de fin"
             }
-          },
-          "TracesInformation": {
-            "description": "Vous pouvez associer vos traces à des compétences et activités de mise en situations mais également à votre projet de vie. Les traces non associées sont automatiquement supprimées sous trois mois si aucune action n'est faite dessus.",
-            "title": "Mes traces"
           },
           "warningMessage": {
             "delete": {

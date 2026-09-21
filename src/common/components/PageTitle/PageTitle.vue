@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
+import InformationTooltip from '@/common/components/overlay/tooltips/InformationTooltip/InformationTooltip.vue'
 import { useBreadcrumb } from '@/common/composables'
 import { AvBreadcrumb, type AvBreadcrumbProps } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -7,6 +8,7 @@ import { useI18n } from 'vue-i18n'
 export interface PageTitleProps {
   trailingLinks?: AvBreadcrumbProps['links']
   title: string
+  informationTooltip?: string
 }
 
 const {
@@ -33,9 +35,16 @@ const { breadcrumbLinks } = useBreadcrumb(() => trailingLinks)
         :show-breadcrumb-label="t('global.breadcrumb.expandButtonLabel')"
         :links="breadcrumbLinks"
       />
-      <slot name="title">
-        <h1>{{ title }}</h1>
-      </slot>
+      <div class="av-row av-align-center av-gap-md">
+        <slot name="title">
+          <h1>{{ title }}</h1>
+        </slot>
+        <InformationTooltip
+          v-if="informationTooltip"
+          :content="informationTooltip"
+          :size="2"
+        />
+      </div>
     </div>
   </div>
 </template>
