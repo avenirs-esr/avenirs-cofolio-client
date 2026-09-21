@@ -36,12 +36,16 @@ const {
   hasMoreActivities,
   loadMoreActivities,
 } = usePaginatedLibraryActivities({ enabled: computed(() => opened.value), pageSize: totalCount })
-const unsubscribedIds = ref<string[]>([])
-const activities = computed(() => activityLibrary.value.map(activity => ({ id: activity.activityId, title: activity.title, thematic: activity.thematic, disabled: unsubscribedIds.value.includes(activity.activityId) || activity.status === EDeclaredActivityStatus.UNSUBSCRIBED })))
+
+const activities = computed(() => activityLibrary.value.map(activity => ({
+  id: activity.activityId,
+  title: activity.title,
+  thematic: activity.thematic,
+  disabled: activity.status === EDeclaredActivityStatus.UNSUBSCRIBED
+})))
 const selectedActivityIds = ref<string[]>([])
 
 function onUnsubscribeSuccess () {
-  unsubscribedIds.value.push(...selectedActivityIds.value)
   emit('unsubscribed')
   resetSelectedActivities()
   closeConfirmModal()
