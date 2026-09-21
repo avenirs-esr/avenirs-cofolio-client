@@ -4,7 +4,6 @@ import { createSelfKnowledgeElementDetailsHandler } from '@/__mocks__/msw/handle
 import { server } from '@/__mocks__/msw/server'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
-import { SelfKnowledgeElementDetailsContainerStub } from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.stub'
 import { SelfKnowledgeElementUpdateFormStub } from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/SelfKnowledgeElementUpdateForm.stub'
 import SelfKnowledgeElementUpdateView
   from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/SelfKnowledgeElementUpdateView.vue'
@@ -29,7 +28,6 @@ BddTest().given('a self knowledge element update view', () => {
 
   const stubs = {
     UpdatePageTitle: UpdatePageTitleStub,
-    SelfKnowledgeElementDetailsContainer: SelfKnowledgeElementDetailsContainerStub,
     SelfKnowledgeElementUpdateForm: SelfKnowledgeElementUpdateFormStub,
     UpdateInProgressBadge: UpdateInProgressBadgeStub
   }
@@ -56,14 +54,6 @@ BddTest().given('a self knowledge element update view', () => {
     BddTest().then('it should render the UpdatePageTitle component', () => {
       const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
       expect(pageTitle.exists()).toBe(true)
-    })
-
-    BddTest().then('it should render the element title in the details container', async () => {
-      await vi.waitFor(() => {
-        const container = wrapper.findComponent(SelfKnowledgeElementDetailsContainerStub)
-        expect(container.exists()).toBe(true)
-        expect(container.props('elementTitle')).toBe(mockedSelfKnowledgeElementDetails.title)
-      })
     })
 
     BddTest().then('it should render the update form inside the tabs', async () => {

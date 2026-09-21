@@ -5,7 +5,6 @@ import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBa
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
-import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import SelfKnowledgeElementUpdateForm from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/SelfKnowledgeElementUpdateForm.vue'
 import { toSentenceCase } from '@avenirs-esr/avenirs-dsav'
@@ -52,20 +51,25 @@ function backToElementDetails () {
   <UpdatePageTitle
     :title="`${toSentenceCase(categoryTypeLabel)} - ${element?.title}`"
     :trailing-links="trailingLinks"
-  />
+  >
+    <template #actions>
+      <UpdateInProgressBadge
+        v-if="element"
+        :show="true"
+      />
+    </template>
+  </UpdatePageTitle>
+
   <div class="self-knowledge-element-update-view av-row av-gap-sm">
-    <SelfKnowledgeElementDetailsContainer
+    <div
       v-if="element"
+      class="av-col av-flex-fill av-gap-md"
       :element-title="element.title"
     >
-      <template #title>
-        <UpdateInProgressBadge :show="true" />
-      </template>
-
       <SelfKnowledgeElementUpdateForm
         :element="element"
         :on-cancel="() => backToElementDetails()"
       />
-    </SelfKnowledgeElementDetailsContainer>
+    </div>
   </div>
 </template>

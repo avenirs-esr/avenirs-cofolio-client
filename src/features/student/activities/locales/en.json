@@ -67,6 +67,9 @@
           "ActivityLibraryCard": {
             "period": "Personal achievement period"
           },
+          "ActivityLibraryDropdown": {
+            "entityName": "my activities"
+          },
           "ActivityLibraryTab": {
             "emptyState": "No ongoing or completed registration, go explore all available activities",
             "tabTitle": "My activity library | My activity library ({count}) | My activity library ({count})"

@@ -3,12 +3,9 @@ import { useGetDeclaredSkillsProgresses } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
-import { AddDeclaredSkillDrawer, useDeclaredSkillsStore } from '@/features/student/declaredSkills'
+import { useDeclaredSkillsStore } from '@/features/student/declaredSkills'
 import StudentDetailedDeclaredSkillCard from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedDeclaredSkillCard/StudentDetailedDeclaredSkillCard.vue'
-import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
 const declaredSkillsStore = useDeclaredSkillsStore()
 const {
   currentPage,
@@ -26,27 +23,10 @@ const { data, error, isPending } = useGetDeclaredSkillsProgresses(params)
 const skills = computed(() => data.value?.data ?? [])
 const pageInfo = computed(() => data.value?.page)
 useBaseApiExceptionToast(error)
-
-function handleAddSkill (): void {
-  declaredSkillsStore.displayCreateDeclaredSkillDrawer()
-}
 </script>
 
 <template>
   <div class="skills-view-other-tab av-col av-gap-xl">
-    <div
-      class="av-row av-justify-end"
-      data-testid="skills-view-other-tab__button-container"
-    >
-      <AvButton
-        variant="OUTLINED"
-        :label="t('student.skills.views.StudentProjectSkillsView.skillsViewTabs.skillsViewOtherTab.addSkillButton')"
-        :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
-        small
-        data-testid="add-declared-skill-button"
-        @click="handleAddSkill"
-      />
-    </div>
     <QuerySuspense
       :error="error"
       :is-loading="isPending"
@@ -71,7 +51,5 @@ function handleAddSkill (): void {
         </div>
       </Pagination>
     </QuerySuspense>
-
-    <AddDeclaredSkillDrawer />
   </div>
 </template>

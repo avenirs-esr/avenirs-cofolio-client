@@ -74,12 +74,11 @@ async function handleCancel () {
   <UpdatePageTitle
     :title="declaredSkillDetailed?.title ?? ''"
     :trailing-links="trailingLinks"
-  />
-
-  <UpdateInProgressBadge
-    class="av-pb-sm"
-    show
-  />
+  >
+    <template #actions>
+      <UpdateInProgressBadge show />
+    </template>
+  </UpdatePageTitle>
 
   <AvTabs v-model="activeTab">
     <AvTab

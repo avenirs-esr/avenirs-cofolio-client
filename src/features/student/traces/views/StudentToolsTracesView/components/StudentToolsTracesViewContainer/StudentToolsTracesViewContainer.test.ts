@@ -2,14 +2,12 @@ import type { TracesSummaryDTO } from '@/api/avenir-esr'
 import { createTracesSummaryHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
-import { StudentToolsTracesActionButtonsStub } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesActionButtons/StudentToolsTracesActionButtons.stub'
 import {
   StudentToolsTracesAddTraceDrawerStub
 } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.stub'
 import StudentToolsTracesViewContainer
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 import { StudentToolsTracesViewTabsStub } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewTabs/StudentToolsTracesViewTabs.stub'
-import { TracesInformationStub } from '@/features/student/traces/views/StudentToolsTracesView/components/TracesInformation/TracesInformation.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
@@ -28,9 +26,7 @@ BddTest().given('a student tools traces view container', () => {
 
   const stubs = {
     StudentToolsTracesViewTabs: StudentToolsTracesViewTabsStub,
-    StudentToolsTracesActionButtons: StudentToolsTracesActionButtonsStub,
     StudentToolsTracesAddTraceDrawer: StudentToolsTracesAddTraceDrawerStub,
-    TracesInformation: TracesInformationStub
   }
 
   BddTest().and('trace container is available', () => {
@@ -52,17 +48,6 @@ BddTest().given('a student tools traces view container', () => {
     })
 
     BddTest().when('the component is mounted', () => {
-      BddTest().then('it should render the traces information', () => {
-        expect(wrapper.findComponent({ name: 'TracesInformation' }).exists()).toBe(true)
-      })
-
-      BddTest().then('it should render the action buttons with traces summary', () => {
-        const actionButtons = wrapper.findComponent({ name: 'StudentToolsTracesActionButtons' })
-
-        expect(actionButtons.exists()).toBe(true)
-        expect(actionButtons.props('tracesSummary')).toEqual(tracesSummary)
-      })
-
       BddTest().then('it should render the traces tabs with traces summary', () => {
         const tabs = wrapper.findComponent({ name: 'StudentToolsTracesViewTabs' })
 

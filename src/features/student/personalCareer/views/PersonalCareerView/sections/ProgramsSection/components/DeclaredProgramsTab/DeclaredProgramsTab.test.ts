@@ -81,12 +81,6 @@ BddTest().given('a declared programs tab', () => {
       expect(dropdown.exists()).toBe(true)
     })
 
-    BddTest().then('it should have the dropdown in a right-aligned row', () => {
-      const row = wrapper.find('.av-row.av-justify-end')
-      expect(row.exists()).toBe(true)
-      expect(row.findComponent({ name: 'DeclaredProgramsMoreActionsDropdown' }).exists()).toBe(true)
-    })
-
     BddTest().then('it should render the pagination component', () => {
       const pagination = wrapper.findComponent({ name: 'Pagination' })
       expect(pagination.exists()).toBe(true)

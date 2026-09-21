@@ -5,7 +5,7 @@ import { AvDropdown, type AvDropdownItem } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ManageEntityDropdownProps {
-  entityName?: string
+  entityName: string
   actions: (Action | ActionItem)[]
   icon?: string
   iconOnly?: boolean

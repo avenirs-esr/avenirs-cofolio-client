@@ -29,10 +29,6 @@ BddTest().given('a skills view other tab component', () => {
       emits: ['click']
     },
     StudentDetailedDeclaredSkillCard: StudentDetailedDeclaredSkillCardStub,
-    AddDeclaredSkillDrawer: {
-      name: 'AddDeclaredSkillDrawer',
-      template: '<div class="add-declared-skill-drawer-stub"></div>'
-    },
     Pagination: PaginationStub,
     RouterLink: RouterLinkStub,
     QuerySuspense: QuerySuspenseStub
@@ -53,11 +49,6 @@ BddTest().given('a skills view other tab component', () => {
     BddTest().then('it should render the main container with correct class', () => {
       const container = wrapper.find('.skills-view-other-tab')
       expect(container.exists()).toBe(true)
-    })
-
-    BddTest().then('it should render the button container with correct class', () => {
-      const buttonContainer = wrapper.find('[data-testid="skills-view-other-tab__button-container"]')
-      expect(buttonContainer.exists()).toBe(true)
     })
 
     BddTest().then('it should render the Pagination component', async () => {
@@ -116,34 +107,6 @@ BddTest().given('a skills view other tab component', () => {
     })
   })
 
-  BddTest().when('the add skill button is rendered', () => {
-    BddTest().then('it should have the correct variant and theme', () => {
-      const button = wrapper.find('button')
-      expect(button.exists()).toBe(true)
-      expect(button.attributes('variant')).toBe('OUTLINED')
-      expect(button.attributes()).toHaveProperty('variant', 'OUTLINED')
-    })
-
-    BddTest().then('it should have the correct label', () => {
-      const button = wrapper.find('button')
-      expect(button.attributes('label')).toBe('Ajouter une compétence')
-    })
-
-    BddTest().then('it should have the correct icon', () => {
-      const button = wrapper.find('button')
-      expect(button.attributes('icon')).toBe('mdi:plus-circle-outline')
-    })
-  })
-
-  BddTest().when('the add skill button is clicked', () => {
-    BddTest().then('it should emit the click event', async () => {
-      const button = wrapper.find('button')
-      await button.trigger('click')
-
-      expect(button.exists()).toBe(true)
-    })
-  })
-
   BddTest().when('clicking on the page update buttons', () => {
     BddTest().then('it should update current page and page size in the mock', async () => {
       await vi.waitFor(() => expect(wrapper.findComponent({ name: 'Pagination' }).exists()).toBe(true))
@@ -158,20 +121,6 @@ BddTest().given('a skills view other tab component', () => {
       expect(paginationMock.onUpdatePageSize).toHaveBeenCalledWith(PageSizes.TWELVE)
       expect(paginationMock.pageSizeSelected.value).toBe(PageSizes.TWELVE)
       expect(paginationMock.currentPage.value).toBe(0)
-    })
-  })
-
-  BddTest().when('integrating with AddDeclaredSkillDrawer', () => {
-    BddTest().then('it should render AddDeclaredSkillDrawer component', () => {
-      const drawer = wrapper.findComponent({ name: 'AddDeclaredSkillDrawer' })
-      expect(drawer.exists()).toBe(true)
-    })
-
-    BddTest().then('it should call handleAddSkill when button is clicked', async () => {
-      const button = wrapper.find('button')
-      await button.trigger('click')
-
-      expect(button.exists()).toBe(true)
     })
   })
 
@@ -210,28 +159,6 @@ BddTest().given('a skills view other tab component', () => {
     BddTest().then('it should not show pagination with no skills', () => {
       const pagination = wrapper.findComponent({ name: 'Pagination' })
       expect(pagination.exists()).toBe(false)
-    })
-
-    BddTest().then('it should still show add skill button when no skills exist', () => {
-      const button = wrapper.find('button')
-      expect(button.exists()).toBe(true)
-      expect(button.attributes('label')).toBe('Ajouter une compétence')
-    })
-  })
-
-  BddTest().when('checking button styling and layout', () => {
-    BddTest().then('it should render button with correct size', () => {
-      const button = wrapper.find('button')
-      expect(button.attributes('small')).toBeDefined()
-    })
-
-    BddTest().then('it should position button container at flex-end', () => {
-      const buttonContainer = wrapper.find('[data-testid="skills-view-other-tab__button-container"]')
-      expect(buttonContainer.exists()).toBe(true)
-    })
-
-    BddTest().then('it should apply correct CSS class structure', () => {
-      expect(wrapper.find('.skills-view-other-tab').exists()).toBe(true)
     })
   })
 

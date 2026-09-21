@@ -8,7 +8,6 @@ import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ErrorCodes } from '@/common/constants'
-import SelfKnowledgeElementDetailsContainer from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.vue'
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import SelfKnowledgeElementDetails from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
 import SelfKnowledgeElementDetailsDropdown from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.vue'
@@ -86,7 +85,15 @@ function onUpdateSelected () {
   <DetailedPageTitle
     :title="pageTitle"
     :trailing-links="trailingLinks"
-  />
+  >
+    <template #actions>
+      <SelfKnowledgeElementDetailsDropdown
+        v-if="selectedElementDetails"
+        @update-selected="onUpdateSelected"
+        @delete-selected="openConfirmModal"
+      />
+    </template>
+  </DetailedPageTitle>
 
   <QuerySuspense :error="error">
     <template #error>
@@ -97,16 +104,12 @@ function onUpdateSelected () {
       />
     </template>
 
-    <SelfKnowledgeElementDetailsContainer v-if="selectedElementDetails">
-      <template #title>
-        <SelfKnowledgeElementDetailsDropdown
-          @update-selected="onUpdateSelected"
-          @delete-selected="openConfirmModal"
-        />
-      </template>
-
+    <div
+      v-if="selectedElementDetails"
+      class="av-col av-flex-fill av-gap-md"
+    >
       <SelfKnowledgeElementDetails :element="selectedElementDetails" />
-    </SelfKnowledgeElementDetailsContainer>
+    </div>
   </QuerySuspense>
 
   <ConfirmationModal

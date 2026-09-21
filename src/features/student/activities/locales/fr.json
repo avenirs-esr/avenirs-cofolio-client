@@ -67,6 +67,9 @@
           "ActivityLibraryCard": {
             "period": "Période de réalisation personnelle"
           },
+          "ActivityLibraryDropdown": {
+            "entityName": "mes activités"
+          },
           "ActivityLibraryTab": {
             "emptyState": "Aucune inscription en cours ou terminée, allez explorer toutes les activités disponibles",
             "tabTitle": "Ma bibliothèque d'activités | Ma bibliothèque d'activités ({count}) | Ma bibliothèque d'activités ({count})"

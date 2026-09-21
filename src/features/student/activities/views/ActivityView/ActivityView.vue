@@ -73,26 +73,26 @@ function onDelete () {
         :title="declaredActivityDetail!.activity.title"
         :trailing-links="trailingLinks"
         data-testid="activity-view-title"
-      />
-
-      <div
-        class="av-row av-justify-end"
       >
-        <div class="av-col av-gap-xs av-align-end">
-          <DeclaredActivityStatusBadge
-            data-testid="activity-view-status-badge"
-            :status="declaredActivityDetail.status"
-          />
-          <ActivityDetailedDropdown
-            :status="declaredActivityDetail.status"
-            data-testid="activity-view-detailed-dropdown"
-            @update-selected="displayUpdateDrawer"
-            @resubscribe-selected="openSubscribeModal"
-            @unsubscribe-selected="openUnsubscribeModal"
-            @delete-selected="openDeleteModal"
-          />
-        </div>
-      </div>
+        <template #actions>
+          <div class="av-row av-justify-end">
+            <div class="av-row av-wrap av-col--md av-gap-sm av-gap-xs--md av-align-end">
+              <DeclaredActivityStatusBadge
+                data-testid="activity-view-status-badge"
+                :status="declaredActivityDetail.status"
+              />
+              <ActivityDetailedDropdown
+                :status="declaredActivityDetail.status"
+                data-testid="activity-view-detailed-dropdown"
+                @update-selected="displayUpdateDrawer"
+                @resubscribe-selected="openSubscribeModal"
+                @unsubscribe-selected="openUnsubscribeModal"
+                @delete-selected="openDeleteModal"
+              />
+            </div>
+          </div>
+        </template>
+      </DetailedPageTitle>
 
       <ActivityLayout
         :declared-activity-details="declaredActivityDetail"

@@ -17,7 +17,7 @@ BddTest().given('a ManageEntityDropdown', () => {
 
   const mountWith = (props: Partial<ManageEntityDropdownProps> = {}) => {
     wrapper = mount(ManageEntityDropdown, {
-      props: { actions: [], ...props },
+      props: { entityName: '', actions: [], ...props },
       global: { stubs },
     })
   }

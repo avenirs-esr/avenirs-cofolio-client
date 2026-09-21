@@ -46,18 +46,18 @@ useBaseApiExceptionToast(error)
 
 <template>
   <div class="av-col av-gap-md">
-    <div class="av-row av-justify-end">
+    <div class="av-row av-wrap av-gap-sm av-justify-between av-align-center">
+      <AvIconText
+        icon-color="var(--text2)"
+        typography-class="n4"
+        :icon="ICONS.PROGRAMS"
+        :text="titleWithCount"
+      />
       <DeclaredProgramsMoreActionsDropdown
         @add-selected="displayAddDeclaredProgramDrawer"
         @delete-selected="openModal"
       />
     </div>
-    <AvIconText
-      icon-color="var(--text2)"
-      typography-class="n6"
-      :icon="ICONS.PROGRAMS"
-      :text="titleWithCount"
-    />
     <QuerySuspense
       :error="error"
       :is-empty="declaredPrograms.length === 0"

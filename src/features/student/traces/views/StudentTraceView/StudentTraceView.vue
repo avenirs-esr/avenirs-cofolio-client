@@ -103,7 +103,18 @@ const trailingLinks = computed(() => [
   <DetailedPageTitle
     :title="traceDetailed?.title ?? ''"
     :trailing-links="trailingLinks"
-  />
+  >
+    <template #actions>
+      <TraceSettingsDropdown
+        v-if="!!traceDetailed"
+        :download-disabled="!traceDetailed.attachment"
+        @delete-selected="openDeleteModal"
+        @associate-selected="openAssociateModal"
+        @update-selected="handleUpdateTrace"
+        @download-selected="downloadAttachment(traceDetailed.id)"
+      />
+    </template>
+  </DetailedPageTitle>
 
   <Loader :is-loading>
     <div
@@ -111,16 +122,6 @@ const trailingLinks = computed(() => [
       class="main-container"
       data-testid="trace-detailed-main-container"
     >
-      <div class="av-row av-justify-end av-pb-md">
-        <TraceSettingsDropdown
-          :download-disabled="!traceDetailed.attachment"
-          @delete-selected="openDeleteModal"
-          @associate-selected="openAssociateModal"
-          @update-selected="handleUpdateTrace"
-          @download-selected="downloadAttachment(traceDetailed.id)"
-        />
-      </div>
-
       <AvTabs
         v-model="activeTab"
         v-memo="[traceDetailed, activeTab, traceDetailsError, associationsError]"
