@@ -10,7 +10,7 @@ import { ICONS } from '@/common/constants'
 import { highlightCaptionText, highlightTitleText } from '@/common/utils'
 import DeclaredSkillTypeBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillTypeBadge/DeclaredSkillTypeBadge.vue'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
-import { AvListItem } from '@avenirs-esr/avenirs-dsav'
+import { AvListItem, AvTooltip } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'
 import { markRaw, toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -147,47 +147,53 @@ const emptySlotTextContent = computed<string>(() => {
             </div>
           </template>
           <template #item="{ option, isSelected, toggle }">
-            <AvListItem
+            <AvTooltip
               v-memo="[option, isSelected, toggle, searchQuery, isSkillAlreadyDeclared(option)]"
-              hover-background-color="var(--light-background-neutral)"
-              :selected="isSelected"
-              :icon="ICONS.SKILLS"
-              :icon-size="2"
-              icon-color="var(--icon)"
-              color-on-hover="var(--text1)"
-              @click="() => { if (!isSkillAlreadyDeclared(option)) toggle() }"
+              :content="t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.autocompleteField.alreadyDeclaredSkillsInfo')"
+              :disabled="!isSkillAlreadyDeclared(option)"
+              trigger-class="av-flex-fill"
             >
-              <div
-                v-memo="[option, isSelected, isSkillAlreadyDeclared(option)]"
-                class="skill-item av-row av-align-center av-justify-between av-gap-md"
-                :class="{ 'av-disabled': isSkillAlreadyDeclared(option) }"
-                :aria-disabled="isSkillAlreadyDeclared(option)"
-                data-testid="skill-item"
+              <AvListItem
+                hover-background-color="var(--light-background-neutral)"
+                :selected="isSelected"
+                :icon="ICONS.SKILLS"
+                :icon-size="2"
+                icon-color="var(--icon)"
+                color-on-hover="var(--text1)"
+                @click="() => { if (!isSkillAlreadyDeclared(option)) toggle() }"
               >
                 <div
-                  class="av-col av-flex-fill"
-                  data-testid="skill-item__content"
+                  v-memo="[option, isSelected, isSkillAlreadyDeclared(option)]"
+                  class="skill-item av-row av-align-center av-justify-between av-gap-md"
+                  :class="{ 'av-disabled': isSkillAlreadyDeclared(option) }"
+                  :aria-disabled="isSkillAlreadyDeclared(option)"
+                  data-testid="skill-item"
                 >
                   <div
-                    class="b1-bold"
-                    v-html="highlightTitleText(option.title, searchQuery)"
-                  />
-
-                  <div class="caption-light">
-                    <span
-                      v-for="(segment, index) in option.pathSegments"
-                      :key="index"
-                      class="skill-item__path-segment"
-                      v-html="highlightCaptionText(segment, searchQuery)"
+                    class="av-col av-flex-fill"
+                    data-testid="skill-item__content"
+                  >
+                    <div
+                      class="b1-bold"
+                      v-html="highlightTitleText(option.title, searchQuery)"
                     />
-                  </div>
-                </div>
 
-                <DeclaredSkillTypeBadge
-                  :label="t(`student.declaredSkills.declaredSkillTypes.${option.type}`)"
-                />
-              </div>
-            </AvListItem>
+                    <div class="caption-light">
+                      <span
+                        v-for="(segment, index) in option.pathSegments"
+                        :key="index"
+                        class="skill-item__path-segment"
+                        v-html="highlightCaptionText(segment, searchQuery)"
+                      />
+                    </div>
+                  </div>
+
+                  <DeclaredSkillTypeBadge
+                    :label="t(`student.declaredSkills.declaredSkillTypes.${option.type}`)"
+                  />
+                </div>
+              </AvListItem>
+            </AvTooltip>
           </template>
         </Autocomplete>
       </template>
