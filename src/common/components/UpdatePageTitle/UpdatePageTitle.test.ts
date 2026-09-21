@@ -66,4 +66,24 @@ BddTest().given('an update page title', () => {
       expect(highlightedTitle.text()).toBe(title)
     })
   })
+
+  BddTest().when('the component has actions slot', () => {
+    beforeEach(async () => {
+      wrapper = await mountWithRouter<typeof UpdatePageTitle>(UpdatePageTitle, {
+        props,
+        slots: {
+          actions: '<button>Action</button>'
+        },
+        global: {
+          stubs
+        }
+      })
+    })
+
+    BddTest().then('it should render the actions slot', () => {
+      const actionsSlot = wrapper.find('button')
+      expect(actionsSlot.exists()).toBe(true)
+      expect(actionsSlot.text()).toBe('Action')
+    })
+  })
 })

@@ -59,10 +59,13 @@ function onExperienceUpdated () {
   <UpdatePageTitle
     :title="declaredExperienceTitle"
     :trailing-links="trailingLinks"
-  />
+  >
+    <template #actions>
+      <UpdateInProgressBadge show />
+    </template>
+  </UpdatePageTitle>
 
   <div class="av-col av-gap-sm av-justify-start av-flex-fill">
-    <UpdateInProgressBadge show />
     <AvTabs v-model="activeTab">
       <AvTab
         :title="t('student.personalCareer.views.DeclaredExperienceUpdateView.tabs.experience.title')"

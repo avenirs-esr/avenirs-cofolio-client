@@ -17,7 +17,8 @@ const {
 } = defineProps<PageTitleProps>()
 
 defineSlots<{
-  title: Slot
+  title?: Slot
+  actions?: Slot
 }>()
 
 const { t } = useI18n()
@@ -35,15 +36,20 @@ const { breadcrumbLinks } = useBreadcrumb(() => trailingLinks)
         :show-breadcrumb-label="t('global.breadcrumb.expandButtonLabel')"
         :links="breadcrumbLinks"
       />
-      <div class="av-row av-align-center av-gap-md">
-        <slot name="title">
-          <h1>{{ title }}</h1>
-        </slot>
-        <InformationTooltip
-          v-if="informationTooltip"
-          :content="informationTooltip"
-          :size="2"
-        />
+      <div class="av-row av-wrap av-align-baseline av-gap-x-md av-gap-y-xs av-justify-between">
+        <div class="av-row av-align-center av-gap-md">
+          <slot name="title">
+            <h1>{{ title }}</h1>
+          </slot>
+          <InformationTooltip
+            v-if="informationTooltip"
+            :content="informationTooltip"
+            :size="2"
+          />
+        </div>
+        <div class="av-ml-auto">
+          <slot name="actions" />
+        </div>
       </div>
     </div>
   </div>

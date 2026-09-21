@@ -4,7 +4,7 @@ import type { PropType } from 'vue'
 export const ManageEntityDropdownStub = defineComponent({
   name: 'ManageEntityDropdown',
   props: {
-    entityName: String,
+    entityName: { type: String, required: true },
     actions: {
       type: Array as PropType<(Action | ActionItem)[]>,
       required: true,

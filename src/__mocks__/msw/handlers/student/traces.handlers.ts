@@ -69,6 +69,13 @@ export function createTracesSummaryHandler (payload: TracesSummaryDTO) {
   })
 }
 
+export const tracesSummaryErrorHandler = http.get(`*${getGetTracesSummaryUrl()}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error', code: ErrorCodes.SERVER },
+    { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+  )
+})
+
 export function createTracesViewHandler (
   payload: PagedResponseTraceViewDTO,
   onRequest?: (traceFilter: TraceFilter, params: TracesViewParams) => void

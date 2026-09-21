@@ -65,17 +65,14 @@ function handleSkillDeleted () {
   <DetailedPageTitle
     :title="skillTitle"
     :trailing-links="trailingLinks"
-  />
-
-  <div
-    class="av-pb-md av-row av-justify-end"
-    data-testid="student-declared-skill-view__title"
   >
-    <DeclaredSkillSettingDropdown
-      @delete-selected="openModal"
-      @update-selected="handleUpdateSelected"
-    />
-  </div>
+    <template #actions>
+      <DeclaredSkillSettingDropdown
+        @delete-selected="openModal"
+        @update-selected="handleUpdateSelected"
+      />
+    </template>
+  </DetailedPageTitle>
 
   <AvTabs v-model="activeTab">
     <AvTab

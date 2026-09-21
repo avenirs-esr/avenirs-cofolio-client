@@ -58,30 +58,32 @@ function updateActivity (id: string) {
   <PageTitle
     :trailing-links="trailingLinks"
     :title="t('staff.activities.views.NationalActivityCatalogView.title')"
-  />
-
-  <div
-    class="av-row av-justify-end av-py-md av-gap-sm"
   >
-    <AvButton
-      :icon="MDI_ICONS.PENCIL_OUTLINE"
-      :is-loading="isCreatingDraft"
-      :label="t('global.buttons.update')"
-      data-testid="edit-draft-button"
-      small
-      variant="FLAT"
-      @click="() => updateActivity(id)"
-    />
-    <AvButton
-      v-if="isDraft"
-      :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
-      :label="t('global.buttons.delete')"
-      data-testid="delete-draft-button"
-      small
-      variant="OUTLINED"
-      @click="openDeleteConfirmation"
-    />
-  </div>
+    <template #actions>
+      <div
+        class="av-row av-gap-sm"
+      >
+        <AvButton
+          :icon="MDI_ICONS.PENCIL_OUTLINE"
+          :is-loading="isCreatingDraft"
+          :label="t('global.buttons.update')"
+          data-testid="edit-draft-button"
+          small
+          variant="FLAT"
+          @click="() => updateActivity(id)"
+        />
+        <AvButton
+          v-if="isDraft"
+          :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
+          :label="t('global.buttons.delete')"
+          data-testid="delete-draft-button"
+          small
+          variant="OUTLINED"
+          @click="openDeleteConfirmation"
+        />
+      </div>
+    </template>
+  </PageTitle>
 
   <QuerySuspense
     :error="error"

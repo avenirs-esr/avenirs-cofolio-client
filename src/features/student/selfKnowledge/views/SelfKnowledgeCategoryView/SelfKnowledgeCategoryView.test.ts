@@ -3,7 +3,6 @@ import { server } from '@/__mocks__/msw/server'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
-import { SelfKnowledgeElementDetailsContainerStub } from '@/features/student/selfKnowledge/components/containers/SelfKnowledgeElementDetailsContainer/SelfKnowledgeElementDetailsContainer.stub'
 import { SelfKnowledgeElementDetailsStub } from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.stub'
 import { SelfKnowledgeElementDetailsDropdownStub } from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.stub'
 import SelfKnowledgeCategoryView
@@ -57,7 +56,6 @@ vi.mock('@/common/composables/use-navigation/use-navigation', async (importOrigi
 const stubs = {
   DetailedPageTitle: DetailedPageTitleStub,
   ErrorMessage: ErrorMessageStub,
-  SelfKnowledgeElementDetailsContainer: SelfKnowledgeElementDetailsContainerStub,
   SelfKnowledgeElementDetailsDropdown: SelfKnowledgeElementDetailsDropdownStub,
   SelfKnowledgeElementDetails: SelfKnowledgeElementDetailsStub,
   ConfirmationModal: ConfirmationModalStub
@@ -194,13 +192,6 @@ BddTest().given('a self knowledge category view component', () => {
     BddTest().then('it should not render SelfKnowledgeElementDetailsDropdown', async () => {
       await vi.waitFor(() => {
         expect(wrapper.find('[data-testid="self-knowledge-element-details-dropdown"]').exists()).toBe(false)
-      })
-    })
-
-    BddTest().then('it should not render the details container', async () => {
-      await vi.waitFor(() => {
-        const detailsContainer = wrapper.findComponent({ name: 'SelfKnowledgeElementDetailsContainer' })
-        expect(detailsContainer.exists()).toBe(false)
       })
     })
   })

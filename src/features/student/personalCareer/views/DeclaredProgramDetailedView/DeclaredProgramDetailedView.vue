@@ -34,7 +34,16 @@ function handleConfirmDelete () {
   <DetailedPageTitle
     :title="programTitle"
     :trailing-links="trailingLinks"
-  />
+  >
+    <template #actions>
+      <ManageDeclaredProgramDropdown
+        v-if="declaredProgramDetailed"
+        @update-selected="navigateToStudentUpdateDeclaredProgram"
+        @delete-selected="openModal"
+      />
+    </template>
+  </DetailedPageTitle>
+
   <QuerySuspense
     :error="error"
     :is-loading="isLoading && !isError"
@@ -45,10 +54,6 @@ function handleConfirmDelete () {
       v-if="declaredProgramDetailed"
       class="av-col av-gap-md av-flex-fill"
     >
-      <ManageDeclaredProgramDropdown
-        @update-selected="navigateToStudentUpdateDeclaredProgram"
-        @delete-selected="openModal"
-      />
       <DeclaredProgramDetailed
         :key="declaredProgramDetailed.id"
         :declared-program-detailed="declaredProgramDetailed"

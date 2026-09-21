@@ -1,22 +1,28 @@
+import type { VueWrapper } from '@vue/test-utils'
 import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { AddDeclaredSkillDrawerStub } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/AddDeclaredSkillDrawer.stub'
 import { SkillsViewOtherTabStub } from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/SkillsViewOtherTab.stub'
 import StudentProjectSkillsView from '@/features/student/skills/views/StudentProjectSkillsView/StudentProjectSkillsView.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const stubs = {
+  AvButton: AvButtonStub,
   PageTitle: PageTitleStub,
-  SkillsViewOtherTab: SkillsViewOtherTabStub
+  SkillsViewOtherTab: SkillsViewOtherTabStub,
+  AddDeclaredSkillDrawer: AddDeclaredSkillDrawerStub,
 }
 
 BddTest().given('a student project skills view component', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentProjectSkillsView>>
 
+  const getAvButton = () => wrapper.findComponent(AvButtonStub)
+
   beforeEach(() => {
     vi.clearAllMocks()
 
-    wrapper = mount(StudentProjectSkillsView, {
+    wrapper = mountComponent(StudentProjectSkillsView, {
       global: {
         stubs
       }
@@ -33,9 +39,15 @@ BddTest().given('a student project skills view component', () => {
     })
 
     BddTest().then('it should render SkillsViewOtherTab', () => {
-      const skillsViewOtherTab = wrapper.findComponent({ name: 'SkillsViewOtherTab' })
+      expect(wrapper.findComponent(SkillsViewOtherTabStub).exists()).toBe(true)
+    })
 
-      expect(skillsViewOtherTab.exists()).toBe(true)
+    BddTest().then('it should render the add skill button', () => {
+      expect(getAvButton().exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the AddDeclaredSkillDrawer component', () => {
+      expect(wrapper.findComponent(AddDeclaredSkillDrawerStub).exists()).toBe(true)
     })
   })
 })

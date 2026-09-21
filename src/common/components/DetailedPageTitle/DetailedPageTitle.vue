@@ -1,9 +1,14 @@
 <script setup lang="ts">
+import type { Slot } from 'vue'
 import PageTitle, { type PageTitleProps } from '@/common/components/PageTitle/PageTitle.vue'
 import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 defineProps<PageTitleProps>()
+
+defineSlots<{
+  actions?: Slot
+}>()
 
 const { t } = useI18n()
 
@@ -30,6 +35,9 @@ const { isTruncated } = useTextTruncation(titleRef)
           </span>
         </AvTooltip>
       </h1>
+    </template>
+    <template #actions>
+      <slot name="actions" />
     </template>
   </PageTitle>
 </template>

@@ -45,9 +45,13 @@ function onProgramUpdated () {
   <UpdatePageTitle
     :title="programTitle"
     :trailing-links="trailingLinks"
-  />
+  >
+    <template #actions>
+      <UpdateInProgressBadge show />
+    </template>
+  </UpdatePageTitle>
+
   <div class="av-col av-gap-sm av-justify-start av-flex-fill">
-    <UpdateInProgressBadge show />
     <DeclaredProgramUpdateForm
       v-if="declaredProgramDetailed"
       :key="declaredProgramDetailed.id"

@@ -108,4 +108,24 @@ BddTest().given('a page title', () => {
       expect(slotTitleElement.text()).toBe(slotTitle)
     })
   })
+
+  BddTest().when('the component is mounted with the actions slot', () => {
+    const slotActions = 'Slot Actions'
+
+    beforeEach(async () => {
+      wrapper = await mountWithRouter<typeof PageTitle>(PageTitle, {
+        props,
+        slots: {
+          actions: `<div class="slot-actions">${slotActions}</div>`
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the actions slot', () => {
+      const pageTitle = wrapper.find('.page-title')
+      const slotActionsElement = pageTitle.find('.slot-actions')
+      expect(slotActionsElement.text()).toBe(slotActions)
+    })
+  })
 })

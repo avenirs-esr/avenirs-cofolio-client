@@ -123,11 +123,13 @@ function handleConfirmCloseModal () {
     <UpdatePageTitle
       :title="trace.title ?? ''"
       :trailing-links="trailingLinks"
-    />
+    >
+      <template #actions>
+        <UpdateInProgressBadge show />
+      </template>
+    </UpdatePageTitle>
 
     <div class="av-col av-gap-sm">
-      <UpdateInProgressBadge show />
-
       <UpdateTabs
         :trace="trace"
         :associations="associations"

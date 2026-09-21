@@ -46,16 +46,18 @@ useBaseApiExceptionToast(error)
 
 <template>
   <div class="av-col av-gap-md">
-    <DeclaredExperiencesMoreActionsDropdown
-      @delete-selected="openModal"
-      @add-selected="personalCareerStore.displayAddDeclaredExperienceDrawer"
-    />
-    <AvIconText
-      icon-color="var(--text2)"
-      typography-class="n6"
-      :icon="ICONS.EXPERIENCES"
-      :text="titleWithCount"
-    />
+    <div class="av-row av-wrap av-gap-sm av-justify-between av-align-center">
+      <AvIconText
+        icon-color="var(--text2)"
+        typography-class="n4"
+        :icon="ICONS.EXPERIENCES"
+        :text="titleWithCount"
+      />
+      <DeclaredExperiencesMoreActionsDropdown
+        @delete-selected="openModal"
+        @add-selected="personalCareerStore.displayAddDeclaredExperienceDrawer"
+      />
+    </div>
     <QuerySuspense
       :error="error"
       :is-loading="isFetching"

@@ -68,7 +68,16 @@ function handleConfirmDelete () {
   <DetailedPageTitle
     :title="experienceTitle"
     :trailing-links="trailingLinks"
-  />
+  >
+    <template #actions>
+      <DeclaredExperienceDetailsDropdown
+        v-if="declaredExperienceDetailed"
+        @delete-selected="openModal"
+        @update-selected="handleUpdateSelected"
+      />
+    </template>
+  </DetailedPageTitle>
+
   <QuerySuspense
     :error="error"
     :is-loading="isLoading"
@@ -85,11 +94,6 @@ function handleConfirmDelete () {
       v-if="declaredExperienceDetailed"
       class="av-col av-gap-md av-flex-fill"
     >
-      <DeclaredExperienceDetailsDropdown
-        @delete-selected="openModal"
-        @update-selected="handleUpdateSelected"
-      />
-
       <AvTabs v-model="activeTab">
         <AvTab
           :title="t('student.personalCareer.views.DeclaredExperienceView.tabs.details.title')"

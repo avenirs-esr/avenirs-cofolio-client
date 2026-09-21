@@ -14,6 +14,7 @@ export const DetailedPageTitleStub = defineComponent({
   template: `
     <div data-testid="detailed-page-title">
       <slot name="title" />
+      <slot name="actions" />
     </div>
   `
 })
