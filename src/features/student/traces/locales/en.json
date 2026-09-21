@@ -162,6 +162,7 @@
             "confirmationTitle": "Delete selected trace | Delete selected traces ({count})",
             "title": "No trace to delete | Which trace would you like to delete? | Which traces would you like to delete?"
           },
+          "informationTooltip": "You can associate your traces with skills and situational activities, as well as with your life project. Unassociated traces are automatically deleted after three months if no action is taken on them.",
           "studentDetailedTraceAssociateModal": {
             "buttons": {
               "associate": "Associate"
@@ -270,7 +271,6 @@
               "title": "No unassociated trace ({count})  | My unassociated trace ({count}) | My unassociated traces  ({count})"
             }
           },
-
           "studentTraceFilters": {
             "resetButton": "Reset filters",
             "searchLabel": "Search for a trace"
@@ -288,10 +288,6 @@
               "selected": "{count} selected",
               "toDate": "End date"
             }
-          },
-          "TracesInformation": {
-            "description": "You can associate your traces with skills and situational activities, as well as with your life project. Unassociated traces are automatically deleted after three months if no action is taken on them.",
-            "title": "My traces"
           },
           "warningMessage": {
             "delete": {
