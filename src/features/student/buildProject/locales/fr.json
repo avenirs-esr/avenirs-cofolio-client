@@ -3,7 +3,9 @@
     "buildProject": {
       "mindMap": {
         "actions": {
-          "screenshot": "Capture d'écran"
+          "redoDisabledTooltip": "Aucune action à rétablir",
+          "screenshot": "Capture d'écran",
+          "undoDisabledTooltip": "Aucune action à annuler"
         },
         "selfKnowledge": {
           "addCategoryButton": {

@@ -72,6 +72,11 @@ BddTest().given('a perspective tab actions', () => {
       expect(requestFeedback.props('remainingFeedbacks')).toBeDefined()
     })
 
+    BddTest().then('it should not pass a disabled tooltip to RequestFeedback when feedback can be requested', () => {
+      const requestFeedback = wrapper.findComponent(RequestFeedbackStub)
+      expect(requestFeedback.props('disabledTooltip')).toBeUndefined()
+    })
+
     BddTest().then('it should not render the actions hint', () => {
       expect(wrapper.find('[data-testid="actions-hint"]').exists()).toBe(false)
     })
@@ -274,6 +279,41 @@ BddTest().given('a perspective tab actions', () => {
     BddTest().then('it should pass the IN_PROCESS feedback status to RequestFeedback', () => {
       const requestFeedback = wrapper.findComponent(RequestFeedbackStub)
       expect(requestFeedback.props('feedbackStatus')).toBe(EFeedbackStatus.IN_PROCESS)
+    })
+  })
+
+  BddTest().when('the component is mounted with no remaining feedback request', () => {
+    const mockedWithoutRemainingFeedback: DeclaredActivityDetailsDTO = {
+      ...mockedDeclaredActivityDetails,
+      activity: {
+        ...mockedDeclaredActivityDetails.activity,
+        feedbackAllowedIterations: 1,
+      },
+      feedbacks: [{
+        id: 'feedback-1',
+        status: EFeedbackStatus.SUBMITTED,
+        createdAt: '2024-01-15T10:00:00Z',
+        updatedAt: '2024-01-16T10:00:00Z',
+        staff: { id: 'staff-1', firstName: 'Staff', lastName: 'User', email: 'staff@test.com' },
+        student: { id: 'student-1', firstName: 'Lucas', lastName: 'Tessier', email: 'lucas@test.com' },
+      }],
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(PerspectiveTabActions, {
+        props: { declaredActivityDetails: mockedWithoutRemainingFeedback },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should pass disabled true to RequestFeedback', () => {
+      const requestFeedback = wrapper.findComponent(RequestFeedbackStub)
+      expect(requestFeedback.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should pass the maximum feedback disabled tooltip to RequestFeedback', () => {
+      const requestFeedback = wrapper.findComponent(RequestFeedbackStub)
+      expect(requestFeedback.props('disabledTooltip')).toBe('Vous avez atteint le nombre maximum de demandes de feedback pour cette activité')
     })
   })
 })

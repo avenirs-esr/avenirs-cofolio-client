@@ -337,8 +337,16 @@ BddTest().given('a student declared skill associations component', () => {
     BddTest().then('it should enable the delete dropdown activities and traces entries', () => {
       const dropdown = findDropdown('delete')
       expect(dropdown.props('items')).toEqual([
-        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
-        { type: EAssociationContextType.TRACE, disabled: false }
+        {
+          type: EAssociationContextType.DECLARED_ACTIVITY,
+          disabled: false,
+          disabledTooltip: 'Aucune activité associée ne peut être dissociée.'
+        },
+        {
+          type: EAssociationContextType.TRACE,
+          disabled: false,
+          disabledTooltip: 'Aucune trace associée ne peut être dissociée.'
+        }
       ])
     })
 
@@ -474,8 +482,16 @@ BddTest().given('a student declared skill associations component', () => {
     BddTest().then('it should keep the delete dropdown activities entry enabled regardless of status and disable the traces entry', () => {
       const dropdown = findDropdown('delete')
       expect(dropdown.props('items')).toEqual([
-        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
-        { type: EAssociationContextType.TRACE, disabled: true }
+        {
+          type: EAssociationContextType.DECLARED_ACTIVITY,
+          disabled: false,
+          disabledTooltip: 'Aucune activité associée ne peut être dissociée.'
+        },
+        {
+          type: EAssociationContextType.TRACE,
+          disabled: true,
+          disabledTooltip: 'Aucune trace associée ne peut être dissociée.'
+        }
       ])
     })
 
@@ -502,8 +518,16 @@ BddTest().given('a student declared skill associations component', () => {
     BddTest().then('it should enable only the traces entry of the delete dropdown', () => {
       const dropdown = findDropdown('delete')
       expect(dropdown.props('items')).toEqual([
-        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: true },
-        { type: EAssociationContextType.TRACE, disabled: false }
+        {
+          type: EAssociationContextType.DECLARED_ACTIVITY,
+          disabled: true,
+          disabledTooltip: 'Aucune activité associée ne peut être dissociée.'
+        },
+        {
+          type: EAssociationContextType.TRACE,
+          disabled: false,
+          disabledTooltip: 'Aucune trace associée ne peut être dissociée.'
+        }
       ])
     })
 
@@ -572,8 +596,16 @@ BddTest().given('a student declared skill associations component', () => {
     BddTest().then('it should disable the delete dropdown activities and traces entries', () => {
       const dropdown = findDropdown('delete')
       expect(dropdown.props('items')).toEqual([
-        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: true },
-        { type: EAssociationContextType.TRACE, disabled: true }
+        {
+          type: EAssociationContextType.DECLARED_ACTIVITY,
+          disabled: true,
+          disabledTooltip: 'Aucune activité associée ne peut être dissociée.'
+        },
+        {
+          type: EAssociationContextType.TRACE,
+          disabled: true,
+          disabledTooltip: 'Aucune trace associée ne peut être dissociée.'
+        }
       ])
     })
 

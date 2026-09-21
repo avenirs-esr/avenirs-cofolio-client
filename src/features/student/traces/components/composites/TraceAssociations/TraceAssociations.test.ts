@@ -300,8 +300,16 @@ BddTest().given('a student trace associations component', () => {
       const dropdown = findDropdown('delete')
       expect(dropdown.exists()).toBe(true)
       expect(dropdown.props('items')).toEqual([
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
-        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: true },
+        {
+          type: EAssociationContextType.DECLARED_SKILL,
+          disabled: false,
+          disabledTooltip: 'Aucune compétence associée ne peut être dissociée.'
+        },
+        {
+          type: EAssociationContextType.DECLARED_ACTIVITY,
+          disabled: true,
+          disabledTooltip: 'Aucune activité associée ne peut être dissociée.'
+        },
       ])
     })
 
@@ -464,8 +472,16 @@ BddTest().given('a student trace associations component', () => {
       const dropdown = findDropdown('delete')
       expect(dropdown.exists()).toBe(true)
       expect(dropdown.props('items')).toEqual([
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: true },
-        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
+        {
+          type: EAssociationContextType.DECLARED_SKILL,
+          disabled: true,
+          disabledTooltip: 'Aucune compétence associée ne peut être dissociée.'
+        },
+        {
+          type: EAssociationContextType.DECLARED_ACTIVITY,
+          disabled: false,
+          disabledTooltip: 'Aucune activité associée ne peut être dissociée.'
+        },
       ])
     })
 
@@ -507,8 +523,16 @@ BddTest().given('a student trace associations component', () => {
     BddTest().then('it should keep the delete dropdown activity entry enabled regardless of status', () => {
       const dropdown = findDropdown('delete')
       expect(dropdown.props('items')).toEqual([
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: true },
-        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
+        {
+          type: EAssociationContextType.DECLARED_SKILL,
+          disabled: true,
+          disabledTooltip: 'Aucune compétence associée ne peut être dissociée.'
+        },
+        {
+          type: EAssociationContextType.DECLARED_ACTIVITY,
+          disabled: false,
+          disabledTooltip: 'Aucune activité associée ne peut être dissociée.'
+        },
       ])
     })
 

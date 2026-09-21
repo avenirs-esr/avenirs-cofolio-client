@@ -36,6 +36,14 @@ const lastFeedback = computed(() => declaredActivityDetails.feedbacks?.at(0))
 
 const isRequestFeedbackDisabled = computed(() => !canCreateFeedbackRequest(declaredActivityDetails, remainingFeedbacks.value))
 
+const requestFeedbackDisabledTooltip = computed(() => {
+  if (remainingFeedbacks.value === 0) {
+    return t('student.activities.views.ActivityView.RequestFeedback.requestFeedbackButton.maximumFeedbackRequestsReachedDisabledTooltip')
+  }
+
+  return undefined
+})
+
 const actionsHintInfo = computed(() => {
   if (declaredActivityDetails.status === EDeclaredActivityStatus.SUBSCRIBED) {
     return undefined
@@ -130,6 +138,7 @@ function requestFeedback () {
         :feedback-created-at="lastFeedback?.createdAt"
         :feedback-status="lastFeedback?.status "
         :disabled="isRequestFeedbackDisabled"
+        :disabled-tooltip="requestFeedbackDisabledTooltip"
         :is-loading="isFeedbackPending || isFinishPending || isLoading"
         :remaining-feedbacks="remainingFeedbacks"
         @request-feedback="requestFeedback"

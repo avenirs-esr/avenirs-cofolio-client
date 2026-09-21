@@ -30,19 +30,22 @@ const menuItems = computed(() => [
     name: MoreActionsEvents.NAVIGATE_TO_FEEDBACKS,
     icon: MDI_ICONS.ARROW_RIGHT,
     label: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.navigateToFeedbacks'),
-    disabled: activityStatus !== EActivityStatus.PUBLISHED
+    disabled: activityStatus !== EActivityStatus.PUBLISHED,
+    disabledTooltip: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.navigateToFeedbacksDisabledTooltip')
   },
   {
     name: MoreActionsEvents.UNPUBLISH,
     icon: RI_ICONS.EYE_OFF_LINE,
     label: t('global.buttons.unpublish'),
-    disabled: activityStatus !== EActivityStatus.PUBLISHED
+    disabled: activityStatus !== EActivityStatus.PUBLISHED,
+    disabledTooltip: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.unpublishDisabledTooltip')
   },
   {
     name: MoreActionsEvents.DELETE,
     icon: MDI_ICONS.TRASH_CAN_OUTLINE,
     label: t('global.buttons.delete'),
-    disabled: activityStatus !== EActivityStatus.DRAFT
+    disabled: activityStatus !== EActivityStatus.DRAFT,
+    disabledTooltip: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.deleteDisabledTooltip')
   },
   {
     name: MoreActionsEvents.CLONE,

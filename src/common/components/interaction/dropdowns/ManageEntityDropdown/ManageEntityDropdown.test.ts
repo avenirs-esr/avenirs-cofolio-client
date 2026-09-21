@@ -30,6 +30,7 @@ BddTest().given('a ManageEntityDropdown', () => {
     icon: moreActionConfig[type].icon,
     label: expect.any(String),
     disabled: undefined,
+    disabledTooltip: undefined,
   })
 
   const expectRenderedActions = (types: Action[]) => {

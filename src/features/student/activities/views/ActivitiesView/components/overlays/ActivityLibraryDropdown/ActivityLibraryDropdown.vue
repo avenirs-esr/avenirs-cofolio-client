@@ -18,7 +18,8 @@ const { t } = useI18n()
 const actions = computed<ActionItem[]>(() => [
   {
     type: Action.UNSUBSCRIBE,
-    disabled: unsubscribeDisabled
+    disabled: unsubscribeDisabled,
+    disabledTooltip: t('student.activities.views.ActivitiesView.ActivityLibraryDropdown.unsubscribeDisabledTooltip')
   }
 ])
 

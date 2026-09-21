@@ -3,6 +3,7 @@ import EditNationalActivityViewTabActions from '@/features/staff/activities/view
 import { EditNationalActivityViewFormWrapper, EditNationalActivityViewFormWrapperDirty, mockHandleSubmit } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
+import { getAvButtonByTestId } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
 
@@ -16,6 +17,9 @@ BddTest().given('an EditNationalActivityViewTabActions component', () => {
     })
     return wrapper.findComponent(EditNationalActivityViewTabActions)
   }
+
+  const getExitButton = (actions: VueWrapper<InstanceType<typeof EditNationalActivityViewTabActions>>) => getAvButtonByTestId(actions, 'exit-button')
+  const getSaveButton = (actions: VueWrapper<InstanceType<typeof EditNationalActivityViewTabActions>>) => getAvButtonByTestId(actions, 'save-button')
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -33,8 +37,7 @@ BddTest().given('an EditNationalActivityViewTabActions component', () => {
     })
 
     BddTest().then('the exit button should be a link to staff activities', () => {
-      expect((actions.findComponent('[data-testid="exit-button"]') as VueWrapper<InstanceType<typeof AvButtonStub>>)
-        .props('to')).toBe(ROUTES.STAFF.ACTIVITIES)
+      expect(getExitButton(actions).props('to')).toBe(ROUTES.STAFF.ACTIVITIES)
     })
 
     BddTest().then('it should render the save button', () => {
@@ -42,12 +45,15 @@ BddTest().given('an EditNationalActivityViewTabActions component', () => {
     })
 
     BddTest().then('the exit button should not be loading', () => {
-      expect((actions.findComponent('[data-testid="exit-button"]') as VueWrapper<InstanceType<typeof AvButtonStub>>)
-        .props('isLoading')).toBe(false)
+      expect(getExitButton(actions).props('isLoading')).toBe(false)
     })
 
     BddTest().then('the save button should be disabled', () => {
       expect(actions.find('[data-testid="save-button"]').attributes()).toHaveProperty('disabled')
+    })
+
+    BddTest().then('the save button should explain why it is disabled', () => {
+      expect(getSaveButton(actions).props('disabledTooltip')).toBe('Modifiez un champ avant d\'enregistrer')
     })
   })
 
@@ -60,8 +66,7 @@ BddTest().given('an EditNationalActivityViewTabActions component', () => {
 
     BddTest().then('the exit button should be loading', async () => {
       await vi.waitFor(() => {
-        expect((actions.findComponent('[data-testid="exit-button"]') as VueWrapper<InstanceType<typeof AvButtonStub>>)
-          .props('isLoading')).toBe(true)
+        expect(getExitButton(actions).props('isLoading')).toBe(true)
       })
     })
 

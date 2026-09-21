@@ -1,4 +1,5 @@
 import type { FileDTO } from '@/api/avenir-esr'
+import type { VueWrapper } from '@vue/test-utils'
 import { EFileType } from '@/api/avenir-esr'
 import { ActivityResourceCardStub } from '@/common/components/cards/ActivityResourceCard/ActivityResourceCard.stub'
 import { AddCardStub } from '@/common/components/cards/AddCard/AddCard.stub'
@@ -8,7 +9,7 @@ import { DeleteActivityResourcesConfirmationModalStub } from '@/features/staff/a
 import { ActivityResourceType } from '@/features/staff/activities/types/resource.types'
 import { AddActivityResourceModalStub } from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/AddActivityResourceModal.stub'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { getAvButtonByTestId, mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('an editable activity resources list', () => {
@@ -37,7 +38,7 @@ BddTest().given('an editable activity resources list', () => {
 
   const getAddModal = () => wrapper.findComponent(AddActivityResourceModalStub)
   const getDeleteModal = () => wrapper.findComponent(DeleteActivityResourcesConfirmationModalStub)
-  const getDeleteButton = () => wrapper.findComponent(AvButtonStub)
+  const getDeleteButton = () => getAvButtonByTestId(wrapper, 'activity-resources-list-delete-button')
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -45,7 +46,7 @@ BddTest().given('an editable activity resources list', () => {
 
   BddTest().when('the component is mounted with files and links', () => {
     beforeEach(() => {
-      wrapper = mount(ActivityResourcesListEditable, {
+      wrapper = mountComponent(ActivityResourcesListEditable, {
         props: { activityId: 'activity-id', files, links },
         global: { stubs },
       })
@@ -86,6 +87,10 @@ BddTest().given('an editable activity resources list', () => {
       expect(getDeleteButton().props('disabled')).toBe(true)
     })
 
+    BddTest().then('it should explain why the delete button is disabled', () => {
+      expect(getDeleteButton().props('disabledTooltip')).toBe('Sélectionnez au moins une ressource à supprimer')
+    })
+
     BddTest().then('it should enable the delete button when a resource is selected', async () => {
       await wrapper.find('[data-testid="selector-overlay"]').trigger('click')
 
@@ -96,8 +101,8 @@ BddTest().given('an editable activity resources list', () => {
   BddTest().when('the add resource modal emits added with a file', () => {
     const file = new File(['content'], 'new-document.pdf', { type: 'application/pdf' })
 
-    beforeEach(() => {
-      wrapper = mount(ActivityResourcesListEditable, {
+    beforeEach(async () => {
+      wrapper = mountComponent(ActivityResourcesListEditable, {
         props: { activityId: 'activity-id', files, links },
         global: { stubs },
       })
@@ -123,8 +128,8 @@ BddTest().given('an editable activity resources list', () => {
   })
 
   BddTest().when('the add resource modal emits added with a link', () => {
-    beforeEach(() => {
-      wrapper = mount(ActivityResourcesListEditable, {
+    beforeEach(async () => {
+      wrapper = mountComponent(ActivityResourcesListEditable, {
         props: { activityId: 'activity-id', files, links },
         global: { stubs },
       })
@@ -147,7 +152,7 @@ BddTest().given('an editable activity resources list', () => {
 
   BddTest().when('a resource is selected and delete is clicked', () => {
     beforeEach(async () => {
-      wrapper = mount(ActivityResourcesListEditable, {
+      wrapper = mountComponent(ActivityResourcesListEditable, {
         props: { activityId: 'activity-id', files, links },
         global: { stubs },
       })
@@ -168,7 +173,7 @@ BddTest().given('an editable activity resources list', () => {
 
   BddTest().when('the delete confirmation modal emits confirm', () => {
     beforeEach(() => {
-      wrapper = mount(ActivityResourcesListEditable, {
+      wrapper = mountComponent(ActivityResourcesListEditable, {
         props: { activityId: 'activity-id', files, links },
         global: { stubs },
       })
@@ -189,7 +194,7 @@ BddTest().given('an editable activity resources list', () => {
 
   BddTest().when('the component is mounted without resources', () => {
     beforeEach(() => {
-      wrapper = mount(ActivityResourcesListEditable, {
+      wrapper = mountComponent(ActivityResourcesListEditable, {
         props: { activityId: 'activity-id', files: [], links: [] },
         global: { stubs },
       })
@@ -205,6 +210,10 @@ BddTest().given('an editable activity resources list', () => {
 
     BddTest().then('it should disable the delete button', () => {
       expect(getDeleteButton().props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should explain why the delete button is disabled', () => {
+      expect(getDeleteButton().props('disabledTooltip')).toBe('Sélectionnez au moins une ressource à supprimer')
     })
   })
 })

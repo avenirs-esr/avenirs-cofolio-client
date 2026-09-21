@@ -39,6 +39,7 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
         variant="OUTLINED"
         icon-only
         :disabled="!canUndo(MIND_MAP_FLOW_ID)"
+        :disabled-tooltip="t('student.buildProject.mindMap.actions.undoDisabledTooltip')"
         @click="() => undo(MIND_MAP_FLOW_ID, nodes, edges, setNodes, setEdges)"
       />
       <AvButton
@@ -47,6 +48,7 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
         variant="OUTLINED"
         icon-only
         :disabled="!canRedo(MIND_MAP_FLOW_ID)"
+        :disabled-tooltip="t('student.buildProject.mindMap.actions.redoDisabledTooltip')"
         @click="() => redo(MIND_MAP_FLOW_ID, nodes, edges, setNodes, setEdges)"
       />
       <AvButton

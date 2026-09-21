@@ -9,13 +9,14 @@ import { useI18n } from 'vue-i18n'
 
 export interface RequestFeedbackProps {
   disabled?: boolean
+  disabledTooltip?: string
   isLoading?: boolean
   feedbackStatus?: EFeedbackStatus
   feedbackCreatedAt?: string
   remainingFeedbacks: number
 }
 
-const { disabled, isLoading, feedbackStatus, feedbackCreatedAt, remainingFeedbacks } = defineProps<RequestFeedbackProps>()
+const { disabled, disabledTooltip, isLoading, feedbackStatus, feedbackCreatedAt, remainingFeedbacks } = defineProps<RequestFeedbackProps>()
 
 const emit = defineEmits<{ (e: 'requestFeedback'): void }>()
 
@@ -29,6 +30,14 @@ const hasExistingFeedbackRequest = computed(() =>
 const isRequestFeedbackButtonDisabled = computed(() =>
   disabled || feedbackStatus === EFeedbackStatus.IN_PROCESS,
 )
+
+const requestFeedbackDisabledTooltip = computed(() => {
+  if (feedbackStatus === EFeedbackStatus.IN_PROCESS) {
+    return t('student.activities.views.ActivityView.RequestFeedback.requestFeedbackButton.feedbackInProcessDisabledTooltip')
+  }
+
+  return disabledTooltip
+})
 
 const requestFeedbackConfig = computed(() => ({
   label: hasExistingFeedbackRequest.value
@@ -68,6 +77,7 @@ function handleConfirm () {
       :data-testid="requestFeedbackButtonTestId"
       v-bind="requestFeedbackConfig"
       :disabled="isRequestFeedbackButtonDisabled"
+      :disabled-tooltip="requestFeedbackDisabledTooltip"
       :is-loading="isLoading"
       @click="openModal"
     />

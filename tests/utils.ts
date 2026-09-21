@@ -3,15 +3,14 @@ import type { MutationArgs } from '@/types'
 import { useInvalidateQuery } from '@/common/composables/use-invalidate-query/use-invalidate-query'
 import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
 import { i18n } from '@/plugins/vue-i18n/vue-i18n'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { QueryClient, type QueryClientConfig, type UseQueryDefinedReturnType, VueQueryPlugin } from '@tanstack/vue-query'
-import { type ComponentMountingOptions, flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import { type ComponentMountingOptions, flushPromises, mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { createMockQueryError, mockAddErrorMessage } from 'tests/mocks'
 import { expect, type Mock, type MockedFunction, type MockInstance } from 'vitest'
 import { type Component, type ComponentInternalInstance, createApp, h, type Plugin } from 'vue'
-
 /**
  * Options to configure the mounting of a component under test.
  */
@@ -478,4 +477,18 @@ export interface ExposedComponentInstance {
   $: ComponentInternalInstance & {
     provides: Record<string | symbol, unknown>
   }
+}
+
+export function findAvButtonByTestId (wrapper: VueWrapper, testId: string) {
+  return wrapper.findAllComponents(AvButtonStub).find(button => button.vm.$attrs['data-testid'] === testId)
+}
+
+export function getAvButtonByTestId (wrapper: VueWrapper, testId: string) {
+  const button = findAvButtonByTestId(wrapper, testId)
+
+  if (!button) {
+    throw new Error(`Button with test id ${testId} not found`)
+  }
+
+  return button
 }

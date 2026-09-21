@@ -43,6 +43,7 @@ const isSubscribed = computed(() => status === EDeclaredActivityStatus.SUBSCRIBE
       variant="FLAT"
       :icon="MDI_ICONS.CHECK_CIRCLE_OUTLINE"
       :disabled="!isInProgress"
+      :disabled-tooltip="t('student.activities.views.ActivityView.FinishDeclaredActivity.finishDisabledTooltip')"
       @click="openModal"
     />
     <div

@@ -2,7 +2,7 @@
 import type { DeclaredActivityAssociationDTO, DeclaredExperienceAssociationDTO, TraceAssociationDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { EAssociationContextType } from '@/api/avenir-esr'
-import AssociationElementsDropdown
+import AssociationElementsDropdown, { type AssociationElementsDropdownItem }
   from '@/common/associations/components/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import { QuerySuspense } from '@/common/components'
 import { useModal } from '@/common/composables'
@@ -81,9 +81,17 @@ const {
   closeModal: closeDeleteTracesModal
 } = useModal()
 
-const deleteItems = computed(() => [
-  { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: associatedDeclaredActivities.length === 0 },
-  { type: EAssociationContextType.TRACE, disabled: associatedTraces.length === 0 },
+const deleteItems = computed<AssociationElementsDropdownItem[]>(() => [
+  {
+    type: EAssociationContextType.DECLARED_ACTIVITY,
+    disabled: associatedDeclaredActivities.length === 0,
+    disabledTooltip: t('global.associations.disabledTooltips.deleteDeclaredActivity')
+  },
+  {
+    type: EAssociationContextType.TRACE,
+    disabled: associatedTraces.length === 0,
+    disabledTooltip: t('global.associations.disabledTooltips.deleteTrace')
+  },
 ])
 
 const isDeleteDropdownDisabled = computed(() => deleteItems.value.every(item => item.disabled))
