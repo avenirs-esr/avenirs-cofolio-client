@@ -14,6 +14,7 @@ export type AssociationElementsDropdownVariant = 'associate' | 'delete'
 export interface AssociationElementsDropdownItem {
   type: EAssociationContextType
   disabled?: boolean
+  disabledTooltip?: string
 }
 
 export interface AssociationElementsDropdownProps {
@@ -40,11 +41,12 @@ const triggerIcon = computed(() =>
 
 const triggerVariant = computed(() => isAssociate.value ? 'FLAT' : undefined)
 
-const menuItems = computed<AvDropdownItem[]>(() => items.map(({ type, disabled: itemDisabled = false }) => ({
+const menuItems = computed<AvDropdownItem[]>(() => items.map(({ type, disabled: itemDisabled = false, disabledTooltip }) => ({
   name: ASSOCIATION_TYPE_ITEM_NAMES[type],
   icon: ASSOCIATION_TYPE_ICONS[type],
   label: t(ASSOCIATION_TYPE_LABEL_KEYS[type]),
   disabled: disabled || itemDisabled,
+  disabledTooltip,
 })))
 
 function handleItemSelected (itemName: string) {

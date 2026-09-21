@@ -14,7 +14,7 @@ import {
   EditNationalActivityViewFormWrapperValid,
 } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
 import { AvButtonStub, AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { getAvButtonByTestId, mountComponent } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { h } from 'vue'
 
@@ -72,7 +72,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
     tab = wrapper.findComponent(ActivityPublicationTab)
   }
 
-  const getPublishButton = () => tab.findAllComponents(AvButtonStub).find(c => c.attributes('data-testid') === 'publish-button')!
+  const getPublishButton = () => getAvButtonByTestId(tab, 'publish-button')
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -120,6 +120,10 @@ BddTest().given('an ActivityPublicationTab component', () => {
   BddTest().when('a required publish field is missing', () => {
     BddTest().then('it should disable the publish button', () => {
       expect(getPublishButton().props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should explain why the publish button is disabled', () => {
+      expect(getPublishButton().props('disabledTooltip')).toBe('Veuillez renseigner un titre, une thématique, une consigne, un extrait et un/des contexte(s) de réalisation conseillé(s) pour publier l\'activité')
     })
 
     BddTest().then('it should display the required fields warning', () => {

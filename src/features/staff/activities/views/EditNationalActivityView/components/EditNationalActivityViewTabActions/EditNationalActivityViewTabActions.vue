@@ -27,6 +27,7 @@ const isFormValid = form.useStore(s => s.isValid && !s.isValidating && s.isDirty
       :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
       :label="t('staff.activities.views.EditNationalActivityView.EditNationalActivityViewTabActions.saveLabel')"
       :disabled="!isFormValid"
+      :disabled-tooltip="t('staff.activities.views.EditNationalActivityView.EditNationalActivityViewTabActions.saveDisabledTooltip')"
       :is-loading="isUpdating"
       @click="form.handleSubmit()"
     />

@@ -90,6 +90,7 @@ function onSelectedItemChange (selected: AvSelectSelectedOption) {
       :label="t('global.buttons.previous')"
       :icon="MDI_ICONS.ARROW_LEFT_THIN"
       :disabled="!prevOption"
+      :disabled-tooltip="t('staff.feedbacks.views.ActivityFeedbackDetailsView.ActivityFeedbackStudentSelect.previousDisabledTooltip')"
       variant="OUTLINED"
       small
       data-testid="previous-student-button"
@@ -116,6 +117,7 @@ function onSelectedItemChange (selected: AvSelectSelectedOption) {
       :icon="MDI_ICONS.ARROW_RIGHT_THIN"
       variant="OUTLINED"
       :disabled="!nextOption"
+      :disabled-tooltip="t('staff.feedbacks.views.ActivityFeedbackDetailsView.ActivityFeedbackStudentSelect.nextDisabledTooltip')"
       small
       data-testid="next-student-button"
       :to="nextOption ? { name: targetRouteName, params: { feedbackId: nextOption.feedbackId } } : undefined"

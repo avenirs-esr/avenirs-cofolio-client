@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { EDeclaredActivityStatus, EFeedbackStatus } from '@/api/avenir-esr'
-import { EActivityStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useUpdateReflection } from '@/api/avenir-esr'
+import type { EFeedbackStatus } from '@/api/avenir-esr'
+import { EActivityStatus, EDeclaredActivityStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useUpdateReflection } from '@/api/avenir-esr'
 import { isPerspectiveEditingDisabled } from '@/common/activities/rules/activities.rules'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
@@ -80,6 +80,17 @@ function updateActivityReflectionOnAutoSave (reflection: string) {
 
 const isModified = computed(() => sanitizedContent.value !== perspective)
 const errors = computed(() => validateMax(charCount.value, PERSPECTIVE_MAX_LENGTH))
+const editDisabledTooltip = computed(() => {
+  if (activityStatus === EDeclaredActivityStatus.COMPLETED) {
+    return t('student.activities.views.ActivityView.MyPerspectiveCard.editCompletedDisabledTooltip')
+  }
+
+  if (activityStatus === EDeclaredActivityStatus.UNSUBSCRIBED) {
+    return t('student.activities.views.ActivityView.MyPerspectiveCard.editUnsubscribedDisabledTooltip')
+  }
+
+  return undefined
+})
 
 const onAutoSave = debounce(() => {
   if (!readonly.value
@@ -130,6 +141,7 @@ watch(content, () => {
             variant="OUTLINED"
             small
             :disabled="isPerspectiveEditingDisabled(activityStatus)"
+            :disabled-tooltip="editDisabledTooltip"
             data-testid="my-perspective-card-edit-button"
             @click="readonly = false"
           />
@@ -164,6 +176,7 @@ watch(content, () => {
             :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
             variant="FLAT"
             :disabled="!isModified || !!errors"
+            :disabled-tooltip="t('student.activities.views.ActivityView.MyPerspectiveCard.saveDisabledTooltip')"
             :is-loading="isPendingSave || isPendingAutoSave || isLoading"
             small
             data-testid="my-perspective-card-save-button"

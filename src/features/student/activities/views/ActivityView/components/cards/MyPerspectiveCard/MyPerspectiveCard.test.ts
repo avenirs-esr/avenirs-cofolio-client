@@ -6,7 +6,7 @@ import { RichTextEditorStub } from '@/common/components/interaction/inputs/RichT
 import MyPerspectiveCard from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
+import { findAvButtonByTestId, getAvButtonByTestId, mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 const mockAddSuccessMessage = vi.fn()
@@ -35,9 +35,12 @@ BddTest().given('a my perspective card', () => {
   }
 
   const getContent = () => wrapper.find('[data-testid="my-perspective-card-content"]')
-  const getEditButton = () => wrapper.find('[data-testid="my-perspective-card-edit-button"]')
-  const getSaveButton = () => wrapper.find('[data-testid="my-perspective-card-save-button"]')
-  const getCancelButton = () => wrapper.find('[data-testid="my-perspective-card-cancel-button"]')
+  const getEditButton = () => getAvButtonByTestId(wrapper, 'my-perspective-card-edit-button')
+  const getSaveButton = () => getAvButtonByTestId(wrapper, 'my-perspective-card-save-button')
+  const getCancelButton = () => getAvButtonByTestId(wrapper, 'my-perspective-card-cancel-button')
+  const findEditButton = () => findAvButtonByTestId(wrapper, 'my-perspective-card-edit-button')
+  const findSaveButton = () => findAvButtonByTestId(wrapper, 'my-perspective-card-save-button')
+  const findCancelButton = () => findAvButtonByTestId(wrapper, 'my-perspective-card-cancel-button')
 
   BddTest().when('the component is mounted with a valid activityId and a perspective', () => {
     const props: MyPerspectiveCardProps = {
@@ -64,8 +67,8 @@ BddTest().given('a my perspective card', () => {
     })
 
     BddTest().then('it should render the edit button', () => {
-      const editButton = getEditButton()
-      expect(editButton.exists()).toBe(true)
+      const editButton = findEditButton()
+      expect(editButton).toBeDefined()
     })
 
     BddTest().then('it should not render the update in progress badge', () => {
@@ -85,13 +88,13 @@ BddTest().given('a my perspective card', () => {
     })
 
     BddTest().then('it should not render the save button', () => {
-      const saveButton = getSaveButton()
-      expect(saveButton.exists()).toBe(false)
+      const saveButton = findSaveButton()
+      expect(saveButton).toBeUndefined()
     })
 
     BddTest().then('it should not render the cancel button', () => {
-      const cancelButton = getCancelButton()
-      expect(cancelButton.exists()).toBe(false)
+      const cancelButton = findCancelButton()
+      expect(cancelButton).toBeUndefined()
     })
 
     BddTest().and('the user clicks the edit button', () => {
@@ -101,8 +104,8 @@ BddTest().given('a my perspective card', () => {
       })
 
       BddTest().then('it should not render the edit button', () => {
-        const editButton = getEditButton()
-        expect(editButton.exists()).toBe(false)
+        const editButton = findEditButton()
+        expect(editButton).toBeUndefined()
       })
 
       BddTest().then('it should render the update in progress badge', () => {
@@ -118,13 +121,13 @@ BddTest().given('a my perspective card', () => {
       })
 
       BddTest().then('it should not render the save button', () => {
-        const saveButton = getSaveButton()
-        expect(saveButton.exists()).toBe(false)
+        const saveButton = findSaveButton()
+        expect(saveButton).toBeUndefined()
       })
 
       BddTest().then('it should render the cancel button', () => {
-        const cancelButton = getCancelButton()
-        expect(cancelButton.exists()).toBe(true)
+        const cancelButton = findCancelButton()
+        expect(cancelButton).toBeDefined()
       })
 
       BddTest().and('the user clicks the cancel button', () => {
@@ -134,8 +137,8 @@ BddTest().given('a my perspective card', () => {
         })
 
         BddTest().then('it should render the edit button', () => {
-          const editButton = getEditButton()
-          expect(editButton.exists()).toBe(true)
+          const editButton = findEditButton()
+          expect(editButton).toBeDefined()
         })
 
         BddTest().then('it should not render the update in progress badge', () => {
@@ -155,13 +158,13 @@ BddTest().given('a my perspective card', () => {
         })
 
         BddTest().then('it should not render the save button', () => {
-          const saveButton = getSaveButton()
-          expect(saveButton.exists()).toBe(false)
+          const saveButton = findSaveButton()
+          expect(saveButton).toBeUndefined()
         })
 
         BddTest().then('it should not render the cancel button', () => {
-          const cancelButton = getCancelButton()
-          expect(cancelButton.exists()).toBe(false)
+          const cancelButton = findCancelButton()
+          expect(cancelButton).toBeUndefined()
         })
       })
 
@@ -180,9 +183,13 @@ BddTest().given('a my perspective card', () => {
         })
 
         BddTest().then('it should enable the save button', () => {
-          const saveButton = wrapper.findAllComponents(AvButtonStub).find(button => button.attributes('data-testid') === 'my-perspective-card-save-button')
-          expect(saveButton?.exists()).toBe(true)
-          expect(saveButton!.props('disabled')).toBe(false)
+          const saveButton = getSaveButton()
+          expect(saveButton.props('disabled')).toBe(false)
+        })
+
+        BddTest().then('it should pass a disabled tooltip to the save button', () => {
+          const saveButton = getSaveButton()
+          expect(saveButton.props('disabledTooltip')).toBe('Modifiez votre prise de recul et corrigez les erreurs avant d\'enregistrer')
         })
 
         BddTest().and('the auto save triggers', () => {
@@ -205,8 +212,8 @@ BddTest().given('a my perspective card', () => {
           })
 
           BddTest().then('it should not render the edit button', () => {
-            const editButton = getEditButton()
-            expect(editButton.exists()).toBe(false)
+            const editButton = findEditButton()
+            expect(editButton).toBeUndefined()
           })
 
           BddTest().then('it should render the update in progress badge', () => {
@@ -222,13 +229,13 @@ BddTest().given('a my perspective card', () => {
           })
 
           BddTest().then('it should render the save button', () => {
-            const saveButton = getSaveButton()
-            expect(saveButton.exists()).toBe(true)
+            const saveButton = findSaveButton()
+            expect(saveButton).toBeDefined()
           })
 
           BddTest().then('it should not render the cancel button', () => {
-            const cancelButton = getCancelButton()
-            expect(cancelButton.exists()).toBe(false)
+            const cancelButton = findCancelButton()
+            expect(cancelButton).toBeUndefined()
           })
         })
 
@@ -253,8 +260,8 @@ BddTest().given('a my perspective card', () => {
           })
 
           BddTest().then('it should render the edit button', () => {
-            const editButton = getEditButton()
-            expect(editButton.exists()).toBe(true)
+            const editButton = findEditButton()
+            expect(editButton).toBeDefined()
           })
 
           BddTest().then('it should not render the update in progress badge', () => {
@@ -268,13 +275,13 @@ BddTest().given('a my perspective card', () => {
           })
 
           BddTest().then('it should not render the save button', () => {
-            const saveButton = getSaveButton()
-            expect(saveButton.exists()).toBe(false)
+            const saveButton = findSaveButton()
+            expect(saveButton).toBeUndefined()
           })
 
           BddTest().then('it should not render the cancel button', () => {
-            const cancelButton = getCancelButton()
-            expect(cancelButton.exists()).toBe(false)
+            const cancelButton = findCancelButton()
+            expect(cancelButton).toBeUndefined()
           })
         })
       })
@@ -399,8 +406,7 @@ BddTest().given('a my perspective card', () => {
 
     BddTest().then('it should render the edit button as enabled', () => {
       const editButton = getEditButton()
-      expect(editButton.exists()).toBe(true)
-      expect(editButton.attributes('disabled')).toBeUndefined()
+      expect(editButton.props('disabled')).toBe(false)
     })
   })
 
@@ -418,8 +424,33 @@ BddTest().given('a my perspective card', () => {
 
     BddTest().then('it should render the edit button as disabled', () => {
       const editButton = getEditButton()
-      expect(editButton.exists()).toBe(true)
-      expect(editButton.attributes('disabled')).toBeDefined()
+      expect(editButton.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should explain why perspective editing is disabled', () => {
+      expect(getEditButton().props('disabledTooltip')).toBe('Vous ne pouvez plus modifier votre prise de recul car vous vous êtes désinscrit(e) de l\'activité')
+    })
+  })
+
+  BddTest().when('the component is mounted with a completed activity', () => {
+    const props: MyPerspectiveCardProps = {
+      activityId: 'activity-1',
+      perspective: '<p>This is my perspective</p>',
+      activityStatus: EDeclaredActivityStatus.COMPLETED,
+    }
+
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mountComponent(MyPerspectiveCard, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should render the edit button as disabled', () => {
+      const editButton = getEditButton()
+      expect(editButton.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should explain why perspective editing is disabled', () => {
+      expect(getEditButton().props('disabledTooltip')).toBe('Vous ne pouvez plus modifier votre prise de recul car l\'activité est terminée')
     })
   })
 })

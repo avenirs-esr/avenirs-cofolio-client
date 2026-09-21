@@ -4,7 +4,7 @@ import { ROUTES } from '@/common/constants/route-names'
 import ActivityFeedbackStudentSelect
   from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/selects/ActivityFeedbackStudentSelect/ActivityFeedbackStudentSelect.vue'
 import { AvButtonStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { getAvButtonByTestId, mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStaffStudentTrackingActivityFeedbackDetailsMock = vi.fn()
@@ -89,8 +89,8 @@ const stubs = { AvSelect: AvSelectStub, AvButton: AvButtonStub }
 BddTest().given('an ActivityFeedbackStudentSelect component', () => {
   let wrapper: ReturnType<typeof mountComponent<typeof ActivityFeedbackStudentSelect>>
 
-  const getPreviousButton = () => wrapper.findAllComponents(AvButtonStub).find(button => button.attributes('data-testid') === 'previous-student-button')
-  const getNextButton = () => wrapper.findAllComponents(AvButtonStub).find(button => button.attributes('data-testid') === 'next-student-button')
+  const getPreviousButton = () => getAvButtonByTestId(wrapper, 'previous-student-button')
+  const getNextButton = () => getAvButtonByTestId(wrapper, 'next-student-button')
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -129,6 +129,10 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
 
     BddTest().then('it should disable the previous button (first student in the list)', () => {
       expect(getPreviousButton()!.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should explain why the previous button is disabled', () => {
+      expect(getPreviousButton()!.props('disabledTooltip')).toBe('Vous consultez déjà le premier étudiant')
     })
 
     BddTest().then('it should link the next button to the next student, on the student tracking route', () => {
@@ -197,6 +201,10 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
 
     BddTest().then('it should disable the next button', () => {
       expect(getNextButton()!.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should explain why the next button is disabled', () => {
+      expect(getNextButton()!.props('disabledTooltip')).toBe('Vous consultez déjà le dernier étudiant')
     })
 
     BddTest().then('it should link the previous button to the previous student', () => {

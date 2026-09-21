@@ -34,4 +34,23 @@ BddTest().given('an activity library dropdown', () => {
       expect(wrapper.emitted('unsubscribeSelected')).toHaveLength(1)
     })
   })
+
+  BddTest().when('unsubscribe is disabled', () => {
+    beforeEach(() => {
+      wrapper = mount(ActivityLibraryDropdown, {
+        props: { unsubscribeDisabled: true },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should pass a disabled tooltip to the unsubscribe item', () => {
+      expect(getDropdown().props('actions')).toEqual([
+        expect.objectContaining({
+          type: Action.UNSUBSCRIBE,
+          disabled: true,
+          disabledTooltip: 'Vous ne pouvez pas vous désinscrire car vous n\'êtes inscrit(e) à aucune activité'
+        })
+      ])
+    })
+  })
 })

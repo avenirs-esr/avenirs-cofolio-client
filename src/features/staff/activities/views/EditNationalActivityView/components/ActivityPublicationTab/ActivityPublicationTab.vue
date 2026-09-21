@@ -145,6 +145,7 @@ async function publishActivityDraft () {
           :label="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishLabel')"
           :is-loading="isFormDirty || isUpdating || isPending || isLoading"
           :disabled="!canPublish"
+          :disabled-tooltip="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsError')"
           small
           @click="openModal"
         />

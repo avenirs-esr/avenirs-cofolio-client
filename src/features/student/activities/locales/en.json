@@ -68,7 +68,8 @@
             "period": "Personal achievement period"
           },
           "ActivityLibraryDropdown": {
-            "entityName": "my activities"
+            "entityName": "my activities",
+            "unsubscribeDisabledTooltip": "You cannot unsubscribe because you are not registered for any activity"
           },
           "ActivityLibraryTab": {
             "emptyState": "No ongoing or completed registration, go explore all available activities",
@@ -138,6 +139,7 @@
           },
           "FinishDeclaredActivity": {
             "finishButton": "Finish the activity",
+            "finishDisabledTooltip": "You can finish the activity once it is in progress",
             "finishedAt": "Finished at {date}",
             "finishLabel": "Finished"
           },
@@ -152,11 +154,14 @@
               "error": "An error occurred while automatically saving your perspective. Please try again later.",
               "success": "Your perspective has been automatically saved."
             },
+            "editCompletedDisabledTooltip": "You can no longer edit your reflection because the activity is completed",
+            "editUnsubscribedDisabledTooltip": "You can no longer edit your reflection because you have unsubscribed from the activity",
             "perspective": "My perspective",
             "save": {
               "error": "An error occurred while saving your perspective. Please try again later.",
               "success": "Your perspective has been successfully saved."
-            }
+            },
+            "saveDisabledTooltip": "Edit your reflection and fix errors before saving"
           },
           "MyPerspectiveSection": {
             "tabs": {
@@ -185,6 +190,8 @@
           },
           "RequestFeedback": {
             "requestFeedbackButton": {
+              "feedbackInProcessDisabledTooltip": "A feedback request is already being processed",
+              "maximumFeedbackRequestsReachedDisabledTooltip": "You have reached the maximum number of feedback requests for this activity",
               "requestFeedbackLabel": "Ask for feedback",
               "updateFeedbackLabel": "Update my feedback request"
             },

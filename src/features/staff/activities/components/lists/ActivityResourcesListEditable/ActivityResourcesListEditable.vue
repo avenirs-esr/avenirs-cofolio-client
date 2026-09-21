@@ -140,6 +140,7 @@ watch(() => isFormDirty, (dirty) => {
           :label="t('global.buttons.delete')"
           :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
           :disabled="resourceKeysToBeDeleted.length === 0"
+          :disabled-tooltip="t('staff.activities.components.lists.ActivityResourcesListEditable.deleteDisabledTooltip')"
           :is-loading="isUpdating"
           variant="OUTLINED"
           small

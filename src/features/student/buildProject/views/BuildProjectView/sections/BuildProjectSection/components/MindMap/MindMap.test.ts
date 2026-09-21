@@ -119,6 +119,12 @@ BddTest().given('a MindMap', () => {
       expect(avButton!.props('disabled')).toBe(true)
     })
 
+    BddTest().then('the undo button should explain why it is disabled', () => {
+      const avButton = wrapper.findAllComponents(AvButtonStub).find(button => button.props('label') === 'Annuler')
+      expect(avButton).toBeDefined()
+      expect(avButton!.props('disabledTooltip')).toBe('Aucune action à annuler')
+    })
+
     BddTest().then('it should render the redo button', () => {
       const avButton = wrapper.findAllComponents(AvButtonStub).find(button => button.props('label') === 'Rétablir')
       expect(avButton).toBeDefined()
@@ -128,6 +134,12 @@ BddTest().given('a MindMap', () => {
       const avButton = wrapper.findAllComponents(AvButtonStub).find(button => button.props('label') === 'Rétablir')
       expect(avButton).toBeDefined()
       expect(avButton!.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('the redo button should explain why it is disabled', () => {
+      const avButton = wrapper.findAllComponents(AvButtonStub).find(button => button.props('label') === 'Rétablir')
+      expect(avButton).toBeDefined()
+      expect(avButton!.props('disabledTooltip')).toBe('Aucune action à rétablir')
     })
 
     BddTest().then('it should render the save button', () => {

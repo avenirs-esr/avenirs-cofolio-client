@@ -68,7 +68,8 @@
             "period": "Période de réalisation personnelle"
           },
           "ActivityLibraryDropdown": {
-            "entityName": "mes activités"
+            "entityName": "mes activités",
+            "unsubscribeDisabledTooltip": "Vous ne pouvez pas vous désinscrire car vous n'êtes inscrit(e) à aucune activité"
           },
           "ActivityLibraryTab": {
             "emptyState": "Aucune inscription en cours ou terminée, allez explorer toutes les activités disponibles",
@@ -138,6 +139,7 @@
           },
           "FinishDeclaredActivity": {
             "finishButton": "Terminer l'activité",
+            "finishDisabledTooltip": "Vous pourrez terminer l'activité lorsqu'elle sera en cours",
             "finishedAt": "Terminée le {date}",
             "finishLabel": "Terminée"
           },
@@ -152,11 +154,14 @@
               "error": "Une erreur est survenue lors de la sauvegarde automatique de votre prise de recul. Veuillez réessayer plus tard.",
               "success": "Votre prise de recul a été sauvegardée automatiquement"
             },
+            "editCompletedDisabledTooltip": "Vous ne pouvez plus modifier votre prise de recul car l'activité est terminée",
+            "editUnsubscribedDisabledTooltip": "Vous ne pouvez plus modifier votre prise de recul car vous vous êtes désinscrit(e) de l'activité",
             "perspective": "Ma prise de recul",
             "save": {
               "error": "Une erreur est survenue lors de la sauvegarde de votre prise de recul. Veuillez réessayer plus tard.",
               "success": "Votre prise de recul a été sauvegardée avec succès"
-            }
+            },
+            "saveDisabledTooltip": "Modifiez votre prise de recul et corrigez les erreurs avant d'enregistrer"
           },
           "MyPerspectiveSection": {
             "tabs": {
@@ -185,6 +190,8 @@
           },
           "RequestFeedback": {
             "requestFeedbackButton": {
+              "feedbackInProcessDisabledTooltip": "Une demande de feedback est déjà en cours de traitement",
+              "maximumFeedbackRequestsReachedDisabledTooltip": "Vous avez atteint le nombre maximum de demandes de feedback pour cette activité",
               "requestFeedbackLabel": "Demander un feedback",
               "updateFeedbackLabel": "Mettre à jour ma demande de feedback"
             },

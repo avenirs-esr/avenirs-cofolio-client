@@ -3,7 +3,7 @@ import { EFeedbackStatus } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import RequestFeedback from '@/features/student/activities/views/ActivityView/components/interactions/RequestFeedback/RequestFeedback.vue'
 import { AvBadgeStub, AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { getAvButtonByTestId, mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a RequestFeedback component', () => {
@@ -14,6 +14,8 @@ BddTest().given('a RequestFeedback component', () => {
     AvBadge: AvBadgeStub,
     ConfirmationModal: ConfirmationModalStub,
   }
+  const getRequestFeedbackButton = () => getAvButtonByTestId(wrapper, 'request-feedback-button')
+  const getUpdateFeedbackButton = () => getAvButtonByTestId(wrapper, 'update-feedback-button')
 
   BddTest().when('the component is mounted without any props', () => {
     beforeEach(() => {
@@ -28,7 +30,7 @@ BddTest().given('a RequestFeedback component', () => {
     })
 
     BddTest().then('it should render the feedback button', () => {
-      expect(wrapper.findComponent(AvButtonStub).exists()).toBe(true)
+      expect(getRequestFeedbackButton().exists()).toBe(true)
       expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(false)
     })
 
@@ -45,7 +47,7 @@ BddTest().given('a RequestFeedback component', () => {
 
     BddTest().and('the user clicks on the feedback button', () => {
       beforeEach(async () => {
-        wrapper.findComponent(AvButtonStub).vm.$emit('click')
+        getRequestFeedbackButton().vm.$emit('click')
         await wrapper.vm.$nextTick()
       })
 
@@ -90,7 +92,7 @@ BddTest().given('a RequestFeedback component', () => {
     })
 
     BddTest().then('it should render the button and not the badge', () => {
-      expect(wrapper.findComponent(AvButtonStub).exists()).toBe(true)
+      expect(getUpdateFeedbackButton().exists()).toBe(true)
       expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(false)
     })
 
@@ -100,7 +102,7 @@ BddTest().given('a RequestFeedback component', () => {
     })
 
     BddTest().then('it should render the button as enabled', () => {
-      expect(wrapper.findComponent(AvButtonStub).props('disabled')).toBe(false)
+      expect(getUpdateFeedbackButton().props('disabled')).toBe(false)
     })
   })
 
@@ -113,9 +115,13 @@ BddTest().given('a RequestFeedback component', () => {
     })
 
     BddTest().then('it should render the button as disabled', () => {
-      expect(wrapper.findComponent(AvButtonStub).exists()).toBe(true)
+      expect(getUpdateFeedbackButton().exists()).toBe(true)
       expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(false)
-      expect(wrapper.findComponent(AvButtonStub).props('disabled')).toBe(true)
+      expect(getUpdateFeedbackButton().props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should explain that a feedback request is already in progress', () => {
+      expect(getUpdateFeedbackButton().props('disabledTooltip')).toBe('Une demande de feedback est déjà en cours de traitement')
     })
 
     BddTest().then('it should still render the update-feedback-button, not the request-feedback-button', () => {
@@ -133,7 +139,7 @@ BddTest().given('a RequestFeedback component', () => {
     })
 
     BddTest().then('it should still render the button as disabled', () => {
-      expect(wrapper.findComponent(AvButtonStub).props('disabled')).toBe(true)
+      expect(getUpdateFeedbackButton().props('disabled')).toBe(true)
     })
   })
 
@@ -154,13 +160,21 @@ BddTest().given('a RequestFeedback component', () => {
   BddTest().when('the component is mounted with disabled true', () => {
     beforeEach(() => {
       wrapper = mountComponent(RequestFeedback, {
-        props: { disabled: true, remainingFeedbacks: 2 },
+        props: {
+          disabled: true,
+          disabledTooltip: 'Vous avez atteint le nombre maximum de demandes de feedback pour cette activité',
+          remainingFeedbacks: 2,
+        },
         global: { stubs },
       })
     })
 
     BddTest().then('it should render the button as disabled', () => {
-      expect(wrapper.findComponent(AvButtonStub).props('disabled')).toBe(true)
+      expect(getRequestFeedbackButton().props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should pass the consumer disabled tooltip to the button', () => {
+      expect(getRequestFeedbackButton().props('disabledTooltip')).toBe('Vous avez atteint le nombre maximum de demandes de feedback pour cette activité')
     })
   })
 
@@ -173,7 +187,7 @@ BddTest().given('a RequestFeedback component', () => {
     })
 
     BddTest().then('it should render the button as loading', () => {
-      expect(wrapper.findComponent(AvButtonStub).props('isLoading')).toBe(true)
+      expect(getRequestFeedbackButton().props('isLoading')).toBe(true)
     })
   })
 })

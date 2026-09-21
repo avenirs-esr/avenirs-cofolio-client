@@ -55,6 +55,11 @@
     },
     "application": "Application",
     "associations": {
+      "disabledTooltips": {
+        "deleteDeclaredActivity": "Aucune activité associée ne peut être dissociée.",
+        "deleteDeclaredSkill": "Aucune compétence associée ne peut être dissociée.",
+        "deleteTrace": "Aucune trace associée ne peut être dissociée."
+      },
       "elementsToAssociate": {
         "activities": "une/des activité(s)",
         "experiences": "une/des expérience(s)",

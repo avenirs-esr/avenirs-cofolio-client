@@ -3,7 +3,7 @@ import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import FinishDeclaredActivity from '@/features/student/activities/views/ActivityView/components/FinishDeclaredActivity/FinishDeclaredActivity.vue'
 import { FinishDeclaredActivityConfirmModalStub } from '@/features/student/activities/views/ActivityView/components/overlays/FinishDeclaredActivityConfirmModal/FinishDeclaredActivityConfirmModal.stub'
 import { AvBadgeStub, AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { getAvButtonByTestId, mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a FinishDeclaredActivity component', () => {
@@ -13,6 +13,7 @@ BddTest().given('a FinishDeclaredActivity component', () => {
     AvBadge: AvBadgeStub,
     FinishDeclaredActivityConfirmModal: FinishDeclaredActivityConfirmModalStub,
   }
+  const getFinishButton = () => getAvButtonByTestId(wrapper, 'finish-declared-activity-button')
 
   BddTest().when('the component is mounted with subscribed status', () => {
     beforeEach(() => {
@@ -40,7 +41,7 @@ BddTest().given('a FinishDeclaredActivity component', () => {
     })
 
     BddTest().then('it should render the finish button as enabled with correct props', () => {
-      const button = wrapper.findComponent(AvButtonStub)
+      const button = getFinishButton()
       expect(button.exists()).toBe(true)
       expect(button.props('label')).toBe('Terminer l\'activité')
       expect(button.props('variant')).toBe('FLAT')
@@ -60,7 +61,7 @@ BddTest().given('a FinishDeclaredActivity component', () => {
 
     BddTest().and('the user clicks on the finish button', () => {
       beforeEach(async () => {
-        wrapper.findComponent(AvButtonStub).vm.$emit('click')
+        getFinishButton().vm.$emit('click')
         await wrapper.vm.$nextTick()
       })
 
@@ -71,7 +72,7 @@ BddTest().given('a FinishDeclaredActivity component', () => {
 
     BddTest().and('the user closes the confirmation modal', () => {
       beforeEach(async () => {
-        wrapper.findComponent(AvButtonStub).vm.$emit('click')
+        getFinishButton().vm.$emit('click')
         await wrapper.vm.$nextTick()
         wrapper.findComponent(FinishDeclaredActivityConfirmModalStub).vm.$emit('close')
         await wrapper.vm.$nextTick()
@@ -84,7 +85,7 @@ BddTest().given('a FinishDeclaredActivity component', () => {
 
     BddTest().and('the user confirms the finish action', () => {
       beforeEach(async () => {
-        wrapper.findComponent(AvButtonStub).vm.$emit('click')
+        getFinishButton().vm.$emit('click')
         await wrapper.vm.$nextTick()
         wrapper.findComponent(FinishDeclaredActivityConfirmModalStub).vm.$emit('confirm')
         await wrapper.vm.$nextTick()
@@ -113,9 +114,14 @@ BddTest().given('a FinishDeclaredActivity component', () => {
     })
 
     BddTest().then('it should render the finish button as disabled', () => {
-      const button = wrapper.findComponent(AvButtonStub)
+      const button = getFinishButton()
       expect(button.exists()).toBe(true)
       expect(button.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should explain why the finish button is disabled', () => {
+      const button = getFinishButton()
+      expect(button.props('disabledTooltip')).toBe('Vous pourrez terminer l\'activité lorsqu\'elle sera en cours')
     })
 
     BddTest().then('it should not render the completed badge', () => {

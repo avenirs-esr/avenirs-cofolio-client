@@ -110,6 +110,38 @@ BddTest().given('an association elements dropdown', () => {
     })
   })
 
+  BddTest().when('mounted with a disabled item tooltip', () => {
+    beforeEach(() => {
+      wrapper = mountDropdown({
+        variant: 'delete',
+        items: [
+          {
+            type: EAssociationContextType.DECLARED_ACTIVITY,
+            disabled: true,
+            disabledTooltip: 'Aucune activité associée à supprimer'
+          },
+          { type: EAssociationContextType.DECLARED_SKILL },
+        ]
+      })
+    })
+
+    BddTest().then('it should forward the disabled tooltip to the matching dropdown item', () => {
+      const items = wrapper.findComponent(AvDropdownStub).props('items')
+      expect(items).toEqual([
+        expect.objectContaining({
+          name: 'activities',
+          disabled: true,
+          disabledTooltip: 'Aucune activité associée à supprimer'
+        }),
+        expect.objectContaining({
+          name: 'skills',
+          disabled: false,
+          disabledTooltip: undefined
+        })
+      ])
+    })
+  })
+
   BddTest().when('mounted with the global disabled prop', () => {
     beforeEach(() => {
       wrapper = mountDropdown({

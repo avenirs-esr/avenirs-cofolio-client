@@ -55,6 +55,11 @@
     },
     "application": "Application",
     "associations": {
+      "disabledTooltips": {
+        "deleteDeclaredActivity": "No associated activity can be removed.",
+        "deleteDeclaredSkill": "No associated skill can be removed.",
+        "deleteTrace": "No associated trace can be removed."
+      },
       "elementsToAssociate": {
         "activities": "one/many activity(ies)",
         "experiences": "one/many experience(s)",

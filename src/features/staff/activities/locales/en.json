@@ -1,6 +1,13 @@
 {
   "staff": {
     "activities": {
+      "components": {
+        "lists": {
+          "ActivityResourcesListEditable": {
+            "deleteDisabledTooltip": "Select at least one resource to delete"
+          }
+        }
+      },
       "interactions": {
         "formFields": {
           "ActivityConsignFormField": {
@@ -52,7 +59,10 @@
           },
           "MoreActionsDropdown": {
             "ariaLabel": "More actions",
-            "navigateToFeedbacks": "Navigate to feedback requests"
+            "deleteDisabledTooltip": "You can only delete a draft activity",
+            "navigateToFeedbacks": "Navigate to feedback requests",
+            "navigateToFeedbacksDisabledTooltip": "Feedback requests are only available for a published activity",
+            "unpublishDisabledTooltip": "You can only unpublish a published activity"
           },
           "MyWorkspaceTab": {
             "createActivity": "Create an activity",
@@ -178,6 +188,7 @@
             "title": "Trace association"
           },
           "EditNationalActivityViewTabActions": {
+            "saveDisabledTooltip": "Edit a field before saving",
             "saveLabel": "Save for later"
           },
           "errors": {

@@ -38,7 +38,9 @@
       "views": {
         "ActivityFeedbackDetailsView": {
           "ActivityFeedbackStudentSelect": {
-            "placeholder": "Sélectionner un étudiant"
+            "nextDisabledTooltip": "Vous consultez déjà le dernier étudiant",
+            "placeholder": "Sélectionner un étudiant",
+            "previousDisabledTooltip": "Vous consultez déjà le premier étudiant"
           },
           "FeedbackManagementFloatingPanel": {
             "tabs": {

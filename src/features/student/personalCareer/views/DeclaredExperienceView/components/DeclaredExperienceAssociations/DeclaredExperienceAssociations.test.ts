@@ -118,8 +118,16 @@ BddTest().given('a declared experience associations component', () => {
 
       expect(dropdown?.exists()).toBe(true)
       expect(dropdown?.props('items')).toEqual([
-        { type: EAssociationContextType.TRACE, disabled: false },
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: false }
+        {
+          type: EAssociationContextType.TRACE,
+          disabled: false,
+          disabledTooltip: 'Aucune trace associée ne peut être dissociée.'
+        },
+        {
+          type: EAssociationContextType.DECLARED_SKILL,
+          disabled: false,
+          disabledTooltip: 'Aucune compétence associée ne peut être dissociée.'
+        }
       ])
     })
 
@@ -351,8 +359,16 @@ BddTest().given('a declared experience associations component', () => {
 
       expect(dropdown?.exists()).toBe(true)
       expect(dropdown?.props('items')).toEqual([
-        { type: EAssociationContextType.TRACE, disabled: true },
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: true }
+        {
+          type: EAssociationContextType.TRACE,
+          disabled: true,
+          disabledTooltip: 'Aucune trace associée ne peut être dissociée.'
+        },
+        {
+          type: EAssociationContextType.DECLARED_SKILL,
+          disabled: true,
+          disabledTooltip: 'Aucune compétence associée ne peut être dissociée.'
+        }
       ])
     })
   })

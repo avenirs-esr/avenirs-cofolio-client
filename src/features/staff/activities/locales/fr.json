@@ -1,6 +1,13 @@
 {
   "staff": {
     "activities": {
+      "components": {
+        "lists": {
+          "ActivityResourcesListEditable": {
+            "deleteDisabledTooltip": "Sélectionnez au moins une ressource à supprimer"
+          }
+        }
+      },
       "interactions": {
         "formFields": {
           "ActivityConsignFormField": {
@@ -52,7 +59,10 @@
           },
           "MoreActionsDropdown": {
             "ariaLabel": "Plus d'actions",
-            "navigateToFeedbacks": "Accéder aux demandes de feedback"
+            "deleteDisabledTooltip": "Vous pouvez uniquement supprimer une activité en brouillon",
+            "navigateToFeedbacks": "Accéder aux demandes de feedback",
+            "navigateToFeedbacksDisabledTooltip": "Les demandes de feedback sont uniquement disponibles pour une activité publiée",
+            "unpublishDisabledTooltip": "Vous pouvez uniquement dépublier une activité publiée"
           },
           "MyWorkspaceTab": {
             "createActivity": "Créer une activité",
@@ -178,6 +188,7 @@
             "title": "Association de traces"
           },
           "EditNationalActivityViewTabActions": {
+            "saveDisabledTooltip": "Modifiez un champ avant d'enregistrer",
             "saveLabel": "Enregistrer pour plus tard"
           },
           "errors": {

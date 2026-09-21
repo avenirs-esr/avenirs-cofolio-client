@@ -44,12 +44,14 @@ BddTest().given('a MoreActionsDropdown component', () => {
         expect.objectContaining({
           name: 'navigateToFeedbacks',
           label: 'Accéder aux demandes de feedback',
-          disabled: true
+          disabled: true,
+          disabledTooltip: 'Les demandes de feedback sont uniquement disponibles pour une activité publiée'
         }),
         expect.objectContaining({
           name: 'unpublish',
           label: 'Dépublier',
-          disabled: true
+          disabled: true,
+          disabledTooltip: 'Vous pouvez uniquement dépublier une activité publiée'
         }),
         expect.objectContaining({
           name: 'delete',
@@ -104,7 +106,8 @@ BddTest().given('a MoreActionsDropdown component', () => {
         }),
         expect.objectContaining({
           name: 'delete',
-          disabled: true
+          disabled: true,
+          disabledTooltip: 'Vous pouvez uniquement supprimer une activité en brouillon'
         }),
         expect.objectContaining({
           name: 'clone'
