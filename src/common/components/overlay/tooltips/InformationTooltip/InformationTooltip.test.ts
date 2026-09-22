@@ -23,6 +23,10 @@ BddTest().given('an information tooltip component', () => {
       expect(getAvTooltip().props('content')).toBe('Test content')
     })
 
+    BddTest().then('it should provide an accessible label for the trigger', () => {
+      expect(getAvTooltip().props('triggerAriaLabel')).toBe('Informations')
+    })
+
     BddTest().then('it should not pass size prop to AvIcon', () => {
       expect(getAvIcon().props('size')).toBeUndefined()
     })
