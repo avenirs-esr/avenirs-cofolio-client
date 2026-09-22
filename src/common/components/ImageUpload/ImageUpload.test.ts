@@ -1,6 +1,6 @@
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import ImageUpload from '@/common/components/ImageUpload/ImageUpload.vue'
-import { AvFileUploadStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvFileUploadStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { expect, type Mock, vi } from 'vitest'
 
@@ -67,6 +67,7 @@ function createWrapper (props = {}) {
     },
     global: {
       stubs: {
+        AvButton: AvButtonStub,
         AvFileUpload: AvFileUploadStub,
         ConfirmationModal: ConfirmationModalStub,
         Cropper: CropperStub

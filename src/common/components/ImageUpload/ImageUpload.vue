@@ -3,7 +3,7 @@ import ConfirmationModal from '@/common/components/ConfirmationModal/Confirmatio
 import { ACCEPTED_IMAGE_TYPES, PROFILE_PICTURE_RATIO } from '@/common/components/ImageUpload/config'
 import { useImageUpload, useModal } from '@/common/composables'
 import { canvasToFile } from '@/common/utils/file/file'
-import { AvFileUpload } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvFileUpload, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { Cropper } from 'vue-advanced-cropper'
 import { useI18n } from 'vue-i18n'
 import 'vue-advanced-cropper/dist/style.css'
@@ -175,6 +175,15 @@ function cleanupCropper () {
   currentImageUrl.value = null
   canvasRef.value = null
 }
+
+function backToInitialCrop () {
+  if (currentImageUrl.value) {
+    URL.revokeObjectURL(currentImageUrl.value)
+  }
+
+  currentImageUrl.value = URL.createObjectURL(files.value[0])
+  canvasRef.value = null
+}
 </script>
 
 <template>
@@ -233,6 +242,17 @@ function cleanupCropper () {
     @confirm="onConfirmCropper"
     @close="onCloseCropper"
   >
+    <template #header>
+      <div class="av-row av-justify-end av-w-full">
+        <AvButton
+          :label="t('global.buttons.reset')"
+          :icon="MDI_ICONS.RESTORE"
+          small
+          @click="backToInitialCrop"
+        />
+      </div>
+    </template>
+
     <Cropper
       class="cropper"
       :src="currentImageUrl"
