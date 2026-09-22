@@ -3,6 +3,7 @@ import type { EActivityThematic, EDeclaredActivityStatus, FileDTO } from '@/api/
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
+import { ACTIVITY_BANNER_RATIO } from '@/common/components/ImageUpload/config'
 import { ICONS } from '@/common/constants'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 
@@ -19,6 +20,8 @@ const {
   banner,
   declaredActivityStatus,
 } = defineProps<ActivityCatalogHeaderProps>()
+
+const activityBannerRatio = `${ACTIVITY_BANNER_RATIO}`
 </script>
 
 <template>
@@ -63,11 +66,10 @@ const {
 </template>
 
 <style lang="scss" scoped>
-.activity-banner-container {
-  height: 18.75rem;
-}
-
 .activity-banner {
+  width: 100%;
+  height: auto;
+  aspect-ratio: v-bind('activityBannerRatio');
   object-fit: cover;
 }
 </style>
