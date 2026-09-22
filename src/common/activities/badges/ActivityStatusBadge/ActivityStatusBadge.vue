@@ -54,6 +54,7 @@ const icon = computed(() => {
     :icon="icon"
     :color="badgeColors.color"
     :background-color="badgeColors.backgroundColor"
+    :no-setence-case="false"
     border-color="var(--stroke)"
   />
 </template>

@@ -23,6 +23,7 @@ const experienceTypeColorMap: Record<EExperienceType, string> = {
     :label="t(`student.personalCareer.declaredExperienceType.${experienceType}`)"
     :background-color="experienceTypeColorMap[experienceType]"
     :icon="RI_ICONS.HONOUR_LINE"
+    :no-setence-case="false"
     color="var(--card2)"
     data-testid="declared-experience-type-badge"
     ellipsis

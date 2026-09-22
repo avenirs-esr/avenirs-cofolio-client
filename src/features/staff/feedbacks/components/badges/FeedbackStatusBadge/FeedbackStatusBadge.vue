@@ -66,6 +66,7 @@ const backgroundColor = computed(() => {
     :icon="icon"
     :color="color"
     :background-color="backgroundColor"
+    :no-setence-case="false"
     border-color="transparent"
   />
 </template>

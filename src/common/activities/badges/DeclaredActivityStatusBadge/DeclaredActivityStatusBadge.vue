@@ -62,6 +62,7 @@ const avBadgeProps = computed(() => {
     v-bind="avBadgeProps"
     :data-status="status"
     small
+    :no-setence-case="false"
     data-testid="declared-activity-status-badge"
   />
 </template>
