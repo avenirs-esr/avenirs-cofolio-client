@@ -6,6 +6,10 @@ export interface ActivityDraftCreationFormData {
   title: string
 }
 
+export interface ActivityDuplicationFormData {
+  title: string
+}
+
 export enum EditActivityFormDataBannerAction {
   DELETE = 'DELETE',
   NONE = 'NONE',
@@ -43,5 +47,6 @@ export type AddActivityResourceFormData =
   | AddActivityResourceLinkFormData
 
 export type ActivityDraftCreationForm = AnyVueFormApi<ActivityDraftCreationFormData>
+export type ActivityDuplicationForm = AnyVueFormApi<ActivityDuplicationFormData>
 export type EditActivityForm = AnyVueFormApi<EditActivityFormData>
 export type AddActivityResourceForm = AnyVueFormApi<AddActivityResourceFormData>
