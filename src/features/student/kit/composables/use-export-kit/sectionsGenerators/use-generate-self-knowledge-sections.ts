@@ -9,6 +9,10 @@ export function useGenerateSelfKnowledgeSections () {
     computed(() => ({ isValorized: true, pageSize: 100 }))
   )
 
+  const otherElements = computed(() => (selfKnowledgeElements.value?.data ?? []).filter(
+    element => element.category.type !== ESelfKnowledgeCategory.INTERESTS
+  ))
+
   function getSelfKnowledgeElementsByCategory (category: ESelfKnowledgeCategory) {
     return (selfKnowledgeElements.value?.data ?? []).filter(
       element => element.category.type === category
@@ -45,12 +49,25 @@ export function useGenerateSelfKnowledgeSections () {
       ]
     : [])
 
+  const otherSection = computed<Paragraph[]>(() => otherElements.value.length > 0
+    ? [
+        new Paragraph({
+          children: [
+            new TextRun({
+              text: t('student.kit.views.StudentToolsKitView.valorizedSelfKnowledgeContainer.OTHERS.titleWithoutCount').toUpperCase(),
+              bold: true,
+            }),
+          ],
+          heading: HeadingLevel.HEADING_1
+        })
+      ]
+    : [])
+
   function generateSection (category: ESelfKnowledgeCategory, elements: SelfKnowledgeElementViewDTO[]) {
     if (elements.length === 0) {
       return []
     }
     return [
-      new Paragraph({ children: [] }),
       new Paragraph({
         children: [
           new TextRun(`${t('global.colon', { before: t(`student.selfKnowledge.categories.${category}.title`) })} `),
@@ -71,6 +88,7 @@ export function useGenerateSelfKnowledgeSections () {
 
   const selfKnowledgeSections = computed<Paragraph[]>(() => [
     ...interestsSection.value,
+    ...otherSection.value,
     ...strengthsSection.value,
     ...valuesSection.value,
     ...aspirationsSection.value,

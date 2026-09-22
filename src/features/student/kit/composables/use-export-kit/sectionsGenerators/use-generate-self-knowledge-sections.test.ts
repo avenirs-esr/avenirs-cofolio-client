@@ -117,12 +117,12 @@ BddTest().given('a useGenerateSelfKnowledgeSections composable', () => {
     })
 
     BddTest().then('it should not generate the interests section', () => {
-      expect(result.selfKnowledgeSections.value.some(section =>
-        (section as unknown as MockParagraph).heading === MockHeadingLevel.HEADING_1)).toBe(false)
+      expect(result.selfKnowledgeSections.value.filter(section =>
+        (section as unknown as MockParagraph).heading === MockHeadingLevel.HEADING_1)).toHaveLength(1)
     })
 
-    BddTest().then('it should only generate two paragraphs per category (category paragraph + empty paragraph)', () => {
-      expect(result.selfKnowledgeSections.value).toHaveLength(nonInterestsCategories.length * 2)
+    BddTest().then('it should only generate one paragraph per category and a global heading_1', () => {
+      expect(result.selfKnowledgeSections.value).toHaveLength(nonInterestsCategories.length + 1)
     })
   })
 
@@ -142,14 +142,14 @@ BddTest().given('a useGenerateSelfKnowledgeSections composable', () => {
       expect(result.selfKnowledgeSections.value.length).toBeGreaterThan(0)
     })
 
-    BddTest().then('it should generate the interests section with its heading', () => {
-      expect(result.selfKnowledgeSections.value.some(section =>
-        (section as unknown as MockParagraph).heading === MockHeadingLevel.HEADING_1)).toBe(true)
+    BddTest().then('it should generate the interests and other sections with their heading', () => {
+      expect(result.selfKnowledgeSections.value.filter(section =>
+        (section as unknown as MockParagraph).heading === MockHeadingLevel.HEADING_1)).toHaveLength(2)
     })
 
-    BddTest().then('it should generate one non heading paragraph per category (plus one per non interest category for the empty paragraphs)', () => {
+    BddTest().then('it should generate one non heading paragraph per category', () => {
       expect(result.selfKnowledgeSections.value.filter(section =>
-        (section as unknown as MockParagraph).heading !== MockHeadingLevel.HEADING_1)).toHaveLength((allCategories.length * 2 - 1))
+        (section as unknown as MockParagraph).heading !== MockHeadingLevel.HEADING_1)).toHaveLength((allCategories.length))
     })
   })
 
