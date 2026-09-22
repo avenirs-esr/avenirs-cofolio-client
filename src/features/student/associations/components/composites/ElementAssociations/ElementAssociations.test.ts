@@ -50,8 +50,8 @@ BddTest().given('an element associations component', () => {
   }
 
   const slots = {
-    'actions-footer': '<div data-testid="actions-footer-slot">Actions footer</div>',
-    'header': '<div data-testid="header-slot">Header</div>'
+    footer: '<div data-testid="footer-slot">Footer</div>',
+    header: '<div data-testid="header-slot">Header</div>'
   }
 
   const declaredActivityProps: ElementAssociationsProps = {
@@ -124,8 +124,8 @@ BddTest().given('an element associations component', () => {
       ])
     })
 
-    BddTest().then('it should render the actions footer and the header slots', () => {
-      expect(wrapper.find('[data-testid="actions-footer-slot"]').exists()).toBe(true)
+    BddTest().then('it should render the footer and the header slots', () => {
+      expect(wrapper.find('[data-testid="footer-slot"]').exists()).toBe(true)
       expect(wrapper.find('[data-testid="header-slot"]').exists()).toBe(true)
     })
 
@@ -155,35 +155,9 @@ BddTest().given('an element associations component', () => {
       })
     })
 
-    BddTest().then('it should render a closed associate modal per associated context type', () => {
-      const modals = getAssociateModals()
-
-      expect(modals).toHaveLength(2)
-      expect(modals.map(modal => modal.props('associatedContextType'))).toEqual([
-        EAssociationContextType.TRACE,
-        EAssociationContextType.DECLARED_SKILL
-      ])
-      modals.forEach((modal) => {
-        expect(modal.props('opened')).toBe(false)
-        expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_ACTIVITY)
-        expect(modal.props('elementId')).toBe('declared-activity-1')
-      })
-    })
-
-    BddTest().then('it should render a closed delete associations modal per associated context type', () => {
-      const modals = getDeleteModals()
-
-      expect(modals).toHaveLength(2)
-      expect(modals.map(modal => modal.props('associatedContextType'))).toEqual([
-        EAssociationContextType.TRACE,
-        EAssociationContextType.DECLARED_SKILL
-      ])
-      modals.forEach((modal) => {
-        expect(modal.props('opened')).toBe(false)
-        expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_ACTIVITY)
-        expect(modal.props('elementId')).toBe('declared-activity-1')
-        expect(modal.props('associations')).toEqual(mockedDeclaredActivityAssociations)
-      })
+    BddTest().then('it should not render any modal before an association action is chosen', () => {
+      expect(getAssociateModals()).toHaveLength(0)
+      expect(getDeleteModals()).toHaveLength(0)
     })
 
     BddTest().and('the user chooses to associate traces', () => {
@@ -193,6 +167,20 @@ BddTest().given('an element associations component', () => {
 
       BddTest().then('it should only open the associate traces modal', () => {
         expect(getOpenedModals()).toEqual([{ modal: 'associate', associatedContextType: EAssociationContextType.TRACE }])
+      })
+
+      BddTest().then('it should render a single associate modal and a single delete associations modal for the element', () => {
+        expect(getAssociateModals()).toHaveLength(1)
+        expect(getDeleteModals()).toHaveLength(1)
+        expect(getAssociateModals()[0].props()).toMatchObject({
+          contextType: EAssociationContextType.DECLARED_ACTIVITY,
+          elementId: 'declared-activity-1'
+        })
+        expect(getDeleteModals()[0].props()).toMatchObject({
+          contextType: EAssociationContextType.DECLARED_ACTIVITY,
+          elementId: 'declared-activity-1',
+          associations: mockedDeclaredActivityAssociations
+        })
       })
 
       BddTest().and('the user cancels the association', () => {
@@ -217,13 +205,20 @@ BddTest().given('an element associations component', () => {
         })
       })
 
-      BddTest().and('the user then chooses to delete trace associations', () => {
+      BddTest().and('the user cancels, then chooses to delete declared skill associations', () => {
         beforeEach(async () => {
-          await selectDropdownItem('delete', EAssociationContextType.TRACE)
+          getAssociateModal(EAssociationContextType.TRACE).vm.$emit('cancel')
+          await nextTick()
+          await selectDropdownItem('delete', EAssociationContextType.DECLARED_SKILL)
         })
 
-        BddTest().then('it should only open the delete trace associations modal', () => {
-          expect(getOpenedModals()).toEqual([{ modal: 'delete', associatedContextType: EAssociationContextType.TRACE }])
+        BddTest().then('it should only open the delete associations modal, for the declared skills', () => {
+          expect(getOpenedModals()).toEqual([{ modal: 'delete', associatedContextType: EAssociationContextType.DECLARED_SKILL }])
+        })
+
+        BddTest().then('it should reuse the associate modal for the newly selected context type', () => {
+          expect(getAssociateModals()).toHaveLength(1)
+          expect(getAssociateModals()[0].props('associatedContextType')).toBe(EAssociationContextType.DECLARED_SKILL)
         })
       })
     })
@@ -344,9 +339,9 @@ BddTest().given('an element associations component', () => {
       mountElementAssociations({ ...declaredActivityProps, readonly: true })
     })
 
-    BddTest().then('it should not render the association actions nor the actions footer slot', () => {
+    BddTest().then('it should not render the association actions nor the footer slot', () => {
       expect(wrapper.findAllComponents(AssociationElementsDropdownStub)).toHaveLength(0)
-      expect(wrapper.find('[data-testid="actions-footer-slot"]').exists()).toBe(false)
+      expect(wrapper.find('[data-testid="footer-slot"]').exists()).toBe(false)
     })
 
     BddTest().then('it should still render the header slot', () => {
@@ -372,6 +367,33 @@ BddTest().given('an element associations component', () => {
     BddTest().then('it should disable both dropdowns', () => {
       expect(getDropdown('associate')!.props('disabled')).toBe(true)
       expect(getDropdown('delete')!.props('disabled')).toBe(true)
+    })
+
+    BddTest().then('it should not pass any disabled tooltip to the dropdowns without explanation', () => {
+      expect(getDropdown('associate')!.props('disabledTooltip')).toBeUndefined()
+      expect(getDropdown('delete')!.props('disabledTooltip')).toBeUndefined()
+    })
+  })
+
+  BddTest().when('the association actions are disabled with an explanation', () => {
+    beforeEach(() => {
+      mountElementAssociations({ ...declaredActivityProps, actionsDisabled: true, actionsDisabledTooltip: 'Actions indisponibles' })
+    })
+
+    BddTest().then('it should pass the explanation as disabled tooltip to both dropdowns', () => {
+      expect(getDropdown('associate')!.props('disabledTooltip')).toBe('Actions indisponibles')
+      expect(getDropdown('delete')!.props('disabledTooltip')).toBe('Actions indisponibles')
+    })
+  })
+
+  BddTest().when('the association actions are enabled with an explanation for when they are disabled', () => {
+    beforeEach(() => {
+      mountElementAssociations({ ...declaredActivityProps, actionsDisabledTooltip: 'Actions indisponibles' })
+    })
+
+    BddTest().then('it should not pass the explanation to the dropdowns', () => {
+      expect(getDropdown('associate')!.props('disabledTooltip')).toBeUndefined()
+      expect(getDropdown('delete')!.props('disabledTooltip')).toBeUndefined()
     })
 
     BddTest().then('it should keep the associated elements cards enabled', () => {
@@ -411,8 +433,14 @@ BddTest().given('an element associations component', () => {
       expect(wrapper.find('[data-testid="query-suspense-loading"]').exists()).toBe(true)
     })
 
-    BddTest().then('it should pass empty associations to the delete associations modals', () => {
-      getDeleteModals().forEach(modal => expect(modal.props('associations')).toEqual(mockedEmptyAssociations))
+    BddTest().and('the user chooses to delete trace associations', () => {
+      beforeEach(async () => {
+        await selectDropdownItem('delete', EAssociationContextType.TRACE)
+      })
+
+      BddTest().then('it should pass empty associations to the delete associations modal', () => {
+        expect(getDeleteModal(EAssociationContextType.TRACE).props('associations')).toEqual(mockedEmptyAssociations)
+      })
     })
   })
 
@@ -461,8 +489,6 @@ BddTest().given('an element associations component', () => {
       expect(getDropdown('delete')!.props('items')).toEqual([
         unassociateItem(EAssociationContextType.DECLARED_ACTIVITY, true)
       ])
-      expect(getAssociateModals().map(modal => modal.props('associatedContextType'))).toEqual([EAssociationContextType.DECLARED_ACTIVITY])
-      expect(getDeleteModals().map(modal => modal.props('associatedContextType'))).toEqual([EAssociationContextType.DECLARED_ACTIVITY])
     })
 
     BddTest().then('it should ignore the associations of the other context types to display the empty state', () => {

@@ -158,6 +158,7 @@
             "saveDisabledTooltip": "Modifiez votre prise de recul et corrigez les erreurs avant d'enregistrer"
           },
           "MyPerspectiveSection": {
+            "associationsDisabledTooltip": "Vous ne pouvez plus modifier les associations car vous vous êtes désinscrit(e) de l'activité",
             "maxTraceAssociationsReached": "Vous avez atteint le nombre maximal de traces autorisées pour cette activité",
             "tabs": {
               "associatedElements": "Mes éléments associés ({count})",

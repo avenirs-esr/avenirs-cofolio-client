@@ -349,6 +349,13 @@ BddTest().given('a my perspective section', () => {
       })
     })
 
+    BddTest().then('it should explain why the association actions are disabled', async () => {
+      await vi.waitFor(() => {
+        expect(findElementAssociations().props('actionsDisabledTooltip'))
+          .toBe('Vous ne pouvez plus modifier les associations car vous vous êtes désinscrit(e) de l\'activité')
+      })
+    })
+
     BddTest().then('it should keep the associated elements visible', () => {
       expect(findElementAssociations().props('readonly')).toBe(false)
     })

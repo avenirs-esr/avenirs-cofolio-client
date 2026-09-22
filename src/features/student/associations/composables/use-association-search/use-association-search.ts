@@ -1,5 +1,6 @@
 import type { AssociationSearchResultDTO, EAssociationContextType, PagedResponseAssociationSearchResultDTO, SearchForAssociationParams } from '@/api/avenir-esr'
 import type { Association, AssociationSearchFilter } from '@/features/student/associations/types/associations.types'
+import type { QueryKey } from '@tanstack/vue-query'
 import type { MaybeRefOrGetter, Ref } from 'vue'
 import { useSearchForAssociation, useSearchForAssociationWithNewElement } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
@@ -10,7 +11,6 @@ import {
   DEFAULT_ASSOCIATION_SEARCH_FILTER
 } from '@/features/student/associations/constants/associations.constants'
 import { useToasterStore } from '@/store'
-import { keepPreviousData } from '@tanstack/vue-query'
 import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -20,7 +20,7 @@ export interface UseAssociationSearchOptions {
    * The element to associate, omitted when it does not exist yet (e.g. in a creation form).
    */
   elementId?: MaybeRefOrGetter<string>
-  associatedContextType: EAssociationContextType
+  associatedContextType: MaybeRefOrGetter<EAssociationContextType>
   searchQuery?: Ref<string>
   searchFilter?: Ref<AssociationSearchFilter>
   enabled?: MaybeRefOrGetter<boolean>
@@ -73,11 +73,12 @@ export function useAssociationSearch ({
   const { addErrorMessage } = useToasterStore()
   const { toAssociations } = useAssociationSearchResults()
 
-  const isFilterable = !!ASSOCIATION_CONTEXT_CONFIGS[associatedContextType].filterable
+  const currentAssociatedContextType = computed(() => toValue(associatedContextType))
+  const isFilterable = computed(() => !!ASSOCIATION_CONTEXT_CONFIGS[currentAssociatedContextType.value].filterable)
 
   const params = computed<SearchForAssociationParams>(() => ({
     keyword: searchQuery.value.trim() || undefined,
-    isAssociated: isFilterable ? ASSOCIATION_SEARCH_FILTER_IS_ASSOCIATED[searchFilter.value] : undefined,
+    isAssociated: isFilterable.value ? ASSOCIATION_SEARCH_FILTER_IS_ASSOCIATED[searchFilter.value] : undefined,
     page: 0,
     pageSize: ASSOCIATION_SEARCH_PAGE_SIZE,
   }))
@@ -85,14 +86,15 @@ export function useAssociationSearch ({
   const options = {
     query: {
       enabled: computed(() => toValue(enabled)),
-      placeholderData: keepPreviousData,
-      select: (response: PagedResponseAssociationSearchResultDTO) => toAssociations(response.data, associatedContextType)
+      placeholderData: (previousData?: PagedResponseAssociationSearchResultDTO, previousQuery?: { queryKey: QueryKey }) =>
+        previousQuery?.queryKey.includes(currentAssociatedContextType.value) ? previousData : undefined,
+      select: (response: PagedResponseAssociationSearchResultDTO) => toAssociations(response.data, currentAssociatedContextType.value)
     }
   }
 
   const { data, isFetching, isError, error } = elementId === undefined
-    ? useSearchForAssociationWithNewElement(contextType, associatedContextType, params, options)
-    : useSearchForAssociation(contextType, computed(() => toValue(elementId)), associatedContextType, params, options)
+    ? useSearchForAssociationWithNewElement(contextType, currentAssociatedContextType, params, options)
+    : useSearchForAssociation(contextType, computed(() => toValue(elementId)), currentAssociatedContextType, params, options)
 
   watch(isError, (value) => {
     if (!value || !error.value) {

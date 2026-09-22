@@ -15,6 +15,10 @@ export const AssociationElementsDropdownStub = defineComponent({
     disabled: {
       type: Boolean,
       default: false
+    },
+    disabledTooltip: {
+      type: String,
+      default: undefined
     }
   },
   emits: ['select'],

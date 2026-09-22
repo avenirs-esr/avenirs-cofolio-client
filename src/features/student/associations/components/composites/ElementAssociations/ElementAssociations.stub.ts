@@ -13,11 +13,12 @@ export const ElementAssociationsStub = defineComponent({
     associatedContextTypes: { type: Array as PropType<EAssociationContextType[]>, default: undefined },
     limits: { type: Object as PropType<AssociationLimits>, default: undefined },
     readonly: { type: Boolean, default: false },
-    actionsDisabled: { type: Boolean, default: false }
+    actionsDisabled: { type: Boolean, default: false },
+    actionsDisabledTooltip: { type: String, default: undefined }
   },
   template: `
     <div data-testid="element-associations-stub">
-      <slot name="actions-footer" />
+      <slot name="footer" />
       <slot name="header" />
     </div>
   `

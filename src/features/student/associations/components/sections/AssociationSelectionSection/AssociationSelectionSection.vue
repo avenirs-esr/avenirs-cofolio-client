@@ -8,7 +8,6 @@ import AssociationSearchFilterSelect
   from '@/features/student/associations/components/interactions/AssociationSearchFilterSelect/AssociationSearchFilterSelect.vue'
 import SearchAssociationLayout from '@/features/student/associations/components/interactions/SearchAssociationLayout/SearchAssociationLayout.vue'
 import { useAssociationSearch } from '@/features/student/associations/composables/use-association-search/use-association-search'
-import { DEFAULT_ASSOCIATION_SEARCH_FILTER } from '@/features/student/associations/constants/associations.constants'
 import { canAssociateContextType, getAssociableContextTypes } from '@/features/student/associations/utils/associations.utils'
 import { useI18n } from 'vue-i18n'
 
@@ -36,22 +35,18 @@ const { t } = useI18n()
 const selectableContextTypes = (associatedContextTypes ?? getAssociableContextTypes(contextType)).filter(canAssociateContextType)
 
 const activeContextType = ref<EAssociationContextType>(selectableContextTypes[0]!)
-const searchQuery = ref('')
-const searchFilter = ref(DEFAULT_ASSOCIATION_SEARCH_FILTER)
 
-const searches = new Map(selectableContextTypes.map(associatedContextType => [
-  associatedContextType,
-  useAssociationSearch({
-    contextType,
-    associatedContextType,
-    searchQuery,
-    searchFilter,
-    enabled: () => enabled && activeContextType.value === associatedContextType
-  })
-]))
-
-const activeSearch = computed(() => searches.get(activeContextType.value)!)
-const isSearchLoading = computed(() => activeSearch.value.isLoading.value)
+const {
+  searchQuery,
+  searchFilter,
+  isFilterable,
+  associations,
+  isLoading: isSearchLoading
+} = useAssociationSearch({
+  contextType,
+  associatedContextType: activeContextType,
+  enabled: () => enabled
+})
 
 function toAutocompleteOption (association: Association): AvAutocompleteOption {
   return {
@@ -71,7 +66,7 @@ function toAssociation (option: AvAutocompleteOption): Association {
   }
 }
 
-const autocompleteOptions = computed<AvAutocompleteOption[]>(() => activeSearch.value.associations.value.map(toAutocompleteOption))
+const autocompleteOptions = computed<AvAutocompleteOption[]>(() => associations.value.map(toAutocompleteOption))
 
 const activeAssociations = computed<Association[]>(() => selections.value[activeContextType.value] ?? [])
 
@@ -85,7 +80,7 @@ const autocompleteSelectedOptions = computed<AvAutocompleteOption[]>({
   }
 })
 
-const searchPlaceholder = computed(() => activeSearch.value.isFilterable
+const searchPlaceholder = computed(() => isFilterable.value
   ? t(`student.associations.contextTypes.${activeContextType.value}.searchFilters.${searchFilter.value}.searchPlaceholder`)
   : t(`student.associations.contextTypes.${activeContextType.value}.searchPlaceholder`))
 
@@ -125,7 +120,7 @@ watch(activeContextType, () => {
             data-testid="associate-elements-type-select"
           />
           <AssociationSearchFilterSelect
-            v-if="activeSearch.isFilterable"
+            v-if="isFilterable"
             v-model="searchFilter"
             :context-type="activeContextType"
             :label="t('student.associations.sections.AssociationSelectionSection.filterLabel')"

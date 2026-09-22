@@ -59,7 +59,7 @@ const {
 } = useAssociationSearch({
   contextType,
   elementId: () => elementId,
-  associatedContextType,
+  associatedContextType: () => associatedContextType,
   enabled: () => opened
 })
 
@@ -86,28 +86,26 @@ const selectedAssociations = computed<Association[]>(() =>
   }))
 )
 
-const searchPlaceholder = computed(() => isFilterable
+const searchPlaceholder = computed(() => isFilterable.value
   ? t(`student.associations.contextTypes.${associatedContextType}.searchFilters.${searchFilter.value}.searchPlaceholder`)
   : t(`student.associations.contextTypes.${associatedContextType}.searchPlaceholder`))
 
 const isLoading = computed(() => isSearchLoading.value || isPending.value)
 
-watch(() => opened, (isOpened) => {
-  if (!isOpened) {
-    closeConfirmModal()
-    closeCancelConfirmationModal()
-    selectedOptions.value = []
-    searchQuery.value = ''
-    searchFilter.value = DEFAULT_ASSOCIATION_SEARCH_FILTER
-  }
-})
+function clear () {
+  closeConfirmModal()
+  closeCancelConfirmationModal()
+  selectedOptions.value = []
+  searchQuery.value = ''
+  searchFilter.value = DEFAULT_ASSOCIATION_SEARCH_FILTER
+}
 
 function onDeleteItem (itemId: string) {
   selectedOptions.value = selectedOptions.value.filter(option => option.value !== itemId)
 }
 
 function onCancel () {
-  selectedOptions.value = []
+  clear()
   emit('cancel')
 }
 
@@ -120,11 +118,6 @@ function onClose () {
   onCancel()
 }
 
-function onConfirmCancel () {
-  closeCancelConfirmationModal()
-  onCancel()
-}
-
 function onConfirm () {
   closeConfirmModal()
 
@@ -133,7 +126,10 @@ function onConfirm () {
     elementId,
     associatedContextType,
     idsToAssociate: selectedAssociations.value.map(({ id }) => id)
-  }, () => emit('associated'))
+  }, () => {
+    clear()
+    emit('associated')
+  })
 }
 </script>
 
@@ -203,6 +199,6 @@ function onConfirm () {
     :opened="cancelConfirmationModalOpened"
     :description="t(`student.associations.contextTypes.${associatedContextType}.cancelConfirmation`)"
     @close="closeCancelConfirmationModal"
-    @confirm="onConfirmCancel"
+    @confirm="onCancel"
   />
 </template>

@@ -69,8 +69,9 @@ const readOnly = computed(() => isDeclaredActivityUnsubscribed(declaredActivityD
         :is-loading="isPending"
         :limits="associationLimits"
         :actions-disabled="readOnly"
+        :actions-disabled-tooltip="t('student.activities.views.ActivityView.MyPerspectiveSection.associationsDisabledTooltip')"
       >
-        <template #actions-footer>
+        <template #footer>
           <span
             v-if="maxTraceAssociationsReached"
             class="caption-light av-text-right"
