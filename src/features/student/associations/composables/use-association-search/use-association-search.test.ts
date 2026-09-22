@@ -431,7 +431,7 @@ BddTest().given('the useAssociationSearch composable', () => {
     BddTest().then('it should be filterable', async () => {
       await mountTraceSearch()
 
-      expect(composable.isFilterable).toBe(true)
+      expect(composable.isFilterable.value).toBe(true)
     })
 
     BddTest().then('it should only search the unassociated elements by default', async () => {
@@ -493,7 +493,7 @@ BddTest().given('the useAssociationSearch composable', () => {
     })
 
     BddTest().then('it should not be filterable', () => {
-      expect(composable.isFilterable).toBe(false)
+      expect(composable.isFilterable.value).toBe(false)
     })
 
     BddTest().then('it should never send the association status, whatever the filter', () => {

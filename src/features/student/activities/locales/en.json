@@ -158,6 +158,7 @@
             "saveDisabledTooltip": "Edit your reflection and fix errors before saving"
           },
           "MyPerspectiveSection": {
+            "associationsDisabledTooltip": "You can no longer edit the associations because you have unsubscribed from the activity",
             "maxTraceAssociationsReached": "You have reached the maximum number of traces allowed for this activity",
             "tabs": {
               "associatedElements": "My associated elements ({count})",

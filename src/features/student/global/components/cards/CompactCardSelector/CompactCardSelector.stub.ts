@@ -10,6 +10,7 @@ export const CompactCardSelectorStub = defineComponent({
     readonly: { type: Boolean, default: false },
     icon: { type: String, required: true },
     color: { type: String },
+    iconColor: { type: String },
     backgroundColor: { type: String },
     iconBorderColor: { type: String },
     checkboxColor: { type: String },

@@ -61,13 +61,7 @@ const selectableElements = computed<CompactCardSelectorProps['elements']>(() => 
   }
 })
 
-const selectorColors = computed(() => associatedContextType === EAssociationContextType.DECLARED_ACTIVITY
-  ? {
-      color: 'var(--text1)',
-      iconColor: 'var(--icon)',
-      backgroundColor: 'var(--surface-background)'
-    }
-  : {})
+const isLight = computed(() => associatedContextType === EAssociationContextType.DECLARED_ACTIVITY)
 </script>
 
 <template>
@@ -75,7 +69,8 @@ const selectorColors = computed(() => associatedContextType === EAssociationCont
     v-model="selectedAssociationIds"
     :elements="selectableElements"
     :icon="ASSOCIATION_TYPE_ICONS[associatedContextType]"
-    v-bind="selectorColors"
+    :icon-color="isLight ? 'var(--icon)' : undefined"
+    :background-color="isLight ? 'var(--surface-background)' : undefined"
     :readonly="readonly"
     data-testid="associations-selector"
   >

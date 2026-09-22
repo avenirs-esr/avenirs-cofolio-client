@@ -469,23 +469,63 @@ BddTest().given('an associate modal', () => {
         })
       })
 
-      BddTest().and('the modal is closed by its parent while the confirm associate modal is opened', () => {
+      BddTest().and('the user has filtered and searched the traces before confirming the association', () => {
         beforeEach(async () => {
-          getModal().vm.$emit('confirm')
+          getFilterSelect().vm.$emit('update:modelValue', AssociationSearchFilter.ALL)
+          getLayout().vm.$emit('update:search', 'numéro')
           await nextTick()
-          await wrapper.setProps({ opened: false })
+          await confirmAssociation()
+          await vi.waitFor(() => expect(wrapper.emitted('associated')).toBeDefined())
         })
 
-        BddTest().then('it should reset the selection', () => {
+        BddTest().then('it should clear the selection, the search and the filter before emitting associated', () => {
           expect(getLayout().props('modelValue')).toEqual([])
           expect(getLayout().props('items')).toEqual([])
-          expect(getConfirmModal().props('items')).toEqual([])
-        })
-
-        BddTest().then('it should close the confirm associate modal', () => {
+          expect(getLayout().props('search')).toBe('')
+          expect(getFilterSelect().props('modelValue')).toBe(AssociationSearchFilter.UNASSOCIATED)
           expect(getConfirmModal().props('opened')).toBe(false)
         })
       })
+    })
+  })
+
+  BddTest().when('the modal is opened to associate traces and the user filters and searches them', () => {
+    beforeEach(async () => {
+      await mountModal(traceProps)
+      getFilterSelect().vm.$emit('update:modelValue', AssociationSearchFilter.ASSOCIATED)
+      getLayout().vm.$emit('update:search', 'numéro')
+      await nextTick()
+    })
+
+    BddTest().and('the user closes the modal without any selection', () => {
+      beforeEach(async () => {
+        getModal().vm.$emit('close')
+        await nextTick()
+      })
+
+      BddTest().then('it should clear the search and the filter before emitting cancel', () => {
+        expect(getLayout().props('search')).toBe('')
+        expect(getFilterSelect().props('modelValue')).toBe(AssociationSearchFilter.UNASSOCIATED)
+        expect(wrapper.emitted('cancel')).toHaveLength(1)
+      })
+    })
+  })
+
+  BddTest().when('the modal is reused to associate another context type', () => {
+    beforeEach(async () => {
+      await mountModal(traceProps)
+      await wrapper.setProps({ associatedContextType: EAssociationContextType.DECLARED_SKILL })
+      await vi.waitFor(() => expect(getLayoutOptions()[0].value).toBe('skill-search-1'))
+    })
+
+    BddTest().then('it should search the elements of the new context type', () => {
+      expect(getLayoutOptions().map(({ value }) => value)).toEqual(['skill-search-1', 'skill-search-2', 'skill-search-3'])
+    })
+
+    BddTest().then('it should use the texts of the new context type', () => {
+      expect(wrapper.find('[data-testid="associate-declared-skills-modal"]').exists()).toBe(true)
+      expect(getFilterSelect().exists()).toBe(false)
+      expect(getLayout().props('inputOptions')).toEqual({ placeholder: 'Rechercher une compétence...' })
     })
   })
 

@@ -59,7 +59,7 @@ BddTest().given('an associations selector', () => {
 
     BddTest().then('it should use the trace icon and the default colors', () => {
       expect(findSelector().props('icon')).toBe(ICONS.TRACES)
-      expect(findSelector().props('color')).toBeUndefined()
+      expect(findSelector().props('iconColor')).toBeUndefined()
       expect(findSelector().props('backgroundColor')).toBeUndefined()
     })
 
@@ -101,7 +101,7 @@ BddTest().given('an associations selector', () => {
 
     BddTest().then('it should use the activity icon and colors', () => {
       expect(findSelector().props('icon')).toBe(ICONS.ACTIVITY)
-      expect(findSelector().props('color')).toBe('var(--text1)')
+      expect(findSelector().props('iconColor')).toBe('var(--icon)')
       expect(findSelector().props('backgroundColor')).toBe('var(--surface-background)')
     })
 

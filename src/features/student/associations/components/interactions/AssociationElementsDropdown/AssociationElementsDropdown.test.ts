@@ -178,6 +178,43 @@ BddTest().given('an association elements dropdown', () => {
     })
   })
 
+  BddTest().when('mounted with the global disabled prop and a disabled tooltip', () => {
+    beforeEach(() => {
+      wrapper = mountDropdown({
+        variant: 'delete',
+        disabled: true,
+        disabledTooltip: 'Actions indisponibles',
+        items: [
+          { type: EAssociationContextType.DECLARED_ACTIVITY, disabledTooltip: 'Aucune activité associée' },
+          { type: EAssociationContextType.DECLARED_SKILL },
+        ]
+      })
+    })
+
+    BddTest().then('it should display the dropdown disabled tooltip on every item', () => {
+      const items = wrapper.findComponent(AvDropdownStub).props('items')
+      expect(items.map((item: { disabledTooltip?: string }) => item.disabledTooltip)).toEqual(['Actions indisponibles', 'Actions indisponibles'])
+    })
+  })
+
+  BddTest().when('mounted with a disabled tooltip while the dropdown is enabled', () => {
+    beforeEach(() => {
+      wrapper = mountDropdown({
+        variant: 'delete',
+        disabledTooltip: 'Actions indisponibles',
+        items: [
+          { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: true, disabledTooltip: 'Aucune activité associée' },
+          { type: EAssociationContextType.DECLARED_SKILL },
+        ]
+      })
+    })
+
+    BddTest().then('it should keep the disabled tooltip of each item', () => {
+      const items = wrapper.findComponent(AvDropdownStub).props('items')
+      expect(items.map((item: { disabledTooltip?: string }) => item.disabledTooltip)).toEqual(['Aucune activité associée', undefined])
+    })
+  })
+
   BddTest().when('mounted with a data-testid provided by the parent', () => {
     beforeEach(() => {
       wrapper = mountDropdown(

@@ -1,19 +1,66 @@
 {
   "student": {
     "associations": {
+      "cards": {
+        "SelectedAssociateItemsContainer": {
+          "label": "Mes éléments sélectionnés ({count})"
+        }
+      },
       "contextTypes": {
+        "DECLARED_ACTIVITY": {
+          "associateConfirm": "Associer l'activité sélectionnée (1) | Associer les activités sélectionnées ({count})",
+          "associateConfirmTitle": "Êtes-vous certain(e) de vouloir associer cette activité\u00A0? | Êtes-vous certain(e) de vouloir associer ces activités\u00A0?",
+          "associatedTitle": "Mon activité déclarée associée ({count}) | Mes activités déclarées associées ({count})",
+          "associatedTitleLimited": "Mon activité déclarée associée ({count}/{limit}) | Mes activités déclarées associées ({count}/{limit})",
+          "associateSuccess": "Vous avez associé {count} activité. Retrouvez-la dans la catégorie \"Mes activités associées\". | Vous avez associé {count} activités. Retrouvez-les dans la catégorie \"Mes activités associées\".",
+          "associateTitle": "Quelle(s) activité(s) souhaitez-vous associer\u00A0?",
+          "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association d'activités\u00A0?",
+          "dropdownLabel": "une/des activité(s)",
+          "emptyAssociations": "Aucune association pour cette activité.",
+          "fetchAssociationsError": "Une erreur est survenue lors de la récupération des éléments associés à l'activité.",
+          "searchPlaceholder": "Rechercher une activité...",
+          "selectionLabel": "Mes activités",
+          "unassociateDisabledTooltip": "Aucune activité associée ne peut être dissociée."
+        },
+        "DECLARED_EXPERIENCE": {
+          "associateConfirm": "Associer l'expérience sélectionnée (1) | Associer les expériences sélectionnées ({count})",
+          "associateConfirmTitle": "Êtes-vous certain(e) de vouloir associer cette expérience\u00A0? | Êtes-vous certain(e) de vouloir associer ces expériences\u00A0?",
+          "associatedTitle": "Mon expérience déclarée associée ({count}) | Mes expériences déclarées associées ({count})",
+          "associatedTitleLimited": "Mon expérience déclarée associée ({count}/{limit}) | Mes expériences déclarées associées ({count}/{limit})",
+          "associateSuccess": "Vous avez associé {count} expérience. Retrouvez-la dans la catégorie \"Mes expériences associées\". | Vous avez associé {count} expériences. Retrouvez-les dans la catégorie \"Mes expériences associées\".",
+          "associateTitle": "Quelle(s) expérience(s) souhaitez-vous associer\u00A0?",
+          "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association d'expériences\u00A0?",
+          "dropdownLabel": "une/des expérience(s)",
+          "emptyAssociations": "Aucune association pour cette expérience déclarée",
+          "fetchAssociationsError": "Une erreur est survenue lors de la récupération des associations de l'expérience déclarée.",
+          "searchPlaceholder": "Rechercher une expérience...",
+          "selectionLabel": "Mes expériences",
+          "unassociateDisabledTooltip": "Aucune expérience associée ne peut être dissociée."
+        },
+        "DECLARED_SKILL": {
+          "associateConfirm": "Associer la compétence sélectionnée (1) | Associer les compétences sélectionnées ({count})",
+          "associateConfirmTitle": "Êtes-vous certain(e) de vouloir associer cette compétence\u00A0? | Êtes-vous certain(e) de vouloir associer ces compétences\u00A0?",
+          "associatedTitle": "Mes compétences associées (0) | Ma compétence associée (1) | Mes compétences associées ({count})",
+          "associatedTitleLimited": "Mes compétences associées (0/{limit}) | Ma compétence associée (1/{limit}) | Mes compétences associées ({count}/{limit})",
+          "associateSuccess": "{count} compétence associée avec succès | {count} compétences associées avec succès",
+          "associateTitle": "Quelle(s) compétence(s) déclarée(s) souhaitez-vous associer\u00A0?",
+          "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association de compétences\u00A0?",
+          "dropdownLabel": "une/des compétence(s)",
+          "emptyAssociations": "Aucune association pour cette compétence déclarée",
+          "fetchAssociationsError": "Une erreur est survenue lors du chargement des associations",
+          "searchPlaceholder": "Rechercher une compétence...",
+          "selectionLabel": "Mes compétences",
+          "unassociateDisabledTooltip": "Aucune compétence associée ne peut être dissociée."
+        },
         "TRACE": {
-          "dropdownLabel": "une/des trace(s)",
-          "unassociateDisabledTooltip": "Aucune trace associée ne peut être dissociée.",
-          "selectionLabel": "Mes traces",
-          "searchPlaceholder": "Rechercher une trace...",
-          "associatedTitle": "Ma trace associée ({count}) | Mes traces associées ({count})",
-          "associatedTitleLimited": "Ma trace associée ({count}/{limit}) | Mes traces associées ({count}/{limit})",
-          "associateTitle": "Quelle(s) trace(s) souhaitez-vous associer\u00A0?",
           "associateConfirm": "Associer la trace sélectionnée (1) | Associer les traces sélectionnées ({count})",
           "associateConfirmTitle": "Êtes-vous certain(e) de vouloir associer cette trace\u00A0? | Êtes-vous certain(e) de vouloir associer ces traces\u00A0?",
+          "associatedTitle": "Ma trace associée ({count}) | Mes traces associées ({count})",
+          "associatedTitleLimited": "Ma trace associée ({count}/{limit}) | Mes traces associées ({count}/{limit})",
           "associateSuccess": "Vous avez associé {count} trace. Retrouvez-la dans la catégorie « Mes traces associées ». | Vous avez associé {count} traces. Retrouvez-les dans la catégorie « Mes traces associées ».",
+          "associateTitle": "Quelle(s) trace(s) souhaitez-vous associer\u00A0?",
           "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association de traces\u00A0?",
+          "dropdownLabel": "une/des trace(s)",
           "emptyAssociations": "Aucune association pour cette trace.",
           "fetchAssociationsError": "Une erreur est survenue lors de la récupération des éléments associés à la trace.",
           "searchFilters": {
@@ -29,57 +76,10 @@
               "label": "Mes traces non associées",
               "searchPlaceholder": "Rechercher une trace non associée..."
             }
-          }
-        },
-        "DECLARED_ACTIVITY": {
-          "dropdownLabel": "une/des activité(s)",
-          "unassociateDisabledTooltip": "Aucune activité associée ne peut être dissociée.",
-          "selectionLabel": "Mes activités",
-          "searchPlaceholder": "Rechercher une activité...",
-          "associatedTitle": "Mon activité déclarée associée ({count}) | Mes activités déclarées associées ({count})",
-          "associatedTitleLimited": "Mon activité déclarée associée ({count}/{limit}) | Mes activités déclarées associées ({count}/{limit})",
-          "associateTitle": "Quelle(s) activité(s) souhaitez-vous associer\u00A0?",
-          "associateConfirm": "Associer l'activité sélectionnée (1) | Associer les activités sélectionnées ({count})",
-          "associateConfirmTitle": "Êtes-vous certain(e) de vouloir associer cette activité\u00A0? | Êtes-vous certain(e) de vouloir associer ces activités\u00A0?",
-          "associateSuccess": "Vous avez associé {count} activité. Retrouvez-la dans la catégorie \"Mes activités associées\". | Vous avez associé {count} activités. Retrouvez-les dans la catégorie \"Mes activités associées\".",
-          "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association d'activités\u00A0?",
-          "emptyAssociations": "Aucune association pour cette activité.",
-          "fetchAssociationsError": "Une erreur est survenue lors de la récupération des éléments associés à l'activité."
-        },
-        "DECLARED_SKILL": {
-          "dropdownLabel": "une/des compétence(s)",
-          "unassociateDisabledTooltip": "Aucune compétence associée ne peut être dissociée.",
-          "selectionLabel": "Mes compétences",
-          "searchPlaceholder": "Rechercher une compétence...",
-          "associatedTitle": "Mes compétences associées (0) | Ma compétence associée (1) | Mes compétences associées ({count})",
-          "associatedTitleLimited": "Mes compétences associées (0/{limit}) | Ma compétence associée (1/{limit}) | Mes compétences associées ({count}/{limit})",
-          "associateTitle": "Quelle(s) compétence(s) déclarée(s) souhaitez-vous associer\u00A0?",
-          "associateConfirm": "Associer la compétence sélectionnée (1) | Associer les compétences sélectionnées ({count})",
-          "associateConfirmTitle": "Êtes-vous certain(e) de vouloir associer cette compétence\u00A0? | Êtes-vous certain(e) de vouloir associer ces compétences\u00A0?",
-          "associateSuccess": "{count} compétence associée avec succès | {count} compétences associées avec succès",
-          "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association de compétences\u00A0?",
-          "emptyAssociations": "Aucune association pour cette compétence déclarée",
-          "fetchAssociationsError": "Une erreur est survenue lors du chargement des associations"
-        },
-        "DECLARED_EXPERIENCE": {
-          "dropdownLabel": "une/des expérience(s)",
-          "unassociateDisabledTooltip": "Aucune expérience associée ne peut être dissociée.",
-          "selectionLabel": "Mes expériences",
-          "searchPlaceholder": "Rechercher une expérience...",
-          "associatedTitle": "Mon expérience déclarée associée ({count}) | Mes expériences déclarées associées ({count})",
-          "associatedTitleLimited": "Mon expérience déclarée associée ({count}/{limit}) | Mes expériences déclarées associées ({count}/{limit})",
-          "associateTitle": "Quelle(s) expérience(s) souhaitez-vous associer\u00A0?",
-          "associateConfirm": "Associer l'expérience sélectionnée (1) | Associer les expériences sélectionnées ({count})",
-          "associateConfirmTitle": "Êtes-vous certain(e) de vouloir associer cette expérience\u00A0? | Êtes-vous certain(e) de vouloir associer ces expériences\u00A0?",
-          "associateSuccess": "Vous avez associé {count} expérience. Retrouvez-la dans la catégorie \"Mes expériences associées\". | Vous avez associé {count} expériences. Retrouvez-les dans la catégorie \"Mes expériences associées\".",
-          "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association d'expériences\u00A0?",
-          "emptyAssociations": "Aucune association pour cette expérience déclarée",
-          "fetchAssociationsError": "Une erreur est survenue lors de la récupération des associations de l'expérience déclarée."
-        }
-      },
-      "cards": {
-        "SelectedAssociateItemsContainer": {
-          "label": "Mes éléments sélectionnés ({count})"
+          },
+          "searchPlaceholder": "Rechercher une trace...",
+          "selectionLabel": "Mes traces",
+          "unassociateDisabledTooltip": "Aucune trace associée ne peut être dissociée."
         }
       },
       "interactions": {
@@ -94,13 +94,13 @@
       },
       "overlays": {
         "modals": {
+          "DeleteAssociationsConfirmModal": {
+            "title": "Êtes-vous certain(e) de vouloir supprimer cette association\u00A0? | Êtes-vous certain(e) de vouloir supprimer ces associations\u00A0?"
+          },
           "DeleteAssociationsModal": {
             "confirmButton": "Supprimer les associations sélectionnées (0) | Supprimer l'association sélectionnée (1) | Supprimer les associations sélectionnées ({count})",
             "success": "L'association sélectionnée a été supprimée avec succès | Les associations sélectionnées ont été supprimées avec succès",
             "title": "Aucune association à supprimer | Quelle association souhaitez-vous supprimer\u00A0? | Quelles associations souhaitez-vous supprimer\u00A0?"
-          },
-          "DeleteAssociationsConfirmModal": {
-            "title": "Êtes-vous certain(e) de vouloir supprimer cette association\u00A0? | Êtes-vous certain(e) de vouloir supprimer ces associations\u00A0?"
           }
         }
       },

@@ -18,9 +18,10 @@ export interface AssociationElementsDropdownProps {
   variant: AssociationElementsDropdownVariant
   items: AssociationElementsDropdownItem[]
   disabled?: boolean
+  disabledTooltip?: string
 }
 
-const { variant, items, disabled = false } = defineProps<AssociationElementsDropdownProps>()
+const { variant, items, disabled = false, disabledTooltip } = defineProps<AssociationElementsDropdownProps>()
 
 const emit = defineEmits<{
   (e: 'select', type: EAssociationContextType): void
@@ -38,12 +39,12 @@ const triggerIcon = computed(() =>
 
 const triggerVariant = computed(() => isAssociate.value ? 'FLAT' : undefined)
 
-const menuItems = computed<AvDropdownItem[]>(() => items.map(({ type, disabled: itemDisabled = false, disabledTooltip }) => ({
+const menuItems = computed<AvDropdownItem[]>(() => items.map(({ type, disabled: itemDisabled = false, disabledTooltip: itemDisabledTooltip }) => ({
   name: ASSOCIATION_DROPDOWN_ITEM_NAMES[type],
   icon: ASSOCIATION_TYPE_ICONS[type],
   label: t(`student.associations.contextTypes.${type}.dropdownLabel`),
   disabled: disabled || itemDisabled,
-  disabledTooltip,
+  disabledTooltip: disabled && disabledTooltip ? disabledTooltip : itemDisabledTooltip,
 })))
 
 function handleItemSelected (itemName: string) {

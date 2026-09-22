@@ -4,6 +4,7 @@ import type { BaseApiException } from '@/common/exceptions'
 import type { AssociationLimits } from '@/features/student/associations/types/associations.types'
 import type { Slot } from 'vue'
 import { QuerySuspense } from '@/common/components'
+import { useModal } from '@/common/composables'
 import AssociatedElementsCard from '@/features/student/associations/components/cards/AssociatedElementsCard/AssociatedElementsCard.vue'
 import AssociationElementsDropdown, { type AssociationElementsDropdownItem }
   from '@/features/student/associations/components/interactions/AssociationElementsDropdown/AssociationElementsDropdown.vue'
@@ -19,8 +20,6 @@ import {
 } from '@/features/student/associations/utils/associations.utils'
 import { useI18n } from 'vue-i18n'
 
-type AssociationAction = 'associate' | 'unassociate'
-
 export interface ElementAssociationsProps {
   /** Context type of the element whose associations are displayed. */
   contextType: EAssociationContextType
@@ -30,12 +29,14 @@ export interface ElementAssociationsProps {
   isLoading?: boolean
   /** Context types of the associations to display and manage, all the associable ones by default. */
   associatedContextTypes?: EAssociationContextType[]
-  /** Maximum number of associations per context type, an association disabled when its limit is 0. */
+  /** Maximum number of associations per context type, an association is disabled when its limit is 0. */
   limits?: AssociationLimits
   /** Hides the association actions and disables the associated elements. */
   readonly?: boolean
   /** Disables the association actions. */
   actionsDisabled?: boolean
+  /** Tooltip explaining why the association actions are disabled. */
+  actionsDisabledTooltip?: string
 }
 
 const {
@@ -47,19 +48,32 @@ const {
   associatedContextTypes,
   limits,
   readonly = false,
-  actionsDisabled = false
+  actionsDisabled = false,
+  actionsDisabledTooltip
 } = defineProps<ElementAssociationsProps>()
 
 defineSlots<{
   /** Displayed below the association actions. */
-  'actions-footer'?: Slot
+  footer?: Slot
   /** Displayed above the associated elements. */
-  'header'?: Slot
+  header?: Slot
 }>()
 
 const { t } = useI18n()
 
-const openedModal = ref<{ action: AssociationAction, associatedContextType: EAssociationContextType }>()
+const {
+  modalOpened: associateModalOpened,
+  openModal: openAssociateModal,
+  closeModal: closeAssociateModal
+} = useModal()
+
+const {
+  modalOpened: unassociateModalOpened,
+  openModal: openUnassociateModal,
+  closeModal: closeUnassociateModal
+} = useModal()
+
+const selectedContextType = ref<EAssociationContextType>()
 
 const displayedContextTypes = computed(() => associatedContextTypes ?? getAssociableContextTypes(contextType))
 const elementAssociations = computed(() => associations ?? EMPTY_ASSOCIATIONS)
@@ -88,16 +102,16 @@ const unassociateItems = computed<AssociationElementsDropdownItem[]>(() => displ
 
 const isUnassociateDropdownDisabled = computed(() => actionsDisabled || unassociateItems.value.every(({ disabled }) => disabled))
 
-function openModal (action: AssociationAction, associatedContextType: EAssociationContextType) {
-  openedModal.value = { action, associatedContextType }
+const actionsTooltip = computed(() => actionsDisabled ? actionsDisabledTooltip : undefined)
+
+function onAssociateSelect (associatedContextType: EAssociationContextType) {
+  selectedContextType.value = associatedContextType
+  openAssociateModal()
 }
 
-function closeModal () {
-  openedModal.value = undefined
-}
-
-function isModalOpened (action: AssociationAction, associatedContextType: EAssociationContextType) {
-  return openedModal.value?.action === action && openedModal.value.associatedContextType === associatedContextType
+function onUnassociateSelect (associatedContextType: EAssociationContextType) {
+  selectedContextType.value = associatedContextType
+  openUnassociateModal()
 }
 </script>
 
@@ -116,18 +130,20 @@ function isModalOpened (action: AssociationAction, associatedContextType: EAssoc
           :data-testid="`delete-${slug}-associated-elements-dropdown`"
           :items="unassociateItems"
           :disabled="isUnassociateDropdownDisabled"
-          @select="associatedContextType => openModal('unassociate', associatedContextType)"
+          :disabled-tooltip="actionsTooltip"
+          @select="onUnassociateSelect"
         />
         <AssociationElementsDropdown
           variant="associate"
           :data-testid="`${slug}-associate-elements-dropdown`"
           :items="associateItems"
           :disabled="actionsDisabled"
-          @select="associatedContextType => openModal('associate', associatedContextType)"
+          :disabled-tooltip="actionsTooltip"
+          @select="onAssociateSelect"
         />
       </div>
 
-      <slot name="actions-footer" />
+      <slot name="footer" />
     </div>
 
     <slot name="header" />
@@ -152,29 +168,24 @@ function isModalOpened (action: AssociationAction, associatedContextType: EAssoc
     </QuerySuspense>
   </div>
 
-  <template v-if="!readonly">
-    <template
-      v-for="associatedContextType in displayedContextTypes"
-      :key="associatedContextType"
-    >
-      <AssociateModal
-        :opened="isModalOpened('associate', associatedContextType)"
-        :context-type="contextType"
-        :element-id="elementId"
-        :associated-context-type="associatedContextType"
-        @cancel="closeModal"
-        @associated="closeModal"
-      />
+  <template v-if="!readonly && selectedContextType">
+    <AssociateModal
+      :opened="associateModalOpened"
+      :context-type="contextType"
+      :element-id="elementId"
+      :associated-context-type="selectedContextType"
+      @cancel="closeAssociateModal"
+      @associated="closeAssociateModal"
+    />
 
-      <DeleteAssociationsModal
-        :opened="isModalOpened('unassociate', associatedContextType)"
-        :context-type="contextType"
-        :element-id="elementId"
-        :associated-context-type="associatedContextType"
-        :associations="elementAssociations"
-        @cancel="closeModal"
-        @deleted="closeModal"
-      />
-    </template>
+    <DeleteAssociationsModal
+      :opened="unassociateModalOpened"
+      :context-type="contextType"
+      :element-id="elementId"
+      :associated-context-type="selectedContextType"
+      :associations="elementAssociations"
+      @cancel="closeUnassociateModal"
+      @deleted="closeUnassociateModal"
+    />
   </template>
 </template>
