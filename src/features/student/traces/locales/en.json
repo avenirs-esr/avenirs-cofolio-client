@@ -162,7 +162,7 @@
             "confirmationTitle": "Delete selected trace | Delete selected traces ({count})",
             "title": "No trace to delete | Which trace would you like to delete? | Which traces would you like to delete?"
           },
-          "informationTooltip": "You can associate your traces with skills and situational activities, as well as with your life project. Unassociated traces are automatically deleted after three months if no action is taken on them.",
+          "informationTooltip": "A trace is a production or a resource that illustrates your learning. It can be added as a file or a link.",
           "studentDetailedTraceAssociateModal": {
             "buttons": {
               "associate": "Associate"

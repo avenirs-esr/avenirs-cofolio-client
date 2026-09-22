@@ -162,7 +162,7 @@
             "confirmationTitle": "Suppression de la trace sélectionnée | Suppression des traces sélectionnées ({count})",
             "title": "Aucune trace à supprimer | Quelle trace souhaitez-vous supprimer\u00A0? | Quelles traces souhaitez-vous supprimer\u00A0?"
           },
-          "informationTooltip": "Vous pouvez associer vos traces à des compétences et activités de mise en situations mais également à votre projet de vie. Les traces non associées sont automatiquement supprimées sous trois mois si aucune action n'est faite dessus.",
+          "informationTooltip": "Une trace est une production ou une ressource qui permet d'illustrer vos apprentissages. Elle peut être ajoutée sous la forme d'un fichier ou d'un lien.",
           "studentDetailedTraceAssociateModal": {
             "buttons": {
               "associate": "Associer"

@@ -462,6 +462,9 @@
           "title": "Edit my profile"
         }
       },
+      "InformationTooltip": {
+        "triggerAriaLabel": "Informations"
+      },
       "SelectorOverlay": {
         "ariaLabel": {
           "selected": "select {item}",

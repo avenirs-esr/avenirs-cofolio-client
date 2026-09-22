@@ -71,7 +71,7 @@ BddTest().given('a universe switcher', () => {
       })
 
       BddTest().then('it should render staff action as a link to staff home', () => {
-        expect(getStaffButton().attributes('data-tag')).toBe('router-link')
+        expect(getStaffButton().attributes('data-tag')).toBe('routerlink')
         expect(getStaffButton().attributes('href')).toBeDefined()
       })
 
@@ -122,7 +122,7 @@ BddTest().given('a universe switcher', () => {
       })
 
       BddTest().then('it should render student action as a link to student home', () => {
-        expect(getStudentButton().attributes('data-tag')).toBe('router-link')
+        expect(getStudentButton().attributes('data-tag')).toBe('routerlink')
         expect(getStudentButton().attributes('href')).toBeDefined()
       })
 
