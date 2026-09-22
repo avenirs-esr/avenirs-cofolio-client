@@ -111,7 +111,8 @@
             "OTHERS": {
               "emptyStateItemLabel": "une information",
               "seeAll": "Voir toutes mes autres informations",
-              "title": "Autre information (1) | Autres informations ({count})"
+              "title": "Autre information (1) | Autres informations ({count})",
+              "titleWithoutCount": "Autres informations"
             }
           }
         }

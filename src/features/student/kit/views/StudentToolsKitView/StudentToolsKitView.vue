@@ -18,11 +18,13 @@ const { getErrorMessage } = useApiErrors()
   <PageTitle
     :title="t('student.kit.views.StudentToolsKitView.title')"
     :information-tooltip="t('student.kit.views.StudentToolsKitView.informationTooltip')"
-  />
+  >
+    <template #actions>
+      <ExportKitButton />
+    </template>
+  </PageTitle>
 
   <div class="content av-col av-gap-lg">
-    <ExportKitButton />
-
     <QuerySuspense
       :error="error"
       :is-loading="isLoading"
