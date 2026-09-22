@@ -1,7 +1,7 @@
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { EExperienceType } from '@/api/avenir-esr'
-import { ICONS, ROUTES } from '@/common/constants'
+import { ROUTES } from '@/common/constants'
 import ValorizedDeclaredExperienceItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperienceItem/ValorizedDeclaredExperienceItem.vue'
 import { AvBadgeStub, AvButtonStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -72,12 +72,6 @@ BddTest().given('a valorized declared experience item', () => {
       expect(labels).toContain(`${BASE_DECLARED_EXPERIENCE.organization} • 01/2023 - 06/2023`)
     })
 
-    BddTest().then('it should render the skill and trace association counts', () => {
-      const iconTexts = wrapper.findAllComponents(AvIconTextStub)
-      expect(iconTexts.map(iconText => iconText.props('text'))).toEqual(['1 compétence', '3 traces'])
-      expect(iconTexts.map(iconText => iconText.props('icon'))).toEqual([ICONS.SKILLS, ICONS.TRACES])
-    })
-
     BddTest().then('it should render the experience type badge', () => {
       const labels = wrapper.findAllComponents(AvBadgeStub).map(badge => badge.props('label'))
       expect(labels).toContain('Expérience personnelle')
@@ -114,42 +108,6 @@ BddTest().given('a valorized declared experience item', () => {
     BddTest().then('it should not render the experience type badge', () => {
       const labels = wrapper.findAllComponents(AvBadgeStub).map(badge => badge.props('label'))
       expect(labels).not.toContain('Expérience personnelle')
-    })
-  })
-
-  BddTest().when('the experience has no associated skill', () => {
-    beforeEach(async () => {
-      wrapper = mountValorizedDeclaredExperienceItem({
-        ...BASE_DECLARED_EXPERIENCE,
-        declaredExperienceAssociationCountDTO: {
-          traceAssociationsCount: 3,
-          declaredSkillAssociationsCount: 0
-        }
-      })
-      await flushPromises()
-    })
-
-    BddTest().then('it should only render the trace association count', () => {
-      const iconTexts = wrapper.findAllComponents(AvIconTextStub)
-      expect(iconTexts.map(iconText => iconText.props('text'))).toEqual(['3 traces'])
-    })
-  })
-
-  BddTest().when('the experience has no associated trace', () => {
-    beforeEach(async () => {
-      wrapper = mountValorizedDeclaredExperienceItem({
-        ...BASE_DECLARED_EXPERIENCE,
-        declaredExperienceAssociationCountDTO: {
-          traceAssociationsCount: 0,
-          declaredSkillAssociationsCount: 1
-        }
-      })
-      await flushPromises()
-    })
-
-    BddTest().then('it should only render the skill association count', () => {
-      const iconTexts = wrapper.findAllComponents(AvIconTextStub)
-      expect(iconTexts.map(iconText => iconText.props('text'))).toEqual(['1 compétence'])
     })
   })
 

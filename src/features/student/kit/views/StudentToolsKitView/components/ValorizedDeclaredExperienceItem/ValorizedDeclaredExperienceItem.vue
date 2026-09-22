@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import type { AvLocale } from '@/types'
-import { EAssociationContextType } from '@/api/avenir-esr'
 import { formatDateToYearMonthLocalized } from '@/common/utils'
 import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
-import CountAssociationsBadge from '@/features/student/kit/views/StudentToolsKitView/components/CountAssociationsBadge/CountAssociationsBadge.vue'
 import ValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.vue'
 import { DeclaredExperienceOrganizationBadge, DeclaredExperienceTypeBadge } from '@/features/student/personalCareer'
+import { isProfessional } from '@/features/student/personalCareer/utils/experiences-utils/experiences-utils'
 import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -32,13 +31,6 @@ const period = computed(() => {
 })
 
 const organizationLabel = computed(() => `${declaredExperience.organization} • ${period.value}`)
-
-const skillAssociationsCount = computed(
-  () => declaredExperience.declaredExperienceAssociationCountDTO.declaredSkillAssociationsCount
-)
-const traceAssociationsCount = computed(
-  () => declaredExperience.declaredExperienceAssociationCountDTO.traceAssociationsCount
-)
 </script>
 
 <template>
@@ -64,18 +56,8 @@ const traceAssociationsCount = computed(
     </AvTooltip>
     <div class="av-row av-align-center av-wrap av-gap-xs">
       <DeclaredExperienceTypeBadge
-        v-if="declaredExperience.experienceType"
+        v-if="declaredExperience.experienceType && isProfessional(declaredExperience, false)"
         :experience-type="declaredExperience.experienceType"
-      />
-      <CountAssociationsBadge
-        v-if="skillAssociationsCount > 0"
-        :type="EAssociationContextType.DECLARED_SKILL"
-        :count="skillAssociationsCount"
-      />
-      <CountAssociationsBadge
-        v-if="traceAssociationsCount > 0"
-        :type="EAssociationContextType.TRACE"
-        :count="traceAssociationsCount"
       />
     </div>
   </ValorizedItem>

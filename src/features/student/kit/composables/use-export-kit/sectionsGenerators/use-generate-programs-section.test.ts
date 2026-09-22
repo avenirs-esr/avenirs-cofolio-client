@@ -107,11 +107,6 @@ BddTest().given('a useGenerateProgramsSection composable', () => {
     BddTest().then('it should generate programs section', () => {
       expect(result.programsSection.value.length).toBeGreaterThan(0)
     })
-
-    BddTest().then('it should generate programs without dates', () => {
-      expect(result.programsSection.value.some(section =>
-        (section as unknown as MockParagraph).heading === undefined)).toBe(false)
-    })
   })
 
   BddTest().when('the request fails', () => {

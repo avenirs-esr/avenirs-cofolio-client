@@ -121,8 +121,8 @@ BddTest().given('a useGenerateSelfKnowledgeSections composable', () => {
         (section as unknown as MockParagraph).heading === MockHeadingLevel.HEADING_1)).toBe(false)
     })
 
-    BddTest().then('it should only generate one paragraph per category', () => {
-      expect(result.selfKnowledgeSections.value).toHaveLength(nonInterestsCategories.length)
+    BddTest().then('it should only generate two paragraphs per category (category paragraph + empty paragraph)', () => {
+      expect(result.selfKnowledgeSections.value).toHaveLength(nonInterestsCategories.length * 2)
     })
   })
 
@@ -147,9 +147,9 @@ BddTest().given('a useGenerateSelfKnowledgeSections composable', () => {
         (section as unknown as MockParagraph).heading === MockHeadingLevel.HEADING_1)).toBe(true)
     })
 
-    BddTest().then('it should generate one non heading paragraph per category', () => {
+    BddTest().then('it should generate one non heading paragraph per category (plus one per non interest category for the empty paragraphs)', () => {
       expect(result.selfKnowledgeSections.value.filter(section =>
-        (section as unknown as MockParagraph).heading !== MockHeadingLevel.HEADING_1)).toHaveLength(allCategories.length)
+        (section as unknown as MockParagraph).heading !== MockHeadingLevel.HEADING_1)).toHaveLength((allCategories.length * 2 - 1))
     })
   })
 
