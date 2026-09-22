@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { FileDTO } from '@/api/avenir-esr'
 import type { AnyFieldApi } from '@/common/types'
+import { ACTIVITY_BANNER_RATIO } from '@/common/components/ImageUpload/config'
 import ImageUpload from '@/common/components/ImageUpload/ImageUpload.vue'
 import { type EditActivityForm, type EditActivityFormData, EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 import { markRaw } from 'vue'
@@ -43,6 +44,7 @@ function onUpdate (field: BannerField) {
         :default-image-url="field.state.value === EditActivityFormDataBannerAction.NONE ? remoteBanner.url : undefined"
         :default-image-name="field.state.value === EditActivityFormDataBannerAction.NONE ? remoteBanner.fileName : undefined"
         :image-alt="t('staff.activities.views.EditNationalActivityView.ActivityBannerFormField.bannerAlt')"
+        :aspect-ratio="ACTIVITY_BANNER_RATIO"
         :on-update="() => onUpdate(field)"
         data-testid="activity-banner-form-field"
       />
