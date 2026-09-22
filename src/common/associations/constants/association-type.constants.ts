@@ -7,24 +7,3 @@ export const ASSOCIATION_TYPE_ICONS: Record<EAssociationContextType, string> = {
   [EAssociationContextType.DECLARED_SKILL]: ICONS.SKILLS,
   [EAssociationContextType.DECLARED_EXPERIENCE]: ICONS.EXPERIENCES,
 }
-
-export const ASSOCIATION_TYPE_LABEL_KEYS: Record<EAssociationContextType, string> = {
-  [EAssociationContextType.TRACE]: 'global.associations.elementsToAssociate.traces',
-  [EAssociationContextType.DECLARED_ACTIVITY]: 'global.associations.elementsToAssociate.activities',
-  [EAssociationContextType.DECLARED_SKILL]: 'global.associations.elementsToAssociate.skills',
-  [EAssociationContextType.DECLARED_EXPERIENCE]: 'global.associations.elementsToAssociate.experiences',
-}
-
-export const ASSOCIATION_TYPE_ITEM_NAMES: Record<EAssociationContextType, string> = {
-  [EAssociationContextType.TRACE]: 'traces',
-  [EAssociationContextType.DECLARED_ACTIVITY]: 'activities',
-  [EAssociationContextType.DECLARED_SKILL]: 'skills',
-  [EAssociationContextType.DECLARED_EXPERIENCE]: 'experiences',
-}
-
-export const ASSOCIATION_CATEGORY_LABEL_KEY_PREFIXES: Record<EAssociationContextType, string | undefined> = {
-  [EAssociationContextType.TRACE]: undefined,
-  [EAssociationContextType.DECLARED_ACTIVITY]: 'global.activities.badges.thematics',
-  [EAssociationContextType.DECLARED_SKILL]: 'student.declaredSkills.declaredSkillTypes',
-  [EAssociationContextType.DECLARED_EXPERIENCE]: 'student.personalCareer.declaredExperienceType',
-}

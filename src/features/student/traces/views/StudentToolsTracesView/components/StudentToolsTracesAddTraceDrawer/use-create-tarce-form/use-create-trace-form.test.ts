@@ -1,11 +1,21 @@
-import { ETraceAuthorType } from '@/api/avenir-esr'
-import { EAssociationTypeKey, type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
+import type { AssociationSelections } from '@/features/student/associations'
+import { associateErrorHandler, createAssociateHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { EAssociationContextType, ETraceAuthorType } from '@/api/avenir-esr'
+import { type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
 import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { waitFor } from 'storybook/test'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+interface AssociationRequest {
+  contextType: EAssociationContextType
+  elementId: string
+  associatedContextType: EAssociationContextType
+  idsToAssociate: string[]
+}
 
 const mockAddErrorMessage = vi.fn()
 
@@ -281,90 +291,194 @@ BddTest().given('the useCreateTraceForm composable', () => {
   })
 
   BddTest().when('form is submitted with association selections', () => {
-    BddTest().then('it should call onTraceCreated', async () => {
-      const formData: TraceFormData = {
-        file: null,
-        traceType: TraceType.FILE,
-        traceName: 'my-trace-name',
-        personalNote: '',
-        authorType: ETraceAuthorType.PERSONAL,
-        useIA: false,
-        valorized: false,
-        iaJustification: '',
-        associationSelections: {
-          [EAssociationTypeKey.ACTIVITIES]: [{ id: 'activity-1', title: 'Activity 1' }]
-        }
-      }
+    const associationRequests: AssociationRequest[] = []
+    const traceIdMatcher = expect.stringMatching(/^trace-my-trace-name-/)
 
+    const createFormDataWithSelections = (associationSelections?: AssociationSelections): TraceFormData => ({
+      file: null,
+      traceType: TraceType.FILE,
+      traceName: 'my-trace-name',
+      personalNote: '',
+      authorType: ETraceAuthorType.PERSONAL,
+      useIA: false,
+      valorized: false,
+      iaJustification: '',
+      associationSelections
+    })
+
+    const submitForm = (formData: TraceFormData) => {
       composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+    }
 
-      await waitFor(() => {
-        expect(mockOnTraceCreated).toHaveBeenCalled()
+    beforeEach(() => {
+      associationRequests.length = 0
+      server.use(createAssociateHandler(({ contextType, elementId, associatedContextType }, { idsToAssociate }) => {
+        associationRequests.push({ contextType, elementId, associatedContextType, idsToAssociate })
+      }))
+    })
+
+    BddTest().and('activities are selected', () => {
+      beforeEach(() => {
+        submitForm(createFormDataWithSelections({
+          [EAssociationContextType.DECLARED_ACTIVITY]: [
+            { id: 'activity-1', title: 'Activity 1' },
+            { id: 'activity-2', title: 'Activity 2' }
+          ]
+        }))
+      })
+
+      BddTest().then('it should associate the selected activities with the created trace in one request', async () => {
+        await vi.waitFor(() => {
+          expect(associationRequests).toStrictEqual([{
+            contextType: EAssociationContextType.TRACE,
+            elementId: traceIdMatcher,
+            associatedContextType: EAssociationContextType.DECLARED_ACTIVITY,
+            idsToAssociate: ['activity-1', 'activity-2']
+          }])
+        })
+      })
+
+      BddTest().then('it should call onTraceCreated without error message', async () => {
+        await vi.waitFor(() => {
+          expect(associationRequests).toHaveLength(1)
+        })
+        await flushPromises()
+
+        expect(mockOnTraceCreated).toHaveBeenCalledTimes(1)
+        expect(mockAddErrorMessage).not.toHaveBeenCalled()
       })
     })
 
-    BddTest().then('it should call onTraceCreated when declared skills are selected', async () => {
-      const formData: TraceFormData = {
-        file: null,
-        traceType: TraceType.FILE,
-        traceName: 'my-trace-name',
-        personalNote: '',
-        authorType: ETraceAuthorType.PERSONAL,
-        useIA: false,
-        valorized: false,
-        iaJustification: '',
-        associationSelections: {
-          [EAssociationTypeKey.DECLARED_SKILLS]: [{ id: 'skill-1', title: 'Skill 1' }]
-        }
-      }
+    BddTest().and('declared skills are selected', () => {
+      beforeEach(() => {
+        submitForm(createFormDataWithSelections({
+          [EAssociationContextType.DECLARED_SKILL]: [{ id: 'skill-1', title: 'Skill 1' }]
+        }))
+      })
 
-      composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
-
-      await waitFor(() => {
-        expect(mockOnTraceCreated).toHaveBeenCalled()
+      BddTest().then('it should associate the selected declared skills with the created trace', async () => {
+        await vi.waitFor(() => {
+          expect(associationRequests).toStrictEqual([{
+            contextType: EAssociationContextType.TRACE,
+            elementId: traceIdMatcher,
+            associatedContextType: EAssociationContextType.DECLARED_SKILL,
+            idsToAssociate: ['skill-1']
+          }])
+        })
+        expect(mockOnTraceCreated).toHaveBeenCalledTimes(1)
       })
     })
 
-    BddTest().then('it should call onTraceCreated when both types are selected', async () => {
-      const formData: TraceFormData = {
-        file: null,
-        traceType: TraceType.FILE,
-        traceName: 'my-trace-name',
-        personalNote: '',
-        authorType: ETraceAuthorType.PERSONAL,
-        useIA: false,
-        valorized: false,
-        iaJustification: '',
-        associationSelections: {
-          [EAssociationTypeKey.ACTIVITIES]: [{ id: 'activity-1', title: 'Activity 1' }],
-          [EAssociationTypeKey.DECLARED_SKILLS]: [{ id: 'skill-1', title: 'Skill 1' }]
-        }
-      }
+    BddTest().and('both declared skills and activities are selected', () => {
+      beforeEach(() => {
+        submitForm(createFormDataWithSelections({
+          [EAssociationContextType.DECLARED_ACTIVITY]: [{ id: 'activity-1', title: 'Activity 1' }],
+          [EAssociationContextType.DECLARED_SKILL]: [{ id: 'skill-1', title: 'Skill 1' }]
+        }))
+      })
 
-      composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+      BddTest().then('it should send one association request per selected context type', async () => {
+        await vi.waitFor(() => {
+          expect(associationRequests).toHaveLength(2)
+        })
 
-      await waitFor(() => {
-        expect(mockOnTraceCreated).toHaveBeenCalled()
+        expect(associationRequests).toEqual(expect.arrayContaining([
+          {
+            contextType: EAssociationContextType.TRACE,
+            elementId: traceIdMatcher,
+            associatedContextType: EAssociationContextType.DECLARED_ACTIVITY,
+            idsToAssociate: ['activity-1']
+          },
+          {
+            contextType: EAssociationContextType.TRACE,
+            elementId: traceIdMatcher,
+            associatedContextType: EAssociationContextType.DECLARED_SKILL,
+            idsToAssociate: ['skill-1']
+          }
+        ]))
+        expect(mockOnTraceCreated).toHaveBeenCalledTimes(1)
       })
     })
 
-    BddTest().then('it should call onTraceCreated when selections are empty', async () => {
-      const formData: TraceFormData = {
-        file: null,
-        traceType: TraceType.FILE,
-        traceName: 'my-trace-name',
-        personalNote: '',
-        authorType: ETraceAuthorType.PERSONAL,
-        useIA: false,
-        valorized: false,
-        iaJustification: '',
-        associationSelections: {}
-      }
+    BddTest().and('a context type has an empty selection', () => {
+      beforeEach(() => {
+        submitForm(createFormDataWithSelections({
+          [EAssociationContextType.DECLARED_ACTIVITY]: [],
+          [EAssociationContextType.DECLARED_SKILL]: [{ id: 'skill-1', title: 'Skill 1' }]
+        }))
+      })
 
-      composableResult.form.options.onSubmit?.({ value: formData, formApi: composableResult.form, meta: {} })
+      BddTest().then('it should only associate the context types having selected elements', async () => {
+        await vi.waitFor(() => {
+          expect(associationRequests).toHaveLength(1)
+        })
+        await flushPromises()
 
-      await waitFor(() => {
-        expect(mockOnTraceCreated).toHaveBeenCalled()
+        expect(associationRequests[0]!.associatedContextType).toBe(EAssociationContextType.DECLARED_SKILL)
+        expect(associationRequests).toHaveLength(1)
+      })
+    })
+
+    BddTest().and('selections are empty', () => {
+      beforeEach(() => {
+        submitForm(createFormDataWithSelections({}))
+      })
+
+      BddTest().then('it should call onTraceCreated without associating anything', async () => {
+        await vi.waitFor(() => {
+          expect(mockOnTraceCreated).toHaveBeenCalledTimes(1)
+        })
+        await flushPromises()
+
+        expect(associationRequests).toStrictEqual([])
+        expect(mockAddErrorMessage).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().and('there are no selections', () => {
+      beforeEach(() => {
+        submitForm(createFormDataWithSelections())
+      })
+
+      BddTest().then('it should call onTraceCreated without associating anything', async () => {
+        await vi.waitFor(() => {
+          expect(mockOnTraceCreated).toHaveBeenCalledTimes(1)
+        })
+        await flushPromises()
+
+        expect(associationRequests).toStrictEqual([])
+        expect(mockAddErrorMessage).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().and('the associations fail', () => {
+      beforeEach(() => {
+        server.use(associateErrorHandler)
+        submitForm(createFormDataWithSelections({
+          [EAssociationContextType.DECLARED_ACTIVITY]: [{ id: 'activity-1', title: 'Activity 1' }],
+          [EAssociationContextType.DECLARED_SKILL]: [{ id: 'skill-1', title: 'Skill 1' }]
+        }))
+      })
+
+      BddTest().then('it should display the association error message only once', async () => {
+        await vi.waitFor(() => {
+          expect(mockAddErrorMessage).toHaveBeenCalled()
+        })
+        await flushPromises()
+
+        expect(mockAddErrorMessage).toHaveBeenCalledTimes(1)
+        expect(mockAddErrorMessage).toHaveBeenCalledWith({
+          title: 'Une erreur est survenue lors de l\'association',
+          description: 'Votre trace a été créée, vous pouvez réessayer d\'associer votre trace dans la page de détails de votre trace.'
+        })
+      })
+
+      BddTest().then('it should still call onTraceCreated', async () => {
+        await vi.waitFor(() => {
+          expect(mockAddErrorMessage).toHaveBeenCalled()
+        })
+
+        expect(mockOnTraceCreated).toHaveBeenCalledTimes(1)
       })
     })
   })

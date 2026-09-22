@@ -1,11 +1,6 @@
 {
   "student": {
     "personalCareer": {
-      "cards": {
-        "AssociatedDeclaredExperiencesCard": {
-          "title": "My associated declared experience ({count}) | My associated declared experiences ({count})"
-        }
-      },
       "declaredExperienceType": {
         "PERSONAL": "Personal experience",
         "PROFESSIONAL": "Professional experience",
@@ -116,13 +111,7 @@
           "sections": {
             "addExperience": "Add my experience",
             "associations": {
-              "title": "Associate my experience",
-              "types": {
-                "declaredSkills": {
-                  "label": "My skills",
-                  "placeholder": "Search for a skill..."
-                }
-              }
+              "title": "Associate my experience"
             }
           },
           "success": "Declared experience added successfully",
@@ -143,15 +132,6 @@
           "success": "Declared program added successfully",
           "title": "Add a declared program"
         },
-        "AssociateDeclaredExperiencesModal": {
-          "confirm": "Associate selected experience (1) | Associate selected experiences ({count})",
-          "searchPlaceholder": "Enter the name of a declared experience",
-          "success": "You have associated {count} experience. Find it in the \"My associated experiences\" category. | You have associated {count} experiences. Find them in the \"My associated experiences\" category.",
-          "title": "Which declared experience(s) would you like to associate?"
-        },
-        "ConfirmAssociateDeclaredExperiencesModal": {
-          "title": "Are you sure you want to associate this experience? | Are you sure you want to associate these experiences?"
-        },
         "DeleteDeclaredExperienceConfirmModal": {
           "description": "This action will result in the deletion of any associated links.",
           "error": "An error occurred while deleting the experience. | An error occurred while deleting the experiences.",
@@ -171,11 +151,7 @@
             "dropdown": "Manage my experience",
             "title": "Details of my declared experience"
           },
-          "empty": {
-            "associations": "No associations reported for this declared experience."
-          },
           "errors": {
-            "fetchAssociations": "An error occurred while retrieving the associations for the declared experience.",
             "notFound": {
               "description": "The experience you are looking for does not exist or is not accessible.",
               "title": "Declared experience not found"

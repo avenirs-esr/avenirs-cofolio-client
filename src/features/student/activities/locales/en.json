@@ -109,17 +109,11 @@
           "ActivityDetailedSideNavigation": {
             "myReflection": "My reflection"
           },
-          "AssociatedElementsTab": {
-            "maxTraceAssociationsReached": "You have reached the maximum number of traces allowed for this activity"
-          },
           "AssociationLimitCard": {
             "count": "Limited to {count} trace | Limited to {count} traces",
             "disabled": "Trace association disabled",
             "title": "Association limit",
             "unlimited": "Unlimited traces"
-          },
-          "DeleteActivityAssociatedElementsModal": {
-            "success": "The selected associations have been successfully deleted."
           },
           "DeleteMyActivityConfirmModal": {
             "success": "The content of your activity has been deleted",
@@ -164,6 +158,7 @@
             "saveDisabledTooltip": "Edit your reflection and fix errors before saving"
           },
           "MyPerspectiveSection": {
+            "maxTraceAssociationsReached": "You have reached the maximum number of traces allowed for this activity",
             "tabs": {
               "associatedElements": "My associated elements ({count})",
               "myPerspective": "My perspective"

@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { type DeclaredActivityDetailsDTO, EAssociationContextType, useGetAssociations } from '@/api/avenir-esr'
-import { isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
+import { isActivityAssociationToTraceDisabled, isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ICONS } from '@/common/constants'
 import { ACTIVITY_TRACE_SETTING_DISABLED_VALUE, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
-import AssociatedElementsTab from '@/features/student/activities/views/ActivityView/components/tabs/AssociatedElementsTab/AssociatedElementsTab.vue'
+import TraceAssociationLimitCard from '@/features/student/activities/views/ActivityView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'
 import MyPerspectiveTab from '@/features/student/activities/views/ActivityView/components/tabs/MyPerspectiveTab/MyPerspectiveTab.vue'
+import { type AssociationLimits, countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import { AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -24,20 +25,21 @@ const { t } = useI18n()
 const { data: declaredActivityAssociations, isPending, error } = useGetAssociations(EAssociationContextType.DECLARED_ACTIVITY, declaredActivityDetails.id)
 
 const activeTab = useEnumRouteQuery('tab', MyPerspectiveSectionTab, MyPerspectiveSectionTab.MY_PERSPECTIVE)
-const associationsCount = computed(() =>
-  (declaredActivityAssociations.value?.traceAssociations.length ?? 0)
-  + (declaredActivityAssociations.value?.declaredSkillAssociations.length ?? 0)
-)
+const associationsCount = computed(() => countElementAssociations(EAssociationContextType.DECLARED_ACTIVITY, declaredActivityAssociations.value))
+
+const traceAllowedAssociations = computed(() => declaredActivityDetails.activity.traceAllowedAssociations)
+
+const associationLimits = computed<AssociationLimits>(() => ({
+  [EAssociationContextType.TRACE]: traceAllowedAssociations.value
+}))
 
 const maxTraceAssociationsReached = computed(() =>
-  declaredActivityDetails.activity.traceAllowedAssociations !== ACTIVITY_TRACE_SETTING_DISABLED_VALUE
-  && declaredActivityDetails.activity.traceAllowedAssociations !== ACTIVITY_TRACE_SETTING_INFINITY_VALUE
-  && (declaredActivityAssociations.value?.traceAssociations.length ?? 0) >= declaredActivityDetails.activity.traceAllowedAssociations
+  traceAllowedAssociations.value !== ACTIVITY_TRACE_SETTING_DISABLED_VALUE
+  && traceAllowedAssociations.value !== ACTIVITY_TRACE_SETTING_INFINITY_VALUE
+  && (declaredActivityAssociations.value?.traceAssociations.length ?? 0) >= traceAllowedAssociations.value
 )
 
-const traceAssociationsDisabled = computed(() =>
-  declaredActivityDetails.activity.traceAllowedAssociations === ACTIVITY_TRACE_SETTING_DISABLED_VALUE
-)
+const traceAssociationEnabled = computed(() => !isActivityAssociationToTraceDisabled({ traceAllowedAssociations: traceAllowedAssociations.value }))
 
 const readOnly = computed(() => isDeclaredActivityUnsubscribed(declaredActivityDetails.status))
 </script>
@@ -59,18 +61,32 @@ const readOnly = computed(() => isDeclaredActivityUnsubscribed(declaredActivityD
       :icon="ICONS.ASSOCIATIONS"
       data-testid="associated-elements-tab-item"
     >
-      <AssociatedElementsTab
-        v-if="declaredActivityAssociations"
-        :declared-activity-id="declaredActivityDetails.id"
+      <ElementAssociations
+        :context-type="EAssociationContextType.DECLARED_ACTIVITY"
+        :element-id="declaredActivityDetails.id"
         :associations="declaredActivityAssociations"
-        :count-associations="associationsCount"
-        :trace-allowed-associations="declaredActivityDetails.activity.traceAllowedAssociations"
         :error="error"
         :is-loading="isPending"
-        :trace-associations-disabled="traceAssociationsDisabled"
-        :max-trace-associations-reached="maxTraceAssociationsReached"
-        :read-only="readOnly"
-      />
+        :limits="associationLimits"
+        :actions-disabled="readOnly"
+      >
+        <template #actions-footer>
+          <span
+            v-if="maxTraceAssociationsReached"
+            class="caption-light av-text-right"
+            data-testid="max-trace-associations-reached"
+          >
+            {{ t('student.activities.views.ActivityView.MyPerspectiveSection.maxTraceAssociationsReached') }}
+          </span>
+        </template>
+
+        <template #header>
+          <TraceAssociationLimitCard
+            v-if="traceAssociationEnabled"
+            :trace-allowed-associations="traceAllowedAssociations"
+          />
+        </template>
+      </ElementAssociations>
     </AvTab>
   </AvTabs>
 </template>

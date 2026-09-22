@@ -5,13 +5,12 @@ import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ICONS } from '@/common/constants'
+import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import DeclaredSkillDetails
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
 import DeclaredSkillSettingDropdown
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillSettingDropdown/DeclaredSkillSettingDropdown.vue'
 import DeleteDeclaredSkillConfirmModal from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.vue'
-import StudentDeclaredSkillAssociations
-  from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -33,16 +32,12 @@ const { modalOpened, openModal, closeModal } = useModal()
 const activeTab = ref(StudentDeclaredSkillViewTabs.DETAILS)
 
 const skillProgressId = computed(() => declaredSkillDetailed.value?.id ?? '')
-const { data, error: associationsError } = useGetAssociations(EAssociationContextType.DECLARED_SKILL, skillProgressId, undefined, { query: { enabled: computed(() => !!skillProgressId.value) } })
-const traceAssociations = computed(() => data.value?.traceAssociations ?? [])
-const declaredActivityAssociations = computed(() => data.value?.declaredActivityAssociations ?? [])
-const declaredExperienceAssociations = computed(() => data.value?.declaredExperienceAssociations ?? [])
+const { data: associations, error: associationsError } = useGetAssociations(EAssociationContextType.DECLARED_SKILL, skillProgressId, undefined, { query: { enabled: computed(() => !!skillProgressId.value) } })
 
 const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 const isDeclaredSkillNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND || isNotFound.value)
 const skillTitle = computed(() => declaredSkillDetailed.value?.title ?? '')
-const countAssociations = computed(() =>
-  traceAssociations.value.length + declaredActivityAssociations.value.length + declaredExperienceAssociations.value.length)
+const associationsCount = computed(() => countElementAssociations(EAssociationContextType.DECLARED_SKILL, associations.value))
 
 const trailingLinks = computed(() => [
   { text: t('student.declaredSkills.views.StudentDeclaredSkillView.breadcrumb.current.title', { skill: skillTitle.value }) }
@@ -82,18 +77,16 @@ function handleSkillDeleted () {
       />
     </AvTab>
     <AvTab
-      :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
+      :title="t('student.global.myAssociationsWithCount', { count: associationsCount })"
       :icon="ICONS.ASSOCIATIONS"
       data-testid="skill-associations-tab-item"
     >
-      <StudentDeclaredSkillAssociations
+      <ElementAssociations
         v-if="declaredSkillDetailed"
-        :declared-skill-id="declaredSkillDetailed.id"
-        :associated-traces="traceAssociations"
-        :associated-declared-activities="declaredActivityAssociations"
-        :associated-declared-experiences="declaredExperienceAssociations"
-        :associations-error="associationsError"
-        :count-associations="countAssociations"
+        :context-type="EAssociationContextType.DECLARED_SKILL"
+        :element-id="declaredSkillDetailed.id"
+        :associations="associations"
+        :error="associationsError"
       />
     </AvTab>
   </AvTabs>

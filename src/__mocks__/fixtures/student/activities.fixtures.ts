@@ -1,20 +1,14 @@
-import { createMockedDeclaredSkillAssociations } from '@/__mocks__/fixtures/student/declaredSkills.fixtures'
 import {
   type ActivityNavigationDTO,
   type ActivityOverviewDTO,
   type ActivityPresentationDTO,
-  type AssociationsDTO,
-  type DeclaredActivityAssociationDTO,
   type DeclaredActivityDetailsDTO,
   type DeclaredActivityViewDTO,
   EActivityThematic,
   EDeclaredActivityStatus,
   EFeedbackStatus,
   EFileType,
-  ETraceAuthorType,
-  type PagedResponseAssociationSearchResultDTO,
-  type PagedResponseDeclaredActivityViewDTO,
-  type TraceAssociationDTO
+  type PagedResponseDeclaredActivityViewDTO
 } from '@/api/avenir-esr'
 import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 
@@ -517,103 +511,5 @@ export function createMockedDeclaredActivityDetails (id: string, options?: { wit
           student: { id: 'student-1', firstName: 'Lucas', lastName: 'Tessier', email: 'lucas.tessier@university.com' },
         }]
       : undefined,
-  }
-}
-
-export function createMockedTraceAssociations (
-  traceCount: number,
-  idsToAssociate?: string[]
-): TraceAssociationDTO[] {
-  const traceAssociations: TraceAssociationDTO[] = []
-
-  for (let i = 1; i <= traceCount; i++) {
-    traceAssociations.push({
-      associationId: `association-${i}`,
-      trace: {
-        id: idsToAssociate?.[i - 1] ?? `trace-${i}`,
-        title: `Trace #${i} associée à l\'activité`,
-        authorType: i % 2 === 0 ? ETraceAuthorType.COLLECTIVE : ETraceAuthorType.PERSONAL,
-        createdAt: '2024-01-01T00:00:00Z',
-        updatedAt: '2024-01-01T00:00:00Z'
-      }
-    })
-  }
-
-  return traceAssociations
-}
-
-export const mockedDeclaredActivityAssociations: AssociationsDTO = {
-  traceAssociations: createMockedTraceAssociations(6),
-  declaredActivityAssociations: [],
-  declaredSkillAssociations: createMockedDeclaredSkillAssociations(3),
-  declaredExperienceAssociations: []
-}
-
-export function createMockedDeclaredActivityAssociationsDTO (
-  idsToAssociate: string[]
-): AssociationsDTO {
-  return {
-    traceAssociations: createMockedTraceAssociations(idsToAssociate.length - 1, idsToAssociate),
-    declaredActivityAssociations: [],
-    declaredSkillAssociations: createMockedDeclaredSkillAssociations(1),
-    declaredExperienceAssociations: []
-  }
-}
-
-export function createMockedPagedResponseAssociationSearchResultDeclaredActivityDTO (
-  pageSize: number,
-  page: number,
-  keyword = ''
-): PagedResponseAssociationSearchResultDTO {
-  const normalizedKeyword = keyword.toLowerCase()
-
-  const filteredActivities = allDeclaredActivities.filter(activity =>
-    normalizedKeyword.length === 0
-    || activity.title.toLowerCase().includes(normalizedKeyword)
-  )
-
-  const start = page * pageSize
-  const end = start + pageSize
-  const paginatedActivities = filteredActivities.slice(start, end)
-  const totalPages = Math.ceil(filteredActivities.length / pageSize)
-
-  return {
-    data: paginatedActivities.map(activity => ({
-      id: activity.id,
-      title: activity.title,
-      thematic: activity.thematic,
-      disabled: false,
-      summary: activity.summary,
-      status: activity.status,
-      startDate: activity.startDate,
-      endDate: activity.endDate,
-      updatedAt: '2026-01-01T00:00:00Z'
-    })),
-    page: {
-      pageSize,
-      totalElements: filteredActivities.length,
-      totalPages,
-      page
-    }
-  }
-}
-
-export function buildAssociation (
-  overrides: Partial<DeclaredActivityAssociationDTO['declaredActivity']> & { associationId: string }
-): DeclaredActivityAssociationDTO {
-  const { associationId, ...declaredActivityOverrides } = overrides
-
-  return {
-    associationId,
-    declaredActivity: {
-      id: `activity-${associationId}`,
-      activityId: `activity-${associationId}`,
-      title: `Activity ${associationId}`,
-      thematic: EActivityThematic.SELF_KNOWLEDGE,
-      summary: 'summary',
-      description: 'description',
-      status: EDeclaredActivityStatus.SUBSCRIBED,
-      ...declaredActivityOverrides
-    }
   }
 }

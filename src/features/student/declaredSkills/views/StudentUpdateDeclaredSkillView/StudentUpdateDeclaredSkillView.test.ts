@@ -1,11 +1,16 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { mockedDeclaredSkillAssociations, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
+import { detailedSkillProgressNotFoundErrorHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { EAssociationContextType, EErrorCode } from '@/api/avenir-esr'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
-import { StudentDeclaredSkillAssociationsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.stub'
+import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { UpdateDeclaredSkillFormStub } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.stub'
 import StudentUpdateDeclaredSkillView from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/StudentUpdateDeclaredSkillView.vue'
 import { AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -51,7 +56,7 @@ const stubs = {
   AvTabs: AvTabsStub,
   AvTab: AvTabStub,
   UpdateDeclaredSkillForm: UpdateDeclaredSkillFormStub,
-  StudentDeclaredSkillAssociations: StudentDeclaredSkillAssociationsStub,
+  ElementAssociations: ElementAssociationsStub,
   UpdateInProgressBadge: UpdateInProgressBadgeStub,
   ConfirmationModal: ConfirmationModalStub
 }
@@ -109,25 +114,93 @@ BddTest().given('a student update declared skill view component', () => {
       expect(badge.exists()).toBe(true)
     })
 
-    BddTest().then('it should render StudentDeclaredSkillAssociations with correct props', async () => {
+    BddTest().then('it should render ElementAssociations with correct props', async () => {
       await vi.waitFor(() => {
-        const associations = wrapper.findComponent(StudentDeclaredSkillAssociationsStub)
-        expect(associations.exists()).toBe(true)
-        expect(associations.props('declaredSkillId')).toBe('123')
-        expect(associations.props('associatedTraces')).toHaveLength(2)
-        expect(associations.props('associatedDeclaredActivities')).toHaveLength(1)
-        expect(associations.props('associatedDeclaredExperiences')).toHaveLength(2)
-        expect(associations.props('countAssociations')).toBe(5)
-        expect(associations.props('disabled')).toBe(true)
-        expect(associations.props('showActions')).toBe(false)
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.DECLARED_SKILL)
+        expect(elementAssociations.props('elementId')).toBe('123')
+        expect(elementAssociations.props('associations')).toEqual(mockedDeclaredSkillAssociations)
+        expect(elementAssociations.props('error')).toBeNull()
+      })
+    })
+
+    BddTest().then('it should render ElementAssociations as readonly', async () => {
+      await vi.waitFor(() => {
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('readonly')).toBe(true)
       })
     })
 
     BddTest().then('it should include all association types in the associations tab count', async () => {
       await vi.waitFor(() => {
         const tabs = wrapper.findAllComponents(AvTabStub)
-        expect(String(tabs[1].props('title'))).toContain('5')
+        expect(tabs[1].props('title')).toBe('Mes associations (5)')
       })
+    })
+  })
+
+  BddTest().when('the declared skill has no associations', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(StudentUpdateDeclaredSkillView, {
+        props: { skillId: 'SKILL_WITHOUT_ASSOCIATIONS' },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should pass the empty associations to ElementAssociations', async () => {
+      await vi.waitFor(() => {
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('associations')).toEqual(mockedEmptyAssociations)
+      })
+    })
+
+    BddTest().then('it should display a zero associations count in the associations tab title', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.findComponent(ElementAssociationsStub).props('associations')).toEqual(mockedEmptyAssociations)
+      })
+
+      expect(wrapper.findAllComponents(AvTabStub)[1].props('title')).toBe('Mes associations (0)')
+    })
+  })
+
+  BddTest().when('the associations query fails', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(StudentUpdateDeclaredSkillView, {
+        props: { skillId: 'INVALID_DECLARED_SKILL_ID' },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should pass the associations error to ElementAssociations', async () => {
+      await vi.waitFor(() => {
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: EErrorCode.DECLARED_SKILL_PROGRESS_NOT_FOUND }))
+        expect(elementAssociations.props('associations')).toBeUndefined()
+      })
+    })
+  })
+
+  BddTest().when('the declared skill is not found', () => {
+    beforeEach(async () => {
+      server.use(detailedSkillProgressNotFoundErrorHandler)
+
+      wrapper = mountComponent(StudentUpdateDeclaredSkillView, {
+        props: { skillId: '123' },
+        global: { stubs }
+      })
+      await flushPromises()
+    })
+
+    BddTest().then('it should not render ElementAssociations', () => {
+      expect(wrapper.findComponent(ElementAssociationsStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should display a zero associations count in the associations tab title', () => {
+      expect(wrapper.findAllComponents(AvTabStub)[1].props('title')).toBe('Mes associations (0)')
     })
 
     BddTest().then('it should render the confirmation modal initially closed', () => {

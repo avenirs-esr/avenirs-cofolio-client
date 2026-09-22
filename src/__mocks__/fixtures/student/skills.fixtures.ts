@@ -1,19 +1,11 @@
-import { createMockedTraceAssociations } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { createMockedDeclaredExperiencesAssociations } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
-  type AssociationsDTO,
-  type AssociationSearchResultDTO,
-  type DeclaredActivityAssociationDTO,
   type DeclaredSkillProgressDetailsDTO,
   type DeclaredSkillProgressDTO,
-  EActivityThematic,
-  EDeclaredActivityStatus,
   EDeclaredSkillLevel,
   EExternalSkillCategoryType,
   EExternalSkillType,
   type ExternalSkillDTO,
-  type PagedResponseAssociationSearchResultDTO,
   type PagedResponseDeclaredSkillProgressDTO,
   type PagedResponseExternalSkillDTO
 } from '@/api/avenir-esr'
@@ -131,60 +123,6 @@ export function createMockedSearchExternalSkillsDTO (pageSize: number, totalElem
 
 export function createMockedAssociatedExternalSkillIds (count: number = 3): string[] {
   return Array.from({ length: count }, () => crypto.randomUUID())
-}
-
-export function createMockedDeclaredActivitiesAssociations (count: number): DeclaredActivityAssociationDTO[] {
-  return Array.from({ length: count }, (_, index) => ({
-    associationId: `declared-activity-association-${index + 1}`,
-    declaredActivity: {
-      id: `declared-activity-${index + 1}`,
-      activityId: `activity-${index + 1}`,
-      title: `Activité déclarée associée ${index + 1}`,
-      thematic: EActivityThematic.TRANSVERSAL,
-      summary: `Résumé de l'activité déclarée ${index + 1}`,
-      description: `<h3>Description de l'activité déclarée ${index + 1}</h3><p>Voici une description détaillée de l'activité déclarée associée ${index + 1}.</p>`,
-      status: EDeclaredActivityStatus.IN_PROGRESS,
-      startDate: '2026-01-01',
-      endDate: '2026-06-30',
-      updatedAt: '2026-01-01T00:00:00Z'
-    }
-  }))
-}
-
-export const mockedDeclaredSkillAssociations: AssociationsDTO = {
-  traceAssociations: createMockedTraceAssociations(2),
-  declaredActivityAssociations: createMockedDeclaredActivitiesAssociations(1),
-  declaredSkillAssociations: [],
-  declaredExperienceAssociations: createMockedDeclaredExperiencesAssociations(2)
-}
-
-export function createMockedPagedResponseAssociationSearchResultDeclaredSkillIDTO (
-  pageSize: number,
-  page: number,
-  keyword: string
-): PagedResponseAssociationSearchResultDTO {
-  const allSkills: AssociationSearchResultDTO[] = [
-    { id: 'skill-search-1', title: 'Conduire un projet de bout en bout', category: EExternalSkillType.ROME4, disabled: false },
-    { id: 'skill-search-2', title: 'Analyser et synthétiser des informations', category: EExternalSkillType.ROME4, disabled: false },
-    { id: 'skill-search-3', title: 'Développement web et compétence numérique', category: EExternalSkillType.ROME4, disabled: false },
-    { id: 'skill-search-4', title: 'Gestion de projet et compétences managériales', category: EExternalSkillType.ROME4, disabled: false },
-    { id: 'skill-search-5', title: 'Communication interpersonnelle', category: EExternalSkillType.ROME4, disabled: false },
-  ]
-
-  const filtered = keyword
-    ? allSkills.filter(s => s.title.toLowerCase().includes(keyword.toLowerCase()))
-    : allSkills
-
-  const start = page * pageSize
-  const end = start + pageSize
-  const data = filtered.slice(start, end)
-  const totalElements = filtered.length
-  const totalPages = Math.ceil(totalElements / pageSize)
-
-  return {
-    data,
-    page: { pageSize, totalElements, totalPages, page }
-  }
 }
 
 export function createMockedDeclaredSkillProgressDetailsDTO (skillId: string): DeclaredSkillProgressDetailsDTO {

@@ -8,10 +8,9 @@ import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ICONS } from '@/common/constants'
 import { ROUTES } from '@/common/constants/route-names'
+import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import UpdateDeclaredExperienceForm
   from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/UpdateDeclaredExperienceForm.vue'
-import DeclaredExperienceAssociations
-  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -31,9 +30,7 @@ const { modalOpened, openModal, closeModal } = useModal()
 const { data: declaredExperience, isLoading, isError } = useGetDeclaredExperience(selectedExperienceId)
 const { data: declaredExperienceAssociations, error: associationsError } = useGetAssociations(EAssociationContextType.DECLARED_EXPERIENCE, selectedExperienceId)
 
-const traceAssociations = computed(() => declaredExperienceAssociations.value?.traceAssociations ?? [])
-const declaredSkillAssociations = computed(() => declaredExperienceAssociations.value?.declaredSkillAssociations ?? [])
-const countAssociations = computed(() => traceAssociations.value.length + declaredSkillAssociations.value.length)
+const associationsCount = computed(() => countElementAssociations(EAssociationContextType.DECLARED_EXPERIENCE, declaredExperienceAssociations.value))
 
 const declaredExperienceTitle = computed(() => declaredExperience.value?.title ?? '')
 
@@ -86,17 +83,16 @@ function onExperienceUpdated () {
         </Loader>
       </AvTab>
       <AvTab
-        :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
+        :title="t('student.global.myAssociationsWithCount', { count: associationsCount })"
         :icon="ICONS.ASSOCIATIONS"
         data-testid="update-declared-experience-associations-tab"
       >
-        <DeclaredExperienceAssociations
-          :declared-experience-id="selectedExperienceId"
-          :trace-associations="traceAssociations"
-          :declared-skill-associations="declaredSkillAssociations"
-          :associations-error="associationsError"
-          disabled
-          :show-actions="false"
+        <ElementAssociations
+          :context-type="EAssociationContextType.DECLARED_EXPERIENCE"
+          :element-id="selectedExperienceId"
+          :associations="declaredExperienceAssociations"
+          :error="associationsError"
+          readonly
         />
       </AvTab>
     </AvTabs>

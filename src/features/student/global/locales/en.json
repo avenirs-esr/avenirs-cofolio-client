@@ -13,16 +13,6 @@
             "SUMMARY": "Summary",
             "THEMATIC": "Theme"
           }
-        },
-        "AssociatedDeclaredActivitiesCard": {
-          "title": "My associated declared activity ({count}) | My associated declared activities ({count})"
-        },
-        "AssociatedTracesCard": {
-          "titleLimited": "My associated trace ({count}/{allowedtrace}) | My associated traces ({count}/{allowedtrace})",
-          "titleUnlimited": "My associated trace ({count}) | My associated traces ({count})"
-        },
-        "SelectedAssociateItemContainer": {
-          "label": "My selected elements ({count})"
         }
       },
       "errors": {
@@ -43,13 +33,6 @@
       "myDeclaredSkillCount": "My declared skills (0) | My declared skill (1) | My declared skills ({count})",
       "interaction": {
         "inputs": {
-          "AssociateElementTypeSelect": {
-            "label": {
-              "default": "Search in:",
-              "subType": "Of type:"
-            },
-            "placeholder": "Select a type"
-          },
           "period": {
             "label": "Period"
           }
@@ -84,24 +67,6 @@
               "traces": "My traces"
             }
           }
-        }
-      },
-      "overlays": {
-        "modals": {
-          "DeleteAssociationsConfirmModal": {
-            "title": "Are you sure you want to delete this association? | Are you sure you want to delete these associations?"
-          },
-          "DeleteAssociationsModal": {
-            "confirmButton": "Delete selected associations (0) | Delete selected association (1) | Delete selected associations ({count})",
-            "error": "An error occurred while deleting the association. | An error occurred while deleting the associations.",
-            "success": "The selected association has been successfully deleted | The selected associations have been successfully deleted",
-            "title": "No association to delete | Which association do you want to delete? | Which associations do you want to delete?"
-          }
-        }
-      },
-      "sections": {
-        "AssociateElementsDrawerSection": {
-          "defaultPlaceholder": "Search..."
         }
       },
       "views": {

@@ -1,23 +1,19 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { Association } from '@/features/student/global/types/associations.types'
-import type { DeclaredExperienceAssociationContextType } from '@/features/student/personalCareer/types/declared-experience.types'
+import type { AssociationSelections } from '@/features/student/associations'
 import type {
   DeclaredExperienceFormData
 
 } from '@/features/student/personalCareer/types/forms.types'
-import { type DeclaredExperienceViewDTO, EAssociationContextType, type EExperienceType, invalidateGetDeclaredExperienceView, useAssociate, useCreateDeclaredExperience } from '@/api/avenir-esr'
+import { type DeclaredExperienceViewDTO, EAssociationContextType, type EExperienceType, invalidateGetDeclaredExperienceView, useCreateDeclaredExperience } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { formatYearMonthToDate } from '@/common/utils'
+import { useAssociationSelections } from '@/features/student/associations'
 import { useDeclaredExperienceFormValidators } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-
-function getIdsForType (associationSelections: Partial<Record<DeclaredExperienceAssociationContextType, Association[]>>, associationType: DeclaredExperienceAssociationContextType): string[] {
-  return (associationSelections[associationType] ?? []).map(item => item.id)
-}
 
 export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
   const { t } = useI18n()
@@ -37,48 +33,15 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
 
   const { mutate: mutateCreateDeclaredExperience, isPending } = useCreateDeclaredExperience()
 
-  const {
-    mutateAsync: associateDeclaredExperience,
-    isPending: isPendingAssociate
-  } = useAssociate({
-    mutation: {
-      onError: (error: BaseApiException) => {
-        addErrorMessage({
-          title: t('global.error.generic'),
-          description: getErrorMessage(error),
-        })
-      }
-    }
-  })
+  const { associateSelections, notifyAssociationErrors, isAssociating } = useAssociationSelections(EAssociationContextType.DECLARED_EXPERIENCE)
 
-  function associateWithContextType (
-    experienceId: string,
-    associationSelections: Partial<Record<DeclaredExperienceAssociationContextType, Association[]>>,
-    associatedContextType: DeclaredExperienceAssociationContextType
-  ): Promise<unknown>[] {
-    const idsToAssociate = getIdsForType(associationSelections, associatedContextType)
-
-    if (idsToAssociate.length === 0) {
-      return []
-    }
-
-    return [associateDeclaredExperience({
-      contextType: EAssociationContextType.DECLARED_EXPERIENCE,
-      elementId: experienceId,
-      associatedContextType,
-      data: { idsToAssociate }
-    })]
-  }
-
-  function createDeclaredExperience (data: DeclaredExperienceViewDTO, associationSelections: Partial<Record<DeclaredExperienceAssociationContextType, Association[]>>) {
+  function createDeclaredExperience (data: DeclaredExperienceViewDTO, associationSelections?: AssociationSelections) {
     mutateCreateDeclaredExperience({ data }, {
       onSuccess: async (createdExperience) => {
-        const promises: Promise<unknown>[] = [invalidateGetDeclaredExperienceView(queryClient)]
-
-        promises.push(...associateWithContextType(createdExperience.id, associationSelections, EAssociationContextType.DECLARED_SKILL))
-        promises.push(...associateWithContextType(createdExperience.id, associationSelections, EAssociationContextType.TRACE))
-
-        await withTaskLoading(() => Promise.allSettled(promises))
+        await withTaskLoading(() => Promise.all([
+          invalidateGetDeclaredExperienceView(queryClient),
+          associateSelections(createdExperience.id, associationSelections).then(notifyAssociationErrors)
+        ]))
         onExperienceAdded?.()
       },
       onError: onCreateDeclaredExperienceError
@@ -153,7 +116,7 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
         externalLink: value.externalLink || undefined,
         startDate: formatYearMonthToDate(value.startDate),
         endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate) || undefined
-      } as DeclaredExperienceViewDTO, value.associationSelections ?? {})
+      } as DeclaredExperienceViewDTO, value.associationSelections)
     }
   })
 
@@ -165,6 +128,6 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
   return {
     form,
     isFormValid,
-    isSubmitting: isPending || isPendingAssociate || isLoading.value
+    isSubmitting: computed(() => isPending.value || isAssociating.value || isLoading.value)
   }
 }

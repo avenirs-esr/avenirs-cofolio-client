@@ -1,9 +1,20 @@
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
+import { associateErrorHandler, createAssociateHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
+import { server } from '@/__mocks__/msw/server'
 import { EAssociationContextType, EDeclaredSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
 import { useDeclaredSkillForm } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+interface AssociationRequest {
+  contextType: EAssociationContextType
+  elementId: string
+  associatedContextType: EAssociationContextType
+  idsToAssociate: string[]
+}
+
+const GENERIC_ERROR_TITLE = 'Une erreur est survenue. Veuillez réessayer ultérieurement.'
 
 const mockOnSkillAdded = vi.fn()
 
@@ -225,28 +236,60 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
     })
   })
 
+  BddTest().when('form is being submitted', () => {
+    BddTest().then('it should be submitting until the declared skill is created and associated', async () => {
+      submitForm({
+        ...createValidFormData(),
+        associationSelections: {
+          [EAssociationContextType.TRACE]: [{ id: 'trace-1', title: 'Trace 1' }]
+        }
+      })
+
+      await vi.waitFor(() => {
+        expect(composableResult.isSubmitting.value).toBe(true)
+      })
+      await vi.waitFor(() => {
+        expect(mockOnSkillAdded).toHaveBeenCalled()
+      })
+      await vi.waitFor(() => {
+        expect(composableResult.isSubmitting.value).toBe(false)
+      })
+    })
+  })
+
   BddTest().when('form is submitted with association selections', () => {
-    BddTest().then('it should call mockOnSkillAdded when no associationSelections are provided', async () => {
-      await validateSubmission(createValidFormData())
+    const associationRequests: AssociationRequest[] = []
+
+    const createAssociationRequest = (associatedContextType: EAssociationContextType, idsToAssociate: string[]): AssociationRequest => ({
+      contextType: EAssociationContextType.DECLARED_SKILL,
+      elementId: createMockSkill().id,
+      associatedContextType,
+      idsToAssociate
     })
 
-    BddTest().then('it should call mockOnSkillAdded when selections are empty', async () => {
+    beforeEach(() => {
+      associationRequests.length = 0
+      server.use(createAssociateHandler(({ contextType, elementId, associatedContextType }, { idsToAssociate }) => {
+        associationRequests.push({ contextType, elementId, associatedContextType, idsToAssociate })
+      }))
+    })
+
+    BddTest().then('it should call mockOnSkillAdded without associating anything when no associationSelections are provided', async () => {
+      await validateSubmission(createValidFormData())
+
+      expect(associationRequests).toStrictEqual([])
+    })
+
+    BddTest().then('it should call mockOnSkillAdded without associating anything when selections are empty', async () => {
       await validateSubmission({
         ...createValidFormData(),
         associationSelections: {}
       })
+
+      expect(associationRequests).toStrictEqual([])
     })
 
-    BddTest().then('it should call mockOnSkillAdded when an activity is selected', async () => {
-      await validateSubmission({
-        ...createValidFormData(),
-        associationSelections: {
-          [EAssociationContextType.DECLARED_ACTIVITY]: [{ id: 'activity-1', title: 'Activity 1' }]
-        }
-      })
-    })
-
-    BddTest().then('it should call mockOnSkillAdded when multiple activities are selected', async () => {
+    BddTest().then('it should associate the selected activities with the created declared skill in one request', async () => {
       await validateSubmission({
         ...createValidFormData(),
         associationSelections: {
@@ -256,18 +299,14 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
           ]
         }
       })
+
+      expect(associationRequests).toStrictEqual([
+        createAssociationRequest(EAssociationContextType.DECLARED_ACTIVITY, ['activity-1', 'activity-2'])
+      ])
+      expect(mockAddErrorMessage).not.toHaveBeenCalled()
     })
 
-    BddTest().then('it should call mockOnSkillAdded when a declared experience is selected', async () => {
-      await validateSubmission({
-        ...createValidFormData(),
-        associationSelections: {
-          [EAssociationContextType.DECLARED_EXPERIENCE]: [{ id: 'experience-1', title: 'Experience 1' }]
-        }
-      })
-    })
-
-    BddTest().then('it should call mockOnSkillAdded when multiple declared experiences are selected', async () => {
+    BddTest().then('it should associate the selected declared experiences with the created declared skill in one request', async () => {
       await validateSubmission({
         ...createValidFormData(),
         associationSelections: {
@@ -277,18 +316,13 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
           ]
         }
       })
+
+      expect(associationRequests).toStrictEqual([
+        createAssociationRequest(EAssociationContextType.DECLARED_EXPERIENCE, ['experience-1', 'experience-2'])
+      ])
     })
 
-    BddTest().then('it should call mockOnSkillAdded when a trace is selected', async () => {
-      await validateSubmission({
-        ...createValidFormData(),
-        associationSelections: {
-          [EAssociationContextType.TRACE]: [{ id: 'trace-1', title: 'Trace 1' }]
-        }
-      })
-    })
-
-    BddTest().then('it should call mockOnSkillAdded when multiple traces are selected', async () => {
+    BddTest().then('it should associate the selected traces with the created declared skill in one request', async () => {
       await validateSubmission({
         ...createValidFormData(),
         associationSelections: {
@@ -298,6 +332,63 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
           ]
         }
       })
+
+      expect(associationRequests).toStrictEqual([
+        createAssociationRequest(EAssociationContextType.TRACE, ['trace-1', 'trace-2'])
+      ])
+    })
+
+    BddTest().then('it should send one association request per selected context type', async () => {
+      await validateSubmission({
+        ...createValidFormData(),
+        associationSelections: {
+          [EAssociationContextType.DECLARED_ACTIVITY]: [{ id: 'activity-1', title: 'Activity 1' }],
+          [EAssociationContextType.DECLARED_EXPERIENCE]: [{ id: 'experience-1', title: 'Experience 1' }],
+          [EAssociationContextType.TRACE]: [{ id: 'trace-1', title: 'Trace 1' }]
+        }
+      })
+
+      expect(associationRequests).toHaveLength(3)
+      expect(associationRequests).toEqual(expect.arrayContaining([
+        createAssociationRequest(EAssociationContextType.DECLARED_ACTIVITY, ['activity-1']),
+        createAssociationRequest(EAssociationContextType.DECLARED_EXPERIENCE, ['experience-1']),
+        createAssociationRequest(EAssociationContextType.TRACE, ['trace-1'])
+      ]))
+    })
+
+    BddTest().then('it should ignore the empty selections and the context types that cannot be associated with a declared skill', async () => {
+      await validateSubmission({
+        ...createValidFormData(),
+        associationSelections: {
+          [EAssociationContextType.DECLARED_ACTIVITY]: [],
+          [EAssociationContextType.DECLARED_SKILL]: [{ id: 'skill-2', title: 'Skill 2' }],
+          [EAssociationContextType.TRACE]: [{ id: 'trace-1', title: 'Trace 1' }]
+        }
+      })
+
+      expect(associationRequests).toStrictEqual([
+        createAssociationRequest(EAssociationContextType.TRACE, ['trace-1'])
+      ])
+    })
+  })
+
+  BddTest().when('form is submitted with association selections and the associations fail', () => {
+    beforeEach(() => {
+      server.use(associateErrorHandler)
+    })
+
+    BddTest().then('it should display one generic error message per failed association request and still call mockOnSkillAdded', async () => {
+      await validateSubmission({
+        ...createValidFormData(),
+        associationSelections: {
+          [EAssociationContextType.DECLARED_ACTIVITY]: [{ id: 'activity-1', title: 'Activity 1' }],
+          [EAssociationContextType.TRACE]: [{ id: 'trace-1', title: 'Trace 1' }]
+        }
+      })
+
+      expect(mockAddErrorMessage).toHaveBeenCalledTimes(2)
+      expect(mockAddErrorMessage).toHaveBeenNthCalledWith(1, { title: GENERIC_ERROR_TITLE, description: expect.any(String) })
+      expect(mockAddErrorMessage).toHaveBeenNthCalledWith(2, { title: GENERIC_ERROR_TITLE, description: expect.any(String) })
     })
   })
 })

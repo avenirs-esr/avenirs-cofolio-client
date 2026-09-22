@@ -1,16 +1,9 @@
 <script setup lang="ts">
-import type { Association } from '@/features/student/global/types/associations.types'
-import type { DeclaredExperienceAssociationContextType } from '@/features/student/personalCareer/types/declared-experience.types'
-import type { AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
-import {
-  EAssociationContextType,
-  useSearchForAssociationWithNewElement
-} from '@/api/avenir-esr'
+import { EAssociationContextType } from '@/api/avenir-esr'
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
-import { useAssociationSearchResults } from '@/features/student/global'
-import AssociateElementsDrawerSection from '@/features/student/global/components/sections/AssociateElementsDrawerSection/AssociateElementsDrawerSection.vue'
+import { AssociationSelectionSection } from '@/features/student/associations'
 import DeclaredExperienceActivitySectorFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceActivitySectorFormField/DeclaredExperienceActivitySectorFormField.vue'
 import DeclaredExperienceDescriptionFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceDescriptionFormField/DeclaredExperienceDescriptionFormField.vue'
 import DeclaredExperienceExternalLinkFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceExternalLinkFormField/DeclaredExperienceExternalLinkFormField.vue'
@@ -24,7 +17,6 @@ import DeclaredExperienceTitleFormField from '@/features/student/personalCareer/
 import DeclaredExperienceTypeFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.vue'
 import { useAddDeclaredExperienceForm } from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/use-add-declared-experience-form/use-add-declared-experience-form'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
-import { TraceAssociationTypes, useTraceAssociationTypeConfig } from '@/features/student/traces'
 import { useToasterStore } from '@/store'
 import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -51,88 +43,6 @@ const { form, isFormValid, isSubmitting } = useAddDeclaredExperienceForm(() => {
 })
 
 const associationSelectionsField = form.useField({ name: 'associationSelections' })
-const associationActiveType = ref<DeclaredExperienceAssociationContextType>(EAssociationContextType.DECLARED_SKILL)
-const associationSearchQuery = ref('')
-
-const { traceAssociationTypeConfig } = useTraceAssociationTypeConfig()
-const associationTypesConfigs = computed<AssociateElementTypeConfig[]>(() => [
-  {
-    key: EAssociationContextType.DECLARED_SKILL,
-    label: t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.associations.types.declaredSkills.label'),
-    searchPlaceholder: t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.sections.associations.types.declaredSkills.placeholder')
-  },
-  traceAssociationTypeConfig.value
-])
-
-const associationActiveSubType = ref<string>(TraceAssociationTypes.UNASSOCIATED)
-
-const associationSearchParams = computed(() => ({
-  keyword: associationSearchQuery.value.trim(),
-  page: 0,
-  pageSize: 100,
-}))
-
-function isAssociationQueryEnabled (type: DeclaredExperienceAssociationContextType) {
-  return computed(() =>
-    showDrawer.value
-    && activeAccordion.value === AddDeclaredExperienceDrawerAccordions.ADD_ASSOCIATIONS
-    && associationActiveType.value === type
-  )
-}
-
-const { toAssociations } = useAssociationSearchResults()
-const {
-  data: declaredSkillsToAssociate,
-  isLoading: isDeclaredSkillsLoading
-} = useSearchForAssociationWithNewElement(
-  EAssociationContextType.DECLARED_EXPERIENCE,
-  EAssociationContextType.DECLARED_SKILL,
-  associationSearchParams,
-  {
-    query: {
-      select: response => toAssociations(response.data, EAssociationContextType.DECLARED_SKILL),
-      enabled: isAssociationQueryEnabled(EAssociationContextType.DECLARED_SKILL)
-    }
-  }
-)
-
-const {
-  data: tracesToAssociate,
-  isLoading: isTracesLoading
-} = useSearchForAssociationWithNewElement(
-  EAssociationContextType.DECLARED_EXPERIENCE,
-  EAssociationContextType.TRACE,
-  computed(() => ({
-    ...associationSearchParams.value,
-    isAssociated: associationActiveSubType.value === TraceAssociationTypes.ASSOCIATED,
-  })),
-  {
-    query: {
-      select: response => toAssociations(response.data, EAssociationContextType.TRACE),
-      enabled: isAssociationQueryEnabled(EAssociationContextType.TRACE)
-    }
-  }
-)
-
-const declaredSkillAssociationOptions = computed<Association[]>(() => declaredSkillsToAssociate.value ?? [])
-
-const traceAssociationOptions = computed<Association[]>(() => tracesToAssociate.value ?? [])
-
-const associationOptions = computed<Association[]>(() => {
-  if (associationActiveType.value === EAssociationContextType.TRACE) {
-    return traceAssociationOptions.value
-  }
-
-  return declaredSkillAssociationOptions.value
-})
-
-const isAssociationSearchLoading = computed(() => {
-  if (associationActiveType.value === EAssociationContextType.TRACE) {
-    return isTracesLoading.value
-  }
-
-  return isDeclaredSkillsLoading.value
-})
 
 const { modalOpened: confirmationModalOpened, openModal: openConfirmationModal, closeModal: closeConfirmationModal } = useModal()
 
@@ -150,15 +60,9 @@ const { canLeave, confirm, cancel } = useUnsavedChangesGuard({
 async function handleCancel () {
   if (await canLeave()) {
     form.reset()
-    associationSearchQuery.value = ''
-    associationActiveType.value = EAssociationContextType.DECLARED_SKILL
     personalCareerStore.hideAddDeclaredExperienceDrawer()
   }
 }
-
-watch(associationActiveType, () => {
-  associationSearchQuery.value = ''
-})
 </script>
 
 <template>
@@ -216,18 +120,13 @@ watch(associationActiveType, () => {
               :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
               data-testid="associate-accordion"
             >
-              <AssociateElementsDrawerSection
-                v-model:active-type-key="associationActiveType"
-                v-model:search-query="associationSearchQuery"
-                :active-sub-type-key="associationActiveSubType"
-                :selections-by-type="associationSelectionsField.state.value.value"
-                :type-configs="associationTypesConfigs"
-                :options="associationOptions"
-                :loading="isAssociationSearchLoading"
+              <AssociationSelectionSection
+                :selections="associationSelectionsField.state.value.value"
+                :context-type="EAssociationContextType.DECLARED_EXPERIENCE"
+                :enabled="activeAccordion === AddDeclaredExperienceDrawerAccordions.ADD_ASSOCIATIONS"
                 layout="vertical"
                 data-testid="associate-elements-section"
-                @update:active-sub-type-key="(value) => value ? associationActiveSubType = value : associationActiveSubType = TraceAssociationTypes.UNASSOCIATED"
-                @update:selections-by-type="associationSelectionsField.api.handleChange"
+                @update:selections="associationSelectionsField.api.handleChange"
               />
             </AvAccordion>
           </AvAccordionsGroup>

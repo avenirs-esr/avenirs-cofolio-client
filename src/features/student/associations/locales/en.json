@@ -1,0 +1,114 @@
+{
+  "student": {
+    "associations": {
+      "contextTypes": {
+        "TRACE": {
+          "dropdownLabel": "one/many trace(s)",
+          "unassociateDisabledTooltip": "No associated trace can be removed.",
+          "selectionLabel": "My traces",
+          "searchPlaceholder": "Search for a trace...",
+          "associatedTitle": "My associated trace ({count}) | My associated traces ({count})",
+          "associatedTitleLimited": "My associated trace ({count}/{limit}) | My associated traces ({count}/{limit})",
+          "associateTitle": "Which trace(s) would you like to associate?",
+          "associateConfirm": "Associate selected trace (1) | Associate selected traces ({count})",
+          "associateConfirmTitle": "Are you sure you want to associate this trace? | Are you sure you want to associate these traces?",
+          "associateSuccess": "You have associated {count} trace. Find it in the \"My associated traces\" category. | You have associated {count} traces. Find them in the \"My associated traces\" category.",
+          "cancelConfirmation": "Are you sure you want to abandon the trace association?",
+          "emptyAssociations": "No association for this trace.",
+          "fetchAssociationsError": "An error occurred while fetching the trace associations",
+          "searchFilters": {
+            "ALL": {
+              "label": "All my traces",
+              "searchPlaceholder": "Search for a trace..."
+            },
+            "ASSOCIATED": {
+              "label": "My associated traces",
+              "searchPlaceholder": "Search for an associated trace..."
+            },
+            "UNASSOCIATED": {
+              "label": "My unassociated traces",
+              "searchPlaceholder": "Search for an unassociated trace..."
+            }
+          }
+        },
+        "DECLARED_ACTIVITY": {
+          "dropdownLabel": "one/many activity(ies)",
+          "unassociateDisabledTooltip": "No associated activity can be removed.",
+          "selectionLabel": "My activities",
+          "searchPlaceholder": "Search for an activity...",
+          "associatedTitle": "My associated declared activity ({count}) | My associated declared activities ({count})",
+          "associatedTitleLimited": "My associated declared activity ({count}/{limit}) | My associated declared activities ({count}/{limit})",
+          "associateTitle": "Which activity(ies) would you like to associate?",
+          "associateConfirm": "Associate selected activity (1) | Associate selected activities ({count})",
+          "associateConfirmTitle": "Are you sure you want to associate this activity? | Are you sure you want to associate these activities?",
+          "associateSuccess": "You have associated {count} activity. Find it in the \"My associated activities\" category. | You have associated {count} activities. Find them in the \"My associated activities\" category.",
+          "cancelConfirmation": "Are you sure you want to abandon the activity association?",
+          "emptyAssociations": "No association for this activity.",
+          "fetchAssociationsError": "An error occurred while fetching the activity associations"
+        },
+        "DECLARED_SKILL": {
+          "dropdownLabel": "one/many skill(s)",
+          "unassociateDisabledTooltip": "No associated skill can be removed.",
+          "selectionLabel": "My skills",
+          "searchPlaceholder": "Search for a skill...",
+          "associatedTitle": "My declared skills (0) | My declared skill (1) | My declared skills ({count})",
+          "associatedTitleLimited": "My declared skills (0/{limit}) | My declared skill (1/{limit}) | My declared skills ({count}/{limit})",
+          "associateTitle": "Which declared skill(s) would you like to associate?",
+          "associateConfirm": "Associate selected skill (1) | Associate selected skills ({count})",
+          "associateConfirmTitle": "Are you sure you want to associate this skill? | Are you sure you want to associate these skills?",
+          "associateSuccess": "You have associated {count} declared skill. | You have associated {count} declared skills.",
+          "cancelConfirmation": "Are you sure you want to abandon the skill association?",
+          "emptyAssociations": "No associations for this declared skill",
+          "fetchAssociationsError": "An error occurred while loading the associations"
+        },
+        "DECLARED_EXPERIENCE": {
+          "dropdownLabel": "one/many experience(s)",
+          "unassociateDisabledTooltip": "No associated experience can be removed.",
+          "selectionLabel": "My experiences",
+          "searchPlaceholder": "Search for an experience...",
+          "associatedTitle": "My associated declared experience ({count}) | My associated declared experiences ({count})",
+          "associatedTitleLimited": "My associated declared experience ({count}/{limit}) | My associated declared experiences ({count}/{limit})",
+          "associateTitle": "Which declared experience(s) would you like to associate?",
+          "associateConfirm": "Associate selected experience (1) | Associate selected experiences ({count})",
+          "associateConfirmTitle": "Are you sure you want to associate this experience? | Are you sure you want to associate these experiences?",
+          "associateSuccess": "You have associated {count} experience. Find it in the \"My associated experiences\" category. | You have associated {count} experiences. Find them in the \"My associated experiences\" category.",
+          "cancelConfirmation": "Are you sure you want to abandon the experience association?",
+          "emptyAssociations": "No associations reported for this declared experience.",
+          "fetchAssociationsError": "An error occurred while retrieving the associations for the declared experience."
+        }
+      },
+      "cards": {
+        "SelectedAssociateItemsContainer": {
+          "label": "My selected elements ({count})"
+        }
+      },
+      "interactions": {
+        "AssociationContextTypeSelect": {
+          "label": "Search in:",
+          "placeholder": "Select a type"
+        },
+        "AssociationSearchFilterSelect": {
+          "label": "Search in:",
+          "placeholder": "Select a filter"
+        }
+      },
+      "overlays": {
+        "modals": {
+          "DeleteAssociationsModal": {
+            "confirmButton": "Delete selected associations (0) | Delete selected association (1) | Delete selected associations ({count})",
+            "success": "The selected association has been successfully deleted | The selected associations have been successfully deleted",
+            "title": "No association to delete | Which association do you want to delete? | Which associations do you want to delete?"
+          },
+          "DeleteAssociationsConfirmModal": {
+            "title": "Are you sure you want to delete this association? | Are you sure you want to delete these associations?"
+          }
+        }
+      },
+      "sections": {
+        "AssociationSelectionSection": {
+          "filterLabel": "Of type:"
+        }
+      }
+    }
+  }
+}

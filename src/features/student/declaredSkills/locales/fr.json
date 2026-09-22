@@ -2,9 +2,6 @@
   "student": {
     "declaredSkills": {
       "cards": {
-        "AssociatedDeclaredSkillsCard": {
-          "title": "Mes compétences associées (0) | Ma compétence associée (1) | Mes compétences associées ({count})"
-        },
         "DeclaredSkillRefCard": {
           "refTitle": "Issu du référentiel\u00A0:"
         }
@@ -41,17 +38,7 @@
               "reflectionLabel": "Bilan reflexif"
             },
             "addAssociations": {
-              "title": "Associer ma compétence",
-              "types": {
-                "activities": {
-                  "label": "Mes activités",
-                  "placeholder": "Rechercher une activité..."
-                },
-                "experiences": {
-                  "label": "Mes expériences",
-                  "placeholder": "Rechercher une expérience..."
-                }
-              }
+              "title": "Associer ma compétence"
             },
             "declarations": {
               "title": "Effectuer mes déclarations"
@@ -78,15 +65,6 @@
             "levelRequired": "Un niveau d'auto-positionnement doit être sélectionné",
             "skillRequired": "Une compétence doit être sélectionnée"
           }
-        },
-        "modals": {
-          "AssociateDeclaredSkillsModal": {
-            "confirm": "Associer la compétence sélectionnée (1) | Associer les compétences sélectionnées ({count})",
-            "confirmTitle": "Êtes-vous certain(e) de vouloir associer cette compétence\u00A0? | Êtes-vous certain(e) de vouloir associer ces compétences\u00A0?",
-            "searchPlaceholder": "Entrer le nom d'une compétence déclarée",
-            "success": "{count} compétence associée avec succès | {count} compétences associées avec succès",
-            "title": "Quelle(s) compétence(s) déclarée(s) souhaitez-vous associer\u00A0?"
-          }
         }
       },
       "views": {
@@ -106,11 +84,7 @@
             "title": "Confirmez-vous la suppression de la compétence {skill}\u00A0?",
             "success": "Compétence {skill} supprimée avec succès"
           },
-          "empty": {
-            "associations": "Aucune association pour cette compétence déclarée"
-          },
           "errors": {
-            "fetchAssociations": "Une erreur est survenue lors du chargement des associations",
             "notFound": {
               "description": "La compétence que vous recherchez n'existe pas ou n'est pas accessible.",
               "title": "Compétence déclarée introuvable"

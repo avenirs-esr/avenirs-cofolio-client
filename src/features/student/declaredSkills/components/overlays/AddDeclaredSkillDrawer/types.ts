@@ -1,5 +1,5 @@
 import type { EDeclaredSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
-import type { Association } from '@/features/student/global/types/associations.types'
+import type { AssociationSelections } from '@/features/student/associations/types/associations.types'
 import type { IdTitle } from '@/types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 
@@ -12,5 +12,5 @@ export interface DeclaredSkillFormData {
   selectedSkills: DeclaredSkillOption[]
   level: EDeclaredSkillLevel
   reflection?: string
-  associationSelections?: Record<string, Association[]>
+  associationSelections?: AssociationSelections
 }

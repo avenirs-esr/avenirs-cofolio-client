@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { AssociationsDTO, TraceDetailDTO } from '@/api/avenir-esr'
 import type { UpdateTraceForm as UpdateTraceFormApi } from '@/features/student/traces/types/forms.types'
+import { type AssociationsDTO, EAssociationContextType, type TraceDetailDTO } from '@/api/avenir-esr'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ICONS } from '@/common/constants'
-import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
+import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import UpdateTraceForm from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/UpdateTraceForm.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -29,11 +29,7 @@ const activeTab = useEnumRouteQuery(
   UpdateTabsIndexes.DETAILS
 )
 
-const associationCount = computed(() =>
-  (associations?.declaredSkillAssociations?.length ?? 0)
-  + (associations?.declaredActivityAssociations?.length ?? 0)
-  + (associations?.declaredExperienceAssociations?.length ?? 0)
-)
+const associationCount = computed(() => countElementAssociations(EAssociationContextType.TRACE, associations))
 </script>
 
 <template>
@@ -57,11 +53,11 @@ const associationCount = computed(() =>
         :icon="ICONS.ASSOCIATIONS"
         data-testid="update-trace-associations-tab"
       >
-        <TraceAssociations
+        <ElementAssociations
+          :context-type="EAssociationContextType.TRACE"
+          :element-id="trace.id"
           :associations="associations"
-          :trace-id="trace.id"
-          disabled
-          :show-actions="false"
+          readonly
         />
       </AvTab>
     </AvTabs>

@@ -1,25 +1,17 @@
 import type { BaseApiException } from '@/common/exceptions'
-import type { Association } from '@/features/student/global/types/associations.types'
 import type { ComputedRef } from 'vue'
-import { type AssociationsDTO, EAssociationContextType, ELanguage, invalidateGetTracesSummary, invalidateTracesView, useAssociate, useCreateTrace, useUploadAttachment } from '@/api/avenir-esr'
+import { EAssociationContextType, ELanguage, invalidateGetTracesSummary, invalidateTracesView, useCreateTrace, useUploadAttachment } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
+import { useAssociationSelections } from '@/features/student/associations'
 import { useTraceFormValidators } from '@/features/student/traces/composables/use-trace-form-validators/use-trace-form-validators'
-import { EAssociationTypeKey, type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
+import { type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
 import { isTraceFileType, isTraceLinkType } from '@/features/student/traces/utils/trace.types-guard'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-
-function getIdsForType (associationSelections: Record<string, Association[]>, typeKey: string): string[] {
-  return (associationSelections[typeKey] ?? []).map(item => item.id)
-}
-const ASSOCIABLE_CONTEXT_TYPES_BY_TYPE_KEY = [
-  { typeKey: EAssociationTypeKey.DECLARED_SKILLS, contextType: EAssociationContextType.DECLARED_SKILL },
-  { typeKey: EAssociationTypeKey.ACTIVITIES, contextType: EAssociationContextType.DECLARED_ACTIVITY }
-]
 
 export function useCreateTraceForm (onTraceCreated?: () => void) {
   const { t } = useI18n()
@@ -76,31 +68,9 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
     })
   }
 
-  const { mutateAsync: associateTrace, isPending: isPendingAssociate } = useAssociate({
-    mutation: {
-      onError: () => onAssociationError(),
-      onSuccess: async () => {
-        await withTaskLoading(() => Promise.all([
-          invalidateTracesView(queryClient, {}),
-          invalidateGetTracesSummary(queryClient),
-        ]))
-      }
-    }
-  })
+  const { associateSelections, isAssociating } = useAssociationSelections(EAssociationContextType.TRACE)
 
   const isFileUploading = ref(false)
-
-  function associateElements (traceId: string, associationSelections: Record<string, Association[]>) {
-    return ASSOCIABLE_CONTEXT_TYPES_BY_TYPE_KEY
-      .map(({ typeKey, contextType }) => ({ contextType, idsToAssociate: getIdsForType(associationSelections, typeKey) }))
-      .filter(({ idsToAssociate }) => idsToAssociate.length > 0)
-      .map(({ contextType, idsToAssociate }) => associateTrace({
-        contextType: EAssociationContextType.TRACE,
-        elementId: traceId,
-        associatedContextType: contextType,
-        data: { idsToAssociate }
-      }))
-  }
 
   async function finalizeTraceCreation (traceId: string, traceFormData: TraceFormData) {
     if (isTraceFileType(traceFormData) && traceFormData.file) {
@@ -112,16 +82,11 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
 
     onTraceCreated?.()
 
-    const selections = traceFormData.associationSelections ?? {}
-    const $associations = associateElements(traceId, selections)
+    const results = await associateSelections(traceId, traceFormData.associationSelections)
 
-    await Promise.allSettled($associations).then((data: PromiseSettledResult<AssociationsDTO>[]) => {
-      const rejected = data.filter(result => result.status === 'rejected')
-
-      if (rejected.length > 0) {
-        onAssociationError()
-      }
-    })
+    if (results.some(({ status }) => status === 'rejected')) {
+      onAssociationError()
+    }
   }
 
   const form = useForm({
@@ -182,7 +147,7 @@ export function useCreateTraceForm (onTraceCreated?: () => void) {
   const isSubmitting: ComputedRef<boolean> = computed(() => {
     return isPendingCreateTrace.value
       || isPendingUploadFile.value
-      || isPendingAssociate.value
+      || isAssociating.value
       || isFileUploading.value
       || isLoading.value
   })
