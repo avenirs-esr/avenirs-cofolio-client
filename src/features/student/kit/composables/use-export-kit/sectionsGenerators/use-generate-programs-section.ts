@@ -1,6 +1,6 @@
 import type { AvLocale } from '@/types'
 import { type DeclaredProgramViewDTO, useGetDeclaredPrograms } from '@/api/avenir-esr'
-import { formatDateLocalized } from '@/common/utils'
+import { formatDateToYearLocalized } from '@/common/utils'
 import { HeadingLevel, Paragraph, TextRun } from 'docx'
 import { useI18n } from 'vue-i18n'
 
@@ -23,8 +23,15 @@ export function useGenerateProgramsSection () {
       ...program.startDate
         ? [new Paragraph({
             children: [
-              new TextRun(`${formatDateLocalized(program.startDate, locale.value as AvLocale, true)}`),
-              new TextRun(` - ${program.endDate ? formatDateLocalized(program.endDate, locale.value as AvLocale, true) : t('global.dates.ongoing')}`)
+              new TextRun(`${formatDateToYearLocalized(program.startDate, locale.value as AvLocale)}`),
+              new TextRun(` - ${program.endDate ? formatDateToYearLocalized(program.endDate, locale.value as AvLocale) : t('global.dates.ongoing')}`)
+            ]
+          })]
+        : [],
+      ...program.result
+        ? [new Paragraph({
+            children: [
+              new TextRun(`${program.result}`)
             ]
           })]
         : []

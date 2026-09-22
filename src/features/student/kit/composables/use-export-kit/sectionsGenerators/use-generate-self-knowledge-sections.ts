@@ -37,7 +37,10 @@ export function useGenerateSelfKnowledgeSections () {
           heading: HeadingLevel.HEADING_1
         }),
         new Paragraph({
-          children: [new TextRun(interests.value.map(element => element.title).join(', '))],
+          children: [new TextRun({
+            text: interests.value.map(element => element.title).join(', '),
+            bold: true
+          })],
         })
       ]
     : [])
@@ -47,9 +50,10 @@ export function useGenerateSelfKnowledgeSections () {
       return []
     }
     return [
+      new Paragraph({ children: [] }),
       new Paragraph({
         children: [
-          new TextRun(t('global.colon', { before: t(`student.selfKnowledge.categories.${category}.title`) })),
+          new TextRun(`${t('global.colon', { before: t(`student.selfKnowledge.categories.${category}.title`) })} `),
           new TextRun(elements.map(element => element.title).join(', '))
         ],
       })

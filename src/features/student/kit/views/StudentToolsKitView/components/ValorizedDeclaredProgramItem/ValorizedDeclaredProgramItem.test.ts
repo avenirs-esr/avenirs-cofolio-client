@@ -1,19 +1,18 @@
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { EProgramStatus } from '@/api/avenir-esr'
-import { ROUTES } from '@/common/constants'
+import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import ValorizedDeclaredProgramItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredProgramItem/ValorizedDeclaredProgramItem.vue'
-import { AvBadgeStub, AvButtonStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ValorizedItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.stub'
+import {
+  DeclaredProgramOrganizationBadge,
+  DeclaredProgramResultBadge
+} from '@/features/student/personalCareer'
+import { DeclaredProgramOrganizationBadgeStub } from '@/features/student/personalCareer/components/badges/DeclaredProgramOrganizationBadge/DeclaredProgramOrganizationBadge.stub'
+import { DeclaredProgramResultBadgeStub } from '@/features/student/personalCareer/components/badges/DeclaredProgramResultBadge/DeclaredProgramResultBadge.stub'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-
-const mockIsTruncated = ref(false)
-
-vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
-
-  return { ...actual, useTextTruncation: () => ({ isTruncated: mockIsTruncated }) }
-})
 
 const BASE_DECLARED_PROGRAM: DeclaredProgramViewDTO = {
   id: 'c1e6a6f0-1c2d-4f3e-9a1b-3f2b1c0d4e5f',
@@ -28,9 +27,9 @@ const BASE_DECLARED_PROGRAM: DeclaredProgramViewDTO = {
 }
 
 const stubs = {
-  AvButton: AvButtonStub,
-  AvTooltip: AvTooltipStub,
-  AvBadge: AvBadgeStub
+  ValorizedItem: ValorizedItemStub,
+  DeclaredProgramOrganizationBadge: DeclaredProgramOrganizationBadgeStub,
+  DeclaredProgramResultBadge: DeclaredProgramResultBadgeStub
 }
 
 function mountValorizedDeclaredProgramItem (declaredProgram: DeclaredProgramViewDTO) {
@@ -43,71 +42,39 @@ function mountValorizedDeclaredProgramItem (declaredProgram: DeclaredProgramView
 BddTest().given('a valorized declared program item', () => {
   let wrapper: VueWrapper<InstanceType<typeof ValorizedDeclaredProgramItem>>
 
+  const getValorizedItem = () => wrapper.findComponent(ValorizedItemStub)
+  const getOrganizationBadge = () => wrapper.findComponent(DeclaredProgramOrganizationBadge)
+  const getResultBadge = () => wrapper.findComponent(DeclaredProgramResultBadge)
+
   BddTest().when('the component is mounted', () => {
     beforeEach(async () => {
       wrapper = mountValorizedDeclaredProgramItem(BASE_DECLARED_PROGRAM)
       await flushPromises()
     })
 
-    BddTest().then('it should render the wrapped ValorizedItem with the program title', () => {
-      expect(wrapper.find('[data-testid="valorized-item"]').exists()).toBe(true)
-      expect(wrapper.find('.title').text()).toBe(BASE_DECLARED_PROGRAM.title)
+    BddTest().then('it should render the ValorizedItem with the program information', () => {
+      const valorizedItem = getValorizedItem()
+
+      expect(valorizedItem.exists()).toBe(true)
+      expect(valorizedItem.props('title')).toBe(BASE_DECLARED_PROGRAM.title)
+      expect(valorizedItem.props('itemId')).toBe(BASE_DECLARED_PROGRAM.id)
+      expect(valorizedItem.props('type')).toBe(ValorizedItemType.DECLARED_PROGRAM)
     })
 
-    BddTest().then('it should render the access button pointing to the declared program route', () => {
-      const button = wrapper.findComponent(AvButtonStub)
-      expect(button.props('to')).toEqual({
-        name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
-        params: { id: BASE_DECLARED_PROGRAM.id }
-      })
-    })
+    BddTest().then('it should render the organization badge with the period', () => {
+      const organizationBadge = getOrganizationBadge()
 
-    BddTest().then('it should render the organization badge combined with the period', () => {
-      const labels = wrapper.findAllComponents(AvBadgeStub).map(badge => badge.props('label'))
-      expect(labels).toContain(`${BASE_DECLARED_PROGRAM.organization} • 2025 - 2027`)
-    })
-
-    BddTest().then('it should render the description', () => {
-      expect(wrapper.text()).toContain(BASE_DECLARED_PROGRAM.description)
-    })
-
-    BddTest().then('it should render the status badge', () => {
-      const labels = wrapper.findAllComponents(AvBadgeStub).map(badge => badge.props('label'))
-      expect(labels).toContain('En cours')
+      expect(organizationBadge.props('organization')).toBe(
+        BASE_DECLARED_PROGRAM.organization
+      )
+      expect(organizationBadge.props('period')).toBe('2025 - 2027')
     })
 
     BddTest().then('it should render the result badge', () => {
-      const labels = wrapper.findAllComponents(AvBadgeStub).map(badge => badge.props('label'))
-      expect(labels).toContain(BASE_DECLARED_PROGRAM.result)
-    })
-  })
+      const resultBadge = getResultBadge()
 
-  BddTest().when('the program has no description', () => {
-    beforeEach(async () => {
-      wrapper = mountValorizedDeclaredProgramItem({
-        ...BASE_DECLARED_PROGRAM,
-        description: undefined
-      })
-      await flushPromises()
-    })
-
-    BddTest().then('it should not render a description', () => {
-      expect(wrapper.text()).not.toContain(BASE_DECLARED_PROGRAM.description)
-    })
-  })
-
-  BddTest().when('the program has no status', () => {
-    beforeEach(async () => {
-      wrapper = mountValorizedDeclaredProgramItem({
-        ...BASE_DECLARED_PROGRAM,
-        status: undefined
-      } as unknown as DeclaredProgramViewDTO)
-      await flushPromises()
-    })
-
-    BddTest().then('it should not render the status badge', () => {
-      const labels = wrapper.findAllComponents(AvBadgeStub).map(badge => badge.props('label'))
-      expect(labels).not.toContain('En cours')
+      expect(resultBadge.exists()).toBe(true)
+      expect(resultBadge.props('result')).toBe(BASE_DECLARED_PROGRAM.result)
     })
   })
 
@@ -121,8 +88,7 @@ BddTest().given('a valorized declared program item', () => {
     })
 
     BddTest().then('it should not render the result badge', () => {
-      const labels = wrapper.findAllComponents(AvBadgeStub).map(badge => badge.props('label'))
-      expect(labels).not.toContain(BASE_DECLARED_PROGRAM.result)
+      expect(getResultBadge().exists()).toBe(false)
     })
   })
 
@@ -136,8 +102,12 @@ BddTest().given('a valorized declared program item', () => {
     })
 
     BddTest().then('it should render the organization badge without a period', () => {
-      const labels = wrapper.findAllComponents(AvBadgeStub).map(badge => badge.props('label'))
-      expect(labels).toContain(BASE_DECLARED_PROGRAM.organization)
+      const organizationBadge = getOrganizationBadge()
+
+      expect(organizationBadge.props('organization')).toBe(
+        BASE_DECLARED_PROGRAM.organization
+      )
+      expect(organizationBadge.props('period')).toBeUndefined()
     })
   })
 
@@ -151,8 +121,12 @@ BddTest().given('a valorized declared program item', () => {
     })
 
     BddTest().then('it should render the period as ongoing', () => {
-      const labels = wrapper.findAllComponents(AvBadgeStub).map(badge => badge.props('label'))
-      expect(labels).toContain(`${BASE_DECLARED_PROGRAM.organization} • 2025 - En cours`)
+      const organizationBadge = getOrganizationBadge()
+
+      expect(organizationBadge.props('organization')).toBe(
+        BASE_DECLARED_PROGRAM.organization
+      )
+      expect(organizationBadge.props('period')).toBe('2025 - En cours')
     })
   })
 })

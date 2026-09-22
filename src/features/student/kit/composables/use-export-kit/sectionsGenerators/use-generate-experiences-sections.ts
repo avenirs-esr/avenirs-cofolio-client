@@ -1,6 +1,6 @@
 import type { AvLocale } from '@/types/i18n.types'
 import { type DeclaredExperienceViewDTO, EExperienceType, useGetDeclaredExperienceView } from '@/api/avenir-esr'
-import { formatDateLocalized } from '@/common/utils/date/date'
+import { formatDateToYearMonthLocalized } from '@/common/utils/date/date'
 import { HeadingLevel, Paragraph, TextRun } from 'docx'
 import { useI18n } from 'vue-i18n'
 
@@ -41,11 +41,14 @@ export function useGenerateExperiencesSections () {
       new Paragraph({
         children: [
           new TextRun(experience.organization),
-          new TextRun(` - ${formatDateLocalized(experience.startDate, locale.value as AvLocale, true)}`),
-          new TextRun(` - ${experience.endDate ? formatDateLocalized(experience.endDate, locale.value as AvLocale, true) : t('global.dates.ongoing')}`)
+          new TextRun(` - ${formatDateToYearMonthLocalized(experience.startDate, locale.value as AvLocale)}`),
+          new TextRun(` - ${experience.endDate ? formatDateToYearMonthLocalized(experience.endDate, locale.value as AvLocale) : t('global.dates.ongoing')}`)
         ]
       }),
-      ...experience.description ? [new Paragraph({ children: [new TextRun(experience.description)] })] : []
+      ...experience.description ? [new Paragraph({ children: [new TextRun(experience.description)] })] : [],
+      ...(experience.experienceType && experience.experienceType !== EExperienceType.PROFESSIONAL)
+        ? [new Paragraph({ children: [new TextRun(t(`student.personalCareer.declaredExperienceType.${experience.experienceType}`))] })]
+        : []
     ]
   }
 
