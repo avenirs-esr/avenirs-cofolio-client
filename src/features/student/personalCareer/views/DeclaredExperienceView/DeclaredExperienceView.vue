@@ -6,8 +6,8 @@ import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ICONS } from '@/common/constants'
+import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import DeleteDeclaredExperienceConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
-import DeclaredExperienceAssociations from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.vue'
 import DeclaredExperienceDetails from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
 import DeclaredExperienceDetailsDropdown from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -50,9 +50,7 @@ const { data: associations, error: associationsError } = useGetAssociations(EAss
   query: { placeholderData: keepPreviousData }
 })
 
-const traceAssociations = computed(() => associations.value?.traceAssociations ?? [])
-const declaredSkillAssociations = computed(() => associations.value?.declaredSkillAssociations ?? [])
-const countAssociations = computed(() => traceAssociations.value.length + declaredSkillAssociations.value.length)
+const associationsCount = computed(() => countElementAssociations(EAssociationContextType.DECLARED_EXPERIENCE, associations.value))
 
 function handleUpdateSelected () {
   navigateToStudentUpdateDeclaredExperience({})
@@ -106,15 +104,15 @@ function handleConfirmDelete () {
         </AvTab>
 
         <AvTab
-          :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
+          :title="t('student.global.myAssociationsWithCount', { count: associationsCount })"
           :icon="ICONS.ASSOCIATIONS"
           data-testid="declared-experience-associations-tab-item"
         >
-          <DeclaredExperienceAssociations
-            :declared-experience-id="experienceId"
-            :trace-associations="traceAssociations"
-            :declared-skill-associations="declaredSkillAssociations"
-            :associations-error="associationsError"
+          <ElementAssociations
+            :context-type="EAssociationContextType.DECLARED_EXPERIENCE"
+            :element-id="experienceId"
+            :associations="associations"
+            :error="associationsError"
           />
         </AvTab>
       </AvTabs>

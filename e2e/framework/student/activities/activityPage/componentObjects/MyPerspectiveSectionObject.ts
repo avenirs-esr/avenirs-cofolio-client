@@ -96,7 +96,7 @@ export class MyPerspectiveSectionObject extends BaseObject {
   }
 
   getAssociateElementsDropdownTrigger () {
-    return this.root.page().getByTestId('activity-associate-elements-dropdown')
+    return this.root.page().getByTestId('declared-activity-associate-elements-dropdown')
   }
 
   getAssociateTracesDropdownItem () {
@@ -112,7 +112,7 @@ export class MyPerspectiveSectionObject extends BaseObject {
   }
 
   getTracesTypeSelectInAssociateModal () {
-    return this.root.page().getByTestId('traces-type-select').first()
+    return this.root.page().getByTestId('association-search-filter-select').first()
   }
 
   getSearchAssociationLayoutInAssociateModal () {

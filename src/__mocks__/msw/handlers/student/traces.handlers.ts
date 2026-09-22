@@ -1,43 +1,30 @@
 import {
   createDeletedTraceIdMock,
   createMockedAttachmentUploadResponse,
-  createMockedSearchActivitiesForAssociationResponse,
-  createMockedSearchSkillsForAssociationResponse,
-  createMockedSearchTracesForAssociationResponse,
   createMockedTraceCreationResponse,
   createMockedTracesViewResponse,
   invalidTraceId,
   mockedLockedDeclaredActivities,
-  mockedTraceAssociations,
   mockedTraceDetailed,
   mockedTraceOverview,
   mockedTracesConfiguration,
   mockedTracesSummary
 } from '@/__mocks__/fixtures/student'
-import { anyAssociationContextType, getOptionalBooleanSearchParam, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
+import { isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
-  type AssociationsDTO,
   type CreateTraceDTO,
-  EAssociationContextType,
-  EErrorCode,
   type FileDTO,
-  getAssociateUrl,
   getCreateTraceUrl,
   getDeleteTracesUrl,
   getDownloadAttachmentUrl,
-  getGetAssociationsUrl,
   getGetLockedDeclaredActivitiesUrl,
   getGetTraceConfigUrl,
   getGetTraceDetailUrl,
   getGetTraceOverviewUrl,
   getGetTracesSummaryUrl,
-  getSearchForAssociationUrl,
-  getSearchForAssociationWithNewElementUrl,
   getTracesViewUrl,
-  getUnassociateUrl,
   getUpdateTraceUrl,
   getUploadAttachmentUrl,
-  type PagedResponseAssociationSearchResultDTO,
   type PagedResponseTraceViewDTO,
   type TraceConfigurationDTO,
   type TraceDetailDTO,
@@ -52,7 +39,7 @@ import {
 import { ErrorCodes } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { delay, http, HttpResponse, type HttpResponseResolver, type PathParams } from 'msw'
+import { delay, http, HttpResponse, type PathParams } from 'msw'
 
 export function createTracesSummaryHandler (payload: TracesSummaryDTO) {
   return http.get(`*${getGetTracesSummaryUrl()}`, () => {
@@ -127,26 +114,6 @@ export const traceOverviewErrorHandler = http.get(`*${getGetTraceOverviewUrl()}`
   )
 })
 
-export const traceWithoutAssociations = http.get(
-  `*${getGetAssociationsUrl(EAssociationContextType.TRACE, ':traceId')}`,
-  ({ params }) => {
-    const { traceId } = params
-    if (traceId === 'INVALID_TRACE_ID') {
-      return HttpResponse.json(
-        { code: EErrorCode.TRACE_NOT_FOUND, message: 'Trace not found' },
-        { status: 404, headers: { 'Content-Type': 'application/json' } }
-      )
-    }
-
-    return HttpResponse.json<AssociationsDTO>({
-      traceAssociations: [],
-      declaredActivityAssociations: [],
-      declaredSkillAssociations: [],
-      declaredExperienceAssociations: []
-    })
-  }
-)
-
 export const updateTraceErrorHandler = http.put(`*${getUpdateTraceUrl(':traceId')}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -185,46 +152,6 @@ export const getTraceConfigErrorHandler = http.get(`*${getGetTraceConfigUrl()}`,
     { status: 500 }
   )
 })
-
-const resolveSearchTracesForAssociation: HttpResponseResolver = async ({ request }) => {
-  const url = new URL(request.url)
-
-  const isAssociated = getOptionalBooleanSearchParam(url, 'isAssociated')
-  const keyword = url.searchParams.get('keyword') ?? undefined
-  const page = Number.parseInt(url.searchParams.get('page') ?? '0')
-  const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '20')
-
-  if (keyword === 'INVALID_KEYWORD') {
-    return HttpResponse.json(
-      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
-      { status: 500 }
-    )
-  }
-
-  const response = createMockedSearchTracesForAssociationResponse({
-    isAssociated,
-    keyword,
-    page,
-    pageSize,
-  })
-
-  return HttpResponse.json<PagedResponseAssociationSearchResultDTO>(response, {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-}
-
-export const searchTracesForAssociationHandler = http.get(
-  `*${getSearchForAssociationUrl(EAssociationContextType.DECLARED_SKILL, ':elementId', EAssociationContextType.TRACE)}*`,
-  resolveSearchTracesForAssociation
-)
-
-export const searchTracesForAssociationWithNewElementHandler = http.get(
-  `*${getSearchForAssociationWithNewElementUrl(anyAssociationContextType, EAssociationContextType.TRACE)}*`,
-  resolveSearchTracesForAssociation
-)
 
 export const tracesHandlers = [
   http.get(`*${getGetTracesSummaryUrl()}`, () => {
@@ -419,135 +346,7 @@ export const tracesHandlers = [
     })
   }),
 
-  http.get(
-    `*${getGetAssociationsUrl(EAssociationContextType.TRACE, ':traceId')}`,
-    ({ params }) => {
-      const { traceId } = params
-      if (traceId === 'INVALID_TRACE_ID') {
-        return HttpResponse.json(
-          { code: EErrorCode.TRACE_NOT_FOUND, message: 'Trace not found' },
-          { status: 404, headers: { 'Content-Type': 'application/json' } }
-        )
-      }
-
-      return HttpResponse.json<AssociationsDTO>(mockedTraceAssociations)
-    }
-  ),
-
-  http.delete(
-    `*${getUnassociateUrl(EAssociationContextType.TRACE, ':traceId')}`,
-    ({ params }) => {
-      const traceId = params.traceId as string
-
-      if (!traceId) {
-        return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
-      }
-
-      if (traceId === invalidTraceId) {
-        return HttpResponse.json({ error: 'Trace not found', code: ErrorCodes.TRACE_NOT_FOUND }, { status: 404 })
-      }
-
-      return HttpResponse.json<string>(createDeletedTraceIdMock(traceId), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' }
-      })
-    }
-  ),
-
-  http.get(`*${getSearchForAssociationUrl(EAssociationContextType.TRACE, ':traceId', EAssociationContextType.DECLARED_ACTIVITY)}`, ({ params, request }) => {
-    const traceId = params.traceId as string
-
-    if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
-    }
-
-    const url = new URL(request.url)
-    const keyword = url.searchParams.get('keyword') ?? undefined
-    const page = Number(url.searchParams.get('page') ?? 0)
-    const pageSize = Number(url.searchParams.get('pageSize') ?? 100)
-
-    const response = createMockedSearchActivitiesForAssociationResponse({ keyword, page, pageSize })
-
-    return HttpResponse.json<PagedResponseAssociationSearchResultDTO>(response, {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    })
-  }),
-
-  http.post(`*${getAssociateUrl(EAssociationContextType.TRACE, ':traceId', EAssociationContextType.DECLARED_ACTIVITY)}`, ({ params }) => {
-    const traceId = params.traceId as string
-
-    if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
-    }
-
-    if (traceId === invalidTraceId) {
-      return HttpResponse.json({ error: 'Trace not found', code: ErrorCodes.TRACE_NOT_FOUND }, { status: 404 })
-    }
-
-    return HttpResponse.json<AssociationsDTO>(mockedTraceAssociations, {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    })
-  }),
-
-  http.get(`*${getSearchForAssociationUrl(EAssociationContextType.TRACE, ':traceId', EAssociationContextType.DECLARED_SKILL)}`, ({ params, request }) => {
-    const traceId = params.traceId as string
-
-    if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
-    }
-
-    if (traceId === invalidTraceId) {
-      return HttpResponse.json({ error: 'Trace not found', code: ErrorCodes.TRACE_NOT_FOUND }, { status: 404 })
-    }
-
-    const url = new URL(request.url)
-    const keyword = url.searchParams.get('keyword') ?? undefined
-    const page = Number(url.searchParams.get('page') ?? 0)
-    const pageSize = Number(url.searchParams.get('pageSize') ?? 100)
-
-    const response = createMockedSearchSkillsForAssociationResponse({ keyword, page, pageSize })
-
-    return HttpResponse.json<PagedResponseAssociationSearchResultDTO>(response, {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    })
-  }),
-
-  http.post(`*${getAssociateUrl(EAssociationContextType.TRACE, ':traceId', EAssociationContextType.DECLARED_SKILL)}`, ({ params }) => {
-    const traceId = params.traceId as string
-
-    if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
-    }
-
-    if (traceId === invalidTraceId) {
-      return HttpResponse.json({ error: 'Trace not found', code: ErrorCodes.TRACE_NOT_FOUND }, { status: 404 })
-    }
-
-    return HttpResponse.json<AssociationsDTO>(mockedTraceAssociations, {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    })
-  }),
-
-  http.post(`*${getAssociateUrl(EAssociationContextType.TRACE, ':traceId', EAssociationContextType.DECLARED_EXPERIENCE)}`, ({ params }) => {
-    const traceId = params.traceId as string
-    if (!traceId) {
-      return HttpResponse.json({ error: 'Trace ID is required', code: ErrorCodes.NOT_BLANK }, { status: 400 })
-    }
-    if (traceId === invalidTraceId) {
-      return HttpResponse.json({ error: 'Trace not found', code: ErrorCodes.TRACE_NOT_FOUND }, { status: 404 })
-    }
-    return HttpResponse.json<AssociationsDTO>(mockedTraceAssociations, {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    })
-  }),
   lockedDeclaredActivitiesHandler,
-  searchTracesForAssociationHandler,
-  searchTracesForAssociationWithNewElementHandler
 ]
 
 export const tracesViewErrorHandler = http.post(
@@ -560,68 +359,8 @@ export const tracesViewErrorHandler = http.post(
   }
 )
 
-export const deleteTraceAssociationsErrorHandler = http.delete(
-  `*${getUnassociateUrl(EAssociationContextType.TRACE, ':traceId')}`,
-  () => {
-    return HttpResponse.json(
-      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
-      { status: 500 }
-    )
-  }
-)
-
 export const downloadTraceAttachmentErrorHandler = http.get(
   `*${getDownloadAttachmentUrl(':traceId')}`,
-  () => {
-    return HttpResponse.json(
-      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
-      { status: 500 }
-    )
-  }
-)
-
-export const searchActivitiesForAssociationErrorHandler = http.get(
-  `*${getSearchForAssociationUrl(EAssociationContextType.TRACE, ':traceId', EAssociationContextType.DECLARED_ACTIVITY)}`,
-  () => {
-    return HttpResponse.json(
-      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
-      { status: 500 }
-    )
-  }
-)
-
-export const associateTraceWithActivitiesErrorHandler = http.post(
-  `*${getAssociateUrl(EAssociationContextType.TRACE, ':traceId', EAssociationContextType.DECLARED_ACTIVITY)}`,
-  () => {
-    return HttpResponse.json(
-      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
-      { status: 500 }
-    )
-  }
-)
-
-export const searchSkillsForAssociationErrorHandler = http.get(
-  `*${getSearchForAssociationUrl(EAssociationContextType.TRACE, ':traceId', EAssociationContextType.DECLARED_SKILL)}`,
-  () => {
-    return HttpResponse.json(
-      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
-      { status: 500 }
-    )
-  }
-)
-
-export const associateTraceWithDeclaredSkillsErrorHandler = http.post(
-  `*${getAssociateUrl(EAssociationContextType.TRACE, ':traceId', EAssociationContextType.DECLARED_SKILL)}`,
-  () => {
-    return HttpResponse.json(
-      { message: 'Internal Server Error', code: ErrorCodes.SERVER },
-      { status: 500 }
-    )
-  }
-)
-
-export const associateTraceWithDeclaredExperiencesErrorHandler = http.post(
-  `*${getAssociateUrl(EAssociationContextType.TRACE, ':traceId', EAssociationContextType.DECLARED_EXPERIENCE)}`,
   () => {
     return HttpResponse.json(
       { message: 'Internal Server Error', code: ErrorCodes.SERVER },

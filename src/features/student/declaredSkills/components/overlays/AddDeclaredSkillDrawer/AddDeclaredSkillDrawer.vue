@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import type { Association } from '@/features/student/global/types/associations.types'
-import type { AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
-import { EAssociationContextType, useSearchForAssociationWithNewElement } from '@/api/avenir-esr'
+import { EAssociationContextType } from '@/api/avenir-esr'
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ICONS } from '@/common/constants'
+import { AssociationSelectionSection } from '@/features/student/associations'
 import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
 import DeclaredSkillReflectionFormField
   from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillReflectionFormField/DeclaredSkillReflectionFormField.vue'
@@ -15,9 +14,6 @@ import {
   useDeclaredSkillForm
 } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
-import { useAssociationSearchResults } from '@/features/student/global'
-import AssociateElementsDrawerSection from '@/features/student/global/components/sections/AssociateElementsDrawerSection/AssociateElementsDrawerSection.vue'
-import { TraceAssociationTypes, useTraceAssociationTypeConfig } from '@/features/student/traces'
 import { useToasterStore } from '@/store'
 import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -59,116 +55,10 @@ enum AddDeclaredSkillDrawerAccodions {
 const activeAccordion = ref<AddDeclaredSkillDrawerAccodions>(AddDeclaredSkillDrawerAccodions.ADD_MY_SKILL)
 
 const associationSelectionsField = form.useField({ name: 'associationSelections' })
-const { traceAssociationTypeConfig } = useTraceAssociationTypeConfig()
-const associationTypesConfigs = computed<AssociateElementTypeConfig[]>(() => [
-  {
-    key: EAssociationContextType.DECLARED_ACTIVITY,
-    label: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.activities.label'),
-    searchPlaceholder: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.activities.placeholder')
-  },
-  {
-    key: EAssociationContextType.DECLARED_EXPERIENCE,
-    label: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.experiences.label'),
-    searchPlaceholder: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.accordions.addAssociations.types.experiences.placeholder')
-  },
-  traceAssociationTypeConfig.value
-])
-
-const associationActiveType = ref<string>(EAssociationContextType.DECLARED_ACTIVITY)
-const associationActiveSubTypePerType = ref<Map<string, string>>(new Map([
-  [EAssociationContextType.TRACE, TraceAssociationTypes.UNASSOCIATED]
-]))
-const associationActiveSubType = computed<string | undefined>({
-  get: () => associationActiveSubTypePerType.value.get(associationActiveType.value),
-  set: (value) => {
-    if (value !== undefined) {
-      associationActiveSubTypePerType.value.set(associationActiveType.value, value)
-    }
-  }
-})
-
-const associationSearchQuery = ref<string>('')
-const associationSearchParams = computed(() => ({
-  keyword: associationSearchQuery.value.trim(),
-  page: 0,
-  pageSize: 100,
-}))
-
-function isAssociationQueryEnabled (type: EAssociationContextType) {
-  return computed(() =>
-    showDrawer.value
-    && activeAccordion.value === AddDeclaredSkillDrawerAccodions.ADD_ASSOCIATIONS
-    && associationActiveType.value === type
-  )
-}
-
-const { toAssociations } = useAssociationSearchResults()
-const {
-  data: activitiesToAssociate,
-  isLoading: isActivitiesLoading
-} = useSearchForAssociationWithNewElement(
-  EAssociationContextType.DECLARED_SKILL,
-  EAssociationContextType.DECLARED_ACTIVITY,
-  associationSearchParams,
-  {
-    query: {
-      enabled: isAssociationQueryEnabled(EAssociationContextType.DECLARED_ACTIVITY),
-      select: response => toAssociations(response.data, EAssociationContextType.DECLARED_ACTIVITY),
-    }
-  }
-)
-
-const {
-  data: experiencesToAssociate,
-  isLoading: isExperiencesLoading
-} = useSearchForAssociationWithNewElement(
-  EAssociationContextType.DECLARED_SKILL,
-  EAssociationContextType.DECLARED_EXPERIENCE,
-  associationSearchParams,
-  {
-    query: {
-      enabled: isAssociationQueryEnabled(EAssociationContextType.DECLARED_EXPERIENCE),
-      select: response => toAssociations(response.data, EAssociationContextType.DECLARED_EXPERIENCE),
-    }
-  }
-)
-
-const {
-  data: tracesToAssociate,
-  isLoading: isTracesLoading,
-} = useSearchForAssociationWithNewElement(
-  EAssociationContextType.DECLARED_SKILL,
-  EAssociationContextType.TRACE,
-  computed(() => ({
-    ...associationSearchParams.value,
-    isAssociated: associationActiveSubType.value === TraceAssociationTypes.ASSOCIATED,
-  })),
-  {
-    query: {
-      enabled: isAssociationQueryEnabled(EAssociationContextType.TRACE),
-      select: response => toAssociations(response.data, EAssociationContextType.TRACE),
-    }
-  }
-)
-
-const isAssociationSearchLoading = computed(() => isActivitiesLoading.value || isExperiencesLoading.value || isTracesLoading.value)
-const associationOptions = computed<Association[]>(() => {
-  switch (associationActiveType.value) {
-    case EAssociationContextType.DECLARED_ACTIVITY:
-      return activitiesToAssociate.value ?? []
-    case EAssociationContextType.DECLARED_EXPERIENCE:
-      return experiencesToAssociate.value ?? []
-    case EAssociationContextType.TRACE:
-      return tracesToAssociate.value ?? []
-    default:
-      return []
-  }
-})
 
 async function handleCancel () {
   if (await canLeave()) {
     form.reset()
-    associationSearchQuery.value = ''
     declaredSkillsStore.hideCreateDeclaredSkillDrawer()
   }
 }
@@ -233,15 +123,12 @@ async function handleCancel () {
               :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
               data-testid="associate-accordion"
             >
-              <AssociateElementsDrawerSection
-                v-model:active-type-key="associationActiveType"
-                v-model:active-sub-type-key="associationActiveSubType"
-                v-model:search-query="associationSearchQuery"
-                :type-configs="associationTypesConfigs"
-                :loading="isAssociationSearchLoading"
-                :options="associationOptions"
+              <AssociationSelectionSection
+                :selections="associationSelectionsField.state.value.value"
+                :context-type="EAssociationContextType.DECLARED_SKILL"
+                :enabled="activeAccordion === AddDeclaredSkillDrawerAccodions.ADD_ASSOCIATIONS"
                 layout="vertical"
-                @update:selections-by-type="associationSelectionsField.api.handleChange"
+                @update:selections="associationSelectionsField.api.handleChange"
               />
             </AvAccordion>
           </AvAccordionsGroup>

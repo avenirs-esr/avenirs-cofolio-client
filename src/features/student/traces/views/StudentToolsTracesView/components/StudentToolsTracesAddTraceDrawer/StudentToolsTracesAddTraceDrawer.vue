@@ -1,17 +1,10 @@
 <script setup lang="ts">
-import type { Association } from '@/features/student/global/types/associations.types'
-import type { AssociateElementTypeConfig } from '@/features/student/traces/types/traces.types'
-import {
-  EAssociationContextType,
-  useSearchForAssociationWithNewElement
-} from '@/api/avenir-esr'
+import { EAssociationContextType } from '@/api/avenir-esr'
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
-import { useAssociationSearchResults } from '@/features/student/global'
-import AssociateElementsDrawerSection from '@/features/student/global/components/sections/AssociateElementsDrawerSection/AssociateElementsDrawerSection.vue'
+import { AssociationSelectionSection } from '@/features/student/associations'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
-import { EAssociationTypeKey } from '@/features/student/traces/types/traces.types'
 import CreateTraceFormDeclarationItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormDeclarationItems/CreateTraceFormDeclarationItems.vue'
 import CreateTraceFormTraceDefinitionItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormTraceDefinitionItems/CreateTraceFormTraceDefinitionItems.vue'
 import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
@@ -31,8 +24,7 @@ const { addSuccessMessage } = useToasterStore()
 
 const showDrawer = toRef(tracesStore, 'showCreateTraceDrawer')
 
-const searchQuery = ref('')
-const activeTypeKey = ref<string>(EAssociationTypeKey.DECLARED_SKILLS)
+const ASSOCIATED_CONTEXT_TYPES = [EAssociationContextType.DECLARED_SKILL, EAssociationContextType.DECLARED_ACTIVITY]
 
 function onTraceCreated () {
   addSuccessMessage({
@@ -62,14 +54,10 @@ const {
   closeModal: closeDiscardChangesModal
 })
 
-const { toAssociations } = useAssociationSearchResults()
-
 const activeAccordion = ref(AddTraceAccordionGroupItems.TRACE)
 
 function confirmCancel () {
   form.reset()
-  searchQuery.value = ''
-  activeTypeKey.value = EAssociationTypeKey.DECLARED_SKILLS
   activeAccordion.value = 0
   tracesStore.hideCreateTraceDrawer()
 }
@@ -83,71 +71,6 @@ async function handleCancel () {
 async function onSave () {
   await form.handleSubmit()
 }
-
-const searchParams = computed(() => ({
-  keyword: searchQuery.value.trim(),
-  page: 0,
-  pageSize: 100,
-}))
-
-const {
-  data: skills,
-  isLoading: isSkillsLoading
-} = useSearchForAssociationWithNewElement(
-  EAssociationContextType.TRACE,
-  EAssociationContextType.DECLARED_SKILL,
-  searchParams,
-  {
-    query: {
-      enabled: computed(() => activeAccordion.value === AddTraceAccordionGroupItems.ASSOCIATION && activeTypeKey.value === EAssociationTypeKey.DECLARED_SKILLS),
-      select: response => response.data,
-    }
-  }
-)
-
-const {
-  data: activities,
-  isLoading: isActivitiesLoading
-} = useSearchForAssociationWithNewElement(
-  EAssociationContextType.TRACE,
-  EAssociationContextType.DECLARED_ACTIVITY,
-  searchParams,
-  {
-    query: {
-      enabled: computed(() => activeAccordion.value === AddTraceAccordionGroupItems.ASSOCIATION && activeTypeKey.value === EAssociationTypeKey.ACTIVITIES),
-      select: response => response.data,
-    }
-  }
-)
-
-const typeConfigs = computed<AssociateElementTypeConfig[]>(() => [
-  {
-    key: EAssociationTypeKey.DECLARED_SKILLS,
-    label: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.associateElements.types.declaredSkills'),
-    searchPlaceholder: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.associateElements.searchPlaceholder.declaredSkills')
-  },
-  {
-    key: EAssociationTypeKey.ACTIVITIES,
-    label: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.associateElements.types.activities'),
-    searchPlaceholder: t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.associateElements.searchPlaceholder.activities')
-  }
-])
-
-const currentOptions = computed<Association[]>(() => {
-  if (activeTypeKey.value === EAssociationTypeKey.DECLARED_SKILLS) {
-    return toAssociations(skills.value ?? [], EAssociationContextType.DECLARED_SKILL)
-  }
-
-  return toAssociations(activities.value ?? [], EAssociationContextType.DECLARED_ACTIVITY)
-})
-
-const isSearchLoading = computed(() => {
-  return isActivitiesLoading.value || isSkillsLoading.value
-})
-
-watch(activeTypeKey, () => {
-  searchQuery.value = ''
-})
 
 const associationSelectionsField = form.useField({ name: 'associationSelections' })
 </script>
@@ -205,15 +128,13 @@ const associationSelectionsField = form.useField({ name: 'associationSelections'
               :title="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.accordionItems.associateTrace')"
               :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
             >
-              <AssociateElementsDrawerSection
-                v-model:active-type-key="activeTypeKey"
-                v-model:search-query="searchQuery"
-                :selections-by-type="associationSelectionsField.state.value.value"
-                :type-configs="typeConfigs"
-                :options="currentOptions"
-                :loading="isSearchLoading"
+              <AssociationSelectionSection
+                :selections="associationSelectionsField.state.value.value"
+                :context-type="EAssociationContextType.TRACE"
+                :associated-context-types="ASSOCIATED_CONTEXT_TYPES"
+                :enabled="activeAccordion === AddTraceAccordionGroupItems.ASSOCIATION"
                 data-testid="associate-elements-section"
-                @update:selections-by-type="associationSelectionsField.api.handleChange"
+                @update:selections="associationSelectionsField.api.handleChange"
               />
             </AvAccordion>
           </AvAccordionsGroup>

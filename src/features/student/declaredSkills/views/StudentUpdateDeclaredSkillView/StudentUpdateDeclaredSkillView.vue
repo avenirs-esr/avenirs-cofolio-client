@@ -6,8 +6,7 @@ import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle
 import { useModal, useNavigation } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ICONS, ROUTES } from '@/common/constants'
-import StudentDeclaredSkillAssociations
-  from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.vue'
+import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import UpdateDeclaredSkillForm from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -29,11 +28,7 @@ const { data: declaredSkillDetailed } = useGetDeclaredSkillProgressDetails(skill
 
 const skillProgressId = computed(() => declaredSkillDetailed.value?.id ?? '')
 const { data: declaredSkillAssociations, error: associationsError } = useGetAssociations(EAssociationContextType.DECLARED_SKILL, skillProgressId, undefined, { query: { enabled: computed(() => !!skillProgressId.value) } })
-const traceAssociations = computed(() => declaredSkillAssociations.value?.traceAssociations ?? [])
-const declaredActivityAssociations = computed(() => declaredSkillAssociations.value?.declaredActivityAssociations ?? [])
-const declaredExperienceAssociations = computed(() => declaredSkillAssociations.value?.declaredExperienceAssociations ?? [])
-const countAssociations = computed(() =>
-  traceAssociations.value.length + declaredActivityAssociations.value.length + declaredExperienceAssociations.value.length)
+const associationsCount = computed(() => countElementAssociations(EAssociationContextType.DECLARED_SKILL, declaredSkillAssociations.value))
 
 const activeTab = ref(StudentUpdateDeclaredSkillViewTabs.DETAILS)
 const updateInProgress = ref(false)
@@ -91,20 +86,17 @@ async function handleCancel () {
       />
     </AvTab>
     <AvTab
-      :title="t('student.global.myAssociationsWithCount', { count: countAssociations })"
+      :title="t('student.global.myAssociationsWithCount', { count: associationsCount })"
       :icon="ICONS.ASSOCIATIONS"
       data-testid="update-declared-skill-associations-tab"
     >
-      <StudentDeclaredSkillAssociations
+      <ElementAssociations
         v-if="declaredSkillDetailed"
-        :declared-skill-id="declaredSkillDetailed.id"
-        :associated-traces="traceAssociations"
-        :associated-declared-activities="declaredActivityAssociations"
-        :associated-declared-experiences="declaredExperienceAssociations"
-        :associations-error="associationsError"
-        :count-associations="countAssociations"
-        disabled
-        :show-actions="false"
+        :context-type="EAssociationContextType.DECLARED_SKILL"
+        :element-id="declaredSkillDetailed.id"
+        :associations="declaredSkillAssociations"
+        :error="associationsError"
+        readonly
       />
     </AvTab>
   </AvTabs>

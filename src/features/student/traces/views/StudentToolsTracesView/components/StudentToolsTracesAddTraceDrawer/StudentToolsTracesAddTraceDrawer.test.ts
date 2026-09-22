@@ -1,18 +1,19 @@
-import type { VueWrapper } from '@vue/test-utils'
+import type { AssociationSelections } from '@/features/student/associations'
 import {
+  EAssociationContextType,
   ETraceAuthorType,
   type FileDTO
 } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
-import { AssociateElementsDrawerSectionStub } from '@/features/student/global/components/sections/AssociateElementsDrawerSection/AssociateElementsDrawerSection.stub'
+import { AssociationSelectionSectionStub } from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.stub'
 import { useTracesStore } from '@/features/student/traces'
-import { EAssociationTypeKey } from '@/features/student/traces/types/traces.types'
 import StudentToolsTracesAddTraceDrawer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
 import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()
@@ -67,12 +68,14 @@ BddTest().given('a student tools traces add trace drawer component', () => {
     Toggle: ToggleStub,
     ConfirmationModal: ConfirmationModalStub,
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
-    AssociateElementsDrawerSection: AssociateElementsDrawerSectionStub,
+    AssociationSelectionSection: AssociationSelectionSectionStub,
   }
 
   const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
   const getSaveButton = () => getCancelConfirmButtons()?.find('.confirm')
   const getCancelButton = () => getCancelConfirmButtons()?.find('.cancel')
+  const getAccordionsGroup = () => wrapper.findComponent({ name: 'AvAccordionsGroup' })
+  const getAssociationSelectionSection = () => wrapper.findComponent(AssociationSelectionSectionStub)
 
   const fillFormFields = async (traceName = 'My Test Trace', personalNote = 'Test personal note') => {
     await wrapper.vm.$nextTick()
@@ -357,64 +360,97 @@ BddTest().given('a student tools traces add trace drawer component', () => {
     })
   })
 
-  BddTest().when('the associate elements section is rendered', () => {
-    BddTest().then('it should render the associate elements drawer section in the third accordion', () => {
-      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+  BddTest().when('the association selection section is rendered', () => {
+    BddTest().then('it should render the association selection section in the third accordion', () => {
+      const associateTraceAccordion = wrapper.findAllComponents({ name: 'AvAccordion' })[2]
+      const section = associateTraceAccordion.findComponent(AssociationSelectionSectionStub)
+
       expect(section.exists()).toBe(true)
       expect(section.attributes('data-testid')).toBe('associate-elements-section')
     })
 
-    BddTest().then('it should pass typeConfigs with declared skills and activities', () => {
-      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
-      const typeConfigs = section.props('typeConfigs') as { key: string }[]
+    BddTest().then('it should pass the trace context type', () => {
+      expect(getAssociationSelectionSection().props('contextType')).toBe(EAssociationContextType.TRACE)
+    })
 
-      expect(typeConfigs).toHaveLength(2)
-      expect(typeConfigs[0].key).toBe(EAssociationTypeKey.DECLARED_SKILLS)
-      expect(typeConfigs[1].key).toBe(EAssociationTypeKey.ACTIVITIES)
+    BddTest().then('it should only allow to associate declared skills and activities', () => {
+      expect(getAssociationSelectionSection().props('associatedContextTypes')).toStrictEqual([
+        EAssociationContextType.DECLARED_SKILL,
+        EAssociationContextType.DECLARED_ACTIVITY
+      ])
+    })
+
+    BddTest().then('it should use the default horizontal layout', () => {
+      expect(getAssociationSelectionSection().props('layout')).toBe('horizontal')
+    })
+
+    BddTest().then('it should pass the empty association selections of the form', () => {
+      expect(getAssociationSelectionSection().props('selections')).toStrictEqual({})
+    })
+
+    BddTest().then('it should not enable the search while the associate trace accordion is not active', () => {
+      expect(getAssociationSelectionSection().props('enabled')).toBe(false)
     })
   })
 
-  BddTest().when('the associate elements section emits a search event', () => {
-    beforeEach(() => {
-      vi.useFakeTimers()
-    })
-
-    afterEach(() => {
-      vi.useRealTimers()
-    })
-
-    BddTest().then('it should debounce the searchQuery and update options after 350ms', async () => {
-      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
-
-      await section.vm.$emit('update:searchQuery', 'test query')
-      const optionsBefore = section.props('options')
-
-      vi.advanceTimersByTime(350)
+  BddTest().when('the associate trace accordion is activated', () => {
+    beforeEach(async () => {
+      await getAccordionsGroup().vm.$emit('update:activeAccordion', 2)
       await wrapper.vm.$nextTick()
-
-      expect(section.props('options')).toStrictEqual(optionsBefore)
     })
 
-    BddTest().then('it should not update immediately before debounce delay', async () => {
-      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
-      const initialOptions = section.props('options')
+    BddTest().then('it should enable the search of the association selection section', () => {
+      expect(getAssociationSelectionSection().props('enabled')).toBe(true)
+    })
 
-      await section.vm.$emit('update:searchQuery', 'test query')
-      vi.advanceTimersByTime(100)
-      await wrapper.vm.$nextTick()
+    BddTest().and('another accordion is activated', () => {
+      beforeEach(async () => {
+        await getAccordionsGroup().vm.$emit('update:activeAccordion', 1)
+        await wrapper.vm.$nextTick()
+      })
 
-      expect(section.props('options')).toStrictEqual(initialOptions)
+      BddTest().then('it should disable the search of the association selection section', () => {
+        expect(getAssociationSelectionSection().props('enabled')).toBe(false)
+      })
+    })
+
+    BddTest().and('the drawer is cancelled', () => {
+      beforeEach(async () => {
+        await clickCancelButton()
+        await flushPromises()
+      })
+
+      BddTest().then('it should reactivate the first accordion and disable the search', () => {
+        expect(getAccordionsGroup().props('activeAccordion')).toBe(0)
+        expect(getAssociationSelectionSection().props('enabled')).toBe(false)
+      })
     })
   })
 
-  BddTest().when('the associate elements section updates the active type key', () => {
-    BddTest().then('it should forward the new active type key back to the section', async () => {
-      const section = wrapper.findComponent(AssociateElementsDrawerSectionStub)
+  BddTest().when('the association selection section emits a selections update', () => {
+    const selections: AssociationSelections = {
+      [EAssociationContextType.DECLARED_SKILL]: [{ id: 'skill-1', title: 'Skill 1' }],
+      [EAssociationContextType.DECLARED_ACTIVITY]: [{ id: 'activity-1', title: 'Activity 1' }]
+    }
 
-      await section.vm.$emit('update:activeTypeKey', EAssociationTypeKey.ACTIVITIES)
+    beforeEach(async () => {
+      await getAssociationSelectionSection().vm.$emit('update:selections', selections)
       await wrapper.vm.$nextTick()
+    })
 
-      expect(section.props('activeTypeKey')).toBe(EAssociationTypeKey.ACTIVITIES)
+    BddTest().then('it should update the association selections of the form', () => {
+      expect(getAssociationSelectionSection().props('selections')).toStrictEqual(selections)
+    })
+
+    BddTest().and('the drawer is cancelled', () => {
+      beforeEach(async () => {
+        await clickCancelButton()
+        await flushPromises()
+      })
+
+      BddTest().then('it should reset the association selections of the form', () => {
+        expect(getAssociationSelectionSection().props('selections')).toStrictEqual({})
+      })
     })
   })
 })

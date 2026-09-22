@@ -1,5 +1,2 @@
 export { default as FloatingIconCard, type FloatingIconCardProps } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
-export { default as ConfirmAssociateModal } from '@/features/student/global/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.vue'
-export { useAssociationModal } from '@/features/student/global/composables/use-association-modal/use-association-modal'
-export { useAssociationSearchResults } from '@/features/student/global/composables/use-association-search-results/use-association-search-results'
 export { commonQueryKeys } from '@/features/student/global/queries/types'

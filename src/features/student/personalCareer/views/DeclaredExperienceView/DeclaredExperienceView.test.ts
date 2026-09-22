@@ -1,18 +1,19 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { createMockedDeclaredExperienceAssociationsDTO, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import {
   declaredExperienceDetailedLoadingHandler,
   declaredExperienceDetailedNotFoundHandler,
   declaredExperiencesHandlers
 } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { EAssociationContextType, EErrorCode } from '@/api/avenir-esr'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { ROUTES } from '@/common/constants'
+import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { DeleteDeclaredExperienceConfirmModalStub }
   from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.stub'
-import { DeclaredExperienceAssociationsStub }
-  from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceAssociations/DeclaredExperienceAssociations.stub'
 import {
   DeclaredExperienceDetailsDropdownStub
 } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.stub'
@@ -77,7 +78,7 @@ const stubs = {
   DetailedPageTitle: DetailedPageTitleStub,
   ErrorMessage: ErrorMessageStub,
   DeclaredExperienceDetails: DeclaredExperienceDetailedStub,
-  DeclaredExperienceAssociations: DeclaredExperienceAssociationsStub,
+  ElementAssociations: ElementAssociationsStub,
   Loader: LoaderStub,
   DeclaredExperienceDetailsDropdown: DeclaredExperienceDetailsDropdownStub,
   DeleteDeclaredExperienceConfirmModal: DeleteDeclaredExperienceConfirmModalStub,
@@ -87,6 +88,9 @@ const stubs = {
 
 BddTest().given('a declared experience view component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceView>>
+
+  const mockedAssociations = createMockedDeclaredExperienceAssociationsDTO()
+  const associationsCount = mockedAssociations.traceAssociations.length + mockedAssociations.declaredSkillAssociations.length
 
   const mountComponentWithDefaults = async () => {
     wrapper = mountComponent(DeclaredExperienceView, {
@@ -151,7 +155,7 @@ BddTest().given('a declared experience view component', () => {
       })
     })
 
-    BddTest().then('it should render DeclaredExperienceAssociations component when associations tab is active', async () => {
+    BddTest().then('it should render ElementAssociations component when associations tab is active', async () => {
       await vi.waitFor(async () => {
         const tabs = wrapper.findComponent(AvTabsStub)
         expect(tabs.exists()).toBe(true)
@@ -159,16 +163,13 @@ BddTest().given('a declared experience view component', () => {
       })
 
       await vi.waitFor(() => {
-        const activeTab = wrapper.findComponent(AvTabStub)
-        expect(activeTab.exists()).toBe(true)
-        expect(String(activeTab.props('title'))).toContain('3')
-
-        const associations = wrapper.findComponent(DeclaredExperienceAssociationsStub)
-        expect(associations.exists()).toBe(true)
-        expect(associations.props('traceAssociations')).toHaveLength(3)
-        expect(associations.props('declaredSkillAssociations')).toEqual([])
-        expect(associations.props('declaredExperienceId')).toBe('exp-123')
-        expect(associations.props('associationsError')).toBeFalsy()
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.DECLARED_EXPERIENCE)
+        expect(elementAssociations.props('elementId')).toBe('exp-123')
+        expect(elementAssociations.props('associations')).toEqual(mockedAssociations)
+        expect(elementAssociations.props('error')).toBeNull()
+        expect(elementAssociations.props('readonly')).toBe(false)
       })
     })
 
@@ -182,7 +183,7 @@ BddTest().given('a declared experience view component', () => {
       await vi.waitFor(() => {
         const activeTab = wrapper.findComponent(AvTabStub)
         expect(activeTab.exists()).toBe(true)
-        expect(String(activeTab.props('title'))).toContain('3')
+        expect(activeTab.props('title')).toBe(`Mes associations (${associationsCount})`)
       })
     })
 
@@ -341,10 +342,10 @@ BddTest().given('a declared experience view component', () => {
       })
     })
 
-    BddTest().then('it should not render DeclaredExperienceAssociations', async () => {
+    BddTest().then('it should not render ElementAssociations', async () => {
       await vi.waitFor(() => {
-        const associations = wrapper.findComponent(DeclaredExperienceAssociationsStub)
-        expect(associations.exists()).toBe(false)
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        expect(elementAssociations.exists()).toBe(false)
       })
     })
   })
@@ -356,7 +357,7 @@ BddTest().given('a declared experience view component', () => {
       await mountComponentWithDefaults()
     })
 
-    BddTest().then('it should render DeclaredExperienceAssociations with empty associations', async () => {
+    BddTest().then('it should render ElementAssociations with empty associations', async () => {
       await vi.waitFor(async () => {
         const tabs = wrapper.findComponent(AvTabsStub)
         expect(tabs.exists()).toBe(true)
@@ -364,12 +365,14 @@ BddTest().given('a declared experience view component', () => {
       })
 
       await vi.waitFor(() => {
-        const associations = wrapper.findComponent(DeclaredExperienceAssociationsStub)
-        expect(associations.exists()).toBe(true)
-        expect(associations.props('traceAssociations')).toEqual([])
-        expect(associations.props('declaredSkillAssociations')).toEqual([])
-        expect(associations.props('associationsError')).toBeFalsy()
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('elementId')).toBe('EXP_WITHOUT_ASSOCIATIONS')
+        expect(elementAssociations.props('associations')).toEqual(mockedEmptyAssociations)
+        expect(elementAssociations.props('error')).toBeNull()
       })
+
+      expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (0)')
     })
   })
 
@@ -380,7 +383,7 @@ BddTest().given('a declared experience view component', () => {
       await mountComponentWithDefaults()
     })
 
-    BddTest().then('it should pass the associations error to DeclaredExperienceAssociations', async () => {
+    BddTest().then('it should pass the associations error to ElementAssociations', async () => {
       await vi.waitFor(async () => {
         const tabs = wrapper.findComponent(AvTabsStub)
         expect(tabs.exists()).toBe(true)
@@ -388,10 +391,13 @@ BddTest().given('a declared experience view component', () => {
       })
 
       await vi.waitFor(() => {
-        const associations = wrapper.findComponent(DeclaredExperienceAssociationsStub)
-        expect(associations.exists()).toBe(true)
-        expect(associations.props('associationsError')).toBeDefined()
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: EErrorCode.DECLARED_EXPERIENCE_NOT_FOUND }))
+        expect(elementAssociations.props('associations')).toBeUndefined()
       })
+
+      expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (0)')
     })
   })
 })

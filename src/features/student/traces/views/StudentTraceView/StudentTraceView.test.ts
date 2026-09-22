@@ -1,20 +1,23 @@
+import { mockedTraceAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixtures'
+import { getAssociationsErrorHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import {
   createTraceDetailedHandler,
   downloadTraceAttachmentErrorHandler
 } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { EAssociationContextType } from '@/api/avenir-esr'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
-import { ROUTES } from '@/common/constants'
+import { ErrorCodes, ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
-import { TraceAssociationsStub } from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.stub'
+import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
+import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
 import {
   TraceDeletionConfirmationModalStub
 } from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.stub'
 import {
   StudentTraceDetailsStub
 } from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.stub'
-import { AssociateDeclaredSkillsToTracesModalStub } from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsToTracesModal/AssociateDeclaredSkillsToTracesModal.stub'
 import {
   TraceSettingsDropdownStub
 } from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.stub'
@@ -80,9 +83,20 @@ BddTest().given('a student trace view', () => {
     AvTab: AvTabStub,
     TraceSettingsDropdown: TraceSettingsDropdownStub,
     TraceDeletionConfirmationModal: TraceDeletionConfirmationModalStub,
-    AssociateDeclaredSkillsToTracesModal: AssociateDeclaredSkillsToTracesModalStub,
+    AssociateModal: AssociateModalStub,
     StudentTraceDetails: StudentTraceDetailsStub,
-    TraceAssociations: TraceAssociationsStub
+    ElementAssociations: ElementAssociationsStub
+  }
+
+  const associationsCount = mockedTraceAssociations.declaredActivityAssociations.length
+    + mockedTraceAssociations.declaredSkillAssociations.length
+    + mockedTraceAssociations.declaredExperienceAssociations.length
+
+  async function selectAssociationsTab () {
+    const tabs = wrapper.findComponent({ name: 'AvTabs' })
+
+    await tabs.vm.$emit('update:modelValue', 1)
+    await flushPromises()
   }
 
   beforeEach(async () => {
@@ -149,10 +163,22 @@ BddTest().given('a student trace view', () => {
       expect(traceDetails.props('trace')).toEqual(mockedTraceDetailed)
     })
 
-    BddTest().then('it should render the AssociateDeclaredSkillsToTracesModal initially hidden', async () => {
-      const modal = wrapper.findComponent(AssociateDeclaredSkillsToTracesModalStub)
+    BddTest().then('it should render the AssociateModal initially hidden', async () => {
+      const modal = wrapper.findComponent(AssociateModalStub)
       expect(modal.exists()).toBe(true)
       expect(modal.props('opened')).toBe(false)
+    })
+
+    BddTest().then('it should configure the AssociateModal to associate declared skills to the trace', () => {
+      const modal = wrapper.findComponent(AssociateModalStub)
+
+      expect(modal.props('contextType')).toBe(EAssociationContextType.TRACE)
+      expect(modal.props('elementId')).toBe(mockedTraceDetailed.id)
+      expect(modal.props('associatedContextType')).toBe(EAssociationContextType.DECLARED_SKILL)
+    })
+
+    BddTest().then('it should not render ElementAssociations in the inactive associations tab', () => {
+      expect(wrapper.findComponent(ElementAssociationsStub).exists()).toBe(false)
     })
   })
 
@@ -179,13 +205,37 @@ BddTest().given('a student trace view', () => {
   })
 
   BddTest().when('TraceSettingsDropdown emits associate-selected', () => {
-    BddTest().then('it should open the associate modal', async () => {
+    beforeEach(async () => {
       const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
       await popover.vm.$emit('associate-selected')
       await flushPromises()
+    })
 
-      const modal = wrapper.findComponent(AssociateDeclaredSkillsToTracesModalStub)
+    BddTest().then('it should open the associate modal', () => {
+      const modal = wrapper.findComponent(AssociateModalStub)
       expect(modal.props('opened')).toBe(true)
+    })
+
+    BddTest().and('the associate modal emits cancel', () => {
+      beforeEach(async () => {
+        await wrapper.findComponent(AssociateModalStub).vm.$emit('cancel')
+        await flushPromises()
+      })
+
+      BddTest().then('it should close the associate modal', () => {
+        expect(wrapper.findComponent(AssociateModalStub).props('opened')).toBe(false)
+      })
+    })
+
+    BddTest().and('the associate modal emits associated', () => {
+      beforeEach(async () => {
+        await wrapper.findComponent(AssociateModalStub).vm.$emit('associated')
+        await flushPromises()
+      })
+
+      BddTest().then('it should close the associate modal', () => {
+        expect(wrapper.findComponent(AssociateModalStub).props('opened')).toBe(false)
+      })
     })
   })
 
@@ -264,23 +314,62 @@ BddTest().given('a student trace view', () => {
 
   BddTest().when('the associations tab is selected', () => {
     beforeEach(async () => {
-      const tabs = wrapper.findComponent({ name: 'AvTabs' })
-
-      await tabs.vm.$emit('update:modelValue', 1)
-      await flushPromises()
+      await selectAssociationsTab()
     })
 
     BddTest().then('it should render the associations tab with correct title', () => {
       const tab = wrapper.findComponent({ name: 'AvTab' })
 
-      expect(tab.props('title')).toBe('Mes éléments associés (5)')
+      expect(tab.props('title')).toBe(`Mes éléments associés (${associationsCount})`)
     })
 
-    BddTest().then('it should render TraceAssociations with correct props', () => {
-      const traceAssociations = wrapper.findComponent(TraceAssociationsStub)
+    BddTest().then('it should render ElementAssociations for the trace', () => {
+      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
 
-      expect(traceAssociations.exists()).toBe(true)
-      expect(traceAssociations.props('associationsError')).toBeNull()
+      expect(elementAssociations.exists()).toBe(true)
+      expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.TRACE)
+      expect(elementAssociations.props('elementId')).toBe(mockedTraceDetailed.id)
+    })
+
+    BddTest().then('it should pass the fetched associations to ElementAssociations', () => {
+      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+
+      expect(elementAssociations.props('associations')).toEqual(mockedTraceAssociations)
+      expect(elementAssociations.props('error')).toBeNull()
+    })
+
+    BddTest().then('it should render ElementAssociations as editable', () => {
+      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+
+      expect(elementAssociations.props('readonly')).toBe(false)
+      expect(elementAssociations.props('actionsDisabled')).toBe(false)
+    })
+  })
+
+  BddTest().when('the associations tab is selected and the associations request fails', () => {
+    beforeEach(async () => {
+      server.use(getAssociationsErrorHandler)
+      wrapper = mountComponent(StudentTraceView, {
+        props: { traceId: mockedTraceDetailed.id },
+        global: { stubs },
+      })
+      await flushPromises()
+      await selectAssociationsTab()
+    })
+
+    BddTest().then('it should display a zero associations count in the tab title', () => {
+      const tab = wrapper.findComponent({ name: 'AvTab' })
+
+      expect(tab.props('title')).toBe('Mes éléments associés (0)')
+    })
+
+    BddTest().then('it should pass the error to ElementAssociations', async () => {
+      await vi.waitFor(() => {
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+
+        expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: ErrorCodes.SERVER }))
+        expect(elementAssociations.props('associations')).toBeUndefined()
+      })
     })
   })
 

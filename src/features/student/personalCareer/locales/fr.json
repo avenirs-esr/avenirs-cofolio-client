@@ -1,11 +1,6 @@
 {
   "student": {
     "personalCareer": {
-      "cards": {
-        "AssociatedDeclaredExperiencesCard": {
-          "title": "Mon expérience déclarée associée ({count}) | Mes expériences déclarées associées ({count})"
-        }
-      },
       "declaredExperienceType": {
         "PERSONAL": "Expérience personnelle",
         "PROFESSIONAL": "Expérience professionnelle",
@@ -116,13 +111,7 @@
           "sections": {
             "addExperience": "Ajouter mon expérience",
             "associations": {
-              "title": "Associer mon expérience",
-              "types": {
-                "declaredSkills": {
-                  "label": "Mes compétences",
-                  "placeholder": "Rechercher une compétence..."
-                }
-              }
+              "title": "Associer mon expérience"
             }
           },
           "success": "Expérience déclarée ajoutée avec succès",
@@ -143,15 +132,6 @@
           "success": "Formation déclarée ajoutée avec succès",
           "title": "Ajouter une formation déclarée"
         },
-        "AssociateDeclaredExperiencesModal": {
-          "confirm": "Associer l'expérience sélectionnée (1) | Associer les expériences sélectionnées ({count})",
-          "searchPlaceholder": "Entrer le nom d'une expérience déclarée",
-          "success": "Vous avez associé {count} expérience. Retrouvez-la dans la catégorie \"Mes expériences associées\". | Vous avez associé {count} expériences. Retrouvez-les dans la catégorie \"Mes expériences associées\".",
-          "title": "Quelle(s) expérience(s) souhaitez-vous associer\u00A0?"
-        },
-        "ConfirmAssociateDeclaredExperiencesModal": {
-          "title": "Êtes-vous certain(e) de vouloir associer cette expérience\u00A0? | Êtes-vous certain(e) de vouloir associer ces expériences\u00A0?"
-        },
         "DeleteDeclaredExperienceConfirmModal": {
           "description": "Cette action entrainera la suppression des éventuelles associations.",
           "error": "Une erreur est survenue lors de la suppression de l'expérience. | Une erreur est survenue lors de la suppression des expériences.",
@@ -171,11 +151,7 @@
             "dropdown": "Gérer mon expérience",
             "title": "Détail de mon expérience déclarée"
           },
-          "empty": {
-            "associations": "Aucune association pour cette expérience déclarée"
-          },
           "errors": {
-            "fetchAssociations": "Une erreur est survenue lors de la récupération des associations de l'expérience déclarée.",
             "notFound": {
               "description": "L'expérience déclarée que vous recherchez n'existe pas ou n'est pas accessible.",
               "title": "Expérience déclarée introuvable"

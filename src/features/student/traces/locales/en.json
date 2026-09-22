@@ -1,19 +1,6 @@
 {
   "student": {
     "traces": {
-      "associations": {
-        "label": "My traces",
-        "subConfigs": {
-          "ASSOCIATED": {
-            "label": "associated",
-            "placeholder": "Search an associated trace..."
-          },
-          "UNASSOCIATED": {
-            "label": "unassociated",
-            "placeholder": "Search an unassociated trace..."
-          }
-        }
-      },
       "badges": {
         "TraceAiProducedBadge": {
           "withAi": "With AI",
@@ -61,11 +48,6 @@
           "linkLabel": "My trace link"
         }
       },
-      "composites": {
-        "TraceAssociations": {
-          "caption": "The associations of my trace ({count})"
-        }
-      },
       "interactions": {
         "inputs": {
           "TraceFileUpload": {
@@ -91,26 +73,6 @@
         "pickers": {
           "TracesSelector": {
             "ariaLabel": "Select trace {title}"
-          },
-          "TracesTypeSelect": {
-            "label": "Search in:",
-            "options": {
-              "TRACE": {
-                "ALL": {
-                  "label": "My traces",
-                  "searchPlaceholder": "Search a trace"
-                },
-                "ASSOCIATED": {
-                  "label": "My associated traces",
-                  "searchPlaceholder": "Search a associated trace"
-                },
-                "UNASSOCIATED": {
-                  "label": "My unassociated traces",
-                  "searchPlaceholder": "Search a unassociated trace"
-                }
-              }
-            },
-            "placeholder": "Select a type of trace"
           }
         },
         "radios": {
@@ -127,13 +89,6 @@
         }
       },
       "modals": {
-        "AssociateTracesModal": {
-          "cancelConfirmation": "Are you sure you want to abandon the trace association?",
-          "confirm": "Associate selected trace (1) | Associate selected traces ({count})",
-          "confirmTitle": "Are you sure you want to associate this trace? | Are you sure you want to associate these traces?",
-          "success": "You have associated {count} trace. Find it in the \"My associated traces\" category. | You have associated {count} traces. Find them in the \"My associated traces\" category.",
-          "title": "Which trace(s) would you like to associate?"
-        },
         "TraceDeletionConfirmationModal": {
           "description": "Are you sure you want to delete your trace?",
           "lockedActivityTitleFirstPart": "The trace below is used in a submitted or completed activity. It will be removed from your personal library but will remain accessible from | The traces below are used in a submitted or completed activity. They will be removed from your personal library but will remain accessible from",
@@ -203,16 +158,6 @@
               "addTrace": "Add my trace",
               "associateTrace": "Associate my trace",
               "declarations": "Make my declarations"
-            },
-            "associateElements": {
-              "searchPlaceholder": {
-                "activities": "Search for an activity...",
-                "declaredSkills": "Search for a skill..."
-              },
-              "types": {
-                "activities": "My activities",
-                "declaredSkills": "My declared skills"
-              }
             },
             "createTraceForm": {
               "declaration": {
@@ -300,28 +245,15 @@
           }
         },
         "StudentTraceView": {
-          "AssociateActivitiesModal": {
-            "confirm": "Associate selected activity (1) | Associate selected activities ({count})",
-            "searchPlaceholder": "Enter the name of an activity",
-            "success": "You have associated {count} activity. Find it in the \"My associated activities\" category. | You have associated {count} activities. Find them in the \"My associated activities\" category.",
-            "title": "Which activity(ies) would you like to associate?"
-          },
           "breadcrumb": {
             "current": {
               "title": "Trace {trace}"
             }
           },
-          "ConfirmAssociateActivitiesModal": {
-            "title": "Are you sure you want to associate this activity? | Are you sure you want to associate these activities?"
-          },
           "errors": {
             "delete": "An error occurred while deleting the trace",
             "download": "An error occurred while downloading the trace",
-            "fetchAssociations": "An error occurred while fetching the trace associations",
             "fetchTrace": "An error occurred while fetching the trace details"
-          },
-          "empty": {
-            "associations": "No association for this trace."
           },
           "settings": {
             "downloadDisabledTooltip": "Downloading is not available for trace of type link"

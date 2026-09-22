@@ -8,10 +8,9 @@ import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ICONS, ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
-import TraceAssociations from '@/features/student/traces/components/composites/TraceAssociations/TraceAssociations.vue'
+import { AssociateModal, countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import TraceDeletionConfirmationModal from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import StudentTraceDetails from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.vue'
-import AssociateDeclaredSkillsToTracesModal from '@/features/student/traces/views/StudentTraceView/components/overlays/modals/AssociateDeclaredSkillsToTracesModal/AssociateDeclaredSkillsToTracesModal.vue'
 import TraceSettingsDropdown from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.vue'
 import { useToasterStore } from '@/store'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -43,14 +42,7 @@ const selectedTraceIdsForDeletion = computed(() =>
 const { navigateToStudentTraces, navigateToStudentUpdateTrace, navigateToStudentToolsUpdateTrace } = useNavigation()
 const route = useRoute()
 
-const countAssociations = computed(() =>
-  !traceAssociations.value
-    ? 0
-    : traceAssociations.value.declaredActivityAssociations.length
-      + traceAssociations.value.declaredSkillAssociations.length
-      + traceAssociations.value.declaredExperienceAssociations.length
-
-)
+const associationsCount = computed(() => countElementAssociations(EAssociationContextType.TRACE, traceAssociations.value))
 
 const { mutate: mutateDownloadAttachment } = useDownloadAttachment()
 
@@ -146,23 +138,26 @@ const trailingLinks = computed(() => [
         </AvTab>
 
         <AvTab
-          :title="t('student.traces.views.StudentTraceView.tabs.associations', { count: countAssociations })"
+          :title="t('student.traces.views.StudentTraceView.tabs.associations', { count: associationsCount })"
           :icon="ICONS.ASSOCIATIONS"
           data-testid="associations-tab-item"
         >
           <Loader :is-loading="isAssociationsLoading">
-            <TraceAssociations
+            <ElementAssociations
+              :context-type="EAssociationContextType.TRACE"
+              :element-id="traceDetailed.id"
               :associations="traceAssociations"
-              :trace-id="traceDetailed.id"
-              :associations-error="associationsError"
+              :error="associationsError"
             />
           </Loader>
         </AvTab>
       </AvTabs>
 
-      <AssociateDeclaredSkillsToTracesModal
+      <AssociateModal
         :opened="associateModalOpened"
-        :trace-id="traceDetailed.id"
+        :context-type="EAssociationContextType.TRACE"
+        :element-id="traceDetailed.id"
+        :associated-context-type="EAssociationContextType.DECLARED_SKILL"
         @cancel="closeAssociateModal"
         @associated="closeAssociateModal"
       />

@@ -1,14 +1,16 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { mockedDeclaredSkillAssociations, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import {
   detailedSkillProgressNotFoundErrorHandler
 } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { EAssociationContextType, EErrorCode } from '@/api/avenir-esr'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
+import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { DeclaredSkillDetailsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.stub'
 import { DeclaredSkillSettingDropdownStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillSettingDropdown/DeclaredSkillSettingDropdown.stub'
 import { DeleteDeclaredSkillConfirmModalStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.stub'
-import { StudentDeclaredSkillAssociationsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/StudentDeclaredSkillAssociations/StudentDeclaredSkillAssociations.stub'
 import StudentDeclaredSkillView from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/StudentDeclaredSkillView.vue'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -32,7 +34,7 @@ const stubs = {
   DetailedPageTitle: DetailedPageTitleStub,
   ErrorMessage: ErrorMessageStub,
   DeleteDeclaredSkillConfirmModal: DeleteDeclaredSkillConfirmModalStub,
-  StudentDeclaredSkillAssociations: StudentDeclaredSkillAssociationsStub,
+  ElementAssociations: ElementAssociationsStub,
   AvTabs: AvTabsStub,
   AvTab: AvTabStub,
   DeclaredSkillDetails: DeclaredSkillDetailsStub,
@@ -92,23 +94,18 @@ BddTest().given('a student declared skill view', () => {
       })
     })
 
-    BddTest().then('it should render StudentDeclaredSkillAssociations component with correct props when associations tab is active', async () => {
+    BddTest().then('it should render ElementAssociations component with correct props when associations tab is active', async () => {
       const tabs = wrapper.findComponent(AvTabsStub)
       await tabs.vm.$emit('update:modelValue', 1)
 
       await vi.waitFor(() => {
-        const activeTab = wrapper.findComponent(AvTabStub)
-        expect(activeTab.exists()).toBe(true)
-        expect(String(activeTab.props('title'))).toContain('5')
-
-        const associationsComponent = wrapper.findComponent(StudentDeclaredSkillAssociationsStub)
-        expect(associationsComponent.exists()).toBe(true)
-        expect(associationsComponent.props('declaredSkillId')).toBe('declared-skill-progress-1')
-        expect(associationsComponent.props('associatedTraces')).toHaveLength(2)
-        expect(associationsComponent.props('associatedDeclaredActivities')).toHaveLength(1)
-        expect(associationsComponent.props('associatedDeclaredExperiences')).toHaveLength(2)
-        expect(associationsComponent.props('countAssociations')).toBe(5)
-        expect(associationsComponent.props('associationsError')).toBeFalsy()
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.DECLARED_SKILL)
+        expect(elementAssociations.props('elementId')).toBe(skillId)
+        expect(elementAssociations.props('associations')).toEqual(mockedDeclaredSkillAssociations)
+        expect(elementAssociations.props('error')).toBeNull()
+        expect(elementAssociations.props('readonly')).toBe(false)
       })
     })
 
@@ -119,7 +116,7 @@ BddTest().given('a student declared skill view', () => {
       await vi.waitFor(() => {
         const activeTab = wrapper.findComponent(AvTabStub)
         expect(activeTab.exists()).toBe(true)
-        expect(String(activeTab.props('title'))).toContain('5')
+        expect(activeTab.props('title')).toBe('Mes associations (5)')
       })
     })
 
@@ -208,6 +205,18 @@ BddTest().given('a student declared skill view', () => {
         expect(errorMessage.props('description')).toBe('La compétence que vous recherchez n\'existe pas ou n\'est pas accessible.')
       })
     })
+
+    BddTest().then('it should not render ElementAssociations when the associations tab is active', async () => {
+      const tabs = wrapper.findComponent(AvTabsStub)
+      await tabs.vm.$emit('update:modelValue', 1)
+
+      await vi.waitFor(() => {
+        expect(wrapper.findComponent(ErrorMessageStub).exists()).toBe(true)
+      })
+
+      expect(wrapper.findComponent(ElementAssociationsStub).exists()).toBe(false)
+      expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (0)')
+    })
   })
 
   BddTest().when('the associations query returns empty data', () => {
@@ -218,18 +227,28 @@ BddTest().given('a student declared skill view', () => {
       })
     })
 
-    BddTest().then('it should render StudentDeclaredSkillAssociations with empty associations', async () => {
+    BddTest().then('it should render ElementAssociations with empty associations', async () => {
       const tabs = wrapper.findComponent(AvTabsStub)
       await tabs.vm.$emit('update:modelValue', 1)
 
       await vi.waitFor(() => {
-        const associationsComponent = wrapper.findComponent(StudentDeclaredSkillAssociationsStub)
-        expect(associationsComponent.exists()).toBe(true)
-        expect(associationsComponent.props('associatedTraces')).toEqual([])
-        expect(associationsComponent.props('associatedDeclaredActivities')).toEqual([])
-        expect(associationsComponent.props('countAssociations')).toBe(0)
-        expect(associationsComponent.props('associationsError')).toBeFalsy()
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('elementId')).toBe('SKILL_WITHOUT_ASSOCIATIONS')
+        expect(elementAssociations.props('associations')).toEqual(mockedEmptyAssociations)
+        expect(elementAssociations.props('error')).toBeNull()
       })
+    })
+
+    BddTest().then('it should display a zero associations count in the associations tab title', async () => {
+      const tabs = wrapper.findComponent(AvTabsStub)
+      await tabs.vm.$emit('update:modelValue', 1)
+
+      await vi.waitFor(() => {
+        expect(wrapper.findComponent(ElementAssociationsStub).props('associations')).toEqual(mockedEmptyAssociations)
+      })
+
+      expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (0)')
     })
   })
 
@@ -241,14 +260,15 @@ BddTest().given('a student declared skill view', () => {
       })
     })
 
-    BddTest().then('it should pass the associations error to StudentDeclaredSkillAssociations', async () => {
+    BddTest().then('it should pass the associations error to ElementAssociations', async () => {
       const tabs = wrapper.findComponent(AvTabsStub)
       await tabs.vm.$emit('update:modelValue', 1)
 
       await vi.waitFor(() => {
-        const associationsComponent = wrapper.findComponent(StudentDeclaredSkillAssociationsStub)
-        expect(associationsComponent.exists()).toBe(true)
-        expect(associationsComponent.props('associationsError')).toBeDefined()
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+        expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: EErrorCode.DECLARED_SKILL_PROGRESS_NOT_FOUND }))
+        expect(elementAssociations.props('associations')).toBeUndefined()
       })
     })
   })

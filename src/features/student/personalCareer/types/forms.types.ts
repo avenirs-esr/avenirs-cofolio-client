@@ -1,12 +1,11 @@
 import type { AnyFormApi } from '@/common/types'
-import type { Association } from '@/features/student/global/types/associations.types'
+import type { AssociationSelections } from '@/features/student/associations/types/associations.types'
 import type {
   useAddDeclaredExperienceForm
 } from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/use-add-declared-experience-form/use-add-declared-experience-form'
 import type {
   useAddDeclaredProgramForm
 } from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/use-add-declared-program-form/use-add-declared-program-form'
-import type { DeclaredExperienceAssociationContextType } from '@/features/student/personalCareer/types/declared-experience.types'
 import type {
   useUpdateDeclaredExperienceForm
 } from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/use-update-declared-experience-form/use-update-declared-experience-form'
@@ -47,5 +46,5 @@ export interface DeclaredExperienceFormData {
   summary: string
   externalLink: string
   valorized: boolean
-  associationSelections?: Partial<Record<DeclaredExperienceAssociationContextType, Association[]>>
+  associationSelections?: AssociationSelections
 }
