@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
-import type { ActivityDraftCreationForm, EditActivityForm } from '@/features/staff/activities/types/forms.types'
+import type { ActivityDraftCreationForm, ActivityDuplicationForm, EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import ActivityTitleInput from '@/features/staff/activities/components/interactions/inputs/ActivityTitleInput/ActivityTitleInput.vue'
 import { ACTIVITY_TITLE_MAX_LENGTH } from '@/features/staff/activities/config'
 import { markRaw } from 'vue'
 
 interface ActivityTitleFormFieldProps {
-  form: ActivityDraftCreationForm | EditActivityForm
+  form: ActivityDraftCreationForm | ActivityDuplicationForm | EditActivityForm
 }
 
 defineOptions({

@@ -1,6 +1,6 @@
 import type { UsePaginatedStaffActivitiesParams, UsePaginatedStaffActivitiesResult } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
-import { createMockedPagedResponseActivityStaffOverviewDTO, mockedActivityDraftCreationResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { createMockedPagedResponseActivityStaffOverviewDTO } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { EActivityStatus } from '@/api/avenir-esr'
 import { ActivityStatusBadgeStub } from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
@@ -8,8 +8,9 @@ import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspen
 import { BaseApiException } from '@/common/exceptions'
 import { DeleteDraftActivityConfirmationModalStub } from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.stub'
 import { UnpublishActivityConfirmationModalStub } from '@/features/staff/activities/components/modals/UnpublishActivityConfirmationModal/UnpublishActivityConfirmationModal.stub'
-import ActivitiesTab from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.vue'
+import ActivitiesTab, { type ActivitiesTabProps } from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.vue'
 import { ActivityCardStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.stub'
+import { ActivityDuplicationModalStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityDuplicationModal/ActivityDuplicationModal.stub'
 import { ActivityTableTitleStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.stub'
 import { MoreActionsDropdownStub } from '@/features/staff/activities/views/ActivitiesView/components/MoreActionsDropdown/MoreActionsDropdown.stub'
 import { type AvTableColumn, PageSizes } from '@avenirs-esr/avenirs-dsav'
@@ -22,7 +23,6 @@ const mockError = new BaseApiException('error')
 
 const mockFormatLastModified = vi.fn((value: string) => `formatted-${value}`)
 const navigateToFeedbacks = vi.fn()
-const navigateToStaffActivityCatalog = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
@@ -33,22 +33,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
     }),
     useNavigation: () => ({
       navigateToFeedbacks,
-      navigateToStaffActivityCatalog
     }),
-  }
-})
-
-const mockAddSuccessMessage = vi.fn()
-const mockAddErrorMessage = vi.fn()
-
-vi.mock('@/store', async () => {
-  const actual = await vi.importActual<typeof import('@/store')>('@/store')
-  return {
-    ...actual,
-    useToasterStore: vi.fn(() => ({
-      addSuccessMessage: mockAddSuccessMessage,
-      addErrorMessage: mockAddErrorMessage,
-    })),
   }
 })
 
@@ -91,6 +76,7 @@ BddTest().given('a ActivitiesTab component', () => {
 
   const stubs = {
     ActivityCard: ActivityCardStub,
+    ActivityDuplicationModal: ActivityDuplicationModalStub,
     ActivityStatusBadge: ActivityStatusBadgeStub,
     ActivityTableTitle: ActivityTableTitleStub,
     AvTable: AvTableStub,
@@ -106,7 +92,7 @@ BddTest().given('a ActivitiesTab component', () => {
     isMobile = false,
     paginatedResult = defaultPaginatedResult,
   }: {
-    props?: Record<string, unknown>
+    props?: Partial<ActivitiesTabProps>
     isMobile?: boolean
     paginatedResult?: typeof defaultPaginatedResult
   } = {}) => {
@@ -128,17 +114,10 @@ BddTest().given('a ActivitiesTab component', () => {
     await flushPromises()
   }
 
-  function getUnpublishConfirmationModal () {
-    return wrapper.findComponent(UnpublishActivityConfirmationModalStub)
-  }
-
-  function getDeleteConfirmationModal () {
-    return wrapper.findComponent(DeleteDraftActivityConfirmationModalStub)
-  }
-
-  function getMoreActionsDropdowns () {
-    return wrapper.findAllComponents(MoreActionsDropdownStub)
-  }
+  const getUnpublishConfirmationModal = () => wrapper.findComponent(UnpublishActivityConfirmationModalStub)
+  const getDeleteConfirmationModal = () => wrapper.findComponent(DeleteDraftActivityConfirmationModalStub)
+  const getDuplicationModal = () => wrapper.findComponent(ActivityDuplicationModalStub)
+  const getMoreActionsDropdowns = () => wrapper.findAllComponents(MoreActionsDropdownStub)
 
   beforeEach(async () => {
     await mountDefault()
@@ -238,6 +217,10 @@ BddTest().given('a ActivitiesTab component', () => {
       expect(getDeleteConfirmationModal().props('opened')).toBe(false)
     })
 
+    BddTest().then('the duplication modal should not be visible initially', () => {
+      expect(getDuplicationModal().props('opened')).toBe(false)
+    })
+
     BddTest().and('unpublishSelected is emitted from a MoreActionsDropdown', () => {
       beforeEach(() => {
         getMoreActionsDropdowns()[0].vm.$emit('unpublishSelected')
@@ -332,58 +315,49 @@ BddTest().given('a ActivitiesTab component', () => {
       })
     })
 
-    BddTest().and('cloneSelected is emitted from a MoreActionsDropdown and the API succeeds', () => {
-      beforeEach(async () => {
+    BddTest().and('cloneSelected is emitted from a MoreActionsDropdown', () => {
+      beforeEach(() => {
         getMoreActionsDropdowns()[0].vm.$emit('cloneSelected')
-        await flushPromises()
       })
 
-      BddTest().then('it should call addSuccessMessage', () => {
-        expect(mockAddSuccessMessage).toHaveBeenCalledWith('L\'activité a été dupliquée avec succès')
+      BddTest().then('it should open the duplication modal', () => {
+        expect(getDuplicationModal().props('opened')).toBe(true)
       })
 
-      BddTest().then('it should navigate to the staff activity catalog with the created draft', () => {
-        expect(navigateToStaffActivityCatalog).toHaveBeenCalledWith({
-          id: mockedActivityDraftCreationResponse.draftId,
-          status: EActivityStatus.DRAFT,
+      BddTest().then('it should pass the correct activityId to the modal', () => {
+        expect(getDuplicationModal().props('activityId')).toBe('3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1')
+      })
+
+      BddTest().then('it should pass the correct activityTitle to the modal', () => {
+        expect(getDuplicationModal().props('activityTitle')).toBe(page.data[0].title)
+      })
+
+      BddTest().and('the duplication modal emits duplicated', () => {
+        beforeEach(() => {
+          getDuplicationModal().vm.$emit('duplicated')
+        })
+
+        BddTest().then('it should emit duplicated', () => {
+          expect(wrapper.emitted('duplicated')).toHaveLength(1)
+        })
+
+        BddTest().then('it should close the duplication modal', () => {
+          expect(getDuplicationModal().props('opened')).toBe(false)
         })
       })
 
-      BddTest().then('it should not call addErrorMessage', () => {
-        expect(mockAddErrorMessage).not.toHaveBeenCalled()
-      })
-    })
-
-    BddTest().and('cloneSelected is emitted from a MoreActionsDropdown and the API returns an error', () => {
-      beforeEach(async () => {
-        await mountDefault({
-          props: { withActions: true },
-          paginatedResult: {
-            ...defaultPaginatedResult,
-            activities: computed(() => [
-              { ...page.data[0], activityId: 'INVALID_ACTIVITY_ID' },
-              ...page.data.slice(1)
-            ]),
-          }
+      BddTest().and('the user cancels', () => {
+        beforeEach(async () => {
+          getDuplicationModal().vm.$emit('close')
         })
-        getMoreActionsDropdowns()[0].vm.$emit('cloneSelected')
-        await flushPromises()
-      })
 
-      BddTest().then('it should call addErrorMessage with the correct title', () => {
-        expect(mockAddErrorMessage).toHaveBeenCalledWith(
-          expect.objectContaining({
-            title: 'Une erreur est survenue lors de la duplication de l\'activité',
-          })
-        )
-      })
+        BddTest().then('it should not emit duplicated', () => {
+          expect(wrapper.emitted('duplicated')).toBeUndefined()
+        })
 
-      BddTest().then('it should not navigate to the staff activity catalog', () => {
-        expect(navigateToStaffActivityCatalog).not.toHaveBeenCalled()
-      })
-
-      BddTest().then('it should not call addSuccessMessage', () => {
-        expect(mockAddSuccessMessage).not.toHaveBeenCalled()
+        BddTest().then('it should close the duplication modal', () => {
+          expect(getDuplicationModal().props('opened')).toBe(false)
+        })
       })
     })
   })

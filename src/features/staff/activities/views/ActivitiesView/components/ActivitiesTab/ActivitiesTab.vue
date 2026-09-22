@@ -1,23 +1,20 @@
 <script lang="ts" setup>
-import type { BaseApiException } from '@/common/exceptions'
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
-import { EActivityStatus, useDuplicateActivity } from '@/api/avenir-esr'
 import ActivityStatusBadge from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useDateUtils, useNavigation } from '@/common/composables'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useModal } from '@/common/composables/use-modal/use-modal'
 import DeleteDraftActivityConfirmationModal from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
 import UnpublishActivityConfirmationModal from '@/features/staff/activities/components/modals/UnpublishActivityConfirmationModal/UnpublishActivityConfirmationModal.vue'
 import { usePaginatedStaffActivities, type UsePaginatedStaffActivitiesParams } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
 import { mapActivityToActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.utils'
 import ActivityCard from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
+import ActivityDuplicationModal from '@/features/staff/activities/views/ActivitiesView/components/ActivityDuplicationModal/ActivityDuplicationModal.vue'
 import ActivityTableTitle from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.vue'
 import MoreActionsDropdown from '@/features/staff/activities/views/ActivitiesView/components/MoreActionsDropdown/MoreActionsDropdown.vue'
-import { useToasterStore } from '@/store'
 import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -40,15 +37,13 @@ const {
 const emit = defineEmits<{
   (e: 'updateActivitiesCount', value: number): void
   (e: 'unpublished'): void
+  (e: 'duplicated'): void
   (e: 'deleted'): void
 }>()
 
 defineSlots<{
   actions: Slot
 }>()
-
-const { addSuccessMessage, addErrorMessage } = useToasterStore()
-const { getErrorMessage } = useApiErrors()
 
 const {
   activities,
@@ -66,13 +61,12 @@ const { isMobile } = useAvBreakpoints()
 const { navigateToFeedbacks } = useNavigation()
 
 const { modalOpened: deleteModalOpened, openModal: displayDeleteModal, closeModal: hideDeleteModal } = useModal()
+const { modalOpened: duplicateModalOpened, openModal: displayDuplicateModal, closeModal: hideDuplicateModal } = useModal()
 const { modalOpened: unpublishModalOpened, openModal: displayUnpublishModal, closeModal: hideUnpublishModal } = useModal()
 
-const { mutate: duplicateActivity } = useDuplicateActivity()
-const { navigateToStaffActivityCatalog } = useNavigation()
-
-const pendingUnpublishId = ref<string | null>(null)
-const pendingDeleteId = ref<string | null>(null)
+const pendingUnpublishId = ref<string>()
+const pendingDuplicate = ref<{ id: string, title: string }>()
+const pendingDeleteId = ref<string>()
 
 function onUnpublishSelected (activityId: string) {
   pendingUnpublishId.value = activityId
@@ -84,39 +78,40 @@ function onDeleteSelected (activityId: string) {
   displayDeleteModal()
 }
 
+function onDuplicateSelected (activityId: string, activityTitle: string) {
+  pendingDuplicate.value = {
+    id: activityId,
+    title: activityTitle
+  }
+  displayDuplicateModal()
+}
+
 function onUnpublished () {
-  emit('unpublished')
   hideUnpublishModal()
-  pendingUnpublishId.value = null
+  pendingUnpublishId.value = undefined
+  emit('unpublished')
+}
+
+function onDuplicated () {
+  hideDuplicateModal()
+  pendingDuplicate.value = undefined
+  emit('duplicated')
 }
 
 function onDeleted () {
-  emit('deleted')
   hideDeleteModal()
-  pendingDeleteId.value = null
+  pendingDeleteId.value = undefined
+  emit('deleted')
 }
 
 function cancelDelete () {
   hideDeleteModal()
-  pendingDeleteId.value = null
+  pendingDeleteId.value = undefined
 }
 
-function onCloneActivity (activityId: string) {
-  duplicateActivity({ activityId }, {
-    onSuccess: ({ draftId }) => {
-      addSuccessMessage(t('staff.activities.views.ActivitiesView.StaffAllActivitiesTab.cloneSuccess'))
-      navigateToStaffActivityCatalog({
-        id: draftId,
-        status: EActivityStatus.DRAFT
-      })
-    },
-    onError (error: BaseApiException) {
-      addErrorMessage({
-        title: t('staff.activities.views.ActivitiesView.StaffAllActivitiesTab.cloneError'),
-        description: getErrorMessage(error)
-      })
-    }
-  })
+function cancelDuplicate () {
+  hideDuplicateModal()
+  pendingDuplicate.value = undefined
 }
 
 const rows = computed<ActivityTableRow[]>(() => activities.value.map(mapActivityToActivityTableRow))
@@ -224,10 +219,10 @@ watch(
               :activity-status="row.status"
               :data-activity-id="row.id"
               :data-activity-status="row.status"
-              @delete-selected="() => onDeleteSelected(row.id)"
               @unpublish-selected="() => onUnpublishSelected(row.id)"
+              @clone-selected="() => onDuplicateSelected(row.id, row.title)"
+              @delete-selected="() => onDeleteSelected(row.id)"
               @navigate-to-feedbacks-selected="() => navigateToFeedbacks({ activityId: row.id })"
-              @clone-selected="() => onCloneActivity(row.id)"
             />
           </template>
         </AvTable>
@@ -239,6 +234,14 @@ watch(
       :activity-id="pendingUnpublishId ?? ''"
       @close="hideUnpublishModal"
       @unpublished="onUnpublished"
+    />
+
+    <ActivityDuplicationModal
+      :opened="duplicateModalOpened"
+      :activity-id="pendingDuplicate?.id ?? ''"
+      :activity-title="pendingDuplicate?.title ?? ''"
+      @close="cancelDuplicate"
+      @duplicated="onDuplicated"
     />
 
     <DeleteDraftActivityConfirmationModal

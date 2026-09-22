@@ -1906,6 +1906,16 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityDuplicationRequest"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK",
@@ -7373,6 +7383,17 @@
           "firstName",
           "id",
           "lastName"
+        ]
+      },
+      "ActivityDuplicationRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title"
         ]
       },
       "ActivityDraftCreationResponse": {
