@@ -30,6 +30,8 @@ BddTest().given('a date period picker', () => {
       props: {
         endDate: modelValues.endDate ?? '',
         isOngoing: modelValues.isOngoing ?? false,
+        label: 'Period',
+        ongoingLabel: 'Ongoing',
         startDate: modelValues.startDate ?? '',
         ...props,
       },
@@ -47,9 +49,9 @@ BddTest().given('a date period picker', () => {
       expect(getDatePicker().props('modelValue')).toBeNull()
     })
 
-    BddTest().then('it should render the default labels', () => {
-      expect(getDatePicker().props('label')).toBe('Période')
-      expect(getCheckbox().props('label')).toBe('En cours')
+    BddTest().then('it should render the labels', () => {
+      expect(getDatePicker().props('label')).toBe('Period')
+      expect(getCheckbox().props('label')).toBe('Ongoing')
     })
   })
 
