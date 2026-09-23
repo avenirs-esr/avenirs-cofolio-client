@@ -71,6 +71,8 @@ const createdAtPrefix = computed(() =>
           :start-date="startDate ?? ''"
           :end-date="endDate ?? ''"
           :is-ongoing="!endDate"
+          :label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.label')"
+          :ongoing-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.ongoing')"
           type="month"
           label-class="caption-regular"
         />
