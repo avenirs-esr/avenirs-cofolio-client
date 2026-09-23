@@ -40,6 +40,11 @@ export const ASSOCIATION_CONTEXT_CONFIGS: Record<EAssociationContextType, Associ
     categoryLabelKeyPrefix: 'student.personalCareer.declaredExperienceType',
     availableInDemo: false,
   },
+  [EAssociationContextType.DECLARED_PROGRAM]: {
+    associationsKey: 'declaredProgramAssociations',
+    relatedQueryKeys: [['me', 'declared', 'programs']],
+    availableInDemo: true,
+  },
 }
 
 /**
@@ -50,6 +55,7 @@ export const ASSOCIATION_DROPDOWN_ITEM_NAMES: Record<EAssociationContextType, st
   [EAssociationContextType.DECLARED_ACTIVITY]: 'activities',
   [EAssociationContextType.DECLARED_SKILL]: 'skills',
   [EAssociationContextType.DECLARED_EXPERIENCE]: 'experiences',
+  [EAssociationContextType.DECLARED_PROGRAM]: 'programs',
 }
 
 /**
@@ -72,4 +78,5 @@ export const EMPTY_ASSOCIATIONS: AssociationsDTO = {
   declaredActivityAssociations: [],
   declaredSkillAssociations: [],
   declaredExperienceAssociations: [],
+  declaredProgramAssociations: [],
 }

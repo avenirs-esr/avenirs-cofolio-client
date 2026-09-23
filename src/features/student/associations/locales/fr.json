@@ -39,6 +39,21 @@
           "selectionLabel": "Mes expériences",
           "unassociateDisabledTooltip": "Aucune expérience associée ne peut être dissociée."
         },
+        "DECLARED_PROGRAM": {
+          "associateConfirm": "Associer la formation sélectionnée (1) | Associer les formations sélectionnées ({count})",
+          "associateConfirmTitle": "Êtes-vous certain(e) de vouloir associer cette formation ? | Êtes-vous certain(e) de vouloir associer ces formations ?",
+          "associatedTitle": "Ma formation déclarée associée ({count}) | Mes formations déclarées associées ({count})",
+          "associatedTitleLimited": "Ma formation déclarée associée ({count}/{limit}) | Mes formations déclarées associées ({count}/{limit})",
+          "associateSuccess": "Vous avez associé {count} formation. Retrouvez-la dans la catégorie « Mes formations associées ». | Vous avez associé {count} formations. Retrouvez-les dans la catégorie « Mes formations associées ».",
+          "associateTitle": "Quelle(s) formation(s) déclarée(s) souhaitez-vous associer ?",
+          "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association de formations ?",
+          "dropdownLabel": "une/des formation(s)",
+          "emptyAssociations": "Aucune association pour cette formation déclarée",
+          "fetchAssociationsError": "Une erreur est survenue lors de la récupération des associations de la formation déclarée.",
+          "searchPlaceholder": "Rechercher une formation...",
+          "selectionLabel": "Mes formations",
+          "unassociateDisabledTooltip": "Aucune formation associée ne peut être dissociée."
+        },
         "DECLARED_SKILL": {
           "associateConfirm": "Associer la compétence sélectionnée (1) | Associer les compétences sélectionnées ({count})",
           "associateConfirmTitle": "Êtes-vous certain(e) de vouloir associer cette compétence\u00A0? | Êtes-vous certain(e) de vouloir associer ces compétences\u00A0?",

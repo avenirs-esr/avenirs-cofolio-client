@@ -1,10 +1,12 @@
 import { createMockedDeclaredExperiences } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
+import { mockedDeclaredPrograms } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
   type AssociationsDTO,
   type AssociationSearchResultDTO,
   type DeclaredActivityAssociationDTO,
   type DeclaredExperienceAssociationDTO,
+  type DeclaredProgramAssociationDTO,
   type DeclaredSkillAssociationDTO,
   EActivityThematic,
   EAssociationContextType,
@@ -23,7 +25,8 @@ export const mockedEmptyAssociations: AssociationsDTO = {
   traceAssociations: [],
   declaredActivityAssociations: [],
   declaredSkillAssociations: [],
-  declaredExperienceAssociations: []
+  declaredExperienceAssociations: [],
+  declaredProgramAssociations: []
 }
 
 export function createMockedTraceAssociations (traceCount: number, idsToAssociate?: string[]): TraceAssociationDTO[] {
@@ -97,6 +100,13 @@ export function createMockedDeclaredExperienceAssociations (count: number): Decl
   return createMockedDeclaredExperiences(count).map((declaredExperience, index) => ({
     associationId: `declared-experience-association-${index + 1}`,
     declaredExperience
+  }))
+}
+
+export function createMockedDeclaredProgramAssociations (count: number): DeclaredProgramAssociationDTO[] {
+  return mockedDeclaredPrograms.slice(0, count).map((declaredProgram, index) => ({
+    associationId: `declared-program-association-${index + 1}`,
+    declaredProgram
   }))
 }
 
@@ -233,6 +243,12 @@ export const mockedExperienceSearchResults: AssociationSearchResultDTO[] = [
   { id: 'experience-search-3', title: 'Développeur Web Full Stack', category: EExperienceType.PROFESSIONAL, disabled: true }
 ]
 
+export const mockedProgramSearchResults: AssociationSearchResultDTO[] = [
+  { id: 'program-search-1', title: 'Master en Informatique', category: 'Université Paris-Saclay', disabled: false },
+  { id: 'program-search-2', title: 'Licence de Psychologie', category: 'Université Lumière Lyon 2', disabled: false },
+  { id: 'program-search-3', title: 'BUT Métiers du Multimédia et de l\'Internet', category: 'IUT de Bordeaux', disabled: true }
+]
+
 /**
  * Returns 5 associated and 5 unassociated traces, filtered on their association status when given.
  */
@@ -256,6 +272,8 @@ function getMockedSearchResults (associatedContextType: EAssociationContextType,
       return mockedSkillSearchResults
     case EAssociationContextType.DECLARED_EXPERIENCE:
       return mockedExperienceSearchResults
+    case EAssociationContextType.DECLARED_PROGRAM:
+      return mockedProgramSearchResults
     default:
       return []
   }

@@ -29,6 +29,7 @@ const NOT_FOUND_ERROR_CODES: Record<EAssociationContextType, EErrorCode> = {
   [EAssociationContextType.DECLARED_ACTIVITY]: EErrorCode.ACTIVITY_NOT_FOUND,
   [EAssociationContextType.DECLARED_SKILL]: EErrorCode.DECLARED_SKILL_PROGRESS_NOT_FOUND,
   [EAssociationContextType.DECLARED_EXPERIENCE]: EErrorCode.DECLARED_EXPERIENCE_NOT_FOUND,
+  [EAssociationContextType.DECLARED_PROGRAM]: EErrorCode.DECLARED_PROGRAM_NOT_FOUND,
 }
 
 /**

@@ -1,3 +1,4 @@
+import { mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import {
   declaredProgramDetailedHandler,
   declaredProgramDetailedLoadingHandler,
@@ -5,14 +6,16 @@ import {
   declaredProgramsQueryErrorHandler,
 } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { EAssociationContextType, EErrorCode } from '@/api/avenir-esr'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/common/constants'
+import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { DeleteDeclaredProgramConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.stub'
 import { DeclaredProgramDetailedStub } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.stub'
 import { ManageDeclaredProgramDropdownStub } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/ManageDeclaredProgramDropdown/ManageDeclaredProgramDropdown.stub'
 import DeclaredProgramDetailedView from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/DeclaredProgramDetailedView.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
@@ -79,7 +82,18 @@ const stubs = {
   DeclaredProgramDetailed: DeclaredProgramDetailedStub,
   ManageDeclaredProgramDropdown: ManageDeclaredProgramDropdownStub,
   DeleteDeclaredProgramConfirmModal: DeleteDeclaredProgramConfirmModalStub,
-  QuerySuspense: QuerySuspenseStub
+  QuerySuspense: QuerySuspenseStub,
+  ElementAssociations: ElementAssociationsStub,
+  AvTabs: AvTabsStub,
+  AvTab: AvTabStub
+}
+
+async function activateAssociationsTab (wrapper: VueWrapper<InstanceType<typeof DeclaredProgramDetailedView>>) {
+  await vi.waitFor(async () => {
+    const tabs = wrapper.findComponent(AvTabsStub)
+    expect(tabs.exists()).toBe(true)
+    await tabs.vm.$emit('update:modelValue', 1)
+  })
 }
 
 BddTest().given('a declared program detailed view component', () => {
@@ -135,6 +149,30 @@ BddTest().given('a declared program detailed view component', () => {
         expect(details.props('declaredProgramDetailed')).toBeDefined()
         expect(details.props('declaredProgramDetailed').title).toBe('Formation déclarée 1')
       })
+    })
+
+    BddTest().then('it should render the details tab by default', async () => {
+      await vi.waitFor(() => {
+        const activeTab = wrapper.findComponent(AvTabStub)
+        expect(activeTab.exists()).toBe(true)
+        expect(activeTab.props('title')).toBe('Ma formation déclarée')
+      })
+    })
+
+    BddTest().then('it should render the associations of the declared program when the associations tab is active', async () => {
+      await activateAssociationsTab(wrapper)
+
+      await vi.waitFor(() => {
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+
+        expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.DECLARED_PROGRAM)
+        expect(elementAssociations.props('elementId')).toBe('declared-program-1')
+        expect(elementAssociations.props('associations')).toEqual(mockedEmptyAssociations)
+        expect(elementAssociations.props('error')).toBeNull()
+      })
+
+      expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (0)')
     })
 
     BddTest().then('it should render the manage declared program dropdown', async () => {
@@ -220,6 +258,27 @@ BddTest().given('a declared program detailed view component', () => {
         expect(details.exists()).toBe(true)
         expect(details.props('declaredProgramDetailed').title).toBe('Formation déclarée 2')
       })
+    })
+  })
+
+  BddTest().when('the associations query fails', () => {
+    beforeEach(async () => {
+      route.params.id = 'INVALID_PROGRAM_ID'
+      await mountComponentWithDefaults()
+    })
+
+    BddTest().then('it should pass the associations error to the element associations', async () => {
+      await activateAssociationsTab(wrapper)
+
+      await vi.waitFor(() => {
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+
+        expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: EErrorCode.DECLARED_PROGRAM_NOT_FOUND }))
+        expect(elementAssociations.props('associations')).toBeUndefined()
+      })
+
+      expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (0)')
     })
   })
 
