@@ -47,6 +47,7 @@
           "associateSuccess": "Vous avez associé {count} formation. Retrouvez-la dans la catégorie « Mes formations associées ». | Vous avez associé {count} formations. Retrouvez-les dans la catégorie « Mes formations associées ».",
           "associateTitle": "Quelle(s) formation(s) déclarée(s) souhaitez-vous associer ?",
           "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association de formations ?",
+          "confirmButtonDisabledTooltip": "Sélectionnez au moins une formation à associer",
           "dropdownLabel": "une/des formation(s)",
           "emptyAssociations": "Aucune association pour cette formation déclarée",
           "fetchAssociationsError": "Une erreur est survenue lors de la récupération des associations de la formation déclarée.",
