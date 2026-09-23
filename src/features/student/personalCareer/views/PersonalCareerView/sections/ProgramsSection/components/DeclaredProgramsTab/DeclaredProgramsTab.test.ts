@@ -182,7 +182,7 @@ BddTest().given('a declared programs tab', () => {
   BddTest().when('the add action is triggered from the dropdown', () => {
     beforeEach(() => {
       const dropdown = wrapper.findComponent({ name: 'DeclaredProgramsMoreActionsDropdown' })
-      dropdown.vm.$emit('addSelected')
+      dropdown.vm.$emit('add')
     })
 
     BddTest().then('it should call displayAddDeclaredProgramDrawer', () => {

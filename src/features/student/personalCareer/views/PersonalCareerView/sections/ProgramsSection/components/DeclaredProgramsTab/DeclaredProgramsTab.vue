@@ -54,8 +54,8 @@ useBaseApiExceptionToast(error)
         :text="titleWithCount"
       />
       <DeclaredProgramsMoreActionsDropdown
-        @add-selected="displayAddDeclaredProgramDrawer"
-        @delete-selected="openModal"
+        @add="displayAddDeclaredProgramDrawer"
+        @delete="openModal"
       />
     </div>
     <QuerySuspense

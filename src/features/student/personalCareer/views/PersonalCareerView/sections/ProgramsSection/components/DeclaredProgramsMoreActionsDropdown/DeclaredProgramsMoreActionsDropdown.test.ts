@@ -59,13 +59,13 @@ BddTest().given('a declared programs more actions dropdown', () => {
       emitDropdownAction(Action.ADD)
     })
 
-    BddTest().then('it should emit addSelected event', () => {
-      expect(wrapper.emitted('addSelected')).toBeTruthy()
-      expect(wrapper.emitted('addSelected')?.[0]).toEqual([])
+    BddTest().then('it should emit add event', () => {
+      expect(wrapper.emitted('add')).toBeTruthy()
+      expect(wrapper.emitted('add')?.[0]).toEqual([])
     })
 
-    BddTest().then('it should not emit deleteSelected event', () => {
-      expect(wrapper.emitted('deleteSelected')).toBeFalsy()
+    BddTest().then('it should not emit delete event', () => {
+      expect(wrapper.emitted('delete')).toBeFalsy()
     })
   })
 
@@ -74,13 +74,13 @@ BddTest().given('a declared programs more actions dropdown', () => {
       emitDropdownAction(Action.DELETE)
     })
 
-    BddTest().then('it should emit deleteSelected event', () => {
-      expect(wrapper.emitted('deleteSelected')).toBeTruthy()
-      expect(wrapper.emitted('deleteSelected')?.[0]).toEqual([])
+    BddTest().then('it should emit delete event', () => {
+      expect(wrapper.emitted('delete')).toBeTruthy()
+      expect(wrapper.emitted('delete')?.[0]).toEqual([])
     })
 
-    BddTest().then('it should not emit addSelected event', () => {
-      expect(wrapper.emitted('addSelected')).toBeFalsy()
+    BddTest().then('it should not emit add event', () => {
+      expect(wrapper.emitted('add')).toBeFalsy()
     })
   })
 })

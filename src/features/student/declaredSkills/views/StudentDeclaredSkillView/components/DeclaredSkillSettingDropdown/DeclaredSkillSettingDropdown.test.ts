@@ -30,18 +30,18 @@ BddTest().given('a declared skill setting popover', () => {
   })
 
   BddTest().when('the update button is clicked', () => {
-    BddTest().then('it should emit the updateSelected event', async () => {
+    BddTest().then('it should emit the update  event', async () => {
       const updateButton = wrapper.find('[data-name="update"]')
       await updateButton.trigger('click')
-      expect(wrapper.emitted('updateSelected')).toHaveLength(1)
+      expect(wrapper.emitted('update')).toHaveLength(1)
     })
   })
 
   BddTest().when('the delete button is clicked', () => {
-    BddTest().then('it should emit the deleteSelected event', async () => {
+    BddTest().then('it should emit the delete event', async () => {
       const deleteButton = wrapper.find('[data-name="delete"]')
       await deleteButton.trigger('click')
-      expect(wrapper.emitted('deleteSelected')).toHaveLength(1)
+      expect(wrapper.emitted('delete')).toHaveLength(1)
     })
   })
 })

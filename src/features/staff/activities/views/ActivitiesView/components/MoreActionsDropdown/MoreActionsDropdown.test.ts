@@ -65,8 +65,8 @@ BddTest().given('a MoreActionsDropdown component', () => {
         await getDeleteButton().trigger('click')
       })
 
-      BddTest().then('it should emit deleteSelected', () => {
-        expect(wrapper.emitted('deleteSelected')).toHaveLength(1)
+      BddTest().then('it should emit delete', () => {
+        expect(wrapper.emitted('delete')).toHaveLength(1)
       })
     })
 
@@ -75,8 +75,8 @@ BddTest().given('a MoreActionsDropdown component', () => {
         await getDropdown().vm.$emit('actionSelected', 'unknown')
       })
 
-      BddTest().then('it should not emit deleteSelected', () => {
-        expect(wrapper.emitted('deleteSelected')).toBeUndefined()
+      BddTest().then('it should not emit delete', () => {
+        expect(wrapper.emitted('delete')).toBeUndefined()
       })
     })
   })
@@ -113,8 +113,8 @@ BddTest().given('a MoreActionsDropdown component', () => {
         await getDropdown().vm.$emit('actionSelected', 'navigateToFeedbacks')
       })
 
-      BddTest().then('it should emit navigateToFeedbacksSelected', () => {
-        expect(wrapper.emitted('navigateToFeedbacksSelected')).toHaveLength(1)
+      BddTest().then('it should emit navigateToFeedbacks', () => {
+        expect(wrapper.emitted('navigateToFeedbacks')).toHaveLength(1)
       })
     })
 
@@ -123,8 +123,8 @@ BddTest().given('a MoreActionsDropdown component', () => {
         await getDropdown().vm.$emit('actionSelected', 'unpublish')
       })
 
-      BddTest().then('it should emit unpublishSelected', () => {
-        expect(wrapper.emitted('unpublishSelected')).toHaveLength(1)
+      BddTest().then('it should emit unpublish', () => {
+        expect(wrapper.emitted('unpublish')).toHaveLength(1)
       })
     })
 
@@ -133,8 +133,8 @@ BddTest().given('a MoreActionsDropdown component', () => {
         await getDropdown().vm.$emit('actionSelected', 'clone')
       })
 
-      BddTest().then('it should emit cloneSelected', () => {
-        expect(wrapper.emitted('cloneSelected')).toHaveLength(1)
+      BddTest().then('it should emit clone', () => {
+        expect(wrapper.emitted('clone')).toHaveLength(1)
       })
     })
   })

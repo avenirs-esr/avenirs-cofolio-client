@@ -1,5 +1,5 @@
 export const DeclaredProgramsMoreActionsDropdownStub = defineComponent({
   name: 'DeclaredProgramsMoreActionsDropdown',
-  emits: ['addSelected'],
+  emits: ['add', 'delete'],
   template: '<div data-testid="declared-programs-more-actions-dropdown-stub"></div>'
 })

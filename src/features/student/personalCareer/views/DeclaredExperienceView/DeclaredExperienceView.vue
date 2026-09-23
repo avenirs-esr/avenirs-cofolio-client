@@ -70,8 +70,8 @@ function handleConfirmDelete () {
     <template #actions>
       <DeclaredExperienceDetailsDropdown
         v-if="declaredExperienceDetailed"
-        @delete-selected="openModal"
-        @update-selected="handleUpdateSelected"
+        @delete="openModal"
+        @update="handleUpdateSelected"
       />
     </template>
   </DetailedPageTitle>

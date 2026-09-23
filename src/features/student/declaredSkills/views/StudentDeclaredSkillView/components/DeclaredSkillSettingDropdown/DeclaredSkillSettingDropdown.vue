@@ -4,9 +4,10 @@ import ManageEntityDropdown, { type ManageEntityDropdownProps } from '@/common/c
 import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
-  (e: 'updateSelected'): void
-  (e: 'deleteSelected'): void
+  (e: AllowedActions): void
 }>()
+
+type AllowedActions = Action.UPDATE | Action.DELETE
 
 const { t } = useI18n()
 
@@ -14,23 +15,12 @@ const actions = computed<ManageEntityDropdownProps['actions']>(() => [
   Action.UPDATE,
   Action.DELETE
 ])
-
-function handleActionSelected (action: Action) {
-  switch (action) {
-    case Action.UPDATE:
-      emit('updateSelected')
-      break
-    case Action.DELETE:
-      emit('deleteSelected')
-      break
-  }
-}
 </script>
 
 <template>
   <ManageEntityDropdown
     :actions="actions"
     :entity-name="t('student.declaredSkills.views.StudentDeclaredSkillView.settingDropdown.entityName')"
-    @action-selected="handleActionSelected"
+    @action-selected="(action) => emit(action as AllowedActions)"
   />
 </template>

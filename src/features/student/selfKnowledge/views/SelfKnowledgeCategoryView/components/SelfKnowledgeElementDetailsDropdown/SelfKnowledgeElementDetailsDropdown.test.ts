@@ -36,8 +36,8 @@ BddTest().given('a self knowledge elements dropdown', () => {
         emitDropdownAction(Action.UPDATE)
       })
 
-      BddTest().then('it should emit the updateSelected event', () => {
-        expect(wrapper.emitted()).toHaveProperty('updateSelected')
+      BddTest().then('it should emit the update event', () => {
+        expect(wrapper.emitted()).toHaveProperty('update')
       })
     })
 
@@ -46,8 +46,8 @@ BddTest().given('a self knowledge elements dropdown', () => {
         emitDropdownAction(Action.DELETE)
       })
 
-      BddTest().then('it should emit the deleteSelected event', () => {
-        expect(wrapper.emitted()).toHaveProperty('deleteSelected')
+      BddTest().then('it should emit the delete event', () => {
+        expect(wrapper.emitted()).toHaveProperty('delete')
       })
     })
   })

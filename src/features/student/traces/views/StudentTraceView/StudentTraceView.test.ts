@@ -207,7 +207,7 @@ BddTest().given('a student trace view', () => {
   BddTest().when('TraceSettingsDropdown emits associate-selected', () => {
     beforeEach(async () => {
       const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
-      await popover.vm.$emit('associate-selected')
+      await popover.vm.$emit('associate')
       await flushPromises()
     })
 
@@ -243,7 +243,7 @@ BddTest().given('a student trace view', () => {
     beforeEach(async () => {
       const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
 
-      await popover.vm.$emit('delete-selected')
+      await popover.vm.$emit('delete')
       await flushPromises()
     })
 
@@ -259,7 +259,7 @@ BddTest().given('a student trace view', () => {
   BddTest().when('the update trace action is triggered', () => {
     beforeEach(async () => {
       const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
-      await popover.vm.$emit('update-selected')
+      await popover.vm.$emit('update')
       await flushPromises()
     })
 
@@ -272,11 +272,11 @@ BddTest().given('a student trace view', () => {
     })
   })
 
-  BddTest().when('TraceSettingsDropdown emits download-selected', () => {
+  BddTest().when('TraceSettingsDropdown emits download', () => {
     BddTest().then('it should download the trace attachment', async () => {
       const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
 
-      await popover.vm.$emit('download-selected')
+      await popover.vm.$emit('download')
       await flushPromises()
 
       expect(downloadBlob).toHaveBeenCalledTimes(1)
@@ -290,7 +290,7 @@ BddTest().given('a student trace view', () => {
     })
   })
 
-  BddTest().when('TraceSettingsDropdown emits download-selected and download fails', () => {
+  BddTest().when('TraceSettingsDropdown emits download and download fails', () => {
     beforeEach(() => {
       server.use(downloadTraceAttachmentErrorHandler)
     })
@@ -298,7 +298,7 @@ BddTest().given('a student trace view', () => {
     BddTest().then('it should add an error toaster message', async () => {
       const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
 
-      await popover.vm.$emit('download-selected')
+      await popover.vm.$emit('download')
       await flushPromises()
 
       await vi.waitFor(() => {
@@ -377,7 +377,7 @@ BddTest().given('a student trace view', () => {
     beforeEach(async () => {
       const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
 
-      await popover.vm.$emit('delete-selected')
+      await popover.vm.$emit('delete')
       await flushPromises()
 
       const modal = wrapper.findComponent({ name: 'TraceDeletionConfirmationModal' })

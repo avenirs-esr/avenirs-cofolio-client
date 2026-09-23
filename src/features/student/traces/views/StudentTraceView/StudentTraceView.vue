@@ -100,10 +100,10 @@ const trailingLinks = computed(() => [
       <TraceSettingsDropdown
         v-if="!!traceDetailed"
         :download-disabled="!traceDetailed.attachment"
-        @delete-selected="openDeleteModal"
-        @associate-selected="openAssociateModal"
-        @update-selected="handleUpdateTrace"
-        @download-selected="downloadAttachment(traceDetailed.id)"
+        @delete="openDeleteModal"
+        @associate="openAssociateModal"
+        @update="handleUpdateTrace"
+        @download="downloadAttachment(traceDetailed.id)"
       />
     </template>
   </DetailedPageTitle>

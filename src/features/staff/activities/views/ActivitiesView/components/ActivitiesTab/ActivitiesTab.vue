@@ -219,10 +219,10 @@ watch(
               :activity-status="row.status"
               :data-activity-id="row.id"
               :data-activity-status="row.status"
-              @unpublish-selected="() => onUnpublishSelected(row.id)"
-              @clone-selected="() => onDuplicateSelected(row.id, row.title)"
-              @delete-selected="() => onDeleteSelected(row.id)"
-              @navigate-to-feedbacks-selected="() => navigateToFeedbacks({ activityId: row.id })"
+              @unpublish="() => onUnpublishSelected(row.id)"
+              @clone="() => onDuplicateSelected(row.id, row.title)"
+              @delete="() => onDeleteSelected(row.id)"
+              @navigate-to-feedbacks="() => navigateToFeedbacks({ activityId: row.id })"
             />
           </template>
         </AvTable>

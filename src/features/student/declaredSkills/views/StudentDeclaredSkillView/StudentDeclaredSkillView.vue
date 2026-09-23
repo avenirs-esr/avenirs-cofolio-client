@@ -60,8 +60,8 @@ function handleSkillDeleted () {
   >
     <template #actions>
       <DeclaredSkillSettingDropdown
-        @delete-selected="openModal"
-        @update-selected="handleUpdateSelected"
+        @delete="openModal"
+        @update="handleUpdateSelected"
       />
     </template>
   </DetailedPageTitle>

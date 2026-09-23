@@ -32,16 +32,16 @@ BddTest().given('a manage declared program dropdown', () => {
   })
 
   BddTest().when('the update button is clicked', () => {
-    BddTest().then('it should emit the updateSelected event', async () => {
+    BddTest().then('it should emit the update event', async () => {
       await getActionButton(Action.UPDATE).trigger('click')
-      expect(wrapper.emitted('updateSelected')).toHaveLength(1)
+      expect(wrapper.emitted('update')).toHaveLength(1)
     })
   })
 
   BddTest().when('the delete button is clicked', () => {
-    BddTest().then('it should emit the deleteSelected event', async () => {
+    BddTest().then('it should emit the delete event', async () => {
       await getActionButton(Action.DELETE).trigger('click')
-      expect(wrapper.emitted('deleteSelected')).toHaveLength(1)
+      expect(wrapper.emitted('delete')).toHaveLength(1)
     })
   })
 })
