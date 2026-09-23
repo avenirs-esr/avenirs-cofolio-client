@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
-import { CreationUpdateDateDetails } from '@/common/components'
+import { CreationUpdateDateDetails, DatePeriodPicker } from '@/common/components'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import DeclaredExperienceActivitySectorInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceActivitySectorInput/DeclaredExperienceActivitySectorInput.vue'
@@ -12,8 +12,6 @@ import DeclaredExperienceLocationInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceLocationInput/DeclaredExperienceLocationInput.vue'
 import DeclaredExperienceOrganizationInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceOrganizationInput/DeclaredExperienceOrganizationInput.vue'
-import DeclaredExperiencePeriodInput
-  from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperiencePeriodInput/DeclaredExperiencePeriodInput.vue'
 import DeclaredExperienceResultInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceResultInput/DeclaredExperienceResultInput.vue'
 import DeclaredExperienceSourceOfInformationInput
@@ -24,7 +22,6 @@ import DeclaredExperienceTitleInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.vue'
 import DeclaredExperienceTypeSelect
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTypeSelect/DeclaredExperienceTypeSelect.vue'
-import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -53,7 +50,6 @@ const {
 } = toRefs(declaredExperienceDetails)
 
 const { t } = useI18n()
-const { isMobile } = useAvBreakpoints()
 
 const createdAtPrefixed = computed(() =>
   capitalize(t('student.personalCareer.global.experience'))
@@ -108,13 +104,13 @@ const createdAtPrefixed = computed(() =>
           </div>
         </div>
 
-        <DeclaredExperiencePeriodInput
-          label-visible
-          :start-model-value="startDate ?? ''"
-          :end-model-value="endDate ?? ''"
-          :start-date-disabled="true"
-          :end-date-disabled="true"
-          :stacked="isMobile"
+        <DatePeriodPicker
+          width="var(--dimension-8xl)"
+          :start-date="startDate"
+          :end-date="endDate"
+          :is-ongoing="!endDate"
+          type="month"
+          disabled
         />
 
         <DeclaredExperienceResultInput

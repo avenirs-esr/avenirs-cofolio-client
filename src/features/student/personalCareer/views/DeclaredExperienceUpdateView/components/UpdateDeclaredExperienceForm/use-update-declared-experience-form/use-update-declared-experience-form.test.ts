@@ -88,8 +88,8 @@ BddTest().given('an update declared experience form', () => {
     activitySector: 'Technology',
     location: 'Paris, France',
     result: 'ok',
-    startDate: '2024-01',
-    endDate: '2025-12',
+    startDate: '2024-01-01',
+    endDate: '2025-12-01',
     isOngoing: false,
     sourceOfInformation: 'LinkedIn',
     description: 'Description of the experience',
@@ -117,8 +117,8 @@ BddTest().given('an update declared experience form', () => {
       expect(v.externalLink).toBe(declaredExperience.externalLink ?? '')
       expect(v.location).toBe(declaredExperience.location ?? '')
 
-      expect(v.startDate).toBe('2024-01')
-      expect(v.endDate).toBe('2025-12')
+      expect(v.startDate).toBe('2024-01-01')
+      expect(v.endDate).toBe('2025-12-01')
       expect(v.isOngoing).toBe(false)
     })
 
@@ -248,8 +248,8 @@ BddTest().given('an update declared experience form', () => {
           title: 'Master en Informatique (updated)',
           type: EExperienceType.VOLUNTEER,
           organization: 'University Paris-Saclay',
-          startDate: '2024-01',
-          endDate: '2025-12',
+          startDate: '2024-01-01',
+          endDate: '2025-12-01',
           isOngoing: false
         })
       })
@@ -268,8 +268,8 @@ BddTest().given('an update declared experience form', () => {
         setFormValues({
           title: 'Master en Informatique (updated)',
           organization: 'University Paris-Saclay',
-          startDate: '2024-01',
-          endDate: '2025-12',
+          startDate: '2024-01-01',
+          endDate: '2025-12-01',
           isOngoing: false
         })
       })
