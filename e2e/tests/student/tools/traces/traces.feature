@@ -13,7 +13,8 @@ Feature: Student Tools Traces Page
   Rule: Add trace drawer
 
     Background:
-      Given the student clicks the add trace button
+      When the student clicks on the traces actions dropdown trigger
+      And the student clicks the add trace button
 
     @high @traces
     Scenario: Student can open the add trace drawer

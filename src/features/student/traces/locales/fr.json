@@ -151,7 +151,7 @@
             "title": "Détail de ma trace"
           },
           "studentToolsTracesActionButtons": {
-            "addTrace": "Ajouter une trace dans ma bibliothèque"
+            "entityName": "mes traces"
           },
           "studentToolsTracesAddTraceDrawer": {
             "accordionItems": {

@@ -383,6 +383,12 @@
       "description": "Êtes-vous sûr de vouloir vous déconnecter\u00A0?",
       "title": "Déconnexion"
     },
+    "ManageEntityDropdown": {
+      "entityNames": {
+        "activity": "mon activité",
+        "element": "mon élément"
+      }
+    },
     "megabyteUnit": "Mo",
     "modals": {
       "confirmation": {

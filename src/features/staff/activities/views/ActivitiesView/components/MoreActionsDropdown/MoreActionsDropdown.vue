@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { EActivityStatus } from '@/api/avenir-esr'
-import { AvDropdown, MDI_ICONS, MS_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Action, type ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 import { useI18n } from 'vue-i18n'
 
 export interface MoreActionsDropdownProps {
@@ -16,56 +17,39 @@ const emit = defineEmits<{
   (e: 'cloneSelected'): void
 }>()
 
-enum MoreActionsEvents {
-  DELETE = 'delete',
-  UNPUBLISH = 'unpublish',
-  NAVIGATE_TO_FEEDBACKS = 'navigateToFeedbacks',
-  CLONE = 'clone'
-}
-
 const { t } = useI18n()
 
-const menuItems = computed(() => [
+const actions = computed<(Action | ActionItem)[]>(() => [
   {
-    name: MoreActionsEvents.NAVIGATE_TO_FEEDBACKS,
-    icon: MDI_ICONS.ARROW_RIGHT,
-    label: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.navigateToFeedbacks'),
+    type: Action.NAVIGATE_TO_FEEDBACKS,
     disabled: activityStatus !== EActivityStatus.PUBLISHED,
     disabledTooltip: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.navigateToFeedbacksDisabledTooltip')
   },
   {
-    name: MoreActionsEvents.UNPUBLISH,
-    icon: RI_ICONS.EYE_OFF_LINE,
-    label: t('global.buttons.unpublish'),
+    type: Action.UNPUBLISH,
     disabled: activityStatus !== EActivityStatus.PUBLISHED,
     disabledTooltip: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.unpublishDisabledTooltip')
   },
   {
-    name: MoreActionsEvents.DELETE,
-    icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-    label: t('global.buttons.delete'),
+    type: Action.DELETE,
     disabled: activityStatus !== EActivityStatus.DRAFT,
     disabledTooltip: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.deleteDisabledTooltip')
   },
-  {
-    name: MoreActionsEvents.CLONE,
-    icon: MS_ICONS.CONTENT_COPY_OUTLINE,
-    label: t('global.buttons.clone'),
-  }
+  Action.CLONE
 ])
 
-function handleItemSelected (itemName: string) {
+function handleActionSelected (itemName: string) {
   switch (itemName) {
-    case MoreActionsEvents.DELETE:
+    case Action.DELETE:
       emit('deleteSelected')
       break
-    case MoreActionsEvents.NAVIGATE_TO_FEEDBACKS:
+    case Action.NAVIGATE_TO_FEEDBACKS:
       emit('navigateToFeedbacksSelected')
       break
-    case MoreActionsEvents.UNPUBLISH:
+    case Action.UNPUBLISH:
       emit('unpublishSelected')
       break
-    case MoreActionsEvents.CLONE:
+    case Action.CLONE:
       emit('cloneSelected')
       break
   }
@@ -73,12 +57,12 @@ function handleItemSelected (itemName: string) {
 </script>
 
 <template>
-  <AvDropdown
+  <ManageEntityDropdown
+    :entity-name="t('global.ManageEntityDropdown.entityNames.activity')"
     data-testid="more-actions-dropdown"
-    :items="menuItems"
-    :trigger-aria-label="t('staff.activities.views.ActivitiesView.MoreActionsDropdown.ariaLabel')"
+    :actions="actions"
     width="max-content"
     icon-only
-    @item-selected="handleItemSelected"
+    @action-selected="handleActionSelected"
   />
 </template>

@@ -36,7 +36,7 @@ function handleActionSelected (action: Action) {
 
 <template>
   <ManageEntityDropdown
-    :entity-name="t('student.activities.views.ActivityView.ActivityDetailedDropdown.myActivity')"
+    :entity-name="t('global.ManageEntityDropdown.entityNames.activity')"
     :actions
     @action-selected="handleActionSelected"
   />

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { AvDropdown, type AvDropdownItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
@@ -9,30 +10,14 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
-enum SelfKnowledgeElementDetailsDropdownEvents {
-  UPDATE = 'update',
-  DELETE = 'delete',
-}
+const actions = computed<Action[]>(() => [Action.UPDATE, Action.DELETE])
 
-const menuItems = computed<AvDropdownItem[]>(() => [
-  {
-    name: SelfKnowledgeElementDetailsDropdownEvents.UPDATE,
-    icon: MDI_ICONS.PENCIL_OUTLINE,
-    label: t('global.buttons.update')
-  },
-  {
-    name: SelfKnowledgeElementDetailsDropdownEvents.DELETE,
-    icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-    label: t('global.buttons.delete')
-  }
-])
-
-function handleItemSelected (itemName: string) {
-  switch (itemName) {
-    case SelfKnowledgeElementDetailsDropdownEvents.UPDATE:
+function handleActionSelected (action: Action) {
+  switch (action) {
+    case Action.UPDATE:
       emit('updateSelected')
       break
-    case SelfKnowledgeElementDetailsDropdownEvents.DELETE:
+    case Action.DELETE:
       emit('deleteSelected')
       break
   }
@@ -40,12 +25,11 @@ function handleItemSelected (itemName: string) {
 </script>
 
 <template>
-  <AvDropdown
-    :items="menuItems"
-    :trigger-aria-label="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.dropdown')"
-    :trigger-label="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.dropdown')"
+  <ManageEntityDropdown
+    :actions="actions"
+    :entity-name="t('global.ManageEntityDropdown.entityNames.element')"
     width="max-content"
-    @item-selected="handleItemSelected"
+    @action-selected="handleActionSelected"
   />
 </template>
 
