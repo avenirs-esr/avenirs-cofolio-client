@@ -418,7 +418,8 @@ BddTest().given('an association selection section', () => {
       expect(getTypeSelect().props('contextTypes')).toEqual([
         EAssociationContextType.DECLARED_ACTIVITY,
         EAssociationContextType.DECLARED_SKILL,
-        EAssociationContextType.DECLARED_EXPERIENCE
+        EAssociationContextType.DECLARED_EXPERIENCE,
+        EAssociationContextType.DECLARED_PROGRAM
       ])
       expect(getTypeSelect().props('modelValue')).toBe(EAssociationContextType.DECLARED_ACTIVITY)
     })
@@ -450,7 +451,8 @@ BddTest().given('an association selection section', () => {
     BddTest().then('it should not propose the context types unavailable in demo mode', () => {
       expect(getTypeSelect().props('contextTypes')).toEqual([
         EAssociationContextType.DECLARED_ACTIVITY,
-        EAssociationContextType.DECLARED_SKILL
+        EAssociationContextType.DECLARED_SKILL,
+        EAssociationContextType.DECLARED_PROGRAM
       ])
     })
   })
