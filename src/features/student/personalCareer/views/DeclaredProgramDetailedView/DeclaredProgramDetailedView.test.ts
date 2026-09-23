@@ -174,7 +174,7 @@ BddTest().given('a declared program detailed view component', () => {
         expect(elementAssociations.props('isLoading')).toBe(false)
       })
 
-      expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (3)')
+      expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (5)')
     })
 
     BddTest().then('it should render the manage declared program dropdown', async () => {

@@ -12,6 +12,7 @@ export const ASSOCIATION_PAIRS: ReadonlyArray<readonly [EAssociationContextType,
   [EAssociationContextType.DECLARED_ACTIVITY, EAssociationContextType.DECLARED_SKILL],
   [EAssociationContextType.TRACE, EAssociationContextType.DECLARED_SKILL],
   [EAssociationContextType.TRACE, EAssociationContextType.DECLARED_EXPERIENCE],
+  [EAssociationContextType.TRACE, EAssociationContextType.DECLARED_PROGRAM],
   [EAssociationContextType.DECLARED_EXPERIENCE, EAssociationContextType.DECLARED_SKILL],
   [EAssociationContextType.DECLARED_PROGRAM, EAssociationContextType.DECLARED_SKILL],
 ]

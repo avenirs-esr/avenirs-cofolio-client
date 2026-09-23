@@ -200,6 +200,7 @@ export const mockedDeclaredSkillAssociations: AssociationsDTO = {
 
 export const mockedDeclaredProgramAssociations: AssociationsDTO = {
   ...mockedEmptyAssociations,
+  traceAssociations: createMockedTraceAssociations(2),
   declaredSkillAssociations: createMockedDeclaredSkillAssociations(3)
 }
 

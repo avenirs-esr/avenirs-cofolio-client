@@ -519,7 +519,8 @@ BddTest().given('an element associations component', () => {
       expect(getDropdown('associate')!.props('items')).toEqual([
         { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
         { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
-        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false }
+        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false },
+        { type: EAssociationContextType.DECLARED_PROGRAM, disabled: false }
       ])
     })
 
@@ -527,7 +528,8 @@ BddTest().given('an element associations component', () => {
       expect(getDropdown('delete')!.props('items')).toEqual([
         unassociateItem(EAssociationContextType.DECLARED_ACTIVITY, false),
         unassociateItem(EAssociationContextType.DECLARED_SKILL, false),
-        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true)
+        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true),
+        unassociateItem(EAssociationContextType.DECLARED_PROGRAM, true)
       ])
     })
 
@@ -557,19 +559,52 @@ BddTest().given('an element associations component', () => {
       expect(getDropdown('delete')!.attributes('data-testid')).toBe('delete-declared-program-associated-elements-dropdown')
     })
 
-    BddTest().then('it should only propose to associate the declared skills', () => {
+    BddTest().then('it should propose to associate the traces and the declared skills', () => {
       expect(getDropdown('associate')!.props('items')).toEqual([
+        { type: EAssociationContextType.TRACE, disabled: false },
         { type: EAssociationContextType.DECLARED_SKILL, disabled: false }
       ])
       expect(getDropdown('delete')!.props('items')).toEqual([
+        unassociateItem(EAssociationContextType.TRACE, false),
         unassociateItem(EAssociationContextType.DECLARED_SKILL, false)
       ])
     })
 
-    BddTest().then('it should render a single card for the associated declared skills', () => {
-      expect(getCards()).toHaveLength(1)
-      expect(getCards()[0].props('associatedContextType')).toBe(EAssociationContextType.DECLARED_SKILL)
+    BddTest().then('it should render a card per associated context type', () => {
+      expect(getCards()).toHaveLength(2)
+      expect(getCards().map(card => card.props('associatedContextType'))).toEqual([
+        EAssociationContextType.TRACE,
+        EAssociationContextType.DECLARED_SKILL
+      ])
       expect(getCards()[0].props('associations')).toEqual(mockedDeclaredProgramAssociations)
+    })
+
+    BddTest().and('the user chooses to associate traces', () => {
+      beforeEach(async () => {
+        await selectDropdownItem('associate', EAssociationContextType.TRACE)
+      })
+
+      BddTest().then('it should only open the associate traces modal', () => {
+        const modal = getAssociateModal(EAssociationContextType.TRACE)
+
+        expect(getOpenedModals()).toEqual([{ modal: 'associate', associatedContextType: EAssociationContextType.TRACE }])
+        expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_PROGRAM)
+        expect(modal.props('elementId')).toBe('declared-program-1')
+      })
+    })
+
+    BddTest().and('the user chooses to delete trace associations', () => {
+      beforeEach(async () => {
+        await selectDropdownItem('delete', EAssociationContextType.TRACE)
+      })
+
+      BddTest().then('it should only open the delete trace associations modal', () => {
+        const modal = getDeleteModal(EAssociationContextType.TRACE)
+
+        expect(getOpenedModals()).toEqual([{ modal: 'delete', associatedContextType: EAssociationContextType.TRACE }])
+        expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_PROGRAM)
+        expect(modal.props('elementId')).toBe('declared-program-1')
+      })
     })
 
     BddTest().and('the user chooses to associate declared skills', () => {
@@ -614,7 +649,8 @@ BddTest().given('an element associations component', () => {
     BddTest().then('it should not propose to associate the context types unavailable in demo mode', () => {
       expect(getDropdown('associate')!.props('items')).toEqual([
         { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: false }
+        { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
+        { type: EAssociationContextType.DECLARED_PROGRAM, disabled: false }
       ])
     })
 
@@ -622,7 +658,8 @@ BddTest().given('an element associations component', () => {
       expect(getDropdown('delete')!.props('items').map(({ type }: { type: EAssociationContextType }) => type)).toEqual([
         EAssociationContextType.DECLARED_ACTIVITY,
         EAssociationContextType.DECLARED_SKILL,
-        EAssociationContextType.DECLARED_EXPERIENCE
+        EAssociationContextType.DECLARED_EXPERIENCE,
+        EAssociationContextType.DECLARED_PROGRAM
       ])
     })
   })
