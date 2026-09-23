@@ -4,7 +4,6 @@ import { type DeclaredProgramRequestDTO, EAssociationContextType, invalidateGetD
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { formatYearMonthToDate } from '@/common/utils'
 import { type AssociationSelections, useAssociationSelections } from '@/features/student/associations'
 import { useDeclaredProgramFormValidators } from '@/features/student/personalCareer/composables/use-declared-program-form-validators/use-declared-program-form-validators'
 import { useToasterStore } from '@/store'
@@ -76,7 +75,7 @@ export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
       },
       onChange ({ value, formApi }: { value: DeclaredProgramFormData, formApi: DeclaredProgramFormApi }) {
         const isTouched = (field: keyof DeclaredProgramFormData) => formApi.getFieldMeta(field)?.isTouched ?? true
-        const isValid = (field: keyof DeclaredProgramFormData) => formApi.getFieldMeta(field)?.isValid ?? true
+        const startDateError = validators.validateStartDate(value.startDate)
         return {
           fields: {
             title: isTouched('title') ? validators.validateTitle(value.title) : undefined,
@@ -84,8 +83,8 @@ export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
             organization: isTouched('organization') ? validators.validateOrganization(value.organization) : undefined,
             result: isTouched('result') ? validators.validateResult(value.result) : undefined,
             sourceOfInformation: isTouched('sourceOfInformation') ? validators.validateSourceOfInformation(value.sourceOfInformation) : undefined,
-            startDate: isTouched('startDate') ? validators.validateStartDate(value.startDate) : undefined,
-            endDate: isTouched('startDate') && isValid('startDate') ? validators.validateEndDate(value.endDate, value.startDate, { isRequired: !value.isOngoing }) : undefined,
+            startDate: isTouched('startDate') ? startDateError : undefined,
+            endDate: isTouched('startDate') && !startDateError ? validators.validateEndDate(value.endDate, value.startDate, { isRequired: !value.isOngoing }) : undefined,
           }
         }
       },
@@ -100,8 +99,8 @@ export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
         organization: value.organization,
         result: value.result || undefined,
         sourceOfInformation: value.sourceOfInformation || undefined,
-        startDate: formatYearMonthToDate(value.startDate),
-        endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate) || undefined
+        startDate: value.startDate,
+        endDate: value.isOngoing ? undefined : value.endDate || undefined
       } as DeclaredProgramRequestDTO, value.associationSelections)
     }
   })

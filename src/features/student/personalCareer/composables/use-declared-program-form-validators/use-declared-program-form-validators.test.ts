@@ -274,14 +274,14 @@ BddTest().given('a declared program form validator composable', () => {
   BddTest().when('validating end date', () => {
     BddTest().and('the end date is empty and not required', () => {
       BddTest().then('it should return undefined', () => {
-        const error = composableResult.validateEndDate('', '2025/02')
+        const error = composableResult.validateEndDate('', '2025-02-01')
         expect(error).toBeUndefined()
       })
     })
 
     BddTest().and('the end date is undefined and not required', () => {
       BddTest().then('it should return undefined', () => {
-        const error = composableResult.validateEndDate('', '2025/02')
+        const error = composableResult.validateEndDate('', '2025-02-01')
         expect(error).toBeUndefined()
       })
     })
@@ -309,49 +309,49 @@ BddTest().given('a declared program form validator composable', () => {
 
     BddTest().and('the end date is valid and not required', () => {
       BddTest().then('it should return undefined', () => {
-        const error = composableResult.validateEndDate('2024-12', '2024-01')
+        const error = composableResult.validateEndDate('2024-12-01', '2024-01-01')
         expect(error).toBeUndefined()
       })
     })
 
     BddTest().and('the end date is valid and required', () => {
       BddTest().then('it should return undefined', () => {
-        const error = composableResult.validateEndDate('2024-12', '2024-01', { isRequired: true })
+        const error = composableResult.validateEndDate('2024-12-01', '2024-01-01', { isRequired: true })
         expect(error).toBeUndefined()
       })
     })
 
     BddTest().and('the end date is before start date', () => {
       BddTest().then('it should return end date before start date error', () => {
-        const error = composableResult.validateEndDate('2024-01', '2024-06')
+        const error = composableResult.validateEndDate('2024-01-01', '2024-06-01')
         expect(error).toBe('La date de fin doit être postérieure à la date de début')
       })
     })
 
     BddTest().and('the end date is same as start date', () => {
       BddTest().then('it should return undefined', () => {
-        const error = composableResult.validateEndDate('2024-06', '2024-06')
+        const error = composableResult.validateEndDate('2024-06-01', '2024-06-01')
         expect(error).toBeUndefined()
       })
     })
 
     BddTest().and('the end date is after start date', () => {
       BddTest().then('it should return undefined', () => {
-        const error = composableResult.validateEndDate('2024-12', '2024-06')
+        const error = composableResult.validateEndDate('2024-12-01', '2024-06-01')
         expect(error).toBeUndefined()
       })
     })
 
     BddTest().and('the end date is empty and start date is provided', () => {
       BddTest().then('it should return undefined when not required', () => {
-        const error = composableResult.validateEndDate('', '2024-06')
+        const error = composableResult.validateEndDate('', '2024-06-01')
         expect(error).toBeUndefined()
       })
     })
 
     BddTest().and('the end date is before start date and required', () => {
       BddTest().then('it should return end date before start date error', () => {
-        const error = composableResult.validateEndDate('2024-01', '2024-06', { isRequired: true })
+        const error = composableResult.validateEndDate('2024-01-01', '2024-06-01', { isRequired: true })
         expect(error).toBe('La date de fin doit être postérieure à la date de début')
       })
     })

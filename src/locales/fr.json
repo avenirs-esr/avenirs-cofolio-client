@@ -199,6 +199,7 @@
       "justNow": "À l'instant",
       "minutesAgo": "Il y a {count} minute | Il y a {count} minutes",
       "ongoing": "En cours",
+      "period": "Période",
       "secondsAgo": "Il y a {count} seconde | Il y a {count} secondes",
       "updatedAt": "Modifié le {date}"
     },
@@ -304,6 +305,7 @@
         "max": "Veuillez renseigner une valeur inférieure ou égale à {max}",
         "maxLength": "Veuillez limiter votre saisie à {maxLength} caractères",
         "min": "Veuillez renseigner une valeur supérieure ou égale à {min}",
+        "requiredEndDate": "Veuillez renseigner une date de fin.",
         "requiredField": "Ce champ est requis."
       },
       "generic": "Une erreur est survenue. Veuillez réessayer ultérieurement.",

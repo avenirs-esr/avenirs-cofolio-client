@@ -93,8 +93,8 @@ BddTest().given('an update declared program form', () => {
       expect(v.result).toBe(declaredProgramDetailed.result ?? '')
       expect(v.sourceOfInformation).toBe(declaredProgramDetailed.sourceOfInformation ?? '')
 
-      expect(v.startDate).toBe('2024-01')
-      expect(v.endDate).toBe('2025-12')
+      expect(v.startDate).toBe('2024-01-01')
+      expect(v.endDate).toBe('2025-12-01')
       expect(v.isOngoing).toBe(false)
     })
 
@@ -170,7 +170,7 @@ BddTest().given('an update declared program form', () => {
           organization: 'a'.repeat(DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH + 1),
           result: 'a'.repeat(DECLARED_PROGRAM_RESULT_MAX_LENGTH + 1),
           sourceOfInformation: 'a'.repeat(DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH + 1),
-          startDate: '2024-01',
+          startDate: '2024-01-01',
           endDate: '2024-12',
           isOngoing: false,
           valorized: false
@@ -199,8 +199,8 @@ BddTest().given('an update declared program form', () => {
         setFormValues({
           title: 'Master en Informatique (updated)',
           organization: 'University Paris-Saclay',
-          startDate: '2024-01',
-          endDate: '2025-12',
+          startDate: '2024-01-01',
+          endDate: '2025-12-01',
           isOngoing: false
         })
       })
@@ -219,8 +219,8 @@ BddTest().given('an update declared program form', () => {
         setFormValues({
           title: 'Master en Informatique (updated)',
           organization: 'University Paris-Saclay',
-          startDate: '2024-01',
-          endDate: '2025-12',
+          startDate: '2024-01-01',
+          endDate: '2025-12-01',
           isOngoing: false
         })
       })

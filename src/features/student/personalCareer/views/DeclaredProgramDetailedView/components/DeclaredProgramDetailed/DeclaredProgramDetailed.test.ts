@@ -1,26 +1,15 @@
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
+import { DatePeriodPickerStub } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.stub'
 import DeclaredProgramDescriptionTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramDescriptionTextarea/DeclaredProgramDescriptionTextarea.vue'
 import DeclaredProgramOrganizationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramOrganizationInput/DeclaredProgramOrganizationInput.vue'
 import DeclaredProgramResultInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramResultInput/DeclaredProgramResultInput.vue'
 import DeclaredProgramSourceOfInformationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramSourceOfInformationInput/DeclaredProgramSourceOfInformationInput.vue'
 import DeclaredProgramTitleInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramTitleInput/DeclaredProgramTitleInput.vue'
 import DeclaredProgramDetailed, { type DeclaredProgramDetailedProps } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
-import { AvPeriodInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, vi } from 'vitest'
-
-const mockIsMobile = ref(false)
-
-vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
-  return {
-    ...actual,
-    useAvBreakpoints: () => ({
-      isMobile: mockIsMobile,
-    })
-  }
-})
+import { beforeEach } from 'vitest'
 
 const mockedDeclaredProgramDetailed: DeclaredProgramDetailedDTO = {
   id: 'program-1',
@@ -54,13 +43,13 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramDetailed>>
 
   const stubs = {
-    AvPeriodInput: AvPeriodInputStub,
     CreationUpdateDateDetails: CreationUpdateDateDetailsStub,
+    DatePeriodPicker: DatePeriodPickerStub,
     ValorizedBadge: ValorizedBadgeStub,
   }
 
-  function findPeriodInput () {
-    return wrapper.findComponent({ name: 'AvPeriodInput' })
+  function getDatePeriodPicker () {
+    return wrapper.findComponent(DatePeriodPickerStub)
   }
 
   BddTest().and('given a declared program detailed dto', () => {
@@ -70,8 +59,6 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
 
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
-        mockIsMobile.value = false
         wrapper = mount(DeclaredProgramDetailed, { props, global: { stubs } })
       })
 
@@ -96,24 +83,16 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
         expect(organizationInput.props('disabled')).toBe(true)
       })
 
-      BddTest().then('it should render the period with AvPeriodInput', () => {
-        const period = findPeriodInput()
+      BddTest().then('it should render the period with DatePeriodPicker', () => {
+        const period = getDatePeriodPicker()
         expect(period.exists()).toBe(true)
 
-        expect(period.props('label')).toBe('Période')
         expect(period.props('labelClass')).toBe('caption-regular')
-
-        expect(period.props('startLabel')).toBe('Date de début')
-        expect(period.props('endLabel')).toBe('Date de fin')
-
-        expect(period.props('startModelValue')).toBe(mockedDeclaredProgramDetailed.startDate)
-        expect(period.props('endModelValue')).toBe(mockedDeclaredProgramDetailed.endDate)
-
-        expect(period.props('startDateDisabled')).toBe(true)
-        expect(period.props('endDateDisabled')).toBe(true)
-        expect(period.props('stacked')).toBe(false)
+        expect(period.props('startDate')).toBe(mockedDeclaredProgramDetailed.startDate)
+        expect(period.props('endDate')).toBe(mockedDeclaredProgramDetailed.endDate)
+        expect(period.props('isOngoing')).toBe(false)
+        expect(period.props('disabled')).toBe(true)
         expect(period.props('type')).toBe('month')
-        expect(period.props('separatorSpacing')).toBe('var(--spacing-sm)')
       })
 
       BddTest().then('it should render the result', () => {
@@ -159,8 +138,6 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
 
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
-        mockIsMobile.value = false
         wrapper = mount(DeclaredProgramDetailed, { props, global: { stubs } })
       })
 
@@ -179,8 +156,6 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
 
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
-        mockIsMobile.value = false
         wrapper = mount(DeclaredProgramDetailed, { props, global: { stubs } })
       })
 
@@ -199,8 +174,6 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
 
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
-        mockIsMobile.value = false
         wrapper = mount(DeclaredProgramDetailed, { props, global: { stubs } })
       })
 
@@ -210,31 +183,12 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
         expect(wrapper.findComponent(DeclaredProgramSourceOfInformationInput).props('modelValue')).toBe('')
       })
 
-      BddTest().then('it should pass an empty endModelValue to AvPeriodInput when endDate is undefined', () => {
-        const period = wrapper.findComponent({ name: 'AvPeriodInput' })
+      BddTest().then('it should pass an empty endDate and ongoing mode when endDate is undefined', () => {
+        const period = getDatePeriodPicker()
         expect(period.exists()).toBe(true)
-        expect(period.props('startModelValue')).toBe(props.declaredProgramDetailed.startDate)
-        expect(period.props('endModelValue')).toBe('')
-      })
-    })
-  })
-
-  BddTest().and('given mobile layout', () => {
-    const props: DeclaredProgramDetailedProps = {
-      declaredProgramDetailed: mockedDeclaredProgramDetailed
-    }
-
-    BddTest().when('isMobile is true', () => {
-      beforeEach(() => {
-        vi.clearAllMocks()
-        mockIsMobile.value = true
-        wrapper = mount(DeclaredProgramDetailed, { props, global: { stubs } })
-      })
-
-      BddTest().then('it should set AvPeriodInput stacked to true', () => {
-        const period = wrapper.findComponent({ name: 'AvPeriodInput' })
-        expect(period.exists()).toBe(true)
-        expect(period.props('stacked')).toBe(true)
+        expect(period.props('startDate')).toBe(props.declaredProgramDetailed.startDate)
+        expect(period.props('endDate')).toBe('')
+        expect(period.props('isOngoing')).toBe(true)
       })
     })
   })

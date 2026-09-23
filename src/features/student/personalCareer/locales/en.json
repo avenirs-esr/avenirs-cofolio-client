@@ -19,14 +19,6 @@
         "formFields": {
           "DeclaredExperiencePeriodFormField": {
             "ongoing": "Ongoing"
-          },
-          "DeclaredProgramPeriodFormField": {
-            "endDate": "End date",
-            "endDatePlaceholder": "MM/YYYY",
-            "label": "Period",
-            "ongoing": "Ongoing",
-            "startDate": "Start date",
-            "startDatePlaceholder": "MM/YYYY"
           }
         },
         "inputs": {

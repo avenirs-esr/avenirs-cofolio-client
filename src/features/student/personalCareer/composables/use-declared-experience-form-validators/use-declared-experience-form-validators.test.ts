@@ -251,7 +251,7 @@ BddTest().given('a declared experience form validators composable', () => {
     BddTest().and('the end date is empty and required', () => {
       BddTest().then('it should return required error', () => {
         const error = composableResult.validateEndDate('', '2024-01', { isRequired: true })
-        expect(error).toBe('Ce champ est requis.')
+        expect(error).toBe('Veuillez renseigner une date de fin.')
       })
     })
 
