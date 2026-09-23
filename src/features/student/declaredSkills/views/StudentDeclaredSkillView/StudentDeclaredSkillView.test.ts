@@ -131,7 +131,7 @@ BddTest().given('a student declared skill view', () => {
   BddTest().when('the update selected event is emitted', () => {
     BddTest().then('it should handle the event', async () => {
       const settingDropdown = wrapper.findComponent(DeclaredSkillSettingDropdownStub)
-      await settingDropdown.vm.$emit('updateSelected')
+      await settingDropdown.vm.$emit('update')
       expect(navigateToStudentUpdateDeclaredSkill).toHaveBeenCalled()
     })
   })
@@ -139,7 +139,7 @@ BddTest().given('a student declared skill view', () => {
   BddTest().when('the delete selected event is emitted', () => {
     beforeEach(async () => {
       const settingDropdown = wrapper.findComponent(DeclaredSkillSettingDropdownStub)
-      await settingDropdown.vm.$emit('deleteSelected')
+      await settingDropdown.vm.$emit('delete')
     })
 
     BddTest().then('it should open the delete confirmation modal', async () => {

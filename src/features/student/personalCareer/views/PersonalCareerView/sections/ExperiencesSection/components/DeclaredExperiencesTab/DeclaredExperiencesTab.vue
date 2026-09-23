@@ -62,8 +62,8 @@ useBaseApiExceptionToast(error)
         :text="titleWithCount"
       />
       <DeclaredExperiencesMoreActionsDropdown
-        @delete-selected="openModal"
-        @add-selected="personalCareerStore.displayAddDeclaredExperienceDrawer"
+        @delete="openModal"
+        @add="personalCareerStore.displayAddDeclaredExperienceDrawer"
       />
     </div>
 

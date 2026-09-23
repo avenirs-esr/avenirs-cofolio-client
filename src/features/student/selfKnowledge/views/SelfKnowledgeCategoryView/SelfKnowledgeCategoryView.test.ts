@@ -112,7 +112,7 @@ BddTest().given('a self knowledge category view component', () => {
       beforeEach(async () => {
         const dropdown = wrapper.findComponent(SelfKnowledgeElementDetailsDropdownStub)
         expect(dropdown.exists()).toBe(true)
-        await dropdown.vm.$emit('updateSelected')
+        await dropdown.vm.$emit('update')
       })
 
       BddTest().then('it should navigate to the self knowledge element update view with correct params', () => {
@@ -127,7 +127,7 @@ BddTest().given('a self knowledge category view component', () => {
       beforeEach(async () => {
         const dropdown = wrapper.findComponent(SelfKnowledgeElementDetailsDropdownStub)
         expect(dropdown.exists()).toBe(true)
-        await dropdown.vm.$emit('deleteSelected')
+        await dropdown.vm.$emit('delete')
 
         const confirmModal = wrapper.findComponent({ name: 'ConfirmationModal' })
         expect(confirmModal.exists()).toBe(true)

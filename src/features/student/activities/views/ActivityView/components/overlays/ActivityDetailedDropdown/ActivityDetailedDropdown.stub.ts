@@ -9,6 +9,6 @@ export const ActivityDetailedDropdownStub = defineComponent({
       required: true
     }
   },
-  emits: ['updateSelected', 'unsubscribeSelected', 'resubscribeSelected', 'deleteSelected'],
+  emits: ['update', 'unsubscribe', 'resubscribe', 'delete'],
   template: '<div class="activity-detailed-dropdown-stub" />'
 })

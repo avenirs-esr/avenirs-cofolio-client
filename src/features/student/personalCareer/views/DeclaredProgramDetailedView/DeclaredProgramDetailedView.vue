@@ -38,8 +38,8 @@ function handleConfirmDelete () {
     <template #actions>
       <ManageDeclaredProgramDropdown
         v-if="declaredProgramDetailed"
-        @update-selected="navigateToStudentUpdateDeclaredProgram"
-        @delete-selected="openModal"
+        @update="navigateToStudentUpdateDeclaredProgram"
+        @delete="openModal"
       />
     </template>
   </DetailedPageTitle>

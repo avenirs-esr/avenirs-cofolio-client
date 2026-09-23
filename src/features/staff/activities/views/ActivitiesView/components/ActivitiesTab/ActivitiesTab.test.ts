@@ -221,9 +221,9 @@ BddTest().given('a ActivitiesTab component', () => {
       expect(getDuplicationModal().props('opened')).toBe(false)
     })
 
-    BddTest().and('unpublishSelected is emitted from a MoreActionsDropdown', () => {
+    BddTest().and('unpublish is emitted from a MoreActionsDropdown', () => {
       beforeEach(() => {
-        getMoreActionsDropdowns()[0].vm.$emit('unpublishSelected')
+        getMoreActionsDropdowns()[0].vm.$emit('unpublish')
       })
 
       BddTest().then('it should open the unpublish confirmation modal', () => {
@@ -263,9 +263,9 @@ BddTest().given('a ActivitiesTab component', () => {
       })
     })
 
-    BddTest().and('deleteSelected is emitted from a MoreActionsDropdown', () => {
+    BddTest().and('delete is emitted from a MoreActionsDropdown', () => {
       beforeEach(() => {
-        getMoreActionsDropdowns()[0].vm.$emit('deleteSelected')
+        getMoreActionsDropdowns()[0].vm.$emit('delete')
       })
 
       BddTest().then('it should open the delete confirmation modal', () => {
@@ -307,7 +307,7 @@ BddTest().given('a ActivitiesTab component', () => {
 
     BddTest().and('the navigate to feedbacks item is selected', () => {
       beforeEach(async () => {
-        getMoreActionsDropdowns()[0].vm.$emit('navigateToFeedbacksSelected')
+        getMoreActionsDropdowns()[0].vm.$emit('navigateToFeedbacks')
       })
 
       BddTest().then('it should call navigateToFeedbacks', () => {
@@ -315,9 +315,9 @@ BddTest().given('a ActivitiesTab component', () => {
       })
     })
 
-    BddTest().and('cloneSelected is emitted from a MoreActionsDropdown', () => {
+    BddTest().and('clone is emitted from a MoreActionsDropdown', () => {
       beforeEach(() => {
-        getMoreActionsDropdowns()[0].vm.$emit('cloneSelected')
+        getMoreActionsDropdowns()[0].vm.$emit('clone')
       })
 
       BddTest().then('it should open the duplication modal', () => {

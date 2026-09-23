@@ -89,8 +89,8 @@ function onUpdateSelected () {
     <template #actions>
       <SelfKnowledgeElementDetailsDropdown
         v-if="selectedElementDetails"
-        @update-selected="onUpdateSelected"
-        @delete-selected="openConfirmModal"
+        @update="onUpdateSelected"
+        @delete="openConfirmModal"
       />
     </template>
   </DetailedPageTitle>

@@ -84,10 +84,10 @@ function onDelete () {
               <ActivityDetailedDropdown
                 :status="declaredActivityDetail.status"
                 data-testid="activity-view-detailed-dropdown"
-                @update-selected="displayUpdateDrawer"
-                @resubscribe-selected="openSubscribeModal"
-                @unsubscribe-selected="openUnsubscribeModal"
-                @delete-selected="openDeleteModal"
+                @update="displayUpdateDrawer"
+                @resubscribe="openSubscribeModal"
+                @unsubscribe="openUnsubscribeModal"
+                @delete="openDeleteModal"
               />
             </div>
           </div>

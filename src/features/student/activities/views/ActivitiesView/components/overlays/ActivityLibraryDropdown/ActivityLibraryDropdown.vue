@@ -10,8 +10,10 @@ export interface ActivityLibraryDropdownProps {
 const { unsubscribeDisabled = false } = defineProps<ActivityLibraryDropdownProps>()
 
 const emit = defineEmits<{
-  (e: 'unsubscribeSelected'): void
+  (e: AllowedActions): void
 }>()
+
+type AllowedActions = Action.UNSUBSCRIBE
 
 const { t } = useI18n()
 
@@ -22,19 +24,13 @@ const actions = computed<ActionItem[]>(() => [
     disabledTooltip: t('student.activities.views.ActivitiesView.ActivityLibraryDropdown.unsubscribeDisabledTooltip')
   }
 ])
-
-function handleActionSelected (action: Action) {
-  switch (action) {
-    case Action.UNSUBSCRIBE: return emit('unsubscribeSelected')
-  }
-}
 </script>
 
 <template>
   <ManageEntityDropdown
     :entity-name="t('student.activities.views.ActivitiesView.ActivityLibraryDropdown.entityName')"
-    :actions
+    :actions="actions"
     data-testid="activity-library-dropdown"
-    @action-selected="handleActionSelected"
+    @action-selected="(action) => emit(action as AllowedActions)"
   />
 </template>

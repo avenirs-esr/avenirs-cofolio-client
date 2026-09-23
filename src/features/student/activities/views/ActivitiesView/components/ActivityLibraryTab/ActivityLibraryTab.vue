@@ -43,7 +43,7 @@ const pageInfo = computed(() => data.value?.page)
       <div class="av-row av-justify-end">
         <ActivityLibraryDropdown
           :unsubscribe-disabled="libraryActivities.length === 0"
-          @unsubscribe-selected="openModal"
+          @unsubscribe="openModal"
         />
       </div>
 

@@ -50,18 +50,18 @@ BddTest().given('an activity dropdown', () => {
     })
 
     BddTest().when('the update button is clicked', () => {
-      BddTest().then('it should emit the updateSelected event', async () => {
+      BddTest().then('it should emit the update event', async () => {
         const updateButton = getUpdateButton()
         await updateButton.trigger('click')
-        expect(wrapper.emitted('updateSelected')).toHaveLength(1)
+        expect(wrapper.emitted('update')).toHaveLength(1)
       })
     })
 
     BddTest().when('the unsubscribe button is clicked', () => {
-      BddTest().then('it should emit the unsubscribeSelected event', async () => {
+      BddTest().then('it should emit the unsubscribe event', async () => {
         const unsubscribeButton = getUnsubscribeButton()
         await unsubscribeButton.trigger('click')
-        expect(wrapper.emitted('unsubscribeSelected')).toHaveLength(1)
+        expect(wrapper.emitted('unsubscribe')).toHaveLength(1)
       })
     })
   })
@@ -83,19 +83,19 @@ BddTest().given('an activity dropdown', () => {
     })
 
     BddTest().when('the resubscribe button is clicked', () => {
-      BddTest().then('it should emit the resubscribeSelected event', async () => {
+      BddTest().then('it should emit the resubscribe event', async () => {
         const resubscribeButton = getResubscribeButton()
         await resubscribeButton.trigger('click')
-        expect(wrapper.emitted('resubscribeSelected')).toHaveLength(1)
-        expect(wrapper.emitted('deleteSelected')).toBeUndefined()
+        expect(wrapper.emitted('resubscribe')).toHaveLength(1)
+        expect(wrapper.emitted('delete')).toBeUndefined()
       })
     })
 
     BddTest().when('the delete button is clicked', () => {
-      BddTest().then('it should emit the deleteSelected event', async () => {
+      BddTest().then('it should emit the delete event', async () => {
         const deleteButton = getDeleteButton()
         await deleteButton.trigger('click')
-        expect(wrapper.emitted('deleteSelected')).toHaveLength(1)
+        expect(wrapper.emitted('delete')).toHaveLength(1)
       })
     })
   })

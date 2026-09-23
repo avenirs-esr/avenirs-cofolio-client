@@ -10,11 +10,10 @@ export interface TraceSettingsDropdownProps {
 const { downloadDisabled = false } = defineProps<TraceSettingsDropdownProps>()
 
 const emit = defineEmits<{
-  (e: 'associateSelected'): void
-  (e: 'deleteSelected'): void
-  (e: 'updateSelected'): void
-  (e: 'downloadSelected'): void
+  (e: AllowedActions): void
 }>()
+
+type AllowedActions = Action.ASSOCIATE | Action.UPDATE | Action.DOWNLOAD | Action.DELETE
 
 const { t } = useI18n()
 
@@ -35,22 +34,13 @@ const actions = computed(() => {
 
   return items
 })
-
-function handleActionSelected (action: Action) {
-  switch (action) {
-    case Action.ASSOCIATE: return emit('associateSelected')
-    case Action.UPDATE: return emit('updateSelected')
-    case Action.DOWNLOAD: return emit('downloadSelected')
-    case Action.DELETE: return emit('deleteSelected')
-  }
-}
 </script>
 
 <template>
   <ManageEntityDropdown
     :entity-name="t('student.traces.myTrace')"
-    :actions
+    :actions="actions"
     data-testid="trace-settings-dropdown"
-    @action-selected="handleActionSelected"
+    @action-selected="(action) => emit(action as AllowedActions)"
   />
 </template>

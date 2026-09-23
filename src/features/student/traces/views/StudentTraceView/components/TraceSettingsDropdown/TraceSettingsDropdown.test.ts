@@ -74,30 +74,30 @@ BddTest().given('a setting popover', () => {
   })
 
   BddTest().when('the delete button is clicked', () => {
-    BddTest().then('it should emit the deleteSelected event', async () => {
+    BddTest().then('it should emit the delete event', async () => {
       await getDeleteButton().trigger('click')
-      expect(wrapper.emitted('deleteSelected')).toHaveLength(1)
+      expect(wrapper.emitted('delete')).toHaveLength(1)
     })
   })
 
   BddTest().when('the associate button is clicked', () => {
-    BddTest().then('it should emit the associateSelected event', async () => {
+    BddTest().then('it should emit the associate event', async () => {
       await getAssociateButton().trigger('click')
-      expect(wrapper.emitted('associateSelected')).toHaveLength(1)
+      expect(wrapper.emitted('associate')).toHaveLength(1)
     })
   })
 
   BddTest().when('the update button is clicked', () => {
-    BddTest().then('it should emit the updateSelected event', async () => {
+    BddTest().then('it should emit the update event', async () => {
       await getUpdateButton().trigger('click')
-      expect(wrapper.emitted('updateSelected')).toHaveLength(1)
+      expect(wrapper.emitted('update')).toHaveLength(1)
     })
   })
 
   BddTest().when('the download button is clicked', () => {
-    BddTest().then('it should emit the downloadSelected event', async () => {
+    BddTest().then('it should emit the download event', async () => {
       await getDownloadButton().trigger('click')
-      expect(wrapper.emitted('downloadSelected')).toHaveLength(1)
+      expect(wrapper.emitted('download')).toHaveLength(1)
     })
   })
 })

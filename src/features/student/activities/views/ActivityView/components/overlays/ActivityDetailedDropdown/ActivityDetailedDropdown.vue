@@ -12,32 +12,22 @@ export interface ActivityDetailedDropdownProps {
 const { status } = defineProps<ActivityDetailedDropdownProps>()
 
 const emit = defineEmits<{
-  (e: 'updateSelected'): void
-  (e: 'unsubscribeSelected'): void
-  (e: 'resubscribeSelected'): void
-  (e: 'deleteSelected'): void
+  (e: AllowedAction): void
 }>()
+
+type AllowedAction = Action.UPDATE | Action.UNSUBSCRIBE | Action.RESUBSCRIBE | Action.DELETE
 
 const { t } = useI18n()
 
 const isUnsubscribed = computed(() => isDeclaredActivityUnsubscribed(status))
 
 const actions = computed(() => isUnsubscribed.value ? [Action.RESUBSCRIBE, Action.DELETE] : [Action.UPDATE, Action.UNSUBSCRIBE])
-
-function handleActionSelected (action: Action) {
-  switch (action) {
-    case Action.UPDATE: return emit('updateSelected')
-    case Action.UNSUBSCRIBE: return emit('unsubscribeSelected')
-    case Action.RESUBSCRIBE: return emit('resubscribeSelected')
-    case Action.DELETE: return emit('deleteSelected')
-  }
-}
 </script>
 
 <template>
   <ManageEntityDropdown
     :entity-name="t('global.ManageEntityDropdown.entityNames.activity')"
-    :actions
-    @action-selected="handleActionSelected"
+    :actions="actions"
+    @action-selected="(action) => emit(action as AllowedAction)"
   />
 </template>

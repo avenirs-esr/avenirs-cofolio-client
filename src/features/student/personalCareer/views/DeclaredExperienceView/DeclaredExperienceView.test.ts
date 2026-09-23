@@ -234,7 +234,7 @@ BddTest().given('a declared experience view component', () => {
       beforeEach(async () => {
         await vi.waitFor(async () => {
           const dropdown = wrapper.findComponent(DeclaredExperienceDetailsDropdownStub)
-          await dropdown.vm.$emit('updateSelected')
+          await dropdown.vm.$emit('update')
         })
       })
 
@@ -247,7 +247,7 @@ BddTest().given('a declared experience view component', () => {
       beforeEach(async () => {
         await vi.waitFor(async () => {
           const dropdown = wrapper.findComponent(DeclaredExperienceDetailsDropdownStub)
-          await dropdown.vm.$emit('deleteSelected')
+          await dropdown.vm.$emit('delete')
         })
       })
 

@@ -40,8 +40,8 @@ BddTest().given('a declared experience details dropdown', () => {
         emitDropdownActionSelected('update')
       })
 
-      BddTest().then('it should emit updateSelected', () => {
-        expect(wrapper.emitted()).toHaveProperty('updateSelected')
+      BddTest().then('it should emit update', () => {
+        expect(wrapper.emitted()).toHaveProperty('update')
       })
     })
 
@@ -50,8 +50,8 @@ BddTest().given('a declared experience details dropdown', () => {
         emitDropdownActionSelected('delete')
       })
 
-      BddTest().then('it should emit deleteSelected', () => {
-        expect(wrapper.emitted()).toHaveProperty('deleteSelected')
+      BddTest().then('it should emit delete', () => {
+        expect(wrapper.emitted()).toHaveProperty('delete')
       })
     })
   })

@@ -152,7 +152,7 @@ BddTest().given('a declared program detailed view component', () => {
         })
 
         const dropdown = wrapper.findComponent(ManageDeclaredProgramDropdownStub)
-        await dropdown.vm.$emit('updateSelected')
+        await dropdown.vm.$emit('update')
       })
 
       BddTest().then('it should navigate to the update declared program route', () => {
@@ -168,7 +168,7 @@ BddTest().given('a declared program detailed view component', () => {
         })
 
         const dropdown = wrapper.findComponent(ManageDeclaredProgramDropdownStub)
-        await dropdown.vm.$emit('deleteSelected')
+        await dropdown.vm.$emit('delete')
       })
 
       BddTest().then('it should display the delete declared program confirmation modal', () => {

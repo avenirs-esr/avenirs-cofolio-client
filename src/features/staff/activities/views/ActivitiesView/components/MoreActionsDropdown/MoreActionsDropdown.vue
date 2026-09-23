@@ -11,11 +11,10 @@ export interface MoreActionsDropdownProps {
 const { activityStatus } = defineProps<MoreActionsDropdownProps>()
 
 const emit = defineEmits<{
-  (e: 'deleteSelected'): void
-  (e: 'unpublishSelected'): void
-  (e: 'navigateToFeedbacksSelected'): void
-  (e: 'cloneSelected'): void
+  (e: AllowedActions): void
 }>()
+
+type AllowedActions = Action.NAVIGATE_TO_FEEDBACKS | Action.UNPUBLISH | Action.DELETE | Action.CLONE
 
 const { t } = useI18n()
 
@@ -37,23 +36,6 @@ const actions = computed<(Action | ActionItem)[]>(() => [
   },
   Action.CLONE
 ])
-
-function handleActionSelected (itemName: string) {
-  switch (itemName) {
-    case Action.DELETE:
-      emit('deleteSelected')
-      break
-    case Action.NAVIGATE_TO_FEEDBACKS:
-      emit('navigateToFeedbacksSelected')
-      break
-    case Action.UNPUBLISH:
-      emit('unpublishSelected')
-      break
-    case Action.CLONE:
-      emit('cloneSelected')
-      break
-  }
-}
 </script>
 
 <template>
@@ -63,6 +45,6 @@ function handleActionSelected (itemName: string) {
     :actions="actions"
     width="max-content"
     icon-only
-    @action-selected="handleActionSelected"
+    @action-selected="(action) => emit(action as AllowedActions)"
   />
 </template>

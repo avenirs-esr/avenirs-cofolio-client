@@ -4,24 +4,14 @@ import ManageEntityDropdown from '@/common/components/interaction/dropdowns/Mana
 import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
-  (e: 'updateSelected'): void
-  (e: 'deleteSelected'): void
+  (e: AllowedActions): void
 }>()
+
+type AllowedActions = Action.UPDATE | Action.DELETE
 
 const { t } = useI18n()
 
 const actions = computed<Action[]>(() => [Action.UPDATE, Action.DELETE])
-
-function handleActionSelected (action: Action) {
-  switch (action) {
-    case Action.UPDATE:
-      emit('updateSelected')
-      break
-    case Action.DELETE:
-      emit('deleteSelected')
-      break
-  }
-}
 </script>
 
 <template>
@@ -30,7 +20,7 @@ function handleActionSelected (action: Action) {
       :actions="actions"
       :entity-name="t('student.personalCareer.views.DeclaredExperienceView.DeclaredExperienceDetailsDropdown.entityName')"
       width="max-content"
-      @action-selected="handleActionSelected"
+      @action-selected="(action) => emit(action as AllowedActions)"
     />
   </div>
 </template>

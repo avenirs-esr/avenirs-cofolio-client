@@ -108,7 +108,7 @@ BddTest().given('a project activity view', () => {
     BddTest().and('the user clicks the unsubscribe button in the activity dropdown', () => {
       beforeEach(async () => {
         const unsubscribeButton = wrapper.findComponent(ActivityDetailedDropdownStub)
-        unsubscribeButton.vm.$emit('unsubscribeSelected')
+        unsubscribeButton.vm.$emit('unsubscribe')
       })
 
       BddTest().then('it should open the UnsubscribeActivitiesConfirmModal', () => {
@@ -147,7 +147,7 @@ BddTest().given('a project activity view', () => {
     BddTest().and('the user clicks the resubscribe button in the activity dropdown', () => {
       beforeEach(async () => {
         const dropdown = wrapper.findComponent(ActivityDetailedDropdownStub)
-        dropdown.vm.$emit('resubscribeSelected')
+        dropdown.vm.$emit('resubscribe')
       })
 
       BddTest().then('it should show the SubscribeActivityConfirmModal', () => {
@@ -173,7 +173,7 @@ BddTest().given('a project activity view', () => {
     BddTest().and('the user clicks the delete button in the activity detailed dropdown', () => {
       beforeEach(async () => {
         const deleteButton = wrapper.findComponent(ActivityDetailedDropdownStub)
-        deleteButton.vm.$emit('deleteSelected')
+        deleteButton.vm.$emit('delete')
       })
 
       BddTest().then('it should open the DeleteMyActivityConfirmModal', () => {

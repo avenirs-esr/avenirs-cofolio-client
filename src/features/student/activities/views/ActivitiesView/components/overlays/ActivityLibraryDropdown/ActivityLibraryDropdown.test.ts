@@ -31,7 +31,7 @@ BddTest().given('an activity library dropdown', () => {
     BddTest().then('it should emit the unsubscribeSelected event', async () => {
       const unsubscribeButton = getUnsubscribeButton()
       await unsubscribeButton.trigger('click')
-      expect(wrapper.emitted('unsubscribeSelected')).toHaveLength(1)
+      expect(wrapper.emitted('unsubscribe')).toHaveLength(1)
     })
   })
 
