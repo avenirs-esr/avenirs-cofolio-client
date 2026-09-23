@@ -1,7 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { countMockedDeclaredExperiencesByType } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import { declaredExperiencesQueryEmptyHandler, declaredExperiencesQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EExperienceType } from '@/api/avenir-esr'
+import { EExperienceType, ESortField, ESortOrder } from '@/api/avenir-esr'
+import { SortSelectStub } from '@/common/components/interaction/selects/SortSelect/SortSelect.stub'
 import { LoaderStub } from '@/common/components/Loader/Loader.stub'
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
@@ -52,7 +54,8 @@ BddTest().given('a declared experiences tab', () => {
     DeclaredExperiencesMoreActionsDropdown: DeclaredExperiencesMoreActionsDropdownStub,
     AvIconText: AvIconTextStub,
     QuerySuspense: QuerySuspenseStub,
-    ExperienceTypeMultiselect: ExperienceTypeMultiselectStub
+    ExperienceTypeMultiselect: ExperienceTypeMultiselectStub,
+    SortSelect: SortSelectStub
   }
 
   const getPagination = () => wrapper.findComponent(PaginationStub)
@@ -60,6 +63,7 @@ BddTest().given('a declared experiences tab', () => {
   const getDeclaredExperiencesMoreActionsDropdown = () =>
     wrapper.findComponent(DeclaredExperiencesMoreActionsDropdownStub)
   const getExperienceTypeMultiselect = () => wrapper.findComponent(ExperienceTypeMultiselectStub)
+  const getSortSelect = () => wrapper.findComponent(SortSelectStub)
   const getDeclaredExperienceCards = () => wrapper.findAllComponents(DeclaredExperienceCardStub)
   const getQuerySuspenseEmpty = () => wrapper.findComponent(QuerySuspenseStub)
     .find('[data-testid="query-suspense-empty"]')
@@ -100,6 +104,10 @@ BddTest().given('a declared experiences tab', () => {
     BddTest().then('it should render the experience type multiselect component', () => {
       expect(getExperienceTypeMultiselect().exists()).toBe(true)
     })
+
+    BddTest().then('it should render the sort select component', () => {
+      expect(getSortSelect().exists()).toBe(true)
+    })
   })
 
   BddTest().when('declared experiences data is loaded', () => {
@@ -125,22 +133,19 @@ BddTest().given('a declared experiences tab', () => {
     })
 
     const multiselectScenario = [
-      { value: EExperienceType.PROFESSIONAL, label: 'Expérience professionnelle' },
-      { value: EExperienceType.PERSONAL, label: 'Expérience personnelle' },
-      { value: EExperienceType.VOLUNTEER, label: 'Engagement et/ou bénévolat' }
+      { value: EExperienceType.PROFESSIONAL, label: 'Expérience professionnelle', expectedCount: countMockedDeclaredExperiencesByType(EExperienceType.PROFESSIONAL) },
+      { value: EExperienceType.PERSONAL, label: 'Expérience personnelle', expectedCount: countMockedDeclaredExperiencesByType(EExperienceType.PERSONAL) },
+      { value: EExperienceType.VOLUNTEER, label: 'Engagement et/ou bénévolat', expectedCount: countMockedDeclaredExperiencesByType(EExperienceType.VOLUNTEER) }
     ]
 
-    multiselectScenario.forEach(({ value, label }) => {
+    multiselectScenario.forEach(({ value, label, expectedCount }) => {
       BddTest().and(`the user selects the ${label} experience type`, () => {
         beforeEach(async () => {
           const multiselect = getExperienceTypeMultiselect()
           multiselect.vm.$emit('update:modelValue', [{ value, label }])
 
           await vi.waitFor(() => {
-            const cards = getDeclaredExperienceCards()
-            expect(cards.length).toBeGreaterThan(0)
-            expect(cards.every(card =>
-              card.props('declaredExperience').experienceType === value)).toBe(true)
+            expect(getPagination().props('pageInfo')?.totalElements).toBe(expectedCount)
           })
         })
 
@@ -149,6 +154,44 @@ BddTest().given('a declared experiences tab', () => {
           expect(cards.length).toBeGreaterThan(0)
           expect(cards.every(card => card.props('declaredExperience').experienceType === value)).toBe(true)
         })
+      })
+    })
+
+    BddTest().and('the user selects the date descending sort option', () => {
+      beforeEach(async () => {
+        const sortSelect = getSortSelect()
+        sortSelect.vm.$emit('update:selectedItem', { itemId: `${ESortField.DATE}_${ESortOrder.DESC}` })
+
+        await vi.waitFor(() => {
+          const startDates = getDeclaredExperienceCards().map(card => card.props('declaredExperience').startDate as string)
+          const sortedDescending = [...startDates].sort((a, b) => b.localeCompare(a))
+          expect(startDates).toEqual(sortedDescending)
+        })
+      })
+
+      BddTest().then('it should sort declared experience cards by start date descending', () => {
+        const startDates = getDeclaredExperienceCards().map(card => card.props('declaredExperience').startDate as string)
+        const sortedDescending = [...startDates].sort((a, b) => b.localeCompare(a))
+        expect(startDates).toEqual(sortedDescending)
+      })
+    })
+
+    BddTest().and('the user selects the name descending sort option', () => {
+      beforeEach(async () => {
+        const sortSelect = getSortSelect()
+        sortSelect.vm.$emit('update:selectedItem', { itemId: `${ESortField.NAME}_${ESortOrder.DESC}` })
+
+        await vi.waitFor(() => {
+          const titles = getDeclaredExperienceCards().map(card => card.props('declaredExperience').title as string)
+          const sortedDescending = [...titles].sort((a, b) => b.localeCompare(a))
+          expect(titles).toEqual(sortedDescending)
+        })
+      })
+
+      BddTest().then('it should sort declared experience cards by title descending', () => {
+        const titles = getDeclaredExperienceCards().map(card => card.props('declaredExperience').title as string)
+        const sortedDescending = [...titles].sort((a, b) => b.localeCompare(a))
+        expect(titles).toEqual(sortedDescending)
       })
     })
   })

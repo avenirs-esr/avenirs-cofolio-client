@@ -2727,6 +2727,22 @@
                 "$ref": "#/components/schemas/EExperienceType"
               }
             }
+          },
+          {
+            "name": "sortField",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ESortField"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ESortOrder"
+            }
           }
         ],
         "responses": {
@@ -7662,6 +7678,22 @@
           "INVALID_DATE_FORMAT",
           "ACTIVITY_DATES",
           "DECLARED_ACTIVITY_START_DATE_BEFORE_SUBSCRIPTION"
+        ]
+      },
+      "ESortOrder": {
+        "type": "string",
+        "description": "Enum for sort orders",
+        "enum": [
+          "ASC",
+          "DESC"
+        ]
+      },
+      "ESortField": {
+        "type": "string",
+        "description": "Enum for sort fields",
+        "enum": [
+          "NAME",
+          "DATE"
         ]
       },
       "EActivityThematic": {

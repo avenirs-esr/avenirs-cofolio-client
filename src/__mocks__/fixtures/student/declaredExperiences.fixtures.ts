@@ -1,6 +1,8 @@
 import {
   type DeclaredExperienceViewDTO,
   EExperienceType,
+  ESortField,
+  ESortOrder,
   type PagedResponseDeclaredExperienceViewDTO,
 } from '@/api/avenir-esr'
 
@@ -44,7 +46,7 @@ export function createMockedDeclaredExperiences (count: number, withoutDescripti
       organization: `Organization ${i}`,
       location: experience.location,
       description: withoutDescription ? undefined : experience.description,
-      startDate: '2023-01',
+      startDate: `2023-${String((i % 12) + 1).padStart(2, '0')}`,
       createdAt: '2024-01-15T10:30:00Z',
       updatedAt: '2024-01-15T10:30:00Z',
       declaredExperienceAssociationCountDTO: {
@@ -59,11 +61,31 @@ export function createMockedDeclaredExperiences (count: number, withoutDescripti
 
 export const mockedDeclaredExperiences: DeclaredExperienceViewDTO[] = createMockedDeclaredExperiences(60)
 
+export function countMockedDeclaredExperiencesByType (type: EExperienceType): number {
+  return mockedDeclaredExperiences.filter(experience => experience.experienceType === type).length
+}
+
+export function sortDeclaredExperiences (
+  experiences: DeclaredExperienceViewDTO[],
+  sortField: ESortField = ESortField.NAME,
+  sortOrder: ESortOrder = ESortOrder.ASC
+): DeclaredExperienceViewDTO[] {
+  return [...experiences].sort((a, b) => {
+    const comparison = sortField === ESortField.DATE
+      ? (a.startDate ?? '').localeCompare(b.startDate ?? '')
+      : a.title.localeCompare(b.title)
+
+    return sortOrder === ESortOrder.DESC ? -comparison : comparison
+  })
+}
+
 export function createMockedDeclaredExperiencesPagedResponse (
   pageSize: number,
   totalElements: number,
   page: number,
-  typeFilter?: EExperienceType[]
+  typeFilter?: EExperienceType[],
+  sortField: ESortField = ESortField.NAME,
+  sortOrder: ESortOrder = ESortOrder.ASC
 ): PagedResponseDeclaredExperienceViewDTO {
   const filteredExperiences = mockedDeclaredExperiences
     .slice(0, totalElements)
@@ -72,17 +94,19 @@ export function createMockedDeclaredExperiencesPagedResponse (
       || typeFilter.length === 0
       || typeFilter.includes(experience.experienceType!))
 
+  const sortedExperiences = sortDeclaredExperiences(filteredExperiences, sortField, sortOrder)
+
   const start = page * pageSize
   const end = start + pageSize
-  const paginatedData = filteredExperiences.slice(start, end)
+  const paginatedData = sortedExperiences.slice(start, end)
 
   return {
     data: paginatedData,
     page: {
       page,
       pageSize,
-      totalElements: filteredExperiences.length,
-      totalPages: Math.ceil(filteredExperiences.length / pageSize)
+      totalElements: sortedExperiences.length,
+      totalPages: Math.ceil(sortedExperiences.length / pageSize)
     }
   }
 }
