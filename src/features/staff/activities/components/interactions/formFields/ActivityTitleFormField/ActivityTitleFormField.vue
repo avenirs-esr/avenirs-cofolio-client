@@ -8,13 +8,14 @@ import { markRaw } from 'vue'
 
 interface ActivityTitleFormFieldProps {
   form: ActivityDraftCreationForm | ActivityDuplicationForm | EditActivityForm
+  labelVisible?: boolean
 }
 
 defineOptions({
   inheritAttrs: false
 })
 
-const { form } = defineProps<ActivityTitleFormFieldProps>()
+const { form, labelVisible } = defineProps<ActivityTitleFormFieldProps>()
 
 const emit = defineEmits<{
   autosave: [value: ActivityDraftUpdateRequest]
@@ -42,6 +43,7 @@ const titleValidators = {
         data-testid="activity-title-form-field"
         :model-value="field.state.value"
         :error-message="field.state.meta.errors?.join(', ')"
+        :label-visible="labelVisible"
         @blur="field.handleBlur"
         @update:model-value="(value) => {
           field.handleChange(value ?? '');

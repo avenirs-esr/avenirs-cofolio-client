@@ -18,6 +18,17 @@ const TestWrapper = defineComponent({
   template: '<form @submit.prevent="form.handleSubmit()"><ActivityTitleFormField :form="form" /></form>',
 })
 
+const TestWrapperWithLabelVisible = defineComponent({
+  components: { ActivityTitleFormField },
+  setup () {
+    const form = useForm({
+      defaultValues: { title: '' },
+    }) satisfies ActivityDraftCreationForm
+    return { form, labelVisible: true }
+  },
+  template: '<form @submit.prevent="form.handleSubmit()"><ActivityTitleFormField :form="form" :labelVisible="labelVisible" /></form>',
+})
+
 BddTest().given('an ActivityTitleFormField component', () => {
   let wrapper: VueWrapper<InstanceType<typeof TestWrapper>>
   let titleFormField: VueWrapper<InstanceType<typeof ActivityTitleFormField>>
@@ -43,6 +54,22 @@ BddTest().given('an ActivityTitleFormField component', () => {
 
     BddTest().then('it should have no initial error message', () => {
       expect(getInput().props('errorMessage')).toBeFalsy()
+    })
+
+    BddTest().then('it should pass the default labelVisible prop to the input', () => {
+      expect(getInput().props('labelVisible')).toBe(false)
+    })
+  })
+
+  BddTest().when('the labelVisible prop is set to true', () => {
+    beforeEach(() => {
+      vi.clearAllMocks()
+      wrapper = mount(TestWrapperWithLabelVisible, { global: { stubs } })
+      titleFormField = wrapper.findComponent(ActivityTitleFormField)
+    })
+
+    BddTest().then('it should pass the labelVisible prop to the input', () => {
+      expect(getInput().props('labelVisible')).toBe(true)
     })
   })
 
