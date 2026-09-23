@@ -116,7 +116,7 @@ BddTest().given('a student declared skill view', () => {
       await vi.waitFor(() => {
         const activeTab = wrapper.findComponent(AvTabStub)
         expect(activeTab.exists()).toBe(true)
-        expect(activeTab.props('title')).toBe('Mes associations (5)')
+        expect(activeTab.props('title')).toBe('Mes associations (7)')
       })
     })
 

@@ -1,4 +1,4 @@
-import { mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
+import { mockedDeclaredProgramAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import {
   declaredProgramDetailedHandler,
   declaredProgramDetailedLoadingHandler,
@@ -168,11 +168,11 @@ BddTest().given('a declared program detailed view component', () => {
         expect(elementAssociations.exists()).toBe(true)
         expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.DECLARED_PROGRAM)
         expect(elementAssociations.props('elementId')).toBe('declared-program-1')
-        expect(elementAssociations.props('associations')).toEqual(mockedEmptyAssociations)
+        expect(elementAssociations.props('associations')).toEqual(mockedDeclaredProgramAssociations)
         expect(elementAssociations.props('error')).toBeNull()
       })
 
-      expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (0)')
+      expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (3)')
     })
 
     BddTest().then('it should render the manage declared program dropdown', async () => {

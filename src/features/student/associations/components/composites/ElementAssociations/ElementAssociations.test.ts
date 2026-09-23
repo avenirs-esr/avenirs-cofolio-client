@@ -5,6 +5,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import {
   createMockedTraceAssociations,
   mockedDeclaredActivityAssociations,
+  mockedDeclaredProgramAssociations,
   mockedEmptyAssociations,
   mockedTraceAssociations
 } from '@/__mocks__/fixtures/student/associations.fixtures'
@@ -65,6 +66,12 @@ BddTest().given('an element associations component', () => {
     contextType: EAssociationContextType.TRACE,
     elementId: 'trace-1',
     associations: mockedTraceAssociations
+  }
+
+  const declaredProgramProps: ElementAssociationsProps = {
+    contextType: EAssociationContextType.DECLARED_PROGRAM,
+    elementId: 'declared-program-1',
+    associations: mockedDeclaredProgramAssociations
   }
 
   const getDropdown = (variant: AssociationElementsDropdownVariant) => wrapper.findAllComponents(AssociationElementsDropdownStub)
@@ -535,6 +542,61 @@ BddTest().given('an element associations component', () => {
         expect(getOpenedModals()).toEqual([{ modal: 'associate', associatedContextType: EAssociationContextType.DECLARED_EXPERIENCE }])
         expect(modal.props('contextType')).toBe(EAssociationContextType.TRACE)
         expect(modal.props('elementId')).toBe('trace-1')
+      })
+    })
+  })
+
+  BddTest().when('the associations of a declared program are displayed', () => {
+    beforeEach(() => {
+      mountElementAssociations(declaredProgramProps)
+    })
+
+    BddTest().then('it should render the component with the test id of the context type', () => {
+      expect(wrapper.find('[data-testid="declared-program-associations"]').exists()).toBe(true)
+      expect(getDropdown('associate')!.attributes('data-testid')).toBe('declared-program-associate-elements-dropdown')
+      expect(getDropdown('delete')!.attributes('data-testid')).toBe('delete-declared-program-associated-elements-dropdown')
+    })
+
+    BddTest().then('it should only propose to associate the declared skills', () => {
+      expect(getDropdown('associate')!.props('items')).toEqual([
+        { type: EAssociationContextType.DECLARED_SKILL, disabled: false }
+      ])
+      expect(getDropdown('delete')!.props('items')).toEqual([
+        unassociateItem(EAssociationContextType.DECLARED_SKILL, false)
+      ])
+    })
+
+    BddTest().then('it should render a single card for the associated declared skills', () => {
+      expect(getCards()).toHaveLength(1)
+      expect(getCards()[0].props('associatedContextType')).toBe(EAssociationContextType.DECLARED_SKILL)
+      expect(getCards()[0].props('associations')).toEqual(mockedDeclaredProgramAssociations)
+    })
+
+    BddTest().and('the user chooses to associate declared skills', () => {
+      beforeEach(async () => {
+        await selectDropdownItem('associate', EAssociationContextType.DECLARED_SKILL)
+      })
+
+      BddTest().then('it should only open the associate declared skills modal', () => {
+        const modal = getAssociateModal(EAssociationContextType.DECLARED_SKILL)
+
+        expect(getOpenedModals()).toEqual([{ modal: 'associate', associatedContextType: EAssociationContextType.DECLARED_SKILL }])
+        expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_PROGRAM)
+        expect(modal.props('elementId')).toBe('declared-program-1')
+      })
+    })
+
+    BddTest().and('the user chooses to delete declared skill associations', () => {
+      beforeEach(async () => {
+        await selectDropdownItem('delete', EAssociationContextType.DECLARED_SKILL)
+      })
+
+      BddTest().then('it should only open the delete declared skill associations modal', () => {
+        const modal = getDeleteModal(EAssociationContextType.DECLARED_SKILL)
+
+        expect(getOpenedModals()).toEqual([{ modal: 'delete', associatedContextType: EAssociationContextType.DECLARED_SKILL }])
+        expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_PROGRAM)
+        expect(modal.props('elementId')).toBe('declared-program-1')
       })
     })
   })

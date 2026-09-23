@@ -34,11 +34,14 @@ BddTest().given('isAssociable', () => {
     expect(isAssociable(EAssociationContextType.DECLARED_ACTIVITY, EAssociationContextType.TRACE)).toBe(true)
     expect(isAssociable(EAssociationContextType.TRACE, EAssociationContextType.DECLARED_ACTIVITY)).toBe(true)
     expect(isAssociable(EAssociationContextType.DECLARED_EXPERIENCE, EAssociationContextType.DECLARED_SKILL)).toBe(true)
+    expect(isAssociable(EAssociationContextType.DECLARED_PROGRAM, EAssociationContextType.DECLARED_SKILL)).toBe(true)
+    expect(isAssociable(EAssociationContextType.DECLARED_SKILL, EAssociationContextType.DECLARED_PROGRAM)).toBe(true)
   })
 
   BddTest().then('it should reject the pairs not supported by the API', () => {
     expect(isAssociable(EAssociationContextType.DECLARED_ACTIVITY, EAssociationContextType.DECLARED_EXPERIENCE)).toBe(false)
     expect(isAssociable(EAssociationContextType.TRACE, EAssociationContextType.TRACE)).toBe(false)
+    expect(isAssociable(EAssociationContextType.DECLARED_PROGRAM, EAssociationContextType.TRACE)).toBe(false)
   })
 })
 
@@ -56,7 +59,11 @@ BddTest().given('getAssociableContextTypes', () => {
     expect(getAssociableContextTypes(EAssociationContextType.DECLARED_SKILL)).toEqual([
       EAssociationContextType.TRACE,
       EAssociationContextType.DECLARED_ACTIVITY,
-      EAssociationContextType.DECLARED_EXPERIENCE
+      EAssociationContextType.DECLARED_EXPERIENCE,
+      EAssociationContextType.DECLARED_PROGRAM
+    ])
+    expect(getAssociableContextTypes(EAssociationContextType.DECLARED_PROGRAM)).toEqual([
+      EAssociationContextType.DECLARED_SKILL
     ])
     expect(getAssociableContextTypes(EAssociationContextType.DECLARED_EXPERIENCE)).toEqual([
       EAssociationContextType.TRACE,
@@ -131,6 +138,7 @@ BddTest().given('countElementAssociations', () => {
   BddTest().then('it should only count the associations to the context types associable with the element', () => {
     expect(countElementAssociations(EAssociationContextType.DECLARED_ACTIVITY, associations)).toBe(5)
     expect(countElementAssociations(EAssociationContextType.DECLARED_EXPERIENCE, associations)).toBe(5)
+    expect(countElementAssociations(EAssociationContextType.DECLARED_PROGRAM, associations)).toBe(3)
   })
 })
 
