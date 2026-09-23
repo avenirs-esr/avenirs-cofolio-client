@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
@@ -7,32 +8,16 @@ const emit = defineEmits<{
   (e: 'deleteSelected'): void
 }>()
 
-enum ManageDeclaredProgramDropdownEvents {
-  UPDATE = 'update',
-  DELETE = 'delete'
-}
-
 const { t } = useI18n()
 
-const menuItems = computed(() => [
-  {
-    name: ManageDeclaredProgramDropdownEvents.UPDATE,
-    icon: MDI_ICONS.PENCIL_OUTLINE,
-    label: t('global.buttons.update')
-  },
-  {
-    name: ManageDeclaredProgramDropdownEvents.DELETE,
-    icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-    label: t('global.buttons.delete')
-  }
-])
+const actions = computed<Action[]>(() => [Action.UPDATE, Action.DELETE])
 
-function handleItemSelected (itemName: string) {
-  switch (itemName) {
-    case ManageDeclaredProgramDropdownEvents.UPDATE:
+function handleActionSelected (action: Action) {
+  switch (action) {
+    case Action.UPDATE:
       emit('updateSelected')
       break
-    case ManageDeclaredProgramDropdownEvents.DELETE:
+    case Action.DELETE:
       emit('deleteSelected')
       break
   }
@@ -41,12 +26,11 @@ function handleItemSelected (itemName: string) {
 
 <template>
   <div class="av-row av-justify-end">
-    <AvDropdown
-      :items="menuItems"
-      :trigger-aria-label="t('student.personalCareer.views.DeclaredProgramDetailedView.ManageDeclaredProgramDropdown.trigger')"
-      :trigger-label="t('student.personalCareer.views.DeclaredProgramDetailedView.ManageDeclaredProgramDropdown.trigger')"
+    <ManageEntityDropdown
+      :actions="actions"
+      :entity-name="t('student.personalCareer.views.DeclaredProgramDetailedView.ManageDeclaredProgramDropdown.entityName')"
       width="max-content"
-      @item-selected="handleItemSelected"
+      @action-selected="handleActionSelected"
     />
   </div>
 </template>

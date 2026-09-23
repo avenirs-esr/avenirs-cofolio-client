@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AvDropdown, type AvDropdownItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
@@ -8,37 +9,14 @@ const emit = defineEmits<{
 }>()
 const { t } = useI18n()
 
-const isDemoMode = __DEMO_MODE__
+const actions = computed<Action[]>(() => [Action.ADD, Action.DELETE])
 
-enum DeclaredExperiencesMoreActionsDropdownEvents {
-  ADD = 'add',
-  DELETE = 'delete',
-}
-
-const menuItems = computed<AvDropdownItem[]>(() => {
-  const allItems = [
-    {
-      name: DeclaredExperiencesMoreActionsDropdownEvents.ADD,
-      icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
-      label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.add'),
-      demo: true
-    },
-    {
-      name: DeclaredExperiencesMoreActionsDropdownEvents.DELETE,
-      icon: MDI_ICONS.TRASH_CAN_OUTLINE,
-      label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.delete'),
-      demo: true
-    },
-  ]
-  return isDemoMode ? allItems.filter(item => item.demo) : allItems
-})
-
-function handleItemSelected (itemName: string) {
-  switch (itemName) {
-    case DeclaredExperiencesMoreActionsDropdownEvents.ADD:
+function handleActionSelected (action: Action) {
+  switch (action) {
+    case Action.ADD:
       emit('addSelected')
       break
-    case DeclaredExperiencesMoreActionsDropdownEvents.DELETE:
+    case Action.DELETE:
       emit('deleteSelected')
       break
   }
@@ -47,12 +25,11 @@ function handleItemSelected (itemName: string) {
 
 <template>
   <div class="av-row av-justify-end">
-    <AvDropdown
-      :items="menuItems"
-      :trigger-aria-label="t('global.buttons.moreActions')"
-      :trigger-label="t('global.buttons.moreActions')"
+    <ManageEntityDropdown
+      :actions="actions"
+      :entity-name="t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.DeclaredExperiencesMoreActionsDropdown.entityName')"
       width="max-content"
-      @item-selected="handleItemSelected"
+      @action-selected="handleActionSelected"
     />
   </div>
 </template>

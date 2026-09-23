@@ -1,10 +1,11 @@
 import type { TracesSummaryDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { DeleteTracesModalStub } from '@/features/student/traces/views/StudentToolsTracesView/components/DeleteTracesModal/DeleteTracesModal.stub'
 import StudentToolsTracesActionButtons from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesActionButtons/StudentToolsTracesActionButtons.vue'
-import { TracesActionsDropdownStub } from '@/features/student/traces/views/StudentToolsTracesView/components/TracesActionsDropdown/TracesActionsDropdown.stub'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -20,8 +21,7 @@ BddTest().given('a student tools traces action buttons component', () => {
   }
 
   const stubs = {
-    AvButton: AvButtonStub,
-    TracesActionsDropdown: TracesActionsDropdownStub,
+    ManageEntityDropdown: ManageEntityDropdownStub,
     DeleteTracesModal: DeleteTracesModalStub
   }
 
@@ -38,6 +38,9 @@ BddTest().given('a student tools traces action buttons component', () => {
     })
   }
 
+  const getDropdown = () => wrapper.findComponent(ManageEntityDropdownStub)
+  const emitDropdownAction = (action: Action) => getDropdown().vm.$emit('actionSelected', action)
+
   beforeEach(() => {
     vi.clearAllMocks()
     setActivePinia(createPinia())
@@ -46,18 +49,10 @@ BddTest().given('a student tools traces action buttons component', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render the add trace button', () => {
-      const addButton = wrapper.findComponent({ name: 'AvButton' })
-
-      expect(addButton.exists()).toBe(true)
-      expect(addButton.props('label')).toBe('Ajouter une trace dans ma bibliothèque')
-      expect(addButton.props('variant')).toBe('OUTLINED')
-      expect(addButton.props('icon')).toBeDefined()
-      expect(addButton.props('small')).toBe(true)
-    })
-
-    BddTest().then('it should render the traces actions dropdown', () => {
-      expect(wrapper.findComponent({ name: 'TracesActionsDropdown' }).exists()).toBe(true)
+    BddTest().then('it should render the manage trace dropdown', () => {
+      expect(getDropdown().exists()).toBe(true)
+      expect(getDropdown().props('entityName')).toBe('mes traces')
+      expect(getDropdown().props('actions')).toEqual([Action.ADD, Action.DELETE])
     })
 
     BddTest().then('it should render the delete traces modal initially hidden with total count', () => {
@@ -69,24 +64,21 @@ BddTest().given('a student tools traces action buttons component', () => {
     })
   })
 
-  BddTest().when('add trace button is clicked', () => {
+  BddTest().when('add action is selected', () => {
     BddTest().then('it should update showCreateTraceDrawer state to true', async () => {
       const store = useTracesStore()
-      const addButton = wrapper.findComponent({ name: 'AvButton' })
 
       expect(store.showCreateTraceDrawer).toBe(false)
 
-      await addButton.vm.$emit('click')
-      await wrapper.vm.$nextTick()
+      emitDropdownAction(Action.ADD)
 
       expect(store.showCreateTraceDrawer).toBe(true)
     })
   })
 
   BddTest().when('delete action is selected', () => {
-    beforeEach(async () => {
-      await wrapper.findComponent({ name: 'TracesActionsDropdown' }).vm.$emit('deleteSelected')
-      await wrapper.vm.$nextTick()
+    beforeEach(() => {
+      emitDropdownAction(Action.DELETE)
     })
 
     BddTest().then('it should open the delete traces modal', () => {
@@ -99,8 +91,7 @@ BddTest().given('a student tools traces action buttons component', () => {
 
   BddTest().when('delete traces modal emits cancel', () => {
     beforeEach(async () => {
-      await wrapper.findComponent({ name: 'TracesActionsDropdown' }).vm.$emit('deleteSelected')
-      await wrapper.vm.$nextTick()
+      emitDropdownAction(Action.DELETE)
 
       await wrapper.findComponent(DeleteTracesModalStub).vm.$emit('cancel')
       await wrapper.vm.$nextTick()
@@ -113,8 +104,7 @@ BddTest().given('a student tools traces action buttons component', () => {
 
   BddTest().when('delete traces modal emits deleted', () => {
     beforeEach(async () => {
-      await wrapper.findComponent({ name: 'TracesActionsDropdown' }).vm.$emit('deleteSelected')
-      await wrapper.vm.$nextTick()
+      emitDropdownAction(Action.DELETE)
 
       await wrapper.findComponent(DeleteTracesModalStub).vm.$emit('deleted')
       await wrapper.vm.$nextTick()

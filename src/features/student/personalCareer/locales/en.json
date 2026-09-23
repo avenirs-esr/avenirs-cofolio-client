@@ -148,7 +148,7 @@
       "views": {
         "DeclaredExperienceView": {
           "DeclaredExperienceDetailsDropdown": {
-            "dropdown": "Manage my experience",
+            "entityName": "my experience",
             "title": "Details of my declared experience"
           },
           "errors": {
@@ -192,7 +192,7 @@
             }
           },
           "ManageDeclaredProgramDropdown": {
-            "trigger": "Manage my program"
+            "entityName": "my program"
           },
           "tabs": {
             "details": {
@@ -215,8 +215,7 @@
           "ExperiencesSection": {
             "breadcrumb": "My experiences",
             "DeclaredExperiencesMoreActionsDropdown": {
-              "add": "Add an experience",
-              "delete": "Delete an experience"
+              "entityName": "my experiences"
             },
             "DeclaredExperiencesTab": {
               "emptyState": "No declared experiences yet. Click on the \"Add\" button in the More Actions menu to declare your first experience!",
@@ -240,8 +239,7 @@
           "ProgramsSection": {
             "breadcrumb": "My programs",
             "DeclaredProgramsMoreActionsDropdown": {
-              "add": "Add a program",
-              "delete": "Delete a program"
+              "entityName": "my programs"
             },
             "DeclaredProgramsTab": {
               "emptyState": "No declared programs yet, Click on the \"Add\" button in the More Actions menu to declare your first program!",

@@ -1,7 +1,8 @@
+import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import DeclaredExperiencesMoreActionsDropdown
   from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesMoreActionsDropdown/DeclaredExperiencesMoreActionsDropdown.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -9,8 +10,11 @@ BddTest().given('a declared experiences more actions dropdown', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperiencesMoreActionsDropdown>>
 
   const stubs = {
-    AvDropdown: AvDropdownStub
+    ManageEntityDropdown: ManageEntityDropdownStub
   }
+
+  const getDropdown = () => wrapper.findComponent(ManageEntityDropdownStub)
+  const emitDropdownAction = (action: Action) => getDropdown().vm.$emit('actionSelected', action)
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -25,51 +29,35 @@ BddTest().given('a declared experiences more actions dropdown', () => {
     })
 
     BddTest().then('it should render the dropdown component', () => {
-      const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
-      expect(dropdown.exists()).toBe(true)
+      expect(getDropdown().exists()).toBe(true)
     })
 
     BddTest().and('the dropdown props are validated', () => {
-      let dropdown: VueWrapper<InstanceType<typeof AvDropdownStub>>
+      let dropdown: VueWrapper<InstanceType<typeof ManageEntityDropdownStub>>
 
       beforeEach(() => {
-        dropdown = wrapper.findComponent({ name: 'AvDropdown' }) as VueWrapper<InstanceType<typeof AvDropdownStub>>
+        dropdown = getDropdown()
       })
 
-      BddTest().then('it should have trigger aria label', () => {
-        expect(dropdown.props('triggerAriaLabel')).toBe('Plus d\'actions')
+      BddTest().then('it should have the correct entity name', () => {
+        expect(dropdown.props('entityName')).toBe('mes expériences')
       })
 
-      BddTest().then('it should have trigger label', () => {
-        expect(dropdown.props('triggerLabel')).toBe('Plus d\'actions')
-      })
-
-      BddTest().then('it should have menu items with correct length', () => {
-        expect(dropdown.props('items')).toHaveLength(2)
-      })
-
-      BddTest().then('it should have add item with correct properties', () => {
-        const items = dropdown.props('items') as Array<{ name: string, icon: string, label: string }>
-        const addItem = items.find(item => item.name === 'add')
-        expect(addItem).toBeDefined()
-        expect(addItem?.icon).toBe(MDI_ICONS.PLUS_CIRCLE_OUTLINE)
-        expect(addItem?.label).toBe('Ajouter une expérience')
-      })
-
-      BddTest().then('it should have delete item with correct properties', () => {
-        const items = dropdown.props('items') as Array<{ name: string, icon: string, label: string }>
-        const deleteItem = items.find(item => item.name === 'delete')
-        expect(deleteItem).toBeDefined()
-        expect(deleteItem?.icon).toBe(MDI_ICONS.TRASH_CAN_OUTLINE)
-        expect(deleteItem?.label).toBe('Supprimer une expérience')
+      BddTest().then('it should have the correct actions', () => {
+        expect(dropdown.props('actions')).toHaveLength(2)
+        expect(dropdown.props('actions')).toEqual(
+          expect.arrayContaining([
+            expect.stringContaining(Action.ADD),
+            expect.stringContaining(Action.DELETE)
+          ])
+        )
       })
     })
   })
 
-  BddTest().when('the add item is selected', () => {
+  BddTest().when('the add action is selected', () => {
     beforeEach(() => {
-      const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
-      dropdown.vm.$emit('itemSelected', 'add')
+      emitDropdownAction(Action.ADD)
     })
 
     BddTest().then('it should emit addSelected event', () => {
@@ -84,8 +72,7 @@ BddTest().given('a declared experiences more actions dropdown', () => {
 
   BddTest().when('the delete item is selected', () => {
     beforeEach(() => {
-      const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
-      dropdown.vm.$emit('itemSelected', 'delete')
+      emitDropdownAction(Action.DELETE)
     })
 
     BddTest().then('it should emit deleteSelected event', () => {

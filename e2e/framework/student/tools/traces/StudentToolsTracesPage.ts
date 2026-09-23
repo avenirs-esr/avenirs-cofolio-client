@@ -5,7 +5,7 @@ import { t } from '@e2e/framework/shared/utils/i18n'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { TracesAssociatedTab } from '@e2e/framework/student/tools/traces/componentObjects/TracesAssociatedTab'
 import { expect, type Page } from '@playwright/test'
-import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
+import { Fixture, Then, When } from 'playwright-bdd/decorators'
 
 export
 @Fixture<typeof test>('studentToolsTracesPage')
@@ -13,10 +13,6 @@ class StudentToolsTracesPage extends BasePage {
   private static readonly TRACE_WITH_LOCKED_ASSOCIATIONS_ID = '4453f884-9081-43cb-95c6-d76c2bb59fd7'
   constructor (public page: Page) {
     super(page)
-  }
-
-  getAddTraceButton () {
-    return this.page.getByTestId('add-trace-button')
   }
 
   getAddTraceDrawerContent () {
@@ -48,11 +44,15 @@ class StudentToolsTracesPage extends BasePage {
   }
 
   getTracesActionsDropdown () {
-    return this.page.getByTestId('traces-actions-dropdown')
+    return this.page.getByTestId('manage-traces-dropdown')
   }
 
   getTracesActionsDropdownTrigger () {
     return this.getTracesActionsDropdown().getByRole('button')
+  }
+
+  getTracesActionsDropdownAddItem () {
+    return this.page.getByTestId('add')
   }
 
   getTracesActionsDropdownDeleteItem () {
@@ -99,11 +99,6 @@ class StudentToolsTracesPage extends BasePage {
     await waitForPageLoad(this.page)
   }
 
-  @Given('the student clicks the add trace button')
-  async clickAddTraceButton () {
-    await clickOnElement(this.getAddTraceButton())
-  }
-
   @Then('the add trace drawer content is visible')
   async verifyAddTraceDrawerDisplayed () {
     await this.getAddTraceDrawerContent().isVisible()
@@ -136,6 +131,11 @@ class StudentToolsTracesPage extends BasePage {
   @When('the student clicks on the traces actions dropdown trigger')
   async clickTracesActionsDropdownTrigger () {
     await clickOnElement(this.getTracesActionsDropdownTrigger())
+  }
+
+  @When('the student clicks the add trace button')
+  async clickAddTraceButton () {
+    await clickOnElement(this.getTracesActionsDropdownAddItem())
   }
 
   @When('the student clicks on the delete traces item')

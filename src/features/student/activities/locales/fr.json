@@ -103,9 +103,6 @@
           }
         },
         "ActivityView": {
-          "ActivityDetailedDropdown": {
-            "myActivity": "mon activité"
-          },
           "ActivityDetailedSideNavigation": {
             "myReflection": "Ma réflexion"
           },

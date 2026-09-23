@@ -1,6 +1,7 @@
 import { EActivityStatus } from '@/api/avenir-esr'
+import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
 import MoreActionsDropdown from '@/features/staff/activities/views/ActivitiesView/components/MoreActionsDropdown/MoreActionsDropdown.vue'
-import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -8,15 +9,15 @@ BddTest().given('a MoreActionsDropdown component', () => {
   let wrapper: VueWrapper<InstanceType<typeof MoreActionsDropdown>>
 
   const stubs = {
-    AvDropdown: AvDropdownStub
+    ManageEntityDropdown: ManageEntityDropdownStub
   }
 
   function getDropdown () {
-    return wrapper.findComponent(AvDropdownStub)
+    return wrapper.findComponent(ManageEntityDropdownStub)
   }
 
   function getDeleteButton () {
-    return getDropdown().find('[data-name="delete"]')
+    return getDropdown().find('[data-testid="delete"]')
   }
 
   beforeEach(() => {
@@ -35,37 +36,31 @@ BddTest().given('a MoreActionsDropdown component', () => {
       expect(getDropdown().exists()).toBe(true)
     })
 
-    BddTest().then('it should set the correct trigger aria label', () => {
-      expect(getDropdown().props('triggerAriaLabel')).toBe('Plus d\'actions')
+    BddTest().then('it should set the correct entity name', () => {
+      expect(getDropdown().props('entityName')).toBe('mon activité')
     })
 
-    BddTest().then('the delete item should not be disabled and the navigate to feedback, unpublish and clone items should be disabled', () => {
-      expect(getDropdown().props('items')).toEqual([
+    BddTest().then('the delete action should not be disabled and the navigate to feedback, unpublish and clone actions should be disabled', () => {
+      expect(getDropdown().props('actions')).toEqual([
         expect.objectContaining({
-          name: 'navigateToFeedbacks',
-          label: 'Accéder aux demandes de feedback',
+          type: 'navigateToFeedbacks',
           disabled: true,
           disabledTooltip: 'Les demandes de feedback sont uniquement disponibles pour une activité publiée'
         }),
         expect.objectContaining({
-          name: 'unpublish',
-          label: 'Dépublier',
+          type: 'unpublish',
           disabled: true,
           disabledTooltip: 'Vous pouvez uniquement dépublier une activité publiée'
         }),
         expect.objectContaining({
-          name: 'delete',
-          label: 'Supprimer',
+          type: 'delete',
           disabled: false
         }),
-        expect.objectContaining({
-          name: 'clone',
-          label: 'Dupliquer'
-        })
+        expect.stringContaining('clone')
       ])
     })
 
-    BddTest().and('the delete item is selected', () => {
+    BddTest().and('the delete action is selected', () => {
       beforeEach(async () => {
         await getDeleteButton().trigger('click')
       })
@@ -75,9 +70,9 @@ BddTest().given('a MoreActionsDropdown component', () => {
       })
     })
 
-    BddTest().and('an unknown item is selected', () => {
+    BddTest().and('an unknown action is selected', () => {
       beforeEach(async () => {
-        await getDropdown().vm.$emit('itemSelected', 'unknown')
+        await getDropdown().vm.$emit('actionSelected', 'unknown')
       })
 
       BddTest().then('it should not emit deleteSelected', () => {
@@ -94,30 +89,28 @@ BddTest().given('a MoreActionsDropdown component', () => {
       })
     })
 
-    BddTest().then('the delete item should be disabled and the navigate to feedback, unpublish and clone items should not be disabled', () => {
-      expect(getDropdown().props('items')).toEqual([
+    BddTest().then('the delete action should be disabled and the navigate to feedback, unpublish and clone actions should not be disabled', () => {
+      expect(getDropdown().props('actions')).toEqual([
         expect.objectContaining({
-          name: 'navigateToFeedbacks',
+          type: 'navigateToFeedbacks',
           disabled: false
         }),
         expect.objectContaining({
-          name: 'unpublish',
+          type: 'unpublish',
           disabled: false
         }),
         expect.objectContaining({
-          name: 'delete',
+          type: 'delete',
           disabled: true,
           disabledTooltip: 'Vous pouvez uniquement supprimer une activité en brouillon'
         }),
-        expect.objectContaining({
-          name: 'clone'
-        })
+        expect.stringContaining('clone')
       ])
     })
 
-    BddTest().and('the navigate to feedback item is selected', () => {
+    BddTest().and('the navigate to feedback action is selected', () => {
       beforeEach(async () => {
-        await getDropdown().vm.$emit('itemSelected', 'navigateToFeedbacks')
+        await getDropdown().vm.$emit('actionSelected', 'navigateToFeedbacks')
       })
 
       BddTest().then('it should emit navigateToFeedbacksSelected', () => {
@@ -125,9 +118,9 @@ BddTest().given('a MoreActionsDropdown component', () => {
       })
     })
 
-    BddTest().and('the unpublish item is selected', () => {
+    BddTest().and('the unpublish action is selected', () => {
       beforeEach(async () => {
-        await getDropdown().vm.$emit('itemSelected', 'unpublish')
+        await getDropdown().vm.$emit('actionSelected', 'unpublish')
       })
 
       BddTest().then('it should emit unpublishSelected', () => {
@@ -135,9 +128,9 @@ BddTest().given('a MoreActionsDropdown component', () => {
       })
     })
 
-    BddTest().and('the clone item is selected', () => {
+    BddTest().and('the clone action is selected', () => {
       beforeEach(async () => {
-        await getDropdown().vm.$emit('itemSelected', 'clone')
+        await getDropdown().vm.$emit('actionSelected', 'clone')
       })
 
       BddTest().then('it should emit cloneSelected', () => {

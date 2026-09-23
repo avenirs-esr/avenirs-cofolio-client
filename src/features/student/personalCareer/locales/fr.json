@@ -148,7 +148,7 @@
       "views": {
         "DeclaredExperienceView": {
           "DeclaredExperienceDetailsDropdown": {
-            "dropdown": "Gérer mon expérience",
+            "entityName": "mon expérience",
             "title": "Détail de mon expérience déclarée"
           },
           "errors": {
@@ -192,7 +192,7 @@
             }
           },
           "ManageDeclaredProgramDropdown": {
-            "trigger": "Gérer ma formation"
+            "entityName": "ma formation"
           },
           "tabs": {
             "details": {
@@ -215,8 +215,7 @@
           "ExperiencesSection": {
             "breadcrumb": "Mes expériences",
             "DeclaredExperiencesMoreActionsDropdown": {
-              "add": "Ajouter une expérience",
-              "delete": "Supprimer une expérience"
+              "entityName": "mes expériences"
             },
             "DeclaredExperiencesTab": {
               "emptyState": "Aucune expérience déclarée pour le moment. Cliquez sur le bouton \"Ajouter\" dans le menu Plus d'actions pour déclarer votre première expérience\u00A0!",
@@ -240,8 +239,7 @@
           "ProgramsSection": {
             "breadcrumb": "Mes formations",
             "DeclaredProgramsMoreActionsDropdown": {
-              "add": "Ajouter une formation",
-              "delete": "Supprimer une formation"
+              "entityName": "mes formations"
             },
             "DeclaredProgramsTab": {
               "emptyState": "Aucune formation déclarée pour le moment. Cliquez sur le bouton \"Ajouter\" dans le menu Plus d'actions pour déclarer votre première formation\u00A0!",

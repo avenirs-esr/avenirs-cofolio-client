@@ -383,6 +383,12 @@
       "description": "Are you sure you want to log out?",
       "title": "Log out"
     },
+    "ManageEntityDropdown": {
+      "entityNames": {
+        "activity": "my activity",
+        "element": "my element"
+      }
+    },
     "megabyteUnit": "MB",
     "modals": {
       "confirmation": {

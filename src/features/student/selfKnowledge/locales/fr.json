@@ -138,7 +138,6 @@
               "title": "Détail de mes {type}"
             }
           },
-          "dropdown": "Gérer mon élément",
           "errors": {
             "notFound": {
               "description": "La connaissance que vous recherchez n'existe pas ou n'est pas accessible.",

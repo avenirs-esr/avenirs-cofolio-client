@@ -6,6 +6,7 @@ export enum Action {
   DELETE = 'delete',
   DOWNLOAD = 'download',
   EXPAND = 'expand',
+  NAVIGATE_TO_FEEDBACKS = 'navigateToFeedbacks',
   PUBLISH = 'publish',
   RESUBSCRIBE = 'resubscribe',
   UNPUBLISH = 'unpublish',
