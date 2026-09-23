@@ -369,6 +369,26 @@ BddTest().given('the useCreateTraceForm composable', () => {
       })
     })
 
+    BddTest().and('declared programs are selected', () => {
+      beforeEach(() => {
+        submitForm(createFormDataWithSelections({
+          [EAssociationContextType.DECLARED_PROGRAM]: [{ id: 'program-1', title: 'Program 1' }]
+        }))
+      })
+
+      BddTest().then('it should associate the selected declared programs with the created trace', async () => {
+        await vi.waitFor(() => {
+          expect(associationRequests).toStrictEqual([{
+            contextType: EAssociationContextType.TRACE,
+            elementId: traceIdMatcher,
+            associatedContextType: EAssociationContextType.DECLARED_PROGRAM,
+            idsToAssociate: ['program-1']
+          }])
+        })
+        expect(mockOnTraceCreated).toHaveBeenCalledTimes(1)
+      })
+    })
+
     BddTest().and('both declared skills and activities are selected', () => {
       beforeEach(() => {
         submitForm(createFormDataWithSelections({
