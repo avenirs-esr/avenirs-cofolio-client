@@ -77,19 +77,6 @@ export function useUpdateDeclaredProgramForm (
   const form = useForm({
     defaultValues: toFormData(declaredProgramDetailed),
     validators: {
-      onSubmit ({ value }: { value: DeclaredProgramFormData }) {
-        return {
-          fields: {
-            title: validators.validateTitle(value.title),
-            description: validators.validateDescription(value.description),
-            organization: validators.validateOrganization(value.organization),
-            result: validators.validateResult(value.result),
-            sourceOfInformation: validators.validateSourceOfInformation(value.sourceOfInformation),
-            startDate: validators.validateStartDate(value.startDate),
-            endDate: validators.validateEndDate(value.endDate, value.startDate, { isRequired: !value.isOngoing }),
-          }
-        }
-      },
       onChange ({ value, formApi }: { value: DeclaredProgramFormData, formApi: DeclaredProgramFormApi }) {
         const isTouched = (field: keyof DeclaredProgramFormData) => formApi.getFieldMeta(field)?.isTouched ?? true
         const startDateError = validators.validateStartDate(value.startDate)
