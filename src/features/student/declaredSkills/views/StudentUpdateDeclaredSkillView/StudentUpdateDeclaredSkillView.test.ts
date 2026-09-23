@@ -136,7 +136,7 @@ BddTest().given('a student update declared skill view component', () => {
     BddTest().then('it should include all association types in the associations tab count', async () => {
       await vi.waitFor(() => {
         const tabs = wrapper.findAllComponents(AvTabStub)
-        expect(tabs[1].props('title')).toBe('Mes associations (5)')
+        expect(tabs[1].props('title')).toBe('Mes associations (7)')
       })
     })
   })

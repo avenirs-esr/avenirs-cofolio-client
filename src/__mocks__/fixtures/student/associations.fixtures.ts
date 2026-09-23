@@ -194,7 +194,13 @@ export const mockedDeclaredSkillAssociations: AssociationsDTO = {
   ...mockedEmptyAssociations,
   traceAssociations: createMockedTraceAssociations(2),
   declaredActivityAssociations: createMockedDeclaredActivityAssociations(1),
-  declaredExperienceAssociations: createMockedDeclaredExperienceAssociations(2)
+  declaredExperienceAssociations: createMockedDeclaredExperienceAssociations(2),
+  declaredProgramAssociations: createMockedDeclaredProgramAssociations(2)
+}
+
+export const mockedDeclaredProgramAssociations: AssociationsDTO = {
+  ...mockedEmptyAssociations,
+  declaredSkillAssociations: createMockedDeclaredSkillAssociations(3)
 }
 
 export function createMockedDeclaredExperienceAssociationsDTO (traces: TraceOverviewDTO[] = mockedTraceOverview): AssociationsDTO {
@@ -220,6 +226,8 @@ export function createMockedAssociations (contextType: EAssociationContextType):
       return mockedDeclaredSkillAssociations
     case EAssociationContextType.DECLARED_EXPERIENCE:
       return createMockedDeclaredExperienceAssociationsDTO()
+    case EAssociationContextType.DECLARED_PROGRAM:
+      return mockedDeclaredProgramAssociations
     default:
       return mockedEmptyAssociations
   }
