@@ -27,7 +27,7 @@ const { data: declaredProgramDetailed, isLoading, isError, error } = useGetDecla
 const { navigateToStudentUpdateDeclaredProgram, navigateToStudentDeclaredPrograms } = useNavigation()
 const { modalOpened, openModal, closeModal } = useModal()
 
-const { data: associations, error: associationsError } = useGetAssociations(
+const { data: associations, isLoading: areAssociationsLoading, error: associationsError } = useGetAssociations(
   EAssociationContextType.DECLARED_PROGRAM,
   selectedProgramId,
   undefined,
@@ -92,6 +92,7 @@ function handleConfirmDelete () {
             :element-id="declaredProgramDetailed.id"
             :associations="associations"
             :error="associationsError"
+            :is-loading="areAssociationsLoading"
           />
         </AvTab>
       </AvTabs>

@@ -1,4 +1,5 @@
 import { mockedDeclaredProgramAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
+import { getAssociationsLoadingHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import {
   declaredProgramDetailedHandler,
   declaredProgramDetailedLoadingHandler,
@@ -170,6 +171,7 @@ BddTest().given('a declared program detailed view component', () => {
         expect(elementAssociations.props('elementId')).toBe('declared-program-1')
         expect(elementAssociations.props('associations')).toEqual(mockedDeclaredProgramAssociations)
         expect(elementAssociations.props('error')).toBeNull()
+        expect(elementAssociations.props('isLoading')).toBe(false)
       })
 
       expect(wrapper.findComponent(AvTabStub).props('title')).toBe('Mes associations (3)')
@@ -257,6 +259,24 @@ BddTest().given('a declared program detailed view component', () => {
         const details = wrapper.findComponent({ name: 'DeclaredProgramDetailed' })
         expect(details.exists()).toBe(true)
         expect(details.props('declaredProgramDetailed').title).toBe('Formation déclarée 2')
+      })
+    })
+  })
+
+  BddTest().when('the associations are loading', () => {
+    beforeEach(async () => {
+      server.use(getAssociationsLoadingHandler)
+      await mountComponentWithDefaults()
+    })
+
+    BddTest().then('it should let the element associations render their loader instead of their empty state', async () => {
+      await activateAssociationsTab(wrapper)
+
+      await vi.waitFor(() => {
+        const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
+
+        expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('isLoading')).toBe(true)
       })
     })
   })

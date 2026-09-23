@@ -14,7 +14,7 @@ import {
   type PagedResponseAssociationSearchResultDTO
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
-import { type DefaultBodyType, http, HttpResponse, type HttpResponseResolver, type PathParams } from 'msw'
+import { type DefaultBodyType, delay, http, HttpResponse, type HttpResponseResolver, type PathParams } from 'msw'
 
 interface AssociationPathParams extends PathParams {
   contextType: EAssociationContextType
@@ -80,6 +80,10 @@ export const getAssociationsHandler = http.get<AssociationPathParams>(getAssocia
 })
 
 export const getAssociationsErrorHandler = http.get(getAssociationsUrl, serverErrorResponse)
+
+export const getAssociationsLoadingHandler = http.get(getAssociationsUrl, async () => {
+  await delay('infinite')
+})
 
 const resolveSearchForAssociation: HttpResponseResolver<AssociationPathParams, DefaultBodyType, undefined> = ({ params, request }) => {
   const { contextType, elementId, associatedContextType } = params
