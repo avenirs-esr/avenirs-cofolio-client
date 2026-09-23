@@ -38,11 +38,18 @@ const feedbacks = [
       firstName: 'Lucas',
       lastName: 'Tessier',
       email: 'lucas.tessier@test.fr',
-      program: {
-        id: 'program-1',
-        name: 'Licence Informatique',
-        type: EGroupType.PROGRAM,
-      },
+      programs: [
+        {
+          id: 'program-1',
+          name: 'Licence Informatique',
+          type: EGroupType.PROGRAM,
+        },
+        {
+          id: 'program-2',
+          name: 'Licence Mathématiques',
+          type: EGroupType.PROGRAM,
+        },
+      ],
     },
   },
   {
@@ -71,6 +78,20 @@ const feedbacksWithUndefinedFeedbackId = [
   },
 ] as StudentFeedbackItemListDTO[]
 
+const feedbacksWithEmptyPrograms = [
+  {
+    feedbackId: 'feedback-3',
+    status: EFeedbackStatus.NEW,
+    student: {
+      id: 'student-3',
+      firstName: 'Jane',
+      lastName: 'Doe',
+      email: 'jane.doe@test.fr',
+      programs: [],
+    },
+  },
+] as StudentFeedbackItemListDTO[]
+
 const expectedOptions: { id: string, feedbackId: string, label: string }[] = [
   {
     id: 'student-1',
@@ -91,6 +112,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
 
   const getPreviousButton = () => getAvButtonByTestId(wrapper, 'previous-student-button')
   const getNextButton = () => getAvButtonByTestId(wrapper, 'next-student-button')
+  const getDetails = () => wrapper.find('.activity-feedback-student-select__details')
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -123,8 +145,8 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       expect(select.props('options')).toEqual(expectedOptions)
     })
 
-    BddTest().then('it should display the selected student program and email', () => {
-      expect(wrapper.text()).toContain('Licence Informatique • lucas.tessier@test.fr')
+    BddTest().then('it should display the selected student programs and email', () => {
+      expect(getDetails().text()).toBe('Licence Informatique, Licence Mathématiques • lucas.tessier@test.fr')
     })
 
     BddTest().then('it should disable the previous button (first student in the list)', () => {
@@ -214,10 +236,24 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       })
     })
 
-    BddTest().then('it should display the email without the separator (no program)', () => {
-      const details = wrapper.find('.activity-feedback-student-select__details')
+    BddTest().then('it should display the email without the separator (no programs)', () => {
+      expect(getDetails().text()).toBe('john.doe@test.fr')
+    })
+  })
 
-      expect(details.text()).toBe('john.doe@test.fr')
+  BddTest().when('the selected student has an empty programs list', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(ActivityFeedbackStudentSelect, {
+        props: {
+          feedbacks: feedbacksWithEmptyPrograms,
+          selectedStudentId: 'student-3',
+        },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should display the email without the separator', () => {
+      expect(getDetails().text()).toBe('jane.doe@test.fr')
     })
   })
 
@@ -232,6 +268,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
     })
 
     BddTest().then('it should not display the student details', () => {
+      expect(getDetails().exists()).toBe(false)
       expect(wrapper.text()).not.toContain('lucas.tessier@test.fr')
       expect(wrapper.text()).not.toContain('Licence Informatique')
     })
@@ -254,6 +291,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
     })
 
     BddTest().then('it should not display any student details', () => {
+      expect(getDetails().exists()).toBe(false)
       expect(wrapper.text()).not.toContain('lucas.tessier@test.fr')
       expect(wrapper.text()).not.toContain('john.doe@test.fr')
     })

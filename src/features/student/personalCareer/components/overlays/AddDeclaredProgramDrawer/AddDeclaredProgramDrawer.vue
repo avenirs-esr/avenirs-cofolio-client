@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { EAssociationContextType } from '@/api/avenir-esr'
 import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
+import AssociationSelectionSection from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.vue'
 import DeclaredProgramDescriptionFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.vue'
 import DeclaredProgramOrganizationFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramOrganizationFormField/DeclaredProgramOrganizationFormField.vue'
 import DeclaredProgramPeriodFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramPeriodFormField/DeclaredProgramPeriodFormField.vue'
@@ -11,7 +13,7 @@ import DeclaredProgramTitleFormField from '@/features/student/personalCareer/com
 import { useAddDeclaredProgramForm } from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/use-add-declared-program-form/use-add-declared-program-form'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -27,6 +29,8 @@ const { form, isFormValid, isSubmitting, hasDefinitionItemsError } = useAddDecla
   form.reset()
   declaredProgramsStore.hideAddDeclaredProgramDrawer()
 })
+
+const associationSelectionsField = form.useField({ name: 'associationSelections' })
 
 const { modalOpened: confirmationModalOpened, openModal: openConfirmationModal, closeModal: closeConfirmationModal } = useModal()
 
@@ -48,9 +52,12 @@ async function handleCancel () {
   }
 }
 
-const activeAccordion = ref(0)
-
-const isDemo = __DEMO_MODE__
+enum AddDeclaredProgramDrawerAccordions {
+  NONE = -1,
+  PROGRAM_DETAILS = 0,
+  ADD_ASSOCIATIONS = 1
+}
+const activeAccordion = ref<AddDeclaredProgramDrawerAccordions>(AddDeclaredProgramDrawerAccordions.PROGRAM_DETAILS)
 </script>
 
 <template>
@@ -61,45 +68,51 @@ const isDemo = __DEMO_MODE__
     @escape-pressed="handleCancel"
   >
     <div class="av-col av-gap-lg h-full">
-      <span class="n5">
-        {{ t('student.personalCareer.overlays.AddDeclaredProgramDrawer.title') }}
-      </span>
+      <AvIconText
+        :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
+        :text="t('student.personalCareer.overlays.AddDeclaredProgramDrawer.title')"
+        typography-class="n5"
+        icon-color="var(--text2)"
+      />
 
       <div class="add-declared-program-drawer__content">
         <form
           novalidate
+          data-testid="add-declared-program-form"
           @submit.prevent.stop="form.handleSubmit"
         >
-          <AvAccordionsGroup v-model:active-accordion="activeAccordion">
+          <AvAccordionsGroup
+            :active-accordion="activeAccordion"
+            @update:active-accordion="(value) => activeAccordion = value ?? AddDeclaredProgramDrawerAccordions.NONE"
+          >
             <AvAccordion
               :title="t('student.personalCareer.overlays.AddDeclaredProgramDrawer.sections.addProgram')"
               :icon="MDI_ICONS.PENCIL_OUTLINE"
               :trigger-border-color="hasDefinitionItemsError ? 'var(--dark-background-error)' : undefined"
             >
               <div class="av-col av-gap-md">
-                <DeclaredProgramTitleFormField :form="form" />
-                <DeclaredProgramDescriptionFormField :form="form" />
-                <DeclaredProgramOrganizationFormField :form="form" />
-                <DeclaredProgramPeriodFormField :form="form" />
-                <DeclaredProgramResultFormField :form="form" />
-                <DeclaredProgramSourceOfInformationFormField :form="form" />
+                <DeclaredProgramTitleFormField :form />
+                <DeclaredProgramDescriptionFormField :form />
+                <DeclaredProgramOrganizationFormField :form />
+                <DeclaredProgramPeriodFormField :form />
+                <DeclaredProgramResultFormField :form />
+                <DeclaredProgramSourceOfInformationFormField :form />
               </div>
             </AvAccordion>
 
             <AvAccordion
-              v-if="!isDemo"
-              :title="t('student.personalCareer.overlays.AddDeclaredProgramDrawer.sections.specifyProgram')"
-              :icon="MDI_ICONS.INFORMATION_OUTLINE"
-            >
-              <div class="av-col av-gap-md" />
-            </AvAccordion>
-
-            <AvAccordion
-              v-if="!isDemo"
               :title="t('student.personalCareer.overlays.AddDeclaredProgramDrawer.sections.associateProgram')"
-              :icon="MDI_ICONS.ATTACH_FILE"
+              :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
+              data-testid="associate-accordion"
             >
-              <div class="av-col av-gap-md" />
+              <AssociationSelectionSection
+                :selections="associationSelectionsField.state.value.value"
+                :context-type="EAssociationContextType.DECLARED_PROGRAM"
+                :enabled="activeAccordion === AddDeclaredProgramDrawerAccordions.ADD_ASSOCIATIONS"
+                layout="vertical"
+                data-testid="associate-elements-section"
+                @update:selections="associationSelectionsField.api.handleChange"
+              />
             </AvAccordion>
           </AvAccordionsGroup>
         </form>

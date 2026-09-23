@@ -5,22 +5,27 @@ import {
   type PagedResponseDeclaredProgramViewDTO
 } from '@/api/avenir-esr'
 
-export const declaredProgramViewDTOFixture: DeclaredProgramDetailedDTO = {
+export const declaredProgramViewDTOFixture: DeclaredProgramViewDTO = {
   id: 'declared-program-123-456-789',
   status: EProgramStatus.NOT_STARTED,
   title: 'Master en Informatique',
   description: 'Formation approfondie en développement logiciel et intelligence artificielle',
   organization: 'Université Paris-Saclay',
   result: 'Mention Très Bien',
-  sourceOfInformation: 'Site web de l\'université',
   startDate: '2023-09',
   endDate: '2025-06',
   valorized: false,
+}
+
+export const declaredProgramDetailedDTOFixture: DeclaredProgramDetailedDTO = {
+  ...declaredProgramViewDTOFixture,
+  sourceOfInformation: 'Site web de l\'université',
+  startDate: '2023-09',
   createdAt: '2024-01-15T10:30:00Z',
   updatedAt: '2024-01-15T10:30:00Z'
 }
 
-function createMockedDeclaredPrograms (count: number, withoutStartDate = false): DeclaredProgramViewDTO[] {
+export function createMockedDeclaredPrograms (count: number, withoutStartDate = false): DeclaredProgramViewDTO[] {
   const programs: DeclaredProgramViewDTO[] = []
 
   for (let i = 1; i <= count; i++) {
@@ -50,7 +55,7 @@ export function searchDeclaredProgramsById (
   const program = mockedDeclaredPrograms.find(p => p.id === id)
 
   return {
-    ...declaredProgramViewDTOFixture,
+    ...declaredProgramDetailedDTOFixture,
     id,
     status: program?.status ?? EProgramStatus.NOT_STARTED,
     title: program?.title ?? '',

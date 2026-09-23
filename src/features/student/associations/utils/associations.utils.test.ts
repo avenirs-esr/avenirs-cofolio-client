@@ -1,3 +1,5 @@
+import type { ElementAssociation } from '@/features/student/associations/types/associations.types'
+import type { IdTitle } from '@/types'
 import {
   createMockedDeclaredActivityAssociations,
   createMockedDeclaredExperienceAssociations,
@@ -33,7 +35,11 @@ BddTest().given('isAssociable', () => {
   BddTest().then('it should allow the pairs supported by the API, both ways', () => {
     expect(isAssociable(EAssociationContextType.DECLARED_ACTIVITY, EAssociationContextType.TRACE)).toBe(true)
     expect(isAssociable(EAssociationContextType.TRACE, EAssociationContextType.DECLARED_ACTIVITY)).toBe(true)
+    expect(isAssociable(EAssociationContextType.DECLARED_ACTIVITY, EAssociationContextType.DECLARED_EXPERIENCE)).toBe(true)
     expect(isAssociable(EAssociationContextType.DECLARED_EXPERIENCE, EAssociationContextType.DECLARED_SKILL)).toBe(true)
+    expect(isAssociable(EAssociationContextType.DECLARED_PROGRAM, EAssociationContextType.TRACE)).toBe(true)
+    expect(isAssociable(EAssociationContextType.TRACE, EAssociationContextType.DECLARED_PROGRAM)).toBe(true)
+    expect(isAssociable(EAssociationContextType.DECLARED_PROGRAM, EAssociationContextType.DECLARED_EXPERIENCE)).toBe(true)
     expect(isAssociable(EAssociationContextType.DECLARED_PROGRAM, EAssociationContextType.DECLARED_SKILL)).toBe(true)
     expect(isAssociable(EAssociationContextType.DECLARED_SKILL, EAssociationContextType.DECLARED_PROGRAM)).toBe(true)
     expect(isAssociable(EAssociationContextType.TRACE, EAssociationContextType.DECLARED_PROGRAM)).toBe(true)
@@ -41,38 +47,48 @@ BddTest().given('isAssociable', () => {
   })
 
   BddTest().then('it should reject the pairs not supported by the API', () => {
-    expect(isAssociable(EAssociationContextType.DECLARED_ACTIVITY, EAssociationContextType.DECLARED_EXPERIENCE)).toBe(false)
-    expect(isAssociable(EAssociationContextType.TRACE, EAssociationContextType.TRACE)).toBe(false)
+    expect(isAssociable(EAssociationContextType.DECLARED_ACTIVITY, EAssociationContextType.DECLARED_PROGRAM)).toBe(false)
     expect(isAssociable(EAssociationContextType.DECLARED_PROGRAM, EAssociationContextType.DECLARED_ACTIVITY)).toBe(false)
+    expect(isAssociable(EAssociationContextType.TRACE, EAssociationContextType.TRACE)).toBe(false)
   })
 })
 
 BddTest().given('getAssociableContextTypes', () => {
   BddTest().then('it should return the associable context types in the enum order', () => {
-    expect(getAssociableContextTypes(EAssociationContextType.TRACE)).toEqual([
-      EAssociationContextType.DECLARED_ACTIVITY,
-      EAssociationContextType.DECLARED_SKILL,
-      EAssociationContextType.DECLARED_EXPERIENCE,
-      EAssociationContextType.DECLARED_PROGRAM
-    ])
-    expect(getAssociableContextTypes(EAssociationContextType.DECLARED_ACTIVITY)).toEqual([
-      EAssociationContextType.TRACE,
-      EAssociationContextType.DECLARED_SKILL
-    ])
-    expect(getAssociableContextTypes(EAssociationContextType.DECLARED_SKILL)).toEqual([
-      EAssociationContextType.TRACE,
-      EAssociationContextType.DECLARED_ACTIVITY,
-      EAssociationContextType.DECLARED_EXPERIENCE,
-      EAssociationContextType.DECLARED_PROGRAM
-    ])
-    expect(getAssociableContextTypes(EAssociationContextType.DECLARED_PROGRAM)).toEqual([
-      EAssociationContextType.TRACE,
-      EAssociationContextType.DECLARED_SKILL
-    ])
-    expect(getAssociableContextTypes(EAssociationContextType.DECLARED_EXPERIENCE)).toEqual([
-      EAssociationContextType.TRACE,
-      EAssociationContextType.DECLARED_SKILL
-    ])
+    const expectedAssociableContextTypes: Record<EAssociationContextType, EAssociationContextType[]> = {
+      [EAssociationContextType.TRACE]: [
+        EAssociationContextType.DECLARED_ACTIVITY,
+        EAssociationContextType.DECLARED_SKILL,
+        EAssociationContextType.DECLARED_EXPERIENCE,
+        EAssociationContextType.DECLARED_PROGRAM
+      ],
+      [EAssociationContextType.DECLARED_ACTIVITY]: [
+        EAssociationContextType.TRACE,
+        EAssociationContextType.DECLARED_SKILL,
+        EAssociationContextType.DECLARED_EXPERIENCE
+      ],
+      [EAssociationContextType.DECLARED_SKILL]: [
+        EAssociationContextType.TRACE,
+        EAssociationContextType.DECLARED_ACTIVITY,
+        EAssociationContextType.DECLARED_EXPERIENCE,
+        EAssociationContextType.DECLARED_PROGRAM
+      ],
+      [EAssociationContextType.DECLARED_EXPERIENCE]: [
+        EAssociationContextType.TRACE,
+        EAssociationContextType.DECLARED_ACTIVITY,
+        EAssociationContextType.DECLARED_SKILL,
+        EAssociationContextType.DECLARED_PROGRAM
+      ],
+      [EAssociationContextType.DECLARED_PROGRAM]: [
+        EAssociationContextType.TRACE,
+        EAssociationContextType.DECLARED_SKILL,
+        EAssociationContextType.DECLARED_EXPERIENCE
+      ]
+    }
+
+    Object.entries(expectedAssociableContextTypes).forEach(([contextType, expected]) => {
+      expect(getAssociableContextTypes(contextType as EAssociationContextType), contextType).toEqual(expected)
+    })
   })
 })
 
@@ -88,34 +104,44 @@ BddTest().given('canAssociateContextType', () => {
   })
 
   BddTest().when('the demo mode is enabled', () => {
-    BddTest().then('it should not allow the declared experiences', () => {
+    BddTest().then('it should only allow the context types available in demo', () => {
       vi.stubGlobal('__DEMO_MODE__', true)
 
-      expect(canAssociateContextType(EAssociationContextType.DECLARED_EXPERIENCE)).toBe(false)
-      expect(canAssociateContextType(EAssociationContextType.TRACE)).toBe(true)
+      const expectedAvailability: Record<EAssociationContextType, boolean> = {
+        [EAssociationContextType.TRACE]: true,
+        [EAssociationContextType.DECLARED_ACTIVITY]: true,
+        [EAssociationContextType.DECLARED_SKILL]: true,
+        [EAssociationContextType.DECLARED_EXPERIENCE]: false,
+        [EAssociationContextType.DECLARED_PROGRAM]: true
+      }
+
+      Object.entries(expectedAvailability).forEach(([contextType, expected]) => {
+        expect(canAssociateContextType(contextType as EAssociationContextType), contextType).toBe(expected)
+      })
     })
   })
 })
 
 BddTest().given('getElementAssociations', () => {
+  const toElementAssociation = (associationId: string, { id, title }: IdTitle): ElementAssociation => ({ associationId, id, title })
+
   BddTest().then('it should return the associations to the elements of the given context type', () => {
-    expect(getElementAssociations(associations, EAssociationContextType.TRACE)).toEqual(
-      associations.traceAssociations.map(({ associationId, trace }) => ({ associationId, id: trace.id, title: trace.title }))
-    )
-    expect(getElementAssociations(associations, EAssociationContextType.DECLARED_EXPERIENCE)).toEqual(
-      associations.declaredExperienceAssociations.map(({ associationId, declaredExperience }) => ({
-        associationId,
-        id: declaredExperience.id,
-        title: declaredExperience.title
-      }))
-    )
-    expect(getElementAssociations(associations, EAssociationContextType.DECLARED_PROGRAM)).toEqual(
-      associations.declaredProgramAssociations.map(({ associationId, declaredProgram }) => ({
-        associationId,
-        id: declaredProgram.id,
-        title: declaredProgram.title
-      }))
-    )
+    const expectedElementAssociations: Record<EAssociationContextType, ElementAssociation[]> = {
+      [EAssociationContextType.TRACE]: associations.traceAssociations
+        .map(({ associationId, trace }) => toElementAssociation(associationId, trace)),
+      [EAssociationContextType.DECLARED_ACTIVITY]: associations.declaredActivityAssociations
+        .map(({ associationId, declaredActivity }) => toElementAssociation(associationId, declaredActivity)),
+      [EAssociationContextType.DECLARED_SKILL]: associations.declaredSkillAssociations
+        .map(({ associationId, declaredSkill }) => toElementAssociation(associationId, declaredSkill)),
+      [EAssociationContextType.DECLARED_EXPERIENCE]: associations.declaredExperienceAssociations
+        .map(({ associationId, declaredExperience }) => toElementAssociation(associationId, declaredExperience)),
+      [EAssociationContextType.DECLARED_PROGRAM]: associations.declaredProgramAssociations
+        .map(({ associationId, declaredProgram }) => toElementAssociation(associationId, declaredProgram))
+    }
+
+    Object.entries(expectedElementAssociations).forEach(([contextType, expected]) => {
+      expect(getElementAssociations(associations, contextType as EAssociationContextType), contextType).toEqual(expected)
+    })
   })
 
   BddTest().then('it should return an empty list when the associations are not loaded', () => {
@@ -140,10 +166,17 @@ BddTest().given('countAssociations', () => {
 
 BddTest().given('countElementAssociations', () => {
   BddTest().then('it should only count the associations to the context types associable with the element', () => {
-    expect(countElementAssociations(EAssociationContextType.DECLARED_ACTIVITY, associations)).toBe(5)
-    expect(countElementAssociations(EAssociationContextType.DECLARED_EXPERIENCE, associations)).toBe(5)
-    expect(countElementAssociations(EAssociationContextType.DECLARED_PROGRAM, associations)).toBe(5)
-    expect(countElementAssociations(EAssociationContextType.TRACE, associations)).toBe(10)
+    const expectedCounts: Record<EAssociationContextType, number> = {
+      [EAssociationContextType.TRACE]: 10,
+      [EAssociationContextType.DECLARED_ACTIVITY]: 9,
+      [EAssociationContextType.DECLARED_SKILL]: 9,
+      [EAssociationContextType.DECLARED_EXPERIENCE]: 8,
+      [EAssociationContextType.DECLARED_PROGRAM]: 9
+    }
+
+    Object.entries(expectedCounts).forEach(([contextType, expectedCount]) => {
+      expect(countElementAssociations(contextType as EAssociationContextType, associations), contextType).toBe(expectedCount)
+    })
   })
 })
 
@@ -178,6 +211,7 @@ BddTest().given('getContextTypeSlug', () => {
   BddTest().then('it should return the kebab case slug of the context type', () => {
     expect(getContextTypeSlug(EAssociationContextType.TRACE)).toBe('trace')
     expect(getContextTypeSlug(EAssociationContextType.DECLARED_SKILL)).toBe('declared-skill')
+    expect(getContextTypeSlug(EAssociationContextType.DECLARED_PROGRAM)).toBe('declared-program')
   })
 
   BddTest().then('it should return the plural kebab case slug of the context type', () => {

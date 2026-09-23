@@ -9,19 +9,15 @@ import { countElementAssociations, ElementAssociations } from '@/features/studen
 import DeleteDeclaredProgramConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.vue'
 import DeclaredProgramDetailed from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
 import ManageDeclaredProgramDropdown from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/ManageDeclaredProgramDropdown/ManageDeclaredProgramDropdown.vue'
+import { DeclaredProgramDetailedViewTabs } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/DeclaredProgramDetailedView.types'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-
-enum DeclaredProgramDetailedViewTabs {
-  DETAILS = 0,
-  ASSOCIATIONS = 1
-}
 
 const { t } = useI18n()
 const route = useRoute()
-const selectedProgramId = computed(() => String(route.params.id ?? ''))
-
 const activeTab = ref(DeclaredProgramDetailedViewTabs.DETAILS)
+const selectedProgramId = computed(() => String(route.params.id ?? ''))
 
 const { data: declaredProgramDetailed, isLoading, isError, error } = useGetDeclaredProgram(selectedProgramId)
 const { navigateToStudentUpdateDeclaredProgram, navigateToStudentDeclaredPrograms } = useNavigation()
@@ -31,7 +27,12 @@ const { data: associations, isLoading: areAssociationsLoading, error: associatio
   EAssociationContextType.DECLARED_PROGRAM,
   selectedProgramId,
   undefined,
-  { query: { enabled: computed(() => !!selectedProgramId.value) } }
+  {
+    query: {
+      enabled: computed(() => !!selectedProgramId.value),
+      placeholderData: keepPreviousData
+    }
+  }
 )
 
 const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)

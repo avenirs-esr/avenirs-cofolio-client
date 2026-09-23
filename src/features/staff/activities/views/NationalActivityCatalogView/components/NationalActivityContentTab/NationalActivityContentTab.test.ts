@@ -43,6 +43,10 @@ BddTest().given('a national activity content tab', () => {
     files: [fileResource],
     links,
   }
+  const activityWithoutThematic: ActivityContentDTO = {
+    ...mockedActivityContent,
+    thematic: undefined,
+  }
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -106,8 +110,26 @@ BddTest().given('a national activity content tab', () => {
     })
 
     BddTest().then('it should not render the resources section when the activity has no resource', () => {
-      expect(wrapper.find('[data-testid="national-activity-content-tab-documents"]').exists()).toBe(false)
+      expect(wrapper.find('[data-testid="national-activity-content-tab-resources"]').exists()).toBe(false)
       expect(wrapper.findComponent(ActivityResourcesListStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the activity has no thematic', () => {
+    beforeEach(() => {
+      wrapper = mount(NationalActivityContentTab, {
+        props: { activity: activityWithoutThematic },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should not render the thematic badge', () => {
+      expect(wrapper.findComponent(ActivityThematicBadgeStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should still render the activity title', () => {
+      const title = wrapper.find('[data-testid="national-activity-content-tab-title"]')
+      expect(title.getComponent(AvIconTextStub).props('text')).toBe(mockedActivityContent.title)
     })
   })
 

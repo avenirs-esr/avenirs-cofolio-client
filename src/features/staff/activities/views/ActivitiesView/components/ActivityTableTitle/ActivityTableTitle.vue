@@ -44,7 +44,10 @@ const to = computed(() => ({
         </span>
       </RouterLink>
     </AvTooltip>
-    <ActivityThematicBadge :thematic="activity.thematic" />
+    <ActivityThematicBadge
+      v-if="activity.thematic"
+      :thematic="activity.thematic"
+    />
   </div>
 </template>
 

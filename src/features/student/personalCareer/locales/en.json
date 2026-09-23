@@ -126,8 +126,7 @@
           },
           "sections": {
             "addProgram": "Add my program",
-            "associateProgram": "Associate my program",
-            "specifyProgram": "Specify my program"
+            "associateProgram": "Associate my program"
           },
           "success": "Declared program added successfully",
           "title": "Add a declared program"
@@ -213,6 +212,11 @@
         "DeclaredProgramUpdateView": {
           "confirmationModal": {
             "description": "Any unsaved changes will be lost."
+          },
+          "tabs": {
+            "program": {
+              "title": "My declared program"
+            }
           },
           "updateForm": {
             "errors": {

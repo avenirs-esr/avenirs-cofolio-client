@@ -53,7 +53,8 @@ const selectedFeedback = computed(() =>
 
 const selectedStudentDetails = computed(() => {
   const student = selectedFeedback.value?.student
-  return [student?.program?.name, student?.email].filter(Boolean).join(' • ')
+  const programNames = student?.programs?.map(program => program.name).join(', ')
+  return [programNames, student?.email].filter(Boolean).join(' • ')
 })
 
 const prevOption = computed(() => {

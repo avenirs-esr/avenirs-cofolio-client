@@ -1,5 +1,5 @@
 import { createMockedDeclaredExperiences } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
-import { mockedDeclaredPrograms } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
+import { createMockedDeclaredPrograms } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
   type AssociationsDTO,
@@ -14,6 +14,7 @@ import {
   EDeclaredSkillLevel,
   EExperienceType,
   EExternalSkillType,
+  EProgramStatus,
   ETraceAuthorType,
   type PagedResponseAssociationSearchResultDTO,
   type SearchForAssociationParams,
@@ -104,7 +105,7 @@ export function createMockedDeclaredExperienceAssociations (count: number): Decl
 }
 
 export function createMockedDeclaredProgramAssociations (count: number): DeclaredProgramAssociationDTO[] {
-  return mockedDeclaredPrograms.slice(0, count).map((declaredProgram, index) => ({
+  return createMockedDeclaredPrograms(count).map((declaredProgram, index) => ({
     associationId: `declared-program-association-${index + 1}`,
     declaredProgram
   }))
@@ -182,7 +183,7 @@ export const mockedTraceAssociations: AssociationsDTO = {
   ...mockedEmptyAssociations,
   declaredActivityAssociations: mockedTraceDeclaredActivityAssociations,
   declaredSkillAssociations: mockedTraceDeclaredSkillAssociations,
-  declaredProgramAssociations: createMockedDeclaredProgramAssociations(1)
+  declaredProgramAssociations: createMockedDeclaredProgramAssociations(2)
 }
 
 export const mockedDeclaredActivityAssociations: AssociationsDTO = {
@@ -199,20 +200,22 @@ export const mockedDeclaredSkillAssociations: AssociationsDTO = {
   declaredProgramAssociations: createMockedDeclaredProgramAssociations(2)
 }
 
-export const mockedDeclaredProgramAssociations: AssociationsDTO = {
-  ...mockedEmptyAssociations,
-  traceAssociations: createMockedTraceAssociations(2),
-  declaredSkillAssociations: createMockedDeclaredSkillAssociations(3)
-}
-
 export function createMockedDeclaredExperienceAssociationsDTO (traces: TraceOverviewDTO[] = mockedTraceOverview): AssociationsDTO {
   return {
     ...mockedEmptyAssociations,
     traceAssociations: traces.map((trace, index) => ({
       associationId: `declared-experience-trace-association-${index + 1}`,
       trace
-    }))
+    })),
+    declaredProgramAssociations: createMockedDeclaredProgramAssociations(2)
   }
+}
+
+export const mockedDeclaredProgramAssociations: AssociationsDTO = {
+  ...mockedEmptyAssociations,
+  traceAssociations: createMockedTraceAssociations(2),
+  declaredSkillAssociations: createMockedDeclaredSkillAssociations(3),
+  declaredExperienceAssociations: createMockedDeclaredExperienceAssociations(2)
 }
 
 /**
@@ -254,9 +257,9 @@ export const mockedExperienceSearchResults: AssociationSearchResultDTO[] = [
 ]
 
 export const mockedProgramSearchResults: AssociationSearchResultDTO[] = [
-  { id: 'program-search-1', title: 'Master en Informatique', category: 'Université Paris-Saclay', disabled: false },
-  { id: 'program-search-2', title: 'Licence de Psychologie', category: 'Université Lumière Lyon 2', disabled: false },
-  { id: 'program-search-3', title: 'BUT Métiers du Multimédia et de l\'Internet', category: 'IUT de Bordeaux', disabled: true }
+  { id: 'program-search-1', title: 'Master en Informatique', category: EProgramStatus.NOT_STARTED, disabled: false },
+  { id: 'program-search-2', title: 'Licence de Psychologie', category: EProgramStatus.IN_PROGRESS, disabled: false },
+  { id: 'program-search-3', title: 'BUT Métiers du Multimédia et de l\'Internet', category: EProgramStatus.COMPLETED, disabled: true }
 ]
 
 /**

@@ -6,6 +6,7 @@
         "associatedElementType": {
           "DECLARED_ACTIVITY": "Activité",
           "DECLARED_EXPERIENCE": "Expérience",
+          "DECLARED_PROGRAM": "Formation",
           "DECLARED_SKILL": "Compétence",
           "TRACE": "Trace"
         },
@@ -229,7 +230,7 @@
         "DECLARED_ACTIVITY_START_DATE_BEFORE_SUBSCRIPTION": "La date de début ne peut pas être antérieure à la date d'inscription",
         "DECLARED_ACTIVITY_UNSUBSCRIBED": "Vous vous êtes désinscrit(e) de cette activité, vous ne pouvez plus la modifier",
         "DECLARED_EXPERIENCE_NOT_FOUND": "Expérience déclarée introuvable",
-        "DECLARED_PROGRAM_NOT_FOUND": "Programme déclaré introuvable",
+        "DECLARED_PROGRAM_NOT_FOUND": "Formation déclarée introuvable",
         "DECLARED_SKILL_NOT_AVAILABLE": "Compétence déclarée non disponible",
         "DECLARED_SKILL_NOT_FOUND": "Compétence déclarée introuvable",
         "DECLARED_SKILL_PROGRESS_NOT_FOUND": "Progression de compétence déclarée introuvable",
@@ -262,7 +263,7 @@
         "NOT_FOUND": "Ressource introuvable",
         "NOT_NULL": "Le champ ne peut pas être nul",
         "NOT_URL": "Le champ n'est pas une URL valide",
-        "PROGRAM_NOT_FOUND": "Programme introuvable",
+        "PROGRAM_NOT_FOUND": "Formation déclarée introuvable",
         "RATING_OUT_OF_BOUNCE": "La note est hors limites",
         "SELF_KNOWLEDGE_CATEGORY_IS_MANDATORY": "La catégorie de connaissance de soi est obligatoire",
         "SELF_KNOWLEDGE_CATEGORY_LIST_EMPTY": "La liste des catégories de connaissance de soi est vide",

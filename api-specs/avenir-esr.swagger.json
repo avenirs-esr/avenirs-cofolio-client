@@ -749,304 +749,6 @@
         }
       }
     },
-    "/me/associations/{contextType}/{associatedContextType}/search": {
-      "get": {
-        "tags": [
-          "association-controller"
-        ],
-        "operationId": "searchForAssociationWithNewElement",
-        "parameters": [
-          {
-            "name": "contextType",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/EAssociationContextType"
-            }
-          },
-          {
-            "name": "associatedContextType",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/EAssociationContextType"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "isAssociated",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/associations/{contextType}/{elementId}": {
-      "get": {
-        "tags": [
-          "association-controller"
-        ],
-        "operationId": "getAssociations",
-        "parameters": [
-          {
-            "name": "contextType",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/EAssociationContextType"
-            }
-          },
-          {
-            "name": "elementId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "onlyNotCompleted",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean",
-              "default": false
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/AssociationsDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "association-controller"
-        ],
-        "operationId": "unassociate",
-        "parameters": [
-          {
-            "name": "contextType",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/EAssociationContextType"
-            }
-          },
-          {
-            "name": "elementId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociationsDeleteRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/me/associations/{contextType}/{elementId}/{associatedContextType}": {
-      "post": {
-        "tags": [
-          "association-controller"
-        ],
-        "operationId": "associate",
-        "parameters": [
-          {
-            "name": "contextType",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/EAssociationContextType"
-            }
-          },
-          {
-            "name": "elementId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "associatedContextType",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/EAssociationContextType"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AssociationsCreationRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/AssociationsDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/associations/{contextType}/{elementId}/{associatedContextType}/search": {
-      "get": {
-        "tags": [
-          "association-controller"
-        ],
-        "operationId": "searchForAssociation",
-        "parameters": [
-          {
-            "name": "contextType",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/EAssociationContextType"
-            }
-          },
-          {
-            "name": "elementId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "associatedContextType",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/EAssociationContextType"
-            }
-          },
-          {
-            "name": "keyword",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "isAssociated",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/traces/view": {
       "post": {
         "tags": [
@@ -1528,6 +1230,76 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/me/associations/{contextType}/{elementId}/{associatedContextType}": {
+      "post": {
+        "tags": [
+          "association-controller"
+        ],
+        "operationId": "associate",
+        "parameters": [
+          {
+            "name": "contextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "elementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "associatedContextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociationsCreationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssociationsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/affiliations/refresh": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "refreshAffiliations",
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -2727,6 +2499,22 @@
                 "$ref": "#/components/schemas/EExperienceType"
               }
             }
+          },
+          {
+            "name": "sortField",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ESortField"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/ESortOrder"
+            }
           }
         ],
         "responses": {
@@ -2736,6 +2524,247 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PagedResponseDeclaredExperienceViewDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/associations/{contextType}/{elementId}": {
+      "get": {
+        "tags": [
+          "association-controller"
+        ],
+        "operationId": "getAssociations",
+        "parameters": [
+          {
+            "name": "contextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "elementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "onlyNotCompleted",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssociationsDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "association-controller"
+        ],
+        "operationId": "unassociate",
+        "parameters": [
+          {
+            "name": "contextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "elementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssociationsDeleteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/me/associations/{contextType}/{elementId}/{associatedContextType}/search": {
+      "get": {
+        "tags": [
+          "association-controller"
+        ],
+        "operationId": "searchForAssociation",
+        "parameters": [
+          {
+            "name": "contextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "elementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "associatedContextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "isAssociated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/associations/{contextType}/{associatedContextType}/search": {
+      "get": {
+        "tags": [
+          "association-controller"
+        ],
+        "operationId": "searchForAssociationWithNewElement",
+        "parameters": [
+          {
+            "name": "contextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "associatedContextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "isAssociated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseAssociationSearchResultDTO"
                 }
               }
             }
@@ -4052,6 +4081,122 @@
         }
       }
     },
+    "/back-office/external-users/{externalUserId}/affiliations": {
+      "get": {
+        "tags": [
+          "external-user-affiliation-controller"
+        ],
+        "operationId": "getAffiliations",
+        "parameters": [
+          {
+            "name": "externalUserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExternalUserAffiliationDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "external-user-affiliation-controller"
+        ],
+        "operationId": "addAffiliation",
+        "parameters": [
+          {
+            "name": "externalUserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddExternalUserAffiliationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalUserAffiliationDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/external-user-affiliations": {
+      "post": {
+        "tags": [
+          "external-user-affiliation-import-controller"
+        ],
+        "operationId": "createAll_3",
+        "parameters": [
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ExternalUserAffiliationData"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalUserAffiliationImportSummaryResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/back-office/config/website-content/setup/build-life-project": {
       "get": {
         "tags": [
@@ -4600,6 +4745,39 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/back-office/external-users/{externalUserId}/affiliations/{affiliationId}": {
+      "delete": {
+        "tags": [
+          "external-user-affiliation-controller"
+        ],
+        "operationId": "removeAffiliation",
+        "parameters": [
+          {
+            "name": "externalUserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "affiliationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -5471,247 +5649,6 @@
           "id"
         ]
       },
-      "AssociationsCreationRequest": {
-        "type": "object",
-        "properties": {
-          "idsToAssociate": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        },
-        "required": [
-          "idsToAssociate"
-        ]
-      },
-      "DeclaredActivityAssociationDTO": {
-        "type": "object",
-        "properties": {
-          "associationId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "declaredActivity": {
-            "$ref": "#/components/schemas/DeclaredActivityViewDTO"
-          }
-        },
-        "required": [
-          "associationId",
-          "declaredActivity"
-        ]
-      },
-      "DeclaredActivityViewDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "activityId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "thematic": {
-            "type": "string",
-            "$ref": "#/components/schemas/EActivityThematic",
-            "enum": [
-              "SELF_KNOWLEDGE",
-              "FUTURE_PLANS",
-              "PROGRAMS",
-              "EXPERIENCES",
-              "TRAJECTORIES",
-              "RESUMES",
-              "TRANSVERSAL",
-              "OTHER"
-            ]
-          },
-          "summary": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "optionalStartDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "optionalEndDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "status": {
-            "type": "string",
-            "$ref": "#/components/schemas/EDeclaredActivityStatus",
-            "enum": [
-              "SUBSCRIBED",
-              "IN_PROGRESS",
-              "SUBMITTED",
-              "COMPLETED",
-              "UNSUBSCRIBED"
-            ]
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "valorized": {
-            "type": "boolean"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "activityId",
-          "description",
-          "id",
-          "status",
-          "summary",
-          "thematic",
-          "title"
-        ]
-      },
-      "DeclaredExperienceAssociationDTO": {
-        "type": "object",
-        "properties": {
-          "associationId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "declaredExperience": {
-            "$ref": "#/components/schemas/DeclaredExperienceViewDTO"
-          }
-        },
-        "required": [
-          "associationId",
-          "declaredExperience"
-        ]
-      },
-      "DeclaredSkillAssociationDTO": {
-        "type": "object",
-        "properties": {
-          "associationId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "declaredSkill": {
-            "$ref": "#/components/schemas/DeclaredSkillProgressDTO"
-          }
-        },
-        "required": [
-          "associationId",
-          "declaredSkill"
-        ]
-      },
-      "DeclaredProgramAssociationDTO": {
-        "type": "object",
-        "properties": {
-          "associationId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "declaredProgram": {
-            "$ref": "#/components/schemas/DeclaredProgramViewDTO"
-          }
-        },
-        "required": [
-          "associationId",
-          "declaredProgram"
-        ]
-      },
-      "AssociationSearchResultDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "category": {
-            "type": "string"
-          },
-          "disabled": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "disabled",
-          "id",
-          "title"
-        ]
-      },
-      "AssociationsDTO": {
-        "type": "object",
-        "properties": {
-          "traceAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TraceAssociationDTO"
-            }
-          },
-          "declaredActivityAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeclaredActivityAssociationDTO"
-            }
-          },
-          "declaredSkillAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeclaredSkillAssociationDTO"
-            }
-          },
-          "declaredExperienceAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeclaredExperienceAssociationDTO"
-            }
-          },
-          "declaredProgramAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeclaredProgramAssociationDTO"
-            }
-          }
-        },
-        "required": [
-          "declaredActivityAssociations",
-          "declaredExperienceAssociations",
-          "declaredProgramAssociations",
-          "declaredSkillAssociations",
-          "traceAssociations"
-        ]
-      },
-      "PagedResponseAssociationSearchResultDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AssociationSearchResultDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
-        ]
-      },
       "TraceFilter": {
         "type": "object",
         "properties": {
@@ -5967,6 +5904,254 @@
           }
         }
       },
+      "DeclaredProgramViewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/EProgramStatus",
+            "enum": [
+              "NOT_STARTED",
+              "IN_PROGRESS",
+              "COMPLETED"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "organization": {
+            "type": "string"
+          },
+          "result": {
+            "type": "string"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "valorized": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "organization",
+          "status",
+          "title",
+          "valorized"
+        ]
+      },
+      "AssociationsCreationRequest": {
+        "type": "object",
+        "properties": {
+          "idsToAssociate": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        },
+        "required": [
+          "idsToAssociate"
+        ]
+      },
+      "AssociationsDTO": {
+        "type": "object",
+        "properties": {
+          "traceAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceAssociationDTO"
+            }
+          },
+          "declaredActivityAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredActivityAssociationDTO"
+            }
+          },
+          "declaredSkillAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredSkillAssociationDTO"
+            }
+          },
+          "declaredExperienceAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredExperienceAssociationDTO"
+            }
+          },
+          "declaredProgramAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredProgramAssociationDTO"
+            }
+          }
+        },
+        "required": [
+          "declaredActivityAssociations",
+          "declaredExperienceAssociations",
+          "declaredProgramAssociations",
+          "declaredSkillAssociations",
+          "traceAssociations"
+        ]
+      },
+      "DeclaredActivityAssociationDTO": {
+        "type": "object",
+        "properties": {
+          "associationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "declaredActivity": {
+            "$ref": "#/components/schemas/DeclaredActivityViewDTO"
+          }
+        },
+        "required": [
+          "associationId",
+          "declaredActivity"
+        ]
+      },
+      "DeclaredActivityViewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "activityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "thematic": {
+            "type": "string",
+            "$ref": "#/components/schemas/EActivityThematic",
+            "enum": [
+              "SELF_KNOWLEDGE",
+              "FUTURE_PLANS",
+              "PROGRAMS",
+              "EXPERIENCES",
+              "TRAJECTORIES",
+              "RESUMES",
+              "TRANSVERSAL",
+              "OTHER"
+            ]
+          },
+          "summary": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "optionalStartDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "optionalEndDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/EDeclaredActivityStatus",
+            "enum": [
+              "SUBSCRIBED",
+              "IN_PROGRESS",
+              "SUBMITTED",
+              "COMPLETED",
+              "UNSUBSCRIBED"
+            ]
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "valorized": {
+            "type": "boolean"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "activityId",
+          "description",
+          "id",
+          "status",
+          "summary",
+          "thematic",
+          "title"
+        ]
+      },
+      "DeclaredExperienceAssociationDTO": {
+        "type": "object",
+        "properties": {
+          "associationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "declaredExperience": {
+            "$ref": "#/components/schemas/DeclaredExperienceViewDTO"
+          }
+        },
+        "required": [
+          "associationId",
+          "declaredExperience"
+        ]
+      },
+      "DeclaredProgramAssociationDTO": {
+        "type": "object",
+        "properties": {
+          "associationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "declaredProgram": {
+            "$ref": "#/components/schemas/DeclaredProgramViewDTO"
+          }
+        },
+        "required": [
+          "associationId",
+          "declaredProgram"
+        ]
+      },
+      "DeclaredSkillAssociationDTO": {
+        "type": "object",
+        "properties": {
+          "associationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "declaredSkill": {
+            "$ref": "#/components/schemas/DeclaredSkillProgressDTO"
+          }
+        },
+        "required": [
+          "associationId",
+          "declaredSkill"
+        ]
+      },
       "TraceAssociationDTO": {
         "type": "object",
         "properties": {
@@ -6020,54 +6205,6 @@
           "id",
           "title",
           "updatedAt"
-        ]
-      },
-      "DeclaredProgramViewDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "status": {
-            "type": "string",
-            "$ref": "#/components/schemas/EProgramStatus",
-            "enum": [
-              "NOT_STARTED",
-              "IN_PROGRESS",
-              "COMPLETED"
-            ]
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "organization": {
-            "type": "string"
-          },
-          "result": {
-            "type": "string"
-          },
-          "startDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "endDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "valorized": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "id",
-          "organization",
-          "status",
-          "title",
-          "valorized"
         ]
       },
       "DeclaredActivityPeriodDTO": {
@@ -6189,7 +6326,6 @@
           "feedbackAllowedIterations",
           "id",
           "summary",
-          "thematic",
           "title",
           "traceAllowedAssociations",
           "updatedAt"
@@ -6851,6 +6987,47 @@
           "page"
         ]
       },
+      "AssociationSearchResultDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "disabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "disabled",
+          "id",
+          "title"
+        ]
+      },
+      "PagedResponseAssociationSearchResultDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssociationSearchResultDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
       "PagedResponseDeclaredActivityViewDTO": {
         "type": "object",
         "properties": {
@@ -7110,8 +7287,11 @@
           "email": {
             "type": "string"
           },
-          "program": {
-            "$ref": "#/components/schemas/GroupDTO"
+          "programs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupDTO"
+            }
           }
         },
         "required": [
@@ -7420,7 +7600,6 @@
           "activityId",
           "activityStatus",
           "author",
-          "thematic",
           "title",
           "updatedAt"
         ]
@@ -7573,6 +7752,7 @@
           "USER_NOT_FOUND",
           "EXTERNAL_USER_NOT_FOUND",
           "EXTERNAL_USER_REMOVED",
+          "EXTERNAL_USER_AFFILIATION_NOT_FOUND",
           "USER_CATEGORY_NOT_FOUND",
           "PROGRAM_NOT_FOUND",
           "TRAINING_PATH_NOT_FOUND",
@@ -7662,6 +7842,22 @@
           "INVALID_DATE_FORMAT",
           "ACTIVITY_DATES",
           "DECLARED_ACTIVITY_START_DATE_BEFORE_SUBSCRIPTION"
+        ]
+      },
+      "ESortOrder": {
+        "type": "string",
+        "description": "Enum for sort orders",
+        "enum": [
+          "ASC",
+          "DESC"
+        ]
+      },
+      "ESortField": {
+        "type": "string",
+        "description": "Enum for sort fields",
+        "enum": [
+          "NAME",
+          "DATE"
         ]
       },
       "EActivityThematic": {
@@ -7870,14 +8066,6 @@
               "BACK_OFFICE"
             ]
           },
-          "institutionId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "groupId": {
-            "type": "string",
-            "format": "uuid"
-          },
           "status": {
             "type": "string",
             "enum": [
@@ -7921,13 +8109,19 @@
           "source": {
             "type": "string"
           },
-          "institutionId": {
-            "type": "string",
-            "format": "uuid"
+          "institutionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
           },
-          "groupId": {
-            "type": "string",
-            "format": "uuid"
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
           },
           "status": {
             "type": "string",
@@ -8137,6 +8331,110 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ExternalUserImportFailureResponse"
+            }
+          }
+        }
+      },
+      "AddExternalUserAffiliationRequest": {
+        "type": "object",
+        "properties": {
+          "institutionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "ExternalUserAffiliationDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "externalUserId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "institutionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "groupId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ExternalUserAffiliationData": {
+        "type": "object",
+        "properties": {
+          "eppn": {
+            "type": "string"
+          },
+          "institutionHai": {
+            "type": "string"
+          },
+          "groupIdSiSco": {
+            "type": "string"
+          }
+        }
+      },
+      "ExternalUserAffiliationImportFailureResponse": {
+        "type": "object",
+        "properties": {
+          "eppn": {
+            "type": "string"
+          },
+          "institutionHai": {
+            "type": "string"
+          },
+          "groupIdSiSco": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ExternalUserAffiliationImportSummaryResponse": {
+        "type": "object",
+        "properties": {
+          "createdCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "existingCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "failedCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "created": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExternalUserAffiliationDTO"
+            }
+          },
+          "existing": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExternalUserAffiliationDTO"
+            }
+          },
+          "failed": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExternalUserAffiliationImportFailureResponse"
             }
           }
         }

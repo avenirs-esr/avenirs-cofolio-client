@@ -110,14 +110,15 @@ BddTest().given('an element associations component', () => {
       expect(wrapper.find('[data-testid="declared-activity-associations"]').exists()).toBe(true)
     })
 
-    BddTest().then('it should render the delete dropdown with an enabled item per associated context type', () => {
+    BddTest().then('it should render the delete dropdown with an item per associated context type, disabled without associations', () => {
       const dropdown = getDropdown('delete')!
 
       expect(dropdown.attributes('data-testid')).toBe('delete-declared-activity-associated-elements-dropdown')
       expect(dropdown.props('disabled')).toBe(false)
       expect(dropdown.props('items')).toEqual([
         unassociateItem(EAssociationContextType.TRACE, false),
-        unassociateItem(EAssociationContextType.DECLARED_SKILL, false)
+        unassociateItem(EAssociationContextType.DECLARED_SKILL, false),
+        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true)
       ])
     })
 
@@ -128,7 +129,8 @@ BddTest().given('an element associations component', () => {
       expect(dropdown.props('disabled')).toBe(false)
       expect(dropdown.props('items')).toEqual([
         { type: EAssociationContextType.TRACE, disabled: false },
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: false }
+        { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
+        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false }
       ])
     })
 
@@ -151,10 +153,11 @@ BddTest().given('an element associations component', () => {
     BddTest().then('it should render an enabled associated elements card per associated context type', () => {
       const cards = getCards()
 
-      expect(cards).toHaveLength(2)
+      expect(cards).toHaveLength(3)
       expect(cards.map(card => card.props('associatedContextType'))).toEqual([
         EAssociationContextType.TRACE,
-        EAssociationContextType.DECLARED_SKILL
+        EAssociationContextType.DECLARED_SKILL,
+        EAssociationContextType.DECLARED_EXPERIENCE
       ])
       cards.forEach((card) => {
         expect(card.props('associations')).toEqual(mockedDeclaredActivityAssociations)
@@ -288,20 +291,22 @@ BddTest().given('an element associations component', () => {
     BddTest().then('it should disable the associate items of the limited context types', () => {
       expect(getDropdown('associate')!.props('items')).toEqual([
         { type: EAssociationContextType.TRACE, disabled: true },
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: true }
+        { type: EAssociationContextType.DECLARED_SKILL, disabled: true },
+        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false }
       ])
     })
 
-    BddTest().then('it should only disable the delete item of the context type whose limit is 0', () => {
+    BddTest().then('it should disable the delete items of the context types whose limit is 0 or without associations', () => {
       expect(getDropdown('delete')!.props('disabled')).toBe(false)
       expect(getDropdown('delete')!.props('items')).toEqual([
         unassociateItem(EAssociationContextType.TRACE, false),
-        unassociateItem(EAssociationContextType.DECLARED_SKILL, true)
+        unassociateItem(EAssociationContextType.DECLARED_SKILL, true),
+        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true)
       ])
     })
 
     BddTest().then('it should pass the limit of each context type to its card', () => {
-      expect(getCards().map(card => card.props('limit'))).toEqual([6, 0])
+      expect(getCards().map(card => card.props('limit'))).toEqual([6, 0, undefined])
     })
   })
 
@@ -319,12 +324,13 @@ BddTest().given('an element associations component', () => {
     BddTest().then('it should enable every associate item', () => {
       expect(getDropdown('associate')!.props('items')).toEqual([
         { type: EAssociationContextType.TRACE, disabled: false },
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: false }
+        { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
+        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false }
       ])
     })
 
     BddTest().then('it should pass the limit of each context type to its card', () => {
-      expect(getCards().map(card => card.props('limit'))).toEqual([7, -1])
+      expect(getCards().map(card => card.props('limit'))).toEqual([7, -1, undefined])
     })
   })
 
@@ -357,7 +363,7 @@ BddTest().given('an element associations component', () => {
     })
 
     BddTest().then('it should render disabled associated elements cards', () => {
-      expect(getCards()).toHaveLength(2)
+      expect(getCards()).toHaveLength(3)
       getCards().forEach(card => expect(card.props('disabled')).toBe(true))
     })
 
@@ -423,7 +429,8 @@ BddTest().given('an element associations component', () => {
       expect(getDropdown('delete')!.props('disabled')).toBe(true)
       expect(getDropdown('delete')!.props('items')).toEqual([
         unassociateItem(EAssociationContextType.TRACE, true),
-        unassociateItem(EAssociationContextType.DECLARED_SKILL, true)
+        unassociateItem(EAssociationContextType.DECLARED_SKILL, true),
+        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true)
       ])
     })
 
@@ -594,24 +601,31 @@ BddTest().given('an element associations component', () => {
       expect(getDropdown('delete')!.attributes('data-testid')).toBe('delete-declared-program-associated-elements-dropdown')
     })
 
-    BddTest().then('it should propose to associate the traces and the declared skills', () => {
+    BddTest().then('it should propose to associate every context type associable with a declared program', () => {
       expect(getDropdown('associate')!.props('items')).toEqual([
         { type: EAssociationContextType.TRACE, disabled: false },
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: false }
-      ])
-      expect(getDropdown('delete')!.props('items')).toEqual([
-        unassociateItem(EAssociationContextType.TRACE, false),
-        unassociateItem(EAssociationContextType.DECLARED_SKILL, false)
+        { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
+        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false }
       ])
     })
 
-    BddTest().then('it should render a card per associated context type', () => {
-      expect(getCards()).toHaveLength(2)
-      expect(getCards().map(card => card.props('associatedContextType'))).toEqual([
-        EAssociationContextType.TRACE,
-        EAssociationContextType.DECLARED_SKILL
+    BddTest().then('it should enable every delete item since the declared program has associations of every context type', () => {
+      expect(getDropdown('delete')!.props('items')).toEqual([
+        unassociateItem(EAssociationContextType.TRACE, false),
+        unassociateItem(EAssociationContextType.DECLARED_SKILL, false),
+        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, false)
       ])
-      expect(getCards()[0].props('associations')).toEqual(mockedDeclaredProgramAssociations)
+    })
+
+    BddTest().then('it should render a card per context type associable with a declared program', () => {
+      const cards = getCards()
+
+      expect(cards.map(card => card.props('associatedContextType'))).toEqual([
+        EAssociationContextType.TRACE,
+        EAssociationContextType.DECLARED_SKILL,
+        EAssociationContextType.DECLARED_EXPERIENCE
+      ])
+      cards.forEach(card => expect(card.props('associations')).toEqual(mockedDeclaredProgramAssociations))
     })
 
     BddTest().and('the user chooses to associate traces', () => {

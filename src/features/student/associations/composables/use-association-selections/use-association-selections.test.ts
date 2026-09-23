@@ -38,10 +38,6 @@ const mockInvalidateAssociationQueries = vi.mocked(invalidateAssociationQueries)
 
 const GENERIC_ERROR_TITLE = 'Une erreur est survenue. Veuillez réessayer ultérieurement.'
 const SERVER_ERROR_DESCRIPTION = 'Erreur serveur interne'
-
-/**
- * A declared experience can be associated with traces and declared skills, but not with declared activities.
- */
 const CONTEXT_TYPE = EAssociationContextType.DECLARED_EXPERIENCE
 const ELEMENT_ID = 'experience-1'
 
@@ -121,7 +117,8 @@ BddTest().given('the useAssociationSelections composable', () => {
         [EAssociationContextType.DECLARED_ACTIVITY]: activities,
         [EAssociationContextType.DECLARED_EXPERIENCE]: [{ id: 'experience-2', title: 'Expérience 2' }]
       })).toEqual({
-        [EAssociationContextType.TRACE]: ['trace-1', 'trace-2']
+        [EAssociationContextType.TRACE]: ['trace-1', 'trace-2'],
+        [EAssociationContextType.DECLARED_ACTIVITY]: ['activity-1']
       })
     })
 
@@ -144,7 +141,7 @@ BddTest().given('the useAssociationSelections composable', () => {
     })
 
     BddTest().then('it should send one association request per associable context type with a selection', () => {
-      expect(getAssociateRequests()).toHaveLength(2)
+      expect(getAssociateRequests()).toHaveLength(3)
       expect(getAssociateRequests()).toEqual(expect.arrayContaining([
         {
           contextType: CONTEXT_TYPE,
@@ -157,6 +154,12 @@ BddTest().given('the useAssociationSelections composable', () => {
           elementId: ELEMENT_ID,
           associatedContextType: EAssociationContextType.DECLARED_SKILL,
           idsToAssociate: ['skill-1']
+        },
+        {
+          contextType: CONTEXT_TYPE,
+          elementId: ELEMENT_ID,
+          associatedContextType: EAssociationContextType.DECLARED_ACTIVITY,
+          idsToAssociate: ['activity-1']
         }
       ]))
     })
@@ -166,6 +169,7 @@ BddTest().given('the useAssociationSelections composable', () => {
 
       expect(results).toEqual([
         { status: 'fulfilled', value: associations },
+        { status: 'fulfilled', value: associations },
         { status: 'fulfilled', value: associations }
       ])
     })
@@ -174,7 +178,12 @@ BddTest().given('the useAssociationSelections composable', () => {
       expect(mockInvalidateAssociationQueries).toHaveBeenCalledOnce()
       expect(mockInvalidateAssociationQueries).toHaveBeenCalledWith(
         expect.any(QueryClient),
-        [CONTEXT_TYPE, EAssociationContextType.TRACE, EAssociationContextType.DECLARED_SKILL]
+        [
+          CONTEXT_TYPE,
+          EAssociationContextType.TRACE,
+          EAssociationContextType.DECLARED_SKILL,
+          EAssociationContextType.DECLARED_ACTIVITY
+        ]
       )
     })
 
@@ -193,7 +202,7 @@ BddTest().given('the useAssociationSelections composable', () => {
       ['empty selections', {}],
       ['only empty or non associable selections', {
         [EAssociationContextType.TRACE]: [],
-        [EAssociationContextType.DECLARED_ACTIVITY]: activities
+        [EAssociationContextType.DECLARED_EXPERIENCE]: [{ id: 'experience-2', title: 'Expérience 2' }]
       }]
     ]
 
