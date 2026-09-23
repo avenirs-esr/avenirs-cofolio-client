@@ -47,6 +47,7 @@
           "associateSuccess": "You have associated {count} program. Find it in the \"My associated programs\" category. | You have associated {count} programs. Find them in the \"My associated programs\" category.",
           "associateTitle": "Which declared program(s) would you like to associate?",
           "cancelConfirmation": "Are you sure you want to abandon the program association?",
+          "confirmButtonDisabledTooltip": "Select at least one program to associate",
           "dropdownLabel": "one/many program(s)",
           "emptyAssociations": "No associations for this declared program",
           "fetchAssociationsError": "An error occurred while retrieving the associations for the declared program.",

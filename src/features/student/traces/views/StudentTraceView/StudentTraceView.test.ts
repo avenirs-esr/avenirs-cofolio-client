@@ -91,6 +91,7 @@ BddTest().given('a student trace view', () => {
   const associationsCount = mockedTraceAssociations.declaredActivityAssociations.length
     + mockedTraceAssociations.declaredSkillAssociations.length
     + mockedTraceAssociations.declaredExperienceAssociations.length
+    + mockedTraceAssociations.declaredProgramAssociations.length
 
   async function selectAssociationsTab () {
     const tabs = wrapper.findComponent({ name: 'AvTabs' })

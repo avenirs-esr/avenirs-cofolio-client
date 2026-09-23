@@ -106,7 +106,7 @@ BddTest().given('an update tab', () => {
       const tabs = wrapper.findAllComponents({ name: 'AvTab' })
 
       expect(tabs[0].props('title')).toBe('Ma trace')
-      expect(tabs[1].props('title')).toBe('Mes éléments associés (5)')
+      expect(tabs[1].props('title')).toBe('Mes éléments associés (6)')
     })
   })
 
@@ -123,7 +123,7 @@ BddTest().given('an update tab', () => {
 
     BddTest().then('it should include declared experience associations in the associations tab count', () => {
       const tabs = wrapper.findAllComponents({ name: 'AvTab' })
-      expect(tabs[1].props('title')).toBe('Mes éléments associés (7)')
+      expect(tabs[1].props('title')).toBe('Mes éléments associés (8)')
     })
   })
 

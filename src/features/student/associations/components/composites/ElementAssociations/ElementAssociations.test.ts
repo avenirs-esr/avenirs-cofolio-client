@@ -529,8 +529,15 @@ BddTest().given('an element associations component', () => {
         unassociateItem(EAssociationContextType.DECLARED_ACTIVITY, false),
         unassociateItem(EAssociationContextType.DECLARED_SKILL, false),
         unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true),
-        unassociateItem(EAssociationContextType.DECLARED_PROGRAM, true)
+        unassociateItem(EAssociationContextType.DECLARED_PROGRAM, false)
       ])
+    })
+
+    BddTest().then('it should render a card for the associated declared programs', () => {
+      const card = getCards().find(card => card.props('associatedContextType') === EAssociationContextType.DECLARED_PROGRAM)
+
+      expect(card).toBeDefined()
+      expect(card!.props('associations')).toEqual(mockedTraceAssociations)
     })
 
     BddTest().and('the user chooses to associate declared experiences', () => {
@@ -542,6 +549,34 @@ BddTest().given('an element associations component', () => {
         const modal = getAssociateModal(EAssociationContextType.DECLARED_EXPERIENCE)
 
         expect(getOpenedModals()).toEqual([{ modal: 'associate', associatedContextType: EAssociationContextType.DECLARED_EXPERIENCE }])
+        expect(modal.props('contextType')).toBe(EAssociationContextType.TRACE)
+        expect(modal.props('elementId')).toBe('trace-1')
+      })
+    })
+
+    BddTest().and('the user chooses to associate declared programs', () => {
+      beforeEach(async () => {
+        await selectDropdownItem('associate', EAssociationContextType.DECLARED_PROGRAM)
+      })
+
+      BddTest().then('it should only open the associate declared programs modal', () => {
+        const modal = getAssociateModal(EAssociationContextType.DECLARED_PROGRAM)
+
+        expect(getOpenedModals()).toEqual([{ modal: 'associate', associatedContextType: EAssociationContextType.DECLARED_PROGRAM }])
+        expect(modal.props('contextType')).toBe(EAssociationContextType.TRACE)
+        expect(modal.props('elementId')).toBe('trace-1')
+      })
+    })
+
+    BddTest().and('the user chooses to delete declared program associations', () => {
+      beforeEach(async () => {
+        await selectDropdownItem('delete', EAssociationContextType.DECLARED_PROGRAM)
+      })
+
+      BddTest().then('it should only open the delete declared program associations modal', () => {
+        const modal = getDeleteModal(EAssociationContextType.DECLARED_PROGRAM)
+
+        expect(getOpenedModals()).toEqual([{ modal: 'delete', associatedContextType: EAssociationContextType.DECLARED_PROGRAM }])
         expect(modal.props('contextType')).toBe(EAssociationContextType.TRACE)
         expect(modal.props('elementId')).toBe('trace-1')
       })
