@@ -68,6 +68,7 @@ function onClose () {
   <ConfirmationModal
     :opened="opened"
     :confirm-button-disabled="!isFormValid"
+    :confirm-button-disabled-tooltip="t('global.information.invalidForm')"
     :is-loading="isPending"
     data-testid="activity-duplication-modal"
     @close="onClose"

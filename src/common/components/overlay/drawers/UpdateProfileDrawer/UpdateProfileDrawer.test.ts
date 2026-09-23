@@ -1,4 +1,3 @@
-import type { VueWrapper } from '@vue/test-utils'
 import type { SetupContext } from 'vue'
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import { EFileType, type EUserCategory, type FileDTO, type ProfileOverviewDTO } from '@/api/avenir-esr'
@@ -8,7 +7,16 @@ import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/Con
 import { ImageUploadStub } from '@/common/components/ImageUpload/ImageUpload.stub'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
-import { AvAccordionsGroupStub, AvAccordionStub, AvButtonStub, AvDrawerStub, AvIconTextStub, AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import {
+  AvAccordionsGroupStub,
+  AvAccordionStub,
+  AvCancelConfirmButtonsStub,
+  AvDrawerStub,
+  AvIconTextStub,
+  AvInputStub,
+  BddTest
+} from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
@@ -54,13 +62,15 @@ vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guar
   }
 })
 
+const INVALID_FORM_TOOLTIP = 'Le formulaire n\'est pas valide'
+
 BddTest().given('given an update profile drawer', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdateProfileDrawer>>
 
   const stubs = {
     AvAccordion: AvAccordionStub,
     AvAccordionsGroup: AvAccordionsGroupStub,
-    AvButton: AvButtonStub,
+    AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
     AvDrawer: AvDrawerStub,
     AvInput: AvInputStub,
     AvIconText: AvIconTextStub,
@@ -226,25 +236,22 @@ BddTest().given('given an update profile drawer', () => {
 
   const mockedUseUpdateProfileForm: MockedFunction<typeof useUpdateProfileForm> = vi.mocked(useUpdateProfileForm)
 
-  function getAvButtons () {
-    return wrapper.findAllComponents(AvButtonStub)
-  }
+  const mockUpdateProfileForm = (overrides?: Partial<ReturnType<typeof useUpdateProfileForm>>) =>
+    mockedUseUpdateProfileForm.mockImplementation(() => createUseUpdateProfileFormMock(overrides))
 
-  function getAvInputs () {
-    return wrapper.findAllComponents(AvInputStub)
-  }
+  const mountDrawer = (props: Partial<typeof defaultProps> = {}) => mountComponent(UpdateProfileDrawer, {
+    props: { ...defaultProps, ...props },
+    global: { stubs }
+  })
 
-  function getAvDrawer () {
-    return wrapper.findComponent(AvDrawerStub)
-  }
-
-  function getConfirmationModal () {
-    return wrapper.findComponent(ConfirmationModalStub)
-  }
-
-  function getImageUploads () {
-    return wrapper.findAllComponents(ImageUploadStub)
-  }
+  const getAccordionsGroup = () => wrapper.findComponent(AvAccordionsGroupStub)
+  const getAvInputs = () => wrapper.findAllComponents(AvInputStub)
+  const getAvDrawer = () => wrapper.findComponent(AvDrawerStub)
+  const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
+  const getCancelButton = () => getCancelConfirmButtons().find('button.cancel')
+  const getConfirmationModal = () => wrapper.findComponent(ConfirmationModalStub)
+  const getImageUploads = () => wrapper.findAllComponents(ImageUploadStub)
+  const getProfileForm = () => wrapper.find('form#profile-form')
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -254,21 +261,14 @@ BddTest().given('given an update profile drawer', () => {
       path: '/student/home'
     } as RouteLocationNormalizedLoadedGeneric)
 
-    mockedUseUpdateProfileForm.mockImplementation(() => createUseUpdateProfileFormMock())
-
-    wrapper = mountComponent(UpdateProfileDrawer, {
-      props: defaultProps,
-      global: {
-        stubs
-      }
-    })
+    mockUpdateProfileForm()
+    wrapper = mountDrawer()
   })
 
   BddTest().and('initially shown', () => {
     BddTest().when('the component is mounted', () => {
       BddTest().then('it should render the accordion group', () => {
-        const accordionGroup = wrapper.findComponent(AvAccordionsGroupStub)
-        expect(accordionGroup.exists()).toBe(true)
+        expect(getAccordionsGroup().exists()).toBe(true)
       })
 
       BddTest().then('it should render the different inputs', () => {
@@ -285,87 +285,112 @@ BddTest().given('given an update profile drawer', () => {
       })
 
       BddTest().then('it should render the exit button', () => {
-        const avButtons = getAvButtons()
-        const exitButton = avButtons.find(button => button.props('label') === 'Quitter')
-        expect(exitButton?.exists()).toBe(true)
+        expect(getCancelConfirmButtons().props('cancelLabel')).toBe('Quitter')
       })
 
       BddTest().then('it should render the save button in disabled state', () => {
-        const avButtons = getAvButtons()
-        const saveButton = avButtons.find(button => button.props('label') === 'Enregistrer')
-        expect(saveButton?.exists()).toBe(true)
-        expect(saveButton?.props('disabled')).toBe(true)
+        expect(getCancelConfirmButtons().props('confirmLabel')).toBe('Enregistrer')
+        expect(getCancelConfirmButtons().props('confirmDisabled')).toBe(true)
+      })
+
+      BddTest().then('the buttons should be linked to the profile form', () => {
+        expect(getCancelConfirmButtons().props('form')).toBe('profile-form')
       })
     })
 
     BddTest().when('userSummary fields are empty', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
-
-        mockedUseUpdateProfileForm.mockImplementation(() => createUseUpdateProfileFormMock({
-          form: mockedFormWithEmptyFields as any,
-          isPending: computed(() => true),
-        }))
-
-        wrapper = mountComponent(UpdateProfileDrawer, {
-          props: { ...defaultProps, ...userSummaryWithMissingFields },
-          global: {
-            stubs
-          }
-        })
+        mockUpdateProfileForm({ form: mockedFormWithEmptyFields as any })
+        wrapper = mountDrawer(userSummaryWithMissingFields)
       })
 
       BddTest().then('it should render empty inputs', () => {
         const avInputs = getAvInputs()
-        expect(avInputs[0].find('input').attributes('value')).toBe('')
-        expect(avInputs[1].find('input').attributes('value')).toBe('')
-        expect(avInputs[2].find('input').attributes('value')).toBe('')
-        expect(avInputs[3].find('input').attributes('value')).toBe('')
-        expect(avInputs[0].find('input').element.value).toBe('')
-        expect(avInputs[1].find('input').element.value).toBe('')
-        expect(avInputs[2].find('input').element.value).toBe('')
-        expect(avInputs[3].find('input').element.value).toBe('')
+        expect(avInputs).toHaveLength(4)
+        avInputs.forEach((avInput) => {
+          expect(avInput.find('input').attributes('value')).toBe('')
+          expect(avInput.find('input').element.value).toBe('')
+        })
       })
     })
 
     BddTest().when('the update profile form composable is not pending', () => {
       BddTest().then('the buttons should not be in loading state', () => {
-        const avButtons = getAvButtons()
-        expect(avButtons).toHaveLength(2)
-        avButtons.forEach((avButton) => {
-          expect(avButton.props('isLoading')).toBe(false)
-        })
+        expect(getCancelConfirmButtons().props('cancelIsLoading')).toBe(false)
+        expect(getCancelConfirmButtons().props('confirmIsLoading')).toBe(false)
       })
     })
 
     BddTest().when('the update profile form composable is pending', () => {
       beforeEach(() => {
-        mockedUseUpdateProfileForm.mockImplementation(() => createUseUpdateProfileFormMock({
-          isPending: computed(() => true),
-        }))
-
-        wrapper = mountComponent(UpdateProfileDrawer, {
-          props: defaultProps,
-          global: {
-            stubs
-          }
-        })
+        mockUpdateProfileForm({ isPending: computed(() => true) })
+        wrapper = mountDrawer()
       })
 
       BddTest().then('the buttons should be in loading state', () => {
-        const avButtons = getAvButtons()
-        expect(avButtons).toHaveLength(2)
-        avButtons.forEach((avButton) => {
-          expect(avButton.props('isLoading')).toBe(true)
+        expect(getCancelConfirmButtons().props('cancelIsLoading')).toBe(true)
+        expect(getCancelConfirmButtons().props('confirmIsLoading')).toBe(true)
+      })
+    })
+
+    BddTest().when('the form is modified but invalid', () => {
+      beforeEach(() => {
+        mockUpdateProfileForm({
+          isModified: computed(() => true),
+          isFormValid: computed(() => false),
         })
+        wrapper = mountDrawer()
+      })
+
+      BddTest().then('the save button should be disabled', () => {
+        expect(getCancelConfirmButtons().props('confirmDisabled')).toBe(true)
+      })
+
+      BddTest().then('the save button should display the invalid form tooltip', () => {
+        expect(getCancelConfirmButtons().props('confirmDisabledTooltip')).toBe(INVALID_FORM_TOOLTIP)
+      })
+    })
+
+    BddTest().when('the form is valid but not modified', () => {
+      beforeEach(() => {
+        mockUpdateProfileForm({
+          isModified: computed(() => false),
+          isFormValid: computed(() => true),
+        })
+        wrapper = mountDrawer()
+      })
+
+      BddTest().then('the save button should be disabled', () => {
+        expect(getCancelConfirmButtons().props('confirmDisabled')).toBe(true)
+      })
+
+      BddTest().then('the save button should not display any tooltip', () => {
+        expect(getCancelConfirmButtons().props('confirmDisabledTooltip')).toBeUndefined()
+      })
+    })
+
+    BddTest().when('the form is modified and valid', () => {
+      beforeEach(() => {
+        mockUpdateProfileForm({
+          isModified: computed(() => true),
+          isFormValid: computed(() => true),
+        })
+        wrapper = mountDrawer()
+      })
+
+      BddTest().then('the save button should be enabled', () => {
+        expect(getCancelConfirmButtons().props('confirmDisabled')).toBe(false)
+      })
+
+      BddTest().then('the save button should not display any tooltip', () => {
+        expect(getCancelConfirmButtons().props('confirmDisabledTooltip')).toBeUndefined()
       })
     })
 
     BddTest().when('inputs are modified', () => {
       beforeEach(() => {
-        mockedUseUpdateProfileForm.mockImplementation(() => createUseUpdateProfileFormMock({
-          isModified: computed(() => true),
-        }))
+        mockUpdateProfileForm({ isModified: computed(() => true) })
+        wrapper = mountDrawer()
       })
 
       BddTest().then('they should have their new value set', async () => {
@@ -382,24 +407,18 @@ BddTest().given('given an update profile drawer', () => {
       })
 
       BddTest().then('they should reset if the drawer is hidden then shown again', async () => {
-        const avInputs = getAvInputs()
-        expect(avInputs).toHaveLength(4)
-
         await wrapper.setProps({ show: false })
-        await wrapper.vm.$nextTick()
         await wrapper.setProps({ show: true })
-        await wrapper.vm.$nextTick()
 
-        expect(mockedResetForm).toHaveBeenCalled()
+        expect(mockedResetForm).toHaveBeenCalledTimes(1)
       })
     })
 
     BddTest().when('escape is pressed on drawer', () => {
       BddTest().and('canLeave is true', () => {
         beforeEach(async () => {
-          const drawer = getAvDrawer()
-          await drawer.vm.$emit('escape-pressed')
-          await wrapper.vm.$nextTick()
+          getAvDrawer().vm.$emit('escape-pressed')
+          await flushPromises()
         })
 
         BddTest().then('it should call onClose', () => {
@@ -410,16 +429,11 @@ BddTest().given('given an update profile drawer', () => {
       BddTest().and('canLeave is false', () => {
         beforeEach(async () => {
           mockCanLeave.mockResolvedValue(false)
-          mockedUseUpdateProfileForm.mockImplementation(() => createUseUpdateProfileFormMock({
-            isModified: computed(() => true),
-          }))
-          wrapper = mountComponent(UpdateProfileDrawer, {
-            props: defaultProps,
-            global: { stubs }
-          })
-          const drawer = getAvDrawer()
-          await drawer.vm.$emit('escape-pressed')
-          await wrapper.vm.$nextTick()
+          mockUpdateProfileForm({ isModified: computed(() => true) })
+          wrapper = mountDrawer()
+
+          getAvDrawer().vm.$emit('escape-pressed')
+          await flushPromises()
         })
 
         BddTest().then('it should not call onClose', () => {
@@ -431,9 +445,8 @@ BddTest().given('given an update profile drawer', () => {
     BddTest().when('cancel button is clicked', () => {
       BddTest().and('canLeave is true', () => {
         beforeEach(async () => {
-          const cancelButton = getAvButtons().find(b => b.props('label') === 'Quitter')
-          await cancelButton?.trigger('click')
-          await wrapper.vm.$nextTick()
+          await getCancelButton().trigger('click')
+          await flushPromises()
         })
 
         BddTest().then('it should call onClose', () => {
@@ -444,16 +457,11 @@ BddTest().given('given an update profile drawer', () => {
       BddTest().and('canLeave is false', () => {
         beforeEach(async () => {
           mockCanLeave.mockResolvedValue(false)
-          mockedUseUpdateProfileForm.mockImplementation(() => createUseUpdateProfileFormMock({
-            isModified: computed(() => true),
-          }))
-          wrapper = mountComponent(UpdateProfileDrawer, {
-            props: defaultProps,
-            global: { stubs }
-          })
-          const cancelButton = getAvButtons().find(b => b.props('label') === 'Quitter')
-          await cancelButton?.trigger('click')
-          await wrapper.vm.$nextTick()
+          mockUpdateProfileForm({ isModified: computed(() => true) })
+          wrapper = mountDrawer()
+
+          await getCancelButton().trigger('click')
+          await flushPromises()
         })
 
         BddTest().then('it should not call onClose', () => {
@@ -462,9 +470,8 @@ BddTest().given('given an update profile drawer', () => {
 
         BddTest().and('confirming the modal', () => {
           beforeEach(async () => {
-            const confirmationModal = getConfirmationModal()
-            await confirmationModal.vm.$emit('confirm')
-            await wrapper.vm.$nextTick()
+            getConfirmationModal().vm.$emit('confirm')
+            await flushPromises()
           })
 
           BddTest().then('it should call guard confirm', () => {
@@ -474,9 +481,8 @@ BddTest().given('given an update profile drawer', () => {
 
         BddTest().and('closing the modal', () => {
           beforeEach(async () => {
-            const confirmationModal = getConfirmationModal()
-            await confirmationModal.vm.$emit('close')
-            await wrapper.vm.$nextTick()
+            getConfirmationModal().vm.$emit('close')
+            await flushPromises()
           })
 
           BddTest().then('it should call guard cancel', () => {
@@ -487,10 +493,12 @@ BddTest().given('given an update profile drawer', () => {
     })
 
     BddTest().when('submitting the form', () => {
-      BddTest().then('it should call form.handleSubmit', async () => {
-        const formElement = wrapper.find('form#profile-form')
-        await formElement.trigger('submit.prevent.stop')
-        expect(mockedForm.handleSubmit).toHaveBeenCalled()
+      beforeEach(async () => {
+        await getProfileForm().trigger('submit')
+      })
+
+      BddTest().then('it should call form.handleSubmit', () => {
+        expect(mockedForm.handleSubmit).toHaveBeenCalledTimes(1)
       })
     })
 
@@ -511,12 +519,7 @@ BddTest().given('given an update profile drawer', () => {
           return obj
         })
 
-        wrapper = mountComponent(UpdateProfileDrawer, {
-          props: defaultProps,
-          global: {
-            stubs
-          }
-        })
+        wrapper = mountDrawer()
 
         useUpdateProfileFormReturn.simulateSuccess()
       })
@@ -542,20 +545,11 @@ BddTest().given('given an update profile drawer', () => {
       }
 
       beforeEach(() => {
-        wrapper = mountComponent(UpdateProfileDrawer, {
-          props: {
-            ...defaultProps,
-            ...userSummaryWithCoverPhotoFileId
-          },
-          global: {
-            stubs
-          }
-        })
+        wrapper = mountDrawer(userSummaryWithCoverPhotoFileId)
       })
 
       BddTest().then('it should render with cover photo', () => {
-        const imageUploadComponents = getImageUploads()
-        expect(imageUploadComponents).toHaveLength(2)
+        expect(getImageUploads()).toHaveLength(2)
       })
     })
 
@@ -574,20 +568,11 @@ BddTest().given('given an update profile drawer', () => {
       }
 
       beforeEach(() => {
-        wrapper = mountComponent(UpdateProfileDrawer, {
-          props: {
-            ...defaultProps,
-            ...userSummaryWithProfilePhotoFileId
-          },
-          global: {
-            stubs
-          }
-        })
+        wrapper = mountDrawer(userSummaryWithProfilePhotoFileId)
       })
 
       BddTest().then('it should render with profile photo', () => {
-        const imageUploadComponents = getImageUploads()
-        expect(imageUploadComponents).toHaveLength(2)
+        expect(getImageUploads()).toHaveLength(2)
       })
     })
   })

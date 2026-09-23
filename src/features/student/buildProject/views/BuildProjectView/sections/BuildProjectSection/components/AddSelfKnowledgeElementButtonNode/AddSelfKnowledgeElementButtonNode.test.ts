@@ -95,6 +95,10 @@ BddTest().given('an AddSelfKnowledgeElementButtonNode component', () => {
       expect(modal.exists()).toBe(true)
     })
 
+    BddTest().then('it should pass the disabled button tooltip for existing elements', () => {
+      expect(wrapper.findComponent(AvModalStub).props('confirmButtonDisabledTooltip')).toBe('Sélectionnez au moins un élément à ajouter')
+    })
+
     BddTest().then('it should render the AvTabs component', () => {
       const tabs = wrapper.findComponent(AvTabsStub)
       expect(tabs.exists()).toBe(true)
@@ -199,6 +203,10 @@ BddTest().given('an AddSelfKnowledgeElementButtonNode component', () => {
 
       BddTest().then('it should render the add custom element form', () => {
         expect(wrapper.find('.add-custom-element-form-container').exists()).toBe(true)
+      })
+
+      BddTest().then('it should pass the disabled button tooltip for the new element form', () => {
+        expect(wrapper.findComponent(AvModalStub).props('confirmButtonDisabledTooltip')).toBe('Renseignez tous les champs requis pour ajouter l\'élément')
       })
 
       BddTest().and('the user fills the form', () => {

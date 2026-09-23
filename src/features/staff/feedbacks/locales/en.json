@@ -53,6 +53,7 @@
                   "formatsValue": "PDF, DOC, DOCX, ODT, JPG, PNG",
                   "title": "Attach one or more documents"
                 },
+                "confirmDisabledTooltip": "This feedback has already been viewed and can no longer be edited",
                 "errors": {
                   "saveFeedback": "An error occurred while saving feedback",
                   "sendFeedback": "An error occurred while sending feedback"

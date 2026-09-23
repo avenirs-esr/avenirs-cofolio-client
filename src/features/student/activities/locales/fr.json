@@ -98,6 +98,7 @@
           "title": "Mes activités",
           "UnsubscribeActivitiesModal": {
             "confirm": "Me désinscrire de l'activité sélectionnée ({count}) | Me désinscrire des activités sélectionnées ({count})",
+            "confirmButtonDisabledTooltip": "Sélectionnez au moins une activité de laquelle vous désinscrire",
             "description": "Vous ne pouvez pas vous désinscrire des activités obligatoires.",
             "title": "Aucune activité à laquelle se désinscrire | De quelle activité souhaitez-vous vous désinscrire\u00A0? | De quelles activités souhaitez-vous vous désinscrire\u00A0?"
           }

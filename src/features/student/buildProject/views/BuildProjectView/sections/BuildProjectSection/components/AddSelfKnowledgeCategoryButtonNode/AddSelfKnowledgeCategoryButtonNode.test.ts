@@ -92,6 +92,10 @@ BddTest().given('an AddSelfKnowledgeCategoryButtonNode component', () => {
       expect(modal.exists()).toBe(true)
     })
 
+    BddTest().then('it should pass the confirm button disabled tooltip', () => {
+      expect(wrapper.findComponent(AvModalStub).props('confirmButtonDisabledTooltip')).toBe('Sélectionnez au moins une catégorie à ajouter')
+    })
+
     BddTest().then('it should render the checkboxes group component', () => {
       const checkboxesGroup = wrapper.findComponent(AvCheckboxesGroupStub)
       expect(checkboxesGroup.exists()).toBe(true)

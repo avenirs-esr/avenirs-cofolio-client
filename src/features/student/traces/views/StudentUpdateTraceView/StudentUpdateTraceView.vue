@@ -143,6 +143,7 @@ function handleConfirmCloseModal () {
           :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
           :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
           :confirm-disabled="hasErrors"
+          :confirm-disabled-tooltip="t('global.information.invalidForm')"
           :confirm-is-loading="isFetching"
           @cancel="handleClose"
           @confirm="handleConfirm"

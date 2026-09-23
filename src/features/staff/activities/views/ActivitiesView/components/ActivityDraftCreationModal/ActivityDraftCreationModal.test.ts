@@ -72,6 +72,10 @@ BddTest().given('ActivityDraftCreationModal component', () => {
       expect(getModal().props('confirmButtonLabel')).toBe('Créer')
     })
 
+    BddTest().then('it should pass the correct confirm button disabled tooltip', () => {
+      expect(getModal().props('confirmButtonDisabledTooltip')).toBe('Le formulaire n\'est pas valide')
+    })
+
     BddTest().then('it should render the modal title', () => {
       expect(wrapper.text()).toContain('Créer une activité')
     })

@@ -82,6 +82,7 @@ BddTest().given('an ActivityDuplicationModal', () => {
       expect(modal.exists()).toBe(true)
       expect(modal.props('opened')).toBe(true)
       expect(modal.props('confirmButtonDisabled')).toBe(true)
+      expect(modal.props('confirmButtonDisabledTooltip')).toBe('Le formulaire n\'est pas valide')
       expect(modal.props('isLoading')).toBe(false)
       expect(getModalTitle().text()).toBe('Dupliquer une activité')
       expect(getTitleInput().exists()).toBe(true)

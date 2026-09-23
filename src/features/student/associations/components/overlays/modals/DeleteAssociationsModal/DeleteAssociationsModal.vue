@@ -82,6 +82,7 @@ function onConfirm () {
     :confirm-button-label="t('student.associations.overlays.modals.DeleteAssociationsModal.confirmButton', { count: selectedAssociationIds.length })"
     :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
     :confirm-button-disabled="selectedAssociationIds.length === 0"
+    :confirm-button-disabled-tooltip="t('student.associations.overlays.modals.DeleteAssociationsModal.confirmButtonDisabledTooltip')"
     :is-loading="isPending"
     data-testid="delete-associations-modal"
     @close="onCancel"

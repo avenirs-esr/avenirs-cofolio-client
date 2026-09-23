@@ -72,6 +72,7 @@ useInfiniteScroll(tracesContainer, loadMoreTraces, {
     :confirm-button-label="t('student.traces.views.StudentToolsTracesView.deleteTracesModal.confirm', { count: selectedCount })"
     :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
     :confirm-button-disabled="selectedCount === 0"
+    :confirm-button-disabled-tooltip="t('student.traces.views.StudentToolsTracesView.deleteTracesModal.confirmButtonDisabledTooltip')"
     @close="onCancel"
     @confirm="openConfirmModal"
   >

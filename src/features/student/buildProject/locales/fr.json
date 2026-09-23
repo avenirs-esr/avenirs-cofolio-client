@@ -10,6 +10,7 @@
         "selfKnowledge": {
           "addCategoryButton": {
             "confirm": "Ajouter cette catégorie | Ajouter ces catégories",
+            "confirmButtonDisabledTooltip": "Sélectionnez au moins une catégorie à ajouter",
             "errors": {
               "categoryNotFound": "Catégorie avec l'ID {{id}} introuvable."
             },
@@ -17,6 +18,10 @@
           },
           "addElementButton": {
             "confirm": "Ajouter cet élément | Ajouter ces éléments",
+            "confirmButtonDisabledTooltip": {
+              "fillRequiredFields": "Renseignez tous les champs requis pour ajouter l'élément",
+              "selectAtLeastOneElement": "Sélectionnez au moins un élément à ajouter"
+            },
             "errors": {
               "elementNotFound": "Élément avec l'ID {{id}} introuvable.",
               "existingNode": "Un élément avec ce titre et cette description existe déjà.",

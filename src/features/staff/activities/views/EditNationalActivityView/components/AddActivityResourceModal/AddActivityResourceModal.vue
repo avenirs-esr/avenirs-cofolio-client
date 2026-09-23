@@ -116,6 +116,7 @@ function onClose () {
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t('global.buttons.add')"
     :confirm-button-disabled="!isFormValid"
+    :confirm-button-disabled-tooltip="t('global.information.invalidForm')"
     data-testid="add-activity-resource-modal"
     @close="onClose"
     @confirm="form.handleSubmit()"

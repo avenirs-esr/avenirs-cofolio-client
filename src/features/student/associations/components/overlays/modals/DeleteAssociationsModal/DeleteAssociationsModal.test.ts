@@ -122,6 +122,10 @@ BddTest().given('a delete associations modal', () => {
       expect(getModal().props('confirmButtonLabel')).toBe('Supprimer les associations sélectionnées (0)')
     })
 
+    BddTest().then('it should explain why the confirm button is disabled', () => {
+      expect(getModal().props('confirmButtonDisabledTooltip')).toBe('Sélectionnez au moins une association à supprimer')
+    })
+
     BddTest().then('it should render the associations selector for the associated context type', () => {
       expect(getSelector().props('associatedContextType')).toBe(EAssociationContextType.TRACE)
       expect(getSelector().props('associations')).toEqual(mockedDeclaredActivityAssociations)

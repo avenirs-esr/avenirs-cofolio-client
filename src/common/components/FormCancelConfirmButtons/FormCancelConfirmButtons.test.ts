@@ -37,6 +37,10 @@ BddTest().given('a FormCancelConfirmButtons component', () => {
       expect(getCancelConfirmButtons().props('confirmLabel')).toBe('Enregistrer')
     })
 
+    BddTest().then('it should set default confirm disabled tooltip', () => {
+      expect(getCancelConfirmButtons().props('confirmDisabledTooltip')).toBe('Le formulaire n\'est pas valide')
+    })
+
     BddTest().then('it should set default cancel icon', () => {
       expect(getCancelConfirmButtons().props('cancelIcon')).toBe(MDI_ICONS.CLOSE_CIRCLE_OUTLINE)
     })
@@ -77,6 +81,23 @@ BddTest().given('a FormCancelConfirmButtons component', () => {
 
     BddTest().then('it should use custom confirm label', () => {
       expect(getCancelConfirmButtons().props('confirmLabel')).toBe('Valider')
+    })
+  })
+
+  BddTest().when('custom confirm disabled tooltip is provided', () => {
+    beforeEach(() => {
+      wrapper = mount(FormCancelConfirmButtons, {
+        props: {
+          isSubmitting: false,
+          isFormValid: true,
+          confirmDisabledTooltip: 'Invalide'
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should use custom cancel label', () => {
+      expect(getCancelConfirmButtons().props('confirmDisabledTooltip')).toBe('Invalide')
     })
   })
 

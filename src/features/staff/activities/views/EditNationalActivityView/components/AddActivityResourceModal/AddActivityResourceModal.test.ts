@@ -57,6 +57,10 @@ BddTest().given('an AddActivityResourceModal component', () => {
       expect(getModal().props('confirmButtonDisabled')).toBe(true)
     })
 
+    BddTest().then('it should pass the confirm button disabled tooltip', () => {
+      expect(getModal().props('confirmButtonDisabledTooltip')).toBe('Le formulaire n\'est pas valide')
+    })
+
     BddTest().then('it should render the modal title', () => {
       expect(wrapper.text()).toContain('Ajouter un document ou un lien')
     })

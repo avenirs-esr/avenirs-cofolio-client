@@ -10,6 +10,7 @@
         "selfKnowledge": {
           "addCategoryButton": {
             "confirm": "Add this category | Add these categories",
+            "confirmButtonDisabledTooltip": "Select at least one category to add",
             "errors": {
               "categoryNotFound": "Category with ID {{id}} not found."
             },
@@ -17,6 +18,10 @@
           },
           "addElementButton": {
             "confirm": "Add this element | Add these elements",
+            "confirmButtonDisabledTooltip": {
+              "fillRequiredFields": "Fill in all required fields to add the element",
+              "selectAtLeastOneElement": "Select at least one element to add"
+            },
             "errors": {
               "elementNotFound": "Element with ID {{id}} not found.",
               "existingNode": "An element with this title and description already exists.",

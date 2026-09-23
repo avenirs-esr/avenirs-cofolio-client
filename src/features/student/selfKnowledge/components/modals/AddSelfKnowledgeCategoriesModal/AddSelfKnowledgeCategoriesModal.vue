@@ -67,6 +67,7 @@ function resetSelected () {
     :confirm-button-label="categoriesAvailable.length > 0 ? t('global.buttons.add') : undefined"
     :confirm-button-icon="MDI_ICONS.CHECK_CIRCLE"
     :confirm-button-disabled="selected.length === 0"
+    :confirm-button-disabled-tooltip="t('student.selfKnowledge.SelfKnowledgeMainSection.modals.addSelfKnowledgeCategories.confirmButtonDisabledTooltip')"
     :is-loading="isPending || isLoading"
     @close="onCancel"
     @confirm="addSelfKnowledgeCategories"

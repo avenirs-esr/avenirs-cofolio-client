@@ -98,6 +98,7 @@
           "title": "My activities",
           "UnsubscribeActivitiesModal": {
             "confirm": "Unsubscribe from the selected activity ({count}) | Unsubscribe from the selected activities ({count})",
+            "confirmButtonDisabledTooltip": "Select at least one activity to unsubscribe from",
             "description": "You cannot unsubscribe from mandatory activities.",
             "title": "No activity to unsubscribe from | Which activity would you like to unsubscribe from? | Which activities would you like to unsubscribe from?"
           }
