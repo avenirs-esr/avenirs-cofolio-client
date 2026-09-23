@@ -371,7 +371,8 @@
         "size": "5 MB max",
         "sizeIndication": "Size\u00A0: ",
         "title": "Add an image"
-      }
+      },
+      "invalidForm": "The form is not valid"
     },
     "inputs": {
       "textarea": {

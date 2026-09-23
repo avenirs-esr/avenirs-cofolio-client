@@ -9,6 +9,7 @@ export const ConfirmationModalStub = defineComponent({
     confirmButtonLabel: String,
     confirmButtonIcon: String,
     confirmButtonDisabled: Boolean,
+    confirmButtonDisabledTooltip: String,
     isLoading: Boolean
   },
   emits: ['close', 'confirm'],

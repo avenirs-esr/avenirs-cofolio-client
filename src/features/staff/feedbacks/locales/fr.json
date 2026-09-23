@@ -53,6 +53,7 @@
                   "formatsValue": "PDF, DOC, DOCX, ODT, JPG, PNG",
                   "title": "Joindre un/des document(s)"
                 },
+                "confirmDisabledTooltip": "Ce feedback a déjà été consulté et ne peut plus être modifié",
                 "errors": {
                   "saveFeedback": "Une erreur est survenue lors de l'enregistrement du feedback",
                   "sendFeedback": "Une erreur est survenue lors de l'envoi du feedback"

@@ -371,7 +371,8 @@
         "size": "5 Mo max",
         "sizeIndication": "Poids\u00A0: ",
         "title": "Ajouter une image"
-      }
+      },
+      "invalidForm": "Le formulaire n'est pas valide"
     },
     "inputs": {
       "textarea": {
@@ -425,10 +426,6 @@
     "overlay": {
       "drawers": {
         "UpdateProfileDrawer": {
-          "confirmDeletePhotoModal": {
-            "subtitle": "Cette action supprimera définitivement votre photo de profil. Confirmer la suppression\u00A0?",
-            "title": "Êtes-vous sûr de vouloir supprimer votre photo?"
-          },
           "identity": {
             "biography": {
               "errors": {

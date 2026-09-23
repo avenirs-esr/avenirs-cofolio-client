@@ -119,6 +119,12 @@ function onConfirmAddElements (formData?: AddElementFormData) {
 
   resetAndCloseModal()
 }
+
+const confirmButtonDisabledTooltip = computed(() => t(
+  activeTab.value === TabIndex.ELEMENTS
+    ? 'student.buildProject.mindMap.selfKnowledge.addElementButton.confirmButtonDisabledTooltip.selectAtLeastOneElement'
+    : 'student.buildProject.mindMap.selfKnowledge.addElementButton.confirmButtonDisabledTooltip.fillRequiredFields'
+))
 </script>
 
 <template>
@@ -138,6 +144,7 @@ function onConfirmAddElements (formData?: AddElementFormData) {
         :confirm-button-label="t('student.buildProject.mindMap.selfKnowledge.addElementButton.confirm', { count: activeTab === TabIndex.ELEMENTS ? selectedElementsIds.length : 1 })"
         :confirm-button-icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
         :confirm-button-disabled="activeTab === TabIndex.ELEMENTS ? selectedElementsIds.length === 0 : !isModified || !isValid"
+        :confirm-button-disabled-tooltip
         @close="resetAndCloseModal"
         @confirm="activeTab === TabIndex.ELEMENTS ? onConfirmAddElements() : form.handleSubmit()"
       >

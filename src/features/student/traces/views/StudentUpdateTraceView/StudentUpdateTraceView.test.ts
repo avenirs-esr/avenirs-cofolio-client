@@ -101,6 +101,10 @@ BddTest().given('a student update trace view', () => {
       expect(wrapper.findComponent(AvCancelConfirmButtonsStub).exists()).toBe(true)
     })
 
+    BddTest().then('it should set confirm disabled tooltip', () => {
+      expect(wrapper.findComponent(AvCancelConfirmButtonsStub).props('confirmDisabledTooltip')).toBe('Le formulaire n\'est pas valide')
+    })
+
     BddTest().then('it should render UpdateInProgressBadge with show set to true', () => {
       const badge = wrapper.findComponent(UpdateInProgressBadgeStub)
 

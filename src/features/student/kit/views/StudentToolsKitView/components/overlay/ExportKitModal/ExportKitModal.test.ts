@@ -4,7 +4,8 @@ import { server } from '@/__mocks__/msw/server'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import { KIT_NAME_MAX_LENGTH } from '@/features/student/kit/config'
-import ExportKitModal from '@/features/student/kit/views/StudentToolsKitView/components/overlay/ExportKitModal/ExportKitModal.vue'
+import { canExportKit } from '@/features/student/kit/rules/export-kit.rules'
+import ExportKitModal, { type ExportKitModalProps } from '@/features/student/kit/views/StudentToolsKitView/components/overlay/ExportKitModal/ExportKitModal.vue'
 import { ExportKitOptions } from '@/features/student/kit/views/StudentToolsKitView/composables/use-export-kit-form/use-export-kit-form'
 import { AvCheckboxesGroupStub, AvCheckboxStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -46,6 +47,17 @@ vi.mock('@/features/student/kit/composables/use-export-kit/use-export-kit', () =
   }),
 }))
 
+vi.mock('@/features/student/kit/rules/export-kit.rules', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/features/student/kit/rules/export-kit.rules')>()
+  return {
+    ...actual,
+    canExportKit: vi.fn(actual.canExportKit),
+  }
+})
+
+const INVALID_FORM_TOOLTIP = 'Le formulaire n\'est pas valide'
+const MISSING_KIT_NAME_TOOLTIP = 'Veuillez renseigner un nom pour l\'export du kit'
+
 BddTest().given('an ExportKitModal component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ExportKitModal>>
 
@@ -56,18 +68,27 @@ BddTest().given('an ExportKitModal component', () => {
     Input: InputStub
   }
 
-  function getTextContentCheckbox () {
-    return wrapper.findAllComponents(AvCheckboxStub)
-      .find(checkbox => checkbox.attributes('data-testid') === 'text-content-checkbox')
+  const mountWith = (props: Partial<ExportKitModalProps> = {}) => {
+    wrapper = mountComponent(ExportKitModal, {
+      props: {
+        opened: true,
+        ...props
+      },
+      global: { stubs }
+    })
   }
 
-  function getMediaContentCheckbox () {
-    return wrapper.findAllComponents(AvCheckboxStub)
-      .find(checkbox => checkbox.attributes('data-testid') === 'media-content-checkbox')
+  const getTextContentCheckbox = () => wrapper.findAllComponents(AvCheckboxStub).find(checkbox => checkbox.attributes('data-testid') === 'text-content-checkbox')
+  const getMediaContentCheckbox = () => wrapper.findAllComponents(AvCheckboxStub).find(checkbox => checkbox.attributes('data-testid') === 'media-content-checkbox')
+
+  const checkConfirmButtonDisabledTooltip = (expectedTooltip: string) => {
+    BddTest().then(`it should explain why the confirm button is disabled: "${expectedTooltip}"`, () => {
+      expect(wrapper.findComponent(ConfirmationModalStub).props('confirmButtonDisabledTooltip')).toBe(expectedTooltip)
+    })
   }
 
-  function checkEmitClose (shouldEmit = true) {
-    BddTest().then(`it should ${shouldEmit ? '' : ' not'} emit close`, async () => {
+  const checkEmitClose = (shouldEmit = true) => {
+    BddTest().then(`it should${shouldEmit ? '' : ' not'} emit close`, async () => {
       await vi.waitFor(() => {
         shouldEmit
           ? expect(wrapper.emitted('close')).toBeTruthy()
@@ -76,8 +97,8 @@ BddTest().given('an ExportKitModal component', () => {
     })
   }
 
-  function checkCallDownloadBlob (shouldCall = true) {
-    BddTest().then(`it should ${shouldCall ? '' : ' not'} call downloadBlob`, async () => {
+  const checkCallDownloadBlob = (shouldCall = true) => {
+    BddTest().then(`it should${shouldCall ? '' : ' not'} call downloadBlob`, async () => {
       await vi.waitFor(() => {
         shouldCall
           ? expect(mockDownloadBlob).toHaveBeenCalled()
@@ -106,11 +127,13 @@ BddTest().given('an ExportKitModal component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.mocked(canExportKit).mockReset()
+    mockIsLoading.value = false
   })
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
-      wrapper = mountComponent(ExportKitModal, { props: { opened: true }, global: { stubs } })
+      mountWith()
     })
 
     BddTest().then('it should render a ConfirmationModal', () => {
@@ -120,6 +143,8 @@ BddTest().given('an ExportKitModal component', () => {
     BddTest().then('it should disable the confirm button by default', () => {
       expect(wrapper.findComponent(ConfirmationModalStub).props().confirmButtonDisabled).toBe(true)
     })
+
+    checkConfirmButtonDisabledTooltip(INVALID_FORM_TOOLTIP)
 
     BddTest().and('the user closes the modal', () => {
       beforeEach(() => {
@@ -144,6 +169,8 @@ BddTest().given('an ExportKitModal component', () => {
           expect(wrapper.findComponent(ConfirmationModalStub).props().confirmButtonDisabled).toBe(true)
         })
 
+        checkConfirmButtonDisabledTooltip(INVALID_FORM_TOOLTIP)
+
         BddTest().and('the user enters a kit name', () => {
           beforeEach(() => {
             wrapper.findComponent(InputStub).vm.$emit('update:modelValue', 'My Kit Name')
@@ -162,6 +189,8 @@ BddTest().given('an ExportKitModal component', () => {
           BddTest().then('the confirm button should still be disabled', () => {
             expect(wrapper.findComponent(ConfirmationModalStub).props().confirmButtonDisabled).toBe(true)
           })
+
+          checkConfirmButtonDisabledTooltip(INVALID_FORM_TOOLTIP)
         })
       })
     })
@@ -174,6 +203,8 @@ BddTest().given('an ExportKitModal component', () => {
       BddTest().then('the confirm button should still be disabled', () => {
         expect(wrapper.findComponent(ConfirmationModalStub).props().confirmButtonDisabled).toBe(true)
       })
+
+      checkConfirmButtonDisabledTooltip(INVALID_FORM_TOOLTIP)
 
       optionSelectionScenarios.forEach(({ getters, exportOptions, label }) => {
         BddTest().and(label, () => {
@@ -199,6 +230,8 @@ BddTest().given('an ExportKitModal component', () => {
         expect(wrapper.findComponent(ConfirmationModalStub).props().confirmButtonDisabled).toBe(true)
       })
 
+      checkConfirmButtonDisabledTooltip(INVALID_FORM_TOOLTIP)
+
       optionSelectionScenarios.forEach(({ getters, exportOptions, label }) => {
         BddTest().and(label, () => {
           beforeEach(() => {
@@ -210,8 +243,24 @@ BddTest().given('an ExportKitModal component', () => {
           BddTest().then('the confirm button should still be disabled', () => {
             expect(wrapper.findComponent(ConfirmationModalStub).props().confirmButtonDisabled).toBe(true)
           })
+
+          checkConfirmButtonDisabledTooltip(INVALID_FORM_TOOLTIP)
         })
       })
+    })
+
+    BddTest().and('the form is valid but the kit cannot be exported', () => {
+      beforeEach(() => {
+        vi.mocked(canExportKit).mockReturnValue(false)
+        getTextContentCheckbox()!.vm.$emit('update:modelValue', [ExportKitOptions.TEXT_CONTENT])
+        wrapper.findComponent(InputStub).vm.$emit('update:modelValue', 'My Kit Name')
+      })
+
+      BddTest().then('the confirm button should still be disabled', () => {
+        expect(wrapper.findComponent(ConfirmationModalStub).props().confirmButtonDisabled).toBe(true)
+      })
+
+      checkConfirmButtonDisabledTooltip(MISSING_KIT_NAME_TOOLTIP)
     })
 
     BddTest().and('the user selects the text content option and enters a valid kit name', () => {
@@ -277,12 +326,6 @@ BddTest().given('an ExportKitModal component', () => {
           wrapper.find('form').trigger('submit')
         })
 
-        BddTest().then('it should call downloadBlob', async () => {
-          await vi.waitFor(() => {
-            expect(mockDownloadBlob).toHaveBeenCalled()
-          })
-        })
-
         checkCallDownloadBlob()
         checkEmitClose()
       })
@@ -291,7 +334,7 @@ BddTest().given('an ExportKitModal component', () => {
     BddTest().when('the component is mounted with the useExportKit returning a loading state', () => {
       beforeEach(() => {
         mockIsLoading.value = true
-        wrapper = mountComponent(ExportKitModal, { props: { opened: true }, global: { stubs } })
+        mountWith()
       })
 
       BddTest().and('the user selects the text content option and enters a valid kit name', () => {
@@ -310,7 +353,7 @@ BddTest().given('an ExportKitModal component', () => {
   BddTest().when('the component is mounted with downloadMedia returning an error', () => {
     beforeEach(() => {
       server.use(downloadMediaErrorHandler)
-      wrapper = mountComponent(ExportKitModal, { props: { opened: true }, global: { stubs } })
+      mountWith()
     })
 
     BddTest().and('the user selects the media content option and enters a valid kit name', () => {

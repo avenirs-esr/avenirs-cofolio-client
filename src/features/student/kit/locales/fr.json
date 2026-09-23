@@ -53,6 +53,7 @@
           },
           "overlay": {
             "ExportKitModal": {
+              "confirmButtonDisabledTooltip": "Veuillez renseigner un nom pour l'export du kit",
               "error": "Une erreur est survenue lors de l'export du kit.",
               "exportOptions": {
                 "label": "Que souhaitez-vous exporter\u00A0?",

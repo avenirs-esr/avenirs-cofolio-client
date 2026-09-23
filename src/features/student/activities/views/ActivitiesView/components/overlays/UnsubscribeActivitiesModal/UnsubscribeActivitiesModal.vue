@@ -80,6 +80,7 @@ useInfiniteScroll(
     :confirm-button-label="t('student.activities.views.ActivitiesView.UnsubscribeActivitiesModal.confirm', { count: selectedActivityIds.length })"
     :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
     :confirm-button-disabled="selectedActivityIds.length === 0"
+    :confirm-button-disabled-tooltip="t('student.activities.views.ActivitiesView.UnsubscribeActivitiesModal.confirmButtonDisabledTooltip')"
     @close="onCancel"
     @confirm="openConfirmModal"
   >

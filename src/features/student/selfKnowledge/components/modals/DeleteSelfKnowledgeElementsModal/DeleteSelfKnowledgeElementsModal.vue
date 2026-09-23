@@ -107,6 +107,7 @@ useInfiniteScroll(
                              { count: selectedElementIds.length })"
     :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
     :confirm-button-disabled="selectedElementIds.length === 0"
+    :confirm-button-disabled-tooltip="t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.confirmButtonDisabledTooltip')"
     :is-loading="isPending || isLoading"
     @close="onCancel"
     @confirm="openConfirmModal"

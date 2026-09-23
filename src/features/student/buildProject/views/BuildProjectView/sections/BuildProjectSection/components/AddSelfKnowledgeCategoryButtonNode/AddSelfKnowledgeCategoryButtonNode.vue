@@ -111,6 +111,7 @@ function onConfirmAddCategories () {
         :confirm-button-label="t('student.buildProject.mindMap.selfKnowledge.addCategoryButton.confirm', { count: selectedCategoriesIds.length })"
         :confirm-button-icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
         :confirm-button-disabled="selectedCategoriesIds.length === 0"
+        :confirm-button-disabled-tooltip="t('student.buildProject.mindMap.selfKnowledge.addCategoryButton.confirmButtonDisabledTooltip')"
         @close="resetAndCloseModal"
         @confirm="onConfirmAddCategories"
       >

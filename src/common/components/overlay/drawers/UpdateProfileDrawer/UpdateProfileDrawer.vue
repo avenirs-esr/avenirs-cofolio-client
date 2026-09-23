@@ -270,6 +270,7 @@ watch(() => show, (newVal) => {
           :cancel-is-loading="isPending || isLoading"
           :confirm-is-loading="isPending || isLoading"
           :confirm-disabled="!isModified || !isFormValid"
+          :confirm-disabled-tooltip="isFormValid ? undefined : t('global.information.invalidForm')"
           form="profile-form"
           @cancel="handleCancel"
           @confirm="confirm"

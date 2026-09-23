@@ -132,6 +132,16 @@
           "success": "Formation déclarée ajoutée avec succès",
           "title": "Ajouter une formation déclarée"
         },
+        "AssociateDeclaredExperiencesModal": {
+          "confirm": "Associer l'expérience sélectionnée (1) | Associer les expériences sélectionnées ({count})",
+          "confirmButtonDisabledTooltip": "Sélectionnez au moins une expérience à associer",
+          "searchPlaceholder": "Entrer le nom d'une expérience déclarée",
+          "success": "Vous avez associé {count} expérience. Retrouvez-la dans la catégorie \"Mes expériences associées\". | Vous avez associé {count} expériences. Retrouvez-les dans la catégorie \"Mes expériences associées\".",
+          "title": "Quelle(s) expérience(s) souhaitez-vous associer\u00A0?"
+        },
+        "ConfirmAssociateDeclaredExperiencesModal": {
+          "title": "Êtes-vous certain(e) de vouloir associer cette expérience\u00A0? | Êtes-vous certain(e) de vouloir associer ces expériences\u00A0?"
+        },
         "DeleteDeclaredExperienceConfirmModal": {
           "description": "Cette action entrainera la suppression des éventuelles associations.",
           "error": "Une erreur est survenue lors de la suppression de l'expérience. | Une erreur est survenue lors de la suppression des expériences.",
@@ -223,6 +233,7 @@
             },
             "DeleteDeclaredExperiencesModal": {
               "confirm": "Supprimer l'expérience sélectionnée | Supprimer les expériences sélectionnées ({count})",
+              "confirmButtonDisabledTooltip": "Sélectionnez au moins une expérience à supprimer",
               "noDeclaredExperiences": "Aucune expérience à supprimer.",
               "title": "Quelle(s) expérience(s) souhaitez-vous supprimer\u00A0?"
             },
@@ -247,6 +258,7 @@
             },
             "DeleteDeclaredProgramsModal": {
               "confirm": "Supprimer la formation sélectionnée | Supprimer les formations sélectionnées ({count})",
+              "confirmButtonDisabledTooltip": "Sélectionnez au moins un projet à supprimer",
               "noDeclaredPrograms": "Aucune formation à supprimer.",
               "title": "Quelle(s) formation(s) souhaitez-vous supprimer\u00A0?"
             },

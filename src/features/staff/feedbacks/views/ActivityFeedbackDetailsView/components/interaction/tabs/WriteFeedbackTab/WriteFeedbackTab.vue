@@ -127,6 +127,7 @@ watch(isDirty, (newValue) => {
         :cancel-is-loading="isSaving || isPending || isLoading"
         :confirm-is-loading="(!isSubmitted && isDirty) || isSaving || isPending || isLoading"
         :confirm-disabled="isSeen || !isFormValid"
+        :confirm-disabled-tooltip="isSeen ? t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.confirmDisabledTooltip') : undefined"
         @cancel="handleCancel"
         @confirm="handleConfirm"
       />

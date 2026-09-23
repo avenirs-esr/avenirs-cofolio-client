@@ -59,8 +59,9 @@ function onconfirm () {
   <AvModal
     :opened="opened"
     :close-button-label="t('global.buttons.cancel')"
-    :confirm-button-disabled="selectedProgramIds.length === 0"
     :confirm-button-label="t('student.personalCareer.views.PersonalCareerView.ProgramsSection.DeleteDeclaredProgramsModal.confirm', { count: selectedProgramIds.length })"
+    :confirm-button-disabled="selectedProgramIds.length === 0"
+    :confirm-button-disabled-tooltip="t('student.personalCareer.views.PersonalCareerView.ProgramsSection.DeleteDeclaredProgramsModal.confirmButtonDisabledTooltip')"
     @close="onClose"
     @confirm="openModal"
   >

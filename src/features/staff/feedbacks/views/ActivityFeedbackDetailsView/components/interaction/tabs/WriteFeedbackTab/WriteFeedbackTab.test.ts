@@ -19,6 +19,7 @@ import { beforeEach, expect, vi } from 'vitest'
 const EXIT_LABEL = 'Quitter'
 const SEND_LABEL = 'Envoyer'
 const UPDATE_LABEL = 'Mettre à jour le feedback'
+const SEEN_CONFIRM_DISABLED_TOOLTIP = 'Ce feedback a déjà été consulté et ne peut plus être modifié'
 const SAVED_BADGE_LABEL = 'Enregistré'
 const SEND_SUCCESS_MESSAGE = 'Le feedback a été envoyé avec succès'
 const SEND_ERROR_TITLE = 'Une erreur est survenue lors de l\'envoi du feedback'
@@ -257,7 +258,8 @@ BddTest().given('a write feedback tab with a seen feedback', () => {
       expectButtons(wrapper, {
         cancelLabel: EXIT_LABEL,
         confirmLabel: UPDATE_LABEL,
-        confirmDisabled: true
+        confirmDisabled: true,
+        confirmDisabledTooltip: SEEN_CONFIRM_DISABLED_TOOLTIP
       })
     })
   })

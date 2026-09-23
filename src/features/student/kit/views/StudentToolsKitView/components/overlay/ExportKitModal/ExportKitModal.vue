@@ -85,14 +85,21 @@ function closeModal () {
   kitName.value = ''
   emit('close')
 }
+
+const confirmButtonDisabledTooltip = computed(() => t(
+  isFormValid.value
+    ? 'student.kit.views.StudentToolsKitView.overlay.ExportKitModal.confirmButtonDisabledTooltip'
+    : 'global.information.invalidForm'
+))
 </script>
 
 <template>
   <ConfirmationModal
     :opened="opened"
     :confirm-button-label="t('global.buttons.export')"
-    :confirm-button-disabled="!isFormValid || !canExportKit(form.state.values)"
     :confirm-button-icon="MDI_ICONS.DOWNLOAD_OUTLINE"
+    :confirm-button-disabled="!isFormValid || !canExportKit(form.state.values)"
+    :confirm-button-disabled-tooltip
     :is-loading="isLoading"
     @close="closeModal"
     @confirm="form.handleSubmit()"

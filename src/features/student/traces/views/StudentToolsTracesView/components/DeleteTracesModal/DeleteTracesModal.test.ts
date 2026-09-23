@@ -119,6 +119,7 @@ BddTest().given('a delete traces modal', () => {
   BddTest().then('it should provide modal props', () => {
     expect(getModal().props('opened')).toBe(true)
     expect(getModal().props('confirmButtonDisabled')).toBe(true)
+    expect(getModal().props('confirmButtonDisabledTooltip')).toBe('Sélectionnez au moins une trace à supprimer')
   })
 
   BddTest().then('it should render traces selector when traces exist', () => {

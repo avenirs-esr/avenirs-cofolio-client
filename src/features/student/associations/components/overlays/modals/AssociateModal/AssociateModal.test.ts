@@ -156,6 +156,10 @@ BddTest().given('an associate modal', () => {
       expect(getModal().props('confirmButtonDisabled')).toBe(true)
     })
 
+    BddTest().then('it should use the disabled confirm button tooltip of the associated context type', () => {
+      expect(getModal().props('confirmButtonDisabledTooltip')).toBe('Sélectionnez au moins une trace à associer')
+    })
+
     BddTest().then('it should render the search filter select with the unassociated filter by default', () => {
       expect(getFilterSelect().exists()).toBe(true)
       expect(getFilterSelect().props('modelValue')).toBe(AssociationSearchFilter.UNASSOCIATED)
@@ -526,6 +530,7 @@ BddTest().given('an associate modal', () => {
       expect(wrapper.find('[data-testid="associate-declared-skills-modal"]').exists()).toBe(true)
       expect(getFilterSelect().exists()).toBe(false)
       expect(getLayout().props('inputOptions')).toEqual({ placeholder: 'Rechercher une compétence...' })
+      expect(getModal().props('confirmButtonDisabledTooltip')).toBe('Sélectionnez au moins une compétence à associer')
     })
   })
 
@@ -546,6 +551,11 @@ BddTest().given('an associate modal', () => {
 
     BddTest().then('it should display the title of the associated context type', () => {
       expect(wrapper.find('[data-testid="header"]').text()).toBe('Quelle(s) compétence(s) déclarée(s) souhaitez-vous associer\u00A0?')
+    })
+
+    BddTest().then('it should use the disabled confirm button tooltip of the associated context type', () => {
+      expect(getModal().props('confirmButtonDisabled')).toBe(true)
+      expect(getModal().props('confirmButtonDisabledTooltip')).toBe('Sélectionnez au moins une compétence à associer')
     })
 
     BddTest().then('it should not render the search filter select since declared skills are not filterable', () => {
