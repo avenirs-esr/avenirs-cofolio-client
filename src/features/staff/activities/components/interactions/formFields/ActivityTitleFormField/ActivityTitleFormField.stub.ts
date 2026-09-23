@@ -7,6 +7,10 @@ export const ActivityTitleFormFieldStub = defineComponent({
     form: {
       type: Object as PropType<ActivityDraftCreationForm | ActivityDuplicationForm | EditActivityForm>,
     },
+    labelVisible: {
+      type: Boolean,
+      required: false
+    },
   },
   template: '<div data-testid="activity-title-form-field-stub"></div>',
 })

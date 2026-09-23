@@ -88,6 +88,7 @@ function onClose () {
     >
       <ActivityTitleFormField
         :form="form"
+        label-visible
         data-testid="activity-title-form-field"
       />
     </form>
