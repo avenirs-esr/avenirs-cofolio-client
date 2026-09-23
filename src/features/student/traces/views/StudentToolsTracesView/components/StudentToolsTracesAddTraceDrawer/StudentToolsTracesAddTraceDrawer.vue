@@ -24,7 +24,11 @@ const { addSuccessMessage } = useToasterStore()
 
 const showDrawer = toRef(tracesStore, 'showCreateTraceDrawer')
 
-const ASSOCIATED_CONTEXT_TYPES = [EAssociationContextType.DECLARED_SKILL, EAssociationContextType.DECLARED_ACTIVITY]
+const ASSOCIATED_CONTEXT_TYPES = [
+  EAssociationContextType.DECLARED_SKILL,
+  EAssociationContextType.DECLARED_ACTIVITY,
+  EAssociationContextType.DECLARED_PROGRAM
+]
 
 function onTraceCreated () {
   addSuccessMessage({
