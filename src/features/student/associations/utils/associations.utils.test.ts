@@ -1,6 +1,7 @@
 import {
   createMockedDeclaredActivityAssociations,
   createMockedDeclaredExperienceAssociations,
+  createMockedDeclaredProgramAssociations,
   createMockedDeclaredSkillAssociations,
   createMockedTraceAssociations,
   mockedEmptyAssociations
@@ -24,7 +25,8 @@ const associations: AssociationsDTO = {
   traceAssociations: createMockedTraceAssociations(2),
   declaredActivityAssociations: createMockedDeclaredActivityAssociations(1),
   declaredSkillAssociations: createMockedDeclaredSkillAssociations(3),
-  declaredExperienceAssociations: createMockedDeclaredExperienceAssociations(4)
+  declaredExperienceAssociations: createMockedDeclaredExperienceAssociations(4),
+  declaredProgramAssociations: createMockedDeclaredProgramAssociations(2)
 }
 
 BddTest().given('isAssociable', () => {
@@ -96,6 +98,13 @@ BddTest().given('getElementAssociations', () => {
         title: declaredExperience.title
       }))
     )
+    expect(getElementAssociations(associations, EAssociationContextType.DECLARED_PROGRAM)).toEqual(
+      associations.declaredProgramAssociations.map(({ associationId, declaredProgram }) => ({
+        associationId,
+        id: declaredProgram.id,
+        title: declaredProgram.title
+      }))
+    )
   })
 
   BddTest().then('it should return an empty list when the associations are not loaded', () => {
@@ -105,7 +114,7 @@ BddTest().given('getElementAssociations', () => {
 
 BddTest().given('countAssociations', () => {
   BddTest().then('it should count every association by default', () => {
-    expect(countAssociations(associations)).toBe(10)
+    expect(countAssociations(associations)).toBe(12)
   })
 
   BddTest().then('it should only count the associations to the given context types', () => {
@@ -162,5 +171,6 @@ BddTest().given('getContextTypeSlug', () => {
     expect(getContextTypeSlug(EAssociationContextType.TRACE, true)).toBe('traces')
     expect(getContextTypeSlug(EAssociationContextType.DECLARED_ACTIVITY, true)).toBe('declared-activities')
     expect(getContextTypeSlug(EAssociationContextType.DECLARED_EXPERIENCE, true)).toBe('declared-experiences')
+    expect(getContextTypeSlug(EAssociationContextType.DECLARED_PROGRAM, true)).toBe('declared-programs')
   })
 })

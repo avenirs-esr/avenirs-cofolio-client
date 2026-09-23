@@ -5613,6 +5613,22 @@
           "declaredSkill"
         ]
       },
+      "DeclaredProgramAssociationDTO": {
+        "type": "object",
+        "properties": {
+          "associationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "declaredProgram": {
+            "$ref": "#/components/schemas/DeclaredProgramViewDTO"
+          }
+        },
+        "required": [
+          "associationId",
+          "declaredProgram"
+        ]
+      },
       "AssociationSearchResultDTO": {
         "type": "object",
         "properties": {
@@ -5662,11 +5678,18 @@
             "items": {
               "$ref": "#/components/schemas/DeclaredExperienceAssociationDTO"
             }
+          },
+          "declaredProgramAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredProgramAssociationDTO"
+            }
           }
         },
         "required": [
           "declaredActivityAssociations",
           "declaredExperienceAssociations",
+          "declaredProgramAssociations",
           "declaredSkillAssociations",
           "traceAssociations"
         ]
@@ -7692,7 +7715,8 @@
           "TRACE",
           "DECLARED_ACTIVITY",
           "DECLARED_SKILL",
-          "DECLARED_EXPERIENCE"
+          "DECLARED_EXPERIENCE",
+          "DECLARED_PROGRAM"
         ]
       },
       "EExperienceType": {

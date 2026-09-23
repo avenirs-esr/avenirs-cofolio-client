@@ -39,6 +39,21 @@
           "selectionLabel": "My experiences",
           "unassociateDisabledTooltip": "No associated experience can be removed."
         },
+        "DECLARED_PROGRAM": {
+          "associateConfirm": "Associate selected program (1) | Associate selected programs ({count})",
+          "associateConfirmTitle": "Are you sure you want to associate this program? | Are you sure you want to associate these programs?",
+          "associatedTitle": "My associated declared program ({count}) | My associated declared programs ({count})",
+          "associatedTitleLimited": "My associated declared program ({count}/{limit}) | My associated declared programs ({count}/{limit})",
+          "associateSuccess": "You have associated {count} program. Find it in the \"My associated programs\" category. | You have associated {count} programs. Find them in the \"My associated programs\" category.",
+          "associateTitle": "Which declared program(s) would you like to associate?",
+          "cancelConfirmation": "Are you sure you want to abandon the program association?",
+          "dropdownLabel": "one/many program(s)",
+          "emptyAssociations": "No associations for this declared program",
+          "fetchAssociationsError": "An error occurred while retrieving the associations for the declared program.",
+          "searchPlaceholder": "Search for a program...",
+          "selectionLabel": "My programs",
+          "unassociateDisabledTooltip": "No associated program can be removed."
+        },
         "DECLARED_SKILL": {
           "associateConfirm": "Associate selected skill (1) | Associate selected skills ({count})",
           "associateConfirmTitle": "Are you sure you want to associate this skill? | Are you sure you want to associate these skills?",

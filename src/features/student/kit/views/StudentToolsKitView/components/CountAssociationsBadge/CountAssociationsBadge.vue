@@ -17,7 +17,8 @@ const ASSOCIATION_LABEL_KEYS: Record<EAssociationContextType, string> = {
   [EAssociationContextType.TRACE]: 'student.traces.trace',
   [EAssociationContextType.DECLARED_ACTIVITY]: 'student.activities.activity',
   [EAssociationContextType.DECLARED_SKILL]: 'student.skills.skill',
-  [EAssociationContextType.DECLARED_EXPERIENCE]: 'student.personalCareer.global.experience'
+  [EAssociationContextType.DECLARED_EXPERIENCE]: 'student.personalCareer.global.experience',
+  [EAssociationContextType.DECLARED_PROGRAM]: 'student.personalCareer.global.program'
 }
 
 const icon = computed(() => ASSOCIATION_TYPE_ICONS[type])

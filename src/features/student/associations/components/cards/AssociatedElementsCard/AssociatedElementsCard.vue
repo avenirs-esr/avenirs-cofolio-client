@@ -5,6 +5,8 @@ import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/associat
 import AssociatedActivityCard from '@/features/student/associations/components/cards/AssociatedActivityCard/AssociatedActivityCard.vue'
 import AssociatedDeclaredExperienceCard
   from '@/features/student/associations/components/cards/AssociatedDeclaredExperienceCard/AssociatedDeclaredExperienceCard.vue'
+import AssociatedDeclaredProgramCard
+  from '@/features/student/associations/components/cards/AssociatedDeclaredProgramCard/AssociatedDeclaredProgramCard.vue'
 import AssociatedSkillCard from '@/features/student/associations/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
 import AssociatedTraceCard from '@/features/student/associations/components/cards/AssociatedTraceCard/AssociatedTraceCard.vue'
 import AssociationsCard from '@/features/student/associations/components/cards/AssociationsCard/AssociationsCard.vue'
@@ -65,6 +67,14 @@ const title = computed(() => isAssociationLimited(limit)
         v-for="association in associations.declaredExperienceAssociations"
         :key="association.associationId"
         :declared-experience="association.declaredExperience"
+        :disabled="disabled"
+      />
+    </template>
+    <template v-else-if="associatedContextType === EAssociationContextType.DECLARED_PROGRAM">
+      <AssociatedDeclaredProgramCard
+        v-for="association in associations.declaredProgramAssociations"
+        :key="association.associationId"
+        :declared-program="association.declaredProgram"
         :disabled="disabled"
       />
     </template>

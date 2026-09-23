@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AssociationsDTO, DeclaredActivityViewDTO, DeclaredExperienceViewDTO, DeclaredSkillProgressDTO } from '@/api/avenir-esr'
+import type { AssociationsDTO, DeclaredActivityViewDTO, DeclaredExperienceViewDTO, DeclaredProgramViewDTO, DeclaredSkillProgressDTO } from '@/api/avenir-esr'
 import type { CompactCardSelectorProps } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
@@ -8,6 +8,8 @@ import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/associat
 import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import DeclaredExperienceTypeBadge
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.vue'
+import DeclaredProgramStatusBadge
+  from '@/features/student/personalCareer/components/badges/DeclaredProgramStatusBadge/DeclaredProgramStatusBadge.vue'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -56,6 +58,13 @@ const selectableElements = computed<CompactCardSelectorProps['elements']>(() => 
         baseElement: declaredExperience,
         showSlot: !!declaredExperience.experienceType
       }))
+    case EAssociationContextType.DECLARED_PROGRAM:
+      return associations.declaredProgramAssociations.map(({ associationId, declaredProgram }) => ({
+        id: associationId,
+        title: declaredProgram.title,
+        baseElement: declaredProgram,
+        showSlot: !!declaredProgram.status
+      }))
     default:
       return []
   }
@@ -92,6 +101,10 @@ const isLight = computed(() => associatedContextType === EAssociationContextType
       <DeclaredExperienceTypeBadge
         v-else-if="associatedContextType === EAssociationContextType.DECLARED_EXPERIENCE"
         :experience-type="(element as DeclaredExperienceViewDTO).experienceType!"
+      />
+      <DeclaredProgramStatusBadge
+        v-else-if="associatedContextType === EAssociationContextType.DECLARED_PROGRAM"
+        :status="(element as DeclaredProgramViewDTO).status"
       />
     </template>
   </CompactCardSelector>

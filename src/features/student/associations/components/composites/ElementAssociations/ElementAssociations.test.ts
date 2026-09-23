@@ -31,7 +31,8 @@ const UNASSOCIATE_DISABLED_TOOLTIPS: Record<EAssociationContextType, string> = {
   [EAssociationContextType.TRACE]: 'Aucune trace associée ne peut être dissociée.',
   [EAssociationContextType.DECLARED_ACTIVITY]: 'Aucune activité associée ne peut être dissociée.',
   [EAssociationContextType.DECLARED_SKILL]: 'Aucune compétence associée ne peut être dissociée.',
-  [EAssociationContextType.DECLARED_EXPERIENCE]: 'Aucune expérience associée ne peut être dissociée.'
+  [EAssociationContextType.DECLARED_EXPERIENCE]: 'Aucune expérience associée ne peut être dissociée.',
+  [EAssociationContextType.DECLARED_PROGRAM]: 'Aucune formation associée ne peut être dissociée.'
 }
 
 function unassociateItem (type: EAssociationContextType, disabled: boolean) {

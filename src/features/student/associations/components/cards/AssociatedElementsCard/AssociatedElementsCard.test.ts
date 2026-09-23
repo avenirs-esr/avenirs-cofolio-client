@@ -1,6 +1,7 @@
 import {
   createMockedDeclaredActivityAssociations,
   createMockedDeclaredExperienceAssociations,
+  createMockedDeclaredProgramAssociations,
   createMockedDeclaredSkillAssociations,
   createMockedTraceAssociations,
   mockedEmptyAssociations
@@ -9,6 +10,7 @@ import { type AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
 import { ICONS } from '@/common/constants'
 import { AssociatedActivityCardStub } from '@/features/student/associations/components/cards/AssociatedActivityCard/AssociatedActivityCard.stub'
 import { AssociatedDeclaredExperienceCardStub } from '@/features/student/associations/components/cards/AssociatedDeclaredExperienceCard/AssociatedDeclaredExperienceCard.stub'
+import { AssociatedDeclaredProgramCardStub } from '@/features/student/associations/components/cards/AssociatedDeclaredProgramCard/AssociatedDeclaredProgramCard.stub'
 import AssociatedElementsCard, {
   type AssociatedElementsCardProps
 } from '@/features/student/associations/components/cards/AssociatedElementsCard/AssociatedElementsCard.vue'
@@ -24,21 +26,24 @@ const stubs = {
   AssociatedTraceCard: AssociatedTraceCardStub,
   AssociatedActivityCard: AssociatedActivityCardStub,
   AssociatedSkillCard: AssociatedSkillCardStub,
-  AssociatedDeclaredExperienceCard: AssociatedDeclaredExperienceCardStub
+  AssociatedDeclaredExperienceCard: AssociatedDeclaredExperienceCardStub,
+  AssociatedDeclaredProgramCard: AssociatedDeclaredProgramCardStub
 }
 
 const itemCardStubs = [
   AssociatedTraceCardStub,
   AssociatedActivityCardStub,
   AssociatedSkillCardStub,
-  AssociatedDeclaredExperienceCardStub
+  AssociatedDeclaredExperienceCardStub,
+  AssociatedDeclaredProgramCardStub
 ]
 
 const associations: AssociationsDTO = {
   traceAssociations: createMockedTraceAssociations(2),
   declaredActivityAssociations: createMockedDeclaredActivityAssociations(3),
   declaredSkillAssociations: createMockedDeclaredSkillAssociations(2),
-  declaredExperienceAssociations: createMockedDeclaredExperienceAssociations(2)
+  declaredExperienceAssociations: createMockedDeclaredExperienceAssociations(2),
+  declaredProgramAssociations: createMockedDeclaredProgramAssociations(2)
 }
 
 function mountCard (props: AssociatedElementsCardProps) {
@@ -206,6 +211,29 @@ BddTest().given('an associated elements card', () => {
 
       wrapper.findAllComponents(AssociatedDeclaredExperienceCardStub).forEach((card, index) => {
         expect(card.props('declaredExperience')).toEqual(associations.declaredExperienceAssociations[index].declaredExperience)
+      })
+    })
+  })
+
+  BddTest().when('there are declared program associations', () => {
+    beforeEach(() => {
+      wrapper = mountCard({ associatedContextType: EAssociationContextType.DECLARED_PROGRAM, associations })
+    })
+
+    BddTest().then('it should render the card with the declared program icon and test id', () => {
+      expect(findCard().props('icon')).toBe(ICONS.DECLARED_PROGRAMS)
+      expect(findCard().attributes('data-testid')).toBe('associated-declared-programs-card')
+    })
+
+    BddTest().then('it should display the translated title with the count', () => {
+      expect(findCard().props('title')).toBe('Mes formations déclarées associées (2)')
+    })
+
+    BddTest().then('it should render a declared program card per declared program association only', () => {
+      expectOnlyItemCards(AssociatedDeclaredProgramCardStub, 2)
+
+      wrapper.findAllComponents(AssociatedDeclaredProgramCardStub).forEach((card, index) => {
+        expect(card.props('declaredProgram')).toEqual(associations.declaredProgramAssociations[index].declaredProgram)
       })
     })
   })
