@@ -7,7 +7,6 @@ import type {
 import { type DeclaredExperienceViewDTO, EAssociationContextType, type EExperienceType, invalidateGetDeclaredExperienceView, useCreateDeclaredExperience } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { formatYearMonthToDate } from '@/common/utils'
 import { useAssociationSelections } from '@/features/student/associations'
 import { useDeclaredExperienceFormValidators } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { useToasterStore } from '@/store'
@@ -114,8 +113,8 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
         sourceOfInformation: value.sourceOfInformation || undefined,
         summary: value.summary || undefined,
         externalLink: value.externalLink || undefined,
-        startDate: formatYearMonthToDate(value.startDate),
-        endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate) || undefined
+        startDate: value.startDate,
+        endDate: value.isOngoing ? undefined : value.endDate || undefined
       } as DeclaredExperienceViewDTO, value.associationSelections)
     }
   })

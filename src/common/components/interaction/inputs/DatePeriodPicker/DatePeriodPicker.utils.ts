@@ -2,7 +2,7 @@ import type { DatePeriodPickerType, PickerValue } from '@/common/components/inte
 import { type AvDatePickerModel, isDate, isMonthModel, toDate } from '@avenirs-esr/avenirs-dsav'
 import { format, isValid, parse } from 'date-fns'
 
-export function toPickerValue (value: string, type: DatePeriodPickerType, inputFormat: string): PickerValue | null {
+export function toPickerValue (value: string | undefined, type: DatePeriodPickerType, inputFormat: string): PickerValue | null {
   if (!value) {
     return null
   }
