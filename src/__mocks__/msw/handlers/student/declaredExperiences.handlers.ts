@@ -9,6 +9,8 @@ import {
 import {
   type DeclaredExperienceViewDTO,
   type EExperienceType,
+  ESortField,
+  ESortOrder,
   getCreateDeclaredExperienceUrl,
   type GetDeclaredExperienceViewParams,
   getDeleteDeclaredExperiencesUrl,
@@ -24,9 +26,11 @@ export const declaredExperiencesQueryHandler = http.get(`*${getGetDeclaredExperi
   const page = Number.parseInt(url.searchParams.get('page') ?? '0')
   const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10')
   const experienceTypes = (url.searchParams.getAll('experienceTypes') ?? []) as EExperienceType[]
+  const sortField = (url.searchParams.get('sortField') as ESortField) ?? ESortField.NAME
+  const sortOrder = (url.searchParams.get('sortOrder') as ESortOrder) ?? ESortOrder.ASC
 
   await delay('real')
-  const mockData = createMockedDeclaredExperiencesPagedResponse(pageSize, 60, page, experienceTypes)
+  const mockData = createMockedDeclaredExperiencesPagedResponse(pageSize, 60, page, experienceTypes, sortField, sortOrder)
 
   return HttpResponse.json<PagedResponseDeclaredExperienceViewDTO>(mockData, {
     status: 200,
@@ -45,7 +49,9 @@ export function createDeclaredExperienceViewHandler (
         page: searchParams.has('page') ? Number(searchParams.get('page')) : undefined,
         pageSize: searchParams.has('pageSize') ? Number(searchParams.get('pageSize')) : undefined,
         isValorized: searchParams.has('isValorized') ? searchParams.get('isValorized') === 'true' : undefined,
-        experienceTypes: (searchParams.getAll('experienceTypes') ?? []) as EExperienceType[]
+        experienceTypes: (searchParams.getAll('experienceTypes') ?? []) as EExperienceType[],
+        sortField: searchParams.has('sortField') ? (searchParams.get('sortField') as ESortField) : undefined,
+        sortOrder: searchParams.has('sortOrder') ? (searchParams.get('sortOrder') as ESortOrder) : undefined
       })
     }
 

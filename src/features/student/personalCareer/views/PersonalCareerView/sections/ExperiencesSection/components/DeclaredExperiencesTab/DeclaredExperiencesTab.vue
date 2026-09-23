@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { EExperienceType } from '@/api/avenir-esr'
-import { useGetDeclaredExperienceView } from '@/api/avenir-esr'
-import { Pagination } from '@/common/components'
+import type { SortValue } from '@/common/types'
+import { ESortField, ESortOrder, useGetDeclaredExperienceView } from '@/api/avenir-esr'
+import { Pagination, SortSelect } from '@/common/components'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useBaseApiExceptionToast, useModal, usePagination } from '@/common/composables'
 import { ICONS } from '@/common/constants'
+import { formatSortValue, parseSortValue } from '@/common/utils/http/http-params'
 import DeclaredExperienceCard from '@/features/student/personalCareer/components/cards/DeclaredExperienceCard/DeclaredExperienceCard.vue'
 import AddDeclaredExperienceDrawer
   from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/AddDeclaredExperienceDrawer.vue'
@@ -35,11 +37,19 @@ const experienceTypes = computed<EExperienceType[]>(() =>
   selectedExperienceTypes.value.map(option => option.value as EExperienceType)
 )
 
-const params = computed(() => ({
-  page: currentPage.value,
-  pageSize: pageSizeSelected.value,
-  experienceTypes: experienceTypes.value.length ? experienceTypes.value : undefined
-}))
+const selectedSort = ref<{ itemId: SortValue }>({ itemId: formatSortValue(ESortField.DATE, ESortOrder.DESC) })
+
+const params = computed(() => {
+  const { sortField, sortOrder } = parseSortValue(selectedSort.value.itemId)
+
+  return {
+    page: currentPage.value,
+    pageSize: pageSizeSelected.value,
+    experienceTypes: experienceTypes.value.length ? experienceTypes.value : undefined,
+    sortField,
+    sortOrder
+  }
+})
 
 const { data, error, isFetching } = useGetDeclaredExperienceView(params, { query: { placeholderData: keepPreviousData } })
 const declaredExperiences = computed(() => data.value?.data || [])
@@ -67,7 +77,13 @@ useBaseApiExceptionToast(error)
       />
     </div>
 
-    <ExperienceTypeMultiselect v-model="selectedExperienceTypes" />
+    <div class="av-row av-wrap av-gap-sm av-align-center">
+      <ExperienceTypeMultiselect v-model="selectedExperienceTypes" />
+      <SortSelect
+        v-model:selected-item="selectedSort"
+        data-testid="declared-experiences-sort-select"
+      />
+    </div>
 
     <QuerySuspense
       :error="error"

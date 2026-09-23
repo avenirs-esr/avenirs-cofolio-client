@@ -1,8 +1,11 @@
-import type { SortDirection } from '@/common/types'
+import type { ESortField, ESortOrder } from '@/api/avenir-esr'
+import type { SortCriteria, SortValue } from '@/common/types'
 
-export function formatSortParam<T extends string | number | symbol> (
-  field: T,
-  direction: SortDirection
-): string {
-  return `${String(field)},${direction}`
+export function formatSortValue (sortField: ESortField, sortOrder: ESortOrder): SortValue {
+  return `${sortField}_${sortOrder}`
+}
+
+export function parseSortValue (value: SortValue): SortCriteria {
+  const [sortField, sortOrder] = value.split('_') as [ESortField, ESortOrder]
+  return { sortField, sortOrder }
 }

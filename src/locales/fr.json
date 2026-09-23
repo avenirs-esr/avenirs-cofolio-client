@@ -485,11 +485,11 @@
       }
     },
     "sort": {
-      "dateAsc": "Trier du plus ancien au plus récent",
-      "dateDesc": "Trier du plus récent au plus ancien",
+      "DATE_ASC": "Trier du plus ancien au plus récent",
+      "DATE_DESC": "Trier du plus récent au plus ancien",
       "label": "Trier",
-      "nameAsc": "Trier de A à Z",
-      "nameDesc": "Trier de Z à A"
+      "NAME_ASC": "Trier de A à Z",
+      "NAME_DESC": "Trier de Z à A"
     },
     "success": {
       "file": {
