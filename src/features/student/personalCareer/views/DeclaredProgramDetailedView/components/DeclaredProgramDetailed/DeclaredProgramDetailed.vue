@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
-import { CreationUpdateDateDetails } from '@/common/components'
+import { CreationUpdateDateDetails, DatePeriodPicker } from '@/common/components'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import DeclaredProgramDescriptionTextarea
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramDescriptionTextarea/DeclaredProgramDescriptionTextarea.vue'
@@ -12,7 +12,6 @@ import DeclaredProgramSourceOfInformationInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramSourceOfInformationInput/DeclaredProgramSourceOfInformationInput.vue'
 import DeclaredProgramTitleInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramTitleInput/DeclaredProgramTitleInput.vue'
-import { AvPeriodInput, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -36,7 +35,6 @@ const {
 } = declaredProgramDetailed
 
 const { t } = useI18n()
-const { isMobile } = useAvBreakpoints()
 
 const createdAtPrefix = computed(() =>
   capitalize(t('student.personalCareer.global.program'))
@@ -67,20 +65,14 @@ const createdAtPrefix = computed(() =>
           disabled
         />
 
-        <AvPeriodInput
-          :label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.label')"
-          label-class="caption-regular"
-          :start-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.startDate')"
-          :end-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.endDate')"
-          :ongoing-label="t('student.personalCareer.interactions.formFields.DeclaredProgramPeriodFormField.ongoing')"
-          :start-model-value="startDate ?? ''"
-          :end-model-value="endDate ?? ''"
-          start-date-disabled
-          end-date-disabled
-          :stacked="isMobile"
-          separator-spacing="var(--spacing-sm)"
-          width="10rem"
+        <DatePeriodPicker
+          width="var(--dimension-8xl)"
+          disabled
+          :start-date="startDate ?? ''"
+          :end-date="endDate ?? ''"
+          :is-ongoing="!endDate"
           type="month"
+          label-class="caption-regular"
         />
 
         <DeclaredProgramResultInput

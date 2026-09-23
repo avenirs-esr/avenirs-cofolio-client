@@ -3,7 +3,6 @@ import type { DeclaredProgramFormApi, DeclaredProgramFormData } from '@/features
 import { type DeclaredProgramDetailedDTO, type DeclaredProgramRequestDTO, invalidateGetDeclaredPrograms, useUpdateDeclaredProgram } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { formatDateToYearMonth, formatYearMonthToDate } from '@/common/utils'
 import { useDeclaredProgramFormValidators } from '@/features/student/personalCareer/composables/use-declared-program-form-validators/use-declared-program-form-validators'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
@@ -17,8 +16,8 @@ function toFormData (dto: DeclaredProgramDetailedDTO): DeclaredProgramFormData {
     organization: dto.organization ?? '',
     result: dto.result ?? '',
     sourceOfInformation: (dto.sourceOfInformation ?? ''),
-    startDate: formatDateToYearMonth(dto.startDate) ?? '',
-    endDate: dto.endDate ? formatDateToYearMonth(dto.endDate) : '',
+    startDate: dto.startDate ?? '',
+    endDate: dto.endDate ?? '',
     isOngoing: !dto.endDate,
     valorized: dto.valorized ?? false
   }
@@ -31,8 +30,8 @@ function toRequestDTO (value: DeclaredProgramFormData): DeclaredProgramRequestDT
     organization: value.organization,
     result: value.result || undefined,
     sourceOfInformation: value.sourceOfInformation || undefined,
-    startDate: formatYearMonthToDate(value.startDate),
-    endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate),
+    startDate: value.startDate,
+    endDate: value.isOngoing ? undefined : value.endDate,
     valorized: value.valorized
   }
 }
@@ -93,7 +92,7 @@ export function useUpdateDeclaredProgramForm (
       },
       onChange ({ value, formApi }: { value: DeclaredProgramFormData, formApi: DeclaredProgramFormApi }) {
         const isTouched = (field: keyof DeclaredProgramFormData) => formApi.getFieldMeta(field)?.isTouched ?? true
-        const isValid = (field: keyof DeclaredProgramFormData) => formApi.getFieldMeta(field)?.isValid ?? true
+        const startDateError = validators.validateStartDate(value.startDate)
         return {
           fields: {
             title: isTouched('title') ? validators.validateTitle(value.title) : undefined,
@@ -101,8 +100,8 @@ export function useUpdateDeclaredProgramForm (
             organization: isTouched('organization') ? validators.validateOrganization(value.organization) : undefined,
             result: isTouched('result') ? validators.validateResult(value.result) : undefined,
             sourceOfInformation: isTouched('sourceOfInformation') ? validators.validateSourceOfInformation(value.sourceOfInformation) : undefined,
-            startDate: isTouched('startDate') ? validators.validateStartDate(value.startDate) : undefined,
-            endDate: isTouched('startDate') && isValid('startDate') ? validators.validateEndDate(value.endDate, value.startDate, { isRequired: !value.isOngoing }) : undefined,
+            startDate: isTouched('startDate') ? startDateError : undefined,
+            endDate: isTouched('startDate') && !startDateError ? validators.validateEndDate(value.endDate, value.startDate, { isRequired: !value.isOngoing }) : undefined,
           }
         }
       },

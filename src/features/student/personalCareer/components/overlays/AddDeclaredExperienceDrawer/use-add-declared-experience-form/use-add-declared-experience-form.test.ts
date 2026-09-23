@@ -245,7 +245,7 @@ BddTest().given('an add declared experience form', () => {
         const validator = getOnSubmitValidator()
         const result = validator({ value: invalidData })
 
-        expect(result?.fields?.endDate).toBe('Ce champ est requis.')
+        expect(result?.fields?.endDate).toBe('Veuillez renseigner une date de fin.')
       })
     })
 

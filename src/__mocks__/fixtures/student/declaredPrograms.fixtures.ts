@@ -12,15 +12,15 @@ export const declaredProgramViewDTOFixture: DeclaredProgramViewDTO = {
   description: 'Formation approfondie en développement logiciel et intelligence artificielle',
   organization: 'Université Paris-Saclay',
   result: 'Mention Très Bien',
-  startDate: '2023-09',
-  endDate: '2025-06',
+  startDate: '2023-09-01',
+  endDate: '2025-06-01',
   valorized: false,
 }
 
 export const declaredProgramDetailedDTOFixture: DeclaredProgramDetailedDTO = {
   ...declaredProgramViewDTOFixture,
   sourceOfInformation: 'Site web de l\'université',
-  startDate: '2023-09',
+  startDate: '2023-09-01',
   createdAt: '2024-01-15T10:30:00Z',
   updatedAt: '2024-01-15T10:30:00Z'
 }

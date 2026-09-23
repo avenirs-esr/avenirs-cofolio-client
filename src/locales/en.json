@@ -201,6 +201,7 @@
       "justNow": "Just now",
       "minutesAgo": "{count} minute ago | {count} minutes ago",
       "ongoing": "Ongoing",
+      "period": "Period",
       "secondsAgo": "{count} second ago | {count} seconds ago",
       "updatedAt": "Updated on {date}"
     },
@@ -304,6 +305,7 @@
         "invalidEmail": "Please provide a valid email address (e.g.: name{'@'}example.com).",
         "invalidLink": "Please provide a valid URL (e.g.: http://www.example.com). Don't forget to include the protocol (http:// or https://).",
         "maxLength": "Please limit your input to {maxLength} characters",
+        "requiredEndDate": "Please provide an end date.",
         "requiredField": "This field is required."
       },
       "generic": "An error has occurred. Please try again later.",

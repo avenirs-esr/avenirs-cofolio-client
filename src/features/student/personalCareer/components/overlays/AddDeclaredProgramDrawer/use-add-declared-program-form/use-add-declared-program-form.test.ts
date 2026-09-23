@@ -60,8 +60,8 @@ BddTest().given('an add declared program form', () => {
     organization: 'University Paris-Saclay',
     result: 'Mention Très Bien',
     sourceOfInformation: 'University website',
-    startDate: '2024-01',
-    endDate: '2025-12',
+    startDate: '2024-01-01',
+    endDate: '2025-12-01',
     isOngoing: false,
     valorized: false,
     associationSelections: {}
@@ -219,7 +219,7 @@ BddTest().given('an add declared program form', () => {
       BddTest().then('it should return endDate required error', () => {
         const invalidData: DeclaredProgramFormData = {
           ...validData,
-          startDate: '2024-01',
+          startDate: '2024-01-01',
           endDate: '',
           isOngoing: false
         }
@@ -227,7 +227,7 @@ BddTest().given('an add declared program form', () => {
         const validator = getOnSubmitValidator()
         const result = validator({ value: invalidData })
 
-        expect(result?.fields?.endDate).toBe('Ce champ est requis.')
+        expect(result?.fields?.endDate).toBe('Veuillez renseigner une date de fin.')
       })
     })
 
@@ -295,7 +295,7 @@ BddTest().given('an add declared program form', () => {
       beforeEach(() => {
         setFormValues({
           ...validData,
-          endDate: '2025-12',
+          endDate: '2025-12-01',
           isOngoing: true
         })
       })

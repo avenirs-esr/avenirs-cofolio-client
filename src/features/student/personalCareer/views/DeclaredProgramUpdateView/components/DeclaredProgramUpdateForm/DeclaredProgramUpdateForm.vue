@@ -75,7 +75,10 @@ const createdAtPrefix = computed(() =>
 
           <DeclaredProgramOrganizationFormField :form="form" />
 
-          <DeclaredProgramPeriodFormField :form="form" />
+          <DeclaredProgramPeriodFormField
+            :form="form"
+            width="var(--dimension-8xl)"
+          />
 
           <DeclaredProgramResultFormField :form="form" />
 

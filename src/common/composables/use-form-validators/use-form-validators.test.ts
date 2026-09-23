@@ -219,7 +219,7 @@ BddTest().given('a form validators composable', () => {
           format: 'yyyy-MM',
           isOnGoing: false
         })
-        expect(error).toBe('Ce champ est requis.')
+        expect(error).toBe('Veuillez renseigner une date de fin.')
       })
     })
 

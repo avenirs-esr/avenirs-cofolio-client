@@ -88,7 +88,7 @@ export function useFormValidators (): UseFormValidatorsReturn {
     if (!isOnGoing) {
       const endRequiredError = validateRequired(endDate)
       if (endRequiredError) {
-        return endRequiredError
+        return t('global.error.form.requiredEndDate')
       }
     }
 

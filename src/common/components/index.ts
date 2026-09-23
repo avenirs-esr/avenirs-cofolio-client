@@ -3,6 +3,8 @@ export { default as CreationUpdateDateDetails, type DeclaredSkillDateDetailsProp
 export { default as Footer } from './Footer/Footer.vue'
 export { default as FormCancelConfirmButtons, type FormCancelConfirmButtonsProps } from './FormCancelConfirmButtons/FormCancelConfirmButtons.vue'
 export { default as ImageUpload } from './ImageUpload/ImageUpload.vue'
+export type { DatePeriodPickerType } from './interaction/inputs/DatePeriodPicker/DatePeriodPicker.types'
+export { default as DatePeriodPicker, type DatePeriodPickerProps } from './interaction/inputs/DatePeriodPicker/DatePeriodPicker.vue'
 export { default as Loader, type LoaderColor, type LoaderProps, type LoaderSize } from './Loader/Loader.vue'
 export { default as PageTitle } from './PageTitle/PageTitle.vue'
 export { default as Pagination } from './Pagination/Pagination.vue'

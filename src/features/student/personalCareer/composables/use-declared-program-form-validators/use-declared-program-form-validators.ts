@@ -44,7 +44,7 @@ export function useDeclaredProgramFormValidators () {
     return validateDateInterval({
       startDate,
       endDate,
-      format: 'yyyy-MM',
+      format: 'yyyy-MM-dd',
       isOnGoing: !options.isRequired
     })
   }

@@ -1,6 +1,7 @@
 import type { AddDeclaredProgramForm, DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
+import { DatePeriodPickerStub } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.stub'
 import DeclaredProgramPeriodFormField from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramPeriodFormField/DeclaredProgramPeriodFormField.vue'
-import { AvCheckboxStub, AvPeriodInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -18,17 +19,13 @@ const TestWrapper = defineComponent({
       } as DeclaredProgramFormData,
       validators: {
         onSubmit ({ value }) {
-          const errors: Record<string, string | undefined> = {
-            startDate: undefined,
-            endDate: undefined,
-            isOngoing: undefined
-          }
+          const errors: Partial<Record<keyof DeclaredProgramFormData, string>> = {}
 
-          if (!value.startDate || value.startDate.trim() === '') {
+          if (!value.startDate.trim()) {
             errors.startDate = 'La date de début est requise'
           }
 
-          if (!value.isOngoing && (!value.endDate || value.endDate.trim() === '')) {
+          if (!value.isOngoing && !value.endDate.trim()) {
             errors.endDate = 'La date de fin est requise'
           }
 
@@ -49,167 +46,115 @@ const TestWrapper = defineComponent({
 BddTest().given('a declared program period form field', () => {
   let wrapper: VueWrapper<InstanceType<typeof TestWrapper>>
 
-  const stubs = {
-    AvCheckbox: AvCheckboxStub,
-    AvPeriodInput: AvPeriodInputStub
-  }
-
-  const getCheckbox = () => wrapper.findComponent({ name: 'AvCheckbox' })
-  const getPeriodInput = () => wrapper.findComponent({ name: 'AvPeriodInput' })
-
   beforeEach(() => {
     vi.clearAllMocks()
     wrapper = mount(TestWrapper, {
-      global: { stubs }
+      global: {
+        stubs: {
+          DatePeriodPicker: DatePeriodPickerStub
+        }
+      }
     })
   })
 
+  const getDatePeriodPicker = () => wrapper.findComponent(DatePeriodPickerStub)
+
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render the checkbox and the period input', () => {
-      expect(getCheckbox().exists()).toBe(true)
-      expect(getPeriodInput().exists()).toBe(true)
+    BddTest().then('it should render the date period picker', () => {
+      expect(getDatePeriodPicker().exists()).toBe(true)
     })
 
     BddTest().then('it should have empty initial values', () => {
-      const period = getPeriodInput()
-      expect(period.props('startModelValue')).toBe('')
-      expect(period.props('endModelValue')).toBe('')
+      const datePeriodPicker = getDatePeriodPicker()
+      expect(datePeriodPicker.props('startDate')).toBe('')
+      expect(datePeriodPicker.props('endDate')).toBe('')
+      expect(datePeriodPicker.props('isOngoing')).toBe(false)
     })
 
-    BddTest().then('it should have isOngoing unchecked', () => {
-      const checkbox = getCheckbox()
-      expect(checkbox.props('modelValue')).toEqual([])
-    })
-
-    BddTest().then('it should enable end date input', () => {
-      const period = getPeriodInput()
-      expect(period.props('endDateDisabled')).toBe(false)
+    BddTest().then('it should use the month type and API date format', () => {
+      const datePeriodPicker = getDatePeriodPicker()
+      expect(datePeriodPicker.props('type')).toBe('month')
+      expect(datePeriodPicker.props('inputFormat')).toBe('yyyy-MM-dd')
+      expect(datePeriodPicker.props('outputFormat')).toBe('yyyy-MM-dd')
     })
 
     BddTest().and('the user enters a start date', () => {
       BddTest().then('it should update the start date value', async () => {
-        const period = getPeriodInput()
-        await period.vm.$emit('update:startModelValue', '2024-01')
-        await wrapper.vm.$nextTick()
+        getDatePeriodPicker().vm.$emit('update:startDate', '2024-01-01')
 
         await vi.waitFor(() => {
-          const updated = getPeriodInput()
-          expect(updated.props('startModelValue')).toBe('2024-01')
+          expect(getDatePeriodPicker().props('startDate')).toBe('2024-01-01')
         })
       })
     })
 
     BddTest().and('the user enters an end date', () => {
       BddTest().then('it should update the end date value', async () => {
-        const period = getPeriodInput()
-        await period.vm.$emit('update:endModelValue', '2024-12')
-        await wrapper.vm.$nextTick()
+        getDatePeriodPicker().vm.$emit('update:endDate', '2024-12-01')
 
         await vi.waitFor(() => {
-          const updated = getPeriodInput()
-          expect(updated.props('endModelValue')).toBe('2024-12')
+          expect(getDatePeriodPicker().props('endDate')).toBe('2024-12-01')
         })
       })
     })
 
-    BddTest().and('the user checks isOngoing checkbox', () => {
-      BddTest().then('it should check the checkbox and disable end date input and clear end date', async () => {
-        // set an end date first, so we can ensure it gets cleared
-        const period = getPeriodInput()
-        await period.vm.$emit('update:endModelValue', '2024-12')
-        await wrapper.vm.$nextTick()
-
-        const checkbox = getCheckbox()
-        await checkbox.vm.$emit('update:modelValue', ['isOngoing'])
-        await wrapper.vm.$nextTick()
+    BddTest().and('the user checks isOngoing', () => {
+      BddTest().then('it should update the ongoing state and clear the end date', async () => {
+        getDatePeriodPicker().vm.$emit('update:endDate', '2024-12-01')
+        getDatePeriodPicker().vm.$emit('update:isOngoing', true)
+        getDatePeriodPicker().vm.$emit('update:endDate', '')
 
         await vi.waitFor(() => {
-          const updatedCheckbox = getCheckbox()
-          expect(updatedCheckbox.props('modelValue')).toEqual(['isOngoing'])
-        })
-
-        await vi.waitFor(() => {
-          const updatedPeriod = getPeriodInput()
-          expect(updatedPeriod.props('endDateDisabled')).toBe(true)
-        })
-
-        await vi.waitFor(() => {
-          const updatedPeriod = getPeriodInput()
-          expect(updatedPeriod.props('endModelValue')).toBe('')
+          expect(getDatePeriodPicker().props('isOngoing')).toBe(true)
+          expect(getDatePeriodPicker().props('endDate')).toBe('')
         })
       })
     })
 
-    BddTest().and('the user unchecks isOngoing checkbox', () => {
-      BddTest().then('it should uncheck the checkbox and enable end date input', async () => {
-        const checkbox = getCheckbox()
-        await checkbox.vm.$emit('update:modelValue', ['isOngoing'])
-        await wrapper.vm.$nextTick()
-
-        await checkbox.vm.$emit('update:modelValue', [])
-        await wrapper.vm.$nextTick()
+    BddTest().and('the user unchecks isOngoing', () => {
+      BddTest().then('it should update the ongoing state', async () => {
+        getDatePeriodPicker().vm.$emit('update:isOngoing', true)
+        getDatePeriodPicker().vm.$emit('update:isOngoing', false)
 
         await vi.waitFor(() => {
-          const updatedCheckbox = getCheckbox()
-          expect(updatedCheckbox.props('modelValue')).toEqual([])
-        })
-
-        await vi.waitFor(() => {
-          const updatedPeriod = getPeriodInput()
-          expect(updatedPeriod.props('endDateDisabled')).toBe(false)
+          expect(getDatePeriodPicker().props('isOngoing')).toBe(false)
         })
       })
     })
 
     BddTest().and('the form is submitted with empty dates', () => {
-      BddTest().then('it should show validation errors for start and end dates', async () => {
+      BddTest().then('it should pass validation errors to the date period picker', async () => {
         await wrapper.find('form').trigger('submit')
-        await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const period = getPeriodInput()
-          expect(period.props('startErrorMessage')).toBe('La date de début est requise')
-          expect(period.props('endErrorMessage')).toBe('La date de fin est requise')
+          expect(getDatePeriodPicker().props('startDateErrors')).toEqual(['La date de début est requise'])
+          expect(getDatePeriodPicker().props('endDateErrors')).toEqual(['La date de fin est requise'])
         })
       })
     })
 
     BddTest().and('the form is submitted with valid dates', () => {
-      BddTest().then('it should not show validation errors', async () => {
-        const period = getPeriodInput()
-        await period.vm.$emit('update:startModelValue', '2024-01')
-        await period.vm.$emit('update:endModelValue', '2024-12')
-        await wrapper.vm.$nextTick()
-
+      BddTest().then('it should not pass validation errors to the date period picker', async () => {
+        getDatePeriodPicker().vm.$emit('update:startDate', '2024-01-01')
+        getDatePeriodPicker().vm.$emit('update:endDate', '2024-12-01')
         await wrapper.find('form').trigger('submit')
-        await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const updated = getPeriodInput()
-          expect(updated.props('startErrorMessage')).toBeFalsy()
-          expect(updated.props('endErrorMessage')).toBeFalsy()
+          expect(getDatePeriodPicker().props('startDateErrors')).toEqual([])
+          expect(getDatePeriodPicker().props('endDateErrors')).toEqual([])
         })
       })
     })
 
-    BddTest().and('the form is submitted with isOngoing checked and start date', () => {
-      BddTest().then('it should not show validation errors', async () => {
-        const period = getPeriodInput()
-        const checkbox = getCheckbox()
-
-        await period.vm.$emit('update:startModelValue', '2024-01')
-        await wrapper.vm.$nextTick()
-
-        await checkbox.vm.$emit('update:modelValue', ['isOngoing'])
-        await wrapper.vm.$nextTick()
-
+    BddTest().and('the form is submitted with isOngoing checked and a start date', () => {
+      BddTest().then('it should not require an end date', async () => {
+        getDatePeriodPicker().vm.$emit('update:startDate', '2024-01-01')
+        getDatePeriodPicker().vm.$emit('update:isOngoing', true)
         await wrapper.find('form').trigger('submit')
-        await wrapper.vm.$nextTick()
 
         await vi.waitFor(() => {
-          const updated = getPeriodInput()
-          expect(updated.props('startErrorMessage')).toBeFalsy()
-          expect(updated.props('endErrorMessage')).toBeFalsy()
+          expect(getDatePeriodPicker().props('startDateErrors')).toEqual([])
+          expect(getDatePeriodPicker().props('endDateErrors')).toEqual([])
         })
       })
     })
