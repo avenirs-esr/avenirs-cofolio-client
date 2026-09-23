@@ -1,0 +1,206 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/tools/traces/traces.feature.spec.js >> Student Tools Traces Page >> Delete traces >> Student can select multiple traces and open deletion confirmation modal
+- Location: .features-gen/tests/student/tools/traces/traces.feature.spec.js:47:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('traces-actions-dropdown').getByRole('button')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('traces-actions-dropdown').getByRole('button')
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - link "Accueil - Cofolio Étudiant":
+    - /url: /cofolio/student
+    - img
+  - button "Changer d'univers"
+  - list:
+    - listitem:
+      - button "Messagerie"
+    - listitem:
+      - button "Notifications"
+    - listitem:
+      - button "J. moulin"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/student
+      - listitem:
+        - link "MES ACTIVITÉS":
+          - /url: /cofolio/student/activities
+      - listitem:
+        - link "MES COMPÉTENCES":
+          - /url: /cofolio/student/skills
+      - listitem:
+        - button "MON PROJET DE VIE"
+      - listitem:
+        - button "MES OUTILS"
+- main:
+  - navigation "Fil d'Ariane":
+    - list:
+      - listitem:
+        - link "Accueil":
+          - /url: /cofolio/student
+      - listitem: Mes outils
+      - listitem: Mes traces
+  - heading "Ma bibliothèque de traces" [level=1]
+  - img "Informations"
+  - button "Gérer mes traces"
+  - tablist "Liste d’onglets":
+    - tab "Mes traces non associées (20)" [selected]
+    - tab "Mes traces associées (24)"
+  - tabpanel "Mes traces non associées (20)":
+    - text: Rechercher une trace non associée
+    - textbox "Rechercher une trace non associée"
+    - text: Date de début
+    - textbox "Date de début"
+    - textbox "Date de début":
+      - /placeholder: dd/mm/yyyy
+    - text: Date de fin
+    - textbox "Date de fin"
+    - textbox "Date de fin":
+      - /placeholder: dd/mm/yyyy
+    - text: Type
+    - button "Sélectionner un ou plusieurs types de documents"
+    - status
+    - button "Réinitialiser les filtres"
+    - text: Vous avez 20 traces non associées. Attention,
+    - strong: 2 d'entre elles
+    - text: "seront supprimées dans les 7 jours à venir. Pour rappel, sans aucune action de votre part, les traces non associées sont supprimées sous 30 jours. Nombre de résultats par page :"
+    - button "4"
+    - button "8" [disabled] [pressed]
+    - button "12"
+    - button "20"
+    - navigation "Pagination haute":
+      - list:
+        - listitem: Page 1 sur 3
+        - listitem
+        - listitem:
+          - link "Page précédente" [disabled]:
+            - /url: "#page-1"
+        - listitem:
+          - link "Page suivante":
+            - /url: "#page-2"
+        - listitem
+    - link "Ma super trace non associée numéro 1":
+      - /url: /cofolio/student/tools/trace/4453f884-9081-43cb-95c6-d76c2bb59fd7
+    - link "Ma super trace non associée numéro 2":
+      - /url: /cofolio/student/tools/trace/trace-non-associee2
+    - link "Ma super trace non associée numéro 3":
+      - /url: /cofolio/student/tools/trace/trace-non-associee3
+    - link "Ma super trace non associée numéro 4":
+      - /url: /cofolio/student/tools/trace/trace-non-associee4
+    - link "Ma super trace non associée numéro 5":
+      - /url: /cofolio/student/tools/trace/trace-non-associee5
+    - link "Ma super trace non associée numéro 6":
+      - /url: /cofolio/student/tools/trace/trace-non-associee6
+    - link "Ma super trace non associée numéro 7":
+      - /url: /cofolio/student/tools/trace/trace-non-associee7
+    - link "Ma super trace non associée numéro 8":
+      - /url: /cofolio/student/tools/trace/trace-non-associee8
+    - navigation "Pagination basse":
+      - list:
+        - listitem:
+          - link "Première page" [disabled]:
+            - /url: "#page-1"
+        - listitem:
+          - link "Page précédente" [disabled]:
+            - /url: "#page-1"
+        - listitem:
+          - link "1":
+            - /url: "#page-1"
+        - listitem:
+          - link "2":
+            - /url: "#page-2"
+        - listitem:
+          - link "3":
+            - /url: "#page-3"
+        - listitem:
+          - link "Page suivante":
+            - /url: "#page-2"
+        - listitem:
+          - link "Dernière page":
+            - /url: "#page-3"
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/student/accessibility
+    - listitem:
+      - link "Mentions légales":
+        - /url: /cofolio/student/legal
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/student/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/student/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1 | import type { Locator } from '@playwright/test'
+  2 | import { expect } from '@playwright/test'
+  3 | 
+  4 | export async function clickOnElement (element: Locator) {
+> 5 |   await expect(element).toBeVisible()
+    |                         ^ Error: expect(locator).toBeVisible() failed
+  6 |   await expect(element).toBeEnabled()
+  7 |   await element.click()
+  8 | }
+  9 | 
+```
