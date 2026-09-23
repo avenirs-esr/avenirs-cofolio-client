@@ -49,8 +49,8 @@
           "cancelConfirmation": "Are you sure you want to abandon the program association?",
           "confirmButtonDisabledTooltip": "Select at least one program to associate",
           "dropdownLabel": "one/many program(s)",
-          "emptyAssociations": "No associations for this declared program",
-          "fetchAssociationsError": "An error occurred while retrieving the associations for the declared program.",
+          "emptyAssociations": "No association for this declared program.",
+          "fetchAssociationsError": "An error occurred while fetching the declared program associations",
           "searchPlaceholder": "Search for a program...",
           "selectionLabel": "My programs",
           "unassociateDisabledTooltip": "No associated program can be removed."

@@ -10,10 +10,12 @@ import { AssociationSearchFilter } from '@/features/student/associations/types/a
 export const ASSOCIATION_PAIRS: ReadonlyArray<readonly [EAssociationContextType, EAssociationContextType]> = [
   [EAssociationContextType.DECLARED_ACTIVITY, EAssociationContextType.TRACE],
   [EAssociationContextType.DECLARED_ACTIVITY, EAssociationContextType.DECLARED_SKILL],
+  [EAssociationContextType.DECLARED_ACTIVITY, EAssociationContextType.DECLARED_EXPERIENCE],
   [EAssociationContextType.TRACE, EAssociationContextType.DECLARED_SKILL],
   [EAssociationContextType.TRACE, EAssociationContextType.DECLARED_EXPERIENCE],
   [EAssociationContextType.TRACE, EAssociationContextType.DECLARED_PROGRAM],
   [EAssociationContextType.DECLARED_EXPERIENCE, EAssociationContextType.DECLARED_SKILL],
+  [EAssociationContextType.DECLARED_EXPERIENCE, EAssociationContextType.DECLARED_PROGRAM],
   [EAssociationContextType.DECLARED_PROGRAM, EAssociationContextType.DECLARED_SKILL],
 ]
 
@@ -45,6 +47,7 @@ export const ASSOCIATION_CONTEXT_CONFIGS: Record<EAssociationContextType, Associ
   [EAssociationContextType.DECLARED_PROGRAM]: {
     associationsKey: 'declaredProgramAssociations',
     relatedQueryKeys: [['me', 'declared', 'programs']],
+    categoryLabelKeyPrefix: 'student.personalCareer.declaredProgramStatus',
     availableInDemo: true,
   },
 }

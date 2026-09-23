@@ -31,8 +31,9 @@ const longIconCardProps = computed(() => ({
     :data-activity-id="activity.activityId"
     :data-status="activity.activityStatus"
   >
-    <div class="av-row av-gap-sm">
-      <ActivityThematicBadge :thematic="activity.thematic" />
-    </div>
+    <ActivityThematicBadge
+      v-if="activity.thematic"
+      :thematic="activity.thematic"
+    />
   </LongIconCard>
 </template>

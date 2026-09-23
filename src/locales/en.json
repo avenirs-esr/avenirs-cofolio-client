@@ -6,6 +6,7 @@
         "associatedElementType": {
           "DECLARED_ACTIVITY": "Activity",
           "DECLARED_EXPERIENCE": "Experience",
+          "DECLARED_PROGRAM": "Program",
           "DECLARED_SKILL": "Skill",
           "TRACE": "Trace"
         },

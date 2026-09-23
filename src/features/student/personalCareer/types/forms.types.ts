@@ -28,6 +28,7 @@ export interface DeclaredProgramFormData {
   endDate: string
   isOngoing: boolean
   valorized: boolean
+  associationSelections?: AssociationSelections
 }
 export type DeclaredProgramFormApi = AnyFormApi<DeclaredProgramFormData>
 

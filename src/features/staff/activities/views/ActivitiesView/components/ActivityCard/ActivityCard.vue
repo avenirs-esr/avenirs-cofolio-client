@@ -71,8 +71,15 @@ const to = computed(() => ({
       </template>
 
       <div class="details av-col av-gap-sm av-pb-xs av--mt-sm">
-        <div class="av-row av-w-full av-gap-xs av-wrap av-align-center">
-          <ActivityThematicBadge :thematic="activity.thematic" />
+        <div
+          v-if="activity.thematic || withStatus"
+          class="av-row av-w-full av-gap-xs av-wrap av-align-center"
+          data-testid="activity-card-badges"
+        >
+          <ActivityThematicBadge
+            v-if="activity.thematic"
+            :thematic="activity.thematic"
+          />
           <ActivityStatusBadge
             v-if="withStatus"
             :status="activity.status"

@@ -113,7 +113,11 @@ BddTest().given('a declared experience update view', () => {
 
     BddTest().then('it should include the associations count in the associations tab title', async () => {
       const mockedAssociations = createMockedDeclaredExperienceAssociationsDTO()
-      const expectedCount = mockedAssociations.traceAssociations.length + mockedAssociations.declaredSkillAssociations.length
+      const expectedCount = mockedAssociations.traceAssociations.length
+        + mockedAssociations.declaredActivityAssociations.length
+        + mockedAssociations.declaredSkillAssociations.length
+        + mockedAssociations.declaredExperienceAssociations.length
+        + mockedAssociations.declaredProgramAssociations.length
 
       await vi.waitFor(() => {
         const tabs = wrapper.findAllComponents(AvTabStub)

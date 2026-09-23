@@ -1,10 +1,11 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredProgramFormApi, DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
-import { type DeclaredProgramRequestDTO, invalidateGetDeclaredPrograms, useCreateDeclaredProgram } from '@/api/avenir-esr'
+import { type DeclaredProgramRequestDTO, EAssociationContextType, invalidateGetDeclaredPrograms, useCreateDeclaredProgram } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { formatYearMonthToDate } from '@/common/utils'
+import { type AssociationSelections, useAssociationSelections } from '@/features/student/associations'
 import { useDeclaredProgramFormValidators } from '@/features/student/personalCareer/composables/use-declared-program-form-validators/use-declared-program-form-validators'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
@@ -31,10 +32,15 @@ export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
 
   const { mutate: mutateCreateDeclaredProgram, isPending } = useCreateDeclaredProgram()
 
-  function createDeclaredProgram (value: DeclaredProgramRequestDTO) {
-    mutateCreateDeclaredProgram({ data: value }, {
-      onSuccess: async () => {
-        await withTaskLoading(() => invalidateGetDeclaredPrograms(queryClient))
+  const { associateSelections, notifyAssociationErrors, isAssociating } = useAssociationSelections(EAssociationContextType.DECLARED_PROGRAM)
+
+  function createDeclaredProgram (data: DeclaredProgramRequestDTO, associationSelections?: AssociationSelections) {
+    mutateCreateDeclaredProgram({ data }, {
+      onSuccess: async (createdProgram) => {
+        await withTaskLoading(() => Promise.all([
+          invalidateGetDeclaredPrograms(queryClient),
+          associateSelections(createdProgram.id, associationSelections).then(notifyAssociationErrors)
+        ]))
         onProgramAdded?.()
       },
       onError: onCreateDeclaredProgramError
@@ -51,7 +57,8 @@ export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
       startDate: '',
       endDate: '',
       isOngoing: false,
-      valorized: false
+      valorized: false,
+      associationSelections: {}
     } as DeclaredProgramFormData,
     validators: {
       onSubmit ({ value }: { value: DeclaredProgramFormData }) {
@@ -95,7 +102,7 @@ export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
         sourceOfInformation: value.sourceOfInformation || undefined,
         startDate: formatYearMonthToDate(value.startDate),
         endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate) || undefined
-      })
+      } as DeclaredProgramRequestDTO, value.associationSelections)
     }
   })
 
@@ -109,7 +116,7 @@ export function useAddDeclaredProgramForm (onProgramAdded?: () => void) {
   return {
     form,
     isFormValid,
-    isSubmitting: isPending || isLoading.value,
+    isSubmitting: computed(() => isPending.value || isAssociating.value || isLoading.value),
     hasDefinitionItemsError
   }
 }

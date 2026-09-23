@@ -4,7 +4,7 @@ import { ActivityStatusBadgeStub } from '@/common/activities/badges/ActivityStat
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { ROUTES } from '@/common/constants'
-import ActivityCard from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
+import ActivityCard, { type ActivityCardProps } from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvIconStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub } from '@vue/test-utils'
@@ -53,27 +53,46 @@ BddTest().given('an ActivityCard component', () => {
     updatedAt: '2025-03-10T14:00:00.000Z',
   }
 
+  const activityWithoutThematic: ActivityTableRow = {
+    ...baseActivity,
+    thematic: undefined,
+  }
+
+  const mountWith = (props: Partial<ActivityCardProps> = {}) => {
+    wrapper = mountComponent(ActivityCard, {
+      props: {
+        activity: baseActivity,
+        ...props
+      },
+      global: { stubs },
+    })
+  }
+
+  const getCard = () => wrapper.findComponent(CardStub)
+  const getRouterLink = () => wrapper.findComponent(RouterLinkStub)
+  const getThematicBadge = () => wrapper.findComponent(ActivityThematicBadgeStub)
+  const getStatusBadge = () => wrapper.findComponent(ActivityStatusBadgeStub)
+  const getIconTexts = () => wrapper.findAllComponents(AvIconTextStub)
+  const getBadgesContainer = () => wrapper.find('[data-testid="activity-card-badges"]')
+
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
-      wrapper = mountComponent(ActivityCard, {
-        props: { activity: baseActivity },
-        global: { stubs },
-      })
+      mountWith()
     })
 
     BddTest().then('it should render the card component', () => {
-      const card = wrapper.findComponent(CardStub)
+      const card = getCard()
       expect(card.exists()).toBe(true)
       expect(card.props('backgroundColor')).toBe('var(--card)')
       expect(card.props('titleBackground')).toBe('var(--card)')
     })
 
     BddTest().then('it should render the title link to the activity details route', () => {
-      const link = wrapper.findComponent(RouterLinkStub)
+      const link = getRouterLink()
       expect(link.exists()).toBe(true)
       expect(link.text()).toContain(baseActivity.title)
       expect(link.props('to')).toEqual({
@@ -82,19 +101,23 @@ BddTest().given('an ActivityCard component', () => {
       })
     })
 
+    BddTest().then('it should render the badges container', () => {
+      expect(getBadgesContainer().exists()).toBe(true)
+    })
+
     BddTest().then('it should render the thematic badge with the activity value', () => {
-      const thematic = wrapper.findComponent(ActivityThematicBadgeStub)
+      const thematic = getThematicBadge()
       expect(thematic.exists()).toBe(true)
       expect(thematic.props('thematic')).toBe(baseActivity.thematic)
     })
 
     BddTest().then('it should not render the status badge', () => {
-      const status = wrapper.findComponent(ActivityStatusBadgeStub)
+      const status = getStatusBadge()
       expect(status.exists()).toBe(false)
     })
 
     BddTest().then('it should render owner and updated labels', () => {
-      const iconTexts = wrapper.findAllComponents(AvIconTextStub)
+      const iconTexts = getIconTexts()
 
       expect(iconTexts).toHaveLength(2)
       expect(iconTexts[0].props('icon')).toBe(MDI_ICONS.PERSON_OUTLINE)
@@ -107,16 +130,55 @@ BddTest().given('an ActivityCard component', () => {
 
   BddTest().when('the component is mounted with withStatus=true', () => {
     beforeEach(() => {
-      wrapper = mountComponent(ActivityCard, {
-        props: { activity: baseActivity, withStatus: true },
-        global: { stubs },
-      })
+      mountWith({ withStatus: true })
     })
 
     BddTest().then('it should render the status badge with the activity value', () => {
-      const status = wrapper.findComponent(ActivityStatusBadgeStub)
+      const status = getStatusBadge()
       expect(status.exists()).toBe(true)
       expect(status.props('status')).toBe(baseActivity.status)
+    })
+  })
+
+  BddTest().when('the component is mounted without thematic', () => {
+    beforeEach(() => {
+      mountWith({ activity: activityWithoutThematic })
+    })
+
+    BddTest().then('it should not render the thematic badge', () => {
+      expect(getThematicBadge().exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the empty badges container', () => {
+      expect(getBadgesContainer().exists()).toBe(false)
+    })
+
+    BddTest().then('it should still render owner and updated labels', () => {
+      const iconTexts = getIconTexts()
+
+      expect(iconTexts).toHaveLength(2)
+      expect(iconTexts[0].props('text')).toContain(activityWithoutThematic.owner)
+      expect(iconTexts[1].props('text')).toContain(`formatted-${activityWithoutThematic.updatedAt}`)
+    })
+  })
+
+  BddTest().when('the component is mounted without thematic and with withStatus=true', () => {
+    beforeEach(() => {
+      mountWith({ activity: activityWithoutThematic, withStatus: true })
+    })
+
+    BddTest().then('it should render the badges container', () => {
+      expect(getBadgesContainer().exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render the thematic badge', () => {
+      expect(getThematicBadge().exists()).toBe(false)
+    })
+
+    BddTest().then('it should render the status badge with the activity value', () => {
+      const status = getStatusBadge()
+      expect(status.exists()).toBe(true)
+      expect(status.props('status')).toBe(activityWithoutThematic.status)
     })
   })
 
@@ -131,15 +193,12 @@ BddTest().given('an ActivityCard component', () => {
     }
 
     beforeEach(() => {
-      wrapper = mountComponent(ActivityCard, {
-        props: { activity: otherActivity },
-        global: { stubs },
-      })
+      mountWith({ activity: otherActivity })
     })
 
     BddTest().then('it should update route and badges accordingly', () => {
-      const link = wrapper.findComponent(RouterLinkStub)
-      const thematic = wrapper.findComponent(ActivityThematicBadgeStub)
+      const link = getRouterLink()
+      const thematic = getThematicBadge()
 
       expect(link.props('to')).toEqual({
         name: ROUTES.STAFF.ACTIVITY_CATALOG.name,
@@ -149,7 +208,7 @@ BddTest().given('an ActivityCard component', () => {
     })
 
     BddTest().then('it should use the updated date for formatting', () => {
-      const iconTexts = wrapper.findAllComponents(AvIconTextStub)
+      const iconTexts = getIconTexts()
       expect(iconTexts[1].props('text')).toContain(`formatted-${otherActivity.updatedAt}`)
       expect(mockFormatLastModified).toHaveBeenCalledWith(otherActivity.updatedAt)
     })

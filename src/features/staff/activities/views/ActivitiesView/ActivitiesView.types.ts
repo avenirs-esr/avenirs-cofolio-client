@@ -4,7 +4,7 @@ export interface ActivityTableRow {
   id: string
   owner: string
   status: EActivityStatus
-  thematic: EActivityThematic
+  thematic?: EActivityThematic
   title: string
   updatedAt: string
   actions?: string

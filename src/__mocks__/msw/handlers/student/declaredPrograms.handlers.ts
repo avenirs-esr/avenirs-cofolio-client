@@ -1,10 +1,12 @@
 import {
   createMockedDeclaredProgramsPagedResponse,
+  declaredProgramDetailedDTOFixture,
   declaredProgramViewDTOFixture,
   searchDeclaredProgramsById
 } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
 import {
   type DeclaredProgramDetailedDTO,
+  type DeclaredProgramViewDTO,
   getCreateDeclaredProgramUrl,
   type GetDeclaredProgramsParams,
   getDeleteDeclaredProgramUrl,
@@ -14,6 +16,7 @@ import {
   type PagedResponseDeclaredProgramViewDTO
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
+import { HttpStatusCode } from '@/common/utils'
 import { delay, http, HttpResponse } from 'msw'
 
 export const createDeclaredProgramErrorHandler = http.post(
@@ -85,6 +88,14 @@ export function createDeclaredProgramsViewHandler (
 
 export const declaredProgramDetailedHandler = http.get(`*${getGetDeclaredProgramUrl(':id')}`, ({ params }) => {
   const { id } = params as { id: string }
+
+  if (id === 'INVALID_PROGRAM_ID') {
+    return HttpResponse.json(
+      { error: 'Invalid program ID', code: ErrorCodes.DECLARED_PROGRAM_NOT_FOUND },
+      { status: HttpStatusCode.NOT_FOUND }
+    )
+  }
+
   const program = searchDeclaredProgramsById(id)
   return HttpResponse.json<DeclaredProgramDetailedDTO>(program, {
     status: 200,
@@ -120,6 +131,12 @@ export const declaredProgramDetailedNotFoundHandler = http.get(`*${getGetDeclare
   )
 })
 
+export function createDeclaredProgramHandler (payload: DeclaredProgramViewDTO = declaredProgramViewDTOFixture) {
+  return http.post(`*${getCreateDeclaredProgramUrl()}`, () => {
+    return HttpResponse.json(payload, { status: 200 })
+  })
+}
+
 export const declaredProgramsHandlers = [
   createDeclaredProgramsViewHandler(),
   http.post(
@@ -131,7 +148,7 @@ export const declaredProgramsHandlers = [
   http.put(
     `*${getUpdateDeclaredProgramUrl(':id')}`,
     () => {
-      return HttpResponse.json(declaredProgramViewDTOFixture, { status: 200 })
+      return HttpResponse.json(declaredProgramDetailedDTOFixture, { status: 200 })
     }
   ),
   declaredProgramDetailedHandler,

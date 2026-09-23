@@ -37,6 +37,7 @@ const resourceCount = computed(() => (activity.files?.length ?? 0) + (activity.l
         data-testid="national-activity-content-tab-title"
       />
       <ActivityThematicBadge
+        v-if="activity.thematic"
         :thematic="activity.thematic"
         data-testid="national-activity-content-tab-thematic-badge"
       />

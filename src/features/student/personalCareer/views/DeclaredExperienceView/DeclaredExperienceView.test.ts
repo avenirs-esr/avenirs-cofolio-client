@@ -90,7 +90,7 @@ BddTest().given('a declared experience view component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceView>>
 
   const mockedAssociations = createMockedDeclaredExperienceAssociationsDTO()
-  const associationsCount = mockedAssociations.traceAssociations.length + mockedAssociations.declaredSkillAssociations.length
+  const associationsCount = mockedAssociations.traceAssociations.length + mockedAssociations.declaredProgramAssociations.length
 
   const mountComponentWithDefaults = async () => {
     wrapper = mountComponent(DeclaredExperienceView, {

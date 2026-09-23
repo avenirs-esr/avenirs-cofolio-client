@@ -126,8 +126,7 @@
           },
           "sections": {
             "addProgram": "Ajouter ma formation",
-            "associateProgram": "Associer ma formation",
-            "specifyProgram": "Préciser ma formation"
+            "associateProgram": "Associer ma formation"
           },
           "success": "Formation déclarée ajoutée avec succès",
           "title": "Ajouter une formation déclarée"
@@ -197,8 +196,8 @@
           },
           "errors": {
             "notFound": {
-              "description": "Le programme déclaré que vous recherchez n'existe pas ou n'est pas accessible.",
-              "title": "Programme déclaré introuvable"
+              "description": "La formation déclarée que vous recherchez n'existe pas ou n'est pas accessible.",
+              "title": "Formation déclarée introuvable"
             }
           },
           "ManageDeclaredProgramDropdown": {
@@ -213,6 +212,11 @@
         "DeclaredProgramUpdateView": {
           "confirmationModal": {
             "description": "Les modifications non enregistrées seront perdues."
+          },
+          "tabs": {
+            "program": {
+              "title": "Ma formation déclarée"
+            }
           },
           "updateForm": {
             "errors": {

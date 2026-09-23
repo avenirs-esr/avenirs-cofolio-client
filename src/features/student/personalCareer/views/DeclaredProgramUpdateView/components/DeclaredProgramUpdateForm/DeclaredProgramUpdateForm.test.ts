@@ -1,5 +1,4 @@
-import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
-import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
+import { declaredProgramDetailedDTOFixture } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
 import { DeclaredProgramDescriptionFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.stub'
@@ -39,8 +38,6 @@ BddTest().given('a declared program update form component', () => {
   const onCancel = vi.fn()
   const onProgramUpdated = vi.fn()
 
-  const mockedDeclaredProgramDetailed = declaredProgramViewDTOFixture as unknown as DeclaredProgramDetailedDTO
-
   const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
 
   beforeEach(() => {
@@ -52,7 +49,7 @@ BddTest().given('a declared program update form component', () => {
 
     wrapper = mountComponent(DeclaredProgramUpdateForm, {
       props: {
-        declaredProgramDetailed: mockedDeclaredProgramDetailed,
+        declaredProgramDetailed: declaredProgramDetailedDTOFixture,
         onCancel,
         onProgramUpdated,
       },
