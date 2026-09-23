@@ -234,7 +234,7 @@ BddTest().given('a declared experience form validators composable', () => {
 
     BddTest().and('the start date is valid', () => {
       BddTest().then('it should return undefined', () => {
-        const error = composableResult.validateStartDate('2024-01')
+        const error = composableResult.validateStartDate('2024-01-01')
         expect(error).toBeUndefined()
       })
     })
@@ -243,35 +243,35 @@ BddTest().given('a declared experience form validators composable', () => {
   BddTest().when('validating end date', () => {
     BddTest().and('the end date is empty and not required (ongoing)', () => {
       BddTest().then('it should return undefined', () => {
-        const error = composableResult.validateEndDate('', '2024-01', { isRequired: false })
+        const error = composableResult.validateEndDate('', '2024-01-01', { isRequired: false })
         expect(error).toBeUndefined()
       })
     })
 
     BddTest().and('the end date is empty and required', () => {
       BddTest().then('it should return required error', () => {
-        const error = composableResult.validateEndDate('', '2024-01', { isRequired: true })
+        const error = composableResult.validateEndDate('', '2024-01-01', { isRequired: true })
         expect(error).toBe('Veuillez renseigner une date de fin.')
       })
     })
 
     BddTest().and('the end date is before start date', () => {
       BddTest().then('it should return chronological error', () => {
-        const error = composableResult.validateEndDate('2023-06', '2024-01', { isRequired: true })
+        const error = composableResult.validateEndDate('2023-06-01', '2024-01-01', { isRequired: true })
         expect(error).toBe('La date de fin doit être postérieure à la date de début')
       })
     })
 
     BddTest().and('the end date is after start date', () => {
       BddTest().then('it should return undefined', () => {
-        const error = composableResult.validateEndDate('2024-06', '2024-01', { isRequired: true })
+        const error = composableResult.validateEndDate('2024-06-01', '2024-01-01', { isRequired: true })
         expect(error).toBeUndefined()
       })
     })
 
     BddTest().and('the end date equals start date', () => {
       BddTest().then('it should return undefined', () => {
-        const error = composableResult.validateEndDate('2024-01', '2024-01', { isRequired: true })
+        const error = composableResult.validateEndDate('2024-01-01', '2024-01-01', { isRequired: true })
         expect(error).toBeUndefined()
       })
     })

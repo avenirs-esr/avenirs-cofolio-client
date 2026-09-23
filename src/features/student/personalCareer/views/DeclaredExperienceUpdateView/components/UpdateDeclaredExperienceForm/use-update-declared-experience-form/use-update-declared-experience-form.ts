@@ -3,7 +3,6 @@ import type { DeclaredExperienceFormData } from '@/features/student/personalCare
 import { type DeclaredExperienceRequest, type DeclaredExperienceViewDTO, type EExperienceType, invalidateGetDeclaredExperience, invalidateGetDeclaredExperienceView, useUpdateDeclaredExperience } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { formatDateToYearMonth, formatYearMonthToDate } from '@/common/utils'
 import { useDeclaredExperienceFormValidators } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { useToasterStore } from '@/store'
 import { useForm } from '@tanstack/vue-form'
@@ -18,8 +17,8 @@ function toFormData (dto: DeclaredExperienceViewDTO): DeclaredExperienceFormData
     activitySector: dto.activitySector ?? '',
     location: dto.location ?? '',
     result: dto.result ?? '',
-    startDate: formatDateToYearMonth(dto.startDate) ?? '',
-    endDate: dto.endDate ? formatDateToYearMonth(dto.endDate) : '',
+    startDate: dto.startDate ?? '',
+    endDate: dto.endDate ?? '',
     isOngoing: !dto.endDate,
     sourceOfInformation: dto.sourceOfInformation ?? '',
     description: dto.description ?? '',
@@ -41,8 +40,8 @@ function toRequestDTO (value: DeclaredExperienceFormData): DeclaredExperienceReq
     sourceOfInformation: value.sourceOfInformation || undefined,
     summary: value.summary || undefined,
     externalLink: value.externalLink || undefined,
-    startDate: formatYearMonthToDate(value.startDate),
-    endDate: value.isOngoing ? undefined : formatYearMonthToDate(value.endDate) || undefined,
+    startDate: value.startDate,
+    endDate: value.isOngoing ? undefined : value.endDate || undefined,
     valorized: value.valorized
   }
 }

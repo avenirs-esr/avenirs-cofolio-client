@@ -47,7 +47,7 @@ const pickerLabel = computed(() => {
 const pickerOngoingLabel = computed(() => ongoingLabel ?? t('global.dates.ongoing'))
 
 const startDate = defineModel<string>('startDate', { required: true })
-const endDate = defineModel<string>('endDate', { required: true })
+const endDate = defineModel<string>('endDate', { required: false, default: undefined })
 const isOngoing = defineModel<boolean>('isOngoing', { required: false, default: false })
 
 const componentId = useId()

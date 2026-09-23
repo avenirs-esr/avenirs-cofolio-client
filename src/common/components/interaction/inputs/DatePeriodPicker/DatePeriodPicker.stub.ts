@@ -4,10 +4,10 @@ export const DatePeriodPickerStub = defineComponent({
   name: 'DatePeriodPicker',
   props: {
     startDate: { type: String, required: true },
-    endDate: { type: String, required: true },
+    endDate: { type: String, required: false },
     isOngoing: { type: Boolean, required: true },
-    label: { type: String, required: true },
-    ongoingLabel: { type: String, required: true },
+    label: { type: String, default: undefined },
+    ongoingLabel: { type: String, default: undefined },
     startDateErrors: { type: Array as PropType<(string | undefined)[]>, default: undefined },
     endDateErrors: { type: Array as PropType<(string | undefined)[]>, default: undefined },
     inputFormat: { type: String, default: 'yyyy-MM-dd' },

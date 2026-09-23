@@ -1,5 +1,5 @@
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
-import type { DeclaredProgramFormApi, DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
+import type { DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import {
   DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH,
   DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH,
@@ -56,31 +56,10 @@ BddTest().given('an update declared program form', () => {
     composableResult = result.result
   }
 
-  const getOnChangeValidator = () => {
-    const validator = composableResult.form.options.validators?.onChange
+  const getOnSubmitValidator = () => {
+    const validator = composableResult.form.options.validators?.onSubmit
     expect(validator).toBeDefined()
-    return validator as unknown as (props: { value: DeclaredProgramFormData, formApi: DeclaredProgramFormApi }) => {
-      fields?: Partial<Record<keyof DeclaredProgramFormData, string | undefined>>
-    }
-  }
-
-  const validateForm = (value: DeclaredProgramFormData) => {
-    const fields: Array<keyof DeclaredProgramFormData> = [
-      'title',
-      'description',
-      'organization',
-      'result',
-      'sourceOfInformation',
-      'startDate',
-      'endDate'
-    ]
-
-    fields.forEach(field => composableResult.form.setFieldMeta(field, previous => ({
-      ...previous,
-      isTouched: true
-    })))
-
-    return getOnChangeValidator()({ value, formApi: composableResult.form })
+    return validator!
   }
 
   const setFormValues = (data: Partial<DeclaredProgramFormData>) => {
@@ -173,12 +152,13 @@ BddTest().given('an update declared program form', () => {
           valorized: false
         }
 
-        const result = validateForm(invalidData)
+        const validator = getOnSubmitValidator()
+        const result = validator({ value: invalidData })
 
         expect(result?.fields?.title).toBe('Ce champ est requis.')
         expect(result?.fields?.organization).toBe('Ce champ est requis.')
         expect(result?.fields?.startDate).toBe('Ce champ est requis.')
-        expect(result?.fields?.endDate).toBeUndefined()
+        expect(result?.fields?.endDate).toBe('Ce champ est requis.')
       })
     })
 
@@ -196,7 +176,8 @@ BddTest().given('an update declared program form', () => {
           valorized: false
         }
 
-        const result = validateForm(invalidData)
+        const validator = getOnSubmitValidator()
+        const result = validator({ value: invalidData })
 
         expect(result?.fields?.title).toBe('Veuillez limiter votre saisie à 80 caractères')
         expect(result?.fields?.description).toBe('Veuillez limiter votre saisie à 400 caractères')
