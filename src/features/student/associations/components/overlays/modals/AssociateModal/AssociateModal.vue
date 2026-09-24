@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { EAssociationContextType } from '@/api/avenir-esr'
 import type { Association } from '@/features/student/associations/types/associations.types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
+import { EAssociationContextType } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useModal } from '@/common/composables'
 import { ICONS } from '@/common/constants'
@@ -35,6 +35,8 @@ const emit = defineEmits<{
   (e: 'cancel'): void
   (e: 'associated'): void
 }>()
+
+const isDark = computed(() => associatedContextType === EAssociationContextType.DECLARED_SKILL)
 
 const { t } = useI18n()
 
@@ -166,6 +168,7 @@ function onConfirm () {
       :get-option-key="option => option.value"
       :get-option-label="option => option.label"
       :loading="isLoading"
+      :button-theme="isDark ? 'TERTIARY' : 'PRIMARY'"
       @delete="onDeleteItem"
     >
       <template
