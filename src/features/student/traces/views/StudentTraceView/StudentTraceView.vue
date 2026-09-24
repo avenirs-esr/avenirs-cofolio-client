@@ -39,7 +39,7 @@ const selectedTraceIdsForDeletion = computed(() =>
   traceDetailed.value ? [traceDetailed.value.id] : []
 )
 
-const { navigateToStudentTraces, navigateToStudentUpdateTrace, navigateToStudentToolsUpdateTrace } = useNavigation()
+const { navigateToStudentTraces, navigateToStudentUpdateTrace, navigateToStudentToolsUpdateTrace, navigateToStudentToolsKitUpdateTrace } = useNavigation()
 const route = useRoute()
 
 const associationsCount = computed(() => countElementAssociations(EAssociationContextType.TRACE, traceAssociations.value))
@@ -73,16 +73,20 @@ function onDeleteTraceSuccess () {
 
 const isToolsTraceRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_TRACE.name)
 
+const isToolsKitTraceRoute = computed(() =>
+  route.name === ROUTES.STUDENT.TOOLS_KIT_TRACE.name)
+
 function handleUpdateTrace () {
-  if (isToolsTraceRoute.value) {
-    navigateToStudentToolsUpdateTrace({
-      id: traceDetailed.value!.id,
-    })
+  const id = traceDetailed.value!.id
+
+  if (isToolsKitTraceRoute.value) {
+    navigateToStudentToolsKitUpdateTrace({ id, })
+  }
+  else if (isToolsTraceRoute.value) {
+    navigateToStudentToolsUpdateTrace({ id, })
   }
   else {
-    navigateToStudentUpdateTrace({
-      id: traceDetailed.value!.id,
-    })
+    navigateToStudentUpdateTrace({ id, })
   }
 }
 

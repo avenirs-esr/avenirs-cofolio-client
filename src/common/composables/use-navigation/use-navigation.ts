@@ -13,8 +13,13 @@ export function useNavigation () {
     return navigate(ROUTES.AUTH.LOGIN)
   }
 
-  const navigateToStudentActivitiesCatalog = ({ thematic, id, replace }: { thematic?: EActivityThematic, id?: string, replace?: boolean } =
-  { thematic: undefined, id: undefined, replace: false }) => {
+  const navigateToStudentActivitiesCatalog = (
+    { thematic, id, replace }: { thematic?: EActivityThematic, id?: string, replace?: boolean } = {
+      thematic: undefined,
+      id: undefined,
+      replace: false,
+    },
+  ) => {
     const to = {
       name: ROUTES.STUDENT.ACTIVITIES_CATALOG.name,
       params: { thematic, id },
@@ -22,7 +27,15 @@ export function useNavigation () {
     return navigate(to, replace)
   }
 
-  const navigateToStudentWidgetActivityCatalog = ({ thematic, id, replace }: { thematic: EActivityThematic, id: string, replace?: boolean }) => {
+  const navigateToStudentWidgetActivityCatalog = ({
+    thematic,
+    id,
+    replace,
+  }: {
+    thematic: EActivityThematic
+    id: string
+    replace?: boolean
+  }) => {
     const to = {
       name: ROUTES.STUDENT.WIDGET_ACTIVITY_CATALOG.name,
       params: { thematic, id },
@@ -33,7 +46,7 @@ export function useNavigation () {
   const navigateToStudentDeclaredExperience = ({ id, replace }: { id?: string, replace?: boolean }) => {
     const to = {
       name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
-      params: { id }
+      params: { id },
     }
     return navigate(to, replace)
   }
@@ -66,14 +79,22 @@ export function useNavigation () {
     return navigate({
       name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
       params: { id: categoryId },
-      query: elementId ? { elementId } : undefined
+      query: elementId ? { elementId } : undefined,
     })
   }
 
-  const navigateToStudentSelfKnowledgeElementUpdate = ({ categoryId, elementId, replace }: { categoryId: string, elementId: string, replace?: boolean }) => {
+  const navigateToStudentSelfKnowledgeElementUpdate = ({
+    categoryId,
+    elementId,
+    replace,
+  }: {
+    categoryId: string
+    elementId: string
+    replace?: boolean
+  }) => {
     const to = {
       name: ROUTES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.name,
-      params: { categoryId, elementId }
+      params: { categoryId, elementId },
     }
     return navigate(to, replace)
   }
@@ -86,8 +107,7 @@ export function useNavigation () {
     return navigate(ROUTES.STUDENT.SKILLS, replace)
   }
 
-  const navigateToStudentProjectActivities = ({ replace }: { replace?: boolean } =
-  { replace: false }) => {
+  const navigateToStudentProjectActivities = ({ replace }: { replace?: boolean } = { replace: false }) => {
     const to = {
       name: ROUTES.STUDENT.ACTIVITIES.name,
     }
@@ -124,7 +144,7 @@ export function useNavigation () {
   const navigateToActivity = ({ id, thematic }: { id?: string, thematic?: string }) => {
     const to = {
       name: ROUTES.STUDENT.ACTIVITY.name,
-      params: { id, thematic }
+      params: { id, thematic },
     }
     return navigate(to)
   }
@@ -133,14 +153,22 @@ export function useNavigation () {
     return navigate(ROUTES.STAFF.HOME)
   }
 
-  const navigateToStaffStudentTrackingActivityFeedbackDetails = ({ feedbackId }: { feedbackId: string }): Promise<NavigationFailure | void | undefined> => {
+  const navigateToStaffStudentTrackingActivityFeedbackDetails = ({
+    feedbackId,
+  }: {
+    feedbackId: string
+  }): Promise<NavigationFailure | void | undefined> => {
     return navigate({
       name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
       params: { feedbackId },
     })
   }
 
-  const navigateToStaffActivityFeedbackDetails = ({ feedbackId }: { feedbackId: string }): Promise<NavigationFailure | void | undefined> => {
+  const navigateToStaffActivityFeedbackDetails = ({
+    feedbackId,
+  }: {
+    feedbackId: string
+  }): Promise<NavigationFailure | void | undefined> => {
     return navigate({
       name: ROUTES.STAFF.ACTIVITY_FEEDBACK.name,
       params: { feedbackId },
@@ -162,7 +190,7 @@ export function useNavigation () {
     const to = {
       name: ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY.name,
       params: { id },
-      query: mode ? { mode } : undefined
+      query: mode ? { mode } : undefined,
     }
     return navigate(to, replace)
   }
@@ -184,6 +212,13 @@ export function useNavigation () {
   const navigateToStudentToolsTrace = ({ id }: { id: string }) => {
     return navigate({
       name: ROUTES.STUDENT.TOOLS_TRACE.name,
+      params: { id },
+    })
+  }
+
+  const navigateToStudentToolsKitUpdateTrace = ({ id }: { id: string }) => {
+    return navigate({
+      name: ROUTES.STUDENT.TOOLS_KIT_UPDATE_TRACE.name,
       params: { id },
     })
   }
@@ -228,5 +263,6 @@ export function useNavigation () {
     navigateToStudentUpdateTrace,
     navigateToStudentToolsUpdateTrace,
     navigateToStudentToolsTrace,
+    navigateToStudentToolsKitUpdateTrace,
   }
 }

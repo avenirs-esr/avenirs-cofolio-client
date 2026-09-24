@@ -4,12 +4,22 @@ import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { studentActivitiesRoutes } from '@/features/student/activities/routes'
 import { projectBuildProjectRoutes } from '@/features/student/buildProject/routes'
 import { studentProjectDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
-import { studentToolsKitRoute } from '@/features/student/kit/routes'
+import { studentToolsKitRoute, studentToolsKitRoutes } from '@/features/student/kit/routes'
 import { declaredProgramRoute, personalCareerRoute } from '@/features/student/personalCareer'
-import { declaredExperienceRoute, declaredExperienceUpdateRoute, declaredProgramUpdateRoute } from '@/features/student/personalCareer/routes'
+import {
+  declaredExperienceRoute,
+  declaredExperienceUpdateRoute,
+  declaredProgramUpdateRoute,
+} from '@/features/student/personalCareer/routes'
 import { studentSelfKnowledgeCategoryRoute, studentSelfKnowledgeElementUpdateRoute } from '@/features/student/selfKnowledge'
 import { studentSkillsRoute } from '@/features/student/skills/routes'
-import { studentToolsTraceRoute, studentToolsTracesRoute, studentToolsUpdateTraceRoute, studentTraceRoute, studentUpdateTraceRoute } from '@/features/student/traces/routes'
+import {
+  studentToolsTraceRoute,
+  studentToolsTracesRoute,
+  studentToolsUpdateTraceRoute,
+  studentTraceRoute,
+  studentTracesRoutes,
+} from '@/features/student/traces/routes'
 
 const breadcrumb = [...BASE_BREADCRUMBS.STUDENT.HOME.BASE]
 
@@ -18,7 +28,7 @@ export default [
     path: '/student',
     component: () => import('@/features/student/global/layouts/StudentLayout/StudentLayout.vue'),
     meta: {
-      roles: [EUserCategory.STUDENT]
+      roles: [EUserCategory.STUDENT],
     },
     children: [
       {
@@ -64,6 +74,8 @@ export default [
       declaredExperienceUpdateRoute,
       ...studentActivitiesRoutes,
       ...projectBuildProjectRoutes,
+      ...studentToolsKitRoutes,
+      ...studentTracesRoutes,
       studentSelfKnowledgeCategoryRoute,
       studentSelfKnowledgeElementUpdateRoute,
       studentToolsKitRoute,
@@ -72,7 +84,7 @@ export default [
       studentToolsUpdateTraceRoute,
       studentTraceRoute,
       studentUpdateDeclaredSkillRoute,
-      studentUpdateTraceRoute,
+
       {
         ...ROUTES.STUDENT.ABOUT,
         component: () => import('@/features/student/global/views/StudentAboutView/StudentAboutView.vue'),

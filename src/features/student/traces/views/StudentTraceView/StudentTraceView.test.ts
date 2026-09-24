@@ -1,10 +1,7 @@
 import { mockedTraceAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { getAssociationsErrorHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
-import {
-  createTraceDetailedHandler,
-  downloadTraceAttachmentErrorHandler
-} from '@/__mocks__/msw/handlers/student/traces.handlers'
+import { createTraceDetailedHandler, downloadTraceAttachmentErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
@@ -12,22 +9,16 @@ import { ErrorCodes, ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
-import {
-  TraceDeletionConfirmationModalStub
-} from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.stub'
-import {
-  StudentTraceDetailsStub
-} from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.stub'
-import {
-  TraceSettingsDropdownStub
-} from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.stub'
+import { TraceDeletionConfirmationModalStub } from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.stub'
+import { StudentTraceDetailsStub } from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.stub'
+import { TraceSettingsDropdownStub } from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.stub'
 import StudentTraceView from '@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 
 const route = reactive<{ name: string }>({
-  name: ROUTES.STUDENT.TOOLS_TRACE.name
+  name: ROUTES.STUDENT.TOOLS_TRACE.name,
 })
 
 vi.mock('vue-router', async (importOriginal) => {
@@ -42,7 +33,7 @@ vi.mock('@/common/utils/download/download', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/utils/download/download')>()
   return {
     ...actual,
-    downloadBlob: vi.fn()
+    downloadBlob: vi.fn(),
   }
 })
 
@@ -61,6 +52,7 @@ vi.mock('@/store', async (importOriginal) => {
 const mockNavigateToStudentTraces = vi.fn()
 const mockNavigateToStudentUpdateTrace = vi.fn()
 const mockNavigateToStudentToolsUpdateTrace = vi.fn()
+const mockNavigateToStudentToolsKitUpdateTrace = vi.fn()
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
@@ -70,6 +62,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
       navigateToStudentTraces: mockNavigateToStudentTraces,
       navigateToStudentUpdateTrace: mockNavigateToStudentUpdateTrace,
       navigateToStudentToolsUpdateTrace: mockNavigateToStudentToolsUpdateTrace,
+      navigateToStudentToolsKitUpdateTrace: mockNavigateToStudentToolsKitUpdateTrace,
     }),
   }
 })
@@ -85,13 +78,14 @@ BddTest().given('a student trace view', () => {
     TraceDeletionConfirmationModal: TraceDeletionConfirmationModalStub,
     AssociateModal: AssociateModalStub,
     StudentTraceDetails: StudentTraceDetailsStub,
-    ElementAssociations: ElementAssociationsStub
+    ElementAssociations: ElementAssociationsStub,
   }
 
-  const associationsCount = mockedTraceAssociations.declaredActivityAssociations.length
-    + mockedTraceAssociations.declaredSkillAssociations.length
-    + mockedTraceAssociations.declaredExperienceAssociations.length
-    + mockedTraceAssociations.declaredProgramAssociations.length
+  const associationsCount
+    = mockedTraceAssociations.declaredActivityAssociations.length
+      + mockedTraceAssociations.declaredSkillAssociations.length
+      + mockedTraceAssociations.declaredExperienceAssociations.length
+      + mockedTraceAssociations.declaredProgramAssociations.length
 
   async function selectAssociationsTab () {
     const tabs = wrapper.findComponent({ name: 'AvTabs' })
@@ -109,7 +103,7 @@ BddTest().given('a student trace view', () => {
       props: { traceId: mockedTraceDetailed.id },
       global: { stubs },
       useTanstack: true,
-      usePinia: true
+      usePinia: true,
     })
 
     await flushPromises()
@@ -193,7 +187,7 @@ BddTest().given('a student trace view', () => {
         props: { traceId: mockedTraceDetailed.id },
         global: { stubs },
         useTanstack: true,
-        usePinia: true
+        usePinia: true,
       })
 
       await flushPromises()
@@ -279,12 +273,11 @@ BddTest().given('a student trace view', () => {
 
       await popover.vm.$emit('download')
       await flushPromises()
-
-      expect(downloadBlob).toHaveBeenCalledTimes(1)
       const [blob, fileName] = vi.mocked(downloadBlob).mock.calls[0]
+      expect(downloadBlob).toHaveBeenCalledTimes(1)
       expect(blob).toMatchObject({
         size: expect.any(Number),
-        type: 'application/octet-stream'
+        type: 'application/octet-stream',
       })
       expect(fileName).toBe(mockedTraceDetailed.attachment.fileName)
       expect(mockAddErrorMessage).not.toHaveBeenCalled()
@@ -388,6 +381,23 @@ BddTest().given('a student trace view', () => {
 
     BddTest().then('it should navigate back to traces list', () => {
       expect(mockNavigateToStudentTraces).toHaveBeenCalledWith({ replace: true })
+    })
+  })
+
+  BddTest().when('the update trace action is triggered', () => {
+    beforeEach(async () => {
+      route.name = ROUTES.STUDENT.TOOLS_KIT_TRACE.name
+
+      const popover = wrapper.findComponent(TraceSettingsDropdownStub)
+
+      await popover.vm.$emit('update')
+      await flushPromises()
+    })
+
+    BddTest().then('it should navigate to the tools kit update trace page', () => {
+      expect(mockNavigateToStudentToolsKitUpdateTrace).toHaveBeenCalledWith({
+        id: mockedTraceDetailed.id,
+      })
     })
   })
 })
