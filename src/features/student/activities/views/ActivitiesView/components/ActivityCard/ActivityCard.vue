@@ -2,16 +2,15 @@
 import type { ActivityOverviewDTO } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
-import { ROUTES } from '@/common/constants'
+import { ICONS, ROUTES } from '@/common/constants'
 import ActivityNewBadge from '@/features/student/activities/components/badges/ActivityNewBadge/ActivityNewBadge.vue'
 import ActivityPeriodBadge from '@/features/student/activities/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.vue'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 defineProps<{ activity: ActivityOverviewDTO, hideNewLabel?: boolean }>()
 
 const iconOptions = {
-  name: MDI_ICONS.TARGET_ARROW,
+  name: ICONS.ACTIVITY,
   color: 'var(--icon)',
   right: '0.4rem',
   bottom: 'calc(-1 * 3.3rem)',
