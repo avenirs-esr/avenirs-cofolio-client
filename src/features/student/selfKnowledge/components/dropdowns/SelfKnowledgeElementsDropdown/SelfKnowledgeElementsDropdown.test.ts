@@ -15,6 +15,8 @@ BddTest().given('a self knowledge elements dropdown', () => {
     return mount(SelfKnowledgeElementsDropdown, { props, global: { stubs } })
   }
 
+  const getAvDropdown = () => wrapper.findComponent(AvDropdownStub)
+
   function isCategoryDeletable (categoryType: ESelfKnowledgeCategory) {
     return (![
       ESelfKnowledgeCategory.VALUES,
@@ -33,42 +35,39 @@ BddTest().given('a self knowledge elements dropdown', () => {
         })
 
         BddTest().then(isCategoryDeletable(category) ? 'the category should be deletable' : 'the category should not be deletable', () => {
-          const dropdown = wrapper.findComponent(AvDropdownStub)
+          const dropdown = getAvDropdown()
           expect(dropdown.exists()).toBe(true)
           expect(dropdown.findAll('button')).toHaveLength(isCategoryDeletable(category) ? 3 : 2)
         })
 
         BddTest().and('the add item is selected', () => {
           beforeEach(async () => {
-            const dropdown = wrapper.findComponent(AvDropdownStub)
-            await dropdown.vm.$emit('itemSelected', 'add')
+            await getAvDropdown().vm.$emit('itemSelected', 'add')
           })
 
-          BddTest().then('it should emit the addSelected event', () => {
-            expect(wrapper.emitted()).toHaveProperty('addSelected')
+          BddTest().then('it should emit the add event', () => {
+            expect(wrapper.emitted()).toHaveProperty('add')
           })
         })
 
         BddTest().and('the delete item is selected', () => {
           beforeEach(async () => {
-            const dropdown = wrapper.findComponent(AvDropdownStub)
-            await dropdown.vm.$emit('itemSelected', 'delete')
+            await getAvDropdown().vm.$emit('itemSelected', 'delete')
           })
 
-          BddTest().then('it should emit the deleteSelected event', () => {
-            expect(wrapper.emitted()).toHaveProperty('deleteSelected')
+          BddTest().then('it should emit the delete event', () => {
+            expect(wrapper.emitted()).toHaveProperty('delete')
           })
         })
 
         if (isCategoryDeletable(category)) {
           BddTest().and('the delete category item is selected', () => {
             beforeEach(async () => {
-              const dropdown = wrapper.findComponent(AvDropdownStub)
-              await dropdown.vm.$emit('itemSelected', 'deleteCategory')
+              await getAvDropdown().vm.$emit('itemSelected', 'deleteCategory')
             })
 
-            BddTest().then('it should emit the deleteCategorySelected event', () => {
-              expect(wrapper.emitted()).toHaveProperty('deleteCategorySelected')
+            BddTest().then('it should emit the deleteCategory event', () => {
+              expect(wrapper.emitted()).toHaveProperty('deleteCategory')
             })
           })
         }
