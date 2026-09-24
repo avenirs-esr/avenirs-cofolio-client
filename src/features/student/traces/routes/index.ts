@@ -7,8 +7,7 @@ export const studentToolsTraceRoute: AvRoute = {
   props: route => ({
     traceId: route.params.id,
   }),
-  component: () =>
-    import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'),
+  component: () => import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'),
   meta: {
     breadcrumb: [...BASE_BREADCRUMBS.STUDENT.TOOLS.TRACES],
   },
@@ -16,8 +15,7 @@ export const studentToolsTraceRoute: AvRoute = {
 
 export const studentToolsTracesRoute: AvRoute = {
   ...ROUTES.STUDENT.TOOLS_TRACES,
-  component: () =>
-    import('@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue'),
+  component: () => import('@/features/student/traces/views/StudentToolsTracesView/StudentToolsTracesView.vue'),
   meta: {
     breadcrumb: [...BASE_BREADCRUMBS.STUDENT.TOOLS.TRACES],
   },
@@ -28,8 +26,7 @@ export const studentTraceRoute: AvRoute = {
   props: route => ({
     traceId: route.params.id,
   }),
-  component: () =>
-    import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'),
+  component: () => import('@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'),
   meta: {
     breadcrumb: [...BASE_BREADCRUMBS.STUDENT.HOME.TRACES],
   },
@@ -40,8 +37,7 @@ export const studentUpdateTraceRoute: AvRoute = {
   props: route => ({
     traceId: route.params.id,
   }),
-  component: () =>
-    import('@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'),
+  component: () => import('@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'),
   meta: {
     breadcrumb: [...BASE_BREADCRUMBS.STUDENT.HOME.TRACES],
   },
@@ -52,20 +48,12 @@ export const studentToolsUpdateTraceRoute: AvRoute = {
   props: route => ({
     traceId: route.params.id,
   }),
-  component: () =>
-    import('@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'),
+  component: () => import('@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'),
   meta: {
     breadcrumb: [...BASE_BREADCRUMBS.STUDENT.TOOLS.TRACES],
   },
 }
 
-export const studentToolsTracesRoutes: AvRoute[] = [
-  studentToolsTraceRoute,
-  studentToolsTracesRoute,
-  studentToolsUpdateTraceRoute,
-]
+export const studentToolsTracesRoutes: AvRoute[] = [studentToolsTraceRoute, studentToolsTracesRoute, studentToolsUpdateTraceRoute]
 
-export const studentTracesRoutes: AvRoute[] = [
-  studentTraceRoute,
-  studentUpdateTraceRoute,
-]
+export const studentTracesRoutes: AvRoute[] = [studentTraceRoute, studentUpdateTraceRoute]

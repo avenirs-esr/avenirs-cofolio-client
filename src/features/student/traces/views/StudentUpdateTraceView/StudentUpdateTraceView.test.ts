@@ -43,16 +43,13 @@ const { mockIsOnlyValorizedModified } = vi.hoisted(() => ({
   mockIsOnlyValorizedModified: { value: false },
 }))
 
-vi.mock(
-  '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form',
-  () => ({
-    useUpdateTraceForm: () => ({
-      form: {},
-      hasErrors: ref(false),
-      isOnlyValorizedModified: mockIsOnlyValorizedModified,
-    }),
+vi.mock('@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form', () => ({
+  useUpdateTraceForm: () => ({
+    form: {},
+    hasErrors: ref(false),
+    isOnlyValorizedModified: mockIsOnlyValorizedModified,
   }),
-)
+}))
 
 BddTest().given('a student update trace view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentUpdateTraceView>>
@@ -157,6 +154,31 @@ BddTest().given('a student update trace view', () => {
       const confirmUpdateTraceModal = wrapper.findComponent(ConfirmUpdateTraceModalStub)
 
       expect(confirmUpdateTraceModal.props('opened')).toBe(true)
+    })
+  })
+
+  BddTest().when('the tools kit update page is displayed', () => {
+    beforeEach(() => {
+      route.name = ROUTES.STUDENT.TOOLS_KIT_UPDATE_TRACE.name
+    })
+
+    BddTest().then('it should link to the tools kit trace page', () => {
+      const pageTitle = wrapper.findComponent(UpdatePageTitleStub)
+
+      expect(pageTitle.props('trailingLinks')).toEqual([
+        {
+          text: mockedTraceDetailed.title,
+          to: {
+            name: ROUTES.STUDENT.TOOLS_KIT_TRACE.name,
+            params: {
+              id: mockedTraceDetailed.id,
+            },
+          },
+        },
+        {
+          text: expect.any(String),
+        },
+      ])
     })
   })
 })

@@ -46,8 +46,8 @@ BddTest().given('a useNavigation composable', () => {
         name: ROUTES.STUDENT.ACTIVITIES_CATALOG.name,
         params: {
           id: undefined,
-          thematic: undefined
-        }
+          thematic: undefined,
+        },
       })
     })
   })
@@ -60,8 +60,8 @@ BddTest().given('a useNavigation composable', () => {
         name: ROUTES.STUDENT.ACTIVITIES_CATALOG.name,
         params: {
           id: 'some-id',
-          thematic: EActivityThematic.RESUMES
-        }
+          thematic: EActivityThematic.RESUMES,
+        },
       })
     })
   })
@@ -74,8 +74,8 @@ BddTest().given('a useNavigation composable', () => {
         name: ROUTES.STUDENT.ACTIVITIES_CATALOG.name,
         params: {
           id: undefined,
-          thematic: undefined
-        }
+          thematic: undefined,
+        },
       })
     })
   })
@@ -88,8 +88,8 @@ BddTest().given('a useNavigation composable', () => {
         name: ROUTES.STUDENT.WIDGET_ACTIVITY_CATALOG.name,
         params: {
           id: 'some-id',
-          thematic: EActivityThematic.RESUMES
-        }
+          thematic: EActivityThematic.RESUMES,
+        },
       })
     })
   })
@@ -149,7 +149,7 @@ BddTest().given('a useNavigation composable', () => {
       expect(pushMock).toHaveBeenCalledWith({
         name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
         params: { id: 'categoryId' },
-        query: { elementId: 'elementId' }
+        query: { elementId: 'elementId' },
       })
     })
   })
@@ -160,7 +160,7 @@ BddTest().given('a useNavigation composable', () => {
       navigateToStudentSelfKnowledgeElementUpdate({ categoryId: 'categoryId', elementId: 'elementId' })
       expect(pushMock).toHaveBeenCalledWith({
         name: ROUTES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.name,
-        params: { categoryId: 'categoryId', elementId: 'elementId' }
+        params: { categoryId: 'categoryId', elementId: 'elementId' },
       })
     })
   })
@@ -171,7 +171,7 @@ BddTest().given('a useNavigation composable', () => {
       navigateToStudentSelfKnowledgeElementUpdate({ categoryId: 'categoryId', elementId: 'elementId', replace: true })
       expect(replaceMock).toHaveBeenCalledWith({
         name: ROUTES.STUDENT.SELFKNOWLEDGE_ELEMENT_UPDATE.name,
-        params: { categoryId: 'categoryId', elementId: 'elementId' }
+        params: { categoryId: 'categoryId', elementId: 'elementId' },
       })
     })
   })
@@ -255,7 +255,7 @@ BddTest().given('a useNavigation composable', () => {
 
       expect(pushMock).toHaveBeenCalledWith({
         name: ROUTES.STUDENT.UPDATE_TRACE.name,
-        params: { id: 'trace-123' }
+        params: { id: 'trace-123' },
       })
     })
   })
@@ -267,7 +267,7 @@ BddTest().given('a useNavigation composable', () => {
 
       expect(pushMock).toHaveBeenCalledWith({
         name: ROUTES.STUDENT.TOOLS_UPDATE_TRACE.name,
-        params: { id: 'trace-123' }
+        params: { id: 'trace-123' },
       })
     })
   })
@@ -294,7 +294,7 @@ BddTest().given('a useNavigation composable', () => {
       navigateToStudentDeclaredExperience({ id: 'exp-123' })
       expect(pushMock).toHaveBeenCalledWith({
         name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
-        params: { id: 'exp-123' }
+        params: { id: 'exp-123' },
       })
     })
   })
@@ -305,7 +305,7 @@ BddTest().given('a useNavigation composable', () => {
       navigateToStudentDeclaredExperience({ id: 'exp-123', replace: true })
       expect(replaceMock).toHaveBeenCalledWith({
         name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
-        params: { id: 'exp-123' }
+        params: { id: 'exp-123' },
       })
     })
   })
@@ -427,7 +427,7 @@ BddTest().given('a useNavigation composable', () => {
 
       expect(pushMock).toHaveBeenCalledWith({
         name: ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY.name,
-        params: { id: 'id' }
+        params: { id: 'id' },
       })
     })
   })
@@ -439,7 +439,7 @@ BddTest().given('a useNavigation composable', () => {
 
       expect(replaceMock).toHaveBeenCalledWith({
         name: ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY.name,
-        params: { id: 'id' }
+        params: { id: 'id' },
       })
     })
   })
@@ -463,7 +463,18 @@ BddTest().given('a useNavigation composable', () => {
 
       expect(pushMock).toHaveBeenCalledWith({
         name: ROUTES.STUDENT.TOOLS_TRACE.name,
-        params: { id: 'trace-123' }
+        params: { id: 'trace-123' },
+      })
+    })
+  })
+
+  BddTest().when('trying to navigate to student tools kit trace', () => {
+    BddTest().then('it should navigate to student tools kit trace with id', () => {
+      const { navigateToStudentToolsKitUpdateTrace } = navigation
+      navigateToStudentToolsKitUpdateTrace({ id: 'trace-123' })
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STUDENT.TOOLS_KIT_UPDATE_TRACE.name,
+        params: { id: 'trace-123' },
       })
     })
   })

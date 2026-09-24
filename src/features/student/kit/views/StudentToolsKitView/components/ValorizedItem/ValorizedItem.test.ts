@@ -79,7 +79,7 @@ BddTest().given('a ValorizedItem component', () => {
       const button = wrapper.findComponent(AvButtonStub)
       expect(button.exists()).toBe(true)
       expect(button.props('to')).toEqual({
-        name: ROUTES.STUDENT.TOOLS_TRACE.name,
+        name: ROUTES.STUDENT.TOOLS_KIT_TRACE.name,
         params: { id: ITEM_ID },
       })
     })
@@ -95,7 +95,7 @@ BddTest().given('a ValorizedItem component', () => {
       const button = wrapper.findComponent(AvButtonStub)
       expect(button.exists()).toBe(true)
       expect(button.props('to')).toEqual({
-        name: ROUTES.STUDENT.TOOLS_TRACE.name,
+        name: ROUTES.STUDENT.TOOLS_KIT_TRACE.name,
         params: { id: ITEM_ID },
       })
     })

@@ -43,8 +43,9 @@ const to = computed(() => {
     case ValorizedItemType.ASSOCIATED_TRACE:
     case ValorizedItemType.NON_ASSOCIATED_TRACE:
       return {
-        name: ROUTES.STUDENT.TOOLS_TRACE.name,
+        name: ROUTES.STUDENT.TOOLS_KIT_TRACE.name,
         params: { id: itemId },
+
       }
     case ValorizedItemType.DECLARED_EXPERIENCE:
       return {

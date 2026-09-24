@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { EAssociationContextType, type TraceDeclaredActivityDTO, useGetAssociations, useGetLockedDeclaredActivities, useGetTraceDetail } from '@/api/avenir-esr'
+import {
+  EAssociationContextType,
+  type TraceDeclaredActivityDTO,
+  useGetAssociations,
+  useGetLockedDeclaredActivities,
+  useGetTraceDetail,
+} from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
@@ -22,7 +28,10 @@ interface StudentUpdateTraceViewProps {
 const { traceId } = defineProps<StudentUpdateTraceViewProps>()
 
 const { data: trace } = useGetTraceDetail(toRef(() => traceId))
-const { data: associations } = useGetAssociations(EAssociationContextType.TRACE, toRef(() => traceId))
+const { data: associations } = useGetAssociations(
+  EAssociationContextType.TRACE,
+  toRef(() => traceId),
+)
 const { data: traceLockedDeclaredActivities, isFetching } = useGetLockedDeclaredActivities([traceId])
 
 const { t } = useI18n()
@@ -36,7 +45,7 @@ const { navigateToStudentTrace, navigateToStudentToolsTrace } = useNavigation()
 function onTraceUpdated () {
   addSuccessMessage({
     timeout: 2000,
-    description: t('student.traces.views.StudentUpdateTraceView.success')
+    description: t('student.traces.views.StudentUpdateTraceView.success'),
   })
   handleConfirmCloseModal()
 }
@@ -46,32 +55,37 @@ const { form, hasErrors, isOnlyValorizedModified } = useUpdateTraceForm(trace.va
 const {
   modalOpened: closeConfirmationModalOpened,
   openModal: openCloseConfirmationModal,
-  closeModal: closeCloseConfirmationModal
+  closeModal: closeCloseConfirmationModal,
 } = useModal()
-const {
-  modalOpened: confirmUpdateModalOpened,
-  openModal: openConfirmUpdateModal,
-  closeModal: closeConfirmUpdateModal
-} = useModal()
+const { modalOpened: confirmUpdateModalOpened, openModal: openConfirmUpdateModal, closeModal: closeConfirmUpdateModal } = useModal()
 
-const isToolsTraceRoute = computed(() =>
-  route.name === ROUTES.STUDENT.TOOLS_UPDATE_TRACE.name)
+const isToolsTraceRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_UPDATE_TRACE.name)
+
+const isToolsKitUpdateTraceRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_UPDATE_TRACE.name)
+
+const traceDetailRouteName = computed(() => {
+  if (isToolsKitUpdateTraceRoute.value) {
+    return ROUTES.STUDENT.TOOLS_KIT_TRACE.name
+  }
+  if (isToolsTraceRoute.value) {
+    return ROUTES.STUDENT.TOOLS_TRACE.name
+  }
+  return ROUTES.STUDENT.TRACE.name
+})
 
 const trailingLinks = computed(() => [
   {
     text: trace.value?.title || '',
     to: {
-      name: isToolsTraceRoute.value ? ROUTES.STUDENT.TOOLS_TRACE.name : ROUTES.STUDENT.TRACE.name,
+      name: traceDetailRouteName.value,
       params: { id: traceId },
     },
   },
-  { text: t('global.buttons.update') }
+  { text: t('global.buttons.update') },
 ])
 
 function navigateBack () {
-  isToolsTraceRoute.value
-    ? navigateToStudentToolsTrace({ id: traceId })
-    : navigateToStudentTrace({ id: traceId })
+  isToolsTraceRoute.value ? navigateToStudentToolsTrace({ id: traceId }) : navigateToStudentTrace({ id: traceId })
 }
 
 const lockedDeclaredActivities = ref<TraceDeclaredActivityDTO[]>([])
@@ -83,9 +97,10 @@ async function handleConfirm () {
   }
 
   try {
-    lockedDeclaredActivities.value = !!traceLockedDeclaredActivities.value && traceLockedDeclaredActivities.value.length > 0
-      ? traceLockedDeclaredActivities.value[0].lockedDeclaredActivities
-      : []
+    lockedDeclaredActivities.value
+      = !!traceLockedDeclaredActivities.value && traceLockedDeclaredActivities.value.length > 0
+        ? traceLockedDeclaredActivities.value[0].lockedDeclaredActivities
+        : []
   }
   catch (error) {
     addErrorMessage(error instanceof BaseApiException ? getErrorMessage(error) : t('global.error.generic'))

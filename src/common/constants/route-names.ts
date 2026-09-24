@@ -18,8 +18,8 @@ export const ROUTES = {
     PERSONAL_DATA: { name: 'staff-personal-data', path: 'personal-data' },
     STUDENT_TRACKING: {
       ACTIVITY_FEEDBACK: { name: 'staff-student-tracking-activity-feedback', path: 'student-tracking/activity-feedbacks/:feedbackId' },
-      FEEDBACKS: { name: 'staff-student-tracking-feedbacks', path: 'student-tracking/feedbacks' }
-    }
+      FEEDBACKS: { name: 'staff-student-tracking-feedbacks', path: 'student-tracking/feedbacks' },
+    },
   },
   STUDENT: {
     ABOUT: { name: 'student-about', path: 'about' },
@@ -36,16 +36,27 @@ export const ROUTES = {
     HOME: { name: 'student-home', path: '' },
     LEGAL: { name: 'student-legal', path: 'legal' },
     MAILBOX: { name: 'student-mailbox', path: 'mailbox' },
-    PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED: { name: 'personal-career-declared-program-detailed', path: 'project/personal-career/declared-programs/:id' },
+    PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED: {
+      name: 'personal-career-declared-program-detailed',
+      path: 'project/personal-career/declared-programs/:id',
+    },
     PERSONAL_CAREER_DECLARED_PROGRAMS: { name: 'personal-career-declared-programs', path: 'declared-programs' },
     PERSONAL_CAREER_EXPERIENCES: { name: 'personal-career-experiences', path: 'experiences' },
-    PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM: { name: 'personal-career-update-declared-program', path: 'project/personal-career/update-declared-programs/:id' },
-    PERSONAL_CAREER: { name: 'student-project-personal-career', path: 'project/personal-career', },
+    PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM: {
+      name: 'personal-career-update-declared-program',
+      path: 'project/personal-career/update-declared-programs/:id',
+    },
+    PERSONAL_CAREER: { name: 'student-project-personal-career', path: 'project/personal-career' },
     PERSONAL_DATA: { name: 'student-personal-data', path: 'personal-data' },
     SELFKNOWLEDGE_CATEGORY: { name: 'student-self-knowledge-category', path: 'project/build-project/self-knowledge/:id' },
-    SELFKNOWLEDGE_ELEMENT_UPDATE: { name: 'student-self-knowledge-element-update', path: 'project/build-project/self-knowledge/:categoryId/:elementId/update' },
+    SELFKNOWLEDGE_ELEMENT_UPDATE: {
+      name: 'student-self-knowledge-element-update',
+      path: 'project/build-project/self-knowledge/:categoryId/:elementId/update',
+    },
     SKILLS: { name: 'student-skills', path: 'skills' },
     TOOLS_KIT: { name: 'student-tools-kit', path: 'tools/kit' },
+    TOOLS_KIT_TRACE: { name: 'student-tools-kit-trace', path: 'tools/kit/trace/:id' },
+    TOOLS_KIT_UPDATE_TRACE: { name: 'student-tools-kit-update-trace', path: 'tools/kit/update-trace/:id' },
     TOOLS_TRACE: { name: 'student-tools-trace', path: 'tools/trace/:id' },
     TOOLS_TRACES: { name: 'student-tools-traces', path: 'tools/traces' },
     TOOLS_UPDATE_TRACE: { name: 'student-tools-update-trace', path: 'tools/update-trace/:id' },
@@ -66,18 +77,8 @@ export const studentPersonalCareerRoutes = [
   ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM,
 ]
 
-export const studentActivtiesRoutes = [
-  ROUTES.STUDENT.ACTIVITY,
-  ROUTES.STUDENT.ACTIVITIES,
-  ROUTES.STUDENT.ACTIVITIES_CATALOG,
-]
+export const studentActivtiesRoutes = [ROUTES.STUDENT.ACTIVITY, ROUTES.STUDENT.ACTIVITIES, ROUTES.STUDENT.ACTIVITIES_CATALOG]
 
-export const studentSkillsRoutes = [
-  ROUTES.STUDENT.SKILLS,
-  ROUTES.STUDENT.DECLARED_SKILL,
-  ROUTES.STUDENT.UPDATE_DECLARED_SKILL,
-]
+export const studentSkillsRoutes = [ROUTES.STUDENT.SKILLS, ROUTES.STUDENT.DECLARED_SKILL, ROUTES.STUDENT.UPDATE_DECLARED_SKILL]
 
-export const studentProjectBuildProjectRoutes = [
-  ROUTES.STUDENT.BUILD_PROJECT,
-]
+export const studentProjectBuildProjectRoutes = [ROUTES.STUDENT.BUILD_PROJECT]
