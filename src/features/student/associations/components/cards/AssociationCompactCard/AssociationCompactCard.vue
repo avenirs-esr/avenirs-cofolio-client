@@ -16,6 +16,7 @@ const { contextType, association } = defineProps<AssociationCompactCardProps>()
 
 const isDark = computed(() => contextType === EAssociationContextType.DECLARED_SKILL)
 const textColor = computed(() => isDark.value ? 'var(--card)' : 'var(--text1)')
+const hoverBorderColor = computed(() => isDark.value ? 'var(--other-border-skill-card)' : undefined)
 
 const iconOptions = computed(() => ({
   name: ASSOCIATION_TYPE_ICONS[contextType],
@@ -32,6 +33,7 @@ const iconOptions = computed(() => ({
     :color="isDark ? 'var(--dark-background-primary1)' : 'var(--light-background-neutral)'"
     :icon-options="iconOptions"
     border-color="var(--other-border-skill-card)"
+    :border-color-on-hover="hoverBorderColor"
     :header-rows="2"
     height="7.5rem"
     custom-title-height="4rem"
