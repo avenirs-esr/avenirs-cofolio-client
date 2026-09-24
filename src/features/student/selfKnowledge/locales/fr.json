@@ -92,15 +92,11 @@
       },
       "SelfKnowledgeMainSection": {
         "buttons": {
-          "addCategory": "Ajouter une catégorie",
+          "dropdownEntityName": "mes catégories",
           "updateProfile": "Modifier mon profil"
         },
         "categoryElementsPaginator": {
-          "buttons": {
-            "add": "Ajouter un élément",
-            "delete": "Supprimer un élément",
-            "deleteCategory": "Supprimer la catégorie"
-          },
+          "dropdownEntityName": "mes éléments",
           "emptyState": "Aucun élément dans cette catégorie",
           "modals": {
             "confirmDeleteElements": {
@@ -122,10 +118,16 @@
             "success": "{count} catégorie ajoutée avec succès | {count} catégories ajoutées avec succès",
             "title": "Vous avez ajouté toutes les catégories actuellement disponible sur COFOLIO. | Quelle catégorie souhaitez-vous ajouter\u00A0? | Quelles catégories souhaitez-vous ajouter\u00A0?"
           },
-          "deleteSelfKnowledgeCategory": {
-            "description": "L'élément renseigné dans cette catégorie sera définitivement supprimé. | {count} éléments renseignés dans cette catégorie seront définitivement supprimés.",
-            "success": "La catégorie {category} a été supprimée avec succès",
-            "title": "Êtes-vous certain(e) de vouloir supprimer la catégorie {category}\u00A0?"
+          "DeleteSelfKnowledgeCategoriesModal": {
+            "confirmButtonDisabledTooltip": "Sélectionnez au moins une catégorie à supprimer",
+            "categoryDisabledTooltip": "Cette catégorie est obligatoire et ne peut pas être supprimée",
+            "success": "{count} catégorie supprimée avec succès | {count} catégories supprimées avec succès",
+            "title": "Quelle catégorie souhaitez-vous supprimer\u00A0? | Quelles catégories souhaitez-vous supprimer\u00A0?"
+          },
+          "DeleteSelfKnowledgeCategoriesConfirmModal": {
+            "description": "Si des éléments sont renseignés dans cette catégorie, ils seront définitivement supprimés. | Si des éléments sont renseignés dans ces catégories, ils seront définitivement supprimés.",
+            "success": "La catégorie {category} a été supprimée avec succès | Les catégories {category} ont été supprimées avec succès",
+            "title": "Êtes-vous certain(e) de vouloir supprimer la catégorie suivante\u00A0? | Êtes-vous certain(e) de vouloir supprimer les catégories suivantes\u00A0?"
           }
         },
         "navigation": {

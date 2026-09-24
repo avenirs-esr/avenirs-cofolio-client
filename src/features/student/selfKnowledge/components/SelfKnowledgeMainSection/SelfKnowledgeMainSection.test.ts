@@ -4,11 +4,14 @@ import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self
 import { getProfileErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { selfKnowledgeCategoriesErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
+import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { UpdateProfileDrawerStub } from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import { ProfileCardStub } from '@/common/components/ProfileCard/ProfileCard.stub'
 import { ICONS } from '@/common/constants'
 import { SelfKnowledgeCategoryElementsPaginatorCardStub } from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.stub'
 import { AddSelfKnowledgeCategoriesModalStub } from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.stub'
+import { DeleteSelfKnowledgeCategoriesModalStub } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoriesModal/DeleteSelfKnowledgeCategoriesModal.stub'
 import SelfKnowledgeMainSection from '@/features/student/selfKnowledge/components/SelfKnowledgeMainSection/SelfKnowledgeMainSection.vue'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -20,43 +23,42 @@ BddTest().given('a self knowledge section component', () => {
     AvButton: AvButtonStub,
     AvIconText: AvIconTextStub,
     AddSelfKnowledgeCategoriesModal: AddSelfKnowledgeCategoriesModalStub,
+    DeleteSelfKnowledgeCategoriesModal: DeleteSelfKnowledgeCategoriesModalStub,
+    ManageEntityDropdown: ManageEntityDropdownStub,
     ProfileCard: ProfileCardStub,
     SelfKnowledgeCategoryElementsPaginatorCard: SelfKnowledgeCategoryElementsPaginatorCardStub,
-    UpdateProfileDrawer: UpdateProfileDrawerStub
-  }
-
-  const getAddButton = () => {
-    return wrapper.findAllComponents(AvButtonStub)
-      .find(button => button.props('label') === 'Ajouter une catégorie')
+    UpdateProfileDrawer: UpdateProfileDrawerStub,
   }
 
   beforeEach(() => {
     wrapper = mountComponent(SelfKnowledgeMainSection, { global: { stubs } })
   })
 
+  const getCategoryCards = () => wrapper.findAllComponents(SelfKnowledgeCategoryElementsPaginatorCardStub)
+  const getDropdown = () => wrapper.findComponent(ManageEntityDropdownStub)
+  const emitDropdownAdd = () => getDropdown().vm.$emit('actionSelected', Action.ADD)
+  const getAvIconText = () => wrapper.findComponent(AvIconTextStub)
+  const getProfileCard = () => wrapper.findComponent(ProfileCardStub)
+
   BddTest().when('the self knowledge section is mounted', () => {
     BddTest().then('it should render no category cards initially', () => {
-      const categoryCards = wrapper.findAllComponents(SelfKnowledgeCategoryElementsPaginatorCardStub)
-      expect(categoryCards).toHaveLength(0)
+      expect(getCategoryCards()).toHaveLength(0)
     })
 
     BddTest().then('it should render category cards after loading', async () => {
       await vi.waitFor(() => {
-        const categoryCards = wrapper.findAllComponents(SelfKnowledgeCategoryElementsPaginatorCardStub)
-        expect(categoryCards.length).toBeGreaterThan(0)
+        expect(getCategoryCards().length).toBeGreaterThan(0)
       })
 
-      const categoryCards = wrapper.findAllComponents(SelfKnowledgeCategoryElementsPaginatorCardStub)
-      expect(categoryCards).toHaveLength(mockedSelfKnowledgeCategories.length)
+      expect(getCategoryCards()).toHaveLength(mockedSelfKnowledgeCategories.length)
     })
 
     BddTest().then('it should pass correct category props to each card', async () => {
       await vi.waitFor(() => {
-        const categoryCards = wrapper.findAllComponents(SelfKnowledgeCategoryElementsPaginatorCardStub)
-        expect(categoryCards.length).toBe(mockedSelfKnowledgeCategories.length)
+        expect(getCategoryCards().length).toBe(mockedSelfKnowledgeCategories.length)
       })
 
-      const categoryCards = wrapper.findAllComponents(SelfKnowledgeCategoryElementsPaginatorCardStub)
+      const categoryCards = getCategoryCards()
 
       categoryCards.forEach((card, index) => {
         expect(card.props('category')).toEqual(mockedSelfKnowledgeCategories[index])
@@ -64,15 +66,14 @@ BddTest().given('a self knowledge section component', () => {
     })
 
     BddTest().then('it should render the self knowledge title', () => {
-      const avIconText = wrapper.findComponent(AvIconTextStub)
+      const avIconText = getAvIconText()
       expect(avIconText.exists()).toBe(true)
       expect(avIconText.props('text')).toBe('Me connaître')
       expect(avIconText.props('icon')).toBe(ICONS.SELF_KNOWLEDGE)
     })
 
     BddTest().then('it should not render the profile card initially', () => {
-      const profileCard = wrapper.findComponent(ProfileCardStub)
-      expect(profileCard.exists()).toBe(false)
+      expect(getProfileCard().exists()).toBe(false)
     })
 
     BddTest().then('it should not render the display update profile drawer button initially', () => {
@@ -83,18 +84,16 @@ BddTest().given('a self knowledge section component', () => {
     BddTest().and('the student summary is loaded', () => {
       beforeEach(async () => {
         await vi.waitFor(() => {
-          const profileCard = wrapper.findComponent(ProfileCardStub)
-          expect(profileCard.exists()).toBe(true)
+          expect(getProfileCard().exists()).toBe(true)
         })
       })
 
       BddTest().then('it should render the profile card', () => {
-        const profileCard = wrapper.findComponent(ProfileCardStub)
-        expect(profileCard.exists()).toBe(true)
+        expect(getProfileCard().exists()).toBe(true)
       })
 
       BddTest().then('it should pass correct props to ProfileCard', () => {
-        const profileCard = wrapper.findComponent(ProfileCardStub)
+        const profileCard = getProfileCard()
         expect(profileCard.props('firstName')).toBe(mockedProfileOverview.firstname)
         expect(profileCard.props('lastName')).toBe(mockedProfileOverview.lastname)
         expect(profileCard.props('profilePictureUrl')).toBe(mockedProfileOverview.profilePicture.url)
@@ -121,10 +120,8 @@ BddTest().given('a self knowledge section component', () => {
       })
     })
 
-    BddTest().then('it should render the add self knowledge categories button', () => {
-      const addButton = getAddButton()
-      expect(addButton).toBeDefined()
-      expect(addButton?.props('icon')).toBe('mdi:plus-circle-outline')
+    BddTest().then('it should render the manage categories dropdown', () => {
+      expect(getDropdown().exists()).toBe(true)
     })
 
     BddTest().then('it should render the add self knowledge categories modal in closed state', () => {
@@ -134,9 +131,8 @@ BddTest().given('a self knowledge section component', () => {
     })
 
     BddTest().and('the add button is clicked', () => {
-      beforeEach(async () => {
-        const addButton = getAddButton()
-        await addButton?.trigger('click')
+      beforeEach(() => {
+        emitDropdownAdd()
       })
 
       BddTest().then('it should open the add self knowledge categories modal', () => {
@@ -184,12 +180,9 @@ BddTest().given('a self knowledge section component', () => {
       expect(categoryCards).toHaveLength(0)
     })
 
-    BddTest().then('it should still render the title and add button', () => {
+    BddTest().then('it should still render the title and the dropdown', () => {
       const avIconText = wrapper.findComponent(AvIconTextStub)
       expect(avIconText.exists()).toBe(true)
-
-      const addButton = getAddButton()
-      expect(addButton).toBeDefined()
     })
   })
 

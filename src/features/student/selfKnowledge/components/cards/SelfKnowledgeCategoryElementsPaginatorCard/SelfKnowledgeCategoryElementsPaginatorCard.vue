@@ -6,7 +6,6 @@ import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal } from '@/common/composables'
 import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
 import SelfKnowledgeElementsDropdown from '@/features/student/selfKnowledge/components/dropdowns/SelfKnowledgeElementsDropdown/SelfKnowledgeElementsDropdown.vue'
-import DeleteSelfKnowledgeCategoryModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoryModal/DeleteSelfKnowledgeCategoryModal.vue'
 import DeleteSelfKnowledgeElementsModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeElementsModal/DeleteSelfKnowledgeElementsModal.vue'
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
@@ -44,12 +43,6 @@ const {
   categoryDescription,
   categoryIcon
 } = useSelfKnowledgeCategory(computed(() => category.type))
-
-const {
-  openModal: openDeleteCategoryModal,
-  closeModal: closeDeleteCategoryModal,
-  modalOpened: deleteCategoryModalOpened
-} = useModal()
 
 const {
   openModal: openDeleteElementModal,
@@ -95,9 +88,8 @@ function onElementDeleted () {
         <div class="av-row av-align-center av-gap-sm">
           <SelfKnowledgeElementsDropdown
             :category-type="categoryType"
-            @delete-selected="openDeleteElementModal"
-            @delete-category-selected="openDeleteCategoryModal"
-            @add-selected="openAddCategoryElementDrawer"
+            @delete="openDeleteElementModal"
+            @add="openAddCategoryElementDrawer"
           />
         </div>
       </div>
@@ -140,15 +132,6 @@ function onElementDeleted () {
       </QuerySuspense>
     </div>
   </Card>
-
-  <DeleteSelfKnowledgeCategoryModal
-    :opened="deleteCategoryModalOpened"
-    :category-type="category.type"
-    :category-title="categoryDisplayTitle"
-    :elements-count="elements.length"
-    @cancel="closeDeleteCategoryModal"
-    @confirm="closeDeleteCategoryModal"
-  />
 
   <DeleteSelfKnowledgeElementsModal
     v-if="pageInfo"
