@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { EUserCategory, useGetProfile, useGetSelfKnowledgeCategories } from '@/api/avenir-esr'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { useDrawer, useModal } from '@/common/composables'
 import { ICONS } from '@/common/constants'
 import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'
 import AddSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.vue'
+import DeleteSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoriesModal/DeleteSelfKnowledgeCategoriesModal.vue'
 import AddSelfKnowledgeCategoryElementDrawer
   from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/AddSelfKnowledgeCategoryElementDrawer.vue'
 import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -17,11 +20,27 @@ const {
   closeModal: closeAddCategoryModal,
   modalOpened: addCategoryModalOpened
 } = useModal()
+const {
+  openModal: openDeleteCategoriesModal,
+  closeModal: closeDeleteCategoriesModal,
+  modalOpened: deleteCategoriesModalOpened
+} = useModal()
 const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
 const { data: fetchedCategories } = useGetSelfKnowledgeCategories()
 const { data: studentSummary } = useGetProfile(EUserCategory.STUDENT)
 
 const categories = computed(() => fetchedCategories.value ?? [])
+
+function handleActionSelected (action: Action) {
+  switch (action) {
+    case Action.ADD:
+      openAddCategoryModal()
+      break
+    case Action.DELETE:
+      openDeleteCategoriesModal()
+      break
+  }
+}
 </script>
 
 <template>
@@ -65,12 +84,10 @@ const categories = computed(() => fetchedCategories.value ?? [])
     />
 
     <div class="av-row av-justify-end">
-      <AvButton
-        :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
-        :label="t('student.selfKnowledge.SelfKnowledgeMainSection.buttons.addCategory')"
-        variant="OUTLINED"
-        small
-        @click="openAddCategoryModal"
+      <ManageEntityDropdown
+        entity-name="mes catégories"
+        :actions="[Action.ADD, Action.DELETE]"
+        @action-selected="handleActionSelected"
       />
     </div>
     <div class="av-col av-gap-xl">
@@ -86,6 +103,12 @@ const categories = computed(() => fetchedCategories.value ?? [])
     :opened="addCategoryModalOpened"
     @cancel="closeAddCategoryModal"
     @confirm="closeAddCategoryModal"
+  />
+  <DeleteSelfKnowledgeCategoriesModal
+    :opened="deleteCategoriesModalOpened"
+    :categories="categories"
+    @cancel="closeDeleteCategoriesModal"
+    @deleted="closeDeleteCategoriesModal"
   />
   <AddSelfKnowledgeCategoryElementDrawer />
 

@@ -93,15 +93,11 @@
       },
       "SelfKnowledgeMainSection": {
         "buttons": {
-          "addCategory": "Add category",
+          "dropdownEntityName": "my categories",
           "updateProfile": "Update my profile"
         },
         "categoryElementsPaginator": {
-          "buttons": {
-            "add": "Add an element",
-            "delete": "Delete an element",
-            "deleteCategory": "Delete category"
-          },
+          "dropdownEntityName": "my elements",
           "emptyState": "No elements in this category",
           "modals": {
             "confirmDeleteElements": {
@@ -123,10 +119,16 @@
             "success": "{count} category added successfully | {count} categories added successfully",
             "title": "You have added all the categories currently available on COFOLIO. | Which category would you like to add? | Which categories would you like to add?"
           },
-          "deleteSelfKnowledgeCategory": {
-            "description": "The item entered in this category will be permanently deleted. | {count} items entered in this category will be permanently deleted.",
-            "success": "The category {category} has been deleted successfully",
-            "title": "Are you sure you want to delete the category {category}?"
+          "DeleteSelfKnowledgeCategoriesModal": {
+            "confirmButtonDisabledTooltip": "Select at least one category to delete",
+            "categoryDisabledTooltip": "This category is mandatory and cannot be deleted",
+            "success": "{count} category deleted successfully | {count} categories deleted successfully",
+            "title": "Which category would you like to delete? | Which categories would you like to delete?"
+          },
+          "DeleteSelfKnowledgeCategoriesConfirmModal": {
+            "description": "If items are entered in this category, they will be permanently deleted. | If items are entered in these categories, they will be permanently deleted.",
+            "success": "The category {category} has been deleted successfully | The categories {category} have been deleted successfully",
+            "title": "Are you sure you want to delete the category {category}? | Are you sure you want to delete the categories {category}?"
           }
         },
         "navigation": {

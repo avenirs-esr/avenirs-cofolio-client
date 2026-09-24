@@ -135,6 +135,12 @@ export function createMockedPagedResponseSelfKnowledgeElementViewDTO (
   }
 }
 
+export const mandatorySelfKnowledgeCategories: ESelfKnowledgeCategory[] = [
+  ESelfKnowledgeCategory.STRENGTHS,
+  ESelfKnowledgeCategory.VALUES,
+  ESelfKnowledgeCategory.ASPIRATIONS,
+]
+
 export const mockedSelfKnowledgeCategoriesAvailable: SelfKnowledgeCategoryDTO[] = [
   ESelfKnowledgeCategory.MOTIVATION,
   ESelfKnowledgeCategory.IMPROVEMENT,

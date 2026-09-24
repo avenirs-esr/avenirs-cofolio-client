@@ -954,6 +954,37 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "self-knowledge-controller"
+        ],
+        "operationId": "removeSelfKnowledgeCategories",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ESelfKnowledgeCategory"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/me/declared/skill-progress": {
@@ -3456,36 +3487,6 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PagedResponseActivityOverviewDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/self-knowledge/categories/{selfKnowledgeCategory}": {
-      "delete": {
-        "tags": [
-          "self-knowledge-controller"
-        ],
-        "operationId": "removeSelfKnowledgeCategory",
-        "parameters": [
-          {
-            "name": "selfKnowledgeCategory",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/ESelfKnowledgeCategory"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
                 }
               }
             }

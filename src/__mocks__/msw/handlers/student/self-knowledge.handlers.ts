@@ -1,5 +1,6 @@
 import {
   createMockedPagedResponseSelfKnowledgeElementViewDTO,
+  mandatorySelfKnowledgeCategories,
   mockedSelfKnowledgeCategories,
   mockedSelfKnowledgeCategoriesAvailable,
   mockedSelfKnowledgeElementDetails
@@ -13,7 +14,7 @@ import {
   getGetSelfKnowledgeCategoriesUrl,
   getGetSelfKnowledgeElementDetailsUrl,
   getGetSelfKnowledgeElementsUrl,
-  getRemoveSelfKnowledgeCategoryUrl,
+  getRemoveSelfKnowledgeCategoriesUrl,
   type GetSelfKnowledgeElementsParams,
   getUpdateSelfKnowledgeElementUrl,
   type PagedResponseSelfKnowledgeElementViewDTO,
@@ -228,14 +229,14 @@ export const selfKnowledgeHandlers = [
     })
   }),
 
-  http.delete(`*${getRemoveSelfKnowledgeCategoryUrl(CATEGORY_URL_PARAM)}`, async ({ params }) => {
-    const selfKnowledgeCategory = params.selfKnowledgeCategory as string
+  http.delete(`*${getRemoveSelfKnowledgeCategoriesUrl()}`, async ({ request }) => {
+    const selfKnowledgeCategories = await request.json() as ESelfKnowledgeCategory[]
 
-    if (selfKnowledgeCategory === 'INVALID_CATEGORY_ID') {
-      return HttpResponse.json({ error: 'Invalid category ID', code: ErrorCodes.SELF_KNOWLEDGE_CATEGORY_NOT_FOUND }, { status: 404 })
+    if (mandatorySelfKnowledgeCategories.some(category => selfKnowledgeCategories.includes(category))) {
+      return HttpResponse.json({ error: 'Cannot remove mandatory category', code: ErrorCodes.SELF_KNOWLEDGE_CATEGORY_IS_MANDATORY }, { status: 400 })
     }
 
-    const response = 'Category successfully removed from user'
+    const response = 'Categories successfully removed from user'
     return HttpResponse.json<string>(response, {
       status: 200,
       headers: {
