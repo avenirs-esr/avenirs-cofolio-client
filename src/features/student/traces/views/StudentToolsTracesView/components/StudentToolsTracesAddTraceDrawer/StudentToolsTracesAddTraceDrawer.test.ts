@@ -150,10 +150,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
     })
 
     BddTest().then('it should render the title', () => {
-      const title = wrapper.findComponent(AvIconTextStub)
-      expect(title.exists()).toBe(true)
-      expect(title.attributes('data-testid')).toBe('student-tools-traces-add-trace-drawer__title')
-      expect(title.props('text')).toBe('Ajouter une trace')
+      expect(wrapper.text()).toContain('Ajouter une trace')
     })
 
     BddTest().then('it should render accordion group with three accordions', () => {

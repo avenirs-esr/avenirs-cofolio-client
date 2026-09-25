@@ -2,8 +2,7 @@
 import type { ActivityContentDTO } from '@/api/avenir-esr'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 import ActivityRecommendedCompletionContextsList from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
-import { ICONS } from '@/common/constants'
-import { AvAccordion, AvAccordionsGroup, AvButton, AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, AvButton, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ActivityDetailsDrawerProps {
@@ -30,14 +29,10 @@ const { t } = useI18n()
     @click-outside="emit('close')"
   >
     <div class="av-col av-gap-md">
-      <AvIconText
-        :icon="ICONS.ACTIVITY"
-        icon-color="var(--icon)"
-        :text="activity.title"
-        text-color="var(--text1)"
-        typography-class="n6"
+      <span
+        class="n6 av-text-text1"
         data-testid="activity-details-drawer-title"
-      />
+      >{{ activity.title }}</span>
 
       <AvAccordionsGroup :active-accordion="0">
         <AvAccordion

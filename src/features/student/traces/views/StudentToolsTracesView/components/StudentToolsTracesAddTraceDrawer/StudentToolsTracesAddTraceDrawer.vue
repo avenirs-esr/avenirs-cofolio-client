@@ -9,7 +9,7 @@ import CreateTraceFormDeclarationItems from '@/features/student/traces/views/Stu
 import CreateTraceFormTraceDefinitionItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormTraceDefinitionItems/CreateTraceFormTraceDefinitionItems.vue'
 import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 enum AddTraceAccordionGroupItems {
@@ -95,15 +95,10 @@ const associationSelectionsField = form.useField({ name: 'associationSelections'
       class="av-col av-h-full av-gap-md"
       data-testid="add-trace-drawer-content"
     >
-      <AvIconText
-        :icon="MDI_ICONS.PENCIL_OUTLINE"
-        icon-color="var(--icon)"
-        :text="t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.title')"
-        text-color="var(--title)"
-        typography-class="n6"
-        gap="var(--spacing-xs)"
+      <span
+        class="n6 av-text-text1"
         data-testid="student-tools-traces-add-trace-drawer__title"
-      />
+      >{{ t('student.traces.views.StudentToolsTracesView.studentToolsTracesAddTraceDrawer.title') }}</span>
 
       <div class="av-col av-flex-fill">
         <form

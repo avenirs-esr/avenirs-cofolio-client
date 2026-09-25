@@ -15,8 +15,7 @@ import { DeclaredExperienceTitleFormFieldStub } from '@/features/student/persona
 import { DeclaredExperienceTypeFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.stub'
 import AddDeclaredExperienceDrawer from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/AddDeclaredExperienceDrawer.vue'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvAccordionsGroupStub, AvAccordionStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvAccordionsGroupStub, AvAccordionStub, AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
@@ -54,7 +53,7 @@ vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guar
   }
 })
 
-BddTest().given('an add declared experience drawer avIconText', () => {
+BddTest().given('an add declared experience drawer component', () => {
   let wrapper: ReturnType<typeof mountComponent<typeof AddDeclaredExperienceDrawer>>
 
   const stubs = {
@@ -62,7 +61,6 @@ BddTest().given('an add declared experience drawer avIconText', () => {
     AvAccordion: AvAccordionStub,
     AvAccordionsGroup: AvAccordionsGroupStub,
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
-    AvIconText: AvIconTextStub,
     ConfirmationModal: ConfirmationModalStub,
     DeclaredExperienceTitleFormField: DeclaredExperienceTitleFormFieldStub,
     DeclaredExperienceTypeFormField: DeclaredExperienceTypeFormFieldStub,
@@ -102,7 +100,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
     await wrapper.vm.$nextTick()
   })
 
-  BddTest().when('the avIconText is mounted', () => {
+  BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the drawer with correct props', () => {
       const drawer = getAvDrawer()
 
@@ -112,10 +110,7 @@ BddTest().given('an add declared experience drawer avIconText', () => {
     })
 
     BddTest().then('it should render the title', () => {
-      const avIconText = wrapper.findComponent(AvIconTextStub)
-
-      expect(avIconText.props('text')).toBe('Ajouter une expérience déclarée')
-      expect(avIconText.props('icon')).toBe(MDI_ICONS.PLUS_CIRCLE_OUTLINE)
+      expect(wrapper.text()).toContain('Ajouter une expérience déclarée')
     })
 
     BddTest().then('it should render accordion group with two accordions', () => {

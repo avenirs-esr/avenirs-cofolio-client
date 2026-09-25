@@ -3,7 +3,7 @@ import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fi
 import { ActivityDescriptionContentStub } from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.stub'
 import ActivityDetailsDrawer from '@/common/activities/components/ActivityDetailsDrawer/ActivityDetailsDrawer.vue'
 import { ActivityRecommendedCompletionContextsListStub } from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.stub'
-import { AvAccordionStub, AvButtonStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvAccordionStub, AvButtonStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -12,7 +12,6 @@ BddTest().given('the ActivityDetailsDrawer component', () => {
 
   const stubs = {
     AvDrawer: AvDrawerStub,
-    AvIconText: AvIconTextStub,
     AvAccordion: AvAccordionStub,
     AvButton: AvButtonStub,
     ActivityDescriptionContent: ActivityDescriptionContentStub,
@@ -41,7 +40,7 @@ BddTest().given('the ActivityDetailsDrawer component', () => {
     BddTest().then('it should render the activity title', () => {
       const title = wrapper.find('[data-testid="activity-details-drawer-title"]')
       expect(title.exists()).toBe(true)
-      expect(title.getComponent(AvIconTextStub).props('text')).toBe(mockedActivityContent.title)
+      expect(title.text()).toBe(mockedActivityContent.title)
     })
 
     BddTest().then('it should render the consign accordion with the activity description', () => {

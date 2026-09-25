@@ -6,7 +6,7 @@ import { FormCancelConfirmButtonsStub } from '@/common/components/FormCancelConf
 import UpdateActivityDrawer from '@/features/student/activities/components/drawers/UpdateActivityDrawer/UpdateActivityDrawer.vue'
 import { ActivityPeriodFormFieldStub } from '@/features/student/activities/components/interactions/formFields/ActivityPeriodFormField/ActivityPeriodFormField.stub'
 import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
-import { AvAccordionStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvAccordionStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -33,7 +33,6 @@ BddTest().given('the UpdateActivityDrawer component', () => {
 
   const stubs = {
     AvDrawer: AvDrawerStub,
-    AvIconText: AvIconTextStub,
     AvAccordion: AvAccordionStub,
     ActivityPeriodFormField: ActivityPeriodFormFieldStub,
     KitValorizationToggleFormField: KitValorizationToggleFormFieldStub,
@@ -69,10 +68,8 @@ BddTest().given('the UpdateActivityDrawer component', () => {
       expect(avDrawer.props('show')).toBe(true)
     })
 
-    BddTest().then('it should render AvIconText with the drawer title', () => {
-      const iconText = wrapper.findComponent(AvIconTextStub)
-      expect(iconText.exists()).toBe(true)
-      expect(iconText.props('text')).toBe('Modifier l\'activité')
+    BddTest().then('it should render the drawer title', () => {
+      expect(wrapper.text()).toContain('Modifier l\'activité')
     })
 
     BddTest().then('it should render ActivityPeriodFormField', () => {

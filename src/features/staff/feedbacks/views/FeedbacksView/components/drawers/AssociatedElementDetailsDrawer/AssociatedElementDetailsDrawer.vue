@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import { EAssociationContextType } from '@/api/avenir-esr'
-import { ICONS } from '@/common/constants'
 import { DeclaredSkillDetails } from '@/features/student/declaredSkills'
 import { StudentTraceDetails } from '@/features/student/traces'
-import { AvCancelConfirmButtons, AvDrawer, AvIconText, type AvIconTextProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvCancelConfirmButtons, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociatedElementDetailsDrawerProps {
@@ -50,20 +49,14 @@ const currentComponentDefinition = computed(() => {
   }
 })
 
-const titleTextAndIcon = computed<Pick<AvIconTextProps, 'text' | 'icon'>>(() => {
+const title = computed<string>(() => {
   switch (feedbackAssociatedElement.type) {
     case EAssociationContextType.TRACE:
-      return {
-        text: t('staff.feedbacks.views.FeedbacksView.AssociatedElementDetailsDrawer.traceTitle', { traceTitle: feedbackAssociatedElement.data.title }),
-        icon: ICONS.TRACES,
-      }
+      return t('staff.feedbacks.views.FeedbacksView.AssociatedElementDetailsDrawer.traceTitle', { traceTitle: feedbackAssociatedElement.data.title })
     case EAssociationContextType.DECLARED_SKILL:
-      return {
-        text: t('staff.feedbacks.views.FeedbacksView.AssociatedElementDetailsDrawer.declaredSkillTitle', { declaredSkillTitle: feedbackAssociatedElement.data.title }),
-        icon: ICONS.SKILLS,
-      }
+      return t('staff.feedbacks.views.FeedbacksView.AssociatedElementDetailsDrawer.declaredSkillTitle', { declaredSkillTitle: feedbackAssociatedElement.data.title })
     default:
-      return { text: '', icon: MDI_ICONS.INFORMATION_OUTLINE }
+      return ''
   }
 })
 
@@ -83,13 +76,12 @@ function handleClose () {
     @escape-pressed="handleClose"
   >
     <div class="av-col av-gap-md">
-      <AvIconText
-        icon-color="var(--text2)"
-        text-color="var(--text1)"
-        typography-class="n6"
-        v-bind="titleTextAndIcon"
-        wrap-anywhere
-      />
+      <span
+        class="n6 av-text-text1 av-wrap-anywhere"
+        data-testid="associated-element-details-drawer-title"
+      >
+        {{ title }}
+      </span>
 
       <component
         :is="currentComponentDefinition.component"

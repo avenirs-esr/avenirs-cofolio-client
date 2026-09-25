@@ -15,7 +15,6 @@ import {
   AvAccordionsGroup,
   AvCancelConfirmButtons,
   AvDrawer,
-  AvIconText,
   AvInput,
   MDI_ICONS
 } from '@avenirs-esr/avenirs-dsav'
@@ -156,14 +155,10 @@ watch(() => show, (newVal) => {
     @escape-pressed="handleCancel"
   >
     <div class="av-col av-gap-xl">
-      <AvIconText
-        :icon="MDI_ICONS.PENCIL_OUTLINE"
-        icon-color="var(--icon)"
-        :text="t('global.overlay.drawers.UpdateProfileDrawer.title')"
-        text-color="var(--title)"
-        typography-class="n6"
+      <span
+        class="n6 av-text-text1"
         data-testid="drawer-title"
-      />
+      >{{ t('global.overlay.drawers.UpdateProfileDrawer.title') }}</span>
       <form
         id="profile-form"
         novalidate
