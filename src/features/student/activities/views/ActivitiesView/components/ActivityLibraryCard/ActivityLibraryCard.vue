@@ -51,7 +51,7 @@ const isNotSubscribed = computed(() => activity.status !== EDeclaredActivityStat
       title-color="var(--text1)"
     >
       <template #body>
-        <div class="av-col av-pr-4xl--md av-pl-none av-pl-md--md">
+        <div class="av-col av-pr-4xl--md">
           <div class="av-col av-row--md av-gap-sm av-justify-start av-justify-between--md av-px-xs">
             <div class="av-row av-row-wrap av-align-center av-gap-sm av-hidden av-unhidden--md">
               <ValorizedBadge
