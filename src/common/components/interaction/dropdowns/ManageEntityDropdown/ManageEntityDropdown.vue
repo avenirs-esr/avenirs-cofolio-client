@@ -32,21 +32,30 @@ const actionItemsMap = computed(() => new Map(
   }),
 ))
 
-const actionItems = computed(() =>
-  (Object.keys(moreActionConfig) as Action[])
+const actionItems = computed(() => {
+  let canAddSeparator = true
+
+  return (Object.keys(moreActionConfig) as Action[])
     .filter(type => actionItemsMap.value.has(type))
-    .map<AvDropdownItem>((type) => {
+    .map<AvDropdownItem>((type, index) => {
       const { labelKey, ...configs } = moreActionConfig[type]
       const { type: _type, ...options } = actionItemsMap.value.get(type)!
+
+      if (index === 0 && !!configs.separatorBefore) {
+        canAddSeparator = false
+      }
+
+      const separatorBefore = !!configs.separatorBefore && canAddSeparator && index !== 0
 
       return {
         ...options,
         ...configs,
         name: type,
         label: t(labelKey),
+        separatorBefore,
       }
     })
-)
+})
 
 const triggerLabel = computed(() => iconOnly ? undefined : label.value)
 </script>
