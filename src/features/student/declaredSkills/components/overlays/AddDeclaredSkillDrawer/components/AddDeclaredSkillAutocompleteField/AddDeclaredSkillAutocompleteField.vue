@@ -154,18 +154,21 @@ const emptySlotTextContent = computed<string>(() => {
               trigger-class="av-flex-fill"
             >
               <AvListItem
-                hover-background-color="var(--light-background-neutral)"
                 :selected="isSelected"
                 :icon="ICONS.SKILLS"
                 :icon-size="2"
-                icon-color="var(--icon)"
-                color-on-hover="var(--text1)"
+                :title="isSelected ? option.title : undefined"
+                :description="isSelected ? option.pathSegments.join(' > ') : undefined"
                 @click="() => { if (!isSkillAlreadyDeclared(option)) toggle() }"
               >
                 <div
+                  v-if="!isSelected"
                   v-memo="[option, isSelected, isSkillAlreadyDeclared(option)]"
                   class="skill-item av-row av-align-center av-justify-between av-gap-md"
-                  :class="{ 'av-disabled': isSkillAlreadyDeclared(option) }"
+                  :class="{
+                    'av-disabled': isSkillAlreadyDeclared(option),
+                    'skill-item--selected': isSelected,
+                  }"
                   :aria-disabled="isSkillAlreadyDeclared(option)"
                   data-testid="skill-item"
                 >
@@ -208,6 +211,28 @@ const emptySlotTextContent = computed<string>(() => {
       content: ' > ';
       margin: 0 var(--spacing-xxxs);
     }
+  }
+}
+
+:deep() {
+  .av-list-item__title {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-md);
+    line-height: var(--line-height-md);
+    letter-spacing: var(--letter-spacing-md);
+  }
+
+  .av-list-item__description {
+    font-family: var(--font-family-primary);
+    font-weight: var(--font-weight-light);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+    letter-spacing: var(--letter-spacing-sm);
+  }
+
+  .av-list-item__content {
+    gap: var(--spacing-none) !important;
   }
 }
 </style>
