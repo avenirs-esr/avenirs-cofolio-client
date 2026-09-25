@@ -74,6 +74,7 @@ watch(() => route.name, (newRouteName) => {
       v-model:is-side-menu-collapsed="isSideMenuCollapsed"
       :selected-item="selectedItem"
       :items="items"
+      sticky
       data-testid="section-navigation-side-navigation"
       @update:selected-item="navigateToSelectedItem"
     />

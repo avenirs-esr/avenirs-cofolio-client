@@ -105,6 +105,7 @@ function navigateToSelectedItem (value: AvSideNavigationSelectedItem) {
       :selected-item="selectedSideNavItem"
       :items="items"
       width="15rem"
+      sticky
       @update:selected-item="navigateToSelectedItem"
     />
   </Loader>

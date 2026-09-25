@@ -52,7 +52,8 @@ const {
       :component-by-section="componentBySection"
       :select-placeholder="t('student.global.navigation.selects.label')"
       :select-label="t('student.global.navigation.selects.label')"
-      side-navigation-width="11rem"
+      side-navigation-width="fit-content"
+      sticky
       data-testid="project-build-project-layout"
       @selected-item-label="(label) => emit('selectedSection', label)"
       @selected-item="(item) => navigateToSelectedSection(item.itemId)"

@@ -138,6 +138,7 @@ watch(selectedItem, (newItem) => {
         :items="sideNavigationItems"
         data-testid="section-navigation-side-navigation"
         :width="sideNavigationWidth"
+        sticky
         @update:selected-item="onSideNavigationChange"
       />
 
