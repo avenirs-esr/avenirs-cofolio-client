@@ -95,9 +95,9 @@ function onElementDeleted () {
         <div class="av-row av-align-center av-gap-sm">
           <SelfKnowledgeElementsDropdown
             :category-type="categoryType"
-            @delete-selected="openDeleteElementModal"
-            @delete-category-selected="openDeleteCategoryModal"
-            @add-selected="openAddCategoryElementDrawer"
+            @delete="openDeleteElementModal"
+            @delete-category="openDeleteCategoryModal"
+            @add="openAddCategoryElementDrawer"
           />
         </div>
       </div>

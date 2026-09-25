@@ -100,7 +100,8 @@
           "buttons": {
             "add": "Add an element",
             "delete": "Delete an element",
-            "deleteCategory": "Delete category"
+            "deleteCategory": "Delete category",
+            "trigger": "Manage my category"
           },
           "emptyState": "No elements in this category",
           "modals": {

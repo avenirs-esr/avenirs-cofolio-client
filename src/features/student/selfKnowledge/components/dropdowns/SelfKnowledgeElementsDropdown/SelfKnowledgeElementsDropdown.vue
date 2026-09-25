@@ -10,9 +10,7 @@ export interface SelfKnowledgeElementsDropdownProps {
 const { categoryType } = defineProps<SelfKnowledgeElementsDropdownProps>()
 
 const emit = defineEmits<{
-  (e: 'addSelected'): void
-  (e: 'deleteSelected'): void
-  (e: 'deleteCategorySelected'): void
+  (e: SelfKnowledgeElementsDropdownEvents): void
 }>()
 
 const { t } = useI18n()
@@ -53,28 +51,14 @@ const menuItems = computed<AvDropdownItem[]>(() => {
 
   return items
 })
-
-function handleItemSelected (itemName: string) {
-  switch (itemName) {
-    case SelfKnowledgeElementsDropdownEvents.ADD:
-      emit('addSelected')
-      break
-    case SelfKnowledgeElementsDropdownEvents.DELETE:
-      emit('deleteSelected')
-      break
-    case SelfKnowledgeElementsDropdownEvents.DELETE_CATEGORY:
-      emit('deleteCategorySelected')
-      break
-  }
-}
 </script>
 
 <template>
   <AvDropdown
     :items="menuItems"
-    :trigger-aria-label="t('global.buttons.moreActions')"
-    :trigger-label="t('global.buttons.moreActions')"
+    :trigger-aria-label="t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.buttons.trigger')"
+    :trigger-label="t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.buttons.trigger')"
     width="max-content"
-    @item-selected="handleItemSelected"
+    @item-selected="(item) => emit(item as SelfKnowledgeElementsDropdownEvents)"
   />
 </template>

@@ -9,7 +9,7 @@ import { SelfKnowledgeElementCardStub } from '@/features/student/selfKnowledge/c
 import { SelfKnowledgeElementsDropdownStub } from '@/features/student/selfKnowledge/components/dropdowns/SelfKnowledgeElementsDropdown/SelfKnowledgeElementsDropdown.stub'
 import { DeleteSelfKnowledgeCategoryModalStub } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoryModal/DeleteSelfKnowledgeCategoryModal.stub'
 import { DeleteSelfKnowledgeElementsModalStub } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeElementsModal/DeleteSelfKnowledgeElementsModal.stub'
-import { AvPaginationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconTextStub, AvPaginationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper, } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -21,19 +21,6 @@ vi.mock('@/features/student/selfKnowledge/stores/self-knowledge.store', () => ({
     openAddElementDrawer: mockOpenAddElementDrawer
   }))
 }))
-
-const AvIconTextStub = defineComponent({
-  name: 'AvIconText',
-  props: {
-    typographyClass: String,
-    icon: String,
-    iconColor: String,
-    text: String,
-    textColor: String,
-    gap: String
-  },
-  template: '<div data-testid="av-icon-text">{{ text }}</div>'
-})
 
 const stubs = {
   SelfKnowledgeElementCard: SelfKnowledgeElementCardStub,
@@ -136,7 +123,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
           })
         })
 
-        BddTest().and('the delete option is selected from the dropdown', () => {
+        BddTest().and('the delete element option is selected from the dropdown', () => {
           beforeEach(async () => {
             await vi.waitFor(() => {
               const elementCards = wrapper.findAllComponents(SelfKnowledgeElementCardStub)
@@ -144,7 +131,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
             })
 
             const dropdown = wrapper.findComponent(SelfKnowledgeElementsDropdownStub)
-            dropdown.vm.$emit('delete-selected')
+            dropdown.vm.$emit('delete')
           })
 
           BddTest().then('it should display the delete elements confirmation modal', async () => {
@@ -315,10 +302,10 @@ BddTest().given('a self knowledge category elements paginator card', () => {
         expect(deleteModal.props('opened')).toBe(false)
       })
 
-      BddTest().and('the delete option is selected from the dropdown', () => {
+      BddTest().and('the delete category option is selected from the dropdown', () => {
         beforeEach(async () => {
           const dropdown = wrapper.findComponent(SelfKnowledgeElementsDropdownStub)
-          dropdown.vm.$emit('delete-category-selected')
+          dropdown.vm.$emit('deleteCategory')
         })
 
         BddTest().then('it should display the delete confirmation modal', async () => {
@@ -378,7 +365,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
         })
 
         const dropdown = wrapper.findComponent(SelfKnowledgeElementsDropdownStub)
-        dropdown.vm.$emit('add-selected')
+        dropdown.vm.$emit('add')
         await flushPromises()
       })
 
@@ -402,7 +389,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
         })
 
         const dropdown = wrapper.findComponent(SelfKnowledgeElementsDropdownStub)
-        dropdown.vm.$emit('delete-selected')
+        dropdown.vm.$emit('delete')
         await wrapper.vm.$nextTick()
 
         const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementsModalStub)
@@ -431,7 +418,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
         })
 
         const dropdown = wrapper.findComponent(SelfKnowledgeElementsDropdownStub)
-        dropdown.vm.$emit('delete-selected')
+        dropdown.vm.$emit('delete')
         await wrapper.vm.$nextTick()
 
         const deleteModal = wrapper.findComponent(DeleteSelfKnowledgeElementsModalStub)

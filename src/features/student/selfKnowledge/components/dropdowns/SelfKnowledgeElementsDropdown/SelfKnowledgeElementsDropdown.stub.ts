@@ -9,5 +9,6 @@ export const SelfKnowledgeElementsDropdownStub = defineComponent({
       required: true
     }
   },
+  emits: ['add', 'delete', 'deleteCategory'],
   template: '<div data-testid="self-knowledge-elements-dropdown" />'
 })

@@ -99,7 +99,8 @@
           "buttons": {
             "add": "Ajouter un élément",
             "delete": "Supprimer un élément",
-            "deleteCategory": "Supprimer la catégorie"
+            "deleteCategory": "Supprimer la catégorie",
+            "trigger": "Gérer ma catégorie"
           },
           "emptyState": "Aucun élément dans cette catégorie",
           "modals": {
