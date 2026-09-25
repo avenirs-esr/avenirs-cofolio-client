@@ -66,7 +66,7 @@ BddTest().given('a project build project container component', () => {
     BddTest().then('it should pass the expected side navigation width', () => {
       const sectionNavigationLayout = wrapper.findComponent(SectionNavigationLayoutStub)
 
-      expect(sectionNavigationLayout.props('sideNavigationWidth')).toBe('11rem')
+      expect(sectionNavigationLayout.props('sideNavigationWidth')).toBe('fit-content')
     })
 
     BddTest().then('it should pass the expected select placeholder', () => {
