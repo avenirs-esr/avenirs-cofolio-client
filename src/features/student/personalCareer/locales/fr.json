@@ -43,11 +43,6 @@
             "label": "Entreprise / Organisme",
             "placeholder": "Nom de l'entreprise"
           },
-          "DeclaredExperiencePeriodInput": {
-            "endLabel": "Date de fin",
-            "label": "Période",
-            "startLabel": "Date de début"
-          },
           "DeclaredExperienceResultInput": {
             "label": "Résultat obtenu",
             "placeholder": "Réussite, validation, certification, mention, classement ou autres..."

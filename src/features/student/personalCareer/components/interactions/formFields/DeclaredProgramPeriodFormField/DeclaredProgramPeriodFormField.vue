@@ -31,7 +31,7 @@ const isOngoing = computed(() => Boolean(isOngoingField.state.value.value))
     <DatePeriodPicker
       v-bind="$attrs"
       :start-date="String(startDateField.state.value.value ?? '')"
-      :end-date="String(endDateField.state.value.value ?? '')"
+      :end-date="String(endDateField.state.value.value)"
       :is-ongoing="isOngoing"
       type="month"
       :start-date-errors="startDateField.state.value.meta.errors"

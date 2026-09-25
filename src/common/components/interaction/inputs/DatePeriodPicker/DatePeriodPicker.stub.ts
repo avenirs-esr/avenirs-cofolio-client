@@ -4,7 +4,7 @@ export const DatePeriodPickerStub = defineComponent({
   name: 'DatePeriodPicker',
   props: {
     startDate: { type: String, required: true },
-    endDate: { type: String, required: true },
+    endDate: { type: String, required: false },
     isOngoing: { type: Boolean, required: true },
     label: { type: String, default: undefined },
     ongoingLabel: { type: String, default: undefined },

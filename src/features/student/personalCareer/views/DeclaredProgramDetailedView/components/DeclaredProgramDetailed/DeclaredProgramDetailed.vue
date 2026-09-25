@@ -69,7 +69,7 @@ const createdAtPrefix = computed(() =>
           width="var(--dimension-8xl)"
           disabled
           :start-date="startDate ?? ''"
-          :end-date="endDate ?? ''"
+          :end-date="endDate"
           :is-ongoing="!endDate"
           type="month"
           label-class="caption-regular"

@@ -183,11 +183,11 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
         expect(wrapper.findComponent(DeclaredProgramSourceOfInformationInput).props('modelValue')).toBe('')
       })
 
-      BddTest().then('it should pass an empty endDate and ongoing mode when endDate is undefined', () => {
+      BddTest().then('it should pass an undefined endDate and ongoing mode when endDate is undefined', () => {
         const period = getDatePeriodPicker()
         expect(period.exists()).toBe(true)
         expect(period.props('startDate')).toBe(props.declaredProgramDetailed.startDate)
-        expect(period.props('endDate')).toBe('')
+        expect(period.props('endDate')).toBeUndefined()
         expect(period.props('isOngoing')).toBe(true)
       })
     })

@@ -99,7 +99,10 @@ const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.gl
             </div>
           </div>
 
-          <DeclaredExperiencePeriodFormField :form="form" />
+          <DeclaredExperiencePeriodFormField
+            :form="form"
+            width="var(--dimension-8xl)"
+          />
 
           <DeclaredExperienceResultFormField :form="form" />
 

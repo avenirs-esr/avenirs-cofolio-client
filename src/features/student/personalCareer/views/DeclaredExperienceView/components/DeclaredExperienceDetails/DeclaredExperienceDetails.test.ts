@@ -1,11 +1,11 @@
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
+import { DatePeriodPickerStub } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.stub'
 import DeclaredExperienceActivitySectorInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceActivitySectorInput/DeclaredExperienceActivitySectorInput.vue'
 import DeclaredExperienceDescriptionTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceDescriptionTextarea/DeclaredExperienceDescriptionTextarea.vue'
 import DeclaredExperienceExternalLinkInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceExternalLinkInput/DeclaredExperienceExternalLinkInput.vue'
 import DeclaredExperienceLocationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceLocationInput/DeclaredExperienceLocationInput.vue'
 import DeclaredExperienceOrganizationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceOrganizationInput/DeclaredExperienceOrganizationInput.vue'
-import DeclaredExperiencePeriodInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperiencePeriodInput/DeclaredExperiencePeriodInput.vue'
 import DeclaredExperienceResultInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceResultInput/DeclaredExperienceResultInput.vue'
 import DeclaredExperienceSourceOfInformationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSourceOfInformationInput/DeclaredExperienceSourceOfInformationInput.vue'
 import DeclaredExperienceSummaryTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSummaryTextarea/DeclaredExperienceSummaryTextarea.vue'
@@ -72,7 +72,12 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceDetails>>
   const stubs = {
     CreationUpdateDateDetails: CreationUpdateDateDetailsStub,
+    DatePeriodPicker: DatePeriodPickerStub,
     ValorizedBadge: ValorizedBadgeStub,
+  }
+
+  function getDatePeriodPicker () {
+    return wrapper.findComponent(DatePeriodPickerStub)
   }
 
   BddTest().and('given a declared experience details dto', () => {
@@ -139,14 +144,14 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
         expect(component.props('disabled')).toBe(true)
       })
 
-      BddTest().then('it should render the period input', () => {
-        const component = wrapper.findComponent(DeclaredExperiencePeriodInput)
-        expect(component.exists()).toBe(true)
-        expect(component.props('startModelValue')).toBe(mockedDeclaredExperienceDetails.startDate)
-        expect(component.props('endModelValue')).toBe(mockedDeclaredExperienceDetails.endDate)
-        expect(component.props('startDateDisabled')).toBe(true)
-        expect(component.props('endDateDisabled')).toBe(true)
-        expect(component.props('labelVisible')).toBe(true)
+      BddTest().then('it should render the period with DatePeriodPicker', () => {
+        const datePeriodPicker = getDatePeriodPicker()
+        expect(datePeriodPicker.exists()).toBe(true)
+        expect(datePeriodPicker.props('startDate')).toBe(mockedDeclaredExperienceDetails.startDate)
+        expect(datePeriodPicker.props('endDate')).toBe(mockedDeclaredExperienceDetails.endDate)
+        expect(datePeriodPicker.props('isOngoing')).toBe(false)
+        expect(datePeriodPicker.props('disabled')).toBe(true)
+        expect(datePeriodPicker.props('type')).toBe('month')
       })
 
       BddTest().then('it should render the source of information', () => {
@@ -265,10 +270,12 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
       })
 
       BddTest().then(
-        'it should pass an empty endModelValue to PeriodInput when endDate is undefined',
+        'it should pass an undefined endDate and ongoing mode when endDate is undefined',
         () => {
-          const period = wrapper.findComponent(DeclaredExperiencePeriodInput)
-          expect(period.props('endModelValue')).toBe('')
+          const period = getDatePeriodPicker()
+          expect(period.exists()).toBe(true)
+          expect(period.props('endDate')).toBeUndefined()
+          expect(period.props('isOngoing')).toBe(true)
         }
       )
     })
