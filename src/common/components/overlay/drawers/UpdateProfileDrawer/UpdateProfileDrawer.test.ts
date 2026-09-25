@@ -12,7 +12,6 @@ import {
   AvAccordionStub,
   AvCancelConfirmButtonsStub,
   AvDrawerStub,
-  AvIconTextStub,
   AvInputStub,
   BddTest
 } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -73,7 +72,6 @@ BddTest().given('given an update profile drawer', () => {
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
     AvDrawer: AvDrawerStub,
     AvInput: AvInputStub,
-    AvIconText: AvIconTextStub,
     ImageUpload: ImageUploadStub,
     ConfirmationModal: ConfirmationModalStub
   }

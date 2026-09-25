@@ -7,7 +7,7 @@ import {
   DeclaredSkillLevelRadioButtonSetFormFieldStub,
 } from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.stub'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
-import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -44,7 +44,6 @@ const stubs = {
   AvDrawer: AvDrawerStub,
   AvButton: AvButtonStub,
   AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
-  AvIconText: AvIconTextStub,
   ConfirmationModal: ConfirmationModalStub,
   AddDeclaredSkillAutocompleteField: {
     name: 'AddDeclaredSkillAutocompleteField',
@@ -90,13 +89,10 @@ BddTest().given('an add declared skill drawer component', () => {
       expect(drawer.props('width')).toBe('40rem')
     })
 
-    BddTest().then('it should render the header with title and icon', () => {
+    BddTest().then('it should render the drawer title', () => {
       const header = wrapper.find('[data-testid="add-declared-skill-drawer__header"]')
-      const title = wrapper.findComponent(AvIconTextStub)
-
       expect(header.exists()).toBe(true)
-      expect(title.exists()).toBe(true)
-      expect(title.props('text')).toBe('Ajouter une compétence déclarée')
+      expect(header.text()).toContain('Ajouter une compétence déclarée')
     })
 
     BddTest().then('it should render footer buttons', () => {

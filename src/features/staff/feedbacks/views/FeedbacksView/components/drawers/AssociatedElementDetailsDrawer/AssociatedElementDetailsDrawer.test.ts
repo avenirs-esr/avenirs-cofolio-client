@@ -5,7 +5,7 @@ import { EAssociationContextType } from '@/api/avenir-esr'
 import AssociatedElementDetailsDrawer from '@/features/staff/feedbacks/views/FeedbacksView/components/drawers/AssociatedElementDetailsDrawer/AssociatedElementDetailsDrawer.vue'
 import { DeclaredSkillDetailsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.stub'
 import { StudentTraceDetailsStub } from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.stub'
-import { AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -22,7 +22,6 @@ const mockedFeedbackDeclaredSkill: FeedbackAssociatedElement = {
 const stubs = {
   AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
   AvDrawer: AvDrawerStub,
-  AvIconText: AvIconTextStub,
   DeclaredSkillDetails: DeclaredSkillDetailsStub,
   StudentTraceDetails: StudentTraceDetailsStub,
 }
@@ -48,9 +47,7 @@ BddTest().given('an AssociatedElementDetailsDrawer component', () => {
     })
 
     BddTest().then('it should display the trace title', () => {
-      const title = wrapper.findComponent(AvIconTextStub)
-
-      expect(title.props('text')).toBe(`Détails de la trace\u00A0: ${mockedFeedbackTrace.data.title}`)
+      expect(wrapper.text()).toContain(`Détails de la trace\u00A0: ${mockedFeedbackTrace.data.title}`)
     })
 
     BddTest().then('it should render StudentTraceDetails with drawer-specific props', () => {
@@ -93,9 +90,7 @@ BddTest().given('an AssociatedElementDetailsDrawer component', () => {
     })
 
     BddTest().then('it should display the declared skill title', () => {
-      const title = wrapper.findComponent(AvIconTextStub)
-
-      expect(title.props('text')).toBe(`Détails de la compétence\u00A0: ${mockedFeedbackDeclaredSkill.data.title}`)
+      expect(wrapper.text()).toContain(`Détails de la compétence\u00A0: ${mockedFeedbackDeclaredSkill.data.title}`)
     })
 
     BddTest().then('it should render DeclaredSkillDetails with the declared skill details', () => {

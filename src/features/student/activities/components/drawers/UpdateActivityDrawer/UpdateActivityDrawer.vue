@@ -11,7 +11,7 @@ import KitValorizationToggleFormField
   from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 import { useUpdateActivityForm } from '@/features/student/global/composables/use-update-activity-form/use-update-activity-form'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { startOfDay } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 
@@ -85,13 +85,7 @@ const isDemo = __DEMO_MODE__
     @escape-pressed="handleCancel"
   >
     <div class="av-col av-gap-md">
-      <AvIconText
-        :icon="MDI_ICONS.PENCIL_OUTLINE"
-        icon-color="var(--text2)"
-        :text="t('student.activities.drawers.UpdateActivityDrawer.title')"
-        text-color="var(--text1)"
-        typography-class="n6"
-      />
+      <span class="n6 av-text-text1">{{ t('student.activities.drawers.UpdateActivityDrawer.title') }}</span>
 
       <form
         novalidate

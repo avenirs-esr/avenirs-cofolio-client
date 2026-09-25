@@ -18,7 +18,7 @@ import DeclaredExperienceTypeFormField from '@/features/student/personalCareer/c
 import { useAddDeclaredExperienceForm } from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/use-add-declared-experience-form/use-add-declared-experience-form'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, AvDrawer, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -73,12 +73,7 @@ async function handleCancel () {
     @escape-pressed="handleCancel"
   >
     <div class="av-col av-gap-lg h-full">
-      <AvIconText
-        :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
-        :text="t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.title')"
-        typography-class="n5"
-        icon-color="var(--text2)"
-      />
+      <span class="n6 av-text-text1">{{ t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.title') }}</span>
 
       <div class="add-declared-experience-drawer__content">
         <form

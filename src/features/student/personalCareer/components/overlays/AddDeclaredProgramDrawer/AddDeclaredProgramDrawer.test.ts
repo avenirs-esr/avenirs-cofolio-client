@@ -10,8 +10,7 @@ import { DeclaredProgramSourceOfInformationFormFieldStub } from '@/features/stud
 import { DeclaredProgramTitleFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramTitleFormField/DeclaredProgramTitleFormField.stub'
 import AddDeclaredProgramDrawer from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/AddDeclaredProgramDrawer.vue'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvAccordionsGroupStub, AvAccordionStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvAccordionsGroupStub, AvAccordionStub, AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
@@ -71,7 +70,6 @@ BddTest().given('an add declared program drawer component', () => {
     AvAccordion: AvAccordionStub,
     AvAccordionsGroup: AvAccordionsGroupStub,
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
-    AvIconText: AvIconTextStub,
     ConfirmationModal: ConfirmationModalStub,
     DeclaredProgramTitleFormField: DeclaredProgramTitleFormFieldStub,
     DeclaredProgramDescriptionFormField: DeclaredProgramDescriptionFormFieldStub,
@@ -92,7 +90,6 @@ BddTest().given('an add declared program drawer component', () => {
   }
 
   const getStore = () => usePersonalCareerStore()
-  const getTitle = () => wrapper.findComponent(AvIconTextStub)
   const getForm = () => wrapper.find('[data-testid="add-declared-program-form"]')
   const getAvDrawer = () => wrapper.findComponent(AvDrawerStub)
   const getAvAccordionsGroup = () => wrapper.findComponent(AvAccordionsGroupStub)
@@ -157,8 +154,7 @@ BddTest().given('an add declared program drawer component', () => {
     })
 
     BddTest().then('it should render the title', () => {
-      expect(getTitle().props('text')).toBe('Ajouter une formation déclarée')
-      expect(getTitle().props('icon')).toBe(MDI_ICONS.PLUS_CIRCLE_OUTLINE)
+      expect(wrapper.text()).toContain('Ajouter une formation déclarée')
     })
 
     BddTest().then('it should render accordion group with two accordions', () => {
