@@ -1,10 +1,11 @@
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { EActivityThematic } from '@/api/avenir-esr'
+import { DatePeriodPickerStub } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.stub'
 import ActivityExecutionPeriodFormField from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
 import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
 import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 import { ToggleParameterCardStub } from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.stub'
-import { AvPeriodInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -39,7 +40,7 @@ function mountField (overrides: Partial<EditActivityFormData> = {}) {
     global: {
       stubs: {
         ToggleParameterCard: ToggleParameterCardStub,
-        AvPeriodInput: AvPeriodInputStub,
+        DatePeriodPicker: DatePeriodPickerStub,
       },
     },
   })
@@ -52,10 +53,10 @@ BddTest().given('an ActivityExecutionPeriodFormField component', () => {
     wrapper.findComponent(ActivityExecutionPeriodFormField) as VueWrapper<InstanceType<typeof ActivityExecutionPeriodFormField>>
 
   const getToggleParameterCard = () =>
-    wrapper.findComponent(ToggleParameterCardStub) as VueWrapper<InstanceType<typeof ToggleParameterCardStub>>
+    wrapper.findComponent(ToggleParameterCardStub)
 
   const getPeriodInput = () =>
-    wrapper.findComponent(AvPeriodInputStub) as VueWrapper<InstanceType<typeof AvPeriodInputStub>>
+    wrapper.findComponent(DatePeriodPickerStub)
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -74,7 +75,7 @@ BddTest().given('an ActivityExecutionPeriodFormField component', () => {
       expect(getToggleParameterCard().props('modelValue')).toBe(false)
     })
 
-    BddTest().then('it should not render AvPeriodInput', () => {
+    BddTest().then('it should not render DatePeriodPicker', () => {
       expect(getPeriodInput().exists()).toBe(false)
     })
   })
@@ -88,14 +89,14 @@ BddTest().given('an ActivityExecutionPeriodFormField component', () => {
       expect(getToggleParameterCard().props('modelValue')).toBe(true)
     })
 
-    BddTest().then('it should render AvPeriodInput', () => {
+    BddTest().then('it should render DatePeriodPicker', () => {
       expect(getPeriodInput().exists()).toBe(true)
     })
 
-    BddTest().then('it should pass correct props to AvPeriodInput', () => {
+    BddTest().then('it should pass correct props to DatePeriodPicker', () => {
       const periodInput = getPeriodInput()
-      expect(periodInput.props('startModelValue')).toBe('2025-02-01')
-      expect(periodInput.props('endModelValue')).toBe('2025-10-29')
+      expect(periodInput.props('startDate')).toBe('2025-02-01')
+      expect(periodInput.props('endDate')).toBe('2025-10-29')
     })
   })
 
@@ -106,7 +107,7 @@ BddTest().given('an ActivityExecutionPeriodFormField component', () => {
       await wrapper.vm.$nextTick()
     })
 
-    BddTest().then('it should render AvPeriodInput', () => {
+    BddTest().then('it should render DatePeriodPicker', () => {
       expect(getPeriodInput().exists()).toBe(true)
     })
 
@@ -129,7 +130,7 @@ BddTest().given('an ActivityExecutionPeriodFormField component', () => {
       await wrapper.vm.$nextTick()
     })
 
-    BddTest().then('it should hide AvPeriodInput', () => {
+    BddTest().then('it should hide DatePeriodPicker', () => {
       expect(getPeriodInput().exists()).toBe(false)
     })
 
@@ -153,7 +154,7 @@ BddTest().given('an ActivityExecutionPeriodFormField component', () => {
       wrapper = mountField()
       getToggleParameterCard().vm.$emit('update:modelValue', true)
       await wrapper.vm.$nextTick()
-      getPeriodInput().vm.$emit('update:startModelValue', '2025-02-01')
+      getPeriodInput().vm.$emit('update:startDate', '2025-02-01')
       await wrapper.vm.$nextTick()
     })
 
@@ -167,9 +168,9 @@ BddTest().given('an ActivityExecutionPeriodFormField component', () => {
       wrapper = mountField()
       getToggleParameterCard().vm.$emit('update:modelValue', true)
       await wrapper.vm.$nextTick()
-      getPeriodInput().vm.$emit('update:startModelValue', '2025-02-01')
+      getPeriodInput().vm.$emit('update:startDate', '2025-02-01')
       await wrapper.vm.$nextTick()
-      getPeriodInput().vm.$emit('update:endModelValue', '2025-10-29')
+      getPeriodInput().vm.$emit('update:endDate', '2025-10-29')
       await wrapper.vm.$nextTick()
     })
 
@@ -184,9 +185,9 @@ BddTest().given('an ActivityExecutionPeriodFormField component', () => {
   BddTest().when('both dates are cleared back to empty while the period stays enabled', () => {
     beforeEach(async () => {
       wrapper = mountField({ startDate: '2025-02-01', endDate: '2025-10-29' })
-      getPeriodInput().vm.$emit('update:startModelValue', '')
+      getPeriodInput().vm.$emit('update:startDate', '')
       await wrapper.vm.$nextTick()
-      getPeriodInput().vm.$emit('update:endModelValue', '')
+      getPeriodInput().vm.$emit('update:endDate', '')
       await wrapper.vm.$nextTick()
     })
 

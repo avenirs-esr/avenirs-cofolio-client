@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { UpdateActivityForm } from '@/features/student/global/types/forms.types'
-import { AvPeriodInput } from '@avenirs-esr/avenirs-dsav'
+import { DatePeriodPicker } from '@/common/components'
 import { useI18n } from 'vue-i18n'
 
 interface ActivityPeriodFormFieldProps {
@@ -25,14 +25,17 @@ function setEndDate (value: string) {
 </script>
 
 <template>
-  <AvPeriodInput
+  <DatePeriodPicker
+    type="date"
+    :is-ongoing="false"
+    :show-ongoing="false"
     :label="label ?? t('student.activities.interactions.formFields.ActivityPeriodFormField.label')"
-    :start-min-date="startMinDate"
-    :start-model-value="startDateField.state.value.value ?? ''"
-    :end-model-value="endDateField.state.value.value ?? ''"
-    :start-error-message="startDateField.state.value.meta.errors?.join(', ')"
-    :end-error-message="endDateField.state.value.meta.errors?.join(', ')"
-    @update:start-model-value="setStartDate"
-    @update:end-model-value="setEndDate"
+    :min-date="startMinDate"
+    :start-date="String(startDateField.state.value.value ?? '')"
+    :end-date="String(endDateField.state.value.value ?? '')"
+    :start-date-errors="startDateField.state.value.meta.errors"
+    :end-date-errors="endDateField.state.value.meta.errors"
+    @update:start-date="setStartDate"
+    @update:end-date="setEndDate"
   />
 </template>
