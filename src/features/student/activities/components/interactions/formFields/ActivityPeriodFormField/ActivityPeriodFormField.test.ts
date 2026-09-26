@@ -1,6 +1,7 @@
 import type { UpdateActivityForm } from '@/features/student/global/types/forms.types'
+import { DatePeriodPickerStub } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.stub'
 import ActivityPeriodFormField from '@/features/student/activities/components/interactions/formFields/ActivityPeriodFormField/ActivityPeriodFormField.vue'
-import { AvPeriodInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -29,29 +30,32 @@ const TestWrapperCustomLabel = defineComponent({
 
 BddTest().given('an ActivityPeriodFormField component', () => {
   const stubs = {
-    AvPeriodInput: AvPeriodInputStub
+    DatePeriodPicker: DatePeriodPickerStub
   }
+
+  const getDatePeriodPicker = (wrapper: VueWrapper) =>
+    wrapper.findComponent(DatePeriodPickerStub) as VueWrapper<InstanceType<typeof DatePeriodPickerStub>>
 
   BddTest().when('the component is mounted with default props', () => {
     let wrapper: VueWrapper<InstanceType<typeof TestWrapperDefault>>
-    let periodInput: VueWrapper<InstanceType<typeof AvPeriodInputStub>>
+    let periodInput: VueWrapper<InstanceType<typeof DatePeriodPickerStub>>
 
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(TestWrapperDefault, { global: { stubs } })
-      periodInput = wrapper.findComponent({ name: 'AvPeriodInput' }) as VueWrapper<InstanceType<typeof AvPeriodInputStub>>
+      periodInput = getDatePeriodPicker(wrapper)
     })
 
-    BddTest().then('it should render AvPeriodInput', () => {
+    BddTest().then('it should render DatePeriodPicker', () => {
       expect(periodInput.exists()).toBe(true)
     })
 
-    BddTest().then('it should have empty initial startModelValue', () => {
-      expect(periodInput.props('startModelValue')).toBe('')
+    BddTest().then('it should have empty initial startDate', () => {
+      expect(periodInput.props('startDate')).toBe('')
     })
 
-    BddTest().then('it should have empty initial endModelValue', () => {
-      expect(periodInput.props('endModelValue')).toBe('')
+    BddTest().then('it should have empty initial endDate', () => {
+      expect(periodInput.props('endDate')).toBe('')
     })
 
     BddTest().then('it should display the default i18n label', () => {
@@ -61,12 +65,12 @@ BddTest().given('an ActivityPeriodFormField component', () => {
 
   BddTest().when('the component is mounted with a custom label', () => {
     let wrapper: VueWrapper<InstanceType<typeof TestWrapperCustomLabel>>
-    let periodInput: VueWrapper<InstanceType<typeof AvPeriodInputStub>>
+    let periodInput: VueWrapper<InstanceType<typeof DatePeriodPickerStub>>
 
     beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(TestWrapperCustomLabel, { global: { stubs } })
-      periodInput = wrapper.findComponent({ name: 'AvPeriodInput' }) as VueWrapper<InstanceType<typeof AvPeriodInputStub>>
+      periodInput = getDatePeriodPicker(wrapper)
     })
 
     BddTest().then('it should use the custom label', () => {
@@ -74,40 +78,38 @@ BddTest().given('an ActivityPeriodFormField component', () => {
     })
   })
 
-  BddTest().when('AvPeriodInput emits update:startModelValue', () => {
+  BddTest().when('DatePeriodPicker emits update:startDate', () => {
     let wrapper: VueWrapper<InstanceType<typeof TestWrapperDefault>>
 
-    beforeEach(async () => {
+    beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(TestWrapperDefault, { global: { stubs } })
-      const periodInput = wrapper.findComponent({ name: 'AvPeriodInput' })
-      await periodInput.vm.$emit('update:startModelValue', '2024-03-01')
-      await wrapper.vm.$nextTick()
+      const periodInput = getDatePeriodPicker(wrapper)
+      periodInput.vm.$emit('update:startDate', '2024-03-01')
     })
 
-    BddTest().then('it should update the startModelValue', async () => {
+    BddTest().then('it should update the startDate', async () => {
       await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'AvPeriodInput' }) as VueWrapper<InstanceType<typeof AvPeriodInputStub>>
-        expect(updated.props('startModelValue')).toBe('2024-03-01')
+        const updated = getDatePeriodPicker(wrapper)
+        expect(updated.props('startDate')).toBe('2024-03-01')
       })
     })
   })
 
-  BddTest().when('AvPeriodInput emits update:endModelValue', () => {
+  BddTest().when('DatePeriodPicker emits update:endDate', () => {
     let wrapper: VueWrapper<InstanceType<typeof TestWrapperDefault>>
 
-    beforeEach(async () => {
+    beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(TestWrapperDefault, { global: { stubs } })
-      const periodInput = wrapper.findComponent({ name: 'AvPeriodInput' })
-      await periodInput.vm.$emit('update:endModelValue', '2024-06-30')
-      await wrapper.vm.$nextTick()
+      const periodInput = getDatePeriodPicker(wrapper)
+      periodInput.vm.$emit('update:endDate', '2024-06-30')
     })
 
-    BddTest().then('it should update the endModelValue', async () => {
+    BddTest().then('it should update the endDate', async () => {
       await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'AvPeriodInput' }) as VueWrapper<InstanceType<typeof AvPeriodInputStub>>
-        expect(updated.props('endModelValue')).toBe('2024-06-30')
+        const updated = getDatePeriodPicker(wrapper)
+        expect(updated.props('endDate')).toBe('2024-06-30')
       })
     })
   })

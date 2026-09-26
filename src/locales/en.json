@@ -43,6 +43,9 @@
             "consign": "Consign",
             "context": "Recommended completion context(s)"
           }
+        },
+        "ActivityPeriodDisplay": {
+          "title": "Achievement period"
         }
       },
       "contentSectionTypes": {

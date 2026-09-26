@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
+import { DatePeriodPicker } from '@/common/components'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
-import { AvPeriodInput, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface ActivityExecutionPeriodFormFieldProps {
@@ -23,8 +24,8 @@ const { t } = useI18n()
 const startDateField = form.useField({ name: 'startDate' })
 const endDateField = form.useField({ name: 'endDate' })
 
-const startDate = computed(() => startDateField.state.value.value || undefined)
-const endDate = computed(() => endDateField.state.value.value || undefined)
+const startDate = computed(() => startDateField.state.value.value || '')
+const endDate = computed(() => endDateField.state.value.value)
 
 const toggleOverride = ref(false)
 
@@ -72,17 +73,19 @@ function setEndDate (value: string) {
     :title="t('staff.activities.views.EditNationalActivityView.ActivityExecutionPeriodFormField.title')"
     :icon="MDI_ICONS.CALENDAR_MONTH_OUTLINE"
   >
-    <AvPeriodInput
+    <DatePeriodPicker
       v-if="inputEnabled"
+      type="date"
+      :show-ongoing="false"
       data-testid="activity-execution-period-input"
       :label="t('staff.activities.views.EditNationalActivityView.ActivityExecutionPeriodFormField.periodLabel')"
       :label-visible="false"
-      :start-model-value="startDate ?? ''"
-      :end-model-value="endDate ?? ''"
-      :start-error-message="startDateField.state.value.meta.errors?.join(', ')"
-      :end-error-message="endDateField.state.value.meta.errors?.join(', ')"
-      @update:start-model-value="setStartDate"
-      @update:end-model-value="setEndDate"
+      :start-date="startDate"
+      :end-date="endDate"
+      :start-date-errors="startDateField.state.value.meta.errors"
+      :end-date-errors="endDateField.state.value.meta.errors"
+      @update:start-date="setStartDate"
+      @update:end-date="setEndDate"
     />
   </ToggleParameterCard>
 </template>

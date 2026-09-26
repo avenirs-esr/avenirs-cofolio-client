@@ -43,6 +43,9 @@
             "consign": "Consigne",
             "context": "Contexte(s) de réalisation conseillé(s)"
           }
+        },
+        "ActivityPeriodDisplay": {
+          "title": "Période de réalisation"
         }
       },
       "contentSectionTypes": {

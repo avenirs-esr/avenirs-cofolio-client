@@ -10,32 +10,36 @@ import {
 import { useId } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-export interface DatePeriodPickerProps {
-  disabled?: boolean
+type AvDatePickerPassThroughProps = Omit<AvDatePickerProps, 'key' | 'errorMessage' | 'modelValue' | 'range' | 'type'>
+
+export type DatePeriodPickerProps = AvDatePickerPassThroughProps & {
   endDateErrors?: (string | undefined)[]
-  formats?: AvDatePickerProps['formats']
   inputFormat?: string
-  label?: string
-  labelClass?: string
-  ongoingLabel?: string
   outputFormat?: string
+  ongoingLabel?: string
   required?: boolean
+  showOngoing?: boolean
   startDateErrors?: (string | undefined)[]
   type?: DatePeriodPickerType
 }
 
+defineOptions({
+  inheritAttrs: false
+})
+
 const {
+  autoApply = undefined,
   disabled = false,
   endDateErrors,
-  formats,
   inputFormat = 'yyyy-MM-dd',
   label,
-  labelClass,
   ongoingLabel,
   outputFormat = 'yyyy-MM-dd',
   required = false,
+  showOngoing = true,
   startDateErrors,
-  type = 'month'
+  type = 'month',
+  ...restProps
 } = defineProps<DatePeriodPickerProps>()
 const IS_ONGOING = 'isOngoing'
 const { t } = useI18n()
@@ -44,6 +48,7 @@ const pickerLabel = computed(() => {
   const defaultLabel = label ?? t('global.dates.period')
   return required ? `${defaultLabel} *` : defaultLabel
 })
+
 const pickerOngoingLabel = computed(() => ongoingLabel ?? t('global.dates.ongoing'))
 
 const startDate = defineModel<string>('startDate', { required: true })
@@ -105,17 +110,17 @@ const errorMessage = computed(() => [
 <template>
   <AvDatePicker
     :key="`${type}-${isOngoing ? 'ongoing' : 'period'}`"
+    :auto-apply="autoApply"
     :error-message="errorMessage"
     :label="pickerLabel"
     :model-value="modelValue"
     :range="!isOngoing"
     :type="type"
-    :disabled
-    :formats="formats"
-    :label-class
+    v-bind="restProps"
     @update:model-value="onUpdateModelValue"
   >
     <template
+      v-if="showOngoing"
       #labelSuffix
     >
       <AvCheckbox
