@@ -23,12 +23,14 @@ const associatedElements = computed<FeedbackAssociatedElement[]>(() => {
     return []
   }
 
-  const traces = (feedbackDetails.value.associatedTraces ?? []).map(trace => ({
+  const associations = feedbackDetails.value.associations
+
+  const traces = associations.traces.map(trace => ({
     type: EAssociationContextType.TRACE as const,
     data: trace,
   }))
 
-  const skills = (feedbackDetails.value.associatedDeclaredSkills ?? []).map(skill => ({
+  const skills = associations.declaredSkills.map(skill => ({
     type: EAssociationContextType.DECLARED_SKILL as const,
     data: skill,
   }))

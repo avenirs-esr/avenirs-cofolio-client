@@ -6424,6 +6424,34 @@
           "valorized"
         ]
       },
+      "FeedbackAssociationsDTO": {
+        "type": "object",
+        "properties": {
+          "traces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceDetailDTO"
+            }
+          },
+          "declaredSkills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredSkillProgressDetailsDTO"
+            }
+          },
+          "declaredExperiences": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeclaredExperienceViewDTO"
+            }
+          }
+        },
+        "required": [
+          "declaredExperiences",
+          "declaredSkills",
+          "traces"
+        ]
+      },
       "FeedbackDetailsDTO": {
         "type": "object",
         "properties": {
@@ -6457,17 +6485,8 @@
               "SEEN"
             ]
           },
-          "associatedTraces": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TraceDetailDTO"
-            }
-          },
-          "associatedDeclaredSkills": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeclaredSkillProgressDetailsDTO"
-            }
+          "associations": {
+            "$ref": "#/components/schemas/FeedbackAssociationsDTO"
           },
           "attachments": {
             "type": "array",
@@ -6486,6 +6505,8 @@
         },
         "required": [
           "activity",
+          "associations",
+          "attachments",
           "createdAt",
           "declaredActivityId",
           "id",
