@@ -47,7 +47,6 @@ export const ASSOCIATION_CONTEXT_CONFIGS: Record<EAssociationContextType, Associ
   [EAssociationContextType.DECLARED_PROGRAM]: {
     associationsKey: 'declaredProgramAssociations',
     relatedQueryKeys: [['me', 'declared', 'programs']],
-    categoryLabelKeyPrefix: 'student.personalCareer.declaredProgramStatus',
     availableInDemo: true,
   },
 }

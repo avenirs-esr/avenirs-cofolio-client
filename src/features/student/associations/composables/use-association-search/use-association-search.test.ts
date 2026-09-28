@@ -127,7 +127,7 @@ BddTest().given('the useAssociationSearchResults composable', () => {
       })
     })
 
-    BddTest().then('it should keep the raw category without translating it when the API returns one', () => {
+    BddTest().then('it should use the raw category as description when no translation exists', () => {
       const association = composable.toAssociation({
         id: 'trace-2',
         title: 'Ma trace catégorisée',
@@ -136,12 +136,12 @@ BddTest().given('the useAssociationSearchResults composable', () => {
       }, EAssociationContextType.TRACE)
 
       expect(association.category).toBe('SOME_CATEGORY')
-      expect(association.description).toBeUndefined()
+      expect(association.description).toBe('SOME_CATEGORY')
     })
   })
 
   BddTest().when('a search result without category is mapped', () => {
-    BddTest().then('it should not set any category nor description', () => {
+    BddTest().then('it should not set any category nor description when the result has no category', () => {
       const association = composable.toAssociation({
         id: 'activity-5',
         title: 'Activité sans thématique',
@@ -168,6 +168,19 @@ BddTest().given('the useAssociationSearchResults composable', () => {
 
     BddTest().then('it should return an empty list when there is no search result', () => {
       expect(composable.toAssociations([], EAssociationContextType.DECLARED_SKILL)).toEqual([])
+    })
+  })
+
+  BddTest().when('a search result has a category without translation', () => {
+    BddTest().then('it should use the raw category as description', () => {
+      const association = composable.toAssociation({
+        id: 'trace-2',
+        title: 'Ma trace catégorisée',
+        category: 'UNKNOWN_CATEGORY',
+        disabled: false
+      }, EAssociationContextType.TRACE)
+
+      expect(association.description).toBe('UNKNOWN_CATEGORY')
     })
   })
 })
