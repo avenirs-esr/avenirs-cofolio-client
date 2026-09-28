@@ -22,7 +22,10 @@ export const ASSOCIATION_PAIRS: ReadonlyArray<readonly [EAssociationContextType,
 export const ASSOCIATION_CONTEXT_CONFIGS: Record<EAssociationContextType, AssociationContextConfig> = {
   [EAssociationContextType.TRACE]: {
     associationsKey: 'traceAssociations',
-    relatedQueryKeys: [['me', 'traces'], ['POST', 'me', 'traces']],
+    relatedQueryKeys: [
+      ['me', 'traces'],
+      ['POST', 'me', 'traces'],
+    ],
     filterable: true,
     availableInDemo: true,
   },
@@ -42,7 +45,7 @@ export const ASSOCIATION_CONTEXT_CONFIGS: Record<EAssociationContextType, Associ
     associationsKey: 'declaredExperienceAssociations',
     relatedQueryKeys: [['me', 'declared', 'experiences']],
     categoryLabelKeyPrefix: 'student.personalCareer.declaredExperienceType',
-    availableInDemo: false,
+    availableInDemo: true,
   },
   [EAssociationContextType.DECLARED_PROGRAM]: {
     associationsKey: 'declaredProgramAssociations',

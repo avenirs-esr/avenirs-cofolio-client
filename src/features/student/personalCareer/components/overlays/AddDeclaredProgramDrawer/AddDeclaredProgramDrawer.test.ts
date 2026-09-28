@@ -210,10 +210,6 @@ BddTest().given('an add declared program drawer component', () => {
       expect(getAssociationSelectionSection().props('contextType')).toBe(EAssociationContextType.DECLARED_PROGRAM)
     })
 
-    BddTest().then('it should not restrict the associated context types', () => {
-      expect(getAssociationSelectionSection().props('associatedContextTypes')).toBeUndefined()
-    })
-
     BddTest().then('it should render the association selection section in vertical layout', () => {
       expect(getAssociationSelectionSection().props('layout')).toBe('vertical')
     })

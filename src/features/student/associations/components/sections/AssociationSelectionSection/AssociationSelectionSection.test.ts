@@ -4,14 +4,10 @@ import { createMockedTraceSearchResults } from '@/__mocks__/fixtures/student/ass
 import { searchForAssociationWithNewElementErrorHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EAssociationContextType } from '@/api/avenir-esr'
-import {
-  AssociationContextTypeSelectStub
-} from '@/features/student/associations/components/interactions/AssociationContextTypeSelect/AssociationContextTypeSelect.stub'
-import {
-  AssociationSearchFilterSelectStub
-} from '@/features/student/associations/components/interactions/AssociationSearchFilterSelect/AssociationSearchFilterSelect.stub'
+import { AssociationContextTypeSelectStub } from '@/features/student/associations/components/interactions/AssociationContextTypeSelect/AssociationContextTypeSelect.stub'
+import { AssociationSearchFilterSelectStub } from '@/features/student/associations/components/interactions/AssociationSearchFilterSelect/AssociationSearchFilterSelect.stub'
 import AssociationSelectionSection, {
-  type AssociationSelectionSectionProps
+  type AssociationSelectionSectionProps,
 } from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.vue'
 import { AssociationSearchFilter } from '@/features/student/associations/types/associations.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -29,8 +25,8 @@ vi.mock('@/store', async (importOriginal) => {
     ...actual,
     useToasterStore: () => ({
       addSuccessMessage: mockAddSuccessMessage,
-      addErrorMessage: mockAddErrorMessage
-    })
+      addErrorMessage: mockAddErrorMessage,
+    }),
   }
 })
 
@@ -52,7 +48,7 @@ const SearchAssociationLayoutStub = defineComponent({
         <slot name="selectedItem" :item="item" />
       </div>
     </div>
-  `
+  `,
 })
 
 function toTraceOption ({ id, title, disabled }: { id: string, title: string, disabled: boolean }): AvAutocompleteOption {
@@ -64,7 +60,12 @@ const unassociatedTraceOptions = createMockedTraceSearchResults(false).map(toTra
 const skillOptions: AvAutocompleteOption[] = [
   { value: 'skill-search-1', label: 'Gestion de projet agile', description: 'Rome 4.0', disabled: false },
   { value: 'skill-search-2', label: 'Communication interpersonnelle', description: 'XXIᵉ onisep', disabled: false },
-  { value: 'skill-search-3', label: 'Analyse de données', description: 'Rome 4.0', disabled: true }
+  { value: 'skill-search-3', label: 'Analyse de données', description: 'Rome 4.0', disabled: true },
+]
+const activityOptions: AvAutocompleteOption[] = [
+  { value: 'activity-search-1', label: 'Définir ses valeurs', description: 'Me connaître', disabled: false },
+  { value: 'activity-search-2', label: 'Explorer ses pistes d\'orientation', description: 'Explorer mes futurs', disabled: false },
+  { value: 'activity-search-3', label: 'Construire son projet professionnel', description: 'Explorer mes futurs', disabled: true },
 ]
 
 const firstTrace: Association = { id: 'trace-non-associee1', title: 'Ma super trace non associée numéro 1', disabled: false }
@@ -78,7 +79,7 @@ BddTest().given('an association selection section', () => {
   const stubs = {
     SearchAssociationLayout: SearchAssociationLayoutStub,
     AssociationContextTypeSelect: AssociationContextTypeSelectStub,
-    AssociationSearchFilterSelect: AssociationSearchFilterSelectStub
+    AssociationSearchFilterSelect: AssociationSearchFilterSelectStub,
   }
 
   const onRequestStart = ({ request }: { request: Request }) => {
@@ -98,10 +99,12 @@ BddTest().given('an association selection section', () => {
     })
   }
 
-  function mountSection (props: AssociationSelectionSectionProps & {
-    'selections'?: AssociationSelections
-    'onUpdate:selections'?: (selections: AssociationSelections) => void
-  }) {
+  function mountSection (
+    props: AssociationSelectionSectionProps & {
+      'selections'?: AssociationSelections
+      'onUpdate:selections'?: (selections: AssociationSelections) => void
+    },
+  ) {
     wrapper = mountComponent(AssociationSelectionSection, { props, global: { stubs } })
   }
 
@@ -140,7 +143,7 @@ BddTest().given('an association selection section', () => {
       expect(getTypeSelect().props('contextTypes')).toEqual([
         EAssociationContextType.TRACE,
         EAssociationContextType.DECLARED_SKILL,
-        EAssociationContextType.DECLARED_EXPERIENCE
+        EAssociationContextType.DECLARED_EXPERIENCE,
       ])
       expect(getTypeSelect().props('modelValue')).toBe(EAssociationContextType.TRACE)
     })
@@ -186,10 +189,7 @@ BddTest().given('an association selection section', () => {
       })
 
       BddTest().then('it should pass the associated and unassociated traces to the layout options', () => {
-        expect(getLayoutOptions()).toEqual([
-          ...createMockedTraceSearchResults(true).map(toTraceOption),
-          ...unassociatedTraceOptions
-        ])
+        expect(getLayoutOptions()).toEqual([...createMockedTraceSearchResults(true).map(toTraceOption), ...unassociatedTraceOptions])
       })
 
       BddTest().then('it should use the placeholder of the selected search filter', () => {
@@ -260,7 +260,7 @@ BddTest().given('an association selection section', () => {
 
       BddTest().then('it should emit the selections grouped by context type', () => {
         expect(getLastEmittedSelections()).toEqual({
-          [EAssociationContextType.TRACE]: [firstTrace, secondTrace]
+          [EAssociationContextType.TRACE]: [firstTrace, secondTrace],
         })
       })
 
@@ -285,7 +285,7 @@ BddTest().given('an association selection section', () => {
 
         BddTest().then('it should emit the selections without the removed trace', () => {
           expect(getLastEmittedSelections()).toEqual({
-            [EAssociationContextType.TRACE]: [secondTrace]
+            [EAssociationContextType.TRACE]: [secondTrace],
           })
         })
 
@@ -313,7 +313,7 @@ BddTest().given('an association selection section', () => {
           BddTest().then('it should keep the selections of every context type', () => {
             expect(getLastEmittedSelections()).toEqual({
               [EAssociationContextType.TRACE]: [firstTrace, secondTrace],
-              [EAssociationContextType.DECLARED_SKILL]: [firstSkill]
+              [EAssociationContextType.DECLARED_SKILL]: [firstSkill],
             })
           })
 
@@ -345,7 +345,7 @@ BddTest().given('an association selection section', () => {
       mountSection({
         'contextType': EAssociationContextType.DECLARED_ACTIVITY,
         'selections': { [EAssociationContextType.TRACE]: [firstTrace] },
-        'onUpdate:selections': selections => wrapper.setProps({ selections })
+        'onUpdate:selections': selections => wrapper.setProps({ selections }),
       })
       await waitForSearchResults(unassociatedTraceOptions)
     })
@@ -373,7 +373,7 @@ BddTest().given('an association selection section', () => {
 
       BddTest().then('it should update the selections of the parent', () => {
         expect(wrapper.props('selections')).toEqual({
-          [EAssociationContextType.TRACE]: [firstTrace, secondTrace]
+          [EAssociationContextType.TRACE]: [firstTrace, secondTrace],
         })
         expect(getLayout().props('items')).toEqual([firstTrace, secondTrace])
       })
@@ -384,15 +384,19 @@ BddTest().given('an association selection section', () => {
     beforeEach(async () => {
       mountSection({
         contextType: EAssociationContextType.TRACE,
-        associatedContextTypes: [EAssociationContextType.DECLARED_SKILL],
-        layout: 'vertical'
+        layout: 'vertical',
       })
-      await waitForSearchResults(skillOptions)
+      await waitForSearchResults(activityOptions)
     })
 
     BddTest().then('it should only propose the given context types', () => {
-      expect(getTypeSelect().props('contextTypes')).toEqual([EAssociationContextType.DECLARED_SKILL])
-      expect(getTypeSelect().props('modelValue')).toBe(EAssociationContextType.DECLARED_SKILL)
+      expect(getTypeSelect().props('contextTypes')).toEqual([
+        EAssociationContextType.DECLARED_ACTIVITY,
+        EAssociationContextType.DECLARED_SKILL,
+        EAssociationContextType.DECLARED_EXPERIENCE,
+        EAssociationContextType.DECLARED_PROGRAM,
+      ])
+      expect(getTypeSelect().props('modelValue')).toBe(EAssociationContextType.DECLARED_ACTIVITY)
     })
 
     BddTest().then('it should not render the search filter select', () => {
@@ -403,9 +407,9 @@ BddTest().given('an association selection section', () => {
       expect(getLayout().props('layout')).toBe('vertical')
     })
 
-    BddTest().then('it should search the declared skills of a new trace', () => {
+    BddTest().then('it should search the declared activity of a new trace', () => {
       expect(requestedUrls).toHaveLength(1)
-      expect(requestedUrls[0]).toContain('/me/associations/TRACE/DECLARED_SKILL/search')
+      expect(requestedUrls[0]).toContain('/me/associations/TRACE/DECLARED_ACTIVITY/search')
     })
   })
 
@@ -420,7 +424,7 @@ BddTest().given('an association selection section', () => {
         EAssociationContextType.DECLARED_ACTIVITY,
         EAssociationContextType.DECLARED_SKILL,
         EAssociationContextType.DECLARED_EXPERIENCE,
-        EAssociationContextType.DECLARED_PROGRAM
+        EAssociationContextType.DECLARED_PROGRAM,
       ])
       expect(getTypeSelect().props('modelValue')).toBe(EAssociationContextType.DECLARED_ACTIVITY)
     })
@@ -429,7 +433,7 @@ BddTest().given('an association selection section', () => {
       expect(getLayoutOptions()).toEqual([
         { value: 'activity-search-1', label: 'Définir ses valeurs', description: 'Me connaître', disabled: false },
         { value: 'activity-search-2', label: 'Explorer ses pistes d\'orientation', description: 'Explorer mes futurs', disabled: false },
-        { value: 'activity-search-3', label: 'Construire son projet professionnel', description: 'Explorer mes futurs', disabled: true }
+        { value: 'activity-search-3', label: 'Construire son projet professionnel', description: 'Explorer mes futurs', disabled: true },
       ])
     })
 
@@ -438,22 +442,18 @@ BddTest().given('an association selection section', () => {
     })
   })
 
-  BddTest().when('the section is mounted for a new trace in demo mode', () => {
+  BddTest().when('the section is mounted for a TRACE type', () => {
     beforeEach(async () => {
-      vi.stubGlobal('__DEMO_MODE__', true)
       mountSection({ contextType: EAssociationContextType.TRACE })
       await vi.waitFor(() => expect(getLayoutOptions()).toHaveLength(3))
     })
 
-    afterEach(() => {
-      vi.stubGlobal('__DEMO_MODE__', false)
-    })
-
-    BddTest().then('it should not propose the context types unavailable in demo mode', () => {
+    BddTest().then('it should not propose the context types unavailable', () => {
       expect(getTypeSelect().props('contextTypes')).toEqual([
         EAssociationContextType.DECLARED_ACTIVITY,
         EAssociationContextType.DECLARED_SKILL,
-        EAssociationContextType.DECLARED_PROGRAM
+        EAssociationContextType.DECLARED_EXPERIENCE,
+        EAssociationContextType.DECLARED_PROGRAM,
       ])
     })
   })
@@ -507,7 +507,7 @@ BddTest().given('an association selection section', () => {
     BddTest().then('it should display an error message', () => {
       expect(mockAddErrorMessage).toHaveBeenCalledWith({
         title: 'Une erreur est survenue. Veuillez réessayer ultérieurement.',
-        description: expect.any(String)
+        description: expect.any(String),
       })
     })
 

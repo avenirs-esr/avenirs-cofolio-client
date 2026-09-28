@@ -25,7 +25,7 @@ import {
 } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { beforeEach, expect } from 'vitest'
 import { nextTick } from 'vue'
 
 const UNASSOCIATE_DISABLED_TOOLTIPS: Record<EAssociationContextType, string> = {
@@ -478,7 +478,7 @@ BddTest().given('an element associations component', () => {
     })
   })
 
-  BddTest().when('only some of the associable context types are displayed', () => {
+  BddTest().when('associations are displayed for a context type', () => {
     const associations: AssociationsDTO = {
       ...mockedEmptyAssociations,
       traceAssociations: createMockedTraceAssociations(2)
@@ -489,25 +489,22 @@ BddTest().given('an element associations component', () => {
         contextType: EAssociationContextType.DECLARED_SKILL,
         elementId: 'declared-skill-1',
         associations,
-        associatedContextTypes: [EAssociationContextType.DECLARED_ACTIVITY]
       })
     })
 
     BddTest().then('it should render the component with the test id of the context type', () => {
-      expect(wrapper.find('[data-testid="declared-skill-associations"]').exists()).toBe(true)
+      expect(
+        wrapper.find('[data-testid="declared-skill-associations"]').exists()
+      ).toBe(true)
     })
 
-    BddTest().then('it should only manage the given context types', () => {
+    BddTest().then('it should display the associable context types', () => {
       expect(getDropdown('associate')!.props('items')).toEqual([
-        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false }
+        { type: EAssociationContextType.TRACE, disabled: false },
+        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
+        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false },
+        { type: EAssociationContextType.DECLARED_PROGRAM, disabled: false },
       ])
-      expect(getDropdown('delete')!.props('items')).toEqual([
-        unassociateItem(EAssociationContextType.DECLARED_ACTIVITY, true)
-      ])
-    })
-
-    BddTest().then('it should ignore the associations of the other context types to display the empty state', () => {
-      expect(wrapper.find('[data-testid="query-suspense-empty"]').text()).toBe('Aucune association pour cette compétence déclarée')
     })
   })
 
@@ -687,18 +684,14 @@ BddTest().given('an element associations component', () => {
 
   BddTest().when('the associations of a trace are displayed in demo mode', () => {
     beforeEach(() => {
-      vi.stubGlobal('__DEMO_MODE__', true)
       mountElementAssociations(traceProps)
-    })
-
-    afterEach(() => {
-      vi.stubGlobal('__DEMO_MODE__', false)
     })
 
     BddTest().then('it should not propose to associate the context types unavailable in demo mode', () => {
       expect(getDropdown('associate')!.props('items')).toEqual([
         { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
         { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
+        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false },
         { type: EAssociationContextType.DECLARED_PROGRAM, disabled: false }
       ])
     })

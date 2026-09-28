@@ -27,8 +27,6 @@ export interface ElementAssociationsProps {
   associations: AssociationsDTO | undefined
   error?: BaseApiException | null
   isLoading?: boolean
-  /** Context types of the associations to display and manage, all the associable ones by default. */
-  associatedContextTypes?: EAssociationContextType[]
   /** Maximum number of associations per context type, an association is disabled when its limit is 0. */
   limits?: AssociationLimits
   /** Hides the association actions and disables the associated elements. */
@@ -45,7 +43,6 @@ const {
   associations,
   error,
   isLoading = false,
-  associatedContextTypes,
   limits,
   readonly = false,
   actionsDisabled = false,
@@ -75,7 +72,7 @@ const {
 
 const selectedContextType = ref<EAssociationContextType>()
 
-const displayedContextTypes = computed(() => associatedContextTypes ?? getAssociableContextTypes(contextType))
+const displayedContextTypes = computed(() => getAssociableContextTypes(contextType))
 const elementAssociations = computed(() => associations ?? EMPTY_ASSOCIATIONS)
 const slug = computed(() => getContextTypeSlug(contextType))
 

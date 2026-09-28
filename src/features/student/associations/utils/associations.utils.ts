@@ -7,9 +7,10 @@ import { ASSOCIATION_CONTEXT_CONFIGS, ASSOCIATION_PAIRS } from '@/features/stude
 type AssociationDTO = AssociationsDTO[keyof AssociationsDTO][number]
 
 export function isAssociable (contextType: EAssociationContextType, associatedContextType: EAssociationContextType): boolean {
-  return ASSOCIATION_PAIRS.some(([first, second]) =>
-    (first === contextType && second === associatedContextType)
-    || (first === associatedContextType && second === contextType))
+  return ASSOCIATION_PAIRS.some(
+    ([first, second]) =>
+      (first === contextType && second === associatedContextType) || (first === associatedContextType && second === contextType),
+  )
 }
 
 /**
@@ -23,7 +24,7 @@ export function getAssociableContextTypes (contextType: EAssociationContextType)
  * Whether new associations to elements of the given context type can be made, some being unavailable in demo mode.
  */
 export function canAssociateContextType (associatedContextType: EAssociationContextType): boolean {
-  return !__DEMO_MODE__ || !!ASSOCIATION_CONTEXT_CONFIGS[associatedContextType].availableInDemo
+  return !!ASSOCIATION_CONTEXT_CONFIGS[associatedContextType].availableInDemo
 }
 
 function getAssociatedElement (association: AssociationDTO): IdTitle {
@@ -47,7 +48,7 @@ function getAssociatedElement (association: AssociationDTO): IdTitle {
  */
 export function getElementAssociations (
   associations: AssociationsDTO | undefined,
-  associatedContextType: EAssociationContextType
+  associatedContextType: EAssociationContextType,
 ): ElementAssociation[] {
   const elementAssociations: AssociationDTO[] = associations?.[ASSOCIATION_CONTEXT_CONFIGS[associatedContextType].associationsKey] ?? []
 
@@ -59,10 +60,13 @@ export function getElementAssociations (
 
 export function countAssociations (
   associations: AssociationsDTO | undefined,
-  associatedContextTypes: EAssociationContextType[] = Object.values(EAssociationContextType)
+  associatedContextTypes: EAssociationContextType[] = Object.values(EAssociationContextType),
 ): number {
-  return associatedContextTypes.reduce((count, associatedContextType) =>
-    count + (associations?.[ASSOCIATION_CONTEXT_CONFIGS[associatedContextType].associationsKey].length ?? 0), 0)
+  return associatedContextTypes.reduce(
+    (count, associatedContextType) =>
+      count + (associations?.[ASSOCIATION_CONTEXT_CONFIGS[associatedContextType].associationsKey].length ?? 0),
+    0,
+  )
 }
 
 /**
@@ -76,7 +80,11 @@ export function isAssociationLimited (limit: number | undefined): limit is numbe
   return limit !== undefined && limit >= 0
 }
 
-export function isAssociationLimitReached (limits: AssociationLimits | undefined, associatedContextType: EAssociationContextType, count: number): boolean {
+export function isAssociationLimitReached (
+  limits: AssociationLimits | undefined,
+  associatedContextType: EAssociationContextType,
+  count: number,
+): boolean {
   const limit = limits?.[associatedContextType]
   return isAssociationLimited(limit) && count >= limit
 }

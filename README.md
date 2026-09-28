@@ -5,6 +5,7 @@ The Avenirs Cofolio project is a comprehensive portfolio management system desig
 - Enable continuity in portfolio approaches throughout a citizen's life
 - Facilitate awareness, recognition, and promotion of skills and competencies
 - Support the development of life projects (personal, educational, career orientation, professional development, and civic engagement)
+
 ## Project Structure
 
 - `src/`: Source code
@@ -53,6 +54,7 @@ features/
 ```
 
 This modular approach ensures that:
+
 - Each user role has dedicated, purpose-built interfaces
 - Code is organized by domain rather than technical function
 - Features can be developed, tested, and maintained independently
@@ -99,6 +101,7 @@ When developing the design system (`@avenirs-esr/avenirs-dsav`) locally alongsid
 **Initial Setup:**
 
 1. In the design system repository (`avenirs-dsav`):
+
 ```bash
 cd /path/to/avenirs-dsav
 npm install
@@ -106,6 +109,7 @@ npm link
 ```
 
 2. In this project (`avenirs-cofolio-client`):
+
 ```bash
 npm link @avenirs-esr/avenirs-dsav
 ```
@@ -113,26 +117,31 @@ npm link @avenirs-esr/avenirs-dsav
 **Development Workflow:**
 
 In the design system repository, use watch mode to automatically rebuild on changes:
+
 ```bash
 cd /path/to/avenirs-dsav
 npm run build:watch
 ```
 
 This command runs in parallel:
+
 - `vite build --watch` - Rebuilds the library on file changes
 - `vue-tsc --watch` - Regenerates TypeScript declarations
 
 Then start the dev server in this project:
+
 ```bash
 npm run dev
 ```
 
 **Important Notes:**
+
 - TypeScript configuration automatically excludes the symlinked library's `node_modules` to prevent type conflicts
 - Changes in the design system are reflected immediately in this project
 - No need to manually rebuild or reinstall after each change
 
 **To Unlink:**
+
 ```bash
 npm unlink @avenirs-esr/avenirs-dsav
 npm install @avenirs-esr/avenirs-dsav
@@ -181,28 +190,29 @@ Each rule is an exported, documented pure function that takes the domain DTO(s) 
 
 ```typescript
 // src/common/activities/rules/activities.rules.ts
-import { type DeclaredActivityDetailsDTO, EFeedbackStatus } from '@/api/avenir-esr'
+import { type DeclaredActivityDetailsDTO, EFeedbackStatus } from "@/api/avenir-esr";
 
-export function computeRemainingFeedbacks (declaredActivityDetails: DeclaredActivityDetailsDTO) {
-  return declaredActivityDetails.activity.feedbackAllowedIterations - (declaredActivityDetails.feedbacks?.length ?? 0)
+export function computeRemainingFeedbacks(declaredActivityDetails: DeclaredActivityDetailsDTO) {
+  return declaredActivityDetails.activity.feedbackAllowedIterations - (declaredActivityDetails.feedbacks?.length ?? 0);
 }
 
-export function canCreateFeedbackRequest (declaredActivityDetails: DeclaredActivityDetailsDTO, remainingFeedbacks: number) {
-  const lastFeedback = declaredActivityDetails.feedbacks?.at(0)
-  return remainingFeedbacks !== 0 && lastFeedback?.status !== EFeedbackStatus.IN_PROCESS
+export function canCreateFeedbackRequest(declaredActivityDetails: DeclaredActivityDetailsDTO, remainingFeedbacks: number) {
+  const lastFeedback = declaredActivityDetails.feedbacks?.at(0);
+  return remainingFeedbacks !== 0 && lastFeedback?.status !== EFeedbackStatus.IN_PROCESS;
 }
 ```
 
 The component just consumes the rule (typically wrapped in a `computed`):
 
 ```typescript
-import { canCreateFeedbackRequest, computeRemainingFeedbacks } from '@/common/activities/rules/activities.rules'
+import { canCreateFeedbackRequest, computeRemainingFeedbacks } from "@/common/activities/rules/activities.rules";
 
-const remainingFeedbacks = computed(() => computeRemainingFeedbacks(declaredActivityDetails))
-const isRequestFeedbackDisabled = computed(() => !canCreateFeedbackRequest(declaredActivityDetails, remainingFeedbacks.value))
+const remainingFeedbacks = computed(() => computeRemainingFeedbacks(declaredActivityDetails));
+const isRequestFeedbackDisabled = computed(() => !canCreateFeedbackRequest(declaredActivityDetails, remainingFeedbacks.value));
 ```
 
 Rules must be:
+
 - **Pure** — no side effects, no API calls, no store access
 - **Unit tested** — co-located `*.rules.test.ts` following the project's BDD testing conventions
 
@@ -222,18 +232,20 @@ Reference implementation: `src/common/activities/rules/activities.rules.ts` used
 #### Correct Pattern
 
 **❌ DON'T** export stubs from barrel files:
+
 ```typescript
 // ❌ src/features/student/featureName/index.ts
-export { ComponentStub } from './components/Component/Component.stub'
+export { ComponentStub } from "./components/Component/Component.stub";
 ```
 
 **✅ DO** import stubs directly in test files:
+
 ```typescript
 // ✅ src/features/student/featureName/components/Component/Component.test.ts
-import { ComponentStub } from './Component.stub'
+import { ComponentStub } from "./Component.stub";
 
 // OR from relative path
-import { ComponentStub } from '../Component/Component.stub'
+import { ComponentStub } from "../Component/Component.stub";
 ```
 
 ### Commit conventions
@@ -256,14 +268,14 @@ The following commit types are allowed:
 
 🔠 Commit Message Rules
 
-| Rule           | Description                                                                 |
-|----------------|-----------------------------------------------------------------------------|
-| `type-enum`    | Only allows the types listed above                                          |
-| `type-case`    | Commit type must be **lowercase**                                           |
-| `type-empty`   | Commit type **must not** be empty                                           |
-| `subject-case` | No restriction on subject casing (rule is disabled for flexibility)         |
+| Rule           | Description                                                         |
+| -------------- | ------------------------------------------------------------------- |
+| `type-enum`    | Only allows the types listed above                                  |
+| `type-case`    | Commit type must be **lowercase**                                   |
+| `type-empty`   | Commit type **must not** be empty                                   |
+| `subject-case` | No restriction on subject casing (rule is disabled for flexibility) |
 
- ✅ Example Commit Messages
+✅ Example Commit Messages
 
 ```
 feat: add user login functionality
@@ -275,3 +287,11 @@ docs: update installation guide
 
 When developing components, please refer to the [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/) to ensure accessibility compliance.
 You can find [design patterns](https://www.w3.org/WAI/ARIA/apg/patterns/) and [best practices](https://www.w3.org/WAI/ARIA/apg/practices/) for implementing accessible web components.
+
+### DEMO_MODE deprecated
+
+DEMO_MODE is now deprecated and is no longer used in the application.
+This variable must no longer be used to condition or filter features based on the environment.
+Any new logic must not depend on **DEMO_MODE**.
+If references to DEMO_MODE still exist in the codebase, they must be removed or replaced with the appropriate configuration.
+
