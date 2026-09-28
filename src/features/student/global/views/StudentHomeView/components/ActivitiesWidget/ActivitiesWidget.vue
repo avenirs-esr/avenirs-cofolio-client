@@ -63,6 +63,7 @@ const errorStateDescription = computed(() => getErrorMessage(isNew ? newActiviti
 <template>
   <HomeWidget
     v-bind="homeWidgetPops"
+    :id="`${i18nExtension}-activities-widget`"
     type="main"
     :data-testid="`${i18nExtension}-activities-widget`"
   >

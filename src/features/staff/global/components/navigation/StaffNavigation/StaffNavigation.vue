@@ -4,7 +4,6 @@ import { isRouteActive } from '@/common/utils/route/route'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
 import { staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
 import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useId } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
@@ -12,6 +11,7 @@ const { t } = useI18n()
 const route = useRoute()
 
 const studentTrackingMenu = computed(() => ({
+  id: 'nav-student-tracking-menu',
   title: t('staff.global.navigation.tabs.studentTracking').toUpperCase(),
   get active () {
     return isRouteActive({ route, routes: staffStudentTrackingFeedbacksRoutes })
@@ -26,15 +26,15 @@ const studentTrackingMenu = computed(() => ({
   ],
 }))
 
-const homeItemId = useId()
 const navItems = computed(() => [
   {
-    id: homeItemId,
+    id: 'nav-home',
     to: ROUTES.STAFF.HOME,
     text: t('staff.global.navigation.tabs.home').toUpperCase(),
     icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
   },
   {
+    id: 'nav-activities',
     to: ROUTES.STAFF.ACTIVITIES,
     text: t('staff.global.navigation.tabs.activities.header').toUpperCase(),
     icon: ICONS.ACTIVITY,

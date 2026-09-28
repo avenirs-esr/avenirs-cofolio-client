@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { UpdateProfileDrawerStub } from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.stub'
+import { TutorialStub } from '@/common/components/overlay/tooltips/Tutorial/Tutorial.stub'
 import { ProfileCardStub } from '@/common/components/ProfileCard/ProfileCard.stub'
 import { ActivitiesWidgetStub } from '@/features/staff/global/views/StaffHomeView/components/ActivitiesWidget/ActivitiesWidget.stub'
 import { FeedbacksWidgetStub } from '@/features/staff/global/views/StaffHomeView/components/FeedbacksWidget/FeedbacksWidget.stub'
@@ -16,6 +17,7 @@ BddTest().given('a staff home view', () => {
     UpdateProfileDrawer: UpdateProfileDrawerStub,
     FeedbacksWidget: FeedbacksWidgetStub,
     ActivitiesWidget: ActivitiesWidgetStub,
+    Tutorial: TutorialStub,
   }
 
   BddTest().when('the component is mounted', () => {
@@ -55,6 +57,13 @@ BddTest().given('a staff home view', () => {
       await vi.waitFor(() => {
         const activitiesWidgets = wrapper.findAllComponents(ActivitiesWidgetStub)
         expect(activitiesWidgets).toHaveLength(2)
+      })
+    })
+
+    BddTest().then('it should render the Tutorial component', async () => {
+      await vi.waitFor(() => {
+        const tutorial = wrapper.findComponent(TutorialStub)
+        expect(tutorial.exists()).toBe(true)
       })
     })
   })

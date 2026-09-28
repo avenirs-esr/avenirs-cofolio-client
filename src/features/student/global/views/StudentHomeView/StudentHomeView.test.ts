@@ -1,3 +1,4 @@
+import { TutorialStub } from '@/common/components/overlay/tooltips/Tutorial/Tutorial.stub'
 import { ActivitiesWidgetStub } from '@/features/student/global/views/StudentHomeView/components/ActivitiesWidget/ActivitiesWidget.stub'
 import StudentHomeView from '@/features/student/global/views/StudentHomeView/StudentHomeView.vue'
 import { TracesWidgetStub } from '@/features/student/traces/components/cards/TracesWidget/TracesWidget.stub'
@@ -12,6 +13,7 @@ BddTest().given('a student home view', () => {
     StudentOverviewWidget: StudentOverviewWidgetStub,
     ActivitiesWidget: ActivitiesWidgetStub,
     TracesWidget: TracesWidgetStub,
+    Tutorial: TutorialStub,
   }
 
   beforeEach(() => {
@@ -31,6 +33,11 @@ BddTest().given('a student home view', () => {
       expect(main.exists()).toBe(true)
       expect(main.findAllComponents(ActivitiesWidgetStub)).toHaveLength(2)
       expect(main.findComponent(TracesWidgetStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the Tutorial component', () => {
+      const tutorial = wrapper.findComponent(TutorialStub)
+      expect(tutorial.exists()).toBe(true)
     })
   })
 })

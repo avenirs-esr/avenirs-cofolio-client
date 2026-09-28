@@ -3,7 +3,6 @@ import { ICONS, ROUTES, studentActivtiesRoutes, studentPersonalCareerRoutes, stu
 import { isRouteActive } from '@/common/utils/route/route'
 import { studentToolsTracesRoutes } from '@/features/student/traces/routes'
 import { AvNavigation, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useId } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -18,6 +17,7 @@ const personalCareerNavigationTarget = computed(() => {
 })
 
 const toolsMenu = computed(() => ({
+  id: 'nav-tools-menu',
   title: t('student.global.navigation.tabs.tools.header').toUpperCase(),
   get active () {
     return isRouteActive({ route, routes: [
@@ -40,7 +40,8 @@ const toolsMenu = computed(() => ({
   ],
 }))
 
-const buildLifeProjectMenu = computed(() => ({
+const lifeProjectMenu = computed(() => ({
+  id: 'nav-life-project-menu',
   title: t('student.global.navigation.tabs.project.header').toUpperCase(),
   get active () {
     return isRouteActive({ route, routes: [
@@ -63,27 +64,28 @@ const buildLifeProjectMenu = computed(() => ({
   ],
 }))
 
-const homeItemId = useId()
 const navItems = computed(() => [
   {
-    id: homeItemId,
+    id: 'nav-home',
     to: ROUTES.STUDENT.HOME,
     text: t('student.global.navigation.tabs.home').toUpperCase(),
     icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
   },
   {
+    id: 'nav-activities',
     to: ROUTES.STUDENT.ACTIVITIES,
     text: t('student.global.navigation.tabs.activities').toUpperCase(),
     icon: ICONS.ACTIVITY,
     highlight: isRouteActive({ route, routes: studentActivtiesRoutes })
   },
   {
+    id: 'nav-skills',
     to: ROUTES.STUDENT.SKILLS,
     text: t('student.global.navigation.tabs.skills').toUpperCase(),
     icon: ICONS.SKILLS,
     highlight: isRouteActive({ route, routes: studentSkillsRoutes })
   },
-  buildLifeProjectMenu.value,
+  lifeProjectMenu.value,
   toolsMenu.value,
 ])
 </script>

@@ -15,6 +15,7 @@ const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
 <template>
   <div
     v-if="studentSummary"
+    id="overview-widget"
     data-testid="student-overview-widget"
   >
     <ProfileCard
@@ -31,6 +32,7 @@ const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
         <ul class="av-col av-gap-sm av-list-reset">
           <li>
             <AvRichButton
+              id="update-profile-button"
               class="av-rich-button--edit-profile"
               :label="t('student.user.cards.StudentOverviewWidget.buttons.editProfile')"
               :icon-right="MDI_ICONS.PENCIL_OUTLINE"

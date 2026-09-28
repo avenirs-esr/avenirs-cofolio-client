@@ -42,6 +42,7 @@ const { displayWidget = true } = defineProps<HomeWidgetProps>()
     <template #footer>
       <div class="av-row av-justify-end av-pt-sm">
         <AvButton
+          id="see-all-button"
           :label="seeAllLabel"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
           small

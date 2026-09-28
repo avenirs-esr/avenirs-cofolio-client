@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
+import Tutorial from '@/common/components/overlay/tooltips/Tutorial/Tutorial.vue'
 import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { useDrawer } from '@/common/composables/use-drawer/use-drawer'
 import ActivitiesWidget from '@/features/staff/global/views/StaffHomeView/components/ActivitiesWidget/ActivitiesWidget.vue'
@@ -36,6 +37,7 @@ const { data: staffSummary } = useGetProfile(EUserCategory.STAFF)
             <ul class="av-col av-gap-sm av-list-reset">
               <li>
                 <AvRichButton
+                  id="update-profile-button"
                   :label="t('staff.global.views.StaffHomeView.buttons.editProfile')"
                   :icon-right="MDI_ICONS.PENCIL_OUTLINE"
                   data-testid="edit-profile-button"
@@ -63,6 +65,8 @@ const { data: staffSummary } = useGetProfile(EUserCategory.STAFF)
     :show="showDrawer"
     :on-close="hideDrawer"
   />
+
+  <Tutorial />
 </template>
 
 <style lang="scss" scoped>

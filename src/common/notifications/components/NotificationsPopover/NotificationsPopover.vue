@@ -30,6 +30,7 @@ const triggerIcon = computed(() => hasUnseenNotifications.value ? MDI_ICONS.BELL
 
 <template>
   <AvPopover
+    id="notifications-popover"
     padding="var(--spacing-md)"
     data-testid="notifications-popover"
   >

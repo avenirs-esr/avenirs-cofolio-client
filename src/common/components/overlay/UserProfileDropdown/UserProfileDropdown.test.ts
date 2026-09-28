@@ -4,6 +4,19 @@ import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
 
+const replayTutorial = vi.fn()
+
+vi.mock('@/common/components/overlay/tooltips/Tutorial/use-tutorial', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/components/overlay/tooltips/Tutorial/use-tutorial')>()
+
+  return {
+    ...actual,
+    useTutorial: () => ({
+      replayTutorial
+    })
+  }
+})
+
 BddTest().given('a user profile dropdown', () => {
   let wrapper: VueWrapper<InstanceType<typeof UserProfileDropdown>>
 
@@ -34,12 +47,13 @@ BddTest().given('a user profile dropdown', () => {
       expect(getDropdown().props('triggerLabel')).toBe('J. Moulin')
     })
 
-    BddTest().then('it should pass provided actions and logout action to the dropdown', () => {
+    BddTest().then('it should pass provided actions and logout and rewatch tutorial actions to the dropdown', () => {
       const items = getDropdown().props('items') as Array<{ name: string, label: string }>
 
       expect(items).toEqual([
         expect.objectContaining({ name: 'manage-profile', label: 'Gérer mon profil' }),
         expect.objectContaining({ name: 'see-calendar', label: 'Voir mon agenda' }),
+        expect.objectContaining({ name: 'rewatch-tutorial', label: 'Revoir le tutoriel' }),
         expect.objectContaining({ name: 'logout-button', label: 'Me déconnecter' }),
       ])
     })
@@ -60,6 +74,14 @@ BddTest().given('a user profile dropdown', () => {
       expect(wrapper.findComponent(ConfirmationModalStub).props('opened')).toBe(true)
 
       expect(wrapper.emitted('actionSelected')).toBeUndefined()
+    })
+  })
+
+  BddTest().when('the rewatch tutorial item is selected', () => {
+    BddTest().then('it should call replayTutorial', async () => {
+      await getDropdown().vm.$emit('itemSelected', 'rewatch-tutorial')
+
+      expect(replayTutorial).toHaveBeenCalled()
     })
   })
 })

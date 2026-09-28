@@ -17,6 +17,7 @@ const traces = computed(() => apiTraces.value ?? [])
 
 <template>
   <HomeWidget
+    id="traces-widget"
     :title="t('student.traces.cards.TracesWidget.title')"
     :title-icon="MDI_ICONS.ATTACH_FILE"
     :see-all-label="t('student.traces.cards.TracesWidget.buttons.seeAll')"
