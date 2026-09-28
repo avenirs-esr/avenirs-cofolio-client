@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import { useTutorial } from '@/common/components/overlay/tooltips/Tutorial/use-tutorial'
 import { useModal } from '@/common/composables/use-modal/use-modal'
-import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvDropdown, type AvDropdownItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface UserProfileDropdownAction {
@@ -22,21 +23,36 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const { modalOpened, openModal, closeModal } = useModal()
+const { replayTutorial } = useTutorial()
 
-const logoutActionName = 'logout-button'
+enum UserProfileDropdownEvents {
+  REWATCH_TUTORIAL = 'rewatch-tutorial',
+  LOGOUT = 'logout-button'
+}
 
-const dropdownItems = computed(() => [
+const dropdownItems = computed<AvDropdownItem[]>(() => [
   ...actions,
   {
-    name: logoutActionName,
+    name: UserProfileDropdownEvents.REWATCH_TUTORIAL,
+    label: t('global.buttons.rewatchTutorial'),
+    icon: MDI_ICONS.REFRESH,
+  },
+  {
+    name: UserProfileDropdownEvents.LOGOUT,
     label: t('global.buttons.logout'),
     icon: MDI_ICONS.LOGOUT,
+    separatorBefore: true
   },
 ])
 
 function onItemSelected (itemName: string) {
-  if (itemName === logoutActionName) {
+  if (itemName === UserProfileDropdownEvents.LOGOUT) {
     openModal()
+    return
+  }
+
+  if (itemName === UserProfileDropdownEvents.REWATCH_TUTORIAL) {
+    replayTutorial()
     return
   }
 
@@ -50,6 +66,7 @@ function logOut () {
 
 <template>
   <AvDropdown
+    id="profile-dropdown"
     :items="dropdownItems"
     :trigger-label="username"
     :trigger-aria-label="username"

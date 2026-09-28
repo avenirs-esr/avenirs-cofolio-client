@@ -162,6 +162,7 @@
       "reset": "Reset",
       "restore": "Restore",
       "resubscribe": "Subscribe again",
+      "rewatchTutorial": "Rewatch tutorial",
       "save": "Save",
       "search": "Search",
       "send": "Send",
@@ -466,6 +467,100 @@
         "ariaLabel": {
           "selected": "select {item}",
           "unselected": "unselect {item}"
+        }
+      },
+      "Tutorial": {
+        "common": {
+          "language-selector": {
+            "description": "You can modify the display language of CoFolio here. Translations may still evolve in the early versions.",
+            "title": "Change the interface language"
+          },
+          "profile-dropdown": {
+            "description": "Use the “Log out” action to log out of CoFolio.",
+            "title": "Profile menu"
+          }
+        },
+        "modal": {
+          "cancel": "No thanks",
+          "confirm": "Yes, I want to discover",
+          "description": "Would you like to learn about CoFolio's main features? Take a short guided tour to get started with the app.",
+          "title": "Discover CoFolio"
+        },
+        "staff": {
+          "draft-activities-widget": {
+            "description": "They are at the heart of student support. They engage students in work and reflection on their skills, life project, or other. You will be able to follow your students through these activities. To see all activities, click on the link \"See all my modified activities\".",
+            "title": "Find here the latest activities you have or will have modified"
+          },
+          "feedbacks-widget": {
+            "description": "Find here the latest feedback requests sent by your students. You can click on one of them to view it and respond to your students. To display all requests, click on \"See all my feedback requests\"",
+            "title": "Find your latest feedback requests"
+          },
+          "nav-activities": {
+            "description": "Access two areas of the activity library. Your workspace: create, edit and view the activities you contribute to. All activities published in your institution: view the activities you contribute to, are responsible for student tracking, or are a reader of.",
+            "title": "Tab \"ACTIVITY LIBRARY\""
+          },
+          "notifications-popover": {
+            "description": "You will be notified here of new notifications concerning, for example, feedback requests sent by your students.",
+            "title": "Follow your notifications"
+          },
+          "published-activities-widget": {
+            "description": "To see all your published activities, click on the link \"See all my modified activities\".",
+            "title": "Find here the latest activities you have or will have created and published"
+          },
+          "trigger-nav-student-tracking-menu": {
+            "description": "Find here the feedback requests sent by the students you follow, for activities allowing feedback. You will be able to respond and keep a record of your responses. Requests for activity and skill assessments will also be available soon.",
+            "title": "Menu \"STUDENT TRACKING\""
+          },
+          "update-profile-button": {
+            "description": "Here, you can customize your profile with a photo, a cover image, and a short bio.",
+            "title": "Welcome to your CoFolio"
+          }
+        },
+        "student": {
+          "library-activities-widget": {
+            "description": "Find here the latest activities available in your library, offered by your institution or by the national CoFolio team.",
+            "title": "Find your recent activities"
+          },
+          "library-activities-widget-see-all-button": {
+            "description": "Use this access to find all the activities available in your library.",
+            "title": "Access your entire activity library"
+          },
+          "nav-activities": {
+            "description": "Find the activities that allow you to work on your skills and your life project. Your library will be enriched over time with activities offered by your institution and by the national CoFolio team.",
+            "title": "Tab \"MY ACTIVITIES\""
+          },
+          "nav-skills": {
+            "description": "Find the skills worked on in your journey. You can complete them, reflect on their development, and associate traces, activities, experiences, or training to illustrate them.",
+            "title": "Tab \"MY SKILLS\""
+          },
+          "new-activities-widget": {
+            "description": "Find here the latest activities offered in the CoFolio catalog. When you register for an activity, it joins your library. Use the \"See all activities\" access to browse all the activities available in the CoFolio catalog.",
+            "title": "Discover new activities"
+          },
+          "notifications-popover": {
+            "description": "Find here important information: responses to your feedback requests, requests addressed to you, and other actions to take.",
+            "title": "Follow your notifications"
+          },
+          "startTutoActivity": {
+            "description": "You are familiar with the main areas of CoFolio. Start your first discovery activity to add your first elements and get hands-on experience with your portfolio.",
+            "title": "Now, put it into practice!"
+          },
+          "trigger-nav-life-project-menu": {
+            "description": "Find the sections that support you in building your journey and life project: better know yourself, showcase your experiences and training. In a future version, you will also be able to explore your futures and build your trajectories here.",
+            "title": "Menu \"MY LIFE PROJECT\""
+          },
+          "trigger-nav-tools-menu": {
+            "description": "Find here your transversal tools: your traces to keep your resources and your ready-to-use kits to showcase and export a selection of elements from your portfolio. Other tools will be added later.",
+            "title": "Menu \"MY TOOLS\""
+          },
+          "traces-widget": {
+            "description": "Find here the latest traces added to CoFolio: files, online documents, videos, websites, or other resources. Use the \"See all my traces\" access to find all the traces deposited in your CoFolio.",
+            "title": "Find your latest traces"
+          },
+          "update-profile-button": {
+            "description": "Start by customizing your profile with a photo, a cover image, and a short bio. You can reuse this information in your portfolio.",
+            "title": "Welcome to your CoFolio"
+          }
         }
       }
     },

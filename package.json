@@ -34,7 +34,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@avenirs-esr/avenirs-dsav": "^0.1.323",
+    "@avenirs-esr/avenirs-dsav": "^0.1.325",
     "@tanstack/vue-form": "^1.15.0",
     "@tanstack/vue-query": "^5.74.9",
     "@vue-flow/core": "^1.48.0",
@@ -43,6 +43,7 @@
     "date-fns": "^4.1.0",
     "docx": "^9.7.1",
     "dompurify": "^3.4.13",
+    "driver.js": "^1.8.0",
     "focus-trap": "^7.5.4",
     "focus-trap-vue": "^4.0.3",
     "html-to-image": "^1.11.11",

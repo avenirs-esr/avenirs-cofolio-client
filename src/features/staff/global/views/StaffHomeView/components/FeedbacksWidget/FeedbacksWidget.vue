@@ -27,6 +27,7 @@ const feedbacks = computed(() => data.value?.data || [])
 
 <template>
   <HomeWidget
+    id="feedbacks-widget"
     :title="t('staff.global.views.StaffHomeView.widgets.FeedbacksWidget.title')"
     :title-icon="MDI_ICONS.ATTACH_FILE"
     :see-all-label="t('staff.global.views.StaffHomeView.widgets.FeedbacksWidget.seeAll')"
