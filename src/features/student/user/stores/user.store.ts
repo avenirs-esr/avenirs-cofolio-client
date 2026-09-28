@@ -11,7 +11,7 @@ export const useStudentUserStore = defineStore('studentUser', () => {
 }, {
   persist: {
     pick: [
-      'languageSelector',
+      'languageSelector.currentLanguage',
     ]
   }
 })

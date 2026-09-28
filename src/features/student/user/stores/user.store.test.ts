@@ -14,7 +14,6 @@ BddTest().given('a student user shared store', () => {
 
   BddTest().when('the store is initialized', () => {
     BddTest().then('it should have language selector with default properties', () => {
-      expect(store.languageSelector.id).toBe('language-selector')
       expect(store.languageSelector.languages).toHaveLength(2)
       expect(store.languageSelector.languages[0]).toEqual({ label: 'Français', codeIso: 'fr' })
       expect(store.languageSelector.languages[1]).toEqual({ label: 'English', codeIso: 'en' })

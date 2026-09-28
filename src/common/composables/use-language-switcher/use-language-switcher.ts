@@ -9,7 +9,6 @@ export function useLanguageSwitcher () {
   const languageSelectorLabel = computed(() => t('global.header.languageSwitcher'))
 
   const languageSelector = ref({
-    id: 'language-selector',
     languages: [
       { label: 'Français', codeIso: 'fr' },
       { label: 'English', codeIso: 'en' },
