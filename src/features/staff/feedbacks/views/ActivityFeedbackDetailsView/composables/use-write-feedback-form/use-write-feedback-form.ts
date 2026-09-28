@@ -90,7 +90,7 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
 
   const liveFormData = computed<WriteFeedbackFormData>(() => ({
     feedback: feedbackData.value.feedback ?? '',
-    attachments: feedbackData.value.attachments ?? []
+    attachments: feedbackData.value.attachments
   }))
   const originalFormData = ref<WriteFeedbackFormData>({ ...liveFormData.value })
 
@@ -202,7 +202,7 @@ export function useWriteFeedbackForm ({ feedback, onFeedbackSaved, onCancel }: U
       ]
 
       const originalAttachments = originalFormData.value.attachments as FileDTO[]
-      const liveAttachments = (feedbackData.value.attachments ?? []) as FileDTO[]
+      const liveAttachments = feedbackData.value.attachments
 
       const toReupload = originalAttachments.filter(original => !liveAttachments.some(live => live.id === original.id))
       const toDiscard = liveAttachments.filter(live => !originalAttachments.some(original => original.id === live.id))

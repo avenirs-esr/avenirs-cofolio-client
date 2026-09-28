@@ -117,8 +117,12 @@ export const mockedFeedbackDetailsWithAssociations: FeedbackDetailsDTO = {
   feedback: 'This is a detailed feedback with associations',
   status: EFeedbackStatus.NEW,
   student: mockedStudent,
-  associatedTraces: [mockedTraceDetailedWithFile],
-  associatedDeclaredSkills: [createMockedDeclaredSkillProgressDetailsDTO('declared-skill-feedback')],
+  associations: {
+    traces: [mockedTraceDetailedWithFile],
+    declaredSkills: [createMockedDeclaredSkillProgressDetailsDTO('declared-skill-feedback')],
+    declaredExperiences: []
+  },
+  attachments: [],
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-16T10:00:00Z'
 }
@@ -126,8 +130,11 @@ export const mockedFeedbackDetailsWithAssociations: FeedbackDetailsDTO = {
 export const mockedFeedbackDetailsWithoutAssociations: FeedbackDetailsDTO = {
   ...mockedFeedbackDetailsWithAssociations,
   id: 'feedback-without-associations',
-  associatedTraces: [],
-  associatedDeclaredSkills: [],
+  associations: {
+    traces: [],
+    declaredSkills: [],
+    declaredExperiences: []
+  }
 }
 
 export const mockedFeedbackDetailsSubmitted: FeedbackDetailsDTO = {
