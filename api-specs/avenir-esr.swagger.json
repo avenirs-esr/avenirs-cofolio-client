@@ -6558,6 +6558,9 @@
           "hasEnrolledStudent": {
             "type": "boolean"
           },
+          "haveDraft": {
+            "type": "boolean"
+          },
           "files": {
             "type": "array",
             "items": {

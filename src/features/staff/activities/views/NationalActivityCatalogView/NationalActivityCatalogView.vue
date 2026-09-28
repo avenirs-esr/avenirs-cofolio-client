@@ -33,6 +33,8 @@ const trailingLinks = computed(() => [{ text: activity.value?.title ?? '' }])
 
 const isDraft = computed(() => status === EActivityStatus.DRAFT)
 
+const buttonLabel = computed(() => isDraft.value || activity.value?.haveDraft ? t('staff.activities.views.NationalActivityCatalogView.buttons.resumeDraft') : t('global.buttons.update'))
+
 const { modalOpened: deleteConfirmationOpened, openModal: openDeleteConfirmation, closeModal: closeDeleteConfirmation } = useModal()
 
 const { navigateToStaffActivities, navigateToStaffActivitiesEditNationalActivity } = useNavigation()
@@ -66,7 +68,7 @@ function updateActivity (id: string) {
         <AvButton
           :icon="MDI_ICONS.PENCIL_OUTLINE"
           :is-loading="isCreatingDraft"
-          :label="t('global.buttons.update')"
+          :label="buttonLabel"
           data-testid="edit-draft-button"
           variant="FLAT"
           @click="() => updateActivity(id)"

@@ -102,6 +102,9 @@
             "uniqueStudentViews": "student who viewed the activity | students who viewed the activity",
             "unsubscriptionsLast30Days": "unsubscription in the last 30 days | unsubscriptions in the last 30 days"
           },
+          "buttons": {
+            "resumeDraft": "Resume the draft"
+          },
           "errors": {
             "fetchActivityContent": "Unable to load activity"
           },

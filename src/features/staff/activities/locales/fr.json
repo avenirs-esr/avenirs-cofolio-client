@@ -102,6 +102,9 @@
             "uniqueStudentViews": "étudiant(e) ayant consulté l'activité | étudiant(e)s ayant consulté l'activité",
             "unsubscriptionsLast30Days": "désinscription sur les 30 derniers jours | désinscriptions sur les 30 derniers jours"
           },
+          "buttons": {
+            "resumeDraft": "Reprendre le brouillon"
+          },
           "errors": {
             "fetchActivityContent": "Impossible de charger l'activité"
           },
