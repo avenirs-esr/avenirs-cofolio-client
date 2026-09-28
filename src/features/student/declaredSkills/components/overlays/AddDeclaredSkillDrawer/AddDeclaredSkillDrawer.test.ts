@@ -284,10 +284,6 @@ BddTest().given('an add declared skill drawer component', () => {
       expect(getAssociationSelectionSection().props('contextType')).toBe(EAssociationContextType.DECLARED_SKILL)
     })
 
-    BddTest().then('it should not restrict the associated context types', () => {
-      expect(getAssociationSelectionSection().props('associatedContextTypes')).toBeUndefined()
-    })
-
     BddTest().then('it should pass the vertical layout', () => {
       expect(getAssociationSelectionSection().props('layout')).toBe('vertical')
     })

@@ -10,7 +10,6 @@ export const ElementAssociationsStub = defineComponent({
     associations: { type: Object as PropType<AssociationsDTO>, default: undefined },
     error: { type: Object, default: null },
     isLoading: { type: Boolean, default: false },
-    associatedContextTypes: { type: Array as PropType<EAssociationContextType[]>, default: undefined },
     limits: { type: Object as PropType<AssociationLimits>, default: undefined },
     readonly: { type: Boolean, default: false },
     actionsDisabled: { type: Boolean, default: false },

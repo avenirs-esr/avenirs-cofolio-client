@@ -14,8 +14,7 @@ import { useI18n } from 'vue-i18n'
 export interface AssociationSelectionSectionProps {
   /** Context type of the element being created. */
   contextType: EAssociationContextType
-  /** Context types that can be selected, all the associable ones by default. */
-  associatedContextTypes?: EAssociationContextType[]
+
   /** Whether the search is enabled, e.g. only when the section is visible. */
   enabled?: boolean
   layout?: 'vertical' | 'horizontal'
@@ -23,7 +22,6 @@ export interface AssociationSelectionSectionProps {
 
 const {
   contextType,
-  associatedContextTypes,
   enabled = true,
   layout = 'horizontal'
 } = defineProps<AssociationSelectionSectionProps>()
@@ -32,7 +30,7 @@ const selections = defineModel<AssociationSelections>('selections', { default: (
 
 const { t } = useI18n()
 
-const selectableContextTypes = (associatedContextTypes ?? getAssociableContextTypes(contextType)).filter(canAssociateContextType)
+const selectableContextTypes = (getAssociableContextTypes(contextType)).filter(canAssociateContextType)
 
 const activeContextType = ref<EAssociationContextType>(selectableContextTypes[0]!)
 

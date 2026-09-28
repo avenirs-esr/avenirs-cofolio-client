@@ -370,14 +370,6 @@ BddTest().given('a student tools traces add trace drawer component', () => {
       expect(getAssociationSelectionSection().props('contextType')).toBe(EAssociationContextType.TRACE)
     })
 
-    BddTest().then('it should only allow to associate declared skills, activities and programs', () => {
-      expect(getAssociationSelectionSection().props('associatedContextTypes')).toStrictEqual([
-        EAssociationContextType.DECLARED_SKILL,
-        EAssociationContextType.DECLARED_ACTIVITY,
-        EAssociationContextType.DECLARED_PROGRAM
-      ])
-    })
-
     BddTest().then('it should use the default horizontal layout', () => {
       expect(getAssociationSelectionSection().props('layout')).toBe('horizontal')
     })

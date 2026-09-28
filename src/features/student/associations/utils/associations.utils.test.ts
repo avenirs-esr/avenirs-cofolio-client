@@ -6,7 +6,7 @@ import {
   createMockedDeclaredProgramAssociations,
   createMockedDeclaredSkillAssociations,
   createMockedTraceAssociations,
-  mockedEmptyAssociations
+  mockedEmptyAssociations,
 } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { type AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
 import {
@@ -18,7 +18,7 @@ import {
   getElementAssociations,
   isAssociable,
   isAssociationLimited,
-  isAssociationLimitReached
+  isAssociationLimitReached,
 } from '@/features/student/associations/utils/associations.utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { afterEach, expect, vi } from 'vitest'
@@ -28,7 +28,7 @@ const associations: AssociationsDTO = {
   declaredActivityAssociations: createMockedDeclaredActivityAssociations(1),
   declaredSkillAssociations: createMockedDeclaredSkillAssociations(3),
   declaredExperienceAssociations: createMockedDeclaredExperienceAssociations(4),
-  declaredProgramAssociations: createMockedDeclaredProgramAssociations(2)
+  declaredProgramAssociations: createMockedDeclaredProgramAssociations(2),
 }
 
 BddTest().given('isAssociable', () => {
@@ -60,30 +60,30 @@ BddTest().given('getAssociableContextTypes', () => {
         EAssociationContextType.DECLARED_ACTIVITY,
         EAssociationContextType.DECLARED_SKILL,
         EAssociationContextType.DECLARED_EXPERIENCE,
-        EAssociationContextType.DECLARED_PROGRAM
+        EAssociationContextType.DECLARED_PROGRAM,
       ],
       [EAssociationContextType.DECLARED_ACTIVITY]: [
         EAssociationContextType.TRACE,
         EAssociationContextType.DECLARED_SKILL,
-        EAssociationContextType.DECLARED_EXPERIENCE
+        EAssociationContextType.DECLARED_EXPERIENCE,
       ],
       [EAssociationContextType.DECLARED_SKILL]: [
         EAssociationContextType.TRACE,
         EAssociationContextType.DECLARED_ACTIVITY,
         EAssociationContextType.DECLARED_EXPERIENCE,
-        EAssociationContextType.DECLARED_PROGRAM
+        EAssociationContextType.DECLARED_PROGRAM,
       ],
       [EAssociationContextType.DECLARED_EXPERIENCE]: [
         EAssociationContextType.TRACE,
         EAssociationContextType.DECLARED_ACTIVITY,
         EAssociationContextType.DECLARED_SKILL,
-        EAssociationContextType.DECLARED_PROGRAM
+        EAssociationContextType.DECLARED_PROGRAM,
       ],
       [EAssociationContextType.DECLARED_PROGRAM]: [
         EAssociationContextType.TRACE,
         EAssociationContextType.DECLARED_SKILL,
-        EAssociationContextType.DECLARED_EXPERIENCE
-      ]
+        EAssociationContextType.DECLARED_EXPERIENCE,
+      ],
     }
 
     Object.entries(expectedAssociableContextTypes).forEach(([contextType, expected]) => {
@@ -111,8 +111,8 @@ BddTest().given('canAssociateContextType', () => {
         [EAssociationContextType.TRACE]: true,
         [EAssociationContextType.DECLARED_ACTIVITY]: true,
         [EAssociationContextType.DECLARED_SKILL]: true,
-        [EAssociationContextType.DECLARED_EXPERIENCE]: false,
-        [EAssociationContextType.DECLARED_PROGRAM]: true
+        [EAssociationContextType.DECLARED_EXPERIENCE]: true,
+        [EAssociationContextType.DECLARED_PROGRAM]: true,
       }
 
       Object.entries(expectedAvailability).forEach(([contextType, expected]) => {
@@ -127,16 +127,21 @@ BddTest().given('getElementAssociations', () => {
 
   BddTest().then('it should return the associations to the elements of the given context type', () => {
     const expectedElementAssociations: Record<EAssociationContextType, ElementAssociation[]> = {
-      [EAssociationContextType.TRACE]: associations.traceAssociations
-        .map(({ associationId, trace }) => toElementAssociation(associationId, trace)),
-      [EAssociationContextType.DECLARED_ACTIVITY]: associations.declaredActivityAssociations
-        .map(({ associationId, declaredActivity }) => toElementAssociation(associationId, declaredActivity)),
-      [EAssociationContextType.DECLARED_SKILL]: associations.declaredSkillAssociations
-        .map(({ associationId, declaredSkill }) => toElementAssociation(associationId, declaredSkill)),
-      [EAssociationContextType.DECLARED_EXPERIENCE]: associations.declaredExperienceAssociations
-        .map(({ associationId, declaredExperience }) => toElementAssociation(associationId, declaredExperience)),
-      [EAssociationContextType.DECLARED_PROGRAM]: associations.declaredProgramAssociations
-        .map(({ associationId, declaredProgram }) => toElementAssociation(associationId, declaredProgram))
+      [EAssociationContextType.TRACE]: associations.traceAssociations.map(({ associationId, trace }) =>
+        toElementAssociation(associationId, trace),
+      ),
+      [EAssociationContextType.DECLARED_ACTIVITY]: associations.declaredActivityAssociations.map(({ associationId, declaredActivity }) =>
+        toElementAssociation(associationId, declaredActivity),
+      ),
+      [EAssociationContextType.DECLARED_SKILL]: associations.declaredSkillAssociations.map(({ associationId, declaredSkill }) =>
+        toElementAssociation(associationId, declaredSkill),
+      ),
+      [EAssociationContextType.DECLARED_EXPERIENCE]: associations.declaredExperienceAssociations.map(
+        ({ associationId, declaredExperience }) => toElementAssociation(associationId, declaredExperience),
+      ),
+      [EAssociationContextType.DECLARED_PROGRAM]: associations.declaredProgramAssociations.map(({ associationId, declaredProgram }) =>
+        toElementAssociation(associationId, declaredProgram),
+      ),
     }
 
     Object.entries(expectedElementAssociations).forEach(([contextType, expected]) => {
@@ -171,7 +176,7 @@ BddTest().given('countElementAssociations', () => {
       [EAssociationContextType.DECLARED_ACTIVITY]: 9,
       [EAssociationContextType.DECLARED_SKILL]: 9,
       [EAssociationContextType.DECLARED_EXPERIENCE]: 8,
-      [EAssociationContextType.DECLARED_PROGRAM]: 9
+      [EAssociationContextType.DECLARED_PROGRAM]: 9,
     }
 
     Object.entries(expectedCounts).forEach(([contextType, expectedCount]) => {
