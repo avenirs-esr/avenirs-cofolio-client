@@ -28,7 +28,7 @@ export interface UseAssociationSearchOptions {
 
 /**
  * Maps the generic search results returned by the association API to the associations
- * displayed by the association pickers, translating the category of the searched context type.
+ * displayed by the association pickers, translating the category when a translation exists.
  */
 export function useAssociationSearchResults () {
   const { t } = useI18n()
@@ -43,7 +43,7 @@ export function useAssociationSearchResults () {
       category: searchResult.category,
       description: categoryLabelKeyPrefix && searchResult.category
         ? t(`${categoryLabelKeyPrefix}.${searchResult.category}`)
-        : undefined
+        : searchResult.category
     }
   }
 

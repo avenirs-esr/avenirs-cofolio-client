@@ -14,7 +14,6 @@ import {
   EDeclaredSkillLevel,
   EExperienceType,
   EExternalSkillType,
-  EProgramStatus,
   ETraceAuthorType,
   type PagedResponseAssociationSearchResultDTO,
   type SearchForAssociationParams,
@@ -257,9 +256,9 @@ export const mockedExperienceSearchResults: AssociationSearchResultDTO[] = [
 ]
 
 export const mockedProgramSearchResults: AssociationSearchResultDTO[] = [
-  { id: 'program-search-1', title: 'Master en Informatique', category: EProgramStatus.NOT_STARTED, disabled: false },
-  { id: 'program-search-2', title: 'Licence de Psychologie', category: EProgramStatus.IN_PROGRESS, disabled: false },
-  { id: 'program-search-3', title: 'BUT Métiers du Multimédia et de l\'Internet', category: EProgramStatus.COMPLETED, disabled: true }
+  { id: 'program-search-1', title: 'Master en Informatique', category: 'Université Paris-Saclay', disabled: false },
+  { id: 'program-search-2', title: 'Licence de Psychologie', category: 'Université Lumière Lyon 2', disabled: false },
+  { id: 'program-search-3', title: 'BUT Métiers du Multimédia et de l\'Internet', category: 'IUT de Bordeaux', disabled: true }
 ]
 
 /**
