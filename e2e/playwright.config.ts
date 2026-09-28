@@ -8,6 +8,8 @@ dotenv.config({ path: '.env' })
 
 const CI = process.env.CI === 'true'
 const REVIEW_MODE = process.env.REVIEW_MODE === 'true'
+const baseURL = process.env.VITE_API_URL || 'http://localhost:4173/cofolio/'
+const appOrigin = new URL(baseURL).origin
 
 const reviewModeIgnore = REVIEW_MODE ? ['**/*.deferred.feature.spec.js'] : []
 
@@ -38,7 +40,17 @@ export default defineConfig({
   reporter,
   testIgnore: reviewModeIgnore,
   use: {
-    baseURL: process.env.VITE_API_URL || 'http://localhost:4173/cofolio/',
+    baseURL,
+    storageState: {
+      cookies: [],
+      origins: [{
+        origin: appOrigin,
+        localStorage: [
+          { name: 'staff-tutorial-seen', value: 'true' },
+          { name: 'student-tutorial-seen', value: 'true' },
+        ],
+      }],
+    },
     locale: 'fr-FR',
     timezoneId: 'Europe/Paris',
     trace: 'retain-on-failure',
