@@ -7,6 +7,16 @@ export default defineConfig({
   tsconfig: './tsconfig.a11y.json',
   use: {
     baseURL: 'http://localhost:4173/cofolio/',
+    storageState: {
+      cookies: [],
+      origins: [{
+        origin: 'http://localhost:4173',
+        localStorage: [
+          { name: 'staff-tutorial-seen', value: 'true' },
+          { name: 'student-tutorial-seen', value: 'true' },
+        ],
+      }],
+    },
     headless: !!process.env.CI,
   },
   timeout: GLOBAL_TIMEOUT,
