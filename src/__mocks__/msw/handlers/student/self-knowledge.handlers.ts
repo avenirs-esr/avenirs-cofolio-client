@@ -65,13 +65,13 @@ export function createSelfKnowledgeElementsHandler (
 ) {
   return http.get(`*${getGetSelfKnowledgeElementsUrl()}`, ({ request }) => {
     const url = new URL(request.url)
-    const categoryType = (url.searchParams.get('selfKnowledgeCategories')?.split(',')[0] ?? ESelfKnowledgeCategory.STRENGTHS) as ESelfKnowledgeCategory
+    const categoryType = (url.searchParams.get('selfKnowledgeCategories') ?? ESelfKnowledgeCategory.STRENGTHS) as ESelfKnowledgeCategory
     const page = Number.parseInt(url.searchParams.get('page') ?? '0')
     const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '3')
 
     if (onRequest) {
       onRequest({
-        selfKnowledgeCategories: url.searchParams.get('selfKnowledgeCategories')?.split(',') as ESelfKnowledgeCategory[] | undefined,
+        selfKnowledgeCategories: url.searchParams.has('selfKnowledgeCategories') ? url.searchParams.getAll('selfKnowledgeCategories') as ESelfKnowledgeCategory[] : undefined,
         page: url.searchParams.has('page') ? Number(url.searchParams.get('page')) : undefined,
         pageSize: url.searchParams.has('pageSize') ? Number(url.searchParams.get('pageSize')) : undefined,
         isValorized: url.searchParams.has('isValorized') ? url.searchParams.get('isValorized') === 'true' : undefined
