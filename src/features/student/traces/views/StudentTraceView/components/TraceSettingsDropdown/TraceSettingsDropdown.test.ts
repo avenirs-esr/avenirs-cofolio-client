@@ -3,9 +3,7 @@ import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDr
 import TraceSettingsDropdown, { type TraceSettingsDropdownProps } from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
-
-vi.stubGlobal('__DEMO_MODE__', false)
+import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a setting popover', () => {
   let wrapper: VueWrapper<InstanceType<typeof TraceSettingsDropdown>>
@@ -14,8 +12,7 @@ BddTest().given('a setting popover', () => {
     ManageEntityDropdown: ManageEntityDropdownStub
   }
 
-  const mountWith = (props: Partial<TraceSettingsDropdownProps> = {}, demoMode: boolean = false) => {
-    vi.stubGlobal('__DEMO_MODE__', demoMode)
+  const mountWith = (props: Partial<TraceSettingsDropdownProps> = {}) => {
     wrapper = mount(TraceSettingsDropdown, {
       props,
       global: { stubs }
@@ -50,16 +47,6 @@ BddTest().given('a setting popover', () => {
 
     BddTest().then('it should enable delete and download items by default', () => {
       expect(getActionItem(Action.DOWNLOAD)?.disabled).toBe(false)
-    })
-  })
-
-  BddTest().when('the component is mounted in demo mode', () => {
-    beforeEach(() => {
-      mountWith({}, true)
-    })
-
-    BddTest().then('it should render the dropdown without associate action', () => {
-      expect(getAssociateButton().exists()).toBe(false)
     })
   })
 

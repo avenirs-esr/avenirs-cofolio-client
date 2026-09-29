@@ -25,8 +25,6 @@ import DeclaredExperienceUpdateView from '@/features/student/personalCareer/view
 import DeclaredExperienceView from '@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'
 import DeclaredProgramDetailedView from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/DeclaredProgramDetailedView.vue'
 import PersonalCareerView from '@/features/student/personalCareer/views/PersonalCareerView/PersonalCareerView.vue'
-import StudentMailboxView
-  from '@/features/student/user/views/StudentMailboxView/StudentMailboxView.vue'
 import { testRoute } from 'tests/utils'
 
 const [root] = routes
@@ -98,10 +96,4 @@ testRoute(
   children.find(r => r.name === ROUTES.STUDENT.ABOUT.name)!,
   ROUTES.STUDENT.ABOUT,
   StudentAboutView
-)
-
-testRoute(
-  children.find(r => r.name === ROUTES.STUDENT.MAILBOX.name)!,
-  ROUTES.STUDENT.MAILBOX,
-  StudentMailboxView
 )

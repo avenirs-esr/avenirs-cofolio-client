@@ -682,12 +682,12 @@ BddTest().given('an element associations component', () => {
     })
   })
 
-  BddTest().when('the associations of a trace are displayed in demo mode', () => {
+  BddTest().when('the associations of a trace are displayed', () => {
     beforeEach(() => {
       mountElementAssociations(traceProps)
     })
 
-    BddTest().then('it should not propose to associate the context types unavailable in demo mode', () => {
+    BddTest().then('it should not propose to associate the context types unavailable', () => {
       expect(getDropdown('associate')!.props('items')).toEqual([
         { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
         { type: EAssociationContextType.DECLARED_SKILL, disabled: false },

@@ -10,7 +10,6 @@ import {
 } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { type AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
 import {
-  canAssociateContextType,
   countAssociations,
   countElementAssociations,
   getAssociableContextTypes,
@@ -21,7 +20,7 @@ import {
   isAssociationLimitReached,
 } from '@/features/student/associations/utils/associations.utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { afterEach, expect, vi } from 'vitest'
+import { expect } from 'vitest'
 
 const associations: AssociationsDTO = {
   traceAssociations: createMockedTraceAssociations(2),
@@ -88,36 +87,6 @@ BddTest().given('getAssociableContextTypes', () => {
 
     Object.entries(expectedAssociableContextTypes).forEach(([contextType, expected]) => {
       expect(getAssociableContextTypes(contextType as EAssociationContextType), contextType).toEqual(expected)
-    })
-  })
-})
-
-BddTest().given('canAssociateContextType', () => {
-  afterEach(() => {
-    vi.stubGlobal('__DEMO_MODE__', false)
-  })
-
-  BddTest().when('the demo mode is disabled', () => {
-    BddTest().then('it should allow every context type', () => {
-      expect(Object.values(EAssociationContextType).every(canAssociateContextType)).toBe(true)
-    })
-  })
-
-  BddTest().when('the demo mode is enabled', () => {
-    BddTest().then('it should only allow the context types available in demo', () => {
-      vi.stubGlobal('__DEMO_MODE__', true)
-
-      const expectedAvailability: Record<EAssociationContextType, boolean> = {
-        [EAssociationContextType.TRACE]: true,
-        [EAssociationContextType.DECLARED_ACTIVITY]: true,
-        [EAssociationContextType.DECLARED_SKILL]: true,
-        [EAssociationContextType.DECLARED_EXPERIENCE]: true,
-        [EAssociationContextType.DECLARED_PROGRAM]: true,
-      }
-
-      Object.entries(expectedAvailability).forEach(([contextType, expected]) => {
-        expect(canAssociateContextType(contextType as EAssociationContextType), contextType).toBe(expected)
-      })
     })
   })
 })

@@ -9,15 +9,6 @@
         }
       },
       "overlays": {
-        "StudentMailboxPopover": {
-          "bodyNoNew": "You have no new messages to consult.",
-          "buttons": {
-            "close": "Close",
-            "navigate": "Go to my mailbox",
-            "seeAll": "See all"
-          },
-          "title": "No new messages | 1 unread message | {count} unread messages"
-        },
         "StudentNotificationsPopover": {
           "contexts": {
             "activityModified": "An activity you are enrolled in has been modified"
@@ -49,11 +40,6 @@
             "picture": "Profile picture"
           },
           "title": "Edit my profile"
-        }
-      },
-      "views": {
-        "StudentMailboxView": {
-          "title": "My mailbox"
         }
       }
     }

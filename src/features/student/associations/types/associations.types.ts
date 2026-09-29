@@ -38,8 +38,6 @@ export interface AssociationContextConfig {
   categoryLabelKeyPrefix?: string
   /** Whether the association search of this context type can be filtered on the association status. */
   filterable?: boolean
-  /** Whether this context type can be associated in demo mode. */
-  availableInDemo?: boolean
 }
 
 /**

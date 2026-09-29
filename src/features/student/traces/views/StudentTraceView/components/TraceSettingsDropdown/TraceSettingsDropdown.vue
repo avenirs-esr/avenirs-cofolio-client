@@ -20,6 +20,7 @@ const { t } = useI18n()
 const actions = computed(() => {
   const items: (Action | ActionItem)[] = [
     Action.UPDATE,
+    Action.ASSOCIATE,
     {
       type: Action.DOWNLOAD,
       disabled: downloadDisabled,
@@ -27,10 +28,6 @@ const actions = computed(() => {
     },
     Action.DELETE,
   ]
-
-  if (!__DEMO_MODE__) {
-    items.push(Action.ASSOCIATE)
-  }
 
   return items
 })

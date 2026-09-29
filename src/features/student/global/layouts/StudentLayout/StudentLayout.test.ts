@@ -36,11 +36,6 @@ BddTest().given('a student layout', () => {
   const stubs = {
     AvHeader: AvHeaderStub,
     SwitchUniverse: SwitchUniverseStub,
-    StudentMailboxPopover: {
-      name: 'StudentMailboxPopover',
-      props: ['messagesCount'],
-      template: '<div data-testid="mailbox-popover" />'
-    },
     StudentNotificationsPopover: StudentNotificationsPopoverStub,
     StudentProfileDropdown: StudentProfileDropdownStub,
     StudentNavigation: {
@@ -78,7 +73,6 @@ BddTest().given('a student layout', () => {
       BddTest().then('it should render header, navigation and quicklinks correctly', async () => {
         expect(wrapper.findComponent({ name: 'AvHeader' }).exists()).toBe(true)
         expect(wrapper.find('[data-testid="navigation"]').exists()).toBe(true)
-        expect(wrapper.find('[data-testid="mailbox-popover"]').exists()).toBe(true)
         expect(wrapper.findComponent(StudentNotificationsPopoverStub).exists()).toBe(true)
         expect(wrapper.findComponent(StudentProfileDropdownStub).exists()).toBe(true)
       })

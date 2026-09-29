@@ -89,12 +89,7 @@ export default [
         ...ROUTES.STUDENT.ABOUT,
         component: () => import('@/features/student/global/views/StudentAboutView/StudentAboutView.vue'),
         meta: { breadcrumb },
-      },
-      {
-        ...ROUTES.STUDENT.MAILBOX,
-        component: () => import('@/features/student/user/views/StudentMailboxView/StudentMailboxView.vue'),
-        meta: { breadcrumb },
-      },
+      }
     ],
   },
 ]
