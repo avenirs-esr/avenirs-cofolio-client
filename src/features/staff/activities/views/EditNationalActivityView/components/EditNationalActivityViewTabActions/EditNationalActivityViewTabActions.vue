@@ -14,7 +14,6 @@ const isFormValid = form.useStore(s => s.isValid && !s.isValidating && s.isDirty
 <template>
   <div class="av-row av-gap-sm">
     <AvButton
-      small
       data-testid="exit-button"
       :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
       :label="t('global.buttons.exit')"
@@ -22,7 +21,6 @@ const isFormValid = form.useStore(s => s.isValid && !s.isValidating && s.isDirty
       :to="ROUTES.STAFF.ACTIVITIES"
     />
     <AvButton
-      small
       data-testid="save-button"
       :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
       :label="t('staff.activities.views.EditNationalActivityView.EditNationalActivityViewTabActions.saveLabel')"

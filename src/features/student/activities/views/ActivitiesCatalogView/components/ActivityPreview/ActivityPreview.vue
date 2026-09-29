@@ -45,11 +45,9 @@ const subscribeButtonLabel = computed(() => hasDeclaredActivity.value
       <template #actions>
         <AvButton
           v-if="hasDeclaredActivity"
-          theme="PRIMARY"
           variant="FLAT"
           :label="t('student.activities.views.ActivitiesCatalogView.buttons.access')"
           :icon="ICONS.ACTIVITY"
-          small
           :to="{
             name: ROUTES.STUDENT.ACTIVITY.name,
             params: { id: activity.subscribedDeclaredActivity, thematic: activity.thematic },
@@ -59,20 +57,16 @@ const subscribeButtonLabel = computed(() => hasDeclaredActivity.value
         <AvButton
           v-if="isSubscribed"
           variant="OUTLINED"
-          theme="PRIMARY"
           :label="t('global.buttons.unsubscribe')"
           :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
-          small
           data-testid="unsubscribe-button"
           @click="openUnsubscribeModal"
         />
         <AvButton
           v-else
           variant="OUTLINED"
-          theme="PRIMARY"
           :label="subscribeButtonLabel"
           :icon="PH_ICONS.NOTE_PENCIL"
-          small
           data-testid="subscribe-button"
           @click="openSubscribeModal"
         />

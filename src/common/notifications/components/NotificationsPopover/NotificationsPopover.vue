@@ -38,7 +38,6 @@ const triggerIcon = computed(() => hasUnseenNotifications.value ? MDI_ICONS.BELL
       <AvButton
         :label="triggerLabel"
         :icon="triggerIcon"
-        small
         data-testid="notifications-popover-trigger"
         @click="toggle"
       />

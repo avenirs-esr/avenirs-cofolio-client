@@ -161,7 +161,6 @@ watch(() => quickLinks.value?.unreadNotifications, syncNotifications)
         :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
         :label="t('global.buttons.exit')"
         variant="OUTLINED"
-        small
         data-testid="notifications-popover-body-close"
         @click="handleClose"
       />

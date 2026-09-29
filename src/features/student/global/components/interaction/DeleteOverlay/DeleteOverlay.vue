@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AvButton, type AvButtonProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, type AvButtonProps, MDI_ICONS, Size } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteOverlayProps {
@@ -28,6 +28,7 @@ const resolvedButtonLabel = computed(() => buttonLabel ?? t('global.buttons.dele
         :label="resolvedButtonLabel"
         :theme="buttonTheme"
         icon-only
+        :size="Size.LG"
         @click.stop="$emit('delete')"
       />
     </div>

@@ -139,7 +139,6 @@ watch(content, () => {
             :label="t('global.buttons.update')"
             :icon="MDI_ICONS.PENCIL_OUTLINE"
             variant="OUTLINED"
-            small
             :disabled="isPerspectiveEditingDisabled(activityStatus)"
             :disabled-tooltip="editDisabledTooltip"
             data-testid="my-perspective-card-edit-button"
@@ -178,7 +177,6 @@ watch(content, () => {
             :disabled="!isModified || !!errors"
             :disabled-tooltip="t('student.activities.views.ActivityView.MyPerspectiveCard.saveDisabledTooltip')"
             :is-loading="isPendingSave || isPendingAutoSave || isLoading"
-            small
             data-testid="my-perspective-card-save-button"
             @click="onSave"
           />
@@ -187,7 +185,6 @@ watch(content, () => {
             :label="t('global.buttons.cancel')"
             :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
             variant="DEFAULT"
-            small
             :is-loading="isPendingAutoSave || isLoading"
             data-testid="my-perspective-card-cancel-button"
             @click="readonly = true"

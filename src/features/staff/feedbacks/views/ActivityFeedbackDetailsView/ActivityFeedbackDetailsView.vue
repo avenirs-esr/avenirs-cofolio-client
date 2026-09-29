@@ -93,7 +93,6 @@ const trailingLinks = computed(() => [{ text: pageSubTitle.value }])
           <AvButton
             :label="t('staff.feedbacks.views.ActivityFeedbackDetailsView.seeActivity')"
             :icon="CUIDA_ICONS.VISIBILITY_ON_OUTLINE"
-            small
             data-testid="see-activity"
             @click="displayActivityDetailsDrawer"
           />

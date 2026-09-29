@@ -22,7 +22,7 @@ const {
   disabled,
   label,
   iconOnly,
-  small,
+  size,
   icon,
   noSentenceCase,
   ...props
@@ -61,7 +61,7 @@ const avButtonProps = computed<AvButtonProps>(() => ({
   disabled,
   label,
   iconOnly,
-  small,
+  size,
   icon,
   noSentenceCase,
 }))

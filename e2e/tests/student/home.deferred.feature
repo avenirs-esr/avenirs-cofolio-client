@@ -17,6 +17,5 @@ Feature: Student Home Page - out of MVP features
     
     @medium @navigation @desktop
     Scenario: Header actions are visible on desktop
-      Then the mailbox button is visible
-      And the notifications button is visible
+      Then the notifications button is visible
  

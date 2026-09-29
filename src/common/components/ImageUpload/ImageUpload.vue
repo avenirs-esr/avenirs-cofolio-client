@@ -247,7 +247,6 @@ function backToInitialCrop () {
         <AvButton
           :label="t('global.buttons.reset')"
           :icon="MDI_ICONS.RESTORE"
-          small
           @click="backToInitialCrop"
         />
       </div>

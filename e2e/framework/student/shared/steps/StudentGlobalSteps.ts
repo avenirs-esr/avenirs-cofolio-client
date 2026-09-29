@@ -81,11 +81,6 @@ class StudentGlobalSteps extends BasePage {
     await expect(this.layout.getMyToolsButton()).toContainText(t('student.global.navigation.tabs.tools.header').toUpperCase())
   }
 
-  @Then('the mailbox button is visible')
-  async verifyMailboxButton () {
-    await expect(this.layout.getMailboxButton()).toBeVisible()
-  }
-
   @Then('the notifications button is visible')
   async verifyNotificationsButton () {
     await expect(this.layout.getNotificationsButton()).toBeVisible()

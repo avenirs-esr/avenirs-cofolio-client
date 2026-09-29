@@ -14,7 +14,6 @@ const { modalOpened, openModal, closeModal } = useModal()
       :label="t('student.kit.views.StudentToolsKitView.interaction.ExportKitButton.label')"
       :icon="MDI_ICONS.DOWNLOAD_OUTLINE"
       variant="FLAT"
-      small
       @click="openModal"
     />
   </div>

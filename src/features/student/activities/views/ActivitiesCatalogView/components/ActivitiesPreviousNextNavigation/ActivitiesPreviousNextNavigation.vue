@@ -88,7 +88,6 @@ const baseRouteName = computed(() => widget ? ROUTES.STUDENT.WIDGET_ACTIVITY_CAT
         :label="t('global.buttons.previous')"
         :icon="MDI_ICONS.ARROW_LEFT_THIN"
         variant="DEFAULT"
-        small
         :to="{
           name: baseRouteName,
           params: { thematic: previousActivity.parentId, id: previousActivity.itemId },
@@ -101,7 +100,6 @@ const baseRouteName = computed(() => widget ? ROUTES.STUDENT.WIDGET_ACTIVITY_CAT
         :label="t('global.buttons.next')"
         :icon="MDI_ICONS.ARROW_RIGHT_THIN"
         variant="DEFAULT"
-        small
         :to="{
           name: baseRouteName,
           params: { thematic: nextActivity.parentId, id: nextActivity.itemId },

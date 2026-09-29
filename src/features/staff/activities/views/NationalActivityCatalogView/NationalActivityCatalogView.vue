@@ -68,7 +68,6 @@ function updateActivity (id: string) {
           :is-loading="isCreatingDraft"
           :label="t('global.buttons.update')"
           data-testid="edit-draft-button"
-          small
           variant="FLAT"
           @click="() => updateActivity(id)"
         />
@@ -77,7 +76,6 @@ function updateActivity (id: string) {
           :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
           :label="t('global.buttons.delete')"
           data-testid="delete-draft-button"
-          small
           variant="OUTLINED"
           @click="openDeleteConfirmation"
         />

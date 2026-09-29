@@ -35,10 +35,6 @@ export class StudentLayout extends BaseObject {
     })
   }
 
-  getMailboxButton () {
-    return this.root.getByTestId('mailbox-button').getByRole('button')
-  }
-
   getNotificationsButton () {
     return this.root.getByTestId('notifications-button').getByRole('button')
   }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useLanguageSwitcher } from '@/common/composables'
-import { AvButton, AvLanguageSelector, AvLogo } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvLanguageSelector, AvLogo, Size } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -58,6 +58,7 @@ function onLoginClick () {
             :label="t('auth.global.views.LoginView.actions.login.text')"
             no-sentence-case
             variant="OUTLINED"
+            :size="Size.LG"
             @click="onLoginClick"
           />
         </div>

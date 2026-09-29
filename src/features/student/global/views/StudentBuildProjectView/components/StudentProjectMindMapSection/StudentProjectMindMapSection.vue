@@ -26,7 +26,6 @@ const { modalOpened, openModal, closeModal } = useModal()
       variant="OUTLINED"
       :label="t('student.global.views.StudentBuildProjectView.StudentProjectMindMapSection.consultHelpButtonLabel')"
       :icon="MDI_ICONS.FLAG_VARIANT"
-      small
       @click="openModal"
     />
   </div>

@@ -17,7 +17,7 @@ const { t } = useI18n()
     border-color="transparent"
   >
     <template #title>
-      <div class="av-col av-gap-sm">
+      <div class="av-col av-gap-sm av-w-full">
         <span
           class="s1-regular"
           data-testid="all-activities-header-description"
@@ -29,7 +29,6 @@ const { t } = useI18n()
             :label="t('student.activities.views.ActivitiesView.AllActivitiesHeaderCard.seeAll')"
             variant="OUTLINED"
             :icon="CUIDA_ICONS.VISIBILITY_ON_OUTLINE"
-            small
             data-testid="all-activities-header-see-all-button"
             @click="$emit('seeAllActivities')"
           />
