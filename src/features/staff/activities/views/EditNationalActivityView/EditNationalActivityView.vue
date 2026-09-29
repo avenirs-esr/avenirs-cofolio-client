@@ -156,7 +156,7 @@ const form = useForm({
       feedbackAllowedIterations: value.feedbackAllowedIterations ?? 0,
       traceAllowedAssociations: value.traceAllowedAssociations,
       links: value.links,
-    }, true)
+    })
   },
 })
 
@@ -214,7 +214,7 @@ async function saveActivity (data: ActivityDraftUpdateRequest) {
   })
 }
 
-async function save (data?: ActivityDraftUpdateRequest, resetForm = false) {
+async function save (data?: ActivityDraftUpdateRequest) {
   const promises: Promise<void>[] = []
   const bannerAction = form.getFieldValue('bannerAction')
   const files = form.getFieldValue('files')
@@ -246,15 +246,14 @@ async function save (data?: ActivityDraftUpdateRequest, resetForm = false) {
   if (someFulfilled) {
     await invalidateGetActivityContent(queryClient, EActivityStatus.DRAFT, id)
     await invalidateGetActivityPresentation(queryClient, EActivityStatus.DRAFT, id)
+
+    form.reset({
+      ...form.state.values,
+      bannerAction: EditActivityFormDataBannerAction.NONE,
+    })
   }
 
   if (results.every(r => r.status === 'fulfilled')) {
-    if (resetForm) {
-      form.reset({
-        ...form.state.values,
-        bannerAction: EditActivityFormDataBannerAction.NONE,
-      })
-    }
     addSuccessMessage(t('staff.activities.views.EditNationalActivityView.success.saveActivityContent'))
   }
   else {
