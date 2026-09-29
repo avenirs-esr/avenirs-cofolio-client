@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
+import type { ESelfKnowledgeCategory, SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { CreationUpdateDateDetails } from '@/common/components'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import Rating from '@/common/components/Rating/Rating.vue'
@@ -10,9 +10,10 @@ import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementDetailsProps {
   element: SelfKnowledgeElementDetailsDTO
+  category: ESelfKnowledgeCategory
 }
 
-const { element } = defineProps<SelfKnowledgeElementDetailsProps>()
+const { element, category } = defineProps<SelfKnowledgeElementDetailsProps>()
 const { t } = useI18n()
 
 const createdAtPrefix = computed(() => capitalize(t('student.selfKnowledge.element')))
@@ -29,13 +30,21 @@ const createdAtPrefix = computed(() => capitalize(t('student.selfKnowledge.eleme
           :model-value="element.title"
           disabled
           :required="false"
+          :category
         />
         <div class="av-col av-gap-sm">
           <span class="b2-light">{{ t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementDetails.ratingLabel') }}</span>
           <Rating
-            :rating="element.rating ?? 0"
+            v-if="element.rating && element.rating > 0"
+            :rating="element.rating"
             :stars-first="false"
           />
+          <span
+            v-else
+            class="b2-light"
+          >
+            {{ t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementDetails.notRated') }}
+          </span>
         </div>
       </div>
       <div class="self-knowledge-element-details__right-column av-col av-flex-fill av-gap-md">

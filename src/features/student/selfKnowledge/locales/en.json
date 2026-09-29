@@ -150,6 +150,7 @@
             }
           },
           "selfKnowledgeElementDetails": {
+            "notRated": "Not rated",
             "ratingLabel": "Level of importance"
           },
           "selfKnowledgeElementUpdate": {

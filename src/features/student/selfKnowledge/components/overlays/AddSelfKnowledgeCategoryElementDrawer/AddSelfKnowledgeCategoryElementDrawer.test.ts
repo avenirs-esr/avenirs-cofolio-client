@@ -109,6 +109,7 @@ BddTest().given('an add self knowledge category element drawer component', () =>
       const descriptionField = wrapper.findComponent({ name: 'CategoryElementDescriptionTextareaFormField' })
 
       expect(titleField.exists()).toBe(true)
+      expect(titleField.props('category')).toBe(ESelfKnowledgeCategory.STRENGTHS)
       expect(descriptionField.exists()).toBe(true)
     })
 
@@ -270,6 +271,15 @@ BddTest().given('an add self knowledge category element drawer component', () =>
 
       const title = wrapper.find('h2')
       expect(title.text()).toContain('Centre d\'intérêt')
+    })
+
+    BddTest().then('it should pass the selected category to the title field', async () => {
+      const store = useSelfKnowledgeStore()
+      store.openAddElementDrawer({ type: ESelfKnowledgeCategory.INTERESTS, mandatory: false })
+      await wrapper.vm.$nextTick()
+
+      const titleField = wrapper.findComponent(CategoryElementTitleInputFormFieldStub)
+      expect(titleField.props('category')).toBe(ESelfKnowledgeCategory.INTERESTS)
     })
   })
 })

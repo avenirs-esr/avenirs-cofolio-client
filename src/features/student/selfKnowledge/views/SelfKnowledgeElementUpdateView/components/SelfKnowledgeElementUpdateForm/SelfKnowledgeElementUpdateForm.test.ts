@@ -1,6 +1,4 @@
-import type {
-  SelfKnowledgeElementDetailsDTO
-} from '@/api/avenir-esr'
+import { ESelfKnowledgeCategory, type SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
@@ -86,6 +84,7 @@ BddTest().given('a self knowledge element update form component', () => {
         props: {
           element: mockElement,
           onCancel: vi.fn(),
+          category: ESelfKnowledgeCategory.STRENGTHS
         },
         global: {
           stubs
@@ -113,6 +112,7 @@ BddTest().given('a self knowledge element update form component', () => {
       const valorizationField = wrapper.findComponent(KitValorizationToggleFormFieldStub)
 
       expect(titleField.exists()).toBe(true)
+      expect(titleField.props('category')).toBe(ESelfKnowledgeCategory.STRENGTHS)
       expect(descriptionField.exists()).toBe(true)
       expect(ratingField.exists()).toBe(true)
       expect(valorizationField.exists()).toBe(true)

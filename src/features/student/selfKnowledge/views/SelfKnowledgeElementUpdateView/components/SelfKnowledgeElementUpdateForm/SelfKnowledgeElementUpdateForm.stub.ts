@@ -8,6 +8,10 @@ export const SelfKnowledgeElementUpdateFormStub = defineComponent({
     onCancel: {
       type: Function,
       required: false
+    },
+    category: {
+      type: String,
+      required: false
     }
   },
   template: '<div class="self-knowledge-element-update-form-stub" />'

@@ -104,7 +104,10 @@ const drawerTitle = computed(() => {
               :trigger-border-color="hasElementDetailsErrors ? 'var(--dark-background-error)' : undefined"
             >
               <div class="av-col av-gap-md av-p-md">
-                <CategoryElementTitleInputFormField :form="form" />
+                <CategoryElementTitleInputFormField
+                  :form="form"
+                  :category="selectedCategoryType"
+                />
                 <CategoryElementDescriptionTextareaFormField :form="form" />
               </div>
             </AvAccordion>

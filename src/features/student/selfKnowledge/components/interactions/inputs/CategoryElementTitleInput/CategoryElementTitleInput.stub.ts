@@ -4,7 +4,8 @@ export const CategoryElementTitleInputStub = defineComponent({
     id: { type: String, default: '' },
     modelValue: { type: String, default: '' },
     errorMessage: { type: String, default: '' },
-    required: { type: Boolean, default: false }
+    required: { type: Boolean, default: false },
+    category: { type: String }
   },
   emits: ['blur', 'update:modelValue'],
   template: `

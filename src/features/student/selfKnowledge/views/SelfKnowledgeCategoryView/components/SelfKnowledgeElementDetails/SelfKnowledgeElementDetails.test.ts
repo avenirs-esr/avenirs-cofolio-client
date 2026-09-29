@@ -1,5 +1,5 @@
-import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
+import { ESelfKnowledgeCategory, type SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { RatingStub } from '@/common/components/Rating/Rating.stub'
@@ -29,6 +29,7 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
     beforeEach(() => {
       wrapper = mount(SelfKnowledgeElementDetails, {
         props: {
+          category: ESelfKnowledgeCategory.STRENGTHS,
           element: defaultElement
         },
         global: { stubs }
@@ -45,6 +46,7 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
       expect(titleInput.exists()).toBe(true)
       expect(titleInput.props('modelValue')).toBe('Créativité')
       expect(titleInput.props('required')).toBe(false)
+      expect(titleInput.props('category')).toBe(ESelfKnowledgeCategory.STRENGTHS)
     })
 
     BddTest().then('it should render the description textarea with correct value', () => {
@@ -61,6 +63,10 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
       const rating = wrapper.findComponent({ name: 'Rating' })
       expect(rating.exists()).toBe(true)
       expect(rating.props('rating')).toBe(4)
+    })
+
+    BddTest().then('it should not render the not rated label', () => {
+      expect(wrapper.text()).not.toContain('Non évalué')
     })
 
     BddTest().then('it should render the creation and update date details', () => {
@@ -87,6 +93,7 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
     beforeEach(() => {
       wrapper = mount(SelfKnowledgeElementDetails, {
         props: {
+          category: ESelfKnowledgeCategory.STRENGTHS,
           element: { ...defaultElement, valorized: true }
         },
         global: { stubs }
@@ -104,6 +111,7 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
     beforeEach(() => {
       wrapper = mount(SelfKnowledgeElementDetails, {
         props: {
+          category: ESelfKnowledgeCategory.STRENGTHS,
           element: { ...defaultElement, valorized: false }
         },
         global: { stubs }
@@ -125,15 +133,44 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
       }
       wrapper = mount(SelfKnowledgeElementDetails, {
         props: {
+          category: ESelfKnowledgeCategory.STRENGTHS,
           element: elementWithoutRating
         },
         global: { stubs }
       })
     })
 
-    BddTest().then('it should render rating as 0', () => {
+    BddTest().then('it should not render the rating component', () => {
       const rating = wrapper.findComponent({ name: 'Rating' })
-      expect(rating.props('rating')).toBe(0)
+      expect(rating.exists()).toBe(false)
+    })
+
+    BddTest().then('it should render the not rated label', () => {
+      const labels = wrapper.findAll('.b2-light')
+      expect(labels).toHaveLength(2)
+      expect(labels[1].text()).toBe('Non évalué')
+    })
+  })
+
+  BddTest().and('the element has a rating of 0', () => {
+    beforeEach(() => {
+      wrapper = mount(SelfKnowledgeElementDetails, {
+        props: {
+          category: ESelfKnowledgeCategory.STRENGTHS,
+          element: { ...defaultElement, rating: 0 }
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should not render the rating component', () => {
+      const rating = wrapper.findComponent(RatingStub)
+      expect(rating.exists()).toBe(false)
+    })
+
+    BddTest().then('it should render the not rated label', () => {
+      const labels = wrapper.findAll('.b2-light')
+      expect(labels[1].text()).toBe('Non évalué')
     })
   })
 
@@ -145,6 +182,7 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
       }
       wrapper = mount(SelfKnowledgeElementDetails, {
         props: {
+          category: ESelfKnowledgeCategory.STRENGTHS,
           element: elementWithDifferentRating
         },
         global: { stubs }
@@ -169,6 +207,7 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
       }
       wrapper = mount(SelfKnowledgeElementDetails, {
         props: {
+          category: ESelfKnowledgeCategory.STRENGTHS,
           element: customElement
         },
         global: { stubs }

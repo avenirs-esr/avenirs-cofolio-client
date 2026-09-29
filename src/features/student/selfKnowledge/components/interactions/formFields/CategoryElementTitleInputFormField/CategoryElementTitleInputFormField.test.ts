@@ -1,4 +1,5 @@
 import type { AddSelfKnowledgeCategoryElementForm } from '@/features/student/selfKnowledge/types/forms.types'
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import CategoryElementTitleInputFormField
   from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementTitleInputFormField/CategoryElementTitleInputFormField.vue'
 import { CategoryElementTitleInputStub } from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementTitleInput/CategoryElementTitleInput.stub'
@@ -28,11 +29,14 @@ const TestWrapper = defineComponent({
       }
     }) as unknown as AddSelfKnowledgeCategoryElementForm
 
-    return { form }
+    return { form, category: ESelfKnowledgeCategory.STRENGTHS }
   },
   template: `
     <form @submit.prevent="form.handleSubmit">
-      <CategoryElementTitleInputFormField :form="form" />
+      <CategoryElementTitleInputFormField
+        :form="form"
+        :category="category"
+      />
     </form>
   `
 })
@@ -72,6 +76,11 @@ BddTest().given('a self knowledge category element title input form field compon
     BddTest().then('it should have empty initial value', () => {
       const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
       expect(input.props('modelValue')).toBe('')
+    })
+
+    BddTest().then('it should pass the category to the title input', () => {
+      const input = wrapper.findComponent(CategoryElementTitleInputStub)
+      expect(input.props('category')).toBe(ESelfKnowledgeCategory.STRENGTHS)
     })
   })
 
