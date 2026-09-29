@@ -69,7 +69,6 @@ const updatedAtFormatted = computed(() => formatDateLocalized(feedback.updatedAt
         </span>
         <div class="av-row av-justify-end">
           <AvButton
-            theme="PRIMARY"
             variant="DEFAULT"
             :icon="CUIDA_ICONS.VISIBILITY_ON_OUTLINE"
             :label="t('staff.feedbacks.cards.FeedbackHistoryCard.seeDetail', { date: createdAtFormatted })"

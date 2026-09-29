@@ -33,7 +33,6 @@ const usePaginatedStaffActivitiesParams = {
           :label="t('staff.activities.views.ActivitiesView.MyWorkspaceTab.createActivity')"
           variant="FLAT"
           :icon="MDI_ICONS.PLUS_CIRCLE_OUTLINE"
-          theme="PRIMARY"
           data-testid="create-activity-button"
           @click="staffActivitiesStore.displayAddActivityModal"
         />

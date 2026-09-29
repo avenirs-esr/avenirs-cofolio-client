@@ -143,7 +143,6 @@ watch(() => isFormDirty, (dirty) => {
           :disabled-tooltip="t('staff.activities.components.lists.ActivityResourcesListEditable.deleteDisabledTooltip')"
           :is-loading="isUpdating"
           variant="OUTLINED"
-          small
           data-testid="activity-resources-list-delete-button"
           @click="openDeleteResourcesModal"
         />

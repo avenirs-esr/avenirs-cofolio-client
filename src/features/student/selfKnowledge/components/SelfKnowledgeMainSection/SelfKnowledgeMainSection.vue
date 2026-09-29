@@ -67,7 +67,6 @@ function handleActionSelected (action: Action) {
           :icon="MDI_ICONS.PENCIL_OUTLINE"
           :label="t('student.selfKnowledge.SelfKnowledgeMainSection.buttons.updateProfile')"
           variant="OUTLINED"
-          small
           data-testid="display-update-profile-drawer-button"
           @click="displayDrawer"
         />

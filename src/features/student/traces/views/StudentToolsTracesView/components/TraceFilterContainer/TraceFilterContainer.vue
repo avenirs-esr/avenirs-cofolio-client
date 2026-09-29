@@ -79,7 +79,6 @@ watch(fileGlobalTypesSelected, (newFileGlobalTypes) => {
     :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.filter')"
     variant="OUTLINED"
     :icon="MDI_ICONS.FILTER_OUTLINE"
-    small
     @click="openModal"
   />
   <component
@@ -126,7 +125,6 @@ watch(fileGlobalTypesSelected, (newFileGlobalTypes) => {
         :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.reset')"
         class="reset-button"
         variant="OUTLINED"
-        small
         @click="resetAllFilters"
       />
     </div>

@@ -45,7 +45,6 @@ const { displayWidget = true } = defineProps<HomeWidgetProps>()
           id="see-all-button"
           :label="seeAllLabel"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
-          small
           :to="to"
           data-testid="see-all-button"
         />

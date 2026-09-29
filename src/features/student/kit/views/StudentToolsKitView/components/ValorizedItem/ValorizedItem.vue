@@ -95,7 +95,6 @@ const to = computed(() => {
         v-if="to"
         :label="t('global.buttons.access')"
         :icon="CUIDA_ICONS.VISIBILITY_ON_OUTLINE"
-        small
         :to="to"
         data-testid="access-button"
       />

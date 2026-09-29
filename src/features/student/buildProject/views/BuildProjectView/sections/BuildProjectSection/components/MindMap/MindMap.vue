@@ -12,7 +12,7 @@ import SelfKnowledgeCategoryNode from '@/features/student/buildProject/views/Bui
 import SelfKnowledgeElementNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/SelfKnowledgeElementNode/SelfKnowledgeElementNode.vue'
 import UserNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/UserNode/UserNode.vue'
 import { useMindMapFlow } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/composables/use-mind-map-flow/use-mind-map-flow'
-import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, MDI_ICONS, Size } from '@avenirs-esr/avenirs-dsav'
 import { useVueFlow, VueFlow } from '@vue-flow/core'
 import { useI18n } from 'vue-i18n'
 
@@ -40,6 +40,7 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
         icon-only
         :disabled="!canUndo(MIND_MAP_FLOW_ID)"
         :disabled-tooltip="t('student.buildProject.mindMap.actions.undoDisabledTooltip')"
+        :size="Size.LG"
         @click="() => undo(MIND_MAP_FLOW_ID, nodes, edges, setNodes, setEdges)"
       />
       <AvButton
@@ -49,6 +50,7 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
         icon-only
         :disabled="!canRedo(MIND_MAP_FLOW_ID)"
         :disabled-tooltip="t('student.buildProject.mindMap.actions.redoDisabledTooltip')"
+        :size="Size.LG"
         @click="() => redo(MIND_MAP_FLOW_ID, nodes, edges, setNodes, setEdges)"
       />
       <AvButton
@@ -56,6 +58,7 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
         :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
         variant="OUTLINED"
         icon-only
+        :size="Size.LG"
         @click="() => saveCurrentState('mind-map', '1')"
       />
       <AvButton
@@ -63,6 +66,7 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
         :icon="MDI_ICONS.HISTORY"
         variant="OUTLINED"
         icon-only
+        :size="Size.LG"
         @click="() => restoreSavedState('mind-map', '1')"
       />
       <AvButton
@@ -70,6 +74,7 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
         :icon="MDI_ICONS.FILE_RESTORE_OUTLINE"
         variant="OUTLINED"
         icon-only
+        :size="Size.LG"
         @click="resetToInitialState"
       />
       <AvButton
@@ -77,6 +82,7 @@ restoreSavedState(MIND_MAP_FLOW_ID, '1')
         :icon="MDI_ICONS.PRINTER_OUTLINE"
         variant="OUTLINED"
         icon-only
+        :size="Size.LG"
         @click="() => doScreenshot('mind-map')"
       />
     </div>

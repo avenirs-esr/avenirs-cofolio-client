@@ -182,7 +182,6 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
         variant="FLAT"
         :icon="MDI_ICONS.ARROW_RIGHT"
         :label="t('staff.activities.views.EditNationalActivityView.ActivityContentTab.nextStepLabel')"
-        small
         :is-loading="isFormDirty || isUpdating"
         @click="emit('nextStep')"
       />

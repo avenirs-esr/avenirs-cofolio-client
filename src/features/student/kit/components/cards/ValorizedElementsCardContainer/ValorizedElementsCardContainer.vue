@@ -47,7 +47,6 @@ defineSlots<{
           v-if="seeAllLabel && seeAllTo"
           :label="seeAllLabel"
           :icon="MDI_ICONS.ARROW_RIGHT_THIN"
-          small
           :to="seeAllTo"
           data-testid="see-all-button"
         />
