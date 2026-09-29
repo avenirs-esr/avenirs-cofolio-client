@@ -30,7 +30,7 @@ const { breadcrumbLinks } = useBreadcrumb(() => trailingLinks)
     class="page-title"
     data-testid="page-title"
   >
-    <div class="av-col av-gap-sm av-pb-lg">
+    <div class="av-col av-gap-sm av-pb-sm av-gap-xs--md av-pb-xs--md">
       <AvBreadcrumb
         :navigation-label="t('global.breadcrumb.ariaLabel')"
         :show-breadcrumb-label="t('global.breadcrumb.expandButtonLabel')"
