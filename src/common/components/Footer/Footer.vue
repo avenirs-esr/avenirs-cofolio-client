@@ -6,15 +6,15 @@ import { useI18n } from 'vue-i18n'
 
 interface FooterProps {
   accessibilityLink: RouteLocationRaw
+  cguLink: RouteLocationRaw
   cookiesLink: RouteLocationRaw
-  legalLink: RouteLocationRaw
   personalDataLink: RouteLocationRaw
 };
 
 const {
   accessibilityLink,
+  cguLink,
   cookiesLink,
-  legalLink,
   personalDataLink,
 } = defineProps<FooterProps>()
 
@@ -22,7 +22,7 @@ const { t } = useI18n()
 
 const legalInformationLinks = computed(() => [
   { label: t('global.footer.sections.legalInformation.links.accessibility'), to: accessibilityLink },
-  { label: t('global.footer.sections.legalInformation.links.legal'), to: legalLink },
+  { label: t('global.footer.sections.legalInformation.links.cgu'), to: cguLink },
   { label: t('global.footer.sections.legalInformation.links.data'), to: personalDataLink },
   { label: t('global.footer.sections.legalInformation.links.cookies'), to: cookiesLink },
 ])

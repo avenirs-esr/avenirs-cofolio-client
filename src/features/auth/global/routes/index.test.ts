@@ -1,7 +1,7 @@
 import { ROUTES } from '@/common/constants'
 import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityView.vue'
+import CguView from '@/common/views/CguView/CguView.vue'
 import CookiesView from '@/common/views/CookiesView/CookiesView.vue'
-import LegalView from '@/common/views/LegalView/LegalView.vue'
 import PersonalDataView from '@/common/views/PersonalDataView/PersonalDataView.vue'
 import routes from '@/features/auth/global/routes'
 import LoginView from '@/features/auth/global/views/LoginView/LoginView.vue'
@@ -17,15 +17,15 @@ testRoute(
 )
 
 testRoute(
-  children.find(r => r.name === ROUTES.AUTH.COOKIES.name)!,
-  ROUTES.AUTH.COOKIES,
-  CookiesView
+  children.find(r => r.name === ROUTES.AUTH.CGU.name)!,
+  ROUTES.AUTH.CGU,
+  CguView
 )
 
 testRoute(
-  children.find(r => r.name === ROUTES.AUTH.LEGAL.name)!,
-  ROUTES.AUTH.LEGAL,
-  LegalView
+  children.find(r => r.name === ROUTES.AUTH.COOKIES.name)!,
+  ROUTES.AUTH.COOKIES,
+  CookiesView
 )
 
 testRoute(

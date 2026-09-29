@@ -41,6 +41,11 @@ export default [
         meta: { breadcrumb },
       },
       {
+        ...ROUTES.STUDENT.CGU,
+        component: () => import('@/common/views/CguView/CguView.vue'),
+        meta: { breadcrumb },
+      },
+      {
         ...ROUTES.STUDENT.COOKIES,
         component: () => import('@/common/views/CookiesView/CookiesView.vue'),
         meta: { breadcrumb },
@@ -53,11 +58,6 @@ export default [
       {
         ...ROUTES.STUDENT.EVENTS,
         component: () => import('@/features/student/global/views/StudentEventsView/StudentEventsView.vue'),
-        meta: { breadcrumb },
-      },
-      {
-        ...ROUTES.STUDENT.LEGAL,
-        component: () => import('@/common/views/LegalView/LegalView.vue'),
         meta: { breadcrumb },
       },
       {

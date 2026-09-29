@@ -85,8 +85,8 @@ defineExpose({ searchQuery })
 
   <Footer
     :accessibility-link="ROUTES.STUDENT.ACCESSIBILITY"
+    :cgu-link="ROUTES.STUDENT.CGU"
     :cookies-link="ROUTES.STUDENT.COOKIES"
-    :legal-link="ROUTES.STUDENT.LEGAL"
     :personal-data-link="ROUTES.STUDENT.PERSONAL_DATA"
   />
 </template>

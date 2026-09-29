@@ -8,11 +8,11 @@ export const FooterStub = defineComponent({
       type: [String, Object] as PropType<RouteLocationRaw>,
       required: true,
     },
-    cookiesLink: {
+    cguLink: {
       type: [String, Object] as PropType<RouteLocationRaw>,
       required: true,
     },
-    legalLink: {
+    cookiesLink: {
       type: [String, Object] as PropType<RouteLocationRaw>,
       required: true,
     },

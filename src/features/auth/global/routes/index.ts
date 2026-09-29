@@ -18,18 +18,18 @@ export default [
         },
       },
       {
-        ...ROUTES.AUTH.COOKIES,
+        ...ROUTES.AUTH.CGU,
         component: () =>
-          import('@/common/views/CookiesView/CookiesView.vue'),
+          import('@/common/views/CguView/CguView.vue'),
         meta: {
           public: true,
           breadcrumb
         },
       },
       {
-        ...ROUTES.AUTH.LEGAL,
+        ...ROUTES.AUTH.COOKIES,
         component: () =>
-          import('@/common/views/LegalView/LegalView.vue'),
+          import('@/common/views/CookiesView/CookiesView.vue'),
         meta: {
           public: true,
           breadcrumb

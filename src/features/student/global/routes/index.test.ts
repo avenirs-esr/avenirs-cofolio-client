@@ -1,10 +1,10 @@
 import { ROUTES } from '@/common/constants'
 import AccessibilityView
   from '@/common/views/AccessibilityView/AccessibilityView.vue'
+import CguView
+  from '@/common/views/CguView/CguView.vue'
 import CookiesView
   from '@/common/views/CookiesView/CookiesView.vue'
-import LegalView
-  from '@/common/views/LegalView/LegalView.vue'
 import PersonalDataView
   from '@/common/views/PersonalDataView/PersonalDataView.vue'
 import routes from '@/features/student/global/routes'
@@ -46,6 +46,12 @@ testRoute(
 )
 
 testRoute(
+  children.find(r => r.name === ROUTES.STUDENT.CGU.name)!,
+  ROUTES.STUDENT.CGU,
+  CguView
+)
+
+testRoute(
   children.find(r => r.name === ROUTES.STUDENT.COOKIES.name)!,
   ROUTES.STUDENT.COOKIES,
   CookiesView
@@ -61,12 +67,6 @@ testRoute(
   children.find(r => r.name === ROUTES.STUDENT.EVENTS.name)!,
   ROUTES.STUDENT.EVENTS,
   StudentEventsView
-)
-
-testRoute(
-  children.find(r => r.name === ROUTES.STUDENT.LEGAL.name)!,
-  ROUTES.STUDENT.LEGAL,
-  LegalView
 )
 
 testRoute(

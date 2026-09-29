@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const title = computed(() => t('global.views.legalView.title'))
+const title = computed(() => t('global.views.cguView.title'))
 
 const trailingLinks = computed(() => [{ text: title.value }])
 </script>

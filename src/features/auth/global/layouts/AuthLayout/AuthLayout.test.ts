@@ -23,8 +23,8 @@ BddTest().given('a layout component', () => {
 
       expect(footer.exists()).toBe(true)
       expect(footer.props('accessibilityLink')).toBe(ROUTES.AUTH.ACCESSIBILITY)
+      expect(footer.props('cguLink')).toBe(ROUTES.AUTH.CGU)
       expect(footer.props('cookiesLink')).toBe(ROUTES.AUTH.COOKIES)
-      expect(footer.props('legalLink')).toBe(ROUTES.AUTH.LEGAL)
       expect(footer.props('personalDataLink')).toBe(ROUTES.AUTH.PERSONAL_DATA)
     })
   })

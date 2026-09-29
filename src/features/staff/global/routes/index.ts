@@ -26,15 +26,15 @@ export default [
         meta: { breadcrumb },
       },
       {
-        ...ROUTES.STAFF.COOKIES,
+        ...ROUTES.STAFF.CGU,
         component: () =>
-          import('@/common/views/CookiesView/CookiesView.vue'),
+          import('@/common/views/CguView/CguView.vue'),
         meta: { breadcrumb },
       },
       {
-        ...ROUTES.STAFF.LEGAL,
+        ...ROUTES.STAFF.COOKIES,
         component: () =>
-          import('@/common/views/LegalView/LegalView.vue'),
+          import('@/common/views/CookiesView/CookiesView.vue'),
         meta: { breadcrumb },
       },
       {

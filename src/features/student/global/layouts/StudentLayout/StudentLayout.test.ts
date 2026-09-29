@@ -82,8 +82,8 @@ BddTest().given('a student layout', () => {
 
         expect(footer.exists()).toBe(true)
         expect(footer.props('accessibilityLink')).toBe(ROUTES.STUDENT.ACCESSIBILITY)
+        expect(footer.props('cguLink')).toBe(ROUTES.STUDENT.CGU)
         expect(footer.props('cookiesLink')).toBe(ROUTES.STUDENT.COOKIES)
-        expect(footer.props('legalLink')).toBe(ROUTES.STUDENT.LEGAL)
         expect(footer.props('personalDataLink')).toBe(ROUTES.STUDENT.PERSONAL_DATA)
       })
 
