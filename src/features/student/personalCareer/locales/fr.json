@@ -249,7 +249,7 @@
             },
             "DeleteDeclaredProgramsModal": {
               "confirm": "Supprimer la formation sélectionnée | Supprimer les formations sélectionnées ({count})",
-              "confirmButtonDisabledTooltip": "Sélectionnez au moins un projet à supprimer",
+              "confirmButtonDisabledTooltip": "Sélectionnez au moins une formation à supprimer",
               "noDeclaredPrograms": "Aucune formation à supprimer.",
               "title": "Quelle(s) formation(s) souhaitez-vous supprimer\u00A0?"
             },

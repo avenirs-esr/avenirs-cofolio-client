@@ -14,7 +14,6 @@ interface ActionConfig {
  */
 export const moreActionConfig: Record<Action, ActionConfig> = {
   [Action.NAVIGATE_TO_FEEDBACKS]: { icon: MDI_ICONS.ARROW_RIGHT, labelKey: 'staff.activities.views.ActivitiesView.MoreActionsDropdown.navigateToFeedbacks' },
-  [Action.UNPUBLISH]: { icon: RI_ICONS.EYE_OFF_LINE, labelKey: 'global.buttons.unpublish' },
   [Action.ADD]: { icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE, labelKey: 'global.buttons.add' },
   [Action.ASSOCIATE]: { icon: ICONS.ASSOCIATE, labelKey: 'global.buttons.associate' },
   [Action.COLLAPSE]: { icon: MDI_ICONS.MINUS, labelKey: 'global.buttons.collapse' },
@@ -25,6 +24,7 @@ export const moreActionConfig: Record<Action, ActionConfig> = {
   [Action.UPDATE]: { icon: MDI_ICONS.PENCIL_OUTLINE, labelKey: 'global.buttons.update' },
   [Action.UPDATE_IN_PROFILE]: { icon: MDI_ICONS.TRAY_UPLOAD, labelKey: 'global.vueFlow.NodeDropdown.updateInProfile' },
   [Action.CLONE]: { icon: MS_ICONS.CONTENT_COPY_OUTLINE, labelKey: 'global.buttons.clone' },
+  [Action.UNPUBLISH]: { icon: RI_ICONS.EYE_OFF_LINE, labelKey: 'global.buttons.unpublish', separatorBefore: true },
   [Action.DELETE]: { icon: MDI_ICONS.TRASH_CAN_OUTLINE, labelKey: 'global.buttons.remove', separatorBefore: true },
   [Action.UNSUBSCRIBE]: { icon: MDI_ICONS.EXIT_TO_APP, labelKey: 'global.buttons.unsubscribe', separatorBefore: true },
 }

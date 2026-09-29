@@ -149,7 +149,7 @@ BddTest().given('an associate modal', () => {
 
     BddTest().then('it should render the modal buttons', () => {
       expect(getModal().props('closeButtonLabel')).toBe('Annuler')
-      expect(getModal().props('confirmButtonIcon')).toBe(ICONS.ASSOCIATIONS)
+      expect(getModal().props('confirmButtonIcon')).toBe(ICONS.ASSOCIATE)
     })
 
     BddTest().then('it should disable the confirm button while nothing is selected', () => {

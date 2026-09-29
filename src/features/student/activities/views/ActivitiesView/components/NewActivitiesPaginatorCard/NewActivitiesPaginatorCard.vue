@@ -59,7 +59,9 @@ const pages = computed(() => getPaginationPages(totalPages))
             :current-page="pageInfo.page"
             :pages="pages"
             compact
+            :prev-page-disabled-tooltip="t('global.avPagination.prevPageDisabledTooltip')"
             :prev-page-label="t('global.avPagination.prevPageTitle')"
+            :next-page-disabled-tooltip="t('global.avPagination.nextPageDisabledTooltip')"
             :next-page-label="t('global.avPagination.nextPageTitle')"
             :compact-current-page-label="t('global.avPagination.current', {
               current: (pageInfo.page + 1),

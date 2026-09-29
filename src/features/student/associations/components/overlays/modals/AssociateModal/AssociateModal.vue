@@ -141,7 +141,7 @@ function onConfirm () {
     :data-testid="`associate-${getContextTypeSlug(associatedContextType, true)}-modal`"
     :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t(`student.associations.contextTypes.${associatedContextType}.associateConfirm`, { count: selectedAssociations.length })"
-    :confirm-button-icon="ICONS.ASSOCIATIONS"
+    :confirm-button-icon="ICONS.ASSOCIATE"
     :confirm-button-disabled="selectedAssociations.length === 0"
     :confirm-button-disabled-tooltip="t(`student.associations.contextTypes.${associatedContextType}.confirmButtonDisabledTooltip`)"
     :is-loading="isLoading"

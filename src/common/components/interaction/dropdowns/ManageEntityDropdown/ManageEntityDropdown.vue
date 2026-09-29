@@ -47,6 +47,10 @@ const actionItems = computed(() => {
 
       const separatorBefore = !!configs.separatorBefore && canAddSeparator && index !== 0
 
+      if (separatorBefore) {
+        canAddSeparator = false
+      }
+
       return {
         ...options,
         ...configs,

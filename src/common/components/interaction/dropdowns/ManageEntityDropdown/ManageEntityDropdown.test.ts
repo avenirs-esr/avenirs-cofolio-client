@@ -25,19 +25,17 @@ BddTest().given('a ManageEntityDropdown', () => {
   const getDropdown = () => wrapper.findComponent(AvDropdownStub)
   const getDropdownItems = () => getDropdown().props('items') as Array<AvDropdownItem>
 
-  const toExpectedItem = (type: Action) => ({
+  const toExpectedItem = (type: Action, separatorBefore?: boolean) => ({
     name: type,
     icon: moreActionConfig[type].icon,
     label: expect.any(String),
-    disabled: undefined,
-    disabledTooltip: undefined,
-    separatorBefore: moreActionConfig[type].separatorBefore ?? false,
+    separatorBefore: separatorBefore ?? expect.any(Boolean),
   })
 
   const expectRenderedActions = (types: Action[]) => {
     const expected = (Object.keys(moreActionConfig) as Action[])
       .filter(type => types.includes(type))
-      .map(toExpectedItem)
+      .map(type => toExpectedItem(type))
     expect(getDropdownItems()).toEqual(expected)
   }
 
@@ -191,6 +189,48 @@ BddTest().given('a ManageEntityDropdown', () => {
 
     BddTest().then('it should render the dropdown with the icon only', () => {
       expect(getDropdown().props('triggerLabel')).toBeUndefined()
+    })
+  })
+
+  BddTest().when('actions configured without separatorBefore and actions configured with separatorBefore are passed', () => {
+    beforeEach(() => {
+      mountWith({
+        actions: [
+          Action.PUBLISH,
+          Action.UNPUBLISH,
+          Action.DELETE,
+          Action.UNSUBSCRIBE,
+        ],
+      })
+    })
+
+    BddTest().then('it should add a separator only before the first separated action', () => {
+      expect(getDropdownItems()).toEqual([
+        toExpectedItem(Action.PUBLISH, false),
+        toExpectedItem(Action.UNPUBLISH, true),
+        toExpectedItem(Action.DELETE, false),
+        toExpectedItem(Action.UNSUBSCRIBE, false),
+      ])
+    })
+  })
+
+  BddTest().when('only actions configured with separatorBefore are passed', () => {
+    beforeEach(() => {
+      mountWith({
+        actions: [
+          Action.UNPUBLISH,
+          Action.DELETE,
+          Action.UNSUBSCRIBE,
+        ],
+      })
+    })
+
+    BddTest().then('it should not add any separator', () => {
+      expect(getDropdownItems()).toEqual([
+        toExpectedItem(Action.UNPUBLISH, false),
+        toExpectedItem(Action.DELETE, false),
+        toExpectedItem(Action.UNSUBSCRIBE, false),
+      ])
     })
   })
 })
