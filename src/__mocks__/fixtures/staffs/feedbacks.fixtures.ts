@@ -1,4 +1,5 @@
 import { mockedActivityContentWithEnrolledStudent1, mockedActivityContentWithEnrolledStudent2, mockedActivityContentWithEnrolledStudent3, mockedActivityContentWithEnrolledStudent4 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { declaredExperienceViewDTOFixture } from '@/__mocks__/fixtures/student'
 import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { EFeedbackStatus, EFileType, type FeedbackDashboardDTO, type FeedbackDetailsDTO, type FeedbackOverviewDTO, type FeedbackStaffListItemDTO, type FileDTO, type PagedResponseFeedbackStaffListItemDTO, type PageInfoDTO, type UserInfoDTO } from '@/api/avenir-esr'
@@ -120,7 +121,7 @@ export const mockedFeedbackDetailsWithAssociations: FeedbackDetailsDTO = {
   associations: {
     traces: [mockedTraceDetailedWithFile],
     declaredSkills: [createMockedDeclaredSkillProgressDetailsDTO('declared-skill-feedback')],
-    declaredExperiences: []
+    declaredExperiences: [declaredExperienceViewDTOFixture]
   },
   attachments: [],
   createdAt: '2024-01-15T10:00:00Z',

@@ -77,6 +77,7 @@
         },
         "FeedbacksView": {
           "AssociatedElementDetailsDrawer": {
+            "declaredExperienceTitle": "Experience details: {declaredExperienceTitle}",
             "declaredSkillTitle": "Skill details: {declaredSkillTitle}",
             "drawerLabel": "Associated element details",
             "traceTitle": "Trace details: {traceTitle}"

@@ -2,6 +2,7 @@
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { DeclaredSkillDetails } from '@/features/student/declaredSkills'
+import DeclaredExperienceDetails from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
 import { StudentTraceDetails } from '@/features/student/traces'
 import { AvCancelConfirmButtons, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -41,6 +42,14 @@ const currentComponentDefinition = computed(() => {
           ...detailsDisplayProps
         },
       }
+    case EAssociationContextType.DECLARED_EXPERIENCE:
+      return {
+        component: DeclaredExperienceDetails,
+        props: {
+          declaredExperienceDetails: feedbackAssociatedElement.data,
+          ...detailsDisplayProps
+        },
+      }
     default:
       return {
         component: 'div',
@@ -55,6 +64,8 @@ const title = computed<string>(() => {
       return t('staff.feedbacks.views.FeedbacksView.AssociatedElementDetailsDrawer.traceTitle', { traceTitle: feedbackAssociatedElement.data.title })
     case EAssociationContextType.DECLARED_SKILL:
       return t('staff.feedbacks.views.FeedbacksView.AssociatedElementDetailsDrawer.declaredSkillTitle', { declaredSkillTitle: feedbackAssociatedElement.data.title })
+    case EAssociationContextType.DECLARED_EXPERIENCE:
+      return t('staff.feedbacks.views.FeedbacksView.AssociatedElementDetailsDrawer.declaredExperienceTitle', { declaredExperienceTitle: feedbackAssociatedElement.data.title })
     default:
       return ''
   }
