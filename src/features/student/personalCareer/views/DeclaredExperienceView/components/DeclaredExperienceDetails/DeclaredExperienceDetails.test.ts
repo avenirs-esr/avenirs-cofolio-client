@@ -1,16 +1,17 @@
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
+import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { DatePeriodPickerStub } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.stub'
-import DeclaredExperienceActivitySectorInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceActivitySectorInput/DeclaredExperienceActivitySectorInput.vue'
-import DeclaredExperienceDescriptionTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceDescriptionTextarea/DeclaredExperienceDescriptionTextarea.vue'
-import DeclaredExperienceExternalLinkInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceExternalLinkInput/DeclaredExperienceExternalLinkInput.vue'
-import DeclaredExperienceLocationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceLocationInput/DeclaredExperienceLocationInput.vue'
-import DeclaredExperienceOrganizationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceOrganizationInput/DeclaredExperienceOrganizationInput.vue'
-import DeclaredExperienceResultInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceResultInput/DeclaredExperienceResultInput.vue'
-import DeclaredExperienceSourceOfInformationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSourceOfInformationInput/DeclaredExperienceSourceOfInformationInput.vue'
-import DeclaredExperienceSummaryTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSummaryTextarea/DeclaredExperienceSummaryTextarea.vue'
-import DeclaredExperienceTitleInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.vue'
-import DeclaredExperienceTypeSelect from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTypeSelect/DeclaredExperienceTypeSelect.vue'
+import { DeclaredExperienceActivitySectorInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceActivitySectorInput/DeclaredExperienceActivitySectorInput.stub'
+import { DeclaredExperienceDescriptionTextareaStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceDescriptionTextarea/DeclaredExperienceDescriptionTextarea.stub'
+import { DeclaredExperienceExternalLinkInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceExternalLinkInput/DeclaredExperienceExternalLinkInput.stub'
+import { DeclaredExperienceLocationInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceLocationInput/DeclaredExperienceLocationInput.stub'
+import { DeclaredExperienceOrganizationInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceOrganizationInput/DeclaredExperienceOrganizationInput.stub'
+import { DeclaredExperienceResultInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceResultInput/DeclaredExperienceResultInput.stub'
+import { DeclaredExperienceSourceOfInformationInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSourceOfInformationInput/DeclaredExperienceSourceOfInformationInput.stub'
+import { DeclaredExperienceSummaryTextareaStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSummaryTextarea/DeclaredExperienceSummaryTextarea.stub'
+import { DeclaredExperienceTitleInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.stub'
+import { DeclaredExperienceTypeSelectStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTypeSelect/DeclaredExperienceTypeSelect.stub'
 import DeclaredExperienceDetails, {
   type DeclaredExperienceDetailedProps,
 } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
@@ -52,6 +53,16 @@ const mockedDeclaredExperienceDetails: DeclaredExperienceViewDTO = {
   }
 }
 
+const mockedDeclaredExperienceDetailsValorized: DeclaredExperienceViewDTO = {
+  ...mockedDeclaredExperienceDetails,
+  valorized: true
+}
+
+const mockedDeclaredExperienceDetailsUnvalorized: DeclaredExperienceViewDTO = {
+  ...mockedDeclaredExperienceDetails,
+  valorized: false
+}
+
 const mockedDeclaredExperienceDetailsWithUndefinedOptionalFields: DeclaredExperienceViewDTO = {
   ...mockedDeclaredExperienceDetails,
   description: undefined,
@@ -62,83 +73,97 @@ const mockedDeclaredExperienceDetailsWithUndefinedOptionalFields: DeclaredExperi
   endDate: undefined,
 }
 
-const CreationUpdateDateDetailsStub = {
-  name: 'CreationUpdateDateDetails',
-  props: ['createdAt', 'createdAtPrefix', 'updatedAt'],
-  template: `<div class="creation-update-date-details" />`,
-}
-
 BddTest().given('the DeclaredExperienceDetails component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceDetails>>
+
   const stubs = {
     CreationUpdateDateDetails: CreationUpdateDateDetailsStub,
     DatePeriodPicker: DatePeriodPickerStub,
+    DeclaredExperienceActivitySectorInput: DeclaredExperienceActivitySectorInputStub,
+    DeclaredExperienceDescriptionTextarea: DeclaredExperienceDescriptionTextareaStub,
+    DeclaredExperienceExternalLinkInput: DeclaredExperienceExternalLinkInputStub,
+    DeclaredExperienceLocationInput: DeclaredExperienceLocationInputStub,
+    DeclaredExperienceOrganizationInput: DeclaredExperienceOrganizationInputStub,
+    DeclaredExperienceResultInput: DeclaredExperienceResultInputStub,
+    DeclaredExperienceSourceOfInformationInput: DeclaredExperienceSourceOfInformationInputStub,
+    DeclaredExperienceSummaryTextarea: DeclaredExperienceSummaryTextareaStub,
+    DeclaredExperienceTitleInput: DeclaredExperienceTitleInputStub,
+    DeclaredExperienceTypeSelect: DeclaredExperienceTypeSelectStub,
     ValorizedBadge: ValorizedBadgeStub,
   }
 
-  function getDatePeriodPicker () {
-    return wrapper.findComponent(DatePeriodPickerStub)
+  const mountWith = (props: Partial<DeclaredExperienceDetailedProps> = {}, isMobile: boolean = false) => {
+    vi.clearAllMocks()
+    mockIsMobile.value = isMobile
+    wrapper = mount(DeclaredExperienceDetails, {
+      props: {
+        declaredExperienceDetails: mockedDeclaredExperienceDetails,
+        ...props
+      },
+      global: { stubs },
+    })
   }
 
-  BddTest().and('given a declared experience details dto', () => {
-    const props: DeclaredExperienceDetailedProps = {
-      declaredExperienceDetails: mockedDeclaredExperienceDetails,
-    }
+  const getActivitySectorInput = () => wrapper.findComponent(DeclaredExperienceActivitySectorInputStub)
+  const getCreationUpdateDateDetails = () => wrapper.findComponent(CreationUpdateDateDetailsStub)
+  const getDatePeriodPicker = () => wrapper.findComponent(DatePeriodPickerStub)
+  const getDescriptionTextarea = () => wrapper.findComponent(DeclaredExperienceDescriptionTextareaStub)
+  const getExternalLinkInput = () => wrapper.findComponent(DeclaredExperienceExternalLinkInputStub)
+  const getLayout = () => wrapper.find('[data-testid="layout-declared-experience-detailed"]')
+  const getLayoutMain = () => wrapper.find('[data-testid="layout-declared-experience-detailed__main"]')
+  const getLayoutMainWrapper = () => wrapper.find('[data-testid="layout-declared-experience-detailed__main-wrapper"]')
+  const getLayoutSide = () => wrapper.find('[data-testid="layout-declared-experience-detailed__side"]')
+  const getLocationInput = () => wrapper.findComponent(DeclaredExperienceLocationInputStub)
+  const getOrganizationInput = () => wrapper.findComponent(DeclaredExperienceOrganizationInputStub)
+  const getResultInput = () => wrapper.findComponent(DeclaredExperienceResultInputStub)
+  const getSourceOfInformationInput = () => wrapper.findComponent(DeclaredExperienceSourceOfInformationInputStub)
+  const getSummaryTextarea = () => wrapper.findComponent(DeclaredExperienceSummaryTextareaStub)
+  const getTitleInput = () => wrapper.findComponent(DeclaredExperienceTitleInputStub)
+  const getTypeSelect = () => wrapper.findComponent(DeclaredExperienceTypeSelectStub)
+  const getValorizedBadge = () => wrapper.findComponent(ValorizedBadgeStub)
 
+  BddTest().and('given a declared experience details dto', () => {
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
-        mockIsMobile.value = false
-        wrapper = mount(DeclaredExperienceDetails, {
-          props,
-          global: { stubs },
-        })
+        mountWith()
       })
 
       BddTest().then('it should render the layout containers', () => {
-        expect(
-          wrapper.find('[data-testid="layout-declared-experience-detailed"]').exists()
-        ).toBe(true)
-
-        expect(
-          wrapper.find('[data-testid="layout-declared-experience-detailed__main"]').exists()
-        ).toBe(true)
-
-        expect(
-          wrapper.find('[data-testid="layout-declared-experience-detailed__side"]').exists()
-        ).toBe(true)
+        expect(getLayout().exists()).toBe(true)
+        expect(getLayoutMain().exists()).toBe(true)
+        expect(getLayoutSide().exists()).toBe(true)
       })
 
       BddTest().then('it should render the title', () => {
-        const component = wrapper.findComponent(DeclaredExperienceTitleInput)
+        const component = getTitleInput()
         expect(component.exists()).toBe(true)
         expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.title)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the experience type', () => {
-        const component = wrapper.findComponent(DeclaredExperienceTypeSelect)
+        const component = getTypeSelect()
         expect(component.exists()).toBe(true)
         expect(component.props('modelValue')).toEqual({ itemId: mockedDeclaredExperienceDetails.experienceType })
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the organization', () => {
-        const component = wrapper.findComponent(DeclaredExperienceOrganizationInput)
+        const component = getOrganizationInput()
         expect(component.exists()).toBe(true)
         expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.organization)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the activity sector', () => {
-        const component = wrapper.findComponent(DeclaredExperienceActivitySectorInput)
+        const component = getActivitySectorInput()
         expect(component.exists()).toBe(true)
         expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.activitySector)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the location', () => {
-        const component = wrapper.findComponent(DeclaredExperienceLocationInput)
+        const component = getLocationInput()
         expect(component.exists()).toBe(true)
         expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.location)
         expect(component.props('disabled')).toBe(true)
@@ -155,35 +180,35 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
       })
 
       BddTest().then('it should render the source of information', () => {
-        const component = wrapper.findComponent(DeclaredExperienceSourceOfInformationInput)
+        const component = getSourceOfInformationInput()
         expect(component.exists()).toBe(true)
         expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.sourceOfInformation)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the external link', () => {
-        const component = wrapper.findComponent(DeclaredExperienceExternalLinkInput)
+        const component = getExternalLinkInput()
         expect(component.exists()).toBe(true)
         expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.externalLink)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the description textarea', () => {
-        const component = wrapper.findComponent(DeclaredExperienceDescriptionTextarea)
+        const component = getDescriptionTextarea()
         expect(component.exists()).toBe(true)
         expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.description)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the summary textarea', () => {
-        const component = wrapper.findComponent(DeclaredExperienceSummaryTextarea)
+        const component = getSummaryTextarea()
         expect(component.exists()).toBe(true)
         expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.summary)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render CreationUpdateDateDetails with correct props', () => {
-        const details = wrapper.findComponent({ name: 'CreationUpdateDateDetails' })
+        const details = getCreationUpdateDateDetails()
         expect(details.exists()).toBe(true)
         expect(details.props('createdAt')).toBe(mockedDeclaredExperienceDetails.createdAt)
         expect(details.props('updatedAt')).toBe(mockedDeclaredExperienceDetails.updatedAt)
@@ -191,7 +216,7 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
       })
 
       BddTest().then('it should render the result', () => {
-        const component = wrapper.findComponent(DeclaredExperienceResultInput)
+        const component = getResultInput()
         expect(component.exists()).toBe(true)
         expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.result)
         expect(component.props('disabled')).toBe(true)
@@ -200,22 +225,13 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
   })
 
   BddTest().and('given a valorized experience', () => {
-    const props: DeclaredExperienceDetailedProps = {
-      declaredExperienceDetails: { ...mockedDeclaredExperienceDetails, valorized: true },
-    }
-
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
-        mockIsMobile.value = false
-        wrapper = mount(DeclaredExperienceDetails, {
-          props,
-          global: { stubs },
-        })
+        mountWith({ declaredExperienceDetails: mockedDeclaredExperienceDetailsValorized })
       })
 
       BddTest().then('it should render ValorizedBadge with valorized true', () => {
-        const badge = wrapper.findComponent(ValorizedBadgeStub)
+        const badge = getValorizedBadge()
         expect(badge.exists()).toBe(true)
         expect(badge.props('valorized')).toBe(true)
       })
@@ -223,22 +239,13 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
   })
 
   BddTest().and('given a non valorized experience', () => {
-    const props: DeclaredExperienceDetailedProps = {
-      declaredExperienceDetails: { ...mockedDeclaredExperienceDetails, valorized: false },
-    }
-
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
-        mockIsMobile.value = false
-        wrapper = mount(DeclaredExperienceDetails, {
-          props,
-          global: { stubs },
-        })
+        mountWith({ declaredExperienceDetails: mockedDeclaredExperienceDetailsUnvalorized })
       })
 
       BddTest().then('it should render ValorizedBadge with valorized false', () => {
-        const badge = wrapper.findComponent(ValorizedBadgeStub)
+        const badge = getValorizedBadge()
         expect(badge.exists()).toBe(true)
         expect(badge.props('valorized')).toBe(false)
       })
@@ -246,38 +253,40 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
   })
 
   BddTest().and('given optional fields are undefined', () => {
-    const props: DeclaredExperienceDetailedProps = {
-      declaredExperienceDetails: mockedDeclaredExperienceDetailsWithUndefinedOptionalFields,
-    }
-
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        vi.clearAllMocks()
-        mockIsMobile.value = false
-        wrapper = mount(DeclaredExperienceDetails, {
-          props,
-          global: { stubs },
-        })
+        mountWith({ declaredExperienceDetails: mockedDeclaredExperienceDetailsWithUndefinedOptionalFields })
       })
 
       BddTest().then('it should pass empty strings for undefined optional values', () => {
-        expect(wrapper.findComponent(DeclaredExperienceSourceOfInformationInput).props('modelValue')).toBe(undefined)
-        expect(wrapper.findComponent(DeclaredExperienceExternalLinkInput).props('modelValue')).toBe(undefined)
-        expect(wrapper.findComponent(DeclaredExperienceResultInput).props('modelValue')).toBe(undefined)
+        expect(getSourceOfInformationInput().props('modelValue')).toBe(undefined)
+        expect(getExternalLinkInput().props('modelValue')).toBe(undefined)
+        expect(getResultInput().props('modelValue')).toBe(undefined)
 
-        expect(wrapper.findComponent(DeclaredExperienceDescriptionTextarea).props('modelValue')).toBe('')
-        expect(wrapper.findComponent(DeclaredExperienceSummaryTextarea).props('modelValue')).toBe('')
+        expect(getDescriptionTextarea().props('modelValue')).toBe('')
+        expect(getSummaryTextarea().props('modelValue')).toBe('')
       })
 
-      BddTest().then(
-        'it should pass an undefined endDate and ongoing mode when endDate is undefined',
-        () => {
-          const period = getDatePeriodPicker()
-          expect(period.exists()).toBe(true)
-          expect(period.props('endDate')).toBeUndefined()
-          expect(period.props('isOngoing')).toBe(true)
-        }
-      )
+      BddTest().then('it should pass an undefined endDate and ongoing mode when endDate is undefined', () => {
+        const period = getDatePeriodPicker()
+        expect(period.exists()).toBe(true)
+        expect(period.props('endDate')).toBeUndefined()
+        expect(period.props('isOngoing')).toBe(true)
+      })
+    })
+  })
+
+  BddTest().and('the layout row and valorized badge are disabled', () => {
+    beforeEach(() => {
+      mountWith({ hideValorizedBadge: true, disableRowLayout: true })
+    })
+
+    BddTest().then('it should hide the valorized badge', () => {
+      expect(getValorizedBadge().exists()).toBe(false)
+    })
+
+    BddTest().then('it should disable the row layout', () => {
+      expect(getLayoutMainWrapper().classes()).not.toContain('av-row--md')
     })
   })
 })

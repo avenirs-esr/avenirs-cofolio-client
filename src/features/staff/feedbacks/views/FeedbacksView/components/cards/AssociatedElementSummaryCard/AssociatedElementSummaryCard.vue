@@ -8,7 +8,7 @@ import AssociatedElementDetailsDrawer
 import { AvCard } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-interface AssociatedElementSummaryCardProps {
+export interface AssociatedElementSummaryCardProps {
   feedbackId: string
 }
 
@@ -35,7 +35,12 @@ const associatedElements = computed<FeedbackAssociatedElement[]>(() => {
     data: skill,
   }))
 
-  return [...traces, ...skills]
+  const experiences = associations.declaredExperiences.map(experience => ({
+    type: EAssociationContextType.DECLARED_EXPERIENCE as const,
+    data: experience,
+  }))
+
+  return [...traces, ...skills, ...experiences]
 })
 
 function handleShowDetails (element: FeedbackAssociatedElement) {

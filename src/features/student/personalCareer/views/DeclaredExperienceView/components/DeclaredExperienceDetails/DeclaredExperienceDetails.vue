@@ -27,9 +27,15 @@ import { useI18n } from 'vue-i18n'
 
 export interface DeclaredExperienceDetailedProps {
   declaredExperienceDetails: DeclaredExperienceViewDTO
+  hideValorizedBadge?: boolean
+  disableRowLayout?: boolean
 }
 
-const { declaredExperienceDetails } = defineProps<DeclaredExperienceDetailedProps>()
+const {
+  declaredExperienceDetails,
+  hideValorizedBadge = false,
+  disableRowLayout = false,
+} = defineProps<DeclaredExperienceDetailedProps>()
 
 const {
   title,
@@ -61,9 +67,14 @@ const createdAtPrefixed = computed(() =>
     class="av-col av-gap-md"
     data-testid="layout-declared-experience-detailed"
   >
-    <ValorizedBadge :valorized="valorized ?? false" />
+    <ValorizedBadge
+      v-if="!hideValorizedBadge"
+      :valorized="valorized ?? false"
+    />
     <div
-      class="av-col av-row--md av-justify-between av-gap-xl"
+      class="av-col av-justify-between av-gap-xl"
+      :class="{ 'av-row--md': !disableRowLayout }"
+      data-testid="layout-declared-experience-detailed__main-wrapper"
     >
       <div
         class="layout-declared-experience-detailed__main av-col av-gap-md av-flex-fill av-justify-between"

@@ -1,102 +1,105 @@
 import { mockedFeedbackDetailsWithAssociations, mockedFeedbackDetailsWithoutAssociations } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
-import { getFeedbackDetailsWithAssociationsHandler } from '@/__mocks__/msw/handlers/staffs/feedbacks.handlers'
-import { server } from '@/__mocks__/msw/server'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { AssociatedElementCardStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementCard/AssociatedElementCard.stub'
-import AssociatedElementSummaryCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementSummaryCard/AssociatedElementSummaryCard.vue'
+import AssociatedElementSummaryCard, { type AssociatedElementSummaryCardProps } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementSummaryCard/AssociatedElementSummaryCard.vue'
 import { AssociatedElementDetailsDrawerStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/drawers/AssociatedElementDetailsDrawer/AssociatedElementDetailsDrawer.stub'
 import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const stubs = {
-  AvCard: AvCardStub,
-  AssociatedElementCard: AssociatedElementCardStub,
-  AssociatedElementDetailsDrawer: AssociatedElementDetailsDrawerStub,
-  QuerySuspense: QuerySuspenseStub,
-}
+const TITLE = 'Récapitulatif des éléments associés ({count})'
+const EMPTY_MESSAGE = 'Aucun élément associé à ce feedback trouvé'
+
+const CONTEXT_ORDER = [
+  EAssociationContextType.TRACE,
+  EAssociationContextType.DECLARED_SKILL,
+  EAssociationContextType.DECLARED_EXPERIENCE,
+]
 
 BddTest().given('a AssociatedElementSummaryCard component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedElementSummaryCard>>
 
-  beforeEach(() => {
-    vi.clearAllMocks()
-    server.use(getFeedbackDetailsWithAssociationsHandler)
-  })
+  const stubs = {
+    AvCard: AvCardStub,
+    AssociatedElementCard: AssociatedElementCardStub,
+    AssociatedElementDetailsDrawer: AssociatedElementDetailsDrawerStub,
+    QuerySuspense: QuerySuspenseStub,
+  }
 
-  BddTest().when('feedback has associated traces and skills', () => {
+  const mountWith = async (props: Partial<AssociatedElementSummaryCardProps> = {}) => {
+    wrapper = mountComponent(AssociatedElementSummaryCard, {
+      props: {
+        feedbackId: mockedFeedbackDetailsWithAssociations.id,
+        ...props
+      },
+      global: { stubs },
+    })
+    await flushPromises()
+  }
+
+  const getCard = () => wrapper.findComponent(AvCardStub)
+  const getAssociatedElementCards = () => wrapper.findAllComponents(AssociatedElementCardStub)
+  const getAssociatedElementDetailsDrawer = () => wrapper.findComponent(AssociatedElementDetailsDrawerStub)
+  const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
+
+  const expectTitle = (count: number) => {
+    const expectedTitle = TITLE.replace('{count}', String(count))
+    expect(wrapper.text()).toContain(expectedTitle)
+  }
+
+  BddTest().when('feedback has associations', () => {
     beforeEach(async () => {
-      wrapper = mountComponent(AssociatedElementSummaryCard, {
-        props: { feedbackId: mockedFeedbackDetailsWithAssociations.id },
-        global: { stubs },
-      })
-      await flushPromises()
+      await mountWith()
     })
 
     BddTest().then('it should render the card', () => {
-      expect(wrapper.find('[data-testid="feedback-associated-elements-card"]').exists()).toBe(true)
+      expect(getCard().exists()).toBe(true)
     })
 
-    BddTest().then('it should render the correct number of AssociatedElementCard', () => {
-      const cards = wrapper.findAllComponents(AssociatedElementCardStub)
-      expect(cards).toHaveLength(2)
+    BddTest().then('it should render the correct title and number of AssociatedElementCard', () => {
+      const expectedAssociationsCount = Object.values(mockedFeedbackDetailsWithAssociations.associations).reduce((sum, array) => sum + array.length, 0)
+      expectTitle(expectedAssociationsCount)
+      expect(getAssociatedElementCards()).toHaveLength(expectedAssociationsCount)
     })
 
-    BddTest().then('it should render a TRACE element first', () => {
-      const cards = wrapper.findAllComponents(AssociatedElementCardStub)
-      expect(cards[0].props('feedbackAssociatedElement').type).toBe(EAssociationContextType.TRACE)
+    BddTest().then('it should render associated elements in the correct order', () => {
+      const types = new Set(getAssociatedElementCards().map(card => card.props('feedbackAssociatedElement').type))
+      const renderedOrder = [...types].map(type => CONTEXT_ORDER.indexOf(type))
+      expect(renderedOrder).toEqual([...renderedOrder].sort((a, b) => a - b))
     })
 
-    BddTest().then('it should render a DECLARED_SKILL element second', () => {
-      const cards = wrapper.findAllComponents(AssociatedElementCardStub)
-      expect(cards[1].props('feedbackAssociatedElement').type).toBe(EAssociationContextType.DECLARED_SKILL)
-    })
+    BddTest().then('it should open then close the drawer for each associated element type', async () => {
+      for (const card of getAssociatedElementCards()) {
+        const element = card.props('feedbackAssociatedElement')
 
-    BddTest().then('it should open the drawer for the selected trace', async () => {
-      const traceCard = wrapper.findAllComponents(AssociatedElementCardStub)[0]
-      traceCard.vm.$emit('show-details', traceCard.props('feedbackAssociatedElement'))
-      await vi.waitFor(() => wrapper.findComponent(AssociatedElementDetailsDrawerStub).exists())
+        card.vm.$emit('show-details', element)
+        await vi.waitFor(() => expect(getAssociatedElementDetailsDrawer().exists()).toBe(true))
 
-      const drawer = wrapper.findComponent(AssociatedElementDetailsDrawerStub)
-      expect(drawer.exists()).toBe(true)
-      expect(drawer.props('feedbackAssociatedElement')).toEqual(traceCard.props('feedbackAssociatedElement'))
-    })
+        const drawer = getAssociatedElementDetailsDrawer()
 
-    BddTest().then('it should close the drawer when it emits close', async () => {
-      const traceCard = wrapper.findAllComponents(AssociatedElementCardStub)[0]
-      traceCard.vm.$emit('show-details', traceCard.props('feedbackAssociatedElement'))
-      await vi.waitFor(() => wrapper.findComponent(AssociatedElementDetailsDrawerStub).exists())
-      const drawer = wrapper.findComponent(AssociatedElementDetailsDrawerStub)
+        expect(drawer.props('feedbackAssociatedElement')).toEqual(element)
 
-      drawer.vm.$emit('close')
-
-      await vi.waitFor(() => expect(wrapper.findComponent(AssociatedElementDetailsDrawerStub).exists()).toBe(false))
-    })
-
-    BddTest().then('it should open the drawer for a declared skill', async () => {
-      const skillCard = wrapper.findAllComponents(AssociatedElementCardStub)[1]
-      skillCard.vm.$emit('show-details', skillCard.props('feedbackAssociatedElement'))
-      await vi.waitFor(() => wrapper.findComponent(AssociatedElementDetailsDrawerStub).exists())
-
-      const drawer = wrapper.findComponent(AssociatedElementDetailsDrawerStub)
-      expect(drawer.exists()).toBe(true)
-      expect(drawer.props('feedbackAssociatedElement')).toEqual(skillCard.props('feedbackAssociatedElement'))
+        drawer.vm.$emit('close')
+        await vi.waitFor(() => expect(drawer.exists()).toBe(false))
+      }
     })
   })
 
   BddTest().when('feedback has no associations', () => {
     beforeEach(async () => {
-      wrapper = mountComponent(AssociatedElementSummaryCard, {
-        props: { feedbackId: mockedFeedbackDetailsWithoutAssociations.id },
-        global: { stubs },
-      })
-      await flushPromises()
+      await mountWith({ feedbackId: mockedFeedbackDetailsWithoutAssociations.id })
     })
 
-    BddTest().then('it should render no AssociatedElementCard', () => {
-      expect(wrapper.findAllComponents(AssociatedElementCardStub)).toHaveLength(0)
+    BddTest().then('it should render the correct title and no AssociatedElementCard', () => {
+      expectTitle(0)
+      expect(getAssociatedElementCards()).toHaveLength(0)
+    })
+
+    BddTest().then('it should render empty message', () => {
+      expect(getQuerySuspense().props('isEmpty')).toBe(true)
+      expect(getQuerySuspense().props('emptyStateMessage')).toBe(EMPTY_MESSAGE)
     })
   })
 })

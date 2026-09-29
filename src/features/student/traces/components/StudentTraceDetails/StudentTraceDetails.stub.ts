@@ -1,4 +1,4 @@
-export const StudentTraceDetailsStub = {
+export const StudentTraceDetailsStub = defineComponent({
   name: 'StudentTraceDetails',
   props: ['trace', 'hideValorizedBadge', 'disableRowLayout'],
   template: `
@@ -6,4 +6,4 @@ export const StudentTraceDetailsStub = {
       {{ trace?.title }}
     </div>
   `
-}
+})
