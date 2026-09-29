@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { invalidateGetStaffActivityWorkingSpace, useDeleteActivityDraft } from '@/api/avenir-esr'
+import { EActivityStatus, invalidateGetActivityContent, invalidateGetActivityPresentation, invalidateGetStaffActivityWorkingSpace, useDeleteActivityDraft } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useToasterStore } from '@/store'
@@ -28,6 +28,8 @@ function confirmDelete () {
   mutate({ activityDraftId: activityId }, {
     onSuccess: async () => {
       addSuccessMessage(t('staff.activities.modals.DeleteDraftActivityConfirmationModal.deleteSuccess'))
+      await invalidateGetActivityContent(queryClient, EActivityStatus.DRAFT, activityId)
+      await invalidateGetActivityPresentation(queryClient, EActivityStatus.DRAFT, activityId)
       await invalidateGetStaffActivityWorkingSpace(queryClient)
       emit('deleted')
     },
