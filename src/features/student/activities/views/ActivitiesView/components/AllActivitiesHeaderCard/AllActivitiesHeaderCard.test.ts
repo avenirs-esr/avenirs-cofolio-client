@@ -15,7 +15,7 @@ BddTest().given('an all activities header card', () => {
     })
 
     BddTest().then('it should render the description', () => {
-      expect(wrapper.text()).toContain('Activités proposées par votre SUIO et votre établissement. Pour toute demande d\'activités complémentaires, veuillez-vous rapprocher de votre conseiller d\'orientation.')
+      expect(wrapper.text()).toContain('Activités proposées par votre établissement et/ou l\'équipe nationale CoFolio.')
     })
 
     BddTest().then('it should render the see all button', () => {
