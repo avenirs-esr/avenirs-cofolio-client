@@ -110,12 +110,13 @@ const errorMessage = computed(() => [
 <template>
   <AvDatePicker
     :key="`${type}-${isOngoing ? 'ongoing' : 'period'}`"
-    :auto-apply="autoApply"
     :error-message="errorMessage"
     :label="pickerLabel"
     :model-value="modelValue"
     :range="!isOngoing"
     :type="type"
+    :auto-apply
+    :disabled
     v-bind="restProps"
     @update:model-value="onUpdateModelValue"
   >
