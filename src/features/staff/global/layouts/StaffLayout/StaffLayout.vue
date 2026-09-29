@@ -79,8 +79,8 @@ const { canSwitchProfile } = useAuthStore()
 
   <Footer
     :accessibility-link="ROUTES.STAFF.ACCESSIBILITY"
+    :cgu-link="ROUTES.STAFF.CGU"
     :cookies-link="ROUTES.STAFF.COOKIES"
-    :legal-link="ROUTES.STAFF.LEGAL"
     :personal-data-link="ROUTES.STAFF.PERSONAL_DATA"
   />
 </template>

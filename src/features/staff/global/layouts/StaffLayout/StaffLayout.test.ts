@@ -84,8 +84,8 @@ BddTest().given('a staff layout', () => {
 
         expect(footer.exists()).toBe(true)
         expect(footer.props('accessibilityLink')).toBe(ROUTES.STAFF.ACCESSIBILITY)
+        expect(footer.props('cguLink')).toBe(ROUTES.STAFF.CGU)
         expect(footer.props('cookiesLink')).toBe(ROUTES.STAFF.COOKIES)
-        expect(footer.props('legalLink')).toBe(ROUTES.STAFF.LEGAL)
         expect(footer.props('personalDataLink')).toBe(ROUTES.STAFF.PERSONAL_DATA)
       })
 

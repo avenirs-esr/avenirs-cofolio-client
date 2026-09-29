@@ -338,9 +338,9 @@
         "legalInformation": {
           "links": {
             "accessibility": "Accessibilité\u00A0: partiellement conforme",
+            "cgu": "Conditions générales d'utilisation",
             "cookies": "Gestion des cookies",
-            "data": "Données personnelles",
-            "legal": "Mentions légales"
+            "data": "Données personnelles"
           },
           "title": "Informations légales"
         },
@@ -612,11 +612,11 @@
       "accessibilityView": {
         "title": "Déclaration d'accessibilité"
       },
+      "cguView": {
+        "title": "Conditions générales d'utilisation"
+      },
       "cookiesView": {
         "title": "Gestion des cookies"
-      },
-      "legalView": {
-        "title": "Mentions légales"
       },
       "notFoundView": {
         "buttonLabel": "Retour à l'accueil",

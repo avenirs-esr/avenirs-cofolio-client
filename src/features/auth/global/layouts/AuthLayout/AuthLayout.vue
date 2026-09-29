@@ -12,8 +12,8 @@ import { ROUTES } from '@/common/constants'
 
   <Footer
     :accessibility-link="ROUTES.AUTH.ACCESSIBILITY"
+    :cgu-link="ROUTES.AUTH.CGU"
     :cookies-link="ROUTES.AUTH.COOKIES"
-    :legal-link="ROUTES.AUTH.LEGAL"
     :personal-data-link="ROUTES.AUTH.PERSONAL_DATA"
   />
 </template>

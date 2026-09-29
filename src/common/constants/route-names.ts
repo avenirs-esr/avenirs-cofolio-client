@@ -1,8 +1,8 @@
 export const ROUTES = {
   AUTH: {
     ACCESSIBILITY: { name: 'auth-accessibility', path: 'accessibility' },
+    CGU: { name: 'auth-cgu', path: 'cgu' },
     COOKIES: { name: 'auth-cookies', path: 'cookies' },
-    LEGAL: { name: 'auth-legal', path: 'legal' },
     LOGIN: { name: 'auth-login', path: 'login' },
     PERSONAL_DATA: { name: 'auth-personal-data', path: 'personal-data' },
   },
@@ -11,10 +11,10 @@ export const ROUTES = {
     ACTIVITIES: { name: 'staff-activities', path: 'activities' },
     ACTIVITIES_EDIT_NATIONAL_ACTIVITY: { name: 'staff-activities-edit-national-activity', path: 'activities/:id/edit' },
     ACTIVITY_CATALOG: { name: 'staff-activity-catalog', path: 'activities/:status/:id' },
+    CGU: { name: 'staff-cgu', path: 'cgu' },
     COOKIES: { name: 'staff-cookies', path: 'cookies' },
     ACTIVITY_FEEDBACK: { name: 'staff-activity-feedback', path: 'activity-feedback/:feedbackId' },
     HOME: { name: 'staff-home', path: '' },
-    LEGAL: { name: 'staff-legal', path: 'legal' },
     PERSONAL_DATA: { name: 'staff-personal-data', path: 'personal-data' },
     STUDENT_TRACKING: {
       ACTIVITY_FEEDBACK: { name: 'staff-student-tracking-activity-feedback', path: 'student-tracking/activity-feedbacks/:feedbackId' },
@@ -28,13 +28,13 @@ export const ROUTES = {
     ACTIVITIES: { name: 'student-activities', path: 'activities' },
     ACTIVITY: { name: 'student-activity', path: 'activity/:id' },
     BUILD_PROJECT: { name: 'student-build-project', path: 'project/build-project' },
+    CGU: { name: 'student-cgu', path: 'cgu' },
     COOKIES: { name: 'student-cookies', path: 'cookies' },
     DECLARED_EXPERIENCE: { name: 'student-declared-experience', path: 'declared-experience/:id' },
     DECLARED_SKILL: { name: 'student-project-declared-skill', path: 'declared-skill/:id' },
     DELIVERABLES: { name: 'student-deliverables', path: 'deliverables' },
     EVENTS: { name: 'student-events', path: 'events' },
     HOME: { name: 'student-home', path: '' },
-    LEGAL: { name: 'student-legal', path: 'legal' },
     PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED: {
       name: 'personal-career-declared-program-detailed',
       path: 'project/personal-career/declared-programs/:id',

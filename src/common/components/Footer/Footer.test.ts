@@ -6,8 +6,8 @@ import { beforeEach, expect } from 'vitest'
 
 const defaultProps = {
   accessibilityLink: '/accessibilite',
+  cguLink: '/cgu',
   cookiesLink: '/gestion-des-cookies',
-  legalLink: '/mentions-legales',
   personalDataLink: '/donnees-personnelles',
 }
 
@@ -39,7 +39,7 @@ BddTest().given('a footer', () => {
 
       expect(links.length).toBe(4)
       expect(links[0].text()).toContain('Accessibilité\u00A0: partiellement conforme')
-      expect(links[1].text()).toBe('Mentions légales')
+      expect(links[1].text()).toBe('Conditions générales d\'utilisation')
       expect(links[2].text()).toBe('Données personnelles')
       expect(links[3].text()).toBe('Gestion des cookies')
     })
@@ -49,7 +49,7 @@ BddTest().given('a footer', () => {
 
       expect(links.length).toBe(4)
       expect(links[0].props('to')).toBe(defaultProps.accessibilityLink)
-      expect(links[1].props('to')).toBe(defaultProps.legalLink)
+      expect(links[1].props('to')).toBe(defaultProps.cguLink)
       expect(links[2].props('to')).toBe(defaultProps.personalDataLink)
       expect(links[3].props('to')).toBe(defaultProps.cookiesLink)
     })
