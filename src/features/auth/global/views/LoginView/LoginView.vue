@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { AvButton, AvLogo } from '@avenirs-esr/avenirs-dsav'
+import { useLanguageSwitcher } from '@/common/composables'
+import { AvButton, AvLanguageSelector, AvLogo } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
+const { languageSelector, selectLanguage } = useLanguageSwitcher()
 
 function getRedirectUrl (): string {
   const redirectQuery = route.query.redirect
@@ -25,6 +27,12 @@ function onLoginClick () {
 </script>
 
 <template>
+  <div class="av-row av-justify-end">
+    <AvLanguageSelector
+      v-bind="languageSelector"
+      @select="selectLanguage"
+    />
+  </div>
   <div
     class="login-view av-row av-align-center"
     data-testid="login-view"

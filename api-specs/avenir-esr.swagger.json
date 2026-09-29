@@ -4082,6 +4082,134 @@
         }
       }
     },
+    "/back-office/institutions/student/accessible-ids": {
+      "post": {
+        "tags": [
+          "institution-controller"
+        ],
+        "operationId": "studentAccessibleIds",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstitutionAccessibleIdsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/institutions/staff/access-check": {
+      "post": {
+        "tags": [
+          "institution-controller"
+        ],
+        "operationId": "staffAccessCheck",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InstitutionAccessCheckRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/groups/student/accessible-ids": {
+      "post": {
+        "tags": [
+          "group-controller"
+        ],
+        "operationId": "studentAccessibleIds_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupAccessibleIdsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/groups/staff/access-check": {
+      "post": {
+        "tags": [
+          "group-controller"
+        ],
+        "operationId": "staffAccessCheck_1",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GroupAccessCheckRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/back-office/external-users/{externalUserId}/affiliations": {
       "get": {
         "tags": [
@@ -6312,6 +6440,20 @@
               "type": "string"
             }
           },
+          "targetInstitutionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "targetGroupIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -6627,6 +6769,20 @@
           },
           "enableCompletionPeriod": {
             "type": "boolean"
+          },
+          "targetInstitutionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "targetGroupIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         }
       },
@@ -7786,6 +7942,7 @@
           "USER_IS_NOT_STAFF_EXCEPTION",
           "EXTERNAL_USER_BLOCKED",
           "MAXIMUM_ALLOWED_ASSOCIATIONS_REACHED",
+          "ACTIVITY_TARGET_NOT_ACCESSIBLE",
           "UNAUTHENTICATED_SESSION",
           "FEEDBACK_MAXIMUM_ITERATION_REACHED",
           "FEEDBACK_IN_PROCESS",
@@ -7802,6 +7959,7 @@
           "ASSOCIATION_ALREADY_EXIST",
           "INSTITUTION_HAI_ALREADY_EXISTS",
           "GROUP_ID_SI_SCO_ALREADY_EXISTS",
+          "ACTIVITY_TARGET_REMOVAL_NOT_ALLOWED",
           "MAX_FILE_SIZE_EXCEEDED",
           "UNEXPECTED_ERROR",
           "FILE_STORAGE_ERROR",
@@ -8287,6 +8445,68 @@
           "updatedAt": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "InstitutionAccessibleIdsRequest": {
+        "type": "object",
+        "properties": {
+          "affiliatedInstitutionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "InstitutionAccessCheckRequest": {
+        "type": "object",
+        "properties": {
+          "affiliatedInstitutionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "targetInstitutionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "GroupAccessibleIdsRequest": {
+        "type": "object",
+        "properties": {
+          "affiliatedGroupIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "GroupAccessCheckRequest": {
+        "type": "object",
+        "properties": {
+          "affiliatedGroupIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "targetGroupIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
           }
         }
       },

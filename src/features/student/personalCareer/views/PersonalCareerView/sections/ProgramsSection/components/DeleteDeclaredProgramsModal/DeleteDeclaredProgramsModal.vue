@@ -5,7 +5,7 @@ import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import DeleteDeclaredProgramConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.vue'
 import { usePaginatedDeclaredPrograms } from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
 import DeclaredProgramSelector from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeclaredProgramSelector/DeclaredProgramSelector.vue'
-import { AvModal } from '@avenirs-esr/avenirs-dsav'
+import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useInfiniteScroll } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 
@@ -62,6 +62,7 @@ function onconfirm () {
     :confirm-button-label="t('student.personalCareer.views.PersonalCareerView.ProgramsSection.DeleteDeclaredProgramsModal.confirm', { count: selectedProgramIds.length })"
     :confirm-button-disabled="selectedProgramIds.length === 0"
     :confirm-button-disabled-tooltip="t('student.personalCareer.views.PersonalCareerView.ProgramsSection.DeleteDeclaredProgramsModal.confirmButtonDisabledTooltip')"
+    :confirm-button-icon="MDI_ICONS.TRASH_CAN_OUTLINE"
     @close="onClose"
     @confirm="openModal"
   >

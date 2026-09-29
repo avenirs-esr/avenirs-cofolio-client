@@ -69,9 +69,13 @@
       "ariaLabel": "Pagination",
       "bottomAriaLabel": "Bottom pagination",
       "current": "Page {current} of {total}",
+      "firstPageDisabledTooltip": "You already are on the first page",
       "firstPageTitle": "First page",
+      "lastPageDisabledTooltip": "You already are on the last page",
       "lastPageTitle": "Last page",
+      "nextPageDisabledTooltip": "You already are on the last page",
       "nextPageTitle": "Next page",
+      "prevPageDisabledTooltip": "You already are on the first page",
       "prevPageTitle": "Previous page",
       "topAriaLabel": "Top pagination"
     },

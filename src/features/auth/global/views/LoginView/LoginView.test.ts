@@ -1,6 +1,19 @@
 import LoginView from '@/features/auth/global/views/LoginView/LoginView.vue'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvLanguageSelectorStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
+
+const selectLanguageMock = vi.fn()
+
+vi.mock('@/common/composables', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/composables')>()
+  return {
+    ...actual,
+    useLanguageSwitcher: () => ({
+      languageSelector: [],
+      selectLanguage: selectLanguageMock
+    }),
+  }
+})
 
 const mockQuery = ref<Record<string, unknown>>({})
 
@@ -33,6 +46,7 @@ BddTest().given('a login view', () => {
 
   const stubs = {
     AvButton: AvButtonStub,
+    AvLanguageSelector: AvLanguageSelectorStub,
   }
 
   const mountDefault = async ({ query = {} }: { query?: Record<string, unknown> } = {}) => {
@@ -65,6 +79,14 @@ BddTest().given('a login view', () => {
       const loginButton = wrapper.find('[data-testid="login-btn"]')
       await loginButton.trigger('click')
       expect(mockWindowLocationReplace).toHaveBeenCalledWith(`${__AUTH_LOGIN_URL__}?redirect=${encodeURIComponent('/current-route')}`)
+    })
+  })
+
+  BddTest().when('selecting a language', () => {
+    BddTest().then('it should call the selectLanguage mock', async () => {
+      const languageSelector = wrapper.findComponent({ name: 'AvLanguageSelector' })
+      await languageSelector.vm.$emit('select', 'fr')
+      expect(selectLanguageMock).toHaveBeenCalledWith('fr')
     })
   })
 })
