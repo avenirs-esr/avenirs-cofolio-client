@@ -613,7 +613,9 @@
         "title": "Accessibility declaration"
       },
       "cguView": {
-        "title": "Terms of use"
+        "lastPublication": "Last published on {date}",
+        "title": "Terms of use",
+        "version": "Version {version}"
       },
       "cookiesView": {
         "title": "Cookie management"
