@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ROUTES } from '@/common/constants'
-import { AvButton, Size } from '@avenirs-esr/avenirs-dsav'
+import { AvButton } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface NotFoundViewProps {
@@ -27,7 +27,7 @@ const description = computed(() => t(descriptionKey))
     <AvButton
       :label="t('global.views.notFoundView.buttonLabel')"
       :to="ROUTES.STUDENT.HOME"
-      :size="Size.LG"
+      size="LG"
     />
   </div>
 </template>

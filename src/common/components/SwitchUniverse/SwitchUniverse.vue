@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useModal } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
-import { AvButton, AvIconText, AvModal, MDI_ICONS, Theme } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvIconText, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -34,14 +34,14 @@ const isStudentRoute = route.path.startsWith('/student')
     <div class="av-col av-gap-lg">
       <AvButton
         :label="t('global.header.switchUniverse.staff')"
-        :theme="Theme.SECONDARY"
+        theme="SECONDARY"
         :to="isStudentRoute ? ROUTES.STAFF.HOME : undefined"
         data-testid="staff-button"
         @click="closeModal"
       />
       <AvButton
         :label="t('global.header.switchUniverse.student')"
-        :theme="Theme.SECONDARY"
+        theme="SECONDARY"
         :to="!isStudentRoute ? ROUTES.STUDENT.HOME : undefined"
         data-testid="student-button"
         @click="closeModal"
