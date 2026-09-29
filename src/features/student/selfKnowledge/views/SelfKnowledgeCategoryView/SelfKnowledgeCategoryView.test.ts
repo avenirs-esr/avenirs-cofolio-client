@@ -108,6 +108,14 @@ BddTest().given('a self knowledge category view component', () => {
       })
     })
 
+    BddTest().then('it should pass the category to SelfKnowledgeElementDetails', async () => {
+      await vi.waitFor(() => {
+        const details = wrapper.findComponent(SelfKnowledgeElementDetailsStub)
+        expect(details.exists()).toBe(true)
+        expect(details.props('category')).toBe(categoryId)
+      })
+    })
+
     BddTest().and('clicking the update option in dropdown', () => {
       beforeEach(async () => {
         const dropdown = wrapper.findComponent(SelfKnowledgeElementDetailsDropdownStub)

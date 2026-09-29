@@ -108,7 +108,10 @@ function onUpdateSelected () {
       v-if="selectedElementDetails"
       class="av-col av-flex-fill av-gap-md"
     >
-      <SelfKnowledgeElementDetails :element="selectedElementDetails" />
+      <SelfKnowledgeElementDetails
+        :category="categoryId"
+        :element="selectedElementDetails"
+      />
     </div>
   </QuerySuspense>
 

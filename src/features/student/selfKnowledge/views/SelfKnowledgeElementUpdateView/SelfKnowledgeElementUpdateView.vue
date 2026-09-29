@@ -69,6 +69,7 @@ function backToElementDetails () {
       <SelfKnowledgeElementUpdateForm
         :element="element"
         :on-cancel="() => backToElementDetails()"
+        :category="categoryId"
       />
     </div>
   </div>

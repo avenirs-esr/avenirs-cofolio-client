@@ -1,3 +1,4 @@
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import CategoryElementTitleInput from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementTitleInput/CategoryElementTitleInput.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -10,9 +11,14 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     AvInput: AvInputStub
   }
 
+  const defaultProps = {
+    category: ESelfKnowledgeCategory.STRENGTHS
+  }
+
   BddTest().when('the component is mounted with default props', () => {
     beforeEach(() => {
       wrapper = mount(CategoryElementTitleInput, {
+        props: defaultProps,
         global: { stubs }
       })
     })
@@ -56,9 +62,25 @@ BddTest().given('the CategoryElementTitleInput component', () => {
       expect(avInput.props('placeholder')).toBe('Saisir un nom pour votre élément')
     })
 
-    BddTest().then('it should have default prefix icon', () => {
+    BddTest().then('it should use the category icon as default prefix icon', () => {
       const avInput = wrapper.findComponent(AvInputStub)
-      expect(avInput.props('prefixIcon')).toBe(MDI_ICONS.ATTACH_FILE)
+      expect(avInput.props('prefixIcon')).toBe(MDI_ICONS.WEIGHTS)
+    })
+  })
+
+  BddTest().when('the component is mounted with another category', () => {
+    beforeEach(() => {
+      wrapper = mount(CategoryElementTitleInput, {
+        props: {
+          category: ESelfKnowledgeCategory.VALUES
+        },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should use the matching category icon as prefix icon', () => {
+      const avInput = wrapper.findComponent(AvInputStub)
+      expect(avInput.props('prefixIcon')).toBe(MDI_ICONS.DIAMOND_STONE)
     })
   })
 
@@ -66,6 +88,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     beforeEach(() => {
       wrapper = mount(CategoryElementTitleInput, {
         props: {
+          ...defaultProps,
           label: 'Custom Label'
         },
         global: { stubs }
@@ -82,6 +105,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     beforeEach(() => {
       wrapper = mount(CategoryElementTitleInput, {
         props: {
+          ...defaultProps,
           placeholder: 'Custom Placeholder'
         },
         global: { stubs }
@@ -98,6 +122,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     beforeEach(() => {
       wrapper = mount(CategoryElementTitleInput, {
         props: {
+          ...defaultProps,
           prefixIcon: 'mdi:star'
         },
         global: { stubs }
@@ -114,6 +139,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     beforeEach(() => {
       wrapper = mount(CategoryElementTitleInput, {
         props: {
+          ...defaultProps,
           disabled: true
         },
         global: { stubs }
@@ -130,6 +156,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     beforeEach(() => {
       wrapper = mount(CategoryElementTitleInput, {
         props: {
+          ...defaultProps,
           required: false
         },
         global: { stubs }
@@ -146,6 +173,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     beforeEach(() => {
       wrapper = mount(CategoryElementTitleInput, {
         props: {
+          ...defaultProps,
           errorMessage: 'Ce champ est requis.'
         },
         global: { stubs }
@@ -162,6 +190,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     beforeEach(() => {
       wrapper = mount(CategoryElementTitleInput, {
         props: {
+          ...defaultProps,
           isValid: true
         },
         global: { stubs }
@@ -178,6 +207,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     beforeEach(() => {
       wrapper = mount(CategoryElementTitleInput, {
         props: {
+          ...defaultProps,
           modelValue: 'Initial title'
         },
         global: { stubs }
@@ -202,6 +232,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     beforeEach(() => {
       wrapper = mount(CategoryElementTitleInput, {
         props: {
+          ...defaultProps,
           labelVisible: false
         },
         global: { stubs }
@@ -218,6 +249,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     beforeEach(() => {
       wrapper = mount(CategoryElementTitleInput, {
         props: {
+          ...defaultProps,
           isTextarea: true
         },
         global: { stubs }

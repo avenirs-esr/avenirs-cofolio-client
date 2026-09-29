@@ -149,6 +149,7 @@
             }
           },
           "selfKnowledgeElementDetails": {
+            "notRated": "Non évalué",
             "ratingLabel": "Degré d'importance"
           },
           "selfKnowledgeElementUpdate": {

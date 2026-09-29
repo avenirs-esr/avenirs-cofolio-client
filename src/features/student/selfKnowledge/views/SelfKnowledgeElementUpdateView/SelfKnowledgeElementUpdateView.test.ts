@@ -62,6 +62,7 @@ BddTest().given('a self knowledge element update view', () => {
 
         expect(form.exists()).toBe(true)
         expect(form.props('element')).toEqual(mockedSelfKnowledgeElementDetails)
+        expect(form.props('category')).toBe(categoryId)
       })
     })
 
