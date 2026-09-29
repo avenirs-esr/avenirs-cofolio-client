@@ -24,7 +24,7 @@ const { t } = useI18n()
 const startDateField = form.useField({ name: 'startDate' })
 const endDateField = form.useField({ name: 'endDate' })
 
-const startDate = computed(() => startDateField.state.value.value || '')
+const startDate = computed(() => startDateField.state.value.value)
 const endDate = computed(() => endDateField.state.value.value)
 
 const toggleOverride = ref(false)
@@ -35,13 +35,15 @@ const inputEnabled = computed({
     toggleOverride.value = newValue
     emit('updateExecutionPeriodEnabled', newValue)
     if (!newValue) {
-      startDateField.api.handleChange(undefined)
-      endDateField.api.handleChange(undefined)
+      if (startDate.value) {
+        startDateField.api.handleChange(undefined)
+      }
+
+      if (endDate.value) {
+        endDateField.api.handleChange(undefined)
+      }
+
       emit('autosave', { enableCompletionPeriod: false })
-    }
-    else {
-      form.validateField('startDate', 'submit')
-      form.validateField('endDate', 'submit')
     }
   },
 })
@@ -57,12 +59,12 @@ function autosaveIfConsistent (start: string | undefined, end: string | undefine
 
 function setStartDate (value: string) {
   startDateField.api.handleChange(value)
-  autosaveIfConsistent(value || undefined, endDate.value)
+  autosaveIfConsistent(value || undefined, endDate.value || undefined)
 }
 
 function setEndDate (value: string) {
   endDateField.api.handleChange(value)
-  autosaveIfConsistent(startDate.value, value || undefined)
+  autosaveIfConsistent(startDate.value || undefined, value || undefined)
 }
 </script>
 
@@ -76,11 +78,12 @@ function setEndDate (value: string) {
     <DatePeriodPicker
       v-if="inputEnabled"
       type="date"
+      required
+      label-visible
       :show-ongoing="false"
       data-testid="activity-execution-period-input"
       :label="t('staff.activities.views.EditNationalActivityView.ActivityExecutionPeriodFormField.periodLabel')"
-      :label-visible="false"
-      :start-date="startDate"
+      :start-date="startDate ?? ''"
       :end-date="endDate"
       :start-date-errors="startDateField.state.value.meta.errors"
       :end-date-errors="endDateField.state.value.meta.errors"

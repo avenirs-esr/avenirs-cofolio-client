@@ -226,6 +226,26 @@ BddTest().given('a national activity view', () => {
     })
   })
 
+  BddTest().when('an autosave succeeds after a local change', () => {
+    beforeEach(async () => {
+      await mountView()
+
+      const context = getContext(wrapper)
+      await context.form.setFieldValue('description', '<p>Nouvelle consigne</p>')
+      await wrapper.vm.$nextTick()
+
+      await save({ data: { description: '<p>Nouvelle consigne</p>' } })
+    })
+
+    BddTest().then('it should reset the dirty state so the loader stops', () => {
+      expect(getContext(wrapper).form.state.isDirty).toBe(false)
+    })
+
+    BddTest().then('it should keep the locally edited value', () => {
+      expect(getContext(wrapper).form.getFieldValue('description')).toBe('<p>Nouvelle consigne</p>')
+    })
+  })
+
   BddTest().when('save is triggered with no pending changes', () => {
     beforeEach(async () => {
       await mountView()
