@@ -1,3 +1,4 @@
+import { cguHandlers } from '@/__mocks__/msw/handlers/shared/cgu.handlers'
 import { filesHandlers } from '@/__mocks__/msw/handlers/shared/files.handlers'
 import { genericHandlers } from '@/__mocks__/msw/handlers/shared/generic.handlers'
 import { notificationsHandlers } from '@/__mocks__/msw/handlers/shared/notifications.handlers'
@@ -20,6 +21,7 @@ import { tracesHandlers } from '@/__mocks__/msw/handlers/student/traces.handlers
 import { studentUserHandlers } from '@/__mocks__/msw/handlers/student/user.handlers'
 
 export const handlers = [
+  ...cguHandlers,
   ...filesHandlers,
   ...notificationsHandlers,
   ...staffNotificationsHandlers,

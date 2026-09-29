@@ -613,7 +613,9 @@
         "title": "Déclaration d'accessibilité"
       },
       "cguView": {
-        "title": "Conditions générales d'utilisation"
+        "lastPublication": "Dernière publication le {date}",
+        "title": "Conditions générales d'utilisation",
+        "version": "Version {version}"
       },
       "cookiesView": {
         "title": "Gestion des cookies"
