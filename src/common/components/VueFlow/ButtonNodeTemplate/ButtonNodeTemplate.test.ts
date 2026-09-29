@@ -1,7 +1,7 @@
 import ButtonNodeTemplate, { type ButtonNodeTemplateProps } from '@/common/components/VueFlow/ButtonNodeTemplate/ButtonNodeTemplate.vue'
 import { NodeTemplateStub } from '@/common/components/VueFlow/NodeTemplate/NodeTemplate.stub'
 import { mandatoryNodeButtonTemplateProps } from '@/common/utils/vue-flow/vue-flow-test'
-import { MDI_ICONS, Size } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
@@ -21,7 +21,7 @@ BddTest().given('a button node template', () => {
       type: 'custom-button',
       label: 'Button Node',
       icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE,
-      size: Size.MD,
+      size: 'MD',
       position: {
         x: 10,
         y: 20,
