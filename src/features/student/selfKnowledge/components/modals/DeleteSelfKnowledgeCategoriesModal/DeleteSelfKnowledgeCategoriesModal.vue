@@ -56,7 +56,7 @@ watch(() => opened, (newVal) => {
     :confirm-button-disabled="selected.length === 0"
     :confirm-button-disabled-tooltip="t('student.selfKnowledge.SelfKnowledgeMainSection.modals.DeleteSelfKnowledgeCategoriesModal.confirmButtonDisabledTooltip')"
     :is-loading="isPending"
-    @close="onCancel"
+    @close="emit('cancel')"
     @confirm="openModal"
   >
     <template #header>
@@ -80,6 +80,7 @@ watch(() => opened, (newVal) => {
           :value="category.type"
           :name="category.type"
           :disabled="category.mandatory"
+          :disabled-tooltip="category.mandatory ? t('student.selfKnowledge.SelfKnowledgeMainSection.modals.DeleteSelfKnowledgeCategoriesModal.categoryDisabledTooltip') : undefined"
         >
           <template #label>
             <span class="b2-regular av-text-text1">
