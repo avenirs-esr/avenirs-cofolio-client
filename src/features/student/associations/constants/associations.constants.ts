@@ -27,30 +27,25 @@ export const ASSOCIATION_CONTEXT_CONFIGS: Record<EAssociationContextType, Associ
       ['POST', 'me', 'traces'],
     ],
     filterable: true,
-    availableInDemo: true,
   },
   [EAssociationContextType.DECLARED_ACTIVITY]: {
     associationsKey: 'declaredActivityAssociations',
     relatedQueryKeys: [['me', 'activity-progress']],
     categoryLabelKeyPrefix: 'global.activities.badges.thematics',
-    availableInDemo: true,
   },
   [EAssociationContextType.DECLARED_SKILL]: {
     associationsKey: 'declaredSkillAssociations',
     relatedQueryKeys: [['me', 'declared', 'skill-progress']],
     categoryLabelKeyPrefix: 'student.declaredSkills.declaredSkillTypes',
-    availableInDemo: true,
   },
   [EAssociationContextType.DECLARED_EXPERIENCE]: {
     associationsKey: 'declaredExperienceAssociations',
     relatedQueryKeys: [['me', 'declared', 'experiences']],
     categoryLabelKeyPrefix: 'student.personalCareer.declaredExperienceType',
-    availableInDemo: true,
   },
   [EAssociationContextType.DECLARED_PROGRAM]: {
     associationsKey: 'declaredProgramAssociations',
     relatedQueryKeys: [['me', 'declared', 'programs']],
-    availableInDemo: true,
   },
 }
 

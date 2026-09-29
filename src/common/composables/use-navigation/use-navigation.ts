@@ -67,10 +67,6 @@ export function useNavigation () {
     return navigate(ROUTES.STUDENT.HOME)
   }
 
-  const navigateToStudentMailbox = () => {
-    return navigate(ROUTES.STUDENT.MAILBOX)
-  }
-
   const navigateToStudentBuildProject = (replace?: boolean) => {
     return navigate(ROUTES.STUDENT.BUILD_PROJECT, replace)
   }
@@ -239,7 +235,6 @@ export function useNavigation () {
     navigateToStudentDeliverables,
     navigateToStudentEvents,
     navigateToStudentHome,
-    navigateToStudentMailbox,
     navigateToStudentBuildProject,
     navigateToStudentSelfKnowledgeCategory,
     navigateToStudentSelfKnowledgeElementUpdate,

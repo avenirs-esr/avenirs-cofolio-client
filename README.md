@@ -287,11 +287,3 @@ docs: update installation guide
 
 When developing components, please refer to the [ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/) to ensure accessibility compliance.
 You can find [design patterns](https://www.w3.org/WAI/ARIA/apg/patterns/) and [best practices](https://www.w3.org/WAI/ARIA/apg/practices/) for implementing accessible web components.
-
-### DEMO_MODE deprecated
-
-DEMO_MODE is now deprecated and is no longer used in the application.
-This variable must no longer be used to condition or filter features based on the environment.
-Any new logic must not depend on **DEMO_MODE**.
-If references to DEMO_MODE still exist in the codebase, they must be removed or replaced with the appropriate configuration.
-

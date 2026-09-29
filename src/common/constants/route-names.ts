@@ -35,7 +35,6 @@ export const ROUTES = {
     EVENTS: { name: 'student-events', path: 'events' },
     HOME: { name: 'student-home', path: '' },
     LEGAL: { name: 'student-legal', path: 'legal' },
-    MAILBOX: { name: 'student-mailbox', path: 'mailbox' },
     PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED: {
       name: 'personal-career-declared-program-detailed',
       path: 'project/personal-career/declared-programs/:id',

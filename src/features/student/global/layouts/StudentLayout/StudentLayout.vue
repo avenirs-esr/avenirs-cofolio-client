@@ -10,7 +10,6 @@ import { QUICK_LINKS_REFRESH_INTERVAL, ROUTES } from '@/common/constants'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 import StudentNavigation from '@/features/student/global/components/navigation/StudentNavigation/StudentNavigation.vue'
 import {
-  StudentMailboxPopover,
   StudentNotificationsPopover,
   StudentProfileDropdown,
   useStudentUserStore
@@ -35,8 +34,6 @@ const name = computed(() => {
   return `${capitalize(firstname[0])}. ${capitalize(lastname)}`
 })
 
-const messagesCount = 0 // TODO: waiting for mailbox implementation
-
 const searchQuery = ref('')
 const { canSwitchProfile } = useAuthStore()
 defineExpose({ searchQuery })
@@ -59,12 +56,6 @@ defineExpose({ searchQuery })
       <QuerySuspense :is-loading="!data || isPending">
         <div class="av-px-sm av-pt-sm av-pb-sm">
           <ul class="av-row av-wrap av-gap-sm av-align-stretch av-list-reset">
-            <li
-              class="demo-display-none"
-              data-testid="mailbox-button"
-            >
-              <StudentMailboxPopover :messages-count="messagesCount" />
-            </li>
             <li data-testid="notifications-button">
               <StudentNotificationsPopover />
             </li>

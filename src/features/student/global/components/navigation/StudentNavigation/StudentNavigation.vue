@@ -8,14 +8,6 @@ import { useI18n } from 'vue-i18n'
 const { t } = useI18n()
 const route = useRoute()
 
-const personalCareerNavigationTarget = computed(() => {
-  if (isRouteActive({ route, routes: studentPersonalCareerRoutes })) {
-    return route.fullPath
-  }
-
-  return ROUTES.STUDENT.PERSONAL_CAREER
-})
-
 const toolsMenu = computed(() => ({
   id: 'nav-tools-menu',
   title: t('student.global.navigation.tabs.tools.header').toUpperCase(),
@@ -51,7 +43,7 @@ const lifeProjectMenu = computed(() => ({
   },
   links: [
     {
-      to: __DEMO_MODE__ ? ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS : personalCareerNavigationTarget.value,
+      to: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS,
       text: t('student.global.navigation.tabs.project.items.experiences'),
       icon: ICONS_DATA_URL.TEXT_BULLET_LIST_SPARKLE,
     },

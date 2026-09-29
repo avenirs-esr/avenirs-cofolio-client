@@ -8,7 +8,7 @@ import AssociationSearchFilterSelect
   from '@/features/student/associations/components/interactions/AssociationSearchFilterSelect/AssociationSearchFilterSelect.vue'
 import SearchAssociationLayout from '@/features/student/associations/components/interactions/SearchAssociationLayout/SearchAssociationLayout.vue'
 import { useAssociationSearch } from '@/features/student/associations/composables/use-association-search/use-association-search'
-import { canAssociateContextType, getAssociableContextTypes } from '@/features/student/associations/utils/associations.utils'
+import { getAssociableContextTypes } from '@/features/student/associations/utils/associations.utils'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociationSelectionSectionProps {
@@ -30,7 +30,7 @@ const selections = defineModel<AssociationSelections>('selections', { default: (
 
 const { t } = useI18n()
 
-const selectableContextTypes = (getAssociableContextTypes(contextType)).filter(canAssociateContextType)
+const selectableContextTypes = (getAssociableContextTypes(contextType))
 
 const activeContextType = ref<EAssociationContextType>(selectableContextTypes[0]!)
 

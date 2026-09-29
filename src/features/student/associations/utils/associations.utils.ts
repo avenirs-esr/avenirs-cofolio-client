@@ -20,13 +20,6 @@ export function getAssociableContextTypes (contextType: EAssociationContextType)
   return Object.values(EAssociationContextType).filter(associatedContextType => isAssociable(contextType, associatedContextType))
 }
 
-/**
- * Whether new associations to elements of the given context type can be made, some being unavailable in demo mode.
- */
-export function canAssociateContextType (associatedContextType: EAssociationContextType): boolean {
-  return !!ASSOCIATION_CONTEXT_CONFIGS[associatedContextType].availableInDemo
-}
-
 function getAssociatedElement (association: AssociationDTO): IdTitle {
   if ('trace' in association) {
     return association.trace

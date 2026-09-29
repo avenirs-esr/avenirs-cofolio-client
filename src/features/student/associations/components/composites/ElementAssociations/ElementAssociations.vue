@@ -12,7 +12,6 @@ import AssociateModal from '@/features/student/associations/components/overlays/
 import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import { EMPTY_ASSOCIATIONS } from '@/features/student/associations/constants/associations.constants'
 import {
-  canAssociateContextType,
   countAssociations,
   getAssociableContextTypes,
   getContextTypeSlug,
@@ -86,7 +85,7 @@ function isDisabled (associatedContextType: EAssociationContextType) {
   return limits?.[associatedContextType] === 0
 }
 
-const associateItems = computed(() => displayedContextTypes.value.filter(canAssociateContextType).map(associatedContextType => ({
+const associateItems = computed(() => displayedContextTypes.value.map(associatedContextType => ({
   type: associatedContextType,
   disabled: isAssociationLimitReached(limits, associatedContextType, count(associatedContextType))
 })))

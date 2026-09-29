@@ -9,15 +9,6 @@
         }
       },
       "overlays": {
-        "StudentMailboxPopover": {
-          "bodyNoNew": "Vous n'avez aucun nouveau message à consulter.",
-          "buttons": {
-            "close": "Fermer",
-            "navigate": "Aller à ma messagerie",
-            "seeAll": "Voir tout"
-          },
-          "title": "Aucun nouveau message | 1 message non lu | {count} messages non lus"
-        },
         "StudentNotificationsPopover": {
           "contexts": {
             "activityModified": "Une activité à laquelle vous êtes inscrit(e) a été modifiée"
@@ -53,11 +44,6 @@
             "picture": "Photo de profil"
           },
           "title": "Modifier mon profil"
-        }
-      },
-      "views": {
-        "StudentMailboxView": {
-          "title": "Ma messagerie"
         }
       }
     }
