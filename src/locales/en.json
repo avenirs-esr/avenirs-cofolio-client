@@ -202,7 +202,6 @@
         "years": "{count}y"
       },
       "createdAt": "Created on {date}",
-      "createdAtWithPrefix": "{prefix} created on {date}",
       "dateTimeAt": "{date} at {time}",
       "endDateBeforeStartDate": "End date must be after start date",
       "hoursAgo": "{count} hour ago | {count} hours ago",

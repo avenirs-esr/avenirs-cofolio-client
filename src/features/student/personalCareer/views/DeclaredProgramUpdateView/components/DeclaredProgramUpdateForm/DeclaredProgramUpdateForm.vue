@@ -16,8 +16,6 @@ import DeclaredProgramSourceOfInformationFormField
 import DeclaredProgramTitleFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramTitleFormField/DeclaredProgramTitleFormField.vue'
 import { useUpdateDeclaredProgramForm } from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/use-update-declared-program-form/use-update-declared-program-form'
-import capitalize from 'lodash-es/capitalize'
-import { useI18n } from 'vue-i18n'
 
 interface UpdateDeclaredProgramFormProps {
   declaredProgramDetailed: DeclaredProgramDetailedDTO
@@ -29,8 +27,6 @@ const props = defineProps<UpdateDeclaredProgramFormProps>()
 const emit = defineEmits<{
   (e: 'dirtyChange', value: boolean): void
 }>()
-
-const { t } = useI18n()
 
 const { form, isFormValid, isSubmitting } = useUpdateDeclaredProgramForm(
   props.declaredProgramDetailed,
@@ -51,10 +47,6 @@ watch(
   state,
   newState => emit('dirtyChange', newState.isDirty),
   { immediate: true }
-)
-
-const createdAtPrefix = computed(() =>
-  capitalize(t('student.personalCareer.global.program'))
 )
 </script>
 
@@ -98,7 +90,6 @@ const createdAtPrefix = computed(() =>
             <CreationUpdateDateDetails
               :created-at="declaredProgramDetailed.createdAt"
               :updated-at="declaredProgramDetailed.updatedAt"
-              :created-at-prefix="createdAtPrefix"
             />
           </div>
         </div>

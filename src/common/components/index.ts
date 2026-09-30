@@ -1,5 +1,5 @@
 export { default as ConfirmationModal, type ConfirmationModalProps } from './ConfirmationModal/ConfirmationModal.vue'
-export { default as CreationUpdateDateDetails, type DeclaredSkillDateDetailsProps } from './CreationUpdateDateDetails/CreationUpdateDateDetails.vue'
+export { default as CreationUpdateDateDetails, type CreationUpdateDateDetailsProps } from './CreationUpdateDateDetails/CreationUpdateDateDetails.vue'
 export { default as Footer } from './Footer/Footer.vue'
 export { default as FormCancelConfirmButtons, type FormCancelConfirmButtonsProps } from './FormCancelConfirmButtons/FormCancelConfirmButtons.vue'
 export { default as ImageUpload } from './ImageUpload/ImageUpload.vue'

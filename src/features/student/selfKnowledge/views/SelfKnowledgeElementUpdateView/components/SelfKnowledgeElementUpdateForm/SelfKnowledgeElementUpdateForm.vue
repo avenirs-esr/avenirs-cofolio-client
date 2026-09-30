@@ -13,7 +13,6 @@ import {
   useUpdateSelfKnowledgeElementForm
 } from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/use-update-self-knowledge-element-form/use-update-self-knowledge-element-form'
 import { useToasterStore } from '@/store'
-import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementUpdateFormProps {
@@ -26,8 +25,6 @@ const props = defineProps<SelfKnowledgeElementUpdateFormProps>()
 const { t } = useI18n()
 const { modalOpened: confirmationModalOpened, openModal: openConfirmationModal, closeModal: closeConfirmationModal } = useModal()
 const { addSuccessMessage } = useToasterStore()
-
-const createdAtPrefix = computed(() => capitalize(t('student.selfKnowledge.element')))
 
 const { form, isFormValid, isSubmitting } = useUpdateSelfKnowledgeElementForm(
   toRef(props, 'element'),
@@ -83,7 +80,6 @@ function confirmCancel () {
           <CreationUpdateDateDetails
             :updated-at="element.updatedAt"
             :created-at="element.createdAt"
-            :created-at-prefix="createdAtPrefix"
           />
         </div>
       </div>

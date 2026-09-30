@@ -50,7 +50,6 @@
         "TESTIMONIALS": "testimonial | testimonials",
         "VALUES": "value | values"
       },
-      "element": "element | elements",
       "interactions": {
         "inputs": {
           "CategoryElementDescriptionTextarea": {
