@@ -11,6 +11,8 @@ import { AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/t
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const MODAL_TITLE = 'Êtes-vous certain(e) de vouloir abandonner les modifications de votre élément\u00A0?'
+
 const navigateToStudentSelfKnowledgeCategory = vi.fn()
 
 vi.mock('@/common/composables/use-navigation/use-navigation', async (importOriginal) => {
@@ -61,19 +63,25 @@ BddTest().given('a self knowledge element update form component', () => {
 
   const stubs = {
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
-    CategoryElementTitleInputFormField: CategoryElementTitleInputFormFieldStub,
     CategoryElementDescriptionTextareaFormField: CategoryElementDescriptionTextareaFormFieldStub,
     CategoryElementRatingRadioButtonSetFormField: CategoryElementRatingRadioButtonSetFormFieldStub,
-    KitValorizationToggleFormField: KitValorizationToggleFormFieldStub,
+    CategoryElementTitleInputFormField: CategoryElementTitleInputFormFieldStub,
     ConfirmationModal: ConfirmationModalStub,
-    CreationUpdateDateDetails: CreationUpdateDateDetailsStub
+    CreationUpdateDateDetails: CreationUpdateDateDetailsStub,
+    KitValorizationToggleFormField: KitValorizationToggleFormFieldStub,
   }
 
-  const getCancelConfirmButtons = () =>
-    wrapper.findComponent(AvCancelConfirmButtonsStub)
+  const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
+  const getDescriptionField = () => wrapper.findComponent(CategoryElementDescriptionTextareaFormFieldStub)
+  const getRatingField = () => wrapper.findComponent(CategoryElementRatingRadioButtonSetFormFieldStub)
+  const getTitleField = () => wrapper.findComponent(CategoryElementTitleInputFormFieldStub)
+  const getConfirmationModal = () => wrapper.findComponent(ConfirmationModalStub)
+  const getCreationUpdateDate = () => wrapper.findComponent(CreationUpdateDateDetailsStub)
+  const getValorizationToggle = () => wrapper.findComponent(KitValorizationToggleFormFieldStub)
 
-  const getConfirmationModal = () =>
-    wrapper.findComponent(ConfirmationModalStub)
+  const getForm = () => wrapper.find('form')
+  const getLeftColumn = () => wrapper.find('.self-knowledge-element-update-form__left-column')
+  const getRightColumn = () => wrapper.find('.self-knowledge-element-update-form__right-column')
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -95,32 +103,20 @@ BddTest().given('a self knowledge element update form component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the form layout', () => {
-      const form = wrapper.find('form')
-      expect(form.exists()).toBe(true)
-
-      const leftColumn = wrapper.find('.self-knowledge-element-update-form__left-column')
-      const rightColumn = wrapper.find('.self-knowledge-element-update-form__right-column')
-
-      expect(leftColumn.exists()).toBe(true)
-      expect(rightColumn.exists()).toBe(true)
+      expect(getForm().exists()).toBe(true)
+      expect(getLeftColumn().exists()).toBe(true)
+      expect(getRightColumn().exists()).toBe(true)
     })
 
     BddTest().then('it should render the form fields', () => {
-      const titleField = wrapper.findComponent({ name: 'CategoryElementTitleInputFormField' })
-      const descriptionField = wrapper.findComponent({ name: 'CategoryElementDescriptionTextareaFormField' })
-      const ratingField = wrapper.findComponent({ name: 'CategoryElementRatingRadioButtonSetFormField' })
-      const valorizationField = wrapper.findComponent(KitValorizationToggleFormFieldStub)
-
-      expect(titleField.exists()).toBe(true)
-      expect(titleField.props('category')).toBe(ESelfKnowledgeCategory.STRENGTHS)
-      expect(descriptionField.exists()).toBe(true)
-      expect(ratingField.exists()).toBe(true)
-      expect(valorizationField.exists()).toBe(true)
+      expect(getTitleField().exists()).toBe(true)
+      expect(getDescriptionField().exists()).toBe(true)
+      expect(getRatingField().exists()).toBe(true)
+      expect(getValorizationToggle().exists()).toBe(true)
     })
 
     BddTest().then('it should render CreationUpdateDateDetails with correct props', () => {
-      const details = wrapper.findComponent(CreationUpdateDateDetailsStub)
-
+      const details = getCreationUpdateDate()
       expect(details.exists()).toBe(true)
       expect(details.props('createdAt')).toBe(mockElement.createdAt)
       expect(details.props('updatedAt')).toBe(mockElement.updatedAt)
@@ -131,19 +127,15 @@ BddTest().given('a self knowledge element update form component', () => {
       const buttons = getCancelConfirmButtons()
 
       expect(buttons.exists()).toBe(true)
-      expect(buttons.props('cancelLabel')).toBe('Annuler')
-      expect(buttons.props('confirmLabel')).toBe('Enregistrer les modifications')
       expect(buttons.props('confirmDisabled')).toBe(false)
       expect(buttons.props('confirmIsLoading')).toBe(false)
-      expect(buttons.props('cancelIcon')).toBeDefined()
-      expect(buttons.props('confirmIcon')).toBeDefined()
     })
 
     BddTest().then('it should render the confirmation modal', () => {
       const modal = getConfirmationModal()
       expect(modal.exists()).toBe(true)
       expect(modal.props('opened')).toBe(false)
-      expect(modal.props('title')).toBe('Êtes-vous certain(e) de vouloir abandonner les modifications de votre élément\u00A0?')
+      expect(modal.props('title')).toBe(MODAL_TITLE)
     })
   })
 

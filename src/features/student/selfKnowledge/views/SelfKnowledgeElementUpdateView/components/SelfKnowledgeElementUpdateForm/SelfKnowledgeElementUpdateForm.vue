@@ -92,8 +92,6 @@ function confirmCancel () {
 
   <div class="av-row av-justify-end av-p-md">
     <FormCancelConfirmButtons
-      :cancel-label="t('global.buttons.cancel')"
-      :confirm-label="t('student.selfKnowledge.views.SelfKnowledgeCategoryView.selfKnowledgeElementUpdate.buttons.save')"
       :is-submitting="isSubmitting"
       :is-form-valid="isFormValid"
       @cancel="openConfirmationModal"

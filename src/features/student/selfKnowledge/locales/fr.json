@@ -153,9 +153,6 @@
             "ratingLabel": "Degré d'importance"
           },
           "selfKnowledgeElementUpdate": {
-            "buttons": {
-              "save": "Enregistrer les modifications"
-            },
             "confirmationModal": {
               "title": "Êtes-vous certain(e) de vouloir abandonner les modifications de votre élément\u00A0?"
             }

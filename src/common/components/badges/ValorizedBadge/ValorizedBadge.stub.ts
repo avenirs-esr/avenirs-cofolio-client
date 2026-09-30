@@ -6,5 +6,10 @@ export const ValorizedBadgeStub = defineComponent({
       required: true,
     },
   },
-  template: '<div class="valorized-badge-stub"></div>'
+  template: `
+    <div
+      class="valorized-badge-stub"
+      :data-valorized="valorized"
+    />
+  `,
 })
