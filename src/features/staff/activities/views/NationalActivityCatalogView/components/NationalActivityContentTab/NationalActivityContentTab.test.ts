@@ -1,7 +1,7 @@
 import type { ActivityContentDTO, FileDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
-import { EFileType } from '@/api/avenir-esr'
+import { EActivityStatus, EFileType } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { ActivityDescriptionContentStub } from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.stub'
 import { ActivityRecommendedCompletionContextsListStub } from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.stub'
@@ -51,7 +51,7 @@ BddTest().given('a national activity content tab', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     wrapper = mount(NationalActivityContentTab, {
-      props: { activity: mockedActivityContent },
+      props: { activity: mockedActivityContent, status: EActivityStatus.PUBLISHED },
       global: { stubs },
     })
   })
@@ -118,7 +118,7 @@ BddTest().given('a national activity content tab', () => {
   BddTest().when('the activity has no thematic', () => {
     beforeEach(() => {
       wrapper = mount(NationalActivityContentTab, {
-        props: { activity: activityWithoutThematic },
+        props: { activity: activityWithoutThematic, status: EActivityStatus.PUBLISHED },
         global: { stubs },
       })
     })
@@ -136,7 +136,7 @@ BddTest().given('a national activity content tab', () => {
   BddTest().when('the activity has files and links', () => {
     beforeEach(() => {
       wrapper = mount(NationalActivityContentTab, {
-        props: { activity: activityWithResources },
+        props: { activity: activityWithResources, status: EActivityStatus.PUBLISHED },
         global: { stubs },
       })
     })
@@ -154,6 +154,20 @@ BddTest().given('a national activity content tab', () => {
       const list = wrapper.findComponent(ActivityResourcesListStub)
       expect(list.props('files')).toEqual([fileResource])
       expect(list.props('links')).toEqual(links)
+      expect(list.props('isDraft')).toBe(false)
+    })
+  })
+
+  BddTest().when('the activity is a draft', () => {
+    beforeEach(() => {
+      wrapper = mount(NationalActivityContentTab, {
+        props: { activity: activityWithResources, status: EActivityStatus.DRAFT },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should flag the resources list as draft', () => {
+      expect(wrapper.findComponent(ActivityResourcesListStub).props('isDraft')).toBe(true)
     })
   })
 })

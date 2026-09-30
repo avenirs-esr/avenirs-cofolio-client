@@ -7,13 +7,15 @@ export interface ActivityResourcesListProps {
   files: (FileDTO | File)[]
   links: string[]
   readonly?: boolean
+  isDraft?: boolean
 }
 
 const {
   activityId,
   files,
   links,
-  readonly = false
+  readonly = false,
+  isDraft = false
 } = defineProps<ActivityResourcesListProps>()
 </script>
 
@@ -30,6 +32,7 @@ const {
           :activity-id="activityId"
           :resource="resource"
           :disabled="readonly"
+          :is-draft="isDraft"
           tooltip-visible
         />
       </div>
