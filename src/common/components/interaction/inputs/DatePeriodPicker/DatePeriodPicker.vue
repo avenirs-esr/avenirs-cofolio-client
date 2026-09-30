@@ -42,7 +42,7 @@ const {
   ...restProps
 } = defineProps<DatePeriodPickerProps>()
 const IS_ONGOING = 'isOngoing'
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const pickerLabel = computed(() => {
   const defaultLabel = label ?? t('global.dates.period')
@@ -118,6 +118,7 @@ const errorMessage = computed(() => [
     :auto-apply
     :disabled
     v-bind="restProps"
+    :locale="locale"
     @update:model-value="onUpdateModelValue"
   >
     <template
