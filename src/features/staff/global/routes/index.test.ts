@@ -7,6 +7,7 @@ import ActivityFeedbackDetailsView from '@/features/staff/feedbacks/views/Activi
 import FeedbacksView from '@/features/staff/feedbacks/views/FeedbacksView/FeedbacksView.vue'
 import routes from '@/features/staff/global/routes'
 import StaffHomeView from '@/features/staff/global/views/StaffHomeView/StaffHomeView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { testRoute } from 'tests/utils'
 
 const [root] = routes
@@ -53,3 +54,11 @@ testRoute(
   ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS,
   FeedbacksView
 )
+
+BddTest().given('the staff layout route', () => {
+  BddTest().when('the route is built', () => {
+    BddTest().then('it should declare the cgu route inherited by every child', () => {
+      expect(root.meta?.cguRouteName).toBe(ROUTES.STAFF.CGU.name)
+    })
+  })
+})

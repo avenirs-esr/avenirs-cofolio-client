@@ -25,6 +25,7 @@ import DeclaredExperienceUpdateView from '@/features/student/personalCareer/view
 import DeclaredExperienceView from '@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'
 import DeclaredProgramDetailedView from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/DeclaredProgramDetailedView.vue'
 import PersonalCareerView from '@/features/student/personalCareer/views/PersonalCareerView/PersonalCareerView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { testRoute } from 'tests/utils'
 
 const [root] = routes
@@ -97,3 +98,11 @@ testRoute(
   ROUTES.STUDENT.ABOUT,
   StudentAboutView
 )
+
+BddTest().given('the student layout route', () => {
+  BddTest().when('the route is built', () => {
+    BddTest().then('it should declare the cgu route inherited by every child', () => {
+      expect(root.meta?.cguRouteName).toBe(ROUTES.STUDENT.CGU.name)
+    })
+  })
+})

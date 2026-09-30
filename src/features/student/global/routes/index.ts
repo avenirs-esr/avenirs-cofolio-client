@@ -29,6 +29,7 @@ export default [
     component: () => import('@/features/student/global/layouts/StudentLayout/StudentLayout.vue'),
     meta: {
       roles: [EUserCategory.STUDENT],
+      cguRouteName: ROUTES.STUDENT.CGU.name,
     },
     children: [
       {

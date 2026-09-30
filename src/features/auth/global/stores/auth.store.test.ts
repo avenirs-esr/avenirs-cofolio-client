@@ -1,4 +1,5 @@
 import type { RouteLocationNormalized, RouteLocationRaw } from 'vue-router'
+import { mockedAcceptedCgu, mockedOutdatedAcceptedCgu } from '@/__mocks__/fixtures/shared/cgu.fixtures'
 import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student'
 import { ERole, EUserCategory } from '@/api/avenir-esr'
@@ -71,6 +72,8 @@ BddTest().given('an auth store with mocked dependencies', () => {
       expect(store.invalidateSession).toBeTypeOf('function')
       expect(store.profile).toBeNull()
       expect(store.canSwitchProfile).toBe(false)
+      expect(store.acceptedCgu).toBeNull()
+      expect(store.hasAcceptedLatestCgu).toBe(false)
       expect(store.roles).toEqual([])
       expect(store.isSuperAdmin).toBe(false)
     })
@@ -311,6 +314,54 @@ BddTest().given('an auth store with mocked dependencies', () => {
       expect(store.canSwitchProfile).toBe(false)
       expect(store.roles).toEqual([])
       expect(store.isSuperAdmin).toBe(false)
+      expect(store.acceptedCgu).toBeNull()
+      expect(store.hasAcceptedLatestCgu).toBe(false)
+    })
+  })
+
+  BddTest().when('the session is loaded for a user who accepted the latest cgu version', () => {
+    beforeEach(async () => {
+      mockGetMe.mockReset().mockResolvedValue({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_STUDENT'], acceptedCgu: mockedAcceptedCgu })
+      mockGetProfile.mockReset().mockResolvedValue(mockedProfileOverview)
+      await store.ensureAuthenticated()
+    })
+
+    BddTest().then('it should expose the acceptance as up to date', () => {
+      expect(store.acceptedCgu).toEqual(mockedAcceptedCgu)
+      expect(store.hasAcceptedLatestCgu).toBe(true)
+    })
+  })
+
+  BddTest().when('the session is loaded for a user who accepted an outdated cgu version', () => {
+    beforeEach(async () => {
+      mockGetMe.mockReset().mockResolvedValue({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_STUDENT'], acceptedCgu: mockedOutdatedAcceptedCgu })
+      mockGetProfile.mockReset().mockResolvedValue(mockedProfileOverview)
+      await store.ensureAuthenticated()
+    })
+
+    BddTest().then('it should expose the acceptance as outdated', () => {
+      expect(store.acceptedCgu).toEqual(mockedOutdatedAcceptedCgu)
+      expect(store.hasAcceptedLatestCgu).toBe(false)
+    })
+  })
+
+  BddTest().when('the session is loaded for a user who never accepted the cgu', () => {
+    beforeEach(async () => {
+      mockGetMe.mockReset().mockResolvedValue({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_STUDENT'] })
+      mockGetProfile.mockReset().mockResolvedValue(mockedProfileOverview)
+      await store.ensureAuthenticated()
+    })
+
+    BddTest().then('it should expose no acceptance at all', () => {
+      expect(store.acceptedCgu).toBeNull()
+      expect(store.hasAcceptedLatestCgu).toBe(false)
+    })
+
+    BddTest().then('it should take the acceptance into account once setAcceptedCgu is called', () => {
+      store.setAcceptedCgu(mockedAcceptedCgu)
+
+      expect(store.acceptedCgu).toEqual(mockedAcceptedCgu)
+      expect(store.hasAcceptedLatestCgu).toBe(true)
     })
   })
 })

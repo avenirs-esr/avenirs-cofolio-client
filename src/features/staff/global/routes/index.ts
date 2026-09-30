@@ -11,7 +11,8 @@ export default [
     path: '/staff',
     component: () => import('@/features/staff/global/layouts/StaffLayout/StaffLayout.vue'),
     meta: {
-      roles: [EUserCategory.STAFF]
+      roles: [EUserCategory.STAFF],
+      cguRouteName: ROUTES.STAFF.CGU.name
     },
     children: [
       {

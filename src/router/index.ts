@@ -1,4 +1,5 @@
 import type { EUserCategory } from '@/api/avenir-esr'
+import { resolveCguRedirect } from '@/features/auth/global/guards/cgu.guard'
 import authRoutes from '@/features/auth/global/routes'
 import staffRoutes from '@/features/staff/global/routes'
 import studentRoutes from '@/features/student/global/routes'
@@ -65,6 +66,11 @@ router.beforeEach(async (to) => { // Cf. https://github.com/vueuse/head pour des
     const allowedCategories = to.meta.roles as EUserCategory[] | undefined
     if (!__ENABLE_MSW__ && allowedCategories !== undefined && !allowedCategories.some(allowedCategory => authStore.categories.includes(allowedCategory))) {
       return authStore.homeRoute
+    }
+
+    const cguRedirect = resolveCguRedirect(to, authStore.hasAcceptedLatestCgu)
+    if (cguRedirect !== undefined) {
+      return cguRedirect
     }
   }
 

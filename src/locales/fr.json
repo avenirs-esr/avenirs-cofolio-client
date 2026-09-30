@@ -613,7 +613,15 @@
         "title": "Déclaration d'accessibilité"
       },
       "cguView": {
+        "actions": {
+          "accept": "Accepter les CGU",
+          "refuse": "Refuser les CGU"
+        },
         "lastPublication": "Dernière publication le {date}",
+        "refusalModal": {
+          "description": "Sans acceptation des nouvelles conditions générales d'utilisation, vous ne pourrez plus utiliser Cofolio. Si vous confirmez, vous serez déconnecté.",
+          "title": "Refuser les conditions générales d'utilisation ?"
+        },
         "title": "Conditions générales d'utilisation",
         "version": "Version {version}"
       },
