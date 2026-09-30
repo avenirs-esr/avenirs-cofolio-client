@@ -1,11 +1,11 @@
 import type { AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
 import { TraceFilterFileTypesItem } from '@/api/avenir-esr'
+import { DatePeriodPickerStub } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.stub'
 import { FileTypeMultiselectStub } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.stub'
 import { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 import TraceFilterContainer from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.vue'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { format } from 'date-fns'
 import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -75,6 +75,7 @@ BddTest().given('a trace filter container', () => {
       `
     },
     AvButton: AvButtonStub,
+    DatePeriodPicker: DatePeriodPickerStub,
     FileTypeMultiselect: FileTypeMultiselectStub,
   }
 
@@ -105,18 +106,12 @@ BddTest().given('a trace filter container', () => {
         expect(skillsMultiselect.exists()).toBe(false)
       })
 
-      BddTest().then('it should render the start date input', () => {
-        const startDateInput = wrapper.find('.start-date-input')
-        expect(startDateInput.exists()).toBe(true)
-        const avInput = startDateInput.getComponent({ name: 'AvInput' })
-        expect(avInput.props('label')).toBe('Date de début')
-      })
-
-      BddTest().then('it should render the end date input', () => {
-        const endDateInput = wrapper.find('.end-date-input')
-        expect(endDateInput.exists()).toBe(true)
-        const avInput = endDateInput.getComponent({ name: 'AvInput' })
-        expect(avInput.props('label')).toBe('Date de fin')
+      BddTest().then('it should render the date period picker with the expected placeholder', () => {
+        const datePeriodPicker = wrapper.findComponent(DatePeriodPickerStub)
+        expect(datePeriodPicker.exists()).toBe(true)
+        expect(datePeriodPicker.props('type')).toBe('date')
+        expect(datePeriodPicker.props('showOngoing')).toBe(false)
+        expect(datePeriodPicker.props('placeholder')).toBe('Sélectionner une période')
       })
 
       BddTest().then('it should render the types multiselect', () => {
@@ -161,23 +156,16 @@ BddTest().given('a trace filter container', () => {
       })
     })
 
-    BddTest().when('a date is selected in the start date input', async () => {
-      let startDateAvInput: Omit<VueWrapper, 'exists'>
+    BddTest().when('a start date is selected in the date period picker', async () => {
+      let datePeriodPicker: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
-        const startDateInput = wrapper.find('.start-date-input')
-        startDateAvInput = startDateInput.getComponent({ name: 'AvInput' })
-        await startDateAvInput.find('input').setValue('2025-10-10')
+        datePeriodPicker = wrapper.findComponent(DatePeriodPickerStub)
+        datePeriodPicker.vm.$emit('update:startDate', '2025-10-10')
       })
 
-      BddTest().then('it should emit update:modelValue', async () => {
-        expect(startDateAvInput.emitted('update:modelValue')?.[0][0]).toEqual('2025-10-10')
-      })
-
-      BddTest().then('it should set the minDate of the end date input', async () => {
-        const endDateInput = wrapper.find('.end-date-input')
-        const endDateAvInput = endDateInput.getComponent({ name: 'AvInput' })
-        expect(format(endDateAvInput.props('minDate'), 'yyyy-MM-dd')).toBe('2025-10-10')
+      BddTest().then('it should receive the selected start date', async () => {
+        expect(datePeriodPicker.emitted('update:startDate')?.[0][0]).toEqual('2025-10-10')
       })
 
       BddTest().then('the trace filter container should emit update:filters', () => {
@@ -190,23 +178,16 @@ BddTest().given('a trace filter container', () => {
       })
     })
 
-    BddTest().when('a date is selected in the end date input', async () => {
-      let endDateAvInput: Omit<VueWrapper, 'exists'>
+    BddTest().when('an end date is selected in the date period picker', async () => {
+      let datePeriodPicker: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
-        const endDateInput = wrapper.find('.end-date-input')
-        endDateAvInput = endDateInput.getComponent({ name: 'AvInput' })
-        await endDateAvInput.find('input').setValue('2026-10-10')
+        datePeriodPicker = wrapper.findComponent(DatePeriodPickerStub)
+        datePeriodPicker.vm.$emit('update:endDate', '2026-10-10')
       })
 
-      BddTest().then('it should emit update:modelValue', async () => {
-        expect(endDateAvInput.emitted('update:modelValue')?.[0][0]).toEqual('2026-10-10')
-      })
-
-      BddTest().then('it should set the maxDate of the start date input', async () => {
-        const startDateInput = wrapper.find('.start-date-input')
-        const startDateAvInput = startDateInput.getComponent({ name: 'AvInput' })
-        expect(format(startDateAvInput.props('maxDate'), 'yyyy-MM-dd')).toBe('2026-10-10')
+      BddTest().then('it should receive the selected end date', async () => {
+        expect(datePeriodPicker.emitted('update:endDate')?.[0][0]).toEqual('2026-10-10')
       })
 
       BddTest().then('the trace filter container should emit update:filters', () => {
@@ -255,13 +236,9 @@ BddTest().given('a trace filter container', () => {
         const searchAvInput = searchInput.getComponent({ name: 'AvInput' })
         await searchAvInput.find('input').setValue('example')
 
-        const startDateInput = wrapper.find('.start-date-input')
-        const startDateAvInput = startDateInput.getComponent({ name: 'AvInput' })
-        await startDateAvInput.find('input').setValue('2025-10-10')
-
-        const endDateInput = wrapper.find('.end-date-input')
-        const endDateAvInput = endDateInput.getComponent({ name: 'AvInput' })
-        await endDateAvInput.find('input').setValue('2026-10-10')
+        const datePeriodPicker = wrapper.findComponent(DatePeriodPickerStub)
+        datePeriodPicker.vm.$emit('update:startDate', '2025-10-10')
+        datePeriodPicker.vm.$emit('update:endDate', '2026-10-10')
 
         const typesSelect = wrapper.findComponent(FileTypeMultiselectStub).find('select')
         await typesSelect.setValue([FileGlobalType.PDF])
@@ -342,18 +319,12 @@ BddTest().given('a trace filter container', () => {
         expect(skillsMultiselect.exists()).toBe(false)
       })
 
-      BddTest().then('it should render the start date input', () => {
-        const startDateInput = wrapper.find('.start-date-input')
-        expect(startDateInput.exists()).toBe(true)
-        const avInput = startDateInput.getComponent({ name: 'AvInput' })
-        expect(avInput.props('label')).toBe('Date de début')
-      })
-
-      BddTest().then('it should render the end date input', () => {
-        const endDateInput = wrapper.find('.end-date-input')
-        expect(endDateInput.exists()).toBe(true)
-        const avInput = endDateInput.getComponent({ name: 'AvInput' })
-        expect(avInput.props('label')).toBe('Date de fin')
+      BddTest().then('it should render the date period picker with the expected placeholder', () => {
+        const datePeriodPicker = wrapper.findComponent(DatePeriodPickerStub)
+        expect(datePeriodPicker.exists()).toBe(true)
+        expect(datePeriodPicker.props('type')).toBe('date')
+        expect(datePeriodPicker.props('showOngoing')).toBe(false)
+        expect(datePeriodPicker.props('placeholder')).toBe('Sélectionner une période')
       })
 
       BddTest().then('it should render the types multiselect', () => {
@@ -398,23 +369,16 @@ BddTest().given('a trace filter container', () => {
       })
     })
 
-    BddTest().when('a date is selected in the start date input', async () => {
-      let startDateAvInput: Omit<VueWrapper, 'exists'>
+    BddTest().when('a start date is selected in the date period picker', async () => {
+      let datePeriodPicker: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
-        const startDateInput = wrapper.find('.start-date-input')
-        startDateAvInput = startDateInput.getComponent({ name: 'AvInput' })
-        await startDateAvInput.find('input').setValue('2025-10-10')
+        datePeriodPicker = wrapper.findComponent(DatePeriodPickerStub)
+        datePeriodPicker.vm.$emit('update:startDate', '2025-10-10')
       })
 
-      BddTest().then('it should emit update:modelValue', async () => {
-        expect(startDateAvInput.emitted('update:modelValue')?.[0][0]).toEqual('2025-10-10')
-      })
-
-      BddTest().then('it should set the minDate of the end date input', async () => {
-        const endDateInput = wrapper.find('.end-date-input')
-        const endDateAvInput = endDateInput.getComponent({ name: 'AvInput' })
-        expect(format(endDateAvInput.props('minDate'), 'yyyy-MM-dd')).toBe('2025-10-10')
+      BddTest().then('it should receive the selected start date', async () => {
+        expect(datePeriodPicker.emitted('update:startDate')?.[0][0]).toEqual('2025-10-10')
       })
 
       BddTest().then('the trace filter container should emit update:filters', () => {
@@ -427,23 +391,16 @@ BddTest().given('a trace filter container', () => {
       })
     })
 
-    BddTest().when('a date is selected in the end date input', async () => {
-      let endDateAvInput: Omit<VueWrapper, 'exists'>
+    BddTest().when('an end date is selected in the date period picker', async () => {
+      let datePeriodPicker: Omit<VueWrapper, 'exists'>
 
       beforeEach(async () => {
-        const endDateInput = wrapper.find('.end-date-input')
-        endDateAvInput = endDateInput.getComponent({ name: 'AvInput' })
-        await endDateAvInput.find('input').setValue('2026-10-10')
+        datePeriodPicker = wrapper.findComponent(DatePeriodPickerStub)
+        datePeriodPicker.vm.$emit('update:endDate', '2026-10-10')
       })
 
-      BddTest().then('it should emit update:modelValue', async () => {
-        expect(endDateAvInput.emitted('update:modelValue')?.[0][0]).toEqual('2026-10-10')
-      })
-
-      BddTest().then('it should set the maxDate of the start date input', async () => {
-        const startDateInput = wrapper.find('.start-date-input')
-        const startDateAvInput = startDateInput.getComponent({ name: 'AvInput' })
-        expect(format(startDateAvInput.props('maxDate'), 'yyyy-MM-dd')).toBe('2026-10-10')
+      BddTest().then('it should receive the selected end date', async () => {
+        expect(datePeriodPicker.emitted('update:endDate')?.[0][0]).toEqual('2026-10-10')
       })
 
       BddTest().then('the trace filter container should emit update:filters', () => {
@@ -492,13 +449,9 @@ BddTest().given('a trace filter container', () => {
         const searchAvInput = searchInput.getComponent({ name: 'AvInput' })
         await searchAvInput.find('input').setValue('example')
 
-        const startDateInput = wrapper.find('.start-date-input')
-        const startDateAvInput = startDateInput.getComponent({ name: 'AvInput' })
-        await startDateAvInput.find('input').setValue('2025-10-10')
-
-        const endDateInput = wrapper.find('.end-date-input')
-        const endDateAvInput = endDateInput.getComponent({ name: 'AvInput' })
-        await endDateAvInput.find('input').setValue('2026-10-10')
+        const datePeriodPicker = wrapper.findComponent(DatePeriodPickerStub)
+        datePeriodPicker.vm.$emit('update:startDate', '2025-10-10')
+        datePeriodPicker.vm.$emit('update:endDate', '2026-10-10')
 
         const typesSelect = wrapper.findComponent(FileTypeMultiselectStub).find('select')
         await typesSelect.setValue([FileGlobalType.PDF])

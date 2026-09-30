@@ -2,11 +2,11 @@
 import type { TraceFilter, TraceFilterFileTypesItem } from '@/api/avenir-esr'
 import type { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 import type { DateFilter, SearchFilter } from '@/types'
+import { DatePeriodPicker } from '@/common/components'
 import FileTypeMultiselect from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.vue'
 import { useModal } from '@/common/composables'
 import { computeTraceFilterFileTypesFromGlobals } from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/utils'
 import { AvButton, AvInput, AvModal, type AvMultiselectOption, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { isValid } from 'date-fns'
 import { debounce } from 'lodash-es'
 import { useI18n } from 'vue-i18n'
 
@@ -42,11 +42,12 @@ function handleKeywordChange (value: string | number | null) {
   keyword.value = stringValue
 }
 
-function getDateSelectedFromString (date: string | undefined) {
-  if (date === undefined || !isValid(new Date(date))) {
-    return undefined
-  }
-  return new Date(date)
+function handleFromDateChange (value: string) {
+  fromDateSelected.value = value
+}
+
+function handleToDateChange (value: string) {
+  toDateSelected.value = value
 }
 
 watch([
@@ -96,26 +97,20 @@ watch(fileGlobalTypesSelected, (newFileGlobalTypes) => {
         :aria-label="isAssociated ? t('student.traces.views.StudentToolsTracesView.traceFilter.labels.search.associated') : t('student.traces.views.StudentToolsTracesView.traceFilter.labels.search.unassociated')"
         class="search-input"
         :placeholder="isAssociated ? t('student.traces.views.StudentToolsTracesView.traceFilter.labels.search.associated') : t('student.traces.views.StudentToolsTracesView.traceFilter.labels.search.unassociated')"
-        width="14.875rem"
+        width="var(--dimension-7xl)"
         @update:model-value="handleKeywordChange"
       />
-      <AvInput
-        v-model="fromDateSelected"
-        class="start-date-input"
-        :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.fromDate')"
-        :aria-label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.fromDate')"
+      <DatePeriodPicker
         type="date"
-        :max-date="getDateSelectedFromString(toDateSelected)"
-        width="14.875rem"
-      />
-      <AvInput
-        v-model="toDateSelected"
-        class="end-date-input"
-        :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.toDate')"
-        :aria-label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.toDate')"
-        type="date"
-        :min-date="getDateSelectedFromString(fromDateSelected)"
-        width="14.875rem"
+        :show-ongoing="false"
+        :start-date="fromDateSelected"
+        :end-date="toDateSelected"
+        :placeholder="t('global.dates.periodPlaceholder')"
+        :aria-label="t('global.dates.periodPlaceholder')"
+        width="var(--dimension-7xl)"
+        label-visible
+        @update:start-date="handleFromDateChange"
+        @update:end-date="handleToDateChange"
       />
       <FileTypeMultiselect
         v-model="fileGlobalTypesSelected"

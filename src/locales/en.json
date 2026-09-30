@@ -210,6 +210,7 @@
       "minutesAgo": "{count} minute ago | {count} minutes ago",
       "ongoing": "Ongoing",
       "period": "Period",
+      "periodPlaceholder": "Select a period",
       "secondsAgo": "{count} second ago | {count} seconds ago",
       "updatedAt": "Updated on {date}"
     },
