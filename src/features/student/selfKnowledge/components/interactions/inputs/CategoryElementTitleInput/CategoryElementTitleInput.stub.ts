@@ -1,3 +1,6 @@
+import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
+import type { PropType } from 'vue'
+
 export const CategoryElementTitleInputStub = defineComponent({
   name: 'CategoryElementTitleInput',
   props: {
@@ -5,7 +8,7 @@ export const CategoryElementTitleInputStub = defineComponent({
     modelValue: { type: String, default: '' },
     errorMessage: { type: String, default: '' },
     required: { type: Boolean, default: false },
-    category: { type: String }
+    category: { type: String as PropType<ESelfKnowledgeCategory> }
   },
   emits: ['blur', 'update:modelValue'],
   template: `
