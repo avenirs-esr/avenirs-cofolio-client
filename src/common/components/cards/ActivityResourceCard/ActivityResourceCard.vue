@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
 import type { ActivityResource } from '@/features/staff/activities/types/resource.types'
-import { useDownloadActivityFile } from '@/api/avenir-esr'
+import { useDownloadActivityFile, useDownloadDraftFile } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { downloadBlob } from '@/common/utils/download/download'
 import { isActivityResourceFile, isActivityResourceLink, isActivityResourcePendingFile } from '@/features/staff/activities/utils/resource.types-guard'
@@ -13,6 +13,7 @@ interface ActivityResourceCardComponentProps {
   activityId: string
   resource: ActivityResource
   disabled?: boolean
+  isDraft?: boolean
   tooltipVisible?: boolean
 }
 
@@ -20,6 +21,7 @@ const {
   activityId,
   resource,
   disabled = false,
+  isDraft = false,
   tooltipVisible = undefined
 } = defineProps<ActivityResourceCardComponentProps>()
 
@@ -42,14 +44,23 @@ const title = computed(() => {
   return resource.fileName
 })
 
+function onDownloadError (error: BaseApiException) {
+  addErrorMessage({
+    title: t('global.error.download'),
+    description: getErrorMessage(error),
+  })
+}
+
 const { mutate: mutateDownloadFile } = useDownloadActivityFile({
   mutation: {
-    onError: (error: BaseApiException) => {
-      addErrorMessage({
-        title: t('global.error.download'),
-        description: getErrorMessage(error),
-      })
-    },
+    onError: onDownloadError,
+    onSuccess: data => downloadBlob(data, title.value),
+  },
+})
+
+const { mutate: mutateDownloadDraftFile } = useDownloadDraftFile({
+  mutation: {
+    onError: onDownloadError,
     onSuccess: data => downloadBlob(data, title.value),
   },
 })
@@ -78,6 +89,9 @@ function downloadFile () {
 
   if (isActivityResourcePendingFile(resource)) {
     downloadBlob(resource, resource.name)
+  }
+  else if (isDraft) {
+    mutateDownloadDraftFile({ activityDraftId: activityId, fileId: resource.id })
   }
   else {
     mutateDownloadFile({ activityId, fileId: resource.id })

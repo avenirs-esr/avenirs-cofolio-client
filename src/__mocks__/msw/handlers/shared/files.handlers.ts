@@ -1,4 +1,4 @@
-import { getDownloadActivityFileUrl, getDownloadAttachmentUrl } from '@/api/avenir-esr'
+import { getDownloadActivityFileUrl, getDownloadAttachmentUrl, getDownloadDraftFileUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
 import { http, HttpResponse } from 'msw'
@@ -36,6 +36,19 @@ export const filesHandlers = [
     }
 
     return new HttpResponse('file content', {
+      status: HttpStatusCode.OK,
+      headers: {
+        'Content-Type': 'application/octet-stream',
+        'Content-Disposition': 'attachment; filename="file"',
+      },
+    })
+  }),
+  http.get(`*${getDownloadDraftFileUrl(':activityDraftId', ':fileId')}`, ({ params }) => {
+    if (params.fileId === 'INVALID_FILE_ID') {
+      return HttpResponse.json({ error: 'File not found', code: ErrorCodes.NOT_FOUND }, { status: 404 })
+    }
+
+    return new HttpResponse('draft file content', {
       status: HttpStatusCode.OK,
       headers: {
         'Content-Type': 'application/octet-stream',

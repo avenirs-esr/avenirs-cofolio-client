@@ -1265,6 +1265,26 @@
         }
       }
     },
+    "/me/cgu/accept": {
+      "post": {
+        "tags": [
+          "user-controller"
+        ],
+        "operationId": "acceptCgu",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcceptedCguDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/associations/{contextType}/{elementId}/{associatedContextType}": {
       "post": {
         "tags": [
@@ -1318,19 +1338,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/me/affiliations/refresh": {
-      "post": {
-        "tags": [
-          "user-controller"
-        ],
-        "operationId": "refreshAffiliations",
-        "responses": {
-          "200": {
-            "description": "OK"
           }
         }
       }
@@ -1750,6 +1757,55 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ActivityDraftCreationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/files": {
+      "post": {
+        "tags": [
+          "file-controller"
+        ],
+        "operationId": "upload",
+        "parameters": [
+          {
+            "name": "isRestricted",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDTO"
                 }
               }
             }
@@ -3494,6 +3550,47 @@
         }
       }
     },
+    "/me/activities/draft/{activityDraftId}/files/{fileId}/download": {
+      "get": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "downloadDraftFile",
+        "parameters": [
+          {
+            "name": "activityDraftId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "fileId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "byte"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progress/unsubscribe": {
       "delete": {
         "tags": [
@@ -4082,134 +4179,6 @@
         }
       }
     },
-    "/back-office/institutions/student/accessible-ids": {
-      "post": {
-        "tags": [
-          "institution-controller"
-        ],
-        "operationId": "studentAccessibleIds",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/InstitutionAccessibleIdsRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "format": "uuid"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/back-office/institutions/staff/access-check": {
-      "post": {
-        "tags": [
-          "institution-controller"
-        ],
-        "operationId": "staffAccessCheck",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/InstitutionAccessCheckRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/back-office/groups/student/accessible-ids": {
-      "post": {
-        "tags": [
-          "group-controller"
-        ],
-        "operationId": "studentAccessibleIds_1",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GroupAccessibleIdsRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "format": "uuid"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/back-office/groups/staff/access-check": {
-      "post": {
-        "tags": [
-          "group-controller"
-        ],
-        "operationId": "staffAccessCheck_1",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GroupAccessCheckRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/back-office/external-users/{externalUserId}/affiliations": {
       "get": {
         "tags": [
@@ -4457,6 +4426,74 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/back-office/cgu": {
+      "post": {
+        "tags": [
+          "cgu-controller"
+        ],
+        "operationId": "uploadCgu",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/access/staff/check": {
+      "post": {
+        "tags": [
+          "access-controller"
+        ],
+        "operationId": "staffAccessCheck",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StaffAccessCheckRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
           }
         }
       }
@@ -4746,6 +4783,26 @@
         }
       }
     },
+    "/back-office/cgu/latest": {
+      "get": {
+        "tags": [
+          "cgu-controller"
+        ],
+        "operationId": "getLatestCgu",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CguDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/back-office/admin/institutions/{id}": {
       "get": {
         "tags": [
@@ -4880,6 +4937,56 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/back-office/access/student/{eppn}/scope": {
+      "get": {
+        "tags": [
+          "access-controller"
+        ],
+        "operationId": "studentScope",
+        "parameters": [
+          {
+            "name": "eppn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudentScopeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/access/staff/scope": {
+      "get": {
+        "tags": [
+          "access-controller"
+        ],
+        "operationId": "staffScope",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/StaffScopeResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -5132,6 +5239,7 @@
               "_3GPP_VIDEO",
               "_3GPP2_VIDEO",
               "TXT",
+              "HTML",
               "CSV",
               "ICS",
               "RICHTEXT",
@@ -5816,6 +5924,7 @@
                 "_3GPP_VIDEO",
                 "_3GPP2_VIDEO",
                 "TXT",
+                "HTML",
                 "CSV",
                 "ICS",
                 "RICHTEXT",
@@ -6079,6 +6188,27 @@
           "status",
           "title",
           "valorized"
+        ]
+      },
+      "AcceptedCguDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "acceptedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isLastVersion": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "acceptedAt",
+          "id",
+          "isLastVersion"
         ]
       },
       "AssociationsCreationRequest": {
@@ -6834,6 +6964,9 @@
               "$ref": "#/components/schemas/ERole"
             },
             "uniqueItems": true
+          },
+          "acceptedCgu": {
+            "$ref": "#/components/schemas/AcceptedCguDTO"
           }
         },
         "required": [
@@ -7880,6 +8013,7 @@
           "_3GPP_VIDEO",
           "_3GPP2_VIDEO",
           "TXT",
+          "HTML",
           "CSV",
           "ICS",
           "RICHTEXT",
@@ -7957,6 +8091,7 @@
           "DECLARED_ACTIVITY_NOT_FOUND",
           "FEEDBACK_NOT_FOUND",
           "NOTIFICATION_NOT_FOUND",
+          "CGU_NOT_FOUND",
           "ACCESS_DENIED",
           "USER_NOT_AUTHORIZED",
           "USER_IS_NOT_STUDENT_EXCEPTION",
@@ -8017,6 +8152,7 @@
           "GROUP_PROGRAM_OPTION_PARENT_MUST_BE_PROGRAM",
           "GROUP_STUDENT_GROUP_REQUIRES_PARENT",
           "GROUP_STUDENT_GROUP_PARENT_MUST_BE_PROGRAM_OR_OPTION",
+          "EXTERNAL_USER_AFFILIATION_CATEGORY_NOT_ALLOWED",
           "FIRSTNAME_IS_NULL",
           "LASTNAME_IS_NULL",
           "INVALID_DATE_FORMAT",
@@ -8469,68 +8605,6 @@
           }
         }
       },
-      "InstitutionAccessibleIdsRequest": {
-        "type": "object",
-        "properties": {
-          "affiliatedInstitutionIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        }
-      },
-      "InstitutionAccessCheckRequest": {
-        "type": "object",
-        "properties": {
-          "affiliatedInstitutionIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          "targetInstitutionIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        }
-      },
-      "GroupAccessibleIdsRequest": {
-        "type": "object",
-        "properties": {
-          "affiliatedGroupIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        }
-      },
-      "GroupAccessCheckRequest": {
-        "type": "object",
-        "properties": {
-          "affiliatedGroupIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          "targetGroupIds": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        }
-      },
       "ExternalUserImportFailureResponse": {
         "type": "object",
         "properties": {
@@ -8587,6 +8661,13 @@
           "groupId": {
             "type": "string",
             "format": "uuid"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "STAFF",
+              "STUDENT"
+            ]
           }
         }
       },
@@ -8609,6 +8690,13 @@
             "type": "string",
             "format": "uuid"
           },
+          "category": {
+            "type": "string",
+            "enum": [
+              "STAFF",
+              "STUDENT"
+            ]
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -8626,6 +8714,13 @@
           },
           "groupIdSiSco": {
             "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "STAFF",
+              "STUDENT"
+            ]
           }
         }
       },
@@ -8640,6 +8735,13 @@
           },
           "groupIdSiSco": {
             "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "STAFF",
+              "STUDENT"
+            ]
           },
           "message": {
             "type": "string"
@@ -8848,6 +8950,28 @@
           }
         }
       },
+      "StaffAccessCheckRequest": {
+        "type": "object",
+        "properties": {
+          "eppn": {
+            "type": "string"
+          },
+          "targetInstitutionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "targetGroupIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      },
       "InstitutionDTO": {
         "type": "object",
         "properties": {
@@ -8887,6 +9011,89 @@
             "type": "boolean"
           }
         }
+      },
+      "CguDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "uploadedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "content": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "content",
+          "id",
+          "uploadedAt",
+          "version"
+        ]
+      },
+      "StudentScopeResponse": {
+        "type": "object",
+        "properties": {
+          "institutionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "groupIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "ScopeNodeResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "children",
+          "id",
+          "title"
+        ]
+      },
+      "StaffScopeResponse": {
+        "type": "object",
+        "properties": {
+          "institutions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScopeNodeResponse"
+            }
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScopeNodeResponse"
+            }
+          }
+        },
+        "required": [
+          "groups",
+          "institutions"
+        ]
       },
       "EExternalSource": {
         "type": "string",

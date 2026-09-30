@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { EFileType, type FileDTO } from '@/api/avenir-esr'
+import { server } from '@/__mocks__/msw/server'
+import { EFileType, type FileDTO, getDownloadActivityFileUrl, getDownloadDraftFileUrl } from '@/api/avenir-esr'
 import ActivityResourceCard from '@/common/components/cards/ActivityResourceCard/ActivityResourceCard.vue'
 import { downloadBlob } from '@/common/utils/download/download'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
@@ -212,6 +213,54 @@ BddTest().given('an activity resource card', () => {
       const [blob, fileName] = vi.mocked(downloadBlob).mock.calls[0]
       expect(blob).toMatchObject({ size: expect.any(Number), type: 'application/octet-stream' })
       expect(fileName).toBe(resource.fileName)
+      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+    })
+
+    BddTest().then('it should download the file through the activity file endpoint when clicked', async () => {
+      const requestedUrls: string[] = []
+      const onRequest = ({ request }: { request: Request }) => requestedUrls.push(new URL(request.url).pathname)
+      server.events.on('request:start', onRequest)
+
+      await wrapper.find('[data-testid="activity-resource-card-file"]').trigger('click')
+      await flushPromises()
+      await vi.waitFor(() => expect(downloadBlob).toHaveBeenCalledTimes(1))
+      server.events.removeListener('request:start', onRequest)
+
+      expect(requestedUrls.some(url => url.endsWith(getDownloadActivityFileUrl('activity-id', 'file-id')))).toBe(true)
+      expect(requestedUrls.some(url => url.endsWith(getDownloadDraftFileUrl('activity-id', 'file-id')))).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with a file resource of a draft activity', () => {
+    const resource: FileDTO = {
+      id: 'file-id',
+      fileName: 'resource.pdf',
+      fileType: EFileType.PDF,
+      fileSize: 1024,
+      url: 'https://avenir-esr.fr/resource.pdf',
+      uploadedAt: '2026-07-05T00:00:00Z',
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(ActivityResourceCard, {
+        props: { activityId: 'activity-id', resource, isDraft: true },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should download the file through the draft file endpoint when clicked', async () => {
+      const requestedUrls: string[] = []
+      const onRequest = ({ request }: { request: Request }) => requestedUrls.push(new URL(request.url).pathname)
+      server.events.on('request:start', onRequest)
+
+      await wrapper.find('[data-testid="activity-resource-card-file"]').trigger('click')
+      await flushPromises()
+      await vi.waitFor(() => expect(downloadBlob).toHaveBeenCalledTimes(1))
+      server.events.removeListener('request:start', onRequest)
+
+      expect(requestedUrls.some(url => url.endsWith(getDownloadDraftFileUrl('activity-id', 'file-id')))).toBe(true)
+      expect(requestedUrls.some(url => url.endsWith(getDownloadActivityFileUrl('activity-id', 'file-id')))).toBe(false)
+      expect(vi.mocked(downloadBlob).mock.calls[0][1]).toBe(resource.fileName)
       expect(mockAddErrorMessage).not.toHaveBeenCalled()
     })
   })

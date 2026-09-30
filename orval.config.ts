@@ -4,6 +4,7 @@ const FORCED_MUTATION_OPERATIONS = [
   'downloadAttachment',
   'downloadFeedbackAttachment',
   'downloadActivityFile',
+  'downloadDraftFile',
   'downloadMedia',
 ]
 

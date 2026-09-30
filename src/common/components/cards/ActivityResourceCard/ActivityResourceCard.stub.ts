@@ -13,6 +13,7 @@ export const ActivityResourceCardStub = defineComponent({
       required: false,
     },
     disabled: Boolean,
+    isDraft: Boolean,
     tooltipVisible: Boolean,
   },
   template: '<div data-testid="activity-resource-card" />',

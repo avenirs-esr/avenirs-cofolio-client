@@ -17,6 +17,7 @@ export const ActivityResourcesListStub = defineComponent({
       required: true,
     },
     readonly: Boolean,
+    isDraft: Boolean,
   },
   template: '<div data-testid="activity-resources-list-stub"></div>',
 })

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ActivityContentDTO } from '@/api/avenir-esr'
+import { type ActivityContentDTO, EActivityStatus } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 import ActivityRecommendedCompletionContextsList from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
@@ -13,9 +13,10 @@ import { useI18n } from 'vue-i18n'
 
 interface NationalActivityContentTabProps {
   activity: ActivityContentDTO
+  status: EActivityStatus
 }
 
-const { activity } = defineProps<NationalActivityContentTabProps>()
+const { activity, status } = defineProps<NationalActivityContentTabProps>()
 
 const { t } = useI18n()
 
@@ -80,6 +81,7 @@ const resourceCount = computed(() => (activity.files?.length ?? 0) + (activity.l
         :activity-id="activity.id"
         :files="activity.files ?? []"
         :links="activity.links ?? []"
+        :is-draft="status === EActivityStatus.DRAFT"
       />
     </IconTitleCardContainer>
 

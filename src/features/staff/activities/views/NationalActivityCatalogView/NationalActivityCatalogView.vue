@@ -97,7 +97,10 @@ function updateActivity (id: string) {
         :title="t('staff.activities.views.NationalActivityCatalogView.tabs.content')"
         data-testid="national-activity-catalog-content-tab-item"
       >
-        <NationalActivityContentTab :activity="activity" />
+        <NationalActivityContentTab
+          :activity="activity"
+          :status="status"
+        />
       </AvTab>
       <AvTab
         :icon="MDI_ICONS.BOOK_OPEN_VARIANT"
