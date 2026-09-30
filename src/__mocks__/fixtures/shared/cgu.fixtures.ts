@@ -1,4 +1,4 @@
-import type { CguDTO } from '@/api/avenir-esr'
+import type { AcceptedCguDTO, CguDTO } from '@/api/avenir-esr'
 
 export const mockedCgu: CguDTO = {
   id: 'ec7d4c6a-1f54-4e9c-9a9b-0f3c2b5d7a11',
@@ -12,4 +12,16 @@ export const mockedCgu: CguDTO = {
     <h2>Article 3 - Données personnelles</h2>
     <p>Les données collectées sont traitées conformément à la politique de protection des <a href="https://avenirs-esr.fr/">données personnelles</a>.</p>
   `
+}
+
+export const mockedAcceptedCgu: AcceptedCguDTO = {
+  id: 'ec7d4c6a-1f54-4e9c-9a9b-0f3c2b5d7a11',
+  acceptedAt: '2026-03-15T08:00:00Z',
+  isLastVersion: true
+}
+
+export const mockedOutdatedAcceptedCgu: AcceptedCguDTO = {
+  ...mockedAcceptedCgu,
+  id: '2f1b5d90-6c3e-4a77-8f2d-9e4c1a7b3d55',
+  isLastVersion: false
 }

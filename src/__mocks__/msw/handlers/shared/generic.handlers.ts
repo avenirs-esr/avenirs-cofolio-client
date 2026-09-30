@@ -1,17 +1,31 @@
 import type { LoggedInUserDTO } from '@/api/avenir-esr'
+import { mockedAcceptedCgu } from '@/__mocks__/fixtures/shared/cgu.fixtures'
 import { ERole, getGetMeUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
 import { http, HttpResponse, type PathParams } from 'msw'
 
+export const mockedLoggedInUser: LoggedInUserDTO = {
+  firstname: 'Lucas',
+  lastname: 'Tessier',
+  roles: [ERole.ROLE_STUDENT, ERole.ROLE_STAFF, ERole.ROLE_SUPER_ADMIN],
+  acceptedCgu: mockedAcceptedCgu
+}
+
+export const meWithoutAcceptedCguHandler = http.get<PathParams, LoggedInUserDTO>(`*${getGetMeUrl()}`, () => {
+  return HttpResponse.json<LoggedInUserDTO>(
+    { ...mockedLoggedInUser, acceptedCgu: undefined },
+    {
+      status: HttpStatusCode.OK,
+      headers: { 'Content-Type': 'application/json' }
+    }
+  )
+})
+
 export const genericHandlers = [
   http.get<PathParams, LoggedInUserDTO>(`*${getGetMeUrl()}`, () => {
     return HttpResponse.json<LoggedInUserDTO>(
-      {
-        firstname: 'Lucas',
-        lastname: 'Tessier',
-        roles: [ERole.ROLE_STUDENT, ERole.ROLE_STAFF, ERole.ROLE_SUPER_ADMIN]
-      },
+      mockedLoggedInUser,
       {
         status: HttpStatusCode.OK,
         headers: { 'Content-Type': 'application/json' }

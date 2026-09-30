@@ -613,7 +613,15 @@
         "title": "Accessibility declaration"
       },
       "cguView": {
+        "actions": {
+          "accept": "Accept the terms of use",
+          "refuse": "Decline the terms of use"
+        },
         "lastPublication": "Last published on {date}",
+        "refusalModal": {
+          "description": "Without accepting the new terms of use, you will no longer be able to use Cofolio. If you confirm, you will be logged out.",
+          "title": "Decline the terms of use?"
+        },
         "title": "Terms of use",
         "version": "Version {version}"
       },

@@ -1,7 +1,7 @@
 import type { FetchOptions } from '@/api/fetch'
 import type { BaseApiException } from '@/common/exceptions'
 import type { RouteLocationNormalized, RouteLocationRaw } from 'vue-router'
-import { ERole, EUserCategory, getMe, getProfile, type ProfileOverviewDTO } from '@/api/avenir-esr'
+import { type AcceptedCguDTO, ERole, EUserCategory, getMe, getProfile, type ProfileOverviewDTO } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils'
 import router from '@/router'
@@ -29,6 +29,7 @@ export const useAuthStore = defineStore('auth', () => {
   const sessionReady = ref<boolean>(false)
   const profile = ref<ProfileOverviewDTO | null>(null)
   const categories = ref<EUserCategory[]>([])
+  const acceptedCgu = ref<AcceptedCguDTO | null>(null)
   const roles = ref<ERole[]>([])
 
   const redirecting = ref(false)
@@ -40,6 +41,8 @@ export const useAuthStore = defineStore('auth', () => {
   const queryClient = useQueryClient()
 
   const isLoggedIn = computed(() => authenticated.value && sessionReady.value)
+
+  const hasAcceptedLatestCgu = computed(() => acceptedCgu.value !== null && acceptedCgu.value.isLastVersion)
 
   const homeRoute = computed<RouteLocationRaw>(() =>
     !categories.value.includes(EUserCategory.STUDENT) && categories.value.includes(EUserCategory.STAFF) ? ROUTES.STAFF.HOME : ROUTES.STUDENT.HOME)
@@ -58,6 +61,7 @@ export const useAuthStore = defineStore('auth', () => {
           const me = await getMe(fetchOptions)
           roles.value = me.roles
           categories.value = getConnectedUserCategories(me.roles)
+          acceptedCgu.value = me.acceptedCgu ?? null
 
           const selectedProfile = categories.value.includes(EUserCategory.STUDENT)
             ? EUserCategory.STUDENT
@@ -140,6 +144,11 @@ export const useAuthStore = defineStore('auth', () => {
     profile.value = null
     categories.value = []
     roles.value = []
+    acceptedCgu.value = null
+  }
+
+  function setAcceptedCgu (accepted: AcceptedCguDTO) {
+    acceptedCgu.value = accepted
   }
 
   return {
@@ -150,6 +159,9 @@ export const useAuthStore = defineStore('auth', () => {
     categories: readonly(categories),
     roles: readonly(roles),
     canSwitchProfile: readonly(canSwitchProfile),
+    acceptedCgu: readonly(acceptedCgu),
+    hasAcceptedLatestCgu,
+    setAcceptedCgu,
     isSuperAdmin: readonly(isSuperAdmin),
     homeRoute
   }
@@ -162,6 +174,7 @@ export const useAuthStore = defineStore('auth', () => {
       'profile',
       'categories',
       'roles',
+      'acceptedCgu',
     ]
   }
 })
