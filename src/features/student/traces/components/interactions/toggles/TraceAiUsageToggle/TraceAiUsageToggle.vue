@@ -4,7 +4,7 @@ import Toggle from '@/common/components/Toggle/Toggle.vue'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-interface TraceAiUsageToggleProps extends Omit<ToggleProps, 'description' | 'activeText' | 'inactiveText'> {
+interface TraceAiUsageToggleProps extends Omit<ToggleProps, 'description'> {
   description?: string
 }
 

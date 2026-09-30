@@ -29,7 +29,6 @@ const model = defineModel<boolean>({ default: true })
       <Toggle
         :id="toggleId"
         v-model="model"
-        description=""
         :disabled="disabled"
       />
     </template>

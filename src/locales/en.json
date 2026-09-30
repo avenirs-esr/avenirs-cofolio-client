@@ -124,7 +124,7 @@
       "collapseButtonAriaLabel": "Collapse the menu",
       "expandButtonAriaLabel": "Expand the menu"
     },
-    "avToggle": {
+    "AvToggle": {
       "activeText": "On",
       "inactiveText": "Off"
     },

@@ -1,83 +1,120 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
-import ValorizeToggle from '@/features/student/global/components/interaction/toggles/ValorizeToggle/ValorizeToggle.vue'
+import ValorizeToggle, { type ValorizeToggleProps } from '@/features/student/global/components/interaction/toggles/ValorizeToggle/ValorizeToggle.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { mount } from '@vue/test-utils'
 
-BddTest().given('a valorize toggle component', () => {
+const defaultProps = {
+  id: 'valorize-toggle',
+  name: 'valorize-toggle',
+  modelValue: false,
+}
+
+const UNVALORIZE_TOOLTIP = 'Ne plus valoriser dans mon kit'
+const VALORIZE_TOOLTIP = 'Valoriser dans mon kit'
+
+BddTest().given('a ValorizeToggle component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ValorizeToggle>>
 
   const stubs = {
     Toggle: ToggleStub,
+    ValorizedBadge: ValorizedBadgeStub,
   }
 
-  beforeEach(() => {
-    vi.clearAllMocks()
-
+  const mountWith = (props: Partial<ValorizeToggleProps> = {}) => {
     wrapper = mount(ValorizeToggle, {
       props: {
-        id: 'valorize-toggle',
-        name: 'valorize-toggle',
-        modelValue: false,
+        ...defaultProps,
+        ...props,
       },
       global: {
         stubs,
       },
     })
-  })
+  }
 
-  BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render the Toggle component', () => {
-      const toggle = wrapper.findComponent({ name: 'Toggle' })
-      expect(toggle.exists()).toBe(true)
+  const getToggle = () => wrapper.findComponent(ToggleStub)
+  const getBadge = () => wrapper.findComponent(ValorizedBadgeStub)
+
+  const setModelValue = async (value: boolean) => await wrapper.setProps({ modelValue: value })
+
+  BddTest().when('the component is mounted with modelValue false', () => {
+    beforeEach(() => {
+      mountWith()
     })
 
-    BddTest().then('it should have the default active text', () => {
-      const toggle = wrapper.findComponent({ name: 'Toggle' })
-      expect(toggle.props('activeText')).toBe('Je valorise dans mon kit')
+    BddTest().then('it should render Toggle with forwarded props', () => {
+      expect(getToggle().props()).toMatchObject(defaultProps)
     })
 
-    BddTest().then('it should have the default inactive text', () => {
-      const toggle = wrapper.findComponent({ name: 'Toggle' })
-      expect(toggle.props('inactiveText')).toBe('Je ne valorise pas dans mon kit')
+    BddTest().then('it should render ValorizedBadge as inactive', () => {
+      expect(getBadge().props('valorized')).toBe(false)
     })
 
-    BddTest().then('it should pass through id prop', () => {
-      const toggle = wrapper.findComponent({ name: 'Toggle' })
-      expect(toggle.props('id')).toBe('valorize-toggle')
-    })
-
-    BddTest().then('it should pass through name prop', () => {
-      const toggle = wrapper.findComponent({ name: 'Toggle' })
-      expect(toggle.props('name')).toBe('valorize-toggle')
-    })
-
-    BddTest().then('it should pass through modelValue prop', () => {
-      const toggle = wrapper.findComponent({ name: 'Toggle' })
-      expect(toggle.props('modelValue')).toBe(false)
+    BddTest().then('it should provide the valorize tooltip', () => {
+      expect(getToggle().props('tooltip')).toBe(VALORIZE_TOOLTIP)
     })
   })
 
-  BddTest().when('the toggle checkbox is changed', () => {
-    BddTest().then('it should emit update:modelValue event', async () => {
-      const toggle = wrapper.findComponent({ name: 'Toggle' })
-      const checkbox = toggle.find('input[type="checkbox"]')
+  BddTest().when('the component is mounted with modelValue true', () => {
+    beforeEach(() => {
+      mountWith({
+        modelValue: true,
+      })
+    })
 
-      await checkbox.setValue(true)
-      await wrapper.vm.$nextTick()
+    BddTest().then('it should render ValorizedBadge as active', () => {
+      expect(getBadge().props('valorized')).toBe(true)
+    })
 
-      expect(toggle.emitted('update:modelValue')).toBeTruthy()
-      expect(toggle.emitted('update:modelValue')?.[0]).toEqual([true])
+    BddTest().then('it should provide the unvalorize tooltip', () => {
+      expect(getToggle().props('tooltip')).toBe(UNVALORIZE_TOOLTIP)
     })
   })
 
-  BddTest().when('modelValue prop changes', () => {
-    BddTest().then('it should update the toggle state', async () => {
-      await wrapper.setProps({ modelValue: true })
-      await wrapper.vm.$nextTick()
+  BddTest().when('the component receives a tooltip', () => {
+    const tooltip = 'Custom tooltip'
 
-      const toggle = wrapper.findComponent({ name: 'Toggle' })
-      expect(toggle.props('modelValue')).toBe(true)
+    beforeEach(() => {
+      mountWith({ tooltip })
+    })
+
+    BddTest().then('it should keep the provided tooltip', () => {
+      expect(getToggle().props('tooltip')).toBe(tooltip)
+    })
+  })
+
+  BddTest().when('the component modelValue changes', () => {
+    beforeEach(() => {
+      mountWith()
+    })
+
+    BddTest().then('it should update the ValorizedBadge state', async () => {
+      await setModelValue(true)
+
+      expect(getBadge().props('valorized')).toBe(true)
+
+      await setModelValue(false)
+
+      expect(getBadge().props('valorized')).toBe(false)
+    })
+
+    BddTest().then('it should update Toggle modelValue', async () => {
+      await setModelValue(true)
+
+      expect(getToggle().props('modelValue')).toBe(true)
+    })
+  })
+
+  BddTest().when('the Toggle emits a value change', () => {
+    beforeEach(() => {
+      mountWith()
+    })
+
+    BddTest().then('it should emit update:modelValue', async () => {
+      await getToggle().vm.$emit('update:modelValue', true)
+      expect(wrapper.emitted('update:modelValue')).toEqual([[true]])
     })
   })
 })

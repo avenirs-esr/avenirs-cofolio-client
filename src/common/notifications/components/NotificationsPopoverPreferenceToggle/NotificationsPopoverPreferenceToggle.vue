@@ -53,10 +53,8 @@ const notificationsEnabled = computed({
 <template>
   <Toggle
     v-model="notificationsEnabled"
-    description=""
     :active-text="t('global.notifications.NotificationsPopover.preferences.enabled')"
     :inactive-text="t('global.notifications.NotificationsPopover.preferences.disabled')"
-    status-text-width="100%"
     data-testid="notification-preference-toggle"
   />
 </template>

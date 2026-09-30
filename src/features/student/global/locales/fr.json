@@ -38,8 +38,8 @@
         },
         "toggles": {
           "ValorizeToggle": {
-            "activeText": "Je valorise dans mon kit",
-            "inactiveText": "Je ne valorise pas dans mon kit"
+            "unvalorizeTooltip": "Ne plus valoriser dans mon kit",
+            "valorizeTooltip": "Valoriser dans mon kit"
           }
         }
       },
