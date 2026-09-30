@@ -80,7 +80,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
 
     BddTest().then('it should use the matching category icon as prefix icon', () => {
       const avInput = wrapper.findComponent(AvInputStub)
-      expect(avInput.props('prefixIcon')).toBe(MDI_ICONS.DIAMOND_STONE)
+      expect(avInput.props('prefixIcon')).toBe(MDI_ICONS.FLOWER_TUILIP_OUTLINE)
     })
   })
 

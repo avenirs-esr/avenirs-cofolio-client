@@ -42,7 +42,7 @@ BddTest().given('a self knowledge element card', () => {
     BddTest().then('it should display the correct icon for VALUES', async () => {
       await flushPromises()
       const icon = wrapper.find('.card-icon')
-      expect(icon.text()).toBe(MDI_ICONS.DIAMOND_STONE)
+      expect(icon.text()).toBe(MDI_ICONS.FLOWER_TUILIP_OUTLINE)
     })
 
     BddTest().then('it should pass the element title to FloatingIconCard', () => {
