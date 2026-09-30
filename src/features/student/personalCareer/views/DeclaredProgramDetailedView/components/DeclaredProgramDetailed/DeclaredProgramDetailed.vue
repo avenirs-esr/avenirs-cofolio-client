@@ -12,7 +12,6 @@ import DeclaredProgramSourceOfInformationInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramSourceOfInformationInput/DeclaredProgramSourceOfInformationInput.vue'
 import DeclaredProgramTitleInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramTitleInput/DeclaredProgramTitleInput.vue'
-import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
 export interface DeclaredProgramDetailedProps {
@@ -35,10 +34,6 @@ const {
 } = declaredProgramDetailed
 
 const { t } = useI18n()
-
-const createdAtPrefix = computed(() =>
-  capitalize(t('student.personalCareer.global.program'))
-)
 </script>
 
 <template>
@@ -102,7 +97,6 @@ const createdAtPrefix = computed(() =>
 
         <CreationUpdateDateDetails
           :created-at="createdAt"
-          :created-at-prefix="createdAtPrefix"
           :updated-at="updatedAt"
         />
       </div>

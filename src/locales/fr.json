@@ -200,7 +200,6 @@
         "years": "{count} an | {count} ans"
       },
       "createdAt": "Créé le {date}",
-      "createdAtWithPrefix": "{prefix} créé le {date}",
       "dateTimeAt": "{date} à {time}",
       "endDateBeforeStartDate": "La date de fin doit être postérieure à la date de début",
       "hoursAgo": "Il y a {count} heure | Il y a {count} heures",

@@ -5,7 +5,6 @@ import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedB
 import Rating from '@/common/components/Rating/Rating.vue'
 import CategoryElementDescriptionTextarea from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementDescriptionTextarea/CategoryElementDescriptionTextarea.vue'
 import CategoryElementTitleInput from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementTitleInput/CategoryElementTitleInput.vue'
-import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementDetailsProps {
@@ -15,8 +14,6 @@ export interface SelfKnowledgeElementDetailsProps {
 
 const { element, category } = defineProps<SelfKnowledgeElementDetailsProps>()
 const { t } = useI18n()
-
-const createdAtPrefix = computed(() => capitalize(t('student.selfKnowledge.element')))
 </script>
 
 <template>
@@ -56,7 +53,6 @@ const createdAtPrefix = computed(() => capitalize(t('student.selfKnowledge.eleme
           <CreationUpdateDateDetails
             :updated-at="element.updatedAt"
             :created-at="element.createdAt"
-            :created-at-prefix="createdAtPrefix"
           />
         </div>
       </div>

@@ -1,4 +1,5 @@
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import { declaredExperienceViewDTOFixture } from '@/__mocks__/fixtures/student'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { DatePeriodPickerStub } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.stub'
@@ -17,12 +18,13 @@ import DeclaredExperienceDetails, {
 } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, vi } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 
 const mockIsMobile = ref(false)
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+
   return {
     ...actual,
     useAvBreakpoints: () => ({
@@ -30,48 +32,6 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
     }),
   }
 })
-
-const mockedDeclaredExperienceDetails: DeclaredExperienceViewDTO = {
-  id: 'experience-1',
-  title: 'My experience title',
-  experienceType: 'PROFESSIONAL' as any,
-  organization: 'My organization',
-  activitySector: 'IT',
-  location: 'Paris',
-  result: 'validation',
-  description: 'My experience description',
-  summary: 'My experience summary',
-  sourceOfInformation: 'My source',
-  externalLink: 'https://example.com',
-  startDate: '2026-01-10',
-  endDate: '2026-01-20',
-  createdAt: '2026-01-01T10:00:00Z',
-  updatedAt: '2026-01-02T10:00:00Z',
-  declaredExperienceAssociationCountDTO: {
-    traceAssociationsCount: 3,
-    declaredSkillAssociationsCount: 1
-  }
-}
-
-const mockedDeclaredExperienceDetailsValorized: DeclaredExperienceViewDTO = {
-  ...mockedDeclaredExperienceDetails,
-  valorized: true
-}
-
-const mockedDeclaredExperienceDetailsUnvalorized: DeclaredExperienceViewDTO = {
-  ...mockedDeclaredExperienceDetails,
-  valorized: false
-}
-
-const mockedDeclaredExperienceDetailsWithUndefinedOptionalFields: DeclaredExperienceViewDTO = {
-  ...mockedDeclaredExperienceDetails,
-  description: undefined,
-  summary: undefined,
-  result: undefined,
-  sourceOfInformation: undefined,
-  externalLink: undefined,
-  endDate: undefined,
-}
 
 BddTest().given('the DeclaredExperienceDetails component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceDetails>>
@@ -92,15 +52,19 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
     ValorizedBadge: ValorizedBadgeStub,
   }
 
-  const mountWith = (props: Partial<DeclaredExperienceDetailedProps> = {}, isMobile: boolean = false) => {
+  const mountWith = (
+    props: Partial<DeclaredExperienceDetailedProps> = {},
+    isMobile = false,
+  ) => {
     vi.clearAllMocks()
     mockIsMobile.value = isMobile
+
     wrapper = mount(DeclaredExperienceDetails, {
       props: {
-        declaredExperienceDetails: mockedDeclaredExperienceDetails,
-        ...props
+        declaredExperienceDetails: declaredExperienceViewDTOFixture,
+        ...props,
       },
-      global: { stubs },
+      global: { stubs }
     })
   }
 
@@ -109,10 +73,6 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
   const getDatePeriodPicker = () => wrapper.findComponent(DatePeriodPickerStub)
   const getDescriptionTextarea = () => wrapper.findComponent(DeclaredExperienceDescriptionTextareaStub)
   const getExternalLinkInput = () => wrapper.findComponent(DeclaredExperienceExternalLinkInputStub)
-  const getLayout = () => wrapper.find('[data-testid="layout-declared-experience-detailed"]')
-  const getLayoutMain = () => wrapper.find('[data-testid="layout-declared-experience-detailed__main"]')
-  const getLayoutMainWrapper = () => wrapper.find('[data-testid="layout-declared-experience-detailed__main-wrapper"]')
-  const getLayoutSide = () => wrapper.find('[data-testid="layout-declared-experience-detailed__side"]')
   const getLocationInput = () => wrapper.findComponent(DeclaredExperienceLocationInputStub)
   const getOrganizationInput = () => wrapper.findComponent(DeclaredExperienceOrganizationInputStub)
   const getResultInput = () => wrapper.findComponent(DeclaredExperienceResultInputStub)
@@ -121,6 +81,11 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
   const getTitleInput = () => wrapper.findComponent(DeclaredExperienceTitleInputStub)
   const getTypeSelect = () => wrapper.findComponent(DeclaredExperienceTypeSelectStub)
   const getValorizedBadge = () => wrapper.findComponent(ValorizedBadgeStub)
+
+  const getLayout = () => wrapper.find('[data-testid="layout-declared-experience-detailed"]')
+  const getLayoutMain = () => wrapper.find('[data-testid="layout-declared-experience-detailed__main"]')
+  const getLayoutMainWrapper = () => wrapper.find('[data-testid="layout-declared-experience-detailed__main-wrapper"]')
+  const getLayoutSide = () => wrapper.find('[data-testid="layout-declared-experience-detailed__side"]')
 
   BddTest().and('given a declared experience details dto', () => {
     BddTest().when('the component is mounted', () => {
@@ -137,43 +102,43 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
       BddTest().then('it should render the title', () => {
         const component = getTitleInput()
         expect(component.exists()).toBe(true)
-        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.title)
+        expect(component.props('modelValue')).toBe(declaredExperienceViewDTOFixture.title)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the experience type', () => {
         const component = getTypeSelect()
         expect(component.exists()).toBe(true)
-        expect(component.props('modelValue')).toEqual({ itemId: mockedDeclaredExperienceDetails.experienceType })
+        expect(component.props('modelValue')).toEqual({ itemId: declaredExperienceViewDTOFixture.experienceType })
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the organization', () => {
         const component = getOrganizationInput()
         expect(component.exists()).toBe(true)
-        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.organization)
+        expect(component.props('modelValue')).toBe(declaredExperienceViewDTOFixture.organization)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the activity sector', () => {
         const component = getActivitySectorInput()
         expect(component.exists()).toBe(true)
-        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.activitySector)
+        expect(component.props('modelValue')).toBe(declaredExperienceViewDTOFixture.activitySector)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the location', () => {
         const component = getLocationInput()
         expect(component.exists()).toBe(true)
-        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.location)
+        expect(component.props('modelValue')).toBe(declaredExperienceViewDTOFixture.location)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the period with DatePeriodPicker', () => {
         const datePeriodPicker = getDatePeriodPicker()
         expect(datePeriodPicker.exists()).toBe(true)
-        expect(datePeriodPicker.props('startDate')).toBe(mockedDeclaredExperienceDetails.startDate)
-        expect(datePeriodPicker.props('endDate')).toBe(mockedDeclaredExperienceDetails.endDate)
+        expect(datePeriodPicker.props('startDate')).toBe(declaredExperienceViewDTOFixture.startDate)
+        expect(datePeriodPicker.props('endDate')).toBe(declaredExperienceViewDTOFixture.endDate)
         expect(datePeriodPicker.props('isOngoing')).toBe(false)
         expect(datePeriodPicker.props('disabled')).toBe(true)
         expect(datePeriodPicker.props('type')).toBe('month')
@@ -182,43 +147,42 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
       BddTest().then('it should render the source of information', () => {
         const component = getSourceOfInformationInput()
         expect(component.exists()).toBe(true)
-        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.sourceOfInformation)
+        expect(component.props('modelValue')).toBe(declaredExperienceViewDTOFixture.sourceOfInformation)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the external link', () => {
         const component = getExternalLinkInput()
         expect(component.exists()).toBe(true)
-        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.externalLink)
+        expect(component.props('modelValue')).toBe(declaredExperienceViewDTOFixture.externalLink)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the description textarea', () => {
         const component = getDescriptionTextarea()
         expect(component.exists()).toBe(true)
-        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.description)
+        expect(component.props('modelValue')).toBe(declaredExperienceViewDTOFixture.description)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the summary textarea', () => {
         const component = getSummaryTextarea()
         expect(component.exists()).toBe(true)
-        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.summary)
+        expect(component.props('modelValue')).toBe(declaredExperienceViewDTOFixture.summary)
         expect(component.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render CreationUpdateDateDetails with correct props', () => {
         const details = getCreationUpdateDateDetails()
         expect(details.exists()).toBe(true)
-        expect(details.props('createdAt')).toBe(mockedDeclaredExperienceDetails.createdAt)
-        expect(details.props('updatedAt')).toBe(mockedDeclaredExperienceDetails.updatedAt)
-        expect(details.props('createdAtPrefix')).toBe('Expérience')
+        expect(details.props('createdAt')).toBe(declaredExperienceViewDTOFixture.createdAt)
+        expect(details.props('updatedAt')).toBe(declaredExperienceViewDTOFixture.updatedAt)
       })
 
       BddTest().then('it should render the result', () => {
         const component = getResultInput()
         expect(component.exists()).toBe(true)
-        expect(component.props('modelValue')).toBe(mockedDeclaredExperienceDetails.result)
+        expect(component.props('modelValue')).toBe(declaredExperienceViewDTOFixture.result)
         expect(component.props('disabled')).toBe(true)
       })
     })
@@ -226,8 +190,13 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
 
   BddTest().and('given a valorized experience', () => {
     BddTest().when('the component is mounted', () => {
+      const declaredExperienceDetails: DeclaredExperienceViewDTO = {
+        ...declaredExperienceViewDTOFixture,
+        valorized: true,
+      }
+
       beforeEach(() => {
-        mountWith({ declaredExperienceDetails: mockedDeclaredExperienceDetailsValorized })
+        mountWith({ declaredExperienceDetails })
       })
 
       BddTest().then('it should render ValorizedBadge with valorized true', () => {
@@ -240,8 +209,13 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
 
   BddTest().and('given a non valorized experience', () => {
     BddTest().when('the component is mounted', () => {
+      const declaredExperienceDetails: DeclaredExperienceViewDTO = {
+        ...declaredExperienceViewDTOFixture,
+        valorized: false,
+      }
+
       beforeEach(() => {
-        mountWith({ declaredExperienceDetails: mockedDeclaredExperienceDetailsUnvalorized })
+        mountWith({ declaredExperienceDetails })
       })
 
       BddTest().then('it should render ValorizedBadge with valorized false', () => {
@@ -254,15 +228,24 @@ BddTest().given('the DeclaredExperienceDetails component', () => {
 
   BddTest().and('given optional fields are undefined', () => {
     BddTest().when('the component is mounted', () => {
+      const declaredExperienceDetails: DeclaredExperienceViewDTO = {
+        ...declaredExperienceViewDTOFixture,
+        description: undefined,
+        summary: undefined,
+        result: undefined,
+        sourceOfInformation: undefined,
+        externalLink: undefined,
+        endDate: undefined,
+      }
+
       beforeEach(() => {
-        mountWith({ declaredExperienceDetails: mockedDeclaredExperienceDetailsWithUndefinedOptionalFields })
+        mountWith({ declaredExperienceDetails })
       })
 
       BddTest().then('it should pass empty strings for undefined optional values', () => {
-        expect(getSourceOfInformationInput().props('modelValue')).toBe(undefined)
-        expect(getExternalLinkInput().props('modelValue')).toBe(undefined)
-        expect(getResultInput().props('modelValue')).toBe(undefined)
-
+        expect(getSourceOfInformationInput().props('modelValue')).toBeUndefined()
+        expect(getExternalLinkInput().props('modelValue')).toBeUndefined()
+        expect(getResultInput().props('modelValue')).toBeUndefined()
         expect(getDescriptionTextarea().props('modelValue')).toBe('')
         expect(getSummaryTextarea().props('modelValue')).toBe('')
       })

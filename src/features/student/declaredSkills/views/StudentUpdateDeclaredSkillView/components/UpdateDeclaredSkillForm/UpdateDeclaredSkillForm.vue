@@ -7,7 +7,6 @@ import DeclaredSkillReflectionFormField from '@/features/student/declaredSkills/
 import { useUpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
 import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 import { AvInput, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
 interface UpdateDeclaredSkillFormProps {
@@ -48,8 +47,6 @@ watch(
   newState => emit('dirtyChange', newState.isDirty),
   { immediate: true }
 )
-
-const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
 </script>
 
 <template>
@@ -86,7 +83,6 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
         <CreationUpdateDateDetails
           :created-at="declaredSkillProgressDetails.createdAt"
           :updated-at="declaredSkillProgressDetails.updatedAt"
-          :created-at-prefix="createdAtPrefix"
         />
       </div>
 

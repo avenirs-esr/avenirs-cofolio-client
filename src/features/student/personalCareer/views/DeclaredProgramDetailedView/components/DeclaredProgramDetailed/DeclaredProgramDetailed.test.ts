@@ -1,43 +1,23 @@
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
+import { declaredProgramDetailedDTOFixture } from '@/__mocks__/fixtures/student'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
+import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { DatePeriodPickerStub } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.stub'
 import DeclaredProgramDescriptionTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramDescriptionTextarea/DeclaredProgramDescriptionTextarea.vue'
 import DeclaredProgramOrganizationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramOrganizationInput/DeclaredProgramOrganizationInput.vue'
 import DeclaredProgramResultInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramResultInput/DeclaredProgramResultInput.vue'
 import DeclaredProgramSourceOfInformationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramSourceOfInformationInput/DeclaredProgramSourceOfInformationInput.vue'
 import DeclaredProgramTitleInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramTitleInput/DeclaredProgramTitleInput.vue'
-import DeclaredProgramDetailed, { type DeclaredProgramDetailedProps } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
+import DeclaredProgramDetailed, {
+  type DeclaredProgramDetailedProps,
+} from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach } from 'vitest'
+import { beforeEach, expect } from 'vitest'
 
-const mockedDeclaredProgramDetailed: DeclaredProgramDetailedDTO = {
-  id: 'program-1',
-  status: undefined,
-  title: 'My program title',
-  description: 'My program description',
-  organization: 'My organization',
-  result: 'My result',
-  sourceOfInformation: 'My source',
-  startDate: '2026-01-10',
-  endDate: '2026-01-20',
-  createdAt: '2026-01-01T10:00:00Z',
-  updatedAt: '2026-01-02T10:00:00Z',
-}
-
-const mockedDeclaredProgramDetailedWithUndefinedOptionalFields: DeclaredProgramDetailedDTO = {
-  ...mockedDeclaredProgramDetailed,
-  description: undefined,
-  result: undefined,
-  sourceOfInformation: undefined,
-  endDate: undefined,
-}
-
-const CreationUpdateDateDetailsStub = {
-  name: 'CreationUpdateDateDetails',
-  props: ['createdAt', 'createdAtPrefix', 'updatedAt'],
-  template: `<div class="creation-update-date-details" />`,
-}
+const TITLE_LABEL = 'Intitulé de ma formation déclarée'
+const RESULT_LABEL = 'Résultat obtenu'
+const DESCRIPTION_LABEL = 'Description de ma formation déclarée'
 
 BddTest().given('the DeclaredProgramDetailed component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramDetailed>>
@@ -48,101 +28,112 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
     ValorizedBadge: ValorizedBadgeStub,
   }
 
-  function getDatePeriodPicker () {
-    return wrapper.findComponent(DatePeriodPickerStub)
+  const mountWith = (props: Partial<DeclaredProgramDetailedProps> = {}) => {
+    wrapper = mount(DeclaredProgramDetailed, {
+      props: {
+        declaredProgramDetailed: declaredProgramDetailedDTOFixture,
+        ...props,
+      },
+      global: { stubs }
+    })
   }
 
-  BddTest().and('given a declared program detailed dto', () => {
-    const props: DeclaredProgramDetailedProps = {
-      declaredProgramDetailed: mockedDeclaredProgramDetailed
-    }
+  const getCreationUpdateDateDetails = () => wrapper.findComponent({ name: 'CreationUpdateDateDetails' })
+  const getDatePeriodPicker = () => wrapper.findComponent(DatePeriodPickerStub)
+  const getOrganizationInput = () => wrapper.findComponent(DeclaredProgramOrganizationInput)
+  const getResultInput = () => wrapper.findComponent(DeclaredProgramResultInput)
+  const getSourceOfInformationInput = () => wrapper.findComponent(DeclaredProgramSourceOfInformationInput)
+  const getTitleInput = () => wrapper.findComponent(DeclaredProgramTitleInput)
+  const getValorizedBadge = () => wrapper.findComponent(ValorizedBadgeStub)
+  const getDescriptionInput = () => wrapper.findComponent(DeclaredProgramDescriptionTextarea)
 
+  const getLayout = () => wrapper.find('[data-testid="layout-declared-program-detailed"]')
+  const getLayoutMain = () => wrapper.find('[data-testid="layout-declared-program-detailed__main"]')
+  const getLayoutSide = () => wrapper.find('[data-testid="layout-declared-program-detailed__side"]')
+
+  BddTest().and('given a declared program detailed dto', () => {
     BddTest().when('the component is mounted', () => {
       beforeEach(() => {
-        wrapper = mount(DeclaredProgramDetailed, { props, global: { stubs } })
+        mountWith()
       })
 
       BddTest().then('it should render the layout containers', () => {
-        expect(wrapper.find('[data-testid="layout-declared-program-detailed"]').exists()).toBe(true)
-        expect(wrapper.find('[data-testid="layout-declared-program-detailed__main"]').exists()).toBe(true)
-        expect(wrapper.find('[data-testid="layout-declared-program-detailed__side"]').exists()).toBe(true)
+        expect(getLayout().exists()).toBe(true)
+        expect(getLayoutMain().exists()).toBe(true)
+        expect(getLayoutSide().exists()).toBe(true)
       })
 
       BddTest().then('it should render the title', () => {
-        const titleInput = wrapper.findComponent(DeclaredProgramTitleInput)
+        const titleInput = getTitleInput()
         expect(titleInput.exists()).toBe(true)
-        expect(titleInput.props('label')).toBe('Intitulé de ma formation déclarée')
-        expect(titleInput.props('modelValue')).toBe(mockedDeclaredProgramDetailed.title)
+        expect(titleInput.props('label')).toBe(TITLE_LABEL)
+        expect(titleInput.props('modelValue')).toBe(declaredProgramDetailedDTOFixture.title)
         expect(titleInput.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the organization', () => {
-        const organizationInput = wrapper.findComponent(DeclaredProgramOrganizationInput)
+        const organizationInput = getOrganizationInput()
         expect(organizationInput.exists()).toBe(true)
-        expect(organizationInput.props('modelValue')).toBe(mockedDeclaredProgramDetailed.organization)
+        expect(organizationInput.props('modelValue')).toBe(declaredProgramDetailedDTOFixture.organization)
         expect(organizationInput.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the period with DatePeriodPicker', () => {
         const period = getDatePeriodPicker()
         expect(period.exists()).toBe(true)
-
         expect(period.props('labelClass')).toBe('caption-regular')
-        expect(period.props('startDate')).toBe(mockedDeclaredProgramDetailed.startDate)
-        expect(period.props('endDate')).toBe(mockedDeclaredProgramDetailed.endDate)
+        expect(period.props('startDate')).toBe(declaredProgramDetailedDTOFixture.startDate)
+        expect(period.props('endDate')).toBe(declaredProgramDetailedDTOFixture.endDate)
         expect(period.props('isOngoing')).toBe(false)
         expect(period.props('disabled')).toBe(true)
         expect(period.props('type')).toBe('month')
       })
 
       BddTest().then('it should render the result', () => {
-        const resultInput = wrapper.findComponent(DeclaredProgramResultInput)
+        const resultInput = getResultInput()
         expect(resultInput.exists()).toBe(true)
-        expect(resultInput.props('label')).toBe('Résultat obtenu')
-        expect(resultInput.props('modelValue')).toBe(mockedDeclaredProgramDetailed.result)
+        expect(resultInput.props('label')).toBe(RESULT_LABEL)
+        expect(resultInput.props('modelValue')).toBe(declaredProgramDetailedDTOFixture.result)
         expect(resultInput.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the source of information', () => {
-        const sourceInput = wrapper.findComponent(DeclaredProgramSourceOfInformationInput)
+        const sourceInput = getSourceOfInformationInput()
         expect(sourceInput.exists()).toBe(true)
-        expect(sourceInput.props('modelValue')).toBe(mockedDeclaredProgramDetailed.sourceOfInformation)
+        expect(sourceInput.props('modelValue')).toBe(declaredProgramDetailedDTOFixture.sourceOfInformation)
         expect(sourceInput.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render the description in a textarea', () => {
-        const descriptionInput = wrapper.findComponent(DeclaredProgramDescriptionTextarea)
+        const descriptionInput = getDescriptionInput()
         expect(descriptionInput.exists()).toBe(true)
-        expect(descriptionInput.props('label')).toBe('Description de ma formation déclarée')
-        expect(descriptionInput.props('modelValue')).toBe(mockedDeclaredProgramDetailed.description)
+        expect(descriptionInput.props('label')).toBe(DESCRIPTION_LABEL)
+        expect(descriptionInput.props('modelValue')).toBe(declaredProgramDetailedDTOFixture.description)
         expect(descriptionInput.props('disabled')).toBe(true)
       })
 
       BddTest().then('it should render CreationUpdateDateDetails with correct props', () => {
-        const details = wrapper.findComponent({ name: 'CreationUpdateDateDetails' })
+        const details = getCreationUpdateDateDetails()
         expect(details.exists()).toBe(true)
-        expect(details.props('createdAt')).toBe(mockedDeclaredProgramDetailed.createdAt)
-        expect(details.props('updatedAt')).toBe(mockedDeclaredProgramDetailed.updatedAt)
-
-        expect(details.props('createdAtPrefix')).toBe(
-          'Formation'
-        )
+        expect(details.props('createdAt')).toBe(declaredProgramDetailedDTOFixture.createdAt)
+        expect(details.props('updatedAt')).toBe(declaredProgramDetailedDTOFixture.updatedAt)
       })
     })
   })
 
   BddTest().and('given a valorized program', () => {
-    const props: DeclaredProgramDetailedProps = {
-      declaredProgramDetailed: { ...mockedDeclaredProgramDetailed, valorized: true },
-    }
-
     BddTest().when('the component is mounted', () => {
+      const declaredProgramDetailed: DeclaredProgramDetailedDTO = {
+        ...declaredProgramDetailedDTOFixture,
+        valorized: true,
+      }
+
       beforeEach(() => {
-        wrapper = mount(DeclaredProgramDetailed, { props, global: { stubs } })
+        mountWith({ declaredProgramDetailed })
       })
 
       BddTest().then('it should render ValorizedBadge with valorized true', () => {
-        const badge = wrapper.findComponent(ValorizedBadgeStub)
+        const badge = getValorizedBadge()
         expect(badge.exists()).toBe(true)
         expect(badge.props('valorized')).toBe(true)
       })
@@ -150,17 +141,18 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
   })
 
   BddTest().and('given a non valorized program', () => {
-    const props: DeclaredProgramDetailedProps = {
-      declaredProgramDetailed: { ...mockedDeclaredProgramDetailed, valorized: false },
-    }
-
     BddTest().when('the component is mounted', () => {
+      const declaredProgramDetailed: DeclaredProgramDetailedDTO = {
+        ...declaredProgramDetailedDTOFixture,
+        valorized: false,
+      }
+
       beforeEach(() => {
-        wrapper = mount(DeclaredProgramDetailed, { props, global: { stubs } })
+        mountWith({ declaredProgramDetailed })
       })
 
       BddTest().then('it should render ValorizedBadge with valorized false', () => {
-        const badge = wrapper.findComponent(ValorizedBadgeStub)
+        const badge = getValorizedBadge()
         expect(badge.exists()).toBe(true)
         expect(badge.props('valorized')).toBe(false)
       })
@@ -168,25 +160,29 @@ BddTest().given('the DeclaredProgramDetailed component', () => {
   })
 
   BddTest().and('given optional fields are undefined', () => {
-    const props: DeclaredProgramDetailedProps = {
-      declaredProgramDetailed: mockedDeclaredProgramDetailedWithUndefinedOptionalFields
-    }
-
     BddTest().when('the component is mounted', () => {
+      const declaredProgramDetailed: DeclaredProgramDetailedDTO = {
+        ...declaredProgramDetailedDTOFixture,
+        description: undefined,
+        result: undefined,
+        sourceOfInformation: undefined,
+        endDate: undefined,
+      }
+
       beforeEach(() => {
-        wrapper = mount(DeclaredProgramDetailed, { props, global: { stubs } })
+        mountWith({ declaredProgramDetailed })
       })
 
       BddTest().then('it should render empty optional values', () => {
-        expect(wrapper.findComponent(DeclaredProgramDescriptionTextarea).props('modelValue')).toBe('')
-        expect(wrapper.findComponent(DeclaredProgramResultInput).props('modelValue')).toBe('')
-        expect(wrapper.findComponent(DeclaredProgramSourceOfInformationInput).props('modelValue')).toBe('')
+        expect(getDescriptionInput().props('modelValue')).toBe('')
+        expect(getResultInput().props('modelValue')).toBe('')
+        expect(getSourceOfInformationInput().props('modelValue')).toBe('')
       })
 
       BddTest().then('it should pass an undefined endDate and ongoing mode when endDate is undefined', () => {
         const period = getDatePeriodPicker()
         expect(period.exists()).toBe(true)
-        expect(period.props('startDate')).toBe(props.declaredProgramDetailed.startDate)
+        expect(period.props('startDate')).toBe(declaredProgramDetailed.startDate)
         expect(period.props('endDate')).toBeUndefined()
         expect(period.props('isOngoing')).toBe(true)
       })

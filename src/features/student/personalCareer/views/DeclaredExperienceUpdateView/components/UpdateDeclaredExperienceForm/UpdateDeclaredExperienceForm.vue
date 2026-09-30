@@ -25,8 +25,6 @@ import DeclaredExperienceTitleFormField
 import DeclaredExperienceTypeFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.vue'
 import { useUpdateDeclaredExperienceForm } from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/use-update-declared-experience-form/use-update-declared-experience-form'
-import capitalize from 'lodash-es/capitalize'
-import { useI18n } from 'vue-i18n'
 
 export interface UpdateDeclaredExperienceFormProps {
   declaredExperience: DeclaredExperienceViewDTO
@@ -38,8 +36,6 @@ const props = defineProps<UpdateDeclaredExperienceFormProps>()
 const emit = defineEmits<{
   (e: 'dirtyChange', value: boolean): void
 }>()
-
-const { t } = useI18n()
 
 const { form, isFormValid, isSubmitting } = useUpdateDeclaredExperienceForm(
   props.declaredExperience,
@@ -61,8 +57,6 @@ watch(
   newState => emit('dirtyChange', newState.isDirty),
   { immediate: true }
 )
-
-const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.global.experience')))
 </script>
 
 <template>
@@ -122,7 +116,6 @@ const createdAtPrefixed = computed(() => capitalize(t('student.personalCareer.gl
 
             <CreationUpdateDateDetails
               :created-at="declaredExperience.createdAt"
-              :created-at-prefix="createdAtPrefixed"
               :updated-at="declaredExperience.updatedAt"
             />
           </div>

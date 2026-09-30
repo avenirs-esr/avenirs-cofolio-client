@@ -5,10 +5,18 @@ import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdat
 import { RatingStub } from '@/common/components/Rating/Rating.stub'
 import { CategoryElementDescriptionTextareaStub } from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementDescriptionTextarea/CategoryElementDescriptionTextarea.stub'
 import { CategoryElementTitleInputStub } from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementTitleInput/CategoryElementTitleInput.stub'
-import SelfKnowledgeElementDetails from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
+import SelfKnowledgeElementDetails, { type SelfKnowledgeElementDetailsProps } from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+
+const NOT_RATED_LABEL = 'Non évalué'
+const RATING_LABEL = 'Degré d\'importance'
+
+const defaultProps: SelfKnowledgeElementDetailsProps = {
+  element: mockedSelfKnowledgeElementDetails,
+  category: ESelfKnowledgeCategory.STRENGTHS,
+}
 
 BddTest().given('a SelfKnowledgeElementDetails component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeElementDetails>>
@@ -18,215 +26,204 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
     CategoryElementDescriptionTextarea: CategoryElementDescriptionTextareaStub,
     Rating: RatingStub,
     CreationUpdateDateDetails: CreationUpdateDateDetailsStub,
-    ValorizedBadge: ValorizedBadgeStub,
+    ValorizedBadge: ValorizedBadgeStub
   }
 
-  const defaultElement: SelfKnowledgeElementDetailsDTO = {
-    ...mockedSelfKnowledgeElementDetails
+  const mountWith = (props: Partial<SelfKnowledgeElementDetailsProps> = {}) => {
+    wrapper = mount(SelfKnowledgeElementDetails, {
+      props: {
+        ...defaultProps,
+        ...props
+      },
+      global: { stubs }
+    })
   }
+
+  const getCategoryElementDescriptionTextarea = () => wrapper.findComponent(CategoryElementDescriptionTextareaStub)
+  const getCategoryElementTitleInput = () => wrapper.findComponent(CategoryElementTitleInputStub)
+  const getCreationUpdateDateDetails = () => wrapper.findComponent(CreationUpdateDateDetailsStub)
+  const getRating = () => wrapper.findComponent(RatingStub)
+  const getValorizedBadge = () => wrapper.findComponent(ValorizedBadgeStub)
+
+  const getLeftColumn = () => wrapper.find('.self-knowledge-element-details__left-column')
+  const getRightColumn = () => wrapper.find('.self-knowledge-element-details__right-column')
+  const getRatingLabels = () => wrapper.findAll('.b2-light')
+  const getRoot = () => wrapper.find('.self-knowledge-element-details')
 
   BddTest().when('the component is mounted with element data', () => {
     beforeEach(() => {
-      wrapper = mount(SelfKnowledgeElementDetails, {
-        props: {
-          category: ESelfKnowledgeCategory.STRENGTHS,
-          element: defaultElement
-        },
-        global: { stubs }
-      })
+      mountWith()
     })
 
     BddTest().then('it should render the component', () => {
       expect(wrapper.exists()).toBe(true)
-      expect(wrapper.find('.self-knowledge-element-details').exists()).toBe(true)
+      expect(getRoot().exists()).toBe(true)
     })
 
     BddTest().then('it should render the title input with correct props', () => {
-      const titleInput = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+      const titleInput = getCategoryElementTitleInput()
       expect(titleInput.exists()).toBe(true)
-      expect(titleInput.props('modelValue')).toBe('Créativité')
+      expect(titleInput.props('modelValue')).toBe(defaultProps.element.title)
       expect(titleInput.props('required')).toBe(false)
       expect(titleInput.props('category')).toBe(ESelfKnowledgeCategory.STRENGTHS)
     })
 
     BddTest().then('it should render the description textarea with correct value', () => {
-      const descriptionTextarea = wrapper.findComponent({ name: 'CategoryElementDescriptionTextarea' })
+      const descriptionTextarea = getCategoryElementDescriptionTextarea()
       expect(descriptionTextarea.exists()).toBe(true)
-      expect(descriptionTextarea.props('modelValue')).toBe('Je suis capable de trouver des solutions originales et innovantes aux problèmes')
+      expect(descriptionTextarea.props('modelValue')).toBe(defaultProps.element.description)
     })
 
     BddTest().then('it should render the rating label in French', () => {
-      expect(wrapper.find('.b2-light').text()).toBe('Degré d\'importance')
+      const ratingLabels = getRatingLabels()
+      expect(ratingLabels.length).toBeGreaterThan(0)
+      expect(ratingLabels[0].text()).toBe(RATING_LABEL)
     })
 
     BddTest().then('it should render the rating component with correct props', () => {
-      const rating = wrapper.findComponent({ name: 'Rating' })
+      const rating = getRating()
       expect(rating.exists()).toBe(true)
-      expect(rating.props('rating')).toBe(4)
+      expect(rating.props('rating')).toBe(defaultProps.element.rating)
     })
 
     BddTest().then('it should not render the not rated label', () => {
-      expect(wrapper.text()).not.toContain('Non évalué')
+      expect(wrapper.text()).not.toContain(NOT_RATED_LABEL)
     })
 
     BddTest().then('it should render the creation and update date details', () => {
-      const dateDetails = wrapper.findComponent({ name: 'CreationUpdateDateDetails' })
+      const dateDetails = getCreationUpdateDateDetails()
       expect(dateDetails.exists()).toBe(true)
-      expect(dateDetails.props('updatedAt')).toBe('2023-10-15T12:00:00Z')
-      expect(dateDetails.props('createdAtPrefix')).toContain('Élément')
-      expect(dateDetails.props('createdAt')).toContain('2023-10-10T10:00:00Z')
+      expect(dateDetails.props('updatedAt')).toBe(defaultProps.element.updatedAt)
+      expect(dateDetails.props('createdAt')).toContain(defaultProps.element.createdAt)
     })
 
     BddTest().then('it should have left and right columns', () => {
-      expect(wrapper.find('.self-knowledge-element-details__left-column').exists()).toBe(true)
-      expect(wrapper.find('.self-knowledge-element-details__right-column').exists()).toBe(true)
+      expect(getLeftColumn().exists()).toBe(true)
+      expect(getRightColumn().exists()).toBe(true)
     })
 
     BddTest().then('it should render the valorized badge with false when element has no valorized field', () => {
-      const badge = wrapper.findComponent({ name: 'ValorizedBadge' })
+      const badge = getValorizedBadge()
       expect(badge.exists()).toBe(true)
       expect(badge.props('valorized')).toBe(false)
     })
   })
 
   BddTest().and('the element is valorized', () => {
+    const element: SelfKnowledgeElementDetailsDTO = {
+      ...defaultProps.element,
+      valorized: true
+    }
+
     beforeEach(() => {
-      wrapper = mount(SelfKnowledgeElementDetails, {
-        props: {
-          category: ESelfKnowledgeCategory.STRENGTHS,
-          element: { ...defaultElement, valorized: true }
-        },
-        global: { stubs }
-      })
+      mountWith({ element })
     })
 
     BddTest().then('it should render the valorized badge with true', () => {
-      const badge = wrapper.findComponent({ name: 'ValorizedBadge' })
+      const badge = getValorizedBadge()
       expect(badge.exists()).toBe(true)
       expect(badge.props('valorized')).toBe(true)
     })
   })
 
   BddTest().and('the element is explicitly not valorized', () => {
+    const element: SelfKnowledgeElementDetailsDTO = {
+      ...defaultProps.element,
+      valorized: false
+    }
+
     beforeEach(() => {
-      wrapper = mount(SelfKnowledgeElementDetails, {
-        props: {
-          category: ESelfKnowledgeCategory.STRENGTHS,
-          element: { ...defaultElement, valorized: false }
-        },
-        global: { stubs }
-      })
+      mountWith({ element })
     })
 
     BddTest().then('it should render the valorized badge with false', () => {
-      const badge = wrapper.findComponent({ name: 'ValorizedBadge' })
+      const badge = getValorizedBadge()
       expect(badge.exists()).toBe(true)
       expect(badge.props('valorized')).toBe(false)
     })
   })
 
   BddTest().and('the element has no rating', () => {
+    const element: SelfKnowledgeElementDetailsDTO = {
+      ...defaultProps.element,
+      rating: undefined
+    }
+
     beforeEach(() => {
-      const elementWithoutRating: SelfKnowledgeElementDetailsDTO = {
-        ...defaultElement,
-        rating: undefined
-      }
-      wrapper = mount(SelfKnowledgeElementDetails, {
-        props: {
-          category: ESelfKnowledgeCategory.STRENGTHS,
-          element: elementWithoutRating
-        },
-        global: { stubs }
-      })
+      mountWith({ element })
     })
 
     BddTest().then('it should not render the rating component', () => {
-      const rating = wrapper.findComponent({ name: 'Rating' })
-      expect(rating.exists()).toBe(false)
+      expect(getRating().exists()).toBe(false)
     })
 
     BddTest().then('it should render the not rated label', () => {
-      const labels = wrapper.findAll('.b2-light')
+      const labels = getRatingLabels()
       expect(labels).toHaveLength(2)
-      expect(labels[1].text()).toBe('Non évalué')
+      expect(labels[1].text()).toBe(NOT_RATED_LABEL)
     })
   })
 
   BddTest().and('the element has a rating of 0', () => {
+    const element: SelfKnowledgeElementDetailsDTO = {
+      ...defaultProps.element,
+      rating: 0
+    }
+
     beforeEach(() => {
-      wrapper = mount(SelfKnowledgeElementDetails, {
-        props: {
-          category: ESelfKnowledgeCategory.STRENGTHS,
-          element: { ...defaultElement, rating: 0 }
-        },
-        global: { stubs }
-      })
+      mountWith({ element })
     })
 
     BddTest().then('it should not render the rating component', () => {
-      const rating = wrapper.findComponent(RatingStub)
-      expect(rating.exists()).toBe(false)
+      expect(getRating().exists()).toBe(false)
     })
 
     BddTest().then('it should render the not rated label', () => {
-      const labels = wrapper.findAll('.b2-light')
-      expect(labels[1].text()).toBe('Non évalué')
+      const labels = getRatingLabels()
+      expect(labels).toHaveLength(2)
+      expect(labels[1].text()).toBe(NOT_RATED_LABEL)
     })
   })
 
   BddTest().and('the element has a different rating value', () => {
+    const element: SelfKnowledgeElementDetailsDTO = {
+      ...defaultProps.element,
+      rating: 5
+    }
+
     beforeEach(() => {
-      const elementWithDifferentRating: SelfKnowledgeElementDetailsDTO = {
-        ...defaultElement,
-        rating: 5
-      }
-      wrapper = mount(SelfKnowledgeElementDetails, {
-        props: {
-          category: ESelfKnowledgeCategory.STRENGTHS,
-          element: elementWithDifferentRating
-        },
-        global: { stubs }
-      })
+      mountWith({ element })
     })
 
     BddTest().then('it should render the updated rating', () => {
-      const rating = wrapper.findComponent({ name: 'Rating' })
-      expect(rating.props('rating')).toBe(5)
+      expect(getRating().props('rating')).toBe(element.rating)
     })
   })
 
   BddTest().and('the element has different title and description', () => {
+    const element: SelfKnowledgeElementDetailsDTO = {
+      id: 'element-456',
+      title: 'Test Title',
+      description: 'Test Description',
+      rating: 3,
+      createdAt: '2024-01-01T10:00:00Z',
+      updatedAt: '2024-01-02T12:00:00Z'
+    }
+
     beforeEach(() => {
-      const customElement: SelfKnowledgeElementDetailsDTO = {
-        id: 'element-456',
-        title: 'Test Title',
-        description: 'Test Description',
-        rating: 3,
-        createdAt: '2024-01-01T10:00:00Z',
-        updatedAt: '2024-01-02T12:00:00Z'
-      }
-      wrapper = mount(SelfKnowledgeElementDetails, {
-        props: {
-          category: ESelfKnowledgeCategory.STRENGTHS,
-          element: customElement
-        },
-        global: { stubs }
-      })
+      mountWith({ element })
     })
 
     BddTest().then('it should render the custom title', () => {
-      const titleInput = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
-      expect(titleInput.props('modelValue')).toBe('Test Title')
+      expect(getCategoryElementTitleInput().props('modelValue')).toBe(element.title)
     })
 
     BddTest().then('it should render the custom description', () => {
-      const descriptionTextarea = wrapper.findComponent({ name: 'CategoryElementDescriptionTextarea' })
-      expect(descriptionTextarea.props('modelValue')).toBe('Test Description')
+      expect(getCategoryElementDescriptionTextarea().props('modelValue')).toBe(element.description)
     })
 
     BddTest().then('it should render the custom rating', () => {
-      const rating = wrapper.findComponent({ name: 'Rating' })
-      expect(rating.props('rating')).toBe(3)
+      expect(getRating().props('rating')).toBe(element.rating)
     })
   })
 })

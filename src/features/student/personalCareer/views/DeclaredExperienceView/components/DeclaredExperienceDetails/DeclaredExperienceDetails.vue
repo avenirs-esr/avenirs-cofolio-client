@@ -22,7 +22,6 @@ import DeclaredExperienceTitleInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.vue'
 import DeclaredExperienceTypeSelect
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTypeSelect/DeclaredExperienceTypeSelect.vue'
-import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
 export interface DeclaredExperienceDetailedProps {
@@ -56,10 +55,6 @@ const {
 } = toRefs(declaredExperienceDetails)
 
 const { t } = useI18n()
-
-const createdAtPrefixed = computed(() =>
-  capitalize(t('student.personalCareer.global.experience'))
-)
 </script>
 
 <template>
@@ -159,7 +154,6 @@ const createdAtPrefixed = computed(() =>
 
         <CreationUpdateDateDetails
           :created-at="createdAt"
-          :created-at-prefix="createdAtPrefixed"
           :updated-at="updatedAt"
         />
       </div>

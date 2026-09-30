@@ -8,7 +8,6 @@ import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/c
 import DeclaredSkillReflectionInput
   from '@/features/student/declaredSkills/components/interactions/inputs/DeclaredSkillReflectionInput/DeclaredSkillReflectionInput.vue'
 import { AvInput, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
 export interface DeclaredSkillDetailsProps {
@@ -25,8 +24,6 @@ const {
 
 const { t } = useI18n()
 const { isMobile } = useAvBreakpoints()
-
-const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
 </script>
 
 <template>
@@ -71,7 +68,6 @@ const createdAtPrefix = computed(() => capitalize(t('student.skills.skill')))
       </Card>
       <CreationUpdateDateDetails
         :created-at="declaredSkillProgressDetails.createdAt"
-        :created-at-prefix="createdAtPrefix"
         :updated-at="declaredSkillProgressDetails.updatedAt"
       />
     </div>
