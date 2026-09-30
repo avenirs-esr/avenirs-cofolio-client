@@ -26,8 +26,8 @@ const accept = [...ACTIVITY_RESOURCE_ACCEPTED_FILE_TYPES]
 function handleChange (files: FileList | File[]) {
   const list = Array.isArray(files) ? files : Array.from(files)
   if (list.length > 0) {
-    fileField.api.handleChange(list[0])
     emit('fileSelected', list[0])
+    fileField.api.handleChange(list[0])
   }
 }
 
