@@ -21,7 +21,7 @@ export interface DeleteAssociationsModalProps {
   associations: AssociationsDTO
 }
 
-const { opened, contextType, elementId, associatedContextType, associations } = defineProps<DeleteAssociationsModalProps>()
+const { opened, contextType, elementId, associatedContextType, associations, } = defineProps<DeleteAssociationsModalProps>()
 
 const emit = defineEmits<{
   (e: 'cancel'): void

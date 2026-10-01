@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { type DeclaredActivityDetailsDTO, EAssociationContextType, useGetAssociations } from '@/api/avenir-esr'
-import { isActivityAssociationToTraceDisabled, isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
+import { isActivityAssociationToTraceDisabled, isDeclaredActivitySubmitted, isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ICONS } from '@/common/constants'
 import { ACTIVITY_TRACE_SETTING_DISABLED_VALUE, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
@@ -41,7 +41,19 @@ const maxTraceAssociationsReached = computed(() =>
 
 const traceAssociationEnabled = computed(() => !isActivityAssociationToTraceDisabled({ traceAllowedAssociations: traceAllowedAssociations.value }))
 
-const readOnly = computed(() => isDeclaredActivityUnsubscribed(declaredActivityDetails.status))
+const readOnly = computed(() => isDeclaredActivityUnsubscribed(declaredActivityDetails.status) || isDeclaredActivitySubmitted(declaredActivityDetails.status))
+
+const actionsDisabledTooltip = computed(() => {
+  if (isDeclaredActivityUnsubscribed(declaredActivityDetails.status)) {
+    return t('student.activities.views.ActivityView.MyPerspectiveSection.associationsDisabledTooltip')
+  }
+
+  if (isDeclaredActivitySubmitted(declaredActivityDetails.status)) {
+    return t('student.activities.views.ActivityView.MyPerspectiveSection.associationsSubmittedDisabledTooltip')
+  }
+
+  return undefined
+})
 </script>
 
 <template>
@@ -69,7 +81,7 @@ const readOnly = computed(() => isDeclaredActivityUnsubscribed(declaredActivityD
         :is-loading="isPending"
         :limits="associationLimits"
         :actions-disabled="readOnly"
-        :actions-disabled-tooltip="t('student.activities.views.ActivityView.MyPerspectiveSection.associationsDisabledTooltip')"
+        :actions-disabled-tooltip="actionsDisabledTooltip"
       >
         <template #footer>
           <span

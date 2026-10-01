@@ -157,6 +157,7 @@
           },
           "MyPerspectiveSection": {
             "associationsDisabledTooltip": "Vous ne pouvez plus modifier les associations car vous vous êtes désinscrit(e) de l'activité",
+            "associationsSubmittedDisabledTooltip": "Vous ne pouvez plus modifier les associations car vous avez soumis votre activité",
             "maxTraceAssociationsReached": "Vous avez atteint le nombre maximal de traces autorisées pour cette activité",
             "tabs": {
               "associatedElements": "Mes éléments associés ({count})",
