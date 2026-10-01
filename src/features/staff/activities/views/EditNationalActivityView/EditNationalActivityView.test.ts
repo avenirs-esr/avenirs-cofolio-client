@@ -110,7 +110,7 @@ BddTest().given('a national activity view', () => {
   }
 
   const getAvTabs = () => wrapper.findComponent(AvTabsStub) as VueWrapper<InstanceType<typeof AvTabsStub>>
-  const getActiveTab = (): EditActivityTabIndex => getAvTabs().props('modelValue')
+  const getActiveTab = (): EditActivityTabIndex => getAvTabs().props('modelValue') as EditActivityTabIndex
   const switchTab = async (tab: EditActivityTabIndex) => {
     getAvTabs().vm.$emit('update:modelValue', tab)
     await wrapper.vm.$nextTick()

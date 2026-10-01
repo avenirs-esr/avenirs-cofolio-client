@@ -6,14 +6,13 @@ import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors
 import { downloadBlob } from '@/common/utils/download/download'
 import { isActivityResourceFile, isActivityResourceLink, isActivityResourcePendingFile } from '@/features/staff/activities/utils/resource.types-guard'
 import { useToasterStore } from '@/store'
-import { AvCard, AvIcon, AvTag, AvTooltip, MDI_ICONS, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
+import { AvCard, AvIcon, type AvInteractiveProps, AvTag, AvTooltip, getAvTooltipContent, isAvTooltipEnabled, MDI_ICONS, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { mergeProps } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-export interface ActivityResourceCardComponentProps {
+export interface ActivityResourceCardComponentProps extends AvInteractiveProps {
   activityId: string
   resource: ActivityResource
-  disabled?: boolean
   isDraft?: boolean
   tooltipVisible?: boolean
 }
@@ -166,8 +165,8 @@ const rootTestId = computed(() => `activity-resource-card-${href.value ? 'link' 
         <template #body>
           <div class="av-row">
             <AvTooltip
-              :content="title"
-              :disabled="!isTruncated || tooltipVisible === undefined ? disabled : !tooltipVisible"
+              :content="getAvTooltipContent({ content: title, disabled, disabledTooltip })"
+              :disabled="!isAvTooltipEnabled({ disabled, disabledTooltip, enableTooltip: isTruncated || tooltipVisible })"
               force-focusable
               data-testid="activity-resource-card-title-tooltip"
             >

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import { ICONS, ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 
-export interface AssociatedActivityCardProps {
+export interface AssociatedActivityCardProps extends AvInteractiveProps {
   declaredActivity: DeclaredActivityViewDTO
-  disabled?: boolean
 }
 
 const { declaredActivity, disabled } = defineProps<AssociatedActivityCardProps>()
@@ -23,6 +23,7 @@ const { declaredActivity, disabled } = defineProps<AssociatedActivityCardProps>(
     background-color="var(--surface-background)"
     :to="{ name: ROUTES.STUDENT.ACTIVITY.name, params: { id: declaredActivity.id, thematic: declaredActivity.thematic } }"
     :disabled="disabled"
+    :disabled-tooltip
     data-testid="associated-declared-activity-card"
   >
     <template #body>

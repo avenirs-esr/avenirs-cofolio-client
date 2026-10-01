@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { AssociationsDTO } from '@/api/avenir-esr'
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
 import AssociatedActivityCard from '@/features/student/associations/components/cards/AssociatedActivityCard/AssociatedActivityCard.vue'
@@ -13,11 +14,10 @@ import AssociationsCard from '@/features/student/associations/components/cards/A
 import { countAssociations, getContextTypeSlug, isAssociationLimited } from '@/features/student/associations/utils/associations.utils'
 import { useI18n } from 'vue-i18n'
 
-export interface AssociatedElementsCardProps {
+export interface AssociatedElementsCardProps extends AvInteractiveProps {
   associatedContextType: EAssociationContextType
   associations: AssociationsDTO
   limit?: number
-  disabled?: boolean
 }
 
 const { associatedContextType, associations, limit, disabled = false } = defineProps<AssociatedElementsCardProps>()
@@ -44,6 +44,7 @@ const title = computed(() => isAssociationLimited(limit)
         :key="association.associationId"
         :associated-trace="association"
         :disabled="disabled"
+        :disabled-tooltip
       />
     </template>
     <template v-else-if="associatedContextType === EAssociationContextType.DECLARED_ACTIVITY">
@@ -52,6 +53,7 @@ const title = computed(() => isAssociationLimited(limit)
         :key="association.associationId"
         :declared-activity="association.declaredActivity"
         :disabled="disabled"
+        :disabled-tooltip
       />
     </template>
     <template v-else-if="associatedContextType === EAssociationContextType.DECLARED_SKILL">
@@ -60,6 +62,7 @@ const title = computed(() => isAssociationLimited(limit)
         :key="association.associationId"
         :declared-skill="association.declaredSkill"
         :disabled="disabled"
+        :disabled-tooltip
       />
     </template>
     <template v-else-if="associatedContextType === EAssociationContextType.DECLARED_EXPERIENCE">
@@ -68,6 +71,7 @@ const title = computed(() => isAssociationLimited(limit)
         :key="association.associationId"
         :declared-experience="association.declaredExperience"
         :disabled="disabled"
+        :disabled-tooltip
       />
     </template>
     <template v-else-if="associatedContextType === EAssociationContextType.DECLARED_PROGRAM">
@@ -76,6 +80,7 @@ const title = computed(() => isAssociationLimited(limit)
         :key="association.associationId"
         :declared-program="association.declaredProgram"
         :disabled="disabled"
+        :disabled-tooltip
       />
     </template>
   </AssociationsCard>

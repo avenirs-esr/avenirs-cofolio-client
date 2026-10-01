@@ -3,22 +3,18 @@ import type { EAssociationContextType } from '@/api/avenir-esr'
 import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
 import { ICONS } from '@/common/constants'
 import { ASSOCIATION_DROPDOWN_ITEM_NAMES } from '@/features/student/associations/constants/associations.constants'
-import { AvDropdown, type AvDropdownItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvDropdown, type AvDropdownItem, type AvInteractiveProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export type AssociationElementsDropdownVariant = 'associate' | 'delete'
 
-export interface AssociationElementsDropdownItem {
+export interface AssociationElementsDropdownItem extends AvInteractiveProps {
   type: EAssociationContextType
-  disabled?: boolean
-  disabledTooltip?: string
 }
 
-export interface AssociationElementsDropdownProps {
+export interface AssociationElementsDropdownProps extends AvInteractiveProps {
   variant: AssociationElementsDropdownVariant
   items: AssociationElementsDropdownItem[]
-  disabled?: boolean
-  disabledTooltip?: string
 }
 
 const { variant, items, disabled = false, disabledTooltip } = defineProps<AssociationElementsDropdownProps>()

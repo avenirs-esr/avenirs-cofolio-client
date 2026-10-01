@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { AvIcon, AvTooltip, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvIcon, type AvInteractiveProps, AvTooltip, getAvTooltipContent, isAvTooltipEnabled, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export interface SelectorOverlayElement {
+export interface SelectorOverlayElement extends AvInteractiveProps {
   label: string
   value: string
   showSlot?: boolean
   baseElement?: unknown
-  disabled?: boolean
   isLoading?: boolean
 }
 
@@ -74,8 +73,8 @@ function getAriaLabel (element: SelectorOverlayElement) {
     :class="{ 'selector-overlay__element--disabled': element.disabled || element.isLoading }"
   >
     <AvTooltip
-      :content="getAriaLabel(element)"
-      :disabled="element.disabled || element.isLoading"
+      :content="getAvTooltipContent({ content: getAriaLabel(element), disabled: element.disabled, disabledTooltip: element.disabledTooltip })"
+      :disabled="!isAvTooltipEnabled({ disabled: element.disabled, disabledTooltip: element.disabledTooltip, enableTooltip: !element.disabled && !element.isLoading })"
     >
       <slot
         name="default"

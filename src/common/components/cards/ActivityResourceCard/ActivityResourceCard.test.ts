@@ -3,7 +3,7 @@ import { server } from '@/__mocks__/msw/server'
 import { EFileType, type FileDTO, getDownloadActivityFileUrl, getDownloadDraftFileUrl } from '@/api/avenir-esr'
 import ActivityResourceCard, { type ActivityResourceCardComponentProps } from '@/common/components/cards/ActivityResourceCard/ActivityResourceCard.vue'
 import { downloadBlob } from '@/common/utils/download/download'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { type AvTooltipProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvCardStub, AvIconStub, AvTagStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mockAddErrorMessage } from 'tests/mocks'
@@ -98,12 +98,12 @@ BddTest().given('an activity resource card', () => {
   const getLink = () => wrapper.find('[data-testid="activity-resource-card-link"]')
   const getTitle = () => wrapper.find('[data-testid="activity-resource-card-title"]')
 
-  const expectTooltip = (tooltip: VueWrapper<InstanceType<typeof AvTooltipStub>>, props: Partial<AvTooltipStub> = {}) => {
+  const expectTooltip = (tooltip: VueWrapper<InstanceType<typeof AvTooltipStub>>, props: Partial<AvTooltipProps> = {}) => {
     expect(tooltip.exists()).toBe(true)
     Object.entries(props)
       .filter(([, value]) => value !== undefined)
       .forEach(([prop, value]) => {
-        expect(tooltip.props(prop)).toBe(value)
+        expect(tooltip.props(prop as keyof AvTooltipProps)).toBe(value)
       })
   }
 
@@ -211,8 +211,8 @@ BddTest().given('an activity resource card', () => {
       expectFileDownloadTooltip(true)
     })
 
-    BddTest().then('it should enable the title tooltip', () => {
-      expectTitleTooltip(false, linkResource)
+    BddTest().then('it should disable the title tooltip when the title is not truncated', () => {
+      expectTitleTooltip(true, linkResource)
     })
 
     BddTest().then('it should render a link', () => {
@@ -245,8 +245,8 @@ BddTest().given('an activity resource card', () => {
       expectFileDownloadTooltip(false)
     })
 
-    BddTest().then('it should enable the title tooltip', () => {
-      expectTitleTooltip(false, fileResource.name)
+    BddTest().then('it should disable the title tooltip when the title is not truncated', () => {
+      expectTitleTooltip(true, fileResource.name)
     })
 
     BddTest().then('it should render a button', () => {
@@ -286,8 +286,8 @@ BddTest().given('an activity resource card', () => {
       expectFileDownloadTooltip(false)
     })
 
-    BddTest().then('it should enable the title tooltip', () => {
-      expectTitleTooltip(false, fileDtoResource.fileName)
+    BddTest().then('it should disable the title tooltip when the title is not truncated', () => {
+      expectTitleTooltip(true, fileDtoResource.fileName)
     })
 
     BddTest().then('it should render a button', () => {
@@ -376,7 +376,7 @@ BddTest().given('an activity resource card', () => {
     })
   })
 
-  BddTest().when('the title tooltip visibility is explicitly disabled', () => {
+  BddTest().when('the title tooltip visibility is explicitly disabled on a truncated title', () => {
     beforeEach(() => {
       mountWith({ resource: fileResource, disabled: false, tooltipVisible: false }, true)
     })
@@ -385,8 +385,8 @@ BddTest().given('an activity resource card', () => {
       expectFileDownloadTooltip(false)
     })
 
-    BddTest().then('it should disable the title tooltip', () => {
-      expectTitleTooltip(true, fileResource.name)
+    BddTest().then('it should enable the title tooltip for the truncated title', () => {
+      expectTitleTooltip(false, fileResource.name)
     })
   })
 
@@ -404,23 +404,23 @@ BddTest().given('an activity resource card', () => {
     })
   })
 
-  BddTest().when('the title tooltip visibility is not specified on an enabled resource', () => {
+  BddTest().when('the title is truncated and tooltip visibility is not specified on an enabled resource', () => {
     beforeEach(() => {
       mountWith({ disabled: false, tooltipVisible: undefined }, true)
     })
 
-    BddTest().then('it should enable the title tooltip', () => {
+    BddTest().then('it should enable the title tooltip for the truncated title', () => {
       expectTitleTooltip(false, linkResource)
     })
   })
 
-  BddTest().when('the title tooltip visibility is not specified on a disabled resource', () => {
+  BddTest().when('the title is truncated on a disabled resource', () => {
     beforeEach(() => {
       mountWith({ disabled: true, tooltipVisible: undefined }, true)
     })
 
-    BddTest().then('it should disable the title tooltip', () => {
-      expectTitleTooltip(true, linkResource)
+    BddTest().then('it should enable the title tooltip for the truncated title', () => {
+      expectTitleTooltip(false, linkResource)
     })
   })
 })

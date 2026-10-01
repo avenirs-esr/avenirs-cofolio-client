@@ -1,10 +1,11 @@
+import type { SelectableElement } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import type { PropType } from 'vue'
 
 export const CompactCardSelectorStub = defineComponent({
   name: 'CompactCardSelectorStub',
   props: {
     elements: {
-      type: Array as PropType<{ id: string, title: string, showSlot?: boolean, disabled?: boolean, baseElement?: unknown }[]>,
+      type: Array as PropType<SelectableElement[]>,
       required: true
     },
     readonly: { type: Boolean, default: false },

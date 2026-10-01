@@ -1,9 +1,11 @@
 import type { ActivityResource } from '@/features/staff/activities/types/resource.types'
 import type { PropType } from 'vue'
+import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 export const ActivityResourceCardStub = defineComponent({
   name: 'ActivityResourceCard',
   props: {
+    ...AvInteractivePropsStub,
     activityId: {
       type: String,
       required: true,
@@ -12,7 +14,6 @@ export const ActivityResourceCardStub = defineComponent({
       type: [String, Object] as PropType<ActivityResource>,
       required: false,
     },
-    disabled: Boolean,
     isDraft: Boolean,
     tooltipVisible: Boolean,
   },

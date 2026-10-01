@@ -10,13 +10,12 @@ import {
   ACTIVITY_TRACE_SETTING_INFINITY_VALUE
 } from '@/features/staff/activities/config'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
-import { AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { type AvInteractiveProps, AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-interface ActivityTraceFormFieldProps {
+interface ActivityTraceFormFieldProps extends AvInteractiveProps {
   form: EditActivityForm
-  disabled?: boolean
 }
 
 defineOptions({ inheritAttrs: false })
@@ -90,6 +89,7 @@ const inputEnabled = computed({
         data-testid="trace-allowed-associations-toggle"
         toggle-id="trace-allowed-associations-main-toggle"
         :disabled="isDisabled"
+        :disabled-tooltip
         :title="t('staff.activities.views.EditNationalActivityView.ActivityTraceFormField.title')"
         :icon="MDI_ICONS.ATTACH_FILE"
       >

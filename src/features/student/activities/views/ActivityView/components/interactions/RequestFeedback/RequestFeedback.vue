@@ -4,12 +4,10 @@ import { EFeedbackStatus } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { formatDateLocalized } from '@/common/utils'
-import { AvButton, type AvButtonProps, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, type AvButtonProps, type AvInteractiveProps, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export interface RequestFeedbackProps {
-  disabled?: boolean
-  disabledTooltip?: string
+export interface RequestFeedbackProps extends AvInteractiveProps {
   isLoading?: boolean
   feedbackStatus?: EFeedbackStatus
   feedbackCreatedAt?: string

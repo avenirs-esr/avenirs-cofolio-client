@@ -1,5 +1,6 @@
 import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
 import type { IdTitle } from '@/types'
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { QueryKey } from '@tanstack/vue-query'
 
 /**
@@ -7,8 +8,7 @@ import type { QueryKey } from '@tanstack/vue-query'
  * `category` holds the raw category returned by the API (activity thematic, skill type, experience type...)
  * while `description` holds its translation.
  */
-export type Association = IdTitle & {
-  disabled?: boolean
+export type Association = IdTitle & AvInteractiveProps & {
   category?: string
 }
 

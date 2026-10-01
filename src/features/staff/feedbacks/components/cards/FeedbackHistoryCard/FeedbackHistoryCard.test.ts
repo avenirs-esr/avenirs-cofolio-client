@@ -31,13 +31,13 @@ const feedback: FeedbackOverviewDTO = {
   updatedAt: '2026-02-07T10:00:00.000Z',
 }
 
-const AvButtonWithToStub = {
+const AvButtonWithToStub = defineComponent({
   ...AvButtonStub,
   props: {
     ...AvButtonStub.props,
     to: { type: [String, Object] as PropType<string | RouteLocationRaw> | undefined, default: undefined },
   },
-}
+})
 
 const stubs = {
   Card: CardStub,
