@@ -180,6 +180,9 @@
       "update": "Edit"
     },
     "cards": {
+      "ActivityResourceCard": {
+        "downloadDocument": "Download the document"
+      },
       "ProfileCard": {
         "bannerAlt": "Profile banner",
         "pictureAlt": "Profile picture"

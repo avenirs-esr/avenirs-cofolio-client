@@ -178,6 +178,9 @@
       "update": "Modifier"
     },
     "cards": {
+      "ActivityResourceCard": {
+        "downloadDocument": "Télécharger le document"
+      },
       "ProfileCard": {
         "bannerAlt": "Bannière du profil",
         "pictureAlt": "Photo de profil"

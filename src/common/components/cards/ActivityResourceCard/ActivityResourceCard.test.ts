@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { server } from '@/__mocks__/msw/server'
 import { EFileType, type FileDTO, getDownloadActivityFileUrl, getDownloadDraftFileUrl } from '@/api/avenir-esr'
-import ActivityResourceCard from '@/common/components/cards/ActivityResourceCard/ActivityResourceCard.vue'
+import ActivityResourceCard, { type ActivityResourceCardComponentProps } from '@/common/components/cards/ActivityResourceCard/ActivityResourceCard.vue'
 import { downloadBlob } from '@/common/utils/download/download'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvCardStub, AvIconStub, AvTagStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -10,12 +10,39 @@ import { mockAddErrorMessage } from 'tests/mocks'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
+const DOWNLOAD_FILE_TOOLTIP = 'Télécharger le document'
+const TAG_LINK_LABEL = 'lien'
+const TAG_FILE_LABEL = 'fichier'
+
+const linkResource = 'https://avenir-esr.fr'
+const fileResource = new File(['content'], 'resource.pdf', { type: 'application/pdf' })
+const fileDtoResource: FileDTO = {
+  id: 'file-id',
+  fileName: 'resource.pdf',
+  fileType: EFileType.PDF,
+  fileSize: 1024,
+  url: 'https://avenir-esr.fr/resource.pdf',
+  uploadedAt: '2026-07-05T00:00:00Z',
+}
+const invalidFileDtoResource: FileDTO = {
+  ...fileDtoResource,
+  id: 'INVALID_FILE_ID',
+}
+
+const defaultProps: ActivityResourceCardComponentProps = {
+  activityId: 'activity-id',
+  resource: linkResource,
+}
+
 const mockIsTruncated = ref(false)
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
 
-  return { ...actual, useTextTruncation: () => ({ isTruncated: mockIsTruncated }) }
+  return {
+    ...actual,
+    useTextTruncation: () => ({ isTruncated: mockIsTruncated }),
+  }
 })
 
 vi.mock('@/store', async (importOriginal) => {
@@ -48,305 +75,352 @@ BddTest().given('an activity resource card', () => {
     AvTooltip: AvTooltipStub,
   }
 
-  beforeEach(() => {
+  const mountWith = (props: Partial<ActivityResourceCardComponentProps> = {}, isTruncated: boolean = false) => {
     vi.clearAllMocks()
-  })
+    mockIsTruncated.value = isTruncated
+
+    wrapper = mountComponent(ActivityResourceCard, {
+      props: {
+        ...defaultProps,
+        ...props,
+      },
+      global: { stubs },
+    })
+  }
+
+  const getCard = () => wrapper.findComponent(AvCardStub)
+  const getDownloadTooltip = () => wrapper.findComponent('[data-testid="activity-resource-card-tooltip"]') as VueWrapper<InstanceType<typeof AvTooltipStub>>
+  const getIcon = () => wrapper.findComponent(AvIconStub)
+  const getTag = () => wrapper.findComponent(AvTagStub)
+  const getTitleTooltip = () => wrapper.findComponent('[data-testid="activity-resource-card-title-tooltip"]') as VueWrapper<InstanceType<typeof AvTooltipStub>>
+
+  const getFile = () => wrapper.find('[data-testid="activity-resource-card-file"]')
+  const getLink = () => wrapper.find('[data-testid="activity-resource-card-link"]')
+  const getTitle = () => wrapper.find('[data-testid="activity-resource-card-title"]')
+
+  const expectTooltip = (tooltip: VueWrapper<InstanceType<typeof AvTooltipStub>>, props: Partial<AvTooltipStub> = {}) => {
+    expect(tooltip.exists()).toBe(true)
+    Object.entries(props)
+      .filter(([, value]) => value !== undefined)
+      .forEach(([prop, value]) => {
+        expect(tooltip.props(prop)).toBe(value)
+      })
+  }
+
+  const expectFileDownloadTooltip = (disabled: boolean) => {
+    expectTooltip(getDownloadTooltip(), {
+      content: DOWNLOAD_FILE_TOOLTIP,
+      disabled,
+    })
+  }
+
+  const expectTitleTooltip = (disabled: boolean, content: string) => {
+    expectTooltip(getTitleTooltip(), {
+      content,
+      disabled,
+    })
+  }
+
+  const expectCard = () => {
+    expect(getCard().exists()).toBe(true)
+  }
+
+  const expectIcon = (name: string) => {
+    const icon = getIcon()
+    expect(icon.exists()).toBe(true)
+    expect(icon.props('name')).toBe(name)
+  }
+
+  const expectTag = (label: string) => {
+    const tag = getTag()
+    expect(tag.exists()).toBe(true)
+    expect(tag.props('label')).toBe(label)
+  }
+
+  const expectTitle = (content: string) => {
+    const title = getTitle()
+    expect(title.exists()).toBe(true)
+    expect(title.text()).toBe(content)
+  }
+
+  const expectLink = (href: string) => {
+    const link = getLink()
+    expect(link.exists()).toBe(true)
+    expect(link.element.localName).toBe('a')
+    expect(link.attributes('href')).toBe(href)
+    expect(link.attributes('target')).toBe('_blank')
+    expect(link.attributes('rel')).toBe('noopener noreferrer')
+  }
+
+  const expectFile = () => {
+    const file = getFile()
+    expect(file.exists()).toBe(true)
+    expect(file.element.localName).toBe('button')
+  }
+
+  const expectFileDownload = async (activityId: string, file: FileDTO, isDraft: boolean) => {
+    const requestedUrls: string[] = []
+
+    const onRequest = ({ request }: { request: Request }) => {
+      requestedUrls.push(new URL(request.url).pathname)
+    }
+
+    server.events.on('request:start', onRequest)
+
+    try {
+      await getFile().trigger('click')
+      await flushPromises()
+
+      await vi.waitFor(() => {
+        expect(downloadBlob).toHaveBeenCalledTimes(1)
+      })
+    }
+    finally {
+      server.events.removeListener('request:start', onRequest)
+    }
+
+    expect(
+      requestedUrls.some(url =>
+        url.endsWith(getDownloadActivityFileUrl(activityId, file.id)),
+      ),
+    ).toBe(!isDraft)
+
+    expect(
+      requestedUrls.some(url =>
+        url.endsWith(getDownloadDraftFileUrl(activityId, file.id)),
+      ),
+    ).toBe(isDraft)
+
+    expect(mockAddErrorMessage).not.toHaveBeenCalled()
+
+    const [blob, downloadedFileName] = vi.mocked(downloadBlob).mock.calls[0]
+
+    expect(blob).toMatchObject({
+      size: expect.any(Number),
+      type: 'application/octet-stream',
+    })
+    expect(downloadedFileName).toBe(file.fileName)
+  }
 
   BddTest().when('the component is mounted with a link resource', () => {
-    const resource = 'https://avenir-esr.fr'
-
     beforeEach(() => {
-      wrapper = mountComponent(ActivityResourceCard, {
-        props: { activityId: 'activity-id', resource },
-        global: { stubs },
-      })
+      mountWith()
     })
 
-    BddTest().then('it should render the tooltip', () => {
-      const tooltip = wrapper.findComponent(AvTooltipStub)
-      expect(tooltip.exists()).toBe(true)
-      expect(tooltip.props('content')).toBe(resource)
-      expect(tooltip.props('disabled')).toBe(false)
+    BddTest().then('it should disable the download tooltip', () => {
+      expectFileDownloadTooltip(true)
+    })
+
+    BddTest().then('it should enable the title tooltip', () => {
+      expectTitleTooltip(false, linkResource)
     })
 
     BddTest().then('it should render a link', () => {
-      const link = wrapper.find('[data-testid="activity-resource-card-link"]')
-      expect(link.exists()).toBe(true)
-      expect(link.element.localName).toBe('a')
-      expect(link.attributes('href')).toBe(resource)
-      expect(link.attributes('target')).toBe('_blank')
-      expect(link.attributes('rel')).toBe('noopener noreferrer')
+      expectLink(linkResource)
     })
 
     BddTest().then('it should render the card', () => {
-      expect(wrapper.findComponent(AvCardStub).exists()).toBe(true)
+      expectCard()
     })
 
     BddTest().then('it should render the link icon', () => {
-      const icon = wrapper.findComponent(AvIconStub)
-      expect(icon.exists()).toBe(true)
-      expect(icon.props('name')).toBe(MDI_ICONS.LINK)
+      expectIcon(MDI_ICONS.LINK)
     })
 
     BddTest().then('it should render the url as title', () => {
-      const url = wrapper.find('[data-testid="activity-resource-card-title"]')
-      expect(url.exists()).toBe(true)
-      expect(url.text()).toBe(resource)
+      expectTitle(linkResource)
     })
 
     BddTest().then('it should render the link type tag', () => {
-      const tag = wrapper.findComponent(AvTagStub)
-      expect(tag.exists()).toBe(true)
-      expect(tag.props('label')).toBe('lien')
+      expectTag(TAG_LINK_LABEL)
     })
   })
 
-  BddTest().when('the component is mounted with a file resource', () => {
-    const resource = new File(['content'], 'resource.pdf', { type: 'application/pdf' })
-
+  BddTest().when('the component is mounted with a pending file resource', () => {
     beforeEach(() => {
-      wrapper = mountComponent(ActivityResourceCard, {
-        props: { activityId: 'activity-id', resource },
-        global: { stubs },
-      })
+      mountWith({ resource: fileResource })
     })
 
-    BddTest().then('it should render the tooltip', () => {
-      const tooltip = wrapper.findComponent(AvTooltipStub)
-      expect(tooltip.exists()).toBe(true)
-      expect(tooltip.props('content')).toBe(resource.name)
-      expect(tooltip.props('disabled')).toBe(false)
+    BddTest().then('it should enable the download tooltip', () => {
+      expectFileDownloadTooltip(false)
+    })
+
+    BddTest().then('it should enable the title tooltip', () => {
+      expectTitleTooltip(false, fileResource.name)
     })
 
     BddTest().then('it should render a button', () => {
-      const button = wrapper.find('[data-testid="activity-resource-card-file"]')
-      expect(button.exists()).toBe(true)
-      expect(button.element.localName).toBe('button')
+      expectFile()
     })
 
     BddTest().then('it should render the card', () => {
-      expect(wrapper.findComponent(AvCardStub).exists()).toBe(true)
+      expectCard()
     })
 
     BddTest().then('it should render the file icon', () => {
-      const icon = wrapper.findComponent(AvIconStub)
-      expect(icon.exists()).toBe(true)
-      expect(icon.props('name')).toBe(MDI_ICONS.FILE)
+      expectIcon(MDI_ICONS.FILE)
     })
 
     BddTest().then('it should render the file name as title', () => {
-      const name = wrapper.find('[data-testid="activity-resource-card-title"]')
-      expect(name.exists()).toBe(true)
-      expect(name.text()).toBe(resource.name)
+      expectTitle(fileResource.name)
     })
 
     BddTest().then('it should render the file type tag', () => {
-      const tag = wrapper.findComponent(AvTagStub)
-      expect(tag.exists()).toBe(true)
-      expect(tag.props('label')).toBe('fichier')
+      expectTag(TAG_FILE_LABEL)
     })
 
     BddTest().then('it should download the pending file directly when clicked', async () => {
-      await wrapper.find('[data-testid="activity-resource-card-file"]').trigger('click')
+      await getFile().trigger('click')
       await flushPromises()
-      expect(downloadBlob).toHaveBeenCalledWith(resource, resource.name)
+
+      expect(downloadBlob).toHaveBeenCalledWith(fileResource, fileResource.name)
     })
   })
 
-  BddTest().when('the component is mounted with a file resource', () => {
-    const resource: FileDTO = {
-      id: 'file-id',
-      fileName: 'resource.pdf',
-      fileType: EFileType.PDF,
-      fileSize: 1024,
-      url: 'https://avenir-esr.fr/resource.pdf',
-      uploadedAt: '2026-07-05T00:00:00Z',
-    }
-
+  BddTest().when('the component is mounted with a file dto resource', () => {
     beforeEach(() => {
-      wrapper = mountComponent(ActivityResourceCard, {
-        props: { activityId: 'activity-id', resource },
-        global: { stubs },
-      })
+      mountWith({ resource: fileDtoResource })
     })
 
-    BddTest().then('it should render the tooltip', () => {
-      const tooltip = wrapper.findComponent(AvTooltipStub)
-      expect(tooltip.exists()).toBe(true)
-      expect(tooltip.props('content')).toBe(resource.fileName)
-      expect(tooltip.props('disabled')).toBe(false)
+    BddTest().then('it should enable the download tooltip', () => {
+      expectFileDownloadTooltip(false)
+    })
+
+    BddTest().then('it should enable the title tooltip', () => {
+      expectTitleTooltip(false, fileDtoResource.fileName)
     })
 
     BddTest().then('it should render a button', () => {
-      const button = wrapper.find('[data-testid="activity-resource-card-file"]')
-      expect(button.exists()).toBe(true)
-      expect(button.element.localName).toBe('button')
+      expectFile()
     })
 
     BddTest().then('it should render the card', () => {
-      expect(wrapper.findComponent(AvCardStub).exists()).toBe(true)
+      expectCard()
     })
 
     BddTest().then('it should render the file icon', () => {
-      const icon = wrapper.findComponent(AvIconStub)
-      expect(icon.exists()).toBe(true)
-      expect(icon.props('name')).toBe(MDI_ICONS.FILE)
+      expectIcon(MDI_ICONS.FILE)
     })
 
     BddTest().then('it should render the file name as title', () => {
-      const name = wrapper.find('[data-testid="activity-resource-card-title"]')
-      expect(name.exists()).toBe(true)
-      expect(name.text()).toBe(resource.fileName)
+      expectTitle(fileDtoResource.fileName)
     })
 
     BddTest().then('it should render the file type tag', () => {
-      const tag = wrapper.findComponent(AvTagStub)
-      expect(tag.exists()).toBe(true)
-      expect(tag.props('label')).toBe('fichier')
-    })
-
-    BddTest().then('it should download the file when clicked', async () => {
-      await wrapper.find('[data-testid="activity-resource-card-file"]').trigger('click')
-      await flushPromises()
-      await vi.waitFor(() => expect(downloadBlob).toHaveBeenCalledTimes(1))
-
-      const [blob, fileName] = vi.mocked(downloadBlob).mock.calls[0]
-      expect(blob).toMatchObject({ size: expect.any(Number), type: 'application/octet-stream' })
-      expect(fileName).toBe(resource.fileName)
-      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+      expectTag(TAG_FILE_LABEL)
     })
 
     BddTest().then('it should download the file through the activity file endpoint when clicked', async () => {
-      const requestedUrls: string[] = []
-      const onRequest = ({ request }: { request: Request }) => requestedUrls.push(new URL(request.url).pathname)
-      server.events.on('request:start', onRequest)
-
-      await wrapper.find('[data-testid="activity-resource-card-file"]').trigger('click')
-      await flushPromises()
-      await vi.waitFor(() => expect(downloadBlob).toHaveBeenCalledTimes(1))
-      server.events.removeListener('request:start', onRequest)
-
-      expect(requestedUrls.some(url => url.endsWith(getDownloadActivityFileUrl('activity-id', 'file-id')))).toBe(true)
-      expect(requestedUrls.some(url => url.endsWith(getDownloadDraftFileUrl('activity-id', 'file-id')))).toBe(false)
+      await expectFileDownload(defaultProps.activityId, fileDtoResource, false)
     })
   })
 
-  BddTest().when('the component is mounted with a file resource of a draft activity', () => {
-    const resource: FileDTO = {
-      id: 'file-id',
-      fileName: 'resource.pdf',
-      fileType: EFileType.PDF,
-      fileSize: 1024,
-      url: 'https://avenir-esr.fr/resource.pdf',
-      uploadedAt: '2026-07-05T00:00:00Z',
-    }
-
+  BddTest().when('the component is mounted with a file dto resource of a draft activity', () => {
     beforeEach(() => {
-      wrapper = mountComponent(ActivityResourceCard, {
-        props: { activityId: 'activity-id', resource, isDraft: true },
-        global: { stubs },
-      })
+      mountWith({ resource: fileDtoResource, isDraft: true })
     })
 
     BddTest().then('it should download the file through the draft file endpoint when clicked', async () => {
-      const requestedUrls: string[] = []
-      const onRequest = ({ request }: { request: Request }) => requestedUrls.push(new URL(request.url).pathname)
-      server.events.on('request:start', onRequest)
-
-      await wrapper.find('[data-testid="activity-resource-card-file"]').trigger('click')
-      await flushPromises()
-      await vi.waitFor(() => expect(downloadBlob).toHaveBeenCalledTimes(1))
-      server.events.removeListener('request:start', onRequest)
-
-      expect(requestedUrls.some(url => url.endsWith(getDownloadDraftFileUrl('activity-id', 'file-id')))).toBe(true)
-      expect(requestedUrls.some(url => url.endsWith(getDownloadActivityFileUrl('activity-id', 'file-id')))).toBe(false)
-      expect(vi.mocked(downloadBlob).mock.calls[0][1]).toBe(resource.fileName)
-      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+      await expectFileDownload(defaultProps.activityId, fileDtoResource, true)
     })
   })
 
   BddTest().when('the download fails', () => {
-    const resource: FileDTO = {
-      id: 'INVALID_FILE_ID',
-      fileName: 'resource.pdf',
-      fileType: EFileType.PDF,
-      fileSize: 1024,
-      url: 'https://avenir-esr.fr/resource.pdf',
-      uploadedAt: '2026-07-05T00:00:00Z',
-    }
-
     beforeEach(() => {
-      wrapper = mountComponent(ActivityResourceCard, {
-        props: { activityId: 'activity-id', resource },
-        global: { stubs },
-      })
+      mountWith({ resource: invalidFileDtoResource })
     })
 
     BddTest().then('it should add an error toaster message', async () => {
-      await wrapper.find('[data-testid="activity-resource-card-file"]').trigger('click')
+      await getFile().trigger('click')
       await flushPromises()
 
-      await vi.waitFor(() => expect(mockAddErrorMessage).toHaveBeenCalledTimes(1))
+      await vi.waitFor(() => {
+        expect(mockAddErrorMessage).toHaveBeenCalledTimes(1)
+      })
+
       expect(downloadBlob).not.toHaveBeenCalled()
     })
   })
 
-  BddTest().when('the component is mounted with disabled true', () => {
-    const resource = 'https://avenir-esr.fr'
-
+  BddTest().when('the component is mounted with a disabled link resource', () => {
     beforeEach(() => {
-      wrapper = mountComponent(ActivityResourceCard, {
-        props: { activityId: 'activity-id', resource, disabled: true },
-        global: { stubs },
-      })
+      mountWith({ disabled: true })
     })
 
-    BddTest().then('it should not render the tooltip', () => {
-      const tooltip = wrapper.findComponent(AvTooltipStub)
-      expect(tooltip.exists()).toBe(true)
-      expect(tooltip.props('disabled')).toBe(true)
+    BddTest().then('it should disable the download tooltip', () => {
+      expectFileDownloadTooltip(true)
     })
 
-    BddTest().then('it should render a div', () => {
-      const link = wrapper.find('[data-testid="activity-resource-card-link"]')
+    BddTest().then('it should disable the title tooltip', () => {
+      expectTitleTooltip(true, linkResource)
+    })
+
+    BddTest().then('it should render a div instead of a link', () => {
+      const link = getLink()
       expect(link.exists()).toBe(true)
       expect(link.element.localName).toBe('div')
     })
   })
 
-  BddTest().when('the component is mounted with disabled true and tooltipVisible true', () => {
-    const resource = 'https://avenir-esr.fr'
-
+  BddTest().when('the title tooltip is explicitly enabled on a disabled resource', () => {
     beforeEach(() => {
-      mockIsTruncated.value = true
-      wrapper = mountComponent(ActivityResourceCard, {
-        props: { activityId: 'activity-id', resource, disabled: true, tooltipVisible: true },
-        global: { stubs },
-      })
+      mountWith({ disabled: true, tooltipVisible: true }, true)
     })
 
-    BddTest().then('it should render the tooltip', () => {
-      const tooltip = wrapper.findComponent(AvTooltipStub)
-      expect(tooltip.exists()).toBe(true)
-      expect(tooltip.props('content')).toBe(resource)
-      expect(tooltip.props('disabled')).toBe(false)
+    BddTest().then('it should keep the download tooltip disabled', () => {
+      expectFileDownloadTooltip(true)
+    })
+
+    BddTest().then('it should enable the title tooltip', () => {
+      expectTitleTooltip(false, linkResource)
     })
   })
 
-  BddTest().when('the component is mounted with disabled false and tooltipVisible false', () => {
-    const resource = 'https://avenir-esr.fr'
-
+  BddTest().when('the title tooltip visibility is explicitly disabled', () => {
     beforeEach(() => {
-      wrapper = mountComponent(ActivityResourceCard, {
-        props: { activityId: 'activity-id', resource, disabled: true, tooltipVisible: false },
-        global: { stubs },
-      })
+      mountWith({ resource: fileResource, disabled: false, tooltipVisible: false }, true)
     })
 
-    BddTest().then('it should not render the tooltip', () => {
-      const tooltip = wrapper.findComponent(AvTooltipStub)
-      expect(tooltip.exists()).toBe(true)
-      expect(tooltip.props('disabled')).toBe(true)
+    BddTest().then('it should enable the download tooltip', () => {
+      expectFileDownloadTooltip(false)
+    })
+
+    BddTest().then('it should disable the title tooltip', () => {
+      expectTitleTooltip(true, fileResource.name)
+    })
+  })
+
+  BddTest().when('the title tooltip visibility is explicitly enabled', () => {
+    beforeEach(() => {
+      mountWith({ resource: fileResource, disabled: false, tooltipVisible: true }, true)
+    })
+
+    BddTest().then('it should enable the download tooltip', () => {
+      expectFileDownloadTooltip(false)
+    })
+
+    BddTest().then('it should enable the title tooltip', () => {
+      expectTitleTooltip(false, fileResource.name)
+    })
+  })
+
+  BddTest().when('the title tooltip visibility is not specified on an enabled resource', () => {
+    beforeEach(() => {
+      mountWith({ disabled: false, tooltipVisible: undefined }, true)
+    })
+
+    BddTest().then('it should enable the title tooltip', () => {
+      expectTitleTooltip(false, linkResource)
+    })
+  })
+
+  BddTest().when('the title tooltip visibility is not specified on a disabled resource', () => {
+    beforeEach(() => {
+      mountWith({ disabled: true, tooltipVisible: undefined }, true)
+    })
+
+    BddTest().then('it should disable the title tooltip', () => {
+      expectTitleTooltip(true, linkResource)
     })
   })
 })

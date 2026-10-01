@@ -7,9 +7,10 @@ import { downloadBlob } from '@/common/utils/download/download'
 import { isActivityResourceFile, isActivityResourceLink, isActivityResourcePendingFile } from '@/features/staff/activities/utils/resource.types-guard'
 import { useToasterStore } from '@/store'
 import { AvCard, AvIcon, AvTag, AvTooltip, MDI_ICONS, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
+import { mergeProps } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-interface ActivityResourceCardComponentProps {
+export interface ActivityResourceCardComponentProps {
   activityId: string
   resource: ActivityResource
   disabled?: boolean
@@ -82,6 +83,10 @@ const typeLabel = computed(() =>
     ? t('global.link')
     : t('global.file'))
 
+const downloadTooltipDisabled = computed(() =>
+  disabled || isActivityResourceLink(resource),
+)
+
 function downloadFile () {
   if (disabled || !isActivityResourceFile(resource)) {
     return
@@ -134,51 +139,58 @@ const rootTestId = computed(() => `activity-resource-card-${href.value ? 'link' 
 </script>
 
 <template>
-  <component
-    :is="rootTag"
-    :class="rootClass"
-    v-bind="rootAttrs"
-    :data-testid="rootTestId"
+  <AvTooltip
+    :content="t('global.cards.ActivityResourceCard.downloadDocument')"
+    :disabled="downloadTooltipDisabled"
+    data-testid="activity-resource-card-tooltip"
   >
-    <AvCard
-      class="activity-resource-card"
-      background-color="var(--surface-background)"
-      border-color="transparent"
+    <component
+      :is="rootTag"
+      :class="rootClass"
+      v-bind="mergeProps(rootAttrs, $attrs)"
+      :data-testid="rootTestId"
     >
-      <template #title>
-        <AvIcon
-          :name="icon"
-          color="var(--other-background-base)"
-          :size="2"
-        />
-      </template>
+      <AvCard
+        class="activity-resource-card"
+        background-color="var(--surface-background)"
+        border-color="transparent"
+      >
+        <template #title>
+          <AvIcon
+            :name="icon"
+            color="var(--other-background-base)"
+            :size="2"
+          />
+        </template>
 
-      <template #body>
-        <div class="av-row">
-          <AvTooltip
-            :content="title"
-            :disabled="!isTruncated || tooltipVisible === undefined ? disabled : !tooltipVisible"
-            force-focusable
-          >
-            <span
-              ref="titleRef"
-              class="title av-max-lines b1-regular"
-              :class="{ 'title-link': isActivityResourceLink(resource) }"
-              data-testid="activity-resource-card-title"
+        <template #body>
+          <div class="av-row">
+            <AvTooltip
+              :content="title"
+              :disabled="!isTruncated || tooltipVisible === undefined ? disabled : !tooltipVisible"
+              force-focusable
+              data-testid="activity-resource-card-title-tooltip"
             >
-              {{ title }}
-            </span>
-          </AvTooltip>
-        </div>
-      </template>
+              <span
+                ref="titleRef"
+                class="title av-max-lines b1-regular"
+                :class="{ 'title-link': isActivityResourceLink(resource) }"
+                data-testid="activity-resource-card-title"
+              >
+                {{ title }}
+              </span>
+            </AvTooltip>
+          </div>
+        </template>
 
-      <template #footer>
-        <div class="av-row">
-          <AvTag :label="typeLabel" />
-        </div>
-      </template>
-    </AvCard>
-  </component>
+        <template #footer>
+          <div class="av-row">
+            <AvTag :label="typeLabel" />
+          </div>
+        </template>
+      </AvCard>
+    </component>
+  </AvTooltip>
 </template>
 
 <style scoped lang="scss">
