@@ -1,4 +1,5 @@
 import { type DeclaredProgramViewDTO, EProgramStatus } from '@/api/avenir-esr'
+import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { DeclaredProgramOrganizationBadgeStub }
   from '@/features/student/personalCareer/components/badges/DeclaredProgramOrganizationBadge/DeclaredProgramOrganizationBadge.stub'
@@ -20,7 +21,8 @@ BddTest().given('a declared program card', () => {
     RouterLink: RouterLinkStub,
     DeclaredProgramStatusBadge: DeclaredProgramStatusBadgeStub,
     DeclaredProgramResultBadge: DeclaredProgramResultBadgeStub,
-    DeclaredProgramOrganizationBadge: DeclaredProgramOrganizationBadgeStub
+    DeclaredProgramOrganizationBadge: DeclaredProgramOrganizationBadgeStub,
+    ValorizedBadge: ValorizedBadgeStub,
   }
 
   const baseDeclaredProgram: DeclaredProgramViewDTO = {
@@ -49,6 +51,10 @@ BddTest().given('a declared program card', () => {
 
     BddTest().then('it should render the floating icon card', () => {
       expect(floatingCard.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the valorized badge', () => {
+      expect(wrapper.findComponent(ValorizedBadgeStub).exists()).toBe(true)
     })
 
     BddTest().then('it should have surface background color', () => {

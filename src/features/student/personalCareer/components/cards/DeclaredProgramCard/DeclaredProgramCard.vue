@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { ROUTES } from '@/common/constants'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import DeclaredProgramOrganizationBadge
@@ -38,22 +39,25 @@ const iconOptions = {
       height="fit-content"
     >
       <template #body>
-        <div class="av-col av-pr-4xl--md av-pt-xl av-pt-none--md">
-          <div class="av-row av-wrap av-align-end av-justify-end--md av-gap-sm">
-            <DeclaredProgramStatusBadge
-              v-if="declaredProgram.status"
-              :status="declaredProgram.status"
-            />
-            <DeclaredProgramResultBadge
-              v-if="declaredProgram.result"
-              class="av-hidden av-unhidden--md"
-              :result="declaredProgram.result"
-            />
+        <div class="av-col av-pr-4xl">
+          <div class="av-row av-justify-between av-gap-sm av-wrap">
+            <ValorizedBadge :valorized="declaredProgram.valorized" />
+            <div class="av-row av-wrap av-align-end av-justify-end--md av-gap-sm av-ml-auto">
+              <DeclaredProgramStatusBadge
+                v-if="declaredProgram.status"
+                :status="declaredProgram.status"
+              />
+              <DeclaredProgramResultBadge
+                v-if="declaredProgram.result"
+                class="av-hidden av-unhidden--md"
+                :result="declaredProgram.result"
+              />
 
-            <DeclaredProgramOrganizationBadge
-              v-if="declaredProgram.organization"
-              :organization="declaredProgram.organization"
-            />
+              <DeclaredProgramOrganizationBadge
+                v-if="declaredProgram.organization"
+                :organization="declaredProgram.organization"
+              />
+            </div>
           </div>
         </div>
       </template>
