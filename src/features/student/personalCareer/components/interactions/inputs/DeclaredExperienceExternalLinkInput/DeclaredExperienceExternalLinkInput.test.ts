@@ -10,7 +10,7 @@ BddTest().given('a declared experience link input component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceExternalLinkInput>>
 
   const stubs = {
-    Input: InputStub
+    Input: InputStub,
   }
 
   BddTest().when('the component is mounted', () => {
@@ -18,9 +18,9 @@ BddTest().given('a declared experience link input component', () => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
-          modelValue: ''
+          modelValue: '',
         },
-        global: { stubs }
+        global: { stubs },
       })
     })
 
@@ -70,9 +70,9 @@ BddTest().given('a declared experience link input component', () => {
       wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
           label: 'Custom Label',
-          modelValue: ''
+          modelValue: '',
         },
-        global: { stubs }
+        global: { stubs },
       })
     })
 
@@ -88,9 +88,9 @@ BddTest().given('a declared experience link input component', () => {
       wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
           placeholder: 'Custom Placeholder',
-          modelValue: ''
+          modelValue: '',
         },
-        global: { stubs }
+        global: { stubs },
       })
     })
 
@@ -106,9 +106,9 @@ BddTest().given('a declared experience link input component', () => {
       wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
           prefixIcon: MDI_ICONS.ATTACH_FILE,
-          modelValue: ''
+          modelValue: '',
         },
-        global: { stubs }
+        global: { stubs },
       })
     })
 
@@ -124,9 +124,9 @@ BddTest().given('a declared experience link input component', () => {
       wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
           errorMessage: 'Ce champ est requis',
-          modelValue: ''
+          modelValue: '',
         },
-        global: { stubs }
+        global: { stubs },
       })
     })
 
@@ -141,9 +141,10 @@ BddTest().given('a declared experience link input component', () => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
-          modelValue: ''
+          modelValue: '',
+          disabled: false,
         },
-        global: { stubs }
+        global: { stubs },
       })
       const input = wrapper.findComponent(InputStub)
       await input.vm.$emit('update:modelValue', 'https://example.com')
@@ -161,9 +162,10 @@ BddTest().given('a declared experience link input component', () => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
-          modelValue: 'https://initial.com'
+          modelValue: 'https://initial.com',
+          disabled: false,
         },
-        global: { stubs }
+        global: { stubs },
       })
     })
 
@@ -173,34 +175,15 @@ BddTest().given('a declared experience link input component', () => {
     })
   })
 
-  BddTest().when('the component receives additional props via restProps', () => {
-    beforeEach(() => {
-      vi.clearAllMocks()
-      wrapper = mount(DeclaredExperienceExternalLinkInput, {
-        props: {
-          disabled: true,
-          required: true,
-          modelValue: ''
-        },
-        global: { stubs }
-      })
-    })
-
-    BddTest().then('it should pass additional props to Input', () => {
-      const input = wrapper.findComponent(InputStub)
-      expect(input.props('disabled')).toBe(true)
-      expect(input.props('required')).toBe(true)
-    })
-  })
-
   BddTest().when('the user clears the input', () => {
     beforeEach(async () => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredExperienceExternalLinkInput, {
         props: {
-          modelValue: 'https://some-link.com'
+          modelValue: 'https://some-link.com',
+          disabled: false,
         },
-        global: { stubs }
+        global: { stubs },
       })
       const input = wrapper.findComponent(InputStub)
       await input.vm.$emit('update:modelValue', '')
@@ -210,6 +193,32 @@ BddTest().given('a declared experience link input component', () => {
     BddTest().then('it should update to empty value', () => {
       const input = wrapper.findComponent(InputStub)
       expect(input.props('modelValue')).toBe('')
+    })
+  })
+
+  BddTest().when('the component is disabled', () => {
+    beforeEach(() => {
+      wrapper = mount(DeclaredExperienceExternalLinkInput, {
+        props: {
+          modelValue: 'https://example.com',
+          disabled: true,
+        },
+        global: { stubs },
+      })
+    }
+    )
+
+    BddTest().then('it should not display the Input component', () => {
+      expect(wrapper.findComponent(InputStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should render the link as an anchor with correct attributes', () => {
+      const link = wrapper.find('a.experience-link')
+      expect(link.exists()).toBe(true)
+      expect(link.attributes('href')).toBe('https://example.com')
+      expect(link.attributes('target')).toBe('_blank')
+      expect(link.attributes('rel')).toBe('noopener noreferrer')
+      expect(link.text()).toBe('https://example.com')
     })
   })
 })

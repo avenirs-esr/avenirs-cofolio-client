@@ -10,25 +10,57 @@ const {
   label,
   prefixIcon,
   placeholder,
+  disabled,
   ...restProps
 } = defineProps<DeclaredExperienceExternalLinkInputProps>()
 
 const modelValue = defineModel<string>()
 const { t } = useI18n()
+const resolvedLabel = computed(() =>
+  label ?? t('student.personalCareer.interactions.inputs.DeclaredExperienceExternalLinkInput.label')
+)
+const resolvedIcon = computed(() => prefixIcon ?? MDI_ICONS.LINK)
 
 const inputProps = computed(() => ({
   ...restProps,
   labelVisible: true,
-  label: label ?? t('student.personalCareer.interactions.inputs.DeclaredExperienceExternalLinkInput.label'),
+  label: resolvedLabel.value,
   maxlength: DECLARED_EXPERIENCE_EXTERNAL_LINK_MAX_LENGTH,
-  prefixIcon: prefixIcon ?? MDI_ICONS.LINK,
+  prefixIcon: resolvedIcon.value,
   placeholder: placeholder ?? t('student.personalCareer.interactions.inputs.DeclaredExperienceExternalLinkInput.placeholder')
 }))
 </script>
 
 <template>
   <Input
+    v-if="!disabled"
     v-bind="inputProps"
     v-model="modelValue"
   />
+  <div
+    v-else
+    class="av-col"
+  >
+    <label
+      id="experience-link-label"
+      class="av-label"
+    >
+      <span class="b2-light">{{ resolvedLabel }}</span>
+    </label>
+    <a
+      target="_blank"
+      rel="noopener noreferrer"
+      :href="modelValue"
+      class="experience-link"
+      aria-labelledby="experience-link-label"
+    >
+      {{ modelValue }}
+    </a>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.experience-link {
+  color: revert;
+}
+</style>
