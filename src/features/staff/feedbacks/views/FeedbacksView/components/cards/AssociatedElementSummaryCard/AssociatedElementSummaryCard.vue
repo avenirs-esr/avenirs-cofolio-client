@@ -2,10 +2,12 @@
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import { EAssociationContextType, EUserCategory, useGetFeedbackDetails } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
+import Card from '@/common/components/cards/Card/Card.vue'
+import { ICONS } from '@/common/constants'
 import AssociatedElementCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementCard/AssociatedElementCard.vue'
 import AssociatedElementDetailsDrawer
   from '@/features/staff/feedbacks/views/FeedbacksView/components/drawers/AssociatedElementDetailsDrawer/AssociatedElementDetailsDrawer.vue'
-import { AvCard } from '@avenirs-esr/avenirs-dsav'
+import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociatedElementSummaryCardProps {
@@ -53,13 +55,23 @@ function closeDetailsDrawer () {
 </script>
 
 <template>
-  <AvCard
+  <Card
+    title-background="var(--card2)"
+    border-color="var(--other-border-skill-card)"
     collapsible
     :collapsed="false"
     data-testid="feedback-associated-elements-card"
   >
     <template #title>
-      {{ t('staff.feedbacks.cards.AssociatedElementSummaryCard.title', { count: associatedElements.length }) }}
+      <AvIconText
+        typography-class="n4"
+        :icon="ICONS.ASSOCIATIONS"
+        icon-color="var(--dark-background-primary1)"
+        :text="t('staff.feedbacks.cards.AssociatedElementSummaryCard.title', { count: associatedElements.length })"
+        text-color="var(--text1)"
+        gap="var(--spacing-sm)"
+        data-testid="feedback-associated-elements-card-title"
+      />
     </template>
 
     <QuerySuspense
@@ -77,7 +89,7 @@ function closeDetailsDrawer () {
         />
       </div>
     </QuerySuspense>
-  </AvCard>
+  </Card>
 
   <AssociatedElementDetailsDrawer
     v-if="selectedElement"
