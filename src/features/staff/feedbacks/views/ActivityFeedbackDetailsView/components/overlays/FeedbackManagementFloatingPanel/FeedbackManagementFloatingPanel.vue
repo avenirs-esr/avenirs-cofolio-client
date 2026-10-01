@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
 import { EFeedbackStatus, useGetFeedbackHistory } from '@/api/avenir-esr'
+import FloatingPanel from '@/common/components/overlay/FloatingPanel/FloatingPanel.vue'
 import { ICONS } from '@/common/constants'
 import FeedbacksHistoryTab from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/tabs/FeedbacksHistoryTab/FeedbacksHistoryTab.vue'
 import WriteFeedbackTab from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/tabs/WriteFeedbackTab/WriteFeedbackTab.vue'
-import { AvFloatingPanel, AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
+import { FeedbackManagementFloatingPanelTabs } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/FeedbackManagementFloatingPanel/FeedbackManagementFloatingPanel.types'
+import { AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface FeedbackManagementFloatingPanelProps {
@@ -13,11 +15,6 @@ export interface FeedbackManagementFloatingPanelProps {
 }
 
 const { feedback, activityTitle } = defineProps<FeedbackManagementFloatingPanelProps>()
-
-enum FeedbackManagementFloatingPanelTabs {
-  MY_FEEDBACK = 0,
-  HISTORY = 1,
-}
 
 const { t } = useI18n()
 
@@ -29,8 +26,8 @@ function getDefaultTab () {
     : FeedbackManagementFloatingPanelTabs.MY_FEEDBACK
 }
 
+const floatingPanel = ref<InstanceType<typeof FloatingPanel>>()
 const activeTab = ref(getDefaultTab())
-const panelRef = ref<InstanceType<typeof AvFloatingPanel> | null>(null)
 
 const activityId = computed(() => feedback.declaredActivityId)
 
@@ -54,10 +51,6 @@ const historyTabTitle = computed(() =>
   })
 )
 
-function togglePanel () {
-  panelRef.value?.toggleCollapsed()
-}
-
 watch(isSeen, (newValue) => {
   if (newValue) {
     activeTab.value = getDefaultTab()
@@ -66,12 +59,11 @@ watch(isSeen, (newValue) => {
 </script>
 
 <template>
-  <AvFloatingPanel
-    ref="panelRef"
+  <FloatingPanel
+    ref="floatingPanel"
     :title="t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.title')"
     :subtitle="activityTitle"
     :icon="ICONS.FEEDBACK"
-    width="35rem"
     class="writing-feedback-floating-panel"
     data-testid="writing-feedback-floating-panel"
   >
@@ -89,8 +81,8 @@ watch(isSeen, (newValue) => {
         >
           <WriteFeedbackTab
             :feedback="feedback"
-            @feedback-sent="togglePanel"
-            @cancel="togglePanel"
+            @feedback-sent="floatingPanel?.togglePanel"
+            @cancel="floatingPanel?.togglePanel"
           />
         </AvTab>
         <AvTab
@@ -107,7 +99,7 @@ watch(isSeen, (newValue) => {
         </AvTab>
       </AvTabs>
     </div>
-  </AvFloatingPanel>
+  </FloatingPanel>
 </template>
 
 <style scoped lang="scss">
