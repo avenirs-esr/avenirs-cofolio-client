@@ -1,10 +1,11 @@
 import { mockedFeedbackDetailsWithAssociations, mockedFeedbackDetailsWithoutAssociations } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import { EAssociationContextType } from '@/api/avenir-esr'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { AssociatedElementCardStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementCard/AssociatedElementCard.stub'
 import AssociatedElementSummaryCard, { type AssociatedElementSummaryCardProps } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementSummaryCard/AssociatedElementSummaryCard.vue'
 import { AssociatedElementDetailsDrawerStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/drawers/AssociatedElementDetailsDrawer/AssociatedElementDetailsDrawer.stub'
-import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -22,7 +23,8 @@ BddTest().given('a AssociatedElementSummaryCard component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedElementSummaryCard>>
 
   const stubs = {
-    AvCard: AvCardStub,
+    AvIconText: AvIconTextStub,
+    Card: CardStub,
     AssociatedElementCard: AssociatedElementCardStub,
     AssociatedElementDetailsDrawer: AssociatedElementDetailsDrawerStub,
     QuerySuspense: QuerySuspenseStub,
@@ -39,14 +41,15 @@ BddTest().given('a AssociatedElementSummaryCard component', () => {
     await flushPromises()
   }
 
-  const getCard = () => wrapper.findComponent(AvCardStub)
+  const getCard = () => wrapper.findComponent(CardStub)
   const getAssociatedElementCards = () => wrapper.findAllComponents(AssociatedElementCardStub)
   const getAssociatedElementDetailsDrawer = () => wrapper.findComponent(AssociatedElementDetailsDrawerStub)
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
+  const getTitle = () => wrapper.findComponent(AvIconTextStub)
 
   const expectTitle = (count: number) => {
     const expectedTitle = TITLE.replace('{count}', String(count))
-    expect(wrapper.text()).toContain(expectedTitle)
+    expect(getTitle().props('text')).toContain(expectedTitle)
   }
 
   BddTest().when('feedback has associations', () => {
