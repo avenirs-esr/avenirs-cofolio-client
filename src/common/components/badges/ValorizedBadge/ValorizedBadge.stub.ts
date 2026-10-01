@@ -3,7 +3,7 @@ export const ValorizedBadgeStub = defineComponent({
   props: {
     valorized: {
       type: Boolean,
-      required: true,
+      required: false,
     },
   },
   template: '<div class="valorized-badge-stub"></div>'
