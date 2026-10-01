@@ -1,0 +1,424 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/staff/activities/edit-national-activity.feature.spec.js >> Staff Edit National Activity Page >> Managing activity resources >> Confirming the deletion removes the resource
+- Location: .features-gen/tests/staff/activities/edit-national-activity.feature.spec.js:321:5
+
+# Error details
+
+```
+Error: expect(locator).toHaveCount(expected) failed
+
+Locator:  getByTestId('activity-resources-list-editable').locator('[data-testid="selector-overlay"][data-resource-label="definir-ses-valeurs-exercices.docx"]')
+Expected: 0
+Received: 1
+Timeout:  10000ms
+
+Call log:
+  - Expect "toHaveCount" with timeout 10000ms
+  - waiting for getByTestId('activity-resources-list-editable').locator('[data-testid="selector-overlay"][data-resource-label="definir-ses-valeurs-exercices.docx"]')
+    24 × locator resolved to 1 element
+       - unexpected value "1"
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - navigation "Accès rapide":
+      - list [ref=e3]:
+        - listitem [ref=e4]:
+          - link "Aller au contenu principal" [ref=e5] [cursor=pointer]:
+            - /url: "#main"
+            - generic [ref=e6]: Aller au contenu principal
+        - listitem [ref=e7]:
+          - link "Aller au pied de page" [ref=e8] [cursor=pointer]:
+            - /url: "#footer"
+            - generic [ref=e9]: Aller au pied de page
+    - banner [ref=e10]:
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - link "Accueil - Cofolio Staff" [ref=e19] [cursor=pointer]:
+            - /url: /cofolio/staff
+            - img [ref=e20]
+          - button "Changer d'univers" [ref=e22] [cursor=pointer]:
+            - generic [ref=e25]: Changer d'univers
+        - generic [ref=e27]:
+          - list [ref=e30]:
+            - listitem [ref=e31]:
+              - button "Notifications (10)" [ref=e34] [cursor=pointer]:
+                - generic [ref=e37]: Notifications (10)
+            - listitem [ref=e38]:
+              - button "M. dupont" [ref=e41] [cursor=pointer]:
+                - generic [ref=e44]: M. dupont
+          - navigation [ref=e47]:
+            - button "FR" [ref=e50] [cursor=pointer]:
+              - generic [ref=e53]: FR
+      - navigation "Menu principal" [ref=e57]:
+        - list [ref=e58]:
+          - listitem [ref=e59]:
+            - link "ACCUEIL" [ref=e60] [cursor=pointer]:
+              - /url: /cofolio/staff
+              - generic [ref=e63]: ACCUEIL
+          - listitem [ref=e64]:
+            - link "BIBLIOTHÈQUE DES ACTIVITÉS" [ref=e65] [cursor=pointer]:
+              - /url: /cofolio/staff/activities
+              - generic [ref=e68]: BIBLIOTHÈQUE DES ACTIVITÉS
+          - listitem [ref=e69]:
+            - button "SUIVI DES APPRENANTS" [ref=e70] [cursor=pointer]:
+              - generic [ref=e71]: SUIVI DES APPRENANTS
+    - main [ref=e72]:
+      - generic [ref=e73]:
+        - generic [ref=e75]:
+          - navigation "Fil d'Ariane" [ref=e76]:
+            - list [ref=e78]:
+              - listitem [ref=e79]:
+                - link "Accueil" [ref=e80] [cursor=pointer]:
+                  - /url: /cofolio/staff
+              - listitem [ref=e81]:
+                - link "Bibliothèque des activités" [ref=e82] [cursor=pointer]:
+                  - /url: /cofolio/staff/activities
+              - listitem [ref=e83]:
+                - generic: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+              - listitem [ref=e84]:
+                - generic: Modifier l'activité
+          - heading "Modifier l'activité" [level=1] [ref=e87]
+        - generic [ref=e88]:
+          - status [ref=e90]:
+            - generic [ref=e91]: Modification en cours
+          - generic [ref=e93]:
+            - navigation "d341b6dc-15e5-4f0e-8e98-6cabe20b7875 navigation" [ref=e94]:
+              - generic [ref=e95]:
+                - button "Réduire le menu" [expanded] [ref=e99] [cursor=pointer]
+                - menu [ref=e103]:
+                  - menuitem "Contenu de l'activité" [ref=e104]:
+                    - button "Contenu de l'activité" [ref=e105] [cursor=pointer]:
+                      - generic [ref=e110]: Contenu de l'activité
+                  - menu [ref=e112]:
+                    - menuitem "Titre" [ref=e113]:
+                      - button "Titre" [ref=e114] [cursor=pointer]:
+                        - generic [ref=e116]: Titre
+                    - menuitem "Thématique" [ref=e117]:
+                      - button "Thématique" [ref=e118] [cursor=pointer]:
+                        - generic [ref=e120]: Thématique
+                    - menuitem "Consigne" [ref=e121]:
+                      - button "Consigne" [ref=e122] [cursor=pointer]:
+                        - generic [ref=e124]: Consigne
+                    - menuitem "Contexte(s) de réalisation conseillé(s)" [ref=e125]:
+                      - button "Contexte(s) de réalisation conseillé(s)" [ref=e126] [cursor=pointer]:
+                        - generic [ref=e128]: Contexte(s) de réalisation conseillé(s)
+                    - menuitem "Documents et liens utiles" [ref=e129]:
+                      - button "Documents et liens utiles" [ref=e130] [cursor=pointer]:
+                        - generic [ref=e132]: Documents et liens utiles
+                    - menuitem "Modalités" [ref=e133]:
+                      - button "Modalités" [ref=e134] [cursor=pointer]:
+                        - generic [ref=e136]: Modalités
+            - generic [ref=e138]:
+              - tablist "Liste d’onglets" [ref=e139]:
+                - tab "Renseigner le contenu" [selected] [ref=e140] [cursor=pointer]:
+                  - generic [ref=e143]: Renseigner le contenu
+                - tab "Préparer la publication" [ref=e144] [cursor=pointer]:
+                  - generic [ref=e147]: Préparer la publication
+              - tabpanel "Renseigner le contenu" [ref=e148]:
+                - generic [ref=e149]:
+                  - generic [ref=e151]:
+                    - generic [ref=e157]: Titre de l'activité *
+                    - generic [ref=e160]:
+                      - generic [ref=e161]:
+                        - generic [ref=e163]: Titre de l'activité *
+                        - textbox "Titre de l'activité" [ref=e164]: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+                      - generic [ref=e165]: 52 / 80 caractères (espaces compris)
+                  - generic [ref=e167]:
+                    - generic [ref=e173]: Thématique *
+                    - generic [ref=e176]:
+                      - generic [ref=e177]:
+                        - generic [ref=e178]: Thématique *
+                        - combobox "Thématique *" [ref=e181] [cursor=pointer]:
+                          - option "Me connaître" [selected]
+                          - option "Explorer mes futurs"
+                          - option "Mes formations"
+                          - option "Mes expériences"
+                          - option "Mes trajectoires"
+                          - option "CV"
+                          - option "Transverse"
+                          - option "Autre"
+                      - status
+                  - generic [ref=e184]:
+                    - generic [ref=e189]: Consigne *
+                    - button "Développer" [ref=e192] [cursor=pointer]
+                  - generic [ref=e197]:
+                    - generic [ref=e202]: Contexte(s) de réalisation conseillé(s) *
+                    - button "Développer" [ref=e205] [cursor=pointer]
+                  - generic [ref=e209]:
+                    - generic [ref=e210]:
+                      - generic [ref=e215]: Documents et liens utiles
+                      - button "Réduire" [expanded] [ref=e218] [cursor=pointer]
+                    - generic [ref=e223]:
+                      - generic [ref=e224]:
+                        - generic [ref=e227] [cursor=pointer]:
+                          - generic [ref=e233]:
+                            - generic [ref=e236]: document.pdf
+                            - paragraph [ref=e239]:
+                              - generic [ref=e240]: fichier
+                          - button "Sélectionner document.pdf" [ref=e241]
+                        - generic [ref=e247] [cursor=pointer]:
+                          - generic [ref=e253]:
+                            - generic [ref=e256]: definir-ses-valeurs-exercices.docx
+                            - paragraph [ref=e259]:
+                              - generic [ref=e260]: fichier
+                          - button "Désélectionner definir-ses-valeurs-exercices.docx" [pressed] [ref=e261]
+                        - generic [ref=e267] [cursor=pointer]:
+                          - generic [ref=e273]:
+                            - generic [ref=e276]: http://example.com/resource1
+                            - paragraph [ref=e279]:
+                              - generic [ref=e280]: lien
+                          - button "Sélectionner http://example.com/resource1" [ref=e281]
+                        - generic [ref=e287] [cursor=pointer]:
+                          - generic [ref=e293]:
+                            - generic [ref=e296]: https://example.com/definir-ses-valeurs
+                            - paragraph [ref=e299]:
+                              - generic [ref=e300]: lien
+                          - button "Sélectionner https://example.com/definir-ses-valeurs" [ref=e301]
+                        - button "Ajouter" [ref=e305] [cursor=pointer]:
+                          - generic [ref=e308]: Ajouter
+                      - button "Supprimer" [ref=e310] [cursor=pointer]:
+                        - generic [ref=e313]: Supprimer
+                  - generic [ref=e315]:
+                    - generic [ref=e316]:
+                      - generic [ref=e321]: Modalités
+                      - button "Réduire" [expanded] [ref=e324] [cursor=pointer]
+                    - generic [ref=e327]:
+                      - generic [ref=e330]:
+                        - generic [ref=e334]: Définir une période de réalisation
+                        - checkbox "Non" [ref=e335] [cursor=pointer]
+                        - generic [ref=e337] [cursor=pointer]:
+                          - img [ref=e339]
+                          - generic [ref=e342]: Non
+                      - generic [ref=e344]:
+                        - generic [ref=e346]:
+                          - generic [ref=e350]: Prise de recul
+                          - checkbox "Non" [disabled] [ref=e351] [cursor=pointer]
+                          - generic [ref=e353]:
+                            - img [ref=e355]
+                            - generic [ref=e358]: Non
+                        - generic [ref=e359]:
+                          - status [ref=e360]:
+                            - generic [ref=e364]: Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.
+                          - generic [ref=e365]: Lorsque le paramètre est activé, les apprenants peuvent rédiger une prise de recul et associer des éléments dans le cadre de leur activité. En conservant le paramètre de demande de feedback, vous pourrez visualiser les prise de recul lorsqu'ils enverront leurs activités pour feedback.
+                      - generic [ref=e366]:
+                        - generic [ref=e368]:
+                          - generic [ref=e372]: Association de traces
+                          - checkbox "Oui" [checked] [disabled] [ref=e373] [cursor=pointer]
+                          - generic [ref=e375]:
+                            - img [ref=e377]
+                            - generic [ref=e380]: Oui
+                        - generic [ref=e382]:
+                          - status [ref=e383]:
+                            - generic [ref=e387]: Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.
+                          - generic [ref=e388]: Lorsque le paramètre est désactivé, les apprenants ne peuvent pas associer de traces à leur activité.
+                          - checkbox "Non Autoriser un nombre illimité d'associations de traces" [disabled] [ref=e389] [cursor=pointer]
+                          - generic [ref=e390]:
+                            - generic [ref=e391]:
+                              - img [ref=e393]
+                              - generic [ref=e396]: Non
+                            - generic [ref=e397]: Autoriser un nombre illimité d'associations de traces
+                          - generic [ref=e400]:
+                            - generic [ref=e402]: Combien d'associations de traces maximum ?
+                            - spinbutton "Combien d'associations de traces maximum ?" [disabled] [ref=e403]: "3"
+                      - generic [ref=e404]:
+                        - generic [ref=e406]:
+                          - generic [ref=e410]: Demande de feedback
+                          - checkbox "Oui" [checked] [disabled] [ref=e411] [cursor=pointer]
+                          - generic [ref=e413]:
+                            - img [ref=e415]
+                            - generic [ref=e418]: Oui
+                        - generic [ref=e420]:
+                          - status [ref=e421]:
+                            - generic [ref=e425]: Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.
+                          - generic [ref=e426]: Lorsque le paramètre est désactivé, les apprenants ne peuvent pas demander de feedback sur leur activité en passant par COFOLIO.
+                          - checkbox "Non Autoriser un nombre illimité d'itérations de feedback" [disabled] [ref=e427] [cursor=pointer]
+                          - generic [ref=e428]:
+                            - generic [ref=e429]:
+                              - img [ref=e431]
+                              - generic [ref=e434]: Non
+                            - generic [ref=e435]: Autoriser un nombre illimité d'itérations de feedback
+                          - generic [ref=e438]:
+                            - generic [ref=e440]: Combien d'itérations maximum ?
+                            - spinbutton "Combien d'itérations maximum ?" [disabled] [ref=e441]: "2"
+                  - generic [ref=e442]:
+                    - generic [ref=e443]:
+                      - link "Quitter" [ref=e444] [cursor=pointer]:
+                        - /url: /cofolio/staff/activities
+                        - generic [ref=e447]: Quitter
+                      - button "Enregistrer pour plus tard" [disabled] [ref=e450]:
+                        - generic [ref=e453]: Enregistrer pour plus tard
+                    - button "Étape suivante" [ref=e454] [cursor=pointer]:
+                      - generic [ref=e457]: Étape suivante
+    - contentinfo [ref=e458]:
+      - generic [ref=e460]:
+        - generic [ref=e461]:
+          - link "Logo ANR" [ref=e462] [cursor=pointer]:
+            - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+            - img "Logo ANR" [ref=e463]
+          - link "Logo France 2030" [ref=e464] [cursor=pointer]:
+            - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+            - img "Logo France 2030" [ref=e465]
+        - generic [ref=e466]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+      - generic [ref=e467]:
+        - generic [ref=e468]:
+          - img "Logo Cofolio" [ref=e469]
+          - generic [ref=e480]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+        - generic [ref=e481]:
+          - generic [ref=e482]:
+            - generic [ref=e483]: Informations légales
+            - list [ref=e484]:
+              - listitem [ref=e485]:
+                - 'link "Accessibilité : partiellement conforme" [ref=e486] [cursor=pointer]':
+                  - /url: /cofolio/staff/accessibility
+              - listitem [ref=e487]:
+                - link "Mentions légales" [ref=e488] [cursor=pointer]:
+                  - /url: /cofolio/staff/legal
+              - listitem [ref=e489]:
+                - link "Données personnelles" [ref=e490] [cursor=pointer]:
+                  - /url: /cofolio/staff/personal-data
+              - listitem [ref=e491]:
+                - link "Gestion des cookies" [ref=e492] [cursor=pointer]:
+                  - /url: /cofolio/staff/cookies
+          - generic [ref=e493]:
+            - generic [ref=e494]: Autres sites
+            - list [ref=e495]:
+              - listitem [ref=e496]:
+                - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e497] [cursor=pointer]:
+                  - /url: https://avenirs-esr.fr/
+                  - text: avenirs-esr.fr
+          - generic [ref=e498]:
+            - generic [ref=e499]: Partenaires
+            - generic [ref=e500]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e501] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - img "Logo Avenir(s) ESR" [ref=e502]
+              - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e503] [cursor=pointer]:
+                - /url: https://www.esup-portail.org/
+                - img "Logo Esup Portail" [ref=e505]
+      - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e509] [cursor=pointer]:
+        - /url: https://www.esup-portail.org/
+        - text: "@ESUP-Portail. Tous droits réservés."
+  - tooltip "Modifiez un champ avant d'enregistrer"
+```
+
+# Test source
+
+```ts
+  43  |     return this.getAddResourceModal().getByTestId('add-activity-resource-link-input')
+  44  |   }
+  45  | 
+  46  |   private getDeleteConfirmationModal () {
+  47  |     return this.page.getByTestId('delete-activity-resources-confirmation-modal')
+  48  |   }
+  49  | 
+  50  |   private getDeleteModalTitle () {
+  51  |     return this.getDeleteConfirmationModal().getByTestId('delete-activity-resources-confirmation-modal-title')
+  52  |   }
+  53  | 
+  54  |   private getModalResourceTitle (resourceLabel: string) {
+  55  |     return this.getDeleteConfirmationModal()
+  56  |       .getByTestId('activity-resource-card-title')
+  57  |       .filter({ hasText: resourceLabel })
+  58  |   }
+  59  | 
+  60  |   private getDeleteModalCancelButton () {
+  61  |     return this.getDeleteConfirmationModal().getByRole('button', { name: t('global.buttons.cancel') })
+  62  |   }
+  63  | 
+  64  |   private getDeleteModalConfirmButton () {
+  65  |     return this.getDeleteConfirmationModal().getByRole('button', { name: t('global.buttons.confirm') })
+  66  |   }
+  67  | 
+  68  |   async clickAddResourceButton () {
+  69  |     await clickOnElement(this.getAddResourceButton())
+  70  |   }
+  71  | 
+  72  |   async selectAddResourceModalType (type: 'file' | 'link') {
+  73  |     await this.getAddResourceModalTypeSelect().selectOption(type)
+  74  |   }
+  75  | 
+  76  |   async verifyAddResourceModalFileFormVisible () {
+  77  |     await expect(this.getAddResourceModalFileUploadContainer()).toBeVisible()
+  78  |     await expect(this.getAddResourceModalFileNameInput()).toBeVisible()
+  79  |   }
+  80  | 
+  81  |   async verifyAddResourceModalFileFormHidden () {
+  82  |     await expect(this.getAddResourceModalFileUploadContainer()).not.toBeVisible()
+  83  |     await expect(this.getAddResourceModalFileNameInput()).not.toBeVisible()
+  84  |   }
+  85  | 
+  86  |   async verifyAddResourceModalLinkFormVisible () {
+  87  |     await expect(this.getAddResourceModalLinkInput()).toBeVisible()
+  88  |   }
+  89  | 
+  90  |   async verifyAddResourceModalLinkFormHidden () {
+  91  |     await expect(this.getAddResourceModalLinkInput()).not.toBeVisible()
+  92  |   }
+  93  | 
+  94  |   async selectResource (resourceLabel: string) {
+  95  |     await clickOnElement(this.getResourceCheckbox(resourceLabel))
+  96  |   }
+  97  | 
+  98  |   async verifyDeleteButtonDisabled () {
+  99  |     await expect(this.getDeleteButton()).toBeDisabled()
+  100 |   }
+  101 | 
+  102 |   async verifyDeleteButtonEnabled () {
+  103 |     await expect(this.getDeleteButton()).toBeEnabled()
+  104 |   }
+  105 | 
+  106 |   async clickDeleteButton () {
+  107 |     await clickOnElement(this.getDeleteButton())
+  108 |   }
+  109 | 
+  110 |   async verifyConfirmationModalVisible () {
+  111 |     await expect(this.getDeleteConfirmationModal()).toBeVisible()
+  112 |   }
+  113 | 
+  114 |   async verifyConfirmationModalHidden () {
+  115 |     await expect(this.getDeleteConfirmationModal()).toBeHidden()
+  116 |   }
+  117 | 
+  118 |   async verifySingularConfirmationMessage () {
+  119 |     await expect(this.getDeleteModalTitle()).toHaveText(t('staff.activities.modals.DeleteActivityResourcesConfirmationModal.title', { count: 1 }))
+  120 |   }
+  121 | 
+  122 |   async verifyPluralConfirmationMessage () {
+  123 |     await expect(this.getDeleteModalTitle()).toHaveText(t('staff.activities.modals.DeleteActivityResourcesConfirmationModal.title', { count: 2 }))
+  124 |   }
+  125 | 
+  126 |   async verifyModalListsResource (resourceLabel: string) {
+  127 |     await expect(this.getModalResourceTitle(resourceLabel)).toBeVisible()
+  128 |   }
+  129 | 
+  130 |   async clickCancelButton () {
+  131 |     await clickOnElement(this.getDeleteModalCancelButton())
+  132 |   }
+  133 | 
+  134 |   async clickConfirmButton () {
+  135 |     await clickOnElement(this.getDeleteModalConfirmButton())
+  136 |   }
+  137 | 
+  138 |   async verifyResourceListed (resourceLabel: string) {
+  139 |     await expect(this.getResourceCheckbox(resourceLabel)).toBeVisible()
+  140 |   }
+  141 | 
+  142 |   async verifyResourceNotListed (resourceLabel: string) {
+> 143 |     await expect(this.getResourceCheckbox(resourceLabel)).toHaveCount(0)
+      |                                                           ^ Error: expect(locator).toHaveCount(expected) failed
+  144 |   }
+  145 | }
+  146 | 
+```
