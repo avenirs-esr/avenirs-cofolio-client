@@ -1,12 +1,19 @@
 <script setup lang="ts">
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import { EActivityThematic } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import { ICONS } from '@/common/constants'
 import { isEnumMember } from '@/common/utils'
 import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 
+interface SelectableActivity extends AvInteractiveProps {
+  id: string
+  title: string
+  thematic: EActivityThematic
+}
+
 export interface ActivitiesSelectorProps {
-  activities: { id: string, title: string, thematic: EActivityThematic, disabled?: boolean }[]
+  activities: SelectableActivity[]
   readonly?: boolean
 }
 
@@ -24,6 +31,7 @@ const selectableActivities = computed(() => {
     title: activity.title,
     baseElement: activity,
     disabled: activity.disabled ?? false,
+    disabledTooltip: activity.disabledTooltip,
     showSlot: getActivityThematic(activity) !== 'unknown'
   }))
 })

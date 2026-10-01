@@ -4,7 +4,7 @@ import { MDI_ICONS, MS_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 export const CATEGORY_ELEMENTS_PAGE_SIZE = 3
 
 export const CATEGORY_ICON_MAP: Record<ESelfKnowledgeCategory, string> = {
-  [ESelfKnowledgeCategory.VALUES]: MDI_ICONS.FLOWER_TUILIP_OUTLINE,
+  [ESelfKnowledgeCategory.VALUES]: MDI_ICONS.FLOWER_TULIP_OUTLINE,
   [ESelfKnowledgeCategory.STRENGTHS]: MDI_ICONS.WEIGHTS,
   [ESelfKnowledgeCategory.ASPIRATIONS]: RI_ICONS.HAND_HEART_LINE,
   [ESelfKnowledgeCategory.MOTIVATION]: MDI_ICONS.ROCKET_LAUNCH_OUTLINE,

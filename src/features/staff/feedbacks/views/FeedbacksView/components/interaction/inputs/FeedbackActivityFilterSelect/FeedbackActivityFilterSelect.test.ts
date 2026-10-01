@@ -53,14 +53,16 @@ BddTest().given('a feedback activity filter select', () => {
       const options = select.props('options')
 
       expect(select.props('placeholder')).toBe('Sélectionner une activité')
+      expect(options).toBeDefined()
       expect(options).toHaveLength(activities.length + 1)
-      expect(options[0]).toEqual({
+      expect(options![0]).toEqual({
         id: 'ALL',
         label: 'Toutes'
       })
 
       activities.forEach((activity, index) => {
-        expect(options[index + 1]).toEqual({
+        expect(options).toBeDefined()
+        expect(options![index + 1]).toEqual({
           id: activity.id,
           label: activity.title
         })
@@ -103,11 +105,12 @@ BddTest().given('a feedback activity filter select', () => {
     BddTest().then('it should only render activities matching the given statuses', () => {
       const select = wrapper.findComponent(AvSelectStub)
       const options = select.props('options')
+      expect(options).toBeDefined()
 
       expect(options).toHaveLength(activities.length + 1)
 
       activities.forEach((activity, index) => {
-        expect(options[index + 1]).toEqual({
+        expect(options![index + 1]).toEqual({
           id: activity.id,
           label: activity.title
         })

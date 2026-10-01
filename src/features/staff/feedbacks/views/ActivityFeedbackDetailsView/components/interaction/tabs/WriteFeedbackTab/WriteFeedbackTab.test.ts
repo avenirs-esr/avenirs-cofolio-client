@@ -119,7 +119,7 @@ function expectButtons (wrapper: VueWrapper, expected: AvCancelConfirmButtonsPro
   const buttons = getButtons(wrapper)
   for (const [key, value] of Object.entries(expected)) {
     if (value !== undefined) {
-      expect(buttons.props(key)).toBe(value)
+      expect(buttons.props(key as keyof AvCancelConfirmButtonsProps)).toBe(value)
     }
   }
 }

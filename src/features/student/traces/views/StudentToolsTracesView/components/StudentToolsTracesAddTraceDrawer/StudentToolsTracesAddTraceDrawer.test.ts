@@ -10,7 +10,7 @@ import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
 import { AssociationSelectionSectionStub } from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.stub'
 import { useTracesStore } from '@/features/student/traces'
 import StudentToolsTracesAddTraceDrawer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
-import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -65,6 +65,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
     },
     AvButton: AvButtonStub,
     AvIconText: AvIconTextStub,
+    AvTooltip: AvTooltipStub,
     Toggle: ToggleStub,
     ConfirmationModal: ConfirmationModalStub,
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
@@ -203,6 +204,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
       beforeEach(async () => {
         const drawer = wrapper.findComponent({ name: 'AvDrawer' })
         await drawer.vm.$emit('escape-pressed')
+        await flushPromises()
         await wrapper.vm.$nextTick()
       })
 
@@ -231,6 +233,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
     BddTest().and('canLeave is true', () => {
       beforeEach(async () => {
         await clickCancelButton()
+        await flushPromises()
         await wrapper.vm.$nextTick()
       })
 

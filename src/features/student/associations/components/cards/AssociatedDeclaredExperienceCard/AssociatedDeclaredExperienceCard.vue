@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import { ICONS, ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 import DeclaredExperienceTypeBadge
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.vue'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
-export interface AssociatedDeclaredExperienceCardProps {
+export interface AssociatedDeclaredExperienceCardProps extends AvInteractiveProps {
   declaredExperience: DeclaredExperienceViewDTO
-  disabled?: boolean
 }
 
 const { declaredExperience, disabled } = defineProps<AssociatedDeclaredExperienceCardProps>()
@@ -24,6 +24,7 @@ const { declaredExperience, disabled } = defineProps<AssociatedDeclaredExperienc
     background-color="var(--surface-background)"
     :to="{ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: declaredExperience.id } }"
     :disabled="disabled"
+    :disabled-tooltip
     data-testid="associated-declared-experience-card"
     :data-experience-id="declaredExperience.id"
   >

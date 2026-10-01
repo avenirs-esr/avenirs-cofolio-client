@@ -57,19 +57,23 @@ BddTest().given('a declared experience type select component', () => {
     BddTest().then('it should have professional experience option', () => {
       const select = getAvSelect()
       const options = select.props('options')
-      const professionalOption = options.find((opt: { id: EExperienceType }) => opt.id === EExperienceType.PROFESSIONAL)
+      expect(options).toBeDefined()
+
+      const professionalOption = options!.find((opt: { id: string }) => opt.id === EExperienceType.PROFESSIONAL)
       expect(professionalOption).toBeDefined()
-      expect(professionalOption.label).toBe('Expérience professionnelle')
-      expect(professionalOption.id).toBe(EExperienceType.PROFESSIONAL)
+      expect(professionalOption!.label).toBe('Expérience professionnelle')
+      expect(professionalOption!.id).toBe(EExperienceType.PROFESSIONAL)
     })
 
     BddTest().then('it should have personal experience option', () => {
       const select = getAvSelect()
       const options = select.props('options')
-      const personalOption = options.find((opt: { id: EExperienceType }) => opt.id === EExperienceType.PERSONAL)
+      expect(options).toBeDefined()
+
+      const personalOption = options!.find((opt: { id: string }) => opt.id === EExperienceType.PERSONAL)
       expect(personalOption).toBeDefined()
-      expect(personalOption.label).toBe('Expérience personnelle')
-      expect(personalOption.id).toBe(EExperienceType.PERSONAL)
+      expect(personalOption!.label).toBe('Expérience personnelle')
+      expect(personalOption!.id).toBe(EExperienceType.PERSONAL)
     })
   })
 

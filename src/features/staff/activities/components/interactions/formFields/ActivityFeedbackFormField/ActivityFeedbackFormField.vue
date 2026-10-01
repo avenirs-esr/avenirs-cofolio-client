@@ -7,13 +7,12 @@ import { useFormValidators } from '@/common/composables/use-form-validators/use-
 import { ICONS } from '@/common/constants'
 import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
-import { AvMessage } from '@avenirs-esr/avenirs-dsav'
+import { type AvInteractiveProps, AvMessage } from '@avenirs-esr/avenirs-dsav'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-interface ActivityFeedbackFormFieldProps {
+interface ActivityFeedbackFormFieldProps extends AvInteractiveProps {
   form: EditActivityForm
-  disabled?: boolean
 }
 
 defineOptions({ inheritAttrs: false })
@@ -82,6 +81,7 @@ const inputEnabled = computed({
         v-model="inputEnabled"
         data-testid="feedback-parameter-toggle"
         :disabled
+        :disabled-tooltip
         toggle-id="feedback-main-toggle"
         :title="t('staff.activities.views.EditNationalActivityView.ActivityFeedbackFormField.title')"
         :icon="ICONS.FEEDBACK"

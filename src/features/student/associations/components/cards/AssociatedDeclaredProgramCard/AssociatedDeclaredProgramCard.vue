@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import { ICONS, ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 import DeclaredProgramOrganizationBadge
@@ -7,9 +8,8 @@ import DeclaredProgramOrganizationBadge
 import DeclaredProgramStatusBadge
   from '@/features/student/personalCareer/components/badges/DeclaredProgramStatusBadge/DeclaredProgramStatusBadge.vue'
 
-export interface AssociatedDeclaredProgramCardProps {
+export interface AssociatedDeclaredProgramCardProps extends AvInteractiveProps {
   declaredProgram: DeclaredProgramViewDTO
-  disabled?: boolean
 }
 
 const { declaredProgram, disabled } = defineProps<AssociatedDeclaredProgramCardProps>()
@@ -25,6 +25,7 @@ const { declaredProgram, disabled } = defineProps<AssociatedDeclaredProgramCardP
     background-color="var(--surface-background)"
     :to="{ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: declaredProgram.id } }"
     :disabled="disabled"
+    :disabled-tooltip
     data-testid="associated-declared-program-card"
     :data-program-id="declaredProgram.id"
   >

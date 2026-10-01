@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import type { IconOptions } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
 import { FloatingIconCard } from '@/features/student/global'
 import { type RouteLocationRaw, RouterLink } from 'vue-router'
 
-export interface AssociationCardProps {
+export interface AssociationCardProps extends AvInteractiveProps {
   title: string
   icon: string
   color: string
@@ -12,7 +13,6 @@ export interface AssociationCardProps {
   hoverBorderColor?: string
   iconBorderColor?: string
   to: RouteLocationRaw
-  disabled?: boolean
 }
 
 defineOptions({

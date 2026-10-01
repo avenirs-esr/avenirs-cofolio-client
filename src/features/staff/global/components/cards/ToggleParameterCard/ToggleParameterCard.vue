@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import Toggle from '@/common/components/Toggle/Toggle.vue'
 
-export interface ToggleParameterCardProps {
+export interface ToggleParameterCardProps extends AvInteractiveProps {
   title: string
   icon: string
-  disabled?: boolean
   toggleId?: string
 }
 
@@ -31,6 +31,7 @@ const model = defineModel<boolean>({ default: true })
         v-model="model"
         description=""
         :disabled="disabled"
+        :disabled-tooltip="disabledTooltip"
       />
     </template>
 

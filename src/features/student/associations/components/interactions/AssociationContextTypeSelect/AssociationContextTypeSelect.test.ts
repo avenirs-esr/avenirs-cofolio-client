@@ -84,8 +84,9 @@ BddTest().given('an association context type select', () => {
 
     BddTest().then('it should translate the selection label of every context type', () => {
       const options = wrapper.findComponent(AvSelectStub).props('options')
+      expect(options).toBeDefined()
 
-      expect(options.map(({ label }: { label: string }) => label)).toEqual([
+      expect(options!.map(({ label }: { label: string }) => label)).toEqual([
         'Mes traces',
         'Mes activités',
         'Mes compétences',

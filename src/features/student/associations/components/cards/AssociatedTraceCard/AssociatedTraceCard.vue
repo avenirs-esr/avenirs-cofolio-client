@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import type { TraceAssociationDTO } from '@/api/avenir-esr'
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import { ICONS, ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 
-export interface AssociatedTraceCardProps {
+export interface AssociatedTraceCardProps extends AvInteractiveProps {
   associatedTrace: TraceAssociationDTO
-  disabled?: boolean
 }
 
 const { associatedTrace, disabled } = defineProps<AssociatedTraceCardProps>()
@@ -21,6 +21,7 @@ const { associatedTrace, disabled } = defineProps<AssociatedTraceCardProps>()
     icon-border-color="var(--other-border-skill-card)"
     :to="{ name: ROUTES.STUDENT.TOOLS_TRACE.name, params: { id: associatedTrace.trace.id } }"
     :disabled="disabled"
+    :disabled-tooltip
     data-testid="associated-trace-card"
     :data-trace-id="associatedTrace.trace.id"
   />

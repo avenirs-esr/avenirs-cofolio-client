@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import SelectorOverlay from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.vue'
 import CompactCard from '@/features/student/global/components/cards/CompactCard/CompactCard.vue'
 import { getUnknownElementProp } from '@/features/student/global/components/cards/CompactCardSelector/utils'
@@ -31,8 +32,16 @@ import { getUnknownElementProp } from '@/features/student/global/components/card
  * </CompactCardSelector>
  */
 
+export interface SelectableElement extends AvInteractiveProps {
+  id: string
+  title: string
+  showSlot?: boolean
+  baseElement?: unknown
+  isLoading?: boolean
+}
+
 export interface CompactCardSelectorProps {
-  elements: { id: string, title: string, showSlot?: boolean, baseElement?: unknown, disabled?: boolean, isLoading?: boolean }[]
+  elements: SelectableElement[]
   readonly?: boolean
   icon: string
   color?: string

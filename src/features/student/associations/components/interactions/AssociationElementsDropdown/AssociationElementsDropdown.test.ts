@@ -46,7 +46,7 @@ BddTest().given('an association elements dropdown', () => {
 
     BddTest().then('it should map each type to its icon', () => {
       const items = wrapper.findComponent(AvDropdownStub).props('items')
-      expect(items.map((item: { icon: string }) => item.icon))
+      expect(items.map((item: { icon?: string }) => item.icon))
         .toEqual([ICONS.ACTIVITY, ICONS.SKILLS, ICONS.TRACES, ICONS.EXPERIENCES])
     })
 
@@ -70,7 +70,7 @@ BddTest().given('an association elements dropdown', () => {
 
     BddTest().then('it should enable every item', () => {
       const items = wrapper.findComponent(AvDropdownStub).props('items')
-      expect(items.every((item: { disabled: boolean }) => item.disabled === false)).toBe(true)
+      expect(items.every((item: { disabled?: boolean }) => item.disabled === false)).toBe(true)
     })
 
     BddTest().and('an item is clicked', () => {
@@ -124,7 +124,7 @@ BddTest().given('an association elements dropdown', () => {
 
     BddTest().then('it should disable only that item', () => {
       const items = wrapper.findComponent(AvDropdownStub).props('items')
-      expect(items.map((item: { disabled: boolean }) => item.disabled)).toEqual([true, false])
+      expect(items.map((item: { disabled?: boolean }) => item.disabled)).toEqual([true, false])
     })
   })
 
@@ -174,7 +174,7 @@ BddTest().given('an association elements dropdown', () => {
 
     BddTest().then('it should disable every item regardless of their own flag', () => {
       const items = wrapper.findComponent(AvDropdownStub).props('items')
-      expect(items.every((item: { disabled: boolean }) => item.disabled)).toBe(true)
+      expect(items.every((item: { disabled?: boolean }) => item.disabled)).toBe(true)
     })
   })
 

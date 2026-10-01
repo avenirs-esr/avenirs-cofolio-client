@@ -72,9 +72,10 @@ BddTest().given('a staff navigation', () => {
       const avNavigation = wrapper.findComponent(AvNavigationStub)
       const navItems = avNavigation.props('navItems')
 
-      expect(navItems[2].links).toHaveLength(1)
+      expect('links' in navItems[2]).toBe(true)
+      expect('links' in navItems[2] && navItems[2].links).toHaveLength(1)
 
-      expect(navItems[2].links[0]).toMatchObject({
+      expect('links' in navItems[2] && navItems[2].links![0]).toMatchObject({
         text: 'Toutes mes demandes de feedback',
         to: expect.objectContaining({ name: 'staff-student-tracking-feedbacks' }),
         icon: MDI_ICONS.PEOPLE_GROUP_OUTLINE,

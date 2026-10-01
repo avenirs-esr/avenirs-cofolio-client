@@ -112,7 +112,7 @@ const errorMessage = computed(() => [
     :key="`${type}-${isOngoing ? 'ongoing' : 'period'}`"
     :error-message="errorMessage"
     :label="pickerLabel"
-    :model-value="modelValue"
+    :model-value="(modelValue as AvDatePickerModel)"
     :range="!isOngoing"
     :type="type"
     :auto-apply

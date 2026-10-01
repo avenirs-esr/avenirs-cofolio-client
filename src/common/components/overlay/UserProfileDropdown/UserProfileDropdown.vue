@@ -2,14 +2,13 @@
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useTutorial } from '@/common/components/overlay/tooltips/Tutorial/use-tutorial'
 import { useModal } from '@/common/composables/use-modal/use-modal'
-import { AvDropdown, type AvDropdownItem, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvDropdown, type AvDropdownItem, type AvInteractiveProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export interface UserProfileDropdownAction {
+export interface UserProfileDropdownAction extends AvInteractiveProps {
   name: string
   label: string
   icon: string
-  disabled?: boolean
 }
 
 const { username, actions = [] } = defineProps<{

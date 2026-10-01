@@ -3,12 +3,11 @@ import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import { ACTIVITY_TRACE_SETTING_DISABLED_VALUE } from '@/features/staff/activities/config'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
-import { AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { type AvInteractiveProps, AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-interface ActivityReflectionFormFieldProps {
+interface ActivityReflectionFormFieldProps extends AvInteractiveProps {
   form: EditActivityForm
-  disabled?: boolean
 }
 
 defineOptions({ inheritAttrs: false })
@@ -44,6 +43,7 @@ const inputEnabled = computed({
     :title="t('staff.activities.views.EditNationalActivityView.ActivityReflectionFormField.title')"
     :icon="MDI_ICONS.TEXT_BOX_EDIT_OUTLINE"
     :disabled
+    :disabled-tooltip
   >
     <AvMessage
       v-if="disabled"

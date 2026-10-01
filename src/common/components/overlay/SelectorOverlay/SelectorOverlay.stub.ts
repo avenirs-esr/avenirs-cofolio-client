@@ -1,9 +1,11 @@
 import type { SelectorOverlayElement } from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.vue'
 import type { PropType } from 'vue'
+import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 export const SelectorOverlayStub = defineComponent({
   name: 'SelectorOverlay',
   props: {
+    ...AvInteractivePropsStub,
     selectableElements: {
       type: Array as PropType<SelectorOverlayElement[]>,
       required: true,
@@ -32,9 +34,9 @@ export const SelectorOverlayStub = defineComponent({
             'selector-overlay-stub__element--selected': selectedElements.includes(element.value),
           }"
           data-testid="selector-overlay"
-          @click="$emit('update:selectedElements', toggleSelection(element.value))"
-          @keydown.enter="$emit('update:selectedElements', toggleSelection(element.value))"
-          @keydown.space="$emit('update:selectedElements', toggleSelection(element.value))"
+          @click="$emit('update:selectedElements', toggleSelection(selectedElements, element.value))"
+          @keydown.enter="$emit('update:selectedElements', toggleSelection(selectedElements, element.value))"
+          @keydown.space="$emit('update:selectedElements', toggleSelection(selectedElements, element.value))"
         >
           {{ element.label }}
         </a>
@@ -52,14 +54,10 @@ export const SelectorOverlayStub = defineComponent({
     </div>
   `,
   methods: {
-    toggleSelection (value: string) {
-      const isSelected = this.selectedElements.includes(value)
-      if (isSelected) {
-        return this.selectedElements.filter(v => v !== value)
-      }
-      else {
-        return [...this.selectedElements, value]
-      }
+    toggleSelection (selectedElements: string[], value: string): string[] {
+      return selectedElements.includes(value)
+        ? selectedElements.filter(selectedValue => selectedValue !== value)
+        : [...selectedElements, value]
     },
   },
 })

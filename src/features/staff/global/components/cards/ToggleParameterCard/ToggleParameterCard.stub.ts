@@ -1,6 +1,9 @@
+import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
+
 export const ToggleParameterCardStub = defineComponent({
   name: 'ToggleParameterCard',
   props: {
+    ...AvInteractivePropsStub,
     modelValue: {
       type: Boolean,
       required: true,
@@ -12,10 +15,6 @@ export const ToggleParameterCardStub = defineComponent({
     icon: {
       type: String,
       required: true,
-    },
-    disabled: {
-      type: Boolean,
-      default: false,
     },
   },
   emits: ['update:modelValue'],

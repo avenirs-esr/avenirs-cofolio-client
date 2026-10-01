@@ -1,3 +1,5 @@
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+
 export enum Action {
   ADD = 'add',
   ASSOCIATE = 'associate',
@@ -15,8 +17,6 @@ export enum Action {
   UPDATE_IN_PROFILE = 'updateInProfile',
 }
 
-export interface ActionItem {
+export interface ActionItem extends AvInteractiveProps {
   type: Action
-  disabled?: boolean
-  disabledTooltip?: string
 }

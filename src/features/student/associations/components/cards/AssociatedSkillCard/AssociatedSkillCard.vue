@@ -2,12 +2,11 @@
 import type { DeclaredSkillProgressDTO } from '@/api/avenir-esr'
 import { ICONS, ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
-import { AvBadge, type AvBadgeProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, type AvBadgeProps, type AvInteractiveProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export interface AssociatedSkillCardProps {
+export interface AssociatedSkillCardProps extends AvInteractiveProps {
   declaredSkill: DeclaredSkillProgressDTO
-  disabled?: boolean
 }
 
 const { declaredSkill, disabled } = defineProps<AssociatedSkillCardProps>()
@@ -38,6 +37,7 @@ const pathBadge = computed<AvBadgeProps>(() => ({
     background-color="var(--dark-background-primary1)"
     :to="{ name: ROUTES.STUDENT.DECLARED_SKILL.name, params: { id: declaredSkill.id } }"
     :disabled="disabled"
+    :disabled-tooltip
     data-testid="associated-declared-skill-card"
   >
     <template #body>

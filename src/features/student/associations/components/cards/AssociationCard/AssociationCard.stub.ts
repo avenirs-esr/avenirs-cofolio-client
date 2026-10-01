@@ -1,6 +1,9 @@
+import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
+
 export const AssociationCardStub = defineComponent({
   name: 'AssociationCard',
   props: {
+    ...AvInteractivePropsStub,
     title: {
       type: String,
       required: true
@@ -29,10 +32,6 @@ export const AssociationCardStub = defineComponent({
       type: [String, Object],
       required: true
     },
-    disabled: {
-      type: Boolean,
-      required: false
-    }
   },
   template: '<div data-testid="association-card"><slot name="body" /><slot name="footer" /></div>'
 })
