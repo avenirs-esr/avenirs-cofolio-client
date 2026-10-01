@@ -3658,6 +3658,30 @@
         }
       }
     },
+    "/me/activities/{activityId}": {
+      "delete": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "deleteActivityDefinitively",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/me/activities/draft/{activityDraftId}": {
       "delete": {
         "tags": [

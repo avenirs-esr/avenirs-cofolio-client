@@ -32,6 +32,7 @@ import {
   EErrorCode,
   getCreateActivityDraftUrl,
   getCreateDraftFromActivityUrl,
+  getDeleteActivityDefinitivelyUrl,
   getDeleteActivityDraftUrl,
   getDuplicateActivityUrl,
   getGetActivitiesWithFeedbacksUrl,
@@ -140,6 +141,17 @@ export const getStaffActivityLibraryErrorHandler = http.get(`*${getGetStaffActiv
 
 export const deleteActivityDraftHandler = http.delete(`*${getDeleteActivityDraftUrl(':activityDraftId')}`, ({ params }) => {
   if (params.activityDraftId === 'INVALID_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Activity not found' },
+      { status: HttpStatusCode.NOT_FOUND, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  return new HttpResponse(null, { status: HttpStatusCode.NO_CONTENT })
+})
+
+export const deleteActivityDefinitivelyHandler = http.delete(`*${getDeleteActivityDefinitivelyUrl(':activityId')}`, ({ params }) => {
+  if (params.activityId === 'INVALID_ACTIVITY_ID') {
     return HttpResponse.json(
       { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Activity not found' },
       { status: HttpStatusCode.NOT_FOUND, headers: { 'Content-Type': 'application/json' } }
@@ -325,6 +337,7 @@ export const staffsActivitiesHandlers = [
     })
   }),
   deleteActivityDraftHandler,
+  deleteActivityDefinitivelyHandler,
   publishActivityDraftHandler,
   unpublishActivityDraftHandler,
   duplicateActivityHandler,

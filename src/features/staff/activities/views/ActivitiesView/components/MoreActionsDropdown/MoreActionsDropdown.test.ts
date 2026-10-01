@@ -1,9 +1,20 @@
+import type { VueWrapper } from '@vue/test-utils'
 import { EActivityStatus } from '@/api/avenir-esr'
 import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
 import MoreActionsDropdown from '@/features/staff/activities/views/ActivitiesView/components/MoreActionsDropdown/MoreActionsDropdown.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+const mockIsSuperAdmin = vi.hoisted(() => ({ value: false }))
+
+vi.mock('@/features/auth/global/stores/auth.store', () => ({
+  useAuthStore: () => ({
+    get isSuperAdmin () {
+      return mockIsSuperAdmin.value
+    }
+  })
+}))
 
 BddTest().given('a MoreActionsDropdown component', () => {
   let wrapper: VueWrapper<InstanceType<typeof MoreActionsDropdown>>
@@ -20,16 +31,21 @@ BddTest().given('a MoreActionsDropdown component', () => {
     return getDropdown().find('[data-testid="delete"]')
   }
 
+  function mountDropdown (activityStatus: EActivityStatus) {
+    return mountComponent(MoreActionsDropdown, {
+      props: { activityStatus },
+      global: { stubs }
+    })
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
+    mockIsSuperAdmin.value = false
   })
 
   BddTest().when('mounted with DRAFT status', () => {
     beforeEach(() => {
-      wrapper = mount(MoreActionsDropdown, {
-        props: { activityStatus: EActivityStatus.DRAFT },
-        global: { stubs }
-      })
+      wrapper = mountDropdown(EActivityStatus.DRAFT)
     })
 
     BddTest().then('it should render the dropdown', () => {
@@ -83,10 +99,7 @@ BddTest().given('a MoreActionsDropdown component', () => {
 
   BddTest().when('mounted with PUBLISHED status', () => {
     beforeEach(() => {
-      wrapper = mount(MoreActionsDropdown, {
-        props: { activityStatus: EActivityStatus.PUBLISHED },
-        global: { stubs }
-      })
+      wrapper = mountDropdown(EActivityStatus.PUBLISHED)
     })
 
     BddTest().then('the delete action should be disabled and the navigate to feedback, unpublish and clone actions should not be disabled', () => {
@@ -136,6 +149,48 @@ BddTest().given('a MoreActionsDropdown component', () => {
       BddTest().then('it should emit clone', () => {
         expect(wrapper.emitted('clone')).toHaveLength(1)
       })
+    })
+  })
+
+  BddTest().when('mounted with PUBLISHED status while the user is a super admin', () => {
+    beforeEach(() => {
+      mockIsSuperAdmin.value = true
+      wrapper = mountDropdown(EActivityStatus.PUBLISHED)
+    })
+
+    BddTest().then('the delete action should not be disabled', () => {
+      expect(getDropdown().props('actions')).toEqual([
+        expect.objectContaining({ type: 'navigateToFeedbacks', disabled: false }),
+        expect.objectContaining({ type: 'unpublish', disabled: false }),
+        expect.objectContaining({ type: 'delete', disabled: false }),
+        expect.stringContaining('clone')
+      ])
+    })
+
+    BddTest().and('the delete action is selected', () => {
+      beforeEach(async () => {
+        await getDeleteButton().trigger('click')
+      })
+
+      BddTest().then('it should emit delete', () => {
+        expect(wrapper.emitted('delete')).toHaveLength(1)
+      })
+    })
+  })
+
+  BddTest().when('mounted with UNPUBLISHED status while the user is a super admin', () => {
+    beforeEach(() => {
+      mockIsSuperAdmin.value = true
+      wrapper = mountDropdown(EActivityStatus.UNPUBLISHED)
+    })
+
+    BddTest().then('the delete action should not be disabled', () => {
+      expect(getDropdown().props('actions')).toEqual([
+        expect.objectContaining({ type: 'navigateToFeedbacks', disabled: true }),
+        expect.objectContaining({ type: 'unpublish', disabled: true }),
+        expect.objectContaining({ type: 'delete', disabled: false }),
+        expect.stringContaining('clone')
+      ])
     })
   })
 })

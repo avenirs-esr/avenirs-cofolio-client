@@ -2,11 +2,13 @@
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
+import { EActivityStatus } from '@/api/avenir-esr'
 import ActivityStatusBadge from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import Pagination from '@/common/components/Pagination/Pagination.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useDateUtils, useNavigation } from '@/common/composables'
 import { useModal } from '@/common/composables/use-modal/use-modal'
+import DeleteActivityDefinitivelyConfirmationModal from '@/features/staff/activities/components/modals/DeleteActivityDefinitivelyConfirmationModal/DeleteActivityDefinitivelyConfirmationModal.vue'
 import DeleteDraftActivityConfirmationModal from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
 import UnpublishActivityConfirmationModal from '@/features/staff/activities/components/modals/UnpublishActivityConfirmationModal/UnpublishActivityConfirmationModal.vue'
 import { usePaginatedStaffActivities, type UsePaginatedStaffActivitiesParams } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
@@ -66,15 +68,20 @@ const { modalOpened: unpublishModalOpened, openModal: displayUnpublishModal, clo
 
 const pendingUnpublishId = ref<string>()
 const pendingDuplicate = ref<{ id: string, title: string }>()
-const pendingDeleteId = ref<string>()
+const pendingDelete = ref<{ id: string, status: EActivityStatus }>()
+
+const isPendingDeleteDefinitive = computed(() => pendingDelete.value !== undefined && pendingDelete.value.status !== EActivityStatus.DRAFT)
 
 function onUnpublishSelected (activityId: string) {
   pendingUnpublishId.value = activityId
   displayUnpublishModal()
 }
 
-function onDeleteSelected (activityId: string) {
-  pendingDeleteId.value = activityId
+function onDeleteSelected (activityId: string, activityStatus: EActivityStatus) {
+  pendingDelete.value = {
+    id: activityId,
+    status: activityStatus
+  }
   displayDeleteModal()
 }
 
@@ -100,13 +107,13 @@ function onDuplicated () {
 
 function onDeleted () {
   hideDeleteModal()
-  pendingDeleteId.value = undefined
+  pendingDelete.value = undefined
   emit('deleted')
 }
 
 function cancelDelete () {
   hideDeleteModal()
-  pendingDeleteId.value = undefined
+  pendingDelete.value = undefined
 }
 
 function cancelDuplicate () {
@@ -221,7 +228,7 @@ watch(
               :data-activity-status="row.status"
               @unpublish="() => onUnpublishSelected(row.id)"
               @clone="() => onDuplicateSelected(row.id, row.title)"
-              @delete="() => onDeleteSelected(row.id)"
+              @delete="() => onDeleteSelected(row.id, row.status)"
               @navigate-to-feedbacks="() => navigateToFeedbacks({ activityId: row.id })"
             />
           </template>
@@ -245,8 +252,16 @@ watch(
     />
 
     <DeleteDraftActivityConfirmationModal
-      :opened="deleteModalOpened"
-      :activity-id="pendingDeleteId ?? ''"
+      :opened="deleteModalOpened && !isPendingDeleteDefinitive"
+      :activity-id="pendingDelete?.id ?? ''"
+      @close="cancelDelete"
+      @deleted="onDeleted"
+    />
+
+    <DeleteActivityDefinitivelyConfirmationModal
+      :opened="deleteModalOpened && isPendingDeleteDefinitive"
+      :activity-id="pendingDelete?.id ?? ''"
+      :activity-status="pendingDelete?.status ?? EActivityStatus.PUBLISHED"
       @close="cancelDelete"
       @deleted="onDeleted"
     />

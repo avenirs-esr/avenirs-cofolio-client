@@ -29,10 +29,12 @@ export const useAuthStore = defineStore('auth', () => {
   const sessionReady = ref<boolean>(false)
   const profile = ref<ProfileOverviewDTO | null>(null)
   const categories = ref<EUserCategory[]>([])
+  const roles = ref<ERole[]>([])
 
   const redirecting = ref(false)
   const sessionPromise = ref<Promise<void> | null>(null)
   const canSwitchProfile = computed(() => categories.value.includes(EUserCategory.STUDENT) && categories.value.includes(EUserCategory.STAFF))
+  const isSuperAdmin = computed(() => roles.value.includes(ERole.ROLE_SUPER_ADMIN))
 
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
@@ -54,6 +56,7 @@ export const useAuthStore = defineStore('auth', () => {
         let isStatusNot401 = true
         try {
           const me = await getMe(fetchOptions)
+          roles.value = me.roles
           categories.value = getConnectedUserCategories(me.roles)
 
           const selectedProfile = categories.value.includes(EUserCategory.STUDENT)
@@ -136,6 +139,7 @@ export const useAuthStore = defineStore('auth', () => {
     sessionReady.value = false
     profile.value = null
     categories.value = []
+    roles.value = []
   }
 
   return {
@@ -144,7 +148,9 @@ export const useAuthStore = defineStore('auth', () => {
     isLoggedIn,
     profile: readonly(profile),
     categories: readonly(categories),
+    roles: readonly(roles),
     canSwitchProfile: readonly(canSwitchProfile),
+    isSuperAdmin: readonly(isSuperAdmin),
     homeRoute
   }
 }, {
@@ -155,6 +161,7 @@ export const useAuthStore = defineStore('auth', () => {
       'canSwitchProfile',
       'profile',
       'categories',
+      'roles',
     ]
   }
 })
