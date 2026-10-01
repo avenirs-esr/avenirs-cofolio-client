@@ -3,22 +3,24 @@ import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface ValorizedBadgeProps {
-  valorized: boolean
+  valorized: boolean | undefined
 }
 
 const { valorized } = defineProps<ValorizedBadgeProps>()
 
+const isValorized = computed(() => valorized === true)
+
 const { t } = useI18n()
 
 const avBadgeProps = computed(() => ({
-  label: valorized ? t('global.valorized') : t('global.notValorized'),
-  color: valorized
+  label: isValorized.value ? t('global.valorized') : t('global.notValorized'),
+  color: isValorized.value
     ? 'var(--light-foreground-accent)'
     : 'var(--light-foreground-secondary)',
-  backgroundColor: valorized
+  backgroundColor: isValorized.value
     ? 'var(--light-background-accent)'
     : 'var(--light-background-neutral)',
-  icon: valorized ? MDI_ICONS.STAR : MDI_ICONS.STAR_OUTLINE,
+  icon: isValorized.value ? MDI_ICONS.STAR : MDI_ICONS.STAR_OUTLINE,
 })
 )
 </script>
@@ -26,7 +28,7 @@ const avBadgeProps = computed(() => ({
 <template>
   <AvBadge
     data-testid="valorized-badge"
-    :data-valorized="valorized"
+    :data-valorized="isValorized"
     v-bind="avBadgeProps"
     border-color="transparent"
     ellipsis

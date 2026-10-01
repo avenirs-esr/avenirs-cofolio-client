@@ -1,5 +1,6 @@
 import { type DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
 import { PeriodBadgeStub } from '@/common/activities/badges/PeriodBadge/PeriodBadge.stub'
+import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { DeclaredExperienceOrganizationBadgeStub }
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceOrganizationBadge/DeclaredExperienceOrganizationBadge.stub'
@@ -19,7 +20,8 @@ BddTest().given('a declared experience card', () => {
     RouterLink: RouterLinkStub,
     PeriodBadge: PeriodBadgeStub,
     DeclaredExperienceTypeBadge: DeclaredExperienceTypeBadgeStub,
-    DeclaredExperienceOrganizationBadge: DeclaredExperienceOrganizationBadgeStub
+    DeclaredExperienceOrganizationBadge: DeclaredExperienceOrganizationBadgeStub,
+    ValorizedBadge: ValorizedBadgeStub,
   }
 
   const baseDeclaredExperience: DeclaredExperienceViewDTO = {
@@ -58,6 +60,10 @@ BddTest().given('a declared experience card', () => {
 
     BddTest().then('it should render the floating icon card', () => {
       expect(floatingCard.exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the valorized badge', () => {
+      expect(wrapper.findComponent(ValorizedBadgeStub).exists()).toBe(true)
     })
 
     BddTest().then('it should pass the title to floating icon card', () => {

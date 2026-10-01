@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import PeriodBadge from '@/common/activities/badges/PeriodBadge/PeriodBadge.vue'
+import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { ROUTES } from '@/common/constants'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import DeclaredExperienceOrganizationBadge
@@ -39,20 +40,23 @@ const iconOptions = {
       height="fit-content"
     >
       <template #body>
-        <div class="av-col av-pr-4xl--md av-pt-xl av-pt-none--md">
-          <div class="av-row av-wrap av-align-end av-justify-end--md av-gap-sm">
-            <PeriodBadge
-              :start-date="declaredExperience.startDate"
-              :end-date="declaredExperience.endDate"
-            />
+        <div class="av-col av-pr-4xl">
+          <div class="av-row av-justify-between av-gap-sm av-wrap">
+            <ValorizedBadge :valorized="declaredExperience.valorized" />
+            <div class="av-row av-wrap av-align-end av-justify-end--md av-gap-sm av-ml-auto">
+              <PeriodBadge
+                :start-date="declaredExperience.startDate"
+                :end-date="declaredExperience.endDate"
+              />
 
-            <DeclaredExperienceTypeBadge
-              v-if="declaredExperience.experienceType"
-              :experience-type="declaredExperience.experienceType"
-            />
-            <DeclaredExperienceOrganizationBadge
-              :organization="declaredExperience.organization"
-            />
+              <DeclaredExperienceTypeBadge
+                v-if="declaredExperience.experienceType"
+                :experience-type="declaredExperience.experienceType"
+              />
+              <DeclaredExperienceOrganizationBadge
+                :organization="declaredExperience.organization"
+              />
+            </div>
           </div>
         </div>
       </template>
