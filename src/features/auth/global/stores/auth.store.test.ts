@@ -1,7 +1,7 @@
 import type { RouteLocationNormalized, RouteLocationRaw } from 'vue-router'
 import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student'
-import { EUserCategory } from '@/api/avenir-esr'
+import { ERole, EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { BaseApiException } from '@/common/exceptions'
 import { HttpStatusCode } from '@/common/utils'
@@ -71,6 +71,8 @@ BddTest().given('an auth store with mocked dependencies', () => {
       expect(store.invalidateSession).toBeTypeOf('function')
       expect(store.profile).toBeNull()
       expect(store.canSwitchProfile).toBe(false)
+      expect(store.roles).toEqual([])
+      expect(store.isSuperAdmin).toBe(false)
     })
   })
 
@@ -89,6 +91,8 @@ BddTest().given('an auth store with mocked dependencies', () => {
       expect(store.profile).not.toBeNull()
       expect(store.categories).toEqual([EUserCategory.STUDENT])
       expect(store.canSwitchProfile).toBe(false)
+      expect(store.roles).toEqual([ERole.ROLE_STUDENT])
+      expect(store.isSuperAdmin).toBe(false)
     })
 
     BddTest().then('it should return undefined and not navigate to the login route', () => {
@@ -113,6 +117,8 @@ BddTest().given('an auth store with mocked dependencies', () => {
       expect(store.profile).not.toBeNull()
       expect(store.categories).toEqual([EUserCategory.STAFF])
       expect(store.canSwitchProfile).toBe(false)
+      expect(store.roles).toEqual([ERole.ROLE_STAFF])
+      expect(store.isSuperAdmin).toBe(false)
     })
 
     BddTest().then('it should return undefined and not navigate to the login route', () => {
@@ -132,6 +138,11 @@ BddTest().given('an auth store with mocked dependencies', () => {
     BddTest().then('it should expose every category granted by the roles', () => {
       expect(store.categories).toEqual([EUserCategory.STUDENT, EUserCategory.STAFF])
       expect(store.canSwitchProfile).toBe(true)
+    })
+
+    BddTest().then('it should expose the roles and flag the user as super admin', () => {
+      expect(store.roles).toEqual([ERole.ROLE_STUDENT, ERole.ROLE_STAFF, ERole.ROLE_SUPER_ADMIN])
+      expect(store.isSuperAdmin).toBe(true)
     })
   })
 
@@ -287,7 +298,7 @@ BddTest().given('an auth store with mocked dependencies', () => {
 
   BddTest().when('invalidateSession is called after setting some state', () => {
     beforeEach(async () => {
-      mockGetMe.mockResolvedValueOnce({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_STUDENT'] })
+      mockGetMe.mockResolvedValueOnce({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_SUPER_ADMIN'] })
       mockGetProfile.mockResolvedValueOnce(mockedProfileOverview)
       await store.ensureAuthenticated()
       store.invalidateSession()
@@ -298,6 +309,8 @@ BddTest().given('an auth store with mocked dependencies', () => {
       expect(store.profile).toBeNull()
       expect(store.categories).toEqual([])
       expect(store.canSwitchProfile).toBe(false)
+      expect(store.roles).toEqual([])
+      expect(store.isSuperAdmin).toBe(false)
     })
   })
 })

@@ -6,6 +6,7 @@ import { ActivityStatusBadgeStub } from '@/common/activities/badges/ActivityStat
 import { PaginationStub } from '@/common/components/Pagination/Pagination.stub'
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { BaseApiException } from '@/common/exceptions'
+import { DeleteActivityDefinitivelyConfirmationModalStub } from '@/features/staff/activities/components/modals/DeleteActivityDefinitivelyConfirmationModal/DeleteActivityDefinitivelyConfirmationModal.stub'
 import { DeleteDraftActivityConfirmationModalStub } from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.stub'
 import { UnpublishActivityConfirmationModalStub } from '@/features/staff/activities/components/modals/UnpublishActivityConfirmationModal/UnpublishActivityConfirmationModal.stub'
 import ActivitiesTab, { type ActivitiesTabProps } from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.vue'
@@ -48,6 +49,7 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
 })
 
 const page = createMockedPagedResponseActivityStaffOverviewDTO(PageSizes.TWELVE, 7, 0)
+const draftPage = createMockedPagedResponseActivityStaffOverviewDTO(PageSizes.TWELVE, 7, 0, EActivityStatus.DRAFT)
 const defaultPaginatedResult: UsePaginatedStaffActivitiesResult = {
   activities: computed(() => page.data),
   pageInfo: computed(() => page.page),
@@ -82,6 +84,7 @@ BddTest().given('a ActivitiesTab component', () => {
     AvTable: AvTableStub,
     UnpublishActivityConfirmationModal: UnpublishActivityConfirmationModalStub,
     DeleteDraftActivityConfirmationModal: DeleteDraftActivityConfirmationModalStub,
+    DeleteActivityDefinitivelyConfirmationModal: DeleteActivityDefinitivelyConfirmationModalStub,
     MoreActionsDropdown: MoreActionsDropdownStub,
     Pagination: PaginationStub,
     QuerySuspense: QuerySuspenseStub,
@@ -116,6 +119,7 @@ BddTest().given('a ActivitiesTab component', () => {
 
   const getUnpublishConfirmationModal = () => wrapper.findComponent(UnpublishActivityConfirmationModalStub)
   const getDeleteConfirmationModal = () => wrapper.findComponent(DeleteDraftActivityConfirmationModalStub)
+  const getDeleteDefinitivelyConfirmationModal = () => wrapper.findComponent(DeleteActivityDefinitivelyConfirmationModalStub)
   const getDuplicationModal = () => wrapper.findComponent(ActivityDuplicationModalStub)
   const getMoreActionsDropdowns = () => wrapper.findAllComponents(MoreActionsDropdownStub)
 
@@ -213,8 +217,9 @@ BddTest().given('a ActivitiesTab component', () => {
       expect(getUnpublishConfirmationModal().props('opened')).toBe(false)
     })
 
-    BddTest().then('the delete confirmation modal should not be visible initially', () => {
+    BddTest().then('neither delete confirmation modal should be visible initially', () => {
       expect(getDeleteConfirmationModal().props('opened')).toBe(false)
+      expect(getDeleteDefinitivelyConfirmationModal().props('opened')).toBe(false)
     })
 
     BddTest().then('the duplication modal should not be visible initially', () => {
@@ -263,13 +268,72 @@ BddTest().given('a ActivitiesTab component', () => {
       })
     })
 
-    BddTest().and('delete is emitted from a MoreActionsDropdown', () => {
+    BddTest().and('delete is emitted from a MoreActionsDropdown of a published activity', () => {
       beforeEach(() => {
         getMoreActionsDropdowns()[0].vm.$emit('delete')
       })
 
-      BddTest().then('it should open the delete confirmation modal', () => {
+      BddTest().then('it should open the definitive delete confirmation modal', () => {
+        expect(getDeleteDefinitivelyConfirmationModal().props('opened')).toBe(true)
+      })
+
+      BddTest().then('it should leave the draft delete confirmation modal closed', () => {
+        expect(getDeleteConfirmationModal().props('opened')).toBe(false)
+      })
+
+      BddTest().then('it should pass the correct activityId and activityStatus to the modal', () => {
+        expect(getDeleteDefinitivelyConfirmationModal().props('activityId')).toBe('3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1')
+        expect(getDeleteDefinitivelyConfirmationModal().props('activityStatus')).toBe(EActivityStatus.PUBLISHED)
+      })
+
+      BddTest().and('the modal emits deleted', () => {
+        beforeEach(() => {
+          getDeleteDefinitivelyConfirmationModal().vm.$emit('deleted')
+        })
+
+        BddTest().then('it should emit deleted', () => {
+          expect(wrapper.emitted('deleted')).toHaveLength(1)
+        })
+
+        BddTest().then('it should close the definitive delete confirmation modal', () => {
+          expect(getDeleteDefinitivelyConfirmationModal().props('opened')).toBe(false)
+        })
+      })
+
+      BddTest().and('the user cancels', () => {
+        beforeEach(async () => {
+          getDeleteDefinitivelyConfirmationModal().vm.$emit('close')
+        })
+
+        BddTest().then('it should not emit deleted', () => {
+          expect(wrapper.emitted('deleted')).toBeUndefined()
+        })
+
+        BddTest().then('it should close the definitive delete confirmation modal', () => {
+          expect(getDeleteDefinitivelyConfirmationModal().props('opened')).toBe(false)
+        })
+      })
+    })
+
+    BddTest().and('delete is emitted from a MoreActionsDropdown of a draft activity', () => {
+      beforeEach(async () => {
+        await mountDefault({
+          props: { withActions: true },
+          paginatedResult: {
+            ...defaultPaginatedResult,
+            activities: computed(() => draftPage.data),
+            pageInfo: computed(() => draftPage.page),
+          }
+        })
+        getMoreActionsDropdowns()[0].vm.$emit('delete')
+      })
+
+      BddTest().then('it should open the draft delete confirmation modal', () => {
         expect(getDeleteConfirmationModal().props('opened')).toBe(true)
+      })
+
+      BddTest().then('it should leave the definitive delete confirmation modal closed', () => {
+        expect(getDeleteDefinitivelyConfirmationModal().props('opened')).toBe(false)
       })
 
       BddTest().then('it should pass the correct activityId to the modal', () => {
@@ -285,7 +349,7 @@ BddTest().given('a ActivitiesTab component', () => {
           expect(wrapper.emitted('deleted')).toHaveLength(1)
         })
 
-        BddTest().then('it should close the delete confirmation modal', () => {
+        BddTest().then('it should close the draft delete confirmation modal', () => {
           expect(getDeleteConfirmationModal().props('opened')).toBe(false)
         })
       })
@@ -299,7 +363,7 @@ BddTest().given('a ActivitiesTab component', () => {
           expect(wrapper.emitted('deleted')).toBeUndefined()
         })
 
-        BddTest().then('it should close the delete confirmation modal', () => {
+        BddTest().then('it should close the draft delete confirmation modal', () => {
           expect(getDeleteConfirmationModal().props('opened')).toBe(false)
         })
       })

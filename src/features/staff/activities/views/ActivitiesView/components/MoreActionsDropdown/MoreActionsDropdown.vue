@@ -2,6 +2,7 @@
 import { EActivityStatus } from '@/api/avenir-esr'
 import { Action, type ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
+import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 import { useI18n } from 'vue-i18n'
 
 export interface MoreActionsDropdownProps {
@@ -17,6 +18,9 @@ const emit = defineEmits<{
 type AllowedActions = Action.NAVIGATE_TO_FEEDBACKS | Action.UNPUBLISH | Action.DELETE | Action.CLONE
 
 const { t } = useI18n()
+const authStore = useAuthStore()
+
+const canDelete = computed(() => authStore.isSuperAdmin || activityStatus === EActivityStatus.DRAFT)
 
 const actions = computed<(Action | ActionItem)[]>(() => [
   {
@@ -31,7 +35,7 @@ const actions = computed<(Action | ActionItem)[]>(() => [
   },
   {
     type: Action.DELETE,
-    disabled: activityStatus !== EActivityStatus.DRAFT,
+    disabled: !canDelete.value,
     disabledTooltip: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.deleteDisabledTooltip')
   },
   Action.CLONE

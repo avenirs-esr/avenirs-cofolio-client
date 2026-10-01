@@ -28,6 +28,12 @@
         }
       },
       "modals": {
+        "DeleteActivityDefinitivelyConfirmationModal": {
+          "deleteError": "Une erreur est survenue lors de la suppression définitive de l'activité",
+          "deleteSuccess": "L'activité a été supprimée définitivement avec succès",
+          "description": "Cette action est irréversible\u00A0: l'activité et les données associées seront définitivement supprimées.",
+          "title": "Êtes-vous certain(e) de vouloir supprimer définitivement cette activité nationale\u00A0?"
+        },
         "DeleteActivityResourcesConfirmationModal": {
           "title": "Êtes-vous certain(e) de vouloir supprimer la ressource selectionnée\u00A0? | Êtes-vous certain(e) de vouloir supprimer les ressources selectionnées\u00A0?"
         },

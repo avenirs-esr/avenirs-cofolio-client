@@ -28,6 +28,12 @@
         }
       },
       "modals": {
+        "DeleteActivityDefinitivelyConfirmationModal": {
+          "deleteError": "An error occurred while permanently deleting the activity",
+          "deleteSuccess": "Activity permanently deleted successfully",
+          "description": "This action cannot be undone: the activity and its related data will be permanently deleted.",
+          "title": "Are you sure you want to permanently delete this national activity?"
+        },
         "DeleteActivityResourcesConfirmationModal": {
           "title": "Are you sure you want to delete the selected resource? | Are you sure you want to delete the selected resources?"
         },
