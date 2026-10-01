@@ -360,4 +360,30 @@ BddTest().given('a my perspective section', () => {
       expect(findElementAssociations().props('readonly')).toBe(false)
     })
   })
+
+  BddTest().when('the component is mounted with a submitted declared activity', () => {
+    beforeEach(async () => {
+      mountSection(createDeclaredActivityDetails({ status: EDeclaredActivityStatus.SUBMITTED }))
+      await switchToAssociatedElementsTab()
+    })
+
+    BddTest().then('it should disable the association actions', async () => {
+      await vi.waitFor(() => {
+        const elementAssociations = findElementAssociations()
+        expect(elementAssociations.exists()).toBe(true)
+        expect(elementAssociations.props('actionsDisabled')).toBe(true)
+      })
+    })
+
+    BddTest().then('it should explain why the association actions are disabled', async () => {
+      await vi.waitFor(() => {
+        expect(findElementAssociations().props('actionsDisabledTooltip'))
+          .toBe('Vous ne pouvez plus modifier les associations car vous avez soumis votre activité')
+      })
+    })
+
+    BddTest().then('it should keep the associated elements visible', () => {
+      expect(findElementAssociations().props('readonly')).toBe(false)
+    })
+  })
 })

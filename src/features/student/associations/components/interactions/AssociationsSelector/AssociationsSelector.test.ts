@@ -187,7 +187,7 @@ BddTest().given('an associations selector', () => {
         id: associationId,
         title: declaredExperience.title,
         baseElement: declaredExperience,
-        showSlot: !!declaredExperience.experienceType
+        showSlot: !!declaredExperience.experienceType,
       })))
     })
 

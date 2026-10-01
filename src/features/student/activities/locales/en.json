@@ -157,6 +157,7 @@
           },
           "MyPerspectiveSection": {
             "associationsDisabledTooltip": "You can no longer edit the associations because you have unsubscribed from the activity",
+            "associationsSubmittedDisabledTooltip": "You can no longer modify the associations because you have submitted your activity",
             "maxTraceAssociationsReached": "You have reached the maximum number of traces allowed for this activity",
             "tabs": {
               "associatedElements": "My associated elements ({count})",

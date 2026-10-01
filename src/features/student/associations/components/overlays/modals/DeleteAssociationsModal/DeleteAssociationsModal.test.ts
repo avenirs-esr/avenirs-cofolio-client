@@ -64,7 +64,7 @@ BddTest().given('a delete associations modal', () => {
     contextType: EAssociationContextType.DECLARED_ACTIVITY,
     elementId: 'declared-activity-1',
     associatedContextType: EAssociationContextType.TRACE,
-    associations: mockedDeclaredActivityAssociations
+    associations: mockedDeclaredActivityAssociations,
   }
 
   const getModal = () => wrapper.findComponent(AvModalStub)
@@ -341,7 +341,7 @@ BddTest().given('a delete associations modal', () => {
         contextType: EAssociationContextType.TRACE,
         elementId: 'trace-1',
         associatedContextType: EAssociationContextType.DECLARED_SKILL,
-        associations
+        associations,
       })
     })
 

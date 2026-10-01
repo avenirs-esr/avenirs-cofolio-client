@@ -7,6 +7,7 @@ import {
   isActivityAssociationToTraceUnlimited,
   isActivityPeriodEditingDisabled,
   isActivitySubscribed,
+  isDeclaredActivitySubmitted,
   isDeclaredActivityUnsubscribed,
   isDeletableDeclaredActivityAssociation,
   isPerspectiveEditingDisabled
@@ -221,6 +222,26 @@ BddTest().given('hasPendingFeedback', () => {
   BddTest().when('the feedbacks list is undefined', () => {
     BddTest().then('it should return false', () => {
       expect(hasPendingFeedback(undefined)).toBe(false)
+    })
+  })
+
+  BddTest().given('isDeclaredActivitySubmitted', () => {
+    BddTest().when('the declared activity is submitted', () => {
+      BddTest().then('it should return true', () => {
+        expect(isDeclaredActivitySubmitted(EDeclaredActivityStatus.SUBMITTED)).toBe(true)
+      })
+    })
+
+    BddTest().when('the declared activity is in progress', () => {
+      BddTest().then('it should return false', () => {
+        expect(isDeclaredActivitySubmitted(EDeclaredActivityStatus.IN_PROGRESS)).toBe(false)
+      })
+    })
+
+    BddTest().when('the declared activity status is undefined', () => {
+      BddTest().then('it should return false', () => {
+        expect(isDeclaredActivitySubmitted(undefined)).toBe(false)
+      })
     })
   })
 })

@@ -56,7 +56,7 @@ const selectableElements = computed<CompactCardSelectorProps['elements']>(() => 
         id: associationId,
         title: declaredExperience.title,
         baseElement: declaredExperience,
-        showSlot: !!declaredExperience.experienceType
+        showSlot: !!declaredExperience.experienceType,
       }))
     case EAssociationContextType.DECLARED_PROGRAM:
       return associations.declaredProgramAssociations.map(({ associationId, declaredProgram }) => ({
