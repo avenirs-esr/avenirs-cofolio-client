@@ -80,7 +80,7 @@ export function useUpdateDeclaredSkillForm (
   return {
     form,
     isFormValid,
-    isSubmitting: isPending || isLoading.value
+    isSubmitting: computed(() => isPending.value || isLoading.value)
   }
 }
 
