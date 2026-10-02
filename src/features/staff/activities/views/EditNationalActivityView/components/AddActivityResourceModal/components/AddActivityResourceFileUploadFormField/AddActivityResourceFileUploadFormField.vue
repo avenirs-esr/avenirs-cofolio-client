@@ -22,6 +22,9 @@ const FormField = markRaw(form.Field)
 const fileField = form.useField({ name: 'file' })
 
 const accept = [...ACTIVITY_RESOURCE_ACCEPTED_FILE_TYPES]
+const maxFileSizeMb = bytesToMegabytes(ACTIVITY_RESOURCE_MAX_FILE_SIZE)
+
+const rejectionError = ref<string>()
 
 function handleChange (files: FileList | File[]) {
   const list = Array.isArray(files) ? files : Array.from(files)
@@ -33,6 +36,9 @@ function handleChange (files: FileList | File[]) {
 
 function handleModelValueUpdate (file: File[] | null) {
   const previous = fileField.state.value.value
+
+  rejectionError.value = undefined
+
   fileField.api.handleChange(file?.[0] ?? null)
   if (!file && previous) {
     emit('fileDeleted', previous.name)
@@ -40,6 +46,18 @@ function handleModelValueUpdate (file: File[] | null) {
 }
 
 const formFile = computed(() => fileField.state.value.value ? [fileField.state.value.value] as File[] | null : null)
+
+function getErrorMessage (fieldErrors: (string | undefined)[]): string {
+  return [...fieldErrors, rejectionError.value].filter(Boolean).map(String).join(' ')
+}
+
+function onAcceptTypeError () {
+  rejectionError.value = t('global.error.file.acceptType')
+}
+
+function onFileSizeError () {
+  rejectionError.value = t('global.error.file.size')
+}
 </script>
 
 <template>
@@ -52,17 +70,23 @@ const formFile = computed(() => fileField.state.value.value ? [fileField.state.v
         <AvFileUpload
           :model-value="formFile"
           :accept="accept"
+          :max-file-size-mb="maxFileSizeMb"
           :title="t('global.information.fileUpload.title')"
           :aria-label="t('global.information.fileUpload.title')"
           :description="t('global.information.fileUpload.dragAndDrop')"
           :delete-button-label="t('global.buttons.delete')"
-          :error="field.state.meta.errors.filter(Boolean).join(', ')"
+          :error="getErrorMessage(field.state.meta.errors)"
           data-testid="add-activity-resource-file-upload"
           @blur="field.handleBlur"
           @change="handleChange"
           @update:model-value="handleModelValueUpdate"
+          @accept-type-error="onAcceptTypeError"
+          @file-size-error="onFileSizeError"
         />
-        <div class="caption-light">
+        <div
+          class="caption-light"
+          data-testid="add-activity-resource-file-upload-formats"
+        >
           {{ t('global.information.fileUpload.formatsLabel') }}
           <span class="caption-bold">{{ t('staff.activities.views.EditNationalActivityView.AddActivityResourceModal.file.formatsValue') }}</span>
           •
