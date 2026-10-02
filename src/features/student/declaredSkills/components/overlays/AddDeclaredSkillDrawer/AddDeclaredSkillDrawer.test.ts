@@ -1,13 +1,14 @@
 import type { AssociationSelections } from '@/features/student/associations'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { DrawerStub } from '@/common/components/Drawer/Drawer.stub'
 import { AssociationSelectionSectionStub } from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.stub'
 import { AddDeclaredSkillDrawer } from '@/features/student/declaredSkills'
 import {
   DeclaredSkillLevelRadioButtonSetFormFieldStub,
 } from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.stub'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
-import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -41,7 +42,7 @@ vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guar
 })
 
 const stubs = {
-  AvDrawer: AvDrawerStub,
+  Drawer: DrawerStub,
   AvButton: AvButtonStub,
   AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
   ConfirmationModal: ConfirmationModalStub,
@@ -63,7 +64,7 @@ BddTest().given('an add declared skill drawer component', () => {
   const getAssociationSelectionSection = () => wrapper.findComponent(AssociationSelectionSectionStub)
   const getAccordionsGroup = () => wrapper.findComponent({ name: 'AvAccordionsGroup' })
   const getConfirmationModal = () => wrapper.findComponent(ConfirmationModalStub)
-  const getAvDrawer = () => wrapper.findComponent(AvDrawerStub)
+  const getDrawer = () => wrapper.findComponent(DrawerStub)
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -81,12 +82,10 @@ BddTest().given('an add declared skill drawer component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the drawer with correct props', () => {
-      const drawer = getAvDrawer()
+      const drawer = getDrawer()
 
       expect(drawer.exists()).toBe(true)
       expect(drawer.props('show')).toBe(true)
-      expect(drawer.props('position')).toBe('right')
-      expect(drawer.props('width')).toBe('40rem')
     })
 
     BddTest().then('it should render the drawer title', () => {
@@ -138,7 +137,7 @@ BddTest().given('an add declared skill drawer component', () => {
       store.hideCreateDeclaredSkillDrawer()
       await wrapper.vm.$nextTick()
 
-      const drawer = getAvDrawer()
+      const drawer = getDrawer()
       expect(drawer.props('show')).toBe(false)
     })
   })
@@ -146,28 +145,30 @@ BddTest().given('an add declared skill drawer component', () => {
   BddTest().when('escape is pressed on drawer', () => {
     BddTest().and('canLeave is true', () => {
       beforeEach(async () => {
-        const drawer = getAvDrawer()
-        await drawer.vm.$emit('escape-pressed')
-        await wrapper.vm.$nextTick()
+        const drawer = getDrawer()
+        drawer.vm.$emit('close')
       })
 
-      BddTest().then('it should hide the declared skill drawer', () => {
+      BddTest().then('it should hide the declared skill drawer', async () => {
         const store = useDeclaredSkillsStore()
-        expect(store.showCreateDeclaredSkillDrawer).toBe(false)
+        await vi.waitFor(() => {
+          expect(store.showCreateDeclaredSkillDrawer).toBe(false)
+        })
       })
     })
 
     BddTest().and('canLeave is false', () => {
       beforeEach(async () => {
         mockCanLeave.mockResolvedValue(false)
-        const drawer = getAvDrawer()
-        await drawer.vm.$emit('escape-pressed')
-        await wrapper.vm.$nextTick()
+        const drawer = getDrawer()
+        drawer.vm.$emit('close')
       })
 
-      BddTest().then('it should not hide the declared skill drawer', () => {
+      BddTest().then('it should not hide the declared skill drawer', async () => {
         const store = useDeclaredSkillsStore()
-        expect(store.showCreateDeclaredSkillDrawer).toBe(true)
+        await vi.waitFor(() => {
+          expect(store.showCreateDeclaredSkillDrawer).toBe(true)
+        })
       })
     })
   })
@@ -177,12 +178,13 @@ BddTest().given('an add declared skill drawer component', () => {
       beforeEach(async () => {
         const cancelButton = getCancelButton()
         await cancelButton?.trigger('click')
-        await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should hide the declared skill drawer', () => {
+      BddTest().then('it should hide the declared skill drawer', async () => {
         const store = useDeclaredSkillsStore()
-        expect(store.showCreateDeclaredSkillDrawer).toBe(false)
+        await vi.waitFor(() => {
+          expect(store.showCreateDeclaredSkillDrawer).toBe(false)
+        })
       })
     })
 
@@ -191,35 +193,38 @@ BddTest().given('an add declared skill drawer component', () => {
         mockCanLeave.mockResolvedValue(false)
         const cancelButton = getCancelButton()
         await cancelButton?.trigger('click')
-        await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should not hide the declared skill drawer', () => {
+      BddTest().then('it should not hide the declared skill drawer', async () => {
         const store = useDeclaredSkillsStore()
-        expect(store.showCreateDeclaredSkillDrawer).toBe(true)
+        await vi.waitFor(() => {
+          expect(store.showCreateDeclaredSkillDrawer).toBe(true)
+        })
       })
 
       BddTest().and('confirming the modal', () => {
         beforeEach(async () => {
           const confirmationModal = getConfirmationModal()
-          await confirmationModal.vm.$emit('confirm')
-          await wrapper.vm.$nextTick()
+          confirmationModal.vm.$emit('confirm')
         })
 
-        BddTest().then('it should call guard confirm', () => {
-          expect(mockConfirm).toHaveBeenCalledTimes(1)
+        BddTest().then('it should call guard confirm', async () => {
+          await vi.waitFor(() => {
+            expect(mockConfirm).toHaveBeenCalledTimes(1)
+          })
         })
       })
 
       BddTest().and('closing the modal', () => {
         beforeEach(async () => {
           const confirmationModal = getConfirmationModal()
-          await confirmationModal.vm.$emit('close')
-          await wrapper.vm.$nextTick()
+          confirmationModal.vm.$emit('close')
         })
 
-        BddTest().then('it should call guard cancel', () => {
-          expect(mockCancel).toHaveBeenCalledTimes(1)
+        BddTest().then('it should call guard cancel', async () => {
+          await vi.waitFor(() => {
+            expect(mockCancel).toHaveBeenCalledTimes(1)
+          })
         })
       })
     })

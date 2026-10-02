@@ -2,7 +2,8 @@
 import type { ActivityContentDTO } from '@/api/avenir-esr'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 import ActivityRecommendedCompletionContextsList from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
-import { AvAccordion, AvAccordionsGroup, AvButton, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import Drawer from '@/common/components/Drawer/Drawer.vue'
+import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ActivityDetailsDrawerProps {
@@ -20,13 +21,12 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <AvDrawer
+  <Drawer
     :show="show"
-    position="right"
-    width="40rem"
+    :confirm-cancel-props="{ cancelLabel: t('global.buttons.close') }"
+    close-on-click-outside
     data-testid="activity-details-drawer"
-    @escape-pressed="emit('close')"
-    @click-outside="emit('close')"
+    @close="emit('close')"
   >
     <div class="av-col av-gap-md">
       <span
@@ -52,16 +52,5 @@ const { t } = useI18n()
         </AvAccordion>
       </AvAccordionsGroup>
     </div>
-
-    <template #footer>
-      <div class="av-row av-justify-end av-p-md">
-        <AvButton
-          :label="t('global.buttons.close')"
-          :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-          data-testid="activity-details-drawer-close-button"
-          @click="emit('close')"
-        />
-      </div>
-    </template>
-  </AvDrawer>
+  </Drawer>
 </template>

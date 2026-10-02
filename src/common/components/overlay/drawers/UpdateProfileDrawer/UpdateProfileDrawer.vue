@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
 import { EUserCategory, type FileDTO, invalidateGetProfile, useDeleteCoverPicture, useDeleteProfilePicture } from '@/api/avenir-esr'
-import { ConfirmationModal, ImageUpload } from '@/common/components'
+import { ConfirmationModal, Drawer, FormCancelConfirmButtons, ImageUpload } from '@/common/components'
 import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/ImageUpload/config'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
@@ -13,8 +13,6 @@ import { useToasterStore } from '@/store'
 import {
   AvAccordion,
   AvAccordionsGroup,
-  AvCancelConfirmButtons,
-  AvDrawer,
   AvInput,
   MDI_ICONS
 } from '@avenirs-esr/avenirs-dsav'
@@ -149,10 +147,10 @@ watch(() => show, (newVal) => {
 </script>
 
 <template>
-  <AvDrawer
+  <Drawer
     :show="show"
     data-testid="update-profile-drawer"
-    @escape-pressed="handleCancel"
+    @close="handleCancel"
   >
     <div class="av-col av-gap-xl">
       <span
@@ -257,22 +255,17 @@ watch(() => show, (newVal) => {
     </div>
     <template #footer>
       <div class="av-row av-justify-end">
-        <AvCancelConfirmButtons
+        <FormCancelConfirmButtons
           :cancel-label="t('global.buttons.exit')"
-          :confirm-label="t('global.buttons.save')"
-          :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-          :confirm-icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
-          :cancel-is-loading="isPending || isLoading"
-          :confirm-is-loading="isPending || isLoading"
-          :confirm-disabled="!isModified || !isFormValid"
-          :confirm-disabled-tooltip="isFormValid ? undefined : t('global.information.invalidForm')"
+          :is-submitting="isPending || isLoading"
+          :is-form-valid="isModified && isFormValid"
+          :confirm-disabled-tooltip="isFormValid ? '' : undefined"
           form="profile-form"
           @cancel="handleCancel"
-          @confirm="confirm"
         />
       </div>
     </template>
-  </AvDrawer>
+  </Drawer>
   <ConfirmationModal
     :opened="modalOpened"
     :is-loading="isPending"

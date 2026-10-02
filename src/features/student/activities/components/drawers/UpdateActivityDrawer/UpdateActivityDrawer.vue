@@ -2,6 +2,7 @@
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import { isActivityPeriodEditingDisabled } from '@/common/activities/rules/activities.rules'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import Drawer from '@/common/components/Drawer/Drawer.vue'
 import FormCancelConfirmButtons from '@/common/components/FormCancelConfirmButtons/FormCancelConfirmButtons.vue'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
@@ -11,7 +12,7 @@ import KitValorizationToggleFormField
   from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 import { useUpdateActivityForm } from '@/features/student/global/composables/use-update-activity-form/use-update-activity-form'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { startOfDay } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 
@@ -76,11 +77,9 @@ const minStartDate = computed(() => {
 </script>
 
 <template>
-  <AvDrawer
+  <Drawer
     :show="show"
-    position="right"
-    width="40rem"
-    @escape-pressed="handleCancel"
+    @close="handleCancel"
   >
     <div class="av-col av-gap-md">
       <span class="n6 av-text-text1">{{ t('student.activities.drawers.UpdateActivityDrawer.title') }}</span>
@@ -132,7 +131,7 @@ const minStartDate = computed(() => {
         />
       </div>
     </template>
-  </AvDrawer>
+  </Drawer>
 
   <ConfirmationModal
     :opened="confirmationModalOpened"

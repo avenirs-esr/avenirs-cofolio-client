@@ -1,6 +1,7 @@
 import type { AssociationSelections } from '@/features/student/associations'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { DrawerStub } from '@/common/components/Drawer/Drawer.stub'
 import { AssociationSelectionSectionStub } from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.stub'
 import { DeclaredProgramDescriptionFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramDescriptionFormField/DeclaredProgramDescriptionFormField.stub'
 import { DeclaredProgramOrganizationFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramOrganizationFormField/DeclaredProgramOrganizationFormField.stub'
@@ -10,7 +11,7 @@ import { DeclaredProgramSourceOfInformationFormFieldStub } from '@/features/stud
 import { DeclaredProgramTitleFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramTitleFormField/DeclaredProgramTitleFormField.stub'
 import AddDeclaredProgramDrawer from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/AddDeclaredProgramDrawer.vue'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
-import { AvAccordionsGroupStub, AvAccordionStub, AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvAccordionsGroupStub, AvAccordionStub, AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
@@ -66,7 +67,7 @@ BddTest().given('an add declared program drawer component', () => {
   ]
 
   const stubs = {
-    AvDrawer: AvDrawerStub,
+    Drawer: DrawerStub,
     AvAccordion: AvAccordionStub,
     AvAccordionsGroup: AvAccordionsGroupStub,
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
@@ -91,7 +92,7 @@ BddTest().given('an add declared program drawer component', () => {
 
   const getStore = () => usePersonalCareerStore()
   const getForm = () => wrapper.find('[data-testid="add-declared-program-form"]')
-  const getAvDrawer = () => wrapper.findComponent(AvDrawerStub)
+  const getDrawer = () => wrapper.findComponent(DrawerStub)
   const getAvAccordionsGroup = () => wrapper.findComponent(AvAccordionsGroupStub)
   const getAvAccordions = () => wrapper.findAllComponents(AvAccordionStub)
   const getAvAccordion = (accordion: AddDeclaredProgramDrawerAccordions) => getAvAccordions()[accordion]
@@ -110,7 +111,7 @@ BddTest().given('an add declared program drawer component', () => {
   }
 
   const pressEscape = async () => {
-    getAvDrawer().vm.$emit('escape-pressed')
+    getDrawer().vm.$emit('close')
     await flushPromises()
   }
 
@@ -145,12 +146,10 @@ BddTest().given('an add declared program drawer component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the drawer with correct props', () => {
-      const drawer = getAvDrawer()
+      const drawer = getDrawer()
 
       expect(drawer.exists()).toBe(true)
       expect(drawer.props('show')).toBe(true)
-      expect(drawer.props('position')).toBe('right')
-      expect(drawer.props('width')).toBe('40rem')
     })
 
     BddTest().then('it should render the title', () => {
@@ -285,7 +284,7 @@ BddTest().given('an add declared program drawer component', () => {
     })
 
     BddTest().then('it should pass false to drawer show prop', () => {
-      expect(getAvDrawer().props('show')).toBe(false)
+      expect(getDrawer().props('show')).toBe(false)
     })
   })
 

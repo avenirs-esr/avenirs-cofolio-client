@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { EAssociationContextType } from '@/api/avenir-esr'
-import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
+import { ConfirmationModal, Drawer, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { AssociationSelectionSection } from '@/features/student/associations'
@@ -9,7 +9,7 @@ import CreateTraceFormDeclarationItems from '@/features/student/traces/views/Stu
 import CreateTraceFormTraceDefinitionItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormTraceDefinitionItems/CreateTraceFormTraceDefinitionItems.vue'
 import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 enum AddTraceAccordionGroupItems {
@@ -85,11 +85,9 @@ const associationSelectionsField = form.useField({ name: 'associationSelections'
     @confirm="confirm"
     @close="cancel"
   />
-  <AvDrawer
+  <Drawer
     :show="showDrawer"
-    position="right"
-    width="50rem"
-    @escape-pressed="handleCancel"
+    @close="handleCancel"
   >
     <div
       class="av-col av-h-full av-gap-md"
@@ -152,7 +150,7 @@ const associationSelectionsField = form.useField({ name: 'associationSelections'
         />
       </div>
     </template>
-  </AvDrawer>
+  </Drawer>
 </template>
 
 <style scoped lang="scss">

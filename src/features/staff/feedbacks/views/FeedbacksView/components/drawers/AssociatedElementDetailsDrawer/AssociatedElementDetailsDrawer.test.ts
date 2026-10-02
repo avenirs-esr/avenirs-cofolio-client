@@ -3,11 +3,12 @@ import { declaredExperienceViewDTOFixture } from '@/__mocks__/fixtures/student'
 import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { EAssociationContextType } from '@/api/avenir-esr'
+import { DrawerStub } from '@/common/components/Drawer/Drawer.stub'
 import AssociatedElementDetailsDrawer, { type AssociatedElementDetailsDrawerProps } from '@/features/staff/feedbacks/views/FeedbacksView/components/drawers/AssociatedElementDetailsDrawer/AssociatedElementDetailsDrawer.vue'
 import { DeclaredSkillDetailsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.stub'
 import { DeclaredExperienceDetailsStub } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.stub'
 import { StudentTraceDetailsStub } from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.stub'
-import { AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 
@@ -34,8 +35,7 @@ BddTest().given('an AssociatedElementDetailsDrawer component', () => {
   let wrapper: ReturnType<typeof mountComponent>
 
   const stubs = {
-    AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
-    AvDrawer: AvDrawerStub,
+    Drawer: DrawerStub,
     DeclaredExperienceDetails: DeclaredExperienceDetailsStub,
     DeclaredSkillDetails: DeclaredSkillDetailsStub,
     StudentTraceDetails: StudentTraceDetailsStub,
@@ -51,8 +51,7 @@ BddTest().given('an AssociatedElementDetailsDrawer component', () => {
     })
   }
 
-  const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
-  const getDrawer = () => wrapper.findComponent(AvDrawerStub)
+  const getDrawer = () => wrapper.findComponent(DrawerStub)
   const getExperienceDetails = () => wrapper.findComponent(DeclaredExperienceDetailsStub)
   const getSkillDetails = () => wrapper.findComponent(DeclaredSkillDetailsStub)
   const getTraceDetails = () => wrapper.findComponent(StudentTraceDetailsStub)
@@ -69,12 +68,7 @@ BddTest().given('an AssociatedElementDetailsDrawer component', () => {
   }
 
   const expectCloseWhenEscape = async () => {
-    await getDrawer().vm.$emit('escape-pressed')
-    expect(wrapper.emitted('close')).toHaveLength(1)
-  }
-
-  const expectCloseWhenCancel = async () => {
-    await getCancelConfirmButtons().vm.$emit('cancel')
+    await getDrawer().vm.$emit('close')
     expect(wrapper.emitted('close')).toHaveLength(1)
   }
 
@@ -109,8 +103,12 @@ BddTest().given('an AssociatedElementDetailsDrawer component', () => {
       await expectCloseWhenEscape()
     })
 
-    BddTest().then('it should emit close when the cancel button is clicked', async () => {
-      await expectCloseWhenCancel()
+    BddTest().then('it should pass the exit label to the drawer footer', () => {
+      expect(getDrawer().props('confirmCancelProps')).toEqual({ cancelLabel: 'Quitter' })
+    })
+
+    BddTest().then('it should enable close on click outside', () => {
+      expect(getDrawer().props('closeOnClickOutside')).toBe(true)
     })
 
     BddTest().then('it should not render more than one drawer', () => {

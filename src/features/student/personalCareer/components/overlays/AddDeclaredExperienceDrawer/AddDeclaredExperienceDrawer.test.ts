@@ -1,6 +1,7 @@
 import type { AssociationSelections } from '@/features/student/associations'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { DrawerStub } from '@/common/components/Drawer/Drawer.stub'
 import { AssociationSelectionSectionStub } from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.stub'
 import { DeclaredExperienceActivitySectorFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceActivitySectorFormField/DeclaredExperienceActivitySectorFormField.stub'
 import { DeclaredExperienceDescriptionFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceDescriptionFormField/DeclaredExperienceDescriptionFormField.stub'
@@ -15,7 +16,7 @@ import { DeclaredExperienceTitleFormFieldStub } from '@/features/student/persona
 import { DeclaredExperienceTypeFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.stub'
 import AddDeclaredExperienceDrawer from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/AddDeclaredExperienceDrawer.vue'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
-import { AvAccordionsGroupStub, AvAccordionStub, AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvAccordionsGroupStub, AvAccordionStub, AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
@@ -57,7 +58,7 @@ BddTest().given('an add declared experience drawer component', () => {
   let wrapper: ReturnType<typeof mountComponent<typeof AddDeclaredExperienceDrawer>>
 
   const stubs = {
-    AvDrawer: AvDrawerStub,
+    Drawer: DrawerStub,
     AvAccordion: AvAccordionStub,
     AvAccordionsGroup: AvAccordionsGroupStub,
     AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
@@ -80,7 +81,7 @@ BddTest().given('an add declared experience drawer component', () => {
   const getAvAccordions = () => wrapper.findAllComponents(AvAccordionStub)
   const getAccordionsGroup = () => wrapper.findComponent(AvAccordionsGroupStub)
   const getAssociationSelectionSection = () => wrapper.findComponent(AssociationSelectionSectionStub)
-  const getAvDrawer = () => wrapper.findComponent(AvDrawerStub)
+  const getDrawer = () => wrapper.findComponent(DrawerStub)
   const getConfirmationModal = () => wrapper.findComponent(ConfirmationModalStub)
 
   beforeEach(async () => {
@@ -102,11 +103,9 @@ BddTest().given('an add declared experience drawer component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the drawer with correct props', () => {
-      const drawer = getAvDrawer()
+      const drawer = getDrawer()
 
       expect(drawer.exists()).toBe(true)
-      expect(drawer.props('position')).toBe('right')
-      expect(drawer.props('width')).toBe('40rem')
     })
 
     BddTest().then('it should render the title', () => {
@@ -264,7 +263,7 @@ BddTest().given('an add declared experience drawer component', () => {
       })
 
       BddTest().then('it should pass false to drawer show prop', async () => {
-        const drawer = getAvDrawer()
+        const drawer = getDrawer()
         expect(drawer.props('show')).toBe(false)
       })
     })
@@ -272,8 +271,8 @@ BddTest().given('an add declared experience drawer component', () => {
     BddTest().and('escape is pressed on drawer', () => {
       BddTest().and('canLeave is true', () => {
         beforeEach(async () => {
-          const drawer = getAvDrawer()
-          await drawer.vm.$emit('escape-pressed')
+          const drawer = getDrawer()
+          await drawer.vm.$emit('close')
           await wrapper.vm.$nextTick()
         })
 
@@ -286,8 +285,8 @@ BddTest().given('an add declared experience drawer component', () => {
       BddTest().and('canLeave is false', () => {
         beforeEach(async () => {
           mockCanLeave.mockResolvedValue(false)
-          const drawer = getAvDrawer()
-          await drawer.vm.$emit('escape-pressed')
+          const drawer = getDrawer()
+          await drawer.vm.$emit('close')
           await wrapper.vm.$nextTick()
         })
 
