@@ -4,14 +4,14 @@ import { EFileType, type EUserCategory, type FileDTO, type ProfileOverviewDTO } 
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { DrawerStub } from '@/common/components/Drawer/Drawer.stub'
+import { FormCancelConfirmButtonsStub } from '@/common/components/FormCancelConfirmButtons/FormCancelConfirmButtons.stub'
 import { ImageUploadStub } from '@/common/components/ImageUpload/ImageUpload.stub'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
 import {
   AvAccordionsGroupStub,
   AvAccordionStub,
-  AvCancelConfirmButtonsStub,
-  AvDrawerStub,
   AvInputStub,
   BddTest
 } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -61,16 +61,14 @@ vi.mock('@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guar
   }
 })
 
-const INVALID_FORM_TOOLTIP = 'Le formulaire n\'est pas valide'
-
 BddTest().given('given an update profile drawer', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdateProfileDrawer>>
 
   const stubs = {
     AvAccordion: AvAccordionStub,
     AvAccordionsGroup: AvAccordionsGroupStub,
-    AvCancelConfirmButtons: AvCancelConfirmButtonsStub,
-    AvDrawer: AvDrawerStub,
+    Drawer: DrawerStub,
+    FormCancelConfirmButtons: FormCancelConfirmButtonsStub,
     AvInput: AvInputStub,
     ImageUpload: ImageUploadStub,
     ConfirmationModal: ConfirmationModalStub
@@ -244,9 +242,8 @@ BddTest().given('given an update profile drawer', () => {
 
   const getAccordionsGroup = () => wrapper.findComponent(AvAccordionsGroupStub)
   const getAvInputs = () => wrapper.findAllComponents(AvInputStub)
-  const getAvDrawer = () => wrapper.findComponent(AvDrawerStub)
-  const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
-  const getCancelButton = () => getCancelConfirmButtons().find('button.cancel')
+  const getDrawer = () => wrapper.findComponent(DrawerStub)
+  const getFooterButtons = () => wrapper.findComponent(FormCancelConfirmButtonsStub)
   const getConfirmationModal = () => wrapper.findComponent(ConfirmationModalStub)
   const getImageUploads = () => wrapper.findAllComponents(ImageUploadStub)
   const getProfileForm = () => wrapper.find('form#profile-form')
@@ -283,16 +280,15 @@ BddTest().given('given an update profile drawer', () => {
       })
 
       BddTest().then('it should render the exit button', () => {
-        expect(getCancelConfirmButtons().props('cancelLabel')).toBe('Quitter')
+        expect(getFooterButtons().props('cancelLabel')).toBe('Quitter')
       })
 
       BddTest().then('it should render the save button in disabled state', () => {
-        expect(getCancelConfirmButtons().props('confirmLabel')).toBe('Enregistrer')
-        expect(getCancelConfirmButtons().props('confirmDisabled')).toBe(true)
+        expect(getFooterButtons().props('isFormValid')).toBe(false)
       })
 
       BddTest().then('the buttons should be linked to the profile form', () => {
-        expect(getCancelConfirmButtons().props('form')).toBe('profile-form')
+        expect(getFooterButtons().props('form')).toBe('profile-form')
       })
     })
 
@@ -314,8 +310,7 @@ BddTest().given('given an update profile drawer', () => {
 
     BddTest().when('the update profile form composable is not pending', () => {
       BddTest().then('the buttons should not be in loading state', () => {
-        expect(getCancelConfirmButtons().props('cancelIsLoading')).toBe(false)
-        expect(getCancelConfirmButtons().props('confirmIsLoading')).toBe(false)
+        expect(getFooterButtons().props('isSubmitting')).toBe(false)
       })
     })
 
@@ -326,8 +321,7 @@ BddTest().given('given an update profile drawer', () => {
       })
 
       BddTest().then('the buttons should be in loading state', () => {
-        expect(getCancelConfirmButtons().props('cancelIsLoading')).toBe(true)
-        expect(getCancelConfirmButtons().props('confirmIsLoading')).toBe(true)
+        expect(getFooterButtons().props('isSubmitting')).toBe(true)
       })
     })
 
@@ -341,11 +335,11 @@ BddTest().given('given an update profile drawer', () => {
       })
 
       BddTest().then('the save button should be disabled', () => {
-        expect(getCancelConfirmButtons().props('confirmDisabled')).toBe(true)
+        expect(getFooterButtons().props('isFormValid')).toBe(false)
       })
 
-      BddTest().then('the save button should display the invalid form tooltip', () => {
-        expect(getCancelConfirmButtons().props('confirmDisabledTooltip')).toBe(INVALID_FORM_TOOLTIP)
+      BddTest().then('the save button should fall back to the invalid form tooltip', () => {
+        expect(getFooterButtons().props('confirmDisabledTooltip')).toBeUndefined()
       })
     })
 
@@ -359,11 +353,11 @@ BddTest().given('given an update profile drawer', () => {
       })
 
       BddTest().then('the save button should be disabled', () => {
-        expect(getCancelConfirmButtons().props('confirmDisabled')).toBe(true)
+        expect(getFooterButtons().props('isFormValid')).toBe(false)
       })
 
       BddTest().then('the save button should not display any tooltip', () => {
-        expect(getCancelConfirmButtons().props('confirmDisabledTooltip')).toBeUndefined()
+        expect(getFooterButtons().props('confirmDisabledTooltip')).toBe('')
       })
     })
 
@@ -377,11 +371,11 @@ BddTest().given('given an update profile drawer', () => {
       })
 
       BddTest().then('the save button should be enabled', () => {
-        expect(getCancelConfirmButtons().props('confirmDisabled')).toBe(false)
+        expect(getFooterButtons().props('isFormValid')).toBe(true)
       })
 
       BddTest().then('the save button should not display any tooltip', () => {
-        expect(getCancelConfirmButtons().props('confirmDisabledTooltip')).toBeUndefined()
+        expect(getFooterButtons().props('confirmDisabledTooltip')).toBe('')
       })
     })
 
@@ -415,7 +409,7 @@ BddTest().given('given an update profile drawer', () => {
     BddTest().when('escape is pressed on drawer', () => {
       BddTest().and('canLeave is true', () => {
         beforeEach(async () => {
-          getAvDrawer().vm.$emit('escape-pressed')
+          getDrawer().vm.$emit('close')
           await flushPromises()
         })
 
@@ -430,7 +424,7 @@ BddTest().given('given an update profile drawer', () => {
           mockUpdateProfileForm({ isModified: computed(() => true) })
           wrapper = mountDrawer()
 
-          getAvDrawer().vm.$emit('escape-pressed')
+          getDrawer().vm.$emit('close')
           await flushPromises()
         })
 
@@ -443,7 +437,7 @@ BddTest().given('given an update profile drawer', () => {
     BddTest().when('cancel button is clicked', () => {
       BddTest().and('canLeave is true', () => {
         beforeEach(async () => {
-          await getCancelButton().trigger('click')
+          getFooterButtons().vm.$emit('cancel')
           await flushPromises()
         })
 
@@ -458,7 +452,7 @@ BddTest().given('given an update profile drawer', () => {
           mockUpdateProfileForm({ isModified: computed(() => true) })
           wrapper = mountDrawer()
 
-          await getCancelButton().trigger('click')
+          await getFooterButtons().vm.$emit('cancel')
           await flushPromises()
         })
 

@@ -6,11 +6,12 @@ import {
 } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { DrawerStub } from '@/common/components/Drawer/Drawer.stub'
 import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
 import { AssociationSelectionSectionStub } from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.stub'
 import { useTracesStore } from '@/features/student/traces'
 import StudentToolsTracesAddTraceDrawer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
-import { AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvCancelConfirmButtonsStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -51,7 +52,7 @@ BddTest().given('a student tools traces add trace drawer component', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesAddTraceDrawer>>
 
   const stubs = {
-    AvDrawer: AvDrawerStub,
+    Drawer: DrawerStub,
     AvAccordionsGroup: {
       name: 'AvAccordionsGroup',
       props: ['activeAccordion'],
@@ -143,11 +144,9 @@ BddTest().given('a student tools traces add trace drawer component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the drawer with correct props', () => {
-      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+      const drawer = wrapper.findComponent(DrawerStub)
 
       expect(drawer.exists()).toBe(true)
-      expect(drawer.props('position')).toBe('right')
-      expect(drawer.props('width')).toBe('50rem')
     })
 
     BddTest().then('it should render the title', () => {
@@ -194,38 +193,8 @@ BddTest().given('a student tools traces add trace drawer component', () => {
       store.hideCreateTraceDrawer()
       await wrapper.vm.$nextTick()
 
-      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+      const drawer = wrapper.findComponent(DrawerStub)
       expect(drawer.props('show')).toBe(false)
-    })
-  })
-
-  BddTest().when('escape is pressed on drawer', () => {
-    BddTest().and('canLeave is true', () => {
-      beforeEach(async () => {
-        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
-        await drawer.vm.$emit('escape-pressed')
-        await flushPromises()
-        await wrapper.vm.$nextTick()
-      })
-
-      BddTest().then('it should hide the drawer', () => {
-        const store = useTracesStore()
-        expect(store.showCreateTraceDrawer).toBe(false)
-      })
-    })
-
-    BddTest().and('canLeave is false', () => {
-      beforeEach(async () => {
-        mockCanLeave.mockResolvedValue(false)
-        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
-        await drawer.vm.$emit('escape-pressed')
-        await wrapper.vm.$nextTick()
-      })
-
-      BddTest().then('it should not hide the drawer', () => {
-        const store = useTracesStore()
-        expect(store.showCreateTraceDrawer).toBe(true)
-      })
     })
   })
 

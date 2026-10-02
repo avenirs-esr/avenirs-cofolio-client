@@ -3,17 +3,18 @@ import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fi
 import { ActivityDescriptionContentStub } from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.stub'
 import ActivityDetailsDrawer from '@/common/activities/components/ActivityDetailsDrawer/ActivityDetailsDrawer.vue'
 import { ActivityRecommendedCompletionContextsListStub } from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.stub'
-import { AvAccordionStub, AvButtonStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { DrawerStub } from '@/common/components/Drawer/Drawer.stub'
+import { AvAccordionStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('the ActivityDetailsDrawer component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityDetailsDrawer>>
 
+  const getDrawer = () => wrapper.findComponent(DrawerStub) as VueWrapper<InstanceType<typeof DrawerStub>>
   const stubs = {
-    AvDrawer: AvDrawerStub,
+    Drawer: DrawerStub,
     AvAccordion: AvAccordionStub,
-    AvButton: AvButtonStub,
     ActivityDescriptionContent: ActivityDescriptionContentStub,
     ActivityRecommendedCompletionContextsList: ActivityRecommendedCompletionContextsListStub,
   }
@@ -31,10 +32,10 @@ BddTest().given('the ActivityDetailsDrawer component', () => {
   })
 
   BddTest().when('the drawer is mounted with show=true', () => {
-    BddTest().then('it should render AvDrawer with show=true', () => {
-      const avDrawer = wrapper.findComponent({ name: 'AvDrawer' }) as VueWrapper<InstanceType<typeof AvDrawerStub>>
-      expect(avDrawer.exists()).toBe(true)
-      expect(avDrawer.props('show')).toBe(true)
+    BddTest().then('it should render Drawer with show=true', () => {
+      const drawer = getDrawer()
+      expect(drawer.exists()).toBe(true)
+      expect(drawer.props('show')).toBe(true)
     })
 
     BddTest().then('it should render the activity title', () => {
@@ -73,44 +74,32 @@ BddTest().given('the ActivityDetailsDrawer component', () => {
       })
     })
 
-    BddTest().then('it should pass show=false to AvDrawer', () => {
-      const avDrawer = wrapper.findComponent({ name: 'AvDrawer' }) as VueWrapper<InstanceType<typeof AvDrawerStub>>
-      expect(avDrawer.props('show')).toBe(false)
+    BddTest().then('it should pass show=false to Drawer', () => {
+      const drawer = getDrawer()
+      expect(drawer.props('show')).toBe(false)
     })
   })
 
   BddTest().when('escape is pressed on the drawer', () => {
-    beforeEach(async () => {
-      const avDrawer = wrapper.findComponent({ name: 'AvDrawer' })
-      await avDrawer.vm.$emit('escape-pressed')
-      await wrapper.vm.$nextTick()
+    beforeEach(() => {
+      const drawer = getDrawer()
+      drawer.vm.$emit('close')
     })
 
-    BddTest().then('it should emit close', () => {
-      expect(wrapper.emitted('close')).toBeTruthy()
-    })
-  })
-
-  BddTest().when('the close button is clicked', () => {
-    beforeEach(async () => {
-      await wrapper.find('[data-testid="activity-details-drawer-close-button"]').trigger('click')
-      await wrapper.vm.$nextTick()
-    })
-
-    BddTest().then('it should emit close', () => {
-      expect(wrapper.emitted('close')).toBeTruthy()
+    BddTest().then('it should emit close', async () => {
+      await vi.waitFor(() => {
+        expect(wrapper.emitted('close')).toBeTruthy()
+      })
     })
   })
 
-  BddTest().when('a click occurs outside the drawer', () => {
-    beforeEach(async () => {
-      const avDrawer = wrapper.findComponent({ name: 'AvDrawer' })
-      await avDrawer.vm.$emit('click-outside')
-      await wrapper.vm.$nextTick()
+  BddTest().when('the drawer is rendered', () => {
+    BddTest().then('it should pass the close label to the drawer footer', () => {
+      expect(wrapper.findComponent(DrawerStub).props('confirmCancelProps')).toEqual({ cancelLabel: 'Fermer' })
     })
 
-    BddTest().then('it should emit close', () => {
-      expect(wrapper.emitted('close')).toBeTruthy()
+    BddTest().then('it should enable close on click outside', () => {
+      expect(wrapper.findComponent(DrawerStub).props('closeOnClickOutside')).toBe(true)
     })
   })
 })

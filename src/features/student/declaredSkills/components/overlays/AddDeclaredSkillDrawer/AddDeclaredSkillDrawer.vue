@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { EAssociationContextType } from '@/api/avenir-esr'
-import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
+import { ConfirmationModal, Drawer, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ICONS } from '@/common/constants'
@@ -15,7 +15,7 @@ import {
 } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -64,11 +64,9 @@ async function handleCancel () {
 </script>
 
 <template>
-  <AvDrawer
+  <Drawer
     :show="showDrawer"
-    position="right"
-    width="40rem"
-    @escape-pressed="handleCancel"
+    @close="handleCancel"
   >
     <div
       class="av-col av-h-full av-gap-lg"
@@ -142,7 +140,7 @@ async function handleCancel () {
         />
       </div>
     </template>
-  </AvDrawer>
+  </Drawer>
 
   <ConfirmationModal
     :opened="confirmationModalOpened"

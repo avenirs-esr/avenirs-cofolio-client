@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import { EAssociationContextType } from '@/api/avenir-esr'
+import { Drawer } from '@/common/components'
 import { DeclaredSkillDetails } from '@/features/student/declaredSkills'
 import DeclaredExperienceDetails from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
 import { StudentTraceDetails } from '@/features/student/traces'
-import { AvCancelConfirmButtons, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociatedElementDetailsDrawerProps {
@@ -79,12 +79,12 @@ function handleClose () {
 </script>
 
 <template>
-  <AvDrawer
+  <Drawer
     :show="show"
-    position="right"
-    width="40rem"
     :aria-label="t('staff.feedbacks.views.FeedbacksView.AssociatedElementDetailsDrawer.drawerLabel')"
-    @escape-pressed="handleClose"
+    :confirm-cancel-props="{ cancelLabel: t('global.buttons.exit') }"
+    close-on-click-outside
+    @close="handleClose"
   >
     <div class="av-col av-gap-md">
       <span
@@ -99,14 +99,5 @@ function handleClose () {
         v-bind="currentComponentDefinition.props"
       />
     </div>
-
-    <template #footer>
-      <AvCancelConfirmButtons
-        class="av-justify-end"
-        :cancel-label="t('global.buttons.exit')"
-        :cancel-icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-        @cancel="handleClose"
-      />
-    </template>
-  </AvDrawer>
+  </Drawer>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { EAssociationContextType } from '@/api/avenir-esr'
-import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
+import { ConfirmationModal, Drawer, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { AssociationSelectionSection } from '@/features/student/associations'
@@ -18,7 +18,7 @@ import DeclaredExperienceTypeFormField from '@/features/student/personalCareer/c
 import { useAddDeclaredExperienceForm } from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/use-add-declared-experience-form/use-add-declared-experience-form'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -66,11 +66,9 @@ async function handleCancel () {
 </script>
 
 <template>
-  <AvDrawer
+  <Drawer
     :show="showDrawer"
-    position="right"
-    width="40rem"
-    @escape-pressed="handleCancel"
+    @close="handleCancel"
   >
     <div class="av-col av-gap-lg h-full">
       <span class="n6 av-text-text1">{{ t('student.personalCareer.overlays.AddDeclaredExperienceDrawer.title') }}</span>
@@ -142,7 +140,7 @@ async function handleCancel () {
         />
       </div>
     </template>
-  </AvDrawer>
+  </Drawer>
 
   <ConfirmationModal
     :opened="confirmationModalOpened"

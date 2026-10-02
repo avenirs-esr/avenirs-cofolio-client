@@ -1,11 +1,12 @@
 import { ESelfKnowledgeCategory, type SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { DrawerStub } from '@/common/components/Drawer/Drawer.stub'
 import { CategoryElementDescriptionTextareaFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.stub'
 import { CategoryElementRatingRadioButtonSetFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementRatingRadioButtonSetFormField/CategoryElementRatingRadioButtonSetFormField.stub'
 import { CategoryElementTitleInputFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementTitleInputFormField/CategoryElementTitleInputFormField.stub'
 import AddSelfKnowledgeCategoryElementDrawer from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/AddSelfKnowledgeCategoryElementDrawer.vue'
 import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
-import { AvAccordionStub, AvButtonStub, AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvAccordionStub, AvButtonStub, AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -51,7 +52,7 @@ BddTest().given('an add self knowledge category element drawer component', () =>
   }
 
   const stubs = {
-    AvDrawer: AvDrawerStub,
+    Drawer: DrawerStub,
     AvAccordion: AvAccordionStub,
     AvButton: AvButtonStub,
     ConfirmationModal: ConfirmationModalStub,
@@ -82,11 +83,9 @@ BddTest().given('an add self knowledge category element drawer component', () =>
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the drawer with correct props', () => {
-      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+      const drawer = wrapper.findComponent({ name: 'Drawer' })
 
       expect(drawer.exists()).toBe(true)
-      expect(drawer.props('position')).toBe('right')
-      expect(drawer.props('width')).toBe('50rem')
     })
 
     BddTest().then('it should render the title with category name', () => {
@@ -139,7 +138,7 @@ BddTest().given('an add self knowledge category element drawer component', () =>
       store.closeAddElementDrawer()
       await wrapper.vm.$nextTick()
 
-      const drawer = wrapper.findComponent({ name: 'AvDrawer' })
+      const drawer = wrapper.findComponent({ name: 'Drawer' })
       expect(drawer.props('show')).toBe(false)
     })
   })
@@ -147,8 +146,8 @@ BddTest().given('an add self knowledge category element drawer component', () =>
   BddTest().and('escape is pressed on drawer', () => {
     BddTest().and('canLeave is true', () => {
       beforeEach(async () => {
-        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
-        await drawer.vm.$emit('escape-pressed')
+        const drawer = wrapper.findComponent({ name: 'Drawer' })
+        await drawer.vm.$emit('close')
         await wrapper.vm.$nextTick()
       })
 
@@ -161,8 +160,8 @@ BddTest().given('an add self knowledge category element drawer component', () =>
     BddTest().and('canLeave is false', () => {
       beforeEach(async () => {
         mockCanLeave.mockResolvedValue(false)
-        const drawer = wrapper.findComponent({ name: 'AvDrawer' })
-        await drawer.vm.$emit('escape-pressed')
+        const drawer = wrapper.findComponent({ name: 'Drawer' })
+        await drawer.vm.$emit('close')
         await wrapper.vm.$nextTick()
       })
 

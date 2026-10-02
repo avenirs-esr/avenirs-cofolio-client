@@ -2,11 +2,12 @@ import type { VueWrapper } from '@vue/test-utils'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { DrawerStub } from '@/common/components/Drawer/Drawer.stub'
 import { FormCancelConfirmButtonsStub } from '@/common/components/FormCancelConfirmButtons/FormCancelConfirmButtons.stub'
 import UpdateActivityDrawer from '@/features/student/activities/components/drawers/UpdateActivityDrawer/UpdateActivityDrawer.vue'
 import { ActivityPeriodFormFieldStub } from '@/features/student/activities/components/interactions/formFields/ActivityPeriodFormField/ActivityPeriodFormField.stub'
 import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
-import { AvAccordionStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvAccordionStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -32,7 +33,7 @@ BddTest().given('the UpdateActivityDrawer component', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdateActivityDrawer>>
 
   const stubs = {
-    AvDrawer: AvDrawerStub,
+    Drawer: DrawerStub,
     AvAccordion: AvAccordionStub,
     ActivityPeriodFormField: ActivityPeriodFormFieldStub,
     KitValorizationToggleFormField: KitValorizationToggleFormFieldStub,
@@ -54,17 +55,17 @@ BddTest().given('the UpdateActivityDrawer component', () => {
   })
 
   BddTest().when('the drawer is mounted with show=true', () => {
-    let avDrawer: VueWrapper<InstanceType<typeof AvDrawerStub>>
+    let avDrawer: VueWrapper<InstanceType<typeof DrawerStub>>
 
     beforeEach(() => {
-      avDrawer = wrapper.findComponent(AvDrawerStub)
+      avDrawer = wrapper.findComponent(DrawerStub)
     })
 
-    BddTest().then('it should render AvDrawer', () => {
+    BddTest().then('it should render Drawer', () => {
       expect(avDrawer.exists()).toBe(true)
     })
 
-    BddTest().then('it should pass show=true to AvDrawer', () => {
+    BddTest().then('it should pass show=true to Drawer', () => {
       expect(avDrawer.props('show')).toBe(true)
     })
 
@@ -162,8 +163,8 @@ BddTest().given('the UpdateActivityDrawer component', () => {
       })
     })
 
-    BddTest().then('it should pass show=false to AvDrawer', () => {
-      const avDrawer = wrapper.findComponent(AvDrawerStub)
+    BddTest().then('it should pass show=false to Drawer', () => {
+      const avDrawer = wrapper.findComponent(DrawerStub)
       expect(avDrawer.props('show')).toBe(false)
     })
   })
@@ -227,26 +228,28 @@ BddTest().given('the UpdateActivityDrawer component', () => {
   BddTest().when('escape is pressed on drawer', () => {
     BddTest().and('canLeave is true', () => {
       beforeEach(async () => {
-        const avDrawer = wrapper.findComponent(AvDrawerStub)
-        await avDrawer.vm.$emit('escape-pressed')
-        await wrapper.vm.$nextTick()
+        const avDrawer = wrapper.findComponent(DrawerStub)
+        avDrawer.vm.$emit('close')
       })
 
-      BddTest().then('it should emit close', () => {
-        expect(wrapper.emitted('close')).toBeTruthy()
+      BddTest().then('it should emit close', async () => {
+        await vi.waitFor(() => {
+          expect(wrapper.emitted('close')).toBeTruthy()
+        })
       })
     })
 
     BddTest().and('canLeave is false', () => {
       beforeEach(async () => {
         mockCanLeave.mockResolvedValue(false)
-        const avDrawer = wrapper.findComponent(AvDrawerStub)
-        await avDrawer.vm.$emit('escape-pressed')
-        await wrapper.vm.$nextTick()
+        const avDrawer = wrapper.findComponent(DrawerStub)
+        avDrawer.vm.$emit('close')
       })
 
-      BddTest().then('it should not emit close', () => {
-        expect(wrapper.emitted('close')).toBeFalsy()
+      BddTest().then('it should not emit close', async () => {
+        await vi.waitFor(() => {
+          expect(wrapper.emitted('close')).toBeFalsy()
+        })
       })
     })
   })

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
+import { ConfirmationModal, Drawer, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import CategoryElementDescriptionTextareaFormField from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.vue'
@@ -9,7 +9,7 @@ import { useAddSelfKnowledgeCategoryElementForm } from '@/features/student/selfK
 import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
@@ -81,11 +81,9 @@ const drawerTitle = computed(() => {
     @confirm="confirm"
     @close="cancel"
   />
-  <AvDrawer
+  <Drawer
     :show="showDrawer"
-    position="right"
-    width="50rem"
-    @escape-pressed="handleCancel"
+    @close="handleCancel"
   >
     <div class="av-col av-gap-md h-full">
       <h2 class="n5">
@@ -136,5 +134,5 @@ const drawerTitle = computed(() => {
         />
       </div>
     </template>
-  </AvDrawer>
+  </Drawer>
 </template>

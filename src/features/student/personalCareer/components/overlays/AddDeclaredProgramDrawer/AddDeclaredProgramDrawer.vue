@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { EAssociationContextType } from '@/api/avenir-esr'
-import { ConfirmationModal, FormCancelConfirmButtons } from '@/common/components'
+import { ConfirmationModal, Drawer, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import AssociationSelectionSection from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.vue'
@@ -13,7 +13,7 @@ import DeclaredProgramTitleFormField from '@/features/student/personalCareer/com
 import { useAddDeclaredProgramForm } from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/use-add-declared-program-form/use-add-declared-program-form'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -61,11 +61,9 @@ const activeAccordion = ref<AddDeclaredProgramDrawerAccordions>(AddDeclaredProgr
 </script>
 
 <template>
-  <AvDrawer
+  <Drawer
     :show="showDrawer"
-    position="right"
-    width="40rem"
-    @escape-pressed="handleCancel"
+    @close="handleCancel"
   >
     <div class="av-col av-gap-lg h-full">
       <span class="n6 av-text-text1">{{ t('student.personalCareer.overlays.AddDeclaredProgramDrawer.title') }}</span>
@@ -127,7 +125,7 @@ const activeAccordion = ref<AddDeclaredProgramDrawerAccordions>(AddDeclaredProgr
         />
       </div>
     </template>
-  </AvDrawer>
+  </Drawer>
 
   <ConfirmationModal
     :opened="confirmationModalOpened"
