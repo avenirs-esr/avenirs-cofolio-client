@@ -196,11 +196,11 @@ async function saveBanner (action: EditActivityFormDataBannerAction) {
 
 async function saveResourceFiles (newFiles: File[], removedFiles: FileDTO[]) {
   await Promise.all([
-    newFiles.forEach(file => uploadResourceFileMutation({
+    ...newFiles.map(file => uploadResourceFileMutation({
       activityDraftId: id,
       data: { file }
     })),
-    removedFiles.forEach(file => deleteResourceFileMutation({
+    ...removedFiles.map(file => deleteResourceFileMutation({
       activityDraftId: id,
       fileId: file.id
     }))
@@ -225,7 +225,7 @@ async function save (data?: ActivityDraftUpdateRequest) {
   }
 
   const newFiles = files.filter(localFile => !defaultValues.files.some(remoteFile => !isDifferentFile(localFile, remoteFile))) as File[]
-  const removedFiles = defaultValues.files.filter(remoteFile => !defaultValues.files.some(localFile => !isDifferentFile(remoteFile, localFile))) as FileDTO[]
+  const removedFiles = defaultValues.files.filter(remoteFile => !files.some(localFile => !isDifferentFile(remoteFile, localFile))) as FileDTO[]
 
   if (newFiles.length > 0 || removedFiles.length > 0) {
     promises.push(saveResourceFiles(newFiles, removedFiles))
@@ -249,6 +249,7 @@ async function save (data?: ActivityDraftUpdateRequest) {
 
     form.reset({
       ...form.state.values,
+      files: remoteFiles.value,
       bannerAction: EditActivityFormDataBannerAction.NONE,
     })
   }

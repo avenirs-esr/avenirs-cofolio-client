@@ -33,6 +33,7 @@ import {
   getCreateActivityDraftUrl,
   getCreateDraftFromActivityUrl,
   getDeleteActivityDraftUrl,
+  getDeleteDraftFileUrl,
   getDuplicateActivityUrl,
   getGetActivitiesWithFeedbacksUrl,
   getGetActivityContentUrl,
@@ -136,6 +137,14 @@ export const getStaffActivityLibraryErrorHandler = http.get(`*${getGetStaffActiv
     { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
     { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
   )
+})
+
+const deletedDraftFileIds = new Set<string>()
+
+export const deleteDraftFileHandler = http.delete(`*${getDeleteDraftFileUrl(':activityDraftId', ':fileId')}`, ({ params }) => {
+  deletedDraftFileIds.add(params.fileId as string)
+
+  return new HttpResponse(null, { status: HttpStatusCode.NO_CONTENT })
 })
 
 export const deleteActivityDraftHandler = http.delete(`*${getDeleteActivityDraftUrl(':activityDraftId')}`, ({ params }) => {
@@ -243,7 +252,10 @@ export const staffsActivitiesHandlers = [
         response = mockedActivityContentWithFileAndLink
       }
 
-      return HttpResponse.json<ActivityContentDTO>(response, {
+      return HttpResponse.json<ActivityContentDTO>({
+        ...response,
+        files: response.files?.filter(file => !deletedDraftFileIds.has(file.id)),
+      }, {
         status: HttpStatusCode.OK,
         headers: { 'Content-Type': 'application/json' },
       })
@@ -358,6 +370,7 @@ export const staffsActivitiesHandlers = [
     })
   }),
   staffCreateDraftFromActivityUrl,
+  deleteDraftFileHandler,
   http.get(`*${getGetActivitiesWithFeedbacksUrl()}`, ({ request }) => {
     const url = new URL(request.url)
 
