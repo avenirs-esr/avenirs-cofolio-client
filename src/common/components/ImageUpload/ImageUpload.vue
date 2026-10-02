@@ -184,6 +184,14 @@ function backToInitialCrop () {
   currentImageUrl.value = URL.createObjectURL(files.value[0])
   canvasRef.value = null
 }
+
+function onAcceptTypeError () {
+  imageUpload.error.value = t('global.error.file.acceptType')
+}
+
+function onFileSizeError () {
+  imageUpload.error.value = t('global.error.file.size')
+}
 </script>
 
 <template>
@@ -192,15 +200,16 @@ function backToInitialCrop () {
       v-model:error="imageUpload.error.value"
       v-model:valid-message="imageUpload.valid.value"
       v-model="files"
+      :accept="ACCEPTED_IMAGE_TYPES"
+      :max-file-size-mb="5"
       :title="t('global.information.imageUpload.title')"
       :description="t('global.information.imageUpload.dragAndDrop')"
       :delete-button-label="t('global.buttons.delete')"
       :file-name="defaultImageName"
       :aria-describedby="describedBy"
-      :accept="ACCEPTED_IMAGE_TYPES"
-      :max-file-size-mb="5"
       @change="onSelectImage"
-      @accept-type-error="() => { imageUpload.error.value = t('global.error.file.acceptType') }"
+      @accept-type-error="onAcceptTypeError"
+      @file-size-error="onFileSizeError"
       @delete-file="openModal"
     >
       <template
@@ -239,6 +248,7 @@ function backToInitialCrop () {
   <ConfirmationModal
     :opened="cropperModalOpened"
     :close-button-label="t('global.buttons.close')"
+    data-testid="image-upload-cropper-modal"
     @confirm="onConfirmCropper"
     @close="onCloseCropper"
   >
@@ -266,6 +276,7 @@ function backToInitialCrop () {
     :opened="modalOpened"
     :title="t('global.information.imageUpload.deleteConfirmation')"
     description=""
+    data-testid="image-upload-confirm-modal"
     @confirm="onConfirmDeleteImage"
     @close="closeModal"
   />
