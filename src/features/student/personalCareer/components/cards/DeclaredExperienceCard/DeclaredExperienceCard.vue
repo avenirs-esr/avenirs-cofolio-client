@@ -9,8 +9,12 @@ import DeclaredExperienceOrganizationBadge
 import DeclaredExperienceTypeBadge
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useRoute } from 'vue-router'
 
 defineProps<{ declaredExperience: DeclaredExperienceViewDTO }>()
+
+const route = useRoute()
+const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_EXPERIENCES.name)
 
 const iconOptions = {
   name: MDI_ICONS.HUB_OUTLINE,
@@ -23,7 +27,7 @@ const iconOptions = {
 
 <template>
   <RouterLink
-    :to="{ name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: declaredExperience.id } }"
+    :to="{ name: isToolsKitRoute ? ROUTES.STUDENT.TOOLS_KIT_EXPERIENCE.name : ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: declaredExperience.id } }"
     class="declared-experience-card"
     data-testid="declared-experience-card"
     :data-experience-id="declaredExperience.id"

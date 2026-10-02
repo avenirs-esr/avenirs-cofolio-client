@@ -4,7 +4,7 @@ import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPag
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
-import { ErrorCodes, ICONS } from '@/common/constants'
+import { ErrorCodes, ICONS, ROUTES } from '@/common/constants'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import DeclaredSkillDetails
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
@@ -13,6 +13,7 @@ import DeclaredSkillSettingDropdown
 import DeleteDeclaredSkillConfirmModal from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 interface StudentDeclaredSkillViewProps {
   skillId: string
@@ -25,9 +26,15 @@ enum StudentDeclaredSkillViewTabs {
 }
 
 const { t } = useI18n()
-const { navigateToStudentUpdateDeclaredSkill, navigateToStudentSkills } = useNavigation()
+const {
+  navigateToStudentUpdateDeclaredSkill,
+  navigateToStudentToolsKitUpdateSkill,
+  navigateToStudentSkills,
+  navigateToStudentToolsKitSkills
+} = useNavigation()
 const { data: declaredSkillDetailed, error } = useGetDeclaredSkillProgressDetails(skillId)
 const { modalOpened, openModal, closeModal } = useModal()
+const route = useRoute()
 
 const activeTab = ref(StudentDeclaredSkillViewTabs.DETAILS)
 
@@ -43,13 +50,15 @@ const trailingLinks = computed(() => [
   { text: t('student.declaredSkills.views.StudentDeclaredSkillView.breadcrumb.current.title', { skill: skillTitle.value }) }
 ])
 
+const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_SKILL.name)
+
 function handleUpdateSelected () {
-  navigateToStudentUpdateDeclaredSkill()
+  isToolsKitRoute.value ? navigateToStudentToolsKitUpdateSkill() : navigateToStudentUpdateDeclaredSkill()
 }
 
 function handleSkillDeleted () {
   closeModal()
-  navigateToStudentSkills({ replace: true })
+  isToolsKitRoute.value ? navigateToStudentToolsKitSkills({ replace: true }) : navigateToStudentSkills({ replace: true })
 }
 </script>
 

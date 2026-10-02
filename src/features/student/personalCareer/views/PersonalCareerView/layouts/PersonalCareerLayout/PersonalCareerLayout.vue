@@ -21,7 +21,8 @@ const router = useRouter()
 const { isMobile } = useAvBreakpoints()
 
 const selectedItem = computed<{ itemId: string }>(() => ({ itemId: route.name as string }))
-const items = computed<AvSideNavigationItem[]>(() => [
+
+const personalCareerItems = computed<AvSideNavigationItem[]>(() => [
   {
     id: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name,
     label: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.title'),
@@ -31,8 +32,25 @@ const items = computed<AvSideNavigationItem[]>(() => [
     id: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name,
     label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.title'),
     icon: ICONS.EXPERIENCES,
+  },
+])
+
+const toolsKitItems = computed<AvSideNavigationItem[]>(() => [
+  {
+    id: ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAMS.name,
+    label: t('student.personalCareer.views.PersonalCareerView.ProgramsSection.title'),
+    icon: ICONS.PROGRAMS,
+  },
+  {
+    id: ROUTES.STUDENT.TOOLS_KIT_EXPERIENCES.name,
+    label: t('student.personalCareer.views.PersonalCareerView.ExperiencesSection.title'),
+    icon: ICONS.EXPERIENCES,
   }
 ])
+
+const isToolsKitRoute = computed(() => route.name?.toString().startsWith('student-tools-kit'))
+
+const items = computed<AvSideNavigationItem[]>(() => isToolsKitRoute.value ? toolsKitItems.value : personalCareerItems.value)
 
 const selectOptions = computed<AvSelectOption[]>(() =>
   items.value.map(item => ({

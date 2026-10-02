@@ -7,6 +7,7 @@ import { server } from '@/__mocks__/msw/server'
 import { EAssociationContextType, EErrorCode } from '@/api/avenir-esr'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
+import { ROUTES } from '@/common/constants'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { DeclaredSkillDetailsStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.stub'
 import { DeclaredSkillSettingDropdownStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillSettingDropdown/DeclaredSkillSettingDropdown.stub'
@@ -18,6 +19,14 @@ import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStudentUpdateDeclaredSkill = vi.fn()
 const navigateToStudentSkills = vi.fn()
+const navigateToStudentToolsKitUpdateSkill = vi.fn()
+const navigateToStudentToolsKitSkills = vi.fn()
+const route = reactive<{ name: string }>({ name: ROUTES.STUDENT.DECLARED_SKILL.name })
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return { ...actual, useRoute: () => route }
+})
 
 vi.mock('@/common/composables', async () => {
   const actual = await vi.importActual('@/common/composables')
@@ -25,7 +34,9 @@ vi.mock('@/common/composables', async () => {
     ...actual,
     useNavigation: () => ({
       navigateToStudentUpdateDeclaredSkill,
-      navigateToStudentSkills
+      navigateToStudentSkills,
+      navigateToStudentToolsKitUpdateSkill,
+      navigateToStudentToolsKitSkills
     })
   }
 })
@@ -47,6 +58,7 @@ BddTest().given('a student declared skill view', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    route.name = ROUTES.STUDENT.DECLARED_SKILL.name
 
     wrapper = mountComponent(StudentDeclaredSkillView, {
       props: { skillId },
@@ -183,6 +195,39 @@ BddTest().given('a student declared skill view', () => {
         await vi.waitFor(() => {
           expect(navigateToStudentSkills).toHaveBeenCalledWith({ replace: true })
         })
+      })
+    })
+  })
+
+  BddTest().when('the view is mounted from the tools kit', () => {
+    beforeEach(() => {
+      route.name = ROUTES.STUDENT.TOOLS_KIT_SKILL.name
+      wrapper = mountComponent(StudentDeclaredSkillView, {
+        props: { skillId },
+        global: { stubs }
+      })
+    })
+
+    BddTest().and('the update action is selected', () => {
+      beforeEach(async () => {
+        await wrapper.findComponent(DeclaredSkillSettingDropdownStub).vm.$emit('update')
+      })
+
+      BddTest().then('it should navigate to the tools kit update route', () => {
+        expect(navigateToStudentToolsKitUpdateSkill).toHaveBeenCalledTimes(1)
+        expect(navigateToStudentUpdateDeclaredSkill).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().and('the skill is deleted', () => {
+      beforeEach(async () => {
+        await wrapper.findComponent(DeclaredSkillSettingDropdownStub).vm.$emit('delete')
+        await wrapper.findComponent(DeleteDeclaredSkillConfirmModalStub).vm.$emit('skillDeleted')
+      })
+
+      BddTest().then('it should navigate back to the tools kit skills list', () => {
+        expect(navigateToStudentToolsKitSkills).toHaveBeenCalledWith({ replace: true })
+        expect(navigateToStudentSkills).not.toHaveBeenCalled()
       })
     })
   })

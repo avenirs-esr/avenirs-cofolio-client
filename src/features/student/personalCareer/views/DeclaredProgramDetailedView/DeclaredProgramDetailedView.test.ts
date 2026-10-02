@@ -32,6 +32,8 @@ const mockCloseModal = vi.fn(() => {
 })
 const navigateToStudentUpdateDeclaredProgram = vi.fn()
 const navigateToStudentDeclaredPrograms = vi.fn()
+const navigateToStudentToolsKitUpdateDeclaredProgram = vi.fn()
+const navigateToStudentToolsKitDeclaredPrograms = vi.fn()
 const mockIsMobile = ref(false)
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
@@ -74,7 +76,9 @@ vi.mock('@/common/composables', async (importOriginal) => {
     }),
     useNavigation: () => ({
       navigateToStudentUpdateDeclaredProgram,
-      navigateToStudentDeclaredPrograms
+      navigateToStudentDeclaredPrograms,
+      navigateToStudentToolsKitUpdateDeclaredProgram,
+      navigateToStudentToolsKitDeclaredPrograms
     }),
   }
 })
@@ -134,6 +138,7 @@ BddTest().given('a declared program detailed view component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockModalOpened.value = false
+    route.name = ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name
   })
 
   afterEach(() => {
@@ -376,6 +381,37 @@ BddTest().given('a declared program detailed view component', () => {
     BddTest().then('it should not render tabs', async () => {
       await vi.waitFor(() => {
         expect(getAvTabs().exists()).toBe(false)
+      })
+    })
+  })
+
+  BddTest().when('the view is mounted from the tools kit declared programs list', () => {
+    beforeEach(async () => {
+      route.name = ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAM.name
+      await mountWith()
+    })
+
+    BddTest().and('the update action is selected', () => {
+      beforeEach(async () => {
+        await selectDropdownAction('update')
+      })
+
+      BddTest().then('it should navigate to the tools kit update route', () => {
+        expect(navigateToStudentToolsKitUpdateDeclaredProgram).toHaveBeenCalledTimes(1)
+        expect(navigateToStudentUpdateDeclaredProgram).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().and('the program is deleted', () => {
+      beforeEach(async () => {
+        await selectDropdownAction('delete')
+        getDeleteModal().vm.$emit('confirm')
+        await flushPromises()
+      })
+
+      BddTest().then('it should return to the tools kit declared programs list', () => {
+        expect(navigateToStudentToolsKitDeclaredPrograms).toHaveBeenCalledWith({ replace: true })
+        expect(navigateToStudentDeclaredPrograms).not.toHaveBeenCalled()
       })
     })
   })

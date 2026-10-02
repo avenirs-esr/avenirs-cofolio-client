@@ -19,7 +19,7 @@ const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] }
     breadcrumb: [
       META_BREADCRUMBS.STUDENT.HOME,
       META_BREADCRUMBS.STUDENT.TOOLS.DEFAULT,
-      META_BREADCRUMBS.STUDENT.TOOLS.KIT,
+      META_BREADCRUMBS.STUDENT.TOOLS.KIT.BASE,
     ],
   }
 })

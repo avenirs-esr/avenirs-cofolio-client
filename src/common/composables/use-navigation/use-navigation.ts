@@ -71,9 +71,21 @@ export function useNavigation () {
     return navigate(ROUTES.STUDENT.BUILD_PROJECT, replace)
   }
 
+  const navigateToStudentToolsKitBuildProject = (replace?: boolean) => {
+    return navigate(ROUTES.STUDENT.TOOLS_KIT_BUILD_PROJECT, replace)
+  }
+
   const navigateToStudentSelfKnowledgeCategory = ({ categoryId, elementId }: { categoryId: string, elementId: string }) => {
     return navigate({
       name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
+      params: { id: categoryId },
+      query: elementId ? { elementId } : undefined,
+    })
+  }
+
+  const navigateToStudentToolsKitSelfKnowledgeCategory = ({ categoryId, elementId }: { categoryId: string, elementId: string }) => {
+    return navigate({
+      name: ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_CATEGORY.name,
       params: { id: categoryId },
       query: elementId ? { elementId } : undefined,
     })
@@ -95,12 +107,36 @@ export function useNavigation () {
     return navigate(to, replace)
   }
 
+  const navigateToStudentToolsKitSelfKnowledgeElementUpdate = ({
+    categoryId,
+    elementId,
+    replace,
+  }: {
+    categoryId: string
+    elementId: string
+    replace?: boolean
+  }) => {
+    const to = {
+      name: ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_ELEMENT_UPDATE.name,
+      params: { categoryId, elementId },
+    }
+    return navigate(to, replace)
+  }
+
   const navigateToStudentProjectDeclaredSkill = () => {
     return navigate(ROUTES.STUDENT.DECLARED_SKILL)
   }
 
+  const navigateToStudentToolsKitSkill = () => {
+    return navigate(ROUTES.STUDENT.TOOLS_KIT_SKILL)
+  }
+
   const navigateToStudentSkills = ({ replace }: { replace?: boolean }) => {
     return navigate(ROUTES.STUDENT.SKILLS, replace)
+  }
+
+  const navigateToStudentToolsKitSkills = ({ replace }: { replace?: boolean }) => {
+    return navigate(ROUTES.STUDENT.TOOLS_KIT_SKILLS, replace)
   }
 
   const navigateToStudentProjectActivities = ({ replace }: { replace?: boolean } = { replace: false }) => {
@@ -125,6 +161,10 @@ export function useNavigation () {
     return navigate(ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS, replace)
   }
 
+  const navigateToStudentToolsKitDeclaredPrograms = ({ replace }: { replace?: boolean }) => {
+    return navigate(ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAMS, replace)
+  }
+
   const navigateToStudentDeclaredExperiences = ({ replace }: { replace?: boolean }) => {
     return navigate(ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES, replace)
   }
@@ -133,8 +173,16 @@ export function useNavigation () {
     return navigate(ROUTES.STUDENT.UPDATE_DECLARED_SKILL)
   }
 
+  const navigateToStudentToolsKitUpdateSkill = () => {
+    return navigate(ROUTES.STUDENT.TOOLS_KIT_UPDATE_SKILL)
+  }
+
   const navigateToStudentUpdateDeclaredProgram = () => {
     return navigate(ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM)
+  }
+
+  const navigateToStudentToolsKitUpdateDeclaredProgram = () => {
+    return navigate(ROUTES.STUDENT.TOOLS_KIT_UPDATE_DECLARED_PROGRAM)
   }
 
   const navigateToActivity = ({ id, thematic }: { id?: string, thematic?: string }) => {
@@ -236,17 +284,25 @@ export function useNavigation () {
     navigateToStudentEvents,
     navigateToStudentHome,
     navigateToStudentBuildProject,
+    navigateToStudentToolsKitBuildProject,
     navigateToStudentSelfKnowledgeCategory,
+    navigateToStudentToolsKitSelfKnowledgeCategory,
     navigateToStudentSelfKnowledgeElementUpdate,
+    navigateToStudentToolsKitSelfKnowledgeElementUpdate,
     navigateToStudentProjectDeclaredSkill,
+    navigateToStudentToolsKitSkill,
     navigateToStudentSkills,
+    navigateToStudentToolsKitSkills,
     navigateToStudentProjectActivities,
     navigateToStudentTrace,
     navigateToStudentTraces,
     navigateToStudentDeclaredExperiences,
     navigateToStudentDeclaredPrograms,
+    navigateToStudentToolsKitDeclaredPrograms,
     navigateToStudentUpdateDeclaredSkill,
+    navigateToStudentToolsKitUpdateSkill,
     navigateToStudentUpdateDeclaredProgram,
+    navigateToStudentToolsKitUpdateDeclaredProgram,
     navigateToStaffHome,
     navigateToStaffStudentTrackingActivityFeedbackDetails,
     navigateToActivity,

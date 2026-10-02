@@ -14,7 +14,7 @@ const { data, error, isFetching } = useGetDeclaredPrograms(
 const declaredPrograms = computed(() => data.value?.data ?? [])
 const totalElements = computed(() => data.value?.page?.totalElements ?? 0)
 const isEmpty = computed(() => totalElements.value === 0)
-const declaredProgramsRoute = { name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name }
+const declaredProgramsRoute = { name: ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAMS.name }
 const emptyStateMessage = computed(() => t(
   'student.kit.cards.ValorizedElementsCardContainer.emptyState',
   { item: t('student.kit.views.StudentToolsKitView.valorizedDeclaredProgramsContainer.emptyStateItemLabel') }

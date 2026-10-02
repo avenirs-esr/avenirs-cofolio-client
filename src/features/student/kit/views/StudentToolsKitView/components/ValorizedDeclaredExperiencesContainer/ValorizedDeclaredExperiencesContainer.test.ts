@@ -116,7 +116,7 @@ SCENARIOS.forEach(({ professionalExperience, pluralTitle, singularTitle, singula
         expect(container.props('emptyStateMessage')).toBe('Vous n\'avez pas encore valorisé ce type de contenu, ajoutez et valorisez une expérience afin de constituer votre kit')
         expect(container.props('seeAllLabel')).toBe(seeAllLabel)
         expect(container.props('seeAllTo')).toEqual({
-          name: 'personal-career-experiences',
+          name: 'student-tools-kit-experiences',
           query: { type: professionalExperience ? ProBasedExperienceType.PROFESSIONAL : ProBasedExperienceType.OTHER }
         })
       })

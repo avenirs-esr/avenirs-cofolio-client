@@ -6,13 +6,19 @@ import { DeclaredSkillMacroSkillBadge } from '@/features/student/declaredSkills'
 import StudentDetailedSkillCard from '@/features/student/skills/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 import { AvBadge, type AvBadgeProps, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 export interface StudentDetailedDeclaredSkillCardProps {
   declaredSkill: ExternalSkillDTO | DeclaredSkillProgressDTO
 }
 
 const { declaredSkill } = defineProps<StudentDetailedDeclaredSkillCardProps>()
+
 const { t } = useI18n()
+const route = useRoute()
+
+const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_SKILLS.name)
+
 const declaredSkillColor = 'var(--dark-background-primary1)'
 const typeBadge = computed<AvBadgeProps>(() => ({
   label: t(`student.declaredSkills.declaredSkillTypes.${declaredSkill.type}`),
@@ -32,7 +38,7 @@ const valorized = computed(() =>
     :name="declaredSkill.title"
     :skill-color="declaredSkillColor"
     :icon="ICONS.SKILLS"
-    :to="ROUTES.STUDENT.DECLARED_SKILL.name"
+    :to="isToolsKitRoute ? ROUTES.STUDENT.TOOLS_KIT_SKILL.name : ROUTES.STUDENT.DECLARED_SKILL.name"
     color="var(--card2)"
   >
     <div class="av-col av-justify-between av--mt-xs av-gap-xxs">

@@ -79,8 +79,8 @@ BddTest().given('a valorized self knowledge container', () => {
         expect(container.props('emptyStateMessage')).toBe('Vous n\'avez pas encore valorisé ce type de contenu, ajoutez et valorisez un centre d\'intérêt afin de constituer votre kit')
         expect(container.props('seeAllLabel')).toBe('Voir tous mes centres d\'intérêt')
         expect(container.props('seeAllTo')).toEqual({
-          name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
-          params: { id: ESelfKnowledgeCategory.INTERESTS }
+          name: ROUTES.STUDENT.TOOLS_KIT_BUILD_PROJECT.name,
+          query: { section: BuildProjectItems.SELF_KNOWLEDGE }
         })
       })
 
@@ -126,7 +126,7 @@ BddTest().given('a valorized self knowledge container', () => {
 
       BddTest().then('it should fall back to the self knowledge section link', () => {
         expect(wrapper.findComponent(ValorizedElementsCardContainerStub).props('seeAllTo')).toEqual({
-          name: ROUTES.STUDENT.BUILD_PROJECT.name,
+          name: ROUTES.STUDENT.TOOLS_KIT_BUILD_PROJECT.name,
           query: { section: BuildProjectItems.SELF_KNOWLEDGE }
         })
       })
@@ -189,7 +189,7 @@ BddTest().given('a valorized self knowledge container', () => {
         expect(container.props('emptyStateMessage')).toBe('Vous n\'avez pas encore valorisé ce type de contenu, ajoutez et valorisez une information afin de constituer votre kit')
         expect(container.props('seeAllLabel')).toBe('Voir toutes mes autres informations')
         expect(container.props('seeAllTo')).toEqual({
-          name: ROUTES.STUDENT.BUILD_PROJECT.name,
+          name: ROUTES.STUDENT.TOOLS_KIT_BUILD_PROJECT.name,
           query: { section: BuildProjectItems.SELF_KNOWLEDGE }
         })
       })

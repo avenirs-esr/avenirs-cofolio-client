@@ -4,6 +4,7 @@ import { Rating } from '@/common/components'
 import { ROUTES } from '@/common/constants'
 import { FloatingIconCard } from '@/features/student/global'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
+import { useRoute } from 'vue-router'
 
 export interface SelfKnowledgeElementCardProps {
   element: SelfKnowledgeElementViewDTO
@@ -17,13 +18,22 @@ const {
   element,
 } = defineProps<SelfKnowledgeElementCardProps>()
 
+const route = useRoute()
+
+const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_BUILD_PROJECT.name)
+
 const iconOptions = computed(() => ({
   name: getSelfKnowledgeCategoryIcon(categoryType),
 }))
 </script>
 
 <template>
-  <RouterLink :to="{ name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name, params: { id: categoryType }, query: { elementId: element.id } }">
+  <RouterLink
+    :to="{
+      name: isToolsKitRoute ? ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_CATEGORY.name : ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
+      params: { id: categoryType },
+      query: { elementId: element.id } }"
+  >
     <FloatingIconCard
       :title="element.title"
       :header-rows="2"
