@@ -1,9 +1,17 @@
 import { type DeclaredSkillProgressDTO, EDeclaredSkillLevel, EExternalSkillType, type ExternalSkillDTO } from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
+import { ROUTES } from '@/common/constants'
 import StudentDetailedDeclaredSkillCard from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedDeclaredSkillCard/StudentDetailedDeclaredSkillCard.vue'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+
+const route = reactive<{ name: string }>({ name: ROUTES.STUDENT.SKILLS.name })
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return { ...actual, useRoute: () => route }
+})
 
 const mockSkill: ExternalSkillDTO = {
   id: 'declared-skill-1',
@@ -158,6 +166,18 @@ BddTest().given('a student detailed declared skill card', () => {
 
       expect(badge.exists()).toBe(true)
       expect(badge.props('valorized')).toBe(false)
+    })
+  })
+
+  BddTest().when('the card is mounted in the tools kit skills list', () => {
+    beforeEach(() => {
+      route.name = ROUTES.STUDENT.TOOLS_KIT_SKILLS.name
+      wrapper = createWrapper()
+    })
+
+    BddTest().then('it should link to the tools kit declared skill route', () => {
+      const card = wrapper.findComponent({ name: 'StudentDetailedSkillCard' })
+      expect(card.props('to')).toBe(ROUTES.STUDENT.TOOLS_KIT_SKILL.name)
     })
   })
 })

@@ -1,11 +1,19 @@
 import { ESelfKnowledgeCategory, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr/generated/types'
 import { RatingStub } from '@/common/components/Rating/Rating.stub'
+import { ROUTES } from '@/common/constants'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
+
+const route = reactive<{ name: string }>({ name: ROUTES.STUDENT.BUILD_PROJECT.name })
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return { ...actual, useRoute: () => route }
+})
 
 const stubs = {
   FloatingIconCard: FloatingIconCardStub,
@@ -37,6 +45,14 @@ BddTest().given('a self knowledge element card', () => {
     BddTest().then('it should render the component', () => {
       const card = wrapper.find('.floating-icon-card')
       expect(card.exists()).toBe(true)
+    })
+
+    BddTest().then('it should link to the category in the project section', () => {
+      expect(wrapper.findComponent(RouterLinkStub).props('to')).toEqual({
+        name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
+        params: { id: ESelfKnowledgeCategory.VALUES },
+        query: { elementId: baseElement.id }
+      })
     })
 
     BddTest().then('it should display the correct icon for VALUES', async () => {
@@ -186,6 +202,24 @@ BddTest().given('a self knowledge element card', () => {
       const description = wrapper.find('.self-knowledge-element-card__body .caption-regular')
       expect(description.exists()).toBe(true)
       expect(description.classes()).toContain('caption-regular')
+    })
+  })
+
+  BddTest().when('the component is mounted from the tools kit build project route', () => {
+    beforeEach(() => {
+      route.name = ROUTES.STUDENT.TOOLS_KIT_BUILD_PROJECT.name
+      wrapper = mountComponent(SelfKnowledgeElementCard, {
+        props: { element: baseElement, categoryType: ESelfKnowledgeCategory.VALUES },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should link to the tools kit self knowledge category', () => {
+      expect(wrapper.findComponent(RouterLinkStub).props('to')).toEqual({
+        name: ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_CATEGORY.name,
+        params: { id: ESelfKnowledgeCategory.VALUES },
+        query: { elementId: baseElement.id }
+      })
     })
   })
 

@@ -29,17 +29,8 @@ const totalElements = computed(() => data.value?.page?.totalElements ?? 0)
 const isEmpty = computed(() => totalElements.value === 0)
 
 const seeAllTo = computed(() => {
-  if (interestsOnly && totalElements.value > 0) {
-    return {
-      name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
-      params: {
-        id: ESelfKnowledgeCategory.INTERESTS
-      }
-    }
-  }
-
   return {
-    name: ROUTES.STUDENT.BUILD_PROJECT.name,
+    name: ROUTES.STUDENT.TOOLS_KIT_BUILD_PROJECT.name,
     query: {
       section: BuildProjectItems.SELF_KNOWLEDGE
     }

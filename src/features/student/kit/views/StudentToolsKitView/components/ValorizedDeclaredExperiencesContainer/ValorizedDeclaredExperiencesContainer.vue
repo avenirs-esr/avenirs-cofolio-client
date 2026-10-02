@@ -26,7 +26,7 @@ const declaredExperiences = computed(() => (data.value?.data ?? []).filter(exper
 const totalElements = computed(() => declaredExperiences.value.length)
 const isEmpty = computed(() => totalElements.value === 0)
 const declaredExperiencesRoute = computed(() => ({
-  name: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name,
+  name: ROUTES.STUDENT.TOOLS_KIT_EXPERIENCES.name,
   query: { type: experienceType.value }
 }))
 const emptyStateMessage = computed(() => t(

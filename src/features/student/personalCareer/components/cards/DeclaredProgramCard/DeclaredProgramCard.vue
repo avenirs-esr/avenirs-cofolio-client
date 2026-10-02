@@ -10,8 +10,13 @@ import DeclaredProgramResultBadge
 import DeclaredProgramStatusBadge
   from '@/features/student/personalCareer/components/badges/DeclaredProgramStatusBadge/DeclaredProgramStatusBadge.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useRoute } from 'vue-router'
 
 const { declaredProgram } = defineProps<{ declaredProgram: DeclaredProgramViewDTO }>()
+
+const route = useRoute()
+
+const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAMS.name)
 
 const iconOptions = {
   name: MDI_ICONS.SCHOOL_OUTLINE,
@@ -24,7 +29,10 @@ const iconOptions = {
 
 <template>
   <RouterLink
-    :to="{ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name, params: { id: declaredProgram.id } }"
+    :to="{
+      name: isToolsKitRoute ? ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAM.name : ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
+      params: { id: declaredProgram.id },
+    }"
     class="declared-program-card"
   >
     <FloatingIconCard

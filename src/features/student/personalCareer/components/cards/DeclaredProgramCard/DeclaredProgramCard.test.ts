@@ -1,5 +1,6 @@
 import { type DeclaredProgramViewDTO, EProgramStatus } from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
+import { ROUTES } from '@/common/constants'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { DeclaredProgramOrganizationBadgeStub }
   from '@/features/student/personalCareer/components/badges/DeclaredProgramOrganizationBadge/DeclaredProgramOrganizationBadge.stub'
@@ -12,6 +13,13 @@ import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+const route = reactive<{ name: string }>({ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name })
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return { ...actual, useRoute: () => route }
+})
 
 BddTest().given('a declared program card', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramCard>>
@@ -51,6 +59,13 @@ BddTest().given('a declared program card', () => {
 
     BddTest().then('it should render the floating icon card', () => {
       expect(floatingCard.exists()).toBe(true)
+    })
+
+    BddTest().then('it should link to the detailed program route in the project', () => {
+      expect(wrapper.findComponent(RouterLinkStub).props('to')).toEqual({
+        name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
+        params: { id: baseDeclaredProgram.id }
+      })
     })
 
     BddTest().then('it should render the valorized badge', () => {
@@ -140,6 +155,23 @@ BddTest().given('a declared program card', () => {
 
     BddTest().then('it should not render the result badge', () => {
       expect(wrapper.findComponent(DeclaredProgramResultBadgeStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted in the tools kit declared programs list', () => {
+    beforeEach(() => {
+      route.name = ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAMS.name
+      wrapper = mount(DeclaredProgramCard, {
+        props: { declaredProgram: baseDeclaredProgram },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should link to the tools kit declared program route', () => {
+      expect(wrapper.findComponent(RouterLinkStub).props('to')).toEqual({
+        name: ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAM.name,
+        params: { id: baseDeclaredProgram.id }
+      })
     })
   })
 })

@@ -1,6 +1,7 @@
 import { type DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
 import { PeriodBadgeStub } from '@/common/activities/badges/PeriodBadge/PeriodBadge.stub'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
+import { ROUTES } from '@/common/constants'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import { DeclaredExperienceOrganizationBadgeStub }
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceOrganizationBadge/DeclaredExperienceOrganizationBadge.stub'
@@ -11,6 +12,13 @@ import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+
+const route = reactive<{ name: string }>({ name: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name })
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return { ...actual, useRoute: () => route }
+})
 
 BddTest().given('a declared experience card', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceCard>>
@@ -60,6 +68,13 @@ BddTest().given('a declared experience card', () => {
 
     BddTest().then('it should render the floating icon card', () => {
       expect(floatingCard.exists()).toBe(true)
+    })
+
+    BddTest().then('it should link to the declared experience route in the project', () => {
+      expect(wrapper.findComponent(RouterLinkStub).props('to')).toEqual({
+        name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
+        params: { id: baseDeclaredExperience.id }
+      })
     })
 
     BddTest().then('it should render the valorized badge', () => {
@@ -187,6 +202,23 @@ BddTest().given('a declared experience card', () => {
       expect(wrapper.findComponent(DeclaredExperienceOrganizationBadgeStub).exists()).toBe(true)
       expect(wrapper.findComponent(DeclaredExperienceTypeBadgeStub).exists()).toBe(false)
       expect(wrapper.findComponent({ name: 'PeriodBadge' }).exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the component is mounted in the tools kit experiences list', () => {
+    beforeEach(() => {
+      route.name = ROUTES.STUDENT.TOOLS_KIT_EXPERIENCES.name
+      wrapper = mount(DeclaredExperienceCard, {
+        props: { declaredExperience: baseDeclaredExperience },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should link to the tools kit declared experience route', () => {
+      expect(wrapper.findComponent(RouterLinkStub).props('to')).toEqual({
+        name: ROUTES.STUDENT.TOOLS_KIT_EXPERIENCE.name,
+        params: { id: baseDeclaredExperience.id }
+      })
     })
   })
 })

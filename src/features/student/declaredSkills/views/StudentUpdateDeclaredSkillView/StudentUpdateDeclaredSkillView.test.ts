@@ -6,6 +6,7 @@ import { EAssociationContextType, EErrorCode } from '@/api/avenir-esr'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
+import { ROUTES } from '@/common/constants'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { UpdateDeclaredSkillFormStub } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.stub'
 import StudentUpdateDeclaredSkillView from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/StudentUpdateDeclaredSkillView.vue'
@@ -15,6 +16,13 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStudentProjectDeclaredSkill = vi.fn()
+const navigateToStudentToolsKitSkill = vi.fn()
+const route = reactive<{ name: string }>({ name: ROUTES.STUDENT.UPDATE_DECLARED_SKILL.name })
+
+vi.mock('vue-router', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('vue-router')>()
+  return { ...actual, useRoute: () => route }
+})
 
 vi.mock('@/common/composables', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/common/composables')>()
@@ -22,6 +30,7 @@ vi.mock('@/common/composables', async (importOriginal) => {
     ...actual,
     useNavigation: () => ({
       navigateToStudentProjectDeclaredSkill,
+      navigateToStudentToolsKitSkill,
     }),
   }
 })
@@ -66,6 +75,7 @@ BddTest().given('a student update declared skill view component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    route.name = ROUTES.STUDENT.UPDATE_DECLARED_SKILL.name
     mockCanLeave.mockResolvedValue(true)
 
     wrapper = mountComponent(StudentUpdateDeclaredSkillView, {
@@ -298,6 +308,43 @@ BddTest().given('a student update declared skill view component', () => {
         BddTest().then('it should call guard cancel', () => {
           expect(mockCancel).toHaveBeenCalledTimes(1)
         })
+      })
+    })
+  })
+
+  BddTest().when('the update view is mounted from the tools kit', () => {
+    beforeEach(async () => {
+      route.name = ROUTES.STUDENT.TOOLS_KIT_UPDATE_SKILL.name
+      wrapper = mountComponent(StudentUpdateDeclaredSkillView, {
+        props: { skillId: '123' },
+        global: { stubs }
+      })
+      await flushPromises()
+    })
+
+    BddTest().then('it should link the current skill breadcrumb to the tools kit detail route', async () => {
+      await vi.waitFor(() => {
+        const trailingLinks = wrapper.findComponent(UpdatePageTitleStub).props('trailingLinks')
+        expect(trailingLinks).toBeDefined()
+        expect(trailingLinks).toHaveLength(2)
+        expect(trailingLinks![0].to).toEqual({
+          name: ROUTES.STUDENT.TOOLS_KIT_SKILL.name,
+          params: { id: '123' }
+        })
+      })
+    })
+
+    BddTest().and('the form is updated or cancelled', () => {
+      beforeEach(async () => {
+        await vi.waitFor(() => expect(wrapper.findComponent(UpdateDeclaredSkillFormStub).exists()).toBe(true))
+      })
+
+      BddTest().then('it should navigate back to the tools kit detail route', async () => {
+        const form = wrapper.findComponent(UpdateDeclaredSkillFormStub)
+        await form.vm.$props.onSkillUpdated()
+        await form.vm.$props.onCancel()
+        expect(navigateToStudentToolsKitSkill).toHaveBeenCalledTimes(2)
+        expect(navigateToStudentProjectDeclaredSkill).not.toHaveBeenCalled()
       })
     })
   })

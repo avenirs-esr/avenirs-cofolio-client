@@ -134,12 +134,32 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to student tools kit build project', () => {
+    BddTest().then('it should navigate to student tools kit build project', () => {
+      const { navigateToStudentToolsKitBuildProject } = navigation
+      navigateToStudentToolsKitBuildProject()
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.TOOLS_KIT_BUILD_PROJECT)
+    })
+  })
+
   BddTest().when('trying to navigate to self-knowledge categories', () => {
     BddTest().then('it should navigate to self-knowledge categories', () => {
       const { navigateToStudentSelfKnowledgeCategory } = navigation
       navigateToStudentSelfKnowledgeCategory({ categoryId: 'categoryId', elementId: 'elementId' })
       expect(pushMock).toHaveBeenCalledWith({
         name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
+        params: { id: 'categoryId' },
+        query: { elementId: 'elementId' },
+      })
+    })
+  })
+
+  BddTest().when('trying to navigate to self-knowledge categories in the tools kit', () => {
+    BddTest().then('it should use the tools kit category route and preserve the element query', () => {
+      const { navigateToStudentToolsKitSelfKnowledgeCategory } = navigation
+      navigateToStudentToolsKitSelfKnowledgeCategory({ categoryId: 'categoryId', elementId: 'elementId' })
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_CATEGORY.name,
         params: { id: 'categoryId' },
         query: { elementId: 'elementId' },
       })
@@ -168,6 +188,17 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
+  BddTest().when('trying to navigate to self-knowledge elements update in the tools kit', () => {
+    BddTest().then('it should use the tools kit update route', () => {
+      const { navigateToStudentToolsKitSelfKnowledgeElementUpdate } = navigation
+      navigateToStudentToolsKitSelfKnowledgeElementUpdate({ categoryId: 'categoryId', elementId: 'elementId' })
+      expect(pushMock).toHaveBeenCalledWith({
+        name: ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_ELEMENT_UPDATE.name,
+        params: { categoryId: 'categoryId', elementId: 'elementId' },
+      })
+    })
+  })
+
   BddTest().when('trying to navigate to student project skills', () => {
     BddTest().then('it should navigate to student project skills', () => {
       const { navigateToStudentSkills } = navigation
@@ -181,6 +212,14 @@ BddTest().given('a useNavigation composable', () => {
       const { navigateToStudentSkills } = navigation
       navigateToStudentSkills({ replace: true })
       expect(replaceMock).toHaveBeenCalledWith(ROUTES.STUDENT.SKILLS)
+    })
+  })
+
+  BddTest().when('trying to navigate to student tools kit skills with replace', () => {
+    BddTest().then('it should replace with the tools kit skills route', () => {
+      const { navigateToStudentToolsKitSkills } = navigation
+      navigateToStudentToolsKitSkills({ replace: true })
+      expect(replaceMock).toHaveBeenCalledWith(ROUTES.STUDENT.TOOLS_KIT_SKILLS)
     })
   })
 
@@ -229,6 +268,30 @@ BddTest().given('a useNavigation composable', () => {
       const { navigateToStudentDeclaredPrograms } = navigation
       navigateToStudentDeclaredPrograms({ replace: true })
       expect(replaceMock).toHaveBeenCalledWith(ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS)
+    })
+  })
+
+  BddTest().when('trying to navigate to student tools kit declared programs', () => {
+    BddTest().then('it should navigate to the tools kit declared programs route', () => {
+      const { navigateToStudentToolsKitDeclaredPrograms } = navigation
+      navigateToStudentToolsKitDeclaredPrograms({})
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAMS)
+    })
+  })
+
+  BddTest().when('trying to navigate to student tools kit update skill', () => {
+    BddTest().then('it should navigate to the tools kit update skill route', () => {
+      const { navigateToStudentToolsKitUpdateSkill } = navigation
+      navigateToStudentToolsKitUpdateSkill()
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.TOOLS_KIT_UPDATE_SKILL)
+    })
+  })
+
+  BddTest().when('trying to navigate to student tools kit update declared program', () => {
+    BddTest().then('it should navigate to the tools kit update declared program route', () => {
+      const { navigateToStudentToolsKitUpdateDeclaredProgram } = navigation
+      navigateToStudentToolsKitUpdateDeclaredProgram()
+      expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.TOOLS_KIT_UPDATE_DECLARED_PROGRAM)
     })
   })
 

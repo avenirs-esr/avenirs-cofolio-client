@@ -4,7 +4,7 @@ import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPag
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
-import { ErrorCodes, ICONS } from '@/common/constants'
+import { ErrorCodes, ICONS, ROUTES } from '@/common/constants'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import DeleteDeclaredProgramConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.vue'
 import DeclaredProgramDetailed from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
@@ -20,7 +20,12 @@ const activeTab = ref(DeclaredProgramDetailedViewTabs.DETAILS)
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
 
 const { data: declaredProgramDetailed, isLoading, isError, error } = useGetDeclaredProgram(selectedProgramId)
-const { navigateToStudentUpdateDeclaredProgram, navigateToStudentDeclaredPrograms } = useNavigation()
+const {
+  navigateToStudentUpdateDeclaredProgram,
+  navigateToStudentToolsKitUpdateDeclaredProgram,
+  navigateToStudentDeclaredPrograms,
+  navigateToStudentToolsKitDeclaredPrograms,
+} = useNavigation()
 const { modalOpened, openModal, closeModal } = useModal()
 
 const { data: associations, isLoading: areAssociationsLoading, error: associationsError } = useGetAssociations(
@@ -38,13 +43,23 @@ const { data: associations, isLoading: areAssociationsLoading, error: associatio
 const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 const isDeclaredProgramNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_PROGRAM_NOT_FOUND || isNotFound.value)
 
+const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAM.name)
+
 const programTitle = computed(() => declaredProgramDetailed.value?.title ?? '')
 const trailingLinks = computed(() => [{ text: programTitle.value }])
 const associationsCount = computed(() => countElementAssociations(EAssociationContextType.DECLARED_PROGRAM, associations.value))
 
+function handleUpdateSelected () {
+  isToolsKitRoute.value
+    ? navigateToStudentToolsKitUpdateDeclaredProgram()
+    : navigateToStudentUpdateDeclaredProgram()
+}
+
 function handleConfirmDelete () {
   closeModal()
-  navigateToStudentDeclaredPrograms({ replace: true })
+  isToolsKitRoute.value
+    ? navigateToStudentToolsKitDeclaredPrograms({ replace: true })
+    : navigateToStudentDeclaredPrograms({ replace: true })
 }
 </script>
 
@@ -56,7 +71,7 @@ function handleConfirmDelete () {
     <template #actions>
       <ManageDeclaredProgramDropdown
         v-if="declaredProgramDetailed"
-        @update="navigateToStudentUpdateDeclaredProgram"
+        @update="handleUpdateSelected"
         @delete="openModal"
       />
     </template>

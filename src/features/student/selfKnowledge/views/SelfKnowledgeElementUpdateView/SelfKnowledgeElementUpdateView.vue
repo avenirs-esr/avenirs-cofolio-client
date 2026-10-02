@@ -9,6 +9,7 @@ import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/compo
 import SelfKnowledgeElementUpdateForm from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/SelfKnowledgeElementUpdateForm.vue'
 import { toSentenceCase } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 
 export interface SelfKnowledgeElementUpdateViewProps {
   categoryId: string
@@ -20,18 +21,21 @@ const props = defineProps<SelfKnowledgeElementUpdateViewProps>()
 const { data: element } = useGetSelfKnowledgeElementDetails(toRef(props, 'elementId'))
 
 const { t } = useI18n()
-const { navigateToStudentSelfKnowledgeCategory } = useNavigation()
+const route = useRoute()
+const { navigateToStudentSelfKnowledgeCategory, navigateToStudentToolsKitSelfKnowledgeCategory } = useNavigation()
 
 const categoryId = computed(() => props.categoryId as ESelfKnowledgeCategory)
 
 const { categoryTypeLabel } = useSelfKnowledgeCategory(categoryId)
+
+const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_ELEMENT_UPDATE.name)
 
 const trailingLinks = computed(() => [
   { text: toSentenceCase(categoryTypeLabel.value) },
   {
     text: element.value?.title ?? '',
     to: {
-      name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
+      name: isToolsKitRoute.value ? ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_CATEGORY.name : ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
       params: { id: props.categoryId },
       query: { elementId: props.elementId }
     }
@@ -40,10 +44,15 @@ const trailingLinks = computed(() => [
 ])
 
 function backToElementDetails () {
-  navigateToStudentSelfKnowledgeCategory({
-    categoryId: props.categoryId,
-    elementId: props.elementId
-  })
+  isToolsKitRoute.value
+    ? navigateToStudentToolsKitSelfKnowledgeCategory({
+        categoryId: props.categoryId,
+        elementId: props.elementId
+      })
+    : navigateToStudentSelfKnowledgeCategory({
+        categoryId: props.categoryId,
+        elementId: props.elementId
+      })
 }
 </script>
 

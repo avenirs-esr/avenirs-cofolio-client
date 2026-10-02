@@ -149,6 +149,7 @@ BddTest().given('a declared program update view component', () => {
     vi.clearAllMocks()
     confirmationModalOpened.value = false
     mockCanLeave.mockResolvedValue(true)
+    route.name = ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM.name
   })
 
   afterEach(() => {
@@ -344,6 +345,41 @@ BddTest().given('a declared program update view component', () => {
     BddTest().then('it should not render tabs', async () => {
       await vi.waitFor(() => {
         expect(getAvTabs().exists()).toBe(false)
+      })
+    })
+  })
+
+  BddTest().when('the update view is mounted from the tools kit', () => {
+    beforeEach(async () => {
+      route.name = ROUTES.STUDENT.TOOLS_KIT_UPDATE_DECLARED_PROGRAM.name
+      await mountWith()
+    })
+
+    BddTest().then('it should link the breadcrumb to the tools kit program detail', async () => {
+      await vi.waitFor(() => {
+        expect(getPageTitle().props('trailingLinks')![0]).toEqual({
+          text: 'Formation déclarée 1',
+          to: {
+            name: ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAM.name,
+            params: { id: DEFAULT_PROGRAM_ID }
+          }
+        })
+      })
+    })
+
+    BddTest().and('the form is cancelled or updated', () => {
+      beforeEach(async () => {
+        await vi.waitFor(() => expect(getForm().exists()).toBe(true))
+      })
+
+      BddTest().then('it should navigate to the tools kit program detail', async () => {
+        await emitFromForm('cancel')
+        await emitFromForm('programUpdated')
+        expect(routerPush).toHaveBeenCalledTimes(2)
+        expect(routerPush).toHaveBeenCalledWith({
+          name: ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAM.name,
+          params: { id: DEFAULT_PROGRAM_ID }
+        })
       })
     })
   })

@@ -9,6 +9,7 @@ import { beforeEach, expect, vi } from 'vitest'
 
 const mockReplace = vi.fn()
 const mockIsMobile = ref(false)
+const route = reactive<{ name: string }>({ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name })
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
@@ -27,9 +28,7 @@ vi.mock('vue-router', async () => {
     useRouter: () => ({
       replace: mockReplace
     }),
-    useRoute: () => ({
-      name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name
-    })
+    useRoute: () => route
   }
 })
 
@@ -48,6 +47,8 @@ BddTest().given('a student academic career layout component', () => {
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
       vi.clearAllMocks()
+      route.name = ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name
+      mockIsMobile.value = false
       wrapper = mountComponent(PersonalCareerLayout, {
         global: { stubs }
       })
@@ -133,6 +134,7 @@ BddTest().given('a student academic career layout component', () => {
   BddTest().when('the component is mounted on mobile', () => {
     beforeEach(() => {
       mockIsMobile.value = true
+      route.name = ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name
       vi.clearAllMocks()
       wrapper = mountComponent(PersonalCareerLayout, {
         global: { stubs }
@@ -157,6 +159,75 @@ BddTest().given('a student academic career layout component', () => {
         expect(mockReplace).toHaveBeenCalledWith({
           name: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name
         })
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted on a tools kit route', () => {
+    beforeEach(() => {
+      route.name = ROUTES.STUDENT.TOOLS_KIT_EXPERIENCES.name
+      mockIsMobile.value = false
+      vi.clearAllMocks()
+      wrapper = mountComponent(PersonalCareerLayout, {
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should select the current tools kit section', () => {
+      expect(getSideNavigation().props('selectedItem')).toEqual({
+        itemId: ROUTES.STUDENT.TOOLS_KIT_EXPERIENCES.name
+      })
+    })
+
+    BddTest().then('it should show only tools kit navigation destinations', () => {
+      expect(getSideNavigation().props('items')!.map(item => item.id)).toEqual([
+        ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAMS.name,
+        ROUTES.STUDENT.TOOLS_KIT_EXPERIENCES.name
+      ])
+    })
+
+    BddTest().and('a tools kit navigation item is selected', () => {
+      beforeEach(async () => {
+        await getSideNavigation().vm.$emit('update:selectedItem', {
+          itemId: ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAMS.name
+        })
+        await flushPromises()
+      })
+
+      BddTest().then('it should replace the route with the selected tools kit destination', () => {
+        expect(mockReplace).toHaveBeenCalledWith({ name: ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAMS.name })
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted on mobile from a tools kit route', () => {
+    beforeEach(() => {
+      route.name = ROUTES.STUDENT.TOOLS_KIT_EXPERIENCES.name
+      mockIsMobile.value = true
+      vi.clearAllMocks()
+      wrapper = mountComponent(PersonalCareerLayout, {
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should select the active tools kit section and show tools kit options', () => {
+      expect(getAvSelect().props('selectedItem')).toEqual({ itemId: ROUTES.STUDENT.TOOLS_KIT_EXPERIENCES.name })
+      expect(getAvSelect().props('options')!.map(option => option.id)).toEqual([
+        ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAMS.name,
+        ROUTES.STUDENT.TOOLS_KIT_EXPERIENCES.name
+      ])
+    })
+
+    BddTest().and('a tools kit navigation option is selected', () => {
+      beforeEach(async () => {
+        await getAvSelect().vm.$emit('update:selectedItem', {
+          itemId: ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAMS.name
+        })
+        await flushPromises()
+      })
+
+      BddTest().then('it should replace with the selected tools kit destination', () => {
+        expect(mockReplace).toHaveBeenCalledWith({ name: ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAMS.name })
       })
     })
   })

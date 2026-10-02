@@ -67,7 +67,7 @@ BddTest().given('a valorized declared programs container', () => {
       const container = wrapper.findComponent(ValorizedElementsCardContainerStub)
       expect(container.props('emptyStateMessage')).toBe('Vous n\'avez pas encore valorisé ce type de contenu, ajoutez et valorisez une formation afin de constituer votre kit')
       expect(container.props('seeAllLabel')).toBe('Voir toutes mes formations')
-      expect(container.props('seeAllTo')).toEqual({ name: 'personal-career-declared-programs' })
+      expect(container.props('seeAllTo')).toEqual({ name: 'student-tools-kit-declared-programs' })
     })
   })
 

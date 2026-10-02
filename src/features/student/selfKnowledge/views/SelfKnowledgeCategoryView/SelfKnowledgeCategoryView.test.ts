@@ -3,6 +3,7 @@ import { server } from '@/__mocks__/msw/server'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
+import { ROUTES } from '@/common/constants'
 import { SelfKnowledgeElementDetailsStub } from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.stub'
 import { SelfKnowledgeElementDetailsDropdownStub } from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.stub'
 import SelfKnowledgeCategoryView
@@ -14,6 +15,8 @@ import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStudentSelfKnowledgeElementUpdate = vi.fn()
 const navigateToStudentBuildProject = vi.fn()
+const navigateToStudentToolsKitSelfKnowledgeElementUpdate = vi.fn()
+const navigateToStudentToolsKitBuildProject = vi.fn()
 const mockSelectedElementId = ref('')
 
 const mockAddSuccessMessage = vi.fn()
@@ -30,7 +33,8 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
-const route = reactive<{ query: { elementId: string } }>({
+const route = reactive<{ name: string, query: { elementId: string } }>({
+  name: ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
   query: { elementId: mockSelectedElementId.value },
 })
 
@@ -48,7 +52,9 @@ vi.mock('@/common/composables/use-navigation/use-navigation', async (importOrigi
     ...actual,
     useNavigation: () => ({
       navigateToStudentSelfKnowledgeElementUpdate,
-      navigateToStudentBuildProject
+      navigateToStudentBuildProject,
+      navigateToStudentToolsKitSelfKnowledgeElementUpdate,
+      navigateToStudentToolsKitBuildProject
     }),
   }
 })
@@ -80,6 +86,7 @@ BddTest().given('a self knowledge category view component', () => {
 
   beforeEach(() => {
     mockSelectedElementId.value = 'element-123'
+    route.name = ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name
     route.query.elementId = mockSelectedElementId.value
     vi.clearAllMocks()
   })
@@ -200,6 +207,42 @@ BddTest().given('a self knowledge category view component', () => {
     BddTest().then('it should not render SelfKnowledgeElementDetailsDropdown', async () => {
       await vi.waitFor(() => {
         expect(wrapper.find('[data-testid="self-knowledge-element-details-dropdown"]').exists()).toBe(false)
+      })
+    })
+  })
+
+  BddTest().when('the category view is mounted from the tools kit', () => {
+    beforeEach(async () => {
+      route.name = ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_CATEGORY.name
+      await mountComponentWithDefaults()
+    })
+
+    BddTest().and('the update option is selected', () => {
+      beforeEach(async () => {
+        await wrapper.findComponent(SelfKnowledgeElementDetailsDropdownStub).vm.$emit('update')
+      })
+
+      BddTest().then('it should navigate to the tools kit element update route', () => {
+        expect(navigateToStudentToolsKitSelfKnowledgeElementUpdate).toHaveBeenCalledWith({
+          categoryId,
+          elementId: mockSelectedElementId.value
+        })
+        expect(navigateToStudentSelfKnowledgeElementUpdate).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().and('the element is deleted', () => {
+      beforeEach(async () => {
+        await wrapper.findComponent(SelfKnowledgeElementDetailsDropdownStub).vm.$emit('delete')
+        await wrapper.findComponent(ConfirmationModalStub).vm.$emit('confirm')
+        await flushPromises()
+      })
+
+      BddTest().then('it should return to the tools kit build project route', async () => {
+        await vi.waitFor(() => {
+          expect(navigateToStudentToolsKitBuildProject).toHaveBeenCalledWith(true)
+        })
+        expect(navigateToStudentBuildProject).not.toHaveBeenCalled()
       })
     })
   })

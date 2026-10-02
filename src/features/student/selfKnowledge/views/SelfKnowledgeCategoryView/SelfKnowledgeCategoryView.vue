@@ -7,7 +7,7 @@ import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { ErrorCodes } from '@/common/constants'
+import { ErrorCodes, ROUTES } from '@/common/constants'
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import SelfKnowledgeElementDetails from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
 import SelfKnowledgeElementDetailsDropdown from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.vue'
@@ -23,7 +23,12 @@ interface SelfKnowledgeCategoryViewProps {
 const props = defineProps<SelfKnowledgeCategoryViewProps>()
 
 const { t } = useI18n()
-const { navigateToStudentSelfKnowledgeElementUpdate, navigateToStudentBuildProject } = useNavigation()
+const {
+  navigateToStudentSelfKnowledgeElementUpdate,
+  navigateToStudentToolsKitSelfKnowledgeElementUpdate,
+  navigateToStudentBuildProject,
+  navigateToStudentToolsKitBuildProject
+} = useNavigation()
 const { modalOpened: confirmModalOpened, openModal: openConfirmModal, closeModal: closeConfirmModal } = useModal()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 
@@ -45,6 +50,8 @@ const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 
 const { mutate: mutateDeleteSelfKnowledgeElements } = useDeleteSelfKnowledgeElements()
 
+const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_CATEGORY.name)
+
 function deleteSelfKnowledgeElement () {
   mutateDeleteSelfKnowledgeElements({
     data: [selectedElementId.value]
@@ -58,7 +65,9 @@ function deleteSelfKnowledgeElement () {
       addSuccessMessage(
         t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.success', { count: 1 })
       )
-      navigateToStudentBuildProject(true)
+      isToolsKitRoute.value
+        ? navigateToStudentToolsKitBuildProject(true)
+        : navigateToStudentBuildProject(true)
     }
   })
 }
@@ -74,10 +83,15 @@ const trailingLinks = computed(() => [
 const isSelfKnowledgeNotFound = computed(() => originalErrorCode.value === ErrorCodes.SELF_KNOWLEDGE_ELEMENT_NOT_FOUND || isNotFound.value)
 
 function onUpdateSelected () {
-  navigateToStudentSelfKnowledgeElementUpdate({
-    categoryId: props.categoryId,
-    elementId: selectedElementId.value
-  })
+  isToolsKitRoute.value
+    ? navigateToStudentToolsKitSelfKnowledgeElementUpdate({
+        categoryId: props.categoryId,
+        elementId: selectedElementId.value
+      })
+    : navigateToStudentSelfKnowledgeElementUpdate({
+        categoryId: props.categoryId,
+        elementId: selectedElementId.value
+      })
 }
 </script>
 
