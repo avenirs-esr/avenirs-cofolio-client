@@ -6,8 +6,9 @@ import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { ErrorCodes, ROUTES } from '@/common/constants'
+import { ErrorCodes } from '@/common/constants'
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import SelfKnowledgeElementDetails from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetails/SelfKnowledgeElementDetails.vue'
 import SelfKnowledgeElementDetailsDropdown from '@/features/student/selfKnowledge/views/SelfKnowledgeCategoryView/components/SelfKnowledgeElementDetailsDropdown/SelfKnowledgeElementDetailsDropdown.vue'
@@ -39,6 +40,7 @@ const { categoryTypeLabel } = useSelfKnowledgeCategory(categoryId)
 const queryClient = useQueryClient()
 
 const route = useRoute()
+const { isStudentToolsKitRoute } = useIdentifyRoute()
 const selectedElementId = computed(() => route.query.elementId as string)
 
 const { data: selectedElementDetails, error } = useGetSelfKnowledgeElementDetails(selectedElementId.value, {
@@ -49,8 +51,6 @@ const { isLoading, withTaskLoading } = useTaskLoading()
 const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 
 const { mutate: mutateDeleteSelfKnowledgeElements } = useDeleteSelfKnowledgeElements()
-
-const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_CATEGORY.name)
 
 function deleteSelfKnowledgeElement () {
   mutateDeleteSelfKnowledgeElements({
@@ -65,7 +65,7 @@ function deleteSelfKnowledgeElement () {
       addSuccessMessage(
         t('student.selfKnowledge.SelfKnowledgeMainSection.categoryElementsPaginator.modals.deleteElements.success', { count: 1 })
       )
-      isToolsKitRoute.value
+      isStudentToolsKitRoute.value
         ? navigateToStudentToolsKitBuildProject(true)
         : navigateToStudentBuildProject(true)
     }
@@ -83,7 +83,7 @@ const trailingLinks = computed(() => [
 const isSelfKnowledgeNotFound = computed(() => originalErrorCode.value === ErrorCodes.SELF_KNOWLEDGE_ELEMENT_NOT_FOUND || isNotFound.value)
 
 function onUpdateSelected () {
-  isToolsKitRoute.value
+  isStudentToolsKitRoute.value
     ? navigateToStudentToolsKitSelfKnowledgeElementUpdate({
         categoryId: props.categoryId,
         elementId: selectedElementId.value

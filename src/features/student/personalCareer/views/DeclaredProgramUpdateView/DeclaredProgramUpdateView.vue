@@ -4,6 +4,7 @@ import { ConfirmationModal, QuerySuspense } from '@/common/components'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal } from '@/common/composables'
+import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ICONS, ROUTES } from '@/common/constants'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
@@ -15,6 +16,7 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const route = useRoute()
+const { isStudentToolsKitRoute } = useIdentifyRoute()
 const router = useRouter()
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
 const isDirty = ref(false)
@@ -27,11 +29,9 @@ const { data: declaredProgramAssociations, error: associationsError } = useGetAs
 
 const associationsCount = computed(() => countElementAssociations(EAssociationContextType.DECLARED_PROGRAM, declaredProgramAssociations.value))
 
-const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_UPDATE_DECLARED_PROGRAM.name)
-
 const programTitle = computed(() => declaredProgramDetailed.value?.title ?? '')
 const declaredProgramDetailedRoute = computed(() => ({
-  name: isToolsKitRoute.value
+  name: isStudentToolsKitRoute.value
     ? ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAM.name
     : ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
   params: { id: selectedProgramId.value }

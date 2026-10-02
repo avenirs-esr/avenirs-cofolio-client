@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
+import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import DeclaredProgramOrganizationBadge
@@ -10,13 +11,10 @@ import DeclaredProgramResultBadge
 import DeclaredProgramStatusBadge
   from '@/features/student/personalCareer/components/badges/DeclaredProgramStatusBadge/DeclaredProgramStatusBadge.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useRoute } from 'vue-router'
 
 const { declaredProgram } = defineProps<{ declaredProgram: DeclaredProgramViewDTO }>()
 
-const route = useRoute()
-
-const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAMS.name)
+const { isStudentToolsKitRoute } = useIdentifyRoute()
 
 const iconOptions = {
   name: MDI_ICONS.SCHOOL_OUTLINE,
@@ -30,7 +28,7 @@ const iconOptions = {
 <template>
   <RouterLink
     :to="{
-      name: isToolsKitRoute ? ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAM.name : ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
+      name: isStudentToolsKitRoute ? ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAM.name : ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
       params: { id: declaredProgram.id },
     }"
     class="declared-program-card"

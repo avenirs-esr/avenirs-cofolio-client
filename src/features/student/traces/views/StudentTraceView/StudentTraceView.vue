@@ -6,7 +6,8 @@ import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage
 import Loader from '@/common/components/Loader/Loader.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
-import { ICONS, ROUTES } from '@/common/constants'
+import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
+import { ICONS } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import { AssociateModal, countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import TraceDeletionConfirmationModal from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
@@ -40,7 +41,7 @@ const selectedTraceIdsForDeletion = computed(() =>
 )
 
 const { navigateToStudentTraces, navigateToStudentUpdateTrace, navigateToStudentToolsUpdateTrace, navigateToStudentToolsKitUpdateTrace } = useNavigation()
-const route = useRoute()
+const { isStudentToolsKitRoute, isStudentToolsTracesRoute } = useIdentifyRoute()
 
 const associationsCount = computed(() => countElementAssociations(EAssociationContextType.TRACE, traceAssociations.value))
 
@@ -71,18 +72,13 @@ function onDeleteTraceSuccess () {
   navigateToStudentTraces({ replace: true })
 }
 
-const isToolsTraceRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_TRACE.name)
-
-const isToolsKitTraceRoute = computed(() =>
-  route.name === ROUTES.STUDENT.TOOLS_KIT_TRACE.name)
-
 function handleUpdateTrace () {
   const id = traceDetailed.value!.id
 
-  if (isToolsKitTraceRoute.value) {
+  if (isStudentToolsKitRoute.value) {
     navigateToStudentToolsKitUpdateTrace({ id, })
   }
-  else if (isToolsTraceRoute.value) {
+  else if (isStudentToolsTracesRoute.value) {
     navigateToStudentToolsUpdateTrace({ id, })
   }
   else {

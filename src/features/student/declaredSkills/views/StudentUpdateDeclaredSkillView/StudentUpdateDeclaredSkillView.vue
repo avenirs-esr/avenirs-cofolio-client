@@ -4,13 +4,13 @@ import { ConfirmationModal } from '@/common/components'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
+import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { ICONS, ROUTES } from '@/common/constants'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import UpdateDeclaredSkillForm from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
 
 interface StudentUpdateDeclaredSkillViewProps {
   skillId: string
@@ -24,7 +24,7 @@ enum StudentUpdateDeclaredSkillViewTabs {
 }
 
 const { t } = useI18n()
-const route = useRoute()
+const { isStudentToolsKitRoute } = useIdentifyRoute()
 const { navigateToStudentProjectDeclaredSkill, navigateToStudentToolsKitSkill } = useNavigation()
 const { data: declaredSkillDetailed } = useGetDeclaredSkillProgressDetails(skillId)
 
@@ -35,18 +35,19 @@ const associationsCount = computed(() => countElementAssociations(EAssociationCo
 const activeTab = ref(StudentUpdateDeclaredSkillViewTabs.DETAILS)
 const updateInProgress = ref(false)
 
-const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_UPDATE_SKILL.name)
-
 const trailingLinks = computed(() => [
   {
     text: t('student.declaredSkills.views.StudentDeclaredSkillView.breadcrumb.current.title', { skill: declaredSkillDetailed?.value?.title ?? '' }),
-    to: { name: isToolsKitRoute.value ? ROUTES.STUDENT.TOOLS_KIT_SKILL.name : ROUTES.STUDENT.DECLARED_SKILL.name, params: { id: skillId } }
+    to: {
+      name: isStudentToolsKitRoute.value ? ROUTES.STUDENT.TOOLS_KIT_SKILL.name : ROUTES.STUDENT.DECLARED_SKILL.name,
+      params: { id: skillId }
+    }
   },
   { text: `${t('global.buttons.update')} ${declaredSkillDetailed?.value?.title ?? ''}` }
 ])
 
 function backToStudentDeclaredSkillViewTabs () {
-  isToolsKitRoute.value ? navigateToStudentToolsKitSkill() : navigateToStudentProjectDeclaredSkill()
+  isStudentToolsKitRoute.value ? navigateToStudentToolsKitSkill() : navigateToStudentProjectDeclaredSkill()
 }
 
 const isDirty = computed(() => updateInProgress.value)

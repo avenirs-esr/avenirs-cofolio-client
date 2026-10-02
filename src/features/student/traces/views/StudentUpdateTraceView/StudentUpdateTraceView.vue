@@ -11,6 +11,7 @@ import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBa
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
 import { BaseApiException } from '@/common/exceptions'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
@@ -35,12 +36,16 @@ const { data: associations } = useGetAssociations(
 const { data: traceLockedDeclaredActivities, isFetching } = useGetLockedDeclaredActivities([traceId])
 
 const { t } = useI18n()
-const route = useRoute()
+const { isStudentToolsKitRoute, isStudentToolsTracesRoute } = useIdentifyRoute()
 const tracesStore = useTracesStore()
 const { updateTraceFormModified } = toRefs(tracesStore)
 const { getErrorMessage } = useApiErrors()
 const { addSuccessMessage, addErrorMessage } = useToasterStore()
-const { navigateToStudentTrace, navigateToStudentToolsTrace } = useNavigation()
+const {
+  navigateToStudentTrace,
+  navigateToStudentToolsTrace,
+  navigateToStudentToolsKitTrace,
+} = useNavigation()
 
 function onTraceUpdated () {
   addSuccessMessage({
@@ -59,15 +64,11 @@ const {
 } = useModal()
 const { modalOpened: confirmUpdateModalOpened, openModal: openConfirmUpdateModal, closeModal: closeConfirmUpdateModal } = useModal()
 
-const isToolsTraceRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_UPDATE_TRACE.name)
-
-const isToolsKitUpdateTraceRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_UPDATE_TRACE.name)
-
 const traceDetailRouteName = computed(() => {
-  if (isToolsKitUpdateTraceRoute.value) {
+  if (isStudentToolsKitRoute.value) {
     return ROUTES.STUDENT.TOOLS_KIT_TRACE.name
   }
-  if (isToolsTraceRoute.value) {
+  if (isStudentToolsTracesRoute.value) {
     return ROUTES.STUDENT.TOOLS_TRACE.name
   }
   return ROUTES.STUDENT.TRACE.name
@@ -85,7 +86,17 @@ const trailingLinks = computed(() => [
 ])
 
 function navigateBack () {
-  isToolsTraceRoute.value ? navigateToStudentToolsTrace({ id: traceId }) : navigateToStudentTrace({ id: traceId })
+  const id = traceId
+
+  if (isStudentToolsKitRoute.value) {
+    navigateToStudentToolsKitTrace({ id })
+  }
+  else if (isStudentToolsTracesRoute.value) {
+    navigateToStudentToolsTrace({ id })
+  }
+  else {
+    navigateToStudentTrace({ id })
+  }
 }
 
 const lockedDeclaredActivities = ref<TraceDeclaredActivityDTO[]>([])

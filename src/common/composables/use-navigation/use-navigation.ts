@@ -260,6 +260,13 @@ export function useNavigation () {
     })
   }
 
+  const navigateToStudentToolsKitTrace = ({ id }: { id: string }) => {
+    return navigate({
+      name: ROUTES.STUDENT.TOOLS_KIT_TRACE.name,
+      params: { id },
+    })
+  }
+
   const navigateToStudentToolsKitUpdateTrace = ({ id }: { id: string }) => {
     return navigate({
       name: ROUTES.STUDENT.TOOLS_KIT_UPDATE_TRACE.name,
@@ -314,6 +321,7 @@ export function useNavigation () {
     navigateToStudentUpdateTrace,
     navigateToStudentToolsUpdateTrace,
     navigateToStudentToolsTrace,
+    navigateToStudentToolsKitTrace,
     navigateToStudentToolsKitUpdateTrace,
   }
 }

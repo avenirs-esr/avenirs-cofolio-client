@@ -4,7 +4,8 @@ import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPag
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
-import { ErrorCodes, ICONS, ROUTES } from '@/common/constants'
+import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
+import { ErrorCodes, ICONS } from '@/common/constants'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import DeleteDeclaredProgramConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.vue'
 import DeclaredProgramDetailed from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.vue'
@@ -18,6 +19,7 @@ const { t } = useI18n()
 const route = useRoute()
 const activeTab = ref(DeclaredProgramDetailedViewTabs.DETAILS)
 const selectedProgramId = computed(() => String(route.params.id ?? ''))
+const { isStudentToolsKitRoute } = useIdentifyRoute()
 
 const { data: declaredProgramDetailed, isLoading, isError, error } = useGetDeclaredProgram(selectedProgramId)
 const {
@@ -43,21 +45,19 @@ const { data: associations, isLoading: areAssociationsLoading, error: associatio
 const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 const isDeclaredProgramNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_PROGRAM_NOT_FOUND || isNotFound.value)
 
-const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAM.name)
-
 const programTitle = computed(() => declaredProgramDetailed.value?.title ?? '')
 const trailingLinks = computed(() => [{ text: programTitle.value }])
 const associationsCount = computed(() => countElementAssociations(EAssociationContextType.DECLARED_PROGRAM, associations.value))
 
 function handleUpdateSelected () {
-  isToolsKitRoute.value
+  isStudentToolsKitRoute.value
     ? navigateToStudentToolsKitUpdateDeclaredProgram()
     : navigateToStudentUpdateDeclaredProgram()
 }
 
 function handleConfirmDelete () {
   closeModal()
-  isToolsKitRoute.value
+  isStudentToolsKitRoute.value
     ? navigateToStudentToolsKitDeclaredPrograms({ replace: true })
     : navigateToStudentDeclaredPrograms({ replace: true })
 }

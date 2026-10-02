@@ -2,6 +2,7 @@
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import PeriodBadge from '@/common/activities/badges/PeriodBadge/PeriodBadge.vue'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
+import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import DeclaredExperienceOrganizationBadge
@@ -9,12 +10,10 @@ import DeclaredExperienceOrganizationBadge
 import DeclaredExperienceTypeBadge
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useRoute } from 'vue-router'
 
 defineProps<{ declaredExperience: DeclaredExperienceViewDTO }>()
 
-const route = useRoute()
-const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_EXPERIENCES.name)
+const { isStudentToolsKitRoute } = useIdentifyRoute()
 
 const iconOptions = {
   name: MDI_ICONS.HUB_OUTLINE,
@@ -27,7 +26,10 @@ const iconOptions = {
 
 <template>
   <RouterLink
-    :to="{ name: isToolsKitRoute ? ROUTES.STUDENT.TOOLS_KIT_EXPERIENCE.name : ROUTES.STUDENT.DECLARED_EXPERIENCE.name, params: { id: declaredExperience.id } }"
+    :to="{
+      name: isStudentToolsKitRoute ? ROUTES.STUDENT.TOOLS_KIT_EXPERIENCE.name : ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
+      params: { id: declaredExperience.id },
+    }"
     class="declared-experience-card"
     data-testid="declared-experience-card"
     :data-experience-id="declaredExperience.id"

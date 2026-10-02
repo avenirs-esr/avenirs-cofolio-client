@@ -2,14 +2,14 @@
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import { useTutorial } from '@/common/components/overlay/tooltips/Tutorial/use-tutorial'
 import { useModal } from '@/common/composables'
-import { ROUTES } from '@/common/constants'
+import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { CUIDA_ICONS, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { type Config, driver } from 'driver.js'
 import { useI18n } from 'vue-i18n'
 import 'driver.js/dist/driver.css'
 
 const { t } = useI18n()
-const route = useRoute()
+const { isStaffHomeRoute } = useIdentifyRoute()
 const { modalOpened, openModal, closeModal } = useModal()
 const { markTutorialAsSeen, hasSeenTutorial, replayRequested } = useTutorial()
 
@@ -190,7 +190,7 @@ const studentDriverObj = driver({
   ]
 })
 
-const driverObj = computed(() => route.name === ROUTES.STAFF.HOME.name ? staffDriverObj : studentDriverObj)
+const driverObj = computed(() => isStaffHomeRoute.value ? staffDriverObj : studentDriverObj)
 
 function startTutorial () {
   closeModal()

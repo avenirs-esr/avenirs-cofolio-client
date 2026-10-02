@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { StudentFeedbackItemListDTO } from '@/api/avenir-esr'
 import { useNavigation } from '@/common/composables'
+import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
 import { AvButton, type AvSelectOption, type AvSelectSelectedOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
@@ -18,12 +19,10 @@ interface StudentSelectOption extends AvSelectOption {
 const { feedbacks, selectedStudentId } = defineProps<ActivityFeedbackStudentSelectProps>()
 
 const { t } = useI18n()
-const route = useRoute()
+const { isStaffStudentTrackingRoute } = useIdentifyRoute()
 const { navigateToStaffStudentTrackingActivityFeedbackDetails, navigateToStaffActivityFeedbackDetails } = useNavigation()
 
-const isStudentTrackingRoute = computed(() => route.name === ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name)
-
-const targetRouteName = computed(() => isStudentTrackingRoute.value
+const targetRouteName = computed(() => isStaffStudentTrackingRoute.value
   ? ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name
   : ROUTES.STAFF.ACTIVITY_FEEDBACK.name)
 
@@ -72,7 +71,7 @@ const nextOption = computed(() => {
 })
 
 function navigateToFeedback (feedbackId: string) {
-  return isStudentTrackingRoute.value
+  return isStaffStudentTrackingRoute.value
     ? navigateToStaffStudentTrackingActivityFeedbackDetails({ feedbackId })
     : navigateToStaffActivityFeedbackDetails({ feedbackId })
 }
