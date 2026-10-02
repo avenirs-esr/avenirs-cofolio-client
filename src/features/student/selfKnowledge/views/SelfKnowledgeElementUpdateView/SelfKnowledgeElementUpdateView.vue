@@ -4,12 +4,12 @@ import { useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
 import { useNavigation } from '@/common/composables'
+import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import SelfKnowledgeElementUpdateForm from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/SelfKnowledgeElementUpdateForm.vue'
 import { toSentenceCase } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
 
 export interface SelfKnowledgeElementUpdateViewProps {
   categoryId: string
@@ -21,21 +21,19 @@ const props = defineProps<SelfKnowledgeElementUpdateViewProps>()
 const { data: element } = useGetSelfKnowledgeElementDetails(toRef(props, 'elementId'))
 
 const { t } = useI18n()
-const route = useRoute()
+const { isStudentToolsKitRoute } = useIdentifyRoute()
 const { navigateToStudentSelfKnowledgeCategory, navigateToStudentToolsKitSelfKnowledgeCategory } = useNavigation()
 
 const categoryId = computed(() => props.categoryId as ESelfKnowledgeCategory)
 
 const { categoryTypeLabel } = useSelfKnowledgeCategory(categoryId)
 
-const isToolsKitRoute = computed(() => route.name === ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_ELEMENT_UPDATE.name)
-
 const trailingLinks = computed(() => [
   { text: toSentenceCase(categoryTypeLabel.value) },
   {
     text: element.value?.title ?? '',
     to: {
-      name: isToolsKitRoute.value ? ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_CATEGORY.name : ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
+      name: isStudentToolsKitRoute.value ? ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_CATEGORY.name : ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
       params: { id: props.categoryId },
       query: { elementId: props.elementId }
     }
@@ -44,7 +42,7 @@ const trailingLinks = computed(() => [
 ])
 
 function backToElementDetails () {
-  isToolsKitRoute.value
+  isStudentToolsKitRoute.value
     ? navigateToStudentToolsKitSelfKnowledgeCategory({
         categoryId: props.categoryId,
         elementId: props.elementId
