@@ -22,6 +22,7 @@ const totalElements = computed(() => data.value?.page?.totalElements ?? 0)
     :error="error"
     :is-loading="isFetching"
     data-testid="valorized-non-associated-traces-container"
+    collapsed
   >
     <TraceValorizedItem
       v-for="trace in traces"
