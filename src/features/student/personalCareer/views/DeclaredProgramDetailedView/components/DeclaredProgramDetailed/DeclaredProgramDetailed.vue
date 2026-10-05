@@ -95,10 +95,13 @@ const { t } = useI18n()
           disabled
         />
 
-        <CreationUpdateDateDetails
-          :created-at="createdAt"
-          :updated-at="updatedAt"
-        />
+        <div class="av-row av-justify-end">
+          <CreationUpdateDateDetails
+            :created-at="createdAt"
+            :updated-at="updatedAt"
+            has-feminine-label
+          />
+        </div>
       </div>
     </div>
   </div>

@@ -122,14 +122,15 @@ const authorTypeLabel = computed(() =>
             disabled
           />
         </div>
-
-        <div class="av-row av-justify-end">
-          <CreationUpdateDateDetails
-            :created-at="trace.createdAt"
-            :updated-at="trace.updatedAt"
-          />
-        </div>
       </div>
+    </div>
+
+    <div class="av-row av-justify-end">
+      <CreationUpdateDateDetails
+        :created-at="trace.createdAt"
+        :updated-at="trace.updatedAt"
+        has-feminine-label
+      />
     </div>
   </div>
 </template>

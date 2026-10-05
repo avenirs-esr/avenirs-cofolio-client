@@ -106,17 +106,20 @@ watch(
         </div>
 
         <div
-          class="update-declared-experience-form__side av-col av-gap-xl av-flex-fill"
+          class="update-declared-experience-form__side av-col av-gap-xl av-flex-fill av-justify-between"
           data-testid="update-declared-experience-form__side"
         >
           <div class="av-col av-gap-sm av-justify-between">
             <DeclaredExperienceDescriptionFormField :form="form" />
 
             <DeclaredExperienceSummaryFormField :form="form" />
+          </div>
 
+          <div class="av-row av-justify-end">
             <CreationUpdateDateDetails
               :created-at="declaredExperience.createdAt"
               :updated-at="declaredExperience.updatedAt"
+              has-feminine-label
             />
           </div>
         </div>

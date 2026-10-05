@@ -4,8 +4,10 @@ import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 
-const CREATED_AT_LABEL = 'Créé le'
-const UPDATED_AT_LABEL = 'Modifié le'
+const CREATED_AT_LABEL_FEMININE = 'Créée le'
+const UPDATED_AT_LABEL_FEMININE = 'Modifiée le'
+const CREATED_AT_LABEL_MASCULINE = 'Créé le'
+const UPDATED_AT_LABEL_MASCULINE = 'Modifié le'
 
 const defaultProps: CreationUpdateDateDetailsProps = {
   createdAt: '2025-01-10T09:30:00.000Z',
@@ -51,7 +53,7 @@ BddTest().given('a CreationUpdateDateDetails component', () => {
     BddTest().then('it should render createdAt with correct icon and text', () => {
       const createdItem = getCreatedItem()
       expect(createdItem.props('icon')).toBe(RI_ICONS.LOADER_LINE)
-      expect(createdItem.props('text')).toContain(CREATED_AT_LABEL)
+      expect(createdItem.props('text')).toContain(CREATED_AT_LABEL_MASCULINE)
       expect(createdItem.props('text')).toContain(defaultFormattedCreatedAt)
       expect(createdItem.props('textColor')).toBe('var(--text2)')
       expect(createdItem.props('iconColor')).toBe('var(--text2)')
@@ -60,7 +62,7 @@ BddTest().given('a CreationUpdateDateDetails component', () => {
     BddTest().then('it should render updatedAt with correct icon and text', () => {
       const updatedItem = getUpdatedItem()
       expect(updatedItem.props('icon')).toBe(MDI_ICONS.PENCIL_OUTLINE)
-      expect(updatedItem.props('text')).toContain(UPDATED_AT_LABEL)
+      expect(updatedItem.props('text')).toContain(UPDATED_AT_LABEL_MASCULINE)
       expect(updatedItem.props('text')).toContain(defaultFormattedUpdatedAt)
       expect(updatedItem.props('textColor')).toBe('var(--text2)')
       expect(updatedItem.props('iconColor')).toBe('var(--text2)')
@@ -79,7 +81,7 @@ BddTest().given('a CreationUpdateDateDetails component', () => {
     BddTest().then('it should render createdAt with formatted date', () => {
       const createdItem = getCreatedItem()
       expect(createdItem.props('icon')).toBe(RI_ICONS.LOADER_LINE)
-      expect(createdItem.props('text')).toContain(CREATED_AT_LABEL)
+      expect(createdItem.props('text')).toContain(CREATED_AT_LABEL_MASCULINE)
       expect(createdItem.props('text')).toContain(defaultFormattedCreatedAt)
     })
   })
@@ -96,7 +98,7 @@ BddTest().given('a CreationUpdateDateDetails component', () => {
     BddTest().then('it should render updatedAt with formatted date', () => {
       const updatedItem = getUpdatedItem()
       expect(updatedItem.props('icon')).toBe(MDI_ICONS.PENCIL_OUTLINE)
-      expect(updatedItem.props('text')).toContain(UPDATED_AT_LABEL)
+      expect(updatedItem.props('text')).toContain(UPDATED_AT_LABEL_MASCULINE)
       expect(updatedItem.props('text')).toContain(defaultFormattedUpdatedAt)
     })
   })
@@ -108,6 +110,25 @@ BddTest().given('a CreationUpdateDateDetails component', () => {
 
     BddTest().then('it should not render any AvIconText components', () => {
       expect(getAvIconTextItems()).toHaveLength(0)
+    })
+  })
+
+  BddTest().when('the component is mounted with hasFeminineLabel set to true', () => {
+    beforeEach(() => {
+      mountWith({ hasFeminineLabel: true })
+    })
+
+    BddTest().then('it should render createdAt and updatedAt with feminine labels', () => {
+      const createdItem = getCreatedItem()
+      const updatedItem = getUpdatedItem()
+
+      if (createdItem.exists()) {
+        expect(createdItem.props('text')).toContain(CREATED_AT_LABEL_FEMININE)
+      }
+
+      if (updatedItem.exists()) {
+        expect(updatedItem.props('text')).toContain(UPDATED_AT_LABEL_FEMININE)
+      }
     })
   })
 })

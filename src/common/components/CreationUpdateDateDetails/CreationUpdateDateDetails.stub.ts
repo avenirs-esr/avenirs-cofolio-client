@@ -8,6 +8,10 @@ export const CreationUpdateDateDetailsStub = defineComponent({
     updatedAt: {
       type: String,
       required: false
+    },
+    hasFeminineLabel: {
+      type: Boolean,
+      required: false
     }
   },
   template: `

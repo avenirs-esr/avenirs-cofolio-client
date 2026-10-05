@@ -19,7 +19,7 @@ const { displayMenuBurgerDrawer, hideMenuBurgerDrawer } = menuBurgerStore
 const { markTutorialAsSeen, hasSeenTutorial, replayRequested } = useTutorial()
 
 const commonDriverProps: Partial<Config> = {
-  allowClose: false,
+  allowClose: true,
   disableActiveInteraction: true,
   nextBtnText: t('global.buttons.next'),
   prevBtnText: t('global.buttons.previous'),
@@ -37,7 +37,7 @@ const staffDriverObj = driver({
       element: '#update-profile-button',
       popover: {
         title: t('global.overlay.Tutorial.staff.update-profile-button.title'),
-        description: t('global.overlay.Tutorial.staff.update-profile-button.description')
+        description: t('global.overlay.Tutorial.staff.update-profile-button.description'),
       }
     },
     {
@@ -288,6 +288,21 @@ onUnmounted(() => {
 .driver-popover {
   background: var(--light-background-primary1);
   color: var(--dark-background-primary1);
+
+  .driver-popover-close-btn {
+    border: 1px solid var(--color-primary-bg-flat);
+    border-radius: var(--radius-md);
+    background: var(--color-primary-bg-flat);
+    color: var(--color-primary-text-flat);
+    padding: var(--spacing-xxs);
+    margin: var(--spacing-xxs);
+
+    &:hover {
+      border: 1px solid var(--color-primary-hover-text);
+      background: var(--color-primary-hover-bg);
+      color: var(--color-primary-hover-text);
+    }
+  }
 
   .driver-popover-arrow {
     border-top-color: var(--light-background-primary1) !important;

@@ -79,11 +79,6 @@ watch(
         <div data-testid="update-declared-skill-form__field">
           <DeclaredSkillLevelRadioButtonSetFormField :form="form" />
         </div>
-
-        <CreationUpdateDateDetails
-          :created-at="declaredSkillProgressDetails.createdAt"
-          :updated-at="declaredSkillProgressDetails.updatedAt"
-        />
       </div>
 
       <div
@@ -95,6 +90,14 @@ watch(
           data-testid="update-declared-skill-form__field"
         >
           <DeclaredSkillReflectionFormField :form="form" />
+        </div>
+
+        <div class="av-row av-justify-end">
+          <CreationUpdateDateDetails
+            :created-at="declaredSkillProgressDetails.createdAt"
+            :updated-at="declaredSkillProgressDetails.updatedAt"
+            has-feminine-label
+          />
         </div>
       </div>
     </div>
@@ -117,7 +120,7 @@ watch(
 .update-declared-skill-form {
   &__side {
     :deep(textarea) {
-      height: 75vh !important;
+      height: 60vh !important;
       resize: none;
     }
   }
