@@ -73,10 +73,10 @@ function confirmCancel () {
         </div>
       </div>
 
-      <div class="self-knowledge-element-update-form__right-column av-col av-flex-fill av-gap-md">
+      <div class="self-knowledge-element-update-form__right-column av-col av-flex-fill av-gap-md av-justify-between">
         <CategoryElementDescriptionTextareaFormField :form="form" />
 
-        <div class="self-knowledge-element-update-form__dates av-col av-flex-fill av-gap-xs">
+        <div class="self-knowledge-element-update-form__dates av-row av-justify-end">
           <CreationUpdateDateDetails
             :updated-at="element.updatedAt"
             :created-at="element.createdAt"

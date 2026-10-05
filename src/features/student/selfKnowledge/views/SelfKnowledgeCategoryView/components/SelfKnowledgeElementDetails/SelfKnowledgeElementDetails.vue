@@ -49,7 +49,7 @@ const { t } = useI18n()
           :model-value="element.description"
           disabled
         />
-        <div class="self-knowledge-element-details__dates av-col av-gap-xs">
+        <div class="self-knowledge-element-details__dates av-row av-justify-end">
           <CreationUpdateDateDetails
             :updated-at="element.updatedAt"
             :created-at="element.createdAt"
