@@ -1,6 +1,6 @@
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
-import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import { Action, type ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ActivityDetailedDropdown, { type ActivityDetailedDropdownProps } from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
@@ -34,19 +34,24 @@ BddTest().given('an activity dropdown', () => {
       mountWith({ status: EDeclaredActivityStatus.SUBSCRIBED })
     })
 
-    BddTest().then('it should render the dropdown with two menu items', () => {
+    BddTest().then('it should render update, unsubscribe, and delete menu items', () => {
       const dropdown = getDropdown()
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('actions')).toHaveLength(2)
+      expect(dropdown.props('actions')).toHaveLength(3)
     })
 
     BddTest().then('it should pass the correct entity name to the dropdown', () => {
       expect(getDropdown().props('entityName')).toBe('mon activité')
     })
 
-    BddTest().then('it should not render the resubscribe or delete menu items', () => {
+    BddTest().then('it should not render resubscribe and should disable delete', () => {
       expect(getResubscribeButton().exists()).toBe(false)
-      expect(getDeleteButton().exists()).toBe(false)
+      expect(getDeleteButton().exists()).toBe(true)
+      expect(getDeleteButton().attributes('disabled')).toBe('')
+
+      const deleteAction = (getDropdown().props('actions') as Array<ActionItem>).find(({ type }) => type === Action.DELETE)
+      expect(deleteAction?.disabled).toBe(true)
+      expect(deleteAction?.disabledTooltip).toBeTruthy()
     })
 
     BddTest().when('the update button is clicked', () => {
@@ -77,9 +82,11 @@ BddTest().given('an activity dropdown', () => {
       expect(dropdown.props('actions')).toHaveLength(2)
     })
 
-    BddTest().then('it should not render the update or unsubscribe menu items', () => {
+    BddTest().then('it should not render update or unsubscribe and should enable delete', () => {
       expect(getUpdateButton().exists()).toBe(false)
       expect(getUnsubscribeButton().exists()).toBe(false)
+      expect(getDeleteButton().exists()).toBe(true)
+      expect(getDeleteButton().attributes('disabled')).toBeUndefined()
     })
 
     BddTest().when('the resubscribe button is clicked', () => {

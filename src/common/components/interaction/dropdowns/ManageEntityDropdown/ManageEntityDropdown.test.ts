@@ -87,6 +87,27 @@ BddTest().given('a ManageEntityDropdown', () => {
     })
   })
 
+  BddTest().when('the action configuration is ordered', () => {
+    BddTest().then('it should keep the intended action order', () => {
+      expect(Object.keys(moreActionConfig)).toEqual([
+        Action.NAVIGATE_TO_FEEDBACKS,
+        Action.ADD,
+        Action.ASSOCIATE,
+        Action.COLLAPSE,
+        Action.DOWNLOAD,
+        Action.EXPAND,
+        Action.PUBLISH,
+        Action.RESUBSCRIBE,
+        Action.UPDATE,
+        Action.UPDATE_IN_PROFILE,
+        Action.CLONE,
+        Action.UNPUBLISH,
+        Action.UNSUBSCRIBE,
+        Action.DELETE,
+      ])
+    })
+  })
+
   BddTest().when('an action is not requested', () => {
     const [omitted, ...requested] = allActions
 
@@ -208,8 +229,8 @@ BddTest().given('a ManageEntityDropdown', () => {
       expect(getDropdownItems()).toEqual([
         toExpectedItem(Action.PUBLISH, false),
         toExpectedItem(Action.UNPUBLISH, true),
-        toExpectedItem(Action.DELETE, false),
         toExpectedItem(Action.UNSUBSCRIBE, false),
+        toExpectedItem(Action.DELETE, false),
       ])
     })
   })
@@ -219,8 +240,8 @@ BddTest().given('a ManageEntityDropdown', () => {
       mountWith({
         actions: [
           Action.UNPUBLISH,
-          Action.DELETE,
           Action.UNSUBSCRIBE,
+          Action.DELETE,
         ],
       })
     })
@@ -228,8 +249,8 @@ BddTest().given('a ManageEntityDropdown', () => {
     BddTest().then('it should not add any separator', () => {
       expect(getDropdownItems()).toEqual([
         toExpectedItem(Action.UNPUBLISH, false),
-        toExpectedItem(Action.DELETE, false),
         toExpectedItem(Action.UNSUBSCRIBE, false),
+        toExpectedItem(Action.DELETE, false),
       ])
     })
   })

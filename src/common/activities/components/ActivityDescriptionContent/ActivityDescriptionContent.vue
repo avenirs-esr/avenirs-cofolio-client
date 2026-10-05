@@ -12,6 +12,7 @@ const sanitizedDescription = computed(() =>
 
 <template>
   <div
+    class="av-wrap-anywhere"
     data-testid="activity-description"
     data-user-content
     v-html="sanitizedDescription"

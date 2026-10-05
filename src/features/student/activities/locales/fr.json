@@ -104,6 +104,11 @@
           }
         },
         "ActivityView": {
+          "ActivityDetailedDropdown": {
+            "deleteAction": {
+              "disabledTooltip": "Vous ne pouvez pas supprimer une activité à laquelle vous êtes inscrit(e)"
+            }
+          },
           "ActivityDetailedSideNavigation": {
             "myReflection": "Ma réflexion"
           },

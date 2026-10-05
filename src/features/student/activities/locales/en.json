@@ -104,6 +104,11 @@
           }
         },
         "ActivityView": {
+          "ActivityDetailedDropdown": {
+            "deleteAction": {
+              "disabledTooltip": "You cannot delete an activity you are subscribed to"
+            }
+          },
           "ActivityDetailedSideNavigation": {
             "myReflection": "My reflection"
           },
