@@ -24,6 +24,7 @@ const commonDriverProps: Partial<Config> = {
   nextBtnText: t('global.buttons.next'),
   prevBtnText: t('global.buttons.previous'),
   doneBtnText: t('global.buttons.close'),
+  overlayClickBehavior: undefined,
   onDestroyed: () => {
     skipTutorial()
     isMobile.value && showMenuBurgerDrawer.value && hideMenuBurgerDrawer()
@@ -302,6 +303,10 @@ onUnmounted(() => {
       background: var(--color-primary-hover-bg);
       color: var(--color-primary-hover-text);
     }
+  }
+
+  .driver-popover-title {
+    width: 85%;
   }
 
   .driver-popover-arrow {
