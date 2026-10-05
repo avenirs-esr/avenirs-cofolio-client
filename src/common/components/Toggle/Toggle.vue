@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { AvToggle, type AvToggleProps } from '@avenirs-esr/avenirs-dsav'
-import { type ComputedRef, useAttrs } from 'vue'
+import { type ComputedRef, type Slot, useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ToggleProps extends AvToggleProps { }
 
 const props = defineProps<ToggleProps>()
+
+defineSlots<{
+  default?: Slot<{ active: boolean }>
+}>()
+
 const { t } = useI18n()
 const attrs = useAttrs()
 
@@ -18,7 +23,9 @@ const avToggleProps: ComputedRef<AvToggleProps> = computed(() => ({
 </script>
 
 <template>
-  <AvToggle
-    v-bind="avToggleProps"
-  />
+  <AvToggle v-bind="avToggleProps">
+    <template #default="{ active }">
+      <slot :active="active" />
+    </template>
+  </AvToggle>
 </template>

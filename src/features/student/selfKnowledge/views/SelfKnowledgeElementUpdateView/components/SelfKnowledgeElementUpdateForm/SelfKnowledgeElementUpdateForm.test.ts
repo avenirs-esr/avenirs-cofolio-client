@@ -12,7 +12,7 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const CANCEL_LABEL = 'Annuler'
-const CONFIRM_LABEL = 'Enregistrer les modifications'
+const CONFIRM_LABEL = 'Enregistrer'
 const CONFIRMATION_TEXT = 'Êtes-vous certain(e) de vouloir abandonner les modifications de votre élément\u00A0?'
 
 const navigateToStudentSelfKnowledgeCategory = vi.fn()
