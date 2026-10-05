@@ -9,6 +9,7 @@ import type {
   InactiveStudentDTO,
   PagedResponseActivityStaffOverviewDTO
 } from '@/api/avenir-esr'
+import { mockedProfileOverview } from '@/__mocks__/fixtures/student/overviews.fixtures'
 import { EActivityStatus, EActivityThematic, EFileType } from '@/api/avenir-esr'
 import { getFileTypeFromFileName } from '@/common/utils/file/file'
 
@@ -32,7 +33,11 @@ export const mockedAuthor2: AuthorDTO = {
   firstName: 'Marie',
   lastName: 'Martin',
 }
-
+export const mockedConnectedStaff: AuthorDTO = {
+  userId: mockedProfileOverview.id,
+  firstName: mockedProfileOverview.firstname,
+  lastName: mockedProfileOverview.lastname,
+}
 export const mockedActivityDraftCreationResponse: ActivityDraftCreationResponse = {
   draftId: '5046ec1c-c8f3-4d06-abf3-71ba4a73643c',
 }
@@ -187,7 +192,7 @@ export const allStaffActivities: ActivityStaffOverviewDTO[] = [
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     activityStatus: EActivityStatus.PUBLISHED,
     updatedAt: '2024-01-15T10:00:00Z',
-    author: mockedAuthor1,
+    author: mockedConnectedStaff,
   },
   {
     activityId: ACTIVITY_WITH_ENROLLED_STUDENTS_ID,
@@ -195,7 +200,7 @@ export const allStaffActivities: ActivityStaffOverviewDTO[] = [
     thematic: EActivityThematic.RESUMES,
     activityStatus: EActivityStatus.PUBLISHED,
     updatedAt: '2024-02-10T09:00:00Z',
-    author: mockedAuthor1,
+    author: mockedConnectedStaff,
   },
   {
     activityId: ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID,
@@ -203,7 +208,7 @@ export const allStaffActivities: ActivityStaffOverviewDTO[] = [
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     activityStatus: EActivityStatus.PUBLISHED,
     updatedAt: '2024-02-15T09:00:00Z',
-    author: mockedAuthor1,
+    author: mockedConnectedStaff,
   },
   {
     activityId: 'staff-activity-3',
@@ -219,7 +224,7 @@ export const allStaffActivities: ActivityStaffOverviewDTO[] = [
     thematic: EActivityThematic.EXPERIENCES,
     activityStatus: EActivityStatus.DRAFT,
     updatedAt: new Date().toISOString(),
-    author: mockedAuthor2,
+    author: mockedConnectedStaff,
   },
   {
     activityId: 'staff-activity-5',
@@ -227,7 +232,7 @@ export const allStaffActivities: ActivityStaffOverviewDTO[] = [
     thematic: EActivityThematic.PROGRAMS,
     activityStatus: EActivityStatus.PUBLISHED,
     updatedAt: '2024-01-20T11:00:00Z',
-    author: mockedAuthor1,
+    author: mockedConnectedStaff,
   },
   {
     activityId: 'staff-activity-6',

@@ -70,6 +70,7 @@
           },
           "MoreActionsDropdown": {
             "ariaLabel": "More actions",
+            "authorOnlyTooltip": "You must be the author of at least one of the activities to access this action",
             "deleteDisabledTooltip": "You can only delete a draft activity",
             "navigateToFeedbacks": "Navigate to feedback requests",
             "navigateToFeedbacksDisabledTooltip": "Feedback requests are only available for a published activity",

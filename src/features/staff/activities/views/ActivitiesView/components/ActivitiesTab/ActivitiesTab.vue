@@ -8,6 +8,7 @@ import Pagination from '@/common/components/Pagination/Pagination.vue'
 import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import { useDateUtils, useNavigation } from '@/common/composables'
 import { useModal } from '@/common/composables/use-modal/use-modal'
+import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 import DeleteActivityDefinitivelyConfirmationModal from '@/features/staff/activities/components/modals/DeleteActivityDefinitivelyConfirmationModal/DeleteActivityDefinitivelyConfirmationModal.vue'
 import DeleteDraftActivityConfirmationModal from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
 import UnpublishActivityConfirmationModal from '@/features/staff/activities/components/modals/UnpublishActivityConfirmationModal/UnpublishActivityConfirmationModal.vue'
@@ -66,11 +67,17 @@ const { modalOpened: deleteModalOpened, openModal: displayDeleteModal, closeModa
 const { modalOpened: duplicateModalOpened, openModal: displayDuplicateModal, closeModal: hideDuplicateModal } = useModal()
 const { modalOpened: unpublishModalOpened, openModal: displayUnpublishModal, closeModal: hideUnpublishModal } = useModal()
 
+const authStore = useAuthStore()
+
 const pendingUnpublishId = ref<string>()
 const pendingDuplicate = ref<{ id: string, title: string }>()
 const pendingDelete = ref<{ id: string, status: EActivityStatus }>()
 
 const isPendingDeleteDefinitive = computed(() => pendingDelete.value !== undefined && pendingDelete.value.status !== EActivityStatus.DRAFT)
+
+const isAuthorOfAtLeastOneActivity = computed(() => {
+  return (activities.value ?? []).some(activity => activity.author?.userId === authStore.profile?.id)
+})
 
 function onUnpublishSelected (activityId: string) {
   pendingUnpublishId.value = activityId
@@ -226,6 +233,7 @@ watch(
               :activity-status="row.status"
               :data-activity-id="row.id"
               :data-activity-status="row.status"
+              :is-author="isAuthorOfAtLeastOneActivity"
               @unpublish="() => onUnpublishSelected(row.id)"
               @clone="() => onDuplicateSelected(row.id, row.title)"
               @delete="() => onDeleteSelected(row.id, row.status)"

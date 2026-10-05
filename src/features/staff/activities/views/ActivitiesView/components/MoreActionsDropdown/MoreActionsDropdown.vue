@@ -6,10 +6,11 @@ import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 import { useI18n } from 'vue-i18n'
 
 export interface MoreActionsDropdownProps {
+  isAuthor: boolean
   activityStatus: EActivityStatus
 }
 
-const { activityStatus } = defineProps<MoreActionsDropdownProps>()
+const { activityStatus, isAuthor } = defineProps<MoreActionsDropdownProps>()
 
 const emit = defineEmits<{
   (e: AllowedActions): void
@@ -22,24 +23,42 @@ const authStore = useAuthStore()
 
 const canDelete = computed(() => authStore.isSuperAdmin || activityStatus === EActivityStatus.DRAFT)
 
-const actions = computed<(Action | ActionItem)[]>(() => [
+const actions = computed<(Action | ActionItem)[]>(() => ([
   {
     type: Action.NAVIGATE_TO_FEEDBACKS,
-    disabled: activityStatus !== EActivityStatus.PUBLISHED,
-    disabledTooltip: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.navigateToFeedbacksDisabledTooltip')
+    disabled: activityStatus !== EActivityStatus.PUBLISHED || !isAuthor,
+    disabledTooltip: !isAuthor
+      ? t(
+          'staff.activities.views.ActivitiesView.MoreActionsDropdown.authorOnlyTooltip'
+        )
+      : t(
+          'staff.activities.views.ActivitiesView.MoreActionsDropdown.navigateToFeedbacksDisabledTooltip'
+        ),
   },
   {
     type: Action.UNPUBLISH,
-    disabled: activityStatus !== EActivityStatus.PUBLISHED,
-    disabledTooltip: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.unpublishDisabledTooltip')
+    disabled: activityStatus !== EActivityStatus.PUBLISHED || !isAuthor,
+    disabledTooltip: !isAuthor
+      ? t(
+          'staff.activities.views.ActivitiesView.MoreActionsDropdown.authorOnlyTooltip'
+        )
+      : t(
+          'staff.activities.views.ActivitiesView.MoreActionsDropdown.unpublishDisabledTooltip'
+        ),
   },
   {
     type: Action.DELETE,
-    disabled: !canDelete.value,
-    disabledTooltip: t('staff.activities.views.ActivitiesView.MoreActionsDropdown.deleteDisabledTooltip')
+    disabled: !canDelete.value || !isAuthor,
+    disabledTooltip: !isAuthor
+      ? t(
+          'staff.activities.views.ActivitiesView.MoreActionsDropdown.authorOnlyTooltip'
+        )
+      : t(
+          'staff.activities.views.ActivitiesView.MoreActionsDropdown.deleteDisabledTooltip'
+        ),
   },
   Action.CLONE
-])
+]))
 </script>
 
 <template>
