@@ -1,24 +1,28 @@
 <script setup lang="ts">
 import { useDateUtils } from '@/common/composables'
+import { PLURAL_COUNT_FOR_FEMININE, PLURAL_COUNT_FOR_MASCULINE } from '@/common/utils/constants'
 import { AvIconText, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface CreationUpdateDateDetailsProps {
   createdAt?: string
   updatedAt?: string
+  hasFeminineLabel?: boolean
 }
 
-const { createdAt, updatedAt } = defineProps<CreationUpdateDateDetailsProps>()
+const { createdAt, updatedAt, hasFeminineLabel = false } = defineProps<CreationUpdateDateDetailsProps>()
 
 const { t } = useI18n()
 const { formatTranslatedDateTime } = useDateUtils()
 
 const createdAtValue = computed(() => t('global.dates.createdAt', {
   date: createdAt ? formatTranslatedDateTime(createdAt) : '',
+  count: hasFeminineLabel ? PLURAL_COUNT_FOR_FEMININE : PLURAL_COUNT_FOR_MASCULINE,
 }))
 
 const updatedAtValue = computed(() => t('global.dates.updatedAt', {
   date: updatedAt ? formatTranslatedDateTime(updatedAt) : '',
+  count: hasFeminineLabel ? PLURAL_COUNT_FOR_FEMININE : PLURAL_COUNT_FOR_MASCULINE,
 }))
 </script>
 

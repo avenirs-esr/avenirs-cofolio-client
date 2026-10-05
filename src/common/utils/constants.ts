@@ -1,0 +1,2 @@
+export const PLURAL_COUNT_FOR_FEMININE = 2
+export const PLURAL_COUNT_FOR_MASCULINE = 1

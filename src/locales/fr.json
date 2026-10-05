@@ -202,7 +202,7 @@
         "weeks": "{count} sem",
         "years": "{count} an | {count} ans"
       },
-      "createdAt": "Créé le {date}",
+      "createdAt": "Créé le {date} | Créée le {date}",
       "dateTimeAt": "{date} à {time}",
       "endDateBeforeStartDate": "La date de fin doit être postérieure à la date de début",
       "hoursAgo": "Il y a {count} heure | Il y a {count} heures",
@@ -212,7 +212,7 @@
       "period": "Période",
       "periodPlaceholder": "Sélectionner une période",
       "secondsAgo": "Il y a {count} seconde | Il y a {count} secondes",
-      "updatedAt": "Modifié le {date}"
+      "updatedAt": "Modifié le {date} | Modifiée le {date}"
     },
     "detail": "Détail",
     "documentLabel": "Mon document chargé",

@@ -78,7 +78,7 @@ watch(
         </div>
 
         <div
-          class="update-declared-program-form__side av-col av-gap-xl av-flex-fill"
+          class="update-declared-program-form__side av-col av-gap-xl av-flex-fill av-justify-between"
           data-testid="update-declared-program-form__side"
         >
           <div
@@ -86,10 +86,13 @@ watch(
             data-testid="update-declared-program-form__field"
           >
             <DeclaredProgramDescriptionFormField :form="form" />
+          </div>
 
+          <div class="av-row av-justify-end av-pb-md">
             <CreationUpdateDateDetails
               :created-at="declaredProgramDetailed.createdAt"
               :updated-at="declaredProgramDetailed.updatedAt"
+              has-feminine-label
             />
           </div>
         </div>

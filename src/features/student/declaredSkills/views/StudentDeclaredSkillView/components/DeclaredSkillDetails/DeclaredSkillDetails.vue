@@ -66,19 +66,23 @@ const { isMobile } = useAvBreakpoints()
           <DeclaredSkillLevelBadge :level="declaredSkillProgressDetails.level" />
         </div>
       </Card>
-      <CreationUpdateDateDetails
-        :created-at="declaredSkillProgressDetails.createdAt"
-        :updated-at="declaredSkillProgressDetails.updatedAt"
-      />
     </div>
     <div
-      class="layout-declared-skill-details__side av-col av-gap-xl"
+      class="layout-declared-skill-details__side av-col av-gap-xl av-justify-between"
       data-testid="layout-declared-skill-details__side"
     >
       <DeclaredSkillReflectionInput
         :model-value="declaredSkillProgressDetails.reflection"
         disabled
       />
+
+      <div class="av-row av-justify-end">
+        <CreationUpdateDateDetails
+          :created-at="declaredSkillProgressDetails.createdAt"
+          :updated-at="declaredSkillProgressDetails.updatedAt"
+          has-feminine-label
+        />
+      </div>
     </div>
   </div>
 </template>

@@ -118,8 +118,10 @@ watch(fileGlobalTypesSelected, (newFileGlobalTypes) => {
       />
       <AvButton
         :label="t('student.traces.views.StudentToolsTracesView.traceFilter.labels.reset')"
+        :icon="MDI_ICONS.REFRESH"
         class="reset-button"
         variant="OUTLINED"
+        size="LG"
         @click="resetAllFilters"
       />
     </div>
