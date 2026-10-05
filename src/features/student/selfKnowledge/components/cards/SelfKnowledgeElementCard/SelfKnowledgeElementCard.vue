@@ -38,11 +38,11 @@ const iconOptions = computed(() => ({
       :icon-options="iconOptions"
       :color="categoryColor"
       class="self-knowledge-element-card"
-      height="21.625rem"
+      height="var(--dimension-7xl)"
     >
       <template #body>
         <div class="self-knowledge-element-card__body">
-          <p class="caption-regular">
+          <p class="element-description av-max-lines caption-regular av-pt-xs">
             {{ element.description }}
           </p>
         </div>
@@ -58,3 +58,9 @@ const iconOptions = computed(() => ({
     </FloatingIconCard>
   </RouterLink>
 </template>
+
+<style lang="scss" scoped>
+.element-description {
+  --max-lines: 3;
+}
+</style>
