@@ -7,6 +7,7 @@ import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useBaseApiExceptionToast, useInvalidateAllQueriesAfterLocaleChange } from '@/common/composables'
 import { QUICK_LINKS_REFRESH_INTERVAL, ROUTES } from '@/common/constants'
+import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 import StudentNavigation from '@/features/student/global/components/navigation/StudentNavigation/StudentNavigation.vue'
 import {
@@ -23,6 +24,9 @@ const { t } = useI18n()
 useInvalidateAllQueriesAfterLocaleChange()
 
 const { languageSelector, selectLanguage } = useStudentUserStore()
+const { canSwitchProfile } = useAuthStore()
+const menuBurgerStore = useMenuBurgerStore()
+const { showMenuBurgerDrawer } = storeToRefs(menuBurgerStore)
 
 const { data, isPending, error } = useGetQuickLinks(EUserCategory.STUDENT, {
   query: { refetchInterval: QUICK_LINKS_REFRESH_INTERVAL }
@@ -35,7 +39,7 @@ const name = computed(() => {
 })
 
 const searchQuery = ref('')
-const { canSwitchProfile } = useAuthStore()
+
 defineExpose({ searchQuery })
 </script>
 
@@ -44,6 +48,7 @@ defineExpose({ searchQuery })
 
   <AvHeader
     v-model="searchQuery"
+    v-model:menu-open="showMenuBurgerDrawer"
     :home-label="t('student.global.layout.header.home')"
     :home-to="{ name: ROUTES.STUDENT.HOME.name }"
     :language-selector="languageSelector"

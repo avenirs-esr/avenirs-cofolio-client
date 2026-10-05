@@ -3,7 +3,8 @@ import ConfirmationModal from '@/common/components/ConfirmationModal/Confirmatio
 import { useTutorial } from '@/common/components/overlay/tooltips/Tutorial/use-tutorial'
 import { useModal } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
-import { CUIDA_ICONS, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'
+import { CUIDA_ICONS, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { type Config, driver } from 'driver.js'
 import { useI18n } from 'vue-i18n'
 import 'driver.js/dist/driver.css'
@@ -11,6 +12,10 @@ import 'driver.js/dist/driver.css'
 const { t } = useI18n()
 const { isStaffHomeRoute } = useIdentifyRoute()
 const { modalOpened, openModal, closeModal } = useModal()
+const { isMobile } = useAvBreakpoints()
+const menuBurgerStore = useMenuBurgerStore()
+const { showMenuBurgerDrawer } = storeToRefs(menuBurgerStore)
+const { displayMenuBurgerDrawer, hideMenuBurgerDrawer } = menuBurgerStore
 const { markTutorialAsSeen, hasSeenTutorial, replayRequested } = useTutorial()
 
 const commonDriverProps: Partial<Config> = {
@@ -21,6 +26,7 @@ const commonDriverProps: Partial<Config> = {
   doneBtnText: t('global.buttons.close'),
   onDestroyed: () => {
     skipTutorial()
+    isMobile && showMenuBurgerDrawer.value && hideMenuBurgerDrawer()
   }
 }
 
@@ -52,14 +58,24 @@ const staffDriverObj = driver({
       element: '#published-activities-widget',
       popover: {
         title: t('global.overlay.Tutorial.staff.published-activities-widget.title'),
-        description: t('global.overlay.Tutorial.staff.published-activities-widget.description')
+        description: t('global.overlay.Tutorial.staff.published-activities-widget.description'),
+        onNextClick: async () => {
+          isMobile && displayMenuBurgerDrawer()
+          await new Promise(resolve => setTimeout(resolve, 0))
+          staffDriverObj.moveNext()
+        }
       }
     },
     {
       element: '#nav-activities',
       popover: {
         title: t('global.overlay.Tutorial.staff.nav-activities.title'),
-        description: t('global.overlay.Tutorial.staff.nav-activities.description')
+        description: t('global.overlay.Tutorial.staff.nav-activities.description'),
+        onPrevClick: async () => {
+          isMobile && hideMenuBurgerDrawer()
+          await new Promise(resolve => setTimeout(resolve, 0))
+          staffDriverObj.movePrevious()
+        }
       }
     },
     {
@@ -70,21 +86,21 @@ const staffDriverObj = driver({
       }
     },
     {
-      element: '#notifications-popover',
+      element: isMobile.value ? '.av-drawer #notifications-popover' : '#notifications-popover',
       popover: {
         title: t('global.overlay.Tutorial.staff.notifications-popover.title'),
         description: t('global.overlay.Tutorial.staff.notifications-popover.description')
       }
     },
     {
-      element: '#profile-dropdown',
+      element: isMobile.value ? '.av-drawer #profile-dropdown' : '#profile-dropdown',
       popover: {
         title: t('global.overlay.Tutorial.common.profile-dropdown.title'),
         description: t('global.overlay.Tutorial.common.profile-dropdown.description')
       }
     },
     {
-      element: '#language-selector',
+      element: isMobile.value ? '.av-drawer #language-selector' : '#language-selector',
       popover: {
         title: t('global.overlay.Tutorial.common.language-selector.title'),
         description: t('global.overlay.Tutorial.common.language-selector.description')
@@ -128,14 +144,24 @@ const studentDriverObj = driver({
       element: '#traces-widget',
       popover: {
         title: t('global.overlay.Tutorial.student.traces-widget.title'),
-        description: t('global.overlay.Tutorial.student.traces-widget.description')
+        description: t('global.overlay.Tutorial.student.traces-widget.description'),
+        onNextClick: async () => {
+          isMobile && displayMenuBurgerDrawer()
+          await new Promise(resolve => setTimeout(resolve, 0))
+          studentDriverObj.moveNext()
+        }
       }
     },
     {
       element: '#nav-activities',
       popover: {
         title: t('global.overlay.Tutorial.student.nav-activities.title'),
-        description: t('global.overlay.Tutorial.student.nav-activities.description')
+        description: t('global.overlay.Tutorial.student.nav-activities.description'),
+        onPrevClick: async () => {
+          isMobile && hideMenuBurgerDrawer()
+          await new Promise(resolve => setTimeout(resolve, 0))
+          studentDriverObj.movePrevious()
+        }
       }
     },
     {
@@ -160,31 +186,41 @@ const studentDriverObj = driver({
       }
     },
     {
-      element: '#notifications-popover',
+      element: isMobile.value ? '.av-drawer #notifications-popover' : '#notifications-popover',
       popover: {
         title: t('global.overlay.Tutorial.student.notifications-popover.title'),
         description: t('global.overlay.Tutorial.student.notifications-popover.description')
       }
     },
     {
-      element: '#profile-dropdown',
+      element: isMobile.value ? '.av-drawer #profile-dropdown' : '#profile-dropdown',
       popover: {
         title: t('global.overlay.Tutorial.common.profile-dropdown.title'),
         description: t('global.overlay.Tutorial.common.profile-dropdown.description')
       }
     },
     {
-      element: '#language-selector',
+      element: isMobile.value ? '.av-drawer #language-selector' : '#language-selector',
       popover: {
         title: t('global.overlay.Tutorial.common.language-selector.title'),
-        description: t('global.overlay.Tutorial.common.language-selector.description')
+        description: t('global.overlay.Tutorial.common.language-selector.description'),
+        onNextClick: async () => {
+          isMobile && hideMenuBurgerDrawer()
+          await new Promise(resolve => setTimeout(resolve, 0))
+          studentDriverObj.moveNext()
+        }
       }
     },
     {
       element: '#new-activities-widget',
       popover: {
         title: t('global.overlay.Tutorial.student.startTutoActivity.title'),
-        description: t('global.overlay.Tutorial.student.startTutoActivity.description')
+        description: t('global.overlay.Tutorial.student.startTutoActivity.description'),
+        onPrevClick: async () => {
+          isMobile && displayMenuBurgerDrawer()
+          await new Promise(resolve => setTimeout(resolve, 0))
+          studentDriverObj.movePrevious()
+        }
       }
     }
   ]
@@ -192,12 +228,25 @@ const studentDriverObj = driver({
 
 const driverObj = computed(() => isStaffHomeRoute.value ? staffDriverObj : studentDriverObj)
 
+function blockEscape (event: KeyboardEvent) {
+  if (event.key === 'Escape') {
+    event.stopImmediatePropagation()
+  }
+}
+
 function startTutorial () {
+  window.addEventListener('keydown', blockEscape, true)
+
+  if (isMobile && showMenuBurgerDrawer) {
+    hideMenuBurgerDrawer()
+  }
+
   closeModal()
   driverObj.value.drive()
 }
 
 function skipTutorial () {
+  window.removeEventListener('keydown', blockEscape, true)
   markTutorialAsSeen()
   closeModal()
 }
@@ -213,6 +262,10 @@ watch(replayRequested, (requested) => {
     openModal()
     replayRequested.value = false
   }
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', blockEscape, true)
 })
 </script>
 
