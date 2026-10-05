@@ -26,11 +26,11 @@ const commonDriverProps: Partial<Config> = {
   doneBtnText: t('global.buttons.close'),
   onDestroyed: () => {
     skipTutorial()
-    isMobile && showMenuBurgerDrawer.value && hideMenuBurgerDrawer()
+    isMobile.value && showMenuBurgerDrawer.value && hideMenuBurgerDrawer()
   }
 }
 
-const staffDriverObj = driver({
+const staffDriverObj = computed(() => driver({
   ...commonDriverProps,
   steps: [
     {
@@ -60,9 +60,9 @@ const staffDriverObj = driver({
         title: t('global.overlay.Tutorial.staff.published-activities-widget.title'),
         description: t('global.overlay.Tutorial.staff.published-activities-widget.description'),
         onNextClick: async () => {
-          isMobile && displayMenuBurgerDrawer()
+          isMobile.value && displayMenuBurgerDrawer()
           await new Promise(resolve => setTimeout(resolve, 0))
-          staffDriverObj.moveNext()
+          staffDriverObj.value.moveNext()
         }
       }
     },
@@ -72,9 +72,9 @@ const staffDriverObj = driver({
         title: t('global.overlay.Tutorial.staff.nav-activities.title'),
         description: t('global.overlay.Tutorial.staff.nav-activities.description'),
         onPrevClick: async () => {
-          isMobile && hideMenuBurgerDrawer()
+          isMobile.value && hideMenuBurgerDrawer()
           await new Promise(resolve => setTimeout(resolve, 0))
-          staffDriverObj.movePrevious()
+          staffDriverObj.value.movePrevious()
         }
       }
     },
@@ -107,9 +107,9 @@ const staffDriverObj = driver({
       }
     },
   ]
-})
+}))
 
-const studentDriverObj = driver({
+const studentDriverObj = computed(() => driver({
   ...commonDriverProps,
   steps: [
     {
@@ -146,9 +146,9 @@ const studentDriverObj = driver({
         title: t('global.overlay.Tutorial.student.traces-widget.title'),
         description: t('global.overlay.Tutorial.student.traces-widget.description'),
         onNextClick: async () => {
-          isMobile && displayMenuBurgerDrawer()
+          isMobile.value && displayMenuBurgerDrawer()
           await new Promise(resolve => setTimeout(resolve, 0))
-          studentDriverObj.moveNext()
+          studentDriverObj.value.moveNext()
         }
       }
     },
@@ -158,9 +158,9 @@ const studentDriverObj = driver({
         title: t('global.overlay.Tutorial.student.nav-activities.title'),
         description: t('global.overlay.Tutorial.student.nav-activities.description'),
         onPrevClick: async () => {
-          isMobile && hideMenuBurgerDrawer()
+          isMobile.value && hideMenuBurgerDrawer()
           await new Promise(resolve => setTimeout(resolve, 0))
-          studentDriverObj.movePrevious()
+          studentDriverObj.value.movePrevious()
         }
       }
     },
@@ -205,9 +205,9 @@ const studentDriverObj = driver({
         title: t('global.overlay.Tutorial.common.language-selector.title'),
         description: t('global.overlay.Tutorial.common.language-selector.description'),
         onNextClick: async () => {
-          isMobile && hideMenuBurgerDrawer()
+          isMobile.value && hideMenuBurgerDrawer()
           await new Promise(resolve => setTimeout(resolve, 0))
-          studentDriverObj.moveNext()
+          studentDriverObj.value.moveNext()
         }
       }
     },
@@ -217,16 +217,16 @@ const studentDriverObj = driver({
         title: t('global.overlay.Tutorial.student.startTutoActivity.title'),
         description: t('global.overlay.Tutorial.student.startTutoActivity.description'),
         onPrevClick: async () => {
-          isMobile && displayMenuBurgerDrawer()
+          isMobile.value && displayMenuBurgerDrawer()
           await new Promise(resolve => setTimeout(resolve, 0))
-          studentDriverObj.movePrevious()
+          studentDriverObj.value.movePrevious()
         }
       }
     }
   ]
-})
+}))
 
-const driverObj = computed(() => isStaffHomeRoute.value ? staffDriverObj : studentDriverObj)
+const driverObj = computed(() => isStaffHomeRoute.value ? staffDriverObj.value : studentDriverObj.value)
 
 function blockEscape (event: KeyboardEvent) {
   if (event.key === 'Escape') {
@@ -237,7 +237,7 @@ function blockEscape (event: KeyboardEvent) {
 function startTutorial () {
   window.addEventListener('keydown', blockEscape, true)
 
-  if (isMobile && showMenuBurgerDrawer) {
+  if (isMobile.value && showMenuBurgerDrawer.value) {
     hideMenuBurgerDrawer()
   }
 

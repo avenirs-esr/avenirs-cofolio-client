@@ -3,6 +3,7 @@ import type { Config } from 'driver.js'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import Tutorial from '@/common/components/overlay/tooltips/Tutorial/Tutorial.vue'
 import { ROUTES } from '@/common/constants'
+import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -75,7 +76,9 @@ vi.mock('driver.js', () => ({
     driverConfig = config
 
     return {
-      drive
+      drive,
+      moveNext: vi.fn(),
+      movePrevious: vi.fn()
     }
   })
 }))
@@ -212,6 +215,15 @@ BddTest().given('a tutorial component', () => {
       await wrapper.findComponent(ConfirmationModalStub).vm.$emit('confirm')
 
       expect(drive).toHaveBeenCalled()
+    })
+
+    BddTest().then('it should not open the mobile drawer when advancing on desktop', async () => {
+      await wrapper.findComponent(ConfirmationModalStub).vm.$emit('confirm')
+
+      const publishedActivitiesStep = driverConfig?.steps?.[3] as { popover: { onNextClick: () => Promise<void> } }
+      await publishedActivitiesStep.popover.onNextClick()
+
+      expect(useMenuBurgerStore().showMenuBurgerDrawer).toBe(false)
     })
   })
 
