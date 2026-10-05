@@ -43,4 +43,24 @@ BddTest().given('an activity description content component', () => {
       expect(description.exists()).toBe(true)
     })
   })
+
+  BddTest().when('the description contains unsafe HTML', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(ActivityDescriptionContent, {
+        props: {
+          description: '<p>Description sûre</p><script>alert("xss")</script><a href="javascript:alert(1)" onclick="alert(1)">Lien</a>'
+        }
+      })
+    })
+
+    BddTest().then('it should preserve safe content and remove executable markup', () => {
+      const description = wrapper.find('[data-testid="activity-description"]')
+
+      expect(description.text()).toContain('Description sûre')
+      expect(description.text()).toContain('Lien')
+      expect(description.html()).not.toContain('<script')
+      expect(description.html()).not.toContain('javascript:')
+      expect(description.html()).not.toContain('onclick')
+    })
+  })
 })

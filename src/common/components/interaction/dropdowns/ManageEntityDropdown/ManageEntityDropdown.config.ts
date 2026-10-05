@@ -25,6 +25,6 @@ export const moreActionConfig: Record<Action, ActionConfig> = {
   [Action.UPDATE_IN_PROFILE]: { icon: MDI_ICONS.TRAY_UPLOAD, labelKey: 'global.vueFlow.NodeDropdown.updateInProfile' },
   [Action.CLONE]: { icon: MS_ICONS.CONTENT_COPY_OUTLINE, labelKey: 'global.buttons.clone' },
   [Action.UNPUBLISH]: { icon: RI_ICONS.EYE_OFF_LINE, labelKey: 'global.buttons.unpublish', separatorBefore: true },
-  [Action.DELETE]: { icon: MDI_ICONS.TRASH_CAN_OUTLINE, labelKey: 'global.buttons.remove', separatorBefore: true },
   [Action.UNSUBSCRIBE]: { icon: MDI_ICONS.EXIT_TO_APP, labelKey: 'global.buttons.unsubscribe', separatorBefore: true },
+  [Action.DELETE]: { icon: MDI_ICONS.TRASH_CAN_OUTLINE, labelKey: 'global.buttons.remove', separatorBefore: true },
 }
