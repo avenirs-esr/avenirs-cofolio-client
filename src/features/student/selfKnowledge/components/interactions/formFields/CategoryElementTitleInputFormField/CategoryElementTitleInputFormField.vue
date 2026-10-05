@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import type {
   AddSelfKnowledgeCategoryElementForm,
   UpdateSelfKnowledgeCategoryElementForm
@@ -9,10 +8,9 @@ import { markRaw } from 'vue'
 
 interface CategoryElementTitleInputFormFieldProps {
   form: AddSelfKnowledgeCategoryElementForm | UpdateSelfKnowledgeCategoryElementForm
-  category: ESelfKnowledgeCategory
 }
 
-const { form, category } = defineProps<CategoryElementTitleInputFormFieldProps>()
+const { form } = defineProps<CategoryElementTitleInputFormFieldProps>()
 const FormField = markRaw(form.Field)
 const titleField = form.useField({ name: 'title' })
 
@@ -35,7 +33,6 @@ function onUpdateModelValue (value: string | undefined) {
         v-model="field.state.value"
         :error-message="field.state.meta.errors?.join(', ')"
         required
-        :category
         @blur="field.handleBlur"
         @update:model-value="onUpdateModelValue"
       />

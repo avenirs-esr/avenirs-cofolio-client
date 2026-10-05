@@ -1,4 +1,4 @@
-import { ESelfKnowledgeCategory, type SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
+import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
@@ -94,8 +94,7 @@ BddTest().given('a self knowledge element update form component', () => {
       {
         props: {
           element: mockElement,
-          onCancel: vi.fn(),
-          category: ESelfKnowledgeCategory.STRENGTHS
+          onCancel: vi.fn()
         },
         global: {
           stubs
@@ -114,7 +113,6 @@ BddTest().given('a self knowledge element update form component', () => {
     BddTest().then('it should render the form fields', () => {
       const titleField = getCategoryElementTitleInputFormField()
       expect(titleField.exists()).toBe(true)
-      expect(titleField.props('category')).toBe(ESelfKnowledgeCategory.STRENGTHS)
       expect(getCategoryElementDescriptionTextareaFormField().exists()).toBe(true)
       expect(getCategoryElementRatingRadioButtonSetFormField().exists()).toBe(true)
       expect(getKitValorizationToggleFormField().exists()).toBe(true)
@@ -148,38 +146,44 @@ BddTest().given('a self knowledge element update form component', () => {
 
   BddTest().when('the save button is clicked', () => {
     BddTest().then('it should call form.handleSubmit', async () => {
-      await getAvCancelConfirmButtons().vm.$emit('confirm')
+      getAvCancelConfirmButtons().vm.$emit('confirm')
       expect(handleSubmitSpy).toHaveBeenCalledTimes(1)
     })
   })
 
   BddTest().when('the cancel button is clicked', () => {
     BddTest().then('it should open the confirmation modal', async () => {
-      await getAvCancelConfirmButtons().vm.$emit('cancel')
-      expect(getConfirmationModal().props('opened')).toBe(true)
+      getAvCancelConfirmButtons().vm.$emit('cancel')
+      await vi.waitFor(() => {
+        expect(getConfirmationModal().props('opened')).toBe(true)
+      })
     })
   })
 
   BddTest().when('the confirmation modal confirm event is emitted', () => {
     BddTest().then('it should reset the form and navigate back to category view', async () => {
-      await getConfirmationModal().vm.$emit('confirm')
+      getConfirmationModal().vm.$emit('confirm')
       expect(resetSpy).toHaveBeenCalledTimes(1)
     })
   })
 
   BddTest().when('the confirmation modal close event is emitted', () => {
     BddTest().then('it should close the confirmation modal', async () => {
-      await getAvCancelConfirmButtons().vm.$emit('cancel')
+      getAvCancelConfirmButtons().vm.$emit('cancel')
 
       let modal = getConfirmationModal()
 
-      expect(modal.props('opened')).toBe(true)
+      await vi.waitFor(() => {
+        expect(modal.props('opened')).toBe(true)
+      })
 
-      await modal.vm.$emit('close')
+      modal.vm.$emit('close')
 
       modal = getConfirmationModal()
 
-      expect(modal.props('opened')).toBe(false)
+      await vi.waitFor(() => {
+        expect(modal.props('opened')).toBe(false)
+      })
     })
   })
 })

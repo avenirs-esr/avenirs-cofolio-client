@@ -1,5 +1,4 @@
 import type { AddSelfKnowledgeCategoryElementForm } from '@/features/student/selfKnowledge/types/forms.types'
-import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import CategoryElementTitleInputFormField
   from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementTitleInputFormField/CategoryElementTitleInputFormField.vue'
 import { CategoryElementTitleInputStub } from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementTitleInput/CategoryElementTitleInput.stub'
@@ -29,13 +28,12 @@ const TestWrapper = defineComponent({
       }
     }) as unknown as AddSelfKnowledgeCategoryElementForm
 
-    return { form, category: ESelfKnowledgeCategory.STRENGTHS }
+    return { form }
   },
   template: `
     <form @submit.prevent="form.handleSubmit">
       <CategoryElementTitleInputFormField
         :form="form"
-        :category="category"
       />
     </form>
   `
@@ -48,6 +46,8 @@ BddTest().given('a self knowledge category element title input form field compon
     CategoryElementTitleInput: CategoryElementTitleInputStub
   }
 
+  const getTitleInput = () => wrapper.findComponent(CategoryElementTitleInputStub)
+
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
       vi.clearAllMocks()
@@ -57,30 +57,25 @@ BddTest().given('a self knowledge category element title input form field compon
     })
 
     BddTest().then('it should render the title input', () => {
-      const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+      const input = getTitleInput()
       expect(input.exists()).toBe(true)
       const textInput = input.find('input')
       expect(textInput.exists()).toBe(true)
     })
 
     BddTest().then('it should have the correct id', () => {
-      const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+      const input = getTitleInput()
       expect(input.props('id')).toBe('element-title')
     })
 
     BddTest().then('it should be required', () => {
-      const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+      const input = getTitleInput()
       expect(input.props('required')).toBe(true)
     })
 
     BddTest().then('it should have empty initial value', () => {
-      const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+      const input = getTitleInput()
       expect(input.props('modelValue')).toBe('')
-    })
-
-    BddTest().then('it should pass the category to the title input', () => {
-      const input = wrapper.findComponent(CategoryElementTitleInputStub)
-      expect(input.props('category')).toBe(ESelfKnowledgeCategory.STRENGTHS)
     })
   })
 
@@ -90,15 +85,14 @@ BddTest().given('a self knowledge category element title input form field compon
       wrapper = mount(TestWrapper, {
         global: { stubs }
       })
-      const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+      const input = getTitleInput()
       const textInput = input.find('input')
       await textInput.setValue('My element title')
-      await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should update the form field value', async () => {
       await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+        const updated = getTitleInput()
         expect(updated.props('modelValue')).toBe('My element title')
       })
     })
@@ -110,15 +104,15 @@ BddTest().given('a self knowledge category element title input form field compon
       wrapper = mount(TestWrapper, {
         global: { stubs }
       })
-      const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+      const input = getTitleInput()
       const textInput = input.find('input')
       await textInput.trigger('blur')
-      await wrapper.vm.$nextTick()
     })
 
-    BddTest().then('it should trigger blur handler', () => {
-      const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
-      expect(input.emitted('blur')).toBeTruthy()
+    BddTest().then('it should trigger blur handler', async () => {
+      await vi.waitFor(() => {
+        expect(getTitleInput().emitted('blur')).toBeTruthy()
+      })
     })
   })
 
@@ -129,12 +123,11 @@ BddTest().given('a self knowledge category element title input form field compon
         global: { stubs }
       })
       await wrapper.find('form').trigger('submit')
-      await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should show validation error', async () => {
       await vi.waitFor(() => {
-        const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+        const input = getTitleInput()
         expect(input.props('errorMessage')).toBe('Le titre est requis')
       })
     })
@@ -146,17 +139,15 @@ BddTest().given('a self knowledge category element title input form field compon
       wrapper = mount(TestWrapper, {
         global: { stubs }
       })
-      const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+      const input = getTitleInput()
       const textInput = input.find('input')
       await textInput.setValue('Valid title')
-      await wrapper.vm.$nextTick()
       await wrapper.find('form').trigger('submit')
-      await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should not show validation error', async () => {
       await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+        const updated = getTitleInput()
         expect(updated.props('errorMessage')).toBeFalsy()
       })
     })
@@ -168,15 +159,14 @@ BddTest().given('a self knowledge category element title input form field compon
       wrapper = mount(TestWrapper, {
         global: { stubs }
       })
-      const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+      const input = getTitleInput()
       const textInput = input.find('input')
       await textInput.setValue('Valid title')
-      await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should update the form state', async () => {
       await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+        const updated = getTitleInput()
         expect(updated.props('modelValue')).toBe('Valid title')
       })
     })
@@ -188,19 +178,16 @@ BddTest().given('a self knowledge category element title input form field compon
       wrapper = mount(TestWrapper, {
         global: { stubs }
       })
-      const input = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+      const input = getTitleInput()
       const textInput = input.find('input')
       await textInput.setValue('Some title')
-      await wrapper.vm.$nextTick()
       await textInput.setValue('')
-      await wrapper.vm.$nextTick()
       await wrapper.find('form').trigger('submit')
-      await wrapper.vm.$nextTick()
     })
 
     BddTest().then('it should show validation error on submit', async () => {
       await vi.waitFor(() => {
-        const updated = wrapper.findComponent({ name: 'CategoryElementTitleInput' })
+        const updated = getTitleInput()
         expect(updated.props('errorMessage')).toBe('Le titre est requis')
       })
     })

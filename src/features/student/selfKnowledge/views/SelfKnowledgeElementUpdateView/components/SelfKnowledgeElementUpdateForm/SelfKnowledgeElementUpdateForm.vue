@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ESelfKnowledgeCategory, SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
+import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { ConfirmationModal, CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
@@ -18,7 +18,6 @@ import { useI18n } from 'vue-i18n'
 export interface SelfKnowledgeElementUpdateFormProps {
   element: SelfKnowledgeElementDetailsDTO
   onCancel: () => void
-  category: ESelfKnowledgeCategory
 }
 
 const props = defineProps<SelfKnowledgeElementUpdateFormProps>()
@@ -62,7 +61,6 @@ function confirmCancel () {
       <div class="self-knowledge-element-update-form__left-column av-flex-fill av-col av-gap-md">
         <CategoryElementTitleInputFormField
           :form="form"
-          :category
         />
 
         <div class="av-col av-gap-sm">

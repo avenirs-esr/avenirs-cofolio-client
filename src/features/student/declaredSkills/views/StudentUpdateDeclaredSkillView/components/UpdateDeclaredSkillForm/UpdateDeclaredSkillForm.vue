@@ -6,7 +6,7 @@ import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declar
 import DeclaredSkillReflectionFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillReflectionFormField/DeclaredSkillReflectionFormField.vue'
 import { useUpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
 import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
-import { AvInput, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvInput } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface UpdateDeclaredSkillFormProps {
@@ -66,7 +66,6 @@ watch(
         <AvInput
           :label="t('student.declaredSkills.views.StudentDeclaredSkillView.declaredSkillDetails.skillTitle')"
           label-class="caption-regular"
-          :prefix-icon="RI_ICONS.LOADER_LINE"
           :model-value="declaredSkillProgressDetails.title"
           disabled
         />

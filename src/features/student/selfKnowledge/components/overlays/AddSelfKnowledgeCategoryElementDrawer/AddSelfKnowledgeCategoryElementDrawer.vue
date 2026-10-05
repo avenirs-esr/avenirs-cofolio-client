@@ -104,7 +104,6 @@ const drawerTitle = computed(() => {
               <div class="av-col av-gap-md av-p-md">
                 <CategoryElementTitleInputFormField
                   :form="form"
-                  :category="selectedCategoryType"
                 />
                 <CategoryElementDescriptionTextareaFormField :form="form" />
               </div>
