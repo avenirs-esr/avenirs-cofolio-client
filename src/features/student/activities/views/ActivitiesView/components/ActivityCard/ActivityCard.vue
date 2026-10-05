@@ -33,7 +33,7 @@ const iconOptions = {
       :header-rows="2"
       title-typography-classes="b1-light"
       title-color="var(--text1)"
-      height="27.5rem"
+      height="17rem"
     >
       <template #body>
         <div class="av-col av-pr-4xl--md av-pt-xl av-pt-none--md body av-h-full">
@@ -52,7 +52,7 @@ const iconOptions = {
         </div>
       </template>
       <template #footer>
-        <div class="av-col caption-light text-clamp av-hidden av-unhidden--md">
+        <div class="av-col caption-light av-hidden av-unhidden--md">
           <div class="av-mb-xs">
             <ActivityPeriodBadge
               v-if="activity.startDate && activity.endDate"
@@ -61,7 +61,7 @@ const iconOptions = {
           </div>
           <span
             data-testid="activity-card-summary"
-            class="av-text-text2"
+            class="activity-card-summary av-text-text2 av-max-lines"
           >
             {{ activity.summary }}
           </span>
@@ -82,18 +82,14 @@ const iconOptions = {
   }
 }
 
+.activity-card-summary {
+  --max-lines: 3;
+}
+
 .floating-icon-card {
   @include dsav.min-width(md) {
     min-width: 27rem !important;
     max-width: 27rem !important;
   }
-}
-
-.text-clamp {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 </style>

@@ -47,7 +47,7 @@ const isNotSubscribed = computed(() => activity.status !== EDeclaredActivityStat
       :header-rows="2"
       custom-title-height="auto"
       :title-typography-classes="titleClasses"
-      height="12.875rem"
+      height="fit-content"
       title-color="var(--text1)"
     >
       <template #body>
