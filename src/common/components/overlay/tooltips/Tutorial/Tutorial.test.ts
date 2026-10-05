@@ -58,6 +58,15 @@ vi.mock('vue-router', async (importOriginal) => {
   }
 })
 
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({ isMobile: ref(false) })
+  }
+})
+
 const drive = vi.fn()
 let driverConfig: Config | undefined
 
@@ -139,6 +148,42 @@ BddTest().given('a tutorial component', () => {
 
       expect(closeModal).toHaveBeenCalled()
       expect(drive).toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('the tutorial is active', () => {
+    beforeEach(async () => {
+      mountTutorial()
+      await wrapper.findComponent(ConfirmationModalStub).vm.$emit('confirm')
+    })
+
+    BddTest().then('it should prevent Escape from reaching the header listener until the tutorial is destroyed', () => {
+      const headerEscapeListener = vi.fn()
+      document.addEventListener('keydown', headerEscapeListener)
+
+      document.dispatchEvent(new KeyboardEvent('keydown', {
+        key: 'Escape',
+        bubbles: true
+      }))
+
+      expect(headerEscapeListener).not.toHaveBeenCalled()
+      document.removeEventListener('keydown', headerEscapeListener)
+
+      const removeEventListenerSpy = vi.spyOn(window, 'removeEventListener')
+      const onDestroyed = driverConfig?.onDestroyed as (() => void) | undefined
+      onDestroyed?.()
+
+      expect(removeEventListenerSpy).toHaveBeenCalledWith('keydown', expect.any(Function), true)
+      removeEventListenerSpy.mockRestore()
+    })
+
+    BddTest().then('it should remove the Escape guard when the component is unmounted', () => {
+      const removeEventListenerSpy = vi.spyOn(window, 'removeEventListener')
+
+      wrapper.unmount()
+
+      expect(removeEventListenerSpy).toHaveBeenCalledWith('keydown', expect.any(Function), true)
+      removeEventListenerSpy.mockRestore()
     })
   })
 

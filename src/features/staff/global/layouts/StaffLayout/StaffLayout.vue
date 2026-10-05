@@ -7,6 +7,7 @@ import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
 import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
 import { useBaseApiExceptionToast, useLanguageSwitcher } from '@/common/composables'
 import { QUICK_LINKS_REFRESH_INTERVAL, ROUTES } from '@/common/constants'
+import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 import StaffNavigation from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.vue'
 import StaffNotificationsPopover from '@/features/staff/user/components/overlays/StaffNotificationsPopover/StaffNotificationsPopover.vue'
@@ -17,20 +18,23 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
-
-const searchQuery = ref('')
-defineExpose({ searchQuery })
+const { canSwitchProfile } = useAuthStore()
+const menuBurgerStore = useMenuBurgerStore()
+const { showMenuBurgerDrawer } = storeToRefs(menuBurgerStore)
 
 const { data, isPending, error } = useGetQuickLinks(EUserCategory.STAFF, {
   query: { refetchInterval: QUICK_LINKS_REFRESH_INTERVAL }
 })
 useBaseApiExceptionToast(error)
 
+const searchQuery = ref('')
+
 const name = computed(() => {
   const { firstname, lastname } = data.value!
   return `${capitalize(firstname[0])}. ${capitalize(lastname)}`
 })
-const { canSwitchProfile } = useAuthStore()
+
+defineExpose({ searchQuery })
 </script>
 
 <template>
@@ -38,6 +42,7 @@ const { canSwitchProfile } = useAuthStore()
 
   <AvHeader
     v-model="searchQuery"
+    v-model:menu-open="showMenuBurgerDrawer"
     :home-label="t('staff.global.layout.header.home')"
     :home-to="ROUTES.STAFF.HOME"
     :language-selector="languageSelector"

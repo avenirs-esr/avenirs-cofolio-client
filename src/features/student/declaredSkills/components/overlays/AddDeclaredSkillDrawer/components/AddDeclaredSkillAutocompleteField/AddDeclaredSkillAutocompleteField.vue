@@ -151,7 +151,7 @@ const emptySlotTextContent = computed<string>(() => {
               v-memo="[option, isSelected, toggle, searchQuery, isSkillAlreadyDeclared(option)]"
               :content="t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.autocompleteField.alreadyDeclaredSkillsInfo')"
               :disabled="!isSkillAlreadyDeclared(option)"
-              trigger-class="av-flex-fill"
+              full-width
             >
               <AvListItem
                 :selected="isSelected"

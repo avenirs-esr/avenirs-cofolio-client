@@ -4,6 +4,7 @@ import { SkipLinksStub } from '@/common/components/navigation/SkipLinks/SkipLink
 import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
 import { SwitchUniverseStub } from '@/common/components/SwitchUniverse/SwitchUniverse.stub'
 import { ROUTES } from '@/common/constants'
+import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'
 import StaffLayout from '@/features/staff/global/layouts/StaffLayout/StaffLayout.vue'
 import { StaffNotificationsPopoverStub } from '@/features/staff/user/components/overlays/StaffNotificationsPopover/StaffNotificationsPopover.stub'
 import { StaffProfileDropdownStub } from '@/features/staff/user/components/overlays/StaffProfileDropdown/StaffProfileDropdown.stub'
@@ -155,6 +156,26 @@ BddTest().given('a staff layout', () => {
         const avHeader = wrapper.findComponent({ name: 'AvHeader' })
 
         expect(avHeader.props('modelValue')).toBe('search value')
+      })
+    })
+
+    BddTest().when('the menu burger state changes', () => {
+      BddTest().then('it should pass the store state to AvHeader', async () => {
+        const menuBurgerStore = useMenuBurgerStore()
+        menuBurgerStore.displayMenuBurgerDrawer()
+        await wrapper.vm.$nextTick()
+
+        const avHeader = wrapper.findComponent(AvHeaderStub)
+        expect(avHeader.props('menuOpen')).toBe(true)
+      })
+
+      BddTest().then('it should update the store when AvHeader emits update:menuOpen', async () => {
+        const avHeader = wrapper.findComponent(AvHeaderStub)
+
+        avHeader.vm.$emit('update:menuOpen', true)
+        await wrapper.vm.$nextTick()
+
+        expect(useMenuBurgerStore().showMenuBurgerDrawer).toBe(true)
       })
     })
   })
