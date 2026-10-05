@@ -1,6 +1,4 @@
-import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import CategoryElementTitleInput from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementTitleInput/CategoryElementTitleInput.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 
@@ -11,9 +9,9 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     AvInput: AvInputStub
   }
 
-  const defaultProps = {
-    category: ESelfKnowledgeCategory.STRENGTHS
-  }
+  const getAvInput = () => wrapper.findComponent(AvInputStub)
+
+  const defaultProps = {}
 
   BddTest().when('the component is mounted with default props', () => {
     beforeEach(() => {
@@ -28,59 +26,43 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     })
 
     BddTest().then('it should render AvInput', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.exists()).toBe(true)
     })
 
     BddTest().then('it should not be textarea mode', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('isTextarea')).toBe(false)
     })
 
     BddTest().then('it should have labelVisible set to true', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('labelVisible')).toBe(true)
     })
 
     BddTest().then('it should not be disabled by default', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('disabled')).toBe(false)
     })
 
     BddTest().then('it should be required by default', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('required')).toBe(true)
     })
 
     BddTest().then('it should display default label', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('label')).toBe('Intitulé de votre élément')
     })
 
     BddTest().then('it should display default placeholder', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('placeholder')).toBe('Saisir un nom pour votre élément')
     })
 
-    BddTest().then('it should use the category icon as default prefix icon', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
-      expect(avInput.props('prefixIcon')).toBe(MDI_ICONS.WEIGHTS)
-    })
-  })
-
-  BddTest().when('the component is mounted with another category', () => {
-    beforeEach(() => {
-      wrapper = mount(CategoryElementTitleInput, {
-        props: {
-          category: ESelfKnowledgeCategory.VALUES
-        },
-        global: { stubs }
-      })
-    })
-
-    BddTest().then('it should use the matching category icon as prefix icon', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
-      expect(avInput.props('prefixIcon')).toBe(MDI_ICONS.FLOWER_TULIP_OUTLINE)
+    BddTest().then('it should not display a prefix icon by default', () => {
+      const avInput = getAvInput()
+      expect(avInput.props('prefixIcon')).toBeUndefined()
     })
   })
 
@@ -96,7 +78,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     })
 
     BddTest().then('it should use the custom label', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('label')).toBe('Custom Label')
     })
   })
@@ -113,7 +95,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     })
 
     BddTest().then('it should use the custom placeholder', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('placeholder')).toBe('Custom Placeholder')
     })
   })
@@ -130,7 +112,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     })
 
     BddTest().then('it should use the custom prefix icon', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('prefixIcon')).toBe('mdi:star')
     })
   })
@@ -147,7 +129,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     })
 
     BddTest().then('it should be disabled', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('disabled')).toBe(true)
     })
   })
@@ -164,7 +146,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     })
 
     BddTest().then('it should not be required', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('required')).toBe(false)
     })
   })
@@ -181,7 +163,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     })
 
     BddTest().then('it should display the error message', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('errorMessage')).toBe('Ce champ est requis.')
     })
   })
@@ -198,7 +180,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     })
 
     BddTest().then('it should pass isValid to AvInput', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('isValid')).toBe(true)
     })
   })
@@ -215,12 +197,12 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     })
 
     BddTest().then('it should display the initial value', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('modelValue')).toBe('Initial title')
     })
 
     BddTest().then('it should emit update:modelValue when value changes', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       avInput.vm.$emit('update:modelValue', 'Updated title')
 
       expect(wrapper.emitted('update:modelValue')).toBeTruthy()
@@ -240,7 +222,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     })
 
     BddTest().then('it should hide the label', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('labelVisible')).toBe(false)
     })
   })
@@ -257,7 +239,7 @@ BddTest().given('the CategoryElementTitleInput component', () => {
     })
 
     BddTest().then('it should remain as input field', () => {
-      const avInput = wrapper.findComponent(AvInputStub)
+      const avInput = getAvInput()
       expect(avInput.props('isTextarea')).toBe(true)
     })
   })

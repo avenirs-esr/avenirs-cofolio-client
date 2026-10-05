@@ -13,6 +13,8 @@ const stubs = {
 BddTest().given('a trace name input component', () => {
   let wrapper: VueWrapper<InstanceType<typeof TraceNameInput>>
 
+  const getInput = () => wrapper.findComponent(InputStub)
+
   beforeEach(() => {
     wrapper = mount(TraceNameInput, {
       global: {
@@ -23,13 +25,13 @@ BddTest().given('a trace name input component', () => {
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render Input with default props', () => {
-      const input = wrapper.findComponent(InputStub)
+      const input = getInput()
 
       expect(input.exists()).toBe(true)
       expect(input.props('label')).toBe('Nom de ma trace')
       expect(input.props('placeholder')).toBe('Nom-de-ma-trace-01')
       expect(input.props('maxlength')).toBe(TRACE_NAME_MAX_LENGTH)
-      expect(input.props('prefixIcon')).toBe(MDI_ICONS.ATTACH_FILE)
+      expect(input.props('prefixIcon')).toBeUndefined()
       expect(input.props('isTextarea')).toBe(false)
       expect(input.props('labelVisible')).toBe(true)
       expect(input.props('disabled')).toBe(false)
@@ -55,7 +57,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent(InputStub)
+      const input = getInput()
 
       expect(input.props('label')).toBe('Custom Label')
     })
@@ -72,7 +74,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent(InputStub)
+      const input = getInput()
 
       expect(input.props('placeholder')).toBe('Custom placeholder text')
     })
@@ -89,7 +91,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent(InputStub)
+      const input = getInput()
 
       expect(input.props('maxlength')).toBe(200)
     })
@@ -106,7 +108,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent(InputStub)
+      const input = getInput()
 
       expect(input.props('prefixIcon')).toBe(MDI_ICONS.ACCOUNT_CIRCLE_OUTLINE)
     })
@@ -123,7 +125,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent(InputStub)
+      const input = getInput()
 
       expect(input.props('disabled')).toBe(true)
     })
@@ -140,7 +142,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent(InputStub)
+      const input = getInput()
 
       expect(input.props('required')).toBe(false)
     })
@@ -157,7 +159,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent(InputStub)
+      const input = getInput()
 
       expect(input.props('labelVisible')).toBe(false)
     })
@@ -174,7 +176,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent(InputStub)
+      const input = getInput()
 
       expect(input.props('isValid')).toBe(true)
     })
@@ -182,11 +184,12 @@ BddTest().given('a trace name input component', () => {
 
   BddTest().when('text is entered', () => {
     BddTest().then('it should update the model value', async () => {
-      const input = wrapper.findComponent(InputStub)
-      await input.vm.$emit('update:modelValue', 'My trace name')
-      await wrapper.vm.$nextTick()
+      const input = getInput()
+      input.vm.$emit('update:modelValue', 'My trace name')
 
-      expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['My trace name'])
+      await vi.waitFor(() => {
+        expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['My trace name'])
+      })
     })
 
     BddTest().then('it should update the character count hint', async () => {
@@ -218,7 +221,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent(InputStub)
+      const input = getInput()
 
       expect(input.props('modelValue')).toBe(testValue)
     })
@@ -235,7 +238,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent(InputStub)
+      const input = getInput()
 
       expect(input.props('errorMessage')).toBe('Ce champ est requis')
     })
@@ -252,7 +255,7 @@ BddTest().given('a trace name input component', () => {
         }
       })
 
-      const input = wrapper.findComponent(InputStub)
+      const input = getInput()
 
       expect(input.props('isTextarea')).toBe(true)
     })
