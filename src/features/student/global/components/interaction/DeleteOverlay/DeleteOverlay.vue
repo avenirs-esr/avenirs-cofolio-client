@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { AvButton, type AvButtonProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, type AvButtonProps, type AvInteractiveProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export interface DeleteOverlayProps {
+export interface DeleteOverlayProps extends AvInteractiveProps {
   buttonLabel?: string
   buttonTheme?: AvButtonProps['theme']
 }
 
-const { buttonLabel } = defineProps<DeleteOverlayProps>()
+const { buttonLabel, disabled = false, disabledTooltip } = defineProps<DeleteOverlayProps>()
 
 defineEmits<{
   (e: 'delete'): void
@@ -19,14 +19,16 @@ const resolvedButtonLabel = computed(() => buttonLabel ?? t('global.buttons.dele
 </script>
 
 <template>
-  <div class="delete-overlay av-w-full">
+  <div class="delete-overlay">
     <slot />
 
-    <div class="delete-overlay__action">
+    <div class="delete-overlay__action av-top-xxs av-right-xxs">
       <AvButton
         :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
         :label="resolvedButtonLabel"
         :theme="buttonTheme"
+        :disabled="disabled"
+        :disabled-tooltip="disabledTooltip"
         icon-only
         size="LG"
         @click.stop="$emit('delete')"
@@ -42,8 +44,6 @@ const resolvedButtonLabel = computed(() => buttonLabel ?? t('global.buttons.dele
 
 .delete-overlay__action {
   position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
   z-index: 2;
 }
 </style>

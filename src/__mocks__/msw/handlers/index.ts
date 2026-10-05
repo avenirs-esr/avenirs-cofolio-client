@@ -5,6 +5,7 @@ import { notificationsHandlers } from '@/__mocks__/msw/handlers/shared/notificat
 import { staffsActivitiesHandlers } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { feedbacksHandlers } from '@/__mocks__/msw/handlers/staffs/feedbacks.handlers'
 import { staffNotificationsHandlers } from '@/__mocks__/msw/handlers/staffs/notifications.handlers'
+import { staffsScopeHandlers } from '@/__mocks__/msw/handlers/staffs/staff-scope.handlers'
 import { staffUserHandlers } from '@/__mocks__/msw/handlers/staffs/user.handlers'
 import { activitiesHandlers } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { activityFeedbacksHandlers as studentFeedbacksHandlers } from '@/__mocks__/msw/handlers/student/activity-feedbacks.handlers'
@@ -37,6 +38,7 @@ export const handlers = [
   ...selfKnowledgeHandlers,
   ...skillsHandlers,
   ...staffsActivitiesHandlers,
+  ...staffsScopeHandlers,
   ...feedbacksHandlers,
   ...tracesHandlers,
   ...activitiesHandlers,

@@ -1,5 +1,10 @@
 import type { ActivityContentDTO, ActivityDraftUpdateRequest } from '@/api/avenir-esr'
-import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import {
+  mockedActivityContent,
+  mockedActivityContentWithEnrolledStudent1,
+  mockedActivityContentWithoutEnrolledStudent,
+} from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedDevStudentGroupNode, mockedPrimaryInstitutionNode, mockedProgramNode } from '@/__mocks__/fixtures/staffs/staff-scope.fixtures'
 import { createGetActivityContentDraftHandler, createUpdateActivityDraftHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
@@ -331,6 +336,85 @@ BddTest().given('a national activity view', () => {
         expect(getContext(wrapper).form.getFieldValue('startDate')).toBeFalsy()
         expect(getContext(wrapper).form.getFieldValue('endDate')).toBeFalsy()
       })
+    })
+  })
+
+  BddTest().when('the activity has targets', () => {
+    let capturedPatchBody: ActivityDraftUpdateRequest | undefined
+
+    beforeEach(async () => {
+      capturedPatchBody = undefined
+
+      server.use(
+        createGetActivityContentDraftHandler(() => ({
+          ...mockedActivityContentWithEnrolledStudent1,
+          targetInstitutionIds: [mockedPrimaryInstitutionNode.id],
+          targetGroupIds: [mockedProgramNode.id],
+        })),
+        createUpdateActivityDraftHandler((body) => {
+          capturedPatchBody = body
+        }),
+      )
+
+      await mountView()
+    })
+
+    BddTest().then('the form should be initialized with the persisted targets', () => {
+      expect(getContext(wrapper).form.getFieldValue('targetInstitutionIds')).toEqual([mockedPrimaryInstitutionNode.id])
+      expect(getContext(wrapper).form.getFieldValue('targetGroupIds')).toEqual([mockedProgramNode.id])
+    })
+
+    BddTest().then('the publication tab should receive the persisted targets and the lock state', async () => {
+      await switchTab(EditActivityTabIndex.PUBLICATION)
+      const publicationTab = wrapper.findComponent(ActivityPublicationTabStub)
+
+      expect(publicationTab.props('persistedTargetIds')).toEqual([mockedPrimaryInstitutionNode.id, mockedProgramNode.id])
+      expect(publicationTab.props('lockPersistedTargets')).toBe(true)
+    })
+
+    BddTest().and('the form is submitted after adding a target', () => {
+      beforeEach(async () => {
+        const context = getContext(wrapper)
+        context.form.setFieldValue('targetGroupIds', [mockedProgramNode.id, mockedDevStudentGroupNode.id])
+        await context.form.handleSubmit()
+        await flushPromises()
+      })
+
+      BddTest().then('the PATCH payload should contain all the targets', () => {
+        expect(capturedPatchBody).toMatchObject({
+          targetInstitutionIds: [mockedPrimaryInstitutionNode.id],
+          targetGroupIds: [mockedProgramNode.id, mockedDevStudentGroupNode.id],
+        })
+      })
+    })
+  })
+
+  BddTest().when('the activity has no target', () => {
+    let capturedPatchBody: ActivityDraftUpdateRequest | undefined
+
+    beforeEach(async () => {
+      capturedPatchBody = undefined
+
+      server.use(
+        createGetActivityContentDraftHandler(() => mockedActivityContentWithoutEnrolledStudent),
+        createUpdateActivityDraftHandler((body) => {
+          capturedPatchBody = body
+        }),
+      )
+
+      await mountView()
+      await getContext(wrapper).form.handleSubmit()
+      await flushPromises()
+    })
+
+    BddTest().then('the publication tab should not lock anything', async () => {
+      await switchTab(EditActivityTabIndex.PUBLICATION)
+      expect(wrapper.findComponent(ActivityPublicationTabStub).props('persistedTargetIds')).toEqual([])
+      expect(wrapper.findComponent(ActivityPublicationTabStub).props('lockPersistedTargets')).toBeFalsy()
+    })
+
+    BddTest().then('the PATCH payload should contain empty targets (national activity)', () => {
+      expect(capturedPatchBody).toMatchObject({ targetInstitutionIds: [], targetGroupIds: [] })
     })
   })
 

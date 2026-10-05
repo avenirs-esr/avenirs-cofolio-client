@@ -9,6 +9,7 @@ export enum ContentSectionId {
 
 export enum PublicationSectionId {
   ACTIVITY_TITLE = 'ACTIVITY_TITLE',
+  TARGETS = 'TARGETS',
   IMAGE = 'IMAGE',
   SUMMARY_CONTEXT = 'SUMMARY_CONTEXT',
 }

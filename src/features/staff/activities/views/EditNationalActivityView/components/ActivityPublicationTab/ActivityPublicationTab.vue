@@ -11,6 +11,7 @@ import { ICONS } from '@/common/constants'
 import ActivityBannerFormField from '@/features/staff/activities/components/interactions/formFields/ActivityBannerFormField/ActivityBannerFormField.vue'
 import ActivityRecommendedCompletionContextsFormField from '@/features/staff/activities/components/interactions/formFields/ActivityRecommendedCompletionContextsFormField/ActivityRecommendedCompletionContextsFormField.vue'
 import ActivitySummaryFormField from '@/features/staff/activities/components/interactions/formFields/ActivitySummaryFormField/ActivitySummaryFormField.vue'
+import ActivityTargetsFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTargetsFormField/ActivityTargetsFormField.vue'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import { PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
@@ -23,9 +24,11 @@ import { useI18n } from 'vue-i18n'
 
 interface ActivityPublicationTabProps {
   activity: ActivityPresentationDTO
+  persistedTargetIds?: string[]
+  lockPersistedTargets?: boolean
 }
 
-const { activity } = defineProps<ActivityPublicationTabProps>()
+const { activity, persistedTargetIds = [], lockPersistedTargets = false } = defineProps<ActivityPublicationTabProps>()
 
 const emit = defineEmits<{
   (e: 'published'): void
@@ -87,6 +90,20 @@ async function publishActivityDraft () {
       >
         <ActivityTitleFormField
           :form="form"
+          @autosave="queueAutoSave"
+        />
+      </IconTitleCardContainer>
+    </div>
+
+    <div :id="PublicationSectionId.TARGETS">
+      <IconTitleCardContainer
+        :title="t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.title')"
+        :title-icon="MDI_ICONS.ACCOUNT_STUDENT_OUTLINE"
+      >
+        <ActivityTargetsFormField
+          :form="form"
+          :persisted-ids="persistedTargetIds"
+          :lock-persisted="lockPersistedTargets"
           @autosave="queueAutoSave"
         />
       </IconTitleCardContainer>
