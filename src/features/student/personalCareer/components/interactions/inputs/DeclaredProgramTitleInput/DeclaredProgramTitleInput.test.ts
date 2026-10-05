@@ -1,5 +1,4 @@
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
-import { ICONS } from '@/common/constants'
 import DeclaredProgramTitleInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramTitleInput/DeclaredProgramTitleInput.vue'
 import { DECLARED_PROGRAM_TITLE_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -46,8 +45,8 @@ BddTest().given('a declared program title input component', () => {
       expect(getInput().props('label')).toBe('Intitulé de ma formation')
     })
 
-    BddTest().then('it should display the correct prefix icon', () => {
-      expect(getInput().props('prefixIcon')).toBe(ICONS.PROGRAMS)
+    BddTest().then('it should not display a prefix icon', () => {
+      expect(getInput().props('prefixIcon')).toBeUndefined()
     })
 
     BddTest().then('it should display the correct placeholder', () => {
@@ -111,7 +110,7 @@ BddTest().given('a declared program title input component', () => {
   })
 
   BddTest().when('the user types in the input', () => {
-    beforeEach(async () => {
+    beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredProgramTitleInput, {
         props: {
@@ -119,12 +118,13 @@ BddTest().given('a declared program title input component', () => {
         },
         global: { stubs }
       })
-      await getInput().vm.$emit('update:modelValue', 'New title')
-      await wrapper.vm.$nextTick()
+      getInput().vm.$emit('update:modelValue', 'New title')
     })
 
-    BddTest().then('it should update the model value', () => {
-      expect(getInput().props('modelValue')).toBe('New title')
+    BddTest().then('it should update the model value', async () => {
+      await vi.waitFor(() => {
+        expect(getInput().props('modelValue')).toBe('New title')
+      })
     })
   })
 
@@ -181,7 +181,7 @@ BddTest().given('a declared program title input component', () => {
   })
 
   BddTest().when('the user clears the input', () => {
-    beforeEach(async () => {
+    beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredProgramTitleInput, {
         props: {
@@ -189,12 +189,13 @@ BddTest().given('a declared program title input component', () => {
         },
         global: { stubs }
       })
-      await getInput().vm.$emit('update:modelValue', '')
-      await wrapper.vm.$nextTick()
+      getInput().vm.$emit('update:modelValue', '')
     })
 
-    BddTest().then('it should update to empty value', () => {
-      expect(getInput().props('modelValue')).toBe('')
+    BddTest().then('it should update to empty value', async () => {
+      await vi.waitFor(() => {
+        expect(getInput().props('modelValue')).toBe('')
+      })
     })
   })
 })

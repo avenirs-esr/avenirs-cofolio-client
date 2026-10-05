@@ -63,6 +63,12 @@ BddTest().given('an add self knowledge category element drawer component', () =>
   }
 
   const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
+  const getDrawer = () => wrapper.findComponent(DrawerStub)
+  const getConfirmationModal = () => wrapper.findComponent(ConfirmationModalStub)
+  const getTitleField = () => wrapper.findComponent(CategoryElementTitleInputFormFieldStub)
+  const getDescriptionField = () => wrapper.findComponent(CategoryElementDescriptionTextareaFormFieldStub)
+  const getRatingField = () => wrapper.findComponent(CategoryElementRatingRadioButtonSetFormFieldStub)
+  const getAccordions = () => wrapper.findAllComponents(AvAccordionStub)
 
   beforeEach(async () => {
     vi.clearAllMocks()
@@ -77,13 +83,11 @@ BddTest().given('an add self knowledge category element drawer component', () =>
       { global: { stubs } },
       { usePinia: false }
     )
-
-    await wrapper.vm.$nextTick()
   })
 
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the drawer with correct props', () => {
-      const drawer = wrapper.findComponent({ name: 'Drawer' })
+      const drawer = getDrawer()
 
       expect(drawer.exists()).toBe(true)
     })
@@ -97,23 +101,22 @@ BddTest().given('an add self knowledge category element drawer component', () =>
 
     BddTest().then('it should render accordion group with two accordions', () => {
       const accordionsGroup = wrapper.findComponent({ name: 'AvAccordionsGroup' })
-      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
+      const accordions = getAccordions()
 
       expect(accordionsGroup.exists()).toBe(true)
       expect(accordions).toHaveLength(2)
     })
 
     BddTest().then('it should render the form fields in first accordion', () => {
-      const titleField = wrapper.findComponent({ name: 'CategoryElementTitleInputFormField' })
-      const descriptionField = wrapper.findComponent({ name: 'CategoryElementDescriptionTextareaFormField' })
+      const titleField = getTitleField()
+      const descriptionField = getDescriptionField()
 
       expect(titleField.exists()).toBe(true)
-      expect(titleField.props('category')).toBe(ESelfKnowledgeCategory.STRENGTHS)
       expect(descriptionField.exists()).toBe(true)
     })
 
     BddTest().then('it should render the rating field in second accordion', () => {
-      const ratingField = wrapper.findComponent({ name: 'CategoryElementRatingRadioButtonSetFormField' })
+      const ratingField = getRatingField()
 
       expect(ratingField.exists()).toBe(true)
     })
@@ -136,38 +139,40 @@ BddTest().given('an add self knowledge category element drawer component', () =>
     BddTest().then('it should pass false to drawer show prop', async () => {
       const store = useSelfKnowledgeStore()
       store.closeAddElementDrawer()
-      await wrapper.vm.$nextTick()
 
-      const drawer = wrapper.findComponent({ name: 'Drawer' })
-      expect(drawer.props('show')).toBe(false)
+      await vi.waitFor(() => {
+        expect(getDrawer().props('show')).toBe(false)
+      })
     })
   })
 
   BddTest().and('escape is pressed on drawer', () => {
     BddTest().and('canLeave is true', () => {
       beforeEach(async () => {
-        const drawer = wrapper.findComponent({ name: 'Drawer' })
-        await drawer.vm.$emit('close')
-        await wrapper.vm.$nextTick()
+        const drawer = getDrawer()
+        drawer.vm.$emit('close')
       })
 
-      BddTest().then('it should hide the drawer', () => {
+      BddTest().then('it should hide the drawer', async () => {
         const store = useSelfKnowledgeStore()
-        expect(store.showAddElementDrawer).toBe(false)
+        await vi.waitFor(() => {
+          expect(store.showAddElementDrawer).toBe(false)
+        })
       })
     })
 
     BddTest().and('canLeave is false', () => {
       beforeEach(async () => {
         mockCanLeave.mockResolvedValue(false)
-        const drawer = wrapper.findComponent({ name: 'Drawer' })
-        await drawer.vm.$emit('close')
-        await wrapper.vm.$nextTick()
+        const drawer = getDrawer()
+        drawer.vm.$emit('close')
       })
 
-      BddTest().then('it should not hide the drawer', () => {
+      BddTest().then('it should not hide the drawer', async () => {
         const store = useSelfKnowledgeStore()
-        expect(store.showAddElementDrawer).toBe(true)
+        await vi.waitFor(() => {
+          expect(store.showAddElementDrawer).toBe(true)
+        })
       })
     })
   })
@@ -176,13 +181,14 @@ BddTest().given('an add self knowledge category element drawer component', () =>
     BddTest().and('canLeave is true', () => {
       beforeEach(async () => {
         const cancelConfirmButtons = getCancelConfirmButtons()
-        await cancelConfirmButtons.vm.$emit('cancel')
-        await wrapper.vm.$nextTick()
+        cancelConfirmButtons.vm.$emit('cancel')
       })
 
-      BddTest().then('it should hide the drawer', () => {
+      BddTest().then('it should hide the drawer', async () => {
         const store = useSelfKnowledgeStore()
-        expect(store.showAddElementDrawer).toBe(false)
+        await vi.waitFor(() => {
+          expect(store.showAddElementDrawer).toBe(false)
+        })
       })
     })
 
@@ -190,36 +196,49 @@ BddTest().given('an add self knowledge category element drawer component', () =>
       beforeEach(async () => {
         mockCanLeave.mockResolvedValue(false)
         const cancelConfirmButtons = getCancelConfirmButtons()
-        await cancelConfirmButtons.vm.$emit('cancel')
-        await wrapper.vm.$nextTick()
+        cancelConfirmButtons.vm.$emit('cancel')
       })
 
-      BddTest().then('it should not hide the drawer', () => {
+      BddTest().then('it should not hide the drawer', async () => {
         const store = useSelfKnowledgeStore()
-        expect(store.showAddElementDrawer).toBe(true)
+        await vi.waitFor(() => {
+          expect(store.showAddElementDrawer).toBe(true)
+        })
       })
 
       BddTest().and('confirming the modal', () => {
         beforeEach(async () => {
-          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
-          await confirmationModal.vm.$emit('confirm')
-          await wrapper.vm.$nextTick()
+          await vi.waitFor(() => {
+            if (!getConfirmationModal().exists()) {
+              throw new Error('Confirmation modal is not rendered')
+            }
+          })
+          const confirmationModal = getConfirmationModal()
+          confirmationModal.vm.$emit('confirm')
         })
 
-        BddTest().then('it should call guard confirm', () => {
-          expect(mockConfirm).toHaveBeenCalledTimes(1)
+        BddTest().then('it should call guard confirm', async () => {
+          await vi.waitFor(() => {
+            expect(mockConfirm).toHaveBeenCalledTimes(1)
+          })
         })
       })
 
       BddTest().and('closing the modal', () => {
         beforeEach(async () => {
-          const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
-          await confirmationModal.vm.$emit('close')
-          await wrapper.vm.$nextTick()
+          await vi.waitFor(() => {
+            if (!getConfirmationModal().exists()) {
+              throw new Error('Confirmation modal is not rendered')
+            }
+          })
+          const confirmationModal = getConfirmationModal()
+          confirmationModal.vm.$emit('close')
         })
 
-        BddTest().then('it should call guard cancel', () => {
-          expect(mockCancel).toHaveBeenCalledTimes(1)
+        BddTest().then('it should call guard cancel', async () => {
+          await vi.waitFor(() => {
+            expect(mockCancel).toHaveBeenCalledTimes(1)
+          })
         })
       })
     })
@@ -235,7 +254,7 @@ BddTest().given('an add self knowledge category element drawer component', () =>
 
   BddTest().when('component has accordion items', () => {
     BddTest().then('it should render definition accordion with correct title', () => {
-      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
+      const accordions = getAccordions()
       const definitionAccordion = accordions[0]
 
       expect(definitionAccordion.props('title')).toBe('Ajouter mon élément')
@@ -243,7 +262,7 @@ BddTest().given('an add self knowledge category element drawer component', () =>
     })
 
     BddTest().then('it should render rating accordion with correct title', () => {
-      const accordions = wrapper.findAllComponents({ name: 'AvAccordion' })
+      const accordions = getAccordions()
       const ratingAccordion = accordions[1]
 
       expect(ratingAccordion.props('title')).toBe('Préciser mon élément')
@@ -252,7 +271,7 @@ BddTest().given('an add self knowledge category element drawer component', () =>
 
   BddTest().when('confirmation modal interactions', () => {
     BddTest().then('it should have confirmation modal rendered', () => {
-      const confirmationModal = wrapper.findComponent({ name: 'ConfirmationModal' })
+      const confirmationModal = getConfirmationModal()
       expect(confirmationModal.exists()).toBe(true)
     })
   })
@@ -266,19 +285,10 @@ BddTest().given('an add self knowledge category element drawer component', () =>
       }
 
       store.openAddElementDrawer(interestCategory)
-      await wrapper.vm.$nextTick()
 
-      const title = wrapper.find('h2')
-      expect(title.text()).toContain('Centre d\'intérêt')
-    })
-
-    BddTest().then('it should pass the selected category to the title field', async () => {
-      const store = useSelfKnowledgeStore()
-      store.openAddElementDrawer({ type: ESelfKnowledgeCategory.INTERESTS, mandatory: false })
-      await wrapper.vm.$nextTick()
-
-      const titleField = wrapper.findComponent(CategoryElementTitleInputFormFieldStub)
-      expect(titleField.props('category')).toBe(ESelfKnowledgeCategory.INTERESTS)
+      await vi.waitFor(() => {
+        expect(wrapper.find('h2').text()).toContain('Centre d\'intérêt')
+      })
     })
   })
 })

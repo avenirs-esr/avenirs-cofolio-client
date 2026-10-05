@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { AvInputProps } from '@avenirs-esr/avenirs-dsav'
 import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import { TRACE_NAME_MAX_LENGTH } from '@/features/student/traces/config'
-import { type AvInputProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -39,7 +39,7 @@ const avInputProps = computed(() => ({
   maxlength,
   errorMessage,
   label: label ?? t('student.traces.interactions.inputs.TraceNameInput.label'),
-  prefixIcon: prefixIcon ?? MDI_ICONS.ATTACH_FILE,
+  prefixIcon,
   placeholder: placeholder ?? t('student.traces.interactions.inputs.TraceNameInput.placeholder')
 }))
 </script>

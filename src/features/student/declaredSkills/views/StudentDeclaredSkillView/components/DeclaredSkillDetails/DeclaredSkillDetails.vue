@@ -7,7 +7,7 @@ import DeclaredSkillLevelBadge from '@/features/student/declaredSkills/component
 import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.vue'
 import DeclaredSkillReflectionInput
   from '@/features/student/declaredSkills/components/interactions/inputs/DeclaredSkillReflectionInput/DeclaredSkillReflectionInput.vue'
-import { AvInput, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { AvInput, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface DeclaredSkillDetailsProps {
@@ -46,7 +46,6 @@ const { isMobile } = useAvBreakpoints()
       <AvInput
         :label="t('student.declaredSkills.views.StudentDeclaredSkillView.declaredSkillDetails.skillTitle')"
         label-class="caption-regular"
-        :prefix-icon="RI_ICONS.LOADER_LINE"
         :model-value="declaredSkillProgressDetails.title"
         disabled
       />

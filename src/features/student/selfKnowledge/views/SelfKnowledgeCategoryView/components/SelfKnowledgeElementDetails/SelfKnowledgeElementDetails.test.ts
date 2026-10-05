@@ -1,5 +1,5 @@
+import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
-import { ESelfKnowledgeCategory, type SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { RatingStub } from '@/common/components/Rating/Rating.stub'
@@ -15,7 +15,6 @@ const RATING_LABEL = 'Degré d\'importance'
 
 const defaultProps: SelfKnowledgeElementDetailsProps = {
   element: mockedSelfKnowledgeElementDetails,
-  category: ESelfKnowledgeCategory.STRENGTHS,
 }
 
 BddTest().given('a SelfKnowledgeElementDetails component', () => {
@@ -65,7 +64,6 @@ BddTest().given('a SelfKnowledgeElementDetails component', () => {
       expect(titleInput.exists()).toBe(true)
       expect(titleInput.props('modelValue')).toBe(defaultProps.element.title)
       expect(titleInput.props('required')).toBe(false)
-      expect(titleInput.props('category')).toBe(ESelfKnowledgeCategory.STRENGTHS)
     })
 
     BddTest().then('it should render the description textarea with correct value', () => {

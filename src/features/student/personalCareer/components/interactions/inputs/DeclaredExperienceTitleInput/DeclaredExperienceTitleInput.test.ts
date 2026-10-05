@@ -1,5 +1,4 @@
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
-import { ICONS } from '@/common/constants'
 import DeclaredExperienceTitleInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.vue'
 import { DECLARED_EXPERIENCE_TITLE_MAX_LENGTH } from '@/features/student/personalCareer/config'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -46,8 +45,8 @@ BddTest().given('a declared experience title input component', () => {
       expect(getInput().props('label')).toBe('Intitulé du poste')
     })
 
-    BddTest().then('it should display the correct prefix icon', () => {
-      expect(getInput().props('prefixIcon')).toBe(ICONS.EXPERIENCES)
+    BddTest().then('it should not display a prefix icon', () => {
+      expect(getInput().props('prefixIcon')).toBeUndefined()
     })
 
     BddTest().then('it should display the correct placeholder', () => {
@@ -111,7 +110,7 @@ BddTest().given('a declared experience title input component', () => {
   })
 
   BddTest().when('the user types in the input', () => {
-    beforeEach(async () => {
+    beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredExperienceTitleInput, {
         props: {
@@ -119,12 +118,13 @@ BddTest().given('a declared experience title input component', () => {
         },
         global: { stubs }
       })
-      await getInput().vm.$emit('update:modelValue', 'Software Engineer')
-      await wrapper.vm.$nextTick()
+      getInput().vm.$emit('update:modelValue', 'Software Engineer')
     })
 
-    BddTest().then('it should update the model value', () => {
-      expect(getInput().props('modelValue')).toBe('Software Engineer')
+    BddTest().then('it should update the model value', async () => {
+      await vi.waitFor(() => {
+        expect(getInput().props('modelValue')).toBe('Software Engineer')
+      })
     })
   })
 
@@ -165,7 +165,7 @@ BddTest().given('a declared experience title input component', () => {
   })
 
   BddTest().when('the user clears the input', () => {
-    beforeEach(async () => {
+    beforeEach(() => {
       vi.clearAllMocks()
       wrapper = mount(DeclaredExperienceTitleInput, {
         props: {
@@ -173,12 +173,13 @@ BddTest().given('a declared experience title input component', () => {
         },
         global: { stubs }
       })
-      await getInput().vm.$emit('update:modelValue', '')
-      await wrapper.vm.$nextTick()
+      getInput().vm.$emit('update:modelValue', '')
     })
 
-    BddTest().then('it should update to empty value', () => {
-      expect(getInput().props('modelValue')).toBe('')
+    BddTest().then('it should update to empty value', async () => {
+      await vi.waitFor(() => {
+        expect(getInput().props('modelValue')).toBe('')
+      })
     })
   })
 })

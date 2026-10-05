@@ -36,6 +36,7 @@ BddTest().given('an UpdateDeclaredSkillForm component', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdateDeclaredSkillForm>>
   const onCancel = vi.fn()
   const onSkillUpdated = vi.fn()
+  const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
 
   const mockedDeclaredSkillProgressDetails = createMockedDeclaredSkillProgressDetailsDTO('1234')
 
@@ -114,10 +115,10 @@ BddTest().given('an UpdateDeclaredSkillForm component', () => {
 
   BddTest().when('clicking on cancel', () => {
     BddTest().then('it should call onCancel prop', async () => {
-      const cancelConfirmButtons = wrapper.findComponent(AvCancelConfirmButtonsStub)
+      const cancelConfirmButtons = getCancelConfirmButtons()
       expect(cancelConfirmButtons.exists()).toBe(true)
 
-      await cancelConfirmButtons.vm.$emit('cancel')
+      cancelConfirmButtons.vm.$emit('cancel')
       expect(onCancel).toHaveBeenCalledTimes(1)
     })
   })
