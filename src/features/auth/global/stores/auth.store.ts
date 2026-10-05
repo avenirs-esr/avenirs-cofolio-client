@@ -36,7 +36,6 @@ export const useAuthStore = defineStore('auth', () => {
   const sessionPromise = ref<Promise<void> | null>(null)
   const canSwitchProfile = computed(() => categories.value.includes(EUserCategory.STUDENT) && categories.value.includes(EUserCategory.STAFF))
   const isSuperAdmin = computed(() => roles.value.includes(ERole.ROLE_SUPER_ADMIN))
-
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
 

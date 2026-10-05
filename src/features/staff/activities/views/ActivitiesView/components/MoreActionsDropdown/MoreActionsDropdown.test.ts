@@ -7,12 +7,13 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const mockIsSuperAdmin = vi.hoisted(() => ({ value: false }))
+const mockIsAuthor = vi.hoisted(() => ({ value: false }))
 
 vi.mock('@/features/auth/global/stores/auth.store', () => ({
   useAuthStore: () => ({
     get isSuperAdmin () {
       return mockIsSuperAdmin.value
-    }
+    },
   })
 }))
 
@@ -31,9 +32,9 @@ BddTest().given('a MoreActionsDropdown component', () => {
     return getDropdown().find('[data-testid="delete"]')
   }
 
-  function mountDropdown (activityStatus: EActivityStatus) {
+  function mountDropdown (activityStatus: EActivityStatus, isAuthor: boolean) {
     return mountComponent(MoreActionsDropdown, {
-      props: { activityStatus },
+      props: { activityStatus, isAuthor },
       global: { stubs }
     })
   }
@@ -41,11 +42,12 @@ BddTest().given('a MoreActionsDropdown component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockIsSuperAdmin.value = false
+    mockIsAuthor.value = true
   })
 
   BddTest().when('mounted with DRAFT status', () => {
     beforeEach(() => {
-      wrapper = mountDropdown(EActivityStatus.DRAFT)
+      wrapper = mountDropdown(EActivityStatus.DRAFT, true)
     })
 
     BddTest().then('it should render the dropdown', () => {
@@ -73,6 +75,7 @@ BddTest().given('a MoreActionsDropdown component', () => {
           disabled: false
         }),
         expect.stringContaining('clone')
+
       ])
     })
 
@@ -99,7 +102,7 @@ BddTest().given('a MoreActionsDropdown component', () => {
 
   BddTest().when('mounted with PUBLISHED status', () => {
     beforeEach(() => {
-      wrapper = mountDropdown(EActivityStatus.PUBLISHED)
+      wrapper = mountDropdown(EActivityStatus.PUBLISHED, true)
     })
 
     BddTest().then('the delete action should be disabled and the navigate to feedback, unpublish and clone actions should not be disabled', () => {
@@ -155,7 +158,7 @@ BddTest().given('a MoreActionsDropdown component', () => {
   BddTest().when('mounted with PUBLISHED status while the user is a super admin', () => {
     beforeEach(() => {
       mockIsSuperAdmin.value = true
-      wrapper = mountDropdown(EActivityStatus.PUBLISHED)
+      wrapper = mountDropdown(EActivityStatus.PUBLISHED, true)
     })
 
     BddTest().then('the delete action should not be disabled', () => {
@@ -181,7 +184,7 @@ BddTest().given('a MoreActionsDropdown component', () => {
   BddTest().when('mounted with UNPUBLISHED status while the user is a super admin', () => {
     beforeEach(() => {
       mockIsSuperAdmin.value = true
-      wrapper = mountDropdown(EActivityStatus.UNPUBLISHED)
+      wrapper = mountDropdown(EActivityStatus.UNPUBLISHED, true)
     })
 
     BddTest().then('the delete action should not be disabled', () => {
@@ -189,6 +192,86 @@ BddTest().given('a MoreActionsDropdown component', () => {
         expect.objectContaining({ type: 'navigateToFeedbacks', disabled: true }),
         expect.objectContaining({ type: 'unpublish', disabled: true }),
         expect.objectContaining({ type: 'delete', disabled: false }),
+        expect.stringContaining('clone')
+      ])
+    })
+  })
+
+  BddTest().when('the user is not the activity author', () => {
+    beforeEach(() => {
+      wrapper = mountDropdown(EActivityStatus.UNPUBLISHED, false)
+    })
+
+    BddTest().then('the actions should be disabled', () => {
+      expect(getDropdown().props('actions')).toEqual([
+        expect.objectContaining({
+          type: 'navigateToFeedbacks',
+          disabled: true,
+          disabledTooltip:
+          'Vous devez être l\'auteur(rice) d\'au moins une des activités pour accéder à cette action',
+        }),
+        expect.objectContaining({
+          type: 'unpublish',
+          disabled: true,
+          disabledTooltip:
+          'Vous devez être l\'auteur(rice) d\'au moins une des activités pour accéder à cette action',
+        }),
+        expect.objectContaining({
+          type: 'delete',
+          disabled: true,
+          disabledTooltip:
+          'Vous devez être l\'auteur(rice) d\'au moins une des activités pour accéder à cette action',
+        }),
+        expect.stringContaining('clone')
+      ])
+    })
+  })
+
+  BddTest().when('the user is the activity author and the activity is a draft', () => {
+    beforeEach(() => {
+      mockIsSuperAdmin.value = false
+      wrapper = mountDropdown(EActivityStatus.DRAFT, true)
+    })
+
+    BddTest().then('the delete action should be enabled', () => {
+      expect(getDropdown().props('actions')).toEqual([
+        expect.objectContaining({
+          type: 'navigateToFeedbacks',
+          disabled: true,
+        }),
+        expect.objectContaining({
+          type: 'unpublish',
+          disabled: true,
+        }),
+        expect.objectContaining({
+          type: 'delete',
+          disabled: false,
+        }),
+        expect.stringContaining('clone')
+      ])
+    })
+  })
+
+  BddTest().when('the user is the activity author but the activity is not a draft', () => {
+    beforeEach(() => {
+      mockIsSuperAdmin.value = false
+      wrapper = mountDropdown(EActivityStatus.UNPUBLISHED, true)
+    })
+
+    BddTest().then('the delete action should be disabled', () => {
+      expect(getDropdown().props('actions')).toEqual([
+        expect.objectContaining({
+          type: 'navigateToFeedbacks',
+          disabled: true,
+        }),
+        expect.objectContaining({
+          type: 'unpublish',
+          disabled: true,
+        }),
+        expect.objectContaining({
+          type: 'delete',
+          disabled: true,
+        }),
         expect.stringContaining('clone')
       ])
     })
