@@ -95,7 +95,8 @@
             "publication": {
               "ACTIVITY_TITLE": "Titre de l'activité",
               "IMAGE": "Ajouter une image",
-              "SUMMARY_CONTEXT": "Extrait et contexte(s) de réalisation conseillé(s)"
+              "SUMMARY_CONTEXT": "Extrait et contexte(s) de réalisation conseillé(s)",
+              "TARGETS": "Portée de l'activité"
             },
             "publicationHeader": "Publication de l'activité"
           }
@@ -192,6 +193,28 @@
           "ActivitySummaryFormField": {
             "label": "Extrait",
             "placeholder": "Rédiger ici un texte court qui permet d'avoir un aperçu de l'activité et donne envie de s'y inscrire."
+          },
+          "ActivityTargetsFormField": {
+            "description": "Sélectionnez les établissements, formations, options de formation ou groupes d'étudiants qui auront accès à cette activité.",
+            "fetchError": "Impossible de récupérer les cibles disponibles",
+            "label": "Cible(s) de l'activité",
+            "locked": "Les cibles déjà enregistrées ne peuvent plus être retirées car des étudiants sont déjà inscrits à cette activité. Vous pouvez en ajouter de nouvelles.",
+            "national": "Activité nationale\u00A0: aucune cible n'est sélectionnée.",
+            "outOfScopeTitle": "Cible hors de votre périmètre",
+            "placeholder": "Rechercher un établissement, une formation, une option ou un groupe",
+            "remove": "Retirer la cible {title}",
+            "removeDisabledTooltip": "Cette cible ne peut plus être retirée",
+            "targeted": "Activité ciblée\u00A0: {count} cible sélectionnée. | Activité ciblée\u00A0: {count} cibles sélectionnées.",
+            "title": "Portée de l'activité",
+            "types": {
+              "GROUP": "Formation ou groupe",
+              "INSTITUTION": "Établissement",
+              "PRIMARY": "Établissement",
+              "PROGRAM": "Formation",
+              "PROGRAM_OPTION": "Option de formation",
+              "SECONDARY": "Établissement",
+              "STUDENT_GROUP": "Groupe d'étudiants"
+            }
           },
           "ActivityTraceFormField": {
             "description": "Lorsque le paramètre est désactivé, les apprenants ne peuvent pas associer de traces à leur activité.",

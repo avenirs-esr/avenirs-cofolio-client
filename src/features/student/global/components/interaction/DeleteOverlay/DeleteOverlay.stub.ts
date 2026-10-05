@@ -1,5 +1,8 @@
+import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
+
 export const DeleteOverlayStub = defineComponent({
   name: 'DeleteOverlay',
+  props: { ...AvInteractivePropsStub },
   emits: ['delete'],
   template: `
     <div

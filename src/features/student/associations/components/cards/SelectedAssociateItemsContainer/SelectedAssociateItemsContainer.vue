@@ -8,9 +8,12 @@ import { useI18n } from 'vue-i18n'
 export interface SelectedAssociateItemsContainerProps<U extends IdTitle = IdTitle> {
   items: U[]
   buttonTheme?: AvButtonProps['theme']
+  isItemDisabled?: (item: U) => boolean
+  horizontal?: boolean
+  disabledTooltip?: string
 }
 
-defineProps<SelectedAssociateItemsContainerProps<U>>()
+const { isItemDisabled, disabledTooltip, horizontal = false } = defineProps<SelectedAssociateItemsContainerProps<U>>()
 
 defineEmits<{
   (e: 'delete', itemId: string): void
@@ -37,12 +40,17 @@ const { t } = useI18n()
       background-color="var(--surface-background)"
       border-color="transparent"
     >
-      <div class="selected-associate-items-container__list av-h-full av-col av-gap-sm">
+      <div
+        class="selected-associate-items-container__list av-h-full av-gap-sm"
+        :class="horizontal ? 'av-row av-wrap av-align-start' : 'av-col'"
+      >
         <DeleteOverlay
           v-for="item in items"
           :key="item.id"
           :button-theme="buttonTheme"
-          class="av-w-full"
+          :disabled="isItemDisabled?.(item) ?? false"
+          :disabled-tooltip="disabledTooltip"
+          :class="{ 'av-w-full': !horizontal }"
           @delete="$emit('delete', item.id)"
         >
           <slot

@@ -95,7 +95,8 @@
             "publication": {
               "ACTIVITY_TITLE": "Activity title",
               "IMAGE": "Add an image",
-              "SUMMARY_CONTEXT": "Summary and recommended completion context(s)"
+              "SUMMARY_CONTEXT": "Summary and recommended completion context(s)",
+              "TARGETS": "Activity scope"
             },
             "publicationHeader": "Prepare publication"
           }
@@ -192,6 +193,28 @@
           "ActivitySummaryFormField": {
             "label": "Summary",
             "placeholder": "Write a short description here that gives a glimpse of the activity and makes people want to sign up."
+          },
+          "ActivityTargetsFormField": {
+            "description": "Select the institutions, programs, program options or student groups that will have access to this activity.",
+            "fetchError": "Unable to fetch the available targets",
+            "label": "Activity target(s)",
+            "locked": "Targets already saved can no longer be removed because students are already enrolled in this activity. You can still add new ones.",
+            "national": "National activity: no target is selected.",
+            "outOfScopeTitle": "Target outside your scope",
+            "placeholder": "Search an institution, a program, an option or a group",
+            "remove": "Remove target {title}",
+            "removeDisabledTooltip": "This target can no longer be removed",
+            "targeted": "Targeted activity: {count} target selected. | Targeted activity: {count} targets selected.",
+            "title": "Activity scope",
+            "types": {
+              "GROUP": "Program or group",
+              "INSTITUTION": "Institution",
+              "PRIMARY": "Institution",
+              "PROGRAM": "Program",
+              "PROGRAM_OPTION": "Program option",
+              "SECONDARY": "Institution",
+              "STUDENT_GROUP": "Student group"
+            }
           },
           "ActivityTraceFormField": {
             "description": "When this setting is disabled, learners cannot associate traces with their activity.",

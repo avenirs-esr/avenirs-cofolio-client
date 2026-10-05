@@ -29,6 +29,8 @@ export interface EditActivityFormData extends ActivityDraftCreationFormData {
   bannerAction: EditActivityFormDataBannerAction
   files: (File | FileDTO)[]
   links: string[]
+  targetInstitutionIds: string[]
+  targetGroupIds: string[]
 }
 
 export interface AddActivityResourceFileFormData {

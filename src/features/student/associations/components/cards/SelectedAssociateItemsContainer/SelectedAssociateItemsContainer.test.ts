@@ -52,6 +52,25 @@ BddTest().given('a selected associate items container', () => {
     })
   })
 
+  BddTest().when('the component is mounted with disabled items', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(SelectedAssociateItemsContainerComponent, {
+        props: { ...props, isItemDisabled: (item: { id: string }) => item.id === 'item-1', disabledTooltip: 'Suppression impossible' },
+        global: { stubs },
+        slots: {
+          item: '<div data-testid="item-slot-content">Item slot content</div>'
+        }
+      })
+    })
+
+    BddTest().then('it should only disable the matching delete overlays', () => {
+      const deleteOverlays = wrapper.findAllComponents(DeleteOverlayStub)
+
+      expect(deleteOverlays.map(overlay => overlay.props('disabled'))).toEqual([true, false])
+      expect(deleteOverlays[0]!.props('disabledTooltip')).toBe('Suppression impossible')
+    })
+  })
+
   BddTest().when('the component is mounted with a scoped item slot', () => {
     beforeEach(() => {
       wrapper = mountComponent(SelectedAssociateItemsContainerComponent, {

@@ -12,6 +12,11 @@ export const ActivityPublicationTabStub = defineComponent({
       type: Object as PropType<ActivityPresentationDTO>,
       required: true
     },
+    persistedTargetIds: {
+      type: Array as PropType<string[]>,
+      default: () => [],
+    },
+    lockPersistedTargets: Boolean,
   },
   emits: ['published', 'update:modelValue'],
   template: '<div data-testid="activity-publication-tab-stub"></div>',

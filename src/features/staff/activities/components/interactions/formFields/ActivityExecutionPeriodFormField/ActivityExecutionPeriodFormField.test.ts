@@ -27,6 +27,8 @@ function mountField (overrides: Partial<EditActivityFormData> = {}) {
         bannerAction: EditActivityFormDataBannerAction.NONE,
         files: [],
         links: [],
+        targetInstitutionIds: [],
+        targetGroupIds: [],
         ...overrides,
       }
       const form = useForm({ defaultValues })

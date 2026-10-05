@@ -87,6 +87,7 @@ const trailingLinks = computed(() => [
 ])
 
 const remoteFiles = computed(() => content.value?.files ?? [])
+const persistedTargetIds = computed(() => [...(content.value?.targetInstitutionIds ?? []), ...(content.value?.targetGroupIds ?? [])])
 
 const defaultValues: EditActivityFormData = reactive({
   title: computed(() => content.value?.title ?? ''),
@@ -102,6 +103,8 @@ const defaultValues: EditActivityFormData = reactive({
   bannerAction: EditActivityFormDataBannerAction.NONE,
   files: remoteFiles,
   links: computed(() => content.value?.links ?? []),
+  targetInstitutionIds: computed(() => content.value?.targetInstitutionIds ?? []),
+  targetGroupIds: computed(() => content.value?.targetGroupIds ?? []),
 })
 
 const { mutateAsync: uploadBannerMutation } = useUploadDraftBanner()
@@ -156,6 +159,8 @@ const form = useForm({
       feedbackAllowedIterations: value.feedbackAllowedIterations ?? 0,
       traceAllowedAssociations: value.traceAllowedAssociations,
       links: value.links,
+      targetInstitutionIds: value.targetInstitutionIds,
+      targetGroupIds: value.targetGroupIds,
     })
   },
 })
@@ -332,6 +337,8 @@ provideEditNationalActivityViewContext({ form, isUpdating, isExecutionPeriodEnab
               <ActivityPublicationTab
                 v-model="bannerFile"
                 :activity="presentation!"
+                :persisted-target-ids="persistedTargetIds"
+                :lock-persisted-targets="content?.hasEnrolledStudent"
                 @published="onPublished"
               />
             </AvTab>

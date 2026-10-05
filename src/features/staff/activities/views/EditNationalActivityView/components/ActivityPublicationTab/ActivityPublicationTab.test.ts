@@ -5,6 +5,7 @@ import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/Con
 import { ActivityBannerFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityBannerFormField/ActivityBannerFormField.stub'
 import { ActivityRecommendedCompletionContextsFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityRecommendedCompletionContextsFormField/ActivityRecommendedCompletionContextsFormField.stub'
 import { ActivitySummaryFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivitySummaryFormField/ActivitySummaryFormField.stub'
+import { ActivityTargetsFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTargetsFormField/ActivityTargetsFormField.stub'
 import { ActivityTitleFormFieldStub } from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.stub'
 import ActivityPublicationTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.vue'
 import { EditNationalActivityViewTabActionsStub } from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.stub'
@@ -54,6 +55,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
     ConfirmationModal: ConfirmationModalStub,
     EditNationalActivityViewTabActions: EditNationalActivityViewTabActionsStub,
     ActivityTitleFormField: ActivityTitleFormFieldStub,
+    ActivityTargetsFormField: ActivityTargetsFormFieldStub,
     ActivityBannerFormField: ActivityBannerFormFieldStub,
     ActivitySummaryFormField: ActivitySummaryFormFieldStub,
     ActivityRecommendedCompletionContextsFormField: ActivityRecommendedCompletionContextsFormFieldStub,
@@ -63,15 +65,17 @@ BddTest().given('an ActivityPublicationTab component', () => {
   function mountTab (
     FormWrapper: FormWrapperComponent,
     activity = mockedActivityDetail,
+    targetProps: { persistedTargetIds?: string[], lockPersistedTargets?: boolean } = {},
   ) {
     wrapper = mountComponent(FormWrapper, {
-      slots: { default: h(ActivityPublicationTab, { modelValue: null, activity }) },
+      slots: { default: h(ActivityPublicationTab, { modelValue: null, activity, ...targetProps }) },
       global: { stubs },
     })
 
     tab = wrapper.findComponent(ActivityPublicationTab)
   }
 
+  const getActivityTargetsFormField = () => tab.findComponent(ActivityTargetsFormFieldStub)
   const getPublishButton = () => getAvButtonByTestId(tab, 'publish-button')
 
   beforeEach(() => {
@@ -90,6 +94,12 @@ BddTest().given('an ActivityPublicationTab component', () => {
 
     BddTest().then('it should render ActivityTitleFormField', () => {
       expect(tab.findComponent(ActivityTitleFormFieldStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render ActivityTargetsFormField with no persisted target', () => {
+      expect(getActivityTargetsFormField().exists()).toBe(true)
+      expect(getActivityTargetsFormField().props('persistedIds')).toEqual([])
+      expect(getActivityTargetsFormField().props('lockPersisted')).toBe(false)
     })
 
     BddTest().then('it should render ActivityBannerFormField', () => {
@@ -114,6 +124,17 @@ BddTest().given('an ActivityPublicationTab component', () => {
 
     BddTest().then('it should render ConfirmationModal', () => {
       expect(tab.findComponent(ConfirmationModalStub).exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the activity has persisted targets and enrolled students', () => {
+    beforeEach(() => {
+      mountTab(EditNationalActivityViewFormWrapper, mockedActivityDetail, { persistedTargetIds: ['target-1'], lockPersistedTargets: true })
+    })
+
+    BddTest().then('it should forward them to ActivityTargetsFormField', () => {
+      expect(getActivityTargetsFormField().props('persistedIds')).toEqual(['target-1'])
+      expect(getActivityTargetsFormField().props('lockPersisted')).toBe(true)
     })
   })
 

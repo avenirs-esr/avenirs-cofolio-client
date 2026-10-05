@@ -57,6 +57,25 @@ BddTest().given('a DeleteOverlay component', () => {
     })
   })
 
+  BddTest().when('the delete overlay is mounted as disabled', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(DeleteOverlay, {
+        props: { disabled: true, disabledTooltip: 'Suppression impossible' } satisfies DeleteOverlayProps,
+        global: { stubs },
+        slots: {
+          default: '<div class="custom-content">Content to overlay</div>'
+        }
+      })
+    })
+
+    BddTest().then('it should disable the delete button with its tooltip', () => {
+      const button = wrapper.findComponent(AvButtonStub)
+
+      expect(button.props('disabled')).toBe(true)
+      expect(button.props('disabledTooltip')).toBe('Suppression impossible')
+    })
+  })
+
   BddTest().when('the delete overlay is mounted with a custom button label', () => {
     const props: DeleteOverlayProps = {
       buttonLabel: 'Retirer'

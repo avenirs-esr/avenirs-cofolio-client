@@ -8402,21 +8402,8 @@
           "externalId": {
             "type": "string"
           },
-          "source": {
-            "type": "string",
-            "enum": [
-              "PEGASE",
-              "BACK_OFFICE"
-            ]
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "ACTIVE",
-              "INACTIVE",
-              "REMOVED",
-              "BLOCKED"
-            ]
+          "institutionUAI": {
+            "type": "string"
           }
         }
       },
@@ -8486,13 +8473,13 @@
           "name": {
             "type": "string"
           },
-          "hai": {
+          "sigle": {
+            "type": "string"
+          },
+          "uai": {
             "type": "string"
           },
           "siret": {
-            "type": "string"
-          },
-          "siren": {
             "type": "string"
           },
           "type": {
@@ -8502,7 +8489,7 @@
               "SECONDARY"
             ]
           },
-          "parentHai": {
+          "parentUAI": {
             "type": "string"
           }
         }
@@ -8517,13 +8504,13 @@
           "name": {
             "type": "string"
           },
-          "hai": {
+          "sigle": {
+            "type": "string"
+          },
+          "uai": {
             "type": "string"
           },
           "siret": {
-            "type": "string"
-          },
-          "siren": {
             "type": "string"
           },
           "type": {
@@ -8533,7 +8520,7 @@
               "SECONDARY"
             ]
           },
-          "parentHai": {
+          "parentUAI": {
             "type": "string"
           },
           "createdAt": {
@@ -8552,12 +8539,11 @@
           "name": {
             "type": "string"
           },
-          "idSiSco": {
+          "idSISco": {
             "type": "string"
           },
-          "institutionId": {
-            "type": "string",
-            "format": "uuid"
+          "institutionUAI": {
+            "type": "string"
           },
           "codeSise": {
             "type": "string"
@@ -8578,7 +8564,7 @@
               "STUDENT_GROUP"
             ]
           },
-          "parentIdSiSco": {
+          "parentIdSISco": {
             "type": "string"
           }
         }
@@ -8593,12 +8579,15 @@
           "name": {
             "type": "string"
           },
-          "idSiSco": {
+          "idSISco": {
             "type": "string"
           },
           "institutionId": {
             "type": "string",
             "format": "uuid"
+          },
+          "institutionUAI": {
+            "type": "string"
           },
           "codeSise": {
             "type": "string"
@@ -8619,7 +8608,7 @@
               "STUDENT_GROUP"
             ]
           },
-          "parentIdSiSco": {
+          "parentIdSISco": {
             "type": "string"
           },
           "createdAt": {
@@ -8736,10 +8725,10 @@
           "eppn": {
             "type": "string"
           },
-          "institutionHai": {
+          "institutionUAI": {
             "type": "string"
           },
-          "groupIdSiSco": {
+          "groupIdSISco": {
             "type": "string"
           },
           "category": {
@@ -8757,10 +8746,10 @@
           "eppn": {
             "type": "string"
           },
-          "institutionHai": {
+          "institutionUAI": {
             "type": "string"
           },
-          "groupIdSiSco": {
+          "groupIdSISco": {
             "type": "string"
           },
           "category": {
@@ -8888,7 +8877,7 @@
       "InstitutionImportFailureResponse": {
         "type": "object",
         "properties": {
-          "hai": {
+          "uai": {
             "type": "string"
           },
           "message": {
@@ -8934,7 +8923,7 @@
       "GroupImportFailureResponse": {
         "type": "object",
         "properties": {
-          "idSiSco": {
+          "idSISco": {
             "type": "string"
           },
           "message": {
@@ -9093,12 +9082,30 @@
           },
           "title": {
             "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "Nature of the node: PRIMARY/SECONDARY for institutions, PROGRAM/PROGRAM_OPTION/STUDENT_GROUP for groups.",
+            "enum": [
+              "PRIMARY",
+              "SECONDARY",
+              "PROGRAM",
+              "PROGRAM_OPTION",
+              "STUDENT_GROUP"
+            ]
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScopeNodeResponse"
+            }
           }
         },
         "required": [
           "children",
           "id",
-          "title"
+          "title",
+          "type"
         ]
       },
       "StaffScopeResponse": {
@@ -9126,7 +9133,6 @@
         "type": "string",
         "description": "Enum for external source",
         "enum": [
-          "PEGASE",
           "BACK_OFFICE"
         ]
       },

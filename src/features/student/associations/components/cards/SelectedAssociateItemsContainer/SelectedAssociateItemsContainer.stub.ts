@@ -1,6 +1,6 @@
 export const SelectedAssociateItemsContainerStub = defineComponent({
   name: 'SelectedAssociateItemContainer',
-  props: ['items'],
+  props: ['items', 'isItemDisabled', 'horizontal', 'disabledTooltip'],
   emits: ['delete'],
   template: `
     <div class="selected-associate-items-container-stub">
