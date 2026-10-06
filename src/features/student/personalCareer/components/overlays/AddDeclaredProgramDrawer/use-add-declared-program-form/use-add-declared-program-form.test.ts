@@ -1,4 +1,5 @@
 import type { DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
+import type { Mock } from 'vitest'
 import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
 import { associateErrorHandler, createAssociateHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { createDeclaredProgramErrorHandler, createDeclaredProgramHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
@@ -44,7 +45,7 @@ vi.mock('@/store', async () => {
 
 BddTest().given('an add declared program form', () => {
   let composableResult: ReturnType<typeof useAddDeclaredProgramForm>
-  let mockOnProgramAdded: ReturnType<typeof vi.fn>
+  let mockOnProgramAdded: Mock<() => void>
   const associationRequests: AssociationRequest[] = []
 
   const createAssociationRequest = (associatedContextType: EAssociationContextType, idsToAssociate: string[]): AssociationRequest => ({

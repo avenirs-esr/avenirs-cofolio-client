@@ -6,7 +6,6 @@ import { type TraceFormData, TraceType } from '@/features/student/traces/types/t
 import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
-import { waitFor } from 'storybook/test'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -284,7 +283,7 @@ BddTest().given('the useCreateTraceForm composable', () => {
       }
 
       result.result.form.options.onSubmit?.({ value: formData, formApi: result.result.form, meta: {} })
-      await waitFor(() => {
+      await vi.waitFor(() => {
         expect(mockOnTraceCreated).toHaveBeenCalled()
       })
     })

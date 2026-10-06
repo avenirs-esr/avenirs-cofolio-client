@@ -1,3 +1,4 @@
+import type { Mock } from 'vitest'
 import { KIT_NAME_MAX_LENGTH } from '@/features/student/kit/config'
 import {
   ExportKitOptions,
@@ -10,8 +11,7 @@ import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('an export kit form composable', () => {
   let composableResult: ReturnType<typeof useExportKitForm>
-  let mockOnSuccess: ReturnType<typeof vi.fn>
-
+  let mockOnSuccess: Mock<(data: UseExportKitFormData) => void>
   const mountForm = () => {
     const result = mountComposable(
       () => useExportKitForm(mockOnSuccess),

@@ -1,5 +1,6 @@
 import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
+import type { Mock } from 'vitest'
 import { putUpdateSelfKnowledgeElementErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import {
@@ -11,7 +12,7 @@ import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
   let composableResult: ReturnType<typeof useUpdateSelfKnowledgeElementForm>
-  let mockOnElementUpdated: ReturnType<typeof vi.fn>
+  let mockOnElementUpdated: Mock<() => void>
 
   const mockElement: SelfKnowledgeElementDetailsDTO = {
     id: 'element-123',

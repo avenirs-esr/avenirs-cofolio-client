@@ -6,7 +6,7 @@ import {
   declaredExperiencesQueryErrorHandler
 } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { MockHeadingLevel, type MockParagraph, type MockTextRun } from '@/common/utils/docx/test-utils'
+import { createParagraphMock, createTextRunMock, MockHeadingLevel, type MockParagraph } from '@/common/utils/docx/test-utils'
 import { useGenerateExperiencesSections } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-experiences-sections'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -14,15 +14,8 @@ import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('docx', () => ({
-  Paragraph: vi.fn((options): MockParagraph => ({
-    type: 'paragraph',
-    ...options,
-  })),
-  TextRun: vi.fn((options): MockTextRun => ({
-    type: 'text-run',
-    ...(typeof options === 'string' ? { text: options } : options),
-  })),
-
+  Paragraph: vi.fn(createParagraphMock),
+  TextRun: vi.fn(createTextRunMock),
   HeadingLevel: MockHeadingLevel,
 }))
 

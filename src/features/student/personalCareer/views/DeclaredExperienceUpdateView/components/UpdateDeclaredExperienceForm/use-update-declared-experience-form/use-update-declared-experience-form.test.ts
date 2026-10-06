@@ -1,4 +1,5 @@
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
+import type { Mock } from 'vitest'
 import { type DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
 import {
   DECLARED_EXPERIENCE_ACTIVITY_SECTOR_MAX_LENGTH,
@@ -49,7 +50,7 @@ function createMockedDeclaredExperienceDetailedDTO (
 
 BddTest().given('an update declared experience form', () => {
   let composableResult: ReturnType<typeof useUpdateDeclaredExperienceForm>
-  let mockOnExperienceUpdated: ReturnType<typeof vi.fn>
+  let mockOnExperienceUpdated: Mock<() => void>
 
   let declaredExperience: DeclaredExperienceViewDTO
 

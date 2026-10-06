@@ -1,4 +1,5 @@
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
+import type { Mock } from 'vitest'
 import { declaredExperienceViewDTOFixture } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import { associateErrorHandler, createAssociateHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { createDeclaredExperienceErrorHandler, createDeclaredExperienceHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
@@ -46,7 +47,7 @@ vi.mock('@/store', async () => {
 
 BddTest().given('an add declared experience form', () => {
   let composableResult: ReturnType<typeof useAddDeclaredExperienceForm>
-  let mockOnExperienceAdded: ReturnType<typeof vi.fn>
+  let mockOnExperienceAdded: Mock<() => void>
   const associationRequests: AssociationRequest[] = []
 
   const createAssociationRequest = (associatedContextType: EAssociationContextType, idsToAssociate: string[]): AssociationRequest => ({

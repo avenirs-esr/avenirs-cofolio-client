@@ -9,14 +9,18 @@ const mockAddResponseInterceptor = vi.fn()
 const mockRemoveRequestInterceptor = vi.fn()
 const mockRemoveResponseInterceptor = vi.fn()
 
-vi.mock('@/api/fetch', () => ({
-  createCustomFetch: vi.fn(),
-  FetchInterceptorManager: vi.fn(() => ({
+function createFetchInterceptorManagerMock () {
+  return {
     addRequestInterceptor: mockAddRequestInterceptor,
     addResponseInterceptor: mockAddResponseInterceptor,
     removeRequestInterceptor: mockRemoveRequestInterceptor,
     removeResponseInterceptor: mockRemoveResponseInterceptor,
-  })),
+  }
+}
+
+vi.mock('@/api/fetch', () => ({
+  createCustomFetch: vi.fn(),
+  FetchInterceptorManager: vi.fn(createFetchInterceptorManagerMock),
 }))
 
 const mockEnsureAuthenticated = vi.fn()

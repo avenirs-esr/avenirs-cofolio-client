@@ -1,4 +1,5 @@
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
+import type { Mock } from 'vitest'
 import { createSelfKnowledgeElementErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
@@ -9,7 +10,7 @@ import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('the useAddSelfKnowledgeCategoryElementForm composable', () => {
   let composableResult: ReturnType<typeof useAddSelfKnowledgeCategoryElementForm>
-  let mockOnElementCreated: ReturnType<typeof vi.fn>
+  let mockOnElementCreated: Mock<() => void>
   const mockCategoryId = ESelfKnowledgeCategory.STRENGTHS
 
   const createValidFormData = (rating: number | null = 3): SelfKnowledgeCategoryElementFormData => ({

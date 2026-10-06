@@ -1,3 +1,4 @@
+import type { Mock } from 'vitest'
 import type { Ref } from 'vue'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -49,8 +50,8 @@ function mountWithGuard (opts: {
 
 BddTest().given('a useUnsavedChangesGuard composable', () => {
   let isDirty: Ref<boolean>
-  let openModal: ReturnType<typeof vi.fn>
-  let closeModal: ReturnType<typeof vi.fn>
+  let openModal: Mock<() => void>
+  let closeModal: Mock<() => void>
 
   let addEventListenerSpy: ReturnType<typeof vi.spyOn>
   let removeEventListenerSpy: ReturnType<typeof vi.spyOn>
@@ -205,7 +206,7 @@ BddTest().given('a useUnsavedChangesGuard composable', () => {
     })
 
     BddTest().then('it should not prevent unload', () => {
-      const handler = addEventListenerSpy.mock.calls.find(([type]) => type === 'beforeunload')?.[1] as
+      const handler = addEventListenerSpy.mock.calls.find(([type]: [string]) => type === 'beforeunload')?.[1] as
         | ((e: BeforeUnloadEvent) => void)
         | undefined
 
@@ -230,7 +231,7 @@ BddTest().given('a useUnsavedChangesGuard composable', () => {
     })
 
     BddTest().then('it should prevent unload and set returnValue', () => {
-      const handler = addEventListenerSpy.mock.calls.find(([type]) => type === 'beforeunload')?.[1] as
+      const handler = addEventListenerSpy.mock.calls.find(([type]: [string]) => type === 'beforeunload')?.[1] as
         | ((e: BeforeUnloadEvent) => void)
         | undefined
 
