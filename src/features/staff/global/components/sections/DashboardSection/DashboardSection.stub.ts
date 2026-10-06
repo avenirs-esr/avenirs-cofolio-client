@@ -27,7 +27,10 @@ export const DashboardSectionStub = defineComponent({
       <div v-if="isLoading" data-testid="dashboard-section-loading" />
       <div v-else-if="error" data-testid="dashboard-section-error" />
       <div v-else-if="isEmpty" data-testid="dashboard-section-empty">{{ emptyStateMessage }}</div>
-      <slot v-else />
+      <template v-else>
+        <slot />
+        <slot name="details" />
+      </template>
     </div>
   `,
 })

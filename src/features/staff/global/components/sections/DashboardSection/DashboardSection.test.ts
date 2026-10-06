@@ -53,6 +53,21 @@ BddTest().given('a DashboardSection component', () => {
     })
   })
 
+  BddTest().when('mounted with a details slot', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(DashboardSection, {
+        props: { title: 'Tableau de bord' },
+        slots: { ...slots, details: '<div data-testid="details-content">Détail</div>' },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the details slot content below the default slot content', () => {
+      expect(wrapper.find('[data-testid="slot-content"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="details-content"]').exists()).toBe(true)
+    })
+  })
+
   BddTest().when('mounted with a custom title icon', () => {
     beforeEach(() => {
       wrapper = mountComponent(DashboardSection, {
