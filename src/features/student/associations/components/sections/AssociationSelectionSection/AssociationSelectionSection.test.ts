@@ -52,25 +52,75 @@ const SearchAssociationLayoutStub = defineComponent({
 })
 
 function toTraceOption ({ id, title, disabled }: { id: string, title: string, disabled: boolean }): AvAutocompleteOption {
-  return { value: id, label: title, disabled }
+  return { value: id, label: title, disabled, disabledTooltip: 'Cet élément est déjà associé.' }
 }
 
 const unassociatedTraceOptions = createMockedTraceSearchResults(false).map(toTraceOption)
+const unassociatedTraceOptionsWithoutDisabledTooltip = unassociatedTraceOptions.map(({ disabledTooltip, ...rest }) => ({ ...rest }))
 
 const skillOptions: AvAutocompleteOption[] = [
-  { value: 'skill-search-1', label: 'Gestion de projet agile', description: 'Rome 4.0', disabled: false },
-  { value: 'skill-search-2', label: 'Communication interpersonnelle', description: 'XXIᵉ onisep', disabled: false },
-  { value: 'skill-search-3', label: 'Analyse de données', description: 'Rome 4.0', disabled: true },
+  {
+    value: 'skill-search-1',
+    label: 'Gestion de projet agile',
+    description: 'Rome 4.0',
+    disabled: false,
+    disabledTooltip: 'Cet élément est déjà associé.'
+  },
+  {
+    value: 'skill-search-2',
+    label: 'Communication interpersonnelle',
+    description: 'XXIᵉ onisep',
+    disabled: false,
+    disabledTooltip: 'Cet élément est déjà associé.'
+  },
+  {
+    value: 'skill-search-3',
+    label: 'Analyse de données',
+    description: 'Rome 4.0',
+    disabled: true,
+    disabledTooltip: 'Cet élément est déjà associé.'
+  },
 ]
 const activityOptions: AvAutocompleteOption[] = [
-  { value: 'activity-search-1', label: 'Définir ses valeurs', description: 'Me connaître', disabled: false },
-  { value: 'activity-search-2', label: 'Explorer ses pistes d\'orientation', description: 'Explorer mes futurs', disabled: false },
-  { value: 'activity-search-3', label: 'Construire son projet professionnel', description: 'Explorer mes futurs', disabled: true },
+  {
+    value: 'activity-search-1',
+    label: 'Définir ses valeurs',
+    description: 'Me connaître',
+    disabled: false,
+    disabledTooltip: 'Cet élément est déjà associé.'
+  },
+  {
+    value: 'activity-search-2',
+    label: 'Explorer ses pistes d\'orientation',
+    description: 'Explorer mes futurs',
+    disabled: false,
+    disabledTooltip: 'Cet élément est déjà associé.'
+  },
+  {
+    value: 'activity-search-3',
+    label: 'Construire son projet professionnel',
+    description: 'Explorer mes futurs',
+    disabled: true,
+    disabledTooltip: 'Cet élément est déjà associé.'
+  },
 ]
 
-const firstTrace: Association = { id: 'trace-non-associee1', title: 'Ma super trace non associée numéro 1', disabled: false }
-const secondTrace: Association = { id: 'trace-non-associee2', title: 'Ma super trace non associée numéro 2', disabled: false }
-const firstSkill: Association = { id: 'skill-search-1', title: 'Gestion de projet agile', description: 'Rome 4.0', disabled: false }
+const firstTrace: Association = {
+  id: 'trace-non-associee1',
+  title: 'Ma super trace non associée numéro 1',
+  disabled: false,
+}
+const secondTrace: Association = {
+  id: 'trace-non-associee2',
+  title: 'Ma super trace non associée numéro 2',
+  disabled: false,
+}
+const firstSkill: Association = {
+  id: 'skill-search-1',
+  title: 'Gestion de projet agile',
+  description: 'Rome 4.0',
+  disabled: false,
+}
 
 BddTest().given('an association selection section', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociationSelectionSection>>
@@ -266,7 +316,7 @@ BddTest().given('an association selection section', () => {
 
       BddTest().then('it should pass the selected traces to the layout', () => {
         expect(getLayout().props('items')).toEqual([firstTrace, secondTrace])
-        expect(getLayout().props('modelValue')).toEqual(unassociatedTraceOptions.slice(0, 2))
+        expect(getLayout().props('modelValue')).toEqual(unassociatedTraceOptionsWithoutDisabledTooltip.slice(0, 2))
       })
 
       BddTest().then('it should display the title of each selected trace', () => {
@@ -333,7 +383,7 @@ BddTest().given('an association selection section', () => {
 
           BddTest().then('it should restore the selected traces', () => {
             expect(getLayout().props('items')).toEqual([firstTrace, secondTrace])
-            expect(getLayout().props('modelValue')).toEqual(unassociatedTraceOptions.slice(0, 2))
+            expect(getLayout().props('modelValue')).toEqual(unassociatedTraceOptionsWithoutDisabledTooltip.slice(0, 2))
           })
         })
       })
@@ -352,7 +402,7 @@ BddTest().given('an association selection section', () => {
 
     BddTest().then('it should pass the selected elements of the active context type to the layout', () => {
       expect(getLayout().props('items')).toEqual([firstTrace])
-      expect(getLayout().props('modelValue')).toEqual([unassociatedTraceOptions[0]])
+      expect(getLayout().props('modelValue')).toEqual([unassociatedTraceOptionsWithoutDisabledTooltip[0]])
     })
 
     BddTest().and('the parent resets the selections', () => {
@@ -431,9 +481,27 @@ BddTest().given('an association selection section', () => {
 
     BddTest().then('it should pass the declared activities found by the search, with their translated thematic', () => {
       expect(getLayoutOptions()).toEqual([
-        { value: 'activity-search-1', label: 'Définir ses valeurs', description: 'Me connaître', disabled: false },
-        { value: 'activity-search-2', label: 'Explorer ses pistes d\'orientation', description: 'Explorer mes futurs', disabled: false },
-        { value: 'activity-search-3', label: 'Construire son projet professionnel', description: 'Explorer mes futurs', disabled: true },
+        {
+          value: 'activity-search-1',
+          label: 'Définir ses valeurs',
+          description: 'Me connaître',
+          disabled: false,
+          disabledTooltip: 'Cet élément est déjà associé.'
+        },
+        {
+          value: 'activity-search-2',
+          label: 'Explorer ses pistes d\'orientation',
+          description: 'Explorer mes futurs',
+          disabled: false,
+          disabledTooltip: 'Cet élément est déjà associé.'
+        },
+        {
+          value: 'activity-search-3',
+          label: 'Construire son projet professionnel',
+          description: 'Explorer mes futurs',
+          disabled: true,
+          disabledTooltip: 'Cet élément est déjà associé.'
+        },
       ])
     })
 

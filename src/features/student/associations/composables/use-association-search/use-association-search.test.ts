@@ -267,9 +267,30 @@ BddTest().given('the useAssociationSearch composable', () => {
 
     BddTest().then('it should map the search results to associations with their translated category', () => {
       expect(composable.associations.value).toEqual([
-        { id: 'skill-search-1', title: 'Gestion de projet agile', category: EExternalSkillType.ROME4, description: 'Rome 4.0', disabled: false },
-        { id: 'skill-search-2', title: 'Communication interpersonnelle', category: EExternalSkillType.XXI, description: 'XXIᵉ onisep', disabled: false },
-        { id: 'skill-search-3', title: 'Analyse de données', category: EExternalSkillType.ROME4, description: 'Rome 4.0', disabled: true }
+        {
+          id: 'skill-search-1',
+          title: 'Gestion de projet agile',
+          category: EExternalSkillType.ROME4,
+          description: 'Rome 4.0',
+          disabled: false,
+          disabledTooltip: 'Cet élément est déjà associé.'
+        },
+        {
+          id: 'skill-search-2',
+          title: 'Communication interpersonnelle',
+          category: EExternalSkillType.XXI,
+          description: 'XXIᵉ onisep',
+          disabled: false,
+          disabledTooltip: 'Cet élément est déjà associé.'
+        },
+        {
+          id: 'skill-search-3',
+          title: 'Analyse de données',
+          category: EExternalSkillType.ROME4,
+          description: 'Rome 4.0',
+          disabled: true,
+          disabledTooltip: 'Cet élément est déjà associé.'
+        }
       ])
     })
 
@@ -334,9 +355,30 @@ BddTest().given('the useAssociationSearch composable', () => {
 
     BddTest().then('it should map the search results to associations with their translated category', () => {
       expect(composable.associations.value).toEqual([
-        { id: 'experience-search-1', title: 'Définir ses valeurs', category: EExperienceType.PERSONAL, description: 'Expérience personnelle', disabled: false },
-        { id: 'experience-search-2', title: 'Explorer ses pistes d\'orientation', category: EExperienceType.PROFESSIONAL, description: 'Expérience professionnelle', disabled: false },
-        { id: 'experience-search-3', title: 'Développeur Web Full Stack', category: EExperienceType.PROFESSIONAL, description: 'Expérience professionnelle', disabled: true }
+        {
+          id: 'experience-search-1',
+          title: 'Définir ses valeurs',
+          category: EExperienceType.PERSONAL,
+          description: 'Expérience personnelle',
+          disabled: false,
+          disabledTooltip: 'Cet élément est déjà associé.'
+        },
+        {
+          id: 'experience-search-2',
+          title: 'Explorer ses pistes d\'orientation',
+          category: EExperienceType.PROFESSIONAL,
+          description: 'Expérience professionnelle',
+          disabled: false,
+          disabledTooltip: 'Cet élément est déjà associé.'
+        },
+        {
+          id: 'experience-search-3',
+          title: 'Développeur Web Full Stack',
+          category: EExperienceType.PROFESSIONAL,
+          description: 'Expérience professionnelle',
+          disabled: true,
+          disabledTooltip: 'Cet élément est déjà associé.'
+        }
       ])
     })
   })

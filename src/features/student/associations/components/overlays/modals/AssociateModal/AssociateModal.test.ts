@@ -64,7 +64,12 @@ const SearchAssociationLayoutWithItemsStub = defineComponent({
 const GENERIC_ERROR_TITLE = 'Une erreur est survenue. Veuillez réessayer ultérieurement.'
 
 const unassociatedTraceOptions = createMockedTraceSearchResults(false)
-  .map(({ id, title, disabled }) => ({ label: title, value: id, disabled }))
+  .map(({ id, title, disabled }) => ({
+    label: title,
+    value: id,
+    disabled,
+    disabledTooltip: 'Cet élément est déjà associé.'
+  }))
 
 BddTest().given('an associate modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociateModal>>
@@ -208,7 +213,12 @@ BddTest().given('an associate modal', () => {
 
       BddTest().then('it should only pass the matching traces to the layout options', () => {
         expect(getLayoutOptions()).toEqual([
-          { label: 'Ma super trace non associée numéro 3', value: 'trace-non-associee3', disabled: false }
+          {
+            label: 'Ma super trace non associée numéro 3',
+            value: 'trace-non-associee3',
+            disabled: false,
+            disabledTooltip: 'Cet élément est déjà associé.'
+          }
         ])
       })
     })
@@ -536,9 +546,30 @@ BddTest().given('an associate modal', () => {
 
   BddTest().when('the modal is opened to associate declared skills', () => {
     const expectedSkillOptions = [
-      { label: 'Gestion de projet agile', value: 'skill-search-1', description: 'Rome 4.0', category: 'ROME4', disabled: false },
-      { label: 'Communication interpersonnelle', value: 'skill-search-2', description: 'XXIᵉ onisep', category: 'XXI', disabled: false },
-      { label: 'Analyse de données', value: 'skill-search-3', description: 'Rome 4.0', category: 'ROME4', disabled: true }
+      {
+        label: 'Gestion de projet agile',
+        value: 'skill-search-1',
+        description: 'Rome 4.0',
+        category: 'ROME4',
+        disabled: false,
+        disabledTooltip: 'Cet élément est déjà associé.'
+      },
+      {
+        label: 'Communication interpersonnelle',
+        value: 'skill-search-2',
+        description: 'XXIᵉ onisep',
+        category: 'XXI',
+        disabled: false,
+        disabledTooltip: 'Cet élément est déjà associé.'
+      },
+      {
+        label: 'Analyse de données',
+        value: 'skill-search-3',
+        description: 'Rome 4.0',
+        category: 'ROME4',
+        disabled: true,
+        disabledTooltip: 'Cet élément est déjà associé.'
+      }
     ]
 
     beforeEach(async () => {

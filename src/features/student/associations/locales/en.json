@@ -6,6 +6,11 @@
           "label": "My selected elements ({count})"
         }
       },
+      "composables": {
+        "useAssociationSearch": {
+          "disabledTooltip": "This item is already associated."
+        }
+      },
       "contextTypes": {
         "DECLARED_ACTIVITY": {
           "associateConfirm": "Associate selected activity (1) | Associate selected activities ({count})",

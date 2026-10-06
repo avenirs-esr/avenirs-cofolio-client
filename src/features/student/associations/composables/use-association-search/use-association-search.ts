@@ -107,7 +107,9 @@ export function useAssociationSearch ({
     })
   })
 
-  const associations = computed<Association[]>(() => data.value ?? [])
+  const associations = computed<Association[]>(() => (data.value ?? []).map(
+    searchResult => ({ ...searchResult, disabledTooltip: t('student.associations.composables.useAssociationSearch.disabledTooltip') })
+  ))
 
   return {
     searchQuery,
