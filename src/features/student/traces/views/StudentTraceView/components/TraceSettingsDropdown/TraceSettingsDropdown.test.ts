@@ -20,7 +20,6 @@ BddTest().given('a setting popover', () => {
   }
 
   const getDropdown = () => wrapper.findComponent(ManageEntityDropdownStub)
-  const getAssociateButton = () => wrapper.find(`[data-testid="${Action.ASSOCIATE}"]`)
   const getUpdateButton = () => wrapper.find(`[data-testid="${Action.UPDATE}"]`)
   const getDownloadButton = () => wrapper.find(`[data-testid="${Action.DOWNLOAD}"]`)
   const getDeleteButton = () => wrapper.find(`[data-testid="${Action.DELETE}"]`)
@@ -35,10 +34,10 @@ BddTest().given('a setting popover', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render the dropdown with four menu items', () => {
+    BddTest().then('it should render the dropdown with three menu items', () => {
       const dropdown = getDropdown()
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('actions')).toHaveLength(4)
+      expect(dropdown.props('actions')).toHaveLength(3)
     })
 
     BddTest().then('it should pass correct props to dropdown', () => {
@@ -64,13 +63,6 @@ BddTest().given('a setting popover', () => {
     BddTest().then('it should emit the delete event', async () => {
       await getDeleteButton().trigger('click')
       expect(wrapper.emitted('delete')).toHaveLength(1)
-    })
-  })
-
-  BddTest().when('the associate button is clicked', () => {
-    BddTest().then('it should emit the associate event', async () => {
-      await getAssociateButton().trigger('click')
-      expect(wrapper.emitted('associate')).toHaveLength(1)
     })
   })
 

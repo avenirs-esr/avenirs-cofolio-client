@@ -13,14 +13,13 @@ const emit = defineEmits<{
   (e: AllowedActions): void
 }>()
 
-type AllowedActions = Action.ASSOCIATE | Action.UPDATE | Action.DOWNLOAD | Action.DELETE
+type AllowedActions = Action.UPDATE | Action.DOWNLOAD | Action.DELETE
 
 const { t } = useI18n()
 
 const actions = computed(() => {
   const items: (Action | ActionItem)[] = [
     Action.UPDATE,
-    Action.ASSOCIATE,
     {
       type: Action.DOWNLOAD,
       disabled: downloadDisabled,
