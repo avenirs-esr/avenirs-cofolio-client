@@ -62,7 +62,7 @@ BddTest().given('a valorized declared experience item', () => {
     BddTest().then('it should render the access button pointing to the declared experience route', () => {
       const button = wrapper.findComponent(AvButtonStub)
       expect(button.props('to')).toEqual({
-        name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
+        name: ROUTES.STUDENT.TOOLS_KIT_EXPERIENCE.name,
         params: { id: BASE_DECLARED_EXPERIENCE.id }
       })
     })

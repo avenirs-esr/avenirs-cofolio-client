@@ -54,10 +54,7 @@ const isNotSubscribed = computed(() => activity.status !== EDeclaredActivityStat
         <div class="av-col av-pr-4xl--md">
           <div class="av-col av-row--md av-gap-sm av-justify-start av-justify-between--md av-px-xs">
             <div class="av-row av-row-wrap av-align-center av-gap-sm av-hidden av-unhidden--md">
-              <ValorizedBadge
-                v-if="activity.valorized"
-                :valorized="activity.valorized"
-              />
+              <ValorizedBadge :valorized="activity.valorized" />
               <ActivityPeriodBadge v-if="activity.startDate && activity.endDate" />
               <DeclaredActivityStatusBadge
                 v-if="isNotSubscribed"

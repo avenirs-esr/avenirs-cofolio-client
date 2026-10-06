@@ -40,6 +40,25 @@ export const studentToolsKitUpdateSkillRoute: AvRoute = {
   },
 }
 
+export const studentToolsKitActivitiesRoute: AvRoute = {
+  ...ROUTES.STUDENT.TOOLS_KIT_ACTIVITIES,
+  component: () => import('@/features/student/activities/views/ActivitiesView/ActivitiesView.vue'),
+  meta: {
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.TOOLS.KIT.ACTIVITIES],
+  },
+}
+
+export const studentToolsKitActivityRoute: AvRoute = {
+  ...ROUTES.STUDENT.TOOLS_KIT_ACTIVITY,
+  props: route => ({
+    id: route.params.id,
+  }),
+  component: () => import('@/features/student/activities/views/ActivityView/ActivityView.vue'),
+  meta: {
+    breadcrumb: [...BASE_BREADCRUMBS.STUDENT.TOOLS.KIT.ACTIVITIES],
+  },
+}
+
 export const studentToolsKitPersonalCareerRoute: AvRoute = {
   ...ROUTES.STUDENT.TOOLS_KIT_PERSONAL_CAREER,
   component: () => import('@/features/student/personalCareer/views/PersonalCareerView/PersonalCareerView.vue'),
@@ -152,6 +171,8 @@ export const studentToolsKitRoutes: AvRoute[] = [
   studentToolsKitSkillsRoute,
   studentToolsKitSkillRoute,
   studentToolsKitUpdateSkillRoute,
+  studentToolsKitActivitiesRoute,
+  studentToolsKitActivityRoute,
   studentToolsKitPersonalCareerRoute,
   studentToolsKitDeclaredProgramRoute,
   studentToolsKitUpdateDeclaredProgramRoute,

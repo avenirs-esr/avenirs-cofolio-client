@@ -1,9 +1,13 @@
 import type { AvRoute } from '@/common/types'
 import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
+import ActivitiesView from '@/features/student/activities/views/ActivitiesView/ActivitiesView.vue'
+import ActivityView from '@/features/student/activities/views/ActivityView/ActivityView.vue'
 import StudentDeclaredSkillView from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/StudentDeclaredSkillView.vue'
 import StudentUpdateDeclaredSkillView from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/StudentUpdateDeclaredSkillView.vue'
 import StudentBuildProjectView from '@/features/student/global/views/StudentBuildProjectView/StudentBuildProjectView.vue'
 import {
+  studentToolsKitActivitiesRoute,
+  studentToolsKitActivityRoute,
   studentToolsKitBuildProjectRoute,
   studentToolsKitDeclaredProgramRoute,
   studentToolsKitExperienceRoute,
@@ -70,6 +74,26 @@ testRoute(
     meta: { breadcrumb: BASE_BREADCRUMBS.STUDENT.TOOLS.KIT.SKILLS },
   },
   StudentUpdateDeclaredSkillView
+)
+
+testRoute(
+  studentToolsKitActivitiesRoute,
+  {
+    path: 'tools/kit/activities',
+    name: 'student-tools-kit-activities',
+    meta: { breadcrumb: BASE_BREADCRUMBS.STUDENT.TOOLS.KIT.ACTIVITIES },
+  },
+  ActivitiesView
+)
+
+testRoute(
+  studentToolsKitActivityRoute,
+  {
+    path: 'tools/kit/activity/:id',
+    name: 'student-tools-kit-activity',
+    meta: { breadcrumb: BASE_BREADCRUMBS.STUDENT.TOOLS.KIT.ACTIVITIES },
+  },
+  ActivityView
 )
 
 testRoute(

@@ -115,6 +115,21 @@ export const libraryActivitiesErrorHandler = http.get(`*${getGetDeclaredActiviti
   )
 })
 
+export function createDeclaredActivitiesViewHandler (
+  customPayload: PagedResponseDeclaredActivityViewDTO,
+  onRequest?: (searchParams: URLSearchParams) => void
+) {
+  return http.get(`*${getGetDeclaredActivitiesViewUrl()}`, async ({ request }) => {
+    const searchParams = new URL(request.url).searchParams
+    onRequest?.(searchParams)
+
+    return HttpResponse.json<PagedResponseDeclaredActivityViewDTO>(customPayload, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    })
+  })
+}
+
 export const largeLibraryActivitiesHandler = http.get(`*${getGetDeclaredActivitiesViewUrl()}`, ({ request }) => {
   const url = new URL(request.url)
   const page = Number.parseInt(url.searchParams.get('page') ?? '0')

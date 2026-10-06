@@ -2883,6 +2883,14 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "isValorized",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
@@ -3333,6 +3341,40 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ActivityDashboardDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/activities/{activityId}/dashboard/inactive-students": {
+      "get": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "getActivityInactiveStudents",
+        "parameters": [
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InactiveStudentDTO"
+                  }
                 }
               }
             }
@@ -5985,6 +6027,9 @@
           },
           "isValorized": {
             "type": "boolean"
+          },
+          "isLink": {
+            "type": "boolean"
           }
         }
       },
@@ -7859,6 +7904,26 @@
           "inactiveStudentsLast30Days",
           "uniqueStudentViews",
           "unsubscriptionsLast30Days"
+        ]
+      },
+      "InactiveStudentDTO": {
+        "type": "object",
+        "properties": {
+          "student": {
+            "$ref": "#/components/schemas/StudentInfoDTO"
+          },
+          "enrolledAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastViewedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "enrolledAt",
+          "student"
         ]
       },
       "ActivityFeedbacksPreviewDTO": {

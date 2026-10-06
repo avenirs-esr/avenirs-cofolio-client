@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import KitTextContentTab from '@/features/student/kit/views/StudentToolsKitView/components/KitTextContentTab/KitTextContentTab.vue'
+import { ValorizedActivitiesContainerStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedActivitiesContainer/ValorizedActivitiesContainer.stub'
 import { ValorizedDeclaredExperiencesContainerStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperiencesContainer/ValorizedDeclaredExperiencesContainer.stub'
 import { ValorizedDeclaredProgramsContainerStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredProgramsContainer/ValorizedDeclaredProgramsContainer.stub'
 import { ValorizedDeclaredSkillsContainerStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredSkillsContainer/ValorizedDeclaredSkillsContainer.stub'
@@ -8,6 +9,7 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 
 const stubs = {
+  ValorizedActivitiesContainer: ValorizedActivitiesContainerStub,
   ValorizedDeclaredSkillsContainer: ValorizedDeclaredSkillsContainerStub,
   ValorizedDeclaredExperiencesContainer: ValorizedDeclaredExperiencesContainerStub,
   ValorizedDeclaredProgramsContainer: ValorizedDeclaredProgramsContainerStub,
@@ -36,6 +38,10 @@ BddTest().given('a kit text content tab', () => {
 
     BddTest().then('it should render the valorized declared programs container', () => {
       expect(wrapper.findComponent(ValorizedDeclaredProgramsContainerStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the valorized activities container', () => {
+      expect(wrapper.findComponent(ValorizedActivitiesContainerStub).exists()).toBe(true)
     })
 
     BddTest().then('it should render the interests self knowledge container then the other information one', () => {

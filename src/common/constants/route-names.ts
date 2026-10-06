@@ -54,6 +54,8 @@ export const ROUTES = {
     },
     SKILLS: { name: 'student-skills', path: 'skills' },
     TOOLS_KIT: { name: 'student-tools-kit', path: 'tools/kit' },
+    TOOLS_KIT_ACTIVITIES: { name: 'student-tools-kit-activities', path: 'tools/kit/activities' },
+    TOOLS_KIT_ACTIVITY: { name: 'student-tools-kit-activity', path: 'tools/kit/activity/:id' },
     TOOLS_KIT_BUILD_PROJECT: { name: 'student-tools-kit-build-project', path: 'tools/kit/build-project' },
     TOOLS_KIT_DECLARED_PROGRAM: { name: 'student-tools-kit-declared-program', path: 'tools/kit/declared-program/:id' },
     TOOLS_KIT_DECLARED_PROGRAMS: { name: 'student-tools-kit-declared-programs', path: 'tools/kit/declared-programs' },
