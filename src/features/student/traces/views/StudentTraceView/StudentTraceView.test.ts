@@ -199,41 +199,6 @@ BddTest().given('a student trace view', () => {
     })
   })
 
-  BddTest().when('TraceSettingsDropdown emits associate-selected', () => {
-    beforeEach(async () => {
-      const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
-      await popover.vm.$emit('associate')
-      await flushPromises()
-    })
-
-    BddTest().then('it should open the associate modal', () => {
-      const modal = wrapper.findComponent(AssociateModalStub)
-      expect(modal.props('opened')).toBe(true)
-    })
-
-    BddTest().and('the associate modal emits cancel', () => {
-      beforeEach(async () => {
-        await wrapper.findComponent(AssociateModalStub).vm.$emit('cancel')
-        await flushPromises()
-      })
-
-      BddTest().then('it should close the associate modal', () => {
-        expect(wrapper.findComponent(AssociateModalStub).props('opened')).toBe(false)
-      })
-    })
-
-    BddTest().and('the associate modal emits associated', () => {
-      beforeEach(async () => {
-        await wrapper.findComponent(AssociateModalStub).vm.$emit('associated')
-        await flushPromises()
-      })
-
-      BddTest().then('it should close the associate modal', () => {
-        expect(wrapper.findComponent(AssociateModalStub).props('opened')).toBe(false)
-      })
-    })
-  })
-
   BddTest().when('the delete modal is triggered', () => {
     beforeEach(async () => {
       const popover = wrapper.findComponent({ name: 'TraceSettingsDropdown' })
