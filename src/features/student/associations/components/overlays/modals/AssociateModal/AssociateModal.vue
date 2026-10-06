@@ -75,7 +75,8 @@ const options = computed<AssociationOption[]>(() =>
     value: association.id,
     description: association.description,
     category: association.category,
-    disabled: association.disabled
+    disabled: association.disabled,
+    disabledTooltip: association.disabledTooltip
   }))
 )
 

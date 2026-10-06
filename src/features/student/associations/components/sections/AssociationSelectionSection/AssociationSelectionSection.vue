@@ -51,7 +51,8 @@ function toAutocompleteOption (association: Association): AvAutocompleteOption {
     value: association.id,
     label: association.title,
     description: association.description,
-    disabled: association.disabled
+    disabled: association.disabled,
+    disabledTooltip: association.disabledTooltip
   }
 }
 
