@@ -104,7 +104,7 @@ export const getActivityDashboardHandler = http.get(`*${getGetActivityDashboardU
   }
 
   const mockData = activityId === ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID
-    ? getMockedActivityDashboard(0, 0, 0)
+    ? getMockedActivityDashboard(0, 0, 0, 0)
     : mockedActivityDashboard
 
   return HttpResponse.json<ActivityDashboardDTO>(mockData, {

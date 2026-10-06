@@ -104,6 +104,7 @@
         "NationalActivityCatalogView": {
           "ActivityDashboardSection": {
             "enrolledStudents": "étudiant(e) inscrit(e) | étudiant(e)s inscrit(e)s",
+            "inactiveStudentsLast30Days": "inscrit(e) inactif(ve) depuis plus de 30 jours | inscrit(e)s inactif(ve)s depuis plus de 30 jours",
             "notPublished": "Cette activité est un brouillon. Les chiffres clés ne sont disponibles que depuis des activités publiées.",
             "title": "Tableau de bord",
             "uniqueStudentViews": "étudiant(e) ayant consulté l'activité | étudiant(e)s ayant consulté l'activité",

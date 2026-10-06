@@ -23,6 +23,13 @@ BddTest().given('an ActivityDashboardSection component', () => {
     global: { stubs },
   })
 
+  const getDashboardSection = () => wrapper.findComponent(DashboardSectionStub)
+  const getDashboardCards = () => wrapper.findAllComponents(DashboardCardStub)
+  const getUniqueStudentViewsDashboardCard = () => getDashboardCards()[0]
+  const getEnrolledStudentsDashboardCard = () => getDashboardCards()[1]
+  const getUnsubscriptionsDashboardCard = () => getDashboardCards()[2]
+  const getInactiveStudentsDashboardCard = () => getDashboardCards()[3]
+
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -34,41 +41,45 @@ BddTest().given('an ActivityDashboardSection component', () => {
     })
 
     BddTest().then('it should render DashboardSection with the expected title', () => {
-      const section = wrapper.findComponent(DashboardSectionStub)
-      expect(section.exists()).toBe(true)
-      expect(section.props('title')).toBe('Tableau de bord')
+      expect(getDashboardSection().exists()).toBe(true)
+      expect(getDashboardSection().props('title')).toBe('Tableau de bord')
     })
 
     BddTest().then('it should pass correct loading and error states to DashboardSection', () => {
-      const section = wrapper.findComponent(DashboardSectionStub)
-      expect(section.props('isLoading')).toBe(false)
-      expect(section.props('error')).toBeNull()
+      expect(getDashboardSection().props('isLoading')).toBe(false)
+      expect(getDashboardSection().props('error')).toBeNull()
     })
 
     BddTest().then('it should not flag the section as empty', () => {
-      expect(wrapper.findComponent(DashboardSectionStub).props('isEmpty')).toBe(false)
+      expect(getDashboardSection().props('isEmpty')).toBe(false)
     })
 
-    BddTest().then('it should render three DashboardCard components', () => {
-      expect(wrapper.findAllComponents(DashboardCardStub)).toHaveLength(3)
+    BddTest().then('it should render four DashboardCard components', () => {
+      expect(getDashboardCards()).toHaveLength(4)
     })
 
     BddTest().then('it should pass the unique student views to the first card', () => {
-      const card = wrapper.findAllComponents(DashboardCardStub)[0]
+      const card = getUniqueStudentViewsDashboardCard()
       expect(card.props('value')).toBe(`${mockedActivityDashboard.uniqueStudentViews}`)
       expect(card.props('label')).toBe('étudiant(e)s ayant consulté l\'activité')
     })
 
     BddTest().then('it should pass the enrolled students to the second card', () => {
-      const card = wrapper.findAllComponents(DashboardCardStub)[1]
+      const card = getEnrolledStudentsDashboardCard()
       expect(card.props('value')).toBe(`${mockedActivityDashboard.enrolledStudents}`)
       expect(card.props('label')).toBe('étudiant(e)s inscrit(e)s')
     })
 
     BddTest().then('it should pass the unsubscriptions of the last 30 days to the third card', () => {
-      const card = wrapper.findAllComponents(DashboardCardStub)[2]
+      const card = getUnsubscriptionsDashboardCard()
       expect(card.props('value')).toBe(`${mockedActivityDashboard.unsubscriptionsLast30Days}`)
       expect(card.props('label')).toBe('désinscriptions sur les 30 derniers jours')
+    })
+
+    BddTest().then('it should pass the inactive students of the last 30 days to the fourth card', () => {
+      const card = getInactiveStudentsDashboardCard()
+      expect(card.props('value')).toBe(`${mockedActivityDashboard.inactiveStudentsLast30Days}`)
+      expect(card.props('label')).toBe('inscrit(e)s inactif(ve)s depuis plus de 30 jours')
     })
   })
 
@@ -79,8 +90,7 @@ BddTest().given('an ActivityDashboardSection component', () => {
     })
 
     BddTest().then('it should render the dashboard values returned by the API', () => {
-      const cards = wrapper.findAllComponents(DashboardCardStub)
-      expect(cards.map(card => card.props('value'))).toEqual(['0', '0', '0'])
+      expect(getDashboardCards().map(card => card.props('value'))).toEqual(['0', '0', '0', '0'])
     })
   })
 
@@ -91,19 +101,17 @@ BddTest().given('an ActivityDashboardSection component', () => {
     })
 
     BddTest().then('it should flag the section as empty with the not published message', () => {
-      const section = wrapper.findComponent(DashboardSectionStub)
-      expect(section.props('isEmpty')).toBe(true)
-      expect(section.props('emptyStateMessage')).toBe('Cette activité est un brouillon. Les chiffres clés ne sont disponibles que depuis des activités publiées.')
+      expect(getDashboardSection().props('isEmpty')).toBe(true)
+      expect(getDashboardSection().props('emptyStateMessage')).toBe('Cette activité est un brouillon. Les chiffres clés ne sont disponibles que depuis des activités publiées.')
     })
 
     BddTest().then('it should not render dashboard cards', () => {
-      expect(wrapper.findAllComponents(DashboardCardStub)).toHaveLength(0)
+      expect(getDashboardCards()).toHaveLength(0)
     })
 
     BddTest().then('it should not be loading nor in error', () => {
-      const section = wrapper.findComponent(DashboardSectionStub)
-      expect(section.props('isLoading')).toBe(false)
-      expect(section.props('error')).toBeNull()
+      expect(getDashboardSection().props('isLoading')).toBe(false)
+      expect(getDashboardSection().props('error')).toBeNull()
     })
   })
 
@@ -114,9 +122,8 @@ BddTest().given('an ActivityDashboardSection component', () => {
     })
 
     BddTest().then('it should fallback dashboard values to zero', () => {
-      const cards = wrapper.findAllComponents(DashboardCardStub)
-      expect(cards).toHaveLength(3)
-      expect(cards.map(card => card.props('value'))).toEqual(['0', '0', '0'])
+      expect(getDashboardCards()).toHaveLength(4)
+      expect(getDashboardCards().map(card => card.props('value'))).toEqual(['0', '0', '0', '0'])
     })
   })
 
@@ -127,13 +134,12 @@ BddTest().given('an ActivityDashboardSection component', () => {
     })
 
     BddTest().then('it should pass an error to DashboardSection', () => {
-      const section = wrapper.findComponent(DashboardSectionStub)
-      expect(section.props('isLoading')).toBe(false)
-      expect(section.props('error')).toBeTruthy()
+      expect(getDashboardSection().props('isLoading')).toBe(false)
+      expect(getDashboardSection().props('error')).toBeTruthy()
     })
 
     BddTest().then('it should not render dashboard cards in error state', () => {
-      expect(wrapper.findAllComponents(DashboardCardStub)).toHaveLength(0)
+      expect(getDashboardCards()).toHaveLength(0)
     })
   })
 })
