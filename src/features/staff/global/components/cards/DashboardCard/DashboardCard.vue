@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Slot } from 'vue'
 import { AvCard, AvIcon } from '@avenirs-esr/avenirs-dsav'
 
 export interface DashboardCardProps {
@@ -8,6 +9,10 @@ export interface DashboardCardProps {
 }
 
 defineProps<DashboardCardProps>()
+
+const slots = defineSlots<{
+  footer?: Slot
+}>()
 </script>
 
 <template>
@@ -40,6 +45,18 @@ defineProps<DashboardCardProps>()
         >
           {{ label }}
         </span>
+      </div>
+    </template>
+
+    <template
+      v-if="slots.footer"
+      #footer
+    >
+      <div
+        class="av-row av-justify-end"
+        data-testid="dashboard-card-footer"
+      >
+        <slot name="footer" />
       </div>
     </template>
   </AvCard>

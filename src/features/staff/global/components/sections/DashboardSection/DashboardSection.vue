@@ -22,8 +22,9 @@ const {
   error = null
 } = defineProps<DashboardSectionProps>()
 
-defineSlots<{
+const slots = defineSlots<{
   default?: Slot
+  details?: Slot
 }>()
 </script>
 
@@ -39,8 +40,14 @@ defineSlots<{
       :empty-state-message="emptyStateMessage"
       :error="error"
     >
-      <div class="av-row av-wrap av-w-full av-gap-sm">
-        <slot />
+      <div class="av-col av-w-full av-gap-md">
+        <div class="av-row av-wrap av-w-full av-gap-sm">
+          <slot />
+        </div>
+        <slot
+          v-if="slots.details"
+          name="details"
+        />
       </div>
     </QuerySuspense>
   </IconTitleCardContainer>

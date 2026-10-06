@@ -41,5 +41,24 @@ BddTest().given('a dashboard card', () => {
     BddTest().then('it should render the label', () => {
       expect(wrapper.find('[data-testid="dashboard-card-label"]').text()).toBe(props.label)
     })
+
+    BddTest().then('it should not render the footer', () => {
+      expect(wrapper.find('[data-testid="dashboard-card-footer"]').exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with a footer slot', () => {
+    beforeEach(() => {
+      wrapper = mount(DashboardCard, {
+        props,
+        slots: { footer: '<button data-testid="footer-content">Voir le détail</button>' },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the footer content', () => {
+      expect(wrapper.find('[data-testid="dashboard-card-footer"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="footer-content"]').exists()).toBe(true)
+    })
   })
 })

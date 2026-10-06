@@ -6,6 +6,7 @@ import type {
   ActivityStaffOverviewDTO,
   AuthorDTO,
   FileDTO,
+  InactiveStudentDTO,
   PagedResponseActivityStaffOverviewDTO
 } from '@/api/avenir-esr'
 import { EActivityStatus, EActivityThematic, EFileType } from '@/api/avenir-esr'
@@ -279,3 +280,35 @@ export function getMockedActivityDashboard (
 }
 
 export const mockedActivityDashboard = getMockedActivityDashboard(128, 42, 3, 23)
+
+export const mockedInactiveStudents: InactiveStudentDTO[] = [
+  {
+    student: {
+      id: 'f1b9c6d2-8a47-4e31-9c25-7d0a3e5b1f84',
+      firstName: 'Camille',
+      lastName: 'Fontaine',
+      email: 'camille.fontaine@exemple.fr',
+    },
+    enrolledAt: '2026-01-12T09:15:00Z',
+    lastViewedAt: '2026-04-30T14:20:00Z',
+  },
+  {
+    student: {
+      id: '0d3a7e91-5c62-4b88-a1f4-9e2c6b7d0a35',
+      firstName: 'Hugo',
+      lastName: 'Berger',
+      email: 'hugo.berger@exemple.fr',
+    },
+    enrolledAt: '2026-02-03T10:45:00Z',
+    lastViewedAt: '2026-05-18T08:05:00Z',
+  },
+  {
+    student: {
+      id: '6b2f4c08-9d13-47ae-85c7-3a1e0f9b6d42',
+      firstName: 'Sarah',
+      lastName: 'Lemoine',
+      email: 'sarah.lemoine@exemple.fr',
+    },
+    enrolledAt: '2026-03-21T16:30:00Z',
+  },
+]

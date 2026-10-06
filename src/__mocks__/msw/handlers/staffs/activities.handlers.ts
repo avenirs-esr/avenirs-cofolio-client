@@ -8,6 +8,7 @@ import type {
   CreationResponse,
   EFeedbackStatus,
   FileDTO,
+  InactiveStudentDTO,
   PagedResponseActivityFeedbacksPreviewDTO,
   PagedResponseActivityStaffOverviewDTO
 } from '@/api/avenir-esr'
@@ -23,7 +24,8 @@ import {
   mockedActivityContentWithoutEnrolledStudent,
   mockedActivityDashboard,
   mockedActivityDraftCreationResponse,
-  mockedActivityDraftUpdateResponse
+  mockedActivityDraftUpdateResponse,
+  mockedInactiveStudents
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
@@ -38,6 +40,7 @@ import {
   getGetActivitiesWithFeedbacksUrl,
   getGetActivityContentUrl,
   getGetActivityDashboardUrl,
+  getGetActivityInactiveStudentsUrl,
   getGetActivityPresentationUrl,
   getGetStaffActivityLibraryUrl,
   getGetStaffActivityWorkingSpaceUrl,
@@ -108,6 +111,26 @@ export const getActivityDashboardHandler = http.get(`*${getGetActivityDashboardU
     : mockedActivityDashboard
 
   return HttpResponse.json<ActivityDashboardDTO>(mockData, {
+    status: HttpStatusCode.OK,
+    headers: { 'Content-Type': 'application/json' },
+  })
+})
+
+export const getActivityInactiveStudentsHandler = http.get(`*${getGetActivityInactiveStudentsUrl(':activityId')}`, ({ params }) => {
+  const { activityId } = params
+
+  if (activityId === 'INVALID_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
+      { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  const mockData = activityId === ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID
+    ? []
+    : mockedInactiveStudents
+
+  return HttpResponse.json<InactiveStudentDTO[]>(mockData, {
     status: HttpStatusCode.OK,
     headers: { 'Content-Type': 'application/json' },
   })
@@ -237,6 +260,7 @@ export const staffCreateDraftFromActivityUrl = http.post(
 
 export const staffsActivitiesHandlers = [
   getActivityDashboardHandler,
+  getActivityInactiveStudentsHandler,
   http.get(
     `*${getGetActivityContentUrl(':status' as EActivityStatus, ':activityId')}`,
     ({ request }) => {

@@ -104,8 +104,10 @@
         "NationalActivityCatalogView": {
           "ActivityDashboardSection": {
             "enrolledStudents": "enrolled student | enrolled students",
+            "hideDetails": "Hide details",
             "inactiveStudentsLast30Days": "enrolled student inactive for more than 30 days | enrolled students inactive for more than 30 days",
             "notPublished": "This activity is a draft. Key figures are only available from published activities.",
+            "seeDetails": "See details",
             "title": "Dashboard",
             "uniqueStudentViews": "student who viewed the activity | students who viewed the activity",
             "unsubscriptionsLast30Days": "unsubscription in the last 30 days | unsubscriptions in the last 30 days"
@@ -115,6 +117,13 @@
           },
           "errors": {
             "fetchActivityContent": "Unable to load activity"
+          },
+          "InactiveStudentsDetailsCard": {
+            "empty": "No enrolled student inactive for more than 30 days",
+            "enrolledAt": "enrolled on {date}",
+            "lastViewedAt": "last activity on {date}",
+            "neverViewed": "no activity",
+            "title": "Enrolled students inactive for more than 30 days ({count})"
           },
           "NationalActivityCatalogPreviewTab": {
             "errors": {

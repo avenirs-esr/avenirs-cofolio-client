@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { EActivityStatus, useGetActivityDashboard } from '@/api/avenir-esr'
+import InactiveStudentsDetailsCard
+  from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/components/InactiveStudentsDetailsCard/InactiveStudentsDetailsCard.vue'
 import DashboardCard from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'
 import DashboardSection from '@/features/staff/global/components/sections/DashboardSection/DashboardSection.vue'
-import { CUIDA_ICONS, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, CUIDA_ICONS, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface ActivityDashboardSectionProps {
@@ -16,11 +18,21 @@ const { t } = useI18n()
 
 const isDraft = computed(() => status === EActivityStatus.DRAFT)
 
+const inactiveStudentsDetailsShown = ref(false)
+
 const { data: activityDashboard, isLoading, error } = useGetActivityDashboard(computed(() => activityId), {
   query: {
     enabled: computed(() => !!activityId && !isDraft.value),
   },
 })
+
+const inactiveStudentsDetailsLabel = computed(() => inactiveStudentsDetailsShown.value
+  ? t('staff.activities.views.NationalActivityCatalogView.ActivityDashboardSection.hideDetails')
+  : t('staff.activities.views.NationalActivityCatalogView.ActivityDashboardSection.seeDetails'))
+
+function toggleInactiveStudentsDetails (): void {
+  inactiveStudentsDetailsShown.value = !inactiveStudentsDetailsShown.value
+}
 </script>
 
 <template>
@@ -55,6 +67,24 @@ const { data: activityDashboard, isLoading, error } = useGetActivityDashboard(co
       :icon="MDI_ICONS.CALENDAR_CLOCK_OUTLINE"
       :value="`${activityDashboard?.inactiveStudentsLast30Days ?? 0}`"
       data-testid="inactive-students-last-30-days-dashboard-card"
-    />
+    >
+      <template #footer>
+        <AvButton
+          variant="OUTLINED"
+          size="SM"
+          :icon="CUIDA_ICONS.VISIBILITY_ON_OUTLINE"
+          :label="inactiveStudentsDetailsLabel"
+          data-testid="inactive-students-see-details-button"
+          @click="toggleInactiveStudentsDetails"
+        />
+      </template>
+    </DashboardCard>
+
+    <template #details>
+      <InactiveStudentsDetailsCard
+        v-if="inactiveStudentsDetailsShown"
+        :activity-id="activityId"
+      />
+    </template>
   </DashboardSection>
 </template>

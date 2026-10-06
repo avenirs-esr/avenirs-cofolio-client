@@ -3,9 +3,11 @@ import { ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID, mockedActivityContent, mockedAct
 import { EActivityStatus } from '@/api/avenir-esr'
 import ActivityDashboardSection
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/ActivityDashboardSection.vue'
+import { InactiveStudentsDetailsCardStub }
+  from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/components/InactiveStudentsDetailsCard/InactiveStudentsDetailsCard.stub'
 import { DashboardCardStub } from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.stub'
 import { DashboardSectionStub } from '@/features/staff/global/components/sections/DashboardSection/DashboardSection.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
@@ -14,8 +16,10 @@ BddTest().given('an ActivityDashboardSection component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityDashboardSection>>
 
   const stubs = {
+    AvButton: AvButtonStub,
     DashboardSection: DashboardSectionStub,
     DashboardCard: DashboardCardStub,
+    InactiveStudentsDetailsCard: InactiveStudentsDetailsCardStub,
   }
 
   const mountSection = (activityId: string, status = EActivityStatus.PUBLISHED) => mountComponent(ActivityDashboardSection, {
@@ -29,6 +33,8 @@ BddTest().given('an ActivityDashboardSection component', () => {
   const getEnrolledStudentsDashboardCard = () => getDashboardCards()[1]
   const getUnsubscriptionsDashboardCard = () => getDashboardCards()[2]
   const getInactiveStudentsDashboardCard = () => getDashboardCards()[3]
+  const getSeeDetailsButton = () => getInactiveStudentsDashboardCard().findComponent(AvButtonStub)
+  const getInactiveStudentsDetailsCard = () => wrapper.findComponent(InactiveStudentsDetailsCardStub)
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -80,6 +86,44 @@ BddTest().given('an ActivityDashboardSection component', () => {
       const card = getInactiveStudentsDashboardCard()
       expect(card.props('value')).toBe(`${mockedActivityDashboard.inactiveStudentsLast30Days}`)
       expect(card.props('label')).toBe('inscrit(e)s inactif(ve)s depuis plus de 30 jours')
+    })
+  })
+
+  BddTest().when('the see details button of the inactive students card is clicked', () => {
+    beforeEach(async () => {
+      wrapper = mountSection(mockedActivityContent.id)
+      await flushPromises()
+    })
+
+    BddTest().then('it should render the see details button in the footer of the inactive students card only', () => {
+      expect(getSeeDetailsButton().exists()).toBe(true)
+      expect(getSeeDetailsButton().props('label')).toBe('Voir le détail')
+      expect(wrapper.findAllComponents(AvButtonStub)).toHaveLength(1)
+    })
+
+    BddTest().then('it should not render the inactive students details card by default', () => {
+      expect(getInactiveStudentsDetailsCard().exists()).toBe(false)
+    })
+
+    BddTest().then('it should render the inactive students details card on click', async () => {
+      await getSeeDetailsButton().trigger('click')
+
+      expect(getInactiveStudentsDetailsCard().exists()).toBe(true)
+      expect(getInactiveStudentsDetailsCard().props('activityId')).toBe(mockedActivityContent.id)
+    })
+
+    BddTest().then('it should switch the button label once the details are shown', async () => {
+      await getSeeDetailsButton().trigger('click')
+
+      expect(getSeeDetailsButton().props('label')).toBe('Cacher le détail')
+    })
+
+    BddTest().then('it should hide the inactive students details card on a second click', async () => {
+      await getSeeDetailsButton().trigger('click')
+      await getSeeDetailsButton().trigger('click')
+
+      expect(getInactiveStudentsDetailsCard().exists()).toBe(false)
+      expect(getSeeDetailsButton().props('label')).toBe('Voir le détail')
     })
   })
 

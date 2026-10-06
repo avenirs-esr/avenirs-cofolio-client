@@ -104,8 +104,10 @@
         "NationalActivityCatalogView": {
           "ActivityDashboardSection": {
             "enrolledStudents": "étudiant(e) inscrit(e) | étudiant(e)s inscrit(e)s",
+            "hideDetails": "Cacher le détail",
             "inactiveStudentsLast30Days": "inscrit(e) inactif(ve) depuis plus de 30 jours | inscrit(e)s inactif(ve)s depuis plus de 30 jours",
             "notPublished": "Cette activité est un brouillon. Les chiffres clés ne sont disponibles que depuis des activités publiées.",
+            "seeDetails": "Voir le détail",
             "title": "Tableau de bord",
             "uniqueStudentViews": "étudiant(e) ayant consulté l'activité | étudiant(e)s ayant consulté l'activité",
             "unsubscriptionsLast30Days": "désinscription sur les 30 derniers jours | désinscriptions sur les 30 derniers jours"
@@ -115,6 +117,13 @@
           },
           "errors": {
             "fetchActivityContent": "Impossible de charger l'activité"
+          },
+          "InactiveStudentsDetailsCard": {
+            "empty": "Aucun(e) inscrit(e) inactif(ve) depuis plus de 30 jours",
+            "enrolledAt": "inscrit(e) le {date}",
+            "lastViewedAt": "dernière activité le {date}",
+            "neverViewed": "aucune activité",
+            "title": "Inscrit(e)s inactif(ve)s depuis plus de 30 jours ({count})"
           },
           "NationalActivityCatalogPreviewTab": {
             "errors": {
