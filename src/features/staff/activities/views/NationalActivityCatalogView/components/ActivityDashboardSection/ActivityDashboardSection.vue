@@ -50,5 +50,11 @@ const { data: activityDashboard, isLoading, error } = useGetActivityDashboard(co
       :value="`${activityDashboard?.unsubscriptionsLast30Days ?? 0}`"
       data-testid="unsubscriptions-last-30-days-dashboard-card"
     />
+    <DashboardCard
+      :label="t('staff.activities.views.NationalActivityCatalogView.ActivityDashboardSection.inactiveStudentsLast30Days', { count: activityDashboard?.inactiveStudentsLast30Days ?? 0 })"
+      :icon="MDI_ICONS.CALENDAR_CLOCK_OUTLINE"
+      :value="`${activityDashboard?.inactiveStudentsLast30Days ?? 0}`"
+      data-testid="inactive-students-last-30-days-dashboard-card"
+    />
   </DashboardSection>
 </template>

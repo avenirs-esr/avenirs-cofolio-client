@@ -7848,10 +7848,15 @@
           "unsubscriptionsLast30Days": {
             "type": "integer",
             "format": "int32"
+          },
+          "inactiveStudentsLast30Days": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "required": [
           "enrolledStudents",
+          "inactiveStudentsLast30Days",
           "uniqueStudentViews",
           "unsubscriptionsLast30Days"
         ]

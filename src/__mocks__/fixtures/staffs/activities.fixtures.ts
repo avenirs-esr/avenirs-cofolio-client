@@ -272,9 +272,10 @@ export function createMockedBannerUploadResponse (activityId: string, file: File
 export function getMockedActivityDashboard (
   uniqueStudentViews: number,
   enrolledStudents: number,
-  unsubscriptionsLast30Days: number
+  unsubscriptionsLast30Days: number,
+  inactiveStudentsLast30Days: number
 ): ActivityDashboardDTO {
-  return { uniqueStudentViews, enrolledStudents, unsubscriptionsLast30Days }
+  return { uniqueStudentViews, enrolledStudents, unsubscriptionsLast30Days, inactiveStudentsLast30Days }
 }
 
-export const mockedActivityDashboard = getMockedActivityDashboard(128, 42, 3)
+export const mockedActivityDashboard = getMockedActivityDashboard(128, 42, 3, 23)
