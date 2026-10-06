@@ -357,6 +357,4 @@ src/api/**/generated/
 !src/api/fetch-instance/
 !src/api/index.ts
 
-storybook-static/
-
 .github/agents/

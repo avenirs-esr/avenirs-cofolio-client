@@ -14,12 +14,14 @@ export default ({ mode }: { mode: string }) => {
     'src/bootstrap.ts',
     'src/main.ts',
     'src/features/**/index.ts',
-    'src/api/**/generated/*',
+    'src/api/**/generated/**',
+    '**/*.d.ts',
+    '**/*.fixtures.ts',
+    '**/*.handlers.ts',
     'orval.config.ts',
     'src/App.vue',
     'public/mockServiceWorker.js',
     'src/__mocks__/*',
-    'storybook-static/*',
   ]
 
   // TODO: temporary exclusions due to use of @avenirs-esr/avenirs-dsav
@@ -47,6 +49,7 @@ export default ({ mode }: { mode: string }) => {
         coverage: {
           provider: 'v8',
           reporter: ['text', 'html'],
+          include: ['src/**/*.{ts,vue}'],
           exclude: [...coverageConfigDefaults.exclude, ...sharedExclusions, ...tempExclusions],
           thresholds: {
             branches: COVERAGE_THRESHOLD,

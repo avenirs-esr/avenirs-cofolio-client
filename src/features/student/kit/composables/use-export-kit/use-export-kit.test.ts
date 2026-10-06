@@ -1,3 +1,4 @@
+import { createDocumentMock } from '@/common/utils/docx/test-utils'
 import { downloadBlob } from '@/common/utils/download/download'
 import { useGenerateActivitiesSection } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-activities-section'
 import { useGenerateExperiencesSections } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-experiences-sections'
@@ -43,7 +44,7 @@ vi.mock('docx', async () => {
 
   return {
     ...actual,
-    Document: vi.fn(),
+    Document: vi.fn(createDocumentMock),
     Packer: {
       toBlob: vi.fn(),
     },
@@ -88,8 +89,6 @@ BddTest().given('a useExportKit composable', () => {
       selfKnowledgeSections: computed(() => selfKnowledgeSections),
       isLoading: ref(false),
     })
-
-    vi.mocked(Document).mockImplementation(() => ({}) as Document)
 
     vi.mocked(Packer.toBlob).mockResolvedValue(new Blob(['docx']))
 

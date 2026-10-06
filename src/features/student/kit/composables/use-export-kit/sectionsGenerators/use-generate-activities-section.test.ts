@@ -2,7 +2,7 @@ import type { PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
 import { mockedDeclaredActivitiesOverview } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createDeclaredActivitiesViewHandler, libraryActivitiesErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { MockHeadingLevel, type MockParagraph, type MockTextRun } from '@/common/utils/docx/test-utils'
+import { createParagraphMock, createTextRunMock, MockHeadingLevel, type MockParagraph, type MockTextRun } from '@/common/utils/docx/test-utils'
 import { useGenerateActivitiesSection } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-activities-section'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -10,15 +10,8 @@ import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('docx', () => ({
-  Paragraph: vi.fn((options): MockParagraph => ({
-    type: 'paragraph',
-    ...options,
-  })),
-  TextRun: vi.fn((options): MockTextRun => ({
-    type: 'text-run',
-    ...(typeof options === 'string' ? { text: options } : options),
-  })),
-
+  Paragraph: vi.fn(createParagraphMock),
+  TextRun: vi.fn(createTextRunMock),
   HeadingLevel: MockHeadingLevel,
 }))
 

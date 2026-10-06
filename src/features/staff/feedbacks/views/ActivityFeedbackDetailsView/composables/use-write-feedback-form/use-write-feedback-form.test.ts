@@ -1,5 +1,6 @@
 import type { FeedbackDetailsDTO, FileDTO } from '@/api/avenir-esr'
 import type { WriteFeedbackFormData } from '@/features/staff/feedbacks/types/forms.types'
+import type { Mock } from 'vitest'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedFeedbackAttachment, mockedFeedbackDetailsSeen } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import { server } from '@/__mocks__/msw/server'
@@ -52,8 +53,8 @@ vi.mock('@/common/utils/file/file', async () => {
 
 BddTest().given('a write feedback form', () => {
   let composableResult: ReturnType<typeof useWriteFeedbackForm>
-  let mockOnFeedbackSaved: ReturnType<typeof vi.fn>
-  let mockOnCancel: ReturnType<typeof vi.fn>
+  let mockOnFeedbackSaved: Mock<() => void>
+  let mockOnCancel: Mock<() => void>
   let setQueryDataSpy: ReturnType<typeof vi.spyOn>
   const remoteAttachment: FileDTO = mockedFeedbackAttachment
   const feedbackId = 'feedback-123'
@@ -413,7 +414,7 @@ BddTest().given('a write feedback form', () => {
           await vi.waitFor(() => {
             expect(setQueryDataSpy).toHaveBeenCalledTimes(1)
           })
-          setQueryDataSpy.mock.calls.forEach(([key, updater]) => {
+          setQueryDataSpy.mock.calls.forEach(([key, updater]: [unknown, unknown]) => {
             expectCacheUpdatedToSeen(key, updater)
           })
         })

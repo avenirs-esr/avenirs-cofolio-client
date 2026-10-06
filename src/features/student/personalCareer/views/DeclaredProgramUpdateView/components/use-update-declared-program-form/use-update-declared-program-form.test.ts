@@ -1,5 +1,6 @@
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
 import type { DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
+import type { Mock } from 'vitest'
 import {
   DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH,
   DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH,
@@ -44,7 +45,7 @@ function createMockedDeclaredProgramDetailedDTO (
 
 BddTest().given('an update declared program form', () => {
   let composableResult: ReturnType<typeof useUpdateDeclaredProgramForm>
-  let mockOnProgramUpdated: ReturnType<typeof vi.fn>
+  let mockOnProgramUpdated: Mock<() => void>
 
   let declaredProgramDetailed: DeclaredProgramDetailedDTO
 

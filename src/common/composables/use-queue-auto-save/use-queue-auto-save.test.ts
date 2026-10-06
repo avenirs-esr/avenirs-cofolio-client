@@ -1,6 +1,6 @@
 import { useQueueAutoSave } from '@/common/composables/use-queue-auto-save/use-queue-auto-save'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
+import { beforeEach, expect, type Mock, vi } from 'vitest'
 
 interface TestData {
   title?: string
@@ -8,7 +8,7 @@ interface TestData {
 }
 
 BddTest().given('a useQueueAutoSave composable', () => {
-  let save: ReturnType<typeof vi.fn>
+  let save: Mock<(data?: TestData) => Promise<void>>
   let autoSave: ReturnType<typeof useQueueAutoSave<TestData>>
 
   beforeEach(() => {

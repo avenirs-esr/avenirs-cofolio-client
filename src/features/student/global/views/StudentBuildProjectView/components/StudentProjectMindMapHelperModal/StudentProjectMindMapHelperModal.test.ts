@@ -1,3 +1,4 @@
+import type { Mock } from 'vitest'
 import StudentProjectMindMapHelperModal
   from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectMindMapHelperModal/StudentProjectMindMapHelperModal.vue'
 import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
@@ -10,7 +11,7 @@ const stubs = {
 }
 
 BddTest().given('the modal is shown with content', () => {
-  let onClose: ReturnType<typeof vi.fn>
+  let onClose: Mock<() => void>
   let wrapper: VueWrapper
 
   beforeEach(() => {

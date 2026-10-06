@@ -1,14 +1,14 @@
 import { useInvalidateAllQueriesAfterLocaleChange, useInvalidateQuery } from '@/common/composables/use-invalidate-query/use-invalidate-query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useQueryClient } from '@tanstack/vue-query'
+import { type QueryClient, useQueryClient } from '@tanstack/vue-query'
 import { mountComposable } from 'tests/utils'
-import { expect, vi } from 'vitest'
+import { expect, type Mock, vi } from 'vitest'
 
 BddTest().given('an useInvalidateQuery composable', () => {
-  let mockInvalidateQueries: ReturnType<typeof vi.fn>
+  let mockInvalidateQueries: Mock<QueryClient['invalidateQueries']>
 
   beforeEach(() => {
-    mockInvalidateQueries = vi.fn().mockResolvedValue(undefined)
+    mockInvalidateQueries = vi.fn<QueryClient['invalidateQueries']>().mockResolvedValue(undefined)
   })
 
   BddTest().and('a queryKey is defined', () => {
@@ -88,7 +88,7 @@ BddTest().given('an useInvalidateQuery composable', () => {
 BddTest().given('an useInvalidateAllQueriesAfterLocaleChange composable', () => {
   BddTest().when('locale changes occurs', () => {
     BddTest().then('it should invalidate all queries', async () => {
-      const mockInvalidateQueries = vi.fn().mockResolvedValue(undefined)
+      const mockInvalidateQueries = vi.fn<QueryClient['invalidateQueries']>().mockResolvedValue(undefined)
       mountComposable(() => {
         const queryClient = useQueryClient()
         vi.spyOn(queryClient, 'invalidateQueries').mockImplementation(mockInvalidateQueries)
