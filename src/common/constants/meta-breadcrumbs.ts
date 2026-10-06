@@ -40,6 +40,14 @@ export const META_BREADCRUMBS = {
     TOOLS: {
       DEFAULT: { textKey: 'student.global.navigation.tabs.tools.header' },
       KIT: {
+        ACTIVITIES: {
+          textKey: 'student.global.navigation.tabs.activities',
+          to: {
+            name: ROUTES.STUDENT.TOOLS_KIT_ACTIVITIES.name,
+            path: ROUTES.STUDENT.TOOLS_KIT_ACTIVITIES.path,
+            query: { tab: 'ACTIVITY_LIBRARY' }
+          }
+        },
         BASE: { textKey: 'student.global.navigation.tabs.tools.items.kit', to: ROUTES.STUDENT.TOOLS_KIT },
         DECLARED_PROGRAMS: {
           textKey: 'student.personalCareer.views.PersonalCareerView.ProgramsSection.breadcrumb',
@@ -128,6 +136,10 @@ export const BASE_BREADCRUMBS = {
     SKILLS: [META_BREADCRUMBS.STUDENT.HOME, META_BREADCRUMBS.STUDENT.SKILLS],
     TOOLS: {
       KIT: {
+        ACTIVITIES: [
+          ...BASE_STUDENT_TOOLS_KIT_BREADCRUMBS,
+          META_BREADCRUMBS.STUDENT.TOOLS.KIT.ACTIVITIES,
+        ],
         BASE: [...BASE_STUDENT_TOOLS_KIT_BREADCRUMBS],
         BUILD_PROJECT: [...BASE_STUDENT_TOOLS_KIT_BUILD_PROJECT_BREADCRUMBS],
         PERSONAL_CAREER: {

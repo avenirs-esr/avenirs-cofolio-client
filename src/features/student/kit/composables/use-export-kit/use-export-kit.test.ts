@@ -1,4 +1,5 @@
 import { downloadBlob } from '@/common/utils/download/download'
+import { useGenerateActivitiesSection } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-activities-section'
 import { useGenerateExperiencesSections } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-experiences-sections'
 import { useGenerateProfileSection } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-profile-section'
 import { useGenerateProgramsSection } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-programs-section'
@@ -11,6 +12,10 @@ import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('@/common/utils/download/download', () => ({
   downloadBlob: vi.fn(),
+}))
+
+vi.mock('@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-activities-section', () => ({
+  useGenerateActivitiesSection: vi.fn(),
 }))
 
 vi.mock('@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-profile-section', () => ({
@@ -49,10 +54,16 @@ BddTest().given('a useExportKit composable', () => {
   const profileSection = [new Paragraph('profile')]
   const skillsSection = [new Paragraph('skills')]
   const experiencesSections = [new Paragraph('experiences')]
+  const activitiesSection = [new Paragraph('activities')]
   const programsSection = [new Paragraph('programs')]
   const selfKnowledgeSections = [new Paragraph('self-knowledge')]
 
   beforeEach(() => {
+    vi.mocked(useGenerateActivitiesSection).mockReturnValue({
+      activitiesSection: computed(() => activitiesSection),
+      isLoading: ref(false),
+    })
+
     vi.mocked(useGenerateProfileSection).mockReturnValue({
       profileSection: computed(() => profileSection),
       isLoading: ref(false),
@@ -97,6 +108,21 @@ BddTest().given('a useExportKit composable', () => {
     beforeEach(() => {
       vi.mocked(useGenerateSkillsSection).mockReturnValue({
         skillsSection: computed(() => skillsSection),
+        isLoading: ref(true),
+      })
+    })
+
+    BddTest().then('the kit should be loading', () => {
+      const { isLoading } = useExportKit()
+
+      expect(isLoading.value).toBe(true)
+    })
+  })
+
+  BddTest().when('the activities section is loading', () => {
+    beforeEach(() => {
+      vi.mocked(useGenerateActivitiesSection).mockReturnValue({
+        activitiesSection: computed(() => activitiesSection),
         isLoading: ref(true),
       })
     })
@@ -156,6 +182,7 @@ BddTest().given('a useExportKit composable', () => {
             ...profileSection,
             ...skillsSection,
             ...experiencesSections,
+            ...activitiesSection,
             ...programsSection,
             ...selfKnowledgeSections,
           ],

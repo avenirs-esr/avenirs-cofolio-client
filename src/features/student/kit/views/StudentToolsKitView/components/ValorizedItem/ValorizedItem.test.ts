@@ -111,7 +111,7 @@ BddTest().given('a ValorizedItem component', () => {
       const button = wrapper.findComponent(AvButtonStub)
       expect(button.exists()).toBe(true)
       expect(button.props('to')).toEqual({
-        name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
+        name: ROUTES.STUDENT.TOOLS_KIT_EXPERIENCE.name,
         params: { id: ITEM_ID },
       })
     })
@@ -127,7 +127,7 @@ BddTest().given('a ValorizedItem component', () => {
       const button = wrapper.findComponent(AvButtonStub)
       expect(button.exists()).toBe(true)
       expect(button.props('to')).toEqual({
-        name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
+        name: ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAM.name,
         params: { id: ITEM_ID },
       })
     })
@@ -143,7 +143,23 @@ BddTest().given('a ValorizedItem component', () => {
       const button = wrapper.findComponent(AvButtonStub)
       expect(button.exists()).toBe(true)
       expect(button.props('to')).toEqual({
-        name: ROUTES.STUDENT.DECLARED_SKILL.name,
+        name: ROUTES.STUDENT.TOOLS_KIT_SKILL.name,
+        params: { id: ITEM_ID },
+      })
+    })
+  })
+
+  BddTest().when('mounted with DECLARED_ACTIVITY type', () => {
+    beforeEach(async () => {
+      mountValorizedItem(ValorizedItemType.DECLARED_ACTIVITY)
+      await flushPromises()
+    })
+
+    BddTest().then('it should render the access button pointing to the kit activity route', () => {
+      const button = wrapper.findComponent(AvButtonStub)
+      expect(button.exists()).toBe(true)
+      expect(button.props('to')).toEqual({
+        name: ROUTES.STUDENT.TOOLS_KIT_ACTIVITY.name,
         params: { id: ITEM_ID },
       })
     })

@@ -1,4 +1,5 @@
 import { downloadBlob } from '@/common/utils/download/download'
+import { useGenerateActivitiesSection } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-activities-section'
 import { useGenerateExperiencesSections } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-experiences-sections'
 import { useGenerateProfileSection } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-profile-section'
 import { useGenerateProgramsSection } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-programs-section'
@@ -11,6 +12,7 @@ export function useExportKit () {
   const { profileSection, isLoading: isProfileSectionLoading } = useGenerateProfileSection()
   const { skillsSection, isLoading: isSkillsSectionLoading } = useGenerateSkillsSection()
   const { experiencesSections, isLoading: isExperiencesSectionsLoading } = useGenerateExperiencesSections()
+  const { activitiesSection, isLoading: isActivitiesSectionLoading } = useGenerateActivitiesSection()
   const { programsSection, isLoading: isProgramsSectionLoading } = useGenerateProgramsSection()
   const { selfKnowledgeSections, isLoading: isSelfKnowledgeSectionsLoading } = useGenerateSelfKnowledgeSections()
 
@@ -31,6 +33,7 @@ export function useExportKit () {
           ...profileSection.value,
           ...skillsSection.value,
           ...experiencesSections.value,
+          ...activitiesSection.value,
           ...programsSection.value,
           ...selfKnowledgeSections.value
         ]
@@ -44,6 +47,7 @@ export function useExportKit () {
   const isLoading = computed(() => isProfileSectionLoading.value
     || isSkillsSectionLoading.value
     || isExperiencesSectionsLoading.value
+    || isActivitiesSectionLoading.value
     || isProgramsSectionLoading.value
     || isSelfKnowledgeSectionsLoading.value)
 

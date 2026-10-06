@@ -4,6 +4,7 @@ import {
 } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
+import { ROUTES } from '@/common/constants'
 import {
   ActivityPeriodBadgeStub
 } from '@/features/student/activities/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.stub'
@@ -73,6 +74,14 @@ BddTest().given('an ActivityLibraryCard', () => {
       expect(floatingCard.props('title')).toBe(baseActivity.title)
     })
 
+    BddTest().then('it should link to the activity detail with its id and thematic', () => {
+      const routerLink = wrapper.findComponent(RouterLinkStub)
+      expect(routerLink.props('to')).toEqual({
+        name: ROUTES.STUDENT.ACTIVITY.name,
+        params: { id: baseActivity.id, thematic: baseActivity.thematic }
+      })
+    })
+
     BddTest().then('it should pass surface background color to FloatingIconCard', () => {
       expect(floatingCard.props('color')).toBe('var(--surface-background)')
     })
@@ -105,9 +114,10 @@ BddTest().given('an ActivityLibraryCard', () => {
       expect(wrapper.text()).toContain(baseActivity.summary)
     })
 
-    BddTest().then('it should not render ValorizedBadge when valorized is undefined', () => {
+    BddTest().then('it should pass undefined to ValorizedBadge when valorized is undefined', () => {
       const valorizedBadge = wrapper.findComponent(ValorizedBadgeStub)
-      expect(valorizedBadge.exists()).toBe(false)
+      expect(valorizedBadge.exists()).toBe(true)
+      expect(valorizedBadge.props('valorized')).toBeUndefined()
     })
   })
 
@@ -138,9 +148,10 @@ BddTest().given('an ActivityLibraryCard', () => {
       })
     })
 
-    BddTest().then('it should not render ValorizedBadge', () => {
+    BddTest().then('it should pass valorized false to ValorizedBadge', () => {
       const valorizedBadge = wrapper.findComponent(ValorizedBadgeStub)
-      expect(valorizedBadge.exists()).toBe(false)
+      expect(valorizedBadge.exists()).toBe(true)
+      expect(valorizedBadge.props('valorized')).toBe(false)
     })
   })
 

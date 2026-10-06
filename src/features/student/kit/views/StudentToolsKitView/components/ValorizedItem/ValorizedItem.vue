@@ -49,18 +49,23 @@ const to = computed(() => {
       }
     case ValorizedItemType.DECLARED_EXPERIENCE:
       return {
-        name: ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
+        name: ROUTES.STUDENT.TOOLS_KIT_EXPERIENCE.name,
         params: { id: itemId },
       }
     case ValorizedItemType.DECLARED_PROGRAM:
       return {
-        name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
+        name: ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAM.name,
         params: { id: itemId },
       }
     case ValorizedItemType.DECLARED_SKILL:
       return {
-        name: ROUTES.STUDENT.DECLARED_SKILL.name,
+        name: ROUTES.STUDENT.TOOLS_KIT_SKILL.name,
         params: { id: itemId },
+      }
+    case ValorizedItemType.DECLARED_ACTIVITY:
+      return {
+        name: ROUTES.STUDENT.TOOLS_KIT_ACTIVITY.name,
+        params: { id: itemId }
       }
     default:
       return undefined

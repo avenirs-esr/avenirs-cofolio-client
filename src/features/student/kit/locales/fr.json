@@ -9,6 +9,10 @@
       "composables": {
         "useExportKit": {
           "sections": {
+            "activities": {
+              "thematic": "Thématique de l'activité\u00A0: {thematic}",
+              "title": "Activités"
+            },
             "experiences": {
               "OTHER": {
                 "title": "Autres expériences"
@@ -75,6 +79,11 @@
           "traceValorizedItem": {
             "addedOn": "Ajoutée le {date}",
             "personalNote": "Ma note personnelle\u00A0: {note}"
+          },
+          "ValorizedActivitiesContainer": {
+            "emptyStateItemLabel": "une activité",
+            "seeAll": "Voir toutes mes activités",
+            "title": "Activité (1) | Activités ({count})"
           },
           "valorizedAssociatedTracesContainer": {
             "title": "Ma trace associée (1) | Mes traces associées ({count})"
