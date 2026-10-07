@@ -6,8 +6,8 @@ import { formatDateLocalized } from '@/common/utils/date/date'
 import { formatFileSizeInMegabytes } from '@/common/utils/file/file'
 import ValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.vue'
 import TraceAiProducedBadge from '@/features/student/traces/components/badges/TraceAiProducedBadge/TraceAiProducedBadge.vue'
+import TraceAttachmentTypeBadge from '@/features/student/traces/components/badges/TraceAttachmentTypeBadge/TraceAttachmentTypeBadge.vue'
 import TraceAuthorTypeBadge from '@/features/student/traces/components/badges/TraceAuthorTypeBadge/TraceAuthorTypeBadge.vue'
-import TraceFileTypeBadge from '@/features/student/traces/components/badges/TraceFileTypeBadge/TraceFileTypeBadge.vue'
 import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -41,10 +41,7 @@ const personalNote = computed(() => trace.personalNote
       <span class="b2-regular">
         {{ t('student.kit.views.StudentToolsKitView.traceValorizedItem.addedOn', { date: formattedCreatedAt }) }}<template v-if="trace.attachment"> • {{ formattedFileSize }} {{ t('global.megabyteUnit') }}</template>
       </span>
-      <TraceFileTypeBadge
-        v-if="trace.attachment"
-        :file-type="trace.attachment.fileType"
-      />
+      <TraceAttachmentTypeBadge :file-type="trace.attachment?.fileType" />
       <TraceAuthorTypeBadge
         v-if="trace.authorType"
         :author-type="trace.authorType"

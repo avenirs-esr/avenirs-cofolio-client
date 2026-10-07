@@ -1,18 +1,18 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { EFileType } from '@/api/avenir-esr'
-import TraceFileTypeBadge from '@/features/student/traces/components/badges/TraceFileTypeBadge/TraceFileTypeBadge.vue'
+import TraceAttachmentTypeBadge from '@/features/student/traces/components/badges/TraceAttachmentTypeBadge/TraceAttachmentTypeBadge.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 
-BddTest().given('a trace file type badge', () => {
-  let wrapper: VueWrapper<InstanceType<typeof TraceFileTypeBadge>>
+BddTest().given('a trace attachment type badge', () => {
+  let wrapper: VueWrapper<InstanceType<typeof TraceAttachmentTypeBadge>>
 
   const stubs = { AvBadge: AvBadgeStub }
 
   BddTest().when('the component is mounted with a PDF file type', () => {
     beforeEach(() => {
-      wrapper = mountComponent(TraceFileTypeBadge, {
+      wrapper = mountComponent(TraceAttachmentTypeBadge, {
         props: { fileType: EFileType.PDF },
         global: { stubs }
       })
@@ -37,7 +37,7 @@ BddTest().given('a trace file type badge', () => {
 
   BddTest().when('the component is mounted with a DOCX file type', () => {
     beforeEach(() => {
-      wrapper = mountComponent(TraceFileTypeBadge, {
+      wrapper = mountComponent(TraceAttachmentTypeBadge, {
         props: { fileType: EFileType.DOCX },
         global: { stubs }
       })
@@ -54,7 +54,7 @@ BddTest().given('a trace file type badge', () => {
 
   BddTest().when('the component is mounted with a PNG file type', () => {
     beforeEach(() => {
-      wrapper = mountComponent(TraceFileTypeBadge, {
+      wrapper = mountComponent(TraceAttachmentTypeBadge, {
         props: { fileType: EFileType.PNG },
         global: { stubs }
       })
@@ -66,6 +66,21 @@ BddTest().given('a trace file type badge', () => {
 
     BddTest().then('it should use the image icon', () => {
       expect(wrapper.findComponent(AvBadgeStub).props('icon')).toBe(MDI_ICONS.FILE_IMAGE_OUTLINE)
+    })
+  })
+
+  BddTest().when('the component is mounted without a file type', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(TraceAttachmentTypeBadge, {
+        props: { fileType: undefined },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the link badge', () => {
+      expect(wrapper.findComponent(AvBadgeStub).exists()).toBe(true)
+      expect(wrapper.findComponent(AvBadgeStub).props('label')).toBe('lien')
+      expect(wrapper.findComponent(AvBadgeStub).props('icon')).toBe(MDI_ICONS.LINK)
     })
   })
 })

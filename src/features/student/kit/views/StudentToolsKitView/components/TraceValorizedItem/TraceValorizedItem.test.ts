@@ -5,8 +5,8 @@ import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import TraceValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/TraceValorizedItem/TraceValorizedItem.vue'
 import { ValorizedItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.stub'
 import { TraceAiProducedBadgeStub } from '@/features/student/traces/components/badges/TraceAiProducedBadge/TraceAiProducedBadge.stub'
+import { TraceAttachmentTypeBadgeStub } from '@/features/student/traces/components/badges/TraceAttachmentTypeBadge/TraceAttachmentTypeBadge.stub'
 import { TraceAuthorTypeBadgeStub } from '@/features/student/traces/components/badges/TraceAuthorTypeBadge/TraceAuthorTypeBadge.stub'
-import { TraceFileTypeBadgeStub } from '@/features/student/traces/components/badges/TraceFileTypeBadge/TraceFileTypeBadge.stub'
 import { AvButtonStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -23,6 +23,7 @@ const BASE_TRACE: TraceViewDTO = {
   id: 'a985c67e-1ae0-4cc9-9ebd-b40fff4ee553',
   title: 'Ma trace de test',
   isAssociated: true,
+  valorized: false,
   createdAt: '2025-03-03T10:00:00.000Z',
   updatedAt: '2025-03-03T10:00:00.000Z',
   authorType: ETraceAuthorType.PERSONAL
@@ -36,7 +37,7 @@ BddTest().given('a trace valorized item', () => {
     AvButton: AvButtonStub,
     AvTooltip: AvTooltipStub,
     ValorizedItem: ValorizedItemStub,
-    TraceFileTypeBadge: TraceFileTypeBadgeStub,
+    TraceAttachmentTypeBadge: TraceAttachmentTypeBadgeStub,
     TraceAuthorTypeBadge: TraceAuthorTypeBadgeStub,
     TraceAiProducedBadge: TraceAiProducedBadgeStub,
   }
@@ -69,8 +70,8 @@ BddTest().given('a trace valorized item', () => {
       expect(wrapper.text()).toContain('Ajoutée le 03/03/2025')
     })
 
-    BddTest().then('it should not render the file type badge', () => {
-      expect(wrapper.findComponent(TraceFileTypeBadgeStub).exists()).toBe(false)
+    BddTest().then('it should still render the attachment type badge', () => {
+      expect(wrapper.findComponent(TraceAttachmentTypeBadgeStub).exists()).toBe(true)
     })
 
     BddTest().then('it should render the AI produced badge with aiProduced set to false', () => {
@@ -109,8 +110,8 @@ BddTest().given('a trace valorized item', () => {
       expect(wrapper.text()).toContain('2,4')
     })
 
-    BddTest().then('it should render the file type badge', () => {
-      expect(wrapper.findComponent(TraceFileTypeBadgeStub).exists()).toBe(true)
+    BddTest().then('it should render the attachment type badge', () => {
+      expect(wrapper.findComponent(TraceAttachmentTypeBadgeStub).exists()).toBe(true)
     })
 
     BddTest().then('it should render the author type badge', () => {

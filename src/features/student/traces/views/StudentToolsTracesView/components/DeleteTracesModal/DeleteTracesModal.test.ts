@@ -37,6 +37,7 @@ BddTest().given('a delete traces modal', () => {
       id: 'trace-1',
       title: 'Trace 1',
       isAssociated: false,
+      valorized: false,
       createdAt: '2026-06-15T10:00:00.000Z',
       updatedAt: '2026-06-15T10:00:00.000Z',
       authorType: ETraceAuthorType.PERSONAL
@@ -45,6 +46,7 @@ BddTest().given('a delete traces modal', () => {
       id: 'trace-2',
       title: 'Trace 2',
       isAssociated: true,
+      valorized: false,
       createdAt: '2026-06-15T10:00:00.000Z',
       updatedAt: '2026-06-15T10:00:00.000Z',
       authorType: ETraceAuthorType.PERSONAL
@@ -85,6 +87,7 @@ BddTest().given('a delete traces modal', () => {
         id: 'trace-1',
         title: 'Trace 1',
         isAssociated: false,
+        valorized: false,
         createdAt: '2026-06-15T10:00:00.000Z',
         updatedAt: '2026-06-15T10:00:00.000Z',
         authorType: ETraceAuthorType.PERSONAL
@@ -93,6 +96,7 @@ BddTest().given('a delete traces modal', () => {
         id: 'trace-2',
         title: 'Trace 2',
         isAssociated: true,
+        valorized: false,
         createdAt: '2026-06-15T10:00:00.000Z',
         updatedAt: '2026-06-15T10:00:00.000Z',
         authorType: ETraceAuthorType.PERSONAL

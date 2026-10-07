@@ -1,6 +1,10 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import { ETraceAuthorType } from '@/api/avenir-esr'
+import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
+import { TraceAiProducedBadgeStub } from '@/features/student/traces/components/badges/TraceAiProducedBadge/TraceAiProducedBadge.stub'
+import { TraceAttachmentTypeBadgeStub } from '@/features/student/traces/components/badges/TraceAttachmentTypeBadge/TraceAttachmentTypeBadge.stub'
+import { TraceAuthorTypeBadgeStub } from '@/features/student/traces/components/badges/TraceAuthorTypeBadge/TraceAuthorTypeBadge.stub'
 import StudentDetailedTraceCard from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
@@ -12,12 +16,12 @@ BddTest().given('a student detailed trace card', () => {
   const stubs = {
     AvIconText: AvIconTextStub,
     FloatingIconCard: FloatingIconCardStub,
-    RouterLink: RouterLinkStub
+    RouterLink: RouterLinkStub,
+    ValorizedBadge: ValorizedBadgeStub,
+    TraceAuthorTypeBadge: TraceAuthorTypeBadgeStub,
+    TraceAiProducedBadge: TraceAiProducedBadgeStub,
+    TraceAttachmentTypeBadge: TraceAttachmentTypeBadgeStub
   }
-
-  beforeEach(() => {
-    vi.clearAllMocks()
-  })
 
   const today = new Date()
   today.setHours(0, 0, 0, 0)
@@ -29,6 +33,7 @@ BddTest().given('a student detailed trace card', () => {
     id: 'trace1',
     title: 'Ma super trace',
     isAssociated: false,
+    valorized: false,
     createdAt: '2025-06-16T10:42:00.000Z',
     updatedAt: '2025-06-17T15:18:00.000Z',
     willBeDeletedAt: nextMonthDateIsoString,
@@ -40,20 +45,40 @@ BddTest().given('a student detailed trace card', () => {
     isAssociated: true
   }
 
+  beforeEach(() => {
+    vi.clearAllMocks()
+
+    wrapper = mount(StudentDetailedTraceCard, {
+      props: { trace: mockedTrace },
+      global: {
+        stubs,
+      },
+    })
+  })
+
   BddTest().when('the component is mounted', () => {
     BddTest().then('it should render the trace name and deletion time for unassociated trace', async () => {
-      wrapper = mount(StudentDetailedTraceCard, {
-        props: { trace: mockedTrace },
-        global: {
-          stubs,
-        },
-      })
-
       expect(wrapper.text()).toContain('Ma super trace')
       expect(wrapper.findComponent(AvIconTextStub).props('text')).toContain('Suppression dans 30 jours')
     })
 
-    BddTest().then('ot should not render the trace deletion time for associated trace', async () => {
+    BddTest().then('it should render the valorized badge', async () => {
+      expect(wrapper.findComponent(ValorizedBadgeStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the trace author type badge', async () => {
+      expect(wrapper.findComponent(TraceAuthorTypeBadgeStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the trace attachment type badge', async () => {
+      expect(wrapper.findComponent(TraceAttachmentTypeBadgeStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the trace AI produced badge', async () => {
+      expect(wrapper.findComponent(TraceAiProducedBadgeStub).exists()).toBe(true)
+    })
+
+    BddTest().then('it should not render the trace deletion time for associated trace', async () => {
       wrapper = mount(StudentDetailedTraceCard, {
         props: { trace: mockedAssociatedTrace },
         global: {
