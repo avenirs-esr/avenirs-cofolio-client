@@ -29,6 +29,8 @@ export function useTraceFilters ({ isAssociated }: UseTraceFiltersProps): UseTra
       traceFilterUpdates.skillIds = newFilters.skillIds
     }
 
+    traceFilterUpdates.isLink = newFilters.isLink
+
     if (newFilters.fromDate || newFilters.fromDate === '') {
       paramsUpdates.fromDate = newFilters.fromDate
     }

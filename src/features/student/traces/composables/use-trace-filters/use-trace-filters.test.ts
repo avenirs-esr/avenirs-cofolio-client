@@ -25,6 +25,7 @@ BddTest().given('a useTraceFilters composable', () => {
   BddTest().when('filters are updated with new values', () => {
     const newFilters: TraceFilter & DateFilter & SearchFilter = {
       isAssociated: true,
+      isLink: true,
       fileTypes: [TraceFilterFileTypesItem.PDF],
       skillIds: ['skill-1', 'skill-2'],
       fromDate: '2025-10-09',
@@ -41,6 +42,7 @@ BddTest().given('a useTraceFilters composable', () => {
     BddTest().then('it should merge traceFilter and params correctly', () => {
       expect(useTraceFiltersResult.tracesViewQueryParams.traceFilter.value).toEqual({
         isAssociated: true,
+        isLink: true,
         fileTypes: [TraceFilterFileTypesItem.PDF],
         skillIds: ['skill-1', 'skill-2'],
       })
@@ -90,6 +92,19 @@ BddTest().given('a useTraceFilters composable', () => {
       expect(useTraceFiltersResult.tracesViewQueryParams.params.value).toEqual({
         keyword: ''
       })
+    })
+  })
+
+  BddTest().when('the link filter is removed after being selected', () => {
+    beforeEach(() => {
+      const result = mountComposable(() => useTraceFilters(defaultProps), {})
+      useTraceFiltersResult = result.result
+      useTraceFiltersResult.onUpdateFilters({ isLink: true })
+      useTraceFiltersResult.onUpdateFilters({ isLink: undefined })
+    })
+
+    BddTest().then('it should clear isLink from the trace filter', () => {
+      expect(useTraceFiltersResult.tracesViewQueryParams.traceFilter.value.isLink).toBeUndefined()
     })
   })
 

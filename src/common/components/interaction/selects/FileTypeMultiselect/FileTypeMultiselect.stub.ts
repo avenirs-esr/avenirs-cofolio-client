@@ -15,6 +15,7 @@ export const FileTypeMultiselectStub = defineComponent({
         :value="modelValue.map(o => o.value)"
         @change="onChange"
       >
+        <option value="LINK">Lien</option>
         <option value="PDF">PDF</option>
         <option value="TEXT">Texte</option>
         <option value="SHEET">Tableur</option>
