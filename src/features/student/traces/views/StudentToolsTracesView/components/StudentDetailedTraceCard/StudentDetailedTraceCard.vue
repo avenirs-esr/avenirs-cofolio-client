@@ -1,8 +1,12 @@
 <script lang="ts" setup>
 import type { TraceViewDTO } from '@/api/avenir-esr'
+import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { ROUTES } from '@/common/constants'
 import { getDaysUntil, parseDate } from '@/common/utils'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
+import TraceAiProducedBadge from '@/features/student/traces/components/badges/TraceAiProducedBadge/TraceAiProducedBadge.vue'
+import TraceAttachmentTypeBadge from '@/features/student/traces/components/badges/TraceAttachmentTypeBadge/TraceAttachmentTypeBadge.vue'
+import TraceAuthorTypeBadge from '@/features/student/traces/components/badges/TraceAuthorTypeBadge/TraceAuthorTypeBadge.vue'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -20,7 +24,7 @@ const { t } = useI18n()
 const iconOptions = {
   name: MDI_ICONS.ATTACH_FILE,
   color: 'var(--icon)',
-  bottom: 'calc(-1 * var(--spacing-lg))',
+  bottom: 'var(--spacing-xl-neg)',
   right: '0.75rem',
   borderColor: 'var(--other-border-skill-card)',
 }
@@ -29,7 +33,7 @@ const iconOptions = {
 <template>
   <RouterLink
     v-bind="$attrs"
-    class="student-detailed-trace-card"
+    class="student-detailed-trace-card av-w-full"
     :to="{ name: ROUTES.STUDENT.TOOLS_TRACE.name, params: { id } }"
   >
     <FloatingIconCard
@@ -41,10 +45,19 @@ const iconOptions = {
       :header-rows="2"
       title-typography-classes="b1-bold"
       title-color="var(--text1)"
-      height="16.4375rem"
+      height="fit-content"
     >
+      <template #body>
+        <div class="av-row av-gap-sm av-wrap">
+          <ValorizedBadge :valorized="trace.valorized" />
+          <TraceAuthorTypeBadge :author-type="trace.authorType" />
+          <TraceAiProducedBadge :ai-produced="!!trace.aiUseJustification" />
+          <TraceAttachmentTypeBadge :file-type="trace.attachment?.fileType" />
+        </div>
+      </template>
+
       <template #footer>
-        <div class="student-detailed-trace-card__body">
+        <div class="student-detailed-trace-card__footer">
           <AvIconText
             v-if="getDaysUntilDeletion > 0"
             :icon="MDI_ICONS.HOURGLASS"
@@ -62,8 +75,6 @@ const iconOptions = {
 
 <style lang="scss" scoped>
 .student-detailed-trace-card {
-  width: 41.25rem;
-
   :deep(.floating-icon-card__footer) {
     justify-content: flex-start;
   }

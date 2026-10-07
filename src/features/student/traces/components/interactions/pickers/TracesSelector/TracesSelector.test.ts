@@ -27,6 +27,7 @@ BddTest().given('a traces selector', () => {
       id: 'trace-view-1',
       title: 'Trace view 1',
       isAssociated: false,
+      valorized: false,
       createdAt: '2026-06-15T10:00:00.000Z',
       updatedAt: '2026-06-15T10:00:00.000Z',
       authorType: ETraceAuthorType.PERSONAL
@@ -35,6 +36,7 @@ BddTest().given('a traces selector', () => {
       id: 'trace-view-2',
       title: 'Trace view 2',
       isAssociated: true,
+      valorized: false,
       createdAt: '2026-06-15T10:00:00.000Z',
       updatedAt: '2026-06-15T10:00:00.000Z',
       willBeDeletedAt: '2026-06-16T10:00:00.000Z',

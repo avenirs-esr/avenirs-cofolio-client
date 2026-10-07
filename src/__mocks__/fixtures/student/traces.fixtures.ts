@@ -64,6 +64,7 @@ export function createMockedTracesViewResponse (
 
   for (let i = 1; i <= totalElements; i++) {
     const traceIsAssociated = isAssociated ?? i % 2 === 0
+    const isValorized = i % 2 === 0
     const rawMonth = (i % 12) + 1
     const monthNumber = rawMonth < 10 ? `0${rawMonth}` : `${rawMonth}`
     const rawDay = (i % 28) + 1
@@ -71,6 +72,7 @@ export function createMockedTracesViewResponse (
 
     const trace: TraceViewDTO = {
       isAssociated: traceIsAssociated,
+      valorized: isValorized,
       id: i === 1
         ? '4453f884-9081-43cb-95c6-d76c2bb59fd7'
         : `trace-${traceIsAssociated ? 'associee' : 'non-associee'}${i}`,
