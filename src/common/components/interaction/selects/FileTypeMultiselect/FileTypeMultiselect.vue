@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
+import { TraceType } from '@/features/student/traces/types/traces.types'
 import { AvMultiselect, type AvMultiselectOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 
 defineProps<{ maxHeight?: string }>()
@@ -10,6 +12,11 @@ const { t } = useI18n()
 const typesSelected = defineModel<AvMultiselectOption[]>({ default: [] })
 
 const typesOptions: AvMultiselectOption[] = [
+  {
+    value: TraceType.LINK,
+    label: capitalize(t('global.link')),
+    icon: MDI_ICONS.LINK
+  },
   {
     value: FileGlobalType.PDF,
     label: t('global.selects.FileTypeMultiselect.PDF'),

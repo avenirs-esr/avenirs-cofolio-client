@@ -5,6 +5,7 @@ import type { DateFilter, SearchFilter } from '@/types'
 import { DatePeriodPicker } from '@/common/components'
 import FileTypeMultiselect from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.vue'
 import { useModal } from '@/common/composables'
+import { TraceType } from '@/features/student/traces/types/traces.types'
 import { computeTraceFilterFileTypesFromGlobals } from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/utils'
 import { AvButton, AvInput, AvModal, type AvMultiselectOption, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { debounce } from 'lodash-es'
@@ -54,23 +55,25 @@ watch([
   typesSelected,
   fromDateSelected,
   toDateSelected,
-  keyword
+  keyword,
 ], ([
   newTypes,
   newFromDate,
   newToDate,
-  keyword
+  keyword,
 ]) => {
   debouncedEmit({
     fileTypes: newTypes,
     fromDate: newFromDate,
     toDate: newToDate,
-    keyword
+    keyword,
+    isLink: fileGlobalTypesSelected.value.some(t => t.value === TraceType.LINK) ? true : undefined
   })
 })
 
 watch(fileGlobalTypesSelected, (newFileGlobalTypes) => {
-  typesSelected.value = computeTraceFilterFileTypesFromGlobals(newFileGlobalTypes.map(t => t.value as FileGlobalType))
+  const filesTypesWithoutLink = newFileGlobalTypes.filter(t => t.value !== TraceType.LINK)
+  typesSelected.value = computeTraceFilterFileTypesFromGlobals(filesTypesWithoutLink.map(t => t.value as FileGlobalType))
 })
 </script>
 

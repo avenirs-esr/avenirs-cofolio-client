@@ -1,4 +1,5 @@
 import FileTypeMultiselect from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.vue'
+import { TraceType } from '@/features/student/traces/types/traces.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'
 
@@ -57,27 +58,29 @@ BddTest().given('a FileTypeMultiselect component', () => {
 
     BddTest().then('it should render the multiselect with the correct options', () => {
       const options = wrapper.findAll('option')
-      expect(options).toHaveLength(6)
-      expect(options[0].text()).toBe('Fichier pdf')
-      expect(options[1].text()).toBe('Fichier texte (word, odt)')
-      expect(options[2].text()).toBe('Fichier tableur (excel, ods)')
-      expect(options[3].text()).toBe('Fichier image (jpg, jpeg, png, svg)')
-      expect(options[4].text()).toBe('Fichier vidéo (mp4, mov, avi)')
-      expect(options[5].text()).toBe('Fichier audio (mp3, wav)')
+      expect(options).toHaveLength(7)
+      expect(options[0].text()).toBe('Lien')
+      expect(options[0].attributes('value')).toBe(TraceType.LINK)
+      expect(options[1].text()).toBe('Fichier pdf')
+      expect(options[2].text()).toBe('Fichier texte (word, odt)')
+      expect(options[3].text()).toBe('Fichier tableur (excel, ods)')
+      expect(options[4].text()).toBe('Fichier image (jpg, jpeg, png, svg)')
+      expect(options[5].text()).toBe('Fichier vidéo (mp4, mov, avi)')
+      expect(options[6].text()).toBe('Fichier audio (mp3, wav)')
     })
 
     BddTest().and('when the user selects some options', () => {
       beforeEach(async () => {
         const select = wrapper.find('select')
-        await select.setValue(['PDF', 'IMAGE'])
+        await select.setValue([TraceType.LINK, 'PDF'])
       })
 
       BddTest().then('it should emit the correct modelValue', () => {
         expect(wrapper.emitted('update:modelValue')).toBeTruthy()
         const emittedValue = wrapper.emitted('update:modelValue')![0][0]
         expect(emittedValue).toEqual([
-          { label: 'Fichier pdf', value: 'PDF' },
-          { label: 'Fichier image (jpg, jpeg, png, svg)', value: 'IMAGE' }
+          { label: 'Lien', value: TraceType.LINK },
+          { label: 'Fichier pdf', value: 'PDF' }
         ])
       })
     })

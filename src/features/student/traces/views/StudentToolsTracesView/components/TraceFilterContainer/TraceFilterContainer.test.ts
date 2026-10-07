@@ -3,6 +3,7 @@ import { TraceFilterFileTypesItem } from '@/api/avenir-esr'
 import { DatePeriodPickerStub } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.stub'
 import { FileTypeMultiselectStub } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.stub'
 import { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
+import { TraceType } from '@/features/student/traces/types/traces.types'
 import TraceFilterContainer from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.vue'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -226,6 +227,26 @@ BddTest().given('a trace filter container', () => {
       })
     })
 
+    BddTest().when('a link and a file type are selected in the types select', async () => {
+      beforeEach(async () => {
+        const typesSelect = wrapper.findComponent(FileTypeMultiselectStub).find('select')
+        await typesSelect.setValue([TraceType.LINK, FileGlobalType.PDF])
+      })
+
+      BddTest().then('it should emit the link filter separately from file types', () => {
+        const emitted = wrapper.emitted('update:filters')
+        const lastEmitted = emitted![emitted!.length - 1][0]
+
+        expect(lastEmitted).toEqual({
+          fileTypes: [TraceFilterFileTypesItem.PDF],
+          fromDate: '',
+          toDate: '',
+          keyword: '',
+          isLink: true
+        })
+      })
+    })
+
     BddTest().when('values are set', () => {
       let vm: TraceFilterContainerRefs
 
@@ -435,6 +456,26 @@ BddTest().given('a trace filter container', () => {
           fromDate: '',
           toDate: '',
           keyword: ''
+        })
+      })
+    })
+
+    BddTest().when('a link and a file type are selected in the types select', async () => {
+      beforeEach(async () => {
+        const typesSelect = wrapper.findComponent(FileTypeMultiselectStub).find('select')
+        await typesSelect.setValue([TraceType.LINK, FileGlobalType.PDF])
+      })
+
+      BddTest().then('it should emit the link filter separately from file types', () => {
+        const emitted = wrapper.emitted('update:filters')
+        const lastEmitted = emitted![emitted!.length - 1][0]
+
+        expect(lastEmitted).toEqual({
+          fileTypes: [TraceFilterFileTypesItem.PDF],
+          fromDate: '',
+          toDate: '',
+          keyword: '',
+          isLink: true
         })
       })
     })
