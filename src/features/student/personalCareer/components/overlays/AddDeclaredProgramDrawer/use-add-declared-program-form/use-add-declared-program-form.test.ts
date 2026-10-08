@@ -431,6 +431,7 @@ BddTest().given('an add declared program form', () => {
       submitForm({
         ...validData,
         associationSelections: {
+          [EAssociationContextType.DECLARED_ACTIVITY]: [],
           [EAssociationContextType.DECLARED_SKILL]: [],
           [EAssociationContextType.TRACE]: [{ id: 'trace-1', title: 'Trace 1' }]
         }
@@ -461,14 +462,23 @@ BddTest().given('an add declared program form', () => {
       })
     })
 
-    BddTest().then('it should ignore the non associable context type', async () => {
+    BddTest().then('it should associate the selected context types', async () => {
       await vi.waitFor(() => {
         expect(mockOnProgramAdded).toHaveBeenCalledTimes(1)
       })
 
-      expect(associationRequests).toStrictEqual([
-        createAssociationRequest(EAssociationContextType.TRACE, ['trace-1'])
-      ])
+      expect(associationRequests).toEqual(
+        expect.arrayContaining([
+          createAssociationRequest(
+            EAssociationContextType.TRACE,
+            ['trace-1']
+          ),
+          createAssociationRequest(
+            EAssociationContextType.DECLARED_ACTIVITY,
+            ['activity-1']
+          )
+        ])
+      )
     })
   })
 

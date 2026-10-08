@@ -104,6 +104,7 @@ BddTest().given('a declared program update view component', () => {
   const associationsCount = mockedDeclaredProgramAssociations.traceAssociations.length
     + mockedDeclaredProgramAssociations.declaredSkillAssociations.length
     + mockedDeclaredProgramAssociations.declaredExperienceAssociations.length
+    + mockedDeclaredProgramAssociations.declaredActivityAssociations.length
 
   const getDeclaredProgramDetailedRoute = (programId = DEFAULT_PROGRAM_ID) => ({
     name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,

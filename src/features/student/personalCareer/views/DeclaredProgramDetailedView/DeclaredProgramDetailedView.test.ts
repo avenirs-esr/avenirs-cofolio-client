@@ -100,6 +100,7 @@ BddTest().given('a declared program detailed view component', () => {
   const associationsCount = mockedDeclaredProgramAssociations.traceAssociations.length
     + mockedDeclaredProgramAssociations.declaredSkillAssociations.length
     + mockedDeclaredProgramAssociations.declaredExperienceAssociations.length
+    + mockedDeclaredProgramAssociations.declaredActivityAssociations.length
 
   const mountWith = async (programId = 'declared-program-1') => {
     route.params.id = programId
