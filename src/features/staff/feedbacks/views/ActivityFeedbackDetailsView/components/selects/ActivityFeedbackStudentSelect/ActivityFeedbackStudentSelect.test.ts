@@ -17,6 +17,16 @@ vi.mock('@/common/composables', () => ({
   }),
 }))
 
+const mockIsMobile = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({ isMobile: mockIsMobile }),
+  }
+})
+
 const route = reactive<{ name: string }>({
   name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
 })
@@ -116,6 +126,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockIsMobile.value = false
     route.name = ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name
   })
 
@@ -174,6 +185,21 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
         expect(navigateToStaffStudentTrackingActivityFeedbackDetailsMock).toHaveBeenCalledWith({ feedbackId: 'feedback-2' })
         expect(navigateToStaffActivityFeedbackDetailsMock).not.toHaveBeenCalled()
       })
+    })
+  })
+
+  BddTest().when('the viewport is mobile', () => {
+    beforeEach(() => {
+      mockIsMobile.value = true
+      wrapper = mountComponent(ActivityFeedbackStudentSelect, {
+        props: { feedbacks, selectedStudentId: 'student-1' },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the previous and next buttons as icon only', () => {
+      expect(getPreviousButton()!.props('iconOnly')).toBe(true)
+      expect(getNextButton()!.props('iconOnly')).toBe(true)
     })
   })
 

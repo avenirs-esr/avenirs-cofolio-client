@@ -8,7 +8,17 @@ import AssociatedElementCard from '@/features/staff/feedbacks/views/FeedbacksVie
 import { FeedbackTraceActionsStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/FeedbackTraceActions/FeedbackTraceActions.stub'
 import { AvButtonStub, AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
+
+const mockIsMobile = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({ isMobile: mockIsMobile }),
+  }
+})
 
 const mockedFeedbackTraceWithFile: FeedbackAssociatedElement = {
   type: EAssociationContextType.TRACE,
@@ -33,6 +43,10 @@ const stubs = {
 
 BddTest().given('an AssociatedElementCard component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedElementCard>>
+
+  beforeEach(() => {
+    mockIsMobile.value = false
+  })
 
   BddTest().when('the element is a TRACE with a file attachment', () => {
     beforeEach(() => {
@@ -68,6 +82,21 @@ BddTest().given('an AssociatedElementCard component', () => {
       await wrapper.findComponent(AvButtonStub).trigger('click')
 
       expect(wrapper.emitted('showDetails')).toEqual([[mockedFeedbackTraceWithFile]])
+    })
+  })
+
+  BddTest().when('the viewport is mobile', () => {
+    beforeEach(() => {
+      mockIsMobile.value = true
+      wrapper = mountComponent(AssociatedElementCard, {
+        props: { feedbackAssociatedElement: mockedFeedbackTraceWithFile },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the title once, in the card content', () => {
+      const occurrences = wrapper.text().split(mockedFeedbackTraceWithFile.data.title).length - 1
+      expect(occurrences).toBe(1)
     })
   })
 

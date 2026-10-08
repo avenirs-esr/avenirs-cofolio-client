@@ -6,7 +6,7 @@ import { ICONS } from '@/common/constants'
 import FeedbacksHistoryTab from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/tabs/FeedbacksHistoryTab/FeedbacksHistoryTab.vue'
 import WriteFeedbackTab from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/tabs/WriteFeedbackTab/WriteFeedbackTab.vue'
 import { FeedbackManagementFloatingPanelTabs } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/overlays/FeedbackManagementFloatingPanel/FeedbackManagementFloatingPanel.types'
-import { AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
+import { AvTab, AvTabs, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface FeedbackManagementFloatingPanelProps {
@@ -17,6 +17,7 @@ export interface FeedbackManagementFloatingPanelProps {
 const { feedback, activityTitle } = defineProps<FeedbackManagementFloatingPanelProps>()
 
 const { t } = useI18n()
+const { isMobile } = useAvBreakpoints()
 
 const isSeen = computed(() => feedback.status === EFeedbackStatus.SEEN)
 
@@ -62,12 +63,16 @@ watch(isSeen, (newValue) => {
   <FloatingPanel
     ref="floatingPanel"
     :title="t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.title')"
-    :subtitle="activityTitle"
+    :subtitle="!isMobile ? activityTitle : undefined"
     :icon="ICONS.FEEDBACK"
     class="writing-feedback-floating-panel"
     data-testid="writing-feedback-floating-panel"
   >
-    <div class="av-px-xs">
+    <div class="av-col av-gap-sm av-px-xs">
+      <span
+        v-if="isMobile"
+        class="b2-bold title--mobile av-pb-sm av-separator-bottom"
+      >{{ activityTitle }}</span>
       <AvTabs
         v-model="activeTab"
         compact
@@ -103,9 +108,15 @@ watch(isSeen, (newValue) => {
 </template>
 
 <style scoped lang="scss">
+@use '@avenirs-esr/avenirs-dsav/mixins' as dsav;
+
 .writing-feedback-floating-panel > :deep(.av-card[data-collapsed='false'] > .av-card__content-collapsible) {
-  height: 70vh;
+  overscroll-behavior-y: contain;
   overflow-y: auto;
+
+  @include dsav.min-width(md) {
+    height: 70vh;
+  }
 }
 
 :deep() {
