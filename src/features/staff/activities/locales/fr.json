@@ -194,6 +194,7 @@
             "publishError": "Une erreur est survenue lors de la publication de l'activité",
             "publishLabel": "Publier",
             "publishRequiredFieldsError": "Veuillez renseigner un titre, une thématique, une consigne, un extrait et un/des contexte(s) de réalisation conseillé(s) pour publier l'activité",
+            "publishRequiredFieldsWithTargetsError": "Veuillez renseigner un titre, une thématique, une consigne, un extrait, un/des contexte(s) de réalisation conseillé(s) et au moins une cible pour publier l'activité",
             "publishSuccess": "L'activité a été publiée avec succès",
             "title": "Préparer la publication"
           },
@@ -211,11 +212,15 @@
             "label": "Cible(s) de l'activité",
             "locked": "Les cibles déjà enregistrées ne peuvent plus être retirées car des étudiants sont déjà inscrits à cette activité. Vous pouvez en ajouter de nouvelles.",
             "national": "Activité nationale\u00A0: aucune cible n'est sélectionnée.",
+            "nationalToggleDescription": "Activée, l'activité est diffusée à tous les établissements une fois publiée et les cibles sont vidées. Désactivée, au moins une cible est obligatoire.",
+            "nationalToggleDisabledTooltip": "Impossible de passer en activité nationale : des cibles sont verrouillées",
+            "nationalToggleTitle": "Activité nationale",
             "outOfScopeTitle": "Cible hors de votre périmètre",
             "placeholder": "Rechercher un établissement, une formation, une option ou un groupe",
             "remove": "Retirer la cible {title}",
             "removeDisabledTooltip": "Cette cible ne peut plus être retirée",
             "targeted": "Activité ciblée\u00A0: {count} cible sélectionnée. | Activité ciblée\u00A0: {count} cibles sélectionnées.",
+            "targetsDisabledTooltip": "Désactivez « Activité nationale » pour sélectionner des cibles",
             "title": "Portée de l'activité",
             "types": {
               "GROUP": "Formation ou groupe",

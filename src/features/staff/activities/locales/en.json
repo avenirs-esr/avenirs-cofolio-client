@@ -194,6 +194,7 @@
             "publishError": "An error occurred while publishing the activity",
             "publishLabel": "Publish",
             "publishRequiredFieldsError": "Please provide a title, a thematic, an instruction, a summary and one/many recommended completion context(s) to publish the activity",
+            "publishRequiredFieldsWithTargetsError": "Please provide a title, a thematic, an instruction, a summary, one/many recommended completion context(s) and at least one target to publish the activity",
             "publishSuccess": "Activity published successfully",
             "title": "Prepare publication"
           },
@@ -211,11 +212,15 @@
             "label": "Activity target(s)",
             "locked": "Targets already saved can no longer be removed because students are already enrolled in this activity. You can still add new ones.",
             "national": "National activity: no target is selected.",
+            "nationalToggleDescription": "When enabled, the activity is available to all institutions once published and targets are cleared. When disabled, at least one target is required.",
+            "nationalToggleDisabledTooltip": "Cannot switch to a national activity: some targets are locked",
+            "nationalToggleTitle": "National activity",
             "outOfScopeTitle": "Target outside your scope",
             "placeholder": "Search an institution, a program, an option or a group",
             "remove": "Remove target {title}",
             "removeDisabledTooltip": "This target can no longer be removed",
             "targeted": "Targeted activity: {count} target selected. | Targeted activity: {count} targets selected.",
+            "targetsDisabledTooltip": "Disable “National activity” to select targets",
             "title": "Activity scope",
             "types": {
               "GROUP": "Program or group",

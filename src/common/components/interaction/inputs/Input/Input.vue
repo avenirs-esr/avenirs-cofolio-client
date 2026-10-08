@@ -14,6 +14,7 @@ const content = defineModel<string | number | null>()
 const avInputProps: ComputedRef<AvInputProps> = computed(() => ({
   ...attrs,
   ...props,
+  placeholder: props.disabled ? t('global.inputs.disabledPlaceholder') : props.placeholder,
 }))
 </script>
 

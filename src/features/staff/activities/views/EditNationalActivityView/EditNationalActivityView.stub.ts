@@ -34,6 +34,7 @@ export const EditNationalActivityViewFormWrapper = defineComponent({
       bannerAction: EditActivityFormDataBannerAction.NONE,
       files: [],
       links: [],
+      isNational: false,
       targetInstitutionIds: [],
       targetGroupIds: [],
     }
@@ -70,6 +71,7 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
       bannerAction: EditActivityFormDataBannerAction.NONE,
       files: [],
       links: [],
+      isNational: false,
       targetInstitutionIds: [],
       targetGroupIds: [],
     }
@@ -109,6 +111,7 @@ export const EditNationalActivityViewFormWrapperValid = defineComponent({
       bannerAction: EditActivityFormDataBannerAction.NONE,
       files: [],
       links: [],
+      isNational: true,
       targetInstitutionIds: [],
       targetGroupIds: [],
     }

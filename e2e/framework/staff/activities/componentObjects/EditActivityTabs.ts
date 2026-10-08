@@ -78,6 +78,14 @@ export class EditActivityTabs {
     )
   }
 
+  private getNationalToggle () {
+    return this.page.getByTestId('activity-national-toggle-input')
+  }
+
+  private getNationalToggleLabel () {
+    return this.page.getByTestId('activity-national-toggle-label')
+  }
+
   private getSaveButton () {
     return this.page.getByTestId('save-button')
   }
@@ -224,6 +232,14 @@ export class EditActivityTabs {
 
   async clickSaveButton () {
     await clickOnElement(this.getSaveButton())
+  }
+
+  async setActivityNational () {
+    await this.setToggleState(
+      this.getNationalToggle(),
+      this.getNationalToggleLabel(),
+      true,
+    )
   }
 
   async verifyPublishButtonVisible () {

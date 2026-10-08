@@ -389,6 +389,7 @@
       "invalidForm": "The form is not valid"
     },
     "inputs": {
+      "disabledPlaceholder": "Not provided",
       "textarea": {
         "limit": "{count} / {maxlength} characters (including spaces)"
       }

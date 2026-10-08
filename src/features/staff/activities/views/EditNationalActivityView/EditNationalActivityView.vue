@@ -103,6 +103,7 @@ const defaultValues: EditActivityFormData = reactive({
   bannerAction: EditActivityFormDataBannerAction.NONE,
   files: remoteFiles,
   links: computed(() => content.value?.links ?? []),
+  isNational: computed(() => persistedTargetIds.value.length === 0),
   targetInstitutionIds: computed(() => content.value?.targetInstitutionIds ?? []),
   targetGroupIds: computed(() => content.value?.targetGroupIds ?? []),
 })

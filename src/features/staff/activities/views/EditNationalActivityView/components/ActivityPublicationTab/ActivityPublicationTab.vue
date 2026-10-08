@@ -53,8 +53,16 @@ const isFormValid = form.useStore(state => state.isValid)
 const values = form.useStore(state => state.values)
 
 const canPublish = computed(() => {
-  return isFormValid.value && PUBLISH_REQUIRED_FIELDS.every(field => !isEmpty(values.value[field]))
+  const hasTargets = values.value.isNational
+    || !isEmpty(values.value.targetInstitutionIds)
+    || !isEmpty(values.value.targetGroupIds)
+
+  return isFormValid.value && hasTargets && PUBLISH_REQUIRED_FIELDS.every(field => !isEmpty(values.value[field]))
 })
+
+const publishBlockedMessage = computed(() => t(values.value.isNational
+  ? 'staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsError'
+  : 'staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsWithTargetsError'))
 
 async function publishActivityDraft () {
   mutatePublishActivityDraft({ activityDraftId: activity.id }, {
@@ -98,7 +106,7 @@ async function publishActivityDraft () {
     <div :id="PublicationSectionId.TARGETS">
       <IconTitleCardContainer
         :title="t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.title')"
-        :title-icon="MDI_ICONS.ACCOUNT_STUDENT_OUTLINE"
+        :title-icon="MDI_ICONS.MAP_MARKER_RADIUS_OUTLINE"
       >
         <ActivityTargetsFormField
           :form="form"
@@ -162,7 +170,7 @@ async function publishActivityDraft () {
           :label="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishLabel')"
           :is-loading="isFormDirty || isUpdating || isPending || isLoading"
           :disabled="!canPublish"
-          :disabled-tooltip="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsError')"
+          :disabled-tooltip="publishBlockedMessage"
           @click="openModal"
         />
       </div>
@@ -171,7 +179,7 @@ async function publishActivityDraft () {
         class="av-row av-justify-end"
       >
         <AvMessage
-          :message="t('staff.activities.views.EditNationalActivityView.ActivityPublicationTab.publishRequiredFieldsError')"
+          :message="publishBlockedMessage"
           type="warning"
         />
       </div>
