@@ -213,6 +213,7 @@ export function createMockedDeclaredExperienceAssociationsDTO (traces: TraceOver
 export const mockedDeclaredProgramAssociations: AssociationsDTO = {
   ...mockedEmptyAssociations,
   traceAssociations: createMockedTraceAssociations(2),
+  declaredActivityAssociations: createMockedDeclaredActivityAssociations(1),
   declaredSkillAssociations: createMockedDeclaredSkillAssociations(3),
   declaredExperienceAssociations: createMockedDeclaredExperienceAssociations(2)
 }

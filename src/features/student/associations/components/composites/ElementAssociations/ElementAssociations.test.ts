@@ -118,7 +118,8 @@ BddTest().given('an element associations component', () => {
       expect(dropdown.props('items')).toEqual([
         unassociateItem(EAssociationContextType.TRACE, false),
         unassociateItem(EAssociationContextType.DECLARED_SKILL, false),
-        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true)
+        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true),
+        unassociateItem(EAssociationContextType.DECLARED_PROGRAM, true)
       ])
     })
 
@@ -130,7 +131,8 @@ BddTest().given('an element associations component', () => {
       expect(dropdown.props('items')).toEqual([
         { type: EAssociationContextType.TRACE, disabled: false },
         { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
-        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false }
+        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false },
+        { type: EAssociationContextType.DECLARED_PROGRAM, disabled: false }
       ])
     })
 
@@ -153,11 +155,12 @@ BddTest().given('an element associations component', () => {
     BddTest().then('it should render an enabled associated elements card per associated context type', () => {
       const cards = getCards()
 
-      expect(cards).toHaveLength(3)
+      expect(cards).toHaveLength(4)
       expect(cards.map(card => card.props('associatedContextType'))).toEqual([
         EAssociationContextType.TRACE,
         EAssociationContextType.DECLARED_SKILL,
-        EAssociationContextType.DECLARED_EXPERIENCE
+        EAssociationContextType.DECLARED_EXPERIENCE,
+        EAssociationContextType.DECLARED_PROGRAM
       ])
       cards.forEach((card) => {
         expect(card.props('associations')).toEqual(mockedDeclaredActivityAssociations)
@@ -292,7 +295,8 @@ BddTest().given('an element associations component', () => {
       expect(getDropdown('associate')!.props('items')).toEqual([
         { type: EAssociationContextType.TRACE, disabled: true },
         { type: EAssociationContextType.DECLARED_SKILL, disabled: true },
-        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false }
+        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false },
+        { type: EAssociationContextType.DECLARED_PROGRAM, disabled: false }
       ])
     })
 
@@ -301,12 +305,13 @@ BddTest().given('an element associations component', () => {
       expect(getDropdown('delete')!.props('items')).toEqual([
         unassociateItem(EAssociationContextType.TRACE, false),
         unassociateItem(EAssociationContextType.DECLARED_SKILL, true),
-        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true)
+        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true),
+        unassociateItem(EAssociationContextType.DECLARED_PROGRAM, true)
       ])
     })
 
     BddTest().then('it should pass the limit of each context type to its card', () => {
-      expect(getCards().map(card => card.props('limit'))).toEqual([6, 0, undefined])
+      expect(getCards().map(card => card.props('limit'))).toEqual([6, 0, undefined, undefined])
     })
   })
 
@@ -325,12 +330,13 @@ BddTest().given('an element associations component', () => {
       expect(getDropdown('associate')!.props('items')).toEqual([
         { type: EAssociationContextType.TRACE, disabled: false },
         { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
-        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false }
+        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false },
+        { type: EAssociationContextType.DECLARED_PROGRAM, disabled: false }
       ])
     })
 
     BddTest().then('it should pass the limit of each context type to its card', () => {
-      expect(getCards().map(card => card.props('limit'))).toEqual([7, -1, undefined])
+      expect(getCards().map(card => card.props('limit'))).toEqual([7, -1, undefined, undefined])
     })
   })
 
@@ -363,7 +369,7 @@ BddTest().given('an element associations component', () => {
     })
 
     BddTest().then('it should render disabled associated elements cards', () => {
-      expect(getCards()).toHaveLength(3)
+      expect(getCards()).toHaveLength(4)
       getCards().forEach(card => expect(card.props('disabled')).toBe(true))
     })
 
@@ -430,7 +436,8 @@ BddTest().given('an element associations component', () => {
       expect(getDropdown('delete')!.props('items')).toEqual([
         unassociateItem(EAssociationContextType.TRACE, true),
         unassociateItem(EAssociationContextType.DECLARED_SKILL, true),
-        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true)
+        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true),
+        unassociateItem(EAssociationContextType.DECLARED_PROGRAM, true),
       ])
     })
 
@@ -601,6 +608,7 @@ BddTest().given('an element associations component', () => {
     BddTest().then('it should propose to associate every context type associable with a declared program', () => {
       expect(getDropdown('associate')!.props('items')).toEqual([
         { type: EAssociationContextType.TRACE, disabled: false },
+        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
         { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
         { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false }
       ])
@@ -609,6 +617,7 @@ BddTest().given('an element associations component', () => {
     BddTest().then('it should enable every delete item since the declared program has associations of every context type', () => {
       expect(getDropdown('delete')!.props('items')).toEqual([
         unassociateItem(EAssociationContextType.TRACE, false),
+        unassociateItem(EAssociationContextType.DECLARED_ACTIVITY, false),
         unassociateItem(EAssociationContextType.DECLARED_SKILL, false),
         unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, false)
       ])
@@ -619,6 +628,7 @@ BddTest().given('an element associations component', () => {
 
       expect(cards.map(card => card.props('associatedContextType'))).toEqual([
         EAssociationContextType.TRACE,
+        EAssociationContextType.DECLARED_ACTIVITY,
         EAssociationContextType.DECLARED_SKILL,
         EAssociationContextType.DECLARED_EXPERIENCE
       ])

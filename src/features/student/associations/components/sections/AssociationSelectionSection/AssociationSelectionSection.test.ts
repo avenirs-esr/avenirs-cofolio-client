@@ -194,6 +194,7 @@ BddTest().given('an association selection section', () => {
         EAssociationContextType.TRACE,
         EAssociationContextType.DECLARED_SKILL,
         EAssociationContextType.DECLARED_EXPERIENCE,
+        EAssociationContextType.DECLARED_PROGRAM
       ])
       expect(getTypeSelect().props('modelValue')).toBe(EAssociationContextType.TRACE)
     })

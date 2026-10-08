@@ -43,11 +43,10 @@ BddTest().given('isAssociable', () => {
     expect(isAssociable(EAssociationContextType.DECLARED_SKILL, EAssociationContextType.DECLARED_PROGRAM)).toBe(true)
     expect(isAssociable(EAssociationContextType.TRACE, EAssociationContextType.DECLARED_PROGRAM)).toBe(true)
     expect(isAssociable(EAssociationContextType.DECLARED_PROGRAM, EAssociationContextType.TRACE)).toBe(true)
+    expect(isAssociable(EAssociationContextType.DECLARED_PROGRAM, EAssociationContextType.DECLARED_ACTIVITY)).toBe(true)
   })
 
   BddTest().then('it should reject the pairs not supported by the API', () => {
-    expect(isAssociable(EAssociationContextType.DECLARED_ACTIVITY, EAssociationContextType.DECLARED_PROGRAM)).toBe(false)
-    expect(isAssociable(EAssociationContextType.DECLARED_PROGRAM, EAssociationContextType.DECLARED_ACTIVITY)).toBe(false)
     expect(isAssociable(EAssociationContextType.TRACE, EAssociationContextType.TRACE)).toBe(false)
   })
 })
@@ -65,6 +64,7 @@ BddTest().given('getAssociableContextTypes', () => {
         EAssociationContextType.TRACE,
         EAssociationContextType.DECLARED_SKILL,
         EAssociationContextType.DECLARED_EXPERIENCE,
+        EAssociationContextType.DECLARED_PROGRAM,
       ],
       [EAssociationContextType.DECLARED_SKILL]: [
         EAssociationContextType.TRACE,
@@ -80,6 +80,7 @@ BddTest().given('getAssociableContextTypes', () => {
       ],
       [EAssociationContextType.DECLARED_PROGRAM]: [
         EAssociationContextType.TRACE,
+        EAssociationContextType.DECLARED_ACTIVITY,
         EAssociationContextType.DECLARED_SKILL,
         EAssociationContextType.DECLARED_EXPERIENCE,
       ],
@@ -142,10 +143,10 @@ BddTest().given('countElementAssociations', () => {
   BddTest().then('it should only count the associations to the context types associable with the element', () => {
     const expectedCounts: Record<EAssociationContextType, number> = {
       [EAssociationContextType.TRACE]: 10,
-      [EAssociationContextType.DECLARED_ACTIVITY]: 9,
+      [EAssociationContextType.DECLARED_ACTIVITY]: 11,
       [EAssociationContextType.DECLARED_SKILL]: 9,
       [EAssociationContextType.DECLARED_EXPERIENCE]: 8,
-      [EAssociationContextType.DECLARED_PROGRAM]: 9,
+      [EAssociationContextType.DECLARED_PROGRAM]: 10,
     }
 
     Object.entries(expectedCounts).forEach(([contextType, expectedCount]) => {
