@@ -27,6 +27,7 @@ function mountField (overrides: Partial<EditActivityFormData> = {}) {
         bannerAction: EditActivityFormDataBannerAction.NONE,
         files: [],
         links: [],
+        isNational: false,
         targetInstitutionIds: [],
         targetGroupIds: [],
         ...overrides,

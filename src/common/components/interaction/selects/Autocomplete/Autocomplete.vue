@@ -16,6 +16,12 @@ const searchQuery = defineModel<string>('search', { default: '' })
 const avAutocompleteProps = computed(() => ({
   ...attrs,
   ...props,
+  inputOptions: {
+    ...props.inputOptions,
+    placeholder: props.inputOptions?.disabled
+      ? t('global.inputs.disabledPlaceholder')
+      : props.inputOptions?.placeholder,
+  },
   clearLabel: t('global.AvAutoComplete.clearLabel'),
   clearSelectionLabel: t('global.AvAutoComplete.clearSelectionLabel'),
   noResultsLabel: t('global.AvAutoComplete.noResultsLabel')

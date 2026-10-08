@@ -144,7 +144,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
     })
 
     BddTest().then('it should explain why the publish button is disabled', () => {
-      expect(getPublishButton().props('disabledTooltip')).toBe('Veuillez renseigner un titre, une thématique, une consigne, un extrait et un/des contexte(s) de réalisation conseillé(s) pour publier l\'activité')
+      expect(getPublishButton().props('disabledTooltip')).toBe('Veuillez renseigner un titre, une thématique, une consigne, un extrait, un/des contexte(s) de réalisation conseillé(s) et au moins une cible pour publier l\'activité')
     })
 
     BddTest().then('it should display the required fields warning', () => {

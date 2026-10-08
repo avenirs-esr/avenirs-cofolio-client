@@ -29,6 +29,7 @@ export interface EditActivityFormData extends ActivityDraftCreationFormData {
   bannerAction: EditActivityFormDataBannerAction
   files: (File | FileDTO)[]
   links: string[]
+  isNational: boolean
   targetInstitutionIds: string[]
   targetGroupIds: string[]
 }

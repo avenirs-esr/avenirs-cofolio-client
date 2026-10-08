@@ -181,17 +181,20 @@ Feature: Staff Edit National Activity Page
       Then the activity banner form field is visible
 
     @high
-    Scenario: The publish button is visible and enabled by default
+    Scenario: The publish button is visible and enabled when the activity is national
+      Given the staff sets the activity as national
       Then the publish button is visible and enabled
 
     @high
     Scenario: The staff can see the confirmation modal when clicking publish
+      Given the staff sets the activity as national
       When the staff clicks on the publish button
       Then the publish confirmation modal is visible
       And the confirm and cancel buttons are visible
 
     @high
     Scenario: The staff can cancel the publication
+      Given the staff sets the activity as national
       When the staff clicks on the publish button
       And the staff clicks on the cancel button in the confirmation modal
       Then the confirmation modal is closed

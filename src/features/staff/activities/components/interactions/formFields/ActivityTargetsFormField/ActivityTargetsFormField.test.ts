@@ -17,6 +17,7 @@ import { AutocompleteStub } from '@/common/components/interaction/selects/Autoco
 import ActivityTargetsFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTargetsFormField/ActivityTargetsFormField.vue'
 import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
 import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
+import { ToggleParameterCardStub } from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.stub'
 import { AvButtonStub, AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
@@ -28,11 +29,12 @@ interface MountFieldOptions {
   groupIds?: string[]
   persistedIds?: string[]
   lockPersisted?: boolean
+  isNational?: boolean
 }
 
 const onAutosave = vi.fn<(value: ActivityDraftUpdateRequest) => void>()
 
-function mountField ({ institutionIds = [], groupIds = [], persistedIds = [], lockPersisted = false }: MountFieldOptions = {}) {
+function mountField ({ institutionIds = [], groupIds = [], persistedIds = [], lockPersisted = false, isNational = false }: MountFieldOptions = {}) {
   const TestWrapper = defineComponent({
     setup () {
       const defaultValues: EditActivityFormData = {
@@ -49,6 +51,7 @@ function mountField ({ institutionIds = [], groupIds = [], persistedIds = [], lo
         bannerAction: EditActivityFormDataBannerAction.NONE,
         files: [],
         links: [],
+        isNational,
         targetInstitutionIds: institutionIds,
         targetGroupIds: groupIds,
       }
@@ -70,6 +73,7 @@ function mountField ({ institutionIds = [], groupIds = [], persistedIds = [], lo
     global: {
       stubs: {
         Autocomplete: AutocompleteStub,
+        ToggleParameterCard: ToggleParameterCardStub,
         AvButton: AvButtonStub,
         AvMessage: AvMessageStub,
       },
@@ -83,6 +87,7 @@ BddTest().given('an ActivityTargetsFormField component', () => {
   const getAutocomplete = () => wrapper.findComponent(AutocompleteStub) as VueWrapper<InstanceType<typeof AutocompleteStub>>
   const getOptions = () => getAutocomplete().props('options') as AvAutocompleteOption[]
   const getOption = (id: string) => getOptions().find(option => option.value === id)!
+  const getNationalToggle = () => wrapper.findComponent(ToggleParameterCardStub) as VueWrapper<InstanceType<typeof ToggleParameterCardStub>>
   const getActivityTargetsScopeMessage = () => wrapper.find('[data-testid="activity-targets-scope-message"]')
   const getSelectedItems = () => wrapper.findAll('[data-testid="activity-targets-selected-item"]')
   const getRemoveButtons = () => wrapper.findAllComponents(AvButtonStub) as VueWrapper<InstanceType<typeof AvButtonStub>>[]
@@ -98,7 +103,7 @@ BddTest().given('an ActivityTargetsFormField component', () => {
 
   BddTest().when('the staff scope is loaded', () => {
     beforeEach(async () => {
-      wrapper = mountField()
+      wrapper = mountField({ isNational: true })
       await flushPromises()
     })
 
@@ -113,9 +118,39 @@ BddTest().given('an ActivityTargetsFormField component', () => {
       ])
     })
 
-    BddTest().then('it should flag the activity as national because no target is selected', () => {
+    BddTest().then('it should flag the activity as national and disable the targets selection', () => {
+      expect(getNationalToggle().props('modelValue')).toBe(true)
+      expect(getAutocomplete().props('inputOptions')).toMatchObject({ disabled: true })
       expect(getActivityTargetsScopeMessage().text()).toContain('Activité nationale')
       expect(getSelectedItems()).toHaveLength(0)
+    })
+  })
+
+  BddTest().when('the national toggle is switched on while targets are selected', () => {
+    beforeEach(async () => {
+      wrapper = mountField({ institutionIds: [mockedSecondaryInstitutionNode.id] })
+      await flushPromises()
+      getNationalToggle().vm.$emit('update:modelValue', true)
+      await flushPromises()
+    })
+
+    BddTest().then('it should clear the targets and autosave the national scope', () => {
+      expect(getSelectedItems()).toHaveLength(0)
+      expect(onAutosave).toHaveBeenCalledWith({ targetInstitutionIds: [], targetGroupIds: [] })
+    })
+  })
+
+  BddTest().when('the national toggle is switched off', () => {
+    beforeEach(async () => {
+      wrapper = mountField({ isNational: true })
+      await flushPromises()
+      getNationalToggle().vm.$emit('update:modelValue', false)
+      await flushPromises()
+    })
+
+    BddTest().then('it should enable the targets selection without autosaving', () => {
+      expect(getAutocomplete().props('inputOptions')).toMatchObject({ disabled: false })
+      expect(onAutosave).not.toHaveBeenCalled()
     })
   })
 

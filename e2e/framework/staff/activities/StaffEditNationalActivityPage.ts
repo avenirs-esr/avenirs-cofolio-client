@@ -329,6 +329,11 @@ class StaffEditNationalActivityPage extends BasePage {
     await this.tabs().verifyActivityConsignFormFieldCollapsed()
   }
 
+  @Given('the staff sets the activity as national')
+  async setActivityNational () {
+    await this.tabs().setActivityNational()
+  }
+
   @Then('the publish button is visible and enabled')
   async verifyPublishButtonVisibleAndEnabled () {
     await this.tabs().verifyPublishButtonVisible()
@@ -466,6 +471,7 @@ class StaffEditNationalActivityPage extends BasePage {
     await this.tabs().clickPublicationTab()
     await this.tabs().verifyPublicationTabActive()
 
+    await this.tabs().setActivityNational()
     await this.tabs().verifyPublishButtonVisible()
     await this.tabs().verifyPublishButtonEnabled()
     await this.tabs().clickPublishButton()

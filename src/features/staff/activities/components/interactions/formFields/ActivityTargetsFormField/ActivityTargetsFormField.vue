@@ -8,9 +8,10 @@ import { useStaffScope } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
 import { scopeToActivityTargets } from '@/features/staff/activities/utils/activity-targets.utils'
+import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
 import SelectedAssociateItemsContainer
   from '@/features/student/associations/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.vue'
-import { AvMessage } from '@avenirs-esr/avenirs-dsav'
+import { AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface ActivityTargetsFormFieldProps {
@@ -43,7 +44,7 @@ const availableTargets = computed(() => scopeToActivityTargets(scope.value))
 const availableTargetsById = computed(() => new Map(availableTargets.value.map(target => [target.id, target])))
 
 const selectedIds = computed(() => [...institutionIds.value, ...groupIds.value])
-const isNational = computed(() => selectedIds.value.length === 0)
+const isNationalField = form.useField({ name: 'isNational' })
 
 function isLocked (id: string): boolean {
   return lockPersisted && persistedIds.includes(id)
@@ -84,6 +85,18 @@ const selectedTargets = computed<SelectedTarget[]>(() => [
 ])
 
 const hasLockedTargets = computed(() => selectedTargets.value.some(target => target.locked))
+
+const isNational = computed({
+  get: () => isNationalField.state.value.value === true,
+  set: (newValue: boolean) => {
+    form.setFieldValue('isNational', newValue)
+    if (newValue) {
+      form.setFieldValue('targetInstitutionIds', [])
+      form.setFieldValue('targetGroupIds', [])
+      emit('autosave', { targetInstitutionIds: [], targetGroupIds: [] })
+    }
+  },
+})
 
 function updateTargets (nextInstitutionIds: string[], nextGroupIds: string[]) {
   form.setFieldValue('targetInstitutionIds', nextInstitutionIds)
@@ -127,6 +140,20 @@ function removeTarget (id: string) {
     class="av-col av-gap-sm"
     data-testid="activity-targets-form-field"
   >
+    <ToggleParameterCard
+      v-model="isNational"
+      toggle-id="activity-national-toggle"
+      data-testid="activity-national-parameter-toggle"
+      :title="t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.nationalToggleTitle')"
+      :icon="MDI_ICONS.MAP_MARKER_MULTIPLE_OUTLINE"
+      :disabled="hasLockedTargets"
+      :disabled-tooltip="t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.nationalToggleDisabledTooltip')"
+    >
+      <span class="b2-regular av-text-text1">{{
+        t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.nationalToggleDescription')
+      }}</span>
+    </ToggleParameterCard>
+
     <AvMessage
       type="info"
       data-testid="activity-targets-scope-message"
@@ -152,8 +179,10 @@ function removeTarget (id: string) {
         :show-selected-section="false"
         :display-selection-in-input="false"
         :input-options="{
-          label: t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.label'),
+          label: `${t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.label')}${isNational ? '' : ' *'}`,
           placeholder: t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.placeholder'),
+          disabled: isNational,
+          disabledTooltip: t('staff.activities.views.EditNationalActivityView.ActivityTargetsFormField.targetsDisabledTooltip'),
         }"
         :items-title-max-lines="2"
         dropdown-class="activity-targets-form-field__dropdown"

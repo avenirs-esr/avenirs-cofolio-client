@@ -389,6 +389,7 @@
       "invalidForm": "Le formulaire n'est pas valide"
     },
     "inputs": {
+      "disabledPlaceholder": "Non renseigné",
       "textarea": {
         "limit": "{count} / {maxlength} caractères (espaces compris)"
       }
