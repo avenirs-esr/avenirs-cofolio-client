@@ -2,9 +2,10 @@
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import { EAssociationContextType } from '@/api/avenir-esr'
+import Card from '@/common/components/cards/Card/Card.vue'
 import AssociatedElementTypeBadge from '@/features/staff/feedbacks/views/FeedbacksView/components/badges/AssociatedElementTypeBadge/AssociatedElementTypeBadge.vue'
 import FeedbackTraceActions from '@/features/staff/feedbacks/views/FeedbacksView/components/FeedbackTraceActions/FeedbackTraceActions.vue'
-import { AvButton, AvCard, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, CUIDA_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface AssociatedElementCardProps {
@@ -19,6 +20,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const { isMobile } = useAvBreakpoints()
 
 const traceData = computed(() =>
   feedbackAssociatedElement.type === EAssociationContextType.TRACE
@@ -33,7 +35,7 @@ function handleShowDetails () {
 </script>
 
 <template>
-  <AvCard
+  <Card
     collapsible
     :collapsed="true"
     data-testid="associated-element-card"
@@ -47,6 +49,7 @@ function handleShowDetails () {
           />
         </div>
         <span
+          v-if="!isMobile"
           class="av-text-text1"
           :class="collapsed ? 'ellipsis' : ''"
         >
@@ -70,13 +73,19 @@ function handleShowDetails () {
       </div>
     </template>
 
+    <span
+      v-if="isMobile"
+      class="av-text-text1 av-pb-sm av-separator-bottom"
+    >
+      {{ title }}
+    </span>
     <slot />
-  </AvCard>
+  </Card>
 </template>
 
 <style scoped lang="scss">
-  .badge-container {
-    width: var(--dimension-6xl);
-    flex-shrink: 0;
-  }
+.badge-container {
+  width: var(--dimension-6xl);
+  flex-shrink: 0;
+}
 </style>

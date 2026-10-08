@@ -3,7 +3,7 @@ import type { StudentFeedbackItemListDTO } from '@/api/avenir-esr'
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
-import { AvButton, type AvSelectOption, type AvSelectSelectedOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, type AvSelectOption, type AvSelectSelectedOption, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -19,6 +19,7 @@ interface StudentSelectOption extends AvSelectOption {
 const { feedbacks, selectedStudentId } = defineProps<ActivityFeedbackStudentSelectProps>()
 
 const { t } = useI18n()
+const { isMobile } = useAvBreakpoints()
 const { isStaffStudentTrackingRoute } = useIdentifyRoute()
 const { navigateToStaffStudentTrackingActivityFeedbackDetails, navigateToStaffActivityFeedbackDetails } = useNavigation()
 
@@ -91,6 +92,7 @@ function onSelectedItemChange (selected: AvSelectSelectedOption) {
       :icon="MDI_ICONS.ARROW_LEFT_THIN"
       :disabled="!prevOption"
       :disabled-tooltip="t('staff.feedbacks.views.ActivityFeedbackDetailsView.ActivityFeedbackStudentSelect.previousDisabledTooltip')"
+      :icon-only="isMobile"
       variant="OUTLINED"
       data-testid="previous-student-button"
       :to="prevOption ? { name: targetRouteName, params: { feedbackId: prevOption.feedbackId } } : undefined"
@@ -117,6 +119,7 @@ function onSelectedItemChange (selected: AvSelectSelectedOption) {
       variant="OUTLINED"
       :disabled="!nextOption"
       :disabled-tooltip="t('staff.feedbacks.views.ActivityFeedbackDetailsView.ActivityFeedbackStudentSelect.nextDisabledTooltip')"
+      :icon-only="isMobile"
       data-testid="next-student-button"
       :to="nextOption ? { name: targetRouteName, params: { feedbackId: nextOption.feedbackId } } : undefined"
     />

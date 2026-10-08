@@ -16,6 +16,16 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
+const mockIsMobile = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({ isMobile: mockIsMobile }),
+  }
+})
+
 const traceWithFile = mockedTraceDetailedWithFile
 const traceWithLink = mockedTraceDetailedWithLink
 
@@ -26,6 +36,7 @@ BddTest().given('a FeedbackTraceActions component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockIsMobile.value = false
   })
 
   BddTest().when('the trace has a file attachment', () => {
@@ -70,6 +81,32 @@ BddTest().given('a FeedbackTraceActions component', () => {
     BddTest().then('it should pass href and security attributes for external link opening', () => {
       const linkButton = wrapper.find('[data-testid="feedback-trace-actions-link-button"]')
       expect(linkButton.attributes('href')).toBe(traceWithLink.link)
+    })
+
+    BddTest().then('it should not render the link button as icon only', () => {
+      expect(wrapper.findComponent(AvButtonStub).props('iconOnly')).toBeFalsy()
+    })
+  })
+
+  BddTest().when('the viewport is mobile', () => {
+    beforeEach(() => {
+      mockIsMobile.value = true
+    })
+
+    BddTest().then('it should render the download button as icon only', () => {
+      wrapper = mountComponent(FeedbackTraceActions, {
+        props: { trace: traceWithFile },
+        global: { stubs },
+      })
+      expect(wrapper.findComponent(AvButtonStub).props('iconOnly')).toBe(true)
+    })
+
+    BddTest().then('it should render the link button as icon only', () => {
+      wrapper = mountComponent(FeedbackTraceActions, {
+        props: { trace: traceWithLink },
+        global: { stubs },
+      })
+      expect(wrapper.findComponent(AvButtonStub).props('iconOnly')).toBe(true)
     })
   })
 })

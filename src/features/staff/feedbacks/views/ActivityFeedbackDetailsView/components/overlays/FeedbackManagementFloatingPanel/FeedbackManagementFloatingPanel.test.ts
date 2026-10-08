@@ -12,7 +12,17 @@ import FeedbackManagementFloatingPanel, { type FeedbackManagementFloatingPanelPr
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
+
+const mockIsMobile = ref(false)
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({ isMobile: mockIsMobile }),
+  }
+})
 
 const HISTORY_TITLE = 'Historique des feedbacks ({count})'
 const PANEL_TITLE = 'Gestion du feedback'
@@ -25,6 +35,10 @@ const defaultProps: FeedbackManagementFloatingPanelProps = {
 
 BddTest().given('a FeedbackManagementFloatingPanel', () => {
   let wrapper: VueWrapper<InstanceType<typeof FeedbackManagementFloatingPanel>>
+
+  beforeEach(() => {
+    mockIsMobile.value = false
+  })
 
   const stubs = {
     AvTabs: AvTabsStub,
@@ -134,6 +148,21 @@ BddTest().given('a FeedbackManagementFloatingPanel', () => {
 
     BddTest().then('it should toggle the panel when the write feedback tab emits cancel', async () => {
       await expectPanelToggledWhenWriteFeedbackEmits('cancel')
+    })
+  })
+
+  BddTest().when('the viewport is mobile', () => {
+    beforeEach(async () => {
+      mockIsMobile.value = true
+      await mountWith()
+    })
+
+    BddTest().then('it should not pass the activity title as panel subtitle', () => {
+      expect(getPanel().props('subtitle')).toBeUndefined()
+    })
+
+    BddTest().then('it should render the activity title inside the panel content', () => {
+      expect(wrapper.find('.title--mobile').text()).toBe(defaultProps.activityTitle)
     })
   })
 
