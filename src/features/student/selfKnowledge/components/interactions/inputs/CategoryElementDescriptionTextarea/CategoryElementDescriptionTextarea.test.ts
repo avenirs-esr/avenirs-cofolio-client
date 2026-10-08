@@ -41,9 +41,9 @@ BddTest().given('the CategoryElementDescriptionTextarea component', () => {
       expect(avInput.props('disabled')).toBe(false)
     })
 
-    BddTest().then('it should not be required by default', () => {
+    BddTest().then('it should be required by default', () => {
       const avInput = wrapper.findComponent(AvInputStub)
-      expect(avInput.props('required')).toBe(false)
+      expect(avInput.props('required')).toBe(true)
     })
 
     BddTest().then('it should display default label', () => {

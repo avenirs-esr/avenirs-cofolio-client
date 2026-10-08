@@ -9,7 +9,7 @@ const {
   isTextarea = true,
   labelVisible = true,
   disabled = false,
-  required = false,
+  required = true,
   maxlength = SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH,
   label,
   placeholder,

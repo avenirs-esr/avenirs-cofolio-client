@@ -27,7 +27,8 @@ const currentPage = ref(0)
 
 const params = computed<GetSelfKnowledgeElementsParams>(() => ({
   selfKnowledgeCategories: toSelfKnowledgeCategoriesParam(category.type),
-  page: currentPage.value
+  page: currentPage.value,
+  pageSize: 6
 }))
 
 const { data, isLoading, error } = useGetSelfKnowledgeElements(params, {
@@ -75,7 +76,7 @@ function onElementDeleted () {
     collapsible
   >
     <template #title>
-      <div class="av-col av-row--md av-align-center--md av-justify-between av-w-full av-gap-md av-px-md">
+      <div class="av-col av-row--md av-align-center--md av-justify-between av-w-full av-gap-md av-pr-md">
         <AvIconText
           typography-class="n5"
           :icon="categoryIcon"

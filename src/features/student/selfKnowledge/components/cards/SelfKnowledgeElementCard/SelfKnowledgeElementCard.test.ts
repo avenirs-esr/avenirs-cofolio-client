@@ -246,7 +246,10 @@ BddTest().given('a self knowledge element card', () => {
     BddTest().then('it should pass all props correctly to FloatingIconCard', () => {
       const floatingCard = wrapper.findComponent(FloatingIconCardStub)
       expect(floatingCard.props('title')).toBe('Complete Element')
-      expect(floatingCard.props('iconOptions')).toEqual({ name: MDI_ICONS.WEIGHTS })
+      expect(floatingCard.props('iconOptions')).toEqual({
+        name: MDI_ICONS.WEIGHTS,
+        bottom: 'var(--spacing-lg-neg)'
+      })
       expect(floatingCard.props('color')).toBe('var(--strength-color)')
     })
 
