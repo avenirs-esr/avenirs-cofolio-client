@@ -17,6 +17,7 @@ export const ASSOCIATION_PAIRS: ReadonlyArray<readonly [EAssociationContextType,
   [EAssociationContextType.DECLARED_EXPERIENCE, EAssociationContextType.DECLARED_SKILL],
   [EAssociationContextType.DECLARED_EXPERIENCE, EAssociationContextType.DECLARED_PROGRAM],
   [EAssociationContextType.DECLARED_PROGRAM, EAssociationContextType.DECLARED_SKILL],
+  [EAssociationContextType.DECLARED_PROGRAM, EAssociationContextType.DECLARED_ACTIVITY],
 ]
 
 export const ASSOCIATION_CONTEXT_CONFIGS: Record<EAssociationContextType, AssociationContextConfig> = {
