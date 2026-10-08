@@ -27,7 +27,10 @@ export default ({ mode }: { mode: string }) => {
       __AUTH_LOGOUT_URL__: JSON.stringify(env.VITE_AUTH_LOGOUT_URL || `${baseUrl}/auth/logout`),
     },
     plugins: [
-      vue(),
+      vue({
+        // On Windows, vitest cannot resolve absolute template assets (file:///assets/...), so skip their transformation
+        template: process.env.VITEST && process.platform === 'win32' ? { transformAssetUrls: { includeAbsolute: false } } : undefined,
+      }),
       vueJsx(),
       svgLoader(),
       VueDevTools(),
