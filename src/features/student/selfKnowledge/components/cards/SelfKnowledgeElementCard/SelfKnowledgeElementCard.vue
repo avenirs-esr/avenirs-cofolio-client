@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { ESelfKnowledgeCategory, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { IconOptions } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
 import { Rating } from '@/common/components'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
@@ -20,8 +21,9 @@ const {
 
 const { isStudentToolsKitRoute } = useIdentifyRoute()
 
-const iconOptions = computed(() => ({
+const iconOptions = computed<IconOptions>(() => ({
   name: getSelfKnowledgeCategoryIcon(categoryType),
+  bottom: 'var(--spacing-lg-neg)',
 }))
 </script>
 
@@ -38,13 +40,13 @@ const iconOptions = computed(() => ({
       :icon-options="iconOptions"
       :color="categoryColor"
       class="self-knowledge-element-card"
-      height="var(--dimension-7xl)"
+      height="13rem"
     >
       <template #body>
-        <div class="self-knowledge-element-card__body">
-          <p class="element-description av-max-lines caption-regular av-pt-xs">
+        <div class="self-knowledge-element-card__body av-pt-xs">
+          <span class="element-description av-max-lines caption-regular">
             {{ element.description }}
-          </p>
+          </span>
         </div>
       </template>
       <template
