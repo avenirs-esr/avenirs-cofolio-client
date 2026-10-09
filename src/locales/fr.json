@@ -308,6 +308,7 @@
       "download": "Une erreur est survenue lors du téléchargement du fichier.",
       "file": {
         "acceptType": "Le fichier ne respecte pas le format attendu.",
+        "maxFiles": "Le nombre de fichiers dépasse la limite autorisée.",
         "size": "La taille du fichier dépasse la limite autorisée."
       },
       "form": {

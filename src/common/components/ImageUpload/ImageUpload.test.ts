@@ -394,6 +394,19 @@ BddTest().given('an image upload with valid props', () => {
     })
   })
 
+  BddTest().when('delete file button is clicked while an image is set', () => {
+    beforeEach(async () => {
+      mountWith()
+      await wrapper.setProps({ modelValue: mockCanvasFile })
+
+      await getDeleteButton().trigger('click')
+    })
+
+    BddTest().then('it should keep the image displayed until the deletion is confirmed', () => {
+      expect(getAvFileUpload().props('modelValue')).toEqual([mockCanvasFile])
+    })
+  })
+
   BddTest().when('confirming file deletion in modal', () => {
     beforeEach(async () => {
       mountWith()
