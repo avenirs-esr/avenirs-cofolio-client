@@ -6,7 +6,7 @@ import FeedbackAttachmentsFormField from '@/features/staff/feedbacks/views/Activ
 import FeedbackFormField from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackFormField/FeedbackFormField.vue'
 import { useWriteFeedbackForm } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form/use-write-feedback-form'
 import { useToasterStore } from '@/store'
-import { AvBadge, AvCancelConfirmButtons, MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge, AvButton, MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
@@ -74,6 +74,23 @@ const confirmLabel = computed(() => t(
     : 'global.buttons.send'
 ))
 
+const saveDisabledTooltip = computed(() => {
+  if (!isFormValid.value) {
+    return t('global.information.invalidForm')
+  }
+  return t('global.form.saveDisabledTooltip')
+})
+
+const confirmDisabledTooltip = computed(() => {
+  if (isSeen.value) {
+    return t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.confirmDisabledTooltip')
+  }
+  if (!isFormValid.value) {
+    return t('global.information.invalidForm')
+  }
+  return undefined
+})
+
 watch(isDirty, (newValue) => {
   if (newValue) {
     showSavedBadge.value = false
@@ -118,18 +135,34 @@ watch(isDirty, (newValue) => {
 
     <div
       v-memo="[isFormValid, isDirty, isSaving, isPending, isLoading]"
-      class="av-row av-justify-end av-p-md"
+      class="av-row av-justify-end av-gap-sm av-p-md"
     >
-      <AvCancelConfirmButtons
-        :cancel-label="t('global.buttons.exit')"
-        :confirm-label="confirmLabel"
-        :confirm-icon="MS_ICONS.SEND_OUTLINE_ROUNDED"
-        :cancel-is-loading="isSaving || isPending || isLoading"
-        :confirm-is-loading="(!isSubmitted && isDirty) || isSaving || isPending || isLoading"
-        :confirm-disabled="isSeen || !isFormValid"
-        :confirm-disabled-tooltip="isSeen ? t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.confirmDisabledTooltip') : undefined"
-        @cancel="handleCancel"
-        @confirm="handleConfirm"
+      <AvButton
+        :label="t('global.buttons.exit')"
+        :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+        variant="OUTLINED"
+        :is-loading="(!isSubmitted && isDirty) || isSaving || isPending || isLoading"
+        data-testid="cancel-button"
+        @click="handleCancel"
+      />
+      <AvButton
+        :label="t('global.buttons.save')"
+        :icon="MDI_ICONS.CONTENT_SAVE_OUTLINE"
+        variant="OUTLINED"
+        :is-loading="isSaving || isPending || isLoading"
+        :disabled="!isDirty || !isFormValid"
+        :disabled-tooltip="saveDisabledTooltip"
+        data-testid="save-button"
+        @click="form.handleSubmit"
+      />
+      <AvButton
+        :label="confirmLabel"
+        :icon="MS_ICONS.SEND_OUTLINE_ROUNDED"
+        :is-loading="(!isSubmitted && isDirty) || isSaving || isPending || isLoading"
+        :disabled="isSeen || !isFormValid"
+        :disabled-tooltip="confirmDisabledTooltip"
+        data-testid="confirm-button"
+        @click="handleConfirm"
       />
     </div>
   </div>
