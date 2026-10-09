@@ -82,6 +82,12 @@ BddTest().given('a national activity catalog view', () => {
       global: { stubs },
     })
 
+  const mountViewNoAuthor = (status: EActivityStatus, id: string) =>
+    mountComponent(NationalActivityCatalogView, {
+      props: { status, id, },
+      global: { stubs },
+    })
+
   const waitForLoaded = async () => {
     await vi.waitFor(() => {
       expect(wrapper.findComponent(QuerySuspenseStub).props('isLoading')).toBe(false)
@@ -235,6 +241,26 @@ BddTest().given('a national activity catalog view', () => {
     BddTest().then('it should not render the other tabs content', () => {
       expect(getNationalActivityContentTab().exists()).toBe(false)
       expect(wrapper.findComponent(NationalActivityCatalogPreviewTabStub).exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the status is DRAFT and the activity is loaded by a non-author', () => {
+    beforeEach(async () => {
+      wrapper = mountViewNoAuthor(EActivityStatus.DRAFT, 'NOT_AUTHOR_ID')
+      await waitForLoaded()
+    })
+
+    BddTest().then('it should disable both edit and delete buttons', () => {
+      const editButton = wrapper.findAllComponents(AvButtonStub)
+        .find(button => button.props('label') === 'Reprendre le brouillon')
+      const deleteButton = wrapper.findAllComponents(AvButtonStub)
+        .find(button => button.props('label') === 'Supprimer')
+
+      expect(editButton).toBeDefined()
+      expect(deleteButton).toBeDefined()
+
+      expect(editButton!.props('disabled')).toBe(true)
+      expect(deleteButton!.props('disabled')).toBe(true)
     })
   })
 })
