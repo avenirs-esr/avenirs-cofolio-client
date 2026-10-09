@@ -36,6 +36,7 @@ import {
   getCreateDraftFromActivityUrl,
   getDeleteActivityDefinitivelyUrl,
   getDeleteActivityDraftUrl,
+  getDeleteDraftFileUrl,
   getDuplicateActivityUrl,
   getGetActivitiesWithFeedbacksUrl,
   getGetActivityContentUrl,
@@ -162,6 +163,14 @@ export const getStaffActivityLibraryErrorHandler = http.get(`*${getGetStaffActiv
   )
 })
 
+const deletedDraftFileIds = new Set<string>()
+
+export const deleteDraftFileHandler = http.delete(`*${getDeleteDraftFileUrl(':activityDraftId', ':fileId')}`, ({ params }) => {
+  deletedDraftFileIds.add(params.fileId as string)
+
+  return new HttpResponse(null, { status: HttpStatusCode.NO_CONTENT })
+})
+
 export const deleteActivityDraftHandler = http.delete(`*${getDeleteActivityDraftUrl(':activityDraftId')}`, ({ params }) => {
   if (params.activityDraftId === 'INVALID_ACTIVITY_ID') {
     return HttpResponse.json(
@@ -279,7 +288,10 @@ export const staffsActivitiesHandlers = [
         response = mockedActivityContentWithFileAndLink
       }
 
-      return HttpResponse.json<ActivityContentDTO>(response, {
+      return HttpResponse.json<ActivityContentDTO>({
+        ...response,
+        files: response.files?.filter(file => !deletedDraftFileIds.has(file.id)),
+      }, {
         status: HttpStatusCode.OK,
         headers: { 'Content-Type': 'application/json' },
       })
@@ -395,6 +407,7 @@ export const staffsActivitiesHandlers = [
     })
   }),
   staffCreateDraftFromActivityUrl,
+  deleteDraftFileHandler,
   http.get(`*${getGetActivitiesWithFeedbacksUrl()}`, ({ request }) => {
     const url = new URL(request.url)
 
