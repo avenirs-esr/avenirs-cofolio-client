@@ -1,16 +1,16 @@
 import { useFileValidation, type UseFileValidationOptions } from '@/common/composables/use-file-validation/use-file-validation'
+import { MB } from '@/common/utils/file/file'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { expect } from 'vitest'
 
 BddTest().given('a useFileValidation composabled', () => {
-  const ONE_MB = 1024 * 1024
-  const TWO_MB = 2 * ONE_MB
-  const THREE_MB = 3 * ONE_MB
-  const FIVE_MB = 5 * ONE_MB
-  const EIGHT_MB = 8 * ONE_MB
-  const TEN_MB = 10 * ONE_MB
-  const FIFTEEN_MB = 15 * ONE_MB
+  const TWO_MB = 2 * MB
+  const THREE_MB = 3 * MB
+  const FIVE_MB = 5 * MB
+  const EIGHT_MB = 8 * MB
+  const TEN_MB = 10 * MB
+  const FIFTEEN_MB = 15 * MB
 
   const createMockFile = (name: string, type: string, size: number): File => {
     const file = new File([''], name, { type })
@@ -100,7 +100,7 @@ BddTest().given('a useFileValidation composabled', () => {
           maxSizeConfig: {
             '.pdf': FIFTEEN_MB,
             '.jpg': THREE_MB,
-            '*': ONE_MB
+            '*': MB
           }
         }
         const { getMaxSizeForFile } = mountValidationComposable(options)
@@ -124,6 +124,18 @@ BddTest().given('a useFileValidation composabled', () => {
 
         expect(getMaxSizeForFile(jpegFile)).toBe(EIGHT_MB)
         expect(getMaxSizeForFile(pdfFile)).toBe(EIGHT_MB)
+      })
+    })
+
+    BddTest().when('testing getMaxSizeInMBForFile function', () => {
+      BddTest().then('it should return max size in MB for a given file', () => {
+        const { getMaxSizeInMBForFile } = mountValidationComposable(defaultOptions)
+
+        const jpegFile = createMockFile('test.jpg', 'image/jpeg', 1000)
+        const pdfFile = createMockFile('test.pdf', 'application/pdf', 1000)
+
+        expect(getMaxSizeInMBForFile(jpegFile)).toBe(5)
+        expect(getMaxSizeInMBForFile(pdfFile)).toBe(10)
       })
     })
 
@@ -154,7 +166,7 @@ BddTest().given('a useFileValidation composabled', () => {
       BddTest().then('it should validate valid required file', () => {
         const { validateFile } = mountValidationComposable(requiredOptions)
 
-        const validFile = createMockFile('test.jpg', 'image/jpeg', ONE_MB)
+        const validFile = createMockFile('test.jpg', 'image/jpeg', MB)
         expect(validateFile(validFile)).toBeUndefined()
       })
     })
@@ -253,13 +265,13 @@ BddTest().given('a useFileValidation composabled', () => {
           acceptedFileTypes: ['image/jpeg'],
           maxSizeConfig: {
             '.jpg': FIVE_MB,
-            '*': ONE_MB
+            '*': MB
           }
         }
         const { getMaxSizeForFile } = mountValidationComposable(options)
 
         const jpegFile = createMockFile('', 'image/jpeg', 1000)
-        expect(getMaxSizeForFile(jpegFile)).toBe(ONE_MB)
+        expect(getMaxSizeForFile(jpegFile)).toBe(MB)
       })
     })
 

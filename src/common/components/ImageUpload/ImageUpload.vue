@@ -4,6 +4,7 @@ import { ACCEPTED_IMAGE_TYPES, PROFILE_PICTURE_RATIO } from '@/common/components
 import { useImageUpload, useModal } from '@/common/composables'
 import { canvasToFile } from '@/common/utils/file/file'
 import { AvButton, AvFileUpload, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { nextTick } from 'vue'
 import { Cropper } from 'vue-advanced-cropper'
 import { useI18n } from 'vue-i18n'
 import 'vue-advanced-cropper/dist/style.css'
@@ -113,6 +114,18 @@ async function onUpdateImage () {
   return true
 }
 
+async function onRequestDeleteImage () {
+  const { value: error } = imageUpload.error
+  const { value: valid } = imageUpload.valid
+
+  files.value = modelValue.value ? [modelValue.value] : []
+  openModal()
+
+  await nextTick()
+  imageUpload.error.value = error
+  imageUpload.valid.value = valid
+}
+
 function onConfirmDeleteImage () {
   closeModal()
 
@@ -210,7 +223,7 @@ function onFileSizeError () {
       @change="onSelectImage"
       @accept-type-error="onAcceptTypeError"
       @file-size-error="onFileSizeError"
-      @delete-file="openModal"
+      @delete-file="onRequestDeleteImage"
     >
       <template
         v-if="defaultImageName || imageUpload.previewUrl.value"

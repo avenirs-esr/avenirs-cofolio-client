@@ -24,7 +24,7 @@ const traceTypeOptions = computed(() => [
 
 <template>
   <div
-    class="av-pb-md trace-type-select"
+    class="av-pb-md av-separator-bottom trace-type-select"
     data-testid="trace-type-select"
   >
     <AvSelect
@@ -38,9 +38,3 @@ const traceTypeOptions = computed(() => [
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.trace-type-select {
-  border-bottom: 1px solid var(--divider);
-}
-</style>

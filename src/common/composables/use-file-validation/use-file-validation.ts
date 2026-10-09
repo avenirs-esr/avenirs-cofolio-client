@@ -1,3 +1,4 @@
+import { bytesToMegabytes } from '@/common/utils/file/file'
 import { useI18n } from 'vue-i18n'
 
 export type FileSizeConfig = number | Record<string, number>
@@ -57,6 +58,11 @@ export function useFileValidation (options: UseFileValidationOptions) {
     return maxSizeConfig['*'] || undefined
   }
 
+  function getMaxSizeInMBForFile (file: File): number | undefined {
+    const maxSize = getMaxSizeForFile(file)
+    return maxSize ? bytesToMegabytes(maxSize) : undefined
+  }
+
   function validateFile (file: File | null): string | undefined {
     if (!file) {
       if (isRequired) {
@@ -88,6 +94,7 @@ export function useFileValidation (options: UseFileValidationOptions) {
   return {
     isFileTypeAccepted,
     getMaxSizeForFile,
+    getMaxSizeInMBForFile,
     validateFile
   }
 }

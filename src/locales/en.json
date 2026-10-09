@@ -310,6 +310,7 @@
       "download": "An error occurred while downloading the file.",
       "file": {
         "acceptType": "The file does not meet the expected format.",
+        "maxFiles": "The number of files exceeds the allowed limit.",
         "size": "The file size exceeds the allowed limit."
       },
       "form": {
