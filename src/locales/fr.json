@@ -359,6 +359,9 @@
         }
       }
     },
+    "form": {
+      "saveDisabledTooltip": "Veuillez modifier un champ avant de pouvoir enregistrer"
+    },
     "header": {
       "languageSwitcher": "Changer de langue",
       "switchUniverse": {

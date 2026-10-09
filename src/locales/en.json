@@ -359,6 +359,9 @@
         }
       }
     },
+    "form": {
+      "saveDisabledTooltip": "Edit a field before saving"
+    },
     "header": {
       "languageSwitcher": "Change language",
       "switchUniverse": {

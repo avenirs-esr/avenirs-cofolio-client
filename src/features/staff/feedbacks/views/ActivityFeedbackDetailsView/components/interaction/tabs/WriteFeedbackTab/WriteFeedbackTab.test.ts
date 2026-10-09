@@ -10,13 +10,14 @@ import {
 import { FeedbackAttachmentsFormFieldStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackAttachmentsFormField/FeedbackAttachmentsFormField.stub'
 import { FeedbackFormFieldStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackFormField/FeedbackFormField.stub'
 import WriteFeedbackTab from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/tabs/WriteFeedbackTab/WriteFeedbackTab.vue'
-import { type AvCancelConfirmButtonsProps, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvBadgeStub, AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadgeStub, AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
 const EXIT_LABEL = 'Quitter'
+const SAVE_LABEL = 'Enregistrer'
 const SEND_LABEL = 'Envoyer'
 const UPDATE_LABEL = 'Mettre à jour le feedback'
 const SEEN_CONFIRM_DISABLED_TOOLTIP = 'Ce feedback a déjà été consulté et ne peut plus être modifié'
@@ -50,7 +51,7 @@ const stubs = {
   AvBadge: AvBadgeStub,
   FeedbackAttachmentsFormField: FeedbackAttachmentsFormFieldStub,
   FeedbackFormField: FeedbackFormFieldStub,
-  AvCancelConfirmButtons: AvCancelConfirmButtonsStub
+  AvButton: AvButtonStub
 }
 
 const draftFeedback: FeedbackDetailsDTO = {
@@ -88,95 +89,97 @@ async function mountTab (feedback: FeedbackDetailsDTO): Promise<TabWrapper> {
   return wrapper
 }
 
-function getButtons (wrapper: VueWrapper) {
-  return wrapper.findComponent(AvCancelConfirmButtonsStub)
-}
-
-function getBadge (wrapper: VueWrapper) {
-  return wrapper.findComponent(AvBadgeStub)
-}
-
-async function emitConfirm (wrapper: VueWrapper) {
-  await getButtons(wrapper).vm.$emit('confirm')
-}
-
-async function emitCancel (wrapper: VueWrapper) {
-  await getButtons(wrapper).vm.$emit('cancel')
-}
-
-async function waitForEmit (wrapper: VueWrapper, eventName: string) {
-  await vi.waitFor(() => {
-    expect(wrapper.emitted(eventName)).toBeTruthy()
-  })
-}
-
-function expectFormFieldsReadonly (wrapper: VueWrapper, readonly: boolean) {
-  expect(wrapper.findComponent(FeedbackFormFieldStub).props('readonly')).toBe(readonly)
-  expect(wrapper.findComponent(FeedbackAttachmentsFormFieldStub).props('readonly')).toBe(readonly)
-}
-
-function expectButtons (wrapper: VueWrapper, expected: AvCancelConfirmButtonsProps) {
-  const buttons = getButtons(wrapper)
-  for (const [key, value] of Object.entries(expected)) {
-    if (value !== undefined) {
-      expect(buttons.props(key as keyof AvCancelConfirmButtonsProps)).toBe(value)
-    }
-  }
-}
-
-async function expectErrorToast (title: string) {
-  await vi.waitFor(() => {
-    expect(addErrorMessageMock).toHaveBeenCalledWith({
-      title,
-      description: API_ERROR_DESCRIPTION
-    })
-  })
-}
-
-BddTest().given('a write feedback tab with a draft feedback', () => {
+BddTest().given('a write feedback tab', () => {
   let wrapper: TabWrapper
 
-  beforeEach(async () => {
-    wrapper = await mountTab(draftFeedback)
-  })
+  const getBadge = () => wrapper.findComponent(AvBadgeStub)
+  const getButtons = () => wrapper.findAllComponents(AvButtonStub)
+  const getExitButton = () => getButtons().find(button => button.attributes('data-testid') === 'cancel-button')
+  const getSaveButton = () => getButtons().find(button => button.attributes('data-testid') === 'save-button')
+  const getConfirmButton = () => getButtons().find(button => button.attributes('data-testid') === 'confirm-button')
+  const emitConfirm = () => getConfirmButton()?.vm.$emit('click')
+  const emitCancel = () => getExitButton()?.vm.$emit('click')
+  const emitSave = () => getSaveButton()?.vm.$emit('click')
 
-  BddTest().when('the component is mounted', () => {
+  const expectFormFieldsReadonly = (readonly: boolean) => {
+    expect(wrapper.findComponent(FeedbackFormFieldStub).props('readonly')).toBe(readonly)
+    expect(wrapper.findComponent(FeedbackAttachmentsFormFieldStub).props('readonly')).toBe(readonly)
+  }
+
+  const waitForEmit = async (eventName: string) => {
+    await vi.waitFor(() => {
+      expect(wrapper.emitted(eventName)).toBeTruthy()
+    })
+  }
+
+  const expectErrorToast = async (title: string) => {
+    await vi.waitFor(() => {
+      expect(addErrorMessageMock).toHaveBeenCalledWith({
+        title,
+        description: API_ERROR_DESCRIPTION
+      })
+    })
+  }
+
+  BddTest().when('the component is mounted with a draft feedback', () => {
+    beforeEach(async () => {
+      wrapper = await mountTab(draftFeedback)
+    })
+
     BddTest().then('it should not render the saved badge initially', () => {
-      expect(getBadge(wrapper).exists()).toBe(false)
+      expect(getBadge().exists()).toBe(false)
     })
 
     BddTest().then('it should not mark form fields as readonly', () => {
-      expectFormFieldsReadonly(wrapper, false)
+      expectFormFieldsReadonly(false)
     })
 
-    BddTest().then('it should render the expected button labels and icon', () => {
-      expectButtons(wrapper, {
-        cancelLabel: EXIT_LABEL,
-        confirmLabel: SEND_LABEL,
-        confirmIcon: MS_ICONS.SEND_OUTLINE_ROUNDED
-      })
+    BddTest().then('it should render the expected buttons labels and icon', () => {
+      const exitButton = getExitButton()
+      const saveButton = getSaveButton()
+      const confirmButton = getConfirmButton()
+
+      expect(exitButton?.exists()).toBe(true)
+      expect(saveButton?.exists()).toBe(true)
+      expect(confirmButton?.exists()).toBe(true)
+
+      expect(exitButton!.props('label')).toBe(EXIT_LABEL)
+      expect(exitButton!.props('icon')).toBe(MDI_ICONS.CLOSE_CIRCLE_OUTLINE)
+      expect(saveButton!.props('label')).toBe(SAVE_LABEL)
+      expect(saveButton!.props('icon')).toBe(MDI_ICONS.CONTENT_SAVE_OUTLINE)
+      expect(confirmButton!.props('label')).toBe(SEND_LABEL)
+      expect(confirmButton!.props('icon')).toBe(MS_ICONS.SEND_OUTLINE_ROUNDED)
     })
 
-    BddTest().then('it should not disable the confirm button', () => {
-      expectButtons(wrapper, { confirmDisabled: false })
+    BddTest().then('it should only disable the save button', () => {
+      expect(getExitButton()?.props('disabled')).toBe(false)
+      expect(getSaveButton()?.props('disabled')).toBe(true)
+      expect(getConfirmButton()?.props('disabled')).toBe(false)
     })
   })
 
   BddTest().when('the user emits cancel', () => {
     BddTest().then('it should emit cancel', async () => {
-      await emitCancel(wrapper)
+      emitCancel()
       expect(wrapper.emitted('cancel')).toBeTruthy()
+    })
+  })
+
+  BddTest().when('the user saves successfully', () => {
+    BddTest().then('it should show a success toast with the exact message and emit feedbackSaved', async () => {
+      emitSave()
+      await waitForEmit('feedbackSaved')
+      expect(wrapper.emitted('feedbackSent')).toBeFalsy()
+      expect(getBadge().exists()).toBe(true)
     })
   })
 
   BddTest().when('the user confirms (send) successfully', () => {
     BddTest().then('it should show a success toast with the exact message and emit feedbackSent', async () => {
-      await emitConfirm(wrapper)
-      await waitForEmit(wrapper, 'feedbackSent')
+      emitConfirm()
+      await waitForEmit('feedbackSent')
 
       expect(addSuccessMessageMock).toHaveBeenCalledExactlyOnceWith(SEND_SUCCESS_MESSAGE)
-      expect(wrapper.emitted('feedbackSaved')).toBeFalsy()
-      expect(getBadge(wrapper).exists()).toBe(false)
     })
   })
 
@@ -186,42 +189,37 @@ BddTest().given('a write feedback tab with a draft feedback', () => {
     })
 
     BddTest().then('it should show an error toast with the current (save) title and description', async () => {
-      await emitConfirm(wrapper)
+      await emitConfirm()
       await expectErrorToast(SEND_ERROR_TITLE)
 
       expect(wrapper.emitted('feedbackSent')).toBeFalsy()
       expect(addSuccessMessageMock).not.toHaveBeenCalled()
     })
   })
-})
 
-BddTest().given('a write feedback tab with a submitted feedback', () => {
-  let wrapper: TabWrapper
+  BddTest().when('the component is mounted with a submitted feedback', () => {
+    beforeEach(async () => {
+      wrapper = await mountTab(submittedFeedback)
+    })
 
-  beforeEach(async () => {
-    wrapper = await mountTab(submittedFeedback)
-  })
-
-  BddTest().when('the component is mounted', () => {
     BddTest().then('it should not mark form fields as readonly', () => {
-      expectFormFieldsReadonly(wrapper, false)
+      expectFormFieldsReadonly(false)
     })
 
     BddTest().then('it should render the update label with the same confirm icon', () => {
-      expectButtons(wrapper, {
-        cancelLabel: EXIT_LABEL,
-        confirmLabel: UPDATE_LABEL,
-        confirmIcon: MS_ICONS.SEND_OUTLINE_ROUNDED
-      })
+      const confirmButton = getConfirmButton()
+      expect(confirmButton?.exists()).toBe(true)
+      expect(confirmButton!.props('label')).toBe(UPDATE_LABEL)
+      expect(confirmButton!.props('icon')).toBe(MS_ICONS.SEND_OUTLINE_ROUNDED)
     })
   })
 
   BddTest().when('the user confirms (manual update) successfully', () => {
     BddTest().then('it should show the saved badge with the exact label and emit feedbackSaved', async () => {
-      await emitConfirm(wrapper)
-      await waitForEmit(wrapper, 'feedbackSaved')
+      emitConfirm()
+      await waitForEmit('feedbackSaved')
 
-      expect(getBadge(wrapper).props('label')).toBe(SAVED_BADGE_LABEL)
+      expect(getBadge().props('label')).toBe(SAVED_BADGE_LABEL)
       expect(wrapper.emitted('feedbackSent')).toBeFalsy()
       expect(addSuccessMessageMock).not.toHaveBeenCalled()
     })
@@ -233,40 +231,36 @@ BddTest().given('a write feedback tab with a submitted feedback', () => {
     })
 
     BddTest().then('it should show an error toast and not emit feedbackSaved', async () => {
-      await emitConfirm(wrapper)
+      emitConfirm()
       await expectErrorToast(SAVE_ERROR_TITLE)
 
       expect(wrapper.emitted('feedbackSaved')).toBeFalsy()
-      expect(getBadge(wrapper).exists()).toBe(false)
+      expect(getBadge().exists()).toBe(false)
     })
   })
-})
 
-BddTest().given('a write feedback tab with a seen feedback', () => {
-  let wrapper: TabWrapper
+  BddTest().when('the component is mounted with a seen feedback', () => {
+    beforeEach(async () => {
+      wrapper = await mountTab(seenFeedback)
+    })
 
-  beforeEach(async () => {
-    wrapper = await mountTab(seenFeedback)
-  })
-
-  BddTest().when('the component is mounted', () => {
     BddTest().then('it should mark both form fields as readonly', () => {
-      expectFormFieldsReadonly(wrapper, true)
+      expectFormFieldsReadonly(true)
     })
 
     BddTest().then('it should render the update label but disable the confirm button', () => {
-      expectButtons(wrapper, {
-        cancelLabel: EXIT_LABEL,
-        confirmLabel: UPDATE_LABEL,
-        confirmDisabled: true,
-        confirmDisabledTooltip: SEEN_CONFIRM_DISABLED_TOOLTIP
-      })
+      const confirmButton = getConfirmButton()
+      expect(confirmButton?.exists()).toBe(true)
+      expect(confirmButton!.props('label')).toBe(UPDATE_LABEL)
+      expect(confirmButton!.props('icon')).toBe(MS_ICONS.SEND_OUTLINE_ROUNDED)
+      expect(confirmButton!.props('disabled')).toBe(true)
+      expect(confirmButton!.props('disabledTooltip')).toBe(SEEN_CONFIRM_DISABLED_TOOLTIP)
     })
   })
 
   BddTest().when('the user tries to confirm', () => {
     BddTest().then('it should not call the API nor emit anything', async () => {
-      await emitConfirm(wrapper)
+      emitConfirm()
 
       expect(wrapper.emitted('feedbackSaved')).toBeFalsy()
       expect(wrapper.emitted('feedbackSent')).toBeFalsy()
@@ -277,7 +271,7 @@ BddTest().given('a write feedback tab with a seen feedback', () => {
 
   BddTest().when('the user emits cancel', () => {
     BddTest().then('it should emit cancel', async () => {
-      await emitCancel(wrapper)
+      emitCancel()
       expect(wrapper.emitted('cancel')).toBeTruthy()
     })
   })
