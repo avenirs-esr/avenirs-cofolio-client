@@ -208,19 +208,19 @@ BddTest().given('a MoreActionsDropdown component', () => {
           type: 'navigateToFeedbacks',
           disabled: true,
           disabledTooltip:
-          'Vous devez être l\'auteur(rice) d\'au moins une des activités pour accéder à cette action',
+          'Vous devez être l\'auteur(rice) de l\'activité pour accéder à cette action',
         }),
         expect.objectContaining({
           type: 'unpublish',
           disabled: true,
           disabledTooltip:
-          'Vous devez être l\'auteur(rice) d\'au moins une des activités pour accéder à cette action',
+          'Vous devez être l\'auteur(rice) de l\'activité pour accéder à cette action',
         }),
         expect.objectContaining({
           type: 'delete',
           disabled: true,
           disabledTooltip:
-          'Vous devez être l\'auteur(rice) d\'au moins une des activités pour accéder à cette action',
+          'Vous devez être l\'auteur(rice) de l\'activité pour accéder à cette action',
         }),
         expect.stringContaining('clone')
       ])
