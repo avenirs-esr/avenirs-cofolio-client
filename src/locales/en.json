@@ -59,6 +59,7 @@
     },
     "application": "Application",
     "audio": "Audio",
+    "other": "other | others",
     "AvAutoComplete": {
       "clearLabel": "Clear the input",
       "clearSelectionLabel": "Clear the selection",
@@ -322,7 +323,7 @@
       "generic": "An error has occurred. Please try again later.",
       "fileUpload": "An error occurred while uploading the file."
     },
-    "file": "file",
+    "file": "file | files",
     "footer": {
       "anr": {
         "description": "This work benefited from state aid managed by the National Research Agency under the future investment program integrated into France 2030, bearing the reference ANR-21-DMAV-0001",
