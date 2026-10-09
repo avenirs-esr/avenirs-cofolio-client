@@ -1,0 +1,315 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/staff/feedbacks/feedbackManagementFloatingPanel.feature.spec.js >> Staff feedback management >> feedback management floating panel >> Staff can collapse the panel by cancelling the form
+- Location: .features-gen/tests/staff/feedbacks/feedbackManagementFloatingPanel.feature.spec.js:26:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('writing-feedback-floating-panel').locator('[data-testid="av-floating-panel-card"][data-collapsed="false"]').getByTestId('write-feedback-tab').getByTestId('cancel-button')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('writing-feedback-floating-panel').locator('[data-testid="av-floating-panel-card"][data-collapsed="false"]').getByTestId('write-feedback-tab').getByTestId('cancel-button')
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - link "Accueil - Cofolio Staff":
+    - /url: /cofolio/staff
+    - img
+  - button "Changer d'univers"
+  - list:
+    - listitem:
+      - button "Notifications (10)"
+    - listitem:
+      - button "M. dupont"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/staff
+      - listitem:
+        - link "BIBLIOTHÈQUE DES ACTIVITÉS":
+          - /url: /cofolio/staff/activities
+      - listitem:
+        - button "SUIVI DES APPRENANTS"
+- main:
+  - navigation "Fil d'Ariane":
+    - list:
+      - listitem:
+        - link "Accueil":
+          - /url: /cofolio/staff
+      - listitem: Suivi des apprenants
+      - listitem:
+        - link "Toutes mes demandes de feedback":
+          - /url: /cofolio/staff/student-tracking/feedbacks
+      - listitem: "Activité \"Activité \"CV\" : Construire son parcours\""
+  - heading "Détail du feedback" [level=1]
+  - text: "Activité \"Activité \"CV\" : Construire son parcours\""
+  - button "Voir le détail de l'activité"
+  - button "Précédent" [disabled]
+  - combobox
+  - status
+  - button "Suivant" [disabled]
+  - text: Sa prise de recul
+  - button "Réduire" [expanded]
+  - text: Récapitulatif des éléments associés (3)
+  - button "Réduire" [expanded]
+  - status: Trace
+  - text: Développement d'un ePortfolio
+  - button "Voir le détail"
+  - button "Télécharger"
+  - button "Développer"
+  - status: Compétence
+  - text: Conduire un projet de bout en bout
+  - button "Voir le détail"
+  - button "Développer"
+  - status: Expérience
+  - text: Développeur Web Full Stack
+  - button "Voir le détail"
+  - button "Développer"
+  - region "Gestion du feedback":
+    - text: "Gestion du feedback Activité \"CV\" : Construire son parcours"
+    - button "Réduire" [expanded]
+    - tablist "Liste d’onglets":
+      - tab "Mon feedback" [selected]
+      - tab "Historique des feedbacks (4)"
+    - tabpanel "Mon feedback":
+      - text: Texte de mon feedback
+      - textbox "Texte de mon feedback": This is a detailed feedback with associations
+      - text: 45 / 2000 caractères (espaces compris) Joindre un/des document(s)
+      - button "Joindre un/des document(s)"
+      - status
+      - text: "Format : PDF, DOC, DOCX, ODT, JPG, PNG • Poids : 10 Mo max"
+      - button "Quitter"
+      - button "Enregistrer" [disabled]
+      - button "Envoyer"
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/staff/accessibility
+    - listitem:
+      - link "Conditions générales d'utilisation":
+        - /url: /cofolio/staff/cgu
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/staff/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/staff/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1   | import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+  2   | import { clickOnElement } from '@e2e/framework/shared/utils/click'
+  3   | import { FeedbacksHistoryTab } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksHistoryTab'
+  4   | import { expect, type Locator } from '@playwright/test'
+  5   | 
+  6   | export class WritingFeedbackFloatingPanel extends BaseObject {
+  7   |   constructor (root: Locator) {
+  8   |     super(root)
+  9   |   }
+  10  | 
+  11  |   private getCollapsedPanelCard () {
+  12  |     return this.root.locator('[data-testid="av-floating-panel-card"][data-collapsed="true"]')
+  13  |   }
+  14  | 
+  15  |   private getCollapseButton () {
+  16  |     return this.getExpandedPanelCard().locator('header').getByRole('button')
+  17  |   }
+  18  | 
+  19  |   private getExpandedPanelCard () {
+  20  |     return this.root.locator('[data-testid="av-floating-panel-card"][data-collapsed="false"]')
+  21  |   }
+  22  | 
+  23  |   private getExpandButton () {
+  24  |     return this.getCollapsedPanelCard().locator('header').getByRole('button')
+  25  |   }
+  26  | 
+  27  |   private getHistoryTabButton () {
+  28  |     return this.getExpandedPanelCard().getByTestId('history-tab-button')
+  29  |   }
+  30  | 
+  31  |   private getFeedbacksHistoryTab () {
+  32  |     return new FeedbacksHistoryTab(
+  33  |       this.getExpandedPanelCard().getByTestId('feedbacks-history-tab'),
+  34  |     )
+  35  |   }
+  36  | 
+  37  |   private async getWriteFeedbackTab () {
+  38  |     const writeFeedbackTab = this.getExpandedPanelCard().getByTestId('write-feedback-tab')
+  39  |     return writeFeedbackTab
+  40  |   }
+  41  | 
+  42  |   private async verifyWriteFeedbackTabVisible () {
+  43  |     await expect(await this.getWriteFeedbackTab()).toBeVisible()
+  44  |   }
+  45  | 
+  46  |   private async getWriteFeedbackForm () {
+  47  |     const writeFeedbackForm = (await this.getWriteFeedbackTab()).getByTestId('write-feedback-form')
+  48  |     return writeFeedbackForm
+  49  |   }
+  50  | 
+  51  |   private async verifyWriteFeedbackFormVisible () {
+  52  |     await expect(await this.getWriteFeedbackForm()).toBeVisible()
+  53  |   }
+  54  | 
+  55  |   private async getFeedbackFormField () {
+  56  |     const feedbackFormField = (await this.getWriteFeedbackTab()).getByTestId('feedback-form-field')
+  57  |     return feedbackFormField
+  58  |   }
+  59  | 
+  60  |   private async verifyFeedbackFormFieldVisible () {
+  61  |     await expect(await this.getFeedbackFormField()).toBeVisible()
+  62  |   }
+  63  | 
+  64  |   private async getWriteFeedbackCancelButton () {
+  65  |     const cancelButton = (await this.getWriteFeedbackTab()).getByTestId('cancel-button')
+> 66  |     await expect(cancelButton).toBeVisible()
+      |                                ^ Error: expect(locator).toBeVisible() failed
+  67  |     return cancelButton
+  68  |   }
+  69  | 
+  70  |   private async getWriteFeedbackSendButton () {
+  71  |     const sendButton = (await this.getWriteFeedbackTab()).getByTestId('confirm-button')
+  72  |     await expect(sendButton).toBeVisible()
+  73  |     return sendButton
+  74  |   }
+  75  | 
+  76  |   async verifyPanelVisible () {
+  77  |     await expect(this.root).toBeVisible()
+  78  |   }
+  79  | 
+  80  |   async verifyPanelExpanded () {
+  81  |     await expect(this.getExpandedPanelCard()).toBeVisible()
+  82  |     await expect(this.getCollapsedPanelCard()).toBeHidden()
+  83  |   }
+  84  | 
+  85  |   async verifyPanelCollapsed () {
+  86  |     await expect(this.getCollapsedPanelCard()).toBeVisible()
+  87  |     await expect(this.getExpandedPanelCard()).toBeHidden()
+  88  |   }
+  89  | 
+  90  |   async clickCollapseButton () {
+  91  |     await clickOnElement(this.getCollapseButton())
+  92  |   }
+  93  | 
+  94  |   async clickExpandButton () {
+  95  |     await clickOnElement(this.getExpandButton())
+  96  |   }
+  97  | 
+  98  |   async verifyWriteFeedbackTab () {
+  99  |     await this.verifyWriteFeedbackTabVisible()
+  100 |     await this.verifyWriteFeedbackFormVisible()
+  101 |     await this.verifyFeedbackFormFieldVisible()
+  102 |     await expect(await this.getWriteFeedbackCancelButton()).toBeVisible()
+  103 |     await expect(await this.getWriteFeedbackSendButton()).toBeVisible()
+  104 |   }
+  105 | 
+  106 |   async clickHistoryTab () {
+  107 |     await clickOnElement(this.getHistoryTabButton())
+  108 |   }
+  109 | 
+  110 |   async verifyHistoryTabVisible () {
+  111 |     await this.getFeedbacksHistoryTab().verifyVisible()
+  112 |   }
+  113 | 
+  114 |   async verifyHistoryTabContainsAtLeastOneCard () {
+  115 |     await this.getFeedbacksHistoryTab().verifyContainsAtLeastOneCard()
+  116 |   }
+  117 | 
+  118 |   async verifyHistoryTabFirstCardCollapsed () {
+  119 |     await this.getFeedbacksHistoryTab().verifyFirstCardCollapsed()
+  120 |   }
+  121 | 
+  122 |   async verifyHistoryTabFirstCardCollapsedStateVisible () {
+  123 |     await this.getFeedbacksHistoryTab().verifyFirstCardCollapsedStateVisible()
+  124 |   }
+  125 | 
+  126 |   async verifyHistoryTabFirstCardExpandedStateVisible () {
+  127 |     await this.getFeedbacksHistoryTab().verifyFirstCardExpandedStateVisible()
+  128 |   }
+  129 | 
+  130 |   async expandHistoryTabFirstCard () {
+  131 |     await this.getFeedbacksHistoryTab().expandFirstCard()
+  132 |   }
+  133 | 
+  134 |   async verifyHistoryTabAntiChronologicalOrder () {
+  135 |     await this.getFeedbacksHistoryTab().verifyAntiChronologicalOrder()
+  136 |   }
+  137 | 
+  138 |   async verifyFeedbackFormFieldEnabled () {
+  139 |     const field = await this.getFeedbackFormField()
+  140 |     await expect(field).toBeEnabled()
+  141 |   }
+  142 | 
+  143 |   async verifyFeedbackFormFieldDisabled () {
+  144 |     const field = await this.getFeedbackFormField()
+  145 |     await expect(field).toBeDisabled()
+  146 |   }
+  147 | 
+  148 |   async verifySendButtonEnabled () {
+  149 |     await expect(await this.getWriteFeedbackSendButton()).toBeEnabled()
+  150 |   }
+  151 | 
+  152 |   async verifySendButtonDisabled () {
+  153 |     await expect(await this.getWriteFeedbackSendButton()).toBeDisabled()
+  154 |   }
+  155 | 
+  156 |   async verifyCancelButtonEnabled () {
+  157 |     await expect(await this.getWriteFeedbackCancelButton()).toBeEnabled()
+  158 |   }
+  159 | }
+  160 | 
+```
