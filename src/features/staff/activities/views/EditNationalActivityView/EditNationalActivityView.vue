@@ -103,7 +103,7 @@ const defaultValues: EditActivityFormData = reactive({
   bannerAction: EditActivityFormDataBannerAction.NONE,
   files: remoteFiles,
   links: computed(() => content.value?.links ?? []),
-  isNational: false,
+  isNational: computed(() => content.value?.national ?? false),
   targetInstitutionIds: computed(() => content.value?.targetInstitutionIds ?? []),
   targetGroupIds: computed(() => content.value?.targetGroupIds ?? []),
 })
@@ -160,6 +160,7 @@ const form = useForm({
       feedbackAllowedIterations: value.feedbackAllowedIterations ?? 0,
       traceAllowedAssociations: value.traceAllowedAssociations,
       links: value.links,
+      national: value.isNational,
       targetInstitutionIds: value.targetInstitutionIds,
       targetGroupIds: value.targetGroupIds,
     })

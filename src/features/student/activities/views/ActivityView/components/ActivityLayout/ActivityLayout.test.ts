@@ -70,6 +70,7 @@ BddTest().given('a project activity layout component', () => {
       recommendedCompletionContexts: '- Première période\n- Deuxième période',
       createdAt: '2025-01-01T10:00:00Z',
       updatedAt: '2025-01-02T10:00:00Z',
+      national: false,
       enableReflection: true,
       traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
       feedbackAllowedIterations: ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT,

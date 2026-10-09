@@ -93,7 +93,10 @@ const isNational = computed({
     if (newValue) {
       form.setFieldValue('targetInstitutionIds', [])
       form.setFieldValue('targetGroupIds', [])
-      emit('autosave', { targetInstitutionIds: [], targetGroupIds: [] })
+      emit('autosave', { national: true, targetInstitutionIds: [], targetGroupIds: [] })
+    }
+    else {
+      emit('autosave', { national: false })
     }
   },
 })
