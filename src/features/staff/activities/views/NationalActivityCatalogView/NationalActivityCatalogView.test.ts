@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { mockedActivityContent, mockedActivityDraftCreationResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedActivityContent, mockedActivityContentNotAuthor, mockedActivityDraftCreationResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { getActivityContentErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EActivityStatus } from '@/api/avenir-esr'
@@ -79,6 +79,12 @@ BddTest().given('a national activity catalog view', () => {
   const mountView = (status = EActivityStatus.DRAFT, id = mockedActivityContent.id) =>
     mountComponent(NationalActivityCatalogView, {
       props: { status, id },
+      global: { stubs },
+    })
+
+  const mountViewNoAuthor = (status = EActivityStatus.PUBLISHED, id = mockedActivityContentNotAuthor.id) =>
+    mountComponent(NationalActivityCatalogView, {
+      props: { status, id, },
       global: { stubs },
     })
 
@@ -235,6 +241,20 @@ BddTest().given('a national activity catalog view', () => {
     BddTest().then('it should not render the other tabs content', () => {
       expect(getNationalActivityContentTab().exists()).toBe(false)
       expect(wrapper.findComponent(NationalActivityCatalogPreviewTabStub).exists()).toBe(false)
+    })
+  })
+  BddTest().when('the status is PUBLISHED and the activity is loaded by a non-author', () => {
+    beforeEach(async () => {
+      wrapper = mountViewNoAuthor(EActivityStatus.PUBLISHED)
+      await waitForLoaded()
+    })
+
+    BddTest().then('it should not render the delete button', () => {
+      expect(wrapper.find('[data-testid="delete-draft-button"]').exists()).toBe(false)
+    })
+
+    BddTest().then('it should not create a draft', () => {
+      expect(mockNavigateToStaffActivitiesEditNationalActivity).not.toHaveBeenCalled()
     })
   })
 })
