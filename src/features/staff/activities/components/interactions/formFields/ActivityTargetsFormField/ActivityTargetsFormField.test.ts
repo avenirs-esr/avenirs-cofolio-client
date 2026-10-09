@@ -136,7 +136,7 @@ BddTest().given('an ActivityTargetsFormField component', () => {
 
     BddTest().then('it should clear the targets and autosave the national scope', () => {
       expect(getSelectedItems()).toHaveLength(0)
-      expect(onAutosave).toHaveBeenCalledWith({ targetInstitutionIds: [], targetGroupIds: [] })
+      expect(onAutosave).toHaveBeenCalledWith({ national: true, targetInstitutionIds: [], targetGroupIds: [] })
     })
   })
 
@@ -148,9 +148,9 @@ BddTest().given('an ActivityTargetsFormField component', () => {
       await flushPromises()
     })
 
-    BddTest().then('it should enable the targets selection without autosaving', () => {
+    BddTest().then('it should enable the targets selection and autosave the non national scope', () => {
       expect(getAutocomplete().props('inputOptions')).toMatchObject({ disabled: false })
-      expect(onAutosave).not.toHaveBeenCalled()
+      expect(onAutosave).toHaveBeenCalledWith({ national: false })
     })
   })
 

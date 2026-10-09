@@ -6634,6 +6634,9 @@
           "haveDraft": {
             "type": "boolean"
           },
+          "isAuthor": {
+            "type": "boolean"
+          },
           "files": {
             "type": "array",
             "items": {
@@ -6660,6 +6663,9 @@
               "format": "uuid"
             }
           },
+          "national": {
+            "type": "boolean"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -6674,6 +6680,7 @@
           "enableReflection",
           "feedbackAllowedIterations",
           "id",
+          "national",
           "summary",
           "title",
           "traceAllowedAssociations",
@@ -7010,6 +7017,9 @@
               "type": "string",
               "format": "uuid"
             }
+          },
+          "national": {
+            "type": "boolean"
           }
         }
       },
@@ -8462,12 +8472,13 @@
           "email": {
             "type": "string"
           },
-          "categories": {
+          "roles": {
             "type": "array",
             "items": {
               "type": "string",
               "enum": [
-                "STAFF",
+                "TEACHER",
+                "SUIO",
                 "STUDENT"
               ]
             },
@@ -9215,6 +9226,15 @@
         "description": "Enum for external user category",
         "enum": [
           "STAFF",
+          "STUDENT"
+        ]
+      },
+      "EExternalUserRole": {
+        "type": "string",
+        "description": "Enum for the external user role declared on import",
+        "enum": [
+          "TEACHER",
+          "SUIO",
           "STUDENT"
         ]
       },

@@ -297,6 +297,7 @@ export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
   activity: {
     ...commonMockedDeclaredActivityProps.activity,
     thematic: EActivityThematic.SELF_KNOWLEDGE,
+    national: false,
     enableReflection: true,
     traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
     feedbackAllowedIterations: ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT,
