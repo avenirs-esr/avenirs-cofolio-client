@@ -54,6 +54,7 @@ export const mockedActivityContentWithoutEnrolledStudent: ActivityContentDTO = {
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 2,
   hasEnrolledStudent: false,
+  isAuthor: true,
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
   files: [
@@ -88,6 +89,7 @@ export const mockedActivityContent: ActivityContentDTO = {
   enableReflection: false,
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 2,
+  isAuthor: true,
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
 }
@@ -104,6 +106,7 @@ export const mockedActivityContentWithEnrolledStudent1: ActivityContentDTO = {
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 2,
   hasEnrolledStudent: true,
+  isAuthor: true,
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
 }
@@ -119,6 +122,7 @@ export const mockedActivityContentWithEnrolledStudent2: ActivityContentDTO = {
   enableReflection: false,
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 5,
+  isAuthor: true,
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-16T10:00:00Z',
 }
@@ -134,6 +138,7 @@ export const mockedActivityContentWithEnrolledStudent3: ActivityContentDTO = {
   enableReflection: true,
   traceAllowedAssociations: 2,
   feedbackAllowedIterations: 1,
+  isAuthor: true,
   createdAt: '2024-02-01T09:00:00Z',
   updatedAt: '2024-02-02T09:00:00Z',
 }
@@ -149,6 +154,7 @@ export const mockedActivityContentWithEnrolledStudent4: ActivityContentDTO = {
   enableReflection: true,
   traceAllowedAssociations: 4,
   feedbackAllowedIterations: 3,
+  isAuthor: true,
   createdAt: '2024-03-10T14:00:00Z',
   updatedAt: '2024-03-11T14:00:00Z',
 }
@@ -165,6 +171,7 @@ export const mockedActivityContentWithFileAndLink: ActivityContentDTO = {
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 2,
   hasEnrolledStudent: true,
+  isAuthor: true,
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
   files: [

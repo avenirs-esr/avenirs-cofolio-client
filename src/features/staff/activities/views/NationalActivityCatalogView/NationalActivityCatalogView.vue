@@ -33,8 +33,15 @@ const trailingLinks = computed(() => [{ text: activity.value?.title ?? '' }])
 
 const isDraft = computed(() => status === EActivityStatus.DRAFT)
 
+const isAuthor = computed(() => activity.value?.isAuthor)
+
 const buttonLabel = computed(() => isDraft.value || activity.value?.haveDraft ? t('staff.activities.views.NationalActivityCatalogView.buttons.resumeDraft') : t('global.buttons.update'))
 
+const editDeleteTooltip = computed(() =>
+  !isAuthor.value
+    ? t('staff.activities.views.ActivitiesView.MoreActionsDropdown.authorOnlyTooltip')
+    : undefined,
+)
 const { modalOpened: deleteConfirmationOpened, openModal: openDeleteConfirmation, closeModal: closeDeleteConfirmation } = useModal()
 
 const { navigateToStaffActivities, navigateToStaffActivitiesEditNationalActivity } = useNavigation()
@@ -69,6 +76,8 @@ function updateActivity (id: string) {
           :icon="MDI_ICONS.PENCIL_OUTLINE"
           :is-loading="isCreatingDraft"
           :label="buttonLabel"
+          :disabled="!isAuthor"
+          :disabled-tooltip="editDeleteTooltip"
           data-testid="edit-draft-button"
           variant="FLAT"
           @click="() => updateActivity(id)"
@@ -78,6 +87,8 @@ function updateActivity (id: string) {
           :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
           :label="t('global.buttons.delete')"
           data-testid="delete-draft-button"
+          :disabled="!isAuthor"
+          :disabled-tooltip="editDeleteTooltip"
           variant="OUTLINED"
           @click="openDeleteConfirmation"
         />

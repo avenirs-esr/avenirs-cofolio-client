@@ -266,6 +266,7 @@ export const staffsActivitiesHandlers = [
     ({ request }) => {
       const pathnameParts = new URL(request.url).pathname.split('/')
       const activityId = pathnameParts.at(-2)
+      const NOT_AUTHOR_ID = 'NOT_AUTHOR_ID'
 
       let response = mockedActivityContent
 
@@ -278,7 +279,12 @@ export const staffsActivitiesHandlers = [
       else if (activityId === mockedActivityContentWithFileAndLink.id) {
         response = mockedActivityContentWithFileAndLink
       }
-
+      else if (activityId === NOT_AUTHOR_ID) {
+        response = {
+          ...response,
+          isAuthor: false
+        }
+      }
       return HttpResponse.json<ActivityContentDTO>(response, {
         status: HttpStatusCode.OK,
         headers: { 'Content-Type': 'application/json' },
