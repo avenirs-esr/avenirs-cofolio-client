@@ -41,11 +41,11 @@ const iconOptions = computed(() => ({
     data-testid="association-compact-card"
   >
     <template
-      v-if="association.category && association.description"
+      v-if="association.description"
       #body
     >
       <div
-        v-if="contextType === EAssociationContextType.DECLARED_ACTIVITY"
+        v-if="contextType === EAssociationContextType.DECLARED_ACTIVITY && association.category"
         class="av-row"
       >
         <ActivityThematicBadge
@@ -54,7 +54,7 @@ const iconOptions = computed(() => ({
         />
       </div>
       <AvBadge
-        v-else-if="contextType === EAssociationContextType.DECLARED_SKILL"
+        v-else-if="contextType === EAssociationContextType.DECLARED_SKILL && association.category"
         :label="association.description"
         color="var(--text1)"
         border-color="var(--other-border-skill-card)"
@@ -63,6 +63,11 @@ const iconOptions = computed(() => ({
         small
         ellipsis
       />
+      <span
+        v-else-if="contextType === EAssociationContextType.TRACE"
+        class="caption-light"
+        data-testid="association-compact-card-info"
+      >{{ association.description }}</span>
     </template>
   </FloatingIconCard>
 </template>

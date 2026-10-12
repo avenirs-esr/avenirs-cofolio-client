@@ -41,9 +41,9 @@ export function useAssociationSearchResults () {
       title: searchResult.title,
       disabled: searchResult.disabled,
       category: searchResult.category,
-      description: categoryLabelKeyPrefix && searchResult.category
+      description: searchResult.description ?? (categoryLabelKeyPrefix && searchResult.category
         ? t(`${categoryLabelKeyPrefix}.${searchResult.category}`)
-        : searchResult.category
+        : searchResult.category)
     }
   }
 

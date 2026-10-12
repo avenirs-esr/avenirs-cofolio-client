@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AssociationsDTO, DeclaredActivityViewDTO, DeclaredExperienceViewDTO, DeclaredProgramViewDTO, DeclaredSkillProgressDTO } from '@/api/avenir-esr'
+import type { AssociationsDTO, DeclaredActivityViewDTO, DeclaredExperienceViewDTO, DeclaredProgramViewDTO, DeclaredSkillProgressDTO, TraceOverviewDTO } from '@/api/avenir-esr'
 import type { CompactCardSelectorProps } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
@@ -10,6 +10,7 @@ import DeclaredExperienceTypeBadge
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.vue'
 import DeclaredProgramStatusBadge
   from '@/features/student/personalCareer/components/badges/DeclaredProgramStatusBadge/DeclaredProgramStatusBadge.vue'
+import { getTraceComplementaryInfo } from '@/features/student/traces/utils/trace.utils'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -34,7 +35,9 @@ const selectableElements = computed<CompactCardSelectorProps['elements']>(() => 
     case EAssociationContextType.TRACE:
       return associations.traceAssociations.map(({ associationId, trace }) => ({
         id: associationId,
-        title: trace.title
+        title: trace.title,
+        baseElement: trace,
+        showSlot: !!getTraceComplementaryInfo(trace)
       }))
     case EAssociationContextType.DECLARED_ACTIVITY:
       return associations.declaredActivityAssociations.map(association => ({
@@ -84,8 +87,13 @@ const isLight = computed(() => associatedContextType === EAssociationContextType
     data-testid="associations-selector"
   >
     <template #default="{ element }">
+      <span
+        v-if="associatedContextType === EAssociationContextType.TRACE"
+        class="caption-light"
+        data-testid="associations-selector-trace-info"
+      >{{ getTraceComplementaryInfo(element as TraceOverviewDTO) }}</span>
       <DeclaredActivityStatusBadge
-        v-if="associatedContextType === EAssociationContextType.DECLARED_ACTIVITY"
+        v-else-if="associatedContextType === EAssociationContextType.DECLARED_ACTIVITY"
         :status="(element as DeclaredActivityViewDTO).status"
       />
       <AvBadge
