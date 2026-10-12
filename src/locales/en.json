@@ -155,6 +155,7 @@
       "collapse": "Collapse",
       "confirm": "Confirm",
       "delete": "Delete",
+      "deleteAll": "Delete all",
       "download": "Download",
       "exit": "Exit",
       "expand": "Expand",
@@ -372,7 +373,9 @@
     "home": "Home",
     "images": "Images",
     "information": {
-      "fileUpload": {
+      "FileUpload": {
+        "countLabel": "file added | files added",
+        "deleteConfirmationModal": "Confirm deletion of the added file? | Confirm deletion of the added files?",
         "dragAndDrop": "or drag and drop here",
         "formatsLabel": "Format:",
         "maxMbSize": "{size} MB max",
@@ -603,7 +606,8 @@
     },
     "success": {
       "file": {
-        "loaded": "File loaded."
+        "loaded": "File loaded.",
+        "loadedWithSize": "File loaded ({size} {unit})."
       }
     },
     "notValorized": "Not valorized in my kit",

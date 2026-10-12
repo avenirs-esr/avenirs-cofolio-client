@@ -17,7 +17,7 @@ const TraceNameInputStub = {
 
 const TraceFileUploadStub = {
   name: 'TraceFileUpload',
-  props: ['modelValue', 'label', 'validMessage', 'disabled'],
+  props: ['modelValue', 'label', 'disabled'],
   template: '<div class="trace-file-upload-stub"></div>'
 }
 
@@ -104,6 +104,7 @@ BddTest().given('a student detailed trace information component', () => {
       expect(traceFileUpload.props('label')).toContain('Mon document')
       expect(traceFileUpload.props('label')).toContain('Ajouté le')
       expect(traceFileUpload.props('label')).toContain('15 janvier 2024 à 10:30')
+      expect(traceFileUpload.props('label')).toContain('0.98 Mo')
     })
 
     BddTest().then('it should render the trace file upload with correct props', () => {
@@ -115,7 +116,6 @@ BddTest().given('a student detailed trace information component', () => {
       expect(modelValue).toBeInstanceOf(File)
       expect(modelValue.name).toBe('test-document.pdf')
 
-      expect(traceFileUpload.props('validMessage')).toBe('Document chargé.')
       expect(traceFileUpload.props('disabled')).toBe('')
     })
 

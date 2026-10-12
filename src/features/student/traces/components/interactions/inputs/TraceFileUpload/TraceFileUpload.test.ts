@@ -195,13 +195,10 @@ BddTest().given('a trace file upload component', () => {
     })
   })
 
-  BddTest().when('deleteButtonLabel is provided', () => {
-    BddTest().then('it should pass the label to AvFileUpload', () => {
+  BddTest().when('the wrapper sets the delete button label', () => {
+    BddTest().then('it should pass the localized label to AvFileUpload', () => {
       wrapper = mount(TraceFileUpload, {
-        props: {
-          deleteButtonLabel: 'Remove file',
-          modelValue: null
-        },
+        props: { modelValue: null },
         global: {
           stubs
         }
@@ -209,7 +206,7 @@ BddTest().given('a trace file upload component', () => {
 
       const fileUpload = wrapper.findComponent({ name: 'AvFileUpload' })
 
-      expect(fileUpload.props('deleteButtonLabel')).toBe('Remove file')
+      expect(fileUpload.props('deleteButtonLabel')).toBe('Supprimer')
     })
   })
 
