@@ -268,6 +268,12 @@ BddTest().given('the file size formatter', () => {
       expect(formatFileSizeInMegabytes(1024 * 1024, 'fr')).toBe('1')
     })
   })
+
+  BddTest().when('the size is not a whole number of megabytes', () => {
+    BddTest().then('it should display the size with two decimal places', () => {
+      expect(formatFileSizeInMegabytes(1024 * 1024 * 1.11111, 'fr')).toBe('1,11')
+    })
+  })
 })
 
 BddTest().given('the canvas to file utility', () => {

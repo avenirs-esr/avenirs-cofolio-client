@@ -8,7 +8,7 @@ import TraceNameInput from '@/features/student/traces/components/interactions/in
 import TracePersonalNoteTextarea from '@/features/student/traces/components/interactions/inputs/TracePersonalNoteTextarea/TracePersonalNoteTextarea.vue'
 import TraceAiUsageToggle from '@/features/student/traces/components/interactions/toggles/TraceAiUsageToggle/TraceAiUsageToggle.vue'
 import { useTraceAttachmentFile } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
-import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvIconText, bytesToMegabytes, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 interface StudentDetailedTraceInformationProps {
@@ -29,7 +29,8 @@ const attachment = computed(() => trace.attachment)
 const { attachmentFile, uploadDate } = useTraceAttachmentFile(attachment)
 
 const traceFileUploadLabel = computed(() => {
-  return `${t('global.documentLabel')} - ${t('student.traces.interactions.inputs.TraceFileUpload.addedOn', { date: uploadDate.value })}`
+  const fileSizeInMo = bytesToMegabytes(trace.attachment?.fileSize ?? 0)
+  return `${t('global.documentLabel')} - ${t('student.traces.interactions.inputs.TraceFileUpload.addedOn', { date: uploadDate.value })} - ${fileSizeInMo} ${t('global.megabyteUnit')}`
 })
 
 const authorTypeLabel = computed(() =>
@@ -57,7 +58,6 @@ const authorTypeLabel = computed(() =>
           v-if="attachment"
           :label="traceFileUploadLabel"
           :model-value="attachmentFile"
-          :valid-message="t('global.success.file.loaded')"
           disabled
         />
         <div

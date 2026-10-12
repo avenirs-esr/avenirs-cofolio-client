@@ -153,6 +153,7 @@
       "collapse": "Réduire",
       "confirm": "Confirmer",
       "delete": "Supprimer",
+      "deleteAll": "Tout supprimer",
       "download": "Télécharger",
       "exit": "Quitter",
       "expand": "Développer",
@@ -372,7 +373,9 @@
     "home": "Accueil",
     "images": "Images",
     "information": {
-      "fileUpload": {
+      "FileUpload": {
+        "countLabel": "fichier ajouté | fichier ajouté | fichiers ajoutés",
+        "deleteConfirmationModal": "Confirmer la suppression du fichier ajouté\u00A0? | Confirmer la suppression des fichiers ajoutés\u00A0?",
         "dragAndDrop": "ou glisser et déposer ici",
         "formatsLabel": "Format\u00A0:",
         "maxMbSize": "{size} Mo max",
@@ -603,7 +606,8 @@
     },
     "success": {
       "file": {
-        "loaded": "Document chargé."
+        "loaded": "Document chargé.",
+        "loadedWithSize": "Document chargé ({size} {unit})."
       }
     },
     "notValorized": "Non valorisée dans mon kit",

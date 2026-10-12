@@ -9,7 +9,7 @@ export function bytesToMegabytes (bytes: number): number {
 
 export function formatFileSizeInMegabytes (bytes: number, localeCode: AvLocale): string {
   const megabytes = bytesToMegabytes(bytes)
-  return new Intl.NumberFormat(AvIsoLocaleMap[localeCode], { maximumFractionDigits: 1 }).format(megabytes)
+  return new Intl.NumberFormat(AvIsoLocaleMap[localeCode], { maximumFractionDigits: 2 }).format(megabytes)
 }
 
 export function getFileExtension (fileName: string): string {

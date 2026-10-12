@@ -1,18 +1,17 @@
 <script setup lang="ts">
+import FileUpload, { type FileUploadProps } from '@/common/components/interaction/files/FileUpload/FileUpload.vue'
 import { useFileValidation } from '@/common/composables/use-file-validation/use-file-validation'
 import { useSingletonArray } from '@/common/composables/use-singleton-array/use-singleton-array'
 import { bytesToMegabytes } from '@/common/utils/file/file'
 import { TRACE_ACCEPTED_FILE_TYPES } from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/types'
 import { TRACE_MAX_SIZE_BYTES } from '@/features/student/traces/config'
-import { AvFileUpload, type AvFileUploadProps } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-interface TraceFileUploadProps extends Omit<AvFileUploadProps, 'title' | 'description' | 'ariaLabel' | 'accept' | 'deleteButtonLabel' | 'modelValue'> {
+interface TraceFileUploadProps extends Omit<FileUploadProps, 'title' | 'description' | 'ariaLabel' | 'accept' | 'modelValue'> {
   title?: string
   description?: string
   accept?: string[]
-  deleteButtonLabel?: string
   label?: string
 }
 
@@ -20,7 +19,6 @@ const {
   title = undefined,
   description = undefined,
   accept = [...TRACE_ACCEPTED_FILE_TYPES],
-  deleteButtonLabel = undefined,
   disabled = false,
   ...restProps
 } = defineProps<TraceFileUploadProps>()
@@ -54,49 +52,15 @@ const filesTypesMaxSize = computed(() => [
   size: `${bytesToMegabytes(TRACE_MAX_SIZE_BYTES[item.fileType]!)}${t('global.megabyteUnit')}`
 })))
 
-const acceptTypeError = ref<string | null>(null)
-const fileSizeError = ref<string | null>(null)
-const maxFilesError = ref<string | null>(null)
-
-function handleAcceptTypeError () {
-  acceptTypeError.value = t('global.error.file.acceptType')
-}
-
-function handleFileSizeError () {
-  fileSizeError.value = t('global.error.file.size')
-}
-
-function handleMaxFilesError () {
-  maxFilesError.value = t('global.error.file.maxFiles')
-}
-
-const errors = computed(() => {
-  return [
-    restProps.error,
-    acceptTypeError.value,
-    fileSizeError.value,
-    maxFilesError.value
-  ].filter(Boolean).join(' ')
-})
-
-const avFileUploadProps = computed<AvFileUploadProps>(() => ({
+const avFileUploadProps = computed<FileUploadProps>(() => ({
   ...attrs,
   ...restProps,
   accept,
   disabled,
-  error: errors.value,
-  title: title ?? t('global.information.fileUpload.title'),
-  ariaLabel: title ?? t('global.information.fileUpload.title'),
-  description: description ?? t('global.information.fileUpload.dragAndDrop'),
-  deleteButtonLabel: deleteButtonLabel ?? t('global.buttons.delete')
+  title: title ?? t('global.information.FileUpload.title'),
+  ariaLabel: title ?? t('global.information.FileUpload.title'),
+  description: description ?? t('global.information.FileUpload.dragAndDrop')
 }))
-
-function onFilesUpdate (newFiles: File[] | null) {
-  acceptTypeError.value = null
-  fileSizeError.value = null
-  maxFilesError.value = null
-  files.value = newFiles ?? []
-}
 </script>
 
 <template>
@@ -110,14 +74,11 @@ function onFilesUpdate (newFiles: File[] | null) {
         {{ label }}
       </span>
     </div>
-    <AvFileUpload
+    <FileUpload
       v-bind="avFileUploadProps"
-      :model-value="files"
+      v-model="files"
       :max-file-size-mb="getMaxSizeMb"
-      @update:model-value="onFilesUpdate"
-      @file-size-error="handleFileSizeError"
-      @accept-type-error="handleAcceptTypeError"
-      @max-files-error="handleMaxFilesError"
+      confirm-delete
     />
     <div>
       <span
