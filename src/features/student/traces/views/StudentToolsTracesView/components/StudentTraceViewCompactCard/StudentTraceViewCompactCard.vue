@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import CompactCard from '@/features/student/global/components/cards/CompactCard/CompactCard.vue'
+import { getTraceComplementaryInfo } from '@/features/student/traces/utils/trace.utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface StudentTraceViewCompactCardProps {
@@ -8,6 +9,8 @@ export interface StudentTraceViewCompactCardProps {
 }
 
 const { trace } = defineProps<StudentTraceViewCompactCardProps>()
+
+const complementaryInfo = computed(() => getTraceComplementaryInfo(trace))
 </script>
 
 <template>
@@ -20,5 +23,11 @@ const { trace } = defineProps<StudentTraceViewCompactCardProps>()
     border-color="var(--other-border-skill-card)"
     icon-border-color="var(--other-border-skill-card)"
     icon-bottom="-3rem"
-  />
+  >
+    <span
+      v-if="complementaryInfo"
+      class="caption-light"
+      data-testid="trace-view-compact-card-info"
+    >{{ complementaryInfo }}</span>
+  </CompactCard>
 </template>

@@ -111,6 +111,17 @@ BddTest().given('the useAssociationSearchResults composable', () => {
   })
 
   BddTest().when('a trace search result is mapped', () => {
+    BddTest().then('it should use the description provided by the API', () => {
+      const association = composable.toAssociation({
+        id: 'trace-3',
+        title: 'Ma trace avec fichier',
+        description: 'cv.pdf',
+        disabled: false
+      }, EAssociationContextType.TRACE)
+
+      expect(association.description).toBe('cv.pdf')
+    })
+
     BddTest().then('it should not set any description since traces have no category label', () => {
       const association = composable.toAssociation({
         id: 'trace-1',

@@ -50,10 +50,12 @@ BddTest().given('an associations selector', () => {
       expect(wrapper.find('[data-testid="associations-selector"]').exists()).toBe(true)
     })
 
-    BddTest().then('it should only propose the trace associations, without slot', () => {
+    BddTest().then('it should only propose the trace associations, without slot as they have no file nor link', () => {
       expect(findSelector().props('elements')).toEqual(associations.traceAssociations.map(({ associationId, trace }) => ({
         id: associationId,
-        title: trace.title
+        title: trace.title,
+        baseElement: trace,
+        showSlot: false
       })))
     })
 

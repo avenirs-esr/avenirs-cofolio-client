@@ -6109,6 +6109,9 @@
           "attachment": {
             "$ref": "#/components/schemas/FileDTO"
           },
+          "link": {
+            "type": "string"
+          },
           "authorType": {
             "type": "string",
             "$ref": "#/components/schemas/ETraceAuthorType",
@@ -6520,6 +6523,12 @@
             ]
           },
           "aiUseJustification": {
+            "type": "string"
+          },
+          "attachment": {
+            "$ref": "#/components/schemas/FileDTO"
+          },
+          "link": {
             "type": "string"
           },
           "createdAt": {
@@ -7399,6 +7408,9 @@
           },
           "disabled": {
             "type": "boolean"
+          },
+          "description": {
+            "type": "string"
           }
         },
         "required": [

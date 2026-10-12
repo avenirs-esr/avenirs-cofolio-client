@@ -76,6 +76,23 @@ BddTest().given('an association compact card', () => {
     })
   })
 
+  BddTest().when('it is mounted with a trace having a description', () => {
+    beforeEach(() => {
+      wrapper = mountCard({
+        contextType: EAssociationContextType.TRACE,
+        association: { id: 'trace-2', title: 'Ma super trace', description: 'cv.pdf' }
+      })
+    })
+
+    BddTest().then('it should render the description as complementary info', () => {
+      expect(wrapper.find('[data-testid="association-compact-card-info"]').text()).toBe('cv.pdf')
+    })
+
+    BddTest().then('it should not render any badge', () => {
+      expectNoBadge()
+    })
+  })
+
   BddTest().when('it is mounted with a categorized declared activity', () => {
     beforeEach(() => {
       wrapper = mountCard({
