@@ -49,7 +49,7 @@
           },
           "DeclaredExperienceSourceOfInformationInput": {
             "label": "Source of information",
-            "placeholder": "Training course page on the institution's website, etc..."
+            "placeholder": "Company or organization website, etc..."
           },
           "DeclaredExperienceSummaryTextarea": {
             "label": "Review / Reflection"
@@ -79,7 +79,7 @@
           },
           "DeclaredProgramSourceOfInformationInput": {
             "label": "Source of information",
-            "placeholder": "Training course page on the institution's website, etc..."
+            "placeholder": "Training course website, etc..."
           },
           "DeclaredProgramTitleInput": {
             "label": "Program title",

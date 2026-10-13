@@ -55,7 +55,7 @@ BddTest().given('a declared experience source of information input component', (
 
     BddTest().then('it should display the correct placeholder', () => {
       const input = wrapper.findComponent(InputStub)
-      expect(input.props('placeholder')).toBe('Fiche ou page de la formation sur le site de l\'établissement, etc...')
+      expect(input.props('placeholder')).toBe('Fiche ou page de l\'entreprise ou de l\'organisation, etc...')
     })
 
     BddTest().then('it should have empty initial value', () => {
