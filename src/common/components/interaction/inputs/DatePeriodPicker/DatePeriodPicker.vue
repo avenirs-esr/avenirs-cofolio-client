@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DatePeriodPickerType, PickerModel } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.types'
-import { toOutputValue, toPickerValue } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.utils'
+import { getDatePlaceholderKey, toOutputValue, toPickerValue } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.utils'
 import {
   AvCheckbox,
   AvDatePicker,
@@ -100,6 +100,7 @@ function onUpdateIsOngoing (values: (string | number | boolean | undefined)[]) {
     endDate.value = ''
   }
 }
+const placeholder = computed(() => restProps.placeholder ?? t(getDatePlaceholderKey(type)))
 
 const errorMessage = computed(() => [
   startDateErrors?.filter(Boolean)?.join(', '),
@@ -118,6 +119,7 @@ const errorMessage = computed(() => [
     :auto-apply
     :disabled
     v-bind="restProps"
+    :placeholder="placeholder"
     :locale="locale"
     @update:model-value="onUpdateModelValue"
   >

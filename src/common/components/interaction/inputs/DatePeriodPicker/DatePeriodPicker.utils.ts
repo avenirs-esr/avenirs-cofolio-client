@@ -25,3 +25,7 @@ export function toOutputValue (value: AvDatePickerModel, type: DatePeriodPickerT
 
   return type === 'date' && isDate(value) ? format(value, outputFormat) : ''
 }
+
+export function getDatePlaceholderKey (type: DatePeriodPickerType): string {
+  return type === 'month' ? 'global.dates.periodPlaceholder.monthYear' : 'global.dates.periodPlaceholder.fullDate'
+}

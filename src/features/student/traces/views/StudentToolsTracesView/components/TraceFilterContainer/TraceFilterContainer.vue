@@ -108,8 +108,8 @@ watch(fileGlobalTypesSelected, (newFileGlobalTypes) => {
         :show-ongoing="false"
         :start-date="fromDateSelected"
         :end-date="toDateSelected"
-        :placeholder="t('global.dates.periodPlaceholder')"
-        :aria-label="t('global.dates.periodPlaceholder')"
+        :placeholder="t('global.dates.periodPlaceholder.default')"
+        :aria-label="t('global.dates.periodPlaceholder.default')"
         width="var(--dimension-7xl)"
         label-visible
         @update:start-date="handleFromDateChange"

@@ -212,7 +212,11 @@
       "minutesAgo": "Il y a {count} minute | Il y a {count} minutes",
       "ongoing": "En cours",
       "period": "Période",
-      "periodPlaceholder": "Sélectionner une période",
+      "periodPlaceholder": {
+        "default": "Sélectionner une période",
+        "fullDate": "JJ/MM/AAAA - JJ/MM/AAAA",
+        "monthYear": "MM/AAAA - MM/AAAA"
+      },
       "secondsAgo": "Il y a {count} seconde | Il y a {count} secondes",
       "updatedAt": "Modifié le {date} | Modifiée le {date}"
     },

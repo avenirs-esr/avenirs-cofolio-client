@@ -1,5 +1,5 @@
 import type { AvDatePickerMonthModel } from '@avenirs-esr/avenirs-dsav'
-import { toOutputValue, toPickerValue } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.utils'
+import { getDatePlaceholderKey, toOutputValue, toPickerValue } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { expect } from 'vitest'
 
@@ -56,6 +56,20 @@ BddTest().given('toOutputValue', () => {
     BddTest().then('it should return an empty string', () => {
       expect(toOutputValue(dateValue, 'month', 'yyyy-MM-dd')).toBe('')
       expect(toOutputValue(monthValue, 'date', 'yyyy-MM-dd')).toBe('')
+    })
+  })
+})
+
+BddTest().given('getDatePlaceholderKey', () => {
+  BddTest().when('the type is month', () => {
+    BddTest().then('it returns the month range placeholder key', () => {
+      expect(getDatePlaceholderKey('month')).toBe('global.dates.periodPlaceholder.monthYear')
+    })
+  })
+
+  BddTest().when('the type is date', () => {
+    BddTest().then('it returns the date range placeholder key', () => {
+      expect(getDatePlaceholderKey('date')).toBe('global.dates.periodPlaceholder.fullDate')
     })
   })
 })
