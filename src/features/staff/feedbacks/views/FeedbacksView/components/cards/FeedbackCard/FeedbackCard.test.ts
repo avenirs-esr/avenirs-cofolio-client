@@ -1,5 +1,5 @@
 import type { FeedbackStaffListItemDTO } from '@/api/avenir-esr'
-import { EActivityThematic, EFeedbackStatus } from '@/api/avenir-esr'
+import { EActivityStatus, EActivityThematic, EFeedbackStatus } from '@/api/avenir-esr'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { FeedbackIterationBadgeStub } from '@/features/staff/feedbacks/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.stub'
 import { FeedbackStatusBadgeStub } from '@/features/staff/feedbacks/components/badges/FeedbackStatusBadge/FeedbackStatusBadge.stub'
@@ -33,6 +33,7 @@ const feedback: FeedbackStaffListItemDTO = {
   },
   activity: {
     id: 'activity-1',
+    activityStatus: EActivityStatus.PUBLISHED,
     title: 'Master Biologie Marine',
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     summary: '',

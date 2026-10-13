@@ -2,10 +2,10 @@
 import type { BaseApiException } from '@/common/exceptions'
 import {
   EActivityStatus,
+  getGetDeclaredActivityDetailsQueryKey,
   invalidateGetActivitiesView,
   invalidateGetActivityPresentation,
   invalidateGetDeclaredActivitiesView,
-  invalidateGetDeclaredActivityDetails,
   useDeleteActivity,
 } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
@@ -43,8 +43,8 @@ const { isLoading, withTaskLoading } = useTaskLoading()
 const { mutate: deleteActivity, isPending } = useDeleteActivity({
   mutation: {
     onSuccess: async () => {
+      queryClient.removeQueries({ queryKey: getGetDeclaredActivityDetailsQueryKey(declaredActivityId) })
       await withTaskLoading(() => Promise.all([
-        invalidateGetDeclaredActivityDetails(queryClient, declaredActivityId),
         invalidateGetActivityPresentation(queryClient, EActivityStatus.PUBLISHED, activityId),
         invalidateGetDeclaredActivitiesView(queryClient),
         invalidateGetActivitiesView(queryClient)

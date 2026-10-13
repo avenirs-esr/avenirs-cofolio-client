@@ -230,6 +230,7 @@
       "api": {
         "ACTIVITY_DRAFT_NOT_FOUND": "Activity draft not found",
         "ACTIVITY_NOT_FOUND": "Activity not found",
+        "ACTIVITY_UNPUBLISHED": "This activity has been unpublished and is no longer available",
         "AMS_NOT_FOUND": "AMS not found",
         "ASSOCIATION_ALREADY_EXIST": "This association already exist",
         "ASSOCIATION_NOT_FOUND": "Association not found",

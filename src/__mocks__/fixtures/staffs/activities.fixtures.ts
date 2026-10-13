@@ -44,6 +44,7 @@ export const mockedActivityDraftCreationResponse: ActivityDraftCreationResponse 
 
 export const mockedActivityContentWithoutEnrolledStudent: ActivityContentDTO = {
   id: ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID,
+  activityStatus: EActivityStatus.PUBLISHED,
   title: 'Activité publiée sans apprenant inscrit',
   thematic: EActivityThematic.SELF_KNOWLEDGE,
   summary: 'Résumé de l’activité publiée sans apprenant inscrit',
@@ -80,6 +81,7 @@ export const mockedActivityContentWithoutEnrolledStudent: ActivityContentDTO = {
 
 export const mockedActivityContent: ActivityContentDTO = {
   id: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890',
+  activityStatus: EActivityStatus.PUBLISHED,
   title: 'Activité nationale de test',
   thematic: EActivityThematic.TRANSVERSAL,
   summary: 'Résumé de l\'activité de test',
@@ -96,6 +98,7 @@ export const mockedActivityContent: ActivityContentDTO = {
 
 export const mockedActivityContentWithEnrolledStudent1: ActivityContentDTO = {
   id: ACTIVITY_WITH_ENROLLED_STUDENTS_ID,
+  activityStatus: EActivityStatus.PUBLISHED,
   title: 'Activité "CV" : Construire son parcours',
   thematic: EActivityThematic.RESUMES,
   summary: 'Résumé de l\'activité de test',
@@ -113,6 +116,7 @@ export const mockedActivityContentWithEnrolledStudent1: ActivityContentDTO = {
 
 export const mockedActivityContentWithEnrolledStudent2: ActivityContentDTO = {
   id: '2a9f6c4d-8b1e-4d33-9c7a-5e2b8f1c6d77',
+  activityStatus: EActivityStatus.PUBLISHED,
   title: 'Activité de test',
   thematic: EActivityThematic.TRANSVERSAL,
   summary: 'Résumé activité test',
@@ -129,6 +133,7 @@ export const mockedActivityContentWithEnrolledStudent2: ActivityContentDTO = {
 
 export const mockedActivityContentWithEnrolledStudent3: ActivityContentDTO = {
   id: '7c1e4a2b-9d3f-4e5c-8a6b-1f2d3e4c5b6a',
+  activityStatus: EActivityStatus.PUBLISHED,
   title: 'Bilan de compétences',
   thematic: EActivityThematic.SELF_KNOWLEDGE,
   summary: 'Résumé bilan de compétences',
@@ -145,6 +150,7 @@ export const mockedActivityContentWithEnrolledStudent3: ActivityContentDTO = {
 
 export const mockedActivityContentWithEnrolledStudent4: ActivityContentDTO = {
   id: '4f5e6d7c-8b9a-4c1d-9e2f-3a4b5c6d7e8f',
+  activityStatus: EActivityStatus.PUBLISHED,
   title: 'Projet professionnel',
   thematic: EActivityThematic.FUTURE_PLANS,
   summary: 'Résumé projet professionnel',
@@ -161,6 +167,7 @@ export const mockedActivityContentWithEnrolledStudent4: ActivityContentDTO = {
 
 export const mockedActivityContentWithFileAndLink: ActivityContentDTO = {
   id: ACTIVITY_WITH_FILE_AND_LINK_ID,
+  activityStatus: EActivityStatus.PUBLISHED,
   title: 'Activité "Connaissance de soi"\u00A0: Définir ses valeurs',
   thematic: EActivityThematic.SELF_KNOWLEDGE,
   summary: 'Résumé de l\'activité de test',

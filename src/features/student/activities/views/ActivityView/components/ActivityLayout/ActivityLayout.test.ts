@@ -3,6 +3,7 @@ import type {
   SectionNavigationItem,
 } from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.types'
 import {
+  EActivityStatus,
   EActivityThematic,
   EDeclaredActivityStatus,
 } from '@/api/avenir-esr'
@@ -63,6 +64,7 @@ BddTest().given('a project activity layout component', () => {
     updatedAt: '2025-01-02T10:00:00Z',
     activity: {
       id: 'activity-id',
+      activityStatus: EActivityStatus.PUBLISHED,
       title: 'Mon activité',
       thematic: EActivityThematic.SELF_KNOWLEDGE,
       summary: 'Résumé activité',

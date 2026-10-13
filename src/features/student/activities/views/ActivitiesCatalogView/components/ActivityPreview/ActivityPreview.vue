@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ActivityPresentationDTO } from '@/api/avenir-esr'
+import { type ActivityPresentationDTO, EActivityStatus } from '@/api/avenir-esr'
 import ActivityCatalogHeader from '@/common/activities/components/ActivityCatalogHeader/ActivityCatalogHeader.vue'
 import ActivityCatalogPreviewCard from '@/common/activities/components/ActivityCatalogPreviewCard/ActivityCatalogPreviewCard.vue'
 import { isActivitySubscribed } from '@/common/activities/rules/activities.rules'
@@ -25,6 +25,7 @@ const isSubscribed = computed(() => isActivitySubscribed(activity))
 const subscribeButtonLabel = computed(() => hasDeclaredActivity.value
   ? t('global.buttons.resubscribe')
   : t('student.activities.interactions.buttons.subscribe'))
+const isSubscribeDisabled = computed(() => activity.activityStatus === EActivityStatus.UNPUBLISHED)
 </script>
 
 <template>
@@ -67,6 +68,8 @@ const subscribeButtonLabel = computed(() => hasDeclaredActivity.value
           variant="OUTLINED"
           :label="subscribeButtonLabel"
           :icon="PH_ICONS.NOTE_PENCIL"
+          :disabled="isSubscribeDisabled"
+          :disabled-tooltip="t('student.activities.views.ActivitiesCatalogView.unpublishedTooltip')"
           data-testid="subscribe-button"
           @click="openSubscribeModal"
         />

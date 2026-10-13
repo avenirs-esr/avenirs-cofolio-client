@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { mockedActivityDetail, mockedSubscribedActivityDetail, mockedUnsubscribedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { EActivityStatus } from '@/api/avenir-esr'
 import { ActivityCatalogHeaderStub } from '@/common/activities/components/ActivityCatalogHeader/ActivityCatalogHeader.stub'
 import { ActivityCatalogPreviewCardStub } from '@/common/activities/components/ActivityCatalogPreviewCard/ActivityCatalogPreviewCard.stub'
 import { ROUTES } from '@/common/constants'
@@ -273,6 +274,26 @@ BddTest().given('an activity preview', () => {
       expect(subscribeButton).toBeDefined()
       expect(subscribeButton!.exists()).toBe(true)
       expect(subscribeButton!.text()).toBe('Me réinscrire')
+    })
+
+    BddTest().then('it should enable the subscribe button', () => {
+      expect(getSubscribeButton()!.props('disabled')).toBeFalsy()
+    })
+  })
+
+  BddTest().when('the component is mounted with an unpublished activity', () => {
+    const props: ActivityPreviewProps = {
+      activity: { ...mockedUnsubscribedActivityDetail, activityStatus: EActivityStatus.UNPUBLISHED }
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(ActivityPreview, { props, global: { stubs } })
+    })
+
+    BddTest().then('it should disable the subscribe button with an explanatory tooltip', () => {
+      const subscribeButton = getSubscribeButton()
+      expect(subscribeButton!.props('disabled')).toBe(true)
+      expect(subscribeButton!.props('disabledTooltip')).toBe('Cette activité a été dépubliée et n\'est plus disponible')
     })
   })
 })

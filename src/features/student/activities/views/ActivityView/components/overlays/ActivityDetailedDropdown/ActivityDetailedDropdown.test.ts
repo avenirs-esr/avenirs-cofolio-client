@@ -1,4 +1,4 @@
-import { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { EActivityStatus, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
 import { Action, type ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ActivityDetailedDropdown, { type ActivityDetailedDropdownProps } from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
@@ -17,6 +17,7 @@ BddTest().given('an activity dropdown', () => {
     wrapper = mount(ActivityDetailedDropdown, {
       props: {
         status: EDeclaredActivityStatus.COMPLETED,
+        activityStatus: EActivityStatus.PUBLISHED,
         ...props
       },
       global: { stubs }
@@ -104,6 +105,23 @@ BddTest().given('an activity dropdown', () => {
         await deleteButton.trigger('click')
         expect(wrapper.emitted('delete')).toHaveLength(1)
       })
+    })
+
+    BddTest().then('it should enable the resubscribe action', () => {
+      const resubscribeAction = (getDropdown().props('actions') as Array<ActionItem>).find(({ type }) => type === Action.RESUBSCRIBE)
+      expect(resubscribeAction?.disabled).toBe(false)
+    })
+  })
+
+  BddTest().when('the declared activity is unsubscribed and the activity is unpublished', () => {
+    beforeEach(() => {
+      mountWith({ status: EDeclaredActivityStatus.UNSUBSCRIBED, activityStatus: EActivityStatus.UNPUBLISHED })
+    })
+
+    BddTest().then('it should disable the resubscribe action with a tooltip', () => {
+      const resubscribeAction = (getDropdown().props('actions') as Array<ActionItem>).find(({ type }) => type === Action.RESUBSCRIBE)
+      expect(resubscribeAction?.disabled).toBe(true)
+      expect(resubscribeAction?.disabledTooltip).toBeTruthy()
     })
   })
 })
