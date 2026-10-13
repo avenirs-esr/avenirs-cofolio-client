@@ -15,7 +15,7 @@ BddTest().given('a date period picker', () => {
 
   const stubs = {
     AvCheckbox: AvCheckboxStub,
-    AvDatePicker: AvDatePickerStub,
+    AvDatePicker: AvDatePickerStub
   }
 
   const getDatePicker = () => wrapper.findComponent(AvDatePickerStub)
@@ -31,6 +31,7 @@ BddTest().given('a date period picker', () => {
         endDate: modelValues.endDate ?? '',
         isOngoing: modelValues.isOngoing ?? false,
         startDate: modelValues.startDate ?? '',
+        type: 'month',
         ...props,
       },
     })
@@ -178,6 +179,18 @@ BddTest().given('a date period picker', () => {
     BddTest().then('it should keep the API form value and forward the error', () => {
       expect(getDatePicker().props('modelValue')).toEqual([{ month: 1, year: 2024 }])
       expect(getDatePicker().props('errorMessage')).toBe('The period is invalid')
+    })
+  })
+
+  BddTest().when('it uses the placeholder passed as prop', () => {
+    beforeEach(() => {
+      mountDatePeriodPicker({
+        placeholder: 'MM/AAAA - MM/AAAA',
+      })
+    })
+
+    BddTest().then('the placeholder is passed to the date picker', () => {
+      expect(getDatePicker().props('placeholder')).toBe('MM/AAAA - MM/AAAA')
     })
   })
 })

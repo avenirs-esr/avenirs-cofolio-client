@@ -119,7 +119,6 @@ export function useDateUtils (): UseDateUtilsReturn {
       time: formattedTime
     })
   }
-
   const formatLastModified = (date: DateArg<Date>, compact: boolean = false): string => {
     const parsedDate = parseDate(date)
     const now = new Date()
@@ -160,9 +159,8 @@ export function useDateUtils (): UseDateUtilsReturn {
     const years = differenceInYears(now, parsedDate)
     return t('global.dates.compact.years', { count: years })
   }
-
   return {
     formatLastModified,
-    formatTranslatedDateTime
+    formatTranslatedDateTime,
   }
 }

@@ -214,7 +214,11 @@
       "minutesAgo": "{count} minute ago | {count} minutes ago",
       "ongoing": "Ongoing",
       "period": "Period",
-      "periodPlaceholder": "Select a period",
+      "periodPlaceholder": {
+        "default": "Select a period",
+        "fullDate": "DD/MM/YYYY - DD/MM/YYYY",
+        "monthYear": "MM/YYYY - MM/YYYY"
+      },
       "secondsAgo": "{count} second ago | {count} seconds ago",
       "updatedAt": "Updated on {date}"
     },
