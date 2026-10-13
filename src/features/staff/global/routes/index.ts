@@ -2,6 +2,7 @@ import { EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
+import { staffAdminRoutes } from '@/features/staff/admin/routes'
 import { staffActivityFeedbacksRoute, staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
 
 const breadcrumb = [...BASE_BREADCRUMBS.STAFF.HOME.BASE]
@@ -26,6 +27,7 @@ export default [
           import('@/common/views/AccessibilityView/AccessibilityView.vue'),
         meta: { breadcrumb },
       },
+      ...staffAdminRoutes,
       {
         ...ROUTES.STAFF.CGU,
         component: () =>

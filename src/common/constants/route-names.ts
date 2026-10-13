@@ -1,4 +1,10 @@
+/**
+ * Route names and paths organized by application module.
+ */
 export const ROUTES = {
+  /**
+   * Route names and paths for the authentication module.
+   */
   AUTH: {
     ACCESSIBILITY: { name: 'auth-accessibility', path: 'accessibility' },
     CGU: { name: 'auth-cgu', path: 'cgu' },
@@ -6,11 +12,20 @@ export const ROUTES = {
     LOGIN: { name: 'auth-login', path: 'login' },
     PERSONAL_DATA: { name: 'auth-personal-data', path: 'personal-data' },
   },
+
+  /**
+   * Route names and paths for the staff module.
+   */
   STAFF: {
     ACCESSIBILITY: { name: 'staff-accessibility', path: 'accessibility' },
     ACTIVITIES: { name: 'staff-activities', path: 'activities' },
     ACTIVITIES_EDIT_NATIONAL_ACTIVITY: { name: 'staff-activities-edit-national-activity', path: 'activities/:id/edit' },
     ACTIVITY_CATALOG: { name: 'staff-activity-catalog', path: 'activities/:status/:id' },
+    ADMIN: {
+      GROUPS: { name: 'staff-admin-groups', path: 'admin/groups' },
+      SKILLS: { name: 'staff-admin-skills', path: 'admin/skills' },
+      USERS: { name: 'staff-admin-users', path: 'admin/users' },
+    },
     CGU: { name: 'staff-cgu', path: 'cgu' },
     COOKIES: { name: 'staff-cookies', path: 'cookies' },
     ACTIVITY_FEEDBACK: { name: 'staff-activity-feedback', path: 'activity-feedback/:feedbackId' },
@@ -21,6 +36,10 @@ export const ROUTES = {
       FEEDBACKS: { name: 'staff-student-tracking-feedbacks', path: 'student-tracking/feedbacks' },
     },
   },
+
+  /**
+   * Route names and paths for the student module.
+   */
   STUDENT: {
     ABOUT: { name: 'student-about', path: 'about' },
     ACCESSIBILITY: { name: 'student-accessibility', path: 'accessibility' },

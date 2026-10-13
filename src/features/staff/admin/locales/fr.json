@@ -1,0 +1,17 @@
+{
+  "staff": {
+    "admin": {
+      "views": {
+        "AdminInstitutionGroupsView": {
+          "title": "Groupes de l'établissement"
+        },
+        "AdminInstitutionSkillsView": {
+          "title": "Référentiels de compétences de l'établissement"
+        },
+        "AdminInstitutionUsersView": {
+          "title": "Utilisateurs de l'établissement"
+        }
+      }
+    }
+  }
+}

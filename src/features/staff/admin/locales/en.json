@@ -1,0 +1,17 @@
+{
+  "staff": {
+    "admin": {
+      "views": {
+        "AdminInstitutionGroupsView": {
+          "title": "Institution groups"
+        },
+        "AdminInstitutionSkillsView": {
+          "title": "Institution skills references"
+        },
+        "AdminInstitutionUsersView": {
+          "title": "Institution users"
+        }
+      }
+    }
+  }
+}

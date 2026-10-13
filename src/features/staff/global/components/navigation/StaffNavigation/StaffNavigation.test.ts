@@ -27,21 +27,25 @@ BddTest().given('a staff navigation', () => {
     return wrapper
   }
 
+  const getAvNavigation = () => wrapper.findComponent(AvNavigationStub)
+  const getNavItems = () => getAvNavigation().props('navItems')
+  const getNavItem = (navItemIndex: number) => getNavItems()[navItemIndex]
+  const getNavItemLinks = (navItemIndex: number) => {
+    const navItem = getNavItem(navItemIndex)
+    return 'links' in navItem ? navItem.links : []
+  }
+
   BddTest().when('the component is mounted', () => {
     beforeEach(async () => {
       wrapper = await mountDefault()
     })
 
     BddTest().then('it should render AvNavigation component', () => {
-      const avNavigation = wrapper.findComponent(AvNavigationStub)
-      expect(avNavigation.exists()).toBe(true)
+      expect(getAvNavigation().exists()).toBe(true)
     })
 
     BddTest().then('it should include home navigation item with correct properties', () => {
-      const avNavigation = wrapper.findComponent(AvNavigationStub)
-      const navItems = avNavigation.props('navItems')
-
-      expect(navItems[0]).toMatchObject({
+      expect(getNavItem(0)).toMatchObject({
         text: 'ACCUEIL',
         to: expect.objectContaining({ name: 'staff-home' }),
         icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
@@ -49,10 +53,7 @@ BddTest().given('a staff navigation', () => {
     })
 
     BddTest().then('it should include activities navigation item with correct properties', () => {
-      const avNavigation = wrapper.findComponent(AvNavigationStub)
-      const navItems = avNavigation.props('navItems')
-
-      expect(navItems[1]).toMatchObject({
+      expect(getNavItem(1)).toMatchObject({
         text: 'BIBLIOTHÈQUE DES ACTIVITÉS',
         to: expect.objectContaining({ name: 'staff-activities' }),
         icon: ICONS.ACTIVITY,
@@ -60,25 +61,52 @@ BddTest().given('a staff navigation', () => {
     })
 
     BddTest().then('it should include student tracking menu with correct title', () => {
-      const avNavigation = wrapper.findComponent(AvNavigationStub)
-      const navItems = avNavigation.props('navItems')
-
-      expect(navItems[2]).toMatchObject({
+      expect(getNavItem(2)).toMatchObject({
         title: 'SUIVI DES APPRENANTS',
       })
     })
 
     BddTest().then('it should include feedback link in student tracking menu', () => {
-      const avNavigation = wrapper.findComponent(AvNavigationStub)
-      const navItems = avNavigation.props('navItems')
+      const links = getNavItemLinks(2)
 
-      expect('links' in navItems[2]).toBe(true)
-      expect('links' in navItems[2] && navItems[2].links).toHaveLength(1)
+      expect(links).toHaveLength(1)
 
-      expect('links' in navItems[2] && navItems[2].links![0]).toMatchObject({
+      expect(links![0]).toMatchObject({
         text: 'Toutes mes demandes de feedback',
         to: expect.objectContaining({ name: 'staff-student-tracking-feedbacks' }),
+        icon: ICONS.FEEDBACK,
+      })
+    })
+
+    BddTest().then('it should include the admin menu with correct title and correct amount of links', () => {
+      expect(getNavItem(3)).toMatchObject({
+        title: 'ADMINISTRATION',
+      })
+
+      expect(getNavItemLinks(3)).toHaveLength(3)
+    })
+
+    BddTest().then('it should include institution users link in admin menu', () => {
+      expect(getNavItemLinks(3)![0]).toMatchObject({
+        text: 'Utilisateurs',
+        to: expect.objectContaining({ name: 'staff-admin-users' }),
+        icon: MDI_ICONS.ACCOUNT_STUDENT_OUTLINE,
+      })
+    })
+
+    BddTest().then('it should include institution groups link in admin menu', () => {
+      expect(getNavItemLinks(3)![1]).toMatchObject({
+        text: 'Groupes',
+        to: expect.objectContaining({ name: 'staff-admin-groups' }),
         icon: MDI_ICONS.PEOPLE_GROUP_OUTLINE,
+      })
+    })
+
+    BddTest().then('it should include institution skills link in admin menu', () => {
+      expect(getNavItemLinks(3)![2]).toMatchObject({
+        text: 'Compétences',
+        to: expect.objectContaining({ name: 'staff-admin-skills' }),
+        icon: ICONS.SKILLS,
       })
     })
   })

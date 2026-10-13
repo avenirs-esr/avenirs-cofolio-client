@@ -20,6 +20,14 @@
               "editNationalActivity": "Modifier l'activité"
             }
           },
+          "admin": {
+            "header": "Administration",
+            "items": {
+              "groups": "Groupes",
+              "skills": "Compétences",
+              "users": "Utilisateurs"
+            }
+          },
           "home": "Accueil",
           "studentFeedbacks": "Toutes mes demandes de feedback",
           "studentTracking": "Suivi des apprenants"
