@@ -20,6 +20,14 @@
               "editNationalActivity": "Edit activity"
             }
           },
+          "admin": {
+            "header": "Administration",
+            "items": {
+              "groups": "Groups",
+              "skills": "Skills",
+              "users": "Users"
+            }
+          },
           "home": "Home",
           "studentFeedbacks": "All my feedback requests",
           "studentTracking": "Student tracking"

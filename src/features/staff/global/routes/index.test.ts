@@ -3,6 +3,9 @@ import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityVie
 import CguView from '@/common/views/CguView/CguView.vue'
 import CookiesView from '@/common/views/CookiesView/CookiesView.vue'
 import PersonalDataView from '@/common/views/PersonalDataView/PersonalDataView.vue'
+import AdminInstitutionGroupsView from '@/features/staff/admin/views/AdminInstitutionGroupsView/AdminInstitutionGroupsView.vue'
+import AdminInstitutionSkillsView from '@/features/staff/admin/views/AdminInstitutionSkillsView/AdminInstitutionSkillsView.vue'
+import AdminInstitutionUsersView from '@/features/staff/admin/views/AdminInstitutionUsersView/AdminInstitutionUsersView.vue'
 import ActivityFeedbackDetailsView from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/ActivityFeedbackDetailsView.vue'
 import FeedbacksView from '@/features/staff/feedbacks/views/FeedbacksView/FeedbacksView.vue'
 import routes from '@/features/staff/global/routes'
@@ -23,6 +26,24 @@ testRoute(
   children.find(r => r.name === ROUTES.STAFF.ACCESSIBILITY.name)!,
   ROUTES.STAFF.ACCESSIBILITY,
   AccessibilityView
+)
+
+testRoute(
+  children.find(r => r.name === ROUTES.STAFF.ADMIN.USERS.name)!,
+  ROUTES.STAFF.ADMIN.USERS,
+  AdminInstitutionUsersView
+)
+
+testRoute(
+  children.find(r => r.name === ROUTES.STAFF.ADMIN.SKILLS.name)!,
+  ROUTES.STAFF.ADMIN.SKILLS,
+  AdminInstitutionSkillsView
+)
+
+testRoute(
+  children.find(r => r.name === ROUTES.STAFF.ADMIN.GROUPS.name)!,
+  ROUTES.STAFF.ADMIN.GROUPS,
+  AdminInstitutionGroupsView
 )
 
 testRoute(
