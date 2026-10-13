@@ -49,7 +49,7 @@
           },
           "DeclaredExperienceSourceOfInformationInput": {
             "label": "Source de l'information",
-            "placeholder": "Fiche ou page de la formation sur le site de l'établissement, etc..."
+            "placeholder": "Fiche ou page de l'entreprise ou de l'organisation, etc..."
           },
           "DeclaredExperienceSummaryTextarea": {
             "label": "Bilan / Prise de recul"
