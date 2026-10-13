@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { EActivityStatus, type EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
 import { Action, type ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
@@ -7,9 +7,10 @@ import { useI18n } from 'vue-i18n'
 
 export interface ActivityDetailedDropdownProps {
   status: EDeclaredActivityStatus
+  activityStatus: EActivityStatus
 }
 
-const { status } = defineProps<ActivityDetailedDropdownProps>()
+const { status, activityStatus } = defineProps<ActivityDetailedDropdownProps>()
 
 const emit = defineEmits<{
   (e: AllowedAction): void
@@ -27,10 +28,16 @@ const deleteAction = computed<ActionItem>(() => ({
   disabledTooltip: t('student.activities.views.ActivityView.ActivityDetailedDropdown.deleteAction.disabledTooltip')
 }))
 
+const resubscribeAction = computed<ActionItem>(() => ({
+  type: Action.RESUBSCRIBE,
+  disabled: activityStatus === EActivityStatus.UNPUBLISHED,
+  disabledTooltip: t('student.activities.views.ActivitiesCatalogView.unpublishedTooltip')
+}))
+
 const actions = computed(() => (
   [
     deleteAction.value,
-    ...(isUnsubscribed.value ? [Action.RESUBSCRIBE] : [Action.UPDATE, Action.UNSUBSCRIBE])
+    ...(isUnsubscribed.value ? [resubscribeAction.value] : [Action.UPDATE, Action.UNSUBSCRIBE])
   ]
 ))
 </script>

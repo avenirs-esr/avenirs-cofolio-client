@@ -61,7 +61,8 @@
           "buttons": {
             "access": "Accéder à mon activité"
           },
-          "title": "Toutes les activités disponibles"
+          "title": "Toutes les activités disponibles",
+          "unpublishedTooltip": "Cette activité a été dépubliée et n'est plus disponible"
         },
         "ActivitiesView": {
           "ActivityLibraryCard": {

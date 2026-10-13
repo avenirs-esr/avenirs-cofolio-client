@@ -61,7 +61,8 @@
           "buttons": {
             "access": "Access my activity"
           },
-          "title": "All available activities"
+          "title": "All available activities",
+          "unpublishedTooltip": "This activity has been unpublished and is no longer available"
         },
         "ActivitiesView": {
           "ActivityLibraryCard": {

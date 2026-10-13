@@ -6609,6 +6609,15 @@
               "OTHER"
             ]
           },
+          "activityStatus": {
+            "type": "string",
+            "$ref": "#/components/schemas/EActivityStatus",
+            "enum": [
+              "PUBLISHED",
+              "DRAFT",
+              "UNPUBLISHED"
+            ]
+          },
           "summary": {
             "type": "string"
           },
@@ -6685,6 +6694,7 @@
           }
         },
         "required": [
+          "activityStatus",
           "createdAt",
           "enableReflection",
           "feedbackAllowedIterations",
@@ -7861,6 +7871,15 @@
               "OTHER"
             ]
           },
+          "activityStatus": {
+            "type": "string",
+            "$ref": "#/components/schemas/EActivityStatus",
+            "enum": [
+              "PUBLISHED",
+              "DRAFT",
+              "UNPUBLISHED"
+            ]
+          },
           "subscribedDeclaredActivity": {
             "type": "string",
             "format": "uuid"
@@ -7898,6 +7917,7 @@
           }
         },
         "required": [
+          "activityStatus",
           "banner",
           "id",
           "summary",

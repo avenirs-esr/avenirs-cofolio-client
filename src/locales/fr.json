@@ -228,6 +228,7 @@
       "api": {
         "ACTIVITY_DRAFT_NOT_FOUND": "Brouillon d'activité introuvable",
         "ACTIVITY_NOT_FOUND": "Activité introuvable",
+        "ACTIVITY_UNPUBLISHED": "Cette activité a été dépubliée et n'est plus disponible",
         "AMS_NOT_FOUND": "AMS introuvable",
         "ASSOCIATION_ALREADY_EXIST": "Cette association existe déjà",
         "ASSOCIATION_NOT_FOUND": "Association introuvable",

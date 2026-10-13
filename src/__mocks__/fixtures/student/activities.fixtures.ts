@@ -4,6 +4,7 @@ import {
   type ActivityPresentationDTO,
   type DeclaredActivityDetailsDTO,
   type DeclaredActivityViewDTO,
+  EActivityStatus,
   EActivityThematic,
   EDeclaredActivityStatus,
   EFeedbackStatus,
@@ -296,6 +297,7 @@ export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
   ...commonMockedDeclaredActivityProps,
   activity: {
     ...commonMockedDeclaredActivityProps.activity,
+    activityStatus: EActivityStatus.PUBLISHED,
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     national: false,
     enableReflection: true,
@@ -429,6 +431,7 @@ export function createLargeMockedPagedResponseDeclaredActivityViewDTO (
 
 export const mockedActivityDetail: ActivityPresentationDTO = {
   id: 'activity-1',
+  activityStatus: EActivityStatus.PUBLISHED,
   title: 'Activité “Connaissance de soi” : Définir ses valeurs',
   banner: {
     id: 'activity-1-banner',
