@@ -2,7 +2,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { Slot } from 'vue'
 import Card from '@/common/components/cards/Card/Card.vue'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { AvButton, type AvButtonProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface ValorizedElementsCardContainerProps {

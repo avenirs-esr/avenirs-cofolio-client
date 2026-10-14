@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Loader from '@/common/components/Loader/Loader.vue'
+import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import { useModal } from '@/common/composables'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
 import DeleteDeclaredProgramConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.vue'

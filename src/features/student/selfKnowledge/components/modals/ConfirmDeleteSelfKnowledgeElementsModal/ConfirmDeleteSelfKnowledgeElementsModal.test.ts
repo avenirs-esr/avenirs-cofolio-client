@@ -1,5 +1,5 @@
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
-import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import ConfirmDeleteSelfKnowledgeElementsModal, { type ConfirmDeleteSelfKnowledgeElementsModalProps } from '@/features/student/selfKnowledge/components/modals/ConfirmDeleteSelfKnowledgeElementsModal/ConfirmDeleteSelfKnowledgeElementsModal.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'

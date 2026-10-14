@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { EAssociationContextType, useGetAssociations, useGetDeclaredProgram } from '@/api/avenir-esr'
-import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
+import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'

@@ -3,7 +3,7 @@ import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fi
 import { EActivityStatus } from '@/api/avenir-esr'
 import { ActivityCatalogHeaderStub } from '@/common/activities/components/ActivityCatalogHeader/ActivityCatalogHeader.stub'
 import { ActivityCatalogPreviewCardStub } from '@/common/activities/components/ActivityCatalogPreviewCard/ActivityCatalogPreviewCard.stub'
-import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import NationalActivityCatalogPreviewTab from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'

@@ -5,7 +5,7 @@ import ActivityDescriptionContent from '@/common/activities/components/ActivityD
 import ActivityRecommendedCompletionContextsList from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
-import ActivityResourcesList from '@/common/components/lists/ActivityResourcesList/ActivityResourcesList.vue'
+import ActivityResourcesList from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.vue'
 import { ICONS } from '@/common/constants'
 import NationalActivitySettingDetails from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySettingDetails/NationalActivitySettingDetails.vue'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'

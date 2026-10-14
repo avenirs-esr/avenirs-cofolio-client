@@ -4,7 +4,7 @@ import { getAssociationsErrorHandler } from '@/__mocks__/msw/handlers/student/as
 import { createTraceDetailedHandler, downloadTraceAttachmentErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EAssociationContextType } from '@/api/avenir-esr'
-import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
+import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { ErrorCodes, ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'

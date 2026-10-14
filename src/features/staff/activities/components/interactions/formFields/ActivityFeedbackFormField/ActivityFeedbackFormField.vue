@@ -2,7 +2,7 @@
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import Input from '@/common/components/interaction/inputs/Input/Input.vue'
-import Toggle from '@/common/components/Toggle/Toggle.vue'
+import Toggle from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { ICONS } from '@/common/constants'
 import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY, ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_MIN } from '@/features/staff/activities/config'

@@ -6,7 +6,7 @@ import ActivityRecommendedCompletionContextsList from '@/common/activities/compo
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
-import ActivityResourcesList from '@/common/components/lists/ActivityResourcesList/ActivityResourcesList.vue'
+import ActivityResourcesList from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.vue'
 import { ICONS } from '@/common/constants'
 import FeedbackInfoCard from '@/features/student/activities/views/ActivityView/components/cards/FeedbackInfoCard/FeedbackInfoCard.vue'
 import TraceAssociationLimitCard from '@/features/student/activities/views/ActivityView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'

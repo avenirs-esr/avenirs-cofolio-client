@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { Config } from 'driver.js'
-import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import Tutorial from '@/common/components/overlay/tooltips/Tutorial/Tutorial.vue'
 import { ROUTES } from '@/common/constants'
 import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'

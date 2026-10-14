@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { EAssociationContextType, useGetAssociations, useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
-import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
+import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'

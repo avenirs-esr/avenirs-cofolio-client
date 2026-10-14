@@ -2,7 +2,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { ActivityDuplicationFormData } from '@/features/staff/activities/types/forms.types'
 import { EActivityStatus, useDuplicateActivity } from '@/api/avenir-esr'
-import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'

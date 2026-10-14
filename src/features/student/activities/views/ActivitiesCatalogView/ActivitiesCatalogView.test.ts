@@ -2,8 +2,8 @@ import type { VueWrapper } from '@vue/test-utils'
 import { activityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EActivityThematic } from '@/api/avenir-esr'
-import { LoaderStub } from '@/common/components/Loader/Loader.stub'
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
+import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import ActivitiesCatalogView, {
   type ActivitiesCatalogViewProps,

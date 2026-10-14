@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useTutorial } from '@/common/components/overlay/tooltips/Tutorial/use-tutorial'
 import { useModal } from '@/common/composables/use-modal/use-modal'
 import { AvDropdown, type AvDropdownItem, type AvInteractiveProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'

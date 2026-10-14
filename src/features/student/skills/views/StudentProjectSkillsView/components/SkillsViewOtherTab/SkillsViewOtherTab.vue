@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGetDeclaredSkillsProgresses } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import { useDeclaredSkillsStore } from '@/features/student/declaredSkills'
 import StudentDetailedDeclaredSkillCard from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedDeclaredSkillCard/StudentDetailedDeclaredSkillCard.vue'

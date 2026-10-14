@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import LinkInputNode from '@/common/components/VueFlow/LinkInputNode/LinkInputNode.vue'
-import TextInputNode from '@/common/components/VueFlow/TextInputNode/TextInputNode.vue'
+import LinkInputNode from '@/common/components/base/VueFlow/LinkInputNode/LinkInputNode.vue'
+import TextInputNode from '@/common/components/base/VueFlow/TextInputNode/TextInputNode.vue'
 import { useEdges } from '@/common/composables/VueFlow/use-edges/use-edges'
 import { useFlowScreenshot } from '@/common/composables/VueFlow/use-flow-screenshot/use-flow-screenshot'
 import { useFlowHistoryStore } from '@/common/stores/flow-history.store'

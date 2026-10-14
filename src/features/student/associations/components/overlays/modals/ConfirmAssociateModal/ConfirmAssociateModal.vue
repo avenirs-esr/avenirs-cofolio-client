@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { IdTitleList } from '@/types'
-import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 
 export interface ConfirmAssociateModalProps {
   opened: boolean

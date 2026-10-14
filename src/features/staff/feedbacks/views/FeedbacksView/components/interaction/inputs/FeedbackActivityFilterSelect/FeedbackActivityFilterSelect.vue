@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type ActivityFeedbacksPreviewDTO, type EFeedbackStatus, useGetActivitiesWithFeedbacks } from '@/api/avenir-esr'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { AvSelect, type AvSelectProps, type AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import { until, watchIgnorable } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'

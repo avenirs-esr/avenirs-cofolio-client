@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { EActivityStatus, invalidateGetActivityContent, invalidateGetActivityPresentation, invalidateGetStaffActivityWorkingSpace, useDeleteActivityDraft } from '@/api/avenir-esr'
-import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useToasterStore } from '@/store'
 import { useQueryClient } from '@tanstack/vue-query'

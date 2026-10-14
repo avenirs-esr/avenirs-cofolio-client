@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
+import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
-import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { useBaseApiExceptionToast, useDrawer } from '@/common/composables'
 import { AvRichButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'

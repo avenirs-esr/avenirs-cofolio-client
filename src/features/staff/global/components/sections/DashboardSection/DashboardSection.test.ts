@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
-import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { BaseApiException } from '@/common/exceptions'
 import DashboardSection from '@/features/staff/global/components/sections/DashboardSection/DashboardSection.vue'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'

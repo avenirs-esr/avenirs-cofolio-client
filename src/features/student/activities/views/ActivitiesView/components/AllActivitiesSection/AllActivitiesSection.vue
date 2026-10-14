@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { EActivityThematic, type GetActivitiesViewParams, useGetActivitiesView } from '@/api/avenir-esr'
-import Loader from '@/common/components/Loader/Loader.vue'
-import Pagination from '@/common/components/Pagination/Pagination.vue'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import Loader from '@/common/components/feedback/Loader/Loader.vue'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
+import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
 import { usePagination } from '@/common/composables'
 import ActivityErrorMessage from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'
 import { useActivitiesStore } from '@/features/student/activities/stores/activities.store'

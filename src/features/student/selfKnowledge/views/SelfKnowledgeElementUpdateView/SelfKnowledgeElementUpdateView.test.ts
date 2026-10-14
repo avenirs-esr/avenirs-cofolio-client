@@ -3,7 +3,7 @@ import { mockedSelfKnowledgeElementDetails } from '@/__mocks__/fixtures/student/
 import { createSelfKnowledgeElementDetailsHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
-import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
+import { UpdatePageTitleStub } from '@/common/components/navigation/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { SelfKnowledgeElementUpdateFormStub } from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/SelfKnowledgeElementUpdateForm.stub'
 import SelfKnowledgeElementUpdateView

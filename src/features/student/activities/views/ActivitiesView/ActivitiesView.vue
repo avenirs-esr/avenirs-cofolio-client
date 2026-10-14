@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useGetActivitiesView, useGetDeclaredActivitiesView } from '@/api/avenir-esr'
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { useActivitiesStore } from '@/features/student/activities/stores/activities.store'
 import ActivityLibraryTab from '@/features/student/activities/views/ActivitiesView/components/ActivityLibraryTab/ActivityLibraryTab.vue'

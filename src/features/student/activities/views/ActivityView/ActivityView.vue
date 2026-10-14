@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useGetDeclaredActivityDetails } from '@/api/avenir-esr'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
-import DetailedPageTitle from '@/common/components/DetailedPageTitle/DetailedPageTitle.vue'
-import Loader from '@/common/components/Loader/Loader.vue'
+import Loader from '@/common/components/feedback/Loader/Loader.vue'
+import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useDrawer, useModal, useNavigation } from '@/common/composables'
 import UpdateActivityDrawer
   from '@/features/student/activities/components/drawers/UpdateActivityDrawer/UpdateActivityDrawer.vue'

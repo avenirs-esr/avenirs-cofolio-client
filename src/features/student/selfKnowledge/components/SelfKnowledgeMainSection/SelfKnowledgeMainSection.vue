@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { EUserCategory, useGetProfile, useGetSelfKnowledgeCategories } from '@/api/avenir-esr'
+import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
-import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
 import { useDrawer, useModal } from '@/common/composables'
 import { ICONS } from '@/common/constants'
 import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'

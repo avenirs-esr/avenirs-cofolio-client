@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions'
 import { useDownloadMedia } from '@/api/avenir-esr'
-import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
 import Input from '@/common/components/interaction/inputs/Input/Input.vue'
+import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { downloadBlob } from '@/common/utils/download/download'
 import { useExportKit } from '@/features/student/kit/composables/use-export-kit/use-export-kit'

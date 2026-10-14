@@ -3,7 +3,7 @@ import { selfKnowledgeCategoryElementsErrorHandler } from '@/__mocks__/msw/handl
 import { server } from '@/__mocks__/msw/server'
 import { ESelfKnowledgeCategory, type SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
-import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'
 import { SelfKnowledgeElementCardStub } from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.stub'
 import { SelfKnowledgeElementsDropdownStub } from '@/features/student/selfKnowledge/components/dropdowns/SelfKnowledgeElementsDropdown/SelfKnowledgeElementsDropdown.stub'

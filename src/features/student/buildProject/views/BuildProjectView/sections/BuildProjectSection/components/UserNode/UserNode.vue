@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
-import { GLOBAL_NODE_HANDLES } from '@/common/components/VueFlow/global-nodes.types'
+import { GLOBAL_NODE_HANDLES } from '@/common/components/base/VueFlow/global-nodes.types'
 import { Handle, type NodeProps, Position } from '@vue-flow/core'
 import { useI18n } from 'vue-i18n'
 

@@ -2,7 +2,7 @@
 import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
-import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
+import UpdatePageTitle from '@/common/components/navigation/UpdatePageTitle/UpdatePageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'

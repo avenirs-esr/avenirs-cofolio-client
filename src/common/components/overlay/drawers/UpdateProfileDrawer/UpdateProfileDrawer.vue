@@ -2,7 +2,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import { EUserCategory, type FileDTO, invalidateGetProfile, useDeleteCoverPicture, useDeleteProfilePicture } from '@/api/avenir-esr'
 import { ConfirmationModal, Drawer, FormCancelConfirmButtons, ImageUpload } from '@/common/components'
-import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/ImageUpload/config'
+import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
 import { useModal } from '@/common/composables'

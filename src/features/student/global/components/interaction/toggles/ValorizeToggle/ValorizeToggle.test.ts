@@ -1,5 +1,5 @@
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
-import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
+import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub'
 import ValorizeToggle from '@/features/student/global/components/interaction/toggles/ValorizeToggle/ValorizeToggle.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, type VueWrapper } from '@vue/test-utils'

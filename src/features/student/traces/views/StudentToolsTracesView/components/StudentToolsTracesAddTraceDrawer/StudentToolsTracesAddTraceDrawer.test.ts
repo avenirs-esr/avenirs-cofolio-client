@@ -5,9 +5,9 @@ import {
   type FileDTO
 } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
-import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
-import { DrawerStub } from '@/common/components/Drawer/Drawer.stub'
-import { ToggleStub } from '@/common/components/Toggle/Toggle.stub'
+import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub'
+import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.stub'
+import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import { AssociationSelectionSectionStub } from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.stub'
 import { useTracesStore } from '@/features/student/traces'
 import StudentToolsTracesAddTraceDrawer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'

@@ -1,5 +1,5 @@
 import { EActivityThematic } from '@/api/avenir-esr'
-import { LoaderStub } from '@/common/components/Loader/Loader.stub'
+import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import ActivitiesSelectNavigation from '@/features/student/activities/views/ActivitiesCatalogView/components/ActivitiesSelectNavigation/ActivitiesSelectNavigation.vue'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'

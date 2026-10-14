@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Loader from '@/common/components/Loader/Loader.vue'
+import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import { useModal } from '@/common/composables'
 import DeleteDeclaredExperienceConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
 import { usePaginatedDeclaredExperiences } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'

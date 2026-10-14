@@ -1,5 +1,5 @@
 import { ESelfKnowledgeCategory, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr/generated/types'
-import { RatingStub } from '@/common/components/Rating/Rating.stub'
+import { RatingStub } from '@/common/components/base/Rating/Rating.stub'
 import { ROUTES } from '@/common/constants'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'

@@ -1,4 +1,4 @@
-import { GLOBAL_NODE_HANDLES } from '@/common/components/VueFlow/global-nodes.types'
+import { GLOBAL_NODE_HANDLES } from '@/common/components/base/VueFlow/global-nodes.types'
 import { useFlowHistoryStore } from '@/common/stores/flow-history.store'
 import { getEdgeId } from '@/common/utils/vue-flow/vue-flow'
 import { type Edge, type Node, type NodeProps, Position, useVueFlow } from '@vue-flow/core'

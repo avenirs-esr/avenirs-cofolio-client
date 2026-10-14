@@ -1,5 +1,5 @@
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
-import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { BaseApiException } from '@/common/exceptions'
 import ValorizedElementsCardContainer, {
   type ValorizedElementsCardContainerProps

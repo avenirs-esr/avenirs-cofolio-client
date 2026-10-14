@@ -4,7 +4,7 @@ import { mockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student
 import { getAssociationsErrorHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { type DeclaredActivityDetailsDTO, EAssociationContextType, EDeclaredActivityStatus, EErrorCode } from '@/api/avenir-esr'
-import { LoaderStub } from '@/common/components/Loader/Loader.stub'
+import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import { ErrorCodes } from '@/common/constants'
 import { ACTIVITY_TRACE_SETTING_DISABLED_VALUE, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 import { TraceAssociationLimitCardStub } from '@/features/student/activities/views/ActivityView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.stub'

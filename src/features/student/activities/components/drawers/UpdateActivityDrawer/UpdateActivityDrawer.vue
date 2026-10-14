@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import { isActivityPeriodEditingDisabled } from '@/common/activities/rules/activities.rules'
-import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
-import Drawer from '@/common/components/Drawer/Drawer.vue'
-import FormCancelConfirmButtons from '@/common/components/FormCancelConfirmButtons/FormCancelConfirmButtons.vue'
+import FormCancelConfirmButtons from '@/common/components/interaction/buttons/FormCancelConfirmButtons/FormCancelConfirmButtons.vue'
+import Drawer from '@/common/components/overlay/drawers/Drawer/Drawer.vue'
+import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import ActivityPeriodFormField

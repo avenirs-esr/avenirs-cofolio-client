@@ -7,9 +7,9 @@ import {
 } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EAssociationContextType, EErrorCode } from '@/api/avenir-esr'
-import { DetailedPageTitleStub } from '@/common/components/DetailedPageTitle/DetailedPageTitle.stub'
 import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
-import { LoaderStub } from '@/common/components/Loader/Loader.stub'
+import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
+import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { DeleteDeclaredExperienceConfirmModalStub }

@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { EUserCategory } from '@/api/avenir-esr'
-import { ToggleStub } from '@/common/components/Toggle/Toggle.stub.js'
+import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub.js'
 import NotificationsPopoverPreferenceToggle from '@/common/notifications/components/NotificationsPopoverPreferenceToggle/NotificationsPopoverPreferenceToggle.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'

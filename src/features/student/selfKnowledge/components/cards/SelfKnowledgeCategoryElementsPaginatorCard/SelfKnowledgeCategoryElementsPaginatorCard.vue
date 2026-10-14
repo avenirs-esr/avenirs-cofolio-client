@@ -2,7 +2,7 @@
 import type { GetSelfKnowledgeElementsParams, SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
 import { useGetSelfKnowledgeElements } from '@/api/avenir-esr'
 import Card from '@/common/components/cards/Card/Card.vue'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { useModal } from '@/common/composables'
 import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
 import SelfKnowledgeElementsDropdown from '@/features/student/selfKnowledge/components/dropdowns/SelfKnowledgeElementsDropdown/SelfKnowledgeElementsDropdown.vue'

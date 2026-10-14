@@ -6,7 +6,7 @@ import { ActivityRecommendedCompletionContextsListStub } from '@/common/activiti
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
-import { ActivityResourcesListStub } from '@/common/components/lists/ActivityResourcesList/ActivityResourcesList.stub'
+import { ActivityResourcesListStub } from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.stub'
 import { ICONS } from '@/common/constants'
 import ActivityDetails, {
   type ActivityDetailsProps,

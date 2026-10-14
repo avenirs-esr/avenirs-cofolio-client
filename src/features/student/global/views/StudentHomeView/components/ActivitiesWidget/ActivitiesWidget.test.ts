@@ -1,7 +1,7 @@
 import { latestActivitiesErrorHandler, latestActivitiesOverviewHandler, libraryActivitiesErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { HomeWidgetStub } from '@/common/components/cards/HomeWidget/HomeWidget.stub'
-import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import ActivitiesWidget from '@/features/student/global/views/StudentHomeView/components/ActivitiesWidget/ActivitiesWidget.vue'
 import { ActivityLongIconCardStub } from '@/features/student/global/views/StudentHomeView/components/ActivityLongIconCard/ActivityLongIconCard.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
