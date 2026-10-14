@@ -1,4 +1,4 @@
-import { GLOBAL_NODE_TYPES } from '@/common/components/VueFlow/global-nodes.types'
+import { GLOBAL_NODE_TYPES } from '@/common/components/base/VueFlow/global-nodes.types'
 import { MIND_MAP_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/mind-map-nodes.types'
 import { SELF_KNOWLEDGE_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/self-knowledge-nodes.types'
 import { h } from 'vue'

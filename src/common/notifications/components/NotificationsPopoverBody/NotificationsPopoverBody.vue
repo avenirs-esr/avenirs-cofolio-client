@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import { type EUserCategory, invalidateGetNotifications, invalidateGetQuickLinks, type NotificationDTO, useGetQuickLinks, useMarkAsSeen } from '@/api/avenir-esr'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { BaseApiException } from '@/common/exceptions'
 import NotificationsPopoverEmptyOrDisabled from '@/common/notifications/components/NotificationsPopoverEmptyOrDisabled/NotificationsPopoverEmptyOrDisabled.vue'

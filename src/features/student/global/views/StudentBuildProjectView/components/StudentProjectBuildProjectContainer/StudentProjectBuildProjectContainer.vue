@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { SectionNavigationItem } from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.types'
+import type { SectionNavigationItem } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
 import type { Component } from 'vue'
 import SectionNavigationLayout
-  from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.vue'
+  from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.vue'
 import { useSectionNavigationLayout } from '@/common/composables'
 import { ICONS } from '@/common/constants'
 import StudentProjectMindMapSection

@@ -2,7 +2,7 @@ import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixture
 import { createTraceDetailedHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
-import { UpdatePageTitleStub } from '@/common/components/UpdatePageTitle/UpdatePageTitle.stub'
+import { UpdatePageTitleStub } from '@/common/components/navigation/UpdatePageTitle/UpdatePageTitle.stub'
 import { ROUTES } from '@/common/constants/route-names'
 import { ConfirmUpdateTraceModalStub } from '@/features/student/traces/views/StudentUpdateTraceView/components/ConfirmUpdateTraceModal/ConfirmUpdateTraceModal.stub'
 import { UpdateTabsStub } from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.stub'

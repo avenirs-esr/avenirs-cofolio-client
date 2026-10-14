@@ -3,8 +3,8 @@ import { mockedActivityContent, mockedActivityDraftCreationResponse } from '@/__
 import { getActivityContentErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EActivityStatus } from '@/api/avenir-esr'
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
-import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
+import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import {
   DeleteDraftActivityConfirmationModalStub

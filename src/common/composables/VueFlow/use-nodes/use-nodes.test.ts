@@ -1,5 +1,5 @@
 import type { Edge, Node } from '@vue-flow/core'
-import { GLOBAL_NODE_HANDLES } from '@/common/components/VueFlow/global-nodes.types'
+import { GLOBAL_NODE_HANDLES } from '@/common/components/base/VueFlow/global-nodes.types'
 import { useNodes } from '@/common/composables/VueFlow/use-nodes/use-nodes'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'

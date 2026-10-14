@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import { AddDeclaredSkillDrawerStub } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/AddDeclaredSkillDrawer.stub'
 import { SkillsViewOtherTabStub } from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/SkillsViewOtherTab.stub'
 import StudentProjectSkillsView from '@/features/student/skills/views/StudentProjectSkillsView/StudentProjectSkillsView.vue'

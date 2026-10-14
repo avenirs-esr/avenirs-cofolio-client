@@ -2,7 +2,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import { invalidateGetTraceOverview, invalidateGetTracesSummary, invalidateTracesView, useDeleteTraces, useGetLockedDeclaredActivities } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { ICONS } from '@/common/constants'

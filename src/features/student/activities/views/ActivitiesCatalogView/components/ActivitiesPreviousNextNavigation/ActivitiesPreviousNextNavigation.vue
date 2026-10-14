@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
-import Loader from '@/common/components/Loader/Loader.vue'
+import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import { ROUTES } from '@/common/constants'
 import { isEnumMember } from '@/common/utils'
 import { AvButton, type AvSelectOption, type AvSelectSelectedOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'

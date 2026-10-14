@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
-import Loader from '@/common/components/Loader/Loader.vue'
+import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
 import { useNavigation } from '@/common/composables'
 import { ICONS } from '@/common/constants'

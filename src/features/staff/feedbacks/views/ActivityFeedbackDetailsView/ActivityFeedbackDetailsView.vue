@@ -5,8 +5,8 @@ import {
   useGetFeedbacksByActivity,
 } from '@/api/avenir-esr'
 import ActivityDetailsDrawer from '@/common/activities/components/ActivityDetailsDrawer/ActivityDetailsDrawer.vue'
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
+import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { useModal } from '@/common/composables'
 import { ICONS } from '@/common/constants'
 import StudentPerspectiveCard from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.vue'

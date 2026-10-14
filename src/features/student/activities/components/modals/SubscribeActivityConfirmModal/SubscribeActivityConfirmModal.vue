@@ -9,7 +9,7 @@ import {
   invalidateGetDeclaredActivityDetails,
   useSubscribeActivity
 } from '@/api/avenir-esr'
-import ConfirmationModal from '@/common/components/ConfirmationModal/ConfirmationModal.vue'
+import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import ProfileCard from '@/common/components/ProfileCard/ProfileCard.vue'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
+import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import ExportKitButton from '@/features/student/kit/views/StudentToolsKitView/components/interaction/ExportKitButton/ExportKitButton.vue'
 import KitContentTabs from '@/features/student/kit/views/StudentToolsKitView/components/KitContentTabs/KitContentTabs.vue'

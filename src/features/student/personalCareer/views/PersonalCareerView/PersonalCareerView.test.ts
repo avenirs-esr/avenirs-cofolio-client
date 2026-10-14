@@ -1,4 +1,4 @@
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import { PersonalCareerLayoutStub } from '@/features/student/personalCareer/views/PersonalCareerView/layouts/PersonalCareerLayout/PersonalCareerLayout.stub'
 import PersonalCareerView from '@/features/student/personalCareer/views/PersonalCareerView/PersonalCareerView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'

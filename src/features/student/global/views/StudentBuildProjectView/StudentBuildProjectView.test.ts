@@ -1,4 +1,4 @@
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import { StudentProjectBuildProjectContainerStub } from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectBuildProjectContainer/StudentProjectBuildProjectContainer.stub'
 import StudentBuildProjectView from '@/features/student/global/views/StudentBuildProjectView/StudentBuildProjectView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'

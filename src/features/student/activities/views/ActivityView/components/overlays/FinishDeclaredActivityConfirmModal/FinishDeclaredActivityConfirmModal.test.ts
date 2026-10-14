@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import FinishDeclaredActivityConfirmModal, {
   type FinishDeclaredActivityConfirmModalProps,
 } from '@/features/student/activities/views/ActivityView/components/overlays/FinishDeclaredActivityConfirmModal/FinishDeclaredActivityConfirmModal.vue'

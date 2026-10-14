@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import SectionNavigationLayout
-  from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.vue'
+  from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.vue'
 import { useSectionNavigationLayout } from '@/common/composables'
 import { ICONS } from '@/common/constants'
 import ActivityDetails

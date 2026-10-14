@@ -2,7 +2,7 @@
 import type { ActivityContentDTO } from '@/api/avenir-esr'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 import ActivityRecommendedCompletionContextsList from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
-import Drawer from '@/common/components/Drawer/Drawer.vue'
+import Drawer from '@/common/components/overlay/drawers/Drawer/Drawer.vue'
 import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { EUserCategory, useGetQuickLinks } from '@/api/avenir-esr'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import Footer from '@/common/components/Footer/Footer.vue'
-import MainContent from '@/common/components/MainContent/MainContent.vue'
+import MainContent from '@/common/components/layout/MainContent/MainContent.vue'
 import SkipLinks from '@/common/components/navigation/SkipLinks/SkipLinks.vue'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
-import SwitchUniverse from '@/common/components/SwitchUniverse/SwitchUniverse.vue'
+import SwitchUniverse from '@/common/components/navigation/SwitchUniverse/SwitchUniverse.vue'
 import { useBaseApiExceptionToast, useLanguageSwitcher } from '@/common/composables'
 import { QUICK_LINKS_REFRESH_INTERVAL, ROUTES } from '@/common/constants'
 import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'

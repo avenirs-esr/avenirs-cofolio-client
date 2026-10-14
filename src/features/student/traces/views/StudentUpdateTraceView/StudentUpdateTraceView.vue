@@ -8,7 +8,7 @@ import {
 } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
-import UpdatePageTitle from '@/common/components/UpdatePageTitle/UpdatePageTitle.vue'
+import UpdatePageTitle from '@/common/components/navigation/UpdatePageTitle/UpdatePageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'

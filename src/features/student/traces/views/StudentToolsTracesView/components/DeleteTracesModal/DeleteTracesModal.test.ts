@@ -3,7 +3,7 @@ import type {
 } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import { ETraceAuthorType } from '@/api/avenir-esr'
-import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import { TracesSelectorStub } from '@/features/student/traces/components/interactions/pickers/TracesSelector/TraceSelector.stub'
 import {
   TraceDeletionConfirmationModalStub

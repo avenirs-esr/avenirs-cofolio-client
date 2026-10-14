@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { MindMapNodeTemplateProps } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/mind-map-nodes.types'
 import { useGetSelfKnowledgeCategories, useGetSelfKnowledgeCategoriesAvailable } from '@/api/avenir-esr'
-import ButtonNodeTemplate from '@/common/components/VueFlow/ButtonNodeTemplate/ButtonNodeTemplate.vue'
-import { GLOBAL_NODE_HANDLES } from '@/common/components/VueFlow/global-nodes.types'
+import ButtonNodeTemplate from '@/common/components/base/VueFlow/ButtonNodeTemplate/ButtonNodeTemplate.vue'
+import { GLOBAL_NODE_HANDLES } from '@/common/components/base/VueFlow/global-nodes.types'
 import { useModal } from '@/common/composables'
 import { useNodes } from '@/common/composables/VueFlow/use-nodes/use-nodes'
 import { MIND_MAP_FLOW_ID } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/config'

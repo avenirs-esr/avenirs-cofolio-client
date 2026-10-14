@@ -2,7 +2,7 @@ import { getStaffQuickLinksEnabledHandler } from '@/__mocks__/msw/handlers/staff
 import { getStudentQuickLinksDisabledHandler } from '@/__mocks__/msw/handlers/student/user.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EUserCategory, getGetNotificationsUrl, type PagedResponseNotificationDTO } from '@/api/avenir-esr'
-import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import NotificationsPopoverBody from '@/common/notifications/components/NotificationsPopoverBody/NotificationsPopoverBody.vue'
 import { NotificationsPopoverEmptyOrDisabledStub } from '@/common/notifications/components/NotificationsPopoverEmptyOrDisabled/NotificationsPopoverEmptyOrDisabled.stub'
 import { NotificationsPopoverListStub } from '@/common/notifications/components/NotificationsPopoverList/NotificationsPopoverList.stub'

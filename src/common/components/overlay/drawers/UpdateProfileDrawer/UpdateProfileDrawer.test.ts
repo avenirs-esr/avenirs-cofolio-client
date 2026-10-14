@@ -3,12 +3,12 @@ import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import { EFileType, type EUserCategory, type FileDTO, type ProfileOverviewDTO } from '@/api/avenir-esr'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
-import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
-import { DrawerStub } from '@/common/components/Drawer/Drawer.stub'
-import { FormCancelConfirmButtonsStub } from '@/common/components/FormCancelConfirmButtons/FormCancelConfirmButtons.stub'
-import { ImageUploadStub } from '@/common/components/ImageUpload/ImageUpload.stub'
+import { FormCancelConfirmButtonsStub } from '@/common/components/interaction/buttons/FormCancelConfirmButtons/FormCancelConfirmButtons.stub'
+import { ImageUploadStub } from '@/common/components/interaction/files/ImageUpload/ImageUpload.stub'
+import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.stub'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
+import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import {
   AvAccordionsGroupStub,
   AvAccordionStub,

@@ -1,5 +1,5 @@
-import type { SectionNavigationItem } from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.types'
-import { SectionNavigationLayoutStub } from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.stub'
+import type { SectionNavigationItem } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
+import { SectionNavigationLayoutStub } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.stub'
 import { ICONS } from '@/common/constants/icons'
 import StudentProjectBuildProjectContainer
   from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectBuildProjectContainer/StudentProjectBuildProjectContainer.vue'

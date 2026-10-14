@@ -1,5 +1,5 @@
-import type { NodeTemplateProps } from '@/common/components/VueFlow/NodeTemplate/NodeTemplate.vue'
-import { NodeTemplateStub } from '@/common/components/VueFlow/NodeTemplate/NodeTemplate.stub'
+import type { NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
+import { NodeTemplateStub } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.stub'
 import { mandatoryNodeTemplateProps } from '@/common/utils/vue-flow/vue-flow-test'
 import MainSectionNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MainSectionNode/MainSectionNode.vue'
 import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'

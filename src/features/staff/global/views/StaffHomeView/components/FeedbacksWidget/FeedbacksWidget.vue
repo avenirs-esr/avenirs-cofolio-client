@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGetStaffFeedbacks } from '@/api/avenir-esr'
 import HomeWidget from '@/common/components/cards/HomeWidget/HomeWidget.vue'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ROUTES } from '@/common/constants'
 import FeedbackLongIconCard from '@/features/staff/global/views/StaffHomeView/components/FeedbackLongIconCard/FeedbackLongIconCard.vue'

@@ -16,7 +16,7 @@ import {
 } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
+import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'

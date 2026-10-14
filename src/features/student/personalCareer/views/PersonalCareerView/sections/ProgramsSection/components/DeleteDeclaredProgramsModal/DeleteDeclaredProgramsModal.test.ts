@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { declaredProgramsQueryEmptyHandler, declaredProgramsQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { LoaderStub } from '@/common/components/Loader/Loader.stub'
+import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import { DeleteDeclaredProgramConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.stub'
 import { DeclaredProgramSelectorStub } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeclaredProgramSelector/DeclaredProgramSelector.stub'
 import DeleteDeclaredProgramsModal from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeleteDeclaredProgramsModal/DeleteDeclaredProgramsModal.vue'

@@ -7,7 +7,7 @@ import { ActivityDescriptionContentStub } from '@/common/activities/components/A
 import { ActivityRecommendedCompletionContextsListStub } from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.stub'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
-import { ActivityResourcesListStub } from '@/common/components/lists/ActivityResourcesList/ActivityResourcesList.stub'
+import { ActivityResourcesListStub } from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.stub'
 import { ICONS } from '@/common/constants'
 import NationalActivityContentTab from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.vue'
 import { NationalActivitySettingDetailsStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySettingDetails/NationalActivitySettingDetails.stub'

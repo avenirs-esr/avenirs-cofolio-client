@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { type NotificationDTO, NotificationDTOType } from '@/api/avenir-esr'
-import { LoaderStub } from '@/common/components/Loader/Loader.stub'
+import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import NotificationsPopoverList from '@/common/notifications/components/NotificationsPopoverList/NotificationsPopoverList.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'

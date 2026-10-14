@@ -2,7 +2,7 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { Slot } from 'vue'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface DashboardSectionProps {

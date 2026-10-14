@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { EFeedbackStatus } from '@/api/avenir-esr'
-import { ConfirmationModalStub } from '@/common/components/ConfirmationModal/ConfirmationModal.stub'
+import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import RequestFeedback from '@/features/student/activities/views/ActivityView/components/interactions/RequestFeedback/RequestFeedback.vue'
 import { AvBadgeStub, AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { getAvButtonByTestId, mountComponent } from 'tests/utils'

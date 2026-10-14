@@ -1,7 +1,7 @@
 import { createTraceOverviewHandler, traceOverviewErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { HomeWidgetStub } from '@/common/components/cards/HomeWidget/HomeWidget.stub'
-import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { TraceLongIconCardStub } from '@/features/student/global/views/StudentHomeView/components/TraceLongIconCard/TraceLongIconCard.stub'
 import TracesWidget from '@/features/student/traces/components/cards/TracesWidget/TracesWidget.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'

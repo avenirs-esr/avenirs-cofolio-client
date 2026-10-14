@@ -10,7 +10,7 @@ import {
   mockedTraceAssociations
 } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { EAssociationContextType } from '@/api/avenir-esr'
-import { QuerySuspenseStub } from '@/common/components/QuerySuspense/QuerySuspense.stub'
+import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { BaseApiErrorCode } from '@/common/exceptions'
 import { AssociatedElementsCardStub } from '@/features/student/associations/components/cards/AssociatedElementsCard/AssociatedElementsCard.stub'
 import ElementAssociations, {

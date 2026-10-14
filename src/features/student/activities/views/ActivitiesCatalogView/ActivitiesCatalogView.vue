@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { EActivityStatus, EActivityThematic, useGetActivityNavigation, useGetActivityPresentation } from '@/api/avenir-esr'
-import PageTitle from '@/common/components/PageTitle/PageTitle.vue'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
+import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { useNavigation } from '@/common/composables'
 import { isEnumMember } from '@/common/utils'
 import ActivityErrorMessage from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'

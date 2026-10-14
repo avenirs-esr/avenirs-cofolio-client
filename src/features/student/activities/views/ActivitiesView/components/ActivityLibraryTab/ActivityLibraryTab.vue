@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useGetDeclaredActivitiesView } from '@/api/avenir-esr'
-import Pagination from '@/common/components/Pagination/Pagination.vue'
-import QuerySuspense from '@/common/components/QuerySuspense/QuerySuspense.vue'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
+import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
 import { useModal, usePagination } from '@/common/composables'
 import ActivityErrorMessage from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'
 import { useActivitiesStore } from '@/features/student/activities/stores/activities.store'

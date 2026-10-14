@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { PageTitleStub } from '@/common/components/PageTitle/PageTitle.stub'
+import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import ActivitiesView from '@/features/student/activities/views/ActivitiesView/ActivitiesView.vue'
 import { ActivityLibraryTabStub } from '@/features/student/activities/views/ActivitiesView/components/ActivityLibraryTab/ActivityLibraryTab.stub'
 import { AllActivitiesTabStub } from '@/features/student/activities/views/ActivitiesView/components/AllActivitiesTab/AllActivitiesTab.stub'

@@ -1,7 +1,7 @@
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import type {
   SectionNavigationItem,
-} from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.types'
+} from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
 import {
   EActivityStatus,
   EActivityThematic,
@@ -9,7 +9,7 @@ import {
 } from '@/api/avenir-esr'
 import {
   SectionNavigationLayoutStub,
-} from '@/common/components/SectionNavigationLayout/SectionNavigationLayout.stub'
+} from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.stub'
 import { ICONS } from '@/common/constants'
 import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 import {

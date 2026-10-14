@@ -1,5 +1,5 @@
 import { EActivityThematic } from '@/api/avenir-esr'
-import { LoaderStub } from '@/common/components/Loader/Loader.stub'
+import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import { SideNavigationStub } from '@/common/components/navigation/SideNavigation/SideNavigation.stub'
 import ActivitiesSideNavigation from '@/features/student/activities/views/ActivitiesCatalogView/components/ActivitiesSideNavigation/ActivitiesSideNavigation.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
