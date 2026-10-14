@@ -10,7 +10,8 @@ import {
   isDeclaredActivitySubmitted,
   isDeclaredActivityUnsubscribed,
   isDeletableDeclaredActivityAssociation,
-  isPerspectiveEditingDisabled
+  isPerspectiveEditingDisabled,
+  shouldDisplayTraceLimit
 } from '@/common/activities/rules/activities.rules'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { expect } from 'vitest'
@@ -29,6 +30,43 @@ function buildDeclaredActivityAssociation (status: EDeclaredActivityStatus, asso
     }
   }
 }
+
+BddTest().given('shouldDisplayTraceLimit', () => {
+  BddTest().when('the limits are not loaded yet', () => {
+    BddTest().then('it should return false', () => {
+      const limits = { isLoaded: false, remaining: Number.POSITIVE_INFINITY }
+      expect(shouldDisplayTraceLimit(limits)).toBe(false)
+    })
+  })
+
+  BddTest().when('trace associations are disabled', () => {
+    BddTest().then('it should return false', () => {
+      const limits = { isLoaded: true, max: 0, remaining: 0 }
+      expect(shouldDisplayTraceLimit(limits)).toBe(false)
+    })
+  })
+
+  BddTest().when('trace associations are unlimited', () => {
+    BddTest().then('it should return true', () => {
+      const limits = { isLoaded: true, remaining: Number.POSITIVE_INFINITY }
+      expect(shouldDisplayTraceLimit(limits)).toBe(true)
+    })
+  })
+
+  BddTest().when('trace associations are limited', () => {
+    BddTest().then('it should return true', () => {
+      const limits = { isLoaded: true, max: 3, remaining: 2 }
+      expect(shouldDisplayTraceLimit(limits)).toBe(true)
+    })
+  })
+
+  BddTest().when('the trace association limit is reached', () => {
+    BddTest().then('it should return true', () => {
+      const limits = { isLoaded: true, max: 3, remaining: 0 }
+      expect(shouldDisplayTraceLimit(limits)).toBe(true)
+    })
+  })
+})
 
 BddTest().given('isDeletableDeclaredActivityAssociation', () => {
   BddTest().when('the declared activity is subscribed', () => {

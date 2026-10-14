@@ -8,7 +8,8 @@ export const SearchAssociationLayoutStub = defineComponent({
     'inputOptions',
     'getOptionKey',
     'getOptionLabel',
-    'loading'
+    'loading',
+    'layout'
   ],
   emits: ['update:modelValue', 'update:search', 'clear', 'clearSelection', 'loadMore', 'delete'],
   template: `
@@ -22,6 +23,14 @@ export const SearchAssociationLayoutStub = defineComponent({
 
       <div data-testid="search-association-layout-selected-stub">
         {{ items?.length ?? 0 }}
+      </div>
+
+      <div
+        v-for="item in items"
+        :key="item.id"
+        data-testid="search-association-layout-selected-item-stub"
+      >
+        <slot name="selectedItem" :item="item" />
       </div>
 
     </div>

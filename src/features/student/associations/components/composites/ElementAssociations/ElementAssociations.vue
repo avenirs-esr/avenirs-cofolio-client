@@ -1,22 +1,17 @@
 <script setup lang="ts">
 import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import type { AssociationLimits } from '@/features/student/associations/types/associations.types'
+import type { AssociationLimitState } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import type { Slot } from 'vue'
 import { QuerySuspense } from '@/common/components'
 import { useModal } from '@/common/composables'
 import AssociatedElementsCard from '@/features/student/associations/components/cards/AssociatedElementsCard/AssociatedElementsCard.vue'
-import AssociationElementsDropdown, { type AssociationElementsDropdownItem }
-  from '@/features/student/associations/components/interactions/AssociationElementsDropdown/AssociationElementsDropdown.vue'
+import AssociationElementsDropdown, { type AssociationElementsDropdownItem } from '@/features/student/associations/components/interactions/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import AssociateModal from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
 import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
+import { useAssociationLimits } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import { EMPTY_ASSOCIATIONS } from '@/features/student/associations/constants/associations.constants'
-import {
-  countAssociations,
-  getAssociableContextTypes,
-  getContextTypeSlug,
-  isAssociationLimitReached
-} from '@/features/student/associations/utils/associations.utils'
+import { countAssociations, getAssociableContextTypes, getContextTypeSlug } from '@/features/student/associations/utils/associations.utils'
 import { useI18n } from 'vue-i18n'
 
 export interface ElementAssociationsProps {
@@ -26,8 +21,6 @@ export interface ElementAssociationsProps {
   associations: AssociationsDTO | undefined
   error?: BaseApiException | null
   isLoading?: boolean
-  /** Maximum number of associations per context type, an association is disabled when its limit is 0. */
-  limits?: AssociationLimits
   /** Hides the association actions and disables the associated elements. */
   readonly?: boolean
   /** Disables the association actions. */
@@ -39,20 +32,17 @@ export interface ElementAssociationsProps {
 const {
   contextType,
   elementId,
-  associations,
+  associations: _associations,
   error,
   isLoading = false,
-  limits,
   readonly = false,
   actionsDisabled = false,
   actionsDisabledTooltip
 } = defineProps<ElementAssociationsProps>()
 
 defineSlots<{
-  /** Displayed below the association actions. */
-  footer?: Slot
   /** Displayed above the associated elements. */
-  header?: Slot
+  header?: Slot<{ getLimit: (associatedContextType: EAssociationContextType) => AssociationLimitState }>
 }>()
 
 const { t } = useI18n()
@@ -62,7 +52,6 @@ const {
   openModal: openAssociateModal,
   closeModal: closeAssociateModal
 } = useModal()
-
 const {
   modalOpened: unassociateModalOpened,
   openModal: openUnassociateModal,
@@ -71,33 +60,27 @@ const {
 
 const selectedContextType = ref<EAssociationContextType>()
 
-const displayedContextTypes = computed(() => getAssociableContextTypes(contextType))
-const elementAssociations = computed(() => associations ?? EMPTY_ASSOCIATIONS)
+const associableContextTypes = computed(() => getAssociableContextTypes(contextType))
+const associations = computed(() => _associations ?? EMPTY_ASSOCIATIONS)
 const slug = computed(() => getContextTypeSlug(contextType))
+const isEmpty = computed(() => countAssociations(associations.value, associableContextTypes.value) === 0)
 
-const countAll = computed(() => countAssociations(associations, displayedContextTypes.value))
+const { getLimit, getAssociateState } = useAssociationLimits({
+  contextType,
+  elementId: () => elementId
+})
 
-function count (associatedContextType: EAssociationContextType) {
-  return countAssociations(associations, [associatedContextType])
-}
-
-function isDisabled (associatedContextType: EAssociationContextType) {
-  return limits?.[associatedContextType] === 0
-}
-
-const associateItems = computed(() => displayedContextTypes.value.map(associatedContextType => ({
-  type: associatedContextType,
-  disabled: isAssociationLimitReached(limits, associatedContextType, count(associatedContextType))
-})))
-
-const unassociateItems = computed<AssociationElementsDropdownItem[]>(() => displayedContextTypes.value.map(associatedContextType => ({
-  type: associatedContextType,
-  disabled: isDisabled(associatedContextType) || count(associatedContextType) === 0,
-  disabledTooltip: t(`student.associations.contextTypes.${associatedContextType}.unassociateDisabledTooltip`)
-})))
+const associateItems = computed<AssociationElementsDropdownItem[]>(() => associableContextTypes.value.map(type => ({ type, ...getAssociateState(type) })))
+const unassociateItems = computed<AssociationElementsDropdownItem[]>(() => associableContextTypes.value.map((associatedContextType) => {
+  const disabled = isEmpty.value || countAssociations(associations.value, [associatedContextType]) === 0
+  return {
+    type: associatedContextType,
+    disabled,
+    disabledTooltip: disabled ? t(`student.associations.contextTypes.${associatedContextType}.unassociateDisabledTooltip`) : undefined
+  }
+}))
 
 const isUnassociateDropdownDisabled = computed(() => actionsDisabled || unassociateItems.value.every(({ disabled }) => disabled))
-
 const actionsTooltip = computed(() => actionsDisabled ? actionsDisabledTooltip : undefined)
 
 function onAssociateSelect (associatedContextType: EAssociationContextType) {
@@ -138,26 +121,27 @@ function onUnassociateSelect (associatedContextType: EAssociationContextType) {
           @select="onAssociateSelect"
         />
       </div>
-
-      <slot name="footer" />
     </div>
 
-    <slot name="header" />
+    <slot
+      name="header"
+      :get-limit="getLimit"
+    />
 
     <QuerySuspense
       :error="error"
       :error-title="t(`student.associations.contextTypes.${contextType}.fetchAssociationsError`)"
       :empty-state-message="t(`student.associations.contextTypes.${contextType}.emptyAssociations`)"
-      :is-empty="countAll === 0"
+      :is-empty
       :is-loading="isLoading"
     >
       <div class="av-col av-gap-md">
         <AssociatedElementsCard
-          v-for="associatedContextType in displayedContextTypes"
+          v-for="associatedContextType in associableContextTypes"
           :key="associatedContextType"
-          :associated-context-type="associatedContextType"
-          :associations="elementAssociations"
-          :limit="limits?.[associatedContextType]"
+          :associated-context-type
+          :associations
+          :limit="getLimit(associatedContextType).max"
           :disabled="readonly"
         />
       </div>
@@ -179,7 +163,7 @@ function onUnassociateSelect (associatedContextType: EAssociationContextType) {
       :context-type="contextType"
       :element-id="elementId"
       :associated-context-type="selectedContextType"
-      :associations="elementAssociations"
+      :associations
       @cancel="closeUnassociateModal"
       @deleted="closeUnassociateModal"
     />

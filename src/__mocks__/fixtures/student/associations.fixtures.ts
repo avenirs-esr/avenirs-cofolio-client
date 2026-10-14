@@ -2,6 +2,7 @@ import { createMockedDeclaredExperiences } from '@/__mocks__/fixtures/student/de
 import { createMockedDeclaredPrograms } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
+  type AssociationLimitDTO,
   type AssociationsDTO,
   type AssociationSearchResultDTO,
   type DeclaredActivityAssociationDTO,
@@ -238,28 +239,45 @@ export function createMockedAssociations (contextType: EAssociationContextType):
   }
 }
 
+const MOCKED_DECLARED_ACTIVITY_TRACE_LIMIT = 8
+
+export function createMockedAssociationLimits (contextType: EAssociationContextType, limitReached = false): AssociationLimitDTO[] {
+  if (contextType !== EAssociationContextType.DECLARED_ACTIVITY) {
+    return []
+  }
+
+  return [{
+    associatedContextType: EAssociationContextType.TRACE,
+    max: MOCKED_DECLARED_ACTIVITY_TRACE_LIMIT,
+    remaining: limitReached
+      ? 0
+      : Math.max(0, MOCKED_DECLARED_ACTIVITY_TRACE_LIMIT - mockedDeclaredActivityAssociations.traceAssociations.length)
+  }]
+}
+
 export const mockedActivitySearchResults: AssociationSearchResultDTO[] = [
-  { id: 'activity-search-1', title: 'Définir ses valeurs', category: EActivityThematic.SELF_KNOWLEDGE, disabled: false },
-  { id: 'activity-search-2', title: 'Explorer ses pistes d\'orientation', category: EActivityThematic.FUTURE_PLANS, disabled: false },
-  { id: 'activity-search-3', title: 'Construire son projet professionnel', category: EActivityThematic.FUTURE_PLANS, disabled: true }
+  { id: 'activity-search-1', title: 'Définir ses valeurs', category: EActivityThematic.SELF_KNOWLEDGE, disabled: false, limitReached: false },
+  { id: 'activity-search-2', title: 'Explorer ses pistes d\'orientation', category: EActivityThematic.FUTURE_PLANS, disabled: false, limitReached: false },
+  { id: 'activity-search-3', title: 'Construire son projet professionnel', category: EActivityThematic.FUTURE_PLANS, disabled: true, limitReached: false },
+  { id: 'activity-search-4', title: 'Développer ses compétences transversales', category: EActivityThematic.TRANSVERSAL, disabled: true, limitReached: true }
 ]
 
 export const mockedSkillSearchResults: AssociationSearchResultDTO[] = [
-  { id: 'skill-search-1', title: 'Gestion de projet agile', category: EExternalSkillType.ROME4, disabled: false },
-  { id: 'skill-search-2', title: 'Communication interpersonnelle', category: EExternalSkillType.XXI, disabled: false },
-  { id: 'skill-search-3', title: 'Analyse de données', category: EExternalSkillType.ROME4, disabled: true }
+  { id: 'skill-search-1', title: 'Gestion de projet agile', category: EExternalSkillType.ROME4, disabled: false, limitReached: false },
+  { id: 'skill-search-2', title: 'Communication interpersonnelle', category: EExternalSkillType.XXI, disabled: false, limitReached: false },
+  { id: 'skill-search-3', title: 'Analyse de données', category: EExternalSkillType.ROME4, disabled: true, limitReached: false }
 ]
 
 export const mockedExperienceSearchResults: AssociationSearchResultDTO[] = [
-  { id: 'experience-search-1', title: 'Définir ses valeurs', category: EExperienceType.PERSONAL, disabled: false },
-  { id: 'experience-search-2', title: 'Explorer ses pistes d\'orientation', category: EExperienceType.PROFESSIONAL, disabled: false },
-  { id: 'experience-search-3', title: 'Développeur Web Full Stack', category: EExperienceType.PROFESSIONAL, disabled: true }
+  { id: 'experience-search-1', title: 'Définir ses valeurs', category: EExperienceType.PERSONAL, disabled: false, limitReached: false },
+  { id: 'experience-search-2', title: 'Explorer ses pistes d\'orientation', category: EExperienceType.PROFESSIONAL, disabled: false, limitReached: false },
+  { id: 'experience-search-3', title: 'Développeur Web Full Stack', category: EExperienceType.PROFESSIONAL, disabled: true, limitReached: false }
 ]
 
 export const mockedProgramSearchResults: AssociationSearchResultDTO[] = [
-  { id: 'program-search-1', title: 'Master en Informatique', category: 'Université Paris-Saclay', disabled: false },
-  { id: 'program-search-2', title: 'Licence de Psychologie', category: 'Université Lumière Lyon 2', disabled: false },
-  { id: 'program-search-3', title: 'BUT Métiers du Multimédia et de l\'Internet', category: 'IUT de Bordeaux', disabled: true }
+  { id: 'program-search-1', title: 'Master en Informatique', category: 'Université Paris-Saclay', disabled: false, limitReached: false },
+  { id: 'program-search-2', title: 'Licence de Psychologie', category: 'Université Lumière Lyon 2', disabled: false, limitReached: false },
+  { id: 'program-search-3', title: 'BUT Métiers du Multimédia et de l\'Internet', category: 'IUT de Bordeaux', disabled: true, limitReached: false }
 ]
 
 /**
@@ -271,7 +289,8 @@ export function createMockedTraceSearchResults (isAssociated?: boolean): Associa
     .flatMap(associated => Array.from({ length: 5 }, (_, index) => ({
       id: `trace-${associated ? 'associee' : 'non-associee'}${index + 1}`,
       title: `Ma super trace ${associated ? 'associée' : 'non associée'} numéro ${index + 1}`,
-      disabled: false
+      disabled: false,
+      limitReached: false
     })))
 }
 

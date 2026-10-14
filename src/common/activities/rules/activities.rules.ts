@@ -1,3 +1,4 @@
+import type { AssociationLimitState } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import {
   type ActivityContentDTO,
   type ActivityPresentationDTO,
@@ -9,6 +10,10 @@ import {
 import { ACTIVITY_TRACE_SETTING_DISABLED_VALUE, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 
 const NOT_DELETABLE_DECLARED_ACTIVITY_STATUSES = new Set([EDeclaredActivityStatus.SUBMITTED, EDeclaredActivityStatus.COMPLETED])
+
+export function shouldDisplayTraceLimit (limits: AssociationLimitState): boolean {
+  return limits.isLoaded && limits.max !== ACTIVITY_TRACE_SETTING_DISABLED_VALUE
+}
 
 export function isDeletableDeclaredActivityAssociation (association: DeclaredActivityAssociationDTO) {
   return !NOT_DELETABLE_DECLARED_ACTIVITY_STATUSES.has(association.declaredActivity.status)

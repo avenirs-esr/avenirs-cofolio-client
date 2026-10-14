@@ -29,10 +29,11 @@ const {
 const selections = defineModel<AssociationSelections>('selections', { default: () => ({}) })
 
 const { t } = useI18n()
-
-const selectableContextTypes = (getAssociableContextTypes(contextType))
+const selectableContextTypes = getAssociableContextTypes(contextType)
 
 const activeContextType = ref<EAssociationContextType>(selectableContextTypes[0]!)
+
+const activeAssociations = computed<Association[]>(() => selections.value[activeContextType.value] ?? [])
 
 const {
   searchQuery,
@@ -43,6 +44,7 @@ const {
 } = useAssociationSearch({
   contextType,
   associatedContextType: activeContextType,
+  selectedIds: () => activeAssociations.value.map(({ id }) => id),
   enabled: () => enabled
 })
 
@@ -66,9 +68,6 @@ function toAssociation (option: AvAutocompleteOption): Association {
 }
 
 const autocompleteOptions = computed<AvAutocompleteOption[]>(() => associations.value.map(toAutocompleteOption))
-
-const activeAssociations = computed<Association[]>(() => selections.value[activeContextType.value] ?? [])
-
 const autocompleteSelectedOptions = computed<AvAutocompleteOption[]>({
   get: () => activeAssociations.value.map(toAutocompleteOption),
   set: (options) => {
@@ -78,7 +77,6 @@ const autocompleteSelectedOptions = computed<AvAutocompleteOption[]>({
     }
   }
 })
-
 const searchPlaceholder = computed(() => isFilterable.value
   ? t(`student.associations.contextTypes.${activeContextType.value}.searchFilters.${searchFilter.value}.searchPlaceholder`)
   : t(`student.associations.contextTypes.${activeContextType.value}.searchPlaceholder`))

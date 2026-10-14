@@ -6,15 +6,13 @@ import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationMo
 import { useModal } from '@/common/composables'
 import { ICONS } from '@/common/constants'
 import AssociationCompactCard from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.vue'
-import AssociationSearchFilterSelect
-  from '@/features/student/associations/components/interactions/AssociationSearchFilterSelect/AssociationSearchFilterSelect.vue'
+import AssociationSearchFilterSelect from '@/features/student/associations/components/interactions/AssociationSearchFilterSelect/AssociationSearchFilterSelect.vue'
 import SearchAssociationLayout from '@/features/student/associations/components/interactions/SearchAssociationLayout/SearchAssociationLayout.vue'
 import ConfirmAssociateModal from '@/features/student/associations/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.vue'
 import { useAssociationMutations } from '@/features/student/associations/composables/use-association-mutations/use-association-mutations'
 import { useAssociationSearch } from '@/features/student/associations/composables/use-association-search/use-association-search'
 import { DEFAULT_ASSOCIATION_SEARCH_FILTER } from '@/features/student/associations/constants/associations.constants'
 import { getContextTypeSlug } from '@/features/student/associations/utils/associations.utils'
-import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 type AssociationOption = AvAutocompleteOption & Pick<Association, 'category'>
@@ -36,21 +34,21 @@ const emit = defineEmits<{
   (e: 'associated'): void
 }>()
 
-const isDark = computed(() => associatedContextType === EAssociationContextType.DECLARED_SKILL)
-
 const { t } = useI18n()
+const { associate, isPending } = useAssociationMutations()
 
 const {
   modalOpened: confirmModalOpened,
   openModal: openConfirmModal,
   closeModal: closeConfirmModal
 } = useModal()
-
 const {
   modalOpened: cancelConfirmationModalOpened,
   openModal: openCancelConfirmationModal,
   closeModal: closeCancelConfirmationModal
 } = useModal()
+
+const selectedOptions = ref<AssociationOption[]>([])
 
 const {
   searchQuery,
@@ -62,13 +60,12 @@ const {
   contextType,
   elementId: () => elementId,
   associatedContextType: () => associatedContextType,
+  selectedIds: () => selectedOptions.value.map(({ value }) => value.toString()),
   enabled: () => opened
 })
 
-const { associate, isPending } = useAssociationMutations()
-
-const selectedOptions = ref<AssociationOption[]>([])
-
+const slug = computed(() => getContextTypeSlug(associatedContextType, true))
+const isDark = computed(() => associatedContextType === EAssociationContextType.DECLARED_SKILL)
 const options = computed<AssociationOption[]>(() =>
   associations.value.map(association => ({
     label: association.title,
@@ -79,7 +76,6 @@ const options = computed<AssociationOption[]>(() =>
     disabledTooltip: association.disabledTooltip
   }))
 )
-
 const selectedAssociations = computed<Association[]>(() =>
   selectedOptions.value.map(option => ({
     id: option.value.toString(),
@@ -88,11 +84,9 @@ const selectedAssociations = computed<Association[]>(() =>
     category: option.category
   }))
 )
-
 const searchPlaceholder = computed(() => isFilterable.value
   ? t(`student.associations.contextTypes.${associatedContextType}.searchFilters.${searchFilter.value}.searchPlaceholder`)
   : t(`student.associations.contextTypes.${associatedContextType}.searchPlaceholder`))
-
 const isLoading = computed(() => isSearchLoading.value || isPending.value)
 
 function clear () {
@@ -137,15 +131,14 @@ function onConfirm () {
 </script>
 
 <template>
-  <AvModal
+  <ConfirmationModal
     :opened="opened"
-    :data-testid="`associate-${getContextTypeSlug(associatedContextType, true)}-modal`"
-    :close-button-label="t('global.buttons.cancel')"
     :confirm-button-label="t(`student.associations.contextTypes.${associatedContextType}.associateConfirm`, { count: selectedAssociations.length })"
     :confirm-button-icon="ICONS.ASSOCIATE"
     :confirm-button-disabled="selectedAssociations.length === 0"
     :confirm-button-disabled-tooltip="t(`student.associations.contextTypes.${associatedContextType}.confirmButtonDisabledTooltip`)"
     :is-loading="isLoading"
+    :data-testid="`associate-${slug}-modal`"
     @close="onClose"
     @confirm="openConfirmModal"
   >
@@ -190,7 +183,7 @@ function onConfirm () {
         />
       </template>
     </SearchAssociationLayout>
-  </AvModal>
+  </ConfirmationModal>
 
   <ConfirmAssociateModal
     :opened="confirmModalOpened"
@@ -203,6 +196,7 @@ function onConfirm () {
   <ConfirmationModal
     :opened="cancelConfirmationModalOpened"
     :description="t(`student.associations.contextTypes.${associatedContextType}.cancelConfirmation`)"
+    :data-testid="`associate-${slug}-confirmation-modal`"
     @close="closeCancelConfirmationModal"
     @confirm="onCancel"
   />

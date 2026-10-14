@@ -7,8 +7,13 @@
         }
       },
       "composables": {
+        "useAssociationLimits": {
+          "notAllowedTooltip": "This type of association is not allowed."
+        },
         "useAssociationSearch": {
-          "disabledTooltip": "This item is already associated."
+          "disabledTooltip": "This item is already associated.",
+          "limitReachedTooltip": "Maximum number of associations allowed reached.",
+          "selectionLimitReachedTooltip": "You have reached the maximum number of items that can be selected."
         }
       },
       "contextTypes": {
@@ -17,6 +22,7 @@
           "associateConfirmTitle": "Are you sure you want to associate this activity? | Are you sure you want to associate these activities?",
           "associatedTitle": "My associated declared activity ({count}) | My associated declared activities ({count})",
           "associatedTitleLimited": "My associated declared activity ({count}/{limit}) | My associated declared activities ({count}/{limit})",
+          "associateLimitReachedTooltip": "You have reached the maximum number of activities that can be associated.",
           "associateSuccess": "You have associated {count} activity. Find it in the \"My associated activities\" category. | You have associated {count} activities. Find them in the \"My associated activities\" category.",
           "associateTitle": "Which activity(ies) would you like to associate?",
           "cancelConfirmation": "Are you sure you want to abandon the activity association?",
@@ -33,6 +39,7 @@
           "associateConfirmTitle": "Are you sure you want to associate this experience? | Are you sure you want to associate these experiences?",
           "associatedTitle": "My associated declared experience ({count}) | My associated declared experiences ({count})",
           "associatedTitleLimited": "My associated declared experience ({count}/{limit}) | My associated declared experiences ({count}/{limit})",
+          "associateLimitReachedTooltip": "You have reached the maximum number of experiences that can be associated.",
           "associateSuccess": "You have associated {count} experience. Find it in the \"My associated experiences\" category. | You have associated {count} experiences. Find them in the \"My associated experiences\" category.",
           "associateTitle": "Which declared experience(s) would you like to associate?",
           "cancelConfirmation": "Are you sure you want to abandon the experience association?",
@@ -49,6 +56,7 @@
           "associateConfirmTitle": "Are you sure you want to associate this program? | Are you sure you want to associate these programs?",
           "associatedTitle": "My associated declared program ({count}) | My associated declared programs ({count})",
           "associatedTitleLimited": "My associated declared program ({count}/{limit}) | My associated declared programs ({count}/{limit})",
+          "associateLimitReachedTooltip": "You have reached the maximum number of programs that can be associated.",
           "associateSuccess": "You have associated {count} program. Find it in the \"My associated programs\" category. | You have associated {count} programs. Find them in the \"My associated programs\" category.",
           "associateTitle": "Which declared program(s) would you like to associate?",
           "cancelConfirmation": "Are you sure you want to abandon the program association?",
@@ -65,6 +73,7 @@
           "associateConfirmTitle": "Are you sure you want to associate this skill? | Are you sure you want to associate these skills?",
           "associatedTitle": "My declared skills (0) | My declared skill (1) | My declared skills ({count})",
           "associatedTitleLimited": "My declared skills (0/{limit}) | My declared skill (1/{limit}) | My declared skills ({count}/{limit})",
+          "associateLimitReachedTooltip": "You have reached the maximum number of skills that can be associated.",
           "associateSuccess": "You have associated {count} declared skill. | You have associated {count} declared skills.",
           "associateTitle": "Which declared skill(s) would you like to associate?",
           "cancelConfirmation": "Are you sure you want to abandon the skill association?",
@@ -81,6 +90,7 @@
           "associateConfirmTitle": "Are you sure you want to associate this trace? | Are you sure you want to associate these traces?",
           "associatedTitle": "My associated trace ({count}) | My associated traces ({count})",
           "associatedTitleLimited": "My associated trace ({count}/{limit}) | My associated traces ({count}/{limit})",
+          "associateLimitReachedTooltip": "You have reached the maximum number of traces that can be associated.",
           "associateSuccess": "You have associated {count} trace. Find it in the \"My associated traces\" category. | You have associated {count} traces. Find them in the \"My associated traces\" category.",
           "associateTitle": "Which trace(s) would you like to associate?",
           "cancelConfirmation": "Are you sure you want to abandon the trace association?",
