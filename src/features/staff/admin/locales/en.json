@@ -9,6 +9,14 @@
           "title": "Institution skills references"
         },
         "AdminInstitutionUsersView": {
+          "components": {
+            "inputs": {
+              "UserInfoSearch": {
+                "label": "Search a user",
+                "placeholder": "Enter a name, first name or email"
+              }
+            }
+          },
           "title": "Institution users"
         }
       }

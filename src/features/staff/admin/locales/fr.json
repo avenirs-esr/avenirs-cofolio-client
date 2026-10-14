@@ -9,6 +9,14 @@
           "title": "Référentiels de compétences de l'établissement"
         },
         "AdminInstitutionUsersView": {
+          "components": {
+            "inputs": {
+              "UserInfoSearch": {
+                "label": "Rechercher un utilisateur",
+                "placeholder": "Renseigner un nom, prénom ou email"
+              }
+            }
+          },
           "title": "Utilisateurs de l'établissement"
         }
       }
