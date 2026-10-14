@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import UserInfo, { type UserInfoProps } from '@/common/components/base/UserInfo/UserInfo.vue'
+import UserInfo, { type UserInfoProps } from '@/features/staff/admin/views/AdminInstitutionUsersView/components/base/UserInfo/UserInfo.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
