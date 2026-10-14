@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
+import { AvIconText, bytesToMegabytes, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { CreationUpdateDateDetails } from '@/common/components'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import TraceAiJustificationTextarea from '@/features/student/traces/components/interactions/inputs/TraceAiJustificationTextarea/TraceAiJustificationTextarea.vue'
@@ -8,8 +10,6 @@ import TraceNameInput from '@/features/student/traces/components/interactions/in
 import TracePersonalNoteTextarea from '@/features/student/traces/components/interactions/inputs/TracePersonalNoteTextarea/TracePersonalNoteTextarea.vue'
 import TraceAiUsageToggle from '@/features/student/traces/components/interactions/toggles/TraceAiUsageToggle/TraceAiUsageToggle.vue'
 import { useTraceAttachmentFile } from '@/features/student/traces/composables/use-trace-file/use-trace-file'
-import { AvIconText, bytesToMegabytes, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 interface StudentDetailedTraceInformationProps {
   trace: TraceDetailDTO

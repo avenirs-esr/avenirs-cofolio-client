@@ -76,7 +76,7 @@ defineSlots<{
   default: { element: unknown }
 }>()
 
-const selectedElements = defineModel<string[]>({ default: [] })
+const selectedElements = defineModel<string[]>({ default: () => [] })
 
 const selectableElements = computed(() => {
   return elements.map(element => ({

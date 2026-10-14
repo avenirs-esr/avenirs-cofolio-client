@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { EUserCategory } from '@/api/avenir-esr'
-import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub.js'
-import NotificationsPopoverPreferenceToggle from '@/common/notifications/components/NotificationsPopoverPreferenceToggle/NotificationsPopoverPreferenceToggle.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils.js'
 import { beforeEach, expect } from 'vitest'
+import { EUserCategory } from '@/api/avenir-esr'
+import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub'
+import NotificationsPopoverPreferenceToggle from '@/common/notifications/components/NotificationsPopoverPreferenceToggle/NotificationsPopoverPreferenceToggle.vue'
 
 const mockAddErrorMessage = vi.fn()
 

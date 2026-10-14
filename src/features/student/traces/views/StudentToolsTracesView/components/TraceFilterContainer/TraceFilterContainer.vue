@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import type { AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
 import type { TraceFilter, TraceFilterFileTypesItem } from '@/api/avenir-esr'
 import type { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 import type { DateFilter, SearchFilter } from '@/types'
+import { AvButton, AvInput, AvModal, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { debounce } from 'lodash-es'
+import { useI18n } from 'vue-i18n'
 import { DatePeriodPicker } from '@/common/components'
 import FileTypeMultiselect from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.vue'
 import { useModal } from '@/common/composables'
 import { TraceType } from '@/features/student/traces/types/traces.types'
 import { computeTraceFilterFileTypesFromGlobals } from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/utils'
-import { AvButton, AvInput, AvModal, type AvMultiselectOption, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { debounce } from 'lodash-es'
-import { useI18n } from 'vue-i18n'
 
 const { isAssociated } = defineProps<{ isAssociated: boolean }>()
 
@@ -47,8 +48,8 @@ function handleFromDateChange (value: string) {
   fromDateSelected.value = value
 }
 
-function handleToDateChange (value: string) {
-  toDateSelected.value = value
+function handleToDateChange (value?: string) {
+  toDateSelected.value = value ?? ''
 }
 
 watch([

@@ -1,4 +1,6 @@
-import { createDocumentMock } from '@/common/utils/docx/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { Document, Packer, Paragraph } from 'docx'
+import { beforeEach, expect, vi } from 'vitest'
 import { downloadBlob } from '@/common/utils/download/download'
 import { useGenerateActivitiesSection } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-activities-section'
 import { useGenerateExperiencesSections } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-experiences-sections'
@@ -7,9 +9,8 @@ import { useGenerateProgramsSection } from '@/features/student/kit/composables/u
 import { useGenerateSelfKnowledgeSections } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-self-knowledge-sections'
 import { useGenerateSkillsSection } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-skills-section'
 import { useExportKit } from '@/features/student/kit/composables/use-export-kit/use-export-kit'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { Document, Packer, Paragraph } from 'docx'
-import { beforeEach, expect, vi } from 'vitest'
+
+const { createDocumentMock } = await vi.hoisted(() => import('@/common/utils/docx/test-utils'))
 
 vi.mock('@/common/utils/download/download', () => ({
   downloadBlob: vi.fn(),

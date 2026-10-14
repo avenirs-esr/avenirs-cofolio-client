@@ -1,10 +1,13 @@
+import type { VueWrapper } from '@vue/test-utils'
+import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import type { ActivityDetailedDropdownProps } from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
 import { EActivityStatus, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
-import { Action, type ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
-import ActivityDetailedDropdown, { type ActivityDetailedDropdownProps } from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import ActivityDetailedDropdown from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
 
 BddTest().given('an activity dropdown', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityDetailedDropdown>>

@@ -1,28 +1,39 @@
 import type { Edge, Node } from '@vue-flow/core'
-import { GLOBAL_NODE_HANDLES } from '@/common/components/base/VueFlow/global-nodes.types'
-import { useNodes } from '@/common/composables/VueFlow/use-nodes/use-nodes'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { shallowRef } from 'vue'
+import { GLOBAL_NODE_HANDLES } from '@/common/components/base/VueFlow/global-nodes.types'
+import { useNodes } from '@/common/composables/VueFlow/use-nodes/use-nodes'
 
-const mockNodes = ref<Node[]>([])
-const mockEdges = ref<Edge[]>([])
-const mockAddNodes = vi.fn((newNodes: Node[]) => {
-  mockNodes.value = [...mockNodes.value, ...newNodes]
+const mockNodes = shallowRef<Node[]>([])
+const mockEdges = shallowRef<Edge[]>([])
+const mockAddNodes = vi.fn<(newNodes: Node[]) => void>()
+mockAddNodes.mockImplementation((newNodes) => {
+  mockNodes.value.push(...newNodes)
 })
-const mockAddEdges = vi.fn((newEdges: Edge[]) => {
-  mockEdges.value = [...mockEdges.value, ...newEdges]
+const mockAddEdges = vi.fn<(newEdges: Edge[]) => void>()
+mockAddEdges.mockImplementation((newEdges) => {
+  mockEdges.value.push(...newEdges)
 })
-const mockFindNode = vi.fn((id: string) => {
-  return mockNodes.value.find(node => node.id === id)
-})
-const mockRemoveNodes = vi.fn((nodeIds: string[]) => {
+function mockFindNode (id: string): Node | undefined {
+  for (const node of mockNodes.value) {
+    if (node.id === id) {
+      return node
+    }
+  }
+  return undefined
+}
+const mockRemoveNodes = vi.fn<(nodeIds: string[]) => void>()
+mockRemoveNodes.mockImplementation((nodeIds) => {
   mockNodes.value = mockNodes.value.filter(node => !nodeIds.includes(node.id))
 })
-const mockRemoveEdges = vi.fn((edgeIds: string[]) => {
+const mockRemoveEdges = vi.fn<(edgeIds: string[]) => void>()
+mockRemoveEdges.mockImplementation((edgeIds) => {
   mockEdges.value = mockEdges.value.filter(edge => !edgeIds.includes(edge.id))
 })
-const mockUpdateNode = vi.fn((nodeId: string, updates: Partial<Node>) => {
+const mockUpdateNode = vi.fn<(nodeId: string, updates: Partial<Node>) => void>()
+mockUpdateNode.mockImplementation((nodeId, updates) => {
   mockNodes.value = mockNodes.value.map((node) => {
     if (node.id !== nodeId) {
       return node
@@ -38,7 +49,8 @@ const mockUpdateNode = vi.fn((nodeId: string, updates: Partial<Node>) => {
     }
   })
 })
-const mockUpdateEdge = vi.fn((edgeId: string, updates: Partial<Edge>) => {
+const mockUpdateEdge = vi.fn<(edgeId: string, updates: Partial<Edge>) => void>()
+mockUpdateEdge.mockImplementation((edgeId, updates) => {
   mockEdges.value = mockEdges.value.map((edge) => {
     if (edge.id === edgeId) {
       return { ...edge, ...updates }
@@ -46,10 +58,12 @@ const mockUpdateEdge = vi.fn((edgeId: string, updates: Partial<Edge>) => {
     return edge
   })
 })
-const mockSetNodes = vi.fn((newNodes: Node[]) => {
+const mockSetNodes = vi.fn<(newNodes: Node[]) => void>()
+mockSetNodes.mockImplementation((newNodes) => {
   mockNodes.value = newNodes
 })
-const mockSetEdges = vi.fn((newEdges: Edge[]) => {
+const mockSetEdges = vi.fn<(newEdges: Edge[]) => void>()
+mockSetEdges.mockImplementation((newEdges) => {
   mockEdges.value = newEdges
 })
 

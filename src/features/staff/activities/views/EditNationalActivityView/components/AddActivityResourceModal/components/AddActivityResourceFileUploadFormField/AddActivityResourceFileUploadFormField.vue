@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { AddActivityResourceForm } from '@/features/staff/activities/types/forms.types'
+import { markRaw } from 'vue'
+import { useI18n } from 'vue-i18n'
 import FileUpload from '@/common/components/interaction/files/FileUpload/FileUpload.vue'
 import { bytesToMegabytes } from '@/common/utils/file/file'
 import { ACTIVITY_RESOURCE_ACCEPTED_FILE_TYPES, ACTIVITY_RESOURCE_MAX_FILE_SIZE } from '@/features/staff/activities/config'
-import { markRaw } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 interface AddActivityResourceFileUploadFormFieldProps {
   form: AddActivityResourceForm

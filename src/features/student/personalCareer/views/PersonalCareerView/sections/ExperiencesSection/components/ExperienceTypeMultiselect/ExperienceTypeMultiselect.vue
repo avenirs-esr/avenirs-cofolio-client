@@ -1,15 +1,16 @@
 <script lang="ts" setup>
+import type { AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
+import { AvMultiselect } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EExperienceType } from '@/api/avenir-esr'
 import { useWatchQueryParam } from '@/common/composables'
 import { ProBasedExperienceType } from '@/features/student/global/types/experiences.types'
-import { AvMultiselect, type AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 defineProps<{ maxHeight?: string }>()
 
 const { t } = useI18n()
 
-const typesSelected = defineModel<AvMultiselectOption[]>({ default: [] })
+const typesSelected = defineModel<AvMultiselectOption[]>({ default: () => [] })
 
 const typesOptions: AvMultiselectOption[] = [
   EExperienceType.PROFESSIONAL,

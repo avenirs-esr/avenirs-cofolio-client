@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-import { EActivityStatus, type EDeclaredActivityStatus } from '@/api/avenir-esr'
-import { isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
-import { Action, type ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
-import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
+import type { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { useI18n } from 'vue-i18n'
+import { EActivityStatus } from '@/api/avenir-esr'
+import { isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 
 export interface ActivityDetailedDropdownProps {
   status: EDeclaredActivityStatus

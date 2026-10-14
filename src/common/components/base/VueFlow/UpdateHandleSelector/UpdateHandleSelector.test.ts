@@ -1,9 +1,11 @@
-import UpdateHandleSelector, { type UpdateHandleSelectorProps } from '@/common/components/base/VueFlow/UpdateHandleSelector/UpdateHandleSelector.vue'
-import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub'
+import type { VueWrapper } from '@vue/test-utils'
+import type { UpdateHandleSelectorProps } from '@/common/components/base/VueFlow/UpdateHandleSelector/UpdateHandleSelector.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { Position } from '@vue-flow/core'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import UpdateHandleSelector from '@/common/components/base/VueFlow/UpdateHandleSelector/UpdateHandleSelector.vue'
+import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub'
 
 const mockIsMobile = ref(false)
 
@@ -54,8 +56,8 @@ BddTest().given('an update handle selector', () => {
       })
 
       BddTest().then('it should emit the update event with true', () => {
-        expect(wrapper.emitted('update:model-value')).toBeTruthy()
-        expect(wrapper.emitted('update:model-value')?.[0]).toEqual([true])
+        expect(wrapper.emitted('update:modelValue')).toBeTruthy()
+        expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([true])
       })
 
       BddTest().and('the toggle is clicked again', () => {
@@ -65,7 +67,7 @@ BddTest().given('an update handle selector', () => {
         })
 
         BddTest().then('it should emit the update event with false', () => {
-          expect(wrapper.emitted('update:model-value')?.[1]).toEqual([false])
+          expect(wrapper.emitted('update:modelValue')?.[1]).toEqual([false])
         })
       })
     })

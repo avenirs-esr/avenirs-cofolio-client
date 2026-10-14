@@ -15,7 +15,7 @@ const selectableElements = computed(() => {
   }))
 })
 
-const selectedElementIds = defineModel<string[]>({ default: [] })
+const selectedElementIds = defineModel<string[]>({ default: () => [] })
 </script>
 
 <template>

@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import FileUpload, { type FileUploadProps } from '@/common/components/interaction/files/FileUpload/FileUpload.vue'
+import type { FileUploadProps } from '@/common/components/interaction/files/FileUpload/FileUpload.vue'
+import { useAttrs } from 'vue'
+import { useI18n } from 'vue-i18n'
+import FileUpload from '@/common/components/interaction/files/FileUpload/FileUpload.vue'
 import { useFileValidation } from '@/common/composables/use-file-validation/use-file-validation'
 import { useSingletonArray } from '@/common/composables/use-singleton-array/use-singleton-array'
 import { bytesToMegabytes } from '@/common/utils/file/file'
 import { TRACE_ACCEPTED_FILE_TYPES } from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/types'
 import { TRACE_MAX_SIZE_BYTES } from '@/features/student/traces/config'
-import { useAttrs } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 interface TraceFileUploadProps extends Omit<FileUploadProps, 'title' | 'description' | 'ariaLabel' | 'accept' | 'modelValue'> {
   title?: string
