@@ -1,12 +1,37 @@
 import { config } from '@vue/test-utils'
+import { fetch, FormData, Headers, Request, Response } from 'undici'
 import { afterAll, afterEach, beforeAll } from 'vitest'
 // eslint-disable-next-line no-restricted-imports
 import { i18n, registerFeatureLocales } from './src/plugins/vue-i18n'
 import 'blob-polyfill'
 
+// eslint-disable-next-line node/prefer-global/process
+const { TextDecoder, TextEncoder } = process.getBuiltinModule('node:util')
+// eslint-disable-next-line node/prefer-global/process
+const { ReadableStream } = process.getBuiltinModule('node:stream/web')
+
+Object.assign(globalThis, { fetch, FormData, Headers, Request, Response, ReadableStream, TextDecoder, TextEncoder })
+
 window.matchMedia = function () {
-  return { matches: false }
+  return {
+    matches: false,
+    media: '',
+    onchange: null,
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    addListener: () => {},
+    removeListener: () => {},
+    dispatchEvent: () => false
+  }
 }
+
+class ResizeObserverStub {
+  observe () {}
+  unobserve () {}
+  disconnect () {}
+}
+
+globalThis.ResizeObserver = ResizeObserverStub
 
 const IGNORED_WARNINGS = []
 const FAILED_WARNINGS: string[] = ['[Vue warn]', '[intlify]']
