@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
-import { DatePeriodPicker } from '@/common/components'
-import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { DatePeriodPicker } from '@/common/components'
+import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
 
 interface ActivityExecutionPeriodFormFieldProps {
   form: EditActivityForm
@@ -62,7 +62,7 @@ function setStartDate (value: string) {
   autosaveIfConsistent(value || undefined, endDate.value || undefined)
 }
 
-function setEndDate (value: string) {
+function setEndDate (value?: string) {
   endDateField.api.handleChange(value)
   autosaveIfConsistent(startDate.value || undefined, value || undefined)
 }

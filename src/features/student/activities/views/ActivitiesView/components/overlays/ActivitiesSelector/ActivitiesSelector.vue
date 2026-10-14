@@ -23,7 +23,7 @@ defineOptions({
 
 const { activities } = defineProps<ActivitiesSelectorProps>()
 
-const selectedActivityIds = defineModel<string[]>({ default: [] })
+const selectedActivityIds = defineModel<string[]>({ default: () => [] })
 
 const selectableActivities = computed(() => {
   return activities.map(activity => ({

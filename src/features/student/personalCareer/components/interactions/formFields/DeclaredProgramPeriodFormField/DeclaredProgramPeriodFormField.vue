@@ -19,8 +19,8 @@ function onUpdateStartDate (value: string) {
   startDateField.api.handleChange(value)
 }
 
-function onUpdateEndDate (value: string) {
-  endDateField.api.handleChange(value)
+function onUpdateEndDate (value?: string) {
+  endDateField.api.handleChange(value ?? '')
 }
 
 const isOngoing = computed(() => Boolean(isOngoingField.state.value.value))

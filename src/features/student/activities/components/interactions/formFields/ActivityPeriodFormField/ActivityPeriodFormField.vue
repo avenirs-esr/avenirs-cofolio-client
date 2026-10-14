@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { UpdateActivityForm } from '@/features/student/global/types/forms.types'
-import { DatePeriodPicker } from '@/common/components'
 import { useI18n } from 'vue-i18n'
+import { DatePeriodPicker } from '@/common/components'
 
 interface ActivityPeriodFormFieldProps {
   form: UpdateActivityForm
@@ -19,8 +19,8 @@ function setStartDate (value: string) {
   startDateField.api.handleChange(value)
 }
 
-function setEndDate (value: string) {
-  endDateField.api.handleChange(value)
+function setEndDate (value?: string) {
+  endDateField.api.handleChange(value ?? '')
 }
 </script>
 

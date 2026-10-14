@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { AssociationsDTO, DeclaredActivityViewDTO, DeclaredExperienceViewDTO, DeclaredProgramViewDTO, DeclaredSkillProgressDTO, TraceOverviewDTO } from '@/api/avenir-esr'
 import type { CompactCardSelectorProps } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
+import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import { isDeletableDeclaredActivityAssociation } from '@/common/activities/rules/activities.rules'
@@ -11,8 +13,6 @@ import DeclaredExperienceTypeBadge
 import DeclaredProgramStatusBadge
   from '@/features/student/personalCareer/components/badges/DeclaredProgramStatusBadge/DeclaredProgramStatusBadge.vue'
 import { getTraceComplementaryInfo } from '@/features/student/traces/utils/trace.utils'
-import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface AssociationsSelectorProps {
   associatedContextType: EAssociationContextType
@@ -26,7 +26,7 @@ defineOptions({
 
 const { associatedContextType, associations, readonly = false } = defineProps<AssociationsSelectorProps>()
 
-const selectedAssociationIds = defineModel<string[]>({ default: [] })
+const selectedAssociationIds = defineModel<string[]>({ default: () => [] })
 
 const { t } = useI18n()
 

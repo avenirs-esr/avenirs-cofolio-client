@@ -1,14 +1,13 @@
 <script setup lang="ts">
+import type { AvDatePickerModel, AvDatePickerProps } from '@avenirs-esr/avenirs-dsav'
 import type { DatePeriodPickerType, PickerModel } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.types'
-import { getDatePlaceholderKey, toOutputValue, toPickerValue } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.utils'
 import {
   AvCheckbox,
-  AvDatePicker,
-  type AvDatePickerModel,
-  type AvDatePickerProps
+  AvDatePicker
 } from '@avenirs-esr/avenirs-dsav'
 import { useId } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { getDatePlaceholderKey, toOutputValue, toPickerValue } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.utils'
 
 type AvDatePickerPassThroughProps = Omit<AvDatePickerProps, 'key' | 'errorMessage' | 'modelValue' | 'range' | 'type'>
 
@@ -28,7 +27,7 @@ defineOptions({
 })
 
 const {
-  autoApply = undefined,
+  autoApply = true,
   disabled = false,
   endDateErrors,
   inputFormat = 'yyyy-MM-dd',
@@ -52,7 +51,7 @@ const pickerLabel = computed(() => {
 const pickerOngoingLabel = computed(() => ongoingLabel ?? t('global.dates.ongoing'))
 
 const startDate = defineModel<string>('startDate', { required: true })
-const endDate = defineModel<string>('endDate', { required: false, default: undefined })
+const endDate = defineModel<string | undefined>('endDate', { default: undefined })
 const isOngoing = defineModel<boolean>('isOngoing', { required: false, default: false })
 
 const componentId = useId()
@@ -116,8 +115,8 @@ const errorMessage = computed(() => [
     :model-value="(modelValue as AvDatePickerModel)"
     :range="!isOngoing"
     :type="type"
-    :auto-apply
-    :disabled
+    :auto-apply="autoApply"
+    :disabled="disabled"
     v-bind="restProps"
     :placeholder="placeholder"
     :locale="locale"
@@ -129,7 +128,7 @@ const errorMessage = computed(() => [
     >
       <AvCheckbox
         :id="isOngoingId"
-        :disabled
+        :disabled="disabled"
         :name="IS_ONGOING"
         :model-value="isOngoing ? [IS_ONGOING] : []"
         :value="IS_ONGOING"

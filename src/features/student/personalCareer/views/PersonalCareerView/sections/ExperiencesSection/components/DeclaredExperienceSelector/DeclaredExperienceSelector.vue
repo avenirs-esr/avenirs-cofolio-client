@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import CompactCardSelector from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 
 export interface DeclaredExperienceSelectorProps {
   declaredExperiences: { label: string, value: string }[]
@@ -8,7 +8,7 @@ export interface DeclaredExperienceSelectorProps {
 
 const { declaredExperiences } = defineProps<DeclaredExperienceSelectorProps>()
 
-const selectedExperienceIds = defineModel<string[]>({ default: [] })
+const selectedExperienceIds = defineModel<string[]>({ default: () => [] })
 </script>
 
 <template>

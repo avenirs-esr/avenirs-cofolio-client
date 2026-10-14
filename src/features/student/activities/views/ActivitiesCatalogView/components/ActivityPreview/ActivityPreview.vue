@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-import { type ActivityPresentationDTO, EActivityStatus } from '@/api/avenir-esr'
+import type { ActivityPresentationDTO } from '@/api/avenir-esr'
+import { AvButton, MDI_ICONS, PH_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
+import { EActivityStatus } from '@/api/avenir-esr'
 import ActivityCatalogHeader from '@/common/activities/components/ActivityCatalogHeader/ActivityCatalogHeader.vue'
 import ActivityCatalogPreviewCard from '@/common/activities/components/ActivityCatalogPreviewCard/ActivityCatalogPreviewCard.vue'
 import { isActivitySubscribed } from '@/common/activities/rules/activities.rules'
@@ -7,8 +10,6 @@ import { useModal } from '@/common/composables'
 import { ICONS, ROUTES } from '@/common/constants'
 import SubscribeActivityConfirmModal from '@/features/student/activities/components/modals/SubscribeActivityConfirmModal/SubscribeActivityConfirmModal.vue'
 import UnsubscribeActivitiesConfirmModal from '@/features/student/activities/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.vue'
-import { AvButton, MDI_ICONS, PH_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface ActivityPreviewProps {
   activity: ActivityPresentationDTO

@@ -1,15 +1,16 @@
 <script lang="ts" setup>
-import { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
-import { TraceType } from '@/features/student/traces/types/traces.types'
-import { AvMultiselect, type AvMultiselectItem, type AvMultiselectOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import type { AvMultiselectItem, AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
+import { AvMultiselect, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
+import { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
+import { TraceType } from '@/features/student/traces/types/traces.types'
 
 defineProps<{ maxHeight?: string }>()
 
 const { t } = useI18n()
 
-const typesSelected = defineModel<AvMultiselectOption[]>({ default: [] })
+const typesSelected = defineModel<AvMultiselectOption[]>({ default: () => [] })
 
 const typesOptions = computed<AvMultiselectItem[]>(() => [
   {

@@ -11,7 +11,7 @@ export interface SelfKnowledgeElementsSelectorProps {
 
 const { elements } = defineProps<SelfKnowledgeElementsSelectorProps>()
 
-const selectedElementIds = defineModel<string[]>({ default: [] })
+const selectedElementIds = defineModel<string[]>({ default: () => [] })
 
 const selectableElements = computed(() => {
   return elements.map(element => ({

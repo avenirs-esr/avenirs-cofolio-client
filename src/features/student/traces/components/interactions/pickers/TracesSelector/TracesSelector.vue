@@ -15,7 +15,7 @@ export interface TracesSelectorProps {
 
 const { traces, readonly = false, compact = false } = defineProps<TracesSelectorProps>()
 
-const selectedTraceIds = defineModel<string[]>({ default: [] })
+const selectedTraceIds = defineModel<string[]>({ default: () => [] })
 
 function isTraceOverviewDTO (trace: SelectableTrace): trace is TraceOverviewDTO {
   return !('isAssociated' in trace)

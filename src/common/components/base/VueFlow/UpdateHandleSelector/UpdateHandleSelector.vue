@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Toggle from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
 import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { Position } from '@vue-flow/core'
 import { useI18n } from 'vue-i18n'
+import Toggle from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
 
 /**
  * Props for the UpdateHandleSelector component.
@@ -28,9 +28,10 @@ const { position, modelValue } = defineProps<UpdateHandleSelectorProps>()
 defineEmits<{
   /**
    * Emitted when the model value (enabled/disabled) of the handle changes.
-   * @param value - The new model value.
+   * @param value - The new modelValue.
+   * @param e - emitted event.
    */
-  (e: 'update:model-value', value: boolean): void
+  (e: 'update:modelValue', value: boolean): void
 }>()
 
 const { t } = useI18n()
@@ -52,7 +53,7 @@ const inline = computed(() => position === Position.Top || position === Position
       :name="id"
       :model-value="modelValue"
       :description="description"
-      @update:model-value="$emit('update:model-value', $event as boolean)"
+      @update:model-value="$emit('update:modelValue', $event as boolean)"
     />
   </div>
 </template>

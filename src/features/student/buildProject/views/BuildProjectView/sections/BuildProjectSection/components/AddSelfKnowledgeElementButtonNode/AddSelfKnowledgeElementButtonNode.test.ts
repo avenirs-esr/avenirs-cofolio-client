@@ -1,5 +1,11 @@
-import type { ButtonNodeTemplateProps } from '@/common/components/base/VueFlow/ButtonNodeTemplate/ButtonNodeTemplate.vue'
 import type { Node } from '@vue-flow/core'
+import type { VueWrapper } from '@vue/test-utils'
+import type { ButtonNodeTemplateProps } from '@/common/components/base/VueFlow/ButtonNodeTemplate/ButtonNodeTemplate.vue'
+import { AvCheckboxesGroupStub, AvCheckboxStub, AvInputStub, AvModalStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
+import { shallowRef } from 'vue'
 import { getCategoryElements, mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { ButtonNodeTemplateStub } from '@/common/components/base/VueFlow/ButtonNodeTemplate/ButtonNodeTemplate.stub'
 import { mandatoryNodeButtonTemplateProps } from '@/common/utils/vue-flow/vue-flow-test'
@@ -7,18 +13,19 @@ import AddSelfKnowledgeCategoryButtonNode from '@/features/student/buildProject/
 import AddSelfKnowledgeElementButtonNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/AddSelfKnowledgeElementButtonNode/AddSelfKnowledgeElementButtonNode.vue'
 import { SELF_KNOWLEDGE_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/self-knowledge-nodes.types'
 import { CategoryElementRatingRadioButtonSetStub } from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementRatingRadioButtonSet/CategoryElementRatingRadioButtonSet.stub'
-import { AvCheckboxesGroupStub, AvCheckboxStub, AvInputStub, AvModalStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockAddNode = vi.fn()
 const mockModalOpened = ref(false)
 const mockOpenModal = vi.fn()
 const mockCloseModal = vi.fn()
-const mockNodes = ref<Node[]>([])
+const mockNodes = shallowRef<Node[]>([])
 const mockFindNodeByTitleAndDescription = vi.fn((title: string, description: string) => {
-  return mockNodes.value.find(node => node.data.title === title && node.data.description === description)
+  for (const node of mockNodes.value) {
+    if (node.data.title === title && node.data.description === description) {
+      return node
+    }
+  }
+  return undefined
 })
 const mockAddErrorMessage = vi.fn()
 

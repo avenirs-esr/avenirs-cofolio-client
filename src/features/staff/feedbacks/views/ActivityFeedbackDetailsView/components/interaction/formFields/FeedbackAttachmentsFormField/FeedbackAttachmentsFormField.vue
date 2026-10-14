@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { WriteFeedbackForm } from '@/features/staff/feedbacks/types/forms.types'
+import { markRaw } from 'vue'
+import { useI18n } from 'vue-i18n'
 import FileUpload from '@/common/components/interaction/files/FileUpload/FileUpload.vue'
 import { bytesToMegabytes, dtoToFile, isFile } from '@/common/utils/file/file'
 import {
   FEEDBACK_ATTACHMENT_ACCEPTED_FILE_TYPES,
   FEEDBACK_ATTACHMENT_MAX_FILE_SIZE
 } from '@/features/staff/feedbacks/config'
-import { markRaw } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 interface FeedbackAttachmentsFormFieldProps {
   form: WriteFeedbackForm
