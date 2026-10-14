@@ -1,12 +1,14 @@
-import { createMockedAssociations, createMockedAssociationSearchResponse, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
+import { createMockedAssociationLimits, createMockedAssociations, createMockedAssociationSearchResponse, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { invalidTraceId } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { anyAssociatedContextType, anyAssociationContextType, getOptionalBooleanSearchParam } from '@/__mocks__/msw/utils'
 import {
+  type AssociationLimitDTO,
   type AssociationsCreationRequest,
   type AssociationsDTO,
   EAssociationContextType,
   EErrorCode,
   getAssociateUrl,
+  getGetAssociationLimitsUrl,
   getGetAssociationsUrl,
   getSearchForAssociationUrl,
   getSearchForAssociationWithNewElementUrl,
@@ -46,6 +48,13 @@ function isElementWithoutAssociations (elementId: string) {
   return elementId.endsWith('WITHOUT_ASSOCIATIONS') || elementId.endsWith('WITH_NO_ASSOCIATIONS')
 }
 
+/**
+ * Element ids ending with `WITH_LIMIT_REACHED` have no association left.
+ */
+function isElementWithLimitReached (elementId: string) {
+  return elementId.endsWith('WITH_LIMIT_REACHED')
+}
+
 function notFoundResponse (contextType: EAssociationContextType) {
   return HttpResponse.json(
     { code: NOT_FOUND_ERROR_CODES[contextType], message: `${contextType} not found` },
@@ -60,6 +69,7 @@ function serverErrorResponse () {
   )
 }
 
+const getAssociationLimitsUrl = `*${getGetAssociationLimitsUrl(anyAssociationContextType, ':elementId')}`
 const getAssociationsUrl = `*${getGetAssociationsUrl(anyAssociationContextType, ':elementId')}`
 const searchForAssociationUrl = `*${getSearchForAssociationUrl(anyAssociationContextType, ':elementId', anyAssociatedContextType)}`
 const searchForAssociationWithNewElementUrl = `*${getSearchForAssociationWithNewElementUrl(anyAssociationContextType, anyAssociatedContextType)}`
@@ -84,6 +94,34 @@ export const getAssociationsErrorHandler = http.get(getAssociationsUrl, serverEr
 export const getAssociationsLoadingHandler = http.get(getAssociationsUrl, async () => {
   await delay('infinite')
 })
+
+export const getAssociationLimitsHandler = http.get<AssociationPathParams>(getAssociationLimitsUrl, async ({ params }) => {
+  const { contextType, elementId } = params
+
+  if (elementId === 'INFINITE_LOADING_ID') {
+    await delay('infinite')
+  }
+
+  if (elementId === 'INTERNAL_ERROR_ID') {
+    return serverErrorResponse()
+  }
+
+  if (isUnknownElement(elementId)) {
+    return notFoundResponse(contextType)
+  }
+
+  return HttpResponse.json<AssociationLimitDTO[]>(
+    createMockedAssociationLimits(contextType, isElementWithLimitReached(elementId)),
+    { status: 200, headers: { 'Content-Type': 'application/json' } }
+  )
+})
+
+export function createGetAssociationLimitsHandler (limits: AssociationLimitDTO[]) {
+  return http.get(getAssociationLimitsUrl, () => HttpResponse.json<AssociationLimitDTO[]>(limits, {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  }))
+}
 
 const resolveSearchForAssociation: HttpResponseResolver<AssociationPathParams, DefaultBodyType, undefined> = ({ params, request }) => {
   const { contextType, elementId, associatedContextType } = params
@@ -157,6 +195,7 @@ export const unassociateHandler = http.delete<AssociationPathParams>(unassociate
 export const unassociateErrorHandler = http.delete(unassociateUrl, serverErrorResponse)
 
 export const associationsHandlers = [
+  getAssociationLimitsHandler,
   searchForAssociationWithNewElementHandler,
   searchForAssociationHandler,
   associateHandler,

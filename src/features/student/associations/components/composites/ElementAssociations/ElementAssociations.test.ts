@@ -1,33 +1,32 @@
-import type { AssociationsDTO } from '@/api/avenir-esr'
+import type { AssociationLimitDTO, AssociationsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { AssociationElementsDropdownVariant } from '@/features/student/associations/components/interactions/AssociationElementsDropdown/AssociationElementsDropdown.vue'
-import type { VueWrapper } from '@vue/test-utils'
-import {
-  createMockedTraceAssociations,
-  mockedDeclaredActivityAssociations,
-  mockedDeclaredProgramAssociations,
-  mockedEmptyAssociations,
-  mockedTraceAssociations
-} from '@/__mocks__/fixtures/student/associations.fixtures'
+import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { createMockedAssociationLimits, createMockedAssociations, mockedDeclaredActivityAssociations, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
+import { createGetAssociationLimitsHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
+import { server } from '@/__mocks__/msw/server'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { BaseApiErrorCode } from '@/common/exceptions'
 import { AssociatedElementsCardStub } from '@/features/student/associations/components/cards/AssociatedElementsCard/AssociatedElementsCard.stub'
-import ElementAssociations, {
-  type ElementAssociationsProps
-} from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.vue'
-import {
-  AssociationElementsDropdownStub
-} from '@/features/student/associations/components/interactions/AssociationElementsDropdown/AssociationElementsDropdown.stub'
+import ElementAssociations from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.vue'
+import { AssociationElementsDropdownStub } from '@/features/student/associations/components/interactions/AssociationElementsDropdown/AssociationElementsDropdown.stub'
 import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
-import {
-  DeleteAssociationsModalStub
-} from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
+import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
+import { ASSOCIATION_CONTEXT_CONFIGS } from '@/features/student/associations/constants/associations.constants'
+import { getAssociableContextTypes, getContextTypeSlug } from '@/features/student/associations/utils/associations.utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { type ComponentMountingOptions, flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 
+const ACTIONS_DISABLED_TOOLTIP = 'Actions indisponibles'
+const CONTEXT_TYPES = Object.values(EAssociationContextType)
+const DECLARED_ACTIVITY_EMPTY_ASSOCIATIONS = 'Aucune association pour cette activité.'
+const DECLARED_ACTIVITY_FETCH_ERROR_TITLE = 'Une erreur est survenue lors de la récupération des éléments associés à l\'activité.'
+const NOT_ALLOWED_TOOLTIP = 'Ce type d\'association n\'est pas autorisé.'
+const TRACES_LIMIT_REACHED_TOOLTIP = 'Vous avez atteint le nombre maximal de traces pouvant être associées.'
 const UNASSOCIATE_DISABLED_TOOLTIPS: Record<EAssociationContextType, string> = {
   [EAssociationContextType.TRACE]: 'Aucune trace associée ne peut être dissociée.',
   [EAssociationContextType.DECLARED_ACTIVITY]: 'Aucune activité associée ne peut être dissociée.',
@@ -36,12 +35,27 @@ const UNASSOCIATE_DISABLED_TOOLTIPS: Record<EAssociationContextType, string> = {
   [EAssociationContextType.DECLARED_PROGRAM]: 'Aucune formation associée ne peut être dissociée.'
 }
 
-function unassociateItem (type: EAssociationContextType, disabled: boolean) {
-  return { type, disabled, disabledTooltip: UNASSOCIATE_DISABLED_TOOLTIPS[type] }
+const INFINITE_LOADING_ID = 'INFINITE_LOADING_ID'
+
+type MountingOptions = ComponentMountingOptions<typeof ElementAssociations>
+
+const defaultProps: MountingOptions['props'] = {
+  contextType: EAssociationContextType.DECLARED_ACTIVITY,
+  elementId: mockedDeclaredActivityDetails.id,
+  associations: mockedDeclaredActivityAssociations
 }
+
+const getTypesWithAssociations = (contextType: EAssociationContextType, associations: AssociationsDTO) => getAssociableContextTypes(contextType).filter(type => associations[ASSOCIATION_CONTEXT_CONFIGS[type].associationsKey].length > 0)
+
+const [typeToAssociate, typeToDelete] = getTypesWithAssociations(defaultProps.contextType, defaultProps.associations!)
 
 BddTest().given('an element associations component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ElementAssociations>>
+
+  const limits = createMockedAssociationLimits(defaultProps.contextType)
+  const limitReachedLimits = createMockedAssociationLimits(defaultProps.contextType, true)
+  const notAllowedLimits = limits.map(limit => ({ ...limit, max: 0, remaining: 0 }))
+  const traceLimit = limits.find(({ associatedContextType }) => associatedContextType === EAssociationContextType.TRACE)!
 
   const stubs = {
     QuerySuspense: QuerySuspenseStub,
@@ -51,417 +65,486 @@ BddTest().given('an element associations component', () => {
     DeleteAssociationsModal: DeleteAssociationsModalStub
   }
 
-  const slots = {
-    footer: '<div data-testid="footer-slot">Footer</div>',
-    header: '<div data-testid="header-slot">Header</div>'
+  const limitsSlots = {
+    header: `<template #header="{ getLimit }">
+      <div data-testid="header-limit">{{ getLimit('${EAssociationContextType.TRACE}').isLoaded }}|{{ getLimit('${EAssociationContextType.TRACE}').max }}</div>
+    </template>`
   }
 
-  const declaredActivityProps: ElementAssociationsProps = {
-    contextType: EAssociationContextType.DECLARED_ACTIVITY,
-    elementId: 'declared-activity-1',
-    associations: mockedDeclaredActivityAssociations
+  const mountWith = (
+    props: Partial<typeof defaultProps> = {},
+    slots: MountingOptions['slots'] = {}
+  ) => {
+    wrapper = mountComponent(ElementAssociations, {
+      props: {
+        ...defaultProps,
+        ...props
+      },
+      slots,
+      global: { stubs }
+    })
   }
 
-  const traceProps: ElementAssociationsProps = {
-    contextType: EAssociationContextType.TRACE,
-    elementId: 'trace-1',
-    associations: mockedTraceAssociations
-  }
-
-  const declaredProgramProps: ElementAssociationsProps = {
-    contextType: EAssociationContextType.DECLARED_PROGRAM,
-    elementId: 'declared-program-1',
-    associations: mockedDeclaredProgramAssociations
-  }
-
-  const getDropdown = (variant: AssociationElementsDropdownVariant) => wrapper.findAllComponents(AssociationElementsDropdownStub)
-    .find(dropdown => dropdown.props('variant') === variant)
   const getAssociateModals = () => wrapper.findAllComponents(AssociateModalStub)
-  const getDeleteModals = () => wrapper.findAllComponents(DeleteAssociationsModalStub)
-  const getAssociateModal = (associatedContextType: EAssociationContextType) => getAssociateModals()
-    .find(modal => modal.props('associatedContextType') === associatedContextType)!
-  const getDeleteModal = (associatedContextType: EAssociationContextType) => getDeleteModals()
-    .find(modal => modal.props('associatedContextType') === associatedContextType)!
   const getCards = () => wrapper.findAllComponents(AssociatedElementsCardStub)
+  const getDeleteModals = () => wrapper.findAllComponents(DeleteAssociationsModalStub)
+  const getDropdowns = () => wrapper.findAllComponents(AssociationElementsDropdownStub)
+  const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
+
+  const getContainer = (slug: string) => wrapper.find(`[data-testid="${slug}-associations"]`)
+  const getEmptyState = () => wrapper.find('[data-testid="query-suspense-empty"]')
+  const getErrorState = () => wrapper.find('[data-testid="query-suspense-error"]')
+  const getHeaderLimit = () => wrapper.find('[data-testid="header-limit"]')
+  const getLoadingState = () => wrapper.find('[data-testid="query-suspense-loading"]')
+
+  const getAssociableTypes = () => getAssociableContextTypes(wrapper.props('contextType'))
+  const getAssociations = () => wrapper.props('associations') ?? mockedEmptyAssociations
+  const getDropdown = (variant: AssociationElementsDropdownVariant) => getDropdowns().find(dropdown => dropdown.props('variant') === variant)!
+  const getAssociateModal = (associatedContextType: EAssociationContextType) => getAssociateModals().find(modal => modal.props('associatedContextType') === associatedContextType)!
+  const getDeleteModal = (associatedContextType: EAssociationContextType) => getDeleteModals().find(modal => modal.props('associatedContextType') === associatedContextType)!
   const getOpenedModals = () => [
     ...getAssociateModals()
       .filter(modal => modal.props('opened'))
-      .map(modal => ({ modal: 'associate', associatedContextType: modal.props('associatedContextType') })),
+      .map(modal => ({ modal: 'associate', ...modal.props() })),
     ...getDeleteModals()
       .filter(modal => modal.props('opened'))
-      .map(modal => ({ modal: 'delete', associatedContextType: modal.props('associatedContextType') }))
+      .map(modal => ({ modal: 'delete', ...modal.props() }))
   ]
 
-  function mountElementAssociations (props: ElementAssociationsProps) {
-    wrapper = mountComponent(ElementAssociations, { props, slots, global: { stubs } })
+  const expectAssociateItems = (disabledTooltips: Partial<Record<EAssociationContextType, string>> = {}) => {
+    const items = getAssociableTypes().map((type) => {
+      const disabledTooltip = disabledTooltips[type]
+      return disabledTooltip ? { type, disabled: true, disabledTooltip } : { type, disabled: false }
+    })
+
+    expect(getDropdown('associate').props('items')).toEqual(items)
   }
 
-  async function selectDropdownItem (variant: AssociationElementsDropdownVariant, associatedContextType: EAssociationContextType) {
-    getDropdown(variant)!.vm.$emit('select', associatedContextType)
+  const expectDeleteItems = () => {
+    const typesWithAssociations = getTypesWithAssociations(wrapper.props('contextType'), getAssociations())
+    const items = getAssociableTypes().map((type) => {
+      const disabled = !typesWithAssociations.includes(type)
+      return { type, disabled, disabledTooltip: disabled ? UNASSOCIATE_DISABLED_TOOLTIPS[type] : undefined }
+    })
+
+    expect(getDropdown('delete').props('items')).toEqual(items)
+  }
+
+  const expectTestIds = () => {
+    const slug = getContextTypeSlug(wrapper.props('contextType'))
+    expect(getContainer(slug).exists()).toBe(true)
+    expect(getDropdown('associate').attributes('data-testid')).toBe(`${slug}-associate-elements-dropdown`)
+    expect(getDropdown('delete').attributes('data-testid')).toBe(`delete-${slug}-associated-elements-dropdown`)
+  }
+
+  const expectOpenedModal = (modal: AssociationElementsDropdownVariant, associatedContextType: EAssociationContextType) => {
+    const { contextType, elementId } = wrapper.props()
+    expect(getOpenedModals()).toEqual([expect.objectContaining({ modal, contextType, elementId, associatedContextType })])
+  }
+
+  const expectNoOpenedModal = () => {
+    expect(getOpenedModals()).toEqual([])
+  }
+
+  const expectNoModal = () => {
+    expect(getAssociateModals()).toHaveLength(0)
+    expect(getDeleteModals()).toHaveLength(0)
+  }
+
+  const expectCards = (disabled = false) => {
+    const cards = getCards()
+    expect(cards.map(card => card.props('associatedContextType'))).toEqual(getAssociableTypes())
+    cards.forEach((card) => {
+      expect(card.props('associations')).toEqual(getAssociations())
+      expect(card.props('disabled')).toBe(disabled)
+    })
+  }
+
+  const expectCardLimits = (apiLimits: AssociationLimitDTO[] = []) => {
+    const cards = getCards()
+    expect(cards.map(card => card.props('limit'))).toEqual(cards.map(card => apiLimits.find(({ associatedContextType }) => associatedContextType === card.props('associatedContextType'))?.max))
+  }
+
+  const expectDropdownsDisabledTooltip = (disabledTooltip?: string) => {
+    expect(getDropdown('associate').props('disabledTooltip')).toBe(disabledTooltip)
+    expect(getDropdown('delete').props('disabledTooltip')).toBe(disabledTooltip)
+  }
+
+  const expectHeaderLimit = (isLoaded: boolean, max?: number) => {
+    expect(getHeaderLimit().text()).toBe(`${isLoaded}|${max ?? ''}`)
+  }
+
+  const selectDropdownItem = async (variant: AssociationElementsDropdownVariant, associatedContextType: EAssociationContextType) => {
+    getDropdown(variant).vm.$emit('select', associatedContextType)
     await nextTick()
   }
 
+  const emitAssociateModalEvent = async (associatedContextType: EAssociationContextType, event: 'cancel' | 'associated') => {
+    getAssociateModal(associatedContextType).vm.$emit(event)
+    await nextTick()
+  }
+
+  const emitDeleteModalEvent = async (associatedContextType: EAssociationContextType, event: 'cancel' | 'deleted') => {
+    getDeleteModal(associatedContextType).vm.$emit(event)
+    await nextTick()
+  }
+
+  CONTEXT_TYPES.forEach((contextType) => {
+    const associations = createMockedAssociations(contextType)
+
+    BddTest().when(`the associations of an element of type ${contextType} are displayed`, () => {
+      beforeEach(() => {
+        mountWith({
+          contextType,
+          associations
+        })
+      })
+
+      BddTest().then('it should render the component and its dropdowns with the test ids of the context type', () => {
+        expectTestIds()
+      })
+
+      BddTest().then('it should enable both dropdowns', () => {
+        expect(getDropdown('associate').props('disabled')).toBe(false)
+        expect(getDropdown('delete').props('disabled')).toBe(false)
+      })
+
+      BddTest().then('it should propose to associate every associable context type', () => {
+        expectAssociateItems()
+      })
+
+      BddTest().then('it should only enable the delete items of the context types having associations', () => {
+        expectDeleteItems()
+      })
+
+      BddTest().then('it should render an enabled associated elements card per associable context type', () => {
+        expectCards()
+      })
+
+      BddTest().then('it should not render any modal before an association action is chosen', () => {
+        expectNoModal()
+      })
+
+      getAssociableContextTypes(contextType).forEach((associatedContextType) => {
+        BddTest().and(`the user chooses to associate ${associatedContextType}`, () => {
+          beforeEach(async () => {
+            await selectDropdownItem('associate', associatedContextType)
+          })
+
+          BddTest().then('it should only open the associate modal of this context type', () => {
+            expectOpenedModal('associate', associatedContextType)
+          })
+        })
+      })
+
+      getTypesWithAssociations(contextType, associations).forEach((associatedContextType) => {
+        BddTest().and(`the user chooses to delete the ${associatedContextType} associations`, () => {
+          beforeEach(async () => {
+            await selectDropdownItem('delete', associatedContextType)
+          })
+
+          BddTest().then('it should only open the delete associations modal of this context type', () => {
+            expectOpenedModal('delete', associatedContextType)
+          })
+        })
+      })
+    })
+  })
+
   BddTest().when('the associations of a declared activity are displayed', () => {
     beforeEach(() => {
-      mountElementAssociations(declaredActivityProps)
-    })
-
-    BddTest().then('it should render the component with the test id of the context type', () => {
-      expect(wrapper.find('[data-testid="declared-activity-associations"]').exists()).toBe(true)
-    })
-
-    BddTest().then('it should render the delete dropdown with an item per associated context type, disabled without associations', () => {
-      const dropdown = getDropdown('delete')!
-
-      expect(dropdown.attributes('data-testid')).toBe('delete-declared-activity-associated-elements-dropdown')
-      expect(dropdown.props('disabled')).toBe(false)
-      expect(dropdown.props('items')).toEqual([
-        unassociateItem(EAssociationContextType.TRACE, false),
-        unassociateItem(EAssociationContextType.DECLARED_SKILL, false),
-        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true),
-        unassociateItem(EAssociationContextType.DECLARED_PROGRAM, true)
-      ])
-    })
-
-    BddTest().then('it should render the associate dropdown with an enabled item per associable context type', () => {
-      const dropdown = getDropdown('associate')!
-
-      expect(dropdown.attributes('data-testid')).toBe('declared-activity-associate-elements-dropdown')
-      expect(dropdown.props('disabled')).toBe(false)
-      expect(dropdown.props('items')).toEqual([
-        { type: EAssociationContextType.TRACE, disabled: false },
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
-        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false },
-        { type: EAssociationContextType.DECLARED_PROGRAM, disabled: false }
-      ])
-    })
-
-    BddTest().then('it should render the footer and the header slots', () => {
-      expect(wrapper.find('[data-testid="footer-slot"]').exists()).toBe(true)
-      expect(wrapper.find('[data-testid="header-slot"]').exists()).toBe(true)
+      mountWith()
     })
 
     BddTest().then('it should render the query suspense with the texts of the context type', () => {
-      const querySuspense = wrapper.findComponent(QuerySuspenseStub)
-
+      const querySuspense = getQuerySuspense()
       expect(querySuspense.props('isLoading')).toBe(false)
       expect(querySuspense.props('isEmpty')).toBe(false)
       expect(querySuspense.props('error')).toBeNull()
-      expect(querySuspense.props('errorTitle'))
-        .toBe('Une erreur est survenue lors de la récupération des éléments associés à l\'activité.')
-      expect(querySuspense.props('emptyStateMessage')).toBe('Aucune association pour cette activité.')
+      expect(querySuspense.props('errorTitle')).toBe(DECLARED_ACTIVITY_FETCH_ERROR_TITLE)
+      expect(querySuspense.props('emptyStateMessage')).toBe(DECLARED_ACTIVITY_EMPTY_ASSOCIATIONS)
     })
 
-    BddTest().then('it should render an enabled associated elements card per associated context type', () => {
-      const cards = getCards()
-
-      expect(cards).toHaveLength(4)
-      expect(cards.map(card => card.props('associatedContextType'))).toEqual([
-        EAssociationContextType.TRACE,
-        EAssociationContextType.DECLARED_SKILL,
-        EAssociationContextType.DECLARED_EXPERIENCE,
-        EAssociationContextType.DECLARED_PROGRAM
-      ])
-      cards.forEach((card) => {
-        expect(card.props('associations')).toEqual(mockedDeclaredActivityAssociations)
-        expect(card.props('limit')).toBeUndefined()
-        expect(card.props('disabled')).toBe(false)
-      })
-    })
-
-    BddTest().then('it should not render any modal before an association action is chosen', () => {
-      expect(getAssociateModals()).toHaveLength(0)
-      expect(getDeleteModals()).toHaveLength(0)
-    })
-
-    BddTest().and('the user chooses to associate traces', () => {
+    BddTest().and(`the user chooses to associate ${typeToAssociate}`, () => {
       beforeEach(async () => {
-        await selectDropdownItem('associate', EAssociationContextType.TRACE)
-      })
-
-      BddTest().then('it should only open the associate traces modal', () => {
-        expect(getOpenedModals()).toEqual([{ modal: 'associate', associatedContextType: EAssociationContextType.TRACE }])
+        await selectDropdownItem('associate', typeToAssociate)
       })
 
       BddTest().then('it should render a single associate modal and a single delete associations modal for the element', () => {
         expect(getAssociateModals()).toHaveLength(1)
-        expect(getDeleteModals()).toHaveLength(1)
-        expect(getAssociateModals()[0].props()).toMatchObject({
-          contextType: EAssociationContextType.DECLARED_ACTIVITY,
-          elementId: 'declared-activity-1'
-        })
-        expect(getDeleteModals()[0].props()).toMatchObject({
-          contextType: EAssociationContextType.DECLARED_ACTIVITY,
-          elementId: 'declared-activity-1',
-          associations: mockedDeclaredActivityAssociations
-        })
+
+        const deleteModals = getDeleteModals()
+        expect(deleteModals).toHaveLength(1)
+        expect(deleteModals[0].props()).toMatchObject(defaultProps)
       })
 
       BddTest().and('the user cancels the association', () => {
         beforeEach(async () => {
-          getAssociateModal(EAssociationContextType.TRACE).vm.$emit('cancel')
-          await nextTick()
+          await emitAssociateModalEvent(typeToAssociate, 'cancel')
         })
 
-        BddTest().then('it should close the associate traces modal', () => {
-          expect(getOpenedModals()).toHaveLength(0)
-        })
-      })
-
-      BddTest().and('the traces get associated', () => {
-        beforeEach(async () => {
-          getAssociateModal(EAssociationContextType.TRACE).vm.$emit('associated')
-          await nextTick()
-        })
-
-        BddTest().then('it should close the associate traces modal', () => {
-          expect(getOpenedModals()).toHaveLength(0)
+        BddTest().then('it should close the associate modal', () => {
+          expectNoOpenedModal()
         })
       })
 
-      BddTest().and('the user cancels, then chooses to delete declared skill associations', () => {
+      BddTest().and('the elements get associated', () => {
         beforeEach(async () => {
-          getAssociateModal(EAssociationContextType.TRACE).vm.$emit('cancel')
-          await nextTick()
-          await selectDropdownItem('delete', EAssociationContextType.DECLARED_SKILL)
+          await emitAssociateModalEvent(typeToAssociate, 'associated')
         })
 
-        BddTest().then('it should only open the delete associations modal, for the declared skills', () => {
-          expect(getOpenedModals()).toEqual([{ modal: 'delete', associatedContextType: EAssociationContextType.DECLARED_SKILL }])
+        BddTest().then('it should close the associate modal', () => {
+          expectNoOpenedModal()
+        })
+      })
+
+      BddTest().and(`the user cancels, then chooses to delete the ${typeToDelete} associations`, () => {
+        beforeEach(async () => {
+          await emitAssociateModalEvent(typeToAssociate, 'cancel')
+          await selectDropdownItem('delete', typeToDelete)
+        })
+
+        BddTest().then('it should only open the delete associations modal of this context type', () => {
+          expectOpenedModal('delete', typeToDelete)
         })
 
         BddTest().then('it should reuse the associate modal for the newly selected context type', () => {
-          expect(getAssociateModals()).toHaveLength(1)
-          expect(getAssociateModals()[0].props('associatedContextType')).toBe(EAssociationContextType.DECLARED_SKILL)
+          const associateModals = getAssociateModals()
+          expect(associateModals).toHaveLength(1)
+          expect(associateModals[0].props('associatedContextType')).toBe(typeToDelete)
         })
       })
     })
 
-    BddTest().and('the user chooses to associate declared skills', () => {
+    BddTest().and(`the user chooses to delete the ${typeToDelete} associations`, () => {
       beforeEach(async () => {
-        await selectDropdownItem('associate', EAssociationContextType.DECLARED_SKILL)
-      })
-
-      BddTest().then('it should only open the associate declared skills modal', () => {
-        expect(getOpenedModals()).toEqual([{ modal: 'associate', associatedContextType: EAssociationContextType.DECLARED_SKILL }])
-      })
-    })
-
-    BddTest().and('the user chooses to delete declared skill associations', () => {
-      beforeEach(async () => {
-        await selectDropdownItem('delete', EAssociationContextType.DECLARED_SKILL)
-      })
-
-      BddTest().then('it should only open the delete declared skill associations modal', () => {
-        expect(getOpenedModals()).toEqual([{ modal: 'delete', associatedContextType: EAssociationContextType.DECLARED_SKILL }])
+        await selectDropdownItem('delete', typeToDelete)
       })
 
       BddTest().and('the user cancels the deletion', () => {
         beforeEach(async () => {
-          getDeleteModal(EAssociationContextType.DECLARED_SKILL).vm.$emit('cancel')
-          await nextTick()
+          await emitDeleteModalEvent(typeToDelete, 'cancel')
         })
 
-        BddTest().then('it should close the delete declared skill associations modal', () => {
-          expect(getOpenedModals()).toHaveLength(0)
+        BddTest().then('it should close the delete associations modal', () => {
+          expectNoOpenedModal()
         })
       })
 
       BddTest().and('the associations get deleted', () => {
         beforeEach(async () => {
-          getDeleteModal(EAssociationContextType.DECLARED_SKILL).vm.$emit('deleted')
-          await nextTick()
+          await emitDeleteModalEvent(typeToDelete, 'deleted')
         })
 
-        BddTest().then('it should close the delete declared skill associations modal', () => {
-          expect(getOpenedModals()).toHaveLength(0)
+        BddTest().then('it should close the delete associations modal', () => {
+          expectNoOpenedModal()
         })
       })
     })
   })
 
-  BddTest().when('the association limit of traces is reached and declared skills cannot be associated', () => {
+  BddTest().when('the declared activity can still receive traces', () => {
     beforeEach(() => {
-      mountElementAssociations({
-        ...declaredActivityProps,
-        limits: {
-          [EAssociationContextType.TRACE]: 6,
-          [EAssociationContextType.DECLARED_SKILL]: 0
-        }
-      })
+      mountWith()
     })
 
-    BddTest().then('it should disable the associate items of the limited context types', () => {
-      expect(getDropdown('associate')!.props('items')).toEqual([
-        { type: EAssociationContextType.TRACE, disabled: true },
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: true },
-        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false },
-        { type: EAssociationContextType.DECLARED_PROGRAM, disabled: false }
-      ])
+    BddTest().then('it should pass the limit of the traces to the traces card once the API answered', async () => {
+      await vi.waitFor(() => expectCardLimits(limits))
     })
 
-    BddTest().then('it should disable the delete items of the context types whose limit is 0 or without associations', () => {
-      expect(getDropdown('delete')!.props('disabled')).toBe(false)
-      expect(getDropdown('delete')!.props('items')).toEqual([
-        unassociateItem(EAssociationContextType.TRACE, false),
-        unassociateItem(EAssociationContextType.DECLARED_SKILL, true),
-        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true),
-        unassociateItem(EAssociationContextType.DECLARED_PROGRAM, true)
-      ])
-    })
+    BddTest().then('it should keep every associate item enabled', async () => {
+      await vi.waitFor(() => expectCardLimits(limits))
 
-    BddTest().then('it should pass the limit of each context type to its card', () => {
-      expect(getCards().map(card => card.props('limit'))).toEqual([6, 0, undefined, undefined])
+      expectAssociateItems()
     })
   })
 
-  BddTest().when('the association limits are not reached', () => {
+  BddTest().when('the limit of the traces of the declared activity is reached', () => {
     beforeEach(() => {
-      mountElementAssociations({
-        ...declaredActivityProps,
-        limits: {
-          [EAssociationContextType.TRACE]: 7,
-          [EAssociationContextType.DECLARED_SKILL]: -1
-        }
+      mountWith({
+        elementId: `${defaultProps.elementId}-WITH_LIMIT_REACHED`
       })
     })
 
-    BddTest().then('it should enable every associate item', () => {
-      expect(getDropdown('associate')!.props('items')).toEqual([
-        { type: EAssociationContextType.TRACE, disabled: false },
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
-        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false },
-        { type: EAssociationContextType.DECLARED_PROGRAM, disabled: false }
-      ])
+    BddTest().then('it should disable the associate item of the traces only, with the reason', async () => {
+      await vi.waitFor(() => expectAssociateItems({ [EAssociationContextType.TRACE]: TRACES_LIMIT_REACHED_TOOLTIP }))
     })
 
-    BddTest().then('it should pass the limit of each context type to its card', () => {
-      expect(getCards().map(card => card.props('limit'))).toEqual([7, -1, undefined, undefined])
+    BddTest().then('it should still let the student delete the associated traces', async () => {
+      await vi.waitFor(() => expectAssociateItems({ [EAssociationContextType.TRACE]: TRACES_LIMIT_REACHED_TOOLTIP }))
+
+      expect(getDropdown('delete').props('disabled')).toBe(false)
+      expectDeleteItems()
+    })
+
+    BddTest().then('it should keep passing the limit to the traces card', async () => {
+      await vi.waitFor(() => expectCardLimits(limitReachedLimits))
     })
   })
 
-  BddTest().when('the only associations belong to a context type that cannot be associated', () => {
+  BddTest().when('the traces are not allowed for the declared activity', () => {
     beforeEach(() => {
-      mountElementAssociations({
-        ...declaredActivityProps,
-        associations: { ...mockedEmptyAssociations, declaredSkillAssociations: mockedDeclaredActivityAssociations.declaredSkillAssociations },
-        limits: { [EAssociationContextType.DECLARED_SKILL]: 0 }
-      })
+      server.use(createGetAssociationLimitsHandler(notAllowedLimits))
+      mountWith()
     })
 
-    BddTest().then('it should disable the delete dropdown', () => {
-      expect(getDropdown('delete')!.props('disabled')).toBe(true)
+    BddTest().then('it should disable the associate item of the traces and explain that they are not allowed', async () => {
+      await vi.waitFor(() => expectAssociateItems({ [EAssociationContextType.TRACE]: NOT_ALLOWED_TOOLTIP }))
+    })
+
+    BddTest().then('it should pass a limit of 0 to the traces card', async () => {
+      await vi.waitFor(() => expectCardLimits(notAllowedLimits))
+    })
+  })
+
+  BddTest().when('the limits of the declared activity are loading', () => {
+    beforeEach(async () => {
+      mountWith({
+        elementId: INFINITE_LOADING_ID
+      })
+      await flushPromises()
+    })
+
+    BddTest().then('it should not limit anything while the API has not answered', () => {
+      expectAssociateItems()
+      expectCardLimits()
+    })
+  })
+
+  BddTest().when('the header slot reads the limits of an element whose limits are loading', () => {
+    beforeEach(async () => {
+      mountWith({
+        elementId: INFINITE_LOADING_ID
+      }, limitsSlots)
+      await flushPromises()
+    })
+
+    BddTest().then('it should not know the limit of the traces', () => {
+      expectHeaderLimit(false)
+    })
+  })
+
+  BddTest().when('the header slot reads the limits of an element whose limits are loaded', () => {
+    beforeEach(() => {
+      mountWith({}, limitsSlots)
+    })
+
+    BddTest().then('it should know the limit of the traces once the API answered', async () => {
+      await vi.waitFor(() => expectHeaderLimit(true, traceLimit.max))
     })
   })
 
   BddTest().when('the component is readonly', () => {
     beforeEach(() => {
-      mountElementAssociations({ ...declaredActivityProps, readonly: true })
+      mountWith({
+        readonly: true
+      }, limitsSlots)
     })
 
-    BddTest().then('it should not render the association actions nor the footer slot', () => {
-      expect(wrapper.findAllComponents(AssociationElementsDropdownStub)).toHaveLength(0)
-      expect(wrapper.find('[data-testid="footer-slot"]').exists()).toBe(false)
+    BddTest().then('it should not render the association actions', () => {
+      expect(getDropdowns()).toHaveLength(0)
     })
 
     BddTest().then('it should still render the header slot', () => {
-      expect(wrapper.find('[data-testid="header-slot"]').exists()).toBe(true)
+      expect(getHeaderLimit().exists()).toBe(true)
     })
 
     BddTest().then('it should render disabled associated elements cards', () => {
-      expect(getCards()).toHaveLength(4)
-      getCards().forEach(card => expect(card.props('disabled')).toBe(true))
+      expectCards(true)
     })
 
     BddTest().then('it should not render any modal', () => {
-      expect(getAssociateModals()).toHaveLength(0)
-      expect(getDeleteModals()).toHaveLength(0)
+      expectNoModal()
     })
   })
 
   BddTest().when('the association actions are disabled', () => {
     beforeEach(() => {
-      mountElementAssociations({ ...declaredActivityProps, actionsDisabled: true })
+      mountWith({
+        actionsDisabled: true
+      })
     })
 
     BddTest().then('it should disable both dropdowns', () => {
-      expect(getDropdown('associate')!.props('disabled')).toBe(true)
-      expect(getDropdown('delete')!.props('disabled')).toBe(true)
+      expect(getDropdown('associate').props('disabled')).toBe(true)
+      expect(getDropdown('delete').props('disabled')).toBe(true)
     })
 
     BddTest().then('it should not pass any disabled tooltip to the dropdowns without explanation', () => {
-      expect(getDropdown('associate')!.props('disabledTooltip')).toBeUndefined()
-      expect(getDropdown('delete')!.props('disabledTooltip')).toBeUndefined()
+      expectDropdownsDisabledTooltip()
     })
   })
 
   BddTest().when('the association actions are disabled with an explanation', () => {
     beforeEach(() => {
-      mountElementAssociations({ ...declaredActivityProps, actionsDisabled: true, actionsDisabledTooltip: 'Actions indisponibles' })
+      mountWith({
+        actionsDisabled: true,
+        actionsDisabledTooltip: ACTIONS_DISABLED_TOOLTIP
+      })
     })
 
     BddTest().then('it should pass the explanation as disabled tooltip to both dropdowns', () => {
-      expect(getDropdown('associate')!.props('disabledTooltip')).toBe('Actions indisponibles')
-      expect(getDropdown('delete')!.props('disabledTooltip')).toBe('Actions indisponibles')
+      expectDropdownsDisabledTooltip(ACTIONS_DISABLED_TOOLTIP)
     })
   })
 
   BddTest().when('the association actions are enabled with an explanation for when they are disabled', () => {
     beforeEach(() => {
-      mountElementAssociations({ ...declaredActivityProps, actionsDisabledTooltip: 'Actions indisponibles' })
+      mountWith({
+        actionsDisabledTooltip: ACTIONS_DISABLED_TOOLTIP
+      })
     })
 
     BddTest().then('it should not pass the explanation to the dropdowns', () => {
-      expect(getDropdown('associate')!.props('disabledTooltip')).toBeUndefined()
-      expect(getDropdown('delete')!.props('disabledTooltip')).toBeUndefined()
+      expectDropdownsDisabledTooltip()
     })
 
     BddTest().then('it should keep the associated elements cards enabled', () => {
-      getCards().forEach(card => expect(card.props('disabled')).toBe(false))
+      expectCards()
     })
   })
 
   BddTest().when('the element has no association', () => {
     beforeEach(() => {
-      mountElementAssociations({ ...declaredActivityProps, associations: mockedEmptyAssociations })
+      mountWith({
+        associations: mockedEmptyAssociations
+      })
     })
 
     BddTest().then('it should display the empty state of the context type', () => {
-      expect(wrapper.find('[data-testid="query-suspense-empty"]').text()).toBe('Aucune association pour cette activité.')
+      expect(getEmptyState().text()).toBe(DECLARED_ACTIVITY_EMPTY_ASSOCIATIONS)
       expect(getCards()).toHaveLength(0)
     })
 
     BddTest().then('it should disable the delete dropdown and its items', () => {
-      expect(getDropdown('delete')!.props('disabled')).toBe(true)
-      expect(getDropdown('delete')!.props('items')).toEqual([
-        unassociateItem(EAssociationContextType.TRACE, true),
-        unassociateItem(EAssociationContextType.DECLARED_SKILL, true),
-        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true),
-        unassociateItem(EAssociationContextType.DECLARED_PROGRAM, true),
-      ])
+      expect(getDropdown('delete').props('disabled')).toBe(true)
+      expectDeleteItems()
     })
 
     BddTest().then('it should keep the associate dropdown enabled', () => {
-      expect(getDropdown('associate')!.props('disabled')).toBe(false)
+      expect(getDropdown('associate').props('disabled')).toBe(false)
     })
   })
 
   BddTest().when('the associations are loading', () => {
     beforeEach(() => {
-      mountElementAssociations({ ...declaredActivityProps, associations: undefined, isLoading: true })
+      mountWith({
+        associations: undefined,
+        isLoading: true
+      })
     })
 
     BddTest().then('it should display the loading state', () => {
-      expect(wrapper.find('[data-testid="query-suspense-loading"]').exists()).toBe(true)
+      expect(getLoadingState().exists()).toBe(true)
     })
 
-    BddTest().and('the user chooses to delete trace associations', () => {
+    BddTest().and(`the user chooses to delete the ${typeToDelete} associations`, () => {
       beforeEach(async () => {
-        await selectDropdownItem('delete', EAssociationContextType.TRACE)
+        await selectDropdownItem('delete', typeToDelete)
       })
 
       BddTest().then('it should pass empty associations to the delete associations modal', () => {
-        expect(getDeleteModal(EAssociationContextType.TRACE).props('associations')).toEqual(mockedEmptyAssociations)
+        expect(getDeleteModal(typeToDelete).props('associations')).toEqual(mockedEmptyAssociations)
       })
     })
   })
@@ -475,244 +558,15 @@ BddTest().given('an element associations component', () => {
     }
 
     beforeEach(() => {
-      mountElementAssociations({ ...declaredActivityProps, associations: undefined, error })
+      mountWith({
+        associations: undefined,
+        error
+      })
     })
 
     BddTest().then('it should display the error of the context type', () => {
-      expect(wrapper.findComponent(QuerySuspenseStub).props('error')).toEqual(error)
-      expect(wrapper.find('[data-testid="query-suspense-error"]').text())
-        .toContain('Une erreur est survenue lors de la récupération des éléments associés à l\'activité.')
-    })
-  })
-
-  BddTest().when('associations are displayed for a context type', () => {
-    const associations: AssociationsDTO = {
-      ...mockedEmptyAssociations,
-      traceAssociations: createMockedTraceAssociations(2)
-    }
-
-    beforeEach(() => {
-      mountElementAssociations({
-        contextType: EAssociationContextType.DECLARED_SKILL,
-        elementId: 'declared-skill-1',
-        associations,
-      })
-    })
-
-    BddTest().then('it should render the component with the test id of the context type', () => {
-      expect(
-        wrapper.find('[data-testid="declared-skill-associations"]').exists()
-      ).toBe(true)
-    })
-
-    BddTest().then('it should display the associable context types', () => {
-      expect(getDropdown('associate')!.props('items')).toEqual([
-        { type: EAssociationContextType.TRACE, disabled: false },
-        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
-        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false },
-        { type: EAssociationContextType.DECLARED_PROGRAM, disabled: false },
-      ])
-    })
-  })
-
-  BddTest().when('the associations of a trace are displayed', () => {
-    beforeEach(() => {
-      mountElementAssociations(traceProps)
-    })
-
-    BddTest().then('it should render the component with the test id of the context type', () => {
-      expect(wrapper.find('[data-testid="trace-associations"]').exists()).toBe(true)
-      expect(getDropdown('associate')!.attributes('data-testid')).toBe('trace-associate-elements-dropdown')
-      expect(getDropdown('delete')!.attributes('data-testid')).toBe('delete-trace-associated-elements-dropdown')
-    })
-
-    BddTest().then('it should propose to associate every context type associable with a trace', () => {
-      expect(getDropdown('associate')!.props('items')).toEqual([
-        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
-        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false },
-        { type: EAssociationContextType.DECLARED_PROGRAM, disabled: false }
-      ])
-    })
-
-    BddTest().then('it should only enable the delete items of the context types having associations', () => {
-      expect(getDropdown('delete')!.props('items')).toEqual([
-        unassociateItem(EAssociationContextType.DECLARED_ACTIVITY, false),
-        unassociateItem(EAssociationContextType.DECLARED_SKILL, false),
-        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, true),
-        unassociateItem(EAssociationContextType.DECLARED_PROGRAM, false)
-      ])
-    })
-
-    BddTest().then('it should render a card for the associated declared programs', () => {
-      const card = getCards().find(card => card.props('associatedContextType') === EAssociationContextType.DECLARED_PROGRAM)
-
-      expect(card).toBeDefined()
-      expect(card!.props('associations')).toEqual(mockedTraceAssociations)
-    })
-
-    BddTest().and('the user chooses to associate declared experiences', () => {
-      beforeEach(async () => {
-        await selectDropdownItem('associate', EAssociationContextType.DECLARED_EXPERIENCE)
-      })
-
-      BddTest().then('it should only open the associate declared experiences modal', () => {
-        const modal = getAssociateModal(EAssociationContextType.DECLARED_EXPERIENCE)
-
-        expect(getOpenedModals()).toEqual([{ modal: 'associate', associatedContextType: EAssociationContextType.DECLARED_EXPERIENCE }])
-        expect(modal.props('contextType')).toBe(EAssociationContextType.TRACE)
-        expect(modal.props('elementId')).toBe('trace-1')
-      })
-    })
-
-    BddTest().and('the user chooses to associate declared programs', () => {
-      beforeEach(async () => {
-        await selectDropdownItem('associate', EAssociationContextType.DECLARED_PROGRAM)
-      })
-
-      BddTest().then('it should only open the associate declared programs modal', () => {
-        const modal = getAssociateModal(EAssociationContextType.DECLARED_PROGRAM)
-
-        expect(getOpenedModals()).toEqual([{ modal: 'associate', associatedContextType: EAssociationContextType.DECLARED_PROGRAM }])
-        expect(modal.props('contextType')).toBe(EAssociationContextType.TRACE)
-        expect(modal.props('elementId')).toBe('trace-1')
-      })
-    })
-
-    BddTest().and('the user chooses to delete declared program associations', () => {
-      beforeEach(async () => {
-        await selectDropdownItem('delete', EAssociationContextType.DECLARED_PROGRAM)
-      })
-
-      BddTest().then('it should only open the delete declared program associations modal', () => {
-        const modal = getDeleteModal(EAssociationContextType.DECLARED_PROGRAM)
-
-        expect(getOpenedModals()).toEqual([{ modal: 'delete', associatedContextType: EAssociationContextType.DECLARED_PROGRAM }])
-        expect(modal.props('contextType')).toBe(EAssociationContextType.TRACE)
-        expect(modal.props('elementId')).toBe('trace-1')
-      })
-    })
-  })
-
-  BddTest().when('the associations of a declared program are displayed', () => {
-    beforeEach(() => {
-      mountElementAssociations(declaredProgramProps)
-    })
-
-    BddTest().then('it should render the component with the test id of the context type', () => {
-      expect(wrapper.find('[data-testid="declared-program-associations"]').exists()).toBe(true)
-      expect(getDropdown('associate')!.attributes('data-testid')).toBe('declared-program-associate-elements-dropdown')
-      expect(getDropdown('delete')!.attributes('data-testid')).toBe('delete-declared-program-associated-elements-dropdown')
-    })
-
-    BddTest().then('it should propose to associate every context type associable with a declared program', () => {
-      expect(getDropdown('associate')!.props('items')).toEqual([
-        { type: EAssociationContextType.TRACE, disabled: false },
-        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
-        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false }
-      ])
-    })
-
-    BddTest().then('it should enable every delete item since the declared program has associations of every context type', () => {
-      expect(getDropdown('delete')!.props('items')).toEqual([
-        unassociateItem(EAssociationContextType.TRACE, false),
-        unassociateItem(EAssociationContextType.DECLARED_ACTIVITY, false),
-        unassociateItem(EAssociationContextType.DECLARED_SKILL, false),
-        unassociateItem(EAssociationContextType.DECLARED_EXPERIENCE, false)
-      ])
-    })
-
-    BddTest().then('it should render a card per context type associable with a declared program', () => {
-      const cards = getCards()
-
-      expect(cards.map(card => card.props('associatedContextType'))).toEqual([
-        EAssociationContextType.TRACE,
-        EAssociationContextType.DECLARED_ACTIVITY,
-        EAssociationContextType.DECLARED_SKILL,
-        EAssociationContextType.DECLARED_EXPERIENCE
-      ])
-      cards.forEach(card => expect(card.props('associations')).toEqual(mockedDeclaredProgramAssociations))
-    })
-
-    BddTest().and('the user chooses to associate traces', () => {
-      beforeEach(async () => {
-        await selectDropdownItem('associate', EAssociationContextType.TRACE)
-      })
-
-      BddTest().then('it should only open the associate traces modal', () => {
-        const modal = getAssociateModal(EAssociationContextType.TRACE)
-
-        expect(getOpenedModals()).toEqual([{ modal: 'associate', associatedContextType: EAssociationContextType.TRACE }])
-        expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_PROGRAM)
-        expect(modal.props('elementId')).toBe('declared-program-1')
-      })
-    })
-
-    BddTest().and('the user chooses to delete trace associations', () => {
-      beforeEach(async () => {
-        await selectDropdownItem('delete', EAssociationContextType.TRACE)
-      })
-
-      BddTest().then('it should only open the delete trace associations modal', () => {
-        const modal = getDeleteModal(EAssociationContextType.TRACE)
-
-        expect(getOpenedModals()).toEqual([{ modal: 'delete', associatedContextType: EAssociationContextType.TRACE }])
-        expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_PROGRAM)
-        expect(modal.props('elementId')).toBe('declared-program-1')
-      })
-    })
-
-    BddTest().and('the user chooses to associate declared skills', () => {
-      beforeEach(async () => {
-        await selectDropdownItem('associate', EAssociationContextType.DECLARED_SKILL)
-      })
-
-      BddTest().then('it should only open the associate declared skills modal', () => {
-        const modal = getAssociateModal(EAssociationContextType.DECLARED_SKILL)
-
-        expect(getOpenedModals()).toEqual([{ modal: 'associate', associatedContextType: EAssociationContextType.DECLARED_SKILL }])
-        expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_PROGRAM)
-        expect(modal.props('elementId')).toBe('declared-program-1')
-      })
-    })
-
-    BddTest().and('the user chooses to delete declared skill associations', () => {
-      beforeEach(async () => {
-        await selectDropdownItem('delete', EAssociationContextType.DECLARED_SKILL)
-      })
-
-      BddTest().then('it should only open the delete declared skill associations modal', () => {
-        const modal = getDeleteModal(EAssociationContextType.DECLARED_SKILL)
-
-        expect(getOpenedModals()).toEqual([{ modal: 'delete', associatedContextType: EAssociationContextType.DECLARED_SKILL }])
-        expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_PROGRAM)
-        expect(modal.props('elementId')).toBe('declared-program-1')
-      })
-    })
-  })
-
-  BddTest().when('the associations of a trace are displayed', () => {
-    beforeEach(() => {
-      mountElementAssociations(traceProps)
-    })
-
-    BddTest().then('it should not propose to associate the context types unavailable', () => {
-      expect(getDropdown('associate')!.props('items')).toEqual([
-        { type: EAssociationContextType.DECLARED_ACTIVITY, disabled: false },
-        { type: EAssociationContextType.DECLARED_SKILL, disabled: false },
-        { type: EAssociationContextType.DECLARED_EXPERIENCE, disabled: false },
-        { type: EAssociationContextType.DECLARED_PROGRAM, disabled: false }
-      ])
-    })
-
-    BddTest().then('it should still propose to delete the associations of every context type', () => {
-      expect(getDropdown('delete')!.props('items').map(({ type }: { type: EAssociationContextType }) => type)).toEqual([
-        EAssociationContextType.DECLARED_ACTIVITY,
-        EAssociationContextType.DECLARED_SKILL,
-        EAssociationContextType.DECLARED_EXPERIENCE,
-        EAssociationContextType.DECLARED_PROGRAM
-      ])
+      expect(getQuerySuspense().props('error')).toEqual(error)
+      expect(getErrorState().text()).toContain(DECLARED_ACTIVITY_FETCH_ERROR_TITLE)
     })
   })
 })

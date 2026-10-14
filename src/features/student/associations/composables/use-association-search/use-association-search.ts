@@ -4,12 +4,8 @@ import type { QueryKey } from '@tanstack/vue-query'
 import type { MaybeRefOrGetter, Ref } from 'vue'
 import { useSearchForAssociation, useSearchForAssociationWithNewElement } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
-import {
-  ASSOCIATION_CONTEXT_CONFIGS,
-  ASSOCIATION_SEARCH_FILTER_IS_ASSOCIATED,
-  ASSOCIATION_SEARCH_PAGE_SIZE,
-  DEFAULT_ASSOCIATION_SEARCH_FILTER
-} from '@/features/student/associations/constants/associations.constants'
+import { useAssociationLimit } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
+import { ASSOCIATION_CONTEXT_CONFIGS, ASSOCIATION_SEARCH_FILTER_IS_ASSOCIATED, ASSOCIATION_SEARCH_PAGE_SIZE, DEFAULT_ASSOCIATION_SEARCH_FILTER } from '@/features/student/associations/constants/associations.constants'
 import { useToasterStore } from '@/store'
 import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -23,6 +19,12 @@ export interface UseAssociationSearchOptions {
   associatedContextType: MaybeRefOrGetter<EAssociationContextType>
   searchQuery?: Ref<string>
   searchFilter?: Ref<AssociationSearchFilter>
+  /**
+   * Ids of the elements already selected. The element only accepts so many associations: once the
+   * selection fills them, the other elements can no longer be selected, while the selected ones
+   * can still be deselected.
+   */
+  selectedIds?: MaybeRefOrGetter<string[]>
   enabled?: MaybeRefOrGetter<boolean>
 }
 
@@ -40,6 +42,7 @@ export function useAssociationSearchResults () {
       id: searchResult.id,
       title: searchResult.title,
       disabled: searchResult.disabled,
+      limitReached: searchResult.limitReached,
       category: searchResult.category,
       description: searchResult.description ?? (categoryLabelKeyPrefix && searchResult.category
         ? t(`${categoryLabelKeyPrefix}.${searchResult.category}`)
@@ -66,6 +69,7 @@ export function useAssociationSearch ({
   associatedContextType,
   searchQuery = ref(''),
   searchFilter = ref(DEFAULT_ASSOCIATION_SEARCH_FILTER),
+  selectedIds = [],
   enabled = true
 }: UseAssociationSearchOptions) {
   const { t } = useI18n()
@@ -75,6 +79,13 @@ export function useAssociationSearch ({
 
   const currentAssociatedContextType = computed(() => toValue(associatedContextType))
   const isFilterable = computed(() => !!ASSOCIATION_CONTEXT_CONFIGS[currentAssociatedContextType.value].filterable)
+
+  const { remaining } = useAssociationLimit({
+    contextType,
+    elementId,
+    associatedContextType: currentAssociatedContextType,
+    enabled
+  })
 
   const params = computed<SearchForAssociationParams>(() => ({
     keyword: searchQuery.value.trim() || undefined,
@@ -107,9 +118,32 @@ export function useAssociationSearch ({
     })
   })
 
-  const associations = computed<Association[]>(() => (data.value ?? []).map(
-    searchResult => ({ ...searchResult, disabledTooltip: t('student.associations.composables.useAssociationSearch.disabledTooltip') })
-  ))
+  function getDisabledTooltip (association: Association, isBlockedBySelection: boolean) {
+    if (association.limitReached) {
+      return t('student.associations.composables.useAssociationSearch.limitReachedTooltip')
+    }
+
+    if (!association.disabled && isBlockedBySelection) {
+      return t('student.associations.composables.useAssociationSearch.selectionLimitReachedTooltip')
+    }
+
+    return t('student.associations.composables.useAssociationSearch.disabledTooltip')
+  }
+
+  const associations = computed<Association[]>(() => {
+    const selected = new Set(toValue(selectedIds))
+    const isSelectionFull = selected.size >= remaining.value
+
+    return (data.value ?? []).map((association) => {
+      const isBlockedBySelection = isSelectionFull && !selected.has(association.id)
+
+      return {
+        ...association,
+        disabled: association.disabled || isBlockedBySelection,
+        disabledTooltip: getDisabledTooltip(association, isBlockedBySelection)
+      }
+    })
+  })
 
   return {
     searchQuery,

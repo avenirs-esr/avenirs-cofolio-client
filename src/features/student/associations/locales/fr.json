@@ -7,8 +7,13 @@
         }
       },
       "composables": {
+        "useAssociationLimits": {
+          "notAllowedTooltip": "Ce type d'association n'est pas autorisé."
+        },
         "useAssociationSearch": {
-          "disabledTooltip": "Cet élément est déjà associé."
+          "disabledTooltip": "Cet élément est déjà associé.",
+          "limitReachedTooltip": "Nombre maximal d'associations autorisées atteint.",
+          "selectionLimitReachedTooltip": "Vous avez atteint le nombre maximal d'éléments pouvant être sélectionnés."
         }
       },
       "contextTypes": {
@@ -17,6 +22,7 @@
           "associateConfirmTitle": "Êtes-vous certain(e) de vouloir associer cette activité\u00A0? | Êtes-vous certain(e) de vouloir associer ces activités\u00A0?",
           "associatedTitle": "Mon activité déclarée associée ({count}) | Mes activités déclarées associées ({count})",
           "associatedTitleLimited": "Mon activité déclarée associée ({count}/{limit}) | Mes activités déclarées associées ({count}/{limit})",
+          "associateLimitReachedTooltip": "Vous avez atteint le nombre maximal d'activités pouvant être associées.",
           "associateSuccess": "Vous avez associé {count} activité. Retrouvez-la dans la catégorie \"Mes activités associées\". | Vous avez associé {count} activités. Retrouvez-les dans la catégorie \"Mes activités associées\".",
           "associateTitle": "Quelle(s) activité(s) souhaitez-vous associer\u00A0?",
           "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association d'activités\u00A0?",
@@ -33,6 +39,7 @@
           "associateConfirmTitle": "Êtes-vous certain(e) de vouloir associer cette expérience\u00A0? | Êtes-vous certain(e) de vouloir associer ces expériences\u00A0?",
           "associatedTitle": "Mon expérience déclarée associée ({count}) | Mes expériences déclarées associées ({count})",
           "associatedTitleLimited": "Mon expérience déclarée associée ({count}/{limit}) | Mes expériences déclarées associées ({count}/{limit})",
+          "associateLimitReachedTooltip": "Vous avez atteint le nombre maximal d'expériences pouvant être associées.",
           "associateSuccess": "Vous avez associé {count} expérience. Retrouvez-la dans la catégorie \"Mes expériences associées\". | Vous avez associé {count} expériences. Retrouvez-les dans la catégorie \"Mes expériences associées\".",
           "associateTitle": "Quelle(s) expérience(s) souhaitez-vous associer\u00A0?",
           "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association d'expériences\u00A0?",
@@ -49,6 +56,7 @@
           "associateConfirmTitle": "Êtes-vous certain(e) de vouloir associer cette formation\u00A0? | Êtes-vous certain(e) de vouloir associer ces formations\u00A0?",
           "associatedTitle": "Ma formation déclarée associée ({count}) | Mes formations déclarées associées ({count})",
           "associatedTitleLimited": "Ma formation déclarée associée ({count}/{limit}) | Mes formations déclarées associées ({count}/{limit})",
+          "associateLimitReachedTooltip": "Vous avez atteint le nombre maximal de formations pouvant être associées.",
           "associateSuccess": "Vous avez associé {count} formation. Retrouvez-la dans la catégorie \"Mes formations associées\". | Vous avez associé {count} formations. Retrouvez-les dans la catégorie \"Mes formations associées\".",
           "associateTitle": "Quelle(s) formation(s) déclarée(s) souhaitez-vous associer\u00A0?",
           "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association de formations\u00A0?",
@@ -65,6 +73,7 @@
           "associateConfirmTitle": "Êtes-vous certain(e) de vouloir associer cette compétence\u00A0? | Êtes-vous certain(e) de vouloir associer ces compétences\u00A0?",
           "associatedTitle": "Mes compétences associées (0) | Ma compétence associée (1) | Mes compétences associées ({count})",
           "associatedTitleLimited": "Mes compétences associées (0/{limit}) | Ma compétence associée (1/{limit}) | Mes compétences associées ({count}/{limit})",
+          "associateLimitReachedTooltip": "Vous avez atteint le nombre maximal de compétences pouvant être associées.",
           "associateSuccess": "{count} compétence associée avec succès | {count} compétences associées avec succès",
           "associateTitle": "Quelle(s) compétence(s) déclarée(s) souhaitez-vous associer\u00A0?",
           "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association de compétences\u00A0?",
@@ -81,6 +90,7 @@
           "associateConfirmTitle": "Êtes-vous certain(e) de vouloir associer cette trace\u00A0? | Êtes-vous certain(e) de vouloir associer ces traces\u00A0?",
           "associatedTitle": "Ma trace associée ({count}) | Mes traces associées ({count})",
           "associatedTitleLimited": "Ma trace associée ({count}/{limit}) | Mes traces associées ({count}/{limit})",
+          "associateLimitReachedTooltip": "Vous avez atteint le nombre maximal de traces pouvant être associées.",
           "associateSuccess": "Vous avez associé {count} trace. Retrouvez-la dans la catégorie « Mes traces associées ». | Vous avez associé {count} traces. Retrouvez-les dans la catégorie « Mes traces associées ».",
           "associateTitle": "Quelle(s) trace(s) souhaitez-vous associer\u00A0?",
           "cancelConfirmation": "Êtes-vous certain(e) de vouloir abandonner l'association de traces\u00A0?",

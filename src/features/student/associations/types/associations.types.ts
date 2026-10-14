@@ -5,11 +5,12 @@ import type { QueryKey } from '@tanstack/vue-query'
 
 /**
  * An element that can be associated, as displayed by the association pickers.
- * `category` holds the raw category returned by the API (activity thematic, skill type, experience type...)
- * while `description` holds its translation.
  */
 export type Association = IdTitle & AvInteractiveProps & {
+  /** Raw category returned by the API (activity thematic, skill type, experience type...). */
   category?: string
+  /** The element cannot be associated because it reached its own limit of associations. */
+  limitReached?: boolean
 }
 
 /**

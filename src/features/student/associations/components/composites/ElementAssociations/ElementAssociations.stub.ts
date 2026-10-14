@@ -1,24 +1,27 @@
 import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
-import type { AssociationLimits } from '@/features/student/associations/types/associations.types'
 import type { PropType } from 'vue'
+import { type AssociationLimitState, UNKNOWN_ASSOCIATION_LIMIT } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 
-export const ElementAssociationsStub = defineComponent({
-  name: 'ElementAssociations',
-  props: {
-    contextType: { type: String as PropType<EAssociationContextType>, required: true },
-    elementId: { type: String, required: true },
-    associations: { type: Object as PropType<AssociationsDTO>, default: undefined },
-    error: { type: Object, default: null },
-    isLoading: { type: Boolean, default: false },
-    limits: { type: Object as PropType<AssociationLimits>, default: undefined },
-    readonly: { type: Boolean, default: false },
-    actionsDisabled: { type: Boolean, default: false },
-    actionsDisabledTooltip: { type: String, default: undefined }
-  },
-  template: `
+export function createElementAssociationsStub (getLimit: (associatedContextType: EAssociationContextType) => AssociationLimitState) {
+  return defineComponent({
+    name: 'ElementAssociations',
+    props: {
+      contextType: { type: String as PropType<EAssociationContextType>, required: true },
+      elementId: { type: String, required: true },
+      associations: { type: Object as PropType<AssociationsDTO>, default: undefined },
+      error: { type: Object, default: null },
+      isLoading: { type: Boolean, default: false },
+      readonly: { type: Boolean, default: false },
+      actionsDisabled: { type: Boolean, default: false },
+      actionsDisabledTooltip: { type: String, default: undefined }
+    },
+    setup: () => ({ getLimit }),
+    template: `
     <div data-testid="element-associations-stub">
-      <slot name="footer" />
-      <slot name="header" />
+      <slot name="header" :getLimit="getLimit" />
     </div>
   `
-})
+  })
+}
+
+export const ElementAssociationsStub = createElementAssociationsStub(() => UNKNOWN_ASSOCIATION_LIMIT)

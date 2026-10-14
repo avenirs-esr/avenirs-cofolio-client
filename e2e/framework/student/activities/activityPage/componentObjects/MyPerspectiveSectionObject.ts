@@ -91,7 +91,11 @@ export class MyPerspectiveSectionObject extends BaseObject {
     return this.root.page().getByTestId('association-limit-card')
   }
 
-  getTraceAssociationLimitBadge () {
+  getTraceAssociationLimitedBadge () {
+    return this.root.page().getByTestId('association-limit-card-limited-badge')
+  }
+
+  getTraceAssociationUnlimitedBadge () {
     return this.root.page().getByTestId('association-limit-card-unlimited-disabled-badge')
   }
 
@@ -127,8 +131,12 @@ export class MyPerspectiveSectionObject extends BaseObject {
     await expect(this.getTraceAssociationLimitCard()).toBeVisible()
   }
 
-  async verifyTraceAssociationLimitBadgeVisible () {
-    await expect(this.getTraceAssociationLimitBadge()).toBeVisible()
+  async verifyTraceAssociationLimitedBadgeVisible () {
+    await expect(this.getTraceAssociationLimitedBadge()).toBeVisible()
+  }
+
+  async verifyTraceAssociationUnlimitedBadgeVisible () {
+    await expect(this.getTraceAssociationUnlimitedBadge()).toBeVisible()
   }
 
   async verifyVisible () {

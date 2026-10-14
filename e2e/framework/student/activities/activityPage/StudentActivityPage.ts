@@ -356,8 +356,13 @@ export class StudentActivityPage extends BasePage {
     await this.getMyPerspectiveSection().verifyTraceAssociationLimitCardVisible()
   }
 
-  @Then('the trace association limit badge is visible')
-  async verifyTraceAssociationLimitBadgeVisible () {
-    await this.getMyPerspectiveSection().verifyTraceAssociationLimitBadgeVisible()
+  @Then('the trace association limited badge is visible')
+  async verifyTraceAssociationLimitedBadgeVisible () {
+    await this.getMyPerspectiveSection().verifyTraceAssociationLimitedBadgeVisible()
+  }
+
+  @Then('the trace association unlimited badge is visible')
+  async verifyTraceAssociationUnlimitedBadgeVisible () {
+    await this.getMyPerspectiveSection().verifyTraceAssociationUnlimitedBadgeVisible()
   }
 }

@@ -2879,6 +2879,48 @@
         }
       }
     },
+    "/me/associations/{contextType}/{elementId}/limits": {
+      "get": {
+        "tags": [
+          "association-controller"
+        ],
+        "operationId": "getAssociationLimits",
+        "parameters": [
+          {
+            "name": "contextType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAssociationContextType"
+            }
+          },
+          {
+            "name": "elementId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssociationLimitDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/associations/{contextType}/{associatedContextType}/search": {
       "get": {
         "tags": [
@@ -7586,6 +7628,9 @@
           "disabled": {
             "type": "boolean"
           },
+          "limitReached": {
+            "type": "boolean"
+          },
           "description": {
             "type": "string"
           }
@@ -7593,6 +7638,7 @@
         "required": [
           "disabled",
           "id",
+          "limitReached",
           "title"
         ]
       },
@@ -7612,6 +7658,35 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "AssociationLimitDTO": {
+        "type": "object",
+        "properties": {
+          "associatedContextType": {
+            "type": "string",
+            "$ref": "#/components/schemas/EAssociationContextType",
+            "enum": [
+              "TRACE",
+              "DECLARED_ACTIVITY",
+              "DECLARED_SKILL",
+              "DECLARED_EXPERIENCE",
+              "DECLARED_PROGRAM"
+            ]
+          },
+          "max": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "remaining": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "associatedContextType",
+          "max",
+          "remaining"
         ]
       },
       "PagedResponseDeclaredActivityViewDTO": {
