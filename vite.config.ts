@@ -3,7 +3,6 @@ import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
 import { defineConfig, loadEnv } from 'vite'
 import VueDevTools from 'vite-plugin-vue-devtools'
 import svgLoader from 'vite-svg-loader'
@@ -55,12 +54,7 @@ export default ({ mode }: { mode: string }) => {
           globalsPropValue: true,
         },
       }),
-      Components({
-        extensions: ['vue'],
-        dirs: ['src/components'], // Autoimport de vos composants qui sont dans le dossier `src/components`
-        include: [/\.vue$/, /\.vue\?vue/],
-        dts: './src/components.d.ts',
-      }),
+
       // plugin disabled because currently we have same routes that are not yet implemented and mock is used in production
       // TODO: uncomment when each route has its orval generated file
       // !isMSWEnabled && {

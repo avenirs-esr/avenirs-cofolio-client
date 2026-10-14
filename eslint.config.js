@@ -5,11 +5,12 @@ export default antfu({
   vue: true,
   typescript: true,
   ignores: [
-    '**/README.md',
+    '**/*.md',
     '.vscode/',
     'eslint.config.js',
     'public/**/*',
     'e2e/.features-gen/**/*',
+    'scripts/**/*',
   ],
 }, {
   rules: {
@@ -49,7 +50,7 @@ export default antfu({
         importNames: autoImportConfig.vue,
         message: 'This Vue API is auto-imported by unplugin-auto-import. Remove the explicit import.'
       }, {
-        group: ['./*', '../*'],
+        group: ['./**', '../**'],
         message: 'Relative imports are not allowed. Use absolute imports instead (e.g., @/...).'
       }]
     }],
@@ -62,9 +63,6 @@ export default antfu({
     ],
     'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],
     'import/newline-after-import': ['error', { count: 1 }],
-    'import/no-relative-packages': 'error',
-    'import/no-relative-parent-imports': 'error',
-
   },
 }, {
   files: ['**/*.vue'],
