@@ -21,6 +21,7 @@ const SAVE_LABEL = 'Enregistrer'
 const SEND_LABEL = 'Envoyer'
 const UPDATE_LABEL = 'Mettre à jour le feedback'
 const SEEN_CONFIRM_DISABLED_TOOLTIP = 'Ce feedback a déjà été consulté et ne peut plus être modifié'
+const EMPTY_FEEDBACK_CONFIRM_DISABLED_TOOLTIP = 'Le feedback doit être renseigné avant de pouvoir être envoyé'
 const SAVED_BADGE_LABEL = 'Enregistré'
 const SEND_SUCCESS_MESSAGE = 'Le feedback a été envoyé avec succès'
 const SEND_ERROR_TITLE = 'Une erreur est survenue lors de l\'envoi du feedback'
@@ -57,6 +58,18 @@ const stubs = {
 const draftFeedback: FeedbackDetailsDTO = {
   ...mockedFeedbackDetailsWithAssociations,
   status: EFeedbackStatus.NEW
+}
+
+const emptyDraftFeedback: FeedbackDetailsDTO = {
+  ...draftFeedback,
+  id: 'feedback-empty',
+  feedback: ''
+}
+
+const blankDraftFeedback: FeedbackDetailsDTO = {
+  ...draftFeedback,
+  id: 'feedback-blank',
+  feedback: '   '
 }
 
 const invalidDraftFeedback: FeedbackDetailsDTO = {
@@ -155,6 +168,30 @@ BddTest().given('a write feedback tab', () => {
       expect(getExitButton()?.props('disabled')).toBe(false)
       expect(getSaveButton()?.props('disabled')).toBe(true)
       expect(getConfirmButton()?.props('disabled')).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted with a draft feedback whose content is empty', () => {
+    beforeEach(async () => {
+      wrapper = await mountTab(emptyDraftFeedback)
+    })
+
+    BddTest().then('it should disable the confirm button with the empty feedback tooltip', () => {
+      const confirmButton = getConfirmButton()
+      expect(confirmButton!.props('disabled')).toBe(true)
+      expect(confirmButton!.props('disabledTooltip')).toBe(EMPTY_FEEDBACK_CONFIRM_DISABLED_TOOLTIP)
+    })
+  })
+
+  BddTest().when('the component is mounted with a draft feedback containing only whitespace', () => {
+    beforeEach(async () => {
+      wrapper = await mountTab(blankDraftFeedback)
+    })
+
+    BddTest().then('it should disable the confirm button with the empty feedback tooltip', () => {
+      const confirmButton = getConfirmButton()
+      expect(confirmButton!.props('disabled')).toBe(true)
+      expect(confirmButton!.props('disabledTooltip')).toBe(EMPTY_FEEDBACK_CONFIRM_DISABLED_TOOLTIP)
     })
   })
 

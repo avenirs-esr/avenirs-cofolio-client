@@ -54,6 +54,7 @@
                   "title": "Attach one or more documents"
                 },
                 "confirmDisabledTooltip": "This feedback has already been viewed and can no longer be edited",
+                "emptyFeedbackDisabledTooltip": "The feedback must be filled in before it can be sent",
                 "errors": {
                   "saveFeedback": "An error occurred while saving feedback",
                   "sendFeedback": "An error occurred while sending feedback"
