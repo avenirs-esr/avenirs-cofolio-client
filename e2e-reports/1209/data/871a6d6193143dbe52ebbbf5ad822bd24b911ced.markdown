@@ -1,0 +1,343 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/lifeProject/activityDetails/activityDetails.feature.spec.js >> Student Project Activity Page >> Associated elements >> Student can see the trace association limit card
+- Location: .features-gen/tests/student/lifeProject/activityDetails/activityDetails.feature.spec.js:220:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('association-limit-card-unlimited-disabled-badge')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('association-limit-card-unlimited-disabled-badge')
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - link "Accueil - Cofolio Étudiant":
+    - /url: /cofolio/student
+    - img
+  - button "Changer d'univers"
+  - list:
+    - listitem:
+      - button "Notifications"
+    - listitem:
+      - button "J. moulin"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/student
+      - listitem:
+        - link "MES ACTIVITÉS":
+          - /url: /cofolio/student/activities
+      - listitem:
+        - link "MES COMPÉTENCES":
+          - /url: /cofolio/student/skills
+      - listitem:
+        - button "MON PROJET DE VIE"
+      - listitem:
+        - button "MES OUTILS"
+- main:
+  - navigation "Fil d'Ariane":
+    - list:
+      - listitem:
+        - link "Accueil":
+          - /url: /cofolio/student
+      - listitem:
+        - link "Mes activités":
+          - /url: /cofolio/student/activities
+      - listitem: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+      - listitem: Ma réflexion
+  - 'heading "Détail Activité \"Connaissance de soi\" : Définir ses valeurs" [level=1]'
+  - status: En cours
+  - button "Gérer mon activité"
+  - navigation "ae5dc61c-d4a8-487b-89cd-12ad65b4a2d2 navigation":
+    - button "Réduire le menu" [expanded]
+    - menu:
+      - menuitem "Détail":
+        - button "Détail"
+      - menuitem "Ma réflexion":
+        - button "Ma réflexion"
+  - tablist "Liste d’onglets":
+    - tab "Ma prise de recul"
+    - tab "Mes éléments associés (9)" [selected]
+  - tabpanel "Mes éléments associés (9)":
+    - button "Supprimer..."
+    - button "Associer..."
+    - text: Limite d'association
+    - status: Limité à 8 traces
+    - text: Mes traces associées (6/8)
+    - button "Développer"
+    - text: Mes compétences associées (3)
+    - button "Développer"
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/student/accessibility
+    - listitem:
+      - link "Conditions générales d'utilisation":
+        - /url: /cofolio/student/cgu
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/student/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/student/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  31  |     return this.root.getByTestId('my-perspective-card-cancel-button')
+  32  |   }
+  33  | 
+  34  |   getSavePerspectiveButton () {
+  35  |     return this.root.getByTestId('my-perspective-card-save-button')
+  36  |   }
+  37  | 
+  38  |   getFinishButton () {
+  39  |     return this.root.getByTestId('finish-declared-activity-button')
+  40  |   }
+  41  | 
+  42  |   getFinishBadge () {
+  43  |     return this.root.getByTestId('finish-declared-activity-finished-badge')
+  44  |   }
+  45  | 
+  46  |   getFinishConfirmationModal () {
+  47  |     return this.root.page().getByTestId('finish-declared-activity-confirm-modal')
+  48  |   }
+  49  | 
+  50  |   getRequestFeedbackButton () {
+  51  |     return this.root.getByTestId('request-feedback-button')
+  52  |   }
+  53  | 
+  54  |   getUpdateFeedbackButton () {
+  55  |     return this.root.getByTestId('update-feedback-button')
+  56  |   }
+  57  | 
+  58  |   getRequestFeedbackConfirmModal () {
+  59  |     return this.root.page().getByTestId('request-feedback-confirm-modal')
+  60  |   }
+  61  | 
+  62  |   getRequestFeedbackCancelButton () {
+  63  |     return this.root.page().getByTestId('request-feedback-confirm-modal').getByTestId('cancel-button')
+  64  |   }
+  65  | 
+  66  |   getFeedbackHint () {
+  67  |     return this.root.getByTestId('actions-hint').and(this.root.locator('[data-type="feedback-pending"], [data-type="max-feedback-reached"]'))
+  68  |   }
+  69  | 
+  70  |   getUpdatableFeedbackHint () {
+  71  |     return this.root.getByTestId('actions-hint').and(this.root.locator('[data-type="updatable-feedback"]'))
+  72  |   }
+  73  | 
+  74  |   getFinishedHint () {
+  75  |     return this.root.getByTestId('actions-hint').and(this.root.locator('[data-type="finished"]'))
+  76  |   }
+  77  | 
+  78  |   getAssociatedElementsTab () {
+  79  |     return this.root.page().getByTestId('associated-elements-tab-item')
+  80  |   }
+  81  | 
+  82  |   getAssociatedTracesCard () {
+  83  |     return this.root.page().getByTestId('associated-traces-card')
+  84  |   }
+  85  | 
+  86  |   getAssociatedTraceCards () {
+  87  |     return this.root.page().getByTestId('associated-trace-card')
+  88  |   }
+  89  | 
+  90  |   getTraceAssociationLimitCard () {
+  91  |     return this.root.page().getByTestId('association-limit-card')
+  92  |   }
+  93  | 
+  94  |   getTraceAssociationLimitBadge () {
+  95  |     return this.root.page().getByTestId('association-limit-card-unlimited-disabled-badge')
+  96  |   }
+  97  | 
+  98  |   getAssociateElementsDropdownTrigger () {
+  99  |     return this.root.page().getByTestId('declared-activity-associate-elements-dropdown')
+  100 |   }
+  101 | 
+  102 |   getAssociateTracesDropdownItem () {
+  103 |     return this.root.page().getByTestId('traces')
+  104 |   }
+  105 | 
+  106 |   getAssociateTracesModal () {
+  107 |     return this.root.page().getByTestId('associate-traces-modal')
+  108 |   }
+  109 | 
+  110 |   getAssociateTracesModalTitle () {
+  111 |     return this.root.page().getByTestId('header')
+  112 |   }
+  113 | 
+  114 |   getTracesTypeSelectInAssociateModal () {
+  115 |     return this.root.page().getByTestId('association-search-filter-select').first()
+  116 |   }
+  117 | 
+  118 |   getSearchAssociationLayoutInAssociateModal () {
+  119 |     return this.root.page().getByTestId('search-association-layout')
+  120 |   }
+  121 | 
+  122 |   getAssociateTracesConfirmationModal () {
+  123 |     return this.root.page().getByTestId('confirm-associate-modal')
+  124 |   }
+  125 | 
+  126 |   async verifyTraceAssociationLimitCardVisible () {
+  127 |     await expect(this.getTraceAssociationLimitCard()).toBeVisible()
+  128 |   }
+  129 | 
+  130 |   async verifyTraceAssociationLimitBadgeVisible () {
+> 131 |     await expect(this.getTraceAssociationLimitBadge()).toBeVisible()
+      |                                                        ^ Error: expect(locator).toBeVisible() failed
+  132 |   }
+  133 | 
+  134 |   async verifyVisible () {
+  135 |     await expect(this.root).toBeVisible()
+  136 |   }
+  137 | 
+  138 |   async verifyPerspectiveCardVisible () {
+  139 |     await expect(this.getPerspectiveCard()).toBeVisible()
+  140 |   }
+  141 | 
+  142 |   async verifyPerspectiveCardReadonly () {
+  143 |     await expect(this.getEditPerspectiveButton()).toBeVisible()
+  144 |     await expect(this.getUpdatePerspectiveInProgressBadge()).toBeHidden()
+  145 | 
+  146 |     await expect(this.getPerspectiveContent()).toBeVisible()
+  147 |     await expect(this.getRichTextEditor()).toBeHidden()
+  148 | 
+  149 |     await expect(this.getSavePerspectiveButton()).toBeHidden()
+  150 |     await expect(this.getCancelEditPerspectiveButton()).toBeHidden()
+  151 |   }
+  152 | 
+  153 |   async verifyPerspectiveCardEditable () {
+  154 |     await expect(this.getEditPerspectiveButton()).toBeHidden()
+  155 |     await expect(this.getUpdatePerspectiveInProgressBadge()).toBeVisible()
+  156 | 
+  157 |     await expect(this.getPerspectiveContent()).toBeHidden()
+  158 |     await expect(this.getRichTextEditor()).toBeVisible()
+  159 | 
+  160 |     await expect(this.getSavePerspectiveButton()).toBeHidden()
+  161 |     await expect(this.getCancelEditPerspectiveButton()).toBeVisible()
+  162 |   }
+  163 | 
+  164 |   async verifyPerspectiveCardEdited () {
+  165 |     await expect(this.getEditPerspectiveButton()).toBeHidden()
+  166 |     await expect(this.getUpdatePerspectiveInProgressBadge()).toBeVisible()
+  167 | 
+  168 |     await expect(this.getPerspectiveContent()).toBeHidden()
+  169 |     await expect(this.getRichTextEditor()).toBeVisible()
+  170 | 
+  171 |     await expect(this.getSavePerspectiveButton()).toBeVisible()
+  172 |     await expect(this.getCancelEditPerspectiveButton()).toBeHidden()
+  173 |   }
+  174 | 
+  175 |   async clickEditPerspectiveButton () {
+  176 |     await clickOnElement(this.getEditPerspectiveButton())
+  177 |   }
+  178 | 
+  179 |   async verifyFinishButtonVisible () {
+  180 |     await expect(this.getFinishButton()).toBeVisible()
+  181 |   }
+  182 | 
+  183 |   async verifyFinishButtonEnabled () {
+  184 |     await expect(this.getFinishButton()).toBeEnabled()
+  185 |   }
+  186 | 
+  187 |   async verifyFinishButtonDisabled () {
+  188 |     await expect(this.getFinishButton()).toBeDisabled()
+  189 |   }
+  190 | 
+  191 |   async verifyFinishBadgeVisible () {
+  192 |     await expect(this.getFinishBadge()).toBeVisible()
+  193 |   }
+  194 | 
+  195 |   async verifyFinishBadgeHidden () {
+  196 |     await expect(this.getFinishBadge()).toBeHidden()
+  197 |   }
+  198 | 
+  199 |   async verifyFinishButtonHidden () {
+  200 |     await expect(this.getFinishButton()).toBeHidden()
+  201 |   }
+  202 | 
+  203 |   async clickCancelEditPerspectiveButton () {
+  204 |     await clickOnElement(this.getCancelEditPerspectiveButton())
+  205 |   }
+  206 | 
+  207 |   async clickFinishButton () {
+  208 |     await clickOnElement(this.getFinishButton())
+  209 |   }
+  210 | 
+  211 |   async waitForFinishConfirmationModalVisible () {
+  212 |     await expect(this.getFinishConfirmationModal()).toBeVisible({ timeout: 10000 })
+  213 |   }
+  214 | 
+  215 |   async verifyFinishConfirmationModalVisible () {
+  216 |     await expect(this.getFinishConfirmationModal()).toBeVisible()
+  217 |   }
+  218 | 
+  219 |   async verifyRequestFeedbackButtonVisible () {
+  220 |     await expect(this.getRequestFeedbackButton()).toBeVisible()
+  221 |   }
+  222 | 
+  223 |   async verifyRequestFeedbackButtonHidden () {
+  224 |     await expect(this.getRequestFeedbackButton()).toBeHidden()
+  225 |   }
+  226 | 
+  227 |   async verifyRequestFeedbackButtonEnabled () {
+  228 |     await expect(this.getRequestFeedbackButton()).toBeEnabled()
+  229 |   }
+  230 | 
+  231 |   async verifyUpdateFeedbackButtonVisible () {
+```
