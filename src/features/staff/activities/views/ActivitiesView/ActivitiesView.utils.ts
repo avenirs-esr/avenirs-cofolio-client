@@ -4,7 +4,8 @@ import type { ActivityTableRow } from '@/features/staff/activities/views/Activit
 export function mapActivityToActivityTableRow (activity: ActivityStaffOverviewDTO): ActivityTableRow {
   return {
     id: activity.activityId,
-    owner: `${activity.author.firstName} ${activity.author.lastName}`,
+    owner: activity.leaders.map(leader => `${leader.firstName} ${leader.lastName}`).join(', '),
+    leaderIds: activity.leaders.map(leader => leader.id),
     status: activity.activityStatus,
     thematic: activity.thematic,
     title: activity.title,

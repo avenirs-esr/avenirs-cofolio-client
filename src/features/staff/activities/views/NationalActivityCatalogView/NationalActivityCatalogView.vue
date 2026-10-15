@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { EActivityStatus, useCreateDraftFromActivity, useGetActivityContent } from '@/api/avenir-esr'
+import { EActivityRight, EActivityStatus, useCreateDraftFromActivity, useGetActivityContent } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
@@ -33,13 +33,13 @@ const trailingLinks = computed(() => [{ text: activity.value?.title ?? '' }])
 
 const isDraft = computed(() => status === EActivityStatus.DRAFT)
 
-const isAuthor = computed(() => activity.value?.isAuthor)
+const canEdit = computed(() => activity.value?.rights.includes(EActivityRight.EDIT) ?? false)
 
 const buttonLabel = computed(() => isDraft.value || activity.value?.haveDraft ? t('staff.activities.views.NationalActivityCatalogView.buttons.resumeDraft') : t('global.buttons.update'))
 
 const editDeleteTooltip = computed(() =>
-  !isAuthor.value
-    ? t('staff.activities.views.ActivitiesView.MoreActionsDropdown.authorOnlyTooltip')
+  !canEdit.value
+    ? t('staff.activities.views.ActivitiesView.MoreActionsDropdown.editRightOnlyTooltip')
     : undefined,
 )
 const { modalOpened: deleteConfirmationOpened, openModal: openDeleteConfirmation, closeModal: closeDeleteConfirmation } = useModal()
@@ -76,7 +76,7 @@ function updateActivity (id: string) {
           :icon="MDI_ICONS.PENCIL_OUTLINE"
           :is-loading="isCreatingDraft"
           :label="buttonLabel"
-          :disabled="!isAuthor"
+          :disabled="!canEdit"
           :disabled-tooltip="editDeleteTooltip"
           data-testid="edit-draft-button"
           variant="FLAT"
@@ -87,7 +87,7 @@ function updateActivity (id: string) {
           :icon="MDI_ICONS.TRASH_CAN_OUTLINE"
           :label="t('global.buttons.delete')"
           data-testid="delete-draft-button"
-          :disabled="!isAuthor"
+          :disabled="!canEdit"
           :disabled-tooltip="editDeleteTooltip"
           variant="OUTLINED"
           @click="openDeleteConfirmation"

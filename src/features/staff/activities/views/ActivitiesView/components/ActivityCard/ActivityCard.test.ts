@@ -47,6 +47,7 @@ BddTest().given('an ActivityCard component', () => {
   const baseActivity: ActivityTableRow = {
     id: 'activity-1',
     owner: 'Marie Curie',
+    leaderIds: ['staff-1'],
     status: EActivityStatus.PUBLISHED,
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     title: 'Activite de test tres longue pour verifier le rendu du titre',
@@ -186,6 +187,7 @@ BddTest().given('an ActivityCard component', () => {
     const otherActivity: ActivityTableRow = {
       id: 'activity-42',
       owner: 'Ada Lovelace',
+      leaderIds: ['staff-42'],
       status: EActivityStatus.DRAFT,
       thematic: EActivityThematic.EXPERIENCES,
       title: 'Autre activite',

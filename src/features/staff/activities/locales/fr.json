@@ -70,8 +70,9 @@
           },
           "MoreActionsDropdown": {
             "ariaLabel": "Plus d'actions",
-            "authorOnlyTooltip": "Vous devez être l'auteur(rice) de l'activité pour accéder à cette action",
             "deleteDisabledTooltip": "Vous pouvez uniquement supprimer une activité en brouillon",
+            "editRightOnlyTooltip": "Vous devez disposer du droit de modification sur l'activité pour accéder à cette action",
+            "leaderOnlyTooltip": "Vous devez être responsable de l'activité pour accéder à cette action",
             "navigateToFeedbacks": "Accéder aux demandes de feedback",
             "navigateToFeedbacksDisabledTooltip": "Les demandes de feedback sont uniquement disponibles pour une activité publiée",
             "unpublishDisabledTooltip": "Vous pouvez uniquement dépublier une activité publiée"

@@ -42,6 +42,7 @@ const feedback: FeedbackStaffListItemDTO = {
     national: false,
     enableReflection: false,
     traceAllowedAssociations: 0,
+    rights: [],
     createdAt: '2025-03-15T10:00:00.000Z',
     updatedAt: '2025-03-18T14:30:00.000Z',
   },

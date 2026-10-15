@@ -15,7 +15,7 @@ import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_TRACE_SETTING_IN
 
 export const mockedActivityOverview: ActivityOverviewDTO = {
   id: 'activity-1',
-  author: { userId: 'author-1', firstName: 'John', lastName: 'Doe' },
+  author: { id: 'author-1', firstName: 'John', lastName: 'Doe' },
   title: 'Activity 1',
   thematic: EActivityThematic.SELF_KNOWLEDGE,
   status: EDeclaredActivityStatus.SUBSCRIBED,
@@ -32,7 +32,7 @@ export const mockedLatestActivitiesOverview: ActivityOverviewDTO[] = [
   {
     id: '9e2b6a41-3c7d-4f99-8a55-2d1c6b7e4f33',
     author: {
-      userId: '0a8700ab-90b6-4a38-8338-acbdd4fbcd3d',
+      id: '0a8700ab-90b6-4a38-8338-acbdd4fbcd3d',
       firstName: 'Lucas',
       lastName: 'Tessier'
     },
@@ -44,7 +44,7 @@ export const mockedLatestActivitiesOverview: ActivityOverviewDTO[] = [
   {
     id: '7c3d9a12-4e88-4f55-9a1d-5b6e2c7f3a44',
     author: {
-      userId: '0a8700ab-90b6-4a38-8338-acbdd4fbcd3d',
+      id: '0a8700ab-90b6-4a38-8338-acbdd4fbcd3d',
       firstName: 'Lucas',
       lastName: 'Tessier'
     },
@@ -57,7 +57,7 @@ export const mockedLatestActivitiesOverview: ActivityOverviewDTO[] = [
   {
     id: '2f6a8b91-5d33-4c77-8e4a-1b9f3c7d2a11',
     author: {
-      userId: '0a8700ab-90b6-4a38-8338-acbdd4fbcd3d',
+      id: '0a8700ab-90b6-4a38-8338-acbdd4fbcd3d',
       firstName: 'Lucas',
       lastName: 'Tessier'
     },
@@ -303,6 +303,7 @@ export const mockedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
     enableReflection: true,
     traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
     feedbackAllowedIterations: ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT,
+    rights: [],
     createdAt: '2024-01-01T00:00:00Z',
     updatedAt: '2024-01-01T00:00:00Z'
   },

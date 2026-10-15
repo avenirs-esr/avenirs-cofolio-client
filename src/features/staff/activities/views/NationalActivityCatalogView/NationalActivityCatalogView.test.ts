@@ -82,7 +82,7 @@ BddTest().given('a national activity catalog view', () => {
       global: { stubs },
     })
 
-  const mountViewNoAuthor = (status: EActivityStatus, id: string) =>
+  const mountViewWithoutRights = (status: EActivityStatus, id: string) =>
     mountComponent(NationalActivityCatalogView, {
       props: { status, id, },
       global: { stubs },
@@ -244,9 +244,9 @@ BddTest().given('a national activity catalog view', () => {
     })
   })
 
-  BddTest().when('the status is DRAFT and the activity is loaded by a non-author', () => {
+  BddTest().when('the status is DRAFT and the activity is loaded by a staff without the edit right', () => {
     beforeEach(async () => {
-      wrapper = mountViewNoAuthor(EActivityStatus.DRAFT, 'NOT_AUTHOR_ID')
+      wrapper = mountViewWithoutRights(EActivityStatus.DRAFT, 'WITHOUT_RIGHTS_ID')
       await waitForLoaded()
     })
 
