@@ -27,16 +27,13 @@ BddTest().given('a write feedback form validators composable', () => {
   })
 
   BddTest().when('validating feedback', () => {
-    BddTest().then('it should require feedback when empty', () => {
-      expect(composableResult.validateFeedback('')).toBe('Ce champ est requis.')
+    BddTest().then('it should accept an empty feedback', () => {
+      expect(composableResult.validateFeedback('')).toBeUndefined()
     })
 
-    BddTest().then('it should require feedback when undefined', () => {
-      expect(composableResult.validateFeedback(undefined as unknown as string)).toBe('Ce champ est requis.')
-    })
-
-    BddTest().then('it should require feedback when null', () => {
-      expect(composableResult.validateFeedback(null as unknown as string)).toBe('Ce champ est requis.')
+    BddTest().then('it should accept an undefined or null feedback', () => {
+      expect(composableResult.validateFeedback(undefined as unknown as string)).toBeUndefined()
+      expect(composableResult.validateFeedback(null as unknown as string)).toBeUndefined()
     })
 
     BddTest().then('it should enforce max length', () => {

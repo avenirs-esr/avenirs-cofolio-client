@@ -157,16 +157,16 @@ BddTest().given('a write feedback form', () => {
 
   BddTest().when('validating form fields', () => {
     BddTest().and('feedback is empty', () => {
-      BddTest().then('it should return validation error', () => {
-        const invalidData: WriteFeedbackFormData = {
+      BddTest().then('it should not return validation error', () => {
+        const emptyData: WriteFeedbackFormData = {
           feedback: '',
           attachments: []
         }
 
         const validator = getOnSubmitValidator()
-        const result = validator({ value: invalidData })
+        const result = validator({ value: emptyData })
 
-        expect(result?.fields?.feedback).toBe('Ce champ est requis.')
+        expect(result?.fields?.feedback).toBeUndefined()
       })
     })
 

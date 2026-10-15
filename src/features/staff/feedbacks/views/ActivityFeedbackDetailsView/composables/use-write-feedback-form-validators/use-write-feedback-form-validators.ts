@@ -12,7 +12,7 @@ import {
  * @returns An object containing validation functions for each form field.
  */
 export function useWriteFeedbackFormValidators () {
-  const { validateRequired, validateMaxLength } = useFormValidators()
+  const { validateMaxLength } = useFormValidators()
   const { validateFile } = useFileValidation({
     acceptedFileTypes: [...FEEDBACK_ATTACHMENT_ACCEPTED_FILE_TYPES],
     maxSizeConfig: FEEDBACK_ATTACHMENT_MAX_FILE_SIZE,
@@ -20,7 +20,7 @@ export function useWriteFeedbackFormValidators () {
   })
 
   function validateFeedback (feedback: WriteFeedbackFormData['feedback']) {
-    return validateRequired(feedback) ?? validateMaxLength(feedback, FEEDBACK_MAX_LENGTH)
+    return validateMaxLength(feedback ?? '', FEEDBACK_MAX_LENGTH)
   }
 
   function validateAttachments (attachments: WriteFeedbackFormData['attachments']) {
