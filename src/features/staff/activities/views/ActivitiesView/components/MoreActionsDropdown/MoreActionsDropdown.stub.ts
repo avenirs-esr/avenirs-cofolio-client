@@ -9,7 +9,7 @@ export const MoreActionsDropdownStub = defineComponent({
       type: String as PropType<EActivityStatus>,
       required: true,
     },
-    isAuthor: Boolean,
+    isLeader: Boolean,
   },
   emits: ['delete', 'unpublish', 'navigateToFeedbacks', 'clone'],
 })

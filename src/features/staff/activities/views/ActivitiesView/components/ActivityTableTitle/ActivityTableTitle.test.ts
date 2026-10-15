@@ -18,6 +18,7 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
 const baseActivity: ActivityTableRow = {
   id: 'activity-1',
   owner: '',
+  leaderIds: [],
   status: EActivityStatus.PUBLISHED,
   thematic: EActivityThematic.SELF_KNOWLEDGE,
   title: 'Activité "Connaissance de soi"\u00A0: Définir ses valeurs',

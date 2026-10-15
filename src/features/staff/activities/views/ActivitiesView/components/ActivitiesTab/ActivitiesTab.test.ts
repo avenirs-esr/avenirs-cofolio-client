@@ -1,6 +1,7 @@
 import type { UsePaginatedStaffActivitiesParams, UsePaginatedStaffActivitiesResult } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 import { createMockedPagedResponseActivityStaffOverviewDTO } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedProfileOverview } from '@/__mocks__/fixtures/student/overviews.fixtures'
 import { EActivityStatus } from '@/api/avenir-esr'
 import { ActivityStatusBadgeStub } from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
@@ -37,6 +38,16 @@ vi.mock('@/common/composables', async (importOriginal) => {
     }),
   }
 })
+
+const mockConnectedProfileId = vi.hoisted(() => ({ value: '' }))
+
+vi.mock('@/features/auth/global/stores/auth.store', () => ({
+  useAuthStore: () => ({
+    get profile () {
+      return { id: mockConnectedProfileId.value }
+    },
+  })
+}))
 
 const mockIsMobile = ref(false)
 
@@ -124,6 +135,7 @@ BddTest().given('a ActivitiesTab component', () => {
   const getMoreActionsDropdowns = () => wrapper.findAllComponents(MoreActionsDropdownStub)
 
   beforeEach(async () => {
+    mockConnectedProfileId.value = mockedProfileOverview.id
     await mountDefault()
   })
 
@@ -211,6 +223,24 @@ BddTest().given('a ActivitiesTab component', () => {
 
       expect(dropdowns[0].props('activityStatus')).toBe(EActivityStatus.PUBLISHED)
       expect(dropdowns[1].props('activityStatus')).toBe(EActivityStatus.PUBLISHED)
+    })
+
+    BddTest().then('it should flag as leader only the activities the connected staff leads', () => {
+      const dropdowns = getMoreActionsDropdowns()
+
+      expect(dropdowns[0].props('isLeader')).toBe(true)
+      expect(dropdowns[3].props('isLeader')).toBe(false)
+    })
+
+    BddTest().and('the connected staff leads none of the activities', () => {
+      beforeEach(async () => {
+        mockConnectedProfileId.value = 'another-staff-id'
+        await mountDefault({ props: { withActions: true } })
+      })
+
+      BddTest().then('no activity should be flagged as led by the connected staff', () => {
+        expect(getMoreActionsDropdowns().every(dropdown => dropdown.props('isLeader') === false)).toBe(true)
+      })
     })
 
     BddTest().then('the unpublish confirmation modal should not be visible initially', () => {

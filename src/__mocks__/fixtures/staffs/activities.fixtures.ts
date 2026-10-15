@@ -4,13 +4,13 @@ import type {
   ActivityDraftCreationResponse,
   ActivityDraftUpdateResponse,
   ActivityStaffOverviewDTO,
-  AuthorDTO,
   FileDTO,
   InactiveStudentDTO,
-  PagedResponseActivityStaffOverviewDTO
+  PagedResponseActivityStaffOverviewDTO,
+  StaffInfoDTO
 } from '@/api/avenir-esr'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student/overviews.fixtures'
-import { EActivityStatus, EActivityThematic, EFileType } from '@/api/avenir-esr'
+import { EActivityRight, EActivityStatus, EActivityThematic, EFileType } from '@/api/avenir-esr'
 import { getFileTypeFromFileName } from '@/common/utils/file/file'
 
 export const ACTIVITY_WITH_ENROLLED_STUDENTS_ID
@@ -22,19 +22,19 @@ export const ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID
 export const ACTIVITY_WITH_FILE_AND_LINK_ID
   = '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1'
 
-export const mockedAuthor1: AuthorDTO = {
-  userId: 'user-1',
+export const mockedStaff1: StaffInfoDTO = {
+  id: 'user-1',
   firstName: 'Jean',
   lastName: 'Dupont',
 }
 
-export const mockedAuthor2: AuthorDTO = {
-  userId: 'user-2',
+export const mockedStaff2: StaffInfoDTO = {
+  id: 'user-2',
   firstName: 'Marie',
   lastName: 'Martin',
 }
-export const mockedConnectedStaff: AuthorDTO = {
-  userId: mockedProfileOverview.id,
+export const mockedConnectedStaff: StaffInfoDTO = {
+  id: mockedProfileOverview.id,
   firstName: mockedProfileOverview.firstname,
   lastName: mockedProfileOverview.lastname,
 }
@@ -55,7 +55,7 @@ export const mockedActivityContentWithoutEnrolledStudent: ActivityContentDTO = {
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 2,
   hasEnrolledStudent: false,
-  isAuthor: true,
+  rights: Object.values(EActivityRight),
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
   files: [
@@ -91,7 +91,7 @@ export const mockedActivityContent: ActivityContentDTO = {
   enableReflection: false,
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 2,
-  isAuthor: true,
+  rights: Object.values(EActivityRight),
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
 }
@@ -109,7 +109,7 @@ export const mockedActivityContentWithEnrolledStudent1: ActivityContentDTO = {
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 2,
   hasEnrolledStudent: true,
-  isAuthor: true,
+  rights: Object.values(EActivityRight),
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
 }
@@ -126,7 +126,7 @@ export const mockedActivityContentWithEnrolledStudent2: ActivityContentDTO = {
   enableReflection: false,
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 5,
-  isAuthor: true,
+  rights: Object.values(EActivityRight),
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-16T10:00:00Z',
 }
@@ -143,7 +143,7 @@ export const mockedActivityContentWithEnrolledStudent3: ActivityContentDTO = {
   enableReflection: true,
   traceAllowedAssociations: 2,
   feedbackAllowedIterations: 1,
-  isAuthor: true,
+  rights: Object.values(EActivityRight),
   createdAt: '2024-02-01T09:00:00Z',
   updatedAt: '2024-02-02T09:00:00Z',
 }
@@ -160,7 +160,7 @@ export const mockedActivityContentWithEnrolledStudent4: ActivityContentDTO = {
   enableReflection: true,
   traceAllowedAssociations: 4,
   feedbackAllowedIterations: 3,
-  isAuthor: true,
+  rights: Object.values(EActivityRight),
   createdAt: '2024-03-10T14:00:00Z',
   updatedAt: '2024-03-11T14:00:00Z',
 }
@@ -178,7 +178,7 @@ export const mockedActivityContentWithFileAndLink: ActivityContentDTO = {
   traceAllowedAssociations: 3,
   feedbackAllowedIterations: 2,
   hasEnrolledStudent: true,
-  isAuthor: true,
+  rights: Object.values(EActivityRight),
   createdAt: '2024-01-15T10:00:00Z',
   updatedAt: '2024-01-15T10:00:00Z',
   files: [
@@ -213,7 +213,7 @@ export const allStaffActivities: ActivityStaffOverviewDTO[] = [
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     activityStatus: EActivityStatus.PUBLISHED,
     updatedAt: '2024-01-15T10:00:00Z',
-    author: mockedConnectedStaff,
+    leaders: [mockedConnectedStaff],
   },
   {
     activityId: ACTIVITY_WITH_ENROLLED_STUDENTS_ID,
@@ -221,7 +221,7 @@ export const allStaffActivities: ActivityStaffOverviewDTO[] = [
     thematic: EActivityThematic.RESUMES,
     activityStatus: EActivityStatus.PUBLISHED,
     updatedAt: '2024-02-10T09:00:00Z',
-    author: mockedConnectedStaff,
+    leaders: [mockedConnectedStaff],
   },
   {
     activityId: ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID,
@@ -229,7 +229,7 @@ export const allStaffActivities: ActivityStaffOverviewDTO[] = [
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     activityStatus: EActivityStatus.PUBLISHED,
     updatedAt: '2024-02-15T09:00:00Z',
-    author: mockedConnectedStaff,
+    leaders: [mockedConnectedStaff],
   },
   {
     activityId: 'staff-activity-3',
@@ -237,7 +237,7 @@ export const allStaffActivities: ActivityStaffOverviewDTO[] = [
     thematic: EActivityThematic.TRAJECTORIES,
     activityStatus: EActivityStatus.PUBLISHED,
     updatedAt: '2024-03-05T14:00:00Z',
-    author: mockedAuthor2,
+    leaders: [mockedStaff2],
   },
   {
     activityId: 'staff-activity-4',
@@ -245,7 +245,7 @@ export const allStaffActivities: ActivityStaffOverviewDTO[] = [
     thematic: EActivityThematic.EXPERIENCES,
     activityStatus: EActivityStatus.DRAFT,
     updatedAt: new Date().toISOString(),
-    author: mockedConnectedStaff,
+    leaders: [mockedConnectedStaff],
   },
   {
     activityId: 'staff-activity-5',
@@ -253,7 +253,7 @@ export const allStaffActivities: ActivityStaffOverviewDTO[] = [
     thematic: EActivityThematic.PROGRAMS,
     activityStatus: EActivityStatus.PUBLISHED,
     updatedAt: '2024-01-20T11:00:00Z',
-    author: mockedConnectedStaff,
+    leaders: [mockedConnectedStaff],
   },
   {
     activityId: 'staff-activity-6',
@@ -261,7 +261,7 @@ export const allStaffActivities: ActivityStaffOverviewDTO[] = [
     thematic: EActivityThematic.TRANSVERSAL,
     activityStatus: EActivityStatus.DRAFT,
     updatedAt: '2024-04-01T08:00:00Z',
-    author: { userId: 'user-3', firstName: 'Pierre', lastName: 'Durand' },
+    leaders: [{ id: 'user-3', firstName: 'Pierre', lastName: 'Durand' }],
   },
 ]
 

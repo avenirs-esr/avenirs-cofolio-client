@@ -75,9 +75,9 @@ const pendingDelete = ref<{ id: string, status: EActivityStatus }>()
 
 const isPendingDeleteDefinitive = computed(() => pendingDelete.value !== undefined && pendingDelete.value.status !== EActivityStatus.DRAFT)
 
-const isAuthorOfAtLeastOneActivity = computed(() => {
-  return (activities.value ?? []).some(activity => activity.author?.userId === authStore.profile?.id)
-})
+function isLeaderOfActivity (row: ActivityTableRow) {
+  return row.leaderIds.includes(authStore.profile?.id ?? '')
+}
 
 function onUnpublishSelected (activityId: string) {
   pendingUnpublishId.value = activityId
@@ -233,7 +233,7 @@ watch(
               :activity-status="row.status"
               :data-activity-id="row.id"
               :data-activity-status="row.status"
-              :is-author="isAuthorOfAtLeastOneActivity"
+              :is-leader="isLeaderOfActivity(row)"
               @unpublish="() => onUnpublishSelected(row.id)"
               @clone="() => onDuplicateSelected(row.id, row.title)"
               @delete="() => onDeleteSelected(row.id, row.status)"

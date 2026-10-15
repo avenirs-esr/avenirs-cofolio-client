@@ -500,6 +500,98 @@
         }
       }
     },
+    "/me/activities/{activityStatus}/{activityId}/authorizations": {
+      "get": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "getActivityAuthorizations",
+        "parameters": [
+          {
+            "name": "activityStatus",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EActivityStatus"
+            }
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActivityAuthorizationDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "activity-controller"
+        ],
+        "operationId": "defineActivityAuthorizations",
+        "parameters": [
+          {
+            "name": "activityStatus",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EActivityStatus"
+            }
+          },
+          {
+            "name": "activityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivityAuthorizationsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ActivityAuthorizationDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/{userCategory}/profile-picture": {
       "post": {
         "tags": [
@@ -5898,6 +5990,77 @@
           "feedback"
         ]
       },
+      "ActivityAuthorizationsRequest": {
+        "type": "object",
+        "properties": {
+          "authorizations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StaffAuthorizationRequest"
+            }
+          }
+        },
+        "required": [
+          "authorizations"
+        ]
+      },
+      "StaffAuthorizationRequest": {
+        "type": "object",
+        "properties": {
+          "staffId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "rights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EActivityRight"
+            }
+          }
+        },
+        "required": [
+          "rights",
+          "staffId"
+        ]
+      },
+      "ActivityAuthorizationDTO": {
+        "type": "object",
+        "properties": {
+          "staff": {
+            "$ref": "#/components/schemas/StaffInfoDTO"
+          },
+          "rights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EActivityRight"
+            }
+          }
+        },
+        "required": [
+          "rights",
+          "staff"
+        ]
+      },
+      "StaffInfoDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "firstName",
+          "id",
+          "lastName"
+        ]
+      },
       "CreateTraceDTO": {
         "type": "object",
         "properties": {
@@ -6652,8 +6815,11 @@
           "haveDraft": {
             "type": "boolean"
           },
-          "isAuthor": {
-            "type": "boolean"
+          "rights": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EActivityRight"
+            }
           },
           "files": {
             "type": "array",
@@ -6700,6 +6866,7 @@
           "feedbackAllowedIterations",
           "id",
           "national",
+          "rights",
           "summary",
           "title",
           "traceAllowedAssociations",
@@ -7755,7 +7922,7 @@
             "format": "uuid"
           },
           "author": {
-            "$ref": "#/components/schemas/AuthorDTO"
+            "$ref": "#/components/schemas/StaffInfoDTO"
           },
           "title": {
             "type": "string"
@@ -7807,26 +7974,6 @@
           "summary",
           "thematic",
           "title"
-        ]
-      },
-      "AuthorDTO": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "firstName",
-          "lastName",
-          "userId"
         ]
       },
       "PagedResponseActivityOverviewDTO": {
@@ -8016,8 +8163,11 @@
             "type": "string",
             "format": "uuid"
           },
-          "author": {
-            "$ref": "#/components/schemas/AuthorDTO"
+          "leaders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StaffInfoDTO"
+            }
           },
           "title": {
             "type": "string"
@@ -8053,7 +8203,7 @@
         "required": [
           "activityId",
           "activityStatus",
-          "author",
+          "leaders",
           "title",
           "updatedAt"
         ]
@@ -8340,6 +8490,18 @@
           "PUBLISHED",
           "DRAFT",
           "UNPUBLISHED"
+        ]
+      },
+      "EActivityRight": {
+        "type": "string",
+        "description": "Enum for activity right",
+        "enum": [
+          "LEADER",
+          "EDIT",
+          "MANAGE_AUTHORIZATIONS",
+          "FEEDBACK",
+          "EVALUATION",
+          "PUBLISH"
         ]
       },
       "EDeclaredActivityStatus": {
