@@ -81,9 +81,15 @@ const saveDisabledTooltip = computed(() => {
   return t('global.form.saveDisabledTooltip')
 })
 
+const feedbackValue = form.useStore(state => state.values.feedback)
+const isFeedbackEmpty = computed(() => !feedbackValue.value?.trim())
+
 const confirmDisabledTooltip = computed(() => {
   if (isSeen.value) {
     return t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.confirmDisabledTooltip')
+  }
+  if (isFeedbackEmpty.value) {
+    return t('staff.feedbacks.views.ActivityFeedbackDetailsView.FeedbackManagementFloatingPanel.tabs.write.emptyFeedbackDisabledTooltip')
   }
   if (!isFormValid.value) {
     return t('global.information.invalidForm')
@@ -134,7 +140,7 @@ watch(isDirty, (newValue) => {
     </form>
 
     <div
-      v-memo="[isFormValid, isDirty, isSaving, isPending, isLoading]"
+      v-memo="[isFormValid, isFeedbackEmpty, isDirty, isSaving, isPending, isLoading]"
       class="av-row av-justify-end av-gap-sm av-p-md"
     >
       <AvButton
@@ -159,7 +165,7 @@ watch(isDirty, (newValue) => {
         :label="confirmLabel"
         :icon="MS_ICONS.SEND_OUTLINE_ROUNDED"
         :is-loading="(!isSubmitted && isDirty) || isSaving || isPending || isLoading"
-        :disabled="isSeen || !isFormValid"
+        :disabled="isSeen || isFeedbackEmpty || !isFormValid"
         :disabled-tooltip="confirmDisabledTooltip"
         data-testid="confirm-button"
         @click="handleConfirm"
