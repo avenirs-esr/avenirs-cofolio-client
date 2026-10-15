@@ -3,6 +3,17 @@
     "admin": {
       "views": {
         "AdminInstitutionGroupsView": {
+          "components": {
+            "badges": {
+              "GroupTypeBadge": {
+                "label": {
+                  "PROGRAM": "Formation",
+                  "PROGRAM_OPTION": "Option de formation",
+                  "STUDENT_GROUP": "Ensemble d'apprenant(e)s"
+                }
+              }
+            }
+          },
           "title": "Groupes de l'établissement"
         },
         "AdminInstitutionSkillsView": {
