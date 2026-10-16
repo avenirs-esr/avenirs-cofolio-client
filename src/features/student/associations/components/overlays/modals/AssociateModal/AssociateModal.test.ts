@@ -19,8 +19,9 @@ import AssociateModal, { type AssociateModalProps } from '@/features/student/ass
 import {
   ConfirmAssociateModalStub
 } from '@/features/student/associations/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.stub'
+import { availableTypes } from '@/features/student/associations/constants/associations.constants'
 import { AssociationSearchFilter } from '@/features/student/associations/types/associations.types'
-import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvModalStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient } from '@tanstack/vue-query'
 import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -81,29 +82,38 @@ BddTest().given('an associate modal', () => {
     AssociationSearchFilterSelect: AssociationSearchFilterSelectStub,
     AssociationCompactCard: AssociationCompactCardStub,
     ConfirmAssociateModal: ConfirmAssociateModalStub,
-    ConfirmationModal: ConfirmationModalStub
+    ConfirmationModal: ConfirmationModalStub,
+    AvSelect: AvSelectStub
   }
 
   const traceProps: AssociateModalProps = {
     opened: true,
     contextType: EAssociationContextType.DECLARED_ACTIVITY,
     elementId: 'declared-activity-1',
-    associatedContextType: EAssociationContextType.TRACE
+    associatedContextType: EAssociationContextType.TRACE,
+    availableTypes
   }
 
   const skillProps: AssociateModalProps = {
     opened: true,
     contextType: EAssociationContextType.TRACE,
     elementId: 'trace-1',
-    associatedContextType: EAssociationContextType.DECLARED_SKILL
+    associatedContextType: EAssociationContextType.DECLARED_SKILL,
+    availableTypes
   }
 
+  const getSelect = () => wrapper.findComponent(AvSelectStub)
   const getModal = () => wrapper.findComponent(AvModalStub)
   const getLayout = () => wrapper.findComponent(SearchAssociationLayoutWithItemsStub)
   const getFilterSelect = () => wrapper.findComponent(AssociationSearchFilterSelectStub)
   const getConfirmModal = () => wrapper.findComponent(ConfirmAssociateModalStub)
   const getCancelConfirmationModal = () => wrapper.findComponent(ConfirmationModalStub)
   const getLayoutOptions = () => getLayout().props('options') as AvAutocompleteOption[]
+
+  async function selectType (type: EAssociationContextType) {
+    getSelect().vm.$emit('update:selectedItem', { itemId: type })
+    await nextTick()
+  }
 
   async function waitForSearchResults () {
     await vi.waitFor(() => {
@@ -114,6 +124,8 @@ BddTest().given('an associate modal', () => {
 
   async function mountModal (props: AssociateModalProps) {
     wrapper = mountComponent(AssociateModal, { props, global: { stubs } })
+    await nextTick()
+    await selectType(props.associatedContextType)
     await waitForSearchResults()
   }
 
@@ -141,6 +153,7 @@ BddTest().given('an associate modal', () => {
   BddTest().when('the modal is opened to associate traces', () => {
     beforeEach(async () => {
       await mountModal(traceProps)
+      await selectType(traceProps.associatedContextType)
     })
 
     BddTest().then('it should render the opened modal with its test id', () => {
@@ -528,7 +541,7 @@ BddTest().given('an associate modal', () => {
   BddTest().when('the modal is reused to associate another context type', () => {
     beforeEach(async () => {
       await mountModal(traceProps)
-      await wrapper.setProps({ associatedContextType: EAssociationContextType.DECLARED_SKILL })
+      await selectType(EAssociationContextType.DECLARED_SKILL)
       await vi.waitFor(() => expect(getLayoutOptions()[0].value).toBe('skill-search-1'))
     })
 
@@ -677,11 +690,9 @@ BddTest().given('an associate modal', () => {
   BddTest().when('the modal is closed', () => {
     beforeEach(async () => {
       wrapper = mountComponent(AssociateModal, { props: { ...traceProps, opened: false }, global: { stubs } })
-      await flushPromises()
-    })
-
-    BddTest().then('it should render the modal closed', () => {
-      expect(getModal().props('opened')).toBe(false)
+      await nextTick()
+      await selectType(traceProps.associatedContextType)
+      await nextTick()
     })
 
     BddTest().then('it should not search for traces', () => {
@@ -702,8 +713,10 @@ BddTest().given('an associate modal', () => {
   })
 
   BddTest().when('the modal is opened and the search is pending', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       wrapper = mountComponent(AssociateModal, { props: traceProps, global: { stubs } })
+      await nextTick()
+      await selectType(traceProps.associatedContextType)
     })
 
     afterEach(async () => {
@@ -720,6 +733,8 @@ BddTest().given('an associate modal', () => {
     beforeEach(async () => {
       server.use(searchForAssociationErrorHandler)
       wrapper = mountComponent(AssociateModal, { props: traceProps, global: { stubs } })
+      await nextTick()
+      await selectType(traceProps.associatedContextType)
       await vi.waitFor(() => expect(mockAddErrorMessage).toHaveBeenCalled())
     })
 

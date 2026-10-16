@@ -10,6 +10,8 @@ import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-id
 import { ICONS } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import { AssociateModal, countElementAssociations, ElementAssociations } from '@/features/student/associations'
+import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
+import { availableTypes } from '@/features/student/associations/constants/associations.constants'
 import TraceDeletionConfirmationModal from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import StudentTraceDetails from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.vue'
 import TraceSettingsDropdown from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.vue'
@@ -65,6 +67,12 @@ const {
   closeModal: closeAssociateModal
 } = useModal()
 
+const {
+  modalOpened: unassociateModalOpened,
+  openModal: openUnassociateModal,
+  closeModal: closeUnassociateModal
+} = useModal()
+
 const activeTab = ref(0)
 
 function onDeleteTraceSuccess () {
@@ -102,6 +110,7 @@ const trailingLinks = computed(() => [
         :download-disabled="!traceDetailed.attachment"
         @delete="openDeleteModal"
         @associate="openAssociateModal"
+        @dissociate="openUnassociateModal"
         @update="handleUpdateTrace"
         @download="downloadAttachment(traceDetailed.id)"
       />
@@ -145,7 +154,6 @@ const trailingLinks = computed(() => [
           <Loader :is-loading="isAssociationsLoading">
             <ElementAssociations
               :context-type="EAssociationContextType.TRACE"
-              :element-id="traceDetailed.id"
               :associations="traceAssociations"
               :error="associationsError"
             />
@@ -157,11 +165,23 @@ const trailingLinks = computed(() => [
         :opened="associateModalOpened"
         :context-type="EAssociationContextType.TRACE"
         :element-id="traceDetailed.id"
-        :associated-context-type="EAssociationContextType.DECLARED_SKILL"
+        :associated-context-type="EAssociationContextType.TRACE"
+        :available-types="availableTypes"
         @cancel="closeAssociateModal"
         @associated="closeAssociateModal"
       />
 
+      <DeleteAssociationsModal
+        v-if="traceAssociations"
+        :opened="unassociateModalOpened"
+        :context-type="EAssociationContextType.TRACE"
+        :element-id="traceDetailed.id"
+        :associated-context-type="EAssociationContextType.TRACE"
+        :associations="traceAssociations"
+        :available-types="availableTypes"
+        @cancel="closeUnassociateModal"
+        @deleted="closeUnassociateModal"
+      />
       <TraceDeletionConfirmationModal
         :trace-ids="selectedTraceIdsForDeletion"
         :title="traceDetailed.title"

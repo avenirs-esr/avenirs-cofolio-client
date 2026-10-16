@@ -11,6 +11,7 @@
           "disabledTooltip": "Cet élément est déjà associé."
         }
       },
+      "chooseType": "Choisir un type d'association",
       "contextTypes": {
         "DECLARED_ACTIVITY": {
           "associateConfirm": "Associer l'activité sélectionnée (1) | Associer les activités sélectionnées ({count})",
@@ -134,6 +135,13 @@
         "AssociationSelectionSection": {
           "filterLabel": "De type\u00A0:"
         }
+      },
+      "types": {
+        "DECLARED_ACTIVITY": "Activité",
+        "DECLARED_EXPERIENCE": "Expérience",
+        "DECLARED_PROGRAM": "Formation",
+        "DECLARED_SKILL": "Compétence",
+        "TRACE": "Trace"
       }
     }
   }

@@ -7,13 +7,15 @@ const emit = defineEmits<{
   (e: AllowedActions): void
 }>()
 
-type AllowedActions = Action.UPDATE | Action.DELETE
+type AllowedActions = Action.UPDATE | Action.DELETE | Action.ASSOCIATE | Action.DISSOCIATE
 
 const { t } = useI18n()
 
 const actions = computed<ManageEntityDropdownProps['actions']>(() => [
   Action.UPDATE,
-  Action.DELETE
+  Action.DELETE,
+  Action.ASSOCIATE,
+  Action.DISSOCIATE
 ])
 </script>
 

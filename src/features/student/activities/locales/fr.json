@@ -55,12 +55,14 @@
       },
       "views": {
         "ActivitiesCatalogView": {
+          "associate": "Associer",
           "ActivitiesSelectNavigation": {
             "placeholder": "Mes activités"
           },
           "buttons": {
             "access": "Accéder à mon activité"
           },
+          "dissociate": "Dissocier",
           "title": "Toutes les activités disponibles",
           "unpublishedTooltip": "Cette activité a été dépubliée et n'est plus disponible"
         },

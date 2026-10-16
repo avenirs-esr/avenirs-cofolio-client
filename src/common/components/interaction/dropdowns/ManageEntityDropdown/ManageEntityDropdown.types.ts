@@ -3,6 +3,7 @@ import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 export enum Action {
   ADD = 'add',
   ASSOCIATE = 'associate',
+  DISSOCIATE = 'dissociate',
   CLONE = 'clone',
   COLLAPSE = 'collapse',
   DELETE = 'delete',

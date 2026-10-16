@@ -16,7 +16,7 @@ const emit = defineEmits<{
   (e: AllowedAction): void
 }>()
 
-type AllowedAction = Action.UPDATE | Action.UNSUBSCRIBE | Action.RESUBSCRIBE | Action.DELETE
+type AllowedAction = Action.UPDATE | Action.UNSUBSCRIBE | Action.RESUBSCRIBE | Action.DELETE | Action.ASSOCIATE | Action.DISSOCIATE
 
 const { t } = useI18n()
 
@@ -34,9 +34,21 @@ const resubscribeAction = computed<ActionItem>(() => ({
   disabledTooltip: t('student.activities.views.ActivitiesCatalogView.unpublishedTooltip')
 }))
 
+const associateAction = computed<ActionItem>(() => ({
+  type: Action.ASSOCIATE,
+  disabledTooltip: t('student.activities.views.ActivitiesCatalogView.associate')
+}))
+
+const dissociateAction = computed<ActionItem>(() => ({
+  type: Action.DISSOCIATE,
+  disabledTooltip: t('student.activities.views.ActivitiesCatalogView.dissociate')
+}))
+
 const actions = computed(() => (
   [
     deleteAction.value,
+    associateAction.value,
+    dissociateAction.value,
     ...(isUnsubscribed.value ? [resubscribeAction.value] : [Action.UPDATE, Action.UNSUBSCRIBE])
   ]
 ))

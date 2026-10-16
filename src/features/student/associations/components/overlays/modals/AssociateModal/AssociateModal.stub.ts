@@ -7,7 +7,8 @@ export const AssociateModalStub = defineComponent({
     opened: { type: Boolean, required: true },
     contextType: { type: String as PropType<EAssociationContextType>, required: true },
     elementId: { type: String, required: true },
-    associatedContextType: { type: String as PropType<EAssociationContextType>, required: true }
+    associatedContextType: { type: String as PropType<EAssociationContextType>, required: true },
+    availableTypes: { type: Array as PropType<EAssociationContextType[]>, required: true }
   },
   emits: ['cancel', 'associated'],
   template: '<div data-testid="associate-modal-stub" />'

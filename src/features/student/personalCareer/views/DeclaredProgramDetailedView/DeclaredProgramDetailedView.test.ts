@@ -10,6 +10,8 @@ import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/Qu
 import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
+import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
+import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { DeleteDeclaredProgramConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredProgramConfirmModal/DeleteDeclaredProgramConfirmModal.stub'
 import { DeclaredProgramDetailedStub } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/DeclaredProgramDetailed/DeclaredProgramDetailed.stub'
 import { ManageDeclaredProgramDropdownStub } from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/components/ManageDeclaredProgramDropdown/ManageDeclaredProgramDropdown.stub'
@@ -91,7 +93,9 @@ const stubs = {
   QuerySuspense: QuerySuspenseStub,
   ElementAssociations: ElementAssociationsStub,
   AvTabs: AvTabsStub,
-  AvTab: AvTabStub
+  AvTab: AvTabStub,
+  AssociateModal: AssociateModalStub,
+  DeleteAssociationsModal: DeleteAssociationsModalStub
 }
 
 BddTest().given('a declared program detailed view component', () => {
@@ -136,10 +140,11 @@ BddTest().given('a declared program detailed view component', () => {
     await flushPromises()
   }
 
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.clearAllMocks()
     mockModalOpened.value = false
     route.name = ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name
+    await flushPromises()
   })
 
   afterEach(() => {
@@ -200,7 +205,6 @@ BddTest().given('a declared program detailed view component', () => {
 
           expect(elementAssociations.exists()).toBe(true)
           expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.DECLARED_PROGRAM)
-          expect(elementAssociations.props('elementId')).toBe('declared-program-1')
           expect(elementAssociations.props('associations')).toEqual(mockedDeclaredProgramAssociations)
           expect(elementAssociations.props('error')).toBeNull()
           expect(elementAssociations.props('readonly')).toBe(false)
@@ -355,7 +359,6 @@ BddTest().given('a declared program detailed view component', () => {
         const elementAssociations = getElementAssociations()
 
         expect(elementAssociations.exists()).toBe(true)
-        expect(elementAssociations.props('elementId')).toBe('declared-program-WITHOUT_ASSOCIATIONS')
         expect(elementAssociations.props('associations')).toEqual(mockedEmptyAssociations)
         expect(elementAssociations.props('error')).toBeNull()
       })

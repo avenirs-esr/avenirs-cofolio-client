@@ -1,4 +1,3 @@
-import type { VueWrapper } from '@vue/test-utils'
 import { createMockedDeclaredExperienceAssociationsDTO, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import {
   declaredExperienceDetailedLoadingHandler,
@@ -19,6 +18,7 @@ import {
 } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.stub'
 import DeclaredExperienceView from '@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises, type VueWrapper } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 
@@ -166,7 +166,6 @@ BddTest().given('a declared experience view component', () => {
         const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
         expect(elementAssociations.exists()).toBe(true)
         expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.DECLARED_EXPERIENCE)
-        expect(elementAssociations.props('elementId')).toBe('exp-123')
         expect(elementAssociations.props('associations')).toEqual(mockedAssociations)
         expect(elementAssociations.props('error')).toBeNull()
         expect(elementAssociations.props('readonly')).toBe(false)
@@ -355,6 +354,7 @@ BddTest().given('a declared experience view component', () => {
       vi.clearAllMocks()
       route.params.id = 'EXP_WITHOUT_ASSOCIATIONS'
       await mountComponentWithDefaults()
+      await flushPromises()
     })
 
     BddTest().then('it should render ElementAssociations with empty associations', async () => {
@@ -367,7 +367,6 @@ BddTest().given('a declared experience view component', () => {
       await vi.waitFor(() => {
         const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
         expect(elementAssociations.exists()).toBe(true)
-        expect(elementAssociations.props('elementId')).toBe('EXP_WITHOUT_ASSOCIATIONS')
         expect(elementAssociations.props('associations')).toEqual(mockedEmptyAssociations)
         expect(elementAssociations.props('error')).toBeNull()
       })

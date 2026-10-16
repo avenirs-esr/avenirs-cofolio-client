@@ -17,6 +17,7 @@ export const moreActionConfig: Record<Action, ActionConfig> = {
   [Action.ADD]: { icon: MDI_ICONS.PLUS_CIRCLE_OUTLINE, labelKey: 'global.buttons.add' },
   [Action.UPDATE]: { icon: MDI_ICONS.PENCIL_OUTLINE, labelKey: 'global.buttons.update' },
   [Action.ASSOCIATE]: { icon: ICONS.ASSOCIATE, labelKey: 'global.buttons.associate' },
+  [Action.DISSOCIATE]: { icon: MDI_ICONS.MINUS, labelKey: 'global.buttons.dissociate' },
   [Action.COLLAPSE]: { icon: MDI_ICONS.MINUS, labelKey: 'global.buttons.collapse' },
   [Action.DOWNLOAD]: { icon: MDI_ICONS.DOWNLOAD_OUTLINE, labelKey: 'global.buttons.download' },
   [Action.EXPAND]: { icon: MDI_ICONS.PLUS, labelKey: 'global.buttons.expand' },

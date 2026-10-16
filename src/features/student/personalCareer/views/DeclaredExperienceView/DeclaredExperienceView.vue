@@ -7,6 +7,9 @@ import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ErrorCodes, ICONS } from '@/common/constants'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
+import AssociateModal from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
+import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
+import { availableTypes } from '@/features/student/associations/constants/associations.constants'
 import DeleteDeclaredExperienceConfirmModal from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.vue'
 import DeclaredExperienceDetails from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
 import DeclaredExperienceDetailsDropdown from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.vue'
@@ -30,6 +33,18 @@ const route = useRoute()
 const activeTab = ref(DeclaredExperienceViewTabs.DETAILS)
 
 const { data: declaredExperienceDetailed, isLoading, error } = useGetDeclaredExperience(experienceId, { query: { placeholderData: keepPreviousData } })
+
+const {
+  modalOpened: associateModalOpened,
+  openModal: openAssociateModal,
+  closeModal: closeAssociateModal
+} = useModal()
+
+const {
+  modalOpened: unassociateModalOpened,
+  openModal: openUnassociateModal,
+  closeModal: closeUnassociateModal
+} = useModal()
 
 const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
 const isDeclaredExperienceNotFound = computed(() =>
@@ -72,6 +87,31 @@ function handleConfirmDelete () {
         v-if="declaredExperienceDetailed"
         @delete="openModal"
         @update="handleUpdateSelected"
+        @associate="openAssociateModal"
+        @dissociate="openUnassociateModal"
+      />
+
+      <AssociateModal
+        v-if="declaredExperienceDetailed"
+        :opened="associateModalOpened"
+        :context-type="EAssociationContextType.DECLARED_EXPERIENCE"
+        :element-id="declaredExperienceDetailed.id"
+        :associated-context-type="EAssociationContextType.DECLARED_EXPERIENCE"
+        :available-types="availableTypes"
+        @cancel="closeAssociateModal"
+        @associated="closeAssociateModal"
+      />
+
+      <DeleteAssociationsModal
+        v-if="declaredExperienceDetailed && associations"
+        :opened="unassociateModalOpened"
+        :context-type="EAssociationContextType.DECLARED_EXPERIENCE"
+        :element-id="declaredExperienceDetailed.id"
+        :associated-context-type="EAssociationContextType.DECLARED_EXPERIENCE"
+        :associations="associations"
+        :available-types="availableTypes"
+        @cancel="closeUnassociateModal"
+        @deleted="closeUnassociateModal"
       />
     </template>
   </DetailedPageTitle>
@@ -110,7 +150,6 @@ function handleConfirmDelete () {
         >
           <ElementAssociations
             :context-type="EAssociationContextType.DECLARED_EXPERIENCE"
-            :element-id="experienceId"
             :associations="associations"
             :error="associationsError"
           />

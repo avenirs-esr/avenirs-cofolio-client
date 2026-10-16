@@ -8,7 +8,8 @@ export const DeleteAssociationsModalStub = defineComponent({
     contextType: { type: String as PropType<EAssociationContextType>, required: true },
     elementId: { type: String, required: true },
     associatedContextType: { type: String as PropType<EAssociationContextType>, required: true },
-    associations: { type: Object as PropType<AssociationsDTO>, required: true }
+    associations: { type: Object as PropType<AssociationsDTO>, required: true },
+    availableTypes: { type: Array as PropType<EAssociationContextType[]>, required: true }
   },
   emits: ['cancel', 'deleted'],
   template: '<div data-testid="delete-associations-modal-stub" />'

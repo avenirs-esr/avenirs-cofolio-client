@@ -169,7 +169,7 @@ BddTest().given('a student trace view', () => {
 
       expect(modal.props('contextType')).toBe(EAssociationContextType.TRACE)
       expect(modal.props('elementId')).toBe(mockedTraceDetailed.id)
-      expect(modal.props('associatedContextType')).toBe(EAssociationContextType.DECLARED_SKILL)
+      expect(modal.props('associatedContextType')).toBe(EAssociationContextType.TRACE)
     })
 
     BddTest().then('it should not render ElementAssociations in the inactive associations tab', () => {
@@ -287,7 +287,6 @@ BddTest().given('a student trace view', () => {
 
       expect(elementAssociations.exists()).toBe(true)
       expect(elementAssociations.props('contextType')).toBe(EAssociationContextType.TRACE)
-      expect(elementAssociations.props('elementId')).toBe(mockedTraceDetailed.id)
     })
 
     BddTest().then('it should pass the fetched associations to ElementAssociations', () => {
@@ -301,7 +300,6 @@ BddTest().given('a student trace view', () => {
       const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
 
       expect(elementAssociations.props('readonly')).toBe(false)
-      expect(elementAssociations.props('actionsDisabled')).toBe(false)
     })
   })
 

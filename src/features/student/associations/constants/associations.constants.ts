@@ -83,3 +83,10 @@ export const EMPTY_ASSOCIATIONS: AssociationsDTO = {
   declaredExperienceAssociations: [],
   declaredProgramAssociations: [],
 }
+export const availableTypes: EAssociationContextType[] = [
+  EAssociationContextType.TRACE,
+  EAssociationContextType.DECLARED_ACTIVITY,
+  EAssociationContextType.DECLARED_EXPERIENCE,
+  EAssociationContextType.DECLARED_PROGRAM,
+  EAssociationContextType.DECLARED_SKILL
+]

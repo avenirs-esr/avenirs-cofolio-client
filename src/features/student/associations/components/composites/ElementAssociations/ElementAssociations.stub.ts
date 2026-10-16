@@ -6,14 +6,11 @@ export const ElementAssociationsStub = defineComponent({
   name: 'ElementAssociations',
   props: {
     contextType: { type: String as PropType<EAssociationContextType>, required: true },
-    elementId: { type: String, required: true },
     associations: { type: Object as PropType<AssociationsDTO>, default: undefined },
     error: { type: Object, default: null },
     isLoading: { type: Boolean, default: false },
     limits: { type: Object as PropType<AssociationLimits>, default: undefined },
     readonly: { type: Boolean, default: false },
-    actionsDisabled: { type: Boolean, default: false },
-    actionsDisabledTooltip: { type: String, default: undefined }
   },
   template: `
     <div data-testid="element-associations-stub">

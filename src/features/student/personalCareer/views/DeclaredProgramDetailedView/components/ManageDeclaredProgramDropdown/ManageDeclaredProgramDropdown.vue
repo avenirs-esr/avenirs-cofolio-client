@@ -7,11 +7,11 @@ const emit = defineEmits<{
   (e: AllowedActions): void
 }>()
 
-type AllowedActions = Action.UPDATE | Action.DELETE
+type AllowedActions = Action.UPDATE | Action.DELETE | Action.ASSOCIATE | Action.DISSOCIATE
 
 const { t } = useI18n()
 
-const actions = computed<Action[]>(() => [Action.UPDATE, Action.DELETE])
+const actions = computed<Action[]>(() => [Action.UPDATE, Action.DELETE, Action.ASSOCIATE, Action.DISSOCIATE])
 </script>
 
 <template>
