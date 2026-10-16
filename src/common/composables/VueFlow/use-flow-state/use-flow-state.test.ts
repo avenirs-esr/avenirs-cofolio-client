@@ -1,9 +1,9 @@
 import type { Edge, Node } from '@vue-flow/core'
-import { useFlowState } from '@/common/composables/VueFlow/use-flow-state/use-flow-state'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mockAddSuccessMessage } from 'tests/mocks'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { useFlowState } from '@/common/composables/VueFlow/use-flow-state/use-flow-state'
 
 const mockInitialNodes: Node[] = []
 const mockInitialEdges: Edge[] = []

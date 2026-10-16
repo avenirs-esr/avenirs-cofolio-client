@@ -4,20 +4,21 @@
   generic="T extends Record<string, Component>"
 >
 import type {
-  SectionNavigationItem,
-  SectionPropsBySection,
-  SectionSelection,
-} from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
-import type {
   AvSelectOption,
   AvSelectSelectedOption,
   AvSideNavigationMenuItem,
   AvSideNavigationSelectedItem,
 } from '@avenirs-esr/avenirs-dsav'
+import type { Component } from 'vue'
+import type {
+  SectionNavigationItem,
+  SectionPropsBySection,
+  SectionSelection,
+} from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
+import { AvSelect, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { markRaw } from 'vue'
 import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
-import { AvSelect, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { type Component, markRaw } from 'vue'
 
 export interface SectionNavigationLayoutProps<TComponents extends Record<string, Component>> {
   items: SectionNavigationItem[]

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { RouteLocationRaw } from 'vue-router'
-import CofolioLogoSvg from '@/assets/icons/cofolio-without-baseline.svg'
 import { EsupLogo } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import CofolioLogoSvg from '@/assets/icons/cofolio-without-baseline.svg'
 
 interface FooterProps {
   accessibilityLink: RouteLocationRaw

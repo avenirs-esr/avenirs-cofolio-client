@@ -1,3 +1,4 @@
+import type { Page } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { PaginationObject } from '@e2e/framework/shared/componentObjects/PaginationObject'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
@@ -6,7 +7,7 @@ import { extractNumberFromText } from '@e2e/framework/shared/utils/text'
 import { ActivityLibraryCard } from '@e2e/framework/student/activities/activitiesPages/componentObjects/ActivityLibraryCard'
 import { ActivityLibraryDropdown } from '@e2e/framework/student/activities/activitiesPages/componentObjects/ActivityLibraryDropdown'
 import { UnsubscribeActivitiesModal } from '@e2e/framework/student/activities/activitiesPages/componentObjects/UnsubscribeActivitiesModal'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class ActivityLibraryTab extends BaseObject {
   constructor (protected page: Page) {

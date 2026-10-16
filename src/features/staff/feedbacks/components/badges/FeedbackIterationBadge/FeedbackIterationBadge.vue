@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ICONS } from '@/common/constants'
 import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { ICONS } from '@/common/constants'
 
 export interface FeedbackIterationBadgeProps {
   iteration: number

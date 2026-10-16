@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import Card from '@/common/components/cards/Card/Card.vue'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import Card from '@/common/components/cards/Card/Card.vue'
 
 export interface StudentTraceAssociationCardProps {
   title: string

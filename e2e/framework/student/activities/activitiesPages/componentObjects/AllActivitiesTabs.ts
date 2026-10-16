@@ -1,8 +1,9 @@
+import type { Page } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { extractNumberFromText } from '@e2e/framework/shared/utils/text'
 import { ActivityCard } from '@e2e/framework/student/activities/activitiesPages/componentObjects/ActivityCard'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class AllActivitiesTabs extends BaseObject {
   constructor (protected page: Page) {

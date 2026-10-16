@@ -1,7 +1,7 @@
 import type { IImageOptions } from 'docx'
-import { centimeterToEmu, centimeterToPixel, centimeterToTwip, generateImageRunData } from '@/features/student/kit/composables/use-export-kit/utils/utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { centimeterToEmu, centimeterToPixel, centimeterToTwip, generateImageRunData } from '@/features/student/kit/composables/use-export-kit/utils/utils'
 
 BddTest().given('a centimeterToTwip function', () => {
   let result: number

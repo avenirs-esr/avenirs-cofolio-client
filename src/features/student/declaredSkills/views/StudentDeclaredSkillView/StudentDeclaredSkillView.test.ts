@@ -1,4 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { mockedDeclaredSkillAssociations, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import {
   detailedSkillProgressNotFoundErrorHandler
@@ -13,9 +16,6 @@ import { DeclaredSkillDetailsStub } from '@/features/student/declaredSkills/view
 import { DeclaredSkillSettingDropdownStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillSettingDropdown/DeclaredSkillSettingDropdown.stub'
 import { DeleteDeclaredSkillConfirmModalStub } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.stub'
 import StudentDeclaredSkillView from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/StudentDeclaredSkillView.vue'
-import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStudentUpdateDeclaredSkill = vi.fn()
 const navigateToStudentSkills = vi.fn()

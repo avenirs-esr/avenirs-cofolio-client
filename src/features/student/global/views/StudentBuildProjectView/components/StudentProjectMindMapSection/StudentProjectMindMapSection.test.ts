@@ -1,9 +1,9 @@
-import { MindMapStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/MindMap.stub'
-import { StudentProjectMindMapHelperModalStub } from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectMindMapHelperModal/StudentProjectMindMapHelperModal.stub'
-import StudentProjectMindMapSection from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectMindMapSection/StudentProjectMindMapSection.vue'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { MindMapStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/MindMap.stub'
+import { StudentProjectMindMapHelperModalStub } from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectMindMapHelperModal/StudentProjectMindMapHelperModal.stub'
+import StudentProjectMindMapSection from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectMindMapSection/StudentProjectMindMapSection.vue'
 
 BddTest().given('a build project section component', () => {
   let wrapper: ReturnType<typeof mount<typeof StudentProjectMindMapSection>>

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
 import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { capitalize } from 'lodash-es'
 import { useI18n } from 'vue-i18n'
+import { PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
 
 export interface UserInfoProps {
   firstName: string

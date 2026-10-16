@@ -1,11 +1,12 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { DeleteDraftActivityConfirmationModal } from '@e2e/framework/staff/activities/componentObjects/DeleteDraftActivityConfirmationModal'
 import { UnpublishActivityConfirmationModal } from '@e2e/framework/staff/activities/componentObjects/UnpublishActivityConfirmationModal'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('staffActivitiesPage')

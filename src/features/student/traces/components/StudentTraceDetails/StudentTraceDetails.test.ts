@@ -1,13 +1,15 @@
-import { EFileType, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
+import type { VueWrapper } from '@vue/test-utils'
+import type { TraceDetailDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
+import { EFileType, ETraceAuthorType } from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
 import { TraceAiJustificationTextareaStub } from '@/features/student/traces/components/interactions/inputs/TraceAiJustificationTextarea/TraceAiJustificationTextarea.stub'
 import { TraceAiUsageToggleStub } from '@/features/student/traces/components/interactions/toggles/TraceAiUsageToggle/TraceAiUsageToggle.stub'
 import StudentTraceDetails
   from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
 
 const TraceNameInputStub = {
   name: 'TraceNameInput',

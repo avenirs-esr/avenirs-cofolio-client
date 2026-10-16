@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import type { AvModalProps } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
-import { AvModal, type AvModalProps } from '@avenirs-esr/avenirs-dsav'
+import { AvModal } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 

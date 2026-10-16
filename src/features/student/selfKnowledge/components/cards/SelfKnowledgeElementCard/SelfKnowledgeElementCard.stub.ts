@@ -1,5 +1,5 @@
-import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 
 export const SelfKnowledgeElementCardStub = defineComponent({
   name: 'SelfKnowledgeElementCard',

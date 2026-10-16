@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import UserInfoSearch from '@/features/staff/admin/views/AdminInstitutionUsersView/components/inputs/UserInfoSearch/UserInfoSearch.vue'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 

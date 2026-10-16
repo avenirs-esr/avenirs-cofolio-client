@@ -1,8 +1,9 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
 import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import UserProfileDropdown from '@/common/components/overlay/UserProfileDropdown/UserProfileDropdown.vue'
-import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
 
 const replayTutorial = vi.fn()
 

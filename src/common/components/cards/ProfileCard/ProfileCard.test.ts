@@ -1,10 +1,11 @@
+import type { DOMWrapper, VueWrapper } from '@vue/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { type DOMWrapper, mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a profile card', () => {
   let wrapper: VueWrapper<InstanceType<typeof ProfileCard>>

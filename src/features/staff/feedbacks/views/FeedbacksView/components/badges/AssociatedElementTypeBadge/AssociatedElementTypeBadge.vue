@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { EAssociationContextType } from '@/api/avenir-esr'
-import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
 import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
 
 export interface AssociatedElementTypeBadgeProps {
   associatedElementType: EAssociationContextType

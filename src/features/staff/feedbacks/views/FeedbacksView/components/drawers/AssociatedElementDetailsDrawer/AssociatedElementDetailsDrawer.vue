@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
+import { useI18n } from 'vue-i18n'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { Drawer } from '@/common/components'
 import { DeclaredSkillDetails } from '@/features/student/declaredSkills'
 import DeclaredExperienceDetails from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
 import { StudentTraceDetails } from '@/features/student/traces'
-import { useI18n } from 'vue-i18n'
 
 export interface AssociatedElementDetailsDrawerProps {
   feedbackAssociatedElement: FeedbackAssociatedElement

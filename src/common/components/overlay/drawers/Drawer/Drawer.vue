@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import type { AvCancelConfirmButtonsProps, AvDrawerProps } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
-import { AvCancelConfirmButtons, type AvCancelConfirmButtonsProps, AvDrawer, type AvDrawerProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvCancelConfirmButtons, AvDrawer, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface DrawerProps extends AvDrawerProps {

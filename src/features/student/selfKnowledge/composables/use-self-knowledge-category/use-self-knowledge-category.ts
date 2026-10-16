@@ -1,7 +1,8 @@
+import type { MaybeRef } from 'vue'
 import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
-import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
-import { type MaybeRef, toValue } from 'vue'
+import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 
 export function useSelfKnowledgeCategory (categoryType: MaybeRef<ESelfKnowledgeCategory>) {
   const { t } = useI18n()

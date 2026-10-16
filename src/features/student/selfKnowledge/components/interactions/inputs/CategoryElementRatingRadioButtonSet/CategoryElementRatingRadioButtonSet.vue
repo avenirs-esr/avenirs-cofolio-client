@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Rating } from '@/common/components'
 import { AvRadioButton, AvRadioButtonSet } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { Rating } from '@/common/components'
 
 export interface CategoryElementRatingInputProps {
   legend?: string

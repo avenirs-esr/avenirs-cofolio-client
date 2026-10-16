@@ -1,5 +1,5 @@
-import type { ActivityResource } from '@/features/staff/activities/types/resource.types'
 import type { PropType } from 'vue'
+import type { ActivityResource } from '@/features/staff/activities/types/resource.types'
 import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 export const ActivityResourceCardStub = defineComponent({

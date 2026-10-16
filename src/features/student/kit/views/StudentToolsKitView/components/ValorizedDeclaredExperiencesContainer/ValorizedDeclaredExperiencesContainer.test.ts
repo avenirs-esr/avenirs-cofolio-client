@@ -1,4 +1,8 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { GetDeclaredExperienceViewParams, PagedResponseDeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { createMockedDeclaredExperiencesPagedResponse, mockedDeclaredExperiences } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import { createDeclaredExperienceViewHandler, declaredExperiencesQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -8,9 +12,6 @@ import { ValorizedElementsCardContainerStub } from '@/features/student/kit/compo
 import { ValorizedDeclaredExperienceItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperienceItem/ValorizedDeclaredExperienceItem.stub'
 import ValorizedDeclaredExperiencesContainer from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperiencesContainer/ValorizedDeclaredExperiencesContainer.vue'
 import { isProfessional } from '@/features/student/personalCareer/utils/experiences-utils/experiences-utils'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 
 interface ExperienceTypeScenario {
   professionalExperience: boolean

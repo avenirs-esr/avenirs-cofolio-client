@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { AddDeclaredProgramForm } from '@/features/student/personalCareer/types/forms.types'
-import DeclaredProgramSourceOfInformationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramSourceOfInformationInput/DeclaredProgramSourceOfInformationInput.vue'
 import { markRaw } from 'vue'
+import DeclaredProgramSourceOfInformationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramSourceOfInformationInput/DeclaredProgramSourceOfInformationInput.vue'
 
 interface DeclaredProgramSourceOfInformationFormFieldProps {
   form: AddDeclaredProgramForm

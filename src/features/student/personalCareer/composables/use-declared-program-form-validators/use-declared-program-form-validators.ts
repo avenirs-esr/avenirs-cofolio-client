@@ -1,5 +1,6 @@
+import type { ValidationOptions } from '@/common/composables/use-form-validators/use-form-validators'
 import type { DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
-import { useFormValidators, type ValidationOptions } from '@/common/composables/use-form-validators/use-form-validators'
+import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import {
   DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH,
   DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH,

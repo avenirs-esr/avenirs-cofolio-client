@@ -1,13 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { RouterLinkStub } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { mockGroupOverview, mockGroupOverviewWithParent } from '@/__mocks__/fixtures/staffs/groups.fixtures'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { ROUTES } from '@/common/constants'
 import { GroupTypeBadgeStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/badges/GroupTypeBadge/GroupTypeBadge.stub'
 import GroupCard from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/cards/GroupCard/GroupCard.vue'
-import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { RouterLinkStub } from '@vue/test-utils'
-import { mountWithRouter } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockIsTruncated = ref(false)
 

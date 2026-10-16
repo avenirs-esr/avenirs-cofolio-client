@@ -1,5 +1,8 @@
 import type { BaseApiException } from '@/common/exceptions'
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
+import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import {
   EAssociationContextType,
   EDeclaredSkillLevel,
@@ -13,9 +16,6 @@ import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-l
 import { useAssociationSelections } from '@/features/student/associations'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import { useToasterStore } from '@/store'
-import { useForm } from '@tanstack/vue-form'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 export function useDeclaredSkillForm (onSkillAdded?: () => void) {
   const { t } = useI18n()

@@ -1,14 +1,15 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { AddDeclaredExperienceForm, DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { useForm } from '@tanstack/vue-form'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { DatePeriodPickerStub } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.stub'
 import DeclaredExperiencePeriodFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperiencePeriodFormField/DeclaredExperiencePeriodFormField.vue'
 import {
   useDeclaredExperienceFormValidators
 } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const TestWrapper = defineComponent({
   components: {

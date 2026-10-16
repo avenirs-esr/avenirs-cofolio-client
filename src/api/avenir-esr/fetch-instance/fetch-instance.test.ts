@@ -1,8 +1,10 @@
-import { createCustomFetch, FetchInterceptorManager, type ResponseInterceptorContext } from '@/api/fetch'
-import { HttpStatusCode } from '@/common/utils'
+import type { MockedFunction } from 'vitest'
+import type { ResponseInterceptorContext } from '@/api/fetch'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
-import { afterEach, beforeEach, expect, type MockedFunction, vi } from 'vitest'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
+import { HttpStatusCode } from '@/common/utils'
 
 const mockAddRequestInterceptor = vi.fn()
 const mockAddResponseInterceptor = vi.fn()

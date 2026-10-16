@@ -1,13 +1,14 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { TraceFormData } from '@/features/student/traces'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { useForm } from '@tanstack/vue-form'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { ETraceAuthorType } from '@/api/avenir-esr'
 import { TraceAiJustificationTextareaStub } from '@/features/student/traces/components/interactions/inputs/TraceAiJustificationTextarea/TraceAiJustificationTextarea.stub'
 import { TraceAuthorTypeRadioSetStub } from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSet/TraceAuthorTypeRadioSet.stub'
 import { isTraceFileType } from '@/features/student/traces/utils/trace.types-guard'
 import CreateTraceFormDeclarationItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormDeclarationItems/CreateTraceFormDeclarationItems.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const TestWrapper = {
   components: { CreateTraceFormDeclarationItems },

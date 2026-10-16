@@ -1,5 +1,6 @@
+import type { Locator, Page } from '@playwright/test'
 import { AV_BREAKPOINTS } from '@e2e/framework/shared/utils/dimension'
-import { expect, type Locator, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 import { Given, Then, When } from 'playwright-bdd/decorators'
 
 export abstract class BasePage {

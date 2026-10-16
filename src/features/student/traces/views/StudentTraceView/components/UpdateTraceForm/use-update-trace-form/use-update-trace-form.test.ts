@@ -1,14 +1,15 @@
 import type { TraceDetailDTO } from '@/api/avenir-esr'
-import { invalidTraceId } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { updateTraceErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
-import { server } from '@/__mocks__/msw/server'
-import { ETraceAuthorType } from '@/api/avenir-esr'
-import { type TraceFormData, type TraceFormDataLink, TraceType } from '@/features/student/traces/types/traces.types'
-import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
+import type { TraceFormData, TraceFormDataLink } from '@/features/student/traces/types/traces.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { invalidTraceId } from '@/__mocks__/fixtures/student/traces.fixtures'
+import { updateTraceErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { ETraceAuthorType } from '@/api/avenir-esr'
+import { TraceType } from '@/features/student/traces/types/traces.types'
+import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
 
 const mockAddErrorMessage = vi.fn()
 const mockSetUpdateTraceForm = vi.fn()

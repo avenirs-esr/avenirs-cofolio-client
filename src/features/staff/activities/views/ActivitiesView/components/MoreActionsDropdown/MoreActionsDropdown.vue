@@ -1,9 +1,10 @@
 <script lang="ts" setup>
+import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import { useI18n } from 'vue-i18n'
 import { EActivityStatus } from '@/api/avenir-esr'
-import { Action, type ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
-import { useI18n } from 'vue-i18n'
 
 export interface MoreActionsDropdownProps {
   isLeader: boolean

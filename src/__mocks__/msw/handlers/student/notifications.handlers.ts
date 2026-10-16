@@ -1,8 +1,10 @@
+import type { PathParams } from 'msw'
+import type { PagedResponseNotificationDTO } from '@/api/avenir-esr'
+import { http, HttpResponse } from 'msw'
 import { createStudentMockedPagedResponseNotifications } from '@/__mocks__/fixtures/student/notifications.fixtures'
-import { EUserCategory, getGetNotificationsUrl, getMarkAsSeenUrl, type PagedResponseNotificationDTO } from '@/api/avenir-esr'
+import { EUserCategory, getGetNotificationsUrl, getMarkAsSeenUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils'
-import { http, HttpResponse, type PathParams } from 'msw'
 
 export const getStudentNotificationsErrorHandler = http.get(`*${getGetNotificationsUrl(EUserCategory.STUDENT)}`, () => {
   return HttpResponse.json(

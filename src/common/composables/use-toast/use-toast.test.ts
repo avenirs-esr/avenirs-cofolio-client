@@ -1,10 +1,11 @@
 import type { Ref } from 'vue'
-import { useBaseApiExceptionToast } from '@/common/composables/use-toast/use-toast'
-import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
+import type { BaseApiException } from '@/common/exceptions'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mockAddErrorMessage } from 'tests/mocks'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { useBaseApiExceptionToast } from '@/common/composables/use-toast/use-toast'
+import { BaseApiErrorCode } from '@/common/exceptions'
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()

@@ -1,21 +1,13 @@
+import type { FileDTO, PagedResponseTraceViewDTO, TraceConfigurationDTO, TraceDeclaredActivityDTO, TraceFilter, TraceOverviewDTO, TracesCreationResponse, TracesSummaryDTO, TracesViewParams, TraceViewDTO } from '@/api/avenir-esr'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { isAfter, isBefore, isSameDay, parseISO, startOfDay } from 'date-fns'
 import {
   EDeclaredActivityStatus,
   EFileType,
-  ETraceAuthorType,
-  type FileDTO,
-  type PagedResponseTraceViewDTO,
-  type TraceConfigurationDTO,
-  type TraceDeclaredActivityDTO,
-  type TraceFilter,
-  type TraceOverviewDTO,
-  type TracesCreationResponse,
-  type TracesSummaryDTO,
-  type TracesViewParams,
-  type TraceViewDTO
+  ETraceAuthorType
+
 } from '@/api/avenir-esr'
 import { getFileTypeFromFileName } from '@/common/utils/file/file'
-import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { isAfter, isBefore, isSameDay, parseISO, startOfDay } from 'date-fns'
 
 export const mockedTracesSummary: TracesSummaryDTO = {
   associated: 24,

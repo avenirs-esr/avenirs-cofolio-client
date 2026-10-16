@@ -1,9 +1,9 @@
-import DashboardCard, {
-  type DashboardCardProps
-} from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { DashboardCardProps } from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'
 import { AvCardStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import DashboardCard from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'
 
 BddTest().given('a dashboard card', () => {
   let wrapper: VueWrapper<InstanceType<typeof DashboardCard>>

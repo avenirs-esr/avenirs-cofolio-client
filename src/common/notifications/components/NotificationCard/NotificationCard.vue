@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
+import type { RouteLocationRaw } from 'vue-router'
+import { AvIcon, MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { RouterLink } from 'vue-router'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { useDateUtils } from '@/common/composables'
-import { AvIcon, MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { type RouteLocationRaw, RouterLink } from 'vue-router'
 
 export interface NotificationCardProps {
   id: string

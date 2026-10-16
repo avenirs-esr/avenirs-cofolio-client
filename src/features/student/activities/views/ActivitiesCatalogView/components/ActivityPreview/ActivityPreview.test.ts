@@ -1,4 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
+import type { ActivityPreviewProps } from '@/features/student/activities/views/ActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import { mockedActivityDetail, mockedSubscribedActivityDetail, mockedUnsubscribedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { EActivityStatus } from '@/api/avenir-esr'
 import { ActivityCatalogHeaderStub } from '@/common/activities/components/ActivityCatalogHeader/ActivityCatalogHeader.stub'
@@ -6,10 +10,7 @@ import { ActivityCatalogPreviewCardStub } from '@/common/activities/components/A
 import { ROUTES } from '@/common/constants'
 import { SubscribeActivityConfirmModalStub } from '@/features/student/activities/components/modals/SubscribeActivityConfirmModal/SubscribeActivityConfirmModal.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/activities/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
-import ActivityPreview, { type ActivityPreviewProps } from '@/features/student/activities/views/ActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
+import ActivityPreview from '@/features/student/activities/views/ActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
 
 BddTest().given('an activity preview', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityPreview>>

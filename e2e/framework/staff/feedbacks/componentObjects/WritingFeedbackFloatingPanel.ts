@@ -1,7 +1,8 @@
+import type { Locator } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { FeedbacksHistoryTab } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksHistoryTab'
-import { expect, type Locator } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class WritingFeedbackFloatingPanel extends BaseObject {
   constructor (root: Locator) {

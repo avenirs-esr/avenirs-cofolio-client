@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import type { EAssociationContextType } from '@/api/avenir-esr'
 import type { Association, AssociationSelections } from '@/features/student/associations/types/associations.types'
-import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import AssociationContextTypeSelect
   from '@/features/student/associations/components/interactions/AssociationContextTypeSelect/AssociationContextTypeSelect.vue'
 import AssociationSearchFilterSelect
@@ -9,7 +10,6 @@ import AssociationSearchFilterSelect
 import SearchAssociationLayout from '@/features/student/associations/components/interactions/SearchAssociationLayout/SearchAssociationLayout.vue'
 import { useAssociationSearch } from '@/features/student/associations/composables/use-association-search/use-association-search'
 import { getAssociableContextTypes } from '@/features/student/associations/utils/associations.utils'
-import { useI18n } from 'vue-i18n'
 
 export interface AssociationSelectionSectionProps {
   /** Context type of the element being created. */

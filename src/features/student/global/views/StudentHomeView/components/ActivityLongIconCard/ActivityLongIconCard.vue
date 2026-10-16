@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { ActivityOverviewDTO, DeclaredActivityViewDTO } from '@/api/avenir-esr'
+import { IX_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import LongIconCard from '@/common/components/cards/LongIconCard/LongIconCard.vue'
 import { ROUTES } from '@/common/constants'
-import { IX_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface ActivityLongIconCardProps {
   activity: ActivityOverviewDTO | DeclaredActivityViewDTO

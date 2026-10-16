@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import NodeTemplate, { type NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
+import type { NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
 import { AvInput } from '@avenirs-esr/avenirs-dsav'
+import NodeTemplate from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
 
 defineProps<NodeTemplateProps>()
 </script>

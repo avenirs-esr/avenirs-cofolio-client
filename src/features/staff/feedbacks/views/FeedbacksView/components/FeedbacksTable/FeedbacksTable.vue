@@ -1,7 +1,10 @@
 <script lang="ts" setup>
-import type { FeedbackStaffListItemDTO } from '@/api/avenir-esr'
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
+import type { FeedbackStaffListItemDTO } from '@/api/avenir-esr'
+import type { UsePaginatedStaffFeedbacksParams } from '@/features/staff/feedbacks/composables/use-paginated-staff-feedbacks/use-paginated-staff-feedbacks'
+import { AvButton, AvTable, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EFeedbackStatus } from '@/api/avenir-esr'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
@@ -9,10 +12,8 @@ import { useDateUtils } from '@/common/composables'
 import { ROUTES } from '@/common/constants'
 import FeedbackIterationBadge from '@/features/staff/feedbacks/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.vue'
 import FeedbackStatusBadge from '@/features/staff/feedbacks/components/badges/FeedbackStatusBadge/FeedbackStatusBadge.vue'
-import { usePaginatedStaffFeedbacks, type UsePaginatedStaffFeedbacksParams } from '@/features/staff/feedbacks/composables/use-paginated-staff-feedbacks/use-paginated-staff-feedbacks'
+import { usePaginatedStaffFeedbacks } from '@/features/staff/feedbacks/composables/use-paginated-staff-feedbacks/use-paginated-staff-feedbacks'
 import FeedbackCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbackCard/FeedbackCard.vue'
-import { AvButton, AvTable, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface FeedbacksTableProps {
   emptyStateMessage?: string

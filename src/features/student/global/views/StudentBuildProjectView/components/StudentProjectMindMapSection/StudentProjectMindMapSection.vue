@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { useModal } from '@/common/composables'
 import { ICONS } from '@/common/constants'
 import MindMap from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/MindMap.vue'
 import StudentProjectMindMapHelperModal
   from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectMindMapHelperModal/StudentProjectMindMapHelperModal.vue'
-import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 

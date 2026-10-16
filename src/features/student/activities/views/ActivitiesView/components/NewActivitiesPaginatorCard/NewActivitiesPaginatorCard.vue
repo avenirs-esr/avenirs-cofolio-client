@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+import { AvIconText, AvPagination, getPaginationPages, IX_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { useGetLatestActivitiesView } from '@/api/avenir-esr'
 import Card from '@/common/components/cards/Card/Card.vue'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import ActivityErrorMessage from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'
 import ActivityCard from '@/features/student/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
-import { AvIconText, AvPagination, getPaginationPages, IX_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 

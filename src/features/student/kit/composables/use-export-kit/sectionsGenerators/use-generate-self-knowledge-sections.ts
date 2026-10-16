@@ -1,6 +1,7 @@
-import { ESelfKnowledgeCategory, type SelfKnowledgeElementViewDTO, useGetSelfKnowledgeElements } from '@/api/avenir-esr'
+import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import { HeadingLevel, Paragraph, TextRun } from 'docx'
 import { useI18n } from 'vue-i18n'
+import { ESelfKnowledgeCategory, useGetSelfKnowledgeElements } from '@/api/avenir-esr'
 
 export function useGenerateSelfKnowledgeSections () {
   const { t } = useI18n()

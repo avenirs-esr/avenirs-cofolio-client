@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
@@ -10,7 +11,6 @@ import DeclaredProgramResultBadge
   from '@/features/student/personalCareer/components/badges/DeclaredProgramResultBadge/DeclaredProgramResultBadge.vue'
 import DeclaredProgramStatusBadge
   from '@/features/student/personalCareer/components/badges/DeclaredProgramStatusBadge/DeclaredProgramStatusBadge.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 const { declaredProgram } = defineProps<{ declaredProgram: DeclaredProgramViewDTO }>()
 

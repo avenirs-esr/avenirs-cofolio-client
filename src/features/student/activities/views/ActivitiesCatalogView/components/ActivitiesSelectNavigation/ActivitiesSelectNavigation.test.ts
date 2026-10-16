@@ -1,11 +1,12 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { EActivityThematic } from '@/api/avenir-esr'
 import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import ActivitiesSelectNavigation from '@/features/student/activities/views/ActivitiesCatalogView/components/ActivitiesSelectNavigation/ActivitiesSelectNavigation.vue'
-import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStudentActivitiesCatalogMock = vi.fn()
 const navigateToStudentWidgetActivityCatalogMock = vi.fn()

@@ -1,8 +1,9 @@
+import type { Locator } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { verifyTextLocator } from '@e2e/framework/shared/utils/text'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
-import { expect, type Locator } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class DeclaredSkillAssociationsObject extends BaseObject {
   constructor (protected root: Locator) {

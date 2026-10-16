@@ -1,8 +1,9 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { WritingFeedbackFloatingPanel } from '@e2e/framework/staff/feedbacks/componentObjects/WritingFeedbackFloatingPanel'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 import { Fixture, Then, When } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('staffActivityFeedbackDetailsPage')

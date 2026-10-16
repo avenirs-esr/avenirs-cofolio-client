@@ -1,9 +1,9 @@
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile, mockedTraceDetailedWithLink } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { isFeedbackTraceWithFile, isFeedbackTraceWithLink } from '@/features/staff/activities/utils/feedback.types-guard'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 const mockedFeedbackTraceWithFile: FeedbackAssociatedElement = {
   type: EAssociationContextType.TRACE,

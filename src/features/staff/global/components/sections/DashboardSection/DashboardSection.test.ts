@@ -1,12 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
-import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
-import { BaseApiException } from '@/common/exceptions'
-import DashboardSection from '@/features/staff/global/components/sections/DashboardSection/DashboardSection.vue'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
+import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
+import { BaseApiException } from '@/common/exceptions'
+import DashboardSection from '@/features/staff/global/components/sections/DashboardSection/DashboardSection.vue'
 
 BddTest().given('a DashboardSection component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DashboardSection>>

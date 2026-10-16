@@ -1,5 +1,5 @@
-import type { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
 import type { PropType } from 'vue'
+import type { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
 
 export const AddNationalActivitySideNavigationStub = defineComponent({
   name: 'AddNationalActivitySideNavigation',

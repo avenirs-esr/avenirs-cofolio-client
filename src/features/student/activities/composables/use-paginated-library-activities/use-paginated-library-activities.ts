@@ -1,6 +1,8 @@
-import { type DeclaredActivityViewDTO, type PageInfoDTO, useGetDeclaredActivitiesView } from '@/api/avenir-esr'
+import type { ComputedRef, Ref } from 'vue'
+import type { DeclaredActivityViewDTO, PageInfoDTO } from '@/api/avenir-esr'
+import { toValue } from 'vue'
+import { useGetDeclaredActivitiesView } from '@/api/avenir-esr'
 import { useInfiniteScrollPagination } from '@/common/composables'
-import { type ComputedRef, type Ref, toValue } from 'vue'
 
 export interface UsePaginatedLibraryActivitiesResult {
   activities: Ref<DeclaredActivityViewDTO[]>

@@ -1,3 +1,8 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mockAddErrorMessage } from 'tests/mocks'
+import { mountComposable } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import {
   createPutUpdateProfileCoverHandler,
   createPutUpdateProfileHandler,
@@ -13,11 +18,6 @@ import {
   useUpdateProfileCover,
   useUpdateProfilePhoto
 } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
-import { mockAddErrorMessage } from 'tests/mocks'
-import { mountComposable } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()

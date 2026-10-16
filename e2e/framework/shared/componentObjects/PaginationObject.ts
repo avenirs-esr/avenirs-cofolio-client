@@ -1,6 +1,7 @@
+import type { Locator } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { verifyLocatorDisabled, verifyLocatorEnabled } from '@e2e/framework/shared/utils/enabled'
-import { expect, type Locator } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class PaginationObject extends BaseObject {
   constructor (root: Locator) {

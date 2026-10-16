@@ -1,10 +1,10 @@
 import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
-import { largeLibraryActivitiesHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
-import { server } from '@/__mocks__/msw/server'
-import { usePaginatedLibraryActivities } from '@/features/student/activities/composables/use-paginated-library-activities/use-paginated-library-activities'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { largeLibraryActivitiesHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { usePaginatedLibraryActivities } from '@/features/student/activities/composables/use-paginated-library-activities/use-paginated-library-activities'
 
 BddTest().given('the usePaginatedLibraryActivities composable', () => {
   let composableResult: ReturnType<typeof usePaginatedLibraryActivities>

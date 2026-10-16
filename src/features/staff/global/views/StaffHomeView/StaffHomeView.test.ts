@@ -1,13 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import { ProfileCardStub } from '@/common/components/cards/ProfileCard/ProfileCard.stub'
 import { UpdateProfileDrawerStub } from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import { TutorialStub } from '@/common/components/overlay/tooltips/Tutorial/Tutorial.stub'
 import { ActivitiesWidgetStub } from '@/features/staff/global/views/StaffHomeView/components/ActivitiesWidget/ActivitiesWidget.stub'
 import { FeedbacksWidgetStub } from '@/features/staff/global/views/StaffHomeView/components/FeedbacksWidget/FeedbacksWidget.stub'
 import StaffHomeView from '@/features/staff/global/views/StaffHomeView/StaffHomeView.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a staff home view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StaffHomeView>>

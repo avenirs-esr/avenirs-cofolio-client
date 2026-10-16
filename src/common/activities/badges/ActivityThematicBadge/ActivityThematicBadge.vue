@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { EActivityThematic } from '@/api/avenir-esr'
-import { ICONS } from '@/common/constants'
 import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { EActivityThematic } from '@/api/avenir-esr'
+import { ICONS } from '@/common/constants'
 
 export interface ActivityThematicBadgeProps {
   thematic: EActivityThematic

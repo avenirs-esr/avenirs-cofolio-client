@@ -1,15 +1,17 @@
-import { EFileType, EUserCategory } from '@/api/avenir-esr'
-import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
-import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile'
-import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
-import { BaseApiErrorCode, type BaseApiException } from '@/common/exceptions'
+import type { MockedFunction } from 'vitest'
+import type { BaseApiException } from '@/common/exceptions'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { Exception } from 'sass-embedded'
 import { mockAddErrorMessage } from 'tests/mocks'
 import { mountComposable } from 'tests/utils'
-import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
+import { EFileType, EUserCategory } from '@/api/avenir-esr'
+import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
+import { useUpdateProfile, useUpdateProfileCover, useUpdateProfilePhoto } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile'
+import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
+import { BaseApiErrorCode } from '@/common/exceptions'
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { EFileType } from '@/api/avenir-esr'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { EFileType } from '@/api/avenir-esr'
 
 export interface TraceAttachmentTypeBadgeProps {
   fileType?: EFileType

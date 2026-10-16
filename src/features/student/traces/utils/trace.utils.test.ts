@@ -1,5 +1,5 @@
-import { getTraceComplementaryInfo } from '@/features/student/traces/utils/trace.utils'
 import { describe, expect, it } from 'vitest'
+import { getTraceComplementaryInfo } from '@/features/student/traces/utils/trace.utils'
 
 describe('getTraceComplementaryInfo', () => {
   it('should return the file name when the trace has an attachment', () => {

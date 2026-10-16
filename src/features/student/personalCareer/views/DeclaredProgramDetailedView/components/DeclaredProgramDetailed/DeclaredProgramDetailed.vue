@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
+import { useI18n } from 'vue-i18n'
 import { CreationUpdateDateDetails, DatePeriodPicker } from '@/common/components'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import DeclaredProgramDescriptionTextarea
@@ -12,7 +13,6 @@ import DeclaredProgramSourceOfInformationInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramSourceOfInformationInput/DeclaredProgramSourceOfInformationInput.vue'
 import DeclaredProgramTitleInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramTitleInput/DeclaredProgramTitleInput.vue'
-import { useI18n } from 'vue-i18n'
 
 export interface DeclaredProgramDetailedProps {
   declaredProgramDetailed: DeclaredProgramDetailedDTO

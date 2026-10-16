@@ -1,7 +1,8 @@
-import type { BaseApiException } from '@/common/exceptions'
 import type { Ref } from 'vue'
-import { type ErrorCode, ErrorCodes } from '@/common/constants'
+import type { ErrorCode } from '@/common/constants'
+import type { BaseApiException } from '@/common/exceptions'
 import { useI18n } from 'vue-i18n'
+import { ErrorCodes } from '@/common/constants'
 
 export function useApiErrors (errorRef?: Ref<BaseApiException> | Ref<null>) {
   const { t, te } = useI18n()

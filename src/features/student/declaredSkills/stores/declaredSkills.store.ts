@@ -1,6 +1,6 @@
-import { useDrawer } from '@/common/composables'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { defineStore } from 'pinia'
+import { useDrawer } from '@/common/composables'
 
 const DEFAULT_PAGE_SIZE = PageSizes.FOUR
 

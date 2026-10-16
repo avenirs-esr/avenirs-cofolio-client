@@ -1,13 +1,13 @@
-import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { ValorizedItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.stub'
 import ValorizedSelfKnowledgeItem
   from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedSelfKnowledgeItem/ValorizedSelfKnowledgeItem.vue'
 import { SelfKnowledgeCategoryBadgeStub } from '@/features/student/selfKnowledge/components/badges/SelfKnowledgeCategoryBadge/SelfKnowledgeCategoryBadge.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 
 const element: SelfKnowledgeElementViewDTO = {
   id: 'element-1',

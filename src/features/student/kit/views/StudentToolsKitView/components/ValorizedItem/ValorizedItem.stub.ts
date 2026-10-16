@@ -1,5 +1,5 @@
-import type { ValorizedElementType } from '@/features/student/kit/types/valorized.types'
 import type { PropType } from 'vue'
+import type { ValorizedElementType } from '@/features/student/kit/types/valorized.types'
 
 export const ValorizedItemStub = defineComponent({
   name: 'ValorizedItem',

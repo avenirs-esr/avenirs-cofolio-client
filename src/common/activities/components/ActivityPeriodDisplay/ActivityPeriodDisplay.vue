@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { AvLocale } from '@/types'
-import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
-import { formatDateLocalized, parseDate } from '@/common/utils'
 import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
+import { formatDateLocalized, parseDate } from '@/common/utils'
 
 export interface ActivityPeriodDisplayProps {
   startDate?: string

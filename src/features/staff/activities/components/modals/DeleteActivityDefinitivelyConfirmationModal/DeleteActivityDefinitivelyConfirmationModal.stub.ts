@@ -1,5 +1,5 @@
-import type { EActivityStatus } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { EActivityStatus } from '@/api/avenir-esr'
 
 export const DeleteActivityDefinitivelyConfirmationModalStub = defineComponent({
   name: 'DeleteActivityDefinitivelyConfirmationModal',

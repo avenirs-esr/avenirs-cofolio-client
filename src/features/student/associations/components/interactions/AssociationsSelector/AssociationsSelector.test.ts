@@ -1,3 +1,9 @@
+import type { AssociationsDTO } from '@/api/avenir-esr'
+import type { AssociationsSelectorProps } from '@/features/student/associations/components/interactions/AssociationsSelector/AssociationsSelector.vue'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import {
   createMockedDeclaredActivityAssociation,
   createMockedDeclaredExperienceAssociations,
@@ -5,19 +11,13 @@ import {
   createMockedTraceAssociations,
   mockedEmptyAssociations
 } from '@/__mocks__/fixtures/student/associations.fixtures'
-import { type AssociationsDTO, EAssociationContextType, EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { EAssociationContextType, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
 import { ICONS } from '@/common/constants'
-import AssociationsSelector, {
-  type AssociationsSelectorProps
-} from '@/features/student/associations/components/interactions/AssociationsSelector/AssociationsSelector.vue'
+import AssociationsSelector from '@/features/student/associations/components/interactions/AssociationsSelector/AssociationsSelector.vue'
 import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
 import { DeclaredExperienceTypeBadgeStub }
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.stub'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
 
 const stubs = {
   CompactCardSelector: CompactCardSelectorStub,

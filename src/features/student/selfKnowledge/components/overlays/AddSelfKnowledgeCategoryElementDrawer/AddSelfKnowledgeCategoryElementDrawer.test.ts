@@ -1,4 +1,9 @@
-import { ESelfKnowledgeCategory, type SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
+import type { SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
+import { AvAccordionStub, AvButtonStub, AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.stub'
 import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import { CategoryElementDescriptionTextareaFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementDescriptionTextareaFormField/CategoryElementDescriptionTextareaFormField.stub'
@@ -6,10 +11,6 @@ import { CategoryElementRatingRadioButtonSetFormFieldStub } from '@/features/stu
 import { CategoryElementTitleInputFormFieldStub } from '@/features/student/selfKnowledge/components/interactions/formFields/CategoryElementTitleInputFormField/CategoryElementTitleInputFormField.stub'
 import AddSelfKnowledgeCategoryElementDrawer from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/AddSelfKnowledgeCategoryElementDrawer.vue'
 import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
-import { AvAccordionStub, AvButtonStub, AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { createPinia, setActivePinia } from 'pinia'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()

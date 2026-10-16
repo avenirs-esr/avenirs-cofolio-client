@@ -1,10 +1,12 @@
 import type { AvDropdownItem } from '@avenirs-esr/avenirs-dsav'
+import type { VueWrapper } from '@vue/test-utils'
+import type { ManageEntityDropdownProps } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
+import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
 import { moreActionConfig } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.config'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
-import ManageEntityDropdown, { type ManageEntityDropdownProps } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
-import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 
 BddTest().given('a ManageEntityDropdown', () => {
   let wrapper: VueWrapper<InstanceType<typeof ManageEntityDropdown>>

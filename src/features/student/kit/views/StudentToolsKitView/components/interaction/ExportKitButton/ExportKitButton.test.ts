@@ -1,8 +1,9 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import ExportKitButton from '@/features/student/kit/views/StudentToolsKitView/components/interaction/ExportKitButton/ExportKitButton.vue'
 import { ExportKitModalStub } from '@/features/student/kit/views/StudentToolsKitView/components/overlay/ExportKitModal/ExportKitModal.stub'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockModalOpened = ref(false)
 const mockOpenModal = vi.fn()

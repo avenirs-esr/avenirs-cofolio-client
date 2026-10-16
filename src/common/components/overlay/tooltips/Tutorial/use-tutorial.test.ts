@@ -1,8 +1,8 @@
-import { useTutorial } from '@/common/components/overlay/tooltips/Tutorial/use-tutorial'
-import { ROUTES } from '@/common/constants'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { useTutorial } from '@/common/components/overlay/tooltips/Tutorial/use-tutorial'
+import { ROUTES } from '@/common/constants'
 
 const route = reactive<{ name: string }>({
   name: ROUTES.STAFF.HOME.name,

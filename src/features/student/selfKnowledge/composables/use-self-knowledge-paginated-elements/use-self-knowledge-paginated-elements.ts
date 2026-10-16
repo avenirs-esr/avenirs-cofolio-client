@@ -1,8 +1,10 @@
-import { type ESelfKnowledgeCategory, type GetSelfKnowledgeElementsParams, type PageInfoDTO, type SelfKnowledgeElementViewDTO, useGetSelfKnowledgeElements } from '@/api/avenir-esr'
+import type { ComputedRef, MaybeRef, Ref } from 'vue'
+import type { ESelfKnowledgeCategory, GetSelfKnowledgeElementsParams, PageInfoDTO, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { keepPreviousData } from '@tanstack/vue-query'
+import { toValue } from 'vue'
+import { useGetSelfKnowledgeElements } from '@/api/avenir-esr'
 import { useInfiniteScrollPagination } from '@/common/composables'
 import { CATEGORY_ELEMENTS_PAGE_SIZE, toSelfKnowledgeCategoriesParam } from '@/features/student/selfKnowledge/utils/category.utils'
-import { keepPreviousData } from '@tanstack/vue-query'
-import { type ComputedRef, type MaybeRef, type Ref, toValue } from 'vue'
 
 export interface UseSelfKnowledgePaginatedElementsParams {
   selfKnowledgeCategory: MaybeRef<ESelfKnowledgeCategory>

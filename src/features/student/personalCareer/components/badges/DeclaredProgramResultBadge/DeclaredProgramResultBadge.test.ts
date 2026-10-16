@@ -1,8 +1,9 @@
-import DeclaredProgramResultBadge
-  from '@/features/student/personalCareer/components/badges/DeclaredProgramResultBadge/DeclaredProgramResultBadge.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import DeclaredProgramResultBadge
+  from '@/features/student/personalCareer/components/badges/DeclaredProgramResultBadge/DeclaredProgramResultBadge.vue'
 
 const stubs = {
   AvBadge: AvBadgeStub

@@ -1,8 +1,9 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { DatePeriodPickerProps } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.vue'
-import DatePeriodPicker from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.vue'
 import { AvCheckboxStub, AvDatePickerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import DatePeriodPicker from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.vue'
 
 interface DatePeriodPickerModelValues {
   endDate?: string

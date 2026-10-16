@@ -1,17 +1,17 @@
+import type { MaybeRef } from '@vueuse/core'
 import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
-import type { MaybeRef } from '@vueuse/core'
+import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
+import { toValue } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { invalidateGetSelfKnowledgeElements, useCreateSelfKnowledgeElement } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH } from '@/features/student/buildProject/config'
 import { useToasterStore } from '@/store'
-import { useForm } from '@tanstack/vue-form'
-import { useQueryClient } from '@tanstack/vue-query'
-import { toValue } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 export function useAddSelfKnowledgeCategoryElementForm (
   selfKnowledgeCategory: MaybeRef<ESelfKnowledgeCategory>,

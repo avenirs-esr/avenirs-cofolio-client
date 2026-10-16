@@ -45,9 +45,9 @@ export interface AddActivityResourceLinkFormData {
   link: string
 }
 
-export type AddActivityResourceFormData =
-  | AddActivityResourceFileFormData
-  | AddActivityResourceLinkFormData
+export type AddActivityResourceFormData
+  = | AddActivityResourceFileFormData
+    | AddActivityResourceLinkFormData
 
 export type ActivityDraftCreationForm = AnyVueFormApi<ActivityDraftCreationFormData>
 export type ActivityDuplicationForm = AnyVueFormApi<ActivityDuplicationFormData>

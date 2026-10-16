@@ -1,9 +1,10 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import DeclaredProgramDescriptionTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramDescriptionTextarea/DeclaredProgramDescriptionTextarea.vue'
 import { DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH } from '@/features/student/personalCareer/config'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a declared program description textarea component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramDescriptionTextarea>>

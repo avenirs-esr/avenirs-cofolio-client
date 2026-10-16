@@ -1,3 +1,5 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { format, parseISO } from 'date-fns'
 import {
   formatDateLocalized,
   formatDateToYearLocalized,
@@ -10,8 +12,6 @@ import {
   getLocalizedAbbrMonth,
   parseDate
 } from '@/common/utils/date/date'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { format, parseISO } from 'date-fns'
 
 BddTest().given('a dateISO parser', () => {
   BddTest().when('receiving a valid formatted date', () => {

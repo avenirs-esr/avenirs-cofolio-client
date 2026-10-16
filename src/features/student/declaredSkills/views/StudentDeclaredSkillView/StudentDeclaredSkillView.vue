@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, useGetAssociations, useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
@@ -12,8 +14,6 @@ import DeclaredSkillDetails
 import DeclaredSkillSettingDropdown
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillSettingDropdown/DeclaredSkillSettingDropdown.vue'
 import DeleteDeclaredSkillConfirmModal from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeleteDeclaredSkillConfirmModal/DeleteDeclaredSkillConfirmModal.vue'
-import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 interface StudentDeclaredSkillViewProps {
   skillId: string

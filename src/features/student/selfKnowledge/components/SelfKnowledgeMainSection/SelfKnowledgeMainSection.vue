@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EUserCategory, useGetProfile, useGetSelfKnowledgeCategories } from '@/api/avenir-esr'
 import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
@@ -11,8 +13,6 @@ import AddSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/co
 import DeleteSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoriesModal/DeleteSelfKnowledgeCategoriesModal.vue'
 import AddSelfKnowledgeCategoryElementDrawer
   from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/AddSelfKnowledgeCategoryElementDrawer.vue'
-import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const {

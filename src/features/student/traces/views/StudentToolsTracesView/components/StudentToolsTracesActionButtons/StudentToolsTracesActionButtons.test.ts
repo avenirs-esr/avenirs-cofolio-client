@@ -1,14 +1,14 @@
-import type { TracesSummaryDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import type { TracesSummaryDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { DeleteTracesModalStub } from '@/features/student/traces/views/StudentToolsTracesView/components/DeleteTracesModal/DeleteTracesModal.stub'
 import StudentToolsTracesActionButtons from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesActionButtons/StudentToolsTracesActionButtons.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { createPinia, setActivePinia } from 'pinia'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a student tools traces action buttons component', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesActionButtons>>

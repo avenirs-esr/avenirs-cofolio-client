@@ -1,4 +1,6 @@
 import type { DeclaredActivityDetailsDTO, FeedbackOverviewDTO, UserInfoDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { expect } from 'vitest'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { EFeedbackStatus } from '@/api/avenir-esr'
 import {
@@ -8,8 +10,6 @@ import {
   isActivityFeedbackRequestsLimited,
   isActivityFeedbackRequestsUnlimited,
 } from '@/common/activities/rules/activity-feedbacks.rules'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { expect } from 'vitest'
 
 const baseUser: UserInfoDTO = {
   id: 'user-1',

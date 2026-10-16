@@ -1,6 +1,7 @@
-import Rating from '@/common/components/base/Rating/Rating.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import Rating from '@/common/components/base/Rating/Rating.vue'
 
 BddTest().given('a rating component', () => {
   BddTest().when('the component is rendered with a rating of 3', () => {

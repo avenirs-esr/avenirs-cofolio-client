@@ -1,6 +1,10 @@
+import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { TraceFormData } from '@/features/student/traces/types/traces.types'
-import { ELanguage, invalidateGetTraceDetail, invalidateTracesView, type TraceDetailDTO, useUpdateTrace, useUploadAttachment } from '@/api/avenir-esr'
+import { useForm, useStore } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
+import { ELanguage, invalidateGetTraceDetail, invalidateTracesView, useUpdateTrace, useUploadAttachment } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -10,9 +14,6 @@ import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { TraceType } from '@/features/student/traces/types/traces.types'
 import { isTraceFileType, isTraceLinkType } from '@/features/student/traces/utils/trace.types-guard'
 import { useToasterStore } from '@/store'
-import { useForm, useStore } from '@tanstack/vue-form'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 export function useUpdateTraceForm (trace?: TraceDetailDTO, onTraceUpdated?: () => void) {
   const { t } = useI18n()

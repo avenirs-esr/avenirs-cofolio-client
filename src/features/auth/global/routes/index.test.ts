@@ -1,3 +1,4 @@
+import { testRoute } from 'tests/utils'
 import { ROUTES } from '@/common/constants'
 import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityView.vue'
 import CguView from '@/common/views/CguView/CguView.vue'
@@ -5,7 +6,6 @@ import CookiesView from '@/common/views/CookiesView/CookiesView.vue'
 import PersonalDataView from '@/common/views/PersonalDataView/PersonalDataView.vue'
 import routes from '@/features/auth/global/routes'
 import LoginView from '@/features/auth/global/views/LoginView/LoginView.vue'
-import { testRoute } from 'tests/utils'
 
 const [root] = routes
 const children = root.children!

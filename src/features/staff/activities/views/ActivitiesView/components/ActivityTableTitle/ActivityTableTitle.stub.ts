@@ -1,5 +1,5 @@
-import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 import type { PropType } from 'vue'
+import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
 
 export const ActivityTableTitleStub = defineComponent({
   name: 'ActivityTableTitle',

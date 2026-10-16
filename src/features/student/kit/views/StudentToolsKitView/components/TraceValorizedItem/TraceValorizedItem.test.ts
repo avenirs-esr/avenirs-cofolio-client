@@ -1,5 +1,8 @@
-import type { TraceViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import type { TraceViewDTO } from '@/api/avenir-esr'
+import { AvButtonStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { EFileType, ETraceAuthorType } from '@/api/avenir-esr'
 import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import TraceValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/TraceValorizedItem/TraceValorizedItem.vue'
@@ -7,9 +10,6 @@ import { ValorizedItemStub } from '@/features/student/kit/views/StudentToolsKitV
 import { TraceAiProducedBadgeStub } from '@/features/student/traces/components/badges/TraceAiProducedBadge/TraceAiProducedBadge.stub'
 import { TraceAttachmentTypeBadgeStub } from '@/features/student/traces/components/badges/TraceAttachmentTypeBadge/TraceAttachmentTypeBadge.stub'
 import { TraceAuthorTypeBadgeStub } from '@/features/student/traces/components/badges/TraceAuthorTypeBadge/TraceAuthorTypeBadge.stub'
-import { AvButtonStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 
 const mockIsTruncated = ref(false)
 

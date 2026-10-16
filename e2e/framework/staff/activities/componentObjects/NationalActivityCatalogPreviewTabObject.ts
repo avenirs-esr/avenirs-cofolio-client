@@ -1,6 +1,7 @@
+import type { Page } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { verifyTextLocator } from '@e2e/framework/shared/utils/text'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class NationalActivityCatalogPreviewTabObject extends BaseObject {
   constructor (protected page: Page) {

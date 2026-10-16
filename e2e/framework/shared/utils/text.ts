@@ -1,4 +1,5 @@
-import { expect, type Locator } from '@playwright/test'
+import type { Locator } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export async function extractNumberFromText (locator: Locator): Promise<number> {
   const text = await locator.textContent()

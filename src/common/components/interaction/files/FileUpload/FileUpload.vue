@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import type { AvFileUploadProps } from '@avenirs-esr/avenirs-dsav'
+import type { ComputedRef, Slot } from 'vue'
 import type { AvLocale } from '@/types'
-import { formatFileSizeInMegabytes } from '@/common/utils/file/file'
-import { AvFileUpload, type AvFileUploadProps } from '@avenirs-esr/avenirs-dsav'
-import { type ComputedRef, type Slot, useAttrs } from 'vue'
+import { AvFileUpload } from '@avenirs-esr/avenirs-dsav'
+import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { formatFileSizeInMegabytes } from '@/common/utils/file/file'
 
 export interface FileUploadProps extends Omit<
   AvFileUploadProps,

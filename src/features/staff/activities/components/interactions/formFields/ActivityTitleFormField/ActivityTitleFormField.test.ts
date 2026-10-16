@@ -1,11 +1,12 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { ActivityDraftCreationForm } from '@/features/staff/activities/types/forms.types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { useForm } from '@tanstack/vue-form'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import ActivityTitleFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTitleFormField/ActivityTitleFormField.vue'
 import { ActivityTitleInputStub } from '@/features/staff/activities/components/interactions/inputs/ActivityTitleInput/ActivityTitleInput.stub'
 import { ACTIVITY_TITLE_MAX_LENGTH } from '@/features/staff/activities/config'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const TestWrapper = defineComponent({
   components: { ActivityTitleFormField },

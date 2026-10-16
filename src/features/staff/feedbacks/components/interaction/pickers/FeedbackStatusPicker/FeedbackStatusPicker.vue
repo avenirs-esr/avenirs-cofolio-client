@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { EFeedbackStatus } from '@/api/avenir-esr'
-import { AvTagPicker, type AvTagPickerOption } from '@avenirs-esr/avenirs-dsav'
+import type { AvTagPickerOption } from '@avenirs-esr/avenirs-dsav'
+import { AvTagPicker } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { EFeedbackStatus } from '@/api/avenir-esr'
 
 export interface FeedbackStatusPickerProps {
   totalFeedbacks: number

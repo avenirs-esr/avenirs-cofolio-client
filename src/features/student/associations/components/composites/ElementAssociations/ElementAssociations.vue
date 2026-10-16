@@ -1,18 +1,19 @@
 <script setup lang="ts">
+import type { Slot } from 'vue'
 import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import type { AssociationElementsDropdownItem } from '@/features/student/associations/components/interactions/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import type { AssociationLimitState } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
-import type { Slot } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { QuerySuspense } from '@/common/components'
 import { useModal } from '@/common/composables'
 import AssociatedElementsCard from '@/features/student/associations/components/cards/AssociatedElementsCard/AssociatedElementsCard.vue'
-import AssociationElementsDropdown, { type AssociationElementsDropdownItem } from '@/features/student/associations/components/interactions/AssociationElementsDropdown/AssociationElementsDropdown.vue'
+import AssociationElementsDropdown from '@/features/student/associations/components/interactions/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import AssociateModal from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
 import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import { useAssociationLimits } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import { EMPTY_ASSOCIATIONS } from '@/features/student/associations/constants/associations.constants'
 import { countAssociations, getAssociableContextTypes, getContextTypeSlug } from '@/features/student/associations/utils/associations.utils'
-import { useI18n } from 'vue-i18n'
 
 export interface ElementAssociationsProps {
   /** Context type of the element whose associations are displayed. */

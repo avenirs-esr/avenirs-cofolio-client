@@ -1,10 +1,10 @@
 <script setup lang="ts" generic="T extends AvAutocompleteOption, U extends IdTitle = IdTitle">
-import type { IdTitle } from '@/types'
 import type { AvAutocompleteOption, AvButtonProps, AvInputProps } from '@avenirs-esr/avenirs-dsav'
+import type { IdTitle } from '@/types'
+import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
 import SelectedAssociateItemsContainer
   from '@/features/student/associations/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.vue'
-import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 
 export interface SearchAssociationLayoutProps<T extends AvAutocompleteOption, U extends IdTitle = IdTitle> {
   options: T[]

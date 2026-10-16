@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
+import { AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { markRaw } from 'vue'
+import { useI18n } from 'vue-i18n'
 import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import Toggle from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
@@ -10,9 +14,6 @@ import {
   ACTIVITY_TRACE_SETTING_INFINITY_VALUE
 } from '@/features/staff/activities/config'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
-import { type AvInteractiveProps, AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { markRaw } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 interface ActivityTraceFormFieldProps extends AvInteractiveProps {
   form: EditActivityForm

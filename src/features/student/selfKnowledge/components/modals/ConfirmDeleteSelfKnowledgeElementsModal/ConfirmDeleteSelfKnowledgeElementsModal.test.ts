@@ -1,9 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
+import type { ConfirmDeleteSelfKnowledgeElementsModalProps } from '@/features/student/selfKnowledge/components/modals/ConfirmDeleteSelfKnowledgeElementsModal/ConfirmDeleteSelfKnowledgeElementsModal.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
-import ConfirmDeleteSelfKnowledgeElementsModal, { type ConfirmDeleteSelfKnowledgeElementsModalProps } from '@/features/student/selfKnowledge/components/modals/ConfirmDeleteSelfKnowledgeElementsModal/ConfirmDeleteSelfKnowledgeElementsModal.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
+import ConfirmDeleteSelfKnowledgeElementsModal from '@/features/student/selfKnowledge/components/modals/ConfirmDeleteSelfKnowledgeElementsModal/ConfirmDeleteSelfKnowledgeElementsModal.vue'
 
 BddTest().given('a confirm delete self knowledge element modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof ConfirmDeleteSelfKnowledgeElementsModal>>

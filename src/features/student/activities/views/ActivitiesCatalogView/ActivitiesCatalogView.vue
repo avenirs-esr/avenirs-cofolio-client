@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EActivityStatus, EActivityThematic, useGetActivityNavigation, useGetActivityPresentation } from '@/api/avenir-esr'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
@@ -12,8 +14,6 @@ import ActivitiesSideNavigation
   from '@/features/student/activities/views/ActivitiesCatalogView/components/ActivitiesSideNavigation/ActivitiesSideNavigation.vue'
 import ActivityPreview from '@/features/student/activities/views/ActivitiesCatalogView/components/ActivityPreview/ActivityPreview.vue'
 import { TanstackStaleTimeConfig } from '@/plugins/tanstack-query/config'
-import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface ActivitiesCatalogViewProps {
   thematic?: string

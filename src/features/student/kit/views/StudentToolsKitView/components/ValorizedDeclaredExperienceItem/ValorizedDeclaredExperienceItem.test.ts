@@ -1,11 +1,11 @@
-import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import { EExperienceType } from '@/api/avenir-esr'
-import { ROUTES } from '@/common/constants'
-import ValorizedDeclaredExperienceItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperienceItem/ValorizedDeclaredExperienceItem.vue'
+import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import { AvBadgeStub, AvButtonStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
+import { EExperienceType } from '@/api/avenir-esr'
+import { ROUTES } from '@/common/constants'
+import ValorizedDeclaredExperienceItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperienceItem/ValorizedDeclaredExperienceItem.vue'
 
 const mockIsTruncated = ref(false)
 

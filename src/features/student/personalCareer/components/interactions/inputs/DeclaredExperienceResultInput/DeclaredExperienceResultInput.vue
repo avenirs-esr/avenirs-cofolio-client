@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import Input, { type InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
-import { DECLARED_EXPERIENCE_RESULT_MAX_LENGTH } from '@/features/student/personalCareer/config'
+import type { InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
 import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import Input from '@/common/components/interaction/inputs/Input/Input.vue'
+import { DECLARED_EXPERIENCE_RESULT_MAX_LENGTH } from '@/features/student/personalCareer/config'
 
 type DeclaredExperienceResultInputProps = Omit<InputProps, 'maxlength'>
 

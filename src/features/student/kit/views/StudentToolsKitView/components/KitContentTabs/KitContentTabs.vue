@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import KitMultimediaContentTab
   from '@/features/student/kit/views/StudentToolsKitView/components/KitMultimediaContentTab/KitMultimediaContentTab.vue'
 import KitTextContentTab from '@/features/student/kit/views/StudentToolsKitView/components/KitTextContentTab/KitTextContentTab.vue'
-import { AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 

@@ -1,14 +1,15 @@
 <script setup lang="ts">
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { BaseApiException } from '@/common/exceptions'
 import type { ActivityResource } from '@/features/staff/activities/types/resource.types'
+import { AvCard, AvIcon, AvTag, AvTooltip, getAvTooltipContent, isAvTooltipEnabled, MDI_ICONS, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
+import { mergeProps } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useDownloadActivityFile, useDownloadDraftFile } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { downloadBlob } from '@/common/utils/download/download'
 import { isActivityResourceFile, isActivityResourceLink, isActivityResourcePendingFile } from '@/features/staff/activities/utils/resource.types-guard'
 import { useToasterStore } from '@/store'
-import { AvCard, AvIcon, type AvInteractiveProps, AvTag, AvTooltip, getAvTooltipContent, isAvTooltipEnabled, MDI_ICONS, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
-import { mergeProps } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 export interface ActivityResourceCardComponentProps extends AvInteractiveProps {
   activityId: string

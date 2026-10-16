@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { AvNavigation, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { ICONS, ROUTES, studentActivtiesRoutes, studentPersonalCareerRoutes, studentProjectBuildProjectRoutes, studentSkillsRoutes } from '@/common/constants'
 import { isRouteActive } from '@/common/utils/route/route'
 import { studentToolsTracesRoutes } from '@/features/student/traces/routes'
-import { AvNavigation, ICONS_DATA_URL, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const route = useRoute()

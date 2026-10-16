@@ -1,5 +1,6 @@
+import type { ScopeNodeResponse, StaffScopeResponse } from '@/api/avenir-esr'
 import type { ActivityTarget } from '@/features/staff/activities/types/activity-targets.types'
-import { type ScopeNodeResponse, ScopeNodeResponseType, type StaffScopeResponse } from '@/api/avenir-esr'
+import { ScopeNodeResponseType } from '@/api/avenir-esr'
 
 const TARGET_TYPES_ORDER: ScopeNodeResponseType[] = [
   ScopeNodeResponseType.PRIMARY,

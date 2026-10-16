@@ -1,10 +1,10 @@
 import type { FileDTO } from '@/api/avenir-esr'
-import { EFileType } from '@/api/avenir-esr'
-import { FEEDBACK_ATTACHMENT_MAX_FILE_SIZE, FEEDBACK_MAX_LENGTH } from '@/features/staff/feedbacks/config'
-import { useWriteFeedbackFormValidators } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form-validators/use-write-feedback-form-validators'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { EFileType } from '@/api/avenir-esr'
+import { FEEDBACK_ATTACHMENT_MAX_FILE_SIZE, FEEDBACK_MAX_LENGTH } from '@/features/staff/feedbacks/config'
+import { useWriteFeedbackFormValidators } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form-validators/use-write-feedback-form-validators'
 
 BddTest().given('a write feedback form validators composable', () => {
   let composableResult: ReturnType<typeof useWriteFeedbackFormValidators>

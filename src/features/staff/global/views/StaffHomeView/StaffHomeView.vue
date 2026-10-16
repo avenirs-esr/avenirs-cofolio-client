@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { AvRichButton, MDI_ICONS, useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
 import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
@@ -6,8 +8,6 @@ import Tutorial from '@/common/components/overlay/tooltips/Tutorial/Tutorial.vue
 import { useDrawer } from '@/common/composables/use-drawer/use-drawer'
 import ActivitiesWidget from '@/features/staff/global/views/StaffHomeView/components/ActivitiesWidget/ActivitiesWidget.vue'
 import FeedbacksWidget from '@/features/staff/global/views/StaffHomeView/components/FeedbacksWidget/FeedbacksWidget.vue'
-import { AvRichButton, MDI_ICONS, useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 useGlobalBackgroundColor('var(--surface-background)')
 const { t } = useI18n()

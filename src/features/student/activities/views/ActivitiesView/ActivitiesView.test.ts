@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import ActivitiesView from '@/features/student/activities/views/ActivitiesView/ActivitiesView.vue'
 import { ActivityLibraryTabStub } from '@/features/student/activities/views/ActivitiesView/components/ActivityLibraryTab/ActivityLibraryTab.stub'
 import { AllActivitiesTabStub } from '@/features/student/activities/views/ActivitiesView/components/AllActivitiesTab/AllActivitiesTab.stub'
-import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const routeQueryValue = ref<string>('ALL_ACTIVITIES')
 

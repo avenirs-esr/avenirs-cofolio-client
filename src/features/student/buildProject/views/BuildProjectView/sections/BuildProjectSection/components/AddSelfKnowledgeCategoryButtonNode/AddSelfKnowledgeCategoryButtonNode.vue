@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { MindMapNodeTemplateProps } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/mind-map-nodes.types'
+import { AvCheckbox, AvCheckboxesGroup, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useVueFlow } from '@vue-flow/core'
+import { useI18n } from 'vue-i18n'
 import { useGetSelfKnowledgeCategories, useGetSelfKnowledgeCategoriesAvailable } from '@/api/avenir-esr'
 import ButtonNodeTemplate from '@/common/components/base/VueFlow/ButtonNodeTemplate/ButtonNodeTemplate.vue'
 import { GLOBAL_NODE_HANDLES } from '@/common/components/base/VueFlow/global-nodes.types'
@@ -8,9 +11,6 @@ import { useNodes } from '@/common/composables/VueFlow/use-nodes/use-nodes'
 import { MIND_MAP_FLOW_ID } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/config'
 import { SELF_KNOWLEDGE_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/self-knowledge-nodes.types'
 import { useToasterStore } from '@/store'
-import { AvCheckbox, AvCheckboxesGroup, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useVueFlow } from '@vue-flow/core'
-import { useI18n } from 'vue-i18n'
 
 const { id } = defineProps<MindMapNodeTemplateProps>()
 

@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { AvInput, type AvInputProps } from '@avenirs-esr/avenirs-dsav'
-import { type ComputedRef, useAttrs } from 'vue'
+import type { AvInputProps } from '@avenirs-esr/avenirs-dsav'
+import type { ComputedRef } from 'vue'
+import { AvInput } from '@avenirs-esr/avenirs-dsav'
+import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface InputProps extends AvInputProps { }

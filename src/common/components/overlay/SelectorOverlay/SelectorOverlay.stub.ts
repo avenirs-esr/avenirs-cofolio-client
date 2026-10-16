@@ -1,5 +1,5 @@
-import type { SelectorOverlayElement } from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.vue'
 import type { PropType } from 'vue'
+import type { SelectorOverlayElement } from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.vue'
 import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 export const SelectorOverlayStub = defineComponent({

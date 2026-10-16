@@ -1,6 +1,7 @@
-import CategoryElementDescriptionTextarea from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementDescriptionTextarea/CategoryElementDescriptionTextarea.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import CategoryElementDescriptionTextarea from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementDescriptionTextarea/CategoryElementDescriptionTextarea.vue'
 
 BddTest().given('the CategoryElementDescriptionTextarea component', () => {
   let wrapper: VueWrapper<InstanceType<typeof CategoryElementDescriptionTextarea>>

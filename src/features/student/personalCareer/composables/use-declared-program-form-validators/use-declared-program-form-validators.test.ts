@@ -1,3 +1,6 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComposable } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import { useDeclaredProgramFormValidators } from '@/features/student/personalCareer/composables/use-declared-program-form-validators/use-declared-program-form-validators'
 import {
   DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH,
@@ -6,9 +9,6 @@ import {
   DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH,
   DECLARED_PROGRAM_TITLE_MAX_LENGTH
 } from '@/features/student/personalCareer/config'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComposable } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a declared program form validator composable', () => {
   let composableResult: ReturnType<typeof useDeclaredProgramFormValidators>

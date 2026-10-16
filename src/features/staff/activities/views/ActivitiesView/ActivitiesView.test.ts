@@ -1,11 +1,12 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { vi } from 'vitest'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import ActivitiesView from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.vue'
 import { MyWorkspaceTabStub } from '@/features/staff/activities/views/ActivitiesView/components/MyWorkspaceTab/MyWorkspaceTab.stub'
 import { StaffAllActivitiesTabStub } from '@/features/staff/activities/views/ActivitiesView/components/StaffAllActivitiesTab/StaffAllActivitiesTab.stub'
-import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { vi } from 'vitest'
 
 const routeQueryValue = ref<string>('MY_WORKSPACE')
 

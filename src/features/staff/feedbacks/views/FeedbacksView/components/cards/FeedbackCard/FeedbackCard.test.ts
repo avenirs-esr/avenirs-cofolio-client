@@ -1,12 +1,12 @@
 import type { FeedbackStaffListItemDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { EActivityStatus, EActivityThematic, EFeedbackStatus } from '@/api/avenir-esr'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { FeedbackIterationBadgeStub } from '@/features/staff/feedbacks/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.stub'
 import { FeedbackStatusBadgeStub } from '@/features/staff/feedbacks/components/badges/FeedbackStatusBadge/FeedbackStatusBadge.stub'
 import FeedbackCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbackCard/FeedbackCard.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockFormatLastModified = vi.fn((value: string) => `formatted-${value}`)
 const mockFormatTranslatedDateTime = vi.fn((value: string) => `translated-${value}`)

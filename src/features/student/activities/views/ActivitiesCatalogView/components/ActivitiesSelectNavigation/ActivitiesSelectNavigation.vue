@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import type { AvSelectOption, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
+import { AvSelect } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
 import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import { useNavigation } from '@/common/composables'
 import { isEnumMember } from '@/common/utils'
-import { AvSelect, type AvSelectOption, type AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface ActivitiesSelectNavigationProps {
   widget: boolean

@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { EFileType } from '@/api/avenir-esr'
-import TraceAttachmentTypeBadge from '@/features/student/traces/components/badges/TraceAttachmentTypeBadge/TraceAttachmentTypeBadge.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
+import { EFileType } from '@/api/avenir-esr'
+import TraceAttachmentTypeBadge from '@/features/student/traces/components/badges/TraceAttachmentTypeBadge/TraceAttachmentTypeBadge.vue'
 
 BddTest().given('a trace attachment type badge', () => {
   let wrapper: VueWrapper<InstanceType<typeof TraceAttachmentTypeBadge>>

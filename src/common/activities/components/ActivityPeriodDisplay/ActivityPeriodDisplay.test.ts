@@ -1,11 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
-import ActivityPeriodDisplay, {
-  type ActivityPeriodDisplayProps
-} from '@/common/activities/components/ActivityPeriodDisplay/ActivityPeriodDisplay.vue'
-import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
+import type { ActivityPeriodDisplayProps } from '@/common/activities/components/ActivityPeriodDisplay/ActivityPeriodDisplay.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import ActivityPeriodDisplay from '@/common/activities/components/ActivityPeriodDisplay/ActivityPeriodDisplay.vue'
+import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 
 BddTest().given('an activity period display component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityPeriodDisplay>>

@@ -1,5 +1,6 @@
+import type { Page } from '@playwright/test'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class NotificationsDropdown {
   constructor (private page: Page) {}

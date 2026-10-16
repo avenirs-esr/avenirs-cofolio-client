@@ -1,6 +1,10 @@
-import type { UpdateTraceForm as UpdateTraceFormType } from '@/features/student/traces/types/forms.types'
 import type { VueWrapper } from '@vue/test-utils'
-import { EFileType, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
+import type { TraceDetailDTO } from '@/api/avenir-esr'
+import type { UpdateTraceForm as UpdateTraceFormType } from '@/features/student/traces/types/forms.types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
+import { EFileType, ETraceAuthorType } from '@/api/avenir-esr'
 import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
 import { TraceAiJustificationTextareaFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceAiJustificationTextareaFormField/TraceAiJustificationTextareaFormField.stub'
 import { TraceAiUsageToggleFormFieldStub } from '@/features/student/traces/components/interactions/formFields/TraceAiUsageToggleFormField/TraceAiUsageToggleFormField.stub'
@@ -11,9 +15,6 @@ import { TracePersonalNoteTextareaFormFieldStub } from '@/features/student/trace
 import { TraceAuthorTypeRadioSetFormFieldStub } from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSetFormField/TraceAuthorTypeRadioSetFormField.stub'
 import { TraceType } from '@/features/student/traces/types/traces.types'
 import UpdateTraceForm from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/UpdateTraceForm.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()

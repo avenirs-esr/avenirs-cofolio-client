@@ -1,11 +1,11 @@
 import type { TraceFormData } from '@/features/student/traces/types/traces.types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComposable } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import { ETraceAuthorType } from '@/api/avenir-esr'
 import { useTraceFormValidators } from '@/features/student/traces/composables/use-trace-form-validators/use-trace-form-validators'
 import { TRACE_IA_JUSTIFICATION_MAX_LENGTH, TRACE_LINK_MAX_LENGTH, TRACE_NAME_MAX_LENGTH, TRACE_PERSONAL_NOTE_MAX_LENGTH } from '@/features/student/traces/config'
 import { TraceType } from '@/features/student/traces/types/traces.types'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComposable } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
 
 function buildLinkTraceFormData (overrides: Partial<TraceFormData> = {}): TraceFormData {
   return {

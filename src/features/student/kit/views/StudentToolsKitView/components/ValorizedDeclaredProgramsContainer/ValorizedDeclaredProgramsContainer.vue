@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useGetDeclaredPrograms } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import ValorizedElementsCardContainer from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.vue'
 import ValorizedDeclaredProgramItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredProgramItem/ValorizedDeclaredProgramItem.vue'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 

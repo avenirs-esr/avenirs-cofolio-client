@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
+import { useI18n } from 'vue-i18n'
 import { ConfirmationModal, CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
@@ -13,7 +14,6 @@ import {
   useUpdateSelfKnowledgeElementForm
 } from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/use-update-self-knowledge-element-form/use-update-self-knowledge-element-form'
 import { useToasterStore } from '@/store'
-import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementUpdateFormProps {
   element: SelfKnowledgeElementDetailsDTO

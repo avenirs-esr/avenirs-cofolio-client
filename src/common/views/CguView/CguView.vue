@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import type { RouteLocationRaw } from 'vue-router'
 import type { BaseApiException } from '@/common/exceptions'
 import type { AvLocale } from '@/types'
-import type { RouteLocationRaw } from 'vue-router'
+import { AvButton } from '@avenirs-esr/avenirs-dsav'
+import DOMPurify from 'dompurify'
+import { useI18n } from 'vue-i18n'
 import { useAcceptCgu, useGetLatestCgu } from '@/api/avenir-esr'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
@@ -11,9 +14,6 @@ import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors
 import { formatDateLocalized } from '@/common/utils'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 import { useToasterStore } from '@/store'
-import { AvButton } from '@avenirs-esr/avenirs-dsav'
-import DOMPurify from 'dompurify'
-import { useI18n } from 'vue-i18n'
 
 const { t, locale } = useI18n()
 const route = useRoute()

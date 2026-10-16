@@ -1,3 +1,9 @@
+import type { MockImageRun, MockParagraph } from '@/common/utils/docx/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComposable } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
+import { toValue } from 'vue'
 import { getEmptyProfileHandler, getProfileErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { server } from '@/__mocks__/msw/server'
 import {
@@ -5,16 +11,10 @@ import {
   createImageRunMock,
   createParagraphMock,
   createTextRunMock,
-  MockHeadingLevel,
-  type MockImageRun,
-  type MockParagraph,
+  MockHeadingLevel
+
 } from '@/common/utils/docx/test-utils'
 import { useGenerateProfileSection } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-profile-section'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
-import { mountComposable } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
-import { toValue } from 'vue'
 
 vi.mock('docx', () => ({
   Paragraph: vi.fn(createParagraphMock),

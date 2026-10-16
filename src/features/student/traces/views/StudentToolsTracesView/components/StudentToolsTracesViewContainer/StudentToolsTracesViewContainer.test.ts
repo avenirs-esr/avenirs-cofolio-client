@@ -1,4 +1,10 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { TracesSummaryDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { createTracesSummaryHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
@@ -8,11 +14,6 @@ import {
 import StudentToolsTracesViewContainer
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewContainer/StudentToolsTracesViewContainer.vue'
 import { StudentToolsTracesViewTabsStub } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewTabs/StudentToolsTracesViewTabs.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { createPinia, setActivePinia } from 'pinia'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a student tools traces view container', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentToolsTracesViewContainer>>

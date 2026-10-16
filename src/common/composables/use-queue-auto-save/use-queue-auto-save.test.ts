@@ -1,6 +1,7 @@
-import { useQueueAutoSave } from '@/common/composables/use-queue-auto-save/use-queue-auto-save'
+import type { Mock } from 'vitest'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { beforeEach, expect, type Mock, vi } from 'vitest'
+import { beforeEach, expect, vi } from 'vitest'
+import { useQueueAutoSave } from '@/common/composables/use-queue-auto-save/use-queue-auto-save'
 
 interface TestData {
   title?: string

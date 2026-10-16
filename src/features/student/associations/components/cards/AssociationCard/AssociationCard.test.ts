@@ -1,10 +1,12 @@
-import { ICONS } from '@/common/constants'
-import AssociationCard, { type AssociationCardProps } from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
-import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
+import type { VueWrapper } from '@vue/test-utils'
+import type { AssociationCardProps } from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
+import { RouterLinkStub } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { expect, vi } from 'vitest'
+import { ICONS } from '@/common/constants'
+import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
+import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 
 BddTest().given('an association card', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociationCard>>

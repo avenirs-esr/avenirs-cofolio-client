@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import type { AvButtonProps } from '@avenirs-esr/avenirs-dsav'
 import type { NodeProps } from '@vue-flow/core'
-import NodeTemplate, { type NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
-import { AvButton, type AvButtonProps } from '@avenirs-esr/avenirs-dsav'
-import { type Slot, useAttrs } from 'vue'
+import type { Slot } from 'vue'
+import type { NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
+import { AvButton } from '@avenirs-esr/avenirs-dsav'
+import { useAttrs } from 'vue'
+import NodeTemplate from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
 
 /**
  * Props for the ButtonNodeTemplate component.

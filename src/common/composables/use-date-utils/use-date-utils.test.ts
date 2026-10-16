@@ -1,8 +1,8 @@
-import { useDateUtils } from '@/common/composables/use-date-utils/use-date-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { subDays, subHours, subMinutes, subMonths, subSeconds, subWeeks, subYears } from 'date-fns'
 import { mountComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { useDateUtils } from '@/common/composables/use-date-utils/use-date-utils'
 
 const FIXED_NOW = new Date('2025-06-16T12:00:00.000Z')
 

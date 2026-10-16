@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { type ActivityFeedbacksPreviewDTO, type EFeedbackStatus, useGetActivitiesWithFeedbacks } from '@/api/avenir-esr'
-import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
-import { AvSelect, type AvSelectProps, type AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
+import type { AvSelectProps, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
+import type { ActivityFeedbacksPreviewDTO, EFeedbackStatus } from '@/api/avenir-esr'
+import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { until, watchIgnorable } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
+import { useGetActivitiesWithFeedbacks } from '@/api/avenir-esr'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 
 export interface FeedbackActivityFilterSelectProps extends Omit<AvSelectProps, 'options' | 'placeholder'> {
   defaultActivityId?: string

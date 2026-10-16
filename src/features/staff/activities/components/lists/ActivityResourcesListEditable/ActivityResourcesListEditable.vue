@@ -3,6 +3,8 @@ import type { FileDTO } from '@/api/avenir-esr'
 import type { ActivityResourcesListProps } from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.vue'
 import type { AddActivityResourceFormData } from '@/features/staff/activities/types/forms.types'
 import type { ActivityResource } from '@/features/staff/activities/types/resource.types'
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import ActivityResourceCard from '@/common/components/cards/ActivityResourceCard/ActivityResourceCard.vue'
 import AddCard from '@/common/components/cards/AddCard/AddCard.vue'
 import SelectorOverlay from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.vue'
@@ -11,8 +13,6 @@ import DeleteActivityResourcesConfirmationModal from '@/features/staff/activitie
 import { isActivityResourceFile, isActivityResourceLink, isActivityResourcePendingFile } from '@/features/staff/activities/utils/resource.types-guard'
 import AddActivityResourceModal from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/AddActivityResourceModal.vue'
 import { isActivityResourceFileType, isActivityResourceLinkType } from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/utils/resource-form.types-guard'
-import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface ActivityResourcesListEditableProps extends Omit<ActivityResourcesListProps, 'readonly'> {
   isFormDirty?: boolean

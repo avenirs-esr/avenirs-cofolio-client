@@ -1,11 +1,12 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { SideNavigationStub } from '@/common/components/navigation/SideNavigation/SideNavigation.stub'
 import { ROUTES } from '@/common/constants'
 import PersonalCareerLayout
   from '@/features/student/personalCareer/views/PersonalCareerView/layouts/PersonalCareerLayout/PersonalCareerLayout.vue'
-import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockReplace = vi.fn()
 const mockIsMobile = ref(false)

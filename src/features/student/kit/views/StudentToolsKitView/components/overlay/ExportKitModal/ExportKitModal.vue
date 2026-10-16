@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions'
+import type { UseExportKitFormData } from '@/features/student/kit/views/StudentToolsKitView/composables/use-export-kit-form/use-export-kit-form'
+import { AvCheckbox, AvCheckboxesGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { markRaw } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useDownloadMedia } from '@/api/avenir-esr'
 import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
@@ -10,13 +14,10 @@ import { KIT_NAME_MAX_LENGTH } from '@/features/student/kit/config'
 import { canExportKit } from '@/features/student/kit/rules/export-kit.rules'
 import {
   ExportKitOptions,
-  useExportKitForm,
-  type UseExportKitFormData
+  useExportKitForm
+
 } from '@/features/student/kit/views/StudentToolsKitView/composables/use-export-kit-form/use-export-kit-form'
 import { useToasterStore } from '@/store'
-import { AvCheckbox, AvCheckboxesGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { markRaw } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 export interface ExportKitModalProps {
   opened: boolean

@@ -1,3 +1,4 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import {
   mockedDevProgramOptionNode,
   mockedDevStudentGroupNode,
@@ -9,7 +10,6 @@ import {
 } from '@/__mocks__/fixtures/staffs/staff-scope.fixtures'
 import { ScopeNodeResponseType } from '@/api/avenir-esr'
 import { isInstitutionTargetType, scopeToActivityTargets } from '@/features/staff/activities/utils/activity-targets.utils'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 BddTest().given('activity targets utils', () => {
   BddTest().when('the staff scope is converted to targets', () => {

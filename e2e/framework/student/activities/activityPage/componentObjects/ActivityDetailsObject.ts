@@ -1,5 +1,6 @@
+import type { Locator } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
-import { expect, type Locator } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class ActivityDetailsObject extends BaseObject {
   constructor (protected root: Locator) {

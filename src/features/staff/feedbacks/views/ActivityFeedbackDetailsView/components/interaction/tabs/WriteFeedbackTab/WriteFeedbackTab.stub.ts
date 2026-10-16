@@ -1,5 +1,5 @@
-import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { FeedbackDetailsDTO } from '@/api/avenir-esr'
 
 export const WriteFeedbackTabStub = defineComponent({
   name: 'WriteFeedbackTab',

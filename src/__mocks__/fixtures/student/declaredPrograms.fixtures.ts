@@ -1,8 +1,8 @@
+import type { DeclaredProgramDetailedDTO, DeclaredProgramViewDTO, PagedResponseDeclaredProgramViewDTO } from '@/api/avenir-esr'
 import {
-  type DeclaredProgramDetailedDTO,
-  type DeclaredProgramViewDTO,
-  EProgramStatus,
-  type PagedResponseDeclaredProgramViewDTO
+
+  EProgramStatus
+
 } from '@/api/avenir-esr'
 
 export const declaredProgramViewDTOFixture: DeclaredProgramViewDTO = {

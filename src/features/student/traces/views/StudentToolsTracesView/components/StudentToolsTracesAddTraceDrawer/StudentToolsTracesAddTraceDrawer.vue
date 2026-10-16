@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { ConfirmationModal, Drawer, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
@@ -9,8 +11,6 @@ import CreateTraceFormDeclarationItems from '@/features/student/traces/views/Stu
 import CreateTraceFormTraceDefinitionItems from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/components/CreateTraceFormTraceDefinitionItems/CreateTraceFormTraceDefinitionItems.vue'
 import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 enum AddTraceAccordionGroupItems {
   TRACE = 0,

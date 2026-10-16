@@ -1,10 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
 import { TutorialStub } from '@/common/components/overlay/tooltips/Tutorial/Tutorial.stub'
 import { ActivitiesWidgetStub } from '@/features/student/global/views/StudentHomeView/components/ActivitiesWidget/ActivitiesWidget.stub'
 import StudentHomeView from '@/features/student/global/views/StudentHomeView/StudentHomeView.vue'
 import { TracesWidgetStub } from '@/features/student/traces/components/cards/TracesWidget/TracesWidget.stub'
 import { StudentOverviewWidgetStub } from '@/features/student/user/components/cards/StudentOverviewWidget/StudentOverviewWidget.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
 
 BddTest().given('a student home view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentHomeView>>

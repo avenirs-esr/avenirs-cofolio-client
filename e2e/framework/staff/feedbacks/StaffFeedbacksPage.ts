@@ -1,10 +1,11 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { FeedbacksTable } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksTable'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('staffFeedbacksPage')

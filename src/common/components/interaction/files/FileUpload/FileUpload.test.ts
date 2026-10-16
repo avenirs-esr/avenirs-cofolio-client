@@ -1,8 +1,8 @@
-import FileUpload from '@/common/components/interaction/files/FileUpload/FileUpload.vue'
 import { AvIconStub, AvModalStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
+import FileUpload from '@/common/components/interaction/files/FileUpload/FileUpload.vue'
 
 const existingFile = new File(['content'], 'existing.pdf', { type: 'application/pdf' })
 

@@ -1,8 +1,10 @@
-import { EFileType, type FileDTO } from '@/api/avenir-esr'
+import type { ComputedRef, MaybeRef } from 'vue'
+import type { FileDTO } from '@/api/avenir-esr'
+import { toValue } from 'vue'
+import { EFileType } from '@/api/avenir-esr'
 import { useDateUtils, useFileValidation } from '@/common/composables'
 import { dtoToFile } from '@/common/utils/file/file'
 import { TRACE_ACCEPTED_FILE_TYPES } from '@/features/student/traces/components/interactions/inputs/TraceFileUpload/types'
-import { type ComputedRef, type MaybeRef, toValue } from 'vue'
 
 const FIVE_MB = 5 * 1024 * 1024
 const TEN_MB = 10 * 1024 * 1024

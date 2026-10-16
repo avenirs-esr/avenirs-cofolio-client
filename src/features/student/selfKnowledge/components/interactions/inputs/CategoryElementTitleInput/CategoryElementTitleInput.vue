@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH } from '@/features/student/buildProject/config'
-import { AvInput, type AvInputProps } from '@avenirs-esr/avenirs-dsav'
+import type { AvInputProps } from '@avenirs-esr/avenirs-dsav'
+import { AvInput } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH } from '@/features/student/buildProject/config'
 
 interface CategoryElementTitleInputProps extends AvInputProps {
 }

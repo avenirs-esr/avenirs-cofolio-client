@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { startOfDay } from 'date-fns'
+import { useI18n } from 'vue-i18n'
 import { isActivityPeriodEditingDisabled } from '@/common/activities/rules/activities.rules'
 import FormCancelConfirmButtons from '@/common/components/interaction/buttons/FormCancelConfirmButtons/FormCancelConfirmButtons.vue'
 import Drawer from '@/common/components/overlay/drawers/Drawer/Drawer.vue'
@@ -12,9 +15,6 @@ import KitValorizationToggleFormField
   from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 import { useUpdateActivityForm } from '@/features/student/global/composables/use-update-activity-form/use-update-activity-form'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { startOfDay } from 'date-fns'
-import { useI18n } from 'vue-i18n'
 
 export interface UpdateActivityDrawerProps {
   show: boolean

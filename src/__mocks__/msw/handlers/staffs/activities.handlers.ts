@@ -12,6 +12,7 @@ import type {
   PagedResponseActivityFeedbacksPreviewDTO,
   PagedResponseActivityStaffOverviewDTO
 } from '@/api/avenir-esr'
+import { http, HttpResponse } from 'msw'
 import { getMockedActivitiesWithFeedbacksPaginated } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
 import {
   ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID,
@@ -51,7 +52,6 @@ import {
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
-import { http, HttpResponse } from 'msw'
 
 export const createActivityDraftErrorHandler = http.post(`*${getCreateActivityDraftUrl()}`, () => {
   return HttpResponse.json(

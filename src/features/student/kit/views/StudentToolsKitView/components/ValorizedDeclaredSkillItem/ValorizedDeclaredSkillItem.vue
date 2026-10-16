@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { DeclaredSkillProgressDTO } from '@/api/avenir-esr'
+import { useI18n } from 'vue-i18n'
 import { DeclaredSkillLevelBadge, DeclaredSkillTypeBadge } from '@/features/student/declaredSkills'
 import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import ValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.vue'
-import { useI18n } from 'vue-i18n'
 
 export interface ValorizedDeclaredSkillItemProps {
   declaredSkill: DeclaredSkillProgressDTO

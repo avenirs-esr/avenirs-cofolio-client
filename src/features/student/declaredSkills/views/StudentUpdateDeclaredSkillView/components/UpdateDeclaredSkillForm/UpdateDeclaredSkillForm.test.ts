@@ -1,11 +1,12 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvBadgeStub, AvCancelConfirmButtonsStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { DeclaredSkillLevelRadioButtonSetFormFieldStub } from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.stub'
 import UpdateDeclaredSkillForm from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
 import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
-import { AvBadgeStub, AvCancelConfirmButtonsStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockIsFormValid = ref(true)
 const mockIsSubmitting = ref(false)

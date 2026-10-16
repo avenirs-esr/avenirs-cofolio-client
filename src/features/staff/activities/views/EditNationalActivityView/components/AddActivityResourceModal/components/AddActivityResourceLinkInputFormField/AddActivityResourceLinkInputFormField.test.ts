@@ -1,12 +1,13 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { AddActivityResourceLinkFormData } from '@/features/staff/activities/types/forms.types'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import { ACTIVITY_RESOURCE_LINK_MAX_LENGTH } from '@/features/staff/activities/config'
 import AddActivityResourceLinkInputFormField from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/components/AddActivityResourceLinkInputFormField/AddActivityResourceLinkInputFormField.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { createFormFieldTestWrapper } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const TestWrapper = createFormFieldTestWrapper<AddActivityResourceLinkFormData, 'link'>({
   formFieldComponent: AddActivityResourceLinkInputFormField,

@@ -1,12 +1,13 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { EExperienceType } from '@/api/avenir-esr'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import DeclaredExperienceTypeFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.vue'
 import { DeclaredExperienceTypeSelectStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTypeSelect/DeclaredExperienceTypeSelect.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { createFormFieldTestWrapper } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const TestWrapper = createFormFieldTestWrapper<DeclaredExperienceFormData, 'type'>({
   formFieldComponent: DeclaredExperienceTypeFormField,

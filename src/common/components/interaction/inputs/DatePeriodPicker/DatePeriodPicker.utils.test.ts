@@ -1,7 +1,7 @@
 import type { AvDatePickerMonthModel } from '@avenirs-esr/avenirs-dsav'
-import { getDatePlaceholderKey, toOutputValue, toPickerValue } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { expect } from 'vitest'
+import { getDatePlaceholderKey, toOutputValue, toPickerValue } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.utils'
 
 BddTest().given('toPickerValue', () => {
   BddTest().when('the value is empty', () => {

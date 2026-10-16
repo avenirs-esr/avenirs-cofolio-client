@@ -1,7 +1,13 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import type {
   SectionNavigationItem,
 } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
+import { MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import {
   EActivityStatus,
   EActivityThematic,
@@ -25,11 +31,6 @@ import {
 import MyPerspectiveSection
   from '@/features/student/activities/views/ActivityView/components/MyPerspectiveSection/MyPerspectiveSection.vue'
 import { ActivitySections } from '@/features/student/activities/views/ActivityView/types'
-import { MS_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const { routeMock, replaceMock } = vi.hoisted(() => ({
   routeMock: {

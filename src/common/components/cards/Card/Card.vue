@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { AvCard, type AvCardProps } from '@avenirs-esr/avenirs-dsav'
-import { type ComputedRef, type Slot, useAttrs } from 'vue'
+import type { AvCardProps } from '@avenirs-esr/avenirs-dsav'
+import type { ComputedRef, Slot } from 'vue'
+import { AvCard } from '@avenirs-esr/avenirs-dsav'
+import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface CardProps extends Omit<AvCardProps, 'collapseLabel' | 'expandLabel'> { }

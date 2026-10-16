@@ -1,4 +1,6 @@
+import type { ActivityNavigationDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, PagedResponseActivityOverviewDTO, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { delay, http, HttpResponse } from 'msw'
 import {
   activitiesNavigationMock,
   createLargeMockedPagedResponseDeclaredActivityViewDTO,
@@ -12,9 +14,7 @@ import {
 } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
-  type ActivityNavigationDTO,
-  type ActivityPresentationDTO,
-  type DeclaredActivityDetailsDTO,
+
   EActivityStatus,
   EDeclaredActivityStatus,
   EErrorCode,
@@ -30,14 +30,12 @@ import {
   getSubscribeActivityUrl,
   getUnsubscribeActivitiesProgressesUrl,
   getUpdateDeclaredActivityUrl,
-  getUpdateReflectionUrl,
-  type PagedResponseActivityOverviewDTO,
-  type PagedResponseDeclaredActivityViewDTO
+  getUpdateReflectionUrl
+
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/config'
-import { delay, http, HttpResponse } from 'msw'
 
 const subscribedActivities = new Set<string>()
 const declaredActivityDetailsOverrides = new Map<string, Partial<DeclaredActivityDetailsDTO>>()

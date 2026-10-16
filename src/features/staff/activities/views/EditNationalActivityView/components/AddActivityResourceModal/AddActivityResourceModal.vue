@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { AddActivityResourceFormData } from '@/features/staff/activities/types/forms.types'
+import { AvModal } from '@avenirs-esr/avenirs-dsav'
+import { useForm } from '@tanstack/vue-form'
+import { useI18n } from 'vue-i18n'
 import { useFileValidation } from '@/common/composables/use-file-validation/use-file-validation'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { getFileExtension, renameFile, stripExtension } from '@/common/utils/file/file'
@@ -15,9 +18,6 @@ import AddActivityResourceLinkInputFormField from '@/features/staff/activities/v
 import AddActivityResourceNameInputFormField from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/components/AddActivityResourceNameInputFormField/AddActivityResourceNameInputFormField.vue'
 import AddActivityResourceTypeSelectFormField from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/components/AddActivityResourceTypeSelectFormField/AddActivityResourceTypeSelectFormField.vue'
 import { isActivityResourceFileType, isActivityResourceLinkType } from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/utils/resource-form.types-guard'
-import { AvModal } from '@avenirs-esr/avenirs-dsav'
-import { useForm } from '@tanstack/vue-form'
-import { useI18n } from 'vue-i18n'
 
 interface AddActivityResourceModalProps {
   opened: boolean

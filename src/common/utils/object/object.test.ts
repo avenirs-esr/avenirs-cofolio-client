@@ -1,6 +1,6 @@
-import { removeEmpty } from '@/common/utils/object/object'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { removeEmpty } from '@/common/utils/object/object'
 
 BddTest().given('a removeEmpty utility function', () => {
   let input: Record<string, any>

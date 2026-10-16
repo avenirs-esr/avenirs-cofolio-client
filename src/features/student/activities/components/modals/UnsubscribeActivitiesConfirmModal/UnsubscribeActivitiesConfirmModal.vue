@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import type { IdTitleList } from '@/types'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import {
   EActivityStatus,
   invalidateGetActivitiesView,
@@ -15,8 +17,6 @@ import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { TanstackStaleTimeConfig } from '@/plugins/tanstack-query/config'
 import { useToasterStore } from '@/store'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 export interface UnsubscribeActivitiesConfirmModalProps {
   opened: boolean

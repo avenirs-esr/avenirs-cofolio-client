@@ -1,6 +1,7 @@
+import type { Page } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class DeleteDraftActivityConfirmationModal extends BaseObject {
   constructor (protected page: Page) {

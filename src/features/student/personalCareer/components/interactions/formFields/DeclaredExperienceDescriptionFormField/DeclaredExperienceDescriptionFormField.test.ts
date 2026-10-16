@@ -1,4 +1,9 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import DeclaredExperienceDescriptionFormField
   from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceDescriptionFormField/DeclaredExperienceDescriptionFormField.vue'
 import { DeclaredExperienceDescriptionTextareaStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceDescriptionTextarea/DeclaredExperienceDescriptionTextarea.stub'
@@ -6,10 +11,6 @@ import {
   useDeclaredExperienceFormValidators
 } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { DECLARED_EXPERIENCE_DESCRIPTION_MAX_LENGTH } from '@/features/student/personalCareer/config'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { createFormFieldTestWrapper } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const TestWrapper = createFormFieldTestWrapper<DeclaredExperienceFormData, 'description'>({
   formFieldComponent: DeclaredExperienceDescriptionFormField,

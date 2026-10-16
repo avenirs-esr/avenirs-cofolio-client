@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { EDeclaredActivityStatus } from '@/api/avenir-esr'
-import FinishDeclaredActivity from '@/features/student/activities/views/ActivityView/components/FinishDeclaredActivity/FinishDeclaredActivity.vue'
-import { FinishDeclaredActivityConfirmModalStub } from '@/features/student/activities/views/ActivityView/components/overlays/FinishDeclaredActivityConfirmModal/FinishDeclaredActivityConfirmModal.stub'
 import { AvBadgeStub, AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { getAvButtonByTestId, mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import FinishDeclaredActivity from '@/features/student/activities/views/ActivityView/components/FinishDeclaredActivity/FinishDeclaredActivity.vue'
+import { FinishDeclaredActivityConfirmModalStub } from '@/features/student/activities/views/ActivityView/components/overlays/FinishDeclaredActivityConfirmModal/FinishDeclaredActivityConfirmModal.stub'
 
 BddTest().given('a FinishDeclaredActivity component', () => {
   let wrapper: VueWrapper<InstanceType<typeof FinishDeclaredActivity>>

@@ -1,7 +1,7 @@
+import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import type { EDeclaredSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
 import type { AssociationSelections } from '@/features/student/associations/types/associations.types'
 import type { IdTitle } from '@/types'
-import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 
 export interface DeclaredSkillOption extends AvAutocompleteOption, IdTitle {
   pathSegments: string[]

@@ -1,9 +1,10 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { ActivityDetailsObject } from '@e2e/framework/student/activities/activityPage/componentObjects/ActivityDetailsObject'
 import { MyPerspectiveSectionObject } from '@e2e/framework/student/activities/activityPage/componentObjects/MyPerspectiveSectionObject'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 import { Fixture, Then, When } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('studentActivityPage')

@@ -1,8 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import SideMenu, { type SideMenuProps } from '@/common/components/navigation/SideMenu/SideMenu.vue'
+import type { SideMenuProps } from '@/common/components/navigation/SideMenu/SideMenu.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { expect } from 'vitest'
+import SideMenu from '@/common/components/navigation/SideMenu/SideMenu.vue'
 
 const AvSideMenuStub = defineComponent({
   name: 'AvSideMenu',

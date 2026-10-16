@@ -1,4 +1,9 @@
-import { type DeclaredActivityViewDTO, EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
+import type { VueWrapper } from '@vue/test-utils'
+import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount, RouterLinkStub } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
+import { EActivityThematic, EDeclaredActivityStatus } from '@/api/avenir-esr'
 import {
   ActivityThematicBadgeStub
 } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
@@ -10,9 +15,6 @@ import {
 } from '@/features/student/activities/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.stub'
 import ActivityLibraryCard from '@/features/student/activities/views/ActivitiesView/components/ActivityLibraryCard/ActivityLibraryCard.vue'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockIsMobile = ref(false)
 

@@ -1,7 +1,7 @@
-import { BaseApiErrorCode } from '@/common/exceptions/base-api-error-codes'
-import { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { expect } from 'vitest'
+import { BaseApiErrorCode } from '@/common/exceptions/base-api-error-codes'
+import { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 
 BddTest().given('a baseApiException', () => {
   BddTest().when('creating the new BaseApiException', () => {

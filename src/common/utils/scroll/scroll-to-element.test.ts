@@ -1,6 +1,6 @@
-import { scrollToElement } from '@/common/utils/scroll/scroll-to-element'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { vi } from 'vitest'
+import { scrollToElement } from '@/common/utils/scroll/scroll-to-element'
 
 BddTest().given('scrollToElement function', () => {
   BddTest().when('called with an existing element id', () => {

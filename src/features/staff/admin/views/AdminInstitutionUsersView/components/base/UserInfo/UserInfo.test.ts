@@ -1,8 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import UserInfo, { type UserInfoProps } from '@/features/staff/admin/views/AdminInstitutionUsersView/components/base/UserInfo/UserInfo.vue'
+import type { UserInfoProps } from '@/features/staff/admin/views/AdminInstitutionUsersView/components/base/UserInfo/UserInfo.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import UserInfo from '@/features/staff/admin/views/AdminInstitutionUsersView/components/base/UserInfo/UserInfo.vue'
 
 BddTest().given('a user information component', () => {
   let wrapper: VueWrapper<InstanceType<typeof UserInfo>>

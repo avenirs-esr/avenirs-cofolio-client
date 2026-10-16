@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import type { AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
 import type { EExperienceType } from '@/api/avenir-esr'
 import type { SortValue } from '@/common/types'
+import { AvIconText } from '@avenirs-esr/avenirs-dsav'
+import { keepPreviousData } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import { ESortField, ESortOrder, useGetDeclaredExperienceView } from '@/api/avenir-esr'
 import { Pagination, SortSelect } from '@/common/components'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
@@ -15,9 +19,6 @@ import DeclaredExperiencesMoreActionsDropdown
   from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesMoreActionsDropdown/DeclaredExperiencesMoreActionsDropdown.vue'
 import DeleteDeclaredExperiencesModal from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeleteDeclaredExperiencesModal/DeleteDeclaredExperiencesModal.vue'
 import ExperienceTypeMultiselect from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/ExperienceTypeMultiselect/ExperienceTypeMultiselect.vue'
-import { AvIconText, type AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
-import { keepPreviousData } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const personalCareerStore = usePersonalCareerStore()

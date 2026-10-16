@@ -1,8 +1,8 @@
-import { useActivitiesStore } from '@/features/student/activities/stores/activities.store'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, expect } from 'vitest'
+import { useActivitiesStore } from '@/features/student/activities/stores/activities.store'
 
 BddTest().given('an activities store', () => {
   let store: ReturnType<typeof useActivitiesStore>

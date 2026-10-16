@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AvSideMenu, type AvSideMenuProps } from '@avenirs-esr/avenirs-dsav'
+import type { AvSideMenuProps } from '@avenirs-esr/avenirs-dsav'
+import { AvSideMenu } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 

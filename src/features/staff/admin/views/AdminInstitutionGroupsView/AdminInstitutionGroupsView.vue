@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { EGroupType, type GroupOverviewDTO } from '@/api/avenir-esr'
+import type { GroupOverviewDTO } from '@/api/avenir-esr'
+import { useI18n } from 'vue-i18n'
+import { EGroupType } from '@/api/avenir-esr'
 import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import GroupsList from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsList/GroupsList.vue'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 

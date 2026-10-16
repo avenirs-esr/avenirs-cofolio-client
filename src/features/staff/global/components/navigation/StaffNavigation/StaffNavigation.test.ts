@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { ICONS } from '@/common/constants'
-import StaffNavigation from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.vue'
-import router from '@/router'
 import { MDI_ICONS, registerNavigationLinkKey } from '@avenirs-esr/avenirs-dsav'
 import { AvNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { ICONS } from '@/common/constants'
+import StaffNavigation from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.vue'
+import router from '@/router'
 
 BddTest().given('a staff navigation', () => {
   let wrapper: VueWrapper<InstanceType<typeof StaffNavigation>>

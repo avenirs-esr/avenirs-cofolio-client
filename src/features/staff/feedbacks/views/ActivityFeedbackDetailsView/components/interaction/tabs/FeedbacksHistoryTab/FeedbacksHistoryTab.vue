@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { useI18n } from 'vue-i18n'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import FeedbackHistoryCard from '@/features/staff/feedbacks/components/cards/FeedbackHistoryCard/FeedbackHistoryCard.vue'
-import { useI18n } from 'vue-i18n'
 
 export interface FeedbacksHistoryTabProps {
   feedbacks: FeedbackOverviewDTO[]

@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useGetDeclaredExperienceView } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { ProBasedExperienceType } from '@/features/student/global/types/experiences.types'
 import ValorizedElementsCardContainer from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.vue'
 import ValorizedDeclaredExperienceItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredExperienceItem/ValorizedDeclaredExperienceItem.vue'
 import { isProfessional } from '@/features/student/personalCareer/utils/experiences-utils/experiences-utils'
-import { useI18n } from 'vue-i18n'
 
 export interface ValorizedDeclaredExperiencesContainerProps {
   professionalExperience: boolean

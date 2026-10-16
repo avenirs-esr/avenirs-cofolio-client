@@ -1,5 +1,5 @@
-import type { IdTitle } from '@/types'
 import type { PropType } from 'vue'
+import type { IdTitle } from '@/types'
 
 export const CompactCardStub = defineComponent({
   name: 'CompactCard',

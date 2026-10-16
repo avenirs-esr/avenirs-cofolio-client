@@ -1,8 +1,8 @@
-import { useStudentUserStore } from '@/features/student/user/stores/user.store'
-import { getBrowserLocale, i18n } from '@/plugins/vue-i18n'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { useStudentUserStore } from '@/features/student/user/stores/user.store'
+import { getBrowserLocale, i18n } from '@/plugins/vue-i18n'
 
 BddTest().given('a student user shared store', () => {
   let store: ReturnType<typeof useStudentUserStore>

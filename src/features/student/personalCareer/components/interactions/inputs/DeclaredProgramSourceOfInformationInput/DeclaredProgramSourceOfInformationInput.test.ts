@@ -1,11 +1,12 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import { ICONS } from '@/common/constants'
 import DeclaredProgramSourceOfInformationInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredProgramSourceOfInformationInput/DeclaredProgramSourceOfInformationInput.vue'
 import { DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a declared program source of information input', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramSourceOfInformationInput>>

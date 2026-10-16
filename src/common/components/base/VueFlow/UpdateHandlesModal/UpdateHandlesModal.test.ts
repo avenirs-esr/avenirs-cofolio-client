@@ -1,11 +1,13 @@
-import { UpdateHandleSelectorStub } from '@/common/components/base/VueFlow/UpdateHandleSelector/UpdateHandleSelector.stub'
-import UpdateHandlesModal, { type UpdateHandlesModalProps } from '@/common/components/base/VueFlow/UpdateHandlesModal/UpdateHandlesModal.vue'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
-import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
+import type { VueWrapper } from '@vue/test-utils'
+import type { UpdateHandlesModalProps } from '@/common/components/base/VueFlow/UpdateHandlesModal/UpdateHandlesModal.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { Position } from '@vue-flow/core'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { UpdateHandleSelectorStub } from '@/common/components/base/VueFlow/UpdateHandleSelector/UpdateHandleSelector.stub'
+import UpdateHandlesModal from '@/common/components/base/VueFlow/UpdateHandlesModal/UpdateHandlesModal.vue'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
+import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 
 const mockIsMobile = ref(false)
 const mockUpdateNode = vi.fn()

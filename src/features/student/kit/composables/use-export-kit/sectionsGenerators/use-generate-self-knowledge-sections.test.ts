@@ -1,14 +1,15 @@
 import type { GetDeclaredProgramsParams } from '@/api/avenir-esr'
-import { createMixedCategoriesResponse } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
-import { createSelfKnowledgeElementsHandler, selfKnowledgeCategoryElementsErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
-import { server } from '@/__mocks__/msw/server'
-import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
-import { createParagraphMock, createTextRunMock, MockHeadingLevel, type MockParagraph } from '@/common/utils/docx/test-utils'
-import { useGenerateSelfKnowledgeSections } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-self-knowledge-sections'
+import type { MockParagraph } from '@/common/utils/docx/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { createMixedCategoriesResponse } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
+import { createSelfKnowledgeElementsHandler, selfKnowledgeCategoryElementsErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
+import { createParagraphMock, createTextRunMock, MockHeadingLevel } from '@/common/utils/docx/test-utils'
+import { useGenerateSelfKnowledgeSections } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-self-knowledge-sections'
 
 vi.mock('docx', () => ({
   Paragraph: vi.fn(createParagraphMock),

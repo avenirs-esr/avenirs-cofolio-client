@@ -1,12 +1,13 @@
-import { useGetStaffActivityLibrary } from '@/api/avenir-esr'
-import { ActivitiesTabStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.stub'
-import StaffAllActivitiesTab from '@/features/staff/activities/views/ActivitiesView/components/StaffAllActivitiesTab/StaffAllActivitiesTab.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
+import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
+import { useGetStaffActivityLibrary } from '@/api/avenir-esr'
+import { ActivitiesTabStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.stub'
+import StaffAllActivitiesTab from '@/features/staff/activities/views/ActivitiesView/components/StaffAllActivitiesTab/StaffAllActivitiesTab.vue'
 
 vi.mock('@/features/staff/activities/stores/activities.store', () => ({
   useStaffActivitiesStore: () => ({

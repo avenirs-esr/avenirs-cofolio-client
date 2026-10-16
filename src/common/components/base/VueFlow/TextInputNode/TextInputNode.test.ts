@@ -1,10 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach } from 'vitest'
 import { NodeTemplateStub } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.stub'
 import TextInputNode from '@/common/components/base/VueFlow/TextInputNode/TextInputNode.vue'
 import { mandatoryNodeTemplateProps } from '@/common/utils/vue-flow/vue-flow-test'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach } from 'vitest'
 
 const AvInputStub = defineComponent({
   name: 'AvInput',

@@ -1,5 +1,6 @@
+import type { VueQueryPluginOptions } from '@tanstack/vue-query'
 import type { App } from 'vue'
-import { VueQueryPlugin, type VueQueryPluginOptions } from '@tanstack/vue-query'
+import { VueQueryPlugin } from '@tanstack/vue-query'
 
 function handleRetry (retryLimit: number) {
   return (failureCount: number): boolean => {

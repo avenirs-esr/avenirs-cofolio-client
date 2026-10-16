@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { TraceAssociationDTO } from '@/api/avenir-esr'
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+import type { TraceAssociationDTO } from '@/api/avenir-esr'
 import { ICONS, ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 import { getTraceComplementaryInfo } from '@/features/student/traces/utils/trace.utils'

@@ -1,4 +1,8 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { TraceViewDTO } from '@/api/avenir-esr'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount, RouterLinkStub } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { ETraceAuthorType } from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
@@ -6,9 +10,6 @@ import { TraceAiProducedBadgeStub } from '@/features/student/traces/components/b
 import { TraceAttachmentTypeBadgeStub } from '@/features/student/traces/components/badges/TraceAttachmentTypeBadge/TraceAttachmentTypeBadge.stub'
 import { TraceAuthorTypeBadgeStub } from '@/features/student/traces/components/badges/TraceAuthorTypeBadge/TraceAuthorTypeBadge.stub'
 import StudentDetailedTraceCard from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
-import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a student detailed trace card', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentDetailedTraceCard>>

@@ -1,8 +1,9 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { RichTextEditorProps } from '@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.vue'
-import RichTextEditor from '@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'vitest'
+import RichTextEditor from '@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.vue'
 
 const AvRichTextEditorStub = defineComponent({
   name: 'AvRichTextEditor',

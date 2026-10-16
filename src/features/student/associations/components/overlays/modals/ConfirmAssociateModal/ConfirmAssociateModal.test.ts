@@ -1,11 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
-import ConfirmAssociateModal, {
-  type ConfirmAssociateModalProps
-} from '@/features/student/associations/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.vue'
+import type { ConfirmAssociateModalProps } from '@/features/student/associations/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
+import ConfirmAssociateModal from '@/features/student/associations/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.vue'
 
 BddTest().given('a confirm associate modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof ConfirmAssociateModal>>

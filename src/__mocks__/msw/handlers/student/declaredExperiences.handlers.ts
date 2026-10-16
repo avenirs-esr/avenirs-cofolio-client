@@ -1,3 +1,5 @@
+import type { DeclaredExperienceViewDTO, EExperienceType, GetDeclaredExperienceViewParams, PagedResponseDeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import { delay, http, HttpResponse } from 'msw'
 import {
   searchDeclaredExperienceById
 } from '@/__mocks__/fixtures/student'
@@ -7,19 +9,17 @@ import {
   declaredExperienceViewDTOFixture
 } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import {
-  type DeclaredExperienceViewDTO,
-  type EExperienceType,
+
   ESortField,
   ESortOrder,
   getCreateDeclaredExperienceUrl,
-  type GetDeclaredExperienceViewParams,
+
   getDeleteDeclaredExperiencesUrl,
   getGetDeclaredExperienceUrl,
-  getGetDeclaredExperienceViewUrl,
-  type PagedResponseDeclaredExperienceViewDTO
+  getGetDeclaredExperienceViewUrl
+
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
-import { delay, http, HttpResponse } from 'msw'
 
 export const declaredExperiencesQueryHandler = http.get(`*${getGetDeclaredExperienceViewUrl()}`, async ({ request }) => {
   const url = new URL(request.url)

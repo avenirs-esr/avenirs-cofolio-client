@@ -1,8 +1,8 @@
-import type { EAssociationContextType } from '@/api/avenir-esr'
 import type { MaybeRefOrGetter } from 'vue'
-import { useGetAssociationLimits } from '@/api/avenir-esr'
+import type { EAssociationContextType } from '@/api/avenir-esr'
 import { toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useGetAssociationLimits } from '@/api/avenir-esr'
 
 export interface UseAssociationLimitsOptions {
   contextType: EAssociationContextType

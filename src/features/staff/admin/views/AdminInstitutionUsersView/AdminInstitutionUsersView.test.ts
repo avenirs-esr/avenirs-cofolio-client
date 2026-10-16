@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
-import AdminInstitutionUsersView from '@/features/staff/admin/views/AdminInstitutionUsersView/AdminInstitutionUsersView.vue'
-import { UserInfoSearchStub } from '@/features/staff/admin/views/AdminInstitutionUsersView/components/inputs/UserInfoSearch/UserInfoSearch.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
+import AdminInstitutionUsersView from '@/features/staff/admin/views/AdminInstitutionUsersView/AdminInstitutionUsersView.vue'
+import { UserInfoSearchStub } from '@/features/staff/admin/views/AdminInstitutionUsersView/components/inputs/UserInfoSearch/UserInfoSearch.stub'
 
 BddTest().given('an admin institution users view', () => {
   let wrapper: VueWrapper<InstanceType<typeof AdminInstitutionUsersView>>

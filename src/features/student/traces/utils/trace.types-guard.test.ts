@@ -1,7 +1,8 @@
-import { ETraceAuthorType } from '@/api/avenir-esr'
-import { type TraceFormDataFile, type TraceFormDataLink, TraceType } from '@/features/student/traces/types/traces.types'
-import { isTraceFileType, isTraceLinkType } from '@/features/student/traces/utils/trace.types-guard'
+import type { TraceFormDataFile, TraceFormDataLink } from '@/features/student/traces/types/traces.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { ETraceAuthorType } from '@/api/avenir-esr'
+import { TraceType } from '@/features/student/traces/types/traces.types'
+import { isTraceFileType, isTraceLinkType } from '@/features/student/traces/utils/trace.types-guard'
 
 BddTest().given('trace form data type guards', () => {
   BddTest().when('the trace type is FILE', () => {

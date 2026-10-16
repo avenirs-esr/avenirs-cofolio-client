@@ -1,5 +1,10 @@
 <script lang="ts" setup>
-import { EActivityThematic, type GetActivitiesViewParams, useGetActivitiesView } from '@/api/avenir-esr'
+import type { AvTagPickerOption } from '@avenirs-esr/avenirs-dsav'
+import type { GetActivitiesViewParams } from '@/api/avenir-esr'
+import { AvIconText, AvTagPicker, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { keepPreviousData } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
+import { EActivityThematic, useGetActivitiesView } from '@/api/avenir-esr'
 import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
@@ -7,9 +12,6 @@ import { usePagination } from '@/common/composables'
 import ActivityErrorMessage from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'
 import { useActivitiesStore } from '@/features/student/activities/stores/activities.store'
 import ActivityCard from '@/features/student/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
-import { AvIconText, AvTagPicker, type AvTagPickerOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { keepPreviousData } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const activitiesStore = useActivitiesStore()

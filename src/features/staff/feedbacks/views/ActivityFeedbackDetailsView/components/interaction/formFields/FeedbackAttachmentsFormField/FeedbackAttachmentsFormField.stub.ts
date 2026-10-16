@@ -1,5 +1,5 @@
-import type { WriteFeedbackFormApi } from '@/features/staff/feedbacks/types/forms.types'
 import type { PropType } from 'vue'
+import type { WriteFeedbackFormApi } from '@/features/staff/feedbacks/types/forms.types'
 
 export const FeedbackAttachmentsFormFieldStub = defineComponent({
   name: 'FeedbackAttachmentsFormField',

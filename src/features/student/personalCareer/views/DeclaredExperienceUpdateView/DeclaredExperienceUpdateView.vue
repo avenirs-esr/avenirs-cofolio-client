@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, useGetAssociations, useGetDeclaredExperience } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -11,8 +13,6 @@ import { ROUTES } from '@/common/constants/route-names'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import UpdateDeclaredExperienceForm
   from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/UpdateDeclaredExperienceForm.vue'
-import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 enum DeclaredExperienceUpdateViewTabs {
   DETAILS = 0,

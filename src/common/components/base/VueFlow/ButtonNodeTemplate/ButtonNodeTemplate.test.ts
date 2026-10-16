@@ -1,10 +1,12 @@
-import ButtonNodeTemplate, { type ButtonNodeTemplateProps } from '@/common/components/base/VueFlow/ButtonNodeTemplate/ButtonNodeTemplate.vue'
-import { NodeTemplateStub } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.stub'
-import { mandatoryNodeButtonTemplateProps } from '@/common/utils/vue-flow/vue-flow-test'
+import type { VueWrapper } from '@vue/test-utils'
+import type { ButtonNodeTemplateProps } from '@/common/components/base/VueFlow/ButtonNodeTemplate/ButtonNodeTemplate.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import ButtonNodeTemplate from '@/common/components/base/VueFlow/ButtonNodeTemplate/ButtonNodeTemplate.vue'
+import { NodeTemplateStub } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.stub'
+import { mandatoryNodeButtonTemplateProps } from '@/common/utils/vue-flow/vue-flow-test'
 
 BddTest().given('a button node template', () => {
   let wrapper: VueWrapper<InstanceType<typeof ButtonNodeTemplate>>

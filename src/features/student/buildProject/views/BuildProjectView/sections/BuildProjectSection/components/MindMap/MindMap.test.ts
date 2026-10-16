@@ -1,5 +1,8 @@
 import type { Edge, Node } from '@vue-flow/core'
 import type { VueWrapper } from '@vue/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { LinkInputNodeStub } from '@/common/components/base/VueFlow/LinkInputNode/LinkInputNode.stub'
 import { TextInputNodeStub } from '@/common/components/base/VueFlow/TextInputNode/TextInputNode.stub'
 import { AddSelfKnowledgeCategoryButtonNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/AddSelfKnowledgeCategoryButtonNode/AddSelfKnowledgeCategoryButtonNodeStub.stub'
@@ -10,9 +13,6 @@ import { SelfKnowledgeCategoryNodeStub } from '@/features/student/buildProject/v
 import { SelfKnowledgeElementNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/SelfKnowledgeElementNode/SelfKnowledgeElementNode.stub'
 import { UserNodeStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/UserNode/UserNode.stub'
 import { VueFlowStub } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/utils/build-project-section-tests'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockNodes = ref<Node[]>([])
 const mockEdges = ref<Edge[]>([])

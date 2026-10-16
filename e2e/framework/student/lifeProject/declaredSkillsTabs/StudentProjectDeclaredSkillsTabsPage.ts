@@ -1,9 +1,10 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { DeclaredSkillAssociationsObject } from '@e2e/framework/student/lifeProject/declaredSkillDetails/componentObjects/DeclaredSkillAssociationsObject'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 import { Fixture, Then, When, } from 'playwright-bdd/decorators'
 
 export

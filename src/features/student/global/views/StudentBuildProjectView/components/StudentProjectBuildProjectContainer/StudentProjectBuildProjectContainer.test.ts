@@ -1,4 +1,8 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { SectionNavigationItem } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { SectionNavigationLayoutStub } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.stub'
 import { ICONS } from '@/common/constants/icons'
 import StudentProjectBuildProjectContainer
@@ -9,9 +13,6 @@ import StudentProjectMindMapSection
 import { BuildProjectItems } from '@/features/student/global/views/StudentBuildProjectView/types'
 import { SelfKnowledgeMainSection } from '@/features/student/selfKnowledge'
 import { SelfKnowledgeMainSectionStub } from '@/features/student/selfKnowledge/components/SelfKnowledgeMainSection/SelfKnowledgeMainSection.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const { routeMock, replaceMock } = vi.hoisted(() => ({
   routeMock: {

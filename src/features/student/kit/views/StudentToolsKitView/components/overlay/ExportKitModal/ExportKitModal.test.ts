@@ -1,15 +1,16 @@
 import type { VueWrapper } from '@vue/test-utils'
+import type { ExportKitModalProps } from '@/features/student/kit/views/StudentToolsKitView/components/overlay/ExportKitModal/ExportKitModal.vue'
+import { AvCheckboxesGroupStub, AvCheckboxStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { downloadMediaErrorHandler } from '@/__mocks__/msw/handlers/student/kit.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import { KIT_NAME_MAX_LENGTH } from '@/features/student/kit/config'
 import { canExportKit } from '@/features/student/kit/rules/export-kit.rules'
-import ExportKitModal, { type ExportKitModalProps } from '@/features/student/kit/views/StudentToolsKitView/components/overlay/ExportKitModal/ExportKitModal.vue'
+import ExportKitModal from '@/features/student/kit/views/StudentToolsKitView/components/overlay/ExportKitModal/ExportKitModal.vue'
 import { ExportKitOptions } from '@/features/student/kit/views/StudentToolsKitView/composables/use-export-kit-form/use-export-kit-form'
-import { AvCheckboxesGroupStub, AvCheckboxStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const {
   mockAddSuccessMessage,

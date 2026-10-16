@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import type { NodeProps } from '@vue-flow/core'
+import { Handle, Position } from '@vue-flow/core'
+import { useI18n } from 'vue-i18n'
 import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
 import { GLOBAL_NODE_HANDLES } from '@/common/components/base/VueFlow/global-nodes.types'
-import { Handle, type NodeProps, Position } from '@vue-flow/core'
-import { useI18n } from 'vue-i18n'
 
 defineProps<NodeProps>()
 

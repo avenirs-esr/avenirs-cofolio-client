@@ -1,12 +1,12 @@
 import type { PagedResponseActivityStaffOverviewDTO } from '@/api/avenir-esr'
-import { createMockedPagedResponseActivityStaffOverviewDTO } from '@/__mocks__/fixtures/staffs/activities.fixtures'
-import { BaseApiException } from '@/common/exceptions'
-import { usePaginatedStaffActivities } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { mountComposable } from 'tests/utils'
 import { nextTick, unref } from 'vue'
+import { createMockedPagedResponseActivityStaffOverviewDTO } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { BaseApiException } from '@/common/exceptions'
+import { usePaginatedStaffActivities } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
 
 const page = createMockedPagedResponseActivityStaffOverviewDTO(PageSizes.TWELVE, 6, 0)
 

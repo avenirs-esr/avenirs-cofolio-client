@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { AddDeclaredExperienceForm, UpdateDeclaredExperienceForm } from '@/features/student/personalCareer/types/forms.types'
-import DeclaredExperienceTitleInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.vue'
 import { markRaw } from 'vue'
+import DeclaredExperienceTitleInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.vue'
 
 interface DeclaredExperienceTitleFormFieldProps {
   form: AddDeclaredExperienceForm | UpdateDeclaredExperienceForm

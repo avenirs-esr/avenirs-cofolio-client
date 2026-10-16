@@ -1,6 +1,10 @@
+import type { Mock } from 'vitest'
 import type { DeclaredProgramDetailedDTO } from '@/api/avenir-esr'
 import type { DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
-import type { Mock } from 'vitest'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComposable } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import {
   DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH,
   DECLARED_PROGRAM_ORGANIZATION_MAX_LENGTH,
@@ -9,10 +13,6 @@ import {
   DECLARED_PROGRAM_TITLE_MAX_LENGTH
 } from '@/features/student/personalCareer/config'
 import { useUpdateDeclaredProgramForm } from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/use-update-declared-program-form/use-update-declared-program-form'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
-import { mountComposable } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('@/store', async () => {
   const actual = await vi.importActual<typeof import('@/store')>('@/store')

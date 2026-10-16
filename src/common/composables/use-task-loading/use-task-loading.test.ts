@@ -1,6 +1,6 @@
-import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { expect, vi } from 'vitest'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 
 BddTest().given('a useTaskLoading composable', () => {
   BddTest().when('the composable is initialized', () => {

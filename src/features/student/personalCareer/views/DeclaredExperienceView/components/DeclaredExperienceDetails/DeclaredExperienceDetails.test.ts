@@ -1,4 +1,9 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import type { DeclaredExperienceDetailedProps } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { declaredExperienceViewDTOFixture } from '@/__mocks__/fixtures/student'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { CreationUpdateDateDetailsStub } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.stub'
@@ -13,12 +18,7 @@ import { DeclaredExperienceSourceOfInformationInputStub } from '@/features/stude
 import { DeclaredExperienceSummaryTextareaStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSummaryTextarea/DeclaredExperienceSummaryTextarea.stub'
 import { DeclaredExperienceTitleInputStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.stub'
 import { DeclaredExperienceTypeSelectStub } from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTypeSelect/DeclaredExperienceTypeSelect.stub'
-import DeclaredExperienceDetails, {
-  type DeclaredExperienceDetailedProps,
-} from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
+import DeclaredExperienceDetails from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetails/DeclaredExperienceDetails.vue'
 
 const mockIsMobile = ref(false)
 

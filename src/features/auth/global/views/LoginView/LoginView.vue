@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useLanguageSwitcher } from '@/common/composables'
 import { AvButton, AvLanguageSelector, AvLogo } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { useLanguageSwitcher } from '@/common/composables'
 
 const { t } = useI18n()
 const route = useRoute()

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useModal } from '@/common/composables'
-import { ROUTES } from '@/common/constants'
 import { AvButton, AvIconText, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { useModal } from '@/common/composables'
+import { ROUTES } from '@/common/constants'
 
 const { t } = useI18n()
 const { modalOpened, openModal, closeModal } = useModal()

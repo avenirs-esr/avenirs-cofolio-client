@@ -1,14 +1,15 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { useForm } from '@tanstack/vue-form'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { EActivityThematic } from '@/api/avenir-esr'
 import { DatePeriodPickerStub } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.stub'
 import ActivityExecutionPeriodFormField from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
 import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
 import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 import { ToggleParameterCardStub } from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 function mountField (overrides: Partial<EditActivityFormData> = {}) {
   const TestWrapper = defineComponent({

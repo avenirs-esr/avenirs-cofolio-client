@@ -1,5 +1,5 @@
-import type { EActivityThematic, EDeclaredActivityStatus, FileDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { EActivityThematic, EDeclaredActivityStatus, FileDTO } from '@/api/avenir-esr'
 
 export const ActivityCatalogHeaderStub = defineComponent({
   name: 'ActivityCatalogHeader',

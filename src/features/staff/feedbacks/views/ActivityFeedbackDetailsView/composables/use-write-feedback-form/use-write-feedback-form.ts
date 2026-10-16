@@ -1,13 +1,18 @@
+import type { MaybeRef } from 'vue'
+import type { FeedbackDetailsDTO, FileDTO, UpdateFeedbackRequest } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { WriteFeedbackFormApi, WriteFeedbackFormData } from '@/features/staff/feedbacks/types/forms.types'
+import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
+import { toValue } from 'vue'
+import { useI18n } from 'vue-i18n'
 import {
   EFeedbackStatus,
   EUserCategory,
-  type FeedbackDetailsDTO,
-  type FileDTO,
+
   getGetFeedbackDetailsQueryKey,
   invalidateGetFeedbackDetails,
-  type UpdateFeedbackRequest,
+
   useDeleteFeedbackAttachment,
   useUpdateFeedback,
   useUploadFeedbackAttachment
@@ -21,10 +26,6 @@ import { dtoToFile, isFile } from '@/common/utils/file/file'
 import { FEEDBACK_AUTO_SAVE_DEBOUNCE } from '@/features/staff/feedbacks/config'
 import { useWriteFeedbackFormValidators } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form-validators/use-write-feedback-form-validators'
 import { useToasterStore } from '@/store'
-import { useForm } from '@tanstack/vue-form'
-import { useQueryClient } from '@tanstack/vue-query'
-import { type MaybeRef, toValue } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 interface UseWriteFeedbackFormParams {
   feedback: MaybeRef<FeedbackDetailsDTO>

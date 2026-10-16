@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
-import Card from '@/common/components/cards/Card/Card.vue'
-import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
+import Card from '@/common/components/cards/Card/Card.vue'
+import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
 
 export interface ProfileCardProps {
   firstName: string

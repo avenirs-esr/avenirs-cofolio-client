@@ -1,12 +1,13 @@
 <script lang="ts" setup>
+import type { Config } from 'driver.js'
+import { CUIDA_ICONS, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { driver } from 'driver.js'
+import { useI18n } from 'vue-i18n'
 import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useTutorial } from '@/common/components/overlay/tooltips/Tutorial/use-tutorial'
 import { useModal } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'
-import { CUIDA_ICONS, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { type Config, driver } from 'driver.js'
-import { useI18n } from 'vue-i18n'
 import 'driver.js/dist/driver.css'
 
 const { t } = useI18n()

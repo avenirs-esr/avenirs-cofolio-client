@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { BaseApiException } from '@/common/exceptions'
 import type { IdTitle } from '@/types'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import {
   EActivityStatus,
   invalidateGetActivitiesView,
@@ -13,8 +15,6 @@ import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationMo
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 export interface SubscribeActivityConfirmModalProps {
   opened: boolean

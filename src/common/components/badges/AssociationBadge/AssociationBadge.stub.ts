@@ -1,5 +1,5 @@
-import type { AssociationBadgeType } from '@/common/types'
 import type { PropType } from 'vue'
+import type { AssociationBadgeType } from '@/common/types'
 
 export const AssociationBadgeStub = defineComponent({
   name: 'AssociationBadge',

@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Handle, type NodeProps, Position } from '@vue-flow/core'
+import type { NodeProps } from '@vue-flow/core'
+import { Handle, Position } from '@vue-flow/core'
 
 export interface HandlesProps {
   data: NodeProps['data']

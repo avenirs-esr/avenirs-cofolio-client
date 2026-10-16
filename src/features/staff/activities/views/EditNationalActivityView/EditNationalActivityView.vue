@@ -1,9 +1,16 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
+import type { ActivityDraftUpdateRequest, FileDTO } from '@/api/avenir-esr'
+import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
+import { AvTab, AvTabs, MDI_ICONS, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useRouteQuery } from '@vueuse/router'
+import { useI18n } from 'vue-i18n'
 import {
-  type ActivityDraftUpdateRequest,
+
   EActivityStatus,
-  type FileDTO,
+
   invalidateGetActivityContent,
   invalidateGetActivityPresentation,
   useAddDraftFile,
@@ -12,7 +19,7 @@ import {
   useGetActivityContent,
   useGetActivityPresentation,
   useUpdateActivityDraft,
-  useUploadDraftBanner,
+  useUploadDraftBanner
 } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -28,16 +35,11 @@ import AddNationalActivitySideNavigation from '@/features/staff/activities/compo
 import { useEditNationalActivityFormValidators } from '@/features/staff/activities/composables/use-edit-national-activity-form-validators/use-edit-national-activity-form-validators'
 import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
 import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
-import { type EditActivityFormData, EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
+import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
 import ActivityPublicationTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.vue'
 import { provideEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { useToasterStore } from '@/store'
-import { AvTab, AvTabs, MDI_ICONS, RI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { useForm } from '@tanstack/vue-form'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useRouteQuery } from '@vueuse/router'
-import { useI18n } from 'vue-i18n'
 
 interface EditNationalActivityViewProps {
   id: string

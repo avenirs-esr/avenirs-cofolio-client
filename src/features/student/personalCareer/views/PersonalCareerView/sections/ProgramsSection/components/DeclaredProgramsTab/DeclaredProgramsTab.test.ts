@@ -1,4 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { declaredProgramsQueryEmptyHandler, declaredProgramsQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
@@ -8,10 +12,6 @@ import { DeclaredProgramCardStub } from '@/features/student/personalCareer/compo
 import { AddDeclaredProgramDrawerStub } from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/AddDeclaredProgramDrawer.stub'
 import { DeclaredProgramsMoreActionsDropdownStub } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeclaredProgramsMoreActionsDropdown/DeclaredProgramsMoreActionsDropdown.stub'
 import DeclaredProgramsTab from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeclaredProgramsTab/DeclaredProgramsTab.vue'
-import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockDisplayAddDeclaredProgramDrawer = vi.fn()
 const mockOnUpdateCurrentPage = vi.fn()

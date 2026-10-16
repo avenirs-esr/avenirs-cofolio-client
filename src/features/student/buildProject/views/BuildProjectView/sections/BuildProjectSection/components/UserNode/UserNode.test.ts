@@ -1,10 +1,10 @@
 import type { NodeProps } from '@vue-flow/core'
 import type { VueWrapper } from '@vue/test-utils'
-import { HandleStub, mandatoryNodeProps } from '@/common/utils/vue-flow/vue-flow-test'
-import UserNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/UserNode/UserNode.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { HandleStub, mandatoryNodeProps } from '@/common/utils/vue-flow/vue-flow-test'
+import UserNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/UserNode/UserNode.vue'
 
 BddTest().given('a UserNode component', () => {
   let wrapper: VueWrapper<InstanceType<typeof UserNode>>

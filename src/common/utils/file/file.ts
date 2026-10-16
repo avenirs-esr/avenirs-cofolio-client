@@ -1,5 +1,7 @@
-import { EFileType, type FileDTO } from '@/api/avenir-esr'
-import { AvIsoLocaleMap, type AvLocale } from '@/types'
+import type { FileDTO } from '@/api/avenir-esr'
+import type { AvLocale } from '@/types'
+import { EFileType } from '@/api/avenir-esr'
+import { AvIsoLocaleMap } from '@/types'
 
 export const MB = 1024 * 1024
 

@@ -1,3 +1,6 @@
+import type { PathParams } from 'msw'
+import type { ProfileOverviewDTO } from '@/api/avenir-esr'
+import { http, HttpResponse } from 'msw'
 import {
   createUpdatedCoverMock,
   createUpdatedPhotoMock,
@@ -12,11 +15,10 @@ import {
   getGetProfileUrl,
   getUpdateProfileUrl,
   getUploadCoverPictureUrl,
-  getUploadProfilePictureUrl,
-  type ProfileOverviewDTO
+  getUploadProfilePictureUrl
+
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
-import { http, HttpResponse, type PathParams } from 'msw'
 
 export function createPutUpdateProfileHandler (payload: string) {
   return http.put(`*${getUpdateProfileUrl(':profile' as EUserCategory)}`, () => {

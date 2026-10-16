@@ -1,9 +1,10 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { TraceAssociationsObject } from '@e2e/framework/student/tools/traceDetails/componentObjects/TraceAssociationsObject'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 import { Fixture, Then, When } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('studentTracePage')

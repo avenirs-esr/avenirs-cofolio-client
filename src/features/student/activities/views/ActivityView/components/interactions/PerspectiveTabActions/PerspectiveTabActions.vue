@@ -1,6 +1,9 @@
 <script lang="ts" setup>
+import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
-import { type DeclaredActivityDetailsDTO, EActivityStatus, EDeclaredActivityStatus, EFeedbackStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useAskForFeedback, useFinish } from '@/api/avenir-esr'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
+import { EActivityStatus, EDeclaredActivityStatus, EFeedbackStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useAskForFeedback, useFinish } from '@/api/avenir-esr'
 import { canCreateFeedbackRequest, computeRemainingFeedbacks } from '@/common/activities/rules/activity-feedbacks.rules'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -9,8 +12,6 @@ import FinishDeclaredActivity
 import RequestFeedback
   from '@/features/student/activities/views/ActivityView/components/interactions/RequestFeedback/RequestFeedback.vue'
 import { useToasterStore } from '@/store'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 export interface MyPerspectiveTabActionsProps {
   declaredActivityDetails: DeclaredActivityDetailsDTO

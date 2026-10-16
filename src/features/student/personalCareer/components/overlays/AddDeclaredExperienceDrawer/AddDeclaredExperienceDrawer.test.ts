@@ -1,4 +1,9 @@
 import type { AssociationSelections } from '@/features/student/associations'
+import { AvAccordionsGroupStub, AvAccordionStub, AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.stub'
 import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
@@ -16,11 +21,6 @@ import { DeclaredExperienceTitleFormFieldStub } from '@/features/student/persona
 import { DeclaredExperienceTypeFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredExperienceTypeFormField/DeclaredExperienceTypeFormField.stub'
 import AddDeclaredExperienceDrawer from '@/features/student/personalCareer/components/overlays/AddDeclaredExperienceDrawer/AddDeclaredExperienceDrawer.vue'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
-import { AvAccordionsGroupStub, AvAccordionStub, AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
-import { createPinia, setActivePinia } from 'pinia'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()

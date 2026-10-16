@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { EDeclaredSkillLevel } from '@/api/avenir-esr'
-import DeclaredSkillLevelBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillLevelBadge/DeclaredSkillLevelBadge.vue'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { EDeclaredSkillLevel } from '@/api/avenir-esr'
+import DeclaredSkillLevelBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillLevelBadge/DeclaredSkillLevelBadge.vue'
 
 const stubs = {
   AvBadge: AvBadgeStub

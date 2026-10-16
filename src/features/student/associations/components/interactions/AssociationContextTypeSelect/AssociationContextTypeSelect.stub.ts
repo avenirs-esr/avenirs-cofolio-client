@@ -1,5 +1,5 @@
-import type { EAssociationContextType } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { EAssociationContextType } from '@/api/avenir-esr'
 
 export const AssociationContextTypeSelectStub = defineComponent({
   name: 'AssociationContextTypeSelect',

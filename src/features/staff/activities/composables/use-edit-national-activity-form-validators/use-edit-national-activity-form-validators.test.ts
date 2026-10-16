@@ -1,3 +1,6 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComposable } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import { useEditNationalActivityFormValidators } from '@/features/staff/activities/composables/use-edit-national-activity-form-validators/use-edit-national-activity-form-validators'
 import {
   ACTIVITY_CONSIGN_MAX_LENGTH,
@@ -8,9 +11,6 @@ import {
   ACTIVITY_SUMMARY_MAX_LENGTH,
   ACTIVITY_TITLE_MAX_LENGTH,
 } from '@/features/staff/activities/config'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComposable } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an edit national activity form validators composable', () => {
   let composableResult: ReturnType<typeof useEditNationalActivityFormValidators>

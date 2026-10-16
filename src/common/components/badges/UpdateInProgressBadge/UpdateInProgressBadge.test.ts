@@ -1,6 +1,7 @@
-import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 
 BddTest().given('an UpdateInProgressBadge component', () => {
   let wrapper: VueWrapper<InstanceType<typeof UpdateInProgressBadge>>

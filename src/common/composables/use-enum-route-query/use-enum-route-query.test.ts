@@ -1,8 +1,8 @@
-import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
+import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 
 enum TestEnum {
   TEST_1 = 'test-1',

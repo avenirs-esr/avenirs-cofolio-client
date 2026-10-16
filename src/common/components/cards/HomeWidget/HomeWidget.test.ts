@@ -1,9 +1,11 @@
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
-import HomeWidget, { type HomeWidgetProps } from '@/common/components/cards/HomeWidget/HomeWidget.vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { HomeWidgetProps } from '@/common/components/cards/HomeWidget/HomeWidget.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
+import HomeWidget from '@/common/components/cards/HomeWidget/HomeWidget.vue'
 
 const AvIconTextStub = defineComponent({
   name: 'AvIconText',

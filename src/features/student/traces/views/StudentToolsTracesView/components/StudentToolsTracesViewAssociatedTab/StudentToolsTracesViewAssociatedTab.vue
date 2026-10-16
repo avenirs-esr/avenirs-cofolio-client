@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useTracesView } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
@@ -7,7 +8,6 @@ import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import StudentDetailedTraceCard
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentDetailedTraceCard/StudentDetailedTraceCard.vue'
 import TraceFilterContainer from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.vue'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const tracesStore = useTracesStore()

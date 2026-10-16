@@ -1,9 +1,9 @@
 import type { EUserCategory } from '@/api/avenir-esr'
+import { createRouter, createWebHistory } from 'vue-router'
 import { resolveCguRedirect } from '@/features/auth/global/guards/cgu.guard'
 import authRoutes from '@/features/auth/global/routes'
 import staffRoutes from '@/features/staff/global/routes'
 import studentRoutes from '@/features/student/global/routes'
-import { createRouter, createWebHistory } from 'vue-router'
 
 const MAIN_TITLE = 'Cofolio'
 

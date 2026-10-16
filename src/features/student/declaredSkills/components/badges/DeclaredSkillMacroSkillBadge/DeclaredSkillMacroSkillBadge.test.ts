@@ -1,6 +1,7 @@
-import DeclaredSkillMacroSkillBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillMacroSkillBadge/DeclaredSkillMacroSkillBadge.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import DeclaredSkillMacroSkillBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillMacroSkillBadge/DeclaredSkillMacroSkillBadge.vue'
 
 const stubs = {
   AvBadge: AvBadgeStub

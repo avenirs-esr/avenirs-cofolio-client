@@ -1,5 +1,5 @@
-import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import type { PropType } from 'vue'
+import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 
 export const ActivityExecutionPeriodFormFieldStub = defineComponent({
   name: 'ActivityExecutionPeriodFormField',

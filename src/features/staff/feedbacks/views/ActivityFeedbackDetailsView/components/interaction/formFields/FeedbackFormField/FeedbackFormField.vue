@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { UpdateFeedbackRequest } from '@/api/avenir-esr'
 import type { WriteFeedbackForm } from '@/features/staff/feedbacks/types/forms.types'
-import FeedbackTextarea from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/inputs/FeedbackTextarea/FeedbackTextarea.vue'
 import { markRaw } from 'vue'
+import FeedbackTextarea from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/inputs/FeedbackTextarea/FeedbackTextarea.vue'
 
 interface FeedbackFormFieldProps {
   form: WriteFeedbackForm

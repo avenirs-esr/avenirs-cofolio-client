@@ -1,10 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import TraceNameInput from '@/features/student/traces/components/interactions/inputs/TraceNameInput/TraceNameInput.vue'
 import { TRACE_NAME_MAX_LENGTH } from '@/features/student/traces/config'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
 
 const stubs = {
   Input: InputStub

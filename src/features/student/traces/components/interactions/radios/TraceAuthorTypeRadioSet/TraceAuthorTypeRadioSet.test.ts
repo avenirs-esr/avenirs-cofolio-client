@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { ETraceAuthorType } from '@/api/avenir-esr'
-import TraceAuthorTypeRadioSet from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSet/TraceAuthorTypeRadioSet.vue'
 import { AvRadioButtonSetStub, AvRadioButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { ETraceAuthorType } from '@/api/avenir-esr'
+import TraceAuthorTypeRadioSet from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSet/TraceAuthorTypeRadioSet.vue'
 
 const stubs = {
   AvRadioButtonSet: AvRadioButtonSetStub,

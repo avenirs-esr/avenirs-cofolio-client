@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
-import { useDownloadFeedbackAttachments } from '@/features/student/activities/composables/use-download-feedback-attachments/use-download-feedback-attachments'
 import { AvFilePill } from '@avenirs-esr/avenirs-dsav'
+import { useDownloadFeedbackAttachments } from '@/features/student/activities/composables/use-download-feedback-attachments/use-download-feedback-attachments'
 
 export interface FeedbackAttachmentsPillListProps {
   feedback: FeedbackOverviewDTO

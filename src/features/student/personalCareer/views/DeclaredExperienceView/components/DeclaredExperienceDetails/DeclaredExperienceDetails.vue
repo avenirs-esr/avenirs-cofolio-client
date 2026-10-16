@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
+import { useI18n } from 'vue-i18n'
 import { CreationUpdateDateDetails, DatePeriodPicker } from '@/common/components'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import DeclaredExperienceActivitySectorInput
@@ -22,7 +23,6 @@ import DeclaredExperienceTitleInput
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTitleInput/DeclaredExperienceTitleInput.vue'
 import DeclaredExperienceTypeSelect
   from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceTypeSelect/DeclaredExperienceTypeSelect.vue'
-import { useI18n } from 'vue-i18n'
 
 export interface DeclaredExperienceDetailedProps {
   declaredExperienceDetails: DeclaredExperienceViewDTO

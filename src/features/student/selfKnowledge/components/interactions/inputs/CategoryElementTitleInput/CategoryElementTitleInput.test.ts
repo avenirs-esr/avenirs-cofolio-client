@@ -1,6 +1,7 @@
-import CategoryElementTitleInput from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementTitleInput/CategoryElementTitleInput.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import CategoryElementTitleInput from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementTitleInput/CategoryElementTitleInput.vue'
 
 BddTest().given('the CategoryElementTitleInput component', () => {
   let wrapper: VueWrapper<InstanceType<typeof CategoryElementTitleInput>>

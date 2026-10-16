@@ -1,9 +1,9 @@
 import type { Edge, Node } from '@vue-flow/core'
-import { useEdges } from '@/common/composables/VueFlow/use-edges/use-edges'
-import { getEdgeId } from '@/common/utils/vue-flow/vue-flow'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { useEdges } from '@/common/composables/VueFlow/use-edges/use-edges'
+import { getEdgeId } from '@/common/utils/vue-flow/vue-flow'
 
 const edgesMock = ref<Edge[]>([])
 const nodesMock = ref<Node[]>([])

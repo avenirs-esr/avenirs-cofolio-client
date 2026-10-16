@@ -1,13 +1,11 @@
+import type { DeclaredSkillProgressDetailsDTO, DeclaredSkillProgressDTO, ExternalSkillDTO, PagedResponseDeclaredSkillProgressDTO, PagedResponseExternalSkillDTO } from '@/api/avenir-esr'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import {
-  type DeclaredSkillProgressDetailsDTO,
-  type DeclaredSkillProgressDTO,
+
   EDeclaredSkillLevel,
   EExternalSkillCategoryType,
-  EExternalSkillType,
-  type ExternalSkillDTO,
-  type PagedResponseDeclaredSkillProgressDTO,
-  type PagedResponseExternalSkillDTO
+  EExternalSkillType
+
 } from '@/api/avenir-esr'
 
 export function createMockedDeclaredSkillProgressDTO () {

@@ -1,7 +1,8 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { ProfileCard } from '@e2e/framework/shared/componentObjects/ProfileCard'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 import { Fixture, Then } from 'playwright-bdd/decorators'
 
 @Fixture<typeof test>('studentToolsKitPage')

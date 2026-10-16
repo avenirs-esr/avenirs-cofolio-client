@@ -1,13 +1,13 @@
-import type { DeclaredSkillProgressDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import type { DeclaredSkillProgressDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { EDeclaredSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
 import { DeclaredSkillLevelBadgeStub } from '@/features/student/declaredSkills/components/badges/DeclaredSkillLevelBadge/DeclaredSkillLevelBadge.stub'
 import { DeclaredSkillTypeBadgeStub } from '@/features/student/declaredSkills/components/badges/DeclaredSkillTypeBadge/DeclaredSkillTypeBadge.stub'
 import ValorizedDeclaredSkillItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredSkillItem/ValorizedDeclaredSkillItem.vue'
 import { ValorizedItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 
 const BASE_DECLARED_SKILL: DeclaredSkillProgressDTO = {
   id: 'c1e6a6f0-1c2d-4f3e-9a1b-3f2b1c0d4e5f',

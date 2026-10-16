@@ -1,10 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import ActivityDescriptionContent, {
-  type ActivityDescriptionContentProps
-} from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
+import type { ActivityDescriptionContentProps } from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 
 BddTest().given('an activity description content component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityDescriptionContent>>

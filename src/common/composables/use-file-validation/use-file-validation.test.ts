@@ -1,8 +1,9 @@
-import { useFileValidation, type UseFileValidationOptions } from '@/common/composables/use-file-validation/use-file-validation'
-import { MB } from '@/common/utils/file/file'
+import type { UseFileValidationOptions } from '@/common/composables/use-file-validation/use-file-validation'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { expect } from 'vitest'
+import { useFileValidation } from '@/common/composables/use-file-validation/use-file-validation'
+import { MB } from '@/common/utils/file/file'
 
 BddTest().given('a useFileValidation composabled', () => {
   const TWO_MB = 2 * MB

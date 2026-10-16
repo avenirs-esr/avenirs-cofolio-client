@@ -1,4 +1,8 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { TraceFilter, TracesViewParams } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { createMockedTracesViewResponse } from '@/__mocks__/fixtures/student'
 import { createTracesViewHandler, tracesViewErrorHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -6,9 +10,6 @@ import { ValorizedElementsCardContainerStub } from '@/features/student/kit/compo
 import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import { TraceValorizedItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/TraceValorizedItem/TraceValorizedItem.stub'
 import ValorizedAssociatedTracesContainer from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedAssociatedTracesContainer/ValorizedAssociatedTracesContainer.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 
 BddTest().given('a valorized associated traces container', () => {
   let wrapper: VueWrapper<InstanceType<typeof ValorizedAssociatedTracesContainer>>

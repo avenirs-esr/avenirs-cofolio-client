@@ -1,20 +1,18 @@
+import type { EUserCategory, FileDTO, ProfileUpdateRequest, UploadCoverPictureBody, UploadProfilePictureBody } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import {
-  type EUserCategory,
-  type FileDTO,
+
   invalidateGetProfile,
-  type ProfileUpdateRequest,
-  type UploadCoverPictureBody,
-  type UploadProfilePictureBody,
+
   useUploadCoverPicture as useUpdateProfileCoverFromApi,
   useUpdateProfile as useUpdateProfileFromApi,
-  useUploadProfilePicture as useUpdateProfilePhotoFromApi,
+  useUploadProfilePicture as useUpdateProfilePhotoFromApi
 } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 export function useUpdateProfile (profile: EUserCategory, onProfileUpdated: () => void) {
   const { t } = useI18n()

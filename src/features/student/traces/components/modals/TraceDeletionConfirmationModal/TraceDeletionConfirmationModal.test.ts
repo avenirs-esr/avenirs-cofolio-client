@@ -1,16 +1,18 @@
+import type { VueWrapper } from '@vue/test-utils'
+import type { TraceLockedDeclaredActivitiesDTO } from '@/api/avenir-esr'
+import { AvIconTextStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { invalidTraceId, mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { createLockedDeclaredActivitiesHandler, lockedDeclaredActivitiesHandler } from '@/__mocks__/msw/handlers/student/traces.handlers'
 import { server } from '@/__mocks__/msw/server'
 import {
-  EDeclaredActivityStatus,
-  type TraceLockedDeclaredActivitiesDTO
+  EDeclaredActivityStatus
+
 } from '@/api/avenir-esr'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import TraceDeletionConfirmationModal from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
-import { AvIconTextStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()

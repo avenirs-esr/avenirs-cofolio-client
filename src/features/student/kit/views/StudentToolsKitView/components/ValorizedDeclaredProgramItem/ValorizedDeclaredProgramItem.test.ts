@@ -1,5 +1,8 @@
-import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { EProgramStatus } from '@/api/avenir-esr'
 import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import ValorizedDeclaredProgramItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredProgramItem/ValorizedDeclaredProgramItem.vue'
@@ -10,9 +13,6 @@ import {
 } from '@/features/student/personalCareer'
 import { DeclaredProgramOrganizationBadgeStub } from '@/features/student/personalCareer/components/badges/DeclaredProgramOrganizationBadge/DeclaredProgramOrganizationBadge.stub'
 import { DeclaredProgramResultBadgeStub } from '@/features/student/personalCareer/components/badges/DeclaredProgramResultBadge/DeclaredProgramResultBadge.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 
 const BASE_DECLARED_PROGRAM: DeclaredProgramViewDTO = {
   id: 'c1e6a6f0-1c2d-4f3e-9a1b-3f2b1c0d4e5f',

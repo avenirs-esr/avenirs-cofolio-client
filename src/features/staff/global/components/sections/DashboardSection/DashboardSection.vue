@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { BaseApiException } from '@/common/exceptions'
 import type { Slot } from 'vue'
+import type { BaseApiException } from '@/common/exceptions'
+import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
-import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface DashboardSectionProps {
   title: string

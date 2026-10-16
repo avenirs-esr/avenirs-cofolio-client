@@ -1,12 +1,12 @@
-import type { NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
 import type { VueWrapper } from '@vue/test-utils'
+import type { NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
+import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { NodeTemplateStub } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.stub'
 import { mandatoryNodeTemplateProps } from '@/common/utils/vue-flow/vue-flow-test'
 import SelfKnowledgeCategoryNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/SelfKnowledgeCategoryNode/SelfKnowledgeCategoryNode.vue'
-import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a SelfKnowledgeCategoryNode component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeCategoryNode>>

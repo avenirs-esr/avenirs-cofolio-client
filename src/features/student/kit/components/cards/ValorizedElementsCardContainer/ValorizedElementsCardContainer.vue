@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { BaseApiException } from '@/common/exceptions'
+import type { AvButtonProps } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
+import type { BaseApiException } from '@/common/exceptions'
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import Card from '@/common/components/cards/Card/Card.vue'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
-import { AvButton, type AvButtonProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface ValorizedElementsCardContainerProps {
   title: string

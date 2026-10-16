@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { AddDeclaredExperienceForm, UpdateDeclaredExperienceForm } from '@/features/student/personalCareer/types/forms.types'
-import DeclaredExperienceSummaryTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSummaryTextarea/DeclaredExperienceSummaryTextarea.vue'
 import { markRaw } from 'vue'
+import DeclaredExperienceSummaryTextarea from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceSummaryTextarea/DeclaredExperienceSummaryTextarea.vue'
 
 interface DeclaredExperienceSummaryFormFieldProps {
   form: AddDeclaredExperienceForm | UpdateDeclaredExperienceForm

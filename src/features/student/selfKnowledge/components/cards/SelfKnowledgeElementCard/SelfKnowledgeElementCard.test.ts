@@ -1,12 +1,14 @@
-import { ESelfKnowledgeCategory, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr/generated/types'
+import type { VueWrapper } from '@vue/test-utils'
+import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr/generated/types'
+import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises, RouterLinkStub } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr/generated/types'
 import { RatingStub } from '@/common/components/base/Rating/Rating.stub'
 import { ROUTES } from '@/common/constants'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 import SelfKnowledgeElementCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeElementCard/SelfKnowledgeElementCard.vue'
-import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 
 const route = reactive<{ name: string }>({ name: ROUTES.STUDENT.BUILD_PROJECT.name })
 

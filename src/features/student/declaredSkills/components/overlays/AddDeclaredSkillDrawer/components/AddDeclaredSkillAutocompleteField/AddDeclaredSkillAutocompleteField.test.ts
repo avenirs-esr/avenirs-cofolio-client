@@ -1,13 +1,13 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type {
   DeclaredSkillFormData
 } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
-import type { VueWrapper } from '@vue/test-utils'
-import { EExternalSkillType } from '@/api/avenir-esr'
-import AddDeclaredSkillAutocompleteField from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/components/AddDeclaredSkillAutocompleteField/AddDeclaredSkillAutocompleteField.vue'
 import { AvListItemStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { EExternalSkillType } from '@/api/avenir-esr'
+import AddDeclaredSkillAutocompleteField from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/components/AddDeclaredSkillAutocompleteField/AddDeclaredSkillAutocompleteField.vue'
 
 const TestWrapper = {
   components: {

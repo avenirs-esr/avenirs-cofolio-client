@@ -1,5 +1,5 @@
-import type { UserProfileDropdownAction } from '@/common/components/overlay/UserProfileDropdown/UserProfileDropdown.vue'
 import type { PropType } from 'vue'
+import type { UserProfileDropdownAction } from '@/common/components/overlay/UserProfileDropdown/UserProfileDropdown.vue'
 
 export const UserProfileDropdownStub = {
   name: 'UserProfileDropdown',

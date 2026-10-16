@@ -1,6 +1,6 @@
 import type { SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
-import { useDrawer } from '@/common/composables'
 import { defineStore } from 'pinia'
+import { useDrawer } from '@/common/composables'
 
 export const useSelfKnowledgeStore = defineStore('self-knowledge', () => {
   const selectedCategory = ref<SelfKnowledgeCategoryDTO | null>(null)

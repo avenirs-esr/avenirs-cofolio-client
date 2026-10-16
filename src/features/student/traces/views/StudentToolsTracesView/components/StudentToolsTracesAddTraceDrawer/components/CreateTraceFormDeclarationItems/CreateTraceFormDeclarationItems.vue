@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { CreateTraceForm } from '@/features/student/traces/types/forms.types'
+import { useI18n } from 'vue-i18n'
 import TraceAiJustificationTextareaFormField from '@/features/student/traces/components/interactions/formFields/TraceAiJustificationTextareaFormField/TraceAiJustificationTextareaFormField.vue'
 import TraceAiUsageToggleFormField from '@/features/student/traces/components/interactions/formFields/TraceAiUsageToggleFormField/TraceAiUsageToggleFormField.vue'
 import TraceAuthorTypeRadioSetFormField from '@/features/student/traces/components/interactions/radios/TraceAuthorTypeRadioSetFormField/TraceAuthorTypeRadioSetFormField.vue'
-import { useI18n } from 'vue-i18n'
 
 interface CreateTraceFormDeclarationItemsProps {
   form: CreateTraceForm

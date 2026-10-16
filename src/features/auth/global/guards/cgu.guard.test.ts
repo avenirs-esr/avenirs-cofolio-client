@@ -1,8 +1,8 @@
 import type { RouteLocationNormalized } from 'vue-router'
-import { ROUTES } from '@/common/constants'
-import { resolveCguRedirect } from '@/features/auth/global/guards/cgu.guard'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { expect } from 'vitest'
+import { ROUTES } from '@/common/constants'
+import { resolveCguRedirect } from '@/features/auth/global/guards/cgu.guard'
 
 function studentRoute (name: string, fullPath: string) {
   return {

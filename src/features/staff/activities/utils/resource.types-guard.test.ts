@@ -1,7 +1,7 @@
 import type { FileDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { EFileType } from '@/api/avenir-esr'
 import { isActivityResourceFile, isActivityResourceLink, isActivityResourcePendingFile } from '@/features/staff/activities/utils/resource.types-guard'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 BddTest().given('activity resource type guards', () => {
   BddTest().when('the resource is a saved file', () => {

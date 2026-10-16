@@ -1,5 +1,5 @@
-import type { ActivityDraftCreationForm, ActivityDuplicationForm, EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import type { PropType } from 'vue'
+import type { ActivityDraftCreationForm, ActivityDuplicationForm, EditActivityForm } from '@/features/staff/activities/types/forms.types'
 
 export const ActivityTitleFormFieldStub = defineComponent({
   name: 'ActivityTitleFormField',

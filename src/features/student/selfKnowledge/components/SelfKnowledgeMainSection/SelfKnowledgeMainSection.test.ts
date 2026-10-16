@@ -1,4 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student/overviews.fixtures'
 import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { getProfileErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
@@ -13,8 +15,6 @@ import { SelfKnowledgeCategoryElementsPaginatorCardStub } from '@/features/stude
 import { AddSelfKnowledgeCategoriesModalStub } from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.stub'
 import { DeleteSelfKnowledgeCategoriesModalStub } from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoriesModal/DeleteSelfKnowledgeCategoriesModal.stub'
 import SelfKnowledgeMainSection from '@/features/student/selfKnowledge/components/SelfKnowledgeMainSection/SelfKnowledgeMainSection.vue'
-import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
 
 BddTest().given('a self knowledge section component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SelfKnowledgeMainSection>>

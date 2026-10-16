@@ -1,6 +1,7 @@
-import { generateImageRunData } from '@/features/student/kit/composables/use-export-kit/utils/utils'
+import type { MaybeRefOrGetter } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
-import { type MaybeRefOrGetter, toValue } from 'vue'
+import { toValue } from 'vue'
+import { generateImageRunData } from '@/features/student/kit/composables/use-export-kit/utils/utils'
 
 interface UseImageRunDataQueryParams {
   url: MaybeRefOrGetter<string | undefined>

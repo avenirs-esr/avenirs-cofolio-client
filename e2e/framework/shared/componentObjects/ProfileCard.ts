@@ -1,6 +1,7 @@
+import type { Locator } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { verifyTextLocator } from '@e2e/framework/shared/utils/text'
-import { expect, type Locator } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class ProfileCard extends BaseObject {
   constructor (root: Locator) {

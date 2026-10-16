@@ -1,7 +1,8 @@
-import { type FlowHistoryStack, useFlowHistoryStore } from '@/common/stores/flow-history.store'
+import type { FlowHistoryStack } from '@/common/stores/flow-history.store'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, expect } from 'vitest'
+import { useFlowHistoryStore } from '@/common/stores/flow-history.store'
 
 BddTest().given('a flow history store', () => {
   let store: ReturnType<typeof useFlowHistoryStore>

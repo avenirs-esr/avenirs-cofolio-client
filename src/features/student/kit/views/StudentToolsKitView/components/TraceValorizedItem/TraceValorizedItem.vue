@@ -2,14 +2,14 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
 import type { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import type { AvLocale } from '@/types'
+import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { formatDateLocalized } from '@/common/utils/date/date'
 import { formatFileSizeInMegabytes } from '@/common/utils/file/file'
 import ValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.vue'
 import TraceAiProducedBadge from '@/features/student/traces/components/badges/TraceAiProducedBadge/TraceAiProducedBadge.vue'
 import TraceAttachmentTypeBadge from '@/features/student/traces/components/badges/TraceAttachmentTypeBadge/TraceAttachmentTypeBadge.vue'
 import TraceAuthorTypeBadge from '@/features/student/traces/components/badges/TraceAuthorTypeBadge/TraceAuthorTypeBadge.vue'
-import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface TraceValorizedItemProps {
   trace: TraceViewDTO

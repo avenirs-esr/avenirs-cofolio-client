@@ -1,13 +1,15 @@
+import type { MaybeRef } from 'vue'
+import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import { type DeclaredActivityDetailsDTO, invalidateGetDeclaredActivityDetails, useUpdateDeclaredActivity } from '@/api/avenir-esr'
+import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
+import { toValue } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { invalidateGetDeclaredActivityDetails, useUpdateDeclaredActivity } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
-import { useForm } from '@tanstack/vue-form'
-import { useQueryClient } from '@tanstack/vue-query'
-import { type MaybeRef, toValue } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 export interface UpdateActivityFormData {
   startDate: string | null

@@ -1,5 +1,5 @@
-import type { SelectableElement } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import type { PropType } from 'vue'
+import type { SelectableElement } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 
 export const CompactCardSelectorStub = defineComponent({
   name: 'CompactCardSelectorStub',

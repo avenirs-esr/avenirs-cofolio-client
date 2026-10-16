@@ -1,9 +1,10 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import ActivityTitleInput from '@/features/staff/activities/components/interactions/inputs/ActivityTitleInput/ActivityTitleInput.vue'
 import { ACTIVITY_TITLE_MAX_LENGTH } from '@/features/staff/activities/config'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('ActivityTitleInput component', () => {
   let wrapper: VueWrapper

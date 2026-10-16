@@ -1,13 +1,14 @@
 import type { Mock } from 'vitest'
-import { KIT_NAME_MAX_LENGTH } from '@/features/student/kit/config'
-import {
-  ExportKitOptions,
-  useExportKitForm,
-  type UseExportKitFormData
-} from '@/features/student/kit/views/StudentToolsKitView/composables/use-export-kit-form/use-export-kit-form'
+import type { UseExportKitFormData } from '@/features/student/kit/views/StudentToolsKitView/composables/use-export-kit-form/use-export-kit-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { KIT_NAME_MAX_LENGTH } from '@/features/student/kit/config'
+import {
+  ExportKitOptions,
+  useExportKitForm
+
+} from '@/features/student/kit/views/StudentToolsKitView/composables/use-export-kit-form/use-export-kit-form'
 
 BddTest().given('an export kit form composable', () => {
   let composableResult: ReturnType<typeof useExportKitForm>

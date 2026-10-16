@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AvBadge, type AvBadgeProps } from '@avenirs-esr/avenirs-dsav'
+import type { AvBadgeProps } from '@avenirs-esr/avenirs-dsav'
+import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 
 interface WarningBadgeProps extends Omit<AvBadgeProps, 'color' | 'backgroundColor'> {
 }

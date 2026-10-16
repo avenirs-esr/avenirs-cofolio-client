@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ICONS, ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 import DeclaredExperienceTypeBadge
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.vue'
-import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface AssociatedDeclaredExperienceCardProps extends AvInteractiveProps {
   declaredExperience: DeclaredExperienceViewDTO

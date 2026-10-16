@@ -1,7 +1,8 @@
+import type { DateArg } from 'date-fns'
 import type { AvLocale } from '@/types'
-import { formatDateLocalized, formatTimeLocalized, parseDate } from '@/common/utils'
-import { type DateArg, differenceInCalendarDays, differenceInHours, differenceInMinutes, differenceInMonths, differenceInWeeks, differenceInYears } from 'date-fns'
+import { differenceInCalendarDays, differenceInHours, differenceInMinutes, differenceInMonths, differenceInWeeks, differenceInYears } from 'date-fns'
 import { useI18n } from 'vue-i18n'
+import { formatDateLocalized, formatTimeLocalized, parseDate } from '@/common/utils'
 
 /**
  * Result returned by the useDateUtils composable.

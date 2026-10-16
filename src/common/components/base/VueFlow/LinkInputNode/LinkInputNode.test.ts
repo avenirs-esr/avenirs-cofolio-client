@@ -1,10 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
+import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach } from 'vitest'
 import LinkInputNode from '@/common/components/base/VueFlow/LinkInputNode/LinkInputNode.vue'
 import { NodeTemplateStub } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.stub'
 import { mandatoryNodeTemplateProps } from '@/common/utils/vue-flow/vue-flow-test'
-import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach } from 'vitest'
 
 BddTest().given('a LinkInputNode component', () => {
   let wrapper: VueWrapper<InstanceType<typeof LinkInputNode>>

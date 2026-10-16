@@ -1,7 +1,7 @@
+import type { Component, PropType } from 'vue'
 import type {
   SectionNavigationItem,
 } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
-import type { Component, PropType } from 'vue'
 
 export const SectionNavigationLayoutStub = defineComponent({
   name: 'SectionNavigationLayout',

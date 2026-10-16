@@ -1,4 +1,9 @@
 import type { AssociationSelections } from '@/features/student/associations'
+import { AvAccordionsGroupStub, AvAccordionStub, AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.stub'
 import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
@@ -11,11 +16,6 @@ import { DeclaredProgramSourceOfInformationFormFieldStub } from '@/features/stud
 import { DeclaredProgramTitleFormFieldStub } from '@/features/student/personalCareer/components/interactions/formFields/DeclaredProgramTitleFormField/DeclaredProgramTitleFormField.stub'
 import AddDeclaredProgramDrawer from '@/features/student/personalCareer/components/overlays/AddDeclaredProgramDrawer/AddDeclaredProgramDrawer.vue'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
-import { AvAccordionsGroupStub, AvAccordionStub, AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
-import { createPinia, setActivePinia } from 'pinia'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 enum AddDeclaredProgramDrawerAccordions {
   PROGRAM_DETAILS = 0,

@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { FooterStub } from '@/common/components/Footer/Footer.stub'
-import { ROUTES } from '@/common/constants'
-import AuthLayout from '@/features/auth/global/layouts/AuthLayout/AuthLayout.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { FooterStub } from '@/common/components/Footer/Footer.stub'
+import { ROUTES } from '@/common/constants'
+import AuthLayout from '@/features/auth/global/layouts/AuthLayout/AuthLayout.vue'
 
 BddTest().given('a layout component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AuthLayout>>

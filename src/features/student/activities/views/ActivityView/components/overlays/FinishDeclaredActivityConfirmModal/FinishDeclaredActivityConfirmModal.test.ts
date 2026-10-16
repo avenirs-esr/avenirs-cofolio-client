@@ -1,11 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
-import FinishDeclaredActivityConfirmModal, {
-  type FinishDeclaredActivityConfirmModalProps,
-} from '@/features/student/activities/views/ActivityView/components/overlays/FinishDeclaredActivityConfirmModal/FinishDeclaredActivityConfirmModal.vue'
+import type { FinishDeclaredActivityConfirmModalProps } from '@/features/student/activities/views/ActivityView/components/overlays/FinishDeclaredActivityConfirmModal/FinishDeclaredActivityConfirmModal.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
+import FinishDeclaredActivityConfirmModal from '@/features/student/activities/views/ActivityView/components/overlays/FinishDeclaredActivityConfirmModal/FinishDeclaredActivityConfirmModal.vue'
 
 BddTest().given('a FinishDeclaredActivityConfirmModal component', () => {
   let wrapper: VueWrapper<InstanceType<typeof FinishDeclaredActivityConfirmModal>>

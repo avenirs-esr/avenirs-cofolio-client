@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AvButton, type AvButtonProps, type AvInteractiveProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import type { AvButtonProps, AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface DeleteOverlayProps extends AvInteractiveProps {

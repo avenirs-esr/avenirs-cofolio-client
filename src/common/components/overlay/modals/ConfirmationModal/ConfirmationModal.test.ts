@@ -1,7 +1,9 @@
-import ConfirmationModal, { type ConfirmationModalProps } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { ConfirmationModalProps } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 
 const stubs = {
   AvModal: {

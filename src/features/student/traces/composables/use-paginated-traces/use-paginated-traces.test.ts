@@ -1,8 +1,8 @@
 import type { TraceViewDTO } from '@/api/avenir-esr'
-import { usePaginatedTraces } from '@/features/student/traces/composables/use-paginated-traces/use-paginated-traces'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { usePaginatedTraces } from '@/features/student/traces/composables/use-paginated-traces/use-paginated-traces'
 
 BddTest().given('the usePaginatedTraces composable', () => {
   let composableResult: ReturnType<typeof usePaginatedTraces>

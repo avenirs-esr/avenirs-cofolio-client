@@ -1,8 +1,8 @@
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
-import { usePaginatedDeclaredPrograms } from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { usePaginatedDeclaredPrograms } from '@/features/student/personalCareer/composables/use-paginated-declared-programs/use-paginated-declared-programs'
 
 BddTest().given('the usePaginatedDeclaredProgram composable', () => {
   let composableResult: ReturnType<typeof usePaginatedDeclaredPrograms>

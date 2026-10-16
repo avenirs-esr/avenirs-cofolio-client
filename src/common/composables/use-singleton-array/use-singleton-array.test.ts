@@ -1,8 +1,9 @@
-import { useSingletonArray } from '@/common/composables/use-singleton-array/use-singleton-array'
+import type { Ref } from 'vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { nextTick, type Ref } from 'vue'
+import { nextTick } from 'vue'
+import { useSingletonArray } from '@/common/composables/use-singleton-array/use-singleton-array'
 
 BddTest().given('a useSingletonArray composable', () => {
   let modelRef = ref<string | null>(null)

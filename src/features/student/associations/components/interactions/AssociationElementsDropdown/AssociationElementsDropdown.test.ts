@@ -1,13 +1,12 @@
-import { EAssociationContextType } from '@/api/avenir-esr'
-import { ICONS } from '@/common/constants'
-import AssociationElementsDropdown, {
-  type AssociationElementsDropdownProps
-} from '@/features/student/associations/components/interactions/AssociationElementsDropdown/AssociationElementsDropdown.vue'
-import { ASSOCIATION_DROPDOWN_ITEM_NAMES } from '@/features/student/associations/constants/associations.constants'
+import type { AssociationElementsDropdownProps } from '@/features/student/associations/components/interactions/AssociationElementsDropdown/AssociationElementsDropdown.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { EAssociationContextType } from '@/api/avenir-esr'
+import { ICONS } from '@/common/constants'
+import AssociationElementsDropdown from '@/features/student/associations/components/interactions/AssociationElementsDropdown/AssociationElementsDropdown.vue'
+import { ASSOCIATION_DROPDOWN_ITEM_NAMES } from '@/features/student/associations/constants/associations.constants'
 
 const stubs = {
   AvDropdown: AvDropdownStub

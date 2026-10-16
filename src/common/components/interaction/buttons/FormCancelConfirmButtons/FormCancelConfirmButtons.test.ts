@@ -1,8 +1,9 @@
-import FormCancelConfirmButtons from '@/common/components/interaction/buttons/FormCancelConfirmButtons/FormCancelConfirmButtons.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import FormCancelConfirmButtons from '@/common/components/interaction/buttons/FormCancelConfirmButtons/FormCancelConfirmButtons.vue'
 
 BddTest().given('a FormCancelConfirmButtons component', () => {
   let wrapper: VueWrapper<InstanceType<typeof FormCancelConfirmButtons>>

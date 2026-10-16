@@ -1,4 +1,7 @@
 import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComposable } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { feedback as feedbackFixture } from '@/__mocks__/fixtures/student/activitiy-feedbacks.fixtures'
 import { downloadFeedbackAttachmentErrorHandler } from '@/__mocks__/msw/handlers/student/activity-feedbacks.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -6,9 +9,6 @@ import * as downloadUtils from '@/common/utils/download/download'
 import {
   useDownloadFeedbackAttachments
 } from '@/features/student/activities/composables/use-download-feedback-attachments/use-download-feedback-attachments'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComposable } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const { mockAddErrorMessage } = vi.hoisted(() => ({
   mockAddErrorMessage: vi.fn(),

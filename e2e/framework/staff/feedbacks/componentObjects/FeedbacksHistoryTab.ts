@@ -1,6 +1,7 @@
+import type { Locator } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { FeedbackHistoryCard } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbackHistoryCard'
-import { expect, type Locator } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class FeedbacksHistoryTab extends BaseObject {
   constructor (root: Locator) {

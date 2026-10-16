@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import PersonalCareerLayout
   from '@/features/student/personalCareer/views/PersonalCareerView/layouts/PersonalCareerLayout/PersonalCareerLayout.vue'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 

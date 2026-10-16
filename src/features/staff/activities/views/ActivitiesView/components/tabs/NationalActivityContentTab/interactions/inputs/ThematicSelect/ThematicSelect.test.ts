@@ -1,9 +1,10 @@
-import { EActivityThematic } from '@/api/avenir-esr'
-import ThematicSelect from '@/features/staff/activities/views/ActivitiesView/components/tabs/NationalActivityContentTab/interactions/inputs/ThematicSelect/ThematicSelect.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvSelectStub, BddTest, } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { EActivityThematic } from '@/api/avenir-esr'
+import ThematicSelect from '@/features/staff/activities/views/ActivitiesView/components/tabs/NationalActivityContentTab/interactions/inputs/ThematicSelect/ThematicSelect.vue'
 
 BddTest().given('a thematic select component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ThematicSelect>>

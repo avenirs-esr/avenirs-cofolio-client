@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import { useI18n } from 'vue-i18n'
+import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 
 const modelValue = defineModel<string>({ default: '' })
 

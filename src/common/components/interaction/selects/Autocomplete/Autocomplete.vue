@@ -1,5 +1,6 @@
 <script setup lang="ts" generic="T extends AvAutocompleteOption = AvAutocompleteOption">
-import { AvAutocomplete, type AvAutocompleteOption, type AvAutocompleteProps } from '@avenirs-esr/avenirs-dsav'
+import type { AvAutocompleteOption, AvAutocompleteProps } from '@avenirs-esr/avenirs-dsav'
+import { AvAutocomplete } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 

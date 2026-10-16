@@ -1,9 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
-import SwitchUniverse from '@/common/components/navigation/SwitchUniverse/SwitchUniverse.vue'
+import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import { AvButtonStub, AvIconTextStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { type RouteLocationNormalizedLoadedGeneric, useRoute } from 'vue-router'
+import { useRoute } from 'vue-router'
+import SwitchUniverse from '@/common/components/navigation/SwitchUniverse/SwitchUniverse.vue'
 
 const mockModalOpened = ref(false)
 const mockOpenModal = vi.fn()

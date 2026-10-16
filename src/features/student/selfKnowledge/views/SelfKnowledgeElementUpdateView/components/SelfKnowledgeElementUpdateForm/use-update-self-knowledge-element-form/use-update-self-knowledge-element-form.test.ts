@@ -1,14 +1,14 @@
+import type { Mock } from 'vitest'
 import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import type { SelfKnowledgeCategoryElementFormData } from '@/features/student/selfKnowledge/types/forms.types'
-import type { Mock } from 'vitest'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComposable } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { putUpdateSelfKnowledgeElementErrorHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import {
   useUpdateSelfKnowledgeElementForm
 } from '@/features/student/selfKnowledge/views/SelfKnowledgeElementUpdateView/components/SelfKnowledgeElementUpdateForm/use-update-self-knowledge-element-form/use-update-self-knowledge-element-form'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComposable } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('the useUpdateSelfKnowledgeElementForm composable', () => {
   let composableResult: ReturnType<typeof useUpdateSelfKnowledgeElementForm>

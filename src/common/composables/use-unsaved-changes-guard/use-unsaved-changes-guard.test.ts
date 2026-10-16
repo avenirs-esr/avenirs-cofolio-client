@@ -1,9 +1,9 @@
 import type { Mock } from 'vitest'
 import type { Ref } from 'vue'
-import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 
 let registeredRouteLeaveGuard: undefined | (() => boolean | Promise<boolean>)
 

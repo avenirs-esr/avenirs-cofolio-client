@@ -1,9 +1,10 @@
+import type { TraceFilter } from '@/api/avenir-esr'
 import type { DateFilter, SearchFilter } from '@/types'
-import { type TraceFilter, TraceFilterFileTypesItem } from '@/api/avenir-esr'
-import { useTraceFilters } from '@/features/student/traces/composables/use-trace-filters/use-trace-filters'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { TraceFilterFileTypesItem } from '@/api/avenir-esr'
+import { useTraceFilters } from '@/features/student/traces/composables/use-trace-filters/use-trace-filters'
 
 BddTest().given('a useTraceFilters composable', () => {
   let useTraceFiltersResult: ReturnType<typeof useTraceFilters>

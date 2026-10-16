@@ -1,3 +1,5 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { testRoute } from 'tests/utils'
 import { ROUTES } from '@/common/constants'
 import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityView.vue'
 import CguView from '@/common/views/CguView/CguView.vue'
@@ -10,8 +12,6 @@ import ActivityFeedbackDetailsView from '@/features/staff/feedbacks/views/Activi
 import FeedbacksView from '@/features/staff/feedbacks/views/FeedbacksView/FeedbacksView.vue'
 import routes from '@/features/staff/global/routes'
 import StaffHomeView from '@/features/staff/global/views/StaffHomeView/StaffHomeView.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { testRoute } from 'tests/utils'
 
 const [root] = routes
 const children = root.children!

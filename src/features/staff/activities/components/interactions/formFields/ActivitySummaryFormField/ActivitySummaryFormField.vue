@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
+import { markRaw } from 'vue'
+import { useI18n } from 'vue-i18n'
 import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { ACTIVITY_SUMMARY_MAX_LENGTH } from '@/features/staff/activities/config'
-import { markRaw } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 interface ActivitySummaryFormFieldProps {
   form: EditActivityForm

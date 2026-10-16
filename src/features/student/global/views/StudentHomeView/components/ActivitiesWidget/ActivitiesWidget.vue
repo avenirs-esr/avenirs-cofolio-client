@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useGetDeclaredActivitiesView, useGetLatestActivitiesView } from '@/api/avenir-esr'
 import HomeWidget from '@/common/components/cards/HomeWidget/HomeWidget.vue'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
@@ -6,7 +7,6 @@ import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors
 import { ICONS, ROUTES } from '@/common/constants'
 import { ActivitiesTab } from '@/features/student/global/types/activities.types'
 import ActivityLongIconCard from '@/features/student/global/views/StudentHomeView/components/ActivityLongIconCard/ActivityLongIconCard.vue'
-import { useI18n } from 'vue-i18n'
 
 const { isNew = false } = defineProps<{ isNew?: boolean }>()
 

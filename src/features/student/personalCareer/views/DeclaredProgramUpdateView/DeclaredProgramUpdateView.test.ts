@@ -1,3 +1,8 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { mockedDeclaredProgramAssociations, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
@@ -9,10 +14,6 @@ import { ElementAssociationsStub } from '@/features/student/associations/compone
 import { DeclaredProgramUpdateFormStub } from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/components/DeclaredProgramUpdateForm/DeclaredProgramUpdateForm.stub'
 import { DeclaredProgramUpdateViewTabs } from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/DeclaredProgramUpdateView.types'
 import DeclaredProgramUpdateView from '@/features/student/personalCareer/views/DeclaredProgramUpdateView/DeclaredProgramUpdateView.vue'
-import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 const DEFAULT_PROGRAM_ID = 'declared-program-1'
 

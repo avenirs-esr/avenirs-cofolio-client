@@ -1,15 +1,15 @@
-import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
 import type { PropType } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
+import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
+import { AvButtonStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import { EFeedbackStatus } from '@/api/avenir-esr'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { ROUTES } from '@/common/constants'
 import { FeedbackIterationBadgeStub } from '@/features/staff/feedbacks/components/badges/FeedbackIterationBadge/FeedbackIterationBadge.stub'
 import FeedbackHistoryCard from '@/features/staff/feedbacks/components/cards/FeedbackHistoryCard/FeedbackHistoryCard.vue'
-import { AvButtonStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
 
 const feedback: FeedbackOverviewDTO = {
   id: 'feedback-1',

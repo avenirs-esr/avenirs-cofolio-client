@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { ComponentProps } from 'vue-component-type-helpers'
-import WarningBadge from '@/common/components/badges/WarningBadge/WarningBadge.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import WarningBadge from '@/common/components/badges/WarningBadge/WarningBadge.vue'
 
 BddTest().given('a warning badge component', () => {
   let wrapper: VueWrapper<InstanceType<typeof WarningBadge>>

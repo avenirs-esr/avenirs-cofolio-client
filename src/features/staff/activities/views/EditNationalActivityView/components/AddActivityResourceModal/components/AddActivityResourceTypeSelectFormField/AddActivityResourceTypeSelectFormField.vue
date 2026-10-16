@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import type { AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import type { AddActivityResourceForm } from '@/features/staff/activities/types/forms.types'
-import { ActivityResourceType } from '@/features/staff/activities/types/resource.types'
-import { AvSelect, type AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
+import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { ActivityResourceType } from '@/features/staff/activities/types/resource.types'
 
 interface AddActivityResourceTypeSelectFormFieldProps {
   form: AddActivityResourceForm

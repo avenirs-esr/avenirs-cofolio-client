@@ -1,5 +1,5 @@
-import type { SectionNavigationItem } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
 import type { ComputedRef } from 'vue'
+import type { SectionNavigationItem } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
 import { useRoute, useRouter } from 'vue-router'
 
 interface UseSectionNavigationLayoutParams<TSection extends string> {

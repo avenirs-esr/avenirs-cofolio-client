@@ -1,7 +1,7 @@
-import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, expect } from 'vitest'
+import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'
 
 BddTest().given('a menu burger store', () => {
   let store: ReturnType<typeof useMenuBurgerStore>

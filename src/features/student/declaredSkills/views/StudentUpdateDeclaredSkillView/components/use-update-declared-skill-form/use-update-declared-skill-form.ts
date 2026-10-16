@@ -1,12 +1,13 @@
+import type { DeclaredSkillProgressDetailsDTO, DeclaredSkillProgressRequest } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import { type DeclaredSkillProgressDetailsDTO, type DeclaredSkillProgressRequest, invalidateGetDeclaredSkillProgressDetails, useUpdateDeclaredSkillProgress } from '@/api/avenir-esr'
+import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
+import { invalidateGetDeclaredSkillProgressDetails, useUpdateDeclaredSkillProgress } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import { useToasterStore } from '@/store'
-import { useForm } from '@tanstack/vue-form'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 function normalize (dto: DeclaredSkillProgressDetailsDTO): DeclaredSkillProgressDetailsDTO {
   return {

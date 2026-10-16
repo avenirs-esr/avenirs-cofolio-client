@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { UpdateTraceForm as UpdateTraceFormType } from '@/features/student/traces/types/forms.types'
+import { useI18n } from 'vue-i18n'
 import { useDateUtils } from '@/common/composables'
 import { bytesToMegabytes } from '@/common/utils/file/file'
 import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
@@ -15,7 +16,6 @@ import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { TraceType } from '@/features/student/traces/types/traces.types'
 import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
 import { useToasterStore } from '@/store'
-import { useI18n } from 'vue-i18n'
 
 interface UpdateTraceFormProps {
   trace: TraceDetailDTO

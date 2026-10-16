@@ -1,5 +1,9 @@
-import type { DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
 import type { Mock } from 'vitest'
+import type { DeclaredProgramFormData } from '@/features/student/personalCareer/types/forms.types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComposable } from 'tests/utils'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { declaredProgramViewDTOFixture } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
 import { associateErrorHandler, createAssociateHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { createDeclaredProgramErrorHandler, createDeclaredProgramHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
@@ -15,10 +19,6 @@ import {
   DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH,
   DECLARED_PROGRAM_TITLE_MAX_LENGTH
 } from '@/features/student/personalCareer/config'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
-import { mountComposable } from 'tests/utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 interface AssociationRequest {
   contextType: EAssociationContextType

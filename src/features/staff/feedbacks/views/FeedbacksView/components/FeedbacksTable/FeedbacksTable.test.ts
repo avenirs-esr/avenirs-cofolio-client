@@ -1,5 +1,12 @@
+import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
+import type { VueWrapper } from '@vue/test-utils'
 import type { FeedbackStaffListItemDTO } from '@/api/avenir-esr'
 import type { UsePaginatedStaffFeedbacksParams, UsePaginatedStaffFeedbacksResult } from '@/features/staff/feedbacks/composables/use-paginated-staff-feedbacks/use-paginated-staff-feedbacks'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises, RouterLinkStub } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { createMockedPagedResponseFeedbackStaffListItemDTO } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
@@ -8,11 +15,6 @@ import { FeedbackIterationBadgeStub } from '@/features/staff/feedbacks/component
 import { FeedbackStatusBadgeStub } from '@/features/staff/feedbacks/components/badges/FeedbackStatusBadge/FeedbackStatusBadge.stub'
 import { FeedbackCardStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbackCard/FeedbackCard.stub'
 import FeedbacksTable from '@/features/staff/feedbacks/views/FeedbacksView/components/FeedbacksTable/FeedbacksTable.vue'
-import { type AvTableColumn, PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockError = new BaseApiException('error')
 

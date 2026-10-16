@@ -1,6 +1,7 @@
+import type { Locator } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { t } from '@e2e/framework/shared/utils/i18n'
-import { expect, type Locator } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class PageTitle extends BaseObject {
   constructor (root: Locator) {

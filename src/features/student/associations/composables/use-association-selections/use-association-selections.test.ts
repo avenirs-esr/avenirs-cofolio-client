@@ -1,6 +1,11 @@
 import type { AssociateRequestListener } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import type { AssociationsDTO } from '@/api/avenir-esr'
 import type { AssociationSelections } from '@/features/student/associations/types/associations.types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { QueryClient } from '@tanstack/vue-query'
+import { http, HttpResponse } from 'msw'
+import { mountComposable } from 'tests/utils'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { createMockedAssociations, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { associateErrorHandler, createAssociateHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -9,11 +14,6 @@ import { EAssociationContextType, EErrorCode, getAssociateUrl } from '@/api/aven
 import { BaseApiErrorCode, BaseApiException } from '@/common/exceptions'
 import { useAssociationSelections } from '@/features/student/associations/composables/use-association-selections/use-association-selections'
 import { invalidateAssociationQueries } from '@/features/student/associations/queries/associations.queries'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { QueryClient } from '@tanstack/vue-query'
-import { http, HttpResponse } from 'msw'
-import { mountComposable } from 'tests/utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 const { mockAddErrorMessage } = vi.hoisted(() => ({
   mockAddErrorMessage: vi.fn()

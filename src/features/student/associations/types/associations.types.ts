@@ -1,7 +1,7 @@
-import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
-import type { IdTitle } from '@/types'
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { QueryKey } from '@tanstack/vue-query'
+import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
+import type { IdTitle } from '@/types'
 
 /**
  * An element that can be associated, as displayed by the association pickers.

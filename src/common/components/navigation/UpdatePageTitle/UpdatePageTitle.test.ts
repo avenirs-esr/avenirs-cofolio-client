@@ -1,10 +1,10 @@
-import type { PageTitleProps } from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import type { VueWrapper } from '@vue/test-utils'
-import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
-import UpdatePageTitle from '@/common/components/navigation/UpdatePageTitle/UpdatePageTitle.vue'
+import type { PageTitleProps } from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
+import UpdatePageTitle from '@/common/components/navigation/UpdatePageTitle/UpdatePageTitle.vue'
 
 const mockIsTruncated = ref(false)
 

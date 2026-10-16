@@ -1,6 +1,6 @@
+import { useForm } from '@tanstack/vue-form'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { SELF_KNOWLEDGE_ELEMENT_DESCRIPTION_MAX_LENGTH, SELF_KNOWLEDGE_ELEMENT_TITLE_MAX_LENGTH } from '@/features/student/buildProject/config'
-import { useForm } from '@tanstack/vue-form'
 
 export interface AddElementFormData {
   title: string

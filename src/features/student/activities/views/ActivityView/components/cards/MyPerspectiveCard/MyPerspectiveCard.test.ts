@@ -1,13 +1,14 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { MyPerspectiveCardProps } from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
+import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { findAvButtonByTestId, getAvButtonByTestId, mountComponent } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { RichTextEditorStub } from '@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.stub'
 import MyPerspectiveCard from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/MyPerspectiveCard.vue'
-import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { findAvButtonByTestId, getAvButtonByTestId, mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()

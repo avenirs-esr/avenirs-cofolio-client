@@ -1,7 +1,8 @@
-import SelectorOverlay from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import SelectorOverlay from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.vue'
 
 BddTest().given('a SelectorOverlay component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SelectorOverlay>>

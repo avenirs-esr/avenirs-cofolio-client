@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
-import { useI18n } from 'vue-i18n'
 
 const emit = defineEmits<{
   (e: AllowedActions): void

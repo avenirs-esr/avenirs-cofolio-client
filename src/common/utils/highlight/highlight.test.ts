@@ -1,9 +1,9 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import {
   highlightCaptionText,
   highlightMatchedText,
   highlightTitleText,
 } from '@/common/utils/highlight/highlight'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 BddTest().given('a highlight text utility', () => {
   BddTest().when('query is empty or whitespace', () => {

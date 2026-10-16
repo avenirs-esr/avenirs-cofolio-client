@@ -1,8 +1,9 @@
 <script lang="ts" setup>
+import type { AvIconProps } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
+import { AvIcon, AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import Card from '@/common/components/cards/Card/Card.vue'
-import { AvIcon, type AvIconProps, AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 
 export interface LongIconCardProps {
   title: string

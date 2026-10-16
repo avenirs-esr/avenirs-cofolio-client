@@ -1,8 +1,10 @@
-import Drawer, { type DrawerProps } from '@/common/components/overlay/drawers/Drawer/Drawer.vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { DrawerProps } from '@/common/components/overlay/drawers/Drawer/Drawer.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvCancelConfirmButtonsStub, AvDrawerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import Drawer from '@/common/components/overlay/drawers/Drawer/Drawer.vue'
 
 BddTest().given('a Drawer component', () => {
   let wrapper: VueWrapper<InstanceType<typeof Drawer>>

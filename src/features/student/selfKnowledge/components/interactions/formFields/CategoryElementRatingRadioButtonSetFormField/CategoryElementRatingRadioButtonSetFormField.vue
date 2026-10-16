@@ -3,8 +3,8 @@ import type {
   AddSelfKnowledgeCategoryElementForm,
   UpdateSelfKnowledgeCategoryElementForm
 } from '@/features/student/selfKnowledge/types/forms.types'
-import CategoryElementRatingRadioButtonSet from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementRatingRadioButtonSet/CategoryElementRatingRadioButtonSet.vue'
 import { markRaw } from 'vue'
+import CategoryElementRatingRadioButtonSet from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementRatingRadioButtonSet/CategoryElementRatingRadioButtonSet.vue'
 
 interface CategoryElementRatingInputFormFieldProps {
   form: AddSelfKnowledgeCategoryElementForm | UpdateSelfKnowledgeCategoryElementForm

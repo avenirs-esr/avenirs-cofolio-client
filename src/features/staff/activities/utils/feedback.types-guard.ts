@@ -1,5 +1,6 @@
+import type { TraceDetailDTO } from '@/api/avenir-esr'
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
-import { EAssociationContextType, type TraceDetailDTO } from '@/api/avenir-esr'
+import { EAssociationContextType } from '@/api/avenir-esr'
 
 export function isFeedbackTraceWithFile (element: FeedbackAssociatedElement): element is { type: EAssociationContextType.TRACE, data: TraceDetailDTO } {
   return element.type === EAssociationContextType.TRACE && !!(element.data as TraceDetailDTO).attachment

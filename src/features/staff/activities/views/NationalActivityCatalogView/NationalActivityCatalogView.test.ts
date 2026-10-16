@@ -1,4 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvButtonStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { mockedActivityContent, mockedActivityDraftCreationResponse } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { getActivityContentErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -21,10 +25,6 @@ import {
 import { NationalActivityCatalogTabs }
   from '@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.types'
 import NationalActivityCatalogView from '@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.vue'
-import { AvButtonStub, AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockNavigateToStaffActivities = vi.fn()
 const mockNavigateToStaffActivitiesEditNationalActivity = vi.fn()

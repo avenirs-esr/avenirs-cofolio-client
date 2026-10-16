@@ -1,5 +1,5 @@
-import type { Action, ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import type { PropType } from 'vue'
+import type { Action, ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 
 export const ManageEntityDropdownStub = defineComponent({
   name: 'ManageEntityDropdown',

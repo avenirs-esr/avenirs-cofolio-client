@@ -1,8 +1,8 @@
-import { useQueryParam, useWatchQueryParam } from '@/common/composables'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
+import { useQueryParam, useWatchQueryParam } from '@/common/composables'
 
 const query = ref<Record<string, unknown>>({})
 const replaceMock = vi.fn()

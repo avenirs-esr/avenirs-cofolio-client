@@ -1,4 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
+import type { ExposedComponentInstance } from 'tests/utils'
 import type { ActivityContentDTO, ActivityDraftUpdateRequest } from '@/api/avenir-esr'
+import type { EditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
+import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { vi } from 'vitest'
 import {
   mockedActivityContent,
   mockedActivityContentWithEnrolledStudent1,
@@ -17,13 +24,9 @@ import { ActivityContentTabStub } from '@/features/staff/activities/views/EditNa
 import { ActivityPublicationTabStub } from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.stub'
 import EditNationalActivityView from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.vue'
 import {
-  type EditNationalActivityViewContext,
-  editNationalActivityViewContextKey,
+
+  editNationalActivityViewContextKey
 } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
-import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { type ExposedComponentInstance, mountComponent } from 'tests/utils'
-import { vi } from 'vitest'
 
 const mockMode = ref('edit')
 

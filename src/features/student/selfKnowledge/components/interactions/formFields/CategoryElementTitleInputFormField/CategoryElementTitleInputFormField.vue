@@ -3,8 +3,8 @@ import type {
   AddSelfKnowledgeCategoryElementForm,
   UpdateSelfKnowledgeCategoryElementForm
 } from '@/features/student/selfKnowledge/types/forms.types'
-import CategoryElementTitleInput from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementTitleInput/CategoryElementTitleInput.vue'
 import { markRaw } from 'vue'
+import CategoryElementTitleInput from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementTitleInput/CategoryElementTitleInput.vue'
 
 interface CategoryElementTitleInputFormFieldProps {
   form: AddSelfKnowledgeCategoryElementForm | UpdateSelfKnowledgeCategoryElementForm

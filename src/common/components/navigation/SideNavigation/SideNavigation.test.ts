@@ -1,8 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import SideNavigation, { type SideNavigationProps } from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
+import type { SideNavigationProps } from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
 import { AvSideNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { expect } from 'vitest'
+import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
 
 BddTest().given('a SideNavigation component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SideNavigation>>

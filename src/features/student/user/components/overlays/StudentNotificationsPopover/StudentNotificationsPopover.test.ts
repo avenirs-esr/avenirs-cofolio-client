@@ -1,12 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { mockedStudentNotification } from '@/__mocks__/fixtures/student/notifications.fixtures'
-import { EUserCategory, type NotificationDTO } from '@/api/avenir-esr'
-import { NotificationsPopoverStub } from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.stub'
-import { ActivityModifiedNotificationCardStub } from '@/features/student/global/components/cards/ActivityModifiedNotificationCard/ActivityModifiedNotificationCard.stub'
-import StudentNotificationsPopover from '@/features/student/user/components/overlays/StudentNotificationsPopover/StudentNotificationsPopover.vue'
+import type { NotificationDTO } from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { mockedStudentNotification } from '@/__mocks__/fixtures/student/notifications.fixtures'
+import { EUserCategory } from '@/api/avenir-esr'
+import { NotificationsPopoverStub } from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.stub'
+import { ActivityModifiedNotificationCardStub } from '@/features/student/global/components/cards/ActivityModifiedNotificationCard/ActivityModifiedNotificationCard.stub'
+import StudentNotificationsPopover from '@/features/student/user/components/overlays/StudentNotificationsPopover/StudentNotificationsPopover.vue'
 
 BddTest().given('a StudentNotificationsPopover', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentNotificationsPopover>>

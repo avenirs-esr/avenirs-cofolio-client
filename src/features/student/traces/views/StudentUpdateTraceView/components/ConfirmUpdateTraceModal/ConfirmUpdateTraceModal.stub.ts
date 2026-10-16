@@ -1,5 +1,5 @@
-import type { TraceDeclaredActivityDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { TraceDeclaredActivityDTO } from '@/api/avenir-esr'
 
 export const ConfirmUpdateTraceModalStub = defineComponent({
   name: 'ConfirmUpdateTraceModalStub',

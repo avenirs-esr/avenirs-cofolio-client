@@ -1,13 +1,15 @@
+import type { VueWrapper } from '@vue/test-utils'
+import type { AssociatedSkillCardProps } from '@/features/student/associations/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { expect, vi } from 'vitest'
 import {
   createMockedDeclaredSkillProgressDTO
 } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { ICONS, ROUTES } from '@/common/constants'
-import AssociatedSkillCard, { type AssociatedSkillCardProps } from '@/features/student/associations/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
+import AssociatedSkillCard from '@/features/student/associations/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
 import { AssociationCardStub } from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.stub'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { expect, vi } from 'vitest'
 
 BddTest().given('an associatied skill card', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedSkillCard>>

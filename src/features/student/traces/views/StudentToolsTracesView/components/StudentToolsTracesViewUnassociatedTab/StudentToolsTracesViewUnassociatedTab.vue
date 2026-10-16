@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { type TracesSummaryDTO, useTracesView } from '@/api/avenir-esr'
+import type { TracesSummaryDTO } from '@/api/avenir-esr'
+import { useI18n } from 'vue-i18n'
+import { useTracesView } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
 import { useTraceFilters } from '@/features/student/traces/composables/use-trace-filters/use-trace-filters'
@@ -9,7 +11,6 @@ import StudentDetailedTraceCard
 import StudentToolsTracesViewNotice
   from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewNotice/StudentToolsTracesViewNotice.vue'
 import TraceFilterContainer from '@/features/student/traces/views/StudentToolsTracesView/components/TraceFilterContainer/TraceFilterContainer.vue'
-import { useI18n } from 'vue-i18n'
 
 defineProps<{
   tracesSummary: TracesSummaryDTO | undefined

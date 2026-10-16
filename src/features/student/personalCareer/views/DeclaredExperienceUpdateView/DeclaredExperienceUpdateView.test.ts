@@ -1,4 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvIconTextStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { createMockedDeclaredExperienceAssociationsDTO, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { EAssociationContextType, EErrorCode } from '@/api/avenir-esr'
 import { UpdateInProgressBadgeStub } from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.stub'
@@ -6,9 +9,6 @@ import { UpdatePageTitleStub } from '@/common/components/navigation/UpdatePageTi
 import { ROUTES } from '@/common/constants/route-names'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import DeclaredExperienceUpdateView from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/DeclaredExperienceUpdateView.vue'
-import { AvIconTextStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 const routerPush = vi.fn()
 const mockIsMobile = ref(false)

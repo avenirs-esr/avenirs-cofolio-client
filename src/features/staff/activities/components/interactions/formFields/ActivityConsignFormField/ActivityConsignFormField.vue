@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
+import { markRaw } from 'vue'
 import RichTextEditor from '@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.vue'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { ACTIVITY_CONSIGN_MAX_LENGTH } from '@/features/staff/activities/config'
-import { markRaw } from 'vue'
 
 interface ActivityConsignFormFieldProps {
   form: EditActivityForm

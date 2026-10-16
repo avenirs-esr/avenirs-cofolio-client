@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import type { AvLocale } from '@/types'
+import { useI18n } from 'vue-i18n'
 import { formatDateToYearLocalized } from '@/common/utils'
 import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import ValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.vue'
 import { DeclaredProgramOrganizationBadge, DeclaredProgramResultBadge } from '@/features/student/personalCareer'
-import { useI18n } from 'vue-i18n'
 
 export interface ValorizedDeclaredProgramItemProps {
   declaredProgram: DeclaredProgramViewDTO

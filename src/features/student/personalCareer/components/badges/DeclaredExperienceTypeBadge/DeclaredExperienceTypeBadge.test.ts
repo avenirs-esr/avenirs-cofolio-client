@@ -1,10 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { EExperienceType } from '@/api/avenir-esr'
 import DeclaredExperienceTypeBadge
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.vue'
-import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a declared experience type badge', () => {
   let wrapper: VueWrapper

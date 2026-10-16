@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import { MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import SectionNavigationLayout
   from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.vue'
 import { useSectionNavigationLayout } from '@/common/composables'
@@ -9,8 +11,6 @@ import ActivityDetails
 import MyPerspectiveSection
   from '@/features/student/activities/views/ActivityView/components/MyPerspectiveSection/MyPerspectiveSection.vue'
 import { ActivitySections } from '@/features/student/activities/views/ActivityView/types'
-import { MS_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface ActivityLayoutProps {
   declaredActivityDetails: DeclaredActivityDetailsDTO

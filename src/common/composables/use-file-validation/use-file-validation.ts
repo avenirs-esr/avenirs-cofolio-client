@@ -1,5 +1,5 @@
-import { bytesToMegabytes } from '@/common/utils/file/file'
 import { useI18n } from 'vue-i18n'
+import { bytesToMegabytes } from '@/common/utils/file/file'
 
 export type FileSizeConfig = number | Record<string, number>
 

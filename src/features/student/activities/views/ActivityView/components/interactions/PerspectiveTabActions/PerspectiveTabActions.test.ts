@@ -1,16 +1,16 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { mockedDeclaredActivityDetails, mockedFinishedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { askForFeedbackErrorHandler, finishDeclaredActivityErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
-import { server } from '@/__mocks__/msw/server'
-import { type DeclaredActivityDetailsDTO, EDeclaredActivityStatus, EFeedbackStatus } from '@/api/avenir-esr'
-import { FinishDeclaredActivityStub } from '@/features/student/activities/views/ActivityView/components/FinishDeclaredActivity/FinishDeclaredActivity.stub'
-import PerspectiveTabActions, {
-  type MyPerspectiveTabActionsProps,
-} from '@/features/student/activities/views/ActivityView/components/interactions/PerspectiveTabActions/PerspectiveTabActions.vue'
-import { RequestFeedbackStub } from '@/features/student/activities/views/ActivityView/components/interactions/RequestFeedback/RequestFeedback.stub'
+import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import type { MyPerspectiveTabActionsProps } from '@/features/student/activities/views/ActivityView/components/interactions/PerspectiveTabActions/PerspectiveTabActions.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { mockedDeclaredActivityDetails, mockedFinishedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { askForFeedbackErrorHandler, finishDeclaredActivityErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { EDeclaredActivityStatus, EFeedbackStatus } from '@/api/avenir-esr'
+import { FinishDeclaredActivityStub } from '@/features/student/activities/views/ActivityView/components/FinishDeclaredActivity/FinishDeclaredActivity.stub'
+import PerspectiveTabActions from '@/features/student/activities/views/ActivityView/components/interactions/PerspectiveTabActions/PerspectiveTabActions.vue'
+import { RequestFeedbackStub } from '@/features/student/activities/views/ActivityView/components/interactions/RequestFeedback/RequestFeedback.stub'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()

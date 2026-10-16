@@ -1,3 +1,8 @@
+import type { AssociationsDTO } from '@/api/avenir-esr'
+import type { AssociatedElementsCardProps } from '@/features/student/associations/components/cards/AssociatedElementsCard/AssociatedElementsCard.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import {
   createMockedDeclaredActivityAssociations,
   createMockedDeclaredExperienceAssociations,
@@ -6,20 +11,15 @@ import {
   createMockedTraceAssociations,
   mockedEmptyAssociations
 } from '@/__mocks__/fixtures/student/associations.fixtures'
-import { type AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
+import { EAssociationContextType } from '@/api/avenir-esr'
 import { ICONS } from '@/common/constants'
 import { AssociatedActivityCardStub } from '@/features/student/associations/components/cards/AssociatedActivityCard/AssociatedActivityCard.stub'
 import { AssociatedDeclaredExperienceCardStub } from '@/features/student/associations/components/cards/AssociatedDeclaredExperienceCard/AssociatedDeclaredExperienceCard.stub'
 import { AssociatedDeclaredProgramCardStub } from '@/features/student/associations/components/cards/AssociatedDeclaredProgramCard/AssociatedDeclaredProgramCard.stub'
-import AssociatedElementsCard, {
-  type AssociatedElementsCardProps
-} from '@/features/student/associations/components/cards/AssociatedElementsCard/AssociatedElementsCard.vue'
+import AssociatedElementsCard from '@/features/student/associations/components/cards/AssociatedElementsCard/AssociatedElementsCard.vue'
 import { AssociatedSkillCardStub } from '@/features/student/associations/components/cards/AssociatedSkillCard/AssociatedSkillCard.stub'
 import { AssociatedTraceCardStub } from '@/features/student/associations/components/cards/AssociatedTraceCard/AssociatedTraceCard.stub'
 import { AssociationsCardStub } from '@/features/student/associations/components/cards/AssociationsCard/AssociationsCard.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
 
 const stubs = {
   AssociationsCard: AssociationsCardStub,

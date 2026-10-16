@@ -1,6 +1,7 @@
+import type { NavigationFailure, RouteLocationRaw } from 'vue-router'
 import type { EActivityThematic } from '@/api/avenir-esr'
+import { useRouter } from 'vue-router'
 import { ROUTES } from '@/common/constants'
-import { type NavigationFailure, type RouteLocationRaw, useRouter } from 'vue-router'
 
 export function useNavigation () {
   const router = useRouter()

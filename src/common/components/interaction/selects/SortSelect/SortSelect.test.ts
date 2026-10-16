@@ -1,7 +1,8 @@
-import SortSelect from '@/common/components/interaction/selects/SortSelect/SortSelect.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import SortSelect from '@/common/components/interaction/selects/SortSelect/SortSelect.vue'
 
 BddTest().given('a sort select component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SortSelect>>

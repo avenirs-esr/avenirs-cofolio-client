@@ -1,8 +1,9 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import AssociationsCard from '@/features/student/associations/components/cards/AssociationsCard/AssociationsCard.vue'
-import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an association cards', () => {
   let wrapper: VueWrapper

@@ -1,10 +1,10 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
 import { staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
 import { studentToolsKitRoutes } from '@/features/student/kit/routes'
 import { studentToolsTracesRoutes } from '@/features/student/traces/routes'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const route = reactive<{ name: string }>({
   name: ROUTES.STAFF.HOME.name

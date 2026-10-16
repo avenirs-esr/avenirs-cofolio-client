@@ -1,14 +1,15 @@
-import { type DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
+import type { VueWrapper } from '@vue/test-utils'
+import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import type { AssociatedDeclaredExperienceCardProps } from '@/features/student/associations/components/cards/AssociatedDeclaredExperienceCard/AssociatedDeclaredExperienceCard.vue'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
+import { EExperienceType } from '@/api/avenir-esr'
 import { ICONS, ROUTES } from '@/common/constants'
-import AssociatedDeclaredExperienceCard, {
-  type AssociatedDeclaredExperienceCardProps
-} from '@/features/student/associations/components/cards/AssociatedDeclaredExperienceCard/AssociatedDeclaredExperienceCard.vue'
+import AssociatedDeclaredExperienceCard from '@/features/student/associations/components/cards/AssociatedDeclaredExperienceCard/AssociatedDeclaredExperienceCard.vue'
 import { AssociationCardStub } from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.stub'
 import { DeclaredExperienceTypeBadgeStub }
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.stub'
-import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('an associated declared experience card', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedDeclaredExperienceCard>>

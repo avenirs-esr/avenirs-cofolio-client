@@ -1,8 +1,9 @@
-import DeclaredExperienceOrganizationBadge
-  from '@/features/student/personalCareer/components/badges/DeclaredExperienceOrganizationBadge/DeclaredExperienceOrganizationBadge.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import DeclaredExperienceOrganizationBadge
+  from '@/features/student/personalCareer/components/badges/DeclaredExperienceOrganizationBadge/DeclaredExperienceOrganizationBadge.vue'
 
 const stubs = {
   AvBadge: AvBadgeStub

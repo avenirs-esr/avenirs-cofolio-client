@@ -1,17 +1,18 @@
-import type { BaseApiException } from '@/common/exceptions'
 import type { ComputedRef } from 'vue'
+import type { BaseApiException } from '@/common/exceptions'
+import type { TraceFormData } from '@/features/student/traces/types/traces.types'
+import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, ELanguage, invalidateGetTracesSummary, invalidateTracesView, useCreateTrace, useUploadAttachment } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useAssociationSelections } from '@/features/student/associations'
 import { useTraceFormValidators } from '@/features/student/traces/composables/use-trace-form-validators/use-trace-form-validators'
-import { type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
+import { TraceType } from '@/features/student/traces/types/traces.types'
 import { isTraceFileType, isTraceLinkType } from '@/features/student/traces/utils/trace.types-guard'
 import { useToasterStore } from '@/store'
-import { useForm } from '@tanstack/vue-form'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 export function useCreateTraceForm (onTraceCreated?: () => void) {
   const { t } = useI18n()

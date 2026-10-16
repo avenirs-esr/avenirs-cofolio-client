@@ -1,9 +1,11 @@
-import NodeDropdown, { type NodeDropdownProps } from '@/common/components/base/VueFlow/NodeDropdown/NodeDropdown.vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { NodeDropdownProps } from '@/common/components/base/VueFlow/NodeDropdown/NodeDropdown.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
+import NodeDropdown from '@/common/components/base/VueFlow/NodeDropdown/NodeDropdown.vue'
 import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a node dropdown', () => {
   let wrapper: VueWrapper<InstanceType<typeof NodeDropdown>>

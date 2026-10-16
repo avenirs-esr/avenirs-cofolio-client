@@ -1,3 +1,8 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import { ActivityDetailsDrawerStub } from '@/common/activities/components/ActivityDetailsDrawer/ActivityDetailsDrawer.stub'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
@@ -9,10 +14,6 @@ import { ActivityFeedbackStudentSelectStub } from '@/features/staff/feedbacks/vi
 import {
   AssociatedElementSummaryCardStub
 } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementSummaryCard/AssociatedElementSummaryCard.stub'
-import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
 
 const route = reactive<{ name: string, path: string, params: { feedbackId: string } }>({
   name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,

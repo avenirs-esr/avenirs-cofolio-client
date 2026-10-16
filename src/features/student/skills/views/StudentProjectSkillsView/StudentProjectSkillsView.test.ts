@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import { AddDeclaredSkillDrawerStub } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/AddDeclaredSkillDrawer.stub'
 import { SkillsViewOtherTabStub } from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/SkillsViewOtherTab.stub'
 import StudentProjectSkillsView from '@/features/student/skills/views/StudentProjectSkillsView/StudentProjectSkillsView.vue'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const stubs = {
   AvButton: AvButtonStub,

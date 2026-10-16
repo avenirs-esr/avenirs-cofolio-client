@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import type { AvDropdownItem } from '@avenirs-esr/avenirs-dsav'
 import type { Action, ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
-import { moreActionConfig } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.config'
-import { AvDropdown, type AvDropdownItem } from '@avenirs-esr/avenirs-dsav'
+import { AvDropdown } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { moreActionConfig } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.config'
 
 export interface ManageEntityDropdownProps {
   entityName: string

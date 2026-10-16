@@ -1,10 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import DeclaredExperienceResultInput from '@/features/student/personalCareer/components/interactions/inputs/DeclaredExperienceResultInput/DeclaredExperienceResultInput.vue'
 import { DECLARED_EXPERIENCE_RESULT_MAX_LENGTH } from '@/features/student/personalCareer/config'
-import { RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a declared experience result input component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredExperienceResultInput>>

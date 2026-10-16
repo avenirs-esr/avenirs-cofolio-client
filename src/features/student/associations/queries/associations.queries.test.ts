@@ -1,3 +1,7 @@
+import type { QueryKey } from '@tanstack/vue-query'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { QueryClient } from '@tanstack/vue-query'
+import { beforeEach, expect, vi } from 'vitest'
 import {
   EAssociationContextType,
   getGetAssociationsQueryKey,
@@ -12,9 +16,6 @@ import {
 } from '@/api/avenir-esr'
 import { ASSOCIATION_CONTEXT_CONFIGS, ASSOCIATIONS_QUERY_KEY } from '@/features/student/associations/constants/associations.constants'
 import { invalidateAssociationQueries } from '@/features/student/associations/queries/associations.queries'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { QueryClient, type QueryKey } from '@tanstack/vue-query'
-import { beforeEach, expect, vi } from 'vitest'
 
 function startsWith (queryKey: readonly unknown[], prefix: QueryKey) {
   return prefix.every((part, index) => queryKey[index] === part)

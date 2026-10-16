@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import type { EActivityThematic } from '@/api/avenir-esr'
 import type { Association } from '@/features/student/associations/types/associations.types'
+import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
 import FloatingIconCard from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.vue'
-import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 
 export interface AssociationCompactCardProps {
   contextType: EAssociationContextType

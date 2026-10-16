@@ -1,5 +1,10 @@
 import type { AssociateRequestListener } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import type { AssociationsDeleteRequest } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { QueryClient } from '@tanstack/vue-query'
+import { http, HttpResponse } from 'msw'
+import { mountComposable } from 'tests/utils'
+import { afterAll, afterEach, beforeAll, beforeEach, expect, vi } from 'vitest'
 import { mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import {
   associateErrorHandler,
@@ -11,11 +16,6 @@ import { anyAssociationContextType } from '@/__mocks__/msw/utils'
 import { EAssociationContextType, getAssociateUrl, getUnassociateUrl } from '@/api/avenir-esr'
 import { useAssociationMutations } from '@/features/student/associations/composables/use-association-mutations/use-association-mutations'
 import { invalidateAssociationQueries } from '@/features/student/associations/queries/associations.queries'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { QueryClient } from '@tanstack/vue-query'
-import { http, HttpResponse } from 'msw'
-import { mountComposable } from 'tests/utils'
-import { afterAll, afterEach, beforeAll, beforeEach, expect, vi } from 'vitest'
 
 const { mockAddErrorMessage, mockAddSuccessMessage } = vi.hoisted(() => ({
   mockAddErrorMessage: vi.fn(),

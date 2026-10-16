@@ -1,8 +1,8 @@
-import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, expect } from 'vitest'
+import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 
 BddTest().given('a personal career store', () => {
   let store: ReturnType<typeof usePersonalCareerStore>

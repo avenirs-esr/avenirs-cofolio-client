@@ -1,12 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { getMockedActivitiesWithFeedbacks } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
-import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
-import FeedbackActivityConsignCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbackActivityConsignCard/FeedbackActivityConsignCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import DOMPurify from 'dompurify'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { getMockedActivitiesWithFeedbacks } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
+import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
+import FeedbackActivityConsignCard from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbackActivityConsignCard/FeedbackActivityConsignCard.vue'
 
 BddTest().given('an activity consign card', () => {
   let wrapper: VueWrapper<InstanceType<typeof FeedbackActivityConsignCard>>

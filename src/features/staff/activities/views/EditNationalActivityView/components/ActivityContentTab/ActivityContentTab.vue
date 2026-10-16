@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { ActivityContentDTO, FileDTO } from '@/api/avenir-esr'
 import type { AddActivityResourceFormData } from '@/features/staff/activities/types/forms.types'
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { ICONS } from '@/common/constants'
 import { isDifferentFile } from '@/common/utils/file/file'
@@ -19,8 +21,6 @@ import ThematicSelectFormField from '@/features/staff/activities/views/Activitie
 import { isActivityResourceFileType, isActivityResourceLinkType } from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/utils/resource-form.types-guard'
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
-import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 interface ActivityContentTabProps {
   activity: ActivityContentDTO

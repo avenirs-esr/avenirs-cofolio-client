@@ -1,4 +1,5 @@
-import { expect, type Locator, type Page } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export abstract class BaseObject {
   protected constructor (protected readonly root: Locator, protected page?: Page) { }

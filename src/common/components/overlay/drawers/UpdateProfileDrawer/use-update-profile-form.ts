@@ -1,5 +1,9 @@
+import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import { EUserCategory, type ProfileOverviewDTO } from '@/api/avenir-esr'
+import { isValidEmail } from '@avenirs-esr/avenirs-dsav'
+import { useForm, useStore } from '@tanstack/vue-form'
+import { useI18n } from 'vue-i18n'
+import { EUserCategory } from '@/api/avenir-esr'
 import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
 import {
   useUpdateProfile,
@@ -9,9 +13,6 @@ import {
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { useToasterStore } from '@/store'
-import { isValidEmail } from '@avenirs-esr/avenirs-dsav'
-import { useForm, useStore } from '@tanstack/vue-form'
-import { useI18n } from 'vue-i18n'
 
 interface UseUpdateProfileFormData extends Omit<ProfileOverviewDTO, 'bio'> {
   bio?: string

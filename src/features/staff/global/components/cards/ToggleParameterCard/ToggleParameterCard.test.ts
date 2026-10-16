@@ -1,10 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { ToggleParameterCardProps } from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub'
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a toggle parameter card', () => {
   let wrapper: VueWrapper<InstanceType<typeof ToggleParameterCard>>

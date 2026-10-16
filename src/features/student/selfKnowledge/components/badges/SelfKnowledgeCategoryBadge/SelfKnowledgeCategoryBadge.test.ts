@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import SelfKnowledgeCategoryBadge
   from '@/features/student/selfKnowledge/components/badges/SelfKnowledgeCategoryBadge/SelfKnowledgeCategoryBadge.vue'
-import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount } from '@vue/test-utils'
 
 BddTest().given('a self knowledge category badge', () => {
   let wrapper: VueWrapper

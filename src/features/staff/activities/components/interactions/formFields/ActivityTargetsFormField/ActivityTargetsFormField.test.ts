@@ -1,6 +1,12 @@
+import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
+import type { VueWrapper } from '@vue/test-utils'
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
-import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
+import { AvButtonStub, AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { useForm } from '@tanstack/vue-form'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import {
   mockedDevProgramOptionNode,
   mockedDevStudentGroupNode,
@@ -18,11 +24,6 @@ import ActivityTargetsFormField from '@/features/staff/activities/components/int
 import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
 import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 import { ToggleParameterCardStub } from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.stub'
-import { AvButtonStub, AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { useForm } from '@tanstack/vue-form'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 interface MountFieldOptions {
   institutionIds?: string[]

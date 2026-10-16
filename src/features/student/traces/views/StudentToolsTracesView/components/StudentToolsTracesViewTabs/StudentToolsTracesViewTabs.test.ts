@@ -1,4 +1,9 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { TracesSummaryDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises, RouterLinkStub } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import {
   StudentToolsTracesViewAssociatedTabStub
 } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewAssociatedTab/StudentToolsTracesViewAssociatedTab.stub'
@@ -6,10 +11,6 @@ import StudentToolsTracesViewTabs from '@/features/student/traces/views/StudentT
 import {
   StudentToolsTracesViewUnassociatedTabStub
 } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesViewUnassociatedTab/StudentToolsTracesViewUnassociatedTab.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const routeQueryValue = ref<string>('UNASSOCIATED_TRACES')
 
