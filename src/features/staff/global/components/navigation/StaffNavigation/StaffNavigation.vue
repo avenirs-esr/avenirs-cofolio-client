@@ -3,18 +3,17 @@ import type { NavigationMenuProps } from 'node_modules/@avenirs-esr/avenirs-dsav
 import type { NavigationMenuLinkProps } from 'node_modules/@avenirs-esr/avenirs-dsav/dist/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
 import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
 import { ERole } from '@/api/avenir-esr'
 import { ICONS, ROUTES } from '@/common/constants'
 import { isRouteActive } from '@/common/utils/route/route'
-import { useAuthStore } from '@/features/auth/global/stores/auth.store'
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
 import { staffAdminGroupsRoute, staffAdminRoutes, staffAdminSkillsRoute, staffAdminUsersRoute } from '@/features/staff/admin/routes'
 import { staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
 
 const { t } = useI18n()
 const route = useRoute()
-const { roles } = useAuthStore()
+const { roles } = useCurrentUser()
 
 const studentTrackingMenu = computed(() => ({
   id: 'nav-student-tracking-menu',
@@ -78,7 +77,7 @@ const navItems = computed(() => {
     studentTrackingMenu.value,
   ]
 
-  if (roles.includes(ERole.ROLE_ADMIN)) {
+  if (roles.value.includes(ERole.ROLE_ADMIN)) {
     items.push(adminMenu.value)
   }
 

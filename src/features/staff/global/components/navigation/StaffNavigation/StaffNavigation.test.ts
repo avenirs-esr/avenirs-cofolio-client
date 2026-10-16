@@ -8,14 +8,21 @@ import { ICONS } from '@/common/constants'
 import StaffNavigation from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.vue'
 import router from '@/router'
 
-const { mockRoles } = vi.hoisted(() => ({
-  mockRoles: { value: [] as ERole[] },
-}))
+const ACTIVITIES_HEADER = 'BIBLIOTHÈQUE DES ACTIVITÉS'
+const ADMIN_GROUPS = 'Groupes'
+const ADMIN_HEADER = 'ADMINISTRATION'
+const ADMIN_SKILLS = 'Compétences'
+const ADMIN_USERS = 'Utilisateurs'
+const HOME = 'ACCUEIL'
+const STUDENT_FEEDBACKS = 'Toutes mes demandes de feedback'
+const STUDENT_TRACKING = 'SUIVI DES APPRENANTS'
 
-vi.mock('@/features/auth/global/stores/auth.store', () => ({
-  useAuthStore: () => ({
-    roles: mockRoles.value,
-  }),
+const mockRoles = ref<ERole[]>([])
+
+vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
+  useCurrentUser: () => ({
+    roles: mockRoles
+  })
 }))
 
 BddTest().given('a staff navigation', () => {
@@ -23,8 +30,11 @@ BddTest().given('a staff navigation', () => {
 
   const stubs = { AvNavigation: AvNavigationStub }
 
-  const mountDefault = async () => {
-    const wrapper = mountComponent(StaffNavigation, {
+  const mountWith = async (roles: ERole[] = [ERole.ROLE_STAFF]) => {
+    vi.clearAllMocks()
+    mockRoles.value = roles
+
+    wrapper = mountComponent(StaffNavigation, {
       global: {
         stubs,
         plugins: [router],
@@ -35,7 +45,6 @@ BddTest().given('a staff navigation', () => {
     })
 
     await wrapper.vm.$nextTick()
-    return wrapper
   }
 
   const getAvNavigation = () => wrapper.findComponent(AvNavigationStub)
@@ -48,8 +57,7 @@ BddTest().given('a staff navigation', () => {
 
   BddTest().when('the component is mounted', () => {
     beforeEach(async () => {
-      mockRoles.value = [ERole.ROLE_ADMIN]
-      wrapper = await mountDefault()
+      await mountWith()
     })
 
     BddTest().then('it should render AvNavigation component', () => {
@@ -58,7 +66,7 @@ BddTest().given('a staff navigation', () => {
 
     BddTest().then('it should include home navigation item with correct properties', () => {
       expect(getNavItem(0)).toMatchObject({
-        text: 'ACCUEIL',
+        text: HOME,
         to: expect.objectContaining({ name: 'staff-home' }),
         icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
       })
@@ -66,7 +74,7 @@ BddTest().given('a staff navigation', () => {
 
     BddTest().then('it should include activities navigation item with correct properties', () => {
       expect(getNavItem(1)).toMatchObject({
-        text: 'BIBLIOTHÈQUE DES ACTIVITÉS',
+        text: ACTIVITIES_HEADER,
         to: expect.objectContaining({ name: 'staff-activities' }),
         icon: ICONS.ACTIVITY,
       })
@@ -74,7 +82,7 @@ BddTest().given('a staff navigation', () => {
 
     BddTest().then('it should include student tracking menu with correct title', () => {
       expect(getNavItem(2)).toMatchObject({
-        title: 'SUIVI DES APPRENANTS',
+        title: STUDENT_TRACKING,
       })
     })
 
@@ -84,15 +92,25 @@ BddTest().given('a staff navigation', () => {
       expect(links).toHaveLength(1)
 
       expect(links![0]).toMatchObject({
-        text: 'Toutes mes demandes de feedback',
+        text: STUDENT_FEEDBACKS,
         to: expect.objectContaining({ name: 'staff-student-tracking-feedbacks' }),
         icon: ICONS.FEEDBACK,
       })
     })
 
+    BddTest().then('it should not include the admin menu', () => {
+      expect(getNavItems()).toHaveLength(3)
+    })
+  })
+
+  BddTest().when('the component is mounted while the user is an admin', () => {
+    beforeEach(async () => {
+      await mountWith([ERole.ROLE_STAFF, ERole.ROLE_ADMIN])
+    })
+
     BddTest().then('it should include the admin menu with correct title and correct amount of links', () => {
       expect(getNavItem(3)).toMatchObject({
-        title: 'ADMINISTRATION',
+        title: ADMIN_HEADER,
       })
 
       expect(getNavItemLinks(3)).toHaveLength(3)
@@ -100,7 +118,7 @@ BddTest().given('a staff navigation', () => {
 
     BddTest().then('it should include institution users link in admin menu', () => {
       expect(getNavItemLinks(3)![0]).toMatchObject({
-        text: 'Utilisateurs',
+        text: ADMIN_USERS,
         to: expect.objectContaining({ name: 'staff-admin-users' }),
         icon: MDI_ICONS.ACCOUNT_STUDENT_OUTLINE,
       })
@@ -108,7 +126,7 @@ BddTest().given('a staff navigation', () => {
 
     BddTest().then('it should include institution groups link in admin menu', () => {
       expect(getNavItemLinks(3)![1]).toMatchObject({
-        text: 'Groupes',
+        text: ADMIN_GROUPS,
         to: expect.objectContaining({ name: 'staff-admin-groups' }),
         icon: MDI_ICONS.PEOPLE_GROUP_OUTLINE,
       })
@@ -116,7 +134,7 @@ BddTest().given('a staff navigation', () => {
 
     BddTest().then('it should include institution skills link in admin menu', () => {
       expect(getNavItemLinks(3)![2]).toMatchObject({
-        text: 'Compétences',
+        text: ADMIN_SKILLS,
         to: expect.objectContaining({ name: 'staff-admin-skills' }),
         icon: ICONS.SKILLS,
       })
@@ -125,8 +143,7 @@ BddTest().given('a staff navigation', () => {
 
   BddTest().when('the component is mounted by a user without the ADMIN role', () => {
     beforeEach(async () => {
-      mockRoles.value = [ERole.ROLE_STAFF]
-      wrapper = await mountDefault()
+      await mountWith()
     })
 
     BddTest().then('it should not include the admin menu', () => {

@@ -1,29 +1,28 @@
 <script setup lang="ts">
 import { AvRichButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
 import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
-import { useBaseApiExceptionToast, useDrawer } from '@/common/composables'
+import { useDrawer } from '@/common/composables'
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 
-const { data: studentSummary, error } = useGetProfile(EUserCategory.STUDENT)
-useBaseApiExceptionToast(error)
 const { t } = useI18n()
+const { isProfileLoading, profile } = useCurrentUser()
 const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
 </script>
 
 <template>
   <div
-    v-if="studentSummary"
+    v-if="!isProfileLoading"
     id="overview-widget"
     data-testid="student-overview-widget"
   >
     <ProfileCard
-      :first-name="studentSummary.firstname"
-      :last-name="studentSummary.lastname"
-      :profile-picture-url="studentSummary.profilePicture.url"
-      :cover-picture-url="studentSummary.coverPicture.url"
-      :bio="studentSummary.bio"
+      :first-name="profile.firstname"
+      :last-name="profile.lastname"
+      :profile-picture-url="profile.profilePicture.url"
+      :cover-picture-url="profile.coverPicture.url"
+      :bio="profile.bio"
     >
       <div
         class="av-pt-sm"
@@ -47,9 +46,9 @@ const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
     </ProfileCard>
   </div>
   <UpdateProfileDrawer
-    v-if="studentSummary"
+    v-if="!isProfileLoading"
     :key="showDrawer ? 'drawer-open' : 'drawer-closed'"
-    v-bind="studentSummary"
+    v-bind="profile"
     :show="showDrawer"
     :on-close="hideDrawer"
   />

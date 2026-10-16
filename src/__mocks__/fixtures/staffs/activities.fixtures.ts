@@ -269,13 +269,18 @@ export function createMockedPagedResponseActivityStaffOverviewDTO (
   pageSize: number,
   totalElements: number,
   page: number,
-  status?: EActivityStatus | null
+  status?: EActivityStatus | null,
+  leaders?: StaffInfoDTO[]
 ): PagedResponseActivityStaffOverviewDTO {
   const actualTotalElements = Math.min(totalElements, allStaffActivities.length)
   const start = page * pageSize
   const end = start + pageSize
   const paginatedActivities = allStaffActivities.slice(start, end).map((activity) => {
-    return status ? { ...activity, activityStatus: status } : activity
+    return {
+      ...activity,
+      activityStatus: status ?? activity.activityStatus,
+      leaders: leaders ?? activity.leaders
+    }
   })
   const totalPages = Math.ceil(actualTotalElements / pageSize)
 

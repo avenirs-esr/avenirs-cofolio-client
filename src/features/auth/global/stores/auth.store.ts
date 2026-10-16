@@ -1,76 +1,43 @@
-import type { RouteLocationNormalized, RouteLocationRaw } from 'vue-router'
-import type { AcceptedCguDTO, ProfileOverviewDTO } from '@/api/avenir-esr'
+import type { LocationQueryValueRaw, RouteLocationRaw } from 'vue-router'
+import type { EUserCategory, LoggedInUserDTO } from '@/api/avenir-esr'
 import type { FetchOptions } from '@/api/fetch'
 import type { BaseApiException } from '@/common/exceptions'
 import { useQueryClient } from '@tanstack/vue-query'
 import { defineStore } from 'pinia'
 import { readonly } from 'vue'
-import { ERole, EUserCategory, getMe, getProfile } from '@/api/avenir-esr'
+import { getMe } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils'
-import router from '@/router'
+import { INVALID_SESSION } from '@/features/auth/global/stores/auth.store.constants'
 import { useToasterStore } from '@/store'
 
 /**
- * Maps backend roles to the front-end user categories they grant access to.
- * ROLE_SUPER_ADMIN is treated as a staff-level access.
+ * Authentication state and session lifecycle: entry point for critical checks (router guard,
+ * fetch interceptor).
  */
-const ROLE_CATEGORY_MAP: Record<ERole, EUserCategory> = {
-  [ERole.ROLE_STUDENT]: EUserCategory.STUDENT,
-  [ERole.ROLE_STAFF]: EUserCategory.STAFF,
-  [ERole.ROLE_ADMIN]: EUserCategory.STAFF,
-  [ERole.ROLE_SUPER_ADMIN]: EUserCategory.STAFF,
-}
-
-function getConnectedUserCategories (roles: ERole[]): EUserCategory[] {
-  return [...new Set(roles.map(role => ROLE_CATEGORY_MAP[role]))]
-}
-
 export const useAuthStore = defineStore('auth', () => {
-  const authenticated = ref<boolean>(false)
-  const sessionReady = ref<boolean>(false)
-  const profile = ref<ProfileOverviewDTO | null>(null)
-  const categories = ref<EUserCategory[]>([])
-  const acceptedCgu = ref<AcceptedCguDTO | null>(null)
-  const roles = ref<ERole[]>([])
-
-  const redirecting = ref(false)
-  const sessionPromise = ref<Promise<void> | null>(null)
-  const canSwitchProfile = computed(() => categories.value.includes(EUserCategory.STUDENT) && categories.value.includes(EUserCategory.STAFF))
-  const isSuperAdmin = computed(() => roles.value.includes(ERole.ROLE_SUPER_ADMIN))
   const { addErrorMessage } = useToasterStore()
   const queryClient = useQueryClient()
 
-  const isLoggedIn = computed(() => authenticated.value && sessionReady.value)
+  const sessionReady = ref<boolean>(false)
+  const sessionPromise = ref<Promise<void>>()
+  const session = ref<LoggedInUserDTO>()
+  const redirecting = ref<boolean>(false)
 
-  const hasAcceptedLatestCgu = computed(() => acceptedCgu.value !== null && acceptedCgu.value.isLastVersion)
-
-  const homeRoute = computed<RouteLocationRaw>(() =>
-    !categories.value.includes(EUserCategory.STUDENT) && categories.value.includes(EUserCategory.STAFF) ? ROUTES.STAFF.HOME : ROUTES.STUDENT.HOME)
+  const selectedUserCategory = ref<EUserCategory>()
 
   async function loadSession () {
     if (sessionReady.value) {
       return
     }
 
-    if (sessionPromise.value === null) {
+    if (sessionPromise.value === undefined) {
       sessionPromise.value = (async () => {
         const fetchOptions: FetchOptions = { skipUnauthorizedHandling: true }
 
         let isStatusNot401 = true
         try {
-          const me = await getMe(fetchOptions)
-          roles.value = me.roles
-          categories.value = getConnectedUserCategories(me.roles)
-          acceptedCgu.value = me.acceptedCgu ?? null
-
-          const selectedProfile = categories.value.includes(EUserCategory.STUDENT)
-            ? EUserCategory.STUDENT
-            : categories.value[0]
-
-          profile.value = selectedProfile !== undefined
-            ? await getProfile(selectedProfile, fetchOptions)
-            : null
+          session.value = await getMe(fetchOptions)
         }
         catch (error) {
           const err = error as BaseApiException
@@ -84,98 +51,80 @@ export const useAuthStore = defineStore('auth', () => {
         if (isStatusNot401) {
           sessionReady.value = true
         }
-      })().finally(() => sessionPromise.value = null)
+      })().finally(() => sessionPromise.value = undefined)
     }
 
     await sessionPromise.value
   }
 
   /**
-   * Ensures the user is authenticated, triggering a redirect to the login page if not.
+   * Ensures the user is authenticated.
    *
-   * Serves as the single entry point for authentication checks across two contexts:
-   * - **Router guard** (`delegated: true`): returns the login route instead of navigating directly, allowing `router.beforeEach` to delegate the redirect Vue Router.
-   * - **Fetch interceptor** (`force: true`): bypasses session loading and redirects immediately. Used when a 401 is received mid-session.
+   * Before returning the login route, the session is invalidated and the query cache cleared.
    *
-   * A `redirecting` flag prevents concurrent redirects (e.g. multiple simultaneous 401 responses). Note that this flag is not persisted and resets on page reload.
-   *
-   * @param options Options
-   * @param options.to Current route, used to preserve the intended destination as a redirect query param
-   * @param options.delegated If true, returns the login route instead of navigating directly
-   * @param options.force If true, bypasses session loading and redirects unconditionally
-   * @returns The login route if `delegated` is true and the user is not authenticated, `undefined` otherwise
+   * @param to Location to come back to after login (becomes the `redirect` query param)
+   * @param force If true, skips session loading and redirects unconditionally
+   * @returns The login route if a redirect is needed; `undefined` if the user is authenticated or if a
+   * redirect is already in progress
    */
-  async function ensureAuthenticated (options: {
-    to?: RouteLocationNormalized
-    delegated?: boolean
-    force?: boolean
-  } = {}): Promise<RouteLocationRaw | undefined> {
+  async function ensureAuthenticated (to: LocationQueryValueRaw, force: boolean = false): Promise<RouteLocationRaw | undefined> {
     if (redirecting.value) {
-      return
+      return undefined
     }
 
-    if (!options.force) {
-      await loadSession()
+    if (!force) {
       if (sessionReady.value) {
-        authenticated.value = true // TODO: to be updated by a source of truth other than the session load
-        return
+        return undefined
+      }
+
+      await loadSession()
+
+      if (sessionReady.value) {
+        return undefined
       }
     }
 
     redirecting.value = true
     invalidateSession()
-
     await queryClient.cancelQueries()
 
-    const toLogin = {
+    return {
       name: ROUTES.AUTH.LOGIN.name,
-      query: { redirect: options.to?.fullPath ?? router.currentRoute.value.fullPath },
+      query: { redirect: to },
     }
+  }
 
-    if (options.delegated) {
-      return toLogin
+  function patchSession (patch: Partial<LoggedInUserDTO>) {
+    if (session.value) {
+      session.value = {
+        ...session.value,
+        ...patch
+      }
     }
-
-    await router.replace(toLogin)
   }
 
   function invalidateSession () {
-    authenticated.value = false
     sessionReady.value = false
-    profile.value = null
-    categories.value = []
-    roles.value = []
-    acceptedCgu.value = null
-  }
-
-  function setAcceptedCgu (accepted: AcceptedCguDTO) {
-    acceptedCgu.value = accepted
+    session.value = undefined
+    selectedUserCategory.value = undefined
+    queryClient.clear()
   }
 
   return {
     ensureAuthenticated,
+    isLoggedIn: readonly(sessionReady),
+    session: computed(() => session.value ?? INVALID_SESSION),
+    patchSession,
     invalidateSession,
-    isLoggedIn,
-    profile: readonly(profile),
-    categories: readonly(categories),
-    roles: readonly(roles),
-    canSwitchProfile: readonly(canSwitchProfile),
-    acceptedCgu: readonly(acceptedCgu),
-    hasAcceptedLatestCgu,
-    setAcceptedCgu,
-    isSuperAdmin: readonly(isSuperAdmin),
-    homeRoute
+    selectedUserCategory,
   }
 }, {
   persist: {
     pick: [
       'authenticated',
       'sessionReady',
-      'canSwitchProfile',
-      'profile',
-      'categories',
-      'roles',
-      'acceptedCgu',
+      'session',
+      'selectedUserCategory'
     ]
   }
 })

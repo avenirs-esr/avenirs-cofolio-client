@@ -3,11 +3,19 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student'
-import { getProfileErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
-import { server } from '@/__mocks__/msw/server'
 import { ProfileCardStub } from '@/common/components/cards/ProfileCard/ProfileCard.stub'
 import { UpdateProfileDrawerStub } from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import StudentOverviewWidget from '@/features/student/user/components/cards/StudentOverviewWidget/StudentOverviewWidget.vue'
+
+const mockProfile = ref(mockedProfileOverview)
+const mockIsProfileLoading = ref(false)
+
+vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
+  useCurrentUser: () => ({
+    profile: mockProfile,
+    isProfileLoading: mockIsProfileLoading
+  })
+}))
 
 BddTest().given('a student overview widget', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentOverviewWidget>>
@@ -17,25 +25,30 @@ BddTest().given('a student overview widget', () => {
     UpdateProfileDrawer: UpdateProfileDrawerStub
   }
 
+  const mountWith = ({ isProfileLoading = false }: { isProfileLoading?: boolean } = {}) => {
+    mockIsProfileLoading.value = isProfileLoading
+
+    wrapper = mountComponent(StudentOverviewWidget, { global: { stubs } })
+  }
+
+  const getEditProfileButton = () => wrapper.find('[data-testid="edit-profile-button"]')
+  const getProfileCard = () => wrapper.findComponent(ProfileCardStub)
+  const getRichButtons = () => wrapper.findAllComponents({ name: 'AvRichButton' })
+  const getUpdateProfileDrawer = () => wrapper.findComponent(UpdateProfileDrawerStub)
+  const getWidget = () => wrapper.find('[data-testid="student-overview-widget"]')
+
   BddTest().when('the component is mounted', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mountComponent(StudentOverviewWidget, {
-        global: { stubs }
-      })
-      await vi.waitFor(() => {
-        const profileCard = wrapper.findComponent({ name: 'ProfileCard' })
-        expect(profileCard.exists()).toBe(true)
-      })
+    beforeEach(() => {
+      mountWith()
     })
 
     BddTest().then('it should render the ProfileCard component', () => {
-      const profileCard = wrapper.findComponent({ name: 'ProfileCard' })
-      expect(profileCard.exists()).toBe(true)
+      expect(getProfileCard().exists()).toBe(true)
     })
 
     BddTest().then('it should pass correct props to ProfileCard', () => {
-      const profileCard = wrapper.findComponent({ name: 'ProfileCard' })
+      const profileCard = getProfileCard()
+
       expect(profileCard.props('firstName')).toBe(mockedProfileOverview.firstname)
       expect(profileCard.props('lastName')).toBe(mockedProfileOverview.lastname)
       expect(profileCard.props('profilePictureUrl')).toBe(mockedProfileOverview.profilePicture.url)
@@ -44,62 +57,47 @@ BddTest().given('a student overview widget', () => {
     })
 
     BddTest().then('it should render 1 rich button in footer', () => {
-      expect(wrapper.findAllComponents({ name: 'AvRichButton' })).toHaveLength(1)
+      expect(getRichButtons()).toHaveLength(1)
     })
 
     BddTest().then('it should emit click on AvRichButtons', async () => {
-      const editProfileButton = wrapper.find('[data-testid="edit-profile-button"]')
+      expect(getEditProfileButton().exists()).toBe(true)
 
-      expect(editProfileButton.exists()).toBe(true)
-
-      await editProfileButton.trigger('click')
+      await getEditProfileButton().trigger('click')
     })
 
     BddTest().then('it should render UpdateProfileDrawer in hidden state', () => {
-      const updateProfileDrawer = wrapper.findComponent({ name: 'UpdateProfileDrawer' })
+      const updateProfileDrawer = getUpdateProfileDrawer()
+
       expect(updateProfileDrawer.exists()).toBe(true)
       expect(updateProfileDrawer.props('show')).toBe(false)
     })
   })
 
   BddTest().when('clicking on the edit profile button', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mountComponent(StudentOverviewWidget, {
-        global: { stubs }
-      })
-      await vi.waitFor(() => {
-        const profileCard = wrapper.findComponent({ name: 'ProfileCard' })
-        expect(profileCard.exists()).toBe(true)
-      })
+    beforeEach(() => {
+      mountWith()
     })
 
     BddTest().then('it should show UpdateProfileDrawer', async () => {
-      let updateProfileDrawer = wrapper.findComponent({ name: 'UpdateProfileDrawer' })
-      expect(updateProfileDrawer.exists()).toBe(true)
-      expect(updateProfileDrawer.props('show')).toBe(false)
+      expect(getUpdateProfileDrawer().exists()).toBe(true)
+      expect(getUpdateProfileDrawer().props('show')).toBe(false)
 
-      const editProfileButton = wrapper.find('[data-testid="edit-profile-button"]')
-      expect(editProfileButton.exists()).toBe(true)
-      await editProfileButton.trigger('click')
+      await getEditProfileButton().trigger('click')
 
-      updateProfileDrawer = wrapper.findComponent({ name: 'UpdateProfileDrawer' })
-      expect(updateProfileDrawer.exists()).toBe(true)
-      expect(updateProfileDrawer.props('show')).toBe(true)
+      expect(getUpdateProfileDrawer().exists()).toBe(true)
+      expect(getUpdateProfileDrawer().props('show')).toBe(true)
     })
   })
 
-  BddTest().when('the component is mounted when studentSummary is undefined', () => {
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      server.use(getProfileErrorHandler)
-      wrapper = mountComponent(StudentOverviewWidget, {
-        global: { stubs }
-      })
+  BddTest().when('the component is mounted while the profile is still loading', () => {
+    beforeEach(() => {
+      mountWith({ isProfileLoading: true })
     })
 
     BddTest().then('it should render nothing', () => {
-      expect(wrapper.find('[data-testid="student-overview-widget"]').exists()).toBe(false)
+      expect(getWidget().exists()).toBe(false)
+      expect(getUpdateProfileDrawer().exists()).toBe(false)
     })
   })
 })

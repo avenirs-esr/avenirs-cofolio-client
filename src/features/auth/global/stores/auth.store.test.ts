@@ -1,42 +1,20 @@
-import type { RouteLocationNormalized, RouteLocationRaw } from 'vue-router'
+import type { RouteLocationRaw } from 'vue-router'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
-import { beforeEach, expect, vi } from 'vitest'
-import { mockedAcceptedCgu, mockedOutdatedAcceptedCgu } from '@/__mocks__/fixtures/shared/cgu.fixtures'
-import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
-import { mockedProfileOverview } from '@/__mocks__/fixtures/student'
-import { ERole, EUserCategory } from '@/api/avenir-esr'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { meUnauthorizedHandler, mockedLoggedInUser } from '@/__mocks__/msw/handlers/shared/generic.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
-import { BaseApiException } from '@/common/exceptions'
-import { HttpStatusCode } from '@/common/utils'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
+import { INVALID_SESSION } from '@/features/auth/global/stores/auth.store.constants'
 
-const { mockGetProfile, mockGetMe, mockReplace } = vi.hoisted(() => ({
-  mockGetProfile: vi.fn(),
-  mockGetMe: vi.fn(),
-  mockReplace: vi.fn(),
-}))
+const TARGET = '/target'
 
-const mockUnauthorizedError = new BaseApiException('Unauthorized', HttpStatusCode.UNAUTHORIZED)
-
-vi.mock('@/api/avenir-esr', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/api/avenir-esr')>()
-  return {
-    ...actual,
-    getProfile: mockGetProfile,
-    getMe: mockGetMe,
-  }
-})
-
-const mockTo = { fullPath: '/target' } as RouteLocationNormalized
-
-vi.mock('@/router', () => ({
-  __esModule: true,
-  default: {
-    replace: mockReplace,
-    currentRoute: { value: { fullPath: '/current-route' } },
-  },
-}))
+const LOGIN_ROUTE = {
+  name: ROUTES.AUTH.LOGIN.name,
+  query: { redirect: TARGET },
+}
 
 const mockAddErrorMessage = vi.fn()
 
@@ -47,10 +25,12 @@ vi.mock('@/store', () => ({
 }))
 
 const mockCancelQueries = vi.fn()
+const mockClear = vi.fn()
 
 vi.mock('@tanstack/vue-query', () => ({
   useQueryClient: () => ({
     cancelQueries: mockCancelQueries,
+    clear: mockClear,
   }),
 }))
 
@@ -64,464 +44,169 @@ BddTest().given('an auth store with mocked dependencies', () => {
     store = useAuthStore()
   })
 
+  afterEach(() => {
+    server.resetHandlers()
+  })
+
   BddTest().when('the store is initialized', () => {
     BddTest().then('it should expose default state', () => {
       expect(store).toBeDefined()
       expect(store.isLoggedIn).toBe(false)
+      expect(store.session).toEqual(INVALID_SESSION)
+      expect(store.selectedUserCategory).toBeUndefined()
       expect(store.ensureAuthenticated).toBeTypeOf('function')
       expect(store.invalidateSession).toBeTypeOf('function')
-      expect(store.profile).toBeNull()
-      expect(store.canSwitchProfile).toBe(false)
-      expect(store.acceptedCgu).toBeNull()
-      expect(store.hasAcceptedLatestCgu).toBe(false)
-      expect(store.roles).toEqual([])
-      expect(store.isSuperAdmin).toBe(false)
-    })
-
-    BddTest().then('it should expose the STUDENT home route by default', () => {
-      expect(store.homeRoute).toEqual(ROUTES.STUDENT.HOME)
+      expect(store.patchSession).toBeTypeOf('function')
     })
   })
 
-  BddTest().when('ensureAuthenticated is called with { delegated: false } and user authenticated as STUDENT', () => {
+  BddTest().when('ensureAuthenticated is called and the api returns a valid session', () => {
     beforeEach(async () => {
-      mockGetMe.mockResolvedValueOnce({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_STUDENT'] })
-      mockGetProfile.mockResolvedValueOnce(mockedProfileOverview)
-      route = await store.ensureAuthenticated({ delegated: false, to: mockTo })
+      route = await store.ensureAuthenticated(TARGET)
     })
 
-    BddTest().then('it should try to load the session and succeed', () => {
-      expect(mockGetProfile).toHaveBeenCalledTimes(1)
-      expect(mockGetProfile).toHaveBeenCalledWith(EUserCategory.STUDENT, expect.anything())
+    BddTest().then('it should load the session', () => {
       expect(mockAddErrorMessage).not.toHaveBeenCalled()
       expect(store.isLoggedIn).toBe(true)
-      expect(store.profile).not.toBeNull()
-      expect(store.categories).toEqual([EUserCategory.STUDENT])
-      expect(store.canSwitchProfile).toBe(false)
-      expect(store.roles).toEqual([ERole.ROLE_STUDENT])
-      expect(store.isSuperAdmin).toBe(false)
+      expect(store.session).toEqual(mockedLoggedInUser)
     })
 
-    BddTest().then('it should expose the STUDENT home route', () => {
-      expect(store.homeRoute).toEqual(ROUTES.STUDENT.HOME)
-    })
-
-    BddTest().then('it should return undefined and not navigate to the login route', () => {
-      expect(mockCancelQueries).not.toHaveBeenCalled()
+    BddTest().then('it should not ask for any redirection', () => {
       expect(route).toBeUndefined()
-      expect(mockReplace).not.toHaveBeenCalled()
+      expect(mockCancelQueries).not.toHaveBeenCalled()
+      expect(mockClear).not.toHaveBeenCalled()
     })
   })
 
-  BddTest().when('ensureAuthenticated is called with { delegated: false } and user authenticated as STAFF', () => {
+  BddTest().when('ensureAuthenticated is called again once the session is loaded', () => {
     beforeEach(async () => {
-      mockGetMe.mockResolvedValueOnce({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_STAFF'] })
-      mockGetProfile.mockResolvedValueOnce(mockedStaffProfileOverview)
-      route = await store.ensureAuthenticated({ delegated: false, to: mockTo })
+      await store.ensureAuthenticated(TARGET)
+      server.use(meUnauthorizedHandler)
+      route = await store.ensureAuthenticated(TARGET)
     })
 
-    BddTest().then('it should try to load the session and succeed', () => {
-      expect(mockGetProfile).toHaveBeenCalledTimes(1)
-      expect(mockGetProfile).toHaveBeenCalledWith(EUserCategory.STAFF, expect.anything())
-      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+    BddTest().then('it should trust the loaded session instead of calling the api again', () => {
+      expect(route).toBeUndefined()
       expect(store.isLoggedIn).toBe(true)
-      expect(store.profile).not.toBeNull()
-      expect(store.categories).toEqual([EUserCategory.STAFF])
-      expect(store.canSwitchProfile).toBe(false)
-      expect(store.roles).toEqual([ERole.ROLE_STAFF])
-      expect(store.isSuperAdmin).toBe(false)
-    })
-
-    BddTest().then('it should expose the STAFF home route', () => {
-      expect(store.homeRoute).toEqual(ROUTES.STAFF.HOME)
-    })
-
-    BddTest().then('it should return undefined and not navigate to the login route', () => {
+      expect(store.session).toEqual(mockedLoggedInUser)
       expect(mockCancelQueries).not.toHaveBeenCalled()
-      expect(route).toBeUndefined()
-      expect(mockReplace).not.toHaveBeenCalled()
     })
   })
 
-  BddTest().when('ensureAuthenticated is called with { delegated: false } and user authenticated as ADMIN', () => {
+  BddTest().when('ensureAuthenticated is called and the api answers 401', () => {
     beforeEach(async () => {
-      mockGetMe.mockResolvedValueOnce({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_ADMIN'] })
-      mockGetProfile.mockResolvedValueOnce(mockedStaffProfileOverview)
-      route = await store.ensureAuthenticated({ delegated: false, to: mockTo })
+      server.use(meUnauthorizedHandler)
+      route = await store.ensureAuthenticated(TARGET)
     })
 
-    BddTest().then('it should load the STAFF profile and succeed', () => {
-      expect(mockGetProfile).toHaveBeenCalledTimes(1)
-      expect(mockGetProfile).toHaveBeenCalledWith(EUserCategory.STAFF, expect.anything())
-      expect(mockAddErrorMessage).not.toHaveBeenCalled()
-      expect(store.isLoggedIn).toBe(true)
-      expect(store.profile).toEqual(mockedStaffProfileOverview)
-      expect(store.categories).toEqual([EUserCategory.STAFF])
-      expect(store.canSwitchProfile).toBe(false)
-    })
-
-    BddTest().then('it should expose the ADMIN role without considering the user as super admin', () => {
-      expect(store.roles).toEqual([ERole.ROLE_ADMIN])
-      expect(store.isSuperAdmin).toBe(false)
-    })
-
-    BddTest().then('it should expose the STAFF home route', () => {
-      expect(store.homeRoute).toEqual(ROUTES.STAFF.HOME)
-    })
-
-    BddTest().then('it should return undefined and not navigate to the login route', () => {
-      expect(mockCancelQueries).not.toHaveBeenCalled()
-      expect(route).toBeUndefined()
-      expect(mockReplace).not.toHaveBeenCalled()
-    })
-  })
-
-  BddTest().when('ensureAuthenticated is called with { delegated: false } and user authenticated with several roles', () => {
-    beforeEach(async () => {
-      mockGetMe.mockResolvedValueOnce({
-        firstname: 'John',
-        lastname: 'Doe',
-        roles: ['ROLE_STUDENT', 'ROLE_STAFF', 'ROLE_SUPER_ADMIN'],
-      })
-      mockGetProfile.mockResolvedValueOnce(mockedProfileOverview)
-      route = await store.ensureAuthenticated({ delegated: false, to: mockTo })
-    })
-
-    BddTest().then('it should expose every category granted by the roles', () => {
-      expect(store.categories).toEqual([EUserCategory.STUDENT, EUserCategory.STAFF])
-      expect(store.canSwitchProfile).toBe(true)
-    })
-
-    BddTest().then('it should expose the roles and flag the user as super admin', () => {
-      expect(store.roles).toEqual([ERole.ROLE_STUDENT, ERole.ROLE_STAFF, ERole.ROLE_SUPER_ADMIN])
-      expect(store.isSuperAdmin).toBe(true)
-    })
-
-    BddTest().then('it should expose the STUDENT home route', () => {
-      expect(store.homeRoute).toEqual(ROUTES.STUDENT.HOME)
-    })
-  })
-
-  BddTest().when('ensureAuthenticated is called with { delegated: false } and user authenticated as STUDENT and ADMIN', () => {
-    beforeEach(async () => {
-      mockGetMe.mockResolvedValueOnce({
-        firstname: 'John',
-        lastname: 'Doe',
-        roles: ['ROLE_STUDENT', 'ROLE_ADMIN'],
-      })
-      mockGetProfile.mockResolvedValueOnce(mockedProfileOverview)
-      route = await store.ensureAuthenticated({ delegated: false, to: mockTo })
-    })
-
-    BddTest().then('it should expose both STUDENT and STAFF categories', () => {
-      expect(store.categories).toEqual([EUserCategory.STUDENT, EUserCategory.STAFF])
-      expect(store.canSwitchProfile).toBe(true)
-    })
-
-    BddTest().then('it should load the STUDENT profile by default', () => {
-      expect(mockGetProfile).toHaveBeenCalledTimes(1)
-      expect(mockGetProfile).toHaveBeenCalledWith(EUserCategory.STUDENT, expect.anything())
-      expect(store.profile).toEqual(mockedProfileOverview)
-    })
-
-    BddTest().then('it should expose the roles without considering the user as super admin', () => {
-      expect(store.roles).toEqual([ERole.ROLE_STUDENT, ERole.ROLE_ADMIN])
-      expect(store.isSuperAdmin).toBe(false)
-    })
-
-    BddTest().then('it should expose the STUDENT home route', () => {
-      expect(store.homeRoute).toEqual(ROUTES.STUDENT.HOME)
-    })
-  })
-
-  BddTest().when('ensureAuthenticated is called with { delegated: false } and user authenticated as ADMIN and STAFF', () => {
-    beforeEach(async () => {
-      mockGetMe.mockResolvedValueOnce({
-        firstname: 'John',
-        lastname: 'Doe',
-        roles: ['ROLE_ADMIN', 'ROLE_STAFF'],
-      })
-      mockGetProfile.mockResolvedValueOnce(mockedStaffProfileOverview)
-      route = await store.ensureAuthenticated({ delegated: false, to: mockTo })
-    })
-
-    BddTest().then('it should expose only one STAFF category', () => {
-      expect(store.categories).toEqual([EUserCategory.STAFF])
-      expect(store.canSwitchProfile).toBe(false)
-    })
-
-    BddTest().then('it should expose both roles without considering the user as super admin', () => {
-      expect(store.roles).toEqual([ERole.ROLE_ADMIN, ERole.ROLE_STAFF])
-      expect(store.isSuperAdmin).toBe(false)
-    })
-
-    BddTest().then('it should load the STAFF profile only once', () => {
-      expect(mockGetProfile).toHaveBeenCalledTimes(1)
-      expect(mockGetProfile).toHaveBeenCalledWith(EUserCategory.STAFF, expect.anything())
-      expect(store.profile).toEqual(mockedStaffProfileOverview)
-    })
-
-    BddTest().then('it should expose the STAFF home route', () => {
-      expect(store.homeRoute).toEqual(ROUTES.STAFF.HOME)
-    })
-  })
-
-  BddTest().when('ensureAuthenticated is called with { delegated: false } and user not authenticated', () => {
-    beforeEach(async () => {
-      mockGetMe.mockRejectedValueOnce(mockUnauthorizedError)
-      route = await store.ensureAuthenticated({ delegated: false, to: mockTo })
-    })
-
-    BddTest().then('it should try to load the session and fail', () => {
-      expect(mockGetProfile).not.toHaveBeenCalled()
+    BddTest().then('it should fail to load the session without displaying an error', () => {
       expect(mockAddErrorMessage).not.toHaveBeenCalled()
       expect(store.isLoggedIn).toBe(false)
-      expect(store.profile).toBeNull()
+      expect(store.session).toEqual(INVALID_SESSION)
     })
 
-    BddTest().then('it should return undefined and navigate to the login route', () => {
+    BddTest().then('it should return the login route with the target as redirect', () => {
+      expect(route).toEqual(LOGIN_ROUTE)
+    })
+
+    BddTest().then('it should invalidate the session and cancel the pending queries', () => {
+      expect(mockClear).toHaveBeenCalledTimes(1)
       expect(mockCancelQueries).toHaveBeenCalledTimes(1)
-      expect(route).toBeUndefined()
-      expect(mockReplace).toHaveBeenCalledWith({
-        name: ROUTES.AUTH.LOGIN.name,
-        query: { redirect: '/target' },
-      })
     })
   })
 
-  BddTest().when('ensureAuthenticated is called without to and user not authenticated', () => {
+  BddTest().when('ensureAuthenticated is forced before any session load', () => {
     beforeEach(async () => {
-      mockGetMe.mockRejectedValueOnce(mockUnauthorizedError)
-      route = await store.ensureAuthenticated({ delegated: false })
+      route = await store.ensureAuthenticated(TARGET, true)
     })
 
-    BddTest().then('it should try to load the session and fail', () => {
-      expect(mockGetProfile).not.toHaveBeenCalled()
-      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+    BddTest().then('it should redirect immediately instead of loading the session', () => {
+      expect(route).toEqual(LOGIN_ROUTE)
       expect(store.isLoggedIn).toBe(false)
-      expect(store.profile).toBeNull()
+      expect(store.session).toEqual(INVALID_SESSION)
     })
 
-    BddTest().then('it should return undefined and navigate to the login route', () => {
+    BddTest().then('it should invalidate the session and cancel the pending queries', () => {
+      expect(mockClear).toHaveBeenCalledTimes(1)
       expect(mockCancelQueries).toHaveBeenCalledTimes(1)
-      expect(route).toBeUndefined()
-      expect(mockReplace).toHaveBeenCalledWith({
-        name: ROUTES.AUTH.LOGIN.name,
-        query: { redirect: '/current-route' },
-      })
     })
   })
 
-  BddTest().when('ensureAuthenticated is called with { delegated: true } and user authenticated as STUDENT', () => {
+  BddTest().when('ensureAuthenticated is forced after the session was loaded (401 received mid-session)', () => {
     beforeEach(async () => {
-      mockGetMe.mockResolvedValueOnce({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_STUDENT'] })
-      mockGetProfile.mockResolvedValueOnce(mockedProfileOverview)
-      route = await store.ensureAuthenticated({ delegated: true, to: mockTo })
+      await store.ensureAuthenticated(TARGET)
+      route = await store.ensureAuthenticated(TARGET, true)
     })
 
-    BddTest().then('it should try to load the session and succeed', () => {
-      expect(mockGetProfile).toHaveBeenCalledTimes(1)
-      expect(mockGetProfile).toHaveBeenCalledWith(EUserCategory.STUDENT, expect.anything())
-      expect(mockAddErrorMessage).not.toHaveBeenCalled()
-      expect(store.isLoggedIn).toBe(true)
-      expect(store.profile).not.toBeNull()
+    BddTest().then('it should return the login route', () => {
+      expect(route).toEqual(LOGIN_ROUTE)
     })
 
-    BddTest().then('it should return undefined and not navigate', () => {
-      expect(mockCancelQueries).not.toHaveBeenCalled()
-      expect(route).toBeUndefined()
-      expect(mockReplace).not.toHaveBeenCalled()
-    })
-  })
-
-  BddTest().when('ensureAuthenticated is called with { delegated: true } and user authenticated as STAFF', () => {
-    beforeEach(async () => {
-      mockGetMe.mockResolvedValueOnce({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_STAFF'] })
-      mockGetProfile.mockResolvedValueOnce(mockedStaffProfileOverview)
-      route = await store.ensureAuthenticated({ delegated: true, to: mockTo })
-    })
-
-    BddTest().then('it should try to load the session and succeed', () => {
-      expect(mockGetProfile).toHaveBeenCalledTimes(1)
-      expect(mockGetProfile).toHaveBeenCalledWith(EUserCategory.STAFF, expect.anything())
-      expect(mockAddErrorMessage).not.toHaveBeenCalled()
-      expect(store.isLoggedIn).toBe(true)
-      expect(store.profile).not.toBeNull()
-    })
-
-    BddTest().then('it should not return the login route and not navigate', () => {
-      expect(mockCancelQueries).not.toHaveBeenCalled()
-      expect(route).toBeUndefined()
-      expect(mockReplace).not.toHaveBeenCalled()
-    })
-  })
-
-  BddTest().when('ensureAuthenticated is called with { delegated: true } and user authenticated as ADMIN', () => {
-    beforeEach(async () => {
-      mockGetMe.mockResolvedValueOnce({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_ADMIN'] })
-      mockGetProfile.mockResolvedValueOnce(mockedStaffProfileOverview)
-      route = await store.ensureAuthenticated({ delegated: true, to: mockTo })
-    })
-
-    BddTest().then('it should try to load the STAFF profile and succeed', () => {
-      expect(mockGetProfile).toHaveBeenCalledTimes(1)
-      expect(mockGetProfile).toHaveBeenCalledWith(EUserCategory.STAFF, expect.anything())
-      expect(mockAddErrorMessage).not.toHaveBeenCalled()
-      expect(store.isLoggedIn).toBe(true)
-      expect(store.profile).toEqual(mockedStaffProfileOverview)
-      expect(store.categories).toEqual([EUserCategory.STAFF])
-      expect(store.roles).toEqual([ERole.ROLE_ADMIN])
-      expect(store.isSuperAdmin).toBe(false)
-    })
-
-    BddTest().then('it should not navigate', () => {
-      expect(mockCancelQueries).not.toHaveBeenCalled()
-      expect(route).toBeUndefined()
-      expect(mockReplace).not.toHaveBeenCalled()
-    })
-  })
-
-  BddTest().when('ensureAuthenticated is called with { delegated: true } and user not authenticated', () => {
-    beforeEach(async () => {
-      mockGetMe.mockRejectedValueOnce(mockUnauthorizedError)
-      route = await store.ensureAuthenticated({ delegated: true, to: mockTo })
-    })
-
-    BddTest().then('it should try to load the session and fail', () => {
-      expect(mockGetProfile).not.toHaveBeenCalled()
-      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+    BddTest().then('it should drop the loaded session and cancel the pending queries', () => {
       expect(store.isLoggedIn).toBe(false)
-      expect(store.profile).toBeNull()
-    })
-
-    BddTest().then('it should return the login route instead of navigating', () => {
+      expect(store.session).toEqual(INVALID_SESSION)
+      expect(mockClear).toHaveBeenCalledTimes(1)
       expect(mockCancelQueries).toHaveBeenCalledTimes(1)
-      expect(route).toBeDefined()
-      expect((route as any).name).toBe(ROUTES.AUTH.LOGIN.name)
-      expect((route as any).query).toEqual({ redirect: '/target' })
-      expect(mockReplace).not.toHaveBeenCalled()
     })
   })
 
-  BddTest().when('ensureAuthenticated is called with { force: true }', () => {
+  BddTest().when('ensureAuthenticated is forced several times at once (burst of 401)', () => {
+    let routes: (RouteLocationRaw | undefined)[]
+
     beforeEach(async () => {
-      mockGetMe.mockResolvedValueOnce({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_STUDENT'] })
-      mockGetProfile.mockResolvedValueOnce(mockedProfileOverview)
-      route = await store.ensureAuthenticated({ force: true, to: mockTo })
+      routes = await Promise.all([
+        store.ensureAuthenticated(TARGET, true),
+        store.ensureAuthenticated(TARGET, true),
+        store.ensureAuthenticated(TARGET, true),
+      ])
     })
 
-    BddTest().then('it should bypass session loading and redirect immediately', () => {
-      expect(mockGetMe).not.toHaveBeenCalled()
-      expect(mockGetProfile).not.toHaveBeenCalled()
+    BddTest().then('it should only return the login route to the first call', () => {
+      expect(routes).toEqual([LOGIN_ROUTE, undefined, undefined])
+    })
+
+    BddTest().then('it should only invalidate the session and cancel the queries once', () => {
+      expect(mockClear).toHaveBeenCalledTimes(1)
       expect(mockCancelQueries).toHaveBeenCalledTimes(1)
-      expect(route).toBeUndefined()
-      expect(mockReplace).toHaveBeenCalledWith({
-        name: ROUTES.AUTH.LOGIN.name,
-        query: { redirect: '/target' },
-      })
-    })
-  })
-
-  BddTest().when('ensureAuthenticated is called with { delegated: true, force: true }', () => {
-    beforeEach(async () => {
-      mockGetMe.mockResolvedValueOnce({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_STUDENT'] })
-      mockGetProfile.mockResolvedValueOnce(mockedProfileOverview)
-      route = await store.ensureAuthenticated({ delegated: true, force: true, to: mockTo })
-    })
-
-    BddTest().then('it should bypass session loading and return the login route', () => {
-      expect(mockGetMe).not.toHaveBeenCalled()
-      expect(mockGetProfile).not.toHaveBeenCalled()
-      expect(mockCancelQueries).toHaveBeenCalledTimes(1)
-      expect(route).toEqual({
-        name: ROUTES.AUTH.LOGIN.name,
-        query: { redirect: '/target' },
-      })
-      expect(mockReplace).not.toHaveBeenCalled()
     })
   })
 
   BddTest().when('invalidateSession is called after setting some state', () => {
     beforeEach(async () => {
-      mockGetMe.mockResolvedValueOnce({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_SUPER_ADMIN'] })
-      mockGetProfile.mockResolvedValueOnce(mockedProfileOverview)
-      await store.ensureAuthenticated()
+      await store.ensureAuthenticated(TARGET)
+      store.selectedUserCategory = EUserCategory.STUDENT
       store.invalidateSession()
     })
 
     BddTest().then('it should reset authentication related state', () => {
       expect(store.isLoggedIn).toBe(false)
-      expect(store.profile).toBeNull()
-      expect(store.categories).toEqual([])
-      expect(store.canSwitchProfile).toBe(false)
-      expect(store.roles).toEqual([])
-      expect(store.isSuperAdmin).toBe(false)
-      expect(store.acceptedCgu).toBeNull()
-      expect(store.hasAcceptedLatestCgu).toBe(false)
+      expect(store.session).toEqual(INVALID_SESSION)
+      expect(store.selectedUserCategory).toBeUndefined()
     })
 
-    BddTest().then('it should expose the STUDENT home route after invalidation', () => {
-      expect(store.homeRoute).toEqual(ROUTES.STUDENT.HOME)
+    BddTest().then('it should clear the cached queries', () => {
+      expect(mockClear).toHaveBeenCalledTimes(1)
     })
   })
 
-  BddTest().when('the session is loaded for a user who accepted the latest cgu version', () => {
+  BddTest().when('patchSession is called with a loaded session', () => {
     beforeEach(async () => {
-      mockGetMe.mockReset().mockResolvedValue({
-        firstname: 'John',
-        lastname: 'Doe',
-        roles: ['ROLE_STUDENT'],
-        acceptedCgu: mockedAcceptedCgu,
-      })
-      mockGetProfile.mockReset().mockResolvedValue(mockedProfileOverview)
-      await store.ensureAuthenticated()
+      await store.ensureAuthenticated(TARGET)
+      store.patchSession({ firstname: 'Jane' })
     })
 
-    BddTest().then('it should expose the acceptance as up to date', () => {
-      expect(store.acceptedCgu).toEqual(mockedAcceptedCgu)
-      expect(store.hasAcceptedLatestCgu).toBe(true)
+    BddTest().then('it should merge the patch into the session', () => {
+      expect(store.session).toEqual({ ...mockedLoggedInUser, firstname: 'Jane' })
     })
   })
 
-  BddTest().when('the session is loaded for a user who accepted an outdated cgu version', () => {
-    beforeEach(async () => {
-      mockGetMe.mockReset().mockResolvedValue({
-        firstname: 'John',
-        lastname: 'Doe',
-        roles: ['ROLE_STUDENT'],
-        acceptedCgu: mockedOutdatedAcceptedCgu,
-      })
-      mockGetProfile.mockReset().mockResolvedValue(mockedProfileOverview)
-      await store.ensureAuthenticated()
+  BddTest().when('patchSession is called without a session', () => {
+    beforeEach(() => {
+      store.patchSession({ firstname: 'Jane' })
     })
 
-    BddTest().then('it should expose the acceptance as outdated', () => {
-      expect(store.acceptedCgu).toEqual(mockedOutdatedAcceptedCgu)
-      expect(store.hasAcceptedLatestCgu).toBe(false)
-    })
-  })
-
-  BddTest().when('the session is loaded for a user who never accepted the cgu', () => {
-    beforeEach(async () => {
-      mockGetMe.mockReset().mockResolvedValue({
-        firstname: 'John',
-        lastname: 'Doe',
-        roles: ['ROLE_STUDENT'],
-      })
-      mockGetProfile.mockReset().mockResolvedValue(mockedProfileOverview)
-      await store.ensureAuthenticated()
-    })
-
-    BddTest().then('it should expose no acceptance at all', () => {
-      expect(store.acceptedCgu).toBeNull()
-      expect(store.hasAcceptedLatestCgu).toBe(false)
-    })
-
-    BddTest().then('it should take the acceptance into account once setAcceptedCgu is called', () => {
-      store.setAcceptedCgu(mockedAcceptedCgu)
-
-      expect(store.acceptedCgu).toEqual(mockedAcceptedCgu)
-      expect(store.hasAcceptedLatestCgu).toBe(true)
+    BddTest().then('it should do nothing', () => {
+      expect(store.session).toEqual(INVALID_SESSION)
     })
   })
 })

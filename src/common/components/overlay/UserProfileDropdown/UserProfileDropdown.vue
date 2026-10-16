@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import type { AvDropdownItem, AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+import type { AvDropdownItem } from '@avenirs-esr/avenirs-dsav'
+import type { UserProfileDropdownAction } from '@/common/components/overlay/UserProfileDropdown/UserProfileDropdown.types'
 import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useTutorial } from '@/common/components/overlay/tooltips/Tutorial/use-tutorial'
+import { UserProfileDropdownEvents } from '@/common/components/overlay/UserProfileDropdown/UserProfileDropdown.types'
 import { useModal } from '@/common/composables/use-modal/use-modal'
-
-export interface UserProfileDropdownAction extends AvInteractiveProps {
-  name: string
-  label: string
-  icon: string
-}
+import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 
 const { username, actions = [] } = defineProps<{
   username: string
@@ -24,11 +21,7 @@ const emit = defineEmits<{
 const { t } = useI18n()
 const { modalOpened, openModal, closeModal } = useModal()
 const { replayTutorial } = useTutorial()
-
-enum UserProfileDropdownEvents {
-  REWATCH_TUTORIAL = 'rewatch-tutorial',
-  LOGOUT = 'logout-button'
-}
+const { invalidateSession } = useAuthStore()
 
 const dropdownItems = computed<AvDropdownItem[]>(() => [
   ...actions,
@@ -60,6 +53,7 @@ function onItemSelected (itemName: string) {
 }
 
 function logOut () {
+  invalidateSession()
   window.location.assign(__AUTH_LOGOUT_URL__)
 }
 </script>

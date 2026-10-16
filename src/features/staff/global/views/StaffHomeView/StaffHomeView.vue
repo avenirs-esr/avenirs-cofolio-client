@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import { AvRichButton, MDI_ICONS, useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
 import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import Tutorial from '@/common/components/overlay/tooltips/Tutorial/Tutorial.vue'
 import { useDrawer } from '@/common/composables/use-drawer/use-drawer'
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import ActivitiesWidget from '@/features/staff/global/views/StaffHomeView/components/ActivitiesWidget/ActivitiesWidget.vue'
 import FeedbacksWidget from '@/features/staff/global/views/StaffHomeView/components/FeedbacksWidget/FeedbacksWidget.vue'
 
 useGlobalBackgroundColor('var(--surface-background)')
 const { t } = useI18n()
+const { isProfileLoading, profile } = useCurrentUser()
 const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
-
-const { data: staffSummary } = useGetProfile(EUserCategory.STAFF)
 </script>
 
 <template>
@@ -24,11 +23,11 @@ const { data: staffSummary } = useGetProfile(EUserCategory.STAFF)
     <div class="layout-home__sidebar av-col av-gap-xl av-sticky--md av-top-sm">
       <div data-testid="staff-overview-widget">
         <ProfileCard
-          v-if="staffSummary"
-          :first-name="staffSummary.firstname"
-          :last-name="staffSummary.lastname"
-          :profile-picture-url="staffSummary.profilePicture.url"
-          :cover-picture-url="staffSummary.coverPicture.url"
+          v-if="!isProfileLoading"
+          :first-name="profile.firstname"
+          :last-name="profile.lastname"
+          :profile-picture-url="profile.profilePicture.url"
+          :cover-picture-url="profile.coverPicture.url"
         >
           <div
             class="av-pt-sm"
@@ -59,9 +58,9 @@ const { data: staffSummary } = useGetProfile(EUserCategory.STAFF)
   </div>
 
   <UpdateProfileDrawer
-    v-if="staffSummary"
+    v-if="!isProfileLoading"
     :key="showDrawer ? 'drawer-open' : 'drawer-closed'"
-    v-bind="staffSummary"
+    v-bind="profile"
     :show="showDrawer"
     :on-close="hideDrawer"
   />

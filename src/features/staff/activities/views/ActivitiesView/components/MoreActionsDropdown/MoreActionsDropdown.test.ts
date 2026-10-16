@@ -1,18 +1,31 @@
 import type { VueWrapper } from '@vue/test-utils'
+import type { MoreActionsDropdownProps } from '@/features/staff/activities/views/ActivitiesView/components/MoreActionsDropdown/MoreActionsDropdown.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EActivityStatus } from '@/api/avenir-esr'
+import { EActivityStatus, ERole } from '@/api/avenir-esr'
 import { ManageEntityDropdownStub } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.stub'
 import MoreActionsDropdown from '@/features/staff/activities/views/ActivitiesView/components/MoreActionsDropdown/MoreActionsDropdown.vue'
 
-const mockIsSuperAdmin = vi.hoisted(() => ({ value: false }))
+const DELETE_DISABLED_TOOLTIP = 'Vous pouvez uniquement supprimer une activité en brouillon'
+const ENTITY_NAME = 'mon activité'
+const FEEDBACKS_DISABLED_TOOLTIP = 'Les demandes de feedback sont uniquement disponibles pour une activité publiée'
+const LEADER_ONLY_TOOLTIP = 'Vous devez être responsable de l\'activité pour accéder à cette action'
+const UNPUBLISH_DISABLED_TOOLTIP = 'Vous pouvez uniquement dépublier une activité publiée'
 
-vi.mock('@/features/auth/global/stores/auth.store', () => ({
-  useAuthStore: () => ({
-    get isSuperAdmin () {
-      return mockIsSuperAdmin.value
-    },
+const defaultProps: MoreActionsDropdownProps = {
+  activityStatus: EActivityStatus.DRAFT,
+  isLeader: true
+}
+
+const STAFF_ROLES = [ERole.ROLE_STAFF]
+const STAFF_ADMIN_ROLES = [ERole.ROLE_STAFF, ERole.ROLE_SUPER_ADMIN]
+
+const mockRoles = ref<ERole[]>([])
+
+vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
+  useCurrentUser: () => ({
+    roles: mockRoles
   })
 }))
 
@@ -23,29 +36,31 @@ BddTest().given('a MoreActionsDropdown component', () => {
     ManageEntityDropdown: ManageEntityDropdownStub
   }
 
-  function getDropdown () {
-    return wrapper.findComponent(ManageEntityDropdownStub)
-  }
+  const mountWith = (
+    props: Partial<MoreActionsDropdownProps> = {},
+    roles: ERole[] = STAFF_ROLES
+  ) => {
+    vi.clearAllMocks()
+    mockRoles.value = roles
 
-  function getDeleteButton () {
-    return getDropdown().find('[data-testid="delete"]')
-  }
-
-  function mountDropdown (activityStatus: EActivityStatus, isLeader: boolean) {
-    return mountComponent(MoreActionsDropdown, {
-      props: { activityStatus, isLeader },
+    wrapper = mountComponent(MoreActionsDropdown, {
+      props: {
+        ...defaultProps,
+        ...props
+      },
       global: { stubs }
     })
   }
 
-  beforeEach(() => {
-    vi.clearAllMocks()
-    mockIsSuperAdmin.value = false
-  })
+  const getDropdown = () => wrapper.findComponent(ManageEntityDropdownStub)
+  const getDeleteButton = () => getDropdown().find('[data-testid="delete"]')
+
+  const getEntityName = () => getDropdown().props('entityName')
+  const getActions = () => getDropdown().props('actions')
 
   BddTest().when('mounted with DRAFT status', () => {
     beforeEach(() => {
-      wrapper = mountDropdown(EActivityStatus.DRAFT, true)
+      mountWith()
     })
 
     BddTest().then('it should render the dropdown', () => {
@@ -53,27 +68,26 @@ BddTest().given('a MoreActionsDropdown component', () => {
     })
 
     BddTest().then('it should set the correct entity name', () => {
-      expect(getDropdown().props('entityName')).toBe('mon activité')
+      expect(getEntityName()).toBe(ENTITY_NAME)
     })
 
     BddTest().then('the delete action should not be disabled and the navigate to feedback, unpublish and clone actions should be disabled', () => {
-      expect(getDropdown().props('actions')).toEqual([
+      expect(getActions()).toEqual([
         expect.objectContaining({
           type: 'navigateToFeedbacks',
           disabled: true,
-          disabledTooltip: 'Les demandes de feedback sont uniquement disponibles pour une activité publiée'
+          disabledTooltip: FEEDBACKS_DISABLED_TOOLTIP
         }),
         expect.objectContaining({
           type: 'unpublish',
           disabled: true,
-          disabledTooltip: 'Vous pouvez uniquement dépublier une activité publiée'
+          disabledTooltip: UNPUBLISH_DISABLED_TOOLTIP
         }),
         expect.objectContaining({
           type: 'delete',
           disabled: false
         }),
         expect.stringContaining('clone')
-
       ])
     })
 
@@ -100,11 +114,13 @@ BddTest().given('a MoreActionsDropdown component', () => {
 
   BddTest().when('mounted with PUBLISHED status', () => {
     beforeEach(() => {
-      wrapper = mountDropdown(EActivityStatus.PUBLISHED, true)
+      mountWith({
+        activityStatus: EActivityStatus.PUBLISHED
+      })
     })
 
     BddTest().then('the delete action should be disabled and the navigate to feedback, unpublish and clone actions should not be disabled', () => {
-      expect(getDropdown().props('actions')).toEqual([
+      expect(getActions()).toEqual([
         expect.objectContaining({
           type: 'navigateToFeedbacks',
           disabled: false
@@ -116,7 +132,7 @@ BddTest().given('a MoreActionsDropdown component', () => {
         expect.objectContaining({
           type: 'delete',
           disabled: true,
-          disabledTooltip: 'Vous pouvez uniquement supprimer une activité en brouillon'
+          disabledTooltip: DELETE_DISABLED_TOOLTIP
         }),
         expect.stringContaining('clone')
       ])
@@ -155,12 +171,13 @@ BddTest().given('a MoreActionsDropdown component', () => {
 
   BddTest().when('mounted with PUBLISHED status while the user is a super admin', () => {
     beforeEach(() => {
-      mockIsSuperAdmin.value = true
-      wrapper = mountDropdown(EActivityStatus.PUBLISHED, true)
+      mountWith({
+        activityStatus: EActivityStatus.PUBLISHED
+      }, STAFF_ADMIN_ROLES)
     })
 
     BddTest().then('the delete action should not be disabled', () => {
-      expect(getDropdown().props('actions')).toEqual([
+      expect(getActions()).toEqual([
         expect.objectContaining({ type: 'navigateToFeedbacks', disabled: false }),
         expect.objectContaining({ type: 'unpublish', disabled: false }),
         expect.objectContaining({ type: 'delete', disabled: false }),
@@ -181,12 +198,13 @@ BddTest().given('a MoreActionsDropdown component', () => {
 
   BddTest().when('mounted with UNPUBLISHED status while the user is a super admin', () => {
     beforeEach(() => {
-      mockIsSuperAdmin.value = true
-      wrapper = mountDropdown(EActivityStatus.UNPUBLISHED, true)
+      mountWith({
+        activityStatus: EActivityStatus.UNPUBLISHED
+      }, STAFF_ADMIN_ROLES)
     })
 
     BddTest().then('the delete action should not be disabled', () => {
-      expect(getDropdown().props('actions')).toEqual([
+      expect(getActions()).toEqual([
         expect.objectContaining({ type: 'navigateToFeedbacks', disabled: true }),
         expect.objectContaining({ type: 'unpublish', disabled: true }),
         expect.objectContaining({ type: 'delete', disabled: false }),
@@ -197,28 +215,28 @@ BddTest().given('a MoreActionsDropdown component', () => {
 
   BddTest().when('the user is not a leader of the activity', () => {
     beforeEach(() => {
-      wrapper = mountDropdown(EActivityStatus.UNPUBLISHED, false)
+      mountWith({
+        activityStatus: EActivityStatus.UNPUBLISHED,
+        isLeader: false
+      })
     })
 
     BddTest().then('the actions should be disabled', () => {
-      expect(getDropdown().props('actions')).toEqual([
+      expect(getActions()).toEqual([
         expect.objectContaining({
           type: 'navigateToFeedbacks',
           disabled: true,
-          disabledTooltip:
-          'Vous devez être responsable de l\'activité pour accéder à cette action',
+          disabledTooltip: LEADER_ONLY_TOOLTIP
         }),
         expect.objectContaining({
           type: 'unpublish',
           disabled: true,
-          disabledTooltip:
-          'Vous devez être responsable de l\'activité pour accéder à cette action',
+          disabledTooltip: LEADER_ONLY_TOOLTIP
         }),
         expect.objectContaining({
           type: 'delete',
           disabled: true,
-          disabledTooltip:
-          'Vous devez être responsable de l\'activité pour accéder à cette action',
+          disabledTooltip: LEADER_ONLY_TOOLTIP
         }),
         expect.stringContaining('clone')
       ])
@@ -227,12 +245,11 @@ BddTest().given('a MoreActionsDropdown component', () => {
 
   BddTest().when('the user is a leader of the activity and the activity is a draft', () => {
     beforeEach(() => {
-      mockIsSuperAdmin.value = false
-      wrapper = mountDropdown(EActivityStatus.DRAFT, true)
+      mountWith()
     })
 
     BddTest().then('the delete action should be enabled', () => {
-      expect(getDropdown().props('actions')).toEqual([
+      expect(getActions()).toEqual([
         expect.objectContaining({
           type: 'navigateToFeedbacks',
           disabled: true,
@@ -252,12 +269,13 @@ BddTest().given('a MoreActionsDropdown component', () => {
 
   BddTest().when('the user is a leader of the activity but the activity is not a draft', () => {
     beforeEach(() => {
-      mockIsSuperAdmin.value = false
-      wrapper = mountDropdown(EActivityStatus.UNPUBLISHED, true)
+      mountWith({
+        activityStatus: EActivityStatus.UNPUBLISHED
+      })
     })
 
     BddTest().then('the delete action should be disabled', () => {
-      expect(getDropdown().props('actions')).toEqual([
+      expect(getActions()).toEqual([
         expect.objectContaining({
           type: 'navigateToFeedbacks',
           disabled: true,

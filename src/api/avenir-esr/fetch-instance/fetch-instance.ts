@@ -28,9 +28,12 @@ interceptorManager.addResponseInterceptor(async (response: Response, context: Re
 
   if (response.status === HttpStatusCode.UNAUTHORIZED && !skip) {
     const { useAuthStore } = await import('@/features/auth/global/stores/auth.store')
-    const authStore = useAuthStore()
+    const { default: router } = await import('@/router')
 
-    await authStore.ensureAuthenticated({ force: true })
+    const toLogin = await useAuthStore().ensureAuthenticated(router.currentRoute.value.fullPath, true)
+    if (toLogin !== undefined) {
+      await router.replace(toLogin)
+    }
 
     return new Promise<Response>(() => {})
   }

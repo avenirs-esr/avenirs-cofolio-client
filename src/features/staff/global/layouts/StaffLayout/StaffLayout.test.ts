@@ -8,17 +8,22 @@ import { SkipLinksStub } from '@/common/components/navigation/SkipLinks/SkipLink
 import { SwitchUniverseStub } from '@/common/components/navigation/SwitchUniverse/SwitchUniverse.stub'
 import { ROUTES } from '@/common/constants'
 import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'
+import { StaffNavigationStub } from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.stub'
 import StaffLayout from '@/features/staff/global/layouts/StaffLayout/StaffLayout.vue'
 import { StaffNotificationsPopoverStub } from '@/features/staff/user/components/overlays/StaffNotificationsPopover/StaffNotificationsPopover.stub'
 import { StaffProfileDropdownStub } from '@/features/staff/user/components/overlays/StaffProfileDropdown/StaffProfileDropdown.stub'
 
-const mockUseAuthStore = vi.hoisted(() => vi.fn(() => ({
-  canSwitchProfile: false
-})))
-const selectLanguageMock = vi.fn()
+const LANGUAGE = 'en'
+const SEARCH_QUERY = 'search value'
+const USERNAME = 'M. Dupont'
 
-vi.mock('@/features/auth/global/stores/auth.store', () => ({
-  useAuthStore: mockUseAuthStore
+const selectLanguageMock = vi.fn()
+const mockCanSwitchProfile = ref(false)
+
+vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
+  useCurrentUser: () => ({
+    canSwitchProfile: mockCanSwitchProfile
+  })
 }))
 
 vi.mock('@/common/composables', async (importOriginal) => {
@@ -41,10 +46,7 @@ BddTest().given('a staff layout', () => {
     SwitchUniverse: SwitchUniverseStub,
     StaffNotificationsPopover: StaffNotificationsPopoverStub,
     StaffProfileDropdown: StaffProfileDropdownStub,
-    StaffNavigation: {
-      name: 'StaffNavigation',
-      template: '<nav data-testid="navigation">Navigation</nav>'
-    },
+    StaffNavigation: StaffNavigationStub,
     Footer: FooterStub,
     RouterView: {
       name: 'RouterView',
@@ -54,34 +56,44 @@ BddTest().given('a staff layout', () => {
     SkipLinks: SkipLinksStub
   }
 
-  beforeEach(() => {
+  const getAvHeader = () => wrapper.findComponent(AvHeaderStub)
+  const getFooter = () => wrapper.findComponent(FooterStub)
+  const getMenuBurgerStore = () => useMenuBurgerStore()
+  const getNavigation = () => wrapper.findComponent(StaffNavigationStub)
+  const getNotificationsPopover = () => wrapper.findComponent(StaffNotificationsPopoverStub)
+  const getProfileDropdown = () => wrapper.findComponent(StaffProfileDropdownStub)
+  const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
+  const getSkipLinks = () => wrapper.findComponent(SkipLinksStub)
+  const getSwitchUniverse = () => wrapper.findComponent(SwitchUniverseStub)
+
+  const mountWith = async ({ canSwitchProfile = false }: { canSwitchProfile?: boolean } = {}) => {
     vi.clearAllMocks()
-    mockUseAuthStore.mockReturnValue({
-      canSwitchProfile: false
+    mockCanSwitchProfile.value = canSwitchProfile
+
+    wrapper = mountComponent<typeof StaffLayout>(StaffLayout, {
+      global: { stubs }
     })
-  })
+
+    await vi.waitFor(() => {
+      expect(getQuerySuspense().props('isLoading')).toBe(false)
+    })
+  }
 
   BddTest().and('a valid quicklinks', () => {
     BddTest().when('the layout is rendered', () => {
       beforeEach(async () => {
-        wrapper = mountComponent<typeof StaffLayout>(StaffLayout, {
-          global: { stubs }
-        })
-        await vi.waitFor(() => {
-          const querySuspense = wrapper.findComponent(QuerySuspenseStub) as VueWrapper<InstanceType<typeof QuerySuspenseStub>>
-          expect(querySuspense.props('isLoading')).toBe(false)
-        })
+        await mountWith()
       })
 
       BddTest().then('it should render header, navigation and quicklinks correctly', () => {
-        expect(wrapper.findComponent({ name: 'AvHeader' }).exists()).toBe(true)
-        expect(wrapper.find('[data-testid="navigation"]').exists()).toBe(true)
-        expect(wrapper.findComponent(StaffNotificationsPopoverStub).exists()).toBe(true)
-        expect(wrapper.findComponent(StaffProfileDropdownStub).exists()).toBe(true)
+        expect(getAvHeader().exists()).toBe(true)
+        expect(getNavigation().exists()).toBe(true)
+        expect(getNotificationsPopover().exists()).toBe(true)
+        expect(getProfileDropdown().exists()).toBe(true)
       })
 
       BddTest().then('it should render the Footer component with correct props', () => {
-        const footer = wrapper.findComponent(FooterStub)
+        const footer = getFooter()
 
         expect(footer.exists()).toBe(true)
         expect(footer.props('accessibilityLink')).toBe(ROUTES.STAFF.ACCESSIBILITY)
@@ -90,92 +102,81 @@ BddTest().given('a staff layout', () => {
         expect(footer.props('personalDataLink')).toBe(ROUTES.STAFF.PERSONAL_DATA)
       })
 
-      BddTest().then('it should pass correct props to profile dropdown', async () => {
-        const profileDropdown = wrapper.findComponent(StaffProfileDropdownStub)
-
-        await vi.waitFor(() => expect(profileDropdown.props('username')).toBe('M. Dupont'))
+      BddTest().then('it should pass correct props to profile dropdown', () => {
+        expect(getProfileDropdown().props('username')).toBe(USERNAME)
       })
 
       BddTest().then('it should not render switch universe', () => {
-        expect(wrapper.findComponent(SwitchUniverseStub).exists()).toBe(false)
+        expect(getSwitchUniverse().exists()).toBe(false)
       })
 
       BddTest().then('it should render the SkipLinks component', () => {
-        expect(wrapper.findComponent(SkipLinksStub).exists()).toBe(true)
+        expect(getSkipLinks().exists()).toBe(true)
+      })
+
+      BddTest().and('AvHeader emits update:modelValue', () => {
+        beforeEach(async () => {
+          getAvHeader().vm.$emit('update:modelValue', SEARCH_QUERY)
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should update searchQuery', () => {
+          expect(wrapper.vm.searchQuery).toBe(SEARCH_QUERY)
+        })
+      })
+
+      BddTest().and('AvHeader emits language-select', () => {
+        beforeEach(async () => {
+          getAvHeader().vm.$emit('language-select', LANGUAGE)
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should call selectLanguage from useLanguageSwitcher', () => {
+          expect(selectLanguageMock).toHaveBeenCalledWith(LANGUAGE)
+        })
+      })
+
+      BddTest().and('the searchQuery is updated', () => {
+        beforeEach(async () => {
+          wrapper.vm.searchQuery = SEARCH_QUERY
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should pass the value to AvHeader', () => {
+          expect(getAvHeader().props('modelValue')).toBe(SEARCH_QUERY)
+        })
+      })
+
+      BddTest().and('the menu burger drawer is displayed', () => {
+        beforeEach(async () => {
+          getMenuBurgerStore().displayMenuBurgerDrawer()
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should pass the store state to AvHeader', () => {
+          expect(getAvHeader().props('menuOpen')).toBe(true)
+        })
+      })
+
+      BddTest().and('AvHeader emits update:menuOpen', () => {
+        beforeEach(async () => {
+          getAvHeader().vm.$emit('update:menuOpen', true)
+          await wrapper.vm.$nextTick()
+        })
+
+        BddTest().then('it should update the store', () => {
+          expect(getMenuBurgerStore().showMenuBurgerDrawer).toBe(true)
+        })
       })
     })
 
     BddTest().when('the layout is rendered with profile switch enabled', () => {
       beforeEach(async () => {
-        mockUseAuthStore.mockReturnValue({
-          canSwitchProfile: true
-        })
-        wrapper = mountComponent<typeof StaffLayout>(StaffLayout, {
-          global: { stubs }
-        })
-        await vi.waitFor(() => {
-          const querySuspense = wrapper.findComponent(QuerySuspenseStub) as VueWrapper<InstanceType<typeof QuerySuspenseStub>>
-          expect(querySuspense.props('isLoading')).toBe(false)
-        })
+        await mountWith({ canSwitchProfile: true })
       })
 
       BddTest().then('it should render switch universe', () => {
-        expect(wrapper.findComponent(SwitchUniverseStub).exists()).toBe(true)
-      })
-    })
-
-    BddTest().when('AvHeader emits update:modelValue', () => {
-      BddTest().then('it should update searchQuery', async () => {
-        const avHeader = wrapper.findComponent({ name: 'AvHeader' })
-
-        avHeader.vm.$emit('update:modelValue', 'test search')
-        await wrapper.vm.$nextTick()
-
-        expect(wrapper.vm.searchQuery).toBe('test search')
-      })
-    })
-
-    BddTest().when('AvHeader emits language-select', () => {
-      beforeEach(async () => {
-        const avHeader = wrapper.findComponent({ name: 'AvHeader' })
-
-        avHeader.vm.$emit('language-select', 'en')
-        await wrapper.vm.$nextTick()
-      })
-
-      BddTest().then('it should call selectLanguage from useLanguageSwitcher', () => {
-        expect(selectLanguageMock).toHaveBeenCalledWith('en')
-      })
-    })
-
-    BddTest().when('the searchQuery is updated', () => {
-      BddTest().then('it should pass the value to AvHeader', async () => {
-        wrapper.vm.searchQuery = 'search value'
-        await wrapper.vm.$nextTick()
-
-        const avHeader = wrapper.findComponent({ name: 'AvHeader' })
-
-        expect(avHeader.props('modelValue')).toBe('search value')
-      })
-    })
-
-    BddTest().when('the menu burger state changes', () => {
-      BddTest().then('it should pass the store state to AvHeader', async () => {
-        const menuBurgerStore = useMenuBurgerStore()
-        menuBurgerStore.displayMenuBurgerDrawer()
-        await wrapper.vm.$nextTick()
-
-        const avHeader = wrapper.findComponent(AvHeaderStub)
-        expect(avHeader.props('menuOpen')).toBe(true)
-      })
-
-      BddTest().then('it should update the store when AvHeader emits update:menuOpen', async () => {
-        const avHeader = wrapper.findComponent(AvHeaderStub)
-
-        avHeader.vm.$emit('update:menuOpen', true)
-        await wrapper.vm.$nextTick()
-
-        expect(useMenuBurgerStore().showMenuBurgerDrawer).toBe(true)
+        expect(getSwitchUniverse().exists()).toBe(true)
       })
     })
   })
