@@ -11,7 +11,7 @@ import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspe
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
 import { useDateUtils, useNavigation } from '@/common/composables'
 import { useModal } from '@/common/composables/use-modal/use-modal'
-import { useAuthStore } from '@/features/auth/global/stores/auth.store'
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import DeleteActivityDefinitivelyConfirmationModal from '@/features/staff/activities/components/modals/DeleteActivityDefinitivelyConfirmationModal/DeleteActivityDefinitivelyConfirmationModal.vue'
 import DeleteDraftActivityConfirmationModal from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
 import UnpublishActivityConfirmationModal from '@/features/staff/activities/components/modals/UnpublishActivityConfirmationModal/UnpublishActivityConfirmationModal.vue'
@@ -63,21 +63,21 @@ const { t } = useI18n()
 const { formatLastModified } = useDateUtils()
 const { isMobile } = useAvBreakpoints()
 const { navigateToFeedbacks } = useNavigation()
+const { isProfileLoading, profile } = useCurrentUser()
 
 const { modalOpened: deleteModalOpened, openModal: displayDeleteModal, closeModal: hideDeleteModal } = useModal()
 const { modalOpened: duplicateModalOpened, openModal: displayDuplicateModal, closeModal: hideDuplicateModal } = useModal()
 const { modalOpened: unpublishModalOpened, openModal: displayUnpublishModal, closeModal: hideUnpublishModal } = useModal()
 
-const authStore = useAuthStore()
-
 const pendingUnpublishId = ref<string>()
 const pendingDuplicate = ref<{ id: string, title: string }>()
 const pendingDelete = ref<{ id: string, status: EActivityStatus }>()
 
+const isLoading = computed(() => isFetching.value || isProfileLoading.value)
 const isPendingDeleteDefinitive = computed(() => pendingDelete.value !== undefined && pendingDelete.value.status !== EActivityStatus.DRAFT)
 
 function isLeaderOfActivity (row: ActivityTableRow) {
-  return row.leaderIds.includes(authStore.profile?.id ?? '')
+  return row.leaderIds.includes(profile.value.id)
 }
 
 function onUnpublishSelected (activityId: string) {
@@ -182,7 +182,7 @@ watch(
     <QuerySuspense
       :error="error"
       :is-empty="rows.length === 0"
-      :is-loading="isFetching"
+      :is-loading="isLoading"
       :empty-state-message="emptyStateMessage"
     >
       <Pagination

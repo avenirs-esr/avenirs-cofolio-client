@@ -1,21 +1,20 @@
 import { ExternalHyperlink, HeadingLevel, ImageRun, Paragraph, TextRun } from 'docx'
 import { useI18n } from 'vue-i18n'
-import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import { useImageRunDataQuery } from '@/features/student/kit/composables/use-export-kit/utils/use-image-run-data.query'
 import { centimeterToEmu, centimeterToPixel } from '@/features/student/kit/composables/use-export-kit/utils/utils'
 
 export function useGenerateProfileSection () {
   const { t } = useI18n()
-
-  const { data: studentSummary, isLoading } = useGetProfile(EUserCategory.STUDENT)
+  const { isProfileLoading, profile } = useCurrentUser()
 
   const { data: coverPictureData } = useImageRunDataQuery({
-    url: computed(() => studentSummary.value?.coverPicture.url),
+    url: computed(() => profile.value.coverPicture.url),
     width: centimeterToPixel(19),
     height: centimeterToPixel(2.5)
   })
   const { data: profilePictureData } = useImageRunDataQuery({
-    url: computed(() => studentSummary.value?.profilePicture.url),
+    url: computed(() => profile.value.profilePicture.url),
     width: centimeterToPixel(3),
     height: centimeterToPixel(3)
   })
@@ -57,15 +56,15 @@ export function useGenerateProfileSection () {
   })
 
   const displayedName = computed(() => {
-    if (studentSummary.value?.firstname && studentSummary.value?.lastname) {
-      return `${studentSummary.value.firstname} ${studentSummary.value.lastname}`
+    if (profile.value.firstname && profile.value.lastname) {
+      return `${profile.value.firstname} ${profile.value.lastname}`
     }
     return undefined
   })
 
   const displayedEmail = computed(() => {
-    if (studentSummary.value?.email) {
-      return studentSummary.value.email
+    if (profile.value.email) {
+      return profile.value.email
     }
     return undefined
   })
@@ -110,13 +109,13 @@ export function useGenerateProfileSection () {
   })
 
   const bioParagraph = computed(() => {
-    if (studentSummary.value?.bio) {
+    if (profile.value.bio) {
       return [
         new Paragraph({
           children: [
             new TextRun(`${t('global.colon', {
               before: t('student.kit.composables.useExportKit.sections.profile.bio')
-            })} ${studentSummary.value?.bio}`),
+            })} ${profile.value.bio}`),
           ],
         })
       ]
@@ -136,6 +135,6 @@ export function useGenerateProfileSection () {
 
   return {
     profileSection,
-    isLoading
+    isLoading: isProfileLoading
   }
 }

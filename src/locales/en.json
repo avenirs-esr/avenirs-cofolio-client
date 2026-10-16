@@ -374,8 +374,10 @@
       "languageSwitcher": "Change language",
       "switchUniverse": {
         "label": "Switch universe",
-        "student": "Student",
-        "staff": "Staff"
+        "buttons": {
+          "STUDENT": "Student",
+          "STAFF": "Staff"
+        }
       }
     },
     "home": "Home",

@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
-import { useI18n } from 'vue-i18n'
-import { EActivityStatus } from '@/api/avenir-esr'
-import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
+import { EActivityStatus, ERole } from '@/api/avenir-esr'
+import { Action, type ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
-import { useAuthStore } from '@/features/auth/global/stores/auth.store'
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
+import { useI18n } from 'vue-i18n'
 
 export interface MoreActionsDropdownProps {
   isLeader: boolean
@@ -20,9 +19,9 @@ const emit = defineEmits<{
 type AllowedActions = Action.NAVIGATE_TO_FEEDBACKS | Action.UNPUBLISH | Action.DELETE | Action.CLONE
 
 const { t } = useI18n()
-const authStore = useAuthStore()
+const { roles } = useCurrentUser()
 
-const canDelete = computed(() => authStore.isSuperAdmin || activityStatus === EActivityStatus.DRAFT)
+const canDelete = computed(() => activityStatus === EActivityStatus.DRAFT || roles.value.includes(ERole.ROLE_SUPER_ADMIN))
 
 const actions = computed<(Action | ActionItem)[]>(() => ([
   {

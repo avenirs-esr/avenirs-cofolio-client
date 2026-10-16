@@ -1,37 +1,24 @@
 import type { VueWrapper } from '@vue/test-utils'
-import type { BreadcrumbLinkRaw } from '@/common/types'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { getProfileErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
-import { server } from '@/__mocks__/msw/server'
+import { mockedProfileOverview } from '@/__mocks__/fixtures/student'
 import { ProfileCardStub } from '@/common/components/cards/ProfileCard/ProfileCard.stub'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
-import { META_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
-import { ROUTES } from '@/common/constants/route-names'
 import { ExportKitButtonStub } from '@/features/student/kit/views/StudentToolsKitView/components/interaction/ExportKitButton/ExportKitButton.stub'
 import { KitContentTabsStub } from '@/features/student/kit/views/StudentToolsKitView/components/KitContentTabs/KitContentTabs.stub'
 import StudentToolsKitView from '@/features/student/kit/views/StudentToolsKitView/StudentToolsKitView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 
-const route = reactive<{ name: string, meta: { breadcrumb: BreadcrumbLinkRaw[] } }>({
-  name: ROUTES.STUDENT.TOOLS_KIT.name,
-  meta: {
-    breadcrumb: [
-      META_BREADCRUMBS.STUDENT.HOME,
-      META_BREADCRUMBS.STUDENT.TOOLS.DEFAULT,
-      META_BREADCRUMBS.STUDENT.TOOLS.KIT.BASE,
-    ],
-  }
-})
+const mockProfile = ref(mockedProfileOverview)
+const mockIsProfileLoading = ref(false)
 
-vi.mock('vue-router', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('vue-router')>()
-  return {
-    ...actual,
-    useRoute: () => route,
-  }
-})
+vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
+  useCurrentUser: () => ({
+    profile: mockProfile,
+    isProfileLoading: mockIsProfileLoading
+  })
+}))
 
 BddTest().given('a student tools kit view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentToolsKitView>>
@@ -44,17 +31,21 @@ BddTest().given('a student tools kit view', () => {
     ExportKitButton: ExportKitButtonStub,
   }
 
+  const mountWith = ({ isProfileLoading = false }: { isProfileLoading?: boolean } = {}) => {
+    mockIsProfileLoading.value = isProfileLoading
+
+    wrapper = mountComponent(StudentToolsKitView, { global: { stubs } })
+  }
+
   const getPageTitle = () => wrapper.findComponent(PageTitleStub)
   const getProfileCard = () => wrapper.findComponent(ProfileCardStub)
   const getKitContentTabs = () => wrapper.findComponent(KitContentTabsStub)
   const getExportKitButton = () => wrapper.findComponent(ExportKitButtonStub)
-  const getQuerySuspenseError = () => wrapper.find('[data-testid="query-suspense-error"]')
+  const getQuerySuspenseLoader = () => wrapper.find('[data-testid="query-suspense-loading"]')
 
-  BddTest().when('the view is mounted with a server error', async () => {
-    beforeEach(async () => {
-      server.use(getProfileErrorHandler)
-      wrapper = mountComponent(StudentToolsKitView, { global: { stubs } })
-      await flushPromises()
+  BddTest().when('the view is mounted while the profile is still loading', () => {
+    beforeEach(() => {
+      mountWith({ isProfileLoading: true })
     })
 
     BddTest().then('it should display the page title', () => {
@@ -65,8 +56,8 @@ BddTest().given('a student tools kit view', () => {
       expect(getExportKitButton().exists()).toBe(true)
     })
 
-    BddTest().then('it should display the error message', () => {
-      expect(getQuerySuspenseError().exists()).toBe(true)
+    BddTest().then('it should display the loader', () => {
+      expect(getQuerySuspenseLoader().exists()).toBe(true)
     })
 
     BddTest().then('it should not display the profile card', () => {
@@ -78,10 +69,9 @@ BddTest().given('a student tools kit view', () => {
     })
   })
 
-  BddTest().when('the view is mounted with a successful response', async () => {
-    beforeEach(async () => {
-      wrapper = mountComponent(StudentToolsKitView, { global: { stubs } })
-      await flushPromises()
+  BddTest().when('the view is mounted with the profile loaded', () => {
+    beforeEach(() => {
+      mountWith()
     })
 
     BddTest().then('it should display the export kit button', () => {
@@ -96,8 +86,8 @@ BddTest().given('a student tools kit view', () => {
       expect(getProfileCard().exists()).toBe(true)
     })
 
-    BddTest().then('it should not display the error message', () => {
-      expect(getQuerySuspenseError().exists()).toBe(false)
+    BddTest().then('it should not display the loader', () => {
+      expect(getQuerySuspenseLoader().exists()).toBe(false)
     })
 
     BddTest().then('it should display the kit content tabs', () => {

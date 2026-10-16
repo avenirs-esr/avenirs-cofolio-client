@@ -11,14 +11,14 @@ import SwitchUniverse from '@/common/components/navigation/SwitchUniverse/Switch
 import { useBaseApiExceptionToast, useLanguageSwitcher } from '@/common/composables'
 import { QUICK_LINKS_REFRESH_INTERVAL, ROUTES } from '@/common/constants'
 import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'
-import { useAuthStore } from '@/features/auth/global/stores/auth.store'
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import StaffNavigation from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.vue'
 import StaffNotificationsPopover from '@/features/staff/user/components/overlays/StaffNotificationsPopover/StaffNotificationsPopover.vue'
 import StaffProfileDropdown from '@/features/staff/user/components/overlays/StaffProfileDropdown/StaffProfileDropdown.vue'
 
 const { t } = useI18n()
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
-const { canSwitchProfile } = useAuthStore()
+const { canSwitchProfile } = useCurrentUser()
 const menuBurgerStore = useMenuBurgerStore()
 const { showMenuBurgerDrawer } = storeToRefs(menuBurgerStore)
 
