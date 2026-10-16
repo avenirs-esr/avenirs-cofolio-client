@@ -1,0 +1,231 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/home.feature.spec.js >> Student Home Page >> Page Load and Basic Display >> Student can load home page successfully
+- Location: .features-gen/tests/student/home.feature.spec.js:12:5
+
+# Error details
+
+```
+Error: expect(page).toHaveTitle(expected) failed
+
+Expected: "Cofolio__"
+Received: "Cofolio"
+Timeout:  10000ms
+
+Call log:
+  - Expect "toHaveTitle" with timeout 10000ms
+    24 × unexpected value "Cofolio"
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - link "Accueil - Cofolio Étudiant":
+    - /url: /cofolio/student
+    - img
+  - button "Changer d'univers"
+  - list:
+    - listitem:
+      - button "Notifications"
+    - listitem:
+      - button "J. moulin"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/student
+      - listitem:
+        - link "MES ACTIVITÉS":
+          - /url: /cofolio/student/activities
+      - listitem:
+        - link "MES COMPÉTENCES":
+          - /url: /cofolio/student/skills
+      - listitem:
+        - button "MON PROJET DE VIE"
+      - listitem:
+        - button "MES OUTILS"
+- main:
+  - heading "Accueil Cofolio Étudiant" [level=1]
+  - img "Bannière du profil"
+  - img "Photo de profil"
+  - text: Jeanne Moulin Je suis étudiante en chimie et écologie. Passionnée par l'innovation durable, je souhaite utiliser la science pour protéger l'environnement et bâtir un avenir plus respectueux de la planète.
+  - list:
+    - listitem:
+      - button "Modifier mon profil"
+  - text: Ma bibliothèque d'activités
+  - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs"':
+    - /url: /cofolio/student/activity-details/declared-activity-1
+    - text: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+    - status: Me connaître
+    - status: En cours
+  - 'link "Activité \"CV\" : Construire son parcours"':
+    - /url: /cofolio/student/activity-details/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+    - text: "Activité \"CV\" : Construire son parcours"
+    - status: Cv
+    - status: Inscrit(e)
+  - 'link "Activité : Construire son parcours (soumise)"':
+    - /url: /cofolio/student/activity-details/declared-activity-2
+    - text: "Activité : Construire son parcours (soumise)"
+    - status: Cv
+    - status: Soumis
+  - link "Voir toute ma bibliothèque d'activités":
+    - /url: /cofolio/student/activities?tab=ACTIVITY_LIBRARY
+  - text: Nouvelles activités
+  - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs"':
+    - /url: /cofolio/student/activity-details/declared-activity-1
+    - text: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+    - status: Me connaître
+    - status: En cours
+  - 'link "Activité \"CV\" : Construire son parcours"':
+    - /url: /cofolio/student/activity-details/DECLARED_ACTIVITY_WITH_NO_ASSOCIATIONS
+    - text: "Activité \"CV\" : Construire son parcours"
+    - status: Cv
+    - status: Inscrit(e)
+  - 'link "Activité : Construire son parcours (soumise)"':
+    - /url: /cofolio/student/activity-details/declared-activity-2
+    - text: "Activité : Construire son parcours (soumise)"
+    - status: Cv
+    - status: Soumis
+  - link "Voir toutes les activités":
+    - /url: /cofolio/student/activities
+  - text: Mes dernières traces
+  - link "Prévenir la pollution à la source":
+    - /url: /cofolio/student/trace/4453f884-9081-43cb-95c6-d76c2bb59fd7
+    - text: Prévenir la pollution à la source
+    - status: Individuel
+    - status: Sans ia
+  - link "Mettre en place des filières d'économies circulaires":
+    - /url: /cofolio/student/trace/trace2
+    - text: Mettre en place des filières d'économies circulaires
+    - status: Collectif
+    - status: Avec ia
+  - link "Évaluer l'impact environnemental et économique":
+    - /url: /cofolio/student/trace/trace3
+    - text: Évaluer l'impact environnemental et économique
+    - status: Individuel
+    - status: Sans ia
+  - link "Voir toutes mes traces":
+    - /url: /cofolio/student/tools/traces
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/student/accessibility
+    - listitem:
+      - link "Conditions générales d'utilisation":
+        - /url: /cofolio/student/cgu
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/student/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/student/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1  | import type { Locator, Page } from '@playwright/test'
+  2  | import { AV_BREAKPOINTS } from '@e2e/framework/shared/utils/dimension'
+  3  | import { expect } from '@playwright/test'
+  4  | import { Given, Then, When } from 'playwright-bdd/decorators'
+  5  | 
+  6  | export abstract class BasePage {
+  7  |   protected constructor (public page: Page) {}
+  8  | 
+  9  |   @Then('no horizontal scrolling is required')
+  10 |   async verifyNoHorizontalScroll () {
+  11 |     const { scrollWidth, clientWidth } = await this.page.evaluate(() => {
+  12 |       const el = document.documentElement
+  13 |       return { scrollWidth: el.scrollWidth, clientWidth: el.clientWidth }
+  14 |     })
+  15 | 
+  16 |     expect(scrollWidth).toBeLessThanOrEqual(clientWidth)
+  17 |   }
+  18 | 
+  19 |   async verifyLocatorIsFullWidth (locator: Locator, tolerancePercent = 10) {
+  20 |     const viewport = this.page.viewportSize()
+  21 |     if (!viewport) {
+  22 |       throw new Error('Viewport not available')
+  23 |     }
+  24 | 
+  25 |     const box = await locator.boundingBox()
+  26 |     if (!box) {
+  27 |       throw new Error('Element not visible')
+  28 |     }
+  29 | 
+  30 |     const tolerancePx = (viewport.width * tolerancePercent) / 100
+  31 |     expect(box.width).toBeGreaterThan(viewport.width - tolerancePx)
+  32 |   }
+  33 | 
+  34 |   @Given('the page is displayed on mobile viewport')
+  35 |   async verifyMobileViewport () {
+  36 |     const viewport = this.page.viewportSize()
+  37 |     expect(viewport?.width).toBeLessThanOrEqual(AV_BREAKPOINTS.md)
+  38 |   }
+  39 | 
+  40 |   @When('the user scrolls down through the page')
+  41 |   async scrollDown () {
+  42 |     await this.page.evaluate(() => {
+  43 |       window.scrollTo(0, document.body.scrollHeight / 2)
+  44 |     })
+  45 |     await this.page.waitForTimeout(500)
+  46 |   }
+  47 | 
+  48 |   @Then('the URL contains {string}')
+  49 |   async verifyUrlContains (url: string) {
+  50 |     await expect.poll(
+  51 |       () => this.page.url(),
+  52 |       { timeout: 5000 }
+  53 |     ).toContain(url)
+  54 |   }
+  55 | 
+  56 |   @Then('the page title is {string}')
+  57 |   async verifyPageTitle (title: string) {
+> 58 |     await expect(this.page).toHaveTitle(title)
+     |                             ^ Error: expect(page).toHaveTitle(expected) failed
+  59 |   }
+  60 | }
+  61 | 
+```
