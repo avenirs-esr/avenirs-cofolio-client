@@ -1,9 +1,16 @@
 import { ROUTES } from '@/common/constants'
-import { staffAdminGroupsRoute, staffAdminSkillsRoute, staffAdminUsersRoute } from '@/features/staff/admin/routes'
+import { staffAdminGroupRoute, staffAdminGroupsRoute, staffAdminSkillsRoute, staffAdminUsersRoute } from '@/features/staff/admin/routes'
 import AdminInstitutionGroupsView from '@/features/staff/admin/views/AdminInstitutionGroupsView/AdminInstitutionGroupsView.vue'
 import AdminInstitutionSkillsView from '@/features/staff/admin/views/AdminInstitutionSkillsView/AdminInstitutionSkillsView.vue'
 import AdminInstitutionUsersView from '@/features/staff/admin/views/AdminInstitutionUsersView/AdminInstitutionUsersView.vue'
+import InstitutionGroupDetailedView from '@/features/staff/admin/views/InstitutionGroupDetailedView/InstitutionGroupDetailedView.vue'
 import { testRoute } from 'tests/utils'
+
+testRoute(
+  staffAdminGroupRoute,
+  ROUTES.STAFF.ADMIN.GROUP,
+  InstitutionGroupDetailedView
+)
 
 testRoute(
   staffAdminGroupsRoute,
