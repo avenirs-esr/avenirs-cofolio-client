@@ -103,6 +103,7 @@ BddTest().given('a ManageEntityDropdown', () => {
         Action.RESUBSCRIBE,
         Action.UPDATE_IN_PROFILE,
         Action.CLONE,
+        Action.DISSOCIATE,
         Action.UNPUBLISH,
         Action.UNSUBSCRIBE,
         Action.DELETE,
@@ -221,8 +222,8 @@ BddTest().given('a ManageEntityDropdown', () => {
         actions: [
           Action.PUBLISH,
           Action.UNPUBLISH,
-          Action.DELETE,
           Action.UNSUBSCRIBE,
+          Action.DELETE,
         ],
       })
     })

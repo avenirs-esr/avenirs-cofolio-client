@@ -9,6 +9,8 @@ import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ErrorCodes, ICONS } from '@/common/constants'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
+import AssociateModal from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
+import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import DeclaredSkillDetails
   from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
 import DeclaredSkillSettingDropdown
@@ -32,6 +34,19 @@ const {
   navigateToStudentSkills,
   navigateToStudentToolsKitSkills
 } = useNavigation()
+
+const {
+  modalOpened: associateModalOpened,
+  openModal: openAssociateModal,
+  closeModal: closeAssociateModal
+} = useModal()
+
+const {
+  modalOpened: unassociateModalOpened,
+  openModal: openUnassociateModal,
+  closeModal: closeUnassociateModal
+} = useModal()
+
 const { data: declaredSkillDetailed, error } = useGetSkillProgressDetails(skillId)
 const { modalOpened, openModal, closeModal } = useModal()
 const { isStudentToolsKitRoute } = useIdentifyRoute()
@@ -69,6 +84,27 @@ function handleSkillDeleted () {
       <DeclaredSkillSettingDropdown
         @delete="openModal"
         @update="handleUpdateSelected"
+        @associate="openAssociateModal"
+        @dissociate="openUnassociateModal"
+      />
+
+      <AssociateModal
+        v-if="declaredSkillDetailed"
+        :opened="associateModalOpened"
+        :context-type="EAssociationContextType.DECLARED_SKILL"
+        :element-id="declaredSkillDetailed.id"
+        @cancel="closeAssociateModal"
+        @associated="closeAssociateModal"
+      />
+
+      <DeleteAssociationsModal
+        v-if="declaredSkillDetailed && associations"
+        :opened="unassociateModalOpened"
+        :context-type="EAssociationContextType.DECLARED_SKILL"
+        :element-id="declaredSkillDetailed.id"
+        :associations="associations"
+        @cancel="closeUnassociateModal"
+        @deleted="closeUnassociateModal"
       />
     </template>
   </DetailedPageTitle>

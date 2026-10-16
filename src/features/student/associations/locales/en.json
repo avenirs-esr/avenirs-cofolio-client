@@ -6,6 +6,13 @@
           "label": "My selected elements ({count})"
         }
       },
+      "availableContextTypes": {
+        "DECLARED_ACTIVITY": "Activity",
+        "DECLARED_EXPERIENCE": "Experience",
+        "DECLARED_PROGRAM": "Program",
+        "DECLARED_SKILL": "Skill",
+        "TRACE": "Trace"
+      },
       "composables": {
         "useAssociationLimits": {
           "notAllowedTooltip": "This type of association is not allowed."
@@ -16,6 +23,7 @@
           "selectionLimitReachedTooltip": "You have reached the maximum number of items that can be selected."
         }
       },
+      "chooseType": "Choose an association type",
       "contextTypes": {
         "DECLARED_ACTIVITY": {
           "associateConfirm": "Associate selected activity (1) | Associate selected activities ({count})",
@@ -85,6 +93,7 @@
           "selectionLabel": "My skills",
           "unassociateDisabledTooltip": "No associated skill can be removed."
         },
+        "noElementsToAssociate": "You cannot associate any elements",
         "TRACE": {
           "associateConfirm": "Associate selected trace (1) | Associate selected traces ({count})",
           "associateConfirmTitle": "Are you sure you want to associate this trace? | Are you sure you want to associate these traces?",

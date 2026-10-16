@@ -97,7 +97,6 @@ function onProgramUpdated () {
             :element-id="selectedProgramId"
             :associations="declaredProgramAssociations"
             :error="associationsError"
-            readonly
           />
         </AvTab>
       </AvTabs>

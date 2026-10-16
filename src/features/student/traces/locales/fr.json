@@ -129,9 +129,6 @@
           },
           "informationTooltip": "Une trace est une production ou une ressource qui permet d'illustrer vos apprentissages. Elle peut être ajoutée sous la forme d'un fichier ou d'un lien.",
           "studentDetailedTraceAssociateModal": {
-            "buttons": {
-              "associate": "Associer"
-            },
             "errors": {
               "associateTrace": "Erreur lors de l'association de la trace",
               "noResultsFound": "Aucune compétence trouvée"

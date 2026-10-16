@@ -24,7 +24,7 @@ BddTest().given('a manage declared program dropdown', () => {
     BddTest().then('it should render the dropdown with two actions', () => {
       const dropdown = getDropdown()
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('actions')).toHaveLength(2)
+      expect(dropdown.props('actions')).toHaveLength(4)
     })
 
     BddTest().then('it should pass correct props to dropdown', () => {

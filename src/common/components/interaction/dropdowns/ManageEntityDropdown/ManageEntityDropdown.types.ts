@@ -1,10 +1,15 @@
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 
+/**
+ * Available actions, sorted alphabetically.
+ * The order in which actions are displayed depends on `moreActionConfig`.
+ */
 export enum Action {
   ADD = 'add',
   ASSOCIATE = 'associate',
   CLONE = 'clone',
   COLLAPSE = 'collapse',
+  DISSOCIATE = 'dissociate',
   DELETE = 'delete',
   DOWNLOAD = 'download',
   EXPAND = 'expand',

@@ -191,13 +191,6 @@ BddTest().given('a my perspective section', () => {
           error: null
         })
       })
-
-      BddTest().then('it should neither disable the association actions nor make the element associations readonly', async () => {
-        await expectActions({
-          actionsDisabled: false,
-          readonly: false
-        })
-      })
     })
   })
 
@@ -389,12 +382,6 @@ BddTest().given('a my perspective section', () => {
         actionsDisabledTooltip: UNSUBSCRIBED_TOOLTIP
       })
     })
-
-    BddTest().then('it should keep the associated elements visible', async () => {
-      await expectActions({
-        readonly: false
-      })
-    })
   })
 
   BddTest().when('the component is mounted with a submitted declared activity', () => {
@@ -411,12 +398,6 @@ BddTest().given('a my perspective section', () => {
       await expectActions({
         actionsDisabled: true,
         actionsDisabledTooltip: SUBMITTED_TOOLTIP
-      })
-    })
-
-    BddTest().then('it should keep the associated elements visible', async () => {
-      await expectActions({
-        readonly: false
       })
     })
   })

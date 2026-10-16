@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { EAssociationContextType, useGetAssociations, useGetSkillProgressDetails } from '@/api/avenir-esr'
+import { EAssociationContextType, useGetAssociations, useGetSkillProgressDetails, } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import UpdatePageTitle from '@/common/components/navigation/UpdatePageTitle/UpdatePageTitle.vue'
@@ -101,7 +101,6 @@ async function handleCancel () {
         :element-id="declaredSkillDetailed.id"
         :associations="skillProgressAssociations"
         :error="associationsError"
-        readonly
       />
     </AvTab>
   </AvTabs>

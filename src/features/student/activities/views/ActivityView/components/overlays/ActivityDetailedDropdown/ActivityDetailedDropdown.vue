@@ -18,7 +18,7 @@ const emit = defineEmits<{
   (e: AllowedAction): void
 }>()
 
-type AllowedAction = Action.UPDATE | Action.UNSUBSCRIBE | Action.RESUBSCRIBE | Action.DELETE
+type AllowedAction = Action.UPDATE | Action.ASSOCIATE | Action.DISSOCIATE | Action.UNSUBSCRIBE | Action.RESUBSCRIBE | Action.DELETE
 
 const { t } = useI18n()
 
@@ -39,6 +39,8 @@ const resubscribeAction = computed<ActionItem>(() => ({
 const actions = computed(() => (
   [
     deleteAction.value,
+    Action.ASSOCIATE,
+    Action.DISSOCIATE,
     ...(isUnsubscribed.value ? [resubscribeAction.value] : [Action.UPDATE, Action.UNSUBSCRIBE])
   ]
 ))

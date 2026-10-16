@@ -33,23 +33,24 @@ Feature: Student Life Project Declared Skill Detail Page
       Then the activity association items are not empty
       And each activity association item has a defined title
 
-  Rule: Declared skill association deletion
-
-    Background:
-      When the student opens the declared skill associations tab
-      Then the declared skill associations are loaded
+  Rule: Open delete associations modal
 
     @high @declared-skill-details @declared-skill-associations @dataset-full
-    Scenario: Student can see the delete associations dropdown
-      Then the delete associations dropdown is visible
+    Scenario: Student can open the delete associations modal
+      When the student opens the declared skill associations tab
+      And the declared skill associations are loaded
+      And the student opens the manage declared skill dropdown
+      And the student clicks the dissociate action
+      Then the delete associations modal is visible
 
   Rule: Delete associated activities modal
 
     Background:
       When the student opens the declared skill associations tab
       And the declared skill associations are loaded
-      And the student opens the delete associations dropdown
-      And the student selects the activities delete option
+      And the student opens the manage declared skill dropdown
+      And the student clicks the dissociate action
+      And the student selects the activities type in the association type select
 
     @high @declared-skill-details @declared-skill-associations @dataset-full
     Scenario: Student can see the delete activities modal content

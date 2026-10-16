@@ -129,9 +129,6 @@
           },
           "informationTooltip": "A trace is a production or a resource that illustrates your learning. It can be added as a file or a link.",
           "studentDetailedTraceAssociateModal": {
-            "buttons": {
-              "associate": "Associate"
-            },
             "errors": {
               "associateTrace": "Error while associating the trace",
               "noResultsFound": "No skills found"
