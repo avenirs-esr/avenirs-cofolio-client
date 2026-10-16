@@ -392,6 +392,37 @@ BddTest().given('a national activity view', () => {
     })
   })
 
+  BddTest().when('the form is submitted without thematic', () => {
+    let capturedPatchBody: ActivityDraftUpdateRequest | undefined
+
+    beforeEach(async () => {
+      capturedPatchBody = undefined
+
+      server.use(
+        createUpdateActivityDraftHandler((body) => {
+          capturedPatchBody = body
+        }),
+      )
+
+      await mountView()
+      const context = getContext(wrapper)
+      context.form.setFieldValue('thematic', undefined)
+      context.form.setFieldValue('title', 'Titre sans thématique')
+      await context.form.handleSubmit()
+      await flushPromises()
+    })
+
+    BddTest().then('it should save the draft anyway', async () => {
+      await vi.waitFor(() => {
+        expect(capturedPatchBody).toMatchObject({ title: 'Titre sans thématique' })
+      })
+    })
+
+    BddTest().then('it should not flag the thematic field as invalid', () => {
+      expect(getContext(wrapper).form.state.errorMap.onSubmit?.fields?.thematic).toBeUndefined()
+    })
+  })
+
   BddTest().when('the activity has no target', () => {
     let capturedPatchBody: ActivityDraftUpdateRequest | undefined
 

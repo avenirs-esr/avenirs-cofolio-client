@@ -52,7 +52,6 @@ const { isMobile } = useAvBreakpoints()
 const { t } = useI18n()
 const {
   validateTitle,
-  validateThematic,
   validateSummary,
   validateDescription,
   validateRecommendedCompletionContexts,
@@ -131,7 +130,6 @@ const form = useForm({
       return {
         fields: {
           title: validateTitle(value.title),
-          thematic: validateThematic(value.thematic),
           summary: validateSummary(value.summary),
           description: validateDescription(value.description),
           recommendedCompletionContexts: validateRecommendedCompletionContexts(value.recommendedCompletionContexts),
