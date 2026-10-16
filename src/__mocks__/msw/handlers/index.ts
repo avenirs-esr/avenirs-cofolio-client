@@ -4,6 +4,7 @@ import { genericHandlers } from '@/__mocks__/msw/handlers/shared/generic.handler
 import { notificationsHandlers } from '@/__mocks__/msw/handlers/shared/notifications.handlers'
 import { staffsActivitiesHandlers } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { feedbacksHandlers } from '@/__mocks__/msw/handlers/staffs/feedbacks.handlers'
+import { staffsGroupsHandlers } from '@/__mocks__/msw/handlers/staffs/groups.handlers'
 import { staffNotificationsHandlers } from '@/__mocks__/msw/handlers/staffs/notifications.handlers'
 import { staffsScopeHandlers } from '@/__mocks__/msw/handlers/staffs/staff-scope.handlers'
 import { staffUserHandlers } from '@/__mocks__/msw/handlers/staffs/user.handlers'
@@ -26,6 +27,7 @@ export const handlers = [
   ...filesHandlers,
   ...notificationsHandlers,
   ...staffNotificationsHandlers,
+  ...staffsGroupsHandlers,
   ...staffUserHandlers,
   ...studentNotificationsHandlers,
   ...studentUserHandlers,

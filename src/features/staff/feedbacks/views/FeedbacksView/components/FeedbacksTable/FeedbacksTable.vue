@@ -14,7 +14,7 @@ import FeedbackCard from '@/features/staff/feedbacks/views/FeedbacksView/compone
 import { AvButton, AvTable, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
-export interface FeedbacksTabProps {
+export interface FeedbacksTableProps {
   emptyStateMessage?: string
   selectedStatus?: 'ALL' | EFeedbackStatus
   usePaginatedStaffFeedbacksParams: UsePaginatedStaffFeedbacksParams
@@ -26,7 +26,7 @@ const {
   selectedStatus = 'ALL',
   usePaginatedStaffFeedbacksParams,
   withActivity = true,
-} = defineProps<FeedbacksTabProps>()
+} = defineProps<FeedbacksTableProps>()
 
 defineSlots<{
   actions: Slot

@@ -2,6 +2,17 @@ import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 
+export const staffAdminGroupRoute: AvRoute = {
+  ...ROUTES.STAFF.ADMIN.GROUP,
+  props: route => ({
+    groupId: route.params.id,
+  }),
+  component: () => import('@/features/staff/admin/views/InstitutionGroupDetailedView/InstitutionGroupDetailedView.vue'),
+  meta: {
+    breadcrumb: [...BASE_BREADCRUMBS.STAFF.ADMIN.GROUPS],
+  },
+}
+
 export const staffAdminGroupsRoute: AvRoute = {
   ...ROUTES.STAFF.ADMIN.GROUPS,
   component: () => import('@/features/staff/admin/views/AdminInstitutionGroupsView/AdminInstitutionGroupsView.vue'),
@@ -27,6 +38,7 @@ export const staffAdminUsersRoute: AvRoute = {
 }
 
 export const staffAdminRoutes: AvRoute[] = [
+  staffAdminGroupRoute,
   staffAdminGroupsRoute,
   staffAdminSkillsRoute,
   staffAdminUsersRoute,
