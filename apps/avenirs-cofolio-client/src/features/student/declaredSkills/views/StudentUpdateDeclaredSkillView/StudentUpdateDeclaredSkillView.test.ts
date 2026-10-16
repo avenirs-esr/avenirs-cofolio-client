@@ -139,7 +139,6 @@ BddTest().given('a student update declared skill view component', () => {
       await vi.waitFor(() => {
         const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
         expect(elementAssociations.exists()).toBe(true)
-        expect(elementAssociations.props('readonly')).toBe(true)
       })
     })
 

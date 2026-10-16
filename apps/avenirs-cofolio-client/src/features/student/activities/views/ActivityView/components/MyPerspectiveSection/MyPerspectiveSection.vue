@@ -3,7 +3,7 @@ import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import { AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, useGetAssociations } from '@/api/avenir-esr'
-import { isDeclaredActivitySubmitted, isDeclaredActivityUnsubscribed, shouldDisplayTraceLimit } from '@/common/activities/rules/activities.rules'
+import { shouldDisplayTraceLimit } from '@/common/activities/rules/activities.rules'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ICONS } from '@/common/constants'
 import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
@@ -23,18 +23,6 @@ const { data: declaredActivityAssociations, isPending, error } = useGetAssociati
 const activeTab = useEnumRouteQuery('tab', MyPerspectiveSectionTab, MyPerspectiveSectionTab.MY_PERSPECTIVE)
 
 const associationsCount = computed(() => countElementAssociations(EAssociationContextType.DECLARED_ACTIVITY, declaredActivityAssociations.value))
-const readOnly = computed(() => isDeclaredActivityUnsubscribed(declaredActivityDetails.status) || isDeclaredActivitySubmitted(declaredActivityDetails.status))
-const actionsDisabledTooltip = computed(() => {
-  if (isDeclaredActivityUnsubscribed(declaredActivityDetails.status)) {
-    return t('student.activities.views.ActivityView.MyPerspectiveSection.associationsDisabledTooltip')
-  }
-
-  if (isDeclaredActivitySubmitted(declaredActivityDetails.status)) {
-    return t('student.activities.views.ActivityView.MyPerspectiveSection.associationsSubmittedDisabledTooltip')
-  }
-
-  return undefined
-})
 </script>
 
 <template>
@@ -60,8 +48,6 @@ const actionsDisabledTooltip = computed(() => {
         :associations="declaredActivityAssociations"
         :error="error"
         :is-loading="isPending"
-        :actions-disabled="readOnly"
-        :actions-disabled-tooltip="actionsDisabledTooltip"
       >
         <template #header="{ getLimit }">
           <TraceAssociationLimitCard

@@ -6,6 +6,13 @@
           "label": "Mes éléments sélectionnés ({count})"
         }
       },
+      "availableContextTypes": {
+        "DECLARED_ACTIVITY": "Activité",
+        "DECLARED_EXPERIENCE": "Expérience",
+        "DECLARED_PROGRAM": "Formation",
+        "DECLARED_SKILL": "Compétence",
+        "TRACE": "Trace"
+      },
       "composables": {
         "useAssociationLimits": {
           "notAllowedTooltip": "Ce type d'association n'est pas autorisé."
@@ -128,6 +135,11 @@
         }
       },
       "overlays": {
+        "associateModal": {
+          "chooseType": "Choisir un type d'association",
+          "chooseTypePlaceholder": "Sélectionnez une option",
+          "noElementsToAssociate": "Vous ne pouvez associer aucun élément"
+        },
         "modals": {
           "DeleteAssociationsConfirmModal": {
             "title": "Êtes-vous certain(e) de vouloir supprimer cette association\u00A0? | Êtes-vous certain(e) de vouloir supprimer ces associations\u00A0?"

@@ -13,6 +13,7 @@ import { ErrorCodes, ROUTES } from '@/common/constants'
 import { downloadBlob } from '@/common/utils/download/download'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
+import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 import { TraceDeletionConfirmationModalStub } from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.stub'
 import { StudentTraceDetailsStub } from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.stub'
 import { TraceSettingsDropdownStub } from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.stub'
@@ -80,6 +81,7 @@ BddTest().given('a student trace view', () => {
     AssociateModal: AssociateModalStub,
     StudentTraceDetails: StudentTraceDetailsStub,
     ElementAssociations: ElementAssociationsStub,
+    DeleteAssociationsModal: DeleteAssociationsModalStub
   }
 
   const associationsCount
@@ -167,10 +169,8 @@ BddTest().given('a student trace view', () => {
 
     BddTest().then('it should configure the AssociateModal to associate declared skills to the trace', () => {
       const modal = wrapper.findComponent(AssociateModalStub)
-
       expect(modal.props('contextType')).toBe(EAssociationContextType.TRACE)
       expect(modal.props('elementId')).toBe(mockedTraceDetailed.id)
-      expect(modal.props('associatedContextType')).toBe(EAssociationContextType.DECLARED_SKILL)
     })
 
     BddTest().then('it should not render ElementAssociations in the inactive associations tab', () => {
@@ -296,13 +296,6 @@ BddTest().given('a student trace view', () => {
 
       expect(elementAssociations.props('associations')).toEqual(mockedTraceAssociations)
       expect(elementAssociations.props('error')).toBeNull()
-    })
-
-    BddTest().then('it should render ElementAssociations as editable', () => {
-      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
-
-      expect(elementAssociations.props('readonly')).toBe(false)
-      expect(elementAssociations.props('actionsDisabled')).toBe(false)
     })
   })
 

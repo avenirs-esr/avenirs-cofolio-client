@@ -1,10 +1,11 @@
-import type { VueWrapper } from '@vue/test-utils'
-import type { PathParams } from 'msw'
+import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
+import type { VueWrapper, } from '@vue/test-utils'
+import type { PathParams, } from 'msw'
 import type { MockInstance } from 'vitest'
 import type { AssociationsDeleteRequest, AssociationsDTO } from '@/api/avenir-esr'
 import type { DeleteAssociationsModalProps } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvModalStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient } from '@tanstack/vue-query'
 import { flushPromises } from '@vue/test-utils'
 import { http, HttpResponse } from 'msw'
@@ -16,7 +17,7 @@ import {
   mockedDeclaredActivityAssociations,
   mockedEmptyAssociations
 } from '@/__mocks__/fixtures/student/associations.fixtures'
-import { unassociateErrorHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
+import { createGetAssociationsHandler, unassociateErrorHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { anyAssociationContextType } from '@/__mocks__/msw/utils'
 import { EAssociationContextType, getUnassociateUrl } from '@/api/avenir-esr'
@@ -57,24 +58,38 @@ BddTest().given('a delete associations modal', () => {
   const stubs = {
     AvModal: AvModalStub,
     AssociationsSelector: AssociationsSelectorStub,
-    DeleteAssociationsConfirmModal: DeleteAssociationsConfirmModalStub
+    DeleteAssociationsConfirmModal: DeleteAssociationsConfirmModalStub,
+    AvSelect: AvSelectStub
   }
 
   const traceProps: DeleteAssociationsModalProps = {
     opened: true,
     contextType: EAssociationContextType.DECLARED_ACTIVITY,
     elementId: 'declared-activity-1',
-    associatedContextType: EAssociationContextType.TRACE,
-    associations: mockedDeclaredActivityAssociations,
   }
-
+  const getSelect = () => wrapper.findComponent(AvSelectStub)
   const getModal = () => wrapper.findComponent(AvModalStub)
   const getHeader = () => wrapper.find('[data-testid="delete-associations-modal-header"]')
   const getSelector = () => wrapper.findComponent(AssociationsSelectorStub)
   const getConfirmModal = () => wrapper.findComponent(DeleteAssociationsConfirmModalStub)
 
-  function mountModal (props: DeleteAssociationsModalProps) {
+  async function selectType (type: EAssociationContextType) {
+    const option: AvSelectOption = { value: type, label: '', disabled: false }
+    getSelect().vm.$emit('update:modelValue', option)
+    await nextTick()
+  }
+
+  async function mountModal (props: DeleteAssociationsModalProps) {
     wrapper = mountComponent(DeleteAssociationsModal, { props, global: { stubs } })
+    await flushPromises()
+  }
+
+  async function mountModalWithType (
+    props: DeleteAssociationsModalProps,
+    type: EAssociationContextType
+  ) {
+    await mountModal(props)
+    await selectType(type)
   }
 
   async function selectAssociations (associationIds: string[]) {
@@ -99,8 +114,11 @@ BddTest().given('a delete associations modal', () => {
   })
 
   BddTest().when('the modal is opened to delete trace associations', () => {
-    beforeEach(() => {
-      mountModal(traceProps)
+    beforeEach(async () => {
+      server.use(createGetAssociationsHandler(mockedDeclaredActivityAssociations))
+      await mountModalWithType({
+        ...traceProps
+      }, EAssociationContextType.TRACE)
     })
 
     BddTest().then('it should render the opened modal with its test id', () => {
@@ -141,6 +159,7 @@ BddTest().given('a delete associations modal', () => {
     BddTest().and('the user closes the modal', () => {
       beforeEach(async () => {
         getModal().vm.$emit('close')
+        await flushPromises()
         await nextTick()
       })
 
@@ -152,6 +171,7 @@ BddTest().given('a delete associations modal', () => {
     BddTest().and('the user selects one association', () => {
       beforeEach(async () => {
         await selectAssociations(['association-2'])
+        await nextTick()
       })
 
       BddTest().then('it should display a singular confirm button label', () => {
@@ -182,6 +202,7 @@ BddTest().given('a delete associations modal', () => {
 
       beforeEach(async () => {
         await selectAssociations(['association-1', 'association-3'])
+        await nextTick()
       })
 
       BddTest().then('it should update the associations selector selection', () => {
@@ -201,6 +222,7 @@ BddTest().given('a delete associations modal', () => {
         beforeEach(async () => {
           getModal().vm.$emit('close')
           await nextTick()
+          await flushPromises()
         })
 
         BddTest().then('it should reset the selection', () => {
@@ -216,6 +238,7 @@ BddTest().given('a delete associations modal', () => {
         beforeEach(async () => {
           getModal().vm.$emit('confirm')
           await nextTick()
+          await flushPromises()
         })
 
         BddTest().then('it should open the confirm modal', () => {
@@ -261,6 +284,7 @@ BddTest().given('a delete associations modal', () => {
           server.use(createUnassociateHandler(onUnassociateRequest))
           await confirmDeletion()
           await vi.waitFor(() => expect(wrapper.emitted('deleted')).toBeDefined())
+          await flushPromises()
         })
 
         BddTest().then('it should close the confirm modal', () => {
@@ -336,14 +360,16 @@ BddTest().given('a delete associations modal', () => {
       skillProgressAssociations: createMockedDeclaredSkillAssociations(1)
     }
 
-    beforeEach(() => {
-      mountModal({
+    beforeEach(async () => {
+      server.use(createGetAssociationsHandler(associations))
+      await mountModalWithType({
         opened: true,
         contextType: EAssociationContextType.TRACE,
         elementId: 'trace-1',
-        associatedContextType: EAssociationContextType.DECLARED_SKILL,
-        associations,
-      })
+
+      }, EAssociationContextType.DECLARED_SKILL)
+      expect(getSelector().props('associatedContextType'))
+        .toBe(EAssociationContextType.DECLARED_SKILL)
     })
 
     BddTest().then('it should display a singular title', () => {
@@ -361,6 +387,7 @@ BddTest().given('a delete associations modal', () => {
       beforeEach(async () => {
         server.use(createUnassociateHandler(onUnassociateRequest))
         await selectAssociations(['association-id-0'])
+        await nextTick()
         await confirmDeletion()
         await vi.waitFor(() => expect(wrapper.emitted('deleted')).toBeDefined())
       })
@@ -383,6 +410,8 @@ BddTest().given('a delete associations modal', () => {
       })
 
       BddTest().then('it should pass the selected declared skill association to the confirm modal', () => {
+        expect(getSelector().props('modelValue'))
+          .toEqual(['association-id-0'])
         expect(getConfirmModal().props('associations')).toEqual([
           { id: 'association-id-0', title: 'Declared skill 1' }
         ])
@@ -391,8 +420,11 @@ BddTest().given('a delete associations modal', () => {
   })
 
   BddTest().when('the modal is opened without any association of the associated context type', () => {
-    beforeEach(() => {
-      mountModal({ ...traceProps, associations: mockedEmptyAssociations })
+    beforeEach(async () => {
+      server.use(createGetAssociationsHandler(mockedEmptyAssociations))
+      await mountModalWithType({
+        ...traceProps
+      }, EAssociationContextType.TRACE)
     })
 
     BddTest().then('it should display the empty title', () => {

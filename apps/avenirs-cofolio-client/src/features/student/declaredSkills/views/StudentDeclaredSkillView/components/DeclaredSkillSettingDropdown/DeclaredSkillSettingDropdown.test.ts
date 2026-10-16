@@ -19,12 +19,12 @@ BddTest().given('a declared skill setting popover', () => {
     BddTest().then('it should render the dropdown with two menu items', () => {
       const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('items')).toHaveLength(2)
+      expect(dropdown.props('items')).toHaveLength(4)
     })
 
     BddTest().then('it should pass correct props to dropdown', () => {
       const dropdown = wrapper.findComponent({ name: 'AvDropdown' })
-      expect(dropdown.props('items')).toHaveLength(2)
+      expect(dropdown.props('items')).toHaveLength(4)
       expect(dropdown.props('triggerAriaLabel')).toBe('Gérer ma compétence')
       expect(dropdown.props('triggerLabel')).toBe('Gérer ma compétence')
     })

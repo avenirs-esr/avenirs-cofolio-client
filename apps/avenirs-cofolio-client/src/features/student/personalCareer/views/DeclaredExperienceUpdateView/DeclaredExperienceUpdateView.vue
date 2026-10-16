@@ -92,7 +92,6 @@ function onExperienceUpdated () {
           :element-id="selectedExperienceId"
           :associations="declaredExperienceAssociations"
           :error="associationsError"
-          readonly
         />
       </AvTab>
     </AvTabs>

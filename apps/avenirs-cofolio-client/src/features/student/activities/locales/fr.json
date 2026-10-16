@@ -106,6 +106,10 @@
         },
         "ActivityView": {
           "ActivityDetailedDropdown": {
+            "associateAction": {
+              "unsubscribedDisabledTooltip": "Vous ne pouvez plus modifier les associations car vous vous êtes désinscrit(e) de l'activité",
+              "submittedDisabledTooltip": "Vous ne pouvez plus modifier les associations car vous avez soumis votre activité"
+            },
             "deleteAction": {
               "disabledTooltip": "Vous ne pouvez pas supprimer une activité à laquelle vous êtes inscrit(e)"
             }
@@ -162,8 +166,6 @@
             "saveDisabledTooltip": "Modifiez votre prise de recul et corrigez les erreurs avant d'enregistrer"
           },
           "MyPerspectiveSection": {
-            "associationsDisabledTooltip": "Vous ne pouvez plus modifier les associations car vous vous êtes désinscrit(e) de l'activité",
-            "associationsSubmittedDisabledTooltip": "Vous ne pouvez plus modifier les associations car vous avez soumis votre activité",
             "tabs": {
               "associatedElements": "Mes éléments associés ({count})",
               "myPerspective": "Ma prise de recul"

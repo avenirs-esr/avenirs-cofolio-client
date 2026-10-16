@@ -12,14 +12,11 @@ export function createElementAssociationsStub (getLimit: (associatedContextType:
       associations: { type: Object as PropType<AssociationsDTO>, default: undefined },
       error: { type: Object, default: null },
       isLoading: { type: Boolean, default: false },
-      readonly: { type: Boolean, default: false },
-      actionsDisabled: { type: Boolean, default: false },
-      actionsDisabledTooltip: { type: String, default: undefined }
     },
     setup: () => ({ getLimit }),
     template: `
     <div data-testid="element-associations-stub">
-      <slot name="header" :getLimit="getLimit" />
+       <slot name="header" :getLimit="getLimit" />
     </div>
   `
   })

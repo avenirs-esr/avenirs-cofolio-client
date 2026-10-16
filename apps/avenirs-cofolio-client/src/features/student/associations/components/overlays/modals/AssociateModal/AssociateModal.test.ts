@@ -1,59 +1,35 @@
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
+import type { MockInstance } from 'vitest'
 import type { AssociateModalProps } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
-import type { Association } from '@/features/student/associations/types/associations.types'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { QueryClient } from '@tanstack/vue-query'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { createMockedTraceSearchResults } from '@/__mocks__/fixtures/student/associations.fixtures'
-import { associateErrorHandler, createAssociateHandler, searchForAssociationErrorHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
+import {
+  associateErrorHandler,
+  createAssociateHandler,
+  searchForAssociationErrorHandler
+} from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import { ICONS } from '@/common/constants'
 import { AssociationCompactCardStub } from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.stub'
-import { AssociationSearchFilterSelectStub } from '@/features/student/associations/components/interactions/AssociationSearchFilterSelect/AssociationSearchFilterSelect.stub'
+import {
+  AssociationSearchFilterSelectStub
+} from '@/features/student/associations/components/interactions/AssociationSearchFilterSelect/AssociationSearchFilterSelect.stub'
 import { SearchAssociationLayoutStub } from '@/features/student/associations/components/interactions/SearchAssociationLayout/SearchAssociationLayout.stub'
 import AssociateModal from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
-import { ConfirmAssociateModalStub } from '@/features/student/associations/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.stub'
+import {
+  ConfirmAssociateModalStub
+} from '@/features/student/associations/components/overlays/modals/ConfirmAssociateModal/ConfirmAssociateModal.stub'
+import { useAssociationLimit, useAssociationLimits } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import { AssociationSearchFilter } from '@/features/student/associations/types/associations.types'
-import { getContextTypeSlug } from '@/features/student/associations/utils/associations.utils'
-
-const ASSOCIATED_TRACES_PLACEHOLDER = 'Rechercher une trace associée...'
-const DISABLED_TOOLTIP = 'Cet élément est déjà associé.'
-const GENERIC_ERROR_TITLE = 'Une erreur est survenue. Veuillez réessayer ultérieurement.'
-const LIMIT_REACHED_TOOLTIP = 'Nombre maximal d\'associations autorisées atteint.'
-const ROME4_LABEL = 'Rome 4.0'
-const SELECTION_LIMIT_REACHED_TOOLTIP = 'Vous avez atteint le nombre maximal d\'éléments pouvant être sélectionnés.'
-const SKILLS_CANCEL_CONFIRMATION = 'Êtes-vous certain(e) de vouloir abandonner l\'association de compétences\u00A0?'
-const SKILLS_CONFIRM_BUTTON_DISABLED_TOOLTIP = 'Sélectionnez au moins une compétence à associer'
-const SKILLS_PLACEHOLDER = 'Rechercher une compétence...'
-const SKILLS_TITLE = 'Quelle(s) compétence(s) déclarée(s) souhaitez-vous associer\u00A0?'
-const TRACES_CANCEL_CONFIRMATION = 'Êtes-vous certain(e) de vouloir abandonner l\'association de traces\u00A0?'
-const TRACES_CONFIRM_BUTTON_DISABLED_TOOLTIP = 'Sélectionnez au moins une trace à associer'
-const TRACES_PLACEHOLDER = 'Rechercher une trace...'
-const TRACES_TITLE = 'Quelle(s) trace(s) souhaitez-vous associer\u00A0?'
-const UNASSOCIATED_TRACES_PLACEHOLDER = 'Rechercher une trace non associée...'
-const XXI_LABEL = 'XXIᵉ onisep'
-
-const ONE_SKILL_ASSOCIATED_MESSAGE = '1 compétence associée avec succès'
-const ONE_SKILL_CONFIRM_BUTTON_LABEL = 'Associer la compétence sélectionnée (1)'
-const ONE_SKILL_CONFIRM_TITLE = 'Êtes-vous certain(e) de vouloir associer cette compétence\u00A0?'
-const ONE_TRACE_CONFIRM_BUTTON_LABEL = 'Associer la trace sélectionnée (1)'
-const ONE_TRACE_CONFIRM_TITLE = 'Êtes-vous certain(e) de vouloir associer cette trace\u00A0?'
-
-const TWO_TRACES_ASSOCIATED_MESSAGE = 'Vous avez associé 2 traces. Retrouvez-les dans la catégorie « Mes traces associées ».'
-const TWO_TRACES_CONFIRM_BUTTON_LABEL = 'Associer les traces sélectionnées (2)'
-const TWO_TRACES_CONFIRM_TITLE = 'Êtes-vous certain(e) de vouloir associer ces traces\u00A0?'
-
-const defaultProps: AssociateModalProps = {
-  opened: true,
-  contextType: EAssociationContextType.DECLARED_ACTIVITY,
-  elementId: 'declared-activity-1',
-  associatedContextType: EAssociationContextType.TRACE
-}
+import { getAssociableContextTypes } from '@/features/student/associations/utils/associations.utils'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()
@@ -69,114 +45,160 @@ vi.mock('@/store', async (importOriginal) => {
   }
 })
 
-const unassociatedTraceOptions = createMockedTraceSearchResults(false).map(({ id, title, disabled }) => ({ label: title, value: id, disabled, disabledTooltip: DISABLED_TOOLTIP }))
-const UNASSOCIATED_TRACE_IDS = unassociatedTraceOptions.map(({ value }) => value)
-const ASSOCIATED_TRACE_IDS = createMockedTraceSearchResults(true).map(({ id }) => id)
+vi.mock('@/features/student/associations/composables/use-association-limit/use-association-limit', () => ({
+  useAssociationLimit: vi.fn(),
+  useAssociationLimits: vi.fn()
+}))
+
+const mockAssociateStates: Partial<Record<EAssociationContextType, { disabled: boolean, disabledTooltip?: string }>> = {}
+
+function mockAssociationLimits () {
+  vi.mocked(useAssociationLimits).mockReturnValue({
+    getLimit: () => ({
+      isLoaded: true,
+      max: undefined,
+      remaining: Number.POSITIVE_INFINITY
+    }),
+    getAssociateState: (type: EAssociationContextType) =>
+      mockAssociateStates[type] ?? { disabled: false, disabledTooltip: undefined }
+  } as unknown as ReturnType<typeof useAssociationLimits>)
+
+  vi.mocked(useAssociationLimit).mockReturnValue({
+    isLoaded: computed(() => true),
+    max: computed(() => undefined),
+    remaining: computed(() => Number.POSITIVE_INFINITY),
+    isLimitReached: computed(() => false)
+  } as unknown as ReturnType<typeof useAssociationLimit>)
+}
+
+const GENERIC_ERROR_TITLE = 'Une erreur est survenue. Veuillez réessayer ultérieurement.'
+
+const unassociatedTraceOptions = createMockedTraceSearchResults(false)
+  .map(({ id, title, disabled }) => ({
+    label: title,
+    value: id,
+    disabled,
+    disabledTooltip: 'Cet élément est déjà associé.'
+  }))
 
 BddTest().given('an associate modal', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociateModal>>
-
+  let invalidateQueriesSpy: MockInstance
+  const AvSelectWithEmitStub = defineComponent({
+    ...AvSelectStub,
+    emits: [...(AvSelectStub.emits ?? []), 'update:model-value']
+  })
   const stubs = {
     SearchAssociationLayout: SearchAssociationLayoutStub,
     AssociationSearchFilterSelect: AssociationSearchFilterSelectStub,
     AssociationCompactCard: AssociationCompactCardStub,
     ConfirmAssociateModal: ConfirmAssociateModalStub,
-    ConfirmationModal: ConfirmationModalStub
+    ConfirmationModal: ConfirmationModalStub,
+    AvSelect: AvSelectWithEmitStub,
   }
 
-  const mountWith = (props: Partial<AssociateModalProps> = {}) => {
-    vi.clearAllMocks()
-    wrapper = mountComponent(AssociateModal, {
-      props: {
-        ...defaultProps,
-        ...props
-      },
-      global: { stubs }
-    })
+  const traceProps: AssociateModalProps = {
+    opened: true,
+    contextType: EAssociationContextType.DECLARED_ACTIVITY,
+    elementId: 'declared-activity-1',
   }
 
-  const getSlug = () => getContextTypeSlug(wrapper.props('associatedContextType'), true)
+  const skillProps: AssociateModalProps = {
+    opened: true,
+    contextType: EAssociationContextType.TRACE,
+    elementId: 'trace-1',
+  }
 
-  const getModal = () => wrapper.findComponent(`[data-testid="associate-${getSlug()}-modal"]`) as VueWrapper<InstanceType<typeof ConfirmationModalStub>>
-  const getCancelConfirmationModal = () => wrapper.findComponent(`[data-testid="associate-${getSlug()}-confirmation-modal"]`) as VueWrapper<InstanceType<typeof ConfirmationModalStub>>
+  const getSelect = () => wrapper.findComponent(AvSelectStub)
+  const getModal = () =>
+    wrapper.findAllComponents(ConfirmationModalStub).find((m) => {
+      const id = m.attributes('data-testid')
+      return id?.endsWith('-modal') && !id.endsWith('-confirmation-modal')
+    })!
   const getLayout = () => wrapper.findComponent(SearchAssociationLayoutStub)
   const getFilterSelect = () => wrapper.findComponent(AssociationSearchFilterSelectStub)
   const getConfirmModal = () => wrapper.findComponent(ConfirmAssociateModalStub)
-  const getCompactCard = () => wrapper.findComponent(AssociationCompactCardStub)
-  const getCompactCards = () => wrapper.findAllComponents(AssociationCompactCardStub)
-  const getHeader = () => wrapper.find('[data-testid="header"]')
-
+  const getCancelConfirmationModal = () =>
+    wrapper.findAllComponents(ConfirmationModalStub).find(modal =>
+      modal.attributes('data-testid')?.endsWith('-confirmation-modal')
+    )!
   const getLayoutOptions = () => getLayout().props('options') as AvAutocompleteOption[]
-  const getLayoutOptionIds = () => getLayoutOptions().map(({ value }) => value)
-  const getLayoutOptionStates = () => getLayoutOptions().map(({ value, disabled, disabledTooltip }) => ({ value, disabled, disabledTooltip }))
 
-  const waitForSearchResults = async () => {
+  async function selectType (type: EAssociationContextType) {
+    const option = { value: type, label: '' }
+    getSelect().vm.$emit('update:modelValue', option)
+    await nextTick()
+  }
+
+  async function waitForSearchResults () {
     await vi.waitFor(() => {
       expect(getModal().props('isLoading')).toBe(false)
       expect(getLayoutOptions().length).toBeGreaterThan(0)
     })
   }
 
-  const mountWithResults = async (props: Partial<AssociateModalProps> = {}) => {
-    mountWith(props)
+  async function mountModal (props: AssociateModalProps) {
+    wrapper = mountComponent(AssociateModal, { props, global: { stubs } })
+    await nextTick()
     await waitForSearchResults()
   }
 
-  const selectOptions = async (count: number) => {
+  async function mountModalWithType (
+    props: AssociateModalProps,
+    type: EAssociationContextType
+  ) {
+    await mountModal(props)
+    await selectType(type)
+  }
+
+  async function selectOptions (count: number) {
     getLayout().vm.$emit('update:modelValue', getLayoutOptions().slice(0, count))
     await nextTick()
   }
 
-  const confirmAssociation = async () => {
+  async function confirmAssociation () {
     getModal().vm.$emit('confirm')
     await nextTick()
     getConfirmModal().vm.$emit('confirm')
     await nextTick()
   }
 
-  const expectPlaceholder = (placeholder: string) => {
-    expect(getLayout().props('inputOptions')).toEqual({ placeholder })
-  }
+  const getSelectOptions = () => getSelect().props('options') as Array<{
+    value?: EAssociationContextType
+    label: string
+    disabled: boolean
+    disabledTooltip?: string
+  }>
 
-  const expectSelection = (options: AvAutocompleteOption[], associations: Array<Partial<Association>>) => {
-    const layout = getLayout()
-    expect(layout.props('modelValue')).toEqual(options)
-    expect(layout.props('items')).toEqual(associations)
-  }
+  beforeEach(() => {
+    vi.clearAllMocks()
+    for (const k of Object.keys(mockAssociateStates)) {
+      delete mockAssociateStates[k as EAssociationContextType]
+    }
+    mockAssociationLimits()
+    invalidateQueriesSpy = vi.spyOn(QueryClient.prototype, 'invalidateQueries')
+  })
 
-  const expectNoSelection = () => {
-    expectSelection([], [])
-  }
-
-  const expectConfirmModalOpened = (opened: boolean) => {
-    expect(getConfirmModal().props('opened')).toBe(opened)
-  }
-
-  const expectCancelConfirmationOpened = (opened: boolean) => {
-    expect(getCancelConfirmationModal().props('opened')).toBe(opened)
-  }
-
-  const expectSearchAndFilterReset = () => {
-    expect(getLayout().props('search')).toBe('')
-    expect(getFilterSelect().props('modelValue')).toBe(AssociationSearchFilter.UNASSOCIATED)
-  }
+  afterEach(() => {
+    invalidateQueriesSpy.mockRestore()
+  })
 
   BddTest().when('the modal is opened to associate traces', () => {
     beforeEach(async () => {
-      await mountWithResults()
+      await mountModalWithType(traceProps, EAssociationContextType.TRACE)
     })
 
     BddTest().then('it should render the opened modal with its test id', () => {
-      const modal = getModal()
-      expect(modal.exists()).toBe(true)
-      expect(modal.props('opened')).toBe(true)
+      expect(getModal().props('opened')).toBe(true)
+      expect(wrapper.find('[data-testid="associate-traces-modal"]').exists()).toBe(true)
     })
 
     BddTest().then('it should display the title of the associated context type', () => {
-      expect(getHeader().text()).toBe(TRACES_TITLE)
+      expect(wrapper.find('[data-testid="header"]').text()).toBe('Quelle(s) trace(s) souhaitez-vous associer\u00A0?')
     })
 
-    BddTest().then('it should render the modal confirm button with correct icon', () => {
+    BddTest().then('it should render the modal buttons', () => {
+      expect(getModal().props('closeButtonLabel')).toBe('Annuler')
       expect(getModal().props('confirmButtonIcon')).toBe(ICONS.ASSOCIATE)
     })
 
@@ -185,14 +207,13 @@ BddTest().given('an associate modal', () => {
     })
 
     BddTest().then('it should use the disabled confirm button tooltip of the associated context type', () => {
-      expect(getModal().props('confirmButtonDisabledTooltip')).toBe(TRACES_CONFIRM_BUTTON_DISABLED_TOOLTIP)
+      expect(getModal().props('confirmButtonDisabledTooltip')).toBe('Sélectionnez au moins une trace à associer')
     })
 
     BddTest().then('it should render the search filter select with the unassociated filter by default', () => {
-      const filterSelect = getFilterSelect()
-      expect(filterSelect.exists()).toBe(true)
-      expect(filterSelect.props('modelValue')).toBe(AssociationSearchFilter.UNASSOCIATED)
-      expect(filterSelect.props('contextType')).toBe(EAssociationContextType.TRACE)
+      expect(getFilterSelect().exists()).toBe(true)
+      expect(getFilterSelect().props('modelValue')).toBe(AssociationSearchFilter.UNASSOCIATED)
+      expect(getFilterSelect().props('contextType')).toBe(EAssociationContextType.TRACE)
     })
 
     BddTest().then('it should pass the unassociated traces found by the search to the layout options', () => {
@@ -200,31 +221,29 @@ BddTest().given('an associate modal', () => {
     })
 
     BddTest().then('it should use the placeholder of the selected search filter', () => {
-      expectPlaceholder(UNASSOCIATED_TRACES_PLACEHOLDER)
+      expect(getLayout().props('inputOptions')).toEqual({ placeholder: 'Rechercher une trace non associée...' })
     })
 
     BddTest().then('it should start with an empty selection', () => {
-      expectNoSelection()
-      expect(getCompactCards()).toHaveLength(0)
+      expect(getLayout().props('modelValue')).toEqual([])
+      expect(getLayout().props('items')).toEqual([])
+      expect(wrapper.findAllComponents(AssociationCompactCardStub)).toHaveLength(0)
     })
 
     BddTest().then('it should identify and label the options by their value and label', () => {
-      const layout = getLayout()
-      const getOptionKey = layout.props('getOptionKey') as (option: AvAutocompleteOption) => string | number
-      const getOptionLabel = layout.props('getOptionLabel') as (option: AvAutocompleteOption) => string
+      const getOptionKey = getLayout().props('getOptionKey') as (option: AvAutocompleteOption) => string | number
+      const getOptionLabel = getLayout().props('getOptionLabel') as (option: AvAutocompleteOption) => string
 
       expect(getOptionKey(unassociatedTraceOptions[0])).toBe('trace-non-associee1')
       expect(getOptionLabel(unassociatedTraceOptions[0])).toBe('Ma super trace non associée numéro 1')
     })
 
     BddTest().then('it should render the confirm associate modal and the cancel confirmation modal closed', () => {
-      const confirmModal = getConfirmModal()
-      const cancelConfirmationModal = getCancelConfirmationModal()
-
-      expect(confirmModal.props('opened')).toBe(false)
-      expect(confirmModal.props('items')).toEqual([])
-      expect(cancelConfirmationModal.props('opened')).toBe(false)
-      expect(cancelConfirmationModal.props('description')).toBe(TRACES_CANCEL_CONFIRMATION)
+      expect(getConfirmModal().props('opened')).toBe(false)
+      expect(getConfirmModal().props('items')).toEqual([])
+      expect(getCancelConfirmationModal().props('opened')).toBe(false)
+      expect(getCancelConfirmationModal().props('description'))
+        .toBe('Êtes-vous certain(e) de vouloir abandonner l\'association de traces\u00A0?')
     })
 
     BddTest().and('the user searches for a keyword', () => {
@@ -239,7 +258,12 @@ BddTest().given('an associate modal', () => {
 
       BddTest().then('it should only pass the matching traces to the layout options', () => {
         expect(getLayoutOptions()).toEqual([
-          { label: 'Ma super trace non associée numéro 3', value: 'trace-non-associee3', disabled: false, disabledTooltip: DISABLED_TOOLTIP }
+          {
+            label: 'Ma super trace non associée numéro 3',
+            value: 'trace-non-associee3',
+            disabled: false,
+            disabledTooltip: 'Cet élément est déjà associé.'
+          }
         ])
       })
     })
@@ -255,11 +279,14 @@ BddTest().given('an associate modal', () => {
       })
 
       BddTest().then('it should pass the associated and unassociated traces to the layout options', () => {
-        expect(getLayoutOptionIds()).toEqual([...ASSOCIATED_TRACE_IDS, ...UNASSOCIATED_TRACE_IDS])
+        expect(getLayoutOptions().map(({ value }) => value)).toEqual([
+          ...createMockedTraceSearchResults(true).map(({ id }) => id),
+          ...createMockedTraceSearchResults(false).map(({ id }) => id)
+        ])
       })
 
       BddTest().then('it should use the placeholder of the selected search filter', () => {
-        expectPlaceholder(TRACES_PLACEHOLDER)
+        expect(getLayout().props('inputOptions')).toEqual({ placeholder: 'Rechercher une trace...' })
       })
     })
 
@@ -270,11 +297,12 @@ BddTest().given('an associate modal', () => {
       })
 
       BddTest().then('it should only pass the associated traces to the layout options', () => {
-        expect(getLayoutOptionIds()).toEqual(ASSOCIATED_TRACE_IDS)
+        expect(getLayoutOptions().map(({ value }) => value))
+          .toEqual(createMockedTraceSearchResults(true).map(({ id }) => id))
       })
 
       BddTest().then('it should use the placeholder of the selected search filter', () => {
-        expectPlaceholder(ASSOCIATED_TRACES_PLACEHOLDER)
+        expect(getLayout().props('inputOptions')).toEqual({ placeholder: 'Rechercher une trace associée...' })
       })
     })
 
@@ -289,12 +317,12 @@ BddTest().given('an associate modal', () => {
       })
 
       BddTest().then('it should not ask for a cancel confirmation', () => {
-        expectCancelConfirmationOpened(false)
+        expect(getCancelConfirmationModal().props('opened')).toBe(false)
       })
     })
 
     BddTest().and('the user selects two traces', () => {
-      const selectedTraceAssociations = [
+      const expectedSelectedAssociations = [
         { id: 'trace-non-associee1', title: 'Ma super trace non associée numéro 1' },
         { id: 'trace-non-associee2', title: 'Ma super trace non associée numéro 2' }
       ]
@@ -304,28 +332,27 @@ BddTest().given('an associate modal', () => {
       })
 
       BddTest().then('it should pass the selected traces to the layout', () => {
-        expectSelection(unassociatedTraceOptions.slice(0, 2), selectedTraceAssociations)
+        expect(getLayout().props('modelValue')).toEqual(unassociatedTraceOptions.slice(0, 2))
+        expect(getLayout().props('items')).toEqual(expectedSelectedAssociations)
       })
 
       BddTest().then('it should display each selected trace in a compact card', () => {
-        const cards = getCompactCards()
+        const cards = wrapper.findAllComponents(AssociationCompactCardStub)
+
         expect(cards).toHaveLength(2)
         expect(cards[0].props('contextType')).toBe(EAssociationContextType.TRACE)
-        expect(cards[0].props('association')).toEqual(selectedTraceAssociations[0])
-        expect(cards[1].props('contextType')).toBe(EAssociationContextType.TRACE)
-        expect(cards[1].props('association')).toEqual(selectedTraceAssociations[1])
+        expect(cards[0].props('association')).toEqual(expectedSelectedAssociations[0])
+        expect(cards[1].props('association')).toEqual(expectedSelectedAssociations[1])
       })
 
       BddTest().then('it should enable the confirm button with a pluralized label', () => {
-        const modal = getModal()
-        expect(modal.props('confirmButtonDisabled')).toBe(false)
-        expect(modal.props('confirmButtonLabel')).toBe(TWO_TRACES_CONFIRM_BUTTON_LABEL)
+        expect(getModal().props('confirmButtonDisabled')).toBe(false)
+        expect(getModal().props('confirmButtonLabel')).toBe('Associer les traces sélectionnées (2)')
       })
 
       BddTest().then('it should pass the selected traces to the confirm associate modal', () => {
-        const confirmModal = getConfirmModal()
-        expect(confirmModal.props('items')).toEqual(selectedTraceAssociations)
-        expect(confirmModal.props('title')).toBe(TWO_TRACES_CONFIRM_TITLE)
+        expect(getConfirmModal().props('items')).toEqual(expectedSelectedAssociations)
+        expect(getConfirmModal().props('title')).toBe('Êtes-vous certain(e) de vouloir associer ces traces\u00A0?')
       })
 
       BddTest().and('the user removes one of the selected traces', () => {
@@ -335,16 +362,17 @@ BddTest().given('an associate modal', () => {
         })
 
         BddTest().then('it should remove the trace from the selection', () => {
-          expectSelection(unassociatedTraceOptions.slice(0, 1), selectedTraceAssociations.slice(0, 1))
-          expect(getCompactCards()).toHaveLength(1)
+          expect(getLayout().props('modelValue')).toEqual(unassociatedTraceOptions.slice(0, 1))
+          expect(getLayout().props('items')).toEqual(expectedSelectedAssociations.slice(0, 1))
+          expect(wrapper.findAllComponents(AssociationCompactCardStub)).toHaveLength(1)
         })
 
         BddTest().then('it should display a singular confirm button label', () => {
-          expect(getModal().props('confirmButtonLabel')).toBe(ONE_TRACE_CONFIRM_BUTTON_LABEL)
+          expect(getModal().props('confirmButtonLabel')).toBe('Associer la trace sélectionnée (1)')
         })
 
         BddTest().then('it should display a singular confirm associate modal title', () => {
-          expect(getConfirmModal().props('title')).toBe(ONE_TRACE_CONFIRM_TITLE)
+          expect(getConfirmModal().props('title')).toBe('Êtes-vous certain(e) de vouloir associer cette trace\u00A0?')
         })
       })
 
@@ -355,7 +383,7 @@ BddTest().given('an associate modal', () => {
         })
 
         BddTest().then('it should open the confirm associate modal', () => {
-          expectConfirmModalOpened(true)
+          expect(getConfirmModal().props('opened')).toBe(true)
         })
 
         BddTest().and('the user cancels the association', () => {
@@ -365,11 +393,11 @@ BddTest().given('an associate modal', () => {
           })
 
           BddTest().then('it should close the confirm associate modal', () => {
-            expectConfirmModalOpened(false)
+            expect(getConfirmModal().props('opened')).toBe(false)
           })
 
           BddTest().then('it should keep the selection', () => {
-            expect(getLayout().props('items')).toEqual(selectedTraceAssociations)
+            expect(getLayout().props('items')).toEqual(expectedSelectedAssociations)
           })
 
           BddTest().then('it should not emit associated', () => {
@@ -388,19 +416,32 @@ BddTest().given('an associate modal', () => {
         })
 
         BddTest().then('it should close the confirm associate modal', () => {
-          expectConfirmModalOpened(false)
+          expect(getConfirmModal().props('opened')).toBe(false)
         })
 
         BddTest().then('it should associate the selected traces to the element', () => {
           expect(onAssociateRequest).toHaveBeenCalledTimes(1)
           expect(onAssociateRequest).toHaveBeenCalledWith(
-            expect.objectContaining({ contextType: EAssociationContextType.DECLARED_ACTIVITY, elementId: 'declared-activity-1', associatedContextType: EAssociationContextType.TRACE }),
+            expect.objectContaining({
+              contextType: EAssociationContextType.DECLARED_ACTIVITY,
+              elementId: 'declared-activity-1',
+              associatedContextType: EAssociationContextType.TRACE
+            }),
             { idsToAssociate: ['trace-non-associee1', 'trace-non-associee2'] }
           )
         })
 
+        BddTest().then('it should invalidate the queries impacted by the association', () => {
+          expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ['me', 'associations'] })
+          expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ['me', 'activity-progress'] })
+          expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ['me', 'traces'] })
+        })
+
         BddTest().then('it should display a success message', () => {
-          expect(mockAddSuccessMessage).toHaveBeenCalledWith({ timeout: 2000, description: TWO_TRACES_ASSOCIATED_MESSAGE })
+          expect(mockAddSuccessMessage).toHaveBeenCalledWith({
+            timeout: 2000,
+            description: 'Vous avez associé 2 traces. Retrouvez-les dans la catégorie « Mes traces associées ».'
+          })
           expect(mockAddErrorMessage).not.toHaveBeenCalled()
         })
 
@@ -419,7 +460,10 @@ BddTest().given('an associate modal', () => {
         })
 
         BddTest().then('it should display an error message', () => {
-          expect(mockAddErrorMessage).toHaveBeenCalledWith({ title: GENERIC_ERROR_TITLE, description: expect.any(String) })
+          expect(mockAddErrorMessage).toHaveBeenCalledWith({
+            title: GENERIC_ERROR_TITLE,
+            description: expect.any(String)
+          })
         })
 
         BddTest().then('it should neither display a success message nor emit associated', () => {
@@ -428,8 +472,8 @@ BddTest().given('an associate modal', () => {
         })
 
         BddTest().then('it should keep the selection to let the user retry', () => {
-          expectConfirmModalOpened(false)
-          expect(getLayout().props('items')).toEqual(selectedTraceAssociations)
+          expect(getConfirmModal().props('opened')).toBe(false)
+          expect(getLayout().props('items')).toEqual(expectedSelectedAssociations)
         })
       })
 
@@ -440,7 +484,7 @@ BddTest().given('an associate modal', () => {
         })
 
         BddTest().then('it should ask for a cancel confirmation', () => {
-          expectCancelConfirmationOpened(true)
+          expect(getCancelConfirmationModal().props('opened')).toBe(true)
         })
 
         BddTest().then('it should not emit cancel yet', () => {
@@ -454,11 +498,11 @@ BddTest().given('an associate modal', () => {
           })
 
           BddTest().then('it should close the cancel confirmation modal', () => {
-            expectCancelConfirmationOpened(false)
+            expect(getCancelConfirmationModal().props('opened')).toBe(false)
           })
 
           BddTest().then('it should keep the selection without emitting cancel', () => {
-            expect(getLayout().props('items')).toEqual(selectedTraceAssociations)
+            expect(getLayout().props('items')).toEqual(expectedSelectedAssociations)
             expect(wrapper.emitted('cancel')).toBeUndefined()
           })
         })
@@ -470,11 +514,12 @@ BddTest().given('an associate modal', () => {
           })
 
           BddTest().then('it should close the cancel confirmation modal', () => {
-            expectCancelConfirmationOpened(false)
+            expect(getCancelConfirmationModal().props('opened')).toBe(false)
           })
 
           BddTest().then('it should reset the selection', () => {
-            expectNoSelection()
+            expect(getLayout().props('modelValue')).toEqual([])
+            expect(getLayout().props('items')).toEqual([])
           })
 
           BddTest().then('it should emit cancel', () => {
@@ -493,13 +538,11 @@ BddTest().given('an associate modal', () => {
         })
 
         BddTest().then('it should clear the selection, the search and the filter before emitting associated', () => {
-          const layout = getLayout()
-          expect(layout.props('modelValue')).toEqual([])
-          expect(layout.props('items')).toEqual([])
-          expect(layout.props('search')).toBe('')
-
+          expect(getLayout().props('modelValue')).toEqual([])
+          expect(getLayout().props('items')).toEqual([])
+          expect(getLayout().props('search')).toBe('')
           expect(getFilterSelect().props('modelValue')).toBe(AssociationSearchFilter.UNASSOCIATED)
-          expectConfirmModalOpened(false)
+          expect(getConfirmModal().props('opened')).toBe(false)
         })
       })
     })
@@ -507,7 +550,7 @@ BddTest().given('an associate modal', () => {
 
   BddTest().when('the modal is opened to associate traces and the user filters and searches them', () => {
     beforeEach(async () => {
-      await mountWithResults()
+      await mountModalWithType(traceProps, EAssociationContextType.TRACE)
       getFilterSelect().vm.$emit('update:modelValue', AssociationSearchFilter.ASSOCIATED)
       getLayout().vm.$emit('update:search', 'numéro')
       await nextTick()
@@ -520,102 +563,75 @@ BddTest().given('an associate modal', () => {
       })
 
       BddTest().then('it should clear the search and the filter before emitting cancel', () => {
-        expectSearchAndFilterReset()
+        expect(getLayout().props('search')).toBe('')
+        expect(getFilterSelect().props('modelValue')).toBe(AssociationSearchFilter.UNASSOCIATED)
         expect(wrapper.emitted('cancel')).toHaveLength(1)
       })
     })
   })
 
-  BddTest().when('the declared activity can only receive two more traces', () => {
-    beforeEach(async () => {
-      await mountWithResults()
-      await selectOptions(2)
-      await vi.waitFor(() => expect(getLayoutOptions()[2].disabled).toBe(true))
-    })
-
-    BddTest().then('it should keep the selected traces selectable and block the others, with the reason', () => {
-      expect(getLayoutOptionStates()).toEqual(UNASSOCIATED_TRACE_IDS.map((value, index) => (
-        index < 2
-          ? { value, disabled: false, disabledTooltip: DISABLED_TOOLTIP }
-          : { value, disabled: true, disabledTooltip: SELECTION_LIMIT_REACHED_TOOLTIP }
-      )))
-    })
-
-    BddTest().and('the user removes one of the selected traces', () => {
-      beforeEach(async () => {
-        getLayout().vm.$emit('delete', 'trace-non-associee2')
-        await nextTick()
-      })
-
-      BddTest().then('it should let the learner select the other traces again', () => {
-        expect(getLayoutOptionStates()).toEqual(UNASSOCIATED_TRACE_IDS.map(value => ({ value, disabled: false, disabledTooltip: DISABLED_TOOLTIP })))
-      })
-    })
-  })
-
-  BddTest().when('the modal is opened to associate activities with a trace', () => {
-    beforeEach(async () => {
-      await mountWithResults({
-        contextType: EAssociationContextType.TRACE,
-        elementId: 'trace-1',
-        associatedContextType: EAssociationContextType.DECLARED_ACTIVITY
-      })
-    })
-
-    BddTest().then('it should explain why each unavailable activity cannot be selected', () => {
-      expect(getLayoutOptionStates()).toEqual([
-        { value: 'activity-search-1', disabled: false, disabledTooltip: DISABLED_TOOLTIP },
-        { value: 'activity-search-2', disabled: false, disabledTooltip: DISABLED_TOOLTIP },
-        { value: 'activity-search-3', disabled: true, disabledTooltip: DISABLED_TOOLTIP },
-        { value: 'activity-search-4', disabled: true, disabledTooltip: LIMIT_REACHED_TOOLTIP }
-      ])
-    })
-  })
-
   BddTest().when('the modal is reused to associate another context type', () => {
     beforeEach(async () => {
-      await mountWithResults()
-      await wrapper.setProps({ associatedContextType: EAssociationContextType.DECLARED_SKILL })
+      await mountModalWithType(traceProps, EAssociationContextType.DECLARED_SKILL)
       await vi.waitFor(() => expect(getLayoutOptions()[0].value).toBe('skill-search-1'))
     })
 
     BddTest().then('it should search the elements of the new context type', () => {
-      expect(getLayoutOptionIds()).toEqual(['skill-search-1', 'skill-search-2', 'skill-search-3'])
+      expect(getLayoutOptions().map(({ value }) => value)).toEqual(['skill-search-1', 'skill-search-2', 'skill-search-3'])
     })
 
     BddTest().then('it should use the texts of the new context type', () => {
-      const modal = getModal()
-      expect(modal.exists()).toBe(true)
-      expect(modal.props('confirmButtonDisabledTooltip')).toBe(SKILLS_CONFIRM_BUTTON_DISABLED_TOOLTIP)
-
+      expect(wrapper.find('[data-testid="associate-declared-skills-modal"]').exists()).toBe(true)
       expect(getFilterSelect().exists()).toBe(false)
-      expectPlaceholder(SKILLS_PLACEHOLDER)
+      expect(getLayout().props('inputOptions')).toEqual({ placeholder: 'Rechercher une compétence...' })
+      expect(getModal().props('confirmButtonDisabledTooltip')).toBe('Sélectionnez au moins une compétence à associer')
     })
   })
 
   BddTest().when('the modal is opened to associate declared skills', () => {
-    const selectedSkillAssociation = { id: 'skill-search-1', title: 'Gestion de projet agile', description: ROME4_LABEL, category: 'ROME4' }
+    const expectedSkillOptions = [
+      {
+        label: 'Gestion de projet agile',
+        value: 'skill-search-1',
+        description: 'Rome 4.0',
+        category: 'ROME4',
+        disabled: false,
+        disabledTooltip: 'Cet élément est déjà associé.'
+      },
+      {
+        label: 'Communication interpersonnelle',
+        value: 'skill-search-2',
+        description: 'XXIᵉ onisep',
+        category: 'XXI',
+        disabled: false,
+        disabledTooltip: 'Cet élément est déjà associé.'
+      },
+      {
+        label: 'Analyse de données',
+        value: 'skill-search-3',
+        description: 'Rome 4.0',
+        category: 'ROME4',
+        disabled: true,
+        disabledTooltip: 'Cet élément est déjà associé.'
+      }
+    ]
 
     beforeEach(async () => {
-      await mountWithResults({
-        contextType: EAssociationContextType.TRACE,
-        elementId: 'trace-1',
-        associatedContextType: EAssociationContextType.DECLARED_SKILL
-      })
+      await mountModalWithType(skillProps, EAssociationContextType.DECLARED_SKILL)
+      await flushPromises()
     })
 
     BddTest().then('it should render the modal with the test id of the associated context type', () => {
-      expect(getModal().exists()).toBe(true)
+      expect(wrapper.find('[data-testid="associate-declared-skills-modal"]').exists()).toBe(true)
     })
 
     BddTest().then('it should display the title of the associated context type', () => {
-      expect(getHeader().text()).toBe(SKILLS_TITLE)
+      expect(wrapper.find('[data-testid="header"]').text()).toBe('Quelle(s) compétence(s) déclarée(s) souhaitez-vous associer\u00A0?')
     })
 
     BddTest().then('it should use the disabled confirm button tooltip of the associated context type', () => {
-      const modal = getModal()
-      expect(modal.props('confirmButtonDisabled')).toBe(true)
-      expect(modal.props('confirmButtonDisabledTooltip')).toBe(SKILLS_CONFIRM_BUTTON_DISABLED_TOOLTIP)
+      expect(getModal().props('confirmButtonDisabled')).toBe(true)
+      expect(getModal().props('confirmButtonDisabledTooltip')).toBe('Sélectionnez au moins une compétence à associer')
     })
 
     BddTest().then('it should not render the search filter select since declared skills are not filterable', () => {
@@ -623,40 +639,40 @@ BddTest().given('an associate modal', () => {
     })
 
     BddTest().then('it should use the placeholder of the associated context type', () => {
-      expectPlaceholder(SKILLS_PLACEHOLDER)
+      expect(getLayout().props('inputOptions')).toEqual({ placeholder: 'Rechercher une compétence...' })
     })
 
     BddTest().then('it should pass the declared skills found by the search to the layout options, with their translated category', () => {
-      expect(getLayoutOptions()).toEqual([
-        { label: 'Gestion de projet agile', value: 'skill-search-1', description: ROME4_LABEL, category: 'ROME4', disabled: false, disabledTooltip: DISABLED_TOOLTIP },
-        { label: 'Communication interpersonnelle', value: 'skill-search-2', description: XXI_LABEL, category: 'XXI', disabled: false, disabledTooltip: DISABLED_TOOLTIP },
-        { label: 'Analyse de données', value: 'skill-search-3', description: ROME4_LABEL, category: 'ROME4', disabled: true, disabledTooltip: DISABLED_TOOLTIP }
-      ])
+      expect(getLayoutOptions()).toEqual(expectedSkillOptions)
     })
 
     BddTest().and('the user selects a declared skill', () => {
+      const expectedSelectedAssociation = {
+        id: 'skill-search-1',
+        title: 'Gestion de projet agile',
+        description: 'Rome 4.0',
+        category: 'ROME4'
+      }
+
       beforeEach(async () => {
+        await selectType(EAssociationContextType.DECLARED_SKILL)
         await selectOptions(1)
       })
 
       BddTest().then('it should display the selected declared skill in a compact card', () => {
-        const card = getCompactCard()
+        const card = wrapper.findComponent(AssociationCompactCardStub)
+
         expect(card.props('contextType')).toBe(EAssociationContextType.DECLARED_SKILL)
-        expect(card.props('association')).toEqual(selectedSkillAssociation)
+        expect(card.props('association')).toEqual(expectedSelectedAssociation)
       })
 
       BddTest().then('it should display a singular confirm button label', () => {
-        expect(getModal().props('confirmButtonLabel')).toBe(ONE_SKILL_CONFIRM_BUTTON_LABEL)
+        expect(getModal().props('confirmButtonLabel')).toBe('Associer la compétence sélectionnée (1)')
       })
 
       BddTest().then('it should pass the selected declared skill to the confirm associate modal', () => {
-        const confirmModal = getConfirmModal()
-        expect(confirmModal.props('items')).toEqual([selectedSkillAssociation])
-        expect(confirmModal.props('title')).toBe(ONE_SKILL_CONFIRM_TITLE)
-      })
-
-      BddTest().then('it should use the cancel confirmation of the associated context type', () => {
-        expect(getCancelConfirmationModal().props('description')).toBe(SKILLS_CANCEL_CONFIRMATION)
+        expect(getConfirmModal().props('items')).toEqual([expectedSelectedAssociation])
+        expect(getConfirmModal().props('title')).toBe('Êtes-vous certain(e) de vouloir associer cette compétence\u00A0?')
       })
 
       BddTest().and('the user confirms the association', () => {
@@ -670,13 +686,20 @@ BddTest().given('an associate modal', () => {
 
         BddTest().then('it should associate the selected declared skill to the element', () => {
           expect(onAssociateRequest).toHaveBeenCalledWith(
-            expect.objectContaining({ contextType: EAssociationContextType.TRACE, elementId: 'trace-1', associatedContextType: EAssociationContextType.DECLARED_SKILL }),
+            expect.objectContaining({
+              contextType: EAssociationContextType.TRACE,
+              elementId: 'trace-1',
+              associatedContextType: EAssociationContextType.DECLARED_SKILL
+            }),
             { idsToAssociate: ['skill-search-1'] }
           )
         })
 
         BddTest().then('it should display the success message of the associated context type', () => {
-          expect(mockAddSuccessMessage).toHaveBeenCalledWith({ timeout: 2000, description: ONE_SKILL_ASSOCIATED_MESSAGE })
+          expect(mockAddSuccessMessage).toHaveBeenCalledWith({
+            timeout: 2000,
+            description: '1 compétence associée avec succès'
+          })
         })
 
         BddTest().then('it should emit associated', () => {
@@ -688,15 +711,13 @@ BddTest().given('an associate modal', () => {
 
   BddTest().when('the modal is closed', () => {
     beforeEach(async () => {
-      mountWith({ opened: false })
-      await flushPromises()
+      wrapper = mountComponent(AssociateModal, { props: { ...traceProps, opened: false }, global: { stubs } })
+      await nextTick()
+      await selectType(traceProps.contextType)
+      await nextTick()
     })
 
-    BddTest().then('it should render the modal closed', () => {
-      expect(getModal().props('opened')).toBe(false)
-    })
-
-    BddTest().then('it should neither search for traces nor read the limits', () => {
+    BddTest().then('it should not search for traces', () => {
       expect(getModal().props('isLoading')).toBe(false)
       expect(getLayoutOptions()).toEqual([])
     })
@@ -704,6 +725,7 @@ BddTest().given('an associate modal', () => {
     BddTest().and('the modal gets opened', () => {
       beforeEach(async () => {
         await wrapper.setProps({ opened: true })
+        await selectType(EAssociationContextType.TRACE)
         await waitForSearchResults()
       })
 
@@ -714,8 +736,10 @@ BddTest().given('an associate modal', () => {
   })
 
   BddTest().when('the modal is opened and the search is pending', () => {
-    beforeEach(() => {
-      mountWith()
+    beforeEach(async () => {
+      wrapper = mountComponent(AssociateModal, { props: traceProps, global: { stubs } })
+      await nextTick()
+      await selectType(traceProps.contextType)
     })
 
     afterEach(async () => {
@@ -731,16 +755,87 @@ BddTest().given('an associate modal', () => {
   BddTest().when('the search fails', () => {
     beforeEach(async () => {
       server.use(searchForAssociationErrorHandler)
-      mountWith()
+      wrapper = mountComponent(AssociateModal, { props: traceProps, global: { stubs } })
+      await nextTick()
+      await selectType(traceProps.contextType)
       await vi.waitFor(() => expect(mockAddErrorMessage).toHaveBeenCalled())
     })
 
     BddTest().then('it should display an error message', () => {
-      expect(mockAddErrorMessage).toHaveBeenCalledWith({ title: GENERIC_ERROR_TITLE, description: expect.any(String) })
+      expect(mockAddErrorMessage).toHaveBeenCalledWith({
+        title: GENERIC_ERROR_TITLE,
+        description: expect.any(String)
+      })
     })
 
     BddTest().then('it should not pass any option to the layout', () => {
       expect(getLayoutOptions()).toEqual([])
+    })
+  })
+
+  BddTest().when('the type select is displayed', () => {
+    beforeEach(async () => {
+      wrapper = mountComponent(AssociateModal, {
+        props: {
+          opened: true,
+          contextType: EAssociationContextType.DECLARED_ACTIVITY,
+          elementId: 'declared-activity-1'
+        } as AssociateModalProps,
+        global: { stubs }
+      })
+      await nextTick()
+    })
+
+    BddTest().then('it should exclude the source context type from the options', () => {
+      expect(getSelectOptions().map(o => o.value)).not.toContain(EAssociationContextType.DECLARED_ACTIVITY)
+    })
+
+    BddTest().then('it should list the associable context types of the source', () => {
+      const expected = getAssociableContextTypes(EAssociationContextType.DECLARED_ACTIVITY)
+        .filter(t => t !== EAssociationContextType.DECLARED_ACTIVITY)
+      expect(getSelectOptions().map(o => o.value)).toEqual(expected)
+    })
+
+    BddTest().then('it should enable options whose association state is not disabled', () => {
+      getSelectOptions().forEach((o) => {
+        expect(o.disabled).toBe(false)
+        expect(o.disabledTooltip).toBeUndefined()
+      })
+    })
+  })
+
+  BddTest().when('a type has reached its association limit', () => {
+    const LIMIT_TOOLTIP = 'Limite atteinte'
+
+    beforeEach(async () => {
+      mockAssociateStates[EAssociationContextType.TRACE] = {
+        disabled: true,
+        disabledTooltip: LIMIT_TOOLTIP
+      }
+      mockAssociationLimits()
+
+      wrapper = mountComponent(AssociateModal, {
+        props: {
+          opened: true,
+          contextType: EAssociationContextType.DECLARED_ACTIVITY,
+          elementId: 'declared-activity-1',
+        } as AssociateModalProps,
+        global: { stubs }
+      })
+      await nextTick()
+    })
+
+    BddTest().then('it should disable the corresponding option and expose its tooltip', () => {
+      const traceOption = getSelectOptions().find(o => o.value === EAssociationContextType.TRACE)
+      expect(traceOption).toBeDefined()
+      expect(traceOption!.disabled).toBe(true)
+      expect(traceOption!.disabledTooltip).toBe(LIMIT_TOOLTIP)
+    })
+
+    BddTest().then('it should keep the other options enabled', () => {
+      getSelectOptions()
+        .filter(o => o.value !== EAssociationContextType.TRACE)
+        .forEach(o => expect(o.disabled).toBe(false))
     })
   })
 })

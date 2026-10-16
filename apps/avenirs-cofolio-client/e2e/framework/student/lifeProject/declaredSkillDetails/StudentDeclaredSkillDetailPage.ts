@@ -1,8 +1,11 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
 import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
+import { clickOnElement } from '@e2e/framework/shared/utils/click'
+import { t } from '@e2e/framework/shared/utils/i18n'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { DeclaredSkillAssociationsObject } from '@e2e/framework/student/lifeProject/declaredSkillDetails/componentObjects/DeclaredSkillAssociationsObject'
+import { expect } from '@playwright/test'
 import { Fixture, Then, When } from 'playwright-bdd/decorators'
 
 export
@@ -18,6 +21,26 @@ class StudentDeclaredSkillDetailPage extends BasePage {
 
   getDeclaredSkillAssociations () {
     return new DeclaredSkillAssociationsObject(this.page.getByTestId('declared-skill-associations'))
+  }
+
+  getManageDropDownTrigger () {
+    return this.page.getByTestId('manage-entity-dropdown').getByRole('button')
+  }
+
+  getAssociationTypeSelect () {
+    return this.page.getByTestId('association-type-select')
+  }
+
+  getTypeOption (type: string) {
+    return this.page.locator(`label[for="select-collapse-options-list-${type}-checkbox"]`)
+  }
+
+  getDissociateActionItem () {
+    return this.page.getByText(t('global.buttons.dissociate'), { exact: true })
+  }
+
+  getDeleteAssociationsModal () {
+    return this.page.getByTestId('delete-associations-modal')
   }
 
   @When('the student opens the declared skill associations tab')
@@ -81,24 +104,32 @@ class StudentDeclaredSkillDetailPage extends BasePage {
     await this.getDeclaredSkillAssociations().verifyAllActivityItemsHaveTitles()
   }
 
-  @Then('the delete associations dropdown is visible')
-  async verifyDeleteAssociationsDropdownVisible () {
-    await this.getDeclaredSkillAssociations().verifyDeleteAssociationsDropdownVisible()
+  @When('the student opens the manage declared skill dropdown')
+  async openManageDropdown () {
+    await clickOnElement(this.getManageDropDownTrigger())
   }
 
-  @When('the student opens the delete associations dropdown')
-  async openDeleteAssociationsDropdown () {
-    await this.getDeclaredSkillAssociations().openDeleteAssociationsDropdown()
+  @When('the student clicks the dissociate action')
+  async clickDissociateAction () {
+    await clickOnElement(this.getDissociateActionItem())
+    await waitForPageLoad(this.page)
   }
 
-  @When('the student selects the activities delete option')
-  async selectDeleteActivitiesOption () {
-    await this.getDeclaredSkillAssociations().selectDeleteActivitiesOption()
+  @When('the student selects the activities type in the association type select')
+  async selectActivityTypeInDeleteModal () {
+    await clickOnElement(this.getAssociationTypeSelect())
+    await this.page.locator('label[for="select-collapse-options-list-DECLARED_ACTIVITY-checkbox"]').waitFor({ state: 'visible' })
+    await clickOnElement(this.getTypeOption('DECLARED_ACTIVITY'))
   }
 
   @Then('the delete associations modal is visible')
   async verifyDeleteAssociationsModalVisible () {
-    await this.getDeclaredSkillAssociations().verifyDeleteAssociationsModalVisible()
+    await expect(this.getDeleteAssociationsModal()).toBeVisible()
+  }
+
+  @Then('the delete associations modal is hidden')
+  async verifyDeleteAssociationsModalHidden () {
+    await expect(this.getDeleteAssociationsModal()).toBeHidden()
   }
 
   @Then('the delete associations modal contains items to delete')
@@ -119,11 +150,6 @@ class StudentDeclaredSkillDetailPage extends BasePage {
   @When('the student cancels the delete associations modal')
   async cancelDeleteAssociationsModal () {
     await this.getDeclaredSkillAssociations().cancelDeleteAssociationsModal()
-  }
-
-  @Then('the delete associations modal is hidden')
-  async verifyDeleteAssociationsModalHidden () {
-    await this.getDeclaredSkillAssociations().verifyDeleteAssociationsModalHidden()
   }
 
   @When('the student selects the first activity to delete')

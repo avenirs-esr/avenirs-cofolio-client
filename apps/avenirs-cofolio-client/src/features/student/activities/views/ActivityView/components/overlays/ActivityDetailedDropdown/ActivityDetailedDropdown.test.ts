@@ -32,6 +32,7 @@ BddTest().given('an activity dropdown', () => {
   const getUnsubscribeButton = () => wrapper.find(`[data-testid="${Action.UNSUBSCRIBE}"]`)
   const getResubscribeButton = () => wrapper.find(`[data-testid="${Action.RESUBSCRIBE}"]`)
   const getDeleteButton = () => wrapper.find(`[data-testid="${Action.DELETE}"]`)
+  const getAssociate = () => wrapper.find(`[data-testid="${Action.ASSOCIATE}"]`)
 
   BddTest().when('the declared activity is subscribed', () => {
     beforeEach(() => {
@@ -41,7 +42,7 @@ BddTest().given('an activity dropdown', () => {
     BddTest().then('it should render update, unsubscribe, and delete menu items', () => {
       const dropdown = getDropdown()
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('actions')).toHaveLength(3)
+      expect(dropdown.props('actions')).toHaveLength(5)
     })
 
     BddTest().then('it should pass the correct entity name to the dropdown', () => {
@@ -73,6 +74,17 @@ BddTest().given('an activity dropdown', () => {
         expect(wrapper.emitted('unsubscribe')).toHaveLength(1)
       })
     })
+
+    BddTest().then('it should enable associate action when activity is subscribed', () => {
+      expect(getAssociate().exists()).toBe(true)
+      expect(getAssociate().attributes('disabled')).toBeUndefined()
+
+      const associateAction = (getDropdown().props('actions') as Array<ActionItem>)
+        .find(({ type }) => type === Action.ASSOCIATE)
+
+      expect(associateAction?.disabled).toBe(false)
+      expect(associateAction?.disabledTooltip).toBeUndefined()
+    })
   })
 
   BddTest().when('the declared activity is unsubscribed', () => {
@@ -83,7 +95,7 @@ BddTest().given('an activity dropdown', () => {
     BddTest().then('it should render the dropdown with two menu items', () => {
       const dropdown = getDropdown()
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('actions')).toHaveLength(2)
+      expect(dropdown.props('actions')).toHaveLength(4)
     })
 
     BddTest().then('it should not render update or unsubscribe and should enable delete', () => {
@@ -91,6 +103,31 @@ BddTest().given('an activity dropdown', () => {
       expect(getUnsubscribeButton().exists()).toBe(false)
       expect(getDeleteButton().exists()).toBe(true)
       expect(getDeleteButton().attributes('disabled')).toBeUndefined()
+    })
+
+    BddTest().then('it should disable associate action when activity is unsubscribed', () => {
+      expect(getAssociate().exists()).toBe(true)
+      expect(getAssociate().attributes('disabled')).toBe('')
+      const associateAction = (getDropdown().props('actions') as Array<ActionItem>)
+        .find(({ type }) => type === Action.ASSOCIATE)
+      expect(associateAction?.disabled).toBe(true)
+      expect(associateAction?.disabledTooltip).toBeTruthy()
+    })
+
+    BddTest().when('the declared activity is submitted', () => {
+      beforeEach(() => {
+        mountWith({ status: EDeclaredActivityStatus.SUBMITTED })
+      })
+      BddTest().then('it should disable associate action when activity is submitted', () => {
+        expect(getAssociate().exists()).toBe(true)
+        expect(getAssociate().attributes('disabled')).toBe('')
+
+        const associateAction = (getDropdown().props('actions') as Array<ActionItem>)
+          .find(({ type }) => type === Action.ASSOCIATE)
+
+        expect(associateAction?.disabled).toBe(true)
+        expect(associateAction?.disabledTooltip).toBeTruthy()
+      })
     })
 
     BddTest().when('the resubscribe button is clicked', () => {

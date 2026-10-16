@@ -1,6 +1,6 @@
 export const ManageDeclaredProgramDropdownStub = defineComponent({
   name: 'ManageDeclaredProgramDropdown',
-  emits: ['update', 'delete'],
+  emits: ['update', 'delete', 'associate', 'dissociate'],
   template: `
     <div class="manage-declared-program-dropdown-stub">
       <button
