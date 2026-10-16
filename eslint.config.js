@@ -10,6 +10,7 @@ export default antfu({
     'eslint.config.js',
     'public/**/*',
     'e2e/.features-gen/**/*',
+    'e2e/playwright-report/**/*',
     'scripts/**/*',
   ],
 }, {

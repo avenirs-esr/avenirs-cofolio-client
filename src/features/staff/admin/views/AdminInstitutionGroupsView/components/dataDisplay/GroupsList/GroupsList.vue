@@ -1,16 +1,19 @@
 <script lang="ts" setup>
+import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
-import { type GroupOverviewDTO, useGetGroups } from '@/api/avenir-esr'
+import type { GroupOverviewDTO } from '@/api/avenir-esr'
+import type { UsePaginatedStaffAdminGroupsParams } from '@/features/staff/admin/composables/use-paginated-staff-admin-groups/use-paginated-staff-admin-groups'
+import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
+import { useGetGroups } from '@/api/avenir-esr'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
-import { usePaginatedStaffAdminGroups, type UsePaginatedStaffAdminGroupsParams } from '@/features/staff/admin/composables/use-paginated-staff-admin-groups/use-paginated-staff-admin-groups'
+import { usePaginatedStaffAdminGroups } from '@/features/staff/admin/composables/use-paginated-staff-admin-groups/use-paginated-staff-admin-groups'
 import { useStaffAdminGroupsStore } from '@/features/staff/admin/stores/groups.store'
 import GroupTypeBadge from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/badges/GroupTypeBadge/GroupTypeBadge.vue'
 import GroupCard from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/cards/GroupCard/GroupCard.vue'
 import GroupsListName from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsListName/GroupsListName.vue'
 import GroupsListParentName from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsListParentName/GroupsListParentName.vue'
-import { AvTable, type AvTableColumn, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 defineSlots<{
   actions: Slot

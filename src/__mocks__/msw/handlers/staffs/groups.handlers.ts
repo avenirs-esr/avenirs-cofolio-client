@@ -1,8 +1,9 @@
+import type { GetGroupsType, GroupDTO, PagedResponseGroupOverviewDTO } from '@/api/avenir-esr'
+import { http, HttpResponse } from 'msw'
 import { createMockedGetGroupsResponse, mockGroup } from '@/__mocks__/fixtures/staffs/groups.fixtures'
-import { getGetGroupByIdUrl, getGetGroupsUrl, type GetGroupsType, type GroupDTO, type PagedResponseGroupOverviewDTO } from '@/api/avenir-esr'
+import { getGetGroupByIdUrl, getGetGroupsUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
-import { http, HttpResponse } from 'msw'
 
 const getGroupByIdHandler = http.get(`*${getGetGroupByIdUrl(':id')}`, ({ params }) => {
   const { id } = params

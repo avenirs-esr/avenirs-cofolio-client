@@ -1,5 +1,9 @@
-import type { UsePaginatedStaffAdminGroupsResult } from '@/features/staff/admin/composables/use-paginated-staff-admin-groups/use-paginated-staff-admin-groups'
 import type { VueWrapper } from '@vue/test-utils'
+import type { UsePaginatedStaffAdminGroupsResult } from '@/features/staff/admin/composables/use-paginated-staff-admin-groups/use-paginated-staff-admin-groups'
+import { AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { mockGroupOverview, mockGroupOverviewWithParent } from '@/__mocks__/fixtures/staffs/groups.fixtures'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
@@ -9,10 +13,6 @@ import { GroupCardStub } from '@/features/staff/admin/views/AdminInstitutionGrou
 import GroupsList from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsList/GroupsList.vue'
 import { GroupsListNameStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsListName/GroupsListName.stub'
 import { GroupsListParentNameStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsListParentName/GroupsListParentName.stub'
-import { AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockIsBelowLg = ref(false)
 const mockError = new BaseApiException('error')
