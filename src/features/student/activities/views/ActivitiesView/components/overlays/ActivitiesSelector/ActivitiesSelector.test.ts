@@ -1,10 +1,12 @@
+import type { VueWrapper } from '@vue/test-utils'
+import type { ActivitiesSelectorProps } from '@/features/student/activities/views/ActivitiesView/components/overlays/ActivitiesSelector/ActivitiesSelector.vue'
+import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
 import { EActivityThematic } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
-import ActivitiesSelector, { type ActivitiesSelectorProps } from '@/features/student/activities/views/ActivitiesView/components/overlays/ActivitiesSelector/ActivitiesSelector.vue'
+import ActivitiesSelector from '@/features/student/activities/views/ActivitiesView/components/overlays/ActivitiesSelector/ActivitiesSelector.vue'
 import { CompactCardSelectorStub } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.stub'
-import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an activities selector', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivitiesSelector>>

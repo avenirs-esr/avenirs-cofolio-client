@@ -1,4 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
+import type { ActivityViewProps } from '@/features/student/activities/views/ActivityView/ActivityView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { declaredActivityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
@@ -7,15 +11,12 @@ import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { SubscribeActivityConfirmModalStub } from '@/features/student/activities/components/modals/SubscribeActivityConfirmModal/SubscribeActivityConfirmModal.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/activities/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
-import ActivityView, { type ActivityViewProps } from '@/features/student/activities/views/ActivityView/ActivityView.vue'
+import ActivityView from '@/features/student/activities/views/ActivityView/ActivityView.vue'
 import {
   ActivityLayoutStub
 } from '@/features/student/activities/views/ActivityView/components/ActivityLayout/ActivityLayout.stub'
 import { DeleteMyActivityConfirmModalStub } from '@/features/student/activities/views/ActivityView/components/modals/DeleteMyActivityConfirmModal/DeleteMyActivityConfirmModal.stub'
 import { ActivityDetailedDropdownStub } from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStudentProjectActivities = vi.fn()
 

@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import type { AvDropdownItem, AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+import { AvDropdown, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useTutorial } from '@/common/components/overlay/tooltips/Tutorial/use-tutorial'
 import { useModal } from '@/common/composables/use-modal/use-modal'
-import { AvDropdown, type AvDropdownItem, type AvInteractiveProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface UserProfileDropdownAction extends AvInteractiveProps {
   name: string

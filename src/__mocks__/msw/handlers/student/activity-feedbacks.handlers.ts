@@ -1,7 +1,7 @@
+import { http, HttpResponse } from 'msw'
 import { getDownloadFeedbackAttachmentUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
-import { http, HttpResponse } from 'msw'
 
 export const downloadFeedbackAttachmentHandler = http.get(
   `*${getDownloadFeedbackAttachmentUrl(':feedbackId', ':attachmentId')}`,

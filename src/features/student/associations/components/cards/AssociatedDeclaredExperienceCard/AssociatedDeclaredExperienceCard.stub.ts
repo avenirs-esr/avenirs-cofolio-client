@@ -1,5 +1,5 @@
-import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 export const AssociatedDeclaredExperienceCardStub = defineComponent({

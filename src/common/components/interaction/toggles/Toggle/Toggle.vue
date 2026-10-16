@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { AvToggle, type AvToggleProps } from '@avenirs-esr/avenirs-dsav'
-import { type ComputedRef, type Slot, useAttrs } from 'vue'
+import type { AvToggleProps } from '@avenirs-esr/avenirs-dsav'
+import type { ComputedRef, Slot } from 'vue'
+import { AvToggle } from '@avenirs-esr/avenirs-dsav'
+import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface ToggleProps extends AvToggleProps { }

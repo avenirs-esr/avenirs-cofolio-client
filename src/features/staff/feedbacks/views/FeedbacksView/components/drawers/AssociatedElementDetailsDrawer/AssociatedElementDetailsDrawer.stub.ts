@@ -1,5 +1,5 @@
-import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import type { PropType } from 'vue'
+import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 
 export const AssociatedElementDetailsDrawerStub = defineComponent({
   name: 'AssociatedElementDetailsDrawer',

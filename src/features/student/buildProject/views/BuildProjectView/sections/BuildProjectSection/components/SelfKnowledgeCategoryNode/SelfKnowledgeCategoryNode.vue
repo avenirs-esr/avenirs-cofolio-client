@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import type { MindMapNodeTemplateProps } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/mind-map-nodes.types'
+import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 import NodeTemplate from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
 import { MIND_MAP_FLOW_ID } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/config'
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
-import { AvBadge } from '@avenirs-esr/avenirs-dsav'
 
 const { id } = defineProps<MindMapNodeTemplateProps>()
 

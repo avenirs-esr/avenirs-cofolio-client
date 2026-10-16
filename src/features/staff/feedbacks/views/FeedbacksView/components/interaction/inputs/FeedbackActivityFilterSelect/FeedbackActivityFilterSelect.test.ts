@@ -1,11 +1,14 @@
-import { getMockedActivitiesWithFeedbacks } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
-import { type ActivityFeedbacksPreviewDTO, EFeedbackStatus } from '@/api/avenir-esr'
-import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
-import FeedbackActivityFilterSelect, { type FeedbackActivityFilterSelectProps } from '@/features/staff/feedbacks/views/FeedbacksView/components/interaction/inputs/FeedbackActivityFilterSelect/FeedbackActivityFilterSelect.vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { ActivityFeedbacksPreviewDTO } from '@/api/avenir-esr'
+import type { FeedbackActivityFilterSelectProps } from '@/features/staff/feedbacks/views/FeedbacksView/components/interaction/inputs/FeedbackActivityFilterSelect/FeedbackActivityFilterSelect.vue'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
+import { flushPromises } from '@vue/test-utils'
 import { isNumber } from 'lodash-es'
 import { mountComponent } from 'tests/utils'
+import { getMockedActivitiesWithFeedbacks } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
+import { EFeedbackStatus } from '@/api/avenir-esr'
+import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
+import FeedbackActivityFilterSelect from '@/features/staff/feedbacks/views/FeedbacksView/components/interaction/inputs/FeedbackActivityFilterSelect/FeedbackActivityFilterSelect.vue'
 
 BddTest().given('a feedback activity filter select', () => {
   let wrapper: VueWrapper<InstanceType<typeof FeedbackActivityFilterSelect>>

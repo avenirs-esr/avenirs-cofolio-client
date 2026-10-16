@@ -1,9 +1,9 @@
 import type { AvRoute } from '@/common/types/router.types'
+import { useRoute } from 'vue-router'
 import { ROUTES } from '@/common/constants'
 import { staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
 import { studentToolsKitRoutes } from '@/features/student/kit/routes'
 import { studentToolsTracesRoutes } from '@/features/student/traces/routes'
-import { useRoute } from 'vue-router'
 
 /**
  * Identifies if the current route belongs to some route of interest.

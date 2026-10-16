@@ -11,8 +11,8 @@ export interface SectionSelection {
   parentId?: string
 }
 
-type PropsOf<TComponent> =
-  TComponent extends abstract new (...args: never[]) => { $props: infer P }
+type PropsOf<TComponent>
+  = TComponent extends abstract new (...args: never[]) => { $props: infer P }
     ? P
     : never
 

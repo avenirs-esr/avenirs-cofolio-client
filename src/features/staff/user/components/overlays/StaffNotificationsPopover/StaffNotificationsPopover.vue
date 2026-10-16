@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { EUserCategory, NotificationDTOType } from '@/api/avenir-esr'
 import NotificationsPopover from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.vue'
 import ActivityFeedbackNotificationCard from '@/features/staff/global/components/cards/ActivityFeedbackNotificationCard/ActivityFeedbackNotificationCard.vue'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 </script>

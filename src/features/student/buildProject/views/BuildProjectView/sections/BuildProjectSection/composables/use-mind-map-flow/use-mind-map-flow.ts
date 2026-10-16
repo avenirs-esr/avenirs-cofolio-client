@@ -1,11 +1,11 @@
 import type { Edge, Node } from '@vue-flow/core'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { GLOBAL_NODE_HANDLES } from '@/common/components/base/VueFlow/global-nodes.types'
 import { useFlowState } from '@/common/composables/VueFlow/use-flow-state/use-flow-state'
 import { getEdgeId } from '@/common/utils/vue-flow/vue-flow'
 import { MIND_MAP_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/mind-map-nodes.types'
 import { SELF_KNOWLEDGE_NODE_TYPES } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/self-knowledge-nodes.types'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface UseMindMapFlowReturn {
   saveCurrentState: (prefix: string, index: string) => void

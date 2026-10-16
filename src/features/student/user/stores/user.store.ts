@@ -1,5 +1,5 @@
-import { useLanguageSwitcher } from '@/common/composables'
 import { defineStore } from 'pinia'
+import { useLanguageSwitcher } from '@/common/composables'
 
 export const useStudentUserStore = defineStore('studentUser', () => {
   const { languageSelector, selectLanguage } = useLanguageSwitcher()

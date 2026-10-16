@@ -1,13 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student'
 import { getProfileErrorHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ProfileCardStub } from '@/common/components/cards/ProfileCard/ProfileCard.stub'
 import { UpdateProfileDrawerStub } from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import StudentOverviewWidget from '@/features/student/user/components/cards/StudentOverviewWidget/StudentOverviewWidget.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a student overview widget', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentOverviewWidget>>

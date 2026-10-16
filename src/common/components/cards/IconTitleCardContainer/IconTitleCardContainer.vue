@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
-import Card, { type CardProps } from '@/common/components/cards/Card/Card.vue'
+import type { CardProps } from '@/common/components/cards/Card/Card.vue'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
+import Card from '@/common/components/cards/Card/Card.vue'
 
 export interface IconTitleCardContainerProps extends Pick<CardProps, 'collapsible' | 'collapsed' | 'titleOnly'> {
   title: string

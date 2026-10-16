@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import type { EFeedbackStatus } from '@/api/avenir-esr'
+import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useQueryClient } from '@tanstack/vue-query'
+import DOMPurify from 'dompurify'
+import { debounce } from 'lodash-es'
+import { defineAsyncComponent } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { EActivityStatus, EDeclaredActivityStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useUpdateReflection } from '@/api/avenir-esr'
 import { isPerspectiveEditingDisabled } from '@/common/activities/rules/activities.rules'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -10,12 +16,6 @@ import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-l
 import { AUTO_SAVE_DEBOUNCE_DELAY, ICONS } from '@/common/constants'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/config'
 import { useToasterStore } from '@/store'
-import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useQueryClient } from '@tanstack/vue-query'
-import DOMPurify from 'dompurify'
-import { debounce } from 'lodash-es'
-import { defineAsyncComponent } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 export interface MyPerspectiveCardProps {
   activityId: string

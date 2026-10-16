@@ -1,7 +1,8 @@
+import type { UserDataset } from '@e2e/framework/shared/test-data/users'
 import type { Page } from '@playwright/test'
 import process from 'node:process'
 import { BeforeScenario } from '@e2e/framework/shared/fixtures/fixtures'
-import { DatasetType, type UserDataset, users } from '@e2e/framework/shared/test-data/users'
+import { DatasetType, users } from '@e2e/framework/shared/test-data/users'
 
 async function setupTokenInterception (page: Page, userDataset: UserDataset, type: DatasetType): Promise<void> {
   if (userDataset.shouldIntercept && userDataset.token) {

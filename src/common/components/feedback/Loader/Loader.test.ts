@@ -1,7 +1,9 @@
-import Loader, { type LoaderColor, type LoaderSize } from '@/common/components/feedback/Loader/Loader.vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { LoaderColor, LoaderSize } from '@/common/components/feedback/Loader/Loader.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import Loader from '@/common/components/feedback/Loader/Loader.vue'
 
 BddTest().given('a loader component', () => {
   let wrapper: VueWrapper<InstanceType<typeof Loader>>

@@ -1,3 +1,6 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComposable } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import {
   useDeclaredExperienceFormValidators
 } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
@@ -10,9 +13,6 @@ import {
   DECLARED_EXPERIENCE_SUMMARY_MAX_LENGTH,
   DECLARED_EXPERIENCE_TITLE_MAX_LENGTH
 } from '@/features/student/personalCareer/config'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComposable } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a declared experience form validators composable', () => {
   let composableResult: ReturnType<typeof useDeclaredExperienceFormValidators>

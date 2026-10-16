@@ -1,11 +1,11 @@
 import type { StudentFeedbackItemListDTO } from '@/api/avenir-esr'
+import { AvButtonStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { getAvButtonByTestId, mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { EFeedbackStatus, EGroupType } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants/route-names'
 import ActivityFeedbackStudentSelect
   from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/selects/ActivityFeedbackStudentSelect/ActivityFeedbackStudentSelect.vue'
-import { AvButtonStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { getAvButtonByTestId, mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const navigateToStaffStudentTrackingActivityFeedbackDetailsMock = vi.fn()
 const navigateToStaffActivityFeedbackDetailsMock = vi.fn()

@@ -1,6 +1,11 @@
-import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
 import type { Mock } from 'vitest'
-import { type DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
+import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComposable } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
+import { EExperienceType } from '@/api/avenir-esr'
 import {
   DECLARED_EXPERIENCE_ACTIVITY_SECTOR_MAX_LENGTH,
   DECLARED_EXPERIENCE_DESCRIPTION_MAX_LENGTH,
@@ -12,10 +17,6 @@ import {
   DECLARED_EXPERIENCE_TITLE_MAX_LENGTH
 } from '@/features/student/personalCareer/config'
 import { useUpdateDeclaredExperienceForm } from '@/features/student/personalCareer/views/DeclaredExperienceUpdateView/components/UpdateDeclaredExperienceForm/use-update-declared-experience-form/use-update-declared-experience-form'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
-import { mountComposable } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('@/store', async () => {
   const actual = await vi.importActual<typeof import('@/store')>('@/store')

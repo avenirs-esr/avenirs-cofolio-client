@@ -1,15 +1,10 @@
+import type { ActivityNavigationDTO, ActivityOverviewDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, DeclaredActivityViewDTO, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
 import {
-  type ActivityNavigationDTO,
-  type ActivityOverviewDTO,
-  type ActivityPresentationDTO,
-  type DeclaredActivityDetailsDTO,
-  type DeclaredActivityViewDTO,
   EActivityStatus,
   EActivityThematic,
   EDeclaredActivityStatus,
   EFeedbackStatus,
-  EFileType,
-  type PagedResponseDeclaredActivityViewDTO
+  EFileType
 } from '@/api/avenir-esr'
 import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
+import { useI18n } from 'vue-i18n'
 import { CreationUpdateDateDetails } from '@/common/components'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import Rating from '@/common/components/base/Rating/Rating.vue'
 import CategoryElementDescriptionTextarea from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementDescriptionTextarea/CategoryElementDescriptionTextarea.vue'
 import CategoryElementTitleInput from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementTitleInput/CategoryElementTitleInput.vue'
-import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeElementDetailsProps {
   element: SelfKnowledgeElementDetailsDTO

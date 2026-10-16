@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import { ICONS, ROUTES } from '@/common/constants'
 import { isRouteActive } from '@/common/utils/route/route'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
 import { staffAdminGroupsRoute, staffAdminRoutes, staffAdminSkillsRoute, staffAdminUsersRoute } from '@/features/staff/admin/routes'
 import { staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
-import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
 
 const { t } = useI18n()
 const route = useRoute()

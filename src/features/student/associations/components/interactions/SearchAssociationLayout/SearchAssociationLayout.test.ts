@@ -1,10 +1,10 @@
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
-import { AutocompleteStub } from '@/common/components/interaction/selects/Autocomplete/Autocomplete.stub'
-import { SelectedAssociateItemsContainerStub } from '@/features/student/associations/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.stub'
-import SearchAssociationLayout from '@/features/student/associations/components/interactions/SearchAssociationLayout/SearchAssociationLayout.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { AutocompleteStub } from '@/common/components/interaction/selects/Autocomplete/Autocomplete.stub'
+import { SelectedAssociateItemsContainerStub } from '@/features/student/associations/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.stub'
+import SearchAssociationLayout from '@/features/student/associations/components/interactions/SearchAssociationLayout/SearchAssociationLayout.vue'
 
 export const mockIsMobile = ref(false)
 

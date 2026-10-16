@@ -1,6 +1,6 @@
+import type { Ref } from 'vue'
 import type { TraceFilter, TracesViewParams } from '@/api/avenir-esr'
 import type { DateFilter, SearchFilter } from '@/types'
-import type { Ref } from 'vue'
 import { vi } from 'vitest'
 
 export function createUseTraceFiltersMock (isAssociated = false) {

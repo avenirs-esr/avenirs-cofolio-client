@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useTracesView } from '@/api/avenir-esr'
 import ValorizedElementsCardContainer from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.vue'
 import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import TraceValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/TraceValorizedItem/TraceValorizedItem.vue'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useGetDeclaredActivityDetails } from '@/api/avenir-esr'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import Loader from '@/common/components/feedback/Loader/Loader.vue'
@@ -15,7 +16,6 @@ import DeleteMyActivityConfirmModal from '@/features/student/activities/views/Ac
 import ActivityDetailedDropdown
   from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
 import { TanstackStaleTimeConfig } from '@/plugins/tanstack-query/config'
-import { useI18n } from 'vue-i18n'
 
 export interface ActivityViewProps {
   id: string

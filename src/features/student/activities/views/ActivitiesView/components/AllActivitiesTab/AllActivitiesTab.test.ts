@@ -1,11 +1,12 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { nextTick } from 'vue'
 import { AllActivitiesHeaderCardStub } from '@/features/student/activities/views/ActivitiesView/components/AllActivitiesHeaderCard/AllActivitiesHeaderCard.stub'
 import { AllActivitiesSectionStub } from '@/features/student/activities/views/ActivitiesView/components/AllActivitiesSection/AllActivitiesSection.stub'
 import AllActivitiesTab from '@/features/student/activities/views/ActivitiesView/components/AllActivitiesTab/AllActivitiesTab.vue'
 import { NewActivitiesPaginatorCardStub } from '@/features/student/activities/views/ActivitiesView/components/NewActivitiesPaginatorCard/NewActivitiesPaginatorCard.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
-import { nextTick } from 'vue'
 
 BddTest().given('the all activities tab', () => {
   let wrapper: VueWrapper<InstanceType<typeof AllActivitiesTab>>

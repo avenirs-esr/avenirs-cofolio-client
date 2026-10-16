@@ -1,5 +1,6 @@
+import type { FetchOptions, ResponseInterceptorContext } from '@/api/fetch'
 import type { BaseApiException } from '@/common/exceptions'
-import { createCustomFetch, FetchInterceptorManager, type FetchOptions, type ResponseInterceptorContext } from '@/api/fetch'
+import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
 import { HttpStatusCode } from '@/common/utils'
 import { i18n } from '@/plugins/vue-i18n'
 import { AvIsoLocaleMap } from '@/types'

@@ -1,12 +1,14 @@
+import type { VueWrapper } from '@vue/test-utils'
+import type { NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { HandlesStub } from '@/common/components/base/VueFlow/Handles/Handles.stub'
 import { NodeDropdownStub } from '@/common/components/base/VueFlow/NodeDropdown/NodeDropdown.stub'
-import NodeTemplate, { type NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
+import NodeTemplate from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
 import { UpdateHandlesModalStub } from '@/common/components/base/VueFlow/UpdateHandlesModal/UpdateHandlesModal.stub'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { mandatoryNodeButtonTemplateProps, mandatoryNodeTemplateProps } from '@/common/utils/vue-flow/vue-flow-test'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockModalOpened = ref(false)
 const mockOpenModal = vi.fn()

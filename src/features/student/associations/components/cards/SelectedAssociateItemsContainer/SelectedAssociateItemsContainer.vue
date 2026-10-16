@@ -1,9 +1,9 @@
 <script lang="ts" setup generic="U extends IdTitle = IdTitle">
-import type { IdTitle } from '@/types'
 import type { AvButtonProps } from '@avenirs-esr/avenirs-dsav'
+import type { IdTitle } from '@/types'
+import { useI18n } from 'vue-i18n'
 import Card from '@/common/components/cards/Card/Card.vue'
 import DeleteOverlay from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.vue'
-import { useI18n } from 'vue-i18n'
 
 export interface SelectedAssociateItemsContainerProps<U extends IdTitle = IdTitle> {
   items: U[]

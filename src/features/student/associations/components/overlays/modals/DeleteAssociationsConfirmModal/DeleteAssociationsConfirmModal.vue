@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { IdTitleList } from '@/types'
-import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useI18n } from 'vue-i18n'
+import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 
 export interface DeleteAssociationsConfirmModalProps {
   opened: boolean

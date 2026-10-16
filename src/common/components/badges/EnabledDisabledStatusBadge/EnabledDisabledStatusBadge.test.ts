@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import EnabledDisabledStatusBadge from '@/common/components/badges/EnabledDisabledStatusBadge/EnabledDisabledStatusBadge.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import EnabledDisabledStatusBadge from '@/common/components/badges/EnabledDisabledStatusBadge/EnabledDisabledStatusBadge.vue'
 
 BddTest().given('an enabled disabled status badge component', () => {
   let wrapper: VueWrapper<InstanceType<typeof EnabledDisabledStatusBadge>>

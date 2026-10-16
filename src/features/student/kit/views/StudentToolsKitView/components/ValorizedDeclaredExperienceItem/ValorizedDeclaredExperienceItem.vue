@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import type { AvLocale } from '@/types'
+import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { formatDateToYearMonthLocalized } from '@/common/utils'
 import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import ValorizedItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.vue'
 import { DeclaredExperienceOrganizationBadge, DeclaredExperienceTypeBadge } from '@/features/student/personalCareer'
 import { isProfessional } from '@/features/student/personalCareer/utils/experiences-utils/experiences-utils'
-import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface ValorizedDeclaredExperienceItemProps {
   declaredExperience: DeclaredExperienceViewDTO

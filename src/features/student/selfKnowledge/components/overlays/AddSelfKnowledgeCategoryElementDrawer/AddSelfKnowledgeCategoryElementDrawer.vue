@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import capitalize from 'lodash-es/capitalize'
+import { useI18n } from 'vue-i18n'
 import { ConfirmationModal, Drawer, FormCancelConfirmButtons } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
@@ -9,9 +12,6 @@ import { useAddSelfKnowledgeCategoryElementForm } from '@/features/student/selfK
 import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
 import { getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 import { useToasterStore } from '@/store'
-import { AvAccordion, AvAccordionsGroup, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import capitalize from 'lodash-es/capitalize'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const selfKnowledgeStore = useSelfKnowledgeStore()

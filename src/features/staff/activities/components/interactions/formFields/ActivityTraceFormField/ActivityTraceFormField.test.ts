@@ -1,4 +1,9 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
+import { AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import ActivityTraceFormField from '@/features/staff/activities/components/interactions/formFields/ActivityTraceFormField/ActivityTraceFormField.vue'
 import {
@@ -7,10 +12,6 @@ import {
   ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
 } from '@/features/staff/activities/config'
 import { ToggleParameterCardStub } from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.stub'
-import { AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { createFormFieldTestWrapper } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 function createTestWrapper (
   initialValue = ACTIVITY_TRACE_SETTING_INFINITY_VALUE,

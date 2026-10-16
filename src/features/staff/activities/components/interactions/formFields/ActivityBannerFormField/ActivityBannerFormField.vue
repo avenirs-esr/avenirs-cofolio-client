@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { FileDTO } from '@/api/avenir-esr'
 import type { AnyFieldApi } from '@/common/types'
-import { ACTIVITY_BANNER_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
-import ImageUpload from '@/common/components/interaction/files/ImageUpload/ImageUpload.vue'
-import { type EditActivityForm, type EditActivityFormData, EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
+import type { EditActivityForm, EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { ACTIVITY_BANNER_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
+import ImageUpload from '@/common/components/interaction/files/ImageUpload/ImageUpload.vue'
+import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
 
 interface ActivityBannerFormFieldProps {
   form: EditActivityForm

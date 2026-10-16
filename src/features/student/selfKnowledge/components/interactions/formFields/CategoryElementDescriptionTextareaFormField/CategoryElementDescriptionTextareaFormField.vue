@@ -3,8 +3,8 @@ import type {
   AddSelfKnowledgeCategoryElementForm,
   UpdateSelfKnowledgeCategoryElementForm
 } from '@/features/student/selfKnowledge/types/forms.types'
-import CategoryElementDescriptionTextarea from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementDescriptionTextarea/CategoryElementDescriptionTextarea.vue'
 import { markRaw } from 'vue'
+import CategoryElementDescriptionTextarea from '@/features/student/selfKnowledge/components/interactions/inputs/CategoryElementDescriptionTextarea/CategoryElementDescriptionTextarea.vue'
 
 interface CategoryElementDescriptionTextareaFormFieldProps {
   form: AddSelfKnowledgeCategoryElementForm | UpdateSelfKnowledgeCategoryElementForm

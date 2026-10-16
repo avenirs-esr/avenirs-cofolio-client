@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import DOMPurify from 'dompurify'
 import { useI18n } from 'vue-i18n'
+import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 
 export interface FeedbackActivityConsignCardProps {
   description?: string

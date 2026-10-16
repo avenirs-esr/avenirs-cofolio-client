@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
-import { AvInput, type AvInputProps } from '@avenirs-esr/avenirs-dsav'
+import type { AvInputProps } from '@avenirs-esr/avenirs-dsav'
+import { AvInput } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 
 const {
   isValid = false,

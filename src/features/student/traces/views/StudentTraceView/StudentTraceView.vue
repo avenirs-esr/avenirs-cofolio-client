@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
+import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, useDownloadAttachment, useGetAssociations, useGetTraceDetail } from '@/api/avenir-esr'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/feedback/Loader/Loader.vue'
@@ -14,8 +16,6 @@ import TraceDeletionConfirmationModal from '@/features/student/traces/components
 import StudentTraceDetails from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.vue'
 import TraceSettingsDropdown from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.vue'
 import { useToasterStore } from '@/store'
-import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface StudentTraceDetailedProps {
   traceId: string

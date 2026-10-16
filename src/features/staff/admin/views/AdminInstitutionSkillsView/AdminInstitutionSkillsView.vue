@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { useI18n } from 'vue-i18n'
+import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 
 const { t } = useI18n()
 </script>

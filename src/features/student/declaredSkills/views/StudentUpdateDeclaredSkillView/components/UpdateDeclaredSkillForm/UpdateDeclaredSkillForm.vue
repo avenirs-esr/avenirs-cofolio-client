@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import type { DeclaredSkillProgressDetailsDTO } from '@/api/avenir-esr'
+import { AvInput } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
 import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.vue'
 import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
 import DeclaredSkillReflectionFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillReflectionFormField/DeclaredSkillReflectionFormField.vue'
 import { useUpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
 import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
-import { AvInput } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 interface UpdateDeclaredSkillFormProps {
   declaredSkillProgressDetails: DeclaredSkillProgressDetailsDTO

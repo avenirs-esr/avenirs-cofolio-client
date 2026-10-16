@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { EDeclaredSkillLevel, useGetAdditionalSkillConfig } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
-import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 
 export interface DeclaredSkillLevelBadgeProps {
   level: EDeclaredSkillLevel

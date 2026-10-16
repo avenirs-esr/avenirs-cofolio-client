@@ -1,10 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { AddActivityResourceFormData } from '@/features/staff/activities/types/forms.types'
-import { ActivityResourceType } from '@/features/staff/activities/types/resource.types'
-import AddActivityResourceTypeSelectFormField from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/components/AddActivityResourceTypeSelectFormField/AddActivityResourceTypeSelectFormField.vue'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { createFormFieldTestWrapper } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { ActivityResourceType } from '@/features/staff/activities/types/resource.types'
+import AddActivityResourceTypeSelectFormField from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/components/AddActivityResourceTypeSelectFormField/AddActivityResourceTypeSelectFormField.vue'
 
 const TestWrapper = createFormFieldTestWrapper<AddActivityResourceFormData, 'resourceType'>({
   formFieldComponent: AddActivityResourceTypeSelectFormField,

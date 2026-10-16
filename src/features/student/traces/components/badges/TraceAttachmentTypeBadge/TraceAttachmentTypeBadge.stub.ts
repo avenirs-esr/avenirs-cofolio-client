@@ -1,5 +1,5 @@
-import type { EFileType } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { EFileType } from '@/api/avenir-esr'
 
 export const TraceAttachmentTypeBadgeStub = defineComponent({
   name: 'TraceAttachmentTypeBadge',

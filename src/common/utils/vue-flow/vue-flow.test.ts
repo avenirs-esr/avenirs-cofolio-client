@@ -1,6 +1,6 @@
-import { getEdgeId, remToPx } from '@/common/utils/vue-flow/vue-flow'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { getEdgeId, remToPx } from '@/common/utils/vue-flow/vue-flow'
 
 BddTest().given('a rem to px conversion utility', () => {
   BddTest().and('a number input', () => {

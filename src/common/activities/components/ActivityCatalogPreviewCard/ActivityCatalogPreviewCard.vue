@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { Slot } from 'vue'
-import Card from '@/common/components/cards/Card/Card.vue'
 import { useI18n } from 'vue-i18n'
+import Card from '@/common/components/cards/Card/Card.vue'
 
 export interface ActivityCatalogPreviewCardProps {
   summary: string

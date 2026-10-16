@@ -1,4 +1,5 @@
 import type { AvRoute } from '@/common/types'
+import { testRoute } from 'tests/utils'
 import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
 import ActivitiesView from '@/features/student/activities/views/ActivitiesView/ActivitiesView.vue'
 import ActivityView from '@/features/student/activities/views/ActivityView/ActivityView.vue'
@@ -34,7 +35,6 @@ import SelfKnowledgeElementUpdateView from '@/features/student/selfKnowledge/vie
 import StudentProjectSkillsView from '@/features/student/skills/views/StudentProjectSkillsView/StudentProjectSkillsView.vue'
 import StudentTraceView from '@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'
 import StudentUpdateTraceView from '@/features/student/traces/views/StudentUpdateTraceView/StudentUpdateTraceView.vue'
-import { testRoute } from 'tests/utils'
 
 testRoute(
   studentToolsKitRoute,

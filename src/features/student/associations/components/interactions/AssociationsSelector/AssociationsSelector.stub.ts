@@ -1,5 +1,5 @@
-import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
 
 export const AssociationsSelectorStub = defineComponent({
   name: 'AssociationsSelector',

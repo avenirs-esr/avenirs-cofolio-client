@@ -1,14 +1,14 @@
-import type { AssociationSearchResultDTO, EAssociationContextType, PagedResponseAssociationSearchResultDTO, SearchForAssociationParams } from '@/api/avenir-esr'
-import type { Association, AssociationSearchFilter } from '@/features/student/associations/types/associations.types'
 import type { QueryKey } from '@tanstack/vue-query'
 import type { MaybeRefOrGetter, Ref } from 'vue'
+import type { AssociationSearchResultDTO, EAssociationContextType, PagedResponseAssociationSearchResultDTO, SearchForAssociationParams } from '@/api/avenir-esr'
+import type { Association, AssociationSearchFilter } from '@/features/student/associations/types/associations.types'
+import { toValue } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useSearchForAssociation, useSearchForAssociationWithNewElement } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useAssociationLimit } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import { ASSOCIATION_CONTEXT_CONFIGS, ASSOCIATION_SEARCH_FILTER_IS_ASSOCIATED, ASSOCIATION_SEARCH_PAGE_SIZE, DEFAULT_ASSOCIATION_SEARCH_FILTER } from '@/features/student/associations/constants/associations.constants'
 import { useToasterStore } from '@/store'
-import { toValue } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 export interface UseAssociationSearchOptions {
   contextType: EAssociationContextType

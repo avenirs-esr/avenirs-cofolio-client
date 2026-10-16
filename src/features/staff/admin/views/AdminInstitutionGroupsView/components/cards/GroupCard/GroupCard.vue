@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { GroupOverviewDTO } from '@/api/avenir-esr'
+import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { ROUTES } from '@/common/constants'
 import GroupTypeBadge from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/badges/GroupTypeBadge/GroupTypeBadge.vue'
-import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface GroupCardProps {
   group: GroupOverviewDTO

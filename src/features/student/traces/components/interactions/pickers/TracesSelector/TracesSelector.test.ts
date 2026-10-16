@@ -1,4 +1,7 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { TraceViewDTO } from '@/api/avenir-esr'
+import { AvCheckboxStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { ETraceAuthorType } from '@/api/avenir-esr'
 import { SelectorOverlayStub } from '@/common/components/overlay/SelectorOverlay/SelectorOverlay.stub'
@@ -9,8 +12,6 @@ import TracesSelector from '@/features/student/traces/components/interactions/pi
 import {
   StudentTraceViewCompactCardStub
 } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentTraceViewCompactCard/StudentTraceViewCompactCard.stub'
-import { AvCheckboxStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
 
 const stubs = {
   AvCheckbox: AvCheckboxStub,

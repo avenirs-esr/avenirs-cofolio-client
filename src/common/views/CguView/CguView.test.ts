@@ -1,4 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mockAddErrorMessage } from 'tests/mocks'
+import { getAvButtonByTestId, mountComponent } from 'tests/utils'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { mockedAcceptedCgu, mockedCgu } from '@/__mocks__/fixtures/shared/cgu.fixtures'
 import { acceptCguErrorHandler, cguQueryErrorHandler, cguQueryLoadingHandler } from '@/__mocks__/msw/handlers/shared/cgu.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -7,10 +11,6 @@ import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitl
 import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import { ROUTES } from '@/common/constants'
 import CguView from '@/common/views/CguView/CguView.vue'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mockAddErrorMessage } from 'tests/mocks'
-import { getAvButtonByTestId, mountComponent } from 'tests/utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 const { mockAuthStore, mockRoute, mockRouterReplace, mockWindowLocationAssign } = vi.hoisted(() => ({
   mockAuthStore: {

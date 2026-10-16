@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import Tutorial from '@/common/components/overlay/tooltips/Tutorial/Tutorial.vue'
 import ActivitiesWidget from '@/features/student/global/views/StudentHomeView/components/ActivitiesWidget/ActivitiesWidget.vue'
 import { TracesWidget } from '@/features/student/traces'
 import { StudentOverviewWidget } from '@/features/student/user'
-import { useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 useGlobalBackgroundColor('var(--surface-background)')
 const { t } = useI18n()

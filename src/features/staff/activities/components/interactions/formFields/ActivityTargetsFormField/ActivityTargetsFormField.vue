@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { ActivityTarget } from '@/features/staff/activities/types/activity-targets.types'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
 import type { IdTitle } from '@/types'
-import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
+import { AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { useStaffScope } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
@@ -11,8 +13,6 @@ import { scopeToActivityTargets } from '@/features/staff/activities/utils/activi
 import ToggleParameterCard from '@/features/staff/global/components/cards/ToggleParameterCard/ToggleParameterCard.vue'
 import SelectedAssociateItemsContainer
   from '@/features/student/associations/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.vue'
-import { AvMessage, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 interface ActivityTargetsFormFieldProps {
   form: EditActivityForm

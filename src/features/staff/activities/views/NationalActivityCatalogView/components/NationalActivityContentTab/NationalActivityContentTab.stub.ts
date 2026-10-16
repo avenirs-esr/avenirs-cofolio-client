@@ -1,5 +1,5 @@
-import type { ActivityContentDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { ActivityContentDTO } from '@/api/avenir-esr'
 
 export const NationalActivityContentTabStub = defineComponent({
   name: 'NationalActivityContentTab',

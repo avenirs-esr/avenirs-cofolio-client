@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
-import DashboardCard from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'
 import { MDI_ICONS, MS_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
+import DashboardCard from '@/features/staff/global/components/cards/DashboardCard/DashboardCard.vue'
 
 export interface FeedbacksDashboardCardsProps {
   title?: string

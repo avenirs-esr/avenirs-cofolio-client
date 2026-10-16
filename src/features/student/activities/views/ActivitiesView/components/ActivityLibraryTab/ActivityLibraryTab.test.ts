@@ -1,4 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { libraryActivitiesErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
@@ -6,10 +10,6 @@ import { PaginationStub } from '@/common/components/navigation/Pagination/Pagina
 import { ActivityErrorMessageStub } from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.stub'
 import { ActivityLibraryCardStub } from '@/features/student/activities/views/ActivitiesView/components/ActivityLibraryCard/ActivityLibraryCard.stub'
 import ActivityLibraryTab from '@/features/student/activities/views/ActivitiesView/components/ActivityLibraryTab/ActivityLibraryTab.vue'
-import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>
 

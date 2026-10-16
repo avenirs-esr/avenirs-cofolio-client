@@ -1,9 +1,10 @@
+import type { DeclaredExperienceViewDTO, PagedResponseDeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import {
-  type DeclaredExperienceViewDTO,
+
   EExperienceType,
   ESortField,
-  ESortOrder,
-  type PagedResponseDeclaredExperienceViewDTO,
+  ESortOrder
+
 } from '@/api/avenir-esr'
 
 export const declaredExperienceViewDTOFixture: DeclaredExperienceViewDTO = {

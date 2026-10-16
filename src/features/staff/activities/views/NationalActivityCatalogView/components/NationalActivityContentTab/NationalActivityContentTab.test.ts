@@ -1,5 +1,8 @@
-import type { ActivityContentDTO, FileDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import type { ActivityContentDTO, FileDTO } from '@/api/avenir-esr'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { EActivityStatus, EFileType } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
@@ -11,9 +14,6 @@ import { ActivityResourcesListStub } from '@/common/components/interaction/lists
 import { ICONS } from '@/common/constants'
 import NationalActivityContentTab from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.vue'
 import { NationalActivitySettingDetailsStub } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySettingDetails/NationalActivitySettingDetails.stub'
-import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a national activity content tab', () => {
   let wrapper: VueWrapper<InstanceType<typeof NationalActivityContentTab>>

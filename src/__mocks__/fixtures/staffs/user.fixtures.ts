@@ -1,4 +1,5 @@
-import { EFileType, type ProfileOverviewDTO, type QuickLinksDTO } from '@/api/avenir-esr'
+import type { ProfileOverviewDTO, QuickLinksDTO } from '@/api/avenir-esr'
+import { EFileType } from '@/api/avenir-esr'
 import profile_banner_placeholder from '@/assets/staff_profile_banner_placeholder.jpg'
 import profile_picture_placeholder from '@/assets/staff_profile_picture_placeholder.jpg'
 

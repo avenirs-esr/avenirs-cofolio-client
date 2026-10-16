@@ -1,9 +1,10 @@
+import type { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import type { UseQueryOptions, UseQueryReturnType } from '@tanstack/vue-query'
+import type { ComputedRef, MaybeRef, Ref } from 'vue'
 import type { ActivityStaffOverviewDTO, PagedResponseActivityStaffOverviewDTO, PageInfoDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import type { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import type { ComputedRef, MaybeRef, Ref } from 'vue'
+import { keepPreviousData } from '@tanstack/vue-query'
 import { usePagination } from '@/common/composables'
-import { keepPreviousData, type UseQueryOptions, type UseQueryReturnType } from '@tanstack/vue-query'
 
 type FetchFn = (
   params: MaybeRef<{ page: number, pageSize: PageSizes }>,

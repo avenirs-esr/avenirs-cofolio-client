@@ -1,8 +1,8 @@
-import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, expect } from 'vitest'
+import { useDeclaredSkillsStore } from '@/features/student/declaredSkills/stores/declaredSkills.store'
 
 BddTest().given('an declared skills store', () => {
   let store: ReturnType<typeof useDeclaredSkillsStore>

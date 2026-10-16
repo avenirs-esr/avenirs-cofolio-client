@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-import { type DeclaredActivityDetailsDTO, EAssociationContextType, useGetAssociations } from '@/api/avenir-esr'
+import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import { AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
+import { EAssociationContextType, useGetAssociations } from '@/api/avenir-esr'
 import { isDeclaredActivitySubmitted, isDeclaredActivityUnsubscribed, shouldDisplayTraceLimit } from '@/common/activities/rules/activities.rules'
 import { useEnumRouteQuery } from '@/common/composables/use-enum-route-query/use-enum-route-query'
 import { ICONS } from '@/common/constants'
@@ -8,8 +11,6 @@ import TraceAssociationLimitCard from '@/features/student/activities/views/Activ
 import { MyPerspectiveSectionTab } from '@/features/student/activities/views/ActivityView/components/MyPerspectiveSection/MyPerspectiveSection.types'
 import MyPerspectiveTab from '@/features/student/activities/views/ActivityView/components/tabs/MyPerspectiveTab/MyPerspectiveTab.vue'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
-import { AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface MyPerspectiveSectionProps {
   declaredActivityDetails: DeclaredActivityDetailsDTO

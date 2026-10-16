@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
+import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useInfiniteScroll } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 import { invalidateGetSelfKnowledgeElements, useDeleteSelfKnowledgeElements } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
@@ -11,10 +15,6 @@ import {
   useSelfKnowledgePaginatedElements
 } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
 import { useToasterStore } from '@/store'
-import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useInfiniteScroll } from '@vueuse/core'
-import { useI18n } from 'vue-i18n'
 
 export interface DeleteSelfKnowledgeElementsModalProps {
   opened: boolean

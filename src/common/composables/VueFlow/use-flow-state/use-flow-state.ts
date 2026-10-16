@@ -1,6 +1,7 @@
-import { useToasterStore } from '@/store'
-import { type Edge, type Node, useVueFlow } from '@vue-flow/core'
+import type { Edge, Node } from '@vue-flow/core'
+import { useVueFlow } from '@vue-flow/core'
 import { useI18n } from 'vue-i18n'
+import { useToasterStore } from '@/store'
 
 interface UseFlowStateParams {
   /**

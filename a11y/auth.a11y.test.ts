@@ -2,12 +2,12 @@ import type { AvRoute } from '@/common/types'
 import fs from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { ROUTES } from '@/common/constants'
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import { GLOBAL_TIMEOUT } from 'a11y/playwright.a11y.config'
 import { waitMswToStart } from 'a11y/utils'
 import { createHtmlReport } from 'axe-html-reporter'
+import { ROUTES } from '@/common/constants'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

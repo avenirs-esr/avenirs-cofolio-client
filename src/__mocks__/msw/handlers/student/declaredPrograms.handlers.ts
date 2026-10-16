@@ -1,3 +1,5 @@
+import type { DeclaredProgramDetailedDTO, DeclaredProgramViewDTO, GetDeclaredProgramsParams, PagedResponseDeclaredProgramViewDTO } from '@/api/avenir-esr'
+import { delay, http, HttpResponse } from 'msw'
 import {
   createMockedDeclaredProgramsPagedResponse,
   declaredProgramDetailedDTOFixture,
@@ -5,19 +7,17 @@ import {
   searchDeclaredProgramsById
 } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
 import {
-  type DeclaredProgramDetailedDTO,
-  type DeclaredProgramViewDTO,
+
   getCreateDeclaredProgramUrl,
-  type GetDeclaredProgramsParams,
+
   getDeleteDeclaredProgramUrl,
   getGetDeclaredProgramsUrl,
   getGetDeclaredProgramUrl,
-  getUpdateDeclaredProgramUrl,
-  type PagedResponseDeclaredProgramViewDTO
+  getUpdateDeclaredProgramUrl
+
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils'
-import { delay, http, HttpResponse } from 'msw'
 
 export const createDeclaredProgramErrorHandler = http.post(
   `*${getCreateDeclaredProgramUrl()}`,

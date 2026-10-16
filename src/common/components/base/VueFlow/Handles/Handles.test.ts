@@ -1,8 +1,10 @@
-import Handles, { type HandlesProps } from '@/common/components/base/VueFlow/Handles/Handles.vue'
-import { HandleStub } from '@/common/utils/vue-flow/vue-flow-test'
+import type { VueWrapper } from '@vue/test-utils'
+import type { HandlesProps } from '@/common/components/base/VueFlow/Handles/Handles.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import Handles from '@/common/components/base/VueFlow/Handles/Handles.vue'
+import { HandleStub } from '@/common/utils/vue-flow/vue-flow-test'
 
 BddTest().given('a handles component', () => {
   let wrapper: VueWrapper<InstanceType<typeof Handles>>

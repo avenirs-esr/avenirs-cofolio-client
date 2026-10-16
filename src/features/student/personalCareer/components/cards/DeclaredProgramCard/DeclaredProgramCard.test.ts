@@ -1,4 +1,10 @@
-import { type DeclaredProgramViewDTO, EProgramStatus } from '@/api/avenir-esr'
+import type { VueWrapper } from '@vue/test-utils'
+import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount, RouterLinkStub } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
+import { EProgramStatus } from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { ROUTES } from '@/common/constants'
 import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
@@ -9,10 +15,6 @@ import { DeclaredProgramResultBadgeStub }
 import { DeclaredProgramStatusBadgeStub }
   from '@/features/student/personalCareer/components/badges/DeclaredProgramStatusBadge/DeclaredProgramStatusBadge.stub'
 import DeclaredProgramCard from '@/features/student/personalCareer/components/cards/DeclaredProgramCard/DeclaredProgramCard.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const route = reactive<{ name: string }>({ name: ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS.name })
 

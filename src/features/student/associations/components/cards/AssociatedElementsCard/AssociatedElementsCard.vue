@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import type { AssociationsDTO } from '@/api/avenir-esr'
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+import type { AssociationsDTO } from '@/api/avenir-esr'
+import { useI18n } from 'vue-i18n'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { ASSOCIATION_TYPE_ICONS } from '@/common/associations/constants/association-type.constants'
 import AssociatedActivityCard from '@/features/student/associations/components/cards/AssociatedActivityCard/AssociatedActivityCard.vue'
@@ -12,7 +13,6 @@ import AssociatedSkillCard from '@/features/student/associations/components/card
 import AssociatedTraceCard from '@/features/student/associations/components/cards/AssociatedTraceCard/AssociatedTraceCard.vue'
 import AssociationsCard from '@/features/student/associations/components/cards/AssociationsCard/AssociationsCard.vue'
 import { countAssociations, getContextTypeSlug, isAssociationLimited } from '@/features/student/associations/utils/associations.utils'
-import { useI18n } from 'vue-i18n'
 
 export interface AssociatedElementsCardProps extends AvInteractiveProps {
   associatedContextType: EAssociationContextType

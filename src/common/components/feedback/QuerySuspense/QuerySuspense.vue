@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { BaseApiException } from '@/common/exceptions'
 import type { Slot } from 'vue'
+import type { BaseApiException } from '@/common/exceptions'
+import { useI18n } from 'vue-i18n'
 import EmptyState from '@/common/components/feedback/EmptyState/EmptyState.vue'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
-import { useI18n } from 'vue-i18n'
 
 export interface QuerySuspenseProps {
   error?: BaseApiException | null

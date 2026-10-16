@@ -1,10 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { RouterLinkStub } from '@vue/test-utils'
+import { mountWithRouter } from 'tests/utils'
+import { expect, vi } from 'vitest'
 import { mockGroupOverview } from '@/__mocks__/fixtures/staffs/groups.fixtures'
 import { ROUTES } from '@/common/constants'
 import GroupsListName from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsListName/GroupsListName.vue'
-import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { mountWithRouter } from 'tests/utils'
-import { expect, vi } from 'vitest'
 
 const mockIsTruncated = ref(false)
 

@@ -1,5 +1,5 @@
-import type { ESelfKnowledgeCategory, SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { ESelfKnowledgeCategory, SelfKnowledgeElementDetailsDTO } from '@/api/avenir-esr'
 
 export const SelfKnowledgeElementUpdateFormStub = defineComponent({
   name: 'SelfKnowledgeElementUpdateForm',

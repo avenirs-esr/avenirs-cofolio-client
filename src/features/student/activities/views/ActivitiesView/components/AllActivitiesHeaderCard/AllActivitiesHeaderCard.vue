@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import Card from '@/common/components/cards/Card/Card.vue'
 import { AvButton, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import Card from '@/common/components/cards/Card/Card.vue'
 
 defineEmits<{
   (e: 'seeAllActivities'): void

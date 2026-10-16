@@ -1,7 +1,7 @@
+import { http, HttpResponse } from 'msw'
 import { getDownloadActivityFileUrl, getDownloadAttachmentUrl, getDownloadDraftFileUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
-import { http, HttpResponse } from 'msw'
 
 export const filesHandlers = [
   http.get(`*${getDownloadAttachmentUrl(':traceId')}`, ({ params }) => {

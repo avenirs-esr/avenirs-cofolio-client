@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { AvIconText, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { useGetDeclaredActivitiesView } from '@/api/avenir-esr'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
@@ -8,8 +10,6 @@ import { useActivitiesStore } from '@/features/student/activities/stores/activit
 import ActivityLibraryCard from '@/features/student/activities/views/ActivitiesView/components/ActivityLibraryCard/ActivityLibraryCard.vue'
 import ActivityLibraryDropdown from '@/features/student/activities/views/ActivitiesView/components/overlays/ActivityLibraryDropdown/ActivityLibraryDropdown.vue'
 import UnsubscribeActivitiesModal from '@/features/student/activities/views/ActivitiesView/components/overlays/UnsubscribeActivitiesModal/UnsubscribeActivitiesModal.vue'
-import { AvIconText, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 

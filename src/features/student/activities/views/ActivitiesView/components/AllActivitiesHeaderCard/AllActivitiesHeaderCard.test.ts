@@ -1,8 +1,9 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import AllActivitiesHeaderCard from '@/features/student/activities/views/ActivitiesView/components/AllActivitiesHeaderCard/AllActivitiesHeaderCard.vue'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
 
 BddTest().given('an all activities header card', () => {
   let wrapper: VueWrapper<InstanceType<typeof AllActivitiesHeaderCard>>

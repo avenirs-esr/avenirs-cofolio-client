@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import type { AvButtonProps, AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
 import type { AvLocale } from '@/types/i18n.types'
+import { AvButton, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EFeedbackStatus } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { formatDateLocalized } from '@/common/utils'
-import { AvButton, type AvButtonProps, type AvInteractiveProps, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface RequestFeedbackProps extends AvInteractiveProps {
   isLoading?: boolean

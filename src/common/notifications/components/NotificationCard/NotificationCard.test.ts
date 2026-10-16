@@ -1,8 +1,9 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount, RouterLinkStub } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import NotificationCard from '@/common/notifications/components/NotificationCard/NotificationCard.vue'
-import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a notification card', () => {
   let wrapper: VueWrapper<InstanceType<typeof NotificationCard>>

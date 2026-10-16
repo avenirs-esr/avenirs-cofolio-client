@@ -1,6 +1,6 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { canExportKit } from '@/features/student/kit/rules/export-kit.rules'
 import { ExportKitOptions } from '@/features/student/kit/views/StudentToolsKitView/composables/use-export-kit-form/use-export-kit-form'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 BddTest().given('a can export kit function', () => {
   let result: ReturnType<typeof canExportKit>

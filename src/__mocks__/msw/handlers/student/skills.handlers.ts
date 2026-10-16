@@ -1,3 +1,7 @@
+import type { PathParams } from 'msw'
+import type { AddDeclaredSkillDTO, AdditionalSkillConfigurationDTO, DeclaredSkillProgressDetailsDTO, DeclaredSkillProgressDTO, GetDeclaredSkillsProgressesParams, PagedResponseDeclaredSkillProgressDTO, PagedResponseExternalSkillDTO } from '@/api/avenir-esr'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { delay, http, HttpResponse } from 'msw'
 import {
   createMockedAssociatedExternalSkillIds,
   createMockedDeclaredSkillProgressDetailsDTO,
@@ -5,26 +9,20 @@ import {
   createMockedSearchExternalSkillsDTO
 } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
-  type AddDeclaredSkillDTO,
-  type AdditionalSkillConfigurationDTO,
-  type DeclaredSkillProgressDetailsDTO,
-  type DeclaredSkillProgressDTO,
+
   EDeclaredSkillLevel,
   EExternalSkillType,
   getCreateDeclaredSkillProgressUrl,
-  type GetDeclaredSkillsProgressesParams,
+
   getDeleteDeclaredSkillProgressUrl,
   getGetAdditionalSkillConfigUrl,
   getGetAssociatedExternalSkillIdsUrl,
   getGetDeclaredSkillProgressDetailsUrl,
   getGetDeclaredSkillsProgressesUrl,
-  getUpdateDeclaredSkillProgressUrl,
-  type PagedResponseDeclaredSkillProgressDTO,
-  type PagedResponseExternalSkillDTO
+  getUpdateDeclaredSkillProgressUrl
+
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
-import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { delay, http, HttpResponse, type PathParams } from 'msw'
 
 const INVALID_DECLARED_SKILL_ID = 'INVALID_DECLARED_SKILL_ID'
 

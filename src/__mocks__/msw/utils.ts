@@ -1,5 +1,6 @@
+import type { DefaultBodyType, StrictRequest } from 'msw'
 import type { EAssociationContextType } from '@/api/avenir-esr'
-import { type DefaultBodyType, HttpResponse, type StrictRequest } from 'msw'
+import { HttpResponse } from 'msw'
 
 export function isEmptyDataSetRequest (request: StrictRequest<DefaultBodyType>) {
   return request.headers.has('x-dataset-empty')

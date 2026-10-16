@@ -1,16 +1,17 @@
-import { type DeclaredProgramViewDTO, EProgramStatus } from '@/api/avenir-esr'
+import type { VueWrapper } from '@vue/test-utils'
+import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
+import type { AssociatedDeclaredProgramCardProps } from '@/features/student/associations/components/cards/AssociatedDeclaredProgramCard/AssociatedDeclaredProgramCard.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
+import { EProgramStatus } from '@/api/avenir-esr'
 import { ICONS, ROUTES } from '@/common/constants'
-import AssociatedDeclaredProgramCard, {
-  type AssociatedDeclaredProgramCardProps
-} from '@/features/student/associations/components/cards/AssociatedDeclaredProgramCard/AssociatedDeclaredProgramCard.vue'
+import AssociatedDeclaredProgramCard from '@/features/student/associations/components/cards/AssociatedDeclaredProgramCard/AssociatedDeclaredProgramCard.vue'
 import { AssociationCardStub } from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.stub'
 import { DeclaredProgramOrganizationBadgeStub }
   from '@/features/student/personalCareer/components/badges/DeclaredProgramOrganizationBadge/DeclaredProgramOrganizationBadge.stub'
 import { DeclaredProgramStatusBadgeStub }
   from '@/features/student/personalCareer/components/badges/DeclaredProgramStatusBadge/DeclaredProgramStatusBadge.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('an associated declared program card', () => {
   let wrapper: VueWrapper<InstanceType<typeof AssociatedDeclaredProgramCard>>

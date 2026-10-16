@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useVueFlow, VueFlow } from '@vue-flow/core'
+import { useI18n } from 'vue-i18n'
 import LinkInputNode from '@/common/components/base/VueFlow/LinkInputNode/LinkInputNode.vue'
 import TextInputNode from '@/common/components/base/VueFlow/TextInputNode/TextInputNode.vue'
 import { useEdges } from '@/common/composables/VueFlow/use-edges/use-edges'
@@ -12,9 +15,6 @@ import SelfKnowledgeCategoryNode from '@/features/student/buildProject/views/Bui
 import SelfKnowledgeElementNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/SelfKnowledgeElementNode/SelfKnowledgeElementNode.vue'
 import UserNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/UserNode/UserNode.vue'
 import { useMindMapFlow } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/composables/use-mind-map-flow/use-mind-map-flow'
-import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useVueFlow, VueFlow } from '@vue-flow/core'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const { nodes, edges, setNodes, setEdges } = useVueFlow()

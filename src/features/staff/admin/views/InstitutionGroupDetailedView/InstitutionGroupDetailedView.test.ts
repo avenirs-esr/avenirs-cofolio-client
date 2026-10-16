@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { mockGroup } from '@/__mocks__/fixtures/staffs/groups.fixtures'
-import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
-import InstitutionGroupDetailedView from '@/features/staff/admin/views/InstitutionGroupDetailedView/InstitutionGroupDetailedView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { expect } from 'vitest'
+import { mockGroup } from '@/__mocks__/fixtures/staffs/groups.fixtures'
+import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
+import InstitutionGroupDetailedView from '@/features/staff/admin/views/InstitutionGroupDetailedView/InstitutionGroupDetailedView.vue'
 
 BddTest().given('an institution group detailed view', () => {
   let wrapper: VueWrapper<InstanceType<typeof InstitutionGroupDetailedView>>

@@ -3,9 +3,9 @@ import type {
   DeclaredSkillCategoryDTO,
   EExternalSkillType
 } from '@/api/avenir-esr'
-import Card from '@/common/components/cards/Card/Card.vue'
 import { AvBadge, AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import Card from '@/common/components/cards/Card/Card.vue'
 
 export interface DeclaredSkillRefCardProps {
   type: EExternalSkillType

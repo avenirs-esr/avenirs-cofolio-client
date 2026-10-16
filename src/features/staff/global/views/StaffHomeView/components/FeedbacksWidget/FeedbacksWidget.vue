@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { useGetStaffFeedbacks } from '@/api/avenir-esr'
 import HomeWidget from '@/common/components/cards/HomeWidget/HomeWidget.vue'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { ROUTES } from '@/common/constants'
 import FeedbackLongIconCard from '@/features/staff/global/views/StaffHomeView/components/FeedbackLongIconCard/FeedbackLongIconCard.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const { getErrorMessage } = useApiErrors()

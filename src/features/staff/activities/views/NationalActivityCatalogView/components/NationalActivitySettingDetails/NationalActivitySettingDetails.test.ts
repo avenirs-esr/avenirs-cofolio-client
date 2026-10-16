@@ -1,4 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { EnabledDisabledStatusBadgeStub } from '@/common/components/badges/EnabledDisabledStatusBadge/EnabledDisabledStatusBadge.stub'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
@@ -10,10 +14,6 @@ import {
   ACTIVITY_TRACE_SETTING_INFINITY_VALUE
 } from '@/features/staff/activities/config'
 import NationalActivitySettingDetails from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivitySettingDetails/NationalActivitySettingDetails.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a national activity setting details component', () => {
   let wrapper: VueWrapper<InstanceType<typeof NationalActivitySettingDetails>>

@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { EDeclaredSkillLevel } from '@/api/avenir-esr'
-import DeclaredSkillLevelRadioButtonSet from '@/features/student/declaredSkills/components/interactions/radios/DeclaredSkillLevelRadioButtonSet/DeclaredSkillLevelRadioButtonSet.vue'
 import { AvBadgeStub, AvRadioButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { EDeclaredSkillLevel } from '@/api/avenir-esr'
+import DeclaredSkillLevelRadioButtonSet from '@/features/student/declaredSkills/components/interactions/radios/DeclaredSkillLevelRadioButtonSet/DeclaredSkillLevelRadioButtonSet.vue'
 
 const AvRadioButtonSetStub = defineComponent({
   name: 'AvRadioButtonSet',

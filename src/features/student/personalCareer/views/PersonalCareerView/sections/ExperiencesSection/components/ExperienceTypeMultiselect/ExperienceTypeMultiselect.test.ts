@@ -1,7 +1,8 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { ProBasedExperienceType } from '@/features/student/global/types/experiences.types'
-import ExperienceTypeMultiselect from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/ExperienceTypeMultiselect/ExperienceTypeMultiselect.vue'
 import { AvMultiselectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import ExperienceTypeMultiselect from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/ExperienceTypeMultiselect/ExperienceTypeMultiselect.vue'
 
 const route = reactive<{ query: { type: ProBasedExperienceType } | undefined }>({
   query: undefined,

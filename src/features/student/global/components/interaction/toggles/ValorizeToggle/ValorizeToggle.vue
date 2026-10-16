@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import type { ComputedRef } from 'vue'
 import type { ToggleProps } from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
+import { useAttrs } from 'vue'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import Toggle from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
-import { type ComputedRef, useAttrs } from 'vue'
 
 export interface ValorizeToggleProps extends Omit<ToggleProps, 'activeText' | 'inactiveText' | 'statusTextWidth'> { }
 

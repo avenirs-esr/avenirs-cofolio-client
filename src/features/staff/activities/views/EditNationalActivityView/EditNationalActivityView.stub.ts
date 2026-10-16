@@ -1,10 +1,11 @@
 import type { SlotsType } from 'vue'
-import { EActivityThematic } from '@/api/avenir-esr'
-import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
-import { type EditActivityFormData, EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
-import { provideEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
+import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { useForm } from '@tanstack/vue-form'
 import { vi } from 'vitest'
+import { EActivityThematic } from '@/api/avenir-esr'
+import { ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
+import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
+import { provideEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 
 const slots = Object as SlotsType<{ default?: () => unknown }>
 const name = 'EditNationalActivityViewFormWrapper'

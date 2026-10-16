@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { EActivityThematic } from '@/api/avenir-esr'
-import { AvSelect, type AvSelectProps, MDI_ICONS, } from '@avenirs-esr/avenirs-dsav'
+import type { AvSelectProps } from '@avenirs-esr/avenirs-dsav'
+import { AvSelect, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { EActivityThematic } from '@/api/avenir-esr'
 
 type ThematicSelectProps = Omit<AvSelectProps, 'options' | 'placeholder' | 'prefixIcon'>
 

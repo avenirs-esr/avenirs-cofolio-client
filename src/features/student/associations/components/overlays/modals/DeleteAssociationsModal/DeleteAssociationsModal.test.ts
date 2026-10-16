@@ -1,5 +1,16 @@
-import type { AssociationsDeleteRequest, AssociationsDTO } from '@/api/avenir-esr'
+import type { VueWrapper } from '@vue/test-utils'
+import type { PathParams } from 'msw'
 import type { MockInstance } from 'vitest'
+import type { AssociationsDeleteRequest, AssociationsDTO } from '@/api/avenir-esr'
+import type { DeleteAssociationsModalProps } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { QueryClient } from '@tanstack/vue-query'
+import { flushPromises } from '@vue/test-utils'
+import { http, HttpResponse } from 'msw'
+import { mountComponent } from 'tests/utils'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { nextTick } from 'vue'
 import {
   createMockedDeclaredSkillAssociations,
   mockedDeclaredActivityAssociations,
@@ -13,17 +24,7 @@ import { AssociationsSelectorStub } from '@/features/student/associations/compon
 import {
   DeleteAssociationsConfirmModalStub
 } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsConfirmModal/DeleteAssociationsConfirmModal.stub'
-import DeleteAssociationsModal, {
-  type DeleteAssociationsModalProps
-} from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { QueryClient } from '@tanstack/vue-query'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { http, HttpResponse, type PathParams } from 'msw'
-import { mountComponent } from 'tests/utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
-import { nextTick } from 'vue'
+import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()

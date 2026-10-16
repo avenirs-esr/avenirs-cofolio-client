@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { AvInputProps } from '@avenirs-esr/avenirs-dsav'
-import Input from '@/common/components/interaction/inputs/Input/Input.vue'
-import { TRACE_NAME_MAX_LENGTH } from '@/features/student/traces/config'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
+import Input from '@/common/components/interaction/inputs/Input/Input.vue'
+import { TRACE_NAME_MAX_LENGTH } from '@/features/student/traces/config'
 
-interface TraceNameInputProps extends Omit<AvInputProps, 'label' | 'prefixIcon' | 'placeholder' | 'modelValue' | 'maxlength' > {
+interface TraceNameInputProps extends Omit<AvInputProps, 'label' | 'prefixIcon' | 'placeholder' | 'modelValue' | 'maxlength'> {
   label?: string
   prefixIcon?: string
   placeholder?: string

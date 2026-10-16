@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { ActivityDraftUpdateRequest, EActivityThematic } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
-import ThematicSelect from '@/features/staff/activities/views/ActivitiesView/components/tabs/NationalActivityContentTab/interactions/inputs/ThematicSelect/ThematicSelect.vue'
 import { markRaw } from 'vue'
+import ThematicSelect from '@/features/staff/activities/views/ActivitiesView/components/tabs/NationalActivityContentTab/interactions/inputs/ThematicSelect/ThematicSelect.vue'
 
 interface ThematicSelectFormFieldProps {
   form: EditActivityForm

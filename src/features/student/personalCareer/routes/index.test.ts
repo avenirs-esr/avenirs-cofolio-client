@@ -1,4 +1,5 @@
 import type { AvRoute } from '@/common/types'
+import { testRoute } from 'tests/utils'
 import {
   declaredExperienceRoute,
   declaredExperienceUpdateRoute,
@@ -16,7 +17,6 @@ import ExperiencesSection
   from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/ExperiencesSection.vue'
 import ProgramsSection
   from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/ProgramsSection.vue'
-import { testRoute } from 'tests/utils'
 
 testRoute(
   personalCareerRoute,

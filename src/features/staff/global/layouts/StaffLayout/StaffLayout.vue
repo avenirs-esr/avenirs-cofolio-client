@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { AvHeader } from '@avenirs-esr/avenirs-dsav'
+import capitalize from 'lodash-es/capitalize'
+import { useI18n } from 'vue-i18n'
 import { EUserCategory, useGetQuickLinks } from '@/api/avenir-esr'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import Footer from '@/common/components/Footer/Footer.vue'
@@ -12,9 +15,6 @@ import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 import StaffNavigation from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.vue'
 import StaffNotificationsPopover from '@/features/staff/user/components/overlays/StaffNotificationsPopover/StaffNotificationsPopover.vue'
 import StaffProfileDropdown from '@/features/staff/user/components/overlays/StaffProfileDropdown/StaffProfileDropdown.vue'
-import { AvHeader } from '@avenirs-esr/avenirs-dsav'
-import capitalize from 'lodash-es/capitalize'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const { languageSelector, selectLanguage } = useLanguageSwitcher()

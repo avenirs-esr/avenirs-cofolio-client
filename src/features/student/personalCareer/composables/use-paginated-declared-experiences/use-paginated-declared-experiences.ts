@@ -1,8 +1,10 @@
-import { type DeclaredExperienceViewDTO, type PageInfoDTO, useGetDeclaredExperienceView } from '@/api/avenir-esr'
+import type { Ref } from 'vue'
+import type { DeclaredExperienceViewDTO, PageInfoDTO } from '@/api/avenir-esr'
+import { keepPreviousData } from '@tanstack/vue-query'
+import { toValue } from 'vue'
+import { useGetDeclaredExperienceView } from '@/api/avenir-esr'
 import { useInfiniteScrollPagination } from '@/common/composables'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
-import { keepPreviousData } from '@tanstack/vue-query'
-import { type Ref, toValue } from 'vue'
 
 export interface UsePaginatedDeclaredExperiencesResult {
   declaredExperiences: Ref<DeclaredExperienceViewDTO[]>

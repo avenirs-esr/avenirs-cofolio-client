@@ -1,4 +1,10 @@
-import { type DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
+import type { VueWrapper } from '@vue/test-utils'
+import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount, RouterLinkStub } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
+import { EExperienceType } from '@/api/avenir-esr'
 import { PeriodBadgeStub } from '@/common/activities/badges/PeriodBadge/PeriodBadge.stub'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { ROUTES } from '@/common/constants'
@@ -8,10 +14,6 @@ import { DeclaredExperienceOrganizationBadgeStub }
 import { DeclaredExperienceTypeBadgeStub }
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.stub'
 import DeclaredExperienceCard from '@/features/student/personalCareer/components/cards/DeclaredExperienceCard/DeclaredExperienceCard.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const route = reactive<{ name: string }>({ name: ROUTES.STUDENT.PERSONAL_CAREER_EXPERIENCES.name })
 

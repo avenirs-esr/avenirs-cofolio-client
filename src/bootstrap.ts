@@ -1,9 +1,9 @@
+import { createApp } from 'vue'
 import App from '@/App.vue'
 import tanstackQuery from '@/plugins/tanstack-query/tanstack-query'
 import i18nAvPlugin, { initializeI18n } from '@/plugins/vue-i18n/vue-i18n'
 import router from '@/router'
 import store from '@/store'
-import { createApp } from 'vue'
 import '@avenirs-esr/avenirs-dsav/style.css'
 import '@/assets/main.css'
 // === Vue Flow mandatory styles ===

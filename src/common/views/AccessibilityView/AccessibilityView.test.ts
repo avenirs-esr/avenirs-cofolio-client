@@ -1,7 +1,8 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import AccessibilityView from '@/common/views/AccessibilityView/AccessibilityView.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
 
 BddTest().given('a accessibility view', () => {
   let wrapper: VueWrapper<InstanceType<typeof AccessibilityView>>

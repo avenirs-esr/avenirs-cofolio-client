@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { TRACE_PERSONAL_NOTE_MAX_LENGTH } from '@/features/student/traces/config'
-import { AvInput, type AvInputProps } from '@avenirs-esr/avenirs-dsav'
+import type { AvInputProps } from '@avenirs-esr/avenirs-dsav'
+import { AvInput } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { TRACE_PERSONAL_NOTE_MAX_LENGTH } from '@/features/student/traces/config'
 
 interface TracePersonalNoteTextareaProps extends Omit<AvInputProps, 'label' | 'placeholder' | 'modelValue' | 'maxlength' | 'isTextarea'> {
   label?: string

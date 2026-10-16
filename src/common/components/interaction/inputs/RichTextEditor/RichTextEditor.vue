@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { AvMessage, AvRichTextEditor, type AvRichTextEditorProps } from '@avenirs-esr/avenirs-dsav'
-import { type ComputedRef, useAttrs } from 'vue'
+import type { AvRichTextEditorProps } from '@avenirs-esr/avenirs-dsav'
+import type { ComputedRef } from 'vue'
+import { AvMessage, AvRichTextEditor } from '@avenirs-esr/avenirs-dsav'
+import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface RichTextEditorProps {

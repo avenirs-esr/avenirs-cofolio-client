@@ -1,8 +1,10 @@
+import type { VueWrapper } from '@vue/test-utils'
+import type { ActivityErrorMessageProps } from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
 import { ErrorCodes } from '@/common/constants'
 import { BaseApiErrorCode } from '@/common/exceptions'
-import ActivityErrorMessage, { type ActivityErrorMessageProps } from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import ActivityErrorMessage from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'
 
 BddTest().given('an activity error message component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityErrorMessage>>

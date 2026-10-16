@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import Input, { type InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
+import type { InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
+import { useI18n } from 'vue-i18n'
+import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 import { ICONS } from '@/common/constants/icons'
 import { DECLARED_PROGRAM_SOURCE_OF_INFORMATION_MAX_LENGTH } from '@/features/student/personalCareer/config'
-import { useI18n } from 'vue-i18n'
 
 type DeclaredProgramSourceOfInformationInputProps = Omit<InputProps, 'maxlength'>
 

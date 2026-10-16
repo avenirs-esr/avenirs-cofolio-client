@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
-import { ICONS, ROUTES } from '@/common/constants'
+import type { AvSelectOption, AvSelectSelectedOption, AvSideNavigationItem } from '@avenirs-esr/avenirs-dsav'
 import {
   AvSelect,
-  type AvSelectOption,
-  type AvSelectSelectedOption,
-  type AvSideNavigationItem,
+
   useAvBreakpoints
 } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
+import { ICONS, ROUTES } from '@/common/constants'
 
 const emit = defineEmits<{
   selectedItem: [itemLabel: string]

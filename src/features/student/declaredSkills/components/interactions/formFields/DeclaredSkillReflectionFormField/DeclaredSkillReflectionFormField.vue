@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { DeclaredSkillForm } from '@/features/student/declaredSkills/types/forms.types'
 import type { UpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
+import { markRaw } from 'vue'
+import { useI18n } from 'vue-i18n'
 import DeclaredSkillReflectionInput
   from '@/features/student/declaredSkills/components/interactions/inputs/DeclaredSkillReflectionInput/DeclaredSkillReflectionInput.vue'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
-import { markRaw } from 'vue'
-import { useI18n } from 'vue-i18n'
 
 interface DeclaredSkillReflectionFormFieldProps {
   form: UpdateDeclaredSkillForm | DeclaredSkillForm

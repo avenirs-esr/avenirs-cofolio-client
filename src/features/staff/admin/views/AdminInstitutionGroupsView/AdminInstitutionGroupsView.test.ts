@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
-import AdminInstitutionGroupsView from '@/features/staff/admin/views/AdminInstitutionGroupsView/AdminInstitutionGroupsView.vue'
-import { GroupsListStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsList/GroupsList.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
+import AdminInstitutionGroupsView from '@/features/staff/admin/views/AdminInstitutionGroupsView/AdminInstitutionGroupsView.vue'
+import { GroupsListStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsList/GroupsList.stub'
 
 BddTest().given('an admin institution groups view', () => {
   let wrapper: VueWrapper<InstanceType<typeof AdminInstitutionGroupsView>>

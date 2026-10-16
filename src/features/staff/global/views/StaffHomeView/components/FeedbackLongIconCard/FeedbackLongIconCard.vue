@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { FeedbackStaffListItemDTO } from '@/api/avenir-esr'
 import type { AvLocale } from '@/types'
+import { useI18n } from 'vue-i18n'
 import LongIconCard from '@/common/components/cards/LongIconCard/LongIconCard.vue'
 import { ICONS, ROUTES } from '@/common/constants'
 import { formatDateLocalized } from '@/common/utils'
-import { useI18n } from 'vue-i18n'
 
 export interface FeedbackLongIconCardProps {
   feedback: FeedbackStaffListItemDTO

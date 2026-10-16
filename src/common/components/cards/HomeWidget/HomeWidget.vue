@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import type { AvButtonProps } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import Card from '@/common/components/cards/Card/Card.vue'
-import { AvButton, type AvButtonProps, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 export interface HomeWidgetProps {
   title: string

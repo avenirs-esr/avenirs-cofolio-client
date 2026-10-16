@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { AskForFeedbackParameters, NotificationDTO } from '@/api/avenir-esr'
+import { I18nT } from 'vue-i18n'
 import { ROUTES } from '@/common/constants'
 import NotificationCard from '@/common/notifications/components/NotificationCard/NotificationCard.vue'
-import { I18nT } from 'vue-i18n'
 
 const { notification } = defineProps<{ notification: NotificationDTO }>()
 

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
-import { AvFloatingPanel, type AvFloatingPanelProps } from '@avenirs-esr/avenirs-dsav'
-import { type ComputedRef, type Slot, useAttrs } from 'vue'
+import type { AvFloatingPanelProps } from '@avenirs-esr/avenirs-dsav'
+import type { ComputedRef, Slot } from 'vue'
+import { AvFloatingPanel } from '@avenirs-esr/avenirs-dsav'
+import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 export interface FloatingPanelProps extends Omit<AvFloatingPanelProps, 'collapseLabel' | 'expandLabel'> {}

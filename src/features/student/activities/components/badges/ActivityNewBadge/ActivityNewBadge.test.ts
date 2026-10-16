@@ -1,8 +1,9 @@
-import ActivityNewBadge from '@/features/student/activities/components/badges/ActivityNewBadge/ActivityNewBadge.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { IX_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import ActivityNewBadge from '@/features/student/activities/components/badges/ActivityNewBadge/ActivityNewBadge.vue'
 
 BddTest().given('an activity new badge component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityNewBadge>>

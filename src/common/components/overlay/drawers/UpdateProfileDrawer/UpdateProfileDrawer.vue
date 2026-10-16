@@ -1,15 +1,6 @@
 <script setup lang="ts">
+import type { FileDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import { EUserCategory, type FileDTO, invalidateGetProfile, useDeleteCoverPicture, useDeleteProfilePicture } from '@/api/avenir-esr'
-import { ConfirmationModal, Drawer, FormCancelConfirmButtons, ImageUpload } from '@/common/components'
-import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
-import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
-import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
-import { useModal } from '@/common/composables'
-import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
-import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
-import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
-import { useToasterStore } from '@/store'
 import {
   AvAccordion,
   AvAccordionsGroup,
@@ -19,6 +10,16 @@ import {
 import { useQueryClient } from '@tanstack/vue-query'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { EUserCategory, invalidateGetProfile, useDeleteCoverPicture, useDeleteProfilePicture } from '@/api/avenir-esr'
+import { ConfirmationModal, Drawer, FormCancelConfirmButtons, ImageUpload } from '@/common/components'
+import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
+import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/UpdateProfileDrawer/config'
+import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
+import { useModal } from '@/common/composables'
+import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
+import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
+import { useToasterStore } from '@/store'
 
 interface UpdateProfileDrawerProps {
   firstname: string

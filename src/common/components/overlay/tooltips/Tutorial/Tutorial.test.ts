@@ -1,12 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { Config } from 'driver.js'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
 import Tutorial from '@/common/components/overlay/tooltips/Tutorial/Tutorial.vue'
 import { ROUTES } from '@/common/constants'
 import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const markTutorialAsSeen = vi.fn()
 const hasSeenTutorial = ref(true)

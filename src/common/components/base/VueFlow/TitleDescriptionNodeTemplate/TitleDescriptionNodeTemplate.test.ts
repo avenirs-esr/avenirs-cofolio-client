@@ -1,10 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
 import { NodeTemplateStub } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.stub'
 import TitleDescriptionNodeTemplate from '@/common/components/base/VueFlow/TitleDescriptionNodeTemplate/TitleDescriptionNodeTemplate.vue'
 import { mandatoryNodeTemplateProps } from '@/common/utils/vue-flow/vue-flow-test'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a handles component', () => {
   let wrapper: VueWrapper<InstanceType<typeof TitleDescriptionNodeTemplate>>

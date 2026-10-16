@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { ActivityPresentationDTO } from '@/api/avenir-esr'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
+import { AvButton, AvMessage, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useQueryClient } from '@tanstack/vue-query'
+import isEmpty from 'lodash-es/isEmpty'
+import { useI18n } from 'vue-i18n'
 import { invalidateGetStaffActivityLibrary, invalidateGetStaffActivityWorkingSpace, usePublishActivityDraft } from '@/api/avenir-esr'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
@@ -17,10 +21,6 @@ import { PublicationSectionId } from '@/features/staff/activities/editActivity.c
 import EditNationalActivityViewTabActions from '@/features/staff/activities/views/EditNationalActivityView/components/EditNationalActivityViewTabActions/EditNationalActivityViewTabActions.vue'
 import { useEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { useToasterStore } from '@/store'
-import { AvButton, AvMessage, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useQueryClient } from '@tanstack/vue-query'
-import isEmpty from 'lodash-es/isEmpty'
-import { useI18n } from 'vue-i18n'
 
 interface ActivityPublicationTabProps {
   activity: ActivityPresentationDTO

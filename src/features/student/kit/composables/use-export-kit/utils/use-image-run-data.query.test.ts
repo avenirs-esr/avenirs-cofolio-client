@@ -1,9 +1,9 @@
-import { useImageRunDataQuery } from '@/features/student/kit/composables/use-export-kit/utils/use-image-run-data.query'
-import { generateImageRunData } from '@/features/student/kit/composables/use-export-kit/utils/utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
 import { expect, vi } from 'vitest'
+import { useImageRunDataQuery } from '@/features/student/kit/composables/use-export-kit/utils/use-image-run-data.query'
+import { generateImageRunData } from '@/features/student/kit/composables/use-export-kit/utils/utils'
 
 vi.mock('@/features/student/kit/composables/use-export-kit/utils/utils', () => ({
   generateImageRunData: vi.fn(),

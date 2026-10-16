@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
+import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { format } from 'date-fns'
+import { useI18n } from 'vue-i18n'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { ICONS } from '@/common/constants'
 import FeedbackAttachmentsPillList from '@/features/student/activities/components/lists/FeedbackAttachmentsPillList/FeedbackAttachmentsPillList.vue'
 import { useDownloadFeedbackAttachments } from '@/features/student/activities/composables/use-download-feedback-attachments/use-download-feedback-attachments'
-import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { format } from 'date-fns'
-import { useI18n } from 'vue-i18n'
 
 export interface FeedbackCardProps {
   feedback: FeedbackOverviewDTO

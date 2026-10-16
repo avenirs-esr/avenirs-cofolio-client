@@ -1,7 +1,7 @@
-import AddCard from '@/common/components/cards/AddCard/AddCard.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { expect } from 'vitest'
+import AddCard from '@/common/components/cards/AddCard/AddCard.vue'
 
 BddTest().given('an AddCard component', () => {
   const stubs = { AvIcon: AvIconStub }

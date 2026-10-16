@@ -1,7 +1,8 @@
-import VerifiedExperiencesTab from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/VerifiedExperiencesTab/VerifiedExperiencesTab.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import VerifiedExperiencesTab from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/VerifiedExperiencesTab/VerifiedExperiencesTab.vue'
 
 BddTest().given('a verified experiences tab', () => {
   let wrapper: VueWrapper<InstanceType<typeof VerifiedExperiencesTab>>

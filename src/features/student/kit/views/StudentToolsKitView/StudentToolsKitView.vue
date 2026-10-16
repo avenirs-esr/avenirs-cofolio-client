@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
 import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
 import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
@@ -6,7 +7,6 @@ import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import ExportKitButton from '@/features/student/kit/views/StudentToolsKitView/components/interaction/ExportKitButton/ExportKitButton.vue'
 import KitContentTabs from '@/features/student/kit/views/StudentToolsKitView/components/KitContentTabs/KitContentTabs.vue'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 

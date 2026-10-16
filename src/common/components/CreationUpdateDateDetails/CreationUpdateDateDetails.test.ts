@@ -1,8 +1,10 @@
-import CreationUpdateDateDetails, { type CreationUpdateDateDetailsProps } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { CreationUpdateDateDetailsProps } from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.vue'
 import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import CreationUpdateDateDetails from '@/common/components/CreationUpdateDateDetails/CreationUpdateDateDetails.vue'
 
 const CREATED_AT_LABEL_FEMININE = 'Créée le'
 const UPDATED_AT_LABEL_FEMININE = 'Modifiée le'

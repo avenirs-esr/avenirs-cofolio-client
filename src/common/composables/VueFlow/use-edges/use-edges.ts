@@ -1,6 +1,7 @@
+import type { Connection, Edge } from '@vue-flow/core'
+import { useVueFlow } from '@vue-flow/core'
 import { useFlowHistoryStore } from '@/common/stores/flow-history.store'
 import { getEdgeId } from '@/common/utils/vue-flow/vue-flow'
-import { type Connection, type Edge, useVueFlow } from '@vue-flow/core'
 
 interface UseEdgesReturn {
   /**

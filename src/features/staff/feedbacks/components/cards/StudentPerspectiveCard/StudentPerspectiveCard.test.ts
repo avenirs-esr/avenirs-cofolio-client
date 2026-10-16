@@ -1,10 +1,10 @@
-import type { StudentPerspectiveCardProps } from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.vue'
 import type { VueWrapper } from '@vue/test-utils'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
-import StudentPerspectiveCard from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.vue'
+import type { StudentPerspectiveCardProps } from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.vue'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
+import StudentPerspectiveCard from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.vue'
 
 BddTest().given('a student perspective card', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentPerspectiveCard>>

@@ -1,3 +1,4 @@
+import { Document, Packer } from 'docx'
 import { downloadBlob } from '@/common/utils/download/download'
 import { useGenerateActivitiesSection } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-activities-section'
 import { useGenerateExperiencesSections } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-experiences-sections'
@@ -6,7 +7,6 @@ import { useGenerateProgramsSection } from '@/features/student/kit/composables/u
 import { useGenerateSelfKnowledgeSections } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-self-knowledge-sections'
 import { useGenerateSkillsSection } from '@/features/student/kit/composables/use-export-kit/sectionsGenerators/use-generate-skills-section'
 import { centimeterToTwip } from '@/features/student/kit/composables/use-export-kit/utils/utils'
-import { Document, Packer } from 'docx'
 
 export function useExportKit () {
   const { profileSection, isLoading: isProfileSectionLoading } = useGenerateProfileSection()

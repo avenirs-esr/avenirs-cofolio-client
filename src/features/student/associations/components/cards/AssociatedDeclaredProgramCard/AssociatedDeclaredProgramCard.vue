@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import { ICONS, ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 import DeclaredProgramOrganizationBadge

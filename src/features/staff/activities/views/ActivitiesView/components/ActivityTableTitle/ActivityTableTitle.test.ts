@@ -1,11 +1,12 @@
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
-import { EActivityStatus, EActivityThematic } from '@/api/avenir-esr'
-import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
-import { ROUTES } from '@/common/constants'
-import ActivityTableTitle, { type ActivityTableTitleProps } from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.vue'
+import type { ActivityTableTitleProps } from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.vue'
 import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount, RouterLinkStub } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { EActivityStatus, EActivityThematic } from '@/api/avenir-esr'
+import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
+import { ROUTES } from '@/common/constants'
+import ActivityTableTitle from '@/features/staff/activities/views/ActivitiesView/components/ActivityTableTitle/ActivityTableTitle.vue'
 
 const mockIsTruncated = ref(false)
 

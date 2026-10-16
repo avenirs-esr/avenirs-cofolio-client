@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import PeriodBadge from '@/common/activities/badges/PeriodBadge/PeriodBadge.vue'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
@@ -9,7 +10,6 @@ import DeclaredExperienceOrganizationBadge
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceOrganizationBadge/DeclaredExperienceOrganizationBadge.vue'
 import DeclaredExperienceTypeBadge
   from '@/features/student/personalCareer/components/badges/DeclaredExperienceTypeBadge/DeclaredExperienceTypeBadge.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 defineProps<{ declaredExperience: DeclaredExperienceViewDTO }>()
 

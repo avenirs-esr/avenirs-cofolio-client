@@ -1,12 +1,14 @@
+import type { VueWrapper } from '@vue/test-utils'
+import type { ActivityLongIconCardProps } from '@/features/staff/global/views/StaffHomeView/components/ActivityLongIconCard/ActivityLongIconCard.vue'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { expect } from 'vitest'
 import { allStaffActivities } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { EActivityStatus } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { LongIconCardStub } from '@/common/components/cards/LongIconCard/LongIconCard.stub'
-import ActivityLongIconCard, { type ActivityLongIconCardProps } from '@/features/staff/global/views/StaffHomeView/components/ActivityLongIconCard/ActivityLongIconCard.vue'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { expect } from 'vitest'
+import ActivityLongIconCard from '@/features/staff/global/views/StaffHomeView/components/ActivityLongIconCard/ActivityLongIconCard.vue'
 
 const draftActivity = { ...allStaffActivities[0], activityStatus: EActivityStatus.DRAFT }
 const publishedActivity = { ...allStaffActivities[0], activityStatus: EActivityStatus.PUBLISHED }

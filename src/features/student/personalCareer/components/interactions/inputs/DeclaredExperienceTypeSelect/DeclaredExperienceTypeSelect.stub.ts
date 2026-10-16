@@ -1,5 +1,5 @@
-import type { EExperienceType } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { EExperienceType } from '@/api/avenir-esr'
 
 export const DeclaredExperienceTypeSelectStub = defineComponent({
   name: 'DeclaredExperienceTypeSelect',

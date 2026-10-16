@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ConfirmationModal } from '@/common/components'
 import { useI18n } from 'vue-i18n'
+import { ConfirmationModal } from '@/common/components'
 
 export interface FinishDeclaredActivityConfirmModalProps {
   opened: boolean

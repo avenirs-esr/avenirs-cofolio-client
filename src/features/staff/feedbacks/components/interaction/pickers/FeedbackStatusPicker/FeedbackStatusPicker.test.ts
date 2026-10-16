@@ -1,7 +1,9 @@
-import { EFeedbackStatus } from '@/api/avenir-esr'
-import FeedbackStatusPicker, { type FeedbackStatusPickerProps } from '@/features/staff/feedbacks/components/interaction/pickers/FeedbackStatusPicker/FeedbackStatusPicker.vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { FeedbackStatusPickerProps } from '@/features/staff/feedbacks/components/interaction/pickers/FeedbackStatusPicker/FeedbackStatusPicker.vue'
 import { AvTagPickerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import { EFeedbackStatus } from '@/api/avenir-esr'
+import FeedbackStatusPicker from '@/features/staff/feedbacks/components/interaction/pickers/FeedbackStatusPicker/FeedbackStatusPicker.vue'
 
 BddTest().given('a feedback status picker', () => {
   let wrapper: VueWrapper<InstanceType<typeof FeedbackStatusPicker>>

@@ -1,5 +1,8 @@
+import type { AssociationsDTO } from '@/api/avenir-esr'
 import type { ElementAssociation } from '@/features/student/associations/types/associations.types'
 import type { IdTitle } from '@/types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { expect } from 'vitest'
 import {
   createMockedDeclaredActivityAssociations,
   createMockedDeclaredExperienceAssociations,
@@ -8,7 +11,7 @@ import {
   createMockedTraceAssociations,
   mockedEmptyAssociations,
 } from '@/__mocks__/fixtures/student/associations.fixtures'
-import { type AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
+import { EAssociationContextType } from '@/api/avenir-esr'
 import {
   countAssociations,
   countElementAssociations,
@@ -19,8 +22,6 @@ import {
   isAssociationLimited,
   isAssociationLimitReached,
 } from '@/features/student/associations/utils/associations.utils'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { expect } from 'vitest'
 
 const associations: AssociationsDTO = {
   traceAssociations: createMockedTraceAssociations(2),

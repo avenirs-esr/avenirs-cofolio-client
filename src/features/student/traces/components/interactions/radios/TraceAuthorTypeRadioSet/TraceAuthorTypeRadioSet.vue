@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ETraceAuthorType } from '@/api/avenir-esr'
 import { AvRadioButton, AvRadioButtonSet } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { ETraceAuthorType } from '@/api/avenir-esr'
 
 export interface TraceAuthorTypeRadioSetProps {
   errorMessage?: string

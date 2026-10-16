@@ -1,8 +1,10 @@
-import { useInvalidateAllQueriesAfterLocaleChange, useInvalidateQuery } from '@/common/composables/use-invalidate-query/use-invalidate-query'
+import type { QueryClient } from '@tanstack/vue-query'
+import type { Mock } from 'vitest'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { type QueryClient, useQueryClient } from '@tanstack/vue-query'
+import { useQueryClient } from '@tanstack/vue-query'
 import { mountComposable } from 'tests/utils'
-import { expect, type Mock, vi } from 'vitest'
+import { expect, vi } from 'vitest'
+import { useInvalidateAllQueriesAfterLocaleChange, useInvalidateQuery } from '@/common/composables/use-invalidate-query/use-invalidate-query'
 
 BddTest().given('an useInvalidateQuery composable', () => {
   let mockInvalidateQueries: Mock<QueryClient['invalidateQueries']>

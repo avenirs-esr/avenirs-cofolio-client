@@ -1,8 +1,9 @@
-import Footer from '@/common/components/Footer/Footer.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
+import { RouterLinkStub } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import Footer from '@/common/components/Footer/Footer.vue'
 
 const defaultProps = {
   accessibilityLink: '/accessibilite',

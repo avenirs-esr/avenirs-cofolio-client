@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/traces/types/forms.types'
-import TracePersonalNoteTextarea from '@/features/student/traces/components/interactions/inputs/TracePersonalNoteTextarea/TracePersonalNoteTextarea.vue'
 import { markRaw } from 'vue'
+import TracePersonalNoteTextarea from '@/features/student/traces/components/interactions/inputs/TracePersonalNoteTextarea/TracePersonalNoteTextarea.vue'
 
 interface TracePersonalNoteTextareaFormFieldProps {
   form: CreateTraceForm | UpdateTraceForm

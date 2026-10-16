@@ -1,13 +1,14 @@
 import type { AssociationSelections } from '@/features/student/associations'
-import { associateErrorHandler, createAssociateHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
-import { server } from '@/__mocks__/msw/server'
-import { EAssociationContextType, ETraceAuthorType } from '@/api/avenir-esr'
-import { type TraceFormData, TraceType } from '@/features/student/traces/types/traces.types'
-import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
+import type { TraceFormData } from '@/features/student/traces/types/traces.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { associateErrorHandler, createAssociateHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { EAssociationContextType, ETraceAuthorType } from '@/api/avenir-esr'
+import { TraceType } from '@/features/student/traces/types/traces.types'
+import { useCreateTraceForm } from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/use-create-tarce-form/use-create-trace-form'
 
 interface AssociationRequest {
   contextType: EAssociationContextType

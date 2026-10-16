@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { AddActivityResourceForm } from '@/features/staff/activities/types/forms.types'
-import Input from '@/common/components/interaction/inputs/Input/Input.vue'
-import { ACTIVITY_RESOURCE_NAME_MAX_LENGTH } from '@/features/staff/activities/config'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { markRaw } from 'vue'
 import { useI18n } from 'vue-i18n'
+import Input from '@/common/components/interaction/inputs/Input/Input.vue'
+import { ACTIVITY_RESOURCE_NAME_MAX_LENGTH } from '@/features/staff/activities/config'
 
 interface AddActivityResourceNameInputFormFieldProps {
   form: AddActivityResourceForm

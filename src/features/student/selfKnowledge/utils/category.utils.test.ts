@@ -1,7 +1,7 @@
 import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
-import { CATEGORY_ICON_MAP, getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { CATEGORY_ICON_MAP, getSelfKnowledgeCategoryIcon } from '@/features/student/selfKnowledge/utils/category.utils'
 
 BddTest().given('the getCategoryIcon utility function', () => {
   const testCases: { categoryType: ESelfKnowledgeCategory, expectedIcon: string }[] = Object.entries(CATEGORY_ICON_MAP).map(([categoryType, expectedIcon]) => ({

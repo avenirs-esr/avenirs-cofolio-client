@@ -1,6 +1,7 @@
-import ActivityPeriodBadge from '@/features/student/activities/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import ActivityPeriodBadge from '@/features/student/activities/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.vue'
 
 BddTest().given('an activity period summary badge', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityPeriodBadge>>

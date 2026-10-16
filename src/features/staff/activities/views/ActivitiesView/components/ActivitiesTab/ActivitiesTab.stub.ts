@@ -1,5 +1,5 @@
-import type { UsePaginatedStaffActivitiesParams } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
 import type { PropType } from 'vue'
+import type { UsePaginatedStaffActivitiesParams } from '@/features/staff/activities/composables/use-paginated-staff-activites/use-paginated-staff-activites'
 
 export const ActivitiesTabStub = defineComponent({
   name: 'ActivitiesTab',

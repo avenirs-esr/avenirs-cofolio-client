@@ -1,8 +1,8 @@
-import { useScrollSpy } from '@/common/composables/use-scroll-spy/use-scroll-spy'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'
 import { nextTick } from 'vue'
+import { useScrollSpy } from '@/common/composables/use-scroll-spy/use-scroll-spy'
 
 BddTest().given('a useScrollSpy composable', () => {
   let result: ReturnType<typeof useScrollSpy>

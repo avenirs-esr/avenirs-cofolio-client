@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
-import { type EUserCategory, invalidateGetNotifications, invalidateGetQuickLinks, type NotificationDTO, useGetQuickLinks, useMarkAsSeen } from '@/api/avenir-esr'
+import type { EUserCategory, NotificationDTO } from '@/api/avenir-esr'
+import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
+import { invalidateGetNotifications, invalidateGetQuickLinks, useGetQuickLinks, useMarkAsSeen } from '@/api/avenir-esr'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { BaseApiException } from '@/common/exceptions'
@@ -9,9 +13,6 @@ import NotificationsPopoverList from '@/common/notifications/components/Notifica
 import NotificationsPopoverPreferenceToggle from '@/common/notifications/components/NotificationsPopoverPreferenceToggle/NotificationsPopoverPreferenceToggle.vue'
 import { usePaginatedNotifications } from '@/common/notifications/composables/use-paginated-notifications/use-paginated-notifications'
 import { useToasterStore } from '@/store'
-import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 const { userCategory } = defineProps<{ userCategory: EUserCategory }>()
 

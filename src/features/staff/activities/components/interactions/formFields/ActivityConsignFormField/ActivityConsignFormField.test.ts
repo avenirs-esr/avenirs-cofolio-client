@@ -1,12 +1,13 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { createFormFieldTestWrapper } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { RichTextEditorStub } from '@/common/components/interaction/inputs/RichTextEditor/RichTextEditor.stub'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import ActivityConsignFormField from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.vue'
 import { ACTIVITY_CONSIGN_MAX_LENGTH } from '@/features/staff/activities/config'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { createFormFieldTestWrapper } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const TestWrapper = createFormFieldTestWrapper<EditActivityFormData, 'description'>({
   formFieldComponent: ActivityConsignFormField,

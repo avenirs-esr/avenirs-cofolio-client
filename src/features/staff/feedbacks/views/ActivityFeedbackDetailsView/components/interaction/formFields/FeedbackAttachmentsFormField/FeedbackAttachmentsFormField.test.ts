@@ -1,11 +1,11 @@
-import type { FileDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
-import { EFileType } from '@/api/avenir-esr'
-import FeedbackAttachmentsFormField from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackAttachmentsFormField/FeedbackAttachmentsFormField.vue'
+import type { FileDTO } from '@/api/avenir-esr'
 import { AvFileUploadStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { EFileType } from '@/api/avenir-esr'
+import FeedbackAttachmentsFormField from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackAttachmentsFormField/FeedbackAttachmentsFormField.vue'
 
 const remoteAttachment: FileDTO = {
   id: 'attachment-1',

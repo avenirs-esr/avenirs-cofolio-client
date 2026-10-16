@@ -1,4 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
+import type { ActivityDetailsProps } from '@/features/student/activities/views/ActivityView/components/ActivityDetails/ActivityDetails.vue'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { ActivityDescriptionContentStub } from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.stub'
 import { ActivityPeriodDisplayStub } from '@/common/activities/components/ActivityPeriodDisplay/ActivityPeriodDisplay.stub'
@@ -8,14 +12,9 @@ import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ActivityResourcesListStub } from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.stub'
 import { ICONS } from '@/common/constants'
-import ActivityDetails, {
-  type ActivityDetailsProps,
-} from '@/features/student/activities/views/ActivityView/components/ActivityDetails/ActivityDetails.vue'
+import ActivityDetails from '@/features/student/activities/views/ActivityView/components/ActivityDetails/ActivityDetails.vue'
 import { FeedbackInfoCardStub } from '@/features/student/activities/views/ActivityView/components/cards/FeedbackInfoCard/FeedbackInfoCard.stub'
 import { TraceAssociationLimitCardStub } from '@/features/student/activities/views/ActivityView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.stub'
-import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a project activity details component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityDetails>>

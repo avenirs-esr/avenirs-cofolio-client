@@ -1,13 +1,13 @@
 import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { AssociationSelections } from '@/features/student/associations/types/associations.types'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import { useAssociate } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { invalidateAssociationQueries } from '@/features/student/associations/queries/associations.queries'
 import { isAssociable } from '@/features/student/associations/utils/associations.utils'
 import { useToasterStore } from '@/store'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 export type IdsToAssociate = Partial<Record<EAssociationContextType, string[]>>
 

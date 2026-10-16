@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { ROUTES } from '@/common/constants'
-import StudentNavigation from '@/features/student/global/components/navigation/StudentNavigation/StudentNavigation.vue'
-import router from '@/router'
 import { registerNavigationLinkKey } from '@avenirs-esr/avenirs-dsav'
 import { AvNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'
+import { ROUTES } from '@/common/constants'
+import StudentNavigation from '@/features/student/global/components/navigation/StudentNavigation/StudentNavigation.vue'
+import router from '@/router'
 
 BddTest().given('a student navigation', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentNavigation>>

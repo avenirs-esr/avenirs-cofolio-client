@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import Input, { type InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
-import { DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH } from '@/features/student/personalCareer/config'
+import type { InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
 import { useI18n } from 'vue-i18n'
+import Input from '@/common/components/interaction/inputs/Input/Input.vue'
+import { DECLARED_PROGRAM_DESCRIPTION_MAX_LENGTH } from '@/features/student/personalCareer/config'
 
 type DeclaredProgramDescriptionTextareaProps = Omit<InputProps, 'maxlength' | 'isTextarea'>
 

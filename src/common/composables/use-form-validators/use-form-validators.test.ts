@@ -1,7 +1,7 @@
-import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 
 BddTest().given('a form validators composable', () => {
   let composableResult: ReturnType<typeof useFormValidators>

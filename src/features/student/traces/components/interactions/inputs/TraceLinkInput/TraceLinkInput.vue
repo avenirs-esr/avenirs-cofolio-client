@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { TRACE_LINK_MAX_LENGTH } from '@/features/student/traces/config'
-import { AvInput, type AvInputProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import type { AvInputProps } from '@avenirs-esr/avenirs-dsav'
+import { AvInput, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { TRACE_LINK_MAX_LENGTH } from '@/features/student/traces/config'
 
 interface TraceLinkInputProps extends Omit<AvInputProps, 'label' | 'prefixIcon' | 'placeholder' | 'modelValue'> {
   label?: string

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import Input, { type InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
-import { ACTIVITY_TITLE_MAX_LENGTH } from '@/features/staff/activities/config'
+import type { InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
+import Input from '@/common/components/interaction/inputs/Input/Input.vue'
+import { ACTIVITY_TITLE_MAX_LENGTH } from '@/features/staff/activities/config'
 
 type ActivityTitleInputProps = Omit<InputProps, 'maxlength'>
 

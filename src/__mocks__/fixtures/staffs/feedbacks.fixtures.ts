@@ -1,8 +1,9 @@
+import type { FeedbackDashboardDTO, FeedbackDetailsDTO, FeedbackOverviewDTO, FeedbackStaffListItemDTO, FileDTO, PagedResponseFeedbackStaffListItemDTO, PageInfoDTO, UserInfoDTO } from '@/api/avenir-esr'
 import { mockedActivityContentWithEnrolledStudent1, mockedActivityContentWithEnrolledStudent2, mockedActivityContentWithEnrolledStudent3, mockedActivityContentWithEnrolledStudent4 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { declaredExperienceViewDTOFixture } from '@/__mocks__/fixtures/student'
 import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { EFeedbackStatus, EFileType, type FeedbackDashboardDTO, type FeedbackDetailsDTO, type FeedbackOverviewDTO, type FeedbackStaffListItemDTO, type FileDTO, type PagedResponseFeedbackStaffListItemDTO, type PageInfoDTO, type UserInfoDTO } from '@/api/avenir-esr'
+import { EFeedbackStatus, EFileType } from '@/api/avenir-esr'
 
 export const mockedFeedbackAttachment: FileDTO = {
   id: 'feedback-attachment-1',

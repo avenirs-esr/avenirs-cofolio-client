@@ -1,14 +1,14 @@
-import type { GetDeclaredProgramsParams } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import type { GetDeclaredProgramsParams } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { vi } from 'vitest'
 import { createMockedDeclaredProgramsPagedResponse } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
 import { createDeclaredProgramsViewHandler, declaredProgramsQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredPrograms.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ValorizedElementsCardContainerStub } from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.stub'
 import { ValorizedDeclaredProgramItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredProgramItem/ValorizedDeclaredProgramItem.stub'
 import ValorizedDeclaredProgramsContainer from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredProgramsContainer/ValorizedDeclaredProgramsContainer.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { vi } from 'vitest'
 
 BddTest().given('a valorized declared programs container', () => {
   let wrapper: VueWrapper<InstanceType<typeof ValorizedDeclaredProgramsContainer>>

@@ -1,8 +1,9 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
 import { UserProfileDropdownStub } from '@/common/components/overlay/UserProfileDropdown/UserProfileDropdown.stub'
 import StudentProfileDropdown from '@/features/student/user/components/overlays/StudentProfileDropdown/StudentProfileDropdown.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a student profile dropdown', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentProfileDropdown>>

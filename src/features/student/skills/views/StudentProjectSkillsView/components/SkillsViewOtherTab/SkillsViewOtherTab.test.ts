@@ -1,3 +1,10 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { RouterLinkStub } from '@vue/test-utils'
+import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import { createMockedPagedResponseDeclaredSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { createDeclaredSkillsProgressViewHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -5,12 +12,6 @@ import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/Qu
 import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { StudentDetailedDeclaredSkillCardStub } from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedDeclaredSkillCard/StudentDetailedDeclaredSkillCard.stub'
 import SkillsViewOtherTab from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/SkillsViewOtherTab.vue'
-import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
 
 let paginationMock: ReturnType<typeof createUsePaginationMock>
 

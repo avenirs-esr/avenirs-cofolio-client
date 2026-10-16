@@ -1,6 +1,6 @@
+import { MDI_ICONS, MS_ICONS, PH_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { ICONS } from '@/common/constants'
-import { MDI_ICONS, MS_ICONS, PH_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 interface ActionConfig {
   icon?: string

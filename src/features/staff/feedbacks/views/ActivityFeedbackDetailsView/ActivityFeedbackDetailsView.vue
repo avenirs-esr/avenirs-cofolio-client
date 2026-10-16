@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { AvButton, AvIconText, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import {
   EUserCategory,
   useGetFeedbackDetails,
@@ -16,8 +18,6 @@ import ActivityFeedbackStudentSelect
   from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/selects/ActivityFeedbackStudentSelect/ActivityFeedbackStudentSelect.vue'
 import AssociatedElementSummaryCard
   from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/AssociatedElementSummaryCard/AssociatedElementSummaryCard.vue'
-import { AvButton, AvIconText, CUIDA_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface ActivityFeedbackDetailsViewProps {
   feedbackId?: string

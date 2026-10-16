@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AvSideNavigation, type AvSideNavigationProps, type AvSideNavigationSelectedItem } from '@avenirs-esr/avenirs-dsav'
+import type { AvSideNavigationProps, AvSideNavigationSelectedItem } from '@avenirs-esr/avenirs-dsav'
+import { AvSideNavigation } from '@avenirs-esr/avenirs-dsav'
 import { useAttrs } from 'vue'
 import { useI18n } from 'vue-i18n'
 

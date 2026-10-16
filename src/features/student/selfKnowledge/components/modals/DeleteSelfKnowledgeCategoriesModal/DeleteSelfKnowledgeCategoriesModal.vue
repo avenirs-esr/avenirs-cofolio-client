@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import { AvCheckbox, AvCheckboxesGroup, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { useGetSelfKnowledgeCategories } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
 import DeleteSelfKnowledgeCategoriesConfirmModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoriesConfirmModal/DeleteSelfKnowledgeCategoriesConfirmModal.vue'
-import { AvCheckbox, AvCheckboxesGroup, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 interface DeleteSelfKnowledgeCategoriesModalProps {
   opened: boolean

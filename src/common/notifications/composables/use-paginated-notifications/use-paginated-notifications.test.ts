@@ -1,9 +1,9 @@
 import type { NotificationDTO } from '@/api/avenir-esr'
-import { EUserCategory } from '@/api/avenir-esr'
-import { usePaginatedNotifications } from '@/common/notifications/composables/use-paginated-notifications/use-paginated-notifications'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { EUserCategory } from '@/api/avenir-esr'
+import { usePaginatedNotifications } from '@/common/notifications/composables/use-paginated-notifications/use-paginated-notifications'
 
 BddTest().given('the usePaginatedNotifications composable', () => {
   let composableResult: ReturnType<typeof usePaginatedNotifications>

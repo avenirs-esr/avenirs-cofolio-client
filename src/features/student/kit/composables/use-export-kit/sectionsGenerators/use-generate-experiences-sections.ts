@@ -1,10 +1,11 @@
+import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
 import type { AvLocale } from '@/types/i18n.types'
-import { type DeclaredExperienceViewDTO, EExperienceType, useGetDeclaredExperienceView } from '@/api/avenir-esr'
+import { HeadingLevel, Paragraph, TextRun } from 'docx'
+import { useI18n } from 'vue-i18n'
+import { EExperienceType, useGetDeclaredExperienceView } from '@/api/avenir-esr'
 import { formatDateToYearMonthLocalized } from '@/common/utils/date/date'
 import { ProBasedExperienceType } from '@/features/student/global/types/experiences.types'
 import { isProfessional } from '@/features/student/personalCareer/utils/experiences-utils/experiences-utils'
-import { HeadingLevel, Paragraph, TextRun } from 'docx'
-import { useI18n } from 'vue-i18n'
 
 export function useGenerateExperiencesSections () {
   const { t, locale } = useI18n()

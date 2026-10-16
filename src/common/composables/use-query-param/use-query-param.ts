@@ -1,4 +1,5 @@
-import { type LocationQueryValue, useRoute, useRouter } from 'vue-router'
+import type { LocationQueryValue } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 /**
  * A composable to watch for changes in a specific query parameter from the current URL.

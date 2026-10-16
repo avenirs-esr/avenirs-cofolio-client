@@ -1,12 +1,12 @@
 import type { EAssociationContextType } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import { useAssociate, useUnassociate } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { invalidateAssociationQueries } from '@/features/student/associations/queries/associations.queries'
 import { useToasterStore } from '@/store'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 interface AssociationMutationVariables {
   contextType: EAssociationContextType

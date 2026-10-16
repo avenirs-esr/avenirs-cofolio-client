@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import type { AvSelectOption, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
 import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import { ROUTES } from '@/common/constants'
 import { isEnumMember } from '@/common/utils'
-import { AvButton, type AvSelectOption, type AvSelectSelectedOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface ActivitiesPreviousNextNavigationProps {
   widget: boolean

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { DeclaredSkillForm, UpdateDeclaredSkillForm } from '@/features/student/declaredSkills/types/forms.types'
+import { markRaw } from 'vue'
 import { EDeclaredSkillLevel } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 import DeclaredSkillLevelRadioButtonSet from '@/features/student/declaredSkills/components/interactions/radios/DeclaredSkillLevelRadioButtonSet/DeclaredSkillLevelRadioButtonSet.vue'
-import { markRaw } from 'vue'
 
 interface DeclaredSkillLevelFormFieldProps {
   form: UpdateDeclaredSkillForm | DeclaredSkillForm

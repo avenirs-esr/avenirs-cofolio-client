@@ -1,5 +1,5 @@
-import type { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { EDeclaredActivityStatus } from '@/api/avenir-esr'
 
 export const DeclaredActivityStatusBadgeStub = defineComponent({
   name: 'DeclaredActivityStatusBadge',

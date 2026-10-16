@@ -1,3 +1,5 @@
+import type { GetSelfKnowledgeElementsParams, PagedResponseSelfKnowledgeElementViewDTO, SelfKnowledgeCategoryDTO, SelfKnowledgeElementDetailsDTO, SelfKnowledgeElementRequest, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { http, HttpResponse } from 'msw'
 import {
   createMockedPagedResponseSelfKnowledgeElementViewDTO,
   mandatorySelfKnowledgeCategories,
@@ -15,16 +17,11 @@ import {
   getGetSelfKnowledgeElementDetailsUrl,
   getGetSelfKnowledgeElementsUrl,
   getRemoveSelfKnowledgeCategoriesUrl,
-  type GetSelfKnowledgeElementsParams,
-  getUpdateSelfKnowledgeElementUrl,
-  type PagedResponseSelfKnowledgeElementViewDTO,
-  type SelfKnowledgeCategoryDTO,
-  type SelfKnowledgeElementDetailsDTO,
-  type SelfKnowledgeElementRequest,
-  type SelfKnowledgeElementViewDTO
+
+  getUpdateSelfKnowledgeElementUrl
+
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
-import { http, HttpResponse } from 'msw'
 
 const CATEGORY_URL_PARAM = ':selfKnowledgeCategory' as ESelfKnowledgeCategory
 

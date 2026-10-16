@@ -1,8 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import Input, { type InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
+import type { InputProps } from '@/common/components/interaction/inputs/Input/Input.vue'
 import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { expect } from 'vitest'
+import Input from '@/common/components/interaction/inputs/Input/Input.vue'
 
 BddTest().given('an Input component', () => {
   let wrapper: VueWrapper<InstanceType<typeof Input>>

@@ -1,4 +1,6 @@
 import type { DeclaredActivityAssociationDTO, FeedbackOverviewDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { expect } from 'vitest'
 import { EActivityThematic, EDeclaredActivityStatus, EFeedbackStatus } from '@/api/avenir-esr'
 import {
   hasPendingFeedback,
@@ -13,8 +15,6 @@ import {
   isPerspectiveEditingDisabled,
   shouldDisplayTraceLimit
 } from '@/common/activities/rules/activities.rules'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { expect } from 'vitest'
 
 function buildDeclaredActivityAssociation (status: EDeclaredActivityStatus, associationId = 'association-1'): DeclaredActivityAssociationDTO {
   return {

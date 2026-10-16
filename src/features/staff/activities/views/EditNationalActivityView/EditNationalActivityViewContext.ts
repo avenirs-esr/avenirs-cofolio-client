@@ -1,6 +1,6 @@
+import type { InjectionKey, Ref } from 'vue'
 import type { ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditActivityForm } from '@/features/staff/activities/types/forms.types'
-import type { InjectionKey, Ref } from 'vue'
 
 export interface EditNationalActivityViewContext {
   /**

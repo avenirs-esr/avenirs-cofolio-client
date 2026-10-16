@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { AvButton, AvTab, AvTabs, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EActivityRight, EActivityStatus, useCreateDraftFromActivity, useGetActivityContent } from '@/api/avenir-esr'
 import { QuerySuspense } from '@/common/components'
 import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
@@ -15,8 +17,6 @@ import NationalActivityContentTab
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityContentTab/NationalActivityContentTab.vue'
 import { NationalActivityCatalogTabs }
   from '@/features/staff/activities/views/NationalActivityCatalogView/NationalActivityCatalogView.types'
-import { AvButton, AvTab, AvTabs, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 interface NationalActivityCatalogViewProps {
   status: EActivityStatus

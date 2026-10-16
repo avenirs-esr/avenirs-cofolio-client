@@ -1,3 +1,7 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { mockedTraceAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { mockedTraceDetailed } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { getAssociationsErrorHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
@@ -13,9 +17,6 @@ import { TraceDeletionConfirmationModalStub } from '@/features/student/traces/co
 import { StudentTraceDetailsStub } from '@/features/student/traces/components/StudentTraceDetails/StudentTraceDetails.stub'
 import { TraceSettingsDropdownStub } from '@/features/student/traces/views/StudentTraceView/components/TraceSettingsDropdown/TraceSettingsDropdown.stub'
 import StudentTraceView from '@/features/student/traces/views/StudentTraceView/StudentTraceView.vue'
-import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 
 const route = reactive<{ name: string }>({
   name: ROUTES.STUDENT.TOOLS_TRACE.name,

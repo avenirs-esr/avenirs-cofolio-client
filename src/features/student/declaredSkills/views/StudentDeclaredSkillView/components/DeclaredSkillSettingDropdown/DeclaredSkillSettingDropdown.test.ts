@@ -1,7 +1,8 @@
-import DeclaredSkillSettingDropdown from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillSettingDropdown/DeclaredSkillSettingDropdown.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { AvDropdownStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import DeclaredSkillSettingDropdown from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillSettingDropdown/DeclaredSkillSettingDropdown.vue'
 
 BddTest().given('a declared skill setting popover', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredSkillSettingDropdown>>

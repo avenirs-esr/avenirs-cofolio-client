@@ -1,13 +1,14 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { activityNavigationQueryError } from '@/__mocks__/msw/handlers/student/activities.handlers'
-import { server } from '@/__mocks__/msw/server'
-import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/activities/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
-import { ActivitiesSelectorStub } from '@/features/student/activities/views/ActivitiesView/components/overlays/ActivitiesSelector/ActivitiesSelector.stub'
-import UnsubscribeActivitiesModal, { type UnsubscribeActivitiesModalProps } from '@/features/student/activities/views/ActivitiesView/components/overlays/UnsubscribeActivitiesModal/UnsubscribeActivitiesModal.vue'
+import type { UnsubscribeActivitiesModalProps } from '@/features/student/activities/views/ActivitiesView/components/overlays/UnsubscribeActivitiesModal/UnsubscribeActivitiesModal.vue'
 import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { activityNavigationQueryError } from '@/__mocks__/msw/handlers/student/activities.handlers'
+import { server } from '@/__mocks__/msw/server'
+import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/activities/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
+import { ActivitiesSelectorStub } from '@/features/student/activities/views/ActivitiesView/components/overlays/ActivitiesSelector/ActivitiesSelector.stub'
+import UnsubscribeActivitiesModal from '@/features/student/activities/views/ActivitiesView/components/overlays/UnsubscribeActivitiesModal/UnsubscribeActivitiesModal.vue'
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()

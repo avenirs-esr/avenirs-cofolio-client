@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { useModal } from '@/common/composables'
-import ExportKitModal from '@/features/student/kit/views/StudentToolsKitView/components/overlay/ExportKitModal/ExportKitModal.vue'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { useModal } from '@/common/composables'
+import ExportKitModal from '@/features/student/kit/views/StudentToolsKitView/components/overlay/ExportKitModal/ExportKitModal.vue'
 
 const { t } = useI18n()
 const { modalOpened, openModal, closeModal } = useModal()

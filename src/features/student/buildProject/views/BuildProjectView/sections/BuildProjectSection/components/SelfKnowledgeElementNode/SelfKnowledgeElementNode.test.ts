@@ -1,5 +1,8 @@
-import type { NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
 import type { VueWrapper } from '@vue/test-utils'
+import type { NodeTemplateProps } from '@/common/components/base/VueFlow/NodeTemplate/NodeTemplate.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { createPutUpdateSelfKnowledgeElementHandler, postCreateSelfKnowledgeElementErrorHandler, putUpdateSelfKnowledgeElementErrorHandler, putUpdateSelfKnowledgeElementErrorNotFoundHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -7,9 +10,6 @@ import { RatingStub } from '@/common/components/base/Rating/Rating.stub'
 import { TitleDescriptionNodeTemplateStub } from '@/common/components/base/VueFlow/TitleDescriptionNodeTemplate/TitleDescriptionNodeTemplate.stub'
 import { mandatoryNodeProps } from '@/common/utils/vue-flow/vue-flow-test'
 import SelfKnowledgeElementNode from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/SelfKnowledgeElementNode/SelfKnowledgeElementNode.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockUpdateNodeId = vi.fn()
 const mockAddSuccessMessage = vi.fn()

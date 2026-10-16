@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import type { PageInfoDTO } from '@/api/avenir-esr'
+import type { AvTagPickerOption, PageSizes } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
+import type { PageInfoDTO } from '@/api/avenir-esr'
 import {
   AvPageSizePicker,
   AvPagination,
-  type AvTagPickerOption,
+
   getPaginationPages,
-  type PageSizes,
+
   pageSizeValues,
   useAvBreakpoints
 } from '@avenirs-esr/avenirs-dsav'

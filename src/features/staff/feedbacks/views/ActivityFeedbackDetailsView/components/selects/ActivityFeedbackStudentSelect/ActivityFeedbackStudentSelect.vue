@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+import type { AvSelectOption, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import type { StudentFeedbackItemListDTO } from '@/api/avenir-esr'
+import { AvButton, AvSelect, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
-import { AvButton, type AvSelectOption, type AvSelectSelectedOption, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import { AvSelect } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface ActivityFeedbackStudentSelectProps {
   feedbacks: StudentFeedbackItemListDTO[]

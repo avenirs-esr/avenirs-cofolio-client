@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
-import { type EUserCategory, type NotificationDTO, useGetQuickLinks } from '@/api/avenir-esr'
-import NotificationsPopoverBody from '@/common/notifications/components/NotificationsPopoverBody/NotificationsPopoverBody.vue'
+import type { EUserCategory, NotificationDTO } from '@/api/avenir-esr'
 import { AvButton, AvPopover, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { useGetQuickLinks } from '@/api/avenir-esr'
+import NotificationsPopoverBody from '@/common/notifications/components/NotificationsPopoverBody/NotificationsPopoverBody.vue'
 
 const { userCategory } = defineProps<{ userCategory: EUserCategory }>()
 

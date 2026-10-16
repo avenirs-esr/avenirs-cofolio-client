@@ -1,5 +1,5 @@
-import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
 
 export const ValorizedActivityItemStub = defineComponent({
   name: 'ValorizedActivityItem',

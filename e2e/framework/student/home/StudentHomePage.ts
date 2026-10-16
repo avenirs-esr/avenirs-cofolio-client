@@ -1,4 +1,5 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { NotificationsDropdown } from '@e2e/framework/shared/componentObjects/NotificationsDropdown'
 import { UserProfileDropdown } from '@e2e/framework/shared/componentObjects/UserProfileDropdown'
@@ -7,7 +8,7 @@ import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { ActivitiesWidget } from '@e2e/framework/student/home/componentObjects/ActivitiesWidget'
 import { StudentOverviewWidget } from '@e2e/framework/student/home/componentObjects/StudentOverviewWidget'
 import { TracesWidget } from '@e2e/framework/student/home/componentObjects/TracesWidget'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 export

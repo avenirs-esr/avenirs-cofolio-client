@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { TraceOverviewDTO } from '@/api/avenir-esr'
-import { ROUTES } from '@/common/constants'
-import { FloatingIconCard } from '@/features/student/global'
 import { AvIconText, AvTag, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { ROUTES } from '@/common/constants'
+import { FloatingIconCard } from '@/features/student/global'
 
 export interface StudentTraceCardProps {
   trace: TraceOverviewDTO

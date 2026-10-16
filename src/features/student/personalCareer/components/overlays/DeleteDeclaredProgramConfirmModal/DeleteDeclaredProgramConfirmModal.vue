@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import { invalidateGetDeclaredPrograms, useDeleteDeclaredProgram } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useToasterStore } from '@/store'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 export interface DeleteDeclaredProgramConfirmModalProps {
   opened: boolean

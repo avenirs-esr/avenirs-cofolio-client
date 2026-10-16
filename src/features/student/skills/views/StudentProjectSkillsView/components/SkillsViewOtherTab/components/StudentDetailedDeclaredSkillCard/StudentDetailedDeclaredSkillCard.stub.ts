@@ -1,5 +1,5 @@
-import type { DeclaredSkillProgressDTO, ExternalSkillDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { DeclaredSkillProgressDTO, ExternalSkillDTO } from '@/api/avenir-esr'
 
 export const StudentDetailedDeclaredSkillCardStub = defineComponent({
   name: 'StudentDetailedDeclaredSkillCard',

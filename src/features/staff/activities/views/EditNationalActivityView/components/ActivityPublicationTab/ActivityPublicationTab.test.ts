@@ -1,4 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvButtonStub, AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { getAvButtonByTestId, mountComponent } from 'tests/utils'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { h } from 'vue'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
@@ -14,10 +18,6 @@ import {
   EditNationalActivityViewFormWrapperDirty,
   EditNationalActivityViewFormWrapperValid,
 } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityView.stub'
-import { AvButtonStub, AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { getAvButtonByTestId, mountComponent } from 'tests/utils'
-import { afterEach, beforeEach, expect, vi } from 'vitest'
-import { h } from 'vue'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()

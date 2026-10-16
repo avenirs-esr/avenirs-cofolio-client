@@ -1,12 +1,13 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { MDI_ICONS, PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { useGetStaffActivityWorkingSpace } from '@/api/avenir-esr'
 import { ActivitiesTabStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.stub'
 import { ActivityDraftCreationModalStub } from '@/features/staff/activities/views/ActivitiesView/components/ActivityDraftCreationModal/ActivityDraftCreationModal.stub'
 import MyWorkspaceTab from '@/features/staff/activities/views/ActivitiesView/components/MyWorkspaceTab/MyWorkspaceTab.vue'
-import { MDI_ICONS, PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const displayAddActivityModal = vi.fn()
 const hideAddActivityModal = vi.fn()

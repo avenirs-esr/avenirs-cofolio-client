@@ -1,11 +1,12 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { expect } from 'vitest'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student'
 import { LongIconCardStub } from '@/common/components/cards/LongIconCard/LongIconCard.stub'
 import TraceLongIconCard from '@/features/student/global/views/StudentHomeView/components/TraceLongIconCard/TraceLongIconCard.vue'
 import { TraceAiProducedBadgeStub } from '@/features/student/traces/components/badges/TraceAiProducedBadge/TraceAiProducedBadge.stub'
 import { TraceAuthorTypeBadgeStub } from '@/features/student/traces/components/badges/TraceAuthorTypeBadge/TraceAuthorTypeBadge.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { expect } from 'vitest'
 
 BddTest().given('a trace long icon card', () => {
   let wrapper: VueWrapper<InstanceType<typeof TraceLongIconCard>>

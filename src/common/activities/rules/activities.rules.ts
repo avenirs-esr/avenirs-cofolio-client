@@ -1,11 +1,8 @@
+import type { ActivityContentDTO, ActivityPresentationDTO, DeclaredActivityAssociationDTO, FeedbackOverviewDTO } from '@/api/avenir-esr'
 import type { AssociationLimitState } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import {
-  type ActivityContentDTO,
-  type ActivityPresentationDTO,
-  type DeclaredActivityAssociationDTO,
   EDeclaredActivityStatus,
-  EFeedbackStatus,
-  type FeedbackOverviewDTO,
+  EFeedbackStatus
 } from '@/api/avenir-esr'
 import { ACTIVITY_TRACE_SETTING_DISABLED_VALUE, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 

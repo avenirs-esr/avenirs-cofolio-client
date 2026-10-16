@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import type { NodeProps } from '@vue-flow/core'
+import type { Slot } from 'vue'
+import type { CardProps } from '@/common/components/cards/Card/Card.vue'
+import { useAttrs } from 'vue'
 import Handles from '@/common/components/base/VueFlow/Handles/Handles.vue'
 import NodeDropdown from '@/common/components/base/VueFlow/NodeDropdown/NodeDropdown.vue'
 import UpdateHandlesModal from '@/common/components/base/VueFlow/UpdateHandlesModal/UpdateHandlesModal.vue'
-import Card, { type CardProps } from '@/common/components/cards/Card/Card.vue'
+import Card from '@/common/components/cards/Card/Card.vue'
 import { useModal } from '@/common/composables'
 import { useNodes } from '@/common/composables/VueFlow/use-nodes/use-nodes'
-import { type Slot, useAttrs } from 'vue'
 
 /**
  * Props for the NodeTemplate component.

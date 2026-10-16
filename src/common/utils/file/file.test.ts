@@ -1,6 +1,7 @@
-import { EFileType, type FileDTO } from '@/api/avenir-esr'
-import { bytesToMegabytes, canvasToFile, formatFileSizeInMegabytes, getFileExtension, getFileTypeFromFileName, isDifferentFile, isFile, renameFile, stripExtension } from '@/common/utils/file/file'
+import type { FileDTO } from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { EFileType } from '@/api/avenir-esr'
+import { bytesToMegabytes, canvasToFile, formatFileSizeInMegabytes, getFileExtension, getFileTypeFromFileName, isDifferentFile, isFile, renameFile, stripExtension } from '@/common/utils/file/file'
 
 BddTest().given('the file  helper', () => {
   BddTest().when('a file size in bytes is provided', () => {

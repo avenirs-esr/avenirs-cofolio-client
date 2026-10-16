@@ -1,10 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { UpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
-import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
-import { ValorizeToggleStub } from '@/features/student/global/components/interaction/toggles/ValorizeToggle/ValorizeToggle.stub'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
+import { ValorizeToggleStub } from '@/features/student/global/components/interaction/toggles/ValorizeToggle/ValorizeToggle.stub'
 
 const TestWrapper = {
   components: {

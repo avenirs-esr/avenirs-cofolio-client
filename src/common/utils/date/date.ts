@@ -1,5 +1,6 @@
+import type { DateArg, Locale } from 'date-fns'
 import type { AvLocale } from '@/types/i18n.types'
-import { type DateArg, differenceInDays, format, getDate, isValid, type Locale, parse, parseISO, startOfDay } from 'date-fns'
+import { differenceInDays, format, getDate, isValid, parse, parseISO, startOfDay } from 'date-fns'
 import { enUS, fr } from 'date-fns/locale'
 
 const localesMap: Record<AvLocale, Locale> = {

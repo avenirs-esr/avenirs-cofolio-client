@@ -1,13 +1,14 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvButtonStub, AvPopoverStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { h } from 'vue'
 import { getStaffQuickLinksEnabledHandler } from '@/__mocks__/msw/handlers/staffs/user.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EUserCategory } from '@/api/avenir-esr'
 import NotificationsPopover from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.vue'
 import { NotificationsPopoverBodyStub } from '@/common/notifications/components/NotificationsPopoverBody/NotificationsPopoverBody.stub'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvButtonStub, AvPopoverStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { h } from 'vue'
 
 BddTest().given('a notifications popover', () => {
   let wrapper: VueWrapper<InstanceType<typeof NotificationsPopover>>

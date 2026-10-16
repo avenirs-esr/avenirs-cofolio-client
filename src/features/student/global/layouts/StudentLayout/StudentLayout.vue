@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { AvHeader } from '@avenirs-esr/avenirs-dsav'
+import capitalize from 'lodash-es/capitalize'
+import { useI18n } from 'vue-i18n'
 import { EUserCategory, useGetQuickLinks } from '@/api/avenir-esr'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import Footer from '@/common/components/Footer/Footer.vue'
@@ -15,9 +18,6 @@ import {
   StudentProfileDropdown,
   useStudentUserStore
 } from '@/features/student/user'
-import { AvHeader } from '@avenirs-esr/avenirs-dsav'
-import capitalize from 'lodash-es/capitalize'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 

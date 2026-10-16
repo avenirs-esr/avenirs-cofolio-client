@@ -1,5 +1,5 @@
-import { downloadBlob } from '@/common/utils/download/download'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { downloadBlob } from '@/common/utils/download/download'
 
 BddTest().given('the download blob helper', () => {
   beforeEach(() => {

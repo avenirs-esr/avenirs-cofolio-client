@@ -1,11 +1,11 @@
-import type { PageTitleProps } from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import type { AvBreadcrumbProps } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
-import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
-import { InformationTooltipStub } from '@/common/components/overlay/tooltips/InformationTooltip/InformationTooltip.stub'
+import type { PageTitleProps } from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { AvBreadcrumbStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
+import { InformationTooltipStub } from '@/common/components/overlay/tooltips/InformationTooltip/InformationTooltip.stub'
 
 const breadcrumbLinks = ref<AvBreadcrumbProps['links']>([])
 

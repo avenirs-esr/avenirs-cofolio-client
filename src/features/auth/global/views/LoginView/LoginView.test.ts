@@ -1,6 +1,7 @@
-import LoginView from '@/features/auth/global/views/LoginView/LoginView.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, AvLanguageSelectorStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import LoginView from '@/features/auth/global/views/LoginView/LoginView.vue'
 
 const selectLanguageMock = vi.fn()
 

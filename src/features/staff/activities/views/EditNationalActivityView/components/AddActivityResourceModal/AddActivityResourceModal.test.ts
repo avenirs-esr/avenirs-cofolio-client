@@ -1,10 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { AddActivityResourceFileFormData } from '@/features/staff/activities/types/forms.types'
+import { AvFileUploadStub, AvModalStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub'
 import { ActivityResourceType } from '@/features/staff/activities/types/resource.types'
 import AddActivityResourceModal from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/AddActivityResourceModal.vue'
-import { AvFileUploadStub, AvModalStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('an AddActivityResourceModal component', () => {
   let wrapper: VueWrapper<InstanceType<typeof AddActivityResourceModal>>

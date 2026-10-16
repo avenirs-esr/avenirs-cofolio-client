@@ -1,6 +1,7 @@
-import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
-import { type AssociationLimitState, UNKNOWN_ASSOCIATION_LIMIT } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
+import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
+import type { AssociationLimitState } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
+import { UNKNOWN_ASSOCIATION_LIMIT } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 
 export function createElementAssociationsStub (getLimit: (associatedContextType: EAssociationContextType) => AssociationLimitState) {
   return defineComponent({

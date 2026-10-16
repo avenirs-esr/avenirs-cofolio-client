@@ -1,7 +1,8 @@
-import SkipLinks from '@/common/components/navigation/SkipLinks/SkipLinks.vue'
+import type { VueWrapper } from '@vue/test-utils'
 import { AvSkipLinksStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import SkipLinks from '@/common/components/navigation/SkipLinks/SkipLinks.vue'
 
 BddTest().given('a skip links component', () => {
   let wrapper: VueWrapper<InstanceType<typeof SkipLinks>>

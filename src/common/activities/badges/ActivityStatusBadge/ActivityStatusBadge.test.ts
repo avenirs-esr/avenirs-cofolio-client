@@ -1,9 +1,10 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { ActivityStatusBadgeProps } from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
-import { EActivityStatus } from '@/api/avenir-esr'
-import ActivityStatusBadge from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import { EActivityStatus } from '@/api/avenir-esr'
+import ActivityStatusBadge from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.vue'
 
 BddTest().given('an activity status badge', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityStatusBadge>>

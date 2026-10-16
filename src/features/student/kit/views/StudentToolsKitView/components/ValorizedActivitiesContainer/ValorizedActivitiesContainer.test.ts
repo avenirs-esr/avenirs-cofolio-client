@@ -1,14 +1,14 @@
-import type { PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import type { PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { vi } from 'vitest'
 import { mockedDeclaredActivitiesOverview } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createDeclaredActivitiesViewHandler, libraryActivitiesErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ValorizedElementsCardContainerStub } from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.stub'
 import ValorizedActivitiesContainer from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedActivitiesContainer/ValorizedActivitiesContainer.vue'
 import { ValorizedActivityItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedActivityItem/ValorizedActivityItem.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { vi } from 'vitest'
 
 BddTest().given('a valorized activities container', () => {
   let wrapper: VueWrapper<InstanceType<typeof ValorizedActivitiesContainer>>

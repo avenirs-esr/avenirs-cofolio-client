@@ -1,4 +1,5 @@
-import { EFeedbackStatus, EFileType, type FeedbackOverviewDTO } from '@/api/avenir-esr'
+import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
+import { EFeedbackStatus, EFileType } from '@/api/avenir-esr'
 
 export const feedback: FeedbackOverviewDTO = {
   id: 'feedback-1',

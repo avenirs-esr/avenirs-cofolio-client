@@ -1,12 +1,12 @@
-import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
 import { mockedDeclaredActivitiesOverview } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { ValorizedItemType } from '@/features/student/kit/types/valorized.types'
 import ValorizedActivityItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedActivityItem/ValorizedActivityItem.vue'
 import { ValorizedItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
 
 const BASE_DECLARED_ACTIVITY: DeclaredActivityViewDTO = mockedDeclaredActivitiesOverview[0]
 

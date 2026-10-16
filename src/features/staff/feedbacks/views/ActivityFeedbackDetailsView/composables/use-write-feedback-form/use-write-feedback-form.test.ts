@@ -1,6 +1,10 @@
+import type { Mock } from 'vitest'
 import type { FeedbackDetailsDTO, FileDTO } from '@/api/avenir-esr'
 import type { WriteFeedbackFormData } from '@/features/staff/feedbacks/types/forms.types'
-import type { Mock } from 'vitest'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { QueryClient } from '@tanstack/vue-query'
+import { mountComposable } from 'tests/utils'
+import { afterAll, afterEach, beforeAll, beforeEach, expect, vi } from 'vitest'
 import { mockedActivityContent } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { mockedFeedbackAttachment, mockedFeedbackDetailsSeen } from '@/__mocks__/fixtures/staffs/feedbacks.fixtures'
 import { server } from '@/__mocks__/msw/server'
@@ -13,10 +17,6 @@ import {
 } from '@/api/avenir-esr'
 import { FEEDBACK_ATTACHMENT_MAX_FILE_SIZE, FEEDBACK_MAX_LENGTH } from '@/features/staff/feedbacks/config'
 import { useWriteFeedbackForm } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/composables/use-write-feedback-form/use-write-feedback-form'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { QueryClient } from '@tanstack/vue-query'
-import { mountComposable } from 'tests/utils'
-import { afterAll, afterEach, beforeAll, beforeEach, expect, vi } from 'vitest'
 
 const { addErrorMessageMock, addWarningMessageMock, addSuccessMessageMock } = vi.hoisted(() => ({
   addErrorMessageMock: vi.fn(),

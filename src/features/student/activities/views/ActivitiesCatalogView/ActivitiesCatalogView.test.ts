@@ -1,13 +1,15 @@
 import type { VueWrapper } from '@vue/test-utils'
+import type { ActivitiesCatalogViewProps } from '@/features/student/activities/views/ActivitiesCatalogView/ActivitiesCatalogView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { activityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EActivityThematic } from '@/api/avenir-esr'
 import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants'
-import ActivitiesCatalogView, {
-  type ActivitiesCatalogViewProps,
-} from '@/features/student/activities/views/ActivitiesCatalogView/ActivitiesCatalogView.vue'
+import ActivitiesCatalogView from '@/features/student/activities/views/ActivitiesCatalogView/ActivitiesCatalogView.vue'
 import { ActivitiesPreviousNextNavigationStub } from '@/features/student/activities/views/ActivitiesCatalogView/components/ActivitiesPreviousNextNavigation/ActivitiesPreviousNextNavigation.stub'
 import {
   ActivitiesSelectNavigationStub
@@ -16,9 +18,6 @@ import {
   ActivitiesSideNavigationStub,
 } from '@/features/student/activities/views/ActivitiesCatalogView/components/ActivitiesSideNavigation/ActivitiesSideNavigation.stub'
 import { ActivityPreviewStub } from '@/features/student/activities/views/ActivitiesCatalogView/components/ActivityPreview/ActivityPreview.stub'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const route = reactive<{ name: string }>({
   name: ROUTES.STUDENT.ACTIVITIES_CATALOG.name

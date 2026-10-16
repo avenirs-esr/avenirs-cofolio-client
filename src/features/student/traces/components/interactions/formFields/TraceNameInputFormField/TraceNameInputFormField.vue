@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { CreateTraceForm, UpdateTraceForm } from '@/features/student/traces/types/forms.types'
-import TraceNameInput from '@/features/student/traces/components/interactions/inputs/TraceNameInput/TraceNameInput.vue'
 import { markRaw } from 'vue'
+import TraceNameInput from '@/features/student/traces/components/interactions/inputs/TraceNameInput/TraceNameInput.vue'
 
 interface TraceNameInputFormFieldProps {
   form: CreateTraceForm | UpdateTraceForm

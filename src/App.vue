@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useToasterStore } from '@/store'
 import { AvToaster } from '@avenirs-esr/avenirs-dsav'
+import { useToasterStore } from '@/store'
 
 const toasterStore = useToasterStore()
 const { messages } = storeToRefs(toasterStore)

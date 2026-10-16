@@ -1,5 +1,5 @@
-import type { AddActivityResourceForm } from '@/features/staff/activities/types/forms.types'
 import type { PropType } from 'vue'
+import type { AddActivityResourceForm } from '@/features/staff/activities/types/forms.types'
 
 export const AddActivityResourceTypeSelectFormFieldStub = defineComponent({
   name: 'AddActivityResourceTypeSelectFormField',

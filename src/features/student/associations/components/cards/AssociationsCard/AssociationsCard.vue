@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Card from '@/common/components/cards/Card/Card.vue'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
+import Card from '@/common/components/cards/Card/Card.vue'
 
 export interface AssociatedDeclaredActivitiesCardProps {
   title: string

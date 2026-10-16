@@ -1,9 +1,10 @@
-import TraceLinkInput from '@/features/student/traces/components/interactions/inputs/TraceLinkInput/TraceLinkInput.vue'
-import { TRACE_LINK_MAX_LENGTH } from '@/features/student/traces/config'
+import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvInputStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import TraceLinkInput from '@/features/student/traces/components/interactions/inputs/TraceLinkInput/TraceLinkInput.vue'
+import { TRACE_LINK_MAX_LENGTH } from '@/features/student/traces/config'
 
 const stubs = {
   AvInput: AvInputStub

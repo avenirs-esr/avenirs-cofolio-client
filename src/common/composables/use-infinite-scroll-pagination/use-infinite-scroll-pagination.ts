@@ -1,5 +1,5 @@
-import type { PageInfoDTO } from '@/api/avenir-esr'
 import type { ComputedRef, Ref } from 'vue'
+import type { PageInfoDTO } from '@/api/avenir-esr'
 
 /**
  * useInfiniteScrollPagination input parameters.

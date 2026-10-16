@@ -1,14 +1,13 @@
-import { EActivityThematic, EAssociationContextType, EExperienceType, EExternalSkillType } from '@/api/avenir-esr'
-import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
-import { ICONS } from '@/common/constants'
-import AssociationCompactCard, {
-  type AssociationCompactCardProps
-} from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.vue'
-import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
+import type { AssociationCompactCardProps } from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.vue'
 import { ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { EActivityThematic, EAssociationContextType, EExperienceType, EExternalSkillType } from '@/api/avenir-esr'
+import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
+import { ICONS } from '@/common/constants'
+import AssociationCompactCard from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.vue'
+import { FloatingIconCardStub } from '@/features/student/global/components/cards/FloatingIconCard/FloatingIconCard.stub'
 
 const stubs = {
   FloatingIconCard: FloatingIconCardStub,

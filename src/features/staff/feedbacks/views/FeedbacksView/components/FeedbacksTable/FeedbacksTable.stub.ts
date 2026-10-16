@@ -1,6 +1,6 @@
+import type { PropType } from 'vue'
 import type { EFeedbackStatus } from '@/api/avenir-esr'
 import type { UsePaginatedStaffFeedbacksParams } from '@/features/staff/feedbacks/composables/use-paginated-staff-feedbacks/use-paginated-staff-feedbacks'
-import type { PropType } from 'vue'
 
 export const FeedbacksTableStub = defineComponent({
   name: 'FeedbacksTable',

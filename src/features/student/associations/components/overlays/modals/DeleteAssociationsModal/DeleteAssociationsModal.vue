@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
 import type { IdTitleList } from '@/types'
+import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { useModal } from '@/common/composables'
 import AssociationsSelector from '@/features/student/associations/components/interactions/AssociationsSelector/AssociationsSelector.vue'
 import DeleteAssociationsConfirmModal
   from '@/features/student/associations/components/overlays/modals/DeleteAssociationsConfirmModal/DeleteAssociationsConfirmModal.vue'
 import { useAssociationMutations } from '@/features/student/associations/composables/use-association-mutations/use-association-mutations'
 import { getElementAssociations } from '@/features/student/associations/utils/associations.utils'
-import { AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface DeleteAssociationsModalProps {
   opened: boolean

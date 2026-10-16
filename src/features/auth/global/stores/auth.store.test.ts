@@ -1,4 +1,7 @@
 import type { RouteLocationNormalized, RouteLocationRaw } from 'vue-router'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { createPinia, setActivePinia } from 'pinia'
+import { beforeEach, expect, vi } from 'vitest'
 import { mockedAcceptedCgu, mockedOutdatedAcceptedCgu } from '@/__mocks__/fixtures/shared/cgu.fixtures'
 import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student'
@@ -7,9 +10,6 @@ import { ROUTES } from '@/common/constants'
 import { BaseApiException } from '@/common/exceptions'
 import { HttpStatusCode } from '@/common/utils'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { createPinia, setActivePinia } from 'pinia'
-import { beforeEach, expect, vi } from 'vitest'
 
 const { mockGetProfile, mockGetMe, mockReplace } = vi.hoisted(() => ({
   mockGetProfile: vi.fn(),

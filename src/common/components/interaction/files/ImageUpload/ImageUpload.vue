@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ACCEPTED_IMAGE_TYPES, PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
-import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
-import { useImageUpload, useModal } from '@/common/composables'
-import { canvasToFile } from '@/common/utils/file/file'
 import { AvButton, AvFileUpload, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { nextTick } from 'vue'
 import { Cropper } from 'vue-advanced-cropper'
 import { useI18n } from 'vue-i18n'
+import { ACCEPTED_IMAGE_TYPES, PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
+import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
+import { useImageUpload, useModal } from '@/common/composables'
+import { canvasToFile } from '@/common/utils/file/file'
 import 'vue-advanced-cropper/dist/style.css'
 
 /**

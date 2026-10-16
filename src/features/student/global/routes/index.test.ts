@@ -1,3 +1,5 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { testRoute } from 'tests/utils'
 import { ROUTES } from '@/common/constants'
 import AccessibilityView
   from '@/common/views/AccessibilityView/AccessibilityView.vue'
@@ -25,8 +27,6 @@ import DeclaredExperienceUpdateView from '@/features/student/personalCareer/view
 import DeclaredExperienceView from '@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'
 import DeclaredProgramDetailedView from '@/features/student/personalCareer/views/DeclaredProgramDetailedView/DeclaredProgramDetailedView.vue'
 import PersonalCareerView from '@/features/student/personalCareer/views/PersonalCareerView/PersonalCareerView.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { testRoute } from 'tests/utils'
 
 const [root] = routes
 const children = root.children!

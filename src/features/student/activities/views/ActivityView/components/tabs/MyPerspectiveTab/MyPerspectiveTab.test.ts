@@ -1,15 +1,14 @@
 import type { VueWrapper } from '@vue/test-utils'
+import type { MyPerspectiveTabProps } from '@/features/student/activities/views/ActivityView/components/tabs/MyPerspectiveTab/MyPerspectiveTab.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { FeedbackInfoCardStub } from '@/features/student/activities/views/ActivityView/components/cards/FeedbackInfoCard/FeedbackInfoCard.stub'
 import { MyPerspectiveCardStub } from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/MyPerspectiveCard.stub'
 import { PerspectiveTabActionsStub } from '@/features/student/activities/views/ActivityView/components/interactions/PerspectiveTabActions/PerspectiveTabActions.stub'
 import { ReceivedFeedbacksSectionStub } from '@/features/student/activities/views/ActivityView/components/sections/ReceivedFeedbacksSection/ReceivedFeedbacksSection.stub'
-import MyPerspectiveTab, {
-  type MyPerspectiveTabProps,
-} from '@/features/student/activities/views/ActivityView/components/tabs/MyPerspectiveTab/MyPerspectiveTab.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
+import MyPerspectiveTab from '@/features/student/activities/views/ActivityView/components/tabs/MyPerspectiveTab/MyPerspectiveTab.vue'
 
 BddTest().given('a my perspective tab', () => {
   let wrapper: VueWrapper<InstanceType<typeof MyPerspectiveTab>>

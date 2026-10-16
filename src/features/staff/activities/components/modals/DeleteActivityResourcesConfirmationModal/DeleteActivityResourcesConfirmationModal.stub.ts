@@ -1,5 +1,5 @@
-import type { FileDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { FileDTO } from '@/api/avenir-esr'
 
 export const DeleteActivityResourcesConfirmationModalStub = defineComponent({
   name: 'DeleteActivityResourcesConfirmationModal',

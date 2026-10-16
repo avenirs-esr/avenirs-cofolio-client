@@ -1,7 +1,8 @@
+import type { Page } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { ProfileCard } from '@e2e/framework/shared/componentObjects/ProfileCard'
 import { t } from '@e2e/framework/shared/utils/i18n'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class StudentOverviewWidget extends BaseObject {
   constructor (protected page: Page) {

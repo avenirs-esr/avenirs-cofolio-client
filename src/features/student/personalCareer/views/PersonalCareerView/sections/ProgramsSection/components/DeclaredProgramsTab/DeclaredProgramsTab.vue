@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { AvIconText } from '@avenirs-esr/avenirs-dsav'
+import { keepPreviousData } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import { useGetDeclaredPrograms } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
@@ -10,9 +13,6 @@ import { usePersonalCareerStore } from '@/features/student/personalCareer/stores
 import DeclaredProgramsMoreActionsDropdown
   from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeclaredProgramsMoreActionsDropdown/DeclaredProgramsMoreActionsDropdown.vue'
 import DeleteDeclaredProgramsModal from '@/features/student/personalCareer/views/PersonalCareerView/sections/ProgramsSection/components/DeleteDeclaredProgramsModal/DeleteDeclaredProgramsModal.vue'
-import { AvIconText } from '@avenirs-esr/avenirs-dsav'
-import { keepPreviousData } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const personalCareerStore = usePersonalCareerStore()

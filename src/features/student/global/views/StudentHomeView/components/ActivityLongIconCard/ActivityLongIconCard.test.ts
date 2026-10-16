@@ -1,12 +1,13 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { IX_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { expect } from 'vitest'
 import { mockedActivityOverview, mockedNewActivityOverview } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
 import { LongIconCardStub } from '@/common/components/cards/LongIconCard/LongIconCard.stub'
 import ActivityLongIconCard from '@/features/student/global/views/StudentHomeView/components/ActivityLongIconCard/ActivityLongIconCard.vue'
-import { IX_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { expect } from 'vitest'
 
 BddTest().given('an activity long icon card', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityLongIconCard>>

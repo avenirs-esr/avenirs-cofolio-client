@@ -1,5 +1,5 @@
-import type { EAssociationContextType } from '@/api/avenir-esr'
 import type { QueryClient, QueryKey } from '@tanstack/vue-query'
+import type { EAssociationContextType } from '@/api/avenir-esr'
 import { ASSOCIATION_CONTEXT_CONFIGS, ASSOCIATIONS_QUERY_KEY } from '@/features/student/associations/constants/associations.constants'
 
 /**

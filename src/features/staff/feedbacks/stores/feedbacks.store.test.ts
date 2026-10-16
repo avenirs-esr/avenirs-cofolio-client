@@ -1,8 +1,8 @@
-import { useStaffFeedbacksStore } from '@/features/staff/feedbacks/stores/feedbacks.store'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach, expect } from 'vitest'
+import { useStaffFeedbacksStore } from '@/features/staff/feedbacks/stores/feedbacks.store'
 
 BddTest().given('a staff feedbacks store', () => {
   let store: ReturnType<typeof useStaffFeedbacksStore>

@@ -1,9 +1,10 @@
 <script lang="ts" setup>
+import type { AvSelectOption, AvSelectProps } from '@avenirs-esr/avenirs-dsav'
 import type { SortValue } from '@/common/types'
+import { AvSelect } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { ESortField, ESortOrder } from '@/api/avenir-esr'
 import { formatSortValue } from '@/common/utils/http/http-params'
-import { AvSelect, type AvSelectOption, type AvSelectProps } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export type SortSelectProps = Omit<AvSelectProps, 'options' | 'placeholder' | 'label'>
 

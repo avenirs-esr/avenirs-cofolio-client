@@ -1,12 +1,12 @@
-import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import type { VueWrapper } from '@vue/test-utils'
+import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { EFeedbackStatus } from '@/api/avenir-esr'
 import { FeedbackCardStub } from '@/features/student/activities/views/ActivityView/components/cards/FeedbackCard/FeedbackCard.stub'
 import ReceivedFeedbacksSection from '@/features/student/activities/views/ActivityView/components/sections/ReceivedFeedbacksSection/ReceivedFeedbacksSection.vue'
-import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
 
 const submittedFeedback = {
   id: 'feedback-1',

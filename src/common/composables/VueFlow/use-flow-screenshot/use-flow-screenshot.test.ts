@@ -1,7 +1,7 @@
-import { useFlowScreenshot } from '@/common/composables/VueFlow/use-flow-screenshot/use-flow-screenshot'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { useFlowScreenshot } from '@/common/composables/VueFlow/use-flow-screenshot/use-flow-screenshot'
 
 const mockVueFlowRef = ref<HTMLDivElement | null>(document.createElement('div'))
 const mockCapture = vi.fn()

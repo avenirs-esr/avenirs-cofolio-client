@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { TraceDeclaredActivityDTO } from '@/api/avenir-esr'
-import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
-import { ConfirmationModal } from '@/common/components'
 import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
+import { ConfirmationModal } from '@/common/components'
 
 export interface ConfirmUpdateTraceModalProps {
   opened: boolean

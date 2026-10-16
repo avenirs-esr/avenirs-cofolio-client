@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AvCancelConfirmButtons, type AvCancelConfirmButtonsProps, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import type { AvCancelConfirmButtonsProps } from '@avenirs-esr/avenirs-dsav'
+import { AvCancelConfirmButtons, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface FormCancelConfirmButtonsProps extends AvCancelConfirmButtonsProps {

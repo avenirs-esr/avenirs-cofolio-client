@@ -1,8 +1,8 @@
+import { ExternalHyperlink, HeadingLevel, ImageRun, Paragraph, TextRun } from 'docx'
+import { useI18n } from 'vue-i18n'
 import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
 import { useImageRunDataQuery } from '@/features/student/kit/composables/use-export-kit/utils/use-image-run-data.query'
 import { centimeterToEmu, centimeterToPixel } from '@/features/student/kit/composables/use-export-kit/utils/utils'
-import { ExternalHyperlink, HeadingLevel, ImageRun, Paragraph, TextRun } from 'docx'
-import { useI18n } from 'vue-i18n'
 
 export function useGenerateProfileSection () {
   const { t } = useI18n()

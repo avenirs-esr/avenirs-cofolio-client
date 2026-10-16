@@ -1,3 +1,8 @@
+import type { VueWrapper } from '@vue/test-utils'
+import type { FeedbacksViewProps } from '@/features/staff/feedbacks/views/FeedbacksView/FeedbacksView.vue'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
 import { getMockedActivitiesWithFeedbacks } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import { FeedbackStatusPickerStub } from '@/features/staff/feedbacks/components/interaction/pickers/FeedbackStatusPicker/FeedbackStatusPicker.stub'
@@ -5,10 +10,7 @@ import { FeedbackActivityConsignCardStub } from '@/features/staff/feedbacks/view
 import { FeedbacksDashboardCardsStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbacksDashboardCards/FeedbacksDashboardCards.stub'
 import { FeedbacksFiltersCardStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/cards/FeedbacksFiltersCard/FeedbacksFiltersCard.stub'
 import { FeedbacksTableStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/FeedbacksTable/FeedbacksTable.stub'
-import FeedbacksView, { type FeedbacksViewProps } from '@/features/staff/feedbacks/views/FeedbacksView/FeedbacksView.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
+import FeedbacksView from '@/features/staff/feedbacks/views/FeedbacksView/FeedbacksView.vue'
 
 const route = reactive<{ name: string, fullPath: string, query: Record<string, unknown>, matched: unknown[] }>({
   name: '',

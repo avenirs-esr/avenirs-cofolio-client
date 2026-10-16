@@ -1,9 +1,10 @@
+import type { PathParams } from 'msw'
 import type { LoggedInUserDTO } from '@/api/avenir-esr'
+import { http, HttpResponse } from 'msw'
 import { mockedAcceptedCgu } from '@/__mocks__/fixtures/shared/cgu.fixtures'
 import { ERole, getGetMeUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
-import { http, HttpResponse, type PathParams } from 'msw'
 
 export const mockedLoggedInUser: LoggedInUserDTO = {
   firstname: 'Lucas',

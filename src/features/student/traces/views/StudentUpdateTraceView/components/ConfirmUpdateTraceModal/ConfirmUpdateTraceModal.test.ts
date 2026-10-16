@@ -1,10 +1,13 @@
-import { EDeclaredActivityStatus, type TraceDeclaredActivityDTO } from '@/api/avenir-esr'
-import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
-import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
-import ConfirmUpdateTraceModal, { type ConfirmUpdateTraceModalProps } from '@/features/student/traces/views/StudentUpdateTraceView/components/ConfirmUpdateTraceModal/ConfirmUpdateTraceModal.vue'
+import type { VueWrapper } from '@vue/test-utils'
+import type { TraceDeclaredActivityDTO } from '@/api/avenir-esr'
+import type { ConfirmUpdateTraceModalProps } from '@/features/student/traces/views/StudentUpdateTraceView/components/ConfirmUpdateTraceModal/ConfirmUpdateTraceModal.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
+import { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
+import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
+import ConfirmUpdateTraceModal from '@/features/student/traces/views/StudentUpdateTraceView/components/ConfirmUpdateTraceModal/ConfirmUpdateTraceModal.vue'
 
 const mockedLockedDeclaredActivities: TraceDeclaredActivityDTO = {
   activityId: 'declared-activity-1',

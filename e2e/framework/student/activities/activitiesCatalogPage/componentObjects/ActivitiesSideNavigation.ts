@@ -1,5 +1,6 @@
+import type { Locator, Page } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
-import { expect, type Locator, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class ActivitiesSideNavigation extends BaseObject {
   private static readonly ROOT_TESTID = 'activities-side-navigation'

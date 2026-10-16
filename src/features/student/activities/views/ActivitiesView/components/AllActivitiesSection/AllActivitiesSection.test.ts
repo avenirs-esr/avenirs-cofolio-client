@@ -1,13 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvIconTextStub, AvTagPickerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { activitiesViewErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { ActivityCardStub } from '@/features/student/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.stub'
 import AllActivitiesSection from '@/features/student/activities/views/ActivitiesView/components/AllActivitiesSection/AllActivitiesSection.vue'
-import { AvIconTextStub, AvTagPickerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('an all activities section', () => {
   let wrapper: VueWrapper<InstanceType<typeof AllActivitiesSection>>

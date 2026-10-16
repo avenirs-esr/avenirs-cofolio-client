@@ -1,5 +1,5 @@
-import type { NotificationDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { NotificationDTO } from '@/api/avenir-esr'
 
 export const ActivityModifiedNotificationCardStub = defineComponent({
   name: 'ActivityModifiedNotificationCard',

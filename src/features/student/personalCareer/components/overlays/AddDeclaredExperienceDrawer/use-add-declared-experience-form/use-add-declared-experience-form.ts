@@ -1,18 +1,19 @@
+import type { DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import type { AssociationSelections } from '@/features/student/associations'
 import type {
   DeclaredExperienceFormData
 
 } from '@/features/student/personalCareer/types/forms.types'
-import { type DeclaredExperienceViewDTO, EAssociationContextType, type EExperienceType, invalidateGetDeclaredExperienceView, useCreateDeclaredExperience } from '@/api/avenir-esr'
+import { useForm } from '@tanstack/vue-form'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
+import { EAssociationContextType, invalidateGetDeclaredExperienceView, useCreateDeclaredExperience } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useAssociationSelections } from '@/features/student/associations'
 import { useDeclaredExperienceFormValidators } from '@/features/student/personalCareer/composables/use-declared-experience-form-validators/use-declared-experience-form-validators'
 import { useToasterStore } from '@/store'
-import { useForm } from '@tanstack/vue-form'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
   const { t } = useI18n()

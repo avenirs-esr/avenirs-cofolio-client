@@ -1,7 +1,8 @@
-import { useScreenshot } from '@/common/composables/use-screenshot/use-screenshot'
+import type { MockInstance } from 'vitest'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
-import { afterEach, beforeEach, expect, type MockInstance, vi } from 'vitest'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { useScreenshot } from '@/common/composables/use-screenshot/use-screenshot'
 
 const mockToJpeg = vi.fn()
 const mockToPng = vi.fn()

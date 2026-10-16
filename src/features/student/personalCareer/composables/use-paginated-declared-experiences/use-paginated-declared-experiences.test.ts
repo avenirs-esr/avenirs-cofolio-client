@@ -1,9 +1,9 @@
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
-import { usePaginatedDeclaredExperiences } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
-import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { usePaginatedDeclaredExperiences } from '@/features/student/personalCareer/composables/use-paginated-declared-experiences/use-paginated-declared-experiences'
+import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
 
 vi.mock('@/features/student/personalCareer/stores/personalCareer.store', () => ({
   usePersonalCareerStore: vi.fn()

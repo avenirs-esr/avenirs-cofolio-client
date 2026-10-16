@@ -1,5 +1,5 @@
-import type { EFeedbackStatus } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { EFeedbackStatus } from '@/api/avenir-esr'
 
 export const FeedbackActivityFilterSelectStub = defineComponent({
   name: 'FeedbackActivityFilterSelect',

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
 import { useGetStaffActivityLibrary } from '@/api/avenir-esr'
 import { useStaffActivitiesStore } from '@/features/staff/activities/stores/activities.store'
 import ActivitiesTab from '@/features/staff/activities/views/ActivitiesView/components/ActivitiesTab/ActivitiesTab.vue'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const staffActivitiesStore = useStaffActivitiesStore()

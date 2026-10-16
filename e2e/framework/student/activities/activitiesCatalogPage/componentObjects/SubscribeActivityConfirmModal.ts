@@ -1,7 +1,8 @@
+import type { Page } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class SubscribeActivityConfirmModal extends BaseObject {
   constructor (protected page: Page) {

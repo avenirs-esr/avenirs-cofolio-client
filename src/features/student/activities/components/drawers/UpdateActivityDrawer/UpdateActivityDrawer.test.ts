@@ -1,4 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvAccordionStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { FormCancelConfirmButtonsStub } from '@/common/components/interaction/buttons/FormCancelConfirmButtons/FormCancelConfirmButtons.stub'
@@ -7,9 +10,6 @@ import { ConfirmationModalStub } from '@/common/components/overlay/modals/Confir
 import UpdateActivityDrawer from '@/features/student/activities/components/drawers/UpdateActivityDrawer/UpdateActivityDrawer.vue'
 import { ActivityPeriodFormFieldStub } from '@/features/student/activities/components/interactions/formFields/ActivityPeriodFormField/ActivityPeriodFormField.stub'
 import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
-import { AvAccordionStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockCanLeave = vi.fn<() => Promise<boolean>>()
 const mockConfirm = vi.fn()

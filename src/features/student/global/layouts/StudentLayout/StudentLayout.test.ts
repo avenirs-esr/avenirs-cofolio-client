@@ -1,4 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { AvHeaderStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { FooterStub } from '@/common/components/Footer/Footer.stub'
 import { SkipLinksStub } from '@/common/components/navigation/SkipLinks/SkipLinks.stub'
@@ -8,9 +11,6 @@ import { useMenuBurgerStore } from '@/common/stores/menu-burger.store'
 import StudentLayout from '@/features/student/global/layouts/StudentLayout/StudentLayout.vue'
 import { StudentNotificationsPopoverStub } from '@/features/student/user/components/overlays/StudentNotificationsPopover/StudentNotificationsPopover.stub'
 import { StudentProfileDropdownStub } from '@/features/student/user/components/overlays/StudentProfileDropdown/StudentProfileDropdown.stub'
-import { AvHeaderStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockUseAuthStore = vi.hoisted(() => vi.fn(() => ({
   canSwitchProfile: false

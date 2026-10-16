@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
+import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import { ROUTES } from '@/common/constants'
-import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 
 export interface ActivityTableTitleProps {
   activity: ActivityTableRow

@@ -1,9 +1,10 @@
 import type { AvMultiselectOptionGroup } from '@avenirs-esr/avenirs-dsav'
+import type { VueWrapper } from '@vue/test-utils'
+import { AvMultiselectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
 import { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 import FileTypeMultiselect from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.vue'
 import { TraceType } from '@/features/student/traces/types/traces.types'
-import { AvMultiselectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
 
 BddTest().given('a FileTypeMultiselect component', () => {
   let wrapper: VueWrapper<InstanceType<typeof FileTypeMultiselect>>

@@ -1,5 +1,5 @@
-import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 
 export const ValorizedDeclaredProgramItemStub = defineComponent({
   name: 'ValorizedDeclaredProgramItem',

@@ -1,10 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import ActivityRecommendedCompletionContextsList, {
-  type ActivityRecommendedCompletionContextsListProps
-} from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
+import type { ActivityRecommendedCompletionContextsListProps } from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import ActivityRecommendedCompletionContextsList from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
 
 BddTest().given('an activity recommended completion contexts list component', () => {
   let wrapper: VueWrapper<

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useDateUtils } from '@/common/composables'
-import { PLURAL_COUNT_FOR_FEMININE, PLURAL_COUNT_FOR_MASCULINE } from '@/common/utils/constants'
 import { AvIconText, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { useDateUtils } from '@/common/composables'
+import { PLURAL_COUNT_FOR_FEMININE, PLURAL_COUNT_FOR_MASCULINE } from '@/common/utils/constants'
 
 export interface CreationUpdateDateDetailsProps {
   createdAt?: string

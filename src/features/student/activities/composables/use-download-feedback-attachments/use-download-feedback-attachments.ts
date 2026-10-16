@@ -1,9 +1,10 @@
+import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import { type FeedbackOverviewDTO, useDownloadFeedbackAttachment } from '@/api/avenir-esr'
+import { useI18n } from 'vue-i18n'
+import { useDownloadFeedbackAttachment } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { downloadBlob } from '@/common/utils/download/download'
 import { useToasterStore } from '@/store'
-import { useI18n } from 'vue-i18n'
 
 export function useDownloadFeedbackAttachments (feedback: FeedbackOverviewDTO) {
   const { addErrorMessage } = useToasterStore()

@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect } from 'vitest'
 import { mockedStaffNotification } from '@/__mocks__/fixtures/staffs/notifications.fixtures'
 import { NotificationsPopoverStub } from '@/common/notifications/components/NotificationsPopover/NotificationsPopover.stub'
 import { ActivityFeedbackNotificationCardStub } from '@/features/staff/global/components/cards/ActivityFeedbackNotificationCard/ActivityFeedbackNotificationCard.stub'
 import StaffNotificationsPopover from '@/features/staff/user/components/overlays/StaffNotificationsPopover/StaffNotificationsPopover.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a StaffNotificationsPopover', () => {
   let wrapper: VueWrapper<InstanceType<typeof StaffNotificationsPopover>>

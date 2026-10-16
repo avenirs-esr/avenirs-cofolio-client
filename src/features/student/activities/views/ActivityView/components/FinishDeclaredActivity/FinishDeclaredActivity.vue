@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { AvBadge, AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { useModal } from '@/common/composables'
 import FinishDeclaredActivityConfirmModal
   from '@/features/student/activities/views/ActivityView/components/overlays/FinishDeclaredActivityConfirmModal/FinishDeclaredActivityConfirmModal.vue'
-import { AvBadge, AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface FinishDeclaredActivityProps {
   status?: EDeclaredActivityStatus

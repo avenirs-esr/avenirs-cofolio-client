@@ -1,5 +1,5 @@
-import type { EGroupType } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { EGroupType } from '@/api/avenir-esr'
 
 export const GroupTypeBadgeStub = defineComponent({
   name: 'GroupTypeBadge',

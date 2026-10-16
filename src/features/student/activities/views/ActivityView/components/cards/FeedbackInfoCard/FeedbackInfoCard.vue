@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
+import { AvBadge, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import {
   isActivityFeedbackRequestsDisabled,
   isActivityFeedbackRequestsLimited,
@@ -8,8 +10,6 @@ import {
 import WarningBadge from '@/common/components/badges/WarningBadge/WarningBadge.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { ICONS } from '@/common/constants'
-import { AvBadge, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 export interface FeedbackInfoCardProps {
   activity: DeclaredActivityDetailsDTO

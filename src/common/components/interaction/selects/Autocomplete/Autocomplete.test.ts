@@ -1,7 +1,7 @@
-import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
 import { AvAutocompleteStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { expect } from 'vitest'
+import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
 
 BddTest().given('an Autocomplete component', () => {
   let wrapper: ReturnType<typeof mount<typeof Autocomplete>>

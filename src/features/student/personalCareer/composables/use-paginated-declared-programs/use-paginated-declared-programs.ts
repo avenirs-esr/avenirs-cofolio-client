@@ -1,8 +1,10 @@
-import { type DeclaredProgramViewDTO, type PageInfoDTO, useGetDeclaredPrograms } from '@/api/avenir-esr'
+import type { MaybeRef, Ref } from 'vue'
+import type { DeclaredProgramViewDTO, PageInfoDTO } from '@/api/avenir-esr'
+import { keepPreviousData } from '@tanstack/vue-query'
+import { toValue } from 'vue'
+import { useGetDeclaredPrograms } from '@/api/avenir-esr'
 import { useInfiniteScrollPagination } from '@/common/composables'
 import { usePersonalCareerStore } from '@/features/student/personalCareer/stores/personalCareer.store'
-import { keepPreviousData } from '@tanstack/vue-query'
-import { type MaybeRef, type Ref, toValue } from 'vue'
 
 export interface UsePaginatedDeclaredProgramsParams {
   pageSize?: MaybeRef<number>

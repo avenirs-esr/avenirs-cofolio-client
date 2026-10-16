@@ -1,10 +1,11 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { Mock } from 'vitest'
-import StudentProjectMindMapHelperModal
-  from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectMindMapHelperModal/StudentProjectMindMapHelperModal.vue'
 import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
-import { mount, type VueWrapper } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import StudentProjectMindMapHelperModal
+  from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectMindMapHelperModal/StudentProjectMindMapHelperModal.vue'
 
 const stubs = {
   AvModal: AvModalStub,

@@ -1,15 +1,16 @@
 import type { ActivityTableRow } from '@/features/staff/activities/views/ActivitiesView/ActivitiesView.types'
-import { EActivityStatus, EActivityThematic } from '@/api/avenir-esr'
-import { ActivityStatusBadgeStub } from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
-import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
-import { ROUTES } from '@/common/constants'
-import ActivityCard, { type ActivityCardProps } from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
+import type { ActivityCardProps } from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvIconStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { EActivityStatus, EActivityThematic } from '@/api/avenir-esr'
+import { ActivityStatusBadgeStub } from '@/common/activities/badges/ActivityStatusBadge/ActivityStatusBadge.stub'
+import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
+import { ROUTES } from '@/common/constants'
+import ActivityCard from '@/features/staff/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
 
 const mockIsTruncated = ref(false)
 

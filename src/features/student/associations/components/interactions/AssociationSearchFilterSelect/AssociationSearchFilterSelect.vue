@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import type { AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import type { EAssociationContextType } from '@/api/avenir-esr'
-import { AssociationSearchFilter } from '@/features/student/associations/types/associations.types'
-import { AvSelect, type AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
+import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { AssociationSearchFilter } from '@/features/student/associations/types/associations.types'
 
 export interface AssociationSearchFilterSelectProps {
   contextType: EAssociationContextType

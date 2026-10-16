@@ -1,7 +1,7 @@
 import type { AddActivityResourceFileFormData, AddActivityResourceLinkFormData } from '@/features/staff/activities/types/forms.types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { ActivityResourceType } from '@/features/staff/activities/types/resource.types'
 import { isActivityResourceFileType, isActivityResourceLinkType } from '@/features/staff/activities/views/EditNationalActivityView/components/AddActivityResourceModal/utils/resource-form.types-guard'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 BddTest().given('activity resource form type guards', () => {
   BddTest().when('the form data is a file type', () => {

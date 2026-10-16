@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useInfiniteScroll } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 import { ConfirmationModal } from '@/common/components'
 import { useModal } from '@/common/composables'
 import { INFINITE_SCROLL_BOTTOM_DISTANCE } from '@/common/constants'
@@ -6,9 +9,6 @@ import { TracesSelector } from '@/features/student/traces'
 import TraceDeletionConfirmationModal
   from '@/features/student/traces/components/modals/TraceDeletionConfirmationModal/TraceDeletionConfirmationModal.vue'
 import { usePaginatedTraces } from '@/features/student/traces/composables/use-paginated-traces/use-paginated-traces'
-import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useInfiniteScroll } from '@vueuse/core'
-import { useI18n } from 'vue-i18n'
 
 export interface DeleteTracesModalProps {
   opened: boolean

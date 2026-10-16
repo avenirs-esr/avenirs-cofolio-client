@@ -1,13 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { Component } from 'vue'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
-import SelectedAssociateItemsContainer, {
-  type SelectedAssociateItemsContainerProps
-} from '@/features/student/associations/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.vue'
-import { DeleteOverlayStub } from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.stub'
+import type { SelectedAssociateItemsContainerProps } from '@/features/student/associations/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
+import { CardStub } from '@/common/components/cards/Card/Card.stub'
+import SelectedAssociateItemsContainer from '@/features/student/associations/components/cards/SelectedAssociateItemsContainer/SelectedAssociateItemsContainer.vue'
+import { DeleteOverlayStub } from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.stub'
 
 const SelectedAssociateItemsContainerComponent = SelectedAssociateItemsContainer as unknown as Component
 

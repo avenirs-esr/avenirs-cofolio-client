@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import type { TraceDeclaredActivityDTO } from '@/api/avenir-esr'
+import { AvCancelConfirmButtons, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import {
   EAssociationContextType,
-  type TraceDeclaredActivityDTO,
+
   useGetAssociations,
   useGetLockedDeclaredActivities,
-  useGetTraceDetail,
+  useGetTraceDetail
 } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
@@ -19,8 +22,6 @@ import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTrace
 import ConfirmUpdateTraceModal from '@/features/student/traces/views/StudentUpdateTraceView/components/ConfirmUpdateTraceModal/ConfirmUpdateTraceModal.vue'
 import UpdateTabs from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.vue'
 import { useToasterStore } from '@/store'
-import { AvCancelConfirmButtons, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 interface StudentUpdateTraceViewProps {
   traceId: string

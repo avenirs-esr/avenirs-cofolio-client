@@ -1,9 +1,9 @@
-import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { useUpdateActivityForm } from '@/features/student/global/composables/use-update-activity-form/use-update-activity-form'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
+import { useUpdateActivityForm } from '@/features/student/global/composables/use-update-activity-form/use-update-activity-form'
 
 BddTest().given('the useUpdateActivityForm composable', () => {
   beforeEach(() => {

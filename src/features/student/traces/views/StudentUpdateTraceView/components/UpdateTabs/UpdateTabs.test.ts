@@ -1,11 +1,13 @@
+import type { VueWrapper } from '@vue/test-utils'
+import type { AssociationsDTO, TraceDetailDTO } from '@/api/avenir-esr'
 import type { UpdateTraceForm as UpdateTraceFormApi } from '@/features/student/traces/types/forms.types'
+import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { createMockedDeclaredExperienceAssociations, mockedTraceAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
-import { type AssociationsDTO, EAssociationContextType, EFileType, ETraceAuthorType, type TraceDetailDTO } from '@/api/avenir-esr'
+import { EAssociationContextType, EFileType, ETraceAuthorType } from '@/api/avenir-esr'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import UpdateTabs from '@/features/student/traces/views/StudentUpdateTraceView/components/UpdateTabs/UpdateTabs.vue'
-import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockCloseUpdateTraceModal = vi.fn()
 

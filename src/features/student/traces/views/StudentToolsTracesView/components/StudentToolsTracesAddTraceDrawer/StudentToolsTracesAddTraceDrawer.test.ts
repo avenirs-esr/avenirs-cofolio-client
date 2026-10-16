@@ -1,8 +1,14 @@
+import type { VueWrapper } from '@vue/test-utils'
+import type { FileDTO } from '@/api/avenir-esr'
 import type { AssociationSelections } from '@/features/student/associations'
+import { AvButtonStub, AvCancelConfirmButtonsStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import {
   EAssociationContextType,
-  ETraceAuthorType,
-  type FileDTO
+  ETraceAuthorType
+
 } from '@/api/avenir-esr'
 import * as avenirEsrApi from '@/api/avenir-esr'
 import { ToggleStub } from '@/common/components/interaction/toggles/Toggle/Toggle.stub'
@@ -11,10 +17,6 @@ import { ConfirmationModalStub } from '@/common/components/overlay/modals/Confir
 import { AssociationSelectionSectionStub } from '@/features/student/associations/components/sections/AssociationSelectionSection/AssociationSelectionSection.stub'
 import { useTracesStore } from '@/features/student/traces'
 import StudentToolsTracesAddTraceDrawer from '@/features/student/traces/views/StudentToolsTracesView/components/StudentToolsTracesAddTraceDrawer/StudentToolsTracesAddTraceDrawer.vue'
-import { AvButtonStub, AvCancelConfirmButtonsStub, AvIconTextStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockAddSuccessMessage = vi.fn()
 const mockAddErrorMessage = vi.fn()

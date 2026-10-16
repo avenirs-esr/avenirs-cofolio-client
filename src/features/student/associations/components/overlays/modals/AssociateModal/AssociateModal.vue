@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import type { Association } from '@/features/student/associations/types/associations.types'
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
+import type { Association } from '@/features/student/associations/types/associations.types'
+import { useI18n } from 'vue-i18n'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useModal } from '@/common/composables'
@@ -13,7 +14,6 @@ import { useAssociationMutations } from '@/features/student/associations/composa
 import { useAssociationSearch } from '@/features/student/associations/composables/use-association-search/use-association-search'
 import { DEFAULT_ASSOCIATION_SEARCH_FILTER } from '@/features/student/associations/constants/associations.constants'
 import { getContextTypeSlug } from '@/features/student/associations/utils/associations.utils'
-import { useI18n } from 'vue-i18n'
 
 type AssociationOption = AvAutocompleteOption & Pick<Association, 'category'>
 

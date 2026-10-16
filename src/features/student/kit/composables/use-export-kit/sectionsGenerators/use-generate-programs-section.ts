@@ -1,8 +1,9 @@
+import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
 import type { AvLocale } from '@/types'
-import { type DeclaredProgramViewDTO, useGetDeclaredPrograms } from '@/api/avenir-esr'
-import { formatDateToYearLocalized } from '@/common/utils'
 import { HeadingLevel, Paragraph, TextRun } from 'docx'
 import { useI18n } from 'vue-i18n'
+import { useGetDeclaredPrograms } from '@/api/avenir-esr'
+import { formatDateToYearLocalized } from '@/common/utils'
 
 export function useGenerateProgramsSection () {
   const { t, locale } = useI18n()

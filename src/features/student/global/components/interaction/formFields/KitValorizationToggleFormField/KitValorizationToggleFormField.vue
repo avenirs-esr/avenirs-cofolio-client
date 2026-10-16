@@ -6,8 +6,8 @@ import type {
   UpdateSelfKnowledgeCategoryElementForm
 } from '@/features/student/selfKnowledge/types/forms.types'
 import type { UpdateTraceForm } from '@/features/student/traces/types/forms.types'
-import ValorizeToggle from '@/features/student/global/components/interaction/toggles/ValorizeToggle/ValorizeToggle.vue'
 import { markRaw, useAttrs } from 'vue'
+import ValorizeToggle from '@/features/student/global/components/interaction/toggles/ValorizeToggle/ValorizeToggle.vue'
 
 interface DeclaredSkillValorizationToggleFormFieldProps {
   form: UpdateActivityForm | UpdateDeclaredExperienceForm | UpdateDeclaredProgramForm | UpdateDeclaredSkillForm | UpdateSelfKnowledgeCategoryElementForm | UpdateTraceForm

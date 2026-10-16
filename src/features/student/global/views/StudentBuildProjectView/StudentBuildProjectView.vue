@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import StudentProjectBuildProjectContainer
   from '@/features/student/global/views/StudentBuildProjectView/components/StudentProjectBuildProjectContainer/StudentProjectBuildProjectContainer.vue'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 

@@ -1,4 +1,5 @@
-import { ESelfKnowledgeCategory, type PagedResponseSelfKnowledgeElementViewDTO, type SelfKnowledgeCategoryDTO, type SelfKnowledgeElementDetailsDTO, type SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import type { PagedResponseSelfKnowledgeElementViewDTO, SelfKnowledgeCategoryDTO, SelfKnowledgeElementDetailsDTO, SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 
 export const mockedSelfKnowledgeCategories: SelfKnowledgeCategoryDTO[] = [
   {

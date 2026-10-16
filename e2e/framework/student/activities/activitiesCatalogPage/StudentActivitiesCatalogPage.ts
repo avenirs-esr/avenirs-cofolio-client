@@ -1,4 +1,5 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+import type { Page } from '@playwright/test'
 import { EActivityThematic } from '@cofolio/api/avenir-esr/generated/types/eActivityThematic'
 import { STUDENT_ROUTES } from '@e2e/framework/shared/constants/routes'
 import { AV_BREAKPOINTS } from '@e2e/framework/shared/utils/dimension'
@@ -6,7 +7,7 @@ import { ActivitiesPreviousNextNavigation } from '@e2e/framework/student/activit
 import { ActivitiesSelectNavigation } from '@e2e/framework/student/activities/activitiesCatalogPage/componentObjects/ActivitiesSelectNavigation'
 import { ActivitiesSideNavigation } from '@e2e/framework/student/activities/activitiesCatalogPage/componentObjects/ActivitiesSideNavigation'
 import { ActivityPreview } from '@e2e/framework/student/activities/activitiesCatalogPage/componentObjects/ActivityPreview'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
 
 export

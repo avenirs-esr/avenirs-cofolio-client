@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { type DeclaredActivityViewDTO, EDeclaredActivityStatus } from '@/api/avenir-esr'
+import type { DeclaredActivityViewDTO } from '@/api/avenir-esr'
+import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import ActivityThematicBadge from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.vue'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import { ICONS, ROUTES } from '@/common/constants'
 import ActivityPeriodBadge from '@/features/student/activities/components/badges/ActivityPeriodBadge/ActivityPeriodBadge.vue'
 import { FloatingIconCard } from '@/features/student/global'
-import { useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 
 interface DeclaredActivityCardProps {
   activity: DeclaredActivityViewDTO

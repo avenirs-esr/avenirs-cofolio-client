@@ -1,14 +1,15 @@
+import type { RouteLocationNormalized, RouteLocationRaw } from 'vue-router'
+import type { AcceptedCguDTO, ProfileOverviewDTO } from '@/api/avenir-esr'
 import type { FetchOptions } from '@/api/fetch'
 import type { BaseApiException } from '@/common/exceptions'
-import type { RouteLocationNormalized, RouteLocationRaw } from 'vue-router'
-import { type AcceptedCguDTO, ERole, EUserCategory, getMe, getProfile, type ProfileOverviewDTO } from '@/api/avenir-esr'
+import { useQueryClient } from '@tanstack/vue-query'
+import { defineStore } from 'pinia'
+import { readonly } from 'vue'
+import { ERole, EUserCategory, getMe, getProfile } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils'
 import router from '@/router'
 import { useToasterStore } from '@/store'
-import { useQueryClient } from '@tanstack/vue-query'
-import { defineStore } from 'pinia'
-import { readonly } from 'vue'
 
 /**
  * Maps backend roles to the front-end user categories they grant access to.

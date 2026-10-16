@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import type { AvSideNavigationMenuItem, AvSideNavigationSelectedItem } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
 import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
 import { useScrollSpy } from '@/common/composables/use-scroll-spy/use-scroll-spy'
 import { scrollToElement } from '@/common/utils/scroll/scroll-to-element'
 import { ContentSectionId, EditActivityTabIndex, PublicationSectionId } from '@/features/staff/activities/editActivity.constants'
-import { type AvSideNavigationMenuItem, type AvSideNavigationSelectedItem, MDI_ICONS, RI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
 
 const props = defineProps<AddNationalActivitySideNavigationProps>()
 const { activeTab } = toRefs(props)

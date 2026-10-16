@@ -1,5 +1,5 @@
-import type { UpdateActivityForm } from '@/features/student/global/types/forms.types'
 import type { Component, PropType } from 'vue'
+import type { UpdateActivityForm } from '@/features/student/global/types/forms.types'
 
 export const ActivityPeriodFormFieldStub: Component = defineComponent({
   name: 'ActivityPeriodFormField',

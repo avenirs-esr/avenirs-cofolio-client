@@ -1,8 +1,9 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvIconStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount, RouterLinkStub } from '@vue/test-utils'
+import { beforeEach } from 'vitest'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import LongIconCard from '@/common/components/cards/LongIconCard/LongIconCard.vue'
-import { AvIconStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, RouterLinkStub, type VueWrapper } from '@vue/test-utils'
-import { beforeEach } from 'vitest'
 
 const mockIsTruncated = ref(false)
 

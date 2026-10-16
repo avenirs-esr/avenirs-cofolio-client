@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { ActivityContentDTO } from '@/api/avenir-esr'
+import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { EnabledDisabledStatusBadge } from '@/common/components'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { ICONS } from '@/common/constants'
@@ -9,8 +11,6 @@ import {
   ACTIVITY_TRACE_SETTING_DISABLED_VALUE,
   ACTIVITY_TRACE_SETTING_INFINITY_VALUE
 } from '@/features/staff/activities/config'
-import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
 
 interface NationalActivitySettingDetailsProps {
   activity: ActivityContentDTO

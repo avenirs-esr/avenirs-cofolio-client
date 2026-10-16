@@ -1,5 +1,5 @@
-import { useScreenshot } from '@/common/composables/use-screenshot/use-screenshot'
 import { useVueFlow } from '@vue-flow/core'
+import { useScreenshot } from '@/common/composables/use-screenshot/use-screenshot'
 
 interface UseFlowScreenshotReturn {
   /**

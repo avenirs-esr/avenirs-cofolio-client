@@ -1,13 +1,14 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, vi } from 'vitest'
 import { getStaffFeedbacksErrorHandler, getStaffFeedbacksOverviewHandler } from '@/__mocks__/msw/handlers/staffs/feedbacks.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { HomeWidgetStub } from '@/common/components/cards/HomeWidget/HomeWidget.stub'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { FeedbackLongIconCardStub } from '@/features/staff/global/views/StaffHomeView/components/FeedbackLongIconCard/FeedbackLongIconCard.stub'
 import FeedbacksWidget from '@/features/staff/global/views/StaffHomeView/components/FeedbacksWidget/FeedbacksWidget.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, vi } from 'vitest'
 
 BddTest().given('a feedbacks widget', async () => {
   let wrapper: VueWrapper<InstanceType<typeof FeedbacksWidget>>

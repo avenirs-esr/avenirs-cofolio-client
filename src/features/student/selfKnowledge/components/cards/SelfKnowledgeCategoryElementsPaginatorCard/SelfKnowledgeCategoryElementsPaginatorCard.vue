@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { GetSelfKnowledgeElementsParams, SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
+import { AvIconText, AvPagination, getPaginationPages } from '@avenirs-esr/avenirs-dsav'
+import { keepPreviousData } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import { useGetSelfKnowledgeElements } from '@/api/avenir-esr'
 import Card from '@/common/components/cards/Card/Card.vue'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
@@ -10,9 +13,6 @@ import DeleteSelfKnowledgeElementsModal from '@/features/student/selfKnowledge/c
 import { useSelfKnowledgeCategory } from '@/features/student/selfKnowledge/composables/use-self-knowledge-category/use-self-knowledge-category'
 import { useSelfKnowledgeStore } from '@/features/student/selfKnowledge/stores/self-knowledge.store'
 import { toSelfKnowledgeCategoriesParam } from '@/features/student/selfKnowledge/utils/category.utils'
-import { AvIconText, AvPagination, getPaginationPages } from '@avenirs-esr/avenirs-dsav'
-import { keepPreviousData } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 export interface SelfKnowledgeCategoryElementsPaginatorCardProps {
   category: SelfKnowledgeCategoryDTO

@@ -1,9 +1,10 @@
+import type { Page } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { t } from '@e2e/framework/shared/utils/i18n'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { SubscribeActivityConfirmModal } from '@e2e/framework/student/activities/activitiesCatalogPage/componentObjects/SubscribeActivityConfirmModal'
 import { UnsubscribeActivitiesConfirmModal } from '@e2e/framework/student/activities/activitiesCatalogPage/componentObjects/UnsubscribeActivitiesConfirmModal'
-import { expect, type Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 
 export class ActivityPreview extends BaseObject {
   constructor (protected page: Page) {

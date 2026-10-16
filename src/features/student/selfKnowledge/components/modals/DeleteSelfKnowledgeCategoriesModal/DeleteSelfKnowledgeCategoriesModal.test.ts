@@ -1,12 +1,13 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvCheckboxesGroupStub, AvCheckboxStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { mockedSelfKnowledgeCategoriesAvailable } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'
 import { createSelfKnowledgeCategoriesAvailableHandler } from '@/__mocks__/msw/handlers/student/self-knowledge.handlers'
 import { server } from '@/__mocks__/msw/server'
 import AddSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.vue'
-import { AvCheckboxesGroupStub, AvCheckboxStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 vi.mock('@/store', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/store')>()

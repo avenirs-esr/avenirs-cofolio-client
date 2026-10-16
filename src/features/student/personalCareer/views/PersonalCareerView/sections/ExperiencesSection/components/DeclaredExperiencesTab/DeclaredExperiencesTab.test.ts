@@ -1,4 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { countMockedDeclaredExperiencesByType } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import { declaredExperiencesQueryEmptyHandler, declaredExperiencesQueryErrorHandler } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
@@ -12,10 +16,6 @@ import { AddDeclaredExperienceDrawerStub } from '@/features/student/personalCare
 import { DeclaredExperiencesMoreActionsDropdownStub } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesMoreActionsDropdown/DeclaredExperiencesMoreActionsDropdown.stub'
 import DeclaredExperiencesTab from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/DeclaredExperiencesTab/DeclaredExperiencesTab.vue'
 import { ExperienceTypeMultiselectStub } from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/ExperienceTypeMultiselect/ExperienceTypeMultiselect.stub'
-import { PageSizes } from '@avenirs-esr/avenirs-dsav'
-import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 const mockOnUpdateCurrentPage = vi.fn()
 const mockOnUpdatePageSize = vi.fn()

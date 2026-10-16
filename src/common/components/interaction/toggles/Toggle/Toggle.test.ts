@@ -1,7 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
-import Toggle, { type ToggleProps } from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
+import type { ToggleProps } from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
 import { AvToggleStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
+import Toggle from '@/common/components/interaction/toggles/Toggle/Toggle.vue'
 
 BddTest().given('a Toggle component', () => {
   let wrapper: VueWrapper<InstanceType<typeof Toggle>>

@@ -1,5 +1,5 @@
-import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
 
 export const FeedbackHistoryCardStub = defineComponent({
   name: 'FeedbackHistoryCard',

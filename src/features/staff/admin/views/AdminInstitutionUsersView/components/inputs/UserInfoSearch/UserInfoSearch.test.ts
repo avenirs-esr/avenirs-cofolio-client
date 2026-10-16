@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub.js'
-import UserInfoSearch from '@/features/staff/admin/views/AdminInstitutionUsersView/components/inputs/UserInfoSearch/UserInfoSearch.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { expect } from 'vitest'
+import { InputStub } from '@/common/components/interaction/inputs/Input/Input.stub.js'
+import UserInfoSearch from '@/features/staff/admin/views/AdminInstitutionUsersView/components/inputs/UserInfoSearch/UserInfoSearch.vue'
 
 BddTest().given('a user information search input', () => {
   let wrapper: VueWrapper<InstanceType<typeof UserInfoSearch>>

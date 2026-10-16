@@ -1,9 +1,9 @@
-import type { EFeedbackStatus } from '@/api/avenir-esr'
 import type { AvTagPickerOption } from '@avenirs-esr/avenirs-dsav'
 import type { ComputedRef, MaybeRef, Ref } from 'vue'
-import { useGetFeedbackDashboard } from '@/api/avenir-esr'
+import type { EFeedbackStatus } from '@/api/avenir-esr'
 import { isNumber } from 'lodash-es'
 import { unref } from 'vue'
+import { useGetFeedbackDashboard } from '@/api/avenir-esr'
 
 interface UseFeedbackStatusPickerOptions {
   activityId?: MaybeRef<string | undefined>

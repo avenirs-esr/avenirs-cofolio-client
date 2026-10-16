@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Card from '@/common/components/cards/Card/Card.vue'
-import { ICONS } from '@/common/constants'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import DOMPurify from 'dompurify'
 import { useI18n } from 'vue-i18n'
+import Card from '@/common/components/cards/Card/Card.vue'
+import { ICONS } from '@/common/constants'
 
 export interface StudentPerspectiveCardProps {
   perspective?: string

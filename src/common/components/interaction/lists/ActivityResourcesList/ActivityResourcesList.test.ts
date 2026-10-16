@@ -1,11 +1,12 @@
+import type { VueWrapper } from '@vue/test-utils'
 import type { FileDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { EFileType } from '@/api/avenir-esr'
 import { ActivityResourceCardStub } from '@/common/components/cards/ActivityResourceCard/ActivityResourceCard.stub'
 import { AddCardStub } from '@/common/components/cards/AddCard/AddCard.stub'
 import ActivityResourcesList from '@/common/components/interaction/lists/ActivityResourcesList/ActivityResourcesList.vue'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('an activity resources list', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityResourcesList>>

@@ -1,12 +1,12 @@
-import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
 import type { Ref } from 'vue'
+import type { SelfKnowledgeElementViewDTO } from '@/api/avenir-esr'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComposable } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import {
   useSelfKnowledgePaginatedElements
 } from '@/features/student/selfKnowledge/composables/use-self-knowledge-paginated-elements/use-self-knowledge-paginated-elements'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComposable } from 'tests/utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('the useSelfKnowledgePaginatedElements composable', () => {
   let categoryType: Ref<ESelfKnowledgeCategory>

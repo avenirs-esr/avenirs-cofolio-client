@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AvIcon, type AvInteractiveProps, AvTooltip, getAvTooltipContent, isAvTooltipEnabled, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
+import { AvIcon, AvTooltip, getAvTooltipContent, isAvTooltipEnabled, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 export interface SelectorOverlayElement extends AvInteractiveProps {

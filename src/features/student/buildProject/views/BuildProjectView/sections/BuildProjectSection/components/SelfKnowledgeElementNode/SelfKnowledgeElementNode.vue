@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import type { MindMapNodeTemplateProps } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/types/mind-map-nodes.types'
+import { useQueryClient } from '@tanstack/vue-query'
+import { useI18n } from 'vue-i18n'
 import { EErrorCode, invalidateGetSelfKnowledgeElementDetails, invalidateGetSelfKnowledgeElements, useCreateSelfKnowledgeElement, useUpdateSelfKnowledgeElement } from '@/api/avenir-esr'
 import { Rating } from '@/common/components'
 import TitleDescriptionNodeTemplate from '@/common/components/base/VueFlow/TitleDescriptionNodeTemplate/TitleDescriptionNodeTemplate.vue'
@@ -8,8 +10,6 @@ import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors
 import { useNodes } from '@/common/composables/VueFlow/use-nodes/use-nodes'
 import { MIND_MAP_FLOW_ID } from '@/features/student/buildProject/views/BuildProjectView/sections/BuildProjectSection/components/MindMap/config'
 import { useToasterStore } from '@/store'
-import { useQueryClient } from '@tanstack/vue-query'
-import { useI18n } from 'vue-i18n'
 
 const { id, data } = defineProps<MindMapNodeTemplateProps>()
 

@@ -1,6 +1,6 @@
-import { ROUTES } from '@/common/constants'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeAll, beforeEach, expect, vi } from 'vitest'
+import { ROUTES } from '@/common/constants'
 
 const { mockAuthStore } = vi.hoisted(() => ({
   mockAuthStore: {

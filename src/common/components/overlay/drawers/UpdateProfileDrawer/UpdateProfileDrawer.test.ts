@@ -1,6 +1,19 @@
+import type { VueWrapper } from '@vue/test-utils'
+import type { MockedFunction } from 'vitest'
 import type { SetupContext } from 'vue'
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
-import { EFileType, type EUserCategory, type FileDTO, type ProfileOverviewDTO } from '@/api/avenir-esr'
+import type { EUserCategory, FileDTO, ProfileOverviewDTO } from '@/api/avenir-esr'
+import {
+  AvAccordionsGroupStub,
+  AvAccordionStub,
+  AvInputStub,
+  BddTest
+} from '@avenirs-esr/avenirs-dsav/test-utils'
+import { flushPromises } from '@vue/test-utils'
+import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
+import { mountComponent } from 'tests/utils'
+import { beforeEach, expect, vi } from 'vitest'
+import { EFileType } from '@/api/avenir-esr'
 import profile_banner_placeholder from '@/assets/profile_banner_placeholder.png'
 import profile_picture_placeholder from '@/assets/profile_picture_placeholder.png'
 import { FormCancelConfirmButtonsStub } from '@/common/components/interaction/buttons/FormCancelConfirmButtons/FormCancelConfirmButtons.stub'
@@ -9,16 +22,6 @@ import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.st
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
 import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'
-import {
-  AvAccordionsGroupStub,
-  AvAccordionStub,
-  AvInputStub,
-  BddTest
-} from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, type VueWrapper } from '@vue/test-utils'
-import { mockAddErrorMessage, mockAddSuccessMessage } from 'tests/mocks'
-import { mountComponent } from 'tests/utils'
-import { beforeEach, expect, type MockedFunction, vi } from 'vitest'
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()

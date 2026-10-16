@@ -1,5 +1,6 @@
+import type { AvDatePickerModel } from '@avenirs-esr/avenirs-dsav'
 import type { DatePeriodPickerType, PickerValue } from '@/common/components/interaction/inputs/DatePeriodPicker/DatePeriodPicker.types'
-import { type AvDatePickerModel, isDate, isMonthModel, toDate } from '@avenirs-esr/avenirs-dsav'
+import { isDate, isMonthModel, toDate } from '@avenirs-esr/avenirs-dsav'
 import { format, isValid, parse } from 'date-fns'
 
 export function toPickerValue (value: string | undefined, type: DatePeriodPickerType, inputFormat: string): PickerValue | null {

@@ -1,6 +1,6 @@
+import type { PropType } from 'vue'
 import type { EAssociationContextType } from '@/api/avenir-esr'
 import type { Association } from '@/features/student/associations/types/associations.types'
-import type { PropType } from 'vue'
 
 export const AssociationCompactCardStub = defineComponent({
   name: 'AssociationCompactCard',

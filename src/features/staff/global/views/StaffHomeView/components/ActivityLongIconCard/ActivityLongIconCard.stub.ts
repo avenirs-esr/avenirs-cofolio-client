@@ -1,5 +1,5 @@
-import type { ActivityOverviewDTO, DeclaredActivityViewDTO } from '@/api/avenir-esr'
 import type { PropType } from 'vue'
+import type { ActivityOverviewDTO, DeclaredActivityViewDTO } from '@/api/avenir-esr'
 
 export const ActivityLongIconCardStub = defineComponent({
   name: 'ActivityLongIconCard',
