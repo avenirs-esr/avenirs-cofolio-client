@@ -168,11 +168,6 @@ BddTest().given('an update tab', () => {
       expect(elementAssociations.props('elementId')).toEqual(mockedTrace.id)
     })
 
-    BddTest().then('it should render ElementAssociations as readonly', () => {
-      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
-      expect(elementAssociations.props('readonly')).toBe(true)
-    })
-
     BddTest().then('it should disable lazy rendering on tabs', () => {
       const avTabs = wrapper.findComponent({ name: 'AvTabs' })
       expect(avTabs.props('lazyRender')).toBe(false)

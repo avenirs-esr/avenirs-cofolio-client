@@ -14,7 +14,7 @@ const emit = defineEmits<{
   (e: AllowedActions): void
 }>()
 
-type AllowedActions = Action.UPDATE | Action.DOWNLOAD | Action.DELETE
+type AllowedActions = Action.UPDATE | Action.DOWNLOAD | Action.DELETE | Action.ASSOCIATE | Action.DISSOCIATE
 
 const { t } = useI18n()
 
@@ -27,6 +27,8 @@ const actions = computed(() => {
       disabledTooltip: t('student.traces.views.StudentTraceView.settings.downloadDisabledTooltip')
     },
     Action.DELETE,
+    Action.ASSOCIATE,
+    Action.DISSOCIATE
   ]
 
   return items

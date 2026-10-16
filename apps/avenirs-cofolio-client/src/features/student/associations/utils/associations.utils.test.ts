@@ -125,6 +125,25 @@ BddTest().given('getElementAssociations', () => {
   })
 })
 
+BddTest().when('the associated context type is undefined', () => {
+  BddTest().then('it should return an empty array', () => {
+    expect(
+      getElementAssociations(mockedEmptyAssociations, undefined)
+    ).toEqual([])
+  })
+})
+
+BddTest().when('the associated context type has no configuration', () => {
+  BddTest().then('it should return an empty array', () => {
+    expect(
+      getElementAssociations(
+        mockedEmptyAssociations,
+        'UNKNOWN_CONTEXT' as EAssociationContextType
+      )
+    ).toEqual([])
+  })
+})
+
 BddTest().given('countAssociations', () => {
   BddTest().then('it should count every association by default', () => {
     expect(countAssociations(associations)).toBe(12)

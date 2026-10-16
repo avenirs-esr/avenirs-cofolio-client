@@ -1,6 +1,10 @@
 import type { QueryClient } from '@tanstack/vue-query'
 import type { AssociationLimitDTO } from '@/api/avenir-esr'
-import type { AssociationLimitState, UseAssociationLimitOptions, UseAssociationLimitsOptions } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
+import type {
+  AssociationLimitState,
+  UseAssociationLimitOptions,
+  UseAssociationLimitsOptions,
+} from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useQueryClient } from '@tanstack/vue-query'
 import { flushPromises } from '@vue/test-utils'

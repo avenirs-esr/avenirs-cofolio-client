@@ -41,9 +41,18 @@ function getAssociatedElement (association: AssociationDTO): IdTitle {
  */
 export function getElementAssociations (
   associations: AssociationsDTO | undefined,
-  associatedContextType: EAssociationContextType,
+  associatedContextType?: EAssociationContextType,
 ): ElementAssociation[] {
-  const elementAssociations: AssociationDTO[] = associations?.[ASSOCIATION_CONTEXT_CONFIGS[associatedContextType].associationsKey] ?? []
+  if (!associatedContextType) {
+    return []
+  }
+
+  const config = ASSOCIATION_CONTEXT_CONFIGS[associatedContextType]
+  if (!config) {
+    return []
+  }
+
+  const elementAssociations: AssociationDTO[] = associations?.[config.associationsKey] ?? []
 
   return elementAssociations.map((association) => {
     const { id, title } = getAssociatedElement(association)

@@ -1,6 +1,6 @@
 export const DeclaredExperienceDetailsDropdownStub = defineComponent({
   name: 'DeclaredExperienceDetailsDropdown',
-  emits: ['update', 'delete'],
+  emits: ['update', 'delete', 'associate', 'dissociate'],
   template: `
     <div class="declared-experience-details-dropdown-stub">
       <button

@@ -3,7 +3,6 @@ import type { Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
-import { DeclaredSkillAssociationsObject } from '@e2e/framework/student/lifeProject/declaredSkillDetails/componentObjects/DeclaredSkillAssociationsObject'
 import { expect } from '@playwright/test'
 import { Fixture, Then, When, } from 'playwright-bdd/decorators'
 
@@ -54,8 +53,8 @@ class StudentProjectDeclaredSkillsTabsPage extends BasePage {
     return this.getDeclaredSkillCards().first()
   }
 
-  getDeclaredSkillAssociations () {
-    return new DeclaredSkillAssociationsObject(this.page.getByTestId('declared-skill-associations'))
+  getDeleteAssociationsModal () {
+    return this.page.getByTestId('delete-associations-modal')
   }
 
   @Then('the add declared skill button is visible')

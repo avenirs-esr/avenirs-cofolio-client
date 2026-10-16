@@ -1,5 +1,5 @@
 import type { PropType } from 'vue'
-import type { AssociationsDTO, EAssociationContextType } from '@/api/avenir-esr'
+import type { EAssociationContextType } from '@/api/avenir-esr'
 
 export const DeleteAssociationsModalStub = defineComponent({
   name: 'DeleteAssociationsModal',
@@ -7,8 +7,6 @@ export const DeleteAssociationsModalStub = defineComponent({
     opened: { type: Boolean, required: true },
     contextType: { type: String as PropType<EAssociationContextType>, required: true },
     elementId: { type: String, required: true },
-    associatedContextType: { type: String as PropType<EAssociationContextType>, required: true },
-    associations: { type: Object as PropType<AssociationsDTO>, required: true }
   },
   emits: ['cancel', 'deleted'],
   template: '<div data-testid="delete-associations-modal-stub" />'

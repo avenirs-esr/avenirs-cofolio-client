@@ -1,5 +1,5 @@
 export const DeclaredSkillSettingDropdownStub = defineComponent({
   name: 'DeclaredSkillSettingDropdown',
   template: '<div data-testid="declared-skill-setting-dropdown" />',
-  emits: ['update', 'delete']
+  emits: ['update', 'delete', 'associate', 'dissociate']
 })

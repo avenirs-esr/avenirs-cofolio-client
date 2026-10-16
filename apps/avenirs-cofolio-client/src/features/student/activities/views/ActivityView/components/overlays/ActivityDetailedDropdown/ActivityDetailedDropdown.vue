@@ -3,7 +3,7 @@ import type { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import type { ActionItem } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import { useI18n } from 'vue-i18n'
 import { EActivityStatus } from '@/api/avenir-esr'
-import { isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
+import { isDeclaredActivitySubmitted, isDeclaredActivityUnsubscribed } from '@/common/activities/rules/activities.rules'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 
@@ -18,11 +18,31 @@ const emit = defineEmits<{
   (e: AllowedAction): void
 }>()
 
-type AllowedAction = Action.UPDATE | Action.UNSUBSCRIBE | Action.RESUBSCRIBE | Action.DELETE
+type AllowedAction = Action.UPDATE | Action.ASSOCIATE | Action.DISSOCIATE | Action.UNSUBSCRIBE | Action.RESUBSCRIBE | Action.DELETE
 
 const { t } = useI18n()
 
 const isUnsubscribed = computed(() => isDeclaredActivityUnsubscribed(status))
+
+const associateAction = computed<ActionItem>(() => {
+  let disabled = false
+  let disabledTooltip
+
+  if (isDeclaredActivityUnsubscribed(status)) {
+    disabled = true
+    disabledTooltip = t('student.activities.views.ActivityView.ActivityDetailedDropdown.associateAction.unsubscribedDisabledTooltip')
+  }
+  else if (isDeclaredActivitySubmitted(status)) {
+    disabled = true
+    disabledTooltip = t('student.activities.views.ActivityView.ActivityDetailedDropdown.associateAction.submittedDisabledTooltip')
+  }
+
+  return {
+    type: Action.ASSOCIATE,
+    disabled,
+    disabledTooltip
+  }
+})
 
 const deleteAction = computed<ActionItem>(() => ({
   type: Action.DELETE,
@@ -39,6 +59,8 @@ const resubscribeAction = computed<ActionItem>(() => ({
 const actions = computed(() => (
   [
     deleteAction.value,
+    associateAction.value,
+    Action.DISSOCIATE,
     ...(isUnsubscribed.value ? [resubscribeAction.value] : [Action.UPDATE, Action.UNSUBSCRIBE])
   ]
 ))

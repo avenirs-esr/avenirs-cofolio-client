@@ -58,7 +58,6 @@ const associationCount = computed(() => countElementAssociations(EAssociationCon
           :context-type="EAssociationContextType.TRACE"
           :element-id="trace.id"
           :associations="associations"
-          readonly
         />
       </AvTab>
     </AvTabs>

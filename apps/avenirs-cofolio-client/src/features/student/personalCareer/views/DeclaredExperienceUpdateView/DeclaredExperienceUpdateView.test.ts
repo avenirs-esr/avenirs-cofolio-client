@@ -106,11 +106,6 @@ BddTest().given('a declared experience update view', () => {
       })
     })
 
-    BddTest().then('it should render ElementAssociations as readonly', () => {
-      const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
-      expect(elementAssociations.props('readonly')).toBe(true)
-    })
-
     BddTest().then('it should include the associations count in the associations tab title', async () => {
       const mockedAssociations = createMockedDeclaredExperienceAssociationsDTO()
       const expectedCount = mockedAssociations.traceAssociations.length

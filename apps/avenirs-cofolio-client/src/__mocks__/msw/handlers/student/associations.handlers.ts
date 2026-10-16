@@ -121,6 +121,12 @@ export function createGetAssociationLimitsHandler (limits: AssociationLimitDTO[]
   }))
 }
 
+export function createGetAssociationsHandler (associations: AssociationsDTO) {
+  return http.get<AssociationPathParams>(getAssociationsUrl, () => {
+    return HttpResponse.json(associations)
+  })
+}
+
 const resolveSearchForAssociation: HttpResponseResolver<AssociationPathParams, DefaultBodyType, undefined> = ({ params, request }) => {
   const { contextType, elementId, associatedContextType } = params
 

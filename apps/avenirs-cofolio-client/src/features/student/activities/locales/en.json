@@ -106,6 +106,10 @@
         },
         "ActivityView": {
           "ActivityDetailedDropdown": {
+            "associateAction": {
+              "submittedDisabledTooltip": "You can no longer edit the associations because you have unsubscribed from the activity",
+              "unsubscribedDisabledTooltip": "You can no longer modify the associations because you have submitted your activity"
+            },
             "deleteAction": {
               "disabledTooltip": "You cannot delete an activity you are subscribed to"
             }
@@ -162,8 +166,6 @@
             "saveDisabledTooltip": "Edit your reflection and fix errors before saving"
           },
           "MyPerspectiveSection": {
-            "associationsDisabledTooltip": "You can no longer edit the associations because you have unsubscribed from the activity",
-            "associationsSubmittedDisabledTooltip": "You can no longer modify the associations because you have submitted your activity",
             "tabs": {
               "associatedElements": "My associated elements ({count})",
               "myPerspective": "My perspective"

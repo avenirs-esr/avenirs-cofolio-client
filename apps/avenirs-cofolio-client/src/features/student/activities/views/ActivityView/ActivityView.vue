@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { useGetDeclaredActivityDetails } from '@/api/avenir-esr'
+import { EAssociationContextType, useGetDeclaredActivityDetails } from '@/api/avenir-esr'
 import DeclaredActivityStatusBadge from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.vue'
 import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
@@ -15,6 +15,8 @@ import ActivityLayout
 import DeleteMyActivityConfirmModal from '@/features/student/activities/views/ActivityView/components/modals/DeleteMyActivityConfirmModal/DeleteMyActivityConfirmModal.vue'
 import ActivityDetailedDropdown
   from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.vue'
+import AssociateModal from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
+import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import { TanstackStaleTimeConfig } from '@/plugins/tanstack-query/config'
 
 export interface ActivityViewProps {
@@ -24,11 +26,14 @@ export interface ActivityViewProps {
 const { id } = defineProps<ActivityViewProps>()
 
 const { t } = useI18n()
+
 const { data: declaredActivityDetail, isLoading, isError, error } = useGetDeclaredActivityDetails(id, { query: {
   enabled: !!id,
   staleTime: TanstackStaleTimeConfig.DETAILS
 } })
+
 const { navigateToStudentProjectActivities } = useNavigation()
+
 const { showDrawer: showUpdateDrawer, displayDrawer: displayUpdateDrawer, hideDrawer: hideUpdateDrawer } = useDrawer()
 
 const {
@@ -45,6 +50,18 @@ const {
   modalOpened: deleteModalOpened,
   openModal: openDeleteModal,
   closeModal: closeDeleteModal
+} = useModal()
+
+const {
+  modalOpened: associateModalOpened,
+  openModal: openAssociateModal,
+  closeModal: closeAssociateModal
+} = useModal()
+
+const {
+  modalOpened: unassociateModalOpened,
+  openModal: openUnassociateModal,
+  closeModal: closeUnassociateModal
 } = useModal()
 
 const lastBreadcrumbLink = ref(t('global.detail'))
@@ -89,6 +106,24 @@ function onDelete () {
                 @resubscribe="openSubscribeModal"
                 @unsubscribe="openUnsubscribeModal"
                 @delete="openDeleteModal"
+                @associate="openAssociateModal"
+                @dissociate="openUnassociateModal"
+              />
+
+              <AssociateModal
+                :opened="associateModalOpened"
+                :context-type="EAssociationContextType.DECLARED_ACTIVITY"
+                :element-id="declaredActivityDetail.id"
+                @cancel="closeAssociateModal"
+                @associated="closeAssociateModal"
+              />
+
+              <DeleteAssociationsModal
+                :opened="unassociateModalOpened"
+                :context-type="EAssociationContextType.DECLARED_ACTIVITY"
+                :element-id="declaredActivityDetail.id"
+                @cancel="closeUnassociateModal"
+                @deleted="closeUnassociateModal"
               />
             </div>
           </div>
