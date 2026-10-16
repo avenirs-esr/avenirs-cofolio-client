@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
+import type { NavigationMenuProps } from 'node_modules/@avenirs-esr/avenirs-dsav/dist/components/navigation/AvNavigation/components/NavigationMenu/NavigationMenu.vue'
+import type { NavigationMenuLinkProps } from 'node_modules/@avenirs-esr/avenirs-dsav/dist/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
+import { ERole } from '@/api/avenir-esr'
 import { ICONS, ROUTES } from '@/common/constants'
 import { isRouteActive } from '@/common/utils/route/route'
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
 import { staffAdminGroupsRoute, staffAdminRoutes, staffAdminSkillsRoute, staffAdminUsersRoute } from '@/features/staff/admin/routes'
 import { staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
+import { useI18n } from 'vue-i18n'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 
 const { t } = useI18n()
 const route = useRoute()
+const { roles } = useCurrentUser()
 
 const studentTrackingMenu = computed(() => ({
   id: 'nav-student-tracking-menu',
@@ -55,23 +59,30 @@ const adminMenu = computed(() => ({
   ],
 }))
 
-const navItems = computed(() => [
-  {
-    id: 'nav-home',
-    to: ROUTES.STAFF.HOME,
-    text: t('staff.global.navigation.tabs.home').toUpperCase(),
-    icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
-  },
-  {
-    id: 'nav-activities',
-    to: ROUTES.STAFF.ACTIVITIES,
-    text: t('staff.global.navigation.tabs.activities.header').toUpperCase(),
-    icon: ICONS.ACTIVITY,
-    highlight: isRouteActive({ route, routes: staffActivitiesRoutes }),
-  },
-  studentTrackingMenu.value,
-  adminMenu.value,
-])
+const navItems = computed(() => {
+  const items: (NavigationMenuLinkProps | NavigationMenuProps)[] = [
+    {
+      id: 'nav-home',
+      to: ROUTES.STAFF.HOME,
+      text: t('staff.global.navigation.tabs.home').toUpperCase(),
+      icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
+    },
+    {
+      id: 'nav-activities',
+      to: ROUTES.STAFF.ACTIVITIES,
+      text: t('staff.global.navigation.tabs.activities.header').toUpperCase(),
+      icon: ICONS.ACTIVITY,
+      highlight: isRouteActive({ route, routes: staffActivitiesRoutes }),
+    },
+    studentTrackingMenu.value,
+  ]
+
+  if (roles.value.includes(ERole.ROLE_ADMIN)) {
+    items.push(adminMenu.value)
+  }
+
+  return items
+})
 </script>
 
 <template>

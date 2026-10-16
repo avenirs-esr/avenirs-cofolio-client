@@ -12,20 +12,24 @@ import { ConfirmationModalStub } from '@/common/components/overlay/modals/Confir
 import { ROUTES } from '@/common/constants'
 import CguView from '@/common/views/CguView/CguView.vue'
 
-const { mockAuthStore, mockRoute, mockRouterReplace, mockWindowLocationAssign } = vi.hoisted(() => ({
-  mockAuthStore: {
-    isLoggedIn: true,
-    hasAcceptedLatestCgu: true,
-    homeRoute: { name: 'student-home' },
-    setAcceptedCgu: vi.fn(),
-  },
+const TITLE = 'Conditions générales d\'utilisation'
+
+const { mockRoute, mockRouterReplace, mockWindowLocationAssign, mockSetAcceptedCgu } = vi.hoisted(() => ({
   mockRoute: { query: {} as Record<string, unknown> },
   mockRouterReplace: vi.fn(),
   mockWindowLocationAssign: vi.fn(),
+  mockSetAcceptedCgu: vi.fn(),
 }))
 
-vi.mock('@/features/auth/global/stores/auth.store', () => ({
-  useAuthStore: () => mockAuthStore,
+const mockHasAcceptedLatestCgu = ref(true)
+const mockHomeRoute = ref({ name: 'student-home' })
+
+vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
+  useCurrentUser: () => ({
+    hasAcceptedLatestCgu: mockHasAcceptedLatestCgu,
+    homeRoute: mockHomeRoute,
+    setAcceptedCgu: mockSetAcceptedCgu,
+  }),
 }))
 
 vi.mock('@/store', async (importOriginal) => {
@@ -62,8 +66,6 @@ BddTest().given('a cgu view', () => {
     QuerySuspense: QuerySuspenseStub,
   }
 
-  const title = 'Conditions générales d\'utilisation'
-
   const mountDefault = () => {
     wrapper = mountComponent(CguView, { global: { stubs } })
   }
@@ -79,8 +81,7 @@ BddTest().given('a cgu view', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    mockAuthStore.isLoggedIn = true
-    mockAuthStore.hasAcceptedLatestCgu = true
+    mockHasAcceptedLatestCgu.value = true
     mockRoute.query = {}
   })
 
@@ -94,8 +95,8 @@ BddTest().given('a cgu view', () => {
     })
 
     BddTest().then('it should render PageTitle with correct props', () => {
-      expect(getPageTitle().props('title')).toBe(title)
-      expect(getPageTitle().props('trailingLinks')).toEqual([{ text: title }])
+      expect(getPageTitle().props('title')).toBe(TITLE)
+      expect(getPageTitle().props('trailingLinks')).toEqual([{ text: TITLE }])
     })
 
     BddTest().then('it should render the cgu version and its last publication date', async () => {
@@ -150,21 +151,9 @@ BddTest().given('a cgu view', () => {
     })
   })
 
-  BddTest().when('the visitor is not logged in', () => {
-    beforeEach(() => {
-      mockAuthStore.isLoggedIn = false
-      mockAuthStore.hasAcceptedLatestCgu = false
-      mountDefault()
-    })
-
-    BddTest().then('it should not render the acceptance bar', () => {
-      expect(getAcceptanceBar().exists()).toBe(false)
-    })
-  })
-
   BddTest().when('the logged in user has not accepted the latest cgu version', () => {
     beforeEach(() => {
-      mockAuthStore.hasAcceptedLatestCgu = false
+      mockHasAcceptedLatestCgu.value = false
       mountDefault()
     })
 
@@ -182,9 +171,9 @@ BddTest().given('a cgu view', () => {
       await getAvButtonByTestId(wrapper, 'cgu-accept-button').trigger('click')
 
       await vi.waitFor(() => {
-        expect(mockAuthStore.setAcceptedCgu).toHaveBeenCalledWith(mockedAcceptedCgu)
+        expect(mockSetAcceptedCgu).toHaveBeenCalledWith(mockedAcceptedCgu)
       })
-      expect(mockRouterReplace).toHaveBeenCalledWith(mockAuthStore.homeRoute)
+      expect(mockRouterReplace).toHaveBeenCalledWith(mockHomeRoute.value)
     })
 
     BddTest().then('it should open the refusal confirmation modal when refusing', async () => {
@@ -212,7 +201,7 @@ BddTest().given('a cgu view', () => {
 
   BddTest().when('the logged in user accepts the cgu with an intended destination', () => {
     beforeEach(() => {
-      mockAuthStore.hasAcceptedLatestCgu = false
+      mockHasAcceptedLatestCgu.value = false
       mockRoute.query = { redirect: ROUTES.STUDENT.DELIVERABLES.path }
       mountDefault()
     })
@@ -228,7 +217,7 @@ BddTest().given('a cgu view', () => {
 
   BddTest().when('the cgu acceptance fails', () => {
     beforeEach(() => {
-      mockAuthStore.hasAcceptedLatestCgu = false
+      mockHasAcceptedLatestCgu.value = false
       server.use(acceptCguErrorHandler)
       mountDefault()
     })
@@ -239,7 +228,7 @@ BddTest().given('a cgu view', () => {
       await vi.waitFor(() => {
         expect(mockAddErrorMessage).toHaveBeenCalled()
       })
-      expect(mockAuthStore.setAcceptedCgu).not.toHaveBeenCalled()
+      expect(mockSetAcceptedCgu).not.toHaveBeenCalled()
       expect(mockRouterReplace).not.toHaveBeenCalled()
     })
   })

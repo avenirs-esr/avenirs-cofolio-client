@@ -1,19 +1,26 @@
 <script setup lang="ts">
+import type { EUserCategory } from '@/api/avenir-esr'
+import { useModal } from '@/common/composables'
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
+import { USER_CATEGORY_HOME } from '@/features/auth/global/composables/use-current-user/use-current-user.constants'
 import { AvButton, AvIconText, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { useModal } from '@/common/composables'
-import { ROUTES } from '@/common/constants'
 
 const { t } = useI18n()
+const { categories, activeProfileCategory, canSwitchProfile, switchProfile } = useCurrentUser()
 const { modalOpened, openModal, closeModal } = useModal()
-const route = useRoute()
-const isStudentRoute = route.path.startsWith('/student')
+
+async function handleSwitch (category: EUserCategory) {
+  closeModal()
+  await switchProfile(category)
+}
 </script>
 
 <template>
   <AvButton
     :label="t('global.header.switchUniverse.label')"
     :icon="MDI_ICONS.SWAP_HORIZONTAL"
+    :disabled="!canSwitchProfile"
     @click="openModal"
   />
   <AvModal
@@ -33,18 +40,14 @@ const isStudentRoute = route.path.startsWith('/student')
     </template>
     <div class="av-col av-gap-lg">
       <AvButton
-        :label="t('global.header.switchUniverse.staff')"
+        v-for="category in categories"
+        :key="category"
+        :label="t(`global.header.switchUniverse.buttons.${category}`)"
         theme="SECONDARY"
-        :to="isStudentRoute ? ROUTES.STAFF.HOME : undefined"
-        data-testid="staff-button"
-        @click="closeModal"
-      />
-      <AvButton
-        :label="t('global.header.switchUniverse.student')"
-        theme="SECONDARY"
-        :to="!isStudentRoute ? ROUTES.STUDENT.HOME : undefined"
-        data-testid="student-button"
-        @click="closeModal"
+        :to="USER_CATEGORY_HOME[category]"
+        :disabled="category === activeProfileCategory"
+        :data-testid="`${category}-button`"
+        @click="() => handleSwitch(category)"
       />
     </div>
   </AvModal>

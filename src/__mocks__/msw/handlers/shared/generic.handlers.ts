@@ -13,6 +13,13 @@ export const mockedLoggedInUser: LoggedInUserDTO = {
   acceptedCgu: mockedAcceptedCgu
 }
 
+export const meUnauthorizedHandler = http.get(`*${getGetMeUrl()}`, () => {
+  return HttpResponse.json(
+    { message: 'Unauthorized' },
+    { status: HttpStatusCode.UNAUTHORIZED }
+  )
+})
+
 export const meWithoutAcceptedCguHandler = http.get<PathParams, LoggedInUserDTO>(`*${getGetMeUrl()}`, () => {
   return HttpResponse.json<LoggedInUserDTO>(
     { ...mockedLoggedInUser, acceptedCgu: undefined },
@@ -22,6 +29,10 @@ export const meWithoutAcceptedCguHandler = http.get<PathParams, LoggedInUserDTO>
     }
   )
 })
+
+export function meAs (user: Partial<LoggedInUserDTO>) {
+  return http.get(`*${getGetMeUrl()}`, () => HttpResponse.json({ ...mockedLoggedInUser, ...user }))
+}
 
 export const genericHandlers = [
   http.get<PathParams, LoggedInUserDTO>(`*${getGetMeUrl()}`, () => {

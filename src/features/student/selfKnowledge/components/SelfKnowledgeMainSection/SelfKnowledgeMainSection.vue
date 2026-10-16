@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { AvButton, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { useI18n } from 'vue-i18n'
-import { EUserCategory, useGetProfile, useGetSelfKnowledgeCategories } from '@/api/avenir-esr'
+import { useGetSelfKnowledgeCategories } from '@/api/avenir-esr'
 import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
 import { Action } from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.types'
 import ManageEntityDropdown from '@/common/components/interaction/dropdowns/ManageEntityDropdown/ManageEntityDropdown.vue'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import { useDrawer, useModal } from '@/common/composables'
 import { ICONS } from '@/common/constants'
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import SelfKnowledgeCategoryElementsPaginatorCard from '@/features/student/selfKnowledge/components/cards/SelfKnowledgeCategoryElementsPaginatorCard/SelfKnowledgeCategoryElementsPaginatorCard.vue'
 import AddSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/components/modals/AddSelfKnowledgeCategoriesModal/AddSelfKnowledgeCategoriesModal.vue'
 import DeleteSelfKnowledgeCategoriesModal from '@/features/student/selfKnowledge/components/modals/DeleteSelfKnowledgeCategoriesModal/DeleteSelfKnowledgeCategoriesModal.vue'
-import AddSelfKnowledgeCategoryElementDrawer
-  from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/AddSelfKnowledgeCategoryElementDrawer.vue'
+import AddSelfKnowledgeCategoryElementDrawer from '@/features/student/selfKnowledge/components/overlays/AddSelfKnowledgeCategoryElementDrawer/AddSelfKnowledgeCategoryElementDrawer.vue'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const {
@@ -25,9 +25,9 @@ const {
   closeModal: closeDeleteCategoriesModal,
   modalOpened: deleteCategoriesModalOpened
 } = useModal()
+const { isProfileLoading, profile } = useCurrentUser()
 const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
 const { data: fetchedCategories } = useGetSelfKnowledgeCategories()
-const { data: studentSummary } = useGetProfile(EUserCategory.STUDENT)
 
 const categories = computed(() => fetchedCategories.value ?? [])
 
@@ -60,7 +60,7 @@ function handleActionSelected (action: Action) {
       />
 
       <div
-        v-if="studentSummary"
+        v-if="!isProfileLoading"
         class="av-row av-justify-end"
       >
         <AvButton
@@ -74,12 +74,12 @@ function handleActionSelected (action: Action) {
     </div>
 
     <ProfileCard
-      v-if="studentSummary"
-      :first-name="studentSummary.firstname"
-      :last-name="studentSummary.lastname"
-      :profile-picture-url="studentSummary.profilePicture.url"
-      :cover-picture-url="studentSummary.coverPicture.url"
-      :bio="studentSummary.bio"
+      v-if="!isProfileLoading"
+      :first-name="profile.firstname"
+      :last-name="profile.lastname"
+      :profile-picture-url="profile.profilePicture.url"
+      :cover-picture-url="profile.coverPicture.url"
+      :bio="profile.bio"
     />
 
     <div class="av-row av-justify-end">
@@ -112,9 +112,9 @@ function handleActionSelected (action: Action) {
   <AddSelfKnowledgeCategoryElementDrawer />
 
   <UpdateProfileDrawer
-    v-if="studentSummary"
+    v-if="!isProfileLoading"
     :key="showDrawer ? 'drawer-open' : 'drawer-closed'"
-    v-bind="studentSummary"
+    v-bind="profile"
     :show="showDrawer"
     :on-close="hideDrawer"
   />

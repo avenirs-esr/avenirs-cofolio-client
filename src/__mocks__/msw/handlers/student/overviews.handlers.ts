@@ -1,6 +1,6 @@
 import type { PathParams } from 'msw'
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
-import { http, HttpResponse } from 'msw'
+import { delay, http, HttpResponse } from 'msw'
 import {
   createUpdatedCoverMock,
   createUpdatedPhotoMock,
@@ -72,6 +72,10 @@ export const putUpdateProfilePhotoErrorHandler = http.post(`*${getUploadProfileP
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500 }
   )
+})
+
+export const getProfilePendingHandler = http.get(`*${getGetProfileUrl(EUserCategory.STUDENT)}`, async () => {
+  await delay('infinite')
 })
 
 export const getEmptyProfileHandler = http.get(`*${getGetProfileUrl(EUserCategory.STUDENT)}`, () => {
