@@ -10,7 +10,8 @@ import type {
   FileDTO,
   InactiveStudentDTO,
   PagedResponseActivityFeedbacksPreviewDTO,
-  PagedResponseActivityStaffOverviewDTO
+  PagedResponseActivityStaffOverviewDTO,
+  StaffInfoDTO
 } from '@/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
 import { getMockedActivitiesWithFeedbacksPaginated } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
@@ -28,6 +29,7 @@ import {
   mockedActivityDraftUpdateResponse,
   mockedInactiveStudents
 } from '@/__mocks__/fixtures/staffs/activities.fixtures'
+import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
 import { mockedActivityDetail } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
@@ -140,7 +142,12 @@ export const getStaffActivityWorkingSpaceOverviewHandler = http.get(`*${getGetSt
   const url = new URL(request.url)
   const status = url.searchParams.get('status') as EActivityStatus | null
 
-  const mockData = createMockedPagedResponseActivityStaffOverviewDTO(3, 3, 0, status)
+  const leaders: StaffInfoDTO[] = [{
+    id: mockedStaffProfileOverview.id,
+    firstName: mockedStaffProfileOverview.firstname,
+    lastName: mockedStaffProfileOverview.lastname,
+  }]
+  const mockData = createMockedPagedResponseActivityStaffOverviewDTO(3, 3, 0, status, leaders)
 
   return HttpResponse.json<PagedResponseActivityStaffOverviewDTO>(mockData, {
     status: HttpStatusCode.OK,
@@ -317,7 +324,12 @@ export const staffsActivitiesHandlers = [
     const status = url.searchParams.get('status') as EActivityStatus | null
     const totalElements = 7
 
-    const mockData = createMockedPagedResponseActivityStaffOverviewDTO(pageSize, totalElements, page, status)
+    const leaders: StaffInfoDTO[] = [{
+      id: mockedStaffProfileOverview.id,
+      firstName: mockedStaffProfileOverview.firstname,
+      lastName: mockedStaffProfileOverview.lastname,
+    }]
+    const mockData = createMockedPagedResponseActivityStaffOverviewDTO(pageSize, totalElements, page, status, leaders)
 
     return HttpResponse.json<PagedResponseActivityStaffOverviewDTO>(mockData, {
       status: HttpStatusCode.OK,

@@ -12,7 +12,7 @@ import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationMo
 import { useModal } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { formatDateLocalized } from '@/common/utils'
-import { useAuthStore } from '@/features/auth/global/stores/auth.store'
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import { useToasterStore } from '@/store'
 
 const { t, locale } = useI18n()
@@ -21,9 +21,8 @@ const router = useRouter()
 
 const { getErrorMessage } = useApiErrors()
 const { addErrorMessage } = useToasterStore()
+const { homeRoute, hasAcceptedLatestCgu, setAcceptedCgu } = useCurrentUser()
 const { modalOpened: refusalModalOpened, openModal: openRefusalModal, closeModal: closeRefusalModal } = useModal()
-
-const authStore = useAuthStore()
 
 const { data: cgu, isLoading, error } = useGetLatestCgu()
 
@@ -39,8 +38,6 @@ const lastPublication = computed(() => cgu.value
 
 const sanitizedContent = computed(() => DOMPurify.sanitize(cgu.value?.content ?? ''))
 
-const acceptanceRequired = computed(() => authStore.isLoggedIn && !authStore.hasAcceptedLatestCgu)
-
 const redirectTarget = computed<RouteLocationRaw>(() => {
   const redirect = route.query.redirect
 
@@ -51,13 +48,13 @@ const redirectTarget = computed<RouteLocationRaw>(() => {
     }
   }
 
-  return authStore.homeRoute
+  return homeRoute.value
 })
 
 const { mutate: acceptCgu, isPending: isAccepting } = useAcceptCgu({
   mutation: {
     onSuccess: (accepted) => {
-      authStore.setAcceptedCgu(accepted)
+      setAcceptedCgu(accepted)
       router.replace(redirectTarget.value)
     },
     onError: (error: BaseApiException) => addErrorMessage(getErrorMessage(error))
@@ -86,7 +83,7 @@ function onRefuse () {
     <div
       v-if="cgu"
       class="av-col av-gap-lg"
-      :class="{ 'cgu-content-offset': acceptanceRequired }"
+      :class="{ 'cgu-content-offset': !hasAcceptedLatestCgu }"
     >
       <div class="av-row av-wrap av-align-baseline av-gap-x-md av-gap-y-xs">
         <span
@@ -113,7 +110,7 @@ function onRefuse () {
   </QuerySuspense>
 
   <div
-    v-if="acceptanceRequired"
+    v-if="!hasAcceptedLatestCgu"
     class="cgu-acceptance-bar"
     data-testid="cgu-acceptance-bar"
   >

@@ -38,9 +38,6 @@
       },
       "views": {
         "StudentToolsKitView": {
-          "errors": {
-            "profile": "An error occurred while retrieving your profile. Please try again later."
-          },
           "informationTooltip": "Ready-to-use CoFolio raw material. Find all the content you have valorized here. Pick, sort, add, delete, and export it to create your CV, portfolio, LinkedIn profile, or cover letter!",
           "interaction": {
             "ExportKitButton": {

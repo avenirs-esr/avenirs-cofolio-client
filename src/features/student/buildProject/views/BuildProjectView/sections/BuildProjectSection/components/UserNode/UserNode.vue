@@ -2,15 +2,15 @@
 import type { NodeProps } from '@vue-flow/core'
 import { Handle, Position } from '@vue-flow/core'
 import { useI18n } from 'vue-i18n'
-import { EUserCategory, useGetProfile } from '@/api/avenir-esr'
 import { GLOBAL_NODE_HANDLES } from '@/common/components/base/VueFlow/global-nodes.types'
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 
 defineProps<NodeProps>()
 
 const { t } = useI18n()
-const { data: studentData } = useGetProfile(EUserCategory.STUDENT)
+const { profile } = useCurrentUser()
 // TODO: Remove localhost replacement when backend will provide the correct URL
-const profilePictureUrl = computed(() => studentData.value?.profilePicture.url.replace('http://localhost:5173', 'https://qualif.avenirs-esr.fr'))
+const profilePictureUrl = computed(() => profile.value.profilePicture.url.replace('http://localhost:5173', 'https://qualif.avenirs-esr.fr'))
 
 const handles = [
   { id: GLOBAL_NODE_HANDLES.TOP, position: Position.Top },

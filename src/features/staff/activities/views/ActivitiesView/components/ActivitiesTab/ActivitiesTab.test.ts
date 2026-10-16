@@ -42,14 +42,14 @@ vi.mock('@/common/composables', async (importOriginal) => {
   }
 })
 
-const mockConnectedProfileId = vi.hoisted(() => ({ value: '' }))
+const mockConnectedProfileId = ref('')
+const mockIsProfileLoading = ref(false)
 
-vi.mock('@/features/auth/global/stores/auth.store', () => ({
-  useAuthStore: () => ({
-    get profile () {
-      return { id: mockConnectedProfileId.value }
-    },
-  })
+vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
+  useCurrentUser: () => ({
+    profile: computed(() => ({ id: mockConnectedProfileId.value })),
+    isProfileLoading: mockIsProfileLoading,
+  }),
 }))
 
 const mockIsMobile = ref(false)
@@ -90,6 +90,26 @@ const mockUsePaginatedStaffActivites = vi.mocked(mockedUsePaginatedStaffActivite
 BddTest().given('a ActivitiesTab component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivitiesTab>>
 
+  const title = 'Mes activités'
+  const emptyStateMessage = 'Aucune activité'
+
+  // Id of the first activity of the fixture pages
+  const firstActivityId = '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1'
+
+  const getTitle = () => wrapper.find('[data-testid="activities-tab-title"]')
+  const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
+  const getPagination = () => wrapper.findComponent(PaginationStub)
+  const getTable = () => wrapper.findComponent(AvTableStub)
+  const getColumnKeys = () => (getTable().props('columns') as AvTableColumn<ActivityTableRow>[]).map(column => column.key)
+  const getTableTitles = () => wrapper.findAllComponents(ActivityTableTitleStub)
+  const getStatusBadges = () => wrapper.findAll('[data-testid="activity-status-badge"]')
+  const getActivityCards = () => wrapper.findAllComponents(ActivityCardStub)
+  const getMoreActionsDropdowns = () => wrapper.findAllComponents(MoreActionsDropdownStub)
+  const getUnpublishConfirmationModal = () => wrapper.findComponent(UnpublishActivityConfirmationModalStub)
+  const getDeleteConfirmationModal = () => wrapper.findComponent(DeleteDraftActivityConfirmationModalStub)
+  const getDeleteDefinitivelyConfirmationModal = () => wrapper.findComponent(DeleteActivityDefinitivelyConfirmationModalStub)
+  const getDuplicationModal = () => wrapper.findComponent(ActivityDuplicationModalStub)
+
   const stubs = {
     ActivityCard: ActivityCardStub,
     ActivityDuplicationModal: ActivityDuplicationModalStub,
@@ -104,7 +124,7 @@ BddTest().given('a ActivitiesTab component', () => {
     QuerySuspense: QuerySuspenseStub,
   }
 
-  const mountDefault = async ({
+  const mountWith = async ({
     props = {},
     isMobile = false,
     paginatedResult = defaultPaginatedResult,
@@ -119,8 +139,8 @@ BddTest().given('a ActivitiesTab component', () => {
 
     wrapper = mountComponent(ActivitiesTab, {
       props: {
-        title: 'Mes activités',
-        emptyStateMessage: 'Aucune activité',
+        title,
+        emptyStateMessage,
         withStatus: false,
         usePaginatedStaffActivitiesParams: mockUsePaginatedStaffActivitesParams,
         ...props,
@@ -131,15 +151,10 @@ BddTest().given('a ActivitiesTab component', () => {
     await flushPromises()
   }
 
-  const getUnpublishConfirmationModal = () => wrapper.findComponent(UnpublishActivityConfirmationModalStub)
-  const getDeleteConfirmationModal = () => wrapper.findComponent(DeleteDraftActivityConfirmationModalStub)
-  const getDeleteDefinitivelyConfirmationModal = () => wrapper.findComponent(DeleteActivityDefinitivelyConfirmationModalStub)
-  const getDuplicationModal = () => wrapper.findComponent(ActivityDuplicationModalStub)
-  const getMoreActionsDropdowns = () => wrapper.findAllComponents(MoreActionsDropdownStub)
-
   beforeEach(async () => {
     mockConnectedProfileId.value = mockedProfileOverview.id
-    await mountDefault()
+    mockIsProfileLoading.value = false
+    await mountWith()
   })
 
   BddTest().when('the component is mounted', () => {
@@ -149,7 +164,7 @@ BddTest().given('a ActivitiesTab component', () => {
     })
 
     BddTest().then('it should emit updateActivitiesCount with 0 when pageInfo is undefined', async () => {
-      await mountDefault({
+      await mountWith({
         paginatedResult: {
           ...defaultPaginatedResult,
           activities: computed(() => []),
@@ -163,11 +178,11 @@ BddTest().given('a ActivitiesTab component', () => {
 
   BddTest().when('the component is mounted in desktop view', () => {
     BddTest().then('it should display the title', () => {
-      expect(wrapper.find('[data-testid="activities-tab-title"]').text()).toBe('Mes activités')
+      expect(getTitle().text()).toBe(title)
     })
 
     BddTest().then('it should render the pagination', () => {
-      const pagination = wrapper.findComponent(PaginationStub)
+      const pagination = getPagination()
 
       expect(pagination.exists()).toBe(true)
       expect(pagination.props('pageInfo')).toMatchObject({ totalElements: 7 })
@@ -175,46 +190,37 @@ BddTest().given('a ActivitiesTab component', () => {
     })
 
     BddTest().then('it should render the table', () => {
-      expect(wrapper.findComponent(AvTableStub).exists()).toBe(true)
-      expect(wrapper.findAllComponents(ActivityTableTitleStub)).toHaveLength(7)
+      expect(getTable().exists()).toBe(true)
+      expect(getTableTitles()).toHaveLength(7)
       expect(mockFormatLastModified).toHaveBeenCalledTimes(7)
     })
 
     BddTest().then('it should not render the status column when withStatus is false', () => {
-      const table = wrapper.findComponent(AvTableStub)
-      const columns = table.props('columns') as AvTableColumn<ActivityTableRow>[]
-
-      expect(columns.map(column => column.key)).toEqual(['title', 'updatedAt', 'owner'])
+      expect(getColumnKeys()).toEqual(['title', 'updatedAt', 'owner'])
     })
   })
 
   BddTest().when('the component is mounted in desktop view with withStatus enabled', () => {
     beforeEach(async () => {
-      await mountDefault({ props: { withStatus: true } })
+      await mountWith({ props: { withStatus: true } })
     })
 
     BddTest().then('it should add the status column', () => {
-      const table = wrapper.findComponent(AvTableStub)
-      const columns = table.props('columns') as AvTableColumn<ActivityTableRow>[]
-
-      expect(columns.map(column => column.key)).toEqual(['title', 'updatedAt', 'owner', 'status'])
+      expect(getColumnKeys()).toEqual(['title', 'updatedAt', 'owner', 'status'])
     })
 
     BddTest().then('it should render one status badge per activity', () => {
-      expect(wrapper.findAll('[data-testid="activity-status-badge"]')).toHaveLength(7)
+      expect(getStatusBadges()).toHaveLength(7)
     })
   })
 
   BddTest().when('the component is mounted with withActions enabled', () => {
     beforeEach(async () => {
-      await mountDefault({ props: { withActions: true } })
+      await mountWith({ props: { withActions: true } })
     })
 
     BddTest().then('it should add the actions column', () => {
-      const table = wrapper.findComponent(AvTableStub)
-      const columns = table.props('columns') as AvTableColumn<ActivityTableRow>[]
-
-      expect(columns.map(column => column.key)).toContain('actions')
+      expect(getColumnKeys()).toContain('actions')
     })
 
     BddTest().then('it should render one MoreActionsDropdown per row', () => {
@@ -238,7 +244,7 @@ BddTest().given('a ActivitiesTab component', () => {
     BddTest().and('the connected staff leads none of the activities', () => {
       beforeEach(async () => {
         mockConnectedProfileId.value = 'another-staff-id'
-        await mountDefault({ props: { withActions: true } })
+        await mountWith({ props: { withActions: true } })
       })
 
       BddTest().then('no activity should be flagged as led by the connected staff', () => {
@@ -269,7 +275,7 @@ BddTest().given('a ActivitiesTab component', () => {
       })
 
       BddTest().then('it should pass the correct activityId to the modal', () => {
-        expect(getUnpublishConfirmationModal().props('activityId')).toBe('3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1')
+        expect(getUnpublishConfirmationModal().props('activityId')).toBe(firstActivityId)
       })
 
       BddTest().and('the unpublish confirmation modal emits unpublished', () => {
@@ -315,7 +321,7 @@ BddTest().given('a ActivitiesTab component', () => {
       })
 
       BddTest().then('it should pass the correct activityId and activityStatus to the modal', () => {
-        expect(getDeleteDefinitivelyConfirmationModal().props('activityId')).toBe('3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1')
+        expect(getDeleteDefinitivelyConfirmationModal().props('activityId')).toBe(firstActivityId)
         expect(getDeleteDefinitivelyConfirmationModal().props('activityStatus')).toBe(EActivityStatus.PUBLISHED)
       })
 
@@ -350,7 +356,7 @@ BddTest().given('a ActivitiesTab component', () => {
 
     BddTest().and('delete is emitted from a MoreActionsDropdown of a draft activity', () => {
       beforeEach(async () => {
-        await mountDefault({
+        await mountWith({
           props: { withActions: true },
           paginatedResult: {
             ...defaultPaginatedResult,
@@ -370,7 +376,7 @@ BddTest().given('a ActivitiesTab component', () => {
       })
 
       BddTest().then('it should pass the correct activityId to the modal', () => {
-        expect(getDeleteConfirmationModal().props('activityId')).toBe('3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1')
+        expect(getDeleteConfirmationModal().props('activityId')).toBe(firstActivityId)
       })
 
       BddTest().and('the modal emits deleted', () => {
@@ -422,7 +428,7 @@ BddTest().given('a ActivitiesTab component', () => {
       })
 
       BddTest().then('it should pass the correct activityId to the modal', () => {
-        expect(getDuplicationModal().props('activityId')).toBe('3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1')
+        expect(getDuplicationModal().props('activityId')).toBe(firstActivityId)
       })
 
       BddTest().then('it should pass the correct activityTitle to the modal', () => {
@@ -461,20 +467,19 @@ BddTest().given('a ActivitiesTab component', () => {
 
   BddTest().when('the component is mounted in mobile view', () => {
     beforeEach(async () => {
-      await mountDefault({ isMobile: true })
+      await mountWith({ isMobile: true })
     })
 
     BddTest().then('it should render one ActivityCard per row', () => {
-      expect(wrapper.findAllComponents(ActivityCardStub)).toHaveLength(7)
+      expect(getActivityCards()).toHaveLength(7)
     })
 
     BddTest().then('it should not render the table', () => {
-      expect(wrapper.findComponent(AvTableStub).exists()).toBe(false)
+      expect(getTable().exists()).toBe(false)
     })
 
     BddTest().then('it should not pass withStatus to ActivityCards by default', () => {
-      const cards = wrapper.findAllComponents(ActivityCardStub)
-      cards.forEach((card) => {
+      getActivityCards().forEach((card) => {
         expect(card.props('withStatus')).toBe(false)
       })
     })
@@ -482,20 +487,19 @@ BddTest().given('a ActivitiesTab component', () => {
 
   BddTest().when('the component is mounted in mobile view with withStatus enabled', () => {
     beforeEach(async () => {
-      await mountDefault({ isMobile: true, props: { withStatus: true } })
+      await mountWith({ isMobile: true, props: { withStatus: true } })
     })
 
     BddTest().then('it should render one ActivityCard per row', () => {
-      expect(wrapper.findAllComponents(ActivityCardStub)).toHaveLength(7)
+      expect(getActivityCards()).toHaveLength(7)
     })
 
     BddTest().then('it should not render the table', () => {
-      expect(wrapper.findComponent(AvTableStub).exists()).toBe(false)
+      expect(getTable().exists()).toBe(false)
     })
 
     BddTest().then('it should pass withStatus to each ActivityCard', () => {
-      const cards = wrapper.findAllComponents(ActivityCardStub)
-      cards.forEach((card) => {
+      getActivityCards().forEach((card) => {
         expect(card.props('withStatus')).toBe(true)
       })
     })
@@ -503,7 +507,7 @@ BddTest().given('a ActivitiesTab component', () => {
 
   BddTest().when('the component receives no activities', () => {
     beforeEach(async () => {
-      await mountDefault({
+      await mountWith({
         paginatedResult: {
           ...defaultPaginatedResult,
           activities: computed(() => []),
@@ -513,20 +517,20 @@ BddTest().given('a ActivitiesTab component', () => {
     })
 
     BddTest().then('it should pass the empty state to QuerySuspense', () => {
-      const querySuspense = wrapper.findComponent(QuerySuspenseStub)
+      const querySuspense = getQuerySuspense()
 
       expect(querySuspense.props('isEmpty')).toBe(true)
-      expect(querySuspense.props('emptyStateMessage')).toBe('Aucune activité')
+      expect(querySuspense.props('emptyStateMessage')).toBe(emptyStateMessage)
     })
 
     BddTest().then('it should not render Pagination', () => {
-      expect(wrapper.findComponent(PaginationStub).exists()).toBe(false)
+      expect(getPagination().exists()).toBe(false)
     })
   })
 
   BddTest().when('the component receives an error', () => {
     beforeEach(async () => {
-      await mountDefault({
+      await mountWith({
         paginatedResult: {
           ...defaultPaginatedResult,
           error: ref(mockError),
@@ -535,12 +539,23 @@ BddTest().given('a ActivitiesTab component', () => {
     })
 
     BddTest().then('it should pass the error to QuerySuspense', () => {
-      const querySuspense = wrapper.findComponent(QuerySuspenseStub)
+      const querySuspense = getQuerySuspense()
 
       expect(querySuspense.props('error')).toBe(mockError)
-      expect(querySuspense.props('emptyStateMessage')).toBe('Aucune activité')
+      expect(querySuspense.props('emptyStateMessage')).toBe(emptyStateMessage)
       expect(querySuspense.props('isLoading')).toBe(false)
       expect(querySuspense.props('isEmpty')).toBe(false)
+    })
+  })
+
+  BddTest().when('the profile of the connected user is still loading', () => {
+    beforeEach(async () => {
+      mockIsProfileLoading.value = true
+      await mountWith()
+    })
+
+    BddTest().then('it should tell QuerySuspense it is loading even though the activities are fetched', () => {
+      expect(getQuerySuspense().props('isLoading')).toBe(true)
     })
   })
 })

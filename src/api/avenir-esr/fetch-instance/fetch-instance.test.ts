@@ -1,9 +1,10 @@
 import type { MockedFunction } from 'vitest'
-import type { ResponseInterceptorContext } from '@/api/fetch'
+import type { FetchOptions, ResponseInterceptorContext } from '@/api/fetch'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
+import { ROUTES } from '@/common/constants'
 import { HttpStatusCode } from '@/common/utils'
 
 const mockAddRequestInterceptor = vi.fn()
@@ -31,6 +32,18 @@ vi.mock('@/features/auth/global/stores/auth.store', () => ({
   useAuthStore: vi.fn(() => ({
     ensureAuthenticated: mockEnsureAuthenticated,
   }))
+}))
+
+const { mockReplace, CURRENT_ROUTE } = vi.hoisted(() => ({
+  mockReplace: vi.fn(),
+  CURRENT_ROUTE: '/current-route',
+}))
+
+vi.mock('@/router', () => ({
+  default: {
+    replace: mockReplace,
+    currentRoute: { value: { fullPath: CURRENT_ROUTE } },
+  },
 }))
 
 BddTest().given('avenir-esr customFetch', () => {
@@ -128,41 +141,105 @@ BddTest().given('avenir-esr customFetch', () => {
     })
   })
 
-  BddTest().and('a 401 response is returned', () => {
-    const mockUnauthorizedResponse = new Response(null, { status: HttpStatusCode.UNAUTHORIZED })
+  BddTest().and('a response goes through the response interceptor', () => {
     const mockContext: ResponseInterceptorContext = {
       url: '/me/navigation-access',
       options: {},
       config: {},
     }
 
-    beforeEach(() => {
+    let interceptor: (response: Response, context: ResponseInterceptorContext) => Promise<Response>
+
+    beforeEach(async () => {
       vi.clearAllMocks()
       vi.resetModules()
+      mockEnsureAuthenticated.mockReset()
+      mockReplace.mockReset()
+
+      await import('./fetch-instance')
+      interceptor = mockAddResponseInterceptor.mock.calls[0][0]
     })
 
-    BddTest().when('response interceptor is executed with 401', () => {
-      let interceptor: (response: Response, context: ResponseInterceptorContext) => Promise<unknown>
+    BddTest().when('the response is a 401 and the auth store returns the login route', () => {
+      let pending: Promise<Response>
 
       beforeEach(async () => {
-        await import('./fetch-instance')
-        interceptor = mockAddResponseInterceptor.mock.calls[0][0]
+        mockEnsureAuthenticated.mockResolvedValue(ROUTES.AUTH.LOGIN)
+
+        pending = interceptor(new Response(null, { status: HttpStatusCode.UNAUTHORIZED }), mockContext)
+
+        await vi.waitFor(() => expect(mockReplace).toHaveBeenCalledTimes(1))
       })
 
-      BddTest().then('should call ensureAuthenticated and return a never-resolving promise', async () => {
-        const result = interceptor(mockUnauthorizedResponse, mockContext)
-
-        await flushPromises()
-
+      BddTest().then('should force the authentication check with the current route', () => {
         expect(mockEnsureAuthenticated).toHaveBeenCalledTimes(1)
-        expect(result).toBeInstanceOf(Promise)
+        expect(mockEnsureAuthenticated).toHaveBeenCalledWith(CURRENT_ROUTE, true)
+      })
 
-        let resolved = false
-        result.then(() => resolved = true)
+      BddTest().then('should replace the current route with the login route', () => {
+        expect(mockReplace).toHaveBeenCalledWith(ROUTES.AUTH.LOGIN)
+      })
+
+      BddTest().then('should never settle, neither with a response nor with an error', async () => {
+        const onSettled = vi.fn()
+        pending.then(onSettled, onSettled)
 
         await flushPromises()
 
-        expect(resolved).toBe(false)
+        expect(onSettled).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the response is a 401 and a redirection is already in progress', () => {
+      let pending: Promise<Response>
+
+      beforeEach(async () => {
+        mockEnsureAuthenticated.mockResolvedValue(undefined)
+
+        pending = interceptor(new Response(null, { status: HttpStatusCode.UNAUTHORIZED }), mockContext)
+
+        await vi.waitFor(() => expect(mockEnsureAuthenticated).toHaveBeenCalledTimes(1))
+      })
+
+      BddTest().then('should not navigate again and still never settle', async () => {
+        const onSettled = vi.fn()
+        pending.then(onSettled, onSettled)
+
+        await flushPromises()
+
+        expect(mockReplace).not.toHaveBeenCalled()
+        expect(onSettled).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the 401 comes from a request flagged with skipUnauthorizedHandling', () => {
+      const response = new Response(null, { status: HttpStatusCode.UNAUTHORIZED })
+      const options: FetchOptions = { skipUnauthorizedHandling: true }
+      let result: Response
+
+      beforeEach(async () => {
+        result = await interceptor(response, { ...mockContext, options })
+      })
+
+      BddTest().then('should hand the response back without redirecting', () => {
+        expect(result).toBe(response)
+        expect(mockEnsureAuthenticated).not.toHaveBeenCalled()
+        expect(mockReplace).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().when('the response is not a 401', () => {
+      const response = new Response(null, { status: 403 })
+      let result: Response
+
+      beforeEach(async () => {
+        result = await interceptor(response, mockContext)
+      })
+
+      BddTest().then('should hand the response back without redirecting', () => {
+        expect(result).toBe(response)
+        expect(mockEnsureAuthenticated).not.toHaveBeenCalled()
+        expect(mockReplace).not.toHaveBeenCalled()
       })
     })
   })

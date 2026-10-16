@@ -374,8 +374,10 @@
       "languageSwitcher": "Changer de langue",
       "switchUniverse": {
         "label": "Changer d'univers",
-        "student": "Étudiant",
-        "staff": "Enseignant"
+        "buttons": {
+          "STUDENT": "Étudiant",
+          "STAFF": "Enseignant"
+        }
       }
     },
     "home": "Accueil",

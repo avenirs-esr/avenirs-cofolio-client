@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
-import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import { AvButtonStub, AvIconTextStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountWithRouter } from 'tests/utils'
+import { getAvButtonByTestId, mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { useRoute } from 'vue-router'
+import { EUserCategory } from '@/api/avenir-esr'
 import SwitchUniverse from '@/common/components/navigation/SwitchUniverse/SwitchUniverse.vue'
+import { ROUTES } from '@/common/constants'
 
 const mockModalOpened = ref(false)
 const mockOpenModal = vi.fn()
@@ -22,126 +22,140 @@ vi.mock('@/common/composables', async (importOriginal) => {
   }
 })
 
-vi.mock('vue-router', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('vue-router')>()
-  return {
-    ...actual,
-    useRoute: vi.fn(),
-  }
-})
+const mockCategories = ref<EUserCategory[]>([])
+const mockActiveProfileCategory = ref<EUserCategory>()
+const mockCanSwitchProfile = ref(false)
 
-const stubs = {
-  AvButton: AvButtonStub,
-  AvModal: AvModalStub,
-  AvIconText: AvIconTextStub
-}
+vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
+  useCurrentUser: () => ({
+    categories: mockCategories,
+    activeProfileCategory: mockActiveProfileCategory,
+    canSwitchProfile: mockCanSwitchProfile
+  })
+}))
 
 BddTest().given('a universe switcher', () => {
   let wrapper: VueWrapper<InstanceType<typeof SwitchUniverse>>
 
-  const getStaffButton = () => wrapper.find('[data-testid="staff-button"]')
-  const getStudentButton = () => wrapper.find('[data-testid="student-button"]')
+  const stubs = {
+    AvButton: AvButtonStub,
+    AvModal: AvModalStub,
+    AvIconText: AvIconTextStub
+  }
 
-  BddTest().and('we are on student route', () => {
+  const mountWith = async (
+    categories: EUserCategory[],
+    activeCategory: EUserCategory,
+    canSwitch: boolean
+  ) => {
+    vi.clearAllMocks()
+    mockModalOpened.value = false
+
+    mockCategories.value = categories
+    mockActiveProfileCategory.value = activeCategory
+    mockCanSwitchProfile.value = canSwitch
+
+    wrapper = await mountWithRouter<typeof SwitchUniverse>(SwitchUniverse, {
+      global: {
+        stubs
+      }
+    })
+  }
+
+  const getMainButton = () => wrapper.findComponent(AvButtonStub)
+  const getCategoryButton = (category: EUserCategory) => getAvButtonByTestId(wrapper, `${category}-button`)
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mockModalOpened.value = false
+  })
+
+  BddTest().and('a user with both profiles, currently on the student one', () => {
     beforeEach(async () => {
-      vi.clearAllMocks()
+      await mountWith([EUserCategory.STAFF, EUserCategory.STUDENT], EUserCategory.STUDENT, true)
+    })
 
-      vi.mocked(useRoute).mockReturnValue({
-        path: '/student/home'
-      } as RouteLocationNormalizedLoadedGeneric)
-
-      wrapper = await mountWithRouter<typeof SwitchUniverse>(SwitchUniverse, {
-        global: {
-          stubs
-        }
+    BddTest().when('the switcher is displayed', () => {
+      BddTest().then('it should enable the main switch button', () => {
+        expect(getMainButton().props('disabled')).toBe(false)
       })
     })
 
     BddTest().when('clicking the main switch button', () => {
       BddTest().then('it should display the modal', async () => {
-        const button = wrapper.find('button')
-        await button.trigger('click')
+        await wrapper.find('button').trigger('click')
         expect(mockOpenModal).toHaveBeenCalled()
       })
     })
 
-    BddTest().when('clicking the staff button in modal', () => {
+    BddTest().when('the modal is opened', () => {
       beforeEach(async () => {
         mockModalOpened.value = true
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should render staff action as a link to staff home', () => {
-        expect(getStaffButton().attributes('data-tag')).toBe('routerlink')
-        expect(getStaffButton().attributes('href')).toBeDefined()
+      BddTest().then('it should offer a button per profile, each linking to its home', () => {
+        expect(getCategoryButton(EUserCategory.STAFF).props('to')).toEqual(ROUTES.STAFF.HOME)
+        expect(getCategoryButton(EUserCategory.STUDENT).props('to')).toEqual(ROUTES.STUDENT.HOME)
       })
 
-      BddTest().then('it should not trigger closeModal on click because link mode does not emit click', async () => {
-        await getStaffButton().trigger('click')
-
-        expect(mockCloseModal).not.toHaveBeenCalled()
+      BddTest().then('it should only disable the button of the current profile', () => {
+        expect(getCategoryButton(EUserCategory.STUDENT).props('disabled')).toBe(true)
+        expect(getCategoryButton(EUserCategory.STAFF).props('disabled')).toBe(false)
       })
     })
 
-    BddTest().when('clicking the student button in modal', () => {
+    BddTest().when('choosing the staff profile in the modal', () => {
       beforeEach(async () => {
         mockModalOpened.value = true
         await wrapper.vm.$nextTick()
+        getCategoryButton(EUserCategory.STAFF).vm.$emit('click')
       })
 
-      BddTest().then('it should render student action as button (already on student universe)', () => {
-        expect(getStudentButton().attributes('data-tag')).toBe('button')
-      })
-
-      BddTest().then('it should hide the modal when clicking student button', async () => {
-        await getStudentButton().trigger('click')
-
+      BddTest().then('it should close the modal', () => {
         expect(mockCloseModal).toHaveBeenCalled()
       })
     })
   })
 
-  BddTest().and('we are on staff route', () => {
+  BddTest().and('a user with both profiles, currently on the staff one', () => {
     beforeEach(async () => {
-      vi.clearAllMocks()
-
-      vi.mocked(useRoute).mockReturnValue({
-        path: '/staff/home'
-      } as RouteLocationNormalizedLoadedGeneric)
-
-      wrapper = await mountWithRouter<typeof SwitchUniverse>(SwitchUniverse, {
-        global: {
-          stubs
-        }
-      })
+      await mountWith([EUserCategory.STAFF, EUserCategory.STUDENT], EUserCategory.STAFF, true)
     })
 
-    BddTest().when('clicking the student button in modal', () => {
+    BddTest().when('the modal is opened', () => {
       beforeEach(async () => {
         mockModalOpened.value = true
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should render student action as a link to student home', () => {
-        expect(getStudentButton().attributes('data-tag')).toBe('routerlink')
-        expect(getStudentButton().attributes('href')).toBeDefined()
-      })
-
-      BddTest().then('it should not trigger closeModal on click because link mode does not emit click', async () => {
-        await getStudentButton().trigger('click')
-
-        expect(mockCloseModal).not.toHaveBeenCalled()
+      BddTest().then('it should only disable the button of the current profile', () => {
+        expect(getCategoryButton(EUserCategory.STAFF).props('disabled')).toBe(true)
+        expect(getCategoryButton(EUserCategory.STUDENT).props('disabled')).toBe(false)
       })
     })
 
-    BddTest().when('clicking the staff button in modal', () => {
+    BddTest().when('choosing the student profile in the modal', () => {
       beforeEach(async () => {
         mockModalOpened.value = true
         await wrapper.vm.$nextTick()
+        getCategoryButton(EUserCategory.STUDENT).vm.$emit('click')
       })
 
-      BddTest().then('it should render staff action as button (already on staff universe)', () => {
-        expect(getStaffButton().attributes('data-tag')).toBe('button')
+      BddTest().then('it should close the modal', () => {
+        expect(mockCloseModal).toHaveBeenCalled()
+      })
+    })
+  })
+
+  BddTest().and('a user with a single profile', () => {
+    beforeEach(async () => {
+      await mountWith([EUserCategory.STUDENT], EUserCategory.STUDENT, false)
+    })
+
+    BddTest().when('the switcher is displayed', () => {
+      BddTest().then('it should disable the main switch button', () => {
+        expect(getMainButton().props('disabled')).toBe(true)
       })
     })
   })
