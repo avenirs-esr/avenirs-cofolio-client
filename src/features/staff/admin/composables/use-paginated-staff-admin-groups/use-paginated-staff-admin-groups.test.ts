@@ -1,12 +1,12 @@
 import type { PagedResponseGroupOverviewDTO } from '@/api/avenir-esr'
-import { mockGroupOverview, mockGroupOverviewWithParent } from '@/__mocks__/fixtures/staffs/groups.fixtures'
-import { BaseApiException } from '@/common/exceptions'
-import { usePaginatedStaffAdminGroups } from '@/features/staff/admin/composables/use-paginated-staff-admin-groups/use-paginated-staff-admin-groups'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { mountComposable } from 'tests/utils'
 import { nextTick, unref } from 'vue'
+import { mockGroupOverview, mockGroupOverviewWithParent } from '@/__mocks__/fixtures/staffs/groups.fixtures'
+import { BaseApiException } from '@/common/exceptions'
+import { usePaginatedStaffAdminGroups } from '@/features/staff/admin/composables/use-paginated-staff-admin-groups/use-paginated-staff-admin-groups'
 
 const groups = [mockGroupOverview, mockGroupOverviewWithParent]
 
