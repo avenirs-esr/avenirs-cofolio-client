@@ -12,6 +12,24 @@
                   "STUDENT_GROUP": "Ensemble d'apprenant(e)s"
                 }
               }
+            },
+            "cards": {
+              "GroupCard": {
+                "labels": {
+                  "usersCount": "Utilisateur(rice) | Utilisateur(rice)s"
+                }
+              }
+            },
+            "dataDisplay": {
+              "GroupsList": {
+                "columns": {
+                  "name": "Groupe",
+                  "parentName": "Rattaché à",
+                  "type": "Type",
+                  "usersCount": "Nombre d'utilisateur(rice)s"
+                },
+                "emptyStateMessage": "Aucun résultat"
+              }
             }
           },
           "title": "Groupes de l'établissement"
