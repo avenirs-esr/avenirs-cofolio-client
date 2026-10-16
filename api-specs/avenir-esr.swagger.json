@@ -7905,6 +7905,44 @@
           "type"
         ]
       },
+      "GroupOverviewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/EGroupType",
+            "enum": [
+              "PROGRAM",
+              "PROGRAM_OPTION",
+              "STUDENT_GROUP"
+            ]
+          },
+          "usersCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "usersCount"
+        ]
+      },
       "StudentFeedbackItemListDTO": {
         "type": "object",
         "properties": {

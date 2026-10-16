@@ -35,5 +35,6 @@ const icon = computed(() => {
     background-color="var(--light-background-neutral)"
     color="var(--light-foreground-neutral)"
     data-testid="group-type-badge"
+    ellipsis
   />
 </template>

@@ -12,6 +12,24 @@
                   "STUDENT_GROUP": "Learner group"
                 }
               }
+            },
+            "cards": {
+              "GroupCard": {
+                "labels": {
+                  "usersCount": "User | Users"
+                }
+              }
+            },
+            "dataDisplay": {
+              "GroupsList": {
+                "columns": {
+                  "name": "Group",
+                  "parentName": "Attached to",
+                  "type": "Type",
+                  "usersCount": "Number of users"
+                },
+                "emptyStateMessage": "No results"
+              }
             }
           },
           "title": "Institution groups"
