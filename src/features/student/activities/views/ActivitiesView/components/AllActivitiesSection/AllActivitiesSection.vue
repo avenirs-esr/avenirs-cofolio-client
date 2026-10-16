@@ -7,7 +7,7 @@ import { usePagination } from '@/common/composables'
 import ActivityErrorMessage from '@/features/student/activities/components/errors/ActivityErrorMessage/ActivityErrorMessage.vue'
 import { useActivitiesStore } from '@/features/student/activities/stores/activities.store'
 import ActivityCard from '@/features/student/activities/views/ActivitiesView/components/ActivityCard/ActivityCard.vue'
-import { AvIconText, AvTagPicker, type AvTagPickerOption, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { AvIconText, AvTagPicker, type AvTagPickerOption, MDI_ICONS, PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 
@@ -16,10 +16,9 @@ const activitiesStore = useActivitiesStore()
 
 const {
   currentPage,
-  pageSizeSelected,
   onUpdateCurrentPage,
   onUpdatePageSize
-} = usePagination(toRef(activitiesStore, 'currentPage'), toRef(activitiesStore, 'pageSizeSelected'))
+} = usePagination(toRef(activitiesStore, 'currentPage'), toRef(PageSizes.TWELVE))
 
 const selectedThematic = ref<EActivityThematic | undefined>(undefined)
 
@@ -33,7 +32,7 @@ function onSelectThematic (thematic: AvTagPickerOption) {
 const params = computed<GetActivitiesViewParams>(() => ({
   thematic: selectedThematic.value as GetActivitiesViewParams['thematic'],
   page: currentPage.value,
-  pageSize: pageSizeSelected.value
+  pageSize: PageSizes.TWELVE
 }))
 
 const { data, error, isLoading, isFetching } = useGetActivitiesView(params, { query: { placeholderData: keepPreviousData } })
@@ -83,9 +82,10 @@ const filterOptions: AvTagPickerOption[] = [
         <Pagination
           v-if="pageInfo"
           :page-info="pageInfo"
-          :page-size-selected="pageSizeSelected"
+          :page-size-selected="PageSizes.TWELVE"
           :on-update-current-page="onUpdateCurrentPage"
           :on-update-page-size="onUpdatePageSize"
+          without-page-size-picker
         >
           <div
             v-if="activities.length > 0"
