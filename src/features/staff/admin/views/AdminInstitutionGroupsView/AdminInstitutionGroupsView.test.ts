@@ -34,10 +34,5 @@ BddTest().given('an admin institution groups view', () => {
     BddTest().then('the groups list is rendered', () => {
       expect(getGroupsList().exists()).toBe(true)
     })
-
-    // TODO: US#3028
-    BddTest().then('the groups list receives the expected groups', () => {
-      expect(getGroupsList().props('groups')).toHaveLength(3)
-    })
   })
 })

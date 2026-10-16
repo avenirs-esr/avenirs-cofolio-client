@@ -1,9 +1,8 @@
-import type { GroupDTO } from '@/api/avenir-esr'
-import { http, HttpResponse } from 'msw'
-import { mockGroup } from '@/__mocks__/fixtures/staffs/groups.fixtures'
-import { getGetGroupByIdUrl } from '@/api/avenir-esr'
+import { createMockedGetGroupsResponse, mockGroup } from '@/__mocks__/fixtures/staffs/groups.fixtures'
+import { getGetGroupByIdUrl, getGetGroupsUrl, type GetGroupsType, type GroupDTO, type PagedResponseGroupOverviewDTO } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
+import { http, HttpResponse } from 'msw'
 
 const getGroupByIdHandler = http.get(`*${getGetGroupByIdUrl(':id')}`, ({ params }) => {
   const { id } = params
@@ -21,6 +20,20 @@ const getGroupByIdHandler = http.get(`*${getGetGroupByIdUrl(':id')}`, ({ params 
   })
 })
 
+const getGroupsHandler = http.get(`*${getGetGroupsUrl()}`, async ({ request }) => {
+  const searchParams = new URL(request.url).searchParams
+  const keyword = searchParams.get('keyword') ?? undefined
+  const type = searchParams.get('type') as GetGroupsType | undefined
+  const page = searchParams.has('page') ? Number(searchParams.get('page')) : undefined
+  const pageSize = searchParams.has('pageSize') ? Number(searchParams.get('pageSize')) : undefined
+
+  return HttpResponse.json<PagedResponseGroupOverviewDTO>(createMockedGetGroupsResponse({ keyword, type, page, pageSize }, 30), {
+    status: HttpStatusCode.OK,
+    headers: { 'Content-Type': 'application/json' },
+  })
+})
+
 export const staffsGroupsHandlers = [
   getGroupByIdHandler,
+  getGroupsHandler,
 ]

@@ -4190,89 +4190,9 @@
       }
     },
     "/back-office/admin/groups": {
-      "get": {
-        "tags": [
-          "group-admin-controller"
-        ],
-        "operationId": "findAll_1",
-        "parameters": [
-          {
-            "name": "institutionId",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "parentId",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "type",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "PROGRAM",
-                "PROGRAM_OPTION",
-                "STUDENT_GROUP"
-              ]
-            }
-          },
-          {
-            "name": "startDate",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "date"
-            }
-          },
-          {
-            "name": "endDate",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "format": "date"
-            }
-          },
-          {
-            "name": "X-ADMIN-TOKEN",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/GroupResponse"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
       "put": {
         "tags": [
-          "group-admin-controller"
+          "group-provisioning-controller"
         ],
         "operationId": "updateAll_2",
         "parameters": [
@@ -4316,7 +4236,7 @@
       },
       "post": {
         "tags": [
-          "group-admin-controller"
+          "group-provisioning-controller"
         ],
         "operationId": "createAll_2",
         "parameters": [
@@ -4759,10 +4679,71 @@
         }
       }
     },
+    "/back-office/groups": {
+      "get": {
+        "tags": [
+          "group-query-controller"
+        ],
+        "operationId": "getGroups",
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PROGRAM",
+                "PROGRAM_OPTION",
+                "STUDENT_GROUP"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseGroupOverviewDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/back-office/groups/{id}": {
       "get": {
         "tags": [
-          "group-controller"
+          "group-query-controller"
         ],
         "operationId": "getGroupById",
         "parameters": [
@@ -4793,7 +4774,7 @@
     "/back-office/groups/{id}/program": {
       "get": {
         "tags": [
-          "group-controller"
+          "group-query-controller"
         ],
         "operationId": "getProgramOfGroup",
         "parameters": [
@@ -5072,75 +5053,6 @@
         }
       }
     },
-    "/back-office/admin/groups/{id}": {
-      "get": {
-        "tags": [
-          "group-admin-controller"
-        ],
-        "operationId": "findById_1",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "X-ADMIN-TOKEN",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/GroupResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "group-admin-controller"
-        ],
-        "operationId": "delete_2",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "X-ADMIN-TOKEN",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/back-office/access/student/{eppn}/scope": {
       "get": {
         "tags": [
@@ -5214,6 +5126,38 @@
             "schema": {
               "type": "string",
               "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/back-office/admin/groups/{id}": {
+      "delete": {
+        "tags": [
+          "group-provisioning-controller"
+        ],
+        "operationId": "delete_2",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "X-ADMIN-TOKEN",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -7905,44 +7849,6 @@
           "type"
         ]
       },
-      "GroupOverviewDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "$ref": "#/components/schemas/EGroupType",
-            "enum": [
-              "PROGRAM",
-              "PROGRAM_OPTION",
-              "STUDENT_GROUP"
-            ]
-          },
-          "usersCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "parentId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "parentName": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "type",
-          "usersCount"
-        ]
-      },
       "StudentFeedbackItemListDTO": {
         "type": "object",
         "properties": {
@@ -9407,6 +9313,62 @@
           "id",
           "name",
           "type"
+        ]
+      },
+      "GroupOverviewDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/EGroupType",
+            "enum": [
+              "PROGRAM",
+              "PROGRAM_OPTION",
+              "STUDENT_GROUP"
+            ]
+          },
+          "usersCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "parentId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "parentName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "type",
+          "usersCount"
+        ]
+      },
+      "PagedResponseGroupOverviewDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupOverviewDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
         ]
       },
       "InstitutionConfigurationElements": {
