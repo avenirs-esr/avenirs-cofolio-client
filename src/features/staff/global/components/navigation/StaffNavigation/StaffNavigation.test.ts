@@ -3,9 +3,20 @@ import { MDI_ICONS, registerNavigationLinkKey } from '@avenirs-esr/avenirs-dsav'
 import { AvNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { ERole } from '@/api/avenir-esr'
 import { ICONS } from '@/common/constants'
 import StaffNavigation from '@/features/staff/global/components/navigation/StaffNavigation/StaffNavigation.vue'
 import router from '@/router'
+
+const { mockRoles } = vi.hoisted(() => ({
+  mockRoles: { value: [] as ERole[] },
+}))
+
+vi.mock('@/features/auth/global/stores/auth.store', () => ({
+  useAuthStore: () => ({
+    roles: mockRoles.value,
+  }),
+}))
 
 BddTest().given('a staff navigation', () => {
   let wrapper: VueWrapper<InstanceType<typeof StaffNavigation>>
@@ -37,6 +48,7 @@ BddTest().given('a staff navigation', () => {
 
   BddTest().when('the component is mounted', () => {
     beforeEach(async () => {
+      mockRoles.value = [ERole.ROLE_ADMIN]
       wrapper = await mountDefault()
     })
 
@@ -108,6 +120,19 @@ BddTest().given('a staff navigation', () => {
         to: expect.objectContaining({ name: 'staff-admin-skills' }),
         icon: ICONS.SKILLS,
       })
+    })
+  })
+
+  BddTest().when('the component is mounted by a user without the ADMIN role', () => {
+    beforeEach(async () => {
+      mockRoles.value = [ERole.ROLE_STAFF]
+      wrapper = await mountDefault()
+    })
+
+    BddTest().then('it should not include the admin menu', () => {
+      const items = getNavItems()
+      expect(items).toHaveLength(3)
+      expect(items.some(navItem => navItem.id === 'nav-admin-menu')).toBe(false)
     })
   })
 })

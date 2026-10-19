@@ -24,7 +24,7 @@ vi.mock('@/api/avenir-esr', async (importOriginal) => {
   return {
     ...actual,
     getProfile: mockGetProfile,
-    getMe: mockGetMe
+    getMe: mockGetMe,
   }
 })
 
@@ -34,24 +34,24 @@ vi.mock('@/router', () => ({
   __esModule: true,
   default: {
     replace: mockReplace,
-    currentRoute: { value: { fullPath: '/current-route' } }
-  }
+    currentRoute: { value: { fullPath: '/current-route' } },
+  },
 }))
 
 const mockAddErrorMessage = vi.fn()
 
 vi.mock('@/store', () => ({
   useToasterStore: () => ({
-    addErrorMessage: mockAddErrorMessage
-  })
+    addErrorMessage: mockAddErrorMessage,
+  }),
 }))
 
 const mockCancelQueries = vi.fn()
 
 vi.mock('@tanstack/vue-query', () => ({
   useQueryClient: () => ({
-    cancelQueries: mockCancelQueries
-  })
+    cancelQueries: mockCancelQueries,
+  }),
 }))
 
 BddTest().given('an auth store with mocked dependencies', () => {
@@ -77,6 +77,10 @@ BddTest().given('an auth store with mocked dependencies', () => {
       expect(store.roles).toEqual([])
       expect(store.isSuperAdmin).toBe(false)
     })
+
+    BddTest().then('it should expose the STUDENT home route by default', () => {
+      expect(store.homeRoute).toEqual(ROUTES.STUDENT.HOME)
+    })
   })
 
   BddTest().when('ensureAuthenticated is called with { delegated: false } and user authenticated as STUDENT', () => {
@@ -96,6 +100,10 @@ BddTest().given('an auth store with mocked dependencies', () => {
       expect(store.canSwitchProfile).toBe(false)
       expect(store.roles).toEqual([ERole.ROLE_STUDENT])
       expect(store.isSuperAdmin).toBe(false)
+    })
+
+    BddTest().then('it should expose the STUDENT home route', () => {
+      expect(store.homeRoute).toEqual(ROUTES.STUDENT.HOME)
     })
 
     BddTest().then('it should return undefined and not navigate to the login route', () => {
@@ -124,6 +132,43 @@ BddTest().given('an auth store with mocked dependencies', () => {
       expect(store.isSuperAdmin).toBe(false)
     })
 
+    BddTest().then('it should expose the STAFF home route', () => {
+      expect(store.homeRoute).toEqual(ROUTES.STAFF.HOME)
+    })
+
+    BddTest().then('it should return undefined and not navigate to the login route', () => {
+      expect(mockCancelQueries).not.toHaveBeenCalled()
+      expect(route).toBeUndefined()
+      expect(mockReplace).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('ensureAuthenticated is called with { delegated: false } and user authenticated as ADMIN', () => {
+    beforeEach(async () => {
+      mockGetMe.mockResolvedValueOnce({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_ADMIN'] })
+      mockGetProfile.mockResolvedValueOnce(mockedStaffProfileOverview)
+      route = await store.ensureAuthenticated({ delegated: false, to: mockTo })
+    })
+
+    BddTest().then('it should load the STAFF profile and succeed', () => {
+      expect(mockGetProfile).toHaveBeenCalledTimes(1)
+      expect(mockGetProfile).toHaveBeenCalledWith(EUserCategory.STAFF, expect.anything())
+      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+      expect(store.isLoggedIn).toBe(true)
+      expect(store.profile).toEqual(mockedStaffProfileOverview)
+      expect(store.categories).toEqual([EUserCategory.STAFF])
+      expect(store.canSwitchProfile).toBe(false)
+    })
+
+    BddTest().then('it should expose the ADMIN role without considering the user as super admin', () => {
+      expect(store.roles).toEqual([ERole.ROLE_ADMIN])
+      expect(store.isSuperAdmin).toBe(false)
+    })
+
+    BddTest().then('it should expose the STAFF home route', () => {
+      expect(store.homeRoute).toEqual(ROUTES.STAFF.HOME)
+    })
+
     BddTest().then('it should return undefined and not navigate to the login route', () => {
       expect(mockCancelQueries).not.toHaveBeenCalled()
       expect(route).toBeUndefined()
@@ -133,7 +178,11 @@ BddTest().given('an auth store with mocked dependencies', () => {
 
   BddTest().when('ensureAuthenticated is called with { delegated: false } and user authenticated with several roles', () => {
     beforeEach(async () => {
-      mockGetMe.mockResolvedValueOnce({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_STUDENT', 'ROLE_STAFF', 'ROLE_SUPER_ADMIN'] })
+      mockGetMe.mockResolvedValueOnce({
+        firstname: 'John',
+        lastname: 'Doe',
+        roles: ['ROLE_STUDENT', 'ROLE_STAFF', 'ROLE_SUPER_ADMIN'],
+      })
       mockGetProfile.mockResolvedValueOnce(mockedProfileOverview)
       route = await store.ensureAuthenticated({ delegated: false, to: mockTo })
     })
@@ -146,6 +195,74 @@ BddTest().given('an auth store with mocked dependencies', () => {
     BddTest().then('it should expose the roles and flag the user as super admin', () => {
       expect(store.roles).toEqual([ERole.ROLE_STUDENT, ERole.ROLE_STAFF, ERole.ROLE_SUPER_ADMIN])
       expect(store.isSuperAdmin).toBe(true)
+    })
+
+    BddTest().then('it should expose the STUDENT home route', () => {
+      expect(store.homeRoute).toEqual(ROUTES.STUDENT.HOME)
+    })
+  })
+
+  BddTest().when('ensureAuthenticated is called with { delegated: false } and user authenticated as STUDENT and ADMIN', () => {
+    beforeEach(async () => {
+      mockGetMe.mockResolvedValueOnce({
+        firstname: 'John',
+        lastname: 'Doe',
+        roles: ['ROLE_STUDENT', 'ROLE_ADMIN'],
+      })
+      mockGetProfile.mockResolvedValueOnce(mockedProfileOverview)
+      route = await store.ensureAuthenticated({ delegated: false, to: mockTo })
+    })
+
+    BddTest().then('it should expose both STUDENT and STAFF categories', () => {
+      expect(store.categories).toEqual([EUserCategory.STUDENT, EUserCategory.STAFF])
+      expect(store.canSwitchProfile).toBe(true)
+    })
+
+    BddTest().then('it should load the STUDENT profile by default', () => {
+      expect(mockGetProfile).toHaveBeenCalledTimes(1)
+      expect(mockGetProfile).toHaveBeenCalledWith(EUserCategory.STUDENT, expect.anything())
+      expect(store.profile).toEqual(mockedProfileOverview)
+    })
+
+    BddTest().then('it should expose the roles without considering the user as super admin', () => {
+      expect(store.roles).toEqual([ERole.ROLE_STUDENT, ERole.ROLE_ADMIN])
+      expect(store.isSuperAdmin).toBe(false)
+    })
+
+    BddTest().then('it should expose the STUDENT home route', () => {
+      expect(store.homeRoute).toEqual(ROUTES.STUDENT.HOME)
+    })
+  })
+
+  BddTest().when('ensureAuthenticated is called with { delegated: false } and user authenticated as ADMIN and STAFF', () => {
+    beforeEach(async () => {
+      mockGetMe.mockResolvedValueOnce({
+        firstname: 'John',
+        lastname: 'Doe',
+        roles: ['ROLE_ADMIN', 'ROLE_STAFF'],
+      })
+      mockGetProfile.mockResolvedValueOnce(mockedStaffProfileOverview)
+      route = await store.ensureAuthenticated({ delegated: false, to: mockTo })
+    })
+
+    BddTest().then('it should expose only one STAFF category', () => {
+      expect(store.categories).toEqual([EUserCategory.STAFF])
+      expect(store.canSwitchProfile).toBe(false)
+    })
+
+    BddTest().then('it should expose both roles without considering the user as super admin', () => {
+      expect(store.roles).toEqual([ERole.ROLE_ADMIN, ERole.ROLE_STAFF])
+      expect(store.isSuperAdmin).toBe(false)
+    })
+
+    BddTest().then('it should load the STAFF profile only once', () => {
+      expect(mockGetProfile).toHaveBeenCalledTimes(1)
+      expect(mockGetProfile).toHaveBeenCalledWith(EUserCategory.STAFF, expect.anything())
+      expect(store.profile).toEqual(mockedStaffProfileOverview)
+    })
+
+    BddTest().then('it should expose the STAFF home route', () => {
+      expect(store.homeRoute).toEqual(ROUTES.STAFF.HOME)
     })
   })
 
@@ -239,6 +356,31 @@ BddTest().given('an auth store with mocked dependencies', () => {
     })
   })
 
+  BddTest().when('ensureAuthenticated is called with { delegated: true } and user authenticated as ADMIN', () => {
+    beforeEach(async () => {
+      mockGetMe.mockResolvedValueOnce({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_ADMIN'] })
+      mockGetProfile.mockResolvedValueOnce(mockedStaffProfileOverview)
+      route = await store.ensureAuthenticated({ delegated: true, to: mockTo })
+    })
+
+    BddTest().then('it should try to load the STAFF profile and succeed', () => {
+      expect(mockGetProfile).toHaveBeenCalledTimes(1)
+      expect(mockGetProfile).toHaveBeenCalledWith(EUserCategory.STAFF, expect.anything())
+      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+      expect(store.isLoggedIn).toBe(true)
+      expect(store.profile).toEqual(mockedStaffProfileOverview)
+      expect(store.categories).toEqual([EUserCategory.STAFF])
+      expect(store.roles).toEqual([ERole.ROLE_ADMIN])
+      expect(store.isSuperAdmin).toBe(false)
+    })
+
+    BddTest().then('it should not navigate', () => {
+      expect(mockCancelQueries).not.toHaveBeenCalled()
+      expect(route).toBeUndefined()
+      expect(mockReplace).not.toHaveBeenCalled()
+    })
+  })
+
   BddTest().when('ensureAuthenticated is called with { delegated: true } and user not authenticated', () => {
     beforeEach(async () => {
       mockGetMe.mockRejectedValueOnce(mockUnauthorizedError)
@@ -317,11 +459,20 @@ BddTest().given('an auth store with mocked dependencies', () => {
       expect(store.acceptedCgu).toBeNull()
       expect(store.hasAcceptedLatestCgu).toBe(false)
     })
+
+    BddTest().then('it should expose the STUDENT home route after invalidation', () => {
+      expect(store.homeRoute).toEqual(ROUTES.STUDENT.HOME)
+    })
   })
 
   BddTest().when('the session is loaded for a user who accepted the latest cgu version', () => {
     beforeEach(async () => {
-      mockGetMe.mockReset().mockResolvedValue({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_STUDENT'], acceptedCgu: mockedAcceptedCgu })
+      mockGetMe.mockReset().mockResolvedValue({
+        firstname: 'John',
+        lastname: 'Doe',
+        roles: ['ROLE_STUDENT'],
+        acceptedCgu: mockedAcceptedCgu,
+      })
       mockGetProfile.mockReset().mockResolvedValue(mockedProfileOverview)
       await store.ensureAuthenticated()
     })
@@ -334,7 +485,12 @@ BddTest().given('an auth store with mocked dependencies', () => {
 
   BddTest().when('the session is loaded for a user who accepted an outdated cgu version', () => {
     beforeEach(async () => {
-      mockGetMe.mockReset().mockResolvedValue({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_STUDENT'], acceptedCgu: mockedOutdatedAcceptedCgu })
+      mockGetMe.mockReset().mockResolvedValue({
+        firstname: 'John',
+        lastname: 'Doe',
+        roles: ['ROLE_STUDENT'],
+        acceptedCgu: mockedOutdatedAcceptedCgu,
+      })
       mockGetProfile.mockReset().mockResolvedValue(mockedProfileOverview)
       await store.ensureAuthenticated()
     })
@@ -347,7 +503,11 @@ BddTest().given('an auth store with mocked dependencies', () => {
 
   BddTest().when('the session is loaded for a user who never accepted the cgu', () => {
     beforeEach(async () => {
-      mockGetMe.mockReset().mockResolvedValue({ firstname: 'John', lastname: 'Doe', roles: ['ROLE_STUDENT'] })
+      mockGetMe.mockReset().mockResolvedValue({
+        firstname: 'John',
+        lastname: 'Doe',
+        roles: ['ROLE_STUDENT'],
+      })
       mockGetProfile.mockReset().mockResolvedValue(mockedProfileOverview)
       await store.ensureAuthenticated()
     })

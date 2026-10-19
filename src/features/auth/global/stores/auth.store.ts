@@ -18,6 +18,7 @@ import { useToasterStore } from '@/store'
 const ROLE_CATEGORY_MAP: Record<ERole, EUserCategory> = {
   [ERole.ROLE_STUDENT]: EUserCategory.STUDENT,
   [ERole.ROLE_STAFF]: EUserCategory.STAFF,
+  [ERole.ROLE_ADMIN]: EUserCategory.STAFF,
   [ERole.ROLE_SUPER_ADMIN]: EUserCategory.STAFF,
 }
 

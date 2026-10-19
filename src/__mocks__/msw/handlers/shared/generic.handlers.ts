@@ -9,7 +9,7 @@ import { HttpStatusCode } from '@/common/utils/http/http-status'
 export const mockedLoggedInUser: LoggedInUserDTO = {
   firstname: 'Lucas',
   lastname: 'Tessier',
-  roles: [ERole.ROLE_STUDENT, ERole.ROLE_STAFF, ERole.ROLE_SUPER_ADMIN],
+  roles: Object.values(ERole),
   acceptedCgu: mockedAcceptedCgu
 }
 
