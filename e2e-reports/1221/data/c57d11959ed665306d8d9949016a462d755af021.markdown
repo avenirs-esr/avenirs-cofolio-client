@@ -1,0 +1,383 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/staff/activities/edit-national-activity.feature.spec.js >> Staff Edit National Activity Page >> Managing activity resources >> The staff can select the link type for adding a link resource to the activity
+- Location: .features-gen/tests/staff/activities/edit-national-activity.feature.spec.js:289:5
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByTestId('add-activity-resource-modal').getByTestId('av-select__collapse').locator('#select-collapse-options-list-link-checkbox')
+    - locator resolved to <input value="link" type="checkbox" data-v-d92a27ee="" class="av-sr-only" data-v-f1e9d758-s="" id="select-collapse-options-list-link-checkbox" name="select-collapse-options-list-link-checkbox" data-testid="input-checkbox-select-collapse-options-list-link-checkbox"/>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <span data-v-a4c9afcc="" class="av-icon__icon av-w-full av-h-full av-align-center av-justify-center"></span> from <label data-v-d92a27ee="" data-v-f1e9d758-s="" class="av-label av-pb-none" for="select-collapse-options-list-link-checkbox">…</label> subtree intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <span data-v-a4c9afcc="" class="av-icon__icon av-w-full av-h-full av-align-center av-justify-center"></span> from <label data-v-d92a27ee="" data-v-f1e9d758-s="" class="av-label av-pb-none" for="select-collapse-options-list-link-checkbox">…</label> subtree intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    53 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <span data-v-a4c9afcc="" class="av-icon__icon av-w-full av-h-full av-align-center av-justify-center"></span> from <label data-v-d92a27ee="" data-v-f1e9d758-s="" class="av-label av-pb-none" for="select-collapse-options-list-link-checkbox">…</label> subtree intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - navigation "Accès rapide":
+      - list [ref=e3]:
+        - listitem [ref=e4]:
+          - link "Aller au contenu principal" [ref=e5] [cursor=pointer]:
+            - /url: "#main"
+            - generic [ref=e6]: Aller au contenu principal
+        - listitem [ref=e7]:
+          - link "Aller au pied de page" [ref=e8] [cursor=pointer]:
+            - /url: "#footer"
+            - generic [ref=e9]: Aller au pied de page
+    - banner [ref=e10]:
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - link "Accueil - Cofolio Staff" [ref=e19] [cursor=pointer]:
+            - /url: /cofolio/staff
+            - img [ref=e20]
+          - button "Changer d'univers" [ref=e22] [cursor=pointer]:
+            - generic [ref=e25]: Changer d'univers
+        - generic [ref=e27]:
+          - list [ref=e30]:
+            - listitem [ref=e31]:
+              - button "Notifications (10)" [ref=e34] [cursor=pointer]:
+                - generic [ref=e37]: Notifications (10)
+            - listitem [ref=e38]:
+              - button "M. dupont" [ref=e41] [cursor=pointer]:
+                - generic [ref=e44]: M. dupont
+          - navigation [ref=e47]:
+            - button "FR" [ref=e50] [cursor=pointer]:
+              - generic [ref=e53]: FR
+      - navigation "Menu principal" [ref=e57]:
+        - list [ref=e58]:
+          - listitem [ref=e59]:
+            - link "ACCUEIL" [ref=e60] [cursor=pointer]:
+              - /url: /cofolio/staff
+              - generic [ref=e63]: ACCUEIL
+          - listitem [ref=e64]:
+            - link "BIBLIOTHÈQUE DES ACTIVITÉS" [ref=e65] [cursor=pointer]:
+              - /url: /cofolio/staff/activities
+              - generic [ref=e68]: BIBLIOTHÈQUE DES ACTIVITÉS
+          - listitem [ref=e69]:
+            - button "SUIVI DES APPRENANTS" [ref=e70] [cursor=pointer]:
+              - generic [ref=e71]: SUIVI DES APPRENANTS
+          - listitem [ref=e72]:
+            - button "ADMINISTRATION" [ref=e73] [cursor=pointer]:
+              - generic [ref=e74]: ADMINISTRATION
+    - main [ref=e75]:
+      - generic [ref=e76]:
+        - generic [ref=e78]:
+          - navigation "Fil d'Ariane" [ref=e79]:
+            - list [ref=e81]:
+              - listitem [ref=e82]:
+                - link "Accueil" [ref=e83] [cursor=pointer]:
+                  - /url: /cofolio/staff
+              - listitem [ref=e84]:
+                - link "Bibliothèque des activités" [ref=e85] [cursor=pointer]:
+                  - /url: /cofolio/staff/activities
+              - listitem [ref=e86]:
+                - generic: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+              - listitem [ref=e87]:
+                - generic: Modifier l'activité
+          - heading "Modifier l'activité" [level=1] [ref=e90]
+        - generic [ref=e91]:
+          - status [ref=e93]:
+            - generic [ref=e94]: Modification en cours
+          - generic [ref=e96]:
+            - navigation "69f19050-ce3a-44b6-8cd7-38abc415152b navigation" [ref=e97]:
+              - generic [ref=e98]:
+                - button "Réduire le menu" [expanded] [ref=e102] [cursor=pointer]
+                - menu [ref=e106]:
+                  - menuitem "Contenu de l'activité" [ref=e107]:
+                    - button "Contenu de l'activité" [ref=e108] [cursor=pointer]:
+                      - generic [ref=e113]: Contenu de l'activité
+                  - menu [ref=e115]:
+                    - menuitem "Titre" [ref=e116]:
+                      - button "Titre" [ref=e117] [cursor=pointer]:
+                        - generic [ref=e119]: Titre
+                    - menuitem "Thématique" [ref=e120]:
+                      - button "Thématique" [ref=e121] [cursor=pointer]:
+                        - generic [ref=e123]: Thématique
+                    - menuitem "Consigne" [ref=e124]:
+                      - button "Consigne" [ref=e125] [cursor=pointer]:
+                        - generic [ref=e127]: Consigne
+                    - menuitem "Contexte(s) de réalisation conseillé(s)" [ref=e128]:
+                      - button "Contexte(s) de réalisation conseillé(s)" [ref=e129] [cursor=pointer]:
+                        - generic [ref=e131]: Contexte(s) de réalisation conseillé(s)
+                    - menuitem "Documents et liens utiles" [ref=e132]:
+                      - button "Documents et liens utiles" [ref=e133] [cursor=pointer]:
+                        - generic [ref=e135]: Documents et liens utiles
+                    - menuitem "Modalités" [ref=e136]:
+                      - button "Modalités" [ref=e137] [cursor=pointer]:
+                        - generic [ref=e139]: Modalités
+            - generic [ref=e141]:
+              - tablist "Liste d’onglets" [ref=e142]:
+                - tab "Renseigner le contenu" [selected] [ref=e143] [cursor=pointer]:
+                  - generic [ref=e146]: Renseigner le contenu
+                - tab "Préparer la publication" [ref=e147] [cursor=pointer]:
+                  - generic [ref=e150]: Préparer la publication
+              - tabpanel "Renseigner le contenu" [ref=e151]:
+                - generic [ref=e152]:
+                  - generic [ref=e154]:
+                    - generic [ref=e160]: Titre de l'activité *
+                    - generic [ref=e163]:
+                      - generic [ref=e164]:
+                        - generic [ref=e166]: Titre de l'activité *
+                        - textbox "Titre de l'activité" [ref=e167]: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+                      - generic [ref=e168]: 52 / 80 caractères (espaces compris)
+                  - generic [ref=e170]:
+                    - generic [ref=e176]: Thématique *
+                    - generic [ref=e177]:
+                      - generic [ref=e178]:
+                        - generic [ref=e179]: Thématique
+                        - button "Me connaître" [ref=e180] [cursor=pointer]:
+                          - generic [ref=e183]: Me connaître
+                      - status
+                  - generic [ref=e186]:
+                    - generic [ref=e191]: Consigne *
+                    - button "Développer" [ref=e194] [cursor=pointer]
+                  - generic [ref=e199]:
+                    - generic [ref=e204]: Contexte(s) de réalisation conseillé(s) *
+                    - button "Développer" [ref=e207] [cursor=pointer]
+                  - generic [ref=e211]:
+                    - generic [ref=e212]:
+                      - generic [ref=e217]: Documents et liens utiles
+                      - button "Réduire" [expanded] [ref=e220] [cursor=pointer]
+                    - generic [ref=e225]:
+                      - generic [ref=e226]:
+                        - generic [ref=e229] [cursor=pointer]:
+                          - generic [ref=e235]:
+                            - generic [ref=e238]: document.pdf
+                            - paragraph [ref=e241]:
+                              - generic [ref=e242]: fichier
+                          - button "Sélectionner document.pdf" [ref=e243]
+                        - generic [ref=e249] [cursor=pointer]:
+                          - generic [ref=e255]:
+                            - generic [ref=e258]: definir-ses-valeurs-exercices.docx
+                            - paragraph [ref=e261]:
+                              - generic [ref=e262]: fichier
+                          - button "Sélectionner definir-ses-valeurs-exercices.docx" [ref=e263]
+                        - generic [ref=e269] [cursor=pointer]:
+                          - generic [ref=e275]:
+                            - generic [ref=e278]: http://example.com/resource1
+                            - paragraph [ref=e281]:
+                              - generic [ref=e282]: lien
+                          - button "Sélectionner http://example.com/resource1" [ref=e283]
+                        - generic [ref=e289] [cursor=pointer]:
+                          - generic [ref=e295]:
+                            - generic [ref=e298]: https://example.com/definir-ses-valeurs
+                            - paragraph [ref=e301]:
+                              - generic [ref=e302]: lien
+                          - button "Sélectionner https://example.com/definir-ses-valeurs" [ref=e303]
+                        - button "Ajouter" [ref=e307] [cursor=pointer]:
+                          - generic [ref=e310]: Ajouter
+                      - button "Supprimer" [disabled] [ref=e314]:
+                        - generic [ref=e317]: Supprimer
+                  - generic [ref=e319]:
+                    - generic [ref=e320]:
+                      - generic [ref=e325]: Modalités
+                      - button "Réduire" [expanded] [ref=e328] [cursor=pointer]
+                    - generic [ref=e331]:
+                      - generic [ref=e334]:
+                        - generic [ref=e338]: Définir une période de réalisation
+                        - checkbox "Non" [ref=e339] [cursor=pointer]
+                        - generic [ref=e341] [cursor=pointer]:
+                          - img [ref=e343]
+                          - generic [ref=e346]: Non
+                      - generic [ref=e348]:
+                        - generic [ref=e350]:
+                          - generic [ref=e354]: Prise de recul
+                          - checkbox "Non" [disabled] [ref=e355] [cursor=pointer]
+                          - generic [ref=e357]:
+                            - img [ref=e359]
+                            - generic [ref=e362]: Non
+                        - generic [ref=e363]:
+                          - status [ref=e364]:
+                            - generic [ref=e368]: Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.
+                          - generic [ref=e369]: Lorsque le paramètre est activé, les apprenants peuvent rédiger une prise de recul et associer des éléments dans le cadre de leur activité. En conservant le paramètre de demande de feedback, vous pourrez visualiser les prise de recul lorsqu'ils enverront leurs activités pour feedback.
+                      - generic [ref=e370]:
+                        - generic [ref=e372]:
+                          - generic [ref=e376]: Association de traces
+                          - checkbox "Oui" [checked] [disabled] [ref=e377] [cursor=pointer]
+                          - generic [ref=e379]:
+                            - img [ref=e381]
+                            - generic [ref=e384]: Oui
+                        - generic [ref=e386]:
+                          - status [ref=e387]:
+                            - generic [ref=e391]: Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.
+                          - generic [ref=e392]: Lorsque le paramètre est désactivé, les apprenants ne peuvent pas associer de traces à leur activité.
+                          - checkbox "Non Autoriser un nombre illimité d'associations de traces" [disabled] [ref=e393] [cursor=pointer]
+                          - generic [ref=e394]:
+                            - generic [ref=e395]:
+                              - img [ref=e397]
+                              - generic [ref=e400]: Non
+                            - generic [ref=e401]: Autoriser un nombre illimité d'associations de traces
+                          - generic [ref=e404]:
+                            - generic [ref=e406]: Combien d'associations de traces maximum ?
+                            - spinbutton "Combien d'associations de traces maximum ?" [disabled] [ref=e407]: "3"
+                      - generic [ref=e408]:
+                        - generic [ref=e410]:
+                          - generic [ref=e414]: Demande de feedback
+                          - checkbox "Oui" [checked] [disabled] [ref=e415] [cursor=pointer]
+                          - generic [ref=e417]:
+                            - img [ref=e419]
+                            - generic [ref=e422]: Oui
+                        - generic [ref=e424]:
+                          - status [ref=e425]:
+                            - generic [ref=e429]: Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.
+                          - generic [ref=e430]: Lorsque le paramètre est désactivé, les apprenants ne peuvent pas demander de feedback sur leur activité en passant par COFOLIO.
+                          - checkbox "Non Autoriser un nombre illimité d'itérations de feedback" [disabled] [ref=e431] [cursor=pointer]
+                          - generic [ref=e432]:
+                            - generic [ref=e433]:
+                              - img [ref=e435]
+                              - generic [ref=e438]: Non
+                            - generic [ref=e439]: Autoriser un nombre illimité d'itérations de feedback
+                          - generic [ref=e442]:
+                            - generic [ref=e444]: Combien d'itérations maximum ?
+                            - spinbutton "Combien d'itérations maximum ?" [disabled] [ref=e445]: "2"
+                  - generic [ref=e446]:
+                    - generic [ref=e447]:
+                      - link "Quitter" [ref=e448] [cursor=pointer]:
+                        - /url: /cofolio/staff/activities
+                        - generic [ref=e451]: Quitter
+                      - button "Enregistrer pour plus tard" [disabled] [ref=e454]:
+                        - generic [ref=e457]: Enregistrer pour plus tard
+                    - button "Étape suivante" [ref=e458] [cursor=pointer]:
+                      - generic [ref=e461]: Étape suivante
+    - contentinfo [ref=e462]:
+      - generic [ref=e464]:
+        - generic [ref=e465]:
+          - link "Logo ANR" [ref=e466] [cursor=pointer]:
+            - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+            - img "Logo ANR" [ref=e467]
+          - link "Logo France 2030" [ref=e468] [cursor=pointer]:
+            - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+            - img "Logo France 2030" [ref=e469]
+        - generic [ref=e470]: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+      - generic [ref=e471]:
+        - generic [ref=e472]:
+          - img "Logo Cofolio" [ref=e473]
+          - generic [ref=e484]: Un ePortfolio pour l'Enseignement Supérieur et la Recherche
+        - generic [ref=e485]:
+          - generic [ref=e486]:
+            - generic [ref=e487]: Informations légales
+            - list [ref=e488]:
+              - listitem [ref=e489]:
+                - 'link "Accessibilité : partiellement conforme" [ref=e490] [cursor=pointer]':
+                  - /url: /cofolio/staff/accessibility
+              - listitem [ref=e491]:
+                - link "Conditions générales d'utilisation" [ref=e492] [cursor=pointer]:
+                  - /url: /cofolio/staff/cgu
+              - listitem [ref=e493]:
+                - link "Données personnelles" [ref=e494] [cursor=pointer]:
+                  - /url: /cofolio/staff/personal-data
+              - listitem [ref=e495]:
+                - link "Gestion des cookies" [ref=e496] [cursor=pointer]:
+                  - /url: /cofolio/staff/cookies
+          - generic [ref=e497]:
+            - generic [ref=e498]: Autres sites
+            - list [ref=e499]:
+              - listitem [ref=e500]:
+                - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e501] [cursor=pointer]:
+                  - /url: https://avenirs-esr.fr/
+                  - text: avenirs-esr.fr
+          - generic [ref=e502]:
+            - generic [ref=e503]: Partenaires
+            - generic [ref=e504]:
+              - link "Volet ESR du programme AVENIR(s) - Accueil" [ref=e505] [cursor=pointer]:
+                - /url: https://avenirs-esr.fr/
+                - img "Logo Avenir(s) ESR" [ref=e506]
+              - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil" [ref=e507] [cursor=pointer]:
+                - /url: https://www.esup-portail.org/
+                - img "Logo Esup Portail" [ref=e509]
+      - link "@ESUP-Portail. Tous droits réservés. - Accueil" [ref=e513] [cursor=pointer]:
+        - /url: https://www.esup-portail.org/
+        - text: "@ESUP-Portail. Tous droits réservés."
+  - dialog "Ajouter un document ou un lien" [ref=e514]:
+    - generic [ref=e516]:
+      - generic [ref=e517]:
+        - generic [ref=e519]: Ajouter un document ou un lien
+        - generic [ref=e520]:
+          - generic [ref=e521]:
+            - generic [ref=e522]: Ajouter
+            - button "Un document" [expanded] [active] [ref=e523] [cursor=pointer]:
+              - generic [ref=e524]: Un document
+            - generic [ref=e525]:
+              - paragraph [ref=e526]: Utilisez la tabulation (ou les touches flèches) pour naviguer dans la liste des suggestions
+              - list [ref=e527]:
+                - listitem [ref=e528]:
+                  - generic [ref=e532]:
+                    - checkbox "un document" [checked] [ref=e533] [cursor=pointer]
+                    - generic [ref=e538] [cursor=pointer]: un document
+                    - status
+                - listitem [ref=e539]:
+                  - generic [ref=e543]:
+                    - checkbox "un lien" [ref=e544] [cursor=pointer]
+                    - generic [ref=e549] [cursor=pointer]: un lien
+                    - status
+          - status
+          - generic [ref=e550]:
+            - generic "Ajouter un fichier" [ref=e552] [cursor=pointer]:
+              - generic [ref=e554]:
+                - generic [ref=e559]:
+                  - generic [ref=e560]: Ajouter un fichier
+                  - generic [ref=e561]: ou glisser et déposer ici
+                - button "Ajouter un fichier"
+            - generic [ref=e565]: "Format : PDF, DOC, DOCX, ODT, JPG, PNG • Poids : 10 Mo max"
+          - generic [ref=e567]:
+            - generic [ref=e568]:
+              - generic [ref=e570]: Nom de mon document
+              - textbox "Nom de mon document" [ref=e571]
+            - generic [ref=e572]: 0 / 255 caractères (espaces compris)
+      - generic [ref=e574]:
+        - button "Annuler" [ref=e575] [cursor=pointer]:
+          - generic [ref=e578]: Annuler
+        - button "Ajouter" [disabled] [ref=e581]:
+          - generic [ref=e584]: Ajouter
+```
+
+# Test source
+
+```ts
+  1 | import type { Locator } from '@playwright/test'
+  2 | import { expect } from '@playwright/test'
+  3 | 
+  4 | export async function clickOnElement (element: Locator) {
+  5 |   await expect(element).toBeVisible()
+  6 |   await expect(element).toBeEnabled()
+> 7 |   await element.click()
+    |                 ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  8 | }
+  9 | 
+```
