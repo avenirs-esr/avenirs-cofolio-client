@@ -21,6 +21,7 @@ const { modalOpened, openModal, closeModal } = useModal()
       text-color="var(--title)"
       typography-class="n4"
       gap="var(--spacing-sm)"
+      inline
     />
     <AvButton
       variant="OUTLINED"

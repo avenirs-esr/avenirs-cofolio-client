@@ -4,6 +4,7 @@
   generic="T extends Record<string, Component>"
 >
 import type {
+  AvSelectModelValue,
   AvSelectOption,
   AvSelectSelectedOption,
   AvSideNavigationMenuItem,
@@ -15,7 +16,7 @@ import type {
   SectionPropsBySection,
   SectionSelection,
 } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
-import { AvSelect, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { AvSelect, getAvSelectSelectedOption, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { markRaw } from 'vue'
 import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
@@ -84,17 +85,23 @@ const sideNavigationItems = computed<AvSideNavigationMenuItem[]>(() =>
 
 const selectOptions = computed<AvSelectOption[]>(() =>
   items.map(item => ({
-    id: item.id,
+    value: item.id,
     label: item.label,
   })),
 )
 
 const isSideMenuCollapsed = ref(false)
 
-function onSelectChange (value: AvSelectSelectedOption) {
+function onSelectChange (value: AvSelectModelValue) {
+  const selectedOption = getAvSelectSelectedOption(value)
+
+  if (!selectedOption) {
+    return
+  }
+
   selectedItem.value = {
-    itemId: value.itemId,
-    parentId: value.parentId,
+    itemId: String(selectedOption.value),
+    parentId: selectedOption.parentId,
   }
 }
 
@@ -113,6 +120,20 @@ watch(() => defaultSection, (newDefaultSection) => {
   selectedItem.value = {
     itemId: newDefaultSection,
   }
+})
+
+const selectedSectionOption = computed<AvSelectSelectedOption>({
+  get () {
+    return selectOptions.value.find(
+      option => option.value === selectedItem.value?.itemId,
+    ) ?? selectOptions.value[0]
+  },
+  set (option) {
+    selectedItem.value = {
+      itemId: String(option.value),
+      parentId: option.parentId,
+    }
+  },
 })
 
 watch(selectedItem, (newItem) => {
@@ -146,11 +167,14 @@ watch(selectedItem, (newItem) => {
       <AvSelect
         v-else
         data-testid="section-navigation-select-navigation"
-        :selected-item="selectedItem"
+        :model-value="selectedSectionOption"
+        :selected-text="selectedSectionOption.label"
         :options="selectOptions"
         :placeholder="selectPlaceholder"
         :label="resolvedSelectLabel"
-        @update:selected-item="onSelectChange"
+        width="100%"
+        required
+        @update:model-value="onSelectChange"
       />
     </Loader>
 

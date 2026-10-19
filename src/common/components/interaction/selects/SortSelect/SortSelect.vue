@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import type { AvSelectOption, AvSelectProps } from '@avenirs-esr/avenirs-dsav'
+import type { AvSelectOption, AvSelectProps, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import type { SortValue } from '@/common/types'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { ESortField, ESortOrder } from '@/api/avenir-esr'
 import { formatSortValue } from '@/common/utils/http/http-params'
 
-export type SortSelectProps = Omit<AvSelectProps, 'options' | 'placeholder' | 'label'>
+export type SortSelectProps = Omit<AvSelectProps, 'options' | 'placeholder' | 'label' | 'selectedText'>
 
 const { labelVisible = true, ...restProps } = defineProps<SortSelectProps>()
 
@@ -20,22 +20,36 @@ const sortOptions = computed<AvSelectOption[]>(() => [
   formatSortValue(ESortField.DATE, ESortOrder.DESC),
   formatSortValue(ESortField.DATE, ESortOrder.ASC)
 ].map(value => ({
-  id: value,
+  value,
   label: t(`global.sort.${value}`)
 })))
+
+const selectedSortOption = computed<AvSelectSelectedOption>({
+  get () {
+    return sortOptions.value.find(
+      option => option.value === selectedItem.value?.itemId,
+    ) ?? sortOptions.value[0]
+  },
+  set (option) {
+    selectedItem.value = { itemId: option.value as SortValue }
+  },
+})
 
 const avSelectProps = computed<AvSelectProps>(() => ({
   ...restProps,
   label: t('global.sort.label'),
   placeholder: '',
   options: sortOptions.value,
-  labelVisible
+  labelVisible,
+  selectedText: selectedSortOption.value.label,
 }))
 </script>
 
 <template>
   <AvSelect
     v-bind="avSelectProps"
-    v-model:selected-item="selectedItem"
+    v-model="selectedSortOption"
+    width="var(--dimension-7xl)"
+    required
   />
 </template>

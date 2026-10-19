@@ -158,7 +158,7 @@ BddTest().given('a self knowledge category elements paginator card', () => {
 
           BddTest().then('it should update the current page', async () => {
             const pagination = getAvPagination()
-            await pagination.vm.$emit('update:current-page', 1)
+            await pagination.vm.$emit('update:currentPage', 1)
 
             await vi.waitFor(() => {
               expect(pagination.props('currentPage')).toBe(1)

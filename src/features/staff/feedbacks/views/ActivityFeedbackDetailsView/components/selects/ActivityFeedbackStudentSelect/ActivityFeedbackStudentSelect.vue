@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type { AvSelectOption, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
+import type { AvSelectModelValue, AvSelectOption, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import type { StudentFeedbackItemListDTO } from '@/api/avenir-esr'
-import { AvButton, AvSelect, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { AvButton, AvSelect, getAvSelectSelectedOption, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { useNavigation } from '@/common/composables'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
@@ -33,18 +33,18 @@ const options = computed<StudentSelectOption[]>(() =>
       Boolean(feedback.feedbackId),
     )
     .map(({ feedbackId, student, status }) => ({
-      id: student.id,
+      value: student.id,
       feedbackId,
       label: `${student.firstName} ${student.lastName} • ${t(`staff.feedbacks.badges.feedbackStatus.${status}`)}`,
     })),
 )
 
-const selectedOptionValue = computed<AvSelectSelectedOption>(() => ({
-  itemId: selectedStudentId ?? '',
-}))
+const selectedOption = computed<AvSelectSelectedOption | null>(() =>
+  options.value.find(option => option.value === selectedStudentId) ?? null,
+)
 
 const selectedIndex = computed(() =>
-  options.value.findIndex(option => option.id === selectedStudentId),
+  options.value.findIndex(option => option.value === selectedStudentId),
 )
 
 const selectedFeedback = computed(() =>
@@ -77,8 +77,15 @@ function navigateToFeedback (feedbackId: string) {
     : navigateToStaffActivityFeedbackDetails({ feedbackId })
 }
 
-function onSelectedItemChange (selected: AvSelectSelectedOption) {
-  const option = options.value.find(option => option.id === selected.itemId)
+function onSelectedItemChange (selected: AvSelectModelValue) {
+  const selectedValue = getAvSelectSelectedOption(selected)
+
+  if (!selectedValue) {
+    return
+  }
+
+  const option = options.value.find(option => option.value === selectedValue.value)
+
   if (option) {
     navigateToFeedback(option.feedbackId)
   }
@@ -100,11 +107,15 @@ function onSelectedItemChange (selected: AvSelectSelectedOption) {
     <div class="activity-feedback-student-select av-col av-align-center av-w-full av-gap-xs">
       <div class="activity-feedback-student-select__control av-text-center">
         <AvSelect
-          :selected-item="selectedOptionValue"
+          :model-value="selectedOption"
           :options="options"
+          :label="t('staff.feedbacks.views.ActivityFeedbackDetailsView.ActivityFeedbackStudentSelect.placeholder')"
           :placeholder="t('staff.feedbacks.views.ActivityFeedbackDetailsView.ActivityFeedbackStudentSelect.placeholder')"
           data-testid="student-feedback-select"
-          @update:selected-item="onSelectedItemChange"
+          :label-visible="false"
+          width="var(--dimension-8xl)"
+          required
+          @update:model-value="onSelectedItemChange"
         />
       </div>
 

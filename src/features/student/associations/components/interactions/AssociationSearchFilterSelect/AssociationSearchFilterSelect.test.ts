@@ -7,21 +7,26 @@ import AssociationSearchFilterSelect from '@/features/student/associations/compo
 import { AssociationSearchFilter } from '@/features/student/associations/types/associations.types'
 
 const stubs = {
-  AvSelect: AvSelectStub
+  AvSelect: AvSelectStub,
 }
 
 function mountSelect (props: AssociationSearchFilterSelectProps & { modelValue: AssociationSearchFilter }) {
-  return mountComponent(AssociationSearchFilterSelect, { props, global: { stubs } })
+  return mountComponent(AssociationSearchFilterSelect, {
+    props,
+    global: { stubs },
+  })
 }
 
 BddTest().given('an association search filter select', () => {
   let wrapper: ReturnType<typeof mountSelect>
 
+  const getAvSelect = () => wrapper.findComponent(AvSelectStub)
+
   BddTest().when('the component is mounted for traces', () => {
     beforeEach(() => {
       wrapper = mountSelect({
         contextType: EAssociationContextType.TRACE,
-        modelValue: AssociationSearchFilter.UNASSOCIATED
+        modelValue: AssociationSearchFilter.UNASSOCIATED,
       })
     })
 
@@ -30,38 +35,49 @@ BddTest().given('an association search filter select', () => {
     })
 
     BddTest().then('it should display the default translated label and placeholder', () => {
-      const select = wrapper.findComponent(AvSelectStub)
-
-      expect(select.props('label')).toBe('Rechercher dans :')
-      expect(select.props('placeholder')).toBe('Sélectionnez un filtre')
+      expect(getAvSelect().props('label')).toBe('Rechercher dans :')
+      expect(getAvSelect().props('placeholder')).toBe('Sélectionnez un filtre')
     })
 
     BddTest().then('it should display the label by default', () => {
-      expect(wrapper.findComponent(AvSelectStub).attributes('label-visible')).toBe('true')
+      expect(getAvSelect().props('labelVisible')).toBe(true)
     })
 
     BddTest().then('it should propose every search filter with its translated label', () => {
-      expect(wrapper.findComponent(AvSelectStub).props('options')).toEqual([
-        { id: AssociationSearchFilter.ALL, label: 'Toutes mes traces' },
-        { id: AssociationSearchFilter.ASSOCIATED, label: 'Mes traces associées' },
-        { id: AssociationSearchFilter.UNASSOCIATED, label: 'Mes traces non associées' }
+      expect(getAvSelect().props('options')).toEqual([
+        {
+          value: AssociationSearchFilter.ALL,
+          label: 'Toutes mes traces',
+        },
+        {
+          value: AssociationSearchFilter.ASSOCIATED,
+          label: 'Mes traces associées',
+        },
+        {
+          value: AssociationSearchFilter.UNASSOCIATED,
+          label: 'Mes traces non associées',
+        },
       ])
     })
 
-    BddTest().then('it should select the search filter of the model', () => {
-      expect(wrapper.findComponent(AvSelectStub).props('selectedItem')).toEqual({
-        itemId: AssociationSearchFilter.UNASSOCIATED
+    BddTest().then('it should select the search filter from the model', () => {
+      expect(getAvSelect().props('modelValue')).toEqual({
+        value: AssociationSearchFilter.UNASSOCIATED,
+        label: 'Mes traces non associées',
       })
     })
 
     BddTest().and('the model changes', () => {
       beforeEach(async () => {
-        await wrapper.setProps({ modelValue: AssociationSearchFilter.ALL })
+        await wrapper.setProps({
+          modelValue: AssociationSearchFilter.ALL,
+        })
       })
 
       BddTest().then('it should select the new search filter', () => {
-        expect(wrapper.findComponent(AvSelectStub).props('selectedItem')).toEqual({
-          itemId: AssociationSearchFilter.ALL
+        expect(getAvSelect().props('modelValue')).toEqual({
+          value: AssociationSearchFilter.ALL,
+          label: 'Toutes mes traces',
         })
       })
     })
@@ -72,7 +88,16 @@ BddTest().given('an association search filter select', () => {
       })
 
       BddTest().then('it should update the model with the selected search filter', () => {
-        expect(wrapper.emitted('update:modelValue')).toEqual([[AssociationSearchFilter.ASSOCIATED]])
+        expect(wrapper.emitted('update:modelValue')).toEqual([
+          [AssociationSearchFilter.ASSOCIATED],
+        ])
+      })
+
+      BddTest().then('it should select the newly chosen option', () => {
+        expect(getAvSelect().props('modelValue')).toEqual({
+          value: AssociationSearchFilter.ASSOCIATED,
+          label: 'Mes traces associées',
+        })
       })
     })
   })
@@ -83,16 +108,36 @@ BddTest().given('an association search filter select', () => {
         contextType: EAssociationContextType.TRACE,
         label: 'De type :',
         labelVisible: false,
-        modelValue: AssociationSearchFilter.ALL
+        modelValue: AssociationSearchFilter.ALL,
       })
     })
 
     BddTest().then('it should display the custom label', () => {
-      expect(wrapper.findComponent(AvSelectStub).props('label')).toBe('De type :')
+      expect(getAvSelect().props('label')).toBe('De type :')
     })
 
     BddTest().then('it should hide the label', () => {
-      expect(wrapper.findComponent(AvSelectStub).attributes('label-visible')).toBe('false')
+      expect(getAvSelect().props('labelVisible')).toBe(false)
+    })
+  })
+
+  BddTest().when('the component receives a different context type', () => {
+    beforeEach(async () => {
+      wrapper = mountSelect({
+        contextType: EAssociationContextType.TRACE,
+        modelValue: AssociationSearchFilter.ALL,
+      })
+
+      await wrapper.setProps({
+        contextType: EAssociationContextType.TRACE,
+      })
+    })
+
+    BddTest().then('it should keep the current filter selected', () => {
+      expect(getAvSelect().props('modelValue')).toEqual({
+        value: AssociationSearchFilter.ALL,
+        label: 'Toutes mes traces',
+      })
     })
   })
 })

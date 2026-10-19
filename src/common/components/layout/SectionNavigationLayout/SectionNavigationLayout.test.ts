@@ -13,6 +13,7 @@ const useAvBreakpointsMock = vi.fn()
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+
   return {
     ...actual,
     useAvBreakpoints: () => useAvBreakpointsMock(),
@@ -89,9 +90,8 @@ BddTest().given('a section navigation layout component', () => {
 
   BddTest().when('the component is mounted on desktop', () => {
     beforeEach(async () => {
-      useAvBreakpointsMock.mockReturnValue({
-        isMobile: false,
-      })
+      vi.clearAllMocks()
+      useAvBreakpointsMock.mockReturnValue({ isMobile: false })
 
       wrapper = mount(SectionNavigationLayout, {
         props: {
@@ -103,9 +103,7 @@ BddTest().given('a section navigation layout component', () => {
           selectPlaceholder: 'Choisir une section',
           selectLabel: 'Navigation des sections',
         },
-        global: {
-          stubs,
-        },
+        global: { stubs },
       })
 
       await flushPromises()
@@ -141,7 +139,6 @@ BddTest().given('a section navigation layout component', () => {
       expect(sideNavigation.exists()).toBe(true)
       expect(sideNavigation.props('selectedItem')).toEqual({
         itemId: 'first-section',
-        parentId: undefined,
       })
       expect(sideNavigation.props('items')).toEqual([
         {
@@ -159,8 +156,10 @@ BddTest().given('a section navigation layout component', () => {
 
     BddTest().and('the side navigation selects the second section', () => {
       beforeEach(async () => {
-        const sideNavigation = wrapper.findComponent(SideNavigationStub)
-        sideNavigation.vm.$emit('update:selectedItem', { itemId: 'second-section' })
+        wrapper.findComponent(SideNavigationStub).vm.$emit(
+          'update:selectedItem',
+          { itemId: 'second-section' },
+        )
         await wrapper.vm.$nextTick()
       })
 
@@ -178,22 +177,31 @@ BddTest().given('a section navigation layout component', () => {
         expect(secondSectionComponent.exists()).toBe(true)
         expect(secondSectionComponent.props('description')).toBe('Description de la seconde section')
       })
+
+      BddTest().then('it should emit the selected item and its label', () => {
+        expect(wrapper.emitted('selectedItem')?.at(-1)).toEqual([
+          { itemId: 'second-section', parentId: undefined },
+        ])
+        expect(wrapper.emitted('selectedItemLabel')?.at(-1)).toEqual([
+          'Deuxième section',
+        ])
+      })
     })
 
     BddTest().and('the side navigation emits a selected item with parent id', () => {
       beforeEach(async () => {
-        const sideNavigation = wrapper.findComponent(SideNavigationStub)
-        sideNavigation.vm.$emit('update:selectedItem', {
-          itemId: 'second-section',
-          parentId: 'parent-section',
-        })
+        wrapper.findComponent(SideNavigationStub).vm.$emit(
+          'update:selectedItem',
+          {
+            itemId: 'second-section',
+            parentId: 'parent-section',
+          },
+        )
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should keep the selected parent id in the side navigation selected item', () => {
-        const sideNavigation = wrapper.findComponent(SideNavigationStub)
-
-        expect(sideNavigation.props('selectedItem')).toEqual({
+      BddTest().then('it should preserve the selected parent id', () => {
+        expect(wrapper.findComponent(SideNavigationStub).props('selectedItem')).toEqual({
           itemId: 'second-section',
           parentId: 'parent-section',
         })
@@ -202,12 +210,20 @@ BddTest().given('a section navigation layout component', () => {
       BddTest().then('it should render the selected section component', () => {
         expect(wrapper.find('[data-testid="second-section"]').exists()).toBe(true)
       })
+
+      BddTest().then('it should emit the selected item with its parent id', () => {
+        expect(wrapper.emitted('selectedItem')?.at(-1)).toEqual([
+          { itemId: 'second-section', parentId: 'parent-section' },
+        ])
+      })
     })
 
     BddTest().and('the side navigation emits an invalid selected item', () => {
       beforeEach(async () => {
-        const sideNavigation = wrapper.findComponent(SideNavigationStub)
-        sideNavigation.vm.$emit('update:selectedItem', { itemId: 'invalid-section' })
+        wrapper.findComponent(SideNavigationStub).vm.$emit(
+          'update:selectedItem',
+          { itemId: 'invalid-section' },
+        )
         await wrapper.vm.$nextTick()
       })
 
@@ -220,12 +236,11 @@ BddTest().given('a section navigation layout component', () => {
     BddTest().and('the default section prop changes externally', () => {
       beforeEach(async () => {
         await wrapper.setProps({ defaultSection: 'second-section' })
+        await flushPromises()
       })
 
       BddTest().then('it should resync the selected item with the new default section', () => {
-        const sideNavigation = wrapper.findComponent(SideNavigationStub)
-
-        expect(sideNavigation.props('selectedItem')).toEqual({
+        expect(wrapper.findComponent(SideNavigationStub).props('selectedItem')).toEqual({
           itemId: 'second-section',
         })
       })
@@ -239,9 +254,8 @@ BddTest().given('a section navigation layout component', () => {
 
   BddTest().when('the component is mounted on mobile', () => {
     beforeEach(async () => {
-      useAvBreakpointsMock.mockReturnValue({
-        isMobile: true,
-      })
+      vi.clearAllMocks()
+      useAvBreakpointsMock.mockReturnValue({ isMobile: true })
 
       wrapper = mount(SectionNavigationLayout, {
         props: {
@@ -252,9 +266,7 @@ BddTest().given('a section navigation layout component', () => {
           selectPlaceholder: 'Choisir une section',
           selectLabel: 'Navigation des sections',
         },
-        global: {
-          stubs,
-        },
+        global: { stubs },
       })
 
       await flushPromises()
@@ -273,23 +285,24 @@ BddTest().given('a section navigation layout component', () => {
       expect(wrapper.find('[data-testid="second-section"]').exists()).toBe(false)
     })
 
-    BddTest().then('it should pass select props', () => {
+    BddTest().then('it should pass the select props and options', () => {
       const selectNavigation = wrapper.findComponent(AvSelectStub)
 
       expect(selectNavigation.exists()).toBe(true)
-      expect(selectNavigation.props('selectedItem')).toEqual({
-        itemId: 'first-section',
-        parentId: undefined,
+      expect(selectNavigation.props('modelValue')).toEqual({
+        value: 'first-section',
+        label: 'Première section',
       })
+      expect(selectNavigation.props('selectedText')).toBe('Première section')
       expect(selectNavigation.props('placeholder')).toBe('Choisir une section')
       expect(selectNavigation.props('label')).toBe('Navigation des sections')
       expect(selectNavigation.props('options')).toEqual([
         {
-          id: 'first-section',
+          value: 'first-section',
           label: 'Première section',
         },
         {
-          id: 'second-section',
+          value: 'second-section',
           label: 'Deuxième section',
         },
       ])
@@ -297,8 +310,10 @@ BddTest().given('a section navigation layout component', () => {
 
     BddTest().and('the select navigation selects the second section', () => {
       beforeEach(async () => {
-        const selectNavigation = wrapper.findComponent(AvSelectStub)
-        selectNavigation.vm.$emit('update:selectedItem', { itemId: 'second-section' })
+        wrapper.findComponent(AvSelectStub).vm.$emit(
+          'update:modelValue',
+          { value: 'second-section', label: 'Deuxième section' },
+        )
         await wrapper.vm.$nextTick()
       })
 
@@ -310,46 +325,71 @@ BddTest().given('a section navigation layout component', () => {
         expect(wrapper.find('[data-testid="first-section"]').exists()).toBe(false)
       })
 
+      BddTest().then('it should update the selected option', () => {
+        expect(wrapper.findComponent(AvSelectStub).props('modelValue')).toEqual({
+          value: 'second-section',
+          label: 'Deuxième section',
+        })
+      })
+
       BddTest().then('it should pass the correct props to the second section component', () => {
         const secondSectionComponent = wrapper.findComponent(SecondSectionComponentStub)
 
         expect(secondSectionComponent.exists()).toBe(true)
         expect(secondSectionComponent.props('description')).toBe('Description de la seconde section')
       })
+
+      BddTest().then('it should emit the selected item and its label', () => {
+        expect(wrapper.emitted('selectedItem')?.at(-1)).toEqual([
+          { itemId: 'second-section', parentId: undefined },
+        ])
+        expect(wrapper.emitted('selectedItemLabel')?.at(-1)).toEqual([
+          'Deuxième section',
+        ])
+      })
     })
 
-    BddTest().and('the select navigation emits a selected item with parent id', () => {
+    BddTest().and('the select navigation emits a selected option with parent id', () => {
       beforeEach(async () => {
-        const selectNavigation = wrapper.findComponent(AvSelectStub)
-        selectNavigation.vm.$emit('update:selectedItem', {
-          itemId: 'second-section',
-          parentId: 'parent-section',
-        })
+        wrapper.findComponent(AvSelectStub).vm.$emit(
+          'update:modelValue',
+          {
+            value: 'second-section',
+            label: 'Deuxième section',
+            parentId: 'parent-section',
+          },
+        )
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should keep the selected parent id in the select selected item', () => {
-        const selectNavigation = wrapper.findComponent(AvSelectStub)
-
-        expect(selectNavigation.props('selectedItem')).toEqual({
-          itemId: 'second-section',
-          parentId: 'parent-section',
-        })
+      BddTest().then('it should preserve the parent id in the selected item event', () => {
+        expect(wrapper.emitted('selectedItem')?.at(-1)).toEqual([
+          { itemId: 'second-section', parentId: 'parent-section' },
+        ])
       })
 
       BddTest().then('it should render the selected section component', () => {
         expect(wrapper.find('[data-testid="second-section"]').exists()).toBe(true)
       })
+
+      BddTest().then('it should display the selected option without changing its label', () => {
+        expect(wrapper.findComponent(AvSelectStub).props('modelValue')).toEqual({
+          value: 'second-section',
+          label: 'Deuxième section',
+        })
+      })
     })
 
-    BddTest().and('the select navigation emits an invalid selected item', () => {
+    BddTest().and('the select navigation emits an invalid selected option', () => {
       beforeEach(async () => {
-        const selectNavigation = wrapper.findComponent(AvSelectStub)
-        selectNavigation.vm.$emit('update:selectedItem', { itemId: 'invalid-section' })
+        wrapper.findComponent(AvSelectStub).vm.$emit(
+          'update:modelValue',
+          { value: 'invalid-section', label: 'Section inconnue' },
+        )
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should keep the default section component', () => {
+      BddTest().then('it should keep the default section component displayed', () => {
         expect(wrapper.find('[data-testid="first-section"]').exists()).toBe(true)
         expect(wrapper.find('[data-testid="second-section"]').exists()).toBe(false)
       })
@@ -358,9 +398,8 @@ BddTest().given('a section navigation layout component', () => {
 
   BddTest().when('the select label is not provided', () => {
     beforeEach(async () => {
-      useAvBreakpointsMock.mockReturnValue({
-        isMobile: true,
-      })
+      vi.clearAllMocks()
+      useAvBreakpointsMock.mockReturnValue({ isMobile: true })
 
       wrapper = mount(SectionNavigationLayout, {
         props: {
@@ -370,27 +409,21 @@ BddTest().given('a section navigation layout component', () => {
           propsBySection,
           selectPlaceholder: 'Choisir une section',
         },
-        global: {
-          stubs,
-        },
+        global: { stubs },
       })
 
       await flushPromises()
     })
 
     BddTest().then('it should use the placeholder as select label', () => {
-      const selectNavigation = wrapper.findComponent(AvSelectStub)
-
-      expect(selectNavigation.exists()).toBe(true)
-      expect(selectNavigation.props('label')).toBe('Choisir une section')
+      expect(wrapper.findComponent(AvSelectStub).props('label')).toBe('Choisir une section')
     })
   })
 
   BddTest().when('props by section is not provided', () => {
     beforeEach(async () => {
-      useAvBreakpointsMock.mockReturnValue({
-        isMobile: false,
-      })
+      vi.clearAllMocks()
+      useAvBreakpointsMock.mockReturnValue({ isMobile: false })
 
       wrapper = mount(SectionNavigationLayout, {
         props: {
@@ -399,9 +432,7 @@ BddTest().given('a section navigation layout component', () => {
           componentBySection,
           selectPlaceholder: 'Choisir une section',
         },
-        global: {
-          stubs,
-        },
+        global: { stubs },
       })
 
       await flushPromises()

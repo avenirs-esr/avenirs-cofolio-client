@@ -1,4 +1,4 @@
-import type { AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
+import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
@@ -214,7 +214,7 @@ BddTest().given('a trace filter container', () => {
 
       BddTest().then('it should emit update:modelValue', async () => {
         expect(typesMultiselect.emitted('update:modelValue')).toBeDefined()
-        const emittedValues = typesMultiselect.emitted('update:modelValue')![0][0] as Array<[AvMultiselectOption[]]>
+        const emittedValues = typesMultiselect.emitted('update:modelValue')![0][0] as Array<[AvSelectOption[]]>
         expect(emittedValues).toEqual([{ value: FileGlobalType.PDF, label: FileGlobalType.PDF }])
       })
 
@@ -447,7 +447,7 @@ BddTest().given('a trace filter container', () => {
 
       BddTest().then('it should emit update:modelValue', async () => {
         expect(typesMultiselect.emitted('update:modelValue')).toBeDefined()
-        const emittedValues = typesMultiselect.emitted('update:modelValue')![0][0] as Array<[AvMultiselectOption[]]>
+        const emittedValues = typesMultiselect.emitted('update:modelValue')![0][0] as Array<[AvSelectOption[]]>
         expect(emittedValues).toEqual([{ value: FileGlobalType.PDF, label: FileGlobalType.PDF }])
       })
 

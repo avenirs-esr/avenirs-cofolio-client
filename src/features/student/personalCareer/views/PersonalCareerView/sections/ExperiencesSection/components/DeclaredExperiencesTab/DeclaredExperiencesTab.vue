@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
+import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
 import type { EExperienceType } from '@/api/avenir-esr'
 import type { SortValue } from '@/common/types'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
@@ -33,7 +33,7 @@ const {
   toRef(personalCareerStore, 'declaredExperiencesPageSizeSelected')
 )
 
-const selectedExperienceTypes = ref<AvMultiselectOption[]>([])
+const selectedExperienceTypes = ref<AvSelectOption[]>([])
 const experienceTypes = computed<EExperienceType[]>(() =>
   selectedExperienceTypes.value.map(option => option.value as EExperienceType)
 )

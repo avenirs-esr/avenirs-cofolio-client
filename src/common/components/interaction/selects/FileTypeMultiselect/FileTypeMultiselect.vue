@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { AvMultiselectItem, AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
-import { AvMultiselect, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import type { AvSelectItem, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
+import { AvSelect, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 import { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
@@ -10,10 +10,11 @@ defineProps<{ maxHeight?: string }>()
 
 const { t } = useI18n()
 
-const typesSelected = defineModel<AvMultiselectOption[]>({ default: () => [] })
+const typesSelected = defineModel<AvSelectSelectedOption[]>({ default: () => [] })
 
-const typesOptions = computed<AvMultiselectItem[]>(() => [
+const typesOptions = computed<AvSelectItem[]>(() => [
   {
+    id: 'file-types',
     label: capitalize(t('global.file', { count: 2 })),
     children: [
       {
@@ -49,6 +50,7 @@ const typesOptions = computed<AvMultiselectItem[]>(() => [
     ]
   },
   {
+    id: 'other-types',
     label: capitalize(t('global.other', { count: 2 })),
     children: [{
       value: TraceType.LINK,
@@ -60,7 +62,7 @@ const typesOptions = computed<AvMultiselectItem[]>(() => [
 </script>
 
 <template>
-  <AvMultiselect
+  <AvSelect
     v-model="typesSelected"
     class="file-type-multiselect"
     :options="typesOptions"
@@ -71,6 +73,7 @@ const typesOptions = computed<AvMultiselectItem[]>(() => [
     width="14.875rem"
     height="2.5rem"
     :collapse-max-height="maxHeight"
+    multiple
     data-testid="file-type-multiselect"
   />
 </template>

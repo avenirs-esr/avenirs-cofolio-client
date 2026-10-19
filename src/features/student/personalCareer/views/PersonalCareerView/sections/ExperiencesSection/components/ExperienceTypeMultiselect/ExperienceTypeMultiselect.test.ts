@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { ProBasedExperienceType } from '@/features/student/global/types/experiences.types'
-import { AvMultiselectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import ExperienceTypeMultiselect from '@/features/student/personalCareer/views/PersonalCareerView/sections/ExperiencesSection/components/ExperienceTypeMultiselect/ExperienceTypeMultiselect.vue'
 
@@ -23,7 +23,7 @@ vi.mock('@/common/composables', () => ({
 BddTest().given('a ExperienceTypeMultiselect component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ExperienceTypeMultiselect>>
 
-  const stubs = { AvMultiselect: AvMultiselectStub }
+  const stubs = { AvSelect: AvSelectStub }
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {

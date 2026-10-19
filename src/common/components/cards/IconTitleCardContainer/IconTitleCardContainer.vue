@@ -53,3 +53,9 @@ defineSlots<{
     <slot />
   </Card>
 </template>
+
+<style lang="scss" scoped>
+.av-card {
+  overflow: unset !important;
+}
+</style>

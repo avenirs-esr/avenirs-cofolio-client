@@ -18,7 +18,9 @@ BddTest().given('an AddActivityResourceTypeSelectFormField component', () => {
 
   const stubs = { AvSelect: AvSelectStub }
 
-  const getSelect = () => wrapper.findComponent(AvSelectStub) as VueWrapper<InstanceType<typeof AvSelectStub>>
+  const getSelect = () =>
+    wrapper.findComponent(AvSelectStub) as VueWrapper<InstanceType<typeof AvSelectStub>>
+
   const getFormField = () => wrapper.findComponent(AddActivityResourceTypeSelectFormField)
 
   beforeEach(() => {
@@ -27,12 +29,15 @@ BddTest().given('an AddActivityResourceTypeSelectFormField component', () => {
   })
 
   BddTest().when('the component is mounted', () => {
-    BddTest().then('it should render the AvSelect', () => {
+    BddTest().then('it should render AvSelect', () => {
       expect(getSelect().exists()).toBe(true)
     })
 
     BddTest().then('it should preselect the FILE option', () => {
-      expect(getSelect().props('selectedItem')).toEqual({ itemId: ActivityResourceType.FILE })
+      expect(getSelect().props('modelValue')).toEqual({
+        value: ActivityResourceType.FILE,
+        label: 'un document',
+      })
     })
 
     BddTest().then('it should render the localized label', () => {
@@ -45,8 +50,8 @@ BddTest().given('an AddActivityResourceTypeSelectFormField component', () => {
 
     BddTest().then('it should render the two type options with localized labels', () => {
       expect(getSelect().props('options')).toEqual([
-        { id: ActivityResourceType.FILE, label: 'un document' },
-        { id: ActivityResourceType.LINK, label: 'un lien' },
+        { value: ActivityResourceType.FILE, label: 'un document' },
+        { value: ActivityResourceType.LINK, label: 'un lien' },
       ])
     })
   })

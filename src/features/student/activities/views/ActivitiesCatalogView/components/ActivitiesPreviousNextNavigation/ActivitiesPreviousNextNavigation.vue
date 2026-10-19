@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { AvSelectOption, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import { AvButton, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
@@ -22,15 +21,15 @@ function getThematicLabel (title: string) {
   return isEnumMember(EActivityThematic, title) ? t(`global.activities.badges.thematics.${title}`) : title
 }
 
-const allActivities = computed<AvSelectOption[]>(() => {
+const allActivities = computed(() => {
   const activities = activitiesRef.value ?? []
 
   return activities
     .map(activity => ({
-      id: activity.title,
+      value: activity.title,
       label: getThematicLabel(activity.title),
       children: (activity.items ?? []).map(item => ({
-        id: item.id,
+        value: item.id,
         label: item.title,
       })),
     }))
@@ -42,15 +41,17 @@ const routeThematic = computed(() => typeof route.params.thematic === 'string' ?
 const nextActivity = computed(() => getAdjacentActivity(1))
 const previousActivity = computed(() => getAdjacentActivity(-1))
 
-function getAdjacentActivity (direction: 1 | -1): AvSelectSelectedOption | null {
+function getAdjacentActivity (direction: 1 | -1): { value: string | number, parentId: string } | null {
   const thematics = allActivities.value
-  const thematicIndex = thematics.findIndex(t => t.id === routeThematic.value)
+  const thematicIndex = thematics.findIndex(t => t.value === routeThematic.value)
+
   if (thematicIndex === -1) {
     return null
   }
 
-  const activities = thematics[thematicIndex].children ?? []
-  const activityIndex = activities.findIndex(a => a.id === routeId.value)
+  const activities = thematics[thematicIndex].children
+  const activityIndex = activities.findIndex(a => a.value === routeId.value)
+
   if (activityIndex === -1) {
     return null
   }
@@ -59,17 +60,16 @@ function getAdjacentActivity (direction: 1 | -1): AvSelectSelectedOption | null 
   const adjacentActivity = activities[wantedIndex]
 
   if (adjacentActivity) {
-    return { itemId: adjacentActivity.id, parentId: thematics[thematicIndex].id }
+    return { value: adjacentActivity.value, parentId: String(thematics[thematicIndex].value) }
   }
 
   const wantedThematicIndex = (thematicIndex + direction + thematics.length) % thematics.length
-
   const wantedThematic = thematics[wantedThematicIndex]
-  const wantedActivities = wantedThematic.children ?? []
+  const wantedActivities = wantedThematic.children
 
   const targetActivity = direction === 1 ? wantedActivities[0] : wantedActivities[wantedActivities.length - 1]
 
-  return targetActivity ? { itemId: targetActivity.id, parentId: wantedThematic.id } : null
+  return targetActivity ? { value: targetActivity.value, parentId: String(wantedThematic.value), } : null
 }
 
 const baseRouteName = computed(() => widget ? ROUTES.STUDENT.WIDGET_ACTIVITY_CATALOG.name : ROUTES.STUDENT.ACTIVITIES_CATALOG.name)
@@ -91,7 +91,7 @@ const baseRouteName = computed(() => widget ? ROUTES.STUDENT.WIDGET_ACTIVITY_CAT
         variant="DEFAULT"
         :to="{
           name: baseRouteName,
-          params: { thematic: previousActivity.parentId, id: previousActivity.itemId },
+          params: { thematic: previousActivity.parentId, id: previousActivity.value },
         }"
         data-testid="previous-activity-button"
       />
@@ -103,7 +103,7 @@ const baseRouteName = computed(() => widget ? ROUTES.STUDENT.WIDGET_ACTIVITY_CAT
         variant="DEFAULT"
         :to="{
           name: baseRouteName,
-          params: { thematic: nextActivity.parentId, id: nextActivity.itemId },
+          params: { thematic: nextActivity.parentId, id: nextActivity.value },
         }"
         data-testid="next-activity-button"
       />

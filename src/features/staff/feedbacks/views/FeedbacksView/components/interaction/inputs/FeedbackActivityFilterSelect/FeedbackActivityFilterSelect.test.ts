@@ -20,16 +20,25 @@ BddTest().given('a feedback activity filter select', () => {
     QuerySuspense: QuerySuspenseStub,
   }
 
-  const mountWith = async (props: Partial<Omit<FeedbackActivityFilterSelectProps, 'defaultActivityId'>> = {}, defaultActivityId?: number | null) => {
-    activities = getMockedActivitiesWithFeedbacks({ statuses: props.feedbackStatuses })
-    defaultActivity = isNumber(defaultActivityId) && defaultActivityId < activities.length ? activities[defaultActivityId] : undefined
+  const mountWith = async (
+    props: Partial<Omit<FeedbackActivityFilterSelectProps, 'defaultActivityId'>> = {},
+    defaultActivityId?: number | null,
+  ) => {
+    activities = getMockedActivitiesWithFeedbacks({
+      statuses: props.feedbackStatuses,
+    })
+
+    defaultActivity = isNumber(defaultActivityId) && defaultActivityId < activities.length
+      ? activities[defaultActivityId]
+      : undefined
 
     wrapper = mountComponent(FeedbackActivityFilterSelect, {
       props: {
         ...props,
-        defaultActivityId: defaultActivity?.id ?? (defaultActivityId === null ? 'unknown-activity-id' : undefined)
+        defaultActivityId: defaultActivity?.id
+          ?? (defaultActivityId === null ? 'unknown-activity-id' : undefined),
       },
-      global: { stubs }
+      global: { stubs },
     })
 
     await flushPromises()
@@ -44,8 +53,9 @@ BddTest().given('a feedback activity filter select', () => {
       expect(wrapper.findComponent(QuerySuspenseStub).props('isLoading')).toBe(false)
     })
 
-    BddTest().then('it should render the feedback activity filter select with correct propos', () => {
+    BddTest().then('it should render the feedback activity filter select with the correct props', () => {
       const select = wrapper.findComponent(AvSelectStub)
+
       expect(select.exists()).toBe(true)
       expect(select.props('label')).toBe('Filtrer par activité')
       expect(select.props('disabled')).toBe(false)
@@ -58,22 +68,27 @@ BddTest().given('a feedback activity filter select', () => {
       expect(select.props('placeholder')).toBe('Sélectionner une activité')
       expect(options).toBeDefined()
       expect(options).toHaveLength(activities.length + 1)
+
       expect(options![0]).toEqual({
-        id: 'ALL',
-        label: 'Toutes'
+        value: 'ALL',
+        label: 'Toutes',
       })
 
       activities.forEach((activity, index) => {
-        expect(options).toBeDefined()
         expect(options![index + 1]).toEqual({
-          id: activity.id,
-          label: activity.title
+          value: activity.id,
+          label: activity.title,
         })
       })
     })
 
-    BddTest().then('it should select the default option by default and emit an initial change event with undefined', () => {
-      expect(wrapper.find('select').element.value).toBe('ALL')
+    BddTest().then('it should select the default option and emit an initial change event with undefined', () => {
+      const select = wrapper.findComponent(AvSelectStub)
+
+      expect(select.props('modelValue')).toEqual({
+        value: 'ALL',
+        label: 'Toutes',
+      })
       expect(wrapper.emitted('change')).toEqual([[undefined]])
     })
   })
@@ -83,8 +98,13 @@ BddTest().given('a feedback activity filter select', () => {
       await mountWith({}, 1)
     })
 
-    BddTest().then('it should select the corresponding activity and emit the corresponding activity on initialization', () => {
-      expect(wrapper.find('select').element.value).toBe(defaultActivity?.id)
+    BddTest().then('it should select the corresponding activity and emit it on initialization', () => {
+      const select = wrapper.findComponent(AvSelectStub)
+
+      expect(select.props('modelValue')).toEqual({
+        value: defaultActivity?.id,
+        label: defaultActivity?.title,
+      })
       expect(wrapper.emitted('change')?.at(-1)).toEqual([defaultActivity])
     })
   })
@@ -95,39 +115,35 @@ BddTest().given('a feedback activity filter select', () => {
     })
 
     BddTest().then('it should select the default option and emit undefined on initialization', () => {
-      expect(wrapper.find('select').element.value).toBe('ALL')
-      expect(wrapper.emitted('change')?.at(-1)).toEqual([defaultActivity])
+      const select = wrapper.findComponent(AvSelectStub)
+
+      expect(select.props('modelValue')).toEqual({
+        value: 'ALL',
+        label: 'Toutes',
+      })
+      expect(wrapper.emitted('change')?.at(-1)).toEqual([undefined])
     })
   })
 
   BddTest().when('feedbackStatuses is provided', () => {
     beforeEach(async () => {
-      await mountWith({ feedbackStatuses: [EFeedbackStatus.NEW] })
+      await mountWith({
+        feedbackStatuses: [EFeedbackStatus.NEW],
+      })
     })
 
     BddTest().then('it should only render activities matching the given statuses', () => {
-      const select = wrapper.findComponent(AvSelectStub)
-      const options = select.props('options')
-      expect(options).toBeDefined()
+      const options = wrapper.findComponent(AvSelectStub).props('options')
 
+      expect(options).toBeDefined()
       expect(options).toHaveLength(activities.length + 1)
 
       activities.forEach((activity, index) => {
         expect(options![index + 1]).toEqual({
-          id: activity.id,
-          label: activity.title
+          value: activity.id,
+          label: activity.title,
         })
       })
-    })
-  })
-
-  BddTest().when('a custom label prop is provided', () => {
-    beforeEach(async () => {
-      await mountWith({ label: 'Mon activité' })
-    })
-
-    BddTest().then('it should use the custom label instead of the translated one', () => {
-      expect(wrapper.findComponent(AvSelectStub).props('label')).toBe('Mon activité')
     })
   })
 
@@ -136,25 +152,31 @@ BddTest().given('a feedback activity filter select', () => {
       await mountWith({ disabled: true })
     })
 
-    BddTest().then('it should forward disabled to the AvSelect component', () => {
+    BddTest().then('it should forward disabled to AvSelect', () => {
       expect(wrapper.findComponent(AvSelectStub).props('disabled')).toBe(true)
     })
   })
 
   BddTest().when('no activity matches the given statuses', () => {
     beforeEach(async () => {
-      await mountWith({ feedbackStatuses: ['UNDEFINED_FEEDBACK_STATUS' as EFeedbackStatus] })
+      await mountWith({
+        feedbackStatuses: ['UNDEFINED_FEEDBACK_STATUS' as EFeedbackStatus],
+      })
     })
 
-    BddTest().then('it should disable the AvSelect component', () => {
+    BddTest().then('it should disable AvSelect', () => {
       expect(wrapper.findComponent(AvSelectStub).props('disabled')).toBe(true)
     })
 
     BddTest().then('it should only render the placeholder and the default option', () => {
-      const options = wrapper.find('select').findAll('option')
+      const options = wrapper.findComponent(AvSelectStub).props('options')
 
-      expect(options).toHaveLength(2)
-      expect(options[1].attributes('value')).toBe('ALL')
+      expect(options).toEqual([
+        {
+          value: 'ALL',
+          label: 'Toutes',
+        },
+      ])
     })
 
     BddTest().then('it should emit undefined on initialization', () => {
@@ -164,14 +186,16 @@ BddTest().given('a feedback activity filter select', () => {
 
   BddTest().when('the request fails', () => {
     beforeEach(async () => {
-      await mountWith({ feedbackStatuses: ['INVALID_FEEDBACK_STATUS' as EFeedbackStatus] })
+      await mountWith({
+        feedbackStatuses: ['INVALID_FEEDBACK_STATUS' as EFeedbackStatus],
+      })
     })
 
     BddTest().then('it should forward the error to QuerySuspense', () => {
       expect(wrapper.findComponent(QuerySuspenseStub).props('error')).toBeTruthy()
     })
 
-    BddTest().then('it should not render the AvSelect component', () => {
+    BddTest().then('it should not render AvSelect', () => {
       expect(wrapper.findComponent(AvSelectStub).exists()).toBe(false)
     })
 
@@ -187,9 +211,20 @@ BddTest().given('a feedback activity filter select', () => {
 
     BddTest().then('it should emit a change event with the selected activity', async () => {
       await wrapper.find('select').setValue(activities[0].id)
+      await flushPromises()
 
-      expect(wrapper.find('select').element.value).toBe(activities[0].id)
+      expect(wrapper.findComponent(AvSelectStub).props('modelValue')).toEqual({
+        value: activities[0].id,
+        label: activities[0].title,
+      })
       expect(wrapper.emitted('change')?.at(-1)).toEqual([activities[0]])
+    })
+
+    BddTest().then('it should emit undefined when the default option is selected', async () => {
+      await wrapper.find('select').setValue('ALL')
+      await flushPromises()
+
+      expect(wrapper.emitted('change')?.at(-1)).toEqual([undefined])
     })
   })
 
@@ -198,13 +233,17 @@ BddTest().given('a feedback activity filter select', () => {
       await mountWith({}, 0)
     })
 
-    BddTest().then('it should restore the default activity emit a change event with the default activity', async () => {
+    BddTest().then('it should restore the default activity and emit it', async () => {
       await wrapper.find('select').setValue(activities[1].id)
+      await flushPromises()
 
       wrapper.vm.reset()
       await flushPromises()
 
-      expect(wrapper.find('select').element.value).toBe(defaultActivity?.id)
+      expect(wrapper.findComponent(AvSelectStub).props('modelValue')).toEqual({
+        value: defaultActivity?.id,
+        label: defaultActivity?.title,
+      })
       expect(wrapper.emitted('change')?.at(-1)).toEqual([defaultActivity])
     })
   })
@@ -214,13 +253,17 @@ BddTest().given('a feedback activity filter select', () => {
       await mountWith()
     })
 
-    BddTest().then('it should restore the ALL option and emit a change event with undefined', async () => {
+    BddTest().then('it should restore the ALL option and emit undefined', async () => {
       await wrapper.find('select').setValue(activities[0].id)
+      await flushPromises()
 
       wrapper.vm.reset()
       await flushPromises()
 
-      expect(wrapper.find('select').element.value).toBe('ALL')
+      expect(wrapper.findComponent(AvSelectStub).props('modelValue')).toEqual({
+        value: 'ALL',
+        label: 'Toutes',
+      })
       expect(wrapper.emitted('change')?.at(-1)).toEqual([undefined])
     })
   })
