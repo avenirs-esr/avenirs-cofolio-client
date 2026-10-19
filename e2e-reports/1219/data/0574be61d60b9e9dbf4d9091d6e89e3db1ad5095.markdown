@@ -1,0 +1,169 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/lifeProject/activitiesCatalog/activitiesCatalog.feature.spec.js >> Student Project Activities Catalog Page >> Activity subscription - Desktop >> Student can see the subscribe activity modal
+- Location: .features-gen/tests/student/lifeProject/activitiesCatalog/activitiesCatalog.feature.spec.js:64:5
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded while running "beforeEach" hook.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByTestId('activity-preview').getByTestId('subscribe-button')
+
+```
+
+# Test source
+
+```ts
+  35  |     return this.root.getByTestId('unsubscribe-button')
+  36  |   }
+  37  | 
+  38  |   getSubscribeButton () {
+  39  |     return this.root.getByTestId('subscribe-button')
+  40  |   }
+  41  | 
+  42  |   getAccessButton () {
+  43  |     return this.root.getByTestId('access-button')
+  44  |   }
+  45  | 
+  46  |   getUnsubscribeActivitiesConfirmModal () {
+  47  |     return new UnsubscribeActivitiesConfirmModal(this.page)
+  48  |   }
+  49  | 
+  50  |   getSubscribeActivityConfirmModal () {
+  51  |     return new SubscribeActivityConfirmModal(this.page)
+  52  |   }
+  53  | 
+  54  |   async verifyVisible () {
+  55  |     await this.isVisible()
+  56  |     await expect(this.getBanner()).toBeVisible()
+  57  |     await expect(this.getTitle()).toBeVisible()
+  58  |     await expect(this.getSummary()).toBeVisible()
+  59  |     await expect(this.getRecommendedCompletionContextsInfo()).toBeVisible()
+  60  |     await expect(this.getThematicBadge()).toBeVisible()
+  61  |   }
+  62  | 
+  63  |   async verifyBanner () {
+  64  |     await expect(this.getBanner()).toBeVisible()
+  65  |     await expect(this.getBanner()).toHaveAttribute('src', /./)
+  66  |   }
+  67  | 
+  68  |   async verifyTitle () {
+  69  |     await expect(this.getTitle()).toBeVisible()
+  70  |     await expect(this.getTitle()).not.toBeEmpty()
+  71  |   }
+  72  | 
+  73  |   async verifyThematicBadge () {
+  74  |     await expect(this.getThematicBadge()).toBeVisible()
+  75  |     await expect(this.getThematicBadge()).not.toBeEmpty()
+  76  |   }
+  77  | 
+  78  |   async verifySummary () {
+  79  |     await expect(this.getSummary()).toBeVisible()
+  80  |     await expect(this.getSummary()).not.toBeEmpty()
+  81  |   }
+  82  | 
+  83  |   async verifyRecommendedCompletionContextsInfo () {
+  84  |     await expect(this.getRecommendedCompletionContextsInfo()).toBeVisible()
+  85  |     await expect(this.getRecommendedCompletionContextsInfo()).not.toBeEmpty()
+  86  |   }
+  87  | 
+  88  |   async verifySubscribeButton () {
+  89  |     const expectedText = t('student.activities.interactions.buttons.subscribe')
+  90  |     await expect(this.getSubscribeButton()).toBeVisible()
+  91  |     await expect(this.getSubscribeButton()).toHaveText(expectedText)
+  92  |   }
+  93  | 
+  94  |   async verifySubscribeButtonHidden () {
+  95  |     await expect(this.getSubscribeButton()).toBeHidden()
+  96  |   }
+  97  | 
+  98  |   async verifyUnsubscribeButton () {
+  99  |     const expectedText = t('global.buttons.unsubscribe')
+  100 |     await expect(this.getUnsubscribeButton()).toBeVisible()
+  101 |     await expect(this.getUnsubscribeButton()).toHaveText(expectedText)
+  102 |   }
+  103 | 
+  104 |   async verifyUnsubscribeButtonHidden () {
+  105 |     await expect(this.getUnsubscribeButton()).toBeHidden()
+  106 |   }
+  107 | 
+  108 |   async verifyAccessButtonVisible () {
+  109 |     const expectedText = t('student.activities.views.ActivitiesCatalogView.buttons.access')
+  110 |     await expect(this.getAccessButton()).toBeVisible()
+  111 |     await expect(this.getAccessButton()).toHaveText(expectedText)
+  112 |   }
+  113 | 
+  114 |   async verifyAccessButtonHidden () {
+  115 |     await expect(this.getAccessButton()).toBeHidden()
+  116 |   }
+  117 | 
+  118 |   async clickAccessButton () {
+  119 |     await expect(this.getAccessButton()).toBeVisible()
+  120 |     await this.getAccessButton().click()
+  121 |     await waitForPageLoad(this.page)
+  122 |   }
+  123 | 
+  124 |   async verify () {
+  125 |     await this.verifyVisible()
+  126 |     await this.verifyBanner()
+  127 |     await this.verifyTitle()
+  128 |     await this.verifyThematicBadge()
+  129 |     await this.verifySummary()
+  130 |     await this.verifyRecommendedCompletionContextsInfo()
+  131 |     await this.verifySubscribeButton()
+  132 |   }
+  133 | 
+  134 |   async clickSubscribeButton () {
+> 135 |     await this.getSubscribeButton().click()
+      |                                     ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  136 |     await waitForPageLoad(this.page)
+  137 |   }
+  138 | 
+  139 |   async verifySubscribeActivityModal () {
+  140 |     const subscribeActivityConfirmModal = this.getSubscribeActivityConfirmModal()
+  141 |     await subscribeActivityConfirmModal.verifyVisible()
+  142 |   }
+  143 | 
+  144 |   async clickSubscribeModalConfirmButton () {
+  145 |     const subscribeActivityConfirmModal = this.getSubscribeActivityConfirmModal()
+  146 |     await subscribeActivityConfirmModal.clickConfirm()
+  147 |   }
+  148 | 
+  149 |   async clickSubscribeModalCancelButton () {
+  150 |     const subscribeActivityConfirmModal = this.getSubscribeActivityConfirmModal()
+  151 |     await subscribeActivityConfirmModal.clickCancel()
+  152 |   }
+  153 | 
+  154 |   async verifySubscribeActivityModalHidden () {
+  155 |     const subscribeActivityConfirmModal = this.getSubscribeActivityConfirmModal()
+  156 |     await subscribeActivityConfirmModal.verifyHidden()
+  157 |   }
+  158 | 
+  159 |   async clickUnsubscribeButton () {
+  160 |     await this.getUnsubscribeButton().click()
+  161 |     await waitForPageLoad(this.page)
+  162 |   }
+  163 | 
+  164 |   async verifyUnsubscribeActivitiesConfirmModal () {
+  165 |     const unsubscribeActivitiesConfirmModal = this.getUnsubscribeActivitiesConfirmModal()
+  166 |     await unsubscribeActivitiesConfirmModal.verify()
+  167 |   }
+  168 | 
+  169 |   async clickUnsubscribeActivitiesConfirmModalConfirmButton () {
+  170 |     const unsubscribeActivitiesConfirmModal = this.getUnsubscribeActivitiesConfirmModal()
+  171 |     await unsubscribeActivitiesConfirmModal.clickConfirm()
+  172 |   }
+  173 | }
+  174 | 
+```

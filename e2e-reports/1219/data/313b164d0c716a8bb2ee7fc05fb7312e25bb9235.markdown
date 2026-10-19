@@ -1,0 +1,100 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/staff/feedbacks/feedbackDetails.feature.spec.js >> Staff Activity Feedback Details Page >> Page Load and Basic Display >> The page title is visible
+- Location: .features-gen/tests/staff/feedbacks/feedbackDetails.feature.spec.js:18:5
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded while running "beforeEach" hook.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for locator('[data-testid="access-button"][data-activity-id="2a9f6c4d-8b1e-4d33-9c7a-5e2b8f1c6d77"]').first()
+
+```
+
+# Test source
+
+```ts
+  1  | import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+  2  | import type { Page } from '@playwright/test'
+  3  | import { BasePage } from '@e2e/framework/shared/base/BasePage'
+  4  | import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
+  5  | import { clickOnElement } from '@e2e/framework/shared/utils/click'
+  6  | import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+  7  | import { FeedbacksTable } from '@e2e/framework/staff/feedbacks/componentObjects/FeedbacksTable'
+  8  | import { expect } from '@playwright/test'
+  9  | import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
+  10 | 
+  11 | @Fixture<typeof test>('staffFeedbacksPage')
+  12 | export class StaffFeedbacksPage extends BasePage {
+  13 |   private static readonly ACTIVITY_WITH_ASSOCIATED_ELEMENTS_ID
+  14 |     = '2a9f6c4d-8b1e-4d33-9c7a-5e2b8f1c6d77'
+  15 | 
+  16 |   constructor (public page: Page) {
+  17 |     super(page)
+  18 |   }
+  19 | 
+  20 |   private getFeedbacksTable () {
+  21 |     return new FeedbacksTable(
+  22 |       this.page.getByTestId('feedbacks-table'),
+  23 |     )
+  24 |   }
+  25 | 
+  26 |   private getStatusPicker () {
+  27 |     return this.page.getByTestId('feedback-status-picker')
+  28 |   }
+  29 | 
+  30 |   @Given('the staff opens the feedbacks page')
+  31 |   async goToFeedbacksPage () {
+  32 |     await this.page.goto(STAFF_ROUTES.STUDENT_TRACKING.FEEDBACKS)
+  33 |     await waitForPageLoad(this.page)
+  34 |   }
+  35 | 
+  36 |   @Then('the staff feedbacks page is displayed')
+  37 |   async verifyPageLoaded () {
+  38 |     await expect(this.page).toHaveURL(STAFF_ROUTES.STUDENT_TRACKING.FEEDBACKS)
+  39 |   }
+  40 | 
+  41 |   @Then('the feedback status picker is visible and contains 4 elements')
+  42 |   async verifyStatusPickerVisibleAndContainsFourElements () {
+  43 |     await expect(this.getStatusPicker()).toBeVisible()
+  44 | 
+  45 |     await expect(
+  46 |       this.getStatusPicker().locator('button'),
+  47 |     ).toHaveCount(4)
+  48 |   }
+  49 | 
+  50 |   @Then('the feedbacks table is visible and contains at least 2 rows')
+  51 |   async verifyFeedbacksTableVisibleAndContainsAtLeast2Rows () {
+  52 |     await this.getFeedbacksTable().verifyTableVisibleAndContainsRows()
+  53 |   }
+  54 | 
+  55 |   @When('the staff clicks the access feedback button for an activity with associated elements')
+  56 |   async clickAccessButtonForActivity () {
+  57 |     await this.page
+  58 |       .locator(
+  59 |         `[data-testid="access-button"][data-activity-id="${StaffFeedbacksPage.ACTIVITY_WITH_ASSOCIATED_ELEMENTS_ID}"]`,
+  60 |       )
+  61 |       .first()
+> 62 |       .click()
+     |        ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  63 |   }
+  64 | 
+  65 |   @When('the staff clicks access button of the first feedback with {string} status')
+  66 |   async clickAccessButtonOfFirstFeedbackWithStatus (feedbackStatus: string) {
+  67 |     const button = this.page.locator(`[data-testid="access-button"][data-feedback-status="${feedbackStatus}"]`).first()
+  68 |     await clickOnElement(button)
+  69 |   }
+  70 | }
+  71 | 
+```

@@ -1,0 +1,100 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/tools/kit/kit.feature.spec.js >> Student Tools Kit View >> Page Load and Basic Display >> Student can see their profile card
+- Location: .features-gen/tests/student/tools/kit/kit.feature.spec.js:24:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('profile-card')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('profile-card')
+
+```
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('profile-card').getByTestId('profile-banner')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('profile-card').getByTestId('profile-banner')
+
+```
+
+# Test source
+
+```ts
+  1  | import type { Locator } from '@playwright/test'
+  2  | import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+  3  | import { verifyTextLocator } from '@e2e/framework/shared/utils/text'
+  4  | import { expect } from '@playwright/test'
+  5  | 
+  6  | export class ProfileCard extends BaseObject {
+  7  |   constructor (root: Locator) {
+  8  |     super(root)
+  9  |   }
+  10 | 
+  11 |   getProfileBanner () {
+  12 |     return this.root.getByTestId('profile-banner')
+  13 |   }
+  14 | 
+  15 |   getProfilePicture () {
+  16 |     return this.root.getByTestId('profile-picture')
+  17 |   }
+  18 | 
+  19 |   getFullName () {
+  20 |     return this.root.getByTestId('profile-full-name')
+  21 |   }
+  22 | 
+  23 |   getBio () {
+  24 |     return this.root.getByTestId('profile-bio')
+  25 |   }
+  26 | 
+  27 |   async verifyProfileBanner () {
+> 28 |     await expect(this.getProfileBanner()).toBeVisible()
+     |                                           ^ Error: expect(locator).toBeVisible() failed
+  29 |   }
+  30 | 
+  31 |   async verifyProfilePicture () {
+  32 |     await expect(this.getProfilePicture()).toBeVisible()
+  33 |   }
+  34 | 
+  35 |   async verifyFullName () {
+  36 |     await verifyTextLocator(this.getFullName())
+  37 |   }
+  38 | 
+  39 |   async verifyBio () {
+  40 |     await verifyTextLocator(this.getBio())
+  41 |   }
+  42 | 
+  43 |   async verifyBioHidden () {
+  44 |     await expect(this.getBio()).toBeHidden()
+  45 |   }
+  46 | 
+  47 |   async verifyCardContent () {
+  48 |     await this.verifyProfileBanner()
+  49 |     await this.verifyProfilePicture()
+  50 |     await this.verifyFullName()
+  51 |     await this.verifyBio()
+  52 |   }
+  53 | }
+  54 | 
+```

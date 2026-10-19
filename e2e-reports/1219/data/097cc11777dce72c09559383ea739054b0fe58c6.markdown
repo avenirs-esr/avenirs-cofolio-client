@@ -1,0 +1,218 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/tools/traceDetails/traceDetails.feature.spec.js >> Student Tools Trace Detail Page >> Page Load >> Student can load trace detail page
+- Location: .features-gen/tests/student/tools/traceDetails/traceDetails.feature.spec.js:15:5
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded while running "beforeEach" hook.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByTestId('associated-traces-tab-item')
+
+```
+
+# Test source
+
+```ts
+  1   | import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+  2   | import type { Page } from '@playwright/test'
+  3   | import { BasePage } from '@e2e/framework/shared/base/BasePage'
+  4   | import { clickOnElement } from '@e2e/framework/shared/utils/click'
+  5   | import { t } from '@e2e/framework/shared/utils/i18n'
+  6   | import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+  7   | import { TracesAssociatedTab } from '@e2e/framework/student/tools/traces/componentObjects/TracesAssociatedTab'
+  8   | import { expect } from '@playwright/test'
+  9   | import { Fixture, Then, When } from 'playwright-bdd/decorators'
+  10  | 
+  11  | export
+  12  | @Fixture<typeof test>('studentToolsTracesPage')
+  13  | class StudentToolsTracesPage extends BasePage {
+  14  |   private static readonly TRACE_WITH_LOCKED_ASSOCIATIONS_ID = '4453f884-9081-43cb-95c6-d76c2bb59fd7'
+  15  |   constructor (public page: Page) {
+  16  |     super(page)
+  17  |   }
+  18  | 
+  19  |   getAddTraceDrawerContent () {
+  20  |     return this.page.getByTestId('add-trace-drawer-content')
+  21  |   }
+  22  | 
+  23  |   getDeclarationAccordion () {
+  24  |     return this.page.getByTestId('declaration-accordion')
+  25  |   }
+  26  | 
+  27  |   getDeclarationAccordionTrigger () {
+  28  |     return this.getDeclarationAccordion().getByTestId('av-accordion-trigger')
+  29  |   }
+  30  | 
+  31  |   getTraceAuthorTypeRadioSet () {
+  32  |     return this.page.getByTestId('trace-author-type-radio-set')
+  33  |   }
+  34  | 
+  35  |   getTraceAuthorTypeRadioButtons () {
+  36  |     return this.getTraceAuthorTypeRadioSet().getByTestId('trace-author-type-radio-button')
+  37  |   }
+  38  | 
+  39  |   getTracesAssociatedTab () {
+  40  |     return new TracesAssociatedTab(this.page)
+  41  |   }
+  42  | 
+  43  |   getAssociatedTracesTabItem () {
+  44  |     return this.page.getByTestId('associated-traces-tab-item')
+  45  |   }
+  46  | 
+  47  |   getTracesActionsDropdown () {
+  48  |     return this.page.getByTestId('manage-traces-dropdown')
+  49  |   }
+  50  | 
+  51  |   getTracesActionsDropdownTrigger () {
+  52  |     return this.getTracesActionsDropdown().getByRole('button')
+  53  |   }
+  54  | 
+  55  |   getTracesActionsDropdownAddItem () {
+  56  |     return this.page.getByTestId('add')
+  57  |   }
+  58  | 
+  59  |   getTracesActionsDropdownDeleteItem () {
+  60  |     return this.page.getByTestId('delete')
+  61  |   }
+  62  | 
+  63  |   getDeleteTracesModal () {
+  64  |     return this.page.getByTestId('delete-traces-modal')
+  65  |   }
+  66  | 
+  67  |   getDeleteTracesModalConfirmButton () {
+  68  |     return this.getDeleteTracesModal().getByTestId('confirm-button')
+  69  |   }
+  70  | 
+  71  |   getTraceSelectors () {
+  72  |     return this.getDeleteTracesModal().getByTestId('selector-overlay')
+  73  |   }
+  74  | 
+  75  |   getTraceDeletionConfirmationModal () {
+  76  |     return this.page.getByTestId('trace-deletion-confirmation-modal')
+  77  |   }
+  78  | 
+  79  |   getTraceDeletionConfirmationModalDescription () {
+  80  |     return this.page.getByTestId('trace-deletion-confirmation-modal-description')
+  81  |   }
+  82  | 
+  83  |   getTraceDeletionConfirmationModalSubdescription () {
+  84  |     return this.page.getByTestId('trace-deletion-confirmation-modal-subdescription')
+  85  |   }
+  86  | 
+  87  |   @When('the student open associated traces tab')
+  88  |   async clickAssociatedTracesTabItem () {
+> 89  |     await this.getAssociatedTracesTabItem().click()
+      |                                             ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  90  |   }
+  91  | 
+  92  |   @Then('the associated traces tab is visible')
+  93  |   async verifyAssociatedTracesTabVisible () {
+  94  |     await this.getTracesAssociatedTab().isVisible()
+  95  |   }
+  96  | 
+  97  |   @When('the student clicks the first associated trace card')
+  98  |   async clickFirstAssociatedTraceCard () {
+  99  |     await this.getTracesAssociatedTab().clickFirstCard()
+  100 |     await waitForPageLoad(this.page)
+  101 |   }
+  102 | 
+  103 |   @Then('the add trace drawer content is visible')
+  104 |   async verifyAddTraceDrawerDisplayed () {
+  105 |     await this.getAddTraceDrawerContent().isVisible()
+  106 |   }
+  107 | 
+  108 |   @Then('the declaration accordion is visible')
+  109 |   async verifyDeclarationAccordionVisible () {
+  110 |     await this.getDeclarationAccordion().isVisible()
+  111 |   }
+  112 | 
+  113 |   @When('the student clicks the declaration accordion')
+  114 |   async clickDeclarationAccordion () {
+  115 |     const declarationAccordionTrigger = this.getDeclarationAccordionTrigger()
+  116 |     const isExpanded = await declarationAccordionTrigger.getAttribute('aria-expanded')
+  117 | 
+  118 |     if (isExpanded !== 'true') {
+  119 |       await clickOnElement(declarationAccordionTrigger)
+  120 |     }
+  121 | 
+  122 |     await expect(declarationAccordionTrigger).toHaveAttribute('aria-expanded', 'true')
+  123 |   }
+  124 | 
+  125 |   @Then('the trace author type radio set is visible and contains 3 radio buttons')
+  126 |   async verifyTraceAuthorTypeRadioSetVisible () {
+  127 |     await this.getTraceAuthorTypeRadioSet().isVisible()
+  128 |     const count = await this.getTraceAuthorTypeRadioButtons().count()
+  129 |     expect(count).toEqual(3)
+  130 |   }
+  131 | 
+  132 |   @When('the student clicks on the traces actions dropdown trigger')
+  133 |   async clickTracesActionsDropdownTrigger () {
+  134 |     await clickOnElement(this.getTracesActionsDropdownTrigger())
+  135 |   }
+  136 | 
+  137 |   @When('the student clicks the add trace button')
+  138 |   async clickAddTraceButton () {
+  139 |     await clickOnElement(this.getTracesActionsDropdownAddItem())
+  140 |   }
+  141 | 
+  142 |   @When('the student clicks on the delete traces item')
+  143 |   async clickDeleteTracesItem () {
+  144 |     await clickOnElement(this.getTracesActionsDropdownDeleteItem())
+  145 |   }
+  146 | 
+  147 |   @Then('the delete traces modal is visible')
+  148 |   async verifyDeleteTracesModalVisible () {
+  149 |     await expect(this.getDeleteTracesModal()).toBeVisible()
+  150 |   }
+  151 | 
+  152 |   @When('the student selects the first two traces')
+  153 |   async selectFirstTwoTraces () {
+  154 |     const selectors = this.getTraceSelectors()
+  155 | 
+  156 |     await expect(selectors.first()).toBeVisible()
+  157 | 
+  158 |     await selectors.nth(0).focus()
+  159 |     await this.page.keyboard.press('Enter')
+  160 |     await expect(selectors.nth(0)).toHaveAttribute('aria-pressed', 'true')
+  161 | 
+  162 |     await selectors.nth(1).focus()
+  163 |     await this.page.keyboard.press('Enter')
+  164 |     await expect(selectors.nth(1)).toHaveAttribute('aria-pressed', 'true')
+  165 |   }
+  166 | 
+  167 |   @Then('the delete traces modal confirm button displays selected count')
+  168 |   async verifyDeleteTracesModalConfirmButtonSelectedCount () {
+  169 |     await expect(this.getDeleteTracesModalConfirmButton()).toContainText('2')
+  170 |   }
+  171 | 
+  172 |   @When('the student confirms selected traces deletion')
+  173 |   async confirmSelectedTracesDeletion () {
+  174 |     await clickOnElement(this.getDeleteTracesModalConfirmButton())
+  175 |   }
+  176 | 
+  177 |   @Then('the trace deletion confirmation modal is visible from traces list')
+  178 |   async verifyTraceDeletionConfirmationModalVisibleFromList () {
+  179 |     await expect(this.getTraceDeletionConfirmationModal()).toBeVisible()
+  180 |   }
+  181 | 
+  182 |   @Then('the trace deletion confirmation modal texts are visible')
+  183 |   async verifyTraceDeletionConfirmationModalTextsVisible () {
+  184 |     await expect(this.getTraceDeletionConfirmationModalDescription()).toHaveText(
+  185 |       t('student.traces.modals.TraceDeletionConfirmationModal.description')
+  186 |     )
+  187 | 
+  188 |     await expect(this.getTraceDeletionConfirmationModalSubdescription()).toHaveText(
+  189 |       t('student.traces.modals.TraceDeletionConfirmationModal.subdescription')
+```

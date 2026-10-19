@@ -1,0 +1,187 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/staff/activities/national-activity-catalog.feature.spec.js >> Staff National Activity Catalog >> Catalog preview tab >> The activity title is visible in the preview tab
+- Location: .features-gen/tests/staff/activities/national-activity-catalog.feature.spec.js:61:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: locator('[data-testid="activity-table-title"][data-activity-status="DRAFT"], [data-testid="activity-card-title"][data-activity-status="DRAFT"]').first()
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for locator('[data-testid="activity-table-title"][data-activity-status="DRAFT"], [data-testid="activity-card-title"][data-activity-status="DRAFT"]').first()
+
+```
+
+# Test source
+
+```ts
+  1   | import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+  2   | import type { Page } from '@playwright/test'
+  3   | import { BasePage } from '@e2e/framework/shared/base/BasePage'
+  4   | import { STAFF_ROUTES } from '@e2e/framework/shared/constants/routes'
+  5   | import { clickOnElement } from '@e2e/framework/shared/utils/click'
+  6   | import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+  7   | import { NationalActivityCatalogPreviewTabObject } from '@e2e/framework/staff/activities/componentObjects/NationalActivityCatalogPreviewTabObject'
+  8   | import { expect } from '@playwright/test'
+  9   | import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
+  10  | 
+  11  | @Fixture<typeof test>('staffNationalActivityCatalogPage')
+  12  | export class StaffNationalActivityCatalogPage extends BasePage {
+  13  |   constructor (public page: Page) {
+  14  |     super(page)
+  15  |   }
+  16  | 
+  17  |   private getContentTab () {
+  18  |     return this.page.getByTestId('national-activity-catalog-content-tab')
+  19  |   }
+  20  | 
+  21  |   private getTitle () {
+  22  |     return this.page.getByTestId('national-activity-content-tab-title')
+  23  |   }
+  24  | 
+  25  |   private getThematicBadge () {
+  26  |     return this.page.getByTestId('national-activity-content-tab-thematic-badge')
+  27  |   }
+  28  | 
+  29  |   private getConsignTitle () {
+  30  |     return this.page.getByTestId('national-activity-content-tab-consign-title')
+  31  |   }
+  32  | 
+  33  |   private getContextTitle () {
+  34  |     return this.page.getByTestId('national-activity-content-tab-context-title')
+  35  |   }
+  36  | 
+  37  |   private getContentTabSelector () {
+  38  |     return this.page.getByTestId('national-activity-catalog-content-tab-item')
+  39  |   }
+  40  | 
+  41  |   private getPreviewTabSelector () {
+  42  |     return this.page.getByTestId('national-activity-catalog-preview-tab-item')
+  43  |   }
+  44  | 
+  45  |   private getPreviewTabObject () {
+  46  |     return new NationalActivityCatalogPreviewTabObject(this.page)
+  47  |   }
+  48  | 
+  49  |   @Given('the staff navigates to the first national activity catalog page')
+  50  |   async navigateToNationalActivityCatalog () {
+  51  |     const activityLocator = await this.page
+  52  |       .locator('[data-testid="activity-table-title"][data-activity-status="DRAFT"], [data-testid="activity-card-title"][data-activity-status="DRAFT"]')
+  53  |       .first()
+  54  | 
+> 55  |     await expect(activityLocator).toBeVisible()
+      |                                   ^ Error: expect(locator).toBeVisible() failed
+  56  | 
+  57  |     const activityId = await activityLocator.getAttribute('data-activity-id')
+  58  |     const activityStatus = await activityLocator.getAttribute('data-activity-status')
+  59  | 
+  60  |     if (!activityId || !activityStatus) {
+  61  |       throw new Error('No activity found')
+  62  |     }
+  63  | 
+  64  |     const url = STAFF_ROUTES.ACTIVITY_CATALOG
+  65  |       .replace(':status', activityStatus)
+  66  |       .replace(':id', activityId)
+  67  | 
+  68  |     await this.page.goto(url)
+  69  |     await waitForPageLoad(this.page)
+  70  |   }
+  71  | 
+  72  |   @Then('the national activity catalog page is displayed')
+  73  |   async verifyPageLoaded () {
+  74  |     const expectedPattern = STAFF_ROUTES.ACTIVITY_CATALOG
+  75  |       .replace(':status', '[^/]+')
+  76  |       .replace(':id', '[^/]+')
+  77  | 
+  78  |     await expect(this.page).toHaveURL(new RegExp(expectedPattern))
+  79  |   }
+  80  | 
+  81  |   @Then('the national activity content tab is visible')
+  82  |   async verifyContentTabVisible () {
+  83  |     await expect(this.getContentTab()).toBeVisible()
+  84  |   }
+  85  | 
+  86  |   @Then('the national activity title is visible')
+  87  |   async verifyTitleVisible () {
+  88  |     await expect(this.getTitle()).toBeVisible()
+  89  |   }
+  90  | 
+  91  |   @Then('the national activity thematic badge is visible')
+  92  |   async verifyThematicBadgeVisible () {
+  93  |     await expect(this.getThematicBadge()).toBeVisible()
+  94  |   }
+  95  | 
+  96  |   @Then('the national activity consign section is visible')
+  97  |   async verifyConsignSectionVisible () {
+  98  |     await expect(this.getConsignTitle()).toBeVisible()
+  99  |   }
+  100 | 
+  101 |   @Then('the national activity context section is visible')
+  102 |   async verifyContextSectionVisible () {
+  103 |     await expect(this.getContextTitle()).toBeVisible()
+  104 |   }
+  105 | 
+  106 |   @Then('the national activity catalog content tab selector is visible')
+  107 |   async verifyContentTabSelectorVisible () {
+  108 |     await expect(this.getContentTabSelector()).toBeVisible()
+  109 |   }
+  110 | 
+  111 |   @Then('the national activity catalog preview tab selector is visible')
+  112 |   async verifyPreviewTabSelectorVisible () {
+  113 |     await expect(this.getPreviewTabSelector()).toBeVisible()
+  114 |   }
+  115 | 
+  116 |   @When('the user clicks on the national activity catalog preview tab')
+  117 |   async clickPreviewTab () {
+  118 |     await clickOnElement(this.getPreviewTabSelector())
+  119 |   }
+  120 | 
+  121 |   @Then('the national activity catalog preview tab is displayed')
+  122 |   async verifyPreviewTabDisplayed () {
+  123 |     await this.getPreviewTabObject().isVisible()
+  124 |   }
+  125 | 
+  126 |   @Then('the activity title is visible in the preview tab')
+  127 |   async verifyActivityTitleInPreviewTab () {
+  128 |     await this.getPreviewTabObject().verifyTitleVisible()
+  129 |   }
+  130 | 
+  131 |   @Then('the activity banner is visible in the preview tab')
+  132 |   async verifyActivityBannerInPreviewTab () {
+  133 |     await this.getPreviewTabObject().verifyBannerVisible()
+  134 |   }
+  135 | 
+  136 |   @Then('the activity thematic is visible in the preview tab')
+  137 |   async verifyActivityThematicInPreviewTab () {
+  138 |     await this.getPreviewTabObject().verifyThematicVisible()
+  139 |   }
+  140 | 
+  141 |   @Then('the activity summary is visible in the preview tab')
+  142 |   async verifyActivitySummaryInPreviewTab () {
+  143 |     await this.getPreviewTabObject().verifySummaryVisible()
+  144 |   }
+  145 | 
+  146 |   @Then('the recommended completion contexts are visible in the preview tab')
+  147 |   async verifyRecommendedCompletionContextsInPreviewTab () {
+  148 |     await this.getPreviewTabObject().verifyRecommendedCompletionContextsInfoVisible()
+  149 |   }
+  150 | 
+  151 |   getEditDraftButton () {
+  152 |     return this.page.getByTestId('edit-draft-button')
+  153 |   }
+  154 | 
+  155 |   @Then('the edit draft button is visible')
+```
