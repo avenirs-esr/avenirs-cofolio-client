@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
+import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
 import type { TraceFilter, TraceFilterFileTypesItem } from '@/api/avenir-esr'
 import type { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 import type { DateFilter, SearchFilter } from '@/types'
@@ -26,7 +26,7 @@ const debouncedEmit = debounce((payload: TraceFilter & DateFilter & SearchFilter
 }, 350)
 
 const typesSelected = ref<TraceFilterFileTypesItem[]>([])
-const fileGlobalTypesSelected = ref<AvMultiselectOption[]>([])
+const fileGlobalTypesSelected = ref<AvSelectOption[]>([])
 
 const fromDateSelected = ref<string>('')
 const toDateSelected = ref<string>('')

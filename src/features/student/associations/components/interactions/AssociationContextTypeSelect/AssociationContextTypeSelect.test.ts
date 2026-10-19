@@ -6,53 +6,74 @@ import { EAssociationContextType } from '@/api/avenir-esr'
 import AssociationContextTypeSelect from '@/features/student/associations/components/interactions/AssociationContextTypeSelect/AssociationContextTypeSelect.vue'
 
 const stubs = {
-  AvSelect: AvSelectStub
+  AvSelect: AvSelectStub,
 }
 
 function mountSelect (props: AssociationContextTypeSelectProps & { modelValue: EAssociationContextType }) {
-  return mountComponent(AssociationContextTypeSelect, { props, global: { stubs } })
+  return mountComponent(AssociationContextTypeSelect, {
+    props,
+    global: { stubs },
+  })
 }
 
 BddTest().given('an association context type select', () => {
   let wrapper: ReturnType<typeof mountSelect>
 
+  const getAvSelect = () => wrapper.findComponent(AvSelectStub)
+
   BddTest().when('the component is mounted with some context types', () => {
     beforeEach(() => {
       wrapper = mountSelect({
-        contextTypes: [EAssociationContextType.DECLARED_SKILL, EAssociationContextType.DECLARED_ACTIVITY],
-        modelValue: EAssociationContextType.DECLARED_SKILL
+        contextTypes: [
+          EAssociationContextType.DECLARED_SKILL,
+          EAssociationContextType.DECLARED_ACTIVITY,
+        ],
+        modelValue: EAssociationContextType.DECLARED_SKILL,
       })
     })
 
     BddTest().then('it should render the select with its translated label and placeholder', () => {
-      const select = wrapper.findComponent(AvSelectStub)
-
-      expect(select.exists()).toBe(true)
-      expect(select.props('label')).toBe('Rechercher dans :')
-      expect(select.props('placeholder')).toBe('Sélectionnez un type')
+      expect(getAvSelect().exists()).toBe(true)
+      expect(getAvSelect().props('label')).toBe('Rechercher dans\u00A0:')
+      expect(getAvSelect().props('placeholder')).toBe('Sélectionnez un type')
     })
 
-    BddTest().then('it should map each context type to an option, in the given order', () => {
-      expect(wrapper.findComponent(AvSelectStub).props('options')).toEqual([
-        { id: EAssociationContextType.DECLARED_SKILL, label: 'Mes compétences' },
-        { id: EAssociationContextType.DECLARED_ACTIVITY, label: 'Mes activités' }
+    BddTest().then('it should forward the required and width props', () => {
+      expect(getAvSelect().props('required')).toBe(true)
+      expect(getAvSelect().props('width')).toBe('100%')
+    })
+
+    BddTest().then('it should map each context type to an option in the given order', () => {
+      expect(getAvSelect().props('options')).toEqual([
+        {
+          value: EAssociationContextType.DECLARED_SKILL,
+          label: 'Mes compétences',
+        },
+        {
+          value: EAssociationContextType.DECLARED_ACTIVITY,
+          label: 'Mes activités',
+        },
       ])
     })
 
     BddTest().then('it should select the context type of the model', () => {
-      expect(wrapper.findComponent(AvSelectStub).props('selectedItem')).toEqual({
-        itemId: EAssociationContextType.DECLARED_SKILL
+      expect(getAvSelect().props('modelValue')).toEqual({
+        value: EAssociationContextType.DECLARED_SKILL,
+        label: 'Mes compétences',
       })
     })
 
     BddTest().and('the model changes', () => {
       beforeEach(async () => {
-        await wrapper.setProps({ modelValue: EAssociationContextType.DECLARED_ACTIVITY })
+        await wrapper.setProps({
+          modelValue: EAssociationContextType.DECLARED_ACTIVITY,
+        })
       })
 
       BddTest().then('it should select the new context type', () => {
-        expect(wrapper.findComponent(AvSelectStub).props('selectedItem')).toEqual({
-          itemId: EAssociationContextType.DECLARED_ACTIVITY
+        expect(getAvSelect().props('modelValue')).toEqual({
+          value: EAssociationContextType.DECLARED_ACTIVITY,
+          label: 'Mes activités',
         })
       })
     })
@@ -63,7 +84,16 @@ BddTest().given('an association context type select', () => {
       })
 
       BddTest().then('it should update the model with the selected context type', () => {
-        expect(wrapper.emitted('update:modelValue')).toEqual([[EAssociationContextType.DECLARED_ACTIVITY]])
+        expect(wrapper.emitted('update:modelValue')).toEqual([
+          [EAssociationContextType.DECLARED_ACTIVITY],
+        ])
+      })
+
+      BddTest().then('it should update the selected option', () => {
+        expect(getAvSelect().props('modelValue')).toEqual({
+          value: EAssociationContextType.DECLARED_ACTIVITY,
+          label: 'Mes activités',
+        })
       })
     })
   })
@@ -75,22 +105,43 @@ BddTest().given('an association context type select', () => {
           EAssociationContextType.TRACE,
           EAssociationContextType.DECLARED_ACTIVITY,
           EAssociationContextType.DECLARED_SKILL,
-          EAssociationContextType.DECLARED_EXPERIENCE
+          EAssociationContextType.DECLARED_EXPERIENCE,
         ],
-        modelValue: EAssociationContextType.TRACE
+        modelValue: EAssociationContextType.TRACE,
       })
     })
 
     BddTest().then('it should translate the selection label of every context type', () => {
-      const options = wrapper.findComponent(AvSelectStub).props('options')
-      expect(options).toBeDefined()
+      const options = getAvSelect().props('options')
 
+      expect(options).toBeDefined()
       expect(options!.map(({ label }: { label: string }) => label)).toEqual([
         'Mes traces',
         'Mes activités',
         'Mes compétences',
-        'Mes expériences'
+        'Mes expériences',
       ])
+    })
+
+    BddTest().then('it should select the current context type', () => {
+      expect(getAvSelect().props('modelValue')).toEqual({
+        value: EAssociationContextType.TRACE,
+        label: 'Mes traces',
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted with an empty list of context types', () => {
+    beforeEach(() => {
+      wrapper = mountSelect({
+        contextTypes: [],
+        modelValue: EAssociationContextType.TRACE,
+      })
+    })
+
+    BddTest().then('it should expose no options and no selected option', () => {
+      expect(getAvSelect().props('options')).toEqual([])
+      expect(getAvSelect().props('modelValue')).toBeNull()
     })
   })
 })

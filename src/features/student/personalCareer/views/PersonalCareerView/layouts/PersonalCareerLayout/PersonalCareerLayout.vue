@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import type { AvSelectOption, AvSelectSelectedOption, AvSideNavigationItem } from '@avenirs-esr/avenirs-dsav'
-import {
-  AvSelect,
-
-  useAvBreakpoints
-} from '@avenirs-esr/avenirs-dsav'
+import type { AvSelectModelValue, AvSelectOption, AvSelectSelectedOption, AvSideNavigationItem } from '@avenirs-esr/avenirs-dsav'
+import { AvSelect, getAvSelectSelectedOption, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
 import { ICONS, ROUTES } from '@/common/constants'
@@ -53,17 +49,27 @@ const items = computed<AvSideNavigationItem[]>(() => isToolsKitRoute.value ? too
 
 const selectOptions = computed<AvSelectOption[]>(() =>
   items.value.map(item => ({
-    id: item.id,
+    value: item.id,
     label: item.label,
   })),
+)
+
+const selectedOption = computed<AvSelectSelectedOption | null>(() =>
+  selectOptions.value.find(option => option.value === route.name) ?? null,
 )
 
 function navigateToSelectedItem (item: { itemId: string }) {
   router.replace({ name: item.itemId })
 }
 
-function onSelectChange (value: AvSelectSelectedOption) {
-  navigateToSelectedItem({ itemId: value.itemId })
+function onSelectChange (value: AvSelectModelValue) {
+  const item = getAvSelectSelectedOption(value)
+
+  if (!item) {
+    return
+  }
+
+  navigateToSelectedItem({ itemId: String(item.value) })
 }
 
 watch(() => route.name, (newRouteName) => {
@@ -80,11 +86,14 @@ watch(() => route.name, (newRouteName) => {
   <div class="student-project-personal-career-container av-col av-row--md av-w-full">
     <AvSelect
       v-if="isMobile"
-      :selected-item="selectedItem"
+      :label="t('global.navigation.accessTo')"
+      :model-value="selectedOption"
       :options="selectOptions"
       placeholder=""
+      required
+      width="100%"
       data-testid="section-navigation-select-navigation"
-      @update:selected-item="onSelectChange"
+      @update:model-value="onSelectChange"
     />
     <SideNavigation
       v-else

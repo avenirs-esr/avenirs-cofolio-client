@@ -72,7 +72,7 @@ const {
     :default-section="defaultSection"
     :component-by-section="componentBySection"
     :props-by-section="propsBySection"
-    :select-placeholder="t('student.global.navigation.selects.label')"
+    :select-placeholder="t('global.navigation.accessTo')"
     side-navigation-width="fit-content"
     @selected-item-label="(label) => emit('selectedSection', label)"
     @selected-item="(item) => navigateToSelectedSection(item.itemId)"

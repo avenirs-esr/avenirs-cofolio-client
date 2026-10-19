@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { AvSelectOption, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
-import { AvSelect } from '@avenirs-esr/avenirs-dsav'
+import type { AvSelectModelValue, AvSelectOptionGroup } from '@avenirs-esr/avenirs-dsav'
+import { AvSelect, getAvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { EActivityThematic, useGetActivityNavigation } from '@/api/avenir-esr'
 import Loader from '@/common/components/feedback/Loader/Loader.vue'
@@ -20,10 +20,12 @@ const { navigateToStudentActivitiesCatalog, navigateToStudentWidgetActivityCatal
 const { data: activitiesRef, isLoading, isError } = useGetActivityNavigation()
 
 function getThematicLabel (title: string) {
-  return isEnumMember(EActivityThematic, title) ? t(`global.activities.badges.thematics.${title}`) : title
+  return isEnumMember(EActivityThematic, title)
+    ? t(`global.activities.badges.thematics.${title}`)
+    : title
 }
 
-const selectOptions = computed<AvSelectOption[]>(() => {
+const selectOptions = computed<AvSelectOptionGroup[]>(() => {
   const activities = activitiesRef.value ?? []
 
   return activities
@@ -31,7 +33,7 @@ const selectOptions = computed<AvSelectOption[]>(() => {
       id: activity.title,
       label: getThematicLabel(activity.title),
       children: (activity.items ?? []).map(item => ({
-        id: item.id,
+        value: item.id,
         label: item.title,
       })),
     }))
@@ -41,35 +43,50 @@ const routeId = computed(() => typeof route.params.id === 'string' ? route.param
 
 const routeThematic = computed(() => typeof route.params.thematic === 'string' ? route.params.thematic : undefined)
 
-const selectedItem = ref<AvSelectSelectedOption>({
-  itemId: routeId.value ?? selectOptions.value?.[0]?.children?.[0]?.id ?? '',
-  parentId: routeThematic.value ?? selectOptions.value?.[0]?.id ?? undefined,
-})
+const selectedOption = ref<AvSelectModelValue>(null)
 
 watch([routeId, routeThematic, selectOptions], ([id, thematic, options]) => {
-  selectedItem.value = {
-    itemId: id ?? options?.[0]?.children?.[0]?.id ?? '',
-    parentId: thematic ?? options?.[0]?.id ?? undefined,
-  }
-}, { immediate: true })
+  const firstThematic = options[0]
+  const firstActivity = firstThematic?.children?.[0]
 
-function onSelectChange (value: AvSelectSelectedOption) {
-  selectedItem.value = value
+  const selectedValue = id ?? firstActivity?.value
+  const parentId = thematic ?? firstThematic?.id
 
-  const { parentId, itemId } = value
+  selectedOption.value = selectedValue !== undefined
+    ? {
+        value: selectedValue,
+        label: options
+          .flatMap(option => option.children ?? [])
+          .find(option => option.value === selectedValue)
+          ?.label ?? '',
+        ...(parentId ? { parentId } : {}),
+      }
+    : null
+}, { immediate: true },)
 
-  if (!parentId || !itemId || !isEnumMember(EActivityThematic, parentId)) {
+function onSelectChange (value: AvSelectModelValue) {
+  const selectedValue = getAvSelectSelectedOption(value)
+
+  if (!selectedValue) {
     return
   }
 
-  if (routeThematic.value === parentId && routeId.value === itemId) {
+  selectedOption.value = selectedValue
+
+  const { parentId, value: activityId } = selectedValue
+
+  if (!parentId || !activityId || !isEnumMember(EActivityThematic, parentId)) {
+    return
+  }
+
+  if (routeThematic.value === parentId && routeId.value === activityId) {
     return
   }
 
   const navParams = {
     thematic: parentId,
-    id: itemId,
-    replace: !routeThematic.value || !routeId.value
+    id: String(activityId),
+    replace: !routeThematic.value || !routeId.value,
   }
 
   widget
@@ -85,11 +102,14 @@ function onSelectChange (value: AvSelectSelectedOption) {
   >
     <AvSelect
       data-testid="activities-select-navigation"
-      :selected-item="selectedItem"
+      :model-value="selectedOption"
       :options="selectOptions"
       :placeholder="t('student.activities.views.ActivitiesCatalogView.ActivitiesSelectNavigation.placeholder')"
-      :label="t('student.global.navigation.selects.label')"
-      @update:selected-item="onSelectChange"
+      :label="t('global.navigation.accessTo')"
+      required
+      width="100%"
+      collapse-max-height="35vh"
+      @update:model-value="onSelectChange"
     />
   </Loader>
 </template>

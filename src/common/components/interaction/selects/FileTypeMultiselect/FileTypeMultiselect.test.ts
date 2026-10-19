@@ -1,6 +1,6 @@
-import type { AvMultiselectOptionGroup } from '@avenirs-esr/avenirs-dsav'
+import type { AvSelectOptionGroup } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
-import { AvMultiselectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { FileGlobalType } from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.types'
 import FileTypeMultiselect from '@/common/components/interaction/selects/FileTypeMultiselect/FileTypeMultiselect.vue'
@@ -9,7 +9,7 @@ import { TraceType } from '@/features/student/traces/types/traces.types'
 BddTest().given('a FileTypeMultiselect component', () => {
   let wrapper: VueWrapper<InstanceType<typeof FileTypeMultiselect>>
 
-  const stubs = { AvMultiselect: AvMultiselectStub }
+  const stubs = { AvSelect: AvSelectStub }
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
@@ -17,7 +17,7 @@ BddTest().given('a FileTypeMultiselect component', () => {
     })
 
     BddTest().then('it should render the multiselect with grouped options', () => {
-      const groups = wrapper.findComponent(AvMultiselectStub).props('options') as AvMultiselectOptionGroup[]
+      const groups = wrapper.findComponent(AvSelectStub).props('options') as AvSelectOptionGroup[]
 
       expect(groups).toHaveLength(2)
       expect(groups[0].label).toBe('Fichiers')
@@ -31,14 +31,14 @@ BddTest().given('a FileTypeMultiselect component', () => {
 
     BddTest().and('when the user selects some options', () => {
       beforeEach(() => {
-        const multiselect = wrapper.findComponent(AvMultiselectStub)
-        const groups = multiselect.props('options') as AvMultiselectOptionGroup[]
+        const multiselect = wrapper.findComponent(AvSelectStub)
+        const groups = multiselect.props('options') as AvSelectOptionGroup[]
 
         multiselect.vm.$emit('update:modelValue', [groups[0].children[0], groups[1].children[0]])
       })
 
       BddTest().then('it should pass the selected options to the multiselect modelValue', async () => {
-        const multiselect = wrapper.findComponent(AvMultiselectStub)
+        const multiselect = wrapper.findComponent(AvSelectStub)
 
         await vi.waitFor(() => {
           expect(multiselect.props('modelValue')).toEqual([

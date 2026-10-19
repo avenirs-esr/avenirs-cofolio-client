@@ -11,26 +11,29 @@ import ActivitiesSelectNavigation from '@/features/student/activities/views/Acti
 const navigateToStudentActivitiesCatalogMock = vi.fn()
 const navigateToStudentWidgetActivityCatalogMock = vi.fn()
 
-vi.mock('@/common/composables', () => {
-  return {
-    useNavigation: () => ({
-      navigateToStudentActivitiesCatalog: navigateToStudentActivitiesCatalogMock,
-      navigateToStudentWidgetActivityCatalog: navigateToStudentWidgetActivityCatalogMock,
-    }),
-  }
-})
+vi.mock('@/common/composables', () => ({
+  useNavigation: () => ({
+    navigateToStudentActivitiesCatalog: navigateToStudentActivitiesCatalogMock,
+    navigateToStudentWidgetActivityCatalog: navigateToStudentWidgetActivityCatalogMock,
+  }),
+}))
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
+
   return {
     ...actual,
     onBeforeRouteLeave: vi.fn(),
     useRoute: () => ({
       params: {
-        get id () { return '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1' },
-        get thematic () { return EActivityThematic.SELF_KNOWLEDGE }
-      }
-    })
+        get id () {
+          return '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1'
+        },
+        get thematic () {
+          return EActivityThematic.SELF_KNOWLEDGE
+        },
+      },
+    }),
   }
 })
 
@@ -40,95 +43,119 @@ BddTest().given('an ActivitiesSelectNavigation', () => {
 
   const stubs = {
     AvSelect: AvSelectStub,
-    Loader: LoaderStub
+    Loader: LoaderStub,
+  }
+
+  function getSelect () {
+    return wrapper.findComponent({ name: 'AvSelect' })
+  }
+
+  const selectedActivityId = '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1'
+  const anotherActivityId = '4b9e2c7d-1f6a-4d55-9c3b-2e8f7a1c5d44'
+
+  const selectedActivity = {
+    value: anotherActivityId,
+    label: 'Activité de CV',
+    parentId: EActivityThematic.RESUMES,
+  }
+
+  function mountNavigation (widget: boolean) {
+    queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,
+        },
+      },
+    })
+
+    wrapper = mountComponent(ActivitiesSelectNavigation, {
+      props: { widget },
+      global: { stubs },
+      plugins: [createPinia(), [VueQueryPlugin, { queryClient }]],
+    })
   }
 
   BddTest().when('the component is mounted with widget false', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      queryClient = new QueryClient()
-
-      wrapper = mountComponent(ActivitiesSelectNavigation, {
-        props: { widget: false },
-        global: { stubs },
-        plugins: [createPinia(), [VueQueryPlugin, { queryClient }]],
-      })
+      mountNavigation(false)
     })
 
     BddTest().then('it should render an AvSelect component', async () => {
       await flushPromises()
 
-      const select = wrapper.findComponent({ name: 'AvSelect' })
-      expect(select.exists()).toBe(true)
+      expect(getSelect().exists()).toBe(true)
     })
 
-    BddTest().then('it should provide grouped select options derived from items', async () => {
+    BddTest().then('it should provide grouped options using the expected value and label structure', async () => {
       await flushPromises()
 
-      const select = wrapper.findComponent({ name: 'AvSelect' })
-      const options = select.props('options') as any[]
-      const optionsExpectedLength = Object.keys(EActivityThematic).length
+      const options = getSelect().props('options') as Array<{
+        id: string
+        label: string
+        children: Array<{
+          value: string
+          label: string
+        }>
+      }>
 
-      expect(options.length).toBe(optionsExpectedLength)
+      expect(options).toHaveLength(Object.keys(EActivityThematic).length)
       expect(options[0]).toEqual(expect.objectContaining({
         id: expect.any(String),
         label: expect.any(String),
         children: expect.any(Array),
       }))
       expect(options[0].children[0]).toEqual(expect.objectContaining({
-        id: expect.any(String),
+        value: expect.any(String),
         label: expect.any(String),
+      }))
+      expect(options[0].children[0]).not.toHaveProperty('id')
+    })
+
+    BddTest().then('it should select the activity identified by the current route', async () => {
+      await flushPromises()
+
+      expect(getSelect().props('modelValue')).toEqual(expect.objectContaining({
+        value: selectedActivityId,
+        label: expect.any(String),
+        parentId: EActivityThematic.SELF_KNOWLEDGE,
       }))
     })
 
-    BddTest().then('it should set selectedItem to the first child by default', async () => {
-      await flushPromises()
-
-      const select = wrapper.findComponent({ name: 'AvSelect' })
-      expect(select.props('selectedItem')).toEqual({
-        itemId: '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
-        parentId: EActivityThematic.SELF_KNOWLEDGE,
-      })
-    })
-
-    BddTest().and('a select option is chosen', () => {
-      const selected = {
-        itemId: '4b9e2c7d-1f6a-4d55-9c3b-2e8f7a1c5d44',
-        parentId: EActivityThematic.RESUMES,
-      }
-
+    BddTest().and('an activity is selected', () => {
       beforeEach(async () => {
         await flushPromises()
-        const select = wrapper.findComponent({ name: 'AvSelect' })
-        await select.vm.$emit('update:selectedItem', selected)
+        await getSelect().vm.$emit('update:modelValue', selectedActivity)
         await flushPromises()
       })
 
-      BddTest().then('it should navigate to the catalog with thematic and id', () => {
+      BddTest().then('it should navigate to the catalog with the selected thematic and activity id', () => {
         expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledTimes(1)
         expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledWith({
           thematic: EActivityThematic.RESUMES,
-          id: '4b9e2c7d-1f6a-4d55-9c3b-2e8f7a1c5d44',
+          id: anotherActivityId,
           replace: false,
         })
-        expect(navigateToStudentWidgetActivityCatalogMock).toHaveBeenCalledTimes(0)
+        expect(navigateToStudentWidgetActivityCatalogMock).not.toHaveBeenCalled()
       })
     })
 
-    BddTest().and('the user selects the already selected option', () => {
+    BddTest().and('the already selected activity is selected again', () => {
       beforeEach(async () => {
         await flushPromises()
-        const select = wrapper.findComponent({ name: 'AvSelect' })
-        await select.vm.$emit('update:selectedItem', {
-          itemId: '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
+
+        await getSelect().vm.$emit('update:modelValue', {
+          value: selectedActivityId,
+          label: 'Activité sélectionnée',
           parentId: EActivityThematic.SELF_KNOWLEDGE,
         })
+
         await flushPromises()
       })
 
       BddTest().then('it should not navigate again', () => {
-        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledTimes(0)
-        expect(navigateToStudentWidgetActivityCatalogMock).toHaveBeenCalledTimes(0)
+        expect(navigateToStudentActivitiesCatalogMock).not.toHaveBeenCalled()
+        expect(navigateToStudentWidgetActivityCatalogMock).not.toHaveBeenCalled()
       })
     })
   })
@@ -136,53 +163,43 @@ BddTest().given('an ActivitiesSelectNavigation', () => {
   BddTest().when('the component is mounted with widget true', () => {
     beforeEach(() => {
       vi.clearAllMocks()
-      queryClient = new QueryClient()
-
-      wrapper = mountComponent(ActivitiesSelectNavigation, {
-        props: { widget: true },
-        global: { stubs },
-        plugins: [createPinia(), [VueQueryPlugin, { queryClient }]],
-      })
+      mountNavigation(true)
     })
 
-    BddTest().and('a select option is chosen', () => {
-      const selected = {
-        itemId: '4b9e2c7d-1f6a-4d55-9c3b-2e8f7a1c5d44',
-        parentId: EActivityThematic.RESUMES,
-      }
-
+    BddTest().and('an activity is selected', () => {
       beforeEach(async () => {
         await flushPromises()
-        const select = wrapper.findComponent({ name: 'AvSelect' })
-        await select.vm.$emit('update:selectedItem', selected)
+        await getSelect().vm.$emit('update:modelValue', selectedActivity)
         await flushPromises()
       })
 
-      BddTest().then('it should navigate to the widget catalog with thematic and id', () => {
+      BddTest().then('it should navigate to the widget catalog with the selected thematic and activity id', () => {
         expect(navigateToStudentWidgetActivityCatalogMock).toHaveBeenCalledTimes(1)
         expect(navigateToStudentWidgetActivityCatalogMock).toHaveBeenCalledWith({
           thematic: EActivityThematic.RESUMES,
-          id: '4b9e2c7d-1f6a-4d55-9c3b-2e8f7a1c5d44',
+          id: anotherActivityId,
           replace: false,
         })
-        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledTimes(0)
+        expect(navigateToStudentActivitiesCatalogMock).not.toHaveBeenCalled()
       })
     })
 
-    BddTest().and('the user selects the already selected option', () => {
+    BddTest().and('the already selected activity is selected again', () => {
       beforeEach(async () => {
         await flushPromises()
-        const select = wrapper.findComponent({ name: 'AvSelect' })
-        await select.vm.$emit('update:selectedItem', {
-          itemId: '3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1',
+
+        await getSelect().vm.$emit('update:modelValue', {
+          value: selectedActivityId,
+          label: 'Activité sélectionnée',
           parentId: EActivityThematic.SELF_KNOWLEDGE,
         })
+
         await flushPromises()
       })
 
       BddTest().then('it should not navigate again', () => {
-        expect(navigateToStudentActivitiesCatalogMock).toHaveBeenCalledTimes(0)
-        expect(navigateToStudentWidgetActivityCatalogMock).toHaveBeenCalledTimes(0)
+        expect(navigateToStudentActivitiesCatalogMock).not.toHaveBeenCalled()
+        expect(navigateToStudentWidgetActivityCatalogMock).not.toHaveBeenCalled()
       })
     })
   })

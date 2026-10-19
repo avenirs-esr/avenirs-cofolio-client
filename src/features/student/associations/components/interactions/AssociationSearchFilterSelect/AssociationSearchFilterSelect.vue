@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
+import type { AvSelectOption, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
 import type { EAssociationContextType } from '@/api/avenir-esr'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -17,24 +17,26 @@ const searchFilter = defineModel<AssociationSearchFilter>({ required: true })
 
 const { t } = useI18n()
 
-const selectedItem = computed<AvSelectSelectedOption>({
-  get: () => ({ itemId: searchFilter.value }),
-  set: ({ itemId }) => {
-    searchFilter.value = itemId as AssociationSearchFilter
-  }
-})
-
-const options = computed(() =>
+const options = computed<AvSelectOption[]>(() =>
   Object.values(AssociationSearchFilter).map(filter => ({
-    id: filter,
-    label: t(`student.associations.contextTypes.${contextType}.searchFilters.${filter}.label`)
-  }))
+    value: filter,
+    label: t(`student.associations.contextTypes.${contextType}.searchFilters.${filter}.label`),
+  })),
 )
+
+const selectedOption = computed<AvSelectSelectedOption | null>({
+  get: () => options.value.find(option => option.value === searchFilter.value) ?? null,
+  set: (option) => {
+    if (option) {
+      searchFilter.value = option.value as AssociationSearchFilter
+    }
+  },
+})
 </script>
 
 <template>
   <AvSelect
-    v-model:selected-item="selectedItem"
+    v-model="selectedOption"
     :options="options"
     :label="label ?? t('student.associations.interactions.AssociationSearchFilterSelect.label')"
     :label-visible="labelVisible"

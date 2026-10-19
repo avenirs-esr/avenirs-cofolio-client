@@ -21,6 +21,7 @@ const mockIsMobile = ref(false)
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+
   return {
     ...actual,
     useAvBreakpoints: () => ({ isMobile: mockIsMobile }),
@@ -33,6 +34,7 @@ const route = reactive<{ name: string }>({
 
 vi.mock('vue-router', async (importOriginal) => {
   const actual = await importOriginal<typeof import('vue-router')>()
+
   return {
     ...actual,
     useRoute: () => route,
@@ -102,26 +104,30 @@ const feedbacksWithEmptyPrograms = [
   },
 ] as StudentFeedbackItemListDTO[]
 
-const expectedOptions: { id: string, feedbackId: string, label: string }[] = [
+const expectedOptions = [
   {
-    id: 'student-1',
+    value: 'student-1',
     feedbackId: 'feedback-1',
     label: 'Lucas Tessier • Nouveau',
   },
   {
-    id: 'student-2',
+    value: 'student-2',
     feedbackId: 'feedback-2',
     label: 'John Doe • Envoyé',
   },
 ]
 
-const stubs = { AvSelect: AvSelectStub, AvButton: AvButtonStub }
+const stubs = {
+  AvSelect: AvSelectStub,
+  AvButton: AvButtonStub,
+}
 
 BddTest().given('an ActivityFeedbackStudentSelect component', () => {
   let wrapper: ReturnType<typeof mountComponent<typeof ActivityFeedbackStudentSelect>>
 
   const getPreviousButton = () => getAvButtonByTestId(wrapper, 'previous-student-button')
   const getNextButton = () => getAvButtonByTestId(wrapper, 'next-student-button')
+  const getSelect = () => wrapper.findComponent(AvSelectStub)
   const getDetails = () => wrapper.find('.activity-feedback-student-select__details')
 
   beforeEach(() => {
@@ -151,9 +157,11 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
     })
 
     BddTest().then('it should pass the student options to the select', () => {
-      const select = wrapper.findComponent(AvSelectStub)
+      expect(getSelect().props('options')).toEqual(expectedOptions)
+    })
 
-      expect(select.props('options')).toEqual(expectedOptions)
+    BddTest().then('it should select the student matching the selected student id', () => {
+      expect(getSelect().props('modelValue')).toEqual(expectedOptions[0])
     })
 
     BddTest().then('it should display the selected student programs and email', () => {
@@ -168,21 +176,51 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       expect(getPreviousButton()!.props('disabledTooltip')).toBe('Vous consultez déjà le premier étudiant')
     })
 
-    BddTest().then('it should link the next button to the next student, on the student tracking route', () => {
+    BddTest().then('it should link the next button to the next student on the student tracking route', () => {
       expect(getNextButton()!.props('to')).toEqual({
         name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
         params: { feedbackId: 'feedback-2' },
       })
     })
 
-    BddTest().and('the user picks a student directly in the native select', () => {
+    BddTest().and('the user selects another student', () => {
       beforeEach(async () => {
-        const select = wrapper.findComponent(AvSelectStub)
-        await select.vm.$emit('update:selectedItem', { itemId: 'student-2' })
+        await getSelect().vm.$emit('update:modelValue', {
+          value: 'student-2',
+          label: 'John Doe • Envoyé',
+        })
       })
 
-      BddTest().then('it should navigate to that student current feedback, on the student tracking route', () => {
-        expect(navigateToStaffStudentTrackingActivityFeedbackDetailsMock).toHaveBeenCalledWith({ feedbackId: 'feedback-2' })
+      BddTest().then('it should navigate to that student feedback on the student tracking route', () => {
+        expect(navigateToStaffStudentTrackingActivityFeedbackDetailsMock).toHaveBeenCalledTimes(1)
+        expect(navigateToStaffStudentTrackingActivityFeedbackDetailsMock).toHaveBeenCalledWith({
+          feedbackId: 'feedback-2',
+        })
+        expect(navigateToStaffActivityFeedbackDetailsMock).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().and('the select emits an empty value', () => {
+      beforeEach(async () => {
+        await getSelect().vm.$emit('update:modelValue', null)
+      })
+
+      BddTest().then('it should not navigate', () => {
+        expect(navigateToStaffStudentTrackingActivityFeedbackDetailsMock).not.toHaveBeenCalled()
+        expect(navigateToStaffActivityFeedbackDetailsMock).not.toHaveBeenCalled()
+      })
+    })
+
+    BddTest().and('the selected value does not match an option', () => {
+      beforeEach(async () => {
+        await getSelect().vm.$emit('update:modelValue', {
+          value: 'unknown-student',
+          label: 'Étudiant inconnu',
+        })
+      })
+
+      BddTest().then('it should not navigate', () => {
+        expect(navigateToStaffStudentTrackingActivityFeedbackDetailsMock).not.toHaveBeenCalled()
         expect(navigateToStaffActivityFeedbackDetailsMock).not.toHaveBeenCalled()
       })
     })
@@ -191,6 +229,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
   BddTest().when('the viewport is mobile', () => {
     beforeEach(() => {
       mockIsMobile.value = true
+
       wrapper = mountComponent(ActivityFeedbackStudentSelect, {
         props: { feedbacks, selectedStudentId: 'student-1' },
         global: { stubs },
@@ -223,14 +262,19 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       })
     })
 
-    BddTest().and('the user picks a student directly in the native select', () => {
+    BddTest().and('the user selects another student', () => {
       beforeEach(async () => {
-        const select = wrapper.findComponent(AvSelectStub)
-        await select.vm.$emit('update:selectedItem', { itemId: 'student-2' })
+        await getSelect().vm.$emit('update:modelValue', {
+          value: 'student-2',
+          label: 'John Doe • Envoyé',
+        })
       })
 
       BddTest().then('it should navigate using the staff home route', () => {
-        expect(navigateToStaffActivityFeedbackDetailsMock).toHaveBeenCalledWith({ feedbackId: 'feedback-2' })
+        expect(navigateToStaffActivityFeedbackDetailsMock).toHaveBeenCalledTimes(1)
+        expect(navigateToStaffActivityFeedbackDetailsMock).toHaveBeenCalledWith({
+          feedbackId: 'feedback-2',
+        })
         expect(navigateToStaffStudentTrackingActivityFeedbackDetailsMock).not.toHaveBeenCalled()
       })
     })
@@ -262,7 +306,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       })
     })
 
-    BddTest().then('it should display the email without the separator (no programs)', () => {
+    BddTest().then('it should display the email without the separator when there are no programs', () => {
       expect(getDetails().text()).toBe('john.doe@test.fr')
     })
   })
@@ -339,9 +383,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
     })
 
     BddTest().then('it should not include it in the select options', () => {
-      const select = wrapper.findComponent(AvSelectStub)
-
-      expect(select.props('options')).toEqual(expectedOptions)
+      expect(getSelect().props('options')).toEqual(expectedOptions)
     })
   })
 })

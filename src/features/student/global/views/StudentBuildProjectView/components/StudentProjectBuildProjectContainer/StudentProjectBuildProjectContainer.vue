@@ -50,8 +50,8 @@ const {
       :items="items"
       :default-section="defaultSection"
       :component-by-section="componentBySection"
-      :select-placeholder="t('student.global.navigation.selects.label')"
-      :select-label="t('student.global.navigation.selects.label')"
+      :select-placeholder="t('global.navigation.accessTo')"
+      :select-label="t('global.navigation.accessTo')"
       side-navigation-width="fit-content"
       sticky
       data-testid="project-build-project-layout"

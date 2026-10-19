@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { AvMultiselectOption } from '@avenirs-esr/avenirs-dsav'
-import { AvMultiselect } from '@avenirs-esr/avenirs-dsav'
+import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
+import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { EExperienceType } from '@/api/avenir-esr'
 import { useWatchQueryParam } from '@/common/composables'
@@ -10,9 +10,9 @@ defineProps<{ maxHeight?: string }>()
 
 const { t } = useI18n()
 
-const typesSelected = defineModel<AvMultiselectOption[]>({ default: () => [] })
+const typesSelected = defineModel<AvSelectOption[]>({ default: () => [] })
 
-const typesOptions: AvMultiselectOption[] = [
+const typesOptions: AvSelectOption[] = [
   EExperienceType.PROFESSIONAL,
   EExperienceType.PERSONAL,
   EExperienceType.VOLUNTEER
@@ -32,7 +32,7 @@ useWatchQueryParam('type', (newValue) => {
 </script>
 
 <template>
-  <AvMultiselect
+  <AvSelect
     v-model="typesSelected"
     class="experience-type-multiselect"
     :options="typesOptions"
@@ -43,6 +43,7 @@ useWatchQueryParam('type', (newValue) => {
     width="20rem"
     height="2.5rem"
     :collapse-max-height="maxHeight"
+    multiple
     data-testid="experience-type-multiselect"
   />
 </template>

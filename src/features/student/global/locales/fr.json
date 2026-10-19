@@ -38,9 +38,6 @@
         }
       },
       "navigation": {
-        "selects": {
-          "label": "Accéder à"
-        },
         "tabs": {
           "activities": "Mes activités",
           "home": "Accueil",

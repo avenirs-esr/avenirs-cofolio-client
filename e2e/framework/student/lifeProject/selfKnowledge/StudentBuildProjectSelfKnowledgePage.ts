@@ -1,5 +1,5 @@
 import type { test } from '@e2e/framework/shared/fixtures/fixtures'
-import type { Page } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
 import { BasePage } from '@e2e/framework/shared/base/BasePage'
 import { ProfileCard } from '@e2e/framework/shared/componentObjects/ProfileCard'
 import { STUDENT_ROUTES } from '@e2e/framework/shared/constants/routes'
@@ -15,12 +15,16 @@ class StudentBuildProjectSelfKnowledgePage extends BasePage {
     super(page)
   }
 
+  private collapse (): Locator {
+    return this.page.getByTestId('av-select__collapse')
+  }
+
   getSectionNavigationSideNavigation () {
     return this.page.getByTestId('section-navigation-side-navigation')
   }
 
   getSectionNavigationSelectNavigation () {
-    return this.page.locator('select[data-testid="section-navigation-select-navigation"]')
+    return this.page.getByTestId('section-navigation-select-navigation')
   }
 
   getSelfKnowledgeSideNavigationItem () {
@@ -36,9 +40,20 @@ class StudentBuildProjectSelfKnowledgePage extends BasePage {
       return
     }
 
-    await this.getSectionNavigationSelectNavigation().selectOption({
-      value: 'SELF_KNOWLEDGE',
-    })
+    const select = this.getSectionNavigationSelectNavigation()
+
+    await expect(select).toBeVisible()
+    await select.click()
+
+    const collapse = this.collapse()
+    await expect(collapse).toBeVisible()
+
+    const thematicLabel = collapse
+      .locator('.av-row > span.av-text-text2')
+      .getByText('Me connaître', { exact: true })
+
+    await expect(thematicLabel).toBeVisible()
+    await thematicLabel.click()
   }
 
   getUpdateProfileDrawer () {

@@ -57,6 +57,7 @@ function handleActionSelected (action: Action) {
         :text="t('student.selfKnowledge.SelfKnowledgeMainSection.title')"
         text-color="var(--title)"
         gap="var(--spacing-sm)"
+        inline
       />
 
       <div

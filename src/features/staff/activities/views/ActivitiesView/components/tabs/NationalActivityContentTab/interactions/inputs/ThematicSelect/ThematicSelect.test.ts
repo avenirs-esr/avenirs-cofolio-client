@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvSelectStub, BddTest, } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { EActivityThematic } from '@/api/avenir-esr'
@@ -8,12 +8,17 @@ import ThematicSelect from '@/features/staff/activities/views/ActivitiesView/com
 
 BddTest().given('a thematic select component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ThematicSelect>>
-  const stubs = { AvSelect: AvSelectStub,
+
+  const stubs = {
+    AvSelect: AvSelectStub,
   }
+
+  const getSelect = () => wrapper.findComponent({ name: 'AvSelect' })
 
   BddTest().when('the component is mounted', () => {
     beforeEach(() => {
       vi.clearAllMocks()
+
       wrapper = mount(ThematicSelect, {
         props: {
           modelValue: {
@@ -31,62 +36,83 @@ BddTest().given('a thematic select component', () => {
     })
 
     BddTest().then('it should render the AvSelect component', () => {
-      const select = wrapper.findComponent({
-        name: 'AvSelect',
-      })
-      expect(select.exists()).toBe(true)
+      expect(getSelect().exists()).toBe(true)
     })
 
     BddTest().then('it should display the correct label', () => {
-      const select = wrapper.findComponent({
-        name: 'AvSelect',
-      })
-      expect(select.props('label')).toBe(
-        'Thématique',
-      )
+      expect(getSelect().props('label')).toBe('Thématique')
     })
 
     BddTest().then('it should display the correct placeholder', () => {
-      const select = wrapper.findComponent({
-        name: 'AvSelect',
-      })
-      expect(select.props('placeholder')).toBe(
-        'Choisir une thématique',
-      )
+      expect(getSelect().props('placeholder')).toBe('Choisir une thématique')
     })
 
     BddTest().then('it should display the correct prefix icon', () => {
-      const select = wrapper.findComponent({
-        name: 'AvSelect',
-      })
-      expect(select.props('prefixIcon')).toBe(
-        MDI_ICONS.BOOK_OPEN_VARIANT,
+      expect(getSelect().props('prefixIcon')).toBe(MDI_ICONS.BOOK_OPEN_VARIANT)
+    })
+
+    BddTest().then('it should have one option per value in EActivityThematic', () => {
+      expect(getSelect().props('options')).toHaveLength(
+        Object.keys(EActivityThematic).length,
       )
     })
 
-    BddTest().then('it should have one option per key in EActivityThematic', () => {
-      const select = wrapper.findComponent({ name: 'AvSelect' })
-      const optionsLength = Object.keys(EActivityThematic).length
-      expect(select.props('options')).toHaveLength(optionsLength)
+    BddTest().then('it should expose options using value and label', () => {
+      const options = getSelect().props('options') as Array<{
+        value: EActivityThematic
+        label: string
+      }>
+
+      expect(options[0]).toEqual(expect.objectContaining({
+        value: expect.any(String),
+        label: expect.any(String),
+      }))
+      expect(options[0]).not.toHaveProperty('id')
     })
 
-    BddTest().then('it should have transverse option', () => {
-      const select = wrapper.findComponent({
-        name: 'AvSelect',
-      })
-
-      const options = select.props('options') as Array<{
-        id: EActivityThematic
+    BddTest().then('it should have the transverse option', () => {
+      const options = getSelect().props('options') as Array<{
+        value: EActivityThematic
         label: string
       }>
 
       const transverseOption = options.find(
-        opt => opt.id === EActivityThematic.TRANSVERSAL,
+        option => option.value === EActivityThematic.TRANSVERSAL,
       )
-      expect(transverseOption).toBeDefined()
-      expect(transverseOption?.label).toBe(
-        'Transverse',
-      )
+
+      expect(transverseOption).toEqual({
+        value: EActivityThematic.TRANSVERSAL,
+        label: 'Transverse',
+      })
+    })
+
+    BddTest().then('it should select the thematic matching the model value', () => {
+      expect(getSelect().props('modelValue')).toEqual({
+        value: EActivityThematic.TRANSVERSAL,
+        label: 'Transverse',
+      })
+    })
+
+    BddTest().and('a different thematic is selected', () => {
+      let selectedThematic: EActivityThematic | undefined
+
+      beforeEach(async () => {
+        const option = (getSelect().props('options') as Array<{
+          value: EActivityThematic
+          label: string
+        }>).find(option => option.value === EActivityThematic.SELF_KNOWLEDGE)!
+
+        await getSelect().vm.$emit('update:modelValue', option)
+        await wrapper.vm.$nextTick()
+
+        selectedThematic = wrapper.emitted('update:modelValue')?.at(-1)?.[0]
+          ? (wrapper.emitted('update:modelValue')?.at(-1)?.[0] as { itemId: EActivityThematic }).itemId
+          : undefined
+      })
+
+      BddTest().then('it should emit the selected thematic using the component model', () => {
+        expect(selectedThematic).toBe(EActivityThematic.SELF_KNOWLEDGE)
+      })
     })
   })
 })

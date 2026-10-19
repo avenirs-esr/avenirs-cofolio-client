@@ -426,6 +426,7 @@
       }
     },
     "navigation": {
+      "accessTo": "Accéder à",
       "SkipLinks": {
         "ariaLabel": "Accès rapide",
         "footer": "Aller au pied de page",

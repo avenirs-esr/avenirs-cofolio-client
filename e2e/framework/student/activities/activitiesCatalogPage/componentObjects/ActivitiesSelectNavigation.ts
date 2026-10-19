@@ -1,47 +1,82 @@
 import type { Locator, Page } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
+import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { expect } from '@playwright/test'
 
 export class ActivitiesSelectNavigation extends BaseObject {
   private static readonly SELECT_TESTID = 'activities-select-navigation'
-  private static readonly OPTGROUP_PREFIX = 'select-optgroup-'
+  private static readonly COLLAPSE_TESTID = 'av-select__collapse'
+  private static readonly OPTION_CHECKBOX_PREFIX = 'select-collapse-options-list-'
   private static readonly EXPECTED_ENABLED_OPTIONS = 32
+  private static readonly THEMATIC_LABELS: Record<string, string> = {
+    SELF_KNOWLEDGE: 'Me connaître',
+    FUTURE_PLANS: 'Explorer mes futurs',
+    PROGRAMS: 'Mes formations',
+    EXPERIENCES: 'Mes expériences',
+    TRAJECTORIES: 'Mes trajectoires',
+    RESUMES: 'CV',
+    TRANSVERSAL: 'Transverse',
+    OTHER: 'Autre',
+  }
 
   constructor (protected page: Page) {
-    super(page.locator(`select[data-testid="${ActivitiesSelectNavigation.SELECT_TESTID}"]`), page)
+    super(page.getByTestId(ActivitiesSelectNavigation.SELECT_TESTID), page)
   }
 
   private select (): Locator {
     return this.root
   }
 
+  private trigger (): Locator {
+    return this.select()
+  }
+
+  private collapse (): Locator {
+    return this.page.getByTestId(ActivitiesSelectNavigation.COLLAPSE_TESTID)
+  }
+
+  private optionCheckboxId (value: string): string {
+    return `${ActivitiesSelectNavigation.OPTION_CHECKBOX_PREFIX}${value}-checkbox`
+  }
+
   private enabledOptions (): Locator {
-    return this.select().locator('option:not([disabled])')
+    return this.collapse().locator(
+      '[data-testid="av-checkbox-list-item"] input[type="checkbox"]:not(:disabled)',
+    )
   }
 
-  private optgroups (): Locator {
-    return this.select().locator(`[data-testid^="${ActivitiesSelectNavigation.OPTGROUP_PREFIX}"]`)
+  private thematicLabels (): Locator {
+    return this.collapse().locator('.av-row > span.av-text-title')
   }
 
-  private optgroup (thematic: string): Locator {
-    return this.select().locator(`[data-testid="${ActivitiesSelectNavigation.OPTGROUP_PREFIX}${thematic}"]`)
+  private thematicLabel (thematic: string): Locator {
+    const label = ActivitiesSelectNavigation.THEMATIC_LABELS[thematic] ?? thematic
+
+    return this.thematicLabels().getByText(label, { exact: true })
   }
 
-  private enabledOptionsInThematic (thematic: string): Locator {
-    return this.optgroup(thematic).locator('option:not([disabled])')
+  private async openSelect () {
+    await expect(this.collapse()).not.toBeVisible()
+    await expect(this.trigger()).toBeVisible()
+    await clickOnElement(this.trigger())
+    await expect(this.collapse()).toBeVisible()
   }
 
-  private firstOptgroup (): Locator {
-    return this.optgroups().first()
+  private async closeSelect () {
+    await expect(this.collapse()).toBeVisible()
+    await clickOnElement(this.trigger())
+    await expect(this.collapse()).not.toBeVisible()
   }
 
-  private async readOptionLabel (option: Locator): Promise<string> {
-    const text = (await option.textContent())?.trim()
-    return text ?? ''
+  private async thematicHeading (thematic: string): Promise<Locator> {
+    const heading = this.thematicLabel(thematic)
+    await expect(heading, `Missing thematic: ${thematic}`).toHaveCount(1)
+    return heading
   }
 
   async verifyVisible () {
     await expect(this.select()).toBeVisible()
+    await expect(this.trigger()).toBeVisible()
   }
 
   async verifyHidden () {
@@ -49,86 +84,164 @@ export class ActivitiesSelectNavigation extends BaseObject {
   }
 
   async verifyHasThematics () {
-    await expect(this.enabledOptions()).toHaveCount(ActivitiesSelectNavigation.EXPECTED_ENABLED_OPTIONS)
-  }
+    await this.openSelect()
 
-  async verifyFirstThematicIs (expected: string) {
-    await expect(this.select()).toBeVisible()
-
-    const first = this.firstOptgroup()
-    await expect(first, 'Expected at least 1 optgroup in select navigation').toHaveCount(1)
-    await expect(first).toHaveAttribute(
-      'data-testid',
-      `${ActivitiesSelectNavigation.OPTGROUP_PREFIX}${expected}`,
+    await expect(this.enabledOptions()).toHaveCount(
+      ActivitiesSelectNavigation.EXPECTED_ENABLED_OPTIONS,
     )
   }
 
+  async verifyFirstThematicIs (expected: string) {
+    await this.openSelect()
+
+    const first = this.thematicLabels().first()
+    await expect(first).toBeVisible()
+    await expect(first).toHaveText(expected)
+
+    await this.closeSelect()
+  }
+
   async verifyFirstThematicHasAtLeastOneActivity () {
-    await expect(this.select()).toBeVisible()
+    await this.openSelect()
 
-    const first = this.firstOptgroup()
-    await expect(first, 'Expected at least 1 optgroup in select navigation').toHaveCount(1)
+    const firstThematic = this.thematicLabels().first()
+    await expect(firstThematic).toBeVisible()
 
-    const options = first.locator('option:not([disabled])')
-    const count = await options.count()
-    expect(count, 'Expected at least 1 enabled option in first optgroup').toBeGreaterThan(0)
+    const firstThematicLabel = (await firstThematic.textContent())?.trim() ?? ''
+    const heading = await this.thematicHeading(firstThematicLabel)
+
+    const item = heading.locator(
+      'xpath=ancestor::div[contains(@class, "av-row")]/following-sibling::*[@data-testid="av-checkbox-list-item"][1]',
+    )
+
+    await expect(
+      item,
+      'Expected at least 1 activity in the first thematic',
+    ).toBeVisible()
+
+    await this.closeSelect()
   }
 
   async verifyFirstActivityTitleOfFirstThematic (expectedTitle: string) {
-    await expect(this.select()).toBeVisible()
+    await this.openSelect()
 
-    const first = this.firstOptgroup()
-    await expect(first, 'Expected at least 1 optgroup in select navigation').toHaveCount(1)
+    const firstThematic = this.thematicLabels().first()
+    await expect(firstThematic).toBeVisible()
 
-    const firstOption = first.locator('option:not([disabled])').first()
-    await expect(firstOption, 'Expected at least 1 option in first optgroup').toHaveCount(1)
+    const firstActivity = this.collapse()
+      .getByTestId('av-checkbox-list-item')
+      .first()
 
-    const label = await this.readOptionLabel(firstOption)
-    expect(label, 'First activity label mismatch in first optgroup').toContain(expectedTitle)
+    await expect(firstActivity).toContainText(expectedTitle)
+
+    await this.closeSelect()
   }
 
   async verifyLastActivityTitleOfFirstThematic (expectedTitle: string) {
-    await expect(this.select()).toBeVisible()
+    await this.openSelect()
 
-    const first = this.firstOptgroup()
-    await expect(first, 'Expected at least 1 optgroup in select navigation').toHaveCount(1)
+    const firstThematic = this.thematicLabels().first()
+    await expect(firstThematic).toBeVisible()
 
-    const lastOption = first.locator('option:not([disabled])').last()
-    await expect(lastOption, 'Expected at least 1 option in first optgroup').toHaveCount(1)
+    const firstThematicRow = firstThematic.locator(
+      'xpath=ancestor::div[contains(@class, "av-row")][1]',
+    )
 
-    const label = await this.readOptionLabel(lastOption)
-    expect(label, 'Last activity label mismatch in first optgroup').toContain(expectedTitle)
+    const nextThematic = this.thematicLabels().nth(1)
+    await expect(nextThematic).toBeVisible()
+
+    const nextThematicRow = nextThematic.locator(
+      'xpath=ancestor::div[contains(@class, "av-row")][1]',
+    )
+
+    const firstRowHandle = await firstThematicRow.elementHandle()
+    const nextRowHandle = await nextThematicRow.elementHandle()
+
+    expect(firstRowHandle).not.toBeNull()
+    expect(nextRowHandle).not.toBeNull()
+
+    const activityItems = this.collapse().getByTestId('av-checkbox-list-item')
+    const itemsCount = await activityItems.count()
+
+    let lastActivity: Locator | undefined
+
+    for (let i = 0; i < itemsCount; i++) {
+      const item = activityItems.nth(i)
+
+      const isAfterFirstThematic = await item.evaluate(
+        (element, firstRow) => Boolean(
+          firstRow
+          && (firstRow.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING),
+        ),
+        firstRowHandle,
+      )
+
+      const isBeforeNextThematic = await item.evaluate(
+        (element, nextRow) => Boolean(
+          nextRow
+          && (element.compareDocumentPosition(nextRow) & Node.DOCUMENT_POSITION_FOLLOWING),
+        ),
+        nextRowHandle,
+      )
+
+      if (isAfterFirstThematic && isBeforeNextThematic) {
+        lastActivity = item
+      }
+    }
+
+    expect(
+      lastActivity,
+      'Expected at least 1 activity in the first thematic',
+    ).toBeDefined()
+
+    await expect(lastActivity!).toContainText(expectedTitle)
+
+    await this.closeSelect()
   }
 
   async selectSecondActivityOfThematic (thematic: string) {
-    const select = this.select()
-    await expect(select).toBeVisible()
+    await this.openSelect()
 
-    const group = this.optgroup(thematic)
-    await expect(group, `Missing optgroup for thematic: ${thematic}`).toHaveCount(1)
+    const heading = await this.thematicHeading(thematic)
 
-    const options = this.enabledOptionsInThematic(thematic)
-    const count = await options.count()
-    expect(
-      count,
-      `Thematic ${thematic} should have at least 2 activities to select the second one`,
-    ).toBeGreaterThanOrEqual(2)
+    const firstItem = heading.locator(
+      'xpath=ancestor::div[contains(@class, "av-row")]/following-sibling::*[@data-testid="av-checkbox-list-item"][1]',
+    )
 
-    const value = await options.nth(1).getAttribute('value')
-    expect(value, `Second option in thematic ${thematic} should have a value`).toBeTruthy()
+    const secondItem = firstItem.locator(
+      'xpath=following-sibling::*[@data-testid="av-checkbox-list-item"][1]',
+    )
 
-    await select.selectOption(value!)
+    await expect(
+      secondItem,
+      `Thematic ${thematic} should have at least 2 activities`,
+    ).toBeVisible()
+
+    const checkbox = secondItem.locator('input[type="checkbox"]')
+    const id = await checkbox.getAttribute('id')
+
+    expect(id, `Second activity in ${thematic} should have a checkbox id`).toBeTruthy()
+
+    const label = this.collapse().locator(`label[for="${id}"]`)
+    await clickOnElement(label)
   }
 
   async verifyAllExpectedThematics (expected: string[]) {
-    await expect(this.select()).toBeVisible()
+    await this.openSelect()
 
     for (const thematic of expected) {
-      const group = this.optgroup(thematic)
-      await expect(group, `Missing optgroup for thematic: ${thematic}`).toHaveCount(1)
+      const heading = await this.thematicHeading(thematic)
 
-      const enabledCount = await group.locator('option:not([disabled])').count()
-      expect(enabledCount, `Thematic ${thematic} should have at least 1 enabled activity`).toBeGreaterThan(0)
+      const firstItem = heading.locator(
+        'xpath=ancestor::div[contains(@class, "av-row")]/following-sibling::*[@data-testid="av-checkbox-list-item"][1]',
+      )
+
+      await expect(
+        firstItem,
+        `Thematic ${thematic} should have at least 1 activity`,
+      ).toBeVisible()
     }
+
+    await this.closeSelect()
   }
 }

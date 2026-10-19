@@ -31,6 +31,14 @@ export class EditActivityResources {
     return this.getAddResourceModal().getByTestId('add-activity-resource-type-select')
   }
 
+  private getAddResourceModalTypeOption (type: 'file' | 'link') {
+    const checkboxId = `select-collapse-options-list-${type}-checkbox`
+
+    return this.getAddResourceModal()
+      .getByTestId('av-select__collapse')
+      .locator(`label[for="${checkboxId}"]`)
+  }
+
   private getAddResourceModalFileUploadContainer () {
     return this.getAddResourceModal().getByTestId('add-activity-resource-file-upload-container')
   }
@@ -70,7 +78,9 @@ export class EditActivityResources {
   }
 
   async selectAddResourceModalType (type: 'file' | 'link') {
-    await this.getAddResourceModalTypeSelect().selectOption(type)
+    await clickOnElement(this.getAddResourceModalTypeSelect())
+    await expect(this.getAddResourceModalTypeOption(type)).toBeVisible()
+    await this.getAddResourceModalTypeOption(type).click({ position: { x: 2, y: 2 } })
   }
 
   async verifyAddResourceModalFileFormVisible () {
