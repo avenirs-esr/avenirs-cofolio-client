@@ -1,0 +1,341 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/lifeProject/selfKnowledge/selfKnowledge.mobile.feature.spec.js >> Student Project Self-Knowledge Main Section Page >> Update Profile Drawer >> Student can open the update profile drawer
+- Location: .features-gen/tests/student/lifeProject/selfKnowledge/selfKnowledge.mobile.feature.spec.js:29:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('av-select__collapse')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('av-select__collapse')
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - link "Accueil - Cofolio Étudiant":
+    - /url: /cofolio/student
+    - img
+  - button "Menu"
+  - button "Changer d'univers"
+- main:
+  - navigation "Fil d'Ariane":
+    - button "Voir le fil d'Ariane"
+  - heading "Bâtir mon projet" [level=1]
+  - text: Accéder à
+  - button "Me connaître" [expanded]
+  - paragraph: Utilisez la tabulation (ou les touches flèches) pour naviguer dans la liste des suggestions
+  - list:
+    - listitem:
+      - checkbox "Ma carte mentale"
+      - text: Ma carte mentale
+      - status
+    - listitem:
+      - checkbox "Me connaître" [checked]
+      - text: Me connaître
+      - status
+  - status
+  - text: Me connaître
+  - button "Modifier mon profil"
+  - img "Bannière du profil"
+  - img "Photo de profil"
+  - text: Jeanne Moulin Je suis étudiante en chimie et écologie. Passionnée par l'innovation durable, je souhaite utiliser la science pour protéger l'environnement et bâtir un avenir plus respectueux de la planète.
+  - button "Gérer mes catégories"
+  - text: Mes points forts (10)
+  - button "Gérer mes éléments"
+  - button "Réduire" [expanded]
+  - text: Identifier et valoriser mes qualités, talents et réussites marquantes.
+  - navigation:
+    - list:
+      - listitem: Page 1 sur 2
+      - listitem
+      - listitem:
+        - link "Page précédente" [disabled]:
+          - /url: "#page-1"
+      - listitem:
+        - link "Page suivante":
+          - /url: "#page-2"
+      - listitem
+  - link "Créativité Je suis capable de trouver des solutions originales et innovantes aux problèmes ⭐ 1/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=b059ec55-adda-46dc-a31a-9c2e19a5e7c3
+  - link "Esprit d'équipe Je travaille efficacement avec les autres et favorise la collaboration":
+    - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=1e78884b-608f-4cef-b826-39ffe0cd58af
+  - link "Leadership Je sais prendre des initiatives et guider une équipe vers ses objectifs ⭐ ⭐ ⭐ ⭐ ⭐ 5/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=c51125ee-ccf0-443e-83f3-d1db6a579cf5
+  - link "Persévérance Je continue mes efforts même face aux difficultés":
+    - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=ea049fde-0f2b-4222-9380-1afe66438b86
+  - link "Communication Je m'exprime clairement et j'écoute activement les autres":
+    - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=0a981b03-2430-4773-8a28-f8f5a0578b86
+  - link "Adaptabilité Je m'ajuste facilement aux changements et aux nouvelles situations":
+    - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=b40822cb-355f-41a5-93cd-9065a65bdb8b
+  - text: Mes valeurs (10)
+  - button "Gérer mes éléments"
+  - button "Réduire" [expanded]
+  - text: Préciser ce qui est important pour moi et ce qui guide mes décisions au quotidien.
+  - navigation:
+    - list:
+      - listitem: Page 1 sur 2
+      - listitem
+      - listitem:
+        - link "Page précédente" [disabled]:
+          - /url: "#page-1"
+      - listitem:
+        - link "Page suivante":
+          - /url: "#page-2"
+      - listitem
+  - link "Respect Traiter les autres avec considération et dignité ⭐ 1/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=723d633d-8c34-44fd-9381-33100b5feaa0
+  - link "Honnêteté Agir avec intégrité et transparence dans toutes mes interactions ⭐ ⭐ ⭐ 3/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=67d7f727-dc4c-455e-9366-73ad2c67d615
+  - link "Solidarité Soutenir et aider les autres dans le besoin":
+    - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=d46f8b9d-788c-41ae-9202-84cf3a05ef42
+  - link "Justice Promouvoir l'équité et l'égalité des chances pour tous ⭐ ⭐ ⭐ ⭐ 4/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=b1c50432-3339-458f-a266-7c9d0f364b15
+  - link "Liberté Respecter l'autonomie et les choix de chacun ⭐ 1/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=086ba981-44de-4cca-8b20-b40e014f4a2d
+  - link "Engagement M'investir pleinement dans mes projets et responsabilités":
+    - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=a4a32def-3398-4f13-9fde-22368a487d5a
+  - text: Mes envies (10)
+  - button "Gérer mes éléments"
+  - button "Réduire" [expanded]
+  - text: Clarifier ce que j'ai envie d'explorer, d'apprendre ou de vivre à court et moyen terme.
+  - navigation:
+    - list:
+      - listitem: Page 1 sur 2
+      - listitem
+      - listitem:
+        - link "Page précédente" [disabled]:
+          - /url: "#page-1"
+      - listitem:
+        - link "Page suivante":
+          - /url: "#page-2"
+      - listitem
+  - link "Développer mes compétences techniques Approfondir mes connaissances dans mon domaine d'expertise":
+    - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=af86d271-37b4-4315-94b8-8875497bf163
+  - link "Manager une équipe Acquérir de l'expérience en gestion et leadership":
+    - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=94d80329-0669-4406-ab3d-ad5504677656
+  - link "Voyager à l'étranger Découvrir de nouvelles cultures et élargir mes horizons":
+    - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=712f883f-3a1f-4517-b09a-fe9ffdad6f76
+  - link "Créer mon entreprise Développer un projet entrepreneurial qui me passionne ⭐ 1/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=d8c898fb-9471-4666-9bf8-ce70e3193ef0
+  - link "Continuer mes études Poursuivre ma formation académique dans un domaine qui m'intéresse":
+    - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=92794673-205d-4e11-b817-a03653e75493
+  - link "Contribuer à des projets sociaux M'engager dans des initiatives à impact positif":
+    - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=af3078be-befc-4db9-980c-97297dfd50c4
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/student/accessibility
+    - listitem:
+      - link "Conditions générales d'utilisation":
+        - /url: /cofolio/student/cgu
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/student/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/student/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1   | import type { test } from '@e2e/framework/shared/fixtures/fixtures'
+  2   | import type { Locator, Page } from '@playwright/test'
+  3   | import { BasePage } from '@e2e/framework/shared/base/BasePage'
+  4   | import { ProfileCard } from '@e2e/framework/shared/componentObjects/ProfileCard'
+  5   | import { STUDENT_ROUTES } from '@e2e/framework/shared/constants/routes'
+  6   | import { t } from '@e2e/framework/shared/utils/i18n'
+  7   | import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
+  8   | import { expect } from '@playwright/test'
+  9   | import { Fixture, Given, Then, When } from 'playwright-bdd/decorators'
+  10  | 
+  11  | export
+  12  | @Fixture<typeof test>('studentBuildProjectSelfKnowledgePage')
+  13  | class StudentBuildProjectSelfKnowledgePage extends BasePage {
+  14  |   constructor (public page: Page) {
+  15  |     super(page)
+  16  |   }
+  17  | 
+  18  |   private collapse (): Locator {
+  19  |     return this.page.getByTestId('av-select__collapse')
+  20  |   }
+  21  | 
+  22  |   getSectionNavigationSideNavigation () {
+  23  |     return this.page.getByTestId('section-navigation-side-navigation')
+  24  |   }
+  25  | 
+  26  |   getSectionNavigationSelectNavigation () {
+  27  |     return this.page.getByTestId('section-navigation-select-navigation')
+  28  |   }
+  29  | 
+  30  |   getSelfKnowledgeSideNavigationItem () {
+  31  |     return this.page.getByTestId('collapsed-menu-SELF_KNOWLEDGE')
+  32  |       .or(this.page.getByTestId('expanded-menu-SELF_KNOWLEDGE'))
+  33  |   }
+  34  | 
+  35  |   async navigateToSelfKnowledgeSection () {
+  36  |     const sideNavigation = this.getSectionNavigationSideNavigation()
+  37  | 
+  38  |     if (await sideNavigation.isVisible().catch(() => false)) {
+  39  |       await this.getSelfKnowledgeSideNavigationItem().click()
+  40  |       return
+  41  |     }
+  42  | 
+  43  |     const select = this.getSectionNavigationSelectNavigation()
+  44  | 
+  45  |     await expect(select).toBeVisible()
+  46  |     await select.click()
+  47  | 
+  48  |     const collapse = this.collapse()
+> 49  |     await expect(collapse).toBeVisible()
+      |                            ^ Error: expect(locator).toBeVisible() failed
+  50  | 
+  51  |     const thematicLabel = collapse
+  52  |       .locator('.av-row > span.av-text-text2')
+  53  |       .getByText('Me connaître', { exact: true })
+  54  | 
+  55  |     await expect(thematicLabel).toBeVisible()
+  56  |     await thematicLabel.click()
+  57  |   }
+  58  | 
+  59  |   getUpdateProfileDrawer () {
+  60  |     return this.page.getByTestId('update-profile-drawer').locator('.av-drawer')
+  61  |   }
+  62  | 
+  63  |   getDisplayUpdateProfileDrawerButton () {
+  64  |     return this.page.getByTestId('display-update-profile-drawer-button')
+  65  |   }
+  66  | 
+  67  |   getProfileCard () {
+  68  |     return new ProfileCard(this.page.getByTestId('profile-card'))
+  69  |   }
+  70  | 
+  71  |   getSectionTitle () {
+  72  |     return this.page.getByTestId('self-knowledge-section-title')
+  73  |   }
+  74  | 
+  75  |   @Given('the student opens the project self knowledge main section page')
+  76  |   async goto () {
+  77  |     await this.page.goto(STUDENT_ROUTES.PROJECT.BUILD_PROJECT.SELF_KNOWLEDGE)
+  78  |     await waitForPageLoad(this.page)
+  79  | 
+  80  |     await this.navigateToSelfKnowledgeSection()
+  81  |     await waitForPageLoad(this.page)
+  82  |   }
+  83  | 
+  84  |   @Then('the student project self knowledge main section page is displayed')
+  85  |   async verifyPageLoaded () {
+  86  |     await expect(this.page).toHaveURL(STUDENT_ROUTES.PROJECT.BUILD_PROJECT.SELF_KNOWLEDGE)
+  87  |   }
+  88  | 
+  89  |   @Then('the self-knowledge section title is displayed')
+  90  |   async verifySectionTitle () {
+  91  |     await expect(this.getSectionTitle()).toBeVisible()
+  92  |     await expect(this.getSectionTitle()).toHaveText(
+  93  |       t('student.selfKnowledge.SelfKnowledgeMainSection.title'),
+  94  |     )
+  95  |   }
+  96  | 
+  97  |   @When('the user clicks the display update profile drawer button')
+  98  |   async clickDisplayUpdateProfileDrawerButton () {
+  99  |     await this.getDisplayUpdateProfileDrawerButton().click()
+  100 |     await waitForPageLoad(this.page)
+  101 |   }
+  102 | 
+  103 |   @Then('the update profile drawer is opened in the project self knowledge main section page')
+  104 |   async verifyUpdateProfileDrawerOpened () {
+  105 |     await expect(this.getUpdateProfileDrawer()).toBeVisible()
+  106 |   }
+  107 | 
+  108 |   @When('the user clicks the exit button on the update profile drawer')
+  109 |   async closeDrawer () {
+  110 |     const updateProfileDrawer = this.getUpdateProfileDrawer()
+  111 |     const exitButton = updateProfileDrawer.locator('.av-cancel-confirm-buttons-container button').first()
+  112 |     await exitButton.click()
+  113 |   }
+  114 | 
+  115 |   @Then('the update profile drawer is closed in the project self knowledge main section page')
+  116 |   async verifyUpdateProfileDrawerClosed () {
+  117 |     await expect(this.getUpdateProfileDrawer()).toBeHidden()
+  118 |   }
+  119 | 
+  120 |   @Then('the self-knowledge profile card is visible')
+  121 |   async verifyProfileCardVisible () {
+  122 |     await this.getProfileCard().isVisible()
+  123 |   }
+  124 | 
+  125 |   @Then('all profile content is readable on mobile')
+  126 |   async verifyProfileCardContent () {
+  127 |     await this.getProfileCard().verifyCardContent()
+  128 |   }
+  129 | 
+  130 |   @Then('the self-knowledge profile card banner is visible')
+  131 |   async verifyProfileCardBannerVisible () {
+  132 |     await this.getProfileCard().verifyProfileBanner()
+  133 |   }
+  134 | 
+  135 |   @Then('the self-knowledge profile card picture is visible')
+  136 |   async verifyProfileCardPictureVisible () {
+  137 |     await this.getProfileCard().verifyProfilePicture()
+  138 |   }
+  139 | 
+  140 |   @Then('the self-knowledge profile card name is visible')
+  141 |   async verifyProfileCardNameVisible () {
+  142 |     await this.getProfileCard().verifyFullName()
+  143 |   }
+  144 | 
+  145 |   @Then('the self-knowledge profile card bio is visible')
+  146 |   async verifyProfileCardBioVisible () {
+  147 |     await this.getProfileCard().verifyBio()
+  148 |   }
+  149 | 
+```
