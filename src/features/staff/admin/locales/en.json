@@ -36,6 +36,12 @@
                 "label": "a group",
                 "placeholder": "a group name"
               }
+            },
+            "selects": {
+              "GroupTypeMultiselect": {
+                "label": "Group type",
+                "placeholder": "Select a group type"
+              }
             }
           },
           "title": "Institution groups"

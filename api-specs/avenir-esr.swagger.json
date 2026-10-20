@@ -4695,16 +4695,14 @@
             }
           },
           {
-            "name": "type",
+            "name": "types",
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string",
-              "enum": [
-                "PROGRAM",
-                "PROGRAM_OPTION",
-                "STUDENT_GROUP"
-              ]
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EGroupType"
+              }
             }
           },
           {

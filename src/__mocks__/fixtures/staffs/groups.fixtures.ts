@@ -66,14 +66,14 @@ export function createMockedGetGroupsResponse (
   getGroupsParams: GetGroupsParams,
   totalElements: number
 ): PagedResponseGroupOverviewDTO {
-  const { keyword, type, page = 0, pageSize = PageSizes.FOUR } = getGroupsParams
+  const { keyword, types, page = 0, pageSize = PageSizes.FOUR } = getGroupsParams
 
   const mockedGroups = Array.from({ length: totalElements }, (_, index) => getGroupOverviewDTO(index))
 
   let filteredGroups = mockedGroups
 
-  if (type) {
-    filteredGroups = filteredGroups.filter(group => type.includes(group.type))
+  if (types && types.length > 0) {
+    filteredGroups = filteredGroups.filter(group => types.includes(group.type))
   }
 
   if (keyword?.trim()) {

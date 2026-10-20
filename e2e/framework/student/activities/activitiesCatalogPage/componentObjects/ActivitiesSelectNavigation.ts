@@ -5,19 +5,8 @@ import { expect } from '@playwright/test'
 
 export class ActivitiesSelectNavigation extends BaseObject {
   private static readonly SELECT_TESTID = 'activities-select-navigation'
-  private static readonly COLLAPSE_TESTID = 'av-select__collapse'
-  private static readonly OPTION_CHECKBOX_PREFIX = 'select-collapse-options-list-'
+  private static readonly COLLAPSE_TESTID = 'av-select-collapse'
   private static readonly EXPECTED_ENABLED_OPTIONS = 32
-  private static readonly THEMATIC_LABELS: Record<string, string> = {
-    SELF_KNOWLEDGE: 'Me connaître',
-    FUTURE_PLANS: 'Explorer mes futurs',
-    PROGRAMS: 'Mes formations',
-    EXPERIENCES: 'Mes expériences',
-    TRAJECTORIES: 'Mes trajectoires',
-    RESUMES: 'CV',
-    TRANSVERSAL: 'Transverse',
-    OTHER: 'Autre',
-  }
 
   constructor (protected page: Page) {
     super(page.getByTestId(ActivitiesSelectNavigation.SELECT_TESTID), page)
@@ -35,24 +24,34 @@ export class ActivitiesSelectNavigation extends BaseObject {
     return this.page.getByTestId(ActivitiesSelectNavigation.COLLAPSE_TESTID)
   }
 
-  private optionCheckboxId (value: string): string {
-    return `${ActivitiesSelectNavigation.OPTION_CHECKBOX_PREFIX}${value}-checkbox`
-  }
-
   private enabledOptions (): Locator {
     return this.collapse().locator(
-      '[data-testid="av-checkbox-list-item"] input[type="checkbox"]:not(:disabled)',
+      '[data-testid="av-select-child-option"] input[type="checkbox"]:enabled',
     )
   }
 
   private thematicLabels (): Locator {
-    return this.collapse().locator('.av-row > span.av-text-title')
+    return this.collapse().getByTestId('av-select-group-label')
   }
 
   private thematicLabel (thematic: string): Locator {
-    const label = ActivitiesSelectNavigation.THEMATIC_LABELS[thematic] ?? thematic
+    return this.collapse().locator(
+      `[data-testid="av-select-group-label"][data-group-id="${thematic}"]`,
+    )
+  }
 
-    return this.thematicLabels().getByText(label, { exact: true })
+  private activitiesOfThematic (thematic: string): Locator {
+    return this.collapse().locator(
+      `[data-testid="av-select-child-option"][data-group-id="${thematic}"]`,
+    )
+  }
+
+  private async thematicId (heading: Locator): Promise<string> {
+    const id = await heading.getAttribute('data-group-id')
+
+    expect(id, 'Thematic should have a data-group-id').toBeTruthy()
+
+    return id!
   }
 
   private async openSelect () {
@@ -70,7 +69,9 @@ export class ActivitiesSelectNavigation extends BaseObject {
 
   private async thematicHeading (thematic: string): Promise<Locator> {
     const heading = this.thematicLabel(thematic)
+
     await expect(heading, `Missing thematic: ${thematic}`).toHaveCount(1)
+
     return heading
   }
 
@@ -89,12 +90,15 @@ export class ActivitiesSelectNavigation extends BaseObject {
     await expect(this.enabledOptions()).toHaveCount(
       ActivitiesSelectNavigation.EXPECTED_ENABLED_OPTIONS,
     )
+
+    await this.closeSelect()
   }
 
   async verifyFirstThematicIs (expected: string) {
     await this.openSelect()
 
     const first = this.thematicLabels().first()
+
     await expect(first).toBeVisible()
     await expect(first).toHaveText(expected)
 
@@ -105,17 +109,14 @@ export class ActivitiesSelectNavigation extends BaseObject {
     await this.openSelect()
 
     const firstThematic = this.thematicLabels().first()
+
     await expect(firstThematic).toBeVisible()
 
-    const firstThematicLabel = (await firstThematic.textContent())?.trim() ?? ''
-    const heading = await this.thematicHeading(firstThematicLabel)
-
-    const item = heading.locator(
-      'xpath=ancestor::div[contains(@class, "av-row")]/following-sibling::*[@data-testid="av-checkbox-list-item"][1]',
-    )
+    const thematicId = await this.thematicId(firstThematic)
+    const firstActivity = this.activitiesOfThematic(thematicId).first()
 
     await expect(
-      item,
+      firstActivity,
       'Expected at least 1 activity in the first thematic',
     ).toBeVisible()
 
@@ -126,12 +127,13 @@ export class ActivitiesSelectNavigation extends BaseObject {
     await this.openSelect()
 
     const firstThematic = this.thematicLabels().first()
+
     await expect(firstThematic).toBeVisible()
 
-    const firstActivity = this.collapse()
-      .getByTestId('av-checkbox-list-item')
-      .first()
+    const thematicId = await this.thematicId(firstThematic)
+    const firstActivity = this.activitiesOfThematic(thematicId).first()
 
+    await expect(firstActivity).toBeVisible()
     await expect(firstActivity).toContainText(expectedTitle)
 
     await this.closeSelect()
@@ -141,60 +143,18 @@ export class ActivitiesSelectNavigation extends BaseObject {
     await this.openSelect()
 
     const firstThematic = this.thematicLabels().first()
+
     await expect(firstThematic).toBeVisible()
 
-    const firstThematicRow = firstThematic.locator(
-      'xpath=ancestor::div[contains(@class, "av-row")][1]',
-    )
+    const thematicId = await this.thematicId(firstThematic)
+    const lastActivity = this.activitiesOfThematic(thematicId).last()
 
-    const nextThematic = this.thematicLabels().nth(1)
-    await expect(nextThematic).toBeVisible()
-
-    const nextThematicRow = nextThematic.locator(
-      'xpath=ancestor::div[contains(@class, "av-row")][1]',
-    )
-
-    const firstRowHandle = await firstThematicRow.elementHandle()
-    const nextRowHandle = await nextThematicRow.elementHandle()
-
-    expect(firstRowHandle).not.toBeNull()
-    expect(nextRowHandle).not.toBeNull()
-
-    const activityItems = this.collapse().getByTestId('av-checkbox-list-item')
-    const itemsCount = await activityItems.count()
-
-    let lastActivity: Locator | undefined
-
-    for (let i = 0; i < itemsCount; i++) {
-      const item = activityItems.nth(i)
-
-      const isAfterFirstThematic = await item.evaluate(
-        (element, firstRow) => Boolean(
-          firstRow
-          && (firstRow.compareDocumentPosition(element) & Node.DOCUMENT_POSITION_FOLLOWING),
-        ),
-        firstRowHandle,
-      )
-
-      const isBeforeNextThematic = await item.evaluate(
-        (element, nextRow) => Boolean(
-          nextRow
-          && (element.compareDocumentPosition(nextRow) & Node.DOCUMENT_POSITION_FOLLOWING),
-        ),
-        nextRowHandle,
-      )
-
-      if (isAfterFirstThematic && isBeforeNextThematic) {
-        lastActivity = item
-      }
-    }
-
-    expect(
+    await expect(
       lastActivity,
       'Expected at least 1 activity in the first thematic',
-    ).toBeDefined()
+    ).toBeVisible()
 
-    await expect(lastActivity!).toContainText(expectedTitle)
+    await expect(lastActivity).toContainText(expectedTitle)
 
     await this.closeSelect()
   }
@@ -202,27 +162,26 @@ export class ActivitiesSelectNavigation extends BaseObject {
   async selectSecondActivityOfThematic (thematic: string) {
     await this.openSelect()
 
-    const heading = await this.thematicHeading(thematic)
+    await this.thematicHeading(thematic)
 
-    const firstItem = heading.locator(
-      'xpath=ancestor::div[contains(@class, "av-row")]/following-sibling::*[@data-testid="av-checkbox-list-item"][1]',
-    )
-
-    const secondItem = firstItem.locator(
-      'xpath=following-sibling::*[@data-testid="av-checkbox-list-item"][1]',
-    )
+    const activities = this.activitiesOfThematic(thematic)
+    const secondActivity = activities.nth(1)
 
     await expect(
-      secondItem,
+      secondActivity,
       `Thematic ${thematic} should have at least 2 activities`,
     ).toBeVisible()
 
-    const checkbox = secondItem.locator('input[type="checkbox"]')
+    const checkbox = secondActivity.locator('input[type="checkbox"]')
     const id = await checkbox.getAttribute('id')
 
-    expect(id, `Second activity in ${thematic} should have a checkbox id`).toBeTruthy()
+    expect(
+      id,
+      `Second activity in ${thematic} should have a checkbox id`,
+    ).toBeTruthy()
 
     const label = this.collapse().locator(`label[for="${id}"]`)
+
     await clickOnElement(label)
   }
 
@@ -230,14 +189,12 @@ export class ActivitiesSelectNavigation extends BaseObject {
     await this.openSelect()
 
     for (const thematic of expected) {
-      const heading = await this.thematicHeading(thematic)
+      await this.thematicHeading(thematic)
 
-      const firstItem = heading.locator(
-        'xpath=ancestor::div[contains(@class, "av-row")]/following-sibling::*[@data-testid="av-checkbox-list-item"][1]',
-      )
+      const firstActivity = this.activitiesOfThematic(thematic).first()
 
       await expect(
-        firstItem,
+        firstActivity,
         `Thematic ${thematic} should have at least 1 activity`,
       ).toBeVisible()
     }

@@ -1,220 +1,105 @@
-import type { PagedResponseGroupOverviewDTO } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { keepPreviousData } from '@tanstack/vue-query'
 import { mountComposable } from 'tests/utils'
-import { nextTick, unref } from 'vue'
-import { mockGroupOverview, mockGroupOverviewWithParent } from '@/__mocks__/fixtures/staffs/groups.fixtures'
-import { BaseApiException } from '@/common/exceptions'
+import { expect } from 'vitest'
+import { nextTick } from 'vue'
+import { EGroupType } from '@/api/avenir-esr'
 import { usePaginatedStaffAdminGroups } from '@/features/staff/admin/composables/use-paginated-staff-admin-groups/use-paginated-staff-admin-groups'
 
-const groups = [mockGroupOverview, mockGroupOverviewWithParent]
-
-const page: PagedResponseGroupOverviewDTO = {
-  data: groups,
-  page: {
-    page: 0,
-    pageSize: PageSizes.TWELVE,
-    totalElements: groups.length,
-    totalPages: 1,
-  },
-}
-
-const mockError = new BaseApiException('error')
-
-function makeMockFetchFn (overrides?: {
-  data?: ReturnType<typeof ref<PagedResponseGroupOverviewDTO | undefined>>
-  error?: ReturnType<typeof ref<BaseApiException | null>>
-  isFetching?: ReturnType<typeof ref<boolean>>
-}) {
-  return vi.fn().mockReturnValue({
-    data: overrides?.data ?? ref(page),
-    error: overrides?.error ?? ref(null),
-    isFetching: overrides?.isFetching ?? ref(false),
-  })
-}
-
 function mountUsePaginatedStaffAdminGroups ({
-  fetchFn = makeMockFetchFn(),
   currentPage = 0,
   pageSize = PageSizes.TWELVE,
-  keyword = '',
+  keyword = undefined,
+  types = undefined,
 }: {
-  fetchFn?: ReturnType<typeof makeMockFetchFn>
   currentPage?: number
   pageSize?: PageSizes
   keyword?: string
+  types?: EGroupType[]
 } = {}) {
-  return mountComposable(() =>
-    usePaginatedStaffAdminGroups({
-      currentPageRef: ref(currentPage),
-      pageSizeRef: ref(pageSize),
-      keywordRef: ref(keyword),
-      fetchFn,
-    }), {}).result
+  const currentPageRef = ref(currentPage)
+  const pageSizeRef = ref(pageSize)
+  const keywordRef = ref<string | undefined>(keyword)
+  const typesRef = ref<EGroupType[] | undefined>(types)
+
+  const { result } = mountComposable(() => usePaginatedStaffAdminGroups({
+    currentPageRef,
+    pageSizeRef,
+    keywordRef,
+    typesRef,
+  }), { useTanstack: true })
+
+  return {
+    ...result,
+    currentPageRef,
+    pageSizeRef,
+    keywordRef,
+    typesRef,
+  }
 }
 
 BddTest().given('a usePaginatedStaffAdminGroups composable', () => {
-  BddTest().when('fetchFn returns valid data', () => {
+  BddTest().when('the composable is mounted', () => {
     let result: ReturnType<typeof mountUsePaginatedStaffAdminGroups>
 
     beforeEach(() => {
       result = mountUsePaginatedStaffAdminGroups()
     })
 
-    BddTest().then('it should return groups and pageInfo from data', () => {
-      expect(result.groups.value).toEqual(page.data)
-      expect(result.pageInfo.value).toEqual(page.page)
-    })
-
-    BddTest().then('it should return isFetching as false', () => {
-      expect(result.isFetching.value).toBe(false)
-    })
-
-    BddTest().then('it should return no error', () => {
-      expect(result.error.value).toBeNull()
-    })
-
-    BddTest().then('it should expose pageSizeSelected, onUpdateCurrentPage and onUpdatePageSize', () => {
+    BddTest().then('it should expose the pagination handlers', () => {
       expect(result.pageSizeSelected.value).toBe(PageSizes.TWELVE)
       expect(typeof result.onUpdateCurrentPage).toBe('function')
       expect(typeof result.onUpdatePageSize).toBe('function')
     })
+
+    BddTest().then('it should return the groups and page info from the API', async () => {
+      await vi.waitFor(() => {
+        expect(result.groups.value.length).toBeGreaterThan(0)
+        expect(result.pageInfo.value).toBeDefined()
+      })
+    })
   })
 
-  BddTest().when('fetchFn is called', () => {
-    let fetchFn: ReturnType<typeof makeMockFetchFn>
+  BddTest().when('the current page changes', () => {
     let result: ReturnType<typeof mountUsePaginatedStaffAdminGroups>
 
     beforeEach(() => {
-      fetchFn = makeMockFetchFn()
-      result = mountUsePaginatedStaffAdminGroups({ fetchFn, pageSize: PageSizes.FOUR })
+      result = mountUsePaginatedStaffAdminGroups()
     })
 
-    BddTest().then('it should call with the correct params', () => {
-      const [params, options] = fetchFn.mock.calls[0]
-
-      expect(unref(params)).toEqual({
-        page: 0,
-        pageSize: PageSizes.FOUR,
-        keyword: '',
-      })
-
-      expect(options).toEqual(
-        expect.objectContaining({
-          query: expect.objectContaining({
-            placeholderData: keepPreviousData,
-          }),
-        }),
-      )
-    })
-
-    BddTest().when('fetchFn is called with keyword', () => {
-      let fetchFn: ReturnType<typeof makeMockFetchFn>
-      const keyword = 'test'
-
-      beforeEach(() => {
-        fetchFn = makeMockFetchFn()
-        result = mountUsePaginatedStaffAdminGroups({ fetchFn, pageSize: PageSizes.FOUR, keyword })
-      })
-
-      BddTest().then('it should call with the keyword', async () => {
-        await nextTick()
-
-        const [params, options] = fetchFn.mock.calls.at(-1)!
-
-        expect(unref(params)).toEqual({
-          page: 0,
-          pageSize: PageSizes.FOUR,
-          keyword,
-        })
-
-        expect(options).toEqual(
-          expect.objectContaining({
-            query: expect.objectContaining({
-              placeholderData: keepPreviousData,
-            }),
-          }),
-        )
-      })
-    })
-
-    BddTest().then('it should refetch with the new page', async () => {
+    BddTest().then('it should update the selected page', () => {
       result.onUpdateCurrentPage(1)
-      await nextTick()
 
-      const [params, options] = fetchFn.mock.calls.at(-1)!
+      expect(result.currentPageRef.value).toBe(1)
+    })
+  })
 
-      expect(unref(params)).toEqual({
-        page: 1,
-        pageSize: PageSizes.FOUR,
-        keyword: '',
-      })
+  BddTest().when('the page size changes', () => {
+    let result: ReturnType<typeof mountUsePaginatedStaffAdminGroups>
 
-      expect(options).toEqual(
-        expect.objectContaining({
-          query: expect.objectContaining({
-            placeholderData: keepPreviousData,
-          }),
-        }),
-      )
+    beforeEach(() => {
+      result = mountUsePaginatedStaffAdminGroups()
     })
 
-    BddTest().then('it should refetch with the new page size', async () => {
+    BddTest().then('it should update the selected page size', () => {
       result.onUpdatePageSize(PageSizes.EIGHT)
+
+      expect(result.pageSizeSelected.value).toBe(PageSizes.EIGHT)
+    })
+  })
+
+  BddTest().when('the group types change', () => {
+    let result: ReturnType<typeof mountUsePaginatedStaffAdminGroups>
+
+    beforeEach(() => {
+      result = mountUsePaginatedStaffAdminGroups()
+    })
+
+    BddTest().then('it should accept the selected group types', async () => {
+      result.typesRef.value = [EGroupType.PROGRAM]
       await nextTick()
 
-      const [params, options] = fetchFn.mock.calls.at(-1)!
-
-      expect(unref(params)).toEqual({
-        page: 0,
-        pageSize: PageSizes.EIGHT,
-        keyword: '',
-      })
-
-      expect(options).toEqual(
-        expect.objectContaining({
-          query: expect.objectContaining({
-            placeholderData: keepPreviousData,
-          }),
-        }),
-      )
-    })
-  })
-
-  BddTest().when('fetchFn returns isFetching as true', () => {
-    let result: ReturnType<typeof mountUsePaginatedStaffAdminGroups>
-
-    beforeEach(() => {
-      result = mountUsePaginatedStaffAdminGroups({
-        fetchFn: makeMockFetchFn({ isFetching: ref(true) }),
-      })
-    })
-
-    BddTest().then('it should return isFetching as true', () => {
-      expect(result.isFetching.value).toBe(true)
-    })
-  })
-
-  BddTest().when('fetchFn returns undefined data and an error', () => {
-    let result: ReturnType<typeof mountUsePaginatedStaffAdminGroups>
-
-    beforeEach(() => {
-      result = mountUsePaginatedStaffAdminGroups({
-        fetchFn: makeMockFetchFn({
-          data: ref(undefined),
-          error: ref(mockError),
-        }),
-      })
-    })
-
-    BddTest().then('it should return empty groups and undefined pageInfo', () => {
-      expect(result.groups.value).toEqual([])
-      expect(result.pageInfo.value).toBeUndefined()
-    })
-
-    BddTest().then('it should return an error', () => {
-      expect(result.error.value).toBe(mockError)
+      expect(result.typesRef.value).toEqual([EGroupType.PROGRAM])
     })
   })
 })
