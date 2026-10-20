@@ -6,7 +6,7 @@ import { USER_CATEGORY_HOME } from '@/features/auth/global/composables/use-curre
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 
 const { t } = useI18n()
-const { categories, activeProfileCategory, canSwitchProfile } = useCurrentUser()
+const { categories, profile: { activeCategory, canSwitch } } = useCurrentUser()
 const { modalOpened, openModal, closeModal } = useModal()
 </script>
 
@@ -14,7 +14,7 @@ const { modalOpened, openModal, closeModal } = useModal()
   <AvButton
     :label="t('global.header.switchUniverse.label')"
     :icon="MDI_ICONS.SWAP_HORIZONTAL"
-    :disabled="!canSwitchProfile"
+    :disabled="!canSwitch"
     @click="openModal"
   />
   <AvModal
@@ -39,7 +39,7 @@ const { modalOpened, openModal, closeModal } = useModal()
         :label="t(`global.header.switchUniverse.buttons.${category}`)"
         theme="SECONDARY"
         :to="USER_CATEGORY_HOME[category]"
-        :disabled="category === activeProfileCategory"
+        :disabled="category === activeCategory"
         :data-testid="`${category}-button`"
         @click="closeModal()"
       />

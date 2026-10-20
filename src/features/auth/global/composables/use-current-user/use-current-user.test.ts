@@ -5,7 +5,7 @@ import { mountComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student'
-import { meAs } from '@/__mocks__/msw/handlers/shared/generic.handlers'
+import { mockedLoggedInUser } from '@/__mocks__/msw/handlers/shared/generic.handlers'
 import { getProfileErrorHandler, getProfilePendingHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ERole, EUserCategory } from '@/api/avenir-esr'
@@ -33,7 +33,7 @@ BddTest().given('the current user composable with the API served by MSW', () => 
 
   const profileLoaded = async () => {
     await flushPromises()
-    await vi.waitFor(() => expect(currentUser.isProfileLoading.value).toBe(false))
+    await vi.waitFor(() => expect(currentUser.profile.isLoading.value).toBe(false))
   }
 
   const mountWith = async ({
@@ -51,12 +51,22 @@ BddTest().given('the current user composable with the API served by MSW', () => 
       server.use(getProfileErrorHandler)
     }
 
-    if (user) {
-      server.use(meAs(user))
+    if (!isLoggedIn) {
+      vi.stubEnv('DEV', false)
     }
 
     const mounted = mountComposable(() => {
       authStore = useAuthStore()
+
+      if (isLoggedIn) {
+        authStore.$patch({
+          session: {
+            ...mockedLoggedInUser,
+            ...user
+          }
+        })
+      }
+
       currentUser = useCurrentUser()
     }, {
       usePinia: true,
@@ -66,16 +76,13 @@ BddTest().given('the current user composable with the API served by MSW', () => 
 
     unmount = mounted.unmount
 
-    if (isLoggedIn) {
-      await authStore.ensureAuthenticated('/target')
-    }
-
     await (waitForProfile ? profileLoaded() : flushPromises())
   }
 
   afterEach(() => {
     unmount()
     server.resetHandlers()
+    vi.unstubAllEnvs()
   })
 
   BddTest().when('nobody is logged in', () => {
@@ -84,8 +91,8 @@ BddTest().given('the current user composable with the API served by MSW', () => 
     })
 
     BddTest().then('it should expose an empty profile and not be loading', () => {
-      expect(currentUser.profile.value).toEqual(INVALID_PROFILE)
-      expect(currentUser.isProfileLoading.value).toBe(false)
+      expect(currentUser.profile.isLoading.value).toBe(false)
+      expect(currentUser.profile.data.value).toEqual(INVALID_PROFILE)
     })
   })
 
@@ -96,12 +103,12 @@ BddTest().given('the current user composable with the API served by MSW', () => 
 
     BddTest().then('it should expose the session of the user', () => {
       expect(currentUser.roles.value).toEqual([ERole.ROLE_STUDENT])
-      expect(currentUser.activeProfileCategory.value).toBe(EUserCategory.STUDENT)
+      expect(currentUser.profile.activeCategory.value).toBe(EUserCategory.STUDENT)
     })
 
     BddTest().then('it should expose the student profile', () => {
-      expect(currentUser.profile.value).toEqual(mockedProfileOverview)
-      expect(currentUser.isProfileLoading.value).toBe(false)
+      expect(currentUser.profile.isLoading.value).toBe(false)
+      expect(currentUser.profile.data.value).toEqual(mockedProfileOverview)
     })
   })
 
@@ -111,8 +118,8 @@ BddTest().given('the current user composable with the API served by MSW', () => 
     })
 
     BddTest().then('it should expose the staff profile', () => {
-      expect(currentUser.profile.value).toEqual(mockedStaffProfileOverview)
-      expect(currentUser.isProfileLoading.value).toBe(false)
+      expect(currentUser.profile.isLoading.value).toBe(false)
+      expect(currentUser.profile.data.value).toEqual(mockedStaffProfileOverview)
     })
   })
 
@@ -122,36 +129,36 @@ BddTest().given('the current user composable with the API served by MSW', () => 
     })
 
     BddTest().then('it should expose the profile of the default category', () => {
-      expect(currentUser.activeProfileCategory.value).toBe(currentUser.defaultProfileCategory.value)
-      expect(currentUser.profile.value).toBeTruthy()
+      expect(currentUser.profile.activeCategory.value).toBe(currentUser.profile.defaultCategory.value)
+      expect(currentUser.profile.data.value).toBeTruthy()
     })
   })
 
   BddTest().when('a user with both profiles switches to the student profile', () => {
     beforeEach(async () => {
       await mountWith()
-      await currentUser.switchProfile(EUserCategory.STUDENT)
+      await currentUser.profile.switch(EUserCategory.STUDENT)
       await profileLoaded()
     })
 
     BddTest().then('it should expose the student profile', () => {
-      expect(currentUser.activeProfileCategory.value).toBe(EUserCategory.STUDENT)
-      expect(currentUser.profile.value).toEqual(mockedProfileOverview)
+      expect(currentUser.profile.activeCategory.value).toBe(EUserCategory.STUDENT)
+      expect(currentUser.profile.data.value).toEqual(mockedProfileOverview)
     })
   })
 
   BddTest().when('the session is invalidated after a profile switch', () => {
     beforeEach(async () => {
       await mountWith()
-      await currentUser.switchProfile(EUserCategory.STUDENT)
+      await currentUser.profile.switch(EUserCategory.STUDENT)
       await profileLoaded()
       authStore.invalidateSession()
       await profileLoaded()
     })
 
     BddTest().then('it should fall back to the empty profile', () => {
-      expect(currentUser.profile.value).toEqual(INVALID_PROFILE)
-      expect(currentUser.isProfileLoading.value).toBe(false)
+      expect(currentUser.profile.isLoading.value).toBe(false)
+      expect(currentUser.profile.data.value).toEqual(INVALID_PROFILE)
     })
   })
 
@@ -167,8 +174,8 @@ BddTest().given('the current user composable with the API served by MSW', () => 
     })
 
     BddTest().then('it should be loading and expose an empty profile', () => {
-      expect(currentUser.isProfileLoading.value).toBe(true)
-      expect(currentUser.profile.value).toEqual(INVALID_PROFILE)
+      expect(currentUser.profile.isLoading.value).toBe(true)
+      expect(currentUser.profile.data.value).toEqual(INVALID_PROFILE)
     })
   })
 
@@ -183,8 +190,8 @@ BddTest().given('the current user composable with the API served by MSW', () => 
     })
 
     BddTest().then('it should stop loading and expose an empty profile', () => {
-      expect(currentUser.isProfileLoading.value).toBe(false)
-      expect(currentUser.profile.value).toEqual(INVALID_PROFILE)
+      expect(currentUser.profile.isLoading.value).toBe(false)
+      expect(currentUser.profile.data.value).toEqual(INVALID_PROFILE)
     })
   })
 })

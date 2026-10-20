@@ -63,7 +63,7 @@ const { t } = useI18n()
 const { formatLastModified } = useDateUtils()
 const { isMobile } = useAvBreakpoints()
 const { navigateToFeedbacks } = useNavigation()
-const { isProfileLoading, profile } = useCurrentUser()
+const { profile } = useCurrentUser()
 
 const { modalOpened: deleteModalOpened, openModal: displayDeleteModal, closeModal: hideDeleteModal } = useModal()
 const { modalOpened: duplicateModalOpened, openModal: displayDuplicateModal, closeModal: hideDuplicateModal } = useModal()
@@ -73,11 +73,11 @@ const pendingUnpublishId = ref<string>()
 const pendingDuplicate = ref<{ id: string, title: string }>()
 const pendingDelete = ref<{ id: string, status: EActivityStatus }>()
 
-const isLoading = computed(() => isFetching.value || isProfileLoading.value)
+const isLoading = computed(() => isFetching.value || profile.isLoading.value)
 const isPendingDeleteDefinitive = computed(() => pendingDelete.value !== undefined && pendingDelete.value.status !== EActivityStatus.DRAFT)
 
 function isLeaderOfActivity (row: ActivityTableRow) {
-  return row.leaderIds.includes(profile.value.id)
+  return row.leaderIds.includes(profile.data.value.id)
 }
 
 function onUnpublishSelected (activityId: string) {

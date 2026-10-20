@@ -10,6 +10,7 @@ import { useForm } from '@tanstack/vue-form'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createMockQueryError, mockAddErrorMessage } from 'tests/mocks'
 import { expect } from 'vitest'
 import { createApp, h } from 'vue'
@@ -328,6 +329,7 @@ export function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n 
   }
   if (usePinia) {
     const pinia = createPinia()
+    pinia.use(piniaPluginPersistedstate)
     setActivePinia(pinia)
     app.use(pinia)
   }

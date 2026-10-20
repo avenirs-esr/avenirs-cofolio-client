@@ -18,7 +18,7 @@ import StaffProfileDropdown from '@/features/staff/user/components/overlays/Staf
 
 const { t } = useI18n()
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
-const { canSwitchProfile } = useCurrentUser()
+const { profile: { canSwitch } } = useCurrentUser()
 const menuBurgerStore = useMenuBurgerStore()
 const { showMenuBurgerDrawer } = storeToRefs(menuBurgerStore)
 
@@ -69,7 +69,7 @@ defineExpose({ searchQuery })
       <StaffNavigation />
     </template>
     <template
-      v-if="canSwitchProfile"
+      v-if="canSwitch"
       #roleContext
     >
       <SwitchUniverse />

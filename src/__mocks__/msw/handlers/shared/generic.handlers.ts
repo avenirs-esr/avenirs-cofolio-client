@@ -13,6 +13,13 @@ export const mockedLoggedInUser: LoggedInUserDTO = {
   acceptedCgu: mockedAcceptedCgu
 }
 
+export const meServerErrorHandler = http.get(`*${getGetMeUrl()}`, () => {
+  return HttpResponse.json(
+    { message: 'Internal Server Error' },
+    { status: HttpStatusCode.INTERNAL_SERVER_ERROR }
+  )
+})
+
 export const meUnauthorizedHandler = http.get(`*${getGetMeUrl()}`, () => {
   return HttpResponse.json(
     { message: 'Unauthorized' },

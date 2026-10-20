@@ -29,8 +29,10 @@ const mockCanSwitchProfile = ref(false)
 vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
   useCurrentUser: () => ({
     categories: mockCategories,
-    activeProfileCategory: mockActiveProfileCategory,
-    canSwitchProfile: mockCanSwitchProfile
+    profile: {
+      activeCategory: mockActiveProfileCategory,
+      canSwitch: mockCanSwitchProfile
+    }
   })
 }))
 

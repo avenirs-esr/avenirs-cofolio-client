@@ -10,7 +10,7 @@ defineProps<NodeProps>()
 const { t } = useI18n()
 const { profile } = useCurrentUser()
 // TODO: Remove localhost replacement when backend will provide the correct URL
-const profilePictureUrl = computed(() => profile.value.profilePicture.url.replace('http://localhost:5173', 'https://qualif.avenirs-esr.fr'))
+const profilePictureUrl = computed(() => profile.data.value.profilePicture.url.replace('http://localhost:5173', 'https://qualif.avenirs-esr.fr'))
 
 const handles = [
   { id: GLOBAL_NODE_HANDLES.TOP, position: Position.Top },

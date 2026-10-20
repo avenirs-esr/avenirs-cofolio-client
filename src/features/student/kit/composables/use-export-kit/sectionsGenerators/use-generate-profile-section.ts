@@ -6,15 +6,15 @@ import { centimeterToEmu, centimeterToPixel } from '@/features/student/kit/compo
 
 export function useGenerateProfileSection () {
   const { t } = useI18n()
-  const { isProfileLoading, profile } = useCurrentUser()
+  const { profile } = useCurrentUser()
 
   const { data: coverPictureData } = useImageRunDataQuery({
-    url: computed(() => profile.value.coverPicture.url),
+    url: computed(() => profile.data.value.coverPicture.url),
     width: centimeterToPixel(19),
     height: centimeterToPixel(2.5)
   })
   const { data: profilePictureData } = useImageRunDataQuery({
-    url: computed(() => profile.value.profilePicture.url),
+    url: computed(() => profile.data.value.profilePicture.url),
     width: centimeterToPixel(3),
     height: centimeterToPixel(3)
   })
@@ -56,15 +56,15 @@ export function useGenerateProfileSection () {
   })
 
   const displayedName = computed(() => {
-    if (profile.value.firstname && profile.value.lastname) {
-      return `${profile.value.firstname} ${profile.value.lastname}`
+    if (profile.data.value.firstname && profile.data.value.lastname) {
+      return `${profile.data.value.firstname} ${profile.data.value.lastname}`
     }
     return undefined
   })
 
   const displayedEmail = computed(() => {
-    if (profile.value.email) {
-      return profile.value.email
+    if (profile.data.value.email) {
+      return profile.data.value.email
     }
     return undefined
   })
@@ -109,13 +109,13 @@ export function useGenerateProfileSection () {
   })
 
   const bioParagraph = computed(() => {
-    if (profile.value.bio) {
+    if (profile.data.value.bio) {
       return [
         new Paragraph({
           children: [
             new TextRun(`${t('global.colon', {
               before: t('student.kit.composables.useExportKit.sections.profile.bio')
-            })} ${profile.value.bio}`),
+            })} ${profile.data.value.bio}`),
           ],
         })
       ]
@@ -135,6 +135,6 @@ export function useGenerateProfileSection () {
 
   return {
     profileSection,
-    isLoading: isProfileLoading
+    isLoading: profile.isLoading
   }
 }

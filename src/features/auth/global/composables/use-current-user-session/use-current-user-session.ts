@@ -11,7 +11,11 @@ import { useAuthStore } from '@/features/auth/global/stores/auth.store'
  */
 export function useCurrentUserSession () {
   const authStore = useAuthStore()
-  const { session, selectedUserCategory } = storeToRefs(authStore)
+  const { isLoggedIn, session, selectedUserCategory } = storeToRefs(authStore)
+
+  if (import.meta.env?.DEV && !isLoggedIn.value) {
+    throw new Error('useCurrentUserSession() called without an active session')
+  }
 
   const roles = computed(() => session.value?.roles ?? [])
   const categories = computed(() =>
@@ -34,7 +38,7 @@ export function useCurrentUserSession () {
       : ROUTES.AUTH.LOGIN
   )
 
-  const acceptedCgu = computed(() => session.value.acceptedCgu)
+  const acceptedCgu = computed(() => session.value?.acceptedCgu)
   const hasAcceptedLatestCgu = computed(() => acceptedCgu.value?.isLastVersion ?? false)
 
   async function switchProfile (category: EUserCategory) {
@@ -50,14 +54,18 @@ export function useCurrentUserSession () {
   return {
     roles,
     categories,
-    defaultProfileCategory,
-    activeProfileCategory,
-    hasProfileCategory,
-    canSwitchProfile,
-    switchProfile,
+    profile: {
+      defaultCategory: defaultProfileCategory,
+      activeCategory: activeProfileCategory,
+      hasCategory: hasProfileCategory,
+      canSwitch: canSwitchProfile,
+      switch: switchProfile,
+    },
     homeRoute,
-    acceptedCgu,
-    hasAcceptedLatestCgu,
-    setAcceptedCgu
+    cgu: {
+      accepted: acceptedCgu,
+      hasAcceptedLatest: hasAcceptedLatestCgu,
+      setAccepted: setAcceptedCgu
+    }
   }
 }

@@ -28,7 +28,7 @@ export const USER_CATEGORY_PRIORITY: Record<EUserCategory, number> = {
 /**
  * Maps each user category to its corresponding home route.
  */
-export const USER_CATEGORY_HOME: Record<EUserCategory, RouteLocationRaw> = {
+export const USER_CATEGORY_HOME = {
   [EUserCategory.STUDENT]: ROUTES.STUDENT.HOME,
   [EUserCategory.STAFF]: ROUTES.STAFF.HOME
-}
+} satisfies Record<EUserCategory, RouteLocationRaw>

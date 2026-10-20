@@ -2,6 +2,7 @@ import type { FetchOptions, ResponseInterceptorContext } from '@/api/fetch'
 import type { BaseApiException } from '@/common/exceptions'
 import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
 import { HttpStatusCode } from '@/common/utils'
+import { SessionCheck } from '@/features/auth/global/stores/auth.store.types'
 import { i18n } from '@/plugins/vue-i18n'
 import { AvIsoLocaleMap } from '@/types'
 
@@ -28,14 +29,38 @@ interceptorManager.addResponseInterceptor(async (response: Response, context: Re
 
   if (response.status === HttpStatusCode.UNAUTHORIZED && !skip) {
     const { useAuthStore } = await import('@/features/auth/global/stores/auth.store')
-    const { default: router } = await import('@/router')
+    const auth = useAuthStore()
 
-    const toLogin = await useAuthStore().ensureAuthenticated(router.currentRoute.value.fullPath, true)
-    if (toLogin !== undefined) {
-      await router.replace(toLogin)
+    switch (await auth.revalidateSession()) {
+      case SessionCheck.VALID:
+        // Replayed once, straight with fetch: the replay does not go through the interceptors again,
+        // so a second 401 reaches the caller as a regular error instead of looping
+        return fetch(context.url, context.options)
+      case SessionCheck.UNAUTHORIZED: {
+        const { default: router } = await import('@/router')
+        const route = router.currentRoute.value
+
+        // A 401 is authoritative, even on a public route: the request proves that the page needs a session.
+        // A call that may legitimately answer 401 there must opt out with `skipUnauthorizedHandling`.
+        if (import.meta.env?.DEV && route.meta.public === true) {
+          throw new Error(
+            `[fetch] 401 on ${context.url} from the public route ${route.fullPath}: `
+            + 'the page calls a protected endpoint, or the endpoint is wrongly secured '
+            + '(flag the call with skipUnauthorizedHandling if a 401 is expected here).'
+          )
+        }
+
+        const toLogin = auth.redirectToLogin(route.fullPath)
+
+        if (toLogin !== undefined) {
+          await router.replace(toLogin)
+        }
+
+        return new Promise<Response>(() => {})
+      }
+      case SessionCheck.ERROR:
+        break
     }
-
-    return new Promise<Response>(() => {})
   }
 
   return response

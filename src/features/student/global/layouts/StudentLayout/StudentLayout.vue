@@ -24,7 +24,7 @@ const { t } = useI18n()
 useInvalidateAllQueriesAfterLocaleChange()
 
 const { languageSelector, selectLanguage } = useStudentUserStore()
-const { canSwitchProfile } = useCurrentUser()
+const { profile: { canSwitch } } = useCurrentUser()
 const menuBurgerStore = useMenuBurgerStore()
 const { showMenuBurgerDrawer } = storeToRefs(menuBurgerStore)
 
@@ -75,7 +75,7 @@ defineExpose({ searchQuery })
       <StudentNavigation />
     </template>
     <template
-      v-if="canSwitchProfile"
+      v-if="canSwitch"
       #roleContext
     >
       <SwitchUniverse />
