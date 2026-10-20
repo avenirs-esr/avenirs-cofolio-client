@@ -11,7 +11,7 @@ import FeedbacksWidget from '@/features/staff/global/views/StaffHomeView/compone
 
 useGlobalBackgroundColor('var(--surface-background)')
 const { t } = useI18n()
-const { isProfileLoading, profile } = useCurrentUser()
+const { profile: { isLoading, data } } = useCurrentUser()
 const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
 </script>
 
@@ -23,11 +23,11 @@ const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
     <div class="layout-home__sidebar av-col av-gap-xl av-sticky--md av-top-sm">
       <div data-testid="staff-overview-widget">
         <ProfileCard
-          v-if="!isProfileLoading"
-          :first-name="profile.firstname"
-          :last-name="profile.lastname"
-          :profile-picture-url="profile.profilePicture.url"
-          :cover-picture-url="profile.coverPicture.url"
+          v-if="!isLoading"
+          :first-name="data.firstname"
+          :last-name="data.lastname"
+          :profile-picture-url="data.profilePicture.url"
+          :cover-picture-url="data.coverPicture.url"
         >
           <div
             class="av-pt-sm"
@@ -58,9 +58,9 @@ const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
   </div>
 
   <UpdateProfileDrawer
-    v-if="!isProfileLoading"
+    v-if="!isLoading"
     :key="showDrawer ? 'drawer-open' : 'drawer-closed'"
-    v-bind="profile"
+    v-bind="data"
     :show="showDrawer"
     :on-close="hideDrawer"
   />

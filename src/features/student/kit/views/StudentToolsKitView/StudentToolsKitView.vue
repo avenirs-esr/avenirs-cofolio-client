@@ -8,7 +8,7 @@ import ExportKitButton from '@/features/student/kit/views/StudentToolsKitView/co
 import KitContentTabs from '@/features/student/kit/views/StudentToolsKitView/components/KitContentTabs/KitContentTabs.vue'
 
 const { t } = useI18n()
-const { isProfileLoading, profile } = useCurrentUser()
+const { profile: { isLoading, data } } = useCurrentUser()
 </script>
 
 <template>
@@ -22,13 +22,13 @@ const { isProfileLoading, profile } = useCurrentUser()
   </PageTitle>
 
   <div class="content av-col av-gap-lg">
-    <QuerySuspense :is-loading="isProfileLoading">
+    <QuerySuspense :is-loading="isLoading">
       <ProfileCard
-        :first-name="profile.firstname"
-        :last-name="profile.lastname"
-        :profile-picture-url="profile.profilePicture.url"
-        :cover-picture-url="profile.coverPicture.url"
-        :bio="profile.bio"
+        :first-name="data.firstname"
+        :last-name="data.lastname"
+        :profile-picture-url="data.profilePicture.url"
+        :cover-picture-url="data.coverPicture.url"
+        :bio="data.bio"
       />
     </QuerySuspense>
 

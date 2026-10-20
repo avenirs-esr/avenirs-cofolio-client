@@ -1,13 +1,16 @@
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeAll, beforeEach, expect, vi } from 'vitest'
-import { START_LOCATION } from 'vue-router'
+import { isNavigationFailure, NavigationFailureType, START_LOCATION } from 'vue-router'
 import { EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 
-const UNKNOWN_PATH = '/this-page-does-not-exist'
 const NOT_FOUND_ROUTE_NAME = 'NotFound'
+const ROOT_ROUTE_NAME = 'home'
+
+const UNKNOWN_PATH = '/this-page-does-not-exist'
 
 interface UserState {
+  isLoggedIn: boolean
   categories: EUserCategory[]
   activeProfileCategory: EUserCategory
   hasAcceptedLatestCgu: boolean
@@ -15,37 +18,52 @@ interface UserState {
 
 interface SetupOptions extends Partial<UserState> {
   isFirstNavigation?: boolean
+  startsOnLoginPage?: boolean
 }
 
 const DEFAULT_USER: UserState = {
+  isLoggedIn: true,
   categories: [EUserCategory.STUDENT],
   activeProfileCategory: EUserCategory.STUDENT,
   hasAcceptedLatestCgu: true,
 }
 
-const { mockEnsureAuthenticated, mockSwitchProfile } = vi.hoisted(() => ({
-  mockEnsureAuthenticated: vi.fn(),
+const { mockEnsureSession, mockSwitchProfile, mockUseCurrentUserSession } = vi.hoisted(() => ({
+  mockEnsureSession: vi.fn(),
   mockSwitchProfile: vi.fn(),
+  mockUseCurrentUserSession: vi.fn(),
 }))
 
+const mockIsLoggedIn = ref(true)
 const mockCategories = ref<EUserCategory[]>([])
 const mockActiveProfileCategory = ref<EUserCategory>(EUserCategory.STUDENT)
 const mockHasAcceptedLatestCgu = ref(true)
 
 vi.mock('@/features/auth/global/stores/auth.store', () => ({
   useAuthStore: () => ({
-    ensureAuthenticated: mockEnsureAuthenticated,
-  }),
+    ensureSession: mockEnsureSession,
+    get isLoggedIn () {
+      return mockIsLoggedIn.value
+    }
+  })
 }))
 
 vi.mock('@/features/auth/global/composables/use-current-user-session/use-current-user-session', () => ({
-  useCurrentUserSession: () => ({
-    categories: mockCategories,
-    activeProfileCategory: mockActiveProfileCategory,
-    homeRoute: computed(() => ROUTES.STUDENT.HOME),
-    hasAcceptedLatestCgu: mockHasAcceptedLatestCgu,
-    switchProfile: mockSwitchProfile,
-  }),
+  useCurrentUserSession: () => {
+    mockUseCurrentUserSession()
+
+    return {
+      categories: mockCategories,
+      profile: {
+        activeCategory: mockActiveProfileCategory,
+        switch: mockSwitchProfile
+      },
+      homeRoute: computed(() => ROUTES.STUDENT.HOME),
+      cgu: {
+        hasAcceptedLatest: mockHasAcceptedLatestCgu
+      }
+    }
+  }
 }))
 
 const { default: router } = await import('@/router')
@@ -54,20 +72,22 @@ const getCurrentRoute = () => router.currentRoute.value
 const getCurrentRouteName = () => getCurrentRoute().name
 
 BddTest().given('the application router', () => {
-  const applyUserState = ({ categories, activeProfileCategory, hasAcceptedLatestCgu }: UserState) => {
+  const applyUserState = ({ isLoggedIn, categories, activeProfileCategory, hasAcceptedLatestCgu }: UserState) => {
+    mockIsLoggedIn.value = isLoggedIn
     mockCategories.value = categories
     mockActiveProfileCategory.value = activeProfileCategory
     mockHasAcceptedLatestCgu.value = hasAcceptedLatestCgu
   }
 
-  const setupWith = async ({ isFirstNavigation = false, ...user }: SetupOptions = {}) => {
-    mockEnsureAuthenticated.mockReset().mockResolvedValue(undefined)
+  const setupWith = async ({ isFirstNavigation = false, startsOnLoginPage = false, ...user }: SetupOptions = {}) => {
+    mockEnsureSession.mockReset().mockResolvedValue(undefined)
 
-    applyUserState(DEFAULT_USER)
-    await router.push({ name: ROUTES.STUDENT.CGU.name })
+    applyUserState({ ...DEFAULT_USER, isLoggedIn: !startsOnLoginPage })
+    await router.push(startsOnLoginPage ? ROUTES.AUTH.LOGIN : ROUTES.STUDENT.CGU)
     await router.isReady()
 
     mockSwitchProfile.mockReset()
+    mockUseCurrentUserSession.mockReset()
     applyUserState({ ...DEFAULT_USER, ...user })
 
     if (isFirstNavigation) {
@@ -86,9 +106,7 @@ BddTest().given('the application router', () => {
     })
 
     BddTest().then('it should let the navigation through inside the student universe', async () => {
-      await router.push({
-        name: ROUTES.STUDENT.DELIVERABLES.name
-      })
+      await router.push(ROUTES.STUDENT.DELIVERABLES)
 
       expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.DELIVERABLES.name)
       expect(mockSwitchProfile).not.toHaveBeenCalled()
@@ -103,25 +121,20 @@ BddTest().given('the application router', () => {
     })
 
     BddTest().then('it should redirect to the cgu page while the layout record is reused', async () => {
-      await router.push({
-        name: ROUTES.STUDENT.DELIVERABLES.name
-      })
+      await router.push(ROUTES.STUDENT.DELIVERABLES)
 
       expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.CGU.name)
     })
 
     BddTest().then('it should keep the cgu page reachable without looping', async () => {
-      await router.push({
-        name: ROUTES.STUDENT.CGU.name
-      })
+      await router.push(ROUTES.AUTH.CGU)
+      await router.push(ROUTES.STUDENT.CGU)
 
       expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.CGU.name)
     })
 
     BddTest().then('it should not block the public auth cgu page', async () => {
-      await router.push({
-        name: ROUTES.AUTH.CGU.name
-      })
+      await router.push(ROUTES.AUTH.CGU)
 
       expect(getCurrentRouteName()).toBe(ROUTES.AUTH.CGU.name)
     })
@@ -136,9 +149,7 @@ BddTest().given('the application router', () => {
     })
 
     BddTest().then('it should switch to the profile allowed on the page and let the navigation through', async () => {
-      await router.push({
-        name: ROUTES.STUDENT.DELIVERABLES.name
-      })
+      await router.push(ROUTES.STUDENT.DELIVERABLES)
 
       expect(mockSwitchProfile).toHaveBeenCalledWith(EUserCategory.STUDENT)
       expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.DELIVERABLES.name)
@@ -151,10 +162,9 @@ BddTest().given('the application router', () => {
     })
 
     BddTest().then('it should keep the user on the current page', async () => {
-      await router.push({
-        name: ROUTES.STAFF.HOME.name
-      })
+      const failure = await router.push(ROUTES.STAFF.HOME)
 
+      expect(isNavigationFailure(failure, NavigationFailureType.aborted)).toBe(true)
       expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.CGU.name)
       expect(mockSwitchProfile).not.toHaveBeenCalled()
     })
@@ -168,9 +178,21 @@ BddTest().given('the application router', () => {
     })
 
     BddTest().then('it should send the user to his home route', async () => {
-      await router.push({
-        name: ROUTES.STAFF.HOME.name
+      await router.push(ROUTES.STAFF.HOME)
+
+      expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.HOME.name)
+    })
+  })
+
+  BddTest().when('the user comes from the login page and none of his profiles is allowed on the page', () => {
+    beforeEach(async () => {
+      await setupWith({
+        startsOnLoginPage: true
       })
+    })
+
+    BddTest().then('it should send the user to his home route instead of keeping him on the login page', async () => {
+      await router.push(ROUTES.STAFF.HOME)
 
       expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.HOME.name)
     })
@@ -206,17 +228,147 @@ BddTest().given('the application router', () => {
     })
   })
 
-  BddTest().when('the user is not authenticated', () => {
+  BddTest().when('the user goes to the root page', () => {
     beforeEach(async () => {
       await setupWith()
-      mockEnsureAuthenticated.mockReset().mockResolvedValue(false)
     })
 
-    BddTest().then('it should apply the authentication result instead of displaying the page', async () => {
+    BddTest().then('it should send the user to his home route', async () => {
+      await router.push({ name: ROOT_ROUTE_NAME })
+
+      expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.HOME.name)
+    })
+  })
+
+  BddTest().when('the user is already logged in and goes to the login page', () => {
+    beforeEach(async () => {
+      await setupWith()
+    })
+
+    BddTest().then('it should send the user to his home route', async () => {
+      await router.push(ROUTES.AUTH.LOGIN)
+
+      expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.HOME.name)
+    })
+
+    BddTest().then('it should send the user to the page of the redirect query parameter', async () => {
+      await router.push({
+        ...ROUTES.AUTH.LOGIN,
+        query: {
+          redirect: router.resolve(ROUTES.STUDENT.DELIVERABLES).fullPath
+        }
+      })
+
+      expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.DELIVERABLES.name)
+    })
+
+    BddTest().then('it should ignore a redirect query parameter pointing to the login page itself', async () => {
+      await router.push({
+        ...ROUTES.AUTH.LOGIN,
+        query: {
+          redirect: router.resolve(ROUTES.AUTH.LOGIN).fullPath
+        }
+      })
+
+      expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.HOME.name)
+    })
+
+    BddTest().then('it should ignore a redirect query parameter that is not a path of the application', async () => {
+      await router.push({
+        ...ROUTES.AUTH.LOGIN,
+        query: {
+          redirect: 'https://example.com/elsewhere'
+        }
+      })
+
+      expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.HOME.name)
+    })
+  })
+
+  BddTest().when('the user is already logged in and opens the login page as first navigation', () => {
+    beforeEach(async () => {
+      await setupWith({
+        isFirstNavigation: true
+      })
+    })
+
+    BddTest().then('it should send the user to his home route instead of displaying the login page', async () => {
+      await router.push(ROUTES.AUTH.LOGIN)
+
+      expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.HOME.name)
+    })
+  })
+
+  BddTest().when('nobody is logged in and goes to the login page', () => {
+    beforeEach(async () => {
+      await setupWith({
+        isLoggedIn: false
+      })
+    })
+
+    BddTest().then('it should display the login page without reading any session', async () => {
+      await router.push(ROUTES.AUTH.LOGIN)
+
+      expect(getCurrentRouteName()).toBe(ROUTES.AUTH.LOGIN.name)
+      expect(mockUseCurrentUserSession).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('the user is not authenticated', () => {
+    beforeEach(async () => {
+      await setupWith({
+        isLoggedIn: false
+      })
+      mockEnsureSession.mockReset().mockResolvedValueOnce(ROUTES.AUTH.LOGIN)
+    })
+
+    BddTest().then('it should redirect to the login route instead of displaying the page', async () => {
       await router.push(UNKNOWN_PATH)
 
-      expect(mockEnsureAuthenticated).toHaveBeenCalledTimes(1)
+      expect(mockEnsureSession).toHaveBeenCalledWith(UNKNOWN_PATH)
+      expect(getCurrentRouteName()).toBe(ROUTES.AUTH.LOGIN.name)
+    })
+
+    BddTest().then('it should not read the session of the user', async () => {
+      await router.push(UNKNOWN_PATH)
+
+      expect(mockUseCurrentUserSession).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('the session cannot be established (error already displayed, or redirect to login already in progress)', () => {
+    beforeEach(async () => {
+      await setupWith({
+        isLoggedIn: false
+      })
+      mockEnsureSession.mockReset().mockResolvedValue(false)
+    })
+
+    BddTest().then('it should abort the navigation and stay on the current page', async () => {
+      await router.push(UNKNOWN_PATH)
+
+      expect(mockEnsureSession).toHaveBeenCalledTimes(1)
       expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.CGU.name)
+    })
+
+    BddTest().then('it should not read the session of the user', async () => {
+      await router.push(UNKNOWN_PATH)
+
+      expect(mockUseCurrentUserSession).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('the page is public', () => {
+    beforeEach(async () => {
+      await setupWith()
+      mockEnsureSession.mockClear()
+    })
+
+    BddTest().then('it should not check the session', async () => {
+      await router.push(ROUTES.AUTH.CGU)
+
+      expect(mockEnsureSession).not.toHaveBeenCalled()
+      expect(mockUseCurrentUserSession).not.toHaveBeenCalled()
     })
   })
 })

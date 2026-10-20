@@ -25,7 +25,7 @@ const {
   closeModal: closeDeleteCategoriesModal,
   modalOpened: deleteCategoriesModalOpened
 } = useModal()
-const { isProfileLoading, profile } = useCurrentUser()
+const { profile: { isLoading, data } } = useCurrentUser()
 const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
 const { data: fetchedCategories } = useGetSelfKnowledgeCategories()
 
@@ -60,7 +60,7 @@ function handleActionSelected (action: Action) {
       />
 
       <div
-        v-if="!isProfileLoading"
+        v-if="!isLoading"
         class="av-row av-justify-end"
       >
         <AvButton
@@ -74,12 +74,12 @@ function handleActionSelected (action: Action) {
     </div>
 
     <ProfileCard
-      v-if="!isProfileLoading"
-      :first-name="profile.firstname"
-      :last-name="profile.lastname"
-      :profile-picture-url="profile.profilePicture.url"
-      :cover-picture-url="profile.coverPicture.url"
-      :bio="profile.bio"
+      v-if="!isLoading"
+      :first-name="data.firstname"
+      :last-name="data.lastname"
+      :profile-picture-url="data.profilePicture.url"
+      :cover-picture-url="data.coverPicture.url"
+      :bio="data.bio"
     />
 
     <div class="av-row av-justify-end">
@@ -112,9 +112,9 @@ function handleActionSelected (action: Action) {
   <AddSelfKnowledgeCategoryElementDrawer />
 
   <UpdateProfileDrawer
-    v-if="!isProfileLoading"
+    v-if="!isLoading"
     :key="showDrawer ? 'drawer-open' : 'drawer-closed'"
-    v-bind="profile"
+    v-bind="data"
     :show="showDrawer"
     :on-close="hideDrawer"
   />

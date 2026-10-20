@@ -13,7 +13,9 @@ const mockProfile = ref(mockedProfileOverview)
 
 vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
   useCurrentUser: () => ({
-    profile: mockProfile
+    profile: {
+      data: mockProfile
+    }
   })
 }))
 

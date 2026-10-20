@@ -9,6 +9,12 @@ import svgLoader from 'vite-svg-loader'
 // eslint-disable-next-line no-restricted-imports
 import autoImportConfig from './auto-import-config.json' with { type: 'json' }
 
+// Modules imported dynamically on purpose, to break import cycles and not to split chunks.
+const CYCLE_BREAKING_IMPORTS = [
+  '/src/features/auth/global/stores/auth.store.ts',
+  '/src/router/index.ts',
+]
+
 // https://vitejs.dev/config/
 export default ({ mode }: { mode: string }) => {
   const env = loadEnv(mode, process.cwd())
@@ -97,6 +103,15 @@ export default ({ mode }: { mode: string }) => {
               throw new Error(`❌ Circular dependency detected in your project:\n${message}`)
             }
           }
+
+          const message = warning.message.replace(/\\/g, '/')
+          const isCycleBreakingImport = message.includes('dynamic import will not move module into another chunk')
+            && CYCLE_BREAKING_IMPORTS.some(module => message.includes(`${module} is dynamically imported by`))
+
+          if (isCycleBreakingImport) {
+            return
+          }
+
           warn(warning)
         },
       },

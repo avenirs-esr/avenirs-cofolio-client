@@ -27,3 +27,15 @@ export const INVALID_PROFILE: ProfileOverviewDTO = {
     uploadedAt: ''
   }
 }
+
+/**
+ * Keeps the profile of the currently active category fresh indefinitely,
+ * preventing automatic refetches due to staleness.
+ */
+export const PROFILE_STALE_TIME: number = Infinity
+
+/**
+ * Keeps profiles of previously selected categories in the cache for 10 minutes
+ * after their queries become inactive, allowing them to be reused if selected again.
+ */
+export const PROFILE_GC_TIME: number = 10 * 60 * 1000

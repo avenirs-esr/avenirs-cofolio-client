@@ -7,22 +7,22 @@ import { useDrawer } from '@/common/composables'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 
 const { t } = useI18n()
-const { isProfileLoading, profile } = useCurrentUser()
+const { profile: { isLoading, data } } = useCurrentUser()
 const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
 </script>
 
 <template>
   <div
-    v-if="!isProfileLoading"
+    v-if="!isLoading"
     id="overview-widget"
     data-testid="student-overview-widget"
   >
     <ProfileCard
-      :first-name="profile.firstname"
-      :last-name="profile.lastname"
-      :profile-picture-url="profile.profilePicture.url"
-      :cover-picture-url="profile.coverPicture.url"
-      :bio="profile.bio"
+      :first-name="data.firstname"
+      :last-name="data.lastname"
+      :profile-picture-url="data.profilePicture.url"
+      :cover-picture-url="data.coverPicture.url"
+      :bio="data.bio"
     >
       <div
         class="av-pt-sm"
@@ -46,9 +46,9 @@ const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
     </ProfileCard>
   </div>
   <UpdateProfileDrawer
-    v-if="!isProfileLoading"
+    v-if="!isLoading"
     :key="showDrawer ? 'drawer-open' : 'drawer-closed'"
-    v-bind="profile"
+    v-bind="data"
     :show="showDrawer"
     :on-close="hideDrawer"
   />

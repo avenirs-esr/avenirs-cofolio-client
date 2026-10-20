@@ -47,8 +47,10 @@ const mockIsProfileLoading = ref(false)
 
 vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
   useCurrentUser: () => ({
-    profile: computed(() => ({ id: mockConnectedProfileId.value })),
-    isProfileLoading: mockIsProfileLoading,
+    profile: {
+      isLoading: mockIsProfileLoading,
+      data: computed(() => ({ id: mockConnectedProfileId.value }))
+    }
   }),
 }))
 
