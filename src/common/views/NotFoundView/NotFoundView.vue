@@ -1,32 +1,20 @@
 <script setup lang="ts">
 import { AvButton } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { ROUTES } from '@/common/constants'
-
-export interface NotFoundViewProps {
-  titleKey?: string
-  descriptionKey?: string
-}
-
-const {
-  titleKey = 'global.views.notFoundView.pageNotFound.title',
-  descriptionKey = 'global.views.notFoundView.pageNotFound.description'
-} = defineProps<NotFoundViewProps>()
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 
 const { t } = useI18n()
-
-const title = computed(() => t(titleKey))
-const description = computed(() => t(descriptionKey))
+const { homeRoute } = useCurrentUser()
 </script>
 
 <template>
-  <div class="av-col av-align-center av-justify-center av-gap-lg">
-    <h3>{{ title }}</h3>
-    <p>{{ description }}</p>
+  <div class="av-col av-align-center av-justify-center av-gap-lg av-h-full">
+    <h3>{{ t('global.views.notFoundView.pageNotFound.title') }}</h3>
+    <p>{{ t('global.views.notFoundView.pageNotFound.description') }}</p>
 
     <AvButton
       :label="t('global.views.notFoundView.buttonLabel')"
-      :to="ROUTES.STUDENT.HOME"
+      :to="homeRoute"
       size="LG"
     />
   </div>
