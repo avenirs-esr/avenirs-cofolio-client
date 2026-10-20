@@ -1,0 +1,291 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/lifeProject/declaredSkillDetails/declaredSkillDetails.feature.spec.js >> Student Life Project Declared Skill Detail Page >> Declared skill association deletion >> Student can see the delete associations dropdown
+- Location: .features-gen/tests/student/lifeProject/declaredSkillDetails/declaredSkillDetails.feature.spec.js:49:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('declared-skill-associations').getByTestId('delete-declared-skill-associated-elements-dropdown')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('declared-skill-associations').getByTestId('delete-declared-skill-associated-elements-dropdown')
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - link "Accueil - Cofolio Étudiant":
+    - /url: /cofolio/student
+    - img
+  - button "Changer d'univers"
+  - list:
+    - listitem:
+      - button "Notifications"
+    - listitem:
+      - button "J. moulin"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/student
+      - listitem:
+        - link "MES ACTIVITÉS":
+          - /url: /cofolio/student/activities
+      - listitem:
+        - link "MES COMPÉTENCES":
+          - /url: /cofolio/student/skills
+      - listitem:
+        - button "MON PROJET DE VIE"
+      - listitem:
+        - button "MES OUTILS"
+- main:
+  - navigation "Fil d'Ariane":
+    - list:
+      - listitem:
+        - link "Accueil":
+          - /url: /cofolio/student
+      - listitem:
+        - link "Mes compétences":
+          - /url: /cofolio/student/skills
+      - listitem: Compétence déclarée Conduire un projet de bout en bout
+  - heading "Détail Conduire un projet de bout en bout" [level=1]
+  - button "Gérer ma compétence"
+  - tablist "Liste d’onglets":
+    - tab "Ma compétence déclarée"
+    - tab "Mes associations (7)" [selected]
+  - tabpanel "Mes associations (7)":
+    - text: Mes traces associées (2)
+    - button "Développer"
+    - text: Mon activité déclarée associée (1)
+    - button "Développer"
+    - text: Mes expériences déclarées associées (2)
+    - button "Développer"
+    - text: Mes formations déclarées associées (2)
+    - button "Développer"
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/student/accessibility
+    - listitem:
+      - link "Conditions générales d'utilisation":
+        - /url: /cofolio/student/cgu
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/student/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/student/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  42  |     return this.getActivitiesCardContainer().getByTestId('association-card')
+  43  |   }
+  44  | 
+  45  |   async verifyVisible () {
+  46  |     await expect(this.root).toBeVisible()
+  47  |   }
+  48  | 
+  49  |   async verifyTracesCardVisible () {
+  50  |     await expect(this.getAssociatedTracesCard()).toBeVisible()
+  51  |   }
+  52  | 
+  53  |   async verifyActivitiesCardVisible () {
+  54  |     await expect(this.getAssociatedActivitiesCard()).toBeVisible()
+  55  |   }
+  56  | 
+  57  |   async verifyTracesCardTitleDefined () {
+  58  |     await verifyTextLocator(this.getTracesCardTitle())
+  59  |   }
+  60  | 
+  61  |   async verifyActivitiesCardTitleDefined () {
+  62  |     await verifyTextLocator(this.getActivitiesCardTitle())
+  63  |   }
+  64  | 
+  65  |   async expandTracesCard () {
+  66  |     await this.getTracesCardTitle().click()
+  67  |   }
+  68  | 
+  69  |   async expandActivitiesCard () {
+  70  |     await this.getActivitiesCardTitle().click()
+  71  |   }
+  72  | 
+  73  |   async verifyTraceItemsNotEmpty () {
+  74  |     const count = await this.getTraceAssociationItems().count()
+  75  |     expect(count).toBeGreaterThan(0)
+  76  |   }
+  77  | 
+  78  |   async verifyActivityItemsNotEmpty () {
+  79  |     const count = await this.getActivityAssociationItems().count()
+  80  |     expect(count).toBeGreaterThan(0)
+  81  |   }
+  82  | 
+  83  |   async verifyAllTraceItemsHaveTitles () {
+  84  |     const items = this.getTraceAssociationItems()
+  85  |     const count = await items.count()
+  86  |     for (let i = 0; i < count; i++) {
+  87  |       const titleLocator = items.nth(i).getByTestId('floating-icon-card-title')
+  88  |       await verifyTextLocator(titleLocator)
+  89  |     }
+  90  |   }
+  91  | 
+  92  |   async verifyAllActivityItemsHaveTitles () {
+  93  |     const items = this.getActivityAssociationItems()
+  94  |     const count = await items.count()
+  95  |     for (let i = 0; i < count; i++) {
+  96  |       const titleLocator = items.nth(i).getByTestId('floating-icon-card-title')
+  97  |       await verifyTextLocator(titleLocator)
+  98  |     }
+  99  |   }
+  100 | 
+  101 |   getDeleteAssociationsDropdown () {
+  102 |     return this.root.getByTestId('delete-declared-skill-associated-elements-dropdown')
+  103 |   }
+  104 | 
+  105 |   getDeleteActivitiesOption () {
+  106 |     return this.root.page().getByTestId('activities')
+  107 |   }
+  108 | 
+  109 |   getDeleteAssociationsModal () {
+  110 |     return this.root.page().getByTestId('delete-associations-modal-header')
+  111 |   }
+  112 | 
+  113 |   getDeleteAssociationsModalItems () {
+  114 |     return this.root.page().getByTestId('compact-card-selector-item')
+  115 |   }
+  116 | 
+  117 |   getDeleteAssociationsModalItemSelectors () {
+  118 |     return this.root.page().getByTestId('selector-overlay')
+  119 |   }
+  120 | 
+  121 |   getDeleteAssociationsModalConfirmButton () {
+  122 |     return this.root.page().getByTestId('confirm-button')
+  123 |   }
+  124 | 
+  125 |   getDeleteAssociationsModalCancelButton () {
+  126 |     return this.root.page().getByTestId('cancel-button')
+  127 |   }
+  128 | 
+  129 |   getDeleteAssociationsConfirmModal () {
+  130 |     return this.root.page().getByTestId('delete-associations-confirm-modal__header')
+  131 |   }
+  132 | 
+  133 |   getDeleteAssociationsConfirmModalContainer () {
+  134 |     return this.root.page().locator('dialog').filter({ has: this.getDeleteAssociationsConfirmModal() })
+  135 |   }
+  136 | 
+  137 |   getDeleteAssociationsConfirmModalCancelButton () {
+  138 |     return this.getDeleteAssociationsConfirmModalContainer().getByTestId('cancel-button')
+  139 |   }
+  140 | 
+  141 |   async verifyDeleteAssociationsDropdownVisible () {
+> 142 |     await expect(this.getDeleteAssociationsDropdown()).toBeVisible()
+      |                                                        ^ Error: expect(locator).toBeVisible() failed
+  143 |   }
+  144 | 
+  145 |   async openDeleteAssociationsDropdown () {
+  146 |     await clickOnElement(this.getDeleteAssociationsDropdown())
+  147 |     await waitForPageLoad(this.root.page())
+  148 |   }
+  149 | 
+  150 |   async selectDeleteActivitiesOption () {
+  151 |     await clickOnElement(this.getDeleteActivitiesOption())
+  152 |   }
+  153 | 
+  154 |   async verifyDeleteAssociationsModalVisible () {
+  155 |     await expect(this.getDeleteAssociationsModal()).toBeVisible()
+  156 |   }
+  157 | 
+  158 |   async verifyDeleteAssociationsModalHidden () {
+  159 |     await expect(this.getDeleteAssociationsModal()).toBeHidden()
+  160 |   }
+  161 | 
+  162 |   async verifyDeleteAssociationsModalItemsNotEmpty () {
+  163 |     const count = await this.getDeleteAssociationsModalItems().count()
+  164 |     expect(count).toBeGreaterThan(0)
+  165 |   }
+  166 | 
+  167 |   async verifyDeleteAssociationsModalConfirmButtonVisible () {
+  168 |     await expect(this.getDeleteAssociationsModalConfirmButton()).toBeVisible()
+  169 |   }
+  170 | 
+  171 |   async verifyDeleteAssociationsModalCancelButtonVisible () {
+  172 |     await expect(this.getDeleteAssociationsModalCancelButton()).toBeVisible()
+  173 |   }
+  174 | 
+  175 |   async selectFirstDeleteAssociationsModalItem () {
+  176 |     await clickOnElement(this.getDeleteAssociationsModalItemSelectors().first())
+  177 |   }
+  178 | 
+  179 |   async confirmDeleteAssociationsModal () {
+  180 |     await clickOnElement(this.getDeleteAssociationsModalConfirmButton())
+  181 |   }
+  182 | 
+  183 |   async verifyDeleteAssociationsConfirmModalVisible () {
+  184 |     await expect(this.getDeleteAssociationsConfirmModal()).toBeVisible()
+  185 |   }
+  186 | 
+  187 |   async verifyDeleteAssociationsConfirmModalHidden () {
+  188 |     await expect(this.getDeleteAssociationsConfirmModal()).toBeHidden()
+  189 |   }
+  190 | 
+  191 |   async cancelDeleteAssociationsConfirmModal () {
+  192 |     await clickOnElement(this.getDeleteAssociationsConfirmModalCancelButton())
+  193 |   }
+  194 | 
+  195 |   async cancelDeleteAssociationsModal () {
+  196 |     await clickOnElement(this.getDeleteAssociationsModalCancelButton())
+  197 |   }
+  198 | }
+  199 | 
+```
