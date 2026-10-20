@@ -30,6 +30,12 @@
                 },
                 "emptyStateMessage": "No results"
               }
+            },
+            "inputs": {
+              "SearchEntityInput": {
+                "label": "a group",
+                "placeholder": "a group name"
+              }
             }
           },
           "title": "Institution groups"
@@ -38,13 +44,9 @@
           "title": "Institution skills references"
         },
         "AdminInstitutionUsersView": {
-          "components": {
-            "inputs": {
-              "UserInfoSearch": {
-                "label": "Search a user",
-                "placeholder": "Enter a name, first name or email"
-              }
-            }
+          "SearchEntityInput": {
+            "entityName": "a user",
+            "entityPlaceholder": "a name, first name or email"
           },
           "title": "Institution users"
         }

@@ -14,6 +14,7 @@ export interface QuerySuspenseProps {
   emptyStateMessage?: string
   isEmpty?: boolean
   isLoading?: boolean
+  preserveContent?: boolean
 }
 
 const {
@@ -22,7 +23,8 @@ const {
   emptyStateMessage,
   isEmpty,
   error = null,
-  isLoading = false
+  isLoading = false,
+  preserveContent = false
 } = defineProps<QuerySuspenseProps>()
 
 defineSlots<{
@@ -36,11 +38,25 @@ const { getErrorMessage } = useApiErrors()
 const computedErrorTitle = computed(() => errorTitle ?? t('global.components.QuerySuspense.defaultErrorTitle'))
 const computedErrorDescription = computed(() => errorDescription ?? getErrorMessage(error))
 const computedEmptyStateMessage = computed(() => emptyStateMessage ?? t('global.components.QuerySuspense.defaultEmptyStateMessage'))
+
+const loaderProps = computed(() => preserveContent
+  ? { 'data-testid': 'main-div' }
+  : { isLoading })
 </script>
 
 <template>
   <div class="av-w-full">
-    <Loader :is-loading>
+    <Loader
+      v-if="preserveContent && isLoading"
+      :is-loading="isLoading"
+      class="av-floating-right"
+      size="4xl"
+      data-testid="floating-loader"
+    />
+    <component
+      :is="preserveContent ? 'div' : Loader"
+      v-bind="loaderProps"
+    >
       <div
         v-if="error"
         class="av-row av-px-2xl av-py-md av-justify-center"
@@ -59,6 +75,6 @@ const computedEmptyStateMessage = computed(() => emptyStateMessage ?? t('global.
         <EmptyState :title="computedEmptyStateMessage" />
       </slot>
       <slot v-else />
-    </Loader>
+    </component>
   </div>
 </template>

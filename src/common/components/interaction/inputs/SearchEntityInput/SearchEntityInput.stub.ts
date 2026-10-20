@@ -1,6 +1,14 @@
-export const UserInfoSearchStub = defineComponent({
-  name: 'UserInfoSearch',
+export const SearchEntityInputStub = defineComponent({
+  name: 'SearchEntityInput',
   props: {
+    entityName: {
+      type: String,
+      required: true,
+    },
+    entityPlaceholder: {
+      type: String,
+      required: false,
+    },
     modelValue: {
       type: [String, Number, null],
       default: '',

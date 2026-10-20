@@ -15,6 +15,12 @@ import GroupCard from '@/features/staff/admin/views/AdminInstitutionGroupsView/c
 import GroupsListName from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsListName/GroupsListName.vue'
 import GroupsListParentName from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsListParentName/GroupsListParentName.vue'
 
+export interface GroupsListProps {
+  keyword?: string
+}
+
+const props = defineProps<GroupsListProps>()
+
 defineSlots<{
   actions: Slot
 }>()
@@ -26,6 +32,7 @@ const { isBelowLg } = useAvBreakpoints()
 const usePaginatedStaffAdminGroupsParams = computed<UsePaginatedStaffAdminGroupsParams>(() => ({
   currentPageRef: toRef(staffAdminGroupsStore, 'groupsCurrentPage'),
   pageSizeRef: toRef(staffAdminGroupsStore, 'groupsPageSizeSelected'),
+  keywordRef: toRef(props, 'keyword'),
   fetchFn: useGetGroups
 }))
 
@@ -63,6 +70,7 @@ const columns = computed<AvTableColumn<Omit<GroupOverviewDTO, 'id' | 'parentId'>
     :error="error"
     :is-empty="groups.length === 0"
     :empty-state-message="t('staff.admin.views.AdminInstitutionGroupsView.components.dataDisplay.GroupsList.emptyStateMessage')"
+    preserve-content
   >
     <Pagination
       v-if="pageInfo"

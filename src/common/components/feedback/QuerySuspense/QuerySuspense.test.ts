@@ -23,6 +23,10 @@ const defaultProps = {
 BddTest().given('a QuerySuspense component', () => {
   let wrapper: VueWrapper<InstanceType<typeof QuerySuspense>>
 
+  const getMainDiv = () => wrapper.find('[data-testid="main-div"]')
+  const getFloatingLoader = () => wrapper.find('[data-testid="floating-loader"]')
+  const getMainLoader = () => wrapper.find('[data-testid="loader-stub"]')
+
   BddTest().when('there is no error and content is not empty', () => {
     beforeEach(() => {
       wrapper = mountComponent(QuerySuspense, {
@@ -42,6 +46,36 @@ BddTest().given('a QuerySuspense component', () => {
 
     BddTest().then('it should not render EmptyState', () => {
       expect(wrapper.findComponent(EmptyStateStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the floating loader', () => {
+      expect(getFloatingLoader().exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the main div', () => {
+      expect(getMainDiv().exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the main loader', () => {
+      expect(getMainLoader()?.exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('preserveContent and isLoading are true', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(QuerySuspense, {
+        props: { ...defaultProps, preserveContent: true, isLoading: true },
+        slots: { default: '<div data-testid="slot-content">Contenu</div>' },
+        global: { stubs }
+      })
+    })
+
+    BddTest().then('it should render the floating loader', () => {
+      expect(getFloatingLoader().exists()).toBe(true)
+    })
+
+    BddTest().then('it should render the main div', () => {
+      expect(getMainDiv().exists()).toBe(true)
     })
   })
 
@@ -159,8 +193,8 @@ BddTest().given('a QuerySuspense component', () => {
       })
     })
 
-    BddTest().then('it should render the Loader', () => {
-      expect(wrapper.find('[data-testid="loader-stub"]').exists()).toBe(true)
+    BddTest().then('it should render the main Loader', () => {
+      expect(getMainLoader()?.exists()).toBe(true)
     })
 
     BddTest().then('it should not render the slot content', () => {
@@ -174,6 +208,10 @@ BddTest().given('a QuerySuspense component', () => {
     BddTest().then('it should not render EmptyState', () => {
       expect(wrapper.findComponent(EmptyStateStub).exists()).toBe(false)
     })
+
+    BddTest().then('it should not render the floating loader', () => {
+      expect(getFloatingLoader().exists()).toBe(false)
+    })
   })
 
   BddTest().when('isLoading is false', () => {
@@ -185,8 +223,12 @@ BddTest().given('a QuerySuspense component', () => {
       })
     })
 
-    BddTest().then('it should not render the Loader', () => {
-      expect(wrapper.find('[data-testid="loader-stub"]').exists()).toBe(false)
+    BddTest().then('it should not render the main Loader', () => {
+      expect(getMainLoader()?.exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the floating loader', () => {
+      expect(getFloatingLoader().exists()).toBe(false)
     })
 
     BddTest().then('it should render the slot content', () => {

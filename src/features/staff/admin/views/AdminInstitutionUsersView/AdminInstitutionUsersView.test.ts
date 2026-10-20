@@ -2,21 +2,21 @@ import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { SearchEntityInputStub } from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.stub'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import AdminInstitutionUsersView from '@/features/staff/admin/views/AdminInstitutionUsersView/AdminInstitutionUsersView.vue'
-import { UserInfoSearchStub } from '@/features/staff/admin/views/AdminInstitutionUsersView/components/inputs/UserInfoSearch/UserInfoSearch.stub'
 
 BddTest().given('an admin institution users view', () => {
   let wrapper: VueWrapper<InstanceType<typeof AdminInstitutionUsersView>>
 
-  const stubs = { PageTitle: PageTitleStub, UserInfoSearch: UserInfoSearchStub }
+  const stubs = { PageTitle: PageTitleStub, SearchEntityInput: SearchEntityInputStub }
 
   const mountView = () => {
     wrapper = mount(AdminInstitutionUsersView, { global: { stubs } })
   }
 
   const getPageTitle = () => wrapper.findComponent(PageTitleStub)
-  const getUserInfoSearch = () => wrapper.findComponent(UserInfoSearchStub)
+  const getSearchEntityInput = () => wrapper.findComponent(SearchEntityInputStub)
 
   BddTest().when('the view is mounted', () => {
     beforeEach(() => {
@@ -29,17 +29,17 @@ BddTest().given('an admin institution users view', () => {
     })
 
     BddTest().then('the user info search input is rendered', () => {
-      expect(getUserInfoSearch().exists()).toBe(true)
-      expect(getUserInfoSearch().props('modelValue')).toBe('')
+      expect(getSearchEntityInput().exists()).toBe(true)
+      expect(getSearchEntityInput().props('modelValue')).toBe('')
     })
 
     BddTest().and('the user types into the search input', () => {
       beforeEach(() => {
-        getUserInfoSearch().vm.$emit('update:modelValue', 'John Doe')
+        getSearchEntityInput().vm.$emit('update:modelValue', 'John Doe')
       })
 
       BddTest().then('the model value is updated', () => {
-        expect(getUserInfoSearch().props('modelValue')).toBe('John Doe')
+        expect(getSearchEntityInput().props('modelValue')).toBe('John Doe')
       })
     })
   })
