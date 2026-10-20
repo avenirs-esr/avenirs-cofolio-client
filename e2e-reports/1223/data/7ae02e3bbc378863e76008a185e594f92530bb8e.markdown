@@ -6,22 +6,22 @@
 
 # Test info
 
-- Name: tests/student/lifeProject/declaredSkillDetails/declaredSkillDetails.feature.spec.js >> Student Life Project Declared Skill Detail Page >> Delete associated activities modal >> Student can cancel the delete activities modal
-- Location: .features-gen/tests/student/lifeProject/declaredSkillDetails/declaredSkillDetails.feature.spec.js:71:5
+- Name: tests/student/lifeProject/activityDetails/activityDetails.feature.spec.js >> Student Project Activity Page >> Associated elements >> Student can open associate traces modal from associated elements tab
+- Location: .features-gen/tests/student/lifeProject/activityDetails/activityDetails.feature.spec.js:230:5
 
 # Error details
 
 ```
 Error: expect(locator).toBeVisible() failed
 
-Locator: getByTestId('declared-skill-associations').getByTestId('delete-declared-skill-associated-elements-dropdown')
+Locator: getByTestId('declared-activity-associate-elements-dropdown')
 Expected: visible
 Timeout: 10000ms
 Error: element(s) not found
 
 Call log:
   - Expect "toBeVisible" with timeout 10000ms
-  - waiting for getByTestId('declared-skill-associations').getByTestId('delete-declared-skill-associated-elements-dropdown')
+  - waiting for getByTestId('declared-activity-associate-elements-dropdown')
 
 ```
 
@@ -68,22 +68,29 @@ Call log:
         - link "Accueil":
           - /url: /cofolio/student
       - listitem:
-        - link "Mes compétences":
-          - /url: /cofolio/student/skills
-      - listitem: Compétence déclarée Conduire un projet de bout en bout
-  - heading "Détail Conduire un projet de bout en bout" [level=1]
-  - button "Gérer ma compétence"
+        - link "Mes activités":
+          - /url: /cofolio/student/activities
+      - listitem: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+      - listitem: Ma réflexion
+  - 'heading "Détail Activité \"Connaissance de soi\" : Définir ses valeurs" [level=1]'
+  - status: En cours
+  - button "Gérer mon activité"
+  - navigation "52affc40-f1a9-455f-86c3-938faca352e4 navigation":
+    - button "Réduire le menu" [expanded]
+    - menu:
+      - menuitem "Détail":
+        - button "Détail"
+      - menuitem "Ma réflexion":
+        - button "Ma réflexion"
   - tablist "Liste d’onglets":
-    - tab "Ma compétence déclarée"
-    - tab "Mes associations (7)" [selected]
-  - tabpanel "Mes associations (7)":
-    - text: Mes traces associées (2)
+    - tab "Ma prise de recul"
+    - tab "Mes éléments associés (9)" [selected]
+  - tabpanel "Mes éléments associés (9)":
+    - text: Limite d'association
+    - status: Limité à 8 traces
+    - text: Mes traces associées (6/8)
     - button "Développer"
-    - text: Mon activité déclarée associée (1)
-    - button "Développer"
-    - text: Mes expériences déclarées associées (2)
-    - button "Développer"
-    - text: Mes formations déclarées associées (2)
+    - text: Mes compétences associées (3)
     - button "Développer"
 - contentinfo:
   - link "Logo ANR":
