@@ -16,7 +16,7 @@ class StudentBuildProjectSelfKnowledgePage extends BasePage {
   }
 
   private collapse (): Locator {
-    return this.page.getByTestId('av-select__collapse')
+    return this.page.getByTestId('av-select-collapse')
   }
 
   getSectionNavigationSideNavigation () {

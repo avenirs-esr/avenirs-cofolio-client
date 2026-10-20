@@ -36,6 +36,12 @@
                 "label": "un groupe",
                 "placeholder": "un nom de groupe"
               }
+            },
+            "selects": {
+              "GroupTypeMultiselect": {
+                "label": "Type de groupe",
+                "placeholder": "Sélectionnez un type de groupe"
+              }
             }
           },
           "title": "Groupes de l'établissement"

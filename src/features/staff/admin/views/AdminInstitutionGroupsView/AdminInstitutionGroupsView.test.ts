@@ -2,10 +2,12 @@ import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { EGroupType } from '@/api/avenir-esr'
 import { SearchEntityInputStub } from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.stub'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import AdminInstitutionGroupsView from '@/features/staff/admin/views/AdminInstitutionGroupsView/AdminInstitutionGroupsView.vue'
 import { GroupsListStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsList/GroupsList.stub'
+import { GroupTypeMultiselectStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/selects/GroupTypeMultiselect/GroupTypeMultiselect.stub'
 
 BddTest().given('an admin institution groups view', () => {
   let wrapper: VueWrapper<InstanceType<typeof AdminInstitutionGroupsView>>
@@ -13,6 +15,7 @@ BddTest().given('an admin institution groups view', () => {
   const stubs = {
     PageTitle: PageTitleStub,
     GroupsList: GroupsListStub,
+    GroupTypeMultiselect: GroupTypeMultiselectStub,
     SearchEntityInput: SearchEntityInputStub,
   }
 
@@ -24,6 +27,8 @@ BddTest().given('an admin institution groups view', () => {
   const getGroupsList = () => wrapper.findComponent(GroupsListStub)
   const getSearchEntityInput = () => wrapper.findComponent(SearchEntityInputStub)
   const searchEntity = (text: string) => getSearchEntityInput().vm.$emit('update:modelValue', text)
+  const getGroupTypeMultiselect = () => wrapper.findComponent(GroupTypeMultiselectStub)
+  const selectGroupTypes = (types: EGroupType[]) => getGroupTypeMultiselect().vm.$emit('update:modelValue', types)
 
   BddTest().when('the view is mounted', () => {
     beforeEach(() => {
@@ -44,6 +49,10 @@ BddTest().given('an admin institution groups view', () => {
       expect(getGroupsList().props('keyword')).toBe(undefined)
     })
 
+    BddTest().then('the group type multiselect is rendered', () => {
+      expect(getGroupTypeMultiselect().exists()).toBe(true)
+    })
+
     BddTest().and('the user enters a search term', () => {
       const keyword = 'Test Group'
 
@@ -57,6 +66,18 @@ BddTest().given('an admin institution groups view', () => {
 
       BddTest().then('the group list should receive the keyword', () => {
         expect(getGroupsList().props('keyword')).toBe(keyword)
+      })
+    })
+
+    BddTest().and('the user selects some group types', () => {
+      const selectedTypes: EGroupType[] = [EGroupType.PROGRAM, EGroupType.STUDENT_GROUP]
+
+      beforeEach(() => {
+        selectGroupTypes(selectedTypes)
+      })
+
+      BddTest().then('the group type multiselect should emit the selected group types', () => {
+        expect(getGroupTypeMultiselect().emitted('update:modelValue')?.at(-1)).toEqual([selectedTypes])
       })
     })
   })

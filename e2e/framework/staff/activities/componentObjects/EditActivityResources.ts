@@ -35,7 +35,7 @@ export class EditActivityResources {
     const checkboxId = `select-collapse-options-list-${type}-checkbox`
 
     return this.getAddResourceModal()
-      .getByTestId('av-select__collapse')
+      .getByTestId('av-select-collapse')
       .locator(`label[for="${checkboxId}"]`)
   }
 
