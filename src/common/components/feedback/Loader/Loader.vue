@@ -61,3 +61,11 @@ const loaderSize = computed(() => sizeMap[size])
     <div data-testid="loader-slot-alt" />
   </slot>
 </template>
+
+<style lang="scss" scoped>
+.loader {
+  :deep(.av-icon) {
+    filter: drop-shadow(0 0 2px var(--other-background-base));
+  }
+}
+</style>

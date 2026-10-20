@@ -38,15 +38,18 @@ function mountUsePaginatedStaffAdminGroups ({
   fetchFn = makeMockFetchFn(),
   currentPage = 0,
   pageSize = PageSizes.TWELVE,
+  keyword = '',
 }: {
   fetchFn?: ReturnType<typeof makeMockFetchFn>
   currentPage?: number
   pageSize?: PageSizes
+  keyword?: string
 } = {}) {
   return mountComposable(() =>
     usePaginatedStaffAdminGroups({
       currentPageRef: ref(currentPage),
       pageSizeRef: ref(pageSize),
+      keywordRef: ref(keyword),
       fetchFn,
     }), {}).result
 }
@@ -94,6 +97,7 @@ BddTest().given('a usePaginatedStaffAdminGroups composable', () => {
       expect(unref(params)).toEqual({
         page: 0,
         pageSize: PageSizes.FOUR,
+        keyword: '',
       })
 
       expect(options).toEqual(
@@ -105,6 +109,36 @@ BddTest().given('a usePaginatedStaffAdminGroups composable', () => {
       )
     })
 
+    BddTest().when('fetchFn is called with keyword', () => {
+      let fetchFn: ReturnType<typeof makeMockFetchFn>
+      const keyword = 'test'
+
+      beforeEach(() => {
+        fetchFn = makeMockFetchFn()
+        result = mountUsePaginatedStaffAdminGroups({ fetchFn, pageSize: PageSizes.FOUR, keyword })
+      })
+
+      BddTest().then('it should call with the keyword', async () => {
+        await nextTick()
+
+        const [params, options] = fetchFn.mock.calls.at(-1)!
+
+        expect(unref(params)).toEqual({
+          page: 0,
+          pageSize: PageSizes.FOUR,
+          keyword,
+        })
+
+        expect(options).toEqual(
+          expect.objectContaining({
+            query: expect.objectContaining({
+              placeholderData: keepPreviousData,
+            }),
+          }),
+        )
+      })
+    })
+
     BddTest().then('it should refetch with the new page', async () => {
       result.onUpdateCurrentPage(1)
       await nextTick()
@@ -114,6 +148,7 @@ BddTest().given('a usePaginatedStaffAdminGroups composable', () => {
       expect(unref(params)).toEqual({
         page: 1,
         pageSize: PageSizes.FOUR,
+        keyword: '',
       })
 
       expect(options).toEqual(
@@ -134,6 +169,7 @@ BddTest().given('a usePaginatedStaffAdminGroups composable', () => {
       expect(unref(params)).toEqual({
         page: 0,
         pageSize: PageSizes.EIGHT,
+        keyword: '',
       })
 
       expect(options).toEqual(

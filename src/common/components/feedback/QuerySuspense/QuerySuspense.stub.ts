@@ -37,5 +37,9 @@ export const QuerySuspenseStub = defineComponent({
     isLoading: {
       type: Boolean,
     },
+    preserveContent: {
+      type: Boolean,
+      default: false,
+    },
   }
 })

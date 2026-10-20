@@ -2,6 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { SearchEntityInputStub } from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.stub'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import AdminInstitutionGroupsView from '@/features/staff/admin/views/AdminInstitutionGroupsView/AdminInstitutionGroupsView.vue'
 import { GroupsListStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsList/GroupsList.stub'
@@ -12,6 +13,7 @@ BddTest().given('an admin institution groups view', () => {
   const stubs = {
     PageTitle: PageTitleStub,
     GroupsList: GroupsListStub,
+    SearchEntityInput: SearchEntityInputStub,
   }
 
   const mountView = () => {
@@ -20,6 +22,8 @@ BddTest().given('an admin institution groups view', () => {
 
   const getPageTitle = () => wrapper.findComponent(PageTitleStub)
   const getGroupsList = () => wrapper.findComponent(GroupsListStub)
+  const getSearchEntityInput = () => wrapper.findComponent(SearchEntityInputStub)
+  const searchEntity = (text: string) => getSearchEntityInput().vm.$emit('update:modelValue', text)
 
   BddTest().when('the view is mounted', () => {
     beforeEach(() => {
@@ -31,8 +35,29 @@ BddTest().given('an admin institution groups view', () => {
       expect(getPageTitle().props('title')).toBe('Groupes de l\'établissement')
     })
 
+    BddTest().then('the search entity input is rendered', () => {
+      expect(getSearchEntityInput().exists()).toBe(true)
+    })
+
     BddTest().then('the groups list is rendered', () => {
       expect(getGroupsList().exists()).toBe(true)
+      expect(getGroupsList().props('keyword')).toBe(undefined)
+    })
+
+    BddTest().and('the user enters a search term', () => {
+      const keyword = 'Test Group'
+
+      beforeEach(() => {
+        searchEntity(keyword)
+      })
+
+      BddTest().then('the search entity input has the correct value', () => {
+        expect(getSearchEntityInput().props('modelValue')).toBe(keyword)
+      })
+
+      BddTest().then('the group list should receive the keyword', () => {
+        expect(getGroupsList().props('keyword')).toBe(keyword)
+      })
     })
   })
 })

@@ -403,6 +403,10 @@
     },
     "inputs": {
       "disabledPlaceholder": "Non renseigné",
+      "SearchEntityInput": {
+        "label": "Rechercher {entityName}",
+        "placeholder": "Renseigner {entityPlaceholder}"
+      },
       "textarea": {
         "limit": "{count} / {maxlength} caractères (espaces compris)"
       }

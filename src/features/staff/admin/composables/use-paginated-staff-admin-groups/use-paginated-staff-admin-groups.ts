@@ -14,6 +14,7 @@ type FetchFn = (
 export interface UsePaginatedStaffAdminGroupsParams {
   currentPageRef: Ref<number>
   pageSizeRef: Ref<PageSizes>
+  keywordRef: Ref<string | undefined>
   fetchFn: FetchFn
 }
 
@@ -27,12 +28,13 @@ export interface UsePaginatedStaffAdminGroupsResult {
   onUpdatePageSize: (size: number) => void
 }
 
-export function usePaginatedStaffAdminGroups ({ currentPageRef, pageSizeRef, fetchFn }: UsePaginatedStaffAdminGroupsParams): UsePaginatedStaffAdminGroupsResult {
+export function usePaginatedStaffAdminGroups ({ currentPageRef, pageSizeRef, keywordRef, fetchFn }: UsePaginatedStaffAdminGroupsParams): UsePaginatedStaffAdminGroupsResult {
   const { currentPage, pageSizeSelected, onUpdateCurrentPage, onUpdatePageSize } = usePagination(currentPageRef, pageSizeRef)
 
   const params = computed(() => ({
     page: currentPage.value,
     pageSize: pageSizeSelected.value,
+    keyword: keywordRef.value,
   }))
   const { data, error, isFetching } = fetchFn(params, { query: { placeholderData: keepPreviousData } })
 
