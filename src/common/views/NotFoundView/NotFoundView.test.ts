@@ -1,53 +1,91 @@
 import type { VueWrapper } from '@vue/test-utils'
+import type { LoggedInUserDTO } from '@/api/avenir-esr'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
-import { ROUTES } from '@/common/constants'
+import { mountComponent, mountComposable } from 'tests/utils'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
+import { mockedLoggedInUser } from '@/__mocks__/msw/handlers/shared/generic.handlers'
+import { ERole, EUserCategory } from '@/api/avenir-esr'
 import NotFoundView from '@/common/views/NotFoundView/NotFoundView.vue'
+import { ROLE_USER_CATEGORY } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session.constants'
+import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
+import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 
-BddTest().given('a not found view', () => {
-  let wrapper: VueWrapper<InstanceType<typeof NotFoundView>>
+const BUTTON_LABEL = 'Retour à l\'accueil'
+const CONTENT = 'La page que vous recherchez n\'existe pas ou plus.'
+const TITLE = '404 - Page introuvable'
 
-  BddTest().when('the view is mounted with default props', () => {
+vi.mock('@/router', () => ({
+  default: {
+    replace: vi.fn(),
+    currentRoute: { value: { fullPath: '/current-route' } }
+  }
+}))
+
+vi.mock('@/store', () => ({
+  useToasterStore: () => ({
+    addErrorMessage: vi.fn()
+  })
+}))
+
+function rolesOf (category: EUserCategory) {
+  return Object.values(ERole).filter(role => ROLE_USER_CATEGORY[role] === category)
+}
+
+BddTest().given('a not found view displayed to a logged-in user', () => {
+  let wrapper: VueWrapper
+  let currentUser: ReturnType<typeof useCurrentUser>
+  let unmountSession: () => void
+
+  const mountWith = (user: Partial<LoggedInUserDTO> = {}) => {
+    const mounted = mountComposable(() => {
+      useAuthStore().$patch({ session: { ...mockedLoggedInUser, ...user } })
+      currentUser = useCurrentUser()
+    }, {
+      usePinia: true,
+      useTanstack: true,
+      useI18n: true
+    })
+
+    unmountSession = mounted.unmount
+
+    wrapper = mountComponent(NotFoundView, {
+      global: { stubs: { AvButton: AvButtonStub } }
+    }, {
+      usePinia: false
+    })
+  }
+
+  const getButton = () => wrapper.findComponent(AvButtonStub)
+  const getTitle = () => wrapper.find('h3')
+  const getContent = () => wrapper.find('p')
+
+  afterEach(() => {
+    wrapper.unmount()
+    unmountSession()
+  })
+
+  BddTest().when('the view is mounted', () => {
     beforeEach(() => {
-      wrapper = mount(NotFoundView, {
-        global: {
-          stubs: {
-            AvButton: AvButtonStub,
-          },
-        },
-      })
+      mountWith()
     })
 
-    BddTest().then('it should render default title/description and the button label', () => {
-      expect(wrapper.find('h3').text()).toBe('404 - Page introuvable')
-      expect(wrapper.find('p').text()).toBe('La page que vous recherchez n\'existe pas ou plus.')
-      expect(wrapper.findComponent(AvButtonStub).text()).toBe('Retour à l\'accueil')
-    })
-
-    BddTest().then('it should render the button as a router link to student home', () => {
-      expect(wrapper.findComponent(AvButtonStub).props('to')).toEqual(ROUTES.STUDENT.HOME)
+    BddTest().then('it should render the correct title, description and button label', () => {
+      expect(getTitle().text()).toBe(TITLE)
+      expect(getContent().text()).toBe(CONTENT)
+      expect(getButton().text()).toBe(BUTTON_LABEL)
     })
   })
 
-  BddTest().when('the view is mounted with custom translation keys', () => {
-    beforeEach(() => {
-      wrapper = mount(NotFoundView, {
-        props: {
-          titleKey: 'global.text',
-          descriptionKey: 'global.text',
-        },
-        global: {
-          stubs: {
-            AvButton: AvButtonStub,
-          },
-        },
+  for (const category of Object.values(EUserCategory)) {
+    BddTest().when(`the view is mounted for a user of the ${category} category`, () => {
+      beforeEach(() => {
+        mountWith({ roles: rolesOf(category) })
+      })
+
+      BddTest().then('it should link the button to the home route returned by useCurrentUser', () => {
+        expect(currentUser.profile.activeCategory.value).toBe(category)
+        expect(getButton().props('to')).toEqual(currentUser.homeRoute.value)
       })
     })
-
-    BddTest().then('it should render the title/description from the given keys', () => {
-      expect(wrapper.find('h3').text()).toBe('Texte')
-      expect(wrapper.find('p').text()).toBe('Texte')
-    })
-  })
+  }
 })

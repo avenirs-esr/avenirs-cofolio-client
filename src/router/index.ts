@@ -24,10 +24,6 @@ const routes = [
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/common/views/NotFoundView/NotFoundView.vue'),
-    props: {
-      titleKey: 'global.views.notFoundView.pageNotFound.title',
-      descriptionKey: 'global.views.notFoundView.pageNotFound.description'
-    },
   },
 ]
 
