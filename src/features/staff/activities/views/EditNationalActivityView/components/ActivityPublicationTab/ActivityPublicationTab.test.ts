@@ -127,7 +127,7 @@ BddTest().given('an ActivityPublicationTab component', () => {
     })
   })
 
-  BddTest().when('the activity has persisted targets and enrolled students', () => {
+  BddTest().when('the activity has persisted targets and enrolled learners', () => {
     beforeEach(() => {
       mountTab(EditNationalActivityViewFormWrapper, mockedActivityDetail, { persistedTargetIds: ['target-1'], lockPersistedTargets: true })
     })

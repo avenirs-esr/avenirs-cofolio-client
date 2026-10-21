@@ -4,7 +4,7 @@
       "overlays": {
         "StaffNotificationsPopover": {
           "contexts": {
-            "feedback": "A student will send you a feedback request"
+            "feedback": "A learner will send you a feedback request"
           }
         }
       }

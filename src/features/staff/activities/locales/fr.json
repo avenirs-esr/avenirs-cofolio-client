@@ -105,13 +105,13 @@
         },
         "NationalActivityCatalogView": {
           "ActivityDashboardSection": {
-            "enrolledStudents": "étudiant(e) inscrit(e) | étudiant(e)s inscrit(e)s",
+            "enrolledStudents": "apprenant(e) inscrit(e) | apprenant(e)s inscrit(e)s",
             "hideDetails": "Cacher le détail",
             "inactiveStudentsLast30Days": "inscrit(e) inactif(ve) depuis plus de 30 jours | inscrit(e)s inactif(ve)s depuis plus de 30 jours",
             "notPublished": "Cette activité est un brouillon. Les chiffres clés ne sont disponibles que depuis des activités publiées.",
             "seeDetails": "Voir le détail",
             "title": "Tableau de bord",
-            "uniqueStudentViews": "étudiant(e) ayant consulté l'activité | étudiant(e)s ayant consulté l'activité",
+            "uniqueStudentViews": "apprenant(e) ayant consulté l'activité | apprenant(e)s ayant consulté l'activité",
             "unsubscriptionsLast30Days": "désinscription sur les 30 derniers jours | désinscriptions sur les 30 derniers jours"
           },
           "buttons": {
@@ -190,7 +190,7 @@
             "title": "Demande de feedback"
           },
           "ActivityPublicationTab": {
-            "confirmDescription": "Cette action la rendra accessible à tous les étudiants de l'établissement et permettra leur inscription immédiate.",
+            "confirmDescription": "Cette action la rendra accessible à tous les apprenants de l'établissement et permettra leur inscription immédiate.",
             "confirmTitle": "Êtes-vous certain(e) de vouloir publier votre activité\u00A0? ",
             "publishError": "Une erreur est survenue lors de la publication de l'activité",
             "publishLabel": "Publier",
@@ -208,10 +208,10 @@
             "placeholder": "Rédiger ici un texte court qui permet d'avoir un aperçu de l'activité et donne envie de s'y inscrire."
           },
           "ActivityTargetsFormField": {
-            "description": "Sélectionnez les établissements, formations, options de formation ou groupes d'étudiants qui auront accès à cette activité.",
+            "description": "Sélectionnez les établissements, formations, options de formation ou groupes d'apprenants qui auront accès à cette activité.",
             "fetchError": "Impossible de récupérer les cibles disponibles",
             "label": "Cible(s) de l'activité",
-            "locked": "Les cibles déjà enregistrées ne peuvent plus être retirées car des étudiants sont déjà inscrits à cette activité. Vous pouvez en ajouter de nouvelles.",
+            "locked": "Les cibles déjà enregistrées ne peuvent plus être retirées car des apprenants sont déjà inscrits à cette activité. Vous pouvez en ajouter de nouvelles.",
             "national": "Activité nationale\u00A0: aucune cible n'est sélectionnée.",
             "nationalToggleDescription": "Activée, l'activité est diffusée à tous les établissements une fois publiée et les cibles sont vidées. Désactivée, au moins une cible est obligatoire.",
             "nationalToggleDisabledTooltip": "Impossible de passer en activité nationale : des cibles sont verrouillées",
@@ -230,7 +230,7 @@
               "PROGRAM": "Formation",
               "PROGRAM_OPTION": "Option de formation",
               "SECONDARY": "Établissement",
-              "STUDENT_GROUP": "Groupe d'étudiants"
+              "STUDENT_GROUP": "Groupe d'apprenants"
             }
           },
           "ActivityTraceFormField": {
@@ -252,7 +252,7 @@
             "saveActivityContentWithErrors": "Activité enregistrée avec une erreur | Activité enregistrée avec des erreurs"
           },
           "informations": {
-            "disabled": "Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.",
+            "disabled": "Ce paramètre ne peut plus être modifié car des apprenants sont déjà inscrits à cette activité.",
             "willBeDisabled": "Après l'inscription d'un premier apprenant, ce paramètre ne pourra plus être modifié."
           }
         }

@@ -114,8 +114,8 @@ BddTest().given('an ActivityTargetsFormField component', () => {
         { value: mockedSecondaryInstitutionNode.id, label: mockedSecondaryInstitutionNode.title, description: `Établissement · ${mockedPrimaryInstitutionNode.title}` },
         { value: mockedProgramNode.id, label: mockedProgramNode.title, description: 'Formation' },
         { value: mockedDevProgramOptionNode.id, label: mockedDevProgramOptionNode.title, description: `Option de formation · ${mockedProgramNode.title}` },
-        { value: mockedDevStudentGroupNode.id, label: mockedDevStudentGroupNode.title, description: `Groupe d'étudiants · ${mockedProgramNode.title} › ${mockedDevProgramOptionNode.title}` },
-        { value: mockedProgramStudentGroupNode.id, label: mockedProgramStudentGroupNode.title, description: `Groupe d'étudiants · ${mockedProgramNode.title}` },
+        { value: mockedDevStudentGroupNode.id, label: mockedDevStudentGroupNode.title, description: `Groupe d'apprenants · ${mockedProgramNode.title} › ${mockedDevProgramOptionNode.title}` },
+        { value: mockedProgramStudentGroupNode.id, label: mockedProgramStudentGroupNode.title, description: `Groupe d'apprenants · ${mockedProgramNode.title}` },
       ])
     })
 
@@ -205,7 +205,7 @@ BddTest().given('an ActivityTargetsFormField component', () => {
       expect(onAutosave).toHaveBeenLastCalledWith({ targetInstitutionIds: [], targetGroupIds: [mockedDevProgramOptionNode.id] })
     })
 
-    BddTest().then('it should save a student group as a target group', async () => {
+    BddTest().then('it should save a learner group as a target group', async () => {
       await select(mockedDevStudentGroupNode.id)
 
       expect(onAutosave).toHaveBeenLastCalledWith({ targetInstitutionIds: [], targetGroupIds: [mockedDevStudentGroupNode.id] })
@@ -252,7 +252,7 @@ BddTest().given('an ActivityTargetsFormField component', () => {
     })
   })
 
-  BddTest().when('the activity is locked (published with enrolled students)', () => {
+  BddTest().when('the activity is locked (published with enrolled learners)', () => {
     beforeEach(async () => {
       wrapper = mountField({
         institutionIds: [mockedPrimaryInstitutionNode.id],

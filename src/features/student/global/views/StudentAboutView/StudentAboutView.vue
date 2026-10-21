@@ -2,5 +2,5 @@
 </script>
 
 <template>
-  <h1>Student feature about page</h1>
+  <h1>Learner feature about page</h1>
 </template>

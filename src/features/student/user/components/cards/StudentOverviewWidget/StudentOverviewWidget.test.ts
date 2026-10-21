@@ -19,7 +19,7 @@ vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', 
   })
 }))
 
-BddTest().given('a student overview widget', () => {
+BddTest().given('a learner overview widget', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentOverviewWidget>>
 
   const stubs = {

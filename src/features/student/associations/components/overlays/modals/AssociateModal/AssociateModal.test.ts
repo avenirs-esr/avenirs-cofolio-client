@@ -547,7 +547,7 @@ BddTest().given('an associate modal', () => {
         await nextTick()
       })
 
-      BddTest().then('it should let the student select the other traces again', () => {
+      BddTest().then('it should let the learner select the other traces again', () => {
         expect(getLayoutOptionStates()).toEqual(UNASSOCIATED_TRACE_IDS.map(value => ({ value, disabled: false, disabledTooltip: DISABLED_TOOLTIP })))
       })
     })

@@ -134,7 +134,7 @@ BddTest().given('an ActivityFeedbackFormField component', () => {
       expect(getMessage().exists()).toBe(true)
       expect(getMessage().props('type')).toBe('info')
       expect(getMessage().props('message')).toEqual(
-        'Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.',
+        'Ce paramètre ne peut plus être modifié car des apprenants sont déjà inscrits à cette activité.',
       )
     })
   })
@@ -182,7 +182,7 @@ BddTest().given('an ActivityFeedbackFormField component', () => {
 
     BddTest().then('it should render the disabled information message', () => {
       expect(getMessage().props('message')).toEqual(
-        'Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.',
+        'Ce paramètre ne peut plus être modifié car des apprenants sont déjà inscrits à cette activité.',
       )
     })
   })
@@ -248,7 +248,7 @@ BddTest().given('an ActivityFeedbackFormField component', () => {
 
     BddTest().then('it should render the disabled information message', () => {
       expect(getMessage().props('message')).toEqual(
-        'Ce paramètre ne peut plus être modifié car des étudiants sont déjà inscrits à cette activité.',
+        'Ce paramètre ne peut plus être modifié car des apprenants sont déjà inscrits à cette activité.',
       )
     })
   })

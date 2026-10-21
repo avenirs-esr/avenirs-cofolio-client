@@ -20,7 +20,7 @@
       },
       "layout": {
         "header": {
-          "home": "Accueil - Cofolio Étudiant",
+          "home": "Accueil - Cofolio Apprenant",
           "quicklinks": {
             "notifications": "Notifications"
           }
@@ -96,7 +96,7 @@
           "title": "(placeholder) Tous mes événements"
         },
         "studentHomeView": {
-          "title": "Accueil Cofolio Étudiant",
+          "title": "Accueil Cofolio Apprenant",
           "widgets": {
             "ActivitiesWidget": {
               "emptyState": {

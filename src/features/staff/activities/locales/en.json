@@ -105,13 +105,13 @@
         },
         "NationalActivityCatalogView": {
           "ActivityDashboardSection": {
-            "enrolledStudents": "enrolled student | enrolled students",
+            "enrolledStudents": "enrolled learner | enrolled learners",
             "hideDetails": "Hide details",
-            "inactiveStudentsLast30Days": "enrolled student inactive for more than 30 days | enrolled students inactive for more than 30 days",
+            "inactiveStudentsLast30Days": "enrolled learner inactive for more than 30 days | enrolled learners inactive for more than 30 days",
             "notPublished": "This activity is a draft. Key figures are only available from published activities.",
             "seeDetails": "See details",
             "title": "Dashboard",
-            "uniqueStudentViews": "student who viewed the activity | students who viewed the activity",
+            "uniqueStudentViews": "learner who viewed the activity | learners who viewed the activity",
             "unsubscriptionsLast30Days": "unsubscription in the last 30 days | unsubscriptions in the last 30 days"
           },
           "buttons": {
@@ -121,11 +121,11 @@
             "fetchActivityContent": "Unable to load activity"
           },
           "InactiveStudentsDetailsCard": {
-            "empty": "No enrolled student inactive for more than 30 days",
+            "empty": "No enrolled learner inactive for more than 30 days",
             "enrolledAt": "enrolled on {date}",
             "lastViewedAt": "last activity on {date}",
             "neverViewed": "no activity",
-            "title": "Enrolled students inactive for more than 30 days ({count})"
+            "title": "Enrolled learners inactive for more than 30 days ({count})"
           },
           "NationalActivityCatalogPreviewTab": {
             "errors": {
@@ -184,13 +184,13 @@
             "title": "Set an execution period"
           },
           "ActivityFeedbackFormField": {
-            "description": "When this setting is disabled, students cannot request feedback on their activity through COFOLIO.",
+            "description": "When this setting is disabled, learners cannot request feedback on their activity through COFOLIO.",
             "infinityToggleLabel": "Allow unlimited feedback iterations",
             "label": "Maximum number of iterations?",
             "title": "Feedback request"
           },
           "ActivityPublicationTab": {
-            "confirmDescription": "This action will make the activity accessible to all students in the institution and allow them to register immediately.",
+            "confirmDescription": "This action will make the activity accessible to all learners in the institution and allow them to register immediately.",
             "confirmTitle": "Are you sure you want to publish your activity?",
             "publishError": "An error occurred while publishing the activity",
             "publishLabel": "Publish",
@@ -208,10 +208,10 @@
             "placeholder": "Write a short description here that gives a glimpse of the activity and makes people want to sign up."
           },
           "ActivityTargetsFormField": {
-            "description": "Select the institutions, programs, program options or student groups that will have access to this activity.",
+            "description": "Select the institutions, programs, program options or learner groups that will have access to this activity.",
             "fetchError": "Unable to fetch the available targets",
             "label": "Activity target(s)",
-            "locked": "Targets already saved can no longer be removed because students are already enrolled in this activity. You can still add new ones.",
+            "locked": "Targets already saved can no longer be removed because learners are already enrolled in this activity. You can still add new ones.",
             "national": "National activity: no target is selected.",
             "nationalToggleDescription": "When enabled, the activity is available to all institutions once published and targets are cleared. When disabled, at least one target is required.",
             "nationalToggleDisabledTooltip": "Cannot switch to a national activity: some targets are locked",
@@ -230,7 +230,7 @@
               "PROGRAM": "Program",
               "PROGRAM_OPTION": "Program option",
               "SECONDARY": "Institution",
-              "STUDENT_GROUP": "Student group"
+              "STUDENT_GROUP": "Learner group"
             }
           },
           "ActivityTraceFormField": {
@@ -252,7 +252,7 @@
             "saveActivityContentWithErrors": "Activity saved with an error | Activity saved with errors"
           },
           "informations": {
-            "disabled": "This setting can no longer be changed because students are already enrolled in this activity.",
+            "disabled": "This setting can no longer be changed because learners are already enrolled in this activity.",
             "willBeDisabled": "After the first learner enrolls, this setting will no longer be editable."
           }
         }
