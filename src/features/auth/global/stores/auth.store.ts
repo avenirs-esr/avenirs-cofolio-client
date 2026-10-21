@@ -17,8 +17,10 @@ import { useToasterStore } from '@/store'
  * Authentication state and session lifecycle: entry point for critical checks (router guard,
  * fetch interceptor).
  *
- * A session already in memory, or restored from the storage, is trusted until a protected request
- * answers 401. `/me` is then called to confirm before deciding whether the user must log in again:
+ * A session restored from the storage may be stale (roles changed since): `/me` is requested once per
+ * page load, on the first guarded navigation, and the restored session is kept if that request fails
+ * for another reason than 401. Afterwards the session is trusted until a protected request answers 401.
+ * `/me` is then called to confirm before deciding whether the user must log in again:
  * - valid: the session is refreshed and the request is replayed.
  * - unauthorized: the session is invalidated and the user is redirected to login.
  * - any other failure: the error is displayed and the current session is kept.
@@ -33,6 +35,7 @@ export const useAuthStore = defineStore('auth', () => {
   const isLoggedIn = computed(() => !!session.value)
 
   let revalidation: Promise<SessionCheck> | undefined
+  let sessionChecked = false
   let redirecting = false
   let redirectOnShow = false
 
@@ -68,7 +71,10 @@ export const useAuthStore = defineStore('auth', () => {
         addErrorMessage(message)
         return SessionCheck.ERROR
       }
-    })().finally(() => revalidation = undefined)
+    })().finally(() => {
+      revalidation = undefined
+      sessionChecked = true
+    })
 
     return revalidation
   }
@@ -76,7 +82,8 @@ export const useAuthStore = defineStore('auth', () => {
   /**
    * Router guard entry point: ensures that a session exists before the navigation goes on.
    *
-   * A session already in memory, or restored from the storage, is trusted without any request.
+   * A session already checked since the page was loaded is trusted without any request. A restored one
+   * is first confirmed by `/me`.
    *
    * @param to Location the user is heading to (passed as the `redirect` query parameter of the login route).
    * @returns `undefined` when a session exists, the login route when the user is not authenticated,
@@ -84,18 +91,22 @@ export const useAuthStore = defineStore('auth', () => {
    * triggered concurrently).
    */
   async function ensureSession (to: LocationQueryValueRaw): Promise<RouteLocationRaw | false | undefined> {
-    if (session.value) {
+    if (session.value && sessionChecked) {
       return undefined
     }
 
     // New attempt without a session: any earlier redirect to login is over
-    redirecting = false
+    if (!session.value) {
+      redirecting = false
+    }
+
+    const hadSession = !!session.value
 
     switch (await revalidateSession()) {
       case SessionCheck.UNAUTHORIZED:
         return redirectToLogin(to) ?? false
       case SessionCheck.ERROR:
-        return false
+        return hadSession ? undefined : false
     }
 
     return undefined
