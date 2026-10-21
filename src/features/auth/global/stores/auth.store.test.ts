@@ -7,7 +7,7 @@ import { mountComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { meServerErrorHandler, meUnauthorizedHandler, mockedLoggedInUser } from '@/__mocks__/msw/handlers/shared/generic.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EUserCategory, getMe } from '@/api/avenir-esr'
+import { EUniverse, EUserCategory, getMe } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 import { AUTH_PREFS_KEY, AUTH_SESSION_KEY } from '@/features/auth/global/stores/auth.store.constants'
@@ -219,7 +219,7 @@ BddTest().given('an auth store with mocked dependencies', () => {
   BddTest().when('revalidateSession is called on an outdated session and the api returns a valid one', () => {
     beforeEach(async () => {
       await store.ensureSession(TARGET)
-      store.patchSession({ firstname: 'Outdated' })
+      store.patchSession({ universes: [] })
       store.selectedUserCategory = EUserCategory.STUDENT
       check = await store.revalidateSession()
     })
@@ -373,17 +373,17 @@ BddTest().given('an auth store with mocked dependencies', () => {
   BddTest().when('patchSession is called with a loaded session', () => {
     beforeEach(async () => {
       await store.ensureSession(TARGET)
-      store.patchSession({ firstname: 'Jane' })
+      store.patchSession({ universes: [EUniverse.STUDENT] })
     })
 
     BddTest().then('it should merge the patch into the session', () => {
-      expect(store.session).toEqual({ ...mockedLoggedInUser, firstname: 'Jane' })
+      expect(store.session).toEqual({ ...mockedLoggedInUser, universes: [EUniverse.STUDENT] })
     })
   })
 
   BddTest().when('patchSession is called without a session', () => {
     beforeEach(() => {
-      store.patchSession({ firstname: 'Jane' })
+      store.patchSession({ universes: [EUniverse.STUDENT] })
     })
 
     BddTest().then('it should do nothing', () => {
@@ -425,11 +425,11 @@ BddTest().given('an auth store shared with the other tabs of the browser', () =>
   BddTest().when('another tab patches the session already loaded here', () => {
     beforeEach(async () => {
       await store.ensureSession(TARGET)
-      sendStorageEvent(JSON.stringify({ session: { ...mockedLoggedInUser, firstname: 'Jane' } }))
+      sendStorageEvent(JSON.stringify({ session: { ...mockedLoggedInUser, universes: [EUniverse.STUDENT] } }))
     })
 
     BddTest().then('it should replace the session with the patched one', () => {
-      expect(store.session).toEqual({ ...mockedLoggedInUser, firstname: 'Jane' })
+      expect(store.session).toEqual({ ...mockedLoggedInUser, universes: [EUniverse.STUDENT] })
       expect(getMe).toHaveBeenCalledTimes(1)
     })
   })
@@ -528,13 +528,13 @@ BddTest().given('an auth store shared with the other tabs of the browser', () =>
       await store.ensureSession(TARGET)
       hideTab()
       sendStorageEvent('{}')
-      sendStorageEvent(JSON.stringify({ session: { ...mockedLoggedInUser, firstname: 'Jane' } }))
+      sendStorageEvent(JSON.stringify({ session: { ...mockedLoggedInUser, universes: [EUniverse.STUDENT] } }))
       showTab()
       await flushPromises()
     })
 
     BddTest().then('it should keep the new session and not redirect', () => {
-      expect(store.session).toEqual({ ...mockedLoggedInUser, firstname: 'Jane' })
+      expect(store.session).toEqual({ ...mockedLoggedInUser, universes: [EUniverse.STUDENT] })
       expect(mockReplace).not.toHaveBeenCalled()
     })
   })

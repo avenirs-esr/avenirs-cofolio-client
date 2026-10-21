@@ -8,7 +8,7 @@ import { mockedProfileOverview } from '@/__mocks__/fixtures/student'
 import { mockedLoggedInUser } from '@/__mocks__/msw/handlers/shared/generic.handlers'
 import { getProfileErrorHandler, getProfilePendingHandler } from '@/__mocks__/msw/handlers/student/overviews.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { ERole, EUserCategory } from '@/api/avenir-esr'
+import { EUniverse, EUserCategory } from '@/api/avenir-esr'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import { INVALID_PROFILE } from '@/features/auth/global/composables/use-current-user/use-current-user.constants'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
@@ -96,13 +96,13 @@ BddTest().given('the current user composable with the API served by MSW', () => 
     })
   })
 
-  BddTest().when('a user with only the STUDENT role is logged in', () => {
+  BddTest().when('a user with only the STUDENT universe is logged in', () => {
     beforeEach(async () => {
-      await mountWith({ user: { roles: [ERole.ROLE_STUDENT] } })
+      await mountWith({ user: { universes: [EUniverse.STUDENT] } })
     })
 
     BddTest().then('it should expose the session of the user', () => {
-      expect(currentUser.roles.value).toEqual([ERole.ROLE_STUDENT])
+      expect(currentUser.universes.value).toEqual([EUniverse.STUDENT])
       expect(currentUser.profile.activeCategory.value).toBe(EUserCategory.STUDENT)
     })
 
@@ -112,9 +112,9 @@ BddTest().given('the current user composable with the API served by MSW', () => 
     })
   })
 
-  BddTest().when('a user with only the STAFF role is logged in', () => {
+  BddTest().when('a user with only the STAFF universe is logged in', () => {
     beforeEach(async () => {
-      await mountWith({ user: { roles: [ERole.ROLE_STAFF] } })
+      await mountWith({ user: { universes: [EUniverse.STAFF] } })
     })
 
     BddTest().then('it should expose the staff profile', () => {
@@ -167,7 +167,7 @@ BddTest().given('the current user composable with the API served by MSW', () => 
       server.use(getProfilePendingHandler)
       await mountWith({
         user: {
-          roles: [ERole.ROLE_STUDENT]
+          universes: [EUniverse.STUDENT]
         },
         waitForProfile: false
       })
@@ -183,7 +183,7 @@ BddTest().given('the current user composable with the API served by MSW', () => 
     beforeEach(async () => {
       await mountWith({
         user: {
-          roles: [ERole.ROLE_STUDENT]
+          universes: [EUniverse.STUDENT]
         },
         requestFail: true
       })

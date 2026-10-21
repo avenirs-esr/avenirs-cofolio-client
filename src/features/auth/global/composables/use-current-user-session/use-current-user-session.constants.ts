@@ -1,5 +1,5 @@
 import type { RouteLocationRaw } from 'vue-router'
-import { ERole, EUserCategory } from '@/api/avenir-esr'
+import { EUniverse, EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 
 /**
@@ -8,13 +8,11 @@ import { ROUTES } from '@/common/constants'
 export const INVALID_USER_CATEGORY = 'INVALID_USER_CATEGORY' as unknown as EUserCategory
 
 /**
- * Maps each role to its corresponding user category.
+ * Maps each universe to its corresponding user category.
  */
-export const ROLE_USER_CATEGORY: Record<ERole, EUserCategory> = {
-  [ERole.ROLE_STUDENT]: EUserCategory.STUDENT,
-  [ERole.ROLE_STAFF]: EUserCategory.STAFF,
-  [ERole.ROLE_ADMIN]: EUserCategory.STAFF,
-  [ERole.ROLE_SUPER_ADMIN]: EUserCategory.STAFF,
+export const UNIVERSE_USER_CATEGORY: Record<EUniverse, EUserCategory> = {
+  [EUniverse.STUDENT]: EUserCategory.STUDENT,
+  [EUniverse.STAFF]: EUserCategory.STAFF,
 }
 
 /**

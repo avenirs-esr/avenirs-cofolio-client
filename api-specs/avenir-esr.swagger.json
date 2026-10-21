@@ -1377,6 +1377,49 @@
         }
       }
     },
+    "/me/authorizations/{entityType}/query": {
+      "post": {
+        "tags": [
+          "entity-authorization-controller"
+        ],
+        "operationId": "getAuthorizations",
+        "parameters": [
+          {
+            "name": "entityType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAuthorizationEntityType"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EntityAuthorizationsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EntityAuthorizationsDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/associations/{contextType}/{elementId}/{associatedContextType}": {
       "post": {
         "tags": [
@@ -2703,6 +2746,36 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/PagedResponseDeclaredExperienceViewDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/authorizations/{entityType}/list-access": {
+      "get": {
+        "tags": [
+          "entity-authorization-controller"
+        ],
+        "operationId": "getListAccess",
+        "parameters": [
+          {
+            "name": "entityType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAuthorizationEntityType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListAccessDTO"
                 }
               }
             }
@@ -4769,6 +4842,40 @@
         }
       }
     },
+    "/back-office/groups/{id}/sub-groups": {
+      "get": {
+        "tags": [
+          "group-query-controller"
+        ],
+        "operationId": "getSubGroupsOfGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GroupOverviewDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/back-office/groups/{id}/program": {
       "get": {
         "tags": [
@@ -6434,6 +6541,39 @@
           "isLastVersion"
         ]
       },
+      "EntityAuthorizationsRequest": {
+        "type": "object",
+        "properties": {
+          "entityIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "maxItems": 100,
+            "minItems": 0
+          }
+        }
+      },
+      "EntityAuthorizationsDTO": {
+        "type": "object",
+        "properties": {
+          "entityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "authorizations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EAuthorization"
+            }
+          }
+        },
+        "required": [
+          "authorizations",
+          "entityId"
+        ]
+      },
       "AssociationsCreationRequest": {
         "type": "object",
         "properties": {
@@ -7208,16 +7348,17 @@
       "LoggedInUserDTO": {
         "type": "object",
         "properties": {
-          "firstname": {
-            "type": "string"
-          },
-          "lastname": {
-            "type": "string"
-          },
           "roles": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/ERole"
+            },
+            "uniqueItems": true
+          },
+          "universes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EUniverse"
             },
             "uniqueItems": true
           },
@@ -7226,9 +7367,8 @@
           }
         },
         "required": [
-          "firstname",
-          "lastname",
-          "roles"
+          "roles",
+          "universes"
         ]
       },
       "QuickLinksDTO": {
@@ -7552,6 +7692,17 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "ListAccessDTO": {
+        "type": "object",
+        "properties": {
+          "canAccessList": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "canAccessList"
         ]
       },
       "AssociationSearchResultDTO": {
@@ -8292,6 +8443,26 @@
           "idsToDelete"
         ]
       },
+      "EAuthorization": {
+        "type": "string",
+        "description": "Enum for authorization",
+        "enum": [
+          "LEADER",
+          "EDIT",
+          "MANAGE_AUTHORIZATIONS",
+          "FEEDBACK",
+          "EVALUATION",
+          "PUBLISH"
+        ]
+      },
+      "EAuthorizationEntityType": {
+        "type": "string",
+        "description": "Enum for authorization entity type",
+        "enum": [
+          "ACTIVITY",
+          "ACTIVITY_DRAFT"
+        ]
+      },
       "EFileType": {
         "type": "string",
         "description": "Enum for file type",
@@ -8646,10 +8817,42 @@
         "type": "string",
         "description": "Enum for user role",
         "enum": [
+          "ROLE_USER_BASE",
+          "ROLE_STUDENT_PORTFOLIO",
+          "ROLE_STUDENT_ACTIVITY",
+          "ROLE_STUDENT_FEEDBACK",
+          "ROLE_STUDENT_EMPLOYMENT_KIT",
+          "ROLE_STUDENT_REFERENCE_DATA",
+          "ROLE_STAFF_TRACE_REVIEWER",
+          "ROLE_STAFF_ACTIVITY_VIEWER",
+          "ROLE_ACTIVITY_EDITOR",
+          "ROLE_STAFF_ACTIVITY_AUTHOR",
+          "ROLE_STAFF_FEEDBACK_RESPONDER",
+          "ROLE_STAFF_FEEDBACK_SUPERVISOR",
+          "ROLE_ESTABLISHMENT_VIEWER",
+          "ROLE_ESTABLISHMENT_MANAGER",
+          "ROLE_GROUP_VIEWER",
+          "ROLE_GROUP_MANAGER",
+          "ROLE_EXTERNAL_USER_VIEWER",
+          "ROLE_EXTERNAL_USER_MANAGER",
+          "ROLE_CONFIG_VIEWER",
+          "ROLE_CONFIG_MANAGER",
+          "ROLE_RBAC_AUDITOR",
+          "ROLE_RBAC_ADMIN",
+          "ROLE_ACTIVITY_ADMIN",
+          "ROLE_SYSTEM_OPERATOR",
           "ROLE_STUDENT",
           "ROLE_STAFF",
           "ROLE_ADMIN",
           "ROLE_SUPER_ADMIN"
+        ]
+      },
+      "EUniverse": {
+        "type": "string",
+        "description": "Enum for universe",
+        "enum": [
+          "STUDENT",
+          "STAFF"
         ]
       },
       "EInstitutionType": {
