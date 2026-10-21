@@ -377,7 +377,8 @@
         "buttons": {
           "STUDENT": "Étudiant",
           "STAFF": "Enseignant"
-        }
+        },
+        "disabledTooltip": "Vous êtes actuellement dans cet univers"
       }
     },
     "home": "Accueil",
