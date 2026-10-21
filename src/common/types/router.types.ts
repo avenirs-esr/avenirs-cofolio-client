@@ -6,6 +6,7 @@ import type {
   RouteRecordSingleView,
   RouteRecordSingleViewWithChildren,
 } from 'vue-router'
+import type { ERole } from '@/api/avenir-esr'
 
 export type AvRoute
   = | (Omit<RouteRecordSingleView, 'name'> & { name: string })
@@ -27,5 +28,6 @@ declare module 'vue-router' {
   interface RouteMeta {
     breadcrumb?: MetaBreadcrumb
     cguRouteName?: string
+    requiredRoles?: ERole[]
   }
 }

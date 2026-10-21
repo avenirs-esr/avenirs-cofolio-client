@@ -1,6 +1,8 @@
 import { EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
+import { ROUTE_ROLES } from '@/common/constants/route-roles'
+import { withRequiredRoles } from '@/common/utils/route/route'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
 import { staffAdminRoutes } from '@/features/staff/admin/routes'
 import { staffActivityFeedbacksRoute, staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
@@ -27,7 +29,7 @@ export default [
           import('@/common/views/AccessibilityView/AccessibilityView.vue'),
         meta: { breadcrumb },
       },
-      ...staffAdminRoutes,
+      ...withRequiredRoles(ROUTE_ROLES.STAFF.ADMIN, ...staffAdminRoutes),
       {
         ...ROUTES.STAFF.CGU,
         component: () =>
@@ -46,9 +48,8 @@ export default [
           import('@/common/views/PersonalDataView/PersonalDataView.vue'),
         meta: { breadcrumb },
       },
-      ...staffActivitiesRoutes,
-      staffActivityFeedbacksRoute,
-      ...staffStudentTrackingFeedbacksRoutes,
+      ...withRequiredRoles(ROUTE_ROLES.STAFF.ACTIVITIES, ...staffActivitiesRoutes),
+      ...withRequiredRoles(ROUTE_ROLES.STAFF.FEEDBACKS, staffActivityFeedbacksRoute, ...staffStudentTrackingFeedbacksRoutes),
     ]
   }
 ]

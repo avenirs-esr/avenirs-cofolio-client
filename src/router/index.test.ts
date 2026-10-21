@@ -1,7 +1,7 @@
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeAll, beforeEach, expect, vi } from 'vitest'
 import { isNavigationFailure, NavigationFailureType, START_LOCATION } from 'vue-router'
-import { EUserCategory } from '@/api/avenir-esr'
+import { ERole, EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 
 const NOT_FOUND_ROUTE_NAME = 'NotFound'
@@ -12,6 +12,7 @@ const UNKNOWN_PATH = '/this-page-does-not-exist'
 interface UserState {
   isLoggedIn: boolean
   categories: EUserCategory[]
+  roles: ERole[]
   activeProfileCategory: EUserCategory
   hasAcceptedLatestCgu: boolean
 }
@@ -24,6 +25,7 @@ interface SetupOptions extends Partial<UserState> {
 const DEFAULT_USER: UserState = {
   isLoggedIn: true,
   categories: [EUserCategory.STUDENT],
+  roles: Object.values(ERole),
   activeProfileCategory: EUserCategory.STUDENT,
   hasAcceptedLatestCgu: true,
 }
@@ -36,6 +38,7 @@ const { mockEnsureSession, mockSwitchProfile, mockUseCurrentUserSession } = vi.h
 
 const mockIsLoggedIn = ref(true)
 const mockCategories = ref<EUserCategory[]>([])
+const mockRoles = ref<ERole[]>([])
 const mockActiveProfileCategory = ref<EUserCategory>(EUserCategory.STUDENT)
 const mockHasAcceptedLatestCgu = ref(true)
 
@@ -54,6 +57,7 @@ vi.mock('@/features/auth/global/composables/use-current-user-session/use-current
 
     return {
       categories: mockCategories,
+      roles: mockRoles,
       profile: {
         activeCategory: mockActiveProfileCategory,
         switch: mockSwitchProfile
@@ -72,9 +76,10 @@ const getCurrentRoute = () => router.currentRoute.value
 const getCurrentRouteName = () => getCurrentRoute().name
 
 BddTest().given('the application router', () => {
-  const applyUserState = ({ isLoggedIn, categories, activeProfileCategory, hasAcceptedLatestCgu }: UserState) => {
+  const applyUserState = ({ isLoggedIn, categories, roles, activeProfileCategory, hasAcceptedLatestCgu }: UserState) => {
     mockIsLoggedIn.value = isLoggedIn
     mockCategories.value = categories
+    mockRoles.value = roles
     mockActiveProfileCategory.value = activeProfileCategory
     mockHasAcceptedLatestCgu.value = hasAcceptedLatestCgu
   }
@@ -193,6 +198,43 @@ BddTest().given('the application router', () => {
 
     BddTest().then('it should send the user to his home route instead of keeping him on the login page', async () => {
       await router.push(ROUTES.STAFF.HOME)
+
+      expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.HOME.name)
+    })
+  })
+
+  BddTest().when('the user lacks every role required by the page', () => {
+    beforeEach(async () => {
+      await setupWith({ roles: [ERole.ROLE_STUDENT_PORTFOLIO] })
+    })
+
+    BddTest().then('it should keep the user on the current page', async () => {
+      const failure = await router.push(ROUTES.STUDENT.ACTIVITIES)
+
+      expect(isNavigationFailure(failure, NavigationFailureType.aborted)).toBe(true)
+      expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.CGU.name)
+    })
+
+    BddTest().then('it should let the user reach a page requiring one of his roles', async () => {
+      await router.push(ROUTES.STUDENT.SKILLS)
+
+      expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.SKILLS.name)
+    })
+
+    BddTest().then('it should let the user reach a page requiring no role', async () => {
+      await router.push(ROUTES.STUDENT.DELIVERABLES)
+
+      expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.DELIVERABLES.name)
+    })
+  })
+
+  BddTest().when('the user lacks every role required by the page of the first navigation', () => {
+    beforeEach(async () => {
+      await setupWith({ roles: [], isFirstNavigation: true })
+    })
+
+    BddTest().then('it should send the user to his home route', async () => {
+      await router.push(ROUTES.STUDENT.ACTIVITIES)
 
       expect(getCurrentRouteName()).toBe(ROUTES.STUDENT.HOME.name)
     })

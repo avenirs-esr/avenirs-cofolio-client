@@ -17,6 +17,8 @@ const HOME = 'ACCUEIL'
 const STUDENT_FEEDBACKS = 'Toutes mes demandes de feedback'
 const STUDENT_TRACKING = 'SUIVI DES APPRENANTS'
 
+const DEFAULT_ROLES = [ERole.ROLE_STAFF, ERole.ROLE_STAFF_ACTIVITY_VIEWER, ERole.ROLE_STAFF_FEEDBACK_RESPONDER]
+
 const mockRoles = ref<ERole[]>([])
 
 vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
@@ -30,7 +32,7 @@ BddTest().given('a staff navigation', () => {
 
   const stubs = { AvNavigation: AvNavigationStub }
 
-  const mountWith = async (roles: ERole[] = [ERole.ROLE_STAFF]) => {
+  const mountWith = async (roles: ERole[] = DEFAULT_ROLES) => {
     vi.clearAllMocks()
     mockRoles.value = roles
 
@@ -105,7 +107,7 @@ BddTest().given('a staff navigation', () => {
 
   BddTest().when('the component is mounted while the user is an admin', () => {
     beforeEach(async () => {
-      await mountWith([ERole.ROLE_STAFF, ERole.ROLE_ADMIN])
+      await mountWith([...DEFAULT_ROLES, ERole.ROLE_ADMIN])
     })
 
     BddTest().then('it should include the admin menu with correct title and correct amount of links', () => {
@@ -150,6 +152,16 @@ BddTest().given('a staff navigation', () => {
       const items = getNavItems()
       expect(items).toHaveLength(3)
       expect(items.some(navItem => navItem.id === 'nav-admin-menu')).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted by a user without the activities and feedbacks roles', () => {
+    beforeEach(async () => {
+      await mountWith([ERole.ROLE_STAFF])
+    })
+
+    BddTest().then('it should only include the home navigation item', () => {
+      expect(getNavItems().map(navItem => navItem.id)).toEqual(['nav-home'])
     })
   })
 })
