@@ -14,7 +14,7 @@
     "build-only": "pnpm --parallel --filter './apps/*' run build-only",
     "build:development": "pnpm --parallel --filter './apps/*' run build:development",
     "build-only:development": "pnpm --parallel --filter './apps/*' run build-only:development",
-    "clean:dist": "pnpm --dir apps/avenirs-cofolio-client run clean:dist",
+    "clean:dist": "pnpm --parallel run clean:dist",
     "preview": "pnpm --parallel --filter './apps/*' run preview",
     "preview:development": "pnpm --parallel --filter './apps/*' run preview:development",
     "type-check": "pnpm --parallel --filter './apps/*' run type-check",

@@ -5,7 +5,9 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "node_modules/@avenirs-esr/avenirs-dsav/*": ["./node_modules/@avenirs-esr/avenirs-dsav/*"],
+      "node_modules/vitest/*": ["./node_modules/vitest/*"]
     },
     "types": []
   },
