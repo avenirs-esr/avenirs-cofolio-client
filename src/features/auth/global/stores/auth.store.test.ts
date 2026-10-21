@@ -675,7 +675,6 @@ BddTest().given('an auth store with the persistence plugin', () => {
     beforeEach(() => {
       localStorage.setItem(AUTH_SESSION_KEY, JSON.stringify({ session: mockedLoggedInUser }))
       localStorage.setItem(AUTH_PREFS_KEY, JSON.stringify({ selectedUserCategory: EUserCategory.STUDENT }))
-      server.use(meUnauthorizedHandler)
       store = createStore()
     })
 
@@ -685,9 +684,16 @@ BddTest().given('an auth store with the persistence plugin', () => {
       expect(store.selectedUserCategory).toBe(EUserCategory.STUDENT)
     })
 
-    BddTest().then('it should trust the restored session without calling the api', async () => {
+    BddTest().then('it should confirm the restored session with the api, then trust it for the next navigations', async () => {
       expect(await store.ensureSession(TARGET)).toBeUndefined()
-      expect(getMe).not.toHaveBeenCalled()
+      expect(await store.ensureSession(TARGET)).toBeUndefined()
+      expect(getMe).toHaveBeenCalledTimes(1)
+    })
+
+    BddTest().then('it should send the user to login when the api answers 401', async () => {
+      server.use(meUnauthorizedHandler)
+      expect(await store.ensureSession(TARGET)).toEqual({ name: ROUTES.AUTH.LOGIN.name, query: { redirect: TARGET } })
+      expect(store.isLoggedIn).toBe(false)
     })
   })
 
