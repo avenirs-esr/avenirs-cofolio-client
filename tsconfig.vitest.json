@@ -6,6 +6,7 @@
     "lib": [],
     "paths": {
       "@/*": ["./src/*"],
+      "node_modules/*": ["./node_modules/*"],
       "tests/*": ["./tests/*"],
       "vue": ["./node_modules/vue"],
       "vue-router": ["./node_modules/vue-router"],
