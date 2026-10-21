@@ -1,6 +1,6 @@
 import type { AcceptedCguDTO, EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
-import { INVALID_USER_CATEGORY, ROLE_USER_CATEGORY, USER_CATEGORY_HOME, USER_CATEGORY_PRIORITY } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session.constants'
+import { INVALID_USER_CATEGORY, UNIVERSE_USER_CATEGORY, USER_CATEGORY_HOME, USER_CATEGORY_PRIORITY } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session.constants'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 
 /**
@@ -18,8 +18,9 @@ export function useCurrentUserSession () {
   }
 
   const roles = computed(() => session.value?.roles ?? [])
+  const universes = computed(() => session.value?.universes ?? [])
   const categories = computed(() =>
-    [...new Set(roles.value.map(role => ROLE_USER_CATEGORY[role]))]
+    [...new Set(universes.value.map(universe => UNIVERSE_USER_CATEGORY[universe]))]
       .sort((a, b) => USER_CATEGORY_PRIORITY[a] - USER_CATEGORY_PRIORITY[b])
       .filter(category => Boolean(category))
   )
@@ -54,6 +55,7 @@ export function useCurrentUserSession () {
 
   return {
     roles,
+    universes,
     categories,
     profile: {
       defaultCategory: defaultProfileCategory,

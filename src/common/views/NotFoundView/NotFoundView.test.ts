@@ -4,9 +4,9 @@ import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent, mountComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { mockedLoggedInUser } from '@/__mocks__/msw/handlers/shared/generic.handlers'
-import { ERole, EUserCategory } from '@/api/avenir-esr'
+import { EUniverse, EUserCategory } from '@/api/avenir-esr'
 import NotFoundView from '@/common/views/NotFoundView/NotFoundView.vue'
-import { ROLE_USER_CATEGORY } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session.constants'
+import { UNIVERSE_USER_CATEGORY } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session.constants'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 
@@ -27,8 +27,8 @@ vi.mock('@/store', () => ({
   })
 }))
 
-function rolesOf (category: EUserCategory) {
-  return Object.values(ERole).filter(role => ROLE_USER_CATEGORY[role] === category)
+function universesOf (category: EUserCategory) {
+  return Object.values(EUniverse).filter(universe => UNIVERSE_USER_CATEGORY[universe] === category)
 }
 
 BddTest().given('a not found view displayed to a logged-in user', () => {
@@ -79,7 +79,7 @@ BddTest().given('a not found view displayed to a logged-in user', () => {
   for (const category of Object.values(EUserCategory)) {
     BddTest().when(`the view is mounted for a user of the ${category} category`, () => {
       beforeEach(() => {
-        mountWith({ roles: rolesOf(category) })
+        mountWith({ universes: universesOf(category) })
       })
 
       BddTest().then('it should link the button to the home route returned by useCurrentUser', () => {

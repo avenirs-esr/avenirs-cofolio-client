@@ -5,7 +5,7 @@ import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { mockedAcceptedCgu, mockedOutdatedAcceptedCgu } from '@/__mocks__/fixtures/shared/cgu.fixtures'
 import { meAs, mockedLoggedInUser } from '@/__mocks__/msw/handlers/shared/generic.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { ERole, EUserCategory } from '@/api/avenir-esr'
+import { EUniverse, EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { useCurrentUserSession } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session'
 import { INVALID_USER_CATEGORY } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session.constants'
@@ -102,17 +102,17 @@ BddTest().given('the current user session composable with the API served by MSW'
     })
   })
 
-  BddTest().when('a user with only the STUDENT role is logged in', () => {
+  BddTest().when('a user with only the STUDENT universe is logged in', () => {
     beforeEach(async () => {
       await loginWith({
         user: {
-          roles: [ERole.ROLE_STUDENT]
+          universes: [EUniverse.STUDENT]
         }
       })
     })
 
     BddTest().then('it should expose the student category only', () => {
-      expect(currentUserSession.roles.value).toEqual([ERole.ROLE_STUDENT])
+      expect(currentUserSession.universes.value).toEqual([EUniverse.STUDENT])
       expect(currentUserSession.categories.value).toEqual([EUserCategory.STUDENT])
       expect(currentUserSession.profile.canSwitch.value).toBe(false)
     })
@@ -124,17 +124,17 @@ BddTest().given('the current user session composable with the API served by MSW'
     })
   })
 
-  BddTest().when('a user with only the STAFF role is logged in', () => {
+  BddTest().when('a user with only the STAFF universe is logged in', () => {
     beforeEach(async () => {
       await loginWith({
         user: {
-          roles: [ERole.ROLE_STAFF]
+          universes: [EUniverse.STAFF]
         }
       })
     })
 
     BddTest().then('it should expose the staff category only', () => {
-      expect(currentUserSession.roles.value).toEqual([ERole.ROLE_STAFF])
+      expect(currentUserSession.universes.value).toEqual([EUniverse.STAFF])
       expect(currentUserSession.categories.value).toEqual([EUserCategory.STAFF])
       expect(currentUserSession.profile.canSwitch.value).toBe(false)
     })
@@ -146,17 +146,17 @@ BddTest().given('the current user session composable with the API served by MSW'
     })
   })
 
-  BddTest().when('a user with only the ADMIN role is logged in', () => {
+  BddTest().when('a user with a STAFF universe is logged in', () => {
     beforeEach(async () => {
       await loginWith({
         user: {
-          roles: [ERole.ROLE_ADMIN]
+          universes: [EUniverse.STAFF]
         }
       })
     })
 
     BddTest().then('it should expose the staff category only', () => {
-      expect(currentUserSession.roles.value).toEqual([ERole.ROLE_ADMIN])
+      expect(currentUserSession.universes.value).toEqual([EUniverse.STAFF])
       expect(currentUserSession.categories.value).toEqual([EUserCategory.STAFF])
       expect(currentUserSession.profile.canSwitch.value).toBe(false)
     })
@@ -167,11 +167,11 @@ BddTest().given('the current user session composable with the API served by MSW'
     })
   })
 
-  BddTest().when('a user without any role is logged in', () => {
+  BddTest().when('a user without any universe is logged in', () => {
     beforeEach(async () => {
       await loginWith({
         user: {
-          roles: []
+          universes: []
         }
       })
     })
@@ -183,13 +183,13 @@ BddTest().given('the current user session composable with the API served by MSW'
     })
   })
 
-  BddTest().when('a user with every role is logged in', () => {
+  BddTest().when('a user with every universe is logged in', () => {
     beforeEach(async () => {
       await loginWith()
     })
 
     BddTest().then('it should expose every category once, by priority', () => {
-      expect(currentUserSession.roles.value).toEqual(mockedLoggedInUser.roles)
+      expect(currentUserSession.universes.value).toEqual(mockedLoggedInUser.universes)
       expect(currentUserSession.categories.value).toEqual([EUserCategory.STAFF, EUserCategory.STUDENT])
       expect(currentUserSession.profile.canSwitch.value).toBe(true)
     })
@@ -222,7 +222,7 @@ BddTest().given('the current user session composable with the API served by MSW'
     beforeEach(async () => {
       await loginWith({
         user: {
-          roles: [ERole.ROLE_STUDENT]
+          universes: [EUniverse.STUDENT]
         }
       })
       await currentUserSession.profile.switch(EUserCategory.STAFF)
@@ -251,7 +251,7 @@ BddTest().given('the current user session composable with the API served by MSW'
     beforeEach(async () => {
       await loginWith({
         user: {
-          roles: [ERole.ROLE_STUDENT]
+          universes: [EUniverse.STUDENT]
         },
         selectedCategory: EUserCategory.STAFF
       })
