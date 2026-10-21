@@ -6,7 +6,8 @@
 
     "paths": {
       "@/*": ["./src/*"],
-      "node_modules/*": ["./node_modules/*"],
+      "node_modules/@avenirs-esr/avenirs-dsav/*": ["./node_modules/@avenirs-esr/avenirs-dsav/*"],
+      "node_modules/vitest/*": ["./node_modules/vitest/*"],
       "vue": ["./node_modules/vue"],
       "vue-router": ["./node_modules/vue-router"],
       "@vue/*": ["./node_modules/@vue/*"]
