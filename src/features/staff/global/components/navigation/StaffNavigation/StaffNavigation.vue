@@ -3,9 +3,9 @@ import type { NavigationMenuProps } from 'node_modules/@avenirs-esr/avenirs-dsav
 import type { NavigationMenuLinkProps } from 'node_modules/@avenirs-esr/avenirs-dsav/dist/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
 import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { ERole } from '@/api/avenir-esr'
 import { ICONS, ROUTES } from '@/common/constants'
-import { isRouteActive } from '@/common/utils/route/route'
+import { ROUTE_ROLES } from '@/common/constants/route-roles'
+import { hasSomeRole, isRouteActive } from '@/common/utils/route/route'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
 import { staffAdminGroupsRoute, staffAdminRoutes, staffAdminSkillsRoute, staffAdminUsersRoute } from '@/features/staff/admin/routes'
@@ -67,17 +67,23 @@ const navItems = computed(() => {
       text: t('staff.global.navigation.tabs.home').toUpperCase(),
       icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
     },
-    {
+  ]
+
+  if (hasSomeRole(roles.value, ROUTE_ROLES.STAFF.ACTIVITIES)) {
+    items.push({
       id: 'nav-activities',
       to: ROUTES.STAFF.ACTIVITIES,
       text: t('staff.global.navigation.tabs.activities.header').toUpperCase(),
       icon: ICONS.ACTIVITY,
       highlight: isRouteActive({ route, routes: staffActivitiesRoutes }),
-    },
-    studentTrackingMenu.value,
-  ]
+    })
+  }
 
-  if (roles.value.includes(ERole.ROLE_ADMIN)) {
+  if (hasSomeRole(roles.value, ROUTE_ROLES.STAFF.FEEDBACKS)) {
+    items.push(studentTrackingMenu.value)
+  }
+
+  if (hasSomeRole(roles.value, ROUTE_ROLES.STAFF.ADMIN)) {
     items.push(adminMenu.value)
   }
 

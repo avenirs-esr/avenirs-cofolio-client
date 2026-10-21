@@ -3,6 +3,7 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
+import { ERole } from '@/api/avenir-esr'
 import { ProfileCardStub } from '@/common/components/cards/ProfileCard/ProfileCard.stub'
 import { UpdateProfileDrawerStub } from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import { TutorialStub } from '@/common/components/overlay/tooltips/Tutorial/Tutorial.stub'
@@ -15,6 +16,7 @@ const mockIsProfileLoading = ref(false)
 
 vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
   useCurrentUser: () => ({
+    roles: ref(Object.values(ERole)),
     profile: {
       isLoading: mockIsProfileLoading,
       data: mockProfile

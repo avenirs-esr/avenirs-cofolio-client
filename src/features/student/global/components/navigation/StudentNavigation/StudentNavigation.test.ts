@@ -3,9 +3,16 @@ import { registerNavigationLinkKey } from '@avenirs-esr/avenirs-dsav'
 import { AvNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'
+import { ERole } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import StudentNavigation from '@/features/student/global/components/navigation/StudentNavigation/StudentNavigation.vue'
 import router from '@/router'
+
+const mockRoles = ref<ERole[]>(Object.values(ERole))
+
+vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
+  useCurrentUser: () => ({ roles: mockRoles })
+}))
 
 BddTest().given('a student navigation', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentNavigation>>
@@ -30,6 +37,7 @@ BddTest().given('a student navigation', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockRoles.value = Object.values(ERole)
   })
 
   BddTest().when('the navigation is mounted', () => {
@@ -80,6 +88,18 @@ BddTest().given('a student navigation', () => {
         text: 'MES COMPÉTENCES',
         to: expect.objectContaining(ROUTES.STUDENT.SKILLS),
       })
+    })
+  })
+
+  BddTest().when('the navigation is mounted by a user holding only the activities role', () => {
+    beforeEach(async () => {
+      mockRoles.value = [ERole.ROLE_STUDENT, ERole.ROLE_STUDENT_ACTIVITY]
+      wrapper = await mountDefault()
+    })
+
+    BddTest().then('it should only include the home and activities items', () => {
+      const navItems = wrapper.findComponent({ name: 'AvNavigation' }).props('navItems')
+      expect(navItems.map((navItem: { id: string }) => navItem.id)).toEqual(['nav-home', 'nav-activities'])
     })
   })
 })

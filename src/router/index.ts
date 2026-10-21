@@ -1,6 +1,7 @@
 import type { EUserCategory } from '@/api/avenir-esr'
 import { createRouter, createWebHistory } from 'vue-router'
 import { ROUTES } from '@/common/constants'
+import { hasSomeRole } from '@/common/utils/route/route'
 import { useCurrentUserSession } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session'
 import { resolveCguRedirect } from '@/features/auth/global/guards/cgu.guard'
 import authRoutes from '@/features/auth/global/routes'
@@ -76,7 +77,7 @@ router.beforeEach(async (to, from) => { // Cf. https://github.com/vueuse/head po
       return toAuth
     }
 
-    const { categories, profile, homeRoute, cgu } = useCurrentUserSession()
+    const { categories, roles, profile, homeRoute, cgu } = useCurrentUserSession()
 
     if (to.name === 'home') {
       return homeRoute.value
@@ -98,6 +99,12 @@ router.beforeEach(async (to, from) => { // Cf. https://github.com/vueuse/head po
       if (!accessibleCategories.includes(profile.activeCategory.value)) {
         profile.switch(accessibleCategories[0])
       }
+    }
+
+    if (!hasSomeRole(roles.value, to.meta.requiredRoles)) {
+      return from.matched.length && from.name !== ROUTES.AUTH.LOGIN.name
+        ? false
+        : homeRoute.value
     }
 
     const cguRedirect = resolveCguRedirect(to, cgu.hasAcceptedLatest.value)

@@ -1,6 +1,8 @@
 import { EUserCategory } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
+import { ROUTE_ROLES } from '@/common/constants/route-roles'
+import { withRequiredRoles } from '@/common/utils/route/route'
 import { studentActivitiesRoutes } from '@/features/student/activities/routes'
 import { projectBuildProjectRoutes } from '@/features/student/buildProject/routes'
 import { studentProjectDeclaredSkillRoute, studentUpdateDeclaredSkillRoute } from '@/features/student/declaredSkills/routes'
@@ -66,25 +68,31 @@ export default [
         component: () => import('@/common/views/PersonalDataView/PersonalDataView.vue'),
         meta: { breadcrumb },
       },
-      studentProjectDeclaredSkillRoute,
-      studentSkillsRoute,
-      declaredProgramRoute,
-      declaredProgramUpdateRoute,
-      personalCareerRoute,
-      declaredExperienceRoute,
-      declaredExperienceUpdateRoute,
-      ...studentActivitiesRoutes,
-      ...projectBuildProjectRoutes,
-      ...studentToolsKitRoutes,
-      ...studentTracesRoutes,
-      studentSelfKnowledgeCategoryRoute,
-      studentSelfKnowledgeElementUpdateRoute,
-      studentToolsKitRoute,
-      studentToolsTracesRoute,
-      studentToolsTraceRoute,
-      studentToolsUpdateTraceRoute,
-      studentTraceRoute,
-      studentUpdateDeclaredSkillRoute,
+      ...withRequiredRoles(
+        ROUTE_ROLES.STUDENT.PORTFOLIO,
+        studentProjectDeclaredSkillRoute,
+        studentSkillsRoute,
+        declaredProgramRoute,
+        declaredProgramUpdateRoute,
+        personalCareerRoute,
+        declaredExperienceRoute,
+        declaredExperienceUpdateRoute,
+        ...projectBuildProjectRoutes,
+        ...studentTracesRoutes,
+        studentSelfKnowledgeCategoryRoute,
+        studentSelfKnowledgeElementUpdateRoute,
+        studentUpdateDeclaredSkillRoute,
+        studentTraceRoute,
+      ),
+      ...withRequiredRoles(ROUTE_ROLES.STUDENT.ACTIVITIES, ...studentActivitiesRoutes),
+      ...withRequiredRoles(
+        ROUTE_ROLES.STUDENT.TOOLS,
+        ...studentToolsKitRoutes,
+        studentToolsKitRoute,
+        studentToolsTracesRoute,
+        studentToolsTraceRoute,
+        studentToolsUpdateTraceRoute,
+      ),
 
       {
         ...ROUTES.STUDENT.ABOUT,
