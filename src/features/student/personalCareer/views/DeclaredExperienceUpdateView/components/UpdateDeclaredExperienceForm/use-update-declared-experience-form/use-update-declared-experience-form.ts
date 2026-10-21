@@ -1,6 +1,6 @@
 import type { DeclaredExperienceRequest, DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
-import type { DeclaredExperienceFormData } from '@/features/student/personalCareer/types/forms.types'
+import type { DeclaredExperienceFormData, DeclaredExperienceFormDataApi } from '@/features/student/personalCareer/types/forms.types'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
@@ -89,21 +89,77 @@ export function useUpdateDeclaredExperienceForm (
   const form = useForm({
     defaultValues: toFormData(declaredExperience),
     validators: {
-      onChange ({ value }: { value: DeclaredExperienceFormData }) {
+      onChange ({
+        value,
+        formApi,
+      }: {
+        value: DeclaredExperienceFormData
+        formApi: DeclaredExperienceFormDataApi
+      }) {
+        const isTouched = (field: keyof DeclaredExperienceFormData) =>
+          formApi.getFieldMeta(field)?.isTouched ?? true
+
+        const startDateError = validators.validateStartDate(value.startDate)
+
         return {
           fields: {
-            title: validators.validateTitleMaxLength(value.title),
-            type: validators.validateTypeRequired(value.type),
-            organization: validators.validateOrganizationMaxLength(value.organization),
-            activitySector: validators.validateActivitySector(value.activitySector),
-            location: validators.validateLocation(value.location),
-            result: validators.validateResult(value.result),
-            sourceOfInformation: validators.validateSourceOfInformation(value.sourceOfInformation),
-            description: validators.validateDescription(value.description),
-            summary: validators.validateSummary(value.summary),
-            externalLink: validators.validateExternalLink(value.externalLink)
-          }
+            title: isTouched('title')
+              ? validators.validateTitle(value.title)
+              : undefined,
+
+            type: isTouched('type')
+              ? validators.validateTypeRequired(value.type)
+              : undefined,
+
+            organization: isTouched('organization')
+              ? validators.validateOrganization(value.organization)
+              : undefined,
+
+            activitySector: isTouched('activitySector')
+              ? validators.validateActivitySector(value.activitySector)
+              : undefined,
+
+            location: isTouched('location')
+              ? validators.validateLocation(value.location)
+              : undefined,
+
+            result: isTouched('result')
+              ? validators.validateResult(value.result)
+              : undefined,
+
+            startDate: isTouched('startDate')
+              ? startDateError
+              : undefined,
+
+            endDate:
+        isTouched('endDate') && !startDateError
+          ? validators.validateEndDate(
+              value.endDate,
+              value.startDate,
+              { isRequired: !value.isOngoing }
+            )
+          : undefined,
+
+            sourceOfInformation: isTouched('sourceOfInformation')
+              ? validators.validateSourceOfInformation(value.sourceOfInformation)
+              : undefined,
+
+            description: isTouched('description')
+              ? validators.validateDescription(value.description)
+              : undefined,
+
+            summary: isTouched('summary')
+              ? validators.validateSummary(value.summary)
+              : undefined,
+
+            externalLink: isTouched('externalLink')
+              ? validators.validateExternalLink(value.externalLink)
+              : undefined,
+          },
         }
+      },
+      onBlur: ({ formApi }) => {
+        formApi.validate('change')
       },
       onSubmit ({ value }: { value: DeclaredExperienceFormData }) {
         return {

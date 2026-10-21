@@ -49,3 +49,4 @@ export interface DeclaredExperienceFormData {
   valorized: boolean
   associationSelections?: AssociationSelections
 }
+export type DeclaredExperienceFormDataApi = AnyFormApi<DeclaredExperienceFormData>

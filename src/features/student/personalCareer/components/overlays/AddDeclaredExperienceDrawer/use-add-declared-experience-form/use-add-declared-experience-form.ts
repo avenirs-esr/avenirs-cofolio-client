@@ -67,21 +67,56 @@ export function useAddDeclaredExperienceForm (onExperienceAdded?: () => void) {
       associationSelections: {}
     } as DeclaredExperienceFormData,
     validators: {
-      onChange ({ value }: { value: DeclaredExperienceFormData }) {
+      onChange: ({ value, formApi }) => {
+        const isTouched = (field: keyof DeclaredExperienceFormData) =>
+          formApi.getFieldMeta(field)?.isTouched ?? true
+
         return {
           fields: {
-            title: validators.validateTitleMaxLength(value.title),
-            type: validators.validateTypeRequired(value.type),
-            organization: validators.validateOrganizationMaxLength(value.organization),
-            activitySector: validators.validateActivitySector(value.activitySector),
-            location: validators.validateLocation(value.location),
-            result: validators.validateResult(value.result),
-            sourceOfInformation: validators.validateSourceOfInformation(value.sourceOfInformation),
-            description: validators.validateDescription(value.description),
-            summary: validators.validateSummary(value.summary),
-            externalLink: validators.validateExternalLinkMaxLength(value.externalLink)
-          }
+            title: isTouched('title')
+              ? validators.validateTitle(value.title)
+              : undefined,
+
+            type: isTouched('type')
+              ? validators.validateTypeRequired(value.type)
+              : undefined,
+
+            organization: isTouched('organization')
+              ? validators.validateOrganization(value.organization)
+              : undefined,
+
+            activitySector: isTouched('activitySector')
+              ? validators.validateActivitySector(value.activitySector)
+              : undefined,
+
+            location: isTouched('location')
+              ? validators.validateLocation(value.location)
+              : undefined,
+
+            result: isTouched('result')
+              ? validators.validateResult(value.result)
+              : undefined,
+
+            sourceOfInformation: isTouched('sourceOfInformation')
+              ? validators.validateSourceOfInformation(value.sourceOfInformation)
+              : undefined,
+
+            description: isTouched('description')
+              ? validators.validateDescription(value.description)
+              : undefined,
+
+            summary: isTouched('summary')
+              ? validators.validateSummary(value.summary)
+              : undefined,
+
+            externalLink: isTouched('externalLink')
+              ? validators.validateExternalLinkMaxLength(value.externalLink)
+              : undefined,
+          },
         }
+      },
+      onBlur: ({ formApi }) => {
+        formApi.validate('change')
       },
       onSubmit ({ value }: { value: DeclaredExperienceFormData }) {
         return {
