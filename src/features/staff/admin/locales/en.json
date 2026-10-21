@@ -50,9 +50,19 @@
           "title": "Institution skills references"
         },
         "AdminInstitutionUsersView": {
-          "SearchEntityInput": {
-            "entityName": "a user",
-            "entityPlaceholder": "a name, first name or email"
+          "components": {
+            "inputs": {
+              "SearchEntityInput": {
+                "entityName": "a user",
+                "entityPlaceholder": "a name, first name or email"
+              }
+            },
+            "selects": {
+              "InstitutionGroupsMultiselect": {
+                "label": "Filter by groups",
+                "placeholder": "Select one/many group(s)"
+              }
+            }
           },
           "title": "Institution users"
         }
