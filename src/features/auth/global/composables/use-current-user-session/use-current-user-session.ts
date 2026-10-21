@@ -21,6 +21,7 @@ export function useCurrentUserSession () {
   const categories = computed(() =>
     [...new Set(roles.value.map(role => ROLE_USER_CATEGORY[role]))]
       .sort((a, b) => USER_CATEGORY_PRIORITY[a] - USER_CATEGORY_PRIORITY[b])
+      .filter(category => Boolean(category))
   )
 
   const defaultProfileCategory = computed(() => categories.value?.[0] ?? INVALID_USER_CATEGORY)

@@ -40,6 +40,7 @@ const { modalOpened, openModal, closeModal } = useModal()
         theme="SECONDARY"
         :to="USER_CATEGORY_HOME[category]"
         :disabled="category === activeCategory"
+        :disabled-tooltip="t('global.header.switchUniverse.disabledTooltip')"
         :data-testid="`${category}-button`"
         @click="closeModal()"
       />
