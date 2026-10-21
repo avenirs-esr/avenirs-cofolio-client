@@ -54,9 +54,9 @@
     "editor.defaultFormatter": "stylelint.vscode-stylelint"
   },
   "i18n-ally.localesPaths": [
-    "src/locales",
-    "src/features/student/*/locales",
-    "src/features/staff/*/locales"
+    "apps/avenirs-cofolio-client/src/locales",
+    "apps/avenirs-cofolio-client/src/features/student/*/locales",
+    "apps/avenirs-cofolio-client/src/features/staff/*/locales"
   ],
   "i18n-ally.enabledFrameworks": ["vue"],
   "i18n-ally.sourceLanguage": "fr",
@@ -65,10 +65,10 @@
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "cucumberautocomplete.steps": [
-    "e2e/framework/**/*Page.ts",
-    "e2e/framework/shared/fixtures/fixtures.ts",
-    "e2e/framework/**/*.hook.ts"
+    "apps/avenirs-cofolio-client/e2e/framework/**/*Page.ts",
+    "apps/avenirs-cofolio-client/e2e/framework/shared/fixtures/fixtures.ts",
+    "apps/avenirs-cofolio-client/e2e/framework/**/*.hook.ts"
   ],
-  "cucumberautocomplete.syncfeatures": "e2e/tests/**/*.feature",
+  "cucumberautocomplete.syncfeatures": "apps/avenirs-cofolio-client/e2e/tests/**/*.feature",
   "cucumberautocomplete.strictGherkinCompletion": false
 }
