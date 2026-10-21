@@ -38,9 +38,9 @@
       "views": {
         "ActivityFeedbackDetailsView": {
           "ActivityFeedbackStudentSelect": {
-            "nextDisabledTooltip": "You are already viewing the last student",
-            "placeholder": "Select a student",
-            "previousDisabledTooltip": "You are already viewing the first student"
+            "nextDisabledTooltip": "You are already viewing the last learner",
+            "placeholder": "Select a learner",
+            "previousDisabledTooltip": "You are already viewing the first learner"
           },
           "FeedbackManagementFloatingPanel": {
             "tabs": {

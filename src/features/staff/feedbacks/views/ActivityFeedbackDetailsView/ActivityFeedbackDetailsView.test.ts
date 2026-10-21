@@ -107,21 +107,21 @@ BddTest().given('an activity feedback details view', () => {
       expect(wrapper.findAllComponents(QuerySuspenseStub)).toHaveLength(3)
     })
 
-    BddTest().then('it should render the student select', () => {
+    BddTest().then('it should render the learner select', () => {
       expect(wrapper.findComponent(ActivityFeedbackStudentSelectStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should pass the feedbacks to the student select', () => {
+    BddTest().then('it should pass the feedbacks to the learner select', () => {
       const studentSelect = wrapper.findComponent(ActivityFeedbackStudentSelectStub)
 
       expect(studentSelect.props('feedbacks')).toBeDefined()
     })
 
-    BddTest().then('it should render the student perspective card', () => {
+    BddTest().then('it should render the learner perspective card', () => {
       expect(wrapper.findComponent(StudentPerspectiveCardStub).exists()).toBe(true)
     })
 
-    BddTest().then('it should pass the student perspective to the student perspective card', () => {
+    BddTest().then('it should pass the learner perspective to the learner perspective card', () => {
       const studentPerspectiveCard = wrapper.findComponent(StudentPerspectiveCardStub)
 
       expect(studentPerspectiveCard.props('perspective')).toBeDefined()
@@ -180,14 +180,14 @@ BddTest().given('an activity feedback details view', () => {
       expect(wrapper.findAllComponents(QuerySuspenseStub)).toHaveLength(3)
     })
 
-    BddTest().then('it should render the student select with empty feedbacks', () => {
+    BddTest().then('it should render the learner select with empty feedbacks', () => {
       const studentSelect = wrapper.findComponent(ActivityFeedbackStudentSelectStub)
 
       expect(studentSelect.exists()).toBe(true)
       expect(studentSelect.props('feedbacks')).toEqual([])
     })
 
-    BddTest().then('it should not render the student perspective card', () => {
+    BddTest().then('it should not render the learner perspective card', () => {
       expect(wrapper.findComponent(StudentPerspectiveCardStub).exists()).toBe(false)
     })
 

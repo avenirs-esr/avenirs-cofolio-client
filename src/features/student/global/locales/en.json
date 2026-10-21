@@ -20,7 +20,7 @@
       },
       "layout": {
         "header": {
-          "home": "Home - Student CoFolio",
+          "home": "Home - Learner CoFolio",
           "quicklinks": {
             "notifications": "Notifications"
           }
@@ -96,7 +96,7 @@
           "title": "(placeholder) All my events"
         },
         "studentHomeView": {
-          "title": "Cofolio Student Home",
+          "title": "Cofolio Learner Home",
           "widgets": {
             "ActivitiesWidget": {
               "emptyState": {

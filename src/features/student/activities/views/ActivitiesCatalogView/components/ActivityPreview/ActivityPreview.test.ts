@@ -242,7 +242,7 @@ BddTest().given('an activity preview', () => {
     })
   })
 
-  BddTest().when('the component is mounted with an activity the student has unsubscribed from', () => {
+  BddTest().when('the component is mounted with an activity the learner has unsubscribed from', () => {
     const props: ActivityPreviewProps = {
       activity: mockedUnsubscribedActivityDetail
     }

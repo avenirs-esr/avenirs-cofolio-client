@@ -4,7 +4,7 @@ import { mount } from '@vue/test-utils'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import StudentDeliverablesView from '@/features/student/global/views/StudentDeliverablesView/StudentDeliverablesView.vue'
 
-BddTest().given('a student deliverables view', () => {
+BddTest().given('a learner deliverables view', () => {
   let wrapper: VueWrapper
 
   const stubs = { PageTitle: PageTitleStub }

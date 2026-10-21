@@ -136,7 +136,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
     route.name = ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name
   })
 
-  BddTest().when('the component is rendered with feedbacks and a selected student', () => {
+  BddTest().when('the component is rendered with feedbacks and a selected learner', () => {
     beforeEach(() => {
       wrapper = mountComponent(ActivityFeedbackStudentSelect, {
         props: {
@@ -147,7 +147,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       })
     })
 
-    BddTest().then('it should render the student select', () => {
+    BddTest().then('it should render the learner select', () => {
       expect(wrapper.find('[data-testid="student-feedback-select"]').exists()).toBe(true)
     })
 
@@ -156,34 +156,34 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       expect(wrapper.find('[data-testid="next-student-button"]').exists()).toBe(true)
     })
 
-    BddTest().then('it should pass the student options to the select', () => {
+    BddTest().then('it should pass the learner options to the select', () => {
       expect(getSelect().props('options')).toEqual(expectedOptions)
     })
 
-    BddTest().then('it should select the student matching the selected student id', () => {
+    BddTest().then('it should select the learner matching the selected student id', () => {
       expect(getSelect().props('modelValue')).toEqual(expectedOptions[0])
     })
 
-    BddTest().then('it should display the selected student programs and email', () => {
+    BddTest().then('it should display the selected learner programs and email', () => {
       expect(getDetails().text()).toBe('Licence Informatique, Licence Mathématiques • lucas.tessier@test.fr')
     })
 
-    BddTest().then('it should disable the previous button (first student in the list)', () => {
+    BddTest().then('it should disable the previous button (first learner in the list)', () => {
       expect(getPreviousButton()!.props('disabled')).toBe(true)
     })
 
     BddTest().then('it should explain why the previous button is disabled', () => {
-      expect(getPreviousButton()!.props('disabledTooltip')).toBe('Vous consultez déjà le premier étudiant')
+      expect(getPreviousButton()!.props('disabledTooltip')).toBe('Vous consultez déjà le premier apprenant')
     })
 
-    BddTest().then('it should link the next button to the next student on the student tracking route', () => {
+    BddTest().then('it should link the next button to the next learner on the student tracking route', () => {
       expect(getNextButton()!.props('to')).toEqual({
         name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
         params: { feedbackId: 'feedback-2' },
       })
     })
 
-    BddTest().and('the user selects another student', () => {
+    BddTest().and('the user selects another learner', () => {
       beforeEach(async () => {
         await getSelect().vm.$emit('update:modelValue', {
           value: 'student-2',
@@ -191,7 +191,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
         })
       })
 
-      BddTest().then('it should navigate to that student feedback on the student tracking route', () => {
+      BddTest().then('it should navigate to that learner feedback on the student tracking route', () => {
         expect(navigateToStaffStudentTrackingActivityFeedbackDetailsMock).toHaveBeenCalledTimes(1)
         expect(navigateToStaffStudentTrackingActivityFeedbackDetailsMock).toHaveBeenCalledWith({
           feedbackId: 'feedback-2',
@@ -215,7 +215,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       beforeEach(async () => {
         await getSelect().vm.$emit('update:modelValue', {
           value: 'unknown-student',
-          label: 'Étudiant inconnu',
+          label: 'Apprenant inconnu',
         })
       })
 
@@ -242,7 +242,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
     })
   })
 
-  BddTest().when('the component is rendered outside the student tracking route (staff home)', () => {
+  BddTest().when('the component is rendered outside the learner tracking route (staff home)', () => {
     beforeEach(() => {
       route.name = ROUTES.STAFF.ACTIVITY_FEEDBACK.name
 
@@ -262,7 +262,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       })
     })
 
-    BddTest().and('the user selects another student', () => {
+    BddTest().and('the user selects another learner', () => {
       beforeEach(async () => {
         await getSelect().vm.$emit('update:modelValue', {
           value: 'student-2',
@@ -280,7 +280,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
     })
   })
 
-  BddTest().when('the selected student is the last one in the list', () => {
+  BddTest().when('the selected learner is the last one in the list', () => {
     beforeEach(() => {
       wrapper = mountComponent(ActivityFeedbackStudentSelect, {
         props: {
@@ -296,10 +296,10 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
     })
 
     BddTest().then('it should explain why the next button is disabled', () => {
-      expect(getNextButton()!.props('disabledTooltip')).toBe('Vous consultez déjà le dernier étudiant')
+      expect(getNextButton()!.props('disabledTooltip')).toBe('Vous consultez déjà le dernier apprenant')
     })
 
-    BddTest().then('it should link the previous button to the previous student', () => {
+    BddTest().then('it should link the previous button to the previous learner', () => {
       expect(getPreviousButton()!.props('to')).toEqual({
         name: ROUTES.STAFF.STUDENT_TRACKING.ACTIVITY_FEEDBACK.name,
         params: { feedbackId: 'feedback-1' },
@@ -311,7 +311,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
     })
   })
 
-  BddTest().when('the selected student has an empty programs list', () => {
+  BddTest().when('the selected learner has an empty programs list', () => {
     beforeEach(() => {
       wrapper = mountComponent(ActivityFeedbackStudentSelect, {
         props: {
@@ -327,7 +327,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
     })
   })
 
-  BddTest().when('no student is selected', () => {
+  BddTest().when('no learner is selected', () => {
     beforeEach(() => {
       wrapper = mountComponent(ActivityFeedbackStudentSelect, {
         props: {
@@ -337,7 +337,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       })
     })
 
-    BddTest().then('it should not display the student details', () => {
+    BddTest().then('it should not display the learner details', () => {
       expect(getDetails().exists()).toBe(false)
       expect(wrapper.text()).not.toContain('lucas.tessier@test.fr')
       expect(wrapper.text()).not.toContain('Licence Informatique')
@@ -349,7 +349,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
     })
   })
 
-  BddTest().when('the selected student id does not match any known student', () => {
+  BddTest().when('the selected learner id does not match any known student', () => {
     beforeEach(() => {
       wrapper = mountComponent(ActivityFeedbackStudentSelect, {
         props: {
@@ -360,7 +360,7 @@ BddTest().given('an ActivityFeedbackStudentSelect component', () => {
       })
     })
 
-    BddTest().then('it should not display any student details', () => {
+    BddTest().then('it should not display any learner details', () => {
       expect(getDetails().exists()).toBe(false)
       expect(wrapper.text()).not.toContain('lucas.tessier@test.fr')
       expect(wrapper.text()).not.toContain('john.doe@test.fr')

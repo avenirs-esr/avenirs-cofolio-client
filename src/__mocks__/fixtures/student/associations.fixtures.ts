@@ -149,8 +149,8 @@ export const mockedTraceDeclaredActivityAssociations: DeclaredActivityAssociatio
       title: 'Définir ses valeurs',
       thematic: EActivityThematic.SELF_KNOWLEDGE,
       status: EDeclaredActivityStatus.IN_PROGRESS,
-      summary: 'Activité faisant partie de la catégorie Connaissance de soi. Elle permet à l\'étudiant.e d\'identifier les valeurs essentielles qui orientent ses choix et d\'analyser la manière dont elles se traduisent dans ses comportements quotidiens. Cette réflexion constitue une base structurante pour construire un projet personnel et professionnel cohérent.',
-      description: '<h3>Objectifs</h3><ul><li>Identifier les valeurs qui guident les choix de l\'étudiant.e</li><li>Analyser comment ces valeurs se manifestent dans les comportements quotidiens</li><li>Utiliser cette connaissance de soi pour construire un projet personnel et professionnel cohérent</li></ul>',
+      summary: 'Activité faisant partie de la catégorie Connaissance de soi. Elle permet à l\'apprenant.e d\'identifier les valeurs essentielles qui orientent ses choix et d\'analyser la manière dont elles se traduisent dans ses comportements quotidiens. Cette réflexion constitue une base structurante pour construire un projet personnel et professionnel cohérent.',
+      description: '<h3>Objectifs</h3><ul><li>Identifier les valeurs qui guident les choix de l\'apprenant.e</li><li>Analyser comment ces valeurs se manifestent dans les comportements quotidiens</li><li>Utiliser cette connaissance de soi pour construire un projet personnel et professionnel cohérent</li></ul>',
       startDate: '2025-01-10',
       endDate: '2025-01-20',
     },
@@ -163,8 +163,8 @@ export const mockedTraceDeclaredActivityAssociations: DeclaredActivityAssociatio
       title: 'Explorer ses pistes d\'orientation',
       thematic: EActivityThematic.FUTURE_PLANS,
       status: EDeclaredActivityStatus.SUBSCRIBED,
-      summary: 'Activité centrée sur l\'exploration des futurs possibles. L\'étudiant.e identifie différents domaines professionnels susceptibles de correspondre à son profil et analyse les conditions d\'accès, les environnements de travail et les perspectives d\'évolution associées.',
-      description: '<h3>Objectifs</h3><ul><li>Identifier différents domaines professionnels correspondant au profil de l\'étudiant.e</li><li>Analyser les conditions d\'accès, les environnements de travail et les perspectives d\'évolution associées à ces domaines</li><li>Utiliser ces informations pour affiner son projet professionnel</li></ul>',
+      summary: 'Activité centrée sur l\'exploration des futurs possibles. L\'apprenant.e identifie différents domaines professionnels susceptibles de correspondre à son profil et analyse les conditions d\'accès, les environnements de travail et les perspectives d\'évolution associées.',
+      description: '<h3>Objectifs</h3><ul><li>Identifier différents domaines professionnels correspondant au profil de l\'apprenant.e</li><li>Analyser les conditions d\'accès, les environnements de travail et les perspectives d\'évolution associées à ces domaines</li><li>Utiliser ces informations pour affiner son projet professionnel</li></ul>',
     }
   }
 ]

@@ -4,7 +4,7 @@ import { beforeEach, expect } from 'vitest'
 import { useStudentUserStore } from '@/features/student/user/stores/user.store'
 import { getBrowserLocale, i18n } from '@/plugins/vue-i18n'
 
-BddTest().given('a student user shared store', () => {
+BddTest().given('a learner user shared store', () => {
   let store: ReturnType<typeof useStudentUserStore>
 
   beforeEach(() => {

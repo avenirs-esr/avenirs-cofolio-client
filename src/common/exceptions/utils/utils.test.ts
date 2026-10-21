@@ -34,12 +34,12 @@ BddTest().given('exceptions utils', () => {
     BddTest().when('receiving an unknown error data', () => {
       BddTest().then('it should create an exception', () => {
         const response = { status: 404, statusText: 'Not Found' } as Response
-        const errorData = { message: 'student not found' }
+        const errorData = { message: 'learner not found' }
         const ex = createBasApiExceptionFromResponseBody(response, errorData, 'GET')
         expect(ex).toBeInstanceOf(BaseApiException)
         expect(ex.status).toBe(404)
         expect(ex.code).toBe(BaseApiErrorCode.NOT_FOUND)
-        expect(ex.message).toBe('student not found')
+        expect(ex.message).toBe('learner not found')
         expect(ex.method).toBe('GET')
         expect(ex.details).toBeUndefined()
       })

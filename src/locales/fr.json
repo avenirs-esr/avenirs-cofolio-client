@@ -288,14 +288,14 @@
         "SELF_KNOWLEDGE_CATEGORY_LIST_EMPTY": "La liste des catégories de connaissance de soi est vide",
         "SELF_KNOWLEDGE_CATEGORY_NOT_AVAILABLE": "La catégorie de connaissance de soi n'est pas disponible",
         "SELF_KNOWLEDGE_CATEGORY_NOT_FOUND": "Catégorie de connaissance de soi introuvable",
-        "SELF_KNOWLEDGE_CATEGORY_NOT_LINKED": "La catégorie de connaissance de soi n'est pas liée à l'étudiant",
+        "SELF_KNOWLEDGE_CATEGORY_NOT_LINKED": "La catégorie de connaissance de soi n'est pas liée à l'apprenant",
         "SELF_KNOWLEDGE_ELEMENTS_ARE_NOT_IN_SAME_CATEGORY": "Les éléments de connaissance de soi ne sont pas dans la même catégorie",
         "SELF_KNOWLEDGE_ELEMENT_NOT_FOUND": "Élément de connaissance de soi introuvable",
         "SERVER_ERROR": "Erreur serveur interne",
         "SKILL_LEVEL_NOT_FOUND": "Niveau de compétence introuvable",
         "SKILL_NOT_FOUND": "Compétence introuvable",
-        "STUDENT_DECLARED_ALREADY_EXIST": "Cette compétence déclarée est déjà attribuée à l'étudiant",
-        "STUDENT_PROGRESS_NOT_FOUND": "Progression de l'étudiant introuvable",
+        "STUDENT_DECLARED_ALREADY_EXIST": "Cette compétence déclarée est déjà attribuée à l'apprenant",
+        "STUDENT_PROGRESS_NOT_FOUND": "Progression de l'apprenant introuvable",
         "TITLE_TOO_LONG": "La longueur du titre est trop longue",
         "TOO_LONG": "Le champ dépasse la longueur maximale autorisée",
         "TRACE_NOT_FOUND": "Trace introuvable",
@@ -307,7 +307,7 @@
         "USER_ALREADY_EXISTS": "Utilisateur déjà existant",
         "USER_CATEGORY_NOT_FOUND": "Catégorie d'utilisateur introuvable",
         "USER_IS_NOT_STAFF_EXCEPTION": "L'utilisateur n'est pas un membre du personnel",
-        "USER_IS_NOT_STUDENT_EXCEPTION": "L'utilisateur n'est pas un étudiant",
+        "USER_IS_NOT_STUDENT_EXCEPTION": "L'utilisateur n'est pas un apprenant",
         "USER_NOT_AUTHORIZED": "Utilisateur non autorisé",
         "USER_NOT_FOUND": "Utilisateur introuvable",
         "WRONG_CLASS_TYPE": "Le type de classe doit être différent"
@@ -375,7 +375,7 @@
       "switchUniverse": {
         "label": "Changer d'univers",
         "buttons": {
-          "STUDENT": "Étudiant",
+          "STUDENT": "Apprenant",
           "STAFF": "Enseignant"
         },
         "disabledTooltip": "Vous êtes actuellement dans cet univers"
@@ -520,19 +520,19 @@
         },
         "staff": {
           "draft-activities-widget": {
-            "description": "Elles sont au cœur de l’accompagnement des étudiants. Elles les engagent dans un travail et une prise de recul sur leurs compétences, leur projet de vie, ou autre. Vous pourrez suivre vos étudiants à travers celles-ci. Pour voir toutes les activités cliquez sur le lien \"Voir toutes mes activités modifiées\".",
+            "description": "Elles sont au cœur de l’accompagnement des apprenants. Elles les engagent dans un travail et une prise de recul sur leurs compétences, leur projet de vie, ou autre. Vous pourrez suivre vos apprenants à travers celles-ci. Pour voir toutes les activités cliquez sur le lien \"Voir toutes mes activités modifiées\".",
             "title": "Retrouvez ici les dernières activités que vous avez ou aurez modifiées"
           },
           "feedbacks-widget": {
-            "description": "Retrouvez ici les dernières demandes de feedbacks envoyées par vos étudiants. Vous pourrez cliquer sur l’une d’elles pour la consulter et répondre à vos étudiants. Pour afficher toutes les demandes, cliquez sur \"Voir toutes mes demandes de feedback\"",
+            "description": "Retrouvez ici les dernières demandes de feedbacks envoyées par vos apprenants. Vous pourrez cliquer sur l’une d’elles pour la consulter et répondre à vos apprenants. Pour afficher toutes les demandes, cliquez sur \"Voir toutes mes demandes de feedback\"",
             "title": "Retrouvez vos dernières demandes de feedback"
           },
           "nav-activities": {
-            "description": "Accédez à deux espaces de la bibliothèque d’activités. Votre espace de travail\u00A0: créez, modifiez et consultez les activités dont vous êtes contributeur. Toutes les activités publiées dans votre établissement\u00A0: consultez les activités dont vous êtes contributeur, responsable du suivi des étudiants ou lecteur.",
+            "description": "Accédez à deux espaces de la bibliothèque d’activités. Votre espace de travail\u00A0: créez, modifiez et consultez les activités dont vous êtes contributeur. Toutes les activités publiées dans votre établissement\u00A0: consultez les activités dont vous êtes contributeur, responsable du suivi des apprenants ou lecteur.",
             "title": "Onglet \"BIBLIOTHÈQUE DES ACTIVITÉS\""
           },
           "notifications-popover": {
-            "description": "Vous serez averti(e) ici des nouvelles notifications concernant par exemple des demandes de feedbacks adressées par vos étudiants.",
+            "description": "Vous serez averti(e) ici des nouvelles notifications concernant par exemple des demandes de feedbacks adressées par vos apprenants.",
             "title": "Suivez vos notifications"
           },
           "published-activities-widget": {
@@ -540,7 +540,7 @@
             "title": "Retrouvez ici les dernières activités que vous avez ou aurez crées et publiées"
           },
           "trigger-nav-student-tracking-menu": {
-            "description": "Consultez ici les demandes de feedback envoyées par les étudiants que vous suivez, pour les activités autorisant le feedback. Vous pourrez y répondre et conserver l’historique de vos réponses. Les demandes d’évaluation d’activités et de compétences seront également disponibles prochainement.",
+            "description": "Consultez ici les demandes de feedback envoyées par les apprenants que vous suivez, pour les activités autorisant le feedback. Vous pourrez y répondre et conserver l’historique de vos réponses. Les demandes d’évaluation d’activités et de compétences seront également disponibles prochainement.",
             "title": "Menu \"SUIVI DES APPRENANTS\""
           },
           "update-profile-button": {

@@ -290,14 +290,14 @@
         "SELF_KNOWLEDGE_CATEGORY_LIST_EMPTY": "Self knowledge category list is empty",
         "SELF_KNOWLEDGE_CATEGORY_NOT_AVAILABLE": "Self knowledge category not available",
         "SELF_KNOWLEDGE_CATEGORY_NOT_FOUND": "Self knowledge category not found",
-        "SELF_KNOWLEDGE_CATEGORY_NOT_LINKED": "Self knowledge category is not linked to the student",
+        "SELF_KNOWLEDGE_CATEGORY_NOT_LINKED": "Self knowledge category is not linked to the learner",
         "SELF_KNOWLEDGE_ELEMENTS_ARE_NOT_IN_SAME_CATEGORY": "Self knowledge elements are not in the same category",
         "SELF_KNOWLEDGE_ELEMENT_NOT_FOUND": "Self knowledge element not found",
         "SERVER_ERROR": "Internal server error",
         "SKILL_LEVEL_NOT_FOUND": "Skill level not found",
         "SKILL_NOT_FOUND": "Skill not found",
-        "STUDENT_DECLARED_ALREADY_EXIST": "This declared skill is already assigned to the student",
-        "STUDENT_PROGRESS_NOT_FOUND": "Student progress not found",
+        "STUDENT_DECLARED_ALREADY_EXIST": "This declared skill is already assigned to the learner",
+        "STUDENT_PROGRESS_NOT_FOUND": "Learner progress not found",
         "TITLE_TOO_LONG": "The length of the title is too long",
         "TOO_LONG": "The field {0} exceeds the maximum allowed length",
         "TRACE_NOT_FOUND": "Trace not found",
@@ -309,7 +309,7 @@
         "USER_ALREADY_EXISTS": "User already exists",
         "USER_CATEGORY_NOT_FOUND": "User category not found",
         "USER_IS_NOT_STAFF_EXCEPTION": "User is not staff",
-        "USER_IS_NOT_STUDENT_EXCEPTION": "User is not student",
+        "USER_IS_NOT_STUDENT_EXCEPTION": "User is not learner",
         "USER_NOT_AUTHORIZED": "User not authorized",
         "USER_NOT_FOUND": "User not found",
         "WRONG_CLASS_TYPE": "The class type should be different"
@@ -375,7 +375,7 @@
       "switchUniverse": {
         "label": "Switch universe",
         "buttons": {
-          "STUDENT": "Student",
+          "STUDENT": "Learner",
           "STAFF": "Staff"
         },
         "disabledTooltip": "You are currently in this universe"
@@ -520,19 +520,19 @@
         },
         "staff": {
           "draft-activities-widget": {
-            "description": "They are at the heart of student support. They engage students in work and reflection on their skills, life project, or other. You will be able to follow your students through these activities. To see all activities, click on the link \"See all my modified activities\".",
+            "description": "They are at the heart of learner support. They engage learners in work and reflection on their skills, life project, or other. You will be able to follow your learners through these activities. To see all activities, click on the link \"See all my modified activities\".",
             "title": "Find here the latest activities you have or will have modified"
           },
           "feedbacks-widget": {
-            "description": "Find here the latest feedback requests sent by your students. You can click on one of them to view it and respond to your students. To display all requests, click on \"See all my feedback requests\"",
+            "description": "Find here the latest feedback requests sent by your learners. You can click on one of them to view it and respond to your learners. To display all requests, click on \"See all my feedback requests\"",
             "title": "Find your latest feedback requests"
           },
           "nav-activities": {
-            "description": "Access two areas of the activity library. Your workspace: create, edit and view the activities you contribute to. All activities published in your institution: view the activities you contribute to, are responsible for student tracking, or are a reader of.",
+            "description": "Access two areas of the activity library. Your workspace: create, edit and view the activities you contribute to. All activities published in your institution: view the activities you contribute to, are responsible for learner tracking, or are a reader of.",
             "title": "Tab \"ACTIVITY LIBRARY\""
           },
           "notifications-popover": {
-            "description": "You will be notified here of new notifications concerning, for example, feedback requests sent by your students.",
+            "description": "You will be notified here of new notifications concerning, for example, feedback requests sent by your learners.",
             "title": "Follow your notifications"
           },
           "published-activities-widget": {
@@ -540,8 +540,8 @@
             "title": "Find here the latest activities you have or will have created and published"
           },
           "trigger-nav-student-tracking-menu": {
-            "description": "Find here the feedback requests sent by the students you follow, for activities allowing feedback. You will be able to respond and keep a record of your responses. Requests for activity and skill assessments will also be available soon.",
-            "title": "Menu \"STUDENT TRACKING\""
+            "description": "Find here the feedback requests sent by the learners you follow, for activities allowing feedback. You will be able to respond and keep a record of your responses. Requests for activity and skill assessments will also be available soon.",
+            "title": "Menu \"LEARNER TRACKING\""
           },
           "update-profile-button": {
             "description": "Here, you can customize your profile with a photo, a cover image, and a short bio.",

@@ -64,16 +64,16 @@ BddTest().given('an ActivityDashboardSection component', () => {
       expect(getDashboardCards()).toHaveLength(4)
     })
 
-    BddTest().then('it should pass the unique student views to the first card', () => {
+    BddTest().then('it should pass the unique learner views to the first card', () => {
       const card = getUniqueStudentViewsDashboardCard()
       expect(card.props('value')).toBe(`${mockedActivityDashboard.uniqueStudentViews}`)
-      expect(card.props('label')).toBe('étudiant(e)s ayant consulté l\'activité')
+      expect(card.props('label')).toBe('apprenant(e)s ayant consulté l\'activité')
     })
 
-    BddTest().then('it should pass the enrolled students to the second card', () => {
+    BddTest().then('it should pass the enrolled learners to the second card', () => {
       const card = getEnrolledStudentsDashboardCard()
       expect(card.props('value')).toBe(`${mockedActivityDashboard.enrolledStudents}`)
-      expect(card.props('label')).toBe('étudiant(e)s inscrit(e)s')
+      expect(card.props('label')).toBe('apprenant(e)s inscrit(e)s')
     })
 
     BddTest().then('it should pass the unsubscriptions of the last 30 days to the third card', () => {
@@ -82,30 +82,30 @@ BddTest().given('an ActivityDashboardSection component', () => {
       expect(card.props('label')).toBe('désinscriptions sur les 30 derniers jours')
     })
 
-    BddTest().then('it should pass the inactive students of the last 30 days to the fourth card', () => {
+    BddTest().then('it should pass the inactive learners of the last 30 days to the fourth card', () => {
       const card = getInactiveStudentsDashboardCard()
       expect(card.props('value')).toBe(`${mockedActivityDashboard.inactiveStudentsLast30Days}`)
       expect(card.props('label')).toBe('inscrit(e)s inactif(ve)s depuis plus de 30 jours')
     })
   })
 
-  BddTest().when('the see details button of the inactive students card is clicked', () => {
+  BddTest().when('the see details button of the inactive learners card is clicked', () => {
     beforeEach(async () => {
       wrapper = mountSection(mockedActivityContent.id)
       await flushPromises()
     })
 
-    BddTest().then('it should render the see details button in the footer of the inactive students card only', () => {
+    BddTest().then('it should render the see details button in the footer of the inactive learners card only', () => {
       expect(getSeeDetailsButton().exists()).toBe(true)
       expect(getSeeDetailsButton().props('label')).toBe('Voir le détail')
       expect(wrapper.findAllComponents(AvButtonStub)).toHaveLength(1)
     })
 
-    BddTest().then('it should not render the inactive students details card by default', () => {
+    BddTest().then('it should not render the inactive learners details card by default', () => {
       expect(getInactiveStudentsDetailsCard().exists()).toBe(false)
     })
 
-    BddTest().then('it should render the inactive students details card on click', async () => {
+    BddTest().then('it should render the inactive learners details card on click', async () => {
       await getSeeDetailsButton().trigger('click')
 
       expect(getInactiveStudentsDetailsCard().exists()).toBe(true)
@@ -118,7 +118,7 @@ BddTest().given('an ActivityDashboardSection component', () => {
       expect(getSeeDetailsButton().props('label')).toBe('Cacher le détail')
     })
 
-    BddTest().then('it should hide the inactive students details card on a second click', async () => {
+    BddTest().then('it should hide the inactive learners details card on a second click', async () => {
       await getSeeDetailsButton().trigger('click')
       await getSeeDetailsButton().trigger('click')
 
@@ -127,7 +127,7 @@ BddTest().given('an ActivityDashboardSection component', () => {
     })
   })
 
-  BddTest().when('mounted with an activity without enrolled student', () => {
+  BddTest().when('mounted with an activity without enrolled learner', () => {
     beforeEach(async () => {
       wrapper = mountSection(ACTIVITY_WITHOUT_ENROLLED_STUDENTS_ID)
       await flushPromises()

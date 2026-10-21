@@ -17,7 +17,7 @@ BddTest().given('a baseApiException', () => {
     })
 
     BddTest().then('it should detect BaseApiException with isBaseApiError', () => {
-      const ex = new BaseApiException('Unknown student id')
+      const ex = new BaseApiException('Unknown learner id')
       expect(BaseApiException.isBaseApiError(ex)).toBe(true)
       expect(BaseApiException.isBaseApiError({})).toBe(false)
     })

@@ -38,8 +38,8 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student activities catalog without parameters', () => {
-    BddTest().then('it should navigate to student activities catalog', () => {
+  BddTest().when('trying to navigate to learner activities catalog without parameters', () => {
+    BddTest().then('it should navigate to learner activities catalog', () => {
       const { navigateToStudentActivitiesCatalog } = navigation
       navigateToStudentActivitiesCatalog()
       expect(pushMock).toHaveBeenCalledWith({
@@ -52,8 +52,8 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student activities catalog with thematic and id', () => {
-    BddTest().then('it should navigate to student activities catalog with thematic and id', () => {
+  BddTest().when('trying to navigate to learner activities catalog with thematic and id', () => {
+    BddTest().then('it should navigate to learner activities catalog with thematic and id', () => {
       const { navigateToStudentActivitiesCatalog } = navigation
       navigateToStudentActivitiesCatalog({ thematic: EActivityThematic.RESUMES, id: 'some-id' })
       expect(pushMock).toHaveBeenCalledWith({
@@ -66,8 +66,8 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student activities catalog with replace', () => {
-    BddTest().then('it should navigate to student activities catalog with replace', () => {
+  BddTest().when('trying to navigate to learner activities catalog with replace', () => {
+    BddTest().then('it should navigate to learner activities catalog with replace', () => {
       const { navigateToStudentActivitiesCatalog } = navigation
       navigateToStudentActivitiesCatalog({ replace: true })
       expect(replaceMock).toHaveBeenCalledWith({
@@ -80,8 +80,8 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student widget activity catalog with thematic and id', () => {
-    BddTest().then('it should navigate to student widget activity catalog with thematic and id', () => {
+  BddTest().when('trying to navigate to learner widget activity catalog with thematic and id', () => {
+    BddTest().then('it should navigate to learner widget activity catalog with thematic and id', () => {
       const { navigateToStudentWidgetActivityCatalog } = navigation
       navigateToStudentWidgetActivityCatalog({ thematic: EActivityThematic.RESUMES, id: 'some-id' })
       expect(pushMock).toHaveBeenCalledWith({
@@ -94,48 +94,48 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student deliverables', () => {
-    BddTest().then('it should navigate to student delivarables', () => {
+  BddTest().when('trying to navigate to learner deliverables', () => {
+    BddTest().then('it should navigate to learner delivarables', () => {
       const { navigateToStudentDeliverables } = navigation
       navigateToStudentDeliverables()
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.DELIVERABLES)
     })
   })
 
-  BddTest().when('trying to navigate to student home', () => {
-    BddTest().then('it should navigate to student home', () => {
+  BddTest().when('trying to navigate to learner home', () => {
+    BddTest().then('it should navigate to learner home', () => {
       const { navigateToStudentHome } = navigation
       navigateToStudentHome()
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.HOME)
     })
   })
 
-  BddTest().when('trying to navigate to student events', () => {
-    BddTest().then('it should navigate to student events', () => {
+  BddTest().when('trying to navigate to learner events', () => {
+    BddTest().then('it should navigate to learner events', () => {
       const { navigateToStudentEvents } = navigation
       navigateToStudentEvents()
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.EVENTS)
     })
   })
 
-  BddTest().when('trying to navigate to student build project', () => {
-    BddTest().then('it should navigate to student build project', () => {
+  BddTest().when('trying to navigate to learner build project', () => {
+    BddTest().then('it should navigate to learner build project', () => {
       const { navigateToStudentBuildProject } = navigation
       navigateToStudentBuildProject()
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.BUILD_PROJECT)
     })
   })
 
-  BddTest().when('trying to navigate to student build project with replace', () => {
-    BddTest().then('it should navigate to student build project with replace', () => {
+  BddTest().when('trying to navigate to learner build project with replace', () => {
+    BddTest().then('it should navigate to learner build project with replace', () => {
       const { navigateToStudentBuildProject } = navigation
       navigateToStudentBuildProject(true)
       expect(replaceMock).toHaveBeenCalledWith(ROUTES.STUDENT.BUILD_PROJECT)
     })
   })
 
-  BddTest().when('trying to navigate to student tools kit build project', () => {
-    BddTest().then('it should navigate to student tools kit build project', () => {
+  BddTest().when('trying to navigate to learner tools kit build project', () => {
+    BddTest().then('it should navigate to learner tools kit build project', () => {
       const { navigateToStudentToolsKitBuildProject } = navigation
       navigateToStudentToolsKitBuildProject()
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.TOOLS_KIT_BUILD_PROJECT)
@@ -199,16 +199,16 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student project skills', () => {
-    BddTest().then('it should navigate to student project skills', () => {
+  BddTest().when('trying to navigate to learner project skills', () => {
+    BddTest().then('it should navigate to learner project skills', () => {
       const { navigateToStudentSkills } = navigation
       navigateToStudentSkills({})
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.SKILLS)
     })
   })
 
-  BddTest().when('trying to navigate to student project skills with replace', () => {
-    BddTest().then('it should navigate to student project skills with replace', () => {
+  BddTest().when('trying to navigate to learner project skills with replace', () => {
+    BddTest().then('it should navigate to learner project skills with replace', () => {
       const { navigateToStudentSkills } = navigation
       navigateToStudentSkills({ replace: true })
       expect(replaceMock).toHaveBeenCalledWith(ROUTES.STUDENT.SKILLS)
@@ -223,55 +223,55 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student project activities', () => {
-    BddTest().then('it should navigate to student project activities', () => {
+  BddTest().when('trying to navigate to learner project activities', () => {
+    BddTest().then('it should navigate to learner project activities', () => {
       const { navigateToStudentProjectActivities } = navigation
       navigateToStudentProjectActivities({})
       expect(pushMock).toHaveBeenCalledWith({ name: ROUTES.STUDENT.ACTIVITIES.name })
     })
   })
 
-  BddTest().when('trying to navigate to student project activities with replace', () => {
-    BddTest().then('it should navigate to student project activities with replace', () => {
+  BddTest().when('trying to navigate to learner project activities with replace', () => {
+    BddTest().then('it should navigate to learner project activities with replace', () => {
       const { navigateToStudentProjectActivities } = navigation
       navigateToStudentProjectActivities({ replace: true })
       expect(replaceMock).toHaveBeenCalledWith({ name: ROUTES.STUDENT.ACTIVITIES.name })
     })
   })
 
-  BddTest().when('trying to navigate to student traces', () => {
-    BddTest().then('it should navigate to student traces', () => {
+  BddTest().when('trying to navigate to learner traces', () => {
+    BddTest().then('it should navigate to learner traces', () => {
       const { navigateToStudentTraces } = navigation
       navigateToStudentTraces()
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.TOOLS_TRACES)
     })
   })
 
-  BddTest().when('trying to navigate to student traces with replace', () => {
-    BddTest().then('it should navigate to student traces with replace', () => {
+  BddTest().when('trying to navigate to learner traces with replace', () => {
+    BddTest().then('it should navigate to learner traces with replace', () => {
       const { navigateToStudentTraces } = navigation
       navigateToStudentTraces({ replace: true })
       expect(replaceMock).toHaveBeenCalledWith(ROUTES.STUDENT.TOOLS_TRACES)
     })
   })
 
-  BddTest().when('trying to navigate to student declared programs', () => {
-    BddTest().then('it should navigate to student declared programs', () => {
+  BddTest().when('trying to navigate to learner declared programs', () => {
+    BddTest().then('it should navigate to learner declared programs', () => {
       const { navigateToStudentDeclaredPrograms } = navigation
       navigateToStudentDeclaredPrograms({})
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS)
     })
   })
 
-  BddTest().when('trying to navigate to student declared programs with replace', () => {
-    BddTest().then('it should navigate to student declared programs with replace', () => {
+  BddTest().when('trying to navigate to learner declared programs with replace', () => {
+    BddTest().then('it should navigate to learner declared programs with replace', () => {
       const { navigateToStudentDeclaredPrograms } = navigation
       navigateToStudentDeclaredPrograms({ replace: true })
       expect(replaceMock).toHaveBeenCalledWith(ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS)
     })
   })
 
-  BddTest().when('trying to navigate to student tools kit declared programs', () => {
+  BddTest().when('trying to navigate to learner tools kit declared programs', () => {
     BddTest().then('it should navigate to the tools kit declared programs route', () => {
       const { navigateToStudentToolsKitDeclaredPrograms } = navigation
       navigateToStudentToolsKitDeclaredPrograms({})
@@ -279,7 +279,7 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student tools kit update skill', () => {
+  BddTest().when('trying to navigate to learner tools kit update skill', () => {
     BddTest().then('it should navigate to the tools kit update skill route', () => {
       const { navigateToStudentToolsKitUpdateSkill } = navigation
       navigateToStudentToolsKitUpdateSkill()
@@ -287,7 +287,7 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student tools kit update declared program', () => {
+  BddTest().when('trying to navigate to learner tools kit update declared program', () => {
     BddTest().then('it should navigate to the tools kit update declared program route', () => {
       const { navigateToStudentToolsKitUpdateDeclaredProgram } = navigation
       navigateToStudentToolsKitUpdateDeclaredProgram()
@@ -295,16 +295,16 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student update declared skill', () => {
-    BddTest().then('it should navigate to student update declared skill', () => {
+  BddTest().when('trying to navigate to learner update declared skill', () => {
+    BddTest().then('it should navigate to learner update declared skill', () => {
       const { navigateToStudentUpdateDeclaredSkill } = navigation
       navigateToStudentUpdateDeclaredSkill()
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.UPDATE_DECLARED_SKILL)
     })
   })
 
-  BddTest().when('trying to navigate to student update trace', () => {
-    BddTest().then('it should navigate to student update trace', () => {
+  BddTest().when('trying to navigate to learner update trace', () => {
+    BddTest().then('it should navigate to learner update trace', () => {
       const { navigateToStudentUpdateTrace } = navigation
       navigateToStudentUpdateTrace({ id: 'trace-123' })
 
@@ -315,8 +315,8 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student tools update trace', () => {
-    BddTest().then('it should navigate to student tools update trace', () => {
+  BddTest().when('trying to navigate to learner tools update trace', () => {
+    BddTest().then('it should navigate to learner tools update trace', () => {
       const { navigateToStudentToolsUpdateTrace } = navigation
       navigateToStudentToolsUpdateTrace({ id: 'trace-123' })
 
@@ -327,8 +327,8 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student update declared program', () => {
-    BddTest().then('it should navigate to student update declared program', () => {
+  BddTest().when('trying to navigate to learner update declared program', () => {
+    BddTest().then('it should navigate to learner update declared program', () => {
       const { navigateToStudentUpdateDeclaredProgram } = navigation
       navigateToStudentUpdateDeclaredProgram()
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.PERSONAL_CAREER_UPDATE_DECLARED_PROGRAM)
@@ -343,8 +343,8 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student declared experience', () => {
-    BddTest().then('it should navigate to student declared experience', () => {
+  BddTest().when('trying to navigate to learner declared experience', () => {
+    BddTest().then('it should navigate to learner declared experience', () => {
       const { navigateToStudentDeclaredExperience } = navigation
       navigateToStudentDeclaredExperience({ id: 'exp-123' })
       expect(pushMock).toHaveBeenCalledWith({
@@ -354,8 +354,8 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student declared experience with replace', () => {
-    BddTest().then('it should navigate to student declared experience with replace', () => {
+  BddTest().when('trying to navigate to learner declared experience with replace', () => {
+    BddTest().then('it should navigate to learner declared experience with replace', () => {
       const { navigateToStudentDeclaredExperience } = navigation
       navigateToStudentDeclaredExperience({ id: 'exp-123', replace: true })
       expect(replaceMock).toHaveBeenCalledWith({
@@ -365,24 +365,24 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student update declared experience', () => {
-    BddTest().then('it should navigate to student update declared experience', () => {
+  BddTest().when('trying to navigate to learner update declared experience', () => {
+    BddTest().then('it should navigate to learner update declared experience', () => {
       const { navigateToStudentUpdateDeclaredExperience } = navigation
       navigateToStudentUpdateDeclaredExperience({})
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE)
     })
   })
 
-  BddTest().when('trying to navigate to student update declared experience with replace', () => {
-    BddTest().then('it should navigate to student update declared experience with replace', () => {
+  BddTest().when('trying to navigate to learner update declared experience with replace', () => {
+    BddTest().then('it should navigate to learner update declared experience with replace', () => {
       const { navigateToStudentUpdateDeclaredExperience } = navigation
       navigateToStudentUpdateDeclaredExperience({ replace: true })
       expect(replaceMock).toHaveBeenCalledWith(ROUTES.STUDENT.UPDATE_DECLARED_EXPERIENCE)
     })
   })
 
-  BddTest().when('trying to navigate to student project declared skill', () => {
-    BddTest().then('it should navigate to student project declared skill', () => {
+  BddTest().when('trying to navigate to learner project declared skill', () => {
+    BddTest().then('it should navigate to learner project declared skill', () => {
       const { navigateToStudentProjectDeclaredSkill } = navigation
       navigateToStudentProjectDeclaredSkill()
       expect(pushMock).toHaveBeenCalledWith(ROUTES.STUDENT.DECLARED_SKILL)
@@ -511,8 +511,8 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student tools trace', () => {
-    BddTest().then('it should navigate to student tools trace with id', () => {
+  BddTest().when('trying to navigate to learner tools trace', () => {
+    BddTest().then('it should navigate to learner tools trace with id', () => {
       const { navigateToStudentToolsTrace } = navigation
       navigateToStudentToolsTrace({ id: 'trace-123' })
 
@@ -523,8 +523,8 @@ BddTest().given('a useNavigation composable', () => {
     })
   })
 
-  BddTest().when('trying to navigate to student tools kit trace', () => {
-    BddTest().then('it should navigate to student tools kit trace with id', () => {
+  BddTest().when('trying to navigate to learner tools kit trace', () => {
+    BddTest().then('it should navigate to learner tools kit trace with id', () => {
       const { navigateToStudentToolsKitUpdateTrace } = navigation
       navigateToStudentToolsKitUpdateTrace({ id: 'trace-123' })
       expect(pushMock).toHaveBeenCalledWith({
