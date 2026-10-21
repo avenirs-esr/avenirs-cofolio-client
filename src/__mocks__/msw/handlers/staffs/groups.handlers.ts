@@ -21,6 +21,20 @@ const getGroupByIdHandler = http.get(`*${getGetGroupByIdUrl(':id')}`, ({ params 
   })
 })
 
+export const getGroupsEmptyHandler = http.get(`*${getGetGroupsUrl()}`, async () => {
+  return HttpResponse.json<PagedResponseGroupOverviewDTO>(createMockedGetGroupsResponse({ }, 0), {
+    status: HttpStatusCode.OK,
+    headers: { 'Content-Type': 'application/json' },
+  })
+})
+
+export const getGroupsErrorHandler = http.get(`*${getGetGroupsUrl()}`, async () => {
+  return HttpResponse.json(
+    { message: 'Erreur interne du serveur', code: ErrorCodes.UNEXPECTED_ERROR },
+    { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+  )
+})
+
 const getGroupsHandler = http.get(`*${getGetGroupsUrl()}`, async ({ request }) => {
   const searchParams = new URL(request.url).searchParams
   const keyword = searchParams.get('keyword') ?? undefined

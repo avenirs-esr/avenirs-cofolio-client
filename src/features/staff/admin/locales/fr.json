@@ -50,9 +50,19 @@
           "title": "Référentiels de compétences de l'établissement"
         },
         "AdminInstitutionUsersView": {
-          "SearchEntityInput": {
-            "entityName": "un utilisateur",
-            "entityPlaceholder": "un nom, prénom ou email"
+          "components": {
+            "inputs": {
+              "SearchEntityInput": {
+                "entityName": "un utilisateur",
+                "entityPlaceholder": "un nom, prénom ou email"
+              }
+            },
+            "selects": {
+              "InstitutionGroupsMultiselect": {
+                "label": "Filtrer par groupes",
+                "placeholder": "Sélectionnez un/des groupe(s)"
+              }
+            }
           },
           "title": "Utilisateurs de l'établissement"
         }
