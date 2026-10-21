@@ -352,9 +352,4 @@ $RECYCLE.BIN/
 .eslintrc-auto-import.json
 auto-imports.d.ts
 
-a11y/reports
-src/api/**/generated/
-!src/api/fetch-instance/
-!src/api/index.ts
-
 .github/agents/
