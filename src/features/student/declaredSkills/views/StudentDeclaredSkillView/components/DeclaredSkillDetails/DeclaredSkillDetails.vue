@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DeclaredSkillProgressDetailsDTO } from '@/api/avenir-esr'
+import type { SkillProgressDetailsDTO } from '@/api/avenir-esr'
 import { AvInput, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { CreationUpdateDateDetails } from '@/common/components'
@@ -11,7 +11,7 @@ import DeclaredSkillReflectionInput
   from '@/features/student/declaredSkills/components/interactions/inputs/DeclaredSkillReflectionInput/DeclaredSkillReflectionInput.vue'
 
 export interface DeclaredSkillDetailsProps {
-  declaredSkillProgressDetails: DeclaredSkillProgressDetailsDTO
+  declaredSkillProgressDetails: SkillProgressDetailsDTO
   hideValorizedBadge?: boolean
   disableRowLayout?: boolean
 }

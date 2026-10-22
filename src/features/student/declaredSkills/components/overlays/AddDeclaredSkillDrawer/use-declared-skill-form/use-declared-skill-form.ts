@@ -5,10 +5,10 @@ import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import {
   EAssociationContextType,
-  EDeclaredSkillLevel,
   EErrorCode,
-  invalidateGetDeclaredSkillsProgresses,
-  useCreateDeclaredSkillProgress
+  ESkillLevel,
+  invalidateGetSkillProgresses,
+  useCreateSkillProgress
 } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
@@ -28,13 +28,13 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
   const onCreateDeclaredSkillError = (error: BaseApiException) => {
     addErrorMessage({
       title: t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.errors.createDeclaredSkill'),
-      description: error.code === EErrorCode.STUDENT_DECLARED_ALREADY_EXIST
+      description: error.code === EErrorCode.SKILL_PROGRESS_ALREADY_EXISTS
         ? t('student.declaredSkills.overlays.AddDeclaredSkillDrawer.errors.declaredSkillAlreadyExist')
         : getErrorMessage(error)
     })
   }
 
-  const { mutate: mutateCreateDeclaredSkillProgress, isPending } = useCreateDeclaredSkillProgress()
+  const { mutate: mutateCreateDeclaredSkillProgress, isPending } = useCreateSkillProgress()
 
   const { associateSelections, notifyAssociationErrors, isAssociating } = useAssociationSelections(EAssociationContextType.DECLARED_SKILL)
 
@@ -43,7 +43,6 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
     mutateCreateDeclaredSkillProgress({
       data: {
         id: selectedSkill.id,
-        type: selectedSkill.type,
         level: value.level,
         reflection: value.reflection
       }
@@ -51,7 +50,7 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
       onError: onCreateDeclaredSkillError,
       onSuccess: async (skill) => {
         await withTaskLoading(async () => notifyAssociationErrors(await associateSelections(skill.id, value.associationSelections)))
-        await invalidateGetDeclaredSkillsProgresses(queryClient)
+        await invalidateGetSkillProgresses(queryClient)
         onSkillAdded?.()
       }
     })
@@ -60,7 +59,7 @@ export function useDeclaredSkillForm (onSkillAdded?: () => void) {
   const form = useForm({
     defaultValues: {
       selectedSkills: [],
-      level: EDeclaredSkillLevel.BEGINNER,
+      level: ESkillLevel.BEGINNER,
       associationSelections: {}
     } as unknown as DeclaredSkillFormData,
     validators: {

@@ -1,13 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
-import type { DeclaredSkillProgressDetailsDTO } from '@/api/avenir-esr'
+import type { SkillProgressDetailsDTO } from '@/api/avenir-esr'
 import type { DeclaredSkillDetailsProps } from '@/features/student/declaredSkills/views/StudentDeclaredSkillView/components/DeclaredSkillDetails/DeclaredSkillDetails.vue'
 import { AvBadgeStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { vi } from 'vitest'
-import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { createMockedSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
 
-  EExternalSkillType
+  ESkillReferentialType
 } from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
@@ -28,9 +28,9 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   }
 })
 
-const mockedDeclaredSkillProgressDetails: DeclaredSkillProgressDetailsDTO = createMockedDeclaredSkillProgressDetailsDTO('declared-skill1')
+const mockedDeclaredSkillProgressDetails: SkillProgressDetailsDTO = createMockedSkillProgressDetailsDTO('declared-skill1')
 
-const mockedDeclaredSkillProgressDetailsWithUndefinedDescription: DeclaredSkillProgressDetailsDTO = {
+const mockedDeclaredSkillProgressDetailsWithUndefinedDescription: SkillProgressDetailsDTO = {
   ...mockedDeclaredSkillProgressDetails,
   reflection: undefined
 }
@@ -117,7 +117,7 @@ BddTest().given('the DeclaredSkillDetails component', () => {
     BddTest().then('it should render the declared skill type badge', () => {
       const badge = wrapper.find('[data-testid="declared-skill-ref-card-type"]')
       expect(badge.exists()).toBe(true)
-      expect(badge.text()).toBe(EExternalSkillType.ROME4)
+      expect(badge.text()).toBe(ESkillReferentialType.ROME4)
     })
 
     BddTest().then('it should render the declared skill reflection', () => {

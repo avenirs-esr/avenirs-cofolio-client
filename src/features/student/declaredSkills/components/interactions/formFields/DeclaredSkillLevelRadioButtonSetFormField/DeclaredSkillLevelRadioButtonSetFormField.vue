@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DeclaredSkillForm, UpdateDeclaredSkillForm } from '@/features/student/declaredSkills/types/forms.types'
 import { markRaw } from 'vue'
-import { EDeclaredSkillLevel } from '@/api/avenir-esr'
+import { ESkillLevel } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 import DeclaredSkillLevelRadioButtonSet from '@/features/student/declaredSkills/components/interactions/radios/DeclaredSkillLevelRadioButtonSet/DeclaredSkillLevelRadioButtonSet.vue'
 
@@ -21,7 +21,7 @@ const FormField = markRaw(form.Field)
         :model-value="field.state.value"
         :error-message="field.state.meta.errors?.join(', ')"
         @update:model-value="(value) => {
-          if (typeof value === 'string' && isEnumMember(EDeclaredSkillLevel, value)) {
+          if (typeof value === 'string' && isEnumMember(ESkillLevel, value)) {
             field.handleChange(value)
           }
         }"

@@ -6,7 +6,7 @@ import { AvListItemStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsa
 import { useForm } from '@tanstack/vue-form'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EExternalSkillType } from '@/api/avenir-esr'
+import { ESkillReferentialType } from '@/api/avenir-esr'
 import AddDeclaredSkillAutocompleteField from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/components/AddDeclaredSkillAutocompleteField/AddDeclaredSkillAutocompleteField.vue'
 
 const TestWrapper = {
@@ -67,7 +67,7 @@ const stubs = {
         />
         <div v-if="inputOptions?.errorMessage" class="error-message">{{ inputOptions.errorMessage }}</div>
         <slot name="empty" />
-        <slot name="item" :option="{ id: '1', title: 'Test Skill', pathSegments: ['Path'], type: '${EExternalSkillType.ROME4}' }" :isSelected="false" :toggle="() => {}" />
+        <slot name="item" :option="{ id: '1', title: 'Test Skill', pathSegments: ['Path'], type: '${ESkillReferentialType.ROME4}' }" :isSelected="false" :toggle="() => {}" />
       </div>
     `
   },

@@ -24,7 +24,7 @@ export const declaredExperienceViewDTOFixture: DeclaredExperienceViewDTO = {
   updatedAt: '2024-01-15T10:30:00Z',
   declaredExperienceAssociationCountDTO: {
     traceAssociationsCount: 3,
-    declaredSkillAssociationsCount: 4
+    skillProgressAssociationsCount: 4
   }
 }
 
@@ -52,7 +52,7 @@ export function createMockedDeclaredExperiences (count: number, withoutDescripti
       updatedAt: '2024-01-15T10:30:00Z',
       declaredExperienceAssociationCountDTO: {
         traceAssociationsCount: i % 4,
-        declaredSkillAssociationsCount: i % 3
+        skillProgressAssociationsCount: i % 3
       }
     })
   }
@@ -130,7 +130,7 @@ export function createMockedDeclaredExperienceViewDTO (experienceId: string): De
     updatedAt: '2024-01-15T10:30:00Z',
     declaredExperienceAssociationCountDTO: {
       traceAssociationsCount: 3,
-      declaredSkillAssociationsCount: 4
+      skillProgressAssociationsCount: 4
     }
   }
 }

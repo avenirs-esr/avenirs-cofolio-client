@@ -4,7 +4,7 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import { declaredExperienceViewDTOFixture } from '@/__mocks__/fixtures/student'
-import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { createMockedSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.stub'
@@ -24,7 +24,7 @@ const mockedFeedbackTrace: FeedbackAssociatedElement = {
 
 const mockedFeedbackDeclaredSkill: FeedbackAssociatedElement = {
   type: EAssociationContextType.DECLARED_SKILL,
-  data: createMockedDeclaredSkillProgressDetailsDTO('declared-skill-drawer'),
+  data: createMockedSkillProgressDetailsDTO('declared-skill-drawer'),
 }
 
 const mockedFeedbackDeclaredExperience: FeedbackAssociatedElement = {

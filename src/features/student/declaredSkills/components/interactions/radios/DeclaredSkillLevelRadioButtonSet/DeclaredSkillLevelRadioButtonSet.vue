@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AvRadioButton, AvRadioButtonSet } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { EDeclaredSkillLevel, useGetAdditionalSkillConfig } from '@/api/avenir-esr'
+import { ESkillLevel, useGetAdditionalSkillConfig } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 import DeclaredSkillLevelBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillLevelBadge/DeclaredSkillLevelBadge.vue'
 
@@ -17,26 +17,26 @@ const emit = defineEmits<{
   blur: []
 }>()
 
-const modelValue = defineModel<EDeclaredSkillLevel | ''>()
+const modelValue = defineModel<ESkillLevel | ''>()
 
 const { t } = useI18n()
 const { data: skillConfig } = useGetAdditionalSkillConfig()
 
-const skillLevels = computed(() => Object.values(EDeclaredSkillLevel))
+const skillLevels = computed(() => Object.values(ESkillLevel))
 
 const defaultLegend = computed(() =>
   t('student.declaredSkills.interactions.radios.DeclaredSkillLevelRadioButtonSet.legend')
 )
 
-function getDescription (level: EDeclaredSkillLevel) {
+function getDescription (level: ESkillLevel) {
   if (!skillConfig.value) {
     return level
   }
-  return isEnumMember(EDeclaredSkillLevel, level) ? skillConfig.value[level]?.description ?? level : ''
+  return isEnumMember(ESkillLevel, level) ? skillConfig.value[level]?.description ?? level : ''
 }
 
 function handleUpdateModelValue (value: unknown) {
-  if (typeof value === 'string' && isEnumMember(EDeclaredSkillLevel, value)) {
+  if (typeof value === 'string' && isEnumMember(ESkillLevel, value)) {
     modelValue.value = value
   }
 }

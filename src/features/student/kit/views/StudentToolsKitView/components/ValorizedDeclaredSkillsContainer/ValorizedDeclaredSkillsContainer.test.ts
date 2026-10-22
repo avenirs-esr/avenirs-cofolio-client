@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import type { GetDeclaredSkillsProgressesParams } from '@/api/avenir-esr'
+import type { GetSkillProgressesParams } from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { createMockedPagedResponseDeclaredSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { createMockedPagedResponseSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { createDeclaredSkillsProgressViewHandler, declaredSkillsProgressViewErrorHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { ValorizedElementsCardContainerStub } from '@/features/student/kit/components/cards/ValorizedElementsCardContainer/ValorizedElementsCardContainer.stub'
@@ -12,7 +12,7 @@ import ValorizedDeclaredSkillsContainer from '@/features/student/kit/views/Stude
 
 BddTest().given('a valorized declared skills container', () => {
   let wrapper: VueWrapper<InstanceType<typeof ValorizedDeclaredSkillsContainer>>
-  let requestedParams: GetDeclaredSkillsProgressesParams
+  let requestedParams: GetSkillProgressesParams
 
   const stubs = {
     ValorizedElementsCardContainer: ValorizedElementsCardContainerStub,
@@ -25,7 +25,7 @@ BddTest().given('a valorized declared skills container', () => {
   }
 
   BddTest().when('the declared skills progresses request succeeds with 3 declared skills', () => {
-    const mockedResponse = createMockedPagedResponseDeclaredSkillProgressDTO(100, 3, 0)
+    const mockedResponse = createMockedPagedResponseSkillProgressDTO(100, 3, 0)
 
     beforeEach(async () => {
       server.use(createDeclaredSkillsProgressViewHandler(mockedResponse, (params) => {
@@ -70,7 +70,7 @@ BddTest().given('a valorized declared skills container', () => {
   })
 
   BddTest().when('the declared skills progresses request succeeds with a single declared skill', () => {
-    const mockedResponse = createMockedPagedResponseDeclaredSkillProgressDTO(100, 1, 0)
+    const mockedResponse = createMockedPagedResponseSkillProgressDTO(100, 1, 0)
 
     beforeEach(async () => {
       server.use(createDeclaredSkillsProgressViewHandler(mockedResponse))
@@ -88,7 +88,7 @@ BddTest().given('a valorized declared skills container', () => {
   })
 
   BddTest().when('the declared skills progresses request succeeds with 0 declared skills', () => {
-    const mockedResponse = createMockedPagedResponseDeclaredSkillProgressDTO(100, 0, 0)
+    const mockedResponse = createMockedPagedResponseSkillProgressDTO(100, 0, 0)
 
     beforeEach(async () => {
       server.use(createDeclaredSkillsProgressViewHandler(mockedResponse))

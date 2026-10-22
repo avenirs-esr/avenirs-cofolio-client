@@ -3,7 +3,7 @@ import { AvBadgeStub, AvCancelConfirmButtonsStub, AvIconStub, BddTest } from '@a
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { createMockedSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { DeclaredSkillLevelRadioButtonSetFormFieldStub } from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.stub'
 import UpdateDeclaredSkillForm from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/UpdateDeclaredSkillForm/UpdateDeclaredSkillForm.vue'
 import { KitValorizationToggleFormFieldStub } from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.stub'
@@ -39,7 +39,7 @@ BddTest().given('an UpdateDeclaredSkillForm component', () => {
   const onSkillUpdated = vi.fn()
   const getCancelConfirmButtons = () => wrapper.findComponent(AvCancelConfirmButtonsStub)
 
-  const mockedDeclaredSkillProgressDetails = createMockedDeclaredSkillProgressDetailsDTO('1234')
+  const mockedDeclaredSkillProgressDetails = createMockedSkillProgressDetailsDTO('1234')
 
   beforeEach(() => {
     vi.clearAllMocks()

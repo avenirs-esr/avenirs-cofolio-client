@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AssociationsDTO, DeclaredActivityViewDTO, DeclaredExperienceViewDTO, DeclaredProgramViewDTO, DeclaredSkillProgressDTO, TraceOverviewDTO } from '@/api/avenir-esr'
+import type { AssociationsDTO, DeclaredActivityViewDTO, DeclaredExperienceViewDTO, DeclaredProgramViewDTO, SkillProgressDTO, TraceOverviewDTO } from '@/api/avenir-esr'
 import type { CompactCardSelectorProps } from '@/features/student/global/components/cards/CompactCardSelector/CompactCardSelector.vue'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
@@ -48,10 +48,10 @@ const selectableElements = computed<CompactCardSelectorProps['elements']>(() => 
         disabled: !isDeletableDeclaredActivityAssociation(association)
       }))
     case EAssociationContextType.DECLARED_SKILL:
-      return associations.declaredSkillAssociations.map(({ associationId, declaredSkill }) => ({
+      return associations.skillProgressAssociations.map(({ associationId, skillProgress }) => ({
         id: associationId,
-        title: declaredSkill.title,
-        baseElement: declaredSkill,
+        title: skillProgress.title,
+        baseElement: skillProgress,
         showSlot: true
       }))
     case EAssociationContextType.DECLARED_EXPERIENCE:
@@ -98,7 +98,7 @@ const isLight = computed(() => associatedContextType === EAssociationContextType
       />
       <AvBadge
         v-else-if="associatedContextType === EAssociationContextType.DECLARED_SKILL"
-        :label="t(`student.declaredSkills.declaredSkillTypes.${(element as DeclaredSkillProgressDTO).type}`)"
+        :label="t(`student.declaredSkills.declaredSkillTypes.${(element as SkillProgressDTO).type}`)"
         color="var(--text1)"
         border-color="var(--other-border-skill-card)"
         background-color="var(--surface-background)"

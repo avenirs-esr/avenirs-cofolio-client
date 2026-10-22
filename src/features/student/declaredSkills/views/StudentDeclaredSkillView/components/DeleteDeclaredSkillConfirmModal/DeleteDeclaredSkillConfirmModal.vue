@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { invalidateGetDeclaredSkillsProgresses, useDeleteDeclaredSkillProgress } from '@/api/avenir-esr'
+import { invalidateGetSkillProgresses, useDeleteSkillProgress } from '@/api/avenir-esr'
 import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -25,12 +25,12 @@ const { getErrorMessage } = useApiErrors()
 const { addErrorMessage, addSuccessMessage } = useToasterStore()
 const queryClient = useQueryClient()
 const { isLoading, withTaskLoading } = useTaskLoading()
-const { mutate: mutateDeleteDeclaredSkillProgress, isPending } = useDeleteDeclaredSkillProgress()
+const { mutate: mutateDeleteDeclaredSkillProgress, isPending } = useDeleteSkillProgress()
 
 function deleteDeclaredSkill () {
-  mutateDeleteDeclaredSkillProgress({ declaredSkillProgressId: skillId }, {
+  mutateDeleteDeclaredSkillProgress({ skillProgressId: skillId }, {
     onSuccess: async () => {
-      await withTaskLoading(() => invalidateGetDeclaredSkillsProgresses(queryClient))
+      await withTaskLoading(() => invalidateGetSkillProgresses(queryClient))
       addSuccessMessage(t('student.declaredSkills.views.StudentDeclaredSkillView.deleteModal.success', { skill: skillTitle }))
       emit('skillDeleted')
     },

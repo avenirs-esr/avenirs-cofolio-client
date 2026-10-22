@@ -2,7 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EDeclaredSkillLevel } from '@/api/avenir-esr'
+import { ESkillLevel } from '@/api/avenir-esr'
 import DeclaredSkillLevelBadge from '@/features/student/declaredSkills/components/badges/DeclaredSkillLevelBadge/DeclaredSkillLevelBadge.vue'
 
 const stubs = {
@@ -20,7 +20,7 @@ BddTest().given('a declared skill level badge', () => {
     beforeEach(async () => {
       wrapper = mountComponent(DeclaredSkillLevelBadge, {
         props: {
-          level: EDeclaredSkillLevel.BEGINNER
+          level: ESkillLevel.BEGINNER
         },
         global: {
           stubs
@@ -35,7 +35,7 @@ BddTest().given('a declared skill level badge', () => {
       const badge = wrapper.findComponent({ name: 'AvBadge' })
 
       expect(badge.exists()).toBe(true)
-      expect(badge.props('label')).toBe(EDeclaredSkillLevel.BEGINNER)
+      expect(badge.props('label')).toBe(ESkillLevel.BEGINNER)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-primary3)')
       expect(badge.props('color')).toBe('var(--dark-background-primary3)')
       expect(badge.props('icon')).toBeDefined()
@@ -47,7 +47,7 @@ BddTest().given('a declared skill level badge', () => {
     beforeEach(async () => {
       wrapper = mountComponent(DeclaredSkillLevelBadge, {
         props: {
-          level: EDeclaredSkillLevel.INTERMEDIATE
+          level: ESkillLevel.INTERMEDIATE
         },
         global: {
           stubs
@@ -62,7 +62,7 @@ BddTest().given('a declared skill level badge', () => {
       const badge = wrapper.findComponent({ name: 'AvBadge' })
 
       expect(badge.exists()).toBe(true)
-      expect(badge.props('label')).toBe(EDeclaredSkillLevel.INTERMEDIATE)
+      expect(badge.props('label')).toBe(ESkillLevel.INTERMEDIATE)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-info)')
       expect(badge.props('color')).toBe('var(--dark-background-info)')
       expect(badge.props('icon')).toBeDefined()
@@ -73,7 +73,7 @@ BddTest().given('a declared skill level badge', () => {
     beforeEach(async () => {
       wrapper = mountComponent(DeclaredSkillLevelBadge, {
         props: {
-          level: EDeclaredSkillLevel.COMPETENT
+          level: ESkillLevel.COMPETENT
         },
         global: {
           stubs
@@ -88,7 +88,7 @@ BddTest().given('a declared skill level badge', () => {
       const badge = wrapper.findComponent({ name: 'AvBadge' })
 
       expect(badge.exists()).toBe(true)
-      expect(badge.props('label')).toBe(EDeclaredSkillLevel.COMPETENT)
+      expect(badge.props('label')).toBe(ESkillLevel.COMPETENT)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-critical)')
       expect(badge.props('color')).toBe('var(--light-foreground-critical)')
       expect(badge.props('icon')).toBeDefined()
@@ -99,7 +99,7 @@ BddTest().given('a declared skill level badge', () => {
     beforeEach(async () => {
       wrapper = mountComponent(DeclaredSkillLevelBadge, {
         props: {
-          level: EDeclaredSkillLevel.ADVANCED
+          level: ESkillLevel.ADVANCED
         },
         global: {
           stubs
@@ -114,7 +114,7 @@ BddTest().given('a declared skill level badge', () => {
       const badge = wrapper.findComponent({ name: 'AvBadge' })
 
       expect(badge.exists()).toBe(true)
-      expect(badge.props('label')).toBe(EDeclaredSkillLevel.ADVANCED)
+      expect(badge.props('label')).toBe(ESkillLevel.ADVANCED)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-primary2)')
       expect(badge.props('color')).toBe('var(--dark-background-primary2)')
       expect(badge.props('icon')).toBeDefined()
@@ -125,7 +125,7 @@ BddTest().given('a declared skill level badge', () => {
     beforeEach(async () => {
       wrapper = mountComponent(DeclaredSkillLevelBadge, {
         props: {
-          level: EDeclaredSkillLevel.EXPERT
+          level: ESkillLevel.EXPERT
         },
         global: {
           stubs
@@ -140,7 +140,7 @@ BddTest().given('a declared skill level badge', () => {
       const badge = wrapper.findComponent({ name: 'AvBadge' })
 
       expect(badge.exists()).toBe(true)
-      expect(badge.props('label')).toBe(EDeclaredSkillLevel.EXPERT)
+      expect(badge.props('label')).toBe(ESkillLevel.EXPERT)
       expect(badge.props('backgroundColor')).toBe('var(--light-background-primary1)')
       expect(badge.props('color')).toBe('var(--light-foreground-primary2)')
       expect(badge.props('icon')).toBeDefined()
@@ -151,7 +151,7 @@ BddTest().given('a declared skill level badge', () => {
     beforeEach(async () => {
       wrapper = mountComponent(DeclaredSkillLevelBadge, {
         props: {
-          level: EDeclaredSkillLevel.BEGINNER,
+          level: ESkillLevel.BEGINNER,
           small: true
         },
         global: {
@@ -175,7 +175,7 @@ BddTest().given('a declared skill level badge', () => {
     beforeEach(async () => {
       wrapper = mountComponent(DeclaredSkillLevelBadge, {
         props: {
-          level: EDeclaredSkillLevel.EXPERT,
+          level: ESkillLevel.EXPERT,
           small: false
         },
         global: {

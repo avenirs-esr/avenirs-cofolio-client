@@ -3,7 +3,7 @@ import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types
 import { AvButtonStub, AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { createMockedSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile, mockedTraceDetailedWithLink } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { AssociatedElementTypeBadgeStub } from '@/features/staff/feedbacks/views/FeedbacksView/components/badges/AssociatedElementTypeBadge/AssociatedElementTypeBadge.stub'
@@ -31,7 +31,7 @@ const mockedFeedbackTraceWithLink: FeedbackAssociatedElement = {
 
 const mockedFeedbackDeclaredSkill: FeedbackAssociatedElement = {
   type: EAssociationContextType.DECLARED_SKILL,
-  data: createMockedDeclaredSkillProgressDetailsDTO('declared-skill-card'),
+  data: createMockedSkillProgressDetailsDTO('declared-skill-card'),
 }
 
 const stubs = {

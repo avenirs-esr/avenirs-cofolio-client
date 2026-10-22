@@ -232,7 +232,7 @@ BddTest().given('a student declared skill view', () => {
     })
   })
 
-  BddTest().when('the query fails with DECLARED_SKILL_PROGRESS_NOT_FOUND', () => {
+  BddTest().when('the query fails with SKILL_PROGRESS_NOT_FOUND', () => {
     beforeEach(() => {
       server.use(detailedSkillProgressNotFoundErrorHandler)
 
@@ -312,7 +312,7 @@ BddTest().given('a student declared skill view', () => {
       await vi.waitFor(() => {
         const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
         expect(elementAssociations.exists()).toBe(true)
-        expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: EErrorCode.DECLARED_SKILL_PROGRESS_NOT_FOUND }))
+        expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: EErrorCode.SKILL_PROGRESS_NOT_FOUND }))
         expect(elementAssociations.props('associations')).toBeUndefined()
       })
     })

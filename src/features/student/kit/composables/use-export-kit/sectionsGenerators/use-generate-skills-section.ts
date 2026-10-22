@@ -1,19 +1,19 @@
-import type { DeclaredSkillProgressDTO } from '@/api/avenir-esr'
+import type { SkillProgressDTO } from '@/api/avenir-esr'
 import { HeadingLevel, Paragraph, TextRun } from 'docx'
 import { useI18n } from 'vue-i18n'
-import { EDeclaredSkillLevel, useGetAdditionalSkillConfig, useGetDeclaredSkillsProgresses } from '@/api/avenir-esr'
+import { ESkillLevel, useGetAdditionalSkillConfig, useGetSkillProgresses } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils/type-guards/type-guards'
 
 export function useGenerateSkillsSection () {
   const { t } = useI18n()
 
-  const { data: declaredSkills, isFetching } = useGetDeclaredSkillsProgresses(
+  const { data: declaredSkills, isFetching } = useGetSkillProgresses(
     { isValorized: true, pageSize: 100 }
   )
   const { data: skillConfig } = useGetAdditionalSkillConfig()
 
-  function getLevelParagraph (level: EDeclaredSkillLevel): Paragraph[] {
-    if (!skillConfig.value || !isEnumMember(EDeclaredSkillLevel, level)) {
+  function getLevelParagraph (level: ESkillLevel): Paragraph[] {
+    if (!skillConfig.value || !isEnumMember(ESkillLevel, level)) {
       return []
     }
     return [
@@ -26,7 +26,7 @@ export function useGenerateSkillsSection () {
     ]
   }
 
-  function generateSkillSubsection (skill: DeclaredSkillProgressDTO) {
+  function generateSkillSubsection (skill: SkillProgressDTO) {
     return [
       new Paragraph({
         children: [

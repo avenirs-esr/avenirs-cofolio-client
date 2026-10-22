@@ -41,7 +41,7 @@ const itemCardStubs = [
 const associations: AssociationsDTO = {
   traceAssociations: createMockedTraceAssociations(2),
   declaredActivityAssociations: createMockedDeclaredActivityAssociations(3),
-  declaredSkillAssociations: createMockedDeclaredSkillAssociations(2),
+  skillProgressAssociations: createMockedDeclaredSkillAssociations(2),
   declaredExperienceAssociations: createMockedDeclaredExperienceAssociations(2),
   declaredProgramAssociations: createMockedDeclaredProgramAssociations(2)
 }
@@ -173,7 +173,7 @@ BddTest().given('an associated elements card', () => {
       expectOnlyItemCards(AssociatedSkillCardStub, 2)
 
       wrapper.findAllComponents(AssociatedSkillCardStub).forEach((card, index) => {
-        expect(card.props('declaredSkill')).toEqual(associations.declaredSkillAssociations[index].declaredSkill)
+        expect(card.props('declaredSkill')).toEqual(associations.skillProgressAssociations[index].skillProgress)
       })
     })
   })
@@ -182,7 +182,7 @@ BddTest().given('an associated elements card', () => {
     beforeEach(() => {
       wrapper = mountCard({
         associatedContextType: EAssociationContextType.DECLARED_SKILL,
-        associations: { ...mockedEmptyAssociations, declaredSkillAssociations: createMockedDeclaredSkillAssociations(1) },
+        associations: { ...mockedEmptyAssociations, skillProgressAssociations: createMockedDeclaredSkillAssociations(1) },
         limit: 3
       })
     })

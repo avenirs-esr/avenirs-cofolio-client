@@ -162,105 +162,6 @@
         }
       }
     },
-    "/me/declared/skill-progress/{declaredSkillProgressId}": {
-      "get": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "getDeclaredSkillProgressDetails",
-        "parameters": [
-          {
-            "name": "declaredSkillProgressId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeclaredSkillProgressDetailsDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "updateDeclaredSkillProgress",
-        "parameters": [
-          {
-            "name": "declaredSkillProgressId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DeclaredSkillProgressRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeclaredSkillProgressDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "deleteDeclaredSkillProgress",
-        "parameters": [
-          {
-            "name": "declaredSkillProgressId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/me/declared/programs/{declaredProgramId}": {
       "get": {
         "tags": [
@@ -1059,114 +960,6 @@
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/ESelfKnowledgeCategory"
-                }
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/declared/skill-progress": {
-      "get": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "getDeclaredSkillsProgresses",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "isValorized",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/PagedResponseDeclaredSkillProgressDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "createDeclaredSkillProgress",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddDeclaredSkillDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeclaredSkillProgressDTO"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "deleteDeclaredSkillProgresses",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "format": "uuid"
                 }
               }
             }
@@ -2647,30 +2440,6 @@
               "application/octet-stream": {
                 "schema": {
                   "$ref": "#/components/schemas/StreamingResponseBody"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/me/declared/skill-progress/external-ids": {
-      "get": {
-        "tags": [
-          "declared-skill-progress-controller"
-        ],
-        "operationId": "getAssociatedExternalSkillIds",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string",
-                    "format": "uuid"
-                  }
                 }
               }
             }
@@ -5386,6 +5155,237 @@
           }
         }
       }
+    },
+    "/me/skill-progress": {
+      "get": {
+        "tags": [
+          "skill-progress-controller"
+        ],
+        "operationId": "getSkillProgresses",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "isValorized",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseSkillProgressDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "skill-progress-controller"
+        ],
+        "operationId": "createSkillProgress",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddSkillProgressDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SkillProgressDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "skill-progress-controller"
+        ],
+        "operationId": "deleteSkillProgresses",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/skill-progress/{skillProgressId}": {
+      "get": {
+        "tags": [
+          "skill-progress-controller"
+        ],
+        "operationId": "getSkillProgressDetails",
+        "parameters": [
+          {
+            "name": "skillProgressId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SkillProgressDetailsDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "skill-progress-controller"
+        ],
+        "operationId": "updateSkillProgress",
+        "parameters": [
+          {
+            "name": "skillProgressId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SkillProgressRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SkillProgressDTO"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "skill-progress-controller"
+        ],
+        "operationId": "deleteSkillProgress",
+        "parameters": [
+          {
+            "name": "skillProgressId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me/skill-progress/skill-ids": {
+      "get": {
+        "tags": [
+          "skill-progress-controller"
+        ],
+        "operationId": "getSkillIds",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -5681,108 +5681,6 @@
           "title"
         ]
       },
-      "DeclaredSkillProgressRequest": {
-        "type": "object",
-        "properties": {
-          "level": {
-            "type": "string",
-            "$ref": "#/components/schemas/EDeclaredSkillLevel",
-            "enum": [
-              "BEGINNER",
-              "INTERMEDIATE",
-              "COMPETENT",
-              "ADVANCED",
-              "EXPERT"
-            ]
-          },
-          "reflection": {
-            "type": "string",
-            "maxLength": 4000,
-            "minLength": 0
-          },
-          "valorized": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "level",
-          "reflection"
-        ]
-      },
-      "DeclaredSkillAssociationCountDTO": {
-        "type": "object",
-        "properties": {
-          "traceAssociationsCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "declaredActivityAssociationsCount": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "required": [
-          "declaredActivityAssociationsCount",
-          "traceAssociationsCount"
-        ]
-      },
-      "DeclaredSkillProgressDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "pathSegments": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "type": {
-            "type": "string",
-            "$ref": "#/components/schemas/EExternalSkillType",
-            "enum": [
-              "ROME4",
-              "XXI",
-              "CASOC",
-              "CASOL"
-            ]
-          },
-          "level": {
-            "type": "string",
-            "$ref": "#/components/schemas/EDeclaredSkillLevel",
-            "enum": [
-              "BEGINNER",
-              "INTERMEDIATE",
-              "COMPETENT",
-              "ADVANCED",
-              "EXPERT"
-            ]
-          },
-          "reflection": {
-            "type": "string"
-          },
-          "valorized": {
-            "type": "boolean"
-          },
-          "associationsCount": {
-            "$ref": "#/components/schemas/DeclaredSkillAssociationCountDTO"
-          }
-        },
-        "required": [
-          "associationsCount",
-          "id",
-          "level",
-          "pathSegments",
-          "title",
-          "type",
-          "valorized"
-        ]
-      },
       "DeclaredProgramRequestDTO": {
         "type": "object",
         "properties": {
@@ -5969,13 +5867,13 @@
             "type": "integer",
             "format": "int32"
           },
-          "declaredSkillAssociationsCount": {
+          "skillProgressAssociationsCount": {
             "type": "integer",
             "format": "int32"
           }
         },
         "required": [
-          "declaredSkillAssociationsCount",
+          "skillProgressAssociationsCount",
           "traceAssociationsCount"
         ]
       },
@@ -6438,40 +6336,6 @@
           "traceTitle"
         ]
       },
-      "AddDeclaredSkillDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "$ref": "#/components/schemas/EExternalSkillType",
-            "enum": [
-              "ROME4",
-              "XXI",
-              "CASOC",
-              "CASOL"
-            ]
-          },
-          "level": {
-            "type": "string",
-            "$ref": "#/components/schemas/EDeclaredSkillLevel",
-            "enum": [
-              "BEGINNER",
-              "INTERMEDIATE",
-              "COMPETENT",
-              "ADVANCED",
-              "EXPERT"
-            ]
-          },
-          "reflection": {
-            "type": "string",
-            "maxLength": 4000,
-            "minLength": 0
-          }
-        }
-      },
       "DeclaredProgramViewDTO": {
         "type": "object",
         "properties": {
@@ -6604,10 +6468,10 @@
               "$ref": "#/components/schemas/DeclaredActivityAssociationDTO"
             }
           },
-          "declaredSkillAssociations": {
+          "skillProgressAssociations": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/DeclaredSkillAssociationDTO"
+              "$ref": "#/components/schemas/SkillProgressAssociationDTO"
             }
           },
           "declaredExperienceAssociations": {
@@ -6627,7 +6491,7 @@
           "declaredActivityAssociations",
           "declaredExperienceAssociations",
           "declaredProgramAssociations",
-          "declaredSkillAssociations",
+          "skillProgressAssociations",
           "traceAssociations"
         ]
       },
@@ -6756,22 +6620,6 @@
         "required": [
           "associationId",
           "declaredProgram"
-        ]
-      },
-      "DeclaredSkillAssociationDTO": {
-        "type": "object",
-        "properties": {
-          "associationId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "declaredSkill": {
-            "$ref": "#/components/schemas/DeclaredSkillProgressDTO"
-          }
-        },
-        "required": [
-          "associationId",
-          "declaredSkill"
         ]
       },
       "TraceAssociationDTO": {
@@ -6997,98 +6845,6 @@
           "updatedAt"
         ]
       },
-      "DeclaredSkillCategoryDTO": {
-        "type": "object",
-        "properties": {
-          "libelle": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "$ref": "#/components/schemas/EExternalSkillCategoryType",
-            "enum": [
-              "MACRO_SKILL",
-              "TARGET",
-              "ISSUE",
-              "DOMAIN"
-            ]
-          }
-        },
-        "required": [
-          "libelle",
-          "type"
-        ]
-      },
-      "DeclaredSkillProgressDetailsDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "title": {
-            "type": "string"
-          },
-          "pathSegments": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeclaredSkillCategoryDTO"
-            }
-          },
-          "reflection": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "$ref": "#/components/schemas/EExternalSkillType",
-            "enum": [
-              "ROME4",
-              "XXI",
-              "CASOC",
-              "CASOL"
-            ]
-          },
-          "level": {
-            "type": "string",
-            "$ref": "#/components/schemas/EDeclaredSkillLevel",
-            "enum": [
-              "BEGINNER",
-              "INTERMEDIATE",
-              "COMPETENT",
-              "ADVANCED",
-              "EXPERT"
-            ]
-          },
-          "traceAssociations": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TraceOverviewDTO"
-            }
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "valorized": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "createdAt",
-          "id",
-          "level",
-          "pathSegments",
-          "title",
-          "traceAssociations",
-          "type",
-          "updatedAt",
-          "valorized"
-        ]
-      },
       "FeedbackAssociationsDTO": {
         "type": "object",
         "properties": {
@@ -7098,10 +6854,10 @@
               "$ref": "#/components/schemas/TraceDetailDTO"
             }
           },
-          "declaredSkills": {
+          "skillProgresses": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/DeclaredSkillProgressDetailsDTO"
+              "$ref": "#/components/schemas/SkillProgressDetailsDTO"
             }
           },
           "declaredExperiences": {
@@ -7113,7 +6869,7 @@
         },
         "required": [
           "declaredExperiences",
-          "declaredSkills",
+          "skillProgresses",
           "traces"
         ]
       },
@@ -7639,24 +7395,6 @@
       },
       "StreamingResponseBody": {
         "type": "object"
-      },
-      "PagedResponseDeclaredSkillProgressDTO": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DeclaredSkillProgressDTO"
-            }
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageInfoDTO"
-          }
-        },
-        "required": [
-          "data",
-          "page"
-        ]
       },
       "PagedResponseDeclaredProgramViewDTO": {
         "type": "object",
@@ -8550,11 +8288,11 @@
           "PROGRAM_NOT_FOUND",
           "TRAINING_PATH_NOT_FOUND",
           "SKILL_NOT_FOUND",
+          "SKILL_REFERENTIAL_NOT_FOUND",
           "SKILL_LEVEL_NOT_FOUND",
           "TRACE_NOT_FOUND",
           "AMS_NOT_FOUND",
-          "DECLARED_SKILL_NOT_FOUND",
-          "DECLARED_SKILL_PROGRESS_NOT_FOUND",
+          "SKILL_PROGRESS_NOT_FOUND",
           "STUDENT_PROGRESS_NOT_FOUND",
           "FILE_NOT_FOUND",
           "ATTACHMENT_NOT_FOUND",
@@ -8586,7 +8324,7 @@
           "FEEDBACK_SUBMITTED",
           "FEEDBACK_SEEN",
           "USER_ALREADY_EXISTS",
-          "STUDENT_DECLARED_ALREADY_EXIST",
+          "SKILL_PROGRESS_ALREADY_EXISTS",
           "DECLARED_ACTIVITY_ALREADY_EXIST",
           "DECLARED_ACTIVITY_ALREADY_FINISHED",
           "DECLARED_ACTIVITY_HAS_NOT_STARTED",
@@ -8609,7 +8347,8 @@
           "INVALID_TRACE_TYPE",
           "LANGUAGE_NOT_SUPPORTED",
           "INVALID_ARGUMENT_TYPE",
-          "DECLARED_SKILL_NOT_AVAILABLE",
+          "SKILL_NOT_ASSESSABLE",
+          "SKILL_NOT_SELF_DECLARABLE",
           "TITLE_TOO_LONG",
           "DESCRIPTION_TOO_LONG",
           "RATING_OUT_OF_BOUNCE",
@@ -8755,37 +8494,6 @@
           "INSPIRATIONS",
           "OBLIGATIONS",
           "TESTIMONIALS"
-        ]
-      },
-      "EExternalSkillCategoryType": {
-        "type": "string",
-        "description": "Enum for external skill category type",
-        "enum": [
-          "MACRO_SKILL",
-          "TARGET",
-          "ISSUE",
-          "DOMAIN"
-        ]
-      },
-      "EDeclaredSkillLevel": {
-        "type": "string",
-        "description": "Enum for declared skill level",
-        "enum": [
-          "BEGINNER",
-          "INTERMEDIATE",
-          "COMPETENT",
-          "ADVANCED",
-          "EXPERT"
-        ]
-      },
-      "EExternalSkillType": {
-        "type": "string",
-        "description": "Enum for external skill type",
-        "enum": [
-          "ROME4",
-          "XXI",
-          "CASOC",
-          "CASOL"
         ]
       },
       "ETraceAuthorType": {
@@ -9727,7 +9435,7 @@
           },
           "type": {
             "type": "string",
-            "$ref": "#/components/schemas/EExternalSkillCategoryType",
+            "$ref": "#/components/schemas/ESkillKind",
             "enum": [
               "MACRO_SKILL",
               "TARGET",
@@ -9759,12 +9467,15 @@
           },
           "type": {
             "type": "string",
-            "$ref": "#/components/schemas/EExternalSkillType",
+            "$ref": "#/components/schemas/ESkillReferentialType",
             "enum": [
               "ROME4",
               "XXI",
               "CASOC",
-              "CASOL"
+              "CASOL",
+              "APC",
+              "RNCP",
+              "CUSTOM"
             ]
           }
         },
@@ -9793,12 +9504,15 @@
           },
           "type": {
             "type": "string",
-            "$ref": "#/components/schemas/EExternalSkillType",
+            "$ref": "#/components/schemas/ESkillReferentialType",
             "enum": [
               "ROME4",
               "XXI",
               "CASOC",
-              "CASOL"
+              "CASOL",
+              "APC",
+              "RNCP",
+              "CUSTOM"
             ]
           }
         },
@@ -9825,6 +9539,309 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "SkillProgressDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "skillId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "pathSegments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/ESkillReferentialType",
+            "enum": [
+              "ROME4",
+              "XXI",
+              "CASOC",
+              "CASOL",
+              "APC",
+              "RNCP",
+              "CUSTOM"
+            ]
+          },
+          "level": {
+            "type": "string",
+            "$ref": "#/components/schemas/ESkillLevel",
+            "enum": [
+              "BEGINNER",
+              "INTERMEDIATE",
+              "COMPETENT",
+              "ADVANCED",
+              "EXPERT"
+            ]
+          },
+          "reflection": {
+            "type": "string"
+          },
+          "valorized": {
+            "type": "boolean"
+          },
+          "associationsCount": {
+            "$ref": "#/components/schemas/SkillProgressAssociationCountDTO"
+          }
+        },
+        "required": [
+          "id",
+          "level",
+          "pathSegments",
+          "skillId",
+          "title",
+          "type",
+          "valorized"
+        ]
+      },
+      "SkillProgressDetailsDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "skillId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "title": {
+            "type": "string"
+          },
+          "pathSegments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillPathSegmentDTO"
+            }
+          },
+          "description": {
+            "type": "string"
+          },
+          "reflection": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/ESkillReferentialType",
+            "enum": [
+              "ROME4",
+              "XXI",
+              "CASOC",
+              "CASOL",
+              "APC",
+              "RNCP",
+              "CUSTOM"
+            ]
+          },
+          "level": {
+            "type": "string",
+            "$ref": "#/components/schemas/ESkillLevel",
+            "enum": [
+              "BEGINNER",
+              "INTERMEDIATE",
+              "COMPETENT",
+              "ADVANCED",
+              "EXPERT"
+            ]
+          },
+          "traceAssociations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TraceOverviewDTO"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "valorized": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "createdAt",
+          "id",
+          "level",
+          "pathSegments",
+          "skillId",
+          "title",
+          "traceAssociations",
+          "type",
+          "updatedAt",
+          "valorized"
+        ]
+      },
+      "SkillProgressRequest": {
+        "type": "object",
+        "properties": {
+          "level": {
+            "type": "string",
+            "$ref": "#/components/schemas/ESkillLevel",
+            "enum": [
+              "BEGINNER",
+              "INTERMEDIATE",
+              "COMPETENT",
+              "ADVANCED",
+              "EXPERT"
+            ]
+          },
+          "reflection": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 0
+          },
+          "valorized": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "level",
+          "reflection"
+        ]
+      },
+      "SkillProgressAssociationCountDTO": {
+        "type": "object",
+        "properties": {
+          "traceAssociationsCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "declaredActivityAssociationsCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": [
+          "declaredActivityAssociationsCount",
+          "traceAssociationsCount"
+        ]
+      },
+      "SkillProgressAssociationDTO": {
+        "type": "object",
+        "properties": {
+          "associationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "skillProgress": {
+            "$ref": "#/components/schemas/SkillProgressDTO"
+          }
+        },
+        "required": [
+          "associationId",
+          "skillProgress"
+        ]
+      },
+      "SkillPathSegmentDTO": {
+        "type": "object",
+        "properties": {
+          "libelle": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "$ref": "#/components/schemas/ESkillKind",
+            "enum": [
+              "MACRO_SKILL",
+              "TARGET",
+              "ISSUE",
+              "DOMAIN"
+            ]
+          }
+        },
+        "required": [
+          "libelle"
+        ]
+      },
+      "AddSkillProgressDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "level": {
+            "type": "string",
+            "$ref": "#/components/schemas/ESkillLevel",
+            "enum": [
+              "BEGINNER",
+              "INTERMEDIATE",
+              "COMPETENT",
+              "ADVANCED",
+              "EXPERT"
+            ]
+          },
+          "reflection": {
+            "type": "string",
+            "maxLength": 4000,
+            "minLength": 0
+          }
+        }
+      },
+      "PagedResponseSkillProgressDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillProgressDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "ESkillLevel": {
+        "type": "string",
+        "description": "Enum for skill level",
+        "enum": [
+          "BEGINNER",
+          "INTERMEDIATE",
+          "COMPETENT",
+          "ADVANCED",
+          "EXPERT"
+        ]
+      },
+      "ESkillReferentialType": {
+        "type": "string",
+        "description": "Enum for skill referential type",
+        "enum": [
+          "ROME4",
+          "XXI",
+          "CASOC",
+          "CASOL",
+          "APC",
+          "RNCP",
+          "CUSTOM"
+        ]
+      },
+      "ESkillKind": {
+        "type": "string",
+        "description": "Enum for skill kind",
+        "enum": [
+          "MACRO_SKILL",
+          "TARGET",
+          "ISSUE",
+          "DOMAIN"
         ]
       }
     }

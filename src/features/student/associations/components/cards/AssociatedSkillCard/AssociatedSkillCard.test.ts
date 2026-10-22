@@ -5,7 +5,7 @@ import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { expect, vi } from 'vitest'
 import {
-  createMockedDeclaredSkillProgressDTO
+  createMockedSkillProgressDTO
 } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { ICONS, ROUTES } from '@/common/constants'
 import AssociatedSkillCard from '@/features/student/associations/components/cards/AssociatedSkillCard/AssociatedSkillCard.vue'
@@ -22,7 +22,7 @@ BddTest().given('an associatied skill card', () => {
 
   BddTest().when('the component is mounted', () => {
     const props: AssociatedSkillCardProps = {
-      declaredSkill: createMockedDeclaredSkillProgressDTO(),
+      declaredSkill: createMockedSkillProgressDTO(),
     }
 
     beforeEach(() => {
@@ -57,7 +57,7 @@ BddTest().given('an associatied skill card', () => {
 
   BddTest().when('the component is mounted with a declared skill without path segment', () => {
     const props: AssociatedSkillCardProps = {
-      declaredSkill: { ...createMockedDeclaredSkillProgressDTO(), pathSegments: [] },
+      declaredSkill: { ...createMockedSkillProgressDTO(), pathSegments: [] },
     }
 
     beforeEach(() => {
@@ -74,7 +74,7 @@ BddTest().given('an associatied skill card', () => {
 
   BddTest().when('the component is mounted with disabled=true', () => {
     const props: AssociatedSkillCardProps = {
-      declaredSkill: createMockedDeclaredSkillProgressDTO(),
+      declaredSkill: createMockedSkillProgressDTO(),
       disabled: true
     }
 

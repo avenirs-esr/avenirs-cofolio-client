@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { AvBadgeProps } from '@avenirs-esr/avenirs-dsav'
-import type { DeclaredSkillProgressDTO, ExternalSkillDTO } from '@/api/avenir-esr'
+import type { ExternalSkillDTO, SkillProgressDTO } from '@/api/avenir-esr'
 import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
@@ -10,7 +10,7 @@ import { DeclaredSkillMacroSkillBadge } from '@/features/student/declaredSkills'
 import StudentDetailedSkillCard from '@/features/student/skills/components/cards/StudentDetailedSkillCard/StudentDetailedSkillCard.vue'
 
 export interface StudentDetailedDeclaredSkillCardProps {
-  declaredSkill: ExternalSkillDTO | DeclaredSkillProgressDTO
+  declaredSkill: ExternalSkillDTO | SkillProgressDTO
 }
 
 const { declaredSkill } = defineProps<StudentDetailedDeclaredSkillCardProps>()

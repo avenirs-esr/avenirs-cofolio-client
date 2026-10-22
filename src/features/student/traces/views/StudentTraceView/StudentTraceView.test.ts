@@ -84,7 +84,7 @@ BddTest().given('a student trace view', () => {
 
   const associationsCount
     = mockedTraceAssociations.declaredActivityAssociations.length
-      + mockedTraceAssociations.declaredSkillAssociations.length
+      + mockedTraceAssociations.skillProgressAssociations.length
       + mockedTraceAssociations.declaredExperienceAssociations.length
       + mockedTraceAssociations.declaredProgramAssociations.length
 

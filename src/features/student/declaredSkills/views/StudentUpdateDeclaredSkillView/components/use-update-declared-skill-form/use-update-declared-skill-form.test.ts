@@ -1,8 +1,8 @@
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
-import { EDeclaredSkillLevel } from '@/api/avenir-esr'
+import { createMockedSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { ESkillLevel } from '@/api/avenir-esr'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import { useUpdateDeclaredSkillForm } from '@/features/student/declaredSkills/views/StudentUpdateDeclaredSkillView/components/use-update-declared-skill-form/use-update-declared-skill-form'
 
@@ -24,7 +24,7 @@ vi.mock('@/store', async (importOriginal) => {
 BddTest().given('the useUpdateDeclaredSkillForm composable', () => {
   let result: ReturnType<typeof useUpdateDeclaredSkillForm>
 
-  const mockedDeclaredSkillProgressDetails = createMockedDeclaredSkillProgressDetailsDTO('1234')
+  const mockedDeclaredSkillProgressDetails = createMockedSkillProgressDetailsDTO('1234')
   const mountForm = (id?: string) =>
     mountComposable(
       () => useUpdateDeclaredSkillForm({
@@ -66,7 +66,7 @@ BddTest().given('the useUpdateDeclaredSkillForm composable', () => {
 
   BddTest().when('the form is submitted with valid data', () => {
     beforeEach(async () => {
-      result.form.setFieldValue('level', EDeclaredSkillLevel.COMPETENT)
+      result.form.setFieldValue('level', ESkillLevel.COMPETENT)
       result.form.setFieldValue('reflection', 'This is my reflection')
       await result.form.handleSubmit()
     })
@@ -84,7 +84,7 @@ BddTest().given('the useUpdateDeclaredSkillForm composable', () => {
 
     BddTest().when('the form is submitted with invalid data', () => {
       BddTest().then('it should set validation errors for level and reflection', async () => {
-        result.form.setFieldValue('level', undefined as unknown as EDeclaredSkillLevel)
+        result.form.setFieldValue('level', undefined as unknown as ESkillLevel)
         result.form.setFieldValue('reflection', 'a'.repeat(DECLARED_SKILL_REFLECTION_MAX_LENGTH + 1))
 
         const validation = await result.form.validate('submit')
@@ -96,7 +96,7 @@ BddTest().given('the useUpdateDeclaredSkillForm composable', () => {
 
     BddTest().when('form validity is computed', () => {
       BddTest().then('it should be false after a failing submit', async () => {
-        result.form.setFieldValue('level', undefined as unknown as EDeclaredSkillLevel)
+        result.form.setFieldValue('level', undefined as unknown as ESkillLevel)
         await result.form.validate('submit')
         expect(result.isFormValid.value).toBe(false)
       })
@@ -117,7 +117,7 @@ BddTest().given('the useUpdateDeclaredSkillForm composable', () => {
 
     BddTest().when('the form is submitted with valid data', () => {
       beforeEach(async () => {
-        result.form.setFieldValue('level', EDeclaredSkillLevel.COMPETENT)
+        result.form.setFieldValue('level', ESkillLevel.COMPETENT)
         result.form.setFieldValue('reflection', 'This is my reflection')
         await result.form.handleSubmit()
       })

@@ -4,7 +4,7 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EDeclaredSkillLevel } from '@/api/avenir-esr'
+import { ESkillLevel } from '@/api/avenir-esr'
 import DeclaredSkillLevelRadioButtonSetFormField from '@/features/student/declaredSkills/components/interactions/formFields/DeclaredSkillLevelRadioButtonSetFormField/DeclaredSkillLevelRadioButtonSetFormField.vue'
 
 const TestWrapper = {
@@ -71,7 +71,7 @@ BddTest().given('a declared skill level form field component', () => {
     vi.clearAllMocks()
 
     wrapper = mount(TestWrapper, {
-      props: { initialLevel: EDeclaredSkillLevel.INTERMEDIATE },
+      props: { initialLevel: ESkillLevel.INTERMEDIATE },
       global: { stubs }
     })
   })
@@ -84,7 +84,7 @@ BddTest().given('a declared skill level form field component', () => {
 
     BddTest().then('it should have initial value', () => {
       const levelField = wrapper.findComponent({ name: 'AddDeclaredSkillLevelField' })
-      expect(levelField.props('modelValue')).toBe(EDeclaredSkillLevel.INTERMEDIATE)
+      expect(levelField.props('modelValue')).toBe(ESkillLevel.INTERMEDIATE)
     })
 
     BddTest().then('it should not have error message initially', () => {
@@ -98,12 +98,12 @@ BddTest().given('a declared skill level form field component', () => {
       const levelField = wrapper.findComponent({ name: 'AddDeclaredSkillLevelField' })
       const selectElement = levelField.find('select')
 
-      await selectElement.setValue(EDeclaredSkillLevel.ADVANCED)
+      await selectElement.setValue(ESkillLevel.ADVANCED)
       await wrapper.vm.$nextTick()
 
       await vi.waitFor(() => {
         const updatedField = wrapper.findComponent({ name: 'AddDeclaredSkillLevelField' })
-        expect(updatedField.props('modelValue')).toBe(EDeclaredSkillLevel.ADVANCED)
+        expect(updatedField.props('modelValue')).toBe(ESkillLevel.ADVANCED)
       })
     })
   })
@@ -128,7 +128,7 @@ BddTest().given('a declared skill level form field component', () => {
       await wrapper.vm.$nextTick()
 
       const updatedField = wrapper.findComponent({ name: 'AddDeclaredSkillLevelField' })
-      expect(updatedField.props('modelValue')).toBe(EDeclaredSkillLevel.INTERMEDIATE)
+      expect(updatedField.props('modelValue')).toBe(ESkillLevel.INTERMEDIATE)
     })
   })
 
@@ -137,7 +137,7 @@ BddTest().given('a declared skill level form field component', () => {
       const levelField = wrapper.findComponent({ name: 'AddDeclaredSkillLevelField' })
       const selectElement = levelField.find('select')
 
-      await selectElement.setValue(EDeclaredSkillLevel.ADVANCED)
+      await selectElement.setValue(ESkillLevel.ADVANCED)
       await wrapper.vm.$nextTick()
 
       await wrapper.find('form').trigger('submit')

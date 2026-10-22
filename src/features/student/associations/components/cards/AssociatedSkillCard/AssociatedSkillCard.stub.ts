@@ -1,5 +1,5 @@
 import type { PropType } from 'vue'
-import type { DeclaredSkillProgressDTO } from '@/api/avenir-esr'
+import type { SkillProgressDTO } from '@/api/avenir-esr'
 import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 export const AssociatedSkillCardStub = defineComponent({
@@ -7,7 +7,7 @@ export const AssociatedSkillCardStub = defineComponent({
   props: {
     ...AvInteractivePropsStub,
     declaredSkill: {
-      type: Object as PropType<DeclaredSkillProgressDTO>,
+      type: Object as PropType<SkillProgressDTO>,
       required: true
     },
   },

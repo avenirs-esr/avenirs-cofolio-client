@@ -32,7 +32,7 @@ const associatedElements = computed<FeedbackAssociatedElement[]>(() => {
     data: trace,
   }))
 
-  const skills = associations.declaredSkills.map(skill => ({
+  const skills = associations.skillProgresses.map(skill => ({
     type: EAssociationContextType.DECLARED_SKILL as const,
     data: skill,
   }))

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { DeclaredSkillProgressDetailsDTO } from '@/api/avenir-esr'
+import type { SkillProgressDetailsDTO } from '@/api/avenir-esr'
 import { AvInput } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { CreationUpdateDateDetails, FormCancelConfirmButtons } from '@/common/components'
@@ -10,7 +10,7 @@ import { useUpdateDeclaredSkillForm } from '@/features/student/declaredSkills/vi
 import KitValorizationToggleFormField from '@/features/student/global/components/interaction/formFields/KitValorizationToggleFormField/KitValorizationToggleFormField.vue'
 
 interface UpdateDeclaredSkillFormProps {
-  declaredSkillProgressDetails: DeclaredSkillProgressDetailsDTO
+  declaredSkillProgressDetails: SkillProgressDetailsDTO
   onSkillUpdated?: () => void
   onCancel?: () => void
 }

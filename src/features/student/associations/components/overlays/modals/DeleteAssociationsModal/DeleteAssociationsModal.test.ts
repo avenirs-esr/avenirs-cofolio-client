@@ -333,7 +333,7 @@ BddTest().given('a delete associations modal', () => {
   BddTest().when('the modal is opened to delete the only declared skill association', () => {
     const associations: AssociationsDTO = {
       ...mockedEmptyAssociations,
-      declaredSkillAssociations: createMockedDeclaredSkillAssociations(1)
+      skillProgressAssociations: createMockedDeclaredSkillAssociations(1)
     }
 
     beforeEach(() => {
@@ -373,7 +373,7 @@ BddTest().given('a delete associations modal', () => {
       })
 
       BddTest().then('it should invalidate the declared skill queries', () => {
-        expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ['me', 'declared', 'skill-progress'] })
+        expect(invalidateQueriesSpy).toHaveBeenCalledWith({ queryKey: ['me', 'skill-progress'] })
       })
     })
 
