@@ -1,4 +1,4 @@
-# Avenirs Studio Client workspace
+# Avenirs ESR workspace
 
 This first workspace increment contains Cofolio only. Backoffice integration and CI/deployment migration are separate follow-ups.
 
@@ -8,6 +8,7 @@ This first workspace increment contains Cofolio only. Backoffice integration and
 - `apps/avenirs-cofolio-client/a11y`: accessibility suite using the app dependencies.
 - `apps/avenirs-cofolio-client/e2e`: existing E2E package, included in the workspace with its own dependency versions.
 - `packages/config`: private placeholder; no shared configuration is exported yet.
+- `packages/shared/api/specs`: shared OpenAPI contracts, exposed by `@avenirs-esr/shared`.
 - `.github`: repository workflows, kept at root and unchanged in this increment.
 
 ## Local setup
@@ -45,6 +46,12 @@ pnpm --filter avenirs-cofolio-client run e2e:chrome
 pnpm --filter avenirs-cofolio-client run e2e:install
 pnpm --filter avenirs-cofolio-client run e2e:report
 ```
+
+## Shared API contracts
+
+The single `avenir-esr.swagger.json` contract lives in `packages/shared/api/specs`. Cofolio resolves `@avenirs-esr/shared/api/specs/avenir-esr.swagger.json` through the shared package's exports in its local `orval.config.ts`.
+
+Each application keeps its own generation configuration, generated client, and HTTP transport. Cofolio still generates into `apps/avenirs-cofolio-client/src/api/avenir-esr/generated` using its existing `customFetch`. A future Backoffice app can declare the same workspace dependency and consume the same contract without inheriting Cofolio's authentication or request context. The shared package contains static JSON and requires no build step.
 
 ## Browser suites
 

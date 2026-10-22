@@ -1,0 +1,9 @@
+{
+  "name": "@avenirs-esr/shared",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./api/specs/*": "./api/specs/*"
+  },
+  "type": "module"
+}
