@@ -4,7 +4,7 @@ import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { expect } from 'vitest'
 import { EGroupType } from '@/api/avenir-esr'
-import GroupTypeBadge from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/badges/GroupTypeBadge/GroupTypeBadge.vue'
+import GroupTypeBadge from '@/features/staff/admin/components/badges/GroupTypeBadge/GroupTypeBadge.vue'
 
 BddTest().given('a group type badge', () => {
   let wrapper: VueWrapper<InstanceType<typeof GroupTypeBadge>>

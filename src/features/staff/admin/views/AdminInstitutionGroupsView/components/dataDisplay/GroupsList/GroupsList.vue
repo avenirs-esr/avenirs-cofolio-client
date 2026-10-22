@@ -1,18 +1,19 @@
 <script lang="ts" setup>
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
-import type { EGroupType, GroupOverviewDTO } from '@/api/avenir-esr'
+import type { EGroupType } from '@/api/avenir-esr'
 import type { UsePaginatedStaffAdminGroupsParams } from '@/features/staff/admin/composables/use-paginated-staff-admin-groups/use-paginated-staff-admin-groups'
+import type { GroupsListRow } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsList/GroupsList.types'
 import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
+import GroupTypeBadge from '@/features/staff/admin/components/badges/GroupTypeBadge/GroupTypeBadge.vue'
+import GroupName from '@/features/staff/admin/components/base/GroupName/GroupName.vue'
+import GroupParentName from '@/features/staff/admin/components/base/GroupParentName/GroupParentName.vue'
 import { usePaginatedStaffAdminGroups } from '@/features/staff/admin/composables/use-paginated-staff-admin-groups/use-paginated-staff-admin-groups'
 import { useStaffAdminGroupsStore } from '@/features/staff/admin/stores/groups.store'
-import GroupTypeBadge from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/badges/GroupTypeBadge/GroupTypeBadge.vue'
 import GroupCard from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/cards/GroupCard/GroupCard.vue'
-import GroupsListName from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsListName/GroupsListName.vue'
-import GroupsListParentName from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsListParentName/GroupsListParentName.vue'
 
 export interface GroupsListProps {
   keyword?: string
@@ -46,7 +47,10 @@ const {
   onUpdatePageSize
 } = usePaginatedStaffAdminGroups(usePaginatedStaffAdminGroupsParams.value)
 
-const rows = computed(() => groups.value)
+const rows = computed<GroupsListRow[]>(() => groups.value.map(group => ({
+  ...group,
+  parentName: group.parent?.name ?? ''
+})))
 
 const WIDTH_MAP: Record<string, string | undefined> = {
   name: '30%',
@@ -55,7 +59,7 @@ const WIDTH_MAP: Record<string, string | undefined> = {
   usersCount: '20%'
 }
 
-const columns = computed<AvTableColumn<Omit<GroupOverviewDTO, 'id' | 'parentId'>>[]>(() => {
+const columns = computed<AvTableColumn<GroupsListRow>[]>(() => {
   return (['name', 'type', 'parentName', 'usersCount'] as const).map(key => ({
     key,
     label: t(`staff.admin.views.AdminInstitutionGroupsView.components.dataDisplay.GroupsList.columns.${key}`),
@@ -98,13 +102,16 @@ const columns = computed<AvTableColumn<Omit<GroupOverviewDTO, 'id' | 'parentId'>
         data-testid="groups-list-table"
       >
         <template #cell(name)="{ row }">
-          <GroupsListName :group="row" />
+          <GroupName
+            :group="row"
+            with-nav
+          />
         </template>
         <template #cell(type)="{ row }">
           <GroupTypeBadge :type="row.type" />
         </template>
         <template #cell(parentName)="{ row }">
-          <GroupsListParentName :group="row" />
+          <GroupParentName :group="row" />
         </template>
         <template #cell(usersCount)="{ row }">
           <span

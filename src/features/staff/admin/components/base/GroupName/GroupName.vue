@@ -1,13 +1,14 @@
 <script lang="ts" setup>
-import type { GroupOverviewDTO } from '@/api/avenir-esr'
+import type { GroupDTO, GroupOverviewDTO } from '@/api/avenir-esr'
 import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { ROUTES } from '@/common/constants'
 
-export interface GroupsListNameProps {
-  group: GroupOverviewDTO
+export interface GroupNameProps {
+  group: GroupDTO | GroupOverviewDTO
+  withNav?: boolean
 }
 
-const { group } = defineProps<GroupsListNameProps>()
+const { group, withNav = false } = defineProps<GroupNameProps>()
 
 const nameRef = ref<HTMLElement | null>(null)
 const { isTruncated } = useTextTruncation(nameRef)
@@ -16,22 +17,26 @@ const to = computed(() => ({
   name: ROUTES.STAFF.ADMIN.GROUP.name,
   params: { id: group.id }
 }))
+
+const routerProps = computed(() => withNav ? { to: to.value } : {})
 </script>
 
 <template>
   <div
-    class="group-list-table-name av-col av-gap-xs"
-    data-testid="group-list-table-name"
+    class="group-name av-col av-gap-xs"
+    data-testid="group-name"
     :data-group-id="group.id"
   >
     <AvTooltip
       :disabled="!isTruncated"
       :content="group.name"
     >
-      <RouterLink
-        :to
+      <component
+        :is="withNav ? 'RouterLink' : 'div'"
+        v-bind="routerProps"
         class="name"
-        data-testid="group-list-table-name-link"
+        :class="{ 'name--hoverable': withNav }"
+        data-testid="group-name-content"
         :data-group-id="group.id"
       >
         <span
@@ -40,16 +45,16 @@ const to = computed(() => ({
         >
           {{ group.name }}
         </span>
-      </RouterLink>
+      </component>
     </AvTooltip>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.group-list-table-name {
+.group-name {
   --max-lines: 2;
 
-  .name:hover > * {
+  .name--hoverable:hover > * {
     color: var(--light-foreground-primary2);
     text-decoration: underline;
   }

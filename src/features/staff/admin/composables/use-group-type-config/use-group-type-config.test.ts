@@ -3,7 +3,7 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import { EGroupType } from '@/api/avenir-esr'
-import { useGroupTypeConfig } from '@/features/staff/admin/views/AdminInstitutionGroupsView/composables/use-group-type-config/use-group-type-config'
+import { useGroupTypeConfig } from '@/features/staff/admin/composables/use-group-type-config/use-group-type-config'
 
 BddTest().given('a useGroupTypeConfig composable', () => {
   let getGroupTypeConfig: ReturnType<typeof useGroupTypeConfig>['getGroupTypeConfig']

@@ -6,7 +6,7 @@ import { beforeEach, expect, vi } from 'vitest'
 import { mockGroupOverview, mockGroupOverviewWithParent } from '@/__mocks__/fixtures/staffs/groups.fixtures'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { ROUTES } from '@/common/constants'
-import { GroupTypeBadgeStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/badges/GroupTypeBadge/GroupTypeBadge.stub'
+import { GroupTypeBadgeStub } from '@/features/staff/admin/components/badges/GroupTypeBadge/GroupTypeBadge.stub'
 import GroupCard from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/cards/GroupCard/GroupCard.vue'
 
 const mockIsTruncated = ref(false)
@@ -102,11 +102,11 @@ BddTest().given('a group card', () => {
     })
 
     BddTest().then('it should display the parent name', () => {
-      expect(getParentName().text()).toContain(mockGroupOverviewWithParent.parentName)
+      expect(getParentName().text()).toContain(mockGroupOverviewWithParent.parent?.name)
     })
 
     BddTest().then('it should pass the parent name as tooltip content', () => {
-      expect(getTooltips()[1].props('content')).toBe(mockGroupOverviewWithParent.parentName)
+      expect(getTooltips()[1].props('content')).toBe(mockGroupOverviewWithParent.parent?.name)
     })
 
     BddTest().then('it should disable the parent name tooltip when the name is not truncated', () => {

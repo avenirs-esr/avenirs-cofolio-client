@@ -4,7 +4,7 @@ import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { ROUTES } from '@/common/constants'
-import GroupTypeBadge from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/badges/GroupTypeBadge/GroupTypeBadge.vue'
+import GroupTypeBadge from '@/features/staff/admin/components/badges/GroupTypeBadge/GroupTypeBadge.vue'
 
 export interface GroupCardProps {
   group: GroupOverviewDTO
@@ -52,8 +52,8 @@ const { isTruncated: isParentNameTruncated } = useTextTruncation(parentNameRef)
         <GroupTypeBadge :type="group.type" />
 
         <AvTooltip
-          v-if="group.parentName"
-          :content="group.parentName"
+          v-if="group.parent"
+          :content="group.parent.name"
           :disabled="!isParentNameTruncated"
         >
           <span
@@ -62,7 +62,7 @@ const { isTruncated: isParentNameTruncated } = useTextTruncation(parentNameRef)
             data-testid="parent-name"
           >
             {{ t('global.colon', { before: t('staff.admin.views.AdminInstitutionGroupsView.components.dataDisplay.GroupsList.columns.parentName') }) }}
-            {{ group.parentName }}
+            {{ group.parent.name }}
           </span>
         </AvTooltip>
 

@@ -8,11 +8,11 @@ import { mockGroupOverview, mockGroupOverviewWithParent } from '@/__mocks__/fixt
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { BaseApiException } from '@/common/exceptions'
-import { GroupTypeBadgeStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/badges/GroupTypeBadge/GroupTypeBadge.stub'
+import { GroupTypeBadgeStub } from '@/features/staff/admin/components/badges/GroupTypeBadge/GroupTypeBadge.stub'
+import { GroupNameStub } from '@/features/staff/admin/components/base/GroupName/GroupName.stub'
+import { GroupParentNameStub } from '@/features/staff/admin/components/base/GroupParentName/GroupParentName.stub'
 import { GroupCardStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/cards/GroupCard/GroupCard.stub'
 import GroupsList from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsList/GroupsList.vue'
-import { GroupsListNameStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsListName/GroupsListName.stub'
-import { GroupsListParentNameStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsListParentName/GroupsListParentName.stub'
 
 const mockIsBelowLg = ref(false)
 const mockError = new BaseApiException('error')
@@ -58,8 +58,8 @@ BddTest().given('a groups list', () => {
     QuerySuspense: QuerySuspenseStub,
     Pagination: PaginationStub,
     AvTable: AvTableStub,
-    GroupsListName: GroupsListNameStub,
-    GroupsListParentName: GroupsListParentNameStub,
+    GroupName: GroupNameStub,
+    GroupParentName: GroupParentNameStub,
     GroupTypeBadge: GroupTypeBadgeStub,
     GroupCard: GroupCardStub,
   }
@@ -128,12 +128,12 @@ BddTest().given('a groups list', () => {
         { key: 'name', label: 'Groupe', width: '30%' },
         { key: 'type', label: 'Type', width: '20%' },
         { key: 'parentName', label: 'Rattaché à', width: '30%' },
-        { key: 'usersCount', label: 'Nombre d\'utilisateur(rice)s', width: '20%' },
+        { key: 'usersCount', label: 'Nombre de membres', width: '20%' },
       ])
     })
 
     BddTest().then('it should render each group name', () => {
-      expect(wrapper.findAll('[data-testid="group-list-table-name"]')).toHaveLength(mockGroups.length)
+      expect(wrapper.findAll('[data-testid="group-name"]')).toHaveLength(mockGroups.length)
     })
 
     BddTest().then('it should render each group type badge', () => {
@@ -141,7 +141,7 @@ BddTest().given('a groups list', () => {
     })
 
     BddTest().then('it should render each group parent name', () => {
-      expect(wrapper.findAll('[data-testid="group-list-table-parent-name-stub"]')).toHaveLength(mockGroups.length)
+      expect(wrapper.findAll('[data-testid="group-parent-name-stub"]')).toHaveLength(mockGroups.length)
     })
 
     BddTest().then('it should display the users count for each group', () => {
@@ -154,7 +154,7 @@ BddTest().given('a groups list', () => {
     })
 
     BddTest().then('it should pass the group to the name component', () => {
-      expect(wrapper.findComponent(GroupsListNameStub).props('group')).toStrictEqual(mockGroups[0])
+      expect(wrapper.findComponent(GroupNameStub).props('group')).toStrictEqual(mockGroups[0])
     })
 
     BddTest().then('it should pass the group type to the badge component', () => {
@@ -162,7 +162,7 @@ BddTest().given('a groups list', () => {
     })
 
     BddTest().then('it should pass the group to the parent name component', () => {
-      expect(wrapper.findComponent(GroupsListParentNameStub).props('group')).toStrictEqual(mockGroups[0])
+      expect(wrapper.findComponent(GroupParentNameStub).props('group')).toStrictEqual(mockGroups[0])
     })
 
     BddTest().then('it should not display the cards container', () => {

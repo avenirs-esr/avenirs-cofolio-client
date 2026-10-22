@@ -3,7 +3,7 @@ import type { AvSelectItem, AvSelectSelectedOption } from '@avenirs-esr/avenirs-
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { EGroupType } from '@/api/avenir-esr'
-import { useGroupTypeConfig } from '@/features/staff/admin/views/AdminInstitutionGroupsView/composables/use-group-type-config/use-group-type-config'
+import { useGroupTypeConfig } from '@/features/staff/admin/composables/use-group-type-config/use-group-type-config'
 
 const { t } = useI18n()
 

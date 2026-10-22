@@ -1,35 +1,89 @@
-import type { GetGroupsParams, GroupDTO, GroupOverviewDTO, PagedResponseGroupOverviewDTO } from '@/api/avenir-esr'
+import type { GetGroupsParams, GroupDTO, GroupOverviewDTO, GroupReferenceDTO, PagedResponseGroupOverviewDTO } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { EGroupType } from '@/api/avenir-esr'
 
 export const mockGroup: GroupDTO = {
   id: 'P1',
-  name: 'Groupe formation 1',
+  name: 'Groupe Formation 1',
+  institution: {
+    id: 'I1',
+    name: 'Établissement 1',
+  },
   type: EGroupType.PROGRAM,
+  usersCount: 1,
 }
 
 export const mockGroupOverview: GroupOverviewDTO = {
-  id: 'PO1',
-  name: 'Groupe option de formation 1',
+  id: 'PO2',
+  name: 'Groupe Option de formation 2',
   type: EGroupType.PROGRAM_OPTION,
-  usersCount: 10,
+  usersCount: 2,
 }
 
 export const mockGroupOverviewWithParent: GroupOverviewDTO = {
-  id: 'SG1',
-  name: 'Groupe ensemble d\'apprenant(e)s 1',
+  id: 'SG3',
+  name: 'Groupe Ensemble d\'apprenant(e)s 3',
   type: EGroupType.STUDENT_GROUP,
-  parentId: mockGroupOverview.id,
-  parentName: mockGroupOverview.name,
-  usersCount: 5,
+  parent: {
+    id: mockGroupOverview.id,
+    name: mockGroupOverview.name,
+    type: mockGroupOverview.type
+  },
+  usersCount: 3,
+}
+
+export function getGroupDTO (id: string): GroupDTO {
+  let namePrefix: string
+  let type: EGroupType
+  let parent: GroupReferenceDTO | undefined
+
+  const idRegex = /^(PO|SG|P)(\d)/
+  const match = id.match(idRegex)
+  const idPrefix = match ? match[1] : id.slice(0, 2)
+  let idIndex = Number.parseInt(match ? (match[2]) : id.slice(2))
+  if (Number.isNaN(idIndex)) {
+    idIndex = 1
+  }
+
+  if (idPrefix === 'PO') {
+    namePrefix = 'Option de formation '
+    type = EGroupType.PROGRAM_OPTION
+  }
+  else if (idPrefix === 'SG') {
+    namePrefix = 'Ensemble d\'apprenant(e)s '
+    type = EGroupType.STUDENT_GROUP
+  }
+  else {
+    namePrefix = 'Formation '
+    type = EGroupType.PROGRAM
+  }
+
+  if (type === EGroupType.STUDENT_GROUP) {
+    parent = {
+      id: `PO${idIndex - 1}`,
+      name: `Groupe Option de formation ${idIndex - 1}`,
+      type: EGroupType.PROGRAM_OPTION
+    }
+  }
+
+  return {
+    id: `${idPrefix}${idIndex}`,
+    name: `Groupe ${namePrefix}${idIndex}`,
+    institution: {
+      id: `I1`,
+      name: `Établissement 1`,
+    },
+    type,
+    parent,
+    usersCount: idIndex,
+  }
 }
 
 function getGroupOverviewDTO (index: number): GroupOverviewDTO {
   let idPrefix: string
   let namePrefix: string
   let type: EGroupType
-  let parentId: string | undefined
-  let parentName: string | undefined
+  let parent: GroupReferenceDTO | undefined
 
   if (index % 3 === 0) {
     idPrefix = 'PO'
@@ -48,17 +102,19 @@ function getGroupOverviewDTO (index: number): GroupOverviewDTO {
   }
 
   if (type === EGroupType.STUDENT_GROUP) {
-    parentId = `PO${index - 1}`
-    parentName = `Groupe Option de formation ${index}`
+    parent = {
+      id: `PO${index - 1}`,
+      name: `Groupe Option de formation ${index - 1}`,
+      type: EGroupType.PROGRAM_OPTION
+    }
   }
 
   return {
-    id: `${idPrefix}${index + 1}`,
-    name: `Groupe ${namePrefix}${index + 1}`,
+    id: `${idPrefix}${index}`,
+    name: `Groupe ${namePrefix}${index}`,
     type,
     usersCount: index,
-    parentId,
-    parentName,
+    parent,
   }
 }
 

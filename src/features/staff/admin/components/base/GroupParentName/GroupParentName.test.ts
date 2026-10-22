@@ -1,9 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount } from '@vue/test-utils'
+import { mount, RouterLinkStub } from '@vue/test-utils'
 import { expect, vi } from 'vitest'
 import { mockGroupOverview, mockGroupOverviewWithParent } from '@/__mocks__/fixtures/staffs/groups.fixtures'
-import GroupsListParentName from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsListParentName/GroupsListParentName.vue'
+import { EGroupType } from '@/api/avenir-esr'
+import GroupParentName from '@/features/staff/admin/components/base/GroupParentName/GroupParentName.vue'
 
 const mockIsTruncated = ref(false)
 
@@ -18,30 +19,29 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   }
 })
 
-BddTest().given('a group list parent name', () => {
-  let wrapper: VueWrapper<InstanceType<typeof GroupsListParentName>>
+BddTest().given('a group parent name', () => {
+  let wrapper: VueWrapper<InstanceType<typeof GroupParentName>>
 
-  const stubs = { AvTooltip: AvTooltipStub }
+  const stubs = { AvTooltip: AvTooltipStub, RouterLink: RouterLinkStub }
 
-  const mountWith = (group = mockGroupOverview) => wrapper = mount(GroupsListParentName, {
-    props: { group },
+  const mountWith = (withNav: boolean, group = mockGroupOverview) => wrapper = mount(GroupParentName, {
+    props: { group, withNav },
     global: { stubs },
   })
 
   const getAvTooltip = () => wrapper.findComponent(AvTooltipStub)
   const getParentName = () => wrapper.find('[data-testid="parent-name"]')
-  const getContainer = () => wrapper.find('[data-testid="group-list-table-parent-name"]')
+  const getContainer = () => wrapper.find('[data-testid="group-parent-name"]')
 
   beforeEach(() => {
     mockIsTruncated.value = false
   })
 
-  BddTest().when('the group has no parent', () => {
+  BddTest().when('the group has no parent and nav is activated', () => {
     beforeEach(() => {
-      mountWith({
+      mountWith(true, {
         ...mockGroupOverview,
-        parentId: undefined,
-        parentName: undefined,
+        parent: undefined,
       })
     })
 
@@ -54,21 +54,21 @@ BddTest().given('a group list parent name', () => {
     })
   })
 
-  BddTest().when('the group has a parent with a name', () => {
+  BddTest().when('the group has a parent with a name and nav is activated', () => {
     beforeEach(() => {
-      mountWith(mockGroupOverviewWithParent)
+      mountWith(true, mockGroupOverviewWithParent)
     })
 
     BddTest().then('it should expose the parent group id', () => {
-      expect(getContainer().attributes('data-group-id')).toBe(mockGroupOverviewWithParent.parentId)
+      expect(getContainer().attributes('data-group-id')).toBe(mockGroupOverviewWithParent.parent?.id)
     })
 
     BddTest().then('it should display the parent group name', () => {
-      expect(getParentName().text()).toBe(mockGroupOverviewWithParent.parentName)
+      expect(getParentName().text()).toBe(mockGroupOverviewWithParent.parent?.name)
     })
 
     BddTest().then('it should pass the parent name as tooltip content', () => {
-      expect(getAvTooltip().props('content')).toBe(mockGroupOverviewWithParent.parentName)
+      expect(getAvTooltip().props('content')).toBe(mockGroupOverviewWithParent.parent?.name)
     })
 
     BddTest().then('it should disable the tooltip when the name is not truncated', () => {
@@ -76,10 +76,10 @@ BddTest().given('a group list parent name', () => {
     })
   })
 
-  BddTest().when('the parent name is truncated', () => {
+  BddTest().when('the parent name is truncated and nav is activated', () => {
     beforeEach(() => {
       mockIsTruncated.value = true
-      mountWith(mockGroupOverviewWithParent)
+      mountWith(true, mockGroupOverviewWithParent)
     })
 
     BddTest().then('it should enable the tooltip', () => {
@@ -87,11 +87,15 @@ BddTest().given('a group list parent name', () => {
     })
   })
 
-  BddTest().when('the group has a parent without a name', () => {
+  BddTest().when('the group has parent and nav is activated', () => {
     beforeEach(() => {
-      mountWith({
+      mountWith(true, {
         ...mockGroupOverview,
-        parentId: 'parent-id',
+        parent: {
+          id: 'parent-id',
+          name: 'Parent Name',
+          type: EGroupType.PROGRAM
+        },
       })
     })
 
@@ -99,9 +103,8 @@ BddTest().given('a group list parent name', () => {
       expect(getContainer().exists()).toBe(true)
     })
 
-    BddTest().then('it should not render the tooltip or parent name', () => {
-      expect(getAvTooltip().exists()).toBe(false)
-      expect(getParentName().exists()).toBe(false)
+    BddTest().then('it should display the parent name', () => {
+      expect(getParentName().text()).toBe('Parent Name')
     })
   })
 })

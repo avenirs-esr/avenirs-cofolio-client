@@ -5,7 +5,7 @@ import { mountWithRouter } from 'tests/utils'
 import { expect, vi } from 'vitest'
 import { mockGroupOverview } from '@/__mocks__/fixtures/staffs/groups.fixtures'
 import { ROUTES } from '@/common/constants'
-import GroupsListName from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsListName/GroupsListName.vue'
+import GroupName from '@/features/staff/admin/components/base/GroupName/GroupName.vue'
 
 const mockIsTruncated = ref(false)
 
@@ -21,36 +21,36 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
 })
 
 BddTest().given('a group list name', () => {
-  let wrapper: VueWrapper<InstanceType<typeof GroupsListName>>
+  let wrapper: VueWrapper<InstanceType<typeof GroupName>>
 
   const stubs = { AvTooltip: AvTooltipStub, RouterLink: RouterLinkStub }
 
-  const mountWith = async (group = mockGroupOverview) => wrapper = await mountWithRouter<typeof GroupsListName>(GroupsListName, {
-    props: { group },
+  const mountWith = async (withNav: boolean) => wrapper = await mountWithRouter<typeof GroupName>(GroupName, {
+    props: { group: mockGroupOverview, withNav },
     global: { stubs },
   })
 
   const getAvTooltip = () => wrapper.findComponent(AvTooltipStub)
   const getRouterLink = () => wrapper.findComponent(RouterLinkStub)
-  const getNameLink = () => wrapper.get('[data-testid="group-list-table-name-link"]')
-  const getContainer = () => wrapper.get('[data-testid="group-list-table-name"]')
+  const getNameContent = () => wrapper.get('[data-testid="group-name-content"]')
+  const getContainer = () => wrapper.get('[data-testid="group-name"]')
 
   beforeEach(() => {
     mockIsTruncated.value = false
   })
 
-  BddTest().when('the component is rendered', () => {
+  BddTest().when('the component is rendered with nav activated', () => {
     beforeEach(async () => {
-      await mountWith()
+      await mountWith(true)
     })
 
     BddTest().then('it should display the group name', () => {
-      expect(getNameLink().text()).toBe(mockGroupOverview.name)
+      expect(getNameContent().text()).toBe(mockGroupOverview.name)
     })
 
     BddTest().then('it should expose the group id on the container and link', () => {
       expect(getContainer().attributes('data-group-id')).toBe(String(mockGroupOverview.id))
-      expect(getNameLink().attributes('data-group-id')).toBe(String(mockGroupOverview.id))
+      expect(getNameContent().attributes('data-group-id')).toBe(String(mockGroupOverview.id))
     })
 
     BddTest().then('it should link to the group detail page', () => {
@@ -69,10 +69,24 @@ BddTest().given('a group list name', () => {
     })
   })
 
+  BddTest().when('the component is rendered without nav activated', () => {
+    beforeEach(async () => {
+      await mountWith(false)
+    })
+
+    BddTest().then('it should display the group name', () => {
+      expect(getNameContent().text()).toBe(mockGroupOverview.name)
+    })
+
+    BddTest().then('it should not render the router link', () => {
+      expect(getRouterLink().exists()).toBe(false)
+    })
+  })
+
   BddTest().when('the group name is truncated', () => {
     beforeEach(async () => {
       mockIsTruncated.value = true
-      await mountWith()
+      await mountWith(true)
     })
 
     BddTest().then('it should enable the tooltip', () => {
