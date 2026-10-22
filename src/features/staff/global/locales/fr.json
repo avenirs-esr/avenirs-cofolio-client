@@ -24,7 +24,12 @@
             "header": "Administration",
             "items": {
               "groups": "Groupes",
+              "institutions": "Établissements",
+              "permissions": "Permissions",
+              "programs": "Formations",
+              "roles": "Rôles",
               "skills": "Compétences",
+              "tools": "Outils",
               "users": "Utilisateurs"
             }
           },

@@ -8,7 +8,7 @@ import { ROUTE_ROLES } from '@/common/constants/route-roles'
 import { hasSomeRole, isRouteActive } from '@/common/utils/route/route'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
-import { staffAdminGroupsRoute, staffAdminRoutes, staffAdminSkillsRoute, staffAdminUsersRoute } from '@/features/staff/admin/routes'
+import { staffAdminGroupsRoute, staffAdminInstitutionsRoute, staffAdminPermissionsRoute, staffAdminProgramsRoute, staffAdminRolesRoute, staffAdminRoutes, staffAdminSkillsRoute, staffAdminToolsRoutes, staffAdminUsersRoute } from '@/features/staff/admin/routes'
 import { staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
 
 const { t } = useI18n()
@@ -39,10 +39,22 @@ const adminMenu = computed(() => ({
   },
   links: [
     {
+      to: ROUTES.STAFF.ADMIN.INSTITUTIONS,
+      text: t('staff.global.navigation.tabs.admin.items.institutions'),
+      icon: MDI_ICONS.BUILDING,
+      highlight: isRouteActive({ route, routes: [staffAdminInstitutionsRoute] }),
+    },
+    {
       to: ROUTES.STAFF.ADMIN.USERS,
       text: t('staff.global.navigation.tabs.admin.items.users'),
       icon: MDI_ICONS.ACCOUNT_STUDENT_OUTLINE,
       highlight: isRouteActive({ route, routes: [staffAdminUsersRoute] }),
+    },
+    {
+      to: ROUTES.STAFF.ADMIN.PROGRAMS,
+      text: t('staff.global.navigation.tabs.admin.items.programs'),
+      icon: ICONS.PROGRAMS,
+      highlight: isRouteActive({ route, routes: [staffAdminProgramsRoute] }),
     },
     {
       to: ROUTES.STAFF.ADMIN.GROUPS,
@@ -55,6 +67,24 @@ const adminMenu = computed(() => ({
       text: t('staff.global.navigation.tabs.admin.items.skills'),
       icon: ICONS.SKILLS,
       highlight: isRouteActive({ route, routes: [staffAdminSkillsRoute] }),
+    },
+    {
+      to: ROUTES.STAFF.ADMIN.TOOLS,
+      text: t('staff.global.navigation.tabs.admin.items.tools'),
+      icon: MDI_ICONS.TOOLS,
+      highlight: isRouteActive({ route, routes: [staffAdminToolsRoutes] }),
+    },
+    {
+      to: ROUTES.STAFF.ADMIN.ROLES,
+      text: t('staff.global.navigation.tabs.admin.items.roles'),
+      icon: MDI_ICONS.BADGE_ACCOUNT_HORIZONTAL_OUTLINE,
+      highlight: isRouteActive({ route, routes: [staffAdminRolesRoute] }),
+    },
+    {
+      to: ROUTES.STAFF.ADMIN.PERMISSIONS,
+      text: t('staff.global.navigation.tabs.admin.items.permissions'),
+      icon: MDI_ICONS.LOCK_OUTLINE,
+      highlight: isRouteActive({ route, routes: [staffAdminPermissionsRoute] }),
     },
   ],
 }))
