@@ -1,6 +1,6 @@
 import type { EGroupType, GroupDTO, PagedResponseGroupOverviewDTO } from '@/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
-import { createMockedGetGroupsResponse, mockGroup } from '@/__mocks__/fixtures/staffs/groups.fixtures'
+import { createMockedGetGroupsResponse, getGroupDTO } from '@/__mocks__/fixtures/staffs/groups.fixtures'
 import { getGetGroupByIdUrl, getGetGroupsUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
@@ -15,7 +15,7 @@ const getGroupByIdHandler = http.get(`*${getGetGroupByIdUrl(':id')}`, ({ params 
     )
   }
 
-  return HttpResponse.json<GroupDTO>(mockGroup, {
+  return HttpResponse.json<GroupDTO>(getGroupDTO(String(id)), {
     status: HttpStatusCode.OK,
     headers: { 'Content-Type': 'application/json' },
   })

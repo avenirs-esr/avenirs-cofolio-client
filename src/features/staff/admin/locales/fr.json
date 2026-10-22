@@ -1,22 +1,24 @@
 {
   "staff": {
     "admin": {
+      "components": {
+        "badges": {
+          "GroupTypeBadge": {
+            "label": {
+              "PROGRAM": "Formation",
+              "PROGRAM_OPTION": "Option de formation",
+              "STUDENT_GROUP": "Ensemble d'apprenant(e)s"
+            }
+          }
+        }
+      },
       "views": {
         "AdminInstitutionGroupsView": {
           "components": {
-            "badges": {
-              "GroupTypeBadge": {
-                "label": {
-                  "PROGRAM": "Formation",
-                  "PROGRAM_OPTION": "Option de formation",
-                  "STUDENT_GROUP": "Ensemble d'apprenant(e)s"
-                }
-              }
-            },
             "cards": {
               "GroupCard": {
                 "labels": {
-                  "usersCount": "Utilisateur(rice) | Utilisateur(rice)s"
+                  "usersCount": "Membre | Membres"
                 }
               }
             },
@@ -26,7 +28,7 @@
                   "name": "Groupe",
                   "parentName": "Rattaché à",
                   "type": "Type",
-                  "usersCount": "Nombre d'utilisateur(rice)s"
+                  "usersCount": "Nombre de membres"
                 },
                 "emptyStateMessage": "Aucun résultat"
               }
@@ -53,7 +55,7 @@
           "components": {
             "inputs": {
               "SearchEntityInput": {
-                "entityName": "un utilisateur",
+                "entityName": "un(e) membre",
                 "entityPlaceholder": "un nom, prénom ou email"
               }
             },
@@ -65,6 +67,29 @@
             }
           },
           "title": "Utilisateurs de l'établissement"
+        },
+        "InstitutionGroupDetailedView": {
+          "components": {
+            "cards": {
+              "DetailedGroupCard": {
+                "labels": {
+                  "usersCount": "Membre | Membres"
+                }
+              }
+            },
+            "dataDisplay": {
+              "GroupMainInfo": {
+                "columns": {
+                  "name": "Groupe",
+                  "institutionName": "Établissement",
+                  "parentName": "Rattaché à",
+                  "type": "Type",
+                  "usersCount": "Nombre de membres"
+                },
+                "title": "Informations générales"
+              }
+            }
+          }
         }
       }
     }

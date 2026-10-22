@@ -7,7 +7,7 @@ export function useGroupTypeConfig () {
 
   function getGroupTypeConfig (type: EGroupType) {
     const label = computed(() =>
-      t(`staff.admin.views.AdminInstitutionGroupsView.components.badges.GroupTypeBadge.label.${type}`)
+      t(`staff.admin.components.badges.GroupTypeBadge.label.${type}`)
     )
 
     const icon = computed(() => {
