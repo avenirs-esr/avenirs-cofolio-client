@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
-import { existsSync, readFileSync } from 'node:fs'
+import { existsSync, readFileSync, realpathSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import test from 'node:test'
 
@@ -12,7 +13,7 @@ const exists = path => existsSync(new URL(`../${path}`, import.meta.url))
 
 test('app layout preserves its relative tooling paths', () => {
   for (const path of [
-    'src/main.ts', 'public', 'api-specs/avenir-esr.swagger.json', 'tests/utils.ts',
+    'src/main.ts', 'public', 'tests/utils.ts',
     'a11y/playwright.a11y.config.ts', 'e2e/package.json', 'vite.config.ts',
     'vitest.config.ts', 'orval.config.ts', 'tsconfig.json', 'README.md',
     'scripts/generate-feature.mjs'
@@ -40,6 +41,50 @@ test('relocated generated files and accessibility reports remain ignored', () =>
   }
 })
 
+test('Cofolio generates its API from the shared package contract without a local copy', async () => {
+  const shared = json('packages/shared/package.json')
+  const subpath = './api/specs/*'
+  const specifier = '@avenirs-esr/shared/api/specs/avenir-esr.swagger.json'
+  assert.equal(shared.name, '@avenirs-esr/shared')
+  assert.equal(shared.private, true)
+  assert.equal(shared.exports[subpath], subpath)
+  assert.equal(json(`${app}/package.json`).dependencies[shared.name], 'workspace:*')
+  const require = createRequire(new URL(`../${app}/package.json`, import.meta.url))
+  const resolved = require.resolve(specifier)
+  const expected = fileURLToPath(new URL('../packages/shared/api/specs/avenir-esr.swagger.json', import.meta.url))
+  assert.equal(realpathSync(resolved), realpathSync(expected))
+  assert.equal(JSON.parse(readFileSync(resolved, 'utf8')).openapi, '3.1.0')
+  assert.equal(exists(`${app}/api-specs/avenir-esr.swagger.json`), false)
+  const { default: config } = await import(new URL(`../${app}/orval.config.ts`, import.meta.url))
+  const api = config['avenir-esr']
+  assert.equal(realpathSync(api.input.target), realpathSync(expected))
+  assert.equal(api.output.workspace, './src/api/avenir-esr/generated')
+  assert.equal(api.output.client, 'vue-query')
+  assert.deepEqual(api.output.override.mutator, {
+    path: './../fetch-instance/fetch-instance.ts',
+    name: 'customFetch'
+  })
+})
+
+test('the Node tooling project type-checks the Orval configuration', () => {
+  const require = createRequire(new URL(`../${app}/package.json`, import.meta.url))
+  const ts = require('typescript')
+  const configFile = fileURLToPath(new URL(`../${app}/tsconfig.node.json`, import.meta.url))
+  const orvalFile = fileURLToPath(new URL(`../${app}/orval.config.ts`, import.meta.url))
+  const parsed = ts.getParsedCommandLineOfConfigFile(configFile, {}, {
+    ...ts.sys,
+    onUnRecoverableConfigFileDiagnostic: diagnostic => assert.fail(ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n'))
+  })
+  assert.ok(parsed)
+  assert.deepEqual(parsed.errors, [])
+  assert.ok(parsed.fileNames.includes(orvalFile), 'Orval must belong to the configured Node tooling project')
+  const program = ts.createProgram(parsed.fileNames, parsed.options)
+  const diagnostics = ts.getPreEmitDiagnostics(program).map(diagnostic =>
+    `TS${diagnostic.code}: ${ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n')}`
+  )
+  assert.deepEqual(diagnostics, [])
+})
+
 test('application ignore rules are owned by the application', () => {
   for (const path of [
     `${app}/src/api/avenir-esr/generated/types/workspace-probe.ts`,
@@ -62,6 +107,7 @@ test('workspace includes cofolio nested e2e and an inert config package', () => 
   assert.deepEqual(json('packages/config/package.json'), {
     name: '@avenirs-esr/config', version: '0.0.0', private: true, type: 'module'
   })
+  assert.equal(json('package.json').name, 'avenirs-esr')
   assert.equal(json('package.json').packageManager, 'pnpm@10.34.2')
   assert.equal(json('package.json').private, true)
 })

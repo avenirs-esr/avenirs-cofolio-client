@@ -26,6 +26,9 @@ importers:
       '@avenirs-esr/avenirs-dsav':
         specifier: ^0.1.371
         version: 0.1.371(@floating-ui/dom@1.8.0)(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/extensions@3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0))(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.3)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
+      '@avenirs-esr/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       '@tanstack/vue-form':
         specifier: ~1.15.0
         version: 1.15.0(vue@3.5.44(typescript@6.0.3))
@@ -224,6 +227,8 @@ importers:
         version: 9.14.5(vue@3.5.44(typescript@5.9.3))
 
   packages/config: {}
+
+  packages/shared: {}
 
 packages:
 
