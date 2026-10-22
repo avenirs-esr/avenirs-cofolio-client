@@ -11,6 +11,7 @@ export interface UsePaginatedStaffAdminGroupsParams {
   pageSizeRef: Ref<PageSizes>
   keywordRef: Ref<string | undefined>
   typesRef: Ref<EGroupType[] | undefined>
+  enabledRef: Ref<boolean>
 }
 
 export interface UsePaginatedStaffAdminGroupsResult {
@@ -28,6 +29,7 @@ export function usePaginatedStaffAdminGroups ({
   pageSizeRef,
   keywordRef,
   typesRef,
+  enabledRef,
 }: UsePaginatedStaffAdminGroupsParams): UsePaginatedStaffAdminGroupsResult {
   const { currentPage, pageSizeSelected, onUpdateCurrentPage, onUpdatePageSize } = usePagination(currentPageRef, pageSizeRef)
 
@@ -38,7 +40,9 @@ export function usePaginatedStaffAdminGroups ({
     types: typesRef.value,
   }))
 
-  const { data, error, isFetching } = useGetGroups(params, { query: { placeholderData: keepPreviousData } })
+  const { data, error, isFetching } = useGetGroups(params, {
+    query: { placeholderData: keepPreviousData, enabled: enabledRef.value }
+  })
 
   const groups = computed(() => data.value?.data ?? [])
   const pageInfo = computed(() => data.value?.page)

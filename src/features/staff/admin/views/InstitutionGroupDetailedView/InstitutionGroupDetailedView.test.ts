@@ -1,11 +1,14 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { expect } from 'vitest'
+import { beforeEach, expect } from 'vitest'
 import { mockGroup } from '@/__mocks__/fixtures/staffs/groups.fixtures'
+import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
+import { GroupsListStub } from '@/features/staff/admin/components/dataDisplay/GroupsList/GroupsList.stub'
 import { GroupMainInfoStub } from '@/features/staff/admin/views/InstitutionGroupDetailedView/components/dataDisplay/GroupMainInfo/GroupMainInfo.stub'
 import InstitutionGroupDetailedView from '@/features/staff/admin/views/InstitutionGroupDetailedView/InstitutionGroupDetailedView.vue'
 
@@ -16,23 +19,28 @@ BddTest().given('an institution group detailed view', () => {
     DetailedPageTitle: DetailedPageTitleStub,
     QuerySuspense: QuerySuspenseStub,
     GroupMainInfo: GroupMainInfoStub,
+    IconTitleCardContainer: IconTitleCardContainerStub,
+    GroupsList: GroupsListStub,
   }
 
-  const mountWith = (groupId: string) => {
+  const mountWith = async (groupId: string) => {
     wrapper = mountComponent(InstitutionGroupDetailedView, {
       props: { groupId },
       global: { stubs },
     })
+
+    await flushPromises()
   }
 
   const getPageTitle = () => wrapper.findComponent(DetailedPageTitleStub)
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getGroupMainInfo = () => wrapper.findComponent(GroupMainInfoStub)
+  const getSubGroupsSection = () => wrapper.findComponent(IconTitleCardContainerStub)
+  const getGroupsList = () => wrapper.findComponent(GroupsListStub)
 
   BddTest().when('the group exists', () => {
     beforeEach(async () => {
-      mountWith(mockGroup.id)
-      await flushPromises()
+      await mountWith(mockGroup.id)
     })
 
     BddTest().then('it should display the group name as the page title', () => {
@@ -52,12 +60,32 @@ BddTest().given('an institution group detailed view', () => {
     BddTest().then('it should indicate that the query is not empty', () => {
       expect(getQuerySuspense().props('isEmpty')).toBe(false)
     })
+
+    BddTest().then('it should display the subgroups section', () => {
+      expect(getSubGroupsSection().exists()).toBe(true)
+    })
+
+    BddTest().then('it should use the subgroups icon', () => {
+      expect(getSubGroupsSection().props('titleIcon')).toBe(MDI_ICONS.PEOPLE_GROUP_OUTLINE)
+    })
+
+    BddTest().then('it should use the expected section background color', () => {
+      expect(getSubGroupsSection().props('backgroundColor')).toBe('var(--other-background-base)')
+    })
+
+    BddTest().then('it should display the number of subgroups in the section title', () => {
+      expect(getSubGroupsSection().props('title')).toContain('3')
+    })
+
+    BddTest().then('it should render the groups list with the current group id', () => {
+      expect(getGroupsList().exists()).toBe(true)
+      expect(getGroupsList().props('groupId')).toBe(mockGroup.id)
+    })
   })
 
   BddTest().when('the group does not exist', () => {
     beforeEach(async () => {
-      mountWith('INVALID_ID')
-      await flushPromises()
+      await mountWith('INVALID_ID')
     })
 
     BddTest().then('it should display an empty page title', () => {
@@ -76,6 +104,10 @@ BddTest().given('an institution group detailed view', () => {
 
     BddTest().then('it should not display the main info component', () => {
       expect(getGroupMainInfo().exists()).toBe(false)
+    })
+
+    BddTest().then('it should not display the subgroups section', () => {
+      expect(getSubGroupsSection().exists()).toBe(false)
     })
   })
 })

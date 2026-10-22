@@ -21,12 +21,14 @@ function mountUsePaginatedStaffAdminGroups ({
   const pageSizeRef = ref(pageSize)
   const keywordRef = ref<string | undefined>(keyword)
   const typesRef = ref<EGroupType[] | undefined>(types)
+  const enabledRef = ref(true)
 
   const { result } = mountComposable(() => usePaginatedStaffAdminGroups({
     currentPageRef,
     pageSizeRef,
     keywordRef,
     typesRef,
+    enabledRef,
   }), { useTanstack: true })
 
   return {
@@ -35,6 +37,7 @@ function mountUsePaginatedStaffAdminGroups ({
     pageSizeRef,
     keywordRef,
     typesRef,
+    enabledRef,
   }
 }
 
@@ -100,6 +103,19 @@ BddTest().given('a usePaginatedStaffAdminGroups composable', () => {
       await nextTick()
 
       expect(result.typesRef.value).toEqual([EGroupType.PROGRAM])
+    })
+  })
+
+  BddTest().when('the composable is disabled', () => {
+    let result: ReturnType<typeof mountUsePaginatedStaffAdminGroups>
+
+    beforeEach(() => {
+      result = mountUsePaginatedStaffAdminGroups()
+      result.enabledRef.value = false
+    })
+
+    BddTest().then('it should not fetch data', () => {
+      expect(result.enabledRef.value).toBe(false)
     })
   })
 })

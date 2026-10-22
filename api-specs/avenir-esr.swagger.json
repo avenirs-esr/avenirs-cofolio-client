@@ -7076,6 +7076,21 @@
           "createdItemId"
         ]
       },
+      "ActivityAssessmentDTO": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "boolean"
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "validation": {
+            "type": "boolean"
+          }
+        }
+      },
       "ActivityContentDTO": {
         "type": "object",
         "properties": {
@@ -7177,6 +7192,9 @@
           },
           "national": {
             "type": "boolean"
+          },
+          "assessment": {
+            "$ref": "#/components/schemas/ActivityAssessmentDTO"
           },
           "createdAt": {
             "type": "string",
@@ -7471,6 +7489,21 @@
           }
         }
       },
+      "ActivityAssessmentRequest": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "boolean"
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "validation": {
+            "type": "boolean"
+          }
+        }
+      },
       "ActivityDraftUpdateRequest": {
         "type": "object",
         "properties": {
@@ -7544,6 +7577,9 @@
           },
           "national": {
             "type": "boolean"
+          },
+          "assessment": {
+            "$ref": "#/components/schemas/ActivityAssessmentRequest"
           }
         }
       },
@@ -8903,6 +8939,7 @@
           "LASTNAME_IS_NULL",
           "INVALID_DATE_FORMAT",
           "ACTIVITY_DATES",
+          "ACTIVITY_ASSESSMENT",
           "DECLARED_ACTIVITY_START_DATE_BEFORE_SUBSCRIPTION"
         ]
       },

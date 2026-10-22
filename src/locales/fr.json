@@ -402,7 +402,8 @@
         "sizeIndication": "Poids\u00A0: ",
         "title": "Ajouter une image"
       },
-      "invalidForm": "Le formulaire n'est pas valide"
+      "invalidForm": "Le formulaire n'est pas valide",
+      "noResults": "Aucun résultat"
     },
     "inputs": {
       "disabledPlaceholder": "Non renseigné",

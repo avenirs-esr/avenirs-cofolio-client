@@ -10,27 +10,32 @@
               "STUDENT_GROUP": "Ensemble d'apprenant(e)s"
             }
           }
+        },
+        "dataDisplay": {
+          "GroupsList": {
+            "noResults": {
+              "subGroupMode": "Aucun sous-groupe"
+            }
+          }
+        }
+      },
+      "groupsTable": {
+        "columns": {
+          "name": "Groupe",
+          "institutionName": "Établissement",
+          "parentName": "Rattaché à",
+          "type": "Type",
+          "usersCount": "Nombre de membres"
         }
       },
       "views": {
         "AdminInstitutionGroupsView": {
           "components": {
             "cards": {
-              "GroupCard": {
+              "GroupOverviewCard": {
                 "labels": {
                   "usersCount": "Membre | Membres"
                 }
-              }
-            },
-            "dataDisplay": {
-              "GroupsList": {
-                "columns": {
-                  "name": "Groupe",
-                  "parentName": "Rattaché à",
-                  "type": "Type",
-                  "usersCount": "Nombre de membres"
-                },
-                "emptyStateMessage": "Aucun résultat"
               }
             },
             "inputs": {
@@ -71,7 +76,7 @@
         "InstitutionGroupDetailedView": {
           "components": {
             "cards": {
-              "DetailedGroupCard": {
+              "GroupCard": {
                 "labels": {
                   "usersCount": "Membre | Membres"
                 }
@@ -79,15 +84,11 @@
             },
             "dataDisplay": {
               "GroupMainInfo": {
-                "columns": {
-                  "name": "Groupe",
-                  "institutionName": "Établissement",
-                  "parentName": "Rattaché à",
-                  "type": "Type",
-                  "usersCount": "Nombre de membres"
-                },
                 "title": "Informations générales"
               }
+            },
+            "subGroupsSection": {
+              "title": "Sous-groupe ({count}) | Sous-groupes ({count})"
             }
           }
         }

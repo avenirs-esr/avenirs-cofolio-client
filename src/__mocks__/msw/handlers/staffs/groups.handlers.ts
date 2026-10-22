@@ -1,7 +1,7 @@
-import type { EGroupType, GroupDTO, PagedResponseGroupOverviewDTO } from '@/api/avenir-esr'
-import { http, HttpResponse } from 'msw'
-import { createMockedGetGroupsResponse, getGroupDTO } from '@/__mocks__/fixtures/staffs/groups.fixtures'
-import { getGetGroupByIdUrl, getGetGroupsUrl } from '@/api/avenir-esr'
+import type { EGroupType, GroupDTO, GroupOverviewDTO, PagedResponseGroupOverviewDTO } from '@/api/avenir-esr'
+import { delay, http, HttpResponse } from 'msw'
+import { createMockedGetGroupsResponse, generateGroupOverviewDTOs, getGroupDTO } from '@/__mocks__/fixtures/staffs/groups.fixtures'
+import { getGetGroupByIdUrl, getGetGroupsUrl, getGetSubGroupsOfGroupUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
 
@@ -48,7 +48,39 @@ const getGroupsHandler = http.get(`*${getGetGroupsUrl()}`, async ({ request }) =
   })
 })
 
+const getSubGroupsOfGroupHandler = http.get(`*${getGetSubGroupsOfGroupUrl(':id')}`, async ({ params }) => {
+  const { id } = params
+
+  if (id === 'INVALID_ID') {
+    return HttpResponse.json(
+      { message: 'Erreur interne du serveur', code: ErrorCodes.NOT_FOUND },
+      { status: HttpStatusCode.NOT_FOUND, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  if (id === 'EMPTY_ID') {
+    return HttpResponse.json<GroupOverviewDTO[]>([], {
+      status: HttpStatusCode.OK,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
+  if (id === 'LOADING_ID') {
+    await delay('infinite')
+    return HttpResponse.json<GroupOverviewDTO[]>([], {
+      status: HttpStatusCode.OK,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  }
+
+  return HttpResponse.json<GroupOverviewDTO[]>(generateGroupOverviewDTOs(3), {
+    status: HttpStatusCode.OK,
+    headers: { 'Content-Type': 'application/json' },
+  })
+})
+
 export const staffsGroupsHandlers = [
   getGroupByIdHandler,
   getGroupsHandler,
+  getSubGroupsOfGroupHandler,
 ]

@@ -5,8 +5,8 @@ import { beforeEach, expect } from 'vitest'
 import { EGroupType } from '@/api/avenir-esr'
 import { SearchEntityInputStub } from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.stub'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
+import { GroupsListStub } from '@/features/staff/admin/components/dataDisplay/GroupsList/GroupsList.stub'
 import AdminInstitutionGroupsView from '@/features/staff/admin/views/AdminInstitutionGroupsView/AdminInstitutionGroupsView.vue'
-import { GroupsListStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsList/GroupsList.stub'
 import { GroupTypeMultiselectStub } from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/selects/GroupTypeMultiselect/GroupTypeMultiselect.stub'
 
 BddTest().given('an admin institution groups view', () => {

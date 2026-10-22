@@ -3,7 +3,7 @@ import type { EGroupType } from '@/api/avenir-esr'
 import { useI18n } from 'vue-i18n'
 import SearchEntityInput from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.vue'
 import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
-import GroupsList from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/dataDisplay/GroupsList/GroupsList.vue'
+import GroupsList from '@/features/staff/admin/components/dataDisplay/GroupsList/GroupsList.vue'
 import GroupTypeMultiselect from '@/features/staff/admin/views/AdminInstitutionGroupsView/components/selects/GroupTypeMultiselect/GroupTypeMultiselect.vue'
 
 const { t } = useI18n()

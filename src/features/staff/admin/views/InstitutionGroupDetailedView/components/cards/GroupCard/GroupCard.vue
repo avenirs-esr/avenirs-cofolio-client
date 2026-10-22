@@ -6,11 +6,11 @@ import Card from '@/common/components/cards/Card/Card.vue'
 import GroupTypeBadge from '@/features/staff/admin/components/badges/GroupTypeBadge/GroupTypeBadge.vue'
 import GroupParentName from '@/features/staff/admin/components/base/GroupParentName/GroupParentName.vue'
 
-export interface DetailedGroupCardProps {
+export interface GroupCardProps {
   group: GroupDTO
 }
 
-const { group } = defineProps<DetailedGroupCardProps>()
+const { group } = defineProps<GroupCardProps>()
 
 const { t } = useI18n()
 
@@ -25,8 +25,8 @@ const { isTruncated: isInstitutionNameTruncated } = useTextTruncation(institutio
   <Card
     background-color="var(--card)"
     title-background="var(--card)"
-    class="detailed-group-card"
-    data-testid="detailed-group-card"
+    class="group-card"
+    data-testid="group-card"
     :data-group-id="group.id"
   >
     <div class="av-col av-gap-sm">
@@ -54,7 +54,7 @@ const { isTruncated: isInstitutionNameTruncated } = useTextTruncation(institutio
           class="b2-regular av-max-lines"
           data-testid="institution-name"
         >
-          {{ t('global.colon', { before: t('staff.admin.views.InstitutionGroupDetailedView.components.dataDisplay.GroupMainInfo.columns.institutionName') }) }}
+          {{ t('global.colon', { before: t('staff.admin.groupsTable.columns.institutionName') }) }}
           {{ group.institution.name }}
         </span>
       </AvTooltip>
@@ -67,7 +67,7 @@ const { isTruncated: isInstitutionNameTruncated } = useTextTruncation(institutio
           class="b2-regular av-max-lines"
           data-testid="parent-name"
         >
-          {{ t('global.colon', { before: t('staff.admin.views.InstitutionGroupDetailedView.components.dataDisplay.GroupMainInfo.columns.parentName') }) }}
+          {{ t('global.colon', { before: t('staff.admin.groupsTable.columns.parentName') }) }}
         </span>
         <GroupParentName
           :group="group"
@@ -79,7 +79,7 @@ const { isTruncated: isInstitutionNameTruncated } = useTextTruncation(institutio
         class="b2-regular"
         data-testid="users-count"
       >
-        {{ t('global.colon', { before: t('staff.admin.views.InstitutionGroupDetailedView.components.cards.DetailedGroupCard.labels.usersCount', { count: group.usersCount }) }) }}
+        {{ t('global.colon', { before: t('staff.admin.views.InstitutionGroupDetailedView.components.cards.GroupCard.labels.usersCount', { count: group.usersCount }) }) }}
         {{ group.usersCount }}
       </span>
     </div>
@@ -87,7 +87,7 @@ const { isTruncated: isInstitutionNameTruncated } = useTextTruncation(institutio
 </template>
 
 <style lang="scss" scoped>
-.detailed-group-card {
+.group-card {
   --max-lines: 2;
 }
 </style>

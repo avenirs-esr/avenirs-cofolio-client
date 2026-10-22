@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { useGetGroupById } from '@/api/avenir-esr'
+import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
+import { useGetGroupById, useGetSubGroupsOfGroup } from '@/api/avenir-esr'
+import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
+import GroupsList from '@/features/staff/admin/components/dataDisplay/GroupsList/GroupsList.vue'
 import GroupMainInfo from '@/features/staff/admin/views/InstitutionGroupDetailedView/components/dataDisplay/GroupMainInfo/GroupMainInfo.vue'
 
 export interface InstitutionGroupDetailedViewProps {
@@ -11,7 +15,11 @@ export interface InstitutionGroupDetailedViewProps {
 const props = defineProps<InstitutionGroupDetailedViewProps>()
 const { groupId } = toRefs(props)
 
+const { t } = useI18n()
+
 const { data: group, error, isFetching } = useGetGroupById(groupId)
+const { data: subGroups } = useGetSubGroupsOfGroup(groupId, { query: { enabled: !!groupId.value } })
+const subGroupsCount = computed(() => subGroups.value?.length ?? 0)
 
 const trailingLinks = computed(() => [{ text: group.value?.name ?? '' }])
 </script>
@@ -26,6 +34,18 @@ const trailingLinks = computed(() => [{ text: group.value?.name ?? '' }])
     :error="error"
     :is-empty="!group"
   >
-    <GroupMainInfo :group="group!" />
+    <div class="av-col av-gap-md">
+      <GroupMainInfo :group="group!" />
+      <IconTitleCardContainer
+        :title-icon="MDI_ICONS.PEOPLE_GROUP_OUTLINE"
+        :title="t('staff.admin.views.InstitutionGroupDetailedView.components.subGroupsSection.title', { count: subGroupsCount })"
+        background-color="var(--other-background-base)"
+      >
+        <GroupsList
+          v-if="groupId"
+          :group-id="groupId"
+        />
+      </IconTitleCardContainer>
+    </div>
   </QuerySuspense>
 </template>

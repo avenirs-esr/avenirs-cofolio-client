@@ -12,6 +12,10 @@ export const GroupsListStub = defineComponent({
       type: Array as PropType<EGroupType[]>,
       required: false,
     },
+    groupId: {
+      type: String,
+      required: false,
+    }
   },
   template: '<div data-testid="group-list-stub"></div>',
 })
