@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
 import { AvFilePill } from '@avenirs-esr/avenirs-dsav'
+import { useI18n } from 'vue-i18n'
 import { useDownloadFeedbackAttachments } from '@/features/student/activities/composables/use-download-feedback-attachments/use-download-feedback-attachments'
 
 export interface FeedbackAttachmentsPillListProps {
@@ -8,6 +9,9 @@ export interface FeedbackAttachmentsPillListProps {
 }
 
 const { feedback } = defineProps<FeedbackAttachmentsPillListProps>()
+
+const { t } = useI18n()
+
 const { feedbackAttachments, downloadFeedbackAttachment } = useDownloadFeedbackAttachments(feedback)
 </script>
 
@@ -20,6 +24,7 @@ const { feedbackAttachments, downloadFeedbackAttachment } = useDownloadFeedbackA
       :size="file.fileSize"
       :type="file.fileType"
       :deletable="false"
+      :download-prefix-label="t('global.buttons.download')"
       downloadable
       show-details
       @download="() => downloadFeedbackAttachment(file.id, file.fileName)"
