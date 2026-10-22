@@ -24,7 +24,12 @@ export const ROUTES = {
     ADMIN: {
       GROUP: { name: 'staff-admin-group', path: 'admin/group/:id' },
       GROUPS: { name: 'staff-admin-groups', path: 'admin/groups' },
+      INSTITUTIONS: { name: 'staff-admin-institutions', path: 'admin/institutions' },
+      PERMISSIONS: { name: 'staff-admin-permissions', path: 'admin/permissions' },
+      PROGRAMS: { name: 'staff-admin-programs', path: 'admin/programs' },
+      ROLES: { name: 'staff-admin-roles', path: 'admin/roles' },
       SKILLS: { name: 'staff-admin-skills', path: 'admin/skills' },
+      TOOLS: { name: 'staff-admin-tools', path: 'admin/tools' },
       USERS: { name: 'staff-admin-users', path: 'admin/users' },
     },
     CGU: { name: 'staff-cgu', path: 'cgu' },

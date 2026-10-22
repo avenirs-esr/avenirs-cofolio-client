@@ -49,6 +49,9 @@
         "AdminInstitutionSkillsView": {
           "title": "Référentiels de compétences de l'établissement"
         },
+        "AdminInstitutionsView": {
+          "title": "Établissements"
+        },
         "AdminInstitutionUsersView": {
           "components": {
             "inputs": {
@@ -65,6 +68,18 @@
             }
           },
           "title": "Utilisateurs de l'établissement"
+        },
+        "AdminPermissionsView": {
+          "title": "Permissions"
+        },
+        "AdminProgramsView": {
+          "title": "Formations"
+        },
+        "AdminRolesView": {
+          "title": "Rôles"
+        },
+        "AdminToolsView": {
+          "title": "Outils"
         }
       }
     }

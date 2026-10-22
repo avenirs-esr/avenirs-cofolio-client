@@ -28,7 +28,12 @@ export const META_BREADCRUMBS = {
     ADMIN: {
       DEFAULT: { textKey: 'staff.global.navigation.tabs.admin.header' },
       GROUPS: { textKey: 'staff.global.navigation.tabs.admin.items.groups', to: ROUTES.STAFF.ADMIN.GROUPS },
+      INSTITUTIONS: { textKey: 'staff.global.navigation.tabs.admin.items.institutions', to: ROUTES.STAFF.ADMIN.INSTITUTIONS },
+      PERMISSIONS: { textKey: 'staff.global.navigation.tabs.admin.items.permissions', to: ROUTES.STAFF.ADMIN.PERMISSIONS },
+      PROGRAMS: { textKey: 'staff.global.navigation.tabs.admin.items.programs', to: ROUTES.STAFF.ADMIN.PROGRAMS },
+      ROLES: { textKey: 'staff.global.navigation.tabs.admin.items.roles', to: ROUTES.STAFF.ADMIN.ROLES },
       SKILLS: { textKey: 'staff.global.navigation.tabs.admin.items.skills', to: ROUTES.STAFF.ADMIN.SKILLS },
+      TOOLS: { textKey: 'staff.global.navigation.tabs.admin.items.tools', to: ROUTES.STAFF.ADMIN.TOOLS },
       USERS: { textKey: 'staff.global.navigation.tabs.admin.items.users', to: ROUTES.STAFF.ADMIN.USERS },
     },
 
@@ -171,7 +176,12 @@ export const BASE_BREADCRUMBS = {
      */
     ADMIN: {
       GROUPS: [...BASE_STAFF_ADMIN_BREADCRUMBS, META_BREADCRUMBS.STAFF.ADMIN.GROUPS],
+      INSTITUTIONS: [...BASE_STAFF_ADMIN_BREADCRUMBS, META_BREADCRUMBS.STAFF.ADMIN.INSTITUTIONS],
+      PERMISSIONS: [...BASE_STAFF_ADMIN_BREADCRUMBS, META_BREADCRUMBS.STAFF.ADMIN.PERMISSIONS],
+      PROGRAMS: [...BASE_STAFF_ADMIN_BREADCRUMBS, META_BREADCRUMBS.STAFF.ADMIN.PROGRAMS],
+      ROLES: [...BASE_STAFF_ADMIN_BREADCRUMBS, META_BREADCRUMBS.STAFF.ADMIN.ROLES],
       SKILLS: [...BASE_STAFF_ADMIN_BREADCRUMBS, META_BREADCRUMBS.STAFF.ADMIN.SKILLS],
+      TOOLS: [...BASE_STAFF_ADMIN_BREADCRUMBS, META_BREADCRUMBS.STAFF.ADMIN.TOOLS],
       USERS: [...BASE_STAFF_ADMIN_BREADCRUMBS, META_BREADCRUMBS.STAFF.ADMIN.USERS],
     },
 

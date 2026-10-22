@@ -11,13 +11,29 @@ import router from '@/router'
 const ACTIVITIES_HEADER = 'BIBLIOTHÈQUE DES ACTIVITÉS'
 const ADMIN_GROUPS = 'Groupes'
 const ADMIN_HEADER = 'ADMINISTRATION'
+const ADMIN_INSTITUTIONS = 'Établissements'
+const ADMIN_PERMISSIONS = 'Permissions'
+const ADMIN_PROGRAMS = 'Formations'
+const ADMIN_ROLES = 'Rôles'
 const ADMIN_SKILLS = 'Compétences'
+const ADMIN_TOOLS = 'Outils'
 const ADMIN_USERS = 'Utilisateurs'
 const HOME = 'ACCUEIL'
 const STUDENT_FEEDBACKS = 'Toutes mes demandes de feedback'
 const STUDENT_TRACKING = 'SUIVI DES APPRENANTS'
 
 const DEFAULT_ROLES = [ERole.ROLE_STAFF, ERole.ROLE_STAFF_ACTIVITY_VIEWER, ERole.ROLE_STAFF_FEEDBACK_RESPONDER]
+
+const navAdminItems = {
+  institutions: { text: ADMIN_INSTITUTIONS, icon: MDI_ICONS.BUILDING },
+  users: { text: ADMIN_USERS, icon: MDI_ICONS.ACCOUNT_STUDENT_OUTLINE },
+  programs: { text: ADMIN_PROGRAMS, icon: ICONS.PROGRAMS },
+  groups: { text: ADMIN_GROUPS, icon: MDI_ICONS.PEOPLE_GROUP_OUTLINE },
+  skills: { text: ADMIN_SKILLS, icon: ICONS.SKILLS },
+  tools: { text: ADMIN_TOOLS, icon: MDI_ICONS.TOOLS },
+  roles: { text: ADMIN_ROLES, icon: MDI_ICONS.BADGE_ACCOUNT_HORIZONTAL_OUTLINE },
+  permissions: { text: ADMIN_PERMISSIONS, icon: MDI_ICONS.LOCK_OUTLINE },
+}
 
 const mockRoles = ref<ERole[]>([])
 
@@ -55,6 +71,20 @@ BddTest().given('a staff navigation', () => {
   const getNavItemLinks = (navItemIndex: number) => {
     const navItem = getNavItem(navItemIndex)
     return 'links' in navItem ? navItem.links : []
+  }
+
+  const expectNavItemLink = (
+    tabIndex: number,
+    itemIndex: number,
+    name: string,
+    text: string,
+    icon: string
+  ) => {
+    expect(getNavItemLinks(tabIndex)![itemIndex]).toMatchObject({
+      text,
+      to: expect.objectContaining({ name }),
+      icon
+    })
   }
 
   BddTest().when('the component is mounted', () => {
@@ -106,6 +136,8 @@ BddTest().given('a staff navigation', () => {
   })
 
   BddTest().when('the component is mounted while the user is an admin', () => {
+    const expectedItems = Object.entries(navAdminItems)
+
     beforeEach(async () => {
       await mountWith([...DEFAULT_ROLES, ERole.ROLE_ADMIN])
     })
@@ -115,30 +147,12 @@ BddTest().given('a staff navigation', () => {
         title: ADMIN_HEADER,
       })
 
-      expect(getNavItemLinks(3)).toHaveLength(3)
+      expect(getNavItemLinks(3)).toHaveLength(expectedItems.length)
     })
 
-    BddTest().then('it should include institution users link in admin menu', () => {
-      expect(getNavItemLinks(3)![0]).toMatchObject({
-        text: ADMIN_USERS,
-        to: expect.objectContaining({ name: 'staff-admin-users' }),
-        icon: MDI_ICONS.ACCOUNT_STUDENT_OUTLINE,
-      })
-    })
-
-    BddTest().then('it should include institution groups link in admin menu', () => {
-      expect(getNavItemLinks(3)![1]).toMatchObject({
-        text: ADMIN_GROUPS,
-        to: expect.objectContaining({ name: 'staff-admin-groups' }),
-        icon: MDI_ICONS.PEOPLE_GROUP_OUTLINE,
-      })
-    })
-
-    BddTest().then('it should include institution skills link in admin menu', () => {
-      expect(getNavItemLinks(3)![2]).toMatchObject({
-        text: ADMIN_SKILLS,
-        to: expect.objectContaining({ name: 'staff-admin-skills' }),
-        icon: ICONS.SKILLS,
+    expectedItems.forEach(([name, { text, icon }], index) => {
+      BddTest().then(`it should include ${name} link in admin menu`, () => {
+        expectNavItemLink(3, index, `staff-admin-${name}`, text, icon)
       })
     })
   })
