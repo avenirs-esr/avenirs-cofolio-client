@@ -4,7 +4,7 @@ import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { associateErrorHandler, createAssociateHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EAssociationContextType, EDeclaredSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
+import { EAssociationContextType, ESkillLevel, ESkillReferentialType } from '@/api/avenir-esr'
 import { useDeclaredSkillForm } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/use-declared-skill-form/use-declared-skill-form'
 
 interface AssociationRequest {
@@ -33,7 +33,7 @@ vi.mock('@/store', async (importOriginal) => {
 BddTest().given('the useDeclaredSkillForm composable', () => {
   let composableResult: ReturnType<typeof useDeclaredSkillForm>
 
-  const createMockSkill = (id = '1', label = 'Test Skill', type = EExternalSkillType.ROME4) => ({
+  const createMockSkill = (id = '1', label = 'Test Skill', type = ESkillReferentialType.ROME4) => ({
     id,
     label,
     value: id,
@@ -42,14 +42,14 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
     type,
   })
 
-  const createValidFormData = (level = EDeclaredSkillLevel.INTERMEDIATE, skillData = createMockSkill()): DeclaredSkillFormData => ({
+  const createValidFormData = (level = ESkillLevel.INTERMEDIATE, skillData = createMockSkill()): DeclaredSkillFormData => ({
     selectedSkills: [skillData],
     level
   })
 
   const createExistingDeclaredSkillData = (): DeclaredSkillFormData => ({
     selectedSkills: [createMockSkill('EXISTING_SKILL_ID', 'Existing Skill')],
-    level: EDeclaredSkillLevel.COMPETENT
+    level: ESkillLevel.COMPETENT
   })
 
   const createInvalidFormData = (): DeclaredSkillFormData => ({
@@ -140,7 +140,7 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
     BddTest().then('it should handle empty selectedSkills array', () => {
       const invalidData: DeclaredSkillFormData = {
         selectedSkills: [],
-        level: EDeclaredSkillLevel.INTERMEDIATE
+        level: ESkillLevel.INTERMEDIATE
       }
       const validator = getOnSubmitValidator()
       const validationResult = validator({ value: invalidData })
@@ -161,8 +161,8 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
     })
 
     BddTest().then('it should validate with different skill types', () => {
-      const skill = createMockSkill('test-id', 'Test Skill', EExternalSkillType.ROME4)
-      const validData = createValidFormData(EDeclaredSkillLevel.EXPERT, skill)
+      const skill = createMockSkill('test-id', 'Test Skill', ESkillReferentialType.ROME4)
+      const validData = createValidFormData(ESkillLevel.EXPERT, skill)
       const validator = getOnSubmitValidator()
       const validationResult = validator({ value: validData })
 
@@ -172,11 +172,11 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
 
     BddTest().then('it should validate with all skill levels', () => {
       const skillLevels = [
-        EDeclaredSkillLevel.BEGINNER,
-        EDeclaredSkillLevel.INTERMEDIATE,
-        EDeclaredSkillLevel.COMPETENT,
-        EDeclaredSkillLevel.ADVANCED,
-        EDeclaredSkillLevel.EXPERT
+        ESkillLevel.BEGINNER,
+        ESkillLevel.INTERMEDIATE,
+        ESkillLevel.COMPETENT,
+        ESkillLevel.ADVANCED,
+        ESkillLevel.EXPERT
       ]
 
       skillLevels.forEach((level) => {
@@ -210,7 +210,7 @@ BddTest().given('the useDeclaredSkillForm composable', () => {
     BddTest().then('it should have proper default values', () => {
       const state = composableResult.form.useStore(state => state)
       expect(state.value.values.selectedSkills).toEqual([])
-      expect(state.value.values.level).toEqual(EDeclaredSkillLevel.BEGINNER)
+      expect(state.value.values.level).toEqual(ESkillLevel.BEGINNER)
     })
 
     BddTest().then('it should track form validation state', () => {

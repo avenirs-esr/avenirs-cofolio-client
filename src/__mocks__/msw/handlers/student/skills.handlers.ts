@@ -1,25 +1,25 @@
 import type { PathParams } from 'msw'
-import type { AddDeclaredSkillDTO, AdditionalSkillConfigurationDTO, DeclaredSkillProgressDetailsDTO, DeclaredSkillProgressDTO, GetDeclaredSkillsProgressesParams, PagedResponseDeclaredSkillProgressDTO, PagedResponseExternalSkillDTO } from '@/api/avenir-esr'
+import type { AdditionalSkillConfigurationDTO, AddSkillProgressDTO, GetSkillProgressesParams, PagedResponseExternalSkillDTO, PagedResponseSkillProgressDTO, SkillProgressDetailsDTO, SkillProgressDTO } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { delay, http, HttpResponse } from 'msw'
 import {
   createMockedAssociatedExternalSkillIds,
-  createMockedDeclaredSkillProgressDetailsDTO,
-  createMockedPagedResponseDeclaredSkillProgressDTO,
-  createMockedSearchExternalSkillsDTO
+  createMockedPagedResponseSkillProgressDTO,
+  createMockedSearchExternalSkillsDTO,
+  createMockedSkillProgressDetailsDTO
 } from '@/__mocks__/fixtures/student/skills.fixtures'
 import {
 
-  EDeclaredSkillLevel,
-  EExternalSkillType,
-  getCreateDeclaredSkillProgressUrl,
+  ESkillLevel,
+  ESkillReferentialType,
+  getCreateSkillProgressUrl,
 
-  getDeleteDeclaredSkillProgressUrl,
+  getDeleteSkillProgressUrl,
   getGetAdditionalSkillConfigUrl,
-  getGetAssociatedExternalSkillIdsUrl,
-  getGetDeclaredSkillProgressDetailsUrl,
-  getGetDeclaredSkillsProgressesUrl,
-  getUpdateDeclaredSkillProgressUrl
+  getGetSkillIdsUrl,
+  getGetSkillProgressDetailsUrl,
+  getGetSkillProgressesUrl,
+  getUpdateSkillProgressUrl
 
 } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
@@ -27,10 +27,10 @@ import { ErrorCodes } from '@/common/constants'
 const INVALID_DECLARED_SKILL_ID = 'INVALID_DECLARED_SKILL_ID'
 
 export function createDeclaredSkillsProgressViewHandler (
-  payload: PagedResponseDeclaredSkillProgressDTO,
-  onRequest?: (params: GetDeclaredSkillsProgressesParams) => void
+  payload: PagedResponseSkillProgressDTO,
+  onRequest?: (params: GetSkillProgressesParams) => void
 ) {
-  return http.get(`*${getGetDeclaredSkillsProgressesUrl()}`, ({ request }) => {
+  return http.get(`*${getGetSkillProgressesUrl()}`, ({ request }) => {
     if (onRequest) {
       const searchParams = new URL(request.url).searchParams
       onRequest({
@@ -40,7 +40,7 @@ export function createDeclaredSkillsProgressViewHandler (
       })
     }
 
-    return HttpResponse.json<PagedResponseDeclaredSkillProgressDTO>(payload, {
+    return HttpResponse.json<PagedResponseSkillProgressDTO>(payload, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -49,16 +49,16 @@ export function createDeclaredSkillsProgressViewHandler (
   })
 }
 
-export const declaredSkillsProgressViewErrorHandler = http.get(`*${getGetDeclaredSkillsProgressesUrl()}`, () => {
+export const declaredSkillsProgressViewErrorHandler = http.get(`*${getGetSkillProgressesUrl()}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
     { status: 500 }
   )
 })
 
-export const detailedSkillProgressNotFoundErrorHandler = http.get(`*${getGetDeclaredSkillProgressDetailsUrl(':id')}`, () => {
+export const detailedSkillProgressNotFoundErrorHandler = http.get(`*${getGetSkillProgressDetailsUrl(':id')}`, () => {
   return HttpResponse.json(
-    { code: ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND, message: 'Internal server error' },
+    { code: ErrorCodes.SKILL_PROGRESS_NOT_FOUND, message: 'Internal server error' },
     { status: 404 }
   )
 })
@@ -71,15 +71,15 @@ export const skillConfigErrorHandler = http.get<PathParams, AdditionalSkillConfi
 })
 
 export const skillsHandlers = [
-  http.get<PathParams, PagedResponseDeclaredSkillProgressDTO>(`*${getGetDeclaredSkillsProgressesUrl()}`, ({ request }) => {
+  http.get<PathParams, PagedResponseSkillProgressDTO>(`*${getGetSkillProgressesUrl()}`, ({ request }) => {
     const url = new URL(request.url)
     const searchParams = url.searchParams
 
     const pageSize = Number(searchParams.get('pageSize') ?? PageSizes.FOUR)
     const page = Number(searchParams.get('page') ?? 0)
-    const response = createMockedPagedResponseDeclaredSkillProgressDTO(pageSize, 20, page)
+    const response = createMockedPagedResponseSkillProgressDTO(pageSize, 20, page)
 
-    return HttpResponse.json<PagedResponseDeclaredSkillProgressDTO>(response, {
+    return HttpResponse.json<PagedResponseSkillProgressDTO>(response, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ export const skillsHandlers = [
     })
   }),
 
-  http.get<PathParams, string[]>(`*${getGetAssociatedExternalSkillIdsUrl()}`, () => {
+  http.get<PathParams, string[]>(`*${getGetSkillIdsUrl()}`, () => {
     const response = createMockedAssociatedExternalSkillIds()
 
     return HttpResponse.json<string[]>(response, {
@@ -117,23 +117,23 @@ export const skillsHandlers = [
 
   http.get<PathParams, AdditionalSkillConfigurationDTO>(`*${getGetAdditionalSkillConfigUrl()}`, () => {
     const mockConfig: AdditionalSkillConfigurationDTO = {
-      [EDeclaredSkillLevel.BEGINNER]: {
+      [ESkillLevel.BEGINNER]: {
         label: 'Débutant',
         description: 'Je découvre cette compétence'
       },
-      [EDeclaredSkillLevel.INTERMEDIATE]: {
+      [ESkillLevel.INTERMEDIATE]: {
         label: 'Intermédiaire',
         description: 'Je commence à maîtriser cette compétence'
       },
-      [EDeclaredSkillLevel.COMPETENT]: {
+      [ESkillLevel.COMPETENT]: {
         label: 'Compétent',
         description: 'Je maîtrise cette compétence'
       },
-      [EDeclaredSkillLevel.ADVANCED]: {
+      [ESkillLevel.ADVANCED]: {
         label: 'Avancé',
         description: 'Je maîtrise bien cette compétence'
       },
-      [EDeclaredSkillLevel.EXPERT]: {
+      [ESkillLevel.EXPERT]: {
         label: 'Expert',
         description: 'Je maîtrise parfaitement cette compétence'
       }
@@ -147,9 +147,9 @@ export const skillsHandlers = [
     })
   }),
 
-  http.get<{ id: string }, DeclaredSkillProgressDetailsDTO>(`*${getGetDeclaredSkillProgressDetailsUrl(':id')}`, async ({ params }) => {
+  http.get<{ id: string }, SkillProgressDetailsDTO>(`*${getGetSkillProgressDetailsUrl(':id')}`, async ({ params }) => {
     const { id } = params
-    const response = createMockedDeclaredSkillProgressDetailsDTO(id)
+    const response = createMockedSkillProgressDetailsDTO(id)
     return HttpResponse.json(response, {
       status: 200,
       headers: {
@@ -158,7 +158,7 @@ export const skillsHandlers = [
     })
   }),
 
-  http.put<{ id: string }, DeclaredSkillProgressDetailsDTO>(`*${getUpdateDeclaredSkillProgressUrl(':id')}`, async ({ params }) => {
+  http.put<{ id: string }, SkillProgressDetailsDTO>(`*${getUpdateSkillProgressUrl(':id')}`, async ({ params }) => {
     const { id } = params
 
     if (!id) {
@@ -167,12 +167,12 @@ export const skillsHandlers = [
 
     if (id === INVALID_DECLARED_SKILL_ID) {
       return HttpResponse.json(
-        { code: ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND, message: 'Internal server error' },
+        { code: ErrorCodes.SKILL_PROGRESS_NOT_FOUND, message: 'Internal server error' },
         { status: 404 }
       )
     }
 
-    const response = createMockedDeclaredSkillProgressDetailsDTO(id)
+    const response = createMockedSkillProgressDetailsDTO(id)
     return HttpResponse.json(response, {
       status: 200,
       headers: {
@@ -181,11 +181,11 @@ export const skillsHandlers = [
     })
   }),
 
-  http.delete<{ declaredSkillProgressId: string }>(`*${getDeleteDeclaredSkillProgressUrl(':declaredSkillProgressId')}`, async ({ params }) => {
+  http.delete<{ declaredSkillProgressId: string }>(`*${getDeleteSkillProgressUrl(':declaredSkillProgressId')}`, async ({ params }) => {
     const { declaredSkillProgressId } = params
 
     if (declaredSkillProgressId === 'INVALID_SKILL_ID') {
-      return HttpResponse.json({ error: 'Invalid skill ID', code: ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND }, { status: 404 })
+      return HttpResponse.json({ error: 'Invalid skill ID', code: ErrorCodes.SKILL_PROGRESS_NOT_FOUND }, { status: 404 })
     }
 
     const response = `Skill progress with id ${declaredSkillProgressId} deleted successfully`
@@ -197,7 +197,7 @@ export const skillsHandlers = [
     })
   }),
 
-  http.post<PathParams, AddDeclaredSkillDTO>(`*${getCreateDeclaredSkillProgressUrl()}`, async ({ request }) => {
+  http.post<PathParams, AddSkillProgressDTO>(`*${getCreateSkillProgressUrl()}`, async ({ request }) => {
     const body = await request.json()
     await delay(100)
 
@@ -208,12 +208,13 @@ export const skillsHandlers = [
       )
     }
 
-    const response: DeclaredSkillProgressDTO = {
+    const response: SkillProgressDTO = {
       id: body.id ?? crypto.randomUUID(),
+      skillId: body.id ?? crypto.randomUUID(),
       title: `Mocked Skill ${body.id}`,
       pathSegments: ['Category', 'Subcategory'],
-      type: body.type ?? EExternalSkillType.ROME4,
-      level: body.level ?? EDeclaredSkillLevel.INTERMEDIATE,
+      type: ESkillReferentialType.ROME4,
+      level: body.level ?? ESkillLevel.INTERMEDIATE,
       reflection: body.reflection ?? 'Mocked skill reflection',
       valorized: false,
       associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }

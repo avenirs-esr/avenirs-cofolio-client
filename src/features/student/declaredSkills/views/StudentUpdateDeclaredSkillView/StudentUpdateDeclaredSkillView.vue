@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { EAssociationContextType, useGetAssociations, useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
+import { EAssociationContextType, useGetAssociations, useGetSkillProgressDetails } from '@/api/avenir-esr'
 import { ConfirmationModal } from '@/common/components'
 import UpdateInProgressBadge from '@/common/components/badges/UpdateInProgressBadge/UpdateInProgressBadge.vue'
 import UpdatePageTitle from '@/common/components/navigation/UpdatePageTitle/UpdatePageTitle.vue'
@@ -26,11 +26,11 @@ enum StudentUpdateDeclaredSkillViewTabs {
 const { t } = useI18n()
 const { isStudentToolsKitRoute } = useIdentifyRoute()
 const { navigateToStudentProjectDeclaredSkill, navigateToStudentToolsKitSkill } = useNavigation()
-const { data: declaredSkillDetailed } = useGetDeclaredSkillProgressDetails(skillId)
+const { data: declaredSkillDetailed } = useGetSkillProgressDetails(skillId)
 
 const skillProgressId = computed(() => declaredSkillDetailed.value?.id ?? '')
-const { data: declaredSkillAssociations, error: associationsError } = useGetAssociations(EAssociationContextType.DECLARED_SKILL, skillProgressId, undefined, { query: { enabled: computed(() => !!skillProgressId.value) } })
-const associationsCount = computed(() => countElementAssociations(EAssociationContextType.DECLARED_SKILL, declaredSkillAssociations.value))
+const { data: skillProgressAssociations, error: associationsError } = useGetAssociations(EAssociationContextType.DECLARED_SKILL, skillProgressId, undefined, { query: { enabled: computed(() => !!skillProgressId.value) } })
+const associationsCount = computed(() => countElementAssociations(EAssociationContextType.DECLARED_SKILL, skillProgressAssociations.value))
 
 const activeTab = ref(StudentUpdateDeclaredSkillViewTabs.DETAILS)
 const updateInProgress = ref(false)
@@ -99,7 +99,7 @@ async function handleCancel () {
         v-if="declaredSkillDetailed"
         :context-type="EAssociationContextType.DECLARED_SKILL"
         :element-id="declaredSkillDetailed.id"
-        :associations="declaredSkillAssociations"
+        :associations="skillProgressAssociations"
         :error="associationsError"
         readonly
       />

@@ -58,9 +58,9 @@ const title = computed(() => isAssociationLimited(limit)
     </template>
     <template v-else-if="associatedContextType === EAssociationContextType.DECLARED_SKILL">
       <AssociatedSkillCard
-        v-for="association in associations.declaredSkillAssociations"
+        v-for="association in associations.skillProgressAssociations"
         :key="association.associationId"
-        :declared-skill="association.declaredSkill"
+        :declared-skill="association.skillProgress"
         :disabled="disabled"
         :disabled-tooltip
       />

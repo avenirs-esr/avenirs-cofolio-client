@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
-import type { DeclaredSkillCategoryDTO } from '@/api/avenir-esr'
+import type { SkillPathSegmentDTO } from '@/api/avenir-esr'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EExternalSkillCategoryType, EExternalSkillType } from '@/api/avenir-esr'
+import { ESkillKind, ESkillReferentialType } from '@/api/avenir-esr'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import DeclaredSkillRefCard from '@/features/student/declaredSkills/components/cards/DeclaredSkillRefCard/DeclaredSkillRefCard.vue'
 
@@ -17,10 +17,10 @@ const AvIconTextStub = {
 BddTest().given('a DeclaredSkillRefCard component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredSkillRefCard>>
 
-  const makeSegments = (n = 2): DeclaredSkillCategoryDTO[] => {
-    const base: DeclaredSkillCategoryDTO[] = [
-      { type: EExternalSkillCategoryType.MACRO_SKILL, libelle: 'Langues' },
-      { type: EExternalSkillCategoryType.DOMAIN, libelle: 'Anglais' },
+  const makeSegments = (n = 2): SkillPathSegmentDTO[] => {
+    const base: SkillPathSegmentDTO[] = [
+      { type: ESkillKind.MACRO_SKILL, libelle: 'Langues' },
+      { type: ESkillKind.DOMAIN, libelle: 'Anglais' },
     ]
     if (n <= 0) {
       return []
@@ -31,8 +31,8 @@ BddTest().given('a DeclaredSkillRefCard component', () => {
     return base
   }
 
-  const mountWith = (opts: { type?: EExternalSkillType, segmentsCount?: number } = {}) => {
-    const type: EExternalSkillType = opts.type ?? EExternalSkillType.ROME4
+  const mountWith = (opts: { type?: ESkillReferentialType, segmentsCount?: number } = {}) => {
+    const type: ESkillReferentialType = opts.type ?? ESkillReferentialType.ROME4
     const pathSegments = makeSegments(opts.segmentsCount ?? 2)
 
     wrapper = mountComponent(DeclaredSkillRefCard, {

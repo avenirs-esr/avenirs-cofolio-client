@@ -1,15 +1,15 @@
-import type { DeclaredSkillProgressDetailsDTO, DeclaredSkillProgressRequest } from '@/api/avenir-esr'
+import type { SkillProgressDetailsDTO, SkillProgressRequest } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { invalidateGetDeclaredSkillProgressDetails, useUpdateDeclaredSkillProgress } from '@/api/avenir-esr'
+import { invalidateGetSkillProgressDetails, useUpdateSkillProgress } from '@/api/avenir-esr'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { DECLARED_SKILL_REFLECTION_MAX_LENGTH } from '@/features/student/declaredSkills/config'
 import { useToasterStore } from '@/store'
 
-function normalize (dto: DeclaredSkillProgressDetailsDTO): DeclaredSkillProgressDetailsDTO {
+function normalize (dto: SkillProgressDetailsDTO): SkillProgressDetailsDTO {
   return {
     ...dto,
     reflection: (dto.reflection ?? '').slice(0, DECLARED_SKILL_REFLECTION_MAX_LENGTH),
@@ -17,7 +17,7 @@ function normalize (dto: DeclaredSkillProgressDetailsDTO): DeclaredSkillProgress
 }
 
 export function useUpdateDeclaredSkillForm (
-  declaredSkillProgressDetails: DeclaredSkillProgressDetailsDTO,
+  declaredSkillProgressDetails: SkillProgressDetailsDTO,
   onSkillUpdated?: () => void
 ) {
   const { t } = useI18n()
@@ -33,21 +33,21 @@ export function useUpdateDeclaredSkillForm (
     })
   }
 
-  const { mutate: mutateUpdateDeclaredSkillProgress, isPending } = useUpdateDeclaredSkillProgress()
+  const { mutate: mutateUpdateDeclaredSkillProgress, isPending } = useUpdateSkillProgress()
 
-  function updateDeclaredSkill (declaredSkillProgressDetails: DeclaredSkillProgressDetailsDTO) {
-    const data: DeclaredSkillProgressRequest = {
+  function updateDeclaredSkill (declaredSkillProgressDetails: SkillProgressDetailsDTO) {
+    const data: SkillProgressRequest = {
       level: declaredSkillProgressDetails.level,
       reflection: declaredSkillProgressDetails.reflection ?? '',
       valorized: declaredSkillProgressDetails.valorized,
     }
 
-    mutateUpdateDeclaredSkillProgress({ declaredSkillProgressId: declaredSkillProgressDetails.id, data }, {
+    mutateUpdateDeclaredSkillProgress({ skillProgressId: declaredSkillProgressDetails.id, data }, {
       onError: onUpdateDeclaredSkillError,
       onSuccess: async () => {
         addSuccessMessage(t('student.declaredSkills.views.StudentUpdateDeclaredSkillView.updateForm.success'))
         onSkillUpdated?.()
-        await withTaskLoading(() => invalidateGetDeclaredSkillProgressDetails(queryClient, declaredSkillProgressDetails.id))
+        await withTaskLoading(() => invalidateGetSkillProgressDetails(queryClient, declaredSkillProgressDetails.id))
       }
     })
   }

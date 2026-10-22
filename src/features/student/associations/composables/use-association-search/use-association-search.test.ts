@@ -13,7 +13,7 @@ import { createMockedAssociationLimits, createMockedAssociationSearchResponse, c
 import { invalidTraceId } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { createGetAssociationLimitsHandler, searchForAssociationErrorHandler, searchForAssociationWithNewElementErrorHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EActivityThematic, EAssociationContextType, EExperienceType, EExternalSkillType } from '@/api/avenir-esr'
+import { EActivityThematic, EAssociationContextType, EExperienceType, ESkillReferentialType } from '@/api/avenir-esr'
 import { useAssociationSearch, useAssociationSearchResults } from '@/features/student/associations/composables/use-association-search/use-association-search'
 import { ASSOCIATION_CONTEXT_CONFIGS, ASSOCIATION_SEARCH_FILTER_IS_ASSOCIATED, ASSOCIATION_SEARCH_PAGE_SIZE, DEFAULT_ASSOCIATION_SEARCH_FILTER } from '@/features/student/associations/constants/associations.constants'
 import { AssociationSearchFilter } from '@/features/student/associations/types/associations.types'
@@ -33,9 +33,9 @@ const TRANSLATED_CATEGORIES = [
   { contextType: EAssociationContextType.DECLARED_ACTIVITY, category: EActivityThematic.SELF_KNOWLEDGE, description: 'Me connaître' },
   { contextType: EAssociationContextType.DECLARED_ACTIVITY, category: EActivityThematic.FUTURE_PLANS, description: 'Explorer mes futurs' },
   { contextType: EAssociationContextType.DECLARED_ACTIVITY, category: EActivityThematic.PROGRAMS, description: 'Mes formations' },
-  { contextType: EAssociationContextType.DECLARED_SKILL, category: EExternalSkillType.ROME4, description: 'Rome 4.0' },
-  { contextType: EAssociationContextType.DECLARED_SKILL, category: EExternalSkillType.XXI, description: 'XXIᵉ onisep' },
-  { contextType: EAssociationContextType.DECLARED_SKILL, category: EExternalSkillType.CASOC, description: 'Casoc onisep' },
+  { contextType: EAssociationContextType.DECLARED_SKILL, category: ESkillReferentialType.ROME4, description: 'Rome 4.0' },
+  { contextType: EAssociationContextType.DECLARED_SKILL, category: ESkillReferentialType.XXI, description: 'XXIᵉ onisep' },
+  { contextType: EAssociationContextType.DECLARED_SKILL, category: ESkillReferentialType.CASOC, description: 'Casoc onisep' },
   { contextType: EAssociationContextType.DECLARED_EXPERIENCE, category: EExperienceType.PERSONAL, description: 'Expérience personnelle' },
   { contextType: EAssociationContextType.DECLARED_EXPERIENCE, category: EExperienceType.PROFESSIONAL, description: 'Expérience professionnelle' }
 ]

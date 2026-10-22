@@ -26,7 +26,7 @@ import {
 const associations: AssociationsDTO = {
   traceAssociations: createMockedTraceAssociations(2),
   declaredActivityAssociations: createMockedDeclaredActivityAssociations(1),
-  declaredSkillAssociations: createMockedDeclaredSkillAssociations(3),
+  skillProgressAssociations: createMockedDeclaredSkillAssociations(3),
   declaredExperienceAssociations: createMockedDeclaredExperienceAssociations(4),
   declaredProgramAssociations: createMockedDeclaredProgramAssociations(2),
 }
@@ -104,8 +104,8 @@ BddTest().given('getElementAssociations', () => {
       [EAssociationContextType.DECLARED_ACTIVITY]: associations.declaredActivityAssociations.map(({ associationId, declaredActivity }) =>
         toElementAssociation(associationId, declaredActivity),
       ),
-      [EAssociationContextType.DECLARED_SKILL]: associations.declaredSkillAssociations.map(({ associationId, declaredSkill }) =>
-        toElementAssociation(associationId, declaredSkill),
+      [EAssociationContextType.DECLARED_SKILL]: associations.skillProgressAssociations.map(({ associationId, skillProgress }) =>
+        toElementAssociation(associationId, skillProgress),
       ),
       [EAssociationContextType.DECLARED_EXPERIENCE]: associations.declaredExperienceAssociations.map(
         ({ associationId, declaredExperience }) => toElementAssociation(associationId, declaredExperience),

@@ -27,8 +27,8 @@ function getAssociatedElement (association: AssociationDTO): IdTitle {
   if ('declaredActivity' in association) {
     return association.declaredActivity
   }
-  if ('declaredSkill' in association) {
-    return association.declaredSkill
+  if ('skillProgress' in association) {
+    return association.skillProgress
   }
   if ('declaredExperience' in association) {
     return association.declaredExperience

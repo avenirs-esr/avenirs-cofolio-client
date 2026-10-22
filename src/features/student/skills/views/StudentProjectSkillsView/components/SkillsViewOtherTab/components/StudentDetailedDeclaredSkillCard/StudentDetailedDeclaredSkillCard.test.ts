@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import type { DeclaredSkillProgressDTO, ExternalSkillDTO } from '@/api/avenir-esr'
+import type { ExternalSkillDTO, SkillProgressDTO } from '@/api/avenir-esr'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { EDeclaredSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
+import { ESkillLevel, ESkillReferentialType } from '@/api/avenir-esr'
 import { ValorizedBadgeStub } from '@/common/components/badges/ValorizedBadge/ValorizedBadge.stub'
 import { ROUTES } from '@/common/constants'
 import StudentDetailedDeclaredSkillCard from '@/features/student/skills/views/StudentProjectSkillsView/components/SkillsViewOtherTab/components/StudentDetailedDeclaredSkillCard/StudentDetailedDeclaredSkillCard.vue'
@@ -18,16 +18,17 @@ vi.mock('vue-router', async (importOriginal) => {
 const mockSkill: ExternalSkillDTO = {
   id: 'declared-skill-1',
   title: 'Accueillir des enfants',
-  type: EExternalSkillType.ROME4,
+  type: ESkillReferentialType.ROME4,
   pathSegments: ['Relation client', 'Accueillir et orienter']
 }
 
-const mockDeclaredSkillProgress: DeclaredSkillProgressDTO = {
+const mockDeclaredSkillProgress: SkillProgressDTO = {
   id: 'declared-skill-progress-1',
+  skillId: 'declared-skill-progress-1',
   title: 'Accueillir des enfants',
-  type: EExternalSkillType.ROME4,
+  type: ESkillReferentialType.ROME4,
   pathSegments: ['Relation client', 'Accueillir et orienter'],
-  level: EDeclaredSkillLevel.BEGINNER,
+  level: ESkillLevel.BEGINNER,
   valorized: true,
   associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }
 }
@@ -43,7 +44,7 @@ const stubs = {
 }
 
 function createWrapper (
-  declaredSkill: ExternalSkillDTO | DeclaredSkillProgressDTO = mockSkill
+  declaredSkill: ExternalSkillDTO | SkillProgressDTO = mockSkill
 ) {
   return mount(StudentDetailedDeclaredSkillCard, {
     props: {

@@ -103,7 +103,7 @@ BddTest().given('a declared program update view component', () => {
   let wrapper: VueWrapper<InstanceType<typeof DeclaredProgramUpdateView>>
 
   const associationsCount = mockedDeclaredProgramAssociations.traceAssociations.length
-    + mockedDeclaredProgramAssociations.declaredSkillAssociations.length
+    + mockedDeclaredProgramAssociations.skillProgressAssociations.length
     + mockedDeclaredProgramAssociations.declaredExperienceAssociations.length
     + mockedDeclaredProgramAssociations.declaredActivityAssociations.length
 

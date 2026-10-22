@@ -4,7 +4,7 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComposable } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { createMockedPagedResponseDeclaredSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { createMockedPagedResponseSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { createDeclaredSkillsProgressViewHandler, declaredSkillsProgressViewErrorHandler, skillConfigErrorHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { createParagraphMock, createTextRunMock, MockHeadingLevel } from '@/common/utils/docx/test-utils'
@@ -20,8 +20,8 @@ BddTest().given('a useGenerateSkillsSection composable', () => {
   let result: ReturnType<typeof useGenerateSkillsSection>
   let requestedParams: GetDeclaredProgramsParams
 
-  const mockedResponse = createMockedPagedResponseDeclaredSkillProgressDTO(100, 100, 0)
-  const mockedResponseEmpty = createMockedPagedResponseDeclaredSkillProgressDTO(0, 100, 0)
+  const mockedResponse = createMockedPagedResponseSkillProgressDTO(100, 100, 0)
+  const mockedResponseEmpty = createMockedPagedResponseSkillProgressDTO(0, 100, 0)
 
   const mountGenerateSkillsSection = async () => {
     result = mountComposable(useGenerateSkillsSection, { useTanstack: true, useI18n: true }).result

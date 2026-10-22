@@ -3,7 +3,7 @@ import { ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
-import { EActivityThematic, EAssociationContextType, EExperienceType, EExternalSkillType } from '@/api/avenir-esr'
+import { EActivityThematic, EAssociationContextType, EExperienceType, ESkillReferentialType } from '@/api/avenir-esr'
 import { ActivityThematicBadgeStub } from '@/common/activities/badges/ActivityThematicBadge/ActivityThematicBadge.stub'
 import { ICONS } from '@/common/constants'
 import AssociationCompactCard from '@/features/student/associations/components/cards/AssociationCompactCard/AssociationCompactCard.vue'
@@ -142,7 +142,7 @@ BddTest().given('an association compact card', () => {
       association: {
         id: 'skill-1',
         title: 'Gestion de projet agile',
-        category: EExternalSkillType.ROME4,
+        category: ESkillReferentialType.ROME4,
         description: 'Rome 4.0'
       }
     }

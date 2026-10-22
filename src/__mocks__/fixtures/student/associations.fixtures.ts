@@ -1,4 +1,4 @@
-import type { AssociationLimitDTO, AssociationsDTO, AssociationSearchResultDTO, DeclaredActivityAssociationDTO, DeclaredExperienceAssociationDTO, DeclaredProgramAssociationDTO, DeclaredSkillAssociationDTO, PagedResponseAssociationSearchResultDTO, SearchForAssociationParams, TraceAssociationDTO, TraceOverviewDTO } from '@/api/avenir-esr'
+import type { AssociationLimitDTO, AssociationsDTO, AssociationSearchResultDTO, DeclaredActivityAssociationDTO, DeclaredExperienceAssociationDTO, DeclaredProgramAssociationDTO, PagedResponseAssociationSearchResultDTO, SearchForAssociationParams, SkillProgressAssociationDTO, TraceAssociationDTO, TraceOverviewDTO } from '@/api/avenir-esr'
 import { createMockedDeclaredExperiences } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'
 import { createMockedDeclaredPrograms } from '@/__mocks__/fixtures/student/declaredPrograms.fixtures'
 import { mockedTraceOverview } from '@/__mocks__/fixtures/student/traces.fixtures'
@@ -6,16 +6,16 @@ import {
   EActivityThematic,
   EAssociationContextType,
   EDeclaredActivityStatus,
-  EDeclaredSkillLevel,
   EExperienceType,
-  EExternalSkillType,
+  ESkillLevel,
+  ESkillReferentialType,
   ETraceAuthorType
 } from '@/api/avenir-esr'
 
 export const mockedEmptyAssociations: AssociationsDTO = {
   traceAssociations: [],
   declaredActivityAssociations: [],
-  declaredSkillAssociations: [],
+  skillProgressAssociations: [],
   declaredExperienceAssociations: [],
   declaredProgramAssociations: []
 }
@@ -71,15 +71,16 @@ export function createMockedDeclaredActivityAssociations (count: number): Declar
   }))
 }
 
-export function createMockedDeclaredSkillAssociations (count: number): DeclaredSkillAssociationDTO[] {
+export function createMockedDeclaredSkillAssociations (count: number): SkillProgressAssociationDTO[] {
   return Array.from({ length: count }, (_, index) => ({
     associationId: `association-id-${index}`,
-    declaredSkill: {
+    skillProgress: {
       id: `declared-skill-id-${index}`,
+      skillId: `declared-skill-id-${index}`,
       title: `Declared skill ${index + 1}`,
       pathSegments: ['first', 'second', 'third'],
-      type: EExternalSkillType.ROME4,
-      level: EDeclaredSkillLevel.BEGINNER,
+      type: ESkillReferentialType.ROME4,
+      level: ESkillLevel.BEGINNER,
       reflection: `Description for declared skill ${index + 1}`,
       valorized: false,
       associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }
@@ -101,39 +102,42 @@ export function createMockedDeclaredProgramAssociations (count: number): Declare
   }))
 }
 
-export const mockedTraceDeclaredSkillAssociations: DeclaredSkillAssociationDTO[] = [
+export const mockedTraceDeclaredSkillAssociations: SkillProgressAssociationDTO[] = [
   {
     associationId: 'id-1-1',
-    declaredSkill: {
+    skillProgress: {
       id: 'declared-1',
+      skillId: 'declared-1',
       title: 'Gestion de projet agile',
-      level: EDeclaredSkillLevel.ADVANCED,
+      level: ESkillLevel.ADVANCED,
       pathSegments: ['Management', 'Gestion de projet'],
-      type: EExternalSkillType.ROME4,
+      type: ESkillReferentialType.ROME4,
       valorized: false,
       associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }
     }
   },
   {
     associationId: 'id-1-2',
-    declaredSkill: {
+    skillProgress: {
       id: 'declared-2',
+      skillId: 'declared-2',
       title: 'Communication interpersonnelle',
-      level: EDeclaredSkillLevel.COMPETENT,
+      level: ESkillLevel.COMPETENT,
       pathSegments: ['Soft Skills', 'Communication'],
-      type: EExternalSkillType.ROME4,
+      type: ESkillReferentialType.ROME4,
       valorized: false,
       associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }
     }
   },
   {
     associationId: 'id-1-3',
-    declaredSkill: {
+    skillProgress: {
       id: 'declared-3',
+      skillId: 'declared-3',
       title: 'Analyse de données',
-      level: EDeclaredSkillLevel.EXPERT,
+      level: ESkillLevel.EXPERT,
       pathSegments: ['Technique', 'Data Science'],
-      type: EExternalSkillType.ROME4,
+      type: ESkillReferentialType.ROME4,
       valorized: false,
       associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }
     }
@@ -172,14 +176,14 @@ export const mockedTraceDeclaredActivityAssociations: DeclaredActivityAssociatio
 export const mockedTraceAssociations: AssociationsDTO = {
   ...mockedEmptyAssociations,
   declaredActivityAssociations: mockedTraceDeclaredActivityAssociations,
-  declaredSkillAssociations: mockedTraceDeclaredSkillAssociations,
+  skillProgressAssociations: mockedTraceDeclaredSkillAssociations,
   declaredProgramAssociations: createMockedDeclaredProgramAssociations(2)
 }
 
 export const mockedDeclaredActivityAssociations: AssociationsDTO = {
   ...mockedEmptyAssociations,
   traceAssociations: createMockedTraceAssociations(6),
-  declaredSkillAssociations: createMockedDeclaredSkillAssociations(3)
+  skillProgressAssociations: createMockedDeclaredSkillAssociations(3)
 }
 
 export const mockedDeclaredSkillAssociations: AssociationsDTO = {
@@ -205,7 +209,7 @@ export const mockedDeclaredProgramAssociations: AssociationsDTO = {
   ...mockedEmptyAssociations,
   traceAssociations: createMockedTraceAssociations(2),
   declaredActivityAssociations: createMockedDeclaredActivityAssociations(1),
-  declaredSkillAssociations: createMockedDeclaredSkillAssociations(3),
+  skillProgressAssociations: createMockedDeclaredSkillAssociations(3),
   declaredExperienceAssociations: createMockedDeclaredExperienceAssociations(2)
 }
 
@@ -253,9 +257,9 @@ export const mockedActivitySearchResults: AssociationSearchResultDTO[] = [
 ]
 
 export const mockedSkillSearchResults: AssociationSearchResultDTO[] = [
-  { id: 'skill-search-1', title: 'Gestion de projet agile', category: EExternalSkillType.ROME4, disabled: false, limitReached: false },
-  { id: 'skill-search-2', title: 'Communication interpersonnelle', category: EExternalSkillType.XXI, disabled: false, limitReached: false },
-  { id: 'skill-search-3', title: 'Analyse de données', category: EExternalSkillType.ROME4, disabled: true, limitReached: false }
+  { id: 'skill-search-1', title: 'Gestion de projet agile', category: ESkillReferentialType.ROME4, disabled: false, limitReached: false },
+  { id: 'skill-search-2', title: 'Communication interpersonnelle', category: ESkillReferentialType.XXI, disabled: false, limitReached: false },
+  { id: 'skill-search-3', title: 'Analyse de données', category: ESkillReferentialType.ROME4, disabled: true, limitReached: false }
 ]
 
 export const mockedExperienceSearchResults: AssociationSearchResultDTO[] = [

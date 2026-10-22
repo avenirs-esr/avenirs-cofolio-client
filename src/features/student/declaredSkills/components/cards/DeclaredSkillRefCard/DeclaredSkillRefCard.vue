@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import type {
-  DeclaredSkillCategoryDTO,
-  EExternalSkillType
+  ESkillReferentialType,
+  SkillPathSegmentDTO
 } from '@/api/avenir-esr'
 import { AvBadge, AvIcon, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import Card from '@/common/components/cards/Card/Card.vue'
 
 export interface DeclaredSkillRefCardProps {
-  type: EExternalSkillType
-  pathSegments: DeclaredSkillCategoryDTO[]
+  type: ESkillReferentialType
+  pathSegments: SkillPathSegmentDTO[]
 }
 
 const { type, pathSegments } = defineProps<DeclaredSkillRefCardProps>()

@@ -31,7 +31,7 @@ BddTest().given('an associated declared experience card', () => {
     updatedAt: '2026-01-01T00:00:00Z',
     declaredExperienceAssociationCountDTO: {
       traceAssociationsCount: 3,
-      declaredSkillAssociationsCount: 1
+      skillProgressAssociationsCount: 1
     }
   }
 

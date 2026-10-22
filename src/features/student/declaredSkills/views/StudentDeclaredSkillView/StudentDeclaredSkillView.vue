@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { EAssociationContextType, useGetAssociations, useGetDeclaredSkillProgressDetails } from '@/api/avenir-esr'
+import { EAssociationContextType, useGetAssociations, useGetSkillProgressDetails } from '@/api/avenir-esr'
 import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
@@ -32,7 +32,7 @@ const {
   navigateToStudentSkills,
   navigateToStudentToolsKitSkills
 } = useNavigation()
-const { data: declaredSkillDetailed, error } = useGetDeclaredSkillProgressDetails(skillId)
+const { data: declaredSkillDetailed, error } = useGetSkillProgressDetails(skillId)
 const { modalOpened, openModal, closeModal } = useModal()
 const { isStudentToolsKitRoute } = useIdentifyRoute()
 
@@ -42,7 +42,7 @@ const skillProgressId = computed(() => declaredSkillDetailed.value?.id ?? '')
 const { data: associations, error: associationsError } = useGetAssociations(EAssociationContextType.DECLARED_SKILL, skillProgressId, undefined, { query: { enabled: computed(() => !!skillProgressId.value) } })
 
 const { originalErrorCode, isNotFound, getErrorMessage } = useApiErrors(error)
-const isDeclaredSkillNotFound = computed(() => originalErrorCode.value === ErrorCodes.DECLARED_SKILL_PROGRESS_NOT_FOUND || isNotFound.value)
+const isDeclaredSkillNotFound = computed(() => originalErrorCode.value === ErrorCodes.SKILL_PROGRESS_NOT_FOUND || isNotFound.value)
 const skillTitle = computed(() => declaredSkillDetailed.value?.title ?? '')
 const associationsCount = computed(() => countElementAssociations(EAssociationContextType.DECLARED_SKILL, associations.value))
 

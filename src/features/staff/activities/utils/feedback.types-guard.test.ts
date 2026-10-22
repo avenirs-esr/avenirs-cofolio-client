@@ -1,6 +1,6 @@
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { createMockedDeclaredSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { createMockedSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile, mockedTraceDetailedWithLink } from '@/__mocks__/fixtures/student/traces.fixtures'
 import { EAssociationContextType } from '@/api/avenir-esr'
 import { isFeedbackTraceWithFile, isFeedbackTraceWithLink } from '@/features/staff/activities/utils/feedback.types-guard'
@@ -17,7 +17,7 @@ const mockedFeedbackTraceWithLink: FeedbackAssociatedElement = {
 
 const mockedFeedbackDeclaredSkill: FeedbackAssociatedElement = {
   type: EAssociationContextType.DECLARED_SKILL,
-  data: createMockedDeclaredSkillProgressDetailsDTO('declared-skill-types-guard'),
+  data: createMockedSkillProgressDetailsDTO('declared-skill-types-guard'),
 }
 
 BddTest().given('feedback associated element type guards', () => {

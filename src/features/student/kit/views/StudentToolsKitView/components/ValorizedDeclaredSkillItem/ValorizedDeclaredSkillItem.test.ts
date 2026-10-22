@@ -1,20 +1,21 @@
 import type { VueWrapper } from '@vue/test-utils'
-import type { DeclaredSkillProgressDTO } from '@/api/avenir-esr'
+import type { SkillProgressDTO } from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
-import { EDeclaredSkillLevel, EExternalSkillType } from '@/api/avenir-esr'
+import { ESkillLevel, ESkillReferentialType } from '@/api/avenir-esr'
 import { DeclaredSkillLevelBadgeStub } from '@/features/student/declaredSkills/components/badges/DeclaredSkillLevelBadge/DeclaredSkillLevelBadge.stub'
 import { DeclaredSkillTypeBadgeStub } from '@/features/student/declaredSkills/components/badges/DeclaredSkillTypeBadge/DeclaredSkillTypeBadge.stub'
 import ValorizedDeclaredSkillItem from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedDeclaredSkillItem/ValorizedDeclaredSkillItem.vue'
 import { ValorizedItemStub } from '@/features/student/kit/views/StudentToolsKitView/components/ValorizedItem/ValorizedItem.stub'
 
-const BASE_DECLARED_SKILL: DeclaredSkillProgressDTO = {
+const BASE_DECLARED_SKILL: SkillProgressDTO = {
   id: 'c1e6a6f0-1c2d-4f3e-9a1b-3f2b1c0d4e5f',
+  skillId: 'c1e6a6f0-1c2d-4f3e-9a1b-3f2b1c0d4e5f',
   title: 'Analyser des données qualitatives',
   pathSegments: [],
-  type: EExternalSkillType.XXI,
-  level: EDeclaredSkillLevel.INTERMEDIATE,
+  type: ESkillReferentialType.XXI,
+  level: ESkillLevel.INTERMEDIATE,
   valorized: true,
   associationsCount: { traceAssociationsCount: 0, declaredActivityAssociationsCount: 0 }
 }
@@ -25,7 +26,7 @@ const stubs = {
   DeclaredSkillLevelBadge: DeclaredSkillLevelBadgeStub,
 }
 
-function mountValorizedDeclaredSkillItem (declaredSkill: DeclaredSkillProgressDTO) {
+function mountValorizedDeclaredSkillItem (declaredSkill: SkillProgressDTO) {
   return mountComponent(ValorizedDeclaredSkillItem, {
     props: { declaredSkill },
     global: { stubs }
@@ -56,7 +57,7 @@ BddTest().given('a valorized declared skill item', () => {
       const typeLabel = wrapper.findComponent(DeclaredSkillTypeBadgeStub).props('label')
       expect(typeLabel).toBe('XXIᵉ onisep')
       const levelLabel = wrapper.findComponent(DeclaredSkillLevelBadgeStub).props('level')
-      expect(levelLabel).toBe(EDeclaredSkillLevel.INTERMEDIATE)
+      expect(levelLabel).toBe(ESkillLevel.INTERMEDIATE)
     })
   })
 
@@ -64,7 +65,7 @@ BddTest().given('a valorized declared skill item', () => {
     beforeEach(async () => {
       wrapper = mountValorizedDeclaredSkillItem({
         ...BASE_DECLARED_SKILL,
-        type: EExternalSkillType.ROME4,
+        type: ESkillReferentialType.ROME4,
         pathSegments: ['Domaine', 'Enjeu']
       })
       await flushPromises()
@@ -74,7 +75,7 @@ BddTest().given('a valorized declared skill item', () => {
       const typeLabel = wrapper.findComponent(DeclaredSkillTypeBadgeStub).props('label')
       expect(typeLabel).toBe('Rome 4.0')
       const levelLabel = wrapper.findComponent(DeclaredSkillLevelBadgeStub).props('level')
-      expect(levelLabel).toBe(EDeclaredSkillLevel.INTERMEDIATE)
+      expect(levelLabel).toBe(ESkillLevel.INTERMEDIATE)
     })
   })
 })

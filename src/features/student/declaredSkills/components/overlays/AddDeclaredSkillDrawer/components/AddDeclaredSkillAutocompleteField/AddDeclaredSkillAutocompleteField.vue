@@ -9,7 +9,7 @@ import { AvListItem, AvTooltip } from '@avenirs-esr/avenirs-dsav'
 import isEmpty from 'lodash-es/isEmpty'
 import { markRaw, toValue } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useGetAssociatedExternalSkillIds, useSearchExternalSkillsInfinite } from '@/api/avenir-esr'
+import { useGetSkillIds, useSearchExternalSkillsInfinite } from '@/api/avenir-esr'
 import Autocomplete from '@/common/components/interaction/selects/Autocomplete/Autocomplete.vue'
 import { ICONS } from '@/common/constants'
 import { highlightCaptionText, highlightTitleText } from '@/common/utils'
@@ -29,7 +29,7 @@ const declaredSkillsStore = useDeclaredSkillsStore()
 const SEARCH_SKILLS_MIN_LENGTH = 3
 const PAGE_SIZE = 10
 
-const { data: associatedExternalSkillIds } = useGetAssociatedExternalSkillIds({
+const { data: associatedExternalSkillIds } = useGetSkillIds({
   query: {
     enabled: computed(() => declaredSkillsStore.showCreateDeclaredSkillDrawer),
   }

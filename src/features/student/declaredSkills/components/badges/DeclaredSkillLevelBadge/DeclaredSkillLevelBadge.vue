@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { AvBadge, ICONS_DATA_URL } from '@avenirs-esr/avenirs-dsav'
-import { EDeclaredSkillLevel, useGetAdditionalSkillConfig } from '@/api/avenir-esr'
+import { ESkillLevel, useGetAdditionalSkillConfig } from '@/api/avenir-esr'
 import { isEnumMember } from '@/common/utils'
 
 export interface DeclaredSkillLevelBadgeProps {
-  level: EDeclaredSkillLevel
+  level: ESkillLevel
   small?: boolean
 }
 
@@ -43,11 +43,11 @@ function getBadgeConfig (level: string) {
   return config[level as keyof typeof config] || config.BEGINNER
 }
 
-function getBadgeLabel (level: EDeclaredSkillLevel) {
+function getBadgeLabel (level: ESkillLevel) {
   if (!skillConfig.value) {
     return level
   }
-  return isEnumMember(EDeclaredSkillLevel, level) ? skillConfig.value[level]?.label ?? level : level
+  return isEnumMember(ESkillLevel, level) ? skillConfig.value[level]?.label ?? level : level
 }
 
 const badgeConfig = computed(() => getBadgeConfig(level))

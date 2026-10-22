@@ -35,8 +35,8 @@ export const ASSOCIATION_CONTEXT_CONFIGS: Record<EAssociationContextType, Associ
     categoryLabelKeyPrefix: 'global.activities.badges.thematics',
   },
   [EAssociationContextType.DECLARED_SKILL]: {
-    associationsKey: 'declaredSkillAssociations',
-    relatedQueryKeys: [['me', 'declared', 'skill-progress']],
+    associationsKey: 'skillProgressAssociations',
+    relatedQueryKeys: [['me', 'skill-progress']],
     categoryLabelKeyPrefix: 'student.declaredSkills.declaredSkillTypes',
   },
   [EAssociationContextType.DECLARED_EXPERIENCE]: {
@@ -79,7 +79,7 @@ export const ASSOCIATION_SEARCH_FILTER_IS_ASSOCIATED: Record<AssociationSearchFi
 export const EMPTY_ASSOCIATIONS: AssociationsDTO = {
   traceAssociations: [],
   declaredActivityAssociations: [],
-  declaredSkillAssociations: [],
+  skillProgressAssociations: [],
   declaredExperienceAssociations: [],
   declaredProgramAssociations: [],
 }

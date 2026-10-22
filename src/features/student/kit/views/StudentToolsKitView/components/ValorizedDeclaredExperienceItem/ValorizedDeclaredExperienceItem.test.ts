@@ -27,7 +27,7 @@ const BASE_DECLARED_EXPERIENCE: DeclaredExperienceViewDTO = {
   updatedAt: '2024-01-15T10:30:00Z',
   declaredExperienceAssociationCountDTO: {
     traceAssociationsCount: 3,
-    declaredSkillAssociationsCount: 1
+    skillProgressAssociationsCount: 1
   }
 }
 

@@ -8,7 +8,7 @@ import {
   getGetDeclaredActivityDetailsQueryKey,
   getGetDeclaredExperienceQueryKey,
   getGetDeclaredExperienceViewQueryKey,
-  getGetDeclaredSkillProgressDetailsQueryKey,
+  getGetSkillProgressDetailsQueryKey,
   getGetTraceDetailQueryKey,
   getGetTracesSummaryQueryKey,
   getSearchForAssociationQueryKey,
@@ -39,7 +39,7 @@ BddTest().given('the association query keys', () => {
     expect(isCoveredByContextType(getGetTracesSummaryQueryKey(), EAssociationContextType.TRACE)).toBe(true)
     expect(isCoveredByContextType(getTracesViewQueryKey({}, {}), EAssociationContextType.TRACE)).toBe(true)
     expect(isCoveredByContextType(getGetDeclaredActivityDetailsQueryKey('id'), EAssociationContextType.DECLARED_ACTIVITY)).toBe(true)
-    expect(isCoveredByContextType(getGetDeclaredSkillProgressDetailsQueryKey('id'), EAssociationContextType.DECLARED_SKILL)).toBe(true)
+    expect(isCoveredByContextType(getGetSkillProgressDetailsQueryKey('id'), EAssociationContextType.DECLARED_SKILL)).toBe(true)
     expect(isCoveredByContextType(getGetDeclaredExperienceQueryKey('id'), EAssociationContextType.DECLARED_EXPERIENCE)).toBe(true)
     expect(isCoveredByContextType(getGetDeclaredExperienceViewQueryKey(), EAssociationContextType.DECLARED_EXPERIENCE)).toBe(true)
   })

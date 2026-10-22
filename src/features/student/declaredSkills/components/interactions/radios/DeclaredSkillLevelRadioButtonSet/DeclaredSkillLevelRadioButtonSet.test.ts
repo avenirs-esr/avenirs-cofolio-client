@@ -2,7 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { AvBadgeStub, AvRadioButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EDeclaredSkillLevel } from '@/api/avenir-esr'
+import { ESkillLevel } from '@/api/avenir-esr'
 import DeclaredSkillLevelRadioButtonSet from '@/features/student/declaredSkills/components/interactions/radios/DeclaredSkillLevelRadioButtonSet/DeclaredSkillLevelRadioButtonSet.vue'
 
 const AvRadioButtonSetStub = defineComponent({
@@ -129,19 +129,19 @@ BddTest().given('a skill level field component', () => {
 
   BddTest().when('a skill level is selected', () => {
     BddTest().then('it should accept valid enum value BEGINNER', async () => {
-      await wrapper.setProps({ modelValue: EDeclaredSkillLevel.BEGINNER })
+      await wrapper.setProps({ modelValue: ESkillLevel.BEGINNER })
       await wrapper.vm.$nextTick()
 
       const radioButtonSet = getAvRadioButtonSet()
-      expect(radioButtonSet.props('modelValue')).toBe(EDeclaredSkillLevel.BEGINNER)
+      expect(radioButtonSet.props('modelValue')).toBe(ESkillLevel.BEGINNER)
     })
 
     BddTest().then('it should accept valid enum value EXPERT', async () => {
-      await wrapper.setProps({ modelValue: EDeclaredSkillLevel.EXPERT })
+      await wrapper.setProps({ modelValue: ESkillLevel.EXPERT })
       await wrapper.vm.$nextTick()
 
       const radioButtonSet = getAvRadioButtonSet()
-      expect(radioButtonSet.props('modelValue')).toBe(EDeclaredSkillLevel.EXPERT)
+      expect(radioButtonSet.props('modelValue')).toBe(ESkillLevel.EXPERT)
     })
 
     BddTest().then('it should handle invalid value gracefully', async () => {
@@ -201,11 +201,11 @@ BddTest().given('a skill level field component', () => {
       const radioButtons = getAvRadioButtons()
 
       const expectedLevels = [
-        EDeclaredSkillLevel.BEGINNER,
-        EDeclaredSkillLevel.INTERMEDIATE,
-        EDeclaredSkillLevel.COMPETENT,
-        EDeclaredSkillLevel.ADVANCED,
-        EDeclaredSkillLevel.EXPERT
+        ESkillLevel.BEGINNER,
+        ESkillLevel.INTERMEDIATE,
+        ESkillLevel.COMPETENT,
+        ESkillLevel.ADVANCED,
+        ESkillLevel.EXPERT
       ]
 
       radioButtons.forEach((button, index) => {
@@ -261,11 +261,11 @@ BddTest().given('a skill level field component', () => {
 
   BddTest().when('integrating with v-model', () => {
     BddTest().then('it should render with v-model value', async () => {
-      await wrapper.setProps({ modelValue: EDeclaredSkillLevel.ADVANCED })
+      await wrapper.setProps({ modelValue: ESkillLevel.ADVANCED })
       await wrapper.vm.$nextTick()
 
       const radioButtonSet = getAvRadioButtonSet()
-      expect(radioButtonSet.props('modelValue')).toBe(EDeclaredSkillLevel.ADVANCED)
+      expect(radioButtonSet.props('modelValue')).toBe(ESkillLevel.ADVANCED)
     })
 
     BddTest().then('it should pass blur listener to AvRadioButtonSet', () => {

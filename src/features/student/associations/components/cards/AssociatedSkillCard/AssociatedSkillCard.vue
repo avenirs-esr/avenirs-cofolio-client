@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import type { AvBadgeProps, AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import type { DeclaredSkillProgressDTO } from '@/api/avenir-esr'
+import type { SkillProgressDTO } from '@/api/avenir-esr'
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { ICONS, ROUTES } from '@/common/constants'
 import AssociationCard from '@/features/student/associations/components/cards/AssociationCard/AssociationCard.vue'
 
 export interface AssociatedSkillCardProps extends AvInteractiveProps {
-  declaredSkill: DeclaredSkillProgressDTO
+  declaredSkill: SkillProgressDTO
 }
 
 const { declaredSkill, disabled } = defineProps<AssociatedSkillCardProps>()

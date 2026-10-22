@@ -39,7 +39,7 @@ BddTest().given('an associations selector', () => {
     const associations: AssociationsDTO = {
       ...mockedEmptyAssociations,
       traceAssociations: createMockedTraceAssociations(2),
-      declaredSkillAssociations: createMockedDeclaredSkillAssociations(1)
+      skillProgressAssociations: createMockedDeclaredSkillAssociations(1)
     }
 
     beforeEach(() => {
@@ -132,7 +132,7 @@ BddTest().given('an associations selector', () => {
   BddTest().when('it is mounted with declared skill associations', () => {
     const associations: AssociationsDTO = {
       ...mockedEmptyAssociations,
-      declaredSkillAssociations: createMockedDeclaredSkillAssociations(2)
+      skillProgressAssociations: createMockedDeclaredSkillAssociations(2)
     }
 
     beforeEach(() => {
@@ -140,10 +140,10 @@ BddTest().given('an associations selector', () => {
     })
 
     BddTest().then('it should propose the declared skill associations with their declared skill', () => {
-      expect(findSelector().props('elements')).toEqual(associations.declaredSkillAssociations.map(({ associationId, declaredSkill }) => ({
+      expect(findSelector().props('elements')).toEqual(associations.skillProgressAssociations.map(({ associationId, skillProgress }) => ({
         id: associationId,
-        title: declaredSkill.title,
-        baseElement: declaredSkill,
+        title: skillProgress.title,
+        baseElement: skillProgress,
         showSlot: true
       })))
     })

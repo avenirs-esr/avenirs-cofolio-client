@@ -5,7 +5,7 @@ import { RouterLinkStub } from '@vue/test-utils'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
-import { createMockedPagedResponseDeclaredSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
+import { createMockedPagedResponseSkillProgressDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { createDeclaredSkillsProgressViewHandler } from '@/__mocks__/msw/handlers/student/skills.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
@@ -38,7 +38,7 @@ BddTest().given('a skills view other tab component', () => {
   beforeEach(() => {
     vi.clearAllMocks()
 
-    const handler = createDeclaredSkillsProgressViewHandler(createMockedPagedResponseDeclaredSkillProgressDTO(PageSizes.FOUR, 20, 0))
+    const handler = createDeclaredSkillsProgressViewHandler(createMockedPagedResponseSkillProgressDTO(PageSizes.FOUR, 20, 0))
     server.use(handler)
 
     paginationMock = createUsePaginationMock()
@@ -142,7 +142,7 @@ BddTest().given('a skills view other tab component', () => {
     beforeEach(() => {
       vi.clearAllMocks()
 
-      const handler = createDeclaredSkillsProgressViewHandler(createMockedPagedResponseDeclaredSkillProgressDTO(PageSizes.FOUR, 0, 0))
+      const handler = createDeclaredSkillsProgressViewHandler(createMockedPagedResponseSkillProgressDTO(PageSizes.FOUR, 0, 0))
       server.use(handler)
 
       paginationMock = createUsePaginationMock()

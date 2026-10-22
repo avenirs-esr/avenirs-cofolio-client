@@ -115,7 +115,7 @@ BddTest().given('a declared experience update view', () => {
       const mockedAssociations = createMockedDeclaredExperienceAssociationsDTO()
       const expectedCount = mockedAssociations.traceAssociations.length
         + mockedAssociations.declaredActivityAssociations.length
-        + mockedAssociations.declaredSkillAssociations.length
+        + mockedAssociations.skillProgressAssociations.length
         + mockedAssociations.declaredExperienceAssociations.length
         + mockedAssociations.declaredProgramAssociations.length
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useGetDeclaredSkillsProgresses } from '@/api/avenir-esr'
+import { useGetSkillProgresses } from '@/api/avenir-esr'
 import { Pagination } from '@/common/components'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { useBaseApiExceptionToast, usePagination } from '@/common/composables'
@@ -19,7 +19,7 @@ const params = computed(() => ({
   pageSize: pageSizeSelected.value
 }))
 
-const { data, error, isPending } = useGetDeclaredSkillsProgresses(params)
+const { data, error, isPending } = useGetSkillProgresses(params)
 const skills = computed(() => data.value?.data ?? [])
 const pageInfo = computed(() => data.value?.page)
 useBaseApiExceptionToast(error)

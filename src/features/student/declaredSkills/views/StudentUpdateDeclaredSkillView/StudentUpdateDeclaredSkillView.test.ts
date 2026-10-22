@@ -188,7 +188,7 @@ BddTest().given('a student update declared skill view component', () => {
       await vi.waitFor(() => {
         const elementAssociations = wrapper.findComponent(ElementAssociationsStub)
         expect(elementAssociations.exists()).toBe(true)
-        expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: EErrorCode.DECLARED_SKILL_PROGRESS_NOT_FOUND }))
+        expect(elementAssociations.props('error')).toEqual(expect.objectContaining({ code: EErrorCode.SKILL_PROGRESS_NOT_FOUND }))
         expect(elementAssociations.props('associations')).toBeUndefined()
       })
     })
