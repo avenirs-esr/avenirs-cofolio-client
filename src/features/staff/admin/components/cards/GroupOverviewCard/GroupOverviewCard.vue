@@ -6,11 +6,12 @@ import Card from '@/common/components/cards/Card/Card.vue'
 import { ROUTES } from '@/common/constants'
 import GroupTypeBadge from '@/features/staff/admin/components/badges/GroupTypeBadge/GroupTypeBadge.vue'
 
-export interface GroupCardProps {
+export interface GroupOverviewCardProps {
   group: GroupOverviewDTO
+  isSubGroup?: boolean
 }
 
-const { group } = defineProps<GroupCardProps>()
+const { group, isSubGroup = false } = defineProps<GroupOverviewCardProps>()
 
 const { t } = useI18n()
 
@@ -31,8 +32,8 @@ const { isTruncated: isParentNameTruncated } = useTextTruncation(parentNameRef)
     <Card
       background-color="var(--card)"
       title-background="var(--card)"
-      class="group-card"
-      data-testid="group-card"
+      class="group-overview-card"
+      data-testid="group-overview-card"
       :data-group-id="group.id"
     >
       <div class="av-col av-gap-sm">
@@ -52,7 +53,7 @@ const { isTruncated: isParentNameTruncated } = useTextTruncation(parentNameRef)
         <GroupTypeBadge :type="group.type" />
 
         <AvTooltip
-          v-if="group.parent"
+          v-if="group.parent && !isSubGroup"
           :content="group.parent.name"
           :disabled="!isParentNameTruncated"
         >
@@ -61,16 +62,17 @@ const { isTruncated: isParentNameTruncated } = useTextTruncation(parentNameRef)
             class="b2-regular av-max-lines"
             data-testid="parent-name"
           >
-            {{ t('global.colon', { before: t('staff.admin.views.AdminInstitutionGroupsView.components.dataDisplay.GroupsList.columns.parentName') }) }}
+            {{ t('global.colon', { before: t('staff.admin.groupsTable.columns.parentName') }) }}
             {{ group.parent.name }}
           </span>
         </AvTooltip>
 
         <span
+          v-if="!isSubGroup"
           class="b2-regular"
           data-testid="users-count"
         >
-          {{ t('global.colon', { before: t('staff.admin.views.AdminInstitutionGroupsView.components.cards.GroupCard.labels.usersCount', { count: group.usersCount }) }) }}
+          {{ t('global.colon', { before: t('staff.admin.views.AdminInstitutionGroupsView.components.cards.GroupOverviewCard.labels.usersCount', { count: group.usersCount }) }) }}
           {{ group.usersCount }}
         </span>
       </div>
@@ -84,7 +86,7 @@ const { isTruncated: isParentNameTruncated } = useTextTruncation(parentNameRef)
   box-shadow: 0 0 0 2px var(--dark-background-primary1);
 }
 
-.group-card {
+.group-overview-card {
   --max-lines: 2;
 }
 </style>

@@ -402,7 +402,8 @@
         "sizeIndication": "Size\u00A0: ",
         "title": "Add an image"
       },
-      "invalidForm": "The form is not valid"
+      "invalidForm": "The form is not valid",
+      "noResults": "No results"
     },
     "inputs": {
       "disabledPlaceholder": "Not provided",

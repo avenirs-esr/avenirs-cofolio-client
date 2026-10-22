@@ -10,27 +10,32 @@
               "STUDENT_GROUP": "Learner group"
             }
           }
+        },
+        "dataDisplay": {
+          "GroupsList": {
+            "noResults": {
+              "subGroupMode": "No sub-groups"
+            }
+          }
+        }
+      },
+      "groupsTable": {
+        "columns": {
+          "name": "Group",
+          "institutionName": "Institution",
+          "parentName": "Attached to",
+          "type": "Type",
+          "usersCount": "Number of members"
         }
       },
       "views": {
         "AdminInstitutionGroupsView": {
           "components": {
             "cards": {
-              "GroupCard": {
+              "GroupOverviewCard": {
                 "labels": {
                   "usersCount": "Member | Members"
                 }
-              }
-            },
-            "dataDisplay": {
-              "GroupsList": {
-                "columns": {
-                  "name": "Group",
-                  "parentName": "Attached to",
-                  "type": "Type",
-                  "usersCount": "Number of members"
-                },
-                "emptyStateMessage": "No results"
               }
             },
             "inputs": {
@@ -71,7 +76,7 @@
         "InstitutionGroupDetailedView": {
           "components": {
             "cards": {
-              "DetailedGroupCard": {
+              "GroupCard": {
                 "labels": {
                   "usersCount": "Member | Members"
                 }
@@ -79,15 +84,11 @@
             },
             "dataDisplay": {
               "GroupMainInfo": {
-                "columns": {
-                  "name": "Group",
-                  "institutionName": "Institution",
-                  "parentName": "Attached to",
-                  "type": "Type",
-                  "usersCount": "Number of members"
-                },
                 "title": "General information"
               }
+            },
+            "subGroupsSection": {
+              "title": "Sub-group ({count}) | Sub-groups ({count})"
             }
           }
         }

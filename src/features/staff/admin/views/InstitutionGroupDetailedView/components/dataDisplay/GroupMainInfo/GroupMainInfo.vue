@@ -9,7 +9,7 @@ import IconTitleCardContainer from '@/common/components/cards/IconTitleCardConta
 import GroupTypeBadge from '@/features/staff/admin/components/badges/GroupTypeBadge/GroupTypeBadge.vue'
 import GroupName from '@/features/staff/admin/components/base/GroupName/GroupName.vue'
 import GroupParentName from '@/features/staff/admin/components/base/GroupParentName/GroupParentName.vue'
-import DetailedGroupCard from '@/features/staff/admin/views/InstitutionGroupDetailedView/components/cards/DetailedGroupCard/DetailedGroupCard.vue'
+import GroupCard from '@/features/staff/admin/views/InstitutionGroupDetailedView/components/cards/GroupCard/GroupCard.vue'
 
 export interface GroupMainInfoProps {
   group: GroupDTO
@@ -30,10 +30,19 @@ const rows = computed<GroupMainInfoRow[]>(() => [{
   parentName: group.parent?.name ?? ''
 }])
 
+const WIDTH_MAP: Record<string, string | undefined> = {
+  name: '30%',
+  type: '20%',
+  institutionName: '20%',
+  parentName: '20%',
+  usersCount: '10%'
+}
+
 const columns = computed<AvTableColumn<GroupMainInfoRow>[]>(() => {
   return (['name', 'type', 'institutionName', 'parentName', 'usersCount'] as const).map(key => ({
     key,
-    label: t(`staff.admin.views.InstitutionGroupDetailedView.components.dataDisplay.GroupMainInfo.columns.${key}`),
+    label: t(`staff.admin.groupsTable.columns.${key}`),
+    width: WIDTH_MAP[key]
   }))
 })
 </script>
@@ -45,7 +54,7 @@ const columns = computed<AvTableColumn<GroupMainInfoRow>[]>(() => {
       :title="t('staff.admin.views.InstitutionGroupDetailedView.components.dataDisplay.GroupMainInfo.title')"
       background-color="var(--other-background-base)"
     >
-      <DetailedGroupCard
+      <GroupCard
         v-if="isBelowLg"
         :group="group"
       />

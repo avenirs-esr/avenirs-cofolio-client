@@ -118,6 +118,10 @@ function getGroupOverviewDTO (index: number): GroupOverviewDTO {
   }
 }
 
+export function generateGroupOverviewDTOs (count: number): GroupOverviewDTO[] {
+  return Array.from({ length: count }, (_, index) => getGroupOverviewDTO(index))
+}
+
 export function createMockedGetGroupsResponse (
   getGroupsParams: GetGroupsParams,
   totalElements: number
