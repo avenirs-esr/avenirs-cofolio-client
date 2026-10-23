@@ -20,10 +20,5 @@ const { data: tracesSummary } = useGetTracesSummary()
     </template>
   </PageTitle>
 
-  <input
-    type="text"
-    data-testid="ci-a11y-report-probe"
-  >
-
   <StudentToolsTracesViewContainer />
 </template>

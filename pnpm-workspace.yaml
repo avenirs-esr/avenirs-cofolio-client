@@ -3,6 +3,8 @@ packages:
   - 'apps/avenirs-cofolio-client/e2e'
   - 'packages/*'
 
+engineStrict: true
+
 enablePrePostScripts: true
 
 allowBuilds:
