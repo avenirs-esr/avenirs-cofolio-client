@@ -6,11 +6,11 @@ Feature: Student Home Page
 
   Rule: Page Load and Basic Display
 
-    @high
-    Scenario: Student can load home page successfully
+    @high @ci-report-probe
+    Scenario: CI reporting probe - intentional E2E failure
       Then the student home page is displayed
       And the URL contains "/cofolio/student"
-      And the page title is "Cofolio"
+      And the page title is "CI_REPORT_PROBE_INTENTIONAL_E2E_FAILURE"
       
   Rule: Profile Section
 
