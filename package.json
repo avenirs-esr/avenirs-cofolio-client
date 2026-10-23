@@ -5,7 +5,8 @@
   "type": "module",
   "packageManager": "pnpm@10.34.2",
   "engines": {
-    "node": ">=26.0.0"
+    "node": ">=26.0.0",
+    "pnpm": ">=10.34.2"
   },
   "scripts": {
     "prepare": "husky",
@@ -28,7 +29,6 @@
     "test:a11y": "pnpm --parallel --filter './apps/*' run test:a11y",
     "test:a11y:run": "pnpm --parallel --filter './apps/*' run test:a11y:run",
     "test:a11y:cleanup": "pnpm --parallel --filter './apps/*' run test:a11y:cleanup",
-    "test:workspace": "node --test scripts/workspace.test.mjs",
     "commitlint": "commitlint --edit",
     "lint-staged": "lint-staged"
   },

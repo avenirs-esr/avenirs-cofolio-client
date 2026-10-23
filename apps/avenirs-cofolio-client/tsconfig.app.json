@@ -7,7 +7,9 @@
     "paths": {
       "@/*": ["./src/*"],
       "node_modules/@avenirs-esr/avenirs-dsav/*": ["./node_modules/@avenirs-esr/avenirs-dsav/*"],
-      "node_modules/vitest/*": ["./node_modules/vitest/*"]
+      "node_modules/vitest/*": ["./node_modules/vitest/*"],
+      // pnpm uses symlinks; resolve Vue packages locally to keep inferred types portable.
+      "@vue/*": ["./node_modules/@vue/*"]
     },
     "types": []
   },

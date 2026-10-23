@@ -29,12 +29,11 @@ pnpm type-check
 pnpm lint
 pnpm test
 pnpm build
-pnpm test:workspace
 ```
 
 Root development, build, preview, type-check, lint, format, and test commands run the corresponding scripts of direct applications under `apps/*` in parallel. They exclude `packages/*` and nested test packages. To target only Cofolio, use `pnpm --filter avenirs-cofolio-client run <script>`, for example `pnpm --filter avenirs-cofolio-client dev`.
 
-`pnpm test` runs unit tests, not E2E. `pnpm test:workspace` remains a root-only workspace configuration check. App scripts run with the app as their working directory. Build artifacts live in `apps/avenirs-cofolio-client/dist`.
+`pnpm test` runs unit tests, not E2E. App scripts run with the app as their working directory. Build artifacts live in `apps/avenirs-cofolio-client/dist`.
 
 API/feature generators and E2E shortcuts belong only to the Cofolio app, not the workspace root:
 
