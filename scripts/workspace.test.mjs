@@ -194,9 +194,10 @@ test('root editor paths target the relocated app', () => {
   assert.equal(settings['cucumberautocomplete.syncfeatures'], `${app}/e2e/tests/**/*.feature`)
 })
 
-test('legacy package paths do not capture inferred pnpm module names', () => {
+test('Node 26 paths avoid inferred pnpm module names', () => {
   for (const config of ['tsconfig.app.json', 'tsconfig.vitest.json']) {
-    const paths = json(`${app}/${config}`).compilerOptions.paths
+    const { baseUrl, paths } = json(`${app}/${config}`).compilerOptions
+    assert.equal(baseUrl, undefined)
     assert.equal(paths['node_modules/*'], undefined)
     assert.deepEqual(paths['node_modules/@avenirs-esr/avenirs-dsav/*'], [
       './node_modules/@avenirs-esr/avenirs-dsav/*'
@@ -212,4 +213,21 @@ test('vite can resolve its explicitly deduplicated vue runtime from the app', ()
 
 test('bddgen resolves playwright inside the e2e package instead of the app', () => {
   assert.equal(json(`${app}/e2e/package.json`).devDependencies.playwright, '1.61.1')
+})
+
+test('PR CI PNPM callers select feature workflows and application paths', () => {
+  const ref = 'build/us-3043-pnpm-monorepo'
+  const quality = text('.github/workflows/pr-workflow.yml')
+  const e2e = text('.github/workflows/pr-e2e-develop.yaml')
+  for (const workflow of ['frontend-quality-check-workflow.yaml', 'a11y-test-and-deploy-reports-workflow.yaml']) {
+    assert.ok(quality.includes(`avenirs-esr/avenirs-workflows/.github/workflows/${workflow}@${ref}`))
+  }
+  assert.equal(quality.split('working-directory: apps/avenirs-cofolio-client').length - 1, 2)
+  assert.ok(!quality.includes('package-manager:'))
+  assert.ok(quality.includes("build-command: 'pnpm run build-only:development'"))
+  assert.ok(e2e.includes(`avenirs-esr/avenirs-workflows/.github/workflows/pr-e2e-frontend-workflow.yaml@${ref}`))
+  assert.ok(e2e.includes('working-directory: apps/avenirs-cofolio-client'))
+  assert.ok(!e2e.includes('package-manager:'))
+  assert.ok(text('.github/workflows/pr-e2e-cleanup.yaml').includes('pr-e2e-cleanup-workflow.yaml@main'))
+  assert.ok(text('.github/workflows/deploy-dev-workflow.yaml').includes('deploy-workflow.yaml@main'))
 })
