@@ -9,6 +9,7 @@ import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
+import { SearchEntityInputStub } from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.stub'
 import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { BaseApiException } from '@/common/exceptions'
 import { UsersOverviewListStub } from '@/features/staff/admin/components/base/UsersOverviewList/UsersOverviewList.stub'
@@ -68,6 +69,7 @@ BddTest().given('a users list', () => {
     QuerySuspense: QuerySuspenseStub,
     Pagination: PaginationStub,
     UsersOverviewList: UsersOverviewListStub,
+    SearchEntityInput: SearchEntityInputStub,
   }
 
   const mountWith = async ({
@@ -102,6 +104,10 @@ BddTest().given('a users list', () => {
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getPagination = () => wrapper.findComponent(PaginationStub)
   const getUsersOverviewList = () => wrapper.findComponent(UsersOverviewListStub)
+  const getSearchEntityInput = () => wrapper.findComponent(SearchEntityInputStub)
+  const searchFor = (keyword: string) => {
+    getSearchEntityInput().vm.$emit('update:modelValue', keyword)
+  }
 
   beforeEach(async () => {
     mockUsersCurrentPage.value = 0
@@ -110,6 +116,10 @@ BddTest().given('a users list', () => {
   })
 
   BddTest().when('the component is rendered', () => {
+    BddTest().then('it should render the search entity input', () => {
+      expect(getSearchEntityInput().exists()).toBe(true)
+    })
+
     BddTest().then('it should pass the users state to QuerySuspense', () => {
       expect(getQuerySuspense().props('isEmpty')).toBe(false)
       expect(getQuerySuspense().props('isLoading')).toBe(false)
@@ -164,6 +174,18 @@ BddTest().given('a users list', () => {
     })
   })
 
+  BddTest().and('the user types into the search input', () => {
+    beforeEach(() => {
+      searchFor('alice')
+    })
+
+    BddTest().then('it should pass the filters to the paginated composable', () => {
+      const params = mockUsePaginatedAffiliations.mock.calls[0][0]
+
+      expect(params.keywordRef.value).toBe('alice')
+    })
+  })
+
   BddTest().when('the component receives search filters', () => {
     const categories = ['STUDENT'] as unknown as NonNullable<
       UsePaginatedAffiliationsParams['categoriesRef'] extends { value: infer T } ? T : never
@@ -173,7 +195,6 @@ BddTest().given('a users list', () => {
 
     beforeEach(async () => {
       await mountWith({
-        keyword: 'alice',
         categories,
         institutionIds,
         groupIds,
@@ -183,7 +204,6 @@ BddTest().given('a users list', () => {
     BddTest().then('it should pass the filters to the paginated composable', () => {
       const params = mockUsePaginatedAffiliations.mock.calls[0][0]
 
-      expect(params.keywordRef.value).toBe('alice')
       expect(params.categoriesRef.value).toStrictEqual(categories)
       expect(params.institutionIdsRef.value).toStrictEqual(institutionIds)
       expect(params.groupIdsRef.value).toStrictEqual(groupIds)
