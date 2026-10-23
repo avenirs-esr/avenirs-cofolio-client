@@ -116,6 +116,23 @@ test('root dev runs direct apps in parallel without running packages', () => {
   assert.equal(json('package.json').scripts.dev, "pnpm --parallel --filter './apps/*' run dev")
 })
 
+test('workspace owns the Node and minimum pnpm requirements', () => {
+  assert.equal(json('package.json').packageManager, 'pnpm@10.34.2')
+  assert.deepEqual(json('package.json').engines, {
+    node: '>=26.0.0',
+    pnpm: '>=10.34.2'
+  })
+  assert.equal(json(`${app}/package.json`).engines, undefined)
+})
+
+test('workspace leaves Node runtime selection to nvm and root engines', () => {
+  const workspace = text('pnpm-workspace.yaml')
+  assert.doesNotMatch(workspace, /^nodeVersion:/m)
+  assert.match(workspace, /^engineStrict: true$/m)
+  assert.equal(json('package.json').engines.node, '>=26.0.0')
+  assert.equal(text('.nvmrc').trim(), '26')
+})
+
 test('root shared commands run direct apps in parallel without running packages', () => {
   const scripts = json('package.json').scripts
   for (const name of [
