@@ -216,7 +216,7 @@ BddTest().given('getRouteRestrictions', () => {
     BddTest().then('it should return the condition of each level', () => {
       expect(getRouteRestrictions(ROUTES.STAFF.ADMIN.USERS.name)).toEqual({
         universes: [[EUniverse.STAFF]],
-        roles: [[ERole.ROLE_ADMIN]],
+        roles: [[ERole.ROLE_ADMIN], [ERole.ROLE_EXTERNAL_USER_MANAGER]],
         authorizations: []
       })
     })

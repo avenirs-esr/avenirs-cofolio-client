@@ -23,6 +23,14 @@ const BASE = {
         ERole.ROLE_ACTIVITY_ADMIN,
       ]
     },
+    ADMIN: {
+      GROUPS: {
+        roles: [ERole.ROLE_GROUP_MANAGER]
+      },
+      USERS: {
+        roles: [ERole.ROLE_EXTERNAL_USER_MANAGER]
+      }
+    },
     FEEDBACKS: {
       roles: [
         ERole.ROLE_STAFF_FEEDBACK_RESPONDER,
@@ -94,7 +102,14 @@ export const ROUTE_RESTRICTIONS = {
     ADMIN: {
       default: {
         roles: [ERole.ROLE_ADMIN]
-      }
+      },
+      GROUP: BASE.STAFF.ADMIN.GROUPS,
+      GROUPS: BASE.STAFF.ADMIN.GROUPS,
+      SKILLS: {
+        roles: [ERole.ROLE_EXTERNAL_SKILL_MANAGER]
+      },
+      USER: BASE.STAFF.ADMIN.USERS,
+      USERS: BASE.STAFF.ADMIN.USERS
     },
     ACTIVITY_FEEDBACK: BASE.STAFF.FEEDBACKS,
     STUDENT_TRACKING: BASE.STAFF.FEEDBACKS,
