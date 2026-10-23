@@ -1,5 +1,4 @@
-import type { RouteLocationNormalizedLoadedGeneric, RouteRecordRaw } from 'vue-router'
-import type { ERole } from '@/api/avenir-esr'
+import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 
 interface IsRouteActiveParams {
   /**
@@ -31,12 +30,4 @@ export function isRouteActive ({ route, routes }: IsRouteActiveParams): boolean 
     .map(matchedRoute => matchedRoute.name)
     .filter((name): name is string => typeof name === 'string')
     .some(name => routeNames.has(name))
-}
-
-export function withRequiredRoles<T extends RouteRecordRaw> (requiredRoles: ERole[], ...routes: T[]): T[] {
-  return routes.map(route => ({ ...route, meta: { ...route.meta, requiredRoles } }))
-}
-
-export function hasSomeRole (userRoles: readonly ERole[], requiredRoles: readonly ERole[] = []): boolean {
-  return !requiredRoles.length || requiredRoles.some(role => userRoles.includes(role))
 }

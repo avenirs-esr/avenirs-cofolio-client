@@ -24,7 +24,7 @@ const { t } = useI18n()
 useInvalidateAllQueriesAfterLocaleChange()
 
 const { languageSelector, selectLanguage } = useStudentUserStore()
-const { profile: { canSwitch } } = useCurrentUser()
+const { universes: { canSwitch } } = useCurrentUser()
 const menuBurgerStore = useMenuBurgerStore()
 const { showMenuBurgerDrawer } = storeToRefs(menuBurgerStore)
 

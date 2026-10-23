@@ -1,4 +1,3 @@
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { testRoute } from 'tests/utils'
 import { ROUTES } from '@/common/constants'
 import AccessibilityView
@@ -98,11 +97,3 @@ testRoute(
   ROUTES.STUDENT.ABOUT,
   StudentAboutView
 )
-
-BddTest().given('the student layout route', () => {
-  BddTest().when('the route is built', () => {
-    BddTest().then('it should declare the cgu route inherited by every child', () => {
-      expect(root.meta?.cguRouteName).toBe(ROUTES.STUDENT.CGU.name)
-    })
-  })
-})

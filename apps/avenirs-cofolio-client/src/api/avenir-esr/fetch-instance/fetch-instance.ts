@@ -39,17 +39,6 @@ interceptorManager.addResponseInterceptor(async (response: Response, context: Re
       case SessionCheck.UNAUTHORIZED: {
         const { default: router } = await import('@/router')
         const route = router.currentRoute.value
-
-        // A 401 is authoritative, even on a public route: the request proves that the page needs a session.
-        // A call that may legitimately answer 401 there must opt out with `skipUnauthorizedHandling`.
-        if (import.meta.env?.DEV && route.meta.public === true) {
-          throw new Error(
-            `[fetch] 401 on ${context.url} from the public route ${route.fullPath}: `
-            + 'the page calls a protected endpoint, or the endpoint is wrongly secured '
-            + '(flag the call with skipUnauthorizedHandling if a 401 is expected here).'
-          )
-        }
-
         const toLogin = auth.redirectToLogin(route.fullPath)
 
         if (toLogin !== undefined) {
