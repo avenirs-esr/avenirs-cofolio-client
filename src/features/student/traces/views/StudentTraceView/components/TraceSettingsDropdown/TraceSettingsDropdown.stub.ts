@@ -13,7 +13,9 @@ export const TraceSettingsDropdownStub = {
   emits: [
     'delete',
     'update',
-    'download'
+    'download',
+    'associate',
+    'dissociate'
   ],
   template: `
     <div data-testid="trace-settings-dropdown">

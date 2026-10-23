@@ -209,17 +209,4 @@ Feature: Student Project Activity Page
       Then the trace association limit card is visible
       And the trace association limited badge is visible
 
-    @high @activity-details @associated-elements @associate-traces-modal @dataset-full
-    Scenario: Student can open associate traces modal from associated elements tab
-      And the student clicks an in progress activity with associated traces
-      And the activity details is loaded
-      And the student clicks the my perspective item in the activity side menu
-      And the my perspective section is visible
-      And the student opens associated elements tab
-      And the student opens the associate elements dropdown
-      And the student clicks the associate traces dropdown item
-      Then the associate traces modal is visible
-      And the associate traces modal title is visible
-      And the traces type select is visible in associate traces modal
-      And the search association layout is visible in associate traces modal
-      And the associate traces confirmation modal is hidden
+  

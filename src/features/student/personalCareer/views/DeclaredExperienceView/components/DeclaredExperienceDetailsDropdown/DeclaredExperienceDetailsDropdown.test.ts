@@ -28,7 +28,7 @@ BddTest().given('a declared experience details dropdown', () => {
     BddTest().then('the dropdown should be rendered with 2 buttons', () => {
       const dropdown = getManageEntityDropdown()
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.findAll('button')).toHaveLength(2)
+      expect(dropdown.findAll('button')).toHaveLength(4)
     })
 
     BddTest().then('the trigger should have the correct entity name', () => {

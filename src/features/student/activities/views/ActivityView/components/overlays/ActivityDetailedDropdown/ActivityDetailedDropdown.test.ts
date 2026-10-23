@@ -41,7 +41,7 @@ BddTest().given('an activity dropdown', () => {
     BddTest().then('it should render update, unsubscribe, and delete menu items', () => {
       const dropdown = getDropdown()
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('actions')).toHaveLength(3)
+      expect(dropdown.props('actions')).toHaveLength(5)
     })
 
     BddTest().then('it should pass the correct entity name to the dropdown', () => {
@@ -83,7 +83,7 @@ BddTest().given('an activity dropdown', () => {
     BddTest().then('it should render the dropdown with two menu items', () => {
       const dropdown = getDropdown()
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('actions')).toHaveLength(2)
+      expect(dropdown.props('actions')).toHaveLength(4)
     })
 
     BddTest().then('it should not render update or unsubscribe and should enable delete', () => {

@@ -39,7 +39,7 @@ BddTest().given('a setting popover', () => {
     BddTest().then('it should render the dropdown with three menu items', () => {
       const dropdown = getDropdown()
       expect(dropdown.exists()).toBe(true)
-      expect(dropdown.props('actions')).toHaveLength(3)
+      expect(dropdown.props('actions')).toHaveLength(5)
     })
 
     BddTest().then('it should pass correct props to dropdown', () => {

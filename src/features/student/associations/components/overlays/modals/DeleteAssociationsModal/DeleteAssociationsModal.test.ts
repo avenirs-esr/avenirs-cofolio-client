@@ -1,10 +1,11 @@
-import type { VueWrapper } from '@vue/test-utils'
-import type { PathParams } from 'msw'
+import type { AvSelectOption } from '@avenirs-esr/avenirs-dsav'
+import type { VueWrapper, } from '@vue/test-utils'
+import type { PathParams, } from 'msw'
 import type { MockInstance } from 'vitest'
 import type { AssociationsDeleteRequest, AssociationsDTO } from '@/api/avenir-esr'
 import type { DeleteAssociationsModalProps } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvModalStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { QueryClient } from '@tanstack/vue-query'
 import { flushPromises } from '@vue/test-utils'
 import { http, HttpResponse } from 'msw'
@@ -57,7 +58,8 @@ BddTest().given('a delete associations modal', () => {
   const stubs = {
     AvModal: AvModalStub,
     AssociationsSelector: AssociationsSelectorStub,
-    DeleteAssociationsConfirmModal: DeleteAssociationsConfirmModalStub
+    DeleteAssociationsConfirmModal: DeleteAssociationsConfirmModalStub,
+    AvSelect: AvSelectStub
   }
 
   const traceProps: DeleteAssociationsModalProps = {
@@ -67,14 +69,22 @@ BddTest().given('a delete associations modal', () => {
     associatedContextType: EAssociationContextType.TRACE,
     associations: mockedDeclaredActivityAssociations,
   }
-
+  const getSelect = () => wrapper.findComponent(AvSelectStub)
   const getModal = () => wrapper.findComponent(AvModalStub)
   const getHeader = () => wrapper.find('[data-testid="delete-associations-modal-header"]')
   const getSelector = () => wrapper.findComponent(AssociationsSelectorStub)
   const getConfirmModal = () => wrapper.findComponent(DeleteAssociationsConfirmModalStub)
 
-  function mountModal (props: DeleteAssociationsModalProps) {
+  async function selectType (type: EAssociationContextType) {
+    const option: AvSelectOption = { value: type, label: '', disabled: false }
+    getSelect().vm.$emit('update:modelValue', option)
+    await nextTick()
+  }
+
+  async function mountModal (props: DeleteAssociationsModalProps) {
     wrapper = mountComponent(DeleteAssociationsModal, { props, global: { stubs } })
+    await nextTick()
+    await selectType(props.associatedContextType!)
   }
 
   async function selectAssociations (associationIds: string[]) {
@@ -99,8 +109,8 @@ BddTest().given('a delete associations modal', () => {
   })
 
   BddTest().when('the modal is opened to delete trace associations', () => {
-    beforeEach(() => {
-      mountModal(traceProps)
+    beforeEach(async () => {
+      await mountModal(traceProps)
     })
 
     BddTest().then('it should render the opened modal with its test id', () => {
@@ -342,7 +352,7 @@ BddTest().given('a delete associations modal', () => {
         contextType: EAssociationContextType.TRACE,
         elementId: 'trace-1',
         associatedContextType: EAssociationContextType.DECLARED_SKILL,
-        associations,
+        associations
       })
     })
 

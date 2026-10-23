@@ -283,10 +283,6 @@ BddTest().given('a declared program update view component', () => {
         })
       })
 
-      BddTest().then('it should render ElementAssociations as readonly', () => {
-        expect(getElementAssociations().props('readonly')).toBe(true)
-      })
-
       BddTest().then('it should include the associations count in the associations tab title', async () => {
         await vi.waitFor(() => {
           expect(getActiveAvTab().props('title')).toBe(`Mes associations (${associationsCount})`)

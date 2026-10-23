@@ -2,7 +2,6 @@ import type { Locator } from '@playwright/test'
 import { BaseObject } from '@e2e/framework/shared/base/BaseObject'
 import { clickOnElement } from '@e2e/framework/shared/utils/click'
 import { verifyTextLocator } from '@e2e/framework/shared/utils/text'
-import { waitForPageLoad } from '@e2e/framework/shared/utils/waits'
 import { expect } from '@playwright/test'
 
 export class DeclaredSkillAssociationsObject extends BaseObject {
@@ -98,16 +97,8 @@ export class DeclaredSkillAssociationsObject extends BaseObject {
     }
   }
 
-  getDeleteAssociationsDropdown () {
-    return this.root.getByTestId('delete-declared-skill-associated-elements-dropdown')
-  }
-
-  getDeleteActivitiesOption () {
-    return this.root.page().getByTestId('activities')
-  }
-
   getDeleteAssociationsModal () {
-    return this.root.page().getByTestId('delete-associations-modal-header')
+    return this.root.page().getByTestId('delete-associations-modal')
   }
 
   getDeleteAssociationsModalItems () {
@@ -136,19 +127,6 @@ export class DeclaredSkillAssociationsObject extends BaseObject {
 
   getDeleteAssociationsConfirmModalCancelButton () {
     return this.getDeleteAssociationsConfirmModalContainer().getByTestId('cancel-button')
-  }
-
-  async verifyDeleteAssociationsDropdownVisible () {
-    await expect(this.getDeleteAssociationsDropdown()).toBeVisible()
-  }
-
-  async openDeleteAssociationsDropdown () {
-    await clickOnElement(this.getDeleteAssociationsDropdown())
-    await waitForPageLoad(this.root.page())
-  }
-
-  async selectDeleteActivitiesOption () {
-    await clickOnElement(this.getDeleteActivitiesOption())
   }
 
   async verifyDeleteAssociationsModalVisible () {
