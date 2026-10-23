@@ -6,6 +6,7 @@ import IconTitleCardContainer from '@/common/components/cards/IconTitleCardConta
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import GroupsList from '@/features/staff/admin/components/dataDisplay/GroupsList/GroupsList.vue'
+import UsersList from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.vue'
 import GroupMainInfo from '@/features/staff/admin/views/InstitutionGroupDetailedView/components/dataDisplay/GroupMainInfo/GroupMainInfo.vue'
 
 export interface InstitutionGroupDetailedViewProps {
@@ -40,10 +41,22 @@ const trailingLinks = computed(() => [{ text: group.value?.name ?? '' }])
         :title-icon="MDI_ICONS.PEOPLE_GROUP_OUTLINE"
         :title="t('staff.admin.views.InstitutionGroupDetailedView.components.subGroupsSection.title', { count: subGroupsCount })"
         background-color="var(--other-background-base)"
+        data-testid="sub-groups-section"
       >
         <GroupsList
           v-if="groupId"
           :group-id="groupId"
+        />
+      </IconTitleCardContainer>
+      <IconTitleCardContainer
+        :title-icon="MDI_ICONS.PEOPLE_GROUP_OUTLINE"
+        :title="t('staff.admin.views.InstitutionGroupDetailedView.components.usersSection.title', { count: group?.usersCount ?? 0 })"
+        background-color="var(--other-background-base)"
+        data-testid="users-section"
+      >
+        <UsersList
+          v-if="groupId"
+          :group-ids="[groupId]"
         />
       </IconTitleCardContainer>
     </div>

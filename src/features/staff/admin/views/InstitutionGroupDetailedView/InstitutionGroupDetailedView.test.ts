@@ -9,6 +9,7 @@ import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleC
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { GroupsListStub } from '@/features/staff/admin/components/dataDisplay/GroupsList/GroupsList.stub'
+import { UsersListStub } from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.stub'
 import { GroupMainInfoStub } from '@/features/staff/admin/views/InstitutionGroupDetailedView/components/dataDisplay/GroupMainInfo/GroupMainInfo.stub'
 import InstitutionGroupDetailedView from '@/features/staff/admin/views/InstitutionGroupDetailedView/InstitutionGroupDetailedView.vue'
 
@@ -21,6 +22,7 @@ BddTest().given('an institution group detailed view', () => {
     GroupMainInfo: GroupMainInfoStub,
     IconTitleCardContainer: IconTitleCardContainerStub,
     GroupsList: GroupsListStub,
+    UsersList: UsersListStub,
   }
 
   const mountWith = async (groupId: string) => {
@@ -35,8 +37,11 @@ BddTest().given('an institution group detailed view', () => {
   const getPageTitle = () => wrapper.findComponent(DetailedPageTitleStub)
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getGroupMainInfo = () => wrapper.findComponent(GroupMainInfoStub)
-  const getSubGroupsSection = () => wrapper.findComponent(IconTitleCardContainerStub)
+  const getSections = () => wrapper.findAllComponents(IconTitleCardContainerStub)
+  const getSubGroupsSection = () => getSections()[0]
+  const getUsersSection = () => getSections()[1]
   const getGroupsList = () => wrapper.findComponent(GroupsListStub)
+  const getUsersList = () => wrapper.findComponent(UsersListStub)
 
   BddTest().when('the group exists', () => {
     beforeEach(async () => {
@@ -71,6 +76,7 @@ BddTest().given('an institution group detailed view', () => {
 
     BddTest().then('it should use the expected section background color', () => {
       expect(getSubGroupsSection().props('backgroundColor')).toBe('var(--other-background-base)')
+      expect(getUsersSection().props('backgroundColor')).toBe('var(--other-background-base)')
     })
 
     BddTest().then('it should display the number of subgroups in the section title', () => {
@@ -80,6 +86,19 @@ BddTest().given('an institution group detailed view', () => {
     BddTest().then('it should render the groups list with the current group id', () => {
       expect(getGroupsList().exists()).toBe(true)
       expect(getGroupsList().props('groupId')).toBe(mockGroup.id)
+    })
+
+    BddTest().then('it should display the users section', () => {
+      expect(getUsersSection().exists()).toBe(true)
+    })
+
+    BddTest().then('it should display the group users count in the section title', () => {
+      expect(getUsersSection().props('title')).toContain(String(mockGroup.usersCount))
+    })
+
+    BddTest().then('it should render the users list with the current group id', () => {
+      expect(getUsersList().exists()).toBe(true)
+      expect(getUsersList().props('groupIds')).toEqual([mockGroup.id])
     })
   })
 
@@ -107,7 +126,15 @@ BddTest().given('an institution group detailed view', () => {
     })
 
     BddTest().then('it should not display the subgroups section', () => {
-      expect(getSubGroupsSection().exists()).toBe(false)
+      expect(getSections()).toHaveLength(0)
+    })
+
+    BddTest().then('it should not display the groups list', () => {
+      expect(getGroupsList().exists()).toBe(false)
+    })
+
+    BddTest().then('it should not display the users list', () => {
+      expect(getUsersList().exists()).toBe(false)
     })
   })
 })

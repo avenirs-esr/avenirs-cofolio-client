@@ -79,7 +79,7 @@ const getSubGroupsOfGroupHandler = http.get(`*${getGetSubGroupsOfGroupUrl(':id')
   })
 })
 
-export const staffsGroupsHandlers = [
+export const staffGroupsHandlers = [
   getGroupByIdHandler,
   getGroupsHandler,
   getSubGroupsOfGroupHandler,

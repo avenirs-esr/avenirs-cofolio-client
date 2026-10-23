@@ -58,6 +58,7 @@ onMounted(() => {
     <Card
       :background-color="seen ? 'var(--unselected-disabled-background)' : 'var(--light-background-primary1)'"
       border-color="transparent"
+      radius="var(--radius-lg)"
     >
       <template #body>
         <div class="av-row av-gap-xs">
@@ -110,7 +111,6 @@ onMounted(() => {
 .notification-card {
   :deep() {
     .av-card {
-      border-radius: var(--radius-lg) !important;
       position: relative;
 
       &:hover {

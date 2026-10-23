@@ -11,6 +11,11 @@
             }
           }
         },
+        "base": {
+          "UserInfo": {
+            "imgAlt": "Avatar"
+          }
+        },
         "dataDisplay": {
           "GroupsList": {
             "noResults": {
@@ -26,6 +31,12 @@
           "parentName": "Rattaché à",
           "type": "Type",
           "usersCount": "Nombre de membres"
+        }
+      },
+      "usersTable": {
+        "columns": {
+          "actions": "Actions",
+          "user": "Utilisateur(rice)"
         }
       },
       "views": {
@@ -89,6 +100,9 @@
             },
             "subGroupsSection": {
               "title": "Sous-groupe ({count}) | Sous-groupes ({count})"
+            },
+            "usersSection": {
+              "title": "Composition du groupe ({count})"
             }
           }
         }

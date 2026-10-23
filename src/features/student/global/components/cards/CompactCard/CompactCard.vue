@@ -41,6 +41,7 @@ const iconOptions = computed(() => ({
     :border-color="borderColor"
     :color="backgroundColor"
     :title-color="color"
+    radius="var(--radius-lg)"
     title-typography-classes="caption-regular"
     data-testid="compact-card"
   >
@@ -75,7 +76,6 @@ const iconOptions = computed(() => ({
 
   .av-card {
     padding: var(--spacing-xxs) !important;
-    border-radius: var(--radius-lg) !important;
 
     &__content-collapsible {
       padding-top: var(--spacing-xxs) !important;

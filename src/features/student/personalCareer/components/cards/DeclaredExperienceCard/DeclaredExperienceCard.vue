@@ -30,7 +30,7 @@ const iconOptions = {
       name: isStudentToolsKitRoute ? ROUTES.STUDENT.TOOLS_KIT_EXPERIENCE.name : ROUTES.STUDENT.DECLARED_EXPERIENCE.name,
       params: { id: declaredExperience.id },
     }"
-    class="declared-experience-card"
+    class="declared-experience-card av-radius-2xl"
     data-testid="declared-experience-card"
     :data-experience-id="declaredExperience.id"
   >
@@ -69,9 +69,3 @@ const iconOptions = {
     </FloatingIconCard>
   </RouterLink>
 </template>
-
-<style lang="scss" scoped>
-.declared-experience-card {
-  border-radius: 1.5rem;
-}
-</style>

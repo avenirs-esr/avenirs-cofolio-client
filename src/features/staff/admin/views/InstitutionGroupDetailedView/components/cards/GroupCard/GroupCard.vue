@@ -26,6 +26,7 @@ const { isTruncated: isInstitutionNameTruncated } = useTextTruncation(institutio
     background-color="var(--card)"
     title-background="var(--card)"
     class="group-card"
+    radius="var(--radius-lg)"
     data-testid="group-card"
     :data-group-id="group.id"
   >

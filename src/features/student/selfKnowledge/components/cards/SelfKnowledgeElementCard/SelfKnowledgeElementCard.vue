@@ -32,7 +32,9 @@ const iconOptions = computed<IconOptions>(() => ({
     :to="{
       name: isStudentToolsKitRoute ? ROUTES.STUDENT.TOOLS_KIT_SELFKNOWLEDGE_CATEGORY.name : ROUTES.STUDENT.SELFKNOWLEDGE_CATEGORY.name,
       params: { id: categoryType },
-      query: { elementId: element.id } }"
+      query: { elementId: element.id },
+    }"
+    class="av-radius-2xl"
   >
     <FloatingIconCard
       :title="element.title"

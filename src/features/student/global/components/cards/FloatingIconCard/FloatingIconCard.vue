@@ -22,6 +22,7 @@ export interface FloatingIconCardProps {
   headerRows?: 1 | 2 | 3
   height?: string
   titleTypographyClasses?: string
+  radius?: string
 }
 
 const {
@@ -33,6 +34,7 @@ const {
   headerRows = 3,
   height = '16.875rem',
   titleColor = 'var(--card2)',
+  radius = 'var(--radius-2xl)'
 } = defineProps<FloatingIconCardProps>()
 
 defineSlots<{
@@ -64,6 +66,7 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
       :border-color="borderColor"
       :title-background="color"
       :title-height="titleHeight"
+      :radius="radius"
     >
       <template #title>
         <div class="floating-icon-card__title-container av-w-full av-h-full">
@@ -123,7 +126,7 @@ const titleHeight = computed(() => customTitleHeight ?? titleHeightPeerRows[head
 
 .floating-icon-card {
   min-width: 17.25rem;
-  border-radius: 1.5rem;
+  border-radius: v-bind('radius');
 
   &__title-container {
     position: relative;

@@ -14,7 +14,7 @@ const parentNameRef = ref<HTMLElement | null>(null)
 const { isTruncated } = useTextTruncation(parentNameRef)
 
 const to = computed(() => ({
-  name: ROUTES.STAFF.ADMIN.GROUP.name,
+  name: ROUTES.STAFF.ADMIN.GROUP.DEFAULT.name,
   params: { id: group.parent?.id ?? '' }
 }))
 

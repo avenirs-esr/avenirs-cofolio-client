@@ -31,7 +31,7 @@ const iconOptions = {
       name: isStudentToolsKitRoute ? ROUTES.STUDENT.TOOLS_KIT_DECLARED_PROGRAM.name : ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAM_DETAILED.name,
       params: { id: declaredProgram.id },
     }"
-    class="declared-program-card"
+    class="declared-program-card av-radius-2xl"
   >
     <FloatingIconCard
       :title="declaredProgram.title"
@@ -72,10 +72,6 @@ const iconOptions = {
 </template>
 
 <style lang="scss" scoped>
-.declared-program-card {
-  border-radius: 1.5rem;
-}
-
 .floating-icon-card {
   flex: 1 !important;
 }

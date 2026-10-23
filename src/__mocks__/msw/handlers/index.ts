@@ -1,10 +1,12 @@
 import { cguHandlers } from '@/__mocks__/msw/handlers/shared/cgu.handlers'
+import { externalUserHandlers } from '@/__mocks__/msw/handlers/shared/external-user.handlers'
 import { filesHandlers } from '@/__mocks__/msw/handlers/shared/files.handlers'
 import { genericHandlers } from '@/__mocks__/msw/handlers/shared/generic.handlers'
 import { notificationsHandlers } from '@/__mocks__/msw/handlers/shared/notifications.handlers'
 import { staffsActivitiesHandlers } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
+import { staffAffiliationsHandlers } from '@/__mocks__/msw/handlers/staffs/affiliations.handlers'
 import { feedbacksHandlers } from '@/__mocks__/msw/handlers/staffs/feedbacks.handlers'
-import { staffsGroupsHandlers } from '@/__mocks__/msw/handlers/staffs/groups.handlers'
+import { staffGroupsHandlers } from '@/__mocks__/msw/handlers/staffs/groups.handlers'
 import { staffNotificationsHandlers } from '@/__mocks__/msw/handlers/staffs/notifications.handlers'
 import { staffsScopeHandlers } from '@/__mocks__/msw/handlers/staffs/staff-scope.handlers'
 import { staffUserHandlers } from '@/__mocks__/msw/handlers/staffs/user.handlers'
@@ -27,8 +29,9 @@ export const handlers = [
   ...filesHandlers,
   ...notificationsHandlers,
   ...staffNotificationsHandlers,
-  ...staffsGroupsHandlers,
+  ...staffGroupsHandlers,
   ...staffUserHandlers,
+  ...staffAffiliationsHandlers,
   ...studentNotificationsHandlers,
   ...studentUserHandlers,
   ...feedbacksHandlers,
@@ -47,4 +50,5 @@ export const handlers = [
   ...overviewsHandlers,
   ...studentKitHandlers,
   ...genericHandlers,
+  ...externalUserHandlers
 ]

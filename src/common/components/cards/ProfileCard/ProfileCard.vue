@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
-import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { PROFILE_BANNER_RATIO, PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
+import { toFullName } from '@/common/utils/user/user'
 
 export interface ProfileCardProps {
   firstName: string
@@ -27,7 +27,7 @@ defineSlots<{
 
 const { t } = useI18n()
 
-const fullName = computed(() => `${capitalize(firstName)} ${capitalize(lastName)}`)
+const fullName = computed(() => toFullName(firstName, lastName))
 const profileBannerRatio = `${PROFILE_BANNER_RATIO}`
 const profilePictureRatio = `${PROFILE_PICTURE_RATIO}`
 </script>

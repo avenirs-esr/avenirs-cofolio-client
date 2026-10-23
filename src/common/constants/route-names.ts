@@ -22,9 +22,13 @@ export const ROUTES = {
     ACTIVITIES_EDIT_NATIONAL_ACTIVITY: { name: 'staff-activities-edit-national-activity', path: 'activities/:id/edit' },
     ACTIVITY_CATALOG: { name: 'staff-activity-catalog', path: 'activities/:status/:id' },
     ADMIN: {
-      GROUP: { name: 'staff-admin-group', path: 'admin/group/:id' },
+      GROUP: {
+        DEFAULT: { name: 'staff-admin-group', path: 'admin/group/:id' },
+        USER: { name: 'staff-admin-group-user', path: 'admin/group/:groupId/user/:userId' },
+      },
       GROUPS: { name: 'staff-admin-groups', path: 'admin/groups' },
       SKILLS: { name: 'staff-admin-skills', path: 'admin/skills' },
+      USER: { name: 'staff-admin-user', path: 'admin/user/:id' },
       USERS: { name: 'staff-admin-users', path: 'admin/users' },
     },
     CGU: { name: 'staff-cgu', path: 'cgu' },
