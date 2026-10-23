@@ -2,7 +2,6 @@ import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import { SearchEntityInputStub } from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.stub'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import AdminInstitutionUsersView from '@/features/staff/admin/views/AdminInstitutionUsersView/AdminInstitutionUsersView.vue'
 import { InstitutionGroupsMultiselectStub } from '@/features/staff/admin/views/AdminInstitutionUsersView/components/selects/InstitutionGroupsMultiselect/InstitutionGroupsMultiselect.stub'
@@ -12,7 +11,6 @@ BddTest().given('an admin institution users view', () => {
 
   const stubs = {
     PageTitle: PageTitleStub,
-    SearchEntityInput: SearchEntityInputStub,
     InstitutionGroupsMultiselect: InstitutionGroupsMultiselectStub,
   }
 
@@ -21,7 +19,6 @@ BddTest().given('an admin institution users view', () => {
   }
 
   const getPageTitle = () => wrapper.findComponent(PageTitleStub)
-  const getSearchEntityInput = () => wrapper.findComponent(SearchEntityInputStub)
   const getInstitutionGroupsMultiselect = () => wrapper.findComponent(InstitutionGroupsMultiselectStub)
 
   BddTest().when('the view is mounted', () => {
@@ -34,23 +31,8 @@ BddTest().given('an admin institution users view', () => {
       expect(getPageTitle().props('title')).toBe('Utilisateurs de l\'établissement')
     })
 
-    BddTest().then('the user info search input is rendered', () => {
-      expect(getSearchEntityInput().exists()).toBe(true)
-      expect(getSearchEntityInput().props('modelValue')).toBe('')
-    })
-
     BddTest().then('the institution groups multiselect is rendered', () => {
       expect(getInstitutionGroupsMultiselect().exists()).toBe(true)
-    })
-
-    BddTest().and('the user types into the search input', () => {
-      beforeEach(() => {
-        getSearchEntityInput().vm.$emit('update:modelValue', 'John Doe')
-      })
-
-      BddTest().then('the model value is updated', () => {
-        expect(getSearchEntityInput().props('modelValue')).toBe('John Doe')
-      })
     })
 
     BddTest().and('the user selects institution groups', () => {

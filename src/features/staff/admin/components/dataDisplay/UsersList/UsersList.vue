@@ -6,13 +6,13 @@ import type { UsersListRow } from '@/features/staff/admin/components/dataDisplay
 import type { UsePaginatedAffiliationsParams } from '@/features/staff/admin/composables/use-paginated-affiliations/use-paginated-affiliations'
 import { useI18n } from 'vue-i18n'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
+import SearchEntityInput from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.vue'
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
 import UsersOverviewList from '@/features/staff/admin/components/base/UsersOverviewList/UsersOverviewList.vue'
 import { usePaginatedAffiliations } from '@/features/staff/admin/composables/use-paginated-affiliations/use-paginated-affiliations'
 import { useStaffAdminUsersStore } from '@/features/staff/admin/stores/users.store'
 
 export interface UsersListProps {
-  keyword?: string
   categories?: EUserCategory1[]
   institutionIds?: string[]
   groupIds?: string[]
@@ -27,10 +27,12 @@ defineSlots<{
 const { t } = useI18n()
 const staffAdminUsersStore = useStaffAdminUsersStore()
 
+const userInfoSearch = ref<string | undefined>(undefined)
+
 const usePaginatedAffiliationsParams = computed<UsePaginatedAffiliationsParams>(() => ({
   pageRef: toRef(staffAdminUsersStore, 'usersCurrentPage'),
   pageSizeRef: toRef(staffAdminUsersStore, 'usersPageSizeSelected'),
-  keywordRef: toRef(props, 'keyword'),
+  keywordRef: userInfoSearch,
   categoriesRef: toRef(props, 'categories'),
   institutionIdsRef: toRef(props, 'institutionIds'),
   groupIdsRef: toRef(props, 'groupIds'),
@@ -73,25 +75,33 @@ const columns = computed<AvTableColumn<UsersListRow>[]>(() => {
 </script>
 
 <template>
-  <QuerySuspense
-    :is-loading="isFetching"
-    :error="error"
-    :is-empty="rows.length === 0"
-    :empty-state-message="t('global.information.noResults')"
-    preserve-content
-  >
-    <Pagination
-      v-if="pageInfo"
-      :page-info="pageInfo"
-      :page-size-selected="pageSizeSelected"
-      :on-update-current-page="onUpdateCurrentPage"
-      :on-update-page-size="onUpdatePageSize"
+  <div class="av-col av-gap-sm">
+    <SearchEntityInput
+      v-model="userInfoSearch"
+      :entity-name="t('staff.admin.views.AdminInstitutionUsersView.components.inputs.SearchEntityInput.entityName')"
+      :entity-placeholder="t('staff.admin.views.AdminInstitutionUsersView.components.inputs.SearchEntityInput.entityPlaceholder')"
+    />
+
+    <QuerySuspense
+      :is-loading="isFetching"
+      :error="error"
+      :is-empty="rows.length === 0"
+      :empty-state-message="t('global.information.noResults')"
+      preserve-content
     >
-      <UsersOverviewList
-        :rows="rows"
-        :columns="columns"
-        data-testid="users-overview-list"
-      />
-    </Pagination>
-  </QuerySuspense>
+      <Pagination
+        v-if="pageInfo"
+        :page-info="pageInfo"
+        :page-size-selected="pageSizeSelected"
+        :on-update-current-page="onUpdateCurrentPage"
+        :on-update-page-size="onUpdatePageSize"
+      >
+        <UsersOverviewList
+          :rows="rows"
+          :columns="columns"
+          data-testid="users-overview-list"
+        />
+      </Pagination>
+    </QuerySuspense>
+  </div>
 </template>
