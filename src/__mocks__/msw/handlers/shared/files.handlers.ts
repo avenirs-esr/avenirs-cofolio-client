@@ -1,9 +1,44 @@
 import { http, HttpResponse } from 'msw'
-import { getDownloadActivityFileUrl, getDownloadAttachmentUrl, getDownloadDraftFileUrl } from '@/api/avenir-esr'
+import { getLoremPicsumResponse, mockImageBlob } from '@/__mocks__/fixtures/shared/files.fixtures'
+import { getDownloadActivityFileUrl, getDownloadAttachmentUrl, getDownloadDraftFileUrl, getGetResourceByFileIdUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
 import { HttpStatusCode } from '@/common/utils/http/http-status'
 
+const getRessourceFileByIdHandler = http.get(`*${getGetResourceByFileIdUrl(':id')}`, async ({ params }) => {
+  const id = params.id as string | undefined
+
+  if (!id) {
+    return HttpResponse.json(
+      { error: 'File ID is required', code: ErrorCodes.NOT_BLANK },
+      { status: 400 },
+    )
+  }
+
+  if (id === 'INVALID_FILE_ID') {
+    return HttpResponse.json(
+      { error: 'File not found', code: ErrorCodes.NOT_FOUND },
+      { status: 404 },
+    )
+  }
+
+  if (id === 'TEST_ID') {
+    return new HttpResponse(mockImageBlob, {
+      headers: { 'Content-Type': 'image/png' },
+    },)
+  }
+
+  const response = await getLoremPicsumResponse()
+
+  return new HttpResponse(response.body, {
+    status: response.status,
+    headers: {
+      'Content-Type': response.headers.get('Content-Type') ?? 'image/jpeg',
+    },
+  })
+})
+
 export const filesHandlers = [
+  getRessourceFileByIdHandler,
   http.get(`*${getDownloadAttachmentUrl(':traceId')}`, ({ params }) => {
     const traceId: string | undefined = params.traceId as string | undefined
 

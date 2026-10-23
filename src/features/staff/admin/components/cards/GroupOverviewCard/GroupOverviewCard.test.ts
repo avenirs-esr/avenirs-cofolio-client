@@ -66,7 +66,7 @@ BddTest().given('a group overview card', () => {
 
     BddTest().then('it should link to the group detail page', () => {
       expect(getRouterLink().props('to')).toStrictEqual({
-        name: ROUTES.STAFF.ADMIN.GROUP.name,
+        name: ROUTES.STAFF.ADMIN.GROUP.DEFAULT.name,
         params: { id: mockGroupOverview.id },
       })
     })
@@ -148,7 +148,7 @@ BddTest().given('a group overview card', () => {
 
     BddTest().then('it should link to the group detail page', () => {
       expect(getRouterLink().props('to')).toStrictEqual({
-        name: ROUTES.STAFF.ADMIN.GROUP.name,
+        name: ROUTES.STAFF.ADMIN.GROUP.DEFAULT.name,
         params: { id: mockGroupOverviewWithParent.id },
       })
     })

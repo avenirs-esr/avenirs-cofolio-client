@@ -79,7 +79,7 @@ export function getGroupDTO (id: string): GroupDTO {
   }
 }
 
-function getGroupOverviewDTO (index: number): GroupOverviewDTO {
+export function getGroupOverviewDTO (index: number): GroupOverviewDTO {
   let idPrefix: string
   let namePrefix: string
   let type: EGroupType

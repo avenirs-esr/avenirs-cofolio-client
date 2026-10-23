@@ -55,7 +55,7 @@ BddTest().given('a group list name', () => {
 
     BddTest().then('it should link to the group detail page', () => {
       expect(getRouterLink().props('to')).toStrictEqual({
-        name: ROUTES.STAFF.ADMIN.GROUP.name,
+        name: ROUTES.STAFF.ADMIN.GROUP.DEFAULT.name,
         params: { id: mockGroupOverview.id }
       })
     })

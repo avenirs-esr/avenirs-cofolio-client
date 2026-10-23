@@ -1,6 +1,7 @@
 import type { AvRoute } from '@/common/types/router.types'
 import { useRoute } from 'vue-router'
 import { ROUTES } from '@/common/constants'
+import { staffAdminGroupsRoutes } from '@/features/staff/admin/routes'
 import { staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
 import { studentToolsKitRoutes } from '@/features/student/kit/routes'
 import { studentToolsTracesRoutes } from '@/features/student/traces/routes'
@@ -21,6 +22,8 @@ export function useIdentifyRoute () {
 
   const isStaffHomeRoute = computed(() => route.name === ROUTES.STAFF.HOME.name)
 
+  const isStaffAdminGroupsRoute = computed(() => isRouteInRoutes(staffAdminGroupsRoutes))
+
   const isStaffStudentTrackingRoute = computed(() => isRouteInRoutes(staffStudentTrackingFeedbacksRoutes))
 
   const isStudentToolsTracesRoute = computed(() => isRouteInRoutes(studentToolsTracesRoutes))
@@ -29,6 +32,7 @@ export function useIdentifyRoute () {
 
   return {
     isStaffHomeRoute,
+    isStaffAdminGroupsRoute,
     isStaffStudentTrackingRoute,
     isStudentToolsTracesRoute,
     isStudentToolsKitRoute,

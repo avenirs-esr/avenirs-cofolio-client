@@ -25,7 +25,7 @@ const { isTruncated: isParentNameTruncated } = useTextTruncation(parentNameRef)
 <template>
   <RouterLink
     :to="{
-      name: ROUTES.STAFF.ADMIN.GROUP.name,
+      name: ROUTES.STAFF.ADMIN.GROUP.DEFAULT.name,
       params: { id: group.id },
     }"
   >
@@ -33,6 +33,7 @@ const { isTruncated: isParentNameTruncated } = useTextTruncation(parentNameRef)
       background-color="var(--card)"
       title-background="var(--card)"
       class="group-overview-card"
+      radius="var(--radius-lg)"
       data-testid="group-overview-card"
       :data-group-id="group.id"
     >

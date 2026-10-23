@@ -29,7 +29,7 @@ const iconOptions = {
 
 <template>
   <RouterLink
-    class="student-trace-card av-w-full"
+    class="student-trace-card av-w-full av-radius-2xl"
     :to="{ name: ROUTES.STUDENT.TRACE.name, params: { id: trace.id } }"
     data-testid="trace-card"
   >

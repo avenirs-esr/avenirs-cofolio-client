@@ -32,7 +32,7 @@ const componentToRender = computed(() => to ? 'RouterLink' : 'div')
     :class="{ 'long-icon-card--hoverable': !!to }"
     data-testid="long-icon-card"
   >
-    <Card>
+    <Card radius="var(--radius-lg)">
       <div class="av-row av-gap-xs av-align-center">
         <div class="icon-container av-p-xs av-radius-md">
           <AvIcon
@@ -64,7 +64,6 @@ const componentToRender = computed(() => to ? 'RouterLink' : 'div')
 <style lang="scss" scoped>
 .long-icon-card {
   .av-card {
-    border-radius: var(--radius-lg) !important;
     padding: var(--spacing-xs) !important;
   }
 

@@ -56,6 +56,7 @@ const { isMobile } = useAvBreakpoints()
       <Card
         class="level-card"
         border-color="transparent"
+        radius="var(--radius-lg)"
       >
         <div
           class="av-row av-align-center av-w-full av-gap-sm"
@@ -109,12 +110,6 @@ const { isMobile } = useAvBreakpoints()
       flex: 1 1 100%;
       max-width: 100%;
     }
-  }
-}
-
-:deep() {
-  .av-card {
-    border-radius: var(--radius-lg) !important;
   }
 }
 </style>

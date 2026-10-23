@@ -23,7 +23,7 @@ const iconOptions = {
 
 <template>
   <RouterLink
-    class="student-detailed-skill-card"
+    class="student-detailed-skill-card av-radius-2xl"
     :to="{ name: to, params: { id } }"
     data-testid="student-detailed-skill-card"
   >

@@ -11,6 +11,11 @@
             }
           }
         },
+        "base": {
+          "UserInfo": {
+            "imgAlt": "Avatar"
+          }
+        },
         "dataDisplay": {
           "GroupsList": {
             "noResults": {
@@ -26,6 +31,12 @@
           "parentName": "Attached to",
           "type": "Type",
           "usersCount": "Number of members"
+        }
+      },
+      "usersTable": {
+        "columns": {
+          "actions": "Actions",
+          "user": "User"
         }
       },
       "views": {
@@ -89,6 +100,9 @@
             },
             "subGroupsSection": {
               "title": "Sub-group ({count}) | Sub-groups ({count})"
+            },
+            "usersSection": {
+              "title": "Group composition ({count})"
             }
           }
         }
