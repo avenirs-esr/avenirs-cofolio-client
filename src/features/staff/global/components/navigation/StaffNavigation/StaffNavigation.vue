@@ -4,16 +4,14 @@ import type { NavigationMenuLinkProps } from 'node_modules/@avenirs-esr/avenirs-
 import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { ICONS, ROUTES } from '@/common/constants'
-import { ROUTE_ROLES } from '@/common/constants/route-roles'
-import { hasSomeRole, isRouteActive } from '@/common/utils/route/route'
-import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
+import { canAccessRoute } from '@/common/utils/route/access/route-access'
+import { isRouteActive } from '@/common/utils/route/route'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
 import { staffAdminGroupsRoute, staffAdminRoutes, staffAdminSkillsRoute, staffAdminUsersRoute } from '@/features/staff/admin/routes'
 import { staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
 
 const { t } = useI18n()
 const route = useRoute()
-const { roles } = useCurrentUser()
 
 const studentTrackingMenu = computed(() => ({
   id: 'nav-student-tracking-menu',
@@ -28,7 +26,7 @@ const studentTrackingMenu = computed(() => ({
       icon: ICONS.FEEDBACK,
       highlight: isRouteActive({ route, routes: staffStudentTrackingFeedbacksRoutes }),
     },
-  ],
+  ].filter(link => canAccessRoute(link.to)),
 }))
 
 const adminMenu = computed(() => ({
@@ -56,7 +54,7 @@ const adminMenu = computed(() => ({
       icon: ICONS.SKILLS,
       highlight: isRouteActive({ route, routes: [staffAdminSkillsRoute] }),
     },
-  ],
+  ].filter(link => canAccessRoute(link.to)),
 }))
 
 const navItems = computed(() => {
@@ -69,7 +67,7 @@ const navItems = computed(() => {
     },
   ]
 
-  if (hasSomeRole(roles.value, ROUTE_ROLES.STAFF.ACTIVITIES)) {
+  if (canAccessRoute(ROUTES.STAFF.ACTIVITIES)) {
     items.push({
       id: 'nav-activities',
       to: ROUTES.STAFF.ACTIVITIES,
@@ -79,11 +77,11 @@ const navItems = computed(() => {
     })
   }
 
-  if (hasSomeRole(roles.value, ROUTE_ROLES.STAFF.FEEDBACKS)) {
+  if (studentTrackingMenu.value.links.length) {
     items.push(studentTrackingMenu.value)
   }
 
-  if (hasSomeRole(roles.value, ROUTE_ROLES.STAFF.ADMIN)) {
+  if (adminMenu.value.links.length) {
     items.push(adminMenu.value)
   }
 

@@ -18,7 +18,7 @@ import StaffProfileDropdown from '@/features/staff/user/components/overlays/Staf
 
 const { t } = useI18n()
 const { languageSelector, selectLanguage } = useLanguageSwitcher()
-const { profile: { canSwitch } } = useCurrentUser()
+const { universes: { canSwitch } } = useCurrentUser()
 const menuBurgerStore = useMenuBurgerStore()
 const { showMenuBurgerDrawer } = storeToRefs(menuBurgerStore)
 

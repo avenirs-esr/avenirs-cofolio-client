@@ -2,16 +2,14 @@
 import { useGlobalBackgroundColor } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import Tutorial from '@/common/components/overlay/tooltips/Tutorial/Tutorial.vue'
-import { ROUTE_ROLES } from '@/common/constants/route-roles'
-import { hasSomeRole } from '@/common/utils/route/route'
-import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
+import { ROUTES } from '@/common/constants'
+import { canAccessRoute } from '@/common/utils/route/access/route-access'
 import ActivitiesWidget from '@/features/student/global/views/StudentHomeView/components/ActivitiesWidget/ActivitiesWidget.vue'
 import { TracesWidget } from '@/features/student/traces'
 import { StudentOverviewWidget } from '@/features/student/user'
 
 useGlobalBackgroundColor('var(--surface-background)')
 const { t } = useI18n()
-const { roles } = useCurrentUser()
 </script>
 
 <template>
@@ -23,11 +21,11 @@ const { roles } = useCurrentUser()
       <StudentOverviewWidget />
     </div>
     <div class="layout-home__main av-col av-gap-xl">
-      <template v-if="hasSomeRole(roles, ROUTE_ROLES.STUDENT.ACTIVITIES)">
+      <template v-if="canAccessRoute(ROUTES.STUDENT.ACTIVITIES)">
         <ActivitiesWidget />
         <ActivitiesWidget is-new />
       </template>
-      <TracesWidget v-if="hasSomeRole(roles, ROUTE_ROLES.STUDENT.TOOLS)" />
+      <TracesWidget v-if="canAccessRoute(ROUTES.STUDENT.TOOLS_TRACES)" />
     </div>
   </div>
 

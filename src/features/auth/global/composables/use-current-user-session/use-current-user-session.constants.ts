@@ -5,6 +5,11 @@ import { ROUTES } from '@/common/constants'
 /**
  * Stand-in while there is no session or data is invalid.
  */
+export const INVALID_UNIVERSE = 'INVALID_UNIVERSE' as unknown as EUniverse
+
+/**
+ * Stand-in while there is no valid universe.
+ */
 export const INVALID_USER_CATEGORY = 'INVALID_USER_CATEGORY' as unknown as EUserCategory
 
 /**
@@ -16,17 +21,17 @@ export const UNIVERSE_USER_CATEGORY: Record<EUniverse, EUserCategory> = {
 }
 
 /**
- * Priority used to pick the default category (lowest value wins).
+ * Priority used to pick the default universe (lowest value wins).
  */
-export const USER_CATEGORY_PRIORITY: Record<EUserCategory, number> = {
-  [EUserCategory.STUDENT]: 1,
-  [EUserCategory.STAFF]: 0
+export const UNIVERSE_PRIORITY: Record<EUserCategory, number> = {
+  [EUniverse.STUDENT]: 1,
+  [EUniverse.STAFF]: 0
 }
 
 /**
- * Maps each user category to its corresponding home route.
+ * Maps each universe to its corresponding home route.
  */
-export const USER_CATEGORY_HOME = {
-  [EUserCategory.STUDENT]: ROUTES.STUDENT.HOME,
-  [EUserCategory.STAFF]: ROUTES.STAFF.HOME
-} satisfies Record<EUserCategory, RouteLocationRaw>
+export const UNIVERSE_HOME = {
+  [EUniverse.STUDENT]: ROUTES.STUDENT.HOME,
+  [EUniverse.STAFF]: ROUTES.STAFF.HOME
+} satisfies Record<EUniverse, RouteLocationRaw>

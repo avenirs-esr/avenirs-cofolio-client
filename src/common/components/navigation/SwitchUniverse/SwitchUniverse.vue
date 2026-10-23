@@ -2,11 +2,17 @@
 import { AvButton, AvIconText, AvModal, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { useModal } from '@/common/composables'
-import { USER_CATEGORY_HOME } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session.constants'
+import { UNIVERSE_HOME } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session.constants'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 
 const { t } = useI18n()
-const { categories, profile: { activeCategory, canSwitch } } = useCurrentUser()
+const {
+  universes: {
+    available: availableUniverses,
+    active: activeUniverse,
+    canSwitch: canSwitchUniverse
+  }
+} = useCurrentUser()
 const { modalOpened, openModal, closeModal } = useModal()
 </script>
 
@@ -14,7 +20,7 @@ const { modalOpened, openModal, closeModal } = useModal()
   <AvButton
     :label="t('global.header.switchUniverse.label')"
     :icon="MDI_ICONS.SWAP_HORIZONTAL"
-    :disabled="!canSwitch"
+    :disabled="!canSwitchUniverse"
     @click="openModal"
   />
   <AvModal
@@ -34,14 +40,14 @@ const { modalOpened, openModal, closeModal } = useModal()
     </template>
     <div class="av-col av-gap-lg">
       <AvButton
-        v-for="category in categories"
-        :key="category"
-        :label="t(`global.header.switchUniverse.buttons.${category}`)"
+        v-for="universe in availableUniverses"
+        :key="universe"
+        :label="t(`global.header.switchUniverse.buttons.${universe}`)"
         theme="SECONDARY"
-        :to="USER_CATEGORY_HOME[category]"
-        :disabled="category === activeCategory"
+        :to="UNIVERSE_HOME[universe]"
+        :disabled="universe === activeUniverse"
         :disabled-tooltip="t('global.header.switchUniverse.disabledTooltip')"
-        :data-testid="`${category}-button`"
+        :data-testid="`${universe}-button`"
         @click="closeModal()"
       />
     </div>
