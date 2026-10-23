@@ -6,9 +6,10 @@ on:
 
 jobs:
   pr-e2e-with-msw:
-    uses: avenirs-esr/avenirs-workflows/.github/workflows/pr-e2e-frontend-workflow.yaml@main
+    uses: avenirs-esr/avenirs-workflows/.github/workflows/pr-e2e-frontend-workflow.yaml@build/us-3043-pnpm-monorepo
     secrets: inherit
     with:
+      working-directory: apps/avenirs-cofolio-client
       run_local_preview: true
       enable_msw: true
       chrome_only: true

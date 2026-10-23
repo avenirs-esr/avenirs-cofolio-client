@@ -1,3 +1,5 @@
+import type { OperationOptions } from 'orval'
+import { createRequire } from 'node:module'
 import { defineConfig } from 'orval'
 
 const FORCED_MUTATION_OPERATIONS = [
@@ -16,7 +18,7 @@ const FORCED_QUERY_OPERATIONS = [
 export default defineConfig({
   'avenir-esr': {
     input: {
-      target: './api-specs/avenir-esr.swagger.json',
+      target: createRequire(import.meta.url).resolve('@avenirs-esr/shared/api/specs/avenir-esr.swagger.json'),
     },
     output: {
       workspace: './src/api/avenir-esr/generated',
@@ -27,7 +29,7 @@ export default defineConfig({
       clean: true,
       override: {
         operations: {
-          ...(FORCED_MUTATION_OPERATIONS.reduce((acc, operation) => {
+          ...(FORCED_MUTATION_OPERATIONS.reduce<Record<string, OperationOptions>>((acc, operation) => {
             acc[operation] = {
               query: {
                 useQuery: false,
@@ -36,7 +38,7 @@ export default defineConfig({
             }
             return acc
           }, {})),
-          ...(FORCED_QUERY_OPERATIONS.reduce((acc, operation) => {
+          ...(FORCED_QUERY_OPERATIONS.reduce<Record<string, OperationOptions>>((acc, operation) => {
             acc[operation] = {
               query: {
                 useQuery: true,
