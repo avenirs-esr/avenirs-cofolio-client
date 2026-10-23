@@ -5,15 +5,15 @@ import ProfileCard from '@/common/components/cards/ProfileCard/ProfileCard.vue'
 import UpdateProfileDrawer from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.vue'
 import Tutorial from '@/common/components/overlay/tooltips/Tutorial/Tutorial.vue'
 import { useDrawer } from '@/common/composables/use-drawer/use-drawer'
-import { ROUTE_ROLES } from '@/common/constants/route-roles'
-import { hasSomeRole } from '@/common/utils/route/route'
+import { ROUTES } from '@/common/constants'
+import { canAccessRoute } from '@/common/utils/route/access/route-access'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import ActivitiesWidget from '@/features/staff/global/views/StaffHomeView/components/ActivitiesWidget/ActivitiesWidget.vue'
 import FeedbacksWidget from '@/features/staff/global/views/StaffHomeView/components/FeedbacksWidget/FeedbacksWidget.vue'
 
 useGlobalBackgroundColor('var(--surface-background)')
 const { t } = useI18n()
-const { roles, profile: { isLoading, data } } = useCurrentUser()
+const { profile: { isLoading, data } } = useCurrentUser()
 const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
 </script>
 
@@ -53,8 +53,8 @@ const { showDrawer, displayDrawer, hideDrawer } = useDrawer()
       </div>
     </div>
     <div class="layout-home__main av-col av-gap-xl">
-      <FeedbacksWidget v-if="hasSomeRole(roles, ROUTE_ROLES.STAFF.FEEDBACKS)" />
-      <template v-if="hasSomeRole(roles, ROUTE_ROLES.STAFF.ACTIVITIES)">
+      <FeedbacksWidget v-if="canAccessRoute(ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS)" />
+      <template v-if="canAccessRoute(ROUTES.STAFF.ACTIVITIES)">
         <ActivitiesWidget is-draft />
         <ActivitiesWidget />
       </template>

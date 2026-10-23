@@ -1,6 +1,6 @@
 import type { DeepReadonly } from 'vue'
 import type { LocationQueryValueRaw, RouteLocationRaw } from 'vue-router'
-import type { EUserCategory, LoggedInUserDTO } from '@/api/avenir-esr'
+import type { EUniverse, LoggedInUserDTO } from '@/api/avenir-esr'
 import type { FetchOptions } from '@/api/fetch'
 import type { BaseApiException } from '@/common/exceptions'
 import { useQueryClient } from '@tanstack/vue-query'
@@ -30,7 +30,7 @@ export const useAuthStore = defineStore('auth', () => {
   const queryClient = useQueryClient()
 
   const session = ref<LoggedInUserDTO>()
-  const selectedUserCategory = ref<EUserCategory>()
+  const currentUniverse = ref<EUniverse>()
 
   const isLoggedIn = computed(() => !!session.value)
 
@@ -117,7 +117,7 @@ export const useAuthStore = defineStore('auth', () => {
    */
   function invalidateSession () {
     session.value = undefined
-    selectedUserCategory.value = undefined
+    currentUniverse.value = undefined
     queryClient.clear()
   }
 
@@ -259,11 +259,11 @@ export const useAuthStore = defineStore('auth', () => {
     session: session as DeepReadonly<typeof session>, // A runtime readonly() would break the restoration of the persisted state
     patchSession,
     invalidateSession,
-    selectedUserCategory
+    currentUniverse
   }
 }, {
   persist: [
     { key: AUTH_SESSION_KEY, pick: ['session'] },
-    { key: AUTH_PREFS_KEY, pick: ['selectedUserCategory'] }
+    { key: AUTH_PREFS_KEY, pick: ['currentUniverse'] }
   ]
 })

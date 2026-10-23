@@ -3,10 +3,10 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockedStaffProfileOverview } from '@/__mocks__/fixtures/staffs/user.fixtures'
-import { ERole } from '@/api/avenir-esr'
 import { ProfileCardStub } from '@/common/components/cards/ProfileCard/ProfileCard.stub'
 import { UpdateProfileDrawerStub } from '@/common/components/overlay/drawers/UpdateProfileDrawer/UpdateProfileDrawer.stub'
 import { TutorialStub } from '@/common/components/overlay/tooltips/Tutorial/Tutorial.stub'
+import { ROUTES } from '@/common/constants'
 import { ActivitiesWidgetStub } from '@/features/staff/global/views/StaffHomeView/components/ActivitiesWidget/ActivitiesWidget.stub'
 import { FeedbacksWidgetStub } from '@/features/staff/global/views/StaffHomeView/components/FeedbacksWidget/FeedbacksWidget.stub'
 import StaffHomeView from '@/features/staff/global/views/StaffHomeView/StaffHomeView.vue'
@@ -16,13 +16,22 @@ const mockIsProfileLoading = ref(false)
 
 vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
   useCurrentUser: () => ({
-    roles: ref(Object.values(ERole)),
     profile: {
       isLoading: mockIsProfileLoading,
       data: mockProfile
     }
   })
 }))
+
+const mockInaccessibleRoutes = ref<{ name: string }[]>([])
+
+vi.mock('@/common/utils/route/access/route-access', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/utils/route/access/route-access')>()
+  return {
+    ...actual,
+    canAccessRoute: (route: { name: string }) => !mockInaccessibleRoutes.value.some(({ name }) => name === route.name)
+  }
+})
 
 BddTest().given('a staff home view', () => {
   let wrapper: VueWrapper<InstanceType<typeof StaffHomeView>>
@@ -35,8 +44,17 @@ BddTest().given('a staff home view', () => {
     Tutorial: TutorialStub,
   }
 
-  const mountWith = ({ isProfileLoading = false }: { isProfileLoading?: boolean } = {}) => {
+  const mountWith = (
+    {
+      isProfileLoading = false,
+      inaccessibleRoutes = []
+    }: {
+      isProfileLoading?: boolean
+      inaccessibleRoutes?: { name: string }[]
+    } = {}
+  ) => {
     mockIsProfileLoading.value = isProfileLoading
+    mockInaccessibleRoutes.value = inaccessibleRoutes
 
     wrapper = mountComponent(StaffHomeView, { global: { stubs } })
   }
@@ -80,7 +98,9 @@ BddTest().given('a staff home view', () => {
 
   BddTest().when('the component is mounted while the profile is still loading', () => {
     beforeEach(() => {
-      mountWith({ isProfileLoading: true })
+      mountWith({
+        isProfileLoading: true
+      })
     })
 
     BddTest().then('it should not render the ProfileCard component nor its update button', () => {
@@ -90,6 +110,38 @@ BddTest().given('a staff home view', () => {
 
     BddTest().then('it should not render the update profile drawer', () => {
       expect(getUpdateProfileDrawer().exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the component is mounted while the user cannot access the feedbacks page', () => {
+    beforeEach(() => {
+      mountWith({
+        inaccessibleRoutes: [ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS]
+      })
+    })
+
+    BddTest().then('it should not render the FeedbacksWidget component', () => {
+      expect(getFeedbacksWidget().exists()).toBe(false)
+    })
+
+    BddTest().then('it should still render two ActivitiesWidget components', () => {
+      expect(getActivitiesWidgets()).toHaveLength(2)
+    })
+  })
+
+  BddTest().when('the component is mounted while the user cannot access the activities page', () => {
+    beforeEach(() => {
+      mountWith({
+        inaccessibleRoutes: [ROUTES.STAFF.ACTIVITIES]
+      })
+    })
+
+    BddTest().then('it should not render the ActivitiesWidget components', () => {
+      expect(getActivitiesWidgets()).toHaveLength(0)
+    })
+
+    BddTest().then('it should still render the FeedbacksWidget component', () => {
+      expect(getFeedbacksWidget().exists()).toBe(true)
     })
   })
 })

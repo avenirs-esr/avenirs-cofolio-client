@@ -102,7 +102,8 @@ BddTest().given('the current user composable with the API served by MSW', () => 
     })
 
     BddTest().then('it should expose the session of the user', () => {
-      expect(currentUser.universes.value).toEqual([EUniverse.STUDENT])
+      expect(currentUser.universes.available.value).toEqual([EUniverse.STUDENT])
+      expect(currentUser.categories.value).toEqual([EUserCategory.STUDENT])
       expect(currentUser.profile.activeCategory.value).toBe(EUserCategory.STUDENT)
     })
 
@@ -128,16 +129,16 @@ BddTest().given('the current user composable with the API served by MSW', () => 
       await mountWith()
     })
 
-    BddTest().then('it should expose the profile of the default category', () => {
-      expect(currentUser.profile.activeCategory.value).toBe(currentUser.profile.defaultCategory.value)
+    BddTest().then('it should expose the profile of the default universe', () => {
+      expect(currentUser.universes.active.value).toEqual(currentUser.universes.default.value)
       expect(currentUser.profile.data.value).toBeTruthy()
     })
   })
 
-  BddTest().when('a user with both profiles switches to the student profile', () => {
+  BddTest().when('a user with both profiles switches to the student universe', () => {
     beforeEach(async () => {
       await mountWith()
-      await currentUser.profile.switch(EUserCategory.STUDENT)
+      await currentUser.universes.switch(EUniverse.STUDENT)
       await profileLoaded()
     })
 
@@ -147,10 +148,10 @@ BddTest().given('the current user composable with the API served by MSW', () => 
     })
   })
 
-  BddTest().when('the session is invalidated after a profile switch', () => {
+  BddTest().when('the session is invalidated after a universe switch', () => {
     beforeEach(async () => {
       await mountWith()
-      await currentUser.profile.switch(EUserCategory.STUDENT)
+      await currentUser.universes.switch(EUniverse.STUDENT)
       await profileLoaded()
       authStore.invalidateSession()
       await profileLoaded()

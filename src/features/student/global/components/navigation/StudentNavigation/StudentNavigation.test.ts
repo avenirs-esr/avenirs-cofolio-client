@@ -1,26 +1,39 @@
 import type { VueWrapper } from '@vue/test-utils'
-import { registerNavigationLinkKey } from '@avenirs-esr/avenirs-dsav'
+import { MDI_ICONS, registerNavigationLinkKey } from '@avenirs-esr/avenirs-dsav'
 import { AvNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, vi } from 'vitest'
-import { ERole } from '@/api/avenir-esr'
-import { ROUTES } from '@/common/constants'
+import { ICONS, ROUTES } from '@/common/constants'
 import StudentNavigation from '@/features/student/global/components/navigation/StudentNavigation/StudentNavigation.vue'
 import router from '@/router'
 
-const mockRoles = ref<ERole[]>(Object.values(ERole))
+const SKILLS_HEADER = 'MES COMPÉTENCES'
+const ACTIVITIES_HEADER = 'MES ACTIVITÉS'
+const HOME = 'ACCUEIL'
 
-vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
-  useCurrentUser: () => ({ roles: mockRoles })
-}))
+const mockInaccessibleRoutes = ref<{ name: string }[]>([])
+
+vi.mock('@/common/utils/route/access/route-access', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/common/utils/route/access/route-access')>()
+  return {
+    ...actual,
+    canAccessRoute: (route: { name: string }) => !mockInaccessibleRoutes.value.some(({ name }) => name === route.name)
+  }
+})
 
 BddTest().given('a student navigation', () => {
   let wrapper: VueWrapper<InstanceType<typeof StudentNavigation>>
 
-  const stubs = { AvNavigation: AvNavigationStub }
+  const stubs = {
+    AvNavigation: AvNavigationStub
+  }
 
-  const mountDefault = async () => {
-    const wrapper = mountComponent(StudentNavigation, {
+  const mountWith = async (inaccessibleRoutes: { name: string }[] = []) => {
+    vi.clearAllMocks()
+
+    mockInaccessibleRoutes.value = inaccessibleRoutes
+
+    wrapper = mountComponent(StudentNavigation, {
       global: {
         stubs,
         plugins: [router],
@@ -32,74 +45,83 @@ BddTest().given('a student navigation', () => {
 
     await router.isReady()
     await wrapper.vm.$nextTick()
-    return wrapper
   }
 
-  beforeEach(() => {
-    vi.clearAllMocks()
-    mockRoles.value = Object.values(ERole)
-  })
+  const getAvNavigation = () => wrapper.findComponent(AvNavigationStub)
+  const getNavItems = () => getAvNavigation().props('navItems')
+  const getNavItemIds = () => getNavItems().map(navItem => navItem.id)
+  const getNavItem = (navItemIndex: number) => getNavItems()[navItemIndex]
 
   BddTest().when('the navigation is mounted', () => {
     beforeEach(async () => {
-      wrapper = await mountDefault()
+      await mountWith()
     })
 
     BddTest().then('it should render AvNavigation component', () => {
-      const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
-      expect(avNavigation.exists()).toBe(true)
-    })
-
-    BddTest().then('it should generate navigation items', () => {
-      expect(wrapper.findAll('.av-nav__item')).toHaveLength(5)
-      const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
-      const navItems = avNavigation.props('navItems')
-      expect(navItems).toHaveLength(5)
+      expect(getAvNavigation().exists()).toBe(true)
     })
 
     BddTest().then('it should include home navigation item with correct properties', () => {
-      const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
-      const navItems = avNavigation.props('navItems')
-
-      const homeItem = navItems[0]
-      expect(homeItem).toMatchObject({
-        text: 'ACCUEIL',
-        to: expect.objectContaining({ name: 'student-home' }),
+      expect(getNavItem(0)).toMatchObject({
+        text: HOME,
+        to: expect.objectContaining(ROUTES.STUDENT.HOME),
+        icon: MDI_ICONS.HOME_VARIANT_OUTLINE,
       })
     })
 
     BddTest().then('it should include activities navigation item with correct properties', () => {
-      const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
-      const navItems = avNavigation.props('navItems')
-
-      const homeItem = navItems[1]
-      expect(homeItem).toMatchObject({
-        text: 'MES ACTIVITÉS',
+      expect(getNavItem(1)).toMatchObject({
+        text: ACTIVITIES_HEADER,
         to: expect.objectContaining(ROUTES.STUDENT.ACTIVITIES),
+        icon: ICONS.ACTIVITY,
       })
     })
 
     BddTest().then('it should include skills navigation item with correct properties', () => {
-      const avNavigation = wrapper.findComponent({ name: 'AvNavigation' })
-      const navItems = avNavigation.props('navItems')
-
-      const homeItem = navItems[2]
-      expect(homeItem).toMatchObject({
-        text: 'MES COMPÉTENCES',
+      expect(getNavItem(2)).toMatchObject({
+        text: SKILLS_HEADER,
         to: expect.objectContaining(ROUTES.STUDENT.SKILLS),
+        icon: ICONS.SKILLS,
       })
     })
   })
 
-  BddTest().when('the navigation is mounted by a user holding only the activities role', () => {
+  BddTest().when('the navigation is mounted by a user who cannot access the activities page', () => {
     beforeEach(async () => {
-      mockRoles.value = [ERole.ROLE_STUDENT, ERole.ROLE_STUDENT_ACTIVITY]
-      wrapper = await mountDefault()
+      await mountWith([ROUTES.STUDENT.ACTIVITIES])
     })
 
-    BddTest().then('it should only include the home and activities items', () => {
-      const navItems = wrapper.findComponent({ name: 'AvNavigation' }).props('navItems')
-      expect(navItems.map((navItem: { id: string }) => navItem.id)).toEqual(['nav-home', 'nav-activities'])
+    BddTest().then('it should include every item but the activities one', () => {
+      expect(getNavItemIds()).toEqual(['nav-home', 'nav-skills', 'nav-life-project-menu', 'nav-tools-menu'])
+    })
+  })
+
+  BddTest().when('the navigation is mounted by a user who cannot access one of the pages of a menu', () => {
+    beforeEach(async () => {
+      await mountWith([ROUTES.STUDENT.TOOLS_KIT])
+    })
+
+    BddTest().then('it should only include the links of the menu leading to a page the user can access', () => {
+      expect(getNavItems()).toContainEqual(expect.objectContaining({
+        id: 'nav-tools-menu',
+        links: [expect.objectContaining({ to: ROUTES.STUDENT.TOOLS_TRACES })],
+      }))
+    })
+  })
+
+  BddTest().when('the navigation is mounted by a user who can only access the activities page', () => {
+    beforeEach(async () => {
+      await mountWith([
+        ROUTES.STUDENT.SKILLS,
+        ROUTES.STUDENT.PERSONAL_CAREER_DECLARED_PROGRAMS,
+        ROUTES.STUDENT.BUILD_PROJECT,
+        ROUTES.STUDENT.TOOLS_TRACES,
+        ROUTES.STUDENT.TOOLS_KIT,
+      ])
+    })
+
+    BddTest().then('it should only include the home and activities items, leaving out the menus without links', () => {
+      expect(getNavItemIds()).toEqual(['nav-home', 'nav-activities'])
     })
   })
 })
