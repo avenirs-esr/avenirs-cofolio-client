@@ -30,7 +30,7 @@ BddTest().given('an institution user detailed view', () => {
   const stubs = {
     DetailedPageTitle: DetailedPageTitleStub,
     QuerySuspense: QuerySuspenseStub,
-    UserLayout: UserLayoutStub
+    UserLayout: UserLayoutStub,
   }
 
   const mountWith = async (userId: string, groupId?: string) => {
@@ -60,14 +60,39 @@ BddTest().given('an institution user detailed view', () => {
       expect(getPageTitle().props('title')).toBe('Alice Dupont')
     })
 
-    BddTest().then('it should display only the user name in the trailing links', () => {
+    BddTest().then('it should display the user name and an empty section in the trailing links', () => {
       expect(getPageTitle().props('trailingLinks')).toEqual([
         { text: 'Alice Dupont' },
+        { text: '' },
       ])
     })
 
     BddTest().then('it should pass the query error to QuerySuspense', () => {
       expect(getQuerySuspense().props('error')).toBeNull()
+    })
+
+    BddTest().then('it should render the user layout', () => {
+      expect(getUserLayout().exists()).toBe(true)
+      expect(getUserLayout().props('user')).toMatchObject({
+        id: mockExternalUser.externalId,
+        firstName: 'Alice',
+        lastName: 'Dupont',
+      })
+    })
+  })
+
+  BddTest().when('the user selects a section', () => {
+    beforeEach(async () => {
+      await mountWith(mockExternalUser.externalId!)
+      getUserLayout().vm.$emit('selected-section', 'Informations générales')
+      await flushPromises()
+    })
+
+    BddTest().then('it should append the selected section to the trailing links', () => {
+      expect(getPageTitle().props('trailingLinks')).toEqual([
+        { text: 'Alice Dupont' },
+        { text: 'Informations générales' },
+      ])
     })
   })
 
@@ -81,7 +106,7 @@ BddTest().given('an institution user detailed view', () => {
       expect(getPageTitle().props('title')).toBe('Alice Dupont')
     })
 
-    BddTest().then('it should display the group and user names in the trailing links', () => {
+    BddTest().then('it should display the group, user and empty section in the trailing links', () => {
       expect(getPageTitle().props('trailingLinks')).toEqual([
         {
           text: mockGroup.name,
@@ -90,7 +115,9 @@ BddTest().given('an institution user detailed view', () => {
             params: { id: mockGroup.id },
           },
         },
+        { text: 'Utilisateurs' },
         { text: 'Alice Dupont' },
+        { text: '' },
       ])
     })
 
@@ -109,9 +136,10 @@ BddTest().given('an institution user detailed view', () => {
       await mountWith(mockExternalUser.externalId!)
     })
 
-    BddTest().then('it should display only the user name in the trailing links', () => {
+    BddTest().then('it should display the user name and an empty section in the trailing links', () => {
       expect(getPageTitle().props('trailingLinks')).toEqual([
         { text: 'Alice Dupont' },
+        { text: '' },
       ])
     })
   })
@@ -125,8 +153,9 @@ BddTest().given('an institution user detailed view', () => {
       expect(getPageTitle().props('title')).toBe('')
     })
 
-    BddTest().then('it should display an empty trailing link', () => {
+    BddTest().then('it should display empty user and section trailing links', () => {
       expect(getPageTitle().props('trailingLinks')).toEqual([
+        { text: '' },
         { text: '' },
       ])
     })

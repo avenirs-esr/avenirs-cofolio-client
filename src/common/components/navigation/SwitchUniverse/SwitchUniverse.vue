@@ -36,7 +36,7 @@ const { modalOpened, openModal, closeModal } = useModal()
       <AvButton
         v-for="category in categories"
         :key="category"
-        :label="t(`global.header.switchUniverse.buttons.${category}`)"
+        :label="t(`global.universes.${category}`)"
         theme="SECONDARY"
         :to="USER_CATEGORY_HOME[category]"
         :disabled="category === activeCategory"

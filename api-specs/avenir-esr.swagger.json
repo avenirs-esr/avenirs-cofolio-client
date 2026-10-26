@@ -4977,6 +4977,37 @@
         }
       }
     },
+    "/back-office/external-users/{externalUserId}/global-authorization": {
+      "get": {
+        "tags": [
+          "external-user-affiliation-query-controller"
+        ],
+        "operationId": "getGlobalAuthorizationOfExternalUser",
+        "parameters": [
+          {
+            "name": "externalUserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalUserGlobalAuthorizationDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/back-office/external-users/{externalUserId}/detail": {
       "get": {
         "tags": [
@@ -5094,7 +5125,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/components/schemas/EUserCategory1"
+                "$ref": "#/components/schemas/EUserCategory"
               }
             }
           },
@@ -9905,6 +9936,29 @@
           "page"
         ]
       },
+      "ExternalUserGlobalAuthorizationDTO": {
+        "type": "object",
+        "properties": {
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ERole"
+            },
+            "uniqueItems": true
+          },
+          "universes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EUniverse"
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "roles",
+          "universes"
+        ]
+      },
       "ExternalUserDetailDTO": {
         "type": "object",
         "properties": {
@@ -9970,7 +10024,7 @@
           "categories": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/EUserCategory1"
+              "$ref": "#/components/schemas/EUserCategory"
             }
           },
           "institutions": {
@@ -10132,14 +10186,6 @@
         "description": "Enum for external source",
         "enum": [
           "BACK_OFFICE"
-        ]
-      },
-      "EUserCategory1": {
-        "type": "string",
-        "description": "Enum for external user category",
-        "enum": [
-          "STAFF",
-          "STUDENT"
         ]
       },
       "EExternalUserRole": {

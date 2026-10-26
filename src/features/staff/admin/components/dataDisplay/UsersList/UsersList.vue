@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
-import type { EUserCategory1 } from '@/api/avenir-esr'
+import type { EUserCategory } from '@/api/avenir-esr'
 import type { UsersListRow } from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.types'
 import type { UsePaginatedAffiliationsParams } from '@/features/staff/admin/composables/use-paginated-affiliations/use-paginated-affiliations'
 import { useI18n } from 'vue-i18n'
@@ -13,7 +13,7 @@ import { usePaginatedAffiliations } from '@/features/staff/admin/composables/use
 import { useStaffAdminUsersStore } from '@/features/staff/admin/stores/users.store'
 
 export interface UsersListProps {
-  categories?: EUserCategory1[]
+  categories?: EUserCategory[]
   institutionIds?: string[]
   groupIds?: string[]
 }
