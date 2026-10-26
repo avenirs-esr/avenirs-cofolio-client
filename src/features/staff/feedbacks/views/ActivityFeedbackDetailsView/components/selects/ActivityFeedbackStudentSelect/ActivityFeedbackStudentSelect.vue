@@ -113,7 +113,7 @@ function onSelectedItemChange (selected: AvSelectModelValue) {
           :placeholder="t('staff.feedbacks.views.ActivityFeedbackDetailsView.ActivityFeedbackStudentSelect.placeholder')"
           data-testid="student-feedback-select"
           :label-visible="false"
-          width="var(--dimension-8xl)"
+          :width="isMobile ? '100%' : 'var(--dimension-8xl)'"
           required
           @update:model-value="onSelectedItemChange"
         />
