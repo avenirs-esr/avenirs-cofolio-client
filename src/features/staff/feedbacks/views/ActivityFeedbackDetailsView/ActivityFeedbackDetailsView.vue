@@ -80,7 +80,7 @@ const trailingLinks = computed(() => [{ text: pageSubTitle.value }])
         :is-loading="isFeedbackDetailsLoading"
         :error="feedbackDetailsError"
       >
-        <div class="av-row av-justify-between av-align-center av-gap-sm av-wrap">
+        <div class="av-col av-row--md av-justify-between--md av-align-center--md av-gap-sm av-wrap">
           <AvIconText
             :icon="ICONS.ACTIVITY"
             icon-color="var(--icon)"
