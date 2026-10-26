@@ -105,6 +105,32 @@
               "title": "Group composition ({count})"
             }
           }
+        },
+        "InstitutionUserDetailedView": {
+          "components": {
+            "layout": {
+              "UserLayout": {
+                "sections": {
+                  "DETAILS": {
+                    "navItem": "Details",
+                    "title": "General information"
+                  },
+                  "GROUPS": {
+                    "navItem": "Groups",
+                    "title": "Groups"
+                  },
+                  "PERMISSIONS": {
+                    "navItem": "Permissions",
+                    "title": "Roles and permissions"
+                  },
+                  "PROGRAMS": {
+                    "navItem": "Programs",
+                    "title": "Programs"
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

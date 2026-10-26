@@ -1,3 +1,4 @@
+import type { Mock } from 'vitest'
 import type { SlotsType } from 'vue'
 import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
 import { useForm } from '@tanstack/vue-form'
@@ -11,12 +12,12 @@ const slots = Object as SlotsType<{ default?: () => unknown }>
 const name = 'EditNationalActivityViewFormWrapper'
 const template = '<div><slot /></div>'
 
-export const mockHandleSubmit = vi.fn()
+export const mockHandleSubmit: Mock = vi.fn()
 export const mockIsExecutionPeriodEnabled = ref(false)
 export const mockIsUpdating = ref(false)
-export const mockSave = vi.fn()
-export const mockQueueAutoSave = vi.fn()
-export const mockCancel = vi.fn()
+export const mockSave: Mock = vi.fn()
+export const mockQueueAutoSave: Mock = vi.fn()
+export const mockCancel: Mock = vi.fn()
 
 export const EditNationalActivityViewFormWrapper = defineComponent({
   name,

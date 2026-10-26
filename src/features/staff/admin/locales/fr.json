@@ -105,6 +105,32 @@
               "title": "Composition du groupe ({count})"
             }
           }
+        },
+        "InstitutionUserDetailedView": {
+          "components": {
+            "layout": {
+              "UserLayout": {
+                "sections": {
+                  "DETAILS": {
+                    "navItem": "Détails",
+                    "title": "Informations générales"
+                  },
+                  "GROUPS": {
+                    "navItem": "Groupes",
+                    "title": "Groupes"
+                  },
+                  "PERMISSIONS": {
+                    "navItem": "Permissions",
+                    "title": "Rôles et permissions"
+                  },
+                  "PROGRAMS": {
+                    "navItem": "Formations",
+                    "title": "Formations"
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

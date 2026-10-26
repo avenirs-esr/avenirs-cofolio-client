@@ -8,6 +8,7 @@ import { mockGroup } from '@/__mocks__/fixtures/staffs/groups.fixtures'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { staffAdminGroupRoute } from '@/features/staff/admin/routes'
+import { UserLayoutStub } from '@/features/staff/admin/views/InstitutionUserDetailedView/components/layout/UserLayout/UserLayout.stub'
 import InstitutionUserDetailedView from '@/features/staff/admin/views/InstitutionUserDetailedView/InstitutionUserDetailedView.vue'
 
 const route = reactive<{ name: string }>({
@@ -29,6 +30,7 @@ BddTest().given('an institution user detailed view', () => {
   const stubs = {
     DetailedPageTitle: DetailedPageTitleStub,
     QuerySuspense: QuerySuspenseStub,
+    UserLayout: UserLayoutStub
   }
 
   const mountWith = async (userId: string, groupId?: string) => {
@@ -42,6 +44,7 @@ BddTest().given('an institution user detailed view', () => {
 
   const getPageTitle = () => wrapper.findComponent(DetailedPageTitleStub)
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
+  const getUserLayout = () => wrapper.findComponent(UserLayoutStub)
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -91,8 +94,12 @@ BddTest().given('an institution user detailed view', () => {
       ])
     })
 
-    BddTest().then('it should pass the query error to QuerySuspense', () => {
+    BddTest().then('it should not pass the query error to QuerySuspense', () => {
       expect(getQuerySuspense().props('error')).toBeNull()
+    })
+
+    BddTest().then('it should render the user layout', () => {
+      expect(getUserLayout().exists()).toBe(true)
     })
   })
 
@@ -126,6 +133,10 @@ BddTest().given('an institution user detailed view', () => {
 
     BddTest().then('it should pass the query error to QuerySuspense', () => {
       expect(getQuerySuspense().props('error')).toBeTruthy()
+    })
+
+    BddTest().then('it should not render the user layout', () => {
+      expect(getUserLayout().exists()).toBe(false)
     })
   })
 })

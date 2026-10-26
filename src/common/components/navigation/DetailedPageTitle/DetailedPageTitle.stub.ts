@@ -1,4 +1,4 @@
-import type { AvBreadcrumbProps } from 'node_modules/@avenirs-esr/avenirs-dsav/dist/components/navigation/AvBreadcrumb/AvBreadcrumb.vue'
+import type { AvBreadcrumbProps } from '@avenirs-esr/avenirs-dsav'
 import type { PropType } from 'vue'
 
 export const DetailedPageTitleStub = defineComponent({
