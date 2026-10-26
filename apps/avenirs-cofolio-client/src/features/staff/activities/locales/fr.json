@@ -8,6 +8,13 @@
           }
         }
       },
+      "composables": {
+        "useEditNationalActivityFormValidators": {
+          "assessment": {
+            "optionRequired": "Activez au moins une option\u00A0: commentaire, note ou validation"
+          }
+        }
+      },
       "interactions": {
         "formFields": {
           "ActivityConsignFormField": {
@@ -153,6 +160,21 @@
           "title": "Toutes les activités disponibles dans mon établissement"
         },
         "EditNationalActivityView": {
+          "ActivityAssessmentCommentFormField": {
+            "description": "Permettre l'ajout d'un commentaire personnalisé pour chaque évaluation"
+          },
+          "ActivityAssessmentFormFieldsContainer": {
+            "description": "Activez cette option pour permettre une évaluation finale des apprenants. Cette évaluation entraînera la clôture de l'activité.",
+            "title": "Évaluation de l'activité"
+          },
+          "ActivityAssessmentGradeFormField": {
+            "description": "Permettre l'attribution d'une note selon un barème défini",
+            "hint": "Note maximale pouvant être attribuée, supérieure à 0, jusqu'à {maxDecimals} décimales.",
+            "label": "Barème maximal"
+          },
+          "ActivityAssessmentValidationFormField": {
+            "description": "Permettre d'indiquer si l'activité est validée ou non"
+          },
           "ActivityBannerFormField": {
             "bannerAlt": "Bannière"
           },

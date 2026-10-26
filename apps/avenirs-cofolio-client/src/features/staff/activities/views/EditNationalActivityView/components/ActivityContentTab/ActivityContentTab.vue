@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
 import { ICONS } from '@/common/constants'
 import { isDifferentFile } from '@/common/utils/file/file'
+import ActivityAssessmentFormFieldsContainer from '@/features/staff/activities/components/interactions/ActivityAssessmentFormFieldsContainer/ActivityAssessmentFormFieldsContainer.vue'
 import ActivityConsignFormField from '@/features/staff/activities/components/interactions/formFields/ActivityConsignFormField/ActivityConsignFormField.vue'
 import ActivityExecutionPeriodFormField
   from '@/features/staff/activities/components/interactions/formFields/ActivityExecutionPeriodFormField/ActivityExecutionPeriodFormField.vue'
@@ -32,7 +33,14 @@ const emit = defineEmits<{
   (e: 'nextStep'): void
 }>()
 
-const { form, queueAutoSave, isExecutionPeriodEnabled, isUpdating } = useEditNationalActivityViewContext()
+const {
+  form,
+  queueAutoSave,
+  isExecutionPeriodEnabled,
+  isAssessmentEnabled,
+  isAssessmentGradeEnabled,
+  isUpdating
+} = useEditNationalActivityViewContext()
 const { t } = useI18n()
 
 const hasEnrolledStudent = computed(() => activity.hasEnrolledStudent)
@@ -179,6 +187,13 @@ function deleteSelectedResources (
           :disabled="hasEnrolledStudent"
           :form="form"
           @autosave="queueAutoSave"
+        />
+        <ActivityAssessmentFormFieldsContainer
+          :disabled="hasEnrolledStudent"
+          :form="form"
+          @autosave="queueAutoSave"
+          @update-assessment-enabled="(isEnabled: boolean) => { isAssessmentEnabled = isEnabled }"
+          @update-grade-enabled="(isEnabled: boolean) => { isAssessmentGradeEnabled = isEnabled }"
         />
       </IconTitleCardContainer>
     </div>

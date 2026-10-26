@@ -36,6 +36,7 @@ import { useEditNationalActivityFormValidators } from '@/features/staff/activiti
 import { ACTIVITY_AUTO_SAVE_DEBOUNCE, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities/config'
 import { EditActivityTabIndex } from '@/features/staff/activities/editActivity.constants'
 import { EditActivityFormDataBannerAction } from '@/features/staff/activities/types/forms.types'
+import { toActivityAssessmentRequest } from '@/features/staff/activities/utils/activity-assessment'
 import ActivityContentTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityContentTab/ActivityContentTab.vue'
 import ActivityPublicationTab from '@/features/staff/activities/views/EditNationalActivityView/components/ActivityPublicationTab/ActivityPublicationTab.vue'
 import { provideEditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
@@ -58,6 +59,8 @@ const {
   validateFeedbackAllowedIterations,
   validateStartDate,
   validateEndDate,
+  validateAssessmentGrade,
+  validateAssessmentOptions,
 } = useEditNationalActivityFormValidators()
 const activeTab = useEnumRouteQuery('tab', EditActivityTabIndex, EditActivityTabIndex.CONTENT)
 const { getErrorMessage } = useApiErrors()
@@ -105,6 +108,9 @@ const defaultValues: EditActivityFormData = reactive({
   files: remoteFiles,
   links: computed(() => content.value?.links ?? []),
   isNational: computed(() => content.value?.national ?? false),
+  assessmentComment: computed(() => content.value?.assessment?.comment ?? false),
+  assessmentGrade: computed(() => content.value?.assessment?.grade),
+  assessmentValidation: computed(() => content.value?.assessment?.validation ?? false),
   targetInstitutionIds: computed(() => content.value?.targetInstitutionIds ?? []),
   targetGroupIds: computed(() => content.value?.targetGroupIds ?? []),
 })
@@ -116,6 +122,8 @@ const { mutateAsync: deleteResourceFileMutation } = useDeleteDraftFile()
 const { mutateAsync: updateActivity } = useUpdateActivityDraft()
 
 const isExecutionPeriodEnabled = ref(false)
+const isAssessmentEnabled = ref(false)
+const isAssessmentGradeEnabled = ref(false)
 
 const {
   queueAutoSave,
@@ -136,6 +144,8 @@ const form = useForm({
           feedbackAllowedIterations: validateFeedbackAllowedIterations(value.feedbackAllowedIterations),
           startDate: isExecutionPeriodEnabled.value ? validateStartDate(value.startDate) : undefined,
           endDate: isExecutionPeriodEnabled.value ? validateEndDate({ startDate: value.startDate, endDate: value.endDate }) : undefined,
+          assessmentGrade: isAssessmentEnabled.value ? validateAssessmentGrade(value.assessmentGrade, isAssessmentGradeEnabled.value) : undefined,
+          assessmentValidation: isAssessmentEnabled.value ? validateAssessmentOptions(value, isAssessmentGradeEnabled.value) : undefined,
         }
       }
     }
@@ -161,6 +171,7 @@ const form = useForm({
       traceAllowedAssociations: value.traceAllowedAssociations,
       links: value.links,
       national: value.isNational,
+      assessment: toActivityAssessmentRequest(value),
       targetInstitutionIds: value.targetInstitutionIds,
       targetGroupIds: value.targetGroupIds,
     })
@@ -293,7 +304,15 @@ function onPublished () {
   navigateToStaffActivities(true)
 }
 
-provideEditNationalActivityViewContext({ form, isUpdating, isExecutionPeriodEnabled, save, queueAutoSave })
+provideEditNationalActivityViewContext({
+  form,
+  isUpdating,
+  isExecutionPeriodEnabled,
+  isAssessmentEnabled,
+  isAssessmentGradeEnabled,
+  save,
+  queueAutoSave
+})
 </script>
 
 <template>

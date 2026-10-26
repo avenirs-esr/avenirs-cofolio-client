@@ -14,6 +14,8 @@ const template = '<div><slot /></div>'
 
 export const mockHandleSubmit: Mock = vi.fn()
 export const mockIsExecutionPeriodEnabled = ref(false)
+export const mockIsAssessmentEnabled = ref(false)
+export const mockIsAssessmentGradeEnabled = ref(false)
 export const mockIsUpdating = ref(false)
 export const mockSave: Mock = vi.fn()
 export const mockQueueAutoSave: Mock = vi.fn()
@@ -37,6 +39,9 @@ export const EditNationalActivityViewFormWrapper = defineComponent({
       files: [],
       links: [],
       isNational: false,
+      assessmentComment: false,
+      assessmentGrade: undefined,
+      assessmentValidation: false,
       targetInstitutionIds: [],
       targetGroupIds: [],
     }
@@ -50,6 +55,8 @@ export const EditNationalActivityViewFormWrapper = defineComponent({
       form,
       isUpdating: mockIsUpdating,
       isExecutionPeriodEnabled: mockIsExecutionPeriodEnabled,
+      isAssessmentEnabled: mockIsAssessmentEnabled,
+      isAssessmentGradeEnabled: mockIsAssessmentGradeEnabled,
       save: mockSave,
       queueAutoSave: mockQueueAutoSave,
     })
@@ -74,6 +81,9 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
       files: [],
       links: [],
       isNational: false,
+      assessmentComment: false,
+      assessmentGrade: undefined,
+      assessmentValidation: false,
       targetInstitutionIds: [],
       targetGroupIds: [],
     }
@@ -87,6 +97,8 @@ export const EditNationalActivityViewFormWrapperDirty = defineComponent({
       form,
       isUpdating: mockIsUpdating,
       isExecutionPeriodEnabled: mockIsExecutionPeriodEnabled,
+      isAssessmentEnabled: mockIsAssessmentEnabled,
+      isAssessmentGradeEnabled: mockIsAssessmentGradeEnabled,
       save: mockSave,
       queueAutoSave: mockQueueAutoSave,
     })
@@ -114,6 +126,9 @@ export const EditNationalActivityViewFormWrapperValid = defineComponent({
       files: [],
       links: [],
       isNational: true,
+      assessmentComment: false,
+      assessmentGrade: undefined,
+      assessmentValidation: false,
       targetInstitutionIds: [],
       targetGroupIds: [],
     }
@@ -125,6 +140,8 @@ export const EditNationalActivityViewFormWrapperValid = defineComponent({
       form,
       isUpdating: mockIsUpdating,
       isExecutionPeriodEnabled: mockIsExecutionPeriodEnabled,
+      isAssessmentEnabled: mockIsAssessmentEnabled,
+      isAssessmentGradeEnabled: mockIsAssessmentGradeEnabled,
       save: mockSave,
       queueAutoSave: mockQueueAutoSave,
     })

@@ -1,6 +1,16 @@
+import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
+
 export const ToggleStub = defineComponent({
   name: 'Toggle',
-  props: ['id', 'name', 'modelValue', 'description', 'activeText', 'inactiveText', 'disabled'],
+  props: {
+    ...AvInteractivePropsStub,
+    id: String,
+    name: String,
+    modelValue: Boolean,
+    description: String,
+    activeText: String,
+    inactiveText: String,
+  },
   emits: ['update:modelValue'],
   template: `
     <div class="toggle">
@@ -10,7 +20,7 @@ export const ToggleStub = defineComponent({
         :name="name"
         :checked="modelValue"
         :disabled="disabled"
-        @change="$emit(\'update:modelValue\', $event.target.checked)"
+        @change="$emit('update:modelValue', $event.target.checked)"
       />
       <span class="description">
         {{ description }}
@@ -20,5 +30,6 @@ export const ToggleStub = defineComponent({
           {{ modelValue ? activeText : inactiveText }}
         </span>
       </slot>
-    </div>`
+    </div>
+  `,
 })

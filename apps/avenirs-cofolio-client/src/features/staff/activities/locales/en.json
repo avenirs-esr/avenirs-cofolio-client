@@ -8,6 +8,13 @@
           }
         }
       },
+      "composables": {
+        "useEditNationalActivityFormValidators": {
+          "assessment": {
+            "optionRequired": "Enable at least one option: comment, grade or validation"
+          }
+        }
+      },
       "interactions": {
         "formFields": {
           "ActivityConsignFormField": {
@@ -153,6 +160,21 @@
           "title": "All activities available in my institution"
         },
         "EditNationalActivityView": {
+          "ActivityAssessmentCommentFormField": {
+            "description": "Allow a personalized comment to be added to each assessment"
+          },
+          "ActivityAssessmentFormFieldsContainer": {
+            "description": "Enable this option to allow a final assessment of learners. This assessment will close the activity.",
+            "title": "Activity assessment"
+          },
+          "ActivityAssessmentGradeFormField": {
+            "description": "Allow a grade to be assigned on a defined scale",
+            "hint": "Maximum grade that can be awarded, greater than 0, up to {maxDecimals} decimal places.",
+            "label": "Maximum grade"
+          },
+          "ActivityAssessmentValidationFormField": {
+            "description": "Allow indicating whether or not the activity is validated"
+          },
           "ActivityBannerFormField": {
             "bannerAlt": "Banner"
           },
