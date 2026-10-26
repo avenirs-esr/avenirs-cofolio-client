@@ -108,6 +108,15 @@
         },
         "InstitutionUserDetailedView": {
           "components": {
+            "dataDisplay": {
+              "UserDetailsTable": {
+                "columns": {
+                  "user": "Utilisateur(rice)",
+                  "institution": "Établissement de rattachement",
+                  "universes": "Univers accessible(s)"
+                }
+              }
+            },
             "layout": {
               "UserLayout": {
                 "sections": {

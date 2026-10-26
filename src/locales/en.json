@@ -374,10 +374,6 @@
       "languageSwitcher": "Change language",
       "switchUniverse": {
         "label": "Switch universe",
-        "buttons": {
-          "STUDENT": "Learner",
-          "STAFF": "Staff"
-        },
         "disabledTooltip": "You are currently in this universe"
       }
     },
@@ -460,6 +456,7 @@
         "trigger": "Notifications | Notifications ({count}) | Notifications ({count})"
       }
     },
+    "notValorized": "Not valorized in my kit",
     "overlay": {
       "drawers": {
         "UpdateProfileDrawer": {
@@ -627,8 +624,11 @@
         "loadedWithSize": "File loaded ({size} {unit})."
       }
     },
-    "notValorized": "Not valorized in my kit",
     "text": "Text",
+    "universes": {
+      "STAFF": "Staff",
+      "STUDENT": "Learner"
+    },
     "updated": "Updated",
     "valorized": "Valorized in my kit",
     "video": "Video",

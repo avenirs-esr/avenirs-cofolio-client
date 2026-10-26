@@ -108,6 +108,15 @@
         },
         "InstitutionUserDetailedView": {
           "components": {
+            "dataDisplay": {
+              "UserDetailsTable": {
+                "columns": {
+                  "user": "User",
+                  "institution": "Affiliated institution",
+                  "universes": "Accessible universe(s)"
+                }
+              }
+            },
             "layout": {
               "UserLayout": {
                 "sections": {

@@ -1,5 +1,5 @@
 import type {
-  EUserCategory1,
+  EUserCategory,
   ExternalUserAffiliationOverviewDTO,
   GetAffiliationsParams,
   InstitutionDTO,
@@ -14,7 +14,7 @@ function getExternalUserAffiliationOverviewDTO (index: number): ExternalUserAffi
   const email = `user${index}@example.com`
   const hasConnected = index % 2 === 0
   const profilePictureId = index % 2 === 0 ? `profilePicture${index}` : undefined
-  const categories: EUserCategory1[] = []
+  const categories: EUserCategory[] = []
   const institutions: InstitutionDTO[] = []
   const groups = generateGroupOverviewDTOs(30)
 

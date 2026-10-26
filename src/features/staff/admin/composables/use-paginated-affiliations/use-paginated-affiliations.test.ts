@@ -3,7 +3,7 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComposable } from 'tests/utils'
 import { expect, vi } from 'vitest'
 import { nextTick } from 'vue'
-import { EUserCategory1 } from '@/api/avenir-esr'
+import { EUserCategory } from '@/api/avenir-esr'
 import { usePaginatedAffiliations } from '@/features/staff/admin/composables/use-paginated-affiliations/use-paginated-affiliations'
 
 function mountUsePaginatedAffiliations ({
@@ -17,14 +17,14 @@ function mountUsePaginatedAffiliations ({
   currentPage?: number
   pageSize?: PageSizes
   keyword?: string
-  categories?: EUserCategory1[]
+  categories?: EUserCategory[]
   institutionIds?: string[]
   groupIds?: string[]
 } = {}) {
   const pageRef = ref(currentPage)
   const pageSizeRef = ref(pageSize)
   const keywordRef = ref<string | undefined>(keyword)
-  const categoriesRef = ref<EUserCategory1[] | undefined>(categories)
+  const categoriesRef = ref<EUserCategory[] | undefined>(categories)
   const institutionIdsRef = ref<string[] | undefined>(institutionIds)
   const groupIdsRef = ref<string[] | undefined>(groupIds)
 
@@ -121,10 +121,10 @@ BddTest().given('a usePaginatedAffiliations composable', () => {
     })
 
     BddTest().then('it should accept the selected categories', async () => {
-      result.categoriesRef.value = [EUserCategory1.STUDENT]
+      result.categoriesRef.value = [EUserCategory.STUDENT]
       await nextTick()
 
-      expect(result.categoriesRef.value).toEqual([EUserCategory1.STUDENT])
+      expect(result.categoriesRef.value).toEqual([EUserCategory.STUDENT])
     })
   })
 

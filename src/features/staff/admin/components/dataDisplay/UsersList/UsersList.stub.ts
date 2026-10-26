@@ -1,11 +1,11 @@
 import type { PropType } from 'vue'
-import type { EUserCategory1 } from '@/api/avenir-esr'
+import type { EUserCategory } from '@/api/avenir-esr'
 
 export const UsersListStub = defineComponent({
   name: 'UsersListStub',
   props: {
     categories: {
-      type: Array as PropType<EUserCategory1[]>,
+      type: Array as PropType<EUserCategory[]>,
       required: false,
     },
     institutionIds: {

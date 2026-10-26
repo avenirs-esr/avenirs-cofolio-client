@@ -1,4 +1,4 @@
-import type { EUserCategory1, PagedResponseExternalUserAffiliationOverviewDTO } from '@/api/avenir-esr'
+import type { EUserCategory, PagedResponseExternalUserAffiliationOverviewDTO } from '@/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
 import { createMockedGetAffiliationsResponse } from '@/__mocks__/fixtures/staffs/affiliations.fixtures'
 import { getGetAffiliationsUrl } from '@/api/avenir-esr'
@@ -15,7 +15,7 @@ export const getAffiliationsErrorHandler = http.get(`*${getGetAffiliationsUrl()}
 const getAffiliationsHandler = http.get(`*${getGetAffiliationsUrl()}`, async ({ request }) => {
   const searchParams = new URL(request.url).searchParams
   const keyword = searchParams.get('keyword') ?? undefined
-  const categories = searchParams.getAll('categories') as EUserCategory1[] | undefined
+  const categories = searchParams.getAll('categories') as EUserCategory[] | undefined
   const groupIds = searchParams.getAll('groupIds') as string[] | undefined
   const institutionIds = searchParams.getAll('institutionIds') as string[] | undefined
   const page = searchParams.has('page') ? Number(searchParams.get('page')) : undefined

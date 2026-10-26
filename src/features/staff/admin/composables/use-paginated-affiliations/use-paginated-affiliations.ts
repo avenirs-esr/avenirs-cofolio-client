@@ -1,6 +1,6 @@
 import type { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import type { ComputedRef, Ref } from 'vue'
-import type { EUserCategory1, ExternalUserAffiliationOverviewDTO, GetAffiliationsParams, PageInfoDTO } from '@/api/avenir-esr'
+import type { EUserCategory, ExternalUserAffiliationOverviewDTO, GetAffiliationsParams, PageInfoDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useGetAffiliations } from '@/api/avenir-esr'
@@ -10,7 +10,7 @@ export interface UsePaginatedAffiliationsParams {
   pageRef: Ref<number>
   pageSizeRef: Ref<PageSizes>
   keywordRef: Ref<string | undefined>
-  categoriesRef: Ref<EUserCategory1[] | undefined>
+  categoriesRef: Ref<EUserCategory[] | undefined>
   institutionIdsRef: Ref<string[] | undefined>
   groupIdsRef: Ref<string[] | undefined>
 }
