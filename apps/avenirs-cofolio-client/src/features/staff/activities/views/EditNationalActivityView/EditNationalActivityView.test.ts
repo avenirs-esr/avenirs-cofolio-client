@@ -28,6 +28,12 @@ import {
   editNationalActivityViewContextKey
 } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 
+const ADD_ACTIVITY_TITLE = 'Créer mon activité'
+const EDIT_ACTIVITY_TITLE = 'Modifier l\'activité'
+const OPTION_REQUIRED_ERROR = 'Activez au moins une option\u00A0: commentaire, note ou validation'
+const REQUIRED_ERROR = 'Ce champ est requis.'
+const SAVE_SUCCESS_MESSAGE = 'Activité enregistrée avec succès'
+
 const mockMode = ref('edit')
 
 vi.mock('@vueuse/router', () => ({
@@ -166,10 +172,10 @@ BddTest().given('a national activity view', () => {
     BddTest().then('it should render PageTitle with add props', () => {
       const pageTitle = wrapper.findComponent(PageTitleStub)
 
-      expect(pageTitle.props('title')).toBe('Créer mon activité')
+      expect(pageTitle.props('title')).toBe(ADD_ACTIVITY_TITLE)
       expect(pageTitle.props('trailingLinks')).toEqual([
         { text: mockedActivityContent.title },
-        { text: 'Créer mon activité' },
+        { text: ADD_ACTIVITY_TITLE },
       ])
     })
 
@@ -188,10 +194,10 @@ BddTest().given('a national activity view', () => {
     BddTest().then('it should render PageTitle with edit props', () => {
       const pageTitle = wrapper.findComponent(PageTitleStub)
 
-      expect(pageTitle.props('title')).toBe('Modifier l\'activité')
+      expect(pageTitle.props('title')).toBe(EDIT_ACTIVITY_TITLE)
       expect(pageTitle.props('trailingLinks')).toEqual([
         { text: mockedActivityContent.title },
-        { text: 'Modifier l\'activité' },
+        { text: EDIT_ACTIVITY_TITLE },
       ])
     })
 
@@ -211,7 +217,7 @@ BddTest().given('a national activity view', () => {
 
       BddTest().then('it should call addSuccessMessage with the correct message', async () => {
         await vi.waitFor(() => {
-          expect(mockAddSuccessMessage).toHaveBeenCalledWith('Activité enregistrée avec succès')
+          expect(mockAddSuccessMessage).toHaveBeenCalledWith(SAVE_SUCCESS_MESSAGE)
         })
       })
     })
@@ -419,7 +425,7 @@ BddTest().given('a national activity view', () => {
     })
 
     BddTest().then('it should not flag the thematic field as invalid', () => {
-      expect(getContext(wrapper).form.state.errorMap.onSubmit?.fields?.thematic).toBeUndefined()
+      expect(getContext(wrapper).form.getFieldMeta('thematic')?.errors).toEqual([])
     })
   })
 
@@ -449,6 +455,108 @@ BddTest().given('a national activity view', () => {
 
     BddTest().then('the PATCH payload should contain empty targets (national activity)', () => {
       expect(capturedPatchBody).toMatchObject({ targetInstitutionIds: [], targetGroupIds: [] })
+    })
+  })
+
+  BddTest().when('the activity has an assessment', () => {
+    let capturedPatchBody: ActivityDraftUpdateRequest | undefined
+
+    beforeEach(async () => {
+      capturedPatchBody = undefined
+
+      server.use(
+        createGetActivityContentDraftHandler(() => ({
+          ...mockedActivityContent,
+          assessment: {
+            comment: true,
+            grade: 20,
+          },
+        })),
+        createUpdateActivityDraftHandler((body) => {
+          capturedPatchBody = body
+        }),
+      )
+
+      await mountView()
+    })
+
+    BddTest().then('the form should be initialized with the persisted assessment', () => {
+      const { form } = getContext(wrapper)
+      expect(form.getFieldValue('assessmentComment')).toBe(true)
+      expect(form.getFieldValue('assessmentGrade')).toBe(20)
+      expect(form.getFieldValue('assessmentValidation')).toBe(false)
+    })
+
+    BddTest().and('the form is submitted', () => {
+      beforeEach(async () => {
+        await getContext(wrapper).form.handleSubmit()
+        await flushPromises()
+      })
+
+      BddTest().then('the PATCH payload should contain the assessment', () => {
+        expect(capturedPatchBody).toMatchObject({
+          assessment: {
+            comment: true,
+            grade: 20,
+          },
+        })
+      })
+    })
+
+    BddTest().and('the assessment is disabled and the form is submitted', () => {
+      beforeEach(async () => {
+        const context = getContext(wrapper)
+        context.isAssessmentEnabled.value = false
+        context.form.setFieldValue('assessmentComment', false)
+        context.form.setFieldValue('assessmentGrade', undefined)
+        context.form.setFieldValue('assessmentValidation', false)
+        await context.form.handleSubmit()
+        await flushPromises()
+      })
+
+      BddTest().then('the PATCH payload should contain an empty assessment to clear it', () => {
+        expect(capturedPatchBody?.assessment).toEqual({})
+      })
+    })
+
+    BddTest().and('every option is removed while the assessment stays enabled, then the form is submitted', () => {
+      beforeEach(async () => {
+        const context = getContext(wrapper)
+        context.isAssessmentEnabled.value = true
+        context.isAssessmentGradeEnabled.value = false
+        context.form.setFieldValue('assessmentComment', false)
+        context.form.setFieldValue('assessmentGrade', undefined)
+        context.form.setFieldValue('assessmentValidation', false)
+        await context.form.handleSubmit()
+        await flushPromises()
+      })
+
+      BddTest().then('it should not save the draft', () => {
+        expect(capturedPatchBody).toBeUndefined()
+      })
+
+      BddTest().then('it should attach the option required error to the validation field', () => {
+        expect(getContext(wrapper).form.getFieldMeta('assessmentValidation')?.errors).toEqual([OPTION_REQUIRED_ERROR])
+      })
+    })
+
+    BddTest().and('the grade max is cleared while the grade option stays enabled, then the form is submitted', () => {
+      beforeEach(async () => {
+        const context = getContext(wrapper)
+        context.isAssessmentEnabled.value = true
+        context.isAssessmentGradeEnabled.value = true
+        context.form.setFieldValue('assessmentGrade', undefined)
+        await context.form.handleSubmit()
+        await flushPromises()
+      })
+
+      BddTest().then('it should not save the draft', () => {
+        expect(capturedPatchBody).toBeUndefined()
+      })
+
+      BddTest().then('it should flag the grade as required', () => {
+        expect(getContext(wrapper).form.getFieldMeta('assessmentGrade')?.errors).toEqual([REQUIRED_ERROR])
+      })
     })
   })
 

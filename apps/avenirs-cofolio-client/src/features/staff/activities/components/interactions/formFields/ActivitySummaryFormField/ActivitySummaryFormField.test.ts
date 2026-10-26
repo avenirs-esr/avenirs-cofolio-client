@@ -47,7 +47,7 @@ BddTest().given('an ActivitySummaryFormField component', () => {
     })
 
     BddTest().then('it should render as a textarea', () => {
-      expect(getInput().props('isTextarea')).toBe('')
+      expect(getInput().props('isTextarea')).toBe(true)
     })
 
     BddTest().then('it should have no initial error message', () => {

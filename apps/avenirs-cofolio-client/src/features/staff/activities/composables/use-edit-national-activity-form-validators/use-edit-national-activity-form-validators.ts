@@ -1,6 +1,8 @@
-import type { EditActivityFormData } from '@/features/staff/activities/types/forms.types'
+import type { EditActivityAssessmentFormData, EditActivityFormData } from '@/features/staff/activities/types/forms.types'
+import { useI18n } from 'vue-i18n'
 import { useFormValidators } from '@/common/composables/use-form-validators/use-form-validators'
 import {
+  ACTIVITY_ASSESSMENT_GRADE_MIN,
   ACTIVITY_CONSIGN_MAX_LENGTH,
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DISABLED,
   ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_INFINITY,
@@ -16,6 +18,7 @@ import {
  * @returns An object containing validation functions for each form field.
  */
 export function useEditNationalActivityFormValidators () {
+  const { t } = useI18n()
   const { validateRequired, validateMaxLength, validateMin, validateDateInterval } = useFormValidators()
 
   function validateTitle (title: EditActivityFormData['title']) {
@@ -62,6 +65,23 @@ export function useEditNationalActivityFormValidators () {
     return validateRequired(endDate) ?? validateDateInterval({ startDate, endDate })
   }
 
+  function validateAssessmentGrade (grade: number | undefined, isRequired = false) {
+    return isRequired && grade === undefined
+      ? validateRequired(grade)
+      : validateMin(grade, ACTIVITY_ASSESSMENT_GRADE_MIN)
+  }
+
+  function validateAssessmentOptions (
+    { assessmentComment, assessmentGrade, assessmentValidation }: EditActivityAssessmentFormData,
+    isGradeEnabled = false
+  ) {
+    if (!assessmentComment && !isGradeEnabled && assessmentGrade === undefined && !assessmentValidation) {
+      return t('staff.activities.composables.useEditNationalActivityFormValidators.assessment.optionRequired')
+    }
+
+    return undefined
+  }
+
   return {
     validateDescription,
     validateRecommendedCompletionContexts,
@@ -71,5 +91,7 @@ export function useEditNationalActivityFormValidators () {
     validateTitle,
     validateStartDate,
     validateEndDate,
+    validateAssessmentGrade,
+    validateAssessmentOptions,
   }
 }

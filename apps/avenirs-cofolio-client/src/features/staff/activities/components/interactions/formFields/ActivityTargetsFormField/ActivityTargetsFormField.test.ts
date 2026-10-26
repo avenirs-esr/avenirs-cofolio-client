@@ -53,6 +53,8 @@ function mountField ({ institutionIds = [], groupIds = [], persistedIds = [], lo
         files: [],
         links: [],
         isNational,
+        assessmentComment: false,
+        assessmentValidation: false,
         targetInstitutionIds: institutionIds,
         targetGroupIds: groupIds,
       }

@@ -29,6 +29,8 @@ function mountField (overrides: Partial<EditActivityFormData> = {}) {
         files: [],
         links: [],
         isNational: false,
+        assessmentComment: false,
+        assessmentValidation: false,
         targetInstitutionIds: [],
         targetGroupIds: [],
         ...overrides,

@@ -1,22 +1,28 @@
+import type { PropType } from 'vue'
+import { AvInteractivePropsStub } from '@avenirs-esr/avenirs-dsav/test-utils'
+
 export const InputStub = defineComponent({
   name: 'Input',
-  props: [
-    'modelValue',
-    'label',
-    'placeholder',
-    'maxlength',
-    'min',
-    'max',
-    'hint',
-    'prefixIcon',
-    'textareaMinHeight',
-    'isValid',
-    'isTextarea',
-    'labelVisible',
-    'disabled',
-    'required',
-    'errorMessage'
-  ],
+  props: {
+    ...AvInteractivePropsStub,
+    modelValue: {
+      type: [String, Number] as PropType<string | number | null>,
+      default: null,
+    },
+    label: String,
+    placeholder: String,
+    maxlength: Number,
+    min: [String, Number],
+    max: [String, Number],
+    hint: String,
+    prefixIcon: String,
+    textareaMinHeight: [String, Number],
+    isValid: Boolean,
+    isTextarea: Boolean,
+    labelVisible: Boolean,
+    required: Boolean,
+    errorMessage: String,
+  },
   emits: ['update:modelValue'],
   template: `
     <div>
@@ -34,5 +40,5 @@ export const InputStub = defineComponent({
       <span data-testid="maxlength-caption">{{ modelValue?.length || 0 }} / {{ maxlength }} caractères (espaces compris)</span>
       <slot name="suffix" />
     </div>
-  `
+  `,
 })
