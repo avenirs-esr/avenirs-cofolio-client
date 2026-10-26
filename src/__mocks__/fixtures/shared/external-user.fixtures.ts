@@ -1,4 +1,5 @@
-import type { ExternalUserDTO } from '@/api/avenir-esr'
+import type { ExternalUserDetailDTO, ExternalUserDTO } from '@/api/avenir-esr'
+import { EGroupType } from '@/api/avenir-esr'
 
 export const mockExternalUser: ExternalUserDTO = {
   eppn: 'alice.dupont',
@@ -8,5 +9,26 @@ export const mockExternalUser: ExternalUserDTO = {
   categories: [],
   externalId: 'alice.dupont',
   source: 'external',
-  institutionIds: [],
+  institutionIds: [
+    'institution-id'
+  ],
+}
+
+export const mockExternalUserDetail: ExternalUserDetailDTO = {
+  id: mockExternalUser.externalId!,
+  firstName: mockExternalUser.firstName!,
+  lastName: mockExternalUser.lastName!,
+  email: mockExternalUser.email!,
+  profilePictureId: undefined,
+  institution: {
+    id: 'institution-id',
+    name: 'Institution Name'
+  },
+  groups: [
+    {
+      id: 'group-id',
+      name: 'Group Name',
+      type: EGroupType.PROGRAM,
+    }
+  ]
 }

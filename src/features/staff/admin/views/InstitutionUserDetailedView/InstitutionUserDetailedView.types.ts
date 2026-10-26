@@ -1,0 +1,6 @@
+export enum UserSections {
+  DETAILS = 'DETAILS',
+  PROGRAMS = 'PROGRAMS',
+  GROUPS = 'GROUPS',
+  PERMISSIONS = 'PERMISSIONS'
+}

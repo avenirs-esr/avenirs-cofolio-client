@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { NavigationMenuProps } from 'node_modules/@avenirs-esr/avenirs-dsav/dist/components/navigation/AvNavigation/components/NavigationMenu/NavigationMenu.vue'
-import type { NavigationMenuLinkProps } from 'node_modules/@avenirs-esr/avenirs-dsav/dist/components/navigation/AvNavigation/components/NavigationMenuLink/NavigationMenuLink.vue'
+import type { NavigationMenuLinkProps, NavigationMenuProps } from '@avenirs-esr/avenirs-dsav'
 import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { ICONS, ROUTES } from '@/common/constants'

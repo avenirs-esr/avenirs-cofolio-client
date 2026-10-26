@@ -4977,6 +4977,37 @@
         }
       }
     },
+    "/back-office/external-users/{externalUserId}/detail": {
+      "get": {
+        "tags": [
+          "external-user-affiliation-query-controller"
+        ],
+        "operationId": "getExternalUser",
+        "parameters": [
+          {
+            "name": "externalUserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalUserDetailDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/back-office/external-users/{externalUserId}/affiliations": {
       "get": {
         "tags": [
@@ -9872,6 +9903,45 @@
         "required": [
           "data",
           "page"
+        ]
+      },
+      "ExternalUserDetailDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "profilePictureId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "institution": {
+            "$ref": "#/components/schemas/InstitutionReferenceDTO"
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GroupReferenceDTO"
+            }
+          }
+        },
+        "required": [
+          "email",
+          "firstName",
+          "groups",
+          "id",
+          "institution",
+          "lastName"
         ]
       },
       "ExternalUserAffiliationOverviewDTO": {
