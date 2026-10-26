@@ -1,13 +1,17 @@
 <script lang="ts" setup>
 import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
+import type { BaseApiException } from '@/common/exceptions'
 import { AvIconText } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { useGetGlobalAuthorizationOfExternalUser } from '@/api/avenir-esr'
+import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import { ICONS } from '@/common/constants'
 import UserDetailsTable from '@/features/staff/admin/views/InstitutionUserDetailedView/components/dataDisplay/UserDetailsTable/UserDetailsTable.vue'
 
 export interface UserDetailsSectionProps {
   user: ExternalUserDetailDTO
+  isLoading?: boolean
+  error?: BaseApiException | null
 }
 
 const { user } = defineProps<UserDetailsSectionProps>()
@@ -27,9 +31,14 @@ const universes = computed(() => authorizations?.value?.universes ?? [])
       :icon="ICONS.USER"
       :text="t('staff.admin.views.InstitutionUserDetailedView.components.layout.UserLayout.sections.DETAILS.title')"
     />
-    <UserDetailsTable
-      :user="user"
-      :universes="universes"
-    />
+    <QuerySuspense
+      :is-loading="isLoading"
+      :error="error"
+    >
+      <UserDetailsTable
+        :user="user"
+        :universes="universes"
+      />
+    </QuerySuspense>
   </div>
 </template>

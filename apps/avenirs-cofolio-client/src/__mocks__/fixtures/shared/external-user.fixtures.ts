@@ -14,6 +14,11 @@ export const mockExternalUser: ExternalUserDTO = {
   ],
 }
 
+export const mockExternalUserWithoutEmail: ExternalUserDTO = {
+  ...mockExternalUser,
+  email: undefined,
+}
+
 export const mockExternalUserDetail: ExternalUserDetailDTO = {
   id: mockExternalUser.externalId!,
   firstName: mockExternalUser.firstName!,
@@ -25,10 +30,13 @@ export const mockExternalUserDetail: ExternalUserDetailDTO = {
     name: 'Institution Name'
   },
   groups: [
-    {
-      id: 'group-id',
-      name: 'Group Name',
-      type: EGroupType.PROGRAM,
-    }
+    { id: 'program-1', name: 'Programme', type: EGroupType.PROGRAM },
+    { id: 'option-1', name: 'Option de formation', type: EGroupType.PROGRAM_OPTION },
+    { id: 'student-group-1', name: 'Groupe apprenant', type: EGroupType.STUDENT_GROUP },
   ]
+}
+
+export const mockExternalUserDetailWithoutEmail: ExternalUserDetailDTO = {
+  ...mockExternalUserDetail,
+  email: '',
 }

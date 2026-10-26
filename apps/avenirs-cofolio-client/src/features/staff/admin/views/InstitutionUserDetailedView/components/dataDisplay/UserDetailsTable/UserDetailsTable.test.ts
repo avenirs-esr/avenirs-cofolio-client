@@ -52,7 +52,7 @@ BddTest().given('a user details table', () => {
   }
 
   const getTable = () => wrapper.findComponent(AvTableStub)
-  const getCardsContainer = () => wrapper.find('[data-testid="users-overview-list-cards"]')
+  const getCardsContainer = () => wrapper.find('[data-testid="users-details-cards"]')
   const getCards = () => wrapper.findAllComponents(CardStub)
   const getUserInfos = () => wrapper.findAllComponents(UserInfoStub)
   const getUniversesLists = () => wrapper.findAllComponents(UniversesListStub)
@@ -69,7 +69,7 @@ BddTest().given('a user details table', () => {
 
     BddTest().then('it should render the table instead of the cards', () => {
       expect(getTable().exists()).toBe(true)
-      expect(wrapper.find('[data-testid="users-overview-list-table"]').exists()).toBe(true)
+      expect(wrapper.find('[data-testid="users-details-table"]').exists()).toBe(true)
       expect(getCardsContainer().exists()).toBe(false)
     })
 

@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import type { GroupDTO, GroupOverviewDTO } from '@/api/avenir-esr'
 import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { ROUTES } from '@/common/constants'
 
 export interface GroupNameProps {
-  group: GroupDTO | GroupOverviewDTO
+  group: { id: string, name: string }
   withNav?: boolean
 }
 

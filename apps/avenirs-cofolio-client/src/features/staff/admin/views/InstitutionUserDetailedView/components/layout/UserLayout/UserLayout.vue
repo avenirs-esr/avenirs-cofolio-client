@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
+import type { BaseApiException } from '@/common/exceptions'
 import { useI18n } from 'vue-i18n'
 import SectionNavigationLayout
   from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.vue'
@@ -13,9 +14,11 @@ import { UserSections } from '@/features/staff/admin/views/InstitutionUserDetail
 
 export interface UserLayoutProps {
   user: ExternalUserDetailDTO
+  isLoading?: boolean
+  error?: BaseApiException | null
 }
 
-const { user } = defineProps<UserLayoutProps>()
+const { user, isLoading, error } = defineProps<UserLayoutProps>()
 
 const emit = defineEmits<{
   (e: 'selectedSection', section: string): void
@@ -54,10 +57,10 @@ const componentBySection = {
 }
 
 const propsBySection = computed(() => ({
-  [UserSections.DETAILS]: { user },
-  [UserSections.PROGRAMS]: { user },
-  [UserSections.GROUPS]: { user },
-  [UserSections.PERMISSIONS]: { user },
+  [UserSections.DETAILS]: { user, isLoading, error },
+  [UserSections.PROGRAMS]: { user, isLoading, error },
+  [UserSections.GROUPS]: { user, isLoading, error },
+  [UserSections.PERMISSIONS]: { user, isLoading, error },
 }))
 
 const {

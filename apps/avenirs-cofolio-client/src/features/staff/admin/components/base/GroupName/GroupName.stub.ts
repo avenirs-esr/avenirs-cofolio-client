@@ -1,11 +1,10 @@
 import type { PropType } from 'vue'
-import type { GroupOverviewDTO } from '@/api/avenir-esr'
 
 export const GroupNameStub = defineComponent({
   name: 'GroupNameStub',
   props: {
     group: {
-      type: Object as PropType<GroupOverviewDTO>,
+      type: Object as PropType<{ id: string, name: string }>,
       required: true,
     },
     withNav: {

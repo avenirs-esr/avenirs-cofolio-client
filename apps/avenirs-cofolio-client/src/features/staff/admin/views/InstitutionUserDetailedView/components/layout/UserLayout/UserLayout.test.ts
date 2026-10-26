@@ -1,5 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { SectionNavigationItem } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
+import type { BaseApiException } from '@/common/exceptions'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -39,9 +40,15 @@ BddTest().given('a user layout component', () => {
     SectionNavigationLayout: SectionNavigationLayoutStub,
   }
 
-  const mountWith = async () => {
+  const mountWith = async (props: {
+    isLoading?: boolean
+    error?: BaseApiException | null
+  } = {}) => {
     wrapper = mountComponent(UserLayout, {
-      props: { user: mockExternalUserDetail },
+      props: {
+        user: mockExternalUserDetail,
+        ...props,
+      },
       global: { stubs },
     })
 
@@ -50,13 +57,15 @@ BddTest().given('a user layout component', () => {
 
   const getSectionNavigationLayout = () => wrapper.findComponent(SectionNavigationLayoutStub)
 
+  beforeEach(() => {
+    routeMock.name = 'staff-admin-user'
+    routeMock.fullPath = '/staff/admin/users/user-1'
+    routeMock.query = {}
+    replaceMock.mockReset()
+  })
+
   BddTest().when('the component is mounted', () => {
     beforeEach(async () => {
-      routeMock.name = 'staff-admin-user'
-      routeMock.fullPath = '/staff/admin/users/user-1'
-      routeMock.query = {}
-      replaceMock.mockReset()
-
       await mountWith()
     })
 
@@ -114,29 +123,77 @@ BddTest().given('a user layout component', () => {
       const propsBySection = getSectionNavigationLayout().props('propsBySection')
 
       expect(propsBySection).toEqual({
-        [UserSections.DETAILS]: { user: mockExternalUserDetail },
-        [UserSections.PROGRAMS]: { user: mockExternalUserDetail },
-        [UserSections.GROUPS]: { user: mockExternalUserDetail },
-        [UserSections.PERMISSIONS]: { user: mockExternalUserDetail },
+        [UserSections.DETAILS]: {
+          user: mockExternalUserDetail,
+          isLoading: false,
+          error: undefined,
+        },
+        [UserSections.PROGRAMS]: {
+          user: mockExternalUserDetail,
+          isLoading: false,
+          error: undefined,
+        },
+        [UserSections.GROUPS]: {
+          user: mockExternalUserDetail,
+          isLoading: false,
+          error: undefined,
+        },
+        [UserSections.PERMISSIONS]: {
+          user: mockExternalUserDetail,
+          isLoading: false,
+          error: undefined,
+        },
       })
     })
 
     BddTest().then('it should configure the side navigation width', () => {
-      expect(
-        getSectionNavigationLayout().props('sideNavigationWidth'),
-      ).toBe('fit-content')
+      expect(getSectionNavigationLayout().props('sideNavigationWidth')).toBe('fit-content')
+    })
+  })
+
+  BddTest().when('the component receives loading and error props', () => {
+    const error = { message: 'Request failed' } as BaseApiException
+
+    beforeEach(async () => {
+      await mountWith({
+        isLoading: true,
+        error,
+      })
+    })
+
+    BddTest().then('it should pass loading and error to every section', () => {
+      const propsBySection = getSectionNavigationLayout().props('propsBySection')
+
+      expect(propsBySection).toEqual({
+        [UserSections.DETAILS]: {
+          user: mockExternalUserDetail,
+          isLoading: true,
+          error,
+        },
+        [UserSections.PROGRAMS]: {
+          user: mockExternalUserDetail,
+          isLoading: true,
+          error,
+        },
+        [UserSections.GROUPS]: {
+          user: mockExternalUserDetail,
+          isLoading: true,
+          error,
+        },
+        [UserSections.PERMISSIONS]: {
+          user: mockExternalUserDetail,
+          isLoading: true,
+          error,
+        },
+      })
     })
   })
 
   BddTest().when('a section label is selected', () => {
     beforeEach(async () => {
-      routeMock.query = {}
       await mountWith()
 
-      getSectionNavigationLayout().vm.$emit(
-        'selectedItemLabel',
-        'Programmes',
-      )
+      getSectionNavigationLayout().vm.$emit('selectedItemLabel', 'Programmes')
     })
 
     BddTest().then('it should emit the selected section label', () => {
@@ -148,9 +205,6 @@ BddTest().given('a user layout component', () => {
 
   BddTest().when('a section is selected from navigation', () => {
     beforeEach(async () => {
-      routeMock.query = {}
-      replaceMock.mockReset()
-
       await mountWith()
 
       getSectionNavigationLayout().vm.$emit('selectedItem', {

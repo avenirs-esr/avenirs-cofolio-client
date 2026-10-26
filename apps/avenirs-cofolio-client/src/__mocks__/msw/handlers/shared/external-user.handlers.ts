@@ -1,6 +1,6 @@
 import type { ExternalUserDetailDTO, ExternalUserDTO, ExternalUserGlobalAuthorizationDTO } from '@/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
-import { mockExternalUser, mockExternalUserDetail } from '@/__mocks__/fixtures/shared/external-user.fixtures'
+import { mockExternalUser, mockExternalUserDetail, mockExternalUserDetailWithoutEmail, mockExternalUserWithoutEmail } from '@/__mocks__/fixtures/shared/external-user.fixtures'
 import { ERole, EUniverse, getGetExternalUserByIdUrl, getGetExternalUserUrl, getGetGlobalAuthorizationOfExternalUserUrl } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
 
@@ -102,6 +102,15 @@ const getExternalUserHander = http.get(`*${getGetExternalUserUrl(':id')}`, async
     )
   }
 
+  if (id === 'NO_EMAIL_USER_ID') {
+    return HttpResponse.json<ExternalUserDTO>(mockExternalUserWithoutEmail, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+  }
+
   return HttpResponse.json<ExternalUserDetailDTO>(mockExternalUserDetail, {
     status: 200,
     headers: {
@@ -125,6 +134,15 @@ const getExternalUserByIdHander = http.get(`*${getGetExternalUserByIdUrl(':id')}
       { error: 'User not found', code: ErrorCodes.NOT_FOUND },
       { status: 404 },
     )
+  }
+
+  if (id === 'NO_EMAIL_USER_ID') {
+    return HttpResponse.json<ExternalUserDTO>(mockExternalUserDetailWithoutEmail, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
   }
 
   return HttpResponse.json<ExternalUserDTO>(mockExternalUser, {
