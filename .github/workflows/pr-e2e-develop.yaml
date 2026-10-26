@@ -6,7 +6,7 @@ on:
 
 jobs:
   pr-e2e-with-msw:
-    uses: avenirs-esr/avenirs-workflows/.github/workflows/pr-e2e-frontend-workflow.yaml@build/us-3043-pnpm-monorepo
+    uses: avenirs-esr/avenirs-workflows/.github/workflows/pr-e2e-frontend-workflow.yaml@main
     secrets: inherit
     with:
       working-directory: apps/avenirs-cofolio-client
