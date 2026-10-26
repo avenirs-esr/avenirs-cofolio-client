@@ -1,11 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
+import type { BaseApiException } from '@/common/exceptions'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import { mockExternalUserDetail } from '@/__mocks__/fixtures/shared/external-user.fixtures'
 import { EUniverse } from '@/api/avenir-esr'
+import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { ICONS } from '@/common/constants'
 import { UserDetailsTableStub } from '@/features/staff/admin/views/InstitutionUserDetailedView/components/dataDisplay/UserDetailsTable/UserDetailsTable.stub'
 import UserDetailsSection from '@/features/staff/admin/views/InstitutionUserDetailedView/components/sections/UserDetailsSection/UserDetailsSection.vue'
@@ -13,17 +15,26 @@ import UserDetailsSection from '@/features/staff/admin/views/InstitutionUserDeta
 BddTest().given('a user details section', () => {
   let wrapper: VueWrapper<InstanceType<typeof UserDetailsSection>>
 
-  const mountWith = async (userId = mockExternalUserDetail.id) => {
+  const mountWith = async (options: {
+    userId?: string
+    isLoading?: boolean
+    error?: BaseApiException | null
+  } = {}) => {
     const user: ExternalUserDetailDTO = {
       ...mockExternalUserDetail,
-      id: userId,
+      id: options.userId ?? mockExternalUserDetail.id,
     }
 
     wrapper = mountComponent(UserDetailsSection, {
-      props: { user },
+      props: {
+        user,
+        isLoading: options.isLoading,
+        error: options.error,
+      },
       global: {
         stubs: {
           AvIconText: AvIconTextStub,
+          QuerySuspense: QuerySuspenseStub,
           UserDetailsTable: UserDetailsTableStub,
         },
       },
@@ -33,6 +44,7 @@ BddTest().given('a user details section', () => {
   }
 
   const getAvIconText = () => wrapper.findComponent(AvIconTextStub)
+  const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getUserDetailsTable = () => wrapper.findComponent(UserDetailsTableStub)
 
   BddTest().when('the section is mounted', () => {
@@ -44,6 +56,11 @@ BddTest().given('a user details section', () => {
       expect(getAvIconText().exists()).toBe(true)
       expect(getAvIconText().props('text')).toBe('Informations générales')
       expect(getAvIconText().props('icon')).toBe(ICONS.USER)
+    })
+
+    BddTest().then('it should pass the loading state and error to QuerySuspense', () => {
+      expect(getQuerySuspense().props('isLoading')).toBeUndefined()
+      expect(getQuerySuspense().props('error')).toBeNull()
     })
 
     BddTest().then('it should pass the user to the details table', () => {
@@ -59,9 +76,29 @@ BddTest().given('a user details section', () => {
     })
   })
 
+  BddTest().when('the section receives loading and error props', () => {
+    const error = { message: 'Request failed' } as BaseApiException
+
+    beforeEach(async () => {
+      await mountWith({
+        isLoading: true,
+        error,
+      })
+    })
+
+    BddTest().then('it should pass the loading state and error to QuerySuspense', () => {
+      expect(getQuerySuspense().props('isLoading')).toBe(true)
+      expect(getQuerySuspense().props('error')).toStrictEqual(error)
+    })
+
+    BddTest().then('it should not display the details table', () => {
+      expect(getUserDetailsTable().exists()).toBe(false)
+    })
+  })
+
   BddTest().when('the user has only staff authorizations', () => {
     beforeEach(async () => {
-      await mountWith('STAFF_ONLY_ID')
+      await mountWith({ userId: 'STAFF_ONLY_ID' })
     })
 
     BddTest().then('it should pass only the STAFF universe to the details table', () => {
@@ -71,11 +108,21 @@ BddTest().given('a user details section', () => {
 
   BddTest().when('the user has only student authorizations', () => {
     beforeEach(async () => {
-      await mountWith('STUDENT_ONLY_ID')
+      await mountWith({ userId: 'STUDENT_ONLY_ID' })
     })
 
     BddTest().then('it should pass only the STUDENT universe to the details table', () => {
       expect(getUserDetailsTable().props('universes')).toEqual([EUniverse.STUDENT])
+    })
+  })
+
+  BddTest().when('the user has no authorizations', () => {
+    beforeEach(async () => {
+      await mountWith({ userId: 'INVALID_USER_ID' })
+    })
+
+    BddTest().then('it should pass an empty list of universes to the details table', () => {
+      expect(getUserDetailsTable().props('universes')).toEqual([])
     })
   })
 })

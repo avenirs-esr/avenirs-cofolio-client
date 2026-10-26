@@ -115,6 +115,15 @@
                   "institution": "Affiliated institution",
                   "universes": "Accessible universe(s)"
                 }
+              },
+              "UserGroupsTable": {
+                "columns": {
+                  "groupName": {
+                    "group": "Group",
+                    "program": "Program"
+                  },
+                  "groupeType": "Type"
+                }
               }
             },
             "layout": {
@@ -137,6 +146,14 @@
                     "title": "Programs"
                   }
                 }
+              }
+            },
+            "sections": {
+              "UserGroupsSection": {
+                "emptyStateMessage": "No groups"
+              },
+              "UserProgramsSection": {
+                "emptyStateMessage": "No programs"
               }
             }
           }

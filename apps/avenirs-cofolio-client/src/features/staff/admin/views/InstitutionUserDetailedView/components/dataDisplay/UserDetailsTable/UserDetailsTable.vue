@@ -44,7 +44,7 @@ const columns = computed<AvTableColumn<UserDetailsTableRow>[]>(() => {
   <div
     v-if="isBelowLg"
     class="av-col av-gap-sm"
-    data-testid="users-overview-list-cards"
+    data-testid="users-details-cards"
   >
     <Card radius="var(--radius-lg)">
       <div class="av-col av-gap-sm">
@@ -65,7 +65,7 @@ const columns = computed<AvTableColumn<UserDetailsTableRow>[]>(() => {
     :rows="rows"
     :columns="columns"
     row-key="id"
-    data-testid="users-overview-list-table"
+    data-testid="users-details-table"
   >
     <template #cell(user)="{ row }">
       <UserInfo :user="row.user" />

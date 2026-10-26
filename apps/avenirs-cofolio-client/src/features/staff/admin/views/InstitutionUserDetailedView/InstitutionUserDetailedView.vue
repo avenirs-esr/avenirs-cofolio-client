@@ -26,6 +26,7 @@ const { userId } = toRefs(props)
 const { data: user, error, isFetching } = useGetExternalUser(userId)
 
 const fullName = computed(() => toFullName(user.value?.firstName, user.value?.lastName))
+const detailedTitle = computed(() => user.value?.email ? `${fullName.value} (${user.value.email})` : fullName.value)
 
 const currentSection = ref('')
 
@@ -48,7 +49,7 @@ const trailingLinks = computed(() => {
 
 <template>
   <DetailedPageTitle
-    :title="fullName"
+    :title="detailedTitle"
     :trailing-links="trailingLinks"
   />
   <QuerySuspense

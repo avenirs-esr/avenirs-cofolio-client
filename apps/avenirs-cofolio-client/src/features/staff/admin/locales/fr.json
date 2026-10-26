@@ -115,6 +115,15 @@
                   "institution": "Établissement de rattachement",
                   "universes": "Univers accessible(s)"
                 }
+              },
+              "UserGroupsTable": {
+                "columns": {
+                  "groupName": {
+                    "group": "Groupe",
+                    "program": "Formation"
+                  },
+                  "groupeType": "Type"
+                }
               }
             },
             "layout": {
@@ -137,6 +146,14 @@
                     "title": "Formations"
                   }
                 }
+              }
+            },
+            "sections": {
+              "UserGroupsSection": {
+                "emptyStateMessage": "Aucun groupe"
+              },
+              "UserProgramsSection": {
+                "emptyStateMessage": "Aucune formation"
               }
             }
           }

@@ -1,5 +1,6 @@
 import type { PropType } from 'vue'
 import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
+import type { BaseApiException } from '@/common/exceptions'
 
 export const UserDetailsSectionStub = defineComponent({
   name: 'UserDetailsSection',
@@ -7,6 +8,15 @@ export const UserDetailsSectionStub = defineComponent({
     user: {
       type: Object as PropType<ExternalUserDetailDTO>,
       required: true,
+    },
+    isLoading: {
+      type: Boolean,
+      required: false,
+    },
+    error: {
+      type: Object as PropType<BaseApiException | null>,
+      required: false,
+      default: undefined,
     },
   },
   template: '<div data-testid="user-details-section-stub" />',

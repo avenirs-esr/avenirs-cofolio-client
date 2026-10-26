@@ -56,8 +56,10 @@ BddTest().given('an institution user detailed view', () => {
       await mountWith(mockExternalUser.externalId!)
     })
 
-    BddTest().then('it should display the user full name as the page title', () => {
-      expect(getPageTitle().props('title')).toBe('Alice Dupont')
+    BddTest().then('it should display the user full name and email as the page title', () => {
+      expect(getPageTitle().props('title')).toBe(
+        `Alice Dupont (${mockExternalUser.email})`,
+      )
     })
 
     BddTest().then('it should display the user name and an empty section in the trailing links', () => {
@@ -71,7 +73,11 @@ BddTest().given('an institution user detailed view', () => {
       expect(getQuerySuspense().props('error')).toBeNull()
     })
 
-    BddTest().then('it should render the user layout', () => {
+    BddTest().then('it should pass the loading state to QuerySuspense', () => {
+      expect(getQuerySuspense().props('isLoading')).toBe(false)
+    })
+
+    BddTest().then('it should render the user layout with the user', () => {
       expect(getUserLayout().exists()).toBe(true)
       expect(getUserLayout().props('user')).toMatchObject({
         id: mockExternalUser.externalId,
@@ -84,7 +90,8 @@ BddTest().given('an institution user detailed view', () => {
   BddTest().when('the user selects a section', () => {
     beforeEach(async () => {
       await mountWith(mockExternalUser.externalId!)
-      getUserLayout().vm.$emit('selected-section', 'Informations générales')
+
+      getUserLayout().vm.$emit('selectedSection', 'Informations générales')
       await flushPromises()
     })
 
@@ -102,11 +109,13 @@ BddTest().given('an institution user detailed view', () => {
       await mountWith(mockExternalUser.externalId!, mockGroup.id)
     })
 
-    BddTest().then('it should display the user full name as the page title', () => {
-      expect(getPageTitle().props('title')).toBe('Alice Dupont')
+    BddTest().then('it should display the user full name and email as the page title', () => {
+      expect(getPageTitle().props('title')).toBe(
+        `Alice Dupont (${mockExternalUser.email})`,
+      )
     })
 
-    BddTest().then('it should display the group, user and empty section in the trailing links', () => {
+    BddTest().then('it should display the group, users, user and empty section in the trailing links', () => {
       expect(getPageTitle().props('trailingLinks')).toEqual([
         {
           text: mockGroup.name,
@@ -121,7 +130,7 @@ BddTest().given('an institution user detailed view', () => {
       ])
     })
 
-    BddTest().then('it should not pass the query error to QuerySuspense', () => {
+    BddTest().then('it should pass the query error to QuerySuspense', () => {
       expect(getQuerySuspense().props('error')).toBeNull()
     })
 
@@ -141,6 +150,18 @@ BddTest().given('an institution user detailed view', () => {
         { text: 'Alice Dupont' },
         { text: '' },
       ])
+    })
+  })
+
+  BddTest().when('the user exists but has no email', () => {
+    beforeEach(async () => {
+      await mountWith('NO_EMAIL_USER_ID')
+    })
+
+    BddTest().then('it should display the user full name and empty email as the page title', () => {
+      expect(getPageTitle().props('title')).toBe(
+        `Alice Dupont`,
+      )
     })
   })
 
