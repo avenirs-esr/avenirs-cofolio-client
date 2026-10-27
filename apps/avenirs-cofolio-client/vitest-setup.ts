@@ -1,3 +1,5 @@
+import { setupMswLifecycle } from '@avenirs-esr/test-utils/unit/setup/msw'
+import { setupWarningHandler } from '@avenirs-esr/test-utils/unit/setup/warnings'
 import { config } from '@vue/test-utils'
 import { fetch, FormData, Headers, Request, Response } from 'undici'
 import { afterAll, afterEach, beforeAll } from 'vitest'
@@ -33,48 +35,10 @@ class ResizeObserverStub {
 
 globalThis.ResizeObserver = ResizeObserverStub
 
-const IGNORED_WARNINGS = []
-const FAILED_WARNINGS: string[] = ['[Vue warn]', '[intlify]']
-const originalWarn = console.warn
-
-const isIgnoredWarning = (message: string) => IGNORED_WARNINGS.some(text => message.includes(text))
-
-function setupWarningHandler () {
-  console.warn = (...args: any[]) => {
-    const message = args.map(String).join(' ')
-
-    if (FAILED_WARNINGS.some(warningPrefix => message.includes(warningPrefix))) {
-      if (isIgnoredWarning(message)) {
-        originalWarn(...args)
-        return
-      }
-
-      throw new Error(`❌ Vue warning detected during test:\n${message}`)
-    }
-
-    originalWarn(...args)
-  }
-}
-
 setupWarningHandler()
 
 if (__ENABLE_MSW__) {
-  beforeAll(async () => {
-    const { server } = await import('./src/__mocks__/msw/server')
-    server.listen({
-      onUnhandledRequest: 'error'
-    })
-  })
-
-  afterEach(async () => {
-    const { server } = await import('./src/__mocks__/msw/server')
-    server.resetHandlers()
-  })
-
-  afterAll(async () => {
-    const { server } = await import('./src/__mocks__/msw/server')
-    server.close()
-  })
+  setupMswLifecycle({ beforeAll, afterEach, afterAll }, () => import('./src/__mocks__/msw/server'))
 }
 
 beforeAll(async () => {

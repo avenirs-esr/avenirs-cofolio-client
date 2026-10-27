@@ -677,6 +677,9 @@ importers:
       '@avenirs-esr/avenirs-dsav':
         specifier: 'catalog:'
         version: 0.1.371(@floating-ui/dom@1.8.0)(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/extensions@3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0))(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.3)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
+      '@playwright/test':
+        specifier: 'catalog:'
+        version: 1.61.1
       '@tanstack/vue-query':
         specifier: 'catalog:'
         version: 5.75.5(vue@3.5.44(typescript@6.0.3))

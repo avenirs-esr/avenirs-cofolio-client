@@ -4,6 +4,6 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.lib.tsbuildinfo"
   },
   "include": [
-    "src/**/*.ts"
+    "src/unit/**/*.ts"
   ]
 }
