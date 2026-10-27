@@ -13,8 +13,8 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const routesToCheck: Array<AvRoute> = [
-  ROUTES.STAFF.ACTIVITIES,
-  ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY,
+  ROUTES.STAFF.ACTIVITIES as AvRoute,
+  ROUTES.STAFF.ACTIVITIES_EDIT_NATIONAL_ACTIVITY as AvRoute,
 ]
 
 const pathsToTest = [

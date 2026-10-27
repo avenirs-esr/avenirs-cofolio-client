@@ -1,0 +1,14 @@
+{
+  "extends": "@tsconfig/node26/tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2025", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "paths": {
+      "@/*": ["../src/*"],
+      "a11y/*": ["./*"]
+    },
+    "noEmit": true
+  },
+  "include": ["./**/*.ts", "../env.d.ts", "../src/**/*.d.ts"]
+}

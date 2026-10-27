@@ -4,7 +4,7 @@ import { defineConfig, devices } from '@playwright/test'
 export const GLOBAL_TIMEOUT = 60 * 1000
 export default defineConfig({
   testDir: './',
-  tsconfig: './tsconfig.a11y.json',
+  tsconfig: './tsconfig.json',
   use: {
     baseURL: 'http://localhost:4174/cofolio-back-office/',
     headless: !!process.env.CI,
