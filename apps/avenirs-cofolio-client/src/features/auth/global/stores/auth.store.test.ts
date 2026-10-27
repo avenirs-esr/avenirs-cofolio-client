@@ -1,4 +1,4 @@
-import type { RouteLocationRaw } from 'vue-router'
+import type { RouteLocationRaw, RouteMeta } from 'vue-router'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
@@ -7,7 +7,7 @@ import { mountComposable } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { meServerErrorHandler, meUnauthorizedHandler, mockedLoggedInUser } from '@/__mocks__/msw/handlers/shared/generic.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EUniverse, EUserCategory, getMe } from '@/api/avenir-esr'
+import { ERole, EUniverse, getMe } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 import { AUTH_PREFS_KEY, AUTH_SESSION_KEY } from '@/features/auth/global/stores/auth.store.constants'
@@ -30,23 +30,24 @@ const mockClear = vi.fn()
 
 vi.mock('@tanstack/vue-query', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@tanstack/vue-query')>()
-
-  return { ...actual, useQueryClient: () => ({ clear: mockClear }) }
+  return {
+    ...actual,
+    useQueryClient: () => ({ clear: mockClear })
+  }
 })
 
 vi.mock('@/api/avenir-esr', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@/api/avenir-esr')>()
-
-  return { ...actual, getMe: vi.fn(actual.getMe) }
+  return {
+    ...actual,
+    getMe: vi.fn(actual.getMe)
+  }
 })
 
-const { mockReplace, mockRoute, CURRENT_ROUTE } = vi.hoisted(() => {
-  const CURRENT_ROUTE = '/current-route'
-
+const { mockReplace, mockRoute } = vi.hoisted(() => {
   return {
     mockReplace: vi.fn(),
-    mockRoute: { value: { fullPath: CURRENT_ROUTE, meta: {} as { public?: boolean } } },
-    CURRENT_ROUTE,
+    mockRoute: { value: { fullPath: '', meta: {} as RouteMeta } }
   }
 })
 
@@ -54,12 +55,29 @@ vi.mock('@/router', () => ({
   default: {
     replace: mockReplace,
     currentRoute: mockRoute,
-  },
+  }
 }))
 
+const CURRENT_ROUTE_PATH = '/current-route'
+const CURRENT_ROUTE_META: RouteMeta = {
+  restrictions: {
+    universes: [Object.values(EUniverse)],
+    roles: [Object.values(ERole)],
+    authorizations: [],
+  },
+}
+mockRoute.value = {
+  ...mockRoute.value,
+  fullPath: CURRENT_ROUTE_PATH,
+  meta: CURRENT_ROUTE_META
+}
+
 const CURRENT_LOGIN_ROUTE = {
-  name: ROUTES.AUTH.LOGIN.name,
-  query: { redirect: CURRENT_ROUTE },
+  ...LOGIN_ROUTE,
+  query: {
+    ...LOGIN_ROUTE.query,
+    redirect: CURRENT_ROUTE_PATH
+  }
 }
 
 function sendStorageEvent (newValue: string | null, key: string | null = AUTH_SESSION_KEY, storageArea: Storage = localStorage) {
@@ -87,6 +105,9 @@ BddTest().given('an auth store with mocked dependencies', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    // The store starts with the universe the storages keep.
+    localStorage.clear()
+    sessionStorage.clear()
     setActivePinia(createPinia())
     store = useAuthStore()
   })
@@ -100,7 +121,7 @@ BddTest().given('an auth store with mocked dependencies', () => {
     BddTest().then('it should expose default state', () => {
       expect(store.isLoggedIn).toBe(false)
       expect(store.session).toBeUndefined()
-      expect(store.selectedUserCategory).toBeUndefined()
+      expect(store.currentUniverse).toBeUndefined()
       expect(store.ensureSession).toBeTypeOf('function')
       expect(store.revalidateSession).toBeTypeOf('function')
       expect(store.redirectToLogin).toBeTypeOf('function')
@@ -220,14 +241,14 @@ BddTest().given('an auth store with mocked dependencies', () => {
     beforeEach(async () => {
       await store.ensureSession(TARGET)
       store.patchSession({ universes: [] })
-      store.selectedUserCategory = EUserCategory.STUDENT
+      store.currentUniverse = EUniverse.STUDENT
       check = await store.revalidateSession()
     })
 
-    BddTest().then('it should refresh the session and keep the selected category', () => {
+    BddTest().then('it should refresh the session and keep the selected universe', () => {
       expect(check).toBe(SessionCheck.VALID)
       expect(store.session).toEqual(mockedLoggedInUser)
-      expect(store.selectedUserCategory).toBe(EUserCategory.STUDENT)
+      expect(store.currentUniverse).toBe(EUniverse.STUDENT)
     })
 
     BddTest().then('it should not clear anything', () => {
@@ -303,7 +324,7 @@ BddTest().given('an auth store with mocked dependencies', () => {
   BddTest().when('redirectToLogin is called with a loaded session', () => {
     beforeEach(async () => {
       await store.ensureSession(TARGET)
-      store.selectedUserCategory = EUserCategory.STUDENT
+      store.currentUniverse = EUniverse.STUDENT
       route = store.redirectToLogin(TARGET)
     })
 
@@ -314,7 +335,7 @@ BddTest().given('an auth store with mocked dependencies', () => {
     BddTest().then('it should drop the session and clear the cached queries', () => {
       expect(store.isLoggedIn).toBe(false)
       expect(store.session).toBeUndefined()
-      expect(store.selectedUserCategory).toBeUndefined()
+      expect(store.currentUniverse).toBeUndefined()
       expect(mockClear).toHaveBeenCalledTimes(1)
     })
   })
@@ -355,14 +376,14 @@ BddTest().given('an auth store with mocked dependencies', () => {
   BddTest().when('invalidateSession is called after setting some state', () => {
     beforeEach(async () => {
       await store.ensureSession(TARGET)
-      store.selectedUserCategory = EUserCategory.STUDENT
+      store.currentUniverse = EUniverse.STUDENT
       store.invalidateSession()
     })
 
     BddTest().then('it should reset authentication related state', () => {
       expect(store.isLoggedIn).toBe(false)
       expect(store.session).toBeUndefined()
-      expect(store.selectedUserCategory).toBeUndefined()
+      expect(store.currentUniverse).toBeUndefined()
     })
 
     BddTest().then('it should clear the cached queries', () => {
@@ -392,13 +413,15 @@ BddTest().given('an auth store with mocked dependencies', () => {
   })
 })
 
-BddTest().given('an auth store shared with the other tabs of the browser', () => {
+BddTest().given('an auth store shared with the other tabs', () => {
   let store: ReturnType<typeof useAuthStore>
 
   beforeEach(() => {
     vi.clearAllMocks()
+    localStorage.clear()
+    sessionStorage.clear()
     setVisibility('visible')
-    mockRoute.value.meta = {}
+    mockRoute.value.meta = CURRENT_ROUTE_META
     setActivePinia(createPinia())
     store = useAuthStore()
   })
@@ -437,7 +460,7 @@ BddTest().given('an auth store shared with the other tabs of the browser', () =>
   BddTest().when('another tab drops the session while this tab displays a protected page', () => {
     beforeEach(async () => {
       await store.ensureSession(TARGET)
-      store.selectedUserCategory = EUserCategory.STUDENT
+      store.currentUniverse = EUniverse.STUDENT
       sendStorageEvent('{}')
       await vi.waitFor(() => expect(mockReplace).toHaveBeenCalledTimes(1))
     })
@@ -448,7 +471,7 @@ BddTest().given('an auth store shared with the other tabs of the browser', () =>
 
     BddTest().then('it should reset the state and clear the cached queries without calling the api again', () => {
       expect(store.isLoggedIn).toBe(false)
-      expect(store.selectedUserCategory).toBeUndefined()
+      expect(store.currentUniverse).toBeUndefined()
       expect(mockClear).toHaveBeenCalledTimes(1)
       expect(getMe).toHaveBeenCalledTimes(1)
     })
@@ -573,7 +596,10 @@ BddTest().given('an auth store shared with the other tabs of the browser', () =>
   BddTest().when('another tab drops the session while this tab displays a public page', () => {
     beforeEach(async () => {
       await store.ensureSession(TARGET)
-      mockRoute.value.meta = { public: true }
+      mockRoute.value.meta = {
+        ...mockRoute.value.meta,
+        restrictions: undefined
+      }
       sendStorageEvent('{}')
       await vi.waitFor(() => expect(store.isLoggedIn).toBe(false))
       await flushPromises()
@@ -585,10 +611,10 @@ BddTest().given('an auth store shared with the other tabs of the browser', () =>
     })
   })
 
-  BddTest().when('a storage event does not concern the session entry of the localStorage', () => {
+  BddTest().when('a storage event does not concern the localStorage session entry', () => {
     beforeEach(async () => {
       await store.ensureSession(TARGET)
-      sendStorageEvent(JSON.stringify({ selectedUserCategory: EUserCategory.STUDENT }), AUTH_PREFS_KEY)
+      sendStorageEvent(JSON.stringify({ currentUniverse: EUniverse.STUDENT }), AUTH_PREFS_KEY)
       sendStorageEvent('dark', 'theme')
       sendStorageEvent('{}', AUTH_SESSION_KEY, sessionStorage)
       await flushPromises()
@@ -647,9 +673,18 @@ BddTest().given('an auth store with the persistence plugin', () => {
     unmount()
   }
 
+  const storeUniverse = (storage: Storage, universe: EUniverse) => {
+    storage.setItem(AUTH_PREFS_KEY, JSON.stringify({ currentUniverse: universe }))
+  }
+
+  const getStoredUniverse = (storage: Storage) => {
+    return JSON.parse(storage.getItem(AUTH_PREFS_KEY) ?? '{}').currentUniverse
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
     localStorage.clear()
+    sessionStorage.clear()
   })
 
   afterEach(() => {
@@ -657,31 +692,37 @@ BddTest().given('an auth store with the persistence plugin', () => {
     server.resetHandlers()
   })
 
-  BddTest().when('a session is loaded and a category is selected', () => {
+  BddTest().when('a session is loaded and a universe is selected', () => {
     beforeEach(async () => {
       store = createStore()
       await store.ensureSession(TARGET)
-      store.selectedUserCategory = EUserCategory.STUDENT
+      store.currentUniverse = EUniverse.STUDENT
       await flushPromises()
     })
 
-    BddTest().then('it should persist the session and the category in two separate localStorage entries', () => {
+    BddTest().then('it should persist the session and the universe in two separate localStorage entries', () => {
       expect(JSON.parse(localStorage.getItem(AUTH_SESSION_KEY) ?? '{}')).toEqual({ session: mockedLoggedInUser })
-      expect(JSON.parse(localStorage.getItem(AUTH_PREFS_KEY) ?? '{}')).toEqual({ selectedUserCategory: EUserCategory.STUDENT })
+      expect(JSON.parse(localStorage.getItem(AUTH_PREFS_KEY) ?? '{}')).toEqual({ currentUniverse: EUniverse.STUDENT })
+    })
+
+    BddTest().then('it should keep the tab universe in the sessionStorage', () => {
+      expect(getStoredUniverse(sessionStorage)).toBe(EUniverse.STUDENT)
     })
   })
 
   BddTest().when('the store is created again with persisted data (page reload)', () => {
     beforeEach(() => {
       localStorage.setItem(AUTH_SESSION_KEY, JSON.stringify({ session: mockedLoggedInUser }))
-      localStorage.setItem(AUTH_PREFS_KEY, JSON.stringify({ selectedUserCategory: EUserCategory.STUDENT }))
+      storeUniverse(sessionStorage, EUniverse.STUDENT)
+      // Chosen since in another tab.
+      storeUniverse(localStorage, EUniverse.STAFF)
       store = createStore()
     })
 
-    BddTest().then('it should restore the session and the category', () => {
+    BddTest().then('it should restore the session and the tab universe', () => {
       expect(store.isLoggedIn).toBe(true)
       expect(store.session).toEqual(mockedLoggedInUser)
-      expect(store.selectedUserCategory).toBe(EUserCategory.STUDENT)
+      expect(store.currentUniverse).toBe(EUniverse.STUDENT)
     })
 
     BddTest().then('it should confirm the restored session with the api, then trust it for the next navigations', async () => {
@@ -694,6 +735,89 @@ BddTest().given('an auth store with the persistence plugin', () => {
       server.use(meUnauthorizedHandler)
       expect(await store.ensureSession(TARGET)).toEqual({ name: ROUTES.AUTH.LOGIN.name, query: { redirect: TARGET } })
       expect(store.isLoggedIn).toBe(false)
+    })
+  })
+
+  BddTest().when('a new tab is opened', () => {
+    BddTest().then('it should start with the last universe chosen in any tab', () => {
+      storeUniverse(localStorage, EUniverse.STAFF)
+      store = createStore()
+
+      expect(store.currentUniverse).toBe(EUniverse.STAFF)
+    })
+
+    BddTest().then('it should start without universe when none was chosen, the user default universe then applying', () => {
+      store = createStore()
+
+      expect(store.currentUniverse).toBeUndefined()
+    })
+  })
+
+  BddTest().when('a tab is reloaded after another tab chose a universe', () => {
+    BddTest().then('it should keep the universe it started with', () => {
+      storeUniverse(localStorage, EUniverse.STAFF)
+      store = createStore()
+      storeUniverse(localStorage, EUniverse.STUDENT)
+      disposeStore()
+      store = createStore()
+
+      expect(store.currentUniverse).toBe(EUniverse.STAFF)
+    })
+
+    BddTest().then('it should keep having no universe when it started without any', () => {
+      store = createStore()
+      storeUniverse(localStorage, EUniverse.STAFF)
+      disposeStore()
+      store = createStore()
+
+      expect(store.currentUniverse).toBeUndefined()
+    })
+  })
+
+  BddTest().when('another tab chooses another universe', () => {
+    beforeEach(async () => {
+      store = createStore()
+      store.currentUniverse = EUniverse.STAFF
+      await flushPromises()
+      sendStorageEvent(JSON.stringify({ currentUniverse: EUniverse.STUDENT }), AUTH_PREFS_KEY)
+      await flushPromises()
+    })
+
+    BddTest().then('it should keep the universe of this tab', () => {
+      expect(store.currentUniverse).toBe(EUniverse.STAFF)
+    })
+  })
+
+  BddTest().when('the session changes in a tab after another tab chose a universe', () => {
+    beforeEach(async () => {
+      store = createStore()
+      store.currentUniverse = EUniverse.STUDENT
+      await flushPromises()
+      storeUniverse(localStorage, EUniverse.STAFF)
+      sendStorageEvent(JSON.stringify({ session: mockedLoggedInUser }))
+      await flushPromises()
+    })
+
+    BddTest().then('it should not change the universe the tabs opened next start with', () => {
+      expect(store.session).toEqual(mockedLoggedInUser)
+      expect(getStoredUniverse(localStorage)).toBe(EUniverse.STAFF)
+    })
+  })
+
+  BddTest().when('a storage keeps a universe that cannot be read', () => {
+    BddTest().then('it should ignore it', () => {
+      localStorage.setItem(AUTH_PREFS_KEY, '{not json')
+      store = createStore()
+
+      expect(store.currentUniverse).toBeUndefined()
+    })
+
+    BddTest().then('it should start with the last universe chosen in any tab when the one of the tab cannot be read', () => {
+      sessionStorage.setItem(AUTH_PREFS_KEY, '{not json')
+      storeUniverse(localStorage, EUniverse.STAFF)
+      store = createStore()
+
+      expect(store.currentUniverse).toBe(EUniverse.STAFF)
     })
   })
 
@@ -715,16 +839,16 @@ BddTest().given('an auth store with the persistence plugin', () => {
     beforeEach(async () => {
       store = createStore()
       await store.ensureSession(TARGET)
-      store.selectedUserCategory = EUserCategory.STUDENT
+      store.currentUniverse = EUniverse.STUDENT
       await flushPromises()
       store.invalidateSession()
       await flushPromises()
     })
 
-    BddTest().then('it should drop the session and the category in memory', () => {
+    BddTest().then('it should drop the session and the universe in memory', () => {
       expect(store.session).toBeUndefined()
       expect(store.isLoggedIn).toBe(false)
-      expect(store.selectedUserCategory).toBeUndefined()
+      expect(store.currentUniverse).toBeUndefined()
     })
 
     BddTest().then('it should persist the drop, so that the other tabs see it', () => {
@@ -732,12 +856,26 @@ BddTest().given('an auth store with the persistence plugin', () => {
       expect(JSON.parse(localStorage.getItem(AUTH_PREFS_KEY) ?? 'null')).toEqual({})
     })
 
-    BddTest().then('it should start without session nor category after a reload', () => {
+    BddTest().then('it should start without session nor universe after a reload', () => {
       disposeStore()
       store = createStore()
 
       expect(store.isLoggedIn).toBe(false)
-      expect(store.selectedUserCategory).toBeUndefined()
+      expect(store.currentUniverse).toBeUndefined()
+    })
+  })
+
+  BddTest().when('the session is invalidated in a tab without universe, after another tab chose one', () => {
+    beforeEach(async () => {
+      store = createStore()
+      await store.ensureSession(TARGET)
+      storeUniverse(localStorage, EUniverse.STAFF)
+      store.invalidateSession()
+      await flushPromises()
+    })
+
+    BddTest().then('it should forget it for the tabs opened next as well', () => {
+      expect(getStoredUniverse(localStorage)).toBeUndefined()
     })
   })
 

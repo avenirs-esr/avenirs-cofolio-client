@@ -42,7 +42,7 @@ const { mockReplace, mockCurrentRoute, CURRENT_ROUTE } = vi.hoisted(() => {
 
   return {
     mockReplace: vi.fn(),
-    mockCurrentRoute: { fullPath: path, meta: {} as { public?: boolean } },
+    mockCurrentRoute: { fullPath: path },
     CURRENT_ROUTE: path,
   }
 })
@@ -75,7 +75,6 @@ BddTest().given('avenir-esr customFetch', () => {
   afterEach(() => {
     vi.clearAllMocks()
     vi.unstubAllGlobals()
-    vi.unstubAllEnvs()
   })
 
   BddTest().and('a fresh module import', () => {
@@ -168,7 +167,6 @@ BddTest().given('avenir-esr customFetch', () => {
       mockRedirectToLogin.mockReset()
       mockReplace.mockReset()
       mockFetch.mockReset()
-      mockCurrentRoute.meta = {}
 
       await import('./fetch-instance')
       interceptor = mockAddResponseInterceptor.mock.calls[0][0]
@@ -276,80 +274,6 @@ BddTest().given('avenir-esr customFetch', () => {
       })
     })
 
-    BddTest().when('the response is a 401, /me confirms that the user is not authenticated and the current route is public in development', () => {
-      let error: Error | undefined
-
-      beforeEach(async () => {
-        error = undefined
-        vi.stubEnv('DEV', true)
-        mockCurrentRoute.meta = { public: true }
-        mockRevalidateSession.mockResolvedValue(SessionCheck.UNAUTHORIZED)
-
-        await interceptor(unauthorized(), mockContext).catch((reason: Error) => {
-          error = reason
-        })
-      })
-
-      BddTest().then('should reject with an error naming the request and the public route', () => {
-        expect(error).toBeInstanceOf(Error)
-        expect(error?.message).toContain(mockContext.url)
-        expect(error?.message).toContain(CURRENT_ROUTE)
-      })
-
-      BddTest().then('should neither redirect nor replay the request', () => {
-        expect(mockRedirectToLogin).not.toHaveBeenCalled()
-        expect(mockReplace).not.toHaveBeenCalled()
-        expect(mockFetch).not.toHaveBeenCalled()
-      })
-    })
-
-    BddTest().when('the response is a 401, /me confirms that the user is not authenticated and the current route is public in production', () => {
-      let pending: Promise<Response>
-
-      beforeEach(async () => {
-        vi.stubEnv('DEV', false)
-        mockCurrentRoute.meta = { public: true }
-        mockRevalidateSession.mockResolvedValue(SessionCheck.UNAUTHORIZED)
-        mockRedirectToLogin.mockReturnValue(ROUTES.AUTH.LOGIN)
-
-        pending = interceptor(unauthorized(), mockContext)
-
-        await vi.waitFor(() => expect(mockReplace).toHaveBeenCalledTimes(1))
-      })
-
-      BddTest().then('should redirect to the login route like on any other route and never settle', async () => {
-        const onSettled = vi.fn()
-        pending.then(onSettled, onSettled)
-
-        await flushPromises()
-
-        expect(mockRedirectToLogin).toHaveBeenCalledWith(CURRENT_ROUTE)
-        expect(mockReplace).toHaveBeenCalledWith(ROUTES.AUTH.LOGIN)
-        expect(onSettled).not.toHaveBeenCalled()
-      })
-    })
-
-    BddTest().when('the response is a 401 on a public route and /me confirms that the session is still valid', () => {
-      let replayed: Response
-      let result: Response
-
-      beforeEach(async () => {
-        vi.stubEnv('DEV', true)
-        mockCurrentRoute.meta = { public: true }
-        replayed = new Response(JSON.stringify({ success: true }), { status: 200 })
-        mockRevalidateSession.mockResolvedValue(SessionCheck.VALID)
-        mockFetch.mockResolvedValueOnce(replayed)
-
-        result = await interceptor(unauthorized(), mockContext)
-      })
-
-      BddTest().then('should replay the original request instead of failing', () => {
-        expect(result).toBe(replayed)
-        expect(mockFetch).toHaveBeenCalledWith(mockContext.url, mockContext.options)
-        expect(mockRedirectToLogin).not.toHaveBeenCalled()
-      })
-    })
-
     BddTest().when('the response is a 401 but /me itself fails (network, 5xx)', () => {
       const response = unauthorized()
       let result: Response
@@ -378,25 +302,6 @@ BddTest().given('avenir-esr customFetch', () => {
       })
 
       BddTest().then('should hand the response back without checking the session', () => {
-        expect(result).toBe(response)
-        expect(mockRevalidateSession).not.toHaveBeenCalled()
-        expect(mockReplace).not.toHaveBeenCalled()
-      })
-    })
-
-    BddTest().when('the 401 comes from a request flagged with skipUnauthorizedHandling on a public route', () => {
-      const response = unauthorized()
-      const options: FetchOptions = { skipUnauthorizedHandling: true }
-      let result: Response
-
-      beforeEach(async () => {
-        vi.stubEnv('DEV', true)
-        mockCurrentRoute.meta = { public: true }
-
-        result = await interceptor(response, { ...mockContext, options })
-      })
-
-      BddTest().then('should hand the response back instead of failing', () => {
         expect(result).toBe(response)
         expect(mockRevalidateSession).not.toHaveBeenCalled()
         expect(mockReplace).not.toHaveBeenCalled()

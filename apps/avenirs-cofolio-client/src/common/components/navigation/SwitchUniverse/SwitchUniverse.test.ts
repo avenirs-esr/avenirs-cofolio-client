@@ -2,7 +2,7 @@ import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, AvIconTextStub, AvModalStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { getAvButtonByTestId, mountWithRouter } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { EUserCategory } from '@/api/avenir-esr'
+import { EUniverse } from '@/api/avenir-esr'
 import SwitchUniverse from '@/common/components/navigation/SwitchUniverse/SwitchUniverse.vue'
 import { ROUTES } from '@/common/constants'
 
@@ -22,16 +22,16 @@ vi.mock('@/common/composables', async (importOriginal) => {
   }
 })
 
-const mockCategories = ref<EUserCategory[]>([])
-const mockActiveProfileCategory = ref<EUserCategory>()
-const mockCanSwitchProfile = ref(false)
+const mockUniverses = ref<EUniverse[]>([])
+const mockActiveUniverse = ref<EUniverse>()
+const mockCanSwitchUniverse = ref(false)
 
 vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
   useCurrentUser: () => ({
-    categories: mockCategories,
-    profile: {
-      activeCategory: mockActiveProfileCategory,
-      canSwitch: mockCanSwitchProfile
+    universes: {
+      available: mockUniverses,
+      active: mockActiveUniverse,
+      canSwitch: mockCanSwitchUniverse
     }
   })
 }))
@@ -46,16 +46,16 @@ BddTest().given('a universe switcher', () => {
   }
 
   const mountWith = async (
-    categories: EUserCategory[],
-    activeCategory: EUserCategory,
+    universes: EUniverse[],
+    activeUniverse: EUniverse,
     canSwitch: boolean
   ) => {
     vi.clearAllMocks()
     mockModalOpened.value = false
 
-    mockCategories.value = categories
-    mockActiveProfileCategory.value = activeCategory
-    mockCanSwitchProfile.value = canSwitch
+    mockUniverses.value = universes
+    mockActiveUniverse.value = activeUniverse
+    mockCanSwitchUniverse.value = canSwitch
 
     wrapper = await mountWithRouter<typeof SwitchUniverse>(SwitchUniverse, {
       global: {
@@ -65,16 +65,16 @@ BddTest().given('a universe switcher', () => {
   }
 
   const getMainButton = () => wrapper.findComponent(AvButtonStub)
-  const getCategoryButton = (category: EUserCategory) => getAvButtonByTestId(wrapper, `${category}-button`)
+  const getUniverseButton = (universe: EUniverse) => getAvButtonByTestId(wrapper, `${universe}-button`)
 
   beforeEach(() => {
     vi.clearAllMocks()
     mockModalOpened.value = false
   })
 
-  BddTest().and('a user with both profiles, currently on the student one', () => {
+  BddTest().and('a user with both universes, currently on the student one', () => {
     beforeEach(async () => {
-      await mountWith([EUserCategory.STAFF, EUserCategory.STUDENT], EUserCategory.STUDENT, true)
+      await mountWith([EUniverse.STAFF, EUniverse.STUDENT], EUniverse.STUDENT, true)
     })
 
     BddTest().when('the switcher is displayed', () => {
@@ -96,22 +96,22 @@ BddTest().given('a universe switcher', () => {
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should offer a button per profile, each linking to its home', () => {
-        expect(getCategoryButton(EUserCategory.STAFF).props('to')).toEqual(ROUTES.STAFF.HOME)
-        expect(getCategoryButton(EUserCategory.STUDENT).props('to')).toEqual(ROUTES.STUDENT.HOME)
+      BddTest().then('it should offer a button per universe, each linking to its home', () => {
+        expect(getUniverseButton(EUniverse.STAFF).props('to')).toEqual(ROUTES.STAFF.HOME)
+        expect(getUniverseButton(EUniverse.STUDENT).props('to')).toEqual(ROUTES.STUDENT.HOME)
       })
 
-      BddTest().then('it should only disable the button of the current profile', () => {
-        expect(getCategoryButton(EUserCategory.STUDENT).props('disabled')).toBe(true)
-        expect(getCategoryButton(EUserCategory.STAFF).props('disabled')).toBe(false)
+      BddTest().then('it should only disable the button of the current universe', () => {
+        expect(getUniverseButton(EUniverse.STUDENT).props('disabled')).toBe(true)
+        expect(getUniverseButton(EUniverse.STAFF).props('disabled')).toBe(false)
       })
     })
 
-    BddTest().when('choosing the staff profile in the modal', () => {
+    BddTest().when('choosing the staff universe in the modal', () => {
       beforeEach(async () => {
         mockModalOpened.value = true
         await wrapper.vm.$nextTick()
-        getCategoryButton(EUserCategory.STAFF).vm.$emit('click')
+        getUniverseButton(EUniverse.STAFF).vm.$emit('click')
       })
 
       BddTest().then('it should close the modal', () => {
@@ -120,9 +120,9 @@ BddTest().given('a universe switcher', () => {
     })
   })
 
-  BddTest().and('a user with both profiles, currently on the staff one', () => {
+  BddTest().and('a user with both universes, currently on the staff one', () => {
     beforeEach(async () => {
-      await mountWith([EUserCategory.STAFF, EUserCategory.STUDENT], EUserCategory.STAFF, true)
+      await mountWith([EUniverse.STAFF, EUniverse.STUDENT], EUniverse.STAFF, true)
     })
 
     BddTest().when('the modal is opened', () => {
@@ -131,17 +131,17 @@ BddTest().given('a universe switcher', () => {
         await wrapper.vm.$nextTick()
       })
 
-      BddTest().then('it should only disable the button of the current profile', () => {
-        expect(getCategoryButton(EUserCategory.STAFF).props('disabled')).toBe(true)
-        expect(getCategoryButton(EUserCategory.STUDENT).props('disabled')).toBe(false)
+      BddTest().then('it should only disable the button of the current universe', () => {
+        expect(getUniverseButton(EUniverse.STAFF).props('disabled')).toBe(true)
+        expect(getUniverseButton(EUniverse.STUDENT).props('disabled')).toBe(false)
       })
     })
 
-    BddTest().when('choosing the student profile in the modal', () => {
+    BddTest().when('choosing the student universe in the modal', () => {
       beforeEach(async () => {
         mockModalOpened.value = true
         await wrapper.vm.$nextTick()
-        getCategoryButton(EUserCategory.STUDENT).vm.$emit('click')
+        getUniverseButton(EUniverse.STUDENT).vm.$emit('click')
       })
 
       BddTest().then('it should close the modal', () => {
@@ -150,9 +150,9 @@ BddTest().given('a universe switcher', () => {
     })
   })
 
-  BddTest().and('a user with a single profile', () => {
+  BddTest().and('a user with a single universe', () => {
     beforeEach(async () => {
-      await mountWith([EUserCategory.STUDENT], EUserCategory.STUDENT, false)
+      await mountWith([EUniverse.STUDENT], EUniverse.STUDENT, false)
     })
 
     BddTest().when('the switcher is displayed', () => {

@@ -1,73 +1,101 @@
-import type { AcceptedCguDTO, EUserCategory } from '@/api/avenir-esr'
+import type { AcceptedCguDTO, EUniverse } from '@/api/avenir-esr'
 import { ROUTES } from '@/common/constants'
-import { INVALID_USER_CATEGORY, UNIVERSE_USER_CATEGORY, USER_CATEGORY_HOME, USER_CATEGORY_PRIORITY } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session.constants'
+import { INVALID_UNIVERSE, INVALID_USER_CATEGORY, UNIVERSE_CGU, UNIVERSE_HOME, UNIVERSE_PRIORITY, UNIVERSE_USER_CATEGORY } from '@/features/auth/global/composables/use-current-user-session/use-current-user-session.constants'
 import { useAuthStore } from '@/features/auth/global/stores/auth.store'
 
 /**
- * Derives the current user's available categories, active category,
- * navigation target, and CGU acceptance state from the auth store.
+ * Derives the current user's session from the auth store.
  *
  * Does not fetch API data or depend on i18n.
  */
 export function useCurrentUserSession () {
   const authStore = useAuthStore()
-  const { isLoggedIn, session, selectedUserCategory } = storeToRefs(authStore)
+  const { isLoggedIn, session, currentUniverse } = storeToRefs(authStore)
 
   if (import.meta.env?.DEV && !isLoggedIn.value) {
     throw new Error('useCurrentUserSession() called without an active session')
   }
 
   const roles = computed(() => session.value?.roles ?? [])
-  const universes = computed(() => session.value?.universes ?? [])
+  const universes = computed(() =>
+    [...(session.value?.universes ?? [])]
+      .sort((a, b) => UNIVERSE_PRIORITY[a] - UNIVERSE_PRIORITY[b])
+  )
   const categories = computed(() =>
     [...new Set(universes.value.map(universe => UNIVERSE_USER_CATEGORY[universe]))]
-      .sort((a, b) => USER_CATEGORY_PRIORITY[a] - USER_CATEGORY_PRIORITY[b])
       .filter(category => Boolean(category))
   )
 
-  const defaultProfileCategory = computed(() => categories.value?.[0] ?? INVALID_USER_CATEGORY)
+  const defaultUniverse = computed(() => universes.value?.[0] ?? INVALID_UNIVERSE)
+  const activeUniverse = computed(() =>
+    !!currentUniverse.value && universes.value.includes(currentUniverse.value)
+      ? currentUniverse.value
+      : defaultUniverse.value
+  )
+  const hasUniverse = computed(() => activeUniverse.value !== INVALID_UNIVERSE)
+  const canSwitchUniverse = computed(() => universes.value.length > 1)
+
   const activeProfileCategory = computed(() =>
-    !!selectedUserCategory.value && categories.value.includes(selectedUserCategory.value)
-      ? selectedUserCategory.value
-      : defaultProfileCategory.value
+    hasUniverse.value
+      ? UNIVERSE_USER_CATEGORY[activeUniverse.value]
+      : INVALID_USER_CATEGORY
   )
   const hasProfileCategory = computed(() => activeProfileCategory.value !== INVALID_USER_CATEGORY)
-  const canSwitchProfile = computed(() => categories.value.length > 1)
 
   const homeRoute = computed(() =>
-    hasProfileCategory.value
-      ? USER_CATEGORY_HOME[activeProfileCategory.value]
+    hasUniverse.value
+      ? UNIVERSE_HOME[activeUniverse.value]
       : ROUTES.AUTH.LOGIN
   )
 
   const acceptedCgu = computed(() => session.value?.acceptedCgu)
   const hasAcceptedLatestCgu = computed(() => acceptedCgu.value?.isLastVersion ?? false)
+  const cguRoute = computed(() =>
+    hasUniverse.value
+      ? UNIVERSE_CGU[activeUniverse.value]
+      : ROUTES.AUTH.CGU
+  )
 
-  async function switchProfile (category: EUserCategory) {
-    if (categories.value.includes(category)) {
-      selectedUserCategory.value = category
+  /**
+   * Switches the active universe if the user has access to it.
+   *
+   * @param universe The universe to switch to.
+   */
+  async function switchUniverse (universe: EUniverse) {
+    if (universes.value.includes(universe)) {
+      currentUniverse.value = universe
     }
   }
 
+  /**
+   * Updates the session with the user's CGU acceptance state.
+   *
+   * @param acceptedCgu Accepted CGU.
+   */
   function setAcceptedCgu (acceptedCgu: AcceptedCguDTO) {
     authStore.patchSession({ acceptedCgu })
   }
 
   return {
     roles,
-    universes,
+    universes: {
+      available: universes,
+      default: defaultUniverse,
+      active: activeUniverse,
+      hasActive: hasUniverse,
+      canSwitch: canSwitchUniverse,
+      switch: switchUniverse,
+    },
     categories,
     profile: {
-      defaultCategory: defaultProfileCategory,
       activeCategory: activeProfileCategory,
       hasCategory: hasProfileCategory,
-      canSwitch: canSwitchProfile,
-      switch: switchProfile,
     },
     homeRoute,
     cgu: {
       accepted: acceptedCgu,
       hasAcceptedLatest: hasAcceptedLatestCgu,
+      route: cguRoute,
       setAccepted: setAcceptedCgu
     }
   }

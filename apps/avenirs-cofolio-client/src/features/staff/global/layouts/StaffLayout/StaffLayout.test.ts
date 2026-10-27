@@ -18,12 +18,12 @@ const SEARCH_QUERY = 'search value'
 const USERNAME = 'M. Dupont'
 
 const selectLanguageMock = vi.fn()
-const mockCanSwitchProfile = ref(false)
+const mockCanSwitchUniverse = ref(false)
 
 vi.mock('@/features/auth/global/composables/use-current-user/use-current-user', () => ({
   useCurrentUser: () => ({
-    profile: {
-      canSwitch: mockCanSwitchProfile
+    universes: {
+      canSwitch: mockCanSwitchUniverse
     }
   })
 }))
@@ -68,9 +68,9 @@ BddTest().given('a staff layout', () => {
   const getSkipLinks = () => wrapper.findComponent(SkipLinksStub)
   const getSwitchUniverse = () => wrapper.findComponent(SwitchUniverseStub)
 
-  const mountWith = async ({ canSwitchProfile = false }: { canSwitchProfile?: boolean } = {}) => {
+  const mountWith = async ({ canSwitchUniverse = false }: { canSwitchUniverse?: boolean } = {}) => {
     vi.clearAllMocks()
-    mockCanSwitchProfile.value = canSwitchProfile
+    mockCanSwitchUniverse.value = canSwitchUniverse
 
     wrapper = mountComponent<typeof StaffLayout>(StaffLayout, {
       global: { stubs }
@@ -172,9 +172,9 @@ BddTest().given('a staff layout', () => {
       })
     })
 
-    BddTest().when('the layout is rendered with profile switch enabled', () => {
+    BddTest().when('the layout is rendered with universe switch enabled', () => {
       beforeEach(async () => {
-        await mountWith({ canSwitchProfile: true })
+        await mountWith({ canSwitchUniverse: true })
       })
 
       BddTest().then('it should render switch universe', () => {
