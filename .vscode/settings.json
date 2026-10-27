@@ -54,6 +54,8 @@
     "editor.defaultFormatter": "stylelint.vscode-stylelint"
   },
   "i18n-ally.localesPaths": [
+    "apps/avenirs-cofolio-backoffice-client/src/locales",
+    "apps/avenirs-cofolio-backoffice-client/src/features/*/locales",
     "apps/avenirs-cofolio-client/src/locales",
     "apps/avenirs-cofolio-client/src/features/student/*/locales",
     "apps/avenirs-cofolio-client/src/features/staff/*/locales"

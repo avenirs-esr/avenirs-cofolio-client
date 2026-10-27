@@ -3,7 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.vitest.tsbuildinfo",
-    "lib": [],
+    "lib": ["ES2022.Array"],
     "paths": {
       "@/*": ["./src/*"],
       "node_modules/@avenirs-esr/avenirs-dsav/*": ["./node_modules/@avenirs-esr/avenirs-dsav/*"],
