@@ -1,8 +1,9 @@
+import type { VueWrapper } from '@vue/test-utils'
+import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mount } from '@vue/test-utils'
+import { beforeEach, expect } from 'vitest'
 import { ROUTES } from '@/constants'
 import NotFoundView from '@/views/NotFoundView/NotFoundView.vue'
-import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mount, type VueWrapper } from '@vue/test-utils'
-import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a not found view', () => {
   let wrapper: VueWrapper<InstanceType<typeof NotFoundView>>

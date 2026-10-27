@@ -1,11 +1,11 @@
 import type { BaseApiErrorBody } from '@/exceptions/types'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { BaseApiErrorCode } from '@/exceptions/base-api-error-codes'
 import { BaseApiException } from '@/exceptions/base-api-exception/base-api.exception'
 import {
   createBasApiExceptionFromResponseBody,
   createBaseApiExceptionFromUnknownError
 } from '@/exceptions/utils/utils'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 
 BddTest().given('exceptions utils', () => {
   BddTest().and('a createBasApiExceptionFromResponseBody function', () => {

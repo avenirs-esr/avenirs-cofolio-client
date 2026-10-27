@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { MDI_ICONS, registerNavigationLinkKey } from '@avenirs-esr/avenirs-dsav'
+import { AvNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { beforeEach, expect, vi } from 'vitest'
 import MainNavigation from '@/components/navigation/MainNavigation/MainNavigation.vue'
 import { ROUTES } from '@/constants'
 import router from '@/router'
 import { mountComponent } from '@/tests/utils'
-import { MDI_ICONS, registerNavigationLinkKey } from '@avenirs-esr/avenirs-dsav'
-import { AvNavigationStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('a main navigation', () => {
   let wrapper: VueWrapper<InstanceType<typeof MainNavigation>>

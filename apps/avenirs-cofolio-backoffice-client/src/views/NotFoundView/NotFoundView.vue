@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ROUTES } from '@/constants'
 import { AvButton } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
+import { ROUTES } from '@/constants'
 
 export interface NotFoundViewProps {
   titleKey?: string

@@ -85,7 +85,6 @@ catalog:
 
 catalogs:
   backoffice:
-    "@antfu/eslint-config": ^3.0.0
     "@axe-core/playwright": ^4.10.2
     "@vitest/coverage-v8": ^5.0.5
     docx: ^9.7.2

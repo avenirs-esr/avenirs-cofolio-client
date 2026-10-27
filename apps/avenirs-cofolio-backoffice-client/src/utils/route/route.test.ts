@@ -1,6 +1,6 @@
 import type { RouteLocationNormalizedLoadedGeneric } from 'vue-router'
-import { isRouteActive } from '@/utils/route/route'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { isRouteActive } from '@/utils/route/route'
 
 function buildRoute (overrides: Partial<RouteLocationNormalizedLoadedGeneric>): RouteLocationNormalizedLoadedGeneric {
   return {

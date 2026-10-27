@@ -1,5 +1,5 @@
-import type { BreadcrumbLinkRaw } from '@/types/router.types'
 import type { AvBreadcrumbProps } from '@avenirs-esr/avenirs-dsav'
+import type { BreadcrumbLinkRaw } from '@/types/router.types'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 

@@ -1,7 +1,7 @@
+import { createRouter, createWebHistory } from 'vue-router'
 import { ROUTES } from '@/constants'
 import { termsOfServiceRoutes } from '@/features/terms-of-service/routes'
 import { getPageTitle, scrollBehavior } from '@/router/router.utils'
-import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   ...termsOfServiceRoutes,

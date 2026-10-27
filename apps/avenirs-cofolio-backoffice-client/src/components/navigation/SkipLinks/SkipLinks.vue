@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { AvSkipLinks, type AvSkipLinksProps } from '@avenirs-esr/avenirs-dsav'
+import type { AvSkipLinksProps } from '@avenirs-esr/avenirs-dsav'
+import { AvSkipLinks } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()

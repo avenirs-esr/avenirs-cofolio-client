@@ -1,5 +1,5 @@
-import type { BaseApiException } from '@/exceptions'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
+import type { BaseApiException } from '@/exceptions'
 
 export function createMockQueryError<T> (
   payload: T,
