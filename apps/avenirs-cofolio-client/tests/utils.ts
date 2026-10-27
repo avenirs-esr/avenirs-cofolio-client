@@ -1,81 +1,24 @@
 import type { QueryClientConfig, UseQueryDefinedReturnType } from '@tanstack/vue-query'
-import type { ComponentMountingOptions, VueWrapper } from '@vue/test-utils'
+import type { VueWrapper } from '@vue/test-utils'
 import type { Mock, MockedFunction, MockInstance } from 'vitest'
-import type { Component, ComponentInternalInstance, Plugin } from 'vue'
+import type { Component, ComponentInternalInstance } from 'vue'
 import type { BaseApiException } from '@/common/exceptions'
 import type { AvRoute } from '@/common/types'
 import type { MutationArgs } from '@/types'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { createMountComposable } from '@avenirs-esr/test-utils/unit'
 import { useForm } from '@tanstack/vue-form'
-import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
-import { flushPromises, mount, RouterLinkStub } from '@vue/test-utils'
+import { flushPromises } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createMockQueryError, mockAddErrorMessage } from 'tests/mocks'
 import { expect } from 'vitest'
-import { createApp, h } from 'vue'
+import { h } from 'vue'
 import { useInvalidateQuery } from '@/common/composables/use-invalidate-query/use-invalidate-query'
 import { BaseApiErrorCode } from '@/common/exceptions'
 import { i18n } from '@/plugins/vue-i18n/vue-i18n'
-/**
- * Options to configure the mounting of a component under test.
- */
-interface MountComponentOptions {
-  /**
-   * Enables the use of TanStack Query.
-   * @default true
-   */
-  useTanstack?: boolean
 
-  /**
-   * Enables the use of Pinia for the store.
-   * @default true
-   */
-  usePinia?: boolean
-
-  /**
-   * Custom QueryClient configuration for TanStack Query.
-   */
-  queryClientConfig?: QueryClientConfig
-}
-
-/**
- * Mounts a Vue component with common testing configuration (i18n, Pinia, TanStack Query).
- *
- */
-export function mountComponent<T extends Component> (
-  component: T,
-  mountOptions?: ComponentMountingOptions<T>,
-  {
-    useTanstack = true,
-    usePinia = true,
-    queryClientConfig = { defaultOptions: { queries: { retry: false }, mutations: { retry: false } } }
-  }: MountComponentOptions = {}
-) {
-  const plugins: (Plugin | [Plugin, ...unknown[]])[] = []
-
-  if (usePinia) {
-    const pinia = createPinia()
-    setActivePinia(pinia)
-    plugins.push(pinia)
-  }
-
-  if (useTanstack) {
-    const queryClient = new QueryClient(queryClientConfig)
-    plugins.push([VueQueryPlugin, { queryClient }])
-  }
-
-  return mount(component, {
-    ...mountOptions,
-    global: {
-      ...(mountOptions?.global ?? {}),
-      plugins: [
-        ...(mountOptions?.global?.plugins ?? []),
-        ...plugins
-      ]
-    }
-  })
-}
+export { mountComponent, mountWithRouter } from '@avenirs-esr/test-utils/unit'
 
 export function testUseBaseApiExceptionToast<T> ({
   mockedUseQuery,
@@ -266,84 +209,10 @@ export function testUseMutation<
   })
 }
 
-/**
- * Options to configure the mounting of a composable under test.
- */
-interface MountComposableOptions {
-  /**
-   * Enables the use of TanStack Query.
-   * @default false
-   */
-  useTanstack?: boolean
-
-  /**
-   * Enables the i18n plugin configuration.
-   * @default false
-   */
-  useI18n?: boolean
-
-  /**
-   * Enables the use of Pinia for the store.
-   * @default false
-   */
-  usePinia?: boolean
-
-  /**
-   * Custom QueryClient configuration for TanStack Query.
-   */
-  queryClientConfig?: QueryClientConfig
-}
-
-const defaultQueryClientConfig: QueryClientConfig = {
-  defaultOptions: {
-    queries: {
-      retry: false
-    },
-    mutations: {
-      retry: false
-    }
-  }
-}
-/**
- * Mounts a Vue composable for testing with configuration options.
- *
- * @template T
- * @param {() => T} fn - Composable function to execute and mount.
- * @param {MountComposableOptions} options - Options to configure the mount.
- * @param {boolean} [options.useTanstack] - Enables the use of TanStack Query.
- * @param {boolean} [options.useI18n] - Enables the use of the i18n plugin.
- * @param {boolean} [options.usePinia] - Enables the use of Pinia for the store.
- * @param {QueryClientConfig} [options.queryClientConfig] - Custom configuration of TanStack Query QueryClient.
- * @returns {{ result: T, unmount: () => void }} An object containing the result of the composable and a function to unmount the application.
- */
-export function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n = false, usePinia = false, queryClientConfig = defaultQueryClientConfig }: MountComposableOptions): { result: T, unmount: () => void } {
-  let composableResult: T | undefined
-  const app = createApp({
-    setup () {
-      composableResult = fn()
-      return () => null
-    }
-  })
-  if (useI18n) {
-    app.use(i18n)
-  }
-  if (usePinia) {
-    const pinia = createPinia()
-    pinia.use(piniaPluginPersistedstate)
-    setActivePinia(pinia)
-    app.use(pinia)
-  }
-  if (useTanstack) {
-    const queryClient = new QueryClient(queryClientConfig)
-    app.use(VueQueryPlugin, { queryClient })
-  }
-  app.mount(document.createElement('div'))
-
-  return {
-    result: composableResult as T,
-    unmount: () => app.unmount()
-  }
-}
+export const mountComposable = createMountComposable({
+  i18n,
+  createTestPinia: () => createPinia().use(piniaPluginPersistedstate),
+})
 
 /**
  * Mounts a Vue composable configured to use TanStack Query in tests.
@@ -356,38 +225,6 @@ export function mountComposable<T> (fn: () => T, { useTanstack = false, useI18n 
 export function mountQueryComposable<T> (fn: () => T, queryClientConfig?: QueryClientConfig): T {
   const { result } = mountComposable(fn, { useTanstack: true, queryClientConfig })
   return result
-}
-
-/**
- * Mounts a Vue component with a mock router for testing.
- *
- * This function uses Vue Test Utils to mount the component by injecting
- * stubs for `RouterLink` and `RouterView` to simulate the router behavior
- * without launching a real instance.
- *
- * @template T
- * @param {Component} component - Vue component to mount.
- * @param {ComponentMountingOptions<T>} [options] - Additional options for mounting the component.
- * @returns {Promise<ReturnType<typeof mount>>} The mounted component wrapper, after the next tick.
- */
-export async function mountWithRouter<T> (component: Component, options?: ComponentMountingOptions<T>) {
-  const wrapper = mount(component, {
-    ...options,
-    global: {
-      ...(options?.global ?? {}),
-      stubs: {
-        RouterLink: RouterLinkStub,
-        RouterView: {
-          name: 'RouterView',
-          template: '<div class="router-view-stub"><slot /></div>'
-        },
-        ...(options?.global?.stubs ?? {})
-      },
-    },
-  })
-
-  await wrapper.vm.$nextTick()
-  return wrapper
 }
 
 export interface CreateFormFieldTestWrapperOptions<
