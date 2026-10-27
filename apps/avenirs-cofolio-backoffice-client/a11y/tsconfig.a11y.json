@@ -6,7 +6,8 @@
       "@/*": ["../src/*"],
       "a11y/*": ["./*"]
     },
-    "types": ["node"]
+    "types": ["node"],
+    "esModuleInterop": true
   },
   "include": ["../src/**/*", "*.d.ts", "./**/*.test.ts"]
 }

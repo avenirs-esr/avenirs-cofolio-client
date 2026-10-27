@@ -10,7 +10,7 @@ PNPM workspace containing the Cofolio and Backoffice applications.
 - `apps/avenirs-cofolio-backoffice-client`: Backoffice application, API contract and application-specific tooling.
 - `apps/avenirs-cofolio-backoffice-client/a11y`: Backoffice accessibility suite.
 - `packages/config`: private placeholder; no shared configuration is exported yet.
-- `packages/shared/api/specs`: shared OpenAPI contracts, exposed by `@avenirs-esr/shared`.
+- `packages/shared`: shared HTTP engine, exceptions, error codes, locale definitions and OpenAPI contracts, exposed by `@avenirs-esr/shared`.
 - `.github`: repository workflows.
 
 ## Local setup
@@ -39,7 +39,7 @@ To target one application, use `pnpm --filter avenirs-cofolio-client run <script
 
 `pnpm test` runs unit tests, not E2E. App scripts run with the app as their working directory. Build artifacts live in each application's `dist` directory.
 
-API and feature generators belong to their application, not the workspace root. E2E shortcuts belong to Cofolio:
+Application API-client and feature generators belong to their application, not the workspace root. E2E shortcuts belong to Cofolio:
 
 ```sh
 pnpm --filter avenirs-cofolio-client run generate:api
@@ -60,11 +60,37 @@ The applications share the default Vue, Vue i18n, DSAV and TanStack Form entries
 
 Change dependency ranges in the owning catalogue rather than repeating versions in package manifests. Update the root lockfile after changing a catalogue and verify installation with `pnpm install --frozen-lockfile`.
 
+## Shared runtime
+
+The private `@avenirs-esr/shared` package exposes TypeScript sources through these entry points:
+
+- `@avenirs-esr/shared/api/fetch`: transport factory, interceptor manager and transport types. The factory requires an explicit `baseUrl`.
+- `@avenirs-esr/shared/api/http-status`: HTTP status codes.
+- `@avenirs-esr/shared/exceptions`: the common exception constructor, technical/API error codes and error conversion helpers.
+- `@avenirs-esr/shared/i18n`: supported locales and ISO locale mappings.
+- `@avenirs-esr/shared/utils/type-guards`: `hasStringField`.
+
+Application import paths re-export these shared definitions. HTTP instances, authentication/session handling, application headers, routers, translations and i18n instances stay local. Both app solution tsconfigs reference the shared package solution, which includes its runtime, Node configuration and test projects; app-specific compiler configurations remain local.
+
+Shared package checks run independently:
+
+```sh
+pnpm --filter @avenirs-esr/shared run type-check
+pnpm --filter @avenirs-esr/shared run lint
+pnpm --filter @avenirs-esr/shared run test:coverage
+```
+
 ## Shared API contracts
 
 The Cofolio `avenir-esr.swagger.json` contract lives in `packages/shared/api/specs`. Cofolio resolves `@avenirs-esr/shared/api/specs/avenir-esr.swagger.json` through the shared package's exports in its local `orval.config.ts`. Backoffice uses its own contract at `apps/avenirs-cofolio-backoffice-client/api-specs/avenir-esr.swagger.json`.
 
-Each application keeps its own generation configuration, generated client and HTTP transport. Clients are generated into the owning application's `src/api/avenir-esr/generated` directory using its local `customFetch`. The shared package contains static JSON and requires no build step.
+Each application keeps its own client generation configuration, generated client and configured HTTP instance. Clients are generated into the owning application's `src/api/avenir-esr/generated` directory using its local `customFetch` and the shared transport engine. Shared TypeScript sources are compiled by the consuming application's tooling; there is no separate library bundling step.
+
+`packages/shared/orval.config.ts` generates only the common `EErrorCode` enum from the shared Swagger, without generating a client or changing either application's Swagger. Workspace installation generates this enum before dependent application lifecycles. Generated shared files are ignored and must not be edited manually. To regenerate explicitly:
+
+```sh
+pnpm --filter @avenirs-esr/shared run generate:api
+```
 
 ## Browser suites
 

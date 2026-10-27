@@ -317,6 +317,9 @@ importers:
       vue-router:
         specifier: 'catalog:'
         version: 4.5.1(vue@3.5.44(typescript@6.0.3))
+      '@avenirs-esr/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
     devDependencies:
       '@antfu/eslint-config':
         specifier: catalog:backoffice
@@ -423,6 +426,7 @@ importers:
       workbox-window:
         specifier: 'catalog:'
         version: 7.3.0
+
   apps/avenirs-cofolio-client:
     dependencies:
       '@avenirs-esr/avenirs-dsav':
@@ -627,7 +631,35 @@ importers:
         specifier: 'catalog:'
         version: 11.1.12(vue@3.5.44(typescript@5.9.3))
   packages/config: {}
-  packages/shared: {}
+  packages/shared:
+    devDependencies:
+      '@antfu/eslint-config':
+        specifier: 'catalog:'
+        version: 6.7.3(@typescript-eslint/typescript-estree@8.71.2(typescript@6.0.3))(@typescript-eslint/utils@8.71.2(eslint@9.39.5(jiti@2.6.1))(typescript@6.0.3))(@vue/compiler-sfc@3.5.44)(eslint@9.39.5(jiti@2.6.1))(typescript@6.0.3)(vitest@5.0.3)
+      '@avenirs-esr/avenirs-dsav':
+        specifier: 'catalog:'
+        version: 0.1.371(@floating-ui/dom@1.8.0)(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/extensions@3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0))(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.3)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
+      '@vitest/coverage-v8':
+        specifier: 'catalog:'
+        version: 5.0.3(vitest@5.0.3)
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.5(jiti@2.6.1)
+      orval:
+        specifier: 'catalog:'
+        version: 8.22.0(typescript@6.0.3)
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vite:
+        specifier: 'catalog:'
+        version: 6.4.4(@types/node@26.6.5)(jiti@2.6.1)(sass-embedded@1.99.0)(sass@1.99.0)(yaml@2.9.1)
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.3(@types/node@26.6.5)(@vitest/coverage-v8@5.0.3)(jsdom@28.1.0)(msw@2.15.0(@types/node@26.6.5)(typescript@6.0.3))(vite@6.4.4(@types/node@26.6.5)(jiti@2.6.1)(sass-embedded@1.99.0)(sass@1.99.0)(yaml@2.9.1))
 
 packages:
 

@@ -1,9 +1,34 @@
 {
   "name": "@avenirs-esr/shared",
+  "type": "module",
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./api/specs/*": "./api/specs/*"
+    "./api/fetch": "./src/api/fetch/index.ts",
+    "./api/http-status": "./src/api/http-status.ts",
+    "./api/specs/*": "./api/specs/*",
+    "./exceptions": "./src/exceptions/index.ts",
+    "./i18n": "./src/i18n/index.ts",
+    "./utils/type-guards": "./src/utils/type-guards.ts"
   },
-  "type": "module"
+  "scripts": {
+    "generate:api": "orval",
+    "lint": "eslint .",
+    "prepare": "pnpm run generate:api",
+    "test": "pnpm run test:unit",
+    "test:unit": "vitest run --pool.threads.maxThreads=6",
+    "test:coverage": "vitest run --pool.threads.maxThreads=6 --coverage",
+    "type-check": "tsc --build --force"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "catalog:",
+    "@avenirs-esr/avenirs-dsav": "catalog:",
+    "@types/node": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
+    "eslint": "catalog:",
+    "orval": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
+  }
 }

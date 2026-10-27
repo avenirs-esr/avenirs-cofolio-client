@@ -1,9 +1,1 @@
-export enum BaseApiErrorCode {
-  UNKNOWN = 'UNKNOWN_ERROR',
-  NETWORK = 'NETWORK_ERROR',
-  BAD_REQUEST = 'BAD_REQUEST',
-  UNAUTHORIZED = 'UNAUTHORIZED',
-  FORBIDDEN = 'FORBIDDEN',
-  NOT_FOUND = 'NOT_FOUND',
-  SERVER = 'SERVER_ERROR',
-}
+export { BaseApiErrorCode } from '@avenirs-esr/shared/exceptions'

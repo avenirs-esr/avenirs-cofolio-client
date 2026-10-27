@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@avenirs-esr/avenirs-dsav": "catalog:",
+    "@avenirs-esr/shared": "workspace:*",
     "@tanstack/vue-form": "catalog:",
     "@tanstack/vue-query": "catalog:",
     "@vue-flow/core": "catalog:",
