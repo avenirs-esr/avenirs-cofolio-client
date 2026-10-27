@@ -6,6 +6,7 @@
 
     "paths": {
       "@/*": ["./src/*"],
+      "vue-component-type-helpers": ["./node_modules/vue-component-type-helpers"],
       "vue": ["./node_modules/vue"],
       "vue-router": ["./node_modules/vue-router"],
       "@vue/*": ["./node_modules/@vue/*"]

@@ -11,7 +11,7 @@ const [feature] = process.argv.slice(2)
 
 if (!feature) {
   console.error('❌ Error: Missing required argument: feature')
-  console.log('Usage: npm run generate:feature <feature>')
+  console.log('Usage: pnpm run generate:feature <feature>')
   process.exit(1)
 }
 

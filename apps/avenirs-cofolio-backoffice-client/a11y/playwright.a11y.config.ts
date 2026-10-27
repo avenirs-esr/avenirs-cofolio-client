@@ -6,7 +6,7 @@ export default defineConfig({
   testDir: './',
   tsconfig: './tsconfig.a11y.json',
   use: {
-    baseURL: 'http://localhost:4173/cofolio-back-office/',
+    baseURL: 'http://localhost:4174/cofolio-back-office/',
     headless: !!process.env.CI,
   },
   timeout: GLOBAL_TIMEOUT,
@@ -24,8 +24,8 @@ export default defineConfig({
   outputDir: '.output',
 
   webServer: {
-    command: 'npm run preview:development',
-    port: 4173,
+    command: 'pnpm run preview:development --port 4174 --strictPort',
+    port: 4174,
     reuseExistingServer: true,
     cwd: '../',
   },

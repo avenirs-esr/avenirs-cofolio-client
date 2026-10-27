@@ -64,90 +64,38 @@ This modular approach ensures that:
 
 ## Setup & Development
 
-```bash
-# Install dependencies
-npm install
+Use Node 26 and PNPM 10.34.2. Install dependencies from the workspace root:
 
-# Start development server
-npm run dev
-
-# Type checking
-npm run type-check
-
-# Lint code
-npm run lint
-
-# Format code
-npm run format
-
-# Preview production build
-npm run preview
-
-# Build for production
-npm run build
-
-# Run all tests (unit)
-npm run test
-
-# Run only unit tests
-npm run test:unit
-
-# Run unit tests in watch mode
-npm run test:watch
+```sh
+pnpm install --frozen-lockfile
 ```
 
-## Local Development with Design System (npm link)
+Run application commands from the workspace root:
 
-When developing the design system (`@avenirs-esr/avenirs-dsav`) locally alongside this project, use `npm link` to test changes without publishing a new package version.
-
-### Initial Setup
-
-1. In the design system repository (`avenirs-dsav`):
-
-   ```bash
-   cd /path/to/avenirs-dsav
-   npm install
-   npm link
-   ```
-
-2. In this project (`avenirs-cofolio-backoffice-client`):
-
-   ```bash
-   npm link @avenirs-esr/avenirs-dsav
-   ```
-
-### Development Workflow
-
-In the design system repository, run the build in watch mode:
-
-```bash
-cd /path/to/avenirs-dsav
-npm run build:watch
+```sh
+pnpm --filter avenirs-cofolio-backoffice-client run dev
+pnpm --filter avenirs-cofolio-backoffice-client run type-check
+pnpm --filter avenirs-cofolio-backoffice-client run lint
+pnpm --filter avenirs-cofolio-backoffice-client run format
+pnpm --filter avenirs-cofolio-backoffice-client run preview
+pnpm --filter avenirs-cofolio-backoffice-client run build
+pnpm --filter avenirs-cofolio-backoffice-client run test
+pnpm --filter avenirs-cofolio-backoffice-client run test:watch
+pnpm --filter avenirs-cofolio-backoffice-client run generate:api
 ```
 
-This command runs in parallel:
+The development server uses `http://localhost:5174/cofolio-back-office/`, separate from Cofolio's default port 5173. It fails if port 5174 is already in use instead of silently selecting another port.
 
-- `vite build --watch`: Rebuilds the library when source files change.
-- `vue-tsc --watch`: Regenerates TypeScript declarations.
+The application uses `/cofolio-back-office/` as its default base path. Place its private environment file next to this README, using `.env.example` as a template. The API contract remains in `api-specs/avenir-esr.swagger.json` and generated clients are written to `src/api/avenir-esr/generated/`.
 
-Then start the development server in this project:
+Accessibility uses a dedicated preview on port 4174:
 
-```bash
-npm run dev
+```sh
+VITE_ENABLE_MSW=true pnpm --filter avenirs-cofolio-backoffice-client run build:development
+CI=true pnpm --filter avenirs-cofolio-backoffice-client run test:a11y
 ```
 
-### Important Notes
-
-- TypeScript configuration excludes the symlinked library's `node_modules` to prevent type conflicts.
-- Changes to the design system are reflected in this project as the library rebuilds.
-- There is no need to manually rebuild or reinstall the library after each change.
-
-### To Unlink
-
-```bash
-npm unlink @avenirs-esr/avenirs-dsav
-npm install @avenirs-esr/avenirs-dsav
-```
+Git hooks and editor configuration are owned by the workspace root. The DSAV dependency is declared in this application's `package.json` and resolved by the workspace lockfile.
 
 ## Features
 
