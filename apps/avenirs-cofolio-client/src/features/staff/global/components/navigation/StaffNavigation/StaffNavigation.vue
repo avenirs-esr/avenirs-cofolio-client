@@ -30,33 +30,45 @@ const studentTrackingMenu = computed(() => ({
   ],
 }))
 
-const adminMenu = computed(() => ({
-  id: 'nav-admin-menu',
-  title: t('staff.global.navigation.tabs.admin.header').toUpperCase(),
-  get active () {
-    return isRouteActive({ route, routes: staffAdminRoutes })
-  },
-  links: [
-    {
+const adminMenu = computed(() => {
+  const links: NavigationMenuLinkProps[] = []
+
+  if (hasSomeRole(roles.value, ROUTE_ROLES.STAFF.ADMIN_USERS)) {
+    links.push({
       to: ROUTES.STAFF.ADMIN.USERS,
       text: t('staff.global.navigation.tabs.admin.items.users'),
       icon: MDI_ICONS.ACCOUNT_STUDENT_OUTLINE,
       highlight: isRouteActive({ route, routes: [staffAdminUsersRoute] }),
-    },
-    {
+    })
+  }
+
+  if (hasSomeRole(roles.value, ROUTE_ROLES.STAFF.ADMIN_GROUPS)) {
+    links.push({
       to: ROUTES.STAFF.ADMIN.GROUPS,
       text: t('staff.global.navigation.tabs.admin.items.groups'),
       icon: MDI_ICONS.PEOPLE_GROUP_OUTLINE,
       highlight: isRouteActive({ route, routes: [staffAdminGroupsRoute] }),
-    },
-    {
+    })
+  }
+
+  if (hasSomeRole(roles.value, ROUTE_ROLES.STAFF.ADMIN_SKILLS)) {
+    links.push({
       to: ROUTES.STAFF.ADMIN.SKILLS,
       text: t('staff.global.navigation.tabs.admin.items.skills'),
       icon: ICONS.SKILLS,
       highlight: isRouteActive({ route, routes: [staffAdminSkillsRoute] }),
+    })
+  }
+
+  return {
+    id: 'nav-admin-menu',
+    title: t('staff.global.navigation.tabs.admin.header').toUpperCase(),
+    get active () {
+      return isRouteActive({ route, routes: staffAdminRoutes })
     },
-  ],
-}))
+    links
+  }
+})
 
 const navItems = computed(() => {
   const items: (NavigationMenuLinkProps | NavigationMenuProps)[] = [
@@ -82,7 +94,7 @@ const navItems = computed(() => {
     items.push(studentTrackingMenu.value)
   }
 
-  if (hasSomeRole(roles.value, ROUTE_ROLES.STAFF.ADMIN)) {
+  if (adminMenu.value.links.length) {
     items.push(adminMenu.value)
   }
 

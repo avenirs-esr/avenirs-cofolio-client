@@ -1,6 +1,8 @@
 import type { AvRoute } from '@/common/types'
 import { ROUTES } from '@/common/constants'
 import { BASE_BREADCRUMBS } from '@/common/constants/meta-breadcrumbs'
+import { ROUTE_ROLES } from '@/common/constants/route-roles'
+import { withRequiredRoles } from '@/common/utils/route/route'
 
 export const staffAdminGroupRoute: AvRoute = {
   ...ROUTES.STAFF.ADMIN.GROUP.DEFAULT,
@@ -60,15 +62,26 @@ export const staffAdminUsersRoute: AvRoute = {
   },
 }
 
-export const staffAdminGroupsRoutes: AvRoute[] = [
+export const staffAdminGroupsRoutes: AvRoute[] = withRequiredRoles(
+  ROUTE_ROLES.STAFF.ADMIN_GROUPS,
   staffAdminGroupRoute,
   staffAdminGroupsRoute,
   staffAdminGroupUserRoute,
-]
+)
+
+export const staffAdminSkillsRoutes: AvRoute[] = withRequiredRoles(
+  ROUTE_ROLES.STAFF.ADMIN_SKILLS,
+  staffAdminSkillsRoute,
+)
+
+export const staffAdminUsersRoutes: AvRoute[] = withRequiredRoles(
+  ROUTE_ROLES.STAFF.ADMIN_USERS,
+  staffAdminUserRoute,
+  staffAdminUsersRoute,
+)
 
 export const staffAdminRoutes: AvRoute[] = [
   ...staffAdminGroupsRoutes,
-  staffAdminSkillsRoute,
-  staffAdminUserRoute,
-  staffAdminUsersRoute,
+  ...staffAdminSkillsRoutes,
+  ...staffAdminUsersRoutes
 ]

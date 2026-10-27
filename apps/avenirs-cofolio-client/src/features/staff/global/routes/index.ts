@@ -29,7 +29,7 @@ export default [
           import('@/common/views/AccessibilityView/AccessibilityView.vue'),
         meta: { breadcrumb },
       },
-      ...withRequiredRoles(ROUTE_ROLES.STAFF.ADMIN, ...staffAdminRoutes),
+      ...staffAdminRoutes,
       {
         ...ROUTES.STAFF.CGU,
         component: () =>
