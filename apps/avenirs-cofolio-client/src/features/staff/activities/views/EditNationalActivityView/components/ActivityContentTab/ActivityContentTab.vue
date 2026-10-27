@@ -54,11 +54,16 @@ function addResource (payload: AddActivityResourceFormData) {
   queueAutoSave(newLinks ? { links: newLinks } : undefined)
 }
 
-function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
+function deleteSelectedResources (
+  files: (FileDTO | File)[],
+  links: string[]
+) {
   let newLinks: string[] | undefined
+  let newFiles: (FileDTO | File)[] | undefined
 
   if (files.length > 0) {
-    form.setFieldValue('files', form.getFieldValue('files').filter(file => files.every(selectedFile => isDifferentFile(file, selectedFile))))
+    newFiles = form.getFieldValue('files').filter(file => files.every(selectedFile => isDifferentFile(file, selectedFile)))
+    form.setFieldValue('files', newFiles)
   }
 
   if (links.length > 0) {
@@ -66,7 +71,10 @@ function deleteSelectedResources (files: (FileDTO | File)[], links: string[]) {
     form.setFieldValue('links', newLinks)
   }
 
-  queueAutoSave(newLinks ? { links: newLinks } : undefined)
+  queueAutoSave({
+    ...(newFiles !== undefined && { files: newFiles }),
+    ...(newLinks !== undefined && { links: newLinks })
+  })
 }
 </script>
 
