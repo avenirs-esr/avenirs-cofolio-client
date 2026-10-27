@@ -4,7 +4,10 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./unit": "./src/unit/index.ts"
+    "./a11y": "./src/a11y/index.ts",
+    "./a11y/*": "./src/a11y/*.ts",
+    "./unit": "./src/unit/index.ts",
+    "./unit/*": "./src/unit/*.ts"
   },
   "scripts": {
     "lint": "eslint .",
@@ -14,6 +17,7 @@
     "type-check": "tsc --build --force"
   },
   "peerDependencies": {
+    "@playwright/test": "catalog:",
     "@tanstack/vue-query": "catalog:",
     "@vue/test-utils": "catalog:",
     "pinia": "catalog:",
@@ -22,6 +26,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
     "@avenirs-esr/avenirs-dsav": "catalog:",
+    "@playwright/test": "catalog:",
     "@tanstack/vue-query": "catalog:",
     "@types/node": "catalog:",
     "@vitest/coverage-v8": "catalog:",

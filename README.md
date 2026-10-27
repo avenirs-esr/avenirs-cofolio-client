@@ -81,13 +81,22 @@ pnpm --filter @avenirs-esr/shared run lint
 pnpm --filter @avenirs-esr/shared run test:coverage
 ```
 
-## Unit test utilities
+## Test utilities
 
 The private `@avenirs-esr/test-utils/unit` entry point exports `mountComponent`, `createMountComposable` and `mountWithRouter` as TypeScript sources. Vue, Vue Test Utils, Pinia and TanStack Query are peer dependencies supplied by the consuming application.
 
-The existing application test utilities re-export the component and router helpers. Each application configures its composable mounting facade with its own i18n instance; Cofolio additionally supplies its persisted Pinia factory, while Backoffice uses a plain Pinia. Optional plugins and their default settings are unchanged. Test setup, warning handling, MSW servers and accessibility helpers remain application-owned.
+The existing application test utilities re-export the component and router helpers. Each application configures its composable mounting facade with its own i18n instance; Cofolio additionally supplies its persisted Pinia factory, while Backoffice uses a plain Pinia. Optional plugins and their default settings are unchanged.
 
-The package has separate library, tooling and test TypeScript projects, referenced by its solution and the application solutions. It does not require a JavaScript library build.
+The `./unit/*` and `./a11y/*` source export patterns expose nested modules without maintaining an export entry for every helper. Both `./unit` and `./a11y` retain their barrel entry points.
+
+- `@avenirs-esr/test-utils/unit/setup/warnings` installs the strict warning handler explicitly from each local setup.
+- `@avenirs-esr/test-utils/unit/setup/msw` registers the lifecycle using the calling application's Vitest hooks and deferred local server loader. MSW servers, handlers, i18n initialization and polyfills stay local.
+- `@avenirs-esr/test-utils/unit/stubs` exports the common ErrorMessage, EmptyState, InformationTooltip, SkipLinks and PageTitle stubs. Existing co-located stub paths re-export these definitions.
+- `@avenirs-esr/test-utils/a11y` exports `waitMswToStart` and `createA11yAudit`. Each application supplies its own Axe builder and HTML reporter; the common engine excludes user content, writes HTML only for violations and retains the failing assertion. Routes, render waits, report keys, absolute report destinations and Playwright configurations stay application-owned. The wait helper retains its networkidle-only behavior.
+
+Playwright is also a peer dependency. Vitest lifecycle hooks and Axe/reporting dependencies are supplied locally rather than importing a second runner or replacing an application's analysis engine.
+
+The package has separate unit-library, Node tooling, A11y and test TypeScript projects, referenced by its solution and the application solutions. It does not require a JavaScript library build.
 
 ```sh
 pnpm --filter @avenirs-esr/test-utils run type-check

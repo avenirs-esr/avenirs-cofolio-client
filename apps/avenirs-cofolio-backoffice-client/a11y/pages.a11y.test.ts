@@ -1,11 +1,8 @@
-import fs from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { AxeBuilder } from '@axe-core/playwright'
-import { expect, test } from '@playwright/test'
+import { test } from '@playwright/test'
 import { GLOBAL_TIMEOUT } from 'a11y/playwright.a11y.config'
-import { waitMswToStart } from 'a11y/utils'
-import { createHtmlReport } from 'axe-html-reporter'
+import { auditAccessibility, waitMswToStart } from 'a11y/utils'
 import { ROUTES } from '@/constants'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -21,27 +18,13 @@ test.describe('routes', () => {
       await waitMswToStart(page)
       await page.waitForSelector('#app', { timeout: GLOBAL_TIMEOUT })
 
-      const rawAxeResults = await new AxeBuilder({ page })
-        .exclude('[data-user-content]')
-        .analyze()
-
       const pageName = route.name
 
-      if (rawAxeResults.violations.length > 0) {
-        const reportHTML = createHtmlReport({
-          results: rawAxeResults,
-          options: {
-            projectKey: `Cofolio Backoffice A11y Report - ${pageName}`,
-            doNotCreateReportFile: true,
-          },
-        })
-        const reportPath = resolve(__dirname, `reports/${pageName}.html`)
-
-        fs.mkdirSync(dirname(reportPath), { recursive: true })
-        fs.writeFileSync(reportPath, reportHTML)
-      }
-
-      expect(rawAxeResults.violations.length, 'No accessibility violations').toBe(0)
+      await auditAccessibility({
+        page,
+        projectKey: `Cofolio Backoffice A11y Report - ${pageName}`,
+        reportPath: resolve(__dirname, `reports/${pageName}.html`),
+      })
     })
   })
 })
