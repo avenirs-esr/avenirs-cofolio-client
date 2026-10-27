@@ -14,13 +14,16 @@ export interface UserDetailsSectionProps {
   error?: BaseApiException | null
 }
 
-const { user } = defineProps<UserDetailsSectionProps>()
+const { user, isLoading: isLoadingProp, error: errorProp } = defineProps<UserDetailsSectionProps>()
 
 const { t } = useI18n()
 
 const userId = computed(() => user.id)
-const { data: authorizations } = useGetGlobalAuthorizationOfExternalUser(userId.value, { query: { enabled: !!userId.value } })
+const { data: authorizations, isLoading: isLoadingAuthorizations, error: errorAuthorizations } = useGetGlobalAuthorizationOfExternalUser(userId.value, { query: { enabled: !!userId.value } })
+
 const universes = computed(() => authorizations?.value?.universes ?? [])
+const isLoading = computed(() => isLoadingProp || isLoadingAuthorizations.value)
+const error = computed(() => errorProp || errorAuthorizations.value)
 </script>
 
 <template>

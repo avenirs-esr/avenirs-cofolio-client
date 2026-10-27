@@ -598,6 +598,120 @@
     "pageSizePicker": {
       "label": "Number of results per page:"
     },
+    "roles": {
+      "ROLE_ACTIVITY_ADMIN": {
+        "label": "Activity admin",
+        "description": "Can manage all activities on the platform, including permanently deleting them."
+      },
+      "ROLE_ACTIVITY_EDITOR": {
+        "label": "Activity editor",
+        "description": "Can create, edit, and delete unpublished activities."
+      },
+      "ROLE_ADMIN": {
+        "label": "Establishment admin",
+        "description": "Can manage an establishment, its secondary establishments, its groups, and external users."
+      },
+      "ROLE_CONFIG_MANAGER": {
+        "label": "Configuration manager",
+        "description": "Can manage the platform configuration and terms of use."
+      },
+      "ROLE_CONFIG_VIEWER": {
+        "label": "Configuration viewer",
+        "description": "Can view the platform configuration."
+      },
+      "ROLE_ESTABLISHMENT_MANAGER": {
+        "label": "Establishment manager",
+        "description": "Can manage primary and secondary establishments."
+      },
+      "ROLE_ESTABLISHMENT_VIEWER": {
+        "label": "Establishment viewer",
+        "description": "Can view primary and secondary establishments."
+      },
+      "ROLE_EXTERNAL_USER_MANAGER": {
+        "label": "User manager",
+        "description": "Can manage external users and their associations."
+      },
+      "ROLE_EXTERNAL_USER_VIEWER": {
+        "label": "User viewer",
+        "description": "Can view external users."
+      },
+      "ROLE_GROUP_MANAGER": {
+        "label": "Group manager",
+        "description": "Can manage groups, including importing groups."
+      },
+      "ROLE_GROUP_VIEWER": {
+        "label": "Group viewer",
+        "description": "Can view groups."
+      },
+      "ROLE_RBAC_ADMIN": {
+        "label": "RBAC admin",
+        "description": "Can manage roles, their assignments, scopes, and authorization contexts."
+      },
+      "ROLE_RBAC_AUDITOR": {
+        "label": "RBAC auditor",
+        "description": "Can view role and authorization administration data."
+      },
+      "ROLE_STAFF": {
+        "label": "Staff",
+        "description": "Has the necessary access for educational support, viewing accessible traces, and handling feedback requests."
+      },
+      "ROLE_STAFF_ACTIVITY_AUTHOR": {
+        "label": "Activity author",
+        "description": "Can create, edit, and delete unpublished activities, duplicate activities, and edit published activities in an authorized context."
+      },
+      "ROLE_STAFF_ACTIVITY_VIEWER": {
+        "label": "Activity viewer",
+        "description": "Can view the activity catalog, their documents, and the staff library."
+      },
+      "ROLE_STAFF_FEEDBACK_RESPONDER": {
+        "label": "Feedback responder",
+        "description": "Can view and handle feedback requests assigned to them."
+      },
+      "ROLE_STAFF_FEEDBACK_SUPERVISOR": {
+        "label": "Feedback supervisor",
+        "description": "Can view feedback history and the dashboard of their establishment."
+      },
+      "ROLE_STAFF_TRACE_REVIEWER": {
+        "label": "Trace reviewer",
+        "description": "Can view and download learner traces accessible in an authorized context."
+      },
+      "ROLE_STUDENT": {
+        "label": "Student",
+        "description": "Has a personal CoFolio space to build their life project and showcase their skills."
+      },
+      "ROLE_STUDENT_ACTIVITY": {
+        "label": "Student activities",
+        "description": "Can view the activity catalog, enroll in activities, and access associated documents."
+      },
+      "ROLE_STUDENT_EMPLOYMENT_KIT": {
+        "label": "Employment kit",
+        "description": "Can access their employment kit space and download multimedia content."
+      },
+      "ROLE_STUDENT_FEEDBACK": {
+        "label": "Feedback request",
+        "description": "Can request feedback and view received feedback."
+      },
+      "ROLE_STUDENT_PORTFOLIO": {
+        "label": "Student portfolio",
+        "description": "Can manage their traces, activities, skills, experiences, education, and self-knowledge, as well as their associations."
+      },
+      "ROLE_STUDENT_REFERENCE_DATA": {
+        "label": "Student reference data",
+        "description": "Can view skill frameworks, external skills, and settings related to traces and complementary skills."
+      },
+      "ROLE_SUPER_ADMIN": {
+        "label": "Super administrator",
+        "description": "Has global administration rights on the CoFolio platform, including on establishments, activities, roles, configuration, and system operations."
+      },
+      "ROLE_SYSTEM_OPERATOR": {
+        "label": "System operator",
+        "description": "Can perform sensitive system operations, including resetting and reinitializing database data."
+      },
+      "ROLE_USER_BASE": {
+        "label": "Basic user",
+        "description": "Can manage their own profile and view their notifications."
+      }
+    },
     "saved": "Saved",
     "selects": {
       "FileTypeMultiselect": {

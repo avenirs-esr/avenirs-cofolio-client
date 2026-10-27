@@ -15,6 +15,12 @@ import UserDetailsSection from '@/features/staff/admin/views/InstitutionUserDeta
 BddTest().given('a user details section', () => {
   let wrapper: VueWrapper<InstanceType<typeof UserDetailsSection>>
 
+  const stubs = {
+    AvIconText: AvIconTextStub,
+    QuerySuspense: QuerySuspenseStub,
+    UserDetailsTable: UserDetailsTableStub,
+  }
+
   const mountWith = async (options: {
     userId?: string
     isLoading?: boolean
@@ -31,13 +37,7 @@ BddTest().given('a user details section', () => {
         isLoading: options.isLoading,
         error: options.error,
       },
-      global: {
-        stubs: {
-          AvIconText: AvIconTextStub,
-          QuerySuspense: QuerySuspenseStub,
-          UserDetailsTable: UserDetailsTableStub,
-        },
-      },
+      global: { stubs },
     })
 
     await flushPromises()
@@ -46,6 +46,10 @@ BddTest().given('a user details section', () => {
   const getAvIconText = () => wrapper.findComponent(AvIconTextStub)
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getUserDetailsTable = () => wrapper.findComponent(UserDetailsTableStub)
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
 
   BddTest().when('the section is mounted', () => {
     beforeEach(async () => {
@@ -56,10 +60,12 @@ BddTest().given('a user details section', () => {
       expect(getAvIconText().exists()).toBe(true)
       expect(getAvIconText().props('text')).toBe('Informations générales')
       expect(getAvIconText().props('icon')).toBe(ICONS.USER)
+      expect(getAvIconText().props('iconColor')).toBe('var(--text2)')
+      expect(getAvIconText().props('typographyClass')).toBe('n4')
     })
 
     BddTest().then('it should pass the loading state and error to QuerySuspense', () => {
-      expect(getQuerySuspense().props('isLoading')).toBeUndefined()
+      expect(getQuerySuspense().props('isLoading')).toBe(false)
       expect(getQuerySuspense().props('error')).toBeNull()
     })
 
@@ -90,10 +96,6 @@ BddTest().given('a user details section', () => {
       expect(getQuerySuspense().props('isLoading')).toBe(true)
       expect(getQuerySuspense().props('error')).toStrictEqual(error)
     })
-
-    BddTest().then('it should not display the details table', () => {
-      expect(getUserDetailsTable().exists()).toBe(false)
-    })
   })
 
   BddTest().when('the user has only staff authorizations', () => {
@@ -119,6 +121,16 @@ BddTest().given('a user details section', () => {
   BddTest().when('the user has no authorizations', () => {
     beforeEach(async () => {
       await mountWith({ userId: 'INVALID_USER_ID' })
+    })
+
+    BddTest().then('it should not render the details table', () => {
+      expect(getUserDetailsTable().exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the user has no id', () => {
+    beforeEach(async () => {
+      await mountWith({ userId: '' })
     })
 
     BddTest().then('it should pass an empty list of universes to the details table', () => {

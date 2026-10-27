@@ -124,6 +124,12 @@
                   },
                   "groupeType": "Type"
                 }
+              },
+              "UserPermissionsTable": {
+                "columns": {
+                  "name": "Permission",
+                  "description": "Description"
+                }
               }
             },
             "layout": {
@@ -151,6 +157,17 @@
             "sections": {
               "UserGroupsSection": {
                 "emptyStateMessage": "Aucun groupe"
+              },
+              "UserPermissionsSection": {
+                "emptyStateMessage": "Aucune permission",
+                "tabs": {
+                  "contextual": {
+                    "title": "Autorisations contextuelles"
+                  },
+                  "notContextual": {
+                    "title": "Rôles et permissions non contextuels"
+                  }
+                }
               },
               "UserProgramsSection": {
                 "emptyStateMessage": "Aucune formation"

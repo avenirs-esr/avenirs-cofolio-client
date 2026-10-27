@@ -598,6 +598,120 @@
     "pageSizePicker": {
       "label": "Nombre de résultats par page\u00A0:"
     },
+    "roles": {
+      "ROLE_ACTIVITY_ADMIN": {
+        "label": "Administrateur(rice) activités",
+        "description": "Peut administrer toutes les activités de la plateforme, y compris les supprimer définitivement."
+      },
+      "ROLE_ACTIVITY_EDITOR": {
+        "label": "Éditeur(rice) d'activités",
+        "description": "Peut créer, modifier et supprimer les activités non publiées."
+      },
+      "ROLE_ADMIN": {
+        "label": "Administrateur(rice) établissement",
+        "description": "Peut gérer un établissement, ses établissements secondaires, ses groupes et ses utilisateurs externes."
+      },
+      "ROLE_CONFIG_MANAGER": {
+        "label": "Gestionnaire configuration",
+        "description": "Peut gérer la configuration de la plateforme et les conditions d'utilisation."
+      },
+      "ROLE_CONFIG_VIEWER": {
+        "label": "Lecteur(rice) configuration",
+        "description": "Peut consulter la configuration de la plateforme."
+      },
+      "ROLE_ESTABLISHMENT_MANAGER": {
+        "label": "Gestionnaire établissement",
+        "description": "Peut gérer les établissements principaux et secondaires."
+      },
+      "ROLE_ESTABLISHMENT_VIEWER": {
+        "label": "Lecteur(rice) établissement",
+        "description": "Peut consulter les établissements principaux et secondaires."
+      },
+      "ROLE_EXTERNAL_USER_MANAGER": {
+        "label": "Gestionnaire utilisateurs",
+        "description": "Peut gérer les utilisateurs externes et leurs rattachements."
+      },
+      "ROLE_EXTERNAL_USER_VIEWER": {
+        "label": "Lecteur(rice) utilisateurs",
+        "description": "Peut consulter les utilisateurs externes."
+      },
+      "ROLE_GROUP_MANAGER": {
+        "label": "Gestionnaire groupes",
+        "description": "Peut gérer les groupes, y compris importer des groupes."
+      },
+      "ROLE_GROUP_VIEWER": {
+        "label": "Lecteur(rice) groupes",
+        "description": "Peut consulter les groupes."
+      },
+      "ROLE_RBAC_ADMIN": {
+        "label": "Administrateur(rice) habilitations",
+        "description": "Peut gérer les rôles, leurs attributions, les périmètres et les contextes d'habilitation."
+      },
+      "ROLE_RBAC_AUDITOR": {
+        "label": "Auditeur(rice) habilitations",
+        "description": "Peut consulter les données d'administration des rôles et des habilitations."
+      },
+      "ROLE_STAFF": {
+        "label": "Personnel",
+        "description": "Dispose des accès nécessaires à l'accompagnement pédagogique, à la consultation des traces accessibles et au traitement des demandes de feedback."
+      },
+      "ROLE_STAFF_ACTIVITY_AUTHOR": {
+        "label": "Auteur(rice) d'activités",
+        "description": "Peut créer, modifier et supprimer les activités non publiées, dupliquer des activités et modifier des activités publiées dans un contexte autorisé."
+      },
+      "ROLE_STAFF_ACTIVITY_VIEWER": {
+        "label": "Lecteur(rice) d'activités",
+        "description": "Peut consulter le catalogue d'activités, leurs documents et la bibliothèque du personnel."
+      },
+      "ROLE_STAFF_FEEDBACK_RESPONDER": {
+        "label": "Répondant aux feedbacks",
+        "description": "Peut consulter et traiter les demandes de feedback qui lui sont attribuées."
+      },
+      "ROLE_STAFF_FEEDBACK_SUPERVISOR": {
+        "label": "Superviseur(rice) feedbacks",
+        "description": "Peut consulter l'historique des feedbacks et le tableau de bord de son établissement."
+      },
+      "ROLE_STAFF_TRACE_REVIEWER": {
+        "label": "Évaluateur(rice) traces",
+        "description": "Peut consulter et télécharger les traces des apprenant(e)s accessibles dans un contexte autorisé."
+      },
+      "ROLE_STUDENT": {
+        "label": "Étudiant",
+        "description": "Dispose d'un espace personnel CoFolio pour construire son projet de vie et valoriser ses compétences."
+      },
+      "ROLE_STUDENT_ACTIVITY": {
+        "label": "Activités apprenant(e)s",
+        "description": "Permet de consulter le catalogue d'activités, de s'y inscrire et d'accéder aux documents associés."
+      },
+      "ROLE_STUDENT_EMPLOYMENT_KIT": {
+        "label": "Kit prêt à l'emploi",
+        "description": "Permet d'accéder à son espace kit emploi et de télécharger ses contenus multimédias."
+      },
+      "ROLE_STUDENT_FEEDBACK": {
+        "label": "Demande de feedback",
+        "description": "Permet de demander des feedbacks et de consulter les feedbacks reçus."
+      },
+      "ROLE_STUDENT_PORTFOLIO": {
+        "label": "Portfolio apprenant(e)s",
+        "description": "Permet de gérer ses traces, activités, compétences, expériences, formations et connaissances de soi, ainsi que leurs associations."
+      },
+      "ROLE_STUDENT_REFERENCE_DATA": {
+        "label": "Référentiels apprenant(e)s",
+        "description": "Permet de consulter les référentiels de compétences, les compétences externes et les paramètres liés aux traces et aux compétences complémentaires."
+      },
+      "ROLE_SUPER_ADMIN": {
+        "label": "Super administrateur(rice)",
+        "description": "Dispose de droits d'administration globaux sur la plateforme CoFolio, notamment sur les établissements, les activités, les habilitations, la configuration et les opérations système."
+      },
+      "ROLE_SYSTEM_OPERATOR": {
+        "label": "Opérateur(rice) système",
+        "description": "Peut effectuer des opérations système sensibles, notamment réinitialiser et réinitialiser les données de la base de données."
+      },
+      "ROLE_USER_BASE": {
+        "label": "Utilisateur(rice) de base",
+        "description": "Peut gérer son propre profil et consulter ses notifications."
+      }
+    },
     "saved": "Enregistré",
     "selects": {
       "FileTypeMultiselect": {
