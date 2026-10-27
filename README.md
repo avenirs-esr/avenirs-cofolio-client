@@ -52,6 +52,14 @@ pnpm --filter avenirs-cofolio-client run e2e:install
 pnpm --filter avenirs-cofolio-client run e2e:report
 ```
 
+## Dependency catalogues
+
+External dependency versions are maintained in `pnpm-workspace.yaml`. Package manifests use `catalog:` for the default catalogue; internal packages keep `workspace:*` references.
+
+The applications share the default Vue, Vue i18n, DSAV and TanStack Form entries. TanStack Form uses `~1.15.0`. Named `backoffice` and `e2e` catalogues preserve the remaining package-specific versions and resolutions through `catalog:backoffice` and `catalog:e2e` references.
+
+Change dependency ranges in the owning catalogue rather than repeating versions in package manifests. Update the root lockfile after changing a catalogue and verify installation with `pnpm install --frozen-lockfile`.
+
 ## Shared API contracts
 
 The Cofolio `avenir-esr.swagger.json` contract lives in `packages/shared/api/specs`. Cofolio resolves `@avenirs-esr/shared/api/specs/avenir-esr.swagger.json` through the shared package's exports in its local `orval.config.ts`. Backoffice uses its own contract at `apps/avenirs-cofolio-backoffice-client/api-specs/avenir-esr.swagger.json`.
@@ -91,7 +99,7 @@ VITE_API_URL=http://localhost:4173/cofolio/ MSW_MODE_ON=true pnpm --filter aveni
 
 The explicit E2E URL avoids private environment overrides targeting a real service. E2E scenarios and accessibility rules are unchanged; existing baseline failures are not disabled by this migration.
 
-Application READMEs document their architecture. Application dependencies on the published DSAV package are declared separately in their manifests.
+Application READMEs document their architecture. Both applications declare the published DSAV package through the same default catalogue entry.
 
 ## Git tooling
 
