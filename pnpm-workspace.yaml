@@ -21,7 +21,7 @@ catalog:
   "@axe-core/playwright": ^4.10.2
   "@commitlint/cli": ^19.8.1
   "@commitlint/config-conventional": ^19.8.1
-  "@playwright/test": 1.56.1
+  "@playwright/test": 1.61.1
   "@rushstack/eslint-patch": ^1.10.5
   "@tanstack/vue-form": ~1.15.0
   "@tanstack/vue-query": ^5.74.9
