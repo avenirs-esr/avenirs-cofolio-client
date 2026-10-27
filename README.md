@@ -11,6 +11,7 @@ PNPM workspace containing the Cofolio and Backoffice applications.
 - `apps/avenirs-cofolio-backoffice-client/a11y`: Backoffice accessibility suite.
 - `packages/config`: private placeholder; no shared configuration is exported yet.
 - `packages/shared`: shared HTTP engine, exceptions, error codes, locale definitions and OpenAPI contracts, exposed by `@avenirs-esr/shared`.
+- `packages/test-utils`: private unit-test mounting helpers, exposed by `@avenirs-esr/test-utils` and consumed only as a development dependency.
 - `.github`: repository workflows.
 
 ## Local setup
@@ -78,6 +79,20 @@ Shared package checks run independently:
 pnpm --filter @avenirs-esr/shared run type-check
 pnpm --filter @avenirs-esr/shared run lint
 pnpm --filter @avenirs-esr/shared run test:coverage
+```
+
+## Unit test utilities
+
+The private `@avenirs-esr/test-utils/unit` entry point exports `mountComponent`, `createMountComposable` and `mountWithRouter` as TypeScript sources. Vue, Vue Test Utils, Pinia and TanStack Query are peer dependencies supplied by the consuming application.
+
+The existing application test utilities re-export the component and router helpers. Each application configures its composable mounting facade with its own i18n instance; Cofolio additionally supplies its persisted Pinia factory, while Backoffice uses a plain Pinia. Optional plugins and their default settings are unchanged. Test setup, warning handling, MSW servers and accessibility helpers remain application-owned.
+
+The package has separate library, tooling and test TypeScript projects, referenced by its solution and the application solutions. It does not require a JavaScript library build.
+
+```sh
+pnpm --filter @avenirs-esr/test-utils run type-check
+pnpm --filter @avenirs-esr/test-utils run lint
+pnpm --filter @avenirs-esr/test-utils run test:coverage
 ```
 
 ## Shared API contracts
