@@ -3131,6 +3131,14 @@
             "schema": {
               "type": "boolean"
             }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {

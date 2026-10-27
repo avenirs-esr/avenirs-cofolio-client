@@ -124,6 +124,12 @@
                   },
                   "groupeType": "Type"
                 }
+              },
+              "UserPermissionsTable": {
+                "columns": {
+                  "name": "Permission",
+                  "description": "Description"
+                }
               }
             },
             "layout": {

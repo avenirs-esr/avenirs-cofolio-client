@@ -34,7 +34,7 @@
     "generate:feature": "node scripts/generate-feature.mjs"
   },
   "dependencies": {
-    "@avenirs-esr/avenirs-dsav": "^0.1.371",
+    "@avenirs-esr/avenirs-dsav": "^0.1.372",
     "@avenirs-esr/shared": "workspace:*",
     "@tanstack/vue-form": "~1.15.0",
     "@tanstack/vue-query": "^5.74.9",
