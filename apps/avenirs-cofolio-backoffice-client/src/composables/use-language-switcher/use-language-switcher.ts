@@ -1,7 +1,7 @@
-import type { AvLocale } from '@/types'
 import type { AvLanguageSelectorElement } from '@avenirs-esr/avenirs-dsav'
-import { getBrowserLocale } from '@/plugins/vue-i18n'
+import type { AvLocale } from '@/types'
 import { useI18n } from 'vue-i18n'
+import { getBrowserLocale } from '@/plugins/vue-i18n'
 
 export function useLanguageSwitcher () {
   const { t, locale } = useI18n()

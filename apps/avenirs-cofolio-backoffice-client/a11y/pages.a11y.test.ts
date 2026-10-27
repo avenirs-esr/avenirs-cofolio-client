@@ -1,12 +1,12 @@
 import fs from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { ROUTES } from '@/constants'
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import { GLOBAL_TIMEOUT } from 'a11y/playwright.a11y.config'
 import { waitMswToStart } from 'a11y/utils'
 import { createHtmlReport } from 'axe-html-reporter'
+import { ROUTES } from '@/constants'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 

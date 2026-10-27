@@ -1,5 +1,6 @@
+import type { QueryKey } from '@tanstack/vue-query'
+import { useQueryClient } from '@tanstack/vue-query'
 import { i18n } from '@/plugins/vue-i18n'
-import { type QueryKey, useQueryClient } from '@tanstack/vue-query'
 
 export function useInvalidateQuery (queryKey?: QueryKey) {
   const queryClient = useQueryClient()

@@ -1,12 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { beforeEach, expect } from 'vitest'
 import { EmptyStateStub } from '@/components/feedback/EmptyState/EmptyState.stub'
 import { ErrorMessageStub } from '@/components/feedback/ErrorMessage/ErrorMessage.stub'
 import { LoaderStub } from '@/components/Loader/Loader.stub'
 import QuerySuspense from '@/components/QuerySuspense/QuerySuspense.vue'
 import { BaseApiException } from '@/exceptions'
 import { mountComponent } from '@/tests/utils'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { beforeEach, expect } from 'vitest'
 
 const stubs = {
   EmptyState: EmptyStateStub,

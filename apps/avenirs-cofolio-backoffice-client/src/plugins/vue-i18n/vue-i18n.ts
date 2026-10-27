@@ -1,6 +1,7 @@
 import type { App } from 'vue'
-import { AvAvailableLocales, type AvLocale } from '@/types/i18n.types'
+import type { AvLocale } from '@/types/i18n.types'
 import { createI18n } from 'vue-i18n'
+import { AvAvailableLocales } from '@/types/i18n.types'
 
 export function parseLocaleModules (modules: Record<string, any>) {
   const result: Partial<Record<AvLocale, any>> = {}

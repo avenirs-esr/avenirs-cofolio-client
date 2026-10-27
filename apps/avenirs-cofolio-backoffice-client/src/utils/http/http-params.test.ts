@@ -1,8 +1,8 @@
 import type { SortValue } from '@/types'
-import { ESortField, ESortOrder } from '@/api/avenir-esr'
-import { formatSortValue, parseSortValue } from '@/utils/http/http-params'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { expect } from 'vitest'
+import { ESortField, ESortOrder } from '@/api/avenir-esr'
+import { formatSortValue, parseSortValue } from '@/utils/http/http-params'
 
 BddTest().given('a sort value formatter and parser based on ESortField/ESortOrder', () => {
   BddTest().when('formatSortValue is called with NAME and ASC', () => {

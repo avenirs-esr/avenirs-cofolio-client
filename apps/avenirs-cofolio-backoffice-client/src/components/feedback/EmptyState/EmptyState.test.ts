@@ -1,9 +1,9 @@
 import type { VueWrapper } from '@vue/test-utils'
-import EmptyState from '@/components/feedback/EmptyState/EmptyState.vue'
-import { mountComponent } from '@/tests/utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect } from 'vitest'
+import EmptyState from '@/components/feedback/EmptyState/EmptyState.vue'
+import { mountComponent } from '@/tests/utils'
 
 BddTest().given('an EmptyState component', () => {
   let wrapper: VueWrapper<InstanceType<typeof EmptyState>>

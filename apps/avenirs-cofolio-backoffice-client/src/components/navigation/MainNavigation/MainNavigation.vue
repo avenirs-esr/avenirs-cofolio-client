@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ROUTES } from '@/constants'
-import { termsOfServiceRoutes } from '@/features/terms-of-service/routes'
-import { isRouteActive } from '@/utils/route/route'
 import { AvNavigation, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
+import { ROUTES } from '@/constants'
+import { termsOfServiceRoutes } from '@/features/terms-of-service/routes'
+import { isRouteActive } from '@/utils/route/route'
 
 const { t } = useI18n()
 const route = useRoute()

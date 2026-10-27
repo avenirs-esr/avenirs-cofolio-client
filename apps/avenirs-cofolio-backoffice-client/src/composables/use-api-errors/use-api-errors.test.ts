@@ -1,9 +1,10 @@
 import type { Ref } from 'vue'
-import { useApiErrors } from '@/composables/use-api-errors/use-api-errors'
-import { BaseApiErrorCode, type BaseApiException } from '@/exceptions'
-import { mountComposable } from '@/tests/utils'
+import type { BaseApiException } from '@/exceptions'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect } from 'vitest'
+import { useApiErrors } from '@/composables/use-api-errors/use-api-errors'
+import { BaseApiErrorCode } from '@/exceptions'
+import { mountComposable } from '@/tests/utils'
 
 BddTest().given('a useApiErrors composable', () => {
   let errorRef: Ref<BaseApiException | null>

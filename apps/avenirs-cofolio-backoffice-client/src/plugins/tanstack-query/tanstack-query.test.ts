@@ -1,9 +1,9 @@
-import { BaseApiException } from '@/exceptions'
-import TanstackQueryPlugin from '@/plugins/tanstack-query/tanstack-query'
-import { HttpStatusCode } from '@/utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { VueQueryPlugin } from '@tanstack/vue-query'
 import { expect, vi } from 'vitest'
+import { BaseApiException } from '@/exceptions'
+import TanstackQueryPlugin from '@/plugins/tanstack-query/tanstack-query'
+import { HttpStatusCode } from '@/utils'
 
 const useMock = vi.fn()
 const appMock = { use: useMock }

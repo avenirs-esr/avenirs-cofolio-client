@@ -1,7 +1,7 @@
 import type { RouteLocationNormalized } from 'vue-router'
-import { getPageTitle, scrollBehavior } from '@/router/router.utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { afterEach, expect, vi } from 'vitest'
+import { getPageTitle, scrollBehavior } from '@/router/router.utils'
 
 BddTest().given('the router scroll behavior', () => {
   const to = {

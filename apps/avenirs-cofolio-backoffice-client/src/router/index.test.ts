@@ -1,9 +1,9 @@
-import { ROUTES } from '@/constants'
-import router from '@/router'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { createMemoryHistory, createRouter } from 'vue-router'
+import { ROUTES } from '@/constants'
+import router from '@/router'
 
 BddTest().given('the application router', () => {
   beforeEach(() => {

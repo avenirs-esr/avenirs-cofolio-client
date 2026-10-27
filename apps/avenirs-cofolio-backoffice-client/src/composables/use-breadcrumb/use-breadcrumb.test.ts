@@ -1,8 +1,8 @@
 import type { MetaBreadcrumb } from '@/types/router.types'
-import { useBreadcrumb } from '@/composables/use-breadcrumb/use-breadcrumb'
-import { mountComposable } from '@/tests/utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { useBreadcrumb } from '@/composables/use-breadcrumb/use-breadcrumb'
+import { mountComposable } from '@/tests/utils'
 
 const route = ref<{
   meta: { breadcrumb?: MetaBreadcrumb }

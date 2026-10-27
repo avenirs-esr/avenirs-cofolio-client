@@ -1,7 +1,8 @@
 import type { VueWrapper } from '@vue/test-utils'
-import ErrorMessage, { type ErrorMessageProps } from '@/components/feedback/ErrorMessage/ErrorMessage.vue'
-import { mountComponent } from '@/tests/utils'
+import type { ErrorMessageProps } from '@/components/feedback/ErrorMessage/ErrorMessage.vue'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import ErrorMessage from '@/components/feedback/ErrorMessage/ErrorMessage.vue'
+import { mountComponent } from '@/tests/utils'
 
 BddTest().given('an ErrorMessage component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ErrorMessage>>

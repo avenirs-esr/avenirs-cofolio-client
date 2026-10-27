@@ -1,7 +1,8 @@
+import type { MockedFunction } from 'vitest'
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
 import { AvIsoLocaleMap } from '@/types/i18n.types'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { afterEach, beforeEach, expect, type MockedFunction, vi } from 'vitest'
 
 const mockLocale = { value: 'fr' }
 

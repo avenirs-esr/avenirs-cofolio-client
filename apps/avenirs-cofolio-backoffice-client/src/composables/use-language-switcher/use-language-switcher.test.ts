@@ -1,8 +1,8 @@
+import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { beforeEach, expect } from 'vitest'
 import { useLanguageSwitcher } from '@/composables/use-language-switcher/use-language-switcher'
 import { getBrowserLocale, i18n } from '@/plugins/vue-i18n'
 import { mountComposable } from '@/tests/utils'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { beforeEach, expect } from 'vitest'
 
 BddTest().given('a useLanguageSwitcher compsable', () => {
   let languageSwitcher: ReturnType<typeof useLanguageSwitcher>
