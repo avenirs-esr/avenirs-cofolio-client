@@ -1,3 +1,1 @@
-export * from './fetch-factory/fetch-factory'
-export * from './fetch-interceptor-manager/fetch-interceptor-manager'
-export * from './types'
+export * from '@avenirs-esr/shared/api/fetch'

@@ -1,9 +1,2 @@
-import { EErrorCode as ApiErrors } from '@/api/avenir-esr/generated/types/eErrorCode'
-import { BaseApiErrorCode } from '@/common/exceptions/base-api-error-codes'
-
-export const ErrorCodes = {
-  ...BaseApiErrorCode,
-  ...ApiErrors
-} as const
-
-export type ErrorCode = BaseApiErrorCode | ApiErrors
+export { ErrorCodes } from '@avenirs-esr/shared/exceptions'
+export type { ErrorCode } from '@avenirs-esr/shared/exceptions'

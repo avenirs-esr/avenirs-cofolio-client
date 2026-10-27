@@ -3,7 +3,6 @@
   "compilerOptions": {
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-
     "paths": {
       "@/*": ["./src/*"],
       "vue-component-type-helpers": ["./node_modules/vue-component-type-helpers"],
