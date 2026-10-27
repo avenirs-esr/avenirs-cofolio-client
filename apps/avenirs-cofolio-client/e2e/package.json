@@ -22,14 +22,14 @@
     "lint:tsc": "tsc --noEmit"
   },
   "devDependencies": {
-    "@playwright/test": "^1.61.1",
-    "@types/node": "^22.10.0",
-    "cross-env": "^10.1.0",
-    "dotenv": "^16.4.5",
-    "playwright": "1.61.1",
-    "playwright-bdd": "^9.2.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.7.2",
-    "vue-i18n": "^9.14.0"
+    "@playwright/test": "catalog:e2e",
+    "@types/node": "catalog:e2e",
+    "cross-env": "catalog:",
+    "dotenv": "catalog:",
+    "playwright": "catalog:",
+    "playwright-bdd": "catalog:",
+    "ts-node": "catalog:",
+    "typescript": "catalog:e2e",
+    "vue-i18n": "catalog:"
   }
 }
