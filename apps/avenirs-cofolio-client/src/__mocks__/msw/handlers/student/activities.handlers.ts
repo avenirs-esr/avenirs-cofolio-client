@@ -1,5 +1,5 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
-import type { ActivityNavigationDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, PagedResponseActivityOverviewDTO, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
+import type { ActivityNavigationDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, EActivityThematic, ESortField, ESortOrder, GetDeclaredActivitiesViewParams, PagedResponseActivityOverviewDTO, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
 import { delay, http, HttpResponse } from 'msw'
