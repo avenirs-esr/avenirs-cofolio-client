@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { AvHeader } from '@avenirs-esr/avenirs-dsav'
+import { MainContent } from '@avenirs-esr/shared'
 import capitalize from 'lodash-es/capitalize'
 import { useI18n } from 'vue-i18n'
 import { EUserCategory, useGetQuickLinks } from '@/api/avenir-esr'
-import MainContent from '@/components/MainContent/MainContent.vue'
 import MainNavigation from '@/components/navigation/MainNavigation/MainNavigation.vue'
 import SkipLinks from '@/components/navigation/SkipLinks/SkipLinks.vue'
 import QuerySuspense from '@/components/QuerySuspense/QuerySuspense.vue'

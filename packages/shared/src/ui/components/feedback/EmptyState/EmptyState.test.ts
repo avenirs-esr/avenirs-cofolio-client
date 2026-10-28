@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { EmptyState } from '@avenirs-esr/shared'
-import { mountComponent } from '@avenirs-esr/shared/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { enableAutoUnmount } from '@vue/test-utils'
 import { afterEach, beforeEach, expect } from 'vitest'
 import { createI18n } from 'vue-i18n'
+import EmptyState from './EmptyState.vue'
 
 enableAutoUnmount(afterEach)
 

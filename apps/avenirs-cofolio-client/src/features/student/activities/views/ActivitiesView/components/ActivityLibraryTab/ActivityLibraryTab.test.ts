@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { LoaderStub } from '@avenirs-esr/shared/test-utils'
+import { LoaderStub } from '@avenirs-esr/shared/test-utils/unit'
 import { createUsePaginationMock } from 'tests/mocks/mockUsePagination'
 import { mountComponent } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'

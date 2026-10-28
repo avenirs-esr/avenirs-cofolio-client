@@ -1,6 +1,6 @@
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { waitMswToStart } from '@avenirs-esr/shared/test-utils'
+import { waitMswToStart } from '@avenirs-esr/shared/test-utils/a11y'
 import { test } from '@playwright/test'
 import { auditAccessibility } from 'a11y/utils'
 import { ROUTES } from '@/common/constants/route-names'
