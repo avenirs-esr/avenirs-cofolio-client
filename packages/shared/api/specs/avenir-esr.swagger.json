@@ -8158,6 +8158,21 @@
           }
         ]
       },
+      "AssessmentSentParameters": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/NotificationParameters"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "activityTitle": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
       "NotificationDTO": {
         "type": "object",
         "properties": {
@@ -8173,7 +8188,8 @@
             "type": "string",
             "enum": [
               "ACTIVITY_MODIFIED",
-              "ASK_FOR_FEEDBACK"
+              "ASK_FOR_FEEDBACK",
+              "ASSESSMENT_SENT"
             ]
           },
           "elementId": {
@@ -8187,6 +8203,9 @@
               },
               {
                 "$ref": "#/components/schemas/AskForFeedbackParameters"
+              },
+              {
+                "$ref": "#/components/schemas/AssessmentSentParameters"
               }
             ]
           },
@@ -9264,7 +9283,8 @@
         "description": "Enum for notification type",
         "enum": [
           "ACTIVITY_MODIFIED",
-          "ASK_FOR_FEEDBACK"
+          "ASK_FOR_FEEDBACK",
+          "ASSESSMENT_SENT"
         ]
       },
       "ELanguage": {

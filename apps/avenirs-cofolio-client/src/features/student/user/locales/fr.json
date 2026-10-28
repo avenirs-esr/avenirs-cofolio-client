@@ -11,7 +11,8 @@
       "overlays": {
         "StudentNotificationsPopover": {
           "contexts": {
-            "activityModified": "Une activité à laquelle vous êtes inscrit(e) a été modifiée"
+            "activityModified": "Une activité à laquelle vous êtes inscrit(e) a été modifiée",
+            "assessmentSent": "Une appréciation a été envoyée pour l'une de vos activités"
           }
         },
         "UpdateProfileDrawer": {
