@@ -32,8 +32,8 @@ catalogs:
       specifier: ^6.5.1
       version: 6.7.3
     '@avenirs-esr/avenirs-dsav':
-      specifier: ^0.1.371
-      version: 0.1.371
+      specifier: ^0.1.372
+      version: 0.1.372
     '@axe-core/playwright':
       specifier: ^4.10.2
       version: 4.13.0
@@ -430,7 +430,7 @@ importers:
     dependencies:
       '@avenirs-esr/avenirs-dsav':
         specifier: 'catalog:'
-        version: 0.1.371(@floating-ui/dom@1.8.0)(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/extensions@3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0))(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.3)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
+        version: 0.1.372(@floating-ui/dom@1.8.0)(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/extensions@3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0))(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.3)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
       '@avenirs-esr/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -783,6 +783,20 @@ packages:
 
   '@avenirs-esr/avenirs-dsav@0.1.371':
     resolution: {integrity: sha512-VQbnH0HsMzHfqiGDL9Pv9YpDB8g+vTCCoCFp4uWatjbTINOdiMZxhfnJfsOkdK1CDBOeRPftW9G345par3CxhQ==}
+    engines: {node: '>=26.0.0'}
+    peerDependencies:
+      '@vue/test-utils': ^2.0.0
+      vitest: ^4.0.0 || ^5.0.0
+      vue: ^3.5.13
+      vue-router: ^4.4.3
+    peerDependenciesMeta:
+      '@vue/test-utils':
+        optional: true
+      vitest:
+        optional: true
+
+  '@avenirs-esr/avenirs-dsav@0.1.372':
+    resolution: {integrity: sha512-kCrXegHwvNbldRwntEyPhyk6SvaSxnZKBO1i3kN4UgMD8atERkwKcLnCzDt8q0gHwFGc+9D7LSAQNYbldM0W7g==}
     engines: {node: '>=26.0.0'}
     peerDependencies:
       '@vue/test-utils': ^2.0.0
@@ -4036,6 +4050,10 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     hasBin: true
 
+  is-extglob@2.1.1:
+    resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
+    engines: {node: '>=0.10.0'}
+
   is-fullwidth-code-point@3.0.0:
     resolution: {integrity: sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==}
     engines: {node: '>=8'}
@@ -6317,6 +6335,34 @@ snapshots:
     optionalDependencies:
       '@vue/test-utils': 2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3))
       vitest: 5.0.5(@types/node@26.6.5)(@vitest/coverage-v8@5.0.5)(jsdom@25.0.1)(msw@2.15.0(@types/node@26.6.5)(typescript@6.0.3))(vite@6.4.4(@types/node@26.6.5)(jiti@2.6.1)(sass-embedded@1.99.0)(sass@1.99.0)(yaml@2.9.1))
+    transitivePeerDependencies:
+      - '@floating-ui/dom'
+      - '@tiptap/core'
+      - '@tiptap/extensions'
+      - '@vue/composition-api'
+
+  '@avenirs-esr/avenirs-dsav@0.1.372(@floating-ui/dom@1.8.0)(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/extensions@3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0))(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.3)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))':
+    dependencies:
+      '@tanstack/vue-table': 8.21.3(vue@3.5.44(typescript@6.0.3))
+      '@tiptap/extension-character-count': 3.32.0(@tiptap/extensions@3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0))
+      '@tiptap/extension-image': 3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))
+      '@tiptap/extension-link': 3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0)
+      '@tiptap/extension-table': 3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0)
+      '@tiptap/extension-text-align': 3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))
+      '@tiptap/pm': 3.32.0
+      '@tiptap/starter-kit': 3.32.0
+      '@tiptap/vue-3': 3.32.0(@floating-ui/dom@1.8.0)(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0)(vue@3.5.44(typescript@6.0.3))
+      '@vuepic/vue-datepicker': 14.0.0(vue@3.5.44(typescript@6.0.3))
+      '@vueuse/core': 13.9.0(vue@3.5.44(typescript@6.0.3))
+      date-fns: 4.4.0
+      focus-trap: 7.6.4
+      focus-trap-vue: 4.0.3(focus-trap@7.6.4)(vue@3.5.44(typescript@6.0.3))
+      lodash-es: 4.18.1
+      vue: 3.5.44(typescript@6.0.3)
+      vue-router: 4.5.1(vue@3.5.44(typescript@6.0.3))
+    optionalDependencies:
+      '@vue/test-utils': 2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3))
+      vitest: 5.0.3(@types/node@26.6.5)(@vitest/coverage-v8@5.0.3)(jsdom@28.1.0)(msw@2.15.0(@types/node@26.6.5)(typescript@6.0.3))(vite@6.4.4(@types/node@26.6.5)(jiti@2.6.1)(sass-embedded@1.99.0)(sass@1.99.0)(yaml@2.9.1))
     transitivePeerDependencies:
       - '@floating-ui/dom'
       - '@tiptap/core'
@@ -9739,9 +9785,13 @@ snapshots:
 
   is-docker@3.0.0: {}
 
+  is-extglob@2.1.1: {}
+
   is-fullwidth-code-point@3.0.0: {}
 
-  is-glob@4.0.3: {}
+  is-glob@4.0.3:
+    dependencies:
+      is-extglob: 2.1.1
 
   is-inside-container@1.0.0:
     dependencies:

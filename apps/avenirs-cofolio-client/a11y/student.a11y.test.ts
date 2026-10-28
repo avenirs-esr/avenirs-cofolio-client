@@ -1,7 +1,8 @@
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { waitMswToStart } from '@avenirs-esr/shared/test-utils'
 import { test } from '@playwright/test'
-import { auditAccessibility, waitMswToStart } from 'a11y/utils'
+import { auditAccessibility } from 'a11y/utils'
 import { ROUTES } from '@/common/constants/route-names'
 
 const __filename = fileURLToPath(import.meta.url)

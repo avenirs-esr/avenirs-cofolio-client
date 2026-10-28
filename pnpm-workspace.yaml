@@ -3,21 +3,17 @@ packages:
   - 'apps/avenirs-cofolio-client/e2e'
   - 'packages/*'
 
-engineStrict: true
-
-enablePrePostScripts: true
-
 allowBuilds:
-  'esbuild@0.25.12 || 0.28.2': true
-  'unrs-resolver@1.7.2': true
-  'vue-demi@0.14.10': true
   '@parcel/watcher@2.5.6': true
+  'esbuild@0.25.12 || 0.28.2': true
   'fsevents@2.3.2 || 2.3.3': true
   'msw@2.15.0': true
+  'unrs-resolver@1.7.2': true
+  'vue-demi@0.14.10': true
 
 catalog:
   "@antfu/eslint-config": ^6.5.1
-  "@avenirs-esr/avenirs-dsav": ^0.1.371
+  "@avenirs-esr/avenirs-dsav": ^0.1.372
   "@axe-core/playwright": ^4.10.2
   "@commitlint/cli": ^19.8.1
   "@commitlint/config-conventional": ^19.8.1
@@ -96,3 +92,7 @@ catalogs:
     "@playwright/test": ^1.61.1
     "@types/node": ^22.10.0
     typescript: ^5.7.2
+
+enablePrePostScripts: true
+
+engineStrict: true
