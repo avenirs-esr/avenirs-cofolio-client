@@ -2,6 +2,7 @@ import type { PathParams } from 'msw'
 import type { CreateTraceDTO, FileDTO, PagedResponseTraceViewDTO, TraceConfigurationDTO, TraceDetailDTO, TraceFilter, TraceLockedDeclaredActivitiesDTO, TraceOverviewDTO, TracesCreationResponse, TracesSummaryDTO, TracesViewParams, UpdateTraceDTO } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
+import { isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils'
 import { delay, http, HttpResponse } from 'msw'
 import {
   createDeletedTraceIdMock,
@@ -15,7 +16,6 @@ import {
   mockedTracesConfiguration,
   mockedTracesSummary
 } from '@/__mocks__/fixtures/student'
-import { isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
 
   getCreateTraceUrl,

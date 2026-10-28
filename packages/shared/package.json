@@ -67,6 +67,7 @@
     "vite": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
+    "msw": "catalog:",
     "vue-component-type-helpers": "catalog:",
     "vue-i18n": "catalog:",
     "vue-tsc": "catalog:"
