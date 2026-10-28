@@ -1,5 +1,5 @@
+import type { AvLocale } from '@avenirs-esr/shared'
 import type { DeclaredProgramViewDTO } from '@/api/avenir-esr'
-import type { AvLocale } from '@/types'
 import { HeadingLevel, Paragraph, TextRun } from 'docx'
 import { useI18n } from 'vue-i18n'
 import { useGetDeclaredPrograms } from '@/api/avenir-esr'

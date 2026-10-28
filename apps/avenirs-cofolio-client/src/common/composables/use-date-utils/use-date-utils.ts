@@ -1,5 +1,5 @@
+import type { AvLocale } from '@avenirs-esr/shared'
 import type { DateArg } from 'date-fns'
-import type { AvLocale } from '@/types'
 import { differenceInCalendarDays, differenceInHours, differenceInMinutes, differenceInMonths, differenceInWeeks, differenceInYears } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 import { formatDateLocalized, formatTimeLocalized, parseDate } from '@/common/utils'
