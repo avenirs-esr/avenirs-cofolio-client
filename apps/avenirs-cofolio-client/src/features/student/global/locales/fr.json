@@ -13,6 +13,9 @@
             "SUMMARY": "Extrait",
             "THEMATIC": "Thématique"
           }
+        },
+        "AssessmentSentNotificationCard": {
+          "content": "Une appréciation a été envoyée pour l'activité \"{activityName}\"."
         }
       },
       "errors": {
