@@ -33,7 +33,7 @@ catalogs:
       version: 6.7.3
     '@avenirs-esr/avenirs-dsav':
       specifier: ^0.1.372
-      version: 0.1.372
+      version: 0.1.371
     '@axe-core/playwright':
       specifier: ^4.10.2
       version: 4.13.0
@@ -663,6 +663,9 @@ importers:
       jsdom:
         specifier: 'catalog:'
         version: 28.1.0
+      msw:
+        specifier: 'catalog:'
+        version: 2.15.0(@types/node@26.6.5)(typescript@6.0.3)
       orval:
         specifier: 'catalog:'
         version: 8.22.0(typescript@6.0.3)

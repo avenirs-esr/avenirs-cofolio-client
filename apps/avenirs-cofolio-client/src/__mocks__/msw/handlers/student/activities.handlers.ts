@@ -1,6 +1,7 @@
 import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ActivityNavigationDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, PagedResponseActivityOverviewDTO, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
 import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
+import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils'
 import { delay, http, HttpResponse } from 'msw'
 import {
   activitiesNavigationMock,
@@ -14,7 +15,6 @@ import {
   mockedFinishedDeclaredActivityDetails,
   mockedLatestActivitiesOverview
 } from '@/__mocks__/fixtures/student/activities.fixtures'
-import { createEmptyPaginatedDatasetResponse, isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
 
   EActivityStatus,

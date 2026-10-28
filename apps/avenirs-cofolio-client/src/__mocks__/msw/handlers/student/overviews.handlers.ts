@@ -1,6 +1,7 @@
 import type { PathParams } from 'msw'
 import type { ProfileOverviewDTO } from '@/api/avenir-esr'
 import { ErrorCodes } from '@avenirs-esr/shared'
+import { isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils'
 import { delay, http, HttpResponse } from 'msw'
 import {
   createUpdatedCoverMock,
@@ -10,7 +11,6 @@ import {
   mockedEmptyProfileOverview,
   mockedProfileOverview
 } from '@/__mocks__/fixtures/student'
-import { isEmptyDataSetRequest } from '@/__mocks__/msw/utils'
 import {
   EUserCategory,
   getGetProfileUrl,
