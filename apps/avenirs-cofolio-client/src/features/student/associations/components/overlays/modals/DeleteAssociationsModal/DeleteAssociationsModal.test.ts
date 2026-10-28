@@ -6,10 +6,10 @@ import type { AssociationsDeleteRequest, AssociationsDTO } from '@/api/avenir-es
 import type { DeleteAssociationsModalProps } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvModalStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { QueryClient } from '@tanstack/vue-query'
 import { flushPromises } from '@vue/test-utils'
 import { http, HttpResponse } from 'msw'
-import { mountComponent } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import {

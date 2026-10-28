@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { useForm } from '@tanstack/vue-form'
-import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import FeedbackFormField from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/formFields/FeedbackFormField/FeedbackFormField.vue'
 import { FeedbackTextareaStub } from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/components/interaction/inputs/FeedbackTextarea/FeedbackTextarea.stub'

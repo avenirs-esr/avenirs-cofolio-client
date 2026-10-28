@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import TraceAiProducedBadge from '@/features/student/traces/components/badges/TraceAiProducedBadge/TraceAiProducedBadge.vue'
 
 BddTest().given('a trace AI produced badge', () => {

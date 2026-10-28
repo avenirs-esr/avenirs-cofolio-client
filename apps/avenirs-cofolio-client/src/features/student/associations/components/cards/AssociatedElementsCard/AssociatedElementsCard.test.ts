@@ -1,7 +1,7 @@
 import type { AssociationsDTO } from '@/api/avenir-esr'
 import type { AssociatedElementsCardProps } from '@/features/student/associations/components/cards/AssociatedElementsCard/AssociatedElementsCard.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import {
   createMockedDeclaredActivityAssociations,

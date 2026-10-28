@@ -3,8 +3,8 @@ import type {
   DeclaredSkillFormData
 } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
 import { AvListItemStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { useForm } from '@tanstack/vue-form'
-import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { ESkillReferentialType } from '@/api/avenir-esr'
 import AddDeclaredSkillAutocompleteField from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/components/AddDeclaredSkillAutocompleteField/AddDeclaredSkillAutocompleteField.vue'

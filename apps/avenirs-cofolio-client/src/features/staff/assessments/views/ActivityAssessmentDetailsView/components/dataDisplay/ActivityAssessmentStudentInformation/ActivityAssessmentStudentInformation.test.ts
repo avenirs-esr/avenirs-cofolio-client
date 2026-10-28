@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { ActivityAssessmentStudentInformationProps } from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/dataDisplay/ActivityAssessmentStudentInformation/ActivityAssessmentStudentInformation.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { AssessmentStatusBadgeStub } from '@/features/staff/assessments/components/badges/AssessmentStatusBadge/AssessmentStatusBadge.stub'

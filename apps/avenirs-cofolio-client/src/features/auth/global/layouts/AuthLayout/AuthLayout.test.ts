@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountWithRouter } from 'tests/utils'
+import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import { FooterStub } from '@/common/components/Footer/Footer.stub'
 import { ROUTES } from '@/common/constants'

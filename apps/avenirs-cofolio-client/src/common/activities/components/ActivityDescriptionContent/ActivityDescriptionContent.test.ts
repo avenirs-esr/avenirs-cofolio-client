@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { ActivityDescriptionContentProps } from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 

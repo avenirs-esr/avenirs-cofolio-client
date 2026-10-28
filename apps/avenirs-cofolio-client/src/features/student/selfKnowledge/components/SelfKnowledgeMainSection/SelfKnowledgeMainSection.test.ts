@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockedProfileOverview } from '@/__mocks__/fixtures/student/overviews.fixtures'
 import { mockedSelfKnowledgeCategories } from '@/__mocks__/fixtures/student/self-knowledge.fixtures'

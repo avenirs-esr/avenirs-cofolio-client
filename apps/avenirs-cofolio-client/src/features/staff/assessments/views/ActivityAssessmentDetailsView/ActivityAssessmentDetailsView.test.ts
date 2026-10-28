@@ -1,9 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { DeclaredActivityAssessmentDetailsDTO } from '@/api/avenir-esr'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { HttpStatusCode } from '@avenirs-esr/shared'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { http, HttpResponse } from 'msw'
-import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import { mockedAssessmentDetailsWithAssociations, mockedAssessmentDetailsWithoutAssociations } from '@/__mocks__/fixtures/staffs/assessments.fixtures'
 import { server } from '@/__mocks__/msw/server'
@@ -12,7 +13,6 @@ import { ActivityDetailsDrawerStub } from '@/common/activities/components/Activi
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants/route-names'
-import { HttpStatusCode } from '@/common/utils/http/http-status'
 import ActivityAssessmentDetailsView from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/ActivityAssessmentDetailsView.vue'
 import {
   AssessmentAssociatedElementSummaryCardStub

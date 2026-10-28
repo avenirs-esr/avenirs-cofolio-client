@@ -3,8 +3,8 @@ import type { ExposedComponentInstance } from 'tests/utils'
 import type { ActivityContentDTO, ActivityDraftUpdateRequest } from '@/api/avenir-esr'
 import type { EditNationalActivityViewContext } from '@/features/staff/activities/views/EditNationalActivityView/EditNationalActivityViewContext'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 import { vi } from 'vitest'
 import {
   mockedActivityContent,

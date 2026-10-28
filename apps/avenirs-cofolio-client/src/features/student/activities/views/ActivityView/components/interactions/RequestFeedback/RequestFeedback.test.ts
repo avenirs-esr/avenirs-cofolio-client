@@ -1,6 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvBadgeStub, AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { getAvButtonByTestId, mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
+import { getAvButtonByTestId } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import { EFeedbackStatus } from '@/api/avenir-esr'
 import { ConfirmationModalStub } from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.stub'

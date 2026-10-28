@@ -1,7 +1,7 @@
 import type { SelfKnowledgeCategoryDTO } from '@/api/avenir-esr'
 import { AvAccordionStub, AvButtonStub, AvCancelConfirmButtonsStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { createPinia, setActivePinia } from 'pinia'
-import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { DrawerStub } from '@/common/components/overlay/drawers/Drawer/Drawer.stub'

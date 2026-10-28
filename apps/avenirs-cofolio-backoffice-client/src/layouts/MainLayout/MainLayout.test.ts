@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvHeaderStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { SkipLinksStub } from '@/components/navigation/SkipLinks/SkipLinks.stub'
 import { QuerySuspenseStub } from '@/components/QuerySuspense/QuerySuspense.stub'
 import { ROUTES } from '@/constants'
 import MainLayout from '@/layouts/MainLayout/MainLayout.vue'
-import { mountComponent } from '@/tests/utils'
 
 const selectLanguageMock = vi.fn()
 const mockQuickLinks = {

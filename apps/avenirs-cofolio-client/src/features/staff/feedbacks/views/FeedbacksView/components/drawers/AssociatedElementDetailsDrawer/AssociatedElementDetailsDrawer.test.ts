@@ -1,7 +1,7 @@
 import type { FeedbackAssociatedElement } from '@/features/staff/feedbacks/types/feedback.types'
 import type { AssociatedElementDetailsDrawerProps } from '@/features/staff/feedbacks/views/FeedbacksView/components/drawers/AssociatedElementDetailsDrawer/AssociatedElementDetailsDrawer.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import { declaredExperienceViewDTOFixture } from '@/__mocks__/fixtures/student'
 import { createMockedSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
