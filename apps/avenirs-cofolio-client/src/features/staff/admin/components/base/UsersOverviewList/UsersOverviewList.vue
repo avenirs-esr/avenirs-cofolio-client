@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { UsersListRow } from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.types'
-import { AvButton, AvTable, CUIDA_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
-import Card from '@/common/components/cards/Card/Card.vue'
-import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
-import { ROUTES } from '@/common/constants'
-import { toFullName } from '@/common/utils/user/user'
-import UserInfo from '@/features/staff/admin/components/base/UserInfo/UserInfo.vue'
+import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import GroupName from '@/features/staff/admin/components/base/GroupName/GroupName.vue'
+import UserName from '@/features/staff/admin/components/base/UserName/UserName.vue'
+import UsersOverviewCard from '@/features/staff/admin/components/cards/UsersOverviewCard/UsersOverviewCard.vue'
 
 interface UsersOverviewListProps {
   rows: UsersListRow[]
@@ -16,23 +14,6 @@ interface UsersOverviewListProps {
 defineProps<UsersOverviewListProps>()
 
 const { isBelowLg } = useAvBreakpoints()
-const { isStaffAdminGroupsRoute } = useIdentifyRoute()
-
-const route = useRoute()
-
-const groupId = computed(() => route.params.id as string)
-
-const targetRouteName = computed(() => isStaffAdminGroupsRoute.value
-  ? ROUTES.STAFF.ADMIN.GROUP.USER.name
-  : ROUTES.STAFF.ADMIN.USER.name
-)
-
-function getTo (userId: string) {
-  return {
-    name: targetRouteName.value,
-    params: { userId, groupId: groupId.value },
-  }
-}
 </script>
 
 <template>
@@ -41,15 +22,13 @@ function getTo (userId: string) {
     class="av-col av-gap-sm"
     data-testid="users-overview-list-cards"
   >
-    <RouterLink
+    <UsersOverviewCard
       v-for="row in rows"
       :key="row.id"
-      :to="getTo(row.user.id)"
-    >
-      <Card radius="var(--radius-lg)">
-        <UserInfo :user="row.user" />
-      </Card>
-    </RouterLink>
+      :user="row.user"
+      :formations="row.formations"
+      :groups="row.groups"
+    />
   </div>
   <AvTable
     v-else
@@ -59,23 +38,50 @@ function getTo (userId: string) {
     data-testid="users-overview-list-table"
   >
     <template #cell(user)="{ row }">
-      <UserInfo :user="row.user" />
-    </template>
-    <template #cell(actions)="{ row }">
-      <AvButton
-        :label="`Accéder au détail de ${toFullName(row.user.firstName, row.user.lastName)}`"
-        :icon="CUIDA_ICONS.VISIBILITY_ON_OUTLINE"
-        icon-only
-        size="LG"
-        :to="getTo(row.user.id)"
+      <UserName
+        :user="row.user"
+        with-nav
       />
+    </template>
+    <template #cell(formations)="{ row }">
+      <ul
+        v-if="row.formations?.length"
+        data-testid="formations-list"
+      >
+        <li
+          v-for="formation in row.formations"
+          :key="formation.id"
+          class="b2-regular"
+        >
+          <GroupName
+            :group="formation"
+            with-nav
+          />
+        </li>
+      </ul>
+    </template>
+    <template #cell(groups)="{ row }">
+      <ul
+        v-if="row.groups?.length"
+        data-testid="groups-list"
+      >
+        <li
+          v-for="group in row.groups"
+          :key="group.id"
+          class="b2-regular"
+        >
+          <GroupName
+            :group="group"
+            with-nav
+          />
+        </li>
+      </ul>
     </template>
   </AvTable>
 </template>
 
-<style lang="scss" scoped>
-.av-card:hover {
-  border: 1px solid var(--dark-background-primary1) !important;
-  box-shadow: 0 0 0 2px var(--dark-background-primary1);
+<style>
+li{
+  list-style: none;
 }
 </style>

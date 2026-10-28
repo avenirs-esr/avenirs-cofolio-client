@@ -4,6 +4,10 @@ import type { EUserCategory } from '@/api/avenir-esr'
 export const UsersListStub = defineComponent({
   name: 'UsersListStub',
   props: {
+    keyword: {
+      type: String,
+      required: false,
+    },
     categories: {
       type: Array as PropType<EUserCategory[]>,
       required: false,

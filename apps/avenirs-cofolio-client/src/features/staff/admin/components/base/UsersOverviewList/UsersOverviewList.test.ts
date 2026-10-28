@@ -1,31 +1,18 @@
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
 import type { UsersListRow } from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.types'
-import type { UserInfoType } from '@/features/staff/admin/types/users.types'
+import type { UsersOverviewCardUserType } from '@/features/staff/admin/types/users.types'
 import { AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises, RouterLinkStub } from '@vue/test-utils'
+import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { CardStub } from '@/common/components/cards/Card/Card.stub'
-import { ROUTES } from '@/common/constants'
-import { UserInfoStub } from '@/features/staff/admin/components/base/UserInfo/UserInfo.stub'
+import { EGroupType } from '@/api/avenir-esr'
+import { GroupNameStub } from '@/features/staff/admin/components/base/GroupName/GroupName.stub'
+import { UserNameStub } from '@/features/staff/admin/components/base/UserName/UserName.stub'
 import UsersOverviewList from '@/features/staff/admin/components/base/UsersOverviewList/UsersOverviewList.vue'
+import { UsersOverviewCardStub } from '@/features/staff/admin/components/cards/UsersOverviewCard/UsersOverviewCard.stub'
 
 const mockIsBelowLg = ref(false)
-
-const route = reactive<{ name: string, params: Record<string, string> }>({
-  name: ROUTES.STAFF.ADMIN.USER.name,
-  params: {} as Record<string, string>,
-})
-
-vi.mock('vue-router', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('vue-router')>()
-
-  return {
-    ...actual,
-    useRoute: () => route,
-  }
-})
 
 vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
@@ -39,58 +26,63 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
 BddTest().given('a users overview list', () => {
   let wrapper: VueWrapper<InstanceType<typeof UsersOverviewList>>
 
-  const mockUser: UserInfoType = {
+  const mockUser: UsersOverviewCardUserType = {
     id: 'user-1',
     firstName: 'ALICE',
     lastName: 'DUPONT',
     email: 'alice.dupont@example.com',
-    profilePictureId: undefined,
   }
 
-  const rows = [
-    { id: 'user-1', user: mockUser },
+  const rows: UsersListRow[] = [
+    {
+      id: 'user-1',
+      user: mockUser,
+      institutions: [],
+      formations: [
+        { id: 'formation-1', name: 'Formation 1', type: EGroupType.PROGRAM },
+        { id: 'formation-2', name: 'Formation 2', type: EGroupType.PROGRAM },
+      ],
+      groups: [
+        { id: 'group-1', name: 'Groupe 1', type: EGroupType.PEDAGOGICAL },
+        { id: 'group-2', name: 'Groupe 2', type: EGroupType.PEDAGOGICAL },
+      ],
+    },
     {
       id: 'user-2',
       user: { ...mockUser, id: 'user-2', firstName: 'BOB' },
+      institutions: [],
+      formations: [
+        { id: 'formation-3', name: 'Formation 3', type: EGroupType.PROGRAM },
+      ],
+      groups: [],
     },
-  ] as UsersListRow[]
-
-  const columns: AvTableColumn<UsersListRow>[] = [
-    { key: 'user', label: 'Utilisateur(rice)', width: '95%' },
-    { key: 'actions', label: 'Actions', width: '5%' },
   ]
 
-  const AvButtonStub = {
-    props: ['label', 'icon', 'iconOnly', 'size', 'to'],
-    template: '<button>{{ label }}</button>',
-  }
+  const columns: AvTableColumn<UsersListRow>[] = [
+    { key: 'user', label: 'Utilisateurs', width: '40%' },
+    { key: 'formations', label: 'Formations', width: '30%' },
+    { key: 'groups', label: 'Groupes', width: '30%' },
+  ]
 
   const stubs = {
     AvTable: AvTableStub,
-    AvButton: AvButtonStub,
-    Card: CardStub,
-    UserInfo: UserInfoStub,
-    RouterLink: RouterLinkStub,
+    UserName: UserNameStub,
+    GroupName: GroupNameStub,
+    UsersOverviewCard: UsersOverviewCardStub,
   }
 
   const mountWith = async (options: {
     belowLg?: boolean
     rows?: UsersListRow[]
     columns?: AvTableColumn<UsersListRow>[]
-    routeName?: string
-    routeParams?: Record<string, string>
   } = {}) => {
     const {
       belowLg = false,
       rows: rowsProp = rows,
       columns: columnsProp = columns,
-      routeName = ROUTES.STAFF.ADMIN.USER.name,
-      routeParams = {},
     } = options
 
     mockIsBelowLg.value = belowLg
-    route.name = routeName
-    route.params = routeParams
 
     wrapper = mountComponent(UsersOverviewList, {
       props: {
@@ -105,16 +97,12 @@ BddTest().given('a users overview list', () => {
 
   const getTable = () => wrapper.findComponent(AvTableStub)
   const getCardsContainer = () => wrapper.find('[data-testid="users-overview-list-cards"]')
-  const getCards = () => wrapper.findAllComponents(CardStub)
-  const getUserInfos = () => wrapper.findAllComponents(UserInfoStub)
-  const getRouterLinks = () => wrapper.findAllComponents(RouterLinkStub)
-  const getAvButtons = () => wrapper.findAllComponents(AvButtonStub)
+  const getCards = () => wrapper.findAllComponents(UsersOverviewCardStub)
+  const getUserNames = () => wrapper.findAllComponents(UserNameStub)
 
   beforeEach(() => {
     vi.clearAllMocks()
     mockIsBelowLg.value = false
-    route.name = ROUTES.STAFF.ADMIN.USER.name
-    route.params = {}
   })
 
   BddTest().when('the screen is at least the large breakpoint', () => {
@@ -137,33 +125,34 @@ BddTest().given('a users overview list', () => {
       expect(getTable().props('rowKey')).toBe('id')
     })
 
-    BddTest().then('it should render user information in the table slot', () => {
-      expect(getUserInfos()).toHaveLength(rows.length)
-      expect(getUserInfos()[0].props('user')).toEqual(rows[0].user)
-      expect(getUserInfos()[1].props('user')).toEqual(rows[1].user)
+    BddTest().then('it should render user information with UserName and nav enabled', () => {
+      expect(getUserNames()).toHaveLength(rows.length)
+      expect(getUserNames()[0].props('user')).toEqual(rows[0].user)
+      expect(getUserNames()[0].props('withNav')).toBe(true)
+      expect(getUserNames()[1].props('user')).toEqual(rows[1].user)
+      expect(getUserNames()[1].props('withNav')).toBe(true)
     })
 
-    BddTest().then('it should render an action button for each user', () => {
-      expect(getAvButtons()).toHaveLength(rows.length)
+    BddTest().then('it should render formations in the table slot with GroupName', () => {
+      const formationsLists = wrapper.findAll('[data-testid="formations-list"]')
+      expect(formationsLists).toHaveLength(2)
+      const firstRowFormations = formationsLists[0].findAllComponents(GroupNameStub)
+      expect(firstRowFormations).toHaveLength(2)
+      expect(firstRowFormations[0].props('group')).toEqual(rows[0].formations[0])
+      expect(firstRowFormations[0].props('withNav')).toBe(true)
+      expect(firstRowFormations[1].props('group')).toEqual(rows[0].formations[1])
+      expect(firstRowFormations[1].props('withNav')).toBe(true)
     })
 
-    BddTest().then('it should label each action button with the user full name', () => {
-      expect(getAvButtons()[0].props('label')).toBe('Accéder au détail de Alice Dupont')
-      expect(getAvButtons()[1].props('label')).toBe('Accéder au détail de Bob Dupont')
-    })
-
-    BddTest().then('it should configure the action buttons as icon-only large buttons', () => {
-      for (const button of getAvButtons()) {
-        expect(button.props('iconOnly')).toBeDefined()
-        expect(button.props('size')).toBe('LG')
-      }
-    })
-
-    BddTest().then('it should link action buttons to the user detail route', () => {
-      expect(getAvButtons()[0].props('to')).toEqual({
-        name: ROUTES.STAFF.ADMIN.USER.name,
-        params: { userId: 'user-1', groupId: undefined },
-      })
+    BddTest().then('it should render groups in the table slot with GroupName', () => {
+      const groupsLists = wrapper.findAll('[data-testid="groups-list"]')
+      expect(groupsLists).toHaveLength(1)
+      const firstRowGroups = groupsLists[0].findAllComponents(GroupNameStub)
+      expect(firstRowGroups).toHaveLength(2)
+      expect(firstRowGroups[0].props('group')).toEqual(rows[0].groups[0])
+      expect(firstRowGroups[0].props('withNav')).toBe(true)
+      expect(firstRowGroups[1].props('group')).toEqual(rows[0].groups[1])
+      expect(firstRowGroups[1].props('withNav')).toBe(true)
     })
   })
 
@@ -181,63 +170,13 @@ BddTest().given('a users overview list', () => {
       expect(getCards()).toHaveLength(rows.length)
     })
 
-    BddTest().then('it should render user information in each card', () => {
-      expect(getUserInfos()).toHaveLength(rows.length)
-      expect(getUserInfos()[0].props('user')).toEqual(rows[0].user)
-      expect(getUserInfos()[1].props('user')).toEqual(rows[1].user)
-    })
-
-    BddTest().then('it should render a link for each user', () => {
-      expect(getRouterLinks()).toHaveLength(rows.length)
-    })
-
-    BddTest().then('it should link each card to the corresponding user detail', () => {
-      expect(getRouterLinks()[0].props('to')).toEqual({
-        name: ROUTES.STAFF.ADMIN.USER.name,
-        params: { userId: 'user-1', groupId: undefined },
-      })
-
-      expect(getRouterLinks()[1].props('to')).toEqual({
-        name: ROUTES.STAFF.ADMIN.USER.name,
-        params: { userId: 'user-2', groupId: undefined },
-      })
-    })
-  })
-
-  BddTest().when('the list is displayed on the groups route', () => {
-    const groupId = 'group-1'
-
-    BddTest().and('the screen is at least the large breakpoint', () => {
-      beforeEach(async () => {
-        await mountWith({
-          routeName: ROUTES.STAFF.ADMIN.GROUPS.name,
-          routeParams: { id: groupId },
-        })
-      })
-
-      BddTest().then('it should link the action button to the group user detail route', () => {
-        expect(getAvButtons()[0].props('to')).toEqual({
-          name: ROUTES.STAFF.ADMIN.GROUP.USER.name,
-          params: { userId: 'user-1', groupId },
-        })
-      })
-    })
-
-    BddTest().and('the screen is below the large breakpoint', () => {
-      beforeEach(async () => {
-        await mountWith({
-          belowLg: true,
-          routeName: ROUTES.STAFF.ADMIN.GROUPS.name,
-          routeParams: { id: groupId },
-        })
-      })
-
-      BddTest().then('it should link each card to the group user detail route', () => {
-        expect(getRouterLinks()[0].props('to')).toEqual({
-          name: ROUTES.STAFF.ADMIN.GROUP.USER.name,
-          params: { userId: 'user-1', groupId },
-        })
-      })
+    BddTest().then('it should pass each user to its card', () => {
+      expect(getCards()[0].props('user')).toEqual(rows[0].user)
+      expect(getCards()[0].props('formations')).toEqual(rows[0].formations)
+      expect(getCards()[0].props('groups')).toEqual(rows[0].groups)
+      expect(getCards()[1].props('user')).toEqual(rows[1].user)
+      expect(getCards()[1].props('formations')).toEqual(rows[1].formations)
+      expect(getCards()[1].props('groups')).toEqual(rows[1].groups)
     })
   })
 

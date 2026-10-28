@@ -35,8 +35,9 @@
       },
       "usersTable": {
         "columns": {
-          "actions": "Actions",
-          "user": "User"
+          "formations": "Programs",
+          "groups": "Groups",
+          "user": "Users"
         }
       },
       "views": {
