@@ -1,8 +1,23 @@
-import type { ExternalUserDetailDTO, ExternalUserDTO, ExternalUserGlobalAuthorizationDTO } from '@/api/avenir-esr'
+import type { EAuthorizationEntityType, ExternalUserDetailDTO, ExternalUserDTO, ExternalUserGlobalAuthorizationDTO, GetExternalUserAuthorizationsParams, PagedResponseContextualAuthorizationDTO } from '@/api/avenir-esr'
 import { http, HttpResponse } from 'msw'
-import { mockExternalUser, mockExternalUserDetail, mockExternalUserDetailWithoutEmail, mockExternalUserWithoutEmail } from '@/__mocks__/fixtures/shared/external-user.fixtures'
-import { ERole, EUniverse, getGetExternalUserByIdUrl, getGetExternalUserUrl, getGetGlobalAuthorizationOfExternalUserUrl } from '@/api/avenir-esr'
+import {
+  createMockedGetExternalUserAuthorizationsResponse,
+  fullUserGlobalAuthorization,
+  mockExternalUser,
+  mockExternalUserDetail,
+  mockExternalUserDetailWithoutEmail,
+  mockExternalUserWithoutEmail,
+  staffUserGlobalAuthorization,
+  studentUserGlobalAuthorization
+} from '@/__mocks__/fixtures/shared/external-user.fixtures'
+import {
+  getGetExternalUserByIdUrl,
+  getGetExternalUserUrl,
+  getGetGlobalAuthorizationOfExternalUserUrl
+
+} from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants/error-codes'
+import { HttpStatusCode } from '@/common/utils/http/http-status'
 
 const getGlobalAuthorizationOfExternalUserHandler = http.get(`*${getGetGlobalAuthorizationOfExternalUserUrl(':id')}`, async ({ params }) => {
   const id = params.id as string | undefined
@@ -21,22 +36,9 @@ const getGlobalAuthorizationOfExternalUserHandler = http.get(`*${getGetGlobalAut
     )
   }
 
-  const staffRoles = [
-    ERole.ROLE_STAFF,
-    ERole.ROLE_STAFF_FEEDBACK_RESPONDER,
-    ERole.ROLE_STAFF_FEEDBACK_SUPERVISOR,
-    ERole.ROLE_STAFF_TRACE_REVIEWER,
-    ERole.ROLE_STAFF_ACTIVITY_AUTHOR,
-    ERole.ROLE_STAFF_ACTIVITY_VIEWER,
-  ]
-  const staffUniverses = [EUniverse.STAFF]
-
   if (id === 'STAFF_ONLY_ID') {
-    const roles = staffRoles
-    const universes = staffUniverses
-
     return HttpResponse.json<ExternalUserGlobalAuthorizationDTO>(
-      { roles, universes },
+      staffUserGlobalAuthorization,
       {
         status: 200,
         headers: {
@@ -45,23 +47,10 @@ const getGlobalAuthorizationOfExternalUserHandler = http.get(`*${getGetGlobalAut
       }
     )
   }
-
-  const studentRoles = [
-    ERole.ROLE_STUDENT,
-    ERole.ROLE_STUDENT_ACTIVITY,
-    ERole.ROLE_STUDENT_EMPLOYMENT_KIT,
-    ERole.ROLE_STUDENT_PORTFOLIO,
-    ERole.ROLE_STUDENT_REFERENCE_DATA,
-    ERole.ROLE_STUDENT_FEEDBACK
-  ]
-  const studentUniverses = [EUniverse.STUDENT]
 
   if (id === 'STUDENT_ONLY_ID') {
-    const roles = studentRoles
-    const universes = studentUniverses
-
     return HttpResponse.json<ExternalUserGlobalAuthorizationDTO>(
-      { roles, universes },
+      studentUserGlobalAuthorization,
       {
         status: 200,
         headers: {
@@ -71,11 +60,8 @@ const getGlobalAuthorizationOfExternalUserHandler = http.get(`*${getGetGlobalAut
     )
   }
 
-  const roles = [...staffRoles, ...studentRoles]
-  const universes = [...staffUniverses, ...studentUniverses]
-
   return HttpResponse.json<ExternalUserGlobalAuthorizationDTO>(
-    { roles, universes },
+    fullUserGlobalAuthorization,
     {
       status: 200,
       headers: {
@@ -125,20 +111,20 @@ const getExternalUserByIdHander = http.get(`*${getGetExternalUserByIdUrl(':id')}
   if (!id) {
     return HttpResponse.json(
       { error: 'User ID is required', code: ErrorCodes.NOT_BLANK },
-      { status: 400 },
+      { status: HttpStatusCode.BAD_REQUEST },
     )
   }
 
   if (id === 'INVALID_USER_ID') {
     return HttpResponse.json(
       { error: 'User not found', code: ErrorCodes.NOT_FOUND },
-      { status: 404 },
+      { status: HttpStatusCode.NOT_FOUND },
     )
   }
 
   if (id === 'NO_EMAIL_USER_ID') {
     return HttpResponse.json<ExternalUserDTO>(mockExternalUserDetailWithoutEmail, {
-      status: 200,
+      status: HttpStatusCode.OK,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -146,15 +132,46 @@ const getExternalUserByIdHander = http.get(`*${getGetExternalUserByIdUrl(':id')}
   }
 
   return HttpResponse.json<ExternalUserDTO>(mockExternalUser, {
-    status: 200,
+    status: HttpStatusCode.OK,
     headers: {
       'Content-Type': 'application/json',
     },
   })
 })
 
+export function createGetExternalUserAuthorizationsHandler (
+  totalElements: number,
+) {
+  return http.get('*/back-office/external-users/:externalUserId/contextual-authorizations', async ({ params, request }) => {
+    const externalUserId = params.externalUserId as string
+
+    if (externalUserId === 'INVALID_USER_ID') {
+      return HttpResponse.json(
+        { error: 'User not found', code: ErrorCodes.NOT_FOUND },
+        { status: HttpStatusCode.NOT_FOUND },
+      )
+    }
+
+    const searchParams = new URL(request.url).searchParams
+
+    const queryParams: GetExternalUserAuthorizationsParams = {
+      page: searchParams.has('page') ? Number(searchParams.get('page')) : undefined,
+      pageSize: searchParams.has('pageSize') ? Number(searchParams.get('pageSize')) : undefined,
+      entityType: searchParams.get('entityType') as EAuthorizationEntityType,
+    }
+
+    return HttpResponse.json<PagedResponseContextualAuthorizationDTO>(
+      createMockedGetExternalUserAuthorizationsResponse(queryParams, totalElements),
+      { status: HttpStatusCode.OK },
+    )
+  },)
+}
+
+const getExternalUserAuthorizationsHandler = createGetExternalUserAuthorizationsHandler(30)
+
 export const externalUserHandlers = [
   getGlobalAuthorizationOfExternalUserHandler,
   getExternalUserHander,
-  getExternalUserByIdHander
+  getExternalUserByIdHander,
+  getExternalUserAuthorizationsHandler
 ]

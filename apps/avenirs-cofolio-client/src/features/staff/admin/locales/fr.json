@@ -26,8 +26,8 @@
       },
       "groupsTable": {
         "columns": {
-          "name": "Groupe",
           "institutionName": "Établissement",
+          "name": "Groupe",
           "parentName": "Rattaché à",
           "type": "Type",
           "usersCount": "Nombre de membres"
@@ -108,12 +108,37 @@
         },
         "InstitutionUserDetailedView": {
           "components": {
+            "badges": {
+              "AuthorizationTypeBadge": {
+                "EDIT": "Éditeur(rice)",
+                "EVALUATION": "Évaluateur(rice)",
+                "FEEDBACK": "Référent(e) feedbacks",
+                "LEADER": "Responsable",
+                "MANAGE_AUTHORIZATIONS": "Gestionnaire autorisations",
+                "PUBLISH": "Publieur(se)"
+              }
+            },
             "dataDisplay": {
+              "UserContextualAuthorizationsTable": {
+                "authorizationDescriptions": {
+                  "EDIT": "Peut éditer l'entité",
+                  "EVALUATION": "Peut évaluer l'entité",
+                  "FEEDBACK": "Peut donner des feedbacks sur l'entité",
+                  "LEADER": "Responsable de l'entité",
+                  "MANAGE_AUTHORIZATIONS": "Peut gérer les autorisations de l'entité",
+                  "PUBLISH": "Peut publier l'entité"
+                },
+                "columns": {
+                  "authorization": "Autorisation",
+                  "authorizationDescription": "Description",
+                  "entityName": "Entité"
+                }
+              },
               "UserDetailsTable": {
                 "columns": {
-                  "user": "Utilisateur(rice)",
                   "institution": "Établissement de rattachement",
-                  "universes": "Univers accessible(s)"
+                  "universes": "Univers accessible(s)",
+                  "user": "Utilisateur(rice)"
                 }
               },
               "UserGroupsTable": {
@@ -127,8 +152,8 @@
               },
               "UserPermissionsTable": {
                 "columns": {
-                  "name": "Permission",
-                  "description": "Description"
+                  "description": "Description",
+                  "name": "Permission"
                 }
               }
             },
@@ -162,6 +187,7 @@
                 "emptyStateMessage": "Aucune permission",
                 "tabs": {
                   "contextual": {
+                    "info": "La pagination permet de naviguer entre les différentes entités et non pas entre les différentes autorisations",
                     "title": "Autorisations contextuelles"
                   },
                   "notContextual": {
@@ -171,6 +197,20 @@
               },
               "UserProgramsSection": {
                 "emptyStateMessage": "Aucune formation"
+              }
+            },
+            "selects": {
+              "AuthorizationEntityTypeSelect": {
+                "label": "Type d'entité",
+                "placeholder": "Sélectionnez un type d'entité",
+                "options": {
+                  "ACTIVITY": {
+                    "label": "Activité"
+                  },
+                  "ACTIVITY_DRAFT": {
+                    "label": "Brouillon d'activité"
+                  }
+                }
               }
             }
           }
