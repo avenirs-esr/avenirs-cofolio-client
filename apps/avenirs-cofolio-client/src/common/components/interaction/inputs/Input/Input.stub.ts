@@ -32,6 +32,7 @@ export const InputStub = defineComponent({
         @input="$emit('update:modelValue', $event.target.value)"
       />
       <span data-testid="maxlength-caption">{{ modelValue?.length || 0 }} / {{ maxlength }} caractères (espaces compris)</span>
+      <slot name="suffix" />
     </div>
   `
 })
