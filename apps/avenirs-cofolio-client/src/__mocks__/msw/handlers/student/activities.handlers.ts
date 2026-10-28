@@ -1,5 +1,6 @@
-import type { ActivityNavigationDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, EActivityThematic, ESortField, ESortOrder, GetDeclaredActivitiesViewParams, PagedResponseActivityOverviewDTO, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
+import type { BaseApiException } from '@avenirs-esr/shared'
+import type { ActivityNavigationDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, PagedResponseActivityOverviewDTO, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import { delay, http, HttpResponse } from 'msw'
 import {
   activitiesNavigationMock,
@@ -35,8 +36,6 @@ import {
   getUpdateReflectionUrl
 
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants'
-import { HttpStatusCode } from '@/common/utils'
 import { PERSPECTIVE_MAX_LENGTH } from '@/features/student/activities/views/ActivityView/components/cards/MyPerspectiveCard/config'
 
 const subscribedActivities = new Set<string>()

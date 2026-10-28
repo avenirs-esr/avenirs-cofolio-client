@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import { AvIconText, AvTab, AvTabs } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'

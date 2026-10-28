@@ -1,4 +1,4 @@
-import type { BaseApiException } from '@/common/exceptions'
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { DeclaredSkillFormData } from '@/features/student/declaredSkills/components/overlays/AddDeclaredSkillDrawer/types'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'

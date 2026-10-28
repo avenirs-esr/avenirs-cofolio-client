@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BaseApiException } from '@/common/exceptions'
+import type { BaseApiException } from '@avenirs-esr/shared'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { ErrorMessage, Loader } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'

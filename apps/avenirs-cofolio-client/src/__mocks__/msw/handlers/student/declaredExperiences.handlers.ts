@@ -1,4 +1,5 @@
 import type { DeclaredExperienceViewDTO, EExperienceType, GetDeclaredExperienceViewParams, PagedResponseDeclaredExperienceViewDTO } from '@/api/avenir-esr'
+import { ErrorCodes } from '@avenirs-esr/shared'
 import { delay, http, HttpResponse } from 'msw'
 import {
   searchDeclaredExperienceById
@@ -19,7 +20,6 @@ import {
   getGetDeclaredExperienceViewUrl
 
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants'
 
 export const declaredExperiencesQueryHandler = http.get(`*${getGetDeclaredExperienceViewUrl()}`, async ({ request }) => {
   const url = new URL(request.url)

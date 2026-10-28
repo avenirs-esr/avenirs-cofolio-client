@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BaseApiException } from '@/common/exceptions'
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ActivityDuplicationFormData } from '@/features/staff/activities/types/forms.types'
 import { useForm } from '@tanstack/vue-form'
 import { useI18n } from 'vue-i18n'

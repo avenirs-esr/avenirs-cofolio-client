@@ -1,7 +1,6 @@
-import type { BaseApiException } from '@/exceptions'
-import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
+import type { BaseApiException } from '@avenirs-esr/shared'
+import { AvIsoLocaleMap, createCustomFetch, FetchInterceptorManager } from '@avenirs-esr/shared'
 import { i18n } from '@/plugins/vue-i18n'
-import { AvIsoLocaleMap } from '@/types'
 
 const interceptorManager = new FetchInterceptorManager()
 

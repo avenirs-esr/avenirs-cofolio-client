@@ -1,5 +1,6 @@
 import type { PathParams } from 'msw'
 import type { ProfileOverviewDTO, QuickLinksDTO } from '@/api/avenir-esr'
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import { http, HttpResponse } from 'msw'
 import { mockedStaffProfileOverview, mockedStaffQuickLinks } from '@/__mocks__/fixtures/staffs/user.fixtures'
 import { quickLinksState } from '@/__mocks__/msw/common/quickLinks.state'
@@ -9,8 +10,6 @@ import {
   getGetQuickLinksUrl
 
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants'
-import { HttpStatusCode } from '@/common/utils'
 
 export const getStaffProfileErrorHandler = http.get(`*${getGetProfileUrl(EUserCategory.STAFF)}`, () => {
   return HttpResponse.json(

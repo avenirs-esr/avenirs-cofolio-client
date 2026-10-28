@@ -1,6 +1,6 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { PropType } from 'vue'
 import type { ExternalUserDetailDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 
 export const UserPermissionsSectionStub = defineComponent({
   name: 'UserPermissionsSection',

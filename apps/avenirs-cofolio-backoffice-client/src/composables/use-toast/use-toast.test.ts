@@ -1,9 +1,9 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { Ref } from 'vue'
-import type { BaseApiException } from '@/exceptions'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BaseApiErrorCode } from '@avenirs-esr/shared'
 import { beforeEach, expect, vi } from 'vitest'
 import { useBaseApiExceptionToast } from '@/composables/use-toast/use-toast'
-import { BaseApiErrorCode } from '@/exceptions'
 import { mountComposable } from '@/tests/utils'
 
 const mockAddErrorMessage = vi.fn()

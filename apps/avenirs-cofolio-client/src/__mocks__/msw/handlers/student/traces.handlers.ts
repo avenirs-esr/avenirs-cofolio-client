@@ -1,6 +1,7 @@
 import type { PathParams } from 'msw'
 import type { CreateTraceDTO, FileDTO, PagedResponseTraceViewDTO, TraceConfigurationDTO, TraceDetailDTO, TraceFilter, TraceLockedDeclaredActivitiesDTO, TraceOverviewDTO, TracesCreationResponse, TracesSummaryDTO, TracesViewParams, UpdateTraceDTO } from '@/api/avenir-esr'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import { delay, http, HttpResponse } from 'msw'
 import {
   createDeletedTraceIdMock,
@@ -30,8 +31,6 @@ import {
   getUploadAttachmentUrl
 
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants'
-import { HttpStatusCode } from '@/common/utils'
 
 export function createTracesSummaryHandler (payload: TracesSummaryDTO) {
   return http.get(`*${getGetTracesSummaryUrl()}`, () => {

@@ -1,5 +1,5 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ComputedRef } from 'vue'
-import type { BaseApiException } from '@/common/exceptions'
 import type { TraceFormData } from '@/features/student/traces/types/traces.types'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'

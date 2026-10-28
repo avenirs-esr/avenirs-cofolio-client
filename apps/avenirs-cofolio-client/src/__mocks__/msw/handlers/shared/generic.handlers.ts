@@ -1,10 +1,9 @@
 import type { PathParams } from 'msw'
 import type { LoggedInUserDTO } from '@/api/avenir-esr'
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import { http, HttpResponse } from 'msw'
 import { mockedAcceptedCgu } from '@/__mocks__/fixtures/shared/cgu.fixtures'
 import { ERole, EUniverse, getGetMeUrl } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants'
-import { HttpStatusCode } from '@/common/utils/http/http-status'
 
 export const mockedLoggedInUser: LoggedInUserDTO = {
   roles: Object.values(ERole),

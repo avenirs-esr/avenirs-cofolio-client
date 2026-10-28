@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { TraceDetailDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import { AvButton, MDI_ICONS, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { useDownloadAttachment } from '@/api/avenir-esr'

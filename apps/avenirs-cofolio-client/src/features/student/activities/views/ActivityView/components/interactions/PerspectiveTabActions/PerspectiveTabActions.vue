@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { EActivityStatus, EDeclaredActivityStatus, EFeedbackStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useAskForFeedback, useFinish, useSubmitForAssessment } from '@/api/avenir-esr'

@@ -1,4 +1,4 @@
-import type { BaseApiException } from '@/exceptions'
+import type { BaseApiException } from '@avenirs-esr/shared'
 
 export interface MutationArgs<TData = unknown, TVariables = unknown, TError = BaseApiException> {
   onSuccess?: (data: TData, variables: TVariables) => void | Promise<void>

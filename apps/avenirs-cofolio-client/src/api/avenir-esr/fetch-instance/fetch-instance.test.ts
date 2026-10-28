@@ -1,11 +1,10 @@
+import type { FetchOptions, ResponseInterceptorContext } from '@avenirs-esr/shared'
 import type { MockedFunction } from 'vitest'
-import type { FetchOptions, ResponseInterceptorContext } from '@/api/fetch'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { createCustomFetch, FetchInterceptorManager, HttpStatusCode } from '@avenirs-esr/shared'
 import { flushPromises } from '@vue/test-utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
-import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
 import { ROUTES } from '@/common/constants'
-import { HttpStatusCode } from '@/common/utils'
 import { SessionCheck } from '@/features/auth/global/stores/auth.store.types'
 
 const mockAddRequestInterceptor = vi.fn()
@@ -22,7 +21,8 @@ function createFetchInterceptorManagerMock () {
   }
 }
 
-vi.mock('@/api/fetch', () => ({
+vi.mock('@avenirs-esr/shared', async importOriginal => ({
+  ...await importOriginal<typeof import('@avenirs-esr/shared')>(),
   createCustomFetch: vi.fn(),
   FetchInterceptorManager: vi.fn(createFetchInterceptorManagerMock),
 }))

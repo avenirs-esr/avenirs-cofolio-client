@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { ErrorMessage } from '@avenirs-esr/shared'
+import { ErrorCodes, ErrorMessage } from '@avenirs-esr/shared'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, useGetAssociations, useGetDeclaredExperience } from '@/api/avenir-esr'
@@ -8,7 +8,7 @@ import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspe
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
-import { ErrorCodes, ICONS } from '@/common/constants'
+import { ICONS } from '@/common/constants'
 import { countElementAssociations, ElementAssociations } from '@/features/student/associations'
 import AssociateModal from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.vue'
 import DeleteAssociationsModal from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.vue'

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { TraceDeclaredActivityDTO } from '@/api/avenir-esr'
 import { AvCancelConfirmButtons, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { BaseApiException } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import {
   EAssociationContextType,
@@ -16,7 +17,6 @@ import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
-import { BaseApiException } from '@/common/exceptions'
 import { useTracesStore } from '@/features/student/traces/stores/traces.store'
 import { useUpdateTraceForm } from '@/features/student/traces/views/StudentTraceView/components/UpdateTraceForm/use-update-trace-form/use-update-trace-form'
 import ConfirmUpdateTraceModal from '@/features/student/traces/views/StudentUpdateTraceView/components/ConfirmUpdateTraceModal/ConfirmUpdateTraceModal.vue'

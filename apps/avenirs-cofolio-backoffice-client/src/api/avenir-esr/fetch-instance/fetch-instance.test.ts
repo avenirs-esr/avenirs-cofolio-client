@@ -1,8 +1,7 @@
 import type { MockedFunction } from 'vitest'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvIsoLocaleMap, createCustomFetch, FetchInterceptorManager } from '@avenirs-esr/shared'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
-import { createCustomFetch, FetchInterceptorManager } from '@/api/fetch'
-import { AvIsoLocaleMap } from '@/types/i18n.types'
 
 const mockLocale = { value: 'fr' }
 
@@ -28,7 +27,8 @@ function createFetchInterceptorManagerMock () {
   }
 }
 
-vi.mock('@/api/fetch', () => ({
+vi.mock('@avenirs-esr/shared', async importOriginal => ({
+  ...await importOriginal<typeof import('@avenirs-esr/shared')>(),
   createCustomFetch: vi.fn(),
   FetchInterceptorManager: vi.fn(createFetchInterceptorManagerMock),
 }))
