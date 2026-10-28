@@ -5,7 +5,7 @@ import type { Component, ComponentInternalInstance } from 'vue'
 import type { BaseApiException } from '@/exceptions'
 import type { AvRoute, MutationArgs } from '@/types'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { createMountComposable } from '@avenirs-esr/test-utils/unit'
+import { createMountComposable } from '@avenirs-esr/shared/test-utils'
 import { useForm } from '@tanstack/vue-form'
 import { flushPromises } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
@@ -16,7 +16,7 @@ import { BaseApiErrorCode } from '@/exceptions'
 import { i18n } from '@/plugins/vue-i18n/vue-i18n'
 import { createMockQueryError } from '@/tests/mocks'
 
-export { mountComponent, mountWithRouter } from '@avenirs-esr/test-utils/unit'
+export { mountComponent, mountWithRouter } from '@avenirs-esr/shared/test-utils'
 
 const mockAddErrorMessage = vi.fn()
 

@@ -1,6 +1,6 @@
 import type { QueryClient } from '@tanstack/vue-query'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent as sharedMountComponent, mountWithRouter as sharedMountWithRouter } from '@avenirs-esr/test-utils/unit'
+import { mountComponent as sharedMountComponent, mountWithRouter as sharedMountWithRouter } from '@avenirs-esr/shared/test-utils'
 import { useQueryClient } from '@tanstack/vue-query'
 import { defineStore } from 'pinia'
 import { mountComponent, mountComposable, mountWithRouter } from 'tests/utils'

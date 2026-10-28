@@ -1,1 +1,1 @@
-export type { BaseApiErrorBody, ErrorDetails } from '@avenirs-esr/shared/exceptions'
+export type { BaseApiErrorBody, ErrorDetails } from '@avenirs-esr/shared'

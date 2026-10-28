@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import type { BaseApiException } from '@/exceptions'
+import { EmptyState } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import EmptyState from '@/components/feedback/EmptyState/EmptyState.vue'
 import ErrorMessage from '@/components/feedback/ErrorMessage/ErrorMessage.vue'
 import Loader from '@/components/Loader/Loader.vue'
 import { useApiErrors } from '@/composables/use-api-errors/use-api-errors'

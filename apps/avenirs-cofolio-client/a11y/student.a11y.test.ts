@@ -2,7 +2,7 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { test } from '@playwright/test'
 import { auditAccessibility, waitMswToStart } from 'a11y/utils'
-import { ROUTES } from '@/common/constants'
+import { ROUTES } from '@/common/constants/route-names'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

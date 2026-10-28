@@ -15,5 +15,4 @@ export { default as Drawer, type DrawerProps } from './overlay/drawers/Drawer/Dr
 export { default as ConfirmationModal, type ConfirmationModalProps } from './overlay/modals/ConfirmationModal/ConfirmationModal.vue'
 export { default as AssociationBadge, type AssociationBadgeProps } from '@/common/components/badges/AssociationBadge/AssociationBadge.vue'
 export { default as EnabledDisabledStatusBadge } from '@/common/components/badges/EnabledDisabledStatusBadge/EnabledDisabledStatusBadge.vue'
-export { default as EmptyState, type EmptyStateProps } from '@/common/components/feedback/EmptyState/EmptyState.vue'
 export { default as SortSelect, type SortSelectProps } from '@/common/components/interaction/selects/SortSelect/SortSelect.vue'

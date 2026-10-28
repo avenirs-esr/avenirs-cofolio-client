@@ -1,1 +1,1 @@
-export * from '@avenirs-esr/shared/api/fetch'
+export * from '@avenirs-esr/shared'
