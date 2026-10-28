@@ -6,7 +6,16 @@ import { i18n, registerFeatureLocales } from './src/plugins/vue-i18n'
 import 'blob-polyfill'
 
 window.matchMedia = function () {
-  return { matches: false }
+  return {
+    matches: false,
+    media: '',
+    onchange: null,
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    addListener: () => {},
+    removeListener: () => {},
+    dispatchEvent: () => false
+  }
 }
 
 setupWarningHandler()
