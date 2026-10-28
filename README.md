@@ -9,7 +9,6 @@ PNPM workspace containing the Cofolio and Backoffice applications.
 - `apps/avenirs-cofolio-client/e2e`: existing E2E package, included in the workspace with its own dependency versions.
 - `apps/avenirs-cofolio-backoffice-client`: Backoffice application, API contract and application-specific tooling.
 - `apps/avenirs-cofolio-backoffice-client/a11y`: Backoffice accessibility suite.
-- `packages/config`: private placeholder; no shared configuration is exported yet.
 - `packages/shared`: shared HTTP engine, exceptions, error codes, locale definitions, OpenAPI contracts and test support, exposed by `@avenirs-esr/shared`.
 - `packages/shared/test-utils`: unit mounting/setup helpers and accessibility audit support, exposed through the shared package's test-utils subpaths.
 - `.github`: repository workflows.
