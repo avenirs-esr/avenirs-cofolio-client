@@ -1,7 +1,7 @@
 import process from 'node:process'
-import { defineConfig, devices } from '@playwright/test'
+import { A11Y_SHARED_CONFIG } from '@avenirs-esr/shared/test-utils'
+import { defineConfig } from '@playwright/test'
 
-export const GLOBAL_TIMEOUT = 60 * 1000
 export default defineConfig({
   testDir: './',
   tsconfig: './tsconfig.json',
@@ -9,20 +9,8 @@ export default defineConfig({
     baseURL: 'http://localhost:4174/cofolio-back-office/',
     headless: !!process.env.CI,
   },
-  timeout: GLOBAL_TIMEOUT,
-  projects: [
-    {
-      name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-      },
-    },
-  ],
-
-  workers: process.env.CI ? 1 : undefined,
-
+  ...A11Y_SHARED_CONFIG,
   outputDir: '.output',
-
   webServer: {
     command: 'pnpm run preview:development --port 4174 --strictPort',
     port: 4174,
