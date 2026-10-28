@@ -1,10 +1,10 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { NotificationDTO } from '@/api/avenir-esr'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { LoaderStub } from '@avenirs-esr/shared/test-utils'
 import { mountComponent } from 'tests/utils'
 import { h } from 'vue'
 import { NotificationDTOType } from '@/api/avenir-esr'
-import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import NotificationsPopoverList from '@/common/notifications/components/NotificationsPopoverList/NotificationsPopoverList.vue'
 
 vi.mock('@vueuse/core', async (importOriginal) => {

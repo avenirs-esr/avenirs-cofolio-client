@@ -1,25 +1,24 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
+import { ErrorMessageStub, LoaderStub } from '@avenirs-esr/shared/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { createMockedDeclaredExperienceAssociationsDTO, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import {
   declaredExperienceDetailedLoadingHandler,
   declaredExperienceDetailedNotFoundHandler,
-  declaredExperiencesHandlers,
+  declaredExperiencesHandlers
 } from '@/__mocks__/msw/handlers/student/declaredExperiences.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EAssociationContextType, EErrorCode } from '@/api/avenir-esr'
-import { ErrorMessageStub } from '@/common/components/feedback/ErrorMessage/ErrorMessage.stub'
-import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { ROUTES } from '@/common/constants'
 import { ElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
-import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
-import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
-import { DeleteDeclaredExperienceConfirmModalStub } from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.stub'
-import { DeclaredExperienceDetailsDropdownStub } from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.stub'
+import { DeleteDeclaredExperienceConfirmModalStub }
+  from '@/features/student/personalCareer/components/overlays/DeleteDeclaredExperienceConfirmModal/DeleteDeclaredExperienceConfirmModal.stub'
+import {
+  DeclaredExperienceDetailsDropdownStub
+} from '@/features/student/personalCareer/views/DeclaredExperienceView/components/DeclaredExperienceDetailsDropdown/DeclaredExperienceDetailsDropdown.stub'
 import DeclaredExperienceView from '@/features/student/personalCareer/views/DeclaredExperienceView/DeclaredExperienceView.vue'
 
 const navigateToStudentUpdateDeclaredExperience = vi.fn()
@@ -83,9 +82,7 @@ const stubs = {
   DeclaredExperienceDetailsDropdown: DeclaredExperienceDetailsDropdownStub,
   DeleteDeclaredExperienceConfirmModal: DeleteDeclaredExperienceConfirmModalStub,
   AvTabs: AvTabsStub,
-  AvTab: AvTabStub,
-  AssociateModal: AssociateModalStub,
-  DeleteAssociationsModal: DeleteAssociationsModalStub
+  AvTab: AvTabStub
 }
 
 BddTest().given('a declared experience view component', () => {
@@ -171,6 +168,7 @@ BddTest().given('a declared experience view component', () => {
         expect(elementAssociations.props('elementId')).toBe('exp-123')
         expect(elementAssociations.props('associations')).toEqual(mockedAssociations)
         expect(elementAssociations.props('error')).toBeNull()
+        expect(elementAssociations.props('readonly')).toBe(false)
       })
     })
 
@@ -356,7 +354,6 @@ BddTest().given('a declared experience view component', () => {
       vi.clearAllMocks()
       route.params.id = 'EXP_WITHOUT_ASSOCIATIONS'
       await mountComponentWithDefaults()
-      await flushPromises()
     })
 
     BddTest().then('it should render ElementAssociations with empty associations', async () => {

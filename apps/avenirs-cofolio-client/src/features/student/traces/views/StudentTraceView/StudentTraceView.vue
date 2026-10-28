@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { BaseApiException } from '@/common/exceptions'
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ErrorMessage, Loader } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, useDownloadAttachment, useGetAssociations, useGetTraceDetail } from '@/api/avenir-esr'
-import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
-import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'

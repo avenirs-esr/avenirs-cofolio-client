@@ -3,6 +3,7 @@ import type { MyPerspectiveSectionProps } from '@/features/student/activities/vi
 import type { ElementAssociationsProps } from '@/features/student/associations'
 import type { AssociationLimitState } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 import { AvTabsStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { LoaderStub } from '@avenirs-esr/shared/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { isObject } from '@vueuse/core'
 import { mountComponent } from 'tests/utils'
@@ -11,8 +12,7 @@ import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/acti
 import { mockedDeclaredActivityAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { getAssociationsErrorHandler } from '@/__mocks__/msw/handlers/student/associations.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EAssociationContextType, EErrorCode } from '@/api/avenir-esr'
-import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
+import { EAssociationContextType, EDeclaredActivityStatus, EErrorCode } from '@/api/avenir-esr'
 import { ErrorCodes } from '@/common/constants'
 import { ACTIVITY_TRACE_SETTING_DISABLED_VALUE, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 import { TraceAssociationLimitCardStub } from '@/features/student/activities/views/ActivityView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.stub'
@@ -22,7 +22,9 @@ import { MyPerspectiveTabStub } from '@/features/student/activities/views/Activi
 import { createElementAssociationsStub } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.stub'
 import { UNKNOWN_ASSOCIATION_LIMIT } from '@/features/student/associations/composables/use-association-limit/use-association-limit'
 
+const UNSUBSCRIBED_TOOLTIP = 'Vous ne pouvez plus modifier les associations car vous vous êtes désinscrit(e) de l\'activité'
 const TITLE = 'Mes éléments associés ({count})'
+const SUBMITTED_TOOLTIP = 'Vous ne pouvez plus modifier les associations car vous avez soumis votre activité'
 
 const defaultProps: ComponentMountingOptions<typeof MyPerspectiveSection>['props'] = {
   declaredActivityDetails: mockedDeclaredActivityDetails
@@ -189,6 +191,13 @@ BddTest().given('a my perspective section', () => {
           error: null
         })
       })
+
+      BddTest().then('it should neither disable the association actions nor make the element associations readonly', async () => {
+        await expectActions({
+          actionsDisabled: false,
+          readonly: false
+        })
+      })
     })
   })
 
@@ -344,6 +353,71 @@ BddTest().given('a my perspective section', () => {
 
     BddTest().then('it should not render the trace association limit card', () => {
       expectNoTraceLimitCard()
+    })
+  })
+
+  BddTest().when('the component is mounted with a subscribed declared activity', () => {
+    beforeEach(async () => {
+      await mountOnAssociatedElementsTab({
+        declaredActivityDetails: {
+          ...defaultProps.declaredActivityDetails,
+          status: EDeclaredActivityStatus.IN_PROGRESS
+        }
+      })
+    })
+
+    BddTest().then('it should not disable the association actions', async () => {
+      await expectActions({
+        actionsDisabled: false
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted with an unsubscribed declared activity', () => {
+    beforeEach(async () => {
+      await mountOnAssociatedElementsTab({
+        declaredActivityDetails: {
+          ...defaultProps.declaredActivityDetails,
+          status: EDeclaredActivityStatus.UNSUBSCRIBED
+        }
+      })
+    })
+
+    BddTest().then('it should disable the association actions and explain why', async () => {
+      await expectActions({
+        actionsDisabled: true,
+        actionsDisabledTooltip: UNSUBSCRIBED_TOOLTIP
+      })
+    })
+
+    BddTest().then('it should keep the associated elements visible', async () => {
+      await expectActions({
+        readonly: false
+      })
+    })
+  })
+
+  BddTest().when('the component is mounted with a submitted declared activity', () => {
+    beforeEach(async () => {
+      await mountOnAssociatedElementsTab({
+        declaredActivityDetails: {
+          ...defaultProps.declaredActivityDetails,
+          status: EDeclaredActivityStatus.SUBMITTED
+        }
+      })
+    })
+
+    BddTest().then('it should disable the association actions and explain why', async () => {
+      await expectActions({
+        actionsDisabled: true,
+        actionsDisabledTooltip: SUBMITTED_TOOLTIP
+      })
+    })
+
+    BddTest().then('it should keep the associated elements visible', async () => {
+      await expectActions({
+        readonly: false
+      })
     })
   })
 })

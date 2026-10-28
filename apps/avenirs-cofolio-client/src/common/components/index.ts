@@ -1,7 +1,6 @@
 export { default as Rating, type RatingProps } from './base/Rating/Rating.vue'
 export { default as ProfileCard, type ProfileCardProps } from './cards/ProfileCard/ProfileCard.vue'
 export { default as CreationUpdateDateDetails, type CreationUpdateDateDetailsProps } from './CreationUpdateDateDetails/CreationUpdateDateDetails.vue'
-export { default as Loader, type LoaderColor, type LoaderProps, type LoaderSize } from './feedback/Loader/Loader.vue'
 export { default as QuerySuspense, type QuerySuspenseProps } from './feedback/QuerySuspense/QuerySuspense.vue'
 export { default as Footer } from './Footer/Footer.vue'
 export { default as FormCancelConfirmButtons, type FormCancelConfirmButtonsProps } from './interaction/buttons/FormCancelConfirmButtons/FormCancelConfirmButtons.vue'
