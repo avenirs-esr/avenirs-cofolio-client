@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { UsersOverviewCardUserType } from '@/features/staff/admin/types/users.types'
+import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
 import { toFullName } from '@/common/utils/user/user'
 
 export interface UserNameProps {
-  user: UsersOverviewCardUserType
+  user: UserInfoType
   withNav?: boolean
 }
 

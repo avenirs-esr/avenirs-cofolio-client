@@ -1,5 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
-import type { UsersOverviewCardUserType } from '@/features/staff/admin/types/users.types'
+import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { RouterLinkStub } from '@vue/test-utils'
 import { mountWithRouter } from 'tests/utils'
@@ -32,7 +32,7 @@ vi.mock('@/common/composables/use-identify-route/use-identitfy-route', () => ({
 BddTest().given('a user name component', () => {
   let wrapper: VueWrapper<InstanceType<typeof UserName>>
 
-  const mockUser: UsersOverviewCardUserType = {
+  const mockUser: UserInfoType = {
     id: 'user-1',
     firstName: 'ALICE',
     lastName: 'DUPONT',
@@ -42,7 +42,7 @@ BddTest().given('a user name component', () => {
   const stubs = { RouterLink: RouterLinkStub }
 
   const mountWith = async (options: {
-    user?: UsersOverviewCardUserType
+    user?: UserInfoType
     withNav?: boolean
   } = {}) => {
     const { user = mockUser, withNav = false } = options
