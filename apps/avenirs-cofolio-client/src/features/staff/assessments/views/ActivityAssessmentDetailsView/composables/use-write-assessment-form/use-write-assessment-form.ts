@@ -1,6 +1,6 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { MaybeRef } from 'vue'
 import type { DeclaredActivityAssessmentDetailsDTO, DeclaredActivityAssessmentRequest } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import type { WriteAssessmentFormApi, WriteAssessmentFormData } from '@/features/staff/assessments/types/forms.types'
 import { useForm } from '@tanstack/vue-form'
 import { useQueryClient } from '@tanstack/vue-query'

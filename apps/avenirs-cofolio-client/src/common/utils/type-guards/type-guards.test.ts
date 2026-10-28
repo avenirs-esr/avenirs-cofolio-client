@@ -1,41 +1,51 @@
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { hasStringField } from '@/common/utils/type-guards/type-guards'
+import { isEnumMember } from '@/common/utils/type-guards/type-guards'
 
-BddTest().given('a hasStringField checker', () => {
-  BddTest().when('the field exists', () => {
-    BddTest().and('is a string', () => {
-      BddTest().then('it should return true', () => {
-        const obj = { name: 'Alice' }
-        expect(hasStringField(obj, 'name')).toBe(true)
-      })
-    })
+enum EColor {
+  RED = 'red',
+  BLUE = 'blue'
+}
 
-    BddTest().and('is not a string', () => {
-      BddTest().then('it should return false', () => {
-        const obj = { age: 30 }
-        expect(hasStringField(obj, 'age')).toBe(false)
-      })
+BddTest().given('an isEnumMember checker with a string enum', () => {
+  BddTest().when('the value is one of the enum values', () => {
+    BddTest().then('it should return true', () => {
+      expect(isEnumMember(EColor, 'red')).toBe(true)
+      expect(isEnumMember(EColor, 'blue')).toBe(true)
     })
   })
 
-  BddTest().when('the field does not exist', () => {
+  BddTest().when('the value is an enum key but not an enum value', () => {
     BddTest().then('it should return false', () => {
-      const obj = { age: 30 }
-      expect(hasStringField(obj, 'name')).toBe(false)
+      expect(isEnumMember(EColor, 'RED')).toBe(false)
     })
   })
 
-  BddTest().when('the obj is null', () => {
+  BddTest().when('the value differs only by case', () => {
     BddTest().then('it should return false', () => {
-      expect(hasStringField(null, 'name')).toBe(false)
+      expect(isEnumMember(EColor, 'Red')).toBe(false)
     })
   })
 
-  BddTest().when('the obj is not an object', () => {
+  BddTest().when('the value is not in the enum', () => {
     BddTest().then('it should return false', () => {
-      expect(hasStringField(42, 'name')).toBe(false)
-      expect(hasStringField('test', 'name')).toBe(false)
-      expect(hasStringField(undefined, 'name')).toBe(false)
+      expect(isEnumMember(EColor, 'green')).toBe(false)
+      expect(isEnumMember(EColor, '')).toBe(false)
+    })
+  })
+
+  BddTest().when('the enum is empty', () => {
+    BddTest().then('it should return false', () => {
+      expect(isEnumMember({}, 'red')).toBe(false)
+    })
+  })
+
+  BddTest().when('the value matches', () => {
+    BddTest().then('it should narrow the value type', () => {
+      const value: string = 'blue'
+      if (isEnumMember(EColor, value)) {
+        expectTypeOf(value).toEqualTypeOf<EColor>()
+      }
+      expect(isEnumMember(EColor, value)).toBe(true)
     })
   })
 })

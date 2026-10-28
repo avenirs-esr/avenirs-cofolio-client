@@ -5,8 +5,8 @@ import type { WriteAssessmentFormData } from '@/features/staff/assessments/types
 import type { AssessmentManagementFloatingPanelProps } from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/overlays/AssessmentManagementFloatingPanel/AssessmentManagementFloatingPanel.vue'
 import { MDI_ICONS, MS_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, AvButtonStub, AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
-import { mountComponent } from 'tests/utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import {
   mockedAssessmentDetailsCommentOnly,
