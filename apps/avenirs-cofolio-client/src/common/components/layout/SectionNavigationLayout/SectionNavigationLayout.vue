@@ -17,8 +17,8 @@ import type {
   SectionSelection,
 } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
 import { AvSelect, getAvSelectSelectedOption, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
+import { Loader } from '@avenirs-esr/shared'
 import { markRaw } from 'vue'
-import Loader from '@/common/components/feedback/Loader/Loader.vue'
 import SideNavigation from '@/common/components/navigation/SideNavigation/SideNavigation.vue'
 
 export interface SectionNavigationLayoutProps<TComponents extends Record<string, Component>> {

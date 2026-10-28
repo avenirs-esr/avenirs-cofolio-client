@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Slot } from 'vue'
 import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { computed } from 'vue'
 
 export type LoaderColor = 'primary' | 'accent' | 'success' | 'info' | 'warn' | 'error' | 'neutral'
 export type LoaderSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '4xl'

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { ESelfKnowledgeCategory } from '@/api/avenir-esr'
 import { toSentenceCase } from '@avenirs-esr/avenirs-dsav'
+import { ErrorMessage } from '@avenirs-esr/shared'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { invalidateGetSelfKnowledgeElements, useDeleteSelfKnowledgeElements, useGetSelfKnowledgeElementDetails } from '@/api/avenir-esr'
-import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import ConfirmationModal from '@/common/components/overlay/modals/ConfirmationModal/ConfirmationModal.vue'

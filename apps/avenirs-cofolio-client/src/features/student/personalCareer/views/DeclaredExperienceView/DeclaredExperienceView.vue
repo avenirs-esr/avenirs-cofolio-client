@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ErrorMessage } from '@avenirs-esr/shared'
 import { keepPreviousData } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, useGetAssociations, useGetDeclaredExperience } from '@/api/avenir-esr'
-import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'

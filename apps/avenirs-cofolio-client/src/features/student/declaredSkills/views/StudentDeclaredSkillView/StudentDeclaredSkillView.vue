@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { AvTab, AvTabs, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
+import { ErrorMessage } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
 import { EAssociationContextType, useGetAssociations, useGetSkillProgressDetails } from '@/api/avenir-esr'
-import ErrorMessage from '@/common/components/feedback/ErrorMessage/ErrorMessage.vue'
 import DetailedPageTitle from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.vue'
 import { useModal, useNavigation } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'

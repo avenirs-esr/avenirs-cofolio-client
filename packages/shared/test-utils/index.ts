@@ -1,4 +1,6 @@
 export { EmptyStateStub } from '../src/ui/components/feedback/EmptyState/EmptyState.stub'
+export { ErrorMessageStub } from '../src/ui/components/feedback/ErrorMessage/ErrorMessage.stub'
+export { LoaderStub } from '../src/ui/components/feedback/Loader/Loader.stub'
 export * from './a11y'
 export * from './unit'
 export * from './unit/setup/msw'

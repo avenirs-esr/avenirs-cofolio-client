@@ -1,11 +1,11 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { LoaderStub } from '@avenirs-esr/shared/test-utils'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { EActivityThematic } from '@/api/avenir-esr'
-import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import { SideNavigationStub } from '@/common/components/navigation/SideNavigation/SideNavigation.stub'
 import ActivitiesSideNavigation from '@/features/student/activities/views/ActivitiesCatalogView/components/ActivitiesSideNavigation/ActivitiesSideNavigation.vue'
 

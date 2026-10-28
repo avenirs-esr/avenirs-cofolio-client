@@ -29,7 +29,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json-summary'],
-      include: ['src/**/*.ts', 'test-utils/**/*.ts'],
+      include: ['src/**/*.{ts,vue}', 'test-utils/**/*.ts'],
       exclude: ['**/*.test.ts', 'src/api/generated/**', 'src/api/fetch/types.ts', 'src/exceptions/types.ts'],
       thresholds: {
         branches: 85,

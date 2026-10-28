@@ -1,12 +1,12 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { LoaderStub } from '@avenirs-esr/shared/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { activityNavigationQueryError } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
 import { EActivityThematic } from '@/api/avenir-esr'
-import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import { ROUTES } from '@/common/constants/route-names'
 import ActivitiesPreviousNextNavigation from '@/features/student/activities/views/ActivitiesCatalogView/components/ActivitiesPreviousNextNavigation/ActivitiesPreviousNextNavigation.vue'
 

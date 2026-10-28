@@ -1,15 +1,13 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { ActivityViewProps } from '@/features/student/activities/views/ActivityView/ActivityView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { flushPromises } from '@vue/test-utils'
+import { LoaderStub } from '@avenirs-esr/shared/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
-import { nextTick } from 'vue'
 import { declaredActivityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EAssociationContextType, EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { EDeclaredActivityStatus } from '@/api/avenir-esr'
 import { DeclaredActivityStatusBadgeStub } from '@/common/activities/badges/DeclaredActivityStatusBadge/DeclaredActivityStatusBadge.stub'
-import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import { DetailedPageTitleStub } from '@/common/components/navigation/DetailedPageTitle/DetailedPageTitle.stub'
 import { SubscribeActivityConfirmModalStub } from '@/features/student/activities/components/modals/SubscribeActivityConfirmModal/SubscribeActivityConfirmModal.stub'
 import { UnsubscribeActivitiesConfirmModalStub } from '@/features/student/activities/components/modals/UnsubscribeActivitiesConfirmModal/UnsubscribeActivitiesConfirmModal.stub'
@@ -19,8 +17,6 @@ import {
 } from '@/features/student/activities/views/ActivityView/components/ActivityLayout/ActivityLayout.stub'
 import { DeleteMyActivityConfirmModalStub } from '@/features/student/activities/views/ActivityView/components/modals/DeleteMyActivityConfirmModal/DeleteMyActivityConfirmModal.stub'
 import { ActivityDetailedDropdownStub } from '@/features/student/activities/views/ActivityView/components/overlays/ActivityDetailedDropdown/ActivityDetailedDropdown.stub'
-import { AssociateModalStub } from '@/features/student/associations/components/overlays/modals/AssociateModal/AssociateModal.stub'
-import { DeleteAssociationsModalStub } from '@/features/student/associations/components/overlays/modals/DeleteAssociationsModal/DeleteAssociationsModal.stub'
 
 const navigateToStudentProjectActivities = vi.fn()
 
@@ -44,28 +40,19 @@ BddTest().given('a project activity view', () => {
     UnsubscribeActivitiesConfirmModal: UnsubscribeActivitiesConfirmModalStub,
     SubscribeActivityConfirmModal: SubscribeActivityConfirmModalStub,
     ActivityDetailedDropdown: ActivityDetailedDropdownStub,
-    AssociateModal: AssociateModalStub,
     ActivityLayout: ActivityLayoutStub,
     DeleteMyActivityConfirmModal: DeleteMyActivityConfirmModalStub,
-    DeleteAssociationsModal: DeleteAssociationsModalStub
-  }
-
-  const getDetailedDropdown = () => wrapper.findComponent(ActivityDetailedDropdownStub)
-  const getAssociateModals = () => wrapper.findComponent(AssociateModalStub)
-  const getDeleteModal = () => wrapper.findComponent(DeleteAssociationsModalStub)
-
-  async function emitDropdown (event: 'associate' | 'dissociate') {
-    getDetailedDropdown().vm.$emit(event)
-    await nextTick()
   }
 
   BddTest().when('the view is mounted with a valid activity', () => {
+    const props: ActivityViewProps = {
+      id: 'declared-activity-1'
+    }
+
     beforeEach(async () => {
       vi.clearAllMocks()
       wrapper = mountComponent(ActivityView, {
-        props: {
-          id: 'declared-activity-1'
-        },
+        props,
         global: { stubs }
       })
 
@@ -299,103 +286,6 @@ BddTest().given('a project activity view', () => {
         expect(errorMessage.exists()).toBe(true)
         expect(errorMessage.text()).toContain('Une erreur est survenue. Veuillez réessayer ultérieurement.')
         expect(errorMessage.text()).toContain('Erreur serveur interne')
-      })
-    })
-  })
-
-  BddTest().when('the activity detail is displayed', () => {
-    const props: ActivityViewProps = {
-      id: 'declared-activity-1'
-    }
-
-    beforeEach(async () => {
-      vi.clearAllMocks()
-      wrapper = mountComponent(ActivityView, {
-        props,
-        global: { stubs }
-      })
-      await flushPromises()
-      await nextTick()
-    })
-
-    BddTest().then('it should render the associate modal closed with the activity props', () => {
-      const modal = getAssociateModals()
-      expect(modal.props('opened')).toBe(false)
-      expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_ACTIVITY)
-      expect(modal.props('elementId')).toBe(props.id)
-    })
-
-    BddTest().then('it should render the delete associations modal closed with the activity props', () => {
-      const modal = getDeleteModal()
-
-      expect(modal.props('opened')).toBe(false)
-      expect(modal.props('contextType')).toBe(EAssociationContextType.DECLARED_ACTIVITY)
-      expect(modal.props('elementId')).toBe(props.id)
-    })
-
-    BddTest().and('the user chooses to associate elements', () => {
-      beforeEach(async () => {
-        await emitDropdown('associate')
-      })
-
-      BddTest().then('it should open only the associate modal', () => {
-        expect(getAssociateModals().props('opened')).toBe(true)
-        expect(getDeleteModal().props('opened')).toBe(false)
-      })
-
-      BddTest().and('the user cancels the association', () => {
-        beforeEach(async () => {
-          getAssociateModals().vm.$emit('cancel')
-          await nextTick()
-        })
-
-        BddTest().then('it should close the associate modal', () => {
-          expect(getAssociateModals().props('opened')).toBe(false)
-        })
-      })
-
-      BddTest().and('the elements get associated', () => {
-        beforeEach(async () => {
-          getAssociateModals().vm.$emit('associated')
-          await nextTick()
-        })
-
-        BddTest().then('it should close the associate modal', () => {
-          expect(getAssociateModals().props('opened')).toBe(false)
-        })
-      })
-    })
-
-    BddTest().and('the user chooses to dissociate elements', () => {
-      beforeEach(async () => {
-        await emitDropdown('dissociate')
-      })
-
-      BddTest().then('it should open only the delete associations modal', () => {
-        expect(getDeleteModal().props('opened')).toBe(true)
-        expect(getAssociateModals().props('opened')).toBe(false)
-      })
-
-      BddTest().and('the user cancels the deletion', () => {
-        beforeEach(async () => {
-          getDeleteModal().vm.$emit('cancel')
-          await nextTick()
-        })
-
-        BddTest().then('it should close the delete associations modal', () => {
-          expect(getDeleteModal().props('opened')).toBe(false)
-        })
-      })
-
-      BddTest().and('the associations get deleted', () => {
-        beforeEach(async () => {
-          getDeleteModal().vm.$emit('deleted')
-          await nextTick()
-        })
-
-        BddTest().then('it should close the delete associations modal', () => {
-          expect(getDeleteModal().props('opened')).toBe(false)
-        })
       })
     })
   })

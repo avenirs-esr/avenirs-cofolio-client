@@ -14,3 +14,11 @@ const { removeMessage } = toasterStore
     :on-remove-message="removeMessage"
   />
 </template>
+
+<style lang="scss">
+.loader {
+  .av-icon {
+    filter: drop-shadow(0 0 2px var(--other-background-base));
+  }
+}
+</style>

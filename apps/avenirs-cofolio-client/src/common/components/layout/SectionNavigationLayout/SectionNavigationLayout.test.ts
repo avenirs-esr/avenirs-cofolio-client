@@ -1,10 +1,10 @@
 import type { Component } from 'vue'
 import type { SectionNavigationItem } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
 import { AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { LoaderStub } from '@avenirs-esr/shared/test-utils'
 import { flushPromises, mount } from '@vue/test-utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { markRaw } from 'vue'
-import { LoaderStub } from '@/common/components/feedback/Loader/Loader.stub'
 import SectionNavigationLayout
   from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.vue'
 import { SideNavigationStub } from '@/common/components/navigation/SideNavigation/SideNavigation.stub'
