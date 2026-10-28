@@ -11,6 +11,8 @@ import AssessmentAssociatedElementSummaryCard
   from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/cards/AssessmentAssociatedElementSummaryCard/AssessmentAssociatedElementSummaryCard.vue'
 import ActivityAssessmentStudentInformation
   from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/dataDisplay/ActivityAssessmentStudentInformation/ActivityAssessmentStudentInformation.vue'
+import AssessmentManagementFloatingPanel
+  from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/overlays/AssessmentManagementFloatingPanel/AssessmentManagementFloatingPanel.vue'
 import StudentPerspectiveCard from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.vue'
 
 export interface ActivityAssessmentDetailsViewProps {
@@ -45,6 +47,11 @@ const hasAssociatedElements = computed(() => {
   const associations = assessment.value?.associations
   return !!associations
     && [associations.traces, associations.skillProgresses, associations.declaredExperiences].some(elements => elements.length > 0)
+})
+const expectsAssessment = computed(() => {
+  const assessmentSetup = assessment.value?.activity.assessment
+  return !!assessmentSetup
+    && (!!assessmentSetup.comment || !!assessmentSetup.validation || (assessmentSetup.grade !== undefined && assessmentSetup.grade !== null))
 })
 
 const { modalOpened: showActivityDetailsDrawer, openModal: displayActivityDetailsDrawer, closeModal: hideActivityDetailsDrawer } = useModal()
@@ -104,6 +111,13 @@ const trailingLinks = computed(() => [{ text: pageSubTitle.value }])
       />
     </div>
   </QuerySuspense>
+
+  <AssessmentManagementFloatingPanel
+    v-if="assessment && expectsAssessment"
+    :key="assessment.declaredActivityId"
+    :assessment="assessment"
+    :activity-title="activityTitle"
+  />
 
   <ActivityDetailsDrawer
     v-if="assessment"

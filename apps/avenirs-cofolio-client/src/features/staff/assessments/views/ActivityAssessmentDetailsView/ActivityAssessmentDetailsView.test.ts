@@ -1,13 +1,18 @@
 import type { VueWrapper } from '@vue/test-utils'
+import type { DeclaredActivityAssessmentDetailsDTO } from '@/api/avenir-esr'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
+import { http, HttpResponse } from 'msw'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect } from 'vitest'
 import { mockedAssessmentDetailsWithAssociations, mockedAssessmentDetailsWithoutAssociations } from '@/__mocks__/fixtures/staffs/assessments.fixtures'
+import { server } from '@/__mocks__/msw/server'
+import { getGetAssessmentDetailsUrl } from '@/api/avenir-esr'
 import { ActivityDetailsDrawerStub } from '@/common/activities/components/ActivityDetailsDrawer/ActivityDetailsDrawer.stub'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants/route-names'
+import { HttpStatusCode } from '@/common/utils/http/http-status'
 import ActivityAssessmentDetailsView from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/ActivityAssessmentDetailsView.vue'
 import {
   AssessmentAssociatedElementSummaryCardStub
@@ -15,6 +20,9 @@ import {
 import {
   ActivityAssessmentStudentInformationStub
 } from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/dataDisplay/ActivityAssessmentStudentInformation/ActivityAssessmentStudentInformation.stub'
+import {
+  AssessmentManagementFloatingPanelStub
+} from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/components/overlays/AssessmentManagementFloatingPanel/AssessmentManagementFloatingPanel.stub'
 import { StudentPerspectiveCardStub } from '@/features/staff/feedbacks/components/cards/StudentPerspectiveCard/StudentPerspectiveCard.stub'
 
 const route = reactive<{ name: string, path: string, params: { declaredActivityId: string } }>({
@@ -43,6 +51,7 @@ BddTest().given('an activity assessment details view', () => {
     ActivityAssessmentStudentInformation: ActivityAssessmentStudentInformationStub,
     StudentPerspectiveCard: StudentPerspectiveCardStub,
     AssessmentAssociatedElementSummaryCard: AssessmentAssociatedElementSummaryCardStub,
+    AssessmentManagementFloatingPanel: AssessmentManagementFloatingPanelStub,
   }
 
   const mountWith = async (declaredActivityId: string) => {
@@ -102,6 +111,13 @@ BddTest().given('an activity assessment details view', () => {
       expect(associatedElementSummaryCard.props('associations')).toEqual(mockedAssessmentDetailsWithAssociations.associations)
     })
 
+    BddTest().then('it should render the assessment management floating panel', () => {
+      const floatingPanel = wrapper.findComponent(AssessmentManagementFloatingPanelStub)
+
+      expect(floatingPanel.props('assessment')).toEqual(mockedAssessmentDetailsWithAssociations)
+      expect(floatingPanel.props('activityTitle')).toBe(mockedAssessmentDetailsWithAssociations.activity.title)
+    })
+
     BddTest().then('it should not show the activity details drawer by default', () => {
       expect(wrapper.findComponent(ActivityDetailsDrawerStub).props('show')).toBe(false)
     })
@@ -147,6 +163,25 @@ BddTest().given('an activity assessment details view', () => {
     })
   })
 
+  BddTest().when('the activity of the submission does not expect any assessment', () => {
+    const assessmentWithoutSetup: DeclaredActivityAssessmentDetailsDTO = {
+      ...mockedAssessmentDetailsWithAssociations,
+      activity: { ...mockedAssessmentDetailsWithAssociations.activity, assessment: undefined }
+    }
+
+    beforeEach(async () => {
+      server.use(
+        http.get(`*${getGetAssessmentDetailsUrl(':declaredActivityId')}`, () =>
+          HttpResponse.json<DeclaredActivityAssessmentDetailsDTO>(assessmentWithoutSetup, { status: HttpStatusCode.OK }))
+      )
+      await mountWith(mockedAssessmentDetailsWithAssociations.declaredActivityId)
+    })
+
+    BddTest().then('it should not render the assessment management floating panel', () => {
+      expect(wrapper.findComponent(AssessmentManagementFloatingPanelStub).exists()).toBe(false)
+    })
+  })
+
   BddTest().when('the submission cannot be found', () => {
     beforeEach(async () => {
       await mountWith('INVALID_DECLARED_ACTIVITY_ID')
@@ -162,6 +197,10 @@ BddTest().given('an activity assessment details view', () => {
 
     BddTest().then('it should not render the activity details drawer', () => {
       expect(wrapper.findComponent(ActivityDetailsDrawerStub).exists()).toBe(false)
+    })
+
+    BddTest().then('it should not render the assessment management floating panel', () => {
+      expect(wrapper.findComponent(AssessmentManagementFloatingPanelStub).exists()).toBe(false)
     })
   })
 

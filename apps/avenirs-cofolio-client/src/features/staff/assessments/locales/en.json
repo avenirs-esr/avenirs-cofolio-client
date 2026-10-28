@@ -16,6 +16,37 @@
           "AssessmentAssociatedElementSummaryCard": {
             "title": "Summary of associated elements ({count})"
           },
+          "AssessmentManagementFloatingPanel": {
+            "alreadySentTooltip": "This assessment has already been sent",
+            "draft": {
+              "notSaved": "Draft not saved: the browser storage is unavailable",
+              "saved": "Draft saved in this browser"
+            },
+            "errors": {
+              "integerGrade": "Please enter a whole number grade",
+              "sendAssessment": "An error occurred while sending the assessment"
+            },
+            "formFields": {
+              "AssessmentCommentFormField": {
+                "label": "Comment"
+              },
+              "AssessmentGradeFormField": {
+                "label": "Grade",
+                "scale": "/\u00A0{maxGrade}"
+              },
+              "AssessmentValidationFormField": {
+                "legend": "Activity validation",
+                "notValidated": "Not validated",
+                "validated": "Validated"
+              }
+            },
+            "incompleteTooltip": "All the assessment fields must be filled in before it can be sent",
+            "sentAt": "Assessment sent on {date}",
+            "success": {
+              "sendAssessment": "The assessment has been sent successfully"
+            },
+            "title": "Activity assessment"
+          },
           "seeActivity": "View activity details",
           "title": "Assessment details"
         }
