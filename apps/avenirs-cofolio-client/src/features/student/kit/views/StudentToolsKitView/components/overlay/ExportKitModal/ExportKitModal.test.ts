@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { ExportKitModalProps } from '@/features/student/kit/views/StudentToolsKitView/components/overlay/ExportKitModal/ExportKitModal.vue'
 import { AvCheckboxesGroupStub, AvCheckboxStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { downloadMediaErrorHandler } from '@/__mocks__/msw/handlers/student/kit.handlers'
 import { server } from '@/__mocks__/msw/server'

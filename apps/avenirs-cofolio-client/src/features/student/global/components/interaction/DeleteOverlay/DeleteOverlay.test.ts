@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { DeleteOverlayProps } from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.vue'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import DeleteOverlay from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.vue'
 
 BddTest().given('a DeleteOverlay component', () => {

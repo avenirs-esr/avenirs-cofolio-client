@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import { AvCardStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { EFeedbackStatus } from '@/api/avenir-esr'

@@ -2,10 +2,10 @@ import type { AvBreadcrumbProps } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
 import type { PageTitleProps } from '@/components/PageTitle/PageTitle.vue'
 import { AvBreadcrumbStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect, vi } from 'vitest'
 import { InformationTooltipStub } from '@/components/overlay/tooltips/InformationTooltip/InformationTooltip.stub'
 import PageTitle from '@/components/PageTitle/PageTitle.vue'
-import { mountWithRouter } from '@/tests/utils'
 
 const breadcrumbLinks = ref<AvBreadcrumbProps['links']>([])
 

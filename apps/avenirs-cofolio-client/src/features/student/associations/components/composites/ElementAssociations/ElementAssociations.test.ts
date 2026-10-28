@@ -4,7 +4,7 @@ import type { AssociationsDTO } from '@/api/avenir-esr'
 import type { ElementAssociationsProps } from '@/features/student/associations/components/composites/ElementAssociations/ElementAssociations.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { BaseApiErrorCode } from '@avenirs-esr/shared'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import { mockedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import {

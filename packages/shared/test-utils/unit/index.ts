@@ -1,6 +1,3 @@
-export { EmptyStateStub } from '../../src/ui/components/feedback/EmptyState/EmptyState.stub'
-export { ErrorMessageStub } from '../../src/ui/components/feedback/ErrorMessage/ErrorMessage.stub'
-export { LoaderStub } from '../../src/ui/components/feedback/Loader/Loader.stub'
 export type { MountComponentOptions } from './mount-component'
 export { mountComponent } from './mount-component'
 export type { MountComposableDependencies, MountComposableOptions } from './mount-composable'

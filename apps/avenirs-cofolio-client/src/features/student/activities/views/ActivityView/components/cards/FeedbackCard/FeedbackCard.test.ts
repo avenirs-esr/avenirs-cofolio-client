@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { FeedbackOverviewDTO } from '@/api/avenir-esr'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import { EFeedbackStatus, EFileType } from '@/api/avenir-esr'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'

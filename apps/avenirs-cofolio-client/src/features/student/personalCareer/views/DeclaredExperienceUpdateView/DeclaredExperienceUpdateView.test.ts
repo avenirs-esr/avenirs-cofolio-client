@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvIconTextStub, AvTabStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountComponent } from 'tests/utils'
+import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { createMockedDeclaredExperienceAssociationsDTO, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { EAssociationContextType, EErrorCode } from '@/api/avenir-esr'
