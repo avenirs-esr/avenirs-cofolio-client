@@ -1,9 +1,10 @@
+import { createRequire } from 'node:module'
 import { defineConfig } from 'orval'
 
 export default defineConfig({
   'avenir-esr': {
     input: {
-      target: './api-specs/avenir-esr.swagger.json',
+      target: createRequire(import.meta.url).resolve('@avenirs-esr/shared/api/specs/avenir-esr.swagger.json'),
     },
     output: {
       workspace: './src/api/avenir-esr/generated',
