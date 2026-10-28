@@ -14,6 +14,6 @@
     },
     "types": ["node", "jsdom", "vitest/globals"]
   },
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "*.d.ts", "tests"],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "*.d.ts", "tests", "vitest-setup.ts"],
   "exclude": []
 }

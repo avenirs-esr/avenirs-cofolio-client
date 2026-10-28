@@ -8,6 +8,27 @@ const url = 'http://127.0.0.1:18181/__shared_setup_contract__'
 const handler = http.get(url, () => HttpResponse.json({ source: 'local-test-server' }))
 
 BddTest().given('the application-owned test setup', () => {
+  BddTest().when('a media query is evaluated', () => {
+    let mediaQuery: MediaQueryList
+
+    beforeEach(() => {
+      mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    })
+
+    BddTest().then('it returns a complete non-matching media query list', () => {
+      expect(mediaQuery).toMatchObject({
+        matches: false,
+        media: '',
+        onchange: null,
+        addEventListener: expect.any(Function),
+        removeEventListener: expect.any(Function),
+        addListener: expect.any(Function),
+        removeListener: expect.any(Function),
+        dispatchEvent: expect.any(Function),
+      })
+    })
+  })
+
   for (const prefix of ['[Vue warn]', '[intlify]']) {
     BddTest().when(`a ${prefix} warning is emitted`, () => {
       BddTest().then('it retains the strict warning failure', () => {
