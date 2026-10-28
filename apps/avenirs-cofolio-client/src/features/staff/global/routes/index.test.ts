@@ -8,6 +8,7 @@ import PersonalDataView from '@/common/views/PersonalDataView/PersonalDataView.v
 import AdminInstitutionGroupsView from '@/features/staff/admin/views/AdminInstitutionGroupsView/AdminInstitutionGroupsView.vue'
 import AdminInstitutionSkillsView from '@/features/staff/admin/views/AdminInstitutionSkillsView/AdminInstitutionSkillsView.vue'
 import AdminInstitutionUsersView from '@/features/staff/admin/views/AdminInstitutionUsersView/AdminInstitutionUsersView.vue'
+import ActivityAssessmentDetailsView from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/ActivityAssessmentDetailsView.vue'
 import ActivityFeedbackDetailsView from '@/features/staff/feedbacks/views/ActivityFeedbackDetailsView/ActivityFeedbackDetailsView.vue'
 import FeedbacksView from '@/features/staff/feedbacks/views/FeedbacksView/FeedbacksView.vue'
 import routes from '@/features/staff/global/routes'
@@ -62,6 +63,12 @@ testRoute(
   children.find(r => r.name === ROUTES.STAFF.PERSONAL_DATA.name)!,
   ROUTES.STAFF.PERSONAL_DATA,
   PersonalDataView
+)
+
+testRoute(
+  children.find(r => r.name === ROUTES.STAFF.ACTIVITY_ASSESSMENT.name)!,
+  ROUTES.STAFF.ACTIVITY_ASSESSMENT,
+  ActivityAssessmentDetailsView
 )
 
 testRoute(
