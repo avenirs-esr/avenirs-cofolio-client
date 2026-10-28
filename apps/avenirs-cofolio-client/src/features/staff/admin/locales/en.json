@@ -26,8 +26,8 @@
       },
       "groupsTable": {
         "columns": {
-          "name": "Group",
           "institutionName": "Institution",
+          "name": "Group",
           "parentName": "Attached to",
           "type": "Type",
           "usersCount": "Number of members"
@@ -108,12 +108,37 @@
         },
         "InstitutionUserDetailedView": {
           "components": {
+            "badges": {
+              "AuthorizationTypeBadge": {
+                "EDIT": "Editor",
+                "EVALUATION": "Evaluator",
+                "FEEDBACK": "Feedback referent",
+                "LEADER": "Leader",
+                "MANAGE_AUTHORIZATIONS": "Authorization manager",
+                "PUBLISH": "Publisher"
+              }
+            },
             "dataDisplay": {
+              "UserContextualAuthorizationsTable": {
+                "authorizationDescriptions": {
+                  "EDIT": "Can edit the entity",
+                  "EVALUATION": "Can evaluate the entity",
+                  "FEEDBACK": "Can give feedback on the entity",
+                  "LEADER": "Leader of the entity",
+                  "MANAGE_AUTHORIZATIONS": "Can manage the entity's authorizations",
+                  "PUBLISH": "Can publish the entity"
+                },
+                "columns": {
+                  "authorization": "Authorization",
+                  "authorizationDescription": "Description",
+                  "entityName": "Entity"
+                }
+              },
               "UserDetailsTable": {
                 "columns": {
-                  "user": "User",
                   "institution": "Affiliated institution",
-                  "universes": "Accessible universe(s)"
+                  "universes": "Accessible universe(s)",
+                  "user": "User"
                 }
               },
               "UserGroupsTable": {
@@ -127,8 +152,8 @@
               },
               "UserPermissionsTable": {
                 "columns": {
-                  "name": "Permission",
-                  "description": "Description"
+                  "description": "Description",
+                  "name": "Permission"
                 }
               }
             },
@@ -158,8 +183,34 @@
               "UserGroupsSection": {
                 "emptyStateMessage": "No groups"
               },
+              "UserPermissionsSection": {
+                "emptyStateMessage": "No permissions",
+                "tabs": {
+                  "contextual": {
+                    "info": "Pagination allows navigating between different entities and not between different authorizations",
+                    "title": "Contextual authorizations"
+                  },
+                  "notContextual": {
+                    "title": "Non-contextual roles and permissions"
+                  }
+                }
+              },
               "UserProgramsSection": {
                 "emptyStateMessage": "No programs"
+              }
+            },
+            "selects": {
+              "AuthorizationEntityTypeSelect": {
+                "label": "Entity type",
+                "placeholder": "Select an entity type",
+                "options": {
+                  "ACTIVITY": {
+                    "label": "Activity"
+                  },
+                  "ACTIVITY_DRAFT": {
+                    "label": "Activity draft"
+                  }
+                }
               }
             }
           }

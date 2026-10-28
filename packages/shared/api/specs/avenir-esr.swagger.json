@@ -3881,6 +3881,125 @@
         }
       }
     },
+    "/internal/users/{eppn}/authorizations": {
+      "get": {
+        "tags": [
+          "internal-user-authorization-controller"
+        ],
+        "operationId": "getAuthorizations_1",
+        "parameters": [
+          {
+            "name": "eppn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "entityType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAuthorizationEntityType"
+            }
+          },
+          {
+            "name": "institutionIds",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "uniqueItems": true
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseUserEntityAuthorizationsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/internal/users/{eppn}/authorizations/types": {
+      "get": {
+        "tags": [
+          "internal-user-authorization-controller"
+        ],
+        "operationId": "getAvailableTypes",
+        "parameters": [
+          {
+            "name": "eppn",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "institutionIds",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "uniqueItems": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "ACTIVITY",
+                      "ACTIVITY_DRAFT"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activity-progress/unsubscribe": {
       "delete": {
         "tags": [
@@ -5040,6 +5159,101 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ExternalUserDetailDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/external-users/{externalUserId}/contextual-authorizations": {
+      "get": {
+        "tags": [
+          "external-user-contextual-authorization-query-controller"
+        ],
+        "operationId": "getExternalUserAuthorizations",
+        "parameters": [
+          {
+            "name": "externalUserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "entityType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EAuthorizationEntityType"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedResponseContextualAuthorizationDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/back-office/external-users/{externalUserId}/contextual-authorizations/types": {
+      "get": {
+        "tags": [
+          "external-user-contextual-authorization-query-controller"
+        ],
+        "operationId": "getAvailableTypes1",
+        "parameters": [
+          {
+            "name": "externalUserId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "ACTIVITY",
+                      "ACTIVITY_DRAFT"
+                    ]
+                  }
                 }
               }
             }
@@ -6693,6 +6907,7 @@
               "SUBSCRIBED",
               "IN_PROGRESS",
               "SUBMITTED",
+              "CONSULTED",
               "COMPLETED",
               "UNSUBSCRIBED"
             ]
@@ -6970,6 +7185,7 @@
               "SUBSCRIBED",
               "IN_PROGRESS",
               "SUBMITTED",
+              "CONSULTED",
               "COMPLETED",
               "UNSUBSCRIBED"
             ]
@@ -7289,7 +7505,7 @@
           "updatedAt"
         ]
       },
-      "FeedbackAssociationsDTO": {
+      "DeclaredActivityAssociationsDTO": {
         "type": "object",
         "properties": {
           "traces": {
@@ -7351,7 +7567,7 @@
             ]
           },
           "associations": {
-            "$ref": "#/components/schemas/FeedbackAssociationsDTO"
+            "$ref": "#/components/schemas/DeclaredActivityAssociationsDTO"
           },
           "attachments": {
             "type": "array",
@@ -8137,6 +8353,7 @@
               "SUBSCRIBED",
               "IN_PROGRESS",
               "SUBMITTED",
+              "CONSULTED",
               "COMPLETED",
               "UNSUBSCRIBED"
             ]
@@ -8486,6 +8703,7 @@
               "SUBSCRIBED",
               "IN_PROGRESS",
               "SUBMITTED",
+              "CONSULTED",
               "COMPLETED",
               "UNSUBSCRIBED"
             ]
@@ -8576,6 +8794,7 @@
               "SUBSCRIBED",
               "IN_PROGRESS",
               "SUBMITTED",
+              "CONSULTED",
               "COMPLETED",
               "UNSUBSCRIBED"
             ]
@@ -8796,6 +9015,47 @@
         "required": [
           "items",
           "title"
+        ]
+      },
+      "PagedResponseUserEntityAuthorizationsDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserEntityAuthorizationsDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
+        ]
+      },
+      "UserEntityAuthorizationsDTO": {
+        "type": "object",
+        "properties": {
+          "entityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "entityName": {
+            "type": "string"
+          },
+          "authorizations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EAuthorization"
+            }
+          }
+        },
+        "required": [
+          "authorizations",
+          "entityId",
+          "entityName"
         ]
       },
       "AssociationsDeleteRequest": {
@@ -9094,6 +9354,7 @@
           "SUBSCRIBED",
           "IN_PROGRESS",
           "SUBMITTED",
+          "CONSULTED",
           "COMPLETED",
           "UNSUBSCRIBED"
         ]
@@ -10005,6 +10266,56 @@
           "id",
           "institution",
           "lastName"
+        ]
+      },
+      "ContextualAuthorizationDTO": {
+        "type": "object",
+        "properties": {
+          "entityType": {
+            "type": "string",
+            "$ref": "#/components/schemas/EAuthorizationEntityType",
+            "enum": [
+              "ACTIVITY",
+              "ACTIVITY_DRAFT"
+            ]
+          },
+          "entityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "entityName": {
+            "type": "string"
+          },
+          "authorizations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EAuthorization"
+            }
+          }
+        },
+        "required": [
+          "authorizations",
+          "entityId",
+          "entityName",
+          "entityType"
+        ]
+      },
+      "PagedResponseContextualAuthorizationDTO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ContextualAuthorizationDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageInfoDTO"
+          }
+        },
+        "required": [
+          "data",
+          "page"
         ]
       },
       "ExternalUserAffiliationOverviewDTO": {
