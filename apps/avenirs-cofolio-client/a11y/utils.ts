@@ -5,8 +5,6 @@ import { createA11yAudit } from '@avenirs-esr/shared/test-utils'
 import { AxeBuilder } from '@axe-core/playwright'
 import { createHtmlReport } from 'axe-html-reporter'
 
-export { waitMswToStart } from '@avenirs-esr/shared/test-utils'
-
 export const auditAccessibility = createA11yAudit({
   createAxeBuilder: (page: Page) => new AxeBuilder({ page }),
   createHtmlReport,
