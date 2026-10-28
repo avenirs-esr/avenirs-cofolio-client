@@ -1,11 +1,11 @@
 import type { PropType } from 'vue'
-import type { UsersOverviewCardUserType } from '@/features/staff/admin/types/users.types'
+import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 
 export const UserNameStub = defineComponent({
   name: 'UserNameStub',
   props: {
     user: {
-      type: Object as PropType<UsersOverviewCardUserType>,
+      type: Object as PropType<UserInfoType>,
       required: true,
     },
     withNav: {

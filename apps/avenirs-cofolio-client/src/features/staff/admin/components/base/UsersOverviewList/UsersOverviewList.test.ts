@@ -1,7 +1,7 @@
 import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
 import type { UsersListRow } from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.types'
-import type { UsersOverviewCardUserType } from '@/features/staff/admin/types/users.types'
+import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 import { AvTableStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
@@ -26,7 +26,7 @@ vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
 BddTest().given('a users overview list', () => {
   let wrapper: VueWrapper<InstanceType<typeof UsersOverviewList>>
 
-  const mockUser: UsersOverviewCardUserType = {
+  const mockUser: UserInfoType = {
     id: 'user-1',
     firstName: 'ALICE',
     lastName: 'DUPONT',
@@ -39,12 +39,12 @@ BddTest().given('a users overview list', () => {
       user: mockUser,
       institutions: [],
       formations: [
-        { id: 'formation-1', name: 'Formation 1', type: EGroupType.PROGRAM },
-        { id: 'formation-2', name: 'Formation 2', type: EGroupType.PROGRAM },
+        { id: 'formation-1', name: 'Formation 1', type: EGroupType.PROGRAM, usersCount: 0 },
+        { id: 'formation-2', name: 'Formation 2', type: EGroupType.PROGRAM, usersCount: 0 },
       ],
       groups: [
-        { id: 'group-1', name: 'Groupe 1', type: EGroupType.PEDAGOGICAL },
-        { id: 'group-2', name: 'Groupe 2', type: EGroupType.PEDAGOGICAL },
+        { id: 'group-1', name: 'Groupe 1', type: EGroupType.STUDENT_GROUP, usersCount: 0 },
+        { id: 'group-2', name: 'Groupe 2', type: EGroupType.STUDENT_GROUP, usersCount: 0 },
       ],
     },
     {
@@ -52,7 +52,7 @@ BddTest().given('a users overview list', () => {
       user: { ...mockUser, id: 'user-2', firstName: 'BOB' },
       institutions: [],
       formations: [
-        { id: 'formation-3', name: 'Formation 3', type: EGroupType.PROGRAM },
+        { id: 'formation-3', name: 'Formation 3', type: EGroupType.PROGRAM, usersCount: 0 },
       ],
       groups: [],
     },
@@ -138,9 +138,9 @@ BddTest().given('a users overview list', () => {
       expect(formationsLists).toHaveLength(2)
       const firstRowFormations = formationsLists[0].findAllComponents(GroupNameStub)
       expect(firstRowFormations).toHaveLength(2)
-      expect(firstRowFormations[0].props('group')).toEqual(rows[0].formations[0])
+      expect(firstRowFormations[0].props('group')).toEqual(rows[0].formations?.[0])
       expect(firstRowFormations[0].props('withNav')).toBe(true)
-      expect(firstRowFormations[1].props('group')).toEqual(rows[0].formations[1])
+      expect(firstRowFormations[1].props('group')).toEqual(rows[0].formations?.[1])
       expect(firstRowFormations[1].props('withNav')).toBe(true)
     })
 
@@ -149,9 +149,9 @@ BddTest().given('a users overview list', () => {
       expect(groupsLists).toHaveLength(1)
       const firstRowGroups = groupsLists[0].findAllComponents(GroupNameStub)
       expect(firstRowGroups).toHaveLength(2)
-      expect(firstRowGroups[0].props('group')).toEqual(rows[0].groups[0])
+      expect(firstRowGroups[0].props('group')).toEqual(rows[0].groups?.[0])
       expect(firstRowGroups[0].props('withNav')).toBe(true)
-      expect(firstRowGroups[1].props('group')).toEqual(rows[0].groups[1])
+      expect(firstRowGroups[1].props('group')).toEqual(rows[0].groups?.[1])
       expect(firstRowGroups[1].props('withNav')).toBe(true)
     })
   })
