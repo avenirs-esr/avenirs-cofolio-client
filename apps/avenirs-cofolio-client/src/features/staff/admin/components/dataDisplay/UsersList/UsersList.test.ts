@@ -8,8 +8,8 @@ import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { EGroupType } from '@/api/avenir-esr'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
-import { SearchEntityInputStub } from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.stub'
 import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { BaseApiException } from '@/common/exceptions'
 import { UsersOverviewListStub } from '@/features/staff/admin/components/base/UsersOverviewList/UsersOverviewList.stub'
@@ -25,7 +25,20 @@ const mockUsers: ExternalUserAffiliationOverviewDTO[] = [{
   profilePictureId: undefined,
   hasConnected: true,
   categories: [],
-  groups: [],
+  groups: [
+    {
+      id: 'p-1',
+      name: 'Formation 1',
+      type: EGroupType.PROGRAM,
+      usersCount: 10,
+    },
+    {
+      id: 'g-1',
+      name: 'Groupe 1',
+      type: EGroupType.STUDENT_GROUP,
+      usersCount: 5,
+    },
+  ],
   institutions: [],
 }]
 
@@ -69,7 +82,6 @@ BddTest().given('a users list', () => {
     QuerySuspense: QuerySuspenseStub,
     Pagination: PaginationStub,
     UsersOverviewList: UsersOverviewListStub,
-    SearchEntityInput: SearchEntityInputStub,
   }
 
   const mountWith = async ({
@@ -104,10 +116,6 @@ BddTest().given('a users list', () => {
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getPagination = () => wrapper.findComponent(PaginationStub)
   const getUsersOverviewList = () => wrapper.findComponent(UsersOverviewListStub)
-  const getSearchEntityInput = () => wrapper.findComponent(SearchEntityInputStub)
-  const searchFor = (keyword: string) => {
-    getSearchEntityInput().vm.$emit('update:modelValue', keyword)
-  }
 
   beforeEach(async () => {
     mockUsersCurrentPage.value = 0
@@ -116,10 +124,6 @@ BddTest().given('a users list', () => {
   })
 
   BddTest().when('the component is rendered', () => {
-    BddTest().then('it should render the search entity input', () => {
-      expect(getSearchEntityInput().exists()).toBe(true)
-    })
-
     BddTest().then('it should pass the users state to QuerySuspense', () => {
       expect(getQuerySuspense().props('isEmpty')).toBe(false)
       expect(getQuerySuspense().props('isLoading')).toBe(false)
@@ -158,14 +162,17 @@ BddTest().given('a users list', () => {
             email: user.email,
             profilePictureId: user.profilePictureId,
           },
+          formations: [mockUsers[0].groups[0]],
+          groups: [mockUsers[0].groups[1]],
         })),
       )
     })
 
-    BddTest().then('it should pass the user and actions columns to UsersOverviewList', () => {
+    BddTest().then('it should pass the columns to UsersOverviewList', () => {
       expect(getUsersOverviewList().props('columns')).toStrictEqual([
-        { key: 'user', label: 'Utilisateur(rice)', width: '95%' },
-        { key: 'actions', label: 'Actions', width: '5%' },
+        { key: 'user', label: 'Utilisateurs', width: '40%' },
+        { key: 'formations', label: 'Formations', width: '30%' },
+        { key: 'groups', label: 'Groupes', width: '30%' },
       ])
     })
 
@@ -174,12 +181,12 @@ BddTest().given('a users list', () => {
     })
   })
 
-  BddTest().and('the user types into the search input', () => {
-    beforeEach(() => {
-      searchFor('alice')
+  BddTest().when('the component receives a keyword', () => {
+    beforeEach(async () => {
+      await mountWith({ keyword: 'alice' })
     })
 
-    BddTest().then('it should pass the filters to the paginated composable', () => {
+    BddTest().then('it should pass the keyword to the paginated composable', () => {
       const params = mockUsePaginatedAffiliations.mock.calls[0][0]
 
       expect(params.keywordRef.value).toBe('alice')
