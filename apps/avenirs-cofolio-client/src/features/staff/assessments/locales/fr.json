@@ -1,0 +1,25 @@
+{
+  "staff": {
+    "assessments": {
+      "badges": {
+        "assessmentStatus": {
+          "COMPLETED": "Envoyée",
+          "CONSULTED": "Non traitée",
+          "SUBMITTED": "Nouvelle"
+        }
+      },
+      "views": {
+        "ActivityAssessmentDetailsView": {
+          "ActivityAssessmentStudentInformation": {
+            "submittedAt": "Soumise le {date}"
+          },
+          "AssessmentAssociatedElementSummaryCard": {
+            "title": "Récapitulatif des éléments associés ({count})"
+          },
+          "seeActivity": "Voir le détail de l'activité",
+          "title": "Détail de l'évaluation"
+        }
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { genericHandlers } from '@/__mocks__/msw/handlers/shared/generic.handler
 import { notificationsHandlers } from '@/__mocks__/msw/handlers/shared/notifications.handlers'
 import { staffsActivitiesHandlers } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { staffAffiliationsHandlers } from '@/__mocks__/msw/handlers/staffs/affiliations.handlers'
+import { assessmentsHandlers } from '@/__mocks__/msw/handlers/staffs/assessments.handlers'
 import { feedbacksHandlers } from '@/__mocks__/msw/handlers/staffs/feedbacks.handlers'
 import { staffGroupsHandlers } from '@/__mocks__/msw/handlers/staffs/groups.handlers'
 import { staffNotificationsHandlers } from '@/__mocks__/msw/handlers/staffs/notifications.handlers'
@@ -32,6 +33,7 @@ export const handlers = [
   ...staffGroupsHandlers,
   ...staffUserHandlers,
   ...staffAffiliationsHandlers,
+  ...assessmentsHandlers,
   ...studentNotificationsHandlers,
   ...studentUserHandlers,
   ...feedbacksHandlers,

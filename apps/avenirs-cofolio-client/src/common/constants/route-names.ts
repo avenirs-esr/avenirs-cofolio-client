@@ -20,6 +20,7 @@ export const ROUTES = {
     ACCESSIBILITY: { name: 'staff-accessibility', path: 'accessibility' },
     ACTIVITIES: { name: 'staff-activities', path: 'activities' },
     ACTIVITIES_EDIT_NATIONAL_ACTIVITY: { name: 'staff-activities-edit-national-activity', path: 'activities/:id/edit' },
+    ACTIVITY_ASSESSMENT: { name: 'staff-activity-assessment', path: 'activity-assessment/:declaredActivityId' },
     ACTIVITY_CATALOG: { name: 'staff-activity-catalog', path: 'activities/:status/:id' },
     ADMIN: {
       GROUP: {

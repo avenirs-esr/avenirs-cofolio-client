@@ -3398,6 +3398,37 @@
         }
       }
     },
+    "/me/activity-progress/assessments/{declaredActivityId}": {
+      "get": {
+        "tags": [
+          "declared-activity-controller"
+        ],
+        "operationId": "getAssessmentDetails",
+        "parameters": [
+          {
+            "name": "declaredActivityId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeclaredActivityAssessmentDetailsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/me/activities": {
       "get": {
         "tags": [
@@ -7289,7 +7320,7 @@
           "updatedAt"
         ]
       },
-      "FeedbackAssociationsDTO": {
+      "DeclaredActivityAssociationsDTO": {
         "type": "object",
         "properties": {
           "traces": {
@@ -7351,7 +7382,7 @@
             ]
           },
           "associations": {
-            "$ref": "#/components/schemas/FeedbackAssociationsDTO"
+            "$ref": "#/components/schemas/DeclaredActivityAssociationsDTO"
           },
           "attachments": {
             "type": "array",
@@ -8452,6 +8483,83 @@
           "totalFeedbacks"
         ]
       },
+      "DeclaredActivityAssessmentDTO": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string"
+          },
+          "grade": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "validation": {
+            "type": "boolean"
+          },
+          "requestedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "assessedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "assessedBy": {
+            "$ref": "#/components/schemas/UserInfoDTO"
+          }
+        },
+        "required": [
+          "requestedAt"
+        ]
+      },
+      "DeclaredActivityAssessmentDetailsDTO": {
+        "type": "object",
+        "properties": {
+          "declaredActivityId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "activity": {
+            "$ref": "#/components/schemas/ActivityContentDTO"
+          },
+          "student": {
+            "$ref": "#/components/schemas/UserInfoDTO"
+          },
+          "reflexion": {
+            "type": "string"
+          },
+          "associations": {
+            "$ref": "#/components/schemas/DeclaredActivityAssociationsDTO"
+          },
+          "assessment": {
+            "$ref": "#/components/schemas/DeclaredActivityAssessmentDTO"
+          },
+          "submittedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "$ref": "#/components/schemas/EDeclaredActivityStatus",
+            "enum": [
+              "SUBSCRIBED",
+              "IN_PROGRESS",
+              "SUBMITTED",
+              "CONSULTED",
+              "COMPLETED",
+              "UNSUBSCRIBED"
+            ]
+          }
+        },
+        "required": [
+          "activity",
+          "associations",
+          "declaredActivityId",
+          "status",
+          "student",
+          "submittedAt"
+        ]
+      },
       "ActivityOverviewDTO": {
         "type": "object",
         "properties": {
@@ -9094,6 +9202,7 @@
           "SUBSCRIBED",
           "IN_PROGRESS",
           "SUBMITTED",
+          "CONSULTED",
           "COMPLETED",
           "UNSUBSCRIBED"
         ]
