@@ -72,7 +72,6 @@ const to = computed(() => {
               {{ fullNames }}
             </span>
             <span
-              ref="email"
               class="caption-light av-max-lines"
               data-testid="email"
             >

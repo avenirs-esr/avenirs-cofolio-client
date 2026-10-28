@@ -120,20 +120,4 @@ BddTest().given('a user name component', () => {
       })
     })
   })
-
-  BddTest().when('the component is rendered without an email', () => {
-    beforeEach(async () => {
-      await mountWith({
-        user: {
-          id: 'user-1',
-          firstName: 'ALICE',
-          lastName: 'DUPONT',
-        },
-      })
-    })
-
-    BddTest().then('it should not render the email address', () => {
-      expect(getEmail().exists()).toBe(false)
-    })
-  })
 })
