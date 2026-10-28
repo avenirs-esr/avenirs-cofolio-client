@@ -1,7 +1,7 @@
 import process from 'node:process'
-import { defineConfig, devices } from '@playwright/test'
+import { A11Y_SHARED_CONFIG } from '@avenirs-esr/shared/test-utils'
+import { defineConfig } from '@playwright/test'
 
-export const GLOBAL_TIMEOUT = 60 * 1000
 export default defineConfig({
   testDir: './',
   tsconfig: './tsconfig.json',
@@ -19,21 +19,7 @@ export default defineConfig({
     },
     headless: !!process.env.CI,
   },
-  timeout: GLOBAL_TIMEOUT,
-  /* Configure projects for major browsers */
-  projects: [
-    {
-      name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-      }
-    },
-  ],
-
-  workers: process.env.CI ? 1 : undefined,
-
-  outputDir: '.output',
-
+  ...A11Y_SHARED_CONFIG,
   /* Run your local dev server before starting the tests */
   webServer: {
     /**

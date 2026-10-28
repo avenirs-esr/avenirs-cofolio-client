@@ -1,9 +1,8 @@
 import type { AvRoute } from '@/common/types'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { waitMswToStart } from '@avenirs-esr/shared/test-utils'
+import { A11Y_TEST_TIMEOUT, waitMswToStart } from '@avenirs-esr/shared/test-utils'
 import { test } from '@playwright/test'
-import { GLOBAL_TIMEOUT } from 'a11y/playwright.a11y.config'
 import { auditAccessibility } from 'a11y/utils'
 import { ROUTES } from '@/common/constants/route-names'
 
@@ -37,7 +36,7 @@ test.describe('staff routes', () => {
     test(`${path} should have no accessibility violations`, async ({ page }) => {
       await page.goto(path)
       await waitMswToStart(page)
-      await page.waitForSelector('#app', { timeout: GLOBAL_TIMEOUT })
+      await page.waitForSelector('#app', { timeout: A11Y_TEST_TIMEOUT })
 
       const pageName = path.replace(/^\/|\/$/g, '').replace(/\//g, '-')
 
