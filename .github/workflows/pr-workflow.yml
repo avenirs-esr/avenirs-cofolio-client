@@ -11,6 +11,7 @@ jobs:
   run-code-quality-checks:
     uses: avenirs-esr/avenirs-workflows/.github/workflows/frontend-quality-check-workflow.yaml@main
     with:
+      artifact-prefix: cofolio-
       working-directory: apps/avenirs-cofolio-client
     secrets: inherit
 
@@ -19,4 +20,25 @@ jobs:
     with:
       working-directory: apps/avenirs-cofolio-client
       build-command: 'pnpm run build-only:development'
+      playwright-image: mcr.microsoft.com/playwright:v1.61.1-noble
+      report-prefix: cofolio
+    secrets: inherit
+
+  run-backoffice-code-quality-checks:
+    uses: avenirs-esr/avenirs-workflows/.github/workflows/frontend-quality-check-workflow.yaml@main
+    with:
+      artifact-prefix: backoffice-
+      working-directory: apps/avenirs-cofolio-backoffice-client
+    secrets: inherit
+
+  run-backoffice-a11y-test-and-deploy-reports:
+    needs: run-a11y-test-and-deploy-reports
+    if: ${{ !cancelled() }}
+    uses: avenirs-esr/avenirs-workflows/.github/workflows/a11y-test-and-deploy-reports-workflow.yaml@main
+    with:
+      working-directory: apps/avenirs-cofolio-backoffice-client
+      build-command: 'pnpm run build-only:development'
+      playwright-image: mcr.microsoft.com/playwright:v1.61.1-noble
+      report-prefix: backoffice
+      flat-report: true
     secrets: inherit
