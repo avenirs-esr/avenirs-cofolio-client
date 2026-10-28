@@ -1,7 +1,6 @@
 export * from './date/date'
 export * from './highlight/highlight'
 export * from './http/http-params'
-export * from './http/http-status'
 export * from './number/number'
 export * from './object/object'
 export * from './type-guards/type-guards'

@@ -67,7 +67,7 @@ The private `@avenirs-esr/shared` package exposes TypeScript sources through the
 - `@avenirs-esr/shared`: transport factory, interceptor manager, transport types, HTTP status codes, exceptions, error codes, locale mappings, `hasStringField` and the shared `EmptyState`, `ErrorMessage` and `Loader` components. The transport factory requires an explicit `baseUrl`.
 - `@avenirs-esr/shared/test-utils`: mounting helpers, explicit test setup, accessibility helpers and shared component stubs.
 
-Shared UI components are imported directly from `@avenirs-esr/shared`, and their co-located stubs are imported from `@avenirs-esr/shared/test-utils`. Application transport and error import paths re-export the shared API definitions. HTTP instances, authentication/session handling, application headers, routers, translations and i18n instances stay local. Both app solution tsconfigs reference the shared package solution, which includes its runtime, Node configuration and test projects; app-specific compiler configurations remain local.
+Shared UI components and API definitions are imported directly from `@avenirs-esr/shared`, and co-located component stubs are imported from `@avenirs-esr/shared/test-utils`. HTTP instances, authentication/session handling, application headers, routers, translations and i18n instances stay local. Both app solution tsconfigs reference the shared package solution, which includes its runtime, Node configuration and test projects; app-specific compiler configurations remain local.
 
 Shared package checks run independently:
 

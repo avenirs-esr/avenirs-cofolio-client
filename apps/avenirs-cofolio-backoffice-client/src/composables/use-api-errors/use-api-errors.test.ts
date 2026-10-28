@@ -1,9 +1,9 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { Ref } from 'vue'
-import type { BaseApiException } from '@/exceptions'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { BaseApiErrorCode } from '@avenirs-esr/shared'
 import { beforeEach, expect } from 'vitest'
 import { useApiErrors } from '@/composables/use-api-errors/use-api-errors'
-import { BaseApiErrorCode } from '@/exceptions'
 import { mountComposable } from '@/tests/utils'
 
 BddTest().given('a useApiErrors composable', () => {

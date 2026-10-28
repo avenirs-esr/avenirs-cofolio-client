@@ -1,5 +1,5 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { DeclaredExperienceViewDTO, EExperienceType } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import type { AssociationSelections } from '@/features/student/associations'
 import type {
   DeclaredExperienceFormData

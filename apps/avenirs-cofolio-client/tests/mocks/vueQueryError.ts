@@ -1,5 +1,5 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { UseQueryDefinedReturnType } from '@tanstack/vue-query'
-import type { BaseApiException } from '@/common/exceptions'
 
 export function createMockQueryError<T> (
   payload: T,

@@ -1,8 +1,7 @@
+import type { BaseApiException, ErrorCode } from '@avenirs-esr/shared'
 import type { Ref } from 'vue'
-import type { ErrorCode } from '@/common/constants'
-import type { BaseApiException } from '@/common/exceptions'
+import { ErrorCodes } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { ErrorCodes } from '@/common/constants'
 
 export function useApiErrors (errorRef?: Ref<BaseApiException> | Ref<null>) {
   const { t, te } = useI18n()

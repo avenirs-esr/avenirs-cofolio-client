@@ -13,6 +13,7 @@ import type {
   PagedResponseActivityStaffOverviewDTO,
   StaffInfoDTO
 } from '@/api/avenir-esr'
+import { ErrorCodes, HttpStatusCode } from '@avenirs-esr/shared'
 import { http, HttpResponse } from 'msw'
 import { getMockedActivitiesWithFeedbacksPaginated } from '@/__mocks__/fixtures/staffs/activities-with-feedbacks.fixtures'
 import {
@@ -53,8 +54,6 @@ import {
   getUpdateActivityDraftUrl,
   getUploadDraftBannerUrl
 } from '@/api/avenir-esr'
-import { ErrorCodes } from '@/common/constants/error-codes'
-import { HttpStatusCode } from '@/common/utils/http/http-status'
 
 export const createActivityDraftErrorHandler = http.post(`*${getCreateActivityDraftUrl()}`, () => {
   return HttpResponse.json(

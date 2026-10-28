@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { FileDTO } from '@/api/avenir-esr'
-import type { BaseApiException } from '@/common/exceptions'
 import {
   AvAccordion,
   AvAccordionsGroup,

@@ -1,6 +1,6 @@
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { VueWrapper } from '@vue/test-utils'
 import type { SectionNavigationItem } from '@/common/components/layout/SectionNavigationLayout/SectionNavigationLayout.types'
-import type { BaseApiException } from '@/common/exceptions'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { AvInteractiveProps } from '@avenirs-esr/avenirs-dsav'
-import type { BaseApiException } from '@/common/exceptions'
+import type { BaseApiException } from '@avenirs-esr/shared'
 import type { ActivityResource } from '@/features/staff/activities/types/resource.types'
 import { AvCard, AvIcon, AvTag, AvTooltip, getAvTooltipContent, isAvTooltipEnabled, MDI_ICONS, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { mergeProps } from 'vue'
