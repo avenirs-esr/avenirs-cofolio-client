@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { PageSizes } from '@avenirs-esr/avenirs-dsav'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { LoaderStub } from '@avenirs-esr/shared/test-utils'
+import { LoaderStub } from '@avenirs-esr/shared/test-utils/unit'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { countMockedDeclaredExperiencesByType } from '@/__mocks__/fixtures/student/declaredExperiences.fixtures'

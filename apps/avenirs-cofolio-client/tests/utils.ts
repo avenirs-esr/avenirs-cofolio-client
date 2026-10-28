@@ -7,7 +7,7 @@ import type { AvRoute } from '@/common/types'
 import type { MutationArgs } from '@/types'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { BaseApiErrorCode } from '@avenirs-esr/shared'
-import { createMountComposable } from '@avenirs-esr/shared/test-utils'
+import { createMountComposable } from '@avenirs-esr/shared/test-utils/unit'
 import { useForm } from '@tanstack/vue-form'
 import { flushPromises } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
@@ -18,7 +18,7 @@ import { h } from 'vue'
 import { useInvalidateQuery } from '@/common/composables/use-invalidate-query/use-invalidate-query'
 import { i18n } from '@/plugins/vue-i18n/vue-i18n'
 
-export { mountComponent, mountWithRouter } from '@avenirs-esr/shared/test-utils'
+export { mountComponent, mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 
 export function testUseBaseApiExceptionToast<T> ({
   mockedUseQuery,

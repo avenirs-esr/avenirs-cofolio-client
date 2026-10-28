@@ -1,6 +1,6 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { AvIconTextStub, AvTagPickerStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { LoaderStub } from '@avenirs-esr/shared/test-utils'
+import { LoaderStub } from '@avenirs-esr/shared/test-utils/unit'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { activitiesViewErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'

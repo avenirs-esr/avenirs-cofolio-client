@@ -1,7 +1,7 @@
 import type { DefaultBodyType, HttpResponseResolver, PathParams } from 'msw'
 import type { AssociationLimitDTO, AssociationsCreationRequest, AssociationsDTO, PagedResponseAssociationSearchResultDTO } from '@/api/avenir-esr'
 import { ErrorCodes } from '@avenirs-esr/shared'
-import { getOptionalBooleanSearchParam } from '@avenirs-esr/shared/test-utils'
+import { getOptionalBooleanSearchParam } from '@avenirs-esr/shared/test-utils/msw'
 import { delay, http, HttpResponse } from 'msw'
 import { createMockedAssociationLimits, createMockedAssociations, createMockedAssociationSearchResponse, mockedEmptyAssociations } from '@/__mocks__/fixtures/student/associations.fixtures'
 import { invalidTraceId } from '@/__mocks__/fixtures/student/traces.fixtures'

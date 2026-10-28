@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { waitMswToStart } from '@avenirs-esr/shared/test-utils'
+import { waitMswToStart } from '@avenirs-esr/shared/test-utils/a11y'
 import { beforeEach, expect, vi } from 'vitest'
 
 BddTest().given('the shared MSW wait helper', () => {

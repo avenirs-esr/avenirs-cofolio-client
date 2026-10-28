@@ -1,5 +1,5 @@
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { setupWarningHandler } from '@avenirs-esr/shared/test-utils'
+import { setupWarningHandler } from '@avenirs-esr/shared/test-utils/unit'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 const initialWarn = console.warn

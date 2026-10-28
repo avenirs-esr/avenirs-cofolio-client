@@ -65,9 +65,11 @@ Change dependency ranges in the owning catalogue rather than repeating versions 
 The private `@avenirs-esr/shared` package exposes TypeScript sources through these entry points:
 
 - `@avenirs-esr/shared`: transport factory, interceptor manager, transport types, HTTP status codes, exceptions, error codes, locale mappings, `hasStringField` and the shared `EmptyState`, `ErrorMessage` and `Loader` components. The transport factory requires an explicit `baseUrl`.
-- `@avenirs-esr/shared/test-utils`: mounting helpers, explicit test setup, accessibility helpers and shared component stubs.
+- `@avenirs-esr/shared/test-utils/a11y`: accessibility audit helpers and timeout constant.
+- `@avenirs-esr/shared/test-utils/msw`: browser-safe MSW request and pagination helpers.
+- `@avenirs-esr/shared/test-utils/unit`: mounting helpers, explicit unit-test setup and shared component stubs.
 
-Shared UI components and API definitions are imported directly from `@avenirs-esr/shared`, and co-located component stubs are imported from `@avenirs-esr/shared/test-utils`. HTTP instances, authentication/session handling, application headers, routers, translations and i18n instances stay local. Both app solution tsconfigs reference the shared package solution, which includes its runtime, Node configuration and test projects; app-specific compiler configurations remain local.
+Shared UI components and API definitions are imported directly from `@avenirs-esr/shared`, and co-located component stubs are imported from `@avenirs-esr/shared/test-utils/unit`. HTTP instances, authentication/session handling, application headers, routers, translations and i18n instances stay local. Both app solution tsconfigs reference the shared package solution, which includes its runtime, Node configuration and test projects; app-specific compiler configurations remain local.
 
 Shared package checks run independently:
 
@@ -79,17 +81,20 @@ pnpm --filter @avenirs-esr/shared run test:coverage
 
 ## Test utilities
 
-The `@avenirs-esr/shared/test-utils` entry point exports `mountComponent`, `createMountComposable` and `mountWithRouter` as TypeScript sources. Test support belongs to the existing shared package rather than a separate workspace package.
+The `@avenirs-esr/shared/test-utils/unit` entry point exports `mountComponent`, `createMountComposable` and `mountWithRouter` as TypeScript sources. Test support belongs to the existing shared package rather than a separate workspace package. There is no global `test-utils` entry point: each consumer selects `a11y`, `msw` or `unit` to keep their dependency graphs separate.
 
 The existing application test utilities re-export the component and router helpers. Each application configures its composable mounting facade with its own i18n instance; Cofolio additionally supplies its persisted Pinia factory, while Backoffice uses a plain Pinia. Optional plugins and their default settings are unchanged.
 
-The same entry point exports the setup and accessibility helpers:
+The unit entry point also exports the setup helpers:
 
 - `setupWarningHandler` installs the strict warning handler explicitly from each local setup.
 - `setupMswLifecycle` registers the lifecycle using the calling application's Vitest hooks and deferred local server loader. MSW servers, handlers, i18n initialization and polyfills stay local.
-- `waitMswToStart` and `createA11yAudit` provide the accessibility engine. Each application supplies its own Axe builder, HTML reporter and report writer; the common engine excludes user content, requests HTML only for violations and retains the failing assertion. Routes, render waits, report keys, absolute report destinations and Playwright configurations stay application-owned. The wait helper retains its networkidle-only behavior.
 
-Vue, Vue Test Utils, Pinia, TanStack Query and Playwright are optional peers and explicit development dependencies of shared. Runtime consumers do not acquire mandatory test-tool dependencies. Vitest lifecycle hooks and Axe/reporting dependencies are supplied locally rather than importing a second runner or replacing an application's analysis engine. Shared component stubs are co-located under `src/ui` and exported from `@avenirs-esr/shared/test-utils`; application-specific stubs remain local.
+The `a11y` entry point exports `A11Y_TEST_TIMEOUT`, `waitMswToStart` and `createA11yAudit`. Each application supplies its own Axe builder, HTML reporter and report writer; the common engine excludes user content, requests HTML only for violations and retains the failing assertion. Routes, render waits, report keys, absolute report destinations and Playwright configurations stay application-owned. The wait helper retains its networkidle-only behavior.
+
+Browser MSW handlers use the `msw` entry point for request and pagination helpers without loading Playwright or unit-test tooling.
+
+Vue, Vue Test Utils, Pinia, TanStack Query and Playwright are optional peers and explicit development dependencies of shared. Runtime consumers do not acquire mandatory test-tool dependencies. Vitest lifecycle hooks and Axe/reporting dependencies are supplied locally rather than importing a second runner or replacing an application's analysis engine. Shared component stubs are co-located under `src/ui` and exported from `@avenirs-esr/shared/test-utils/unit`; application-specific stubs remain local.
 
 Each utility's `.test.ts` file is co-located with its implementation under `src/` or `test-utils/`. The library TypeScript projects exclude tests; the dedicated test project includes them. The shared Vitest configuration defines a Node `runtime` project and a JSDOM `test-utils` project. No JavaScript library build is required.
 

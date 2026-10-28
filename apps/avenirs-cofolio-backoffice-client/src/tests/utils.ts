@@ -6,7 +6,7 @@ import type { Component, ComponentInternalInstance } from 'vue'
 import type { AvRoute, MutationArgs } from '@/types'
 import { AvButtonStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { BaseApiErrorCode } from '@avenirs-esr/shared'
-import { createMountComposable } from '@avenirs-esr/shared/test-utils'
+import { createMountComposable } from '@avenirs-esr/shared/test-utils/unit'
 import { useForm } from '@tanstack/vue-form'
 import { flushPromises } from '@vue/test-utils'
 import { createPinia, setActivePinia } from 'pinia'
@@ -16,7 +16,7 @@ import { useInvalidateQuery } from '@/composables/use-invalidate-query/use-inval
 import { i18n } from '@/plugins/vue-i18n/vue-i18n'
 import { createMockQueryError } from '@/tests/mocks'
 
-export { mountComponent, mountWithRouter } from '@avenirs-esr/shared/test-utils'
+export { createMountComposable, mountComponent, mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 
 const mockAddErrorMessage = vi.fn()
 

@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { BaseApiException } from '@avenirs-esr/shared'
-import { EmptyStateStub, ErrorMessageStub, LoaderStub } from '@avenirs-esr/shared/test-utils'
+import { EmptyStateStub, ErrorMessageStub, LoaderStub } from '@avenirs-esr/shared/test-utils/unit'
 import { beforeEach, expect } from 'vitest'
 import QuerySuspense from '@/components/QuerySuspense/QuerySuspense.vue'
 import { mountComponent } from '@/tests/utils'

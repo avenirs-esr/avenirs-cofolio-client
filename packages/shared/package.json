@@ -6,11 +6,14 @@
   "exports": {
     ".": "./src/index.ts",
     "./api/specs/*": "./api/specs/*",
-    "./test-utils": "./test-utils/index.ts"
+    "./test-utils/a11y": "./test-utils/a11y/index.ts",
+    "./test-utils/msw": "./test-utils/msw/index.ts",
+    "./test-utils/unit": "./test-utils/unit/index.ts"
   },
   "scripts": {
     "generate:api": "orval",
     "lint": "eslint .",
+    "format": "eslint . --fix",
     "prepare": "pnpm run generate:api",
     "test": "pnpm run test:unit",
     "test:unit": "vitest run --pool.threads.maxThreads=6",
@@ -60,6 +63,7 @@
     "@vue/test-utils": "catalog:",
     "eslint": "catalog:",
     "jsdom": "catalog:",
+    "msw": "catalog:",
     "orval": "catalog:",
     "pinia": "catalog:",
     "sass-embedded": "catalog:",
@@ -67,7 +71,6 @@
     "vite": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
-    "msw": "catalog:",
     "vue-component-type-helpers": "catalog:",
     "vue-i18n": "catalog:",
     "vue-tsc": "catalog:"

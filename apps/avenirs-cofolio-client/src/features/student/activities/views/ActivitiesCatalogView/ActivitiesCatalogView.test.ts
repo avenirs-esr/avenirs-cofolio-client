@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { ActivitiesCatalogViewProps } from '@/features/student/activities/views/ActivitiesCatalogView/ActivitiesCatalogView.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { LoaderStub } from '@avenirs-esr/shared/test-utils'
+import { LoaderStub } from '@avenirs-esr/shared/test-utils/unit'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { activityDetailsErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'

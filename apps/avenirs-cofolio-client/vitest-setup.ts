@@ -1,4 +1,4 @@
-import { setupMswLifecycle, setupWarningHandler } from '@avenirs-esr/shared/test-utils'
+import { setupMswLifecycle, setupWarningHandler } from '@avenirs-esr/shared/test-utils/unit'
 import { config } from '@vue/test-utils'
 import { fetch, FormData, Headers, Request, Response } from 'undici'
 import { afterAll, afterEach, beforeAll } from 'vitest'

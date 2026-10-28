@@ -1,7 +1,7 @@
 import type { AvRoute } from '@/common/types'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { A11Y_TEST_TIMEOUT, waitMswToStart } from '@avenirs-esr/shared/test-utils'
+import { A11Y_TEST_TIMEOUT, waitMswToStart } from '@avenirs-esr/shared/test-utils/a11y'
 import { test } from '@playwright/test'
 import { auditAccessibility } from 'a11y/utils'
 import { ROUTES } from '@/common/constants/route-names'
