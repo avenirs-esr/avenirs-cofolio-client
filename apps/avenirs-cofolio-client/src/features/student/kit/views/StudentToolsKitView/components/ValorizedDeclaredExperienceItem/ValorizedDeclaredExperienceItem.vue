@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import type { AvLocale } from '@avenirs-esr/shared'
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
-import type { AvLocale } from '@/types'
 import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { formatDateToYearMonthLocalized } from '@/common/utils'

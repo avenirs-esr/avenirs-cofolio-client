@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { AvLocale } from '@/types'
+import type { AvLocale } from '@avenirs-esr/shared'
 import { AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import { useGetActivityInactiveStudents } from '@/api/avenir-esr'

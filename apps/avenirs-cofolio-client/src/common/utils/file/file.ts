@@ -1,7 +1,7 @@
+import type { AvLocale } from '@avenirs-esr/shared'
 import type { FileDTO } from '@/api/avenir-esr'
-import type { AvLocale } from '@/types'
+import { AvIsoLocaleMap } from '@avenirs-esr/shared'
 import { EFileType } from '@/api/avenir-esr'
-import { AvIsoLocaleMap } from '@/types'
 
 export const MB = 1024 * 1024
 

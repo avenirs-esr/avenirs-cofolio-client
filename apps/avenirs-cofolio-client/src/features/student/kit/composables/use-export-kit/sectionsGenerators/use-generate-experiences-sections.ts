@@ -1,5 +1,5 @@
+import type { AvLocale } from '@avenirs-esr/shared'
 import type { DeclaredExperienceViewDTO } from '@/api/avenir-esr'
-import type { AvLocale } from '@/types/i18n.types'
 import { HeadingLevel, Paragraph, TextRun } from 'docx'
 import { useI18n } from 'vue-i18n'
 import { EExperienceType, useGetDeclaredExperienceView } from '@/api/avenir-esr'

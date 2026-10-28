@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AvLocale } from '@/types'
+import type { AvLocale } from '@avenirs-esr/shared'
 import DOMPurify from 'dompurify'
 import { useI18n } from 'vue-i18n'
 import { useGetLatestCgu } from '@/api/avenir-esr'
