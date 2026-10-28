@@ -58,7 +58,6 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
-    "@avenirs-esr/test-utils": "workspace:*",
     "@axe-core/playwright": "catalog:",
     "@playwright/test": "catalog:",
     "@rushstack/eslint-patch": "catalog:",

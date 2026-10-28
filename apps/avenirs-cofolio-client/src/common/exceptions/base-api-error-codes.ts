@@ -1,1 +1,1 @@
-export { BaseApiErrorCode } from '@avenirs-esr/shared/exceptions'
+export { BaseApiErrorCode } from '@avenirs-esr/shared'

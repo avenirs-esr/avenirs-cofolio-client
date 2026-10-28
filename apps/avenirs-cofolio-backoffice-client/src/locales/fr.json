@@ -8,7 +8,7 @@
       "expandButtonLabel": "Voir le fil d'Ariane"
     },
     "detail": "Détail",
-    "EmptyState": {
+    "emptyState": {
       "defaultTitle": "Aucun élément à afficher"
     },
     "error": {

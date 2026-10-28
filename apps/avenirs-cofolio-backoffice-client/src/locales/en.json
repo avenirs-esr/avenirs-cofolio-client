@@ -8,7 +8,7 @@
       "expandButtonLabel": "View breadcrumb"
     },
     "detail": "Detail",
-    "EmptyState": {
+    "emptyState": {
       "defaultTitle": "No items to display"
     },
     "error": {

@@ -323,9 +323,6 @@ importers:
       '@antfu/eslint-config':
         specifier: 'catalog:'
         version: 6.7.3(@typescript-eslint/typescript-estree@8.71.2(typescript@6.0.3))(@typescript-eslint/utils@8.71.2(eslint@9.39.5(jiti@2.6.1))(typescript@6.0.3))(@vue/compiler-sfc@3.5.44)(eslint@9.39.5(jiti@2.6.1))(typescript@6.0.3)(vitest@5.0.5)
-      '@avenirs-esr/test-utils':
-        specifier: workspace:*
-        version: link:../../packages/test-utils
       '@axe-core/playwright':
         specifier: catalog:backoffice
         version: 4.14.0(playwright-core@1.61.1)
@@ -498,9 +495,6 @@ importers:
       '@antfu/eslint-config':
         specifier: 'catalog:'
         version: 6.7.3(@typescript-eslint/typescript-estree@8.71.2(typescript@6.0.3))(@typescript-eslint/utils@8.71.2(eslint@9.39.5(jiti@2.6.1))(typescript@6.0.3))(@vue/compiler-sfc@3.5.44)(eslint@9.39.5(jiti@2.6.1))(typescript@6.0.3)(vitest@5.0.3)
-      '@avenirs-esr/test-utils':
-        specifier: workspace:*
-        version: link:../../packages/test-utils
       '@axe-core/playwright':
         specifier: 'catalog:'
         version: 4.13.0(playwright-core@1.61.1)
@@ -548,7 +542,7 @@ importers:
         version: 0.5.1
       axe-html-reporter:
         specifier: 'catalog:'
-        version: 2.2.11(axe-core@4.13.0)
+        version: 2.2.11(axe-core@4.14.0)
       blob-polyfill:
         specifier: 'catalog:'
         version: 9.0.20240710
@@ -647,36 +641,6 @@ importers:
       '@avenirs-esr/avenirs-dsav':
         specifier: 'catalog:'
         version: 0.1.371(@floating-ui/dom@1.8.0)(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/extensions@3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0))(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.3)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
-      '@types/node':
-        specifier: 'catalog:'
-        version: 26.6.5
-      '@vitest/coverage-v8':
-        specifier: 'catalog:'
-        version: 5.0.3(vitest@5.0.3)
-      eslint:
-        specifier: 'catalog:'
-        version: 9.39.5(jiti@2.6.1)
-      orval:
-        specifier: 'catalog:'
-        version: 8.22.0(typescript@6.0.3)
-      typescript:
-        specifier: 'catalog:'
-        version: 6.0.3
-      vite:
-        specifier: 'catalog:'
-        version: 6.4.4(@types/node@26.6.5)(jiti@2.6.1)(sass-embedded@1.99.0)(sass@1.99.0)(yaml@2.9.1)
-      vitest:
-        specifier: 'catalog:'
-        version: 5.0.3(@types/node@26.6.5)(@vitest/coverage-v8@5.0.3)(jsdom@28.1.0)(msw@2.15.0(@types/node@26.6.5)(typescript@6.0.3))(vite@6.4.4(@types/node@26.6.5)(jiti@2.6.1)(sass-embedded@1.99.0)(sass@1.99.0)(yaml@2.9.1))
-
-  packages/test-utils:
-    devDependencies:
-      '@antfu/eslint-config':
-        specifier: 'catalog:'
-        version: 6.7.3(@typescript-eslint/typescript-estree@8.71.2(typescript@6.0.3))(@typescript-eslint/utils@8.71.2(eslint@9.39.5(jiti@2.6.1))(typescript@6.0.3))(@vue/compiler-sfc@3.5.44)(eslint@9.39.5(jiti@2.6.1))(typescript@6.0.3)(vitest@5.0.3)
-      '@avenirs-esr/avenirs-dsav':
-        specifier: 'catalog:'
-        version: 0.1.371(@floating-ui/dom@1.8.0)(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/extensions@3.32.0(@tiptap/core@3.32.0(@tiptap/pm@3.32.0))(@tiptap/pm@3.32.0))(@vue/test-utils@2.5.1(@vue/compiler-dom@3.5.44)(@vue/server-renderer@3.5.44)(vue@3.5.44(typescript@6.0.3)))(vitest@5.0.3)(vue-router@4.5.1(vue@3.5.44(typescript@6.0.3)))(vue@3.5.44(typescript@6.0.3))
       '@playwright/test':
         specifier: 'catalog:'
         version: 1.61.1
@@ -686,6 +650,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
+      '@vitejs/plugin-vue':
+        specifier: 'catalog:'
+        version: 5.2.4(vite@6.4.4(@types/node@26.6.5)(jiti@2.6.1)(sass-embedded@1.99.0)(sass@1.99.0)(yaml@2.9.1))(vue@3.5.44(typescript@6.0.3))
       '@vitest/coverage-v8':
         specifier: 'catalog:'
         version: 5.0.3(vitest@5.0.3)
@@ -698,9 +665,15 @@ importers:
       jsdom:
         specifier: 'catalog:'
         version: 28.1.0
+      orval:
+        specifier: 'catalog:'
+        version: 8.22.0(typescript@6.0.3)
       pinia:
         specifier: 'catalog:'
         version: 3.0.4(typescript@6.0.3)(vue@3.5.44(typescript@6.0.3))
+      sass-embedded:
+        specifier: 'catalog:'
+        version: 1.99.0
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -719,6 +692,9 @@ importers:
       vue-i18n:
         specifier: 'catalog:'
         version: 11.1.12(vue@3.5.44(typescript@6.0.3))
+      vue-tsc:
+        specifier: 'catalog:'
+        version: 2.2.10(typescript@6.0.3)
 
 packages:
 
@@ -4061,10 +4037,6 @@ packages:
     resolution: {integrity: sha512-eljcgEDlEns/7AXFosB5K/2nCM4P7FQPkGc/DWLy5rmFEWvZayGrik1d9/QIY5nJ4f9YsVvBkA6kJpHn9rISdQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     hasBin: true
-
-  is-extglob@2.1.1:
-    resolution: {integrity: sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==}
-    engines: {node: '>=0.10.0'}
 
   is-fullwidth-code-point@3.0.0:
     resolution: {integrity: sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==}
@@ -8423,11 +8395,6 @@ snapshots:
 
   axe-core@4.14.0: {}
 
-  axe-html-reporter@2.2.11(axe-core@4.13.0):
-    dependencies:
-      axe-core: 4.13.0
-      mustache: 4.2.0
-
   axe-html-reporter@2.2.11(axe-core@4.14.0):
     dependencies:
       axe-core: 4.14.0
@@ -9774,13 +9741,9 @@ snapshots:
 
   is-docker@3.0.0: {}
 
-  is-extglob@2.1.1: {}
-
   is-fullwidth-code-point@3.0.0: {}
 
-  is-glob@4.0.3:
-    dependencies:
-      is-extglob: 2.1.1
+  is-glob@4.0.3: {}
 
   is-inside-container@1.0.0:
     dependencies:

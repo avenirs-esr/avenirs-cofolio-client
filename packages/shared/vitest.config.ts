@@ -1,17 +1,36 @@
 import { fileURLToPath } from 'node:url'
+import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
+  plugins: [vue()],
   test: {
     globals: true,
     root: fileURLToPath(new URL('./', import.meta.url)),
-    environment: 'node',
-    include: ['tests/**/*.test.ts'],
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: 'runtime',
+          environment: 'node',
+          include: ['src/**/*.test.ts'],
+          exclude: ['src/ui/**/*.test.ts'],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'test-utils',
+          environment: 'jsdom',
+          include: ['test-utils/**/*.test.ts', 'src/ui/**/*.test.ts'],
+        },
+      },
+    ],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json-summary'],
-      include: ['src/**/*.ts'],
-      exclude: ['src/api/generated/**', 'src/api/fetch/types.ts', 'src/exceptions/types.ts'],
+      include: ['src/**/*.ts', 'test-utils/**/*.ts'],
+      exclude: ['**/*.test.ts', 'src/api/generated/**', 'src/api/fetch/types.ts', 'src/exceptions/types.ts'],
       thresholds: {
         branches: 85,
         functions: 85,

@@ -11,9 +11,6 @@
     },
     {
       "path": "../../packages/shared"
-    },
-    {
-      "path": "../../packages/test-utils"
     }
   ],
   "files": []

@@ -1,1 +1,1 @@
-export { createBasApiExceptionFromResponseBody, createBaseApiExceptionFromUnknownError } from '@avenirs-esr/shared/exceptions'
+export { createBasApiExceptionFromResponseBody, createBaseApiExceptionFromUnknownError } from '@avenirs-esr/shared'

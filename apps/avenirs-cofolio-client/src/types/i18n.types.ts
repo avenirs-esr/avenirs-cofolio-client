@@ -1,1 +1,1 @@
-export * from '@avenirs-esr/shared/i18n'
+export * from '@avenirs-esr/shared'

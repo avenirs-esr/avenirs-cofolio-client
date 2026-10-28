@@ -4,12 +4,9 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./api/fetch": "./src/api/fetch/index.ts",
-    "./api/http-status": "./src/api/http-status.ts",
+    ".": "./src/index.ts",
     "./api/specs/*": "./api/specs/*",
-    "./exceptions": "./src/exceptions/index.ts",
-    "./i18n": "./src/i18n/index.ts",
-    "./utils/type-guards": "./src/utils/type-guards.ts"
+    "./test-utils": "./test-utils/index.ts"
   },
   "scripts": {
     "generate:api": "orval",
@@ -18,17 +15,60 @@
     "test": "pnpm run test:unit",
     "test:unit": "vitest run --pool.threads.maxThreads=6",
     "test:coverage": "vitest run --pool.threads.maxThreads=6 --coverage",
-    "type-check": "tsc --build --force"
+    "type-check": "vue-tsc --build --force"
+  },
+  "peerDependencies": {
+    "@avenirs-esr/avenirs-dsav": "catalog:",
+    "@playwright/test": "catalog:",
+    "@tanstack/vue-query": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "pinia": "catalog:",
+    "vue": "catalog:",
+    "vue-i18n": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "@avenirs-esr/avenirs-dsav": {
+      "optional": true
+    },
+    "@playwright/test": {
+      "optional": true
+    },
+    "@tanstack/vue-query": {
+      "optional": true
+    },
+    "@vue/test-utils": {
+      "optional": true
+    },
+    "pinia": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    },
+    "vue-i18n": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
     "@avenirs-esr/avenirs-dsav": "catalog:",
+    "@playwright/test": "catalog:",
+    "@tanstack/vue-query": "catalog:",
     "@types/node": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
     "@vitest/coverage-v8": "catalog:",
+    "@vue/test-utils": "catalog:",
     "eslint": "catalog:",
+    "jsdom": "catalog:",
     "orval": "catalog:",
+    "pinia": "catalog:",
+    "sass-embedded": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "vue": "catalog:",
+    "vue-component-type-helpers": "catalog:",
+    "vue-i18n": "catalog:",
+    "vue-tsc": "catalog:"
   }
 }

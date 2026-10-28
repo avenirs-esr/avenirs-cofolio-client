@@ -1,5 +1,4 @@
-import { setupMswLifecycle } from '@avenirs-esr/test-utils/unit/setup/msw'
-import { setupWarningHandler } from '@avenirs-esr/test-utils/unit/setup/warnings'
+import { setupMswLifecycle, setupWarningHandler } from '@avenirs-esr/shared/test-utils'
 import { config } from '@vue/test-utils'
 import { afterAll, afterEach, beforeAll } from 'vitest'
 // eslint-disable-next-line no-restricted-imports

@@ -7,7 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    EmptyState: typeof import('./components/feedback/EmptyState/EmptyState.vue')['default']
+    EmptyState: typeof import('@avenirs-esr/shared')['EmptyState']
     ErrorMessage: typeof import('./components/feedback/ErrorMessage/ErrorMessage.vue')['default']
     InformationTooltip: typeof import('./components/overlay/tooltips/InformationTooltip/InformationTooltip.vue')['default']
     Loader: typeof import('./components/Loader/Loader.vue')['default']

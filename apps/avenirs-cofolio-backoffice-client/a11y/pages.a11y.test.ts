@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 import { test } from '@playwright/test'
 import { GLOBAL_TIMEOUT } from 'a11y/playwright.a11y.config'
 import { auditAccessibility, waitMswToStart } from 'a11y/utils'
-import { ROUTES } from '@/constants'
+import { ROUTES } from '@/constants/route-names'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
