@@ -8,6 +8,7 @@ import { beforeEach, expect, vi } from 'vitest'
 import { EGroupType } from '@/api/avenir-esr'
 import { CardStub } from '@/common/components/cards/Card/Card.stub'
 import { ROUTES } from '@/common/constants'
+import { UserInfoStub } from '@/features/staff/admin/components/base/UserInfo/UserInfo.stub'
 import UsersOverviewCard from '@/features/staff/admin/components/cards/UsersOverviewCard/UsersOverviewCard.vue'
 
 const mockIsStaffAdminGroupsRoute = ref(false)
@@ -65,6 +66,7 @@ BddTest().given('a users overview card', () => {
     AvTooltip: AvTooltipStub,
     RouterLink: RouterLinkStub,
     Card: CardStub,
+    UserInfo: UserInfoStub,
   }
 
   const mountWith = async (options: {
@@ -86,8 +88,7 @@ BddTest().given('a users overview card', () => {
 
   const getRouterLink = () => wrapper.findComponent(RouterLinkStub)
   const getCard = () => wrapper.find('[data-testid="users-overview-card"]')
-  const getFullNames = () => wrapper.find('[data-testid="full-names"]')
-  const getEmail = () => wrapper.find('[data-testid="email"]')
+  const getUserInfo = () => wrapper.findComponent(UserInfoStub)
   const getFormations = () => wrapper.find('[data-testid="formations"]')
   const getGroups = () => wrapper.find('[data-testid="groups"]')
   const getTooltips = () => wrapper.findAllComponents(AvTooltipStub)
@@ -103,8 +104,8 @@ BddTest().given('a users overview card', () => {
     })
 
     BddTest().then('it should render the user information', () => {
-      expect(getFullNames().text()).toBe(`${mockUser.firstName} ${mockUser.lastName}`)
-      expect(getEmail().text()).toBe(mockUser.email)
+      expect(getUserInfo().exists()).toBe(true)
+      expect(getUserInfo().props('user')).toEqual(mockUser)
     })
 
     BddTest().then('it should expose the user id on the card', () => {
@@ -121,7 +122,7 @@ BddTest().given('a users overview card', () => {
     BddTest().then('it should not render formations or groups', () => {
       expect(getFormations().exists()).toBe(false)
       expect(getGroups().exists()).toBe(false)
-      expect(getTooltips()).toHaveLength(1)
+      expect(getTooltips()).toHaveLength(0)
     })
   })
 
@@ -155,13 +156,11 @@ BddTest().given('a users overview card', () => {
     })
 
     BddTest().then('it should disable the tooltips when text is not truncated', () => {
-      expect(getTooltips()).toHaveLength(3)
-      expect(getTooltips()[0].props('content')).toBe('ALICE DUPONT')
+      expect(getTooltips()).toHaveLength(2)
+      expect(getTooltips()[0].props('content')).toBe('Master Informatique, Licence Pro')
       expect(getTooltips()[0].props('disabled')).toBe(true)
-      expect(getTooltips()[1].props('content')).toBe('Master Informatique, Licence Pro')
+      expect(getTooltips()[1].props('content')).toBe('Groupe A, Groupe B')
       expect(getTooltips()[1].props('disabled')).toBe(true)
-      expect(getTooltips()[2].props('content')).toBe('Groupe A, Groupe B')
-      expect(getTooltips()[2].props('disabled')).toBe(true)
     })
   })
 
@@ -172,10 +171,9 @@ BddTest().given('a users overview card', () => {
     })
 
     BddTest().then('it should enable the tooltips', () => {
-      expect(getTooltips()).toHaveLength(3)
+      expect(getTooltips()).toHaveLength(2)
       expect(getTooltips()[0].props('disabled')).toBe(false)
       expect(getTooltips()[1].props('disabled')).toBe(false)
-      expect(getTooltips()[2].props('disabled')).toBe(false)
     })
   })
 })

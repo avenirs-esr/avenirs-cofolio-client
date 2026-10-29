@@ -3,12 +3,13 @@ import type { AvTableColumn } from '@avenirs-esr/avenirs-dsav'
 import type { UsersListRow } from '@/features/staff/admin/components/dataDisplay/UsersList/UsersList.types'
 import { AvTable, useAvBreakpoints } from '@avenirs-esr/avenirs-dsav'
 import GroupName from '@/features/staff/admin/components/base/GroupName/GroupName.vue'
-import UserName from '@/features/staff/admin/components/base/UserName/UserName.vue'
+import UserInfo from '@/features/staff/admin/components/base/UserInfo/UserInfo.vue'
 import UsersOverviewCard from '@/features/staff/admin/components/cards/UsersOverviewCard/UsersOverviewCard.vue'
 
 interface UsersOverviewListProps {
   rows: UsersListRow[]
   columns: AvTableColumn<UsersListRow>[]
+  groupUsersMode?: boolean
 }
 
 defineProps<UsersOverviewListProps>()
@@ -26,8 +27,8 @@ const { isBelowLg } = useAvBreakpoints()
       v-for="row in rows"
       :key="row.id"
       :user="row.user"
-      :formations="row.formations"
-      :groups="row.groups"
+      :formations="!groupUsersMode ? row.formations : undefined"
+      :groups="!groupUsersMode ? row.groups : undefined"
     />
   </div>
   <AvTable
@@ -38,20 +39,23 @@ const { isBelowLg } = useAvBreakpoints()
     data-testid="users-overview-list-table"
   >
     <template #cell(user)="{ row }">
-      <UserName
+      <UserInfo
         :user="row.user"
         with-nav
       />
     </template>
-    <template #cell(formations)="{ row }">
+    <template
+      v-if="!groupUsersMode"
+      #cell(formations)="{ row }"
+    >
       <ul
         v-if="row.formations?.length"
         data-testid="formations-list"
+        class="av-list-reset"
       >
         <li
           v-for="formation in row.formations"
           :key="formation.id"
-          class="b2-regular"
         >
           <GroupName
             :group="formation"
@@ -60,15 +64,18 @@ const { isBelowLg } = useAvBreakpoints()
         </li>
       </ul>
     </template>
-    <template #cell(groups)="{ row }">
+    <template
+      v-if="!groupUsersMode"
+      #cell(groups)="{ row }"
+    >
       <ul
         v-if="row.groups?.length"
         data-testid="groups-list"
+        class="av-list-reset"
       >
         <li
           v-for="group in row.groups"
           :key="group.id"
-          class="b2-regular"
         >
           <GroupName
             :group="group"
@@ -79,9 +86,3 @@ const { isBelowLg } = useAvBreakpoints()
     </template>
   </AvTable>
 </template>
-
-<style>
-li{
-  list-style: none;
-}
-</style>

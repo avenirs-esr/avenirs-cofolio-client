@@ -4,10 +4,6 @@ import type { EUserCategory } from '@/api/avenir-esr'
 export const UsersListStub = defineComponent({
   name: 'UsersListStub',
   props: {
-    keyword: {
-      type: String,
-      required: false,
-    },
     categories: {
       type: Array as PropType<EUserCategory[]>,
       required: false,
@@ -20,6 +16,11 @@ export const UsersListStub = defineComponent({
       type: Array as PropType<string[]>,
       required: false,
     },
+    groupUsersMode: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
-  template: '<div data-testid="users-list-stub" />',
+  template: '<div data-testid="users-list-stub"><slot /></div>',
 })

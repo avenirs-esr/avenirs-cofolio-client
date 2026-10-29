@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
 import { ROUTES } from '@/common/constants'
+import UserInfo from '@/features/staff/admin/components/base/UserInfo/UserInfo.vue'
 
 export interface UsersOverviewCardProps {
   user: UserInfoType
@@ -19,16 +20,12 @@ const { t } = useI18n()
 const { isStaffAdminGroupsRoute } = useIdentifyRoute()
 const route = useRoute()
 
-const fullNamesRef = ref<HTMLElement | null>(null)
 const formationsRef = ref<HTMLElement | null>(null)
 const groupsRef = ref<HTMLElement | null>(null)
-const email = computed(() => user.email)
 
-const { isTruncated: isFullNamesTruncated } = useTextTruncation(fullNamesRef)
 const { isTruncated: isFormationsTruncated } = useTextTruncation(formationsRef)
 const { isTruncated: isGroupsTruncated } = useTextTruncation(groupsRef)
 
-const fullNames = computed(() => `${user.firstName} ${user.lastName}`)
 const formationsNames = computed(() => formations.map(formation => formation.name).join(', '))
 const groupsNames = computed(() => groups.map(group => group.name).join(', '))
 
@@ -58,27 +55,9 @@ const to = computed(() => {
       :data-user-id="user.id"
     >
       <div class="av-col av-gap-sm">
-        <AvTooltip
-          v-if="user.firstName.length || user.lastName.length || email.length"
-          :content="fullNames"
-          :disabled="!isFullNamesTruncated"
-        >
-          <div class="user-identity">
-            <span
-              ref="fullNamesRef"
-              class="b2-regular av-max-lines"
-              data-testid="full-names"
-            >
-              {{ fullNames }}
-            </span>
-            <span
-              class="caption-light av-max-lines"
-              data-testid="email"
-            >
-              {{ email }}
-            </span>
-          </div>
-        </AvTooltip>
+        <UserInfo
+          :user="user"
+        />
 
         <AvTooltip
           v-if="formations.length"
@@ -122,11 +101,5 @@ const to = computed(() => {
 
 .users-overview-card {
   --max-lines: 2;
-}
-
-.user-identity {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
 }
 </style>

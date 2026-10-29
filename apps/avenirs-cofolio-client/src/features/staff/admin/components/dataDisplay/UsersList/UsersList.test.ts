@@ -10,6 +10,7 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { EGroupType } from '@/api/avenir-esr'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
+import { SearchEntityInputStub } from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.stub'
 import { PaginationStub } from '@/common/components/navigation/Pagination/Pagination.stub'
 import { BaseApiException } from '@/common/exceptions'
 import { UsersOverviewListStub } from '@/features/staff/admin/components/base/UsersOverviewList/UsersOverviewList.stub'
@@ -82,31 +83,35 @@ BddTest().given('a users list', () => {
     QuerySuspense: QuerySuspenseStub,
     Pagination: PaginationStub,
     UsersOverviewList: UsersOverviewListStub,
+    SearchEntityInput: SearchEntityInputStub,
   }
 
   const mountWith = async ({
-    keyword,
     categories,
     institutionIds,
     groupIds,
+    groupUsersMode,
     paginatedResult = defaultPaginatedResult,
+    slots,
   }: {
-    keyword?: string
     categories?: UsePaginatedAffiliationsParams['categoriesRef'] extends { value: infer T } ? T : never
     institutionIds?: string[]
     groupIds?: string[]
+    groupUsersMode?: boolean
     paginatedResult?: UsePaginatedAffiliationsResult
+    slots?: Record<string, string>
   } = {}) => {
     vi.clearAllMocks()
     mockUsePaginatedAffiliations.mockReturnValue(paginatedResult)
 
     wrapper = mountComponent(UsersList, {
       props: {
-        keyword,
         categories,
         institutionIds,
         groupIds,
+        groupUsersMode,
       },
+      slots,
       global: { stubs },
     })
 
@@ -116,6 +121,7 @@ BddTest().given('a users list', () => {
   const getQuerySuspense = () => wrapper.findComponent(QuerySuspenseStub)
   const getPagination = () => wrapper.findComponent(PaginationStub)
   const getUsersOverviewList = () => wrapper.findComponent(UsersOverviewListStub)
+  const getSearchEntityInput = () => wrapper.findComponent(SearchEntityInputStub)
 
   beforeEach(async () => {
     mockUsersCurrentPage.value = 0
@@ -124,6 +130,10 @@ BddTest().given('a users list', () => {
   })
 
   BddTest().when('the component is rendered', () => {
+    BddTest().then('it should render the search input', () => {
+      expect(getSearchEntityInput().exists()).toBe(true)
+    })
+
     BddTest().then('it should pass the users state to QuerySuspense', () => {
       expect(getQuerySuspense().props('isEmpty')).toBe(false)
       expect(getQuerySuspense().props('isLoading')).toBe(false)
@@ -181,13 +191,16 @@ BddTest().given('a users list', () => {
     })
   })
 
-  BddTest().when('the component receives a keyword', () => {
+  BddTest().when('the user enters a keyword in the search input', () => {
     beforeEach(async () => {
-      await mountWith({ keyword: 'alice' })
+      await mountWith()
+      getSearchEntityInput().vm.$emit('update:modelValue', 'alice')
+      await flushPromises()
     })
 
     BddTest().then('it should pass the keyword to the paginated composable', () => {
-      const params = mockUsePaginatedAffiliations.mock.calls[0][0]
+      const lastCallIndex = mockUsePaginatedAffiliations.mock.calls.length - 1
+      const params = mockUsePaginatedAffiliations.mock.calls[lastCallIndex][0]
 
       expect(params.keywordRef.value).toBe('alice')
     })
@@ -214,6 +227,54 @@ BddTest().given('a users list', () => {
       expect(params.categoriesRef.value).toStrictEqual(categories)
       expect(params.institutionIdsRef.value).toStrictEqual(institutionIds)
       expect(params.groupIdsRef.value).toStrictEqual(groupIds)
+    })
+  })
+
+  BddTest().when('group users mode is enabled', () => {
+    beforeEach(async () => {
+      await mountWith({ groupUsersMode: true })
+    })
+
+    BddTest().then('it should pass empty formations and groups in rows to UsersOverviewList', () => {
+      expect(getUsersOverviewList().props('rows')).toStrictEqual(
+        mockUsers.map(user => ({
+          id: user.id,
+          institutions: user.institutions,
+          user: {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            profilePictureId: user.profilePictureId,
+          },
+          formations: [],
+          groups: [],
+        })),
+      )
+    })
+
+    BddTest().then('it should pass only the user column without width to UsersOverviewList', () => {
+      expect(getUsersOverviewList().props('columns')).toStrictEqual([
+        { key: 'user', label: 'Utilisateurs', width: undefined },
+      ])
+    })
+
+    BddTest().then('it should pass groupUsersMode to UsersOverviewList', () => {
+      expect(getUsersOverviewList().props('groupUsersMode')).toBe(true)
+    })
+  })
+
+  BddTest().when('default slot content is provided', () => {
+    beforeEach(async () => {
+      await mountWith({
+        slots: {
+          default: '<div data-testid="custom-slot-content">Slot</div>',
+        },
+      })
+    })
+
+    BddTest().then('it should render the slotted content', () => {
+      expect(wrapper.find('[data-testid="custom-slot-content"]').exists()).toBe(true)
     })
   })
 
