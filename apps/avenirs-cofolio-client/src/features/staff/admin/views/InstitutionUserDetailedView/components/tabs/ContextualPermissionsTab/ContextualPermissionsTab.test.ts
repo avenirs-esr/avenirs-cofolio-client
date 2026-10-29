@@ -4,6 +4,7 @@ import { AvMessageStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { flushPromises } from '@vue/test-utils'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
+import { nextTick } from 'vue'
 import { mockExternalUserDetail } from '@/__mocks__/fixtures/shared/external-user.fixtures'
 import { EAuthorizationEntityType } from '@/api/avenir-esr'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
@@ -72,6 +73,11 @@ BddTest().given('a contextual permissions tab', () => {
   const getInfoMessage = () => wrapper.findComponent(AvMessageStub)
   const getEntityTypeSelect = () => wrapper.findComponent(AuthorizationEntityTypeSelectStub)
 
+  const getQueryParams = () => {
+    const [params] = vi.mocked(usePaginatedUserContextualAuthorizations).mock.calls[0]
+    return params
+  }
+
   beforeEach(() => {
     vi.clearAllMocks()
     mockIsFetching.value = false
@@ -93,9 +99,24 @@ BddTest().given('a contextual permissions tab', () => {
       await mountWith()
     })
 
-    BddTest().then('it should render the entity type select', () => {
+    BddTest().then('it should render the entity type select with no selected type', () => {
       expect(getEntityTypeSelect().exists()).toBe(true)
-      expect(getEntityTypeSelect().props('modelValue')).toBe(EAuthorizationEntityType.ACTIVITY)
+      expect(getEntityTypeSelect().props('modelValue')).toBeUndefined()
+    })
+
+    BddTest().then('it should pass the current user to the entity type select', () => {
+      expect(getEntityTypeSelect().props('user')).toEqual(user)
+    })
+
+    BddTest().then('it should configure the query for the current user', () => {
+      expect(getQueryParams()).toEqual(expect.objectContaining({
+        userIdRef: expect.objectContaining({ value: user.id }),
+        entityTypeRef: expect.objectContaining({ value: undefined }),
+      }))
+    })
+
+    BddTest().then('it should disable the query when no entity type is selected', () => {
+      expect(getQueryParams().enabledRef.value).toBe(false)
     })
 
     BddTest().then('it should render QuerySuspense', () => {
@@ -119,15 +140,6 @@ BddTest().given('a contextual permissions tab', () => {
       expect(getQuerySuspense().props('preserveContent')).toBe(true)
     })
 
-    BddTest().then('it should configure the query for the current user and activity entity type', () => {
-      expect(usePaginatedUserContextualAuthorizations).toHaveBeenCalledWith(
-        expect.objectContaining({
-          entityTypeRef: expect.objectContaining({ value: EAuthorizationEntityType.ACTIVITY }),
-          userIdRef: expect.objectContaining({ value: user.id }),
-        }),
-      )
-    })
-
     BddTest().then('it should render pagination when page information is available', () => {
       expect(getPagination().exists()).toBe(true)
       expect(getPagination().props('pageInfo')).toBe(mockPageInfo.value)
@@ -144,6 +156,31 @@ BddTest().given('a contextual permissions tab', () => {
     BddTest().then('it should pass the authorizations returned by the composable to the table', () => {
       expect(getAuthorizationsTable().exists()).toBe(true)
       expect(getAuthorizationsTable().props('contextualAuthorizations')).toEqual(mockAuthorizations.value)
+    })
+  })
+
+  BddTest().when('the user selects an entity type', () => {
+    beforeEach(async () => {
+      await mountWith()
+
+      await getEntityTypeSelect().vm.$emit(
+        'update:modelValue',
+        EAuthorizationEntityType.ACTIVITY,
+      )
+
+      await nextTick()
+    })
+
+    BddTest().then('it should update the selected entity type', () => {
+      expect(getEntityTypeSelect().props('modelValue')).toBe(EAuthorizationEntityType.ACTIVITY)
+    })
+
+    BddTest().then('it should enable the query', () => {
+      expect(getQueryParams().enabledRef.value).toBe(true)
+    })
+
+    BddTest().then('it should pass the selected entity type to the query', () => {
+      expect(getQueryParams().entityTypeRef.value).toBe(EAuthorizationEntityType.ACTIVITY)
     })
   })
 
