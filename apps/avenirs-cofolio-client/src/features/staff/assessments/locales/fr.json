@@ -17,6 +17,7 @@
             "title": "Récapitulatif des éléments associés ({count})"
           },
           "AssessmentManagementFloatingPanel": {
+            "alreadySentTooltip": "Cette appréciation a déjà été envoyée",
             "draft": {
               "notSaved": "Brouillon non enregistré\u00A0: le stockage du navigateur est indisponible",
               "saved": "Brouillon enregistré sur ce navigateur"
@@ -50,6 +51,40 @@
           },
           "seeActivity": "Voir le détail de l'activité",
           "title": "Détail de l'évaluation"
+        },
+        "AssessmentsView": {
+          "components": {
+            "base": {
+              "AssessmentOverviewList": {
+                "buttonLabel": "Accéder à l'évaluation"
+              }
+            },
+            "dataDisplay": {
+              "AssessmentsList": {
+                "columns": {
+                  "actions": "Accéder",
+                  "activityTitle": "Activité",
+                  "learner": "Apprenant",
+                  "status": "Statut",
+                  "submitDate": "Date de dépôt",
+                  "type": "Type"
+                },
+                "noResults": "Aucune évaluation"
+              }
+            },
+            "selects": {
+              "AssessmentStatusMultiselect": {
+                "label": "Filtrer par statut",
+                "multiLabels": {
+                  "NEW": "Nouvelle",
+                  "OPENED": "Non traitée",
+                  "SENT": "Envoyée"
+                },
+                "placeholder": "Sélectionnez un/des statut(s)"
+              }
+            }
+          },
+          "title": "Toutes mes évaluations"
         }
       }
     }
