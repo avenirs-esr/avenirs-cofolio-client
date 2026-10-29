@@ -21,10 +21,6 @@
           "ActivityTitleInput": {
             "label": "Titre de l'activité"
           }
-        },
-        "ThematicSelect": {
-          "label": "Thématique",
-          "placeholder": "Choisir une thématique"
         }
       },
       "modals": {

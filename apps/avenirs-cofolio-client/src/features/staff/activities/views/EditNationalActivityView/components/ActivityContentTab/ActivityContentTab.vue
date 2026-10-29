@@ -97,7 +97,7 @@ function deleteSelectedResources (
 
     <div :id="ContentSectionId.THEMATIC">
       <IconTitleCardContainer
-        :title="`${t('staff.activities.interactions.ThematicSelect.label')} *`"
+        :title="`${t('global.activities.contentSectionTypes.THEMATIC')} *`"
         :title-icon="MDI_ICONS.BOOK_OPEN_VARIANT"
       >
         <ThematicSelectFormField
