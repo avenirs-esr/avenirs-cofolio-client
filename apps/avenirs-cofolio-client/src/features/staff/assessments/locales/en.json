@@ -5,7 +5,7 @@
         "assessmentStatus": {
           "COMPLETED": "Sent",
           "CONSULTED": "Unprocessed",
-          "SUBMITTED": "New"
+          "SUBMITTED_FOR_ASSESSMENT": "New"
         }
       },
       "views": {

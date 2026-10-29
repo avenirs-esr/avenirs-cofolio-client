@@ -72,7 +72,7 @@ export const mockedDeclaredActivitiesOverview: DeclaredActivityViewDTO[] = [
     thematic: EActivityThematic.SELF_KNOWLEDGE,
     summary: 'Activité visant à explorer les domaines, activités et sujets qui suscitent curiosité et engagement. L\'apprenant.e met en relation ses centres d\'intérêt avec des pistes d\'orientation potentielles afin d\'enrichir sa réflexion sur l\'avenir.',
     description: '<h3>Objectifs de l\'activité</h3><ul><li>Explorer les domaines, activités et sujets qui suscitent curiosité et engagement.</li><li>Mettre en relation ses centres d\'intérêt avec des pistes d\'orientation potentielles.</li><li>Enrichir la réflexion sur l\'avenir et les choix professionnels.</li></ul><h3>Déroulement de l\'activité</h3><p>L\'apprenant.e est invité.e à identifier ses centres d\'intérêt, à analyser leur lien avec des pistes d\'orientation et à évaluer leur impact sur ses choix futurs.</p>',
-    status: EDeclaredActivityStatus.SUBMITTED,
+    status: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK,
     updatedAt: '2026-07-22T10:04:05.695039Z'
   },
   {
@@ -336,7 +336,7 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
     activityId: 'declared-activity-2',
     title: 'Activité : Construire son parcours (soumise)',
     thematic: EActivityThematic.RESUMES,
-    status: EDeclaredActivityStatus.SUBMITTED,
+    status: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK,
     summary: 'Activité permettant à l\'apprenant.e de construire et de valoriser son parcours académique et professionnel.',
     description: '<h3>Objectifs de l\'activité</h3><ul><li><p>Permettre à l\'apprenant.e de construire un CV structuré et valorisant</p></li><li><p>Guider l\'apprenant.e dans la valorisation de son parcours académique et professionnel</p></li></ul><h3>Contenu de l\'activité</h3><p>L\'activité se compose de plusieurs étapes :</p><ol><li><p>Identification des expériences et compétences clés à valoriser</p></li><li><p>Structuration du CV en fonction du projet professionnel</p></li><li><p>Rédaction de descriptions impactantes pour chaque expérience</p></li><li><p>Conseils pour adapter le CV à différentes offres d\'emploi ou de stage</p></li></ol>',
   },
@@ -381,7 +381,29 @@ const allDeclaredActivities: DeclaredActivityViewDTO[] = [
     startDate: '2023-11-01T00:00:00Z',
     endDate: '2024-03-31T00:00:00Z',
   },
+  {
+    id: 'declared-activity-7',
+    activityId: 'declared-activity-7',
+    title: 'Activité avec évaluation : Construire son projet (en cours)',
+    thematic: EActivityThematic.SELF_KNOWLEDGE,
+    status: EDeclaredActivityStatus.IN_PROGRESS,
+    summary: 'Activité dont la finalisation est soumise à une évaluation du STAFF.',
+    description: '<p>Activité avec évaluation activée.</p>',
+    startDate: '2024-02-01T00:00:00Z',
+  },
+  {
+    id: 'declared-activity-8',
+    activityId: 'declared-activity-8',
+    title: 'Activité avec évaluation : Construire son projet (soumise pour évaluation)',
+    thematic: EActivityThematic.SELF_KNOWLEDGE,
+    status: EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT,
+    summary: 'Activité en attente du retour final du STAFF.',
+    description: '<p>Activité soumise pour évaluation.</p>',
+    startDate: '2024-02-01T00:00:00Z',
+  },
 ]
+
+export const ACTIVITY_IDS_WITH_ASSESSMENT = new Set(['declared-activity-7', 'declared-activity-8'])
 
 export function createMockedPagedResponseDeclaredActivityViewDTO (
   pageSize: number,
@@ -480,6 +502,7 @@ export function createMockedDeclaredActivityDetails (id: string, options?: { wit
 
   return {
     ...activity,
+    assessment: undefined,
     id: activity.id ?? id,
     activity: {
       ...mockedDeclaredActivityDetails.activity,
@@ -487,6 +510,7 @@ export function createMockedDeclaredActivityDetails (id: string, options?: { wit
       title: activity.title ?? mockedDeclaredActivityDetails.activity.title,
       summary: activity.summary ?? mockedDeclaredActivityDetails.activity.summary,
       enableReflection: true,
+      assessment: ACTIVITY_IDS_WITH_ASSESSMENT.has(id) ? { comment: true, validation: true } : undefined,
       recommendedCompletionContexts: activity.recommendedCompletionContexts ?? mockedDeclaredActivityDetails.activity.recommendedCompletionContexts,
       traceAllowedAssociations: ACTIVITY_TRACE_SETTING_INFINITY_VALUE,
       feedbackAllowedIterations: ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT,

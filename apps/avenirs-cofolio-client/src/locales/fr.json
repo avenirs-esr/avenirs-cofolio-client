@@ -13,7 +13,8 @@
         "declaredStatuses": {
           "COMPLETED": "Terminée",
           "IN_PROGRESS": "En cours",
-          "SUBMITTED": "Soumis",
+          "SUBMITTED_FOR_ASSESSMENT": "Soumis pour évaluation",
+          "SUBMITTED_FOR_FEEDBACK": "Soumis pour feedback",
           "SUBSCRIBED": "Inscrit(e)",
           "UNSUBSCRIBED": "Désinscrit(e)"
         },

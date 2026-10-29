@@ -143,9 +143,11 @@
             "finishButton": "Terminer l'activité",
             "finishDisabledTooltip": "Vous pourrez terminer l'activité lorsqu'elle sera en cours",
             "finishedAt": "Terminée le {date}",
-            "finishLabel": "Terminée"
+            "finishLabel": "Terminée",
+            "submittedForAssessmentTooltip": "Activité en attente d'évaluation"
           },
           "FinishDeclaredActivityConfirmModal": {
+            "assessmentDescription": "Votre activité sera transmise pour évaluation. Vous ne pourrez plus la modifier.",
             "description": "Êtes-vous certain(e) de vouloir terminer cette activité\u00A0? Vous ne pourrez plus la modifier",
             "error": "Une erreur est survenue lors de la finalisation de l'activité. Veuillez réessayer plus tard.",
             "success": "Votre activitée est terminée",
@@ -172,6 +174,7 @@
             }
           },
           "PerspectiveTabActions": {
+            "assessmentPending": "Votre activité a été transmise pour évaluation. Le retour de l'évaluateur(rice) est en attente.",
             "error": "Une erreur est survenue lors de la demande de feedback. Veuillez réessayer plus tard.",
             "feedbackPending": "Votre demande est en cours de traitement",
             "maximumFeedbackReached": "Vous avez atteint le nombre maximal de demande autorisé",

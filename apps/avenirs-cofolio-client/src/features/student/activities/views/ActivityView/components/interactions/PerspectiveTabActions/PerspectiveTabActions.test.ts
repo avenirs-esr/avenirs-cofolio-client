@@ -2,12 +2,13 @@ import type { VueWrapper } from '@vue/test-utils'
 import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import type { MyPerspectiveTabActionsProps } from '@/features/student/activities/views/ActivityView/components/interactions/PerspectiveTabActions/PerspectiveTabActions.vue'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { http, HttpResponse } from 'msw'
 import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { mockedDeclaredActivityDetails, mockedFinishedDeclaredActivityDetails } from '@/__mocks__/fixtures/student/activities.fixtures'
 import { askForFeedbackErrorHandler, finishDeclaredActivityErrorHandler } from '@/__mocks__/msw/handlers/student/activities.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EDeclaredActivityStatus, EFeedbackStatus } from '@/api/avenir-esr'
+import { EDeclaredActivityStatus, EFeedbackStatus, getFinishUrl, getSubmitForAssessmentUrl } from '@/api/avenir-esr'
 import { FinishDeclaredActivityStub } from '@/features/student/activities/views/ActivityView/components/FinishDeclaredActivity/FinishDeclaredActivity.stub'
 import PerspectiveTabActions from '@/features/student/activities/views/ActivityView/components/interactions/PerspectiveTabActions/PerspectiveTabActions.vue'
 import { RequestFeedbackStub } from '@/features/student/activities/views/ActivityView/components/interactions/RequestFeedback/RequestFeedback.stub'
@@ -118,6 +119,50 @@ BddTest().given('a perspective tab actions', () => {
     })
   })
 
+  BddTest().when('the component is mounted with an activity that requires an assessment', () => {
+    const submitForAssessmentSpy = vi.fn()
+    const finishSpy = vi.fn()
+
+    beforeEach(() => {
+      server.use(
+        http.put(`*${getSubmitForAssessmentUrl(':declaredActivityId')}`, () => {
+          submitForAssessmentSpy()
+          return new HttpResponse(null, { status: 200 })
+        }),
+        http.put(`*${getFinishUrl(':declaredActivityId')}`, () => {
+          finishSpy()
+          return new HttpResponse(null, { status: 200 })
+        }),
+      )
+      wrapper = mountComponent(PerspectiveTabActions, {
+        props: {
+          declaredActivityDetails: {
+            ...mockedDeclaredActivityDetails,
+            activity: { ...mockedDeclaredActivityDetails.activity, assessment: { comment: true } },
+          },
+        },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should pass assessmentEnabled to FinishDeclaredActivity', () => {
+      expect(wrapper.findComponent(FinishDeclaredActivityStub).props('assessmentEnabled')).toBe(true)
+    })
+
+    BddTest().and('the user finishes the declared activity', () => {
+      beforeEach(() => {
+        wrapper.findComponent(FinishDeclaredActivityStub).vm.$emit('finished')
+      })
+
+      BddTest().then('it should submit the activity for assessment instead of finishing it', async () => {
+        await vi.waitFor(() => {
+          expect(submitForAssessmentSpy).toHaveBeenCalledTimes(1)
+        })
+        expect(finishSpy).not.toHaveBeenCalled()
+      })
+    })
+  })
+
   BddTest().when('the component is mounted with a finished activity', () => {
     beforeEach(() => {
       wrapper = mountComponent(PerspectiveTabActions, {
@@ -194,7 +239,7 @@ BddTest().given('a perspective tab actions', () => {
   BddTest().when('the component is mounted with a submitted activity', () => {
     const mockedSubmittedDeclaredActivityDetails: DeclaredActivityDetailsDTO = {
       ...mockedDeclaredActivityDetails,
-      status: EDeclaredActivityStatus.SUBMITTED,
+      status: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK,
     }
 
     beforeEach(() => {
@@ -216,7 +261,7 @@ BddTest().given('a perspective tab actions', () => {
   BddTest().when('the component is mounted with a submitted activity and a NEW feedback', () => {
     const mockedSubmittedWithNewFeedback: DeclaredActivityDetailsDTO = {
       ...mockedDeclaredActivityDetails,
-      status: EDeclaredActivityStatus.SUBMITTED,
+      status: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK,
       feedbacks: [{
         id: 'feedback-1',
         status: EFeedbackStatus.NEW,
@@ -249,7 +294,7 @@ BddTest().given('a perspective tab actions', () => {
   BddTest().when('the component is mounted with a submitted activity and an IN_PROCESS feedback', () => {
     const mockedSubmittedWithInProcessFeedback: DeclaredActivityDetailsDTO = {
       ...mockedDeclaredActivityDetails,
-      status: EDeclaredActivityStatus.SUBMITTED,
+      status: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK,
       feedbacks: [{
         id: 'feedback-1',
         status: EFeedbackStatus.IN_PROCESS,
