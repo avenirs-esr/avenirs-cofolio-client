@@ -8693,6 +8693,10 @@
           "comment": {
             "type": "string"
           },
+          "requestedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
           "sentAt": {
             "type": "string",
             "format": "date-time"
@@ -8704,11 +8708,7 @@
           "assessedBy": {
             "$ref": "#/components/schemas/UserInfoDTO"
           }
-        },
-        "required": [
-          "assessedBy",
-          "sentAt"
-        ]
+        }
       },
       "FeedbackStaffListItemDTO": {
         "type": "object",
