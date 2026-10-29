@@ -6,16 +6,17 @@ import type { UsePaginatedAffiliationsParams } from '@/features/staff/admin/comp
 import { useI18n } from 'vue-i18n'
 import { EGroupType } from '@/api/avenir-esr'
 import QuerySuspense from '@/common/components/feedback/QuerySuspense/QuerySuspense.vue'
+import SearchEntityInput from '@/common/components/interaction/inputs/SearchEntityInput/SearchEntityInput.vue'
 import Pagination from '@/common/components/navigation/Pagination/Pagination.vue'
 import UsersOverviewList from '@/features/staff/admin/components/base/UsersOverviewList/UsersOverviewList.vue'
 import { usePaginatedAffiliations } from '@/features/staff/admin/composables/use-paginated-affiliations/use-paginated-affiliations'
 import { useStaffAdminUsersStore } from '@/features/staff/admin/stores/users.store'
 
 export interface UsersListProps {
-  keyword?: string
   categories?: EUserCategory[]
   institutionIds?: string[]
   groupIds?: string[]
+  groupUsersMode?: boolean
 }
 
 const props = defineProps<UsersListProps>()
@@ -23,10 +24,12 @@ const props = defineProps<UsersListProps>()
 const { t } = useI18n()
 const staffAdminUsersStore = useStaffAdminUsersStore()
 
+const userInfoSearch = ref<string | undefined>(undefined)
+
 const usePaginatedAffiliationsParams = computed<UsePaginatedAffiliationsParams>(() => ({
   pageRef: toRef(staffAdminUsersStore, 'usersCurrentPage'),
   pageSizeRef: toRef(staffAdminUsersStore, 'usersPageSizeSelected'),
-  keywordRef: toRef(props, 'keyword'),
+  keywordRef: userInfoSearch,
   categoriesRef: toRef(props, 'categories'),
   institutionIdsRef: toRef(props, 'institutionIds'),
   groupIdsRef: toRef(props, 'groupIds'),
@@ -52,10 +55,12 @@ const rows = computed<UsersListRow[]>(() => users.value.map(user => ({
     email: user.email,
     profilePictureId: user.profilePictureId
   },
-  formations: user.groups
-    ?.filter(group => group.type === EGroupType.PROGRAM) ?? [],
-  groups: user.groups
-    ?.filter(group => group.type !== EGroupType.PROGRAM) ?? []
+  formations: props.groupUsersMode
+    ? []
+    : (user.groups?.filter(group => group.type === EGroupType.PROGRAM) ?? []),
+  groups: props.groupUsersMode
+    ? []
+    : (user.groups?.filter(group => group.type !== EGroupType.PROGRAM) ?? [])
 })))
 
 const WIDTH_MAP: Record<string, string | undefined> = {
@@ -65,15 +70,27 @@ const WIDTH_MAP: Record<string, string | undefined> = {
 }
 
 const columns = computed<AvTableColumn<UsersListRow>[]>(() => {
-  return (['user', 'formations', 'groups'] as const).map(key => ({
+  const columnKeys = props.groupUsersMode
+    ? (['user'] as const)
+    : (['user', 'formations', 'groups'] as const)
+
+  return columnKeys.map(key => ({
     key,
     label: t(`staff.admin.usersTable.columns.${key}`),
-    width: WIDTH_MAP[key]
+    width: props.groupUsersMode ? undefined : WIDTH_MAP[key]
   }))
 })
 </script>
 
 <template>
+  <div class="av-row av-wrap av-align-center av-gap-md">
+    <SearchEntityInput
+      v-model="userInfoSearch"
+      :entity-name="t('staff.admin.views.AdminInstitutionUsersView.components.inputs.SearchEntityInput.entityName')"
+      :entity-placeholder="t('staff.admin.views.AdminInstitutionUsersView.components.inputs.SearchEntityInput.entityPlaceholder')"
+    />
+    <slot />
+  </div>
   <QuerySuspense
     :is-loading="isFetching"
     :error="error"
@@ -91,6 +108,7 @@ const columns = computed<AvTableColumn<UsersListRow>[]>(() => {
       <UsersOverviewList
         :rows="rows"
         :columns="columns"
+        :group-users-mode="groupUsersMode"
         data-testid="users-overview-list"
       />
     </Pagination>

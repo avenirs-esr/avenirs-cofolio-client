@@ -8,6 +8,10 @@ export const UserInfoStub = defineComponent({
       type: Object as PropType<UserInfoType>,
       required: true,
     },
+    withNav: {
+      type: Boolean,
+      default: false,
+    },
   },
   template: `
     <div data-testid="user-info">

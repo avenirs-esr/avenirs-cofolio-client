@@ -5,15 +5,20 @@ import { onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useGetResourceByFileId } from '@/api/avenir-esr'
 import { PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
+import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
+import { ROUTES } from '@/common/constants'
 import { toFullName } from '@/common/utils/user/user'
 
 export interface UserInfoProps {
   user: UserInfoType
+  withNav?: boolean
 }
 
-const { user } = defineProps<UserInfoProps>()
+const { user, withNav = false } = defineProps<UserInfoProps>()
 
 const { t } = useI18n()
+const route = useRoute()
+const { isStaffAdminGroupsRoute } = useIdentifyRoute()
 
 const fullName = computed(() => toFullName(user.firstName, user.lastName))
 const { data: profilePictureResource } = useGetResourceByFileId(user.profilePictureId ?? '', {
@@ -27,6 +32,22 @@ const AVATAR_SIZE = 2
 const avatarSizeRem = `${AVATAR_SIZE}rem`
 
 const hasImageError = ref(false)
+
+const to = computed(() => {
+  const groupId = route.params.id as string
+
+  return isStaffAdminGroupsRoute.value
+    ? {
+        name: ROUTES.STAFF.ADMIN.GROUP.USER.name,
+        params: { userId: user.id, groupId }
+      }
+    : {
+        name: ROUTES.STAFF.ADMIN.USER.name,
+        params: { id: user.id }
+      }
+})
+
+const routerProps = computed(() => withNav ? { to: to.value } : {})
 
 watch(profilePictureResource, (newValue) => {
   if (avatarUrl.value) {
@@ -49,9 +70,13 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div
-    class="av-row av-gap-sm av-align-center"
+  <component
+    :is="withNav ? 'RouterLink' : 'div'"
+    v-bind="routerProps"
+    class="user-info av-row av-gap-sm av-align-center"
+    :class="{ 'user-info--hoverable': withNav }"
     data-testid="user-info"
+    :data-user-id="user.id"
   >
     <div
       v-if="avatarUrl && !hasImageError"
@@ -75,22 +100,32 @@ onBeforeUnmount(() => {
 
     <div class="av-col">
       <span
-        class="b2-bold"
+        class="name b2-bold"
         data-testid="name"
       >
         {{ fullName }}
       </span>
       <span
+        v-if="user.email"
         class="b2-regular"
         data-testid="email"
       >
         {{ user.email }}
       </span>
     </div>
-  </div>
+  </component>
 </template>
 
 <style lang="scss" scoped>
+.user-info {
+  &--hoverable:hover {
+    .name {
+      color: var(--light-foreground-primary2);
+      text-decoration: underline;
+    }
+  }
+}
+
 .picture-container {
   width: v-bind('avatarSizeRem');
   height: v-bind('avatarSizeRem');

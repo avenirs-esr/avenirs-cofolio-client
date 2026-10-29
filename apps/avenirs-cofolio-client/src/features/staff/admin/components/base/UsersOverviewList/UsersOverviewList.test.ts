@@ -8,7 +8,7 @@ import { mountComponent } from 'tests/utils'
 import { beforeEach, expect, vi } from 'vitest'
 import { EGroupType } from '@/api/avenir-esr'
 import { GroupNameStub } from '@/features/staff/admin/components/base/GroupName/GroupName.stub'
-import { UserNameStub } from '@/features/staff/admin/components/base/UserName/UserName.stub'
+import { UserInfoStub } from '@/features/staff/admin/components/base/UserInfo/UserInfo.stub'
 import UsersOverviewList from '@/features/staff/admin/components/base/UsersOverviewList/UsersOverviewList.vue'
 import { UsersOverviewCardStub } from '@/features/staff/admin/components/cards/UsersOverviewCard/UsersOverviewCard.stub'
 
@@ -66,7 +66,7 @@ BddTest().given('a users overview list', () => {
 
   const stubs = {
     AvTable: AvTableStub,
-    UserName: UserNameStub,
+    UserInfo: UserInfoStub,
     GroupName: GroupNameStub,
     UsersOverviewCard: UsersOverviewCardStub,
   }
@@ -75,11 +75,13 @@ BddTest().given('a users overview list', () => {
     belowLg?: boolean
     rows?: UsersListRow[]
     columns?: AvTableColumn<UsersListRow>[]
+    groupUsersMode?: boolean
   } = {}) => {
     const {
       belowLg = false,
       rows: rowsProp = rows,
       columns: columnsProp = columns,
+      groupUsersMode,
     } = options
 
     mockIsBelowLg.value = belowLg
@@ -88,6 +90,7 @@ BddTest().given('a users overview list', () => {
       props: {
         rows: rowsProp,
         columns: columnsProp,
+        groupUsersMode,
       },
       global: { stubs },
     })
@@ -98,7 +101,7 @@ BddTest().given('a users overview list', () => {
   const getTable = () => wrapper.findComponent(AvTableStub)
   const getCardsContainer = () => wrapper.find('[data-testid="users-overview-list-cards"]')
   const getCards = () => wrapper.findAllComponents(UsersOverviewCardStub)
-  const getUserNames = () => wrapper.findAllComponents(UserNameStub)
+  const getUserInfos = () => wrapper.findAllComponents(UserInfoStub)
 
   beforeEach(() => {
     vi.clearAllMocks()
@@ -125,12 +128,12 @@ BddTest().given('a users overview list', () => {
       expect(getTable().props('rowKey')).toBe('id')
     })
 
-    BddTest().then('it should render user information with UserName and nav enabled', () => {
-      expect(getUserNames()).toHaveLength(rows.length)
-      expect(getUserNames()[0].props('user')).toEqual(rows[0].user)
-      expect(getUserNames()[0].props('withNav')).toBe(true)
-      expect(getUserNames()[1].props('user')).toEqual(rows[1].user)
-      expect(getUserNames()[1].props('withNav')).toBe(true)
+    BddTest().then('it should render user information with UserInfo and nav enabled', () => {
+      expect(getUserInfos()).toHaveLength(rows.length)
+      expect(getUserInfos()[0].props('user')).toEqual(rows[0].user)
+      expect(getUserInfos()[0].props('withNav')).toBe(true)
+      expect(getUserInfos()[1].props('user')).toEqual(rows[1].user)
+      expect(getUserInfos()[1].props('withNav')).toBe(true)
     })
 
     BddTest().then('it should render formations in the table slot with GroupName', () => {
@@ -177,6 +180,28 @@ BddTest().given('a users overview list', () => {
       expect(getCards()[1].props('user')).toEqual(rows[1].user)
       expect(getCards()[1].props('formations')).toEqual(rows[1].formations)
       expect(getCards()[1].props('groups')).toEqual(rows[1].groups)
+    })
+  })
+
+  BddTest().when('group users mode is enabled on small screens', () => {
+    beforeEach(async () => {
+      await mountWith({ belowLg: true, groupUsersMode: true })
+    })
+
+    BddTest().then('it should not pass formations and groups to the cards', () => {
+      expect(getCards()[0].props('formations')).toEqual([])
+      expect(getCards()[0].props('groups')).toEqual([])
+    })
+  })
+
+  BddTest().when('group users mode is enabled on large screens', () => {
+    beforeEach(async () => {
+      await mountWith({ groupUsersMode: true })
+    })
+
+    BddTest().then('it should not render formations and groups lists in table', () => {
+      expect(wrapper.findAll('[data-testid="formations-list"]')).toHaveLength(0)
+      expect(wrapper.findAll('[data-testid="groups-list"]')).toHaveLength(0)
     })
   })
 

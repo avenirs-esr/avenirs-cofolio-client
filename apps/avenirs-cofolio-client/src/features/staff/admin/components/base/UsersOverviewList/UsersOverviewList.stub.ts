@@ -13,6 +13,11 @@ export const UsersOverviewListStub = defineComponent({
       type: Array as PropType<AvTableColumn<UsersListRow>[]>,
       required: true,
     },
+    groupUsersMode: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   template: '<div data-testid="users-overview-list-stub" />',
 })
