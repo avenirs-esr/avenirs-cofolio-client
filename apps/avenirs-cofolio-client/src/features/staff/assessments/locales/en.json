@@ -18,6 +18,41 @@
           },
           "seeActivity": "View activity details",
           "title": "Assessment details"
+        },
+        "AssessmentsView": {
+          "title": "My assessments",
+          "components": {
+            "selects": {
+              "AssessmentStatusMultiselect":{
+                "label": "Filter by statuses",
+                "placeholder": "Select one/many status(es)",
+                "multiLabels": {
+                  "NEW": "New",
+                  "OPENED": "Opened",
+                  "SENT": "Sent"
+                }
+              }
+            },
+            "dataDisplay": {
+              "AssessmentsList": {
+                "columns": {
+                  "learner": "Learner",
+                  "activityTitle": "Activity",
+                  "type": "Type",
+                  "submitDate": "Submit Date",
+                  "status": "Status",
+                  "activityId": "Access"
+                },
+                "ActivityAppreciation": "Activity Appreciation",
+                "noResults": "No assessments"
+              }
+            },
+            "base": {
+              "AssessmentOverviewList": {
+                "buttonLabel": "Access assessment"
+              }
+            }
+          }
         }
       }
     }

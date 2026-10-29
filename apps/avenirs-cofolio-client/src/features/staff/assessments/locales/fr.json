@@ -18,6 +18,41 @@
           },
           "seeActivity": "Voir le détail de l'activité",
           "title": "Détail de l'évaluation"
+        },
+        "AssessmentsView": {
+          "title": "Toutes mes évaluations",
+          "components": {
+            "selects": {
+              "AssessmentStatusMultiselect":{
+                "label": "Filtrer par statut",
+                "placeholder": "Sélectionnez un/des statut(s)",
+                "multiLabels": {
+                  "NEW": "Nouvelle",
+                  "OPENED": "Ouverte",
+                  "SENT": "Envoyée"
+                }
+              }
+            },
+            "dataDisplay": {
+              "AssessmentsList": {
+                "columns": {
+                  "learner": "Apprenant",
+                  "activityTitle": "Activité",
+                  "type": "Type",
+                  "submitDate": "Date de soumission",
+                  "status": "Statut",
+                  "activityId": "Accéder"
+                },
+                "ActivityAppreciation": "Appréciation de l'activité",
+                "noResults": "Aucune évaluation"
+              }
+            },
+            "base": {
+              "AssessmentOverviewList": {
+                "buttonLabel": "Accéder à l'évaluation"
+              }
+            }
+          }
         }
       }
     }
