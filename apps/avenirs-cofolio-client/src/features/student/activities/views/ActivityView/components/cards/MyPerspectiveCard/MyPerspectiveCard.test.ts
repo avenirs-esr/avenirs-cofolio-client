@@ -397,7 +397,7 @@ BddTest().given('a my perspective card', () => {
     const props: MyPerspectiveCardProps = {
       activityId: 'activity-1',
       perspective: '<p>This is my perspective</p>',
-      activityStatus: EDeclaredActivityStatus.SUBMITTED,
+      activityStatus: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK,
     }
 
     beforeEach(() => {

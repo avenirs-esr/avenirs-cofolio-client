@@ -3,7 +3,8 @@ import type { DeclaredActivityDetailsDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions/base-api-exception/base-api.exception'
 import { useQueryClient } from '@tanstack/vue-query'
 import { useI18n } from 'vue-i18n'
-import { EActivityStatus, EDeclaredActivityStatus, EFeedbackStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useAskForFeedback, useFinish } from '@/api/avenir-esr'
+import { EActivityStatus, EDeclaredActivityStatus, EFeedbackStatus, invalidateGetActivityPresentation, invalidateGetDeclaredActivityDetails, useAskForFeedback, useFinish, useSubmitForAssessment } from '@/api/avenir-esr'
+import { isAssessmentEnabled, isDeclaredActivitySubmittedForAssessment } from '@/common/activities/rules/activities.rules'
 import { canCreateFeedbackRequest, computeRemainingFeedbacks } from '@/common/activities/rules/activity-feedbacks.rules'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
@@ -26,12 +27,16 @@ const queryClient = useQueryClient()
 const { isLoading: isTaskLoading, withTaskLoading } = useTaskLoading()
 
 const { mutate: mutateFinish, isPending: isFinishPending } = useFinish()
+const { mutate: mutateSubmitForAssessment, isPending: isSubmitForAssessmentPending } = useSubmitForAssessment()
 const { mutate: mutateAskForFeedback, isPending: isFeedbackPending } = useAskForFeedback()
 
 const remainingFeedbacks = computed(() => computeRemainingFeedbacks(declaredActivityDetails))
 
 const isDeclaredActivityInProgress = computed(() => declaredActivityDetails.status === EDeclaredActivityStatus.IN_PROGRESS)
-const isDeclaredActivitySubmitted = computed(() => declaredActivityDetails.status === EDeclaredActivityStatus.SUBMITTED)
+const isDeclaredActivitySubmitted = computed(() => declaredActivityDetails.status === EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK)
+
+const hasAssessment = computed(() => isAssessmentEnabled(declaredActivityDetails.activity))
+const isSubmittedForAssessment = computed(() => isDeclaredActivitySubmittedForAssessment(declaredActivityDetails.status))
 
 const lastFeedback = computed(() => declaredActivityDetails.feedbacks?.at(0))
 
@@ -48,6 +53,12 @@ const requestFeedbackDisabledTooltip = computed(() => {
 const actionsHintInfo = computed(() => {
   if (declaredActivityDetails.status === EDeclaredActivityStatus.SUBSCRIBED) {
     return undefined
+  }
+  if (isSubmittedForAssessment.value) {
+    return {
+      text: t('student.activities.views.ActivityView.PerspectiveTabActions.assessmentPending'),
+      type: 'assessment-pending',
+    }
   }
   if (declaredActivityDetails.finishedAt) {
     return {
@@ -83,10 +94,11 @@ const actionsHintInfo = computed(() => {
   return undefined
 })
 
-const isLoading = computed(() => isFeedbackPending.value || isFinishPending.value || isTaskLoading.value)
+const isLoading = computed(() => isFeedbackPending.value || isFinishPending.value || isSubmitForAssessmentPending.value || isTaskLoading.value)
 
 function finishDeclaredActivity () {
-  mutateFinish({ declaredActivityId: declaredActivityDetails.id }, {
+  const mutate = hasAssessment.value ? mutateSubmitForAssessment : mutateFinish
+  mutate({ declaredActivityId: declaredActivityDetails.id }, {
     onError: (error: BaseApiException) => {
       addErrorMessage({
         title: t('student.activities.views.ActivityView.FinishDeclaredActivityConfirmModal.error'),
@@ -147,6 +159,7 @@ function requestFeedback () {
       <FinishDeclaredActivity
         :status="declaredActivityDetails.status"
         :is-loading="isLoading"
+        :assessment-enabled="hasAssessment"
         @finished="finishDeclaredActivity"
       />
     </div>

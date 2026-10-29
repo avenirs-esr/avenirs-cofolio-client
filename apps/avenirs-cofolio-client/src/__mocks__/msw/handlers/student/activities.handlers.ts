@@ -27,6 +27,7 @@ import {
   getGetDeclaredActivitiesViewUrl,
   getGetDeclaredActivityDetailsUrl,
   getGetLatestActivitiesViewUrl,
+  getSubmitForAssessmentUrl,
   getSubscribeActivityUrl,
   getUnsubscribeActivitiesProgressesUrl,
   getUpdateDeclaredActivityUrl,
@@ -176,7 +177,7 @@ export const declaredActivityDetailsHandler = http.get(`*${getGetDeclaredActivit
 
   const tempDetails = createMockedDeclaredActivityDetails(declaredActivityId)
   const baseDetails = createMockedDeclaredActivityDetails(declaredActivityId, {
-    withFeedback: tempDetails.status === EDeclaredActivityStatus.SUBMITTED,
+    withFeedback: tempDetails.status === EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK,
   })
   const overrides = declaredActivityDetailsOverrides.get(declaredActivityId)
 
@@ -410,6 +411,26 @@ export const finishDeclaredActivityHandler = http.put(`*${getFinishUrl(':declare
   })
 })
 
+export const submitForAssessmentHandler = http.put(`*${getSubmitForAssessmentUrl(':declaredActivityId')}`, async ({ params }) => {
+  const declaredActivityId = Array.isArray(params.declaredActivityId)
+    ? params.declaredActivityId[0]
+    : params.declaredActivityId
+
+  if (!declaredActivityId || declaredActivityId === 'INVALID_DECLARED_ACTIVITY_ID') {
+    return HttpResponse.json(
+      { code: EErrorCode.ACTIVITY_NOT_FOUND, message: 'Declared activity not found' },
+      { status: 404, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
+  declaredActivityDetailsOverrides.set(declaredActivityId, {
+    status: EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT,
+    updatedAt: new Date().toISOString(),
+  })
+
+  return new HttpResponse(null, { status: HttpStatusCode.OK })
+})
+
 export const finishDeclaredActivityErrorHandler = http.put(`*${getFinishUrl(':declaredActivityId')}`, () => {
   return HttpResponse.json(
     { message: 'Internal Server Error', code: ErrorCodes.SERVER },
@@ -537,6 +558,7 @@ export const activitiesHandlers = [
   declaredActivityDetailsHandler,
   subscribeActivityProgressHandler,
   finishDeclaredActivityHandler,
+  submitForAssessmentHandler,
   updateActivityHandler,
   updateActivityReflectionHandler,
   askForFeedbackHandler,

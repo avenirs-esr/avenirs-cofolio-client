@@ -121,7 +121,7 @@ export const mockedLockedDeclaredActivities: TraceDeclaredActivityDTO[] = [
   {
     activityId: 'locked-activity-1',
     activityTitle: 'Activité soumise',
-    activityStatus: EDeclaredActivityStatus.SUBMITTED
+    activityStatus: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK
   },
   {
     activityId: 'locked-activity-2',

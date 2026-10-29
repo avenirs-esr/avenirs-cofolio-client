@@ -101,10 +101,25 @@ BddTest().given('a FinishDeclaredActivity component', () => {
     })
   })
 
+  BddTest().when('the component is mounted with submitted for assessment status', () => {
+    beforeEach(() => {
+      wrapper = mountComponent(FinishDeclaredActivity, {
+        props: { status: EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT },
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render the finish button as disabled with the assessment tooltip', () => {
+      const button = getFinishButton()
+      expect(button.props('disabled')).toBe(true)
+      expect(button.props('disabledTooltip')).toBe('Activité en attente d\'évaluation')
+    })
+  })
+
   BddTest().when('the component is mounted with submitted status', () => {
     beforeEach(() => {
       wrapper = mountComponent(FinishDeclaredActivity, {
-        props: { status: EDeclaredActivityStatus.SUBMITTED },
+        props: { status: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK },
         global: { stubs },
       })
     })

@@ -9,6 +9,7 @@ import FinishDeclaredActivityConfirmModal
 export interface FinishDeclaredActivityProps {
   status?: EDeclaredActivityStatus
   isLoading?: boolean
+  assessmentEnabled?: boolean
 }
 
 const { status } = defineProps<FinishDeclaredActivityProps>()
@@ -26,6 +27,7 @@ function handleConfirm () {
 }
 
 const isCompleted = computed(() => status === EDeclaredActivityStatus.COMPLETED)
+const isSubmittedForAssessment = computed(() => status === EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT)
 const isInProgress = computed(() => status === EDeclaredActivityStatus.IN_PROGRESS)
 const isSubscribed = computed(() => status === EDeclaredActivityStatus.SUBSCRIBED)
 </script>
@@ -43,7 +45,9 @@ const isSubscribed = computed(() => status === EDeclaredActivityStatus.SUBSCRIBE
       variant="FLAT"
       :icon="MDI_ICONS.CHECK_CIRCLE_OUTLINE"
       :disabled="!isInProgress"
-      :disabled-tooltip="t('student.activities.views.ActivityView.FinishDeclaredActivity.finishDisabledTooltip')"
+      :disabled-tooltip="isSubmittedForAssessment
+        ? t('student.activities.views.ActivityView.FinishDeclaredActivity.submittedForAssessmentTooltip')
+        : t('student.activities.views.ActivityView.FinishDeclaredActivity.finishDisabledTooltip')"
       @click="openModal"
     />
     <div
@@ -62,6 +66,7 @@ const isSubscribed = computed(() => status === EDeclaredActivityStatus.SUBSCRIBE
   <FinishDeclaredActivityConfirmModal
     :opened="modalOpened"
     :is-loading="isLoading"
+    :assessment-enabled="assessmentEnabled"
     @close="closeModal"
     @confirm="handleConfirm"
   />

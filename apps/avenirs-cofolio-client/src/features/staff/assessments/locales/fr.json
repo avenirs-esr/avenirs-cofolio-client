@@ -5,7 +5,7 @@
         "assessmentStatus": {
           "COMPLETED": "Envoyée",
           "CONSULTED": "Non traitée",
-          "SUBMITTED": "Nouvelle"
+          "SUBMITTED_FOR_ASSESSMENT": "Nouvelle"
         }
       },
       "views": {

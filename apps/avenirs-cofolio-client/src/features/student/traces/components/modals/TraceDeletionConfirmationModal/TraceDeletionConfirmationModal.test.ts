@@ -47,7 +47,7 @@ BddTest().given('a trace deletion confirmation modal', () => {
       {
         activityId: 'activity-1',
         activityTitle: 'Activité soumise',
-        activityStatus: EDeclaredActivityStatus.SUBMITTED
+        activityStatus: EDeclaredActivityStatus.SUBMITTED_FOR_FEEDBACK
       },
       {
         activityId: 'activity-2',

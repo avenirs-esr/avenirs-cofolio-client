@@ -13,7 +13,8 @@
         "declaredStatuses": {
           "COMPLETED": "Completed",
           "IN_PROGRESS": "In progress",
-          "SUBMITTED": "Submitted",
+          "SUBMITTED_FOR_ASSESSMENT": "Submitted for assessment",
+          "SUBMITTED_FOR_FEEDBACK": "Submitted for feedback",
           "SUBSCRIBED": "Subscribed",
           "UNSUBSCRIBED": "Unsubscribed"
         },

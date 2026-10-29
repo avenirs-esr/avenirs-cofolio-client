@@ -143,9 +143,11 @@
             "finishButton": "Finish the activity",
             "finishDisabledTooltip": "You can finish the activity once it is in progress",
             "finishedAt": "Finished at {date}",
-            "finishLabel": "Finished"
+            "finishLabel": "Finished",
+            "submittedForAssessmentTooltip": "Activity awaiting assessment"
           },
           "FinishDeclaredActivityConfirmModal": {
+            "assessmentDescription": "Your activity will be submitted for assessment. You will no longer be able to edit it.",
             "description": "Are you sure you want to finish this activity? You will no longer be able to modify it.",
             "error": "An error occurred while finishing the activity. Please try again later.",
             "success": "Your activity is finished.",
@@ -172,6 +174,7 @@
             }
           },
           "PerspectiveTabActions": {
+            "assessmentPending": "Your activity has been submitted for assessment. Evaluator feedback is pending.",
             "error": "An error occurred while requesting feedback. Please try again later.",
             "feedbackPending": "Your request is being processed",
             "maximumFeedbackReached": "You have reached the maximum number of requests allowed",
