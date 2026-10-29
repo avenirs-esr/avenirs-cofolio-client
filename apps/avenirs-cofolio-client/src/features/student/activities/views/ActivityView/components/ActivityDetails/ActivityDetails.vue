@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import ActivityDescriptionContent from '@/common/activities/components/ActivityDescriptionContent/ActivityDescriptionContent.vue'
 import ActivityPeriodDisplay from '@/common/activities/components/ActivityPeriodDisplay/ActivityPeriodDisplay.vue'
 import ActivityRecommendedCompletionContextsList from '@/common/activities/components/ActivityRecommendedCompletionContextsList/ActivityRecommendedCompletionContextsList.vue'
+import { isAssessmentEnabled } from '@/common/activities/rules/activities.rules'
 import ValorizedBadge from '@/common/components/badges/ValorizedBadge/ValorizedBadge.vue'
 import Card from '@/common/components/cards/Card/Card.vue'
 import IconTitleCardContainer from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.vue'
@@ -12,6 +13,7 @@ import ActivityResourcesList from '@/common/components/interaction/lists/Activit
 import { ICONS } from '@/common/constants'
 import FeedbackInfoCard from '@/features/student/activities/views/ActivityView/components/cards/FeedbackInfoCard/FeedbackInfoCard.vue'
 import TraceAssociationLimitCard from '@/features/student/activities/views/ActivityView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.vue'
+import ReceivedAssessmentSection from '@/features/student/activities/views/ActivityView/components/sections/ReceivedAssessmentSection/ReceivedAssessmentSection.vue'
 
 export interface ActivityDetailsProps {
   declaredActivityDetails: DeclaredActivityDetailsDTO
@@ -25,6 +27,8 @@ const periodStartDate = computed(() => isActivityPeriodDefined.value ? activity.
 const periodEndDate = computed(() => isActivityPeriodDefined.value ? activity.value.endDate : declaredActivityDetails.endDate)
 
 const resourceCount = computed(() => (activity.value.files?.length ?? 0) + (activity.value.links?.length ?? 0))
+
+const hasAssessment = computed(() => isAssessmentEnabled(activity.value))
 </script>
 
 <template>
@@ -103,6 +107,12 @@ const resourceCount = computed(() => (activity.value.files?.length ?? 0) + (acti
         :title="t('student.activities.views.ActivityView.ActivityDetails.modalities.traceAssociationTitle')"
       />
     </div>
+
+    <ReceivedAssessmentSection
+      v-if="hasAssessment"
+      :assessment="declaredActivityDetails.assessment"
+      class="av-pt-md"
+    />
   </div>
 </template>
 
