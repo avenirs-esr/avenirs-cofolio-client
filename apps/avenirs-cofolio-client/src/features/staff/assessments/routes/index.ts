@@ -16,9 +16,6 @@ export const staffActivityAssessmentRoute: AvRoute = {
 
 export const staffStudentTrackingAssessmentsRoute: AvRoute = {
   ...ROUTES.STAFF.STUDENT_TRACKING.ASSESSMENTS,
-  props: route => ({
-    declaredActivityId: route.query.declaredActivityId,
-  }),
   component: () =>
     import('@/features/staff/assessments/views/AssessmentsView/AssessmentsView.vue'),
   meta: {

@@ -33,9 +33,9 @@
             }
           },
           "home": "Accueil",
+          "studentAssessments": "Toutes mes évaluations",
           "studentFeedbacks": "Toutes mes demandes de feedback",
-          "studentTracking": "Suivi des apprenants",
-          "studentAssessments": "Toutes mes évaluations"
+          "studentTracking": "Suivi des apprenant(e)s"
         }
       },
       "views": {

@@ -42,9 +42,9 @@ export const META_BREADCRUMBS = {
      * Breadcrumb metadata for the staff student tracking submodule.
      */
     STUDENT_TRACKING: {
+      ASSESSMENTS: { textKey: 'staff.global.navigation.tabs.studentAssessments', to: ROUTES.STAFF.STUDENT_TRACKING.ASSESSMENTS },
       DEFAULT: { textKey: 'staff.global.navigation.tabs.studentTracking' },
       FEEDBACKS: { textKey: 'staff.global.navigation.tabs.studentFeedbacks', to: ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS },
-      ASSESSMENTS: { textKey: 'staff.global.navigation.tabs.studentAssessments', to: ROUTES.STAFF.STUDENT_TRACKING.ASSESSMENTS },
     },
   },
 
@@ -191,11 +191,11 @@ export const BASE_BREADCRUMBS = {
      * Breadcrumb paths for staff student tracking submodule.
      */
     STUDENT_TRACKING: {
+      ASSESSMENTS: [...BASE_STAFF_STUDENT_TRACKING_BREADCRUMBS, META_BREADCRUMBS.STAFF.STUDENT_TRACKING.ASSESSMENTS],
       FEEDBACKS: {
         BASE: [...BASE_STAFF_STUDENT_TRACKING_BREADCRUMBS, META_BREADCRUMBS.STAFF.STUDENT_TRACKING.FEEDBACKS],
         WITHOUT_LINK: [...BASE_STAFF_STUDENT_TRACKING_BREADCRUMBS, { textKey: META_BREADCRUMBS.STAFF.STUDENT_TRACKING.FEEDBACKS.textKey }],
       },
-      ASSESSMENTS: [...BASE_STAFF_STUDENT_TRACKING_BREADCRUMBS, META_BREADCRUMBS.STAFF.STUDENT_TRACKING.ASSESSMENTS],
     },
   },
 

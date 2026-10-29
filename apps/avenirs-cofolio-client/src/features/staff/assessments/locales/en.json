@@ -50,6 +50,40 @@
           },
           "seeActivity": "View activity details",
           "title": "Assessment details"
+        },
+        "AssessmentsView": {
+          "components": {
+            "base": {
+              "AssessmentOverviewList": {
+                "buttonLabel": "Access assessment"
+              }
+            },
+            "dataDisplay": {
+              "AssessmentsList": {
+                "columns": {
+                  "actions": "Access",
+                  "activityTitle": "Activity",
+                  "learner": "Learner",
+                  "status": "Status",
+                  "submitDate": "Submit Date",
+                  "type": "Type"
+                },
+                "noResults": "No assessments"
+              }
+            },
+            "selects": {
+              "AssessmentStatusMultiselect": {
+                "label": "Filter by statuses",
+                "multiLabels": {
+                  "NEW": "New",
+                  "OPENED": "Unprocessed",
+                  "SENT": "Sent"
+                },
+                "placeholder": "Select one/many status(es)"
+              }
+            }
+          },
+          "title": "My assessments"
         }
       }
     }
