@@ -27,7 +27,8 @@ function isEmptyFormData ({ grade, validation, comment }: WriteAssessmentFormDat
  * Only the fields enabled by the activity assessment setup are validated and sent. The comment is
  * required when it is the single enabled option, optional when it comes with a grade or a validation.
  * Until the assessment is sent, every change is kept as a draft in the browser storage
- * and restored when the form is mounted again.
+ * and restored when the form is mounted again. Once sent, the assessment is read only until the staff
+ * starts modifying it, then sending it again overwrites the sent one through the same endpoint.
  */
 export function useWriteAssessmentForm ({ assessment, onAssessmentSent }: UseWriteAssessmentFormParams) {
   const { t } = useI18n()
@@ -42,6 +43,8 @@ export function useWriteAssessmentForm ({ assessment, onAssessmentSent }: UseWri
   const declaredActivityId = computed(() => assessmentData.value.declaredActivityId)
   const sentAssessment = computed(() => assessmentData.value.assessment)
   const isSent = computed(() => !!sentAssessment.value?.assessedAt)
+  const isEditing = ref(false)
+  const isReadonly = computed(() => isSent.value && !isEditing.value)
 
   const assessmentSetup = computed(() => assessmentData.value.activity.assessment)
   const maxGrade = computed(() => assessmentSetup.value?.grade ?? undefined)
@@ -95,6 +98,8 @@ export function useWriteAssessmentForm ({ assessment, onAssessmentSent }: UseWri
   }
 
   async function send (value: WriteAssessmentFormData) {
+    const isUpdate = isSent.value
+
     try {
       await sendAssessment({
         declaredActivityId: declaredActivityId.value,
@@ -109,8 +114,21 @@ export function useWriteAssessmentForm ({ assessment, onAssessmentSent }: UseWri
     isDraftSaved.value = undefined
 
     await withTaskLoading(() => invalidateGetAssessmentDetails(queryClient, declaredActivityId.value))
-    addSuccessMessage(t('staff.assessments.views.ActivityAssessmentDetailsView.AssessmentManagementFloatingPanel.success.sendAssessment'))
+
+    isEditing.value = false
+
+    addSuccessMessage(isUpdate
+      ? t('staff.assessments.views.ActivityAssessmentDetailsView.AssessmentManagementFloatingPanel.success.updateAssessment')
+      : t('staff.assessments.views.ActivityAssessmentDetailsView.AssessmentManagementFloatingPanel.success.sendAssessment'))
     onAssessmentSent?.()
+  }
+
+  function startEditing () {
+    isEditing.value = true
+  }
+
+  function cancelEditing () {
+    isEditing.value = false
   }
 
   const form = useForm({
@@ -161,8 +179,9 @@ export function useWriteAssessmentForm ({ assessment, onAssessmentSent }: UseWri
     isDraftSaved.value = saveDraft(values)
   }, { deep: true })
 
-  watch(isSent, (sent) => {
-    if (sent) {
+  // Back to read only (first sending, modification sent or cancelled): the form shows the sent assessment
+  watch(isReadonly, (readonly) => {
+    if (readonly) {
       form.reset(getSentFormData())
     }
   })
@@ -175,9 +194,13 @@ export function useWriteAssessmentForm ({ assessment, onAssessmentSent }: UseWri
     isCommentEnabled,
     isCommentRequired,
     isSent,
+    isEditing,
+    isReadonly,
     sentAssessment,
     isComplete,
     isDraftSaved,
-    isSending
+    isSending,
+    startEditing,
+    cancelEditing
   }
 }

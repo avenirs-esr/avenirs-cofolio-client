@@ -17,7 +17,6 @@
             "title": "Summary of associated elements ({count})"
           },
           "AssessmentManagementFloatingPanel": {
-            "alreadySentTooltip": "This assessment has already been sent",
             "draft": {
               "notSaved": "Draft not saved: the browser storage is unavailable",
               "saved": "Draft saved in this browser"
@@ -43,7 +42,8 @@
             "incompleteTooltip": "All the assessment fields must be filled in before it can be sent",
             "sentAt": "Assessment sent on {date}",
             "success": {
-              "sendAssessment": "The assessment has been sent successfully"
+              "sendAssessment": "The assessment has been sent successfully",
+              "updateAssessment": "The assessment has been updated successfully"
             },
             "title": "Activity assessment"
           },
