@@ -10,7 +10,8 @@ export interface UsePaginatedUserContextualAuthorizationsParams {
   userIdRef: Ref<string>
   currentPageRef: Ref<number>
   pageSizeRef: Ref<PageSizes>
-  entityTypeRef: Ref<EAuthorizationEntityType>
+  entityTypeRef: Ref<EAuthorizationEntityType | undefined>
+  enabledRef: ComputedRef<boolean>
 }
 
 export interface UsePaginatedUserContextualAuthorizationsResult {
@@ -28,17 +29,18 @@ export function usePaginatedUserContextualAuthorizations ({
   pageSizeRef,
   entityTypeRef,
   userIdRef,
+  enabledRef,
 }: UsePaginatedUserContextualAuthorizationsParams): UsePaginatedUserContextualAuthorizationsResult {
   const { currentPage, pageSizeSelected, onUpdateCurrentPage, onUpdatePageSize } = usePagination(currentPageRef, pageSizeRef)
 
   const params = computed(() => ({
     page: currentPage.value,
     pageSize: pageSizeSelected.value,
-    entityType: entityTypeRef.value,
+    entityType: entityTypeRef.value!,
   }))
 
   const { data, error, isFetching } = useGetExternalUserAuthorizations(userIdRef, params, {
-    query: { placeholderData: keepPreviousData }
+    query: { placeholderData: keepPreviousData, enabled: enabledRef }
   })
 
   const authorizations = computed(() => data.value?.data ?? [])

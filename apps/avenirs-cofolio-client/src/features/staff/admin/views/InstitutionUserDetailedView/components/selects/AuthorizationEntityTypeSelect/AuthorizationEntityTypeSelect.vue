@@ -1,15 +1,25 @@
 <script setup lang="ts">
 import type { AvSelectOption, AvSelectSelectedOption } from '@avenirs-esr/avenirs-dsav'
+import type { EAuthorizationEntityType, ExternalUserDetailDTO } from '@/api/avenir-esr'
 import { AvSelect } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { EAuthorizationEntityType } from '@/api/avenir-esr'
+import { useGetExternalUserAuthorizationTypes } from '@/api/avenir-esr'
 
-const contextType = defineModel<EAuthorizationEntityType>({ required: true })
+interface AuthorizationEntityTypeSelectProps {
+  user: ExternalUserDetailDTO
+}
+
+const { user } = defineProps<AuthorizationEntityTypeSelectProps>()
+
+const contextType = defineModel<EAuthorizationEntityType | undefined>({ required: true })
 
 const { t } = useI18n()
 
+const userId = computed(() => user.id)
+const { data: types } = useGetExternalUserAuthorizationTypes(userId.value)
+
 const options = computed<AvSelectOption[]>(() =>
-  Object.values(EAuthorizationEntityType).map(type => ({
+  (types.value ?? []).map(type => ({
     value: type,
     label: t(`staff.admin.views.InstitutionUserDetailedView.components.selects.AuthorizationEntityTypeSelect.options.${type}.label`),
   })),
@@ -27,6 +37,7 @@ const selectedOption = computed<AvSelectSelectedOption | null>({
 
 <template>
   <AvSelect
+    v-if="options.length > 0"
     v-model="selectedOption"
     :options="options"
     :label="t('staff.admin.views.InstitutionUserDetailedView.components.selects.AuthorizationEntityTypeSelect.label')"

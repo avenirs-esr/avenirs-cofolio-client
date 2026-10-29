@@ -129,3 +129,18 @@ export function createMockedGetExternalUserAuthorizationsResponse (
     page: { pageSize, totalElements: filteredAuthorizations.length, totalPages, page }
   }
 }
+
+export function createMockExternalUserAuthorizationTypes (
+  id: 'USER_ACTIVITY_ID' | 'USER_ACTIVITY_DRAFT_ID' | 'USER_NONE_ID' | string
+): EAuthorizationEntityType[] {
+  switch (id) {
+    case 'USER_ACTIVITY_ID':
+      return [EAuthorizationEntityType.ACTIVITY]
+    case 'USER_ACTIVITY_DRAFT_ID':
+      return [EAuthorizationEntityType.ACTIVITY_DRAFT]
+    case 'USER_NONE_ID':
+      return []
+    default:
+      return Object.values(EAuthorizationEntityType)
+  }
+}
