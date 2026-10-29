@@ -73,6 +73,14 @@
             "unsubscribeDisabledTooltip": "You cannot unsubscribe because you are not registered for any activity"
           },
           "ActivityLibraryTab": {
+            "ActivityLibraryFilters": {
+              "filter": "Filter activities",
+              "reset": "Reset filters",
+              "search": {
+                "entityName": "an activity",
+                "entityPlaceholder": "the title"
+              }
+            },
             "emptyState": "No ongoing or completed registration, go explore all available activities",
             "tabTitle": "My activity library | My activity library ({count}) | My activity library ({count})"
           },

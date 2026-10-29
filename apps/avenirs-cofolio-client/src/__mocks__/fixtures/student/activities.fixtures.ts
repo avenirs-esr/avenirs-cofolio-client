@@ -1,10 +1,12 @@
-import type { ActivityNavigationDTO, ActivityOverviewDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, DeclaredActivityViewDTO, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
+import type { ActivityNavigationDTO, ActivityOverviewDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, DeclaredActivityViewDTO, GetDeclaredActivitiesViewParams, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
 import {
   EActivityStatus,
   EActivityThematic,
   EDeclaredActivityStatus,
   EFeedbackStatus,
-  EFileType
+  EFileType,
+  ESortField,
+  ESortOrder
 } from '@/api/avenir-esr'
 import { ACTIVITY_FEEDBACK_ALLOWED_ITERATIONS_DEFAULT, ACTIVITY_TRACE_SETTING_INFINITY_VALUE } from '@/features/staff/activities'
 
@@ -419,6 +421,53 @@ export function createMockedPagedResponseDeclaredActivityViewDTO (
   return {
     data: paginatedActivities,
     page: { pageSize, totalElements: actualTotalElements, totalPages, page }
+  }
+}
+
+export function createMockedDeclaredActivitiesViewResponse ({
+  page = 0,
+  pageSize = 10,
+  keyword,
+  thematics,
+  statuses,
+  sortField = ESortField.DATE,
+  sortOrder = ESortOrder.DESC,
+}: GetDeclaredActivitiesViewParams): PagedResponseDeclaredActivityViewDTO {
+  let declaredActivities = [...allDeclaredActivities]
+
+  if (keyword) {
+    declaredActivities = declaredActivities.filter(activity => activity.title.toLowerCase().includes(keyword.toLowerCase()))
+  }
+
+  if (thematics?.length) {
+    declaredActivities = declaredActivities.filter(activity => thematics.includes(activity.thematic))
+  }
+
+  if (statuses?.length) {
+    declaredActivities = declaredActivities.filter(activity => statuses.includes(activity.status))
+  }
+
+  if (sortField === ESortField.NAME) {
+    declaredActivities.sort((a, b) => a.title < b.title ? -1 : 1)
+
+    if (sortOrder === ESortOrder.DESC) {
+      declaredActivities.reverse()
+    }
+  }
+  else if (sortOrder === ESortOrder.ASC) {
+    declaredActivities.reverse()
+  }
+
+  const start = page * pageSize
+
+  return {
+    data: declaredActivities.slice(start, start + pageSize),
+    page: {
+      page,
+      pageSize,
+      totalElements: declaredActivities.length,
+      totalPages: Math.ceil(declaredActivities.length / pageSize),
+    },
   }
 }
 
