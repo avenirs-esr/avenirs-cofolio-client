@@ -1,9 +1,10 @@
-import type { ActivityNavigationDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, PagedResponseActivityOverviewDTO, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
+import type { ActivityNavigationDTO, ActivityPresentationDTO, DeclaredActivityDetailsDTO, EActivityThematic, ESortField, ESortOrder, GetDeclaredActivitiesViewParams, PagedResponseActivityOverviewDTO, PagedResponseDeclaredActivityViewDTO } from '@/api/avenir-esr'
 import type { BaseApiException } from '@/common/exceptions'
 import { delay, http, HttpResponse } from 'msw'
 import {
   activitiesNavigationMock,
   createLargeMockedPagedResponseDeclaredActivityViewDTO,
+  createMockedDeclaredActivitiesViewResponse,
   createMockedDeclaredActivityDetails,
   createMockedPagedResponseDeclaredActivityViewDTO,
   mockedActivityDetail,
@@ -100,6 +101,10 @@ const unsubscribeActivityProgressHandler = http.delete(`*${getUnsubscribeActivit
     status: 200,
     headers: { 'Content-Type': 'application/json' }
   })
+})
+
+export const emptyLibraryActivitiesHandler = http.get(`*${getGetDeclaredActivitiesViewUrl()}`, () => {
+  return createEmptyPaginatedDatasetResponse<PagedResponseDeclaredActivityViewDTO>()
 })
 
 export const libraryActivitiesErrorHandler = http.get(`*${getGetDeclaredActivitiesViewUrl()}`, () => {
@@ -514,18 +519,23 @@ export const activitiesHandlers = [
       return createEmptyPaginatedDatasetResponse<PagedResponseDeclaredActivityViewDTO>()
     }
 
-    const url = new URL(request.url)
-    const page = Number.parseInt(url.searchParams.get('page') ?? '0')
-    const pageSize = Number.parseInt(url.searchParams.get('pageSize') ?? '10')
-    const totalElements = 6
+    const { searchParams } = new URL(request.url)
 
-    const mockData = createMockedPagedResponseDeclaredActivityViewDTO(pageSize, totalElements, page)
+    const params: GetDeclaredActivitiesViewParams = {
+      page: Number(searchParams.get('page') ?? 0),
+      pageSize: Number(searchParams.get('pageSize') ?? 10),
+      keyword: searchParams.get('keyword') ?? undefined,
+      thematics: searchParams.getAll('thematics') as EActivityThematic[],
+      statuses: searchParams.getAll('statuses') as EDeclaredActivityStatus[],
+      sortField: (searchParams.get('sortField') ?? undefined) as ESortField | undefined,
+      sortOrder: (searchParams.get('sortOrder') ?? undefined) as ESortOrder | undefined,
+    }
 
-    return HttpResponse.json<PagedResponseDeclaredActivityViewDTO>(mockData, {
+    return HttpResponse.json<PagedResponseDeclaredActivityViewDTO>(createMockedDeclaredActivitiesViewResponse(params), {
       status: 200,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     })
   }),
 

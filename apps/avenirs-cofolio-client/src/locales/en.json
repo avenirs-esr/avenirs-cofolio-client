@@ -11,6 +11,7 @@
           "TRACE": "Trace"
         },
         "declaredStatuses": {
+          "CONSULTED": "Consulted",
           "COMPLETED": "Completed",
           "IN_PROGRESS": "In progress",
           "SUBMITTED_FOR_ASSESSMENT": "Submitted for assessment",
@@ -56,6 +57,19 @@
         "MODALITIES": "Modalities",
         "THEMATIC": "Theme",
         "TITLE": "Title"
+      },
+      "inputs": {
+        "ActivityThematicSelect": {
+          "label": "Thematic",
+          "placeholder": {
+            "multiple": "Select one/many thematic(s)",
+            "single": "Select a thematic"
+          }
+        },
+        "DeclaredActivityStatusSelect": {
+          "label": "Status",
+          "placeholder": "Select one/many status(es)"
+        }
       }
     },
     "application": "Application",

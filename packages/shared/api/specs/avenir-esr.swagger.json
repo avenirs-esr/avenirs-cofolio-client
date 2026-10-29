@@ -3199,19 +3199,25 @@
             }
           },
           {
-            "name": "thematic",
+            "name": "thematics",
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/EActivityThematic"
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EActivityThematic"
+              }
             }
           },
           {
-            "name": "status",
+            "name": "statuses",
             "in": "query",
             "required": false,
             "schema": {
-              "$ref": "#/components/schemas/EActivityStatus"
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/EDeclaredActivityStatus"
+              }
             }
           },
           {
