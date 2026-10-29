@@ -100,6 +100,11 @@ BddTest().given('an activity library filters component', () => {
       expect(searchInput.props('entityPlaceholder')).toBe(SEARCH_ENTITY_PLACEHOLDER)
     })
 
+    BddTest().then('it should display the thematic and status select labels', () => {
+      expect(getThematicSelect().props('labelVisible')).toBe(true)
+      expect(getStatusSelect().props('labelVisible')).toBe(true)
+    })
+
     BddTest().then('it should allow selecting several thematics', () => {
       expect(getThematicSelect().props('multiple')).toBe(true)
     })
