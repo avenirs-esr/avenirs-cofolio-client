@@ -40,6 +40,7 @@ export const ROUTES = {
     STUDENT_TRACKING: {
       ACTIVITY_FEEDBACK: { name: 'staff-student-tracking-activity-feedback', path: 'student-tracking/activity-feedbacks/:feedbackId' },
       FEEDBACKS: { name: 'staff-student-tracking-feedbacks', path: 'student-tracking/feedbacks' },
+      ASSESSMENTS: { name: 'staff-student-tracking-assessments', path: 'student-tracking/assessments' },
     },
   },
 

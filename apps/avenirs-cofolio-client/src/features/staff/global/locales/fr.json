@@ -30,7 +30,8 @@
           },
           "home": "Accueil",
           "studentFeedbacks": "Toutes mes demandes de feedback",
-          "studentTracking": "Suivi des apprenants"
+          "studentTracking": "Suivi des apprenants",
+          "studentAssessments": "Toutes mes évaluations"
         }
       },
       "views": {

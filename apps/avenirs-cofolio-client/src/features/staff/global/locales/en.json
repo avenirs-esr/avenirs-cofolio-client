@@ -30,7 +30,8 @@
           },
           "home": "Home",
           "studentFeedbacks": "All my feedback requests",
-          "studentTracking": "Learner tracking"
+          "studentTracking": "Learner tracking",
+          "studentAssessments": "My assessments"
         }
       },
       "views": {

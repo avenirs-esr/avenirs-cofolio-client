@@ -13,3 +13,19 @@ export const staffActivityAssessmentRoute: AvRoute = {
     breadcrumb: [...BASE_BREADCRUMBS.STAFF.HOME.BASE]
   }
 }
+
+export const staffStudentTrackingAssessmentsRoute: AvRoute = {
+  ...ROUTES.STAFF.STUDENT_TRACKING.ASSESSMENTS,
+  props: route => ({
+    declaredActivityId: route.query.declaredActivityId,
+  }),
+  component: () =>
+    import('@/features/staff/assessments/views/AssessmentsView/AssessmentsView.vue'),
+  meta: {
+    breadcrumb: [...BASE_BREADCRUMBS.STAFF.STUDENT_TRACKING.ASSESSMENTS]
+  }
+}
+
+export const staffStudentTrackingAssessmentsRoutes: AvRoute[] = [
+  staffStudentTrackingAssessmentsRoute,
+]

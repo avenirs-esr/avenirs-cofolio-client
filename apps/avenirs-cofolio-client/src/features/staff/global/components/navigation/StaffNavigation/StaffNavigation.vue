@@ -8,27 +8,43 @@ import { hasSomeRole, isRouteActive } from '@/common/utils/route/route'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 import { staffActivitiesRoutes } from '@/features/staff/activities/routes'
 import { staffAdminGroupsRoute, staffAdminRoutes, staffAdminSkillsRoute, staffAdminUsersRoute } from '@/features/staff/admin/routes'
+import { staffStudentTrackingAssessmentsRoutes } from '@/features/staff/assessments/routes'
 import { staffStudentTrackingFeedbacksRoutes } from '@/features/staff/feedbacks/routes'
 
 const { t } = useI18n()
 const route = useRoute()
 const { roles } = useCurrentUser()
 
-const studentTrackingMenu = computed(() => ({
-  id: 'nav-student-tracking-menu',
-  title: t('staff.global.navigation.tabs.studentTracking').toUpperCase(),
-  get active () {
-    return isRouteActive({ route, routes: staffStudentTrackingFeedbacksRoutes })
-  },
-  links: [
-    {
+const studentTrackingMenu = computed(() => {
+  const links: NavigationMenuLinkProps[] = []
+
+  if (hasSomeRole(roles.value, ROUTE_ROLES.STAFF.FEEDBACKS)) {
+    links.push({
       to: ROUTES.STAFF.STUDENT_TRACKING.FEEDBACKS,
       text: t('staff.global.navigation.tabs.studentFeedbacks'),
       icon: ICONS.FEEDBACK,
       highlight: isRouteActive({ route, routes: staffStudentTrackingFeedbacksRoutes }),
+    })
+  }
+
+  if (hasSomeRole(roles.value, ROUTE_ROLES.STAFF.ASSESSMENTS)) {
+    links.push({
+      to: ROUTES.STAFF.STUDENT_TRACKING.ASSESSMENTS,
+      text: t('staff.global.navigation.tabs.studentAssessments'),
+      icon: ICONS.ASSESSMENT,
+      highlight: isRouteActive({ route, routes: staffStudentTrackingAssessmentsRoutes }),
+    })
+  }
+
+  return {
+    id: 'nav-student-tracking-menu',
+    title: t('staff.global.navigation.tabs.studentTracking').toUpperCase(),
+    get active () {
+      return isRouteActive({ route, routes: [...staffStudentTrackingFeedbacksRoutes, ...staffStudentTrackingAssessmentsRoutes] })
     },
-  ],
-}))
+    links,
+  }
+})
 
 const adminMenu = computed(() => {
   const links: NavigationMenuLinkProps[] = []
@@ -90,7 +106,7 @@ const navItems = computed(() => {
     })
   }
 
-  if (hasSomeRole(roles.value, ROUTE_ROLES.STAFF.FEEDBACKS)) {
+  if (studentTrackingMenu.value.links.length) {
     items.push(studentTrackingMenu.value)
   }
 
