@@ -17,7 +17,6 @@
             "title": "Récapitulatif des éléments associés ({count})"
           },
           "AssessmentManagementFloatingPanel": {
-            "alreadySentTooltip": "Cette appréciation a déjà été envoyée",
             "draft": {
               "notSaved": "Brouillon non enregistré\u00A0: le stockage du navigateur est indisponible",
               "saved": "Brouillon enregistré sur ce navigateur"
@@ -43,7 +42,8 @@
             "incompleteTooltip": "Tous les champs de l'appréciation doivent être renseignés avant de pouvoir l'envoyer",
             "sentAt": "Appréciation envoyée le {date}",
             "success": {
-              "sendAssessment": "L'appréciation a été envoyée avec succès"
+              "sendAssessment": "L'appréciation a été envoyée avec succès",
+              "updateAssessment": "L'appréciation a été modifiée avec succès"
             },
             "title": "Appréciation de l'activité"
           },

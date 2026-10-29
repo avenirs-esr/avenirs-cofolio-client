@@ -35,6 +35,7 @@ vi.mock('@/store', async () => {
 })
 
 const SEND_SUCCESS_MESSAGE = 'L\'appréciation a été envoyée avec succès'
+const UPDATE_SUCCESS_MESSAGE = 'L\'appréciation a été modifiée avec succès'
 const SEND_ERROR_TITLE = 'Une erreur est survenue lors de l\'envoi de l\'appréciation'
 
 const gradedAssessment = mockedAssessmentDetailsWithAssociations
@@ -319,6 +320,66 @@ BddTest().given('a write assessment form', () => {
       localStorage.clear()
       await fillForm({ grade: 10 })
       expect(getStoredDraft(mockedAssessmentDetailsSent)).toBeNull()
+    })
+
+    BddTest().then('it should be read only', () => {
+      expect(composableResult.isReadonly.value).toBe(true)
+      expect(composableResult.isEditing.value).toBe(false)
+    })
+
+    BddTest().and('the staff starts modifying it', () => {
+      beforeEach(async () => {
+        localStorage.clear()
+        composableResult.startEditing()
+        await flushPromises()
+      })
+
+      BddTest().then('it should be editable', () => {
+        expect(composableResult.isEditing.value).toBe(true)
+        expect(composableResult.isReadonly.value).toBe(false)
+      })
+
+      BddTest().and('then cancels the modification', () => {
+        beforeEach(async () => {
+          await fillForm({ grade: 4 })
+          composableResult.cancelEditing()
+          await flushPromises()
+        })
+
+        BddTest().then('it should be read only again with the sent values', () => {
+          expect(composableResult.isReadonly.value).toBe(true)
+          expect(composableResult.form.state.values.grade).toBe(mockedAssessmentDetailsSent.assessment?.grade)
+        })
+
+        BddTest().then('it should not send anything', () => {
+          expect(sentRequests).toHaveLength(0)
+        })
+      })
+
+      BddTest().and('then sends a new grade', () => {
+        beforeEach(async () => {
+          await fillForm({ grade: 12, comment: ' Travail amélioré ' })
+          await submitForm()
+        })
+
+        BddTest().then('it should send the modified assessment through the same endpoint', () => {
+          expect(sentRequests).toEqual([{ grade: 12, comment: 'Travail amélioré' }])
+        })
+
+        BddTest().then('it should show the modification success message and notify the assessment is sent', () => {
+          expect(addSuccessMessageMock).toHaveBeenCalledWith(UPDATE_SUCCESS_MESSAGE)
+          expect(mockOnAssessmentSent).toHaveBeenCalledOnce()
+        })
+
+        BddTest().then('it should be read only again', () => {
+          expect(composableResult.isEditing.value).toBe(false)
+          expect(composableResult.isReadonly.value).toBe(true)
+        })
+
+        BddTest().then('it should not keep any draft', () => {
+          expect(getStoredDraft(mockedAssessmentDetailsSent)).toBeNull()
+        })
+      })
     })
   })
 
