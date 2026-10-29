@@ -6,6 +6,7 @@ export const ActivityThematicSelectStub = defineComponent({
   props: {
     modelValue: [String, Array] as PropType<EActivityThematic | EActivityThematic[]>,
     thematics: Array as PropType<EActivityThematic[]>,
+    labelVisible: Boolean,
     multiple: Boolean,
     errorMessage: String,
     prefixIcon: String,

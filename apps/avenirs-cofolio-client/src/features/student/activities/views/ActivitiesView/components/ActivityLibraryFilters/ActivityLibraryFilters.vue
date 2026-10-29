@@ -93,12 +93,14 @@ watch(filters, debouncedEmit)
 
       <ActivityThematicSelect
         v-model="selectedThematics"
+        label-visible
         multiple
       />
 
       <DeclaredActivityStatusSelect
         v-model="selectedStatuses"
         :statuses="FILTERABLE_STATUSES"
+        label-visible
       />
 
       <SortSelect v-model:selected-item="selectedSort" />
