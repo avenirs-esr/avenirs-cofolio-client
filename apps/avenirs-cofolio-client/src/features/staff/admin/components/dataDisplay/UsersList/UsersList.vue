@@ -80,6 +80,10 @@ const columns = computed<AvTableColumn<UsersListRow>[]>(() => {
     width: props.groupUsersMode ? undefined : WIDTH_MAP[key]
   }))
 })
+
+watch([userInfoSearch, toRef(props, 'groupIds')], () => {
+  staffAdminUsersStore.usersCurrentPage = 0
+})
 </script>
 
 <template>
