@@ -22,7 +22,18 @@ export default defineConfig({
         test: {
           name: 'test-utils',
           environment: 'jsdom',
-          include: ['test-utils/**/*.test.ts', 'src/ui/**/*.test.ts'],
+          include: ['test-utils/**/*.test.ts'],
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'ui',
+          environment: 'jsdom',
+          setupFiles: [
+            fileURLToPath(new URL('./vitest-setup.ts', import.meta.url)),
+          ],
+          include: ['src/ui/**/*.test.ts'],
         },
       },
     ],

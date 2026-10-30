@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { AvIcon, AvTooltip, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 
@@ -9,7 +9,7 @@ export interface InformationTooltipProps {
 
 defineProps<InformationTooltipProps>()
 
-const { t } = useI18n()
+const { t } = useI18n({ useScope: 'global' })
 </script>
 
 <template>

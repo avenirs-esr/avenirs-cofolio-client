@@ -1,3 +1,5 @@
+import { defineComponent } from 'vue'
+
 export const InformationTooltipStub = defineComponent({
   name: 'InformationTooltip',
   props: {
