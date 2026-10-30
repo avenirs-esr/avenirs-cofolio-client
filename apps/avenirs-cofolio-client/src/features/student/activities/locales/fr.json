@@ -197,7 +197,7 @@
             "recommendedCompletionContexts": "Contexte(s) de réalisation conseillé(s)"
           },
           "ReceivedAssessmentSection": {
-            "grade": "{grade} / {maxGrade}",
+            "grade": "{grade}\u00A0/\u00A0{maxGrade}",
             "notSubmitted": "Votre activité n'a pas encore été soumise pour évaluation.",
             "pending": "Votre activité a été soumise pour évaluation le {date}. Elle est en attente d'évaluation.",
             "receivedAt": "Appréciation reçue le {date}",

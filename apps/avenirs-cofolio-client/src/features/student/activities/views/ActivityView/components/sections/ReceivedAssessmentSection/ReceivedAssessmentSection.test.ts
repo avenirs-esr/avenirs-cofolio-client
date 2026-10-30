@@ -119,7 +119,7 @@ BddTest().given('a ReceivedAssessmentSection component', () => {
     })
 
     BddTest().then('it should render the grade over the grading scale', () => {
-      expect(wrapper.findComponent(AvBadgeStub).props('label')).toBe('16 / 20')
+      expect(wrapper.findComponent(AvBadgeStub).props('label')).toBe('16\u00A0/\u00A020')
     })
 
     BddTest().then('it should render the comment', () => {
@@ -136,7 +136,7 @@ BddTest().given('a ReceivedAssessmentSection component', () => {
     })
 
     BddTest().then('it should still render the grade', () => {
-      expect(wrapper.findComponent(AvBadgeStub).props('label')).toBe('0 / 20')
+      expect(wrapper.findComponent(AvBadgeStub).props('label')).toBe('0\u00A0/\u00A020')
     })
   })
 
