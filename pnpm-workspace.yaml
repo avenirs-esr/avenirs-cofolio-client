@@ -13,7 +13,7 @@ allowBuilds:
 
 catalog:
   "@antfu/eslint-config": ^6.5.1
-  "@avenirs-esr/avenirs-dsav": ^0.1.373
+  "@avenirs-esr/avenirs-dsav": ^0.1.374
   "@axe-core/playwright": ^4.10.2
   "@commitlint/cli": ^19.8.1
   "@commitlint/config-conventional": ^19.8.1
