@@ -2,8 +2,8 @@
 import type { AvBreadcrumbProps } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
 import { AvBreadcrumb } from '@avenirs-esr/avenirs-dsav'
+import { InformationTooltip } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import InformationTooltip from '@/common/components/overlay/tooltips/InformationTooltip/InformationTooltip.vue'
 import { useBreadcrumb } from '@/common/composables'
 
 export interface PageTitleProps {
