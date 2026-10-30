@@ -1,6 +1,6 @@
 <script lang="ts" setup>
+import type { AvLocale } from '@avenirs-esr/shared'
 import type { ReceivedAssessmentDTO } from '@/api/avenir-esr'
-import type { AvLocale } from '@/types/i18n.types'
 import { AvBadge, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
 import Card from '@/common/components/cards/Card/Card.vue'
