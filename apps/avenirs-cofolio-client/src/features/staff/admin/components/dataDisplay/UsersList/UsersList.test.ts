@@ -25,6 +25,8 @@ const mockUsers: ExternalUserAffiliationOverviewDTO[] = [{
   email: 'alice.dupont@example.com',
   profilePictureId: undefined,
   hasConnected: true,
+  staff: true,
+  student: false,
   categories: [],
   groups: [
     {

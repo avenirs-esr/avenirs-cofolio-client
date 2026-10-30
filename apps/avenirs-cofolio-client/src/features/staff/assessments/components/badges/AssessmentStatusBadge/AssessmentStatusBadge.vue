@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { AvBadge, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { useI18n } from 'vue-i18n'
-import { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { EActivityAssessmentStatus } from '@/api/avenir-esr'
 
 export interface AssessmentStatusBadgeProps {
-  assessmentStatus: EDeclaredActivityStatus
+  assessmentStatus: EActivityAssessmentStatus
 }
 
 const { assessmentStatus } = defineProps<AssessmentStatusBadgeProps>()
@@ -17,11 +17,11 @@ const label = computed(() =>
 
 const icon = computed(() => {
   switch (assessmentStatus) {
-    case EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT:
-    case EDeclaredActivityStatus.CONSULTED:
+    case EActivityAssessmentStatus.NEW:
+    case EActivityAssessmentStatus.OPENED:
       return MDI_ICONS.BELL_NOTIFICATION
 
-    case EDeclaredActivityStatus.COMPLETED:
+    case EActivityAssessmentStatus.SENT:
     default:
       return MDI_ICONS.CHECK_CIRCLE
   }
@@ -29,13 +29,13 @@ const icon = computed(() => {
 
 const color = computed(() => {
   switch (assessmentStatus) {
-    case EDeclaredActivityStatus.CONSULTED:
+    case EActivityAssessmentStatus.OPENED:
       return 'var(--light-foreground-error)'
 
-    case EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT:
+    case EActivityAssessmentStatus.NEW:
       return 'var(--light-foreground-success)'
 
-    case EDeclaredActivityStatus.COMPLETED:
+    case EActivityAssessmentStatus.SENT:
     default:
       return 'var(--text1)'
   }
@@ -43,13 +43,13 @@ const color = computed(() => {
 
 const backgroundColor = computed(() => {
   switch (assessmentStatus) {
-    case EDeclaredActivityStatus.CONSULTED:
+    case EActivityAssessmentStatus.OPENED:
       return 'var(--light-background-error)'
 
-    case EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT:
+    case EActivityAssessmentStatus.NEW:
       return 'var(--light-background-success)'
 
-    case EDeclaredActivityStatus.COMPLETED:
+    case EActivityAssessmentStatus.SENT:
     default:
       return 'var(--light-background-neutral)'
   }
