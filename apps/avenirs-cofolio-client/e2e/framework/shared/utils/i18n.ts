@@ -1,11 +1,13 @@
 import type { Page } from '@playwright/test'
 import * as fs from 'node:fs'
+import { createRequire } from 'node:module'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createI18n } from 'vue-i18n'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+const requireFromApp = createRequire(new URL('../../../../package.json', import.meta.url))
 
 type LocaleMessages = Record<string, unknown>
 type AvLocale = 'fr' | 'en'
@@ -70,6 +72,10 @@ function loadLocaleMessages () {
   const srcDir = path.resolve(__dirname, '../../../../src')
   const globalLocalesDir = path.join(srcDir, 'locales')
   for (const locale of AvAvailableLocales as readonly AvLocale[]) {
+    const sharedFile = requireFromApp.resolve(`@avenirs-esr/shared/i18n/locales/${locale}.json`)
+    const sharedContent: LocaleMessages = JSON.parse(fs.readFileSync(sharedFile, 'utf-8'))
+    messages[locale] = deepMerge(messages[locale], sharedContent)
+
     const globalFile = path.join(globalLocalesDir, `${locale}.json`)
     if (fs.existsSync(globalFile)) {
       const content = JSON.parse(fs.readFileSync(globalFile, 'utf-8'))

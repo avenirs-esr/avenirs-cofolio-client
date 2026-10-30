@@ -6,6 +6,7 @@
   "exports": {
     ".": "./src/index.ts",
     "./api/specs/*": "./api/specs/*",
+    "./i18n/locales/*": "./src/i18n/locales/*",
     "./test-utils/a11y": "./test-utils/a11y/index.ts",
     "./test-utils/msw": "./test-utils/msw/index.ts",
     "./test-utils/unit": "./test-utils/unit/index.ts"
