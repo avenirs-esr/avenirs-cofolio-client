@@ -196,6 +196,13 @@
             },
             "recommendedCompletionContexts": "Recommended completion context(s)"
           },
+          "ReceivedAssessmentSection": {
+            "grade": "{grade}\u00A0/\u00A0{maxGrade}",
+            "notSubmitted": "Your activity has not been submitted for assessment yet.",
+            "pending": "Your activity was submitted for assessment on {date}. It is awaiting assessment.",
+            "receivedAt": "Assessment received on {date}",
+            "title": "My assessment"
+          },
           "ReceivedFeedbacksSection": {
             "empty": "You have not received any feedback yet",
             "titleLimited": "Feedback received ({count}/{max}) | Feedbacks received ({count}/{max})",

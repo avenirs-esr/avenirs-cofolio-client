@@ -1,4 +1,5 @@
 import type { VueWrapper } from '@vue/test-utils'
+import type { ReceivedAssessmentDTO } from '@/api/avenir-esr'
 import type { ActivityDetailsProps } from '@/features/student/activities/views/ActivityView/components/ActivityDetails/ActivityDetails.vue'
 import { AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
@@ -15,6 +16,14 @@ import { ICONS } from '@/common/constants'
 import ActivityDetails from '@/features/student/activities/views/ActivityView/components/ActivityDetails/ActivityDetails.vue'
 import { FeedbackInfoCardStub } from '@/features/student/activities/views/ActivityView/components/cards/FeedbackInfoCard/FeedbackInfoCard.stub'
 import { TraceAssociationLimitCardStub } from '@/features/student/activities/views/ActivityView/components/cards/TraceAssociationLimitCard/TraceAssociationLimitCard.stub'
+import { ReceivedAssessmentSectionStub } from '@/features/student/activities/views/ActivityView/components/sections/ReceivedAssessmentSection/ReceivedAssessmentSection.stub'
+
+const receivedAssessment: ReceivedAssessmentDTO = {
+  grade: 16,
+  maxGrade: 20,
+  sentAt: '2025-05-25T10:00:00.000Z',
+  assessedBy: { id: 'staff-1', email: 'perceval@test.fr', firstName: 'Marc', lastName: 'Perceval' },
+}
 
 BddTest().given('a project activity details component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityDetails>>
@@ -29,7 +38,8 @@ BddTest().given('a project activity details component', () => {
     IconTitleCardContainer: IconTitleCardContainerStub,
     TraceAssociationLimitCard: TraceAssociationLimitCardStub,
     ActivityResourcesList: ActivityResourcesListStub,
-    ValorizedBadge: ValorizedBadgeStub
+    ValorizedBadge: ValorizedBadgeStub,
+    ReceivedAssessmentSection: ReceivedAssessmentSectionStub,
   }
 
   BddTest().when('the component is mounted with recommendedCompletionContexts containing "-" lines and startDate and endDate', () => {
@@ -87,6 +97,10 @@ BddTest().given('a project activity details component', () => {
       expect(traceAssociationLimitCard.props('traceAllowedAssociations')).toBe(mockedDeclaredActivityDetails.activity.traceAllowedAssociations)
       expect(traceAssociationLimitCard.props('icon')).toBe(ICONS.TRACES)
       expect(traceAssociationLimitCard.props('title')).toBe('Association de traces')
+    })
+
+    BddTest().then('it should not render ReceivedAssessmentSection', () => {
+      expect(wrapper.findComponent(ReceivedAssessmentSectionStub).exists()).toBe(false)
     })
   })
 
@@ -211,6 +225,74 @@ BddTest().given('a project activity details component', () => {
     BddTest().then('it should not render ActivityPeriodDisplay', () => {
       const periodDisplay = wrapper.findComponent(ActivityPeriodDisplayStub)
       expect(periodDisplay.exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('the activity expects an assessment that has been sent', () => {
+    const props: ActivityDetailsProps = {
+      declaredActivityDetails: {
+        ...mockedDeclaredActivityDetails,
+        activity: { ...mockedDeclaredActivityDetails.activity, assessment: { grade: 20 } },
+        assessment: receivedAssessment,
+      },
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(ActivityDetails, {
+        props,
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render ReceivedAssessmentSection with the received assessment', () => {
+      const section = wrapper.findComponent(ReceivedAssessmentSectionStub)
+
+      expect(section.exists()).toBe(true)
+      expect(section.props('assessment')).toEqual(receivedAssessment)
+    })
+  })
+
+  BddTest().when('the activity expects an assessment that has not been requested yet', () => {
+    const props: ActivityDetailsProps = {
+      declaredActivityDetails: {
+        ...mockedDeclaredActivityDetails,
+        activity: { ...mockedDeclaredActivityDetails.activity, assessment: { grade: 20 } },
+      },
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(ActivityDetails, {
+        props,
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should render ReceivedAssessmentSection without assessment', () => {
+      const section = wrapper.findComponent(ReceivedAssessmentSectionStub)
+
+      expect(section.exists()).toBe(true)
+      expect(section.props('assessment')).toBeUndefined()
+    })
+  })
+
+  BddTest().when('the activity does not expect an assessment', () => {
+    const props: ActivityDetailsProps = {
+      declaredActivityDetails: {
+        ...mockedDeclaredActivityDetails,
+        activity: { ...mockedDeclaredActivityDetails.activity, assessment: undefined },
+        assessment: receivedAssessment,
+      },
+    }
+
+    beforeEach(() => {
+      wrapper = mountComponent(ActivityDetails, {
+        props,
+        global: { stubs },
+      })
+    })
+
+    BddTest().then('it should not render ReceivedAssessmentSection', () => {
+      expect(wrapper.findComponent(ReceivedAssessmentSectionStub).exists()).toBe(false)
     })
   })
 })

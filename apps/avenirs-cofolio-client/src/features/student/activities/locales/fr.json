@@ -196,6 +196,13 @@
             },
             "recommendedCompletionContexts": "Contexte(s) de réalisation conseillé(s)"
           },
+          "ReceivedAssessmentSection": {
+            "grade": "{grade}\u00A0/\u00A0{maxGrade}",
+            "notSubmitted": "Votre activité n'a pas encore été soumise pour évaluation.",
+            "pending": "Votre activité a été soumise pour évaluation le {date}. Elle est en attente d'évaluation.",
+            "receivedAt": "Appréciation reçue le {date}",
+            "title": "Mon appréciation"
+          },
           "ReceivedFeedbacksSection": {
             "empty": "Vous n'avez reçu aucun feedback pour le moment",
             "titleLimited": "Feedback reçu ({count}/{max}) | Feedbacks reçus ({count}/{max})",
