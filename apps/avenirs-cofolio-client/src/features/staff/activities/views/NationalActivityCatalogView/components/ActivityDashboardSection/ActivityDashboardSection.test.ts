@@ -48,7 +48,7 @@ BddTest().given('an ActivityDashboardSection component', () => {
 
     BddTest().then('it should render DashboardSection with the expected title', () => {
       expect(getDashboardSection().exists()).toBe(true)
-      expect(getDashboardSection().props('title')).toBe('Tableau de bord')
+      expect(getDashboardSection().props('title')).toBe('Chiffres clés')
     })
 
     BddTest().then('it should pass correct loading and error states to DashboardSection', () => {

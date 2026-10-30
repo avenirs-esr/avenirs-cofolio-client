@@ -113,9 +113,15 @@
             "inactiveStudentsLast30Days": "inscrit(e) inactif(ve) depuis plus de 30 jours | inscrit(e)s inactif(ve)s depuis plus de 30 jours",
             "notPublished": "Cette activité est un brouillon. Les chiffres clés ne sont disponibles que depuis des activités publiées.",
             "seeDetails": "Voir le détail",
-            "title": "Tableau de bord",
+            "title": "Chiffres clés",
             "uniqueStudentViews": "apprenant(e) ayant consulté l'activité | apprenant(e)s ayant consulté l'activité",
             "unsubscriptionsLast30Days": "désinscription sur les 30 derniers jours | désinscriptions sur les 30 derniers jours"
+          },
+          "ActivityRightsSection": {
+            "fetchError": "Impossible de rechercher les utilisateurs",
+            "label": "Chercher un utilisateur",
+            "placeholder": "Rechercher par nom ou email",
+            "title": "Gestion des droits"
           },
           "buttons": {
             "resumeDraft": "Reprendre le brouillon"
@@ -150,7 +156,7 @@
           },
           "tabs": {
             "content": "Contenu",
-            "keyFigures": "Chiffres clés",
+            "dashboard": "Tableau de bord",
             "preview": "Extrait du catalogue"
           },
           "title": "Toutes les activités disponibles dans mon établissement"
