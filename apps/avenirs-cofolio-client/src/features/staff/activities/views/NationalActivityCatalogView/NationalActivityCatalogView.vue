@@ -137,7 +137,10 @@ function updateActivity (id: string) {
             :activity-id="activity.id"
             :status="status"
           />
-          <ActivityRightsSection />
+          <ActivityRightsSection
+            :activity-id="activity.id"
+            :status="status"
+          />
         </div>
       </AvTab>
     </AvTabs>

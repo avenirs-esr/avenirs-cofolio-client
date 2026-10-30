@@ -1,4 +1,5 @@
 import type {
+  ActivityAuthorizationDTO,
   ActivityContentDTO,
   ActivityDashboardDTO,
   ActivityDraftCreationResponse,
@@ -27,6 +28,10 @@ export const mockedStaff1: StaffInfoDTO = {
   firstName: 'Jean',
   lastName: 'Dupont',
 }
+
+export const mockedActivityAuthorizations: ActivityAuthorizationDTO[] = [
+  { staff: mockedStaff1, rights: [EActivityRight.EDIT, EActivityRight.EVALUATION] },
+]
 
 export const mockedStaff2: StaffInfoDTO = {
   id: 'user-2',

@@ -3,9 +3,9 @@
     "assessments": {
       "badges": {
         "assessmentStatus": {
-          "COMPLETED": "Sent",
-          "CONSULTED": "Unprocessed",
-          "SUBMITTED_FOR_ASSESSMENT": "New"
+          "NEW": "New",
+          "OPENED": "Unprocessed",
+          "SENT": "Sent"
         }
       },
       "views": {

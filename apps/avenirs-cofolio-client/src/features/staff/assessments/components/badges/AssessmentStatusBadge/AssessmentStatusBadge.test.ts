@@ -3,7 +3,7 @@ import type { AssessmentStatusBadgeProps } from '@/features/staff/assessments/co
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvBadgeStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
-import { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { EActivityAssessmentStatus } from '@/api/avenir-esr'
 import AssessmentStatusBadge from '@/features/staff/assessments/components/badges/AssessmentStatusBadge/AssessmentStatusBadge.vue'
 
 BddTest().given('an assessment status badge', () => {
@@ -16,9 +16,9 @@ BddTest().given('an assessment status badge', () => {
     label: string
     icon: string
   }> = [
-    { props: { assessmentStatus: EDeclaredActivityStatus.SUBMITTED_FOR_ASSESSMENT }, label: 'Nouvelle', icon: MDI_ICONS.BELL_NOTIFICATION },
-    { props: { assessmentStatus: EDeclaredActivityStatus.CONSULTED }, label: 'Non traitée', icon: MDI_ICONS.BELL_NOTIFICATION },
-    { props: { assessmentStatus: EDeclaredActivityStatus.COMPLETED }, label: 'Envoyée', icon: MDI_ICONS.CHECK_CIRCLE },
+    { props: { assessmentStatus: EActivityAssessmentStatus.NEW }, label: 'Nouvelle', icon: MDI_ICONS.BELL_NOTIFICATION },
+    { props: { assessmentStatus: EActivityAssessmentStatus.OPENED }, label: 'Non traitée', icon: MDI_ICONS.BELL_NOTIFICATION },
+    { props: { assessmentStatus: EActivityAssessmentStatus.SENT }, label: 'Envoyée', icon: MDI_ICONS.CHECK_CIRCLE },
   ]
 
   scenario.forEach(({ props, label, icon }) => {
