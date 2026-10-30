@@ -53,6 +53,7 @@ const SEND_LABEL = 'Envoyer'
 const INCOMPLETE_TOOLTIP = 'Tous les champs de l\'appréciation doivent être renseignés avant de pouvoir l\'envoyer'
 const UPDATE_LABEL = 'Modifier'
 const CANCEL_LABEL = 'Annuler'
+const NO_UPDATE_IN_PROGRESS_TOOLTIP = 'Aucune modification en cours à annuler'
 const DRAFT_SAVED_LABEL = 'Brouillon enregistré sur ce navigateur'
 const DRAFT_NOT_SAVED_LABEL = 'Brouillon non enregistré\u00A0: le stockage du navigateur est indisponible'
 const SEND_SUCCESS_MESSAGE = 'L\'appréciation a été envoyée avec succès'
@@ -154,6 +155,11 @@ BddTest().given('an AssessmentManagementFloatingPanel', () => {
     BddTest().then('it should not render the draft badge nor the sent message', () => {
       expect(getDraftBadge().exists()).toBe(false)
       expect(getSentMessage().exists()).toBe(false)
+    })
+
+    BddTest().then('it should neither propose to modify nor to cancel a modification', () => {
+      expect(getUpdateButton()).toBeUndefined()
+      expect(getCancelButton()).toBeUndefined()
     })
   })
 
@@ -258,7 +264,12 @@ BddTest().given('an AssessmentManagementFloatingPanel', () => {
       expect(getUpdateButton()?.props('label')).toBe(UPDATE_LABEL)
       expect(getUpdateButton()?.props('icon')).toBe(MDI_ICONS.PENCIL_OUTLINE)
       expect(getButton('send-assessment-button')).toBeUndefined()
-      expect(getCancelButton()).toBeUndefined()
+    })
+
+    BddTest().then('it should disable the cancel button while no modification is in progress', () => {
+      expect(getCancelButton()?.props('label')).toBe(CANCEL_LABEL)
+      expect(getCancelButton()?.props('disabled')).toBe(true)
+      expect(getCancelButton()?.props('disabledTooltip')).toBe(NO_UPDATE_IN_PROGRESS_TOOLTIP)
     })
 
     BddTest().and('the update button is clicked', () => {
@@ -278,7 +289,8 @@ BddTest().given('an AssessmentManagementFloatingPanel', () => {
 
       BddTest().then('it should propose to cancel or to send the modified assessment', () => {
         expect(getUpdateButton()).toBeUndefined()
-        expect(getCancelButton()?.props('label')).toBe(CANCEL_LABEL)
+        expect(getCancelButton()?.props('disabled')).toBe(false)
+        expect(getCancelButton()?.props('isLoading')).toBe(false)
         expect(getSendButton().props('label')).toBe(SEND_LABEL)
         expect(getSendButton().props('disabled')).toBe(false)
       })
@@ -298,6 +310,7 @@ BddTest().given('an AssessmentManagementFloatingPanel', () => {
         BddTest().then('it should propose to modify it again', () => {
           expect(getUpdateButton()?.exists()).toBe(true)
           expect(getButton('send-assessment-button')).toBeUndefined()
+          expect(getCancelButton()?.props('disabled')).toBe(true)
         })
       })
 

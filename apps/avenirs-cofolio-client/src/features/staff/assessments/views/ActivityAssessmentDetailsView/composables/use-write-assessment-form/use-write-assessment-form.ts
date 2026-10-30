@@ -98,6 +98,7 @@ export function useWriteAssessmentForm ({ assessment, onAssessmentSent }: UseWri
   }
 
   async function send (value: WriteAssessmentFormData) {
+    // Read before sending: the details refetched afterwards mark a first sending as sent as well
     const isUpdate = isSent.value
 
     try {
