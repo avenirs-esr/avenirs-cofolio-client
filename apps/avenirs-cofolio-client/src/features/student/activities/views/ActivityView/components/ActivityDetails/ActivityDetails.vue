@@ -111,7 +111,6 @@ const hasAssessment = computed(() => isAssessmentEnabled(activity.value))
     <ReceivedAssessmentSection
       v-if="hasAssessment"
       :assessment="declaredActivityDetails.assessment"
-      class="av-pt-md"
     />
   </div>
 </template>

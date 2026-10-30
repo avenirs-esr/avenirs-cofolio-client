@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import type { ReceivedAssessmentDTO } from '@/api/avenir-esr'
+import type { AvLocale } from '@/types/i18n.types'
 import { AvBadge, AvCard, AvIconText, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { format } from 'date-fns'
 import { useI18n } from 'vue-i18n'
 import Card from '@/common/components/cards/Card/Card.vue'
 import { ICONS } from '@/common/constants'
+import { formatDateLocalized } from '@/common/utils'
 
 export interface ReceivedAssessmentSectionProps {
   assessment?: ReceivedAssessmentDTO
@@ -12,24 +13,24 @@ export interface ReceivedAssessmentSectionProps {
 
 const { assessment } = defineProps<ReceivedAssessmentSectionProps>()
 
-const { t } = useI18n()
-
-const i18nKey = 'student.activities.views.ActivityView.ReceivedAssessmentSection'
+const { t, locale } = useI18n()
 
 function formatDate (date: string) {
-  return format(new Date(date), 'dd/MM/yyyy')
+  return formatDateLocalized(date, locale.value as AvLocale, true)
 }
 
 const isSent = computed(() => !!assessment?.sentAt)
 
 const statusMessage = computed(() =>
   assessment?.requestedAt
-    ? t(`${i18nKey}.pending`, { date: formatDate(assessment.requestedAt) })
-    : t(`${i18nKey}.notSubmitted`)
+    ? t('student.activities.views.ActivityView.ReceivedAssessmentSection.pending', { date: formatDate(assessment.requestedAt) })
+    : t('student.activities.views.ActivityView.ReceivedAssessmentSection.notSubmitted')
 )
 
 const receivedAtLabel = computed(() =>
-  assessment?.sentAt ? t(`${i18nKey}.receivedAt`, { date: formatDate(assessment.sentAt) }) : ''
+  assessment?.sentAt
+    ? t('student.activities.views.ActivityView.ReceivedAssessmentSection.receivedAt', { date: formatDate(assessment.sentAt) })
+    : ''
 )
 
 const assessorLabel = computed(() =>
@@ -38,7 +39,9 @@ const assessorLabel = computed(() =>
 
 const hasGrade = computed(() => assessment?.grade !== undefined && assessment?.grade !== null)
 
-const gradeLabel = computed(() => t(`${i18nKey}.grade`, { grade: assessment?.grade, maxGrade: assessment?.maxGrade }))
+const gradeLabel = computed(() =>
+  t('student.activities.views.ActivityView.ReceivedAssessmentSection.grade', { grade: assessment?.grade, maxGrade: assessment?.maxGrade })
+)
 </script>
 
 <template>
@@ -50,7 +53,7 @@ const gradeLabel = computed(() => t(`${i18nKey}.grade`, { grade: assessment?.gra
       class="n4 av-text-text1"
       data-testid="received-assessment-section-title"
     >
-      {{ t(`${i18nKey}.title`) }}
+      {{ t('student.activities.views.ActivityView.ReceivedAssessmentSection.title') }}
     </span>
 
     <Card
@@ -106,8 +109,8 @@ const gradeLabel = computed(() => t(`${i18nKey}.grade`, { grade: assessment?.gra
       v-else
       background-color="var(--surface-background)"
       border-color="transparent"
+      radius="var(--radius-lg)"
       data-testid="received-assessment-section-status"
-      class="status-message-card"
     >
       <span class="b2-light av-text-text2">
         {{ statusMessage }}
@@ -119,9 +122,5 @@ const gradeLabel = computed(() => t(`${i18nKey}.grade`, { grade: assessment?.gra
 <style lang="scss" scoped>
 .received-assessment-comment {
   white-space: pre-line;
-}
-
-.status-message-card {
-  border-radius: var(--radius-lg) !important;
 }
 </style>
