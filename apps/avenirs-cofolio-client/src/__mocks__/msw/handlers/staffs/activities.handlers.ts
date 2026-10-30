@@ -38,11 +38,13 @@ import {
   EErrorCode,
   getCreateActivityDraftUrl,
   getCreateDraftFromActivityUrl,
+  getDefineActivityAuthorizationsUrl,
   getDeleteActivityDefinitivelyUrl,
   getDeleteActivityDraftUrl,
   getDeleteDraftFileUrl,
   getDuplicateActivityUrl,
   getGetActivitiesWithFeedbacksUrl,
+  getGetActivityAuthorizationsUrl,
   getGetActivityContentUrl,
   getGetActivityDashboardUrl,
   getGetActivityInactiveStudentsUrl,
@@ -273,6 +275,13 @@ export const staffCreateDraftFromActivityUrl = http.post(
   },
 )
 
+export const defineActivityAuthorizationsErrorHandler = http.put(`*${getDefineActivityAuthorizationsUrl(EActivityStatus.PUBLISHED, ':activityId')}`, () => {
+  return HttpResponse.json(
+    { message: 'Erreur interne du serveur', code: ErrorCodes.SERVER },
+    { status: HttpStatusCode.INTERNAL_SERVER_ERROR, headers: { 'Content-Type': 'application/json' } }
+  )
+})
+
 export const staffsActivitiesHandlers = [
   getActivityDashboardHandler,
   getActivityInactiveStudentsHandler,
@@ -469,5 +478,18 @@ export const staffsActivitiesHandlers = [
       status: HttpStatusCode.OK,
       headers: { 'Content-Type': 'application/json' },
     })
+  }),
+
+  http.get(`*${getGetActivityAuthorizationsUrl(EActivityStatus.PUBLISHED, ':activityId')}`, () => {
+    return HttpResponse.json([], { status: HttpStatusCode.OK, headers: { 'Content-Type': 'application/json' } })
+  }),
+
+  http.put(`*${getDefineActivityAuthorizationsUrl(EActivityStatus.PUBLISHED, ':activityId')}`, async ({ request }) => {
+    const { authorizations } = await request.json() as { authorizations: { staffId: string, rights: string[] }[] }
+
+    return HttpResponse.json(
+      authorizations.map(({ staffId, rights }) => ({ staff: { id: staffId, firstName: '', lastName: '' }, rights })),
+      { status: HttpStatusCode.OK, headers: { 'Content-Type': 'application/json' } }
+    )
   })
 ]

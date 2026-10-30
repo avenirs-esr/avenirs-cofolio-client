@@ -16,6 +16,8 @@ import {
 import {
   ActivityDashboardSectionStub
 } from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/ActivityDashboardSection.stub'
+import { ActivityRightsSectionStub }
+  from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityRightsSection/ActivityRightsSection.stub'
 import {
   NationalActivityCatalogPreviewTabStub
 } from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.stub'
@@ -70,6 +72,7 @@ BddTest().given('a national activity catalog view', () => {
     NationalActivityCatalogPreviewTab: NationalActivityCatalogPreviewTabStub,
     NationalActivityContentTab: NationalActivityContentTabStub,
     ActivityDashboardSection: ActivityDashboardSectionStub,
+    ActivityRightsSection: ActivityRightsSectionStub,
     AvButton: AvButtonStub,
     DeleteDraftActivityConfirmationModal: DeleteDraftActivityConfirmationModalStub,
     AvTabs: AvTabsStub,
@@ -236,6 +239,12 @@ BddTest().given('a national activity catalog view', () => {
       const dashboardSection = wrapper.findComponent(ActivityDashboardSectionStub)
       expect(dashboardSection.props('activityId')).toBe(mockedActivityContent.id)
       expect(dashboardSection.props('status')).toBe(EActivityStatus.DRAFT)
+    })
+
+    BddTest().then('it should render ActivityRightsSection with the loaded activity id and status', () => {
+      const rightsSection = wrapper.findComponent(ActivityRightsSectionStub)
+      expect(rightsSection.props('activityId')).toBe(mockedActivityContent.id)
+      expect(rightsSection.props('status')).toBe(EActivityStatus.DRAFT)
     })
 
     BddTest().then('it should not render the other tabs content', () => {

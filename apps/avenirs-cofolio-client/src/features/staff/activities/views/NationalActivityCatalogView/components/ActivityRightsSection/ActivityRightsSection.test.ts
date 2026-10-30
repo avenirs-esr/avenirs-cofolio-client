@@ -1,15 +1,17 @@
 import type { AvAutocompleteOption } from '@avenirs-esr/avenirs-dsav'
 import type { VueWrapper } from '@vue/test-utils'
 import type { PagedResponseExternalUserAffiliationOverviewDTO } from '@/api/avenir-esr'
-import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
+import { AvButtonStub, AvIconStub, AvSelectStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { http, HttpResponse } from 'msw'
 import { beforeEach, expect, vi } from 'vitest'
+import { mockedActivityAuthorizations } from '@/__mocks__/fixtures/staffs/activities.fixtures'
 import { generateExternalUserAffiliationOverviewDTOs } from '@/__mocks__/fixtures/staffs/affiliations.fixtures'
+import { defineActivityAuthorizationsErrorHandler } from '@/__mocks__/msw/handlers/staffs/activities.handlers'
 import { getAffiliationsErrorHandler } from '@/__mocks__/msw/handlers/staffs/affiliations.handlers'
 import { server } from '@/__mocks__/msw/server'
-import { EUserCategory, getGetAffiliationsUrl } from '@/api/avenir-esr'
+import { EActivityRight, EActivityStatus, EAuthorization, getDefineActivityAuthorizationsUrl, getGetActivityAuthorizationsUrl, getGetAffiliationsUrl } from '@/api/avenir-esr'
 import { IconTitleCardContainerStub } from '@/common/components/cards/IconTitleCardContainer/IconTitleCardContainer.stub'
 import { QuerySuspenseStub } from '@/common/components/feedback/QuerySuspense/QuerySuspense.stub'
 import { AutocompleteStub } from '@/common/components/interaction/selects/Autocomplete/Autocomplete.stub'
@@ -18,20 +20,51 @@ import ActivityRightsSection
 import { UserInfoStub } from '@/features/staff/admin/components/base/UserInfo/UserInfo.stub'
 import { DeleteOverlayStub } from '@/features/student/global/components/interaction/DeleteOverlay/DeleteOverlay.stub'
 
+const mockIsMobile = ref(false)
+const mockAddSuccessMessage = vi.fn()
+const mockAddErrorMessage = vi.fn()
+
+vi.mock('@/store', async () => {
+  const actual = await vi.importActual<typeof import('@/store')>('@/store')
+  return {
+    ...actual,
+    useToasterStore: vi.fn(() => ({
+      addSuccessMessage: mockAddSuccessMessage,
+      addErrorMessage: mockAddErrorMessage,
+    })),
+  }
+})
+
+vi.mock('@avenirs-esr/avenirs-dsav', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@avenirs-esr/avenirs-dsav')>()
+  return {
+    ...actual,
+    useAvBreakpoints: () => ({ isMobile: mockIsMobile }),
+  }
+})
+
 BddTest().given('an ActivityRightsSection component', () => {
   let wrapper: VueWrapper<InstanceType<typeof ActivityRightsSection>>
   let requestedSearchParams: URLSearchParams[]
+
+  beforeEach(() => {
+    mockIsMobile.value = false
+  })
 
   const users = generateExternalUserAffiliationOverviewDTOs(3).map((user, index) => ({
     ...user,
     firstName: ['ALICE', 'BOB', 'CHARLIE'][index]!,
     lastName: ['DUPONT', 'MARTIN', 'DURAND'][index]!,
+    userId: `app-user-${index}`,
   }))
   const [aliceWithPicture, bobWithoutPicture] = users as [typeof users[number], typeof users[number]]
 
   const stubs = {
-    Autocomplete: AutocompleteStub,
+    AvButton: AvButtonStub,
+    AvIcon: AvIconStub,
+    AvSelect: AvSelectStub,
     DeleteOverlay: DeleteOverlayStub,
+    Autocomplete: AutocompleteStub,
     IconTitleCardContainer: IconTitleCardContainerStub,
     QuerySuspense: QuerySuspenseStub,
     UserInfo: UserInfoStub,
@@ -46,8 +79,10 @@ BddTest().given('an ActivityRightsSection component', () => {
     })
   })
 
+  const defaultProps = { activityId: 'activity-1', status: EActivityStatus.PUBLISHED }
+
   const toOption = (user: typeof users[number]): AvAutocompleteOption => ({
-    value: user.id,
+    value: user.userId,
     label: `${user.firstName[0]}${user.firstName.slice(1).toLowerCase()} ${user.lastName[0]}${user.lastName.slice(1).toLowerCase()}`,
     description: user.email,
   })
@@ -57,10 +92,13 @@ BddTest().given('an ActivityRightsSection component', () => {
   const getAutocomplete = () => wrapper.findComponent(AutocompleteStub)
   const getSelectedUsersContainer = () => wrapper.find('[data-testid="activity-rights-selected-users"]')
   const getSelectedUserInfos = () => wrapper.findAllComponents(UserInfoStub)
-  const getDeleteOverlays = () => wrapper.findAllComponents(DeleteOverlayStub)
+  const getRemoveButtons = () => wrapper.findAll('[data-testid="delete-overlay-stub"] > button')
+  const getSaveButton = () => wrapper.findComponent(AvButtonStub)
+  const getAuthorizationSelects = () => wrapper.findAllComponents(AvSelectStub)
+  const getSelectedAuthorizationIcons = () => wrapper.findAllComponents(AvIconStub)
 
   const mountSection = async () => {
-    wrapper = mountComponent(ActivityRightsSection, { global: { stubs } })
+    wrapper = mountComponent(ActivityRightsSection, { props: defaultProps, global: { stubs } })
     await flushPromises()
     await vi.waitFor(() => expect(getAutocomplete().props('options')).toHaveLength(users.length))
   }
@@ -106,8 +144,8 @@ BddTest().given('an ActivityRightsSection component', () => {
       })
     })
 
-    BddTest().then('it should request staff affiliations without keyword', () => {
-      expect(requestedSearchParams[0]?.getAll('categories')).toEqual([EUserCategory.STAFF])
+    BddTest().then('it should request cofolio staff affiliations without keyword', () => {
+      expect(requestedSearchParams[0]?.get('cofolioStaff')).toBe('true')
       expect(requestedSearchParams[0]?.has('keyword')).toBe(false)
     })
 
@@ -132,7 +170,7 @@ BddTest().given('an ActivityRightsSection component', () => {
       await vi.waitFor(() => {
         expect(requestedSearchParams.at(-1)?.get('keyword')).toBe('ali')
       })
-      expect(requestedSearchParams.at(-1)?.getAll('categories')).toEqual([EUserCategory.STAFF])
+      expect(requestedSearchParams.at(-1)?.get('cofolioStaff')).toBe('true')
     })
   })
 
@@ -149,8 +187,8 @@ BddTest().given('an ActivityRightsSection component', () => {
 
     BddTest().then('it should render one UserInfo per selected user', () => {
       expect(getSelectedUserInfos().map(userInfo => userInfo.props('user').id)).toEqual([
-        aliceWithPicture.id,
-        bobWithoutPicture.id,
+        aliceWithPicture.userId,
+        bobWithoutPicture.userId,
       ])
     })
 
@@ -161,29 +199,163 @@ BddTest().given('an ActivityRightsSection component', () => {
       expect(bobInfo!.props('user').profilePictureId).toBeUndefined()
     })
 
-    BddTest().then('it should render a delete overlay for each selected user', () => {
-      expect(getDeleteOverlays()).toHaveLength(2)
+    BddTest().then('it should render a remove button and an authorizations select for each selected user', () => {
+      expect(getRemoveButtons()).toHaveLength(2)
+      expect(getAuthorizationSelects()).toHaveLength(2)
     })
 
     BddTest().and('the delete button of a user is clicked', () => {
       beforeEach(async () => {
-        await getDeleteOverlays()[0]!.find('button').trigger('click')
+        await getRemoveButtons()[0]!.trigger('click')
       })
 
       BddTest().then('it should remove only this user from the selection', () => {
-        expect(getSelectedUserInfos().map(userInfo => userInfo.props('user').id)).toEqual([bobWithoutPicture.id])
+        expect(getSelectedUserInfos().map(userInfo => userInfo.props('user').id)).toEqual([bobWithoutPicture.userId])
       })
     })
 
     BddTest().and('the last selected user is removed', () => {
       beforeEach(async () => {
-        await getDeleteOverlays()[0]!.find('button').trigger('click')
-        await getDeleteOverlays()[0]!.find('button').trigger('click')
+        await getRemoveButtons()[0]!.trigger('click')
+        await getRemoveButtons()[0]!.trigger('click')
       })
 
       BddTest().then('it should hide the selected users section', () => {
         expect(getSelectedUsersContainer().exists()).toBe(false)
       })
+    })
+  })
+
+  BddTest().when('users are selected on a mobile viewport', () => {
+    beforeEach(async () => {
+      mockIsMobile.value = true
+      await mountSection()
+      await selectUsers([toOption(aliceWithPicture)])
+    })
+
+    BddTest().then('it should not cap the list height', () => {
+      expect(wrapper.find('.activity-rights-section__list--scrollable').exists()).toBe(false)
+    })
+  })
+
+  BddTest().when('users are selected on a desktop viewport', () => {
+    beforeEach(async () => {
+      await mountSection()
+      await selectUsers([toOption(aliceWithPicture)])
+    })
+
+    BddTest().then('it should render a scrollable list', () => {
+      expect(wrapper.find('.activity-rights-section__list--scrollable').exists()).toBe(true)
+    })
+  })
+
+  BddTest().when('the activity already has authorizations', () => {
+    beforeEach(async () => {
+      server.use(http.get(
+        `*${getGetActivityAuthorizationsUrl(EActivityStatus.PUBLISHED, ':activityId')}`,
+        () => HttpResponse.json(mockedActivityAuthorizations),
+      ))
+      await mountSection()
+      await vi.waitFor(() => expect(getSelectedUserInfos()).toHaveLength(mockedActivityAuthorizations.length))
+    })
+
+    BddTest().then('it should prefill the selected users', () => {
+      expect(getSelectedUserInfos().map(userInfo => userInfo.props('user').id)).toEqual(
+        mockedActivityAuthorizations.map(({ staff }) => staff.id),
+      )
+    })
+
+    BddTest().then('it should prefill the authorizations select with the existing rights', () => {
+      expect(getAuthorizationSelects()[0]!.props('modelValue')).toEqual([
+        expect.objectContaining({ value: EAuthorization.EDIT }),
+        expect.objectContaining({ value: EAuthorization.EVALUATION }),
+      ])
+    })
+
+    BddTest().then('it should display one icon per existing right', () => {
+      expect(getSelectedAuthorizationIcons()).toHaveLength(2)
+    })
+  })
+
+  BddTest().when('authorizations are selected for a user', () => {
+    beforeEach(async () => {
+      await mountSection()
+      await selectUsers([toOption(aliceWithPicture)])
+    })
+
+    BddTest().then('it should not display any icon while nothing is selected', () => {
+      expect(getSelectedAuthorizationIcons()).toHaveLength(0)
+    })
+
+    BddTest().and('an authorization is picked in the select', () => {
+      beforeEach(async () => {
+        getAuthorizationSelects()[0]!.vm.$emit('update:modelValue', [{ value: EAuthorization.EDIT, label: 'Éditeur' }])
+        await flushPromises()
+      })
+
+      BddTest().then('it should display the matching authorization icon in blue', () => {
+        expect(getSelectedAuthorizationIcons()).toHaveLength(1)
+        expect(getSelectedAuthorizationIcons()[0]!.props('color')).toBe('var(--dark-background-primary1)')
+      })
+
+      BddTest().then('it should pass the selected count to the select', () => {
+        expect(getAuthorizationSelects()[0]!.props('selectedText')).toBe('1 autorisation sélectionnée')
+      })
+    })
+  })
+
+  BddTest().when('the save button is clicked', () => {
+    let savedBody: unknown
+
+    beforeEach(async () => {
+      savedBody = undefined
+      server.use(http.put(
+        `*${getDefineActivityAuthorizationsUrl(EActivityStatus.PUBLISHED, ':activityId')}`,
+        async ({ request }) => {
+          savedBody = await request.json()
+
+          return HttpResponse.json([])
+        },
+      ))
+      await mountSection()
+      await selectUsers([toOption(aliceWithPicture)])
+      getAuthorizationSelects()[0]!.vm.$emit('update:modelValue', [{ value: EAuthorization.EDIT, label: 'Éditeur' }])
+      await flushPromises()
+      await getSaveButton().trigger('click')
+      await flushPromises()
+    })
+
+    BddTest().then('it should render the save button with its label', () => {
+      expect(getSaveButton().props('label')).toBe('Enregistrer')
+    })
+
+    BddTest().then('it should send the staff rights to the API', () => {
+      expect(savedBody).toEqual({ authorizations: [{ staffId: aliceWithPicture.userId, rights: [EActivityRight.EDIT] }] })
+    })
+
+    BddTest().then('it should call addSuccessMessage', () => {
+      expect(mockAddSuccessMessage).toHaveBeenCalledWith('Droits enregistrés')
+      expect(mockAddErrorMessage).not.toHaveBeenCalled()
+    })
+  })
+
+  BddTest().when('the save request fails', () => {
+    beforeEach(async () => {
+      server.use(defineActivityAuthorizationsErrorHandler)
+      await mountSection()
+      await selectUsers([toOption(aliceWithPicture)])
+      await getSaveButton().trigger('click')
+      await flushPromises()
+    })
+
+    BddTest().then('it should call addErrorMessage with the correct title', () => {
+      expect(mockAddErrorMessage).toHaveBeenCalledWith(
+        expect.objectContaining({ title: 'Impossible d\'enregistrer les droits' }),
+      )
+    })
+
+    BddTest().then('it should not call addSuccessMessage', () => {
+      expect(mockAddSuccessMessage).not.toHaveBeenCalled()
     })
   })
 
@@ -212,7 +384,7 @@ BddTest().given('an ActivityRightsSection component', () => {
   BddTest().when('the affiliations request fails', () => {
     beforeEach(async () => {
       server.use(getAffiliationsErrorHandler)
-      wrapper = mountComponent(ActivityRightsSection, { global: { stubs } })
+      wrapper = mountComponent(ActivityRightsSection, { props: defaultProps, global: { stubs } })
       await flushPromises()
       await vi.waitFor(() => expect(getQuerySuspense().props('error')).toBeTruthy())
     })

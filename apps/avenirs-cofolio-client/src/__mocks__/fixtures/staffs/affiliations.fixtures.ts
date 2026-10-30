@@ -20,10 +20,13 @@ function getExternalUserAffiliationOverviewDTO (index: number): ExternalUserAffi
 
   return {
     id: `user${index}`,
+    userId: hasConnected ? `app-user${index}` : undefined,
     firstName,
     lastName,
     email,
     hasConnected,
+    staff: true,
+    student: false,
     profilePictureId,
     categories,
     institutions,

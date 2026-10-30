@@ -3,7 +3,7 @@ import { mockedActivityContentWithEnrolledStudent1 } from '@/__mocks__/fixtures/
 import { declaredExperienceViewDTOFixture } from '@/__mocks__/fixtures/student'
 import { createMockedSkillProgressDetailsDTO } from '@/__mocks__/fixtures/student/skills.fixtures'
 import { mockedTraceDetailedWithFile } from '@/__mocks__/fixtures/student/traces.fixtures'
-import { EDeclaredActivityStatus } from '@/api/avenir-esr'
+import { EActivityAssessmentStatus } from '@/api/avenir-esr'
 
 export const mockedAssessmentDetailsWithAssociations: DeclaredActivityAssessmentDetailsDTO = {
   declaredActivityId: 'assessment-with-associations',
@@ -25,7 +25,7 @@ export const mockedAssessmentDetailsWithAssociations: DeclaredActivityAssessment
     declaredExperiences: [declaredExperienceViewDTOFixture]
   },
   submittedAt: '2024-01-15T12:00:00Z',
-  status: EDeclaredActivityStatus.CONSULTED,
+  status: EActivityAssessmentStatus.OPENED,
 }
 
 export const mockedAssessmentDetailsWithoutAssociations: DeclaredActivityAssessmentDetailsDTO = {
@@ -80,5 +80,5 @@ export const mockedAssessmentDetailsSent: DeclaredActivityAssessmentDetailsDTO =
     requestedAt: '2024-01-15T12:00:00Z',
     assessedAt: '2024-01-20T09:30:00Z',
   },
-  status: EDeclaredActivityStatus.COMPLETED,
+  status: EActivityAssessmentStatus.SENT,
 }
