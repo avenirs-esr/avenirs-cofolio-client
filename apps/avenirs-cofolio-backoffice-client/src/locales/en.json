@@ -32,11 +32,6 @@
         "main": "Go to main content"
       }
     },
-    "overlay": {
-      "InformationTooltip": {
-        "triggerAriaLabel": "Informations"
-      }
-    },
     "QuerySuspense": {
       "defaultEmptyStateMessage": "No data to display",
       "defaultErrorTitle": "An error occurred while loading the data"

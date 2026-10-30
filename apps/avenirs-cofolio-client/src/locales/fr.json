@@ -506,9 +506,6 @@
           "title": "Modifier mon profil"
         }
       },
-      "InformationTooltip": {
-        "triggerAriaLabel": "Informations"
-      },
       "SelectorOverlay": {
         "ariaLabel": {
           "selected": "Désélectionner {item}",
