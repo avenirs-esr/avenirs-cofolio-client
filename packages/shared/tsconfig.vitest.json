@@ -4,6 +4,6 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.vitest.tsbuildinfo",
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.vue", "src/**/*.json", "test-utils/**/*.ts"],
+  "include": ["vitest-setup.ts", "src/**/*.ts", "src/**/*.vue", "src/**/*.json", "test-utils/**/*.ts"],
   "exclude": []
 }
