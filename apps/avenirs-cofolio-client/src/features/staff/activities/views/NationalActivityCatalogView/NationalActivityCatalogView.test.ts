@@ -227,7 +227,7 @@ BddTest().given('a national activity catalog view', () => {
 
   BddTest().when('the key figures tab is active', () => {
     beforeEach(async () => {
-      mockActiveTab(NationalActivityCatalogTabs.KEY_FIGURES)
+      mockActiveTab(NationalActivityCatalogTabs.DASHBOARD)
       wrapper = mountView()
       await waitForLoaded()
     })

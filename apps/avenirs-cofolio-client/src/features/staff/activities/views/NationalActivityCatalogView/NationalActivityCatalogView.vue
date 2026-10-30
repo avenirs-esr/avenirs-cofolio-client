@@ -11,6 +11,8 @@ import DeleteDraftActivityConfirmationModal
   from '@/features/staff/activities/components/modals/DeleteDraftActivityConfirmationModal/DeleteDraftActivityConfirmationModal.vue'
 import ActivityDashboardSection
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityDashboardSection/ActivityDashboardSection.vue'
+import ActivityRightsSection
+  from '@/features/staff/activities/views/NationalActivityCatalogView/components/ActivityRightsSection/ActivityRightsSection.vue'
 import NationalActivityCatalogPreviewTab
   from '@/features/staff/activities/views/NationalActivityCatalogView/components/NationalActivityCatalogPreviewTab/NationalActivityCatalogPreviewTab.vue'
 import NationalActivityContentTab
@@ -127,13 +129,16 @@ function updateActivity (id: string) {
       </AvTab>
       <AvTab
         :icon="RI_ICONS.DASHBOARD_2_LINE"
-        :title="t('staff.activities.views.NationalActivityCatalogView.tabs.keyFigures')"
+        :title="t('staff.activities.views.NationalActivityCatalogView.tabs.dashboard')"
         data-testid="national-activity-catalog-key-figures-tab-item"
       >
-        <ActivityDashboardSection
-          :activity-id="activity.id"
-          :status="status"
-        />
+        <div class="av-col av-gap-md">
+          <ActivityDashboardSection
+            :activity-id="activity.id"
+            :status="status"
+          />
+          <ActivityRightsSection />
+        </div>
       </AvTab>
     </AvTabs>
   </QuerySuspense>
