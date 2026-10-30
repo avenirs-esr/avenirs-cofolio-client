@@ -79,7 +79,8 @@
             "selects": {
               "InstitutionGroupsMultiselect": {
                 "label": "Filtrer par groupes",
-                "placeholder": "Sélectionnez un/des groupe(s)"
+                "placeholder": "Sélectionnez un/des groupe(s)",
+                "searchPlaceholder": "Rechercher des groupes"
               }
             }
           },

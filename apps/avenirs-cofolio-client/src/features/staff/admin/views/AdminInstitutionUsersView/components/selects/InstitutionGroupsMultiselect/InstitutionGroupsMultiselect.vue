@@ -33,6 +33,8 @@ const options = computed(() => [
 const avSelectProps = computed<AvSelectProps>(() => ({
   label: t('staff.admin.views.AdminInstitutionUsersView.components.selects.InstitutionGroupsMultiselect.label'),
   placeholder: t('staff.admin.views.AdminInstitutionUsersView.components.selects.InstitutionGroupsMultiselect.placeholder'),
+  search: true,
+  searchPlaceholder: t('staff.admin.views.AdminInstitutionUsersView.components.selects.InstitutionGroupsMultiselect.searchPlaceholder'),
   options: options.value,
   disabled: !data.value?.data?.length,
   labelVisible: true,
