@@ -7,4 +7,7 @@ export { default as ErrorMessage } from './components/feedback/ErrorMessage/Erro
 export { LoaderStub } from './components/feedback/Loader/Loader.stub'
 export { default as Loader } from './components/feedback/Loader/Loader.vue'
 export type { LoaderColor, LoaderProps, LoaderSize } from './components/feedback/Loader/Loader.vue'
+export { InformationTooltipStub } from './components/overlay/tooltips/InformationTooltip/InformationTooltip.stub'
+export { default as InformationTooltip } from './components/overlay/tooltips/InformationTooltip/InformationTooltip.vue'
+export type { InformationTooltipProps } from './components/overlay/tooltips/InformationTooltip/InformationTooltip.vue'
 export { default as MainContent } from './layouts/MainContent/MainContent.vue'

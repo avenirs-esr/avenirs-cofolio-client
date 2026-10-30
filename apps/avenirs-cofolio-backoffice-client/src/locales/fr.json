@@ -32,11 +32,6 @@
         "main": "Aller au contenu principal"
       }
     },
-    "overlay": {
-      "InformationTooltip": {
-        "triggerAriaLabel": "Informations"
-      }
-    },
     "QuerySuspense": {
       "defaultEmptyStateMessage": "Aucune donnée à afficher",
       "defaultErrorTitle": "Une erreur est survenue lors du chargement des données"
