@@ -1,0 +1,212 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/student/lifeProject/selfKnowledge/selfKnowledge.mobile.feature.spec.js >> Student Project Self-Knowledge Main Section Page >> Responsive Behavior >> Profile card displays correctly on mobile viewport
+- Location: .features-gen/tests/student/lifeProject/selfKnowledge/selfKnowledge.mobile.feature.spec.js:16:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByTestId('profile-card')
+Expected: visible
+Timeout: 10000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('profile-card')
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - link "Accueil - Cofolio Apprenant":
+    - /url: /cofolio/student
+    - img
+  - button "Menu"
+  - button "Changer d'univers"
+- main:
+  - navigation "Fil d'Ariane":
+    - button "Voir le fil d'Ariane"
+  - heading "Bâtir mon projet" [level=1]
+  - text: Accéder à
+  - button "Me connaître" [expanded]
+  - paragraph: Utilisez la tabulation (ou les touches flèches) pour naviguer dans la liste des suggestions
+  - list:
+    - listitem:
+      - checkbox "Ma carte mentale"
+      - text: Ma carte mentale
+      - status
+    - listitem:
+      - checkbox "Me connaître"
+      - text: Me connaître
+      - status
+  - status
+  - text: Me connaître
+  - button "Modifier mon profil"
+  - button "Gérer mes catégories"
+  - text: Mes points forts (10)
+  - button "Gérer mes éléments"
+  - button "Réduire" [expanded]
+  - text: Identifier et valoriser mes qualités, talents et réussites marquantes.
+  - navigation:
+    - list:
+      - listitem: Page 1 sur 2
+      - listitem
+      - listitem:
+        - link "Page précédente" [disabled]:
+          - /url: "#page-1"
+      - listitem:
+        - link "Page suivante":
+          - /url: "#page-2"
+      - listitem
+  - link "Créativité Je suis capable de trouver des solutions originales et innovantes aux problèmes ⭐ ⭐ ⭐ 3/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=776daad4-0153-4f67-8e61-35f5005e7750
+  - link "Esprit d'équipe Je travaille efficacement avec les autres et favorise la collaboration ⭐ ⭐ 2/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=0dade1d7-38e5-4b26-948e-b714bc70b792
+  - link "Leadership Je sais prendre des initiatives et guider une équipe vers ses objectifs ⭐ ⭐ ⭐ ⭐ 4/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=c8de8b7a-1f56-45e2-bfa9-603af93771a0
+  - link "Persévérance Je continue mes efforts même face aux difficultés":
+    - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=8185af71-fcc6-4042-9792-c902512fc06a
+  - link "Communication Je m'exprime clairement et j'écoute activement les autres ⭐ ⭐ ⭐ 3/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=87380857-f63f-4d6f-a95b-c59e3824af24
+  - link "Adaptabilité Je m'ajuste facilement aux changements et aux nouvelles situations":
+    - /url: /cofolio/student/project/build-project/self-knowledge/STRENGTHS?elementId=7ddb5684-0e77-4480-a468-55d1d4e6650c
+  - text: Mes valeurs (10)
+  - button "Gérer mes éléments"
+  - button "Réduire" [expanded]
+  - text: Préciser ce qui est important pour moi et ce qui guide mes décisions au quotidien.
+  - navigation:
+    - list:
+      - listitem: Page 1 sur 2
+      - listitem
+      - listitem:
+        - link "Page précédente" [disabled]:
+          - /url: "#page-1"
+      - listitem:
+        - link "Page suivante":
+          - /url: "#page-2"
+      - listitem
+  - link "Respect Traiter les autres avec considération et dignité":
+    - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=8b26deac-25aa-4fc7-b7f6-ba99e32ad9e1
+  - link "Honnêteté Agir avec intégrité et transparence dans toutes mes interactions ⭐ ⭐ ⭐ ⭐ 4/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=6ed49df6-cd50-4e76-9f90-8adc1ab762b1
+  - link "Solidarité Soutenir et aider les autres dans le besoin":
+    - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=390c3773-20d8-4f59-aeb8-b3fe17770ba0
+  - link "Justice Promouvoir l'équité et l'égalité des chances pour tous":
+    - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=92e12e86-c54c-475b-a680-c5697c92d74b
+  - link "Liberté Respecter l'autonomie et les choix de chacun ⭐ ⭐ ⭐ ⭐ ⭐ 5/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=4467fd97-7bcf-4b39-bf8e-f201feee8ed4
+  - link "Engagement M'investir pleinement dans mes projets et responsabilités":
+    - /url: /cofolio/student/project/build-project/self-knowledge/VALUES?elementId=6a20bac8-d439-4572-ac96-36f8418d340d
+  - text: Mes envies (10)
+  - button "Gérer mes éléments"
+  - button "Réduire" [expanded]
+  - text: Clarifier ce que j'ai envie d'explorer, d'apprendre ou de vivre à court et moyen terme.
+  - navigation:
+    - list:
+      - listitem: Page 1 sur 2
+      - listitem
+      - listitem:
+        - link "Page précédente" [disabled]:
+          - /url: "#page-1"
+      - listitem:
+        - link "Page suivante":
+          - /url: "#page-2"
+      - listitem
+  - link "Développer mes compétences techniques Approfondir mes connaissances dans mon domaine d'expertise ⭐ ⭐ ⭐ 3/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=40bd2e71-610c-46cd-9357-caa01d130577
+  - link "Manager une équipe Acquérir de l'expérience en gestion et leadership ⭐ ⭐ ⭐ ⭐ ⭐ 5/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=43666412-9443-4089-89e6-de08211ea038
+  - link "Voyager à l'étranger Découvrir de nouvelles cultures et élargir mes horizons":
+    - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=020d298e-beae-40bb-aa78-31acff8399a0
+  - link "Créer mon entreprise Développer un projet entrepreneurial qui me passionne ⭐ ⭐ ⭐ ⭐ ⭐ 5/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=f3dd0242-d1fc-4024-a29c-575fa5c8a742
+  - link "Continuer mes études Poursuivre ma formation académique dans un domaine qui m'intéresse":
+    - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=82021036-10b4-445c-911d-5eb216cd9e82
+  - link "Contribuer à des projets sociaux M'engager dans des initiatives à impact positif ⭐ ⭐ ⭐ ⭐ 4/5":
+    - /url: /cofolio/student/project/build-project/self-knowledge/ASPIRATIONS?elementId=d2bdaa88-7b3a-430a-be5f-5afb4b08d5b1
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/student/accessibility
+    - listitem:
+      - link "Conditions générales d'utilisation":
+        - /url: /cofolio/student/cgu
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/student/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/student/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1  | import type { Locator, Page } from '@playwright/test'
+  2  | import { expect } from '@playwright/test'
+  3  | 
+  4  | export abstract class BaseObject {
+  5  |   protected constructor (protected readonly root: Locator, protected page?: Page) { }
+  6  | 
+  7  |   getRoot () {
+  8  |     return this.root
+  9  |   }
+  10 | 
+  11 |   async click () {
+  12 |     await this.root.click()
+  13 |   }
+  14 | 
+  15 |   async isVisible () {
+> 16 |     await expect(this.root).toBeVisible()
+     |                             ^ Error: expect(locator).toBeVisible() failed
+  17 |   }
+  18 | 
+  19 |   async isHidden () {
+  20 |     await expect(this.root).toBeHidden()
+  21 |   }
+  22 | }
+  23 | 
+```

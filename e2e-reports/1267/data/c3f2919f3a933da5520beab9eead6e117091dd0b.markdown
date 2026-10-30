@@ -1,0 +1,172 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: tests/staff/home.feature.spec.js >> Staff Home Page >> Profile Section >> Staff can see profile section
+- Location: .features-gen/tests/staff/home.feature.spec.js:34:5
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator:  getByTestId('staff-overview-widget')
+Expected: visible
+Received: hidden
+Timeout:  10000ms
+
+Call log:
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for getByTestId('staff-overview-widget')
+    24 × locator resolved to <div data-v-853432a7="" data-testid="staff-overview-widget">…</div>
+       - unexpected value "hidden"
+
+```
+
+```yaml
+- navigation "Accès rapide":
+  - list:
+    - listitem:
+      - link "Aller au contenu principal":
+        - /url: "#main"
+    - listitem:
+      - link "Aller au pied de page":
+        - /url: "#footer"
+- banner:
+  - link "Accueil - Cofolio Staff":
+    - /url: /cofolio/staff
+    - img
+  - button "Changer d'univers"
+  - list:
+    - listitem:
+      - button "Notifications (10)"
+    - listitem:
+      - button "M. dupont"
+  - navigation:
+    - button "FR"
+  - navigation "Menu principal":
+    - list:
+      - listitem:
+        - link "ACCUEIL":
+          - /url: /cofolio/staff
+      - listitem:
+        - link "BIBLIOTHÈQUE DES ACTIVITÉS":
+          - /url: /cofolio/staff/activities
+      - listitem:
+        - button "SUIVI DES APPRENANTS"
+      - listitem:
+        - button "ADMINISTRATION"
+- main:
+  - heading "Accueil - Cofolio Staff" [level=1]
+  - text: Mes dernières demandes de feedback
+  - 'link "Activité \"Activité \"CV\" : Construire son parcours\" Lucas Tessier - 20/01/2024"':
+    - /url: /cofolio/staff/activity-feedback/feedback-7
+  - link "Activité \"Bilan de compétences\" Lucas Tessier - 12/03/2024":
+    - /url: /cofolio/staff/activity-feedback/feedback-3
+  - 'link "Activité \"Activité \"CV\" : Construire son parcours\" Lucas Tessier - 15/01/2024"':
+    - /url: /cofolio/staff/activity-feedback/feedback-1
+  - link "Voir toutes mes demandes de feedback":
+    - /url: /cofolio/staff/student-tracking/feedbacks
+  - text: Mes dernières activités modifiées
+  - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs"':
+    - /url: /cofolio/staff/activities/DRAFT/3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1
+    - text: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+    - status: Me connaître
+  - 'link "Activité \"CV\" : Construire son parcours"':
+    - /url: /cofolio/staff/activities/DRAFT/8c5d1f77-2a9e-4b33-9f6c-1e4b7a2d9c11
+    - text: "Activité \"CV\" : Construire son parcours"
+    - status: Cv
+  - link "Activité publiée sans apprenant inscrit":
+    - /url: /cofolio/staff/activities/DRAFT/2c9e4b77-6a1f-4d55-8b3c-7e2d1a9f4c22
+    - text: Activité publiée sans apprenant inscrit
+    - status: Me connaître
+  - link "Voir toutes mes activités modifiées":
+    - /url: /cofolio/staff/activities
+  - text: Mes dernières activités publiées
+  - 'link "Activité \"Connaissance de soi\" : Définir ses valeurs"':
+    - /url: /cofolio/staff/activities/PUBLISHED/3f7c9a2e-5d44-4b7a-9c6f-2a6e8e91b1a1
+    - text: "Activité \"Connaissance de soi\" : Définir ses valeurs"
+    - status: Me connaître
+  - 'link "Activité \"CV\" : Construire son parcours"':
+    - /url: /cofolio/staff/activities/PUBLISHED/8c5d1f77-2a9e-4b33-9f6c-1e4b7a2d9c11
+    - text: "Activité \"CV\" : Construire son parcours"
+    - status: Cv
+  - link "Activité publiée sans apprenant inscrit":
+    - /url: /cofolio/staff/activities/PUBLISHED/2c9e4b77-6a1f-4d55-8b3c-7e2d1a9f4c22
+    - text: Activité publiée sans apprenant inscrit
+    - status: Me connaître
+  - link "Voir toutes mes activités publiées":
+    - /url: /cofolio/staff/activities
+- contentinfo:
+  - link "Logo ANR":
+    - /url: https://anr.fr/ProjetIA-21-DMAV-0001
+    - img "Logo ANR"
+  - link "Logo France 2030":
+    - /url: https://www.info.gouv.fr/actualite/france-2030-attractivite-de-l-excellence-universitaire-francaise-le-gouvernement-investit-pres-de
+    - img "Logo France 2030"
+  - text: Ce travail a bénéficié d'une aide de l'État gérée par l'Agence Nationale de la Recherche au titre du programme d'investissements d'avenir intégré à France 2030, portant la référence ANR-21-DMAV-0001
+  - img "Logo Cofolio"
+  - text: Un ePortfolio pour l'Enseignement Supérieur et la Recherche Informations légales
+  - list:
+    - listitem:
+      - 'link "Accessibilité : partiellement conforme"':
+        - /url: /cofolio/staff/accessibility
+    - listitem:
+      - link "Conditions générales d'utilisation":
+        - /url: /cofolio/staff/cgu
+    - listitem:
+      - link "Données personnelles":
+        - /url: /cofolio/staff/personal-data
+    - listitem:
+      - link "Gestion des cookies":
+        - /url: /cofolio/staff/cookies
+  - text: Autres sites
+  - list:
+    - listitem:
+      - link "Volet ESR du programme AVENIR(s) - Accueil":
+        - /url: https://avenirs-esr.fr/
+        - text: avenirs-esr.fr
+  - text: Partenaires
+  - link "Volet ESR du programme AVENIR(s) - Accueil":
+    - /url: https://avenirs-esr.fr/
+    - img "Logo Avenir(s) ESR"
+  - link "Communauté d'établissements français d'enseignement supérieur pour l'innovation numérique - Accueil":
+    - /url: https://www.esup-portail.org/
+    - img "Logo Esup Portail"
+  - link "@ESUP-Portail. Tous droits réservés. - Accueil":
+    - /url: https://www.esup-portail.org/
+    - text: "@ESUP-Portail. Tous droits réservés."
+```
+
+# Test source
+
+```ts
+  1  | import type { Locator, Page } from '@playwright/test'
+  2  | import { expect } from '@playwright/test'
+  3  | 
+  4  | export abstract class BaseObject {
+  5  |   protected constructor (protected readonly root: Locator, protected page?: Page) { }
+  6  | 
+  7  |   getRoot () {
+  8  |     return this.root
+  9  |   }
+  10 | 
+  11 |   async click () {
+  12 |     await this.root.click()
+  13 |   }
+  14 | 
+  15 |   async isVisible () {
+> 16 |     await expect(this.root).toBeVisible()
+     |                             ^ Error: expect(locator).toBeVisible() failed
+  17 |   }
+  18 | 
+  19 |   async isHidden () {
+  20 |     await expect(this.root).toBeHidden()
+  21 |   }
+  22 | }
+  23 | 
+```
