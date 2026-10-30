@@ -89,6 +89,10 @@ const rows = computed(() => subGroupMode.value ? subGroupsRows.value : groupsRow
 const columns = computed(() => subGroupMode.value ? subGroupColumns.value : groupColumns.value)
 const isFetching = computed(() => subGroupMode.value ? subGroupsIsFetching.value : isFetchingGroups.value)
 const error = computed(() => subGroupMode.value ? subGroupsError.value : errorGroups.value)
+
+watch(() => [toRef(props, 'keyword'), toRef(props, 'types')], () => {
+  staffAdminGroupsStore.groupsCurrentPage = 0
+})
 </script>
 
 <template>
