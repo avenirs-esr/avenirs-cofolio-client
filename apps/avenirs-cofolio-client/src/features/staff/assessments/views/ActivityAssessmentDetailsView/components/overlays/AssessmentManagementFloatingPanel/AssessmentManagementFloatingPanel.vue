@@ -33,6 +33,7 @@ const {
   isValidationEnabled,
   isCommentEnabled,
   isCommentRequired,
+  isSent,
   isEditing,
   isReadonly,
   sentAssessment,
@@ -63,6 +64,11 @@ const avBadgeProps = computed<AvBadgeProps>(() => ({
 const sendDisabledTooltip = computed(() => isComplete.value
   ? undefined
   : t('staff.assessments.views.ActivityAssessmentDetailsView.AssessmentManagementFloatingPanel.incompleteTooltip')
+)
+
+const cancelDisabledTooltip = computed(() => isEditing.value
+  ? undefined
+  : t('staff.assessments.views.ActivityAssessmentDetailsView.AssessmentManagementFloatingPanel.noUpdateInProgressTooltip')
 )
 </script>
 
@@ -124,32 +130,33 @@ const sendDisabledTooltip = computed(() => isComplete.value
 
       <div class="av-row av-justify-end av-gap-sm av-p-md">
         <AvButton
+          v-if="isSent"
+          :label="t('global.buttons.cancel')"
+          :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+          variant="OUTLINED"
+          :is-loading="isSending"
+          :disabled="!isEditing"
+          :disabled-tooltip="cancelDisabledTooltip"
+          data-testid="cancel-assessment-update-button"
+          @click="cancelEditing"
+        />
+        <AvButton
           v-if="isReadonly"
           :label="t('global.buttons.update')"
           :icon="MDI_ICONS.PENCIL_OUTLINE"
           data-testid="update-assessment-button"
           @click="startEditing"
         />
-        <template v-else>
-          <AvButton
-            v-if="isEditing"
-            :label="t('global.buttons.cancel')"
-            :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
-            variant="OUTLINED"
-            :disabled="isSending"
-            data-testid="cancel-assessment-update-button"
-            @click="cancelEditing"
-          />
-          <AvButton
-            :label="t('global.buttons.send')"
-            :icon="MS_ICONS.SEND_OUTLINE_ROUNDED"
-            :is-loading="isSending"
-            :disabled="!isComplete"
-            :disabled-tooltip="sendDisabledTooltip"
-            data-testid="send-assessment-button"
-            @click="form.handleSubmit"
-          />
-        </template>
+        <AvButton
+          v-else
+          :label="t('global.buttons.send')"
+          :icon="MS_ICONS.SEND_OUTLINE_ROUNDED"
+          :is-loading="isSending"
+          :disabled="!isComplete"
+          :disabled-tooltip="sendDisabledTooltip"
+          data-testid="send-assessment-button"
+          @click="form.handleSubmit"
+        />
       </div>
     </div>
   </FloatingPanel>

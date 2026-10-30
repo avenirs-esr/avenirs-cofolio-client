@@ -40,6 +40,7 @@
               }
             },
             "incompleteTooltip": "All the assessment fields must be filled in before it can be sent",
+            "noUpdateInProgressTooltip": "No modification in progress to cancel",
             "sentAt": "Assessment sent on {date}",
             "success": {
               "sendAssessment": "The assessment has been sent successfully",

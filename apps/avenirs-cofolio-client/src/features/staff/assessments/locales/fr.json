@@ -40,6 +40,7 @@
               }
             },
             "incompleteTooltip": "Tous les champs de l'appréciation doivent être renseignés avant de pouvoir l'envoyer",
+            "noUpdateInProgressTooltip": "Aucune modification en cours à annuler",
             "sentAt": "Appréciation envoyée le {date}",
             "success": {
               "sendAssessment": "L'appréciation a été envoyée avec succès",
