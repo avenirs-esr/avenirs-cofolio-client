@@ -53,8 +53,8 @@ BddTest().given('a learner overview widget', () => {
 
       expect(profileCard.props('firstName')).toBe(mockedProfileOverview.firstname)
       expect(profileCard.props('lastName')).toBe(mockedProfileOverview.lastname)
-      expect(profileCard.props('profilePictureUrl')).toBe(mockedProfileOverview.profilePicture.url)
-      expect(profileCard.props('coverPictureUrl')).toBe(mockedProfileOverview.coverPicture.url)
+      expect(profileCard.props('profilePicture')).toEqual(mockedProfileOverview.profilePicture)
+      expect(profileCard.props('coverPicture')).toEqual(mockedProfileOverview.coverPicture)
       expect(profileCard.props('bio')).toBe(mockedProfileOverview.bio)
     })
 

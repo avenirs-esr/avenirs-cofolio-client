@@ -78,8 +78,8 @@ function handleActionSelected (action: Action) {
       v-if="!isLoading"
       :first-name="data.firstname"
       :last-name="data.lastname"
-      :profile-picture-url="data.profilePicture.url"
-      :cover-picture-url="data.coverPicture.url"
+      :profile-picture="data.profilePicture"
+      :cover-picture="data.coverPicture"
       :bio="data.bio"
     />
 

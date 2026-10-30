@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import type { UserInfoType } from '@/features/staff/admin/types/users.types'
 import { AvIcon, MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
-import { onBeforeUnmount } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useGetResourceByFileId } from '@/api/avenir-esr'
 import { PROFILE_PICTURE_RATIO } from '@/common/components/interaction/files/ImageUpload/config'
 import { useIdentifyRoute } from '@/common/composables/use-identify-route/use-identitfy-route'
+import { useStorageImage } from '@/common/composables/use-storage-image/use-storage-image'
 import { ROUTES } from '@/common/constants'
 import { toFullName } from '@/common/utils/user/user'
 
@@ -21,10 +20,7 @@ const route = useRoute()
 const { isStaffAdminGroupsRoute } = useIdentifyRoute()
 
 const fullName = computed(() => toFullName(user.firstName, user.lastName))
-const { data: profilePictureResource } = useGetResourceByFileId(user.profilePictureId ?? '', {
-  query: { enabled: !!user.profilePictureId }
-})
-const avatarUrl = ref<string | null>(null)
+const { url: avatarUrl } = useStorageImage(() => user.profilePictureId)
 
 const profilePictureRatio = `${PROFILE_PICTURE_RATIO}`
 
@@ -48,25 +44,6 @@ const to = computed(() => {
 })
 
 const routerProps = computed(() => withNav ? { to: to.value } : {})
-
-watch(profilePictureResource, (newValue) => {
-  if (avatarUrl.value) {
-    URL.revokeObjectURL(avatarUrl.value)
-  }
-
-  if (newValue) {
-    avatarUrl.value = URL.createObjectURL(newValue)
-  }
-  else {
-    avatarUrl.value = null
-  }
-})
-
-onBeforeUnmount(() => {
-  if (avatarUrl.value) {
-    URL.revokeObjectURL(avatarUrl.value)
-  }
-})
 </script>
 
 <template>

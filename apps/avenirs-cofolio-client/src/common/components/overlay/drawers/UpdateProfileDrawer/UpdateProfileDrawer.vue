@@ -17,6 +17,7 @@ import { BIOGRAPHY_MAX_LENGTH } from '@/common/components/overlay/drawers/Update
 import { useUpdateProfileForm } from '@/common/components/overlay/drawers/UpdateProfileDrawer/use-update-profile-form'
 import { useModal } from '@/common/composables'
 import { useApiErrors } from '@/common/composables/use-api-errors/use-api-errors'
+import { useStorageImage } from '@/common/composables/use-storage-image/use-storage-image'
 import { useTaskLoading } from '@/common/composables/use-task-loading/use-task-loading'
 import { useUnsavedChangesGuard } from '@/common/composables/use-unsaved-changes-guard/use-unsaved-changes-guard'
 import { useToasterStore } from '@/store'
@@ -52,6 +53,9 @@ const { addSuccessMessage, addErrorMessage } = useToasterStore()
 const { getErrorMessage } = useApiErrors()
 const queryClient = useQueryClient()
 const { isLoading, withTaskLoading } = useTaskLoading()
+
+const { url: coverPictureBlobUrl } = useStorageImage(() => coverPicture.fileName ? coverPicture.id : undefined)
+const { url: profilePictureBlobUrl } = useStorageImage(() => profilePicture.fileName ? profilePicture.id : undefined)
 
 const userCategory = computed<EUserCategory>(() => route.path.startsWith('/student') ? EUserCategory.STUDENT : EUserCategory.STAFF)
 
@@ -226,7 +230,7 @@ watch(() => show, (newVal) => {
               <ImageUpload
                 v-model="coverPictureFile"
                 :on-delete-image="onDeleteCoverPicture"
-                :default-image-url="coverPicture.fileName ? coverPicture.url : undefined"
+                :default-image-url="coverPictureBlobUrl"
                 :default-image-name="coverPicture.fileName ?? undefined"
                 :image-alt="t('global.overlay.drawers.UpdateProfileDrawer.pictures.banner')"
                 :on-update="onCoverPictureUpdate"
@@ -243,7 +247,7 @@ watch(() => show, (newVal) => {
               <ImageUpload
                 v-model="profilePictureFile"
                 :on-delete-image="onDeleteProfilePicture"
-                :default-image-url="profilePicture.fileName ? profilePicture.url : undefined"
+                :default-image-url="profilePictureBlobUrl"
                 :default-image-name="profilePicture.fileName ?? undefined"
                 :image-alt="t('global.overlay.drawers.UpdateProfileDrawer.pictures.picture')"
                 :on-update="onProfilePictureUpdate"
