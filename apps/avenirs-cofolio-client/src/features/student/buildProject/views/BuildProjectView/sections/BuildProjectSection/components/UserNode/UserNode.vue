@@ -3,14 +3,14 @@ import type { NodeProps } from '@vue-flow/core'
 import { Handle, Position } from '@vue-flow/core'
 import { useI18n } from 'vue-i18n'
 import { GLOBAL_NODE_HANDLES } from '@/common/components/base/VueFlow/global-nodes.types'
+import { useStorageImage } from '@/common/composables/use-storage-image/use-storage-image'
 import { useCurrentUser } from '@/features/auth/global/composables/use-current-user/use-current-user'
 
 defineProps<NodeProps>()
 
 const { t } = useI18n()
 const { profile } = useCurrentUser()
-// TODO: Remove localhost replacement when backend will provide the correct URL
-const profilePictureUrl = computed(() => profile.data.value.profilePicture.url.replace('http://localhost:5173', 'https://qualif.avenirs-esr.fr'))
+const { url: profilePictureUrl } = useStorageImage(() => profile.data.value.profilePicture.id, 'profile')
 
 const handles = [
   { id: GLOBAL_NODE_HANDLES.TOP, position: Position.Top },

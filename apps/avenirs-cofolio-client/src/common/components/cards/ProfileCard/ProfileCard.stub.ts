@@ -9,12 +9,12 @@ export const ProfileCardStub = defineComponent({
       type: String,
       required: true
     },
-    profilePictureUrl: {
-      type: String,
+    profilePicture: {
+      type: Object,
       required: true
     },
-    coverPictureUrl: {
-      type: String,
+    coverPicture: {
+      type: Object,
       required: true
     },
     bio: {
