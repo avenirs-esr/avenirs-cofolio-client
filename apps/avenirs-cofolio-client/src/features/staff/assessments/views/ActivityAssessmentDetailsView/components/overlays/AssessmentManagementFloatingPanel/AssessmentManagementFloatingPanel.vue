@@ -34,10 +34,14 @@ const {
   isCommentEnabled,
   isCommentRequired,
   isSent,
+  isEditing,
+  isReadonly,
   sentAssessment,
   isComplete,
   isDraftSaved,
-  isSending
+  isSending,
+  startEditing,
+  cancelEditing
 } = useWriteAssessmentForm({
   assessment: computed(() => assessment),
   onAssessmentSent: () => floatingPanel.value?.togglePanel()
@@ -57,15 +61,15 @@ const avBadgeProps = computed<AvBadgeProps>(() => ({
   backgroundColor: isDraftSaved.value ? 'var(--dark-background-primary1)' : 'var(--light-background-error)',
 }))
 
-const sendDisabledTooltip = computed(() => {
-  if (isSent.value) {
-    return t('staff.assessments.views.ActivityAssessmentDetailsView.AssessmentManagementFloatingPanel.alreadySentTooltip')
-  }
-  if (!isComplete.value) {
-    return t('staff.assessments.views.ActivityAssessmentDetailsView.AssessmentManagementFloatingPanel.incompleteTooltip')
-  }
-  return undefined
-})
+const sendDisabledTooltip = computed(() => isComplete.value
+  ? undefined
+  : t('staff.assessments.views.ActivityAssessmentDetailsView.AssessmentManagementFloatingPanel.incompleteTooltip')
+)
+
+const cancelDisabledTooltip = computed(() => isEditing.value
+  ? undefined
+  : t('staff.assessments.views.ActivityAssessmentDetailsView.AssessmentManagementFloatingPanel.noUpdateInProgressTooltip')
+)
 </script>
 
 <template>
@@ -109,27 +113,46 @@ const sendDisabledTooltip = computed(() => {
           v-if="maxGrade !== undefined"
           :form="form"
           :max-grade="maxGrade"
-          :readonly="isSent"
+          :readonly="isReadonly"
         />
         <AssessmentValidationFormField
           v-if="isValidationEnabled"
           :form="form"
-          :readonly="isSent"
+          :readonly="isReadonly"
         />
         <AssessmentCommentFormField
           v-if="isCommentEnabled"
           :form="form"
           :required="isCommentRequired"
-          :readonly="isSent"
+          :readonly="isReadonly"
         />
       </form>
 
-      <div class="av-row av-justify-end av-p-md">
+      <div class="av-row av-justify-end av-gap-sm av-p-md">
         <AvButton
+          v-if="isSent"
+          :label="t('global.buttons.cancel')"
+          :icon="MDI_ICONS.CLOSE_CIRCLE_OUTLINE"
+          variant="OUTLINED"
+          :is-loading="isSending"
+          :disabled="!isEditing"
+          :disabled-tooltip="cancelDisabledTooltip"
+          data-testid="cancel-assessment-update-button"
+          @click="cancelEditing"
+        />
+        <AvButton
+          v-if="isReadonly"
+          :label="t('global.buttons.update')"
+          :icon="MDI_ICONS.PENCIL_OUTLINE"
+          data-testid="update-assessment-button"
+          @click="startEditing"
+        />
+        <AvButton
+          v-else
           :label="t('global.buttons.send')"
           :icon="MS_ICONS.SEND_OUTLINE_ROUNDED"
           :is-loading="isSending"
-          :disabled="isSent || !isComplete"
+          :disabled="!isComplete"
           :disabled-tooltip="sendDisabledTooltip"
           data-testid="send-assessment-button"
           @click="form.handleSubmit"
