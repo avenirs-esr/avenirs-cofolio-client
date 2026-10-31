@@ -3,6 +3,12 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
+  "imports": {
+    "#shared/*": {
+      "types": ["./src/*.ts", "./src/*/index.ts", "./src/*"],
+      "default": "./src/*"
+    }
+  },
   "exports": {
     ".": "./src/index.ts",
     "./api/specs/*": "./api/specs/*",

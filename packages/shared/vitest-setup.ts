@@ -1,7 +1,7 @@
+import { AvSharedMessages } from '#shared/i18n'
 import { config } from '@vue/test-utils'
 import { beforeAll, beforeEach } from 'vitest'
 import { createI18n } from 'vue-i18n'
-import { AvSharedMessages } from './src/i18n'
 
 const i18n = createI18n({
   legacy: false,
