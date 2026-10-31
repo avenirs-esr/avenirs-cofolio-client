@@ -1,5 +1,5 @@
-import en from './locales/en.json'
-import fr from './locales/fr.json'
+import en from '#shared/i18n/locales/en.json'
+import fr from '#shared/i18n/locales/fr.json'
 
 export const AvAvailableLocales = ['en', 'fr'] as const satisfies readonly string[]
 export type AvLocale = (typeof AvAvailableLocales)[number]

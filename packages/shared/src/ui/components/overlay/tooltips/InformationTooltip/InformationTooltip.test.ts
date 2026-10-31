@@ -1,9 +1,9 @@
+import type { InformationTooltipProps } from '#shared/ui/components/overlay/tooltips/InformationTooltip/InformationTooltip.vue'
 import type { VueWrapper } from '@vue/test-utils'
-import type { InformationTooltipProps } from './InformationTooltip.vue'
+import InformationTooltip from '#shared/ui/components/overlay/tooltips/InformationTooltip/InformationTooltip.vue'
 import { AvIconStub, AvTooltipStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { mount } from '@vue/test-utils'
 import { beforeEach, expect } from 'vitest'
-import InformationTooltip from './InformationTooltip.vue'
 
 BddTest().given('an information tooltip component', () => {
   let wrapper: VueWrapper<InstanceType<typeof InformationTooltip>>
