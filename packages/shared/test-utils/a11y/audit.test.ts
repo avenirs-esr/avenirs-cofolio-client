@@ -3,8 +3,8 @@ import type { MockInstance } from 'vitest'
 import fs from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
+import { createA11yAudit } from '#shared/test-utils/a11y/index'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { createA11yAudit } from '@avenirs-esr/shared/test-utils/a11y'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 function createDependencies () {

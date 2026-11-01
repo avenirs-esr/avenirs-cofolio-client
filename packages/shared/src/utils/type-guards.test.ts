@@ -1,5 +1,5 @@
+import { hasStringField } from '#shared/index'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { hasStringField } from '@avenirs-esr/shared'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 function inheritedMessage () {

@@ -1,8 +1,8 @@
-import type { BaseApiErrorBody } from '../types'
-import { HttpStatusCode } from '../../api/http-status'
-import { hasStringField } from '../../utils/type-guards'
-import { BaseApiErrorCode } from '../base-api-error-codes'
-import { BaseApiException } from '../base-api-exception/base-api.exception'
+import type { BaseApiErrorBody } from '#shared/exceptions/types'
+import { HttpStatusCode } from '#shared/api/http-status'
+import { BaseApiErrorCode } from '#shared/exceptions/base-api-error-codes'
+import { BaseApiException } from '#shared/exceptions/base-api-exception/base-api.exception'
+import { hasStringField } from '#shared/utils/type-guards'
 
 function isBaseApiErrorBody (errorData: unknown): errorData is BaseApiErrorBody {
   return hasStringField(errorData, 'message') && hasStringField(errorData, 'code')

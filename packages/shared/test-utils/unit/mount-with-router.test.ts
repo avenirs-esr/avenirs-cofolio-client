@@ -1,7 +1,7 @@
 import type { ComponentMountingOptions, VueWrapper } from '@vue/test-utils'
 import type { App } from 'vue'
+import { mountWithRouter } from '#shared/test-utils/unit/index'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { mountWithRouter } from '@avenirs-esr/shared/test-utils/unit'
 import { enableAutoUnmount, RouterLinkStub } from '@vue/test-utils'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 import { defineComponent, inject, onMounted, shallowRef } from 'vue'

@@ -1,6 +1,6 @@
-import type { ErrorCode, FetchConfig, FetchOptions, RequestInterceptor, ResponseInterceptor } from '@avenirs-esr/shared'
+import type { ErrorCode, FetchConfig, FetchOptions, RequestInterceptor, ResponseInterceptor } from '#shared/index'
+import { BaseApiErrorCode, BaseApiException, createCustomFetch, ErrorCodes, FetchInterceptorManager } from '#shared/index'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { BaseApiErrorCode, BaseApiException, createCustomFetch, ErrorCodes, FetchInterceptorManager } from '@avenirs-esr/shared'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 const baseUrl = 'https://api.example.test/v1'
