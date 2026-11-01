@@ -1,9 +1,9 @@
-import type { LoaderColor, LoaderSize } from '@avenirs-esr/shared'
+import type { LoaderColor, LoaderSize } from '#shared/index'
 import type { VueWrapper } from '@vue/test-utils'
+import { Loader, LoaderStub } from '#shared/index'
+import { mountComponent } from '#shared/test-utils/unit/index'
 import { MDI_ICONS } from '@avenirs-esr/avenirs-dsav'
 import { AvIconStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { Loader, LoaderStub } from '@avenirs-esr/shared'
-import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { enableAutoUnmount } from '@vue/test-utils'
 import { afterEach, beforeEach, expect } from 'vitest'
 

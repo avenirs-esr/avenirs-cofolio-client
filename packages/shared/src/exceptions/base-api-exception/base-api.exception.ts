@@ -1,6 +1,6 @@
-import type { ErrorCode } from '../error-codes'
-import type { ErrorDetails } from '../types'
-import { ErrorCodes } from '../error-codes'
+import type { ErrorCode } from '#shared/exceptions/error-codes'
+import type { ErrorDetails } from '#shared/exceptions/types'
+import { ErrorCodes } from '#shared/exceptions/error-codes'
 
 export class BaseApiException extends Error {
   public readonly status: number

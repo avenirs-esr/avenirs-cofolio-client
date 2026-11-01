@@ -1,6 +1,6 @@
-import type { ErrorCode } from '@avenirs-esr/shared'
+import type { ErrorCode } from '#shared/index'
+import { BaseApiException, ErrorCodes } from '#shared/index'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { BaseApiException, ErrorCodes } from '@avenirs-esr/shared'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 afterEach(() => {

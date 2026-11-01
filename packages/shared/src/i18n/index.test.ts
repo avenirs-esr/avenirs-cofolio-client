@@ -1,6 +1,6 @@
-import type { AvLocale } from '@avenirs-esr/shared'
+import type { AvLocale } from '#shared/index'
+import { AvAvailableLocales, AvIsoLocaleMap } from '#shared/index'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { AvAvailableLocales, AvIsoLocaleMap } from '@avenirs-esr/shared'
 import { afterEach, expect, vi } from 'vitest'
 
 afterEach(() => {

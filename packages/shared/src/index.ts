@@ -1,4 +1,4 @@
+export * from '#shared/api'
 export * from '#shared/i18n/index'
-export * from './api'
-export * from './ui'
-export * from './utils/type-guards'
+export * from '#shared/ui'
+export * from '#shared/utils/type-guards'

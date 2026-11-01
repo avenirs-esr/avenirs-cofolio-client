@@ -1,6 +1,6 @@
-import type { FetchConfig, RequestInterceptor, ResponseInterceptor, ResponseInterceptorContext } from '@avenirs-esr/shared'
+import type { FetchConfig, RequestInterceptor, ResponseInterceptor, ResponseInterceptorContext } from '#shared/index'
+import { FetchInterceptorManager } from '#shared/index'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { FetchInterceptorManager } from '@avenirs-esr/shared'
 import { afterEach, beforeEach, expect, vi } from 'vitest'
 
 const baseUrl = 'https://api.example.test/v1'

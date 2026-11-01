@@ -1,6 +1,6 @@
 import type { DefaultBodyType, StrictRequest } from 'msw'
+import { createEmptyPaginatedDatasetResponse, getOptionalBooleanSearchParam, isEmptyDataSetRequest } from '#shared/test-utils/msw/index'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { createEmptyPaginatedDatasetResponse, getOptionalBooleanSearchParam, isEmptyDataSetRequest } from '@avenirs-esr/shared/test-utils/msw'
 import { beforeEach, expect } from 'vitest'
 
 BddTest().given('the empty dataset request helper', () => {

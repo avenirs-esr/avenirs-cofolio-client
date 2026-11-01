@@ -1,4 +1,4 @@
-import type { FetchConfig, RequestInterceptor, ResponseInterceptor, ResponseInterceptorContext } from '../types'
+import type { FetchConfig, RequestInterceptor, ResponseInterceptor, ResponseInterceptorContext } from '#shared/api/fetch/types'
 
 export class FetchInterceptorManager {
   private requestInterceptors: RequestInterceptor[] = []
