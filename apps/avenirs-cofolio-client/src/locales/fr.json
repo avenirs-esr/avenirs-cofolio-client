@@ -154,10 +154,6 @@
       }
     },
     "beginning": "Début",
-    "breadcrumb": {
-      "ariaLabel": "Fil d'Ariane",
-      "expandButtonLabel": "Voir le fil d'Ariane"
-    },
     "buttons": {
       "access": "Accéder",
       "add": "Ajouter",

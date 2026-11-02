@@ -1,5 +1,9 @@
 {
   "global": {
+    "breadcrumb": {
+      "ariaLabel": "Breadcrumb",
+      "expandButtonLabel": "View breadcrumb"
+    },
     "components": {
       "cards": {
         "Card": {

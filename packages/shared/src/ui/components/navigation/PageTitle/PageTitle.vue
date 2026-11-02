@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { AvBreadcrumbProps } from '@avenirs-esr/avenirs-dsav'
 import type { Slot } from 'vue'
+import { useBreadcrumb } from '#shared/composables/use-breadcrumb/use-breadcrumb'
+import InformationTooltip from '#shared/ui/components/overlay/tooltips/InformationTooltip/InformationTooltip.vue'
 import { AvBreadcrumb } from '@avenirs-esr/avenirs-dsav'
-import { InformationTooltip } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import { useBreadcrumb } from '@/composables/use-breadcrumb/use-breadcrumb'
 
 export interface PageTitleProps {
   trailingLinks?: AvBreadcrumbProps['links']

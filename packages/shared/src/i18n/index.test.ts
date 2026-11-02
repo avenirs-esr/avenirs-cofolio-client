@@ -21,9 +21,13 @@ BddTest().given('the shared runtime constants', () => {
 
   for (const locale of AvAvailableLocales) {
     BddTest().when(`the ${locale} shared messages are imported`, () => {
-      BddTest().then('they contain the query container and API error translations', () => {
+      BddTest().then('they contain the navigation, query container and API error translations', () => {
         expect(AvSharedMessages[locale]).toMatchObject({
           global: {
+            breadcrumb: {
+              ariaLabel: locale === 'fr' ? 'Fil d\'Ariane' : 'Breadcrumb',
+              expandButtonLabel: locale === 'fr' ? 'Voir le fil d\'Ariane' : 'View breadcrumb',
+            },
             components: {
               QuerySuspense: {
                 defaultEmptyStateMessage: locale === 'fr' ? 'Aucune donnée à afficher' : 'No data to display',

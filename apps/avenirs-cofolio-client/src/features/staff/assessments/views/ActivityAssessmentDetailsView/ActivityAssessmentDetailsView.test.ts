@@ -1,7 +1,7 @@
 import type { VueWrapper } from '@vue/test-utils'
 import type { DeclaredActivityAssessmentDetailsDTO } from '@/api/avenir-esr'
 import { AvButtonStub, AvIconTextStub, BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
-import { HttpStatusCode, QuerySuspenseStub } from '@avenirs-esr/shared'
+import { HttpStatusCode, PageTitleStub, QuerySuspenseStub } from '@avenirs-esr/shared'
 import { mountComponent } from '@avenirs-esr/shared/test-utils/unit'
 import { flushPromises } from '@vue/test-utils'
 import { http, HttpResponse } from 'msw'
@@ -10,7 +10,6 @@ import { mockedAssessmentDetailsWithAssociations, mockedAssessmentDetailsWithout
 import { server } from '@/__mocks__/msw/server'
 import { getGetAssessmentDetailsUrl } from '@/api/avenir-esr'
 import { ActivityDetailsDrawerStub } from '@/common/activities/components/ActivityDetailsDrawer/ActivityDetailsDrawer.stub'
-import { PageTitleStub } from '@/common/components/navigation/PageTitle/PageTitle.stub'
 import { ROUTES } from '@/common/constants/route-names'
 import ActivityAssessmentDetailsView from '@/features/staff/assessments/views/ActivityAssessmentDetailsView/ActivityAssessmentDetailsView.vue'
 import {

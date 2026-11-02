@@ -7,7 +7,6 @@ export { default as ImageUpload } from './interaction/files/ImageUpload/ImageUpl
 export type { DatePeriodPickerType } from './interaction/inputs/DatePeriodPicker/DatePeriodPicker.types'
 export { default as DatePeriodPicker, type DatePeriodPickerProps } from './interaction/inputs/DatePeriodPicker/DatePeriodPicker.vue'
 export { default as Toggle, type ToggleProps } from './interaction/toggles/Toggle/Toggle.vue'
-export { default as PageTitle } from './navigation/PageTitle/PageTitle.vue'
 export { default as Pagination } from './navigation/Pagination/Pagination.vue'
 export { default as Drawer, type DrawerProps } from './overlay/drawers/Drawer/Drawer.vue'
 export { default as ConfirmationModal, type ConfirmationModalProps } from './overlay/modals/ConfirmationModal/ConfirmationModal.vue'

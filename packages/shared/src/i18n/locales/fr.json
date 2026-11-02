@@ -1,5 +1,9 @@
 {
   "global": {
+    "breadcrumb": {
+      "ariaLabel": "Fil d'Ariane",
+      "expandButtonLabel": "Voir le fil d'Ariane"
+    },
     "components": {
       "cards": {
         "Card": {

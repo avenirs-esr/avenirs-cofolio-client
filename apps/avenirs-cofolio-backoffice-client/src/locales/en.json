@@ -3,10 +3,6 @@
     "buttons": {
       "close": "Close"
     },
-    "breadcrumb": {
-      "ariaLabel": "Breadcrumb",
-      "expandButtonLabel": "View breadcrumb"
-    },
     "detail": "Detail",
     "emptyState": {
       "defaultTitle": "No items to display"

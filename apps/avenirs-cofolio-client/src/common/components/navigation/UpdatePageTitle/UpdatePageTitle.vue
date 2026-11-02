@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import type { PageTitleProps } from '@avenirs-esr/shared'
 import type { Slot } from 'vue'
-import type { PageTitleProps } from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import { AvTooltip, useTextTruncation } from '@avenirs-esr/avenirs-dsav'
+import { PageTitle } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 
 defineProps<PageTitleProps>()
 

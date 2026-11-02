@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { PageTitle } from '@avenirs-esr/shared'
 import { useI18n } from 'vue-i18n'
-import PageTitle from '@/common/components/navigation/PageTitle/PageTitle.vue'
 import PersonalCareerLayout
   from '@/features/student/personalCareer/views/PersonalCareerView/layouts/PersonalCareerLayout/PersonalCareerLayout.vue'
 

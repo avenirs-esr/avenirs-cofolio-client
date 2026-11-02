@@ -3,10 +3,6 @@
     "buttons": {
       "close": "Fermer"
     },
-    "breadcrumb": {
-      "ariaLabel": "Fil d'Ariane",
-      "expandButtonLabel": "Voir le fil d'Ariane"
-    },
     "detail": "Détail",
     "emptyState": {
       "defaultTitle": "Aucun élément à afficher"

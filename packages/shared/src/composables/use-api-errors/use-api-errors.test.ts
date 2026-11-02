@@ -4,20 +4,10 @@ import type { BaseApiException } from '#shared/exceptions'
 import type { Ref } from 'vue'
 import { useApiErrors } from '#shared/composables/use-api-errors/use-api-errors'
 import { BaseApiErrorCode } from '#shared/exceptions'
-import { AvSharedMessages } from '#shared/i18n/index'
-import { createMountComposable } from '#shared/test-utils/unit/index'
+import { mountComposable } from '#shared/test-utils/mount-composable'
 import { BddTest } from '@avenirs-esr/avenirs-dsav/test-utils'
 import { afterEach, beforeEach, expect } from 'vitest'
 import { ref } from 'vue'
-import { createI18n } from 'vue-i18n'
-
-const mountComposable = createMountComposable({
-  i18n: createI18n({
-    legacy: false,
-    locale: 'fr',
-    messages: structuredClone(AvSharedMessages),
-  }),
-})
 
 BddTest().given('a useApiErrors composable', () => {
   let errorRef: Ref<BaseApiException | null>
